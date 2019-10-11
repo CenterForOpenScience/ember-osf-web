@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Components
+    - `institutions`
+        - `dashboard/institutional-users-list`
 - Mirage
     - Factories
         - `institutional-user`
@@ -20,6 +23,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - Factories
         - `institution`
             - added `withInstitutionalUsers` trait
+            - added `withStatSummary` trait
+- Models
+    - `institution`
+        - added `currentUserIsAdmin` boolean
+        - added `statSummary` object
+    - `institutional-user`
+        - added `userGuid` string
 - Routes
     - `institution`
         - moved to `index` folder
