@@ -9,7 +9,7 @@ export default class InstitutionalUsersList extends Component {
 
     // Private properties
     department?: string;
-    sort = '-name';
+    sort = '-userFullName';
 
     @computed('institution')
     get departments() {
@@ -50,10 +50,5 @@ export default class InstitutionalUsersList extends Component {
     @action
     sortInstitutionalUsers(sort: string) {
         this.set('sort', sort);
-    }
-
-    @action
-    getUserId(index: number) {
-        return 'abcd';
     }
 }

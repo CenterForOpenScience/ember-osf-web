@@ -18,6 +18,10 @@ export default Factory.extend<InstitutionalUser>({
     privateProjectCount() {
         return faker.random.number({ min: 0, max: 99 });
     },
+    afterCreate(institutionalUser, server) {
+        const user = server.create('user');
+        institutionalUser.update({ user });
+    },
 });
 
 declare module 'ember-cli-mirage/types/registries/schema' {

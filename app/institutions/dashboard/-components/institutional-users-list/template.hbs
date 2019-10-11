@@ -21,20 +21,20 @@
                 sortAction=(action this.sortInstitutionalUsers)
                 sort=this.sort
             ) as |SortButton|}}
-                <div data-test-institutional-users-list-header-name>
+                <div data-test-header-name>
                     <strong>{{t 'institutions.dashboard.users_list.name'}}</strong>
-                    <SortButton @sortBy='name' />
+                    <SortButton @sortBy='userFullName' />
                 </div>
-                <div data-test-institutional-users-list-item-department>
+                <div data-test-header-department>
                     <strong>{{t 'institutions.dashboard.users_list.department'}}</strong>
                     <SortButton @sortBy='department' />
                 </div>
-                <div>
+                <div data-test-header-public-projects>
                     <img src='/assets/images/institutions/open-lock.svg'
                          alt={{t 'institutions.dashboard.users_list.public_projects'}}
                     >
                 </div>
-                <div>
+                <div data-test-header-private-projects>
                     <img src='/assets/images/institutions/closed-lock.svg'
                          alt={{t 'institutions.dashboard.users_list.private_projects'}}
                     >
@@ -43,17 +43,17 @@
         </list.header>
         <list.item local-class='row' as |institutionalUser|>
             {{#if institutionalUser}}
-                <div data-test-institutional-users-list-item-name>
+                <div data-test-item-name>
                     <OsfLink
                             @route='guid-user'
-                            @models={{array (get-relationship institutionalUser 'user')}}
+                            @models={{array 'abcd'}}
                     >
                         {{institutionalUser.userFullName}}
                     </OsfLink>
                 </div>
-                <div>{{institutionalUser.department}}</div>
-                <div>{{institutionalUser.publicProjectCount}}</div>
-                <div>{{institutionalUser.privateProjectCount}}</div>
+                <div data-test-item-department>{{institutionalUser.department}}</div>
+                <div data-test-item-public-projects>{{institutionalUser.publicProjectCount}}</div>
+                <div data-test-item-private-projects>{{institutionalUser.privateProjectCount}}</div>
             {{else}}
                 <div>{{placeholder.text lines=1}}</div>
                 <div>{{placeholder.text lines=1}}</div>
