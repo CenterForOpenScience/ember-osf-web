@@ -1,20 +1,41 @@
 import slugify from 'ember-osf-web/utils/slugify';
 
-export const DefaultPage = 1;
+/*
+*  pageIndex: index of current page in the pageManagers arrays
+*  pageNumber: pageIndex + 1
+*/
 
-export function getPageIndex(pageParam: string): number | undefined {
-    const match = pageParam.match(/^\d+(?=-)/);
-    return match ? +match[0] : undefined;
-}
+export const DefaultPage: number = 1;
 
-export function getDefaultParam(): number {
+export function getDefaultParam() {
     return DefaultPage;
 }
 
+export function getPageIndex(pageParam: string): number | undefined {
+    const match = pageParam.match(/^\d+(?=-)/);
+    return match ? Number.parseInt(match[0], 10) - 1 : undefined;
+}
+
 export function getPageParam(
-    pageIndex: number,
+    pageNumber: number,
     pageHeading?: string,
-): string {
+) {
     const slug = pageHeading ? slugify(pageHeading) : '';
-    return slug ? `${pageIndex}-${slug}` : `${pageIndex}`;
+    return slug ? `${pageNumber}-${slug}` : `${pageNumber}`;
+}
+
+export function getNextPageParam(
+    pageIndex: number,
+    pageHeading: string,
+) {
+    const nextPageNumber = pageIndex + 2;
+    return getPageParam(nextPageNumber, pageHeading);
+}
+
+export function getPrevPageParam(
+    pageIndex: number,
+    pageHeading: string,
+) {
+    const prevPageNumber = pageIndex;
+    return getPageParam(prevPageNumber, pageHeading);
 }

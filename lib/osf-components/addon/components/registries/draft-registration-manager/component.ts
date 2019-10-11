@@ -5,17 +5,17 @@ import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { task, TaskInstance, timeout } from 'ember-concurrency';
 
-import { layout, requiredAction } from 'ember-osf-web/decorators/component';
+import { layout } from 'ember-osf-web/decorators/component';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 import SchemaBlock from 'ember-osf-web/models/schema-block';
 
 import { getPages, PageManager, RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
-import { getPageParam } from 'ember-osf-web/utils/page-param';
+import { getNextPageParam, getPrevPageParam } from 'ember-osf-web/utils/page-param';
 import template from './template';
 
 export interface DraftRegistrationManager {
-    isValid: boolean;
+    registrationResponsesisValid: boolean;
     currentPageManager: PageManager;
     pageManagers: PageManager[];
     currentPage: number;
@@ -32,9 +32,12 @@ export interface DraftRegistrationManager {
 @layout(template)
 export default class DraftRegistrationManagerComponent extends Component.extend({
     initializePageManagers: task(function *(this: DraftRegistrationManagerComponent) {
-        assert('TaskInstance<DraftRegistration> is required!', Boolean(this.modelTaskInstance));
+        assert(
+            'TaskInstance<DraftRegistration> xor DraftRegistration is required!',
+            Boolean(this.draftRegistration || this.modelTaskInstance),
+        );
 
-        const draftRegistration = yield this.modelTaskInstance;
+        const draftRegistration = this.draftRegistration || (yield this.modelTaskInstance);
         this.setProperties({ draftRegistration });
 
         const registrationSchema = yield this.draftRegistration.registrationSchema;
@@ -43,7 +46,7 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
         const { registrationResponses } = this.draftRegistration;
 
         this.setProperties({
-            lastPage: pages.length,
+            lastPage: pages.length - 1,
             registrationResponses: registrationResponses || {},
         });
 
@@ -55,7 +58,9 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
         );
 
         if (pageManagers.length) {
-            this.updateRoute(pageManagers[0].pageHeadingText as string);
+            if (this.updateRoute) {
+                this.updateRoute(pageManagers[0].pageHeadingText as string);
+            }
         }
 
         this.setProperties({ pageManagers });
@@ -93,7 +98,9 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
 }) {
     // Required
     modelTaskInstance!: TaskInstance<DraftRegistration>;
-    @requiredAction updateRoute!: (headingText: string) => void;
+
+    // Optional
+    updateRoute?: (headingText: string) => void;
 
     // Private
     registrationSchema!: RegistrationSchema;
@@ -108,27 +115,26 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
 
     @computed('currentPage', 'pageManagers.[]')
     get nextPageParam() {
-        if (this.pageManagers.length && (this.lastPage !== this.currentPage)) {
-            const { pageHeadingText } = this.pageManagers[this.currentPage];
-            return getPageParam(this.currentPage + 1, pageHeadingText);
+        if (this.pageManagers.length && (this.currentPage < this.lastPage)) {
+            const { pageHeadingText } = this.pageManagers[this.currentPage + 1];
+            return getNextPageParam(this.currentPage, pageHeadingText);
         }
         return '';
     }
 
     @computed('currentPage', 'pageManagers.[]')
     get prevPageParam() {
-        if (this.pageManagers.length && (this.currentPage > 1)) {
-            const pageIndex = this.currentPage - 2;
-            const { pageHeadingText } = this.pageManagers[pageIndex];
-            return getPageParam(this.currentPage - 1, pageHeadingText);
+        if (this.pageManagers.length && (this.currentPage > 0)) {
+            const { pageHeadingText } = this.pageManagers[this.currentPage - 1];
+            return getPrevPageParam(this.currentPage, pageHeadingText);
         }
         return '';
     }
 
     @computed('currentPage', 'pageManagers.[]')
     get currentPageManager() {
-        if (this.pageManagers.length >= this.currentPage) {
-            return this.pageManagers[this.currentPage - 1];
+        if (this.pageManagers.length) {
+            return this.pageManagers[this.currentPage];
         }
         return undefined;
     }

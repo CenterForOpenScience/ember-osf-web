@@ -24,7 +24,7 @@ export class PageManager extends EmberObject {
         this.isVisited = false;
 
         this.isVisited = this.schemaBlockGroups.some(
-            ({ registrationResponseKey: key }) => (!!key && key in registrationResponses),
+            ({ registrationResponseKey: key }) => Boolean(key && (key in registrationResponses)),
         );
 
         const validations = buildValidation(this.schemaBlockGroups);
@@ -33,6 +33,10 @@ export class PageManager extends EmberObject {
             lookupValidator(validations),
             validations,
         ) as ChangesetDef;
+
+        if (Object.values(registrationResponses).length) {
+            this.changeset.validate();
+        }
     }
 
     @computed('changeset.isValid')

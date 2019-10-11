@@ -13,7 +13,7 @@ export default class ValidatedCheckboxes<M extends DS.Model> extends BaseValidat
 
     // Additional required arguments
     options!: any[]; // Model instances that could be added to the hasMany
-    onCheckCb?: () => void;
+    onCheckCallback?: () => void;
 
     selectedOptions: unknown[] = [];
 
@@ -36,8 +36,8 @@ export default class ValidatedCheckboxes<M extends DS.Model> extends BaseValidat
                 }
                 this.changeset.set(this.valuePath, this.selectedOptions);
 
-                if (this.onCheckCb) {
-                    this.onCheckCb();
+                if (this.onCheckCallback) {
+                    this.onCheckCallback();
                 }
             }
         }

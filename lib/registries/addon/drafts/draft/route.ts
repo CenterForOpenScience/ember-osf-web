@@ -1,5 +1,4 @@
 import { action } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
@@ -26,9 +25,6 @@ export default class DraftRegistrationRoute extends Route.extend({
     @service store!: DS.Store;
     @service router!: RouterService;
 
-    @alias('router.currentRouteName')
-    draftRoute!: string;
-
     page!: string;
     draftId!: string;
 
@@ -50,7 +46,7 @@ export default class DraftRegistrationRoute extends Route.extend({
 
     @action
     updateRoute(headingText: string) {
-        if (this.page && (+this.page === DefaultPage)) {
+        if (this.page && (Number.parseInt(this.page, 10) === DefaultPage)) {
             const pageSlug = getPageParam(DefaultPage, headingText);
             this.replaceWith('drafts.draft', this.draftId, pageSlug);
         }
