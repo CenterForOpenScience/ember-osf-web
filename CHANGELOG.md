@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Components
+    - `institutions`
+        - `dashboard/institutional-users-list`
 - Mirage
     - Factories
         - `institutional-user`
@@ -16,10 +19,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - added `dashboard` nested route
 
 ### Changed
+- Components
+    - `paginated-list`
+        - added `isTable` attribute to use a `table` over an `ul`
+    - `sort-button`
+        - changed local `selected` classes to nested global classes
 - Mirage
     - Factories
         - `institution`
             - added `withInstitutionalUsers` trait
+            - added `withStatSummary` trait
+- Models
+    - `institution`
+        - added `currentUserIsAdmin` boolean
+        - added `statSummary` object
+    - `institutional-user`
+        - added `userGuid` string
 - Routes
     - `institution`
         - moved to `index` folder

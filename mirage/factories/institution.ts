@@ -6,6 +6,7 @@ import { placekitten, randomGravatar } from '../utils';
 
 export interface InstitutionTraits {
     withInstitutionalUsers: Trait;
+    withStatSummary: Trait;
 }
 
 export default Factory.extend<Institution & InstitutionTraits>({
@@ -17,16 +18,28 @@ export default Factory.extend<Institution & InstitutionTraits>({
     },
     assets() {
         return {
-            banner: placekitten(512, 128),
+            banner: placekitten(512, 80),
             logo: randomGravatar(100),
         };
     },
+    currentUserIsAdmin: true,
     withInstitutionalUsers: trait<Institution>({
         afterCreate(institution, server) {
-            server.createList('institutional-user', 5, { institution });
+            server.createList('institutional-user', 15, { institution });
         },
     }),
-    currentUserIsAdmin: true,
+    withStatSummary: trait<Institution>({
+        statSummary() {
+            return {
+                departments: ['Architecture', 'Biology', 'Psychology'].map(department => ({
+                    name: department,
+                    numUsers: faker.random.number({ min: 0, max: 99 }),
+                })),
+                numPrivateProjects: faker.random.number({ min: 0, max: 999 }),
+                numPublicProjects: faker.random.number({ min: 0, max: 999 }),
+            };
+        },
+    }),
 });
 
 declare module 'ember-cli-mirage/types/registries/schema' {

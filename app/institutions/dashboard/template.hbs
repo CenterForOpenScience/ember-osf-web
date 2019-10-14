@@ -1,9 +1,30 @@
-<div>
-    <img src='{{this.institution.assets.banner}}' alt='{{this.institution.name}}'>
-    {{this.institution.name}}
-    <ul>
-        {{#each this.institution.institutionalUsers as |user|}}
-            <li>{{user.fullName}}</li>
-        {{/each}}
-    </ul>
+<div class='container'>
+    <div local-class='banner'>
+        <img src='{{this.institution.assets.banner}}' alt='{{this.institution.name}}'>
+    </div>
+    <div style='display: flex;'>
+        <div local-class='table-wrapper'>
+            <Institutions::Dashboard::-Components::InstitutionalUsersList @model={{this.model}} />
+        </div>
+        <div local-class='panel-wrapper'>
+            <Panel as |panel|>
+                <panel.heading @title='SSO Users Connected' />
+                <panel.body>
+                    <p></p>
+                </panel.body>
+            </Panel>
+            <Panel as |panel|>
+                <panel.heading @title='Total Projects' />
+                <panel.body>
+                    <p></p>
+                </panel.body>
+            </Panel>
+            <Panel as |panel|>
+                <panel.heading @title='Departments' />
+                <panel.body>
+                    <p></p>
+                </panel.body>
+            </Panel>
+        </div>
+    </div>
 </div>
