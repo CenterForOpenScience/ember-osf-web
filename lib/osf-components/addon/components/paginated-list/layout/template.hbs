@@ -1,28 +1,53 @@
 {{#if this.errorShown}}
     <p>{{t 'osf-components.paginated-list.error'}}</p>
 {{else if (or @items.length (and this.loading this.placeholderCount))}}
-    <ul class='list-group m-md'>
-        {{yield (hash
-            header=(component 'paginated-list/x-header')
-        )}}
-        {{#if this.loading}}
-            {{#each (range 0 this.placeholderCount)}}
-                {{yield (hash
-                    item=(component 'paginated-list/x-item')
-                    doReload=(action @doReload)
-                )}}
-            {{/each}}
-        {{else if @items.length}}
-            {{#each @items as |item index|}}
-                {{#unless item.isDeleted}}
-                    {{yield (hash
-                        item=(component 'paginated-list/x-item' item=item index=index)
-                        doReload=(action @doReload)
+    {{#if this.isTable}}
+        <table>
+            {{yield (hash
+                            header=(component 'paginated-list/x-header' isTable=this.isTable)
                     )}}
-                {{/unless}}
-            {{/each}}
-        {{/if}}
-    </ul>
+            <tbody>
+                {{#if this.loading}}
+                    {{#each (range 0 this.placeholderCount)}}
+                        {{yield (hash
+                                        item=(component 'paginated-list/x-item' isTable=this.isTable)
+                                        doReload=(action @doReload)
+                                )}}
+                    {{/each}}
+                {{else if @items.length}}
+                    {{#each @items as |item index|}}
+                        {{#unless item.isDeleted}}
+                            {{yield (hash
+                                            item=(component 'paginated-list/x-item' isTable=this.isTable item=item index=index)
+                                            doReload=(action @doReload)
+                                    )}}
+                        {{/unless}}
+                    {{/each}}
+                {{/if}}
+            </tbody>
+        </table>
+    {{else}}
+        <ul class='list-group m-md'>
+            {{yield (hash header=(component 'paginated-list/x-header'))}}
+            {{#if this.loading}}
+                {{#each (range 0 this.placeholderCount)}}
+                    {{yield (hash
+                                    item=(component 'paginated-list/x-item')
+                                    doReload=(action @doReload)
+                            )}}
+                {{/each}}
+            {{else if @items.length}}
+                {{#each @items as |item index|}}
+                    {{#unless item.isDeleted}}
+                        {{yield (hash
+                                        item=(component 'paginated-list/x-item' item=item index=index)
+                                        doReload=(action @doReload)
+                                )}}
+                    {{/unless}}
+                {{/each}}
+            {{/if}}
+        </ul>
+    {{/if}}
     {{#if this.paginatorShown}}
         <div class='text-center'>
             {{simple-paginator

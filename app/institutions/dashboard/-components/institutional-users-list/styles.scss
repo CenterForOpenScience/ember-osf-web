@@ -8,43 +8,60 @@
 }
 
 .table {
-    margin-bottom: 15px;
+    margin-bottom: 45px;
 
-    ul {
-        display: table;
-        table-layout: fixed;
+    table {
         width: 100%;
-        border: 1px solid #eee;
-        margin: 0;
         margin-bottom: 15px;
+        table-layout: fixed;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
-    li {
-        display: table-row;
+    th,
+    td {
+        padding: 15px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 
-        & > div {
-            display: table-cell;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
+    :global(.ember-content-placeholders-text__line) {
+        margin-bottom: 0;
     }
 }
 
 .header {
-    background: #365063;
-    color: #fff;
-
-    & > div {
-        padding: 15px;
+    th {
+        background: #365063;
+        border: 0;
+        color: #fff;
         text-transform: uppercase;
+        vertical-align: middle;
+    }
+
+    .nested-header {
+        padding: 0 15px;
+        text-align: center;
+    }
+}
+
+.item {
+    td {
+        border-right: 1px solid #ddd;
+        border-top: 0;
 
         &:nth-child(3),
         &:nth-child(4) {
-            width: 64px;
             text-align: center;
         }
+
+        &:last-of-type {
+            border-right: 0;
+        }
+    }
+
+    &:nth-child(even) {
+        background-color: #eee;
     }
 }
 
@@ -61,26 +78,17 @@
         height: 1em;
         margin-top: -10px;
     }
-}
 
-.row > div {
-    padding: 15px;
-    border-right: 1px solid #ddd;
-
-    &:nth-child(3),
-    &:nth-child(4) {
-        text-align: center;
+    :global(.btn.selected) {
+        color: #fff !important;
     }
 
-    &:last-child {
-        border-right: 0;
-    }
+    :global(.btn.not-selected) {
+        color: #fff !important;
+        opacity: 0.25;
 
-    :global(.ember-content-placeholders-text__line) {
-        margin-bottom: 0;
+        &:hover {
+            opacity: 1;
+        }
     }
-}
-
-.row:nth-child(odd) {
-    background-color: #eee;
 }

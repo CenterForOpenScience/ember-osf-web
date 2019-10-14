@@ -61,13 +61,48 @@ module('Integration | routes | institutions | dashboard | -components | institut
     });
 
     test('it sorts', async function(assert) {
-        server.create('institution', { id: 'test' }, 'withInstitutionalUsers', 'withStatSummary');
-        const model = { taskInstance: this.store.findRecord('institution', 'test') };
+        server.create('institution', {
+            id: 'testinstitution',
+            institutionalUsers: [
+                server.create('institutional-user', {
+                    userFullName: 'John Doe',
+                    userGuid: 'abcd',
+                    department: 'Psychology',
+                }),
+                server.create('institutional-user', {
+                    userFullName: 'Jane Doe',
+                    userGuid: 'abcd',
+                    department: 'Architecture',
+                }),
+                server.create('institutional-user', {
+                    userFullName: 'Hulk Hogan',
+                    userGuid: 'abcd',
+                    department: 'Biology',
+                }),
+            ],
+        }, 'withStatSummary');
+
+        this.set('modelTask', task(function *(this: TestContext, institutionId: string) {
+            return yield this.get('store').findRecord('institution', institutionId);
+        }));
+
+        const model = {
+            taskInstance: this.get('modelTask').perform('testinstitution'),
+        };
+
         this.set('model', model);
         await render(hbs`<Institutions::Dashboard::-Components::InstitutionalUsersList @model={{this.model}} />`);
 
         assert.dom('[data-test-item-name]')
-            .exists({ count: 10 }, '10 users');
+            .exists({ count: 3 }, '3 users');
+
+        await click('[data-test-ascending-sort="user_full_name"]');
+        assert.dom('[data-test-item-name]')
+            .hasText('Hulk Hogan', 'Sorts by name ascendening');
+
+        await click('[data-test-descending-sort="user_full_name"]');
+        assert.dom('[data-test-item-name]')
+            .hasText('John Doe', 'Sorts by name descendening');
 
         await click('[data-test-ascending-sort="department"]');
         assert.dom('[data-test-item-department]')

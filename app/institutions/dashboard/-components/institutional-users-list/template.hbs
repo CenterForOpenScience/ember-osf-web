@@ -11,6 +11,7 @@
 <ContentPlaceholders as |placeholder|>
     <PaginatedList::HasMany
             local-class='table'
+            @isTable=true
             @modelTaskInstance={{this.model.taskInstance}}
             @relationshipName='institutionalUsers'
             @query={{this.query}} as |list|
@@ -21,44 +22,51 @@
                 sortAction=(action this.sortInstitutionalUsers)
                 sort=this.sort
             ) as |SortButton|}}
-                <div data-test-header-name>
-                    <strong>{{t 'institutions.dashboard.users_list.name'}}</strong>
-                    <SortButton @sortBy='userFullName' />
-                </div>
-                <div data-test-header-department>
-                    <strong>{{t 'institutions.dashboard.users_list.department'}}</strong>
-                    <SortButton @sortBy='department' />
-                </div>
-                <div data-test-header-public-projects>
-                    <img src='/assets/images/institutions/open-lock.svg'
-                         alt={{t 'institutions.dashboard.users_list.public_projects'}}
-                    >
-                </div>
-                <div data-test-header-private-projects>
-                    <img src='/assets/images/institutions/closed-lock.svg'
-                         alt={{t 'institutions.dashboard.users_list.private_projects'}}
-                    >
-                </div>
+                <tr>
+                    <th data-test-header-name rowspan='2'>
+                        <strong>{{t 'institutions.dashboard.users_list.name'}}</strong>
+                        <SortButton @sortBy='user_full_name' />
+                    </th>
+                    <th data-test-header-department rowspan='2'>
+                        <strong>{{t 'institutions.dashboard.users_list.department'}}</strong>
+                        <SortButton @sortBy='department' />
+                    </th>
+                    <th local-class='nested-header' colspan='2' width='128'>
+                        {{t 'institutions.dashboard.users_list.projects'}}
+                    </th>
+                </tr>
+                <tr>
+                    <th local-class='nested-header' data-test-header-public-projects>
+                        <img src='/assets/images/global/open-lock.svg'
+                             alt={{t 'institutions.dashboard.users_list.public_projects'}}
+                        >
+                    </th>
+                    <th local-class='nested-header' data-test-header-private-projects>
+                        <img src='/assets/images/global/closed-lock.svg'
+                             alt={{t 'institutions.dashboard.users_list.private_projects'}}
+                        >
+                    </th>
+                </tr>
             {{/let}}
         </list.header>
-        <list.item local-class='row' as |institutionalUser|>
+        <list.item local-class='item' as |institutionalUser|>
             {{#if institutionalUser}}
-                <div data-test-item-name>
+                <td data-test-item-name>
                     <OsfLink
                             @route='guid-user'
                             @models={{array institutionalUser.userGuid}}
                     >
                         {{institutionalUser.userFullName}}
                     </OsfLink>
-                </div>
-                <div data-test-item-department>{{institutionalUser.department}}</div>
-                <div data-test-item-public-projects>{{institutionalUser.publicProjectCount}}</div>
-                <div data-test-item-private-projects>{{institutionalUser.privateProjectCount}}</div>
+                </td>
+                <td data-test-item-department>{{institutionalUser.department}}</td>
+                <td data-test-item-public-projects>{{institutionalUser.publicProjectCount}}</td>
+                <td data-test-item-private-projects>{{institutionalUser.privateProjectCount}}</td>
             {{else}}
-                <div>{{placeholder.text lines=1}}</div>
-                <div>{{placeholder.text lines=1}}</div>
-                <div>{{placeholder.text lines=1}}</div>
-                <div>{{placeholder.text lines=1}}</div>
+                <td>{{placeholder.text lines=1}}</td>
+                <td>{{placeholder.text lines=1}}</td>
+                <td>{{placeholder.text lines=1}}</td>
+                <td>{{placeholder.text lines=1}}</td>
             {{/if}}
         </list.item>
         <list.empty local-class='empty'>

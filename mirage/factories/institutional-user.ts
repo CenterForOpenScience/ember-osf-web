@@ -6,8 +6,7 @@ export default Factory.extend<InstitutionalUser>({
     institution: association() as InstitutionalUser['institution'],
     user: association() as InstitutionalUser['user'],
     department() {
-        const departments = ['Architecture', 'Biology', 'Psychology'];
-        return departments[Math.floor(Math.random() * departments.length)];
+        return faker.random.arrayElement(['Architecture', 'Biology', 'Psychology']);
     },
     publicProjectCount() {
         return faker.random.number({ min: 0, max: 99 });
@@ -16,12 +15,14 @@ export default Factory.extend<InstitutionalUser>({
         return faker.random.number({ min: 0, max: 99 });
     },
     afterCreate(institutionalUser, server) {
-        const user = server.create('user');
-        institutionalUser.update({
-            user,
-            userFullName: user.fullName,
-            userGuid: user.id,
-        });
+        if (!institutionalUser.userFullName && !institutionalUser.userGuid) {
+            const user = server.create('user');
+            institutionalUser.update({
+                user,
+                userFullName: user.fullName,
+                userGuid: user.id,
+            });
+        }
     },
 });
 

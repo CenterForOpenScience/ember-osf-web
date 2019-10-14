@@ -10,7 +10,7 @@ export default class InstitutionalUsersList extends Component {
     // Private properties
     defaultDepartment = translations.institutions.dashboard.select_default;
     department?: string;
-    sort = '-userFullName';
+    sort = 'user_full_name';
 
     @computed('institution')
     get departments() {
@@ -36,7 +36,7 @@ export default class InstitutionalUsersList extends Component {
     @computed('department', 'sort')
     get query() {
         const query = {} as Record<string, string>;
-        if (this.department && !this.get('isDefaultDepartment')) {
+        if (this.department && !this.isDefaultDepartment) {
             query['filter[department]'] = this.department;
         }
         if (this.sort) {
