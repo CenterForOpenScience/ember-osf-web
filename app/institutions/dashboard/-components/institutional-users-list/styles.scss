@@ -25,6 +25,10 @@
         white-space: nowrap;
     }
 
+    :global(.text-center) {
+        text-align: center;
+    }
+
     :global(.ember-content-placeholders-text__line) {
         margin-bottom: 0;
     }
@@ -41,7 +45,6 @@
 
     .nested-header {
         padding: 0 15px;
-        text-align: center;
     }
 }
 
@@ -49,11 +52,6 @@
     td {
         border-right: 1px solid #ddd;
         border-top: 0;
-
-        &:nth-child(3),
-        &:nth-child(4) {
-            text-align: center;
-        }
 
         &:last-of-type {
             border-right: 0;
