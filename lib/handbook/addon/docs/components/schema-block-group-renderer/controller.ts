@@ -102,44 +102,56 @@ export default class SchemaBlockGroupRendererController extends Controller {
         {
             blockType: 'question-label',
             displayText: 'If I had a super power it would be:',
-            schemaBlockGroupKey: 'q6',
+            schemaBlockGroupKey: 'q5',
             index: 17,
         },
         {
             blockType: 'single-select-input',
             registrationResponseKey: 'page-one_single-select-two',
-            schemaBlockGroupKey: 'q6',
+            schemaBlockGroupKey: 'q5',
             index: 18,
         },
         {
             blockType: 'select-input-option',
             displayText: 'Always be on the proper beat while doing the macarena',
-            schemaBlockGroupKey: 'q6',
+            schemaBlockGroupKey: 'q5',
             index: 19,
         },
         {
             blockType: 'select-input-option',
             displayText: 'Remember who was in NSync and who was in Backstreet Boys',
-            schemaBlockGroupKey: 'q6',
+            schemaBlockGroupKey: 'q5',
             index: 20,
         },
         {
             blockType: 'select-other-option',
             displayText: 'Other',
-            schemaBlockGroupKey: 'q6',
+            schemaBlockGroupKey: 'q5',
             index: 21,
         },
         {
             blockType: 'question-label',
             displayText: 'Contributors:',
-            schemaBlockGroupKey: 'q5',
+            schemaBlockGroupKey: 'q6',
             index: 22,
         },
         {
             blockType: 'contributors-input',
             registrationResponseKey: 'page-one_contributors-input',
-            schemaBlockGroupKey: 'q5',
+            schemaBlockGroupKey: 'q6',
             index: 23,
+        },
+        {
+            blockType: 'question-label',
+            displayText: 'Files:',
+            schemaBlockGroupKey: 'q7',
+            index: 24,
+        },
+        {
+            blockType: 'file-input',
+            registrationResponseKey: 'page-one_file-input',
+            schemaBlockGroupKey: 'q7',
+            index: 25,
         },
     ];
 
@@ -151,6 +163,7 @@ export default class SchemaBlockGroupRendererController extends Controller {
         'page-one_long-text': '',
         'page-one_multi-select': [],
         'page-one_single-select-two': '',
+        'page-one_file-input': [],
     };
     pageResponseChangeset = new Changeset(this.pageResponse);
 
@@ -160,5 +173,19 @@ export default class SchemaBlockGroupRendererController extends Controller {
         'page-one_long-text': 'One is called a marsh, and one is called a swamp',
         'page-one_multi-select': ['crocs', 'Nickelback'],
         'page-one_single-select-two': 'Remember who was in NSync and who was in Backstreet Boys',
+        'page-one_file-input': [
+            {
+                fileID: 'ad552',
+                fileName: 'connecting_home_loan_account.mpe',
+                fileUrl: 'http://localhost:5000/files/osfstorage/ad552/',
+                sha256: 'be5fa974179240abad6772d850bd6e86',
+            },
+            {
+                fileID: 'gu5d4',
+                fileName: 'auto_loan_account.mp4',
+                fileUrl: 'http://localhost:5000/files/osfstorage/gu4d5',
+                sha256: 'be5fa974179240abad6772d850bd6e86',
+            },
+        ],
     };
 }

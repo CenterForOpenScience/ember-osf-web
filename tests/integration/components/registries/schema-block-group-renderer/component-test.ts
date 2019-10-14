@@ -109,44 +109,56 @@ module('Integration | Component | schema-block-group-renderer', hooks => {
             {
                 blockType: 'question-label',
                 displayText: 'If I had a super power it would be:',
-                schemaBlockGroupKey: 'q6',
-                index: 17,
+                schemaBlockGroupKey: 'q5',
+                index: 16,
             },
             {
                 blockType: 'single-select-input',
                 registrationResponseKey: 'page-one_single-select-two',
-                schemaBlockGroupKey: 'q6',
-                index: 18,
+                schemaBlockGroupKey: 'q5',
+                index: 17,
             },
             {
                 blockType: 'select-input-option',
                 displayText: 'Always be on the proper beat while doing the macarena',
-                schemaBlockGroupKey: 'q6',
-                index: 19,
+                schemaBlockGroupKey: 'q5',
+                index: 18,
             },
             {
                 blockType: 'select-input-option',
                 displayText: 'Remember who was in NSync and who was in Backstreet Boys',
-                schemaBlockGroupKey: 'q6',
-                index: 20,
+                schemaBlockGroupKey: 'q5',
+                index: 19,
             },
             {
                 blockType: 'select-other-option',
                 displayText: 'Other',
-                schemaBlockGroupKey: 'q6',
-                index: 21,
+                schemaBlockGroupKey: 'q5',
+                index: 20,
             },
             {
                 blockType: 'question-label',
                 displayText: 'Contributors:',
-                schemaBlockGroupKey: 'q5',
-                index: 22,
+                schemaBlockGroupKey: 'q6',
+                index: 21,
             },
             {
                 blockType: 'contributors-input',
                 registrationResponseKey: 'page-one_contributors-input',
-                schemaBlockGroupKey: 'q5',
+                schemaBlockGroupKey: 'q6',
+                index: 22,
+            },
+            {
+                blockType: 'question-label',
+                displayText: 'Files:',
+                schemaBlockGroupKey: 'q7',
                 index: 23,
+            },
+            {
+                blockType: 'file-input',
+                registrationResponseKey: 'page-one_file-input',
+                schemaBlockGroupKey: 'q7',
+                index: 24,
             },
         ];
 
@@ -157,18 +169,18 @@ module('Integration | Component | schema-block-group-renderer', hooks => {
             'page-one_long-text': '',
             'page-one_single-select-two': '',
             'page-one_multi-select': [],
+            'page-one_file-input': [],
         };
         const pageResponseChangeset = new Changeset(pageResponse);
         this.store = this.owner.lookup('service:store');
+        const mirageNode = server.create('node', 'withFiles');
 
-        const node = server.create('node');
-
-        const reloadNode = this.store.findRecord('node', node.id, {
+        const node = await this.store.findRecord('node', mirageNode.id, {
             include: 'bibliographic_contributors',
             reload: true,
         });
 
-        this.set('node', await reloadNode);
+        this.set('node', await node);
         this.set('schemaBlockGroups', schemaBlockGroups);
         this.set('pageResponseChangeset', pageResponseChangeset);
         await render(hbs`
@@ -187,11 +199,12 @@ module('Integration | Component | schema-block-group-renderer', hooks => {
         assert.dom('[data-test-page-heading]').exists();
         assert.dom('[data-test-section-heading]').exists();
         assert.dom('[data-test-subsection-heading]').exists();
-        assert.dom('[data-test-question-label]').exists({ count: 6 });
+        assert.dom('[data-test-question-label]').exists({ count: 7 });
         assert.dom('[data-test-single-select-input]').exists({ count: 2 });
         assert.dom('[data-test-text-input]').exists();
         assert.dom('[data-test-textarea-input]').exists();
         assert.dom('[data-test-multi-select-input]').exists();
         assert.dom('[data-test-read-only-contributors-list]').exists();
+        assert.dom('[data-test-editable-file-widget]').exists();
     });
 });

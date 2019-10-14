@@ -4,7 +4,7 @@ import File from 'ember-osf-web/models/file';
 
 import ApplicationSerializer, { SerializedRelationships } from './application';
 
-const { OSF: { apiUrl } } = config;
+const { OSF: { apiUrl, url } } = config;
 
 export default class FileSerializer extends ApplicationSerializer<File> {
     buildRelationships(model: ModelInstance<File>) {
@@ -85,6 +85,7 @@ export default class FileSerializer extends ApplicationSerializer<File> {
             move: `${apiUrl}/wb/files/${id}/move/`,
             delete: `${apiUrl}/wb/files/${id}/delete/`,
             info: `${apiUrl}/v2/files/${id}/`,
+            html: `${url}files/osfstorage/${id}/`,
         };
     }
 }
