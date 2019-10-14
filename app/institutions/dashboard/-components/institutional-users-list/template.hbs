@@ -3,7 +3,7 @@
         @searchEnabled={{false}}
         @selected={{this.department}}
         @triggerClass={{local-class 'select'}}
-        @onchange={{action 'onSelectChange'}} as |department|
+        @onchange={{action this.onSelectChange}} as |department|
 >
     {{department}}
 </PowerSelect>
@@ -12,7 +12,7 @@
     <PaginatedList::HasMany
             local-class='table'
             @isTable=true
-            @modelTaskInstance={{this.model.taskInstance}}
+            @modelTaskInstance={{@model.taskInstance}}
             @relationshipName='institutionalUsers'
             @query={{this.query}} as |list|
     >

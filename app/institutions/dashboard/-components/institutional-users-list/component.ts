@@ -1,16 +1,22 @@
 import { action, computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
+import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import translations from 'ember-osf-web/locales/en/translations';
+import I18N from 'ember-i18n/services/i18n';
 import InstitutionModel from 'ember-osf-web/models/institution';
 
 export default class InstitutionalUsersList extends Component {
     @alias('model.taskInstance.value') institution!: InstitutionModel;
 
     // Private properties
-    defaultDepartment = translations.institutions.dashboard.select_default;
+    @service i18n!: I18N;
     department?: string;
     sort = 'user_full_name';
+
+    @computed('i18n.locale')
+    get defaultDepartment() {
+        return this.i18n.t('institutions.dashboard.select_default');
+    }
 
     @computed('institution')
     get departments() {
