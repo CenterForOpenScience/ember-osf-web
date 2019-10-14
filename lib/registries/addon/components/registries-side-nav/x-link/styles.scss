@@ -28,6 +28,10 @@
         color: $white;
         text-decoration: none;
     }
+
+    &:focus {
+        text-decoration: none;
+    }
 }
 
 .Collapsed {
@@ -35,7 +39,7 @@
         width: $width-collapsed + 1px;
     }
 
-    &:not(:hover) span {
+    span {
         display: none;
     }
 
@@ -43,5 +47,9 @@
         width: max-content;
         max-width: 265px;
         height: auto;
+        
+        span {
+            display: initial;
+        }
     }
 }

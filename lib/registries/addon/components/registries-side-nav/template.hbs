@@ -19,12 +19,11 @@
         {{#let (component 'registries-side-nav/x-link') as |SideNavLink|}}
             <SideNavLink
                 data-analytics-name={{if this.isCollapsed 'Expand' 'Collapse'}}
-                class={{local-class 'Toggle'}}
+                local-class='Toggle CollapseButton'
                 @onClick={{action this.toggle}}
                 @isCollapsed={{this.isCollapsed}}
                 @icon={{if this.isCollapsed 'chevron-right' 'chevron-left'}}
                 @label={{t (if this.isCollapsed 'registries.overview.expand' 'registries.overview.collapse')}}
-                local-class='CollapseButton'
                 as |link|
             >
                 <link.icon
