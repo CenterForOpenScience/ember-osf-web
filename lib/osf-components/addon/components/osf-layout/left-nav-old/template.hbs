@@ -1,9 +1,9 @@
 <@gutters.left-gutter as |leftGutter|>
-    <RegistriesSideNav @onLinkClicked={{@toggleSidenav}} as |sideNav|>
+    <SideNav @onLinkClicked={{@toggleSidenav}} as |sideNav|>
         {{yield (hash
             link=sideNav.link
             leftGutterMode=leftGutter.mode
             toggleSidenav=@toggleSidenav
         )}}
-    </RegistriesSideNav>
+    </SideNav>
 </@gutters.left-gutter>
