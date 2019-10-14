@@ -18,7 +18,7 @@ export default class InstitutionalUsersList extends Component {
         return this.i18n.t('institutions.dashboard.select_default');
     }
 
-    @computed('institution')
+    @computed('defaultDepartment', 'institution')
     get departments() {
         let departments = [this.defaultDepartment];
 
@@ -34,12 +34,12 @@ export default class InstitutionalUsersList extends Component {
         return departments;
     }
 
-    @computed('defaultDepartment')
+    @computed('defaultDepartment', 'department')
     get isDefaultDepartment() {
         return this.department === this.defaultDepartment;
     }
 
-    @computed('defaultDepartment', 'department', 'sort')
+    @computed('department', 'isDefaultDepartment', 'sort')
     get query() {
         const query = {} as Record<string, string>;
         if (this.department && !this.isDefaultDepartment) {
