@@ -52,25 +52,25 @@
 }
 
 .Valid {
-    color: rgb(69, 132, 70);
+    color: $primary-green;
 }
 
 .Invalid {
-    color: rgb(191, 77, 77);
+    color: $primary-red;
 }
 
 .Unvisited {
-    color: rgb(221, 221, 221);
+    color: $slate-gray;
 
     &:hover span {
-        color: #fff;
+        color: $white;
     }
 }
 
 .Active {
-    color: #000;
+    color: $black;
 }
 
 .UnvisitedDark {
-    color: rgb(122, 122, 122);
+    color: $dark-slate-gray;
 }
