@@ -6,7 +6,7 @@ import I18N from 'ember-i18n/services/i18n';
 import InstitutionModel from 'ember-osf-web/models/institution';
 
 export default class InstitutionalUsersList extends Component {
-    @alias('model.taskInstance.value') institution!: InstitutionModel;
+    @alias('model.taskInstance.value') institution?: InstitutionModel;
 
     // Private properties
     @service i18n!: I18N;
@@ -34,12 +34,12 @@ export default class InstitutionalUsersList extends Component {
         return departments;
     }
 
-    @computed('department', 'departments')
+    @computed('defaultDepartment')
     get isDefaultDepartment() {
         return this.department === this.defaultDepartment;
     }
 
-    @computed('department', 'sort')
+    @computed('defaultDepartment', 'department', 'sort')
     get query() {
         const query = {} as Record<string, string>;
         if (this.department && !this.isDefaultDepartment) {

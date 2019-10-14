@@ -19,6 +19,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - added `dashboard` nested route
 
 ### Changed
+- Components
+    - `paginated-list`
+        - added `isTable` attribute to use a `table` over an `ul`
+    - `sort-button`
+        - changed local `selected` classes to nested global classes
 - Mirage
     - Factories
         - `institution`

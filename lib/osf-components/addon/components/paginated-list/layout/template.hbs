@@ -1,6 +1,7 @@
 {{#if this.errorShown}}
     <p>{{t 'osf-components.paginated-list.error'}}</p>
 {{else if (or @items.length (and this.loading this.placeholderCount))}}
+    {{!-- TODO: Take a look at isTable vs list duplicated code for header and items. --}}
     {{#if this.isTable}}
         <table>
             {{yield (hash
