@@ -11,4 +11,43 @@
     width: 25%;
     padding-top: 56px;
     padding-left: 15px;
+
+    :global(.panel) {
+        border: 0;
+        margin-bottom: 30px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    :global(.panel-heading) {
+        background: #365063;
+        padding: 15px;
+        border: 0;
+    }
+
+    :global(.panel-title) {
+        display: block;
+        float: none;
+        color: #fff;
+        font-size: 14px;
+        font-weight: bold;
+        text-align: center;
+        text-transform: uppercase;
+        line-height: 20px;
+    }
+
+    :global(.panel-body) {
+        text-align: center;
+        line-height: normal;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+.sso-users-connected {
+    :global(.panel-body) {
+        color: #263947;
+        font-size: 120px;
+        font-weight: bold;
+    }
 }

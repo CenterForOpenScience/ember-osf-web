@@ -7,10 +7,10 @@
             <Institutions::Dashboard::-Components::InstitutionalUsersList @model={{this.model}} />
         </div>
         <div local-class='panel-wrapper'>
-            <Panel as |panel|>
+            <Panel local-class='sso-users-connected' as |panel|>
                 <panel.heading @title='SSO Users Connected' />
                 <panel.body>
-                    <p></p>
+                    {{this.institution.statSummary.ssoUsersConnected}}
                 </panel.body>
             </Panel>
             <Panel as |panel|>
