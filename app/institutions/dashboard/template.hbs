@@ -9,7 +9,8 @@
         <div local-class='panel-wrapper'>
             <Institutions::Dashboard::-Components::Panel
                     local-class='sso-users-connected'
-                    @title='{{t 'institutions.dashboard.users_connected_panel'}}'
+                    @isLoading={{this.model.taskInstance.isRunning}}
+                    @title={{t 'institutions.dashboard.users_connected_panel'}}
                     @institution={{this.institution}}
             >
                 {{this.institution.statSummary.ssoUsersConnected}}

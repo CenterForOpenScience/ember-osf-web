@@ -12,10 +12,29 @@ module('Integration | routes | institutions | dashboard | -components | panel', 
 
     hooks.beforeEach(function(this: TestContext) {
         this.store = this.owner.lookup('service:store');
+
+        server.create('institution', { id: 'testinstitution' }, 'withStatSummary');
+
+        this.set('modelTask', task(function *(this: TestContext, institutionId: string) {
+            return yield this.get('store').findRecord('institution', institutionId);
+        }));
+
+        const model = {
+            taskInstance: this.get('modelTask').perform('testinstitution'),
+        };
+
+        this.set('model', model);
     });
 
-    test('it renders without institution', async assert => {
-        await render(hbs`<Institutions::Dashboard::-Components::Panel @title='Test' />`);
+    test('it renders while loading', async assert => {
+        await render(hbs`
+            <Institutions::Dashboard::-Components::Panel
+                @isLoading={{true}}
+                @title='Test'
+                @institution={{this.model.taskInstance.value}}
+            >
+                Hello, World!
+            </Institutions::Dashboard::-Components::Panel>`);
 
         assert.dom('[data-test-panel-title]')
             .exists({ count: 1 }, '1 title');
@@ -29,23 +48,15 @@ module('Integration | routes | institutions | dashboard | -components | panel', 
             .exists({ count: 1 }, '1 loading indicator');
     });
 
-    test('it renders with institution', async function(assert) {
-        server.create('institution', { id: 'testinstitution' }, 'withStatSummary');
-
-        this.set('modelTask', task(function *(this: TestContext, institutionId: string) {
-            return yield this.get('store').findRecord('institution', institutionId);
-        }));
-
-        const model = {
-            taskInstance: this.get('modelTask').perform('testinstitution'),
-        };
-
-        this.set('model', model);
+    test('it renders after loading', async assert => {
         await render(hbs`
-            <Institutions::Dashboard::-Components::Panel @title='Test' @institution={{this.model.taskInstance.value}}>
+            <Institutions::Dashboard::-Components::Panel
+                @isLoading={{false}}
+                @title='Test'
+                @institution={{this.model.taskInstance.value}}
+            >
                 Hello, World!
-            </Institutions::Dashboard::-Components::Panel>
-        `);
+            </Institutions::Dashboard::-Components::Panel>`);
 
         assert.dom('[data-test-panel-title]')
             .exists({ count: 1 }, '1 title');
