@@ -17,10 +17,17 @@
             <Panel as |panel|>
                 <panel.heading @title='{{t 'institutions.dashboard.projects_panel'}}' />
                 <panel.body>
-                    <p></p>
+                    {{ember-chart type='pie' data=this.projectData}}
+                    <h3>{{this.numProjects}}</h3>
+                    <p>
+                        <strong>{{this.institution.statSummary.numPublicProjects}}</strong> {{t 'institutions.dashboard.public'}}
+                    </p>
+                    <p>
+                        <strong>{{this.institution.statSummary.numPrivateProjects}}</strong> {{t 'institutions.dashboard.private'}}
+                    </p>
                 </panel.body>
             </Panel>
-            <Panel as |panel|>
+            <Panel local-class='departments' as |panel|>
                 <panel.heading @title='{{t 'institutions.dashboard.departments_panel'}}' />
                 <panel.body>
                     <p></p>
