@@ -57,10 +57,12 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
             ),
         );
 
-        if (pageManagers.length) {
+        if (this.currentPage <= this.lastPage) {
             if (this.updateRoute) {
-                this.updateRoute(pageManagers[0].pageHeadingText as string);
+                this.updateRoute(pageManagers[this.currentPage].pageHeadingText as string);
             }
+        } else if (this.onPageNotFound) {
+            this.onPageNotFound();
         }
 
         this.setProperties({ pageManagers });
@@ -101,6 +103,7 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
 
     // Optional
     updateRoute?: (headingText: string) => void;
+    onPageNotFound?: () => void;
 
     // Private
     registrationSchema!: RegistrationSchema;

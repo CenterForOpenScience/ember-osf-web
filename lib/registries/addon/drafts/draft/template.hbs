@@ -4,6 +4,7 @@
     @currentPage={{this.model.pageIndex}}
     @modelTaskInstance={{this.model.taskInstance}}
     @updateRoute={{route-action 'updateRoute'}}
+    @onPageNotFound={{route-action 'error'}}
     as |draftManager|
 >
     <OsfLayout @backgroundClass={{local-class 'ContentBackground'}} as |layout|>

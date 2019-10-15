@@ -8,7 +8,7 @@ import DS from 'ember-data';
 import requireAuth from 'ember-osf-web/decorators/require-auth';
 import Analytics from 'ember-osf-web/services/analytics';
 
-import { DefaultPage, getPageIndex, getPageParam } from 'ember-osf-web/utils/page-param';
+import { getPageIndex, getPageParam } from 'ember-osf-web/utils/page-param';
 
 @requireAuth()
 export default class DraftRegistrationRoute extends Route.extend({
@@ -27,6 +27,7 @@ export default class DraftRegistrationRoute extends Route.extend({
 
     page!: string;
     draftId!: string;
+    pageIndex!: number;
 
     model(this: DraftRegistrationRoute, params: { id: string, page: string }) {
         const { id: draftId, page } = params;
@@ -34,6 +35,7 @@ export default class DraftRegistrationRoute extends Route.extend({
 
         this.setProperties({
             page,
+            pageIndex,
             draftId,
         });
 
@@ -46,10 +48,15 @@ export default class DraftRegistrationRoute extends Route.extend({
 
     @action
     updateRoute(headingText: string) {
-        if (this.page && (Number.parseInt(this.page, 10) === DefaultPage)) {
-            const pageSlug = getPageParam(DefaultPage, headingText);
+        if (this.page) {
+            const pageSlug = getPageParam(this.pageIndex, headingText);
             this.replaceWith('drafts.draft', this.draftId, pageSlug);
         }
+    }
+
+    @action
+    error() {
+        this.replaceWith('page-not-found', this.router.currentURL.slice(1));
     }
 
     @action

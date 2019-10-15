@@ -30,6 +30,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Tests
     - Integration
         - `draft-registration-manager`
+    - Unit
+        - `page-param`
+    - Acceptance
+        - `draft form`
 
 ### Changed
 - Components

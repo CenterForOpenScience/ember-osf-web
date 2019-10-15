@@ -35,7 +35,7 @@ module('Integration | Component | DraftRegistrationManager', hooks => {
 
         await render(hbs`
             <Registries::DraftRegistrationManager
-                @currentPage=1
+                @currentPage=0
                 @draftRegistration={{this.draftRegistration}}
                 as |draftManager|
             >
@@ -72,7 +72,7 @@ module('Integration | Component | DraftRegistrationManager', hooks => {
 
         await render(hbs`
             <Registries::DraftRegistrationManager
-                @currentPage=1
+                @currentPage=0
                 @draftRegistration={{this.draftRegistration}}
                 as |draftManager|
             >
