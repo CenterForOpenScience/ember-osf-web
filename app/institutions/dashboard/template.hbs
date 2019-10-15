@@ -7,12 +7,13 @@
             <Institutions::Dashboard::-Components::InstitutionalUsersList @model={{this.model}} />
         </div>
         <div local-class='panel-wrapper'>
-            <Panel local-class='sso-users-connected' as |panel|>
-                <panel.heading @title='{{t 'institutions.dashboard.users_connected_panel'}}' />
-                <panel.body>
-                    {{this.institution.statSummary.ssoUsersConnected}}
-                </panel.body>
-            </Panel>
+            <Institutions::Dashboard::-Components::Panel
+                    local-class='sso-users-connected'
+                    @title='{{t 'institutions.dashboard.users_connected_panel'}}'
+                    @institution={{this.institution}}
+            >
+                {{this.institution.statSummary.ssoUsersConnected}}
+            </Institutions::Dashboard::-Components::Panel>
             <Panel as |panel|>
                 <panel.heading @title='{{t 'institutions.dashboard.projects_panel'}}' />
                 <panel.body>
