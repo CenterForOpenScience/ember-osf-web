@@ -18,6 +18,7 @@ export interface Assets {
 
 export interface StatSummary {
     departments: Department[];
+    ssoUsersConnected: number;
     numPrivateProjects: number;
     numPublicProjects: number;
 }

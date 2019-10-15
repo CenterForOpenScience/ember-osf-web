@@ -7,20 +7,21 @@
             <Institutions::Dashboard::-Components::InstitutionalUsersList @model={{this.model}} />
         </div>
         <div local-class='panel-wrapper'>
+            <Institutions::Dashboard::-Components::Panel
+                    local-class='sso-users-connected'
+                    @isLoading={{this.model.taskInstance.isRunning}}
+                    @title={{t 'institutions.dashboard.users_connected_panel'}}
+            >
+                {{this.institution.statSummary.ssoUsersConnected}}
+            </Institutions::Dashboard::-Components::Panel>
             <Panel as |panel|>
-                <panel.heading @title='SSO Users Connected' />
+                <panel.heading @title='{{t 'institutions.dashboard.projects_panel'}}' />
                 <panel.body>
                     <p></p>
                 </panel.body>
             </Panel>
             <Panel as |panel|>
-                <panel.heading @title='Total Projects' />
-                <panel.body>
-                    <p></p>
-                </panel.body>
-            </Panel>
-            <Panel as |panel|>
-                <panel.heading @title='Departments' />
+                <panel.heading @title='{{t 'institutions.dashboard.departments_panel'}}' />
                 <panel.body>
                     <p></p>
                 </panel.body>

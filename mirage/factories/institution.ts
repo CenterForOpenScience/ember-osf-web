@@ -35,6 +35,7 @@ export default Factory.extend<Institution & InstitutionTraits>({
                     name: department,
                     numUsers: faker.random.number({ min: 0, max: 99 }),
                 })),
+                ssoUsersConnected: faker.random.number({ min: 0, max: 999 }),
                 numPrivateProjects: faker.random.number({ min: 0, max: 999 }),
                 numPublicProjects: faker.random.number({ min: 0, max: 999 }),
             };

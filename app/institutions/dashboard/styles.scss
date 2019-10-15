@@ -12,3 +12,11 @@
     padding-top: 56px;
     padding-left: 15px;
 }
+
+.sso-users-connected {
+    :global(.panel-body) {
+        color: #263947;
+        font-size: 120px;
+        font-weight: bold;
+    }
+}
