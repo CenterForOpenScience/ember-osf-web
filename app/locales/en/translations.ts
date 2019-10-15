@@ -1135,6 +1135,10 @@ export default {
                 },
                 form: {
                     title: 'Fill Out Registration Form',
+                    next: 'Next',
+                    back: 'Back',
+                    save_draft: 'Save draft',
+                    new_registration: 'New Registration',
                 },
                 review: {
                     title: 'Review Registration Before Submitting',

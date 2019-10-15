@@ -59,6 +59,7 @@ const exampleSchema: Array<Partial<SchemaBlock>> = [
         blockType: 'short-text-input',
         registrationResponseKey: 'page-one_short-text',
         schemaBlockGroupKey: 'q2',
+        required: true,
         index: 8,
     },
     {
@@ -157,12 +158,6 @@ const exampleSchema: Array<Partial<SchemaBlock>> = [
         displayText: 'Other',
         schemaBlockGroupKey: 'q6',
         index: 22,
-    },
-    {
-        id: 'SB24',
-        blockType: 'short-text-input',
-        schemaBlockGroupKey: 'q6',
-        index: 23,
     },
 ];
 

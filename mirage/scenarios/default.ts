@@ -40,6 +40,11 @@ function registrationScenario(
         index: 0,
     });
 
+    server.create('draft-registration', {
+        id: 'decaf',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+    });
+
     registerNodeMultiple(
         server,
         registrationNode,

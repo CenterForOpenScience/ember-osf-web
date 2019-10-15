@@ -4,4 +4,4 @@ interface FileReference {
 }
 export type ResponseValue = string | string[] | FileReference[] | null;
 
-export type PageResponse = Record<string, ResponseValue>;
+export type RegistrationResponse = Record<string, ResponseValue>;
