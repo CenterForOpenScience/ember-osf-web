@@ -157,7 +157,7 @@ export default class SchemaBlockGroupRendererController extends Controller {
 
     schemaBlockGroups = getSchemaBlockGroups(this.schemaBlocks);
 
-    pageResponse = {
+    registrationResponse = {
         'page-one_single-select': '',
         'page-one_short-text': '',
         'page-one_long-text': '',
@@ -165,7 +165,7 @@ export default class SchemaBlockGroupRendererController extends Controller {
         'page-one_single-select-two': '',
         'page-one_file-input': [],
     };
-    pageResponseChangeset = new Changeset(this.pageResponse);
+    registrationResponseChangeset = new Changeset(this.registrationResponse);
 
     registrationResponses = {
         'page-one_single-select': 'tuna',
