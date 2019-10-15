@@ -175,16 +175,26 @@ export default class SchemaBlockGroupRendererController extends Controller {
         'page-one_single-select-two': 'Remember who was in NSync and who was in Backstreet Boys',
         'page-one_file-input': [
             {
-                fileID: 'ad552',
-                fileName: 'connecting_home_loan_account.mpe',
-                fileUrl: 'http://localhost:5000/files/osfstorage/ad552/',
-                sha256: 'be5fa974179240abad6772d850bd6e86',
+                file_id: 'ad552',
+                file_name: 'connecting_home_loan_account.mpe',
+                file_urls: {
+                    html: 'http://localhost:5000/files/osfstorage/ad552/',
+                    download: 'http://localhost:5000/files/osfstorage/ad552',
+                },
+                file_hashes: {
+                    sha256: 'be5fa974179240abad6772d850bd6e86',
+                },
             },
             {
-                fileID: 'gu5d4',
-                fileName: 'auto_loan_account.mp4',
-                fileUrl: 'http://localhost:5000/files/osfstorage/gu4d5',
-                sha256: 'be5fa974179240abad6772d850bd6e86',
+                file_id: 'gu5d4',
+                file_name: 'auto_loan_account.mp4',
+                file_urls: {
+                    html: 'http://localhost:5000/files/osfstorage/gu4d5',
+                    download: 'http://localhost:5000/files/osfstorage/gu4d5',
+                },
+                file_hashes: {
+                    sha256: 'be5fa974179240abad6772d850bd6e86',
+                },
             },
         ],
     };

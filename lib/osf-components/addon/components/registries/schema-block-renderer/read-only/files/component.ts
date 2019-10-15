@@ -1,4 +1,5 @@
 import { tagName } from '@ember-decorators/component';
+import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 
@@ -10,35 +11,23 @@ import template from './template';
 @layout(template)
 @tagName('')
 export default class ReadOnlyFiles extends Component {
-    // Required param
+    // Required params
     schemaBlock!: SchemaBlock;
     registrationResponses!: PageResponse;
 
     didReceiveAttrs() {
         assert(
-            'schema-block-renderer/read-only/files requires a schemaBlock to render',
+            'Registries::SchemaBlockRenderer::ReadOnly::Files requires a schemaBlock to render',
             Boolean(this.schemaBlock),
         );
         assert(
-            'schema-block-renderer/read-only/files requires registrationResponses to render',
+            'Registries::SchemaBlockRenderer::ReadOnly::Files requires registrationResponses to render',
             Boolean(this.registrationResponses),
         );
     }
 
-    didRender() {
-        this.getFileList();
-    }
-
-    getFileList() {
-        const response = this.registrationResponses[this.schemaBlock.registrationResponseKey!];
-        let list = '';
-        if (Array.isArray(response)) {
-            const responseList: unknown[] = [];
-            response.forEach((file: any) => {
-                responseList.push(`<a href='${file.fileUrl}'>${file.fileName}</a>`);
-            });
-            list = responseList.join(', ');
-        }
-        (document.querySelector('[data-test-read-only-file-widget]') as HTMLElement).innerHTML = list;
+    @computed
+    get responses() {
+        return this.registrationResponses[this.schemaBlock.registrationResponseKey!];
     }
 }

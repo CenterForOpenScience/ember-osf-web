@@ -1,1 +1,9 @@
-<p data-test-read-only-file-widget ...attributes></p>
+<ul data-test-read-only-file-widget ...attributes>
+    {{#each this.responses as |response|}}
+        <li>
+            <a href={{response.file_urls.html}}>
+                {{response.file_name}}
+            </a>
+        </li>
+    {{/each}}
+</ul>
