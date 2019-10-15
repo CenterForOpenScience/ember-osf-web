@@ -1,6 +1,5 @@
 import { render } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { task } from 'ember-concurrency';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
@@ -12,18 +11,6 @@ module('Integration | routes | institutions | dashboard | -components | panel', 
 
     hooks.beforeEach(function(this: TestContext) {
         this.store = this.owner.lookup('service:store');
-
-        server.create('institution', { id: 'testinstitution' }, 'withStatSummary');
-
-        this.set('modelTask', task(function *(this: TestContext, institutionId: string) {
-            return yield this.get('store').findRecord('institution', institutionId);
-        }));
-
-        const model = {
-            taskInstance: this.get('modelTask').perform('testinstitution'),
-        };
-
-        this.set('model', model);
     });
 
     test('it renders while loading', async assert => {
@@ -31,7 +18,6 @@ module('Integration | routes | institutions | dashboard | -components | panel', 
             <Institutions::Dashboard::-Components::Panel
                 @isLoading={{true}}
                 @title='Test'
-                @institution={{this.model.taskInstance.value}}
             >
                 Hello, World!
             </Institutions::Dashboard::-Components::Panel>`);
@@ -53,7 +39,6 @@ module('Integration | routes | institutions | dashboard | -components | panel', 
             <Institutions::Dashboard::-Components::Panel
                 @isLoading={{false}}
                 @title='Test'
-                @institution={{this.model.taskInstance.value}}
             >
                 Hello, World!
             </Institutions::Dashboard::-Components::Panel>`);

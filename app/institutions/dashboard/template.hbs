@@ -11,7 +11,6 @@
                     local-class='sso-users-connected'
                     @isLoading={{this.model.taskInstance.isRunning}}
                     @title={{t 'institutions.dashboard.users_connected_panel'}}
-                    @institution={{this.institution}}
             >
                 {{this.institution.statSummary.ssoUsersConnected}}
             </Institutions::Dashboard::-Components::Panel>
