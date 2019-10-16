@@ -730,6 +730,7 @@ export default {
             departments_panel: 'Departments',
             public: 'Public',
             private: 'Private',
+            users: 'Users',
         },
     },
     registration: {

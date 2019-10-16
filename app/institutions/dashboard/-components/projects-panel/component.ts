@@ -6,6 +6,7 @@ export default class ProjectsPanel extends Component {
     institution!: InstitutionModel;
 
     chartOptions = {
+        aspectRatio: 1,
         legend: {
             display: false,
         },
@@ -21,9 +22,6 @@ export default class ProjectsPanel extends Component {
 
     @computed('institution.statSummary.{numPrivateProjects,numPublicProjects}')
     get chartData() {
-        if (!this.institution) {
-            return {};
-        }
         return {
             labels: ['Public', 'Private'],
             datasets: [{

@@ -23,10 +23,7 @@
     }
 
     :global(.panel-body) {
+        color: #263947;
         text-align: center;
-        line-height: normal;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
     }
 }
