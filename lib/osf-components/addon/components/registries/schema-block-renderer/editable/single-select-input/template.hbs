@@ -1,18 +1,23 @@
-<FormControls
-    @changeset={{@changeset}}
-    @disabled={{@disabled}}
-    @shouldShowMessages={{@shouldShowMessages}}
-    ...attributes
-    as |form|
->
-    <form.select
-        data-test-single-select-input
-        @id={{@uniqueID}}
-        @valuePath={{@schemaBlock.registrationResponseKey}}
-        @options={{this.optionBlockValues}}
-        @onchange={{@onInput}}
-        as |option|
-    >
-        {{option}}
-    </form.select>
-</FormControls>
+<div local-class='single-select-input-flexbox'>
+    <div local-class='input-box'>
+        <FormControls
+            @changeset={{@changeset}}
+            @disabled={{@disabled}}
+            @shouldShowMessages={{@shouldShowMessages}}
+            ...attributes
+            as |form|
+        >
+            <form.select data-test-single-select-input
+                @id={{@uniqueID}}
+                @valuePath={{@schemaBlock.registrationResponseKey}}
+                @options={{this.optionBlockValuesAndHelpText}}
+                @onchange={{@onInput}}
+                as |option|
+            >
+                {{option.displayText}}
+                <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{option.helpText}} />
+            </form.select>
+        </FormControls>
+    </div>
+    <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{this.schemaBlock.helpText}} />
+</div>

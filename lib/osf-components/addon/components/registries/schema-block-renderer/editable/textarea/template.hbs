@@ -1,14 +1,20 @@
-<FormControls
-    @changeset={{@changeset}}
-    @disabled={{@disabled}}
-    @shouldShowMessages={{@shouldShowMessages}}
-    ...attributes
-    as |form|
->
-    <form.textarea
-        data-test-textarea-input
-        @id={{@uniqueID}}
-        @valuePath={{@schemaBlock.registrationResponseKey}}
-        @onKeyUp={{@onInput}}
-    />
-</FormControls>
+<div local-class='textarea-input-flexbox'>
+    <div local-class='input-box'>
+        <FormControls
+            @changeset={{@changeset}}
+            @disabled={{@disabled}}
+            @shouldShowMessages={{@shouldShowMessages}}
+            ...attributes 
+            as |form|
+        >
+            <form.textarea data-test-textarea-input
+                @id={{@uniqueID}}
+                @valuePath={{@schemaBlock.registrationResponseKey}}
+                @onKeyUp={{@onInput}}
+            />
+        </FormControls>
+    </div>
+    {{#if this.schemaBlock.helpText}}
+        <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{this.schemaBlock.helpText}} />
+    {{/if}}
+</div>

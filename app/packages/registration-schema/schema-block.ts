@@ -20,6 +20,7 @@ export interface SchemaBlock {
     registrationResponseKey?: string;
     displayText?: string;
     helpText?: string;
+    exampleText?: string;
     required?: boolean;
     index?: number;
 }

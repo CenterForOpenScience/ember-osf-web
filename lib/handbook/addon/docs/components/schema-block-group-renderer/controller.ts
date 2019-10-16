@@ -9,39 +9,49 @@ export default class SchemaBlockGroupRendererController extends Controller {
         {
             blockType: 'page-heading',
             displayText: 'Page heading',
+            helpText: 'This is a helptext for page heading',
             index: 0,
         },
         {
             blockType: 'section-heading',
             displayText: 'First section',
+            helpText: 'This is a helptext for section heading',
             index: 1,
         },
         {
             blockType: 'subsection-heading',
             displayText: 'Subsection',
+            helpText: 'This is a helptext for subsection heading',
             index: 2,
         },
         {
             blockType: 'question-label',
             displayText: 'What do cats like more?',
+            exampleText: `This is the example text.
+            The "show example" button above should only appear
+            if the form is editable and exampleText is not an empty string for a question label block`,
+            helpText: 'This is a helptext for question label',
             schemaBlockGroupKey: 'q1',
             index: 3,
         },
         {
             blockType: 'single-select-input',
             registrationResponseKey: 'page-one_single-select',
+            helpText: 'This is a helptext for single select input',
             schemaBlockGroupKey: 'q1',
             index: 4,
         },
         {
             blockType: 'select-input-option',
             displayText: 'tuna',
+            helpText: 'This is a helptext for single select option 1',
             schemaBlockGroupKey: 'q1',
             index: 5,
         },
         {
             blockType: 'select-input-option',
             displayText: 'chicken',
+            helpText: 'This is a helptext for single select option 2',
             schemaBlockGroupKey: 'q1',
             index: 6,
         },
@@ -54,6 +64,7 @@ export default class SchemaBlockGroupRendererController extends Controller {
         {
             blockType: 'short-text-input',
             registrationResponseKey: 'page-one_short-text',
+            helpText: 'This is the help text for short text input',
             schemaBlockGroupKey: 'q2',
             index: 8,
         },
@@ -66,6 +77,7 @@ export default class SchemaBlockGroupRendererController extends Controller {
         {
             blockType: 'long-text-input',
             registrationResponseKey: 'page-one_long-text',
+            helpText: 'This is the help text for a long text input',
             schemaBlockGroupKey: 'q3',
             index: 10,
         },
@@ -78,18 +90,21 @@ export default class SchemaBlockGroupRendererController extends Controller {
         {
             blockType: 'multi-select-input',
             registrationResponseKey: 'page-one_multi-select',
+            helpText: 'This is the help text for a multi select input',
             schemaBlockGroupKey: 'q4',
             index: 12,
         },
         {
             blockType: 'select-input-option',
             displayText: 'Nickelback',
+            helpText: 'This is the help text for single select option 1',
             schemaBlockGroupKey: 'q4',
             index: 13,
         },
         {
             blockType: 'select-input-option',
             displayText: 'Crocs',
+            helpText: 'This is the help text for single select option 2',
             schemaBlockGroupKey: 'q4',
             index: 14,
         },
@@ -138,8 +153,16 @@ export default class SchemaBlockGroupRendererController extends Controller {
         {
             blockType: 'contributors-input',
             registrationResponseKey: 'page-one_contributors-input',
+            helpText: 'This is the help text for read only contributor list',
             schemaBlockGroupKey: 'q5',
             index: 23,
+        },
+        {
+            blockType: 'paragraph',
+            displayText: 'This is a paragraph.',
+            schemaBlockGroupKey: 'q7',
+            helpText: 'This is a helptext for paragraph',
+            index: 24,
         },
     ];
 
