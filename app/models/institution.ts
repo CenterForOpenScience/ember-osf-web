@@ -16,6 +16,18 @@ export interface Assets {
 }
 /* eslint-enable camelcase */
 
+export interface StatSummary {
+    departments: Department[];
+    ssoUsersConnected: number;
+    numPrivateProjects: number;
+    numPublicProjects: number;
+}
+
+export interface Department {
+    name: string;
+    numUsers: number;
+}
+
 export default class InstitutionModel extends OsfModel {
     @attr('string') name!: string;
     @attr('fixstring') description!: string;
@@ -23,6 +35,7 @@ export default class InstitutionModel extends OsfModel {
     @attr('string') authUrl!: string;
     @attr('object') assets!: Partial<Assets>;
     @attr('boolean', { defaultValue: false }) currentUserIsAdmin!: boolean;
+    @attr('object') statSummary!: StatSummary;
 
     @hasMany('institutional-user', { inverse: 'institution' })
     institutionalUsers!: DS.PromiseManyArray<InstitutionalUserModel>;

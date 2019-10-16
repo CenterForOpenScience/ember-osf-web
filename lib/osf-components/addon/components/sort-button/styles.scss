@@ -23,12 +23,12 @@
             box-shadow: none;
         }
     }
-}
 
-.selected {
-    color: $color-text-blue-dark !important;
-}
+    :global(.selected) {
+        color: $color-text-blue-dark !important;
+    }
 
-.not-selected {
-    color: $color-text-gray-dark !important;
+    :global(.not-selected) {
+        color: $color-text-gray-dark !important;
+    }
 }

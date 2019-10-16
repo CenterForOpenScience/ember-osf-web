@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Components
+    - `institutions`
+        - `dashboard/institutional-users-list`
+        - `dashboard/panel`
+    - `Registries::DraftRegistrationManager`
 - Mirage
     - Factories
         - `institutional-user`
@@ -14,15 +19,48 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Routes
     - `institution`
         - added `dashboard` nested route
+- Engines
+    - Routes
+        - `registries`
+            - `drafts.draft`, `draft/<draftId>/<page>`
+            - `drafts.draft-shim`, `draft/<draftId>/` redirects to `draft/<draftId>/1`
+- Packages
+    - `ember-route-action-helper`
+- Utils
+    - `page-param`
+- Tests
+    - Integration
+        - `draft-registration-manager`
+    - Unit
+        - `page-param`
+    - Acceptance
+        - `draft form`
 
 ### Changed
+- Components
+    - `paginated-list`
+        - added `isTable` attribute to use a `table` over an `ul`
+    - `sort-button`
+        - changed local `selected` classes to nested global classes
+    - `registries/schema-block-renderer/editable/**`
+    - `validated-input`
+        - Modified components to take in `onInput` callback.
+            - added `withStatSummary` trait
 - Mirage
     - Factories
         - `institution`
             - added `withInstitutionalUsers` trait
+- Models
+    - `institution`
+        - added `currentUserIsAdmin` boolean
+        - added `statSummary` object
+    - `institutional-user`
+        - added `userGuid` string
 - Routes
     - `institution`
         - moved to `index` folder
+- Types
+    - Renamed `PageResponse` to `RegistrationResponse`
 
 ### Removed
 - Tests

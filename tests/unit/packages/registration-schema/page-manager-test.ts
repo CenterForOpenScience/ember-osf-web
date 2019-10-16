@@ -119,22 +119,10 @@ module('Unit | Packages | registration-schema | page-manager', () => {
             'page-one_short-text': 'Feel Special',
             'page-one_long-text': 'Fancy',
             'page-one_multi-select': ['Rocket punch', 'BIM BAM BUM'],
-            'some-other-response-that-is-not-on-this-page':
-                'If you see this in the page response then something is wrong',
         };
         const pageManager = new PageManager(schemaBlocks, registrationResponses);
         // Make sure the pageManager's page heading matches the page heading block's displayText
         assert.equal(pageManager.pageHeadingText, schemaBlocks[0].displayText);
-        // Make sure the pageManager's pageReponse object is properly initiated
-        assert.equal(pageManager.pageResponses!['page-one_single-select'],
-            registrationResponses['page-one_single-select']);
-        assert.equal(pageManager.pageResponses!['page-one_short-text'],
-            registrationResponses['page-one_short-text']);
-        assert.equal(pageManager.pageResponses!['page-one_long-text'],
-            registrationResponses['page-one_long-text']);
-        assert.deepEqual(pageManager.pageResponses!['page-one_multi-select'],
-            registrationResponses['page-one_multi-select']);
-        assert.notOk(pageManager.pageResponses!['some-other-response-that-is-not-on-this-page']);
         // Make sure the pageManager's changeset is property initiated
         assert.equal(pageManager.changeset!.get('page-one_single-select'),
             registrationResponses['page-one_single-select']);
@@ -144,6 +132,5 @@ module('Unit | Packages | registration-schema | page-manager', () => {
             registrationResponses['page-one_long-text']);
         assert.deepEqual(pageManager.changeset!.get('page-one_multi-select'),
             registrationResponses['page-one_multi-select']);
-        assert.notOk(pageManager.changeset!.get('some-other-response-that-is-not-on-this-page'));
     });
 });

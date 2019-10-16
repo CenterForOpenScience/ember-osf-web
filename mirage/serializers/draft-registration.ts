@@ -34,4 +34,10 @@ export default class DraftRegistrationSerializer extends ApplicationSerializer<D
             },
         };
     }
+
+    buildNormalLinks(model: ModelInstance<DraftRegistration>) {
+        return {
+            self: `${apiUrl}/v2/draft_registrations/${model.id}`,
+        };
+    }
 }

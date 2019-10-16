@@ -1,11 +1,11 @@
-{{#each this.pageManager.schemaBlockGroups as |group|}}
+{{#each @pageManager.schemaBlockGroups as |group|}}
     <Registries::SchemaBlockGroupRenderer
         @schemaBlockGroup={{group}}
         @renderStrategy={{
-            component
-            'registries/schema-block-renderer/editable/mapper'
-            changeset=this.pageManager.changeset
-            node=@node
+            component 'registries/schema-block-renderer/editable/mapper'
+                changeset=this.pageManager.changeset
+                node=@node
+                onInput=@onInput
         }}
     />
 {{/each}}

@@ -4,7 +4,7 @@ import Component from '@ember/component';
 import { assert } from '@ember/debug';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import { PageResponse, SchemaBlock } from 'ember-osf-web/packages/registration-schema';
+import { RegistrationResponse, SchemaBlock } from 'ember-osf-web/packages/registration-schema';
 
 import template from './template';
 
@@ -13,7 +13,7 @@ import template from './template';
 export default class ReadOnlyResponse extends Component {
     // Required param
     schemaBlock!: SchemaBlock;
-    registrationResponses!: PageResponse;
+    registrationResponses!: RegistrationResponse;
 
     didReceiveAttrs() {
         assert(

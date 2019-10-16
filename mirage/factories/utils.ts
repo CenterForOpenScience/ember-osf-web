@@ -5,8 +5,9 @@ import { GUID_ALPHABET } from 'ember-osf-web/const/guid-alphabet';
 import Guid from 'ember-osf-web/models/guid';
 import { Answer, Question, RegistrationMetadata, Subquestion } from 'ember-osf-web/models/registration-schema';
 
-import { RegistrationResponses } from 'ember-osf-web/models/registration';
-import { getSchemaBlockGroups, SchemaBlock, SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema';
+import {
+    getSchemaBlockGroups, RegistrationResponse, SchemaBlockGroup,
+} from 'ember-osf-web/packages/registration-schema';
 import { MirageRegistrationSchema } from './registration-schema';
 
 export function guid(referentType: string) {
@@ -150,7 +151,7 @@ export function createRegistrationResponses(
 ) {
     const schemaBlocks = registrationSchema.schemaBlocks!;
     const schemaBlockGroups = getSchemaBlockGroups(schemaBlocks);
-    const registrationResponses = {} as RegistrationResponses;
+    const registrationResponses = {} as RegistrationResponse;
     for (const group of schemaBlockGroups) {
         switch (group.groupType) {
         default:
