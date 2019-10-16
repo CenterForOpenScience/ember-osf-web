@@ -164,14 +164,14 @@ module('Integration | Component | schema-block-group-renderer', hooks => {
 
         const schemaBlockGroups = getSchemaBlockGroups(schemaBlocks);
 
-        const pageResponse = {
+        const registrationResponse = {
             'page-one_short-text': '',
             'page-one_long-text': '',
             'page-one_single-select-two': '',
             'page-one_multi-select': [],
             'page-one_file-input': [],
         };
-        const pageResponseChangeset = new Changeset(pageResponse);
+        const registrationResponseChangeset = new Changeset(registrationResponse);
         this.store = this.owner.lookup('service:store');
         const mirageNode = server.create('node', 'withFiles');
 
@@ -182,7 +182,7 @@ module('Integration | Component | schema-block-group-renderer', hooks => {
 
         this.set('node', await node);
         this.set('schemaBlockGroups', schemaBlockGroups);
-        this.set('pageResponseChangeset', pageResponseChangeset);
+        this.set('pageResponseChangeset', registrationResponseChangeset);
         await render(hbs`
             {{#each this.schemaBlockGroups as |group|}}
                 <Registries::SchemaBlockGroupRenderer
