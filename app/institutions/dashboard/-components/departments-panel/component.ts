@@ -4,26 +4,31 @@ import InstitutionModel from 'ember-osf-web/models/institution';
 
 export default class ProjectsPanel extends Component {
     institution!: InstitutionModel;
+    chartHoverIndex: number = -1;
 
     chartOptions = {
         aspectRatio: 1,
         legend: {
             display: false,
         },
-        onHover: this.onChartHover,
+        // tslint:disable-next-line:variable-name
+        onHover: (_e: MouseEvent, shape: any) => {
+            if (shape.length === 0 || this.chartHoverIndex === shape[0]._index) {
+                return;
+            }
+            this.set('chartHoverIndex', shape[0]._index);
+        },
     };
 
-    chartHoverIndex: number = -1;
+    didReceiveAttrs() {
+        const departmentNumbers = this.institution.statSummary.departments.map(x => x.numUsers);
+        this.chartHoverIndex = departmentNumbers.indexOf(Math.max(...departmentNumbers));
+    }
 
     @computed('chartHoverIndex', 'institution.statSummary.departments')
     get chartData() {
         const departmentNames = this.institution.statSummary.departments.map(x => x.name);
         const departmentNumbers = this.institution.statSummary.departments.map(x => x.numUsers);
-
-        // If no active department, set it to the one with the most users
-        if (this.chartHoverIndex === -1) {
-            this.chartHoverIndex = departmentNumbers.indexOf(Math.max(...departmentNumbers));
-        }
 
         const backgroundColors = [];
         for (const index of departmentNumbers.keys()) {
@@ -45,17 +50,13 @@ export default class ProjectsPanel extends Component {
 
     @computed('chartHoverIndex', 'institution.statSummary.departments')
     get activeDepartment() {
-        if (this.chartHoverIndex > -1) {
-            return this.institution.statSummary.departments[this.chartHoverIndex];
-        }
-        return {};
+        return this.institution.statSummary.departments[this.chartHoverIndex];
     }
 
-    // tslint:disable-next-line:variable-name
-    onChartHover(_e: MouseEvent, shape: any) {
-        if (shape.length === 0 || this.chartHoverIndex === shape[0]._index) {
-            return;
-        }
-        this.chartHoverIndex = shape[0]._index;
+    @computed('activeDepartment', 'institution.statSummary.departments')
+    get activeDepartmentPercentage() {
+        // eslint-disable-next-line max-len
+        const count = this.institution.statSummary.departments.reduce((total, currentValue) => total + currentValue.numUsers, 0);
+        return ((this.activeDepartment.numUsers / count) * 100).toFixed(2);
     }
 }
