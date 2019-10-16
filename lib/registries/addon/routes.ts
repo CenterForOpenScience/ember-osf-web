@@ -11,7 +11,7 @@ export default buildRoutes(function() {
     });
 
     this.route('drafts', { path: '/registries/drafts' }, function() {
-        this.route('draft', { path: '/:id' });
+        this.route('draft-shim', { path: '/:id' });
         this.route('draft', { path: '/:id/:page' });
     });
 

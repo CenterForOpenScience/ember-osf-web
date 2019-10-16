@@ -1,7 +1,7 @@
 <OsfButton
     data-test-ascending-sort={{this.sortBy}}
     data-analytics-name={{concat 'Ascending sort ' this.sortBy}}
-    local-class={{if (eq @sort this.sortBy) 'selected' 'not-selected'}}
+    class={{if (eq @sort this.sortBy) 'selected' 'not-selected'}}
     @onClick={{action @sortAction this.sortBy}}
     @title={{t 'general.sort_asc'}}
 >
@@ -10,7 +10,7 @@
 <OsfButton
     data-test-descending-sort={{this.sortBy}}
     data-analytics-name={{concat 'Descending sort ' this.sortBy}}
-    local-class={{if (eq @sort this.sortByDesc) 'selected' 'not-selected'}}
+    class={{if (eq @sort this.sortByDesc) 'selected' 'not-selected'}}
     @onClick={{action @sortAction this.sortByDesc}}
     @title={{t 'general.sort_desc'}}
 >

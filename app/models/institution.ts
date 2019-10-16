@@ -10,10 +10,23 @@ import UserModel from './user';
 
 /* eslint-disable camelcase */
 export interface Assets {
+    banner: string;
     logo: string;
     logo_rounded: string;
 }
 /* eslint-enable camelcase */
+
+export interface StatSummary {
+    departments: Department[];
+    ssoUsersConnected: number;
+    numPrivateProjects: number;
+    numPublicProjects: number;
+}
+
+export interface Department {
+    name: string;
+    numUsers: number;
+}
 
 export default class InstitutionModel extends OsfModel {
     @attr('string') name!: string;
@@ -21,6 +34,8 @@ export default class InstitutionModel extends OsfModel {
     @attr('string') logoPath!: string;
     @attr('string') authUrl!: string;
     @attr('object') assets!: Partial<Assets>;
+    @attr('boolean', { defaultValue: false }) currentUserIsAdmin!: boolean;
+    @attr('object') statSummary!: StatSummary;
 
     @hasMany('institutional-user', { inverse: 'institution' })
     institutionalUsers!: DS.PromiseManyArray<InstitutionalUserModel>;

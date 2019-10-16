@@ -8,7 +8,7 @@ import DS from 'ember-data';
 import requireAuth from 'ember-osf-web/decorators/require-auth';
 import Analytics from 'ember-osf-web/services/analytics';
 
-import { DefaultPage, getPageIndex } from './page-param';
+import { getPageIndex, getPageParam } from 'ember-osf-web/utils/page-param';
 
 @requireAuth()
 export default class DraftRegistrationRoute extends Route.extend({
@@ -25,18 +25,38 @@ export default class DraftRegistrationRoute extends Route.extend({
     @service store!: DS.Store;
     @service router!: RouterService;
 
-    model(this: DraftRegistrationRoute, params: { id: string, page?: string }) {
-        const { id, page } = params;
+    page!: string;
+    draftId!: string;
+    pageIndex!: number;
 
-        if (!page) {
-            return this.transitionTo('drafts.draft', id, DefaultPage);
-        }
+    model(this: DraftRegistrationRoute, params: { id: string, page: string }) {
+        const { id: draftId, page } = params;
+        const pageIndex = getPageIndex(page);
+
+        this.setProperties({
+            page,
+            pageIndex,
+            draftId,
+        });
 
         return {
-            taskInstance: this.loadModelTask.perform(id),
-            pageIndex: getPageIndex(page),
+            taskInstance: this.loadModelTask.perform(draftId),
+            pageIndex,
             page,
         };
+    }
+
+    @action
+    updateRoute(headingText: string) {
+        if (this.page) {
+            const pageSlug = getPageParam(this.pageIndex, headingText);
+            this.replaceWith('drafts.draft', this.draftId, pageSlug);
+        }
+    }
+
+    @action
+    error() {
+        this.replaceWith('page-not-found', this.router.currentURL.slice(1));
     }
 
     @action

@@ -1,0 +1,11 @@
+<@gutters.right-gutter
+    ...attributes
+    local-class='RightColumn'
+    as |rightGutter|
+>
+    {{yield (hash
+        right=(element 'div')
+        rightGutterMode=rightGutter.mode
+        toggleMetadata=@toggleMetadata
+    )}}
+</@gutters.right-gutter>

@@ -6,24 +6,71 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Components
+    - `institutions`
+        - `dashboard/institutional-users-list`
+        - `dashboard/panel`
+    - `Registries::DraftRegistrationManager`
 - Mirage
     - Factories
         - `institutional-user`
     - Serializers
         - `institutional-user`
 - Routes
-    - `institution` 
+    - `institution`
         - added `dashboard` nested route
+- Engines
+    - Routes
+        - `registries`
+            - `drafts.draft`, `draft/<draftId>/<page>`
+            - `drafts.draft-shim`, `draft/<draftId>/` redirects to `draft/<draftId>/1`
+- Packages
+    - `ember-route-action-helper`
+- Utils
+    - `page-param`
+- Tests
+    - Integration
+        - `draft-registration-manager`
+    - Unit
+        - `page-param`
+    - Acceptance
+        - `draft form`
 
 ### Changed
+- Components
+    - `paginated-list`
+        - added `isTable` attribute to use a `table` over an `ul`
+    - `sort-button`
+        - changed local `selected` classes to nested global classes
+    - `registries/schema-block-renderer/editable/**`
+    - `validated-input`
+        - Modified components to take in `onInput` callback.
+            - added `withStatSummary` trait
 - Mirage
     - Factories
         - `institution`
             - added `withInstitutionalUsers` trait
+- Models
+    - `institution`
+        - added `currentUserIsAdmin` boolean
+        - added `statSummary` object
+    - `institutional-user`
+        - added `userGuid` string
 - Routes
-    - `institution` 
+    - `institution`
         - moved to `index` folder
-            
+- Types
+    - Renamed `PageResponse` to `RegistrationResponse`
+
+### Removed
+- Tests
+    - unit, component tests using `FactoryGuy`
+    - `FactoryGuy` factories
+- Packages
+    - `ember-data-factory-guy`
+- Types
+    - `FactoryGuy` types
+
 ## [19.10.0] - 2019-10-02
 ### Added
 - Models
@@ -252,7 +299,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
             - improved update acceptance tests to perform assertions in addition to taking snapshots
             - improved discover acceptance tests to perform assertions in addition to taking snapshots
 - Tests
-    - added `ember-basic-dropdown-wormhole` div to test index.html 
+    - added `ember-basic-dropdown-wormhole` div to test index.html
 - Mirage
     - `osfNestedResource`
         - added `onCreate` hook to perform additional operations after creating a child resource

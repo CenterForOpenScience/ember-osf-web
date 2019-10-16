@@ -3,13 +3,14 @@ import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 
 import { layout } from 'ember-osf-web/decorators/component';
+import defaultTo from 'ember-osf-web/utils/default-to';
 import template from './template';
 
 @layout(template)
 @tagName('')
 export default class ValidatedInputCheckboxesXCheckbox<T> extends Component {
     // Required arguments
-    relationArray!: T[];
+    relationArray: T[] = defaultTo(this.relationArray, []);
     option!: T;
     checkboxName!: string;
     ariaLabel!: string;

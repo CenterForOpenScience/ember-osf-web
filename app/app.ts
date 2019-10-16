@@ -47,6 +47,7 @@ const App = Application.extend({
                     'store',
                     'toast',
                     'osf-modal-state',
+                    'media',
                 ],
             },
         },
