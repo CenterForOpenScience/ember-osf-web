@@ -23,7 +23,6 @@
     "ember-i18n": "*",
     "ember-i18n-inject": "*",
     "ember-radio-button": "*",
-    "ember-responsive": "*",
-    "ember-route-action-helper": "*"
+    "ember-responsive": "*"
   }
 }

@@ -1,55 +1,93 @@
-{{title (t 'registries.drafts.draft.form.title')}}
+{{#if this.inReview}}
+    {{title (t 'registries.drafts.draft.review.title')}}
+{{else}}
+    {{title (t 'registries.drafts.draft.form.title')}}
+{{/if}}
 
-<Registries::DraftRegistrationManager
-    @currentPage={{this.model.pageIndex}}
-    @modelTaskInstance={{this.model.taskInstance}}
-    @updateRoute={{route-action 'updateRoute'}}
-    @onPageNotFound={{route-action 'error'}}
-    as |draftManager|
->
-    <OsfLayout @backgroundClass={{local-class 'ContentBackground'}} as |layout|>
-        <layout.heading local-class='Heading'>
-            <div local-class='Title'>{{t 'registries.drafts.draft.form.new_registration'}}</div>
-        </layout.heading>
-        <layout.left local-class='Left'>
-            {{!-- Sidenav: page headings, validations --}}
-        </layout.left>
-        <layout.main local-class='Main'>
-            {{#if draftManager.currentPageManager}}
-                <Registries::PageRenderer
-                    @pageManager={{draftManager.currentPageManager}}
-                    @onInput={{draftManager.onInput}}
-                />
-            {{/if}}
-        </layout.main>
-        <layout.right local-class='Right'>
-            {{#if draftManager.nextPageParam}}
-                <OsfLink
-                    @type='button'
-                    @route='registries.drafts.draft'
-                    @models={{array draftManager.draftId draftManager.nextPageParam}}
-                    @onClick={{draftManager.setPageIsVisited}}
-                >
-                    {{t 'registries.drafts.draft.form.next'}}
-                </OsfLink>
-            {{/if}}
+{{#if this.loading}}
+    <div local-class='ContentBackground Loading'>
+        <LoadingIndicator @dark={{true}} />
+    </div>
+{{else}}
+    <Registries::DraftRegistrationManager
+        @currentPage={{this.pageIndex}}
+        @draftRegistration={{this.draftRegistration}}
+        @inReview={{this.inReview}}
+        @updateRoute={{action this.updateRoute}}
+        @onPageNotFound={{action this.onPageNotFound}}
+        as |draftManager|
+    >
+        <OsfLayout @backgroundClass={{local-class 'ContentBackground'}} as |layout|>
+            <layout.heading local-class='Heading'>
+                <div local-class='Title'>{{t 'registries.drafts.draft.form.new_registration'}}</div>
+            </layout.heading>
+            <layout.left local-class='Left'>
+                {{!-- Sidenav: page headings, validations --}}
+            </layout.left>
+            <layout.main local-class='Main'>
+                {{#if draftManager.initializing}}
+                    <LoadingIndicator @dark={{true}} />
+                {{else}}
+                    {{#if this.inReview}}
+                        <Registries::ReviewFormRenderer
+                            @schemaBlocks={{draftManager.schemaBlocks}}
+                            @registrationResponses={{draftManager.registrationResponses}}
+                        />
+                    {{else}}
+                        <Registries::PageRenderer
+                            @pageManager={{draftManager.currentPageManager}}
+                            @onInput={{draftManager.onInput}}
+                        />
+                    {{/if}}
+                {{/if}}
+            </layout.main>
+            <layout.right local-class='Right'>
+                {{#if draftManager.nextPageParam}}
+                    <OsfLink
+                        data-test-goto-next-page
+                        @type='button'
+                        class='btn btn-default'
+                        @route='registries.drafts.draft'
+                        @models={{array draftManager.draftId draftManager.nextPageParam}}
+                        @onClick={{draftManager.setPageIsVisited}}
+                    >
+                        {{t 'registries.drafts.draft.form.next'}}
+                    </OsfLink>
+                {{/if}}
 
-            {{#if draftManager.prevPageParam}}
-                <OsfLink
-                    @type='button'
-                    @route='registries.drafts.draft'
-                    @models={{array draftManager.draftId draftManager.prevPageParam}}
-                >
-                    {{t 'registries.drafts.draft.form.back'}}
-                </OsfLink>
-            {{/if}}
+                {{#if draftManager.prevPageParam}}
+                    <OsfLink
+                        data-test-goto-previous-page
+                        @type='button'
+                        class='btn btn-default'
+                        @route='registries.drafts.draft'
+                        @models={{array draftManager.draftId draftManager.prevPageParam}}
+                    >
+                        {{t 'registries.drafts.draft.form.back'}}
+                    </OsfLink>
+                {{/if}}
 
-            <OsfButton
-                data-test-save-draft
-                @onClick={{draftManager.submitDraftRegistration}}
-            >
-                {{t 'registries.drafts.draft.form.save_draft'}}
-            </OsfButton>
-        </layout.right>
-    </OsfLayout>
-</Registries::DraftRegistrationManager>
+                {{#if (eq draftManager.lastPage this.pageIndex)}}
+                    <OsfLink
+                        data-test-goto-review
+                        class='btn btn-primary'
+                        @type='button'
+                        @route='registries.drafts.draft'
+                        @models={{array draftManager.draftId 'review'}}
+                    >
+                        {{t 'registries.drafts.draft.review.start_review'}}
+                    </OsfLink>
+                {{/if}}
+
+                {{#if this.inReview}}
+                    <OsfButton
+                        data-test-goto-register
+                        @type='primary'
+                    >
+                        {{t 'registries.drafts.draft.register'}}
+                    </OsfButton>
+                {{/if}}
+            </layout.right>
+        </OsfLayout>
+    </Registries::DraftRegistrationManager>
+{{/if}}
