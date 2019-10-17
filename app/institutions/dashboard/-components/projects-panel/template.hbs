@@ -1,12 +1,21 @@
-<div local-class='ember-chart' data-test-chart>
-    {{ember-chart type='pie' data=this.chartData options=this.chartOptions}}
+<div
+        data-test-chart
+        local-class='ember-chart'
+>
+    <EmberChart
+            @type='pie'
+            @data={{this.chartData}}
+            @options={{this.chartOptions}}
+    />
 </div>
 <h3>{{this.numProjects}}</h3>
 <div local-class='projects-count'>
     <span>
-        <strong>{{this.institution.statSummary.numPublicProjects}}</strong> {{t 'institutions.dashboard.public'}}
+        <strong>{{this.numPublicProjects}}</strong>
+        {{t 'institutions.dashboard.public'}}
     </span>
     <span>
-        <strong>{{this.institution.statSummary.numPrivateProjects}}</strong> {{t 'institutions.dashboard.private'}}
+        <strong>{{this.numPrivateProjects}}</strong>
+        {{t 'institutions.dashboard.private'}}
     </span>
 </div>

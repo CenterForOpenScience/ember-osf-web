@@ -1,11 +1,18 @@
 import { computed } from '@ember-decorators/object';
+import { alias } from '@ember-decorators/object/computed';
+import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { ChartData, ChartOptions } from 'ember-cli-chart';
+import I18N from 'ember-i18n/services/i18n';
 import InstitutionModel from 'ember-osf-web/models/institution';
 
 export default class ProjectsPanel extends Component {
     institution!: InstitutionModel;
+    @alias('institution.statSummary.numPublicProjects') numPublicProjects!: number;
+    @alias('institution.statSummary.numPrivateProjects') numPrivateProjects!: number;
+    @service i18n!: I18N;
 
-    chartOptions = {
+    chartOptions: ChartOptions = {
         aspectRatio: 1,
         legend: {
             display: false,
@@ -13,21 +20,21 @@ export default class ProjectsPanel extends Component {
     };
 
     @computed('institution.statSummary.{numPrivateProjects,numPublicProjects}')
-    get numProjects() {
-        if (!this.institution) {
-            return 0;
-        }
-        return this.institution.statSummary.numPrivateProjects + this.institution.statSummary.numPublicProjects;
+    get numProjects(): number {
+        return this.numPublicProjects + this.numPrivateProjects;
     }
 
     @computed('institution.statSummary.{numPrivateProjects,numPublicProjects}')
-    get chartData() {
+    get chartData(): ChartData {
         return {
-            labels: ['Public', 'Private'],
+            labels: [
+                this.i18n.t('institutions.dashboard.public'),
+                this.i18n.t('institutions.dashboard.private'),
+            ],
             datasets: [{
                 data: [
-                    this.institution.statSummary.numPublicProjects,
-                    this.institution.statSummary.numPrivateProjects,
+                    this.numPublicProjects,
+                    this.numPrivateProjects,
                 ],
                 backgroundColor: [
                     '#36b183',
