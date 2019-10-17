@@ -8,8 +8,8 @@ export default class Provider extends Route {
     @service store!: DS.Store;
     @service theme!: Theme;
 
-    async beforeModel(transition: any) {
-        const { slug = '' } = transition.params['collections.provider'];
+    async beforeModel() {
+        const { slug = '' } = this.paramsFor(this.routeName) as { slug?: string };
         const slugLower = slug.toLowerCase();
 
         try {
