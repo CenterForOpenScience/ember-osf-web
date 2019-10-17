@@ -1,5 +1,6 @@
 import { click, render, settled } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import NodeModel from 'ember-osf-web/models/node';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
@@ -20,7 +21,7 @@ module('Integration | Component | partial-registration-modal', hooks => {
         const grandChildNode = await this.store.findRecord('node', grandChild.id);
         this.set('rootNode', rootNode);
         this.set('isOpen', false);
-        this.set('onContinue', (selectedNodes: any) => {
+        this.set('onContinue', (selectedNodes: NodeModel[]) => {
             assert.ok(
                 selectedNodes.length === 3,
                 `expected 3 but instead got ${selectedNodes.length}`,
@@ -74,7 +75,7 @@ module('Integration | Component | partial-registration-modal', hooks => {
         const grandChildNode = await this.store.findRecord('node', grandChild.id);
         this.set('rootNode', rootNode);
         this.set('isOpen', false);
-        this.set('onContinue', (selectedNodes: any) => {
+        this.set('onContinue', (selectedNodes: NodeModel[]) => {
             assert.ok(
                 selectedNodes.length === 3,
                 `expected 3 but instead got ${selectedNodes.length}`,
@@ -132,7 +133,7 @@ module('Integration | Component | partial-registration-modal', hooks => {
         const grandChildNode = await this.store.findRecord('node', grandChild.id);
         this.set('rootNode', rootNode);
         this.set('isOpen', false);
-        this.set('onContinue', (selectedNodes: any) => {
+        this.set('onContinue', (selectedNodes: NodeModel[]) => {
             assert.ok(
                 selectedNodes.length === 3,
                 `expected 3 but instead got ${selectedNodes.length}`,
@@ -193,7 +194,7 @@ module('Integration | Component | partial-registration-modal', hooks => {
         const grandChildNode = await this.store.findRecord('node', grandChild.id);
         this.set('rootNode', rootNode);
         this.set('isOpen', false);
-        this.set('onContinue', (selectedNodes: any) => {
+        this.set('onContinue', (selectedNodes: NodeModel[]) => {
             assert.ok(
                 selectedNodes.length === 1,
                 `expected 1 but instead got ${selectedNodes.length}`,
