@@ -4,6 +4,7 @@ import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 
 export interface MirageRegistrationSchema extends RegistrationSchema {
     schemaNoConflict?: RegistrationSchema['schema'];
+    schemaBlocks: RegistrationSchema['schemaBlocks'];
 }
 
 export default Factory.extend<MirageRegistrationSchema>({

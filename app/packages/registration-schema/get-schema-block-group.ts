@@ -1,5 +1,6 @@
 import { assert } from '@ember/debug';
-import { SchemaBlock, SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema';
+import SchemaBlockModel from 'ember-osf-web/models/schema-block';
+import { SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema';
 
 function isEmpty(input: string | undefined) {
     if (input === undefined || input === null || input === '') {
@@ -8,11 +9,11 @@ function isEmpty(input: string | undefined) {
     return false;
 }
 
-export function getSchemaBlockGroups(blocks: SchemaBlock[]) {
+export function getSchemaBlockGroups(blocks: SchemaBlockModel[]) {
     let currentGroupKey: string | null = null;
     const groupKeysEncountered: string[] = [];
     const responseKeysEncountered: string[] = [];
-    const allGroups = blocks.reduce((groups: SchemaBlockGroup[], block: SchemaBlock) => {
+    const allGroups = blocks.reduce((groups: SchemaBlockGroup[], block: SchemaBlockModel) => {
         let schemaBlockGroup: SchemaBlockGroup = {};
         if (block.schemaBlockGroupKey) {
             const newGroupStart = (!currentGroupKey) || (currentGroupKey !== block.schemaBlockGroupKey);
