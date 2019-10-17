@@ -2,7 +2,10 @@ import Changeset from 'ember-changeset';
 
 import Controller from '@ember/controller';
 
+import config from 'ember-get-config';
 import { getSchemaBlockGroups, SchemaBlock } from 'ember-osf-web/packages/registration-schema';
+
+const { OSF: { url } } = config;
 
 export default class SchemaBlockGroupRendererController extends Controller {
     schemaBlocks: SchemaBlock[] = [
@@ -178,8 +181,8 @@ export default class SchemaBlockGroupRendererController extends Controller {
                 file_id: 'ad552',
                 file_name: 'connecting_home_loan_account.mpe',
                 file_urls: {
-                    html: 'http://localhost:5000/files/osfstorage/ad552/',
-                    download: 'http://localhost:5000/files/osfstorage/ad552',
+                    html: `${url}files/osfstorage/ad552/`,
+                    download: `${url}files/osfstorage/ad552`,
                 },
                 file_hashes: {
                     sha256: 'be5fa974179240abad6772d850bd6e86',
@@ -189,8 +192,8 @@ export default class SchemaBlockGroupRendererController extends Controller {
                 file_id: 'gu5d4',
                 file_name: 'auto_loan_account.mp4',
                 file_urls: {
-                    html: 'http://localhost:5000/files/osfstorage/gu4d5',
-                    download: 'http://localhost:5000/files/osfstorage/gu4d5',
+                    html: `${url}files/osfstorage/gu4d5`,
+                    download: `${url}/files/osfstorage/gu4d5`,
                 },
                 file_hashes: {
                     sha256: 'be5fa974179240abad6772d850bd6e86',

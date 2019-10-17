@@ -1,9 +1,12 @@
 <ul data-test-read-only-file-widget ...attributes>
     {{#each this.responses as |response|}}
         <li>
-            <a href={{response.file_urls.html}}>
+            <OsfLink
+                @href={{response.file_urls.html}}
+                @target='_blank'
+            >
                 {{response.file_name}}
-            </a>
+            </OsfLink>
         </li>
     {{/each}}
 </ul>

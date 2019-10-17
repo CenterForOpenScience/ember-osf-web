@@ -1,7 +1,8 @@
 import { tagName } from '@ember-decorators/component';
-import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
+import { defineProperty } from '@ember/object';
+import { alias } from '@ember/object/computed';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import { RegistrationResponse, SchemaBlock } from 'ember-osf-web/packages/registration-schema';
@@ -15,6 +16,8 @@ export default class ReadOnlyFiles extends Component {
     schemaBlock!: SchemaBlock;
     registrationResponses!: RegistrationResponse;
 
+    responses?: RegistrationResponse[keyof RegistrationResponse];
+
     didReceiveAttrs() {
         assert(
             'Registries::SchemaBlockRenderer::ReadOnly::Files requires a schemaBlock to render',
@@ -26,8 +29,8 @@ export default class ReadOnlyFiles extends Component {
         );
     }
 
-    @computed
-    get responses() {
-        return this.registrationResponses[this.schemaBlock.registrationResponseKey!];
+    init() {
+        super.init();
+        defineProperty(this, 'responses', alias(`registrationResponses.${this.schemaBlock.registrationResponseKey}`));
     }
 }
