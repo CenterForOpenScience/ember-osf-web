@@ -1,9 +1,9 @@
 import { tagName } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
-import { alias, not } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
+import { action, computed } from '@ember/object';
+import { alias, not } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import { task, TaskInstance, timeout } from 'ember-concurrency';
 import Toast from 'ember-toastr/services/toast';
 

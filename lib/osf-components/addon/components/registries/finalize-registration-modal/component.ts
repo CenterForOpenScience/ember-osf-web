@@ -1,8 +1,7 @@
 import { tagName } from '@ember-decorators/component';
-import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import { action } from '@ember/object';
+import { action, computed } from '@ember/object';
 import moment from 'moment';
 
 import { layout } from 'ember-osf-web/decorators/component';
