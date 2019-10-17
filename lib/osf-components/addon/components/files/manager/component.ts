@@ -145,6 +145,9 @@ export default class FilesManagerComponent extends Component.extend({
     totalFolderItems!: number;
     totalRootItems!: number;
 
+    onSelect?: (file: File) => void;
+    onUnselect?: (file: File) => void;
+
     @alias('node.userHasAdminPermission') canEdit!: boolean;
     @alias('getRootItems.isRunning') loading!: boolean;
     @alias('getCurrentFolderItems.isRunning') loadingFolderFiles!: boolean;
@@ -162,11 +165,17 @@ export default class FilesManagerComponent extends Component.extend({
     @action
     selectItem(currentItem: File) {
         this.selectedItems.pushObject(currentItem);
+        if (this.onSelect) {
+            this.onSelect(currentItem);
+        }
     }
 
     @action
     unselectItem(item: File) {
         this.selectedItems.removeObject(item);
+        if (this.onUnselect) {
+            this.onUnselect(item);
+        }
     }
 
     @action

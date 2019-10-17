@@ -245,6 +245,23 @@ function handbookScenario(server: Server, currentUser: ModelInstance<User>) {
         subjects: server.schema.subjects.all().models,
     });
     server.create('registration', { id: 'subj' }, 'withSubjects');
+
+    // SchemaBlock Renderer
+    const schemaNode = server.create(
+        'node',
+        { id: 'dslt', currentUserPermissions: Object.values(Permission) },
+        'withFiles',
+    );
+
+    const folder = server.create('file', { target: schemaNode }, 'asFolder');
+    const providers = fileWidgetNode.files.models as Array<ModelInstance<FileProvider>>;
+    const storage = providers[0];
+    const providersFiles = storage.files.models;
+    storage.update({
+        files: [...providersFiles, folder],
+    });
+    server.createList('file', 15, { target: schemaNode, parentFolder: folder });
+    server.createList('contributor', 23, { node: schemaNode });
 }
 
 function settingsScenario(server: Server, currentUser: ModelInstance<User>) {
