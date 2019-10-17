@@ -728,6 +728,9 @@ export default {
             users_connected_panel: 'SSO Users Connected',
             projects_panel: 'Total Projects',
             departments_panel: 'Departments',
+            public: 'Public',
+            private: 'Private',
+            users: 'Users',
         },
     },
     registration: {

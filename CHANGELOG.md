@@ -8,8 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Components
     - `institutions`
+        - `dashboard/departments-panel`
         - `dashboard/institutional-users-list`
         - `dashboard/panel`
+        - `dashboard/projects-panel`
     - `Registries::DraftRegistrationManager`
 - Mirage
     - Factories
