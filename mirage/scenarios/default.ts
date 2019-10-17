@@ -40,11 +40,6 @@ function registrationScenario(
         index: 0,
     });
 
-    server.create('draft-registration', {
-        id: 'decaf',
-        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
-    });
-
     registerNodeMultiple(
         server,
         registrationNode,
@@ -55,10 +50,21 @@ function registrationScenario(
     draftRegisterNodeMultiple(server, registrationNode, 12, {}, 'withRegistrationMetadata');
 
     server.create('registration', { id: 'beefs' });
+
+    const registrationResponses = {
+        'page-one_long-text': 'sdfdsf',
+        'page-one_multi-select': ['Crocs', 'Nickelback'],
+        'page-one_multi-select-other': 'sdfsdfsd',
+        'page-one_short-text': 'dsfsdf',
+        'page-one_single-select': 'tuna',
+        'page-one_single-select-two': 'Remember who was in NSync and who was in Backstreet Boys',
+    };
+
     server.create('draft-registration', {
         id: 'dcaf',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         initiator: currentUser,
+        registrationResponses,
     });
 
     server.create('registration', {

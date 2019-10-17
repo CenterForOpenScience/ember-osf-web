@@ -26,8 +26,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `registries`
             - `drafts.draft`, `draft/<draftId>/<page>`
             - `drafts.draft-shim`, `draft/<draftId>/` redirects to `draft/<draftId>/1`
-- Packages
-    - `ember-route-action-helper`
 - Utils
     - `page-param`
 - Tests

@@ -20,6 +20,10 @@
     display: flex;
     flex-direction: column;
     padding: 30px;
+
+    & > * {
+        margin-bottom: 15px;
+    }
 }
 
 .Heading {
@@ -38,4 +42,11 @@
         font-weight: 400;
         font-size: 2.2rem;
     }
+}
+
+.Loading {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
