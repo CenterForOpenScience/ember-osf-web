@@ -34,7 +34,11 @@
         {{/if}}
     </dialog.main>
     <dialog.footer>
-        <OsfButton data-test-continue-registration-button @type='primary' @onClick={{action this.continue}}>
+        <OsfButton
+            data-test-continue-registration-button
+            @type='primary'
+            @onClick={{action this.continue}}
+        >
             {{t 'registries.partialRegistrationModal.continueButton'}}
         </OsfButton>
         <OsfButton @type='default'>
