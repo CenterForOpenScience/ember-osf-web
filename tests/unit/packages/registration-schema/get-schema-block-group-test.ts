@@ -1,9 +1,10 @@
-import { getSchemaBlockGroups, SchemaBlock } from 'ember-osf-web/packages/registration-schema';
+import SchemaBlockModel from 'ember-osf-web/models/schema-block';
+import { getSchemaBlockGroups } from 'ember-osf-web/packages/registration-schema';
 import { module, test } from 'qunit';
 
 module('Unit | Packages | registration-schema | get-schema-block-group', () => {
     test('Get groups from a schema', assert => {
-        const testSchema: SchemaBlock[] = [
+        const testSchema = [
             {
                 blockType: 'section-heading',
                 displayText: 'Section in the First Page',
@@ -74,7 +75,7 @@ module('Unit | Packages | registration-schema | get-schema-block-group', () => {
                 displayText: 'single-option 2',
                 index: 11,
             },
-        ];
+        ] as SchemaBlockModel[];
         const result = getSchemaBlockGroups(testSchema);
         // section heading
         assert.ok(!result[0].registrationResponseKey, 'section heading has proper registrationResponseKey (none)');

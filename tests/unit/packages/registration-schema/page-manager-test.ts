@@ -1,4 +1,5 @@
-import { PageManager, SchemaBlock } from 'ember-osf-web/packages/registration-schema';
+import SchemaBlockModel from 'ember-osf-web/models/schema-block';
+import { PageManager } from 'ember-osf-web/packages/registration-schema';
 import { module, test } from 'qunit';
 
 module('Unit | Packages | registration-schema | page-manager', () => {
@@ -113,7 +114,7 @@ module('Unit | Packages | registration-schema | page-manager', () => {
                 schemaBlockGroupKey: 'q4',
                 index: 15,
             },
-        ] as SchemaBlock[];
+        ] as SchemaBlockModel[];
         const registrationResponses = {
             'page-one_single-select': 'Yes or YES!',
             'page-one_short-text': 'Feel Special',

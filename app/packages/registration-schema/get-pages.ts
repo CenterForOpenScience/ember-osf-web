@@ -1,15 +1,15 @@
-import { SchemaBlock } from 'ember-osf-web/packages/registration-schema';
+import SchemaBlockModel from 'ember-osf-web/models/schema-block';
 
-export function getPages(blocks: SchemaBlock[]) {
+export function getPages(blocks: SchemaBlockModel[]) {
     const pageArray = blocks.reduce(
         (pages, block) => {
             // instantiate first page if the schema doesn't start with a page-heading
             if (pages.length === 0 && block.blockType !== 'page-heading') {
-                const blankPage: SchemaBlock[] = [];
+                const blankPage: SchemaBlockModel[] = [];
                 pages.push(blankPage);
             }
 
-            const lastPage: SchemaBlock[] = pages.slice(-1)[0];
+            const lastPage: SchemaBlockModel[] = pages.slice(-1)[0];
             if (block.blockType === 'page-heading') {
                 pages.push([block]);
             } else {
@@ -17,7 +17,7 @@ export function getPages(blocks: SchemaBlock[]) {
             }
             return pages;
         },
-        [] as SchemaBlock[][],
+        [] as SchemaBlockModel[][],
     );
     return pageArray;
 }

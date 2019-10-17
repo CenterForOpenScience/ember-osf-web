@@ -3,10 +3,10 @@ import EmberObject from '@ember/object';
 import Changeset from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
 import { ChangesetDef } from 'ember-changeset/types';
+import SchemaBlockModel from 'ember-osf-web/models/schema-block';
 import {
     buildValidation,
     getSchemaBlockGroups,
-    SchemaBlock,
     SchemaBlockGroup,
 } from 'ember-osf-web/packages/registration-schema';
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema/registration-response';
@@ -17,7 +17,7 @@ export class PageManager extends EmberObject {
     pageHeadingText: string;
     isVisited: boolean;
 
-    constructor(pageSchemaBlocks: SchemaBlock[], registrationResponses: RegistrationResponse) {
+    constructor(pageSchemaBlocks: SchemaBlockModel[], registrationResponses: RegistrationResponse) {
         super();
         this.schemaBlockGroups = getSchemaBlockGroups(pageSchemaBlocks);
         this.pageHeadingText = this.schemaBlockGroups[0].labelBlock!.displayText!;
