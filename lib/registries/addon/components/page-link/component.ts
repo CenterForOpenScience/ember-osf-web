@@ -20,13 +20,13 @@ export default class PageLinkComponenet extends Component {
         return getPageParam(this.pageIndex, this.pageManager.pageHeadingText);
     }
 
-    @computed('pageManager.{isVisited,isValid}', 'pageIndex', 'currentPage', 'pageIsActive')
+    @computed('pageManager.{isVisited,pageIsValid}', 'pageIndex', 'currentPage', 'pageIsActive')
     get pageIcon() {
         if (this.pageIsActive) {
             return 'circle-o';
         }
         if (this.pageManager.isVisited) {
-            if (this.pageManager.isValid) {
+            if (this.pageManager.pageIsValid) {
                 return 'check-circle-o';
             }
             return 'exclamation-circle';
@@ -34,13 +34,13 @@ export default class PageLinkComponenet extends Component {
         return 'circle';
     }
 
-    @computed('pageManager.{isVisited,isValid}', 'pageIndex', 'currentPage', 'pageIsActive')
+    @computed('pageManager.{isVisited,pageIsValid}', 'pageIndex', 'currentPage', 'pageIsActive')
     get pageClass() {
         if (this.pageIsActive) {
             return 'Active';
         }
         if (this.pageManager.isVisited) {
-            if (this.pageManager.isValid) {
+            if (this.pageManager.pageIsValid) {
                 return 'Valid';
             }
             return 'Invalid';
