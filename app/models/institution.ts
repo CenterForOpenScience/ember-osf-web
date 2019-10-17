@@ -36,6 +36,7 @@ export default class InstitutionModel extends OsfModel {
     @attr('object') assets!: Partial<Assets>;
     @attr('boolean', { defaultValue: false }) currentUserIsAdmin!: boolean;
     @attr('object') statSummary!: StatSummary;
+    @attr('date') lastUpdated!: Date;
 
     @hasMany('institutional-user', { inverse: 'institution' })
     institutionalUsers!: DS.PromiseManyArray<InstitutionalUserModel>;
