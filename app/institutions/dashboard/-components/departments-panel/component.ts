@@ -4,7 +4,7 @@ import Component from '@ember/component';
 import { ChartData, ChartOptions, Shape } from 'ember-cli-chart';
 import InstitutionModel from 'ember-osf-web/models/institution';
 
-export default class ProjectsPanel extends Component {
+export default class DepartmentsPanel extends Component {
     institution!: InstitutionModel;
     @alias('institution.statSummary.departments') departments!: any[];
     chartHoverIndex: number = -1;
