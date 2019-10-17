@@ -46,6 +46,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `validated-input`
         - Modified components to take in `onInput` callback.
             - added `withStatSummary` trait
+    - `registries/partial-registration-modal`
+        - added `onContinue` hook
 - Mirage
     - Factories
         - `institution`
