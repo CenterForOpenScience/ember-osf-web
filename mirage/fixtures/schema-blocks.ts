@@ -159,60 +159,6 @@ const exampleSchema: Array<Partial<SchemaBlock>> = [
         schemaBlockGroupKey: 'q6',
         index: 22,
     },
-    // {
-    //     id: 'SB24',
-    //     blockType: 'short-text-input',
-    //     schemaBlockGroupKey: 'q6',
-    //     index: 23,
-    // },
-    {
-        id: 'SB24',
-        blockType: 'page-heading',
-        displayText: 'AsPredicted Preregistration',
-        index: 23,
-    },
-    {
-        id: 'SB25',
-        blockType: 'section-heading',
-        displayText: 'This page will have nothing too exciting on it.',
-        index: 24,
-    },
-    {
-        id: 'SB26',
-        blockType: 'page-heading',
-        displayText: 'OSF-Standard Pre-Data Collection Registration',
-        index: 25,
-    },
-    {
-        id: 'SB27',
-        blockType: 'section-heading',
-        displayText: 'This is the secret section.',
-        index: 26,
-    },
-    {
-        id: 'SB28',
-        blockType: 'subsection-heading',
-        displayText: 'But this subsection is not a secret.',
-        index: 27,
-    },
-    {
-        id: 'SB29',
-        blockType: 'page-heading',
-        displayText: 'A. Hypotheses - Essential elements',
-        index: 28,
-    },
-    {
-        id: 'SB30',
-        blockType: 'page-heading',
-        displayText: 'Preregistration Template from AsPredicted.org',
-        index: 29,
-    },
-    {
-        id: 'SB31',
-        blockType: 'page-heading',
-        displayText: 'Documenting Differences between the Original and Replication Study',
-        index: 30,
-    },
 ];
 
 export const ids = exampleSchema.map(block => block.id);
