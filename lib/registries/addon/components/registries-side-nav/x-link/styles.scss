@@ -10,7 +10,7 @@
     padding: 5px 10px;
     color: $primary-blue;
 
-    &:global(.active) {
+    &.CurrentPage {
         color: $black;
         box-shadow: -2px 1px 5px -2px #ddd;
         border: $alto 1px solid;
@@ -35,7 +35,7 @@
 }
 
 .Collapsed {
-    &:global(.active) {
+    &.CurrentPage {
         width: $width-collapsed + 1px;
     }
 

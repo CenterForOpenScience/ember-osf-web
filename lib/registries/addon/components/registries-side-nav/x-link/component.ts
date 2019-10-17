@@ -9,11 +9,12 @@ export default class XLink extends Component {
     icon?: string;
     label?: string;
     route?: string;
-    href?: string;
     models?: any[];
+    href?: string;
     count?: number;
     guid?: string;
     isCollapsed: boolean = defaultTo(this.isCollapsed, false);
+    isCurrentPage: boolean = defaultTo(this.isCurrentPage, false);
 
     onClick?: () => void;
 
@@ -27,8 +28,8 @@ export default class XLink extends Component {
         return (typeof this.count) === 'number';
     }
 
-    @computed('isCollapsed')
+    @computed('isCollapsed', 'isCurrentPage')
     get wrapperClasses() {
-        return `Link ${this.isCollapsed ? 'Collapsed' : ''}`;
+        return `Link ${this.isCollapsed ? 'Collapsed' : ''} ${this.isCurrentPage ? 'CurrentPage' : ''}`;
     }
 }

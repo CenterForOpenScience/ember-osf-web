@@ -3,11 +3,9 @@
         {{@label}}
     </span>
 
-    <span local-class='Count'>
-        {{#if this.hasCount}}
-            {{#unless this.isCollapsed}}
-                {{@count}}
-            {{/unless}}
-        {{/if}}
-    </span>
+    {{#if this.showCount}}
+        <span local-class='Count'>
+            {{@count}}
+        </span>
+    {{/if}}
 </div>
