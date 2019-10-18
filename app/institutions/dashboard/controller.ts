@@ -15,6 +15,11 @@ export default class InstitutionsDashboardController extends Controller {
         return lastUpdated.fromNow();
     }
 
+    @computed('institution.links.csv')
+    get csvHref() {
+        return this.institution ? this.institution.links.csv : '#';
+    }
+
     @action
     onCsvButtonMouseEnter() {
         this.set('csvImgSrc', '/assets/images/institutions/csv-hover.svg');
@@ -23,11 +28,6 @@ export default class InstitutionsDashboardController extends Controller {
     @action
     onCsvButtonMouseLeave() {
         this.set('csvImgSrc', '/assets/images/institutions/csv.svg');
-    }
-
-    @action
-    downloadCsv() {
-        window.open(this.institution.links.csv);
     }
 }
 

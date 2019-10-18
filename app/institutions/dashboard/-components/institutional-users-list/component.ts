@@ -56,7 +56,11 @@ export default class InstitutionalUsersList extends Component {
 
     @action
     onSelectChange(department: string) {
-        this.analytics.track('select', 'change', 'Department Select - Change');
+        this.analytics.trackFromElement(this.element, {
+            name: 'Department Select - Change',
+            category: 'select',
+            action: 'change',
+        });
         this.set('department', department);
     }
 
