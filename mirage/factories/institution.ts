@@ -23,6 +23,9 @@ export default Factory.extend<Institution & InstitutionTraits>({
         };
     },
     currentUserIsAdmin: true,
+    lastUpdated() {
+        return faker.date.recent();
+    },
     withInstitutionalUsers: trait<Institution>({
         afterCreate(institution, server) {
             server.createList('institutional-user', 15, { institution });

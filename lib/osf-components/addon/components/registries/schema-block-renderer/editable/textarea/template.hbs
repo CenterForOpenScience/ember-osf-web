@@ -1,14 +1,15 @@
-<FormControls
-    @changeset={{@changeset}}
-    @disabled={{@disabled}}
-    @shouldShowMessages={{@shouldShowMessages}}
-    ...attributes
-    as |form|
->
-    <form.textarea
-        data-test-textarea-input
-        @id={{@uniqueID}}
-        @valuePath={{@schemaBlock.registrationResponseKey}}
-        @onKeyUp={{@onInput}}
-    />
-</FormControls>
+<Registries::SchemaBlockRenderer::Editable::Base @helpText={{this.schemaBlock.helpText}}>
+    <FormControls
+        @changeset={{@changeset}}
+        @disabled={{@disabled}}
+        @shouldShowMessages={{@shouldShowMessages}}
+        ...attributes as |form|
+    >
+        <form.textarea
+            data-test-textarea-input
+            @id={{@uniqueID}}
+            @valuePath={{@schemaBlock.registrationResponseKey}}
+            @onKeyUp={{@onInput}}
+        />
+    </FormControls>
+</Registries::SchemaBlockRenderer::Editable::Base>

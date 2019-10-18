@@ -1,18 +1,20 @@
-<FormControls
-    @changeset={{@changeset}}
-    @disabled={{@disabled}}
-    @shouldShowMessages={{@shouldShowMessages}}
-    ...attributes
-    as |form|
->
-    <form.select
-        data-test-single-select-input
-        @id={{@uniqueID}}
-        @valuePath={{@schemaBlock.registrationResponseKey}}
-        @options={{this.optionBlockValues}}
-        @onchange={{@onInput}}
-        as |option|
+<Registries::SchemaBlockRenderer::Editable::Base @helpText={{this.schemaBlock.helpText}}>
+    <FormControls
+        @changeset={{@changeset}}
+        @disabled={{@disabled}}
+        @shouldShowMessages={{@shouldShowMessages}}
+        ...attributes as |form|
     >
-        {{option}}
-    </form.select>
-</FormControls>
+        <form.select
+            data-test-single-select-input
+            @id={{@uniqueID}}
+            @valuePath={{@schemaBlock.registrationResponseKey}}
+            @options={{this.optionBlockValuesAndHelpText}}
+            @onchange={{@onInput}}
+            as |option|
+        >
+            {{option.displayText}}
+            <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{option.helpText}} />
+        </form.select>
+    </FormControls>
+</Registries::SchemaBlockRenderer::Editable::Base>

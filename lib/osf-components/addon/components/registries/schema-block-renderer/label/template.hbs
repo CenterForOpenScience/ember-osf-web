@@ -5,3 +5,18 @@
 >
     {{@schemaBlock.displayText}}
 </label>
+{{#if this.isEditableForm}}
+    <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{this.schemaBlock.helpText}} />
+    
+    {{#if this.schemaBlock.exampleText}}
+        <OsfButton @type='link' @onClick={{action this.toggleShouldShowExample}}>
+            {{t 'osf-components.registries.schema-block-renderer/label.showExample'}}
+        </OsfButton>
+    {{/if}}
+    
+    {{#if (and this.shouldShowExample this.schemaBlock.exampleText)}}
+        <p>
+            {{this.schemaBlock.exampleText}}
+        </p>
+    {{/if}}
+{{/if}}

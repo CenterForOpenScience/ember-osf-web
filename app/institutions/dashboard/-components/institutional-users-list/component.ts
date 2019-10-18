@@ -4,8 +4,11 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import I18N from 'ember-i18n/services/i18n';
 import InstitutionModel from 'ember-osf-web/models/institution';
+import Analytics from 'ember-osf-web/services/analytics';
 
 export default class InstitutionalUsersList extends Component {
+    @service analytics!: Analytics;
+
     @alias('model.taskInstance.value') institution?: InstitutionModel;
 
     // Private properties
@@ -53,6 +56,11 @@ export default class InstitutionalUsersList extends Component {
 
     @action
     onSelectChange(department: string) {
+        this.analytics.trackFromElement(this.element, {
+            name: 'Department Select - Change',
+            category: 'select',
+            action: 'change',
+        });
         this.set('department', department);
     }
 

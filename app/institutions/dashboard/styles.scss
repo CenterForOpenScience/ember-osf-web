@@ -1,5 +1,12 @@
 .banner {
     padding: 15px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    div {
+        color: #263947;
+    }
 }
 
 .table-wrapper {
@@ -9,8 +16,24 @@
 
 .panel-wrapper {
     width: 25%;
-    padding-top: 56px;
     padding-left: 15px;
+    text-align: right;
+}
+
+.csv-button {
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    padding: 7px 0;
+    border: 1px solid #ddd;
+    margin-bottom: 15px;
+    text-align: center;
+
+    &:active,
+    &:hover {
+        background: #15a5eb;
+        border-color: #15a5eb;
+    }
 }
 
 .sso-users-connected {

@@ -717,6 +717,8 @@ export default {
         title: 'Institutions',
         search_placeholder: 'Search institutions',
         dashboard: {
+            last_update: 'Last update',
+            download_csv: 'Download CSV',
             select_default: 'All Departments',
             users_list: {
                 name: 'Name',
@@ -1657,6 +1659,9 @@ export default {
         registries: {
             'read-only-contributors-list': {
                 editContributorsOnYourProject: 'Edit contributors on your project',
+            },
+            'schema-block-renderer/label': {
+                showExample: 'Show example',
             },
         },
         'files-widget': {
