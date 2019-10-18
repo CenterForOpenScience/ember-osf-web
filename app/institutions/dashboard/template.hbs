@@ -11,9 +11,13 @@
         </div>
         <div local-class='panel-wrapper'>
             <OsfButton
+                data-analytics-name='Download CSV'
                 local-class='csv-button'
+                @onClick={{action 'downloadCsv'}}
+                onmouseenter={{action 'onCsvButtonMouseEnter'}}
+                onmouseleave={{action 'onCsvButtonMouseLeave'}}
             >
-                <img src='/assets/images/institutions/csv.svg'
+                <img src={{this.csvImgSrc}}
                      alt={{t 'institutions.dashboard.download_csv'}}
                 >
             </OsfButton>

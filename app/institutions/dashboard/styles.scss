@@ -28,11 +28,11 @@
     border: 1px solid #ddd;
     margin-bottom: 15px;
     text-align: center;
-    fill: #337ab7;
 
+    &:active,
     &:hover {
-        background: #337ab7;
-        fill: #fff;
+        background: #15a5eb;
+        border-color: #15a5eb;
     }
 }
 
