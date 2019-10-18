@@ -6,7 +6,7 @@ import Guid from 'ember-osf-web/models/guid';
 import { Answer, Question, RegistrationMetadata, Subquestion } from 'ember-osf-web/models/registration-schema';
 
 import {
-    FileReference, getSchemaBlockGroups, RegistrationResponse, SchemaBlockGroup,
+    getSchemaBlockGroups, RegistrationResponse, SchemaBlockGroup,
 } from 'ember-osf-web/packages/registration-schema';
 import { MirageRegistrationSchema } from './registration-schema';
 
@@ -81,25 +81,17 @@ function fakeAnswer(question: Question | Subquestion, answerIfRequired: boolean)
     return answer;
 }
 
-function fakeFileReference(): FileReference[] {
+function fakeFileReference() {
     const range = faker.random.number({ min: 1, max: 10 });
-    return Array.from({ length: range }, () => (
-        {
-            file_id: faker.random.uuid(),
-            file_name: faker.system.fileName(),
-            file_url: faker.system.filePath(),
-            sha256: faker.random.uuid(),
-        }
-    ));
+    return Array.from({ length: range }, () => ({ id: faker.random.uuid(), name: faker.system.fileName() }));
 }
 
-function fakeContributorList(): string {
+function fakeContributorList() {
     const range = faker.random.number({ min: 1, max: 10 });
-    const nameArray = Array.from({ length: range }, () => faker.name.findName());
-    return nameArray.join(', ');
+    return Array.from({ length: range }, () => faker.name.findName());
 }
 
-function fakeMultiSelectInputResponse(group: SchemaBlockGroup): string[] {
+function fakeMultiSelectInputResponse(group: SchemaBlockGroup) {
     let optionValues = group.optionBlocks!.map(item => item.displayText);
     const range = faker.random.number({ min: 1, max: optionValues.length });
     return Array.from({ length: range }, () => {
@@ -109,7 +101,7 @@ function fakeMultiSelectInputResponse(group: SchemaBlockGroup): string[] {
     });
 }
 
-function fakeSingleSelectInputResponse(group: SchemaBlockGroup): string {
+function fakeSingleSelectInputResponse(group: SchemaBlockGroup) {
     const optionValues = group.optionBlocks!.map(item => item.displayText);
     return faker.random.arrayElement(optionValues)!;
 }
@@ -157,38 +149,32 @@ export function createRegistrationMetadata(
 export function createRegistrationResponses(
     registrationSchema: ModelInstance<MirageRegistrationSchema>,
 ) {
-    const { schemaBlocks } = registrationSchema;
-    if (schemaBlocks) {
-        const schemaBlockGroups = getSchemaBlockGroups(schemaBlocks);
-        const registrationResponses = {} as RegistrationResponse;
-        for (const group of schemaBlockGroups) {
-            const { groupType, registrationResponseKey } = group;
-            if (registrationResponseKey) {
-                switch (groupType) {
-                default:
-                    break;
-                case 'long-text-input':
-                    registrationResponses[group.registrationResponseKey!] = faker.lorem.paragraph();
-                    break;
-                case 'short-text-input':
-                    registrationResponses[group.registrationResponseKey!] = faker.lorem.sentence();
-                    break;
-                case 'file-input':
-                    registrationResponses[group.registrationResponseKey!] = fakeFileReference();
-                    break;
-                case 'contributors-input':
-                    registrationResponses[group.registrationResponseKey!] = fakeContributorList();
-                    break;
-                case 'single-select-input':
-                    registrationResponses[group.registrationResponseKey!] = fakeSingleSelectInputResponse(group);
-                    break;
-                case 'multi-select-input':
-                    registrationResponses[group.registrationResponseKey!] = fakeMultiSelectInputResponse(group);
-                    break;
-                }
-            }
+    const schemaBlocks = registrationSchema.schemaBlocks!;
+    const schemaBlockGroups = getSchemaBlockGroups(schemaBlocks);
+    const registrationResponses = {} as RegistrationResponse;
+    for (const group of schemaBlockGroups) {
+        switch (group.groupType) {
+        default:
+            break;
+        case 'long-text-input':
+            registrationResponses[group.registrationResponseKey!] = faker.lorem.paragraph();
+            break;
+        case 'short-text-input':
+            registrationResponses[group.registrationResponseKey!] = faker.lorem.sentence();
+            break;
+        case 'file-input':
+            registrationResponses[group.registrationResponseKey!] = fakeFileReference();
+            break;
+        case 'contributors-input':
+            registrationResponses[group.registrationResponseKey!] = fakeContributorList();
+            break;
+        case 'single-select-input':
+            registrationResponses[group.registrationResponseKey!] = fakeSingleSelectInputResponse(group);
+            break;
+        case 'multi-select-input':
+            registrationResponses[group.registrationResponseKey!] = fakeMultiSelectInputResponse(group);
+            break;
         }
-        return registrationResponses;
     }
-    return undefined;
+    return registrationResponses;
 }
