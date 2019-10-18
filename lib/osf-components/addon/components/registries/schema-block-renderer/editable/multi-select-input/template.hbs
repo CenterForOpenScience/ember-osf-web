@@ -1,28 +1,27 @@
-<div local-class='multi-select-input-flexbox'>
-    <div local-class='input-box'>
-        <FormControls
-            @changeset={{@changeset}}
-            @disabled={{@disabled}}
-            @shouldShowMessages={{@shouldShowMessages}}
-            ...attributes as |form|>
-            <form.checkboxes data-test-multi-select-input
-                @id={{@uniqueID}}
-                @valuePath={{@schemaBlock.registrationResponseKey}}
-                @options={{this.optionBlockValuesAndHelpText}}
-                @onCheckCallback={{@onInput}}
-                as |cb|
-            >
-                <div data-test-multiple-select-option={{cb.option.displayText}}>
-                    {{cb.checkbox}}
-                    <label for={{cb.checkboxId}}>
-                        <div data-test-scope-description>
-                            {{cb.option.displayText}}
-                            <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{cb.option.helpText}} />
-                        </div>
-                    </label>
-                </div>
-            </form.checkboxes>
-        </FormControls>
-    </div>
-    <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{this.schemaBlock.helpText}} />
-</div>
+<Registries::SchemaBlockRenderer::Editable::Base @helpText={{this.schemaBlock.helpText}}>
+    <FormControls
+        @changeset={{@changeset}}
+        @disabled={{@disabled}}
+        @shouldShowMessages={{@shouldShowMessages}}
+        ...attributes as |form|
+    >
+        <form.checkboxes
+            data-test-multi-select-input
+            @id={{@uniqueID}}
+            @valuePath={{@schemaBlock.registrationResponseKey}}
+            @options={{this.optionBlockValuesAndHelpText}}
+            @onCheckCallback={{@onInput}}
+            as |cb|
+        >
+            <div data-test-multiple-select-option={{cb.option.displayText}}>
+                {{cb.checkbox}}
+                <label for={{cb.checkboxId}}>
+                    <div data-test-scope-description>
+                        {{cb.option.displayText}}
+                        <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{cb.option.helpText}} />
+                    </div>
+                </label>
+            </div>
+        </form.checkboxes>
+    </FormControls>
+</Registries::SchemaBlockRenderer::Editable::Base>

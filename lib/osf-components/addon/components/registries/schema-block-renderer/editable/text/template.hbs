@@ -1,20 +1,15 @@
-<div local-class='text-input-flexbox'>
-    <div local-class='input-box'>
-        <FormControls
-            @changeset={{@changeset}}
-            @disabled={{@disabled}}
-            @shouldShowMessages={{@shouldShowMessages}}
-            ...attributes
-            as |form|
-        >
-            <form.text data-test-text-input
+<Registries::SchemaBlockRenderer::Editable::Base @helpText={{this.schemaBlock.helpText}}>
+    <FormControls
+        @changeset={{@changeset}}
+        @disabled={{@disabled}}
+        @shouldShowMessages={{@shouldShowMessages}}
+        ...attributes as |form|
+    >
+        <form.text
+            data-test-text-input
             @id={{@uniqueID}}
             @valuePath={{@schemaBlock.registrationResponseKey}}
             @onKeyUp={{@onInput}}
         />
-        </FormControls>
-    </div>
-    {{#if this.schemaBlock.helpText}}
-        <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{this.schemaBlock.helpText}} />
-    {{/if}}
-</div>
+    </FormControls>
+</Registries::SchemaBlockRenderer::Editable::Base>
