@@ -6,10 +6,9 @@ import { assert } from '@ember/debug';
 import { layout } from 'ember-osf-web/decorators/component';
 import { SchemaBlock } from 'ember-osf-web/packages/registration-schema';
 
-import styles from './styles';
 import template from './template';
 
-@layout(template, styles)
+@layout(template)
 @tagName('')
 export default class SingleSelectInput extends Component {
     // Required param
