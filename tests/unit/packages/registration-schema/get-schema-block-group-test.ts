@@ -76,6 +76,9 @@ module('Unit | Packages | registration-schema | get-schema-block-group', () => {
             },
         ];
         const result = getSchemaBlockGroups(testSchema);
+        if (!result) {
+            throw new Error('getSchemaBlockGroups() returned undefined');
+        }
         // section heading
         assert.ok(!result[0].registrationResponseKey, 'section heading has proper registrationResponseKey (none)');
         assert.ok(result[0].labelBlock, 'section heading has labelBlock');
@@ -88,7 +91,10 @@ module('Unit | Packages | registration-schema | get-schema-block-group', () => {
         assert.ok(!result[1].optionBlocks, 'standalone text input has proper optionBlocks (none)');
         assert.equal(result[1].blocks!.length, 1, 'standalone text input has proper blocks length (1)');
         // subsection heading
-        assert.ok(!result[2].registrationResponseKey, 'subsection heading has proper registrationResponseKey (none');
+        assert.ok(
+            !result[2].registrationResponseKey,
+            'subsection heading has proper registrationResponseKey (none)',
+        );
         assert.ok(result[2].labelBlock, 'subsection heading has labelBlock');
         assert.equal(result[2].blocks!.length, 1, 'subsection heading has proper blocks length (1)');
         // multi select
