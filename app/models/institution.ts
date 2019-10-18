@@ -4,9 +4,13 @@ import DS from 'ember-data';
 
 import InstitutionalUserModel from './institutional-user';
 import NodeModel from './node';
-import OsfModel from './osf-model';
+import OsfModel, { OsfLinks } from './osf-model';
 import RegistrationModel from './registration';
 import UserModel from './user';
+
+export interface InstitutionLinks extends OsfLinks {
+    csv: string;
+}
 
 /* eslint-disable camelcase */
 export interface Assets {
@@ -29,6 +33,7 @@ export interface Department {
 }
 
 export default class InstitutionModel extends OsfModel {
+    @attr() links!: InstitutionLinks;
     @attr('string') name!: string;
     @attr('fixstring') description!: string;
     @attr('string') logoPath!: string;
@@ -36,6 +41,7 @@ export default class InstitutionModel extends OsfModel {
     @attr('object') assets!: Partial<Assets>;
     @attr('boolean', { defaultValue: false }) currentUserIsAdmin!: boolean;
     @attr('object') statSummary!: StatSummary;
+    @attr('date') lastUpdated!: Date;
 
     @hasMany('institutional-user', { inverse: 'institution' })
     institutionalUsers!: DS.PromiseManyArray<InstitutionalUserModel>;

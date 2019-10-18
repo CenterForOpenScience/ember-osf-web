@@ -24,6 +24,7 @@ export default class InstitutionSerializer extends ApplicationSerializer<Institu
         const { id } = model;
         return {
             ...super.buildNormalLinks(model),
+            csv: `/institutions/${id}/csv`,
             html: `/institutions/${id}/`,
         };
     }
