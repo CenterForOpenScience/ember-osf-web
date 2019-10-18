@@ -717,6 +717,8 @@ export default {
         title: 'Institutions',
         search_placeholder: 'Search institutions',
         dashboard: {
+            last_update: 'Last update',
+            download_csv: 'Download CSV',
             select_default: 'All Departments',
             users_list: {
                 name: 'Name',

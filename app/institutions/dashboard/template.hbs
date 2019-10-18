@@ -1,12 +1,28 @@
-<div class='container'>
+<div class='container' data-analytics-scope='Dashboard'>
     <div local-class='banner'>
         <img src='{{this.institution.assets.banner}}' alt='{{this.institution.name}}'>
+        <div>
+            {{t 'institutions.dashboard.last_update'}}: {{this.lastUpdatedFromNow}}
+        </div>
     </div>
     <div style='display: flex;'>
         <div local-class='table-wrapper'>
             <Institutions::Dashboard::-Components::InstitutionalUsersList @model={{this.model}} />
         </div>
         <div local-class='panel-wrapper'>
+            <OsfLink
+                data-analytics-name='Download CSV'
+                class='btn btn-primary'
+                local-class='csv-button'
+                @target='_blank'
+                @href={{this.csvHref}}
+                onmouseenter={{action 'onCsvButtonMouseEnter'}}
+                onmouseleave={{action 'onCsvButtonMouseLeave'}}
+            >
+                <img src={{this.csvImgSrc}}
+                     alt={{t 'institutions.dashboard.download_csv'}}
+                >
+            </OsfLink>
             <Institutions::Dashboard::-Components::Panel
                     local-class='sso-users-connected'
                     @isLoading={{this.model.taskInstance.isRunning}}
