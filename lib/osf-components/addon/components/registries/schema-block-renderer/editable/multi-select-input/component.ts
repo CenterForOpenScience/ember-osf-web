@@ -18,7 +18,10 @@ export default class MultiSelectInput extends Component {
     }
 
     @computed('optionBlocks')
-    get optionBlockValues() {
-        return this.optionBlocks.map(item => item.displayText);
+    get optionBlockValuesAndHelpText() {
+        return this.optionBlocks.map(item => ({
+            displayText: item.displayText,
+            helpText: item.helpText,
+        }));
     }
 }

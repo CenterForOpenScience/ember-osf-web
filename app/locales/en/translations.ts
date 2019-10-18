@@ -1660,6 +1660,9 @@ export default {
             'read-only-contributors-list': {
                 editContributorsOnYourProject: 'Edit contributors on your project',
             },
+            'schema-block-renderer/label': {
+                showExample: 'Show example',
+            },
         },
         'files-widget': {
             no_files: 'Drag and drop files here to upload files to this folder',

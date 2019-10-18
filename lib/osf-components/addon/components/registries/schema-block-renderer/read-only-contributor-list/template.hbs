@@ -5,6 +5,9 @@
         @shouldTruncate={{false}}
         @shouldLinkUsers={{true}}
     />
+    {{#if this.isEditableForm}}
+        <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{this.schemaBlock.helpText}} />
+    {{/if}}
 </div>
 <div data-test-edit-contributors>
     <!-- TODO: change link to a route when we emberize contributors page -->
