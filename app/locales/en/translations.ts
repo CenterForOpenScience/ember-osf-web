@@ -1148,8 +1148,10 @@ export default {
                 review: {
                     title: 'Review registration before submitting',
                     start_review: 'Review',
+                    invalid_warning: 'Please address invalid or missing entries to complete registration',
                 },
                 register: 'Register',
+                submit_error: 'Failed to create a registration. Please try again later',
             },
         },
 

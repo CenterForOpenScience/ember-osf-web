@@ -1,27 +1,31 @@
-<OsfDialog @isOpen={{@modalManager.isOpen}} @renderInPlace={{@modalManager.renderInPlace}} as |dialog|>
+<OsfDialog
+    @isOpen={{@modalManager.isOpen}}
+    @renderInPlace={{@modalManager.renderInPlace}}
+    as |dialog|
+>
     <dialog.heading local-class='modal-title'>
         {{t 'registries.partialRegistrationModal.title'}}
     </dialog.heading>
     <dialog.main>
-        <OsfButton 
-            @type=='link' 
-            local-class='select-clear-button' 
+        <OsfButton
+            @type=='link'
+            local-class='select-clear-button'
             @onClick={{action @modalManager.selectAll}}
             data-test-select-all
         >
             {{t 'registries.partialRegistrationModal.selectAll'}}
         </OsfButton>
         |
-        <OsfButton 
-            @type=='link' 
-            local-class='select-clear-button' 
+        <OsfButton
+            @type=='link'
+            local-class='select-clear-button'
             @onClick={{action @modalManager.clearAll}}
             data-test-clear-all
         >
             {{t 'registries.partialRegistrationModal.clearAll'}}
         </OsfButton>
-        {{#if @modalManager.loadAllChildNodes.isRunning}}
-            <LoadingIndicator />
+        {{#if @modalManager.loadingChildNodes}}
+            <LoadingIndicator @dark={{true}} />
         {{else}}
             <ul>
                 <Registries::HierarchicalList::ItemManager
@@ -41,7 +45,7 @@
         >
             {{t 'registries.partialRegistrationModal.continueButton'}}
         </OsfButton>
-        <OsfButton @type='default'>
+        <OsfButton @type='default' @onClick={{dialog.close}}>
             {{t 'registries.partialRegistrationModal.cancelButton'}}
         </OsfButton>
     </dialog.footer>

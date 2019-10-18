@@ -1,7 +1,7 @@
 {{yield (hash
     setEmbargoEndDate=(action this.setEmbargoEndDate)
     setCreateDoi=(action this.setCreateDoi)
-    submitRegistration=(action this.submitRegistration)
+    submitRegistration=(perform this.submitRegistration)
     registration=this.registration
     isOpen=this.isOpen
     renderInPlace=this.renderInPlace

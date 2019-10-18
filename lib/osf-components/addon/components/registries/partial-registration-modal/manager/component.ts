@@ -1,5 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import { action } from '@ember-decorators/object';
+import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { task } from 'ember-concurrency';
@@ -24,7 +25,7 @@ export default class PartialRegistrationModalManagerComponent extends Component.
         allChildNodesIncludingRoot = allChildNodesIncludingRoot.toArray();
         this.set('nodesIncludingRoot', allChildNodesIncludingRoot.slice());
         this.set('selectedNodes', allChildNodesIncludingRoot.slice());
-    }),
+    }).on('didReceiveAttrs'),
 }) implements HierarchicalListManager {
     @service store!: DS.Store;
     rootNode!: NodeModel;
@@ -35,9 +36,7 @@ export default class PartialRegistrationModalManagerComponent extends Component.
     nodesIncludingRoot: NodeModel[] = defaultTo(this.nodesIncludingRoot, []);
     selectedNodes: NodeModel[] = defaultTo(this.selectedNodes, []);
 
-    didReceiveAttrs() {
-        this.loadAllChildNodes.perform();
-    }
+    @alias('loadAllChildNodes.isRunning') loadingChildNodes!: boolean;
 
     @action
     selectAll() {
