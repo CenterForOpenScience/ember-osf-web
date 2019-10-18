@@ -2,11 +2,10 @@ import Changeset from 'ember-changeset';
 
 import Controller from '@ember/controller';
 
-import SchemaBlockModel from 'ember-osf-web/models/schema-block';
-import { getSchemaBlockGroups } from 'ember-osf-web/packages/registration-schema';
+import { getSchemaBlockGroups, SchemaBlock } from 'ember-osf-web/packages/registration-schema';
 
 export default class SchemaBlockGroupRendererController extends Controller {
-    schemaBlocks = [
+    schemaBlocks: SchemaBlock[] = [
         {
             blockType: 'page-heading',
             displayText: 'Page heading',
@@ -142,7 +141,7 @@ export default class SchemaBlockGroupRendererController extends Controller {
             schemaBlockGroupKey: 'q5',
             index: 23,
         },
-    ] as SchemaBlockModel[];
+    ];
 
     schemaBlockGroups = getSchemaBlockGroups(this.schemaBlocks);
 

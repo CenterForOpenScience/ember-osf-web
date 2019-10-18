@@ -5,15 +5,14 @@ import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
-import SchemaBlockModel from 'ember-osf-web/models/schema-block';
-import { getSchemaBlockGroups } from 'ember-osf-web/packages/registration-schema';
+import { getSchemaBlockGroups, SchemaBlock } from 'ember-osf-web/packages/registration-schema';
 
 module('Integration | Component | schema-block-group-renderer', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
 
     test('it renders a schema group', async function(assert) {
-        const schemaBlocks = [
+        const schemaBlocks: SchemaBlock[] = [
             {
                 blockType: 'page-heading',
                 displayText: 'Page heading',
@@ -149,7 +148,7 @@ module('Integration | Component | schema-block-group-renderer', hooks => {
                 schemaBlockGroupKey: 'q5',
                 index: 23,
             },
-        ] as SchemaBlockModel[];
+        ];
 
         const schemaBlockGroups = getSchemaBlockGroups(schemaBlocks);
 

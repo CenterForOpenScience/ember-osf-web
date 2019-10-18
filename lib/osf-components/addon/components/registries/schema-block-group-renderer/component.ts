@@ -5,8 +5,7 @@ import Component from '@ember/component';
 import { assert } from '@ember/debug';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import SchemaBlockModel from 'ember-osf-web/models/schema-block';
-import { SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema';
+import { SchemaBlock, SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import { uniqueId } from 'osf-components/helpers/unique-id';
 import template from './template';
@@ -23,7 +22,7 @@ export default class SchemaBlockGroupRenderer extends Component {
     shouldShowMessages: boolean = defaultTo(this.shouldShowMessages, true);
 
     @alias('schemaBlockGroup.optionBlocks')
-    optionBlocks!: SchemaBlockModel[];
+    optionBlocks!: SchemaBlock[];
 
     didReceiveAttrs() {
         assert('A schema group is required to render schema groups', Boolean(this.schemaBlockGroup));
@@ -36,7 +35,7 @@ export default class SchemaBlockGroupRenderer extends Component {
     }
 
     @computed('schemaBlockGroup.blocks')
-    get nonOptionBlocks(): SchemaBlockModel[] | undefined {
+    get nonOptionBlocks(): SchemaBlock[] | undefined {
         return !this.schemaBlockGroup.blocks ?
             undefined :
             this.schemaBlockGroup.blocks.filter(

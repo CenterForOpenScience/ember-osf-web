@@ -4,15 +4,15 @@ import Component from '@ember/component';
 import { assert } from '@ember/debug';
 
 import { layout } from 'ember-osf-web/decorators/component';
+import { SchemaBlock } from 'ember-osf-web/packages/registration-schema';
 
-import SchemaBlockModel from 'ember-osf-web/models/schema-block';
 import template from './template';
 
 @layout(template)
 @tagName('')
 export default class SingleSelectInput extends Component {
     // Required param
-    optionBlocks!: SchemaBlockModel[];
+    optionBlocks!: SchemaBlock[];
 
     didReceiveAttrs() {
         assert('single-select-input requires optionBlocks to render', Boolean(this.optionBlocks));

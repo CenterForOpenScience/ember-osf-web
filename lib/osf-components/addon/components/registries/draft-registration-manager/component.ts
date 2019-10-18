@@ -8,8 +8,8 @@ import { task, TaskInstance, timeout } from 'ember-concurrency';
 import { layout } from 'ember-osf-web/decorators/component';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import RegistrationSchema from 'ember-osf-web/models/registration-schema';
+import SchemaBlock from 'ember-osf-web/models/schema-block';
 
-import SchemaBlockModel from 'ember-osf-web/models/schema-block';
 import { getPages, PageManager, RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 import { getNextPageParam, getPrevPageParam } from 'ember-osf-web/utils/page-param';
 import template from './template';
@@ -41,7 +41,7 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
         this.setProperties({ draftRegistration });
 
         const registrationSchema = yield this.draftRegistration.registrationSchema;
-        const blocks: SchemaBlockModel[] = yield registrationSchema.loadAll('schemaBlocks');
+        const blocks: SchemaBlock[] = yield registrationSchema.loadAll('schemaBlocks');
         const pages = getPages(blocks);
         const { registrationResponses } = this.draftRegistration;
 

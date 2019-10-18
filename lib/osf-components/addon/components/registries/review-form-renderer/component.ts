@@ -4,10 +4,10 @@ import Component from '@ember/component';
 import { assert } from '@ember/debug';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import SchemaBlockModel from 'ember-osf-web/models/schema-block';
 import {
     getSchemaBlockGroups,
     RegistrationResponse,
+    SchemaBlock,
     SchemaBlockGroup,
 } from 'ember-osf-web/packages/registration-schema';
 import template from './template';
@@ -16,7 +16,7 @@ import template from './template';
 @tagName('')
 export default class ReviewFormRenderer extends Component {
     // Required parameters
-    schemaBlocks!: SchemaBlockModel[];
+    schemaBlocks!: SchemaBlock[];
     registrationResponses!: RegistrationResponse;
 
     didReceiveAttrs() {

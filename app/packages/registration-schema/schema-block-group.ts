@@ -1,12 +1,12 @@
-import SchemaBlockModel from 'ember-osf-web/models/schema-block';
+import { SchemaBlock } from 'ember-osf-web/packages/registration-schema';
 
 export interface SchemaBlockGroup {
     inputType?: string | null;
-    labelBlock?: SchemaBlockModel;
-  inputBlock?: SchemaBlockModel;
-  optionBlocks?: SchemaBlockModel[];
+    labelBlock?: SchemaBlock;
+    inputBlock?: SchemaBlock;
+    optionBlocks?: SchemaBlock[];
     schemaBlockGroupKey?: string;
     registrationResponseKey?: string;
     groupType?: string;
-  blocks?: SchemaBlockModel[];
+    blocks?: SchemaBlock[];
   }

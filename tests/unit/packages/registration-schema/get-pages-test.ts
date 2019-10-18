@@ -1,10 +1,9 @@
-import SchemaBlockModel from 'ember-osf-web/models/schema-block';
-import { getPages } from 'ember-osf-web/packages/registration-schema';
+import { getPages, SchemaBlock } from 'ember-osf-web/packages/registration-schema';
 import { module, test } from 'qunit';
 
 module('Unit | Packages | registration-schema | get-pages', () => {
     test('Group multipage schema', assert => {
-        const multipageSchema = [
+        const multipageSchema: SchemaBlock[] = [
             {
                 blockType: 'page-heading',
                 displayText: 'First Page',
@@ -72,13 +71,13 @@ module('Unit | Packages | registration-schema | get-pages', () => {
                 displayText: 'Section in the Third Page',
                 index: 11,
             },
-        ] as SchemaBlockModel[];
+        ];
         const result = getPages(multipageSchema);
         assert.equal(result.length, 3, 'has proper page length');
     });
 
     test('Group single page schema', assert => {
-        const singlepageSchema = [
+        const singlepageSchema: SchemaBlock[] = [
             {
                 blockType: 'page-heading',
                 displayText: 'First Page',
@@ -102,13 +101,13 @@ module('Unit | Packages | registration-schema | get-pages', () => {
                 registrationResponseKey: 'a1',
                 index: 3,
             },
-        ] as SchemaBlockModel[];
+        ];
         const result = getPages(singlepageSchema);
         assert.equal(result.length, 1, 'has proper page length');
     });
 
     test('Group schema with no page-heading', assert => {
-        const noPageHeadingSchema = [
+        const noPageHeadingSchema: SchemaBlock[] = [
             {
                 blockType: 'section-heading',
                 displayText: 'Section in the First Page',
@@ -127,7 +126,7 @@ module('Unit | Packages | registration-schema | get-pages', () => {
                 registrationResponseKey: 'a1',
                 index: 2,
             },
-        ] as SchemaBlockModel[];
+        ];
         const result = getPages(noPageHeadingSchema);
         assert.equal(result.length, 1, 'has proper page length');
     });
