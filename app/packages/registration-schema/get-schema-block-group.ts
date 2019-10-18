@@ -8,7 +8,11 @@ function isEmpty(input: string | undefined) {
     return false;
 }
 
-export function getSchemaBlockGroups(blocks: SchemaBlock[]) {
+export function getSchemaBlockGroups(blocks: SchemaBlock[] | undefined) {
+    if (!blocks) {
+        assert('getSchemaBlockGroups() requires blocks');
+        return undefined;
+    }
     let currentGroupKey: string | null = null;
     const groupKeysEncountered: string[] = [];
     const responseKeysEncountered: string[] = [];

@@ -81,7 +81,7 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
                 .forEach(registrationResponseKey => {
                     Object.assign(
                         registrationResponses,
-                        { [registrationResponseKey]: changeset.get(registrationResponseKey) },
+                        { [registrationResponseKey]: changeset!.get(registrationResponseKey) },
                     );
                 });
 
@@ -120,7 +120,7 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
     get nextPageParam() {
         if (this.pageManagers.length && (this.currentPage < this.lastPage)) {
             const { pageHeadingText } = this.pageManagers[this.currentPage + 1];
-            return getNextPageParam(this.currentPage, pageHeadingText);
+            return getNextPageParam(this.currentPage, pageHeadingText!);
         }
         return '';
     }
@@ -129,7 +129,7 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
     get prevPageParam() {
         if (this.pageManagers.length && (this.currentPage > 0)) {
             const { pageHeadingText } = this.pageManagers[this.currentPage - 1];
-            return getPrevPageParam(this.currentPage, pageHeadingText);
+            return getPrevPageParam(this.currentPage, pageHeadingText!);
         }
         return '';
     }

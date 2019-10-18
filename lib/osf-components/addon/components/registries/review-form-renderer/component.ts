@@ -31,7 +31,7 @@ export default class ReviewFormRenderer extends Component {
     }
 
     @computed('schemaBlocks.[]')
-    get schemaBlockGroups(): SchemaBlockGroup[] {
+    get schemaBlockGroups(): SchemaBlockGroup[] | undefined {
         return getSchemaBlockGroups(this.schemaBlocks);
     }
 }
