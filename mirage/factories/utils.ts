@@ -87,8 +87,13 @@ function fakeFileReference(): FileReference[] {
         {
             file_id: faker.random.uuid(),
             file_name: faker.system.fileName(),
-            file_url: faker.system.filePath(),
-            sha256: faker.random.uuid(),
+            file_url: {
+                html: faker.system.filePath(),
+                download: faker.system.filePath(),
+            },
+            file_hashes: {
+                sha256: faker.random.uuid(),
+            },
         }
     ));
 }

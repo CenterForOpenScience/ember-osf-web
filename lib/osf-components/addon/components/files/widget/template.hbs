@@ -1,5 +1,5 @@
 <div ...attributes>
-    <Files::Manager @node={{@node}} as |filesManager|>
+    <Files::Manager @node={{@node}} @onSelect={{@onSelect}} @onUnselect={{@onUnselect}} as |filesManager|>
         <Files::SelectedList @filesManager={{filesManager}} />
         <Files::Browse @filesManager={{filesManager}} />
     </Files::Manager>

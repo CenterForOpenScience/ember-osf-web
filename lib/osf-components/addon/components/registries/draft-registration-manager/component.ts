@@ -1,5 +1,5 @@
 import { tagName } from '@ember-decorators/component';
-import { computed } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
@@ -16,6 +16,7 @@ import template from './template';
 
 export interface DraftRegistrationManager {
     registrationResponsesisValid: boolean;
+    registrationResponses: RegistrationResponse;
     currentPageManager: PageManager;
     pageManagers: PageManager[];
     currentPage: number;
@@ -23,9 +24,13 @@ export interface DraftRegistrationManager {
     nextPageParam: string;
     prevPageParam: string;
     autoSaving: boolean;
+    schemaBlocks: SchemaBlock[];
+    lastPage: number;
+    initializing: boolean;
 
     onInput(): void;
     submitDraftRegistration(): void;
+    validateRegistrationResponses(): void;
 }
 
 @tagName('')
@@ -41,11 +46,12 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
         this.setProperties({ draftRegistration });
 
         const registrationSchema = yield this.draftRegistration.registrationSchema;
-        const blocks: SchemaBlock[] = yield registrationSchema.loadAll('schemaBlocks');
-        const pages = getPages(blocks);
+        const schemaBlocks: SchemaBlock[] = yield registrationSchema.loadAll('schemaBlocks');
+        const pages = getPages(schemaBlocks);
         const { registrationResponses } = this.draftRegistration;
 
         this.setProperties({
+            schemaBlocks,
             lastPage: pages.length - 1,
             registrationResponses: registrationResponses || {},
         });
@@ -57,12 +63,14 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
             ),
         );
 
-        if (this.currentPage <= this.lastPage) {
-            if (this.updateRoute) {
-                this.updateRoute(pageManagers[this.currentPage].pageHeadingText as string);
+        if (!this.inReview) {
+            if (this.currentPage <= this.lastPage) {
+                if (this.updateRoute) {
+                    this.updateRoute(pageManagers[this.currentPage].pageHeadingText as string);
+                }
+            } else if (this.onPageNotFound) {
+                this.onPageNotFound();
             }
-        } else if (this.onPageNotFound) {
-            this.onPageNotFound();
         }
 
         this.setProperties({ pageManagers });
@@ -111,10 +119,13 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
     currentPage!: number;
     lastPage!: number;
     registrationResponses!: RegistrationResponse;
+    schemaBlocks!: SchemaBlock[];
+    inReview!: boolean;
 
     pageManagers: PageManager[] = [];
 
     @alias('onInput.isRunning') autoSaving!: boolean;
+    @alias('initializePageManagers.isRunning') initializing!: boolean;
 
     @computed('currentPage', 'pageManagers.[]')
     get nextPageParam() {
@@ -125,11 +136,15 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
         return '';
     }
 
-    @computed('currentPage', 'pageManagers.[]')
+    @computed('currentPage', 'pageManagers.[]', 'inReview')
     get prevPageParam() {
-        if (this.pageManagers.length && (this.currentPage > 0)) {
-            const { pageHeadingText } = this.pageManagers[this.currentPage - 1];
-            return getPrevPageParam(this.currentPage, pageHeadingText!);
+        if (this.pageManagers.length) {
+            const currentPage = this.inReview ? this.lastPage + 1 : this.currentPage;
+
+            if (currentPage > 0) {
+                const { pageHeadingText } = this.pageManagers[currentPage - 1];
+                return getPrevPageParam(currentPage, pageHeadingText!);
+            }
         }
         return '';
     }
@@ -145,5 +160,12 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
     @computed('pageManagers.{[],@each.pageIsValid}')
     get registrationResponsesIsValid() {
         return this.pageManagers.every(pageManager => pageManager.pageIsValid);
+    }
+
+    @action
+    validateRegistrationResponses() {
+        this.pageManagers.forEach(pageManager => {
+            pageManager.changeset!.validate();
+        });
     }
 }
