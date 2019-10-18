@@ -14,18 +14,20 @@
             >
                 {{this.institution.statSummary.ssoUsersConnected}}
             </Institutions::Dashboard::-Components::Panel>
-            <Panel as |panel|>
-                <panel.heading @title='{{t 'institutions.dashboard.projects_panel'}}' />
-                <panel.body>
-                    <p></p>
-                </panel.body>
-            </Panel>
-            <Panel as |panel|>
-                <panel.heading @title='{{t 'institutions.dashboard.departments_panel'}}' />
-                <panel.body>
-                    <p></p>
-                </panel.body>
-            </Panel>
+            <Institutions::Dashboard::-Components::Panel
+                    local-class='projects'
+                    @isLoading={{this.model.taskInstance.isRunning}}
+                    @title={{t 'institutions.dashboard.projects_panel'}}
+            >
+                <Institutions::Dashboard::-Components::ProjectsPanel @institution={{this.institution}} />
+            </Institutions::Dashboard::-Components::Panel>
+            <Institutions::Dashboard::-Components::Panel
+                    local-class='departments'
+                    @isLoading={{this.model.taskInstance.isRunning}}
+                    @title={{t 'institutions.dashboard.departments_panel'}}
+            >
+                <Institutions::Dashboard::-Components::DepartmentsPanel @institution={{this.institution}} />
+            </Institutions::Dashboard::-Components::Panel>
         </div>
     </div>
 </div>

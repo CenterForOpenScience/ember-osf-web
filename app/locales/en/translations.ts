@@ -728,6 +728,9 @@ export default {
             users_connected_panel: 'SSO Users Connected',
             projects_panel: 'Total Projects',
             departments_panel: 'Departments',
+            public: 'Public',
+            private: 'Private',
+            users: 'Users',
         },
     },
     registration: {
@@ -1134,15 +1137,17 @@ export default {
                     title: 'Fill Out Basic Registration Info',
                 },
                 form: {
-                    title: 'Fill Out Registration Form',
+                    title: 'Fill out registration form',
                     next: 'Next',
                     back: 'Back',
                     save_draft: 'Save draft',
-                    new_registration: 'New Registration',
+                    new_registration: 'New registration',
                 },
                 review: {
-                    title: 'Review Registration Before Submitting',
+                    title: 'Review registration before submitting',
+                    start_review: 'Review',
                 },
+                register: 'Register',
             },
         },
 

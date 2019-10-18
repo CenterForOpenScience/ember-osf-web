@@ -15,8 +15,39 @@
 
 .sso-users-connected {
     :global(.panel-body) {
-        color: #263947;
-        font-size: 120px;
+        font-size: 7.5vw;
         font-weight: bold;
+    }
+}
+
+.projects {
+    :global(.panel-body) {
+        h3 {
+            margin: 0 0 10px;
+            font-size: 3.75vw;
+            font-weight: bold;
+        }
+
+        p {
+            margin: 0;
+            font-size: 16px;
+        }
+    }
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+    .sso-users-connected {
+        :global(.panel-body) {
+            font-size: 120px;
+        }
+    }
+
+    .projects {
+        :global(.panel-body) {
+            h3 {
+                font-size: 72px;
+            }
+        }
     }
 }

@@ -2,7 +2,10 @@ import Changeset from 'ember-changeset';
 
 import Controller from '@ember/controller';
 
+import config from 'ember-get-config';
 import { getSchemaBlockGroups, SchemaBlock } from 'ember-osf-web/packages/registration-schema';
+
+const { OSF: { url } } = config;
 
 export default class SchemaBlockGroupRendererController extends Controller {
     schemaBlocks: SchemaBlock[] = [
@@ -117,65 +120,77 @@ export default class SchemaBlockGroupRendererController extends Controller {
         {
             blockType: 'question-label',
             displayText: 'If I had a super power it would be:',
-            schemaBlockGroupKey: 'q6',
+            schemaBlockGroupKey: 'q5',
             index: 17,
         },
         {
             blockType: 'single-select-input',
             registrationResponseKey: 'page-one_single-select-two',
-            schemaBlockGroupKey: 'q6',
+            schemaBlockGroupKey: 'q5',
             index: 18,
         },
         {
             blockType: 'select-input-option',
             displayText: 'Always be on the proper beat while doing the macarena',
-            schemaBlockGroupKey: 'q6',
+            schemaBlockGroupKey: 'q5',
             index: 19,
         },
         {
             blockType: 'select-input-option',
             displayText: 'Remember who was in NSync and who was in Backstreet Boys',
-            schemaBlockGroupKey: 'q6',
+            schemaBlockGroupKey: 'q5',
             index: 20,
         },
         {
             blockType: 'select-other-option',
             displayText: 'Other',
-            schemaBlockGroupKey: 'q6',
+            schemaBlockGroupKey: 'q5',
             index: 21,
         },
         {
             blockType: 'question-label',
             displayText: 'Contributors:',
-            schemaBlockGroupKey: 'q5',
+            schemaBlockGroupKey: 'q6',
             index: 22,
         },
         {
             blockType: 'contributors-input',
             registrationResponseKey: 'page-one_contributors-input',
             helpText: 'This is the help text for read only contributor list',
-            schemaBlockGroupKey: 'q5',
+            schemaBlockGroupKey: 'q6',
             index: 23,
         },
         {
             blockType: 'paragraph',
             displayText: 'This is a paragraph.',
-            schemaBlockGroupKey: 'q7',
             helpText: 'This is a helptext for paragraph',
             index: 24,
+        },
+        {
+            blockType: 'question-label',
+            displayText: 'Files:',
+            schemaBlockGroupKey: 'q7',
+            index: 25,
+        },
+        {
+            blockType: 'file-input',
+            registrationResponseKey: 'page-one_file-input',
+            schemaBlockGroupKey: 'q7',
+            index: 26,
         },
     ];
 
     schemaBlockGroups = getSchemaBlockGroups(this.schemaBlocks);
 
-    pageResponse = {
+    registrationResponse = {
         'page-one_single-select': '',
         'page-one_short-text': '',
         'page-one_long-text': '',
         'page-one_multi-select': [],
         'page-one_single-select-two': '',
+        'page-one_file-input': [],
     };
-    pageResponseChangeset = new Changeset(this.pageResponse);
+    registrationResponseChangeset = new Changeset(this.registrationResponse);
 
     registrationResponses = {
         'page-one_single-select': 'tuna',
@@ -183,5 +198,29 @@ export default class SchemaBlockGroupRendererController extends Controller {
         'page-one_long-text': 'One is called a marsh, and one is called a swamp',
         'page-one_multi-select': ['crocs', 'Nickelback'],
         'page-one_single-select-two': 'Remember who was in NSync and who was in Backstreet Boys',
+        'page-one_file-input': [
+            {
+                file_id: 'ad552',
+                file_name: 'connecting_home_loan_account.mpe',
+                file_urls: {
+                    html: `${url}files/osfstorage/ad552/`,
+                    download: `${url}files/osfstorage/ad552`,
+                },
+                file_hashes: {
+                    sha256: 'be5fa974179240abad6772d850bd6e86',
+                },
+            },
+            {
+                file_id: 'gu5d4',
+                file_name: 'auto_loan_account.mp4',
+                file_urls: {
+                    html: `${url}files/osfstorage/gu4d5`,
+                    download: `${url}/files/osfstorage/gu4d5`,
+                },
+                file_hashes: {
+                    sha256: 'be5fa974179240abad6772d850bd6e86',
+                },
+            },
+        ],
     };
 }

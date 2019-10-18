@@ -2,13 +2,20 @@ import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
-import { task } from 'ember-concurrency';
+import { task, TaskInstance } from 'ember-concurrency';
 import DS from 'ember-data';
 
 import requireAuth from 'ember-osf-web/decorators/require-auth';
+import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import Analytics from 'ember-osf-web/services/analytics';
 
-import { getPageIndex, getPageParam } from 'ember-osf-web/utils/page-param';
+import { getPageIndex } from 'ember-osf-web/utils/page-param';
+
+export interface DraftRouteModel {
+    taskInstance: TaskInstance<DraftRegistration>;
+    pageIndex: number|undefined;
+    page: string;
+}
 
 @requireAuth()
 export default class DraftRegistrationRoute extends Route.extend({
@@ -25,38 +32,15 @@ export default class DraftRegistrationRoute extends Route.extend({
     @service store!: DS.Store;
     @service router!: RouterService;
 
-    page!: string;
-    draftId!: string;
-    pageIndex!: number;
-
-    model(this: DraftRegistrationRoute, params: { id: string, page: string }) {
+    model(params: { id: string, page: string }): DraftRouteModel {
         const { id: draftId, page } = params;
         const pageIndex = getPageIndex(page);
-
-        this.setProperties({
-            page,
-            pageIndex,
-            draftId,
-        });
 
         return {
             taskInstance: this.loadModelTask.perform(draftId),
             pageIndex,
             page,
         };
-    }
-
-    @action
-    updateRoute(headingText: string) {
-        if (this.page) {
-            const pageSlug = getPageParam(this.pageIndex, headingText);
-            this.replaceWith('drafts.draft', this.draftId, pageSlug);
-        }
-    }
-
-    @action
-    error() {
-        this.replaceWith('page-not-found', this.router.currentURL.slice(1));
     }
 
     @action

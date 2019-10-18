@@ -8,9 +8,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Components
     - `institutions`
+        - `dashboard/departments-panel`
         - `dashboard/institutional-users-list`
         - `dashboard/panel`
+        - `dashboard/projects-panel`
     - `Registries::DraftRegistrationManager`
+    - `Registries::SchemaBlockRenderer::Editable::Files`
+    - `Registries::SchemaBlockRenderer::ReadOnly::Files`
 - Mirage
     - Factories
         - `institutional-user`
@@ -24,8 +28,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `registries`
             - `drafts.draft`, `draft/<draftId>/<page>`
             - `drafts.draft-shim`, `draft/<draftId>/` redirects to `draft/<draftId>/1`
-- Packages
-    - `ember-route-action-helper`
 - Utils
     - `page-param`
 - Tests
@@ -46,10 +48,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `validated-input`
         - Modified components to take in `onInput` callback.
             - added `withStatSummary` trait
+    - `registries/partial-registration-modal`
+        - added `onContinue` hook
 - Mirage
     - Factories
         - `institution`
             - added `withInstitutionalUsers` trait
+    - Scenarios
+        - `default`
+            - added `SchemaBlock` node with files and contributors
 - Models
     - `institution`
         - added `currentUserIsAdmin` boolean
@@ -61,6 +68,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - moved to `index` folder
 - Types
     - Renamed `PageResponse` to `RegistrationResponse`
+- Tests
+    - `schema-block-renderer`
+        - added `files` block test
 
 ### Removed
 - Tests
@@ -70,7 +80,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `ember-data-factory-guy`
 - Types
     - `FactoryGuy` types
-
+       
 ## [19.10.0] - 2019-10-02
 ### Added
 - Models
