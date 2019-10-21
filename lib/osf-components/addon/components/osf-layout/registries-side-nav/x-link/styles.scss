@@ -9,6 +9,7 @@
     width: 100%;
     padding: 5px 10px !important;
     color: $primary-blue;
+    z-index: 1000;
 
     &.CurrentPage {
         color: $black;
