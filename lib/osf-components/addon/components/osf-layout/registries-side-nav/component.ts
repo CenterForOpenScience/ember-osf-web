@@ -5,7 +5,13 @@ import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import Media from 'ember-responsive';
 
+import { layout } from 'ember-osf-web/decorators/component';
+
+import styles from './styles';
+import template from './template';
+
 @tagName('')
+@layout(template, styles)
 export default class RegistriesSideNav extends Component {
     @service media!: Media;
 

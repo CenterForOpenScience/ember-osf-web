@@ -41,11 +41,8 @@
                             @isCurrentPage={{pageLink.pageIsActive}}
                             as |link|
                         >
-                            <link.icon
-                                icon={{@icon}}
-                            />
+                            <link.icon />
                             <link.label
-                                label={{@label}}
                                 local-class={{if (eq pageLink.validationClass 'Unvisited') 'UnvisitedDark'}}
                             />
                         </leftNav.link>
@@ -54,18 +51,16 @@
                 <leftNav.link
                     data-analytics-name=''
                     @route='registries.drafts.draft'
+                    @models={{array draftManager.draftId 'review'}}
                     @icon='circle'
                     @label='Review'
+                    @isCurrentPage={{eq this.model.page 'review'}}
                     local-class='Unvisited'
-                    class={{if (eq draftManager.currentPage 'Review') 'active'}}
                     as |link|
                 >
-                    <link.icon
-                        icon={{@icon}}
-                    />
+                    <link.icon/>
                     <link.label
-                        label={{@label}}
-                        local-class={{if (eq draftManager.currentPage 'Review') '' 'UnvisitedDark'}}
+                        local-class={{if (eq this.model.page 'review') '' 'UnvisitedDark'}}
                     />
                 </leftNav.link>
             </layout.leftNav>

@@ -1,18 +1,18 @@
 {{#if this.isButton}}
     <OsfButton
-        data-test-collapsed='{{this.isCollapsed}}'
-        local-class='{{this.wrapperClasses}}'
+        data-test-collapsed={{this.isCollapsed}}
+        local-class='Link {{if this.isCollapsed 'Collapsed'}} {{if this.isCurrentPage 'CurrentPage'}}'
         @onClick={{@onClick}}
         @type='link'
         ...attributes
     >
         {{yield (hash
-            label=(component 'registries-side-nav/label'
+            label=(component 'osf-layout/registries-side-nav/label'
                 label=@label
                 count=@count
                 isCollapsed=this.isCollapsed
             )
-            icon=(component 'registries-side-nav/icon'
+            icon=(component 'osf-layout/registries-side-nav/icon'
                 fixedWidth=true
                 icon=@icon
             )
@@ -20,8 +20,10 @@
     </OsfButton>
 {{else}}
     <OsfLink
-        data-test-collapsed='{{this.isCollapsed}}'
-        local-class='{{this.wrapperClasses}}'
+        data-test-collapsed={{this.isCollapsed}}
+        local-class='Link
+            {{if this.isCollapsed 'Collapsed'}}
+            {{if this.isCurrentPage 'CurrentPage'}}'
         @route={{@route}}
         @models={{@models}}
         @href={{@href}}
@@ -29,12 +31,12 @@
         ...attributes
     >
         {{yield (hash
-            label=(component 'registries-side-nav/label'
+            label=(component 'osf-layout/registries-side-nav/label'
                 label=@label
                 count=@count
                 isCollapsed=this.isCollapsed
             )
-            icon=(component 'registries-side-nav/icon'
+            icon=(component 'osf-layout/registries-side-nav/icon'
                 fixedWidth=true
                 icon=@icon
             )
