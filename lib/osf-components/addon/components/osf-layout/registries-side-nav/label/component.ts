@@ -23,7 +23,7 @@ export default class Label extends Component {
 
     @computed('count')
     get hasCount() {
-        return (typeof this.count) === 'number';
+        return typeof this.count === 'number';
     }
 
     @computed('count', 'isCollapsed')
@@ -32,6 +32,7 @@ export default class Label extends Component {
     }
 
     didReceiveAttrs() {
-        assert('@label is required for this component to render', Boolean(this.label));
+        assert('OsfLayout::RegistriesSideNave::Label: ' +
+            'git @label is required for this component to render', Boolean(this.label));
     }
 }

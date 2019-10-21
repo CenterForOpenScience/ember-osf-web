@@ -6,53 +6,42 @@ import { PageManager } from 'ember-osf-web/packages/registration-schema';
 import { getPageParam } from 'ember-osf-web/utils/page-param';
 import template from './template';
 
+export enum PageState {
+    Unvisited = 'unvisited',
+    Active = 'active',
+    Valid = 'valid',
+    Invalid = 'invalid',
+}
+
 @tagName('')
 @layout(template)
-export default class PageLinkComponenet extends Component {
+export default class PageLinkManagerComponenet extends Component {
     // Required
     pageManager!: PageManager;
     pageIndex!: number;
     currentPage!: number;
-    draftId!: string;
 
     @computed('pageManager.pageHeadingText', 'pageIndex')
     get pageIndexWithSlug() {
         return getPageParam(this.pageIndex, this.pageManager.pageHeadingText);
     }
 
-    @computed('pageManager.{isVisited,pageIsValid}', 'pageIndex', 'currentPage', 'pageIsActive')
-    get pageIcon() {
+    @computed('pageManager.{isVisited,pageIsValid}', 'pageIsActive')
+    get pageState(): PageState {
         if (this.pageIsActive) {
-            return 'circle-o';
+            return PageState.Active;
         }
         if (this.pageManager.isVisited) {
             if (this.pageManager.pageIsValid) {
-                return 'check-circle-o';
+                return PageState.Valid;
             }
-            return 'exclamation-circle';
+            return PageState.Invalid;
         }
-        return 'circle';
-    }
-
-    @computed('pageManager.{isVisited,pageIsValid}', 'pageIndex', 'currentPage', 'pageIsActive')
-    get pageClass() {
-        if (this.pageIsActive) {
-            return 'Active';
-        }
-        if (this.pageManager.isVisited) {
-            if (this.pageManager.pageIsValid) {
-                return 'Valid';
-            }
-            return 'Invalid';
-        }
-        return 'Unvisited';
+        return PageState.Unvisited;
     }
 
     @computed('pageIndex', 'currentPage')
     get pageIsActive() {
-        if (this.pageIndex === this.currentPage) {
-            return true;
-        }
-        return false;
+        return this.pageIndex === this.currentPage;
     }
 }

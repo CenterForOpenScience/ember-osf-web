@@ -6,6 +6,7 @@ import RouterService from '@ember/routing/router-service';
 
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import { getPageParam } from 'ember-osf-web/utils/page-param';
+import { PageState } from 'registries/components/page-link-manager/component';
 
 import { DraftRouteModel } from './route';
 
@@ -28,6 +29,38 @@ export default class RegistriesDrat extends Controller {
         // Only update current route if it has a pageIndex but no page slug
         const regex = /^\d+-?$/;
         return regex.test(this.page);
+    }
+
+    @action
+    pageStateToClass(pageState: PageState): string {
+        switch (pageState) {
+        case PageState.Active:
+            return 'Active';
+        case PageState.Unvisited:
+            return 'Unvisited';
+        case PageState.Invalid:
+            return 'Invalid';
+        case PageState.Valid:
+            return 'Valid';
+        default:
+            return '';
+        }
+    }
+
+    @action
+    pageStateToIcon(pageState: PageState): string {
+        switch (pageState) {
+        case PageState.Active:
+            return 'circle-o';
+        case PageState.Unvisited:
+            return 'circle';
+        case PageState.Invalid:
+            return 'exclamation-circle';
+        case PageState.Valid:
+            return 'check-circle-o';
+        default:
+            return '';
+        }
     }
 
     @action

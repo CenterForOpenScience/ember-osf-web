@@ -24,41 +24,40 @@
             
             <layout.leftNav as |leftNav|>
                 {{#each draftManager.pageManagers as |pageManager index|}}
-                    <PageLink
+                    <PageLinkManager
                         @pageManager={{pageManager}}
                         @pageIndex={{index}}
                         @currentPage={{draftManager.currentPage}}
-                        @draftId={{draftManager.draftId}}
-                        as |pageLink|
+                        as |pageLinkManager|
                     >
                         <leftNav.link
-                            data-analytics-name='{{pageLink.IndexWithSlug}}'
-                            class={{local-class pageLink.validationClass}}
+                            data-analytics-name='{{pageLinkManager.IndexWithSlug}}'
+                            class={{local-class (compute (action this.pageStateToClass) pageLinkManager.pageState)}}
                             @route='registries.drafts.draft'
-                            @models={{pageLink.models}}
-                            @icon={{pageLink.icon}}
+                            @models={{array draftManager.draftId pageLinkManager.pageIndexWithSlug}}
+                            @icon={{compute (action this.pageStateToIcon) pageLinkManager.pageState}}
                             @label={{pageManager.pageHeadingText}}
-                            @isCurrentPage={{pageLink.pageIsActive}}
+                            @isCurrentPage={{pageLinkManager.pageIsActive}}
                             as |link|
                         >
                             <link.icon />
                             <link.label
-                                local-class={{if (eq pageLink.validationClass 'Unvisited') 'UnvisitedDark'}}
+                                local-class='Label'
                             />
                         </leftNav.link>
-                    </PageLink>
+                    </PageLinkManager>
                 {{/each}}
                 <leftNav.link
-                    data-analytics-name=''
+                    data-analytics-name='Review'
+                    local-class='Unvisited'
                     @route='registries.drafts.draft'
                     @models={{array draftManager.draftId 'review'}}
                     @icon='circle'
                     @label='Review'
                     @isCurrentPage={{eq this.model.page 'review'}}
-                    local-class='Unvisited'
                     as |link|
                 >
-                    <link.icon/>
+                    <link.icon />
                     <link.label
                         local-class={{if (eq this.model.page 'review') '' 'UnvisitedDark'}}
                     />
