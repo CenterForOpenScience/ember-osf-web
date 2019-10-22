@@ -23,12 +23,10 @@ export default class DepartmentsPanel extends Component {
     };
 
     didReceiveAttrs() {
-        if (!this.departments) {
-            return;
+        if (this.departments) {
+            const departmentNumbers = this.departments.map(x => x.numUsers);
+            this.set('chartHoverIndex', departmentNumbers.indexOf(Math.max(...departmentNumbers)));
         }
-
-        const departmentNumbers = this.departments.map(x => x.numUsers);
-        this.chartHoverIndex = departmentNumbers.indexOf(Math.max(...departmentNumbers));
     }
 
     @computed('chartHoverIndex', 'departments')
