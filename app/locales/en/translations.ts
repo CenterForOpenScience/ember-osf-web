@@ -1408,11 +1408,11 @@ export default {
             },
         },
         partialRegistrationModal: {
-            title: 'Select Components',
+            title: 'Select components',
             continueButton: 'Continue',
             cancelButton: 'Cancel',
-            selectAll: 'Select All',
-            clearAll: 'Clear All',
+            selectAll: 'Select all',
+            clearAll: 'Clear all',
         },
         finalizeRegistrationModal: {
             title: 'Almost done...',

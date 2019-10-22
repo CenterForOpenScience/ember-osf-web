@@ -44,9 +44,6 @@ module('Integration | Component | finalize-registration-modal', hooks => {
         await click('[data-test-embargo-button]');
         // Check that the submit button is disabled again
         assert.dom('[data-test-submit-registration-button]').isDisabled();
-
-        // Close the dialog
-        this.set('isOpen', false);
     });
 
     test('embargo registration', async function(assert) {

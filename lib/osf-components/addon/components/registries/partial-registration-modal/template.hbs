@@ -2,12 +2,12 @@
     <Registries::PartialRegistrationModal::Manager
         @rootNode={{@rootNode}}
         @onContinue={{@onContinue}}
-        as |modalManager|
+        as |manager|
     >
         {{yield (hash
             heading=(component 'registries/partial-registration-modal/heading')
-            main=(component 'registries/partial-registration-modal/main' modalManager=modalManager)
-            footer=(component 'registries/partial-registration-modal/footer' continue=modalManager.continue)
+            main=(component 'registries/partial-registration-modal/main' manager=manager)
+            footer=(component 'registries/partial-registration-modal/footer' continue=manager.continue)
         )}}
     </Registries::PartialRegistrationModal::Manager>
 {{/if}}

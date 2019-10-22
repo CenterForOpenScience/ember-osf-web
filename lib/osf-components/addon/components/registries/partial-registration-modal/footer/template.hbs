@@ -5,6 +5,9 @@
 >
     {{t 'registries.partialRegistrationModal.continueButton'}}
 </OsfButton>
-<OsfButton @type='default' @onClick={{@closeDialog}}>
+<OsfButton
+    data-test-cancel-registration-button
+    @type='default'
+    @onClick={{@closeDialog}}>
     {{t 'registries.partialRegistrationModal.cancelButton'}}
 </OsfButton>

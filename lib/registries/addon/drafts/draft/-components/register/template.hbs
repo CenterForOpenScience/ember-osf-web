@@ -25,7 +25,7 @@
                         {{t 'registries.drafts.draft.register'}}
                     </OsfButton>
                     {{#unless this.draftManager.registrationResponsesIsValid}}
-                        <div class='text-danger'>
+                        <div data-test-invalid-responses-text class='text-danger'>
                             {{t 'registries.drafts.draft.review.invalid_warning'}}
                         </div>
                     {{/unless}}
