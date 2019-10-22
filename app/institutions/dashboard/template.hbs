@@ -1,3 +1,4 @@
+{{title (t 'institutions.dashboard.title' institutionName=this.institution.unsafeName)}}
 <div class='container' data-analytics-scope='Dashboard'>
     <div local-class='banner'>
         <img src='{{this.institution.assets.banner}}' alt='{{this.institution.name}}'>
@@ -28,7 +29,11 @@
                     @isLoading={{this.model.taskInstance.isRunning}}
                     @title={{t 'institutions.dashboard.users_connected_panel'}}
             >
-                {{this.institution.statSummary.ssoUsersConnected}}
+                {{#if this.institution.statSummary}}
+                    <h3>{{this.institution.statSummary.ssoUsersConnected}}</h3>
+                {{else}}
+                    {{t 'institutions.dashboard.empty'}}
+                {{/if}}
             </Institutions::Dashboard::-Components::Panel>
             <Institutions::Dashboard::-Components::Panel
                     local-class='projects'

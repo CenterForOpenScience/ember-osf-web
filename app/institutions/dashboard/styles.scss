@@ -38,8 +38,11 @@
 
 .sso-users-connected {
     :global(.panel-body) {
-        font-size: 7.5vw;
-        font-weight: bold;
+        h3 {
+            margin: 0;
+            font-size: 7.5vw;
+            font-weight: bold;
+        }
     }
 }
 
@@ -62,7 +65,9 @@
 @media (min-width: 1200px) {
     .sso-users-connected {
         :global(.panel-body) {
-            font-size: 120px;
+            h3 {
+                font-size: 120px;
+            }
         }
     }
 
