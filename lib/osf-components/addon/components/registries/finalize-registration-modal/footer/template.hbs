@@ -1,0 +1,15 @@
+<OsfButton
+    data-test-submit-registration-button
+    @type='primary'
+    @onClick={{@manager.submitRegistration}}
+    @disabled={{@manager.shouldDisableSubmitButton}}
+>
+    {{t 'registries.finalizeRegistrationModal.submit'}}
+</OsfButton>
+<OsfButton
+    data-test-cancel-back-button
+    @type='default'
+    @onClick={{@back}}
+>
+    {{t 'registries.finalizeRegistrationModal.back'}}
+</OsfButton>

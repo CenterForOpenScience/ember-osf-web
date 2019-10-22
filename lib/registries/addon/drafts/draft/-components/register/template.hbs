@@ -1,38 +1,57 @@
-<OsfButton
-    data-test-goto-register
-    @type='success'
-    @onClick={{action (mut this.showPartialRegDialog) true}}
-    @disabled={{not this.draftManager.registrationResponsesIsValid}}
->
-    {{t 'registries.drafts.draft.register'}}
-</OsfButton>
-
-{{#unless this.draftManager.registrationResponsesIsValid}}
-    <div class='text-danger'>
-        {{t 'registries.drafts.draft.review.invalid_warning'}}
-    </div>
-{{/unless}}
-
-{{#if this.shouldShowPartialRegModal}}
-    <Registries::PartialRegistrationModal::Manager
+{{#if this.rootNode}}
+    <Registries::PartialRegistrationModal
         @rootNode={{this.rootNode}}
-        @isOpen={{this.shouldShowPartialRegModal}}
-        as |modalManager|
+        @onContinue={{action this.onContinue}}
+        as |partialRegistrationModal|
     >
-        <Registries::PartialRegistrationModal
-            @modalManager={{modalManager}}
-            @onContinue={{action this.onContinue}}
-        />
-    </Registries::PartialRegistrationModal::Manager>
-{{/if}}
-
-{{#if this.shouldShowFinalizeRegDialog}}
-    <Registries::FinalizeRegistrationModal::Manager
-        @registration={{this.registration}}
-        @isOpen={{this.shouldShowFinalizeRegDialog}}
-        @onSubmitRegistration={{@onSubmitRegistration}}
-        as |manager|
-    >
-        <Registries::FinalizeRegistrationModal @manager={{manager}} />
-    </Registries::FinalizeRegistrationModal::Manager>
+        <Registries::FinalizeRegistrationModal
+            @registration={{this.registration}}
+            @onSubmitRegistration={{@onSubmitRegistration}}
+            as |finalizeRegistrationModal|
+        >
+            <OsfDialog
+                @onOpen={{action this.onOpen}}
+                @onClose={{action this.onClose}}
+                @closeOnOutsideClick={{false}}
+                as |dialog|
+            >
+                <dialog.trigger>
+                    <OsfButton
+                        data-test-goto-register
+                        @type='success'
+                        @onClick={{dialog.open}}
+                        @disabled={{not this.draftManager.registrationResponsesIsValid}}
+                    >
+                        {{t 'registries.drafts.draft.register'}}
+                    </OsfButton>
+                    {{#unless this.draftManager.registrationResponsesIsValid}}
+                        <div class='text-danger'>
+                            {{t 'registries.drafts.draft.review.invalid_warning'}}
+                        </div>
+                    {{/unless}}
+                </dialog.trigger>
+                <dialog.heading>
+                    {{#if this.shouldShowPartialRegDialog}}
+                        <partialRegistrationModal.heading />
+                    {{else}}
+                        <finalizeRegistrationModal.heading />
+                    {{/if}}
+                </dialog.heading>
+                <dialog.main>
+                    {{#if this.shouldShowPartialRegDialog}}
+                        <partialRegistrationModal.main />
+                    {{else}}
+                        <finalizeRegistrationModal.main />
+                    {{/if}}
+                </dialog.main>
+                <dialog.footer>
+                    {{#if this.shouldShowPartialRegDialog}}
+                        <partialRegistrationModal.footer @closeDialog={{dialog.close}} />
+                    {{else}}
+                        <finalizeRegistrationModal.footer @back={{action (mut this.showPartialRegDialog) true}} />
+                    {{/if}}
+                </dialog.footer>
+            </OsfDialog>
+        </Registries::FinalizeRegistrationModal>
+    </Registries::PartialRegistrationModal>
 {{/if}}

@@ -20,7 +20,6 @@ module('Integration | Component | partial-registration-modal', hooks => {
         const childNode = await this.store.findRecord('node', child.id);
         const grandChildNode = await this.store.findRecord('node', grandChild.id);
         this.set('rootNode', rootNode);
-        this.set('isOpen', false);
         this.set('onContinue', (selectedNodes: NodeModel[]) => {
             assert.ok(
                 selectedNodes.length === 3,
@@ -40,26 +39,20 @@ module('Integration | Component | partial-registration-modal', hooks => {
             );
         });
         await render(hbs`
-            <Registries::PartialRegistrationModal::Manager
+            <Registries::PartialRegistrationModal
+                @onContinue={{action this.onContinue}}
                 @rootNode={{this.rootNode}}
-                @isOpen={{this.isOpen}}
-                @renderInPlace={{true}}
-                as |modalManager|
-            >
-                <Registries::PartialRegistrationModal
-                    @modalManager={{modalManager}}
-                    @onContinue={{action this.onContinue}}
-                />
-            </Registries::PartialRegistrationModal::Manager>
+            as |partialRegistrationModal|>
+                <partialRegistrationModal.main />
+                <partialRegistrationModal.footer />
+            </Registries::PartialRegistrationModal>
         `);
-        this.set('isOpen', true);
         await settled();
         assert.dom(`[data-test-item="${root.id}"]`).exists();
         assert.dom(`[data-test-item="${child.id}"]`).exists();
         assert.dom(`[data-test-item="${grandChild.id}"]`).exists();
         assert.dom(`[data-test-item="${root.id}"] input`).isChecked();
         await click('[data-test-continue-registration-button]');
-        this.set('isOpen', false);
         await settled();
     });
 
@@ -74,7 +67,6 @@ module('Integration | Component | partial-registration-modal', hooks => {
         const childNode = await this.store.findRecord('node', child.id);
         const grandChildNode = await this.store.findRecord('node', grandChild.id);
         this.set('rootNode', rootNode);
-        this.set('isOpen', false);
         this.set('onContinue', (selectedNodes: NodeModel[]) => {
             assert.ok(
                 selectedNodes.length === 3,
@@ -94,19 +86,14 @@ module('Integration | Component | partial-registration-modal', hooks => {
             );
         });
         await render(hbs`
-            <Registries::PartialRegistrationModal::Manager
+            <Registries::PartialRegistrationModal
+                @onContinue={{action this.onContinue}}
                 @rootNode={{this.rootNode}}
-                @isOpen={{this.isOpen}}
-                @renderInPlace={{true}}
-                as |modalManager|
-            >
-                <Registries::PartialRegistrationModal
-                    @modalManager={{modalManager}}
-                    @onContinue={{action this.onContinue}}
-                />
-            </Registries::PartialRegistrationModal::Manager>
+            as |partialRegistrationModal|>
+                <partialRegistrationModal.main />
+                <partialRegistrationModal.footer />
+            </Registries::PartialRegistrationModal>
         `);
-        this.set('isOpen', true);
         await settled();
         assert.dom(`[data-test-item="${grandChild.id}"] input`).isChecked();
         assert.dom(`[data-test-item="${child.id}"] input`).isChecked();
@@ -117,7 +104,6 @@ module('Integration | Component | partial-registration-modal', hooks => {
         assert.dom(`[data-test-item="${grandChild.id}"] input`).isChecked();
         assert.dom(`[data-test-item="${child.id}"] input`).isChecked();
         await click('[data-test-continue-registration-button]');
-        this.set('isOpen', false);
         await settled();
     });
 
@@ -132,7 +118,6 @@ module('Integration | Component | partial-registration-modal', hooks => {
         const childNode = await this.store.findRecord('node', child.id);
         const grandChildNode = await this.store.findRecord('node', grandChild.id);
         this.set('rootNode', rootNode);
-        this.set('isOpen', false);
         this.set('onContinue', (selectedNodes: NodeModel[]) => {
             assert.ok(
                 selectedNodes.length === 3,
@@ -152,19 +137,14 @@ module('Integration | Component | partial-registration-modal', hooks => {
             );
         });
         await render(hbs`
-            <Registries::PartialRegistrationModal::Manager
+            <Registries::PartialRegistrationModal
+                @onContinue={{action this.onContinue}}
                 @rootNode={{this.rootNode}}
-                @isOpen={{this.isOpen}}
-                @renderInPlace={{true}}
-                as |modalManager|
-            >
-                <Registries::PartialRegistrationModal
-                    @modalManager={{modalManager}}
-                    @onContinue={{action this.onContinue}}
-                />
-            </Registries::PartialRegistrationModal::Manager>
+            as |partialRegistrationModal|>
+                <partialRegistrationModal.main />
+                <partialRegistrationModal.footer />
+            </Registries::PartialRegistrationModal>
         `);
-        this.set('isOpen', true);
         await settled();
         assert.dom(`[data-test-item="${root.id}"] input`).isChecked();
         assert.dom(`[data-test-item="${grandChild.id}"] input`).isChecked();
@@ -178,7 +158,6 @@ module('Integration | Component | partial-registration-modal', hooks => {
         assert.dom(`[data-test-item="${grandChild.id}"] input`).isChecked();
         assert.dom(`[data-test-item="${child.id}"] input`).isChecked();
         await click('[data-test-continue-registration-button]');
-        this.set('isOpen', false);
         await settled();
     });
 
@@ -193,7 +172,6 @@ module('Integration | Component | partial-registration-modal', hooks => {
         const childNode = await this.store.findRecord('node', child.id);
         const grandChildNode = await this.store.findRecord('node', grandChild.id);
         this.set('rootNode', rootNode);
-        this.set('isOpen', false);
         this.set('onContinue', (selectedNodes: NodeModel[]) => {
             assert.ok(
                 selectedNodes.length === 1,
@@ -213,19 +191,14 @@ module('Integration | Component | partial-registration-modal', hooks => {
             );
         });
         await render(hbs`
-            <Registries::PartialRegistrationModal::Manager
+            <Registries::PartialRegistrationModal
+                @onContinue={{action this.onContinue}}
                 @rootNode={{this.rootNode}}
-                @isOpen={{this.isOpen}}
-                @renderInPlace={{true}}
-                as |modalManager|
-            >
-                <Registries::PartialRegistrationModal
-                    @modalManager={{modalManager}}
-                    @onContinue={{action this.onContinue}}
-                />
-            </Registries::PartialRegistrationModal::Manager>
+            as |partialRegistrationModal|>
+                <partialRegistrationModal.main />
+                <partialRegistrationModal.footer />
+            </Registries::PartialRegistrationModal>
         `);
-        this.set('isOpen', true);
         await settled();
         assert.dom(`[data-test-item="${grandChild.id}"] input`).isChecked();
         assert.dom(`[data-test-item="${child.id}"] input`).isChecked();
@@ -233,7 +206,6 @@ module('Integration | Component | partial-registration-modal', hooks => {
         assert.dom(`[data-test-item="${grandChild.id}"] input`).isNotChecked();
         assert.dom(`[data-test-item="${child.id}"] input`).isNotChecked();
         await click('[data-test-continue-registration-button]');
-        this.set('isOpen', false);
         await settled();
     });
 });

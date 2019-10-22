@@ -1,0 +1,42 @@
+<div local-class='notice'>
+    {{t 'registries.finalizeRegistrationModal.notice'}}
+</div>
+<div>
+    <RadioButton
+        @value='immediate'
+        @groupValue={{@manager.makePublicOption}}
+        @changed={{action this.onChoiceChange}}
+    >
+        <span data-test-immediate-button>
+            {{t 'registries.finalizeRegistrationModal.immediateOption'}}
+        </span>
+    </RadioButton>
+    {{#if (eq @manager.makePublicOption 'immediate')}}
+        <span local-class='create-doi-option'>
+            <label data-test-create-doi-label>
+                <Input @type='checkbox' @checked={{@manager.registration.createDoi}} />
+                {{t 'registries.finalizeRegistrationModal.createDoi'}}
+            </label>
+        </span>
+    {{/if}}
+</div>
+<div>
+    <RadioButton
+        @value='embargo'
+        @groupValue={{@manager.makePublicOption}}
+        @changed={{action this.onChoiceChange}}
+    >
+        <span data-test-embargo-button>
+            {{t 'registries.finalizeRegistrationModal.embargoOption'}}
+        </span>
+    </RadioButton>
+    {{#if (eq @manager.makePublicOption 'embargo')}}
+        <ValidatedInput::Date
+            data-test-embargo-date-input
+            @value={{@manager.registration.embargoEndDate}}
+            @startDate={{this.embargoRangeStartDate}}
+            @endDate={{this.embargoRangeEndDate}}
+            @placeholder={{t 'registries.finalizeRegistrationModal.datePlaceholder'}}
+        />
+    {{/if}}
+</div>

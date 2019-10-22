@@ -1,4 +1,4 @@
-import { click, fillIn, render, settled } from '@ember/test-helpers';
+import { click, fillIn, render } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
@@ -14,22 +14,16 @@ module('Integration | Component | finalize-registration-modal', hooks => {
         const registration = server.create('registration');
 
         const registrationModel = await this.store.findRecord('registration', registration.id);
-        this.set('model', registrationModel);
-        this.set('isOpen', false);
+        this.set('registration', registrationModel);
         await render(hbs`
-            <Registries::FinalizeRegistrationModal::Manager
-                @registration={{this.model}}
-                @isOpen={{this.isOpen}}
-                @renderInPlace={{true}}
-                as |manager|
+            <Registries::FinalizeRegistrationModal
+                @registration={{this.registration}}
+                as |finalizeRegistrationModal|
             >
-                <Registries::FinalizeRegistrationModal @manager={{manager}} />
-            </Registries::FinalizeRegistrationModal::Manager>
+                <finalizeRegistrationModal.main />
+                <finalizeRegistrationModal.footer />
+            </Registries::FinalizeRegistrationModal>
         `);
-        // Open the dialog
-        this.set('isOpen', true);
-        await settled();
-
         // Check that the submit button is disabled
         assert.dom('[data-test-submit-registration-button]').isDisabled();
         // Check that the `Create doi` checkbox is not visible
@@ -60,21 +54,16 @@ module('Integration | Component | finalize-registration-modal', hooks => {
         const registration = server.create('registration');
 
         const registrationModel = await this.store.findRecord('registration', registration.id);
-        this.set('model', registrationModel);
-        this.set('isOpen', false);
+        this.set('registration', registrationModel);
         await render(hbs`
-            <Registries::FinalizeRegistrationModal::Manager
-                @registration={{this.model}}
-                @isOpen={{this.isOpen}}
-                @renderInPlace={{true}}
-                as |manager|
+            <Registries::FinalizeRegistrationModal
+                @registration={{this.registration}}
+                as |finalizeRegistrationModal|
             >
-                <Registries::FinalizeRegistrationModal @manager={{manager}} />
-            </Registries::FinalizeRegistrationModal::Manager>
+                <finalizeRegistrationModal.main />
+                <finalizeRegistrationModal.footer />
+            </Registries::FinalizeRegistrationModal>
         `);
-        // Open the dialog
-        this.set('isOpen', true);
-        await settled();
 
         // Check that the submit button is disabled
         assert.dom('[data-test-submit-registration-button]').isDisabled();
@@ -102,8 +91,5 @@ module('Integration | Component | finalize-registration-modal', hooks => {
         // await click('[data-test-immediate-button]');
         // // Check that the submit button is enabled
         // assert.dom('[data-test-submit-registration-button]').isNotDisabled();
-
-        // // Close the dialog
-        this.set('isOpen', false);
     });
 });

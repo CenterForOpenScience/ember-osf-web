@@ -9,18 +9,17 @@ import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import RegistrationModel from 'ember-osf-web/models/registration';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import template from './template';
 
 export interface FinalizeRegistrationModalManager {
     registration: RegistrationModel;
-    isOpen: boolean;
-    renderInPlace: boolean;
     hasEmbargoEndDate: boolean;
     submitRegistration: () => void;
     setEmbargoEndDate: (embargoEndDate: Date | null) => void;
     setCreateDoi: (createDoi: boolean) => void;
+    makePublicOption: string;
+    shouldDisableSubmitButton: boolean;
 }
 
 @layout(template)
@@ -29,8 +28,6 @@ export default class FinalizeRegistrationModalManagerComponent extends Component
     submitRegistration: task(function *(this: FinalizeRegistrationModalManagerComponent) {
         try {
             yield this.registration.save();
-
-            this.toggleProperty('isOpen');
         } catch (error) {
             this.toast.error(this.i18n.t('registries.drafts.draft.submit_error'));
             throw error;
@@ -49,9 +46,8 @@ export default class FinalizeRegistrationModalManagerComponent extends Component
     registration!: RegistrationModel;
 
     // Optional parameters
-    isOpen: boolean = defaultTo(this.isOpen, false);
-    renderInPlace: boolean = defaultTo(this.renderInPlace, false);
     onSubmitRegistration?: (registrationId: string) => void;
+    makePublicOption = '';
 
     didReceiveAttrs() {
         assert('finalize-registration-model::manager must have a registration', Boolean(this.registration));
@@ -60,6 +56,11 @@ export default class FinalizeRegistrationModalManagerComponent extends Component
     @computed('registration.embargoEndDate')
     get hasEmbargoEndDate() {
         return this.registration.embargoEndDate instanceof Date;
+    }
+
+    @computed('makePublicOption', 'hasEmbargoEndDate')
+    get shouldDisableSubmitButton() {
+        return this.makePublicOption === '' || (this.makePublicOption === 'embargo' && !this.hasEmbargoEndDate);
     }
 
     @action

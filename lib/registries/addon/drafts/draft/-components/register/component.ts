@@ -2,7 +2,6 @@ import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import { run } from '@ember/runloop';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 
@@ -52,7 +51,7 @@ export default class Register extends Component.extend({
     @computed('showPartialRegDialog',
         'draftManager.registrationResponsesIsValid',
         'rootNode')
-    get shouldShowPartialRegModal() {
+    get shouldShowPartialRegDialog() {
         return this.showPartialRegDialog &&
             this.draftManager.registrationResponsesIsValid && Boolean(this.rootNode);
     }
@@ -63,9 +62,17 @@ export default class Register extends Component.extend({
         this.registration.setProperties({ includedNodeIds });
 
         this.toggleProperty('showPartialRegDialog');
+        this.toggleProperty('showFinalizeRegDialog');
+    }
 
-        run.next(this, () => {
-            this.toggleProperty('showFinalizeRegDialog');
-        });
+    @action
+    onOpen() {
+        this.set('showPartialRegDialog', true);
+    }
+
+    @action
+    onClose() {
+        this.set('showPartialRegDialog', false);
+        this.set('showFinalizeRegDialog', false);
     }
 }

@@ -29,12 +29,11 @@ export default class PartialRegistrationModalManagerComponent extends Component.
 }) implements HierarchicalListManager {
     @service store!: DS.Store;
     rootNode!: NodeModel;
-    isOpen: boolean = defaultTo(this.isOpen, false);
-    renderInPlace: boolean = defaultTo(this.renderInPlace, false);
 
     // Private
     nodesIncludingRoot: NodeModel[] = defaultTo(this.nodesIncludingRoot, []);
     selectedNodes: NodeModel[] = defaultTo(this.selectedNodes, []);
+    onContinue?: (nodes: NodeModel[]) => void;
 
     @alias('loadAllChildNodes.isRunning') loadingChildNodes!: boolean;
 
@@ -63,6 +62,14 @@ export default class PartialRegistrationModalManagerComponent extends Component.
     @action
     isChecked(node: NodeModel) {
         return this.selectedNodes.includes(node);
+    }
+
+    @action
+    continue() {
+        const nodes = this.selectedNodes;
+        if (this.onContinue) {
+            this.onContinue(nodes);
+        }
     }
 
     addParents(currentItem: NodeModel) {
