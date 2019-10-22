@@ -2,7 +2,7 @@ import { computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
 import { ChartData, ChartOptions, Shape } from 'ember-cli-chart';
-import InstitutionModel from 'ember-osf-web/models/institution';
+import InstitutionModel, { Department } from 'ember-osf-web/models/institution';
 
 export default class DepartmentsPanel extends Component {
     institution!: InstitutionModel;
@@ -23,6 +23,10 @@ export default class DepartmentsPanel extends Component {
     };
 
     didReceiveAttrs() {
+        if (!this.departments) {
+            return;
+        }
+
         const departmentNumbers = this.departments.map(x => x.numUsers);
         this.chartHoverIndex = departmentNumbers.indexOf(Math.max(...departmentNumbers));
     }
@@ -51,12 +55,12 @@ export default class DepartmentsPanel extends Component {
     }
 
     @computed('chartHoverIndex', 'departments')
-    get activeDepartment() {
+    get activeDepartment(): Department {
         return this.departments[this.chartHoverIndex];
     }
 
     @computed('activeDepartment', 'departments')
-    get activeDepartmentPercentage() {
+    get activeDepartmentPercentage(): string {
         const count = this.departments.reduce((total, currentValue) => total + currentValue.numUsers, 0);
         return ((this.activeDepartment.numUsers / count) * 100).toFixed(2);
     }
