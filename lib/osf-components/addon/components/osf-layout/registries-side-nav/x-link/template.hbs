@@ -1,7 +1,9 @@
 {{#if this.isButton}}
     <OsfButton
         data-test-collapsed={{this.isCollapsed}}
-        local-class='Link {{if this.isCollapsed 'Collapsed'}} {{if this.isCurrentPage 'CurrentPage'}}'
+        local-class='Link
+            {{if this.isCollapsed 'Collapsed'}}
+            {{if this.isCurrentPage 'CurrentPage'}}'
         @onClick={{@onClick}}
         @type='link'
         ...attributes

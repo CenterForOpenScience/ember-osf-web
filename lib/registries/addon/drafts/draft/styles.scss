@@ -51,21 +51,13 @@
     align-items: center;
 }
 
-.Valid {
-    color: $primary-green;
-}
-
-.Invalid {
-    color: $primary-red;
-}
-
 .Unvisited {
     color: $slate-gray;
 
     .Label {
         color: $dark-slate-gray;
     }
-    
+
     &:hover span {
         color: $white;
     }
@@ -73,8 +65,4 @@
 
 .Active {
     color: $black;
-}
-
-.UnvisitedDark {
-    color: $dark-slate-gray;
 }

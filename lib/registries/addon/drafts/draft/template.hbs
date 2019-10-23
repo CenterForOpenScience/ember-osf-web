@@ -24,42 +24,27 @@
             
             <layout.leftNav as |leftNav|>
                 {{#each draftManager.pageManagers as |pageManager index|}}
-                    <PageLinkManager
+                    <PageLink
+                        @link={{component leftNav.link}}
+                        @draftId={{draftManager.draftId}}
                         @pageManager={{pageManager}}
                         @pageIndex={{index}}
                         @currentPage={{draftManager.currentPage}}
-                        as |pageLinkManager|
-                    >
-                        <leftNav.link
-                            data-analytics-name='{{pageLinkManager.IndexWithSlug}}'
-                            class={{local-class (compute (action this.pageStateToClass) pageLinkManager.pageState)}}
-                            @route='registries.drafts.draft'
-                            @models={{array draftManager.draftId pageLinkManager.pageIndexWithSlug}}
-                            @icon={{compute (action this.pageStateToIcon) pageLinkManager.pageState}}
-                            @label={{pageManager.pageHeadingText}}
-                            @isCurrentPage={{pageLinkManager.pageIsActive}}
-                            as |link|
-                        >
-                            <link.icon />
-                            <link.label
-                                local-class='Label'
-                            />
-                        </leftNav.link>
-                    </PageLinkManager>
+                    />
                 {{/each}}
                 <leftNav.link
                     data-analytics-name='Review'
-                    local-class='Unvisited'
+                    local-class={{if (eq this.model.page 'review') 'Active' 'Unvisited'}}
                     @route='registries.drafts.draft'
                     @models={{array draftManager.draftId 'review'}}
-                    @icon='circle'
+                    @icon={{if (eq this.model.page 'review') 'circle-o' 'circle'}}
                     @label='Review'
                     @isCurrentPage={{eq this.model.page 'review'}}
                     as |link|
                 >
                     <link.icon />
                     <link.label
-                        local-class={{if (eq this.model.page 'review') '' 'UnvisitedDark'}}
+                        local-class='Label'
                     />
                 </leftNav.link>
             </layout.leftNav>
