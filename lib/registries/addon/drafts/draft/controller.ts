@@ -6,7 +6,6 @@ import RouterService from '@ember/routing/router-service';
 
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import { getPageParam } from 'ember-osf-web/utils/page-param';
-import { PageState } from 'registries/components/page-link/component';
 
 import { DraftRouteModel } from './route';
 
