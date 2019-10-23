@@ -38,7 +38,7 @@ module('Integration | Component | Hero banner', hooks => {
         router.setupRouter();
 
         // Set feature flag to show version B
-        features.enable(ABTesting.homePageVersionB);
+        features.enable(ABTesting.homePageHeroTextVersionB);
 
         await render(hbs`<Home::-Components::HeroBanner />`);
 

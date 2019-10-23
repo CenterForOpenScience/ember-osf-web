@@ -79,7 +79,7 @@ module('Acceptance | logged-out home page test', hooks => {
         await visit('/');
         const features = this.owner.lookup('service:features') as Features;
 
-        features.enable(ABTesting.homePageVersionB);
+        features.enable(ABTesting.homePageHeroTextVersionB);
 
         await settled();
         assert.dom('[data-test-hero-heading]')

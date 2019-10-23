@@ -10,7 +10,7 @@ const { featureFlagNames: { ABTesting } } = config;
 export default class Home extends Controller {
     @service features!: Features;
 
-    @alias(`features.${camelize(ABTesting.homePageVersionB)}`)
+    @alias(`features.${camelize(ABTesting.homePageHeroTextVersionB)}`)
     shouldShowVersionB!: boolean;
 }
 
