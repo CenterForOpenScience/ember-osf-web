@@ -32,38 +32,6 @@ export default class RegistriesDrat extends Controller {
     }
 
     @action
-    pageStateToClass(pageState: PageState): string {
-        switch (pageState) {
-        case PageState.Active:
-            return 'Active';
-        case PageState.Unvisited:
-            return 'Unvisited';
-        case PageState.Invalid:
-            return 'Invalid';
-        case PageState.Valid:
-            return 'Valid';
-        default:
-            return '';
-        }
-    }
-
-    @action
-    pageStateToIcon(pageState: PageState): string {
-        switch (pageState) {
-        case PageState.Active:
-            return 'circle-o';
-        case PageState.Unvisited:
-            return 'circle';
-        case PageState.Invalid:
-            return 'exclamation-circle';
-        case PageState.Valid:
-            return 'check-circle-o';
-        default:
-            return '';
-        }
-    }
-
-    @action
     updateRoute(headingText: string) {
         if (this.page && this.shouldAppendPageSlug) {
             const pageSlug = getPageParam(this.pageIndex, headingText);
