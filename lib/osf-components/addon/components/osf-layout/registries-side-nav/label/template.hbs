@@ -1,10 +1,16 @@
 <div local-class='LabelWrapper' ...attributes>
-    <span local-class='Label'>
+    <span
+        data-test-label
+        local-class='Label'
+    >
         {{@label}}
     </span>
 
     {{#if this.showCount}}
-        <span local-class='Count'>
+        <span
+            data-test-count
+            local-class='Count'
+        >
             {{@count}}
         </span>
     {{/if}}

@@ -1,0 +1,143 @@
+import Service from '@ember/service';
+import { render } from '@ember/test-helpers';
+// import { Server } from 'ember-cli-mirage';
+// import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { TestContext } from 'ember-test-helpers';
+import hbs from 'htmlbars-inline-precompile';
+import { module, test } from 'qunit';
+
+// import { PageState } from 'registries/components/page-link/component'
+import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
+
+class RouterStub extends Service {
+    urlFor() {
+        return 'http://example.com';
+    }
+
+    isActive() {
+        return false;
+    }
+
+    transitionTo() {
+        // empty
+    }
+}
+
+class CurrentUserStub extends Service {
+}
+
+// type Context = TestContext & { server: Server };
+
+module('Registries | Integration | Component | page-link', hooks => {
+    setupEngineRenderingTest(hooks, 'registries');
+
+    hooks.beforeEach(function(this: TestContext) {
+        this.owner.register('service:router', RouterStub);
+        this.owner.register('service:current-user', CurrentUserStub);
+    });
+
+    test('Renders an unvisited page link', async function(this: TestContext, assert) {
+        const pageManager = {
+            isVisited: false,
+            pageIsValid: false,
+            pageHeadingText: 'Unvisited',
+        };
+
+        // const mirageDraftRegistration = server.create('draft-registration', {
+        //     registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        // });
+        // const draftRegistration = await this.store.findRecord('draft-registration', mirageDraftRegistration.id);
+
+        this.setProperties({ pageManager });
+
+        await render(hbs`
+            <PageLink
+                @link={{component 'osf-layout/registries-side-nav/x-link'}}
+                @draftId='test'
+                @pageManager={{this.pageManager}}
+                @pageIndex={{100}}
+                @currentPage={{1}}
+                as |pageLink|
+            />
+        `);
+
+        assert.dom('[data-test-link="101-unvisited"]').exists('Unvisited PageLink Component renders');
+        assert.dom('[data-test-label]').containsText(pageManager.pageHeadingText, 'has proper label');
+        assert.dom('i[data-test-icon].fa-circle').exists('icon uses proper symbol');
+    });
+
+    test('Renders a valid page link', async function(this: TestContext, assert) {
+        const pageManager = {
+            isVisited: true,
+            pageIsValid: true,
+            pageHeadingText: 'Valid',
+        };
+
+        this.setProperties({ pageManager });
+
+        await render(hbs`
+            <PageLink
+                @link={{component 'osf-layout/registries-side-nav/x-link'}}
+                @draftId='test'
+                @pageManager={{this.pageManager}}
+                @pageIndex={{0}}
+                @currentPage={{2}}
+                as |pageLink|
+            />
+        `);
+
+        assert.dom('[data-test-link="1-valid"]').exists('Valid PageLink Component renders');
+        assert.dom('[data-test-label]').containsText(pageManager.pageHeadingText, 'has proper label');
+        assert.dom('[data-test-icon].fa-check-circle-o').exists('icon uses proper symbol');
+    });
+
+    test('Renders an invalid page link', async function(this: TestContext, assert) {
+        const pageManager = {
+            isVisited: true,
+            pageIsValid: false,
+            pageHeadingText: 'Invalid',
+        };
+
+        this.setProperties({ pageManager });
+
+        await render(hbs`
+            <PageLink
+                @link={{component 'osf-layout/registries-side-nav/x-link'}}
+                @draftId='test'
+                @pageManager={{this.pageManager}}
+                @pageIndex={{1}}
+                @currentPage={{3}}
+                as |pageLink|
+            />
+        `);
+
+        assert.dom('[data-test-link="2-invalid"]').exists('Invalid PageLink Component renders');
+        assert.dom('[data-test-label]').containsText(pageManager.pageHeadingText, 'has proper label');
+        assert.dom('[data-test-icon].fa-exclamation-circle').exists('icon uses proper symbol');
+    });
+
+    test('Renders an active page link', async function(this: TestContext, assert) {
+        const pageManager = {
+            isVisited: true,
+            pageIsValid: false,
+            pageHeadingText: 'Active',
+        };
+
+        this.setProperties({ pageManager });
+
+        await render(hbs`
+            <PageLink
+            @link={{component 'osf-layout/registries-side-nav/x-link'}}
+                @draftId='test'
+                @pageManager={{this.pageManager}}
+                @pageIndex={{5}}
+                @currentPage={{5}}
+                as |pageLink|
+            />
+        `);
+
+        assert.dom('[data-test-link="6-active"]').exists('Active PageLink Component renders');
+        assert.dom('[data-test-label]').containsText(pageManager.pageHeadingText, 'has proper label');
+        assert.dom('[data-test-icon].fa-circle-o').exists('icon uses proper symbol');
+    });
+});
