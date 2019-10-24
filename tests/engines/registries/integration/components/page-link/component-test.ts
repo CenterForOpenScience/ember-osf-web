@@ -1,12 +1,9 @@
 import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
-// import { Server } from 'ember-cli-mirage';
-// import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
-// import { PageState } from 'registries/components/page-link/component'
 import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
 
 class RouterStub extends Service {
@@ -26,8 +23,6 @@ class RouterStub extends Service {
 class CurrentUserStub extends Service {
 }
 
-// type Context = TestContext & { server: Server };
-
 module('Registries | Integration | Component | page-link', hooks => {
     setupEngineRenderingTest(hooks, 'registries');
 
@@ -42,11 +37,6 @@ module('Registries | Integration | Component | page-link', hooks => {
             pageIsValid: false,
             pageHeadingText: 'Unvisited',
         };
-
-        // const mirageDraftRegistration = server.create('draft-registration', {
-        //     registrationSchema: server.schema.registrationSchemas.find('testSchema'),
-        // });
-        // const draftRegistration = await this.store.findRecord('draft-registration', mirageDraftRegistration.id);
 
         this.setProperties({ pageManager });
 
