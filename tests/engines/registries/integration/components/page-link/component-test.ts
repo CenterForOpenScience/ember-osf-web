@@ -53,7 +53,7 @@ module('Registries | Integration | Component | page-link', hooks => {
 
         assert.dom('[data-test-link="101-unvisited"]').exists('Unvisited PageLink Component renders');
         assert.dom('[data-test-label]').containsText(pageManager.pageHeadingText, 'has proper label');
-        assert.dom('i[data-test-icon].fa-circle').exists('icon uses proper symbol');
+        assert.dom('[data-test-icon].fa-circle').exists('icon uses proper symbol');
     });
 
     test('Renders a valid page link', async function(this: TestContext, assert) {
@@ -117,7 +117,7 @@ module('Registries | Integration | Component | page-link', hooks => {
 
         await render(hbs`
             <PageLink
-            @link={{component 'osf-layout/registries-side-nav/x-link'}}
+                @link={{component 'osf-layout/registries-side-nav/x-link'}}
                 @draftId='test'
                 @pageManager={{this.pageManager}}
                 @pageIndex={{5}}

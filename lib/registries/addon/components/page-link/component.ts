@@ -1,6 +1,7 @@
 import { tagName } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
+import { assert } from '@ember/debug';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import { PageManager } from 'ember-osf-web/packages/registration-schema';
@@ -17,9 +18,9 @@ export enum PageState {
 
 @tagName('')
 @layout(template)
-export default class PageLinkComponenet extends Component {
+export default class PageLinkComponent extends Component {
     // Required
-    xLink!: xLink;
+    link!: xLink;
     draftId!: string;
     pageManager!: PageManager;
     pageIndex!: number;
@@ -79,5 +80,13 @@ export default class PageLinkComponenet extends Component {
     @computed('pageIndex', 'currentPage')
     get pageIsActive() {
         return this.pageIndex === this.currentPage;
+    }
+
+    didReceiveAttrs() {
+        assert('Registries::PageLink: @link is required', Boolean(this.link));
+        assert('Registries::PageLink: @pageManager is required', Boolean(this.pageManager));
+        assert('Registries::PageLink: @draftId is required', Boolean(this.draftId));
+        assert('Registries::PageLink: @pageIndex is required', typeof (this.pageIndex) === 'number');
+        assert('Registries::PageLink: @currentPage is required', typeof (this.currentPage) === 'number');
     }
 }

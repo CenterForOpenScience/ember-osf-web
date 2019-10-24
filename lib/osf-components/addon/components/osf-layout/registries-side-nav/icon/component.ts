@@ -13,7 +13,9 @@ export default class Icon extends Component {
     icon!: string;
 
     didReceiveAttrs() {
-        assert('OsfLayout::RegistriesSideNave::Icon: ' +
-            '@icon is required for this component to render', Boolean(this.icon));
+        assert(
+            'OsfLayout::RegistriesSideNav::Icon: @icon is required for this component to render',
+            Boolean(this.icon),
+        );
     }
 }

@@ -32,7 +32,9 @@ export default class Label extends Component {
     }
 
     didReceiveAttrs() {
-        assert('OsfLayout::RegistriesSideNave::Label: ' +
-            'git @label is required for this component to render', Boolean(this.label));
+        assert(
+            'OsfLayout::RegistriesSideNav::Label: @label is required for this component to render',
+            Boolean(this.label),
+        );
     }
 }
