@@ -19,11 +19,9 @@ module('Integration | Component | finalize-registration-modal', hooks => {
         await render(hbs`
             <Registries::FinalizeRegistrationModal::Manager
                 @registration={{this.model}}
-                @isOpen={{this.isOpen}}
-                @renderInPlace={{true}}
                 as |manager|
             >
-                <Registries::FinalizeRegistrationModal @manager={{manager}} />
+                <Registries::FinalizeRegistrationModal @isOpen={{this.isOpen}} @manager={{manager}} />
             </Registries::FinalizeRegistrationModal::Manager>
         `);
         // Open the dialog
@@ -65,11 +63,9 @@ module('Integration | Component | finalize-registration-modal', hooks => {
         await render(hbs`
             <Registries::FinalizeRegistrationModal::Manager
                 @registration={{this.model}}
-                @isOpen={{this.isOpen}}
-                @renderInPlace={{true}}
                 as |manager|
             >
-                <Registries::FinalizeRegistrationModal @manager={{manager}} />
+                <Registries::FinalizeRegistrationModal @isOpen={{this.isOpen}} @manager={{manager}} />
             </Registries::FinalizeRegistrationModal::Manager>
         `);
         // Open the dialog
