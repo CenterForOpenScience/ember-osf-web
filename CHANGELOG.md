@@ -24,6 +24,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `institution`
         - added `dashboard` nested route
 - Engines
+    - Components
+        - `drafts/draft/-components/register`
     - Routes
         - `registries`
             - `drafts.draft`, `draft/<draftId>/<page>`
@@ -80,7 +82,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `ember-data-factory-guy`
 - Types
     - `FactoryGuy` types
-       
+
 ## [19.10.0] - 2019-10-02
 ### Added
 - Models
