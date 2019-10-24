@@ -42,6 +42,24 @@
                 {{/if}}
             </layout.main>
             <layout.right local-class='Right'>
+                {{#if this.inReview}}
+                    <Drafts::Draft::-Components::Register
+                        @draftRegistration={{this.draftRegistration}}
+                        @draftManager={{draftManager}}
+                        @onSubmitRedirect={{action this.onSubmitRedirect}}
+                    />
+                {{/if}}
+                {{#if (eq draftManager.lastPage this.pageIndex)}}
+                    <OsfLink
+                        data-test-goto-review
+                        class='btn btn-primary'
+                        @type='button'
+                        @route='registries.drafts.draft'
+                        @models={{array draftManager.draftId 'review'}}
+                    >
+                        {{t 'registries.drafts.draft.review.start_review'}}
+                    </OsfLink>
+                {{/if}}
                 {{#if draftManager.nextPageParam}}
                     <OsfLink
                         data-test-goto-next-page
@@ -54,7 +72,6 @@
                         {{t 'registries.drafts.draft.form.next'}}
                     </OsfLink>
                 {{/if}}
-
                 {{#if draftManager.prevPageParam}}
                     <OsfLink
                         data-test-goto-previous-page
@@ -65,27 +82,6 @@
                     >
                         {{t 'registries.drafts.draft.form.back'}}
                     </OsfLink>
-                {{/if}}
-
-                {{#if (eq draftManager.lastPage this.pageIndex)}}
-                    <OsfLink
-                        data-test-goto-review
-                        class='btn btn-primary'
-                        @type='button'
-                        @route='registries.drafts.draft'
-                        @models={{array draftManager.draftId 'review'}}
-                    >
-                        {{t 'registries.drafts.draft.review.start_review'}}
-                    </OsfLink>
-                {{/if}}
-
-                {{#if this.inReview}}
-                    <OsfButton
-                        data-test-goto-register
-                        @type='primary'
-                    >
-                        {{t 'registries.drafts.draft.register'}}
-                    </OsfButton>
                 {{/if}}
             </layout.right>
         </OsfLayout>

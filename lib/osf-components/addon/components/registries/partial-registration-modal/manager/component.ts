@@ -1,7 +1,9 @@
 import { tagName } from '@ember-decorators/component';
 import { action } from '@ember-decorators/object';
+import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { assert } from '@ember/debug';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 import { layout } from 'ember-osf-web/decorators/component';
@@ -24,19 +26,19 @@ export default class PartialRegistrationModalManagerComponent extends Component.
         allChildNodesIncludingRoot = allChildNodesIncludingRoot.toArray();
         this.set('nodesIncludingRoot', allChildNodesIncludingRoot.slice());
         this.set('selectedNodes', allChildNodesIncludingRoot.slice());
-    }),
+    }).on('didReceiveAttrs'),
 }) implements HierarchicalListManager {
     @service store!: DS.Store;
     rootNode!: NodeModel;
-    isOpen: boolean = defaultTo(this.isOpen, false);
-    renderInPlace: boolean = defaultTo(this.renderInPlace, false);
 
     // Private
     nodesIncludingRoot: NodeModel[] = defaultTo(this.nodesIncludingRoot, []);
     selectedNodes: NodeModel[] = defaultTo(this.selectedNodes, []);
 
+    @alias('loadAllChildNodes.isRunning') loadingChildNodes!: boolean;
+
     didReceiveAttrs() {
-        this.loadAllChildNodes.perform();
+        assert('partial-registration-modal::manager requires @rootNode!', Boolean(this.rootNode));
     }
 
     @action

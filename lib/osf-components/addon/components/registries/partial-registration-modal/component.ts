@@ -1,6 +1,8 @@
 import { tagName } from '@ember-decorators/component';
 import { action } from '@ember-decorators/object';
 import Component from '@ember/component';
+import { assert } from '@ember/debug';
+
 import { layout } from 'ember-osf-web/decorators/component';
 import NodeModel from 'ember-osf-web/models/node';
 import { HierarchicalListManager } from 'osf-components/components/registries/hierarchical-list';
@@ -11,13 +13,19 @@ import template from './template';
 @layout(template, styles)
 @tagName('')
 export default class PartialRegistrationModal extends Component {
-    modalManager!: HierarchicalListManager;
+    // Required
+    manager!: HierarchicalListManager;
 
+    // Optional
     onContinue?: (nodes: NodeModel[]) => void;
+
+    didReceiveAttrs() {
+        assert('partial-registration-modal requires @manager!', Boolean(this.manager));
+    }
 
     @action
     continue() {
-        const nodes = this.modalManager.selectedNodes;
+        const nodes = this.manager.selectedNodes;
         if (this.onContinue) {
             this.onContinue(nodes);
         }

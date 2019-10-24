@@ -7,7 +7,6 @@ import { task, TaskInstance, timeout } from 'ember-concurrency';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
-import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 import SchemaBlock from 'ember-osf-web/models/schema-block';
 
 import { getPages, PageManager, RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
@@ -15,7 +14,7 @@ import { getNextPageParam, getPrevPageParam } from 'ember-osf-web/utils/page-par
 import template from './template';
 
 export interface DraftRegistrationManager {
-    registrationResponsesisValid: boolean;
+    registrationResponsesIsValid: boolean;
     registrationResponses: RegistrationResponse;
     currentPageManager: PageManager;
     pageManagers: PageManager[];
@@ -114,7 +113,6 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
     onPageNotFound?: () => void;
 
     // Private
-    registrationSchema!: RegistrationSchema;
     draftRegistration!: DraftRegistration;
     currentPage!: number;
     lastPage!: number;

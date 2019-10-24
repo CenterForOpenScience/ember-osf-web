@@ -19,7 +19,7 @@ import { identifierCreate } from './views/identifier';
 import { createNode } from './views/node';
 import { osfNestedResource, osfResource, osfToManyRelationship } from './views/osf-resource';
 import { getProviderSubjects } from './views/provider-subjects';
-import { forkRegistration, registrationDetail } from './views/registration';
+import { createRegistration, forkRegistration, registrationDetail } from './views/registration';
 import { rootDetail } from './views/root';
 import { createToken } from './views/token';
 import { createEmails, updateEmails } from './views/update-email';
@@ -98,7 +98,8 @@ export default function(this: Server) {
         path: '/draft_registrations',
     });
 
-    osfResource(this, 'registration', { except: ['show'] });
+    osfResource(this, 'registration', { except: ['show', 'create'] });
+    this.post('/registrations', createRegistration);
     this.get('/registrations/:id', registrationDetail);
     osfNestedResource(this, 'registration', 'children');
     osfNestedResource(this, 'registration', 'forks', { except: ['create'] });
