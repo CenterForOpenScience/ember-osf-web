@@ -1,0 +1,43 @@
+<OsfButton
+    data-test-goto-register
+    @type='success'
+    @onClick={{action this.showPartialRegDialog}}
+    @disabled={{not this.draftManager.registrationResponsesIsValid}}
+>
+    {{t 'registries.drafts.draft.register'}}
+</OsfButton>
+
+{{#unless this.draftManager.registrationResponsesIsValid}}
+    <div data-test-invalid-responses-text class='text-danger'>
+        {{t 'registries.drafts.draft.review.invalid_warning'}}
+    </div>
+{{/unless}}
+
+{{#if this.rootNode}}
+    <Registries::PartialRegistrationModal::Manager
+        @rootNode={{this.rootNode}}
+        as |partialRegistrationManager|
+    >
+        <Registries::PartialRegistrationModal
+            @isOpen={{this.partialRegDialogIsOpen}}
+            @manager={{partialRegistrationManager}}
+            @onContinue={{action this.onContinue}}
+            @onClose={{action this.closePartialRegDialog}}
+        />
+    </Registries::PartialRegistrationModal::Manager>
+{{/if}}
+
+{{#if this.registration}}
+    <Registries::FinalizeRegistrationModal::Manager
+        @registration={{this.registration}}
+        @onSubmitRegistration={{action this.onSubmitRegistration}}
+        as |finalizeRegistrationManager|
+    >
+        <Registries::FinalizeRegistrationModal
+            @isOpen={{this.finalizeRegDialogIsOpen}}
+            @manager={{finalizeRegistrationManager}}
+            @onClose={{action this.closeFinalizeRegDialog}}
+            @onBack={{action this.onBack}}
+        />
+    </Registries::FinalizeRegistrationModal::Manager>
+{{/if}}

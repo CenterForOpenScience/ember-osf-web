@@ -1,6 +1,7 @@
 import Service from '@ember/service';
-import { click, currentRouteName, currentURL } from '@ember/test-helpers';
+import { click, currentRouteName, currentURL, settled } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { t } from 'ember-i18n/test-support';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
@@ -8,9 +9,6 @@ import { visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 
 const currentUserStub = Service.extend();
-const sessionStub = Service.extend({
-    isAuthenticated: true,
-});
 const storeStub = Service.extend();
 const analyticsStub = Service.extend();
 
@@ -24,7 +22,6 @@ module('Registries | Acceptance | draft form', hooks => {
 
     hooks.beforeEach(function(this: TestContext) {
         this.owner.register('service:currentUser', currentUserStub);
-        this.owner.register('service:session', sessionStub);
         this.owner.register('service:store', storeStub);
         this.owner.register('service:analytics', analyticsStub);
 
@@ -106,5 +103,83 @@ module('Registries | Acceptance | draft form', hooks => {
         // Can navigate back to the last page from review page
         await click('[data-test-goto-previous-page]');
         assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/2-`), 'At second (last) page');
+    });
+
+    test('register button is disabled: invalid responses', async assert => {
+        const initiator = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const registrationResponses = {
+            'page-one_long-text': '',
+            'page-one_multi-select': [],
+            'page-one_multi-select-other': '',
+            'page-one_short-text': null, // Required
+            'page-one_single-select': 'tuna',
+            'page-one_single-select-two': '',
+        };
+        const registration = server.create(
+            'draft-registration', { registrationSchema, initiator, registrationResponses },
+        );
+
+        await visit(`/registries/drafts/${registration.id}/review`);
+        assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/review`), 'At review page');
+        assert.dom('[data-test-goto-register]').isDisabled();
+        assert.dom('[data-test-invalid-responses-text]').isVisible();
+    });
+
+    test('partial and finalize registration modal show, can register draft', async assert => {
+        const initiator = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const rootNode = server.create('node');
+        const childNode = server.create('node', { parent: rootNode });
+        const grandChildNode = server.create('node', { parent: childNode });
+        const registrationResponses = {
+            'page-one_long-text': '',
+            'page-one_multi-select': [],
+            'page-one_multi-select-other': '',
+            'page-one_short-text': 'ditto',
+            'page-one_single-select': 'tuna',
+            'page-one_single-select-two': '',
+        };
+        const registration = server.create(
+            'draft-registration', { registrationSchema, initiator, registrationResponses, branchedFrom: rootNode },
+        );
+        await visit(`/registries/drafts/${registration.id}/review`);
+        assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/review`), 'At review page');
+        assert.dom('[data-test-goto-register]').isNotDisabled();
+
+        await click('[data-test-goto-register]');
+        await settled();
+
+        // PartialRegistrationModal
+        assert.dom('#osf-dialog-heading').hasText(t('registries.partialRegistrationModal.title').toString());
+        [rootNode, childNode, grandChildNode].mapBy('id').forEach(id => assert.dom(`[data-test-expand-child="${id}"]`));
+        await click('[data-test-cancel-registration-button]');
+        await settled();
+        assert.dom('#osf-dialog-heading').isNotVisible('cancel closes the modal');
+
+        await click('[data-test-goto-register]');
+        await settled();
+        assert.dom('[data-test-continue-registration-button]').isVisible();
+        await click('[data-test-continue-registration-button]');
+
+        // FinalizeRegistrationModal
+        assert.dom('#osf-dialog-heading').hasText(t('registries.finalizeRegistrationModal.title').toString());
+        assert.dom('[data-test-submit-registration-button]').isDisabled();
+
+        await click('[data-test-back-button]');
+        assert.dom('#osf-dialog-heading').hasText(
+            t('registries.partialRegistrationModal.title').toString(),
+            'back button switches to partialRegistrationModal',
+        );
+
+        await click('[data-test-continue-registration-button]');
+
+        await click('[data-test-immediate-button]');
+        assert.dom('[data-test-submit-registration-button]').isNotDisabled();
+
+        await click('[data-test-submit-registration-button]');
+        await settled();
+
+        assert.equal(currentRouteName(), 'registries.overview.index', 'Redicted to new registration overview page');
     });
 });

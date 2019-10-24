@@ -1,5 +1,5 @@
 import { tagName } from '@ember-decorators/component';
-import { action } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import { or } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
@@ -29,6 +29,11 @@ export default class OsfDialog extends Component {
     hasTriggeredOpen: boolean = false;
 
     @or('isOpen', 'hasTriggeredOpen') shouldBeOpen!: boolean;
+
+    @computed('renderInPlace')
+    get _renderInPlace() {
+        return this.renderInPlace || !this.osfModalState.dialogWormholeTarget;
+    }
 
     @action
     openDialog() {
