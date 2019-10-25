@@ -8,6 +8,7 @@ export default class SchemaBlockModel extends OsfModel implements SchemaBlock {
     @attr('string') registrationResponseKey?: string | null;
     @attr('string') displayText?: string;
     @attr('string') helpText?: string;
+    @attr('string') exampleText?: string;
     @attr('boolean') required?: boolean;
     @attr('number') index?: number;
 }
