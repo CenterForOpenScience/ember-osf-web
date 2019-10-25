@@ -4,14 +4,10 @@ import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
-import config from 'ember-get-config';
 
 import Node from 'ember-osf-web/models/node';
 import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 import Analytics from 'ember-osf-web/services/analytics';
-import pathJoin from 'ember-osf-web/utils/path-join';
-
-const { OSF: { url: baseURL } } = config;
 
 export default class GuidNodeRegistrations extends Controller {
     @service analytics!: Analytics;
@@ -114,8 +110,10 @@ export default class GuidNodeRegistrations extends Controller {
         await draftRegistration.save();
         this.set('newModalOpen', false);
         this.set('selectedSchema', this.defaultSchema);
-        window.location.assign(
-            pathJoin(baseURL, draftRegistration.branchedFrom.get('id'), 'drafts', draftRegistration.id),
+        this.transitionToRoute(
+            'guid-node.drafts',
+            this.node!.id,
+            draftRegistration.id,
         );
     }
 }

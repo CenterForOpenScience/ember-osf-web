@@ -6,6 +6,7 @@ import { searchCollections } from './views/collection-search';
 import { reportDelete } from './views/comment';
 import { createBibliographicContributor } from './views/contributor';
 import { createDeveloperApp, resetClientSecret } from './views/developer-app';
+import { createDraftRegistration } from './views/draft-registration';
 import {
     folderFilesList,
     nodeFileProviderList,
@@ -83,6 +84,7 @@ export default function(this: Server) {
     osfNestedResource(this, 'node', 'linkedRegistrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'registrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'draftRegistrations', { only: ['index'] });
+    this.post('/nodes/:guid/draft_registrations', createDraftRegistration);
     osfNestedResource(this, 'node', 'identifiers', { only: ['index'] });
     osfToManyRelationship(this, 'node', 'affiliatedInstitutions', {
         only: ['related', 'add', 'remove'],
