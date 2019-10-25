@@ -1,6 +1,7 @@
 import { tagName } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
+import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 import moment from 'moment';
 
@@ -22,6 +23,10 @@ export default class FinalizeRegisrationModalComponent extends Component {
     makePublicOption: string = '';
     embargoRangeStartDate: Date = moment().add(3, 'days').toDate();
     embargoRangeEndDate: Date = moment().add(4, 'years').toDate();
+
+    didReceiveAttrs() {
+        assert('finalize-registration-modal requires @manager!', Boolean(this.manager));
+    }
 
     @action
     onChoiceChange() {

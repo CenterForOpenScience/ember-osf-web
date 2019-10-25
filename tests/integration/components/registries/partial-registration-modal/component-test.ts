@@ -42,13 +42,12 @@ module('Integration | Component | partial-registration-modal', hooks => {
         await render(hbs`
             <Registries::PartialRegistrationModal::Manager
                 @rootNode={{this.rootNode}}
-                @isOpen={{this.isOpen}}
-                @renderInPlace={{true}}
-                as |modalManager|
+                as |partialRegistrationManager|
             >
                 <Registries::PartialRegistrationModal
-                    @modalManager={{modalManager}}
+                    @manager={{partialRegistrationManager}}
                     @onContinue={{action this.onContinue}}
+                    @isOpen={{this.isOpen}}
                 />
             </Registries::PartialRegistrationModal::Manager>
         `);
@@ -96,13 +95,12 @@ module('Integration | Component | partial-registration-modal', hooks => {
         await render(hbs`
             <Registries::PartialRegistrationModal::Manager
                 @rootNode={{this.rootNode}}
-                @isOpen={{this.isOpen}}
-                @renderInPlace={{true}}
-                as |modalManager|
+                as |partialRegistrationManager|
             >
                 <Registries::PartialRegistrationModal
-                    @modalManager={{modalManager}}
+                    @manager={{partialRegistrationManager}}
                     @onContinue={{action this.onContinue}}
+                    @isOpen={{this.isOpen}}
                 />
             </Registries::PartialRegistrationModal::Manager>
         `);
@@ -154,13 +152,12 @@ module('Integration | Component | partial-registration-modal', hooks => {
         await render(hbs`
             <Registries::PartialRegistrationModal::Manager
                 @rootNode={{this.rootNode}}
-                @isOpen={{this.isOpen}}
-                @renderInPlace={{true}}
-                as |modalManager|
+                as |partialRegistrationManager|
             >
                 <Registries::PartialRegistrationModal
-                    @modalManager={{modalManager}}
+                    @manager={{partialRegistrationManager}}
                     @onContinue={{action this.onContinue}}
+                    @isOpen={{this.isOpen}}
                 />
             </Registries::PartialRegistrationModal::Manager>
         `);
@@ -215,13 +212,12 @@ module('Integration | Component | partial-registration-modal', hooks => {
         await render(hbs`
             <Registries::PartialRegistrationModal::Manager
                 @rootNode={{this.rootNode}}
-                @isOpen={{this.isOpen}}
-                @renderInPlace={{true}}
-                as |modalManager|
+                as |partialRegistrationManager|
             >
                 <Registries::PartialRegistrationModal
-                    @modalManager={{modalManager}}
+                    @manager={{partialRegistrationManager}}
                     @onContinue={{action this.onContinue}}
+                    @isOpen={{this.isOpen}}
                 />
             </Registries::PartialRegistrationModal::Manager>
         `);

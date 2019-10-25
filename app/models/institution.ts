@@ -1,5 +1,6 @@
 import { attr, hasMany } from '@ember-decorators/data';
 import { computed } from '@ember-decorators/object';
+import { htmlSafe } from '@ember/string';
 import DS from 'ember-data';
 
 import InstitutionalUserModel from './institutional-user';
@@ -55,6 +56,12 @@ export default class InstitutionModel extends OsfModel {
 
     @hasMany('registration', { inverse: 'affiliatedInstitutions' })
     registrations!: DS.PromiseManyArray<RegistrationModel>;
+
+    // This is for the title helper, which does its own encoding of unsafe characters
+    @computed('name')
+    get unsafeName() {
+        return htmlSafe(this.name);
+    }
 
     @computed('assets', 'assets.logo', 'logoPath', 'id')
     get logoUrl(): string {

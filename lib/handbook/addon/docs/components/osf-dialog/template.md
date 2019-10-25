@@ -9,6 +9,7 @@ This is a dialog box! Use it for dialog boxes and modal popup things.
     * callback called when the dialog is closed
 * `@isOpen` (optional; default `false`)
     * allows opening/closing the dialog programatically, instead of putting a button in `<dialog.trigger>`
+    * use along with `@onClose` action to close the dialog with `dialog.close`
 * `@isModal` (optional; default `true`)
     * whether to block interaction with the rest of the app while the dialog is open
 * `@closeOnOutsideClick` (optional; default `true`)
@@ -19,7 +20,6 @@ This is a dialog box! Use it for dialog boxes and modal popup things.
 * `@renderInPlace` (optional; default `false`)
     * whether the dialog should be rendered in place (instead of wormhole'd to the app root)
     * forwarded to [ember-wormhole](https://github.com/yapplabs/ember-wormhole#can-i-render-in-place-ie-unwormhole)
-    * good in integration tests, but generally shouldn't be used in real life
 
 ## Yielded hash
 Invoked as `<OsfDialog as |dialog|>`, the yielded hash `dialog` provides the following:

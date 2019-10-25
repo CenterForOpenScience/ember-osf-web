@@ -717,6 +717,7 @@ export default {
         title: 'Institutions',
         search_placeholder: 'Search institutions',
         dashboard: {
+            title: '{{institutionName}} Dashboard',
             last_update: 'Last update',
             download_csv: 'Download CSV',
             select_default: 'All Departments',
@@ -726,6 +727,7 @@ export default {
                 projects: 'Projects',
                 public_projects: 'Public Projects',
                 private_projects: 'Private Projects',
+                empty: 'No users found matching search criteria.',
             },
             users_connected_panel: 'SSO Users Connected',
             projects_panel: 'Total Projects',
@@ -733,6 +735,7 @@ export default {
             public: 'Public',
             private: 'Private',
             users: 'Users',
+            empty: 'No data for institution found.',
         },
     },
     registration: {
@@ -1148,8 +1151,10 @@ export default {
                 review: {
                     title: 'Review registration before submitting',
                     start_review: 'Review',
+                    invalid_warning: 'Please address invalid or missing entries to complete registration.',
                 },
                 register: 'Register',
+                submit_error: 'Failed to create a registration. Please try again later.',
             },
         },
 

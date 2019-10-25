@@ -7,12 +7,11 @@ import InstitutionModel from 'ember-osf-web/models/institution';
 import Analytics from 'ember-osf-web/services/analytics';
 
 export default class InstitutionalUsersList extends Component {
-    @service analytics!: Analytics;
-
     @alias('model.taskInstance.value') institution?: InstitutionModel;
+    @service analytics!: Analytics;
+    @service i18n!: I18N;
 
     // Private properties
-    @service i18n!: I18N;
     department?: string;
     sort = 'user_full_name';
 
@@ -25,7 +24,7 @@ export default class InstitutionalUsersList extends Component {
     get departments() {
         let departments = [this.defaultDepartment];
 
-        if (this.institution) {
+        if (this.institution && this.institution.statSummary) {
             const institutionDepartments = this.institution.statSummary.departments.map((x: any) => x.name);
             departments = departments.concat(institutionDepartments);
         }
