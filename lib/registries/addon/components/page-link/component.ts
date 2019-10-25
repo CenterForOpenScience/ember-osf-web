@@ -24,7 +24,7 @@ export default class PageLinkComponent extends Component {
     draftId!: string;
     pageManager!: PageManager;
     pageIndex!: number;
-    currentPage!: number;
+    currentPage: number | undefined;
 
     @computed('pageManager.pageHeadingText', 'pageIndex')
     get pageIndexWithSlug() {
@@ -87,6 +87,5 @@ export default class PageLinkComponent extends Component {
         assert('Registries::PageLink: @pageManager is required', Boolean(this.pageManager));
         assert('Registries::PageLink: @draftId is required', Boolean(this.draftId));
         assert('Registries::PageLink: @pageIndex is required', typeof (this.pageIndex) === 'number');
-        assert('Registries::PageLink: @currentPage is required', typeof (this.currentPage) === 'number');
     }
 }
