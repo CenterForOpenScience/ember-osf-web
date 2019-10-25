@@ -1,4 +1,10 @@
+/* eslint-disable camelcase */
+// tslint:disable import-spacing
+
 import SchemaBlock from 'ember-osf-web/models/schema-block';
+
+import open_ended_registration from
+    '../fixture-data/schema-blocks/open-ended-registration';
 
 const exampleSchema: Array<Partial<SchemaBlock>> = [
     {
@@ -163,4 +169,9 @@ const exampleSchema: Array<Partial<SchemaBlock>> = [
 
 export const ids = exampleSchema.map(block => block.id);
 
-export default exampleSchema;
+export default [
+    ...open_ended_registration,
+    ...exampleSchema,
+] as SchemaBlock[];
+
+/* eslint-enable camelcase */
