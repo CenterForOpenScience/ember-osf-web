@@ -46,7 +46,7 @@ module('Registries | Integration | Component | page-link', hooks => {
                 @draftId='test'
                 @pageManager={{this.pageManager}}
                 @pageIndex={{100}}
-                @currentPage={{1}}
+                @currentPageIndex={{1}}
                 as |pageLink|
             />
         `);
@@ -71,7 +71,7 @@ module('Registries | Integration | Component | page-link', hooks => {
                 @draftId='test'
                 @pageManager={{this.pageManager}}
                 @pageIndex={{0}}
-                @currentPage={{2}}
+                @currentPageIndex={{2}}
                 as |pageLink|
             />
         `);
@@ -96,7 +96,7 @@ module('Registries | Integration | Component | page-link', hooks => {
                 @draftId='test'
                 @pageManager={{this.pageManager}}
                 @pageIndex={{1}}
-                @currentPage={{3}}
+                @currentPageIndex={{3}}
                 as |pageLink|
             />
         `);
@@ -121,13 +121,47 @@ module('Registries | Integration | Component | page-link', hooks => {
                 @draftId='test'
                 @pageManager={{this.pageManager}}
                 @pageIndex={{5}}
-                @currentPage={{5}}
+                @currentPageIndex={{5}}
                 as |pageLink|
             />
         `);
 
         assert.dom('[data-test-link="6-active"]').exists('Active PageLink Component renders');
         assert.dom('[data-test-label]').containsText(pageManager.pageHeadingText, 'has proper label');
+        assert.dom('[data-test-icon].fa-circle-o').exists('icon uses proper symbol');
+    });
+
+    test('Renders an inactive named page link', async assert => {
+        await render(hbs`
+            <PageLink
+                @link={{component 'osf-layout/registries-side-nav/x-link'}}
+                @draftId='test'
+                @pageName='foo'
+                @currentPageName='bar'
+                @label='Foo'
+                as |pageLink|
+            />
+        `);
+
+        assert.dom('[data-test-link="foo"]').exists('PageLink Component renders');
+        assert.dom('[data-test-label]').containsText('Foo', 'has proper label');
+        assert.dom('[data-test-icon].fa-circle').exists('icon uses proper symbol');
+    });
+
+    test('Renders an active named page link', async assert => {
+        await render(hbs`
+            <PageLink
+                @link={{component 'osf-layout/registries-side-nav/x-link'}}
+                @draftId='test'
+                @pageName='foo'
+                @currentPageName='foo'
+                @label='Foo'
+                as |pageLink|
+            />
+        `);
+
+        assert.dom('[data-test-link="foo"]').exists('PageLink Component renders');
+        assert.dom('[data-test-label]').containsText('Foo', 'has proper label');
         assert.dom('[data-test-icon].fa-circle-o').exists('icon uses proper symbol');
     });
 });
