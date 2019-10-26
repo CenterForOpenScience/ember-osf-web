@@ -15,6 +15,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `Registries::DraftRegistrationManager`
     - `Registries::SchemaBlockRenderer::Editable::Files`
     - `Registries::SchemaBlockRenderer::ReadOnly::Files`
+    - `OsfLayout::RegistriesSideNav`
+    - `OsfLayout::RegistriesSideNav::Icon`
+    - `OsfLayout::RegistriesSideNav::Label`
+    - `OsfLayout::RegistriesSideNav::XLink`
+    - `PageLink`
 - Mirage
     - Factories
         - `institutional-user`
@@ -35,6 +40,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Tests
     - Integration
         - `draft-registration-manager`
+        - `page-link`
+        - `registries-side-nav`
     - Unit
         - `page-param`
     - Acceptance
@@ -52,6 +59,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
             - added `withStatSummary` trait
     - `registries/partial-registration-modal`
         - added `onContinue` hook
+    - `OsfLayout`
+        - renamed `left-nav` to `left-nav-old`
+        - created new `left-nav` that uses `registries-side-nav`
 - Mirage
     - Factories
         - `institution`
@@ -68,6 +78,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Routes
     - `institution`
         - moved to `index` folder
+    - `registries.drafts.draft`
+        - added navigation
+    - `registries.overview`
+        - updated to use `leftNavOld`
 - Types
     - Renamed `PageResponse` to `RegistrationResponse`
 - Tests
