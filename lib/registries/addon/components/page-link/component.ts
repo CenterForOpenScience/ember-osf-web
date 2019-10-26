@@ -6,7 +6,7 @@ import { assert } from '@ember/debug';
 import { layout } from 'ember-osf-web/decorators/component';
 import { PageManager } from 'ember-osf-web/packages/registration-schema';
 import { getPageParam } from 'ember-osf-web/utils/page-param';
-import xLink from 'osf-components/components/osf-layout/registries-side-nav/x-link/component';
+import XLink from 'osf-components/components/osf-layout/registries-side-nav/x-link/component';
 import template from './template';
 
 export enum PageState {
@@ -20,23 +20,33 @@ export enum PageState {
 @layout(template)
 export default class PageLinkComponent extends Component {
     // Required
-    link!: xLink;
+    link!: XLink;
     draftId!: string;
-    pageManager!: PageManager;
-    pageIndex!: number;
-    currentPage: number | undefined;
 
-    @computed('pageManager.pageHeadingText', 'pageIndex')
-    get pageIndexWithSlug() {
-        return getPageParam(this.pageIndex, this.pageManager.pageHeadingText);
+    // Optional
+    pageManager?: PageManager;
+    pageIndex?: number;
+    currentPageIndex?: number;
+    pageName?: string;
+    currentPageName?: string;
+    label?: string;
+
+    @computed('pageName', 'pageIndex', 'pageManager', 'pageManager.pageHeadingText')
+    get page(): string | undefined {
+        if (this.pageName) {
+            return this.pageName;
+        }
+        return typeof this.pageIndex === 'number' && this.pageManager ?
+            getPageParam(this.pageIndex, this.pageManager.pageHeadingText) :
+            undefined;
     }
 
-    @computed('pageManager.{isVisited,pageIsValid}', 'pageIsActive')
+    @computed('pageManager', 'pageManager.{isVisited,pageIsValid}', 'pageIsActive')
     get pageState(): PageState {
         if (this.pageIsActive) {
             return PageState.Active;
         }
-        if (this.pageManager.isVisited) {
+        if (this.pageManager && this.pageManager.isVisited) {
             if (this.pageManager.pageIsValid) {
                 return PageState.Valid;
             }
@@ -77,15 +87,31 @@ export default class PageLinkComponent extends Component {
         }
     }
 
-    @computed('pageIndex', 'currentPage')
-    get pageIsActive() {
-        return this.pageIndex === this.currentPage;
+    @computed('label', 'pageManager', 'pageManager.pageHeadingText')
+    get pageLabel(): string | undefined {
+        if (typeof this.label === 'string') {
+            return this.label;
+        }
+        return this.pageManager ? this.pageManager.pageHeadingText : undefined;
+    }
+
+    @computed('pageName', 'currentPageName', 'pageIndex', 'currentPageIndex')
+    get pageIsActive(): boolean {
+        if (this.pageName && this.currentPageName) {
+            return this.pageName === this.currentPageName;
+        }
+        if (typeof this.pageIndex === 'number' && typeof this.currentPageIndex === 'number') {
+            return this.pageIndex === this.currentPageIndex;
+        }
+        return false;
     }
 
     didReceiveAttrs() {
         assert('Registries::PageLink: @link is required', Boolean(this.link));
-        assert('Registries::PageLink: @pageManager is required', Boolean(this.pageManager));
         assert('Registries::PageLink: @draftId is required', Boolean(this.draftId));
-        assert('Registries::PageLink: @pageIndex is required', typeof (this.pageIndex) === 'number');
+        assert(
+            'Registries::PageLink: @pageName and @pageLabel or @pageIndex and @pageManager are required',
+            Boolean((this.pageName && this.pageLabel) || (typeof this.pageIndex === 'number' && this.pageManager)),
+        );
     }
 }

@@ -21,7 +21,7 @@
             <layout.heading local-class='Heading'>
                 <div local-class='Title'>{{t 'registries.drafts.draft.form.new_registration'}}</div>
             </layout.heading>
-            
+
             <layout.leftNav as |leftNav|>
                 {{#each draftManager.pageManagers as |pageManager index|}}
                     <PageLink
@@ -29,24 +29,16 @@
                         @draftId={{draftManager.draftId}}
                         @pageManager={{pageManager}}
                         @pageIndex={{index}}
-                        @currentPage={{draftManager.currentPage}}
+                        @currentPageIndex={{draftManager.currentPage}}
                     />
                 {{/each}}
-                <leftNav.link
-                    data-analytics-name='Review'
-                    local-class={{if (eq this.model.page 'review') 'Active' 'Unvisited'}}
-                    @route='registries.drafts.draft'
-                    @models={{array draftManager.draftId 'review'}}
-                    @icon={{if (eq this.model.page 'review') 'circle-o' 'circle'}}
+                <PageLink
+                    @link={{component leftNav.link}}
+                    @draftId={{draftManager.draftId}}
+                    @pageName='review'
+                    @currentPageName={{this.model.page}}
                     @label='Review'
-                    @isCurrentPage={{eq this.model.page 'review'}}
-                    as |link|
-                >
-                    <link.icon />
-                    <link.label
-                        local-class='Label'
-                    />
-                </leftNav.link>
+                />
             </layout.leftNav>
 
             <layout.main local-class='Main'>

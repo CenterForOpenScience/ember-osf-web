@@ -1,11 +1,11 @@
 <@link
-    data-analytics-name={{this.pageIndexWithSlug}}
-    data-test-link={{this.pageIndexWithSlug}}
+    data-analytics-name={{this.pageLabel}}
+    data-test-link={{this.page}}
     local-class='{{this.pageClass}}'
     @route='registries.drafts.draft'
-    @models={{array this.draftId this.pageIndexWithSlug}}
+    @models={{array this.draftId this.page}}
     @icon={{this.pageIcon}}
-    @label={{this.pageManager.pageHeadingText}}
+    @label={{this.pageLabel}}
     @isCurrentPage={{this.pageIsActive}}
     as |link|
 >
