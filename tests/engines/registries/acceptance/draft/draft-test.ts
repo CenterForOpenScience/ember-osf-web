@@ -54,7 +54,7 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.equal(currentRouteName(), 'registries.page-not-found', 'At page not found');
     });
 
-    test('right saidenav controls', async assert => {
+    test('right sidenav controls', async assert => {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
