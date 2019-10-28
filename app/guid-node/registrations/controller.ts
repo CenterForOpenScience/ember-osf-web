@@ -2,6 +2,7 @@ import { action, computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
+import { assert } from '@ember/debug';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 
@@ -96,6 +97,9 @@ export default class GuidNodeRegistrations extends Controller {
 
     @action
     async createDraft(this: GuidNodeRegistrations) {
+        const branchedFrom = this.node!;
+        assert('Check that the node exists', Boolean(branchedFrom));
+
         if (this.selectedSchema.name === 'Prereg Challenge' && this.newModalOpen) {
             this.set('newModalOpen', false);
             this.set('preregConsented', false);
@@ -104,15 +108,16 @@ export default class GuidNodeRegistrations extends Controller {
         }
         const draftRegistration = this.store.createRecord('draft-registration', {
             registrationSupplement: this.selectedSchema.id,
-            branchedFrom: this.node,
+            branchedFrom,
             registrationSchema: this.selectedSchema,
         });
         await draftRegistration.save();
         this.set('newModalOpen', false);
         this.set('selectedSchema', this.defaultSchema);
+
         this.transitionToRoute(
             'guid-node.drafts',
-            this.node!.id,
+            branchedFrom.id,
             draftRegistration.id,
         );
     }

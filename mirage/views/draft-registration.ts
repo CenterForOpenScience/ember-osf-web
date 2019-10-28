@@ -11,11 +11,10 @@ export function createDraftRegistration(this: HandlerContext, schema: Schema) {
     }
 
     const draftRegistration = schema.draftRegistrations.create({
-        ...attrs,
-        id: `${Math.random().toString(16).slice(2, 14)}${Math.random().toString(16).slice(2, 14)}`,
         datetimeInitiated: now,
         datetimeUpdated: now,
         initiator: currentUser,
+        ...attrs,
     });
 
     return draftRegistration;
