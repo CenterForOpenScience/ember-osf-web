@@ -9,7 +9,7 @@
         </OsfLink>
     </div>
 {{/unless}}
-<RegistrationFormView
-    @schema={{this.registration.registrationSchema.schema}}
-    @answers={{this.registration.registeredMeta}}
-/>
+
+{{#if this.registration}}
+    <RegistrationFormViewSchemaBlocks @registration={{this.registration}} />
+{{/if}}

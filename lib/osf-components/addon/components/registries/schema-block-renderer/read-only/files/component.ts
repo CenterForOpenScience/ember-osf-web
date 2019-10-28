@@ -2,8 +2,6 @@ import { tagName } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import { defineProperty } from '@ember/object';
-import { alias } from '@ember/object/computed';
 import { ChangesetDef } from 'ember-changeset/types';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -39,7 +37,9 @@ export default class ReadOnlyFiles extends Component {
 
     init() {
         super.init();
-        defineProperty(this, 'responses', alias(`registrationResponses.${this.schemaBlock.registrationResponseKey}`));
+        if (this.schemaBlock.registrationResponseKey) {
+            this.set('responses', this.registrationResponses[this.schemaBlock.registrationResponseKey]);
+        }
     }
 
     @computed('responses')
