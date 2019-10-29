@@ -1,16 +1,14 @@
-<div local-class='OverviewForm'>
-    {{#if this.fetchSchemaBlocks.isRunning}}
-        <LoadingIndicator @dark={{true}}/>
-    {{/if}}
-    {{#each this.schemaBlockGroups as |group|}}
-        <Registries::SchemaBlockGroupRenderer
-            @schemaBlockGroup={{group}}
-            @renderStrategy={{
-                component
-                'registries/schema-block-renderer/read-only/mapper'
-                registrationResponses=@registration.registrationResponses
-                node=@registration
-            }} 
-        />
-    {{/each}}
-</div>
+{{#if this.fetchSchemaBlocks.isRunning}}
+    <LoadingIndicator @dark={{true}}/>
+{{/if}}
+{{#each this.schemaBlockGroups as |group|}}
+    <Registries::SchemaBlockGroupRenderer
+        @schemaBlockGroup={{group}}
+        @renderStrategy={{
+            component
+            'registries/schema-block-renderer/read-only/mapper'
+            registrationResponses=@registration.registrationResponses
+            node=@registration
+        }} 
+    />
+{{/each}}
