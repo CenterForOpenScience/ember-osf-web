@@ -5,6 +5,8 @@ import SchemaBlock from 'ember-osf-web/models/schema-block';
 
 import open_ended_registration from
     '../fixture-data/schema-blocks/open-ended-registration';
+import prereg_challenge from
+    '../fixture-data/schema-blocks/prereg-challenge';
 
 const exampleSchema: Array<Partial<SchemaBlock>> = [
     {
@@ -171,6 +173,7 @@ export const ids = exampleSchema.map(block => block.id);
 
 export default [
     ...open_ended_registration,
+    ...prereg_challenge,
     ...exampleSchema,
 ] as SchemaBlock[];
 
