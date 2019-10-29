@@ -15,6 +15,7 @@
         as |gutters|
     >
         {{yield (hash
+            leftNavOld=(component 'osf-layout/left-nav-old' gutters=gutters toggleSidenav=(action this.toggleSidenav))
             leftNav=(component 'osf-layout/left-nav' gutters=gutters toggleSidenav=(action this.toggleSidenav))
             left=(component 'osf-layout/left-column' gutters=gutters toggleSidenav=(action this.toggleSidenav))
             main=(component 'osf-layout/main-column' gutters=gutters)

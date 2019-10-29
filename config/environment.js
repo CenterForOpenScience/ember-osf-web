@@ -35,6 +35,7 @@ const {
         'dashboard',
         'settings',
         'meetings',
+        'registrations',
     ],
     OAUTH_SCOPES: scope,
     OSF_STATUS_COOKIE: statusCookie = 'osf_status',

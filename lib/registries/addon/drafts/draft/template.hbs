@@ -21,9 +21,26 @@
             <layout.heading local-class='Heading'>
                 <div local-class='Title'>{{t 'registries.drafts.draft.form.new_registration'}}</div>
             </layout.heading>
-            <layout.left local-class='Left'>
-                {{!-- Sidenav: page headings, validations --}}
-            </layout.left>
+
+            <layout.leftNav as |leftNav|>
+                {{#each draftManager.pageManagers as |pageManager index|}}
+                    <PageLink
+                        @link={{component leftNav.link}}
+                        @draftId={{draftManager.draftId}}
+                        @pageManager={{pageManager}}
+                        @pageIndex={{index}}
+                        @currentPageIndex={{draftManager.currentPage}}
+                    />
+                {{/each}}
+                <PageLink
+                    @link={{component leftNav.link}}
+                    @draftId={{draftManager.draftId}}
+                    @pageName='review'
+                    @currentPageName={{this.model.page}}
+                    @label='Review'
+                />
+            </layout.leftNav>
+
             <layout.main local-class='Main'>
                 {{#if draftManager.initializing}}
                     <LoadingIndicator @dark={{true}} />
