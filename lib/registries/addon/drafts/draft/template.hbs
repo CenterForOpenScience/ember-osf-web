@@ -17,34 +17,36 @@
         @onPageNotFound={{action this.onPageNotFound}}
         as |draftManager|
     >
-        <OsfLayout @backgroundClass={{local-class 'ContentBackground'}} as |layout|>
-            <layout.heading local-class='Heading'>
-                <div local-class='Title'>{{t 'registries.drafts.draft.form.new_registration'}}</div>
-            </layout.heading>
+        {{#if draftManager.initializing}}
+            <div local-class='ContentBackground Loading'>
+                <LoadingIndicator @dark={{true}} />
+            </div>
+        {{else}}
+            {{compute draftManager.onPageChange this.pageIndex this.inReview}}
 
-            <layout.leftNav as |leftNav|>
-                {{#each draftManager.pageManagers as |pageManager index|}}
+            <OsfLayout @backgroundClass={{local-class 'ContentBackground'}} as |layout|>
+                <layout.heading local-class='Heading'>
+                    <div local-class='Title'>{{t 'registries.drafts.draft.form.new_registration'}}</div>
+                </layout.heading>
+                <layout.leftNav as |leftNav|>
+                    {{#each draftManager.pageManagers as |pageManager index|}}
+                        <PageLink
+                            @link={{component leftNav.link}}
+                            @draftId={{draftManager.draftId}}
+                            @pageManager={{pageManager}}
+                            @pageIndex={{index}}
+                            @currentPageIndex={{draftManager.currentPage}}
+                        />
+                    {{/each}}
                     <PageLink
                         @link={{component leftNav.link}}
                         @draftId={{draftManager.draftId}}
-                        @pageManager={{pageManager}}
-                        @pageIndex={{index}}
-                        @currentPageIndex={{draftManager.currentPage}}
+                        @pageName='review'
+                        @currentPageName={{this.model.page}}
+                        @label='Review'
                     />
-                {{/each}}
-                <PageLink
-                    @link={{component leftNav.link}}
-                    @draftId={{draftManager.draftId}}
-                    @pageName='review'
-                    @currentPageName={{this.model.page}}
-                    @label='Review'
-                />
-            </layout.leftNav>
-
-            <layout.main local-class='Main'>
-                {{#if draftManager.initializing}}
-                    <LoadingIndicator @dark={{true}} />
-                {{else}}
+                </layout.leftNav>
+                <layout.main local-class='Main'>
                     {{#if this.inReview}}
                         <Registries::ReviewFormRenderer
                             @schemaBlocks={{draftManager.schemaBlocks}}
@@ -57,51 +59,50 @@
                             @node={{this.node}}
                         />
                     {{/if}}
-                {{/if}}
-            </layout.main>
-            <layout.right local-class='Right'>
-                {{#if this.inReview}}
-                    <Drafts::Draft::-Components::Register
-                        @draftRegistration={{this.draftRegistration}}
-                        @draftManager={{draftManager}}
-                        @onSubmitRedirect={{action this.onSubmitRedirect}}
-                    />
-                {{/if}}
-                {{#if (eq draftManager.lastPage this.pageIndex)}}
-                    <OsfLink
-                        data-test-goto-review
-                        class='btn btn-primary'
-                        @type='button'
-                        @route='registries.drafts.draft'
-                        @models={{array draftManager.draftId 'review'}}
-                    >
-                        {{t 'registries.drafts.draft.review.start_review'}}
-                    </OsfLink>
-                {{/if}}
-                {{#if draftManager.nextPageParam}}
-                    <OsfLink
-                        data-test-goto-next-page
-                        @type='button'
-                        class='btn btn-default'
-                        @route='registries.drafts.draft'
-                        @models={{array draftManager.draftId draftManager.nextPageParam}}
-                        @onClick={{draftManager.setPageIsVisited}}
-                    >
-                        {{t 'registries.drafts.draft.form.next'}}
-                    </OsfLink>
-                {{/if}}
-                {{#if draftManager.prevPageParam}}
-                    <OsfLink
-                        data-test-goto-previous-page
-                        @type='button'
-                        class='btn btn-default'
-                        @route='registries.drafts.draft'
-                        @models={{array draftManager.draftId draftManager.prevPageParam}}
-                    >
-                        {{t 'registries.drafts.draft.form.back'}}
-                    </OsfLink>
-                {{/if}}
-            </layout.right>
-        </OsfLayout>
+                </layout.main>
+                <layout.right local-class='Right'>
+                    {{#if this.inReview}}
+                        <Drafts::Draft::-Components::Register
+                            @draftRegistration={{this.draftRegistration}}
+                            @draftManager={{draftManager}}
+                            @onSubmitRedirect={{action this.onSubmitRedirect}}
+                        />
+                    {{/if}}
+                    {{#if (eq draftManager.lastPage this.pageIndex)}}
+                        <OsfLink
+                            data-test-goto-review
+                            class='btn btn-primary'
+                            @type='button'
+                            @route='registries.drafts.draft'
+                            @models={{array draftManager.draftId 'review'}}
+                        >
+                            {{t 'registries.drafts.draft.review.start_review'}}
+                        </OsfLink>
+                    {{/if}}
+                    {{#if draftManager.nextPageParam}}
+                        <OsfLink
+                            data-test-goto-next-page
+                            @type='button'
+                            class='btn btn-default'
+                            @route='registries.drafts.draft'
+                            @models={{array draftManager.draftId draftManager.nextPageParam}}
+                        >
+                            {{t 'registries.drafts.draft.form.next'}}
+                        </OsfLink>
+                    {{/if}}
+                    {{#if draftManager.prevPageParam}}
+                        <OsfLink
+                            data-test-goto-previous-page
+                            @type='button'
+                            class='btn btn-default'
+                            @route='registries.drafts.draft'
+                            @models={{array draftManager.draftId draftManager.prevPageParam}}
+                        >
+                            {{t 'registries.drafts.draft.form.back'}}
+                        </OsfLink>
+                    {{/if}}
+                </layout.right>
+            </OsfLayout>
+        {{/if}}
     </Registries::DraftRegistrationManager>
 {{/if}}

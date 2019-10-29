@@ -35,7 +35,10 @@ export default class Register extends Component.extend({
     didReceiveAttrs() {
         assert('@draftManager is required!', Boolean(this.draftManager));
         assert('@draftRegistration is required!', Boolean(this.draftRegistration));
+    }
 
+    @action
+    onRegister() {
         if (!this.registration) {
             const registration = this.store.createRecord('registration', {
                 draftRegistration: this.draftRegistration,
@@ -43,6 +46,7 @@ export default class Register extends Component.extend({
 
             this.setProperties({ registration });
         }
+        this.showPartialRegDialog();
     }
 
     @action
