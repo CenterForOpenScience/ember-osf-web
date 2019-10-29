@@ -28,6 +28,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Routes
     - `institution`
         - added `dashboard` nested route
+    - `guid-node`
+        - added `drafts` nested route
 - Engines
     - Components
         - `drafts/draft/-components/register`
@@ -46,6 +48,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `page-param`
     - Acceptance
         - `draft form`
+- Environment
+    - Flags
+        - added `guid-node.drafts` route flag
 
 ### Changed
 - Components
