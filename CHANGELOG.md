@@ -51,6 +51,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Environment
     - Flags
         - added `guid-node.drafts` route flag
+- Packages
+    - `ember-element-helper` v0.2.0
 
 ### Changed
 - Components
@@ -99,6 +101,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `FactoryGuy` factories
 - Packages
     - `ember-data-factory-guy`
+    - `ember-element-helper` (`fix-engines` branch)
 - Types
     - `FactoryGuy` types
 
