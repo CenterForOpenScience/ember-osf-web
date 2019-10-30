@@ -37,7 +37,7 @@ export default class RegistriesDrat extends Controller {
     updateRoute(headingText: string) {
         if (this.page && this.shouldAppendPageSlug) {
             const pageSlug = getPageParam(this.pageIndex, headingText);
-            this.transitionToRoute('drafts.draft', this.draftId, pageSlug);
+            this.replaceRoute('drafts.draft', this.draftId, pageSlug);
         }
     }
 
