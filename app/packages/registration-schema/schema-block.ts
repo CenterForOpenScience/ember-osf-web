@@ -17,7 +17,7 @@ export interface SchemaBlock {
     id?: string;
     blockType?: SchemaBlockType;
     schemaBlockGroupKey?: string;
-    registrationResponseKey?: string;
+    registrationResponseKey?: string | null;
     displayText?: string;
     helpText?: string;
     exampleText?: string;

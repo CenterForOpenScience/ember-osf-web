@@ -31,7 +31,7 @@ export type MirageRegistrationSchema =
 const testSchema = {
     id: 'testSchema',
     active: true,
-    name: 'Test Schema',
+    name: 'This is a Test Schema',
     schemaVersion: 801,
     schemaBlockIds: ids,
     schemaNoConflict: {
