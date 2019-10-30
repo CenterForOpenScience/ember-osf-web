@@ -7,10 +7,12 @@
     >
         <form.select
             data-test-single-select-input
+            local-class='schema-power-select'
             @id={{@uniqueID}}
             @valuePath={{@schemaBlock.registrationResponseKey}}
             @options={{this.optionBlockValuesAndHelpText}}
             @onchange={{@onInput}}
+            @searchEnabled={{false}}
             as |option|
         >
             {{option.displayText}}
