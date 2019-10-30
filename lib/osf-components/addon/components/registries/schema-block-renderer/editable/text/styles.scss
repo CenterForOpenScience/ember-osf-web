@@ -1,8 +1,8 @@
 .schema-block-input {
     :global(input) {
         height: 40px;
-        background-color: #ecf0f1;
-        color: #263947;
+        background-color: $color-bg-gray-blue-light;
+        color: $color-text-gray-blue;
         border-radius: 2px;
         box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
     }
