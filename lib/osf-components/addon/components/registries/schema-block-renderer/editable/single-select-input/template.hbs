@@ -10,13 +10,13 @@
             local-class='schema-power-select'
             @id={{@uniqueID}}
             @valuePath={{@schemaBlock.registrationResponseKey}}
-            @options={{this.optionBlockValuesAndHelpText}}
+            @options={{this.optionBlockValues}}
             @onchange={{@onInput}}
             @searchEnabled={{false}}
             as |option|
         >
-            {{option.displayText}}
-            <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{option.helpText}} />
+            {{option}}
+            <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{get this.helpTextMapping option}} />
         </form.select>
     </FormControls>
 </Registries::SchemaBlockRenderer::Editable::Base>
