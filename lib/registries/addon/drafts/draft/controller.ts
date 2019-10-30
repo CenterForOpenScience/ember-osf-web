@@ -16,8 +16,8 @@ export default class RegistriesDrat extends Controller {
 
     model!: DraftRouteModel;
 
-    @alias('model.taskInstance.value.firstObject') draftRegistration?: DraftRegistration;
-    @alias('model.taskInstance.value.lastObject') node?: NodeModel;
+    @alias('model.taskInstance.value.draftRegistration') draftRegistration?: DraftRegistration;
+    @alias('model.taskInstance.value.node') node?: NodeModel;
     @alias('model.pageIndex') pageIndex!: number;
     @alias('model.page') page!: string;
     @equal('page', 'review') inReview!: boolean;
