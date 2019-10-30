@@ -11,5 +11,5 @@ export default class RegistriesLicensePicker extends Component {
     manager!: LicenseManager;
 
     showText: boolean = false;
-    helpLink: string = 'http://help.osf.io/m/60347/l/611430-licensing';
+    helpLink: string = 'https://help.osf.io/hc/en-us/articles/360019739014-Licensing';
 }

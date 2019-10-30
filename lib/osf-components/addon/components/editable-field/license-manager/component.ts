@@ -78,7 +78,7 @@ export default class LicenseManagerComponent extends Component.extend({
 
     showText: boolean = false;
     licensesAcceptable!: QueryHasManyResult<License>;
-    helpLink: string = 'http://help.osf.io/m/60347/l/611430-licensing';
+    helpLink: string = 'https://help.osf.io/hc/en-us/articles/360019739014-Licensing';
     currentLicense!: License;
     currentNodeLicense!: NodeLicense;
 
