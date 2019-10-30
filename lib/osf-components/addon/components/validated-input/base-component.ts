@@ -47,32 +47,6 @@ export default abstract class BaseValidatedInput<M extends DS.Model> extends Com
     isValidating?: boolean;
     validation?: ResultCollection;
 
-    @computed('errors', 'validation.options')
-    get isRequired(): boolean {
-        if (!this.validation) {
-            return false;
-        }
-        const { options } = this.validation;
-        if (!options) {
-            return false;
-        }
-        if (!options.presence) {
-            return false;
-        }
-        if (options.presence.disabled) {
-            return false;
-        }
-        if (options.presence.presence) {
-            return true;
-        }
-        return false;
-    }
-
-    @computed('placeholder', 'isRequired')
-    get _placeholder(): string {
-        return this.placeholder || this.i18n.t(this.isRequired ? 'general.required' : 'general.optional');
-    }
-
     @computed('shouldShowMessages', 'value', 'isInvalid', 'isValidating')
     get validationStatus(): ValidationStatus {
         const {
