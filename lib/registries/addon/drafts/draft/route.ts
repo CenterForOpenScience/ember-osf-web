@@ -21,7 +21,13 @@ export interface DraftRouteModel {
 export default class DraftRegistrationRoute extends Route.extend({
     loadModelTask: task(function *(this: DraftRegistrationRoute, draftId: string) {
         try {
-            return yield this.store.findRecord('draft-registration', draftId);
+            const draftRegistration = yield this.store.findRecord(
+                'draft-registration',
+                draftId,
+                { adapterOptions: { include: 'branched_from' } },
+            );
+            const node = yield draftRegistration.branchedFrom;
+            return { draftRegistration, node };
         } catch (error) {
             this.transitionTo('page-not-found', this.router.currentURL.slice(1));
             return undefined;

@@ -13,7 +13,7 @@
     <!-- TODO: change link to a route when we emberize contributors page -->
     <OsfLink
         data-test-to-contributors-page
-        @href={{concat @node.guid '/contributors/'}}
+        @href={{concat this.osfUrl @node.id '/contributors/'}}
     >
         {{t 'osf-components.registries.read-only-contributors-list.editContributorsOnYourProject'}}
     </OsfLink>
