@@ -8,6 +8,7 @@ import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import Registration from 'ember-osf-web/models/registration';
 import { getPageParam } from 'ember-osf-web/utils/page-param';
 
+import NodeModel from 'ember-osf-web/models/node';
 import { DraftRouteModel } from './route';
 
 export default class RegistriesDrat extends Controller {
@@ -15,7 +16,8 @@ export default class RegistriesDrat extends Controller {
 
     model!: DraftRouteModel;
 
-    @alias('model.taskInstance.value') draftRegistration?: DraftRegistration;
+    @alias('model.taskInstance.value.firstObject') draftRegistration?: DraftRegistration;
+    @alias('model.taskInstance.value.lastObject') node?: NodeModel;
     @alias('model.pageIndex') pageIndex!: number;
     @alias('model.page') page!: string;
     @equal('page', 'review') inReview!: boolean;
