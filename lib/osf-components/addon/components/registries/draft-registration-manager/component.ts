@@ -28,8 +28,7 @@ export interface DraftRegistrationManager {
     initializing: boolean;
 
     onInput(): void;
-    submitDraftRegistration(): void;
-    validateRegistrationResponses(): void;
+    onPageChange(): void;
 }
 
 @tagName('')
@@ -76,21 +75,26 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
     }).on('init'),
 
     onInput: task(function *(this: DraftRegistrationManagerComponent) {
-        yield timeout(500); // debounce
+        yield timeout(5000); // debounce
 
         if (this.currentPageManager && this.currentPageManager.schemaBlockGroups) {
-            const { changeset } = this.currentPageManager;
-            const { registrationResponses } = this;
+            this.updateRegistrationResponses(this.currentPageManager);
 
-            this.currentPageManager.schemaBlockGroups
-                .mapBy('registrationResponseKey')
-                .filter(Boolean)
-                .forEach(registrationResponseKey => {
-                    Object.assign(
-                        registrationResponses,
-                        { [registrationResponseKey]: changeset!.get(registrationResponseKey) },
-                    );
-                });
+            this.draftRegistration.setProperties({
+                registrationResponses: this.registrationResponses,
+            });
+
+            yield this.draftRegistration.save();
+        }
+    }).restartable(),
+
+    saveAllVisitedPages: task(function *(this: DraftRegistrationManagerComponent) {
+        if (this.pageManagers && this.pageManagers.length) {
+            this.pageManagers
+                .filter(pageManager => pageManager.isVisited)
+                .forEach(this.updateRegistrationResponses.bind(this));
+
+            const { registrationResponses } = this;
 
             this.draftRegistration.setProperties({
                 registrationResponses,
@@ -99,21 +103,16 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
             yield this.draftRegistration.save();
         }
     }).restartable(),
-
-    submitDraftRegistration: task(function *(this: DraftRegistrationManagerComponent) {
-        yield this.draftRegistration.save();
-    }),
-
 }) {
     // Required
     modelTaskInstance!: TaskInstance<DraftRegistration>;
+    draftRegistration!: DraftRegistration;
 
     // Optional
     updateRoute?: (headingText: string) => void;
     onPageNotFound?: () => void;
 
     // Private
-    draftRegistration!: DraftRegistration;
     currentPage!: number;
     lastPage!: number;
     registrationResponses!: RegistrationResponse;
@@ -161,9 +160,56 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
     }
 
     @action
-    validateRegistrationResponses() {
+    onPageChange(currentPage: number, inReview: boolean) {
+        if (inReview) {
+            this.markAllPagesVisited();
+            this.validateAllVisitedPages();
+            this.saveAllVisitedPages.perform();
+        } else {
+            this.validateAllVisitedPages();
+            this.saveAllVisitedPages.perform();
+            this.markCurrentPageVisited(currentPage);
+        }
+    }
+
+    @action
+    markAllPagesVisited() {
         this.pageManagers.forEach(pageManager => {
-            pageManager.changeset!.validate();
+            pageManager.setPageIsVisited();
         });
+    }
+
+    @action
+    markCurrentPageVisited(currentPage: number) {
+        const isPageIndex = Number.isInteger(currentPage);
+        if (this.pageManagers.length && isPageIndex) {
+            this.pageManagers[currentPage].setPageIsVisited();
+        }
+    }
+
+    @action
+    validateAllVisitedPages() {
+        this.pageManagers
+            .filter(pageManager => pageManager.isVisited)
+            .forEach(pageManager => {
+                pageManager.changeset!.validate();
+            });
+    }
+
+    updateRegistrationResponses(pageManager: PageManager) {
+        const { registrationResponses } = this;
+        const { changeset } = pageManager;
+
+        if (pageManager.schemaBlockGroups) {
+            pageManager.schemaBlockGroups
+                .mapBy('registrationResponseKey')
+                .filter(Boolean)
+                .forEach(registrationResponseKey => {
+                    Object.assign(
+                        registrationResponses,
+                        { [registrationResponseKey]: changeset!.get(registrationResponseKey) },
+                    );
+                });
+        }
     }
 }

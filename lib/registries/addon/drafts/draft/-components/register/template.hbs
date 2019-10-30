@@ -1,7 +1,7 @@
 <OsfButton
     data-test-goto-register
     @type='success'
-    @onClick={{action this.showPartialRegDialog}}
+    @onClick={{action this.onRegister}}
     @disabled={{not this.draftManager.registrationResponsesIsValid}}
 >
     {{t 'registries.drafts.draft.register'}}
