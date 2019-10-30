@@ -130,7 +130,7 @@
     "ember-data": "~3.4.0",
     "ember-decorators": "^3.0.0",
     "ember-diff-attrs": "^0.2.1",
-    "ember-element-helper": "https://github.com/rwjblue/ember-element-helper#fix-engines",
+    "ember-element-helper": "^0.2.0",
     "ember-engines": "https://github.com/cos-forks/ember-engines#v0.5.20+cos1",
     "ember-event-helpers": "^0.1.0",
     "ember-export-application-global": "^2.0.0",
