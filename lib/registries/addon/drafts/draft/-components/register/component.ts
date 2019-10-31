@@ -1,3 +1,4 @@
+import { tagName } from '@ember-decorators/component';
 import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
@@ -10,6 +11,7 @@ import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import Registration from 'ember-osf-web/models/registration';
 import { DraftRegistrationManager } from 'osf-components/components/registries/draft-registration-manager/component';
 
+@tagName('')
 export default class Register extends Component.extend({
     getBranchFromNode: task(function *(this: Register) {
         if (this.draftRegistration) {

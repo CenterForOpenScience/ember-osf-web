@@ -72,6 +72,8 @@
                     {{#if (eq draftManager.lastPage this.pageIndex)}}
                         <OsfLink
                             data-test-goto-review
+                            data-analytics-name='Go to review'
+                            local-class='review-button'
                             class='btn btn-primary'
                             @type='button'
                             @route='registries.drafts.draft'
@@ -83,22 +85,28 @@
                     {{#if draftManager.nextPageParam}}
                         <OsfLink
                             data-test-goto-next-page
+                            data-analytics-name='Go to next page'
+                            local-class='next-button'
+                            class='btn btn-primary'
                             @type='button'
-                            class='btn btn-default'
                             @route='registries.drafts.draft'
                             @models={{array draftManager.draftId draftManager.nextPageParam}}
                         >
                             {{t 'registries.drafts.draft.form.next'}}
+                            <FaIcon @icon='arrow-right' @fixedWidth={{true}} />
                         </OsfLink>
                     {{/if}}
                     {{#if draftManager.prevPageParam}}
                         <OsfLink
                             data-test-goto-previous-page
-                            @type='button'
+                            data-analytics-name='Go to previous page'
+                            local-class='back-button'
                             class='btn btn-default'
+                            @type='button'
                             @route='registries.drafts.draft'
                             @models={{array draftManager.draftId draftManager.prevPageParam}}
                         >
+                            <FaIcon @icon='arrow-left' @fixedWidth={{true}} />
                             {{t 'registries.drafts.draft.form.back'}}
                         </OsfLink>
                     {{/if}}

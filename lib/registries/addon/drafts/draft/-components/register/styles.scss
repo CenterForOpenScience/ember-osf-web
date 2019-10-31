@@ -1,0 +1,14 @@
+.register-button {
+    border-radius: 2px;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 12px 0;
+
+    &:hover,
+    &:active,
+    &:active:focus,
+    &:focus {
+        box-shadow: none;
+        outline: 0;
+    }
+}

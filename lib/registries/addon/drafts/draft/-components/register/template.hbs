@@ -1,5 +1,7 @@
 <OsfButton
     data-test-goto-register
+    data-analytics-name='Go to register'
+    local-class='register-button'
     @type='success'
     @onClick={{action this.onRegister}}
     @disabled={{not this.draftManager.registrationResponsesIsValid}}
