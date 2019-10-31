@@ -12,3 +12,16 @@
         outline: 0;
     }
 }
+
+.mobileReviewButtonContainer,
+.mobileReviewButtonItem {
+    height: 100%;
+}
+
+.register-button.mobileReviewButtonItem {
+    border-radius: 0;
+}
+
+.reviewTooltip {
+    background-color: #fff;
+}

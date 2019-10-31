@@ -52,7 +52,6 @@
     align-items: center;
 }
 
-
 .back-button {
     border: 1px solid $alto;
     border-radius: 2px;
@@ -87,4 +86,14 @@
 
 .save-failed {
     color: $primary-red;
+}
+
+.SideBarToggle {
+    width: 100%;
+}
+
+.NonActive {
+    h4 {
+        color: $primary-blue;
+    }
 }

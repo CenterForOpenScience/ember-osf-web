@@ -1,19 +1,28 @@
-<OsfButton
-    data-test-goto-register
-    data-analytics-name='Go to register'
-    local-class='register-button'
-    @type='success'
-    @onClick={{action this.onRegister}}
-    @disabled={{not this.draftManager.registrationResponsesIsValid}}
->
-    {{t 'registries.drafts.draft.register'}}
-</OsfButton>
-
-{{#unless this.draftManager.registrationResponsesIsValid}}
-    <div data-test-invalid-responses-text class='text-danger'>
-        {{t 'registries.drafts.draft.review.invalid_warning'}}
-    </div>
-{{/unless}}
+<span local-class={{if @showMobileView 'mobileReviewButtonContainer'}}>
+    <OsfButton
+        data-test-goto-register
+        data-analytics-name='Go to register'
+        local-class={{if @showMobileView 'register-button mobileReviewButtonItem' 'register-button'}}
+        @type='success'
+        @onClick={{action this.onRegister}}
+        @disabled={{not this.draftManager.registrationResponsesIsValid}}
+    >
+        {{t 'registries.drafts.draft.register'}}
+    </OsfButton>
+    {{#unless this.draftManager.registrationResponsesIsValid}}
+        {{#if @showMobileView}}
+            <BsTooltip local-class='reviewTooltip'>
+                <div data-test-invalid-responses-text class='text-danger'>
+                    {{t 'registries.drafts.draft.review.invalid_warning'}}
+                </div>
+            </BsTooltip>
+        {{else}}
+            <div data-test-invalid-responses-text class='text-danger'>
+                {{t 'registries.drafts.draft.review.invalid_warning'}}
+            </div>
+        {{/if}}
+    {{/unless}}
+</span>
 
 {{#if this.rootNode}}
     <Registries::PartialRegistrationModal::Manager
