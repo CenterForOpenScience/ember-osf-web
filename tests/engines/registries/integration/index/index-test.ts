@@ -108,7 +108,7 @@ module('Registries | Integration | index', hooks => {
                     expected: [
                         'link',
                         'Index - public roadmap',
-                        'https://cos.io/our-products/product-roadmap/', // eslint-disable-line max-len
+                        'https://cos.io/our-products/product-roadmap/',
                         sinon.match.any,
                     ],
                 },
