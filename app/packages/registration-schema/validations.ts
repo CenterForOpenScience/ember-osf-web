@@ -39,7 +39,7 @@ export function buildValidation(groups: SchemaBlockGroup[]) {
                     ];
                 }
                 break;
-            case 'contributors-input':
+            // case 'contributors-input':
                 // if (inputBlock.required) {
                 //     validationForResponse = [
                 //         validatePresence({
@@ -53,7 +53,7 @@ export function buildValidation(groups: SchemaBlockGroup[]) {
                 //     ...(validationForResponse || []),
                 //     validateResponseFormat({ format: 'contributor' }),
                 // ];
-                break;
+                // break;
             case 'file-input':
                 if (inputBlock.required) {
                     validationForResponse = [
