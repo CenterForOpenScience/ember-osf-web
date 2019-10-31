@@ -40,19 +40,19 @@ export function buildValidation(groups: SchemaBlockGroup[]) {
                 }
                 break;
             case 'contributors-input':
-                if (inputBlock.required) {
-                    validationForResponse = [
-                        validatePresence({
-                            presence: true,
-                            allowBlank: false,
-                            message: translations.validationErrors.empty,
-                        }),
-                    ];
-                }
-                validationForResponse = [
-                    ...(validationForResponse || []),
-                    validateResponseFormat({ format: 'contributor' }),
-                ];
+                // if (inputBlock.required) {
+                //     validationForResponse = [
+                //         validatePresence({
+                //             presence: true,
+                //             allowBlank: false,
+                //             message: translations.validationErrors.empty,
+                //         }),
+                //     ];
+                // }
+                // validationForResponse = [
+                //     ...(validationForResponse || []),
+                //     validateResponseFormat({ format: 'contributor' }),
+                // ];
                 break;
             case 'file-input':
                 if (inputBlock.required) {
