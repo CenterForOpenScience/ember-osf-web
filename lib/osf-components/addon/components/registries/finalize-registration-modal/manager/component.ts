@@ -1,5 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
+import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
@@ -18,6 +19,7 @@ export interface FinalizeRegistrationModalManager {
     submitRegistration: () => void;
     setEmbargoEndDate: (embargoEndDate: Date | null) => void;
     setCreateDoi: (createDoi: boolean) => void;
+    submittingRegistration: boolean;
 }
 
 @layout(template)
@@ -45,6 +47,8 @@ export default class FinalizeRegistrationModalManagerComponent extends Component
 
     // Optional parameters
     onSubmitRegistration?: (registrationId: string) => void;
+
+    @alias('submitRegistration.isRunning') submittingRegistration!: boolean;
 
     didReceiveAttrs() {
         assert('finalize-registration-modal::manager must have a registration', Boolean(this.registration));

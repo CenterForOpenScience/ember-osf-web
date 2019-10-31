@@ -24,6 +24,7 @@ export default class Files extends Component {
     @alias('schemaBlock.registrationResponseKey')
     valuePath!: string;
     selectedFiles: FileReference[] = [];
+    onInput!: () => void;
 
     didReceiveAttrs() {
         assert(
@@ -59,6 +60,7 @@ export default class Files extends Component {
         };
         this.selectedFiles.pushObject(newFile);
         this.changeset.set(this.valuePath, this.selectedFiles);
+        this.onInput();
     }
 
     @action
@@ -68,5 +70,6 @@ export default class Files extends Component {
         );
         this.set('selectedFiles', newSelectedFiles);
         this.changeset.set(this.valuePath, this.selectedFiles);
+        this.onInput();
     }
 }
