@@ -49,7 +49,7 @@ export default class Files extends Component {
         const newFile: FileReference = {
             file_id: file.id,
             file_name: file.name,
-            file_url: {
+            file_urls: {
                 html: (file.links.html as string),
                 download: (file.links.download as string),
             },
