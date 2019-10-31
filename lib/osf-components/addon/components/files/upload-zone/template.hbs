@@ -1,9 +1,20 @@
 {{#let (unique-id) as |dropzoneId|}}
-    <DropzoneWidget @options={{this.dropzoneOptions}} @dropzone={{false}} @enable={{this.enable}} @id={{concat 'dropzone-widget' dropzoneId}}
-        @clickable={{this.clickable}} @uploadprogress={{action this.uploadProgress}} @success={{perform this.success}}
-        @error={{action this.error}} @buildUrl={{action this.buildUrl}} @addedfile={{action this.addedFile}}
-        @dragenter={{action (mut this.dropping) true}} @dragover={{action (mut this.dropping) true}}
-        @drop={{action (mut this.dropping) false}} @dragleave={{action (mut this.dropping) false}}>
+    <DropzoneWidget
+        @options={{this.dropzoneOptions}}
+        @dropzone={{false}}
+        @enable={{this.enable}}
+        @id={{concat 'dropzone-widget' dropzoneId}}
+        @clickable={{this.clickable}}
+        @uploadprogress={{action this.uploadProgress}}
+        @success={{perform this.success}}
+        @error={{action this.error}}
+        @buildUrl={{action this.buildUrl}}
+        @addedfile={{action this.addedFile}}
+        @dragenter={{action (mut this.dropping) true}}
+        @dragover={{action (mut this.dropping) true}}
+        @drop={{action (mut this.dropping) false}}
+        @dragleave={{action (mut this.dropping) false}}
+    >
         {{yield (hash uploading=this.uploading)}}
     </DropzoneWidget>
 {{/let}}
