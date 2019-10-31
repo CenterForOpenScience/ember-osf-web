@@ -11,7 +11,7 @@ import UserModel from './user';
 export default class DraftRegistrationModel extends OsfModel {
     @attr('fixstring') registrationSupplement!: string;
     @attr('object') registrationMetadata!: RegistrationMetadata;
-    @attr('object') registrationResponses!: RegistrationResponse;
+    @attr('registration-responses') registrationResponses!: RegistrationResponse;
     @attr('date') datetimeInitiated!: Date;
     @attr('date') datetimeUpdated!: Date;
 
