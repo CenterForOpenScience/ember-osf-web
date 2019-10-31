@@ -2,7 +2,7 @@
 export interface FileReference {
     file_id: string;
     file_name: string;
-    file_url: {
+    file_urls: {
         html: string,
         download: string,
     };
