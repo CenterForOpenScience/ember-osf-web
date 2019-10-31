@@ -56,7 +56,6 @@ module('Integration | Component | files-widget', hooks => {
         this.set('node', node);
         await render(hbs`<Files::Widget @node={{this.node}} />`);
 
-        assert.dom('#files-widget-dropzone').exists();
         assert.dom('[data-test-file-browser-list]').isVisible();
         assert.dom('[data-test-file-row]').exists({ count });
     });
