@@ -10,16 +10,16 @@
             local-class='schema-block-multi-select'
             @id={{@uniqueID}}
             @valuePath={{@schemaBlock.registrationResponseKey}}
-            @options={{this.optionBlockValuesAndHelpText}}
+            @options={{this.optionBlockValues}}
             @onCheckCallback={{@onInput}}
             as |cb|
         >
-            <div data-test-multiple-select-option={{cb.option.displayText}}>
+            <div data-test-multiple-select-option={{cb.option}}>
                 {{cb.checkbox}}
                 <label for={{cb.checkboxId}}>
                     <div data-test-scope-description>
-                        {{cb.option.displayText}}
-                        <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{cb.option.helpText}} />
+                        {{cb.option}}
+                        <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{get this.helpTextMapping cb.option}} />
                     </div>
                 </label>
             </div>
