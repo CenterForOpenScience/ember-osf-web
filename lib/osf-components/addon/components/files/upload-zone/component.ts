@@ -37,7 +37,7 @@ export default class UploadZone extends Component.extend({
             action: 'link',
         });
         const fileId = response.data.id;
-        yield this.manager.addFile(fileId.replace(/^.*\//, ''));
+        yield this.filesManager.addFile(fileId.replace(/^.*\//, ''));
 
         this.uploading.removeObject(file);
     }),
@@ -46,9 +46,8 @@ export default class UploadZone extends Component.extend({
     @service analytics!: Analytics;
     @service i18n!: I18N;
 
-    manager!: FilesManager;
+    filesManager!: FilesManager;
     uploading: MutableArray<File> = A([]);
-    dropzoneId = 'files-widget-dropzone';
     dropping: boolean = false;
     dropzoneOptions = {
         createImageThumbnails: false,
@@ -63,7 +62,7 @@ export default class UploadZone extends Component.extend({
 
     @computed('manager.{currentFolder,fileProvider}')
     get uploadUrl() {
-        const folder = this.manager.currentFolder || this.manager.fileProvider;
+        const folder = this.filesManager.currentFolder || this.filesManager.fileProvider;
         return folder ? folder.links.upload : undefined;
     }
 
