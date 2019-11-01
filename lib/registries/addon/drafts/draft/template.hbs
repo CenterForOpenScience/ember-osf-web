@@ -25,7 +25,7 @@
             {{compute draftManager.onPageChange this.pageIndex this.inReview}}
             <OsfLayout @backgroundClass={{local-class 'ContentBackground'}} as |layout|>
                 <layout.heading local-class='Heading'>
-                <div local-class='Title'>{{t 'registries.drafts.draft.form.new_registration'}}</div>
+                    <div local-class='Title'>{{t 'registries.drafts.draft.form.new_registration'}}</div>
                     {{#if this.showMobileView}}
                         <Navbar local-class='SideBarToggle' as |nav|>
                             <nav.bordered-section>
@@ -106,6 +106,17 @@
                 </layout.leftNav>
                 <layout.main local-class='Main'>
                     {{#if this.inReview}}
+                        {{#unless draftManager.registrationResponsesIsValid}}
+                            {{#if this.showMobileView}}
+                                <div
+                                    data-test-invalid-responses-text
+                                    local-class='warningMessage'
+                                    class='text-danger'
+                                >
+                                    {{t 'registries.drafts.draft.review.invalid_warning'}}
+                                </div>
+                            {{/if}}
+                        {{/unless}}
                         <Registries::ReviewFormRenderer
                             @schemaBlocks={{draftManager.schemaBlocks}}
                             @registrationResponses={{draftManager.registrationResponses}}
