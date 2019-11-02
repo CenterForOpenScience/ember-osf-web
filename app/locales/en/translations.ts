@@ -1147,6 +1147,7 @@ export default {
                     back: 'Back',
                     save_draft: 'Save draft',
                     new_registration: 'New registration',
+                    last_saved: 'Last auto-saved:',
                 },
                 review: {
                     title: 'Review registration before submitting',

@@ -85,6 +85,10 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
             });
 
             yield this.draftRegistration.save();
+
+            this.draftRegistration.setProperties({
+                datetimeUpdated: new Date(),
+            });
         }
     }).restartable(),
 
