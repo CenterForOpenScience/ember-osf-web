@@ -11,6 +11,7 @@ import SchemaBlock from 'ember-osf-web/models/schema-block';
 
 import { getPages, PageManager, RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 import { getNextPageParam, getPrevPageParam } from 'ember-osf-web/utils/page-param';
+import { relativeDate } from 'registries/components/comment-card/component';
 import template from './template';
 
 export interface DraftRegistrationManager {
@@ -85,10 +86,6 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
             });
 
             yield this.draftRegistration.save();
-
-            this.draftRegistration.setProperties({
-                datetimeUpdated: new Date(),
-            });
         }
     }).restartable(),
 
@@ -161,6 +158,11 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
     @computed('pageManagers.{[],@each.pageIsValid}')
     get registrationResponsesIsValid() {
         return this.pageManagers.every(pageManager => pageManager.pageIsValid);
+    }
+
+    @computed('draftRegistration.datetimeUpdated')
+    get timeSinceLastSave() {
+        return this.draftRegistration && relativeDate(this.draftRegistration.datetimeUpdated);
     }
 
     @action

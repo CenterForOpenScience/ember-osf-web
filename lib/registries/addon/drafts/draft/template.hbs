@@ -110,8 +110,9 @@
                             {{t 'registries.drafts.draft.form.back'}}
                         </OsfLink>
                     {{/if}}
+
                     {{t 'registries.drafts.draft.form.last_saved'}}
-                    {{moment this.draftRegistration.datetimeUpdated}}
+                    {{draftManager.timeSinceLastSave}}
                 </layout.right>
             </OsfLayout>
         {{/if}}
