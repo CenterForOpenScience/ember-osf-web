@@ -1,4 +1,4 @@
-.register-button {
+.registerButton {
     border-radius: 2px;
     font-weight: 600;
     font-size: 15px;
@@ -17,11 +17,7 @@
     height: 100%;
 }
 
-.register-button.mobileReviewButtonItem {
+.registerButton.mobileReviewButtonItem {
     border-radius: 0;
     padding: 10px;
-}
-
-.reviewTooltip {
-    background-color: $color-bg-white;
 }

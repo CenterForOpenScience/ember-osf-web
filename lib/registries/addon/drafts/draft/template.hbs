@@ -41,8 +41,6 @@
                                     <nav.links.default
                                         data-test-goto-previous-page
                                         data-analytics-name='Sidenav back'
-                                        class='btn btn-link'
-                                        @type='button'
                                         @route='registries.drafts.draft'
                                         @models={{array draftManager.draftId draftManager.prevPageParam}}
                                     >
@@ -53,8 +51,6 @@
                                     <nav.links.default
                                         data-test-goto-next-page
                                         data-analytics-name='Sidenav next'
-                                        class='btn btn-link'
-                                        @type='button'
                                         @route='registries.drafts.draft'
                                         @models={{array draftManager.draftId draftManager.nextPageParam}}
                                         @onClick={{draftManager.setPageIsVisited}}
@@ -66,8 +62,6 @@
                                     <nav.links.default
                                         data-test-goto-review
                                         data-analytics-name='Sidenav review'
-                                        class='btn btn-link'
-                                        @type='button'
                                         @route='registries.drafts.draft'
                                         @models={{array draftManager.draftId 'review'}}
                                     >
@@ -110,7 +104,7 @@
                             {{#if this.showMobileView}}
                                 <div
                                     data-test-invalid-responses-text
-                                    local-class='warningMessage'
+                                    local-class='WarningMessage'
                                     class='text-danger'
                                 >
                                     {{t 'registries.drafts.draft.review.invalid_warning'}}
@@ -142,7 +136,7 @@
                         <OsfLink
                             data-test-goto-review
                             data-analytics-name='Go to review'
-                            local-class='review-button'
+                            local-class='ReviewButton'
                             class='btn btn-primary'
                             @type='button'
                             @route='registries.drafts.draft'
@@ -155,7 +149,7 @@
                         <OsfLink
                             data-test-goto-next-page
                             data-analytics-name='Go to next page'
-                            local-class='next-button'
+                            local-class='NextButton'
                             class='btn btn-primary'
                             @type='button'
                             @route='registries.drafts.draft'
@@ -169,7 +163,7 @@
                         <OsfLink
                             data-test-goto-previous-page
                             data-analytics-name='Go to previous page'
-                            local-class='back-button'
+                            local-class='BackButton'
                             class='btn btn-default'
                             @type='button'
                             @route='registries.drafts.draft'
