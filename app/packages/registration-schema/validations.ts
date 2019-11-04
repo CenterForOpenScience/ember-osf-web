@@ -4,7 +4,7 @@ import { validateLength, validatePresence } from 'ember-changeset-validations/va
 import translations from 'ember-osf-web/locales/en/translations';
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 import { SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema/schema-block-group';
-import { validateResponseFormat } from 'ember-osf-web/validators/validate-response-format';
+import { validateFileReference } from 'ember-osf-web/validators/validate-response-format';
 
 // TODO: find a way to use i18n to translate error messages
 
@@ -39,21 +39,6 @@ export function buildValidation(groups: SchemaBlockGroup[]) {
                     ];
                 }
                 break;
-            // case 'contributors-input':
-                // if (inputBlock.required) {
-                //     validationForResponse = [
-                //         validatePresence({
-                //             presence: true,
-                //             allowBlank: false,
-                //             message: translations.validationErrors.empty,
-                //         }),
-                //     ];
-                // }
-                // validationForResponse = [
-                //     ...(validationForResponse || []),
-                //     validateResponseFormat({ format: 'contributor' }),
-                // ];
-                // break;
             case 'file-input':
                 if (inputBlock.required) {
                     validationForResponse = [
@@ -65,7 +50,7 @@ export function buildValidation(groups: SchemaBlockGroup[]) {
                 }
                 validationForResponse = [
                     ...(validationForResponse || []),
-                    validateResponseFormat({ format: 'file' }),
+                    validateFileReference(),
                 ];
                 break;
             case 'single-select-input':
