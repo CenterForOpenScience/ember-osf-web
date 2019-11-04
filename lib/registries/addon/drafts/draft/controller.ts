@@ -17,7 +17,6 @@ export default class RegistriesDrat extends Controller {
     @service router!: RouterService;
 
     model!: DraftRouteModel;
-    sidenavGutterClosed = true;
 
     @alias('model.taskInstance.value.draftRegistration') draftRegistration?: DraftRegistration;
     @alias('model.taskInstance.value.node') node?: NodeModel;
@@ -53,10 +52,5 @@ export default class RegistriesDrat extends Controller {
     @action
     onPageNotFound() {
         this.transitionToRoute('page-not-found', this.router.currentURL.slice(1));
-    }
-
-    @action
-    toggleSidenav() {
-        this.toggleProperty('sidenavGutterClosed');
     }
 }
