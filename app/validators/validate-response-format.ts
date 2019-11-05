@@ -1,32 +1,14 @@
 import { isEmpty } from '@ember/utils';
-import ContributorModel from 'ember-osf-web/models/contributor';
+import { ValidatorFunction } from 'ember-changeset-validations';
+import { FileReference } from 'ember-osf-web/packages/registration-schema';
 
-const isContributorModel = (input: any) => {
-    if (input instanceof ContributorModel) {
-        return true;
-    }
-    return false;
-};
-
-export function validateResponseFormat(opts: {format: string}) {
-    return (value: any) => {
-        if (opts.format) {
-            switch (opts.format) {
-            case 'file':
-                if (!isEmpty(value.id) && !isEmpty(value.name)) {
-                    return true;
-                }
-                return 'Not a valid file';
-            case 'contributor':
-                if (isContributorModel(value) && !isEmpty(value.id)) {
-                    return true;
-                }
-                return 'Not a valid contributor';
-            default:
-                return 'Invalid format';
+export function validateFileReferenceList(): ValidatorFunction {
+    return (_: string, newValue: FileReference[]) => {
+        if (newValue) {
+            if (newValue.some(file => isEmpty(file.file_id) || isEmpty(file.file_name))) {
+                return 'Invalid files list';
             }
-        } else {
-            return 'Need a format';
         }
+        return true;
     };
 }
