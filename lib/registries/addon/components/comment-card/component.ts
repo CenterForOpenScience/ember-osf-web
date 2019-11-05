@@ -1,7 +1,6 @@
 import Component from '@ember/component';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
-import moment from 'moment';
 
 import I18n from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
@@ -17,6 +16,7 @@ import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import Registration from 'ember-osf-web/models/registration';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
+import formattedTimeSince from 'ember-osf-web/utils/formatted-time-since';
 import styles from './styles';
 import template from './template';
 
@@ -24,13 +24,6 @@ enum AbuseCategories {
     Spam = 'spam',
     Hate = 'hate',
     Violence = 'violence',
-}
-
-export function relativeDate(datetime: any) {
-    const now = moment.utc();
-    let then = moment.utc(datetime);
-    then = then > now ? now : then;
-    return then.fromNow();
 }
 
 @layout(template, styles)
@@ -117,12 +110,12 @@ export default class CommentCard extends Component.extend({
 
     @computed('comment.dateCreated')
     get dateCreated() {
-        return this.comment && relativeDate(this.comment.dateCreated);
+        return this.comment && formattedTimeSince(this.comment.dateCreated);
     }
 
     @computed('comment.dateModified')
     get dateModified() {
-        return this.comment && relativeDate(this.comment.dateModified);
+        return this.comment && formattedTimeSince(this.comment.dateModified);
     }
 
     @computed('replies.length', 'replies.meta.{total,per_page}')
