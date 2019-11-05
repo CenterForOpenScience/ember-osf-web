@@ -17,6 +17,7 @@ import template from './template';
 
 export interface DraftRegistrationManager {
     registrationResponsesIsValid: boolean;
+    hasInvalidResponses: boolean;
     registrationResponses: RegistrationResponse;
     currentPageManager: PageManager;
     pageManagers: PageManager[];
@@ -170,6 +171,11 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
     @computed('onInput.lastComplete')
     get lastSaveFailed() {
         return this.onInput.lastComplete ? this.onInput.lastComplete.isError : false;
+    }
+
+    @computed('pageManagers.{[],@each.pageIsInvalid}')
+    get hasInvalidResponses() {
+        return this.pageManagers.find(pageManager => pageManager.pageIsInvalid === true);
     }
 
     @action

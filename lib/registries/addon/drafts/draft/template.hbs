@@ -30,10 +30,10 @@
                         <Navbar local-class='SideBarToggle' as |nav|>
                             <nav.bordered-section>
                                 <nav.buttons.default
-                                    @onclick={{layout.toggleSidenav}}
                                     data-analytics-name='Show sidenav'
+                                    @onclick={{layout.toggleSidenav}}
                                 >
-                                    {{nav.icon (if layout.sidenavGutterClosed 'bars' 'times')}}
+                                    <nav.icon @icon={{if layout.sidenavGutterClosed 'bars' 'times'}} />
                                 </nav.buttons.default>
                             </nav.bordered-section>
                             <nav.bordered-section>
@@ -44,7 +44,7 @@
                                         @route='registries.drafts.draft'
                                         @models={{array draftManager.draftId draftManager.prevPageParam}}
                                     >
-                                        {{nav.icon 'arrow-left'}}
+                                        <nav.icon @icon='arrow-left' />
                                     </nav.links.default>
                                 {{/if}}
                                 {{#if draftManager.nextPageParam}}
@@ -55,7 +55,7 @@
                                         @models={{array draftManager.draftId draftManager.nextPageParam}}
                                         @onClick={{draftManager.setPageIsVisited}}
                                     >
-                                        {{nav.icon 'arrow-right'}}
+                                        <nav.icon @icon='arrow-right' />
                                     </nav.links.default>
                                 {{/if}}
                                 {{#if (eq draftManager.lastPage this.pageIndex)}}
@@ -65,7 +65,7 @@
                                         @route='registries.drafts.draft'
                                         @models={{array draftManager.draftId 'review'}}
                                     >
-                                        {{nav.icon 'arrow-right'}}
+                                        <nav.icon @icon='arrow-right' />
                                     </nav.links.default>
                                 {{/if}}
                                 {{#if this.inReview}}
@@ -100,17 +100,15 @@
                 </layout.leftNav>
                 <layout.main local-class='Main'>
                     {{#if this.inReview}}
-                        {{#unless draftManager.registrationResponsesIsValid}}
-                            {{#if this.showMobileView}}
-                                <div
-                                    data-test-invalid-responses-text
-                                    local-class='WarningMessage'
-                                    class='text-danger'
-                                >
-                                    {{t 'registries.drafts.draft.review.invalid_warning'}}
-                                </div>
-                            {{/if}}
-                        {{/unless}}
+                        {{#if (and draftManager.hasInvalidResponses this.showMobileView)}}
+                            <div
+                                data-test-invalid-responses-text
+                                local-class='WarningMessage'
+                                class='text-danger'
+                            >
+                                {{t 'registries.drafts.draft.review.invalid_warning'}}
+                            </div>
+                        {{/if}}
                         <Registries::ReviewFormRenderer
                             @schemaBlocks={{draftManager.schemaBlocks}}
                             @registrationResponses={{draftManager.registrationResponses}}
