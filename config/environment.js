@@ -228,6 +228,9 @@ module.exports = function(environment) {
             facebookUrl: 'https://www.facebook.com/CenterForOpenScience/',
             githubUrl: 'https://github.com/centerforopenscience',
         },
+        helpLinks: {
+            linkToAProject: 'https://help.osf.io/hc/en-us/articles/360019930313-Link-to-a-Project',
+        },
         dashboard: {
             popularNode,
             noteworthyNode,

@@ -1,5 +1,6 @@
-/* tslint:disable:object-literal-sort-keys max-line-length */
+import config from 'ember-get-config';
 
+/* tslint:disable:object-literal-sort-keys max-line-length */
 export default {
     documentType: {
         default: {
@@ -1428,9 +1429,9 @@ export default {
                         The content and version history of Wiki and OSF Storage will be copied to the registration.
                     </li>
                     <li>
-                        This project contains links to other projects.These links will be copied into your registration, but the
-                        projects that they link to will not be registered.If you wish to register the linked projects, they must be
-                        registered separately.Learn more about links.
+                        This project contains links to other projects. These links will be copied into your registration, but the
+                        projects that they link to will not be registered. If you wish to register the linked projects, they must be
+                        registered separately. <a href='${config.helpLinks.linkToAProject}' target='_blank' rel='noopener'>Learn more about links</a>.
                     </li>
                 </ul>`,
             immediateOption: 'Make registration public immediately',
