@@ -80,3 +80,11 @@
         box-shadow: none;
     }
 }
+
+.save-message {
+    display: inline-flex;
+}
+
+.save-failed {
+    color: $primary-red;
+}

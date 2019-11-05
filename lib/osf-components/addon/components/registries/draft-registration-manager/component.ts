@@ -1,9 +1,11 @@
 import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
+import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { task, TaskInstance, timeout } from 'ember-concurrency';
+import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
@@ -84,7 +86,12 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
                 registrationResponses: this.registrationResponses,
             });
 
-            yield this.draftRegistration.save();
+            try {
+                yield this.draftRegistration.save();
+            } catch (error) {
+                this.toast.error('Save failed');
+                throw error;
+            }
         }
     }).restartable(),
 
@@ -121,6 +128,7 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
 
     pageManagers: PageManager[] = [];
 
+    @service toast!: Toast;
     @alias('onInput.isRunning') autoSaving!: boolean;
     @alias('initializePageManagers.isRunning') initializing!: boolean;
 
@@ -157,6 +165,11 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
     @computed('pageManagers.{[],@each.pageIsValid}')
     get registrationResponsesIsValid() {
         return this.pageManagers.every(pageManager => pageManager.pageIsValid);
+    }
+
+    @computed('onInput.lastComplete')
+    get lastSaveFailed() {
+        return this.onInput.lastComplete ? this.onInput.lastComplete.isError : false;
     }
 
     @action
