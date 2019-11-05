@@ -41,8 +41,8 @@ module('Unit | Validator | validate-response-format', hooks => {
                 sha256: '12345',
             },
         };
-        assert.equal(validator('fakeResponseKey', [fileOne], [], {}, {}), true);
-        assert.equal(validator('fakeResponseKey', [fileOne, fileTwo], [], {}, {}), true);
+        assert.strictEqual(validator('fakeResponseKey', [fileOne], [], {}, {}), true);
+        assert.strictEqual(validator('fakeResponseKey', [fileOne, fileTwo], [], {}, {}), true);
         assert.equal(validator('fakeResponseKey', [invalidFile], [], {}, {}), 'Invalid files list',
             'returns error message for invalid file');
         assert.equal(validator('fakeResponseKey', [fileOne, invalidFile, fileTwo], null, {}, {}), 'Invalid files list',
