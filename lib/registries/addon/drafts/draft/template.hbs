@@ -111,8 +111,17 @@
                         </OsfLink>
                     {{/if}}
 
-                    {{t 'registries.drafts.draft.form.last_saved'}}
-                    {{draftManager.timeSinceLastSave}}
+                    {{#if draftManager.lastSaveFailed}}
+                        <span local-class='save-failed'>
+                            {{t 'registries.drafts.draft.form.save_failed'}}
+                        </span>
+                    {{/if}}
+                    <span local-class='save-message'>
+                        {{t 'registries.drafts.draft.form.last_saved'}}
+                        <TimeSince
+                            @date={{this.draftRegistration.datetimeUpdated}}
+                        />
+                    </span>
                 </layout.right>
             </OsfLayout>
         {{/if}}

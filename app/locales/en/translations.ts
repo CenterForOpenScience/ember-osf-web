@@ -1147,7 +1147,8 @@ export default {
                     back: 'Back',
                     save_draft: 'Save draft',
                     new_registration: 'New registration',
-                    last_saved: 'Last auto-saved:',
+                    last_saved: 'Last auto-saved: ',
+                    save_failed: 'Save failed. Unsaved changes present.',
                 },
                 review: {
                     title: 'Review registration before submitting',
