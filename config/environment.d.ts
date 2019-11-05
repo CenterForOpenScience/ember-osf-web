@@ -146,6 +146,9 @@ declare const config: {
         facebookUrl: string;
         githubUrl: string;
     };
+    helpLinks: {
+        linkToAProject: string;
+    };
     dashboard: {
         popularNode: string;
         noteworthyNode: string;
