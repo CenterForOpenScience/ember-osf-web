@@ -15,9 +15,7 @@ export default class TimeSince extends Component.extend({
         assert('RelativeTime @date is required', Boolean(this.date));
 
         while (true) {
-            this.setProperties({
-                displayTime: formattedTimeSince(this.date),
-            });
+            this.set('displayTime', formattedTimeSince(this.date));
             yield timeout(interval);
         }
     }).on('didReceiveAttrs').restartable(),

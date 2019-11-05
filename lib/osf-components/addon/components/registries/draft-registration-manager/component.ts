@@ -128,8 +128,7 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
 
     pageManagers: PageManager[] = [];
 
-    @service
-    toast!: Toast;
+    @service toast!: Toast;
     @alias('onInput.isRunning') autoSaving!: boolean;
     @alias('initializePageManagers.isRunning') initializing!: boolean;
 
