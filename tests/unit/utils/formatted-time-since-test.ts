@@ -7,7 +7,7 @@ module('Unit | Utility | formatted-time-since', () => {
     test('it shows just now', assert => {
         const from = moment().subtract(1, 'seconds').toDate();
         const result = formattedTimeSince(from);
-        assert.equal(result, 'a few seconds agoo');
+        assert.equal(result, 'a few seconds ago');
     });
 
     test('it shows minutes ago', assert => {
