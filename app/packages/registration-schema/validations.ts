@@ -4,7 +4,7 @@ import { validateLength, validatePresence } from 'ember-changeset-validations/va
 import translations from 'ember-osf-web/locales/en/translations';
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 import { SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema/schema-block-group';
-import { validateFileReference } from 'ember-osf-web/validators/validate-response-format';
+import { validateFileReferenceList } from 'ember-osf-web/validators/validate-response-format';
 
 // TODO: find a way to use i18n to translate error messages
 
@@ -50,7 +50,7 @@ export function buildValidation(groups: SchemaBlockGroup[]) {
                 }
                 validationForResponse = [
                     ...(validationForResponse || []),
-                    validateFileReference(),
+                    validateFileReferenceList(),
                 ];
                 break;
             case 'single-select-input':
