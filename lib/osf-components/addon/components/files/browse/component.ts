@@ -23,9 +23,7 @@ export default class FileBrowser extends Component {
         const { newItems: [newFolder], oldItems: [oldFolder] } = context;
 
         if (oldFolder) {
-            const parentFolderId = oldFolder.belongsTo('parentFolder').id();
-
-            if (!newFolder || (newFolder.id === parentFolderId)) {
+            if (!newFolder || oldFolder.materializedPath.includes(newFolder.materializedPath)) {
                 return toRight;
             }
         }

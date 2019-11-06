@@ -57,10 +57,10 @@ export default class UploadZone extends Component.extend({
         acceptDirectories: false,
     };
 
-    @alias('manager.canEdit') enable!: boolean;
+    @alias('filesManager.canEdit') enable!: boolean;
     @notEmpty('uploading') isUploading!: boolean;
 
-    @computed('manager.{currentFolder,fileProvider}')
+    @computed('filesManager.{currentFolder,fileProvider}')
     get uploadUrl() {
         const folder = this.filesManager.currentFolder || this.filesManager.fileProvider;
         return folder ? folder.links.upload : undefined;
@@ -86,6 +86,8 @@ export default class UploadZone extends Component.extend({
     @action
     buildUrl(files: File[]) {
         const { name } = files[0];
-        return this.uploadUrl ? `${this.uploadUrl}?${$.param({ name })}` : undefined;
+        const existingFile = this.filesManager.displayedItems.findBy('itemName', name);
+
+        return existingFile ? existingFile.links.upload : `${this.uploadUrl}?${$.param({ name })}`;
     }
 }

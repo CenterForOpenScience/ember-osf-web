@@ -93,35 +93,13 @@ module('Integration | Component | files-widget', hooks => {
 
         assert.dom('[data-test-ascending-sort="dateModified"]').isVisible();
         await click('[data-test-ascending-sort="dateModified"]');
-        expected = [folderOne, fileTwo, fileOne].map(convertDate);
+        expected = [fileTwo, fileOne].map(convertDate);
         assertOrdered(assert, 'date-modified', 'ascending', expected);
 
         assert.dom('[data-test-descending-sort="dateModified"]').isVisible();
         await click('[data-test-descending-sort="dateModified"]');
-        expected = [folderOne, fileOne, fileTwo].map(convertDate);
+        expected = [fileOne, fileTwo].map(convertDate);
         assertOrdered(assert, 'date-modified', 'descending', expected);
-    });
-
-    test('show selected items', async function(this: ThisTestContext, assert) {
-        const mirageNode = server.create('node', { currentUserPermissions: Object.values(Permission) }, 'withFiles');
-        const node = await this.store.findRecord('node', mirageNode.id);
-
-        this.set('node', node);
-
-        await render(hbs`<Files::Widget @node={{this.node}} />`);
-
-        assert.dom('[data-test-file-row]:first-child').isVisible();
-
-        await click('[data-test-file-browser-item]:first-child');
-        await animationsSettled();
-
-        assert.dom('[data-test-selected-files]').isVisible();
-        assert.dom('[data-test-selected-file]').exists({ count: 1 });
-
-        await click('[data-test-unselect-file]');
-        await animationsSettled();
-
-        assert.dom('[data-test-selected-file]').doesNotExist();
     });
 
     test('navigate between folders', async function(this: ThisTestContext, assert) {
@@ -143,7 +121,7 @@ module('Integration | Component | files-widget', hooks => {
         assert.dom('[data-test-file-row]').exists({ count: osfstorage.files.models.length });
 
         // Navigate to child folder.
-        await click('[data-test-file-browser-item]:first-child');
+        await click(`[data-test-file-browser-item="${folder.id}"]`);
         await animationsSettled();
 
         assert.dom('[data-test-file-row]').exists({ count: folderItems.length });
@@ -154,7 +132,7 @@ module('Integration | Component | files-widget', hooks => {
         assert.deepEqual(actualfolderItems.sort(), folderItems.mapBy('name').sort());
 
         // Navigate back to root folder.
-        await click('[data-test-file-browser-item]:first-child');
+        await click(`[data-test-file-browser-item="${folder.id}"]`);
         await animationsSettled();
 
         actualfolderItems = getItemAttr('name');

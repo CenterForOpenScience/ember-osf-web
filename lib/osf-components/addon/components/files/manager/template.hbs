@@ -1,14 +1,13 @@
 {{yield (hash
-    canEdit=this.canEdit
     loading=this.loading
+    loadingFolderItems=this.loadingFolderItems
+    loadingMore=this.loadingMore
+    canEdit=this.canEdit
+    hasMore=this.hasMore
     currentFolder=this.currentFolder
     displayedItems=this.displayedItems
-    selectedItems=this.selectedItems
     fileProvider=this.fileProvider
-    hasMore=this.hasMore
-    loadingFolderItems=this.loadingFolderItems
-    unselectItem=(action this.unselectItem)
-    selectItem=(action this.selectItem)
+    onSelectFile=@onSelectFile
     goToFolder=(action this.goToFolder)
     goToParentFolder=(action this.goToParentFolder)
     addFile=(perform this.addFile)
