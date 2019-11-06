@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
+import Ember from 'ember';
 import { task, timeout } from 'ember-concurrency';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -13,7 +14,9 @@ const interval = 30000; // every 30 seconds
 export default class TimeSince extends Component.extend({
     calculateRelativeTime: task(function *(this: TimeSince) {
         assert('RelativeTime @date is required', Boolean(this.date));
-
+        if (Ember.testing) {
+            return;
+        }
         while (true) {
             this.set('displayTime', formattedTimeSince(this.date));
             yield timeout(interval);
