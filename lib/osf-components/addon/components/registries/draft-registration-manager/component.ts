@@ -1,6 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
+import { alias, not } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
@@ -132,6 +132,7 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
     @service toast!: Toast;
     @alias('onInput.isRunning') autoSaving!: boolean;
     @alias('initializePageManagers.isRunning') initializing!: boolean;
+    @not('registrationResponsesIsValid') hasInvalidResponses!: boolean;
 
     @computed('currentPage', 'pageManagers.[]')
     get nextPageParam() {
@@ -171,11 +172,6 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
     @computed('onInput.lastComplete')
     get lastSaveFailed() {
         return this.onInput.lastComplete ? this.onInput.lastComplete.isError : false;
-    }
-
-    @computed('pageManagers.{[],@each.pageIsInvalid}')
-    get hasInvalidResponses() {
-        return this.pageManagers.find(pageManager => pageManager.pageIsInvalid === true);
     }
 
     @action
