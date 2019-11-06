@@ -965,8 +965,8 @@ export default {
                 div: {
                     line1: 'Check out the',
                     linkText1: 'open source code',
-                    line2: 'and the',
-                    linkText2: 'requirements and road map',
+                    line2: 'and our',
+                    linkText2: 'public road map',
                     line3: '. Input welcome!',
                 },
                 contact: 'Contact us',
