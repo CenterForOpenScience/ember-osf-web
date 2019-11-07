@@ -142,7 +142,9 @@ Router.map(function() {
         this.mount('analytics-page', { as: 'analytics' });
         this.route('forks');
         this.route('registrations');
-        this.route('drafts', { path: '/drafts/:draftId' });
+        this.route('drafts', { path: '/drafts/:draftId' }, function() {
+            this.route('register');
+        });
     });
 
     this.route('guid-preprint', { path: '--preprint/:guid' });
