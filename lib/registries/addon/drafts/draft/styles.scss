@@ -57,7 +57,7 @@
     top: 20px;
 }
 
-.back-button {
+.BackButton {
     border: 1px solid $alto;
     border-radius: 2px;
     font-weight: 600;
@@ -70,9 +70,8 @@
     }
 }
 
-.review-button,
-.next-button {
-    width: 100%;
+.ReviewButton,
+.NextButton {
     border-radius: 2px;
     font-weight: 600;
     font-size: 15px;
@@ -86,10 +85,19 @@
     }
 }
 
-.save-message {
-    display: inline-flex;
+.SaveMessage {
+    display: inline-block;
 }
 
-.save-failed {
+.SaveFailed {
     color: $primary-red;
+}
+
+.SideBarToggle {
+    width: 100%;
+}
+
+.WarningMessage {
+    text-align: center;
+    padding-top: 10px;
 }

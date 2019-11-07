@@ -23,10 +23,62 @@
             </div>
         {{else}}
             {{compute draftManager.onPageChange this.pageIndex this.inReview}}
-
             <OsfLayout @backgroundClass={{local-class 'ContentBackground'}} as |layout|>
                 <layout.heading local-class='Heading'>
                     <div local-class='Title'>{{t 'registries.drafts.draft.form.new_registration'}}</div>
+                    {{#if this.showMobileView}}
+                        <Navbar local-class='SideBarToggle' as |nav|>
+                            <nav.bordered-section>
+                                <nav.buttons.default
+                                    data-analytics-name='Show sidenav'
+                                    @onclick={{layout.toggleSidenav}}
+                                >
+                                    <nav.icon @icon={{if layout.sidenavGutterClosed 'bars' 'times'}} />
+                                </nav.buttons.default>
+                            </nav.bordered-section>
+                            <nav.bordered-section>
+                                {{#if draftManager.prevPageParam}}
+                                    <nav.links.default
+                                        data-test-goto-previous-page
+                                        data-analytics-name='Sidenav back'
+                                        @route='registries.drafts.draft'
+                                        @models={{array draftManager.draftId draftManager.prevPageParam}}
+                                    >
+                                        <nav.icon @icon='arrow-left' />
+                                    </nav.links.default>
+                                {{/if}}
+                                {{#if draftManager.nextPageParam}}
+                                    <nav.links.default
+                                        data-test-goto-next-page
+                                        data-analytics-name='Sidenav next'
+                                        @route='registries.drafts.draft'
+                                        @models={{array draftManager.draftId draftManager.nextPageParam}}
+                                        @onClick={{draftManager.setPageIsVisited}}
+                                    >
+                                        <nav.icon @icon='arrow-right' />
+                                    </nav.links.default>
+                                {{/if}}
+                                {{#if (eq draftManager.lastPage this.pageIndex)}}
+                                    <nav.links.default
+                                        data-test-goto-review
+                                        data-analytics-name='Sidenav review'
+                                        @route='registries.drafts.draft'
+                                        @models={{array draftManager.draftId 'review'}}
+                                    >
+                                        <nav.icon @icon='arrow-right' />
+                                    </nav.links.default>
+                                {{/if}}
+                                {{#if this.inReview}}
+                                    <Drafts::Draft::-Components::Register
+                                        @draftRegistration={{this.draftRegistration}}
+                                        @draftManager={{draftManager}}
+                                        @onSubmitRedirect={{action this.onSubmitRedirect}}
+                                        @showMobileView={{this.showMobileView}}
+                                    />
+                                {{/if}}
+                            </nav.bordered-section>
+                        </Navbar>
+                    {{/if}}
                 </layout.heading>
                 <layout.leftNav as |leftNav|>
                     {{#each draftManager.pageManagers as |pageManager index|}}
@@ -48,6 +100,15 @@
                 </layout.leftNav>
                 <layout.main local-class='Main'>
                     {{#if this.inReview}}
+                        {{#if (and draftManager.hasInvalidResponses this.showMobileView)}}
+                            <div
+                                data-test-invalid-responses-text
+                                local-class='WarningMessage'
+                                class='text-danger'
+                            >
+                                {{t 'registries.drafts.draft.review.invalid_warning'}}
+                            </div>
+                        {{/if}}
                         <Registries::ReviewFormRenderer
                             @schemaBlocks={{draftManager.schemaBlocks}}
                             @registrationResponses={{draftManager.registrationResponses}}
@@ -74,7 +135,7 @@
                             <OsfLink
                                 data-test-goto-review
                                 data-analytics-name='Go to review'
-                                local-class='review-button'
+                                local-class='ReviewButton'
                                 class='btn btn-primary'
                                 @type='button'
                                 @route='registries.drafts.draft'
@@ -87,7 +148,7 @@
                             <OsfLink
                                 data-test-goto-next-page
                                 data-analytics-name='Go to next page'
-                                local-class='next-button'
+                                local-class='NextButton'
                                 class='btn btn-primary'
                                 @type='button'
                                 @route='registries.drafts.draft'
@@ -101,7 +162,7 @@
                             <OsfLink
                                 data-test-goto-previous-page
                                 data-analytics-name='Go to previous page'
-                                local-class='back-button'
+                                local-class='BackButton'
                                 class='btn btn-default'
                                 @type='button'
                                 @route='registries.drafts.draft'
@@ -113,11 +174,11 @@
                         {{/if}}
 
                         {{#if draftManager.lastSaveFailed}}
-                            <span local-class='save-failed'>
+                            <span local-class='SaveFailed'>
                                 {{t 'registries.drafts.draft.form.save_failed'}}
                             </span>
                         {{/if}}
-                        <span local-class='save-message'>
+                        <span local-class='SaveMessage'>
                             {{t 'registries.drafts.draft.form.last_saved'}}
                             <TimeSince
                                 @date={{this.draftRegistration.datetimeUpdated}}
