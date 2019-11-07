@@ -1,10 +1,15 @@
-<label 
+<label
     local-class='QuestionLabel'
     data-test-question-label
     for={{@uniqueID}}
     ...attributes
 >
     {{@schemaBlock.displayText}}
+    {{#if (and @isRequired (not @readonly))}}
+        <span local-class='Required'>
+            {{t 'osf-components.registries.schema-block-renderer/label.required'}}
+        </span>
+    {{/if}}
     {{#if this.isEditableForm}}
         <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{this.schemaBlock.helpText}} />
         {{#if this.schemaBlock.exampleText}}

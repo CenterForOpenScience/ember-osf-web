@@ -24,6 +24,9 @@ export default class SchemaBlockGroupRenderer extends Component {
     @alias('schemaBlockGroup.optionBlocks')
     optionBlocks!: SchemaBlock[];
 
+    @alias('schemaBlockGroup.inputBlock.required')
+    isRequired?: boolean;
+
     didReceiveAttrs() {
         assert('A schema group is required to render schema groups', Boolean(this.schemaBlockGroup));
         assert('A renderStrategy is required to render schemaBlockGroupRenderer', Boolean(this.renderStrategy));

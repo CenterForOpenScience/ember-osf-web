@@ -1670,6 +1670,7 @@ export default {
             },
             'schema-block-renderer/label': {
                 showExample: 'Show example',
+                required: 'REQUIRED',
             },
         },
         'files-widget': {
