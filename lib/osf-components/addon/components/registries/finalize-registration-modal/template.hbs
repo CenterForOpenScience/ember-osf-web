@@ -43,9 +43,9 @@
                 <ValidatedInput::Date
                     data-test-embargo-date-input
                     @value={{this.manager.registration.embargoEndDate}}
-                    @startDate={{this.embargoRangeStartDate}}
-                    @endDate={{this.embargoRangeEndDate}}
-                    @placeholder={{t 'registries.finalizeRegistrationModal.datePlaceholder'}}
+                    @minDate={{this.embargoRangeStartDate}}
+                    @maxDate={{this.embargoRangeEndDate}}
+                    @placeholder={{t 'registries.finalizeRegistrationModal.datePlaceholder' }}
                 />
             {{/if}}
         </div>
