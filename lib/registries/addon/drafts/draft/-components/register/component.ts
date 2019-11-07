@@ -1,5 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import { action } from '@ember-decorators/object';
+import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
@@ -30,6 +31,7 @@ export default class Register extends Component.extend({
     registration!: Registration;
     rootNode?: Node;
     onSubmitRedirect?: (registrationId: string) => void;
+    @alias('draftManager.hasInvalidResponses') isInvalid?: boolean;
 
     partialRegDialogIsOpen = false;
     finalizeRegDialogIsOpen = false;

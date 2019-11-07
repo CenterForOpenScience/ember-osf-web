@@ -52,8 +52,7 @@
     align-items: center;
 }
 
-
-.back-button {
+.BackButton {
     border: 1px solid $alto;
     border-radius: 2px;
     font-weight: 600;
@@ -66,8 +65,8 @@
     }
 }
 
-.review-button,
-.next-button {
+.ReviewButton,
+.NextButton {
     border-radius: 2px;
     font-weight: 600;
     font-size: 15px;
@@ -87,4 +86,13 @@
 
 .save-failed {
     color: $primary-red;
+}
+
+.SideBarToggle {
+    width: 100%;
+}
+
+.WarningMessage {
+    text-align: center;
+    padding-top: 10px;
 }

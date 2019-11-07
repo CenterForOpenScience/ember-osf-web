@@ -52,6 +52,14 @@ export class PageManager extends EmberObject {
         return false;
     }
 
+    @computed('changeset.isInvalid')
+    get pageIsInvalid() {
+        if (this.changeset) {
+            return this.changeset.get('isInvalid');
+        }
+        return false;
+    }
+
     setPageIsVisited() {
         this.set('isVisited', true);
     }

@@ -7,11 +7,13 @@ import RouterService from '@ember/routing/router-service';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import Registration from 'ember-osf-web/models/registration';
 import { getPageParam } from 'ember-osf-web/utils/page-param';
+import Media from 'ember-responsive';
 
 import NodeModel from 'ember-osf-web/models/node';
 import { DraftRouteModel } from './route';
 
 export default class RegistriesDrat extends Controller {
+    @service media!: Media;
     @service router!: RouterService;
 
     model!: DraftRouteModel;
@@ -25,6 +27,7 @@ export default class RegistriesDrat extends Controller {
     @alias('draftRegistration.id') draftId!: string;
 
     @not('draftRegistration') loading!: boolean;
+    @not('media.isDesktop') showMobileView!: boolean;
 
     @computed('page')
     get shouldAppendPageSlug() {
