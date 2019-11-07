@@ -52,6 +52,11 @@
     align-items: center;
 }
 
+.RightWrapper {
+    position: sticky;
+    top: 20px;
+}
+
 .BackButton {
     border: 1px solid $alto;
     border-radius: 2px;
@@ -80,11 +85,11 @@
     }
 }
 
-.save-message {
+.SaveMessage {
     display: inline-block;
 }
 
-.save-failed {
+.SaveFailed {
     color: $primary-red;
 }
 
