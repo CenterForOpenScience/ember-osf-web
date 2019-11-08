@@ -5,8 +5,7 @@
     display: inline-flex !important; // !important needed to override bootstrap .btn properties
     min-height: $sidenav-link-height;
     height: auto;
-    justify-content: space-between;
-    width: 100%;
+    width: $width-expanded;
     padding: 5px 10px !important; // !important needed to override bootstrap .btn properties
     color: $color-text-blue-dark;
     z-index: 1000;
@@ -36,6 +35,8 @@
 }
 
 .Collapsed {
+    width: $width-collapsed;
+
     &.CurrentPage {
         width: $width-collapsed + 1px;
     }
@@ -54,3 +55,11 @@
         }
     }
 }
+
+.Drawer {
+    &.CurrentPage {
+        border: 0;
+        box-shadow: none;
+    }
+}
+

@@ -1,8 +1,9 @@
 .LabelWrapper {
     justify-content: space-between;
-    display: inline-flex;
-    width: 100%;
+    display: inline;
     padding-left: 10px;
-    height: 100%;
     font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

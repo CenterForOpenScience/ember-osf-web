@@ -3,7 +3,8 @@
         data-test-collapsed={{this.isCollapsed}}
         local-class='Link
             {{if this.isCollapsed 'Collapsed'}}
-            {{if this.isCurrentPage 'CurrentPage'}}'
+            {{if this.isCurrentPage 'CurrentPage'}}
+            {{if this.isDrawer 'Drawer'}}'
         @onClick={{@onClick}}
         @type='link'
         ...attributes
@@ -25,7 +26,8 @@
         data-test-collapsed={{this.isCollapsed}}
         local-class='Link
             {{if this.isCollapsed 'Collapsed'}}
-            {{if this.isCurrentPage 'CurrentPage'}}'
+            {{if this.isCurrentPage 'CurrentPage'}}
+            {{if this.isDrawer 'Drawer'}}'
         @route={{@route}}
         @models={{@models}}
         @href={{@href}}
