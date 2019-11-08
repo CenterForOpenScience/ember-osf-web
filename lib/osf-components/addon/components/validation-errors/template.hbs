@@ -1,0 +1,7 @@
+{{#let (get @changeset.error @key) as |errors|}}
+    {{#if errors.validation}}
+        <div local-class='Errors' ...attributes>
+            {{errors.validation}}
+        </div>
+    {{/if}}
+{{/let}}
