@@ -1,11 +1,14 @@
-{{#each this.schemaBlockGroups as |group|}}
-    <Registries::SchemaBlockGroupRenderer
-        @schemaBlockGroup={{group}}
-        @renderStrategy={{
-            component
-            'registries/schema-block-renderer/read-only/mapper'
-            registrationResponses=@registrationResponses
-            node=@node
-        }}
-    />
+{{#each @draftManager.pageManagers as |pageManager|}}
+    {{#each pageManager.schemaBlockGroups as |group|}}
+        <Registries::SchemaBlockGroupRenderer
+            @schemaBlockGroup={{group}}
+            @renderStrategy={{
+                component
+                'registries/schema-block-renderer/read-only/mapper'
+                registrationResponses=@draftManager.registrationResponses
+                node=@node
+                changeset=pageManager.changeset
+            }}
+        />
+    {{/each}}
 {{/each}}
