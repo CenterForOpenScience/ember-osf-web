@@ -53,6 +53,9 @@ export default class Ready extends Service.extend(Evented) {
     }
 
     ready(this: Ready) {
+        if (this.isReady) {
+            return RSVP.resolve();
+        }
         return new RSVP.Promise((resolve, reject) => {
             this.on(Events.IsReady, resolve);
             this.on(Events.Reset, reject);
