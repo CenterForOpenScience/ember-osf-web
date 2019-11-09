@@ -1674,7 +1674,7 @@ export default {
             },
         },
         'files-widget': {
-            no_files: 'Drag and drop files here to upload files to this folder',
+            drag_drop_files: 'Drag and drop files here to upload files to this folder',
             message: 'Only files from root project on OSF Storage are available to attach. To attach files from components or non "OSF Storage" addons, first add them to your root project files.',
         },
         subjects: {

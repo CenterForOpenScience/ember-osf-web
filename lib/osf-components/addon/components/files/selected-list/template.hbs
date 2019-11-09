@@ -1,23 +1,24 @@
-{{#if @filesManager.selectedItems}}
+{{#if @selectedFiles}}
     <div data-test-selected-files
         local-class='selected-list'
     >
         <AnimatedContainer>
             <AnimatedEach
-                @items={{@filesManager.selectedItems}}
+                @items={{@selectedFiles}}
                 @use={{this.transition}}
                 @duration=500
-                as |item|
+                as |file|
             >
-                <div data-test-selected-file
+                <div
+                    data-test-selected-file='{{file.file_id}}'
                     local-class='selected-item'
                 >
-                    <span>{{item.itemName}}</span>
+                    <span>{{file.file_name}}</span>
                     <OsfButton
                         data-test-unselect-file
                         data-analytics-name='Unselect file'
                         local-class='unselect'
-                        @onClick={{action @filesManager.unselectItem item}}
+                        @onClick={{action @unselect file}}
                         @type='link'
                     >
                         <FaIcon @icon='times' @fixedWith={{true}} />

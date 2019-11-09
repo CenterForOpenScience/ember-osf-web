@@ -38,23 +38,6 @@ export default class FileBrowserItem extends Component {
     }
 
     @action
-    onClickFile(currentItem: File) {
-        const isSelected = this.filesManager.selectedItems.includes(currentItem);
-
-        this.analytics.trackFromElement(this.element, {
-            name: `${isSelected ? 'Unselect file' : 'Select file'}`,
-            category: 'button',
-            action: 'click',
-        });
-
-        if (isSelected) {
-            this.filesManager.unselectItem(currentItem);
-        } else {
-            this.filesManager.selectItem(currentItem);
-        }
-    }
-
-    @action
     onClick() {
         if (this.item.isFolder) {
             if (this.isCurrentFolder) {
@@ -73,8 +56,8 @@ export default class FileBrowserItem extends Component {
                 });
                 this.filesManager.goToFolder(this.item);
             }
-        } else {
-            this.onClickFile(this.item);
+        } else if (this.filesManager.onSelectFile) {
+            this.filesManager.onSelectFile(this.item);
         }
     }
 }
