@@ -2,24 +2,22 @@ import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import RouterService from '@ember/routing/router-service';
 import { htmlSafe } from '@ember/string';
-import config from 'ember-get-config';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import { RegistrationMetadata } from 'ember-osf-web/models/registration-schema';
 import Analytics from 'ember-osf-web/services/analytics';
-import pathJoin from 'ember-osf-web/utils/path-join';
 
 import styles from './styles';
 import template from './template';
-
-const { OSF: { url: baseURL } } = config;
 
 @layout(template, styles)
 @tagName('')
 export default class DraftRegistrationCard extends Component {
     @service analytics!: Analytics;
+    @service router!: RouterService;
 
     // Required arguments
     draftRegistration!: DraftRegistration;
@@ -30,11 +28,6 @@ export default class DraftRegistrationCard extends Component {
 
     // Private properties
     deleteModalOpen = false;
-
-    @computed('draftRegistration.{branchedFrom.id,id}')
-    get draftRegistrationUrl() {
-        return pathJoin(baseURL, this.draftRegistration.branchedFrom.get('id'), 'drafts', this.draftRegistration.id);
-    }
 
     @computed('draftRegistration.{registrationSchema,registrationMetadata}')
     get percentComplete() {
@@ -106,7 +99,11 @@ export default class DraftRegistrationCard extends Component {
 
     @action
     edit() {
-        window.location.assign(this.draftRegistrationUrl);
+        this.router.transitionTo(
+            'guid-node.drafts',
+            this.draftRegistration.branchedFrom.get('id'),
+            this.draftRegistration.id,
+        );
     }
 
     @action
@@ -130,6 +127,10 @@ export default class DraftRegistrationCard extends Component {
 
     @action
     register() {
-        window.location.assign(pathJoin(this.draftRegistrationUrl, 'register'));
+        this.router.transitionTo(
+            'guid-node.drafts.register',
+            this.draftRegistration.branchedFrom.get('id'),
+            this.draftRegistration.id,
+        );
     }
 }
