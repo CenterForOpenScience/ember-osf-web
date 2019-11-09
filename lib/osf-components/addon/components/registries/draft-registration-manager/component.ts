@@ -26,7 +26,6 @@ export interface DraftRegistrationManager {
     nextPageParam: string;
     prevPageParam: string;
     autoSaving: boolean;
-    schemaBlocks: SchemaBlock[];
     lastPage: number;
     initializing: boolean;
 
@@ -52,7 +51,6 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
         const { registrationResponses } = this.draftRegistration;
 
         this.setProperties({
-            schemaBlocks,
             lastPage: pages.length - 1,
             registrationResponses: registrationResponses || {},
         });
@@ -124,7 +122,6 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
     currentPage!: number;
     lastPage!: number;
     registrationResponses!: RegistrationResponse;
-    schemaBlocks!: SchemaBlock[];
     inReview!: boolean;
 
     pageManagers: PageManager[] = [];
