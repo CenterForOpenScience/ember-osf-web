@@ -126,6 +126,27 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-invalid-responses-text]').isVisible();
     });
 
+    test('validations: errors show on review page', async assert => {
+        const initiator = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const registrationResponses = {
+            'page-one_long-text': '',
+            'page-one_multi-select': [],
+            'page-one_multi-select-other': '',
+            'page-one_short-text': null, // Required
+            'page-one_single-select': 'tuna',
+            'page-one_single-select-two': '',
+        };
+        const registration = server.create(
+            'draft-registration', { registrationSchema, initiator, registrationResponses },
+        );
+
+        await visit(`/registries/drafts/${registration.id}/review`);
+        assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/review`), 'At review page');
+        assert.dom('[data-test-validation-errors="page-one_short-text"]').exists();
+        assert.dom('[data-test-validation-errors="page-one_long-text"]').doesNotExist();
+    });
+
     test('validations: cannot register with empty registrationResponses', async assert => {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
