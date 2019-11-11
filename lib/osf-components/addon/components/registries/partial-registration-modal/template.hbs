@@ -27,14 +27,14 @@
         {{#if @manager.loadingChildNodes}}
             <LoadingIndicator @dark={{true}} />
         {{else}}
-            <ul>
+            <ul local-class='list'>
                 <Registries::HierarchicalList::ItemManager
                     @item={{@manager.rootNode}}
                     @listManager={{@manager}}
                     @isRoot={{true}}
                     as |itemManager|
                 >
-                    <Registries::HierarchicalList::Item @manager={{itemManager}} />
+                    <Registries::HierarchicalList::Item @manager={{itemManager}} local-class='list' />
                 </Registries::HierarchicalList::ItemManager>
             </ul>
         {{/if}}
