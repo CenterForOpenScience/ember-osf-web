@@ -158,7 +158,7 @@ declare const config: {
             institutions: string;
         };
         ABTesting: {
-            homePageVersionB: string;
+            homePageHeroTextVersionB: string;
         };
         storageI18n: string;
         enableInactiveSchemas: string;

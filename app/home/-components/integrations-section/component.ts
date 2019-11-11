@@ -12,6 +12,6 @@ const { featureFlagNames: { ABTesting } } = config;
 export default class IntegrationsSection extends Component {
     @service features!: Features;
 
-    @alias(`features.${camelize(ABTesting.homePageVersionB)}`)
+    @alias(`features.${camelize(ABTesting.homePageHeroTextVersionB)}`)
     shouldShowVersionB!: boolean;
 }
