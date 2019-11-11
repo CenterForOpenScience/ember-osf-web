@@ -25,7 +25,7 @@ export default class Home extends Route {
 
   @action
   didTransition() {
-      const shouldShowVersionB = this.features.isEnabled(ABTesting.homePageVersionB);
+      const shouldShowVersionB = this.features.isEnabled(ABTesting.homePageHeroTextVersionB);
       const version = shouldShowVersionB ? 'versionB' : 'versionA';
       this.analytics.trackPage(undefined, undefined, undefined, version);
   }

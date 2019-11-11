@@ -282,7 +282,7 @@ module.exports = function(environment) {
             enableInactiveSchemas: 'enable_inactive_schemas',
             verifyEmailModals: 'ember_verify_email_modals',
             ABTesting: {
-                homePageVersionB: 'ab_testing_home_page_version_b',
+                homePageHeroTextVersionB: 'ab_testing_home_page_hero_text_version_b',
             },
         },
         gReCaptcha: {

@@ -1651,7 +1651,8 @@ export default {
             search: 'Search',
         },
         'hero-banner': {
-            heading: 'The place to share your research',
+            headingA: 'The place to share your research',
+            headingB: 'There’s a better way to manage your research',
             subheading: 'OSF is a free, open platform to support your research and enable collaboration.',
             add_your_research: {
                 heading: 'Add your research',
