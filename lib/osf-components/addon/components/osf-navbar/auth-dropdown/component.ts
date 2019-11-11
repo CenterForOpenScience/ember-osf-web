@@ -15,7 +15,6 @@ import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import cleanURL from 'ember-osf-web/utils/clean-url';
 import defaultTo from 'ember-osf-web/utils/default-to';
-import param from 'ember-osf-web/utils/param';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import styles from './styles';
 import template from './template';
@@ -40,7 +39,7 @@ export class AuthBase extends Component {
     /**
      * The URL to redirect to after logout
      */
-    redirectUrl?: string;
+    redirectUrl: string = defaultTo(this.redirectUrl, '/goodbye');
 
     campaign?: string;
 
@@ -76,9 +75,7 @@ export class AuthBase extends Component {
 
     @action
     logout(this: NavbarAuthDropdown) {
-        // Assuming `redirectUrl` comes back to this app, the session will be invalidated then.
-        const query = this.redirectUrl ? `?${param({ next_url: this.redirectUrl })}` : '';
-        window.location.href = `${config.OSF.url}logout/${query}`;
+        this.currentUser.logout(this.redirectUrl);
     }
 }
 
