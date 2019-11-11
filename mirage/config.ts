@@ -6,6 +6,7 @@ import { searchCollections } from './views/collection-search';
 import { reportDelete } from './views/comment';
 import { createBibliographicContributor } from './views/contributor';
 import { createDeveloperApp, resetClientSecret } from './views/developer-app';
+import { createDraftRegistration } from './views/draft-registration';
 import {
     folderFilesList,
     nodeFileProviderList,
@@ -19,7 +20,7 @@ import { identifierCreate } from './views/identifier';
 import { createNode } from './views/node';
 import { osfNestedResource, osfResource, osfToManyRelationship } from './views/osf-resource';
 import { getProviderSubjects } from './views/provider-subjects';
-import { forkRegistration, registrationDetail } from './views/registration';
+import { createRegistration, forkRegistration, registrationDetail } from './views/registration';
 import { rootDetail } from './views/root';
 import { createToken } from './views/token';
 import { createEmails, updateEmails } from './views/update-email';
@@ -83,6 +84,7 @@ export default function(this: Server) {
     osfNestedResource(this, 'node', 'linkedRegistrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'registrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'draftRegistrations', { only: ['index'] });
+    this.post('/nodes/:guid/draft_registrations', createDraftRegistration);
     osfNestedResource(this, 'node', 'identifiers', { only: ['index'] });
     osfToManyRelationship(this, 'node', 'affiliatedInstitutions', {
         only: ['related', 'add', 'remove'],
@@ -98,7 +100,8 @@ export default function(this: Server) {
         path: '/draft_registrations',
     });
 
-    osfResource(this, 'registration', { except: ['show'] });
+    osfResource(this, 'registration', { except: ['show', 'create'] });
+    this.post('/registrations', createRegistration);
     this.get('/registrations/:id', registrationDetail);
     osfNestedResource(this, 'registration', 'children');
     osfNestedResource(this, 'registration', 'forks', { except: ['create'] });

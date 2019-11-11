@@ -15,6 +15,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `Registries::DraftRegistrationManager`
     - `Registries::SchemaBlockRenderer::Editable::Files`
     - `Registries::SchemaBlockRenderer::ReadOnly::Files`
+    - `OsfLayout::RegistriesSideNav`
+    - `OsfLayout::RegistriesSideNav::Icon`
+    - `OsfLayout::RegistriesSideNav::Label`
+    - `OsfLayout::RegistriesSideNav::XLink`
+    - `PageLink`
 - Mirage
     - Factories
         - `institutional-user`
@@ -23,7 +28,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Routes
     - `institution`
         - added `dashboard` nested route
+    - `guid-node`
+        - added `drafts` nested route
 - Engines
+    - Components
+        - `drafts/draft/-components/register`
     - Routes
         - `registries`
             - `drafts.draft`, `draft/<draftId>/<page>`
@@ -33,10 +42,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Tests
     - Integration
         - `draft-registration-manager`
+        - `page-link`
+        - `registries-side-nav`
     - Unit
         - `page-param`
     - Acceptance
         - `draft form`
+- Environment
+    - Flags
+        - added `guid-node.drafts` route flag
 
 ### Changed
 - Components
@@ -50,6 +64,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
             - added `withStatSummary` trait
     - `registries/partial-registration-modal`
         - added `onContinue` hook
+    - `OsfLayout`
+        - renamed `left-nav` to `left-nav-old`
+        - created new `left-nav` that uses `registries-side-nav`
 - Mirage
     - Factories
         - `institution`
@@ -66,6 +83,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Routes
     - `institution`
         - moved to `index` folder
+    - `registries.drafts.draft`
+        - added navigation
+    - `registries.overview`
+        - updated to use `leftNavOld`
 - Types
     - Renamed `PageResponse` to `RegistrationResponse`
 - Tests
@@ -80,7 +101,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `ember-data-factory-guy`
 - Types
     - `FactoryGuy` types
-       
+
 ## [19.10.0] - 2019-10-02
 ### Added
 - Models

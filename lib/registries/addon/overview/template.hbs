@@ -55,7 +55,7 @@
                 />
             </layout.heading>
 
-            <layout.leftNav as |leftNav|>
+            <layout.leftNavOld as |leftNav|>
                 <leftNav.link
                     data-analytics-name='Overview'
                     @route='registries.overview.index'
@@ -106,7 +106,7 @@
                     @label={{t 'registries.overview.comments.title'}}
                     @count={{this.commentsCount}}
                 />
-            </layout.leftNav>
+            </layout.leftNavOld>
 
             <layout.main local-class='OverviewBody'>
                 {{outlet}}

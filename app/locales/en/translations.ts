@@ -964,8 +964,8 @@ export default {
                 div: {
                     line1: 'Check out the',
                     linkText1: 'open source code',
-                    line2: 'and the',
-                    linkText2: 'requirements and road map',
+                    line2: 'and our',
+                    linkText2: 'public road map',
                     line3: '. Input welcome!',
                 },
                 contact: 'Contact us',
@@ -1151,8 +1151,10 @@ export default {
                 review: {
                     title: 'Review registration before submitting',
                     start_review: 'Review',
+                    invalid_warning: 'Please address invalid or missing entries to complete registration.',
                 },
                 register: 'Register',
+                submit_error: 'Failed to create a registration. Please try again later.',
             },
         },
 

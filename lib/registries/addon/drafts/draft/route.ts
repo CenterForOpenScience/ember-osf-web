@@ -13,7 +13,7 @@ import { getPageIndex } from 'ember-osf-web/utils/page-param';
 
 export interface DraftRouteModel {
     taskInstance: TaskInstance<DraftRegistration>;
-    pageIndex: number|undefined;
+    pageIndex?: number;
     page: string;
 }
 

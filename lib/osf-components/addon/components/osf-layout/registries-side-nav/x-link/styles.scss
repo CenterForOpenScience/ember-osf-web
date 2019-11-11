@@ -1,0 +1,56 @@
+.Link {
+    transition: background 0.25s ease-out;
+    position: relative;
+    align-items: center;
+    display: inline-flex !important; // !important needed to override bootstrap .btn properties
+    min-height: $sidenav-link-height;
+    height: auto;
+    justify-content: space-between;
+    width: 100%;
+    padding: 5px 10px !important; // !important needed to override bootstrap .btn properties
+    color: $color-text-blue-dark;
+    z-index: 1000;
+
+    &.CurrentPage {
+        color: $color-text-black;
+        box-shadow: -2px 1px 5px -2px $color-border-gray;
+        border: $color-border-gray 1px solid;
+        border-right: 0;
+        background: $color-bg-white;
+        width: $width-expanded + 1px;
+
+        .Count {
+            color: inherit;
+        }
+    }
+
+    &:hover {
+        background: $color-link-lighter !important; // !important needed to override bootstrap .btn properties
+        color: $color-text-white !important; // !important needed to override bootstrap .btn properties
+        text-decoration: none !important; // !important needed to override bootstrap .btn properties
+    }
+
+    &:focus {
+        text-decoration: none !important; // !important needed to override bootstrap .btn properties
+    }
+}
+
+.Collapsed {
+    &.CurrentPage {
+        width: $width-collapsed + 1px;
+    }
+
+    span {
+        display: none;
+    }
+
+    &:hover {
+        width: max-content;
+        max-width: 265px;
+        height: auto;
+        
+        span {
+            display: initial;
+        }
+    }
+}

@@ -35,6 +35,7 @@ const {
         'dashboard',
         'settings',
         'meetings',
+        'registrations',
     ],
     OAUTH_SCOPES: scope,
     OSF_STATUS_COOKIE: statusCookie = 'osf_status',
@@ -234,6 +235,7 @@ module.exports = function(environment) {
         featureFlagNames: {
             routes: {
                 'guid-node.index': 'ember_project_detail_page',
+                'guid-node.drafts': 'ember_edit_draft_registration_page',
                 'guid-user.index': 'ember_user_profile_page',
                 'guid-registration.index': 'ember_old_registration_detail_page',
                 settings: 'ember_user_settings_page',
