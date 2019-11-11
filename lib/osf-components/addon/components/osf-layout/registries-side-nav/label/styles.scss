@@ -6,12 +6,20 @@
     font-weight: 700;
     white-space: nowrap;
     overflow: hidden;
+
+    &:hover {
+        overflow: visible;
+    }
 }
 
 .Label {
     float: left;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    &:hover {
+        overflow: visible;
+    }
 }
 
 .Count {

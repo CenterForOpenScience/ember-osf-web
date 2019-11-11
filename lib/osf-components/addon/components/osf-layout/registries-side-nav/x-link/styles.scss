@@ -27,6 +27,8 @@
         background: $color-link-lighter !important; // !important needed to override bootstrap .btn properties
         color: $color-text-white !important; // !important needed to override bootstrap .btn properties
         text-decoration: none !important; // !important needed to override bootstrap .btn properties
+        width: max-content;
+        min-width: 205px;
     }
 
     &:focus {
@@ -47,9 +49,9 @@
 
     &:hover {
         width: max-content;
-        max-width: 265px;
+        min-width: auto;
         height: auto;
-        
+
         span {
             display: initial;
         }
