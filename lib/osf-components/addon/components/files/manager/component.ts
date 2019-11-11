@@ -14,6 +14,7 @@ import File from 'ember-osf-web/models/file';
 import FileProvider from 'ember-osf-web/models/file-provider';
 import Node from 'ember-osf-web/models/node';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
+import { PaginatedMeta } from 'osf-api';
 
 import template from './template';
 
@@ -24,13 +25,17 @@ export interface FilesManager {
     hasMore: boolean;
     canEdit: boolean;
     currentFolder: File;
-    fileProvider: File;
+    rootFolder: File;
     displayedItems: File[];
     goToFolder: (item: File) => void;
     goToParentFolder: (item: File) => void;
     onSelectFile?: (item: File) => void;
     addFile: (id: string) => void;
     sortFolderItems: (sort: string) => void;
+}
+
+interface PromiseManyArrayWithMeta extends DS.PromiseManyArray<File> {
+    meta: PaginatedMeta;
 }
 
 @tagName('')
@@ -41,20 +46,21 @@ export default class FilesManagerComponent extends Component.extend({
 
         const fileProviders = yield this.node.files;
         const fileProvider = fileProviders.firstObject as FileProvider;
-        const rootItems = yield fileProvider.files;
+        const rootFolder = yield fileProvider.rootFolder;
+
+        yield rootFolder.files;
 
         this.setProperties({
-            fileProvider,
-            currentFolder: null,
-            displayedItems: rootItems,
+            rootFolder,
+            currentFolder: rootFolder,
         });
     }).on('didReceiveAttrs').restartable(),
     loadMore: task(function *(this: FilesManagerComponent) {
-        const folder = this.currentFolder || this.fileProvider;
-        const items = folder.files;
+        const { currentFolder } = this;
+        const items = currentFolder.files;
 
-        const atPage = Math.ceil(this.displayedItems.length / this.pageSize);
-        const moreItems = yield folder.queryHasMany('files', {
+        const atPage = Math.ceil((items.length as number) / this.pageSize);
+        const moreItems = yield currentFolder.queryHasMany('files', {
             page: atPage + 1,
             pageSize: this.pageSize,
         });
@@ -65,21 +71,29 @@ export default class FilesManagerComponent extends Component.extend({
     getCurrentFolderItems: task(function *(this: FilesManagerComponent, targetFolder: File) {
         this.set('currentFolder', targetFolder);
 
-        const displayedItems = yield targetFolder.files;
+        yield this.currentFolder.files;
+    }),
 
-        this.setProperties({ displayedItems });
+    sortFolderItems: task(function *(this: FilesManagerComponent, sort: string) {
+        yield this.currentFolder.queryHasMany('files', {
+            sort,
+        });
     }),
 
     addFile: task(function *(this: FilesManagerComponent, id: string) {
-        const duplicate = this.displayedItems.findBy('id', id);
+        const duplicate = this.currentFolder.files.findBy('id', id);
         const file = yield this.store
-            .findRecord('file', id, duplicate ? {} : { adapterOptions: { query: { create_guid: 1 } } });
+            .findRecord(
+                'file',
+                id,
+                duplicate ? {} : { adapterOptions: { query: { create_guid: 1 } } },
+            );
 
         if (duplicate) {
-            this.displayedItems.removeObject(duplicate);
+            this.currentFolder.files.removeObject(duplicate);
         }
 
-        this.displayedItems.pushObject(file);
+        this.currentFolder.files.pushObject(file);
 
         if (duplicate) {
             return;
@@ -95,8 +109,8 @@ export default class FilesManagerComponent extends Component.extend({
     node!: Node;
 
     displayedItems!: QueryHasManyResult<File>;
-    currentFolder: File | null = null;
-    fileProvider!: File;
+    currentFolder!: File;
+    rootFolder!: File;
     pageSize = 10;
 
     @alias('node.userHasAdminPermission') canEdit!: boolean;
@@ -104,10 +118,11 @@ export default class FilesManagerComponent extends Component.extend({
     @alias('getCurrentFolderItems.isRunning') loadingFolderItems!: boolean;
     @alias('loadMore.isRunning') loadingMore!: boolean;
 
-    @computed('displayedItems.[]', 'currentFolder')
+    @computed('currentFolder.files')
     get hasMore() {
-        if (this.displayedItems) {
-            return this.displayedItems.length < this.displayedItems.meta.total;
+        if (this.currentFolder) {
+            const currentFolderItems = this.currentFolder.files as PromiseManyArrayWithMeta;
+            return currentFolderItems.meta && currentFolderItems.length < currentFolderItems.meta.total;
         }
 
         return undefined;
@@ -115,13 +130,7 @@ export default class FilesManagerComponent extends Component.extend({
 
     @action
     goToParentFolder(currentFolder: File) {
-        const parentFolder = currentFolder.belongsTo('parentFolder').value() as (File | null);
-        const hasManyReference = (parentFolder || this.fileProvider).hasMany('files');
-
-        this.setProperties({
-            displayedItems: hasManyReference.value(),
-            currentFolder: parentFolder,
-        });
+        this.setProperties({ currentFolder: currentFolder.hasMany('parentFolder').value() });
     }
 
     @action
@@ -131,10 +140,7 @@ export default class FilesManagerComponent extends Component.extend({
         if (folderItems === null) {
             this.getCurrentFolderItems.perform(targetFolder);
         } else {
-            this.setProperties({
-                displayedItems: folderItems,
-                currentFolder: targetFolder,
-            });
+            this.setProperties({ currentFolder: targetFolder });
         }
     }
 }

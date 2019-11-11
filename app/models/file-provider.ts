@@ -1,4 +1,4 @@
-import { attr, belongsTo, hasMany } from '@ember-decorators/data';
+import { attr, belongsTo } from '@ember-decorators/data';
 import DS from 'ember-data';
 
 import BaseFileItem from './base-file-item';
@@ -10,8 +10,8 @@ export default class FileProviderModel extends BaseFileItem {
     @attr('string') path!: string;
     @attr('fixstring') provider!: string;
 
-    @hasMany('file')
-    files!: DS.PromiseManyArray<FileModel>;
+    @belongsTo('file')
+    rootFolder!: DS.PromiseObject<FileModel> & FileModel;
 
     @belongsTo('node')
     node!: DS.PromiseObject<NodeModel> & NodeModel;

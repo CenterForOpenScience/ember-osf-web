@@ -1,5 +1,4 @@
-import { computed } from '@ember-decorators/object';
-import { A } from '@ember/array';
+import { action, computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 
 import fade from 'ember-animated/transitions/fade';
@@ -31,6 +30,12 @@ export default class FileBrowser extends Component {
         return toLeft;
     }
 
+    @computed('filesManager.currentFolder')
+    get notInRootFolder() {
+        const { currentFolder } = this.filesManager;
+        return currentFolder && currentFolder.belongsTo('parentFolder').id();
+    }
+
     @computed('filesManager.{hasMore,loadingFolderItems}')
     get shouldShowLoadMoreButton() {
         return this.filesManager.hasMore && !this.filesManager.loadingFolderItems;
@@ -38,24 +43,16 @@ export default class FileBrowser extends Component {
 
     @computed('filesManager.displayedItems.[]', 'sort')
     get sortedItems() {
-        let sortedItems = this.filesManager.displayedItems || [];
-
-        if (this.sort) {
-            const regex = /^(-?)([-\w]+)/;
-            const groups = regex.exec(this.sort)!;
-
-            groups.shift();
-            const [reverse, sortKey] = groups.slice(0, 2);
-
-            sortedItems = A(sortedItems).sortBy(sortKey);
-
-            if (reverse) {
-                sortedItems = sortedItems.reverse();
-            }
-        }
-
+        const sortedItems = this.filesManager.displayedItems || [];
         const folders = sortedItems.filterBy('kind', 'folder');
 
         return [...folders, ...sortedItems.filter(item => item.kind !== 'folder')];
+    }
+
+    @action
+    sortItems(sort: string) {
+        this.setProperties({ sort });
+
+        this.filesManager.sortFolderItems(sort);
     }
 }

@@ -60,9 +60,9 @@ export default class UploadZone extends Component.extend({
     @alias('filesManager.canEdit') enable!: boolean;
     @notEmpty('uploading') isUploading!: boolean;
 
-    @computed('filesManager.{currentFolder,fileProvider}')
+    @computed('filesManager.{currentFolder,rootFolder}')
     get uploadUrl() {
-        const folder = this.filesManager.currentFolder || this.filesManager.fileProvider;
+        const folder = this.filesManager.currentFolder || this.filesManager.rootFolder;
         return folder ? folder.links.upload : undefined;
     }
 

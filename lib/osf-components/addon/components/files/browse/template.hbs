@@ -11,7 +11,7 @@
                 <div local-class='column'>
                     <span local-class='sortable-column'>{{t 'general.name'}}</span>
                     <SortButton
-                        @sortAction={{action (mut this.sort)}}
+                        @sortAction={{action this.sortItems}}
                         @sort={{this.sort}}
                         @sortBy='name'
                         local-class='sort-by'
@@ -21,15 +21,15 @@
                 <div local-class='column'>
                     <span local-class='sortable-column'>{{t 'general.last_modified'}}</span>
                     <SortButton
-                        @sortAction={{action (mut this.sort)}}
+                        @sortAction={{action this.sortItems}}
                         @sort={{this.sort}}
-                        @sortBy='dateModified'
+                        @sortBy='date_modified'
                         local-class='sort-by'
                     />
                 </div>
             </div>
 
-            {{#if @filesManager.currentFolder}}
+            {{#if this.notInRootFolder}}
                 <Files::Item
                     @item={{@filesManager.currentFolder}}
                     @filesManager={{@filesManager}}

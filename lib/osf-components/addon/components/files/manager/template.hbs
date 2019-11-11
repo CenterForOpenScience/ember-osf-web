@@ -5,11 +5,12 @@
     canEdit=this.canEdit
     hasMore=this.hasMore
     currentFolder=this.currentFolder
-    displayedItems=this.displayedItems
-    fileProvider=this.fileProvider
+    displayedItems=this.currentFolder.files
+    rootFolder=this.rootFolder
     onSelectFile=@onSelectFile
     goToFolder=(action this.goToFolder)
     goToParentFolder=(action this.goToParentFolder)
     addFile=(perform this.addFile)
     loadMore=(perform this.loadMore)
+    sortFolderItems=(perform this.sortFolderItems)
 )}}
