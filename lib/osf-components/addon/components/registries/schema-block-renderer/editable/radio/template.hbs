@@ -1,0 +1,19 @@
+<Registries::SchemaBlockRenderer::Editable::Base @helpText={{this.schemaBlock.helpText}}>
+    <FormControls
+        @changeset={{@changeset}}
+        @disabled={{@disabled}}
+        @shouldShowMessages={{@shouldShowMessages}}
+        ...attributes as |form|
+    >
+        <form.radio
+            @id={{@uniqueID}}
+            @valuePath={{@schemaBlock.registrationResponseKey}}
+            @options={{this.optionBlockValues}}
+            @onchange={{@onInput}}
+            as |option|
+        >
+            {{option}}
+            <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{get this.helpTextMapping option}} />
+        </form.radio>
+    </FormControls>
+</Registries::SchemaBlockRenderer::Editable::Base>

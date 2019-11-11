@@ -1,0 +1,25 @@
+<span data-test-radio-input>
+    {{#each this.options as |option|}}
+        <div>
+            <RadioButton
+                @value={{option}}
+                @changed={{action this.updateChangeset}}
+                @name='validatedRadioList'
+                @disabled={{this.disabled}}
+            >
+                <span
+                    data-test-radio-option
+                    local-class='RadioLabel'
+                >
+                    {{option}}
+                </span>
+            </RadioButton>
+        </div>
+    {{/each}}
+    {{#if @shouldShowMessages}}
+        <ValidationErrors
+            @changeset={{@changeset}}
+            @key={{@valuePath}}
+        />
+    {{/if}}
+</span>
