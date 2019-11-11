@@ -236,10 +236,10 @@ function handbookScenario(server: Server, currentUser: ModelInstance<User>) {
     const folderA = server.create('file', { target: fileWidgetNode }, 'asFolder');
 
     const fileProviders = fileWidgetNode.files.models as Array<ModelInstance<FileProvider>>;
-    const osfstorage = fileProviders[0];
+    const [osfstorage] = fileProviders;
     const providerFiles = osfstorage.rootFolder.files.models;
 
-    osfstorage.update({
+    osfstorage.rootFolder.update({
         files: [...providerFiles, folderA],
     });
 
