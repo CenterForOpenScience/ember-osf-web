@@ -1,9 +1,19 @@
 .LabelWrapper {
     justify-content: space-between;
-    display: inline;
+    display: inline-flex;
+    width: 100%;
     padding-left: 10px;
     font-weight: 700;
     white-space: nowrap;
     overflow: hidden;
+}
+
+.Label {
+    float: left;
+    overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.Count {
+    float: right;
 }
