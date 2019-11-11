@@ -28,12 +28,16 @@ export default class OsfCookie extends Base {
     @service store!: DS.Store;
     @service currentUser!: CurrentUser;
 
+    lastVerifiedUserId?: string;
+
     /**
      * @method authenticate
      * @return {Promise}
      */
     async authenticate(): Promise<object> {
         const url = `${apiUrl}/${apiNamespace}/`;
+
+        // The API's root endpoint returns info on the current user, based on the request's auth cookie.
         let res: RootDocument = await this.currentUser.authenticatedAJAX(
             { url },
         );
@@ -70,16 +74,37 @@ export default class OsfCookie extends Base {
         }
 
         if (!userData) {
+            this.set('lastVerifiedUserId', null);
             throw new NotLoggedIn();
         }
 
         // Push the user into the store for later use
         this.store.pushPayload(userData);
 
-        return { id: userData.data.id };
+        const { id } = userData.data;
+        this.set('lastVerifiedUserId', id);
+        return { id };
     }
 
     restore() {
+        const {
+            lastVerifiedUserId,
+            session: {
+                data,
+                isAuthenticated,
+            },
+        } = this;
+
+        if (
+            isAuthenticated &&
+            lastVerifiedUserId &&
+            data &&
+            data.authenticated.id === lastVerifiedUserId
+        ) {
+            // Everything is in order, no need to re-auth
+            return undefined;
+        }
+
         // Check for a valid auth cookie.
         // If it fails, the session will be invalidated.
         return this.authenticate();
