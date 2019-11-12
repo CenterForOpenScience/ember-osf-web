@@ -1,7 +1,10 @@
-import HistoryLocation from 'ember-osf-web/locations/history';
+import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
+import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
+
+import HistoryLocation from 'ember-osf-web/locations/history';
 
 interface HistoryState {
     path: string;
@@ -20,6 +23,20 @@ class FakeHistory {
     pushState(state: HistoryState) {
         this.state = state;
         this.states.unshift(state);
+    }
+}
+
+class OsfRouterStub extends Service {
+    currentTransitionTargetFragment: string | null = null;
+
+    transitionTo() {
+        // empty
+    }
+}
+
+class ReadyStub extends Service {
+    ready() {
+        return Promise.resolve();
     }
 }
 
@@ -47,6 +64,10 @@ function mockBrowserLocation(path: string): typeof window.location {
 module('Unit | Location | history with fragments', hooks => {
     setupTest(hooks);
 
+    hooks.beforeEach(function(this: TestContext) {
+        this.owner.register('service:osf-router', OsfRouterStub);
+    });
+
     test('replaceURL preserves URL fragment', assert => {
         const testCases = [
             { start: '/', replaceWith: '/boron', expect: '/boron' },
@@ -63,6 +84,8 @@ module('Unit | Location | history with fragments', hooks => {
                 history: new FakeHistory(),
                 location: mockBrowserLocation(testCase.start),
                 scrollToFragment: { perform: () => null },
+                osfRouter: new OsfRouterStub() as any,
+                ready: new ReadyStub() as any,
             });
 
             historyLocation.replaceURL(testCase.replaceWith);
