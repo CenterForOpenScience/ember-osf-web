@@ -24,32 +24,24 @@ export default class SchemaBlockModel extends OsfModel implements SchemaBlock {
     }
 
     @computed('schema.schemaBlocks')
-    get pageRouteParam() {
+    get pageRouteParam(): string | null {
         if (this.schema && this.schema.schemaBlocks) {
-            // Get all the page-heading blocks
-            const pageHeadingBlocks = this.schema.schemaBlocks.filter(block => block.blockType === 'page-heading');
-            // Interate over all the page-heading blocks, starting from the first one
-            for (let pageIndex = 0; pageIndex < pageHeadingBlocks.length; pageIndex++) {
-                // If we reach the last page-heading block,
-                // that means the current block is on the pase page
-                if (pageIndex === pageHeadingBlocks.length - 1) {
-                    return getPageParam(pageIndex, pageHeadingBlocks[pageIndex].displayText);
-                }
-
-                // Otherwise, if the current block's index is >= the current page-heading block's index
-                // and < than the next page-heading block's index,
-                // that means the current block is on the page marked by the current pageIndex
-                const currentPageHeadingBlock = pageHeadingBlocks[pageIndex];
-                const nextPageHeadingBlock = pageHeadingBlocks[pageIndex + 1];
-                if (this.index! >= currentPageHeadingBlock.index! && this.index! < nextPageHeadingBlock.index!) {
-                    return getPageParam(pageIndex, currentPageHeadingBlock.displayText);
-                }
+            const thisBlockIndex = this.index!;
+            // Get an array of page heading blocks and their page index in reverse
+            const headingBlocksAndPageIndex = this.schema.schemaBlocks
+                .filter(block => block.blockType === 'page-heading')
+                .map((block, index) => ({ block, index }))
+                .reverse();
+            // Find the page heading block and page index for this block
+            const result = headingBlocksAndPageIndex.find(item => thisBlockIndex >= item.block.index!);
+            if (result) {
+                return getPageParam(result.index, result.block.displayText);
             }
+            return null;
         }
         return null;
     }
 }
-
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
         'schema-block': SchemaBlockModel;
