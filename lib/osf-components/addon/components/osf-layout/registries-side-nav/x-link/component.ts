@@ -20,6 +20,7 @@ export default class XLink extends Component {
     guid?: string;
     isCollapsed: boolean = defaultTo(this.isCollapsed, false);
     isCurrentPage: boolean = defaultTo(this.isCurrentPage, false);
+    isDrawer?: boolean = defaultTo(this.isDrawer, false);
 
     onClick?: () => void;
 

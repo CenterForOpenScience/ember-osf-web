@@ -3,6 +3,25 @@
     display: inline-flex;
     width: 100%;
     padding-left: 10px;
-    height: 100%;
     font-weight: 700;
+    white-space: inherit;
+    overflow: hidden;
+
+    &:hover {
+        overflow: visible;
+    }
+}
+
+.Label {
+    float: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &:hover {
+        overflow: visible;
+    }
+}
+
+.Count {
+    float: right;
 }

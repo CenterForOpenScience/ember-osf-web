@@ -5,10 +5,10 @@
     display: inline-flex !important; // !important needed to override bootstrap .btn properties
     min-height: $sidenav-link-height;
     height: auto;
-    justify-content: space-between;
-    width: 100%;
+    width: $width-expanded;
     padding: 5px 10px !important; // !important needed to override bootstrap .btn properties
     color: $color-text-blue-dark;
+    white-space: nowrap;
     z-index: 1000;
 
     &.CurrentPage {
@@ -28,6 +28,8 @@
         background: $color-link-lighter !important; // !important needed to override bootstrap .btn properties
         color: $color-text-white !important; // !important needed to override bootstrap .btn properties
         text-decoration: none !important; // !important needed to override bootstrap .btn properties
+        width: max-content;
+        min-width: 205px;
     }
 
     &:focus {
@@ -36,6 +38,8 @@
 }
 
 .Collapsed {
+    width: $width-collapsed;
+
     &.CurrentPage {
         width: $width-collapsed + 1px;
     }
@@ -46,11 +50,25 @@
 
     &:hover {
         width: max-content;
-        max-width: 265px;
+        min-width: auto;
         height: auto;
-        
+
         span {
             display: initial;
         }
     }
 }
+
+.Drawer {
+    white-space: normal;
+
+    &.CurrentPage {
+        border: 0;
+        box-shadow: none;
+    }
+
+    &:hover {
+        width: $width-expanded;
+    }
+}
+

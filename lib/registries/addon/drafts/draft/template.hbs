@@ -88,6 +88,7 @@
                             @pageManager={{pageManager}}
                             @pageIndex={{index}}
                             @currentPageIndex={{draftManager.currentPage}}
+                            @navMode={{leftNav.leftGutterMode}}
                         />
                     {{/each}}
                     <PageLink
@@ -96,6 +97,7 @@
                         @pageName='review'
                         @currentPageName={{this.model.page}}
                         @label='Review'
+                        @navMode={{leftNav.leftGutterMode}}
                     />
                 </layout.leftNav>
                 <layout.main local-class='Main'>

@@ -2,6 +2,16 @@ $width-expanded: 205px;
 $width-collapsed: 80px;
 $sidenav-link-height: 40px;
 
+.Links {
+    display: flex;
+    flex-direction: column;
+    width: $width-expanded;
+
+    & .Collapsed {
+        width: $width-collapsed;
+    }
+}
+
 .SideNav {
     position: sticky;
     top: 0;
