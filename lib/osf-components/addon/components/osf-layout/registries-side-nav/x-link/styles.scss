@@ -8,6 +8,7 @@
     width: $width-expanded;
     padding: 5px 10px !important; // !important needed to override bootstrap .btn properties
     color: $color-text-blue-dark;
+    white-space: nowrap;
     z-index: 1000;
 
     &.CurrentPage {
@@ -59,9 +60,15 @@
 }
 
 .Drawer {
+    white-space: normal;
+
     &.CurrentPage {
         border: 0;
         box-shadow: none;
+    }
+
+    &:hover {
+        width: $width-expanded;
     }
 }
 
