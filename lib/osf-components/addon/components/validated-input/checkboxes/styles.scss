@@ -1,3 +1,12 @@
 .Checkboxes {
     padding-left: 10px;
+
+    input {
+        float: left;
+    }
+
+    label {
+        display: block;
+        margin-left: 1.2em;
+    }
 }
