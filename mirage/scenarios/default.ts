@@ -73,6 +73,14 @@ function registrationScenario(
         branchedFrom: rootNode,
     });
 
+    server.create('draft-registration', {
+        id: 'rrpre',
+        registrationSchema: server.schema.registrationSchemas.find('replication_recipe_pre_registration'),
+        initiator: currentUser,
+        registrationResponses,
+        branchedFrom: rootNode,
+    });
+
     server.create('registration', {
         id: 'decaf',
         registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
