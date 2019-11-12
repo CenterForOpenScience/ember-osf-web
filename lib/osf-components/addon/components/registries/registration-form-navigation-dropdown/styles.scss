@@ -1,0 +1,126 @@
+.Dropdown {
+    display: block;
+    float: right;
+    padding-top: 30px;
+}
+
+.MenuTrigger {
+    &:focus {
+        outline: 0;
+    }
+
+    .ToggleNav__button:global(.btn.btn-link) {
+        border: 1px solid $color-border-gray;
+        border-radius: 2px;
+        background-color: $color-bg-white;
+
+        &:hover {
+            background-color: $color-border-gray;
+        }
+    }
+}
+
+.NavigationMenu {
+    z-index: 100;
+    min-width: 200px;
+    max-width: 300px;
+    box-shadow: 0 1px 2px $color-shadow-dark;
+}
+
+.Header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border-bottom: 1px solid $color-border-gray;
+}
+
+.HeaderText {
+    padding-left: 15px;
+    background-color: $color-bg-white;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 2.8;
+}
+
+.ToggleNav__button:global(.btn.btn-link) {
+    float: right;
+    color: $color-text-blue-dark;
+    padding: 3px 8px;
+
+    &:hover {
+        color: $color-link-lighter;
+    }
+
+    &:focus {
+        outline: 0;
+    }
+
+    i {
+        font-size: 1.1rem;
+    }
+}
+
+.Anchors {
+    height: 300px;
+    overflow: scroll;
+    padding: 0 15px 15px;
+    background-color: $color-bg-white;
+
+    a {
+        color: $color-text-blue-dark;
+
+        &:hover,
+        &:focus {
+            color: $color-link-lighter;
+            text-decoration: none;
+        }
+    }
+}
+
+.PageHeadingAnchor {
+    font-weight: 800;
+    font-size: 14px;
+    border-top: 1px solid $color-border-gray;
+
+    &:first-child {
+        border-top: 0;
+    }
+
+    a {
+        line-height: 2.2;
+    }
+}
+
+.SectionHeadingAnchor {
+    font-weight: 700;
+    font-size: 14px;
+
+    a {
+        line-height: 2.2;
+    }
+}
+
+.SubsectionHeadingAnchor {
+    font-weight: 600;
+    font-size: 14px;
+
+    a {
+        line-height: 2.2;
+    }
+}
+
+.LabelAnchor {
+    display: flex;
+    flex-flow: column;
+
+    font-size: 13px;
+
+    &:not(:last-child) {
+        padding-bottom: 10px;
+    }
+
+    a:not(:last-child) {
+        padding-bottom: 6px;
+    }
+}

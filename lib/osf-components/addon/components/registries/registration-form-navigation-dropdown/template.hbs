@@ -1,0 +1,55 @@
+<ResponsiveDropdown local-class='Dropdown' @renderInPlace={{true}} as |dd|>
+    {{#dd.trigger local-class='MenuTrigger'}}
+        <OsfButton data-analytics-name='Expand' data-test-toggle-anchor-nav-button @type='link'
+            @class={{local-class 'ToggleNav__button'}}>
+            <FaIcon @icon='bars' />
+        </OsfButton>
+    {{/dd.trigger}}
+    {{#dd.content}}
+        <div data-analytics-scope='Form navigation menu' local-class='NavigationMenu'>
+            <div local-class='Header' data-test-anchor-nav-title>
+                <div local-class='HeaderText'>{{t 'registries.overview.contents'}}</div>
+                <OsfButton data-analytics-name='Collapse' data-test-toggle-anchor-nav-button @onClick={{action dd.close}}
+                    @type='link' @class={{local-class 'ToggleNav__button'}}>
+                    <FaIcon @icon='times' />
+                </OsfButton>
+            </div>
+            <div local-class='Anchors' data-test-form-block-anchors>
+                {{#each this.blocksWithAnchor as |block|}}
+                    {{#if (eq block.blockType 'page-heading')}}
+                        <div local-class='PageHeadingAnchor'>
+                            <OsfLink data-test-section-anchor={{block.elementId}} data-analytics-name='Go to section: {{block.displayText}}'
+                                @href='#{{block.elementId}}' @onClick={{action dd.close}}>
+                                {{block.displayText}}
+                            </OsfLink>
+                        </div>
+                    {{/if}}
+                    {{#if (eq block.blockType 'section-heading')}}
+                        <div local-class='SectionHeadingAnchor'>
+                            <OsfLink data-test-section-anchor={{block.elementId}} data-analytics-name='Go to section: {{block.displayText}}'
+                                @href='#{{block.elementId}}' @onClick={{action dd.close}}>
+                                {{block.displayText}}
+                            </OsfLink>
+                        </div>
+                    {{/if}}
+                    {{#if (eq block.blockType 'subsection-heading')}}
+                        <div local-class='SubsectionHeadingAnchor'>
+                            <OsfLink data-test-section-anchor={{block.elementId}} data-analytics-name='Go to section: {{block.displayText}}'
+                                @href='#{{block.elementId}}' @onClick={{action dd.close}}>
+                                {{block.displayText}}
+                            </OsfLink>
+                        </div>
+                    {{/if}}
+                    {{#if (eq block.blockType 'question-label')}}
+                        <div local-class='LabelAnchor'>
+                            <OsfLink data-test-section-anchor={{block.elementId}} data-analytics-name='Go to section: {{block.displayText}}'
+                                @href='#{{block.elementId}}' @onClick={{action dd.close}}>
+                                {{block.displayText}}
+                            </OsfLink>
+                        </div>
+                    {{/if}}
+                {{/each}}
+            </div>
+        </div>
+    {{/dd.content}}
+</ResponsiveDropdown>
