@@ -38,30 +38,34 @@
             {{/if}}
 
             <div local-class='files-list'>
-                <AnimatedContainer>
-                    <AnimatedEach
-                        @items={{uploadZone.uploading}}
-                        @use={{this.transition}}
-                        @duration=1000
-                        as |item|
-                    >
-                        <div local-class='uploading'>
-                            <div class='progress'>
-                                <div id='uploading-{{item.size}}' class='progress-bar' role='progressbar'></div>
-                            </div>
+                <AnimatedEach
+                    @items={{uploadZone.uploading}}
+                    @use={{this.transition}}
+                    @duration=1000
+                    as |item|
+                >
+                    <div local-class='uploading'>
+                        <div class='progress'>
+                            <div id='uploading-{{item.size}}' class='progress-bar' role='progressbar'></div>
                         </div>
-                    </AnimatedEach>
-                    <AnimatedValue
-                        @value={{@filesManager.currentFolder}}
-                        @rules={{this.rules}}
-                        @duration=500
-                    >
-                        <Files::List
-                            @items={{this.sortedItems}}
-                            @filesManager={{@filesManager}}
-                        />
-                    </AnimatedValue>
-                </AnimatedContainer>
+                    </div>
+                </AnimatedEach>
+                {{#if @filesManager.loadingFolderItems}}
+                    <LoadingIndicator @dark={{true}} />
+                {{else}}
+                    <AnimatedContainer>
+                        <AnimatedValue
+                            @value={{@filesManager.currentFolder}}
+                            @rules={{this.rules}}
+                            @duration=500
+                        >
+                            <Files::List
+                                @items={{this.sortedItems}}
+                                @filesManager={{@filesManager}}
+                            />
+                        </AnimatedValue>
+                    </AnimatedContainer>
+                {{/if}}
             </div>
 
             {{#if this.shouldShowLoadMoreButton}}
@@ -70,7 +74,11 @@
                     local-class='load-more'
                     {{on 'click' (action @filesManager.loadMore)}}
                 >
-                    <FaIcon @icon='chevron-down' @fixedWith={{true}}/>
+                    {{#if @filesManager.loadingMore}}
+                        <LoadingIndicator @inline={{true}} @dark={{true}} />
+                    {{else}}
+                        <FaIcon @icon='chevron-down' @fixedWith={{true}}/>
+                    {{/if}}
                 </div>
             {{/if}}
         {{/if}}

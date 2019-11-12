@@ -1,7 +1,10 @@
+<Files::SelectedList
+    @selectedFiles={{this.selectedFiles}}
+    @unselect={{action this.unselect}}
+/>
 <Files::Widget
     data-test-editable-file-widget
     @node={{@node}}
-    @onSelect={{action this.onSelect}}
-    @onUnselect={{action this.onUnselect}}
+    @onSelectFile={{action this.onSelectFile}}
     ...attributes
 />

@@ -163,13 +163,24 @@ module('Integration | Component | schema-block-group-renderer', hooks => {
         ];
 
         const schemaBlockGroups = getSchemaBlockGroups(schemaBlocks);
+        const testFile = {
+            file_name: 'testFile.txt',
+            file_id: 'xkcds',
+            file_urls: {
+                html: 'fakehtml',
+                download: 'fakedownloadUrl',
+            },
+            file_hashes: {
+                sha256: '234322',
+            },
+        };
 
         const registrationResponse = {
             'page-one_short-text': '',
             'page-one_long-text': '',
             'page-one_single-select-two': '',
             'page-one_multi-select': [],
-            'page-one_file-input': [],
+            'page-one_file-input': [testFile],
         };
         const registrationResponseChangeset = new Changeset(registrationResponse);
         this.store = this.owner.lookup('service:store');
@@ -206,5 +217,7 @@ module('Integration | Component | schema-block-group-renderer', hooks => {
         assert.dom('[data-test-multi-select-input]').exists();
         assert.dom('[data-test-read-only-contributors-list]').exists();
         assert.dom('[data-test-editable-file-widget]').exists();
+        assert.dom('[data-test-selected-files]').exists();
+        assert.dom(`[data-test-selected-file="${testFile.file_id}"]`).exists();
     });
 });

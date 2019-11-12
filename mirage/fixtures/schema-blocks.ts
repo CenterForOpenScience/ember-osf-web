@@ -7,6 +7,8 @@ import open_ended_registration from
     '../fixture-data/schema-blocks/open-ended-registration';
 import prereg_challenge from
     '../fixture-data/schema-blocks/prereg-challenge';
+import replication_recipe_pre_registration from
+    '../fixture-data/schema-blocks/replication-recipe-pre-registration';
 
 const exampleSchema: Array<Partial<SchemaBlock>> = [
     {
@@ -174,6 +176,7 @@ export const ids = exampleSchema.map(block => block.id);
 export default [
     ...open_ended_registration,
     ...prereg_challenge,
+    ...replication_recipe_pre_registration,
     ...exampleSchema,
 ] as SchemaBlock[];
 

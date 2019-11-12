@@ -1,5 +1,5 @@
 <div
-    data-test-file-browser-item
+    data-test-file-browser-item='{{this.item.id}}'
     local-class='file-row {{if this.shouldIndent 'indent'}}'
     {{on 'click' (action this.onClick)}}
 >
@@ -13,8 +13,10 @@
             <FileIcon @item={{this.item}} />
             <span data-test-file-name local-class='filename'>{{this.item.itemName}}</span>
         </div>
-        <time data-test-file-date-modified>
-            {{this.date}}
-        </time>
+        {{#unless this.item.isFolder}}
+            <time data-test-file-date-modified>
+                {{this.date}}
+            </time>
+        {{/unless}}
     {{/if}}
 </div>

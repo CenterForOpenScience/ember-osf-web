@@ -14,26 +14,23 @@ import File from 'ember-osf-web/models/file';
 import FileProvider from 'ember-osf-web/models/file-provider';
 import Node from 'ember-osf-web/models/node';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
-import Analytics from 'ember-osf-web/services/analytics';
-import CurrentUser from 'ember-osf-web/services/current-user';
-import Ready from 'ember-osf-web/services/ready';
 
 import template from './template';
 
 export interface FilesManager {
-    canEdit: boolean;
     loading: boolean;
-    hasMore: boolean;
     loadingFolderItems: boolean;
+    loadingMore: boolean;
+    hasMore: boolean;
+    canEdit: boolean;
     currentFolder: File;
     fileProvider: File;
     displayedItems: File[];
-    selectedItems: File[];
     goToFolder: (item: File) => void;
     goToParentFolder: (item: File) => void;
-    unselectItem: (item: File) => void;
-    selectItem: (item: File) => void;
+    onSelectFile?: (item: File) => void;
     addFile: (id: string) => void;
+    sortFolderItems: (sort: string) => void;
 }
 
 @tagName('')
@@ -47,68 +44,39 @@ export default class FilesManagerComponent extends Component.extend({
         const rootItems = yield fileProvider.files;
 
         this.setProperties({
-            rootItems,
             fileProvider,
             currentFolder: null,
-            displayedItems: rootItems.toArray(),
-            totalRootItems: rootItems.meta.total,
+            displayedItems: rootItems,
         });
     }).on('didReceiveAttrs').restartable(),
-
     loadMore: task(function *(this: FilesManagerComponent) {
-        let folder;
-        let items;
+        const folder = this.currentFolder || this.fileProvider;
+        const items = folder.files;
 
-        if (this.currentFolder) {
-            folder = this.currentFolder;
-            items = this.itemsList[this.currentFolder.id].files;
-        } else {
-            folder = this.fileProvider;
-            items = this.rootItems;
-        }
-
-        const atPage = Math.ceil(items.length / this.pageSize);
+        const atPage = Math.ceil(this.displayedItems.length / this.pageSize);
         const moreItems = yield folder.queryHasMany('files', {
             page: atPage + 1,
             pageSize: this.pageSize,
         });
 
         items.pushObjects([...moreItems]);
-        this.displayedItems.pushObjects([...moreItems]);
     }),
 
-    getCurrentFolderItems: task(function *(this: FilesManagerComponent) {
-        if (this.currentFolder) {
-            const files = yield this.currentFolder.files;
-            const totalFolderItems = files.meta.total;
+    getCurrentFolderItems: task(function *(this: FilesManagerComponent, targetFolder: File) {
+        this.set('currentFolder', targetFolder);
 
-            this.setProperties({
-                totalFolderItems,
-                displayedItems: files.toArray(),
-            });
+        const displayedItems = yield targetFolder.files;
 
-            this.itemsList[this.currentFolder.id] = {
-                files,
-                totalFolderItems,
-                parentFolder: this.parentFolder,
-            };
-        }
+        this.setProperties({ displayedItems });
     }),
 
     addFile: task(function *(this: FilesManagerComponent, id: string) {
         const duplicate = this.displayedItems.findBy('id', id);
-
         const file = yield this.store
             .findRecord('file', id, duplicate ? {} : { adapterOptions: { query: { create_guid: 1 } } });
 
         if (duplicate) {
             this.displayedItems.removeObject(duplicate);
-        }
-
-        if (this.currentFolder) {
-            this.itemsList[this.currentFolder.id].files.pushObject(file);
-        } else {
-            this.rootItems.pushObject(file);
         }
 
         this.displayedItems.pushObject(file);
@@ -120,96 +88,53 @@ export default class FilesManagerComponent extends Component.extend({
         this.toast.success(this.i18n.t('file_browser.file_added_toast'));
     }),
 }) {
-    @service analytics!: Analytics;
-    @service currentUser!: CurrentUser;
     @service i18n!: I18N;
-    @service ready!: Ready;
     @service store!: DS.Store;
     @service toast!: Toast;
 
     node!: Node;
 
-    itemsList: Record<string, {
-        parentFolder: File | null,
-        totalFolderItems: number,
-        files: QueryHasManyResult<File>,
-    }> = {};
-
-    rootItems!: QueryHasManyResult<File>;
-    displayedItems!: File[];
+    displayedItems!: QueryHasManyResult<File>;
     currentFolder: File | null = null;
-    parentFolder: File | null = null;
-    selectedItems: File[] = [];
     fileProvider!: File;
     pageSize = 10;
-    totalFolderItems!: number;
-    totalRootItems!: number;
-
-    onSelect?: (file: File) => void;
-    onUnselect?: (file: File) => void;
 
     @alias('node.userHasAdminPermission') canEdit!: boolean;
     @alias('getRootItems.isRunning') loading!: boolean;
-    @alias('getCurrentFolderItems.isRunning') loadingFolderFiles!: boolean;
+    @alias('getCurrentFolderItems.isRunning') loadingFolderItems!: boolean;
+    @alias('loadMore.isRunning') loadingMore!: boolean;
 
-    @computed('displayedItems.[]', 'currentFolder', 'totalFolderItems')
+    @computed('displayedItems.[]', 'currentFolder')
     get hasMore() {
         if (this.displayedItems) {
-            const currentTotal = this.currentFolder ? this.totalFolderItems : this.totalRootItems;
-            return this.displayedItems.length < currentTotal;
+            return this.displayedItems.length < this.displayedItems.meta.total;
         }
 
         return undefined;
     }
 
     @action
-    selectItem(currentItem: File) {
-        this.selectedItems.pushObject(currentItem);
-        if (this.onSelect) {
-            this.onSelect(currentItem);
-        }
-    }
-
-    @action
-    unselectItem(item: File) {
-        this.selectedItems.removeObject(item);
-        if (this.onUnselect) {
-            this.onUnselect(item);
-        }
-    }
-
-    @action
     goToParentFolder(currentFolder: File) {
-        this.setProperties({
-            currentFolder: this.itemsList[currentFolder.id].parentFolder,
-        });
+        const parentFolder = currentFolder.belongsTo('parentFolder').value() as (File | null);
+        const hasManyReference = (parentFolder || this.fileProvider).hasMany('files');
 
-        if (this.currentFolder) {
-            this.setProperties({
-                displayedItems: this.itemsList[this.currentFolder.id].files,
-                totalFolderItems: this.itemsList[this.currentFolder.id].totalFolderItems,
-            });
-        } else {
-            this.setProperties({
-                displayedItems: this.rootItems,
-            });
-        }
+        this.setProperties({
+            displayedItems: hasManyReference.value(),
+            currentFolder: parentFolder,
+        });
     }
 
     @action
     goToFolder(targetFolder: File) {
-        this.setProperties({
-            parentFolder: this.currentFolder,
-            currentFolder: targetFolder,
-        });
+        const folderItems = targetFolder.hasMany('files').value();
 
-        if (targetFolder.id in this.itemsList) {
-            this.setProperties({
-                displayedItems: this.itemsList[targetFolder.id].files,
-                totalFolderItems: this.itemsList[targetFolder.id].totalFolderItems,
-            });
+        if (folderItems === null) {
+            this.getCurrentFolderItems.perform(targetFolder);
         } else {
-            this.getCurrentFolderItems.perform();
+            this.setProperties({
+                displayedItems: folderItems,
+                currentFolder: targetFolder,
+            });
         }
     }
 }

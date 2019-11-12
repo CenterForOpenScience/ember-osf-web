@@ -1148,7 +1148,7 @@ export default {
                     back: 'Back',
                     save_draft: 'Save draft',
                     new_registration: 'New registration',
-                    last_saved: 'Last auto-saved: ',
+                    last_saved: 'Auto-saved: ',
                     save_failed: 'Save failed. Unsaved changes present.',
                 },
                 review: {
@@ -1651,7 +1651,8 @@ export default {
             search: 'Search',
         },
         'hero-banner': {
-            heading: 'The place to share your research',
+            headingA: 'The place to share your research',
+            headingB: 'There’s a better way to manage your research',
             subheading: 'OSF is a free, open platform to support your research and enable collaboration.',
             add_your_research: {
                 heading: 'Add your research',
@@ -1674,7 +1675,7 @@ export default {
             },
         },
         'files-widget': {
-            no_files: 'Drag and drop files here to upload files to this folder',
+            drag_drop_files: 'Drag and drop files here to upload files to this folder',
             message: 'Only files from root project on OSF Storage are available to attach. To attach files from components or non "OSF Storage" addons, first add them to your root project files.',
         },
         subjects: {

@@ -112,8 +112,7 @@
                             </div>
                         {{/if}}
                         <Registries::ReviewFormRenderer
-                            @schemaBlocks={{draftManager.schemaBlocks}}
-                            @registrationResponses={{draftManager.registrationResponses}}
+                            @draftManager={{draftManager}}
                             @node={{this.node}}
                         />
                     {{else}}

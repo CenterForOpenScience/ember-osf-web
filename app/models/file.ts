@@ -2,6 +2,7 @@ import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import DS from 'ember-data';
 import { Link } from 'jsonapi-typescript';
 
+import { FileReference } from 'ember-osf-web/packages/registration-schema';
 import getHref from 'ember-osf-web/utils/get-href';
 
 import BaseFileItem from './base-file-item';
@@ -80,6 +81,20 @@ export default class FileModel extends BaseFileItem {
             });
         }
         return Promise.reject(Error('Can only get the contents of files.'));
+    }
+
+    toFileReference(): FileReference {
+        return {
+            file_id: this.id,
+            file_name: this.name,
+            file_urls: {
+                html: (this.links.html as string),
+                download: (this.links.download as string),
+            },
+            file_hashes: {
+                sha256: this.extra.hashes.sha256,
+            },
+        };
     }
 
     async rename(newName: string, conflict = 'replace'): Promise<void> {
