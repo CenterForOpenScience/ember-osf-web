@@ -106,3 +106,14 @@
     text-align: center;
     padding-top: 10px;
 }
+
+.MobileNavPageLabelSection {
+    min-width: 0;
+    width: 100%;
+}
+
+.MobileNavPageLabel {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

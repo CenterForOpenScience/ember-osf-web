@@ -1153,6 +1153,7 @@ export default {
                 },
                 review: {
                     title: 'Review registration before submitting',
+                    page_label: 'Review',
                     start_review: 'Review',
                     invalid_warning: 'Please address invalid or missing entries to complete registration.',
                 },

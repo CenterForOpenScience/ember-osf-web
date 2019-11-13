@@ -36,6 +36,15 @@
                                     <nav.icon @icon={{if layout.sidenavGutterClosed 'bars' 'times'}} />
                                 </nav.buttons.default>
                             </nav.bordered-section>
+                            <nav.bordered-section local-class='MobileNavPageLabelSection'>
+                                <div local-class='MobileNavPageLabel'>
+                                    {{#if this.inReview}}
+                                        {{t 'registries.drafts.draft.review.page_label'}}
+                                    {{else}}
+                                        {{draftManager.currentPageManager.pageHeadingText}}
+                                    {{/if}}
+                                </div>
+                            </nav.bordered-section>
                             <nav.bordered-section>
                                 {{#if draftManager.prevPageParam}}
                                     <nav.links.default
@@ -96,7 +105,7 @@
                         @draftId={{draftManager.draftId}}
                         @pageName='review'
                         @currentPageName={{this.model.page}}
-                        @label='Review'
+                        @label='{{t 'registries.drafts.draft.review.page_label'}}'
                         @navMode={{leftNav.leftGutterMode}}
                     />
                 </layout.leftNav>
