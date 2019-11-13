@@ -22,6 +22,7 @@
             <ExpandButton
                 data-analytics-name={{if this.isCollapsed 'Expand' 'Collapse'}}
                 local-class='Toggle'
+                aria-label={{if this.isCollapsed 'Expand side nav' 'Collapse side nav'}}
                 @onClick={{action this.toggle}}
                 @isCollapsed={{this.isCollapsed}}
                 @icon={{if this.isCollapsed 'chevron-right' 'chevron-left'}}
