@@ -25,9 +25,9 @@
             {{compute draftManager.onPageChange this.pageIndex this.inReview}}
             <OsfLayout @backgroundClass={{local-class 'ContentBackground'}} as |layout|>
                 <layout.heading local-class='Heading'>
-                    <div local-class='Title'>
-                        <h1>{{t 'registries.drafts.draft.form.new_registration'}}</h1>
-                    </div>
+                    <h1 local-class='Title'>
+                        {{t 'registries.drafts.draft.form.new_registration'}}
+                    </h1>
                     {{#if this.showMobileView}}
                         <Navbar local-class='SideBarToggle' as |nav|>
                             <nav.bordered-section>
