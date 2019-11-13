@@ -9,7 +9,7 @@
 }}
     {{textarea
         (html-attributes aria-label=this.ariaLabel)
-        id=(if @uniqueID @uniqueID inputElementId)
+        id=(or @uniqueID inputElementId)
         value=this.value
         placeholder=this._placeholder
         class='form-control'
