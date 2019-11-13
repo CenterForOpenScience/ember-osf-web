@@ -1691,6 +1691,10 @@ export default {
                 placeholder: 'Your selections will appear here',
             },
         },
+        'registries-side-nav': {
+            expandSideNav: 'Expand side nav',
+            collapseSideNav: 'Collapse side nav',
+        },
     },
     settings: {
         toggleNav: 'Toggle navigation',
