@@ -1,4 +1,8 @@
-<div data-test-radio-button-group ...attributes>
+<div
+    data-test-radio-button-group
+    local-class='RadioButtonGroup'
+    ...attributes
+>
     {{#each this.options as |option|}}
         {{#let (unique-id 'radio' option) as |uniqueId|}}
             <div data-test-radio-input>
