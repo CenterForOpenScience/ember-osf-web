@@ -1692,8 +1692,8 @@ export default {
             },
         },
         'registries-side-nav': {
-            expandSideNav: 'Expand side nav',
-            collapseSideNav: 'Collapse side nav',
+            expandSideNav: 'Expand registration form navigation',
+            collapseSideNav: 'Collapse registration form navigation',
         },
     },
     settings: {
