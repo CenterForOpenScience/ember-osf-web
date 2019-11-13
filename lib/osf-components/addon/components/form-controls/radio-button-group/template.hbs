@@ -1,7 +1,7 @@
-<div data-test-radio-input ...attributes>
+<div data-test-radio-button-group ...attributes>
     {{#each this.options as |option|}}
         {{#let (unique-id 'radio' option) as |uniqueId|}}
-            <div>
+            <div data-test-radio-input>
                 <input
                     type='radio'
                     id={{uniqueId}}
