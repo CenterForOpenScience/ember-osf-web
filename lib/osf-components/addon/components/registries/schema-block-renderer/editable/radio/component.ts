@@ -14,11 +14,11 @@ export default class RadioInput extends Component {
     optionBlocks!: SchemaBlock[];
 
     // Private properties
-    helpTextMapping: any = {};
+    helpTextMapping: Record<string, string | undefined> = {};
 
     didReceiveAttrs() {
         assert('radio-input requires optionBlocks to render', Boolean(this.optionBlocks));
-        this.optionBlocks.forEach(option => {
+        this.optionBlocks.filter(option => Boolean(option.displayText)).forEach(option => {
             this.helpTextMapping[option.displayText!] = option.helpText;
         });
     }

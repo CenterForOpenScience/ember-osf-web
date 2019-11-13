@@ -1,0 +1,29 @@
+<div data-test-radio-input ...attributes>
+    {{#each this.options as |option|}}
+        {{#let (unique-id 'radio' option) as |uniqueId|}}
+            <div>
+                <input
+                    type='radio'
+                    id={{uniqueId}}
+                    name={{@valuePath}}
+                    value={{option}}
+                    onclick={{action @updateChangeset option}}
+                    checked={{if (eq (get @changeset @valuePath) option) 'true'}}
+                >
+                <label
+                    local-class='RadioLabel'
+                    for={{uniqueId}}
+                >
+                    {{option}}
+                </label>
+                <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{get @helpTextMapping option}} />
+            </div>
+        {{/let}}
+    {{/each}}
+    {{#if @shouldShowMessages}}
+        <ValidationErrors
+            @changeset={{@changeset}}
+            @key={{@valuePath}}
+        />
+    {{/if}}
+</div>

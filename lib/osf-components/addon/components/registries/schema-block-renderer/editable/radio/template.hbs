@@ -5,15 +5,15 @@
         @shouldShowMessages={{@shouldShowMessages}}
         ...attributes as |form|
     >
-        <form.radio
+        <form.radioGroup
             @id={{@uniqueID}}
             @valuePath={{@schemaBlock.registrationResponseKey}}
             @options={{this.optionBlockValues}}
             @onchange={{@onInput}}
-            as |option|
+            @helpTextMapping={{this.helpTextMapping}}
+            as |radioGroup|
         >
-            {{option}}
-            <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{get this.helpTextMapping option}} />
-        </form.radio>
+            {{radioGroup}}
+        </form.radioGroup>
     </FormControls>
 </Registries::SchemaBlockRenderer::Editable::Base>

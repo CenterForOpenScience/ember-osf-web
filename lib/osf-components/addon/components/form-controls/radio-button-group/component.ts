@@ -12,7 +12,7 @@ import template from './template';
 
 @tagName('')
 @layout(template, styles)
-export default class RadioButton extends Component {
+export default class FormControlRadioButton extends Component {
     // Required params
     options!: string[];
     valuePath!: string;
