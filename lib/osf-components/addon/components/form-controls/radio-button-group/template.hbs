@@ -7,8 +7,9 @@
                     id={{uniqueId}}
                     name={{@valuePath}}
                     value={{option}}
-                    onclick={{action @updateChangeset option}}
-                    checked={{if (eq (get @changeset @valuePath) option) 'true'}}
+                    onclick={{action this.updateChangeset option}}
+                    disabled={{this.disabled}}
+                    checked={{if (eq (get @changeset @valuePath) option) true false}}
                 >
                 <label
                     local-class='RadioLabel'

@@ -6,21 +6,23 @@ import { assert } from '@ember/debug';
 import { layout } from 'ember-osf-web/decorators/component';
 import { SchemaBlock } from 'ember-osf-web/packages/registration-schema';
 
-import styles from './styles';
 import template from './template';
 
-@layout(template, styles)
+@layout(template)
 @tagName('')
 export default class SingleSelectInput extends Component {
     // Required param
     optionBlocks!: SchemaBlock[];
 
     // Private properties
-    helpTextMapping: any = {};
+    helpTextMapping: Record<string, string | undefined> = {};
 
     didReceiveAttrs() {
-        assert('single-select-input requires optionBlocks to render', Boolean(this.optionBlocks));
-        this.optionBlocks.forEach(option => {
+        assert(
+            'SchemaBlockRenderer::Editable::SingleSelectInput requires optionBlocks to render',
+            Boolean(this.optionBlocks),
+        );
+        this.optionBlocks.filter(option => Boolean(option.displayText)).forEach(option => {
             this.helpTextMapping[option.displayText!] = option.helpText;
         });
     }
