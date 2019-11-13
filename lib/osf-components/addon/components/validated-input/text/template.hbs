@@ -9,7 +9,7 @@
 }}
     {{input
         (html-attributes aria-label=this.ariaLabel)
-        id=inputElementId
+        id=(if @uniqueID @uniqueID inputElementId)
         type=(if this.password 'password' 'text')
         value=this.value
         placeholder=this._placeholder
