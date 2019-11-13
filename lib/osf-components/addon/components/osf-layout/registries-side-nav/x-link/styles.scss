@@ -61,6 +61,7 @@
 
 .Drawer {
     white-space: normal;
+    align-items: flex-start;
 
     &.CurrentPage {
         border: 0;
