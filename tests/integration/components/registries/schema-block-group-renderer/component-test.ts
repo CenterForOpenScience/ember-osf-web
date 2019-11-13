@@ -211,7 +211,8 @@ module('Integration | Component | schema-block-group-renderer', hooks => {
         assert.dom('[data-test-section-heading]').exists();
         assert.dom('[data-test-subsection-heading]').exists();
         assert.dom('[data-test-question-label]').exists({ count: 7 });
-        assert.dom('[data-test-single-select-input]').exists({ count: 2 });
+        assert.dom('[data-test-radio-button-group]').exists({ count: 2 });
+        assert.dom('[data-test-radio-input]').exists({ count: 4 });
         assert.dom('[data-test-text-input]').exists();
         assert.dom('[data-test-textarea-input]').exists();
         assert.dom('[data-test-multi-select-input]').exists();
