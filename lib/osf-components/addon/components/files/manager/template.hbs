@@ -4,12 +4,16 @@
     loadingMore=this.loadingMore
     canEdit=this.canEdit
     hasMore=this.hasMore
+    sort=this.sort
     currentFolder=this.currentFolder
     displayedItems=this.displayedItems
-    fileProvider=this.fileProvider
+    rootFolder=this.rootFolder
+    inRootFolder=this.inRootFolder
     onSelectFile=@onSelectFile
+    fileProvider=this.fileProvider
     goToFolder=(action this.goToFolder)
     goToParentFolder=(action this.goToParentFolder)
     addFile=(perform this.addFile)
     loadMore=(perform this.loadMore)
+    sortItems=(action this.sortItems)
 )}}

@@ -4,6 +4,7 @@ import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import MutableArray from '@ember/array/mutable';
 import Component from '@ember/component';
+import { assert } from '@ember/debug';
 import { task } from 'ember-concurrency';
 import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
@@ -60,9 +61,15 @@ export default class UploadZone extends Component.extend({
     @alias('filesManager.canEdit') enable!: boolean;
     @notEmpty('uploading') isUploading!: boolean;
 
-    @computed('filesManager.{currentFolder,fileProvider}')
+    didReceiveAttrs() {
+        assert('Files::UploadZone requires @filesManager!', Boolean(this.filesManager));
+    }
+
+    @computed('filesManager.{currentFolder,fileProvider,inRootFolder}')
     get uploadUrl() {
-        const folder = this.filesManager.currentFolder || this.filesManager.fileProvider;
+        // Waterbutler does not allow uploading to fileProvider.rootFolder
+        const { inRootFolder, currentFolder, fileProvider } = this.filesManager;
+        const folder = inRootFolder ? fileProvider : currentFolder;
         return folder ? folder.links.upload : undefined;
     }
 

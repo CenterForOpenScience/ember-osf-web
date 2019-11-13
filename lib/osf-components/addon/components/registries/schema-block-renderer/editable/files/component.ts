@@ -69,9 +69,9 @@ export default class Files extends Component {
     }
 
     @action
-    onSelectFile(file: File) {
-        const fileRef = file.toFileReference();
-        const isSelected = this.selectedFiles.includes(fileRef);
+    onSelectFile(selectedFile: File) {
+        const selectedfileRef = selectedFile.toFileReference();
+        const isSelected = this.selectedFiles.some(fileRef => selectedfileRef.file_id === fileRef.file_id);
 
         this.analytics.trackFromElement(this.element, {
             name: `${isSelected ? 'Unselect file' : 'Select file'}`,
@@ -80,9 +80,9 @@ export default class Files extends Component {
         });
 
         if (isSelected) {
-            this.unselect(fileRef);
+            this.unselect(selectedfileRef);
         } else {
-            this.select(fileRef);
+            this.select(selectedfileRef);
         }
     }
 }

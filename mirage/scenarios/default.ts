@@ -236,10 +236,10 @@ function handbookScenario(server: Server, currentUser: ModelInstance<User>) {
     const folderA = server.create('file', { target: fileWidgetNode }, 'asFolder');
 
     const fileProviders = fileWidgetNode.files.models as Array<ModelInstance<FileProvider>>;
-    const osfstorage = fileProviders[0];
-    const providerFiles = osfstorage.files.models;
+    const [osfstorage] = fileProviders;
+    const providerFiles = osfstorage.rootFolder.files.models;
 
-    osfstorage.update({
+    osfstorage.rootFolder.update({
         files: [...providerFiles, folderA],
     });
 
@@ -270,7 +270,7 @@ function handbookScenario(server: Server, currentUser: ModelInstance<User>) {
     const folder = server.create('file', { target: schemaNode }, 'asFolder');
     const providers = fileWidgetNode.files.models as Array<ModelInstance<FileProvider>>;
     const storage = providers[0];
-    const providersFiles = storage.files.models;
+    const providersFiles = storage.rootFolder.files.models;
     storage.update({
         files: [...providersFiles, folder],
     });

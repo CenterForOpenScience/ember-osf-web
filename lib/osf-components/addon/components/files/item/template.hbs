@@ -4,7 +4,7 @@
     {{on 'click' (action this.onClick)}}
 >
     {{#if this.isCurrentFolder}}
-        <div data-test-current-folder local-cass='name-container'>
+        <div data-test-current-folder local-class='name-container'>
             <FaIcon @icon='angle-left' @fixedWidth={{true}} />
             <span local-class='filename'>{{this.item.itemName}}</span>
         </div>
@@ -14,7 +14,7 @@
             <span data-test-file-name local-class='filename'>{{this.item.itemName}}</span>
         </div>
         {{#unless this.item.isFolder}}
-            <time data-test-file-date-modified>
+            <time local-class='date-modified' data-test-file-date-modified>
                 {{this.date}}
             </time>
         {{/unless}}

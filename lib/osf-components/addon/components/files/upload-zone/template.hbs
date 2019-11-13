@@ -1,9 +1,9 @@
-{{#let (unique-id) as |dropzoneId|}}
+{{#let (unique-id 'dropzone-widget') as |dropzoneId|}}
     <DropzoneWidget
         @options={{this.dropzoneOptions}}
         @dropzone={{false}}
         @enable={{this.enable}}
-        @id={{concat 'dropzone-widget' dropzoneId}}
+        @id={{dropzoneId}}
         @clickable={{this.clickable}}
         @uploadprogress={{action this.uploadProgress}}
         @success={{perform this.success}}

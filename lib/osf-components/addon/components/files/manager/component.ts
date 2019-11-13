@@ -1,9 +1,10 @@
 import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
+import { alias, or } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
+import { camelize } from '@ember/string';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
@@ -13,7 +14,7 @@ import { layout } from 'ember-osf-web/decorators/component';
 import File from 'ember-osf-web/models/file';
 import FileProvider from 'ember-osf-web/models/file-provider';
 import Node from 'ember-osf-web/models/node';
-import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
+import { PaginatedMeta } from 'osf-api';
 
 import template from './template';
 
@@ -23,15 +24,24 @@ export interface FilesManager {
     loadingMore: boolean;
     hasMore: boolean;
     canEdit: boolean;
+    sort: string;
+    inRootFolder: boolean;
     currentFolder: File;
-    fileProvider: File;
+    rootFolder: File;
     displayedItems: File[];
+    fileProvider: FileProvider;
     goToFolder: (item: File) => void;
     goToParentFolder: (item: File) => void;
     onSelectFile?: (item: File) => void;
     addFile: (id: string) => void;
-    sortFolderItems: (sort: string) => void;
+    sortItems: (sort: string) => void;
 }
+
+interface PromiseManyArrayWithMeta extends DS.PromiseManyArray<File> {
+    meta: PaginatedMeta;
+}
+
+type SortKey = 'date_modified' | '-date_modified' | 'name' | '-name';
 
 @tagName('')
 @layout(template)
@@ -41,50 +51,61 @@ export default class FilesManagerComponent extends Component.extend({
 
         const fileProviders = yield this.node.files;
         const fileProvider = fileProviders.firstObject as FileProvider;
-        const rootItems = yield fileProvider.files;
+        const rootFolder = yield fileProvider.rootFolder;
+
+        yield rootFolder.files;
 
         this.setProperties({
             fileProvider,
-            currentFolder: null,
-            displayedItems: rootItems,
+            rootFolder,
+            currentFolder: rootFolder,
         });
     }).on('didReceiveAttrs').restartable(),
     loadMore: task(function *(this: FilesManagerComponent) {
-        const folder = this.currentFolder || this.fileProvider;
-        const items = folder.files;
-
-        const atPage = Math.ceil(this.displayedItems.length / this.pageSize);
-        const moreItems = yield folder.queryHasMany('files', {
-            page: atPage + 1,
+        yield this.currentFolder.queryHasMany('files', {
+            page: this.page + 1,
             pageSize: this.pageSize,
+            sort: this.sort,
         });
 
-        items.pushObjects([...moreItems]);
+        this.incrementProperty('page');
     }),
 
     getCurrentFolderItems: task(function *(this: FilesManagerComponent, targetFolder: File) {
         this.set('currentFolder', targetFolder);
 
-        const displayedItems = yield targetFolder.files;
+        yield this.currentFolder.files;
+    }),
 
-        this.setProperties({ displayedItems });
+    sortFolderItems: task(function *(this: FilesManagerComponent) {
+        yield this.currentFolder.queryHasMany('files', {
+            pageSize: this.pageSize,
+            sort: this.sort,
+            page: 1,
+        });
+        this.setProperties({ lastUploaded: [] });
     }),
 
     addFile: task(function *(this: FilesManagerComponent, id: string) {
-        const duplicate = this.displayedItems.findBy('id', id);
+        const duplicate = this.currentFolder.files.findBy('id', id);
         const file = yield this.store
-            .findRecord('file', id, duplicate ? {} : { adapterOptions: { query: { create_guid: 1 } } });
+            .findRecord(
+                'file',
+                id,
+                duplicate ? {} : { adapterOptions: { query: { create_guid: 1 } } },
+            );
 
         if (duplicate) {
-            this.displayedItems.removeObject(duplicate);
+            this.currentFolder.files.removeObject(duplicate);
         }
 
-        this.displayedItems.pushObject(file);
+        this.currentFolder.files.pushObject(file);
 
         if (duplicate) {
             return;
         }
 
+        this.lastUploaded.pushObject(file);
         this.toast.success(this.i18n.t('file_browser.file_added_toast'));
     }),
 }) {
@@ -94,47 +115,99 @@ export default class FilesManagerComponent extends Component.extend({
 
     node!: Node;
 
-    displayedItems!: QueryHasManyResult<File>;
-    currentFolder: File | null = null;
-    fileProvider!: File;
+    fileProvider!: FileProvider;
+    currentFolder!: File;
+    lastUploaded: File[] = []; // Files uploaded since last sort.
+    rootFolder!: File;
     pageSize = 10;
+    sort: SortKey = 'date_modified';
+    page = 1;
 
     @alias('node.userHasAdminPermission') canEdit!: boolean;
     @alias('getRootItems.isRunning') loading!: boolean;
-    @alias('getCurrentFolderItems.isRunning') loadingFolderItems!: boolean;
     @alias('loadMore.isRunning') loadingMore!: boolean;
+    @or(
+        'sortFolderItems.isRunning',
+        'getCurrentFolderItems.isRunning',
+    ) loadingFolderItems!: boolean;
 
-    @computed('displayedItems.[]', 'currentFolder')
-    get hasMore() {
-        if (this.displayedItems) {
-            return this.displayedItems.length < this.displayedItems.meta.total;
+    @computed('currentFolder.files.[]', 'page')
+    get maxFilesDisplayed() {
+        if (this.currentFolder) {
+            return this.page * this.pageSize;
+        }
+        return 0;
+    }
+
+    @computed('currentFolder')
+    get inRootFolder() {
+        const { currentFolder } = this;
+        return !(currentFolder && currentFolder.belongsTo('parentFolder').id());
+    }
+
+    @computed('currentFolder.files.[]', 'page', 'sort', 'maxFilesDisplayed', 'lastUploaded')
+    get displayedItems() {
+        if (!this.currentFolder) {
+            return [];
         }
 
-        return undefined;
+        let sortedItems: File[] = this.currentFolder.files.toArray();
+
+        if (this.sort) {
+            const regex = /^(-?)([-\w]+)/;
+            const groups = regex.exec(this.sort)!;
+
+            groups.shift();
+            const [reverse, sortKey] = groups.slice(0, 2);
+
+            sortedItems = sortedItems.sortBy(camelize(sortKey));
+
+            if (reverse) {
+                sortedItems = sortedItems.reverse();
+            }
+            sortedItems = sortedItems.slice(0, this.maxFilesDisplayed);
+        }
+
+        return [
+            ...this.lastUploaded,
+            ...sortedItems.filter(item => !this.lastUploaded.includes(item)),
+        ];
+    }
+
+    @computed('currentFolder.files.{[],meta.total}', 'displayedItems')
+    get hasMore() {
+        const { currentFolder, displayedItems } = this;
+
+        if (currentFolder) {
+            const currentFolderItems = currentFolder.files as PromiseManyArrayWithMeta;
+            return currentFolderItems.meta && displayedItems.length < currentFolderItems.meta.total;
+        }
+
+        return false;
     }
 
     @action
     goToParentFolder(currentFolder: File) {
-        const parentFolder = currentFolder.belongsTo('parentFolder').value() as (File | null);
-        const hasManyReference = (parentFolder || this.fileProvider).hasMany('files');
-
-        this.setProperties({
-            displayedItems: hasManyReference.value(),
-            currentFolder: parentFolder,
-        });
+        this.setProperties({ lastUploaded: [] });
+        this.setProperties({ currentFolder: currentFolder.hasMany('parentFolder').value() });
     }
 
     @action
     goToFolder(targetFolder: File) {
+        this.setProperties({ lastUploaded: [] });
         const folderItems = targetFolder.hasMany('files').value();
 
         if (folderItems === null) {
             this.getCurrentFolderItems.perform(targetFolder);
         } else {
-            this.setProperties({
-                displayedItems: folderItems,
-                currentFolder: targetFolder,
-            });
+            this.setProperties({ currentFolder: targetFolder });
         }
+    }
+
+    @action
+    sortItems(sort: string) {
+        this.setProperties({ sort });
+
+        this.sortFolderItems.perform();
     }
 }

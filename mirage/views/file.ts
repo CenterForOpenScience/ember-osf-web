@@ -40,6 +40,7 @@ export function uploadToRoot(this: HandlerContext, schema: Schema) {
     const { name } = this.request.queryParams;
     const node = schema.nodes.find(parentID);
     const fileProvider = schema.fileProviders.findBy({ providerId: `${node.id}:${fileProviderId}` });
+    const { rootFolder } = fileProvider;
     const randomNum = faker.random.number();
     const fileGuid = guid('file');
     const id = fileGuid(randomNum);
@@ -59,8 +60,8 @@ export function uploadToRoot(this: HandlerContext, schema: Schema) {
         provider: 'osfstorage',
     });
 
-    fileProvider.files.models.pushObject(uploadedFile);
-    fileProvider.save();
+    rootFolder.files.models.pushObject(uploadedFile);
+    rootFolder.save();
 
     return uploadedFile;
 }
@@ -75,7 +76,8 @@ export function nodeFilesListForProvider(this: HandlerContext, schema: Schema) {
     const { parentID, fileProviderId } = this.request.params;
     const node = schema.nodes.find(parentID);
     const fileProvider = schema.fileProviders.findBy({ providerId: `${node.id}:${fileProviderId}` });
-    return process(schema, this.request, this, fileProvider.files.models.map(file => this.serialize(file).data));
+    const { rootFolder } = fileProvider;
+    return process(schema, this.request, this, rootFolder.files.models.map(file => this.serialize(file).data));
 }
 
 export function nodeFileProviderList(this: HandlerContext, schema: Schema) {

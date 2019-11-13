@@ -50,7 +50,7 @@ module('Integration | Component | files-widget', hooks => {
             'withFiles');
 
         const [osfstorage] = mirageNode.files.models;
-        const count = osfstorage.files.models.length;
+        const count = osfstorage.rootFolder.files.models.length;
 
         const node = await this.store.findRecord('node', mirageNode.id);
         this.set('node', node);
@@ -65,13 +65,13 @@ module('Integration | Component | files-widget', hooks => {
 
         const osfstorage = server.create('file-provider', { node: mirageNode });
         const folderOne = server.create('file',
-            { target: mirageNode, name: 'c', dateModified: new Date(2019, 1, 1) }, 'asFolder');
+            { target: mirageNode, name: 'c' }, 'asFolder');
         const fileOne = server.create('file',
             { target: mirageNode, name: 'a', dateModified: new Date(2019, 3, 3) });
         const fileTwo = server.create('file',
             { target: mirageNode, name: 'b', dateModified: new Date(2019, 2, 2) });
 
-        osfstorage.update({
+        osfstorage.rootFolder.update({
             files: [fileOne, fileTwo, folderOne],
         });
 
@@ -83,7 +83,7 @@ module('Integration | Component | files-widget', hooks => {
 
         assert.dom('[data-test-ascending-sort="name"]').isVisible();
         await click('[data-test-ascending-sort="name"]');
-        expected = [folderOne.name, fileOne.name, fileTwo.name];
+        expected = [fileOne.name, fileTwo.name, folderOne.name];
         assertOrdered(assert, 'name', 'ascending', expected);
 
         assert.dom('[data-test-descending-sort="name"]').isVisible();
@@ -91,34 +91,34 @@ module('Integration | Component | files-widget', hooks => {
         expected = [folderOne.name, fileTwo.name, fileOne.name];
         assertOrdered(assert, 'name', 'descending', expected);
 
-        assert.dom('[data-test-ascending-sort="dateModified"]').isVisible();
-        await click('[data-test-ascending-sort="dateModified"]');
+        assert.dom('[data-test-ascending-sort="date_modified"]').isVisible();
+        await click('[data-test-ascending-sort="date_modified"]');
         expected = [fileTwo, fileOne].map(convertDate);
         assertOrdered(assert, 'date-modified', 'ascending', expected);
 
-        assert.dom('[data-test-descending-sort="dateModified"]').isVisible();
-        await click('[data-test-descending-sort="dateModified"]');
+        assert.dom('[data-test-descending-sort="date_modified"]').isVisible();
+        await click('[data-test-descending-sort="date_modified"]');
         expected = [fileOne, fileTwo].map(convertDate);
         assertOrdered(assert, 'date-modified', 'descending', expected);
     });
 
     test('navigate between folders', async function(this: ThisTestContext, assert) {
-        const mirageNode = server.create('node',
-            { currentUserPermissions: Object.values(Permission) }, 'withFiles');
+        const mirageNode = server.create('node', { currentUserPermissions: Object.values(Permission) });
+
         const folder = server.create('file', { target: mirageNode }, 'asFolder');
-        const [osfstorage] = mirageNode.files.models;
+        const osfstorage = server.create('file-provider', { node: mirageNode });
         const folderItems = server.createList('file', 6, { target: mirageNode, parentFolder: folder });
 
-        osfstorage.files.models.pushObject(folder);
-        osfstorage.save();
+        osfstorage.rootFolder.update({ files: [folder] });
 
         const node = await this.store.findRecord('node', mirageNode.id);
         this.set('node', node);
 
         await render(hbs`<Files::Widget @node={{this.node}} />`);
 
+        assert.dom('[data-test-current-folder]').isNotVisible();
         assert.dom('[data-test-file-browser-list]').isVisible();
-        assert.dom('[data-test-file-row]').exists({ count: osfstorage.files.models.length });
+        assert.dom('[data-test-file-row]').exists({ count: osfstorage.rootFolder.files.models.length });
 
         // Navigate to child folder.
         await click(`[data-test-file-browser-item="${folder.id}"]`);
@@ -137,8 +137,8 @@ module('Integration | Component | files-widget', hooks => {
 
         actualfolderItems = getItemAttr('name');
         assert.dom('[data-test-current-folder]').isNotVisible();
-        assert.dom('[data-test-file-row]').exists({ count: osfstorage.files.models.length });
-        assert.deepEqual(actualfolderItems.sort(), osfstorage.files.models.mapBy('name').sort());
+        assert.dom('[data-test-file-row]').exists({ count: osfstorage.rootFolder.files.models.length });
+        assert.deepEqual(actualfolderItems.sort(), osfstorage.rootFolder.files.models.mapBy('name').sort());
     });
 
     test('no files, shows upload placeholder ', async function(this: ThisTestContext, assert) {
@@ -161,7 +161,7 @@ module('Integration | Component | files-widget', hooks => {
         const files = server.createList('file', totalCount, { target: mirageNode });
         const osfstorage = server.create('file-provider', { node: mirageNode });
 
-        osfstorage.update({ files });
+        osfstorage.rootFolder.update({ files });
 
         const node = await this.store.findRecord('node', mirageNode.id);
         this.set('node', node);
