@@ -1,13 +1,15 @@
 import DS from 'ember-data';
 import { mapKeysAndValues } from 'ember-osf-web/utils/map-keys';
 
+import { deserializeResponseKey, serializeResponseKey } from './registration-response-key';
+
 const { Transform } = DS;
 
 export default class RegistrationResponsesTransform extends Transform {
     deserialize(obj: any) {
         return mapKeysAndValues(
             obj,
-            key => key.replace(/\./g, '|'),
+            key => deserializeResponseKey(key),
             value => value,
         );
     }
@@ -15,7 +17,7 @@ export default class RegistrationResponsesTransform extends Transform {
     serialize(obj: any) {
         return mapKeysAndValues(
             obj,
-            key => key.replace(/\|/g, '.'),
+            key => serializeResponseKey(key),
             value => value,
         );
     }
