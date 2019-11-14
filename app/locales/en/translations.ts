@@ -1675,6 +1675,7 @@ export default {
             },
             'schema-block-renderer/label': {
                 showExample: 'Show example',
+                hideExample: 'Hide example',
                 required: 'REQUIRED',
             },
         },

@@ -14,7 +14,11 @@
         <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{this.schemaBlock.helpText}} />
         {{#if this.schemaBlock.exampleText}}
             <OsfButton @type='link' @onClick={{action this.toggleShouldShowExample}}>
-                {{t 'osf-components.registries.schema-block-renderer/label.showExample'}}
+                {{#if this.shouldShowExample}}
+                    {{t 'osf-components.registries.schema-block-renderer/label.hideExample'}}
+                {{else}}
+                    {{t 'osf-components.registries.schema-block-renderer/label.showExample'}}
+                {{/if}}
             </OsfButton>
         {{/if}}
     {{/if}}
