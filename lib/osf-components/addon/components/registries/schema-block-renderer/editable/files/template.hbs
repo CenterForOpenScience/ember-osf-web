@@ -3,6 +3,11 @@
     @unselect={{action this.unselect}}
     @node={{@node}}
 />
+<ValidationErrors
+    local-class='ValidationErrors'
+    @changeset={{@changeset}}
+    @key={{@schemaBlock.registrationResponseKey}}
+/>
 <Files::Widget
     data-test-editable-file-widget
     @node={{@node}}
