@@ -1,28 +1,34 @@
-<label
-    local-class='QuestionLabel'
-    data-test-question-label
-    for={{@uniqueID}}
-    ...attributes
->
-    {{@schemaBlock.displayText}}
-    {{#if (and @isRequired (not @readonly))}}
-        <span local-class='Required'>
-            {{t 'osf-components.registries.schema-block-renderer/label.required'}}
-        </span>
-    {{/if}}
-    {{#if this.isEditableForm}}
-        <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{this.schemaBlock.helpText}} />
-        {{#if this.schemaBlock.exampleText}}
-            <OsfButton @type='link' @onClick={{action this.toggleShouldShowExample}}>
-                {{#if this.shouldShowExample}}
-                    {{t 'osf-components.registries.schema-block-renderer/label.hideExample'}}
-                {{else}}
-                    {{t 'osf-components.registries.schema-block-renderer/label.showExample'}}
-                {{/if}}
-            </OsfButton>
-        {{/if}}
-    {{/if}}
-</label>
+{{#if @isFieldsetGroup}}
+    <legend
+        local-class='QuestionLabel QuestionLegend'
+        data-test-question-label
+        for={{@uniqueID}}
+        ...attributes
+    >
+        <Registries::SchemaBlockRenderer::Label::LabelContent
+            @schemaBlock={{@schemaBlock}}
+            @isRequired={{@isRequired}}
+            @readonly={{@readonly}}
+            @isEditableForm={{this.isEditableForm}}
+            @toggleShouldShowExample={{this.toggleShouldShowExample}}
+        />
+    </legend>
+{{else}}
+    <label
+        local-class='QuestionLabel'
+        data-test-question-label
+        for={{@uniqueID}}
+        ...attributes
+    >
+        <Registries::SchemaBlockRenderer::Label::LabelContent
+            @schemaBlock={{@schemaBlock}}
+            @isRequired={{@isRequired}}
+            @readonly={{@readonly}}
+            @isEditableForm={{this.isEditableForm}}
+            @toggleShouldShowExample={{this.toggleShouldShowExample}}
+        />
+    </label>
+{{/if}}
 {{#if this.isEditableForm}}
     {{#if (and this.shouldShowExample this.schemaBlock.exampleText)}}
         <p>
