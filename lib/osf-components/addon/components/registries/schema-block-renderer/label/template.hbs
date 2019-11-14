@@ -1,8 +1,7 @@
 {{#if @isFieldsetGroup}}
     <legend
-        local-class='QuestionLabel QuestionLegend'
         data-test-question-label
-        for={{@uniqueID}}
+        local-class='QuestionLabel QuestionLegend'
         ...attributes
     >
         <Registries::SchemaBlockRenderer::Label::LabelContent
@@ -11,12 +10,13 @@
             @readonly={{@readonly}}
             @isEditableForm={{this.isEditableForm}}
             @toggleShouldShowExample={{this.toggleShouldShowExample}}
+            @shouldShowExample={{this.shouldShowExample}}
         />
     </legend>
 {{else}}
     <label
-        local-class='QuestionLabel'
         data-test-question-label
+        local-class='QuestionLabel'
         for={{@uniqueID}}
         ...attributes
     >
@@ -26,6 +26,7 @@
             @readonly={{@readonly}}
             @isEditableForm={{this.isEditableForm}}
             @toggleShouldShowExample={{this.toggleShouldShowExample}}
+            @shouldShowExample={{this.shouldShowExample}}
         />
     </label>
 {{/if}}
