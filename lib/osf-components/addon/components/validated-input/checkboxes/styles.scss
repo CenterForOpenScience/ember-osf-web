@@ -1,12 +1,11 @@
 .Checkboxes {
     padding-left: 10px;
 
-    input {
-        float: left;
+    & > div {
+        display: flex;
     }
 
     label {
-        display: block;
-        margin-left: 1.5em;
+        margin-left: 10px;
     }
 }
