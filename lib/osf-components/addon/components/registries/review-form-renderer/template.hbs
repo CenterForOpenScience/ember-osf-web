@@ -1,7 +1,7 @@
 {{assert 'Registries::ReviewFormRenderer requires a draftManager' @draftManager}}
 {{assert 'Registries::ReviewFormRenderer requires a node' @node}}
-{{#each @draftManager.pageManagers as |pageManager|}}
-    {{#each pageManager.schemaBlockGroups as |group|}}
+{{#each @draftManager.pageManagers as |pageManager pageIndex|}}
+    {{#each pageManager.schemaBlockGroups as |group groupIndex|}}
         <Registries::SchemaBlockGroupRenderer
             @schemaBlockGroup={{group}}
             @renderStrategy={{
@@ -12,5 +12,8 @@
                 changeset=pageManager.changeset
             }}
         />
+        {{#if (and (eq pageIndex 0) (eq groupIndex 0))}}
+            <Registries::RegistrationFormNavigationDropdown @schemaBlocks={{@draftManager.schemaBlocks}} />
+        {{/if}}
     {{/each}}
 {{/each}}
