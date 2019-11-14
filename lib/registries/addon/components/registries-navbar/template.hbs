@@ -238,14 +238,16 @@
     </nav.container>
 </Navbar>
 
-<Container
-    data-test-search-bar-mobile='1'
-    local-class='SearchDropdown {{if (media 'isMobile') '' 'Closed'}}'
->
-    <IconInput
-        data-analytics-name='Search box'
-        @icon='search'
-        @dark={{true}}
-        @enter={{action '_onSearch'}}
-    />
-</Container>
+{{#if (media 'isMobile')}}
+    <Container
+        data-test-search-bar-mobile='1'
+        local-class='SearchDropdown'
+    >
+        <IconInput
+            data-analytics-name='Search box'
+            @icon='search'
+            @dark={{true}}
+            @enter={{action '_onSearch'}}
+        />
+    </Container>
+{{/if}}
