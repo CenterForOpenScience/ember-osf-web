@@ -5,7 +5,10 @@
 >
     {{#each this.options as |option|}}
         {{#let (unique-id 'radio' option) as |uniqueId|}}
-            <div data-test-radio-input>
+            <div
+                data-test-radio-input
+                local-class='RadioButton'
+            >
                 <input
                     type='radio'
                     id={{uniqueId}}
@@ -20,8 +23,8 @@
                     for={{uniqueId}}
                 >
                     {{option}}
+                    <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{get @helpTextMapping option}} />
                 </label>
-                <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{get @helpTextMapping option}} />
             </div>
         {{/let}}
     {{/each}}

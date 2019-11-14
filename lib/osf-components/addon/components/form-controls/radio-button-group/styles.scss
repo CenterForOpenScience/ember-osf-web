@@ -1,13 +1,12 @@
 .RadioButtonGroup {
     padding-left: 10px;
+}
 
-    input {
-        float: left;
-    }
+.RadioButton {
+    display: flex;
 
     label {
-        display: block;
-        margin-left: 1.5em;
+        margin-left: 10px;
     }
 }
 
