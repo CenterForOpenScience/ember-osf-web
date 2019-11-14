@@ -53,10 +53,9 @@ function registrationScenario(
 
     const registrationResponses = {
         'page-one_long-text': '',
-        'page-one_multi-select': ['Crocs', 'Nickelback'],
+        'page-one_multi-select': ['Crocs'],
         'page-one_multi-select-other': '',
         'page-one_short-text': 'sdfsdfsd',
-        'page-one_single-select': 'tuna',
         'page-one_single-select-two': 'Remember who was in NSync and who was in Backstreet Boys',
     };
 
