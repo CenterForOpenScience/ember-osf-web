@@ -21,6 +21,7 @@ export default class FormControlRadioButton extends Component {
     // Optional params
     shouldShowMessages?: boolean;
     disabled: boolean = defaultTo(this.disabled, false);
+    onchange?: (option: string) => void;
 
     didReceiveAttrs() {
         assert('FormControls::RadioButton - @options are required', Boolean(this.options));
@@ -31,5 +32,8 @@ export default class FormControlRadioButton extends Component {
     @action
     updateChangeset(option: string) {
         this.changeset.set(this.valuePath, option);
+        if (this.onchange) {
+            this.onchange(option);
+        }
     }
 }
