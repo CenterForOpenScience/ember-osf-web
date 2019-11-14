@@ -105,7 +105,8 @@ const exampleSchema: Array<Partial<SchemaBlock>> = [
     {
         id: 'SB14',
         blockType: 'select-input-option',
-        displayText: 'Nickelback',
+        displayText: 'Nickelback (I mean they are really actually pretty great and I could listen to them all day or at least for a couple of minutes)',
+        helpText: 'Chad Kroeger is my hero',
         schemaBlockGroupKey: 'q4',
         index: 13,
     },
@@ -113,6 +114,7 @@ const exampleSchema: Array<Partial<SchemaBlock>> = [
         id: 'SB15',
         blockType: 'select-input-option',
         displayText: 'Crocs',
+        helpText: 'I mean, how can you not love waterproof clogs?',
         schemaBlockGroupKey: 'q4',
         index: 14,
     },
