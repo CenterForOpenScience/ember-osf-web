@@ -319,6 +319,7 @@ export default {
         login: 'Login',
         join: 'Join',
         osf_logo: 'OSF logo',
+        search_bar: 'Search bar for registries',
     },
     auth_dropdown: {
         log_out: 'Log Out',
