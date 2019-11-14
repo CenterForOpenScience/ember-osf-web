@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+/* eslint-disable camelcase,max-len */
 // tslint:disable import-spacing
 
 import SchemaBlock from 'ember-osf-web/models/schema-block';
@@ -46,14 +46,16 @@ const exampleSchema: Array<Partial<SchemaBlock>> = [
     {
         id: 'SB6',
         blockType: 'select-input-option',
-        displayText: 'tuna',
+        displayText: 'tuna fish sandwiches with lots of mayonaise but not too much because that\'s gross',
+        helpText: 'Chicken of the sea!',
         schemaBlockGroupKey: 'q1',
         index: 5,
     },
     {
         id: 'SB7',
         blockType: 'select-input-option',
-        displayText: 'chicken',
+        displayText: 'chicken pot pie but be careful because they come out real hot and you could burn yourself if you don\'t wait for them to cool',
+        helpText: 'The original white meat!',
         schemaBlockGroupKey: 'q1',
         index: 6,
     },
@@ -180,4 +182,4 @@ export default [
     ...exampleSchema,
 ] as SchemaBlock[];
 
-/* eslint-enable camelcase */
+/* eslint-enable camelcase,max-len */
