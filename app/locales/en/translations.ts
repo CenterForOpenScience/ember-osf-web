@@ -581,6 +581,9 @@ export default {
         node_license_invalid: 'Invalid required fields for the license',
         node_license_missing_fields: 'The following required fields are missing: {{missingFields}}',
         invalid_doi: 'Please use a valid DOI format (10.xxxx/xxxxx)',
+        mustSelect: 'You must select a value for this field.',
+        mustSelectMinOne: 'You must select at least one value for this field.',
+        mustSelectFileMinOne: 'You must select at least one file for this field.',
     },
     validated_input_form: {
         discard_changes: 'Discard changes',
