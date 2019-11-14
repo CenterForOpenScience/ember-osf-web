@@ -7,6 +7,7 @@ import { module, test } from 'qunit';
 
 import { visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
+import { deserializeResponseKey } from 'ember-osf-web/transforms/registration-response-key';
 
 const currentUserStub = Service.extend();
 const storeStub = Service.extend();
@@ -143,8 +144,8 @@ module('Registries | Acceptance | draft form', hooks => {
 
         await visit(`/registries/drafts/${registration.id}/review`);
         assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/review`), 'At review page');
-        assert.dom('[data-test-validation-errors="page-one_short-text"]').exists();
-        assert.dom('[data-test-validation-errors="page-one_long-text"]').doesNotExist();
+        assert.dom(`[data-test-validation-errors="${deserializeResponseKey('page-one_short-text')}"]`).exists();
+        assert.dom(`[data-test-validation-errors="${deserializeResponseKey('page-one_long-text')}"]`).doesNotExist();
     });
 
     test('validations: cannot register with empty registrationResponses', async assert => {
@@ -274,9 +275,10 @@ module('Registries | Acceptance | draft form', hooks => {
 
         await visit(`/registries/drafts/${registration.id}/1`);
 
-        assert.dom('input[name="page-one_short-text"] + div')
+        const shortTextKey = deserializeResponseKey('page-one_short-text');
+        assert.dom(`input[name="${shortTextKey}"] + div`)
             .hasClass('help-block', 'page-one_short-text has validation errors');
-        await fillIn('input[name="page-one_short-text"]', 'ditto');
+        await fillIn(`input[name="${shortTextKey}"]`, 'ditto');
 
         await visit(`/registries/drafts/${registration.id}/2`);
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
