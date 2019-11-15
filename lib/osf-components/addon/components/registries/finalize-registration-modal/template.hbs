@@ -57,7 +57,11 @@
             @onClick={{this.manager.submitRegistration}}
             @disabled={{this.shouldDisableSubmitButton}}
         >
-            {{t 'registries.finalizeRegistrationModal.submit'}}
+            {{#if this.manager.submittingRegistration}}
+                <LoadingIndicator @inline=true />
+            {{else}}
+                {{t 'registries.finalizeRegistrationModal.submit'}}
+            {{/if}}
         </OsfButton>
         <OsfButton
             data-test-back-button
