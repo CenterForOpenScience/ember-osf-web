@@ -1,0 +1,20 @@
+<span data-test-label-content ...attributes>
+    {{@schemaBlock.displayText}}
+    {{#if (and @isRequired (not @readonly))}}
+        <span local-class='Required'>
+            {{t 'osf-components.registries.schema-block-renderer/label.required'}}
+        </span>
+    {{/if}}
+    {{#if @isEditableForm}}
+        <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{@schemaBlock.helpText}} />
+        {{#if @schemaBlock.exampleText}}
+            <OsfButton @type='link' @onClick={{@toggleShouldShowExample}}>
+                {{#if @shouldShowExample}}
+                    {{t 'osf-components.registries.schema-block-renderer/label.hideExample'}}
+                {{else}}
+                    {{t 'osf-components.registries.schema-block-renderer/label.showExample'}}
+                {{/if}}
+            </OsfButton>
+        {{/if}}
+    {{/if}}
+</span>

@@ -47,4 +47,12 @@ export default class SchemaBlockGroupRenderer extends Component {
                     block.blockType !== 'select-other-option',
             );
     }
+
+    @computed('schemaBlockGroup.groupType')
+    get isFieldsetGroup(): boolean {
+        return (
+            this.schemaBlockGroup.groupType === 'single-select-input' ||
+            this.schemaBlockGroup.groupType === 'multi-select-input'
+        );
+    }
 }
