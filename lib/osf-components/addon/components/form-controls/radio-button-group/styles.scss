@@ -5,7 +5,12 @@
 .RadioButton {
     display: flex;
 
+    input {
+        flex: 0 0 auto;
+    }
+
     label {
+        flex: 1 0 0;
         margin-left: 10px;
     }
 }
