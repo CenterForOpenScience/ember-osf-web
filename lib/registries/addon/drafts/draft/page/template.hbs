@@ -52,7 +52,7 @@
                                     <nav.links.default
                                         data-test-goto-previous-page
                                         data-analytics-name='Sidenav back'
-                                        @route='registries.drafts.draft'
+                                        @route='registries.drafts.draft.page'
                                         @models={{array draftManager.draftId draftManager.prevPageParam}}
                                     >
                                         <nav.icon @icon='arrow-left' />
@@ -62,7 +62,7 @@
                                     <nav.links.default
                                         data-test-goto-next-page
                                         data-analytics-name='Sidenav next'
-                                        @route='registries.drafts.draft'
+                                        @route='registries.drafts.draft.page'
                                         @models={{array draftManager.draftId draftManager.nextPageParam}}
                                         @onClick={{draftManager.setPageIsVisited}}
                                     >
@@ -73,7 +73,7 @@
                                     <nav.links.default
                                         data-test-goto-review
                                         data-analytics-name='Sidenav review'
-                                        @route='registries.drafts.draft'
+                                        @route='registries.drafts.draft.page'
                                         @models={{array draftManager.draftId 'review'}}
                                     >
                                         <nav.icon @icon='arrow-right' />
@@ -150,7 +150,7 @@
                                 local-class='ReviewButton'
                                 class='btn btn-primary'
                                 @type='button'
-                                @route='registries.drafts.draft'
+                                @route='registries.drafts.draft.page'
                                 @models={{array draftManager.draftId 'review'}}
                             >
                                 {{t 'registries.drafts.draft.review.start_review'}}
@@ -163,7 +163,7 @@
                                 local-class='NextButton'
                                 class='btn btn-primary'
                                 @type='button'
-                                @route='registries.drafts.draft'
+                                @route='registries.drafts.draft.page'
                                 @models={{array draftManager.draftId draftManager.nextPageParam}}
                             >
                                 {{t 'registries.drafts.draft.form.next'}}
@@ -177,7 +177,7 @@
                                 local-class='BackButton'
                                 class='btn btn-default'
                                 @type='button'
-                                @route='registries.drafts.draft'
+                                @route='registries.drafts.draft.page'
                                 @models={{array draftManager.draftId draftManager.prevPageParam}}
                             >
                                 <FaIcon @icon='arrow-left' @fixedWidth={{true}} />

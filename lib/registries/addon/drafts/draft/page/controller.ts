@@ -10,13 +10,13 @@ import { getPageParam } from 'ember-osf-web/utils/page-param';
 import Media from 'ember-responsive';
 
 import NodeModel from 'ember-osf-web/models/node';
-import { DraftRouteModel } from './route';
+import { DraftPageRouteModel } from './route';
 
 export default class RegistriesDrat extends Controller {
     @service media!: Media;
     @service router!: RouterService;
 
-    model!: DraftRouteModel;
+    model!: DraftPageRouteModel;
 
     @alias('model.taskInstance.value.draftRegistration') draftRegistration?: DraftRegistration;
     @alias('model.taskInstance.value.node') node?: NodeModel;
@@ -40,7 +40,7 @@ export default class RegistriesDrat extends Controller {
     updateRoute(headingText: string) {
         if (this.page && this.shouldAppendPageSlug) {
             const pageSlug = getPageParam(this.pageIndex, headingText);
-            this.replaceRoute('drafts.draft', this.draftId, pageSlug);
+            this.replaceRoute('drafts.draft.page', this.draftId, pageSlug);
         }
     }
 
