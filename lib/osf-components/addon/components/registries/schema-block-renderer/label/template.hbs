@@ -8,9 +8,7 @@
             @schemaBlock={{@schemaBlock}}
             @isRequired={{@isRequired}}
             @readonly={{@readonly}}
-            @isEditableForm={{this.isEditableForm}}
-            @toggleShouldShowExample={{this.toggleShouldShowExample}}
-            @shouldShowExample={{this.shouldShowExample}}
+            @isEditableForm={{@isEditableForm}}
         />
     </legend>
 {{else}}
@@ -24,16 +22,7 @@
             @schemaBlock={{@schemaBlock}}
             @isRequired={{@isRequired}}
             @readonly={{@readonly}}
-            @isEditableForm={{this.isEditableForm}}
-            @toggleShouldShowExample={{this.toggleShouldShowExample}}
-            @shouldShowExample={{this.shouldShowExample}}
+            @isEditableForm={{@isEditableForm}}
         />
     </label>
-{{/if}}
-{{#if this.isEditableForm}}
-    {{#if (and this.shouldShowExample this.schemaBlock.exampleText)}}
-        <p>
-            {{this.schemaBlock.exampleText}}
-        </p>
-    {{/if}}
 {{/if}}
