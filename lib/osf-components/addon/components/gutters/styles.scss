@@ -55,6 +55,14 @@
 
 .GutterContainer.GutterContainer {
     padding: 0;
+
+    &:global(.media-tablet) {
+        overflow-x: hidden;
+    }
+
+    &:global(.media-mobile) {
+        overflow-x: hidden;
+    }
 }
 
 .GutterBody {
