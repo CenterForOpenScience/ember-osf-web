@@ -1,7 +1,10 @@
 <div
     data-test-file-browser-item='{{this.item.id}}'
     local-class='file-row {{if this.shouldIndent 'indent'}}'
+    role='button'
+    tabindex='0'
     {{on 'click' (action this.onClick)}}
+    {{on 'keypress' (action this.onKeyPress)}}
 >
     {{#if this.isCurrentFolder}}
         <div data-test-current-folder local-class='name-container'>
