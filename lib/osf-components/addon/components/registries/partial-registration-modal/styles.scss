@@ -10,4 +10,14 @@
 
 .list {
     list-style: none;
+
+    li {
+        display: flex;
+
+        button {
+            white-space: normal;
+            text-align: left;
+            padding: 0 10px;
+        }
+    }
 }
