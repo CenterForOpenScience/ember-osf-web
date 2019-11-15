@@ -26,5 +26,12 @@
                 {{~this.schemaBlock.exampleText~}}
             </p>
         {{/if}}
+    {{else}}
+        <OsfLink @route='registries.drafts.draft'
+            @models={{array @draftManager.draftId @schemaBlock.pageRouteParam}}
+            @fragment={{@schemaBlock.elementId}}
+        >
+            <FaIcon @icon='edit' />
+        </OsfLink>
     {{/if}}
 {{/if}}
