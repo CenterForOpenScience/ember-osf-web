@@ -80,6 +80,14 @@ function registrationScenario(
         branchedFrom: rootNode,
     });
 
+    server.create('draft-registration', {
+        id: 'pregc',
+        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+        initiator: currentUser,
+        registrationResponses,
+        branchedFrom: rootNode,
+    });
+
     server.create('registration', {
         id: 'decaf',
         registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
