@@ -19,6 +19,9 @@ export function buildValidation(groups: SchemaBlockGroup[]) {
             const { inputBlock } = group;
             let requiredMessage = translations.validationErrors.blank;
             switch (group.groupType) {
+            case 'contributors-input':
+                // No validation for contributors input.
+                return;
             case 'short-text-input':
                 break;
             case 'long-text-input':
