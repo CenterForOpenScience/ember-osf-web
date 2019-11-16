@@ -25,7 +25,8 @@
     color: $color-text-black;
     cursor: default;
     max-width: 100%;
-    overflow-wrap: break-word;
+    overflow: hidden;
+    white-space: nowrap;
     margin-right: 5px;
     margin-bottom: 4px;
     padding: 5px 10px;
@@ -37,7 +38,6 @@
         &:hover,
         &:active,
         &:focus {
-            outline: none;
             text-decoration: none;
         }
     }

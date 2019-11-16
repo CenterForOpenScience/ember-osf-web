@@ -69,15 +69,21 @@
             </div>
 
             {{#if this.shouldShowLoadMoreButton}}
-                <div
-                    data-test-load-more-items
-                    local-class='load-more'
-                    {{on 'click' (action @filesManager.loadMore)}}
-                >
+                <div local-class='load-more'>
                     {{#if @filesManager.loadingMore}}
                         <LoadingIndicator @inline={{true}} @dark={{true}} />
                     {{else}}
-                        <FaIcon @icon='chevron-down' @fixedWith={{true}}/>
+                        <OsfButton
+                            data-test-load-more-items
+                            local-class='load-more-button'
+                            class='btn-block'
+                            aria-label={{t 'osf-components.files-widget.load_more'}}
+                            tabindex='0'
+                            @type='link'
+                            @onClick={{@filesManager.loadMore}}
+                        >
+                            <FaIcon @icon='chevron-down' @fixedWidth={{true}} />
+                        </OsfButton>
                     {{/if}}
                 </div>
             {{/if}}

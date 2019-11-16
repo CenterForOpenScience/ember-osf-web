@@ -65,4 +65,11 @@ export default class FileBrowserItem extends Component {
             this.filesManager.onSelectFile(this.item);
         }
     }
+
+    @action
+    onKeyPress(event: KeyboardEvent) {
+        if (event.keyCode === 13) {
+            this.onClick();
+        }
+    }
 }

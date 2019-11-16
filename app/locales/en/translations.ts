@@ -1682,7 +1682,9 @@ export default {
         },
         'files-widget': {
             drag_drop_files: 'Drag and drop files here to upload files to this folder',
-            message: 'You may attach up to 5 file(s) to this question. You may attach files that you already have in OSF Storage in this <a href={{nodeUrl}}>{{projectOrComponent}}</a> or upload (drag and drop) a new file from your computer. Uploaded files will automatically be added to this project so that they can be registered. To attach files from other components or an add-on, first add them to this <a href={{nodeUrl}}>{{projectOrComponent}}</a>.',
+            message: 'You may attach up to 5 file(s) to this question. You may attach files that you already have in OSF Storage in this <a href={{nodeUrl}}>{{projectOrComponent}}</a> or upload (drag and drop) a new file from your computer. Uploaded files will automatically be added to this <a href={{nodeUrl}}>{{projectOrComponent}}</a> so that they can be registered. To attach files from other components or an add-on, first add them to this <a href={{nodeUrl}}>{{projectOrComponent}}</a>.',
+            load_more: 'Load more files',
+            unselect_file: 'Unselect file',
         },
         subjects: {
             browse: {
