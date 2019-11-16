@@ -86,4 +86,10 @@ export default class Files extends Component {
             this.select(selectedfileRef);
         }
     }
+
+    @action
+    onAddFile(addedFile: File) {
+        const addedfileRef = addedFile.toFileReference();
+        this.select(addedfileRef);
+    }
 }
