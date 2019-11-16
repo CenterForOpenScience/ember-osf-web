@@ -7,9 +7,15 @@
         </span>
     {{/if}}
     {{#if @isEditableForm}}
-        <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{@schemaBlock.helpText}} />
+        <div local-class='HelpText'>
+            {{@schemaBlock.helpText}}
+        </div>
         {{#if @schemaBlock.exampleText}}
-            <OsfButton @type='link' @onClick={{action this.toggleShouldShowExample}}>
+            <OsfButton
+                local-class='ExampleButton'
+                @type='link'
+                @onClick={{action this.toggleShouldShowExample}}
+            >
                 {{#if this.shouldShowExample}}
                     {{t 'osf-components.registries.schema-block-renderer/label.hideExample'}}
                 {{else}}

@@ -4,6 +4,18 @@
     margin-left: 1em;
 }
 
+.HelpText {
+    font-weight: 400;
+    margin-top: 10px;
+}
+
+.ExampleButton:global(.btn) {
+    padding: 0;
+    border: 0;
+    margin-top: 10px;
+}
+
 .ExampleText {
-    font-weight: 500;
+    font-weight: 400;
+    margin-top: 10px;
 }
