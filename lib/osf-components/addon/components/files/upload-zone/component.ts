@@ -13,8 +13,10 @@ import $ from 'jquery';
 import { layout } from 'ember-osf-web/decorators/component';
 import File from 'ember-osf-web/models/file';
 import Analytics from 'ember-osf-web/services/analytics';
+import uniqueId from 'ember-osf-web/utils/unique-id';
 import { Resource } from 'osf-api';
 import { FilesManager } from 'osf-components/components/files/manager/component';
+import styles from './styles';
 import template from './template';
 
 interface FileResource extends Resource {
@@ -29,7 +31,7 @@ interface UploadResponse {
 }
 /* eslint-enable camelcase */
 
-@layout(template)
+@layout(template, styles)
 export default class UploadZone extends Component.extend({
     success: task(function *(this: UploadZone, _: unknown, __: unknown, file: File, response: UploadResponse) {
         this.analytics.trackFromElement(this.element, {
@@ -57,12 +59,22 @@ export default class UploadZone extends Component.extend({
         preventMultipleFiles: true,
         acceptDirectories: false,
     };
+    uploadButtonClass = uniqueId(['dz-upload-button']);
+    buttonClass = '';
 
-    @alias('filesManager.canEdit') enable!: boolean;
+    @alias('filesManager.canEdit') canEdit!: boolean;
     @notEmpty('uploading') isUploading!: boolean;
 
     didReceiveAttrs() {
         assert('Files::UploadZone requires @filesManager!', Boolean(this.filesManager));
+    }
+
+    @computed('canEdit', 'buttonClass')
+    get clickable() {
+        if (!this.buttonClass) {
+            return [];
+        }
+        return this.canEdit ? [`.${this.buttonClass}`] : [];
     }
 
     @computed('filesManager.{currentFolder,fileProvider,inRootFolder}')
@@ -96,5 +108,16 @@ export default class UploadZone extends Component.extend({
         const existingFile = this.filesManager.displayedItems.findBy('itemName', name);
 
         return existingFile ? existingFile.links.upload : `${this.uploadUrl}?${$.param({ name })}`;
+    }
+
+    @action
+    updateClickable() {
+        const { uploadButtonClass: buttonClass } = this;
+
+        if (this.buttonClass) {
+            this.setProperties({ buttonClass: '' });
+        } else {
+            this.setProperties({ buttonClass });
+        }
     }
 }

@@ -2,7 +2,7 @@
     <DropzoneWidget
         @options={{this.dropzoneOptions}}
         @dropzone={{false}}
-        @enable={{this.enable}}
+        @enable={{this.canEdit}}
         @id={{dropzoneId}}
         @clickable={{this.clickable}}
         @uploadprogress={{action this.uploadProgress}}
@@ -15,6 +15,48 @@
         @drop={{action (mut this.dropping) false}}
         @dragleave={{action (mut this.dropping) false}}
     >
-        {{yield (hash uploading=this.uploading)}}
+        <ResponsiveDropdown
+            @disabled={{not this.canEdit}}
+            as |dropdownMenu|
+        >
+            <dropdownMenu.trigger
+                local-class='actions-menu-trigger'
+                aria-label={{t 'osf-components.files-widget.expand_files_menu'}}
+            >
+                <OsfButton
+                    local-class='trigger-button'
+                    aria-label={{t 'osf-components.files-widget.expand_files_menu'}}
+                    @type='success'
+                >
+                    <FaIcon @icon='plus' @size=2 @fixedWidth={{true}} />
+                </OsfButton>
+            </dropdownMenu.trigger>
+            <dropdownMenu.content>
+                <div
+                    local-class='actions-menu-content'
+                    {{did-insert (action this.updateClickable)}}
+                    {{will-destroy (action this.updateClickable)}}
+                    {{on 'click' dropdownMenu.close}}
+                >
+                    <OsfButton
+                        data-analytics-name='Upload'
+                        aria-label={{t 'osf-components.files-widget.upload_file'}}
+                        local-class='upload-button'
+                        @type='link'
+                        @bubble={{true}}
+                        @class='{{this.uploadButtonClass}}'
+                        @disabled={{this.isUploading}}
+                    >
+                        <FaIcon @icon='upload' @fixedWidth={{true}} />
+                        {{t 'osf-components.files-widget.upload_file'}}
+                    </OsfButton>
+                </div>
+            </dropdownMenu.content>
+        </ResponsiveDropdown>
+
+        {{yield (hash
+            uploading=this.uploading
+            isUploading=this.isUploading
+        )}}
     </DropzoneWidget>
 {{/let}}

@@ -1,12 +1,12 @@
-<Files::UploadZone @filesManager={{@filesManager}} as |uploadZone|>
-    <div
-        data-test-file-browser-list
-        local-class='file-browser-list'
-        class='file-browser-list'
-    >
-        {{#if @filesManager.loading}}
-            <LoadingIndicator @dark={{true}} />
-        {{else}}
+{{#if @filesManager.loading}}
+    <LoadingIndicator @dark={{true}} />
+{{else}}
+    <Files::UploadZone @filesManager={{@filesManager}} as |uploadZone|>
+        <div
+            data-test-file-browser-list
+            local-class='file-browser-list'
+            class='file-browser-list'
+        >
             <div local-class='header'>
                 <div local-class='column'>
                     <span local-class='sortable-column'>{{t 'general.name'}}</span>
@@ -87,6 +87,6 @@
                     {{/if}}
                 </div>
             {{/if}}
-        {{/if}}
-    </div>
-</Files::UploadZone>
+        </div>
+    </Files::UploadZone>
+{{/if}}
