@@ -1,5 +1,4 @@
 .ContentBackground {
-    display: flex;
     flex-grow: 1;
     justify-content: center;
     background-image: url('img/bg-light.jpg');
@@ -119,4 +118,10 @@
     text-overflow: ellipsis;
     font-weight: 600;
     color: $color-text-black;
+}
+
+@media screen and (min-width: 992px) {
+    .ContentBackground {
+        display: flex;
+    }
 }
