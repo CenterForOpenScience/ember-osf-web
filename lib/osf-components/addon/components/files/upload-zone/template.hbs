@@ -33,15 +33,15 @@
             </dropdownMenu.trigger>
             <dropdownMenu.content>
                 <div
+                    role='menu'
                     local-class='actions-menu-content'
                     {{did-insert (action this.updateClickable)}}
                     {{will-destroy (action this.updateClickable)}}
                     {{on 'click' dropdownMenu.close}}
                 >
                     <OsfButton
-                        data-analytics-name='Upload'
                         aria-label={{t 'osf-components.files-widget.upload_file'}}
-                        local-class='upload-button'
+                        local-class='menu-button'
                         @type='link'
                         @bubble={{true}}
                         @class='{{this.uploadButtonClass}}'
@@ -50,9 +50,50 @@
                         <FaIcon @icon='upload' @fixedWidth={{true}} />
                         {{t 'osf-components.files-widget.upload_file'}}
                     </OsfButton>
+                    <OsfButton
+                        aria-label={{t 'osf-components.files-widget.create_folder'}}
+                        local-class='menu-button'
+                        onclick={{action this.openDialog}}
+                        @type='link'
+                    >
+                        <FaIcon @icon='folder' @fixedWidth={{true}} />
+                        {{t 'osf-components.files-widget.create_folder'}}
+                    </OsfButton>
                 </div>
             </dropdownMenu.content>
         </ResponsiveDropdown>
+
+        <OsfDialog
+            @isOpen={{this.isOpen}}
+            @onClose={{action this.closeDialog}}
+            as |dialog|
+        >
+            <dialog.heading>
+                {{t 'osf-components.files-widget.create_folder'}}
+            </dialog.heading>
+            <dialog.main local-class='dialog-main'>
+                <Input
+                    @value={{this.newFolderName}}
+                    @placeholder={{t 'osf-components.files-widget.folder_name_placeholder'}}
+                    @class='form-control'
+                />
+            </dialog.main>
+            <dialog.footer>
+                <OsfButton
+                    @type='default'
+                    @onClick={{dialog.close}}
+                >
+                    {{t 'general.cancel'}}
+                </OsfButton>
+                <OsfButton
+                    @type='primary'
+                    @onClick={{perform this.createFolder dialog.close}}
+                    @disabled={{this.createFolder.isRunning}}
+                >
+                    {{t 'osf-components.files-widget.create'}}
+                </OsfButton>
+            </dialog.footer>
+        </OsfDialog>
 
         {{yield (hash
             uploading=this.uploading

@@ -1687,6 +1687,9 @@ export default {
             unselect_file: 'Unselect file',
             upload_file: 'Upload file',
             expand_files_menu: 'Expand files menu',
+            create_folder: 'Create folder',
+            create: 'Create',
+            folder_name_placeholder: 'Type new folder\'s name',
         },
         subjects: {
             browse: {

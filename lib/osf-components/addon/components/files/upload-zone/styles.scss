@@ -26,7 +26,7 @@
     background-size: cover;
     box-shadow: 0 0 15px $color-shadow-dark;
 
-    .upload-button {
+    .menu-button {
         padding: 0;
         text-align: inherit;
 
@@ -38,4 +38,12 @@
             color: $color-link-lighter;
         }
     }
+
+    .menu-button:not(:last-child) {
+        margin-bottom: 10px;
+    }
+}
+
+.dialog-main {
+    width: 350px;
 }

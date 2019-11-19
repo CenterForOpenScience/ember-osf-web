@@ -6,6 +6,7 @@ import MutableArray from '@ember/array/mutable';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { task } from 'ember-concurrency';
+import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
 import $ from 'jquery';
@@ -13,7 +14,9 @@ import $ from 'jquery';
 import { layout } from 'ember-osf-web/decorators/component';
 import File from 'ember-osf-web/models/file';
 import Analytics from 'ember-osf-web/services/analytics';
+import CurrentUser from 'ember-osf-web/services/current-user';
 import uniqueId from 'ember-osf-web/utils/unique-id';
+
 import { Resource } from 'osf-api';
 import { FilesManager } from 'osf-components/components/files/manager/component';
 import styles from './styles';
@@ -44,10 +47,27 @@ export default class UploadZone extends Component.extend({
 
         this.uploading.removeObject(file);
     }),
+    createFolder: task(function *(this: UploadZone, closeDialog?: () => void) {
+        const { inRootFolder, currentFolder, fileProvider } = this.filesManager;
+        const parentFolder = inRootFolder ? fileProvider : currentFolder;
+
+        const newFolder = yield parentFolder.createFolder(this.newFolderName);
+        const folder = inRootFolder ? fileProvider.rootFolder : currentFolder;
+
+        folder.files.pushObject(newFolder);
+
+        if (closeDialog) {
+            closeDialog();
+        }
+
+        this.setProperties({ newFolderName: '' });
+    }),
 }) {
     @service toast!: Toast;
     @service analytics!: Analytics;
     @service i18n!: I18N;
+    @service currentUser!: CurrentUser;
+    @service store!: DS.Store;
 
     filesManager!: FilesManager;
     uploading: MutableArray<File> = A([]);
@@ -61,6 +81,8 @@ export default class UploadZone extends Component.extend({
     };
     uploadButtonClass = uniqueId(['dz-upload-button']);
     buttonClass = '';
+    newFolderName = '';
+    isOpen = false;
 
     @alias('filesManager.canEdit') canEdit!: boolean;
     @notEmpty('uploading') isUploading!: boolean;
@@ -119,5 +141,15 @@ export default class UploadZone extends Component.extend({
         } else {
             this.setProperties({ buttonClass });
         }
+    }
+
+    @action
+    closeDialog() {
+        this.set('isOpen', false);
+    }
+
+    @action
+    openDialog() {
+        this.set('isOpen', true);
     }
 }

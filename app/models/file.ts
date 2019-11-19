@@ -5,24 +5,19 @@ import { Link } from 'jsonapi-typescript';
 import { FileReference } from 'ember-osf-web/packages/registration-schema';
 import getHref from 'ember-osf-web/utils/get-href';
 
-import BaseFileItem from './base-file-item';
+import BaseFileItem, { BaseFileLinks } from './base-file-item';
 import CommentModel from './comment';
 import FileVersionModel from './file-version';
 import NodeModel from './node';
-import { OsfLinks } from './osf-model';
 import UserModel from './user';
 
-export interface FileLinks extends OsfLinks {
+export interface FileLinks extends BaseFileLinks {
     info: Link;
     move: Link;
-    upload: Link;
     delete: Link;
 
     // only for files
     download?: Link;
-
-    // only for folders
-    new_folder?: Link; // eslint-disable-line camelcase
 }
 
 export default class FileModel extends BaseFileItem {

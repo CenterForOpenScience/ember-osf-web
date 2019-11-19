@@ -106,6 +106,7 @@ export default class FilesManagerComponent extends Component.extend({
         }
 
         this.lastUploaded.pushObject(file);
+
         this.toast.success(this.i18n.t('file_browser.file_added_toast'));
         if (this.onAddFile) {
             this.onAddFile(file);
