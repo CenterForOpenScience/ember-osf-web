@@ -5,9 +5,15 @@ import { not } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import calculatePosition from 'ember-basic-dropdown/utils/calculate-position';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import Media from 'ember-responsive';
 
+import { layout } from 'ember-osf-web/decorators/component';
+import defaultTo from 'ember-osf-web/utils/default-to';
+
+import styles from './styles';
+import template from './template';
+
+@layout(template, styles)
 export default class ResponsiveDropdown extends Component {
     @service media!: Media;
 

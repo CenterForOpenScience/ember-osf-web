@@ -6,7 +6,8 @@
     @onClose={{action this.closeDropdown}}
     @renderInPlace={{this.shouldRenderInPlace}}
     @initiallyOpened={{@initiallyOpened}}
-    as |dd|>
+    as |dd|
+>
 
     {{yield (hash
         trigger=(component dd.trigger class=(local-class 'Trigger'))
