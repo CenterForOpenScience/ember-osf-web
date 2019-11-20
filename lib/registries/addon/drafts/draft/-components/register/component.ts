@@ -19,7 +19,6 @@ export default class Register extends Component.extend({
         if (this.draftRegistration) {
             const rootNode = yield this.draftRegistration.branchedFrom;
             this.setProperties({ rootNode });
-            yield rootNode.loadRelatedCount('children');
         }
     }).on('didReceiveAttrs').restartable(),
 }) {
