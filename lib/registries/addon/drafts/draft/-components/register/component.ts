@@ -9,6 +9,7 @@ import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
+import NodeModel from 'ember-osf-web/models/node';
 import Registration from 'ember-osf-web/models/registration';
 import { DraftRegistrationManager } from 'osf-components/components/registries/draft-registration-manager/component';
 
@@ -18,6 +19,7 @@ export default class Register extends Component.extend({
         if (this.draftRegistration) {
             const rootNode = yield this.draftRegistration.branchedFrom;
             this.setProperties({ rootNode });
+            yield rootNode.loadRelatedCount('children');
         }
     }).on('didReceiveAttrs').restartable(),
 }) {
@@ -29,7 +31,7 @@ export default class Register extends Component.extend({
 
     // Private
     registration!: Registration;
-    rootNode?: Node;
+    rootNode!: NodeModel;
     onSubmitRedirect?: (registrationId: string) => void;
     @alias('draftManager.hasInvalidResponses') isInvalid?: boolean;
 
@@ -51,7 +53,11 @@ export default class Register extends Component.extend({
 
             this.setProperties({ registration });
         }
-        this.showPartialRegDialog();
+        if (this.rootNode && this.rootNode.relatedCounts.children > 0) {
+            this.showPartialRegDialog();
+        } else {
+            this.showFinalizeRegDialog();
+        }
     }
 
     @action
@@ -103,8 +109,10 @@ export default class Register extends Component.extend({
     @action
     onBack() {
         this.closeFinalizeRegDialog();
-        run.next(this, () => {
-            this.showPartialRegDialog();
-        });
+        if (this.rootNode.relatedCounts.children > 0) {
+            run.next(this, () => {
+                this.showPartialRegDialog();
+            });
+        }
     }
 }
