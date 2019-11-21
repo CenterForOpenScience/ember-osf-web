@@ -21,7 +21,15 @@ export default class Register extends Component.extend({
             this.setProperties({ rootNode });
         }
     }).on('didReceiveAttrs').restartable(),
-    fetchNodeChildrenRelatedCounts: task(function *(this: Register) {
+    onClickRegister: task(function *(this: Register) {
+        if (!this.registration) {
+            const registration = this.store.createRecord('registration', {
+                draftRegistrationId: this.draftRegistration.id,
+                registeredFrom: this.draftRegistration.branchedFrom,
+            });
+
+            this.setProperties({ registration });
+        }
         if (this.rootNode) {
             yield this.rootNode.loadRelatedCount('children');
         }
@@ -50,19 +58,6 @@ export default class Register extends Component.extend({
     didReceiveAttrs() {
         assert('@draftManager is required!', Boolean(this.draftManager));
         assert('@draftRegistration is required!', Boolean(this.draftRegistration));
-    }
-
-    @action
-    onRegister() {
-        if (!this.registration) {
-            const registration = this.store.createRecord('registration', {
-                draftRegistrationId: this.draftRegistration.id,
-                registeredFrom: this.draftRegistration.branchedFrom,
-            });
-
-            this.setProperties({ registration });
-        }
-        this.fetchNodeChildrenRelatedCounts.perform();
     }
 
     @action
