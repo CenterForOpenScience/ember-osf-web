@@ -8,9 +8,11 @@ import { layout } from 'ember-osf-web/decorators/component';
 import { SchemaBlock, SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import { uniqueId } from 'osf-components/helpers/unique-id';
+
+import styles from './styles';
 import template from './template';
 
-@layout(template)
+@layout(template, styles)
 @tagName('')
 export default class SchemaBlockGroupRenderer extends Component {
     // Required parameters

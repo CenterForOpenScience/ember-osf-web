@@ -1,11 +1,5 @@
 .PageHeading {
-    color: $color-text-gray-blue;
-    border-top: $color-text-slate-gray 3px solid;
-    padding-top: 25px;
-    margin: 30px 0 20px;
+    composes: Heading from '../styles';
 
-    &:first-child {
-        border-top: 0;
-        padding-top: 0;
-    }
+    color: $color-text-gray-blue;
 }

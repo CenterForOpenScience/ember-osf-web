@@ -13,11 +13,7 @@
 
 .Main {
     background: $white;
-    padding: 0 30px 30px;
-
-    & > *:last-child {
-        margin-bottom: 0;
-    }
+    padding: 30px;
 }
 
 .Right {

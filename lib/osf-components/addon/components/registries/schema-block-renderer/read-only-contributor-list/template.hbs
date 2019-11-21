@@ -9,7 +9,10 @@
         <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{this.schemaBlock.helpText}} />
     {{/if}}
 </div>
-<div data-test-edit-contributors>
+<div
+    data-test-edit-contributors
+    local-class='EditContributors'
+>
     <!-- TODO: change link to a route when we emberize contributors page -->
     <OsfLink
         data-test-to-contributors-page

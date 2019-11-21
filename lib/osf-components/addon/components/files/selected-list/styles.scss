@@ -1,7 +1,7 @@
 .selected-list {
     display: flex;
     flex-wrap: wrap;
-    margin: 10px 0;
+    margin: 10px 0 0;
 
     :global(.animated-container) {
         display: flex;
@@ -12,7 +12,7 @@
 .info {
     color: $color-text-gray-light;
     font-size: small;
-    margin: 15px 0;
+    margin: 10px 0 0;
 }
 
 .selected-item {
