@@ -27,7 +27,6 @@ export default class DraftRegistrationRoute extends Route.extend({
                 { adapterOptions: { include: 'branched_from' } },
             );
             const node = yield draftRegistration.branchedFrom;
-            yield node.loadRelatedCount('children');
             return { draftRegistration, node };
         } catch (error) {
             this.transitionTo('page-not-found', this.router.currentURL.slice(1));

@@ -21,6 +21,16 @@ export default class Register extends Component.extend({
             this.setProperties({ rootNode });
         }
     }).on('didReceiveAttrs').restartable(),
+    fetchNodeChildrenRelatedCounts: task(function *(this: Register) {
+        if (this.rootNode) {
+            yield this.rootNode.loadRelatedCount('children');
+        }
+        if (this.rootNode && this.rootNode.relatedCounts.children > 0) {
+            this.showPartialRegDialog();
+        } else {
+            this.showFinalizeRegDialog();
+        }
+    }),
 }) {
     @service store!: DS.Store;
 
@@ -30,7 +40,7 @@ export default class Register extends Component.extend({
 
     // Private
     registration!: Registration;
-    rootNode!: NodeModel;
+    rootNode?: NodeModel;
     onSubmitRedirect?: (registrationId: string) => void;
     @alias('draftManager.hasInvalidResponses') isInvalid?: boolean;
 
@@ -52,11 +62,7 @@ export default class Register extends Component.extend({
 
             this.setProperties({ registration });
         }
-        if (this.rootNode && this.rootNode.relatedCounts.children > 0) {
-            this.showPartialRegDialog();
-        } else {
-            this.showFinalizeRegDialog();
-        }
+        this.fetchNodeChildrenRelatedCounts.perform();
     }
 
     @action
@@ -108,7 +114,7 @@ export default class Register extends Component.extend({
     @action
     onBack() {
         this.closeFinalizeRegDialog();
-        if (this.rootNode.relatedCounts.children > 0) {
+        if (this.rootNode && this.rootNode.relatedCounts.children > 0) {
             run.next(this, () => {
                 this.showPartialRegDialog();
             });

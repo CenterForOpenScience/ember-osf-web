@@ -6,7 +6,11 @@
     @onClick={{action this.onRegister}}
     @disabled={{not this.draftManager.registrationResponsesIsValid}}
 >
-    {{t 'registries.drafts.draft.register'}}
+    {{#if this.fetchNodeChildrenRelatedCounts.isRunning}}
+        <LoadingIndicator @inline={{true}} />
+    {{else}}
+        {{t 'registries.drafts.draft.register'}}
+    {{/if}}
 </OsfButton>
 {{#if (and this.isInvalid (not @showMobileView))}}
     <div data-test-invalid-responses-text class='text-danger'>
