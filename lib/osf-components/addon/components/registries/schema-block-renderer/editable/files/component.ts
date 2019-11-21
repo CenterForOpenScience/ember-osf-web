@@ -8,7 +8,7 @@ import { assert } from '@ember/debug';
 import { ChangesetDef } from 'ember-changeset/types';
 import File from 'ember-osf-web/models/file';
 import NodeModel from 'ember-osf-web/models/node';
-import { FileReference, SchemaBlock } from 'ember-osf-web/packages/registration-schema';
+import { SchemaBlock } from 'ember-osf-web/packages/registration-schema';
 import Analytics from 'ember-osf-web/services/analytics';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -28,7 +28,7 @@ export default class Files extends Component {
 
     @alias('schemaBlock.registrationResponseKey')
     valuePath!: string;
-    selectedFiles: FileReference[] = [];
+    selectedFiles: File[] = [];
     onInput!: () => void;
 
     didReceiveAttrs() {
@@ -53,16 +53,16 @@ export default class Files extends Component {
     }
 
     @action
-    select(file: FileReference) {
+    select(file: File) {
         this.selectedFiles.pushObject(file);
         this.changeset.set(this.valuePath, this.selectedFiles);
         this.onInput();
     }
 
     @action
-    unselect(file: FileReference) {
+    unselect(file: File) {
         const newSelectedFiles = this.selectedFiles.filter(
-            (selectedFile: FileReference) => selectedFile.file_id !== file.file_id,
+            selectedFile => selectedFile.id !== file.id,
         );
         this.set('selectedFiles', newSelectedFiles);
         this.changeset.set(this.valuePath, this.selectedFiles);
@@ -71,8 +71,7 @@ export default class Files extends Component {
 
     @action
     onSelectFile(selectedFile: File) {
-        const selectedfileRef = selectedFile.toFileReference();
-        const isSelected = this.selectedFiles.some(fileRef => selectedfileRef.file_id === fileRef.file_id);
+        const isSelected = this.selectedFiles.some(file => selectedFile.id === file.id);
 
         this.analytics.trackFromElement(this.element, {
             name: `${isSelected ? 'Unselect file' : 'Select file'}`,
@@ -81,15 +80,14 @@ export default class Files extends Component {
         });
 
         if (isSelected) {
-            this.unselect(selectedfileRef);
+            this.unselect(selectedFile);
         } else {
-            this.select(selectedfileRef);
+            this.select(selectedFile);
         }
     }
 
     @action
     onAddFile(addedFile: File) {
-        const addedfileRef = addedFile.toFileReference();
-        this.select(addedfileRef);
+        this.select(addedFile);
     }
 }

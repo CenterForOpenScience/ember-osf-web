@@ -4,6 +4,7 @@ import EmberObject from '@ember/object';
 import Changeset from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
 import { ChangesetDef } from 'ember-changeset/types';
+import NodeModel from 'ember-osf-web/models/node';
 import {
     buildValidation,
     getSchemaBlockGroups,
@@ -18,7 +19,7 @@ export class PageManager extends EmberObject {
     pageHeadingText?: string;
     isVisited?: boolean;
 
-    constructor(pageSchemaBlocks: SchemaBlock[], registrationResponses: RegistrationResponse) {
+    constructor(pageSchemaBlocks: SchemaBlock[], registrationResponses: RegistrationResponse, node: NodeModel) {
         super();
         this.schemaBlockGroups = getSchemaBlockGroups(pageSchemaBlocks);
         if (this.schemaBlockGroups) {
@@ -29,7 +30,7 @@ export class PageManager extends EmberObject {
                 ({ registrationResponseKey: key }) => Boolean(key && (key in registrationResponses)),
             );
 
-            const validations = buildValidation(this.schemaBlockGroups);
+            const validations = buildValidation(this.schemaBlockGroups, node);
             this.changeset = new Changeset(
                 registrationResponses,
                 lookupValidator(validations),
