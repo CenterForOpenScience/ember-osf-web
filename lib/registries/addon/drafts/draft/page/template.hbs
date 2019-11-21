@@ -12,6 +12,7 @@
     <Registries::DraftRegistrationManager
         @currentPage={{this.pageIndex}}
         @draftRegistration={{this.draftRegistration}}
+        @node={{this.node}}
         @inReview={{this.inReview}}
         @updateRoute={{action this.updateRoute}}
         @onPageNotFound={{action this.onPageNotFound}}
@@ -37,6 +38,7 @@
                         @draftRegistration={{this.draftRegistration}}
                         @onSubmitRedirect={{action this.onSubmitRedirect}}
                         @pageIndex={{this.pageIndex}}
+                        @node={{this.node}}
                     />
                 {{/if}}
                 <layout.leftNav as |leftNav|>
@@ -89,6 +91,7 @@
                                 @draftRegistration={{this.draftRegistration}}
                                 @draftManager={{draftManager}}
                                 @onSubmitRedirect={{action this.onSubmitRedirect}}
+                                @node={{this.node}}
                             />
                         {{/if}}
                         {{#if (eq draftManager.lastPage this.pageIndex)}}
