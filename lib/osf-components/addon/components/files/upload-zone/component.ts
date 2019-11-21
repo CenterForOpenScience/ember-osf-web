@@ -19,7 +19,6 @@ import uniqueId from 'ember-osf-web/utils/unique-id';
 
 import { Resource } from 'osf-api';
 import { FilesManager } from 'osf-components/components/files/manager/component';
-import styles from './styles';
 import template from './template';
 
 interface FileResource extends Resource {
@@ -34,7 +33,7 @@ interface UploadResponse {
 }
 /* eslint-enable camelcase */
 
-@layout(template, styles)
+@layout(template)
 export default class UploadZone extends Component.extend({
     success: task(function *(this: UploadZone, _: unknown, __: unknown, file: File, response: UploadResponse) {
         this.analytics.trackFromElement(this.element, {
@@ -46,21 +45,6 @@ export default class UploadZone extends Component.extend({
         yield this.filesManager.addFile(fileId.replace(/^.*\//, ''));
 
         this.uploading.removeObject(file);
-    }),
-    createFolder: task(function *(this: UploadZone, closeDialog?: () => void) {
-        const { inRootFolder, currentFolder, fileProvider } = this.filesManager;
-        const parentFolder = inRootFolder ? fileProvider : currentFolder;
-
-        const newFolder = yield parentFolder.createFolder(this.newFolderName);
-        const folder = inRootFolder ? fileProvider.rootFolder : currentFolder;
-
-        folder.files.pushObject(newFolder);
-
-        if (closeDialog) {
-            closeDialog();
-        }
-
-        this.setProperties({ newFolderName: '' });
     }),
 }) {
     @service toast!: Toast;
@@ -81,8 +65,6 @@ export default class UploadZone extends Component.extend({
     };
     uploadButtonClass = uniqueId(['dz-upload-button']);
     buttonClass = '';
-    newFolderName = '';
-    isOpen = false;
 
     @alias('filesManager.canEdit') canEdit!: boolean;
     @notEmpty('uploading') isUploading!: boolean;
@@ -129,7 +111,7 @@ export default class UploadZone extends Component.extend({
         const { name } = files[0];
         const existingFile = this.filesManager.displayedItems.findBy('itemName', name);
 
-        return existingFile ? existingFile.links.upload : `${this.uploadUrl}?${$.param({ name })}`;
+        return existingFile ? existingFile.links.upload : `${this.uploadUrl}?${$.param({ kind: 'file', name })}`;
     }
 
     @action
@@ -141,15 +123,5 @@ export default class UploadZone extends Component.extend({
         } else {
             this.setProperties({ buttonClass });
         }
-    }
-
-    @action
-    closeDialog() {
-        this.set('isOpen', false);
-    }
-
-    @action
-    openDialog() {
-        this.set('isOpen', true);
     }
 }

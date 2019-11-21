@@ -1,8 +1,10 @@
 import { attr } from '@ember-decorators/data';
 import { computed } from '@ember-decorators/object';
 import { or } from '@ember-decorators/object/computed';
+import { assert } from '@ember/debug';
 import { Link } from 'jsonapi-typescript';
 
+import getHref from 'ember-osf-web/utils/get-href';
 import { addQueryParam } from 'ember-osf-web/utils/url-parts';
 import OsfModel, { OsfLinks } from './osf-model';
 
@@ -43,25 +45,30 @@ export default class BaseFileItem extends OsfModel {
         return this.isFileModel && this.kind === FileItemKinds.File;
     }
 
-    async createFolder(newFolderName: string): Promise<unknown> {
-        if (this.isFile) {
-            return Promise.reject(Error('Can only create subfolders inside a folder.'));
+    async createFolder(newFolderName: string): Promise<{ newFolderId: string }> {
+        const {
+            isFolder,
+            isProvider,
+            links: { new_folder: newFolderLink },
+        } = this;
+
+        if (!isFolder && !isProvider) {
+            throw Error('Can only create subfolders inside a folder.');
         }
 
-        const newFolderLink = this.links.new_folder as string;
-        const response = await this.currentUser.authenticatedAJAX({
-            url: addQueryParam(newFolderLink, 'name', newFolderName),
-            type: 'PUT',
-            xhrFields: {
-                withCredentials: true,
-            },
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        const { path } = response.data.attributes;
-        const id = path.replace(/\//g, '');
+        assert('Could not find new_folder link', Boolean(newFolderLink));
 
-        return this.store.findRecord('file', id);
+        const link = getHref(newFolderLink!);
+        const response = await this.currentUser.authenticatedAJAX({
+            url: addQueryParam(link, 'name', newFolderName),
+            type: 'PUT',
+        });
+
+        const { path } = response.data.attributes;
+        // WB response path /<object_id>/ for OsfStorage folders.
+        // Change when we support other storage addons.
+        const newFolderId = path.replace(/\//g, '');
+
+        return { newFolderId };
     }
 }

@@ -1,0 +1,35 @@
+<OsfDialog
+    @isOpen={{@isOpen}}
+    @onClose={{@closeDialog}}
+    as |dialog|
+>
+    <dialog.heading>
+        {{t 'osf-components.files-widget.create_folder'}}
+    </dialog.heading>
+    <dialog.main local-class='dialog-main'>
+        <FormControls
+            @changeset={{this.changeset}}
+            as |form|
+        >
+            <form.text
+                @placeholder={{t 'osf-components.files-widget.folder_name_placeholder'}}
+                @valuePath='name'
+            />
+        </FormControls>
+    </dialog.main>
+    <dialog.footer>
+        <OsfButton
+            @type='default'
+            @onClick={{dialog.close}}
+        >
+            {{t 'general.cancel'}}
+        </OsfButton>
+        <OsfButton
+            @type='primary'
+            @onClick={{perform this.createFolder (hash onSuccess=dialog.close)}}
+            @disabled={{this.shouldDisableButtons}}
+        >
+            {{t 'osf-components.files-widget.create'}}
+        </OsfButton>
+    </dialog.footer>
+</OsfDialog>
