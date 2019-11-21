@@ -3,10 +3,14 @@
     data-analytics-name='Go to register'
     local-class='registerButton {{if @showMobileView 'mobileReviewButtonItem'}}'
     @type='success'
-    @onClick={{action this.onRegister}}
+    @onClick={{perform this.onClickRegister}}
     @disabled={{not this.draftManager.registrationResponsesIsValid}}
 >
-    {{t 'registries.drafts.draft.register'}}
+    {{#if this.onClickRegister.isRunning}}
+        <LoadingIndicator @inline={{true}} />
+    {{else}}
+        {{t 'registries.drafts.draft.register'}}
+    {{/if}}
 </OsfButton>
 {{#if (and this.isInvalid (not @showMobileView))}}
     <div data-test-invalid-responses-text class='text-danger'>
