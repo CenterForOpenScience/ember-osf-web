@@ -1,12 +1,14 @@
 {{assert @schemaBlock 'Registries::SchemaBlockRenderer::Label::LabelContent requires a @schemaBlock'}}
 <span data-test-label-content ...attributes>
-    {{@schemaBlock.displayText}}
-    {{#if (and @isRequired (not @readonly))}}
-        <span local-class='Required'>*</span>
-    {{/if}}
+    <div local-class='LabelWrapper'>
+        {{~@schemaBlock.displayText~}}
+        {{#if (and @isRequired (not @readonly))~}}
+            <span local-class='Required'>*</span>
+        {{~/if}}
+    </div>
     {{#if @isEditableForm}}
         <div local-class='HelpText'>
-            {{@schemaBlock.helpText}}
+            {{~@schemaBlock.helpText~}}
         </div>
         {{#if @schemaBlock.exampleText}}
             <OsfButton

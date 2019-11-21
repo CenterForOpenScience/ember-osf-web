@@ -1,5 +1,10 @@
 .Required {
     color: $brand-danger;
+    margin-left: 5px;
+}
+
+.LabelWrapper {
+    white-space: pre-wrap;
 }
 
 .HelpText {
