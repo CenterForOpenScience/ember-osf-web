@@ -1702,6 +1702,12 @@ export default {
             expandSideNav: 'Expand registration form navigation',
             collapseSideNav: 'Collapse registration form navigation',
         },
+        'registries-top-nav': {
+            showRegistrationNavigation: 'Show registration navigation',
+            previousPage: 'Previous page',
+            nextPage: 'Next page',
+            reviewRegistration: 'Review registration',
+        },
     },
     settings: {
         toggleNav: 'Toggle navigation',
