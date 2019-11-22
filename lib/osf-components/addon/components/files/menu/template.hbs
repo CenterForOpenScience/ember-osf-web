@@ -18,16 +18,15 @@
         <div
             role='menu'
             local-class='actions-menu-content'
-            {{did-insert @updateClickable}}
-            {{will-destroy @updateClickable}}
-            {{on 'click' dropdownMenu.close}}
+            {{did-insert (action @setButtonClass this.uploadButtonClass)}}
+            {{will-destroy (action @setButtonClass '')}}
         >
             <OsfButton
                 aria-label={{t 'osf-components.files-widget.upload_file'}}
                 local-class='menu-button'
                 @type='link'
                 @bubble={{true}}
-                @class='{{@uploadButtonClass}}'
+                @class='{{this.uploadButtonClass}}'
                 @disabled={{@isUploading}}
             >
                 <FaIcon @icon='upload' @fixedWidth={{true}} />
@@ -36,7 +35,7 @@
             <OsfButton
                 aria-label={{t 'osf-components.files-widget.create_folder'}}
                 local-class='menu-button'
-                onclick={{action this.openDialog}}
+                @onClick={{action this.openDialog (hash onOpenDialog=dropdownMenu.close)}}
                 @type='link'
             >
                 <FaIcon @icon='folder' @fixedWidth={{true}} />
@@ -44,6 +43,8 @@
             </OsfButton>
         </div>
     </dropdownMenu.content>
+
+    {{yield (hash close=dropdownMenu.close)}}
 </ResponsiveDropdown>
 
 <Files::Menu::CreateFolder

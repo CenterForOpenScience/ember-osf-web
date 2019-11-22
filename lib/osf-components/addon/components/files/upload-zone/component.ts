@@ -15,7 +15,6 @@ import { layout } from 'ember-osf-web/decorators/component';
 import File from 'ember-osf-web/models/file';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
-import uniqueId from 'ember-osf-web/utils/unique-id';
 
 import { Resource } from 'osf-api';
 import { FilesManager } from 'osf-components/components/files/manager/component';
@@ -46,6 +45,15 @@ export default class UploadZone extends Component.extend({
 
         this.uploading.removeObject(file);
     }),
+    preUpload: task(function *(this: UploadZone, _: unknown, __: unknown, file: File) {
+        let existingFile = this.filesManager.displayedItems.findBy('itemName', file.name);
+        if (!existingFile) {
+            [existingFile] = yield this.filesManager.currentFolder.queryHasMany('files', {
+                'filter[name][eq]': file.name,
+            });
+        }
+        this.setProperties({ existingFile });
+    }),
 }) {
     @service toast!: Toast;
     @service analytics!: Analytics;
@@ -63,8 +71,8 @@ export default class UploadZone extends Component.extend({
         preventMultipleFiles: true,
         acceptDirectories: false,
     };
-    uploadButtonClass = uniqueId(['dz-upload-button']);
     buttonClass = '';
+    existingFile?: File;
 
     @alias('filesManager.canEdit') canEdit!: boolean;
     @notEmpty('uploading') isUploading!: boolean;
@@ -109,19 +117,18 @@ export default class UploadZone extends Component.extend({
     @action
     buildUrl(files: File[]) {
         const { name } = files[0];
-        const existingFile = this.filesManager.displayedItems.findBy('itemName', name);
+        const { existingFile } = this;
 
-        return existingFile ? existingFile.links.upload : `${this.uploadUrl}?${$.param({ kind: 'file', name })}`;
+        if (existingFile) {
+            assert('preUpload and buildUrl were called with different files!', name === existingFile.name);
+            return existingFile.links.upload;
+        }
+
+        return `${this.uploadUrl}?${$.param({ kind: 'file', name })}`;
     }
 
     @action
-    updateClickable() {
-        const { uploadButtonClass: buttonClass } = this;
-
-        if (this.buttonClass) {
-            this.setProperties({ buttonClass: '' });
-        } else {
-            this.setProperties({ buttonClass });
-        }
+    setButtonClass(buttonClass: string = '') {
+        this.setProperties({ buttonClass });
     }
 }

@@ -4,6 +4,7 @@ import { alias } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
 
 import { layout } from 'ember-osf-web/decorators/component';
+import uniqueId from 'ember-osf-web/utils/unique-id';
 
 import { FilesManager } from 'osf-components/components/files/manager/component';
 import styles from './styles';
@@ -14,6 +15,7 @@ import template from './template';
 export default class FilesMenu extends Component {
     filesManager!: FilesManager;
     newFolderDialogIsOpen = false;
+    uploadButtonClass = uniqueId(['dz-upload-button']);
 
     @alias('filesManager.canEdit') canEdit!: boolean;
 
@@ -23,7 +25,13 @@ export default class FilesMenu extends Component {
     }
 
     @action
-    openDialog() {
+    openDialog(options: { onOpenDialog?: () => void }) {
+        const { onOpenDialog } = options;
+
         this.set('newFolderDialogIsOpen', true);
+
+        if (onOpenDialog) {
+            onOpenDialog();
+        }
     }
 }
