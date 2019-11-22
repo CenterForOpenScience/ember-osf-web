@@ -1,20 +1,23 @@
 import { tagName } from '@ember-decorators/component';
-import { action } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-
 import { ChangesetDef } from 'ember-changeset/types';
+import config from 'ember-get-config';
+
+import { layout } from 'ember-osf-web/decorators/component';
 import File from 'ember-osf-web/models/file';
 import NodeModel from 'ember-osf-web/models/node';
 import { FileReference, SchemaBlock } from 'ember-osf-web/packages/registration-schema';
 import Analytics from 'ember-osf-web/services/analytics';
-
-import { layout } from 'ember-osf-web/decorators/component';
+import pathJoin from 'ember-osf-web/utils/path-join';
 
 import styles from './styles';
 import template from './template';
+
+const { OSF: { url: baseURL } } = config;
 
 @layout(template, styles)
 @tagName('')
@@ -30,6 +33,11 @@ export default class Files extends Component {
     valuePath!: string;
     selectedFiles: FileReference[] = [];
     onInput!: () => void;
+
+    @computed('node')
+    get nodeUrl() {
+        return this.node && pathJoin(baseURL, this.node.id);
+    }
 
     didReceiveAttrs() {
         assert(

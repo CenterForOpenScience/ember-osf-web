@@ -1,18 +1,11 @@
 .selected-list {
     display: flex;
     flex-wrap: wrap;
-    margin: 10px 0 0;
 
     :global(.animated-container) {
         display: flex;
         flex-wrap: wrap;
     }
-}
-
-.info {
-    color: $color-text-gray-light;
-    font-size: small;
-    margin: 10px 0 0;
 }
 
 .selected-item {
