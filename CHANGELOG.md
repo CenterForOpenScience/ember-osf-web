@@ -35,8 +35,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `drafts/draft/-components/register`
     - Routes
         - `registries`
-            - `drafts.draft`, `draft/<draftId>/<page>`
-            - `drafts.draft-shim`, `draft/<draftId>/` redirects to `draft/<draftId>/1`
+            - `drafts.draft`, `draft/<draftId>`
+                - index route redirects to `draft/<draftId>/1`
+            - `drafts.draft.page`, `draft/<draftId>/<page>`
 - Utils
     - `page-param`
 - Tests
