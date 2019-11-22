@@ -1,16 +1,17 @@
 .FilesInstructions {
+    composes: Element from '../../styles';
+
     color: $color-text-gray-light;
-    margin: 10px 0 0;
 }
 
 .SelectedList {
-    margin: 10px 0 0;
+    composes: Element from '../../styles';
 }
 
 .ValidationErrors {
-    margin: 10px 0 0;
+    composes: Element from '../../styles';
 }
 
 .FilesWidget {
-    margin: 10px 0 0;
+    composes: Element from '../../styles';
 }
