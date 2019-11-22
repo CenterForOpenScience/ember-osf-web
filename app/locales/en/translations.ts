@@ -1703,7 +1703,7 @@ export default {
             collapseSideNav: 'Collapse registration form navigation',
         },
         'registries-top-nav': {
-            showRegistrationNavigation: 'Show registration navigation',
+            showRegistrationNavigation: 'Show registration form navigation',
             previousPage: 'Previous page',
             nextPage: 'Next page',
             reviewRegistration: 'Review registration',
