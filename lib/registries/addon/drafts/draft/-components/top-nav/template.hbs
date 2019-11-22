@@ -1,0 +1,62 @@
+<@layout.top as |layout|>
+    <Navbar local-class='SideBarToggle' ...attributes as |nav|>
+        <nav.bordered-section>
+            <nav.buttons.default
+                data-analytics-name='Show sidenav'
+                @onclick={{action layout.toggleSidenav}}
+            >
+                <nav.icon @icon={{if layout.sidenavGutterClosed 'bars' 'times'}} />
+            </nav.buttons.default>
+        </nav.bordered-section>
+        <nav.bordered-section local-class='MobileNavPageLabelSection'>
+            <div local-class='MobileNavPageLabel'>
+                {{#if @inReview}}
+                    {{t 'registries.drafts.draft.review.page_label'}}
+                {{else}}
+                    {{@draftManager.currentPageManager.pageHeadingText}}
+                {{/if}}
+            </div>
+        </nav.bordered-section>
+        <nav.bordered-section>
+            {{#if @draftManager.prevPageParam}}
+                <nav.links.default
+                    data-test-goto-previous-page
+                    data-analytics-name='Sidenav back'
+                    @route='registries.drafts.draft'
+                    @models={{array @draftManager.draftId @draftManager.prevPageParam}}
+                >
+                    <nav.icon @icon='arrow-left' />
+                </nav.links.default>
+            {{/if}}
+            {{#if @draftManager.nextPageParam}}
+                <nav.links.default
+                    data-test-goto-next-page
+                    data-analytics-name='Sidenav next'
+                    @route='registries.drafts.draft'
+                    @models={{array @draftManager.draftId @draftManager.nextPageParam}}
+                    @onClick={{@draftManager.setPageIsVisited}}
+                >
+                    <nav.icon @icon='arrow-right' />
+                </nav.links.default>
+            {{/if}}
+            {{#if (eq @draftManager.lastPage @pageIndex)}}
+                <nav.links.default
+                    data-test-goto-review
+                    data-analytics-name='Sidenav review'
+                    @route='registries.drafts.draft'
+                    @models={{array @draftManager.draftId 'review'}}
+                >
+                    <nav.icon @icon='arrow-right' />
+                </nav.links.default>
+            {{/if}}
+            {{#if @inReview}}
+                <Drafts::Draft::-Components::Register
+                    @draftRegistration={{@draftRegistration}}
+                    @draftManager={{@draftManager}}
+                    @onSubmitRedirect={{action @onSubmitRedirect}}
+                    @showMobileView={{true}}
+                />
+            {{/if}}
+        </nav.bordered-section>
+    </Navbar>
+</@layout.top>

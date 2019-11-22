@@ -30,16 +30,13 @@
                     </h1>
                 </layout.heading>
                 {{#if this.showMobileView}}
-                    <layout.top
+                    <Drafts::Draft::-Components::TopNav
+                        @layout={{layout}}
                         @inReview={{this.inReview}}
                         @draftManager={{draftManager}}
                         @draftRegistration={{this.draftRegistration}}
                         @onSubmitRedirect={{action this.onSubmitRedirect}}
                         @pageIndex={{this.pageIndex}}
-                        @prevPageParam={{draftManager.prevPageParam}}
-                        @nextPageParam={{draftManager.nextPageParam}}
-                        @draftId={{draftManager.draftId}}
-                        @lastPage={{draftManager.lastPage}}
                     />
                 {{/if}}
                 <layout.leftNav as |leftNav|>
