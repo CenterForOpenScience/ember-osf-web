@@ -13,11 +13,7 @@
 
 .Main {
     background: $white;
-    padding: 0 30px 30px;
-
-    & > *:last-child {
-        margin-bottom: 0;
-    }
+    padding: 30px;
 }
 
 .Right {
@@ -117,4 +113,6 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-weight: 600;
+    color: $color-text-black;
 }

@@ -40,7 +40,7 @@ module('Registries | Acceptance | draft form', hooks => {
         await visit(`/registries/drafts/${registration.id}/`);
 
         assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/1-`), 'At first schema page');
-        assert.equal(currentRouteName(), 'registries.drafts.draft', 'At the expected route');
+        assert.equal(currentRouteName(), 'registries.drafts.draft.page', 'At the expected route');
     });
 
     test('it redirects page-not-found if the pageIndex route param is out of range', async assert => {

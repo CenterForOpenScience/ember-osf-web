@@ -1,32 +1,30 @@
-{{assert @schemaBlock 'Registries::SchemaBlockRenderer::Label::LabelContent requires a @schemaBlock'}}
-<span data-test-label-content ...attributes>
-    {{@schemaBlock.displayText}}
-    {{#if (and @isRequired (not @readonly))}}
-        <span local-class='Required'>
-            {{t 'osf-components.registries.schema-block-renderer/label.required'}}
-        </span>
-    {{/if}}
-    {{#if @isEditableForm}}
-        <div local-class='HelpText'>
-            {{@schemaBlock.helpText}}
-        </div>
-        {{#if @schemaBlock.exampleText}}
-            <OsfButton
-                local-class='ExampleButton'
-                @type='link'
-                @onClick={{action this.toggleShouldShowExample}}
-            >
-                {{#if this.shouldShowExample}}
-                    {{t 'osf-components.registries.schema-block-renderer/label.hideExample'}}
-                {{else}}
-                    {{t 'osf-components.registries.schema-block-renderer/label.showExample'}}
-                {{/if}}
-            </OsfButton>
+{{assert 'Registries::SchemaBlockRenderer::Label::LabelContent requires a @schemaBlock' @schemaBlock}}
+<p local-class='DisplayText'>
+    {{~@schemaBlock.displayText~}}
+    {{~#if (and @isRequired (not @readonly))~}}
+        <span local-class='Required'>*</span>
+    {{~/if~}}
+</p>
+{{#if @isEditableForm}}
+    <p local-class='HelpText'>
+        {{~@schemaBlock.helpText~}}
+    </p>
+    {{#if @schemaBlock.exampleText}}
+        <OsfButton
+            local-class='ExampleButton'
+            @type='link'
+            @onClick={{action this.toggleShouldShowExample}}
+        >
             {{#if this.shouldShowExample}}
-                <p local-class='ExampleText'>
-                    {{this.schemaBlock.exampleText}}
-                </p>
+                {{t 'osf-components.registries.schema-block-renderer/label.hideExample'}}
+            {{else}}
+                {{t 'osf-components.registries.schema-block-renderer/label.showExample'}}
             {{/if}}
+        </OsfButton>
+        {{#if this.shouldShowExample}}
+            <p local-class='ExampleText'>
+                {{~this.schemaBlock.exampleText~}}
+            </p>
         {{/if}}
     {{/if}}
-</span>
+{{/if}}

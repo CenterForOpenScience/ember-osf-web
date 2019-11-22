@@ -1,5 +1,19 @@
 .input-flexbox {
+    composes: Element from '../../styles';
+
     display: flex;
+
+    &:first-child {
+        margin: 0;
+    }
+
+    :global(.form-group) {
+        margin: 0;
+    }
+
+    :global(.help-block) {
+        margin: 2px 0 0;
+    }
 }
 
 .input-box {
