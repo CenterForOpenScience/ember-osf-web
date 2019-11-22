@@ -33,6 +33,7 @@
                             <nav.bordered-section>
                                 <nav.buttons.default
                                     data-analytics-name='Show sidenav'
+                                    aria-label={{t 'osf-components.registries-top-nav.showRegistrationNavigation'}}
                                     @onclick={{layout.toggleSidenav}}
                                 >
                                     <nav.icon @icon={{if layout.sidenavGutterClosed 'bars' 'times'}} />
@@ -51,7 +52,8 @@
                                 {{#if draftManager.prevPageParam}}
                                     <nav.links.default
                                         data-test-goto-previous-page
-                                        data-analytics-name='Sidenav back'
+                                        data-analytics-name='Topnav back'
+                                        aria-label={{t 'osf-components.registries-top-nav.previousPage'}}
                                         @route='registries.drafts.draft.page'
                                         @models={{array draftManager.draftId draftManager.prevPageParam}}
                                     >
@@ -61,7 +63,8 @@
                                 {{#if draftManager.nextPageParam}}
                                     <nav.links.default
                                         data-test-goto-next-page
-                                        data-analytics-name='Sidenav next'
+                                        data-analytics-name='Topnav next'
+                                        aria-label={{t 'osf-components.registries-top-nav.nextPage'}}
                                         @route='registries.drafts.draft.page'
                                         @models={{array draftManager.draftId draftManager.nextPageParam}}
                                         @onClick={{draftManager.setPageIsVisited}}
@@ -72,7 +75,8 @@
                                 {{#if (eq draftManager.lastPage this.pageIndex)}}
                                     <nav.links.default
                                         data-test-goto-review
-                                        data-analytics-name='Sidenav review'
+                                        data-analytics-name='Topnav review'
+                                        aria-label={{t 'osf-components.registries-top-nav.reviewRegistration'}}
                                         @route='registries.drafts.draft.page'
                                         @models={{array draftManager.draftId 'review'}}
                                     >
