@@ -1,8 +1,15 @@
-.Required {
-    color: $brand-danger;
+.DisplayText {
+    white-space: pre-wrap;
 }
 
+.Required {
+    color: $brand-danger;
+    margin-left: 0.25em;
+}
+
+
 .HelpText {
+    white-space: pre-wrap;
     font-weight: 400;
     margin-top: 10px;
 }
@@ -14,6 +21,7 @@
 }
 
 .ExampleText {
+    white-space: pre-wrap;
     font-weight: 400;
     margin-top: 10px;
 }
