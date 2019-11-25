@@ -2,17 +2,12 @@ import { attr, belongsTo } from '@ember-decorators/data';
 import DS from 'ember-data';
 import { Link } from 'jsonapi-typescript';
 
-import BaseFileItem from './base-file-item';
+import BaseFileItem, { BaseFileLinks } from './base-file-item';
 import FileModel from './file';
 import NodeModel from './node';
-import { OsfLinks } from './osf-model';
 
-export interface FileProviderLinks extends OsfLinks {
-    upload: Link;
+export interface FileProviderLinks extends BaseFileLinks {
     storage_addons: Link; // eslint-disable-line camelcase
-
-    // only for folders
-    new_folder?: Link; // eslint-disable-line camelcase
 }
 
 export default class FileProviderModel extends BaseFileItem {

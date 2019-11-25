@@ -585,6 +585,7 @@ export default {
         mustSelect: 'You must select a value for this field.',
         mustSelectMinOne: 'You must select at least one value for this field.',
         mustSelectFileMinOne: 'You must select at least one file for this field.',
+        new_folder_name: 'Folder name must not be blank.',
     },
     validated_input_form: {
         discard_changes: 'Discard changes',
@@ -1686,6 +1687,12 @@ export default {
             drag_drop_files: 'Drag and drop files here to upload files to this folder',
             load_more: 'Load more files',
             unselect_file: 'Unselect file',
+            upload_file: 'Upload file',
+            expand_files_menu: 'Expand files menu',
+            create_folder: 'Create folder',
+            create: 'Create',
+            folder_name_placeholder: 'New folder name',
+            create_folder_failed: 'Failed to create folder',
         },
         subjects: {
             browse: {
