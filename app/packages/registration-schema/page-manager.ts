@@ -19,7 +19,7 @@ export class PageManager extends EmberObject {
     pageHeadingText?: string;
     isVisited?: boolean;
 
-    constructor(pageSchemaBlocks: SchemaBlock[], registrationResponses: RegistrationResponse, node: NodeModel) {
+    constructor(pageSchemaBlocks: SchemaBlock[], registrationResponses: RegistrationResponse, node?: NodeModel) {
         super();
         this.schemaBlockGroups = getSchemaBlockGroups(pageSchemaBlocks);
         if (this.schemaBlockGroups) {

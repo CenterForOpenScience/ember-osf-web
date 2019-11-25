@@ -9,7 +9,7 @@ import { validateFileList } from 'ember-osf-web/validators/validate-response-for
 
 // TODO: find a way to use i18n to translate error messages
 
-export function buildValidation(groups: SchemaBlockGroup[], node: NodeModel) {
+export function buildValidation(groups: SchemaBlockGroup[], node?: NodeModel) {
     const ret: ValidationObject<RegistrationResponse> = {};
     groups.forEach((group: SchemaBlockGroup) => {
         // only validating groups with actual inputs and not groups that are headings/labels only

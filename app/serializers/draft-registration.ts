@@ -70,7 +70,7 @@ export default class DraftRegistrationSerializer extends OsfSerializer {
     serializeAttribute(snapshot: DS.Snapshot, json: JsonPayload, key: string, attribute: object): void {
         super.serializeAttribute(snapshot, json, key, attribute);
 
-        if (key === 'registrationResponses') {
+        if (key === 'registrationResponses' && json.attributes) {
             const underscoreKey = this.keyForAttribute(key);
             const registrationResponses = json.attributes[underscoreKey] as NormalizedRegistrationResponse;
 
