@@ -1,5 +1,4 @@
 .ContentBackground {
-    display: flex;
     flex-grow: 1;
     justify-content: center;
     background-image: url('img/bg-light.jpg');
@@ -13,11 +12,7 @@
 
 .Main {
     background: $white;
-    padding: 0 30px 30px;
-
-    & > *:last-child {
-        margin-bottom: 0;
-    }
+    padding: 30px;
 }
 
 .Right {
@@ -117,4 +112,12 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-weight: 600;
+    color: $color-text-black;
+}
+
+@media screen and (min-width: 992px) {
+    .ContentBackground {
+        display: flex;
+    }
 }

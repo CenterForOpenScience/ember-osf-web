@@ -6,6 +6,7 @@
   "dependencies": {
     "ember-angle-bracket-invocation-polyfill": "*",
     "ember-animated": "*",
+    "ember-basic-dropdown": "*",
     "ember-bootstrap": "*",
     "ember-bootstrap-datepicker": "*",
     "ember-cli-babel": "*",

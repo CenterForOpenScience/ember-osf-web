@@ -5,9 +5,15 @@ import { not } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import calculatePosition from 'ember-basic-dropdown/utils/calculate-position';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import Media from 'ember-responsive';
 
+import { layout } from 'ember-osf-web/decorators/component';
+import defaultTo from 'ember-osf-web/utils/default-to';
+
+import styles from './styles';
+import template from './template';
+
+@layout(template, styles)
 export default class ResponsiveDropdown extends Component {
     @service media!: Media;
 
@@ -17,6 +23,7 @@ export default class ResponsiveDropdown extends Component {
     inTestMode: boolean = Ember.testing;
     renderInPlace: boolean = defaultTo(this.renderInPlace, false);
     horizontalPosition: string = defaultTo(this.horizontalPosition, 'right');
+    verticalPosition: string = defaultTo(this.verticalPosition, 'below');
 
     @computed('inTestMode', 'useOverlay', 'renderInPlace')
     get shouldRenderInPlace() {
@@ -37,8 +44,8 @@ export default class ResponsiveDropdown extends Component {
     @action
     calculatePosition(this: ResponsiveDropdown, ...args: any[]): object {
         // On Desktop
+        const pos = calculatePosition(...args);
         if (!this.useOverlay) {
-            const pos = calculatePosition(...args);
             if (pos && pos.style) {
                 pos.style.top += 10;
             }
@@ -52,7 +59,7 @@ export default class ResponsiveDropdown extends Component {
         const { height: dropdownHeight, width: dropdownWidth } = content.getBoundingClientRect();
         content.style.marginLeft = `${-(dropdownWidth / 2)}px`;
         content.style.marginTop = `${-(dropdownHeight / 2)}px`;
-        content.style.top = '50%';
+        content.style.top = `${pos.style.top}px`;
         content.style.left = '50%';
         content.style.right = '';
 

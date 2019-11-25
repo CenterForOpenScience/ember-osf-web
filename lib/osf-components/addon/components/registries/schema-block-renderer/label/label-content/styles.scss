@@ -9,19 +9,24 @@
 
 
 .HelpText {
+    composes: Element from '../../styles';
+
     white-space: pre-wrap;
     font-weight: 400;
-    margin-top: 10px;
 }
 
-.ExampleButton:global(.btn) {
-    padding: 0;
-    border: 0;
-    margin-top: 10px;
+.ExampleButton {
+    composes: Element from '../../styles';
+
+    &:global(.btn) {
+        padding: 0;
+        border: 0;
+    }
 }
 
 .ExampleText {
+    composes: Element from '../../styles';
+
     white-space: pre-wrap;
     font-weight: 400;
-    margin-top: 10px;
 }

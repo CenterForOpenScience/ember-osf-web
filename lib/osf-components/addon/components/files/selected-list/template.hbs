@@ -1,15 +1,7 @@
-<div data-test-files-info local-class='info'>
-    <span>
-        {{t 'osf-components.files-widget.message'
-            projectOrComponent=(if @node.isRoot 'project' 'component')
-            nodeUrl=this.nodeUrl
-        }}
-    </span>
-</div>
-
 {{#if @selectedFiles}}
     <div data-test-selected-files
         local-class='selected-list'
+        ...attributes
     >
         <AnimatedContainer>
             <AnimatedEach

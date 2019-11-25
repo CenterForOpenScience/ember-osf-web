@@ -1,12 +1,8 @@
-.QuestionLabel {
+.Label {
+    composes: Heading from '../styles';
+
     color: $color-text-gray-blue;
     width: 100%;
-    border-top: $color-border-gray 1px solid;
-    padding-top: 24px;
-    margin: 20px 0 10px;
-}
-
-.QuestionLegend {
     border-bottom: 0;
     font-weight: 700;
     font-size: 14px;

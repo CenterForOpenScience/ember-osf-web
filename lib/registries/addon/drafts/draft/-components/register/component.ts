@@ -15,12 +15,6 @@ import { DraftRegistrationManager } from 'osf-components/components/registries/d
 
 @tagName('')
 export default class Register extends Component.extend({
-    getBranchFromNode: task(function *(this: Register) {
-        if (this.draftRegistration) {
-            const rootNode = yield this.draftRegistration.branchedFrom;
-            this.setProperties({ rootNode });
-        }
-    }).on('didReceiveAttrs').restartable(),
     onClickRegister: task(function *(this: Register) {
         if (!this.registration) {
             const registration = this.store.createRecord('registration', {
@@ -30,10 +24,10 @@ export default class Register extends Component.extend({
 
             this.setProperties({ registration });
         }
-        if (this.rootNode) {
-            yield this.rootNode.loadRelatedCount('children');
+        if (this.node) {
+            yield this.node.loadRelatedCount('children');
         }
-        if (this.rootNode && this.rootNode.relatedCounts.children > 0) {
+        if (this.node && this.node.relatedCounts.children > 0) {
             this.showPartialRegDialog();
         } else {
             this.showFinalizeRegDialog();
@@ -48,7 +42,7 @@ export default class Register extends Component.extend({
 
     // Private
     registration!: Registration;
-    rootNode?: NodeModel;
+    node?: NodeModel;
     onSubmitRedirect?: (registrationId: string) => void;
     @alias('draftManager.hasInvalidResponses') isInvalid?: boolean;
 
@@ -109,7 +103,7 @@ export default class Register extends Component.extend({
     @action
     onBack() {
         this.closeFinalizeRegDialog();
-        if (this.rootNode && this.rootNode.relatedCounts.children > 0) {
+        if (this.node && this.node.relatedCounts.children > 0) {
             run.next(this, () => {
                 this.showPartialRegDialog();
             });

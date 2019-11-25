@@ -585,6 +585,7 @@ export default {
         mustSelect: 'You must select a value for this field.',
         mustSelectMinOne: 'You must select at least one value for this field.',
         mustSelectFileMinOne: 'You must select at least one file for this field.',
+        new_folder_name: 'Folder name must not be blank.',
     },
     validated_input_form: {
         discard_changes: 'Discard changes',
@@ -1678,12 +1679,20 @@ export default {
                 showExample: 'Show example',
                 hideExample: 'Hide example',
             },
+            'schema-block-renderer/editable/files': {
+                instructions: 'You may attach up to 5 file(s) to this question. You may attach files that you already have in OSF Storage in this <a href={{nodeUrl}}>{{projectOrComponent}}</a> or upload (drag and drop) a new file from your computer. Uploaded files will automatically be added to this <a href={{nodeUrl}}>{{projectOrComponent}}</a> so that they can be registered. To attach files from other components or an add-on, first add them to this <a href={{nodeUrl}}>{{projectOrComponent}}</a>.',
+            },
         },
         'files-widget': {
             drag_drop_files: 'Drag and drop files here to upload files to this folder',
-            message: 'You may attach up to 5 file(s) to this question. You may attach files that you already have in OSF Storage in this <a href={{nodeUrl}}>{{projectOrComponent}}</a> or upload (drag and drop) a new file from your computer. Uploaded files will automatically be added to this <a href={{nodeUrl}}>{{projectOrComponent}}</a> so that they can be registered. To attach files from other components or an add-on, first add them to this <a href={{nodeUrl}}>{{projectOrComponent}}</a>.',
             load_more: 'Load more files',
             unselect_file: 'Unselect file',
+            upload_file: 'Upload file',
+            expand_files_menu: 'Expand files menu',
+            create_folder: 'Create folder',
+            create: 'Create',
+            folder_name_placeholder: 'New folder name',
+            create_folder_failed: 'Failed to create folder',
         },
         subjects: {
             browse: {
@@ -1701,6 +1710,12 @@ export default {
         'registries-side-nav': {
             expandSideNav: 'Expand registration form navigation',
             collapseSideNav: 'Collapse registration form navigation',
+        },
+        'registries-top-nav': {
+            showRegistrationNavigation: 'Show registration form navigation',
+            previousPage: 'Previous page',
+            nextPage: 'Next page',
+            reviewRegistration: 'Review registration',
         },
     },
     settings: {
