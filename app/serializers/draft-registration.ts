@@ -23,7 +23,17 @@ function normalizeRegistrationResponses(value: ResponseValue, store: DS.Store) {
             if (peekedRecord) {
                 return peekedRecord;
             }
-            return store.push({ data: { id: fileRef.file_id, type: 'file' } });
+            return store.push(
+                {
+                    data: {
+                        id: fileRef.file_id,
+                        type: 'file',
+                        attributes: {
+                            name: fileRef.file_name,
+                        },
+                    },
+                },
+            );
         });
     }
     return value;
