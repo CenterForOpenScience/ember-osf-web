@@ -41,7 +41,7 @@ function normalizeRegistrationResponses(value: ResponseValue, store: DS.Store) {
 
 function serializeRegistrationResponses(value: NormalizedResponseValue) {
     if (Array.isArray(value) && !isEmpty(value) && ('materializedPath' in value.firstObject)) {
-        return value.map(file => file.isNew ? file : file.toFileReference());
+        return value.map(file => (file.isNew ? file : file.toFileReference()));
     }
     return value;
 }
@@ -57,6 +57,7 @@ export default class DraftRegistrationSerializer extends OsfSerializer {
         if (payload.data.attributes) {
             const registrationResponses = payload.data.attributes.registration_responses as RegistrationResponse;
             // @ts-ignore
+            // eslint-disable-next-line no-param-reassign
             payload.data.attributes.registration_responses = mapKeysAndValues(
                 registrationResponses || {},
                 key => key,
@@ -73,6 +74,7 @@ export default class DraftRegistrationSerializer extends OsfSerializer {
             const underscoreKey = this.keyForAttribute(key);
             const registrationResponses = json.attributes[underscoreKey] as NormalizedRegistrationResponse;
 
+            // eslint-disable-next-line no-param-reassign
             json.attributes[underscoreKey] = mapKeysAndValues(
                 registrationResponses || {},
                 k => k,
