@@ -25,9 +25,19 @@
             {{compute draftManager.onPageChange this.pageIndex this.inReview}}
             <OsfLayout @backgroundClass={{local-class 'ContentBackground'}} as |layout|>
                 <layout.heading local-class='Heading'>
-                    <h1 local-class='Title'>
-                        {{t 'registries.drafts.draft.form.new_registration'}}
-                    </h1>
+                    <div local-class='Title'>
+                        <OsfLink
+                            data-analytics-name='Go to project'
+                            local-class='BreadCrumb'
+                            @route='guid-node'
+                            @models={{array this.draftRegistration.branchedFrom.id}}
+                        >
+                            {{this.draftRegistration.branchedFrom.title}} >
+                        </OsfLink>
+                        <h1>
+                            {{t 'registries.drafts.draft.form.new_registration'}}
+                        </h1>
+                    </div>
                 </layout.heading>
                 {{#if this.showMobileView}}
                     <Drafts::Draft::-Components::TopNav
