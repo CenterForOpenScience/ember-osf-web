@@ -1,5 +1,9 @@
 {{! template-lint-disable no-html-comments }}
-<div data-test-read-only-contributors-list ...attributes>
+<div
+    data-test-read-only-contributors-list
+    local-class='ContributorList'
+    ...attributes
+>
     <ContributorList
         @node={{@node}}
         @shouldTruncate={{false}}
