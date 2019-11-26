@@ -1,5 +1,4 @@
 declare module 'ember-simple-auth/mixins/data-adapter-mixin' {
-    import { service } from '@ember-decorators/service';
     import Mixin from '@ember/object/mixin';
 
     interface DataAdapter {

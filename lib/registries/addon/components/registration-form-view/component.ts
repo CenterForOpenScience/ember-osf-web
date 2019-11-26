@@ -1,8 +1,9 @@
 /* eslint-disable no-useless-constructor, no-empty-function */
-import { layout, tagName } from '@ember-decorators/component';
+import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 
+import { layout } from 'ember-osf-web/decorators/component';
 import {
     Page,
     Question as RegQuestion,

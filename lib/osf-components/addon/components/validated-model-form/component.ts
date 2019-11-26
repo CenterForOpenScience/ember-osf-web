@@ -1,4 +1,3 @@
-import { layout } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { action, set } from '@ember/object';
@@ -12,7 +11,7 @@ import DS from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
 import Toast from 'ember-toastr/services/toast';
 
-import { requiredAction } from 'ember-osf-web/decorators/component';
+import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import { ValidatedModelName } from 'ember-osf-web/models/osf-model';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';

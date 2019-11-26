@@ -1,4 +1,4 @@
-import { layout, tagName } from '@ember-decorators/component';
+import { tagName } from '@ember-decorators/component';
 import { isArray } from '@ember/array';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
@@ -7,6 +7,7 @@ import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 
+import { layout } from 'ember-osf-web/decorators/component';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import OsfRouterService from 'ember-osf-web/services/osf-router';
 import defaultTo from 'ember-osf-web/utils/default-to';

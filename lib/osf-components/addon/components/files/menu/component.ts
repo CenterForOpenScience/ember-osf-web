@@ -1,7 +1,7 @@
 import { tagName } from '@ember-decorators/component';
-import { action } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
+import { action } from '@ember/object';
+import { alias } from '@ember/object/computed';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import uniqueId from 'ember-osf-web/utils/unique-id';
