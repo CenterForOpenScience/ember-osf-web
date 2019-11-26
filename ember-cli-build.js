@@ -59,7 +59,7 @@ module.exports = function(defaults) {
             importBootstrapCSS: false,
         },
         'ember-composable-helpers': {
-            only: ['compose', 'contains', 'range', 'queue'],
+            only: ['compose', 'contains', 'flatten', 'range', 'queue'],
         },
         'ember-cli-password-strength': {
             bundleZxcvbn: !IS_PROD,

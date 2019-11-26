@@ -6,7 +6,7 @@
     >
         {{#each this.responses as |file|}}
             <li>
-                {{#if (or file.isError this.isValidating)}}
+                {{#if this.isValidating}}
                     {{~file.name~}}
                 {{else}}
                     <OsfLink

@@ -1,4 +1,5 @@
 .Errors {
-    color: $brand-danger;
-    white-space: pre-wrap;
+    p {
+        color: $brand-danger;
+    }
 }

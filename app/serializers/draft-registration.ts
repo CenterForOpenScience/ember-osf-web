@@ -24,21 +24,35 @@ function normalizeRegistrationResponses(value: ResponseValue, store: DS.Store) {
     if (Array.isArray(value) && !isEmpty(value) && isObject(value.firstObject) &&
         ('file_id' in value.firstObject)) {
         return (value as FileReference[]).map((fileRef: FileReference) => {
-            const peekedRecord = store.peekRecord('file', fileRef.file_id);
+            const {
+                file_name: name, file_id: id,
+                file_urls: { html, download },
+                file_hashes: { sha256 },
+            } = fileRef;
+            const peekedRecord = store.peekRecord('file', id);
+
             if (peekedRecord) {
                 return peekedRecord;
             }
-            return store.push(
-                {
-                    data: {
-                        id: fileRef.file_id,
-                        type: 'file',
-                        attributes: {
-                            name: fileRef.file_name,
+
+            return store.push({
+                data: {
+                    id,
+                    type: 'file',
+                    attributes: {
+                        name,
+                        extra: {
+                            hashes: {
+                                sha256,
+                            },
+                        },
+                        links: {
+                            html,
+                            download,
                         },
                     },
                 },
-            );
+            });
         });
     }
     return value;
@@ -47,7 +61,7 @@ function normalizeRegistrationResponses(value: ResponseValue, store: DS.Store) {
 function serializeRegistrationResponses(value: NormalizedResponseValue) {
     if (Array.isArray(value) && !isEmpty(value) && isObject(value.firstObject) &&
         ('materializedPath' in value.firstObject)) {
-        return value.map(file => (file.isReloading ? file : file.toFileReference()));
+        return value.map(file => file.toFileReference());
     }
     return value;
 }
