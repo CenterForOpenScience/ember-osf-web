@@ -22,7 +22,7 @@ export default class FragmentHistoryLocation extends HistoryLocation.extend(Guid
     @service osfRouter!: OsfRouterService;
 
     @task({ restartable: true })
-    scrollToFragment = task(function *(this: FragmentHistoryLocation, fragment: string) {
+    scrollToElement = task(function *(this: FragmentHistoryLocation, elementId: string) {
         yield this.ready.ready();
 
         yield waitForQueue('afterRender');
