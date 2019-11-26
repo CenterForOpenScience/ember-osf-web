@@ -7,7 +7,7 @@
         aria-label={{t 'osf-components.files-widget.expand_files_menu'}}
     >
         <OsfButton
-            local-class='trigger-button'
+            local-class='trigger-button {{if dropdownMenu.isOpen 'close-button'}}'
             aria-label={{t 'osf-components.files-widget.expand_files_menu'}}
             @type='success'
         >

@@ -5,11 +5,37 @@
     margin-bottom: 10px;
 
     .trigger-button {
-        padding: 5px 2px;
+        padding: 3px;
         border-radius: 50%;
         margin-right: 15px;
-
+        outline: none;
         color: $color-text-white;
+
+        &:focus,
+        &:active:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #4d90fe;
+        }
+
+        i {
+            height: 28px;
+            width: 28px;
+            transform: translate(0, 1px);
+            transition: all 250ms linear;
+        }
+    }
+
+    .close-button,
+    .close-button:focus {
+        background-color: $color-bg-blue-dark;
+
+        &:hover {
+            background-color: darken($color-bg-blue-dark, 10%);
+        }
+
+        i {
+            transform: translate(0, 1px) rotate(45deg);
+        }
     }
 }
 
