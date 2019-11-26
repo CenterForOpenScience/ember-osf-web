@@ -4,14 +4,18 @@
         local-class='FilesList'
         ...attributes
     >
-        {{#each this.responses as |response|}}
+        {{#each this.responses as |file|}}
             <li>
-                <OsfLink
-                    @href={{response.file_urls.html}}
-                    @target='_blank'
-                >
-                    {{response.file_name}}
-                </OsfLink>
+                {{#if (or file.isError this.isValidating)}}
+                    {{~file.name~}}
+                {{else}}
+                    <OsfLink
+                        @href={{file.links.html}}
+                        @target='_blank'
+                    >
+                        {{~file.name~}}
+                    </OsfLink>
+                {{/if}}
             </li>
         {{/each}}
     </ul>
@@ -24,4 +28,5 @@
     local-class='ValidationErrors'
     @changeset={{@changeset}}
     @key={{@schemaBlock.registrationResponseKey}}
+    @isValidating={{this.isValidating}}
 />

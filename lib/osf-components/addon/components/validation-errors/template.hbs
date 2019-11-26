@@ -1,11 +1,15 @@
 {{#let (get @changeset.error @key) as |errors|}}
-    {{#if errors.validation}}
-        <div
-            data-test-validation-errors={{@key}}
-            local-class='Errors'
-            ...attributes
-        >
-            {{~errors.validation~}}
-        </div>
+    {{#if @isValidating}}
+        <LoadingIndicator @inline={{true}} @dark={{true}} />
+    {{else}}
+        {{#if errors.validation}}
+            <div
+                data-test-validation-errors={{@key}}
+                local-class='Errors'
+                ...attributes
+            >
+                {{~errors.validation~}}
+            </div>
+        {{/if}}
     {{/if}}
 {{/let}}
