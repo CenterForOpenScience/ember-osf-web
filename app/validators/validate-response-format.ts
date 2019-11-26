@@ -20,20 +20,18 @@ export function validateFileList(node?: NodeModel): ValidatorFunction {
                 }
             }
             const projectOrComponent = node.isRoot ? 'project' : 'component';
+            let validationErrorMsg = '';
 
             if (!isEmpty(detachedFiles)) {
-                return `
-                    The following file(s) "${detachedFiles.join(', ')}"
-                    no longer belong to this ${projectOrComponent} or any of its registered components.
-                `;
+                validationErrorMsg = `File(s) "${detachedFiles.join(', ')}" no longer belong to this \
+${projectOrComponent} or any of its registered components.`;
             }
 
             if (!isEmpty(deletedFiles)) {
-                return `
-                    The following file(s) "${deletedFiles.join(', ')}"
-                    were deleted from the ${projectOrComponent} being registered.
-                `;
+                validationErrorMsg = validationErrorMsg.concat('\n\n',
+                    `File(s) "${deletedFiles.join(', ')}" were deleted from this ${projectOrComponent}.`);
             }
+            return validationErrorMsg || true;
         }
         return true;
     };

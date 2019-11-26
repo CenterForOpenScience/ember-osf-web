@@ -16,8 +16,13 @@ interface JsonPayload {
     attributes: Record<string, {}>;
 }
 
+function isObject(value: unknown) {
+    return typeof value === 'object' && !isEmpty(value);
+}
+
 function normalizeRegistrationResponses(value: ResponseValue, store: DS.Store) {
-    if (Array.isArray(value) && !isEmpty(value) && ('file_id' in value.firstObject)) {
+    if (Array.isArray(value) && !isEmpty(value) && isObject(value.firstObject) &&
+        ('file_id' in value.firstObject)) {
         return (value as FileReference[]).map((fileRef: FileReference) => {
             const peekedRecord = store.peekRecord('file', fileRef.file_id);
             if (peekedRecord) {
@@ -40,8 +45,9 @@ function normalizeRegistrationResponses(value: ResponseValue, store: DS.Store) {
 }
 
 function serializeRegistrationResponses(value: NormalizedResponseValue) {
-    if (Array.isArray(value) && !isEmpty(value) && ('materializedPath' in value.firstObject)) {
-        return value.map(file => (file.isNew ? file : file.toFileReference()));
+    if (Array.isArray(value) && !isEmpty(value) && isObject(value.firstObject) &&
+        ('materializedPath' in value.firstObject)) {
+        return value.map(file => (file.isReloading ? file : file.toFileReference()));
     }
     return value;
 }
