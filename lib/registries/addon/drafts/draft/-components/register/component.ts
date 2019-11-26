@@ -66,6 +66,7 @@ export default class Register extends Component.extend({
 
         if (this.onSubmitRedirect) {
             this.onSubmitRedirect(registrationId);
+            this.draftRegistration.unloadRecord();
         }
     }
 
