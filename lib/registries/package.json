@@ -30,7 +30,6 @@
     "ember-i18n": "*",
     "ember-i18n-inject": "*",
     "ember-moment": "*",
-    "ember-on-modifier": "*",
     "ember-page-title": "*",
     "ember-parachute": "*",
     "ember-responsive": "*",
