@@ -15,7 +15,7 @@ import CurrentUser from 'ember-osf-web/services/current-user';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import Toast from 'ember-toastr/services/toast';
 import $ from 'jquery';
-import mime from 'npm:mime-types';
+import mime from 'mime-types';
 
 Object.assign(mime.types, mimeTypes);
 

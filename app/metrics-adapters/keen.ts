@@ -5,9 +5,9 @@ import { TaskInstance } from 'ember-concurrency';
 import Cookies from 'ember-cookies/services/cookies';
 import config from 'ember-get-config';
 import BaseAdapter from 'ember-metrics/metrics-adapters/base';
+import md5 from 'js-md5';
 import KeenTracking from 'keen-tracking';
 import moment from 'moment';
-import md5 from 'npm:js-md5';
 
 import { KeenConfig } from 'config/environment';
 import Node from 'ember-osf-web/models/node';
