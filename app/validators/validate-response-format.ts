@@ -1,13 +1,37 @@
 import { isEmpty } from '@ember/utils';
 import { ValidatorFunction } from 'ember-changeset-validations';
-import { FileReference } from 'ember-osf-web/packages/registration-schema';
+import File from 'ember-osf-web/models/file';
+import NodeModel from 'ember-osf-web/models/node';
+import { allSettled } from 'rsvp';
 
-export function validateFileReferenceList(): ValidatorFunction {
-    return (_: string, newValue: FileReference[]) => {
-        if (newValue) {
-            if (newValue.some(file => isEmpty(file.file_id) || isEmpty(file.file_name))) {
-                return 'Invalid files list';
+export function validateFileList(node?: NodeModel): ValidatorFunction {
+    return async (_: string, newValue: File[]) => {
+        if (newValue && node) {
+            await allSettled(newValue.map(file => file.reload()));
+
+            const detachedFiles = [];
+            const deletedFiles = [];
+
+            for (const file of newValue) {
+                if (file.isError) {
+                    deletedFiles.push(file.name);
+                } else if (file.belongsTo('target').id() !== node.id) {
+                    detachedFiles.push(file.name);
+                }
             }
+            const projectOrComponent = node.isRoot ? 'project' : 'component';
+            let validationErrorMsg = '';
+
+            if (!isEmpty(detachedFiles)) {
+                validationErrorMsg = `File(s) "${detachedFiles.join(', ')}" no longer belong to this \
+${projectOrComponent} or any of its registered components.`;
+            }
+
+            if (!isEmpty(deletedFiles)) {
+                validationErrorMsg = validationErrorMsg.concat('\n\n',
+                    `File(s) "${deletedFiles.join(', ')}" were deleted from this ${projectOrComponent}.`);
+            }
+            return validationErrorMsg || true;
         }
         return true;
     };

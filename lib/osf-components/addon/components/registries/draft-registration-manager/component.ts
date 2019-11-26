@@ -9,6 +9,7 @@ import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
+import NodeModel from 'ember-osf-web/models/node';
 import SchemaBlock from 'ember-osf-web/models/schema-block';
 
 import { getPages, PageManager, RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
@@ -59,6 +60,7 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
             pageSchemaBlocks => new PageManager(
                 pageSchemaBlocks,
                 this.registrationResponses || {},
+                this.node,
             ),
         );
 
@@ -113,6 +115,7 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
     // Required
     modelTaskInstance!: TaskInstance<DraftRegistration>;
     draftRegistration!: DraftRegistration;
+    node!: NodeModel;
 
     // Optional
     updateRoute?: (headingText: string) => void;

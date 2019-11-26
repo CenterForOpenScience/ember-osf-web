@@ -2,13 +2,14 @@ import { assert } from '@ember/debug';
 import { ValidationObject, ValidatorFunction } from 'ember-changeset-validations';
 import { validatePresence } from 'ember-changeset-validations/validators';
 import translations from 'ember-osf-web/locales/en/translations';
+import NodeModel from 'ember-osf-web/models/node';
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 import { SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema/schema-block-group';
-import { validateFileReferenceList } from 'ember-osf-web/validators/validate-response-format';
+import { validateFileList } from 'ember-osf-web/validators/validate-response-format';
 
 // TODO: find a way to use i18n to translate error messages
 
-export function buildValidation(groups: SchemaBlockGroup[]) {
+export function buildValidation(groups: SchemaBlockGroup[], node?: NodeModel) {
     const ret: ValidationObject<RegistrationResponse> = {};
     groups.forEach((group: SchemaBlockGroup) => {
         // only validating groups with actual inputs and not groups that are headings/labels only
@@ -29,7 +30,7 @@ export function buildValidation(groups: SchemaBlockGroup[]) {
             case 'file-input':
                 requiredMessage = translations.validationErrors.mustSelectFileMinOne;
                 validationForResponse.push(
-                    validateFileReferenceList(),
+                    validateFileList(node),
                 );
                 break;
             case 'single-select-input':

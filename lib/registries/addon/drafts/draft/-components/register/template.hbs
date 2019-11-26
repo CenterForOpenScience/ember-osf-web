@@ -18,9 +18,9 @@
     </div>
 {{/if}}
 
-{{#if this.rootNode}}
+{{#if this.node}}
     <Registries::PartialRegistrationModal::Manager
-        @rootNode={{this.rootNode}}
+        @rootNode={{this.node}}
         as |partialRegistrationManager|
     >
         <Registries::PartialRegistrationModal
