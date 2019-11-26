@@ -2,14 +2,16 @@
     <LoadingIndicator @inline={{true}} @dark={{true}} />
 {{else}}
     {{#let (get @changeset.error @key) as |errors|}}
-        <div
-            data-test-validation-errors={{@key}}
-            local-class='Errors'
-            ...attributes
-        >
-            {{#each (flatten errors.validation) as |error|}}
-                <p>{{~error~}}</p>
-            {{/each}}
-        </div>
+        {{#if errors.validation}}
+            <div
+                data-test-validation-errors={{@key}}
+                local-class='Errors'
+                ...attributes
+            >
+                {{#each (flatten errors.validation) as |error|}}
+                    <p>{{~error~}}</p>
+                {{/each}}
+            </div>
+        {{/if}}
     {{/let}}
 {{/if}}
