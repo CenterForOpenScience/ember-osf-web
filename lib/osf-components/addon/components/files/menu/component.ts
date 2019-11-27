@@ -36,8 +36,32 @@ interface NewFolder {
 
 @tagName('')
 @layout(template, styles)
-export default class FilesMenu extends Component.extend({
-    createFolder: task(function *(this: FilesMenu, options: { onSuccess?: () => void }) {
+export default class FilesMenu extends Component {
+    @service toast!: Toast;
+    @service i18n!: I18N;
+    @service store!: DS.Store;
+
+    filesManager!: FilesManager;
+
+    // Private
+    newFolderDialogIsOpen = false;
+    uploadButtonClass = uniqueId(['dz-upload-button']);
+
+    newFolder!: NewFolder;
+    changeset!: ChangesetDef;
+
+    @alias('filesManager.canEdit') canEdit!: boolean;
+
+    @computed('changeset.{isInvalid}', 'createFolder.isRunning')
+    get shouldDisableButtons() {
+        if (!this.changeset) {
+            return false;
+        }
+        return this.changeset.isInvalid || this.createFolder.isRunning;
+    }
+
+    @task
+    createFolder = task(function *(this: FilesMenu, options: { onSuccess?: () => void }) {
         const { inRootFolder, currentFolder, fileProvider } = this.filesManager;
         const parentFolder = inRootFolder ? fileProvider : currentFolder;
         const { onSuccess } = options;
@@ -62,30 +86,7 @@ export default class FilesMenu extends Component.extend({
         }
 
         folder.files.pushObject(newFolder);
-    }),
-}) {
-    @service toast!: Toast;
-    @service i18n!: I18N;
-    @service store!: DS.Store;
-
-    filesManager!: FilesManager;
-
-    // Private
-    newFolderDialogIsOpen = false;
-    uploadButtonClass = uniqueId(['dz-upload-button']);
-
-    newFolder!: NewFolder;
-    changeset!: ChangesetDef;
-
-    @alias('filesManager.canEdit') canEdit!: boolean;
-
-    @computed('changeset.{isInvalid}', 'createFolder.isRunning')
-    get shouldDisableButtons() {
-        if (!this.changeset) {
-            return false;
-        }
-        return this.changeset.isInvalid || this.createFolder.isRunning;
-    }
+    });
 
     beforeOpenDialog() {
         this.set('newFolder', { name: null });

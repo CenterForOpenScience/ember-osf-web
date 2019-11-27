@@ -1,8 +1,7 @@
 import { tagName } from '@ember-decorators/component';
-import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import { defineProperty } from '@ember/object';
+import { computed, defineProperty } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { ChangesetDef } from 'ember-changeset/types';
 
