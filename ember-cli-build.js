@@ -15,7 +15,6 @@ function postProcess(content) {
 module.exports = function(defaults) {
     const config = defaults.project.config(EMBER_ENV);
     const handbookEnabled = config.engines.handbook.enabled;
-    const mirageEnabled = config['ember-cli-mirage'].enabled;
 
     /*
      * Options just used by child addons of the handbook engine. Some addons
@@ -44,6 +43,14 @@ module.exports = function(defaults) {
         tests: config.testsEnabled,
         ace: {
             modes: ['handlebars'],
+        },
+        autoImport: {
+            webpack: {
+                node: {
+                    path: true,
+                },
+            },
+            exclude: ['jsonapi-typescript'],
         },
         addons: {
             blacklist: [
@@ -138,29 +145,5 @@ module.exports = function(defaults) {
         },
     });
 
-    app.import('node_modules/dropzone/dist/dropzone.css');
-    app.import('node_modules/dropzone/dist/dropzone.js');
-
-    app.import('node_modules/wicg-inert/dist/inert.min.js');
-
-    app.import({
-        test: 'vendor/ember/ember-template-compiler.js',
-    });
-
-    if (mirageEnabled || !IS_PROD) {
-        app.import('node_modules/seedrandom/seedrandom.min.js', {
-            using: [{ transformation: 'amd', as: 'seedrandom' }],
-        });
-    }
-
-    app.import('node_modules/keen-tracking/dist/keen-tracking.min.js', {
-        using: [{ transformation: 'amd', as: 'keen-tracking' }],
-    });
-
-    if (handbookEnabled) {
-        app.import('vendor/highlight.pack.js', {
-            using: [{ transformation: 'amd', as: 'highlight.js' }],
-        });
-    }
     return app.toTree();
 };
