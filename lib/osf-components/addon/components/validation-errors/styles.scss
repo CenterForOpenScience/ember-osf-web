@@ -1,4 +1,10 @@
 .Errors {
-    color: $brand-danger;
-    white-space: pre-wrap;
+    p {
+        color: $brand-danger;
+        margin: 5px 0 0;
+
+        &:first-child {
+            margin: 0;
+        }
+    }
 }

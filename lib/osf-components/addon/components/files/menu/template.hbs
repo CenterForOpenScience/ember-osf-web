@@ -49,7 +49,9 @@
 
 <Files::Menu::CreateFolder
     @isOpen={{this.newFolderDialogIsOpen}}
+    @shouldDisableButtons={{this.shouldDisableButtons}}
+    @changeset={{this.changeset}}
     @closeDialog={{action this.closeDialog}}
-    @filesManager={{@filesManager}}
+    @createFolder={{perform this.createFolder}}
 />
 
