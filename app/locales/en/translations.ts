@@ -1,5 +1,6 @@
-/* tslint:disable:object-literal-sort-keys max-line-length */
+import config from 'ember-get-config';
 
+/* tslint:disable:object-literal-sort-keys max-line-length */
 export default {
     documentType: {
         default: {
@@ -318,6 +319,7 @@ export default {
         login: 'Login',
         join: 'Join',
         osf_logo: 'OSF logo',
+        search_bar: 'Search bar for registries',
     },
     auth_dropdown: {
         log_out: 'Log Out',
@@ -537,8 +539,8 @@ export default {
         invalid: '{{description}} is invalid.',
         confirmation: '{{description}} doesn\'t match {{on}}.',
         accepted: '{{description}} must be accepted.',
-        empty: '{{description}} can\'t be empty.',
-        blank: '{{description}} can\'t be blank.',
+        empty: 'This field can\'t be empty.',
+        blank: 'This field can\'t be blank.',
         present: '{{description}} must be blank.',
         collection: '{{description}} must be a collection.',
         singular: '{{description}} can\'t be a collection.',
@@ -580,6 +582,10 @@ export default {
         node_license_invalid: 'Invalid required fields for the license',
         node_license_missing_fields: 'The following required fields are missing: {{missingFields}}',
         invalid_doi: 'Please use a valid DOI format (10.xxxx/xxxxx)',
+        mustSelect: 'You must select a value for this field.',
+        mustSelectMinOne: 'You must select at least one value for this field.',
+        mustSelectFileMinOne: 'You must select at least one file for this field.',
+        new_folder_name: 'Folder name must not be blank.',
     },
     validated_input_form: {
         discard_changes: 'Discard changes',
@@ -1147,9 +1153,12 @@ export default {
                     back: 'Back',
                     save_draft: 'Save draft',
                     new_registration: 'New registration',
+                    last_saved: 'Auto-saved: ',
+                    save_failed: 'Save failed. Unsaved changes present.',
                 },
                 review: {
                     title: 'Review registration before submitting',
+                    page_label: 'Review',
                     start_review: 'Review',
                     invalid_warning: 'Please address invalid or missing entries to complete registration.',
                 },
@@ -1428,9 +1437,9 @@ export default {
                         The content and version history of Wiki and OSF Storage will be copied to the registration.
                     </li>
                     <li>
-                        This project contains links to other projects.These links will be copied into your registration, but the
-                        projects that they link to will not be registered.If you wish to register the linked projects, they must be
-                        registered separately.Learn more about links.
+                        This project contains links to other projects. These links will be copied into your registration, but the
+                        projects that they link to will not be registered. If you wish to register the linked projects, they must be
+                        registered separately. <a href='${config.helpLinks.linkToAProject}' target='_blank' rel='noopener'>Learn more about links</a>.
                     </li>
                 </ul>`,
             immediateOption: 'Make registration public immediately',
@@ -1668,11 +1677,28 @@ export default {
             },
             'schema-block-renderer/label': {
                 showExample: 'Show example',
+                hideExample: 'Hide example',
+            },
+            'schema-block-renderer/editable/files': {
+                instructions: 'You may attach up to 5 file(s) to this question. You may attach files that you already have in OSF Storage in this <a href={{nodeUrl}}>{{projectOrComponent}}</a> or upload (drag and drop) a new file from your computer. Uploaded files will automatically be added to this <a href={{nodeUrl}}>{{projectOrComponent}}</a> so that they can be registered. To attach files from other components or an add-on, first add them to this <a href={{nodeUrl}}>{{projectOrComponent}}</a>.',
+            },
+            'schema-block-renderer/read-only/response': {
+                noResponse: 'No response',
+            },
+            'schema-block-renderer/read-only/files': {
+                noFilesSelected: 'No files selected',
             },
         },
         'files-widget': {
-            no_files: 'Drag and drop files here to upload files to this folder',
-            message: 'Only files from root project on OSF Storage are available to attach. To attach files from components or non "OSF Storage" addons, first add them to your root project files.',
+            drag_drop_files: 'Drag and drop files here to upload files to this folder',
+            load_more: 'Load more files',
+            unselect_file: 'Unselect file',
+            upload_file: 'Upload file',
+            expand_files_menu: 'Expand files menu',
+            create_folder: 'Create folder',
+            create: 'Create',
+            folder_name_placeholder: 'New folder name',
+            create_folder_failed: 'Failed to create folder',
         },
         subjects: {
             browse: {
@@ -1686,6 +1712,16 @@ export default {
             display: {
                 placeholder: 'Your selections will appear here',
             },
+        },
+        'registries-side-nav': {
+            expandSideNav: 'Expand registration form navigation',
+            collapseSideNav: 'Collapse registration form navigation',
+        },
+        'registries-top-nav': {
+            showRegistrationNavigation: 'Show registration form navigation',
+            previousPage: 'Previous page',
+            nextPage: 'Next page',
+            reviewRegistration: 'Review registration',
         },
     },
     settings: {

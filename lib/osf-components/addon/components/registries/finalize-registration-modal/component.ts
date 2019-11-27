@@ -22,7 +22,7 @@ export default class FinalizeRegisrationModalComponent extends Component {
     // Private properties
     makePublicOption: string = '';
     embargoRangeStartDate: Date = moment().add(3, 'days').toDate();
-    embargoRangeEndDate: Date = moment().add(4, 'years').toDate();
+    embargoRangeEndDate: Date = moment().add(1460, 'days').toDate();
 
     didReceiveAttrs() {
         assert('finalize-registration-modal requires @manager!', Boolean(this.manager));
@@ -37,8 +37,10 @@ export default class FinalizeRegisrationModalComponent extends Component {
         }
     }
 
-    @computed('manager.hasEmbargoEndDate', 'makePublicOption')
+    @computed('manager.{hasEmbargoEndDate,submittingRegistration}', 'makePublicOption')
     get shouldDisableSubmitButton() {
-        return this.makePublicOption === '' || (this.makePublicOption === 'embargo' && !this.manager.hasEmbargoEndDate);
+        return this.makePublicOption === '' ||
+          (this.makePublicOption === 'embargo' && !this.manager.hasEmbargoEndDate) ||
+          this.manager.submittingRegistration;
     }
 }

@@ -7,16 +7,14 @@
     validationStatus=this.validationStatus
     as |inputElementId|
 }}
-    {{bootstrap-datepicker
-        (html-attributes aria-label=this.ariaLabel)
-        id=inputElementId
-        value=this.value
+    <EmberFlatpickr
         class='form-control'
-        name=this.valuePath
-        focus-out='forceParse'
-        disabled=this.disabled
-        startDate=@startDate
-        endDate=@endDate
-        placeholder=this.placeholder
-    }}
+        placeholder={{this.placeholder}}
+        id={{inputElementId}}
+        aria-label={{this.ariaLabel}}
+        @onChange={{action this.onChange}}
+        @minDate={{@minDate}}
+        @maxDate={{@maxDate}}
+        @disabled={{@disabled}}
+    />
 {{/validated-input/x-input-wrapper}}

@@ -25,6 +25,7 @@
 
     .uploading {
         padding: 15px;
+        border-bottom: 1px solid $color-border-gray;
     }
 }
 
@@ -47,9 +48,16 @@
     align-items: center;
     justify-content: center;
     color: $color-text-blue-dark;
+    height: 20px;
 
-    &:hover {
-        cursor: pointer;
-        background-color: $color-bg-gray-light;
+    .load-more-button {
+        padding: 0;
+
+        &:hover,
+        &:active,
+        &:focus {
+            background-color: $color-bg-gray-light;
+            text-decoration: none;
+        }
     }
 }

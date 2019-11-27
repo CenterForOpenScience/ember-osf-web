@@ -1,21 +1,29 @@
 import { tagName } from '@ember-decorators/component';
-import { action } from '@ember-decorators/object';
+import { action, computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
+import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-
 import { ChangesetDef } from 'ember-changeset/types';
-import File from 'ember-osf-web/models/file';
-import NodeModel from 'ember-osf-web/models/node';
-import { FileReference, SchemaBlock } from 'ember-osf-web/packages/registration-schema';
+import config from 'ember-get-config';
 
 import { layout } from 'ember-osf-web/decorators/component';
+import File from 'ember-osf-web/models/file';
+import NodeModel from 'ember-osf-web/models/node';
+import { SchemaBlock } from 'ember-osf-web/packages/registration-schema';
+import Analytics from 'ember-osf-web/services/analytics';
+import pathJoin from 'ember-osf-web/utils/path-join';
 
+import styles from './styles';
 import template from './template';
 
-@layout(template)
+const { OSF: { url: baseURL } } = config;
+
+@layout(template, styles)
 @tagName('')
 export default class Files extends Component {
+    @service analytics!: Analytics;
+
     // Required param
     changeset!: ChangesetDef;
     node!: NodeModel;
@@ -23,7 +31,13 @@ export default class Files extends Component {
 
     @alias('schemaBlock.registrationResponseKey')
     valuePath!: string;
-    selectedFiles: FileReference[] = [];
+    selectedFiles: File[] = [];
+    onInput!: () => void;
+
+    @computed('node')
+    get nodeUrl() {
+        return this.node && pathJoin(baseURL, this.node.id);
+    }
 
     didReceiveAttrs() {
         assert(
@@ -42,31 +56,46 @@ export default class Files extends Component {
             'Registries::SchemaBlockRenderer::Editable::Files requires a schemaBlock to render',
             Boolean(this.schemaBlock),
         );
+
+        this.set('selectedFiles', this.changeset.get(this.valuePath) || []);
     }
 
     @action
-    onSelect(file: File) {
-        const newFile: FileReference = {
-            file_id: file.id,
-            file_name: file.name,
-            file_url: {
-                html: (file.links.html as string),
-                download: (file.links.download as string),
-            },
-            file_hashes: {
-                sha256: file.extra.hashes.sha256,
-            },
-        };
-        this.selectedFiles.pushObject(newFile);
+    select(file: File) {
+        this.selectedFiles.pushObject(file);
         this.changeset.set(this.valuePath, this.selectedFiles);
+        this.onInput();
     }
 
     @action
-    onUnselect(file: File) {
+    unselect(file: File) {
         const newSelectedFiles = this.selectedFiles.filter(
-            (selectedFile: FileReference) => selectedFile.file_id !== file.id,
+            selectedFile => selectedFile.id !== file.id,
         );
         this.set('selectedFiles', newSelectedFiles);
         this.changeset.set(this.valuePath, this.selectedFiles);
+        this.onInput();
+    }
+
+    @action
+    onSelectFile(selectedFile: File) {
+        const isSelected = this.selectedFiles.some(file => selectedFile.id === file.id);
+
+        this.analytics.trackFromElement(this.element, {
+            name: `${isSelected ? 'Unselect file' : 'Select file'}`,
+            category: 'button',
+            action: 'click',
+        });
+
+        if (isSelected) {
+            this.unselect(selectedFile);
+        } else {
+            this.select(selectedFile);
+        }
+    }
+
+    @action
+    onAddFile(addedFile: File) {
+        this.select(addedFile);
     }
 }

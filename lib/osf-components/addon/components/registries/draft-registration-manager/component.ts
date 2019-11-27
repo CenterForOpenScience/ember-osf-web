@@ -1,12 +1,15 @@
 import { tagName } from '@ember-decorators/component';
 import { action, computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
+import { alias, not } from '@ember-decorators/object/computed';
+import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { task, TaskInstance, timeout } from 'ember-concurrency';
+import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
+import NodeModel from 'ember-osf-web/models/node';
 import SchemaBlock from 'ember-osf-web/models/schema-block';
 
 import { getPages, PageManager, RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
@@ -15,6 +18,7 @@ import template from './template';
 
 export interface DraftRegistrationManager {
     registrationResponsesIsValid: boolean;
+    hasInvalidResponses: boolean;
     registrationResponses: RegistrationResponse;
     currentPageManager: PageManager;
     pageManagers: PageManager[];
@@ -23,13 +27,11 @@ export interface DraftRegistrationManager {
     nextPageParam: string;
     prevPageParam: string;
     autoSaving: boolean;
-    schemaBlocks: SchemaBlock[];
     lastPage: number;
     initializing: boolean;
 
     onInput(): void;
-    submitDraftRegistration(): void;
-    validateRegistrationResponses(): void;
+    onPageChange(): void;
 }
 
 @tagName('')
@@ -50,7 +52,6 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
         const { registrationResponses } = this.draftRegistration;
 
         this.setProperties({
-            schemaBlocks,
             lastPage: pages.length - 1,
             registrationResponses: registrationResponses || {},
         });
@@ -59,6 +60,7 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
             pageSchemaBlocks => new PageManager(
                 pageSchemaBlocks,
                 this.registrationResponses || {},
+                this.node,
             ),
         );
 
@@ -76,21 +78,31 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
     }).on('init'),
 
     onInput: task(function *(this: DraftRegistrationManagerComponent) {
-        yield timeout(500); // debounce
+        yield timeout(5000); // debounce
 
         if (this.currentPageManager && this.currentPageManager.schemaBlockGroups) {
-            const { changeset } = this.currentPageManager;
-            const { registrationResponses } = this;
+            this.updateRegistrationResponses(this.currentPageManager);
 
-            this.currentPageManager.schemaBlockGroups
-                .mapBy('registrationResponseKey')
-                .filter(Boolean)
-                .forEach(registrationResponseKey => {
-                    Object.assign(
-                        registrationResponses,
-                        { [registrationResponseKey]: changeset!.get(registrationResponseKey) },
-                    );
-                });
+            this.draftRegistration.setProperties({
+                registrationResponses: this.registrationResponses,
+            });
+
+            try {
+                yield this.draftRegistration.save();
+            } catch (error) {
+                this.toast.error('Save failed');
+                throw error;
+            }
+        }
+    }).restartable(),
+
+    saveAllVisitedPages: task(function *(this: DraftRegistrationManagerComponent) {
+        if (this.pageManagers && this.pageManagers.length) {
+            this.pageManagers
+                .filter(pageManager => pageManager.isVisited)
+                .forEach(this.updateRegistrationResponses.bind(this));
+
+            const { registrationResponses } = this;
 
             this.draftRegistration.setProperties({
                 registrationResponses,
@@ -99,31 +111,28 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
             yield this.draftRegistration.save();
         }
     }).restartable(),
-
-    submitDraftRegistration: task(function *(this: DraftRegistrationManagerComponent) {
-        yield this.draftRegistration.save();
-    }),
-
 }) {
     // Required
     modelTaskInstance!: TaskInstance<DraftRegistration>;
+    draftRegistration!: DraftRegistration;
+    node!: NodeModel;
 
     // Optional
     updateRoute?: (headingText: string) => void;
     onPageNotFound?: () => void;
 
     // Private
-    draftRegistration!: DraftRegistration;
     currentPage!: number;
     lastPage!: number;
     registrationResponses!: RegistrationResponse;
-    schemaBlocks!: SchemaBlock[];
     inReview!: boolean;
 
     pageManagers: PageManager[] = [];
 
+    @service toast!: Toast;
     @alias('onInput.isRunning') autoSaving!: boolean;
     @alias('initializePageManagers.isRunning') initializing!: boolean;
+    @not('registrationResponsesIsValid') hasInvalidResponses!: boolean;
 
     @computed('currentPage', 'pageManagers.[]')
     get nextPageParam() {
@@ -160,10 +169,62 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
         return this.pageManagers.every(pageManager => pageManager.pageIsValid);
     }
 
+    @computed('onInput.lastComplete')
+    get lastSaveFailed() {
+        return this.onInput.lastComplete ? this.onInput.lastComplete.isError : false;
+    }
+
     @action
-    validateRegistrationResponses() {
+    onPageChange(currentPage: number, inReview: boolean) {
+        if (inReview) {
+            this.markAllPagesVisited();
+            this.validateAllVisitedPages();
+            this.saveAllVisitedPages.perform();
+        } else {
+            this.validateAllVisitedPages();
+            this.saveAllVisitedPages.perform();
+            this.markCurrentPageVisited(currentPage);
+        }
+    }
+
+    @action
+    markAllPagesVisited() {
         this.pageManagers.forEach(pageManager => {
-            pageManager.changeset!.validate();
+            pageManager.setPageIsVisited();
         });
+    }
+
+    @action
+    markCurrentPageVisited(currentPage: number) {
+        const isPageIndex = Number.isInteger(currentPage);
+        if (this.pageManagers.length && isPageIndex) {
+            this.pageManagers[currentPage].setPageIsVisited();
+        }
+    }
+
+    @action
+    validateAllVisitedPages() {
+        this.pageManagers
+            .filter(pageManager => pageManager.isVisited)
+            .forEach(pageManager => {
+                pageManager.changeset!.validate();
+            });
+    }
+
+    updateRegistrationResponses(pageManager: PageManager) {
+        const { registrationResponses } = this;
+        const { changeset } = pageManager;
+
+        if (pageManager.schemaBlockGroups) {
+            pageManager.schemaBlockGroups
+                .mapBy('registrationResponseKey')
+                .filter(Boolean)
+                .forEach(registrationResponseKey => {
+                    Object.assign(
+                        registrationResponses,
+                        { [registrationResponseKey]: changeset!.get(registrationResponseKey) },
+                    );
+                });
+        }
     }
 }

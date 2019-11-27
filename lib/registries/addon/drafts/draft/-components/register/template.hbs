@@ -1,21 +1,26 @@
 <OsfButton
     data-test-goto-register
+    data-analytics-name='Go to register'
+    local-class='registerButton {{if @showMobileView 'mobileReviewButtonItem'}}'
     @type='success'
-    @onClick={{action this.showPartialRegDialog}}
+    @onClick={{perform this.onClickRegister}}
     @disabled={{not this.draftManager.registrationResponsesIsValid}}
 >
-    {{t 'registries.drafts.draft.register'}}
+    {{#if this.onClickRegister.isRunning}}
+        <LoadingIndicator @inline={{true}} />
+    {{else}}
+        {{t 'registries.drafts.draft.register'}}
+    {{/if}}
 </OsfButton>
-
-{{#unless this.draftManager.registrationResponsesIsValid}}
+{{#if (and this.isInvalid (not @showMobileView))}}
     <div data-test-invalid-responses-text class='text-danger'>
         {{t 'registries.drafts.draft.review.invalid_warning'}}
     </div>
-{{/unless}}
+{{/if}}
 
-{{#if this.rootNode}}
+{{#if this.node}}
     <Registries::PartialRegistrationModal::Manager
-        @rootNode={{this.rootNode}}
+        @rootNode={{this.node}}
         as |partialRegistrationManager|
     >
         <Registries::PartialRegistrationModal

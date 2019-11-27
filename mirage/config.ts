@@ -83,6 +83,7 @@ export default function(this: Server) {
     osfNestedResource(this, 'node', 'linkedNodes', { only: ['index'] });
     osfNestedResource(this, 'node', 'linkedRegistrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'registrations', { only: ['index'] });
+    this.post('/nodes/:id/registrations', createRegistration);
     osfNestedResource(this, 'node', 'draftRegistrations', { only: ['index'] });
     this.post('/nodes/:guid/draft_registrations', createDraftRegistration);
     osfNestedResource(this, 'node', 'identifiers', { only: ['index'] });

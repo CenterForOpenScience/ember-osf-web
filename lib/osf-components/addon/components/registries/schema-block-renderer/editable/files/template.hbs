@@ -1,7 +1,28 @@
+<p
+    data-test-files-instructions
+    local-class='FilesInstructions'
+>
+    {{t 'osf-components.registries.schema-block-renderer/editable/files.instructions'
+        projectOrComponent=(if @node.isRoot 'project' 'component')
+        nodeUrl=this.nodeUrl
+    }}
+</p>
+<Files::SelectedList
+    local-class='SelectedList'
+    @selectedFiles={{this.selectedFiles}}
+    @unselect={{action this.unselect}}
+    @node={{@node}}
+/>
+<ValidationErrors
+    local-class='ValidationErrors'
+    @changeset={{@changeset}}
+    @key={{@schemaBlock.registrationResponseKey}}
+/>
 <Files::Widget
     data-test-editable-file-widget
+    local-class='FilesWidget'
     @node={{@node}}
-    @onSelect={{action this.onSelect}}
-    @onUnselect={{action this.onUnselect}}
+    @onSelectFile={{action this.onSelectFile}}
+    @onAddFile={{action this.onAddFile}}
     ...attributes
 />

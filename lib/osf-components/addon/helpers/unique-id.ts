@@ -1,4 +1,5 @@
 import { helper } from '@ember/component/helper';
+import uniqueId from 'ember-osf-web/utils/unique-id';
 
 /**
  * Returns an unique-enough string for use in a DOM element's `id`.
@@ -16,11 +17,5 @@ import { helper } from '@ember/component/helper';
  *
  * Accepts prefixes if you want -- `(unique-id 'foo')` returns `'foo-<UUID>'`.
  */
-export function uniqueId(prefixes: unknown[]): string {
-    return [
-        ...prefixes,
-        Math.random().toString().replace('.', ''),
-    ].join('-');
-}
 
 export default helper(uniqueId);

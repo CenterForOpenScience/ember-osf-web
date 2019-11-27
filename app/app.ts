@@ -31,6 +31,7 @@ const App = Application.extend({
                     'router',
                     'ready',
                     'osf-modal-state',
+                    'osf-router',
                 ],
             },
         },
@@ -47,6 +48,7 @@ const App = Application.extend({
                     'store',
                     'toast',
                     'osf-modal-state',
+                    'osf-router',
                     'media',
                 ],
             },
@@ -70,6 +72,7 @@ const App = Application.extend({
                     'status-messages',
                     'store',
                     'osf-modal-state',
+                    'osf-router',
                 ],
                 externalRoutes: {
                     'guid-registration': 'guid-registration',
@@ -91,6 +94,7 @@ const App = Application.extend({
                     'router',
                     'head-data',
                     'osf-modal-state',
+                    'osf-router',
                 ],
                 externalRoutes: {
                     nodeForks: 'guid-node.forks',

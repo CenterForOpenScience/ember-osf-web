@@ -18,26 +18,31 @@
     question-label=(
         component
         'registries/schema-block-renderer/label'
+        readonly=true
     )
     short-text-input=(
         component
         'registries/schema-block-renderer/read-only/response'
         registrationResponses=@registrationResponses
+        changeset=@changeset
     )
     long-text-input=(
         component
         'registries/schema-block-renderer/read-only/response'
         registrationResponses=@registrationResponses
+        changeset=@changeset
     )
     single-select-input=(
         component
         'registries/schema-block-renderer/read-only/response'
         registrationResponses=@registrationResponses
+        changeset=@changeset
     )
     multi-select-input=(
         component
         'registries/schema-block-renderer/read-only/response'
         registrationResponses=@registrationResponses
+        changeset=@changeset
     )
     contributors-input=(
         component
@@ -48,5 +53,6 @@
         component
         'registries/schema-block-renderer/read-only/files'
         registrationResponses=@registrationResponses
+        changeset=@changeset
     )
 )}}

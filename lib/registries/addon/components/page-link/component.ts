@@ -30,6 +30,7 @@ export default class PageLinkComponent extends Component {
     pageName?: string;
     currentPageName?: string;
     label?: string;
+    navMode?: string;
 
     @computed('pageName', 'pageIndex', 'pageManager', 'pageManager.pageHeadingText')
     get page(): string | undefined {
@@ -104,6 +105,11 @@ export default class PageLinkComponent extends Component {
             return this.pageIndex === this.currentPageIndex;
         }
         return false;
+    }
+
+    @computed('navMode')
+    get isDrawer() {
+        return this.navMode === 'drawer';
     }
 
     didReceiveAttrs() {

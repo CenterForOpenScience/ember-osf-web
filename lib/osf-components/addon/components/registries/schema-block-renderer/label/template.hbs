@@ -1,22 +1,30 @@
-<label
-    data-test-question-label
-    for={{@uniqueID}}
-    ...attributes
->
-    {{@schemaBlock.displayText}}
-</label>
-{{#if this.isEditableForm}}
-    <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{this.schemaBlock.helpText}} />
-    
-    {{#if this.schemaBlock.exampleText}}
-        <OsfButton @type='link' @onClick={{action this.toggleShouldShowExample}}>
-            {{t 'osf-components.registries.schema-block-renderer/label.showExample'}}
-        </OsfButton>
-    {{/if}}
-    
-    {{#if (and this.shouldShowExample this.schemaBlock.exampleText)}}
-        <p>
-            {{this.schemaBlock.exampleText}}
-        </p>
+{{#if (or @schemaBlock.displayText @schemaBlock.helpText @schemaBlock.exampleText)}}
+    {{#if @isFieldsetGroup}}
+        <legend
+            data-test-question-label
+            local-class='Label'
+            ...attributes
+        >
+            <Registries::SchemaBlockRenderer::Label::LabelContent
+                @schemaBlock={{@schemaBlock}}
+                @isRequired={{@isRequired}}
+                @readonly={{@readonly}}
+                @isEditableForm={{@isEditableForm}}
+            />
+        </legend>
+    {{else}}
+        <label
+            data-test-question-label
+            local-class='Label'
+            for={{@uniqueID}}
+            ...attributes
+        >
+            <Registries::SchemaBlockRenderer::Label::LabelContent
+                @schemaBlock={{@schemaBlock}}
+                @isRequired={{@isRequired}}
+                @readonly={{@readonly}}
+                @isEditableForm={{@isEditableForm}}
+            />
+        </label>
     {{/if}}
 {{/if}}

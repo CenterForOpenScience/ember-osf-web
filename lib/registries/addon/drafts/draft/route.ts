@@ -9,19 +9,22 @@ import requireAuth from 'ember-osf-web/decorators/require-auth';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import Analytics from 'ember-osf-web/services/analytics';
 
-import { getPageIndex } from 'ember-osf-web/utils/page-param';
-
 export interface DraftRouteModel {
+    draftId: string;
     taskInstance: TaskInstance<DraftRegistration>;
-    pageIndex?: number;
-    page: string;
 }
 
 @requireAuth()
 export default class DraftRegistrationRoute extends Route.extend({
     loadModelTask: task(function *(this: DraftRegistrationRoute, draftId: string) {
         try {
-            return yield this.store.findRecord('draft-registration', draftId);
+            const draftRegistration = yield this.store.findRecord(
+                'draft-registration',
+                draftId,
+                { adapterOptions: { include: 'branched_from' } },
+            );
+            const node = yield draftRegistration.branchedFrom;
+            return { draftRegistration, node };
         } catch (error) {
             this.transitionTo('page-not-found', this.router.currentURL.slice(1));
             return undefined;
@@ -32,14 +35,11 @@ export default class DraftRegistrationRoute extends Route.extend({
     @service store!: DS.Store;
     @service router!: RouterService;
 
-    model(params: { id: string, page: string }): DraftRouteModel {
-        const { id: draftId, page } = params;
-        const pageIndex = getPageIndex(page);
-
+    model(params: { id: string }): DraftRouteModel {
+        const { id: draftId } = params;
         return {
+            draftId,
             taskInstance: this.loadModelTask.perform(draftId),
-            pageIndex,
-            page,
         };
     }
 

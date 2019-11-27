@@ -53,10 +53,9 @@ function registrationScenario(
 
     const registrationResponses = {
         'page-one_long-text': '',
-        'page-one_multi-select': ['Crocs', 'Nickelback'],
+        'page-one_multi-select': ['Crocs'],
         'page-one_multi-select-other': '',
         'page-one_short-text': 'sdfsdfsd',
-        'page-one_single-select': 'tuna',
         'page-one_single-select-two': 'Remember who was in NSync and who was in Backstreet Boys',
     };
 
@@ -68,6 +67,22 @@ function registrationScenario(
     server.create('draft-registration', {
         id: 'dcaf',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        initiator: currentUser,
+        registrationResponses,
+        branchedFrom: rootNode,
+    });
+
+    server.create('draft-registration', {
+        id: 'rrpre',
+        registrationSchema: server.schema.registrationSchemas.find('replication_recipe_pre_registration'),
+        initiator: currentUser,
+        registrationResponses,
+        branchedFrom: rootNode,
+    });
+
+    server.create('draft-registration', {
+        id: 'pregc',
+        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
         initiator: currentUser,
         registrationResponses,
         branchedFrom: rootNode,
@@ -228,10 +243,10 @@ function handbookScenario(server: Server, currentUser: ModelInstance<User>) {
     const folderA = server.create('file', { target: fileWidgetNode }, 'asFolder');
 
     const fileProviders = fileWidgetNode.files.models as Array<ModelInstance<FileProvider>>;
-    const osfstorage = fileProviders[0];
-    const providerFiles = osfstorage.files.models;
+    const [osfstorage] = fileProviders;
+    const providerFiles = osfstorage.rootFolder.files.models;
 
-    osfstorage.update({
+    osfstorage.rootFolder.update({
         files: [...providerFiles, folderA],
     });
 
@@ -262,7 +277,7 @@ function handbookScenario(server: Server, currentUser: ModelInstance<User>) {
     const folder = server.create('file', { target: schemaNode }, 'asFolder');
     const providers = fileWidgetNode.files.models as Array<ModelInstance<FileProvider>>;
     const storage = providers[0];
-    const providersFiles = storage.files.models;
+    const providersFiles = storage.rootFolder.files.models;
     storage.update({
         files: [...providersFiles, folder],
     });

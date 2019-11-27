@@ -7,9 +7,11 @@
     >
         <form.textarea
             data-test-textarea-input
-            @id={{@uniqueID}}
+            local-class='schema-block-long-text'
+            @uniqueID={{@uniqueID}}
             @valuePath={{@schemaBlock.registrationResponseKey}}
             @onKeyUp={{@onInput}}
+            @placeholder=' '
         />
     </FormControls>
 </Registries::SchemaBlockRenderer::Editable::Base>

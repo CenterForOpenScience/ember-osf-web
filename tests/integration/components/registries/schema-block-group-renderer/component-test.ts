@@ -12,6 +12,8 @@ module('Integration | Component | schema-block-group-renderer', hooks => {
     setupMirage(hooks);
 
     test('it renders a schema group', async function(assert) {
+        this.store = this.owner.lookup('service:store');
+
         const schemaBlocks: SchemaBlock[] = [
             {
                 blockType: 'page-heading',
@@ -161,20 +163,17 @@ module('Integration | Component | schema-block-group-renderer', hooks => {
                 index: 24,
             },
         ];
-
         const schemaBlockGroups = getSchemaBlockGroups(schemaBlocks);
-
+        const mirageNode = server.create('node', 'withFiles');
+        const testFile = server.create('file', { target: mirageNode });
         const registrationResponse = {
             'page-one_short-text': '',
             'page-one_long-text': '',
             'page-one_single-select-two': '',
             'page-one_multi-select': [],
-            'page-one_file-input': [],
+            'page-one_file-input': [testFile],
         };
         const registrationResponseChangeset = new Changeset(registrationResponse);
-        this.store = this.owner.lookup('service:store');
-        const mirageNode = server.create('node', 'withFiles');
-
         const node = await this.store.findRecord('node', mirageNode.id, {
             include: 'bibliographic_contributors',
             reload: true,
@@ -200,11 +199,14 @@ module('Integration | Component | schema-block-group-renderer', hooks => {
         assert.dom('[data-test-section-heading]').exists();
         assert.dom('[data-test-subsection-heading]').exists();
         assert.dom('[data-test-question-label]').exists({ count: 7 });
-        assert.dom('[data-test-single-select-input]').exists({ count: 2 });
+        assert.dom('[data-test-radio-button-group]').exists({ count: 2 });
+        assert.dom('[data-test-radio-input]').exists({ count: 4 });
         assert.dom('[data-test-text-input]').exists();
         assert.dom('[data-test-textarea-input]').exists();
         assert.dom('[data-test-multi-select-input]').exists();
         assert.dom('[data-test-read-only-contributors-list]').exists();
         assert.dom('[data-test-editable-file-widget]').exists();
+        assert.dom('[data-test-selected-files]').exists();
+        assert.dom(`[data-test-selected-file="${testFile.id}"]`).exists();
     });
 });

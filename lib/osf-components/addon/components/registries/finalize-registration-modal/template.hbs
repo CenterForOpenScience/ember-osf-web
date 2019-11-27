@@ -1,6 +1,7 @@
 <OsfDialog
     @isOpen={{@isOpen}}
     @onClose={{@onClose}}
+    @closeOnOutsideClick={{false}}
     as |dialog|
 >
     <dialog.heading data-test-finalize-heading>
@@ -43,9 +44,9 @@
                 <ValidatedInput::Date
                     data-test-embargo-date-input
                     @value={{this.manager.registration.embargoEndDate}}
-                    @startDate={{this.embargoRangeStartDate}}
-                    @endDate={{this.embargoRangeEndDate}}
-                    @placeholder={{t 'registries.finalizeRegistrationModal.datePlaceholder'}}
+                    @minDate={{this.embargoRangeStartDate}}
+                    @maxDate={{this.embargoRangeEndDate}}
+                    @placeholder={{t 'registries.finalizeRegistrationModal.datePlaceholder' }}
                 />
             {{/if}}
         </div>
@@ -57,7 +58,11 @@
             @onClick={{this.manager.submitRegistration}}
             @disabled={{this.shouldDisableSubmitButton}}
         >
-            {{t 'registries.finalizeRegistrationModal.submit'}}
+            {{#if this.manager.submittingRegistration}}
+                <LoadingIndicator @inline=true />
+            {{else}}
+                {{t 'registries.finalizeRegistrationModal.submit'}}
+            {{/if}}
         </OsfButton>
         <OsfButton
             data-test-back-button

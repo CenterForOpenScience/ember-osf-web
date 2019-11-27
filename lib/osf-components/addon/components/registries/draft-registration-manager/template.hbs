@@ -3,16 +3,16 @@
     draftId=this.draftRegistration.id
     currentPage=this.currentPage
     registrationResponsesIsValid=this.registrationResponsesIsValid
+    hasInvalidResponses=this.hasInvalidResponses
     registrationResponses=this.registrationResponses
     nextPageParam=this.nextPageParam
     prevPageParam=this.prevPageParam
     pageManagers=this.pageManagers
     autoSaving=this.autoSaving
-    schemaBlocks=this.schemaBlocks
     lastPage=this.lastPage
     initializing=this.initializing
+    lastSaveFailed=this.lastSaveFailed
 
+    onPageChange=(action this.onPageChange)
     onInput=(perform this.onInput)
-    submitDraftRegistration=(perform this.submitRegistration)
-    validateRegistrationResponses=(action this.validateRegistrationResponses)
 )}}

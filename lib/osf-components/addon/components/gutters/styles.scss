@@ -40,6 +40,7 @@
         // Display a box shadow to either side when opened
         &[data-gutter-closed='false'] {
             box-shadow: ($modifier * -5px) 0 5px -4px $color-shadow-dark;
+            overflow: visible;
         }
 
         // Slide off the page when closed
@@ -53,8 +54,15 @@
 }
 
 .GutterContainer.GutterContainer {
-    overflow: hidden;
     padding: 0;
+
+    &:global(.media-tablet) {
+        overflow-x: hidden;
+    }
+
+    &:global(.media-mobile) {
+        overflow-x: hidden;
+    }
 }
 
 .GutterBody {

@@ -2,6 +2,7 @@
 // tslint:disable:max-line-length
 
 import { MirageRegistrationSchema } from '../../fixtures/registration-schemas';
+import { schemaBlockIds } from '../schema-blocks/replication-recipe-pre-registration';
 
 export default {
     id: 'replication_recipe_pre_registration',
@@ -277,6 +278,7 @@ export default {
         ],
         name: 'Replication Recipe (Brandt et al., 2013): Pre-Registration',
     },
+    schemaBlockIds,
 } as MirageRegistrationSchema;
 
 /* eslint-enable max-len */

@@ -5,16 +5,15 @@
         @shouldShowMessages={{@shouldShowMessages}}
         ...attributes as |form|
     >
-        <form.select
-            data-test-single-select-input
+        <form.radioGroup
             @id={{@uniqueID}}
             @valuePath={{@schemaBlock.registrationResponseKey}}
-            @options={{this.optionBlockValuesAndHelpText}}
+            @options={{this.optionBlockValues}}
             @onchange={{@onInput}}
-            as |option|
+            @helpTextMapping={{this.helpTextMapping}}
+            as |radioGroup|
         >
-            {{option.displayText}}
-            <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{option.helpText}} />
-        </form.select>
+            {{radioGroup}}
+        </form.radioGroup>
     </FormControls>
 </Registries::SchemaBlockRenderer::Editable::Base>

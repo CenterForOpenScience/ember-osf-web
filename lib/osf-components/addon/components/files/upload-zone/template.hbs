@@ -1,18 +1,28 @@
-<DropzoneWidget
-    @options={{this.dropzoneOptions}}
-    @dropzone={{false}}
-    @enable={{this.enable}}
-    @id={{this.dropzoneId}}
-    @clickable={{this.clickable}}
-    @uploadprogress={{action this.uploadProgress}}
-    @success={{perform this.success}}
-    @error={{action this.error}}
-    @buildUrl={{action this.buildUrl}}
-    @addedfile={{action this.addedFile}}
-    @dragenter={{action (mut this.dropping) true}}
-    @dragover={{action (mut this.dropping) true}}
-    @drop={{action (mut this.dropping) false}}
-    @dragleave={{action (mut this.dropping) false}}
->
-    {{yield (hash uploading=this.uploading)}}
-</DropzoneWidget>
+{{#let (unique-id 'dropzone-widget') as |dropzoneId|}}
+    <Files::Menu
+        @filesManager={{@filesManager}}
+        @setButtonClass={{action this.setButtonClass}}
+        @isUploading={{this.isUploading}}
+        as |menu|
+    >
+        <DropzoneWidget
+            @options={{this.dropzoneOptions}}
+            @dropzone={{false}}
+            @enable={{this.canEdit}}
+            @id={{dropzoneId}}
+            @clickable={{this.clickable}}
+            @uploadprogress={{action this.uploadProgress}}
+            @success={{queue menu.close (perform this.success)}}
+            @preUpload={{perform this.preUpload}}
+            @error={{action this.error}}
+            @buildUrl={{action this.buildUrl}}
+            @addedfile={{action this.addedFile}}
+            @dragenter={{action (mut this.dropping) true}}
+            @dragover={{action (mut this.dropping) true}}
+            @drop={{action (mut this.dropping) false}}
+            @dragleave={{action (mut this.dropping) false}}
+        >
+            {{yield (hash uploading=this.uploading)}}
+        </DropzoneWidget>
+    </Files::Menu>
+{{/let}}

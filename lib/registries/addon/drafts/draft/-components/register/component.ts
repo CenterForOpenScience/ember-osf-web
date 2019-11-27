@@ -1,4 +1,6 @@
+import { tagName } from '@ember-decorators/component';
 import { action } from '@ember-decorators/object';
+import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
@@ -7,16 +9,30 @@ import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
+import NodeModel from 'ember-osf-web/models/node';
 import Registration from 'ember-osf-web/models/registration';
 import { DraftRegistrationManager } from 'osf-components/components/registries/draft-registration-manager/component';
 
+@tagName('')
 export default class Register extends Component.extend({
-    getBranchFromNode: task(function *(this: Register) {
-        if (this.draftRegistration) {
-            const rootNode = yield this.draftRegistration.branchedFrom;
-            this.setProperties({ rootNode });
+    onClickRegister: task(function *(this: Register) {
+        if (!this.registration) {
+            const registration = this.store.createRecord('registration', {
+                draftRegistrationId: this.draftRegistration.id,
+                registeredFrom: this.draftRegistration.branchedFrom,
+            });
+
+            this.setProperties({ registration });
         }
-    }).on('didReceiveAttrs').restartable(),
+        if (this.node) {
+            yield this.node.loadRelatedCount('children');
+        }
+        if (this.node && this.node.relatedCounts.children > 0) {
+            this.showPartialRegDialog();
+        } else {
+            this.showFinalizeRegDialog();
+        }
+    }),
 }) {
     @service store!: DS.Store;
 
@@ -26,8 +42,9 @@ export default class Register extends Component.extend({
 
     // Private
     registration!: Registration;
-    rootNode?: Node;
+    node?: NodeModel;
     onSubmitRedirect?: (registrationId: string) => void;
+    @alias('draftManager.hasInvalidResponses') isInvalid?: boolean;
 
     partialRegDialogIsOpen = false;
     finalizeRegDialogIsOpen = false;
@@ -35,14 +52,6 @@ export default class Register extends Component.extend({
     didReceiveAttrs() {
         assert('@draftManager is required!', Boolean(this.draftManager));
         assert('@draftRegistration is required!', Boolean(this.draftRegistration));
-
-        if (!this.registration) {
-            const registration = this.store.createRecord('registration', {
-                draftRegistration: this.draftRegistration,
-            });
-
-            this.setProperties({ registration });
-        }
     }
 
     @action
@@ -94,8 +103,10 @@ export default class Register extends Component.extend({
     @action
     onBack() {
         this.closeFinalizeRegDialog();
-        run.next(this, () => {
-            this.showPartialRegDialog();
-        });
+        if (this.node && this.node.relatedCounts.children > 0) {
+            run.next(this, () => {
+                this.showPartialRegDialog();
+            });
+        }
     }
 }

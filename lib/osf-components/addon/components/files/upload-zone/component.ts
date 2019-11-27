@@ -4,7 +4,9 @@ import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import MutableArray from '@ember/array/mutable';
 import Component from '@ember/component';
+import { assert } from '@ember/debug';
 import { task } from 'ember-concurrency';
+import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
 import $ from 'jquery';
@@ -12,6 +14,8 @@ import $ from 'jquery';
 import { layout } from 'ember-osf-web/decorators/component';
 import File from 'ember-osf-web/models/file';
 import Analytics from 'ember-osf-web/services/analytics';
+import CurrentUser from 'ember-osf-web/services/current-user';
+
 import { Resource } from 'osf-api';
 import { FilesManager } from 'osf-components/components/files/manager/component';
 import template from './template';
@@ -37,18 +41,28 @@ export default class UploadZone extends Component.extend({
             action: 'link',
         });
         const fileId = response.data.id;
-        yield this.manager.addFile(fileId.replace(/^.*\//, ''));
+        yield this.filesManager.addFile(fileId.replace(/^.*\//, ''));
 
         this.uploading.removeObject(file);
+    }),
+    preUpload: task(function *(this: UploadZone, _: unknown, __: unknown, file: File) {
+        let existingFile = this.filesManager.displayedItems.findBy('itemName', file.name);
+        if (!existingFile) {
+            [existingFile] = yield this.filesManager.currentFolder.queryHasMany('files', {
+                'filter[name][eq]': file.name,
+            });
+        }
+        this.setProperties({ existingFile });
     }),
 }) {
     @service toast!: Toast;
     @service analytics!: Analytics;
     @service i18n!: I18N;
+    @service currentUser!: CurrentUser;
+    @service store!: DS.Store;
 
-    manager!: FilesManager;
+    filesManager!: FilesManager;
     uploading: MutableArray<File> = A([]);
-    dropzoneId = 'files-widget-dropzone';
     dropping: boolean = false;
     dropzoneOptions = {
         createImageThumbnails: false,
@@ -57,13 +71,29 @@ export default class UploadZone extends Component.extend({
         preventMultipleFiles: true,
         acceptDirectories: false,
     };
+    buttonClass = '';
+    existingFile?: File;
 
-    @alias('manager.canEdit') enable!: boolean;
+    @alias('filesManager.canEdit') canEdit!: boolean;
     @notEmpty('uploading') isUploading!: boolean;
 
-    @computed('manager.{currentFolder,fileProvider}')
+    didReceiveAttrs() {
+        assert('Files::UploadZone requires @filesManager!', Boolean(this.filesManager));
+    }
+
+    @computed('canEdit', 'buttonClass')
+    get clickable() {
+        if (!this.buttonClass) {
+            return [];
+        }
+        return this.canEdit ? [`.${this.buttonClass}`] : [];
+    }
+
+    @computed('filesManager.{currentFolder,fileProvider,inRootFolder}')
     get uploadUrl() {
-        const folder = this.manager.currentFolder || this.manager.fileProvider;
+        // Waterbutler does not allow uploading to fileProvider.rootFolder
+        const { inRootFolder, currentFolder, fileProvider } = this.filesManager;
+        const folder = inRootFolder ? fileProvider : currentFolder;
         return folder ? folder.links.upload : undefined;
     }
 
@@ -87,6 +117,18 @@ export default class UploadZone extends Component.extend({
     @action
     buildUrl(files: File[]) {
         const { name } = files[0];
-        return this.uploadUrl ? `${this.uploadUrl}?${$.param({ name })}` : undefined;
+        const { existingFile } = this;
+
+        if (existingFile) {
+            assert('preUpload and buildUrl were called with different files!', name === existingFile.name);
+            return existingFile.links.upload;
+        }
+
+        return `${this.uploadUrl}?${$.param({ kind: 'file', name })}`;
+    }
+
+    @action
+    setButtonClass(buttonClass: string = '') {
+        this.setProperties({ buttonClass });
     }
 }

@@ -1,0 +1,9 @@
+.Label {
+    composes: Heading from '../styles';
+
+    color: $color-text-gray-blue;
+    width: 100%;
+    border-bottom: 0;
+    font-weight: 700;
+    font-size: 14px;
+}

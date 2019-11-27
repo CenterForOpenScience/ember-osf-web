@@ -2,7 +2,26 @@
     justify-content: space-between;
     display: inline-flex;
     width: 100%;
-    padding-left: 30px;
-    height: 100%;
+    padding-left: 10px;
     font-weight: 700;
+    white-space: inherit;
+    overflow: hidden;
+
+    &:hover {
+        overflow: visible;
+    }
+}
+
+.Label {
+    float: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &:hover {
+        overflow: visible;
+    }
+}
+
+.Count {
+    float: right;
 }

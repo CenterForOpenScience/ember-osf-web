@@ -28,6 +28,7 @@ module('Registries | Integration | Component | page-link', hooks => {
 
     hooks.beforeEach(function(this: TestContext) {
         this.owner.register('service:router', RouterStub);
+        this.owner.register('service:osf-router', RouterStub);
         this.owner.register('service:current-user', CurrentUserStub);
     });
 

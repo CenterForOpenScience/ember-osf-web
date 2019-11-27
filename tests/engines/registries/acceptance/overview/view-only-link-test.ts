@@ -10,6 +10,7 @@ module('Registries | Acceptance | overview.view-only-link', hooks => {
     setupMirage(hooks);
 
     hooks.beforeEach(() => {
+        server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
     });
 

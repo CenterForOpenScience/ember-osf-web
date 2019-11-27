@@ -1,16 +1,19 @@
 {{yield (hash
-    canEdit=this.canEdit
     loading=this.loading
+    loadingFolderItems=this.loadingFolderItems
+    loadingMore=this.loadingMore
+    canEdit=this.canEdit
+    hasMore=this.hasMore
+    sort=this.sort
     currentFolder=this.currentFolder
     displayedItems=this.displayedItems
-    selectedItems=this.selectedItems
+    rootFolder=this.rootFolder
+    inRootFolder=this.inRootFolder
+    onSelectFile=@onSelectFile
     fileProvider=this.fileProvider
-    hasMore=this.hasMore
-    loadingFolderItems=this.loadingFolderItems
-    unselectItem=(action this.unselectItem)
-    selectItem=(action this.selectItem)
     goToFolder=(action this.goToFolder)
     goToParentFolder=(action this.goToParentFolder)
     addFile=(perform this.addFile)
     loadMore=(perform this.loadMore)
+    sortItems=(action this.sortItems)
 )}}

@@ -1,23 +1,27 @@
-{{#if @filesManager.selectedItems}}
+{{#if @selectedFiles}}
     <div data-test-selected-files
         local-class='selected-list'
+        ...attributes
     >
         <AnimatedContainer>
             <AnimatedEach
-                @items={{@filesManager.selectedItems}}
+                @items={{@selectedFiles}}
                 @use={{this.transition}}
                 @duration=500
-                as |item|
+                as |file|
             >
-                <div data-test-selected-file
+                <div
+                    data-test-selected-file='{{file.id}}'
                     local-class='selected-item'
                 >
-                    <span>{{item.itemName}}</span>
+                    <span>{{file.itemName}}</span>
                     <OsfButton
                         data-test-unselect-file
                         data-analytics-name='Unselect file'
                         local-class='unselect'
-                        @onClick={{action @filesManager.unselectItem item}}
+                        aria-label={{t 'osf-components.files-widget.unselect_file'}}
+                        tabindex='0'
+                        @onClick={{action @unselect file}}
                         @type='link'
                     >
                         <FaIcon @icon='times' @fixedWith={{true}} />
@@ -25,9 +29,5 @@
                 </div>
             </AnimatedEach>
         </AnimatedContainer>
-    </div>
-{{else}}
-    <div data-test-files-info local-class='info'>
-        <span>{{t 'osf-components.files-widget.message'}}</span>
     </div>
 {{/if}}

@@ -1,5 +1,9 @@
 {{! template-lint-disable no-html-comments }}
-<div data-test-read-only-contributors-list ...attributes>
+<div
+    data-test-read-only-contributors-list
+    local-class='ContributorList'
+    ...attributes
+>
     <ContributorList
         @node={{@node}}
         @shouldTruncate={{false}}
@@ -9,11 +13,14 @@
         <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{this.schemaBlock.helpText}} />
     {{/if}}
 </div>
-<div data-test-edit-contributors>
+<div
+    data-test-edit-contributors
+    local-class='EditContributors'
+>
     <!-- TODO: change link to a route when we emberize contributors page -->
     <OsfLink
         data-test-to-contributors-page
-        @href={{concat @node.guid '/contributors/'}}
+        @href={{concat this.osfUrl @node.id '/contributors/'}}
     >
         {{t 'osf-components.registries.read-only-contributors-list.editContributorsOnYourProject'}}
     </OsfLink>

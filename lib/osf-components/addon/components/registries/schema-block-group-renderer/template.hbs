@@ -1,8 +1,25 @@
-{{#each this.nonOptionBlocks as |block|}}
-    <Registries::SchemaBlockRenderer
-        @schemaBlock={{block}}
-        @optionBlocks={{this.optionBlocks}}
-        @uniqueID={{this.uniqueID}}
-        @renderStrategy={{@renderStrategy}}
-    />
-{{/each}}
+{{#if this.isFieldsetGroup}}
+    <fieldset local-class='Fieldset'>
+        {{#each this.nonOptionBlocks as |block|}}
+            <Registries::SchemaBlockRenderer
+                @schemaBlock={{block}}
+                @optionBlocks={{this.optionBlocks}}
+                @uniqueID={{this.uniqueID}}
+                @renderStrategy={{@renderStrategy}}
+                @isRequired={{this.isRequired}}
+                @isFieldsetGroup={{true}}
+            />
+        {{/each}}
+    </fieldset>
+{{else}}
+    {{#each this.nonOptionBlocks as |block|}}
+        <Registries::SchemaBlockRenderer
+            @schemaBlock={{block}}
+            @optionBlocks={{this.optionBlocks}}
+            @uniqueID={{this.uniqueID}}
+            @renderStrategy={{@renderStrategy}}
+            @isRequired={{this.isRequired}}
+            @isFieldsetGroup={{false}}
+        />
+    {{/each}}
+{{/if}}

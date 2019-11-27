@@ -1,7 +1,7 @@
 import { assert } from '@ember/debug';
 import { SchemaBlock, SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema';
 
-function isEmpty(input: string | undefined) {
+function isEmpty(input?: string | null) {
     if (input === undefined || input === null || input === '') {
         return true;
     }

@@ -7,6 +7,13 @@
 )}}
 
 <div class={{this.backgroundClass}}>
+    {{yield (hash
+        top=(
+            component 'osf-layout/top'
+            toggleSidenav=(action this.toggleSidenav)
+            sidenavGutterClosed=this.sidenavGutterClosed
+        )
+    )}}
     <Gutters
         @leftMode={{this.sidenavGutterMode}}
         @leftClosed={{this.sidenavGutterClosed}}
