@@ -145,5 +145,10 @@ module.exports = function(defaults) {
         },
     });
 
+    app.import('node_modules/dropzone/dist/dropzone.css');
+    app.import('node_modules/dropzone/dist/dropzone.js');
+
+    app.import('node_modules/wicg-inert/dist/inert.min.js');
+
     return app.toTree();
 };

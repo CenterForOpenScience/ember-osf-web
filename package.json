@@ -227,6 +227,5 @@
       "lib/osf-components",
       "lib/registries"
     ]
-  },
-  "dependencies": {}
+  }
 }
