@@ -11,6 +11,7 @@
   "repository": "https://github.com/CenterForOpenScience/ember-osf-web",
   "scripts": {
     "build": "ember build",
+    "build:test": "ember build --output-path='./test-dist' --environment=test",
     "start": "ember server",
     "lint": "eslint --ext js,ts --max-warnings=0 . && tslint -p . && stylelint 'app/**/*.scss' 'lib/**/*.scss'",
     "test": "ember test",
