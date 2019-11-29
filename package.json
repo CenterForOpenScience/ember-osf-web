@@ -11,6 +11,7 @@
   "repository": "https://github.com/CenterForOpenScience/ember-osf-web",
   "scripts": {
     "build": "ember build",
+    "build:test": "ember build --output-path='./test-dist' --environment=test",
     "start": "ember server",
     "lint": "eslint --ext js,ts --max-warnings=0 . && tslint -p . && stylelint 'app/**/*.scss' 'lib/**/*.scss'",
     "test": "ember test",
@@ -77,6 +78,7 @@
     "ember-ajax": "^5.0.0",
     "ember-angle-bracket-invocation-polyfill": "^2.0.2",
     "ember-animated": "^0.9.0",
+    "ember-auto-import": "^1.5.3",
     "ember-basic-dropdown": "^1.0.3",
     "ember-bootstrap": "^2.8.1",
     "ember-bootstrap-datepicker": "^2.0.9",
