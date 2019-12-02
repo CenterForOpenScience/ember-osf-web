@@ -219,6 +219,16 @@ module.exports = function(environment) {
                     donate: 'https://cos.io/donate',
                 },
             },
+            collections: {
+                whiteListedProviders: [
+                    'arXiv',
+                    'bioRxiv',
+                    'Cogprints',
+                    'PeerJ',
+                    'Research Papers in Economics',
+                    'Preprints.org',
+                ],
+            },
         },
         social: {
             twitter: {

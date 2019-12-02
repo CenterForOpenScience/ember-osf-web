@@ -119,7 +119,25 @@ Router.map(function() {
         this.route('detail', { path: '/:meeting_id' });
     });
 
-    this.route('collections');
+    this.route('collections', function() {
+        this.route('page-not-found');
+        this.route('forbidden');
+        this.route('discover');
+        this.route('submit');
+        this.route('guid', { path: '/:guid' }, function() {
+            this.route('edit');
+        });
+
+        this.route('provider', { path: '/:slug' }, function() {
+            this.route('page-not-found');
+            this.route('forbidden');
+            this.route('discover');
+            this.route('submit');
+            this.route('guid', { path: '/:guid' }, function() {
+                this.route('edit');
+            });
+        });
+    });
 
     this.route('handbook');
 
