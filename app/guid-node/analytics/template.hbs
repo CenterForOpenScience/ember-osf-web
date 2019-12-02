@@ -10,7 +10,7 @@
                 {{else}}
                     <h2>{{forksCount}}</h2>
                     {{#link-to-external
-                        (if node.isProject 'nodeForks' 'registrationForks')
+                        (if node.isProject 'guid-node.forks' 'guid-registration.forks')
                         model.id
                     }}
                         {{t 'analytics.viewForks'}}

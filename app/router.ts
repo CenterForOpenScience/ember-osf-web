@@ -10,11 +10,6 @@ import scrollTo from 'ember-osf-web/utils/scroll-to';
 import transitionTargetURL from 'ember-osf-web/utils/transition-target-url';
 
 const {
-    engines: {
-        collections,
-        handbook,
-        registries,
-    },
     featureFlagNames: {
         routes: routeFlags,
     },
@@ -124,22 +119,16 @@ Router.map(function() {
         this.route('detail', { path: '/:meeting_id' });
     });
 
-    if (collections.enabled) {
-        this.mount('collections');
-    }
+    this.route('collections');
 
-    if (handbook.enabled) {
-        this.mount('handbook');
-    }
+    this.route('handbook');
 
-    if (registries.enabled) {
-        this.mount('registries', { path: '--registries' });
-    }
+    this.route('registries', { path: '--registries' });
 
     this.route('guid-file', { path: '--file/:guid' });
 
     this.route('guid-node', { path: '--node/:guid' }, function() {
-        this.mount('analytics-page', { as: 'analytics' });
+        this.route('analytics');
         this.route('forks');
         this.route('registrations');
         this.route('drafts', { path: '/drafts/:draftId' }, function() {
@@ -150,7 +139,7 @@ Router.map(function() {
     this.route('guid-preprint', { path: '--preprint/:guid' });
 
     this.route('guid-registration', { path: '--registration/:guid' }, function() {
-        this.mount('analytics-page', { as: 'analytics' });
+        this.route('analytics');
         this.route('forks');
     });
 

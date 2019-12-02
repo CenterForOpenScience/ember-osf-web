@@ -150,5 +150,17 @@ module.exports = function(defaults) {
 
     app.import('node_modules/wicg-inert/dist/inert.min.js');
 
+    app.import('node_modules/keen-analysis/dist/keen-analysis.min.js', {
+        using: [
+            { transformation: 'amd', as: 'keen-analysis' },
+        ],
+    });
+    app.import('node_modules/keen-dataviz/dist/keen-dataviz.min.css');
+    app.import('node_modules/keen-dataviz/dist/keen-dataviz.min.js', {
+        using: [
+            { transformation: 'amd', as: 'keen-dataviz' },
+        ],
+    });
+
     return app.toTree();
 };
