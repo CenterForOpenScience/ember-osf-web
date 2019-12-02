@@ -51,7 +51,7 @@ export default class UserQuickfiles extends Route {
     }
 
     setupController(controller: GuidUserQuickfilesController, model: any) {
-        this._super(controller, model);
+        super.setupController(controller, model);
 
         controller.setProperties({
             newProject: this.store.createRecord('node', {
