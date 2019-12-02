@@ -3,8 +3,8 @@ import { action, computed } from '@ember/object';
 import { not } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { underscore } from '@ember/string';
-import config from 'collections/config/environment';
 import DS from 'ember-data';
+import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
 import { choiceFields } from 'ember-osf-web/models/collected-metadatum';
 import Theme from 'ember-osf-web/services/theme';
@@ -144,7 +144,7 @@ export default class Discover extends Controller {
     }
 
     type = ''; // Type query param. Must be passed to component, so can be reflected in URL
-    whiteListedProviders = config.whiteListedProviders;
+    whiteListedProviders = config.OSF.collections.whiteListedProviders;
 
     @action
     query(params: any) {

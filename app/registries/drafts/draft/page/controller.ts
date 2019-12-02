@@ -33,6 +33,7 @@ export default class RegistriesDrat extends Controller {
     get shouldAppendPageSlug() {
         // Only update current route if it has a pageIndex but no page slug
         const regex = /^\d+-?$/;
+        console.log({ regex });
         return regex.test(this.page);
     }
 

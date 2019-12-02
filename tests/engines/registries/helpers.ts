@@ -2,7 +2,7 @@ import EngineInstance from '@ember/engine/instance';
 import { TestContext } from 'ember-test-helpers';
 import sinon from 'sinon';
 
-import ShareSearch from 'registries/services/share-search';
+import ShareSearch from 'ember-osf-web/services/share-search';
 
 // TODO: allow passing in search results
 export function stubRegistriesShareSearch(context: TestContext) {

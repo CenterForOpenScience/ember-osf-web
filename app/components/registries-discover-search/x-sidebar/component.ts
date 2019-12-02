@@ -8,8 +8,9 @@ import { OrderedSet } from 'immutable';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
+import { SearchFilter, SearchOptions } from 'ember-osf-web/services/search';
 import defaultTo from 'ember-osf-web/utils/default-to';
-import { SearchFilter, SearchOptions } from 'registries/services/search';
+
 import template from './template';
 
 @layout(template)

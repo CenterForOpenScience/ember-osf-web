@@ -8,3 +8,4 @@ import template from './template';
 @layout(template, styles)
 export default class OsfButton extends BsButton {
 }
+console.log('thing');

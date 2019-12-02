@@ -19,9 +19,6 @@ const {
     CAS_URL: casUrl = 'http://192.168.168.167:8080',
     CLIENT_ID: clientId,
     ENABLED_LOCALES = 'en, en-US',
-    COLLECTIONS_ENABLED = false,
-    REGISTRIES_ENABLED = true,
-    HANDBOOK_ENABLED = false,
     HANDBOOK_DOC_GENERATION_ENABLED = false,
     TESTS_ENABLED = false,
     FB_APP_ID,
@@ -229,6 +226,9 @@ module.exports = function(environment) {
                     'Preprints.org',
                 ],
             },
+            handbook: {
+                docGenerationEnabled: HANDBOOK_DOC_GENERATION_ENABLED,
+            },
         },
         social: {
             twitter: {
@@ -328,23 +328,7 @@ module.exports = function(environment) {
             youtubeId: '2TV21gOzfhw',
         },
         secondaryNavbarId: '__secondaryOSFNavbar__',
-        engines: {
-            // App Engines should always be enabled in production builds
-            // as they will be enabled/disabled at runtime rather than buildtime
-            collections: {
-                enabled: !devMode || isTruthy(COLLECTIONS_ENABLED),
-            },
-            registries: {
-                enabled: !devMode || isTruthy(REGISTRIES_ENABLED),
-            },
-            handbook: {
-                enabled: isTruthy(HANDBOOK_ENABLED),
-                docGenerationEnabled: HANDBOOK_DOC_GENERATION_ENABLED,
-            },
-        },
-        'ember-cli-tailwind': {
-            shouldIncludeStyleguide: false,
-        },
+
         'ember-cli-mirage': {
             enabled: Boolean(MIRAGE_ENABLED),
         },
@@ -396,15 +380,6 @@ module.exports = function(environment) {
                 LOG_VIEW_LOOKUPS: false,
                 rootElement: '#ember-testing',
                 autoboot: false,
-            },
-            engines: {
-                ...ENV.engines,
-                collections: {
-                    enabled: true,
-                },
-                registries: {
-                    enabled: true,
-                },
             },
         });
     }

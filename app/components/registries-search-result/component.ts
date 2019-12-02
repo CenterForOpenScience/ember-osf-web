@@ -5,7 +5,7 @@ import { localClassNames } from 'ember-css-modules';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
-import { ShareRegistration } from 'registries/services/share-search';
+import { ShareRegistration } from 'ember-osf-web/services/share-search';
 
 import template from './template';
 

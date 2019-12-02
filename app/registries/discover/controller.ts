@@ -5,21 +5,21 @@ import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
+import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
 import QueryParams from 'ember-parachute';
 import { is, OrderedSet } from 'immutable';
 
+import discoverStyles from 'ember-osf-web/components/registries-discover-search/styles';
 import Analytics from 'ember-osf-web/services/analytics';
-import defaultTo from 'ember-osf-web/utils/default-to';
-import scrollTo from 'ember-osf-web/utils/scroll-to';
-import discoverStyles from 'registries/components/registries-discover-search/styles';
-import config from 'registries/config/environment';
-import { SearchFilter, SearchOptions, SearchOrder, SearchResults } from 'registries/services/search';
+import { SearchFilter, SearchOptions, SearchOrder, SearchResults } from 'ember-osf-web/services/search';
 import ShareSearch, {
     ShareRegistration,
     ShareTermsAggregation,
     ShareTermsFilter,
-} from 'registries/services/share-search';
+} from 'ember-osf-web/services/share-search';
+import defaultTo from 'ember-osf-web/utils/default-to';
+import scrollTo from 'ember-osf-web/utils/scroll-to';
 
 import styles from './styles';
 
@@ -78,7 +78,7 @@ const queryParams = {
         },
         deserialize(value: string) {
             return value.split(/OR|\|/).map(
-                name => config.sourcesWhitelist.find(x => x.name === name),
+                name => config.OSF.registries.sourcesWhitelist.find(x => x.name === name),
             ).filter(Boolean).map(
                 source => new ShareTermsFilter('sources', source!.name, source!.display || source!.name),
             );
@@ -192,7 +192,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         /* eslint-disable camelcase */
         const buckets = results.aggregations.sources.buckets as Array<{key: string, doc_count: number}>;
         // NOTE: sourcesWhitelist is iterated over here to match it's order.
-        for (const source of config.sourcesWhitelist) {
+        for (const source of config.OSF.registries.sourcesWhitelist) {
             const bucket = buckets.find(x => x.key === source.name);
             if (!bucket) {
                 continue;

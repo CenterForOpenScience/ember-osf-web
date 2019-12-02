@@ -10,8 +10,8 @@ import { layout } from 'ember-osf-web/decorators/component';
 import Node from 'ember-osf-web/models/node';
 import AnalyticsService from 'ember-osf-web/services/analytics';
 
-import { ChartSpec } from 'analytics-page/components/analytics-charts/component';
-import KeenService from 'analytics-page/services/keen';
+import { ChartSpec } from 'ember-osf-web/components/analytics-charts/component';
+import KeenService from 'ember-osf-web/services/keen';
 
 import styles from './styles';
 import template from './template';

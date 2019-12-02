@@ -1,13 +1,14 @@
-import unescapeXMLEntities from 'ember-osf-web/utils/fix-special-char';
+import config from 'ember-get-config';
 import { Map } from 'immutable';
-import config from 'registries/config/environment';
+
 import Search, {
     SearchFilter,
     SearchModifier,
     SearchOptions,
     SearchResults,
     TypedMap,
-} from 'registries/services/search';
+} from 'ember-osf-web/services/search';
+import unescapeXMLEntities from 'ember-osf-web/utils/fix-special-char';
 
 abstract class ShareFilter extends SearchFilter {
     protected ensureFilterKey(query: any): any {
@@ -108,7 +109,7 @@ export default class ShareSearch extends Search {
     static registrationsFilter = new ShareTermsFilter('types', 'registration', 'Registration');
 
     url(): string {
-        return `${config.shareSearchBaseURL}/creativeworks/_search`;
+        return `${config.OSF.registries.shareSearchBaseURL}/creativeworks/_search`;
     }
 
     extractTotal(response: any): number {
@@ -177,7 +178,7 @@ export default class ShareSearch extends Search {
             let mainLink: string | undefined;
             const infoLinks: Array<{ type: string; uri: string; }> = [];
             const hyperLinks: string[] = [
-                `${config.shareBaseURL}/${r._source.type.replace(/ /g, '')}/${r._id}`,
+                `${config.OSF.registries.shareBaseURL}/${r._source.type.replace(/ /g, '')}/${r._id}`,
             ];
 
             for (const identifier of (r._source.identifiers as string[])) {
@@ -185,7 +186,7 @@ export default class ShareSearch extends Search {
                     hyperLinks.push(identifier);
 
                     // Test to see if this link is the "main" link
-                    for (const source of config.sourcesWhitelist) {
+                    for (const source of config.OSF.registries.sourcesWhitelist) {
                         if (!new RegExp(source.urlRegex).test(identifier)) {
                             continue;
                         }
@@ -205,7 +206,7 @@ export default class ShareSearch extends Search {
                 id: r._id,
                 sources: r._source.sources.map(
                     (source: string) => {
-                        const entry = config.sourcesWhitelist.find(x => x.name === source);
+                        const entry = config.OSF.registries.sourcesWhitelist.find(x => x.name === source);
                         return (entry && entry.display) ? entry.display : source;
                     },
                 ),

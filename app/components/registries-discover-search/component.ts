@@ -2,7 +2,7 @@ import { A } from '@ember/array';
 import Component from '@ember/component';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
-import { SearchOptions } from 'registries/services/search';
+import { SearchOptions } from 'ember-osf-web/services/search';
 import template from './template';
 
 @layout(template)

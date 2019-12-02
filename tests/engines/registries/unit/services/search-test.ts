@@ -1,7 +1,8 @@
-import { setupEngineTest } from 'ember-osf-web/tests/helpers/engines';
 import { is, OrderedSet } from 'immutable';
 import { module, test } from 'qunit';
-import { SearchFilter, SearchOptions } from 'registries/services/search';
+
+import { SearchFilter, SearchOptions } from 'ember-osf-web/services/search';
+import { setupEngineTest } from 'ember-osf-web/tests/helpers/engines';
 
 class TestSearchFilter extends SearchFilter {
     static TYPE = Symbol('TEST-FILTER');

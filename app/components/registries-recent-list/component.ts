@@ -7,7 +7,7 @@ import Store from 'ember-data/store';
 import { layout } from 'ember-osf-web/decorators/component';
 import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 import Analytics from 'ember-osf-web/services/analytics';
-import { ShareRegistration } from 'registries/services/share-search';
+import { ShareRegistration } from 'ember-osf-web/services/share-search';
 import template from './template';
 
 @layout(template)

@@ -8,11 +8,18 @@ import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import { AuthBase } from 'osf-components/components/osf-navbar/auth-dropdown/component';
 import { OSF_SERVICES } from 'osf-components/components/osf-navbar/component';
-import config from 'registries/config/environment';
+
+import config from 'ember-get-config';
 
 import template from './template';
 
-const { externalLinks } = config;
+const {
+    OSF: {
+        registries: {
+            externalLinks,
+        },
+    },
+} = config;
 
 @tagName('')
 @layout(template)

@@ -13,11 +13,6 @@ const {
         popularNode,
     },
     mirageScenarios,
-    engines: {
-        handbook: {
-            enabled: handbookEnabled,
-        },
-    },
 } = config;
 
 function registrationScenario(
@@ -343,7 +338,7 @@ export default function(server: Server) {
     if (mirageScenarios.includes('meetings')) {
         meetingsScenario(server);
     }
-    if (handbookEnabled) {
+    if (mirageScenarios.includes('handbook')) {
         handbookScenario(server, currentUser);
     }
 }

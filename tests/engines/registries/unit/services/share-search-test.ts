@@ -1,7 +1,7 @@
 import { setupEngineTest } from 'ember-osf-web/tests/helpers/engines';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
-import ShareSearch from 'registries/services/share-search';
+import ShareSearch from 'ember-osf-web/services/share-search';
 
 function getSearchResponse(identifiers?: string[]) {
     return {

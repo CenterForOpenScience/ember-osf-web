@@ -14,7 +14,7 @@ function postProcess(content) {
 
 module.exports = function(defaults) {
     const config = defaults.project.config(EMBER_ENV);
-    const handbookEnabled = config.engines.handbook.enabled;
+    const handbookEnabled = true;
 
     /*
      * Options just used by child addons of the handbook engine. Some addons
@@ -26,7 +26,7 @@ module.exports = function(defaults) {
             // ember-code-snippets
             includeHighlightJS: false,
             includeFileExtensionInSnippetNames: false,
-            snippetSearchPaths: ['lib/handbook/addon'],
+            snippetSearchPaths: ['app/handbook'],
             snippetRegexes: [{
                 begin: /{{#(?:docs-snippet|demo.example|demo.live-example)\sname=(?:"|')(\S+)(?:"|')/,
                 end: /{{\/(?:docs-snippet|demo.example|demo.live-example)}}/,
@@ -52,14 +52,6 @@ module.exports = function(defaults) {
             },
             exclude: ['jsonapi-typescript'],
         },
-        addons: {
-            blacklist: [
-                'ember-cli-addon-docs', // Only included in the handbook engine
-                ...Object.keys(config.engines).filter(
-                    engineName => !config.engines[engineName].enabled,
-                ),
-            ],
-        },
         'ember-bootstrap': {
             bootstrapVersion: 3,
             importBootstrapFont: true,
@@ -77,10 +69,6 @@ module.exports = function(defaults) {
             exclude: [
                 'zxcvbn.js',
                 'assets/osf-assets',
-                // Exclude <engine-name>/config/environment.js from fingerprinting so it matches
-                // the engines exclude regex.
-                // https://github.com/ember-engines/ember-engines/blob/master/index.js#L10
-                'config/environment.js',
             ],
             prepend: config.assetsPrefix,
         },

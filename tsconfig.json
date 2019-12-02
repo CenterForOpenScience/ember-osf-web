@@ -20,18 +20,6 @@
     "baseUrl": ".",
     "module": "es6",
     "paths": {
-      "collections/*": [
-        "lib/collections/addon/*"
-      ],
-      "collections/config/*": [
-        "lib/collections/config/*"
-      ],
-      "registries/*": [
-        "lib/registries/addon/*"
-      ],
-      "registries/config/*": [
-        "lib/registries/config/*"
-      ],
       "ember-osf-web/tests/*": [
         "tests/*"
       ],
@@ -53,18 +41,6 @@
       "osf-components/*": [
         "lib/osf-components/addon/*"
       ],
-      "handbook": [
-        "lib/handbook/addon"
-      ],
-      "handbook/*": [
-        "lib/handbook/addon/*"
-      ],
-      "analytics-page": [
-        "lib/analytics-page/addon"
-      ],
-      "analytics-page/*": [
-        "lib/analytics-page/addon/*"
-      ],
       "config/*": [
         "config/*"
       ],
@@ -85,11 +61,7 @@
     "tests",
     "mirage",
     "types",
-    "lib/analytics-page",
-    "lib/collections",
     "lib/app-components",
-    "lib/handbook",
-    "lib/osf-components",
-    "lib/registries"
+    "lib/osf-components"
   ]
 }

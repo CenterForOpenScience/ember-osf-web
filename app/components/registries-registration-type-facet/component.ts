@@ -5,29 +5,30 @@ import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
-import appConfig from 'ember-get-config';
+import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
 
 import RegistrationSchema from 'ember-osf-web/adapters/registration-schema';
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
+import { SearchOptions } from 'ember-osf-web/services/search';
+import { ShareTermsFilter } from 'ember-osf-web/services/share-search';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
-import engineConfig from 'registries/config/environment';
-import { SearchOptions } from 'registries/services/search';
-import { ShareTermsFilter } from 'registries/services/share-search';
 import template from './template';
-
-const {
-    sourcesWhitelist,
-} = engineConfig;
 
 const {
     featureFlagNames: {
         enableInactiveSchemas,
     },
-} = appConfig;
+
+    OSF: {
+        registries: {
+            sourcesWhitelist,
+        },
+    },
+} = config;
 
 @layout(template)
 export default class RegistriesRegistrationTypeFacet extends Component {

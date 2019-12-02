@@ -3,7 +3,6 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import config from 'collections/config/environment';
 import I18N from 'ember-i18n/services/i18n';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -25,7 +24,6 @@ export default class SearchResultNode extends Component.extend({
     @service i18n!: I18N;
     @service theme!: Theme;
 
-    hostAppName = config.hostAppName;
     maxTags: number = defaultTo(this.maxTags, 10);
     maxCreators: number = defaultTo(this.maxCreators, 10);
     maxDescription: number = defaultTo(this.maxDescription, 300);

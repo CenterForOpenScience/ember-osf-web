@@ -8,7 +8,7 @@ import moment, { Moment } from 'moment';
 import { layout } from 'ember-osf-web/decorators/component';
 import Node from 'ember-osf-web/models/node';
 
-import KeenService from 'analytics-page/services/keen';
+import KeenService from 'ember-osf-web/services/keen';
 import template from './template';
 
 export interface ChartSpec {

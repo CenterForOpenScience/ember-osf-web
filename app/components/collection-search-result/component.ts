@@ -4,7 +4,6 @@ import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { dasherize, underscore } from '@ember/string';
-import config from 'collections/config/environment';
 import { localClassNames } from 'ember-css-modules';
 import ModelRegistry from 'ember-data/types/registries/model';
 
@@ -32,7 +31,6 @@ export default class CollectionSearchResult extends Component {
     @service analytics!: Analytics;
     @service theme!: Theme;
 
-    hostAppName = config.hostAppName;
     maxTags: number = defaultTo(this.maxTags, 10);
     maxCreators: number = defaultTo(this.maxCreators, 10);
     maxDescription: number = defaultTo(this.maxDescription, 300);
