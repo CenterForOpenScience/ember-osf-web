@@ -9,8 +9,8 @@ import { stubRegistriesShareSearch } from 'ember-osf-web/tests/engines/registrie
 import { visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 
-import HeaderStyles from 'registries/components/registries-header/styles';
-import ServiceListStyles from 'registries/components/registries-services-list/styles';
+import HeaderStyles from 'ember-osf-web/components/registries-header/styles';
+import ServiceListStyles from 'ember-osf-web/components/registries-services-list/styles';
 
 module('Registries | Integration | index', hooks => {
     setupEngineApplicationTest(hooks, 'registries');

@@ -111,6 +111,27 @@ declare const config: {
             action: string;
         };
         doiUrlPrefix: string;
+        registries: {
+            shareBaseURL: string;
+            shareSearchBaseURL: string;
+            indexPageRegistrationsQuery: string;
+            sourcesWhitelist: Array<{
+                display?: string;
+                https: boolean;
+                name: string;
+                urlRegex: string;
+            }>;
+            externalLinks: {
+                help: string;
+                donate: string;
+            };
+        };
+        collections: {
+            whiteListedProviders: string[];
+        };
+        handbook: {
+            docGenerationEnabled: boolean;
+        };
     };
     social: {
         twitter: {
@@ -184,22 +205,6 @@ declare const config: {
     };
 
     mirageScenarios: string[];
-
-    engines: {
-        collections: {
-            enabled: boolean;
-        };
-        registries: {
-            enabled: boolean;
-        };
-        handbook: {
-            enabled: boolean;
-            docGenerationEnabled: boolean;
-        };
-    };
-    'ember-cli-tailwind'?: {
-        shouldIncludeStyleguide: boolean,
-    };
 
     defaultProvider: string;
 

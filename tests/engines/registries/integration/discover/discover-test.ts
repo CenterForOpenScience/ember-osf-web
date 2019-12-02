@@ -10,12 +10,12 @@ import { setupOSFApplicationTest, visit } from 'ember-osf-web/tests/helpers';
 import { loadEngine } from 'ember-osf-web/tests/helpers/engines';
 import param from 'ember-osf-web/utils/param';
 
-import { SearchOptions, SearchOrder, SearchResults } from 'registries/services/search';
+import { SearchOptions, SearchOrder, SearchResults } from 'ember-osf-web/services/search';
 import ShareSearch, {
     ShareRegistration,
     ShareTermsAggregation,
     ShareTermsFilter,
-} from 'registries/services/share-search';
+} from 'ember-osf-web/services/share-search';
 
 const equals = (expected: ValueObject) => sinon.match((x: any) => expected.equals(x));
 

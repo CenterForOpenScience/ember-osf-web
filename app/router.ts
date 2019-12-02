@@ -10,11 +10,6 @@ import scrollTo from 'ember-osf-web/utils/scroll-to';
 import transitionTargetURL from 'ember-osf-web/utils/transition-target-url';
 
 const {
-    engines: {
-        collections,
-        handbook,
-        registries,
-    },
     featureFlagNames: {
         routes: routeFlags,
     },
@@ -124,22 +119,121 @@ Router.map(function() {
         this.route('detail', { path: '/:meeting_id' });
     });
 
-    if (collections.enabled) {
-        this.mount('collections');
-    }
+    this.route('collections', function() {
+        this.route('page-not-found');
+        this.route('forbidden');
+        this.route('discover');
+        this.route('submit');
+        this.route('guid', { path: '/:guid' }, function() {
+            this.route('edit');
+        });
 
-    if (handbook.enabled) {
-        this.mount('handbook');
-    }
+        this.route('provider', { path: '/:slug' }, function() {
+            this.route('page-not-found');
+            this.route('forbidden');
+            this.route('discover');
+            this.route('submit');
+            this.route('guid', { path: '/:guid' }, function() {
+                this.route('edit');
+            });
+        });
+    });
 
-    if (registries.enabled) {
-        this.mount('registries', { path: '--registries' });
-    }
+    this.route('handbook', function() {
+        this.route('docs', function() {
+            this.route('intro');
+            this.route('assumptions');
+            this.route('contributing');
+
+            // Dev
+            this.route('quickstart');
+            this.route('how-to');
+            this.route('git');
+            this.route('dev-env');
+            this.route('conventions');
+            this.route('testing');
+            this.route('analytics');
+            this.route('community');
+            this.route('resources');
+            this.route('troubleshooting');
+
+            // Style guide
+            this.route('visual-style');
+            this.route('written-style');
+
+            this.route('validators', function() {
+                this.route('validate-list');
+            });
+
+            this.route('components', function() {
+                this.route('ancestry-display');
+                this.route('bs-alert');
+                this.route('contributor-list');
+                this.route('copyable-text');
+                this.route('delete-button');
+                this.route('editable-field');
+                this.route('files-widget');
+                this.route('form-controls');
+                this.route('institutions-widget');
+                this.route('loading-indicator');
+                this.route('new-project-modal');
+                this.route('new-project-navigation-modal');
+                this.route('osf-button');
+                this.route('osf-dialog');
+                this.route('osf-layout');
+                this.route('osf-link');
+                this.route('panel');
+                this.route('placeholder');
+                this.route('schema-chunk');
+                this.route('subject-widget');
+                this.route('schema-block-group-renderer');
+                this.route('tags-widget');
+                this.route('validated-model-form');
+            });
+
+            this.route('helpers', function() {
+                this.route('has-validation-error');
+            });
+
+            this.route('api', function() {
+                this.route('item', { path: '/*path' });
+            });
+        });
+
+        this.route('not-found', { path: '/*path' });
+    });
+
+    this.route('registries', { path: '--registries' }, function() {
+        this.route('index', { path: '/registries' });
+        this.route('discover', { path: '/registries/discover' });
+
+        this.route('start', { path: '/registries/start' });
+
+        this.route('forms', { path: '/registries/forms' }, function() {
+            this.route('help', { path: '/help' });
+        });
+
+        this.route('drafts', { path: '/registries/drafts' }, function() {
+            this.route('draft', { path: '/:id' }, function() {
+                this.route('page', { path: '/:page' });
+            });
+        });
+
+        this.route('overview', { path: '/:guid' } as any, function() {
+            this.route('analytics');
+            this.route('children', { path: '/components' });
+            this.route('comments');
+            this.route('forks');
+            this.route('links');
+        });
+
+        this.route('page-not-found', { path: '/*path' });
+    });
 
     this.route('guid-file', { path: '--file/:guid' });
 
     this.route('guid-node', { path: '--node/:guid' }, function() {
-        this.mount('analytics-page', { as: 'analytics' });
+        this.route('analytics');
         this.route('forks');
         this.route('registrations');
         this.route('drafts', { path: '/drafts/:draftId' }, function() {
@@ -150,7 +244,7 @@ Router.map(function() {
     this.route('guid-preprint', { path: '--preprint/:guid' });
 
     this.route('guid-registration', { path: '--registration/:guid' }, function() {
-        this.mount('analytics-page', { as: 'analytics' });
+        this.route('analytics');
         this.route('forks');
     });
 

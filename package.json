@@ -85,8 +85,6 @@
     "ember-changeset": "^2.1.2",
     "ember-changeset-validations": "^2.1.0",
     "ember-cli": "^3.13.1",
-    "ember-cli-addon-docs": "https://github.com/cos-forks/ember-cli-addon-docs#docs-engine#37",
-    "ember-cli-addon-docs-typedoc": "https://github.com/typed-ember/ember-cli-addon-docs-typedoc#initial-implementation",
     "ember-cli-app-version": "^3.2.0",
     "ember-cli-autoprefixer": "^0.8.1",
     "ember-cli-babel": "^7.7.3",
@@ -135,7 +133,6 @@
     "ember-decorators": "^6.1.1",
     "ember-diff-attrs": "^0.2.1",
     "ember-element-helper": "^0.2.0",
-    "ember-engines": "^0.8.2",
     "ember-event-helpers": "^0.1.0",
     "ember-export-application-global": "^2.0.0",
     "ember-faker": "^1.2.1",
@@ -221,12 +218,9 @@
   "homepage": "https://github.com/CenterForOpenScience/ember-osf-web#readme",
   "ember-addon": {
     "paths": [
-      "lib/analytics-page",
       "lib/assets-prefix-middleware",
-      "lib/collections",
-      "lib/handbook",
       "lib/osf-components",
-      "lib/registries"
+      "lib/app-components"
     ]
   }
 }
