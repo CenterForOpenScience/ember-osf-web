@@ -16,7 +16,7 @@ declare module '@ember/routing/-private/transition' {
     }
 
     export default interface Transition {
-        handlerInfos: Array<HandlerInfo | UnresolvedHandlerInfo>;
+        routeInfos: Array<HandlerInfo | UnresolvedHandlerInfo>;
         queryParamsOnly: boolean;
         resolvedModels: Record<string, any>;
         sequence: number;

@@ -49,13 +49,13 @@ export default class AnalyticsPageRoute extends Route {
     });
 
     model(_: {}, transition: Transition) {
-        const guidHandlerInfo = transition.handlerInfos.find(
-            handlerInfo => Boolean(handlerInfo.params) && 'guid' in handlerInfo.params!,
+        const guidRouteInfo = transition.routeInfos.find(
+            routeInfo => Boolean(routeInfo.params) && 'guid' in routeInfo.params!,
         )!;
 
-        assert('A parent route must have a dynamic segment ":guid"', Boolean(guidHandlerInfo));
+        assert('A parent route must have a dynamic segment ":guid"', Boolean(guidRouteInfo));
 
-        const model = transition.resolvedModels[guidHandlerInfo.name]!;
+        const model = transition.resolvedModels[guidRouteInfo.name]!;
 
         assert(
             'Guid Routes\' models must have a taskInstance property that is a TaskInstance',
