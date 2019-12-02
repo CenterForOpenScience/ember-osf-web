@@ -162,5 +162,11 @@ module.exports = function(defaults) {
         ],
     });
 
+    app.import('node_modules/immutable/dist/immutable.js', {
+        using: [
+            { transformation: 'amd', as: 'immutable' },
+        ],
+    });
+
     return app.toTree();
 };

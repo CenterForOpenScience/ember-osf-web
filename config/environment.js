@@ -193,6 +193,32 @@ module.exports = function(environment) {
                 action: 'data-analytics-action',
             },
             doiUrlPrefix: 'https://doi.org/',
+            registries: {
+                // Engine specific settings
+                shareBaseURL: 'https://share.osf.io',
+                shareSearchBaseURL: 'https://share.osf.io/api/v2/search',
+                indexPageRegistrationsQuery: '6tsnj OR aurjt OR e94t8 OR 2tpy9 OR 2ds52',
+                sourcesWhitelist: [{
+                    display: 'OSF Registries',
+                    https: true,
+                    name: 'OSF',
+                    urlRegex: '^https?://(?:.*(?:staging\\d?|test)\\.)?osf\\.io.*$',
+                }, {
+                    display: undefined,
+                    https: true,
+                    name: 'ClinicalTrials.gov',
+                    urlRegex: '^https?://.*clinicaltrials\\.gov.*$',
+                }, {
+                    display: undefined,
+                    https: true,
+                    name: 'Research Registry',
+                    urlRegex: '^https?://.*researchregistry\\.com.*$',
+                }],
+                externalLinks: {
+                    help: 'https://openscience.zendesk.com/hc/en-us/categories/360001550953',
+                    donate: 'https://cos.io/donate',
+                },
+            },
         },
         social: {
             twitter: {

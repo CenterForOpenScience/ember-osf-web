@@ -123,7 +123,32 @@ Router.map(function() {
 
     this.route('handbook');
 
-    this.route('registries', { path: '--registries' });
+    this.route('registries', { path: '--registries' }, function() {
+        this.route('index', { path: '/registries' });
+        this.route('discover', { path: '/registries/discover' });
+
+        this.route('start', { path: '/registries/start' });
+
+        this.route('forms', { path: '/registries/forms' }, function() {
+            this.route('help', { path: '/help' });
+        });
+
+        this.route('drafts', { path: '/registries/drafts' }, function() {
+            this.route('draft', { path: '/:id' }, function() {
+                this.route('page', { path: '/:page' });
+            });
+        });
+
+        this.route('overview', { path: '/:guid' } as any, function() {
+            this.route('analytics');
+            this.route('children', { path: '/components' });
+            this.route('comments');
+            this.route('forks');
+            this.route('links');
+        });
+
+        this.route('page-not-found', { path: '/*path' });
+    });
 
     this.route('guid-file', { path: '--file/:guid' });
 
