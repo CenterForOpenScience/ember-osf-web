@@ -3,7 +3,6 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import template from './template';
 
@@ -11,7 +10,7 @@ import template from './template';
 @tagName('')
 export default class ValidatedInputCheckboxesXCheckbox<T> extends Component {
     // Required arguments
-    relationArray: T[] = defaultTo(this.relationArray, []);
+    relationArray?: T[];
     option!: T;
     checkboxName!: string;
     ariaLabel!: string;
@@ -20,14 +19,17 @@ export default class ValidatedInputCheckboxesXCheckbox<T> extends Component {
 
     @computed('option', 'relationArray.[]')
     get checked(): boolean {
-        return this.relationArray.includes(this.option);
+        return Array.isArray(this.relationArray) && this.relationArray.includes(this.option);
     }
+
     set checked(checked: boolean) {
-        if (checked && !this.checked) {
-            this.relationArray.pushObject(this.option);
-        }
-        if (!checked && this.checked) {
-            this.relationArray.removeObject(this.option);
+        if (Array.isArray(this.relationArray)) {
+            if (checked && !this.checked) {
+                this.relationArray.pushObject(this.option);
+            }
+            if (!checked && this.checked) {
+                this.relationArray.removeObject(this.option);
+            }
         }
     }
 }
