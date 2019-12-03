@@ -8,7 +8,7 @@ import ShareSearch from 'registries/services/share-search';
 export function stubRegistriesShareSearch(context: TestContext) {
     const engine = context.owner.lookup('-engine-instance:registries-registries') as EngineInstance;
 
-    const shareSearch = new ShareSearch();
+    const shareSearch = ShareSearch.create();
     engine.register('service:share-search', shareSearch, { instantiate: false });
     context.owner.register('service:share-search', shareSearch, { instantiate: false });
 
