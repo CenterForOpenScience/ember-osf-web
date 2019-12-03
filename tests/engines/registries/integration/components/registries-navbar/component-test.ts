@@ -48,6 +48,10 @@ const osfRouterStub = Service.extend({
     transitionTo: () => null,
 });
 
+const headTagsStub = Service.extend({
+    collectHeadTags: () => { /* noop */ },
+});
+
 function visibleText(selector: string) {
     // https://stackoverflow.com/questions/1846177/how-do-i-get-just-the-visible-text-with-jquery-or-javascript
     return $(`${selector} *:not(:has(*)):visible`).text().replace(/\s+/g, ' ').trim();
@@ -58,6 +62,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
     setupEngineRenderingTest(hooks, 'registries');
 
     hooks.beforeEach(function(this: TestContext) {
+        this.owner.register('service:head-tags', headTagsStub);
         sinon.stub(this.owner.lookup('service:router'), 'urlFor').callsFake(
             (route: string, params?: { queryParams: object }) => {
                 let url = `/${route}`;

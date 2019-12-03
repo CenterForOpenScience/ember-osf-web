@@ -20,8 +20,11 @@ class RouterStub extends Service {
     }
 }
 
-class CurrentUserStub extends Service {
-}
+class CurrentUserStub extends Service {}
+
+const headTagsStub = Service.extend({
+    collectHeadTags: () => { /* noop */ },
+});
 
 module('Registries | Integration | Component | page-link', hooks => {
     setupEngineRenderingTest(hooks, 'registries');
@@ -30,6 +33,7 @@ module('Registries | Integration | Component | page-link', hooks => {
         this.owner.register('service:router', RouterStub);
         this.owner.register('service:osf-router', RouterStub);
         this.owner.register('service:current-user', CurrentUserStub);
+        this.owner.register('service:head-tags', headTagsStub);
     });
 
     test('Renders an unvisited page link', async function(this: TestContext, assert) {
