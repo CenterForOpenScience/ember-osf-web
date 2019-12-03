@@ -334,7 +334,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         await fillIn('[data-test-publication-doi-input] input', invalidDoi);
         await click('[data-test-save-publication-doi]');
 
-        assert.dom('.help-block').hasText(t('validationErrors.invalid_doi').toString(), 'validation works');
+        assert.dom('.help-block').hasText('Please use a valid DOI format (10.xxxx/xxxxx)', 'validation works');
         await untrackedClick('[data-test-cancel-publication-doi]');
 
         await click('[data-test-edit-button="publication DOI"]');
