@@ -13,7 +13,7 @@ import {
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema/registration-response';
 
 export class PageManager {
-    _changeset?: ChangesetDef;
+    privateChangeset?: ChangesetDef;
     schemaBlockGroups?: SchemaBlockGroup[];
     pageHeadingText?: string;
     isVisited?: boolean;
@@ -29,39 +29,39 @@ export class PageManager {
             );
 
             const validations = buildValidation(this.schemaBlockGroups, node);
-            this._changeset = new Changeset(
+            this.privateChangeset = new Changeset(
                 registrationResponses,
                 lookupValidator(validations),
                 validations,
             ) as ChangesetDef;
 
             if (Object.values(registrationResponses).length) {
-                this._changeset.validate();
+                this.privateChangeset.validate();
             }
         } else {
             assert('PageManager: schemaBlockGroups is not defined.');
         }
     }
 
-    @computed('_changeset.isValid')
+    @computed('privateChangeset.isValid')
     get pageIsValid() {
-        if (this._changeset) {
-            return this._changeset.get('isValid');
+        if (this.privateChangeset) {
+            return this.privateChangeset.get('isValid');
         }
         return false;
     }
 
-    @computed('_changeset.isInvalid')
+    @computed('privateChangeset.isInvalid')
     get pageIsInvalid() {
-        if (this._changeset) {
-            return this._changeset.get('isInvalid');
+        if (this.privateChangeset) {
+            return this.privateChangeset.get('isInvalid');
         }
         return false;
     }
 
-    @computed('_changeset')
+    @computed('privateChangeset')
     get changeset() {
-        return this._changeset;
+        return this.privateChangeset;
     }
 
     setPageIsVisited() {
@@ -73,8 +73,8 @@ export class PageManager {
     }
 
     validatePage() {
-        if (this._changeset) {
-            this._changeset.validate();
+        if (this.privateChangeset) {
+            this.privateChangeset.validate();
         }
     }
 }

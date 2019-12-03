@@ -228,10 +228,6 @@ export default class DraftRegistrationManagerComponent extends Component {
                         registrationResponseKey,
                         changeset!.get(registrationResponseKey),
                     );
-                    // Object.assign(
-                    //     registrationResponses,
-                    //     { [registrationResponseKey]: changeset!.get(registrationResponseKey) },
-                    // );
                 });
         }
     }

@@ -23,6 +23,7 @@
                 <LoadingIndicator @dark={{true}} />
             </div>
         {{else}}
+            {{compute draftManager.onPageChange this.pageIndex this.inReview}}
             <OsfLayout @backgroundClass={{local-class 'ContentBackground'}} as |layout|>
                 <layout.heading local-class='Heading'>
                     <div local-class='Title'>
