@@ -129,33 +129,13 @@ export default class DiscoverPage extends Component {
     /**
      * A list of the components to be used for the search facets.
      */
-    facets: Facet[] = this.facets;
+    facets?: Facet[];
 
-    facetContexts: FacetContext[] = this.facets
-        .map(({ component, options, key, title }) => {
-            const queryParam: string = this[camelize(component) as keyof DiscoverPage];
-            const activeFilter = !queryParam ? [] : queryParam.split('OR').filter(str => !!str);
-
-            return EmberObject.create({
-                title,
-                key,
-                component,
-                didInit: false,
-                queryParam,
-                lockedActiveFilter: {},
-                activeFilter,
-                defaultQueryFilters: {},
-                currentQueryFilters: {},
-                options,
-                updateFilters: () => {
-                    assert('You should set an `updateFilters` function');
-                },
-            });
-        });
+    facetContexts?: FacetContext[];
 
     @computed('facetContexts.@each.currentQueryFilters')
     get filters(): { [index: string]: any } {
-        return this.facetContexts
+        return this.facetContexts && this.facetContexts
             .reduce((acc, { currentQueryFilters }) => ({ ...acc, ...currentQueryFilters }), {});
     }
 
@@ -255,7 +235,7 @@ export default class DiscoverPage extends Component {
 
     @computed('facetContexts.@each.didInit')
     get hasInitializedFacets() {
-        return this.facetContexts.every(({ didInit }) => didInit);
+        return this.facetContexts && this.facetContexts.every(({ didInit }) => didInit);
     }
 
     @task({ keepLatest: true })
@@ -301,6 +281,31 @@ export default class DiscoverPage extends Component {
         }
     });
 
+    init() {
+        super.init();
+        this.set('facetContexts', this.facets && this.facets
+            .map(({ component, options, key, title }) => {
+                const queryParam: string = this[camelize(component) as keyof DiscoverPage];
+                const activeFilter = !queryParam ? [] : queryParam.split('OR').filter(str => !!str);
+
+                return EmberObject.create({
+                    title,
+                    key,
+                    component,
+                    didInit: false,
+                    queryParam,
+                    lockedActiveFilter: {},
+                    activeFilter,
+                    defaultQueryFilters: {},
+                    currentQueryFilters: {},
+                    options,
+                    updateFilters: () => {
+                        assert('You should set an `updateFilters` function');
+                    },
+                });
+            }));
+    }
+
     scrollToResults() {
         // Scrolls to top of search results
         this.$('html, body').scrollTop(this.$('.results-top').position().top);
@@ -337,15 +342,17 @@ export default class DiscoverPage extends Component {
     clearFilters() {
         this.analytics.track('button', 'click', 'Discover - Clear Filters');
 
-        // Clear all of the activeFilters
-        this.facetContexts
-            .forEach(context => {
-                setProperties(context, {
-                    activeFilter: [...context.lockedActiveFilter],
-                    queryParam: '',
-                    currentQueryFilters: context.defaultQueryFilters,
+        if (this.facetContexts) {
+            // Clear all of the activeFilters
+            this.facetContexts
+                .forEach(context => {
+                    setProperties(context, {
+                        activeFilter: [...context.lockedActiveFilter],
+                        queryParam: '',
+                        currentQueryFilters: context.defaultQueryFilters,
+                    });
                 });
-            });
+        }
 
         this.setProperties({
             ...[
@@ -396,12 +403,14 @@ export default class DiscoverPage extends Component {
      */
     @action
     filterChanged() {
-        this.setProperties({
-            ...this.facetContexts.reduce((acc, { component, queryParam }) => ({
-                ...acc,
-                [camelize(component)]: queryParam,
-            }), {}),
-        });
+        if (this.facetContexts) {
+            this.setProperties({
+                ...this.facetContexts.reduce((acc, { component, queryParam }) => ({
+                    ...acc,
+                    [camelize(component)]: queryParam,
+                }), {}),
+            });
+        }
 
         if (!this.hasInitializedFacets) {
             return;
