@@ -259,11 +259,11 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
     test('service list', async assert => {
         await render(hbs`<RegistriesNavbar />`);
 
-        assert.dom('[data-test-service-list]').isNotVisible();
+        assert.dom('[data-test-service-list] ul').isNotVisible();
 
         await click('[data-test-service]');
 
-        assert.dom('[data-test-service-list]').isVisible();
+        assert.dom('[data-test-service-list] ul').isVisible();
     });
 
     test('auth dropdown', async function(assert) {
@@ -271,10 +271,10 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
 
         await render(hbs`<RegistriesNavbar />`);
 
-        assert.dom('[data-test-auth-dropdown]').isNotVisible();
+        assert.dom('[data-test-auth-dropdown] ul').isNotVisible();
 
         await click('[data-test-gravatar]');
 
-        assert.dom('[data-test-auth-dropdown]').isVisible();
+        assert.dom('[data-test-auth-dropdown] ul').isVisible();
     });
 });

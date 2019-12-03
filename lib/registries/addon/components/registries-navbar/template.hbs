@@ -17,6 +17,7 @@
             />
 
             <BsDropdown
+                data-test-service-list
                 data-analytics-scope='Services dropdown'
                 as |dropdown|
             >
@@ -31,7 +32,6 @@
                 </dropdown.toggle>
 
                 <dropdown.menu
-                    data-test-service-list
                     @classNames={{local-class 'ServiceDropdownMenu DropdownMenu'}}
                     as |menu|
                 >
@@ -111,6 +111,7 @@
             {{/unless}}
 
             <BsDropdown
+                data-test-auth-dropdown
                 data-analytics-scope='User dropdown'
                 local-class='AuthDropdown'
                 as |dropdown|
@@ -138,7 +139,6 @@
                 </dropdown.toggle>
 
                 <dropdown.menu
-                    data-test-auth-dropdown
                     class='dropdown-menu-right'
                     local-class='AuthDropdownMenu DropdownMenu'
                     as |menu|
