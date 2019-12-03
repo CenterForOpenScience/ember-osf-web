@@ -43,7 +43,9 @@ export default class CopyableText extends Component {
         }
         this.set('showTooltip', true);
         await timeout(3000);
-        this.set('showTooltip', false);
+        if (!this.isDestroyed) {
+            this.set('showTooltip', false);
+        }
     }
 
     @action
