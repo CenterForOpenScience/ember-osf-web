@@ -1,5 +1,5 @@
 import { assert } from '@ember/debug';
-import EmberObject, { computed } from '@ember/object';
+import { computed, set } from '@ember/object';
 import Changeset from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
 import { ChangesetDef } from 'ember-changeset/types';
@@ -12,14 +12,13 @@ import {
 } from 'ember-osf-web/packages/registration-schema';
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema/registration-response';
 
-export class PageManager extends EmberObject {
-    changeset?: ChangesetDef;
+export class PageManager {
+    _changeset?: ChangesetDef;
     schemaBlockGroups?: SchemaBlockGroup[];
     pageHeadingText?: string;
     isVisited?: boolean;
 
     constructor(pageSchemaBlocks: SchemaBlock[], registrationResponses: RegistrationResponse, node?: NodeModel) {
-        super();
         this.schemaBlockGroups = getSchemaBlockGroups(pageSchemaBlocks);
         if (this.schemaBlockGroups) {
             this.pageHeadingText = this.schemaBlockGroups[0].labelBlock!.displayText!;
@@ -30,38 +29,43 @@ export class PageManager extends EmberObject {
             );
 
             const validations = buildValidation(this.schemaBlockGroups, node);
-            this.changeset = new Changeset(
+            this._changeset = new Changeset(
                 registrationResponses,
                 lookupValidator(validations),
                 validations,
             ) as ChangesetDef;
 
             if (Object.values(registrationResponses).length) {
-                this.changeset.validate();
+                this._changeset.validate();
             }
         } else {
             assert('PageManager: schemaBlockGroups is not defined.');
         }
     }
 
-    @computed('changeset.isValid')
+    @computed('_changeset.isValid')
     get pageIsValid() {
-        if (this.changeset) {
-            return this.changeset.get('isValid');
+        if (this._changeset) {
+            return this._changeset.get('isValid');
         }
         return false;
     }
 
-    @computed('changeset.isInvalid')
+    @computed('_changeset.isInvalid')
     get pageIsInvalid() {
-        if (this.changeset) {
-            return this.changeset.get('isInvalid');
+        if (this._changeset) {
+            return this._changeset.get('isInvalid');
         }
         return false;
+    }
+
+    @computed('_changeset')
+    get changeset() {
+        return this._changeset;
     }
 
     setPageIsVisited() {
-        this.set('isVisited', true);
+        set(this, 'isVisited', true);
     }
 
     getPageIsVisited() {
@@ -69,8 +73,8 @@ export class PageManager extends EmberObject {
     }
 
     validatePage() {
-        if (this.changeset) {
-            this.changeset.validate();
+        if (this._changeset) {
+            this._changeset.validate();
         }
     }
 }
