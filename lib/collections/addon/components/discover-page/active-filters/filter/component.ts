@@ -1,6 +1,5 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
-import { action } from '@ember/object';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import defaultTo from 'ember-osf-web/utils/default-to';
@@ -18,9 +17,4 @@ export default class ActiveFiltersFilter extends Component {
     ariaLabel: string = this.ariaLabel;
     hide: boolean = defaultTo(this.hide, false);
     extraClass: string = defaultTo(this.extraClass, '');
-
-    @action
-    removeFilterItem(item: any): void {
-        this.context.updateFilters(item);
-    }
 }
