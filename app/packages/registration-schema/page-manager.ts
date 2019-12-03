@@ -13,7 +13,7 @@ import {
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema/registration-response';
 
 export class PageManager {
-    privateChangeset?: ChangesetDef;
+    changeset?: ChangesetDef;
     schemaBlockGroups?: SchemaBlockGroup[];
     pageHeadingText?: string;
     isVisited?: boolean;
@@ -29,39 +29,34 @@ export class PageManager {
             );
 
             const validations = buildValidation(this.schemaBlockGroups, node);
-            this.privateChangeset = new Changeset(
+            this.changeset = new Changeset(
                 registrationResponses,
                 lookupValidator(validations),
                 validations,
             ) as ChangesetDef;
 
             if (Object.values(registrationResponses).length) {
-                this.privateChangeset.validate();
+                this.changeset.validate();
             }
         } else {
             assert('PageManager: schemaBlockGroups is not defined.');
         }
     }
 
-    @computed('privateChangeset.isValid')
+    @computed('changeset.isValid')
     get pageIsValid() {
-        if (this.privateChangeset) {
-            return this.privateChangeset.get('isValid');
+        if (this.changeset) {
+            return this.changeset.get('isValid');
         }
         return false;
     }
 
-    @computed('privateChangeset.isInvalid')
+    @computed('changeset.isInvalid')
     get pageIsInvalid() {
-        if (this.privateChangeset) {
-            return this.privateChangeset.get('isInvalid');
+        if (this.changeset) {
+            return this.changeset.get('isInvalid');
         }
         return false;
-    }
-
-    @computed('privateChangeset')
-    get changeset() {
-        return this.privateChangeset;
     }
 
     setPageIsVisited() {
@@ -73,8 +68,8 @@ export class PageManager {
     }
 
     validatePage() {
-        if (this.privateChangeset) {
-            this.privateChangeset.validate();
+        if (this.changeset) {
+            this.changeset.validate();
         }
     }
 }
