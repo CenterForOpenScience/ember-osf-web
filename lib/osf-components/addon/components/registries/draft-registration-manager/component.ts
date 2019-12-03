@@ -1,7 +1,7 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import { action, computed } from '@ember/object';
+import { action, computed, set } from '@ember/object';
 import { alias, not } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { TaskInstance, timeout } from 'ember-concurrency';
@@ -144,7 +144,6 @@ export default class DraftRegistrationManagerComponent extends Component {
     @task({ restartable: true })
     onInput = task(function *(this: DraftRegistrationManagerComponent) {
         yield timeout(5000); // debounce
-
         if (this.currentPageManager && this.currentPageManager.schemaBlockGroups) {
             this.updateRegistrationResponses(this.currentPageManager);
 
@@ -224,9 +223,10 @@ export default class DraftRegistrationManagerComponent extends Component {
                 .mapBy('registrationResponseKey')
                 .filter(Boolean)
                 .forEach(registrationResponseKey => {
-                    Object.assign(
+                    set(
                         registrationResponses,
-                        { [registrationResponseKey]: changeset!.get(registrationResponseKey) },
+                        registrationResponseKey,
+                        changeset!.get(registrationResponseKey),
                     );
                 });
         }
