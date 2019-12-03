@@ -3,6 +3,9 @@ import { setupEngineTest } from 'ember-osf-web/tests/helpers/engines';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
+const headTagsStub = Service.extend({
+    collectHeadTags: () => { /* noop */ },
+});
 const currentUserStub = Service.extend();
 const sessionStub = Service.extend({
     isAuthenticated: true,
@@ -14,6 +17,7 @@ module('Registries | Unit | Route | drafts.draft', hooks => {
     setupEngineTest(hooks, 'registries');
 
     hooks.beforeEach(function(this: TestContext) {
+        this.owner.register('service:headTags', headTagsStub);
         this.owner.register('service:currentUser', currentUserStub);
         this.owner.register('service:session', sessionStub);
         this.owner.register('service:store', storeStub);
