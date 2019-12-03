@@ -75,7 +75,7 @@
                         data-analytics-name='Share'
                         local-class='action-button'
                         @class='popover-toggler'
-                        @onClick={{action this.openSharePopup}}
+                        @onClick={{action this.toggleSharePopup}}
                     >
                         {{fa-icon 'share-alt'}}
                         {{t 'general.share'}}
@@ -88,7 +88,7 @@
                                 <CopyableText
                                     data-test-file-share-copyable-text
                                     @text={{this.link}}
-                                    @success={{action (mut this.popupOpen) false}}
+                                    @success={{action this.toggleSharePopup}}
                                     @analyticsLabel='Quick Files - Share - Copy link'
                                 />
                             {{else}}

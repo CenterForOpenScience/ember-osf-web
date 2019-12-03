@@ -424,8 +424,8 @@ export default class FileBrowser extends Component {
     }
 
     @action
-    openSharePopup() {
-        this.set('popupOpen', true);
+    toggleSharePopup() {
+        this.toggleProperty('popupOpen');
 
         if (this.link) {
             return;
