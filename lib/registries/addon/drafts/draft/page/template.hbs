@@ -71,7 +71,10 @@
                     />
                 </layout.leftNav>
                 <layout.main local-class='Main'>
-                    <main {{did-update draftManager.onPageChange this.pageIndex this.inReview}}>
+                    <main
+                        {{did-insert draftManager.onPageChange this.pageIndex this.inReview}}
+                        {{did-update draftManager.onPageChange this.pageIndex this.inReview}}
+                    >
                         {{#if this.inReview}}
                             {{#if (and draftManager.hasInvalidResponses this.showMobileView)}}
                                 <div
