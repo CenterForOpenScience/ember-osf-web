@@ -1,0 +1,33 @@
+.DisplayText {
+    white-space: pre-wrap;
+    margin: 0;
+}
+
+.Required {
+    color: $brand-danger;
+    margin-left: 0.25em;
+}
+
+
+.HelpText {
+    composes: Element from '../../styles';
+
+    white-space: pre-wrap;
+    font-weight: 400;
+}
+
+.ExampleButton {
+    composes: Element from '../../styles';
+
+    &:global(.btn) {
+        padding: 0;
+        border: 0;
+    }
+}
+
+.ExampleText {
+    composes: Element from '../../styles';
+
+    white-space: pre-wrap;
+    font-weight: 400;
+}

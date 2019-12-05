@@ -1,43 +1,58 @@
-<OsfDialog @isOpen={{@modalManager.isOpen}} @renderInPlace={{@modalManager.renderInPlace}} as |dialog|>
+<OsfDialog
+    @isOpen={{@isOpen}}
+    @onClose={{@onClose}}
+    @closeOnOutsideClick={{false}}
+    as |dialog|
+>
     <dialog.heading local-class='modal-title'>
         {{t 'registries.partialRegistrationModal.title'}}
     </dialog.heading>
     <dialog.main>
-        <OsfButton 
-            @type=='link' 
-            local-class='select-clear-button' 
-            @onClick={{action @modalManager.selectAll}}
+        <OsfButton
+            @type='link'
+            local-class='select-clear-button'
+            @onClick={{@manager.selectAll}}
             data-test-select-all
         >
             {{t 'registries.partialRegistrationModal.selectAll'}}
         </OsfButton>
         |
-        <OsfButton 
-            @type=='link' 
-            local-class='select-clear-button' 
-            @onClick={{action @modalManager.clearAll}}
+        <OsfButton
+            @type='link'
+            local-class='select-clear-button'
+            @onClick={{@manager.clearAll}}
             data-test-clear-all
         >
             {{t 'registries.partialRegistrationModal.clearAll'}}
         </OsfButton>
-        {{#if @modalManager.loadAllChildNodes.isRunning}}
-            <LoadingIndicator />
+        {{#if @manager.loadingChildNodes}}
+            <LoadingIndicator @dark={{true}} />
         {{else}}
-            <ul>
+            <ul local-class='list'>
                 <Registries::HierarchicalList::ItemManager
-                    @item={{@modalManager.rootNode}}
-                    @listManager={{@modalManager}}
-                    @isRoot={{true}} as |itemManager|>
-                    <Registries::HierarchicalList::Item @manager={{itemManager}} />
+                    @item={{@manager.rootNode}}
+                    @listManager={{@manager}}
+                    @isRoot={{true}}
+                    as |itemManager|
+                >
+                    <Registries::HierarchicalList::Item @manager={{itemManager}} local-class='list' />
                 </Registries::HierarchicalList::ItemManager>
             </ul>
         {{/if}}
     </dialog.main>
     <dialog.footer>
-        <OsfButton @type='primary'>
+        <OsfButton
+            data-test-continue-registration-button
+            @type='primary'
+            @onClick={{action this.continue}}
+        >
             {{t 'registries.partialRegistrationModal.continueButton'}}
         </OsfButton>
-        <OsfButton @type='default'>
+        <OsfButton
+            data-test-cancel-registration-button
+            @type='default'
+            @onClick={{dialog.close}}
+        >
             {{t 'registries.partialRegistrationModal.cancelButton'}}
         </OsfButton>
     </dialog.footer>

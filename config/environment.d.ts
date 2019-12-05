@@ -146,6 +146,9 @@ declare const config: {
         facebookUrl: string;
         githubUrl: string;
     };
+    helpLinks: {
+        linkToAProject: string;
+    };
     dashboard: {
         popularNode: string;
         noteworthyNode: string;
@@ -158,7 +161,7 @@ declare const config: {
             institutions: string;
         };
         ABTesting: {
-            homePageVersionB: string;
+            homePageHeroTextVersionB: string;
         };
         storageI18n: string;
         enableInactiveSchemas: string;

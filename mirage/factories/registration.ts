@@ -8,6 +8,9 @@ import { createRegistrationMetadata, guid, guidAfterCreate } from './utils';
 export interface MirageRegistration extends Registration {
     index: number;
     affiliatedInstitutionIds: Array<string|number>;
+    draftRegistrationId: string;
+    registrationSchemaId: string|number;
+    registeredFromId: string|number;
     identifierIds: Array<string|number>;
     forkIds: Array<string|number>;
 }

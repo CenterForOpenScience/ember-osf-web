@@ -1,0 +1,8 @@
+<p data-test-paragraph-section ...attributes>
+    {{@schemaBlock.displayText}}
+    <span>
+        {{#if this.isEditableForm}}
+            <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{this.schemaBlock.helpText}} />
+        {{/if}}
+    </span>
+</p>

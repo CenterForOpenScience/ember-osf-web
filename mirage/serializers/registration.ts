@@ -10,6 +10,7 @@ const { OSF: { apiUrl } } = config;
 
 interface RegistrationAttrs extends NodeAttrs {
     registeredFromId: ID | null;
+    registrationSchemaId: ID | null;
     providerId: ID | null;
 }
 
@@ -102,18 +103,6 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
                     },
                 },
             },
-            registrationSchema: {
-                data: {
-                    id: model.registrationSchema.id,
-                    type: 'registration_schemas',
-                },
-                links: {
-                    related: {
-                        href: `${apiUrl}/v2/schemas/registrations/${model.registrationSchema.id}`,
-                        meta: {},
-                    },
-                },
-            },
             identifiers: {
                 links: {
                     related: {
@@ -191,6 +180,21 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
                 links: {
                     related: {
                         href: `${apiUrl}/v2/nodes/${registeredFromId}`,
+                        meta: {},
+                    },
+                },
+            };
+        }
+        if (model.attrs.registrationSchemaId !== null) {
+            const { registrationSchemaId } = model.attrs;
+            relationships.registrationSchema = {
+                data: {
+                    id: registrationSchemaId,
+                    type: 'registration_schemas',
+                },
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/schemas/registrations/${registrationSchemaId}`,
                         meta: {},
                     },
                 },

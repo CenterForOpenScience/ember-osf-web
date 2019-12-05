@@ -34,6 +34,7 @@ module.exports = {
         'ember/new-module-imports': 'error',
         'ember/no-attrs-in-components': 'error',
         'ember/no-old-shims': 'error',
+        'ember/routes-segments-snake-case': 'off',
         'import/export': 'off',
         'import/prefer-default-export': 'off',
         'no-restricted-globals': 'off',
@@ -43,6 +44,7 @@ module.exports = {
             asyncArrow: 'always',
         }],
         'no-underscore-dangle': 'off',
+        'linebreak-style': ['error', (process.platform === 'win32' ? 'windows' : 'unix')],
     },
     overrides: [
         {

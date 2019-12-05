@@ -1,0 +1,32 @@
+{{yield (hash
+    heading=(element 'div')
+    sidenavGutterClosed=this.sidenavGutterClosed
+    toggleSidenav=(action this.toggleSidenav)
+    metadataGutterClosed=this.metadataGutterClosed
+    toggleMetadata=(action this.toggleMetadata)
+)}}
+
+<div class={{this.backgroundClass}}>
+    {{yield (hash
+        top=(
+            component 'osf-layout/top'
+            toggleSidenav=(action this.toggleSidenav)
+            sidenavGutterClosed=this.sidenavGutterClosed
+        )
+    )}}
+    <Gutters
+        @leftMode={{this.sidenavGutterMode}}
+        @leftClosed={{this.sidenavGutterClosed}}
+        @rightMode={{this.metadataGutterMode}}
+        @rightClosed={{this.metadataGutterClosed}}
+        as |gutters|
+    >
+        {{yield (hash
+            leftNavOld=(component 'osf-layout/left-nav-old' gutters=gutters toggleSidenav=(action this.toggleSidenav))
+            leftNav=(component 'osf-layout/left-nav' gutters=gutters toggleSidenav=(action this.toggleSidenav))
+            left=(component 'osf-layout/left-column' gutters=gutters toggleSidenav=(action this.toggleSidenav))
+            main=(component 'osf-layout/main-column' gutters=gutters)
+            right=(component 'osf-layout/right-column' gutters=gutters toggleMetadata=(action this.toggleMetadata))
+        )}}
+    </Gutters>
+</div>

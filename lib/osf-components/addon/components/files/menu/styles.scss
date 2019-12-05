@@ -1,0 +1,71 @@
+.actions-menu-trigger {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+
+    .trigger-button {
+        padding: 3px;
+        border-radius: 50%;
+        margin-right: 15px;
+        outline: none;
+        color: $color-text-white;
+
+        &:focus,
+        &:active:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #4d90fe;
+        }
+
+        i {
+            height: 28px;
+            width: 28px;
+            transform: translate(0, 1px);
+            transition: all 250ms linear;
+        }
+    }
+
+    .close-button,
+    .close-button:focus {
+        background-color: $color-bg-blue-dark;
+
+        &:hover {
+            background-color: darken($color-bg-blue-dark, 10%);
+        }
+
+        i {
+            transform: translate(0, 1px) rotate(45deg);
+        }
+    }
+}
+
+
+.actions-menu-content {
+    display: flex;
+    flex-direction: column;
+    min-width: 160px;
+
+    padding: 15px;
+    border: 1px solid $color-border-gray;
+    border-radius: 2px;
+    background-color: $color-text-white;
+    background-size: cover;
+    box-shadow: 0 0 15px $color-shadow-dark;
+
+    .menu-button {
+        padding: 0;
+        text-align: inherit;
+
+        &:hover,
+        &:active,
+        &:focus,
+        &:active:focus {
+            text-decoration: none;
+            color: $color-link-lighter;
+        }
+    }
+
+    .menu-button:not(:last-child) {
+        margin-bottom: 10px;
+    }
+}

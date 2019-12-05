@@ -1,0 +1,11 @@
+<p
+    data-test-read-only-response={{this.schemaBlock.registrationResponseKey}}
+    local-class='ResponseValue {{unless this.readOnlyValue 'NoResponse'}}'
+>
+    {{if this.readOnlyValue this.readOnlyValue (t 'osf-components.registries.schema-block-renderer/read-only/response.noResponse')}}
+</p>
+<ValidationErrors
+    local-class='ValidationErrors'
+    @changeset={{@changeset}}
+    @key={{@schemaBlock.registrationResponseKey}}
+/>

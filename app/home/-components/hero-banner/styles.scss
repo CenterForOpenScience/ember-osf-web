@@ -65,35 +65,6 @@
     }
 }
 
-.hero .versionB {
-    max-width: 1000px;
-    margin: 84px auto 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-
-    .addResearch,
-    .discoverResearch {
-        display: inline-block;
-        max-width: 349px;
-        padding: 0 5px;
-    }
-
-    h3 {
-        font-size: 24px;
-        max-width: 350px;
-    }
-
-    h4 {
-        font-size: 20px;
-        max-width: 350px;
-    }
-
-    .searchBar {
-        padding-top: 35px;
-    }
-}
-
 @media(max-width: 768px) {
     .hero {
         min-height: 500px;
@@ -128,35 +99,11 @@
             max-width: 335px;
         }
     }
-
-    .hero .versionB {
-        h3 {
-            font-size: 20px;
-            max-width: 335px;
-        }
-
-        h4 {
-            font-size: 18px;
-            max-width: 335px;
-        }
-    }
 }
 
 @media(max-width: 737px) {
     .hero .discoverResearch {
         margin-top: 15px;
-    }
-
-    .hero .versionB {
-        margin-top: 32px;
-
-        .getStartedButton {
-            margin: 15px auto 35px;
-        }
-
-        .searchBar {
-            padding-top: 0;
-        }
     }
 }
 

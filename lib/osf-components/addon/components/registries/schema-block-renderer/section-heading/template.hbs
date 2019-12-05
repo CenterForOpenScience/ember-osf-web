@@ -1,0 +1,11 @@
+<h3 local-class='SectionHeading'
+    data-test-section-heading
+    ...attributes
+>
+    {{@schemaBlock.displayText}}
+    <span>
+        {{#if this.isEditableForm}}
+            <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{this.schemaBlock.helpText}} />
+        {{/if}}
+    </span>
+</h3>

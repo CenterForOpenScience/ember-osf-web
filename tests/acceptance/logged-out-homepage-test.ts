@@ -25,10 +25,9 @@ module('Acceptance | logged-out home page test', hooks => {
 
         // Check hero
         assert.dom('[data-test-hero-heading]')
-            .containsText(t('osf-components.hero-banner.heading').toString());
+            .containsText(t('osf-components.hero-banner.headingA').toString());
         assert.dom('[data-test-hero-subheading]')
             .containsText(t('osf-components.hero-banner.subheading').toString());
-        assert.notOk(document.querySelector('[data-test-hero-container]')!.className.includes('versionB'));
 
         // Check support
         assert.dom('[data-test-support-heading]').hasText('How OSF supports your research');
@@ -80,12 +79,11 @@ module('Acceptance | logged-out home page test', hooks => {
         await visit('/');
         const features = this.owner.lookup('service:features') as Features;
 
-        features.enable(ABTesting.homePageVersionB);
+        features.enable(ABTesting.homePageHeroTextVersionB);
 
         await settled();
-        assert.dom('[data-test-add-research-heading]').exists();
-        assert.dom('[data-test-add-research-subheading]').exists();
-        assert.ok(document.querySelector('[data-test-hero-container]')!.className.includes('versionB'));
+        assert.dom('[data-test-hero-heading]')
+            .containsText(t('osf-components.hero-banner.headingB').toString());
         assert.dom('[data-test-get-started-button]').exists({ count: 1 });
 
         await a11yAudit();

@@ -107,9 +107,8 @@ module('Registries | Integration | index', hooks => {
                     ),
                     expected: [
                         'link',
-                        'Index - Requirements and Roadmap',
-                        // tslint:disable-next-line:max-line-length
-                        'https://docs.google.com/spreadsheets/d/1SocElbBjc_Nhme4-SJv2_zytBd1ys8R5aZDb3POe94c/edit#gid=331732182', // eslint-disable-line max-len
+                        'Index - public roadmap',
+                        'https://cos.io/our-products/product-roadmap/',
                         sinon.match.any,
                     ],
                 },

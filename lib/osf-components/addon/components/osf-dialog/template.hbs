@@ -11,7 +11,7 @@
     <EmberWormhole
         @tagName='span'
         @destinationElement={{this.osfModalState.dialogWormholeTarget}}
-        @renderInPlace={{this.renderInPlace}}
+        @renderInPlace={{this._renderInPlace}}
     >
         <div
             data-test-dialog-background
@@ -21,7 +21,6 @@
             <div
                 data-test-dialog
                 local-class='Dialog {{if this.fixedWidth 'FixedWidth'}}'
-                tabindex='0'
                 role='dialog'
                 aria-labelledby='osf-dialog-heading'
                 ...attributes

@@ -1,0 +1,40 @@
+<nav
+    data-test-side-nav
+    data-test-collapsed='{{this.isCollapsed}}'
+    local-class='SideNav {{if this.isCollapsed 'Collapsed'}}'
+    ...attributes
+>
+    <div local-class='Links'>
+        {{yield (hash
+            link=(component 'osf-layout/registries-side-nav/x-link'
+                route=@route
+                model=@model
+                href=@href
+                onClick=@onLinkClicked
+                isCurrentPage=@isCurrentPage
+                isCollapsed=this.isCollapsed
+            )
+        )}}
+    </div>
+
+    {{#if this.isCollapseAllowed}}
+        {{#let (component 'osf-layout/registries-side-nav/x-link') as |ExpandButton|}}
+            <ExpandButton
+                data-analytics-name={{if this.isCollapsed 'Expand' 'Collapse'}}
+                local-class='Toggle'
+                aria-label={{if this.isCollapsed 
+                    (t 'osf-components.registries-side-nav.expandSideNav')
+                    (t 'osf-components.registries-side-nav.collapseSideNav')
+                }}
+                @onClick={{action this.toggle}}
+                @isCollapsed={{this.isCollapsed}}
+                @icon={{if this.isCollapsed 'chevron-right' 'chevron-left'}}
+                @label={{t (if this.isCollapsed 'registries.overview.expand' 'registries.overview.collapse')}}
+                as |link|
+            >
+                <link.icon />
+                <link.label />
+            </ExpandButton>
+        {{/let}}
+    {{/if}}
+</nav>

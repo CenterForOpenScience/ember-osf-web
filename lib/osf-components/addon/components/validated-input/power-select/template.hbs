@@ -9,7 +9,7 @@
         @id={{this.valuePath}}
         @name={{this.valuePath}}
         @options={{this.options}}
-        @selected={{or (get this.model this.valuePath) null}}
+        @selected={{or (get this.modelOrChangeset this.valuePath) null}}
         @onchange={{action this.powerSelectChanged}}
         @search={{this.search}}
         @noMatchesMessage={{this.noMatchesMessage}}
@@ -17,6 +17,7 @@
         @searchEnabled={{this.searchEnabled}}
         @placeholder={{this.placeholder}}
         @renderInPlace={{this.renderInPlace}}
+        @searchField={{@searchField}}
         as |option|
     >
         {{yield option}}

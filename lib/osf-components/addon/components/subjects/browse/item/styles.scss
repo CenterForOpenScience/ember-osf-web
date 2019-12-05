@@ -1,7 +1,10 @@
 .Item {
     transition: filter 0.25s ease-out;
-    margin-top: 0.1em;
-    margin-bottom: 0.5em;
+    margin: 0.3em 0;
+
+    &:last-of-type {
+        margin-bottom: 0;
+    }
 }
 
 .ItemLabel.ItemLabel {
@@ -13,16 +16,19 @@
     padding: 0 0.5em;
 
     input {
+        margin-top: 0;
         margin-right: 0.5em;
+        filter: grayscale(1) contrast(2);
     }
 
     &.with-selected-child input {
-        filter: invert(1) brightness(2);
+        filter: invert(1) brightness(2) grayscale(1);
     }
 }
 
 .ExpandButton.ExpandButton {
     padding: 0;
+    margin-left: 5px;
 }
 
 .Children {

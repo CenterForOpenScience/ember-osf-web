@@ -1,14 +1,18 @@
 import { assert } from '@ember/debug';
 import { SchemaBlock, SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema';
 
-function isEmpty(input: string | undefined) {
+function isEmpty(input?: string | null) {
     if (input === undefined || input === null || input === '') {
         return true;
     }
     return false;
 }
 
-export function getSchemaBlockGroups(blocks: SchemaBlock[]) {
+export function getSchemaBlockGroups(blocks: SchemaBlock[] | undefined) {
+    if (!blocks) {
+        assert('getSchemaBlockGroups() requires blocks');
+        return undefined;
+    }
     let currentGroupKey: string | null = null;
     const groupKeysEncountered: string[] = [];
     const responseKeysEncountered: string[] = [];

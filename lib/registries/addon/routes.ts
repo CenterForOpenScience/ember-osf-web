@@ -12,9 +12,7 @@ export default buildRoutes(function() {
 
     this.route('drafts', { path: '/registries/drafts' }, function() {
         this.route('draft', { path: '/:id' }, function() {
-            this.route('metadata');
-            this.route('form');
-            this.route('review');
+            this.route('page', { path: '/:page' });
         });
     });
 

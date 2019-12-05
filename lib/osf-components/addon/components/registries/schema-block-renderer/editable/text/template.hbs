@@ -1,0 +1,17 @@
+<Registries::SchemaBlockRenderer::Editable::Base @helpText={{this.schemaBlock.helpText}}>
+    <FormControls
+        @changeset={{@changeset}}
+        @disabled={{@disabled}}
+        @shouldShowMessages={{@shouldShowMessages}}
+        ...attributes as |form|
+    >
+        <form.text
+            data-test-text-input
+            local-class='schema-block-input'
+            @uniqueID={{@uniqueID}}
+            @valuePath={{@schemaBlock.registrationResponseKey}}
+            @onKeyUp={{@onInput}}
+            @placeholder=' '
+        />
+    </FormControls>
+</Registries::SchemaBlockRenderer::Editable::Base>

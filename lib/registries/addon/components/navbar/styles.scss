@@ -84,12 +84,16 @@
         color: $white;
     }
 
-    & .Section.Bordered > .Item:not(:last-child) {
-        border-right-color: $dark-slate-gray;
+    & .Primary,
+    & .Secondary {
+        padding: 10px 16px;
+        margin: 10px 0;
+        font-size: 15px;
+        font-weight: 700;
     }
 
-    h4 {
-        color: $white;
+    & .Section.Bordered > .Item:not(:last-child) {
+        border-right-color: $dark-slate-gray;
     }
 }
 

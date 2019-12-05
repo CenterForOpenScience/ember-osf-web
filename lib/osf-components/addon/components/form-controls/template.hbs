@@ -1,10 +1,11 @@
 {{yield (hash
-    checkbox=(
+    checkboxes=(
         component
-        'validated-input/checkbox'
+        'validated-input/checkboxes'
         changeset=@changeset
         shouldShowMessages=this.shouldShowMessages
         disabled=this.disabled
+        onCheckCallback=@onCheckCallback
     )
     date=(
         component
@@ -26,6 +27,7 @@
         changeset=@changeset
         shouldShowMessages=this.shouldShowMessages
         disabled=this.disabled
+        onKeyUp=@onKeyUp
     )
     textarea=(
         component
@@ -33,10 +35,21 @@
         changeset=@changeset
         shouldShowMessages=this.shouldShowMessages
         disabled=this.disabled
+        onKeyUp=@onKeyUp
     )
     select=(
         component
         'validated-input/power-select'
+        changeset=@changeset
+        shouldShowMessages=this.shouldShowMessages
+        disabled=this.disabled
+        onchange=@onchange
+        searchField=@searchField
+        searchEnabled=@searchEnabled
+    )
+    radioGroup=(
+        component
+        'form-controls/radio-button-group'
         changeset=@changeset
         shouldShowMessages=this.shouldShowMessages
         disabled=this.disabled

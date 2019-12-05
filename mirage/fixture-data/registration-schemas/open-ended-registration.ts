@@ -2,6 +2,7 @@
 // tslint:disable:max-line-length
 
 import { MirageRegistrationSchema } from '../../fixtures/registration-schemas';
+import { schemaBlockIds } from '../schema-blocks/open-ended-registration';
 
 export default {
     id: 'open_ended_registration',
@@ -32,6 +33,7 @@ export default {
         ],
         name: 'Open-Ended Registration',
     },
+    schemaBlockIds,
 } as MirageRegistrationSchema;
 
 /* eslint-enable max-len */

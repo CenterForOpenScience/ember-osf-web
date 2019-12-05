@@ -5,7 +5,8 @@ import { getCitation } from './views/citation';
 import { searchCollections } from './views/collection-search';
 import { reportDelete } from './views/comment';
 import { createBibliographicContributor } from './views/contributor';
-import { createDeveloperApp, updateDeveloperApp } from './views/developer-app';
+import { createDeveloperApp, resetClientSecret, updateDeveloperApp } from './views/developer-app';
+import { createDraftRegistration } from './views/draft-registration';
 import {
     folderFilesList,
     nodeFileProviderList,
@@ -19,7 +20,7 @@ import { identifierCreate } from './views/identifier';
 import { createNode } from './views/node';
 import { osfNestedResource, osfResource, osfToManyRelationship } from './views/osf-resource';
 import { getProviderSubjects } from './views/provider-subjects';
-import { forkRegistration, registrationDetail } from './views/registration';
+import { createRegistration, forkRegistration, registrationDetail } from './views/registration';
 import { rootDetail } from './views/root';
 import { createToken } from './views/token';
 import { createEmails, updateEmails } from './views/update-email';
@@ -46,7 +47,11 @@ export default function(this: Server) {
 
     this.get('/guids/:id', guidDetail);
 
-    osfResource(this, 'institution', { only: ['index'], defaultPageSize: 1000 });
+    osfResource(this, 'institution', { only: ['index', 'show'], defaultPageSize: 1000 });
+    osfNestedResource(this, 'institution', 'institutionalUsers', {
+        only: ['index'],
+        path: '/institutions/:parentID/users',
+    });
     osfResource(this, 'license', { only: ['index', 'show'] });
     osfResource(this, 'citation-style', {
         only: ['index'],
@@ -78,7 +83,9 @@ export default function(this: Server) {
     osfNestedResource(this, 'node', 'linkedNodes', { only: ['index'] });
     osfNestedResource(this, 'node', 'linkedRegistrations', { only: ['index'] });
     osfNestedResource(this, 'node', 'registrations', { only: ['index'] });
+    this.post('/nodes/:id/registrations', createRegistration);
     osfNestedResource(this, 'node', 'draftRegistrations', { only: ['index'] });
+    this.post('/nodes/:guid/draft_registrations', createDraftRegistration);
     osfNestedResource(this, 'node', 'identifiers', { only: ['index'] });
     osfToManyRelationship(this, 'node', 'affiliatedInstitutions', {
         only: ['related', 'add', 'remove'],
@@ -89,7 +96,13 @@ export default function(this: Server) {
         only: ['related', 'self'],
     });
 
-    osfResource(this, 'registration', { except: ['show'] });
+    osfResource(this, 'draft-registration', {
+        only: ['index', 'show', 'update'],
+        path: '/draft_registrations',
+    });
+
+    osfResource(this, 'registration', { except: ['show', 'create'] });
+    this.post('/registrations', createRegistration);
     this.get('/registrations/:id', registrationDetail);
     osfNestedResource(this, 'registration', 'children');
     osfNestedResource(this, 'registration', 'forks', { except: ['create'] });

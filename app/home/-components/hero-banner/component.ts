@@ -1,5 +1,5 @@
 import { tagName } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
+import { action } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
@@ -21,13 +21,8 @@ const { featureFlagNames: { ABTesting } } = config;
 export default class HomeHeroBanner extends Component {
     @service features!: Features;
 
-    @alias(`features.${camelize(ABTesting.homePageVersionB)}`)
+    @alias(`features.${camelize(ABTesting.homePageHeroTextVersionB)}`)
     shouldShowVersionB!: boolean;
-
-    @computed('shouldShowVersionB')
-    get version(): string {
-        return this.shouldShowVersionB ? 'versionB' : 'versionA';
-    }
 
     @action
     search(query: string) {

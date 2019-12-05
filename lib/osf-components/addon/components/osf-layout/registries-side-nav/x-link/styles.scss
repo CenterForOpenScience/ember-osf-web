@@ -1,0 +1,75 @@
+.Link {
+    transition: background 0.25s ease-out;
+    position: relative;
+    align-items: center;
+    display: inline-flex !important; // !important needed to override bootstrap .btn properties
+    min-height: $sidenav-link-height;
+    height: auto;
+    width: $width-expanded;
+    padding: 5px 10px !important; // !important needed to override bootstrap .btn properties
+    color: $color-text-blue-dark;
+    white-space: nowrap;
+    z-index: 1000;
+
+    &.CurrentPage {
+        color: $color-text-black;
+        box-shadow: -2px 1px 5px -2px $color-border-gray;
+        border: $color-border-gray 1px solid;
+        border-right: 0;
+        background: $color-bg-white;
+        width: $width-expanded + 1px;
+
+        .Count {
+            color: inherit;
+        }
+    }
+
+    &:hover {
+        background: $color-link-lighter !important; // !important needed to override bootstrap .btn properties
+        color: $color-text-white !important; // !important needed to override bootstrap .btn properties
+        text-decoration: none !important; // !important needed to override bootstrap .btn properties
+        width: max-content;
+        min-width: 205px;
+    }
+
+    &:focus {
+        text-decoration: none !important; // !important needed to override bootstrap .btn properties
+    }
+}
+
+.Collapsed {
+    width: $width-collapsed;
+
+    &.CurrentPage {
+        width: $width-collapsed + 1px;
+    }
+
+    span {
+        display: none;
+    }
+
+    &:hover {
+        width: max-content;
+        min-width: auto;
+        height: auto;
+
+        span {
+            display: initial;
+        }
+    }
+}
+
+.Drawer {
+    white-space: normal;
+    align-items: flex-start;
+
+    &.CurrentPage {
+        border: 0;
+        box-shadow: none;
+    }
+
+    &:hover {
+        width: $width-expanded;
+    }
+}
+

@@ -1,6 +1,7 @@
 import { action, computed } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { assert } from '@ember/debug';
 import moment from 'moment';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -18,40 +19,27 @@ export default class FileBrowserItem extends Component {
     filesManager!: FilesManager;
     item!: File;
 
-    @computed('item', 'filesManager.currentFolder')
+    didReceiveAttrs() {
+        assert('Files::Item requires @filesManager!', Boolean(this.filesManager));
+    }
+
+    @computed('item', 'filesManager.{currentFolder,inRootFolder}')
     get isCurrentFolder(): boolean {
-        if (!this.filesManager.currentFolder || !this.item) {
+        if (this.filesManager.inRootFolder) {
             return false;
         }
 
         return this.item.id === this.filesManager.currentFolder.id;
     }
 
-    @computed('isCurrentFolder', 'manager.currentFolder')
+    @computed('isCurrentFolder', 'filesManager.currentFolder')
     get shouldIndent() {
-        return this.filesManager.currentFolder && !this.isCurrentFolder;
+        return !this.filesManager.inRootFolder && !this.isCurrentFolder;
     }
 
     @computed('item.dateModified')
     get date(): string {
         return this.item ? moment(this.item.dateModified).format('YYYY-MM-DD hh:mm A') : '';
-    }
-
-    @action
-    onClickFile(currentItem: File) {
-        const isSelected = this.filesManager.selectedItems.includes(currentItem);
-
-        this.analytics.trackFromElement(this.element, {
-            name: `${isSelected ? 'Unselect file' : 'Select file'}`,
-            category: 'button',
-            action: 'click',
-        });
-
-        if (isSelected) {
-            this.filesManager.unselectItem(currentItem);
-        } else {
-            this.filesManager.selectItem(currentItem);
-        }
     }
 
     @action
@@ -73,8 +61,15 @@ export default class FileBrowserItem extends Component {
                 });
                 this.filesManager.goToFolder(this.item);
             }
-        } else {
-            this.onClickFile(this.item);
+        } else if (this.filesManager.onSelectFile) {
+            this.filesManager.onSelectFile(this.item);
+        }
+    }
+
+    @action
+    onKeyPress(event: KeyboardEvent) {
+        if (event.keyCode === 13) {
+            this.onClick();
         }
     }
 }

@@ -9,6 +9,10 @@ export default class DraftRegistrationSerializer extends ApplicationSerializer<D
     buildRelationships(model: ModelInstance<DraftRegistration>) {
         return {
             branchedFrom: {
+                data: {
+                    id: model.branchedFrom.id,
+                    type: 'nodes',
+                },
                 links: {
                     related: {
                         href: `${apiUrl}/v2/nodes/${model.branchedFrom.id}`,
@@ -17,6 +21,10 @@ export default class DraftRegistrationSerializer extends ApplicationSerializer<D
                 },
             },
             initiator: {
+                data: {
+                    id: model.initiator.id,
+                    type: 'users',
+                },
                 links: {
                     related: {
                         href: `${apiUrl}/v2/users/${model.initiator.id}`,
@@ -32,6 +40,12 @@ export default class DraftRegistrationSerializer extends ApplicationSerializer<D
                     },
                 },
             },
+        };
+    }
+
+    buildNormalLinks(model: ModelInstance<DraftRegistration>) {
+        return {
+            self: `${apiUrl}/v2/draft_registrations/${model.id}`,
         };
     }
 }

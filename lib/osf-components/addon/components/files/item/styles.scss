@@ -17,14 +17,21 @@
     &.indent {
         padding-left: 35px;
     }
-}
 
-.name-container {
-    display: flex;
-    width: 75%;
-    align-items: center;
+    .name-container {
+        display: flex;
+        flex-grow: 1;
+        align-items: center;
 
-    span {
-        padding-right: 10px;
+        span {
+            padding-right: 10px;
+        }
+    }
+
+    .date-modified {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        width: 40%;
     }
 }

@@ -56,6 +56,7 @@ export default abstract class BaseDataComponent extends Component.extend({
     abstract loadItemsTask: ComputedProperty<Task<void>>;
 
     didReceiveAttrs() {
+        this.set('page', 1);
         if (this.bindReload) {
             this.bindReload(this._doReload.bind(this));
         }

@@ -6,11 +6,117 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- Components
+    - `institutions`
+        - `dashboard/departments-panel`
+        - `dashboard/institutional-users-list`
+        - `dashboard/panel`
+        - `dashboard/projects-panel`
+    - `Registries::DraftRegistrationManager`
+    - `Registries::SchemaBlockRenderer::Editable::Files`
+    - `Registries::SchemaBlockRenderer::ReadOnly::Files`
+    - `OsfLayout::RegistriesSideNav`
+    - `OsfLayout::RegistriesSideNav::Icon`
+    - `OsfLayout::RegistriesSideNav::Label`
+    - `OsfLayout::RegistriesSideNav::XLink`
+    - `PageLink`
+- Mirage
+    - Factories
+        - `institutional-user`
+    - Serializers
+        - `institutional-user`
+- Routes
+    - `institution`
+        - added `dashboard` nested route
+    - `guid-node`
+        - added `drafts` nested route
+- Engines
+    - Components
+        - `drafts/draft/-components/register`
+    - Routes
+        - `registries`
+            - `drafts.draft`, `draft/<draftId>`
+                - index route redirects to `draft/<draftId>/1`
+            - `drafts.draft.page`, `draft/<draftId>/<page>`
+- Utils
+    - `page-param`
+- Tests
+    - Integration
+        - `draft-registration-manager`
+        - `page-link`
+        - `registries-side-nav`
+    - Unit
+        - `page-param`
+    - Acceptance
+        - `draft form`
+- Environment
+    - Flags
+        - added `guid-node.drafts` route flag
+- Packages
+    - `ember-element-helper` v0.2.0
+
+### Changed
+- Components
+    - `paginated-list`
+        - added `isTable` attribute to use a `table` over an `ul`
+    - `sort-button`
+        - changed local `selected` classes to nested global classes
+    - `registries/schema-block-renderer/editable/**`
+    - `validated-input`
+        - Modified components to take in `onInput` callback.
+            - added `withStatSummary` trait
+    - `registries/partial-registration-modal`
+        - added `onContinue` hook
+    - `OsfLayout`
+        - renamed `left-nav` to `left-nav-old`
+        - created new `left-nav` that uses `registries-side-nav`
+- Mirage
+    - Factories
+        - `institution`
+            - added `withInstitutionalUsers` trait
+    - Scenarios
+        - `default`
+            - added `SchemaBlock` node with files and contributors
+- Models
+    - `institution`
+        - added `currentUserIsAdmin` boolean
+        - added `statSummary` object
+    - `institutional-user`
+        - added `userGuid` string
+- Routes
+    - `institution`
+        - moved to `index` folder
+    - `registries.drafts.draft`
+        - added navigation
+    - `registries.overview`
+        - updated to use `leftNavOld`
+- Types
+    - Renamed `PageResponse` to `RegistrationResponse`
+- Tests
+    - `schema-block-renderer`
+        - added `files` block test
+
+### Removed
+- Tests
+    - unit, component tests using `FactoryGuy`
+    - `FactoryGuy` factories
+- Packages
+    - `ember-data-factory-guy`
+    - `ember-element-helper` (`fix-engines` branch)
+- Types
+    - `FactoryGuy` types
+
+## [19.10.0] - 2019-10-02
+### Added
+- Models
+    - `institutional-user`
 - Helpers
     - `random-text`
         - generates random text
     - `unique-id`
         - generate a unique-enough string for use in a DOM element's `id`
+    - `has-validation-error`
+        - check if a list of validator results contains a validation error
 - Components
     - `subjects/`
         - `browse`
@@ -33,7 +139,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `selected-list`
         - `upload-zone`
         - `widget`
+    - `registries/review-form-renderer`
+    - `schema-block-renderer/`
+        - `editable`
+        - `read-only`
+- Validators
+    - `list` - apply a validator to a list
 - Tests
+    - Unit
+        - helpers
+            - `has-validation-error`
+        - validators
+            - `validateList`
     - Integration
         - `unique-id`
         - `random-text`
@@ -58,6 +175,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Handbook
     - `Subjects::Widget` component to gallery
     - `Files::Widget` component to gallery
+    - `validateList` validator
+    - `has-validation-error` helper
 
 ### Changed
 - Models
@@ -110,6 +229,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - folders should always use folder icon
     - `sort-button`
         - suppress box-shadow when active
+    - `osf-dialog`
+        - darken background overlay
+    - `registries/registries-metadata`
+        - use `Subjects::Widget` and `Subjects::Display` (and related managers) for subjects editable field
+    - `schema-block-group-renderer`
+        - take in renderStrategy as mapper
+        - take variable for `registrationResponses`
+    - `schema-block-renderer`
+        - broke components into `editable` and `read-only` structures
 - Tests
     - renamed `taxonomy` to `subject` in `preprint-provider` FactoryGuy factory
     - Unit
@@ -118,6 +246,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `serializers/taxonomy-test` renamed to `serializers/subject-test`
         - `models/preprint-test`
             - removed test for `subject` attribute
+    - Integration
+        - `registries/schema-block-group-renderer` updated to include `renderStrategy`
 - Mirage
     - Factories
         - `node`
@@ -146,8 +276,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
             - create some subjects
         - `handbook`
             - create a file tree for the handbook
+- Types
+    - `ember-changeset-validations`
+        - added `ValidatorFunction` and `ValidatorResult`
 - Config
-    - updated to use API version 2.15
+    - updated to use API version 2.16
 - Packages
     - upgrade to `ember-animated@0.8.1`
 
@@ -169,6 +302,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - added splattributes because this is template-only
     - `registries/sharing-icons/popover`
         - added splattributes because this is template-only
+- Handbook
+    - `osf-dialog` `demo-is-open` needs component file because it muts `isOpen`
 
 ## [19.9.0] - 2019-09-06
 ### Added
@@ -199,7 +334,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
             - improved update acceptance tests to perform assertions in addition to taking snapshots
             - improved discover acceptance tests to perform assertions in addition to taking snapshots
 - Tests
-    - added `ember-basic-dropdown-wormhole` div to test index.html 
+    - added `ember-basic-dropdown-wormhole` div to test index.html
 - Mirage
     - `osfNestedResource`
         - added `onCreate` hook to perform additional operations after creating a child resource
@@ -1333,7 +1468,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.9.0...develop
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.10.0...develop
+[19.10.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.10.0
 [19.9.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.9.0
 [19.8.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.8.0
 [19.7.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.7.1
