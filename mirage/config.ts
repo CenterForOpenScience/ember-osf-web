@@ -5,7 +5,7 @@ import { getCitation } from './views/citation';
 import { searchCollections } from './views/collection-search';
 import { reportDelete } from './views/comment';
 import { createBibliographicContributor } from './views/contributor';
-import { createDeveloperApp, resetClientSecret, updateDeveloperApp } from './views/developer-app';
+import { createDeveloperApp, updateDeveloperApp } from './views/developer-app';
 import { createDraftRegistration } from './views/draft-registration';
 import {
     folderFilesList,
