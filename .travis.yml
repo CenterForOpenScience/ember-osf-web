@@ -29,11 +29,12 @@ jobs:
       install:
         - yarn --prefer-offline --frozen-lockfile --ignore-engines
         - greenkeeper-lockfile-update
-      script:
+      before_script:
         - yarn lint
         - yarn test:node-tests
         - yarn build:test
-        - yarn test:cover
+      script:
+        - yarn test:cover --path ./dist
       after_script:
         - greenkeeper-lockfile-upload
       after_success:
