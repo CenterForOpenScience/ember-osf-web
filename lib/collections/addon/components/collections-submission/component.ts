@@ -46,13 +46,8 @@ export default class Submit extends Component {
     collectionItem: Node | null = defaultTo(this.collectionItem, null);
     isProjectSelectorValid: boolean = false;
     sections = Section;
-    activeSection: Section = this.edit ? Section.projectMetadata : Section.project;
-    savedSections: Section[] = this.edit ? [
-        Section.project,
-        Section.projectMetadata,
-        Section.projectContributors,
-        Section.collectionMetadata,
-    ] : [];
+    activeSection!: Section;
+    savedSections!: Section[];
     showCancelDialog: boolean = false;
     i18nKeyPrefix = 'collections.collections_submission.';
     showSubmitModal: boolean = false;
@@ -130,6 +125,17 @@ export default class Submit extends Component {
      */
     @requiredAction
     resetPageDirty!: () => void;
+
+    init() {
+        super.init();
+        this.set('activeSection', this.edit ? Section.projectMetadata : Section.project);
+        this.set('savedSections', this.edit ? [
+            Section.project,
+            Section.projectMetadata,
+            Section.projectContributors,
+            Section.collectionMetadata,
+        ] : []);
+    }
 
     @action
     projectSelected(collectionItem: Node) {
