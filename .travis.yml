@@ -30,7 +30,10 @@ jobs:
         - yarn --prefer-offline --frozen-lockfile --ignore-engines
         - greenkeeper-lockfile-update
       script:
-        - yarn lint && yarn test:node-tests && travis_wait yarn build:test && yarn test:cover --path './test-dist'
+        - yarn lint
+        - yarn test:node-tests
+        - yarn build:test
+        - yarn test:cover
       after_script:
         - greenkeeper-lockfile-upload
       after_success:
