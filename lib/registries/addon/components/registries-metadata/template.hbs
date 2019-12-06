@@ -5,7 +5,7 @@
                 {{#if this.registration.userHasReadPermission}}
                     <OsfLink
                         data-analytics-name='Contributors'
-                        @href={{concat '/' this.registration.id '/contributors'}}
+                        @href='/{{this.registration.id}}/contributors'
                     >
                         {{t 'registries.registration_metadata.contributors'}}
                     </OsfLink>
