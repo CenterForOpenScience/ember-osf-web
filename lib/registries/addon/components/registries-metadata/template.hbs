@@ -2,12 +2,16 @@
     <div local-class='Field'>
         <h4>
             {{#if @extendedFields}}
-                <OsfLink
-                    data-analytics-name='Contributors'
-                    @href={{concat '/' this.registration.id '/contributors'}}
-                >
+                {{#if this.registration.userHasReadPermission}}
+                    <OsfLink
+                        data-analytics-name='Contributors'
+                        @href={{concat '/' this.registration.id '/contributors'}}
+                    >
+                        {{t 'registries.registration_metadata.contributors'}}
+                    </OsfLink>
+                {{else}}
                     {{t 'registries.registration_metadata.contributors'}}
-                </OsfLink>
+                {{/if}}
             {{else}}
                 {{t 'registries.registration_metadata.contributors'}}
             {{/if}}
