@@ -2,27 +2,32 @@
 {{title (t 'registries.discover.page_title')}}
 
 {{#registries-header showHelp=true value=(mut query) onSearch=(action 'onSearch') searchable=searchable as |header|}}
-    {{#if (eq header 'lead')}}
+    {{#header.lead}}
         {{t 'registries.discover.powered_by' }}
         <a href='https://share.osf.io/' local-class='ShareLogo' data-test-share-logo title={{t 'registries.discover.SHARE'}} onclick={{action 'click' 'link' 'Discover - SHARE Logo' target=analytics}}></a>
-    {{else}}
+    {{/header.lead}}
+    {{#header.row}}
         <div class='col-sm-6 pull-right'>
-            {{#bs-dropdown class='pull-right' as |dd|}}
-                {{#dd.button (html-attributes data-test-sort-dropdown=true)}}
+            <BsDropdown class='pull-right' as |dd|>
+                <dd.button data-test-sort-dropdown=true>
                     {{t 'registries.discover.sort_by'}}: {{t searchOptions.order.display}}
                     <span aria-label='{{t 'registries.discover.sort_by'}}' class='caret'></span>
-                {{/dd.button}}
+                </dd.button>
 
-                {{#dd.menu class=(local-class 'SortDropDown__List') as |ddm|}}
+                <dd.menu
+                    local-class='SortDropDown__List'
+                    @align='right'
+                    as |ddm|
+                >
                     {{#each sortOptions as |option index|}}
-                        {{#ddm.item}}
+                        <ddm.item>
                             <button data-test-sort-option-id='{{index}}' class='btn' local-class='SortDropDown__Option' {{action 'setOrder' option}}>{{t option.display}}</button>
-                        {{/ddm.item}}
+                        </ddm.item>
                     {{/each}}
-                {{/dd.menu}}
-            {{/bs-dropdown}}
+                </dd.menu>
+            </BsDropdown>
         </div>
-    {{/if}}
+    {{/header.row}}
 {{/registries-header}}
 {{#registries-discover-search
     results=results
