@@ -1,7 +1,7 @@
 .Dropdown {
     display: block;
     float: right;
-    padding-top: 30px;
+    padding-top: 20px;
 }
 
 .MenuTrigger {
@@ -22,8 +22,7 @@
 
 .NavigationMenu {
     z-index: 100;
-    min-width: 200px;
-    max-width: 300px;
+    width: 250px;
     box-shadow: 0 1px 2px $color-shadow-dark;
 }
 
@@ -78,10 +77,11 @@
     }
 }
 
-.PageHeadingAnchor {
+.page-heading {
     font-weight: 800;
     font-size: 14px;
     border-top: 1px solid $color-border-gray;
+    list-style-type: none;
 
     &:first-child {
         border-top: 0;
@@ -92,29 +92,31 @@
     }
 }
 
-.SectionHeadingAnchor {
+.section-heading {
     font-weight: 700;
     font-size: 14px;
+    list-style-type: none;
 
     a {
         line-height: 2.2;
     }
 }
 
-.SubsectionHeadingAnchor {
+.subsection-heading {
     font-weight: 600;
     font-size: 14px;
+    list-style-type: none;
 
     a {
         line-height: 2.2;
     }
 }
 
-.LabelAnchor {
+.question-label {
     display: flex;
     flex-flow: column;
-
     font-size: 13px;
+    list-style-type: none;
 
     &:not(:last-child) {
         padding-bottom: 10px;
