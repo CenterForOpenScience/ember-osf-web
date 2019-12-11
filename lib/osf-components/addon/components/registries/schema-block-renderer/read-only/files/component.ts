@@ -29,10 +29,6 @@ export default class ReadOnlyFiles extends Component {
             'Registries::SchemaBlockRenderer::ReadOnly::Files requires registrationResponses to render',
             Boolean(this.registrationResponses),
         );
-        assert(
-            'Registries::SchemaBlockRenderer::ReadOnly::Files requires @changeset to render',
-            Boolean(this.changeset),
-        );
     }
 
     init() {
@@ -49,6 +45,9 @@ export default class ReadOnlyFiles extends Component {
 
     @computed('changeset.isValid')
     get isValidating() {
-        return this.changeset.isValidating();
+        if (this.changeset) {
+            return this.changeset.isValidating();
+        }
+        return false;
     }
 }
