@@ -7,7 +7,7 @@ import { t } from 'ember-i18n/test-support';
 import { selectChoose, selectSearch } from 'ember-power-select/test-support';
 import { TestContext } from 'ember-test-helpers';
 import moment from 'moment';
-import { module, test } from 'qunit';
+import { module, skip, test } from 'qunit';
 
 import { NodeCategory } from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
@@ -206,7 +206,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
             .doesNotExist('registration institution list is not updated after discarding edits'));
     });
 
-    test('Form navigation menu', async assert => {
+    skip('Form navigation menu', async assert => {
         const prereg = server.schema.registrationSchemas.find('prereg_challenge');
         const reg = server.create('registration', {
             registrationSchema: prereg,
