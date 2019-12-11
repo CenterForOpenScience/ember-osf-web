@@ -20,22 +20,20 @@ export default class ValidatedInputCheckboxesXCheckbox<T> extends Component {
 
     @computed('option', '_relationArray.[]')
     get checked(): boolean {
-        return Array.isArray(this._relationArray) && this._relationArray.includes(this.option);
+        return this._relationArray.includes(this.option);
     }
 
     set checked(checked: boolean) {
-        if (Array.isArray(this._relationArray)) {
-            if (checked && !this.checked) {
-                this._relationArray.pushObject(this.option);
-            }
-            if (!checked && this.checked) {
-                this._relationArray.removeObject(this.option);
-            }
+        if (checked && !this.checked) {
+            this._relationArray.pushObject(this.option);
+        }
+        if (!checked && this.checked) {
+            this._relationArray.removeObject(this.option);
         }
     }
 
-    @computed('relationArray')
-    get _relationArray() {
+    @computed('relationArray.[]')
+    get _relationArray(): T[] {
         if (this.relationArray) {
             if (Array.isArray(this.relationArray)) {
                 return this.relationArray;
