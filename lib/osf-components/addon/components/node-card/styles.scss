@@ -47,6 +47,7 @@
             background-color: $color-bg-gray-light;
             min-width: 180px;
             text-align: left;
+            padding: 3px 20px;
         }
 
         .NodeCard__dropdown-link:hover,
@@ -54,10 +55,6 @@
             cursor: pointer;
             background-image: none;
             background-color: $color-bg-gray-dark;
-        }
-
-        .btn.NodeCard__dropdown-link {
-            padding: 3px 20px;
         }
     }
 }

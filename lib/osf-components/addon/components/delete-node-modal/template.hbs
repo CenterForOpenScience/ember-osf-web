@@ -5,7 +5,7 @@
     as |modal|
 >
     <modal.header>
-        <h3>{{t 'delete_modal.title' nodeType=(t this.nodeTypeKey)}}</h3>
+        <h3 data-test-delete-warning>{{t 'delete_modal.title' nodeType=(t this.nodeTypeKey)}}</h3>
     </modal.header>
     <modal.body class=componentCssClassName>
         <p>{{t 'delete_modal.body' nodeType=(t this.nodeTypeKey)}}</p>
