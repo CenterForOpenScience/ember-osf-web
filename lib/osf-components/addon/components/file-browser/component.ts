@@ -151,6 +151,12 @@ export default class FileBrowser extends Component {
     @or('showFilterClicked', 'showFilterInput') showFilter!: boolean;
     @or('items.length', 'filter', 'isUploading') showItems!: boolean;
 
+    @computed()
+    get renderInPlace() {
+        const wormholeElement = document.querySelector('#ember-bootstrap-wormhole');
+        return !wormholeElement;
+    }
+
     @computed('selectedItems.firstObject.guid')
     get link(): string | undefined {
         const { guid } = this.selectedItems.firstObject as unknown as File;

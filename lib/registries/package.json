@@ -25,6 +25,7 @@
     "ember-css-modules": "*",
     "ember-css-modules-sass": "*",
     "ember-decorators": "*",
+    "ember-element-helper": "*",
     "ember-flatpickr": "*",
     "ember-font-awesome": "*",
     "ember-i18n": "*",

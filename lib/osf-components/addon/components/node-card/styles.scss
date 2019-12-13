@@ -16,7 +16,7 @@
     & > span {
         line-height: 1.5;
     }
-    
+
     :global(.label-info) {
         background-color: darken($brand-info, 15%);
     }
@@ -31,31 +31,32 @@
 
 .NodeCard__dropdown {
     padding-left: 5px;
-}
 
-.NodeCard__dropdown-list {
-    background-color: $color-bg-gray-light !important;
-    min-width: 180px;
-}
-
-.NodeCard__dropdown-link {
-    color: $color-link-black !important;
-    border-color: transparent !important;
-    background-color: $color-bg-gray-light !important;
-    min-width: 180px;
-    text-align: left;
-
-    &:hover,
-    &:focus {
-        cursor: pointer;
-        background-image: none !important;
-        background-color: $color-bg-gray-dark !important;
+    .NodeCard__dropdown-button {
+        padding: 4px 12px;
+        line-height: 0;
     }
-}
 
-.NodeCard__dropdown-button {
-    padding: 4px 12px;
-    line-height: 0;
+    .NodeCard__dropdown-list {
+        background-color: $color-bg-gray-light;
+        min-width: 180px;
+
+        .NodeCard__dropdown-link {
+            color: $color-link-black;
+            border-color: transparent;
+            background-color: $color-bg-gray-light;
+            min-width: 180px;
+            text-align: left;
+            padding: 3px 20px;
+        }
+
+        .NodeCard__dropdown-link:hover,
+        .NodeCard__dropdown-link:focus {
+            cursor: pointer;
+            background-image: none;
+            background-color: $color-bg-gray-dark;
+        }
+    }
 }
 
 .NodeCard__authors {

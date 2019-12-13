@@ -32,7 +32,7 @@
                 </dropdown.toggle>
 
                 <dropdown.menu
-                    @classNames={{local-class 'ServiceDropdownMenu DropdownMenu'}}
+                    local-class='ServiceDropdownMenu DropdownMenu'
                     as |menu|
                 >
                     {{#each this.services as |service|}}
@@ -139,7 +139,7 @@
                 </dropdown.toggle>
 
                 <dropdown.menu
-                    class='dropdown-menu-right'
+                    @align='right'
                     local-class='AuthDropdownMenu DropdownMenu'
                     as |menu|
                 >

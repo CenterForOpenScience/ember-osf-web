@@ -84,7 +84,7 @@
     "ember-animated": "^0.9.0",
     "ember-auto-import": "^1.5.3",
     "ember-basic-dropdown": "^1.0.3",
-    "ember-bootstrap": "^2.8.1",
+    "ember-bootstrap": "^3.0.0",
     "ember-bootstrap-datepicker": "^2.0.9",
     "ember-changeset": "^2.1.2",
     "ember-changeset-validations": "^2.1.0",
