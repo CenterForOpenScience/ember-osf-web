@@ -2,7 +2,6 @@ import DS from 'ember-data';
 
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 
-import ContributorModel from './contributor';
 import InstitutionModel from './institution';
 import LicenseModel from './license';
 import NodeModel, { NodeCategory, NodeLicense } from './node';
@@ -22,8 +21,6 @@ export default class DraftRegistrationModel extends OsfModel {
 
     @attr('fixstring') title!: string;
     @attr('fixstring') description!: string;
-    @attr('fixstring') registrationDOI!: string | null;
-    @attr('fixstring') articleDOI!: string | null;
     @attr('fixstringarray') tags!: string[];
     @attr('node-license') nodeLicense!: NodeLicense | null;
     @attr('node-category') category!: NodeCategory;
@@ -37,14 +34,8 @@ export default class DraftRegistrationModel extends OsfModel {
     @belongsTo('registration-schema', { inverse: null })
     registrationSchema!: DS.PromiseObject<RegistrationSchemaModel> & RegistrationSchemaModel;
 
-    @hasMany('contributor', { inverse: 'node' })
-    contributors!: DS.PromiseManyArray<ContributorModel>;
-
-    @hasMany('contributor', { inverse: null })
-    bibliographicContributors!: DS.PromiseManyArray<ContributorModel>;
-
-    @hasMany('institution', { inverse: 'nodes' })
-    affiliatedInstitutions!: DS.PromiseManyArray<InstitutionModel> | InstitutionModel[];
+    @hasMany('institution', { inverse: null })
+    affiliatedInstitutions!: DS.PromiseManyArray<InstitutionModel>;
 
     @hasMany('subject', { inverse: null, async: false })
     subjects!: SubjectModel[];
