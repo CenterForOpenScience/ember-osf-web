@@ -10,6 +10,7 @@
                 @isRequired={{@isRequired}}
                 @readonly={{@readonly}}
                 @isEditableForm={{@isEditableForm}}
+                id={{@schemaBlock.elementId}}
             />
         </legend>
     {{else}}
@@ -17,6 +18,7 @@
             data-test-question-label
             local-class='Label'
             for={{@uniqueID}}
+            id={{@schemaBlock.elementId}}
             ...attributes
         >
             <Registries::SchemaBlockRenderer::Label::LabelContent
