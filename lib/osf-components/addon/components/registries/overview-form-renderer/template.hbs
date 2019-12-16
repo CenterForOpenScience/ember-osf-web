@@ -1,14 +1,16 @@
 {{#if this.fetchSchemaBlocks.isRunning}}
     <LoadingIndicator @dark={{true}}/>
+{{else}}
+    <Registries::RegistrationFormNavigationDropdown @schemaBlocks={{this.schemaBlocks}} />
+    {{#each this.schemaBlockGroups as |group|}}
+        <Registries::SchemaBlockGroupRenderer
+            @schemaBlockGroup={{group}}
+            @renderStrategy={{
+                component
+                'registries/schema-block-renderer/read-only/mapper'
+                registrationResponses=@registration.registrationResponses
+                node=@registration
+            }}
+        />
+    {{/each}}
 {{/if}}
-{{#each this.schemaBlockGroups as |group|}}
-    <Registries::SchemaBlockGroupRenderer
-        @schemaBlockGroup={{group}}
-        @renderStrategy={{
-            component
-            'registries/schema-block-renderer/read-only/mapper'
-            registrationResponses=@registration.registrationResponses
-            node=@registration
-        }} 
-    />
-{{/each}}

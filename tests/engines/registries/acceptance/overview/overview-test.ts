@@ -7,7 +7,7 @@ import { t } from 'ember-i18n/test-support';
 import { selectChoose, selectSearch } from 'ember-power-select/test-support';
 import { TestContext } from 'ember-test-helpers';
 import moment from 'moment';
-import { module, skip, test } from 'qunit';
+import { module, test } from 'qunit';
 
 import { NodeCategory } from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
@@ -15,7 +15,6 @@ import Registration from 'ember-osf-web/models/registration';
 import { click, visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 import pathJoin from 'ember-osf-web/utils/path-join';
-import slugify from 'ember-osf-web/utils/slugify';
 
 interface OverviewTestContext extends TestContext {
     registration: ModelInstance<Registration>;
@@ -206,31 +205,28 @@ module('Registries | Acceptance | overview.overview', hooks => {
             .doesNotExist('registration institution list is not updated after discarding edits'));
     });
 
-    skip('Form navigation menu', async assert => {
+    test('Form navigation menu', async assert => {
         const prereg = server.schema.registrationSchemas.find('prereg_challenge');
         const reg = server.create('registration', {
             registrationSchema: prereg,
             currentUserPermissions: Object.values(Permission),
         });
-
+        const blocksWithAnchors = prereg.schemaBlocks!.filter(({ blockType, displayText }) =>
+            (
+                blockType === 'page-heading' ||
+                blockType === 'section-heading' ||
+                blockType === 'subsection-heading' ||
+                blockType === 'question-label'
+            ) && displayText);
         await visit(`/${reg.id}/`);
 
         assert.dom('[data-test-toggle-anchor-nav-button]').isVisible();
-        assert.dom('[data-test-form-block-anchors]').isNotVisible();
+        assert.dom('[data-test-page-anchor]').isNotVisible();
 
         await click('[data-test-toggle-anchor-nav-button]');
 
-        assert.dom('[data-test-form-block-anchors]').isVisible();
-        assert.dom('[data-test-section-anchor]').exists({ count: prereg.schemaNoConflict!.pages.length });
-
-        prereg.schemaNoConflict!.pages.forEach((page: any) => {
-            const sectionSlug = slugify(page.title);
-            assert.dom(`[data-test-section-anchor="${sectionSlug}"]`).hasAttribute('href', `#${sectionSlug}`);
-            page.questions.forEach((question: any) => {
-                const questionSlug = `${sectionSlug}.${slugify(question.title)}`;
-                assert.dom(`[data-test-question-anchor="${questionSlug}"]`).hasAttribute('href', `#${questionSlug}`);
-            });
-        });
+        assert.dom('[data-test-anchor-nav-title]').isVisible();
+        assert.dom('[data-test-page-anchor]').exists({ count: blocksWithAnchors.length });
     });
 
     test('Check head meta tags', async assert => {

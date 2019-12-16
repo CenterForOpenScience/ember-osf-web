@@ -3,7 +3,7 @@ import Component from '@ember/component';
 import { task } from 'ember-concurrency';
 import { layout } from 'ember-osf-web/decorators/component';
 import Registration from 'ember-osf-web/models/registration';
-import { getSchemaBlockGroups, SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema';
+import { getSchemaBlockGroups, SchemaBlock, SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema';
 import template from './template';
 
 @tagName('')
@@ -14,6 +14,7 @@ export default class RegistrationFormViewSchemaBlocks extends Component.extend({
             const registrationSchema = yield this.registration.registrationSchema;
             const schemaBlocks = yield registrationSchema.loadAll('schemaBlocks');
             const schemaBlockGroups = getSchemaBlockGroups(schemaBlocks);
+            this.set('schemaBlocks', schemaBlocks);
             this.set('schemaBlockGroups', schemaBlockGroups);
         }
     }).on('didReceiveAttrs'),
@@ -22,5 +23,6 @@ export default class RegistrationFormViewSchemaBlocks extends Component.extend({
     registration?: Registration;
 
     // Private properties
+    schemaBlocks?: SchemaBlock[];
     schemaBlockGroups?: SchemaBlockGroup[];
 }
