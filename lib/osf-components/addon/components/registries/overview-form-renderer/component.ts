@@ -17,7 +17,7 @@ export default class RegistrationFormViewSchemaBlocks extends Component.extend({
             this.set('schemaBlocks', schemaBlocks);
             this.set('schemaBlockGroups', schemaBlockGroups);
         }
-    }).on('didReceiveAttrs'),
+    }).on('didReceiveAttrs').restartable(),
 }) {
     // Required parameter
     registration?: Registration;

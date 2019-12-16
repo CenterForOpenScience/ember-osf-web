@@ -16,9 +16,9 @@ export default class ReadOnlyFiles extends Component {
     // Required params
     schemaBlock!: SchemaBlock;
     registrationResponses!: RegistrationResponse;
-    changeset!: ChangesetDef;
 
-    responses?: RegistrationResponse[keyof RegistrationResponse];
+    // Optional params
+    changeset?: ChangesetDef;
 
     didReceiveAttrs() {
         assert(
@@ -31,11 +31,14 @@ export default class ReadOnlyFiles extends Component {
         );
     }
 
-    init() {
-        super.init();
-        if (this.schemaBlock.registrationResponseKey) {
-            this.set('responses', this.registrationResponses[this.schemaBlock.registrationResponseKey]);
-        }
+    @computed('schemaBlock')
+    get responses() {
+        const {
+            schemaBlock: { registrationResponseKey },
+            registrationResponses,
+        } = this;
+
+        return registrationResponseKey ? registrationResponses[registrationResponseKey] : null;
     }
 
     @computed('responses')
