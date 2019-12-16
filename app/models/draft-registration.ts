@@ -34,13 +34,13 @@ export default class DraftRegistrationModel extends OsfModel {
     @belongsTo('registration-schema', { inverse: null })
     registrationSchema!: DS.PromiseObject<RegistrationSchemaModel> & RegistrationSchemaModel;
 
-    @hasMany('institution', { inverse: null })
+    @hasMany('institution', { inverse: null, async: false })
     affiliatedInstitutions!: DS.PromiseManyArray<InstitutionModel>;
 
     @hasMany('subject', { inverse: null, async: false })
     subjects!: SubjectModel[];
 
-    @belongsTo('license', { inverse: null })
+    @belongsTo('license', { inverse: null, async: false })
     license!: DS.PromiseObject<LicenseModel> & LicenseModel;
 }
 
