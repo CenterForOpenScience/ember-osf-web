@@ -10,6 +10,7 @@ import { getPageParam } from 'ember-osf-web/utils/page-param';
 import Media from 'ember-responsive';
 
 import NodeModel from 'ember-osf-web/models/node';
+import { DraftRegistrationManager } from 'registries/drafts/draft/draft-registration-manager';
 import { DraftPageRouteModel } from './route';
 
 export default class RegistriesDrat extends Controller {
@@ -18,6 +19,7 @@ export default class RegistriesDrat extends Controller {
 
     model!: DraftPageRouteModel;
 
+    @alias('model.draftRegistrationManager') draftRegistrationManager?: DraftRegistrationManager;
     @alias('model.taskInstance.value.draftRegistration') draftRegistration?: DraftRegistration;
     @alias('model.taskInstance.value.node') node?: NodeModel;
     @alias('model.pageIndex') pageIndex!: number;
@@ -51,6 +53,10 @@ export default class RegistriesDrat extends Controller {
 
     @action
     onPageNotFound() {
+        // tslint:disable-next-line: no-debugger
+        debugger;
+        // tslint:disable-next-line: no-console
+        console.log('draft/page controller onpageNotFound');
         this.transitionToRoute('page-not-found', this.router.currentURL.slice(1));
     }
 }

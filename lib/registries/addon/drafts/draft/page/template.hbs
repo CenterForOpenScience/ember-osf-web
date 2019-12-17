@@ -9,20 +9,21 @@
         <LoadingIndicator @dark={{true}} />
     </div>
 {{else}}
-    <Registries::DraftRegistrationManager
-        @currentPage={{this.pageIndex}}
-        @draftRegistration={{this.draftRegistration}}
-        @node={{this.node}}
-        @inReview={{this.inReview}}
-        @updateRoute={{action this.updateRoute}}
-        @onPageNotFound={{action this.onPageNotFound}}
-        as |draftManager|
-    >
+    {{#let this.draftRegistrationManager as |draftManager|}}
         {{#if draftManager.initializing}}
             <div local-class='ContentBackground Loading'>
                 <LoadingIndicator @dark={{true}} />
             </div>
+        {{!-- {{else if }} --}}
+
         {{else}}
+        <Drafts::Draft::Page::-Components::PageNavigation
+            @currentPage={{draftManager.currentPage}}
+            @lastPage={{draftManager.lastPage}}
+            @currentPageManager={{draftManager.currentPageManager}}
+            @updateRoute={{action this.updateRoute}}
+            @onPageNotFound={{action this.onPageNotFound}}
+        >
             <OsfLayout @backgroundClass={{local-class 'ContentBackground'}} as |layout|>
                 <layout.heading local-class='Heading'>
                     <div local-class='Title'>
@@ -54,7 +55,7 @@
                     {{#each draftManager.pageManagers as |pageManager index|}}
                         <PageLink
                             @link={{component leftNav.link}}
-                            @draftId={{draftManager.draftId}}
+                            @draftId={{this.draftRegistration.id}}
                             @pageManager={{pageManager}}
                             @pageIndex={{index}}
                             @currentPageIndex={{draftManager.currentPage}}
@@ -63,7 +64,7 @@
                     {{/each}}
                     <PageLink
                         @link={{component leftNav.link}}
-                        @draftId={{draftManager.draftId}}
+                        @draftId={{this.draftRegistration.id}}
                         @pageName='review'
                         @currentPageName={{this.model.page}}
                         @label='{{t 'registries.drafts.draft.review.page_label'}}'
@@ -72,10 +73,10 @@
                 </layout.leftNav>
                 <layout.main local-class='Main'>
                     <main
-                        {{did-insert draftManager.onPageChange this.pageIndex this.inReview}}
-                        {{did-update draftManager.onPageChange this.pageIndex this.inReview}}
+                        {{did-insert (action draftManager.onPageChange) this.pageIndex this.inReview}}
+                        {{did-update (action draftManager.onPageChange) this.pageIndex this.inReview}}
                     >
-                        {{#if this.inReview}}
+                        {{!-- {{#if this.inReview}}
                             {{#if (and draftManager.hasInvalidResponses this.showMobileView)}}
                                 <div
                                     data-test-invalid-responses-text
@@ -89,13 +90,15 @@
                                 @draftManager={{draftManager}}
                                 @node={{this.node}}
                             />
-                        {{else}}
-                            <Registries::PageRenderer
-                                @pageManager={{draftManager.currentPageManager}}
-                                @onInput={{draftManager.onInput}}
-                                @node={{this.node}}
-                            />
-                        {{/if}}
+                        {{else}} --}}
+                            {{#if draftManager.currentPageManager}}
+                                <Registries::PageRenderer
+                                    @pageManager={{draftManager.currentPageManager}}
+                                    @onInput={{perform draftManager.onInput}}
+                                    @node={{this.node}}
+                                />
+                            {{/if}}
+                        {{!-- {{/if}} --}}
                     </main>
                 </layout.main>
                 <layout.right local-class='Right'>
@@ -116,7 +119,7 @@
                                 class='btn btn-primary'
                                 @type='button'
                                 @route='registries.drafts.draft.page'
-                                @models={{array draftManager.draftId 'review'}}
+                                @models={{array this.draftRegistration.id 'review'}}
                             >
                                 {{t 'registries.drafts.draft.review.start_review'}}
                             </OsfLink>
@@ -129,7 +132,7 @@
                                 class='btn btn-primary'
                                 @type='button'
                                 @route='registries.drafts.draft.page'
-                                @models={{array draftManager.draftId draftManager.nextPageParam}}
+                                @models={{array this.draftRegistration.id draftManager.nextPageParam}}
                             >
                                 {{t 'registries.drafts.draft.form.next'}}
                                 <FaIcon @icon='arrow-right' @fixedWidth={{true}} />
@@ -143,7 +146,7 @@
                                 class='btn btn-default'
                                 @type='button'
                                 @route='registries.drafts.draft.page'
-                                @models={{array draftManager.draftId draftManager.prevPageParam}}
+                                @models={{array this.draftRegistration.id draftManager.prevPageParam}}
                             >
                                 <FaIcon @icon='arrow-left' @fixedWidth={{true}} />
                                 {{t 'registries.drafts.draft.form.back'}}
@@ -164,6 +167,7 @@
                     </div>
                 </layout.right>
             </OsfLayout>
+            </Drafts::Draft::Page::-Components::PageNavigation>
         {{/if}}
-    </Registries::DraftRegistrationManager>
+    {{/let}}
 {{/if}}

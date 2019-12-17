@@ -27,7 +27,7 @@ export default class SingleSelectInput extends Component {
         });
     }
 
-    @computed('optionBlocks')
+    @computed('optionBlocks.[]')
     get optionBlockValues() {
         return this.optionBlocks.map(item => item.displayText);
     }

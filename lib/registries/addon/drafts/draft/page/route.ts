@@ -1,4 +1,5 @@
 import { action } from '@ember/object';
+import { set } from '@ember/object';
 import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
@@ -6,15 +7,17 @@ import { TaskInstance } from 'ember-concurrency';
 import DS from 'ember-data';
 
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
+import NodeModel from 'ember-osf-web/models/node';
 import Analytics from 'ember-osf-web/services/analytics';
-
 import { getPageIndex } from 'ember-osf-web/utils/page-param';
 
+import { DraftRegistrationManager } from 'registries/drafts/draft/draft-registration-manager';
 import { DraftRouteModel } from '../route';
 
 export interface DraftPageRouteModel {
     draftId: string;
-    taskInstance: TaskInstance<{ draftRegistration: DraftRegistration, node: Node }>;
+    draftRegistrationManager: DraftRegistrationManager;
+    taskInstance: TaskInstance<{draftRegistration: DraftRegistration, node: NodeModel} | undefined>;
     pageIndex?: number;
     page: string;
 }
@@ -29,9 +32,11 @@ export default class DraftRegistrationPageRoute extends Route {
         const pageIndex = getPageIndex(page);
         const draftRouteModel = this.modelFor('drafts.draft') as DraftRouteModel;
         const { draftId, taskInstance } = draftRouteModel;
-
+        const { draftRegistrationManager } = draftRouteModel;
+        set(draftRouteModel.draftRegistrationManager, 'currentPage', pageIndex);
         return {
             draftId,
+            draftRegistrationManager,
             taskInstance,
             pageIndex,
             page,
