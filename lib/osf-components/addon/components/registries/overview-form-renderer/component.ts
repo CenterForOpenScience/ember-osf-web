@@ -12,7 +12,9 @@ export default class RegistrationFormViewSchemaBlocks extends Component.extend({
     fetchSchemaBlocks: task(function *(this: RegistrationFormViewSchemaBlocks) {
         if (this.registration) {
             const registrationSchema = yield this.registration.registrationSchema;
-            const schemaBlocks = yield registrationSchema.loadAll('schemaBlocks');
+            const schemaBlocksRef = registrationSchema.hasMany('schemaBlocks');
+            const schemaBlocks = schemaBlocksRef.ids().length ?
+                schemaBlocksRef.value() : yield registrationSchema.loadAll('schemaBlocks');
             const schemaBlockGroups = getSchemaBlockGroups(schemaBlocks);
             this.set('schemaBlocks', schemaBlocks);
             this.set('schemaBlockGroups', schemaBlockGroups);
