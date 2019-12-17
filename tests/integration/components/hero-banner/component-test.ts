@@ -19,14 +19,10 @@ module('Integration | Component | Hero banner', hooks => {
         router.setupRouter();
 
         await render(hbs`<Home::-Components::HeroBanner />`);
-        assert.dom('[data-test-add-research-heading]').doesNotExist();
-        assert.dom('[data-test-add-research-subheading]').doesNotExist();
         assert.dom('[data-test-hero-heading]')
-            .containsText(t('osf-components.hero-banner.heading').toString());
+            .containsText(t('osf-components.hero-banner.headingA').toString());
         assert.dom('[data-test-hero-subheading]')
             .containsText(t('osf-components.hero-banner.subheading').toString());
-
-        assert.notOk(document.querySelector('[data-test-hero-container]')!.className.includes('versionB'));
 
         assert.dom('[data-test-add-research]').exists();
         assert.dom('[data-test-discover]').exists();
@@ -42,13 +38,12 @@ module('Integration | Component | Hero banner', hooks => {
         router.setupRouter();
 
         // Set feature flag to show version B
-        features.enable(ABTesting.homePageVersionB);
+        features.enable(ABTesting.homePageHeroTextVersionB);
 
         await render(hbs`<Home::-Components::HeroBanner />`);
 
-        assert.dom('[data-test-add-research-heading]').exists();
-        assert.dom('[data-test-add-research-subheading]').exists();
-        assert.ok(document.querySelector('[data-test-hero-container]')!.className.includes('versionB'));
+        assert.dom('[data-test-hero-heading]')
+            .containsText(t('osf-components.hero-banner.headingB').toString());
 
         await a11yAudit(this.element);
         assert.ok(true, 'No a11y errors on page');

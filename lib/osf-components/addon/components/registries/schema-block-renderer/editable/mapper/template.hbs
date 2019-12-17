@@ -2,46 +2,63 @@
     page-heading=(
         component
         'registries/schema-block-renderer/page-heading'
+        isEditableForm=true
     )
     section-heading=(
         component
         'registries/schema-block-renderer/section-heading'
+        isEditableForm=true
     )
     subsection-heading=(
         component
         'registries/schema-block-renderer/subsection-heading'
+        isEditableForm=true
     )
     paragraph=(
         component
         'registries/schema-block-renderer/paragraph'
+        isEditableForm=true
     )
     question-label=(
         component
         'registries/schema-block-renderer/label'
+        isEditableForm=true
     )
     short-text-input=(
         component
         'registries/schema-block-renderer/editable/text'
         changeset=@changeset
+        onInput=@onInput
     )
     long-text-input=(
         component
         'registries/schema-block-renderer/editable/textarea'
         changeset=@changeset
+        onInput=@onInput
     )
     single-select-input=(
         component
         'registries/schema-block-renderer/editable/single-select-input'
         changeset=@changeset
+        onInput=@onInput
     )
     multi-select-input=(
         component
         'registries/schema-block-renderer/editable/multi-select-input'
         changeset=@changeset
+        onInput=@onInput
     )
     contributors-input=(
         component
         'registries/schema-block-renderer/read-only-contributor-list'
         node=@node
+        isEditableForm=true
+    )
+    file-input=(
+        component
+        'registries/schema-block-renderer/editable/files'
+        changeset=@changeset
+        node=@node
+        onInput=@onInput
     )
 )}}

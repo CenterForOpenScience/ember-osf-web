@@ -1,7 +1,30 @@
-<label
-    data-test-question-label
-    for={{@uniqueID}}
-    ...attributes
->
-    {{@schemaBlock.displayText}}
-</label>
+{{#if (or @schemaBlock.displayText @schemaBlock.helpText @schemaBlock.exampleText)}}
+    {{#if @isFieldsetGroup}}
+        <legend
+            data-test-question-label
+            local-class='Label'
+            ...attributes
+        >
+            <Registries::SchemaBlockRenderer::Label::LabelContent
+                @schemaBlock={{@schemaBlock}}
+                @isRequired={{@isRequired}}
+                @readonly={{@readonly}}
+                @isEditableForm={{@isEditableForm}}
+            />
+        </legend>
+    {{else}}
+        <label
+            data-test-question-label
+            local-class='Label'
+            for={{@uniqueID}}
+            ...attributes
+        >
+            <Registries::SchemaBlockRenderer::Label::LabelContent
+                @schemaBlock={{@schemaBlock}}
+                @isRequired={{@isRequired}}
+                @readonly={{@readonly}}
+                @isEditableForm={{@isEditableForm}}
+            />
+        </label>
+    {{/if}}
+{{/if}}

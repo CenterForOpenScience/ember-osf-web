@@ -8,17 +8,21 @@ const { OSF: { apiUrl } } = config;
 
 export default class FileSerializer extends ApplicationSerializer<FileProviderModel> {
     buildRelationships(model: ModelInstance<FileProviderModel>) {
-        const typeKey = this.typeKeyForModel(model.node);
-        const relationships: SerializedRelationships<FileProviderModel> = {
-            files: {
+        const relationships: SerializedRelationships<FileProviderModel> = {};
+        if (model.rootFolder) {
+            relationships.rootFolder = {
+                data: {
+                    id: model.rootFolder.id,
+                    type: this.typeKeyForModel(model.rootFolder),
+                },
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/${typeKey}/${model.node.id}/files/${model.name}`,
-                        meta: this.buildRelatedLinkMeta(model, 'files'),
+                        href: `${apiUrl}/v2/files/${model.rootFolder.id}`,
+                        meta: {},
                     },
                 },
-            },
-        };
+            };
+        }
         return relationships;
     }
 

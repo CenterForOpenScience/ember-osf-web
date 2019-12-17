@@ -1,7 +1,7 @@
 import { ValidatorFunc } from 'ember-changeset/types';
 import { validator } from 'ember-validations';
 
-export type ValidatorResult = string | string[] | true;
+export type ValidatorResult = string | string[] | true | Promise<unknown>;
 
 export type ValidatorFunction = (
     key: string,

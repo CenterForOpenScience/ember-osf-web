@@ -2,16 +2,13 @@ import { action, computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
+import { assert } from '@ember/debug';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
-import config from 'ember-get-config';
 
 import Node from 'ember-osf-web/models/node';
 import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 import Analytics from 'ember-osf-web/services/analytics';
-import pathJoin from 'ember-osf-web/utils/path-join';
-
-const { OSF: { url: baseURL } } = config;
 
 export default class GuidNodeRegistrations extends Controller {
     @service analytics!: Analytics;
@@ -100,6 +97,9 @@ export default class GuidNodeRegistrations extends Controller {
 
     @action
     async createDraft(this: GuidNodeRegistrations) {
+        const branchedFrom = this.node!;
+        assert('Check that the node exists', Boolean(branchedFrom));
+
         if (this.selectedSchema.name === 'Prereg Challenge' && this.newModalOpen) {
             this.set('newModalOpen', false);
             this.set('preregConsented', false);
@@ -108,14 +108,17 @@ export default class GuidNodeRegistrations extends Controller {
         }
         const draftRegistration = this.store.createRecord('draft-registration', {
             registrationSupplement: this.selectedSchema.id,
-            branchedFrom: this.node,
+            branchedFrom,
             registrationSchema: this.selectedSchema,
         });
         await draftRegistration.save();
         this.set('newModalOpen', false);
         this.set('selectedSchema', this.defaultSchema);
-        window.location.assign(
-            pathJoin(baseURL, draftRegistration.branchedFrom.get('id'), 'drafts', draftRegistration.id),
+
+        this.transitionToRoute(
+            'guid-node.drafts',
+            branchedFrom.id,
+            draftRegistration.id,
         );
     }
 }

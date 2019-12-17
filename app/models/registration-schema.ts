@@ -59,7 +59,7 @@ export default class RegistrationSchemaModel extends OsfModel {
     @attr('number') schemaVersion!: number;
     @attr('object') schema!: Schema;
 
-    @hasMany('schema-block', { inverse: null, async: false })
+    @hasMany('schema-block', { inverse: 'schema', async: false })
     schemaBlocks?: SchemaBlock[];
 }
 

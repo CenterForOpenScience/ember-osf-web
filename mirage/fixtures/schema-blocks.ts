@@ -1,4 +1,14 @@
+/* eslint-disable camelcase,max-len */
+// tslint:disable import-spacing
+
 import SchemaBlock from 'ember-osf-web/models/schema-block';
+
+import open_ended_registration from
+    '../fixture-data/schema-blocks/open-ended-registration';
+import prereg_challenge from
+    '../fixture-data/schema-blocks/prereg-challenge';
+import replication_recipe_pre_registration from
+    '../fixture-data/schema-blocks/replication-recipe-pre-registration';
 
 const exampleSchema: Array<Partial<SchemaBlock>> = [
     {
@@ -36,14 +46,16 @@ const exampleSchema: Array<Partial<SchemaBlock>> = [
     {
         id: 'SB6',
         blockType: 'select-input-option',
-        displayText: 'tuna',
+        displayText: 'tuna fish sandwiches with lots of mayonaise but not too much because that\'s gross',
+        helpText: 'Chicken of the sea!',
         schemaBlockGroupKey: 'q1',
         index: 5,
     },
     {
         id: 'SB7',
         blockType: 'select-input-option',
-        displayText: 'chicken',
+        displayText: 'chicken pot pie but be careful because they come out real hot and you could burn yourself if you don\'t wait for them to cool',
+        helpText: 'The original white meat!',
         schemaBlockGroupKey: 'q1',
         index: 6,
     },
@@ -51,6 +63,7 @@ const exampleSchema: Array<Partial<SchemaBlock>> = [
         id: 'SB8',
         blockType: 'question-label',
         displayText: 'Which Pokemon is your favorite?',
+        exampleText: 'Bulbasaur, Ivysaur, Venusaur, Charmander, Charmeleon, Charizard, Squirtle, Wartortle, Blastoise, Caterpie, Metapod, Butterfree, Weedle, Kakuna, Beedrill, Pidgey, Pidgeotto, Pidgeot, Rattata, Raticate, Spearow, Fearow, Ekans, Arbok, Pikachu, Raichu, Sandshrew, Sandslash, Nidoran♀, Nidorina, Nidoqueen, Nidoran♂, Nidorino, Nidoking, Clefairy, Clefable, Vulpix, Ninetales, Jigglypuff, Wigglytuff, Zubat, Golbat, Oddish, Gloom, Vileplume, Paras, Parasect, Venonat, Venomoth, Diglett, Dugtrio',
         schemaBlockGroupKey: 'q2',
         index: 7,
     },
@@ -59,6 +72,7 @@ const exampleSchema: Array<Partial<SchemaBlock>> = [
         blockType: 'short-text-input',
         registrationResponseKey: 'page-one_short-text',
         schemaBlockGroupKey: 'q2',
+        required: true,
         index: 8,
     },
     {
@@ -92,7 +106,8 @@ const exampleSchema: Array<Partial<SchemaBlock>> = [
     {
         id: 'SB14',
         blockType: 'select-input-option',
-        displayText: 'Nickelback',
+        displayText: 'Nickelback (I mean they are really actually pretty great and I could listen to them all day or at least for a couple of minutes)',
+        helpText: 'Chad Kroeger is my hero',
         schemaBlockGroupKey: 'q4',
         index: 13,
     },
@@ -100,6 +115,7 @@ const exampleSchema: Array<Partial<SchemaBlock>> = [
         id: 'SB15',
         blockType: 'select-input-option',
         displayText: 'Crocs',
+        helpText: 'I mean, how can you not love waterproof clogs?',
         schemaBlockGroupKey: 'q4',
         index: 14,
     },
@@ -158,14 +174,15 @@ const exampleSchema: Array<Partial<SchemaBlock>> = [
         schemaBlockGroupKey: 'q6',
         index: 22,
     },
-    {
-        id: 'SB24',
-        blockType: 'short-text-input',
-        schemaBlockGroupKey: 'q6',
-        index: 23,
-    },
 ];
 
 export const ids = exampleSchema.map(block => block.id);
 
-export default exampleSchema;
+export default [
+    ...open_ended_registration,
+    ...prereg_challenge,
+    ...replication_recipe_pre_registration,
+    ...exampleSchema,
+] as SchemaBlock[];
+
+/* eslint-enable camelcase,max-len */

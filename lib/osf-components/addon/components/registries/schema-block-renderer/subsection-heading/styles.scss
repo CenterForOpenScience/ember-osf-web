@@ -1,0 +1,5 @@
+.SubsectionHeading {
+    composes: Heading from '../styles';
+
+    color: $color-text-gray-blue;
+}

@@ -1,0 +1,13 @@
+.FilesList {
+    composes: Element from '../../styles.scss';
+}
+
+.NoFilesSelected {
+    composes: Element from '../../styles.scss';
+
+    font-style: italic;
+}
+
+.ValidationErrors {
+    composes: Element from '../../styles.scss';
+}

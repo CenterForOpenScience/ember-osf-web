@@ -1,0 +1,23 @@
+$width-expanded: 205px;
+$width-collapsed: 80px;
+
+.SideNav {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: $width-expanded;
+    align-items: flex-start;
+    height: 100%;
+
+    &.Collapsed {
+        align-items: center;
+        width: $width-collapsed;
+    }
+}
+
+.Links {
+    border-bottom: $color-border-gray 1px solid;
+    padding: 15px 10px;
+    width: 100%;
+}

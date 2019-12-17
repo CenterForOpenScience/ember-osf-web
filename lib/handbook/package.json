@@ -28,6 +28,7 @@
     "ember-on-modifier": "*",
     "ember-onbeforeunload": "*",
     "ember-power-select": "*",
+    "ember-responsive": "*",
     "ember-tag-input": "*"
   },
   "ember-addon": {

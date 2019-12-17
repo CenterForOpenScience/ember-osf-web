@@ -90,67 +90,67 @@ module('Unit | Packages | registration-schema | validations', () => {
         const result = buildValidation(groups);
         assert.equal(result[groups[1].registrationResponseKey!].length, 1,
             'has 1 validation for required short text input');
-        assert.equal(result[groups[2].registrationResponseKey!].length, 1,
-            'has 1 validations for optional short text input');
+        assert.equal(result[groups[2].registrationResponseKey!].length, 0,
+            'has 0 validations for optional short text input');
         assert.equal(result[groups[3].registrationResponseKey!].length, 1,
             'has 1 validation for required long text input');
-        assert.equal(result[groups[4].registrationResponseKey!].length, 1,
-            'has 1 validations for optional long text input');
+        assert.equal(result[groups[4].registrationResponseKey!].length, 0,
+            'has 0 validations for optional long text input');
     });
 
-    test('validate contributor inputs', assert => {
-        const groups: SchemaBlockGroup[] = [
-            {
-                labelBlock: {
-                    blockType: 'section-heading',
-                    displayText: 'Test for Contributor Inputs',
-                    index: 0,
-                },
-                groupType: 'section-heading',
-            },
-            {
-                labelBlock: {
-                    blockType: 'question-label',
-                    displayText: 'Contributors: Required',
-                    index: 1,
-                    schemaBlockGroupKey: 'q1',
-                },
-                inputBlock: {
-                    blockType: 'contributors-input',
-                    index: 2,
-                    schemaBlockGroupKey: 'q1',
-                    registrationResponseKey: 'q1ContributorsRequired',
-                    required: true,
-                },
-                schemaBlockGroupKey: 'q1',
-                registrationResponseKey: 'q1ContributorsRequired',
-                groupType: 'contributors-input',
-            },
-            {
-                labelBlock: {
-                    blockType: 'question-label',
-                    displayText: 'Contributors: Optional',
-                    index: 3,
-                    schemaBlockGroupKey: 'q2',
-                },
-                inputBlock: {
-                    blockType: 'contributors-input',
-                    index: 4,
-                    schemaBlockGroupKey: 'q2',
-                    registrationResponseKey: 'q2ContributorsOptional',
-                    required: false,
-                },
-                schemaBlockGroupKey: 'q2',
-                registrationResponseKey: 'q2ContributorsOptional',
-                groupType: 'contributors-input',
-            },
-        ];
-        const result = buildValidation(groups);
-        assert.equal(result[groups[1].registrationResponseKey!].length, 2,
-            'has 2 validation for required contributor input');
-        assert.equal(result[groups[2].registrationResponseKey!].length, 1,
-            'has 1 validations for optional contributor input');
-    });
+    // test('validate contributor inputs', assert => {
+    //     const groups: SchemaBlockGroup[] = [
+    //         {
+    //             labelBlock: {
+    //                 blockType: 'section-heading',
+    //                 displayText: 'Test for Contributor Inputs',
+    //                 index: 0,
+    //             },
+    //             groupType: 'section-heading',
+    //         },
+    //         {
+    //             labelBlock: {
+    //                 blockType: 'question-label',
+    //                 displayText: 'Contributors: Required',
+    //                 index: 1,
+    //                 schemaBlockGroupKey: 'q1',
+    //             },
+    //             inputBlock: {
+    //                 blockType: 'contributors-input',
+    //                 index: 2,
+    //                 schemaBlockGroupKey: 'q1',
+    //                 registrationResponseKey: 'q1ContributorsRequired',
+    //                 required: true,
+    //             },
+    //             schemaBlockGroupKey: 'q1',
+    //             registrationResponseKey: 'q1ContributorsRequired',
+    //             groupType: 'contributors-input',
+    //         },
+    //         {
+    //             labelBlock: {
+    //                 blockType: 'question-label',
+    //                 displayText: 'Contributors: Optional',
+    //                 index: 3,
+    //                 schemaBlockGroupKey: 'q2',
+    //             },
+    //             inputBlock: {
+    //                 blockType: 'contributors-input',
+    //                 index: 4,
+    //                 schemaBlockGroupKey: 'q2',
+    //                 registrationResponseKey: 'q2ContributorsOptional',
+    //                 required: false,
+    //             },
+    //             schemaBlockGroupKey: 'q2',
+    //             registrationResponseKey: 'q2ContributorsOptional',
+    //             groupType: 'contributors-input',
+    //         },
+    //     ];
+    //     const result = buildValidation(groups);
+    //     assert.equal(result[groups[1].registrationResponseKey!].length, 2,
+    //         'has 2 validation for required contributor input');
+    //     assert.equal(result[groups[2].registrationResponseKey!].length, 1,
+    //         'has 1 validations for optional contributor input');
+    // });
 
     test('validate file inputs', assert => {
         const groups: SchemaBlockGroup[] = [
@@ -351,13 +351,13 @@ module('Unit | Packages | registration-schema | validations', () => {
             },
         ];
         const result = buildValidation(groups);
-        assert.equal(result[groups[1].registrationResponseKey!].length, 2,
-            'has 2 validation for required Single-Selector input');
-        assert.equal(result[groups[2].registrationResponseKey!].length, 1,
-            'has 1 validations for optional Single-Select input');
-        assert.equal(result[groups[3].registrationResponseKey!].length, 2,
-            'has 2 validation for required Multi-Select input');
-        assert.equal(result[groups[4].registrationResponseKey!].length, 1,
-            'has 1 validations for optional Multi-Select input');
+        assert.equal(result[groups[1].registrationResponseKey!].length, 1,
+            'has 1 validation for required Single-Selector input');
+        assert.equal(result[groups[2].registrationResponseKey!].length, 0,
+            'has 0 validations for optional Single-Select input');
+        assert.equal(result[groups[3].registrationResponseKey!].length, 1,
+            'has 1 validation for required Multi-Select input');
+        assert.equal(result[groups[4].registrationResponseKey!].length, 0,
+            'has 0 validations for optional Multi-Select input');
     });
 });

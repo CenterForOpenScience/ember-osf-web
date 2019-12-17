@@ -1,24 +1,28 @@
-<FormControls
-    @changeset={{@changeset}}
-    @disabled={{@disabled}}
-    @shouldShowMessages={{@shouldShowMessages}}
-    ...attributes
-    as |form|
->
-    <form.checkboxes
-        data-test-multi-select-input
-        @id={{@uniqueID}}
-        @valuePath={{@schemaBlock.registrationResponseKey}}
-        @options={{this.optionBlockValues}}
-        as |cb|
+<Registries::SchemaBlockRenderer::Editable::Base @helpText={{this.schemaBlock.helpText}}>
+    <FormControls
+        @changeset={{@changeset}}
+        @disabled={{@disabled}}
+        @shouldShowMessages={{@shouldShowMessages}}
+        ...attributes as |form|
     >
-        <div data-test-multiple-select-option={{cb.option}}>
-            {{cb.checkbox}}
-            <label for={{cb.checkboxId}}>
-                <div data-test-scope-description>
-                    {{cb.option}}
-                </div>
-            </label>
-        </div>
-    </form.checkboxes>
-</FormControls>
+        <form.checkboxes
+            data-test-multi-select-input
+            local-class='schema-block-multi-select'
+            @id={{@uniqueID}}
+            @valuePath={{@schemaBlock.registrationResponseKey}}
+            @options={{this.optionBlockValues}}
+            @onCheckCallback={{@onInput}}
+            as |cb|
+        >
+            <div data-test-multiple-select-option={{cb.option}}>
+                {{cb.checkbox}}
+                <label for={{cb.checkboxId}}>
+                    <div data-test-scope-description>
+                        {{cb.option}}
+                        <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{get this.helpTextMapping cb.option}} />
+                    </div>
+                </label>
+            </div>
+        </form.checkboxes>
+    </FormControls>
+</Registries::SchemaBlockRenderer::Editable::Base>

@@ -1,1 +1,12 @@
-<h1 data-test-page-heading ...attributes>{{@schemaBlock.displayText}}</h1>
+<h2
+    local-class='PageHeading' 
+    data-test-page-heading
+    ...attributes
+>
+    {{@schemaBlock.displayText}}
+    <span>
+        {{#if this.isEditableForm}}
+            <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{this.schemaBlock.helpText}} />
+        {{/if}}
+    </span>
+</h2>

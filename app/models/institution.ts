@@ -1,28 +1,50 @@
 import { attr, hasMany } from '@ember-decorators/data';
 import { computed } from '@ember-decorators/object';
+import { htmlSafe } from '@ember/string';
 import DS from 'ember-data';
 
 import InstitutionalUserModel from './institutional-user';
 import NodeModel from './node';
-import OsfModel from './osf-model';
+import OsfModel, { OsfLinks } from './osf-model';
 import RegistrationModel from './registration';
 import UserModel from './user';
 
+export interface InstitutionLinks extends OsfLinks {
+    csv: string;
+}
+
 /* eslint-disable camelcase */
 export interface Assets {
+    banner: string;
     logo: string;
     logo_rounded: string;
 }
 /* eslint-enable camelcase */
 
+export interface StatSummary {
+    departments: Department[];
+    ssoUsersConnected: number;
+    numPrivateProjects: number;
+    numPublicProjects: number;
+}
+
+export interface Department {
+    name: string;
+    numUsers: number;
+}
+
 export default class InstitutionModel extends OsfModel {
+    @attr() links!: InstitutionLinks;
     @attr('string') name!: string;
     @attr('fixstring') description!: string;
     @attr('string') logoPath!: string;
     @attr('string') authUrl!: string;
     @attr('object') assets!: Partial<Assets>;
+    @attr('boolean', { defaultValue: false }) currentUserIsAdmin!: boolean;
+    @attr('object') statSummary!: StatSummary;
+    @attr('date') lastUpdated!: Date;
 
-    @hasMany('institutional-user')
+    @hasMany('institutional-user', { inverse: 'institution' })
     institutionalUsers!: DS.PromiseManyArray<InstitutionalUserModel>;
 
     // TODO Might want to replace calls to `users` with `institutionalUsers.user`?
@@ -34,6 +56,12 @@ export default class InstitutionModel extends OsfModel {
 
     @hasMany('registration', { inverse: 'affiliatedInstitutions' })
     registrations!: DS.PromiseManyArray<RegistrationModel>;
+
+    // This is for the title helper, which does its own encoding of unsafe characters
+    @computed('name')
+    get unsafeName() {
+        return htmlSafe(this.name);
+    }
 
     @computed('assets', 'assets.logo', 'logoPath', 'id')
     get logoUrl(): string {

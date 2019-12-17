@@ -2,19 +2,29 @@ import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
-import { task } from 'ember-concurrency';
+import { task, TaskInstance } from 'ember-concurrency';
 import DS from 'ember-data';
 
 import requireAuth from 'ember-osf-web/decorators/require-auth';
+import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import Analytics from 'ember-osf-web/services/analytics';
 
-import { DefaultPage, getPageIndex } from './page-param';
+export interface DraftRouteModel {
+    draftId: string;
+    taskInstance: TaskInstance<DraftRegistration>;
+}
 
 @requireAuth()
 export default class DraftRegistrationRoute extends Route.extend({
     loadModelTask: task(function *(this: DraftRegistrationRoute, draftId: string) {
         try {
-            return yield this.store.findRecord('draft-registration', draftId);
+            const draftRegistration = yield this.store.findRecord(
+                'draft-registration',
+                draftId,
+                { adapterOptions: { include: 'branched_from' } },
+            );
+            const node = yield draftRegistration.branchedFrom;
+            return { draftRegistration, node };
         } catch (error) {
             this.transitionTo('page-not-found', this.router.currentURL.slice(1));
             return undefined;
@@ -25,17 +35,11 @@ export default class DraftRegistrationRoute extends Route.extend({
     @service store!: DS.Store;
     @service router!: RouterService;
 
-    model(this: DraftRegistrationRoute, params: { id: string, page?: string }) {
-        const { id, page } = params;
-
-        if (!page) {
-            return this.transitionTo('drafts.draft', id, DefaultPage);
-        }
-
+    model(params: { id: string }): DraftRouteModel {
+        const { id: draftId } = params;
         return {
-            taskInstance: this.loadModelTask.perform(id),
-            pageIndex: getPageIndex(page),
-            page,
+            draftId,
+            taskInstance: this.loadModelTask.perform(draftId),
         };
     }
 

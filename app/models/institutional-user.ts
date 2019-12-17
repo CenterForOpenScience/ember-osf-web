@@ -7,14 +7,15 @@ import OsfModel from './osf-model';
 
 export default class InstitutionalUserModel extends OsfModel {
     @attr('fixstring') userFullName!: string;
+    @attr('fixstring') userGuid!: string;
     @attr('fixstring') department?: string;
     @attr('number') publicProjectCount!: number;
     @attr('number') privateProjectCount!: number;
 
-    @belongsTo('institution')
+    @belongsTo('institution', { inverse: 'institutionalUsers' })
     institution!: DS.PromiseObject<InstitutionModel> & InstitutionModel;
 
-    @belongsTo('user')
+    @belongsTo('user', { async: false })
     user!: DS.PromiseObject<UserModel> & UserModel;
 }
 

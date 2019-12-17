@@ -97,7 +97,9 @@ Router.map(function() {
     this.route('home', { path: '/' });
     this.route('dashboard');
     this.route('goodbye');
-    this.route('institutions');
+    this.route('institutions', function() {
+        this.route('dashboard', { path: '/:institution_id/dashboard' });
+    });
     this.route('quickfiles');
     this.route('register');
     this.route('settings', function() {
@@ -140,6 +142,9 @@ Router.map(function() {
         this.mount('analytics-page', { as: 'analytics' });
         this.route('forks');
         this.route('registrations');
+        this.route('drafts', { path: '/drafts/:draftId' }, function() {
+            this.route('register');
+        });
     });
 
     this.route('guid-preprint', { path: '--preprint/:guid' });

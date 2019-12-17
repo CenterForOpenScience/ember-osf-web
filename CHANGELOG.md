@@ -4,6 +4,131 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [19.11.0] - 2019-12-16
+### Added
+- Components
+    - `institutions`
+        - `dashboard/departments-panel`
+        - `dashboard/institutional-users-list`
+        - `dashboard/panel`
+        - `dashboard/projects-panel`
+    - `Registries::DraftRegistrationManager`
+    - `Registries::SchemaBlockRenderer::Editable::Files`
+    - `Registries::SchemaBlockRenderer::ReadOnly::Files`
+    - `OsfLayout::RegistriesSideNav`
+    - `OsfLayout::RegistriesSideNav::Icon`
+    - `OsfLayout::RegistriesSideNav::Label`
+    - `OsfLayout::RegistriesSideNav::XLink`
+    - `PageLink`
+- Mirage
+    - Factories
+        - `institutional-user`
+    - Serializers
+        - `institutional-user`
+- Routes
+    - `institution`
+        - added `dashboard` nested route
+    - `guid-node`
+        - added `drafts` nested route
+- Engines
+    - Components
+        - `drafts/draft/-components/register`
+    - Routes
+        - `registries`
+            - `drafts.draft`, `draft/<draftId>`
+                - index route redirects to `draft/<draftId>/1`
+            - `drafts.draft.page`, `draft/<draftId>/<page>`
+- Utils
+    - `page-param`
+- Tests
+    - Integration
+        - `draft-registration-manager`
+        - `page-link`
+        - `registries-side-nav`
+    - Unit
+        - `page-param`
+    - Acceptance
+        - `draft form`
+- Environment
+    - Flags
+        - added `guid-node.drafts` route flag
+- Packages
+    - `ember-element-helper` v0.2.0
+
+### Changed
+- Components
+    - `paginated-list`
+        - added `isTable` attribute to use a `table` over an `ul`
+    - `sort-button`
+        - changed local `selected` classes to nested global classes
+    - `registries/schema-block-renderer/editable/**`
+    - `validated-input`
+        - Modified components to take in `onInput` callback.
+            - added `withStatSummary` trait
+    - `registries/partial-registration-modal`
+        - added `onContinue` hook
+    - `OsfLayout`
+        - renamed `left-nav` to `left-nav-old`
+        - created new `left-nav` that uses `registries-side-nav`
+- Mirage
+    - Factories
+        - `institution`
+            - added `withInstitutionalUsers` trait
+    - Scenarios
+        - `default`
+            - added `SchemaBlock` node with files and contributors
+- Models
+    - `base-file-item`
+        - added `createFolder`
+    - `draft-registration`
+        - added `registrationResponses`
+    - `file`
+        - added `toFileReference`
+    - `file-provider`
+        - use `rootFolder` instead of `files`
+        - added links
+    - `institution`
+        - added `currentUserIsAdmin` boolean
+        - added `statSummary` object
+    - `institutional-user`
+        - added `userGuid` string
+    - `registration`
+        - changed `draftRegistration` to be a relationship
+        - added `registrationResponses`
+        - added `includedNodeIds`
+        - added `createDoi`
+        - added `draftRegistrationId`
+        - removed `registrationChoice`
+        - removed `liftEmbargo`
+    - `registration-schema`
+        - added `schemaBlocks` inverse
+    - `schema-blocks`
+        - added `schema` relationship
+        - added `elementId` computed
+        - added `pageRouteParam` computed
+- Routes
+    - `institution`
+        - moved to `index` folder
+    - `registries.drafts.draft`
+        - added navigation
+    - `registries.overview`
+        - updated to use `leftNavOld`
+- Types
+    - Renamed `PageResponse` to `RegistrationResponse`
+- Tests
+    - `schema-block-renderer`
+        - added `files` block test
+
+### Removed
+- Tests
+    - unit, component tests using `FactoryGuy`
+    - `FactoryGuy` factories
+- Packages
+    - `ember-data-factory-guy`
+    - `ember-element-helper` (`fix-engines` branch)
+- Types
+    - `FactoryGuy` types
+
 ## [19.10.0] - 2019-10-02
 ### Added
 - Models
@@ -37,6 +162,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `selected-list`
         - `upload-zone`
         - `widget`
+    - `registries/review-form-renderer`
+    - `schema-block-renderer/`
+        - `editable`
+        - `read-only`
 - Validators
     - `list` - apply a validator to a list
 - Tests
@@ -127,6 +256,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - darken background overlay
     - `registries/registries-metadata`
         - use `Subjects::Widget` and `Subjects::Display` (and related managers) for subjects editable field
+    - `schema-block-group-renderer`
+        - take in renderStrategy as mapper
+        - take variable for `registrationResponses`
+    - `schema-block-renderer`
+        - broke components into `editable` and `read-only` structures
 - Tests
     - renamed `taxonomy` to `subject` in `preprint-provider` FactoryGuy factory
     - Unit
@@ -135,6 +269,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `serializers/taxonomy-test` renamed to `serializers/subject-test`
         - `models/preprint-test`
             - removed test for `subject` attribute
+    - Integration
+        - `registries/schema-block-group-renderer` updated to include `renderStrategy`
 - Mirage
     - Factories
         - `node`
@@ -221,7 +357,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
             - improved update acceptance tests to perform assertions in addition to taking snapshots
             - improved discover acceptance tests to perform assertions in addition to taking snapshots
 - Tests
-    - added `ember-basic-dropdown-wormhole` div to test index.html 
+    - added `ember-basic-dropdown-wormhole` div to test index.html
 - Mirage
     - `osfNestedResource`
         - added `onCreate` hook to perform additional operations after creating a child resource

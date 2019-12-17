@@ -9,11 +9,12 @@
 }}
     {{textarea
         (html-attributes aria-label=this.ariaLabel)
-        id=inputElementId
+        id=(or @uniqueID inputElementId)
         value=this.value
         placeholder=this._placeholder
         class='form-control'
         name=this.valuePath
         disabled=this.disabled
+        keyUp=@onKeyUp
     }}
 {{/validated-input/x-input-wrapper}}

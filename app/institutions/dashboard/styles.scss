@@ -1,0 +1,81 @@
+.banner {
+    padding: 15px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    div {
+        color: #263947;
+    }
+}
+
+.table-wrapper {
+    width: 75%;
+    padding-right: 15px;
+}
+
+.panel-wrapper {
+    width: 25%;
+    padding-left: 15px;
+    text-align: right;
+}
+
+.csv-button {
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    padding: 7px 0;
+    border: 1px solid #ddd;
+    margin-bottom: 15px;
+    text-align: center;
+
+    &:active,
+    &:hover {
+        background: #15a5eb;
+        border-color: #15a5eb;
+    }
+}
+
+.sso-users-connected {
+    :global(.panel-body) {
+        h3 {
+            margin: 0;
+            font-size: 7.5vw;
+            font-weight: bold;
+        }
+    }
+}
+
+.projects {
+    :global(.panel-body) {
+        h3 {
+            margin: 0 0 10px;
+            font-size: 3.75vw;
+            font-weight: bold;
+        }
+
+        p {
+            margin: 0;
+            font-size: 16px;
+        }
+    }
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+    .sso-users-connected {
+        :global(.panel-body) {
+            h3 {
+                font-size: 120px;
+            }
+        }
+    }
+
+    .projects {
+        :global(.panel-body) {
+            h3 {
+                font-size: 72px;
+            }
+        }
+    }
+}

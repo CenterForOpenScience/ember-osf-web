@@ -1,0 +1,32 @@
+{{#if this.hasResponses}}
+    <ul
+        data-test-read-only-file-widget
+        local-class='FilesList'
+        ...attributes
+    >
+        {{#each this.responses as |file|}}
+            <li>
+                {{#if this.isValidating}}
+                    {{~file.name~}}
+                {{else}}
+                    <OsfLink
+                        @href={{file.links.html}}
+                        @target='_blank'
+                    >
+                        {{~file.name~}}
+                    </OsfLink>
+                {{/if}}
+            </li>
+        {{/each}}
+    </ul>
+{{else}}
+    <p local-class='NoFilesSelected'>
+        {{t 'osf-components.registries.schema-block-renderer/read-only/files.noFilesSelected'}}
+    </p>
+{{/if}}
+<ValidationErrors
+    local-class='ValidationErrors'
+    @changeset={{@changeset}}
+    @key={{@schemaBlock.registrationResponseKey}}
+    @isValidating={{this.isValidating}}
+/>

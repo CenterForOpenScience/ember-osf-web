@@ -14,6 +14,9 @@ export default class ValidateListDemo extends Component {
 
     @computed('changeset.error.list.validation')
     get listResults() {
+        if (!this.changeset.error.list) {
+            return [];
+        }
         return transposeResults(
             this.changeset.error.list.validation as ValidatorResult[],
         );

@@ -1,17 +1,19 @@
-<FormControls
-    @changeset={{@changeset}}
-    @disabled={{@disabled}}
-    @shouldShowMessages={{@shouldShowMessages}}
-    ...attributes
-    as |form|
->
-    <form.select
-        data-test-single-select-input
-        @id={{@uniqueID}}
-        @valuePath={{@schemaBlock.registrationResponseKey}}
-        @options={{this.optionBlockValues}}
-        as |option|
+<Registries::SchemaBlockRenderer::Editable::Base @helpText={{this.schemaBlock.helpText}}>
+    <FormControls
+        @changeset={{@changeset}}
+        @disabled={{@disabled}}
+        @shouldShowMessages={{@shouldShowMessages}}
+        ...attributes as |form|
     >
-        {{option}}
-    </form.select>
-</FormControls>
+        <form.radioGroup
+            @id={{@uniqueID}}
+            @valuePath={{@schemaBlock.registrationResponseKey}}
+            @options={{this.optionBlockValues}}
+            @onchange={{@onInput}}
+            @helpTextMapping={{this.helpTextMapping}}
+            as |radioGroup|
+        >
+            {{radioGroup}}
+        </form.radioGroup>
+    </FormControls>
+</Registries::SchemaBlockRenderer::Editable::Base>

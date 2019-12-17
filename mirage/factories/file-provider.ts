@@ -10,12 +10,14 @@ export default Factory.extend<MirageFileProvider>({
     name: 'osfstorage',
     path: '/',
     provider: 'osfstorage',
-    afterCreate(provider) {
+    afterCreate(provider, server) {
         if (provider.node) {
             provider.update({
                 providerId: `${provider.node.id}:${provider.name}`,
             });
         }
+        const rootFolder = server.create('file', 'asFolder');
+        provider.update({ rootFolder });
     },
     node: association() as FileProviderModel['node'],
 });

@@ -1,4 +1,3 @@
-import { computed } from '@ember-decorators/object';
 import { alias } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
@@ -11,13 +10,8 @@ const { featureFlagNames: { ABTesting } } = config;
 export default class Home extends Controller {
     @service features!: Features;
 
-    @alias(`features.${camelize(ABTesting.homePageVersionB)}`)
+    @alias(`features.${camelize(ABTesting.homePageHeroTextVersionB)}`)
     shouldShowVersionB!: boolean;
-
-    @computed('shouldShowVersionB')
-    get version(): string {
-        return this.shouldShowVersionB ? 'versionB' : 'versionA';
-    }
 }
 
 declare module '@ember/controller' {

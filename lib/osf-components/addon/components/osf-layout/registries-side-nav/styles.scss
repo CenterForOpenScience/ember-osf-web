@@ -1,0 +1,54 @@
+$width-expanded: 205px;
+$width-collapsed: 80px;
+$sidenav-link-height: 40px;
+
+.Links {
+    display: flex;
+    flex-direction: column;
+    width: $width-expanded;
+
+    & .Collapsed {
+        width: $width-collapsed;
+    }
+}
+
+.SideNav {
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: $width-expanded;
+    align-items: flex-start;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding-top: 20px;
+
+    &.Collapsed {
+        width: $width-collapsed;
+    }
+}
+
+.Toggle {
+    & span {
+        display: none;
+    }
+
+    &:hover span {
+        display: inline-flex;
+    }
+}
+
+.Links {
+    position: relative;
+}
+
+.Line {
+    position: absolute;
+    border-left: 3px solid $color-border-gray;
+    width: 0;
+    top: 15px;
+    bottom: 15px;
+    left: 27px;
+}

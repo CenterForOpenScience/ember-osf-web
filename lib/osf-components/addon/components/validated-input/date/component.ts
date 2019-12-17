@@ -1,5 +1,5 @@
 import { action } from '@ember-decorators/object';
-import DS, { AttributesFor } from 'ember-data';
+import DS from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
 
@@ -8,10 +8,8 @@ import template from './template';
 
 @layout(template)
 export default class ValidatedDatePicker<M extends DS.Model> extends BaseValidatedComponent<M> {
-    valuePath!: AttributesFor<M>;
-
     @action
-    forceParse(component: any) {
-        component._forceParse();
+    onChange(newValue: Date[]) {
+        this.set('value', newValue[0]);
     }
 }

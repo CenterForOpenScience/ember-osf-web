@@ -35,13 +35,14 @@ const {
         'dashboard',
         'settings',
         'meetings',
+        'registrations',
     ],
     OAUTH_SCOPES: scope,
     OSF_STATUS_COOKIE: statusCookie = 'osf_status',
     OSF_COOKIE_DOMAIN: cookieDomain = 'localhost',
     OSF_URL: url = 'http://localhost:5000/',
     OSF_API_URL: apiUrl = 'http://localhost:8000',
-    OSF_API_VERSION: apiVersion = '2.16',
+    OSF_API_VERSION: apiVersion = '2.19',
     OSF_RENDER_URL: renderUrl = 'http://localhost:7778/render',
     OSF_FILE_URL: waterbutlerUrl = 'http://localhost:7777/',
     OSF_HELP_URL: helpUrl = 'http://localhost:4200/help',
@@ -227,6 +228,9 @@ module.exports = function(environment) {
             facebookUrl: 'https://www.facebook.com/CenterForOpenScience/',
             githubUrl: 'https://github.com/centerforopenscience',
         },
+        helpLinks: {
+            linkToAProject: 'https://help.osf.io/hc/en-us/articles/360019930313-Link-to-a-Project',
+        },
         dashboard: {
             popularNode,
             noteworthyNode,
@@ -234,6 +238,8 @@ module.exports = function(environment) {
         featureFlagNames: {
             routes: {
                 'guid-node.index': 'ember_project_detail_page',
+                'guid-node.drafts.index': 'ember_edit_draft_registration_page',
+                'guid-node.drafts.register': 'ember_edit_draft_registration_page',
                 'guid-user.index': 'ember_user_profile_page',
                 'guid-registration.index': 'ember_old_registration_detail_page',
                 settings: 'ember_user_settings_page',
@@ -276,7 +282,7 @@ module.exports = function(environment) {
             enableInactiveSchemas: 'enable_inactive_schemas',
             verifyEmailModals: 'ember_verify_email_modals',
             ABTesting: {
-                homePageVersionB: 'ab_testing_home_page_version_b',
+                homePageHeroTextVersionB: 'ab_testing_home_page_hero_text_version_b',
             },
         },
         gReCaptcha: {

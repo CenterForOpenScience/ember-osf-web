@@ -44,6 +44,10 @@ const featuresStub = Service.extend({
     isEnabled: () => false,
 });
 
+const osfRouterStub = Service.extend({
+    transitionTo: () => null,
+});
+
 function visibleText(selector: string) {
     // https://stackoverflow.com/questions/1846177/how-do-i-get-just-the-visible-text-with-jquery-or-javascript
     return $(`${selector} *:not(:has(*)):visible`).text().replace(/\s+/g, ' ').trim();
@@ -74,6 +78,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         this.owner.register('service:analytics', analyticsStub);
         this.owner.register('service:currentUser', currentUserStub);
         this.owner.register('service:statusMessages', statusMessagesStub);
+        this.owner.register('service:osfRouter', osfRouterStub);
     });
 
     test('it renders', async assert => {

@@ -1,1 +1,12 @@
-<h3 data-test-subsection-heading ...attributes>{{@schemaBlock.displayText}}</h3>
+<h4
+    local-class='SubsectionHeading'
+    data-test-subsection-heading
+    ...attributes
+>
+    {{@schemaBlock.displayText}}
+    <span>
+        {{#if this.isEditableForm}}
+            <Registries::SchemaBlockRenderer::HelperTextIcon @helpText={{this.schemaBlock.helpText}} />
+        {{/if}}
+    </span>
+</h4>

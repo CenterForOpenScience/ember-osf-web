@@ -50,10 +50,42 @@ function registrationScenario(
     draftRegisterNodeMultiple(server, registrationNode, 12, {}, 'withRegistrationMetadata');
 
     server.create('registration', { id: 'beefs' });
+
+    const registrationResponses = {
+        'page-one_long-text': '',
+        'page-one_multi-select': ['Crocs'],
+        'page-one_multi-select-other': '',
+        'page-one_short-text': 'sdfsdfsd',
+        'page-one_single-select-two': 'Remember who was in NSync and who was in Backstreet Boys',
+    };
+
+    const rootNode = server.create('node');
+    const childNodeA = server.create('node', { parent: rootNode });
+    server.create('node', { parent: childNodeA });
+    server.create('node', { parent: childNodeA });
+
     server.create('draft-registration', {
         id: 'dcaf',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         initiator: currentUser,
+        registrationResponses,
+        branchedFrom: rootNode,
+    });
+
+    server.create('draft-registration', {
+        id: 'rrpre',
+        registrationSchema: server.schema.registrationSchemas.find('replication_recipe_pre_registration'),
+        initiator: currentUser,
+        registrationResponses,
+        branchedFrom: rootNode,
+    });
+
+    server.create('draft-registration', {
+        id: 'pregc',
+        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+        initiator: currentUser,
+        registrationResponses,
+        branchedFrom: rootNode,
     });
 
     server.create('registration', {
@@ -157,7 +189,11 @@ function dashboardScenario(server: Server, currentUser: ModelInstance<User>) {
     for (const node of nodes.slice(4, 10)) {
         server.create('contributor', { node, users: currentUser, index: 11 });
     }
+
+    // NOTE: Some institutions are already created by this point
     server.createList('institution', 20);
+    // Create a specific institution to test institutional dashboard with; should be ID 29 at this point
+    server.create('institution', { id: 'has-users' }, 'withInstitutionalUsers', 'withStatSummary');
 }
 
 function forksScenario(server: Server, currentUser: ModelInstance<User>) {
@@ -207,10 +243,10 @@ function handbookScenario(server: Server, currentUser: ModelInstance<User>) {
     const folderA = server.create('file', { target: fileWidgetNode }, 'asFolder');
 
     const fileProviders = fileWidgetNode.files.models as Array<ModelInstance<FileProvider>>;
-    const osfstorage = fileProviders[0];
-    const providerFiles = osfstorage.files.models;
+    const [osfstorage] = fileProviders;
+    const providerFiles = osfstorage.rootFolder.files.models;
 
-    osfstorage.update({
+    osfstorage.rootFolder.update({
         files: [...providerFiles, folderA],
     });
 
@@ -230,6 +266,23 @@ function handbookScenario(server: Server, currentUser: ModelInstance<User>) {
         subjects: server.schema.subjects.all().models,
     });
     server.create('registration', { id: 'subj' }, 'withSubjects');
+
+    // SchemaBlock Renderer
+    const schemaNode = server.create(
+        'node',
+        { id: 'dslt', currentUserPermissions: Object.values(Permission) },
+        'withFiles',
+    );
+
+    const folder = server.create('file', { target: schemaNode }, 'asFolder');
+    const providers = fileWidgetNode.files.models as Array<ModelInstance<FileProvider>>;
+    const storage = providers[0];
+    const providersFiles = storage.rootFolder.files.models;
+    storage.update({
+        files: [...providersFiles, folder],
+    });
+    server.createList('file', 15, { target: schemaNode, parentFolder: folder });
+    server.createList('contributor', 23, { node: schemaNode });
 }
 
 function settingsScenario(server: Server, currentUser: ModelInstance<User>) {

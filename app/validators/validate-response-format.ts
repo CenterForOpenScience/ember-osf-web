@@ -1,32 +1,27 @@
 import { isEmpty } from '@ember/utils';
-import ContributorModel from 'ember-osf-web/models/contributor';
+import { ValidatorFunction } from 'ember-changeset-validations';
+import File from 'ember-osf-web/models/file';
+import NodeModel from 'ember-osf-web/models/node';
+import { allSettled } from 'rsvp';
 
-const isContributorModel = (input: any) => {
-    if (input instanceof ContributorModel) {
-        return true;
-    }
-    return false;
-};
+export function validateFileList(node?: NodeModel): ValidatorFunction {
+    return async (_: string, newValue: File[]) => {
+        if (newValue && node) {
+            await allSettled(newValue.map(file => file.reload()));
 
-export function validateResponseFormat(opts: {format: string}) {
-    return (value: any) => {
-        if (opts.format) {
-            switch (opts.format) {
-            case 'file':
-                if (!isEmpty(value.id) && !isEmpty(value.name)) {
-                    return true;
+            const detachedFiles = [];
+
+            for (const file of newValue) {
+                if (file.isError || file.belongsTo('target').id() !== node.id) {
+                    detachedFiles.push(file.name);
                 }
-                return 'Not a valid file';
-            case 'contributor':
-                if (isContributorModel(value) && !isEmpty(value.id)) {
-                    return true;
-                }
-                return 'Not a valid contributor';
-            default:
-                return 'Invalid format';
             }
-        } else {
-            return 'Need a format';
+            const projectOrComponent = node.isRoot ? 'project' : 'component';
+
+            if (!isEmpty(detachedFiles)) {
+                return `The file(s) "${detachedFiles.join(', ')}" cannot be found on this ${projectOrComponent}.`;
+            }
         }
+        return true;
     };
 }
