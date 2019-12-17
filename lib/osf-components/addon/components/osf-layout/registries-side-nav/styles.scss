@@ -39,3 +39,16 @@ $sidenav-link-height: 40px;
         display: inline-flex;
     }
 }
+
+.Links {
+    position: relative;
+}
+
+.Line {
+    position: absolute;
+    border-left: 3px solid $color-border-gray;
+    width: 0;
+    top: 15px;
+    bottom: 15px;
+    left: 27px;
+}
