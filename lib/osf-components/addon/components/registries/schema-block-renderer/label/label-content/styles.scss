@@ -23,6 +23,11 @@
     &:global(.btn) {
         padding: 0;
         border: 0;
+
+        &:focus,
+        &:active:focus {
+            outline-offset: 1px;
+        }
     }
 }
 
