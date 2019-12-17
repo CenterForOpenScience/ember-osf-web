@@ -53,10 +53,6 @@ export default class RegistriesDrat extends Controller {
 
     @action
     onPageNotFound() {
-        // tslint:disable-next-line: no-debugger
-        debugger;
-        // tslint:disable-next-line: no-console
-        console.log('draft/page controller onpageNotFound');
         this.transitionToRoute('page-not-found', this.router.currentURL.slice(1));
     }
 }

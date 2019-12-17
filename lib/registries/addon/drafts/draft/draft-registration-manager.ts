@@ -9,24 +9,21 @@ import NodeModel from 'ember-osf-web/models/node';
 import SchemaBlock from 'ember-osf-web/models/schema-block';
 
 import { getPages, PageManager, RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
-import { getNextPageParam, getPrevPageParam } from 'ember-osf-web/utils/page-param';
 
-export type DraftRegistrationAndNode = TaskInstance<{draftRegistration: DraftRegistration, node: NodeModel} | undefined>;
+export type DraftRegistrationAndNode = TaskInstance<{
+    draftRegistration: DraftRegistration,
+    node: NodeModel,
+} | undefined>;
 
 export class DraftRegistrationManager {
     // Required
     draftRegistrationAndNodeTask!: DraftRegistrationAndNode;
 
-    // Optional
-    updateRoute?: (headingText: string) => void;
-    // onPageNotFound?: () => void;
-
     // Private
-    currentPage?: number;
+    currentPage!: number;
     lastPage!: number;
     registrationResponses!: RegistrationResponse;
     inReview!: boolean;
-    pageOutOfBounds: boolean = false;
 
     pageManagers: PageManager[] = [];
 
@@ -39,62 +36,6 @@ export class DraftRegistrationManager {
     taskInstance?: DraftRegistrationAndNode;
     draftRegistration!: DraftRegistration;
     node!: NodeModel;
-
-    @computed('currentPage')
-    get currentPageOutOfBounds() {
-        if (typeof this.currentPage === 'undefined') {
-            return false;
-        } else {
-            if (this.currentPage > this.lastPage) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @computed('currentPage', 'pageManagers.[]')
-    get nextPageParam() {
-        const { pageManagers, currentPage, lastPage } = this;
-
-        if (typeof currentPage === 'undefined') {
-            return '';
-        }
-        if (!isEmpty(pageManagers) && (currentPage < lastPage)) {
-            const { pageHeadingText } = pageManagers[currentPage + 1];
-            return getNextPageParam(currentPage, pageHeadingText!);
-        }
-        return '';
-    }
-
-    @computed('currentPage', 'pageManagers.[]', 'inReview')
-    get prevPageParam() {
-        const { pageManagers, inReview, lastPage, currentPage } = this;
-        if (typeof currentPage === 'undefined') {
-            return;
-        }
-
-        if (!isEmpty(pageManagers)) {
-            const currentPageNumber = inReview ? lastPage + 1 : currentPage;
-
-            if (currentPageNumber > 0) {
-                const { pageHeadingText } = pageManagers[currentPageNumber - 1];
-                return getPrevPageParam(currentPageNumber, pageHeadingText!);
-            }
-        }
-        return '';
-    }
-
-    @computed('currentPage', 'pageManagers.[]')
-    get currentPageManager() {
-        const { currentPage, pageManagers } = this;
-        if (typeof currentPage === 'undefined') {
-            return;
-        }
-        if (!isEmpty(pageManagers)) {
-            return pageManagers[currentPage];
-        }
-        return undefined;
-    }
 
     @computed('pageManagers.{[],@each.pageIsValid}')
     get registrationResponsesIsValid() {
@@ -127,27 +68,14 @@ export class DraftRegistrationManager {
             ),
         );
 
-        if (this.currentPage !== undefined) {
-            if (this.currentPage <= this.lastPage) {
-                set(this, 'currentPageManager', pageManagers[this.currentPage]);
-                if (this.updateRoute) {
-                    this.updateRoute(pageManagers[this.currentPage].pageHeadingText as string);
-                }
-            }
-            // } else if (this.onPageNotFound) {
-            //     set(this, 'pageOutOfBounds', true);
-            //     // this.onPageNotFound();
-            // }
-        }
-
         set(this, 'pageManagers', pageManagers);
     });
 
     @task({ restartable: true })
-    onInput = task(function *(this: DraftRegistrationManager) {
+    onInput = task(function *(this: DraftRegistrationManager, currentPageManager: PageManager) {
         yield timeout(5000); // debounce
-        if (this.currentPageManager && this.currentPageManager.schemaBlockGroups) {
-            this.updateRegistrationResponses(this.currentPageManager);
+        if (currentPageManager && currentPageManager.schemaBlockGroups) {
+            this.updateRegistrationResponses(currentPageManager);
 
             this.draftRegistration.setProperties({
                 registrationResponses: this.registrationResponses,
@@ -156,7 +84,6 @@ export class DraftRegistrationManager {
             try {
                 yield this.draftRegistration.save();
             } catch (error) {
-                // this.toast.error('Save failed');
                 throw error;
             }
         }

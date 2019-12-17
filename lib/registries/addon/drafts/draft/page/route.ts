@@ -1,5 +1,4 @@
 import { action } from '@ember/object';
-import { set } from '@ember/object';
 import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
@@ -33,7 +32,6 @@ export default class DraftRegistrationPageRoute extends Route {
         const draftRouteModel = this.modelFor('drafts.draft') as DraftRouteModel;
         const { draftId, taskInstance } = draftRouteModel;
         const { draftRegistrationManager } = draftRouteModel;
-        set(draftRouteModel.draftRegistrationManager, 'currentPage', pageIndex);
         return {
             draftId,
             draftRegistrationManager,

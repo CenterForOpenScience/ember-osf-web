@@ -26,9 +26,13 @@ export default class MultiSelectInput extends Component {
 
     @computed('optionBlocks.[]')
     get helpTextMapping() {
-        const mapping = {};
+        const mapping: Record<string, string> = {};
         this.optionBlocks.forEach(option => {
-            mapping[option.displayText!] = option.helpText;
+            const { displayText, helpText } = option;
+            if (displayText && helpText) {
+                mapping[displayText] = helpText;
+            }
         });
+        return mapping;
     }
 }
