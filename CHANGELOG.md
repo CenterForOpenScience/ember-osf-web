@@ -1493,7 +1493,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.10.0...develop
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.11.0...develop
+[19.11.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.11.0
 [19.10.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.10.0
 [19.9.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.9.0
 [19.8.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.8.0
