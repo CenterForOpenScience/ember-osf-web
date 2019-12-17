@@ -10,29 +10,17 @@ export function validateFileList(node?: NodeModel): ValidatorFunction {
             await allSettled(newValue.map(file => file.reload()));
 
             const detachedFiles = [];
-            const deletedFiles = [];
 
             for (const file of newValue) {
-                if (file.isError) {
-                    deletedFiles.push(file.name);
-                } else if (file.belongsTo('target').id() !== node.id) {
+                if (file.isError || file.belongsTo('target').id() !== node.id) {
                     detachedFiles.push(file.name);
                 }
             }
             const projectOrComponent = node.isRoot ? 'project' : 'component';
-            const validationErrors: string[] = [];
 
             if (!isEmpty(detachedFiles)) {
-                validationErrors.push(`File(s) "${detachedFiles.join(', ')}" no longer belong to this \
-${projectOrComponent} or any of its registered components.`);
+                return `The file(s) "${detachedFiles.join(', ')}" cannot be found on this ${projectOrComponent}.`;
             }
-
-            if (!isEmpty(deletedFiles)) {
-                validationErrors.push(
-                    `File(s) "${deletedFiles.join(', ')}" were deleted from this ${projectOrComponent}.`,
-                );
-            }
-            return isEmpty(validationErrors) ? true : validationErrors;
         }
         return true;
     };
