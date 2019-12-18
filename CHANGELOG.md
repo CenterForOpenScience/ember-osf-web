@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [19.11.0] - 2019-12-16
 ### Added
 - Components
     - `institutions`
@@ -78,11 +80,34 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - `default`
             - added `SchemaBlock` node with files and contributors
 - Models
+    - `base-file-item`
+        - added `createFolder`
+    - `draft-registration`
+        - added `registrationResponses`
+    - `file`
+        - added `toFileReference`
+    - `file-provider`
+        - use `rootFolder` instead of `files`
+        - added links
     - `institution`
         - added `currentUserIsAdmin` boolean
         - added `statSummary` object
     - `institutional-user`
         - added `userGuid` string
+    - `registration`
+        - changed `draftRegistration` to be a relationship
+        - added `registrationResponses`
+        - added `includedNodeIds`
+        - added `createDoi`
+        - added `draftRegistrationId`
+        - removed `registrationChoice`
+        - removed `liftEmbargo`
+    - `registration-schema`
+        - added `schemaBlocks` inverse
+    - `schema-blocks`
+        - added `schema` relationship
+        - added `elementId` computed
+        - added `pageRouteParam` computed
 - Routes
     - `institution`
         - moved to `index` folder
@@ -1468,7 +1493,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.10.0...develop
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.11.0...develop
+[19.11.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.11.0
 [19.10.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.10.0
 [19.9.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.9.0
 [19.8.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.8.0

@@ -28,12 +28,9 @@ module('Registries | Acceptance | overview.view-only-link', hooks => {
 
         await visit(`/${mirageReg.id}?view_only=${viewOnlyToken}`);
 
-        assert.dom('[data-test-form-section]').exists({ count: 7 });
-        const assertTitle = assert.dom('#study-information\\.title p');
-        assertTitle.exists({ count: 1 });
-        assertTitle.hasAnyText();
+        assert.dom('[data-test-page-heading]').exists({ count: 7 });
 
-        const assertAuthors = assert.dom('#study-information\\.authors p');
+        const assertAuthors = assert.dom('[data-test-read-only-contributors-list]');
         assertAuthors.exists({ count: 1 });
         assertAuthors.hasText('', 'Authors question empty');
     });

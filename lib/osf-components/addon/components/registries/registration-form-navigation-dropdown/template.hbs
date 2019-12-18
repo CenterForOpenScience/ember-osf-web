@@ -1,0 +1,49 @@
+<ResponsiveDropdown local-class='Dropdown' @renderInPlace={{true}} as |dd|>
+    {{#dd.trigger local-class='MenuTrigger'}}
+        <OsfButton
+            data-analytics-name='Expand'
+            data-test-toggle-anchor-nav-button @type='link'
+            local-class='ToggleNav__button'
+        >
+            <FaIcon @icon='bars' />
+        </OsfButton>
+    {{/dd.trigger}}
+    {{#dd.content}}
+        <nav
+            data-analytics-scope='Form navigation menu'
+            local-class='NavigationMenu'
+            aria-labelledby='form-navigation-menu'
+        >
+            <h2 
+                local-class='Header'
+                id='form-navigation-menu'
+                data-test-anchor-nav-title
+            >
+                <div local-class='HeaderText'>{{t 'registries.overview.contents'}}</div>
+                <OsfButton
+                    data-analytics-name='Collapse'
+                    data-test-toggle-anchor-nav-button
+                    @onClick={{action dd.close}}
+                    @type='link'
+                    local-class= 'ToggleNav__button'
+                >
+                    <FaIcon @icon='times' />
+                </OsfButton>
+            </h2>
+            <ol local-class='Anchors' data-test-form-block-anchors>
+                {{#each this.blocksWithAnchor as |block|}}
+                    <li local-class='{{block.blockType}}'>
+                        <OsfLink
+                            data-test-page-anchor={{block.elementId}}
+                            data-analytics-name='Go to {{block.blockType}}: {{block.displayText}}'
+                            @href='#{{block.elementId}}'
+                            @onClick={{action dd.close}}
+                        >
+                            {{block.displayText}}
+                        </OsfLink>
+                    </li>
+                {{/each}}
+            </ol>
+        </nav>
+    {{/dd.content}}
+</ResponsiveDropdown>

@@ -20,6 +20,7 @@ export interface DraftRegistrationManager {
     registrationResponsesIsValid: boolean;
     hasInvalidResponses: boolean;
     registrationResponses: RegistrationResponse;
+    schemaBlocks: SchemaBlock[];
     currentPageManager: PageManager;
     pageManagers: PageManager[];
     currentPage: number;
@@ -52,6 +53,7 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
         const { registrationResponses } = this.draftRegistration;
 
         this.setProperties({
+            schemaBlocks,
             lastPage: pages.length - 1,
             registrationResponses: registrationResponses || {},
         });
@@ -128,6 +130,7 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
     inReview!: boolean;
 
     pageManagers: PageManager[] = [];
+    schemaBlocks?: SchemaBlock[];
 
     @service toast!: Toast;
     @alias('onInput.isRunning') autoSaving!: boolean;
