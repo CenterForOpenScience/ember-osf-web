@@ -2,13 +2,15 @@ import Service from '@ember/service';
 import { click, fillIn, render, triggerKeyEvent } from '@ember/test-helpers';
 import config from 'ember-get-config';
 import { t } from 'ember-i18n/test-support';
-import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
+import { percySnapshot } from 'ember-percy';
 import { setBreakpoint } from 'ember-responsive/test-support';
 import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import $ from 'jquery';
 import { module, test } from 'qunit';
 import sinon from 'sinon';
+
+import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
 
 const { OSF: { url: osfUrl } } = config;
 
@@ -91,6 +93,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         setBreakpoint('desktop');
 
         await render(hbs`<RegistriesNavbar />`);
+        await percySnapshot(assert);
 
         assert.equal(visibleText('[data-test-service]'), `${t('general.OSF')}${t('general.services.registries')}`);
         assert.dom('[data-test-search-bar]').isVisible('Search bar is visible');
@@ -108,6 +111,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         this.owner.lookup('service:session').set('isAuthenticated', false);
 
         await render(hbs`<RegistriesNavbar @campaign="osf-registries" />`);
+        await percySnapshot(assert);
 
         assert.dom('a[data-test-join]').hasText(`${t('navbar.join')}`);
         assert.dom('a[data-test-join]').hasAttribute(
@@ -127,6 +131,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         this.owner.lookup('service:session').set('isAuthenticated', true);
 
         await render(hbs`<RegistriesNavbar />`);
+        await percySnapshot(assert);
 
         // Not visible due to not having a test image
         assert.dom('img[data-test-gravatar]').exists('User Gravatar is rendered');
@@ -141,6 +146,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         setBreakpoint('tablet');
 
         await render(hbs`<RegistriesNavbar />`);
+        await percySnapshot(assert);
 
         assert.equal(visibleText('[data-test-service]'), `${t('general.OSF')}${t('general.services.registries')}`);
         assert.dom('[data-test-search-bar]').isVisible('Search bar is visible');
@@ -158,6 +164,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         this.owner.lookup('service:session').set('isAuthenticated', false);
 
         await render(hbs`<RegistriesNavbar />`);
+        await percySnapshot(assert);
 
         assert.dom('a[data-test-join]').hasText(`${t('navbar.join')}`);
         assert.dom('a[data-test-join]').isVisible('Join button is visible');
@@ -173,6 +180,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         this.owner.lookup('service:session').set('isAuthenticated', true);
 
         await render(hbs`<RegistriesNavbar />`);
+        await percySnapshot(assert);
 
         // Not visible due to not having a test image
         assert.dom('img[data-test-gravatar]').exists('User Gravatar is rendered');
@@ -188,6 +196,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         await render(hbs`<RegistriesNavbar />`);
 
         await click('[data-test-gravatar]');
+        await percySnapshot(assert);
 
         assert.equal(visibleText('[data-test-service]'), `${t('general.OSF')}${t('general.services.registries')}`);
         assert.dom('[data-test-search-bar-mobile]').isVisible('Mobile search bar visible');
@@ -204,6 +213,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         await render(hbs`<RegistriesNavbar />`);
 
         await click('[data-test-toggle-navbar]');
+        await percySnapshot(assert);
 
         assert.dom('a[data-test-join-mobile]').hasText(`${t('navbar.join')}`);
         assert.dom('a[data-test-join-mobile]').isVisible('Join button is visible');
@@ -220,6 +230,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         this.owner.lookup('service:session').set('isAuthenticated', true);
 
         await render(hbs`<RegistriesNavbar />`);
+        await percySnapshot(assert);
 
         // Not visible due to not having a test image
         assert.dom('img[data-test-gravatar]').exists('User Gravatar is rendered');
@@ -237,6 +248,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
 
         await fillIn('[data-test-search-bar] input', 'This is my query');
         await triggerKeyEvent('[data-test-search-bar] input', 'keyup', 13);
+        await percySnapshot(assert);
 
         assert.ok(this.get('onSearch').calledWith('This is my query'));
     });
@@ -252,6 +264,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
 
         await fillIn('[data-test-search-bar-mobile] input', 'This is my query');
         await triggerKeyEvent('[data-test-search-bar-mobile] input', 'keyup', 13);
+        await percySnapshot(assert);
 
         assert.ok(this.get('onSearch').calledWith('This is my query'));
     });
@@ -262,6 +275,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         assert.dom('[data-test-service-list]').isNotVisible();
 
         await click('[data-test-service]');
+        await percySnapshot(assert);
 
         assert.dom('[data-test-service-list]').isVisible();
     });
@@ -274,6 +288,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         assert.dom('[data-test-auth-dropdown]').isNotVisible();
 
         await click('[data-test-gravatar]');
+        await percySnapshot(assert);
 
         assert.dom('[data-test-auth-dropdown]').isVisible();
     });
