@@ -178,7 +178,7 @@
     "ember-toastr": "^1.7.2",
     "ember-wormhole": "^0.5.4",
     "ember-youtube": "^0.9.0",
-    "eslint-config-airbnb-base": "13.1.0",
+    "eslint-config-airbnb-base": "14.0.0",
     "eslint-plugin-ember": "^6.2.0",
     "eslint-plugin-eslint-comments": "^3.1.1",
     "flat": "^4.0.0",

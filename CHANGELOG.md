@@ -96,6 +96,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `schema-block-renderer`
         - added `files` block test
 
+- Packages
+    - Update `eslint-config-airbnb-base` to 14.0.0
+
 ### Removed
 - Tests
     - unit, component tests using `FactoryGuy`
