@@ -1,0 +1,70 @@
+{{title (t 'registries.drafts.draft.review.title')}}
+
+{{#if this.loading}}
+    <div local-class='ContentBackground Loading'>
+        <LoadingIndicator @dark={{true}} />
+    </div>
+{{else}}
+    {{#let this.draftRegistrationManager as |draftManager|}}
+        {{#if draftManager.initializing}}
+            <div local-class='ContentBackground Loading'>
+                <LoadingIndicator @dark={{true}} />
+            </div>
+        {{else}}
+            <OsfLayout @backgroundClass={{local-class 'ContentBackground'}} as |layout|>
+                {{#if this.showMobileView}}
+                    <Drafts::Draft::-Components::TopNav
+                        @layout={{layout}}
+                        @inReview={{true}}
+                        @draftManager={{draftManager}}
+                        @draftRegistration={{this.draftRegistration}}
+                        @onSubmitRedirect={{action this.onSubmitRedirect}}
+                        @pageIndex={{this.pageIndex}}
+                        @node={{this.node}}
+                    />
+                {{/if}}
+                <layout.main local-class='Main'>
+                    <main>
+                      {{#if (and draftManager.hasInvalidResponses this.showMobileView)}}
+                          <div
+                              data-test-invalid-responses-text
+                              local-class='WarningMessage'
+                              class='text-danger'
+                          >
+                              {{t 'registries.drafts.draft.review.invalid_warning'}}
+                          </div>
+                      {{/if}}
+                      <Registries::ReviewFormRenderer
+                        @draftManager={{draftManager}}
+                        @node={{this.node}}
+                      />
+                    </main>
+                </layout.main>
+                <layout.right local-class='Right'>
+                    <div local-class='RightWrapper'>
+                        <Drafts::Draft::-Components::Register
+                            @draftRegistration={{this.draftRegistration}}
+                            @draftManager={{draftManager}}
+                            @onSubmitRedirect={{action this.onSubmitRedirect}}
+                            @node={{this.node}}
+                        />
+                        {{#if this.lastPageParam}}
+                            <OsfLink
+                                data-test-goto-previous-page
+                                data-analytics-name='Go to previous page'
+                                local-class='BackButton'
+                                class='btn btn-default'
+                                @type='button'
+                                @route='registries.drafts.draft.page'
+                                @models={{array this.draftRegistration.id this.lastPageParam}}
+                            >
+                                <FaIcon @icon='arrow-left' @fixedWidth={{true}} />
+                                {{t 'registries.drafts.draft.form.back'}}
+                            </OsfLink>
+                        {{/if}}
+                    </div>
+                </layout.right>
+            </OsfLayout>
+        {{/if}}
+    {{/let}}
+{{/if}}

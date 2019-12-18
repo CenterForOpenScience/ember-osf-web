@@ -14,6 +14,7 @@ export default buildRoutes(function() {
         this.route('draft', { path: '/:id' }, function() {
             this.route('page', { path: '/:page' });
             this.route('metadata');
+            this.route('review');
         });
     });
 

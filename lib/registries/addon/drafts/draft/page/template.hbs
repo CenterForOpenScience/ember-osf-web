@@ -29,9 +29,9 @@
                                 data-analytics-name='Go to project'
                                 local-class='BreadCrumb'
                                 @route='guid-node'
-                                @models={{array this.draftRegistration.branchedFrom.id}}
+                                @models={{array this.node.id}}
                             >
-                                {{this.draftRegistration.branchedFrom.title}} >
+                                {{this.node.title}}
                             </OsfLink>
                             <h1>
                                 {{t 'registries.drafts.draft.form.new_registration'}}

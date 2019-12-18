@@ -46,7 +46,7 @@ export default class PageNavigation extends Component {
         return '';
     }
 
-    @computed('currentPage', 'pageManagers.[]', 'inReview')
+    @computed('currentPage', 'pageManagers.[]')
     get prevPageParam() {
         const {
             pageManagers,
