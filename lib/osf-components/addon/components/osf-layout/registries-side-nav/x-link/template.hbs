@@ -1,10 +1,7 @@
 {{#if this.isButton}}
     <OsfButton
         data-test-collapsed={{this.isCollapsed}}
-        local-class='Link
-            {{if this.isCollapsed 'Collapsed'}}
-            {{if this.isCurrentPage 'CurrentPage'}}
-            {{if this.isDrawer 'Drawer'}}'
+        local-class='Link {{if this.isCollapsed 'Collapsed'}} {{if this.isDrawer 'Drawer'}}'
         @onClick={{@onClick}}
         @type='link'
         ...attributes
@@ -24,15 +21,13 @@
 {{else}}
     <OsfLink
         data-test-collapsed={{this.isCollapsed}}
-        local-class='Link
-            {{if this.isCollapsed 'Collapsed'}}
-            {{if this.isCurrentPage 'CurrentPage'}}
-            {{if this.isDrawer 'Drawer'}}'
+        local-class='Link {{if this.isCollapsed 'Collapsed'}} {{if this.isDrawer 'Drawer'}}'
         @route={{@route}}
         @models={{@models}}
         @href={{@href}}
         @onClick={{@onClick}}
         ...attributes
+        as |link|
     >
         {{yield (hash
             label=(component 'osf-layout/registries-side-nav/label'
@@ -44,6 +39,7 @@
                 fixedWidth=true
                 icon=@icon
             )
+            isActive=link.active
         )}}
     </OsfLink>
 {{/if}}

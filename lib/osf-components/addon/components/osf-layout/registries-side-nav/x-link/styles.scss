@@ -11,7 +11,7 @@
     white-space: nowrap;
     z-index: 1000;
 
-    &.CurrentPage {
+    &:global(.active) {
         color: $color-text-black;
         box-shadow: -2px 1px 5px -2px $color-border-gray;
         border: $color-border-gray 1px solid;
@@ -40,7 +40,7 @@
 .Collapsed {
     width: $width-collapsed;
 
-    &.CurrentPage {
+    &:global(.active) {
         width: $width-collapsed + 1px;
     }
 
@@ -63,7 +63,7 @@
     white-space: normal;
     align-items: flex-start;
 
-    &.CurrentPage {
+    &:global(.active) {
         border: 0;
         box-shadow: none;
     }

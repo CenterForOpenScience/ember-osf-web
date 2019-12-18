@@ -6,10 +6,11 @@
     @models={{array this.draftId this.page}}
     @icon={{this.pageIcon}}
     @label={{this.pageLabel}}
-    @isCurrentPage={{this.pageIsActive}}
     @isDrawer={{this.isDrawer}}
     as |link|
 >
+    {{compute (fn this.setIsActive) link.isActive}}
+
     <link.icon />
     <link.label local-class='Label' />
 </@link>

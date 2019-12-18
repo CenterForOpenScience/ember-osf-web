@@ -1,7 +1,7 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import { computed } from '@ember/object';
+import { action, computed } from '@ember/object';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import { PageManager } from 'ember-osf-web/packages/registration-schema';
@@ -26,11 +26,10 @@ export default class PageLinkComponent extends Component {
     // Optional
     pageManager?: PageManager;
     pageIndex?: number;
-    currentPageIndex?: number;
     pageName?: string;
-    currentPageName?: string;
     label?: string;
     navMode?: string;
+    pageIsActive?: boolean;
 
     @computed('pageName', 'pageIndex', 'pageManager', 'pageManager.pageHeadingText')
     get page(): string | undefined {
@@ -59,8 +58,8 @@ export default class PageLinkComponent extends Component {
     @computed('pageState')
     get pageClass(): string {
         switch (this.pageState) {
-        case PageState.Active:
-            return 'Active';
+        // case PageState.Active:
+        //     return 'Active';
         case PageState.Unvisited:
             return 'Unvisited';
         case PageState.Invalid:
@@ -96,17 +95,6 @@ export default class PageLinkComponent extends Component {
         return this.pageManager ? this.pageManager.pageHeadingText : undefined;
     }
 
-    @computed('pageName', 'currentPageName', 'pageIndex', 'currentPageIndex')
-    get pageIsActive(): boolean {
-        if (this.pageName && this.currentPageName) {
-            return this.pageName === this.currentPageName;
-        }
-        if (typeof this.pageIndex === 'number' && typeof this.currentPageIndex === 'number') {
-            return this.pageIndex === this.currentPageIndex;
-        }
-        return false;
-    }
-
     @computed('navMode')
     get isDrawer() {
         return this.navMode === 'drawer';
@@ -115,9 +103,10 @@ export default class PageLinkComponent extends Component {
     didReceiveAttrs() {
         assert('Registries::PageLink: @link is required', Boolean(this.link));
         assert('Registries::PageLink: @draftId is required', Boolean(this.draftId));
-        assert(
-            'Registries::PageLink: @pageName and @pageLabel or @pageIndex and @pageManager are required',
-            Boolean((this.pageName && this.pageLabel) || (typeof this.pageIndex === 'number' && this.pageManager)),
-        );
+    }
+
+    @action
+    setIsActive(pageIsActive: boolean) {
+        this.setProperties({ pageIsActive });
     }
 }

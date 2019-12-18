@@ -11,7 +11,6 @@
                 model=@model
                 href=@href
                 onClick=@onLinkClicked
-                isCurrentPage=@isCurrentPage
                 isCollapsed=this.isCollapsed
             )
         )}}
@@ -22,7 +21,7 @@
             <ExpandButton
                 data-analytics-name={{if this.isCollapsed 'Expand' 'Collapse'}}
                 local-class='Toggle'
-                aria-label={{if this.isCollapsed 
+                aria-label={{if this.isCollapsed
                     (t 'osf-components.registries-side-nav.expandSideNav')
                     (t 'osf-components.registries-side-nav.collapseSideNav')
                 }}
