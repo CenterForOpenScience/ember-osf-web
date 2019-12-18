@@ -27,4 +27,13 @@
             </p>
         {{/if}}
     {{/if}}
+{{else}}
+    <OsfLink
+        aria-label={{t 'osf-components.registries.schema-block-renderer/label.editButtonAriaLabel' questionLabel=@schemaBlock.displayText}}
+        @route='registries.drafts.draft.page'
+        @models={{array @draftManager.draftId @schemaBlock.pageRouteParam}}
+        @fragment={{@schemaBlock.elementId}}
+    >
+        <FaIcon @icon='edit' />
+    </OsfLink>
 {{/if}}
