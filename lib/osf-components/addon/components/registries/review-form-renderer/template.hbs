@@ -2,7 +2,6 @@
 {{assert 'Registries::ReviewFormRenderer requires a node' @node}}
 <Registries::RegistrationFormNavigationDropdown
     @schemaBlocks={{@draftManager.schemaBlocks}}
-    @draftManager={{@draftManager}}
 />
 {{#each @draftManager.pageManagers as |pageManager|}}
     {{#each pageManager.schemaBlockGroups as |group|}}

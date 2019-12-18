@@ -4,7 +4,6 @@ import { tagName } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
 import { layout } from 'ember-osf-web/decorators/component';
 import { SchemaBlock } from 'ember-osf-web/packages/registration-schema';
-import { DraftRegistrationManager } from 'osf-components/components/registries/draft-registration-manager/component';
 import styles from './styles';
 import template from './template';
 
@@ -13,7 +12,6 @@ import template from './template';
 export default class RegistrationFormNavigationDropdown extends Component {
     // Required parameters
     schemaBlocks!: SchemaBlock[];
-    draftManager!: DraftRegistrationManager;
 
     @computed('schemaBlocks')
     get blocksWithAnchor() {
