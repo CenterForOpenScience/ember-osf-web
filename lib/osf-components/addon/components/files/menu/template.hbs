@@ -2,18 +2,17 @@
     @disabled={{not this.canEdit}}
     as |dropdownMenu|
 >
-    <dropdownMenu.trigger
-        local-class='actions-menu-trigger'
-        aria-label={{t 'osf-components.files-widget.expand_files_menu'}}
-    >
+    <div local-class='actions-menu-trigger'>
         <OsfButton
             local-class='trigger-button {{if dropdownMenu.isOpen 'close-button'}}'
             aria-label={{t 'osf-components.files-widget.expand_files_menu'}}
+            data-ebd-id='{{dropdownMenu.uniqueId}}-trigger'
+            @onClick={{action dropdownMenu.toggle}}
             @type='success'
         >
             <FaIcon @icon='plus' @size=2 @fixedWidth={{true}} />
         </OsfButton>
-    </dropdownMenu.trigger>
+    </div>
     <dropdownMenu.content>
         <div
             role='menu'
