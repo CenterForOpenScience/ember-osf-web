@@ -20,8 +20,8 @@ module('Registries | Acceptance | overview form schemas', hooks => {
             const msg = `Registration form renders for schema ${registrationSchema.id}`;
 
             await percySnapshot(msg);
-            assert.dom('[data-test-form-section]').exists({
-                count: registrationSchema.schemaNoConflict!.pages.length,
+            assert.dom('[data-test-page-heading]').exists({
+                count: registrationSchema.schemaBlocks!.filter(item => item.blockType === 'page-heading').length,
             }, msg);
         }
     });

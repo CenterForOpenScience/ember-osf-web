@@ -24,9 +24,11 @@
         {{t 'osf-components.registries.schema-block-renderer/read-only/files.noFilesSelected'}}
     </p>
 {{/if}}
-<ValidationErrors
-    local-class='ValidationErrors'
-    @changeset={{@changeset}}
-    @key={{@schemaBlock.registrationResponseKey}}
-    @isValidating={{this.isValidating}}
-/>
+{{#if this.changeset}}
+    <ValidationErrors
+        local-class='ValidationErrors'
+        @changeset={{@changeset}}
+        @key={{@schemaBlock.registrationResponseKey}}
+        @isValidating={{this.isValidating}}
+    />
+{{/if}}

@@ -1,6 +1,5 @@
 import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
-import { percySnapshot } from 'ember-percy';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
@@ -42,7 +41,6 @@ module('Integration | Component | osf-navbar/auth-dropdown', hooks => {
         }));
 
         await render(hbs`{{osf-navbar/auth-dropdown}}`);
-        await percySnapshot(assert);
 
         assert.ok(!this.owner.lookup('service:currentUser').loginCalled, 'login has not been called');
         await click('[data-analytics-name="SignIn"]');

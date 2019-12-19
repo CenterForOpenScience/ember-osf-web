@@ -20,7 +20,7 @@ function isObject(value: unknown) {
     return typeof value === 'object' && !isEmpty(value);
 }
 
-function normalizeRegistrationResponses(value: ResponseValue, store: DS.Store) {
+export function normalizeRegistrationResponses(value: ResponseValue, store: DS.Store) {
     if (Array.isArray(value) && !isEmpty(value) && isObject(value.firstObject) &&
         ('file_id' in value.firstObject)) {
         return (value as FileReference[]).map((fileRef: FileReference) => {

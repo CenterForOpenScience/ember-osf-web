@@ -1,5 +1,6 @@
 import Service from '@ember/service';
-import { render } from '@ember/test-helpers';
+import { click, render } from '@ember/test-helpers';
+import { percySnapshot } from 'ember-percy';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
@@ -23,10 +24,43 @@ module('Integration | Component | osf-navbar', hooks => {
         this.owner.register('service:router', routerStub);
     });
 
-    test('it renders', async function(assert) {
-        this.set('loginAction', () => { /* stub */ });
-        await render(hbs`{{osf-navbar loginAction=loginAction}}`);
+    test('it renders', async assert => {
+        await render(hbs`{{osf-navbar}}`);
         assert.dom('.service-name').includesText('OSF');
         assert.dom('.current-service').hasText('HOME');
+    });
+
+    test('service-dropdown: logged in', async function(assert) {
+        this.owner.lookup('service:session').set('isAuthenticated', true);
+        await render(hbs`{{osf-navbar}}`);
+
+        assert.dom('[data-test-service-dropdown]').exists();
+
+        await click('[data-test-service-dropdown]');
+        await percySnapshot(assert);
+    });
+
+    test('auth-dropdown: logged in', async function(assert) {
+        this.owner.lookup('service:session').set('isAuthenticated', true);
+
+        await render(hbs`{{osf-navbar}}`);
+
+        assert.dom('[data-test-auth-dropdown-toggle]').exists();
+        await click('[data-test-auth-dropdown-toggle]');
+        await percySnapshot(assert);
+    });
+
+    test('osf-navbar: logged out', async function(assert) {
+        this.owner.lookup('service:session').set('isAuthenticated', false);
+
+        await render(hbs`{{osf-navbar}}`);
+        assert.dom('[data-test-service-dropdown]').exists();
+
+        assert.dom('[data-test-auth-dropdown-toggle]').doesNotExist();
+        assert.dom('[data-test-ad-sign-up-button]').exists();
+        assert.dom('[data-test-sign-in-button]').exists();
+
+        await click('[data-test-service-dropdown]');
+        await percySnapshot(assert);
     });
 });
