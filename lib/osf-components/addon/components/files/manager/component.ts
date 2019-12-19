@@ -50,7 +50,8 @@ export default class FilesManagerComponent extends Component.extend({
         assert('@node is required', Boolean(this.node));
 
         const fileProviders = yield this.node.files;
-        const fileProvider = fileProviders.firstObject as FileProvider;
+        const fileProvider = fileProviders.findBy('name', 'osfstorage') as FileProvider;
+
         const rootFolder = yield fileProvider.rootFolder;
 
         yield rootFolder.files;
