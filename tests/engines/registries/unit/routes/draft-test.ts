@@ -33,4 +33,9 @@ module('Registries | Unit | Route | drafts.draft', hooks => {
         const route = this.owner.lookup('route:drafts.draft');
         assert.ok(route);
     });
+
+    test('drafts.draft.metadata exists', function(assert) {
+        const route = this.owner.lookup('route:drafts.draft.metadata');
+        assert.ok(route);
+    });
 });
