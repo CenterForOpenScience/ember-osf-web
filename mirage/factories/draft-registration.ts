@@ -8,6 +8,8 @@ import { createRegistrationMetadata } from './utils';
 
 export interface DraftRegistrationTraits {
     withRegistrationMetadata: Trait;
+    withAffiliatedInstitutions: Trait;
+    withSubjects: Trait;
 }
 
 export default Factory.extend<DraftRegistration & DraftRegistrationTraits>({
@@ -39,10 +41,6 @@ export default Factory.extend<DraftRegistration & DraftRegistrationTraits>({
 
     registrationSchema: association() as DraftRegistration['registrationSchema'],
 
-    affiliatedInstitutions: association() as DraftRegistration['affiliatedInstitutions'],
-
-    subjects: association() as DraftRegistration['subjects'],
-
     license: association() as DraftRegistration['license'],
 
     registrationMetadata: {},
@@ -56,6 +54,20 @@ export default Factory.extend<DraftRegistration & DraftRegistrationTraits>({
             draftRegistration.update({
                 registrationMetadata: createRegistrationMetadata(draftRegistration.registrationSchema),
             });
+        },
+    }),
+
+    withAffiliatedInstitutions: trait<DraftRegistration>({
+        afterCreate(draft, server) {
+            const affiliatedInstitutions = server.createList('institution', 3);
+            draft.update({ affiliatedInstitutions });
+        },
+    }),
+
+    withSubjects: trait<DraftRegistration>({
+        afterCreate(draft, server) {
+            const subjects = server.create('subject', 'withChildren');
+            draft.update({ subjects });
         },
     }),
 });
