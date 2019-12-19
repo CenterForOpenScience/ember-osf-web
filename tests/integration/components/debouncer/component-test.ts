@@ -3,8 +3,6 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
-// import { Moment } from 'moment';
-// import NodeModel from 'ember-osf-web/models/node';
 
 module('Integration | Component | debouncer', hooks => {
     setupRenderingTest(hooks);
@@ -14,8 +12,6 @@ module('Integration | Component | debouncer', hooks => {
         const dummyFunction = async () => {
             assert.ok('ok');
         };
-
-        // this.set('node', project);
         this.set('dummyFunction', dummyFunction);
 
         await render(hbs`

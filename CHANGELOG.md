@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `OsfLayout::RegistriesSideNav::Label`
     - `OsfLayout::RegistriesSideNav::XLink`
     - `PageLink`
+    - `Debouncer`
 - Mirage
     - Factories
         - `institutional-user`
