@@ -7,13 +7,13 @@ import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import Media from 'ember-responsive';
 
 import NodeModel from 'ember-osf-web/models/node';
-import { DraftPageRouteModel } from './route';
+import { DraftRouteModel } from '../route';
 
-export default class RegistriesDrat extends Controller {
+export default class RegistriesDraftMetadata extends Controller {
     @service media!: Media;
     @service router!: RouterService;
 
-    model!: DraftPageRouteModel;
+    model!: DraftRouteModel;
 
     @alias('model.taskInstance.value.draftRegistration') draftRegistration?: DraftRegistration;
     @alias('model.taskInstance.value.node') node?: NodeModel;
