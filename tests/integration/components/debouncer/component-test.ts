@@ -29,7 +29,7 @@ module('Integration | Component | debouncer', hooks => {
         assert.expect(0);
         click('[data-test-debounced]');
         assert.expect(0);
-        click('[data-test-debounced]');
+        await click('[data-test-debounced]');
         assert.expect(1);
 
         click('[data-test-now]');
