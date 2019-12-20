@@ -9,12 +9,14 @@ import requireAuth from 'ember-osf-web/decorators/require-auth';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import NodeModel from 'ember-osf-web/models/node';
 import Analytics from 'ember-osf-web/services/analytics';
-import { DraftRegistrationAndNode, DraftRegistrationManager } from 'registries/drafts/draft/draft-registration-manager';
+import DraftRegistrationManager, { DraftRegistrationAndNode } from 'registries/drafts/draft/draft-registration-manager';
+import NavigationManager from 'registries/drafts/draft/navigation-manager';
 
 export interface DraftRouteModel {
     draftId: string;
     taskInstance: DraftRegistrationAndNode;
     draftRegistrationManager: DraftRegistrationManager;
+    navigationManager: NavigationManager;
 }
 
 @requireAuth()
@@ -42,10 +44,13 @@ export default class DraftRegistrationRoute extends Route {
     model(params: { id: string }): DraftRouteModel {
         const { id: draftId } = params;
         const taskInstance = this.loadModelTask.perform(draftId);
+        const draftRegistrationManager = new DraftRegistrationManager(taskInstance);
+        const navigationManager = new NavigationManager(draftRegistrationManager);
         return {
             draftId,
             taskInstance,
-            draftRegistrationManager: new DraftRegistrationManager(taskInstance),
+            navigationManager,
+            draftRegistrationManager,
         };
     }
 

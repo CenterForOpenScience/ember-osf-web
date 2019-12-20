@@ -10,12 +10,14 @@ import NodeModel from 'ember-osf-web/models/node';
 import Analytics from 'ember-osf-web/services/analytics';
 import { getPageIndex } from 'ember-osf-web/utils/page-param';
 
-import { DraftRegistrationManager } from 'registries/drafts/draft/draft-registration-manager';
+import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
+import NavigationManager, { DraftRoute } from 'registries/drafts/draft/navigation-manager';
 import { DraftRouteModel } from '../route';
 
 export interface DraftPageRouteModel {
     draftId: string;
     draftRegistrationManager: DraftRegistrationManager;
+    navigationManager: NavigationManager;
     taskInstance: TaskInstance<{draftRegistration: DraftRegistration, node: NodeModel} | undefined>;
     pageIndex?: number;
     page: string;
@@ -31,10 +33,15 @@ export default class DraftRegistrationPageRoute extends Route {
         const pageIndex = getPageIndex(page);
         const draftRouteModel = this.modelFor('drafts.draft') as DraftRouteModel;
         const { draftId, taskInstance } = draftRouteModel;
-        const { draftRegistrationManager } = draftRouteModel;
+        const { draftRegistrationManager, navigationManager } = draftRouteModel;
+
+        navigationManager.setCurrentPage(pageIndex as number);
+        navigationManager.setCurrentRoute(DraftRoute.Page);
+
         return {
             draftId,
             draftRegistrationManager,
+            navigationManager,
             taskInstance,
             pageIndex,
             page,

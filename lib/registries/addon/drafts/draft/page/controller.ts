@@ -10,7 +10,8 @@ import { getPageParam } from 'ember-osf-web/utils/page-param';
 import Media from 'ember-responsive';
 
 import NodeModel from 'ember-osf-web/models/node';
-import { DraftRegistrationManager } from 'registries/drafts/draft/draft-registration-manager';
+import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
+import NavigationManager from 'registries/drafts/draft/navigation-manager';
 import { DraftPageRouteModel } from './route';
 
 export default class RegistriesDraftPage extends Controller {
@@ -19,7 +20,8 @@ export default class RegistriesDraftPage extends Controller {
 
     model!: DraftPageRouteModel;
 
-    @alias('model.draftRegistrationManager') draftRegistrationManager?: DraftRegistrationManager;
+    @alias('model.draftRegistrationManager') draftRegistrationManager!: DraftRegistrationManager;
+    @alias('model.navigationManager') navigationManager!: NavigationManager;
     @alias('model.taskInstance.value.draftRegistration') draftRegistration?: DraftRegistration;
     @alias('model.taskInstance.value.node') node?: NodeModel;
     @alias('model.pageIndex') pageIndex!: number;

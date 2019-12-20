@@ -1146,6 +1146,7 @@ export default {
             draft: {
                 metadata: {
                     title: 'Fill Out Basic Registration Info',
+                    page_label: 'Metadata',
                 },
                 form: {
                     title: 'Fill out registration form',

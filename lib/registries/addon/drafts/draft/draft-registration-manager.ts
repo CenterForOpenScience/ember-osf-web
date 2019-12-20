@@ -15,7 +15,7 @@ export type DraftRegistrationAndNode = TaskInstance<{
     node: NodeModel,
 } | undefined>;
 
-export class DraftRegistrationManager {
+export default class DraftRegistrationManager {
     // Required
     draftRegistrationAndNodeTask!: DraftRegistrationAndNode;
 

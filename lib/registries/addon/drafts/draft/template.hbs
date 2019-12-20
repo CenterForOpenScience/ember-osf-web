@@ -1,0 +1,127 @@
+{{#if this.model.taskInstance.isRunning}}
+    <div local-class='ContentBackground Loading'>
+        <LoadingIndicator @dark={{true}} />
+    </div>
+{{else}}
+    {{#let
+        this.model.taskInstance.value.draftRegistration
+        this.model.taskInstance.value.node
+        this.model.navigationManager
+        this.model.draftRegistrationManager
+        as |draftRegistration node navManager draftManager|
+    }}
+        <OsfLayout @backgroundClass={{local-class 'ContentBackground'}} as |layout|>
+            <layout.heading local-class='Heading'>
+                <div local-class='Title'>
+                    <OsfLink
+                        data-analytics-name='Go to project'
+                        local-class='BreadCrumb'
+                        @route='guid-node'
+                        @models={{array node.id}}
+                    >
+                        {{node.title}} >
+                    </OsfLink>
+                    <h1>
+                        {{t 'registries.drafts.draft.form.new_registration'}}
+                    </h1>
+                </div>
+            </layout.heading>
+            <layout.leftNav as |leftNav|>
+                <PageLink
+                    @link={{component leftNav.link}}
+                    @draftId={{draftRegistration.id}}
+                    @pageName='metadata'
+                    @currentPageName={{navManager.currentRoute}}
+                    @label='{{t 'registries.drafts.draft.metadata.page_label'}}'
+                    @navMode={{leftNav.leftGutterMode}}
+                />
+                {{#each draftManager.pageManagers as |pageManager index|}}
+                    <PageLink
+                        @link={{component leftNav.link}}
+                        @draftId={{draftRegistration.id}}
+                        @pageManager={{pageManager}}
+                        @pageIndex={{index}}
+                        @currentPageIndex={{draftManager.currentPage}}
+                        @navMode={{leftNav.leftGutterMode}}
+                    />
+                {{/each}}
+                <PageLink
+                    @link={{component leftNav.link}}
+                    @draftId={{draftRegistration.id}}
+                    @pageName='review'
+                    @currentPageName={{navManager.currentRoute}}
+                    @label='{{t 'registries.drafts.draft.review.page_label'}}'
+                    @navMode={{leftNav.leftGutterMode}}
+                />
+            </layout.leftNav>
+            <layout.main local-class='Main'>
+                {{outlet}}
+            </layout.main>
+            <layout.right local-class='Right'>
+                <div local-class='RightWrapper'>
+                    {{#if (eq navManager.lastPage navManager.currentPage)}}
+                        <OsfLink
+                            data-test-goto-review
+                            data-analytics-name='Go to review'
+                            local-class='ReviewButton'
+                            class='btn btn-primary'
+                            @type='button'
+                            @route='registries.drafts.draft.page'
+                            @models={{array draftRegistration.id 'review'}}
+                        >
+                            {{t 'registries.drafts.draft.review.start_review'}}
+                        </OsfLink>
+                    {{/if}}
+                    {{!-- {{#if (eq navManager.currentRoute 'review')}}
+                        <Drafts::Draft::-Components::Register
+                            @draftRegistration={{this.draftRegistration}}
+                            @draftManager={{draftManager}}
+                            @onSubmitRedirect={{action this.onSubmitRedirect}}
+                            @node={{this.node}}
+                        />
+                    {{/if}} --}}
+                    {{#if navManager.nextPageParam}}
+                        <OsfLink
+                            data-test-goto-next-page
+                            data-analytics-name='Go to next page'
+                            local-class='NextButton'
+                            class='btn btn-primary'
+                            @type='button'
+                            @route='registries.drafts.draft.page'
+                            @models={{array draftRegistration.id navManager.nextPageParam}}
+                        >
+                            {{t 'registries.drafts.draft.form.next'}}
+                            <FaIcon @icon='arrow-right' @fixedWidth={{true}} />
+                        </OsfLink>
+                    {{/if}}
+                    {{#if navManager.prevPageParam}}
+                        <OsfLink
+                            data-test-goto-previous-page
+                            data-analytics-name='Go to previous page'
+                            local-class='BackButton'
+                            class='btn btn-default'
+                            @type='button'
+                            @route='registries.drafts.draft.page'
+                            @models={{array draftRegistration.id navManager.prevPageParam}}
+                        >
+                            <FaIcon @icon='arrow-left' @fixedWidth={{true}} />
+                            {{t 'registries.drafts.draft.form.back'}}
+                        </OsfLink>
+                    {{/if}}
+
+                    {{#if draftManager.lastSaveFailed}}
+                        <span local-class='SaveFailed'>
+                            {{t 'registries.drafts.draft.form.save_failed'}}
+                        </span>
+                    {{/if}}
+                    <span local-class='SaveMessage'>
+                        {{t 'registries.drafts.draft.form.last_saved'}}
+                        <TimeSince
+                            @date={{draftRegistration.datetimeUpdated}}
+                        />
+                    </span>
+                </div>
+            </layout.right>
+        </OsfLayout>
+    {{/let}}
+{{/if}}

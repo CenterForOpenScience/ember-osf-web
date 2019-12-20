@@ -9,7 +9,8 @@ import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import NodeModel from 'ember-osf-web/models/node';
 import Analytics from 'ember-osf-web/services/analytics';
 
-import { DraftRegistrationManager } from 'registries/drafts/draft/draft-registration-manager';
+import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
+import { DraftRoute } from 'registries/drafts/draft/navigation-manager';
 import { DraftRouteModel } from '../route';
 
 export interface DraftReviewModel {
@@ -28,7 +29,11 @@ export default class DraftRegistrationReview extends Route {
     model(): DraftReviewModel {
         const draftRouteModel = this.modelFor('drafts.draft') as DraftRouteModel;
         const { taskInstance } = draftRouteModel;
-        const { draftRegistrationManager } = draftRouteModel;
+        const { draftRegistrationManager, navigationManager } = draftRouteModel;
+
+        navigationManager.setCurrentPage();
+        navigationManager.setCurrentRoute(DraftRoute.Review);
+
         return {
             draftRegistrationManager,
             taskInstance,

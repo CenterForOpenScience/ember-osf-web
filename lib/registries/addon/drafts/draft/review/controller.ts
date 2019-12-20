@@ -11,7 +11,7 @@ import Media from 'ember-responsive';
 import NodeModel from 'ember-osf-web/models/node';
 import { PageManager } from 'ember-osf-web/packages/registration-schema';
 import { getPrevPageParam } from 'ember-osf-web/utils/page-param';
-import { DraftRegistrationManager } from 'registries/drafts/draft/draft-registration-manager';
+import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
 import { DraftReviewModel } from './route';
 
 export default class RegistriesDrat extends Controller {
