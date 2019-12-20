@@ -12,7 +12,7 @@ import Analytics from 'ember-osf-web/services/analytics';
 
 export interface DraftRouteModel {
     draftId: string;
-    taskInstance: TaskInstance<DraftRegistration>;
+    taskInstance: TaskInstance<{ draftRegistration: DraftRegistration; node: Node; }>;
 }
 
 @requireAuth()

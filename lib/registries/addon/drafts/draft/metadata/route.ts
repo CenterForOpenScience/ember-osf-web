@@ -4,6 +4,7 @@ import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import DS from 'ember-data';
 
+import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
 import Analytics from 'ember-osf-web/services/analytics';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
 
@@ -15,8 +16,10 @@ export default class DraftRegistrationMetadataRoute extends Route {
     @service store!: DS.Store;
     @service router!: RouterService;
 
-    model(): DraftRouteModel {
-        return this.modelFor('drafts.draft') as DraftRouteModel;
+    async model(): Promise<DraftRegistrationModel> {
+        const draftRouteModel = this.modelFor('drafts.draft') as DraftRouteModel;
+        const { draftRegistration } = await draftRouteModel.taskInstance;
+        return draftRegistration;
     }
 
     setupController(controller: MetadataController) {
