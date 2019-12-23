@@ -22,10 +22,6 @@ export default class Debouncer extends Component {
         }
     });
 
-    doFnNow() {
-        this.fn();
-    }
-
     didReceiveAttrs() {
         assert('Debouncer needs a function input', Boolean(this.fn));
     }
