@@ -14,7 +14,7 @@ import { DraftRouteModel } from '../route';
 
 export interface DraftPageRouteModel {
     draftId: string;
-    taskInstance: TaskInstance<DraftRegistration>;
+    taskInstance: TaskInstance<{draftRegistration: DraftRegistration, node: Node}>;
     pageIndex?: number;
     page: string;
 }
