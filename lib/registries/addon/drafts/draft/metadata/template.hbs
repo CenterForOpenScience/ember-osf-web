@@ -16,6 +16,11 @@
                 @label={{t 'registries.registration_metadata.description'}}
                 @valuePath='description'
             />
+            <form.powerSelect
+                data-test-metadata-category
+                @label='Category'
+                @valuePath='category'
+            />
         </FormControls>
     </form>
 {{/if}}

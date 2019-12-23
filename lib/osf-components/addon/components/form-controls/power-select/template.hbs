@@ -1,0 +1,16 @@
+<PowerSelect
+    @options={{this.options}}
+    @onChange={{this.updateChangeset}}
+    @searchField={{@searchField}}
+    @searchEnabled={{@searchEnabled}}
+    @disabled={{@disabled}}
+    as |option|
+>
+    <p>{{option}}</p>
+</PowerSelect>
+{{#if @shouldShowMessages}}
+    <ValidationErrors
+        @changeset={{@changeset}}
+        @key={{@valuePath}}
+    />
+{{/if}}
