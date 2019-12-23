@@ -25,6 +25,13 @@
                 @options={{this.categoryOptions}}
                 @onchange={{perform this.draftManager.onMetadataInput}}
             />
+            <LicensePicker
+                data-test-metadata-license-picker
+                @node={{this.changeset}}
+                @form={{form}}
+            >
+                {{t 'registries.registration_metadata.license'}}
+            </LicensePicker>
         </FormControls>
     </form>
 {{/if}}
