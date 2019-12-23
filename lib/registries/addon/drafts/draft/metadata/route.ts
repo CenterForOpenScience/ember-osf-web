@@ -6,6 +6,7 @@ import DS from 'ember-data';
 
 import Analytics from 'ember-osf-web/services/analytics';
 
+import { DraftRoute } from 'registries/drafts/draft/navigation-manager';
 import { DraftRouteModel } from '../route';
 
 export default class DraftRegistrationMetadataRoute extends Route {
@@ -14,6 +15,11 @@ export default class DraftRegistrationMetadataRoute extends Route {
     @service router!: RouterService;
 
     model(): DraftRouteModel {
+        const draftRouteModel = this.modelFor('drafts.draft') as DraftRouteModel;
+        const { navigationManager } = draftRouteModel;
+
+        navigationManager.setCurrentPage();
+        navigationManager.setCurrentRoute(DraftRoute.Metadata);
         return this.modelFor('drafts.draft') as DraftRouteModel;
     }
 

@@ -54,6 +54,9 @@ export default class NavigationManager {
         case DraftRoute.Review:
             index = lastPage + 1;
             break;
+        default:
+            index = -1;
+            break;
         }
 
         return index!;
