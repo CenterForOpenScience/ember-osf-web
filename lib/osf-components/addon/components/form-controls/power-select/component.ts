@@ -24,9 +24,9 @@ export default class FormControlPowerSelect extends Component {
     onchange?: (option: string) => void;
 
     didReceiveAttrs() {
-        assert('FormControls::RadioButton - @options are required', Boolean(this.options));
-        assert('FormControls::RadioButton - @valuePath is required', Boolean(this.valuePath));
-        assert('FormControls::RadioButton - @changeset is required', Boolean(this.changeset));
+        assert('FormControls::Select - @options are required', Boolean(this.options));
+        assert('FormControls::Select - @valuePath is required', Boolean(this.valuePath));
+        assert('FormControls::Select - @changeset is required', Boolean(this.changeset));
     }
 
     @action

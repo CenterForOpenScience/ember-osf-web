@@ -1,16 +1,22 @@
-<PowerSelect
-    @options={{this.options}}
-    @onChange={{this.updateChangeset}}
-    @searchField={{@searchField}}
-    @searchEnabled={{@searchEnabled}}
-    @disabled={{@disabled}}
-    as |option|
+<FormControls::Wrapper
+    @shouldShowMessages={{@shouldShowMessages}}
+    @label={{@label}}
+    @changeset={{@changeset}}
+    @valuePath={{@valuePath}}
+    as |inputElementId|
 >
-    <p>{{option}}</p>
-</PowerSelect>
-{{#if @shouldShowMessages}}
-    <ValidationErrors
-        @changeset={{@changeset}}
-        @key={{@valuePath}}
-    />
-{{/if}}
+    <PowerSelect
+        @options={{this.options}}
+        @onchange={{this.updateChangeset}}
+        @searchField={{@searchField}}
+        @searchEnabled={{@searchEnabled}}
+        @selected={{or (get @changeset this.valuePath) null}}
+        @disabled={{@disabled}}
+        id={{inputElementId}}
+        as |option|
+    >
+        <div data-test-option={{option}}>
+            {{option}}
+        </div>
+    </PowerSelect>
+</FormControls::Wrapper>
