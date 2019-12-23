@@ -1,10 +1,12 @@
-{{#if this.label}}
-    <label for='{{this.inputElementId}}'>{{this.label}}</label>
-{{/if}}
-{{yield this.inputElementId}}
-{{#if @shouldShowMessages}}
-    <ValidationErrors
-        @changeset={{@changeset}}
-        @key={{@valuePath}}
-    />
-{{/if}}
+{{#let (unique-id) as |inputElementId|}}
+    {{#if this.label}}
+        <label for='{{inputElementId}}'>{{this.label}}</label>
+    {{/if}}
+    {{yield inputElementId}}
+    {{#if @shouldShowMessages}}
+        <ValidationErrors
+            @changeset={{@changeset}}
+            @key={{@valuePath}}
+        />
+    {{/if}}
+{{/let}}

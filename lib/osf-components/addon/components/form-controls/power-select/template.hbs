@@ -5,18 +5,22 @@
     @valuePath={{@valuePath}}
     as |inputElementId|
 >
-    <PowerSelect
-        @options={{this.options}}
-        @onchange={{this.updateChangeset}}
-        @searchField={{@searchField}}
-        @searchEnabled={{@searchEnabled}}
-        @selected={{or (get @changeset this.valuePath) null}}
-        @disabled={{@disabled}}
+    <div
+        data-test-power-select-dropdown
         id={{inputElementId}}
-        as |option|
     >
-        <div data-test-option={{option}}>
-            {{option}}
-        </div>
-    </PowerSelect>
+        <PowerSelect
+            @options={{this.options}}
+            @onchange={{this.updateChangeset}}
+            @searchField={{@searchField}}
+            @searchEnabled={{@searchEnabled}}
+            @selected={{or (get @changeset this.valuePath) null}} @disabled={{@disabled}}
+            id={{inputElementId}}
+            as |option|
+        >
+            <div data-test-option={{option}}>
+                {{option}}
+            </div>
+        </PowerSelect>
+    </div>
 </FormControls::Wrapper>

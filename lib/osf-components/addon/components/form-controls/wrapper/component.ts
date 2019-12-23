@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { computed } from '@ember/object';
+// import { computed } from '@ember/object';
 
 import { layout } from 'ember-osf-web/decorators/component';
 
@@ -17,9 +17,4 @@ export default class FormControlWrapper extends Component {
     errors?: string;
     label?: string;
     id?: string;
-
-    @computed('elementId', 'valuePath')
-    get inputElementId() {
-        return this.id ? this.id : `${this.elementId}__${this.valuePath}`;
-    }
 }
