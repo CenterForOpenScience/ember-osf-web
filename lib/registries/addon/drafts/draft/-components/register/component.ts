@@ -11,7 +11,7 @@ import DS from 'ember-data';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import NodeModel from 'ember-osf-web/models/node';
 import Registration from 'ember-osf-web/models/registration';
-import { DraftRegistrationManager } from 'osf-components/components/registries/draft-registration-manager/component';
+import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
 
 @tagName('')
 export default class Register extends Component.extend({

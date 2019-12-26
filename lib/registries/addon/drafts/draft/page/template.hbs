@@ -8,25 +8,17 @@
     {{#if draftManager.initializing}}
         <LoadingIndicator @dark={{true}} />
     {{else}}
-        <Drafts::Draft::Page::-Components::PageNavigation
-            @currentPage={{this.pageIndex}}
-            @draftManager={{draftManager}}
-            @navManager={{navManager}}
-            @updateRoute={{action this.updateRoute}}
-            @onPageNotFound={{action this.onPageNotFound}}
+        <main
+            {{did-insert (action draftManager.onPageChange) this.pageIndex}}
+            {{did-update (action draftManager.onPageChange) this.pageIndex}}
         >
-            <main
-                {{did-insert (action draftManager.onPageChange) this.pageIndex}}
-                {{did-update (action draftManager.onPageChange) this.pageIndex}}
-            >
-                {{#if navManager.currentPageManager}}
-                    <Registries::PageRenderer
-                        @pageManager={{navManager.currentPageManager}}
-                        @onInput={{perform draftManager.onInput}}
-                        @node={{this.node}}
-                    />
-                {{/if}}
-            </main>
-        </Drafts::Draft::Page::-Components::PageNavigation>
+            {{#if navManager.currentPageManager}}
+                <Registries::PageRenderer
+                    @pageManager={{navManager.currentPageManager}}
+                    @onInput={{perform draftManager.onInput}}
+                    @node={{this.node}}
+                />
+            {{/if}}
+        </main>
     {{/if}}
 {{/let}}
