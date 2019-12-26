@@ -14,7 +14,7 @@ import { getPrevPageParam } from 'ember-osf-web/utils/page-param';
 import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
 import { DraftReviewModel } from './route';
 
-export default class RegistriesDrat extends Controller {
+export default class RegistriesDraftReview extends Controller {
     @service media!: Media;
     @service router!: RouterService;
 

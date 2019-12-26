@@ -8,7 +8,7 @@ import DraftRegistrationManager from 'registries/drafts/draft/draft-registration
 export enum DraftRoute {
     Page = 'page',
     Review = 'review',
-    Metadata = 'Metadata',
+    Metadata = 'metadata',
 }
 
 export default class NavigationManager {

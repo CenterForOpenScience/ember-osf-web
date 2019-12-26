@@ -7,6 +7,7 @@ import { layout } from 'ember-osf-web/decorators/component';
 import { PageManager } from 'ember-osf-web/packages/registration-schema';
 import { getPageParam } from 'ember-osf-web/utils/page-param';
 import XLink from 'osf-components/components/osf-layout/registries-side-nav/x-link/component';
+import { DraftRoute } from 'registries/drafts/draft/navigation-manager';
 import template from './template';
 
 export enum PageState {
@@ -22,6 +23,7 @@ export default class PageLinkComponent extends Component {
     // Required
     link!: XLink;
     draftId!: string;
+    route!: DraftRoute;
 
     // Optional
     pageManager?: PageManager;
@@ -110,6 +112,14 @@ export default class PageLinkComponent extends Component {
     @computed('navMode')
     get isDrawer() {
         return this.navMode === 'drawer';
+    }
+
+    @computed('route')
+    get models() {
+        if (this.route === DraftRoute.Page) {
+            return [this.draftId, this.page];
+        }
+        return [this.draftId];
     }
 
     didReceiveAttrs() {

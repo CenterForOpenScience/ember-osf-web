@@ -31,6 +31,7 @@
                     @link={{component leftNav.link}}
                     @draftId={{draftRegistration.id}}
                     @pageName='metadata'
+                    @route='registries.drafts.draft.metadata'
                     @currentPageName={{navManager.currentRoute}}
                     @label='{{t 'registries.drafts.draft.metadata.page_label'}}'
                     @navMode={{leftNav.leftGutterMode}}
@@ -40,6 +41,7 @@
                         @link={{component leftNav.link}}
                         @draftId={{draftRegistration.id}}
                         @pageManager={{pageManager}}
+                        @route='registries.drafts.draft.page'
                         @pageIndex={{index}}
                         @currentPageIndex={{draftManager.currentPage}}
                         @navMode={{leftNav.leftGutterMode}}
@@ -49,6 +51,7 @@
                     @link={{component leftNav.link}}
                     @draftId={{draftRegistration.id}}
                     @pageName='review'
+                    @route='registries.drafts.draft.review'
                     @currentPageName={{navManager.currentRoute}}
                     @label='{{t 'registries.drafts.draft.review.page_label'}}'
                     @navMode={{leftNav.leftGutterMode}}
@@ -66,8 +69,8 @@
                             local-class='ReviewButton'
                             class='btn btn-primary'
                             @type='button'
-                            @route='registries.drafts.draft.page'
-                            @models={{array draftRegistration.id 'review'}}
+                            @route='registries.drafts.draft.review'
+                            @models={{array draftRegistration.id}}
                         >
                             {{t 'registries.drafts.draft.review.start_review'}}
                         </OsfLink>
