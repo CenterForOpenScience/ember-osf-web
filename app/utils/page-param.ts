@@ -5,12 +5,6 @@ import slugify from 'ember-osf-web/utils/slugify';
 *  pageNumber: pageIndex + 1
 */
 
-export const DefaultPage: number = 1;
-
-export function getDefaultParam() {
-    return DefaultPage;
-}
-
 export function getPageIndex(pageParam: string): number | undefined {
     const match = pageParam.match(/^\d+(?=-|$)/);
     return match ? Number.parseInt(match[0], 10) - 1 : undefined;
