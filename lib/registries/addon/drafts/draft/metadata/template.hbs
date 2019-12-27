@@ -5,12 +5,12 @@
     >
         <form.text
             data-test-metadata-title
-            @label='Title'
+            @label={{t 'registries.registration_metadata.title'}}
             @valuePath='title'
         />
         <form.textarea
             data-test-metadata-description
-            @label='Description'
+            @label={{t 'registries.registration_metadata.description'}}
             @valuePath='description'
         />
     </FormControls>

@@ -1227,6 +1227,7 @@ export default {
             show_more: 'Show more',
             subjects: 'Subjects',
             tags: 'Tags',
+            title: 'Title',
 
             edit_description: {
                 success: 'Description successfully updated.',
