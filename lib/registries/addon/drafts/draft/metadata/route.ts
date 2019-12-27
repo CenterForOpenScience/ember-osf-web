@@ -22,8 +22,9 @@ export default class DraftRegistrationMetadataRoute extends Route {
         return draftRegistration;
     }
 
-    setupController(controller: MetadataController) {
-        const changeset = buildChangeset(this.model, {});
+    setupController(controller: MetadataController, model: DraftRegistrationModel) {
+        this._super();
+        const changeset = buildChangeset(model, {});
         controller.set('changeset', changeset);
     }
 
