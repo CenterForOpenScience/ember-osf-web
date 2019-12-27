@@ -1,9 +1,10 @@
-import Component from '@ember/component';
-
 import { tagName } from '@ember-decorators/component';
-import { computed } from '@ember-decorators/object';
+import Component from '@ember/component';
+import { computed } from '@ember/object';
+
 import { layout } from 'ember-osf-web/decorators/component';
 import { SchemaBlock } from 'ember-osf-web/packages/registration-schema';
+
 import styles from './styles';
 import template from './template';
 
