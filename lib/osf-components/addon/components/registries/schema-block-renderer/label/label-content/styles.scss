@@ -1,5 +1,6 @@
 .DisplayText {
     white-space: pre-wrap;
+    display: inline-block;
     margin: 0;
 }
 
@@ -22,6 +23,11 @@
     &:global(.btn) {
         padding: 0;
         border: 0;
+
+        &:focus,
+        &:active:focus {
+            outline-offset: 1px;
+        }
     }
 }
 

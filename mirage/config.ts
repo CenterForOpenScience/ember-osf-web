@@ -5,7 +5,7 @@ import { getCitation } from './views/citation';
 import { searchCollections } from './views/collection-search';
 import { reportDelete } from './views/comment';
 import { createBibliographicContributor } from './views/contributor';
-import { createDeveloperApp, resetClientSecret } from './views/developer-app';
+import { createDeveloperApp, updateDeveloperApp } from './views/developer-app';
 import { createDraftRegistration } from './views/draft-registration';
 import {
     folderFilesList,
@@ -39,9 +39,9 @@ export default function(this: Server) {
 
     this.get('/', rootDetail);
 
-    osfResource(this, 'developer-app', { path: 'applications', except: ['create'] });
+    osfResource(this, 'developer-app', { path: 'applications', except: ['create', 'update'] });
     this.post('/applications', createDeveloperApp);
-    this.post('/applications/:id/reset', resetClientSecret);
+    this.patch('/applications/:id', updateDeveloperApp);
 
     osfResource(this, 'file', { only: ['show', 'update'] });
 

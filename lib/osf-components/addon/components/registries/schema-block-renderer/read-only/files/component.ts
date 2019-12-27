@@ -1,8 +1,7 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import { computed, defineProperty } from '@ember/object';
-import { alias } from '@ember/object/computed';
+import { computed } from '@ember/object';
 import { ChangesetDef } from 'ember-changeset/types';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -17,9 +16,9 @@ export default class ReadOnlyFiles extends Component {
     // Required params
     schemaBlock!: SchemaBlock;
     registrationResponses!: RegistrationResponse;
-    changeset!: ChangesetDef;
 
-    responses?: RegistrationResponse[keyof RegistrationResponse];
+    // Optional params
+    changeset?: ChangesetDef;
 
     didReceiveAttrs() {
         assert(
@@ -30,15 +29,16 @@ export default class ReadOnlyFiles extends Component {
             'Registries::SchemaBlockRenderer::ReadOnly::Files requires registrationResponses to render',
             Boolean(this.registrationResponses),
         );
-        assert(
-            'Registries::SchemaBlockRenderer::ReadOnly::Files requires @changeset to render',
-            Boolean(this.changeset),
-        );
     }
 
-    init() {
-        super.init();
-        defineProperty(this, 'responses', alias(`registrationResponses.${this.schemaBlock.registrationResponseKey}`));
+    @computed('schemaBlock')
+    get responses() {
+        const {
+            schemaBlock: { registrationResponseKey },
+            registrationResponses,
+        } = this;
+
+        return registrationResponseKey ? registrationResponses[registrationResponseKey] : null;
     }
 
     @computed('responses')
@@ -48,6 +48,9 @@ export default class ReadOnlyFiles extends Component {
 
     @computed('changeset.isValid')
     get isValidating() {
-        return this.changeset.isValidating();
+        if (this.changeset) {
+            return this.changeset.isValidating();
+        }
+        return false;
     }
 }
