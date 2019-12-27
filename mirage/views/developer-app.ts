@@ -9,8 +9,13 @@ export function createDeveloperApp(this: HandlerContext, schema: Schema) {
     return schema.developerApps.create(attrs);
 }
 
-export function resetClientSecret(this: HandlerContext, schema: Schema, request: Request) {
+export function updateDeveloperApp(this: HandlerContext, schema: Schema, request: Request) {
     const developerApp = schema.developerApps.find(request.params.id);
-    developerApp.update('clientSecret', faker.random.uuid());
+    const { data: { attributes } } = JSON.parse(request.requestBody);
+    if (attributes.client_secret === null) {
+        developerApp.update('clientSecret', faker.random.uuid());
+        delete attributes.client_secret;
+    }
+    developerApp.update(attributes);
     return this.serialize(developerApp);
 }
