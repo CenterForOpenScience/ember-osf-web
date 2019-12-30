@@ -14,46 +14,57 @@
                 {{#if @inReview}}
                     {{t 'registries.drafts.draft.review.page_label'}}
                 {{else}}
-                    {{@draftManager.currentPageManager.pageHeadingText}}
+                    {{@navManager.currentPageManager.pageHeadingText}}
                 {{/if}}
             </div>
         </nav.bordered-section>
         <nav.bordered-section>
-            {{#if @draftManager.prevPageParam}}
+            {{#if (eq 0 @pageIndex)}}
+                <nav.links.default
+                    data-test-goto-metadata
+                    data-analytics-name='Sidenav back to metadata'
+                    aria-label={{t 'osf-components.registries-top-nav.metadata'}}
+                    @route='registries.drafts.draft.metadata'
+                    @models={{array @draftRegistration.id }}
+                >
+                    {{t 'registries.drafts.draft.metadata.page_label'}}
+                </nav.links.default>
+            {{/if}}
+            {{#if @navManager.prevPageParam}}
                 <nav.links.default
                     data-test-goto-previous-page
                     data-analytics-name='Sidenav back'
                     aria-label={{t 'osf-components.registries-top-nav.previousPage'}}
                     @route='registries.drafts.draft.page'
-                    @models={{array @draftManager.draftId @draftManager.prevPageParam}}
+                    @models={{array @draftRegistration.id @navManager.prevPageParam}}
                 >
                     <nav.icon @icon='arrow-left' />
                 </nav.links.default>
             {{/if}}
-            {{#if @draftManager.nextPageParam}}
+            {{#if @navManager.nextPageParam}}
                 <nav.links.default
                     data-test-goto-next-page
                     data-analytics-name='Sidenav next'
                     aria-label={{t 'osf-components.registries-top-nav.nextPage'}}
                     @route='registries.drafts.draft.page'
-                    @models={{array @draftManager.draftId @draftManager.nextPageParam}}
-                    @onClick={{@draftManager.setPageIsVisited}}
+                    @models={{array @draftRegistration.id @navManager.nextPageParam}}
+                    @onClick={{@navManager.currentPageManager.setPageIsVisited}}
                 >
                     <nav.icon @icon='arrow-right' />
                 </nav.links.default>
             {{/if}}
-            {{#if (eq @draftManager.lastPage @pageIndex)}}
+            {{#if (eq @navManager.lastPage @pageIndex)}}
                 <nav.links.default
                     data-test-goto-review
                     data-analytics-name='Sidenav review'
                     aria-label={{t 'osf-components.registries-top-nav.reviewRegistration'}}
-                    @route='registries.drafts.draft.page'
-                    @models={{array @draftManager.draftId 'review'}}
+                    @route='registries.drafts.draft.review'
+                    @models={{array @draftRegistration.id}}
                 >
                     <nav.icon @icon='arrow-right' />
                 </nav.links.default>
             {{/if}}
-            {{#if @inReview}}
+            {{!-- {{#if @inReview}}
                 <Drafts::Draft::-Components::Register
                     @draftRegistration={{@draftRegistration}}
                     @draftManager={{@draftManager}}
@@ -61,7 +72,7 @@
                     @node={{@node}}
                     @showMobileView={{true}}
                 />
-            {{/if}}
+            {{/if}} --}}
         </nav.bordered-section>
     </Navbar>
 </@layout.top>

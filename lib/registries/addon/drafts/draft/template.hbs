@@ -26,6 +26,17 @@
                     </h1>
                 </div>
             </layout.heading>
+            {{#if this.showMobileView}}
+                <Drafts::Draft::-Components::TopNav
+                    @layout={{layout}}
+                    @inReview={{draftRegistration.inReview}}
+                    @draftManager={{draftManager}}
+                    @navManager={{navManager}}
+                    @draftRegistration={{draftRegistration}}
+                    @pageIndex={{navManager.currentPageIndex}}
+                    @node={{node}}
+                />
+            {{/if}}
             <layout.leftNav as |leftNav|>
                 <PageLink
                     @link={{component leftNav.link}}

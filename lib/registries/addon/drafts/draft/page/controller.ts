@@ -5,7 +5,6 @@ import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
-import Registration from 'ember-osf-web/models/registration';
 import { getPageParam } from 'ember-osf-web/utils/page-param';
 import Media from 'ember-responsive';
 
@@ -46,11 +45,6 @@ export default class RegistriesDraftPage extends Controller {
             const pageSlug = getPageParam(this.pageIndex, headingText);
             this.replaceRoute('drafts.draft.page', this.draftId, pageSlug);
         }
-    }
-
-    @action
-    onSubmitRedirect(registrationId: Registration) {
-        this.transitionToRoute('overview.index', registrationId);
     }
 
     @action
