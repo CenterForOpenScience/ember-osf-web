@@ -18,8 +18,9 @@
             />
             <form.powerSelect
                 data-test-metadata-category
-                @label='Category'
+                @label={{t 'registries.drafts.draft.metadata.category_label'}}
                 @valuePath='category'
+                @options={{this.categoryOptions}}
             />
         </FormControls>
     </form>

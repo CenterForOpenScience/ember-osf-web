@@ -6,7 +6,7 @@ import { inject as service } from '@ember/service';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import Media from 'ember-responsive';
 
-import NodeModel from 'ember-osf-web/models/node';
+import NodeModel, { NodeCategory } from 'ember-osf-web/models/node';
 import { DraftRouteModel } from '../route';
 
 export default class RegistriesDraftMetadata extends Controller {
@@ -14,6 +14,7 @@ export default class RegistriesDraftMetadata extends Controller {
     @service router!: RouterService;
 
     model!: DraftRouteModel;
+    categoryOptions = Object.keys(NodeCategory);
 
     @alias('model.taskInstance.value.draftRegistration') draftRegistration?: DraftRegistration;
     @alias('model.taskInstance.value.node') node?: NodeModel;
