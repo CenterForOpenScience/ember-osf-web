@@ -2,7 +2,6 @@ import Controller from '@ember/controller';
 import { alias, not } from '@ember/object/computed';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
-import { ChangesetDef } from 'ember-changeset/types';
 
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import Media from 'ember-responsive';
@@ -15,7 +14,6 @@ export default class RegistriesDraftMetadata extends Controller {
     @service router!: RouterService;
 
     model!: DraftRouteModel;
-    changeset!: ChangesetDef;
 
     @alias('model.taskInstance.value.draftRegistration') draftRegistration?: DraftRegistration;
     @alias('model.taskInstance.value.node') node?: NodeModel;
