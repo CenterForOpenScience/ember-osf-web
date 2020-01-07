@@ -30,7 +30,7 @@ module('Registries | Acceptance | draft form', hooks => {
         server.loadFixtures('registration-schemas');
     });
 
-    test('it redirects to metadata page of the draft registry', async assert => {
+    test('it redirects to metadata page of the draft form', async assert => {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
