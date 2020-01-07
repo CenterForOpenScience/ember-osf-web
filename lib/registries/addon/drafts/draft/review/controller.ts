@@ -5,7 +5,6 @@ import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
-import Registration from 'ember-osf-web/models/registration';
 import Media from 'ember-responsive';
 
 import NodeModel from 'ember-osf-web/models/node';
@@ -44,7 +43,9 @@ export default class RegistriesDraftReview extends Controller {
     }
 
     @action
-    onSubmitRedirect(registrationId: Registration) {
-        this.transitionToRoute('overview.index', registrationId);
+    markAndValidatedPages() {
+        this.draftRegistrationManager!.markAllPagesVisited();
+        this.draftRegistrationManager!.validateAllVisitedPages();
+        this.draftRegistrationManager!.saveAllVisitedPages.perform();
     }
 }

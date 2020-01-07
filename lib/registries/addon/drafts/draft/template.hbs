@@ -29,9 +29,10 @@
             {{#if this.showMobileView}}
                 <Drafts::Draft::-Components::TopNav
                     @layout={{layout}}
-                    @inReview={{draftRegistration.inReview}}
+                    @inReview={{eq navManager.currentRoute 'review'}}
                     @draftManager={{draftManager}}
                     @navManager={{navManager}}
+                    @onSubmitRedirect={{action this.onSubmitRedirect}}
                     @draftRegistration={{draftRegistration}}
                     @pageIndex={{navManager.currentPageIndex}}
                     @node={{node}}
@@ -86,14 +87,14 @@
                             {{t 'registries.drafts.draft.review.start_review'}}
                         </OsfLink>
                     {{/if}}
-                    {{!-- {{#if (eq navManager.currentRoute 'review')}}
+                    {{#if (eq navManager.currentRoute 'review')}}
                         <Drafts::Draft::-Components::Register
-                            @draftRegistration={{this.draftRegistration}}
+                            @draftRegistration={{draftRegistration}}
                             @draftManager={{draftManager}}
                             @onSubmitRedirect={{action this.onSubmitRedirect}}
                             @node={{this.node}}
                         />
-                    {{/if}} --}}
+                    {{/if}}
                     {{#if navManager.nextPageParam}}
                         <OsfLink
                             data-test-goto-next-page

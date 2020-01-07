@@ -31,9 +31,6 @@ export default class DraftRegistrationReview extends Route {
         const { taskInstance } = draftRouteModel;
         const { draftRegistrationManager, navigationManager } = draftRouteModel;
 
-        draftRegistrationManager.markAllPagesVisited();
-        draftRegistrationManager.validateAllVisitedPages();
-        draftRegistrationManager.saveAllVisitedPages.perform();
         navigationManager.setCurrentPage();
         navigationManager.setCurrentRoute(DraftRoute.Review);
 

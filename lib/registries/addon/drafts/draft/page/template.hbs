@@ -9,8 +9,8 @@
         <LoadingIndicator @dark={{true}} />
     {{else}}
         <main
-            {{did-insert (action draftManager.onPageChange) this.pageIndex}}
-            {{did-update (action draftManager.onPageChange) this.pageIndex}}
+            {{did-insert draftManager.onPageChange this.pageIndex}}
+            {{did-update draftManager.onPageChange this.pageIndex}}
         >
             {{#if navManager.currentPageManager}}
                 <Registries::PageRenderer
