@@ -21,9 +21,7 @@ export default class DraftRegistrationManager {
 
     // Private
     currentPage!: number;
-    lastPage!: number;
     registrationResponses!: RegistrationResponse;
-    inReview!: boolean;
 
     pageManagers: PageManager[] = [];
 
@@ -57,7 +55,6 @@ export default class DraftRegistrationManager {
         const pages = getPages(schemaBlocks);
         const { registrationResponses } = this.draftRegistration;
 
-        set(this, 'lastPage', pages.length - 1);
         set(this, 'registrationResponses', registrationResponses || {});
 
         const pageManagers = pages.map(
@@ -112,20 +109,13 @@ export default class DraftRegistrationManager {
     }
 
     @action
-    onPageChange(_: HTMLElement, [currentPage, inReview]: [number, boolean]) {
-        if (inReview) {
-            this.markAllPagesVisited();
+    onPageChange(_: HTMLElement, [currentPage]: [number]) {
+        if (this.hasVisitedPages) {
             this.validateAllVisitedPages();
             this.saveAllVisitedPages.perform();
-        } else {
-            if (this.hasVisitedPages) {
-                this.validateAllVisitedPages();
-                this.saveAllVisitedPages.perform();
-            }
-            this.markCurrentPageVisited(currentPage);
         }
+        this.markCurrentPageVisited(currentPage);
     }
-
     @action
     markAllPagesVisited() {
         this.pageManagers.forEach(pageManager => {

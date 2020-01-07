@@ -47,9 +47,4 @@ export default class RegistriesDraftReview extends Controller {
     onSubmitRedirect(registrationId: Registration) {
         this.transitionToRoute('overview.index', registrationId);
     }
-
-    @action
-    onPageNotFound() {
-        this.transitionToRoute('page-not-found', this.router.currentURL.slice(1));
-    }
 }

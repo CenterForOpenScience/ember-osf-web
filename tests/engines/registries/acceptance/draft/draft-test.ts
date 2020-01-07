@@ -30,7 +30,7 @@ module('Registries | Acceptance | draft form', hooks => {
         server.loadFixtures('registration-schemas');
     });
 
-    test('it redirects to first page of the schema\'d form', async assert => {
+    test('it redirects to metadata page of the draft registry', async assert => {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
@@ -39,8 +39,7 @@ module('Registries | Acceptance | draft form', hooks => {
 
         await visit(`/registries/drafts/${registration.id}/`);
 
-        assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/1`), 'At first schema page');
-        assert.equal(currentRouteName(), 'registries.drafts.draft.page', 'At the expected route');
+        assert.equal(currentRouteName(), 'registries.drafts.draft.metadata', 'At the expected route');
     });
 
     test('it redirects page-not-found if the pageIndex route param is out of range', async assert => {
@@ -64,7 +63,8 @@ module('Registries | Acceptance | draft form', hooks => {
 
         await visit(`/registries/drafts/${registration.id}/`);
 
-        assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/1-`), 'At first schema page');
+        // Metadata page
+        assert.equal(currentRouteName(), 'registries.drafts.draft.metadata', 'At metadata page');
 
         assert.dom('[data-test-goto-previous-page]').doesNotExist();
         assert.dom('[data-test-goto-review]').doesNotExist();
@@ -72,18 +72,28 @@ module('Registries | Acceptance | draft form', hooks => {
 
         assert.dom('[data-test-goto-next-page]').isVisible();
         assert.ok(getHrefAttribute('[data-test-goto-next-page]')!
-            .includes(`/registries/drafts/${registration.id}/2-`));
+            .includes(`/registries/drafts/${registration.id}/1-`));
 
         await click('[data-test-goto-next-page]');
 
-        // Last page
-        assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/2-`), 'At second (last) page');
+        // First page of form
+        assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/1-`), 'At first schema page');
         assert.dom('[data-test-goto-register]').doesNotExist();
-        assert.dom('[data-test-goto-next-page]').doesNotExist();
+        assert.dom('[data-test-goto-previous-page]').doesNotExist();
 
-        assert.dom('[data-test-goto-previous-page]').isVisible();
+        assert.dom('[data-test-goto-metadata]').exists();
+        assert.dom('[data-test-goto-next-page]').exists();
+
+        await click('[data-test-goto-next-page]');
+
+        // Second page of form
+        assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/2-`), 'At second (last) page');
         assert.ok(getHrefAttribute('[data-test-goto-previous-page]')!
             .includes(`/registries/drafts/${registration.id}/1-`));
+
+        assert.dom('[data-test-goto-register]').doesNotExist();
+        assert.dom('[data-test-goto-metadata]').doesNotExist();
+        assert.dom('[data-test-goto-next-page]').doesNotExist();
 
         assert.dom('[data-test-goto-review]').isVisible();
         assert.ok(getHrefAttribute('[data-test-goto-review]')!
@@ -95,6 +105,7 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/review`), 'At review page');
         assert.dom('[data-test-read-only-response]').exists();
 
+        assert.dom('[data-test-goto-metadata]').doesNotExist();
         assert.dom('data-test-goto-next-page').doesNotExist();
         assert.dom('[data-test-goto-review]').doesNotExist();
 

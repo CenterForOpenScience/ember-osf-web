@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
-import { alias, equal, not } from '@ember/object/computed';
+import { alias, not } from '@ember/object/computed';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 
@@ -25,12 +25,9 @@ export default class RegistriesDraftPage extends Controller {
     @alias('model.taskInstance.value.node') node?: NodeModel;
     @alias('model.pageIndex') pageIndex!: number;
     @alias('model.page') page!: string;
-    @equal('page', 'review') inReview!: boolean;
-
     @alias('draftRegistration.id') draftId!: string;
 
     @not('draftRegistration') loading!: boolean;
-    @not('media.isDesktop') showMobileView!: boolean;
 
     @computed('page')
     get shouldAppendPageSlug() {
