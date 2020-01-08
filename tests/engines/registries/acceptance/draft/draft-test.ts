@@ -54,6 +54,75 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.equal(currentRouteName(), 'registries.page-not-found', 'At page not found');
     });
 
+    test('left nav controls', async assert => {
+        const initiator = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const registration = server.create(
+            'draft-registration', { registrationSchema, initiator },
+        );
+
+        await visit(`/registries/drafts/${registration.id}/`);
+
+        // TODO: Add necessary assertions to make sure metadata page undergoes validations
+        // Metadata page
+        assert.equal(currentRouteName(), 'registries.drafts.draft.metadata', 'Starts at metadata route');
+        assert.dom('[data-test-link="metadata"] > [data-test-icon]')
+            .hasClass('fa-circle-o', 'metadata is marked current page');
+        assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
+            .hasClass('fa-circle', 'page 1 is marked unvisited');
+        assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
+            .hasClass('fa-circle', 'page 2 is marked unvisited');
+        assert.dom('[data-test-link="review"] > [data-test-icon]')
+            .hasClass('fa-circle', 'review is marked unvisited');
+
+        // Navigate to second page
+        await click('[data-test-link="2-this-is-the-second-page"]');
+        assert.equal(currentRouteName(), 'registries.drafts.draft.page', 'Goes to page route');
+        assert.dom('[data-test-link="metadata"] > [data-test-icon]')
+            .hasClass('fa-circle', 'metadata is marked unvisited');
+        assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
+            .hasClass('fa-circle', 'page 1 is marked unvisited');
+        assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
+            .hasClass('fa-circle-o', 'page 2 is marked as current page');
+        assert.dom('[data-test-link="review"] > [data-test-icon]')
+            .hasClass('fa-circle', 'review is marked unvisited');
+
+        // Navigate to first page
+        await click('[data-test-link="1-first-page-of-test-schema"]');
+        assert.dom('[data-test-link="metadata"] > [data-test-icon]')
+            .hasClass('fa-circle', 'metadata is marked unvisited');
+        assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
+            .hasClass('fa-circle-o', 'page 1 is marked current page');
+        assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
+            .hasClass('fa-check-circle-o', 'page 2 is marked visited, valid');
+        assert.dom('[data-test-link="review"] > [data-test-icon]')
+            .hasClass('fa-circle', 'review is marked unvisited');
+
+        // Navigate back to metadata
+        await click('[data-test-link="metadata"]');
+        assert.dom('[data-test-link="metadata"] > [data-test-icon]')
+            .hasClass('fa-circle-o', 'metadata is marked current again');
+        // TODO: Metadata route does not validate upon load. Please add this logic in later
+        // assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
+        //     .hasClass('fa-exclamation-circle', 'page 1 is marked visited, invalid');
+        assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
+            .hasClass('fa-check-circle-o', 'page 2 is marked visited, valid');
+        assert.dom('[data-test-link="review"] > [data-test-icon]')
+            .hasClass('fa-circle', 'review is marked unvisited');
+
+        // Navigate to review
+        await click('[data-test-link="review"]');
+        assert.equal(currentRouteName(), 'registries.drafts.draft.review', 'Goes to review route');
+        assert.dom('[data-test-link="metadata"] > [data-test-icon]')
+            .hasClass('fa-circle', 'metadata is marked unvisited');
+        assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
+            .hasClass('fa-exclamation-circle', 'page 1 is marked visited, invalid');
+        assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
+            .hasClass('fa-check-circle-o', 'page 2 is marked visited, valid');
+        assert.dom('[data-test-link="review"] > [data-test-icon]')
+            .hasClass('fa-circle-o', 'review is marked current');
+    });
+
     test('right sidenav controls', async assert => {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
@@ -157,6 +226,10 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/review`), 'At review page');
         assert.dom(`[data-test-validation-errors="${deserializeResponseKey('page-one_short-text')}"]`).exists();
         assert.dom(`[data-test-validation-errors="${deserializeResponseKey('page-one_long-text')}"]`).doesNotExist();
+        assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
+            .hasClass('fa-exclamation-circle', 'page 1 is marked visited, invalid');
+        assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
+            .hasClass('fa-check-circle-o', 'page 2 is marked visited, valid');
     });
 
     test('validations: cannot register with empty registrationResponses', async assert => {
@@ -168,7 +241,7 @@ module('Registries | Acceptance | draft form', hooks => {
 
         await visit(`/registries/drafts/${registration.id}/`);
 
-        await visit(`/registries/drafts/${registration.id}/review`);
+        await click('[data-test-link="review"]');
 
         assert.dom('[data-test-goto-register]').isDisabled();
         assert.dom('[data-test-invalid-responses-text]').isVisible();
@@ -245,7 +318,7 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-circle', 'page 1 is unvisited, not validated');
 
-        await visit(`/registries/drafts/${registration.id}/review`);
+        await click('[data-test-goto-review]');
 
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
             .hasClass('fa-check-circle-o', 'page 2 is marked visited, valid');
