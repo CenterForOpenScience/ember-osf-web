@@ -18,7 +18,7 @@ module('Integration | Component | form-controls/power-select', hooks => {
         this.set('options', options);
         await render(hbs`
             <FormControls @changeset={{this.changeset}} as |form| >
-                <form.select
+                <form.powerSelect
                     data-test-select
                     @options={{this.options}}
                     @label='Category'
