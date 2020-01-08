@@ -44,8 +44,10 @@ export default class RegistriesDraftReview extends Controller {
 
     @action
     markAndValidatedPages() {
-        this.draftRegistrationManager!.markAllPagesVisited();
-        this.draftRegistrationManager!.validateAllVisitedPages();
-        this.draftRegistrationManager!.saveAllVisitedPages.perform();
+        if (this.draftRegistrationManager) {
+            this.draftRegistrationManager.markAllPagesVisited();
+            this.draftRegistrationManager.validateAllVisitedPages();
+            this.draftRegistrationManager.saveAllVisitedPages.perform();
+        }
     }
 }

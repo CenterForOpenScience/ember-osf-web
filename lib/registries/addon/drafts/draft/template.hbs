@@ -32,7 +32,7 @@
                     @inReview={{eq navManager.currentRoute 'review'}}
                     @draftManager={{draftManager}}
                     @navManager={{navManager}}
-                    @onSubmitRedirect={{action this.onSubmitRedirect}}
+                    @onSubmitRedirect={{this.onSubmitRedirect}}
                     @draftRegistration={{draftRegistration}}
                     @pageIndex={{navManager.currentPageIndex}}
                     @node={{node}}
@@ -91,8 +91,8 @@
                         <Drafts::Draft::-Components::Register
                             @draftRegistration={{draftRegistration}}
                             @draftManager={{draftManager}}
-                            @onSubmitRedirect={{action this.onSubmitRedirect}}
-                            @node={{this.node}}
+                            @onSubmitRedirect={{this.onSubmitRedirect}}
+                            @node={{node}}
                         />
                     {{/if}}
                     {{#if navManager.nextPageParam}}
