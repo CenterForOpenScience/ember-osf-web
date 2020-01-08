@@ -100,6 +100,11 @@ export default class FilesMenu extends Component.extend({
     }
 
     @action
+    onCloseMenu(isUploading: boolean) {
+        return !isUploading;
+    }
+
+    @action
     openDialog(options: { onOpenDialog?: () => void }) {
         const { onOpenDialog } = options;
 
