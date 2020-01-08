@@ -32,6 +32,13 @@
                 <label for='license-select'>{{t 'registries.registration_metadata.choose_license'}}</label>
                 <RegistriesLicensePicker @manager={{licenseManager}} />
             </Drafts::Draft::-Components::Managers::LicensePickerManager>
+            <Subjects::Manager
+                @model={{this.draftRegistration}}
+                @provider={{this.draftRegistration.provider}}
+                as |subjectsManager|
+            >
+                <Subjects::Widget @subjectsManager={{subjectsManager}} />
+            </Subjects::Manager>
         </FormControls>
     </form>
 {{/if}}
