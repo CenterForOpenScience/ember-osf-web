@@ -264,7 +264,8 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-circle-o', 'page 1 is current page');
 
-        await visit(`/registries/drafts/${registration.id}/2`);
+        await click('[data-test-goto-next-page]');
+
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
             .hasClass('fa-circle-o', 'page 2 is current page');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
@@ -282,18 +283,18 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-circle-o', 'on page 1');
 
-        await visit(`/registries/drafts/${registration.id}/2`);
+        await click('[data-test-goto-next-page]');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-exclamation-circle', 'page 1 is invalid');
 
-        await visit(`/registries/drafts/${registration.id}/1`);
+        await click('[data-test-goto-previous-page]');
 
         const shortTextKey = deserializeResponseKey('page-one_short-text');
         assert.dom(`input[name="${shortTextKey}"] + div`)
             .hasClass('help-block', 'page-one_short-text has validation errors');
         await fillIn(`input[name="${shortTextKey}"]`, 'ditto');
 
-        await visit(`/registries/drafts/${registration.id}/2`);
+        await click('[data-test-goto-next-page]');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-check-circle-o', 'page 1 is now valid');
     });

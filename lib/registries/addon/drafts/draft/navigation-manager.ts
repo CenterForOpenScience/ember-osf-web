@@ -83,9 +83,10 @@ export default class NavigationManager {
         const {
             pageManagers,
             currentPageIndex,
+            lastPage,
         } = this;
 
-        if (!isEmpty(pageManagers)) {
+        if (!isEmpty(pageManagers) && (currentPageIndex > 0 && currentPageIndex <= lastPage + 1)) {
             if (currentPageIndex > 0) {
                 const { pageHeadingText } = pageManagers[currentPageIndex - 1];
                 return getPrevPageParam(currentPageIndex, pageHeadingText!);

@@ -109,13 +109,14 @@ export default class DraftRegistrationManager {
     }
 
     @action
-    onPageChange(_: HTMLElement, [currentPage]: [number]) {
+    onPageChange(currentPage: number) {
         if (this.hasVisitedPages) {
             this.validateAllVisitedPages();
             this.saveAllVisitedPages.perform();
         }
         this.markCurrentPageVisited(currentPage);
     }
+
     @action
     markAllPagesVisited() {
         this.pageManagers.forEach(pageManager => {
