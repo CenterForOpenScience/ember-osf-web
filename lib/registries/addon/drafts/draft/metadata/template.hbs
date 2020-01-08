@@ -1,0 +1,21 @@
+{{#if this.loading}}
+    <LoadingIndicator @dark={{true}} />
+{{else}}
+    <form>
+        <FormControls
+            @changeset={{changeset this.draftRegistration}}
+            ...attributes as |form|
+        >
+            <form.text
+                data-test-metadata-title
+                @label={{t 'registries.registration_metadata.title'}}
+                @valuePath='title'
+            />
+            <form.textarea
+                data-test-metadata-description
+                @label={{t 'registries.registration_metadata.description'}}
+                @valuePath='description'
+            />
+        </FormControls>
+    </form>
+{{/if}}
