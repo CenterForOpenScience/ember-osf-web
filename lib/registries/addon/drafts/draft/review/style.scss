@@ -1,0 +1,91 @@
+.ContentBackground {
+    flex-grow: 1;
+    justify-content: center;
+    background-image: url('img/bg-light.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.Main {
+    background: $white;
+    padding: 30px;
+}
+
+.Right {
+    padding: 30px;
+    min-width: 250px;
+}
+
+.Loading {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.RightWrapper {
+    position: sticky;
+    top: 20px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+
+    & > * {
+        margin-bottom: 15px;
+    }
+}
+
+.BackButton {
+    border: 1px solid $alto;
+    border-radius: 2px;
+    font-weight: 600;
+
+    &:hover,
+    &:active,
+    &:active:focus,
+    &:focus {
+        box-shadow: none;
+    }
+}
+
+.ReviewButton {
+    border-radius: 2px;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 12px 0;
+
+    &:hover,
+    &:active,
+    &:active:focus,
+    &:focus {
+        box-shadow: none;
+    }
+}
+
+.SideBarToggle {
+    width: 100%;
+}
+
+.WarningMessage {
+    text-align: center;
+    padding-top: 10px;
+}
+
+.MobileNavPageLabelSection {
+    min-width: 0;
+    width: 100%;
+}
+
+.MobileNavPageLabel {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 600;
+    color: $color-text-black;
+}
+
+@media screen and (min-width: 992px) {
+    .ContentBackground {
+        display: flex;
+    }
+}
