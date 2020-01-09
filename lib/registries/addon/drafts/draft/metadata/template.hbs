@@ -32,6 +32,16 @@
                 <label for='license-select'>{{t 'registries.registration_metadata.choose_license'}}</label>
                 <RegistriesLicensePicker @manager={{licenseManager}} />
             </Drafts::Draft::-Components::Managers::LicensePickerManager>
+            <Drafts::Draft::-Components::TagsManager
+                @changeset={{this.draftManager.metadataChangeset}}
+                @valuePath='tags'
+                as |tagsManager|
+            >
+                <RegistriesTagsWidget
+                    data-test-tags
+                    @manager={{tagsManager}}
+                />
+            </Drafts::Draft::-Components::TagsManager>
         </FormControls>
     </form>
 {{/if}}
