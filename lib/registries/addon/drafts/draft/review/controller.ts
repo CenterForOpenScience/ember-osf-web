@@ -11,13 +11,10 @@ import NodeModel from 'ember-osf-web/models/node';
 import { PageManager } from 'ember-osf-web/packages/registration-schema';
 import { getPrevPageParam } from 'ember-osf-web/utils/page-param';
 import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
-import { DraftReviewModel } from './route';
 
 export default class RegistriesDraftReview extends Controller {
     @service media!: Media;
     @service router!: RouterService;
-
-    model!: DraftReviewModel;
 
     @alias('model.draftRegistrationManager') draftRegistrationManager?: DraftRegistrationManager;
     @alias('draftRegistrationManager.pageManagers') pageManagers?: PageManager[];
