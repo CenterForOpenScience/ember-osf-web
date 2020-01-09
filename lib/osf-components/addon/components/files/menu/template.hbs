@@ -1,5 +1,6 @@
 <ResponsiveDropdown
     @disabled={{not this.canEdit}}
+    @onClose={{action this.onCloseMenu @isUploading}}
     as |dropdownMenu|
 >
     <div local-class='actions-menu-trigger'>

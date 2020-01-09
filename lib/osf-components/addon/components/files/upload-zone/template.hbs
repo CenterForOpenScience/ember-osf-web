@@ -12,7 +12,7 @@
             @id={{dropzoneId}}
             @clickable={{this.clickable}}
             @uploadprogress={{action this.uploadProgress}}
-            @success={{queue menu.close (perform this.success)}}
+            @success={{queue (perform this.success) menu.close}}
             @preUpload={{perform this.preUpload}}
             @error={{action this.error}}
             @buildUrl={{action this.buildUrl}}
