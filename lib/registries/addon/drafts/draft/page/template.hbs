@@ -9,8 +9,8 @@
         <LoadingIndicator @dark={{true}} />
     {{else}}
         <main
-            {{did-insert this.checkRouteParams this.page this.pageIndex}}
-            {{did-update this.checkRouteParams this.page this.pageIndex}}
+            {{did-insert this.checkRouteParams this.page}}
+            {{did-update this.checkRouteParams this.page}}
         >
             {{#if navManager.currentPageManager}}
                 <Registries::PageRenderer

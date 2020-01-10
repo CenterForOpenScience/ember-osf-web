@@ -1,7 +1,6 @@
 import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
 import { alias, not } from '@ember/object/computed';
-import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
@@ -14,7 +13,6 @@ import DraftRegistrationManager from 'registries/drafts/draft/draft-registration
 
 export default class RegistriesDraftReview extends Controller {
     @service media!: Media;
-    @service router!: RouterService;
 
     @alias('model.draftRegistrationManager') draftRegistrationManager?: DraftRegistrationManager;
     @alias('draftRegistrationManager.pageManagers') pageManagers?: PageManager[];
