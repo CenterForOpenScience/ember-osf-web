@@ -40,11 +40,11 @@ export default class RegistriesDraftPage extends Controller {
     }
 
     @action
-    checkRouteParams(_: HTMLElement, [page, pageIndex]: [string, number, string]) {
+    checkRouteParams(_: HTMLElement, [page]: [string]) {
         const { currentPageManager } = this.navigationManager;
         if (currentPageManager) {
             const { pageHeadingText } = currentPageManager;
-            this.updateRoute(pageHeadingText!, page, this.draftRegistration.id, pageIndex!);
+            this.updateRoute(pageHeadingText!, page, this.draftRegistration.id, this.pageIndex!);
         } else {
             this.onPageNotFound();
         }
