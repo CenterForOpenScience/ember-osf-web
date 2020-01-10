@@ -1,3 +1,6 @@
+{{assert 'FormControls::Select - @options are required' @options}}
+{{assert 'FormControls::Select - @valuePath are required' @valuePath}}
+{{assert 'FormControls::Select - @changeseet are required' @changeset}}
 <FormControls::Wrapper
     @shouldShowMessages={{@shouldShowMessages}}
     @label={{@label}}
@@ -14,13 +17,14 @@
             @onchange={{this.updateChangeset}}
             @searchField={{@searchField}}
             @searchEnabled={{@searchEnabled}}
-            @selected={{or (get @changeset this.valuePath) null}} @disabled={{@disabled}}
+            @selected={{or (get @changeset this.valuePath) null}}
+            @disabled={{@disabled}}
             id={{inputElementId}}
             as |option|
         >
-            <div data-test-option={{option}}>
+            <span data-test-option={{option}}>
                 {{option}}
-            </div>
+            </span>
         </PowerSelect>
     </div>
 </FormControls::Wrapper>

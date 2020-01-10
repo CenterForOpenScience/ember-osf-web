@@ -1,6 +1,5 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
-import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 import { ChangesetDef } from 'ember-changeset/types';
 
@@ -20,16 +19,10 @@ export default class FormControlPowerSelect extends Component {
     // Optional params
     shouldShowMessages?: boolean;
     disabled: boolean = false;
-    onchange?: (option: string) => void;
-
-    didReceiveAttrs() {
-        assert('FormControls::Select - @options are required', Boolean(this.options));
-        assert('FormControls::Select - @valuePath is required', Boolean(this.valuePath));
-        assert('FormControls::Select - @changeset is required', Boolean(this.changeset));
-    }
+    onchange?: (option: unknown) => void;
 
     @action
-    updateChangeset(option: any) {
+    updateChangeset(option: unknown) {
         this.changeset.set(this.valuePath, option);
         if (this.onchange) {
             this.onchange(option);
