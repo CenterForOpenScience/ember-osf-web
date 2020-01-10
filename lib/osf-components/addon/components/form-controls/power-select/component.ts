@@ -5,11 +5,10 @@ import { ChangesetDef } from 'ember-changeset/types';
 
 import { layout } from 'ember-osf-web/decorators/component';
 
-import styles from './styles';
 import template from './template';
 
 @tagName('')
-@layout(template, styles)
+@layout(template)
 export default class FormControlPowerSelect extends Component {
     // Required params
     options!: any[];
