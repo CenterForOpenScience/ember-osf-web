@@ -16,7 +16,7 @@
                             data-analytics-name={{if isAffiliated 'Remove' 'Add'}}
                             @type='checkbox'
                             @checked={{isAffiliated}}
-                            @disabled={{@manager.save.isRunning}}
+                            @disabled={{@manager.shouldDisable}}
                             @change={{action @manager.toggleInstitution institution}}
                         />
                     {{/let}}
