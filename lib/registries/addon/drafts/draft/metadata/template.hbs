@@ -16,6 +16,12 @@
                 @label={{t 'registries.registration_metadata.description'}}
                 @valuePath='description'
             />
+            <form.select
+                data-test-metadata-category
+                @label={{t 'registries.registration_metadata.category'}}
+                @valuePath='category'
+                @options={{this.categoryOptions}}
+            />
         </FormControls>
     </form>
 {{/if}}
