@@ -32,6 +32,18 @@
                 <label for='license-select'>{{t 'registries.registration_metadata.choose_license'}}</label>
                 <RegistriesLicensePicker @manager={{licenseManager}} />
             </Drafts::Draft::-Components::Managers::LicensePickerManager>
+            {{#let (unique-id 'institutions') as |institutionsFieldId|}}
+                <label for={{institutionsFieldId}}>{{t 'registries.registration_metadata.affiliated_institutions'}}</label>
+                <Drafts::Draft::-Components::MetadataInstitutionsManager 
+                        @node={{this.draftRegistration}}
+                        as |institutionsManager|
+                    >
+                    <InstitutionSelectList
+                        @manager={{institutionsManager}}
+                        id={{institutionsFieldId}}
+                    />
+                </Drafts::Draft::-Components::MetadataInstitutionsManager>
+            {{/let}}
         </FormControls>
     </form>
 {{/if}}
