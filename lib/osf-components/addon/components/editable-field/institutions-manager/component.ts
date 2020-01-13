@@ -111,16 +111,6 @@ export default class InstitutionsManagerComponent extends Component {
     }
 
     @action
-    addInstitution(institution: Institution) {
-        this.currentAffiliatedList.pushObject(institution);
-    }
-
-    @action
-    removeInstitution(institution: Institution) {
-        this.currentAffiliatedList.removeObject(institution);
-    }
-
-    @action
     toggleInstitution(institution: Institution) {
         if (this.currentAffiliatedList.includes(institution)) {
             this.currentAffiliatedList.removeObject(institution);
