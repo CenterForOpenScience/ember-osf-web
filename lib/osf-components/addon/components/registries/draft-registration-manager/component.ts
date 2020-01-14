@@ -4,6 +4,7 @@ import { alias, not } from '@ember-decorators/object/computed';
 import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
+import { set } from '@ember/object';
 import { task, TaskInstance, timeout } from 'ember-concurrency';
 import Toast from 'ember-toastr/services/toast';
 
@@ -223,9 +224,10 @@ export default class DraftRegistrationManagerComponent extends Component.extend(
                 .mapBy('registrationResponseKey')
                 .filter(Boolean)
                 .forEach(registrationResponseKey => {
-                    Object.assign(
+                    set(
                         registrationResponses,
-                        { [registrationResponseKey]: changeset!.get(registrationResponseKey) },
+                        registrationResponseKey,
+                        changeset!.get(registrationResponseKey),
                     );
                 });
         }
