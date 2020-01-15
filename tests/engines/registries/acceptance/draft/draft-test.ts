@@ -28,13 +28,20 @@ module('Registries | Acceptance | draft form', hooks => {
 
         server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
+        server.loadFixtures('registration-providers');
+        server.loadFixtures('licenses');
     });
 
     test('it redirects to metadata page of the draft form', async assert => {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
-            'draft-registration', { registrationSchema, initiator },
+            'draft-registration',
+            {
+                registrationSchema,
+                initiator,
+                provider: server.schema.registrationProviders.find('osf'),
+            },
         );
 
         await visit(`/registries/drafts/${registration.id}/`);
@@ -127,7 +134,12 @@ module('Registries | Acceptance | draft form', hooks => {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
-            'draft-registration', { registrationSchema, initiator },
+            'draft-registration',
+            {
+                registrationSchema,
+                initiator,
+                provider: server.schema.registrationProviders.find('osf'),
+            },
         );
 
         await visit(`/registries/drafts/${registration.id}/`);
@@ -198,7 +210,13 @@ module('Registries | Acceptance | draft form', hooks => {
             'page-one_single-select-two': '',
         };
         const registration = server.create(
-            'draft-registration', { registrationSchema, initiator, registrationResponses },
+            'draft-registration',
+            {
+                registrationSchema,
+                initiator,
+                registrationResponses,
+                provider: server.schema.registrationProviders.find('osf'),
+            },
         );
 
         await visit(`/registries/drafts/${registration.id}/review`);
@@ -219,7 +237,13 @@ module('Registries | Acceptance | draft form', hooks => {
             'page-one_single-select-two': '',
         };
         const registration = server.create(
-            'draft-registration', { registrationSchema, initiator, registrationResponses },
+            'draft-registration',
+            {
+                registrationSchema,
+                initiator,
+                registrationResponses,
+                provider: server.schema.registrationProviders.find('osf'),
+            },
         );
 
         await visit(`/registries/drafts/${registration.id}/review`);
@@ -236,7 +260,12 @@ module('Registries | Acceptance | draft form', hooks => {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
-            'draft-registration', { registrationSchema, initiator },
+            'draft-registration',
+            {
+                registrationSchema,
+                initiator,
+                provider: server.schema.registrationProviders.find('osf'),
+            },
         );
 
         await visit(`/registries/drafts/${registration.id}/`);
@@ -262,7 +291,14 @@ module('Registries | Acceptance | draft form', hooks => {
             'page-one_single-select-two': '',
         };
         const registration = server.create(
-            'draft-registration', { registrationSchema, initiator, registrationResponses, branchedFrom: rootNode },
+            'draft-registration',
+            {
+                registrationSchema,
+                initiator,
+                registrationResponses,
+                branchedFrom: rootNode,
+                provider: server.schema.registrationProviders.find('osf'),
+            },
         );
         await visit(`/registries/drafts/${registration.id}/review`);
         assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/review`), 'At review page');
@@ -308,7 +344,12 @@ module('Registries | Acceptance | draft form', hooks => {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
-            'draft-registration', { registrationSchema, initiator },
+            'draft-registration',
+            {
+                registrationSchema,
+                initiator,
+                provider: server.schema.registrationProviders.find('osf'),
+            },
         );
 
         await visit(`/registries/drafts/${registration.id}/2`);
@@ -330,7 +371,12 @@ module('Registries | Acceptance | draft form', hooks => {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
-            'draft-registration', { registrationSchema, initiator },
+            'draft-registration',
+            {
+                registrationSchema,
+                initiator,
+                provider: server.schema.registrationProviders.find('osf'),
+            },
         );
 
         await visit(`/registries/drafts/${registration.id}/1`);
@@ -349,7 +395,12 @@ module('Registries | Acceptance | draft form', hooks => {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
-            'draft-registration', { registrationSchema, initiator },
+            'draft-registration',
+            {
+                registrationSchema,
+                initiator,
+                provider: server.schema.registrationProviders.find('osf'),
+            },
         );
 
         await visit(`/registries/drafts/${registration.id}/1`);

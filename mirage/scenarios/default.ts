@@ -70,6 +70,7 @@ function registrationScenario(
         initiator: currentUser,
         registrationResponses,
         branchedFrom: rootNode,
+        provider: server.schema.registrationProviders.find('osf'),
     });
 
     server.create('draft-registration', {

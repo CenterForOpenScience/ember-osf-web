@@ -3,6 +3,7 @@ import { alias, not } from '@ember/object/computed';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 
+import { ChangesetDef } from 'ember-changeset/types';
 import Media from 'ember-responsive';
 
 import { NodeCategory } from 'ember-osf-web/models/node';
@@ -14,6 +15,7 @@ export default class RegistriesDraftMetadata extends Controller {
     @service router!: RouterService;
 
     model!: DraftRouteModel;
+    changeset!: ChangesetDef;
     categoryOptions = Object.keys(NodeCategory);
 
     @alias('model.draftRegistrationManager') draftManager!: DraftRegistrationManager;

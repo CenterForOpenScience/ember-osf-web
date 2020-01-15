@@ -1,0 +1,16 @@
+{{yield (hash
+    fieldIsEmpty=this.fieldIsEmpty
+    emptyFieldText=(t 'registries.registration_metadata.no_license')
+    inEditMode=true
+    userCanEdit=true
+    shouldShowField=true
+    queryLicenses=(perform this.queryLicenses)
+    changeset=this.changeset
+    changeLicense=(action this.changeLicense)
+    requiredFields=this.requiredFields
+    selectedLicense=this.selectedLicense
+    licensesAcceptable=this.licensesAcceptable
+    onSave=(action this.noop)
+    onError=(action this.noop)
+    onCancel=(action this.noop)
+)}}

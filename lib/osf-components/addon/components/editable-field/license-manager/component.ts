@@ -3,6 +3,7 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias, and, not, sort } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { ChangesetDef } from 'ember-changeset/types';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
@@ -24,6 +25,7 @@ export interface LicenseManager {
     onCancel: () => void;
     changeLicense: () => void;
     registration: Registration;
+    changeset?: ChangesetDef;
     requiredFields: string[];
     selectedLicense: License;
     licensesAcceptable: License[];

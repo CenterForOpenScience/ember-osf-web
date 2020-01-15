@@ -2,6 +2,7 @@
     <ValidatedModelForm
         data-test-license-edit-form
         @model={{@manager.registration}}
+        @changeset={{@manager.changeset}}
         @onSave={{@manager.onSave}}
         @onError={{@manager.onError}}
         as |form|
@@ -10,6 +11,7 @@
             data-analytics-category='text'
             data-analytics-name='Select license'
             data-test-select-license
+            @id='license-select'
             @valuePath='license'
             @selected={{@manager.selectedLicense}}
             @options={{@manager.licensesAcceptable}}
@@ -45,7 +47,7 @@
                             <Input
                                 data-test-required-field={{key}}
                                 @class='form-control'
-                                @value={{mut (get @manager.registration.nodeLicense key)}}
+                                @value={{mut (get this.registration.nodeLicense key)}}
                                 @placeholder={{t 'general.required'}}
                             />
                         </label>
@@ -62,27 +64,29 @@
             </OsfButton>
 
             {{#if this.showText}}
-                <LicenseText @node={{@manager.registration}} />
+                <LicenseText @node={{this.registration}} />
             {{/if}}
 
-            <div local-class='Controls'>
-                <OsfButton
-                    @type='default'
-                    @disabled={{form.disabled}}
-                    @onClick={{action @manager.onCancel}}
-                >
-                    {{t 'general.cancel'}}
-                </OsfButton>
-                <OsfButton
-                    data-analytics-name='Save license'
-                    data-test-save-license
-                    @type='primary'
-                    @buttonType='submit'
-                    @disabled={{form.disabled}}
-                >
-                    {{t 'general.save'}}
-                </OsfButton>
-            </div>
+            {{#if @manager.shouldShowButtons}}
+                <div local-class='Controls'>
+                    <OsfButton
+                        @type='default'
+                        @disabled={{form.disabled}}
+                        @onClick={{action @manager.onCancel}}
+                    >
+                        {{t 'general.cancel'}}
+                    </OsfButton>
+                    <OsfButton
+                        data-analytics-name='Save license'
+                        data-test-save-license
+                        @type='primary'
+                        @buttonType='submit'
+                        @disabled={{form.disabled}}
+                    >
+                        {{t 'general.save'}}
+                    </OsfButton>
+                </div>
+            {{/if}}
         {{/if}}
     </ValidatedModelForm>
 {{/if}}
