@@ -1,0 +1,19 @@
+.List {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.ResponseValue {
+    composes: Element from '../../styles.scss';
+}
+
+.NoResponse {
+    composes: Element from '../../styles.scss';
+
+    font-style: italic;
+}
+
+.ValidationErrors {
+    composes: Element from '../../styles.scss';
+}
