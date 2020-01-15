@@ -7,6 +7,7 @@ import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import { TagsManager } from 'osf-components/components/editable-field/tags-manager/component';
+import { MetadataTagsManager } from 'registries/drafts/draft/-components/tags-manager/component';
 
 import styles from './styles';
 import template from './template';
@@ -14,7 +15,7 @@ import template from './template';
 @layout(template, styles)
 export default class RegistriesTagsWidget extends Component.extend({ styles }) {
     // Required
-    manager!: TagsManager;
+    manager!: TagsManager | MetadataTagsManager;
 
     // Optional
     readOnly?: boolean = defaultTo(this.readOnly, false);

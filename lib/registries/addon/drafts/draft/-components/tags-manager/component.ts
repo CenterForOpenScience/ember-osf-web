@@ -5,11 +5,14 @@ import { ChangesetDef } from 'ember-changeset/types';
 import config from 'ember-get-config';
 import { layout } from 'ember-osf-web/decorators/component';
 import pathJoin from 'ember-osf-web/utils/path-join';
+import { TagsManager } from 'osf-components/components/editable-field/tags-manager/component';
 import template from './template';
 
 const {
     OSF: { url: baseUrl },
 } = config;
+
+export type MetadataTagsManager = Pick<TagsManager, 'addTag' | 'removeTag' | 'clickTag'>;
 
 @tagName('')
 @layout(template)
