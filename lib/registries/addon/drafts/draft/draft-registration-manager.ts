@@ -27,6 +27,7 @@ export default class DraftRegistrationManager {
 
     @alias('onInput.isRunning') autoSaving!: boolean;
     @alias('initializePageManagers.isRunning') initializing!: boolean;
+    @alias('draftRegistration.id') draftId!: string;
     @not('registrationResponsesIsValid') hasInvalidResponses!: boolean;
     @filterBy('pageManagers', 'isVisited', true) visitedPages!: PageManager[];
     @notEmpty('visitedPages') hasVisitedPages!: boolean;

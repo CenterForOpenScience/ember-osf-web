@@ -4,11 +4,9 @@
     </div>
 {{else}}
     {{#let
-        this.model.taskInstance.value.draftRegistration
-        this.model.taskInstance.value.node
         this.model.navigationManager
         this.model.draftRegistrationManager
-        as |draftRegistration node navManager draftManager|
+        as |navManager draftManager|
     }}
         <OsfLayout @backgroundClass={{local-class 'ContentBackground'}} as |layout|>
             <layout.heading local-class='Heading'>
@@ -17,9 +15,9 @@
                         data-analytics-name='Go to project'
                         local-class='BreadCrumb'
                         @route='guid-node'
-                        @models={{array node.id}}
+                        @models={{array draftManager.node.id}}
                     >
-                        {{node.title}} >
+                        {{draftManager.node.title}} >
                     </OsfLink>
                     <h1>
                         {{t 'registries.drafts.draft.form.new_registration'}}
@@ -32,14 +30,12 @@
                     @draftManager={{draftManager}}
                     @navManager={{navManager}}
                     @onSubmitRedirect={{this.onSubmitRedirect}}
-                    @draftRegistration={{draftRegistration}}
-                    @node={{node}}
                 />
             {{/if}}
             <layout.leftNav as |leftNav|>
                 <PageLink
                     @link={{component leftNav.link}}
-                    @draftId={{draftRegistration.id}}
+                    @draftId={{draftManager.draftId}}
                     @pageName='metadata'
                     @route='registries.drafts.draft.metadata'
                     @currentPageName={{navManager.currentRoute}}
@@ -49,7 +45,7 @@
                 {{#each draftManager.pageManagers as |pageManager index|}}
                     <PageLink
                         @link={{component leftNav.link}}
-                        @draftId={{draftRegistration.id}}
+                        @draftId={{draftManager.draftId}}
                         @pageManager={{pageManager}}
                         @route='registries.drafts.draft.page'
                         @pageIndex={{index}}
@@ -59,7 +55,7 @@
                 {{/each}}
                 <PageLink
                     @link={{component leftNav.link}}
-                    @draftId={{draftRegistration.id}}
+                    @draftId={{draftManager.draftId}}
                     @pageName='review'
                     @route='registries.drafts.draft.review'
                     @currentPageName={{navManager.currentRoute}}
@@ -75,9 +71,7 @@
                     <Drafts::Draft::-Components::RightNav
                         @navManager={{navManager}}
                         @draftManager={{draftManager}}
-                        @draftRegistration={{draftRegistration}}
                         @onSubmitRedirect={{this.onSubmitRedirect}}
-                        @node={{node}}
                     />
                 </div>
             </layout.right>

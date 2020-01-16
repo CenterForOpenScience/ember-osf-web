@@ -10,17 +10,15 @@
         class='btn btn-primary'
         @type='button'
         @route='registries.drafts.draft.review'
-        @models={{array @draftRegistration.id}}
+        @models={{array @draftManager.draftId}}
     >
         {{t 'registries.drafts.draft.review.start_review'}}
     </OsfLink>
 {{/if}}
 {{#if @navManager.inReview}}
     <Drafts::Draft::-Components::Register
-        @draftRegistration={{@draftRegistration}}
         @draftManager={{@draftManager}}
         @onSubmitRedirect={{@onSubmitRedirect}}
-        @node={{@node}}
     />
 {{/if}}
 {{#if @navManager.nextPageParam}}
@@ -31,7 +29,7 @@
         class='btn btn-primary'
         @type='button'
         @route='registries.drafts.draft.page'
-        @models={{array @draftRegistration.id @navManager.nextPageParam}}
+        @models={{array @draftManager.draftId @navManager.nextPageParam}}
     >
         {{t 'registries.drafts.draft.form.next'}}
         <FaIcon @icon='arrow-right' @fixedWidth={{true}} />
@@ -45,7 +43,7 @@
         class='btn btn-default'
         @type='button'
         @route='registries.drafts.draft.page'
-        @models={{array @draftRegistration.id @navManager.prevPageParam}}
+        @models={{array @draftManager.draftId @navManager.prevPageParam}}
     >
         <FaIcon @icon='arrow-left' @fixedWidth={{true}} />
         {{t 'registries.drafts.draft.form.back'}}
@@ -59,7 +57,7 @@
         class='btn btn-default'
         @type='button'
         @route='registries.drafts.draft.metadata'
-        @models={{array @draftRegistration.id}}
+        @models={{array @draftManager.draftId}}
     >
         <FaIcon @icon='arrow-left' @fixedWidth={{true}} />
         {{t 'registries.drafts.draft.metadata.page_label'}}
@@ -74,6 +72,6 @@
 <span local-class='SaveMessage'>
     {{t 'registries.drafts.draft.form.last_saved'}}
     <TimeSince
-        @date={{@draftRegistration.datetimeUpdated}}
+        @date={{@draftManager.draftRegistration.datetimeUpdated}}
     />
 </span>

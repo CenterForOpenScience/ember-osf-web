@@ -30,7 +30,7 @@
                     data-analytics-name='Sidenav back to metadata'
                     aria-label={{t 'osf-components.registries-top-nav.metadata'}}
                     @route='registries.drafts.draft.metadata'
-                    @models={{array @draftRegistration.id }}
+                    @models={{array @draftManager.draftId }}
                 >
                     {{t 'registries.drafts.draft.metadata.page_label'}}
                 </nav.links.default>
@@ -41,7 +41,7 @@
                     data-analytics-name='Sidenav back'
                     aria-label={{t 'osf-components.registries-top-nav.previousPage'}}
                     @route='registries.drafts.draft.page'
-                    @models={{array @draftRegistration.id @navManager.prevPageParam}}
+                    @models={{array @draftManager.draftId @navManager.prevPageParam}}
                 >
                     <nav.icon @icon='arrow-left' />
                 </nav.links.default>
@@ -52,7 +52,7 @@
                     data-analytics-name='Sidenav next'
                     aria-label={{t 'osf-components.registries-top-nav.nextPage'}}
                     @route='registries.drafts.draft.page'
-                    @models={{array @draftRegistration.id @navManager.nextPageParam}}
+                    @models={{array @draftManager.draftId @navManager.nextPageParam}}
                     @onClick={{@navManager.currentPageManager.setPageIsVisited}}
                 >
                     <nav.icon @icon='arrow-right' />
@@ -64,17 +64,15 @@
                     data-analytics-name='Sidenav review'
                     aria-label={{t 'osf-components.registries-top-nav.reviewRegistration'}}
                     @route='registries.drafts.draft.review'
-                    @models={{array @draftRegistration.id}}
+                    @models={{array @draftManager.draftId}}
                 >
                     <nav.icon @icon='arrow-right' />
                 </nav.links.default>
             {{/if}}
             {{#if @navManager.inReview}}
                 <Drafts::Draft::-Components::Register
-                    @draftRegistration={{@draftRegistration}}
                     @draftManager={{@draftManager}}
                     @onSubmitRedirect={{action @onSubmitRedirect}}
-                    @node={{@node}}
                     @showMobileView={{true}}
                 />
             {{/if}}
