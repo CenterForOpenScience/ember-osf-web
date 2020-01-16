@@ -120,11 +120,9 @@ export default class DraftRegistrationManager {
     }
 
     @action
-    markCurrentPageVisited(currentPage: number) {
+    markCurrentPageVisited(currentPage?: number) {
         const { pageManagers } = this;
-        const isPageIndex = Number.isInteger(currentPage);
-
-        if (!isEmpty(pageManagers) && isPageIndex) {
+        if (!isEmpty(pageManagers) && typeof currentPage !== 'undefined') {
             pageManagers[currentPage].setPageIsVisited();
         }
     }

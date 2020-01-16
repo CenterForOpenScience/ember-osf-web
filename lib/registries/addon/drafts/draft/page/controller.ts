@@ -25,8 +25,7 @@ export default class RegistriesDraftPage extends Controller {
 
     @action
     updateRoute(headingText: string, page: string, draftId: string, pageIndex: number) {
-        const regex = /^\d+-?$/;
-        const shouldAppendPageSlug = regex.test(page);
+        const shouldAppendPageSlug = /^\d+-?$/.test(page);
         if (page && shouldAppendPageSlug) {
             const pageSlug = getPageParam(pageIndex, headingText);
             this.replaceRoute('drafts.draft.page', draftId, pageSlug);
