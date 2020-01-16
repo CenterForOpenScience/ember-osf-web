@@ -6,14 +6,13 @@ import { inject as service } from '@ember/service';
 import Analytics from 'ember-osf-web/services/analytics';
 import { getPageIndex } from 'ember-osf-web/utils/page-param';
 
-import DraftRegistrationManager, { DraftRegistrationAndNode } from 'registries/drafts/draft/draft-registration-manager';
+import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
 import NavigationManager, { DraftRoute } from 'registries/drafts/draft/navigation-manager';
 import { DraftRouteModel } from '../route';
 
 export interface DraftPageRouteModel {
     draftRegistrationManager: DraftRegistrationManager;
     navigationManager: NavigationManager;
-    taskInstance: DraftRegistrationAndNode;
     pageIndex?: number;
     page: string;
 }
@@ -25,7 +24,6 @@ export default class DraftRegistrationPageRoute extends Route {
         const { page } = params;
         const pageIndex = getPageIndex(page);
         const draftRouteModel = this.modelFor('drafts.draft') as DraftRouteModel;
-        const { taskInstance } = draftRouteModel;
         const { draftRegistrationManager, navigationManager } = draftRouteModel;
 
         assert('pageIndex must be defined on the Page route', typeof pageIndex !== 'undefined');
@@ -34,7 +32,6 @@ export default class DraftRegistrationPageRoute extends Route {
         return {
             draftRegistrationManager,
             navigationManager,
-            taskInstance,
             pageIndex,
             page,
         };

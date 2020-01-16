@@ -15,10 +15,8 @@ export default class RegistriesDraftReview extends Controller {
 
     @alias('model.draftRegistrationManager') draftRegistrationManager?: DraftRegistrationManager;
     @alias('draftRegistrationManager.pageManagers') pageManagers?: PageManager[];
-    @alias('model.taskInstance.value.draftRegistration') draftRegistration?: DraftRegistration;
-    @alias('model.taskInstance.value.node') node?: NodeModel;
-
-    @alias('draftRegistration.id') draftId!: string;
+    @alias('draftRegistrationManager.draftRegistration') draftRegistration?: DraftRegistration;
+    @alias('draftRegistrationManager.node') node?: NodeModel;
 
     @not('draftRegistration') loading!: boolean;
     @not('media.isDesktop') showMobileView!: boolean;

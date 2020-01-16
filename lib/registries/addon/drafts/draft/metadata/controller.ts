@@ -16,10 +16,8 @@ export default class RegistriesDraftMetadata extends Controller {
     model!: DraftRouteModel;
     categoryOptions = Object.keys(NodeCategory);
 
-    @alias('model.taskInstance.value.draftRegistration') draftRegistration?: DraftRegistration;
-    @alias('model.taskInstance.value.node') node?: NodeModel;
-
-    @alias('draftRegistration.id') draftId!: string;
+    @alias('model.draftRegistrationManager.draftRegistration') draftRegistration?: DraftRegistration;
+    @alias('model.draftRegistrationManager.node') node?: NodeModel;
 
     @not('draftRegistration') loading!: boolean;
     @not('media.isDesktop') showMobileView!: boolean;

@@ -18,8 +18,8 @@ export default class RegistriesDraftPage extends Controller {
 
     @alias('model.draftRegistrationManager') draftRegistrationManager!: DraftRegistrationManager;
     @alias('model.navigationManager') navigationManager!: NavigationManager;
-    @alias('model.taskInstance.value.node') node!: NodeModel;
-    @alias('model.taskInstance.value.draftRegistration') draftRegistration!: DraftRegistrationModel;
+    @alias('draftRegistrationManager.node') node!: NodeModel;
+    @alias('draftRegistrationManager.draftRegistration') draftRegistration!: DraftRegistrationModel;
     @alias('model.pageIndex') pageIndex!: number;
     @alias('model.page') page!: string;
 

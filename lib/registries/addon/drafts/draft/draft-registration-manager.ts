@@ -10,14 +10,9 @@ import SchemaBlock from 'ember-osf-web/models/schema-block';
 
 import { getPages, PageManager, RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 
-export type DraftRegistrationAndNode = TaskInstance<{
-    draftRegistration: DraftRegistration,
-    node: NodeModel,
-} | undefined>;
-
 export default class DraftRegistrationManager {
     // Required
-    draftRegistrationAndNodeTask!: DraftRegistrationAndNode;
+    draftRegistrationAndNodeTask!: TaskInstance<{draftRegistration: DraftRegistration, node: NodeModel}>;
 
     // Private
     currentPage!: number;
@@ -32,7 +27,6 @@ export default class DraftRegistrationManager {
     @filterBy('pageManagers', 'isVisited', true) visitedPages!: PageManager[];
     @notEmpty('visitedPages') hasVisitedPages!: boolean;
 
-    taskInstance?: DraftRegistrationAndNode;
     draftRegistration!: DraftRegistration;
     node!: NodeModel;
 
@@ -48,7 +42,7 @@ export default class DraftRegistrationManager {
 
     @task({ on: 'init' })
     initializePageManagers = task(function *(this: DraftRegistrationManager) {
-        const { draftRegistration, node } = yield this.taskInstance as DraftRegistrationAndNode;
+        const { draftRegistration, node } = yield this.draftRegistrationAndNodeTask;
         set(this, 'draftRegistration', draftRegistration);
         set(this, 'node', node);
         const registrationSchema = yield this.draftRegistration.registrationSchema;
@@ -104,8 +98,8 @@ export default class DraftRegistrationManager {
         }
     });
 
-    constructor(taskInstance: DraftRegistrationAndNode) {
-        set(this, 'taskInstance', taskInstance);
+    constructor(draftRegistrationAndNodeTask: TaskInstance<{draftRegistration: DraftRegistration, node: NodeModel}>) {
+        set(this, 'draftRegistrationAndNodeTask', draftRegistrationAndNodeTask);
         this.initializePageManagers.perform();
     }
 
