@@ -1,0 +1,79 @@
+{{assert 'Drafts::Draft::-Components::RightNav requires a draft-registration-manager' @draftManager}}
+{{assert 'Drafts::Draft::-Components::RightNav requires a navigation-manager' @navManager}}
+{{assert 'Drafts::Draft::-Components::RightNav requires a onSubmitRedirect' @onSubmitRedirect}}
+
+{{#if @navManager.isLastPage}}
+    <OsfLink
+        data-test-goto-review
+        data-analytics-name='Go to review'
+        local-class='ReviewButton'
+        class='btn btn-primary'
+        @type='button'
+        @route='registries.drafts.draft.review'
+        @models={{array @draftRegistration.id}}
+    >
+        {{t 'registries.drafts.draft.review.start_review'}}
+    </OsfLink>
+{{/if}}
+{{#if @navManager.inReview}}
+    <Drafts::Draft::-Components::Register
+        @draftRegistration={{@draftRegistration}}
+        @draftManager={{@draftManager}}
+        @onSubmitRedirect={{@onSubmitRedirect}}
+        @node={{@node}}
+    />
+{{/if}}
+{{#if @navManager.nextPageParam}}
+    <OsfLink
+        data-test-goto-next-page
+        data-analytics-name='Go to next page'
+        local-class='NextButton'
+        class='btn btn-primary'
+        @type='button'
+        @route='registries.drafts.draft.page'
+        @models={{array @draftRegistration.id @navManager.nextPageParam}}
+    >
+        {{t 'registries.drafts.draft.form.next'}}
+        <FaIcon @icon='arrow-right' @fixedWidth={{true}} />
+    </OsfLink>
+{{/if}}
+{{#if @navManager.prevPageParam}}
+    <OsfLink
+        data-test-goto-previous-page
+        data-analytics-name='Go to previous page'
+        local-class='BackButton'
+        class='btn btn-default'
+        @type='button'
+        @route='registries.drafts.draft.page'
+        @models={{array @draftRegistration.id @navManager.prevPageParam}}
+    >
+        <FaIcon @icon='arrow-left' @fixedWidth={{true}} />
+        {{t 'registries.drafts.draft.form.back'}}
+    </OsfLink>
+{{/if}}
+{{#if @navManager.isFirstPage}}
+    <OsfLink
+        data-test-goto-metadata
+        data-analytics-name='Back to metadata'
+        local-class='BackButton'
+        class='btn btn-default'
+        @type='button'
+        @route='registries.drafts.draft.metadata'
+        @models={{array @draftRegistration.id}}
+    >
+        <FaIcon @icon='arrow-left' @fixedWidth={{true}} />
+        {{t 'registries.drafts.draft.metadata.page_label'}}
+    </OsfLink>
+{{/if}}
+
+{{#if @draftManager.lastSaveFailed}}
+    <span local-class='SaveFailed'>
+        {{t 'registries.drafts.draft.form.save_failed'}}
+    </span>
+{{/if}}
+<span local-class='SaveMessage'>
+    {{t 'registries.drafts.draft.form.last_saved'}}
+    <TimeSince
+        @date={{@draftRegistration.datetimeUpdated}}
+    />
+</span>

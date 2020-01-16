@@ -1,5 +1,5 @@
 import Controller from '@ember/controller';
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
 import { alias, not } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 
@@ -8,7 +8,6 @@ import Media from 'ember-responsive';
 
 import NodeModel from 'ember-osf-web/models/node';
 import { PageManager } from 'ember-osf-web/packages/registration-schema';
-import { getPrevPageParam } from 'ember-osf-web/utils/page-param';
 import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
 
 export default class RegistriesDraftReview extends Controller {
@@ -23,19 +22,6 @@ export default class RegistriesDraftReview extends Controller {
 
     @not('draftRegistration') loading!: boolean;
     @not('media.isDesktop') showMobileView!: boolean;
-
-    @computed('pageManagers.[]')
-    get lastPageParam() {
-        const { pageManagers } = this;
-        if (pageManagers) {
-            const lastPage = pageManagers.length;
-            const lastPageIndex = lastPage - 1;
-
-            const { pageHeadingText } = pageManagers[lastPageIndex];
-            return getPrevPageParam(lastPage, pageHeadingText!);
-        }
-        return '';
-    }
 
     @action
     markAndValidatedPages() {

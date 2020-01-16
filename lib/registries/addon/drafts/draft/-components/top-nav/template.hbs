@@ -1,3 +1,8 @@
+{{assert 'Drafts::Draft::-Components::TopNav requires a layout' @layout}}
+{{assert 'Drafts::Draft::-Components::TopNav requires a draft-registration-manager' @draftManager}}
+{{assert 'Drafts::Draft::-Components::TopNav requires a navigation-manager' @navManager}}
+{{assert 'Drafts::Draft::-Components::TopNav requires a onSubmitRedirect' @onSubmitRedirect}}
+
 <@layout.top as |layout|>
     <Navbar local-class='SideBarToggle' ...attributes as |nav|>
         <nav.bordered-section>
@@ -19,7 +24,7 @@
             </div>
         </nav.bordered-section>
         <nav.bordered-section>
-            {{#if (eq 0 @pageIndex)}}
+            {{#if @navManager.isFirstPage}}
                 <nav.links.default
                     data-test-goto-metadata
                     data-analytics-name='Sidenav back to metadata'
@@ -53,7 +58,7 @@
                     <nav.icon @icon='arrow-right' />
                 </nav.links.default>
             {{/if}}
-            {{#if (eq @navManager.lastPage @pageIndex)}}
+            {{#if @navManager.isLastPage}}
                 <nav.links.default
                     data-test-goto-review
                     data-analytics-name='Sidenav review'
@@ -64,7 +69,7 @@
                     <nav.icon @icon='arrow-right' />
                 </nav.links.default>
             {{/if}}
-            {{#if @inReview}}
+            {{#if @navManager.inReview}}
                 <Drafts::Draft::-Components::Register
                     @draftRegistration={{@draftRegistration}}
                     @draftManager={{@draftManager}}

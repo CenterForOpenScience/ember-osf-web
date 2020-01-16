@@ -1,3 +1,4 @@
+import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
@@ -27,8 +28,8 @@ export default class DraftRegistrationPageRoute extends Route {
         const { taskInstance } = draftRouteModel;
         const { draftRegistrationManager, navigationManager } = draftRouteModel;
 
-        navigationManager.setCurrentPage(pageIndex as number);
-        navigationManager.setCurrentRoute(DraftRoute.Page);
+        assert('pageIndex must be defined on the Page route', typeof pageIndex !== 'undefined');
+        navigationManager.setPageAndRoute(DraftRoute.Page, pageIndex as number);
 
         return {
             draftRegistrationManager,

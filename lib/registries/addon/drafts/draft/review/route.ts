@@ -14,8 +14,7 @@ export default class DraftRegistrationReview extends Route {
         const draftRouteModel = this.modelFor('drafts.draft') as DraftRouteModel;
         const { navigationManager } = draftRouteModel;
 
-        navigationManager.setCurrentPage();
-        navigationManager.setCurrentRoute(DraftRoute.Review);
+        navigationManager.setPageAndRoute(DraftRoute.Review);
 
         return this.modelFor('drafts.draft') as DraftRouteModel;
     }

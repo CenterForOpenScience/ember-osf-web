@@ -18,8 +18,7 @@ export default class DraftRegistrationMetadataRoute extends Route {
         const draftRouteModel = this.modelFor('drafts.draft') as DraftRouteModel;
         const { navigationManager } = draftRouteModel;
 
-        navigationManager.setCurrentPage();
-        navigationManager.setCurrentRoute(DraftRoute.Metadata);
+        navigationManager.setPageAndRoute(DraftRoute.Metadata);
         return this.modelFor('drafts.draft') as DraftRouteModel;
     }
 
