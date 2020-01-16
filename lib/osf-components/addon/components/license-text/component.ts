@@ -3,6 +3,7 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+// import { ChangesetDef } from 'ember-changeset/types';
 import I18n from 'ember-i18n/services/i18n';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -30,10 +31,8 @@ export default class LicenseText extends Component {
             i18n,
         } = this;
 
-        const {
-            nodeLicense,
-            isAnonymous,
-        } = node;
+        const nodeLicense = node.get('nodeLicense');
+        const isAnonymous = node.get('isAnonymous');
 
         const licenseText = license.get('text') || '';
 
