@@ -6,6 +6,7 @@ import { inject as service } from '@ember/service';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import WindowLocation from 'ember-osf-web/utils/window-location';
 
 import styles from './styles';
 import template from './template';
@@ -19,6 +20,7 @@ export default class BannersViewOnlyLink extends Component {
 
     @action
     stopViewOnly() {
-        this.router.transitionTo('home', { queryParams: { view_only: '' } });
+        const destinationPage = this.router.urlFor('home', { queryParams: { view_only: '' } });
+        WindowLocation.assignLocation(destinationPage);
     }
 }

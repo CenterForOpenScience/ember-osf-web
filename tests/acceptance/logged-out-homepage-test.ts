@@ -1,4 +1,4 @@
-import { currentURL, settled, visit } from '@ember/test-helpers';
+import { currentRouteName, currentURL, settled, visit } from '@ember/test-helpers';
 import a11yAudit from 'ember-a11y-testing/test-support/audit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import Features from 'ember-feature-flags';
@@ -94,6 +94,6 @@ module('Acceptance | logged-out home page test', hooks => {
         await visit('/');
 
         await click('[data-test-get-started-button]');
-        assert.equal(currentURL(), '/register');
+        assert.equal(currentRouteName(), 'register', 'current route is register');
     });
 });

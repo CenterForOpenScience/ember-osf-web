@@ -1,5 +1,6 @@
 import {
     click as untrackedClick,
+    currentRouteName,
     currentURL,
     fillIn,
     settled,
@@ -114,11 +115,13 @@ module('Acceptance | guid file', hooks => {
                 },
             );
             await visit(`/--file/${fileOne.id}`);
-            assert.equal(currentURL(), `/--file/${fileOne.guid}`);
+            assert.equal(currentRouteName(), 'guid-file', 'current route is guid-file');
+            assert.ok(currentURL().includes(`${fileOne.guid}`), 'current URL includes fileOne guid');
             assert.dom('[data-test-file-title-header]').containsText(fileOne.name);
             assert.dom(`[data-test-file-item-link="${fileTwo.name}"]`).exists();
             await click(`[data-test-file-item-link="${fileTwo.name}"]`);
-            assert.equal(currentURL(), `/--file/${fileTwo.guid}`);
+            assert.equal(currentRouteName(), 'guid-file', 'current route is guid-file');
+            assert.ok(currentURL().includes(`${fileTwo.guid}`), 'current URL includes fileTwo guid');
             assert.dom('[data-test-file-title-header]').containsText(fileTwo.name);
         });
 
@@ -310,11 +313,13 @@ module('Acceptance | guid file', hooks => {
                 },
             );
             await visit(`/--file/${fileOne.id}`);
-            assert.equal(currentURL(), `/--file/${fileOne.guid}`);
+            assert.equal(currentRouteName(), 'guid-file', 'current route is guid-file');
+            assert.ok(currentURL().includes(`${fileOne.guid}`), 'current URL includes fileOne guid');
             assert.dom('[data-test-file-title-header]').containsText(fileOne.name);
             assert.dom(`[data-test-file-item-link="${fileTwo.name}"]`).exists();
             await click(`[data-test-file-item-link="${fileTwo.name}"]`);
-            assert.equal(currentURL(), `/--file/${fileTwo.guid}`);
+            assert.equal(currentRouteName(), 'guid-file', 'current route is guid-file');
+            assert.ok(currentURL().includes(`${fileTwo.guid}`), 'current URL includes fileTwo guid');
             assert.dom('[data-test-file-title-header]').containsText(fileTwo.name);
         });
 
