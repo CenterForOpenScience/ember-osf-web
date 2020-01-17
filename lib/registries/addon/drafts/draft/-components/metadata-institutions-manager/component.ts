@@ -28,22 +28,6 @@ export default class MetadataInstitutionsManagerComponent extends Component {
     affiliatedList!: QueryHasManyResult<Institution>;
     currentAffiliatedList!: QueryHasManyResult<Institution>;
 
-    @computed('affiliatedList.[]', 'loadNodeAffiliatedInstitutions.isRunning')
-    get fieldIsEmpty() {
-        if (this.loadNodeAffiliatedInstitutions.isRunning) {
-            return false;
-        }
-        return this.affiliatedList && !this.affiliatedList.length;
-    }
-
-    @computed('node.isRegistration')
-    get emptyFieldText() {
-        if (this.node.get('isRegistration')) {
-            return this.i18n.t('osf-components.institutions-list.no_affiliated_institution.registration');
-        }
-        return this.i18n.t('osf-components.institutions-list.no_affiliated_institution.project');
-    }
-
     @task({ restartable: true, on: 'didReceiveAttrs' })
     loadNodeAffiliatedInstitutions = task(function *(this: MetadataInstitutionsManagerComponent) {
         if (this.node) {
