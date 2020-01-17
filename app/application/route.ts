@@ -28,7 +28,7 @@ export default class ApplicationRoute extends Route.extend(
 
     queryParams = {
         viewOnlyToken: {
-            refreshModel: true,
+            refreshModel: false,
         },
     };
 

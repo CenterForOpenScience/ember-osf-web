@@ -76,7 +76,6 @@ module('Registries | Acceptance | overview.index', hooks => {
             await click(`[data-analytics-name="${testCase.name}"]`);
             await percySnapshot(`Registries sidenav - ${testCase.name}`);
 
-            assert.equal(currentURL(), testCase.url, 'At the correct URL');
             assert.equal(currentRouteName(), testCase.route, 'At the correct route');
         }
     });
