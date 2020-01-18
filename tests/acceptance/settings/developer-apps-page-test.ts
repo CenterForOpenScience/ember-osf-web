@@ -1,4 +1,4 @@
-import { currentURL, fillIn, settled, visit, waitFor } from '@ember/test-helpers';
+import { currentRouteName, currentURL, fillIn, settled, visit, waitFor } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
@@ -83,14 +83,17 @@ module('Acceptance | settings | developer apps', hooks => {
         const input = '[data-test-developer-app-name] input';
         await waitFor(`${input}:enabled`);
 
-        assert.equal(currentURL(), `/settings/applications/${app.id}`);
+        assert.equal(currentRouteName(), 'settings.developer-apps.edit',
+            'current route is settings.developer-apps.edit');
+        assert.ok(currentURL().includes(`${app.id}`), 'current URL includes app id');
 
         assert.dom(input).hasValue(oldName);
         await fillIn(input, newName);
         await percySnapshot(assert);
         await click('[data-test-save-developer-app-button]');
 
-        assert.equal(currentURL(), '/settings/applications');
+        assert.equal(currentRouteName(), 'settings.developer-apps.index',
+            'current route is settings.developer-apps.index');
 
         assert.dom(link).exists({ count: 1 });
         assert.dom(link).containsText(newName);
