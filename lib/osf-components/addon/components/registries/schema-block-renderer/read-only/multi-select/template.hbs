@@ -1,0 +1,35 @@
+{{assert 'schema-block-renderer/read-only/list requires a registrationResponses' @registrationResponses}}
+{{assert 'schema-block-renderer/read-only/list requires a schemaBlock' @schemaBlock}}
+{{assert 'schema-block-renderer/read-only/list requires optionBlocks' @optionBlocks}}
+
+{{#let (get @registrationResponses @schemaBlock.registrationResponseKey) as |selectedOptions|}}
+    {{#if selectedOptions}}
+        <ul
+            data-test-read-only-multi-select={{@schemaBlock.registrationResponseKey}}
+            local-class='List'
+        >
+            {{#each @optionBlocks as |optionBlock|}}
+                {{#if (contains optionBlock.displayText selectedOptions)}}
+                    <li
+                        data-test-read-only-multi-select-value={{optionBlock.displayText}}
+                        local-class='ResponseValue'
+                    >
+                        {{optionBlock.displayText}}
+                    </li>
+                {{/if}}
+            {{/each}}
+        </ul>
+    {{else}}
+        <p
+            data-test-read-only-multi-select-no-response
+            local-class='NoResponse'
+        >
+            {{t 'osf-components.registries.schema-block-renderer/read-only/response.noResponse'}}
+        </p>
+    {{/if}}
+    <ValidationErrors
+        local-class='ValidationErrors'
+        @changeset={{@changeset}}
+        @key={{@schemaBlock.registrationResponseKey}}
+    />
+{{/let}}

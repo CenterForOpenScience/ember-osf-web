@@ -118,10 +118,6 @@ export default class UploadZone extends Component {
 
     @action
     error(_: unknown, __: unknown, file: File & DropzoneFileUpload, response: UploadResponse | string) {
-        if (file.accepted && file.status === 'canceled') {
-            return;
-        }
-
         this.uploading.removeObject(file);
         this.toast.error((typeof response === 'string') ? response : (response.message_long || response.message));
     }

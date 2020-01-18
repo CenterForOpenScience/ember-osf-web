@@ -1,9 +1,16 @@
+.List {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
 .ResponseValue {
     composes: Element from '../../styles.scss';
-    white-space: pre-wrap;
 }
 
 .NoResponse {
+    composes: Element from '../../styles.scss';
+
     font-style: italic;
 }
 
