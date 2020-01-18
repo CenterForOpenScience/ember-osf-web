@@ -33,12 +33,16 @@ export default class ResponsiveDropdown extends Component {
     }
 
     @action
-    closeDropdown(): void {
+    closeDropdown(this: ResponsiveDropdown, onClose?: () => boolean): boolean {
         // Enable scroll in case a modal was used
         const bodyCls = document.querySelector('body')!.classList;
         if (bodyCls.contains('modal-open')) {
             bodyCls.remove('modal-open');
         }
+        if (onClose) {
+            return onClose();
+        }
+        return true;
     }
 
     @action

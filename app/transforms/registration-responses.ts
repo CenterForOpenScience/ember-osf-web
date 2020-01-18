@@ -5,8 +5,15 @@ import { deserializeResponseKey, serializeResponseKey } from './registration-res
 
 const { Transform } = DS;
 
+function isResponse(obj: unknown): obj is Record<string, unknown> {
+    return typeof obj === 'object' && obj !== null && Object.keys(obj).every(key => typeof key === 'string');
+}
+
 export default class RegistrationResponsesTransform extends Transform {
-    deserialize(obj: any) {
+    deserialize(obj: unknown) {
+        if (!isResponse(obj)) {
+            return {};
+        }
         return mapKeysAndValues(
             obj,
             key => deserializeResponseKey(key),
