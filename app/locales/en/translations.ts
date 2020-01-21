@@ -1,5 +1,3 @@
-import config from 'ember-get-config';
-
 /* tslint:disable:object-literal-sort-keys max-line-length */
 export default {
     documentType: {
@@ -1439,7 +1437,7 @@ export default {
                     <li>
                         This project contains links to other projects. These links will be copied into your registration, but the
                         projects that they link to will not be registered. If you wish to register the linked projects, they must be
-                        registered separately. <a href='${config.helpLinks.linkToAProject}' target='_blank' rel='noopener'>Learn more about links</a>.
+                        registered separately. <a href='{{learnMoreLink}}' target='_blank' rel='noopener'>Learn more about links</a>.
                     </li>
                 </ul>`,
             immediateOption: 'Make registration public immediately',
