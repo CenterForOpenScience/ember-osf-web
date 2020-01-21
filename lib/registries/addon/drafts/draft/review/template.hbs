@@ -1,0 +1,25 @@
+{{title (t 'registries.drafts.draft.review.title')}}
+
+{{#let this.draftRegistrationManager as |draftManager|}}
+    {{#if draftManager.initializing}}
+        <LoadingIndicator @dark={{true}} />
+    {{else}}
+        <main
+            {{did-insert this.markAndValidatedPages}}
+        >
+            {{#if (and draftManager.hasInvalidResponses this.showMobileView)}}
+                <div
+                    data-test-invalid-responses-text
+                    local-class='WarningMessage'
+                    class='text-danger'
+                >
+                    {{t 'registries.drafts.draft.review.invalid_warning'}}
+                </div>
+            {{/if}}
+            <Registries::ReviewFormRenderer
+                @draftManager={{draftManager}}
+                @node={{this.node}}
+            />
+        </main>
+    {{/if}}
+{{/let}}

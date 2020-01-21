@@ -5,10 +5,9 @@ import slugify from 'ember-osf-web/utils/slugify';
 *  pageNumber: pageIndex + 1
 */
 
-export const DefaultPage: number = 1;
-
-export function getDefaultParam() {
-    return DefaultPage;
+export function getPageSlug(pageNumber: number, pageHeading?: string) {
+    const slug = pageHeading ? slugify(pageHeading) : '';
+    return slug ? `${pageNumber}-${slug}` : `${pageNumber}`;
 }
 
 export function getPageIndex(pageParam: string): number | undefined {
@@ -20,21 +19,20 @@ export function getPageParam(
     pageIndex: number,
     pageHeading?: string,
 ) {
-    const slug = pageHeading ? slugify(pageHeading) : '';
     const pageNumber = pageIndex + 1;
-    return slug ? `${pageNumber}-${slug}` : `${pageNumber}`;
+    return getPageSlug(pageNumber, pageHeading);
 }
 
 export function getNextPageParam(
     pageIndex: number,
-    pageHeading: string,
+    pageHeading?: string,
 ) {
     return getPageParam(pageIndex + 1, pageHeading);
 }
 
 export function getPrevPageParam(
     pageIndex: number,
-    pageHeading: string,
+    pageHeading?: string,
 ) {
     if (pageIndex === 0) {
         return undefined;

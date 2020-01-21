@@ -22,6 +22,7 @@ export default class PageLinkComponent extends Component {
     // Required
     link!: XLink;
     draftId!: string;
+    route!: string;
 
     // Optional
     pageManager?: PageManager;
@@ -110,6 +111,14 @@ export default class PageLinkComponent extends Component {
     @computed('navMode')
     get isDrawer() {
         return this.navMode === 'drawer';
+    }
+
+    @computed('route')
+    get models() {
+        if (this.route === 'registries.drafts.draft.page') {
+            return [this.draftId, this.page];
+        }
+        return [this.draftId];
     }
 
     didReceiveAttrs() {

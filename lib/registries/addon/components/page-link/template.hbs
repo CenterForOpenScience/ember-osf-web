@@ -2,8 +2,8 @@
     data-analytics-name={{this.pageLabel}}
     data-test-link={{this.page}}
     local-class='{{this.pageClass}}'
-    @route='registries.drafts.draft.page'
-    @models={{array this.draftId this.page}}
+    @route={{this.route}}
+    @models={{this.models}}
     @icon={{this.pageIcon}}
     @label={{this.pageLabel}}
     @isCurrentPage={{this.pageIsActive}}

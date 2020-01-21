@@ -29,6 +29,16 @@ module('Registries | Unit | Route | drafts.draft', hooks => {
         assert.ok(route);
     });
 
+    test('drafts.draft.page exists', function(assert) {
+        const route = this.owner.lookup('route:drafts.draft.page');
+        assert.ok(route);
+    });
+
+    test('drafts.draft.review exists', function(assert) {
+        const route = this.owner.lookup('route:drafts.draft.review');
+        assert.ok(route);
+    });
+
     test('drafts.draft exists', function(assert) {
         const route = this.owner.lookup('route:drafts.draft');
         assert.ok(route);

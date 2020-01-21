@@ -1146,6 +1146,7 @@ export default {
             draft: {
                 metadata: {
                     title: 'Fill Out Basic Registration Info',
+                    page_label: 'Metadata',
                 },
                 form: {
                     title: 'Fill out registration form',
@@ -1721,6 +1722,7 @@ export default {
         },
         'registries-top-nav': {
             showRegistrationNavigation: 'Show registration form navigation',
+            metadata: 'Return to metadata',
             previousPage: 'Previous page',
             nextPage: 'Next page',
             reviewRegistration: 'Review registration',
