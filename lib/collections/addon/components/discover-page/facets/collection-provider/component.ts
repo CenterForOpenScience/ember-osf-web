@@ -1,4 +1,5 @@
 import { computed, setProperties } from '@ember/object';
+import { run } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import config from 'collections/config/environment';
 import { task } from 'ember-concurrency-decorators';
@@ -43,7 +44,7 @@ export default class SearchFacetProvider extends Base {
             this.set('allProviders', [provider]);
 
             this.context.lockedActiveFilter.pushObject(provider);
-            this.context.activeFilter.pushObject(provider);
+            run.schedule('actions', () => this.context.activeFilter.pushObject(provider));
         } else {
             const providers: Provider[] = yield this.store.findAll('collection-provider');
 
