@@ -15,7 +15,7 @@ module.exports = function(/* environment */) {
      * @type {Array?}
      * @default "null"
      */
-        locales: null,
+        locales: ['en-us'],
 
         /**
      * Merges the fallback locale's translations into all other locales as a
@@ -27,7 +27,7 @@ module.exports = function(/* environment */) {
      * @type {String?}
      * @default "null"
      */
-        fallbackLocale: null,
+        fallbackLocale: 'en-us',
 
         /**
      * Path where translations are kept.  This is relative to the project root.
@@ -90,7 +90,7 @@ module.exports = function(/* environment */) {
      * @type {Boolean}
      * @default "false"
      */
-        errorOnMissingTranslations: false,
+        errorOnMissingTranslations: true,
 
         /**
      * removes empty translations from the build output.
