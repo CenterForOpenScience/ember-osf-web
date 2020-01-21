@@ -34,7 +34,7 @@
         <OsfLink
             aria-label={{t 'osf-components.registries.schema-block-renderer/label.editButtonAriaLabel' questionLabel=@schemaBlock.displayText}}
             @route='registries.drafts.draft.page'
-            @models={{array @draftManager.draftRegistration.id @schemaBlock.pageRouteParam}}
+            @models={{array @draftManager.draftId @schemaBlock.pageRouteParam}}
             @fragment={{@schemaBlock.elementId}}
         >
             <FaIcon @icon='edit' />
