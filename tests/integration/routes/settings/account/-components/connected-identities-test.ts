@@ -1,6 +1,6 @@
 import { render } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { t } from 'ember-i18n/test-support';
+import { t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';

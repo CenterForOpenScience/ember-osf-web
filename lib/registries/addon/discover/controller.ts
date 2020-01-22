@@ -5,7 +5,7 @@ import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import QueryParams from 'ember-parachute';
 import { is, OrderedSet } from 'immutable';
 
@@ -147,7 +147,7 @@ const queryParams = {
 export const discoverQueryParams = new QueryParams<DiscoverQueryParams>(queryParams);
 
 export default class Discover extends Controller.extend(discoverQueryParams.Mixin) {
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service analytics!: Analytics;
     @service shareSearch!: ShareSearch;
 
@@ -306,7 +306,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         if (!element) {
             return;
         }
-        scrollTo(getOwner(this.i18n), element);
+        scrollTo(getOwner(this.intl), element);
     }
 
     @action
@@ -320,7 +320,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
 
     @action
     setOrder(value: SearchOrder) {
-        this.analytics.track('dropdown', 'select', `Discover - Sort By: ${this.i18n.t(value.display)}`);
+        this.analytics.track('dropdown', 'select', `Discover - Sort By: ${this.intl.t(value.display)}`);
         // Set page to 1 here to ensure page is always reset when changing the order/sorting of a search
         this.setProperties({ page: 1, sort: value });
     }

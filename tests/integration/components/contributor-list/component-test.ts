@@ -2,7 +2,7 @@ import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
@@ -12,7 +12,7 @@ import { module, test } from 'qunit';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import { click } from 'ember-osf-web/tests/helpers';
 
-const i18nStub = Service.extend({
+const intlStub = Service.extend({
     translations: EmberObject.create({
         list: {
             two_item: {
@@ -36,7 +36,7 @@ const i18nStub = Service.extend({
 });
 
 interface ThisTestContext extends TestContext {
-    i18n: I18N;
+    intl: Intl;
     currentUser: CurrentUser;
 }
 
@@ -45,8 +45,8 @@ module('Integration | Component | contributor-list', hooks => {
     setupMirage(hooks);
 
     hooks.beforeEach(function(this: ThisTestContext) {
-        this.owner.register('service:i18n', i18nStub);
-        this.i18n = this.owner.lookup('service:i18n');
+        this.owner.register('service:intl', intlStub);
+        this.intl = this.owner.lookup('service:intl');
         this.store = this.owner.lookup('service:store');
         this.currentUser = this.owner.lookup('service:current-user');
     });

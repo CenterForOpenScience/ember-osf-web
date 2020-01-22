@@ -7,7 +7,7 @@ import { module, test } from 'qunit';
 
 import hbs from 'htmlbars-inline-precompile';
 
-const i18nStub = Service.extend({
+const intlStub = Service.extend({
     translations: EmberObject.create({
         list: {
             two_item: {
@@ -31,7 +31,7 @@ module('Integration | Component | inline-list', hooks => {
     setupRenderingTest(hooks);
 
     hooks.beforeEach(function(this: TestContext) {
-        this.owner.register('service:i18n', i18nStub);
+        this.owner.register('service:intl', intlStub);
     });
 
     test('it renders without truncate', async function(assert) {

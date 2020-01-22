@@ -1,7 +1,7 @@
 import { triggerEvent } from '@ember/test-helpers';
 import { ModelInstance } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { t } from 'ember-i18n/test-support';
+import { t } from 'ember-intl/test-support';
 import moment from 'moment';
 import { module, test } from 'qunit';
 

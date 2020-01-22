@@ -2,8 +2,6 @@ import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import DS from 'ember-data';
 
-import translations from 'ember-osf-web/locales/en/translations';
-
 import { RelatedLinkMeta } from 'osf-api';
 
 import PreprintModel from './preprint';
@@ -11,9 +9,42 @@ import ProviderModel from './provider';
 
 const { attr, hasMany } = DS;
 
-export type DocumentTypes = keyof typeof translations.documentType;
+const documentType = {
+    default: {
+        plural: 'documents',
+        pluralCapitalized: 'Documents',
+        singular: 'document',
+        singularCapitalized: 'Document',
+    },
+    work: {
+        plural: 'works',
+        pluralCapitalized: 'Works',
+        singular: 'work',
+        singularCapitalized: 'Work',
+    },
+    paper: {
+        plural: 'papers',
+        pluralCapitalized: 'Papers',
+        singular: 'paper',
+        singularCapitalized: 'Paper',
+    },
+    preprint: {
+        plural: 'preprints',
+        pluralCapitalized: 'Preprints',
+        singular: 'preprint',
+        singularCapitalized: 'Preprint',
+    },
+    thesis: {
+        plural: 'theses',
+        pluralCapitalized: 'Theses',
+        singular: 'thesis',
+        singularCapitalized: 'Thesis',
+    },
+};
 
-export type PreprintDocumentType = typeof translations.documentType[DocumentTypes];
+export type DocumentTypes = keyof typeof documentType;
+
+export type PreprintDocumentType = typeof documentType[DocumentTypes];
 
 export default class PreprintProviderModel extends ProviderModel {
     @attr('array') subjectsAcceptable!: string[];
@@ -39,8 +70,8 @@ export default class PreprintProviderModel extends ProviderModel {
 
     @computed('preprintWord')
     get documentType(): PreprintDocumentType {
-        // TODO: make this actually i18n once we swicth to ember-intl
-        return translations.documentType[this.preprintWord];
+        // TODO: make this actually intl once we swicth to ember-intl
+        return documentType[this.preprintWord];
     }
 }
 

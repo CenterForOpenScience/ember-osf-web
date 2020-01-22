@@ -18,7 +18,6 @@ const {
     BACKEND: backend = 'local',
     CAS_URL: casUrl = 'http://192.168.168.167:8080',
     CLIENT_ID: clientId,
-    ENABLED_LOCALES = 'en, en-US',
     COLLECTIONS_ENABLED = false,
     REGISTRIES_ENABLED = true,
     HANDBOOK_ENABLED = false,
@@ -97,10 +96,6 @@ module.exports = function(environment) {
         APP: {
             // Here you can pass flags/options to your application instance
             // when it is created
-        },
-        i18n: {
-            defaultLocale: 'en-US',
-            enabledLocales: ENABLED_LOCALES.split(/[, ]+/),
         },
         moment: {
             includeTimezone: 'all',

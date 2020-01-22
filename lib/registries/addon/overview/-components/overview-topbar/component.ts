@@ -5,7 +5,7 @@ import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import config from 'ember-get-config';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -23,7 +23,7 @@ const { OSF: { url: baseURL } } = config;
 export default class OverviewTopbar extends Component {
     @service store!: DS.Store;
     @service toast!: Toast;
-    @service i18n!: I18N;
+    @service intl!: Intl;
 
     registration!: RegistrationModel;
 
@@ -39,11 +39,11 @@ export default class OverviewTopbar extends Component {
         try {
             yield this.registration.makeFork();
             this.toast.success(
-                this.i18n.t('registries.overview.fork.success'),
-                this.i18n.t('registries.overview.fork.success_title'),
+                this.intl.t('registries.overview.fork.success'),
+                this.intl.t('registries.overview.fork.success_title'),
             );
         } catch (e) {
-            this.toast.error(this.i18n.t('registries.overview.fork.error'));
+            this.toast.error(this.intl.t('registries.overview.fork.error'));
             throw e;
         } finally {
             closeDropdown();
@@ -73,11 +73,11 @@ export default class OverviewTopbar extends Component {
                 );
             }
         } catch (e) {
-            this.toast.error(this.i18n.t(`registries.overview.bookmark.${op}.error`));
+            this.toast.error(this.intl.t(`registries.overview.bookmark.${op}.error`));
             throw e;
         }
 
-        this.toast.success(this.i18n.t(`registries.overview.bookmark.${op}.success`));
+        this.toast.success(this.intl.t(`registries.overview.bookmark.${op}.success`));
 
         this.toggleProperty('isBookmarked');
     });

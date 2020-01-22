@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -11,7 +11,7 @@ import template from './template';
 
 @layout(template)
 export default class RegistrationIsEmbargoed extends Component {
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service toast!: Toast;
 
     @task({ drop: true })
@@ -25,10 +25,10 @@ export default class RegistrationIsEmbargoed extends Component {
         try {
             yield this.registration.save();
         } catch (e) {
-            this.toast.error(this.i18n.t('registries.overview.embargoed.action_error'));
+            this.toast.error(this.intl.t('registries.overview.embargoed.action_error'));
         }
 
-        this.toast.success(this.i18n.t('registries.overview.embargoed.action_success'));
+        this.toast.success(this.intl.t('registries.overview.embargoed.action_success'));
 
         this.close();
     });

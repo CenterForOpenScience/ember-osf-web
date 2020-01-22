@@ -5,7 +5,7 @@ import { underscore } from '@ember/string';
 import { timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
@@ -33,7 +33,7 @@ enum Section {
 export default class Submit extends Component {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service store!: DS.Store;
     @service theme!: Theme;
     @service toast!: Toast;
@@ -49,7 +49,7 @@ export default class Submit extends Component {
     activeSection!: Section;
     savedSections!: Section[];
     showCancelDialog: boolean = false;
-    i18nKeyPrefix = 'collections.collections_submission.';
+    intlKeyPrefix = 'collections.collections_submission.';
     showSubmitModal: boolean = false;
 
     @task({ drop: true })
@@ -82,7 +82,7 @@ export default class Submit extends Component {
 
             this.collectionItem.set('collectable', false);
 
-            this.toast.success(this.i18n.t(`${this.i18nKeyPrefix}${operation}_save_success`, {
+            this.toast.success(this.intl.t(`${this.intlKeyPrefix}${operation}_save_success`, {
                 title: this.collectionItem.title,
             }));
 
@@ -91,7 +91,7 @@ export default class Submit extends Component {
             // TODO: external-link-to / waffle for project main page
             window.location.href = getHref(this.collectionItem.links.html!);
         } catch (e) {
-            this.toast.error(this.i18n.t(`${this.i18nKeyPrefix}${operation}_save_error`, {
+            this.toast.error(this.intl.t(`${this.intlKeyPrefix}${operation}_save_error`, {
                 title: this.collectionItem.title,
                 error: e.errors[0].detail,
             }));

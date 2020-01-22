@@ -1,7 +1,6 @@
 /* jshint node:true */
 
-module.exports = function(/* environment */) {
-    return {
+module.exports = () => ({
     /**
      * The locales that the application needs to support.
      *
@@ -15,9 +14,9 @@ module.exports = function(/* environment */) {
      * @type {Array?}
      * @default "null"
      */
-        locales: ['en-us'],
+    locales: ['en-us'],
 
-        /**
+    /**
      * Merges the fallback locale's translations into all other locales as a
      * build-time fallback strategy.
      *
@@ -27,38 +26,36 @@ module.exports = function(/* environment */) {
      * @type {String?}
      * @default "null"
      */
-        fallbackLocale: 'en-us',
+    fallbackLocale: 'en-us',
 
-        /**
+    /**
      * Path where translations are kept.  This is relative to the project root.
-     * For example, if your translations are an npm dependency, set this to:
-     *`'./node_modules/path/to/translations'`
      *
      * @property inputPath
      * @type {String}
      * @default "'translations'"
      */
-        inputPath: 'translations',
+    inputPath: 'translations',
 
-        /**
+    /**
      * Automatically inject the Intl.JS polyfill into index.html
      *
      * @property autoPolyfill
      * @type {Boolean}
      * @default "false"
      */
-        autoPolyfill: false,
+    autoPolyfill: false,
 
-        /**
+    /**
      * Prevents the polyfill from being bundled in the asset folder of the build
      *
      * @property disablePolyfill
      * @type {Boolean}
      * @default "false"
      */
-        disablePolyfill: false,
+    disablePolyfill: false,
 
-        /**
+    /**
      * Prevents the translations from being bundled with the application code.
      * This enables asynchronously loading the translations for the active locale
      * by fetching them from the asset folder of the build.
@@ -69,18 +66,18 @@ module.exports = function(/* environment */) {
      * @type {Boolean}
      * @default "false"
      */
-        publicOnly: false,
+    publicOnly: false,
 
-        /**
+    /**
      * Cause a build error if ICU argument mismatches are detected.
      *
      * @property errorOnNamedArgumentMismatch
      * @type {Boolean}
      * @default "false"
      */
-        errorOnNamedArgumentMismatch: false,
+    errorOnNamedArgumentMismatch: false,
 
-        /**
+    /**
      * Cause a build error if missing translations are detected.
      *
      * See https://ember-intl.github.io/ember-intl/docs/guide/
@@ -90,27 +87,27 @@ module.exports = function(/* environment */) {
      * @type {Boolean}
      * @default "false"
      */
-        errorOnMissingTranslations: true,
+    errorOnMissingTranslations: true,
 
-        /**
+    /**
      * removes empty translations from the build output.
      *
      * @property stripEmptyTranslations
      * @type {Boolean}
      * @default false
      */
-        stripEmptyTranslations: false,
+    stripEmptyTranslations: false,
 
-        /**
+    /**
      * Add the subdirectories of the translations as a namespace for all keys.
      *
      * @property wrapTranslationsWithNamespace
      * @type {Boolean}
      * @default false
      */
-        wrapTranslationsWithNamespace: false,
+    wrapTranslationsWithNamespace: false,
 
-        /**
+    /**
      * Filter missing translations to ignore expected missing translations.
      *
      * See https://ember-intl.github.io/ember-intl/docs/guide/missing-translations#requiring-translations
@@ -119,8 +116,7 @@ module.exports = function(/* environment */) {
      * @type {Function}
      * @default "function(key,locale){return true}"
      */
-        requiresTranslation(/* key, locale */) {
-            return true;
-        },
-    };
-};
+    requiresTranslation(/* key, locale */) {
+        return true;
+    },
+});

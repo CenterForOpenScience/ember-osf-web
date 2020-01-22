@@ -39,10 +39,6 @@ declare const config: {
         };
     };
     APP: {};
-    i18n: {
-        defaultLocale: string;
-        enabledLocales: string[];
-    };
     moment: {
         includeTimezone: string;
         outputFormat: string;

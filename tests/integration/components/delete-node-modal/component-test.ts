@@ -1,5 +1,5 @@
 import { render } from '@ember/test-helpers';
-import { t } from 'ember-i18n/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';

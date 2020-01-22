@@ -6,7 +6,7 @@ import { inject as service } from '@ember/service';
 import { timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Node from 'ember-osf-web/models/node';
@@ -45,7 +45,7 @@ export enum ProjectSelectState {
 @layout(template, styles)
 export default class ProjectSelector extends Component {
     @service currentUser!: CurrentUser;
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service store!: DS.Store;
     @service analytics!: Analytics;
 
