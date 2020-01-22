@@ -3,20 +3,21 @@
     @horizontalPosition={{this.horizontalPosition}}
     @calculatePosition={{action this.calculatePosition}}
     @disabled={{@disabled}}
-    @onClose={{action this.closeDropdown}}
+    @onClose={{action this.closeDropdown @onClose}}
     @renderInPlace={{this.shouldRenderInPlace}}
     @initiallyOpened={{@initiallyOpened}}
     as |dd|
 >
-
     {{yield (hash
         trigger=(component dd.trigger class=(local-class 'Trigger'))
         isOpen=dd.isOpen
+        uniqueId=dd.uniqueId
+        open=(action dd.actions.open)
         close=(action dd.actions.close)
+        toggle=(action dd.actions.toggle)
         content=(component dd.content
             overlay=this.useOverlay
             defaultClass=(local-class (if this.useOverlay 'reg-modal-dialog'))
-        ))
-    }}
-
+        )
+    )}}
 </BasicDropdown>

@@ -24,6 +24,11 @@ interface FileResource extends Resource {
     id: string;
 }
 
+interface DropzoneFileUpload {
+    status: string;
+    accepted: boolean;
+}
+
 /* eslint-disable camelcase */
 interface UploadResponse {
     message: string;
@@ -109,9 +114,9 @@ export default class UploadZone extends Component.extend({
     }
 
     @action
-    error(_: unknown, __: unknown, file: File, response: UploadResponse) {
+    error(_: unknown, __: unknown, file: File & DropzoneFileUpload, response: UploadResponse | string) {
         this.uploading.removeObject(file);
-        this.toast.error(response.message_long || response.message);
+        this.toast.error((typeof response === 'string') ? response : (response.message_long || response.message));
     }
 
     @action

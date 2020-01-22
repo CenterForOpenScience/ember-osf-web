@@ -1,6 +1,6 @@
 {
   "name": "ember-osf-web",
-  "version": "19.11.0",
+  "version": "20.1.0",
   "description": "Ember front-end for the Open Science Framework",
   "license": "Apache-2.0",
   "author": "Center for Open Science <support@cos.io>",
@@ -13,8 +13,8 @@
     "build": "ember build",
     "start": "ember server",
     "lint": "eslint --ext js,ts --max-warnings=0 . && tslint -p . && stylelint 'app/**/*.scss' 'lib/**/*.scss'",
-    "test": "ember test",
-    "test:cover": "COVERAGE=true ember test",
+    "test": "EMBER_ENV=test ember test",
+    "test:cover": "EMBER_ENV=test COVERAGE=true ember test",
     "test:config": "mocha node-tests/config-test.js",
     "test:translations": "mocha node-tests/translations-test.js",
     "test:blueprints": "mocha node-tests/blueprints",
@@ -225,5 +225,9 @@
       "lib/osf-components",
       "lib/registries"
     ]
+  },
+  "volta": {
+    "node": "10.18.0",
+    "yarn": "1.21.1"
   }
 }

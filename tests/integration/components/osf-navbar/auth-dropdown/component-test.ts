@@ -32,7 +32,7 @@ module('Integration | Component | osf-navbar/auth-dropdown', hooks => {
         this.owner.register('service:router', OsfLinkRouterStub);
     });
 
-    test('login called', async function(assert) {
+    test('auth-dropdown: login called', async function(assert) {
         this.owner.register('service:currentUser', Service.extend({
             loginCalled: false,
             login() {
