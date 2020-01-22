@@ -4,7 +4,7 @@ import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
-const i18nStub = Service.extend({
+const intlStub = Service.extend({
     t(key: string): string {
         if (key === 'general.ellipsis') {
             return '...';
@@ -18,16 +18,16 @@ module('Integration | Helper | clip', hooks => {
     setupEngineRenderingTest(hooks, 'registries');
 
     test('it renders', async function(assert) {
-        this.owner.register('service:i18n', i18nStub);
+        this.owner.register('service:intl', intlStub);
 
-        const i18n = this.owner.lookup('service:i18n');
+        const intl = this.owner.lookup('service:intl');
 
         const cases = [{
             text: 'A'.repeat(200),
             expected: 'A'.repeat(200),
         }, {
             text: 'A'.repeat(201),
-            expected: `${'A'.repeat(197)}${i18n.t('general.ellipsis')}`,
+            expected: `${'A'.repeat(197)}${intl.t('general.ellipsis')}`,
         }];
 
         for (const testCase of cases) {

@@ -5,7 +5,7 @@ import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Contributor from 'ember-osf-web/models/contributor';
@@ -28,7 +28,7 @@ export default class ContributorList extends Component {
     shouldLinkUsers: boolean = defaultTo(this.shouldLinkUsers, false);
 
     // Private properties
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service store!: DS.Store;
     @service ready!: Ready;
 

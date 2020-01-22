@@ -5,7 +5,7 @@ import { inject as service } from '@ember/service';
 import Cookies from 'ember-cookies/services/cookies';
 import DS from 'ember-data';
 import config from 'ember-get-config';
-import I18n from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import moment, { Moment } from 'moment';
 
 import Node from 'ember-osf-web/models/node';
@@ -27,7 +27,7 @@ interface DateRange {
 
 export default class ApplicationController extends Controller {
     @service cookies!: Cookies;
-    @service i18n!: I18n;
+    @service intl!: Intl;
     @service analytics!: AnalyticsService;
     @service store!: DS.Store;
 

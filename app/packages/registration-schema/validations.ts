@@ -1,13 +1,12 @@
 import { assert } from '@ember/debug';
 import { ValidationObject, ValidatorFunction } from 'ember-changeset-validations';
 import { validatePresence } from 'ember-changeset-validations/validators';
-import translations from 'ember-osf-web/locales/en/translations';
 import NodeModel from 'ember-osf-web/models/node';
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 import { SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema/schema-block-group';
 import { validateFileList } from 'ember-osf-web/validators/validate-response-format';
 
-// TODO: find a way to use i18n to translate error messages
+// TODO: find a way to use intl to translate error messages
 
 export function buildValidation(groups: SchemaBlockGroup[], node?: NodeModel) {
     const ret: ValidationObject<RegistrationResponse> = {};
@@ -18,7 +17,7 @@ export function buildValidation(groups: SchemaBlockGroup[], node?: NodeModel) {
             const responseKey = group.registrationResponseKey;
             assert(`no response key for group ${group.schemaBlockGroupKey}`, Boolean(responseKey));
             const { inputBlock } = group;
-            let requiredMessage = translations.validationErrors.blank;
+            let requiredMessage = 'validationErrors.blank';
             switch (group.groupType) {
             case 'contributors-input':
                 // No validation for contributors input.
@@ -28,16 +27,16 @@ export function buildValidation(groups: SchemaBlockGroup[], node?: NodeModel) {
             case 'long-text-input':
                 break;
             case 'file-input':
-                requiredMessage = translations.validationErrors.mustSelectFileMinOne;
+                requiredMessage = 'validationErrors.mustSelectFileMinOne';
                 validationForResponse.push(
                     validateFileList(node),
                 );
                 break;
             case 'single-select-input':
-                requiredMessage = translations.validationErrors.mustSelect;
+                requiredMessage = 'validationErrors.mustSelect';
                 break;
             case 'multi-select-input':
-                requiredMessage = translations.validationErrors.mustSelectMinOne;
+                requiredMessage = 'validationErrors.mustSelectMinOne';
                 break;
             default:
                 break;

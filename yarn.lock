@@ -1812,6 +1812,24 @@
     mkdirp "^0.5.1"
     serialize-javascript "^1.3.0"
 
+"@ember-intl/cp-validations@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@ember-intl/cp-validations/-/cp-validations-4.0.1.tgz#da798be3fe5f77dae4d926c49b22bc9cc4fb2d38"
+  integrity sha512-zF8Znw88yE/T2XlyvCSFmXH1Cijmp6lHyFXiTv9BoSIcwF6SCW7VifIQe5qDGSNnQtSxp1S2I6hmX1KONsUN8g==
+  dependencies:
+    ember-cli-babel "^6.7.1"
+    ember-getowner-polyfill "^2.0.1"
+
+"@ember-intl/decorators@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@ember-intl/decorators/-/decorators-1.0.0.tgz#60ba75bc2618b60f0eade46db55cacd5b3b0afea"
+  integrity sha512-JJwQBQJEX64qOIit/r+aFZOMOJU8m1kD0f0A8o3w2mnq6vMY/E4dTdZ/LheZCyGF0TWopDzo7wAL/KuBxUhmiQ==
+  dependencies:
+    "@ember-decorators/utils" "^6.0.0"
+    ember-cli-babel "^7.5.0"
+    ember-cli-typescript "^2.0.1"
+    ember-intl "^4.0.0-beta.8"
+
 "@ember-intl/formatjs-extract-cldr-data@~6.1.0":
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/@ember-intl/formatjs-extract-cldr-data/-/formatjs-extract-cldr-data-6.1.0.tgz#6317a44df2405b69417d152116be3b8213433db6"
@@ -8538,7 +8556,7 @@ ember-cli-typescript-blueprints@^3.0.0:
     inflection "^1.12.0"
     silent-error "^1.1.0"
 
-ember-cli-typescript@^2.0.0, ember-cli-typescript@^2.0.2:
+ember-cli-typescript@^2.0.0, ember-cli-typescript@^2.0.1, ember-cli-typescript@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/ember-cli-typescript/-/ember-cli-typescript-2.0.2.tgz#464984131fbdc05655eb61d1c3cdd911d3137f0d"
   integrity sha512-7I5azCTxOgRDN8aSSnJZIKSqr+MGnT+jLTUbBYqF8wu6ojs2DUnTePxUcQMcvNh3Q3B1ySv7Q/uZFSjdU9gSjA==
@@ -9164,30 +9182,6 @@ ember-hash-helper-polyfill@^0.2.0:
     ember-cli-babel "^6.8.2"
     ember-router-service-polyfill "^1.0.2"
 
-ember-i18n-cp-validations@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/ember-i18n-cp-validations/-/ember-i18n-cp-validations-3.1.0.tgz#e66c4b032e6546b3358f4a48690a3e503a411965"
-  integrity sha512-wXgEV7NRCtRUr/jqVVezPpFNIzmnz+XGYC15ZcBzprOkeViftXiJsG4ClXH9TtX4j1wsPCqXyGEYsuAoe0f1nw==
-  dependencies:
-    ember-cli-babel "^6.6.0"
-
-ember-i18n-inject@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/ember-i18n-inject/-/ember-i18n-inject-1.0.0.tgz#1df47e1148e8bd43634f95e845bc0e04f88b22a4"
-  integrity sha512-HTgmI0WBXMdsDjEEh5qfVXW/cFc1voRztMbuEjudMcKZ9ZBeZA4/vpx3D7JENkOBDHpvafRIp1OjR+A1F/DzcQ==
-  dependencies:
-    ember-cli-babel "^6.6.0"
-
-ember-i18n@^5.0.2:
-  version "5.3.1"
-  resolved "https://registry.yarnpkg.com/ember-i18n/-/ember-i18n-5.3.1.tgz#32d0628a5a230918ebc57acc9c008b0ee680503d"
-  integrity sha512-tZRYwhkLGcbWa7TK2Axa2e3+2c3UiJ1gl60f5/TJ7ffz9njGGzOTi3acDIhkh8oeKX07emJtL0XPJk2SBX2pJA==
-  dependencies:
-    broccoli-funnel "^2.0.1"
-    ember-cli-babel "^6.11.0"
-    ember-cli-version-checker "^2.1.0"
-    ember-getowner-polyfill "^2.2.0"
-
 ember-ignore-children-helper@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/ember-ignore-children-helper/-/ember-ignore-children-helper-1.0.1.tgz#f7c4aa17afb9c5685e1d4dcdb61c7b138ca7cdc3"
@@ -9226,7 +9220,7 @@ ember-inflector@^3.0.1:
   dependencies:
     ember-cli-babel "^6.6.0"
 
-ember-intl@^4.2.2:
+ember-intl@^4.0.0-beta.8, ember-intl@^4.2.2:
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/ember-intl/-/ember-intl-4.2.2.tgz#6ad2dc136a1b48a168a1ff6c8dc4b9d1737cdfef"
   integrity sha512-5G6BYC69R02TmDohas5J1avtivATMyr3xi93I283ovYHcgE0q9wJ+6PYqOBZrLsz4waEEzcBVbgjcUXyeZmziw==

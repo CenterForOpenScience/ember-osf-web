@@ -9,7 +9,7 @@
                 ...attributes
             >
                 {{#each (flatten errors.validation) as |error|}}
-                    <p>{{~error~}}</p>
+                    <p>{{~t error~}}</p>
                 {{/each}}
             </div>
         {{/if}}

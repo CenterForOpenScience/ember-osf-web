@@ -1,6 +1,6 @@
-import Intl from '@ember-intl/services/intl';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import Intl from 'ember-intl/services/intl';
 
 import checkAuth from 'ember-osf-web/decorators/check-auth';
 import CurrentUser from 'ember-osf-web/services/current-user';

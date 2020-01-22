@@ -4,7 +4,7 @@ import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { allSettled } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import NodeModel from 'ember-osf-web/models/node';
@@ -16,7 +16,7 @@ import template from './template';
 @tagName('')
 @layout(template, styles)
 export default class AncestryDisplay extends Component {
-    @service i18n!: I18N;
+    @service intl!: Intl;
 
     // Required arguments
     node!: NodeModel;
@@ -58,7 +58,7 @@ export default class AncestryDisplay extends Component {
         if (ancestors.length > 1) {
             const parent = results[1].value;
             if (parent && parent.belongsTo('parent').id() !== rootId) {
-                ancestors.insertAt(1, { id: '', title: this.i18n.t('general.ellipsis') });
+                ancestors.insertAt(1, { id: '', title: this.intl.t('general.ellipsis') });
             }
         }
         return ancestors;
