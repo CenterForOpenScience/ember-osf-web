@@ -6,6 +6,67 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [20.1.0] - 2020-01-21
+### Added
+- Components
+    - `registries/schema-block-renderer/read-only/multi-select`
+    - `registries/registration-form-navigation-dropdown`
+    - `registries/overview-form-renderer`
+
+### Fixed
+- Transforms
+    - registration-responses
+        - handle case where registration_responses is null
+- Componenets
+    - `registries/schema-block-renderer/read-only/mapper`
+        - use `registries/schema-block-renderer/read-only/multi-select`
+    - `registries/draft-registration-manager`
+        - use set to set registration responses
+    - `registries/schema-block-renderer/read-only/response`
+        - preserve whitespace formatting in read-only response
+    - `files/menu`
+        - use responsive-dropdown without trigger div
+        - prevent outside click from interrupting upload
+    - `files/upload-zone`
+        - do not show toast error for ongoing "canceled" uploads
+    - `registries/schema-block-renderer/label/label-content`
+        - add links to questions for review page
+- Engines
+    - `registries`
+        - Components
+            - `registries-metadata`
+                - make contributors a link only for users with read access
+
+### Changed
+- Models
+    - `registration`
+        - apply `registration-responses` transform to `registrationResponses`
+- Serializers
+    - `registration`
+        - normalize `registration_responses`
+- Components
+    - `registries/review-form-renderer`
+        - invoke `Registries::RegistrationFormNavigationDropdown`
+    - `registries/schema-block-renderer/label/label-content`
+        - only render link to question when `@draftManager` is provided
+    - `registries/schema-block-renderer/read-only/files`
+        - only attempt to show validation when `@changeset` is provided
+- Routes
+    - `developer-apps`
+        - Components
+            - `client-secret`
+                - PATCH to API when resetting client secret for developer app
+- Engines
+    - `registries`
+        - Routes
+            - `overview/index`
+                - invoke `Registries::OverviewFormRenderer` instead of `RegistrationFormView`
+- Tests
+    - add percy snapshots for osf-navbar and registries-navbar
+- DX
+    - use Node 10 and pin with Volta
+    - set EMBER_ENV=test when running tests
+
 ## [19.11.0] - 2019-12-16
 ### Added
 - Components
@@ -1496,7 +1557,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/19.11.0...develop
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/20.1.0...develop
+[20.1.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.1.0
 [19.11.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.11.0
 [19.10.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.10.0
 [19.9.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.9.0
