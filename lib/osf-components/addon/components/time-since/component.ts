@@ -11,8 +11,15 @@ import template from './template';
 const interval = 30000; // every 30 seconds
 
 @layout(template)
-export default class TimeSince extends Component.extend({
-    calculateRelativeTime: task(function *(this: TimeSince) {
+export default class TimeSince extends Component {
+    // required arguments
+    date!: Date;
+
+    // Private properties
+    displayTime?: string;
+
+    @task({ restartable: true, on: 'didReceiveAttrs' })
+    calculateRelativeTime = task(function *(this: TimeSince) {
         assert('RelativeTime @date is required', Boolean(this.date));
         if (Ember.testing) {
             return;
@@ -21,11 +28,5 @@ export default class TimeSince extends Component.extend({
             this.set('displayTime', formattedTimeSince(this.date));
             yield timeout(interval);
         }
-    }).on('didReceiveAttrs').restartable(),
-}) {
-    // required arguments
-    date!: Date;
-
-    // Private properties
-    displayTime?: string;
+    });
 }
