@@ -1,10 +1,11 @@
 import { classNames } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
 import Component from '@ember/component';
+import { action, computed } from '@ember/object';
 import { next } from '@ember/runloop';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import defaultTo from 'ember-osf-web/utils/default-to';
+
 import styles from './styles';
 import template from './template';
 
@@ -38,12 +39,12 @@ export default class FileEditor extends Component {
     }
 
     @action
-    valueUpdated(this: FileEditor, newValue: string): void {
+    valueUpdated(newValue: string): void {
         this.set('unsavedText', newValue);
     }
 
     @action
-    revertText(this: FileEditor): void {
+    revertText(): void {
         const { fileText } = this;
         this.set('fileText', '');
         // Restore original text in next tick of the run loop to trigger re-render of ember-ace

@@ -1,12 +1,13 @@
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import Cookies from 'ember-cookies/services/cookies';
 import config from 'ember-get-config';
 import Session from 'ember-simple-auth/services/session';
 import moment from 'moment';
 
 import { layout } from 'ember-osf-web/decorators/component';
+
 import styles from './styles';
 import template from './template';
 
@@ -26,7 +27,7 @@ export default class CookieBanner extends Component {
     showBanner = !this.session.isAuthenticated && !this.cookies.exists(consentCookie);
 
     @action
-    accept(this: CookieBanner) {
+    accept() {
         this.cookies.write(consentCookie, 1, {
             expires: moment().add(10, 'years').toDate(),
             path: '/',

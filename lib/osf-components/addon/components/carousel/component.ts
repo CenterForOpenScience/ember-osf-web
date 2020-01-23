@@ -1,6 +1,6 @@
 import { tagName } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
 import Component from '@ember/component';
+import { action, computed } from '@ember/object';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import CarouselItem from 'osf-components/components/carousel/x-item/component';

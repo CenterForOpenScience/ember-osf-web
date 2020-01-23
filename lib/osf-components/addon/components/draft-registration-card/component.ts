@@ -1,8 +1,8 @@
 import { tagName } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { action, computed } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
+import { inject as service } from '@ember/service';
 import { htmlSafe } from '@ember/string';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -107,17 +107,17 @@ export default class DraftRegistrationCard extends Component {
     }
 
     @action
-    delete(this: DraftRegistrationCard) {
+    delete() {
         this.set('deleteModalOpen', true);
     }
 
     @action
-    cancelDelete(this: DraftRegistrationCard) {
+    cancelDelete() {
         this.set('deleteModalOpen', false);
     }
 
     @action
-    async confirmDelete(this: DraftRegistrationCard) {
+    async confirmDelete() {
         this.set('deleteModalOpen', false);
         await this.draftRegistration.destroyRecord();
         if (this.onDelete) {

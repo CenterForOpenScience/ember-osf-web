@@ -1,7 +1,7 @@
-import { computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
+import { computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import ConfirmationMixin from 'ember-onbeforeunload/mixins/confirmation';
 
 import User from 'ember-osf-web/models/user';

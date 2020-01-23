@@ -1,9 +1,9 @@
 import { tagName } from '@ember-decorators/component';
-import { action } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { task } from 'ember-concurrency';
+import { action } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency-decorators';
 import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
@@ -13,17 +13,27 @@ import UserSettingModel from 'ember-osf-web/models/user-setting';
 import CurrentUser from 'ember-osf-web/services/current-user';
 
 @tagName('')
-export default class DeactivationPane extends Component.extend({
-    loadSettings: task(function *(this: DeactivationPane) {
+export default class DeactivationPane extends Component {
+    @service currentUser!: CurrentUser;
+    @service i18n!: I18N;
+    @service toast!: Toast;
+    @alias('currentUser.user') user!: User;
+    settings?: UserSettingModel;
+    showRequestDialog = false;
+    showUndoDialog = false;
+
+    @task
+    loadSettings = task(function *(this: DeactivationPane) {
         const { user } = this.currentUser;
 
         if (!user) {
             return;
         }
         this.settings = yield user.belongsTo('settings').reload();
-    }),
+    });
 
-    saveSettings: task(function *(this: DeactivationPane, successMessage: string) {
+    @task
+    saveSettings = task(function *(this: DeactivationPane, successMessage: string) {
         try {
             if (this.settings !== undefined) {
                 yield this.settings.save();
@@ -35,15 +45,7 @@ export default class DeactivationPane extends Component.extend({
             const saveErrorMessage = this.i18n.t('settings.account.security.saveError', { supportEmail });
             return this.toast.error(saveErrorMessage);
         }
-    }),
-}) {
-    @service currentUser!: CurrentUser;
-    @service i18n!: I18N;
-    @service toast!: Toast;
-    @alias('currentUser.user') user!: User;
-    settings?: UserSettingModel;
-    showRequestDialog = false;
-    showUndoDialog = false;
+    });
 
     init() {
         super.init();

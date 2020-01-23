@@ -1,3 +1,5 @@
+import Transition from '@ember/routing/-private/transition';
+
 declare module '@ember/routing/-private/transition' {
     interface AbstractHandlerInfo {
         isResolved: boolean;
@@ -13,23 +15,15 @@ declare module '@ember/routing/-private/transition' {
         isResolved: false;
     }
 
-    interface TransitionState {
-        queryParams: Record<string, any>;
-    }
-
     export default interface Transition {
-        handlerInfos: Array<HandlerInfo | UnresolvedHandlerInfo>;
-        params: Record<string, Record<string, string>>;
-        queryParams?: Record<string, any>;
+        routeInfos: Array<HandlerInfo | UnresolvedHandlerInfo>;
         queryParamsOnly: boolean;
         resolvedModels: Record<string, any>;
         sequence: number;
-        state: TransitionState;
         targetName: string;
         router: {
             generate(handlerName: string, ...params: any[]): string;
         };
-
-        abort(): void;
+        [index: string]: {};
     } // eslint-disable-line semi
 }

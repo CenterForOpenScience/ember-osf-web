@@ -1,8 +1,9 @@
-import { attr, belongsTo } from '@ember-decorators/data';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 
 import UserModel from './user';
+
+const { attr, belongsTo } = DS;
 
 const { Model } = DS;
 

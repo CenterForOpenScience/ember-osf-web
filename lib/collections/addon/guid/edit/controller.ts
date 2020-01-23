@@ -1,6 +1,6 @@
-import { action, computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
 import Controller from '@ember/controller';
+import { action, computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
 import config from 'ember-get-config';
 import CollectedMetadatum from 'ember-osf-web/models/collected-metadatum';
 import Collection from 'ember-osf-web/models/collection';

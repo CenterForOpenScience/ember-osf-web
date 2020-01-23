@@ -1,5 +1,5 @@
-import { service } from '@ember-decorators/service';
 import { warn } from '@ember/debug';
+import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
 import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';

@@ -155,6 +155,8 @@ module('Registries | Acceptance | draft form', hooks => {
             'draft-registration', { registrationSchema, initiator },
         );
 
+        await visit(`/registries/drafts/${registration.id}/`);
+
         await visit(`/registries/drafts/${registration.id}/review`);
 
         assert.dom('[data-test-goto-register]').isDisabled();

@@ -1,8 +1,9 @@
-import { action, computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { action, computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 import { layout } from 'ember-osf-web/decorators/component';
+
 import template from './template';
 
 /**
@@ -36,7 +37,7 @@ export default class ZoomToRoute extends Component {
     }
 
     @action
-    selectRoute(this: ZoomToRoute, targetRoute: string) {
+    selectRoute(targetRoute: string) {
         this.setProperties({
             targetRoute,
             routeArgs: {},
@@ -44,7 +45,7 @@ export default class ZoomToRoute extends Component {
     }
 
     @action
-    zoom(this: ZoomToRoute): void {
+    zoom(): void {
         const routeArgs = this.routeParams.map(param => this.routeArgs[param]);
         this.router.transitionTo(this.targetRoute, ...routeArgs);
         this.set('showModal', false);

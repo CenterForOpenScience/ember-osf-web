@@ -1,5 +1,5 @@
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { inject as service } from '@ember/service';
 import DS from 'ember-data';
 
 import { requiredAction } from 'ember-osf-web/decorators/component';

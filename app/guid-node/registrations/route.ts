@@ -1,6 +1,6 @@
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
+import { action } from '@ember/object';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 
 import Node from 'ember-osf-web/models/node';
 import { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
@@ -11,7 +11,7 @@ import Controller from './controller';
 export default class GuidNodeRegistrations extends Route {
     @service analytics!: Analytics;
 
-    model(this: GuidNodeRegistrations) {
+    model() {
         return this.modelFor('guid-node') as GuidRouteModel<Node>;
     }
 

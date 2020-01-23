@@ -1,7 +1,7 @@
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
+import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
+import { inject as service } from '@ember/service';
 import { TaskInstance } from 'ember-concurrency';
 import DS from 'ember-data';
 

@@ -1,8 +1,8 @@
-import { action } from '@ember-decorators/object';
-import { reads } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
+import { action } from '@ember/object';
+import { reads } from '@ember/object/computed';
 import RouterService from '@ember/routing/router-service';
+import { inject as service } from '@ember/service';
 import I18n from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
 

@@ -1,6 +1,6 @@
-import { action, computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { action, computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 import $ from 'jquery';
 import RSVP from 'rsvp';
@@ -8,6 +8,7 @@ import RSVP from 'rsvp';
 import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
+
 import styles from './styles';
 import template from './template';
 
@@ -57,7 +58,7 @@ function sendFeedback(body: string, {
         data: JSON.stringify(payload),
         dataType: 'json',
         method: 'POST',
-    });
+    }) as unknown as Promise<any>;
 }
 
 enum DialogState {
@@ -98,24 +99,24 @@ export default class FeedbackButton extends Component {
         return this.state === DialogState.success;
     }
 
-    reset(this: FeedbackButton): void {
+    reset(): void {
         this.set('body', '');
         this.set('followup', false);
     }
 
     @action
-    showDialog(this: FeedbackButton) {
+    showDialog() {
         this.set('state', DialogState.active);
     }
 
     @action
-    hideDialog(this: FeedbackButton) {
+    hideDialog() {
         this.set('state', DialogState.empty);
         this.reset();
     }
 
     @action
-    submit(this: FeedbackButton) {
+    submit() {
         // Dismiss if no input
         if (!this.body) {
             this.set('state', DialogState.empty);

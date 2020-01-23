@@ -1,8 +1,9 @@
-import { belongsTo } from '@ember-decorators/data';
 import DS from 'ember-data';
 
 import NodeModel from './node';
 import OsfModel from './osf-model';
+
+const { belongsTo } = DS;
 
 export default class NodeLinkModel extends OsfModel {
     @belongsTo('node')

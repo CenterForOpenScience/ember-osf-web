@@ -1,8 +1,10 @@
-import { attr } from '@ember-decorators/data';
+import DS from 'ember-data';
 
 import { NodeLicense } from 'ember-osf-web/models/node';
 
 import OsfModel from './osf-model';
+
+const { attr } = DS;
 
 export default class LicenseModel extends OsfModel {
     @attr('fixstring') name!: string;

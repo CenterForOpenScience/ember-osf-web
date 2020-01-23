@@ -1,6 +1,6 @@
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
+import { action } from '@ember/object';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import Session from 'ember-simple-auth/services/session';
 
 import DashboardController from 'ember-osf-web/dashboard/controller';
@@ -16,7 +16,7 @@ export default class Dashboard extends Route {
     @service ready!: Ready;
     @service session!: Session;
 
-    async setupController(this: Dashboard, controller: DashboardController): Promise<void> {
+    async setupController(controller: DashboardController): Promise<void> {
         const blocker = this.get('ready').getBlocker();
 
         try {
@@ -28,7 +28,7 @@ export default class Dashboard extends Route {
     }
 
     @action
-    didTransition(this: Dashboard) {
+    didTransition() {
         this.analytics.trackPage();
     }
 }

@@ -1,4 +1,4 @@
-import { click as untrackedClick, currentURL, fillIn, visit, waitFor } from '@ember/test-helpers';
+import { click as untrackedClick, currentRouteName, currentURL, fillIn, visit, waitFor } from '@ember/test-helpers';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
@@ -85,14 +85,15 @@ module('Acceptance | settings | personal access tokens', hooks => {
         const input = '[data-test-token-name] input';
         await waitFor(`${input}:enabled`);
 
-        assert.equal(currentURL(), `/settings/tokens/${token.id}`);
+        assert.equal(currentRouteName(), 'settings.tokens.edit', 'current route is settings.tokens.edit');
+        assert.ok(currentURL().includes(`${token.id}`), 'current URL has token id');
 
         assert.dom(input).hasValue(oldName);
         await fillIn(input, newName);
         await percySnapshot(assert);
         await click('[data-analytics-name="Save"]');
 
-        assert.equal(currentURL(), '/settings/tokens');
+        assert.equal(currentRouteName(), 'settings.tokens.index', 'current route is settings.tokens.index');
 
         assert.dom(link).exists({ count: 1 });
         assert.dom(link).containsText(newName);

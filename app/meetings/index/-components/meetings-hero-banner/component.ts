@@ -1,5 +1,5 @@
-import { action } from '@ember-decorators/object';
 import Component from '@ember/component';
+import { action } from '@ember/object';
 
 export default class MeetingsHeroBanner extends Component {
     // Private properties

@@ -1,7 +1,7 @@
-import { action } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
+import { action } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 
 import User from 'ember-osf-web/models/user';
 import CurrentUser from 'ember-osf-web/services/current-user';

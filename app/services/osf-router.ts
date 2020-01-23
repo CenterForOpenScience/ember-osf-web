@@ -1,8 +1,7 @@
-import { service } from '@ember-decorators/service';
 import { assert } from '@ember/debug';
 import Transition from '@ember/routing/-private/transition';
 import RouterService from '@ember/routing/router-service';
-import Service from '@ember/service';
+import Service, { inject as service } from '@ember/service';
 
 export default class OsfRouterService extends Service {
     @service router!: RouterService;

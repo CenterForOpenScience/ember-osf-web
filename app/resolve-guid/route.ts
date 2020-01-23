@@ -1,8 +1,8 @@
-import { action, computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
+import { action, computed } from '@ember/object';
 import Transition from '@ember/routing/-private/transition';
 import { EmberLocation } from '@ember/routing/api';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
 import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
@@ -53,9 +53,12 @@ export default class ResolveGuid extends Route {
     }
 
     async beforeModel(transition: Transition) {
+        const transitionKeys = Object.keys(transition);
+        const paramsKey = transitionKeys.filter(key => key.match(/^__PARAMS__/))[0];
+
         const params = Object.assign(
             { guid: '', path: '' },
-            ...Object.values(transition.params),
+            ...Object.values(transition[paramsKey]),
         );
 
         let expanded: string;
@@ -79,7 +82,9 @@ export default class ResolveGuid extends Route {
             url = `${url}/${params.path}`;
         }
 
-        if (transition.queryParams && Object.keys(transition.queryParams).length > 0) {
+        const qpsKey = transitionKeys.filter(key => key.match(/^__QPS__/))[0];
+        const stateKey = transitionKeys.filter(key => key.match(/^__STATE__/))[0];
+        if (transition[qpsKey] && Object.keys(transition[qpsKey]).length > 0) {
             // Remove query params from the existing transition's
             // state to force query param change hooks to fire.
             // The previous solution appears to have run into a
@@ -87,9 +92,9 @@ export default class ResolveGuid extends Route {
             // The previous solution was to transition into the target
             // route without the QPs added and then again with the QPs.
             // eslint-disable-next-line no-param-reassign
-            transition.state.queryParams = {};
+            (transition[stateKey] as { queryParams: {} }).queryParams = {};
 
-            url = `${url}?${param(transition.queryParams)}`;
+            url = `${url}?${param(transition[qpsKey])}`;
         }
 
         return this.replaceWith(url);

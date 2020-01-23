@@ -1,5 +1,5 @@
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { inject as service } from '@ember/service';
 
 import Institution from 'ember-osf-web/models/institution';
 import CurrentUser from 'ember-osf-web/services/current-user';

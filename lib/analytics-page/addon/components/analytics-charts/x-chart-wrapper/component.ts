@@ -1,6 +1,7 @@
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { task, TaskInstance } from 'ember-concurrency';
+import { inject as service } from '@ember/service';
+import { TaskInstance } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import I18n from 'ember-i18n/services/i18n';
 import KeenDataviz from 'keen-dataviz';
 import { Moment } from 'moment';
@@ -39,6 +40,7 @@ export default class ChartWrapper extends Component {
     keenError: boolean = false;
     loading: boolean = false;
 
+    @task({ restartable: true })
     loadKeen = task(function *(this: ChartWrapper) {
         this.showOverlay(OverlayReason.Loading);
         const node = yield this.nodeTaskInstance;
@@ -61,26 +63,26 @@ export default class ChartWrapper extends Component {
             this.showOverlay(OverlayReason.Error);
             throw e;
         }
-    }).restartable();
+    });
 
-    didInsertElement(this: ChartWrapper) {
+    didInsertElement() {
         this.chart = new KeenDataviz()
             .el(`#${this.elementId} .${styles.Chart}`)
             .title(' '); // Prevent keen-dataviz from adding a default title
 
         this.initSkeletonChart();
         if (this.chartEnabled) {
-            this.get('loadKeen').perform();
+            this.loadKeen.perform();
         }
     }
 
-    didUpdateAttrs(this: ChartWrapper) {
+    didUpdateAttrs() {
         if (this.chartEnabled) {
-            this.get('loadKeen').perform();
+            this.loadKeen.perform();
         }
     }
 
-    showOverlay(this: ChartWrapper, reason?: OverlayReason) {
+    showOverlay(reason?: OverlayReason) {
         this.set('keenError', (reason === OverlayReason.Error));
         this.set('loading', (reason === OverlayReason.Loading));
         this.set('overlayShown', true);
@@ -91,7 +93,7 @@ export default class ChartWrapper extends Component {
         });
     }
 
-    hideOverlay(this: ChartWrapper) {
+    hideOverlay() {
         this.set('overlayShown', false);
         this.clearSkeletonChart();
         this.chart.chartOptions({
@@ -101,7 +103,7 @@ export default class ChartWrapper extends Component {
         });
     }
 
-    initSkeletonChart(this: ChartWrapper) {
+    initSkeletonChart() {
         this.chartSpec.configureChart(this.chart, this.i18n);
         this.chart.chartOptions({
             data: {
@@ -132,7 +134,7 @@ export default class ChartWrapper extends Component {
         this.chart.render();
     }
 
-    clearSkeletonChart(this: ChartWrapper) {
+    clearSkeletonChart() {
         this.chart.chartOptions({
             data: {},
             pie: {},

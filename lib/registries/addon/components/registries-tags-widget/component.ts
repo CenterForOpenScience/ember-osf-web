@@ -1,11 +1,13 @@
 import { attribute } from '@ember-decorators/component';
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
+
 import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import { TagsManager } from 'osf-components/components/editable-field/tags-manager/component';
+
 import styles from './styles';
 import template from './template';
 

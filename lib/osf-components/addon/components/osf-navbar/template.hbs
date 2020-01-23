@@ -28,7 +28,7 @@
                 {{! App list dropdown }}
                 <BsDropdown
                     data-analytics-scope='Primary dropdown'
-                    @classNames='dropdown primary-nav'
+                    class='primary-nav'
                     @onShow={{action this.onClickPrimaryDropdown}}
                     as |dd|
                 >
@@ -39,7 +39,7 @@
                     >
                         {{fa-icon 'caret-down' size='2'}}
                     </dd.toggle>
-                    <dd.menu @classNames='dropdown-menu service-dropdown' as |ddm| >
+                    <dd.menu class='service-dropdown' as |ddm|>
                         {{#each this.services as |service|}}
                             <ddm.item role='menuitem'>
                                 <OsfLink

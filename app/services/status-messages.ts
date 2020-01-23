@@ -1,5 +1,4 @@
-import { service } from '@ember-decorators/service';
-import Service from '@ember/service';
+import Service, { inject as service } from '@ember/service';
 import Cookies from 'ember-cookies/services/cookies';
 import config from 'ember-get-config';
 
@@ -26,12 +25,12 @@ export default class StatusMessages extends Service {
     messages?: StatusMessage[];
     nextMessages: StatusMessage[];
 
-    constructor() {
-        super();
+    constructor(...args: any[]) {
+        super(...args);
         this.nextMessages = this.getCookieMessages();
     }
 
-    getCookieMessages(this: StatusMessages): StatusMessage[] {
+    getCookieMessages(): StatusMessage[] {
         const cookies = this.get('cookies');
         const readCookie: string = cookies.read(statusCookie);
 
@@ -52,11 +51,11 @@ export default class StatusMessages extends Service {
             .map((message: {id: string}) => ({ ...message, id: `status.${message.id}` }));
     }
 
-    addStatusMessage(this: StatusMessages, message: StatusMessage): void {
+    addStatusMessage(message: StatusMessage): void {
         this.get('nextMessages').push(message);
     }
 
-    updateMessages(this: StatusMessages): void {
+    updateMessages(): void {
         this.setProperties({
             messages: this.get('nextMessages') || [],
             nextMessages: [],

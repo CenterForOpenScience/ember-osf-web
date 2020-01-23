@@ -1,4 +1,5 @@
 import { render } from '@ember/test-helpers';
+import { t } from 'ember-i18n/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
@@ -18,8 +19,10 @@ module('Integration | Component | delete-node-modal', hooks => {
         assert.dom(this.element).hasText('');
     });
 
-    test('shown when openModal=true', async function(assert) {
+    test('shown when openModal=true', async assert => {
         await render(hbs`{{delete-node-modal closeModal=closeModal delete=delete openModal=true}}`);
-        assert.dom(this.element).includesText('Are you sure you want to delete this project?');
+        assert.dom('[data-test-delete-warning]').includesText(
+            t('delete_modal.title', { nodeType: 'project' }).toString(),
+        );
     });
 });

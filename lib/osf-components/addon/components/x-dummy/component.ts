@@ -1,6 +1,6 @@
 import { attribute } from '@ember-decorators/component';
-import { alias } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
+import { alias } from '@ember/object/computed';
 
 import { layout } from 'ember-osf-web/decorators/component';
 
@@ -17,8 +17,8 @@ export default class Dummy extends Component {
     @attribute href!: string;
     @alias('click') onclick!: () => void;
 
-    constructor(...args: any[]) {
-        super(...args);
+    init() {
+        super.init();
 
         // Inspired by ember-test-selectors with <3
         // https://github.com/simplabs/ember-test-selectors/blob/master/vendor/ember-test-selectors/patch-component.js

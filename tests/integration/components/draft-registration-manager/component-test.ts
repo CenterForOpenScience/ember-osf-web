@@ -29,7 +29,11 @@ module('Integration | Component | DraftRegistrationManager', hooks => {
             registrationResponses,
         });
 
-        const draftRegistration = await this.store.findRecord('draft-registration', mirageDraftRegistration.id);
+        const draftRegistration = await this.store.findRecord(
+            'draft-registration',
+            mirageDraftRegistration.id,
+            { include: 'branched_from' },
+        );
 
         this.setProperties({ draftRegistration });
 
@@ -37,6 +41,7 @@ module('Integration | Component | DraftRegistrationManager', hooks => {
             <Registries::DraftRegistrationManager
                 @currentPage=0
                 @draftRegistration={{this.draftRegistration}}
+                @node={{this.draftRegistration.branchedFrom}}
                 as |draftManager|
             >
                 <div data-test-registration-responses-is-valid>
@@ -65,8 +70,11 @@ module('Integration | Component | DraftRegistrationManager', hooks => {
             registrationSchema: server.schema.registrationSchemas.find('testSchema'),
             registrationResponses,
         });
-
-        const draftRegistration = await this.store.findRecord('draft-registration', mirageDraftRegistration.id);
+        const draftRegistration = await this.store.findRecord(
+            'draft-registration',
+            mirageDraftRegistration.id,
+            { include: 'branched_from' },
+        );
 
         this.setProperties({ draftRegistration });
 
@@ -74,6 +82,7 @@ module('Integration | Component | DraftRegistrationManager', hooks => {
             <Registries::DraftRegistrationManager
                 @currentPage=0
                 @draftRegistration={{this.draftRegistration}}
+                @node={{this.draftRegistration.branchedFrom}}
                 as |draftManager|
             >
                 <div data-test-registration-responses-is-valid>

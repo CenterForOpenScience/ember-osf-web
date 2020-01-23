@@ -1,15 +1,16 @@
-import { computed } from '@ember-decorators/object';
+import { computed } from '@ember/object';
 import Route from '@ember/routing/route';
-import { task } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import ConfirmationMixin from 'ember-onbeforeunload/mixins/confirmation';
 
 import ValidatedModelFormController from './controller';
 
-export default class ValidatedModelFormRoute extends Route.extend(ConfirmationMixin, {
-    modelTask: task(function *(this: ValidatedModelFormRoute) {
+export default class ValidatedModelFormRoute extends Route.extend(ConfirmationMixin) {
+    @task
+    modelTask = task(function *(this: ValidatedModelFormRoute) {
         return yield this.store.findRecord('node', 'extng');
-    }),
-}) {
+    });
+
     model() {
         return {
             taskInstance: this.modelTask.perform(),

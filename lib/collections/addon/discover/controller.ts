@@ -1,7 +1,7 @@
-import { action, computed } from '@ember-decorators/object';
-import { not } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
+import { action, computed } from '@ember/object';
+import { not } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import { underscore } from '@ember/string';
 import config from 'collections/config/environment';
 import DS from 'ember-data';

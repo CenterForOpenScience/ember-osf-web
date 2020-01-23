@@ -1,7 +1,7 @@
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { task } from 'ember-concurrency';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
@@ -13,8 +13,25 @@ import CurrentUser from 'ember-osf-web/services/current-user';
 import { ChangesetDef } from 'ember-changeset/types';
 import getHref from 'ember-osf-web/utils/get-href';
 
-export default class ConnectedEmails extends Component.extend({
-    loadPrimaryEmail: task(function *(this: ConnectedEmails) {
+export default class ConnectedEmails extends Component {
+    // Private properties
+    @service currentUser!: CurrentUser;
+    @service store!: DS.Store;
+    @service i18n!: I18N;
+    @service toast!: Toast;
+    userEmail!: UserEmail;
+    showAddModal = false;
+    showMergeModal = false;
+    didValidate = false;
+    lastUserEmail = '';
+    modelProperties = { user: this.currentUser.user };
+    reloadAlternateList!: (page?: number) => void; // bound by paginated-list
+    reloadUnconfirmedList!: (page?: number) => void; // bound by paginated-list
+    alternateQueryParams = { 'filter[primary]': false, 'filter[confirmed]': true };
+    unconfirmedQueryParams = { 'filter[primary]': false, 'filter[confirmed]': false };
+
+    @task({ restartable: true })
+    loadPrimaryEmail = task(function *(this: ConnectedEmails) {
         const { user } = this.currentUser;
 
         if (!user) {
@@ -29,9 +46,10 @@ export default class ConnectedEmails extends Component.extend({
         } catch (e) {
             return this.i18n.t('settings.account.connected_emails.load_fail');
         }
-    }).restartable(),
+    });
 
-    deleteEmail: task(function *(this: ConnectedEmails, email: UserEmail) {
+    @task
+    deleteEmail = task(function *(this: ConnectedEmails, email: UserEmail) {
         const errorMessage = this.i18n.t('settings.account.connected_emails.delete_fail');
         const successMessage = this.i18n.t('settings.account.connected_emails.delete_success');
 
@@ -50,9 +68,10 @@ export default class ConnectedEmails extends Component.extend({
             this.reloadUnconfirmedList();
         }
         return this.toast.success(successMessage);
-    }),
+    });
 
-    updatePrimaryEmail: task(function *(this: ConnectedEmails, email: UserEmail) {
+    @task
+    updatePrimaryEmail = task(function *(this: ConnectedEmails, email: UserEmail) {
         const errorMessage = this.i18n.t('settings.account.connected_emails.update_fail');
         const successMessage = this.i18n.t('settings.account.connected_emails.update_success');
 
@@ -73,9 +92,10 @@ export default class ConnectedEmails extends Component.extend({
         this.reloadAlternateList();
 
         return this.toast.success(successMessage);
-    }),
+    });
 
-    resendEmail: task(function *(this: ConnectedEmails, email: UserEmail) {
+    @task
+    resendEmail = task(function *(this: ConnectedEmails, email: UserEmail) {
         const errorMessage = this.i18n.t('settings.account.connected_emails.resend_fail');
         const successMessage = this.i18n.t('settings.account.connected_emails.resend_success');
 
@@ -95,23 +115,7 @@ export default class ConnectedEmails extends Component.extend({
         }
 
         return this.toast.success(successMessage);
-    }),
-}) {
-    // Private properties
-    @service currentUser!: CurrentUser;
-    @service store!: DS.Store;
-    @service i18n!: I18N;
-    @service toast!: Toast;
-    userEmail!: UserEmail;
-    showAddModal = false;
-    showMergeModal = false;
-    didValidate = false;
-    lastUserEmail = '';
-    modelProperties = { user: this.currentUser.user };
-    reloadAlternateList!: (page?: number) => void; // bound by paginated-list
-    reloadUnconfirmedList!: (page?: number) => void; // bound by paginated-list
-    alternateQueryParams = { 'filter[primary]': false, 'filter[confirmed]': true };
-    unconfirmedQueryParams = { 'filter[primary]': false, 'filter[confirmed]': false };
+    });
 
     init() {
         super.init();
@@ -155,7 +159,7 @@ export default class ConnectedEmails extends Component.extend({
     }
 
     @action
-    removeEmail(this: ConnectedEmails, email: UserEmail) {
+    removeEmail(email: UserEmail) {
         this.deleteEmail.perform(email);
     }
 

@@ -1,9 +1,10 @@
-import { action, computed } from '@ember-decorators/object';
-import { alias, bool } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import Component from '@ember/component';
-import { task, timeout } from 'ember-concurrency';
+import { action, computed } from '@ember/object';
+import { alias, bool } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
+import { timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 
@@ -12,6 +13,7 @@ import Node from 'ember-osf-web/models/node';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
+
 import styles from './styles';
 import template from './template';
 
@@ -41,32 +43,7 @@ export enum ProjectSelectState {
  * @class project-selector
  */
 @layout(template, styles)
-export default class ProjectSelector extends Component.extend({
-    initialLoad: task(function *(this: ProjectSelector) {
-        this.setProperties({
-            didValidate: false,
-            selected: null,
-            projectList: yield this.get('findNodes').perform(),
-        });
-    }),
-
-    findNodes: task(function *(this: ProjectSelector, filter?: string) {
-        if (filter) {
-            yield timeout(250);
-        }
-
-        const { user } = this.currentUser;
-        if (!user) {
-            return [];
-        }
-
-        const nodes = yield user.queryHasMany('nodes', {
-            filter: filter ? { title: filter } : undefined,
-        });
-
-        return nodes;
-    }).restartable(),
-}) {
+export default class ProjectSelector extends Component {
     @service currentUser!: CurrentUser;
     @service i18n!: I18N;
     @service store!: DS.Store;
@@ -105,6 +82,33 @@ export default class ProjectSelector extends Component.extend({
         }
     }
 
+    @task
+    initialLoad = task(function *(this: ProjectSelector) {
+        this.setProperties({
+            didValidate: false,
+            selected: null,
+            projectList: yield this.get('findNodes').perform(),
+        });
+    });
+
+    @task({ restartable: true })
+    findNodes = task(function *(this: ProjectSelector, filter?: string) {
+        if (filter) {
+            yield timeout(250);
+        }
+
+        const { user } = this.currentUser;
+        if (!user) {
+            return [];
+        }
+
+        const nodes = yield user.queryHasMany('nodes', {
+            filter: filter ? { title: filter } : undefined,
+        });
+
+        return nodes;
+    });
+
     didReceiveAttrs(this: ProjectSelector) {
         if (this.projectSelectState === ProjectSelectState.main) {
             this.get('initialLoad').perform();
@@ -112,7 +116,7 @@ export default class ProjectSelector extends Component.extend({
     }
 
     @action
-    valueChanged(this: ProjectSelector, value?: Node): void {
+    valueChanged(value?: Node): void {
         if (value) {
             this.set('selected', value);
 
@@ -125,7 +129,7 @@ export default class ProjectSelector extends Component.extend({
     }
 
     @action
-    changeState(this: ProjectSelector, projectSelectState: ProjectSelectState): void {
+    changeState(projectSelectState: ProjectSelectState): void {
         const selected = projectSelectState === ProjectSelectState.newProjectSelected ? this.newProject : null;
         this.setProperties({
             projectSelectState,
@@ -144,7 +148,7 @@ export default class ProjectSelector extends Component.extend({
     }
 
     @action
-    moveToNew(this: ProjectSelector) {
+    moveToNew() {
         this.moveToNewProject();
     }
 }

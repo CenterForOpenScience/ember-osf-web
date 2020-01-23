@@ -1,8 +1,9 @@
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { action } from '@ember/object';
 import ComputedProperty from '@ember/object/computed';
-import { task, Task } from 'ember-concurrency';
+import { inject as service } from '@ember/service';
+import { Task } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 
 import Analytics from 'ember-osf-web/services/analytics';
 import Ready from 'ember-osf-web/services/ready';
@@ -12,27 +13,7 @@ export interface LoadItemsOptions {
     reloading: boolean;
 }
 
-export default abstract class BaseDataComponent extends Component.extend({
-    loadItemsWrapperTask: task(function *(
-        this: BaseDataComponent,
-        { reloading }: LoadItemsOptions,
-    ) {
-        const blocker = this.ready.getBlocker();
-
-        // Resolve race condition on init: Let component finish initializing before continuing
-        // TODO: Remove once we have task decorators, so the child classes' tasks are defined on the prototype
-        yield;
-
-        try {
-            yield this.get('loadItemsTask').perform(reloading);
-            blocker.done();
-        } catch (e) {
-            this.set('errorShown', true);
-            blocker.errored(e);
-            throw e;
-        }
-    }).restartable(),
-}) {
+export default abstract class BaseDataComponent extends Component {
     // Optional arguments
     pageSize: number = defaultTo(this.pageSize, 10);
     query?: any;
@@ -53,7 +34,32 @@ export default abstract class BaseDataComponent extends Component.extend({
     page: number = 1;
 
     // Will be performed with an options hash of type LoadItemsOptions
-    abstract loadItemsTask: ComputedProperty<Task<void>>;
+    //
+    // We must initialize this to itself because of task decorators (otherwise
+    // it ends up being undefined in child classes), but then we have to
+    // @ts-ignore because TS doesn't let us initialize abstract properties
+    abstract loadItemsTask: ComputedProperty<Task<void>> = this.loadItemsTask;
+
+    @task({ restartable: true })
+    loadItemsWrapperTask = task(function *(
+        this: BaseDataComponent,
+        { reloading }: LoadItemsOptions,
+    ) {
+        const blocker = this.ready.getBlocker();
+
+        // Resolve race condition on init: Let component finish initializing before continuing
+        // TODO: Remove once we have task decorators, so the child classes' tasks are defined on the prototype
+        yield;
+
+        try {
+            yield this.get('loadItemsTask').perform(reloading);
+            blocker.done();
+        } catch (e) {
+            this.set('errorShown', true);
+            blocker.errored(e);
+            throw e;
+        }
+    });
 
     didReceiveAttrs() {
         this.set('page', 1);
@@ -70,13 +76,13 @@ export default abstract class BaseDataComponent extends Component.extend({
     }
 
     @action
-    next(this: BaseDataComponent) {
+    next() {
         this.incrementProperty('page');
         this.loadItemsWrapperTask.perform({ reloading: false });
     }
 
     @action
-    previous(this: BaseDataComponent) {
+    previous() {
         this.decrementProperty('page');
         this.loadItemsWrapperTask.perform({ reloading: false });
     }

@@ -1,5 +1,5 @@
-import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
+import { computed } from '@ember/object';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import defaultTo from 'ember-osf-web/utils/default-to';
@@ -14,11 +14,11 @@ export default class DeleteNodeModal extends Component {
     scientistInput: string = '';
 
     @computed('nodeType')
-    get nodeTypeKey(this: DeleteNodeModal): string {
+    get nodeTypeKey(): string {
         return `general.${this.nodeType}`;
     }
 
-    didReceiveAttrs(this: DeleteNodeModal) {
+    didReceiveAttrs() {
         this.set('scientistInput', '');
         this.set('scientistName', randomScientist());
     }

@@ -1,8 +1,9 @@
-import { action, computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { action, computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { underscore } from '@ember/string';
-import { task, timeout } from 'ember-concurrency';
+import { timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
@@ -45,17 +46,13 @@ export default class Submit extends Component {
     collectionItem: Node | null = defaultTo(this.collectionItem, null);
     isProjectSelectorValid: boolean = false;
     sections = Section;
-    activeSection: Section = this.edit ? Section.projectMetadata : Section.project;
-    savedSections: Section[] = this.edit ? [
-        Section.project,
-        Section.projectMetadata,
-        Section.projectContributors,
-        Section.collectionMetadata,
-    ] : [];
+    activeSection!: Section;
+    savedSections!: Section[];
     showCancelDialog: boolean = false;
     i18nKeyPrefix = 'collections.collections_submission.';
     showSubmitModal: boolean = false;
 
+    @task({ drop: true })
     save = task(function *(this: Submit) {
         if (!this.collectionItem) {
             return;
@@ -99,7 +96,7 @@ export default class Submit extends Component {
                 error: e.errors[0].detail,
             }));
         }
-    }).drop();
+    });
 
     @computed('collectedMetadatum.{displayChoiceFields,collectedType,issue,volume,programArea,status}')
     get choiceFields(): Array<{ label: string; value: string | undefined; }> {
@@ -129,8 +126,19 @@ export default class Submit extends Component {
     @requiredAction
     resetPageDirty!: () => void;
 
+    init() {
+        super.init();
+        this.set('activeSection', this.edit ? Section.projectMetadata : Section.project);
+        this.set('savedSections', this.edit ? [
+            Section.project,
+            Section.projectMetadata,
+            Section.projectContributors,
+            Section.collectionMetadata,
+        ] : []);
+    }
+
     @action
-    projectSelected(this: Submit, collectionItem: Node) {
+    projectSelected(collectionItem: Node) {
         collectionItem.set('collectable', true);
 
         this.setProperties({

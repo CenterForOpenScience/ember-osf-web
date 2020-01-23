@@ -1,9 +1,8 @@
-import { attr } from '@ember-decorators/data';
-import { alias } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import EmberArray, { A } from '@ember/array';
 import { assert } from '@ember/debug';
 import { set } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import { dasherize, underscore } from '@ember/string';
 import { Validations } from 'ember-cp-validations';
 import DS, { RelationshipsFor } from 'ember-data';
@@ -31,7 +30,7 @@ import {
     ResourceCollectionDocument,
 } from 'osf-api';
 
-const { Model } = DS;
+const { attr, Model } = DS;
 
 export enum Permission {
     Read = 'read',
@@ -91,10 +90,15 @@ export default class OsfModel extends Model {
         relationshipName: R,
     ): string {
         const reference = this.hasMany(relationshipName);
-
-        // HACK: ember-data discards/ignores the link if an object on the belongsTo side
-        // came first. In that case, grab the link where we expect it from OSF's API
-        const url = reference.link() || getRelatedHref(this.relationshipLinks[relationshipName as string]);
+        let url: string | undefined = reference.link();
+        if (!url) {
+            // HACK: ember-data discards/ignores the link if an object on the belongsTo side
+            // came first. In that case, grab the link where we expect it from OSF's API
+            const relationshipLinks = this.relationshipLinks[underscore(relationshipName as string)];
+            if (relationshipLinks) {
+                url = getRelatedHref(relationshipLinks);
+            }
+        }
         if (!url) {
             throw new Error(`Could not find a link for '${relationshipName}' relationship`);
         }

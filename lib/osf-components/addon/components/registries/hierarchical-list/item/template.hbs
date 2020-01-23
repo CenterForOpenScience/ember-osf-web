@@ -1,5 +1,10 @@
 <li data-test-item={{@manager.item.id}}>
-    {{input type='checkbox' change=(action @manager.onChange) checked=@manager.itemChecked disabled=@manager.isRoot}}
+    <Input
+        @type='checkbox'
+        @change={{action @manager.onChange}}
+        @checked={{@manager.itemChecked}}
+        @disabled={{@manager.isRoot}}
+    />
     <OsfButton
         local-class='expand-button'
         @type='link'

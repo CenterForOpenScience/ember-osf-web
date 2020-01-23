@@ -5,13 +5,17 @@
     as |modal|
 >
     <modal.header>
-        <h3>{{t 'delete_modal.title' nodeType=(t this.nodeTypeKey)}}</h3>
+        <h3 data-test-delete-warning>{{t 'delete_modal.title' nodeType=(t this.nodeTypeKey)}}</h3>
     </modal.header>
     <modal.body class=componentCssClassName>
         <p>{{t 'delete_modal.body' nodeType=(t this.nodeTypeKey)}}</p>
         <label local-class='DeleteModal__label-wrap'>
             <p local-class='DeleteModal__input-label'>{{t 'delete_modal.type_this'}} <strong>{{this.scientistName}}</strong></p>
-            {{input class='form-control' local-class='DeleteModal__input' value=this.scientistInput}}
+            <Input
+                local-class='DeleteModal__input'
+                @class='form-control'
+                @value={{this.scientistInput}}
+            />
         </label>
     </modal.body>
     <modal.footer data-analytics-scope='Delete node modal'>
@@ -23,8 +27,8 @@
         </OsfButton>
         <OsfButton
             data-analytics-name='Delete Fork'
-            @disabled={{not (eq this.scientistInput this.scientistName)}} 
-            @onClick={{action modal.submit}} 
+            @disabled={{not (eq this.scientistInput this.scientistName)}}
+            @onClick={{action modal.submit}}
             @type='danger'
         >
             {{t 'general.delete'}}

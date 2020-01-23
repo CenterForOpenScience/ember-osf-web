@@ -1,5 +1,5 @@
-import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
 
@@ -28,11 +28,11 @@ export default class ApplicationRoute extends Route.extend(
 
     queryParams = {
         viewOnlyToken: {
-            refreshModel: true,
+            refreshModel: false,
         },
     };
 
-    afterModel(this: ApplicationRoute) {
+    afterModel() {
         const i18n = this.get('i18n');
         const availableLocales: [string] = i18n.get('locales').toArray();
         let locale: string | undefined;

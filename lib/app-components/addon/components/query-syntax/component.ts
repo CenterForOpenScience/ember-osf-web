@@ -1,5 +1,5 @@
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { inject as service } from '@ember/service';
 import I18N from 'ember-i18n/services/i18n';
 
 import { layout } from 'ember-osf-web/decorators/component';

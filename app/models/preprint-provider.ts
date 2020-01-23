@@ -1,6 +1,5 @@
-import { attr, hasMany } from '@ember-decorators/data';
-import { computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
+import { computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
 import DS from 'ember-data';
 
 import translations from 'ember-osf-web/locales/en/translations';
@@ -9,6 +8,8 @@ import { RelatedLinkMeta } from 'osf-api';
 
 import PreprintModel from './preprint';
 import ProviderModel from './provider';
+
+const { attr, hasMany } = DS;
 
 export type DocumentTypes = keyof typeof translations.documentType;
 

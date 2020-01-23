@@ -1,8 +1,8 @@
-import { or } from '@ember-decorators/object/computed';
 import { assert } from '@ember/debug';
 import { defineProperty } from '@ember/object';
-import { reads as readsMacro } from '@ember/object/computed';
-import { task, TaskInstance } from 'ember-concurrency';
+import { or, reads } from '@ember/object/computed';
+import { TaskInstance } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import OsfModel from 'ember-osf-web/models/osf-model';
@@ -23,6 +23,7 @@ export default class PaginatedHasMany extends BaseDataComponent {
     usePlaceholders: boolean = defaultTo(this.usePlaceholders, true);
 
     // Private properties
+    @task
     loadItemsTask = task(function *(this: PaginatedHasMany, { reloading }: LoadItemsOptions) {
         const model = yield this.get('getModelTask').perform();
         if (this.usePlaceholders) {
@@ -48,6 +49,7 @@ export default class PaginatedHasMany extends BaseDataComponent {
         });
     });
 
+    @task
     getModelTask = task(function *(this: PaginatedHasMany) {
         let model = this.modelInstance;
         if (!model && this.modelTaskInstance) {
@@ -59,18 +61,19 @@ export default class PaginatedHasMany extends BaseDataComponent {
         return model;
     });
 
+    @task({ restartable: true })
     loadRelatedCountTask = task(function *(this: PaginatedHasMany, reloading: boolean) {
         const model = yield this.get('getModelTask').perform();
         if (reloading || typeof this.totalCount === 'undefined') {
             yield model.loadRelatedCount(this.relationshipName);
         }
-    }).restartable();
+    });
 
     @or('model', 'modelTaskInstance.value')
     modelInstance?: OsfModel;
 
-    constructor(...args: any[]) {
-        super(...args);
+    init() {
+        super.init();
 
         assert(
             'Must provide either `model` xor `modelTaskInstance` to {{paginated-list/has-many}}',
@@ -80,7 +83,7 @@ export default class PaginatedHasMany extends BaseDataComponent {
         defineProperty(
             this,
             'totalCount',
-            readsMacro(`modelInstance.relatedCounts.${this.relationshipName}`),
+            reads(`modelInstance.relatedCounts.${this.relationshipName}`),
         );
     }
 }

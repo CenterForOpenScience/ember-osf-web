@@ -1,7 +1,7 @@
-import { action, computed } from '@ember-decorators/object';
-import { reads } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
+import { action, computed } from '@ember/object';
+import { reads } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import DS from 'ember-data';
 import Toast from 'ember-toastr/services/toast';
 

@@ -1,22 +1,33 @@
 import { tagName } from '@ember-decorators/component';
-import { action } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import { task } from 'ember-concurrency';
+import { action } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
+
 import { layout } from 'ember-osf-web/decorators/component';
 import NodeModel from 'ember-osf-web/models/node';
 import defaultTo from 'ember-osf-web/utils/default-to';
-
 import { HierarchicalListManager } from 'osf-components/components/registries/hierarchical-list';
+
 import template from './template';
 
 @layout(template)
 @tagName('')
-export default class PartialRegistrationModalManagerComponent extends Component.extend({
-    loadAllChildNodes: task(function *(this: PartialRegistrationModalManagerComponent) {
+export default class PartialRegistrationModalManagerComponent extends Component implements HierarchicalListManager {
+    @service store!: DS.Store;
+    rootNode!: NodeModel;
+
+    // Private
+    nodesIncludingRoot: NodeModel[] = defaultTo(this.nodesIncludingRoot, []);
+    selectedNodes: NodeModel[] = defaultTo(this.selectedNodes, []);
+
+    @alias('loadAllChildNodes.isRunning') loadingChildNodes!: boolean;
+
+    @task({ on: 'didReceiveAttrs' })
+    loadAllChildNodes = task(function *(this: PartialRegistrationModalManagerComponent) {
         let allChildNodesIncludingRoot = yield this.store.query('node', {
             'page[size]': 100,
             filter: {
@@ -26,16 +37,7 @@ export default class PartialRegistrationModalManagerComponent extends Component.
         allChildNodesIncludingRoot = allChildNodesIncludingRoot.toArray();
         this.set('nodesIncludingRoot', allChildNodesIncludingRoot.slice());
         this.set('selectedNodes', allChildNodesIncludingRoot.slice());
-    }).on('didReceiveAttrs'),
-}) implements HierarchicalListManager {
-    @service store!: DS.Store;
-    rootNode!: NodeModel;
-
-    // Private
-    nodesIncludingRoot: NodeModel[] = defaultTo(this.nodesIncludingRoot, []);
-    selectedNodes: NodeModel[] = defaultTo(this.selectedNodes, []);
-
-    @alias('loadAllChildNodes.isRunning') loadingChildNodes!: boolean;
+    });
 
     didReceiveAttrs() {
         assert('partial-registration-modal::manager requires @rootNode!', Boolean(this.rootNode));

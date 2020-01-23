@@ -1,19 +1,19 @@
 <form>
     <ValidatedInput::Custom
         data-test-publication-doi-input
-        @model={{@manager.validationNode}}
+        @changeset={{@manager.changeset}}
         @valuePath='articleDoi'
         @shouldShowMessages={{@manager.didValidate}}
         @placeholder={{this.doiPlaceholder}}
     >
         <div class='input-group'>
             <span class='input-group-addon'>{{this.doiUrlPrefix}}</span>
-            {{input
-                value=@manager.validationNode.articleDoi
-                type='text'
-                class='form-control form-group'
-                placeholder=this.doiPlaceholder
-            }}
+            <Input
+                @value={{get @manager.changeset 'articleDoi'}}
+                @type='text'
+                @class='form-control form-group'
+                @placeholder={{this.doiPlaceholder}}
+            />
         </div>
     </ValidatedInput::Custom>
 

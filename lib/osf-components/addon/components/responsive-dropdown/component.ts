@@ -1,9 +1,9 @@
 import Ember from 'ember';
 
-import { action, computed } from '@ember-decorators/object';
-import { not } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { action, computed } from '@ember/object';
+import { not } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import calculatePosition from 'ember-basic-dropdown/utils/calculate-position';
 import Media from 'ember-responsive';
 
@@ -46,7 +46,7 @@ export default class ResponsiveDropdown extends Component {
     }
 
     @action
-    calculatePosition(this: ResponsiveDropdown, ...args: any[]): object {
+    calculatePosition(...args: any[]): object {
         // On Desktop
         const pos = calculatePosition(...args);
         if (!this.useOverlay) {

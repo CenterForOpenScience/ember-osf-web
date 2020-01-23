@@ -25,7 +25,6 @@
     "ember-css-modules-sass": "*",
     "ember-event-helpers": "*",
     "ember-font-awesome": "*",
-    "ember-on-modifier": "*",
     "ember-onbeforeunload": "*",
     "ember-power-select": "*",
     "ember-responsive": "*",

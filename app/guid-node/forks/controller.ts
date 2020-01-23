@@ -1,7 +1,7 @@
-import { action, computed } from '@ember-decorators/object';
-import { reads } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
+import { action, computed } from '@ember/object';
+import { reads } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import Analytics from 'ember-osf-web/services/analytics';
 
 import I18N from 'ember-i18n/services/i18n';
@@ -31,7 +31,7 @@ export default class GuidNodeForks extends Controller {
     node?: Node;
 
     @computed('node')
-    get nodeType(this: GuidNodeForks) {
+    get nodeType() {
         if (!this.node) {
             return undefined;
         }
@@ -39,7 +39,7 @@ export default class GuidNodeForks extends Controller {
     }
 
     @action
-    openDeleteModal(this: GuidNodeForks, node: Node) {
+    openDeleteModal(node: Node) {
         node.get('children').then(children => {
             if (children.toArray().length) {
                 const message = this.i18n.t('forks.unable_to_delete_fork');
@@ -52,13 +52,13 @@ export default class GuidNodeForks extends Controller {
     }
 
     @action
-    closeDeleteModal(this: GuidNodeForks) {
+    closeDeleteModal() {
         this.set('toDelete', null);
         this.set('deleteModal', false);
     }
 
     @action
-    newFork(this: GuidNodeForks) {
+    newFork() {
         this.set('newModal', false);
         this.set('loadingNew', true);
         this.node!.makeFork().then(() => {
@@ -79,7 +79,7 @@ export default class GuidNodeForks extends Controller {
     }
 
     @action
-    delete(this: GuidNodeForks) {
+    delete() {
         this.set('deleteModal', false);
         const node = this.toDelete;
         if (!node) {

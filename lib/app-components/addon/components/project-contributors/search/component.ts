@@ -1,7 +1,8 @@
-import { alias } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { task, timeout } from 'ember-concurrency';
+import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
+import { timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import { DS } from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 
@@ -36,6 +37,7 @@ export default class Search extends Component {
     @alias('search.lastSuccessful.value') results?: DS.AdapterPopulatedRecordArray<User>;
     @alias('results.meta.total_pages') totalPages?: number;
 
+    @task({ restartable: true })
     search = task(function *(this: Search, page?: number) {
         if (!this.query) {
             return undefined;
@@ -56,8 +58,9 @@ export default class Search extends Component {
         });
 
         return results;
-    }).restartable();
+    });
 
+    @task
     addContributor = task(function *(this: Search, user: User) {
         this.analytics.track('list', 'filter', 'Collections - Contributors - Add Contributor');
 

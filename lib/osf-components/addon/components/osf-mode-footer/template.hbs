@@ -14,7 +14,11 @@
                     {{/if}}
                 </OsfButton>
                 {{#if this.showUrlInput}}
-                    {{input type='text' value=this.url enter=(action this.transitionToUrl)}}
+                    <Input
+                        @type='text'
+                        @value={{this.url}}
+                        @enter={{action this.transitionToUrl}}
+                    />
                 {{/if}}
             </div>
         </dialog.trigger>
@@ -29,13 +33,19 @@
                     <ul local-class='OptionsList'>
                         <li>
                             <label>
-                                {{input type='checkbox' checked=this.analytics.shouldToastOnEvent}}
+                                <Input
+                                    @type='checkbox'
+                                    @checked={{this.analytics.shouldToastOnEvent}}
+                                />
                                 {{t 'dev_tools.options.toast_events'}}
                             </label>
                         </li>
                         <li>
                             <label>
-                                {{input type='checkbox' checked=this.showUrlInput}}
+                                <Input
+                                    @type='checkbox'
+                                    @checked={{this.showUrlInput}}
+                                />
                                 {{t 'dev_tools.options.show_url_bar'}}
                             </label>
                         </li>
@@ -49,11 +59,11 @@
                         {{#each this.featureList as |feature|}}
                             <li>
                                 <label>
-                                    {{input
-                                        type='checkbox'
-                                        click=(action this.toggleFeature feature)
-                                        checked=(is-feature-enabled this.features feature)
-                                    }}
+                                    <Input
+                                        @type='checkbox'
+                                        @click={{action this.toggleFeature feature}}
+                                        @checked={{is-feature-enabled this.features feature}}
+                                    />
                                     {{feature}}
                                 </label>
                             </li>

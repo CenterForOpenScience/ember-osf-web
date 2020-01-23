@@ -1,6 +1,6 @@
 // BEGIN-SNIPPET validate-list.component
-import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
+import { computed } from '@ember/object';
 import { ValidatorResult } from 'ember-changeset-validations';
 import { ChangesetDef } from 'ember-changeset/types';
 

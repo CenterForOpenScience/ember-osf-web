@@ -1,10 +1,10 @@
 import { tagName } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import { task } from 'ember-concurrency';
+import { action, computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -37,20 +37,7 @@ export interface SingleSubjectManager {
 
 @tagName('')
 @layout(template)
-export default class SingleSubjectManagerComponent extends Component.extend({
-    loadChildren: task(function *(this: SingleSubjectManagerComponent) {
-        const { subject } = this;
-        if (subject) {
-            const children = yield subject.queryHasMany('children', {
-                page: {
-                    size: 150, // TODO: import const
-                },
-                related_counts: 'children',
-            });
-            this.setProperties({ children });
-        }
-    }).drop(),
-}) {
+export default class SingleSubjectManagerComponent extends Component {
     // required
     subjectsManager!: SubjectManager;
 
@@ -105,6 +92,20 @@ export default class SingleSubjectManagerComponent extends Component.extend({
         } = this;
         return Boolean(subject && subjectsManager.subjectIsSaved(subject));
     }
+
+    @task({ drop: true })
+    loadChildren = task(function *(this: SingleSubjectManagerComponent) {
+        const { subject } = this;
+        if (subject) {
+            const children = yield subject.queryHasMany('children', {
+                page: {
+                    size: 150, // TODO: import const
+                },
+                related_counts: 'children',
+            });
+            this.setProperties({ children });
+        }
+    });
 
     @action
     ensureChildrenLoaded() {

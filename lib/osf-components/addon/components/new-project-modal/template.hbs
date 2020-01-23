@@ -11,18 +11,16 @@
             <div class='form-group m-v-sm'>
                 <label class='f-w-lg text-bigger' local-class='NewProject__label'>
                     {{t 'general.title'}}
-                    {{! template-lint-disable no-implicit-this }}
-                    {{input
-                        (html-attributes data-test-new-project-title=true)
-                        placeholder=(t 'new_project.title_placeholder')
-                        autofocus='autofocus'
-                        class='form-control project-name'
-                        required=true
-                        value=this.nodeTitle
-                        type='text'
-                        enter=(action this.create)
-                    }}
-                    {{! template-lint-enable no-implicit-this }}
+                    <Input
+                        data-test-new-project-title
+                        @placeholder={{t 'new_project.title_placeholder'}}
+                        @autofocus='autofocus'
+                        @class='form-control project-name'
+                        @required={{true}}
+                        @value={{this.nodeTitle}}
+                        @type='text'
+                        @enter={{action this.create}}
+                    />
                 </label>
             </div>
 
@@ -102,15 +100,13 @@
                 <div class='form-group m-v-sm'>
                     <label for='projectDesc' class='f-w-lg text-bigger' local-class='NewProject__label'>
                         {{t 'general.description'}}
-                        {{! template-lint-disable no-implicit-this }}
-                        {{input
-                            (html-attributes data-test-project-description-input=true)
-                            placeholder=(t 'new_project.description_placeholder')
-                            class='form-control noresize project-desc'
-                            value=this.description
-                            type='text'
-                        }}
-                        {{! template-lint-enable no-implicit-this }}
+                        <Input
+                            data-test-project-description-input
+                            @placeholder={{t 'new_project.description_placeholder'}}
+                            @class='form-control noresize project-desc'
+                            @value={{this.description}}
+                            @type='text'
+                        />
                     </label>
                 </div>
                 <div data-test-select-template class='form-group m-v-md'>

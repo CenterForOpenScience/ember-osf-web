@@ -1,13 +1,14 @@
-import { action, computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { action, computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
+import Session from 'ember-simple-auth/services/session';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
-import Session from 'ember-simple-auth/services/session';
+
 import styles from './styles';
 import template from './template';
 
@@ -69,7 +70,7 @@ export default class OsfNavbar extends Component {
     }
 
     @action
-    onClickPrimaryDropdown(this: OsfNavbar) {
+    onClickPrimaryDropdown() {
         this.set('showNavLinks', false);
         this.analytics.click('button', 'Navbar - Dropdown Arrow');
     }

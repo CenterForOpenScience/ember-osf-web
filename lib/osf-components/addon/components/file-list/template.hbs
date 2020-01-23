@@ -4,12 +4,12 @@
 >
     {{#if (or this.showFilterClicked this.showFilterInput)}}
         <div class='col-xs-9 filter-input'>
-            {{input
-                (html-attributes data-test-filter-input='input')
-                placeholder=(t 'file_browser.filtering')
-                class='form-control'
-                keyUp=(action @updateFilter value='target.value')
-            }}
+            <Input
+                data-test-filter-input='input'
+                @placeholder={{t 'file_browser.filtering'}}
+                @class='form-control'
+                @keyUp={{action @updateFilter value='target.value'}}
+            />
         </div>
         <div class='col-xs-3'>
             <OsfButton

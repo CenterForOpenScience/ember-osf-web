@@ -1,12 +1,14 @@
-import { attr } from '@ember-decorators/data';
-import { computed } from '@ember-decorators/object';
-import { or } from '@ember-decorators/object/computed';
 import { assert } from '@ember/debug';
+import { computed } from '@ember/object';
+import { or } from '@ember/object/computed';
+import DS from 'ember-data';
 import { Link } from 'jsonapi-typescript';
 
 import getHref from 'ember-osf-web/utils/get-href';
 import { addQueryParam } from 'ember-osf-web/utils/url-parts';
 import OsfModel, { OsfLinks } from './osf-model';
+
+const { attr } = DS;
 
 enum FileItemKinds {
     File = 'file',

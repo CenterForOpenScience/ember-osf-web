@@ -1,8 +1,8 @@
 import { tagName } from '@ember-decorators/component';
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { task } from 'ember-concurrency';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
@@ -25,19 +25,20 @@ export default class ProjectMetadata extends Component {
 
     @requiredAction continue!: () => void;
 
+    @task
     reset = task(function *(this: ProjectMetadata) {
         this.node.rollbackAttributes();
         yield this.node.reload();
     });
 
     @action
-    addTag(this: ProjectMetadata, tag: string) {
+    addTag(tag: string) {
         this.analytics.click('button', 'Collection - Submit - Add tag');
         this.node.set('tags', [...this.node.tags.slice(), tag].sort());
     }
 
     @action
-    removeTagAtIndex(this: ProjectMetadata, index: number) {
+    removeTagAtIndex(index: number) {
         this.analytics.click('button', 'Collections - Submit - Remove tag');
         this.node.set('tags', this.node.tags.slice().removeAt(index));
     }

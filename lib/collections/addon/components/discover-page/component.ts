@@ -1,12 +1,12 @@
-import { action, computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import ArrayProxy from '@ember/array/proxy';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import EmberObject, { setProperties } from '@ember/object';
+import EmberObject, { action, computed, setProperties } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
-import { task, timeout } from 'ember-concurrency';
+import { timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
@@ -85,12 +85,7 @@ function emptyResults(): SearchQuery {
 }
 
 @layout(template, styles)
-export default class DiscoverPage extends Component.extend({
-    didInsertElement(this: DiscoverPage, ...args: any[]) {
-        this._super(...args);
-        this.set('firstLoad', true);
-    },
-}) {
+export default class DiscoverPage extends Component {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service store!: DS.Store;
@@ -134,33 +129,13 @@ export default class DiscoverPage extends Component.extend({
     /**
      * A list of the components to be used for the search facets.
      */
-    facets: Facet[] = this.facets;
+    facets?: Facet[];
 
-    facetContexts: FacetContext[] = this.facets
-        .map(({ component, options, key, title }) => {
-            const queryParam: string = this[camelize(component) as keyof DiscoverPage];
-            const activeFilter = !queryParam ? [] : queryParam.split('OR').filter(str => !!str);
-
-            return EmberObject.create({
-                title,
-                key,
-                component,
-                didInit: false,
-                queryParam,
-                lockedActiveFilter: {},
-                activeFilter,
-                defaultQueryFilters: {},
-                currentQueryFilters: {},
-                options,
-                updateFilters: () => {
-                    assert('You should set an `updateFilters` function');
-                },
-            });
-        });
+    facetContexts?: FacetContext[];
 
     @computed('facetContexts.@each.currentQueryFilters')
     get filters(): { [index: string]: any } {
-        return this.facetContexts
+        return this.facetContexts && this.facetContexts
             .reduce((acc, { currentQueryFilters }) => ({ ...acc, ...currentQueryFilters }), {});
     }
 
@@ -260,9 +235,10 @@ export default class DiscoverPage extends Component.extend({
 
     @computed('facetContexts.@each.didInit')
     get hasInitializedFacets() {
-        return this.facetContexts.every(({ didInit }) => didInit);
+        return this.facetContexts && this.facetContexts.every(({ didInit }) => didInit);
     }
 
+    @task({ keepLatest: true })
     loadPage = task(function *(this: DiscoverPage) {
         this.set('loading', true);
 
@@ -303,19 +279,44 @@ export default class DiscoverPage extends Component.extend({
             // re-throw for error monitoring
             throw errorResponse;
         }
-    }).keepLatest();
+    });
+
+    init() {
+        super.init();
+        this.set('facetContexts', this.facets && this.facets
+            .map(({ component, options, key, title }) => {
+                const queryParam: string = this[camelize(component) as keyof DiscoverPage];
+                const activeFilter = !queryParam ? [] : queryParam.split('OR').filter(str => !!str);
+
+                return EmberObject.create({
+                    title,
+                    key,
+                    component,
+                    didInit: false,
+                    queryParam,
+                    lockedActiveFilter: {},
+                    activeFilter,
+                    defaultQueryFilters: {},
+                    currentQueryFilters: {},
+                    options,
+                    updateFilters: () => {
+                        assert('You should set an `updateFilters` function');
+                    },
+                });
+            }));
+    }
 
     scrollToResults() {
         // Scrolls to top of search results
         this.$('html, body').scrollTop(this.$('.results-top').position().top);
     }
 
-    search(this: DiscoverPage): void {
+    search(): void {
         if (!this.firstLoad) {
             this.set('page', 1);
         }
 
-        this.get('loadPage').perform();
+        this.loadPage.perform();
     }
 
     trackDebouncedSearch() {
@@ -323,8 +324,13 @@ export default class DiscoverPage extends Component.extend({
         this.analytics.track('input', 'onkeyup', 'Discover - Search', this.q);
     }
 
+    didInsertElement(...args: any[]) {
+        this._super(...args);
+        this.set('firstLoad', true);
+    }
+
     @action
-    addFilter(this: DiscoverPage, type: keyof DiscoverPage, filterValue: string) {
+    addFilter(type: keyof DiscoverPage, filterValue: string) {
         // Ember-SHARE action. Used to add filter from the search results.
         this.set(type, encodeParams(getUniqueList([
             filterValue,
@@ -333,18 +339,20 @@ export default class DiscoverPage extends Component.extend({
     }
 
     @action
-    clearFilters(this: DiscoverPage) {
+    clearFilters() {
         this.analytics.track('button', 'click', 'Discover - Clear Filters');
 
-        // Clear all of the activeFilters
-        this.facetContexts
-            .forEach(context => {
-                setProperties(context, {
-                    activeFilter: [...context.lockedActiveFilter],
-                    queryParam: '',
-                    currentQueryFilters: context.defaultQueryFilters,
+        if (this.facetContexts) {
+            // Clear all of the activeFilters
+            this.facetContexts
+                .forEach(context => {
+                    setProperties(context, {
+                        activeFilter: [...context.lockedActiveFilter],
+                        queryParam: '',
+                        currentQueryFilters: context.defaultQueryFilters,
+                    });
                 });
-            });
+        }
 
         this.setProperties({
             ...[
@@ -365,7 +373,7 @@ export default class DiscoverPage extends Component.extend({
     }
 
     @action
-    selectSortOption(this: DiscoverPage, option: string) {
+    selectSortOption(option: string) {
         // Runs when sort option changed in dropdown
         this.set('sort', option);
         this.analytics.track('dropdown', 'select', `Sort by: ${option || 'relevance'}`);
@@ -373,7 +381,7 @@ export default class DiscoverPage extends Component.extend({
     }
 
     @action
-    setLoadPage(this: DiscoverPage, pageNumber: number, scrollUp: boolean = true) {
+    setLoadPage(pageNumber: number, scrollUp: boolean = true) {
         // Adapted from PREPRINTS for pagination. When paginating, sets page and scrolls to top of results.
         this.set('page', pageNumber);
 
@@ -381,7 +389,7 @@ export default class DiscoverPage extends Component.extend({
             this.scrollToResults();
         }
 
-        this.get('loadPage').perform();
+        this.loadPage.perform();
     }
 
     @action
@@ -394,13 +402,15 @@ export default class DiscoverPage extends Component.extend({
      * Closure action to update and search when the filter changes. Each component manages its own filters.
      */
     @action
-    filterChanged(this: DiscoverPage) {
-        this.setProperties({
-            ...this.facetContexts.reduce((acc, { component, queryParam }) => ({
-                ...acc,
-                [camelize(component)]: queryParam,
-            }), {}),
-        });
+    filterChanged() {
+        if (this.facetContexts) {
+            this.setProperties({
+                ...this.facetContexts.reduce((acc, { component, queryParam }) => ({
+                    ...acc,
+                    [camelize(component)]: queryParam,
+                }), {}),
+            });
+        }
 
         if (!this.hasInitializedFacets) {
             return;

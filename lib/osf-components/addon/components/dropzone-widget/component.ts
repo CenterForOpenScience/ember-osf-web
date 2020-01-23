@@ -1,6 +1,6 @@
 import { className } from '@ember-decorators/component';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { inject as service } from '@ember/service';
 import diffAttrs from 'ember-diff-attrs';
 import I18N from 'ember-i18n/services/i18n';
 import Session from 'ember-simple-auth/services/session';
@@ -10,6 +10,7 @@ import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import File from 'ember-osf-web/models/file';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
+
 import template from './template';
 
 /**
@@ -87,7 +88,7 @@ export default class DropzoneWidget extends Component.extend({
         }
     }
 
-    preventMultiple(this: DropzoneWidget) {
+    preventMultiple() {
         // Dropzone.js does not have an option for disabling selecting multiple files when clicking the "upload" button.
         // Therefore, we remove the "multiple" attribute for the hidden file input element, so that users cannot select
         // multiple files for upload in the first place.
@@ -97,7 +98,7 @@ export default class DropzoneWidget extends Component.extend({
         }
     }
 
-    loadDropzone(this: DropzoneWidget) {
+    loadDropzone() {
         function CustomDropzone(...args: any[]) {
             // @ts-ignore - Dropzone is a global
             Dropzone.call(this, ...args);

@@ -1,7 +1,8 @@
-import { action, computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { task, timeout } from 'ember-concurrency';
+import { action, computed } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
@@ -17,16 +18,7 @@ import styles from './styles';
 import template from './template';
 
 @layout(template, styles)
-export default class List extends Component.extend({
-    loadContributors: task(function *(this: List) {
-        const contributors: QueryHasManyResult<Contributor> = yield this.node.queryHasMany(
-            'contributors',
-            { page: this.page },
-        );
-        this.set('contributors', this.contributors.concat(contributors));
-        this.set('hasMore', this.contributors && this.contributors.length < contributors.meta.total);
-    }),
-}) {
+export default class List extends Component {
     // Required parameters
     node: Node = this.node;
 
@@ -43,29 +35,42 @@ export default class List extends Component.extend({
     hasMore = false;
     page = 1;
 
+    @task
+    loadContributors = task(function *(this: List) {
+        const contributors: QueryHasManyResult<Contributor> = yield this.node.queryHasMany(
+            'contributors',
+            { page: this.page },
+        );
+        this.set('contributors', this.contributors.concat(contributors));
+        this.set('hasMore', this.contributors && this.contributors.length < contributors.meta.total);
+    });
+
     /**
      * Changes the contributor's permissions
      */
+    @task({ enqueue: true })
     updatePermissions = task(function *(this: List, contributor: HighlightableContributor, permission: Permission) {
         this.analytics.track('option', 'select', 'Collections - Submit - Change Permission');
         contributor.setProperties({ permission });
 
         yield this.get('saveAndHighlight').perform(contributor);
-    }).enqueue();
+    });
 
     /**
      * Changes the contributor's bibliographic
      */
+    @task({ enqueue: true })
     toggleBibliographic = task(function *(this: List, contributor: HighlightableContributor) {
         const actionName = `${contributor.toggleProperty('bibliographic') ? '' : 'de'}select`;
         this.analytics.track('checkbox', actionName, 'Collections - Submit - Update Bibliographic');
 
         yield this.get('saveAndHighlight').perform(contributor);
-    }).enqueue();
+    });
 
     /**
      * Changes the order of contributors for ember-sortable
      */
+    @task({ drop: true })
     reorderContributors = task(function *(
         this: List,
         contributors: HighlightableContributor[],
@@ -78,11 +83,12 @@ export default class List extends Component.extend({
         contributor.set('index', newIndex);
 
         yield this.get('saveAndHighlight').perform(contributor);
-    }).drop();
+    });
 
     /**
      * Saves the contributor and highlights the row with success/failure
      */
+    @task
     saveAndHighlight = task(function *(this: List, contributor: HighlightableContributor): IterableIterator<any> {
         let highlightClass: typeof contributor.highlightClass;
 
@@ -101,6 +107,7 @@ export default class List extends Component.extend({
     /**
      * Removes a contributor
      */
+    @task
     removeContributor = task(function *(this: List, contributor: Contributor) {
         this.analytics.track('button', 'click', 'Collections - Submit - Remove Contributor');
 

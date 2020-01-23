@@ -358,7 +358,7 @@ module('Registries | Integration | discover', hooks => {
 
         const engine = await loadEngine('registries', 'registries');
 
-        const shareSearch = new ShareSearch();
+        const shareSearch = ShareSearch.create();
 
         engine.register('service:share-search', shareSearch, { instantiate: false });
         this.owner.register('service:share-search', shareSearch, { instantiate: false });

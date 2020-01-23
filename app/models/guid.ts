@@ -1,11 +1,9 @@
-import { computed } from '@ember-decorators/object';
-import ModelRegistry from 'ember-data/types/registries/model';
+import { computed } from '@ember/object';
 import { singularize } from 'ember-inflector';
 
 import OsfModel from './osf-model';
 
 export type ReferentModelName = 'file' | 'node' | 'preprint' | 'registration' | 'user';
-export type ReferentModel = ModelRegistry[ReferentModelName];
 
 export default class GuidModel extends OsfModel {
     @computed('id')

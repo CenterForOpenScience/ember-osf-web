@@ -1,8 +1,8 @@
 import { classNames } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import Component from '@ember/component';
+import { action, computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { localClassNames } from 'ember-css-modules';
 import { OrderedSet } from 'immutable';
 
@@ -46,7 +46,7 @@ export default class SideBar extends Component {
     }
 
     @action
-    clearFilters(this: SideBar) {
+    clearFilters() {
         this.analytics.track('button', 'click', 'Discover - Clear Filters');
         this.onSearchOptionsUpdated(this.searchOptions.set('filters', OrderedSet()));
     }

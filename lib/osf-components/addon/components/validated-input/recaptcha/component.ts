@@ -1,8 +1,9 @@
-import { action, computed } from '@ember-decorators/object';
+import { action, computed } from '@ember/object';
 import Ember from 'ember';
 import DS, { AttributesFor } from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
+
 import BaseValidatedComponent from '../base-component';
 import template from './template';
 
@@ -20,14 +21,14 @@ export default class ValidatedRecaptcha<M extends DS.Model> extends BaseValidate
 
     gRecaptcha!: GRecaptcha;
 
-    constructor(...args: any[]) {
-        super(...args);
+    init() {
+        super.init();
         if (this.bindReset) {
             this.bindReset(this._reset.bind(this));
         }
     }
 
-    @computed
+    @computed()
     get isTesting(): boolean {
         // Don't render the recaptcha widget durring testing
         // as it causes random failures due to a delayed promise failure

@@ -147,7 +147,7 @@ export default class OsfSerializer extends JSONAPISerializer {
                 }
             }
             // HACK: There's no public-API way to tell whether a relationship has been changed.
-            const relationships = (snapshot as any)._internalModel._relationships.initializedRelationships;
+            const relationships = (snapshot as any)._internalModel.__recordData._relationships.initializedRelationships;
             if (serialized.data.relationships) {
                 for (const key of Object.keys(serialized.data.relationships)) {
                     const rel = relationships[camelize(key)];

@@ -1,6 +1,7 @@
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { all, task, timeout } from 'ember-concurrency';
+import { inject as service } from '@ember/service';
+import { all, timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -40,8 +41,18 @@ function citationUrl(citable: Node | Preprint, citationStyleId: string) {
 }
 
 @layout(template)
-export default class CitationViewer extends Component.extend({
-    loadDefaultCitations: task(function *(this: CitationViewer) {
+export default class CitationViewer extends Component {
+    // Required parameter
+    citable!: Node | Preprint;
+
+    // Private properties
+    @service store!: DS.Store;
+    @service currentUser!: CurrentUser;
+
+    selectedCitationStyle?: CitationStyle;
+
+    @task({ on: 'init' })
+    loadDefaultCitations = task(function *(this: CitationViewer) {
         const responses: SingleResourceDocument[] = yield all(
             defaultCitations.map(
                 c => this.currentUser.authenticatedAJAX({ url: citationUrl(this.citable, c.id) }),
@@ -51,32 +62,25 @@ export default class CitationViewer extends Component.extend({
             ...defaultCitations[i],
             citation: r.data.attributes!.citation,
         }));
-    }).on('init'),
+    });
 
-    searchCitationStyles: task(function *(this: CitationViewer, query: string) {
+    @task({ restartable: true })
+    searchCitationStyles = task(function *(this: CitationViewer, query: string) {
         yield timeout(1000); // debounce
 
         return yield this.store.query('citation-style', {
             'filter[title,short_title]': query,
             'page[size]': 100,
         });
-    }).restartable(),
+    });
 
-    renderCitation: task(function *(this: CitationViewer, citationStyle: CitationStyle) {
+    @task({ restartable: true })
+    renderCitation = task(function *(this: CitationViewer, citationStyle: CitationStyle) {
         this.set('selectedCitationStyle', citationStyle);
 
         const response: SingleResourceDocument = yield this.currentUser.authenticatedAJAX({
             url: citationUrl(this.citable, citationStyle.id),
         });
         return response.data.attributes!.citation;
-    }).restartable(),
-}) {
-    // Required parameter
-    citable!: Node | Preprint;
-
-    // Private properties
-    @service store!: DS.Store;
-    @service currentUser!: CurrentUser;
-
-    selectedCitationStyle?: CitationStyle;
+    });
 }

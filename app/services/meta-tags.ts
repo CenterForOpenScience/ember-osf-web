@@ -1,5 +1,4 @@
-import { service } from '@ember-decorators/service';
-import Service from '@ember/service';
+import Service, { inject as service } from '@ember/service';
 import HeadTagsService from 'ember-cli-meta-tags/services/head-tags';
 import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
@@ -68,7 +67,7 @@ export default class MetaTags extends Service {
      * @param {MetaTagsData} metaTagsOverrides Data values to override defaults.
      * @return {MetaTagsDefs} Returns meta tag definitions.
      */
-    getMetaTags(this: MetaTags, metaTagsOverrides: MetaTagsData): MetaTagsDefs {
+    getMetaTags(metaTagsOverrides: MetaTagsData): MetaTagsDefs {
         // Default values.
         const metaTagsData: MetaTagsData = {
             type: 'article',
@@ -147,7 +146,7 @@ export default class MetaTags extends Service {
      * @param {MetaTagsData} metaTagsData Data values to use for meta tags.
      * @return {HeadTagDef[]} Returns head tag defintions.
      */
-    getHeadTags(this: MetaTags, metaTagsData: MetaTagsData): HeadTagDef[] {
+    getHeadTags(metaTagsData: MetaTagsData): HeadTagDef[] {
         const metaTagsDefs = this.getMetaTags(metaTagsData);
 
         // Morph MetaTagsDefs into an array of MetaTagAttrs.

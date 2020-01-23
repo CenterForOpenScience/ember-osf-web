@@ -1,6 +1,6 @@
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
+import { action } from '@ember/object';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 
 import Registration from 'ember-osf-web/models/registration';
 import { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
@@ -11,7 +11,7 @@ export default class GuidRegistrationForks extends Route {
     @service analytics!: Analytics;
     @service ready!: Ready;
 
-    model(this: GuidRegistrationForks) {
+    model() {
         return this.modelFor('guid-registration');
     }
 

@@ -1,6 +1,6 @@
-import { service } from '@ember-decorators/service';
 import { assert } from '@ember/debug';
 import EmberObject, { get } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { isPresent } from '@ember/utils';
 import BaseValidator from 'ember-cp-validations/validators/base';
 import I18N from 'ember-i18n/services/i18n';

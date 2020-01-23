@@ -1,8 +1,8 @@
 import { tagName } from '@ember-decorators/component';
-import { computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { task } from 'ember-concurrency';
+import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
@@ -12,6 +12,7 @@ import { layout } from 'ember-osf-web/decorators/component';
 import CollectionModel from 'ember-osf-web/models/collection';
 import RegistrationModel, { RegistrationState } from 'ember-osf-web/models/registration';
 import pathJoin from 'ember-osf-web/utils/path-join';
+
 import styles from './styles';
 import template from './template';
 
@@ -19,8 +20,18 @@ const { OSF: { url: baseURL } } = config;
 
 @tagName('')
 @layout(template, styles)
-export default class OverviewTopbar extends Component.extend({
-    forkRegistration: task(function *(this: OverviewTopbar, closeDropdown: () => void) {
+export default class OverviewTopbar extends Component {
+    @service store!: DS.Store;
+    @service toast!: Toast;
+    @service i18n!: I18N;
+
+    registration!: RegistrationModel;
+
+    bookmarksCollection!: CollectionModel;
+    isBookmarked?: boolean;
+
+    @task({ drop: true })
+    forkRegistration = task(function *(this: OverviewTopbar, closeDropdown: () => void) {
         if (!this.registration) {
             return;
         }
@@ -37,8 +48,10 @@ export default class OverviewTopbar extends Component.extend({
         } finally {
             closeDropdown();
         }
-    }).drop(),
-    bookmark: task(function *(this: OverviewTopbar) {
+    });
+
+    @task({ drop: true })
+    bookmark = task(function *(this: OverviewTopbar) {
         if (!this.bookmarksCollection || !this.registration) {
             return;
         }
@@ -67,8 +80,10 @@ export default class OverviewTopbar extends Component.extend({
         this.toast.success(this.i18n.t(`registries.overview.bookmark.${op}.success`));
 
         this.toggleProperty('isBookmarked');
-    }).drop(),
-    getBookmarksCollection: task(function *(this: OverviewTopbar) {
+    });
+
+    @task({ on: 'init' })
+    getBookmarksCollection = task(function *(this: OverviewTopbar) {
         const collections = yield this.store.findAll('collection', {
             adapterOptions: { 'filter[bookmarks]': 'true' },
         });
@@ -83,16 +98,7 @@ export default class OverviewTopbar extends Component.extend({
         const isBookmarked = Boolean(bookmarkedRegs.find((reg: RegistrationModel) => reg.id === this.registration.id));
 
         this.set('isBookmarked', isBookmarked);
-    }).on('init'),
-}) {
-    @service store!: DS.Store;
-    @service toast!: Toast;
-    @service i18n!: I18N;
-
-    registration!: RegistrationModel;
-
-    bookmarksCollection!: CollectionModel;
-    isBookmarked?: boolean;
+    });
 
     @computed('registration.state')
     get isWithdrawn() {

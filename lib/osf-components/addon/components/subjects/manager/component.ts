@@ -1,10 +1,10 @@
 import { tagName } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import { task } from 'ember-concurrency';
+import { action, computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
@@ -43,38 +43,7 @@ export interface SubjectManager {
 
 @tagName('')
 @layout(template)
-export default class SubjectManagerComponent extends Component.extend({
-    initializeSubjects: task(function *(this: SubjectManagerComponent) {
-        const { model } = this;
-        const savedSubjects: SubjectModel[] = model.isNew ? model.subjects : yield model.loadAll('subjects');
-        const savedSubjectIds = new Set(savedSubjects.map(s => s.id));
-        this.setProperties({
-            savedSubjectIds,
-            selectedSubjectIds: new Set(savedSubjectIds),
-        });
-        this.incrementProperty('selectedSubjectsChanges');
-        this.incrementProperty('savedSubjectsChanges');
-    }).on('init'),
-
-    saveChanges: task(function *(this: SubjectManagerComponent) {
-        const { selectedSubjects } = this;
-
-        try {
-            yield this.model.updateM2MRelationship('subjects', selectedSubjects);
-        } catch (e) {
-            this.toast.error(this.i18n.t('registries.registration_metadata.save_subjects_error'));
-            throw e;
-        }
-
-        const savedSubjectIds = new Set(selectedSubjects.map(s => s.id));
-        this.setProperties({
-            savedSubjectIds,
-            selectedSubjectIds: new Set(savedSubjectIds),
-        });
-        this.incrementProperty('selectedSubjectsChanges');
-        this.incrementProperty('savedSubjectsChanges');
-    }).drop(),
-}) {
+export default class SubjectManagerComponent extends Component {
     // required
     model!: ModelWithSubjects;
     provider!: ProviderModel;
@@ -124,6 +93,39 @@ export default class SubjectManagerComponent extends Component.extend({
                 .filter(Boolean),
         );
     }
+
+    @task({ on: 'init' })
+    initializeSubjects = task(function *(this: SubjectManagerComponent) {
+        const { model } = this;
+        const savedSubjects: SubjectModel[] = model.isNew ? model.subjects : yield model.loadAll('subjects');
+        const savedSubjectIds = new Set(savedSubjects.map(s => s.id));
+        this.setProperties({
+            savedSubjectIds,
+            selectedSubjectIds: new Set(savedSubjectIds),
+        });
+        this.incrementProperty('selectedSubjectsChanges');
+        this.incrementProperty('savedSubjectsChanges');
+    });
+
+    @task({ drop: true })
+    saveChanges = task(function *(this: SubjectManagerComponent) {
+        const { selectedSubjects } = this;
+
+        try {
+            yield this.model.updateM2MRelationship('subjects', selectedSubjects);
+        } catch (e) {
+            this.toast.error(this.i18n.t('registries.registration_metadata.save_subjects_error'));
+            throw e;
+        }
+
+        const savedSubjectIds = new Set(selectedSubjects.map(s => s.id));
+        this.setProperties({
+            savedSubjectIds,
+            selectedSubjectIds: new Set(savedSubjectIds),
+        });
+        this.incrementProperty('selectedSubjectsChanges');
+        this.incrementProperty('savedSubjectsChanges');
+    });
 
     init() {
         super.init();

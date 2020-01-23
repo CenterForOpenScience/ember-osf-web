@@ -1,13 +1,14 @@
 import { tagName } from '@ember-decorators/component';
-import { computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 import Session from 'ember-simple-auth/services/session';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
+
 import template from './template';
 
 const osfURL = config.OSF.url;

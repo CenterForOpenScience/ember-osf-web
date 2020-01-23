@@ -1,7 +1,7 @@
-import { action, computed } from '@ember-decorators/object';
-import { notEmpty } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { action, computed } from '@ember/object';
+import { notEmpty } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import { localClassNames } from 'ember-css-modules';
 import I18N from 'ember-i18n/services/i18n';
 
@@ -46,7 +46,7 @@ export default class FileList extends Component {
     }
 
     @action
-    closeFilter(this: FileList) {
+    closeFilter() {
         this.setProperties({
             showFilterClicked: false,
             filter: '',

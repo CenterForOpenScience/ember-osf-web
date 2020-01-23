@@ -1,5 +1,4 @@
-import { attr, belongsTo, hasMany } from '@ember-decorators/data';
-import { computed } from '@ember-decorators/object';
+import { computed } from '@ember/object';
 import DS from 'ember-data';
 
 import CollectedMetadatumModel, { choiceFields } from './collected-metadatum';
@@ -7,6 +6,8 @@ import CollectionProviderModel from './collection-provider';
 import NodeModel from './node';
 import OsfModel from './osf-model';
 import RegistrationModel from './registration';
+
+const { attr, belongsTo, hasMany } = DS;
 
 export type ChoicesFields =
     'collectedTypeChoices' |

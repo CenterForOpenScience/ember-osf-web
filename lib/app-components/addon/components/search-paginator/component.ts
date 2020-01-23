@@ -1,6 +1,6 @@
-import { action, computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { action, computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import I18N from 'ember-i18n/services/i18n';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
@@ -116,17 +116,17 @@ export default class SearchPaginator extends Component {
     @requiredAction pageChanged!: (page: number) => void;
 
     @action
-    setPage(this: SearchPaginator, page: number): void {
+    setPage(page: number): void {
         this.pageChanged(page);
     }
 
     @action
-    prevPage(this: SearchPaginator): void {
+    prevPage(): void {
         this.setPage(this.current - 1);
     }
 
     @action
-    nextPage(this: SearchPaginator): void {
+    nextPage(): void {
         this.setPage(this.current + 1);
     }
 }

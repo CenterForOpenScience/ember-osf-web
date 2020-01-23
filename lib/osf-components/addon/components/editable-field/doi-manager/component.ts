@@ -1,9 +1,9 @@
 import { tagName } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
-import { alias, and, not } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { task } from 'ember-concurrency';
+import { action, computed } from '@ember/object';
+import { alias, and, not } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency-decorators';
 import Store from 'ember-data/store';
 import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
@@ -12,6 +12,7 @@ import Toast from 'ember-toastr/services/toast';
 import { layout } from 'ember-osf-web/decorators/component';
 import Identifier from 'ember-osf-web/models/identifier';
 import Registration, { RegistrationState } from 'ember-osf-web/models/registration';
+
 import template from './template';
 
 export interface DoiManager {
@@ -28,38 +29,7 @@ const {
 
 @tagName('')
 @layout(template)
-export default class DoiManagerComponent extends Component.extend({
-    loadIdentifiers: task(function *(this: DoiManagerComponent) {
-        if (this.node) {
-            const identifiers: Identifier[] = yield this.node.identifiers;
-            const doi = identifiers.find(i => i.category === 'doi');
-            if (doi) {
-                this.set('nodeDoi', doi.value);
-            }
-        }
-    }).on('didReceiveAttrs'),
-    requestDoi: task(function *(this: DoiManagerComponent) {
-        if (this.node) {
-            const identifier = this.store.createRecord('identifier', {
-                category: 'doi',
-                referent: this.node,
-            });
-
-            try {
-                const doi = yield identifier.save();
-                if (doi) {
-                    this.set('nodeDoi', doi.value);
-                }
-            } catch (e) {
-                identifier.rollbackAttributes();
-                this.toast.error(this.i18n.t('registries.registration_metadata.mint_doi.error'));
-                throw e;
-            }
-            this.set('requestedEditMode', false);
-            this.toast.success(this.i18n.t('registries.registration_metadata.mint_doi.success'));
-        }
-    }),
-}) {
+export default class DoiManagerComponent extends Component {
     // required
     node!: Registration;
     nodeDoi!: string;
@@ -89,6 +59,40 @@ export default class DoiManagerComponent extends Component.extend({
     get nodeDoiUrl() {
         return `${doiUrlPrefix}${this.nodeDoi}`;
     }
+
+    @task({ on: 'didReceiveAttrs' })
+    loadIdentifiers = task(function *(this: DoiManagerComponent) {
+        if (this.node) {
+            const identifiers: Identifier[] = yield this.node.identifiers;
+            const doi = identifiers.find(i => i.category === 'doi');
+            if (doi) {
+                this.set('nodeDoi', doi.value);
+            }
+        }
+    });
+
+    @task
+    requestDoi = task(function *(this: DoiManagerComponent) {
+        if (this.node) {
+            const identifier = this.store.createRecord('identifier', {
+                category: 'doi',
+                referent: this.node,
+            });
+
+            try {
+                const doi = yield identifier.save();
+                if (doi) {
+                    this.set('nodeDoi', doi.value);
+                }
+            } catch (e) {
+                identifier.rollbackAttributes();
+                this.toast.error(this.i18n.t('registries.registration_metadata.mint_doi.error'));
+                throw e;
+            }
+            this.set('requestedEditMode', false);
+            this.toast.success(this.i18n.t('registries.registration_metadata.mint_doi.success'));
+        }
+    });
 
     @action
     startEditing() {

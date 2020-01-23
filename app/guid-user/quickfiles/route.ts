@@ -1,7 +1,7 @@
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
+import { action } from '@ember/object';
 import Route from '@ember/routing/route';
-import { task } from 'ember-concurrency';
+import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency-decorators';
 
 import GuidUserQuickfilesController from 'ember-osf-web/guid-user/quickfiles/controller';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -19,25 +19,15 @@ function preventDrop(e: DragEvent) {
     e.dataTransfer!.dropEffect = 'none';
 }
 
-export default class UserQuickfiles extends Route.extend({
-    setupController(controller: GuidUserQuickfilesController, model: any) {
-        this._super(controller, model);
-
-        controller.setProperties({
-            newProject: this.get('store').createRecord('node', {
-                public: true,
-                category: 'project',
-            }),
-        });
-    },
-}) {
+export default class UserQuickfiles extends Route {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service ready!: Ready;
     @service router!: any;
 
+    @task
     loadModel = task(function *(this: UserQuickfiles, userModel: any) {
-        const blocker = this.get('ready').getBlocker();
+        const blocker = this.ready.getBlocker();
         try {
             const user = yield userModel.taskInstance;
 
@@ -54,14 +44,25 @@ export default class UserQuickfiles extends Route.extend({
         }
     });
 
-    model(this: UserQuickfiles) {
+    model() {
         return {
-            taskInstance: this.get('loadModel').perform(this.modelFor('guid-user')),
+            taskInstance: this.loadModel.perform(this.modelFor('guid-user')),
         };
     }
 
+    setupController(controller: GuidUserQuickfilesController, model: any) {
+        super.setupController(controller, model);
+
+        controller.setProperties({
+            newProject: this.store.createRecord('node', {
+                public: true,
+                category: 'project',
+            }),
+        });
+    }
+
     @action
-    didTransition(this: UserQuickfiles) {
+    didTransition() {
         window.addEventListener('dragover', preventDrop);
         window.addEventListener('drop', preventDrop);
 

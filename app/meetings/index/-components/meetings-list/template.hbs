@@ -4,11 +4,11 @@
 
 <div data-test-meetings-list-search local-class='search'>
     <div class='col-xs-12 col-sm-6 col-sm-offset-6'>
-        {{input
-            type='text'
-            placeholder='Search'
-            key-up=(perform this.searchMeetings)
-        }}
+        <Input
+            @type='text'
+            @placeholder='Search'
+            @key-up={{perform this.searchMeetings}}
+        />
     </div>
 </div>
 

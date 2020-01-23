@@ -1,7 +1,7 @@
-import { action, computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import EmberArray, { A } from '@ember/array';
 import Component from '@ember/component';
+import { action, computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { localClassNames } from 'ember-css-modules';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';

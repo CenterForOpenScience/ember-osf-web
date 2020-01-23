@@ -1,9 +1,9 @@
 import { tagName } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { task } from 'ember-concurrency';
+import { action, computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import config from 'ember-get-config';
 import I18N from 'ember-i18n/services/i18n';
@@ -16,17 +16,29 @@ import UserSettingModel from 'ember-osf-web/models/user-setting';
 import CurrentUser from 'ember-osf-web/services/current-user';
 
 @tagName('')
-export default class SecurityPane extends Component.extend({
-    loadSettings: task(function *(this: SecurityPane) {
+export default class SecurityPane extends Component {
+    @service currentUser!: CurrentUser;
+    @service i18n!: I18N;
+    @service toast!: Toast;
+    @alias('currentUser.user') user!: User;
+    settings?: UserSettingModel;
+    primaryEmail?: UserEmail;
+    showError = false;
+    showEnableWarning = false;
+    showDisableWarning = false;
+
+    @task
+    loadSettings = task(function *(this: SecurityPane) {
         const { user } = this.currentUser;
 
         if (!user) {
             return;
         }
         this.set('settings', yield user.belongsTo('settings').reload());
-    }),
+    });
 
-    loadPrimaryEmail: task(function *(this: SecurityPane) {
+    @task
+    loadPrimaryEmail = task(function *(this: SecurityPane) {
         const { user } = this.currentUser;
 
         if (!user) {
@@ -38,9 +50,10 @@ export default class SecurityPane extends Component.extend({
             { 'filter[primary]': true },
         );
         this.set('primaryEmail', emails.length ? emails[0] : undefined);
-    }),
+    });
 
-    saveSettings: task(function *(this: SecurityPane) {
+    @task
+    saveSettings = task(function *(this: SecurityPane) {
         try {
             if (this.settings !== undefined) {
                 yield this.settings.save();
@@ -57,17 +70,7 @@ export default class SecurityPane extends Component.extend({
         } finally {
             this.hideDialogs();
         }
-    }),
-}) {
-    @service currentUser!: CurrentUser;
-    @service i18n!: I18N;
-    @service toast!: Toast;
-    @alias('currentUser.user') user!: User;
-    settings?: UserSettingModel;
-    primaryEmail?: UserEmail;
-    showError = false;
-    showEnableWarning = false;
-    showDisableWarning = false;
+    });
 
     init() {
         super.init();
