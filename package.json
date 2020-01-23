@@ -21,7 +21,6 @@
     "test": "EMBER_ENV=test ember test",
     "test:cover": "EMBER_ENV=test COVERAGE=true ember test",
     "test:config": "mocha node-tests/config-test.js",
-    "test:translations": "mocha node-tests/translations-test.js",
     "test:blueprints": "mocha node-tests/blueprints",
     "test:node-tests": "mocha 'node-tests/**/*-test.js'"
   },
@@ -39,7 +38,6 @@
       ],
       "*.scss": "stylelint",
       "*.hbs": "ember-template-lint",
-      "app/locales/*/translations.ts": "node bin/run-node-test.js translations",
       "config/environment.*": "node bin/run-node-test.js config"
     },
     "ignore": [
