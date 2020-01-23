@@ -1,7 +1,8 @@
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import Ember from 'ember';
-import { task, timeout } from 'ember-concurrency';
+import { timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import formattedTimeSince from 'ember-osf-web/utils/formatted-time-since';
