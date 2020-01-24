@@ -1,7 +1,7 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action } from '@ember/object';
-import { alias, not, sort } from '@ember/object/computed';
+import { alias, sort } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
@@ -11,8 +11,8 @@ import { ChangesetDef } from 'ember-changeset/types';
 import { layout } from 'ember-osf-web/decorators/component';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import License from 'ember-osf-web/models/license';
-import { NodeLicense } from 'ember-osf-web/models/node';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
+import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
 
 import template from './template';
 
@@ -22,16 +22,15 @@ export default class LicensePickerManager extends Component {
     @service store!: DS.Store;
 
     // required
-    changeset!: ChangesetDef;
-    model!: DraftRegistration;
+    draftRegistrationManager!: DraftRegistrationManager;
 
     // private
     licensesAcceptable!: QueryHasManyResult<License>;
-    currentLicense!: License;
-    currentNodeLicense!: NodeLicense;
 
-    @alias('model.license') selectedLicense!: License;
-    @not('currentLicense') fieldIsEmpty!: License;
+    @alias('draftRegistrationManager.draftRegistration.license') selectedLicense!: License;
+
+    @alias('draftRegistrationManager.draftChangeset') changeset!: ChangesetDef;
+    @alias('draftRegistrationManager.draftRegistration') draftRegistration!: DraftRegistration;
 
     @sort('selectedLicense.requiredFields', (a: string, b: string) => +(a > b))
     requiredFields!: string[];
@@ -54,7 +53,7 @@ export default class LicensePickerManager extends Component {
 
     @task({ on: 'init' })
     getAllProviderLicenses = task(function *(this: LicensePickerManager) {
-        const provider = yield this.model.provider;
+        const provider = yield this.draftRegistrationManager.draftRegistration.provider;
 
         if (!provider) {
             return;
@@ -67,21 +66,28 @@ export default class LicensePickerManager extends Component {
 
         this.setProperties({
             licensesAcceptable: providerLicenses,
-            currentLicense: yield this.model.license,
-            currentNodeLicense: { ...this.model.nodeLicense },
         });
     });
 
     @action
     changeLicense(selected: License) {
         this.set('selectedLicense', selected);
-        this.model.setNodeLicenseDefaults(selected.requiredFields);
+        this.draftRegistration.setNodeLicenseDefaults(selected.requiredFields);
         this.changeset.set('license', selected);
-        this.changeset.set('nodeLicense', this.model.nodeLicense);
+        this.changeset.set('nodeLicense', this.draftRegistration.nodeLicense);
+        this.draftRegistrationManager.onMetadataInput();
     }
 
     @action
     noop() {
-        // Nothing to see here
+        //
+        // Empty action because the RegistriesLicensePicker expects
+        // an action for submit(), cancel(), and error()
+        //
+    }
+
+    @action
+    onMetadataInput() {
+        this.draftRegistrationManager.onMetadataInput();
     }
 }

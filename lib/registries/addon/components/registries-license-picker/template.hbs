@@ -2,7 +2,7 @@
     <ValidatedModelForm
         data-test-license-edit-form
         @model={{@manager.registration}}
-        @changeset={{@manager.changeset}}
+        @changeset={{@manager.draftRegistrationManager.draftChangeset}}
         @onSave={{@manager.onSave}}
         @onError={{@manager.onError}}
         as |form|
@@ -49,6 +49,7 @@
                                 @class='form-control'
                                 @value={{mut (get this.registration.nodeLicense key)}}
                                 @placeholder={{t 'general.required'}}
+                                @onchange={{action this.onMetadataInput}}
                             />
                         </label>
                     </div>
@@ -67,7 +68,7 @@
                 <LicenseText @node={{this.registration}} />
             {{/if}}
 
-            {{#if @manager.shouldShowButtons}}
+            {{#if this.shouldShowButtons}}
                 <div local-class='Controls'>
                     <OsfButton
                         @type='default'

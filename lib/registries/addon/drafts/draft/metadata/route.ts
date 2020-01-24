@@ -5,11 +5,6 @@ import { inject as service } from '@ember/service';
 import DS from 'ember-data';
 
 import Analytics from 'ember-osf-web/services/analytics';
-import buildChangeset from 'ember-osf-web/utils/build-changeset';
-
-import { DraftRoute } from 'registries/drafts/draft/navigation-manager';
-import { DraftRouteModel } from '../route';
-import Controller from './controller';
 
 export enum MetadataProperties {
     Title = 'title',
