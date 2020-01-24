@@ -1,8 +1,6 @@
-import EmberObject from '@ember/object';
-import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import Intl from 'ember-intl/services/intl';
+import { setupIntl } from 'ember-intl/test-support';
 
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
@@ -12,8 +10,14 @@ import { module, test } from 'qunit';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import { click } from 'ember-osf-web/tests/helpers';
 
-const intlStub = Service.extend({
-    translations: EmberObject.create({
+interface ThisTestContext extends TestContext {
+    currentUser: CurrentUser;
+}
+
+module('Integration | Component | contributor-list', hooks => {
+    setupRenderingTest(hooks);
+    setupMirage(hooks);
+    setupIntl(hooks, {
         list: {
             two_item: {
                 delimiter: ' and ',
@@ -24,29 +28,9 @@ const intlStub = Service.extend({
                 last_delimiter: ', and ',
             },
         },
-    }),
-
-    t(key: string, options: any): string {
-        if (key === 'contributor_list.x_more') {
-            return `${options.get('x')} more`;
-        }
-        // @ts-ignore
-        return this.get('translations').get(key);
-    },
-});
-
-interface ThisTestContext extends TestContext {
-    intl: Intl;
-    currentUser: CurrentUser;
-}
-
-module('Integration | Component | contributor-list', hooks => {
-    setupRenderingTest(hooks);
-    setupMirage(hooks);
+    });
 
     hooks.beforeEach(function(this: ThisTestContext) {
-        this.owner.register('service:intl', intlStub);
-        this.intl = this.owner.lookup('service:intl');
         this.store = this.owner.lookup('service:store');
         this.currentUser = this.owner.lookup('service:current-user');
     });
