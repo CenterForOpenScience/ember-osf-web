@@ -54,6 +54,7 @@ export default class DefaultRegionPane extends Component {
                 'settings.account.defaultRegion.successToast',
                 {
                     region: this.user.defaultRegion.name,
+                    htmlSafe: true,
                 },
             ),
         );
@@ -63,7 +64,8 @@ export default class DefaultRegionPane extends Component {
     updateError() {
         this.user.rollbackAttributes();
         const { supportEmail } = config.support;
-        const saveErrorMessage = this.intl.t('settings.account.defaultRegion.saveError', { supportEmail });
+        const saveErrorMessage = this.intl
+            .t('settings.account.defaultRegion.saveError', { supportEmail, htmlSafe: true });
         return this.toast.error(saveErrorMessage);
     }
 

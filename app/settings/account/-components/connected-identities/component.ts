@@ -26,7 +26,10 @@ export default class ConnectedIdentities extends Component {
         try {
             yield identity.destroyRecord();
         } catch (e) {
-            this.toast.error(this.intl.t('settings.account.connected_identities.remove_fail', { supportEmail }));
+            this.toast.error(this.intl.t(
+                'settings.account.connected_identities.remove_fail',
+                { supportEmail, htmlSafe: true },
+            ));
             return false;
         }
         this.reloadIdentitiesList();

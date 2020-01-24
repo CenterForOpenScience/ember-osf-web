@@ -65,7 +65,8 @@ export default class SecurityPane extends Component {
                 this.settings.rollbackAttributes();
             }
             const { supportEmail } = config.support;
-            const saveErrorMessage = this.intl.t('settings.account.security.saveError', { supportEmail });
+            const saveErrorMessage = this.intl
+                .t('settings.account.security.saveError', { supportEmail, htmlSafe: true });
             this.toast.error(saveErrorMessage);
         } finally {
             this.hideDialogs();
@@ -134,7 +135,8 @@ export default class SecurityPane extends Component {
             this.set('showError', true);
         } else {
             const { supportEmail } = config.support;
-            const saveErrorMessage: string = this.intl.t('settings.account.security.saveError', { supportEmail });
+            const saveErrorMessage: string = this.intl
+                .t('settings.account.security.saveError', { supportEmail, htmlSafe: true });
             this.toast.error(saveErrorMessage);
         }
     }

@@ -125,7 +125,7 @@
             <h4 class='modal-title'>{{t 'file_detail.delete_file.question'}}</h4>
         </modal.header>
         <modal.body>
-            <p>{{t 'file_detail.delete_file.confirm' file-name=this.model.file.name}}</p>
+            <p>{{t 'file_detail.delete_file.confirm' file-name=this.model.file.name htmlSafe=true}}</p>
         </modal.body>
         <modal.footer data-analytics-scope='File detail - Delete file modal'>
             <OsfButton

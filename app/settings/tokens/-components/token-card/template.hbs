@@ -25,7 +25,11 @@
         @small={{true}}
         @delete={{action this.delete}}
         @disabled={{not @token}}
-        @modalTitle={{t 'settings.tokens.confirmDelete.title' tokenName=this.token.name}}
+        @modalTitle={{t
+            'settings.tokens.confirmDelete.title'
+            tokenName=this.token.name
+            htmlSafe=true
+        }}
         @modalBody={{t 'settings.tokens.confirmDelete.body'}}
     />
 </div>

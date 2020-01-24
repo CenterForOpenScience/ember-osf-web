@@ -42,7 +42,8 @@ export default class DeactivationPane extends Component {
             throw Error('No settings to save.');
         } catch (e) {
             const { supportEmail } = config.support;
-            const saveErrorMessage = this.intl.t('settings.account.security.saveError', { supportEmail });
+            const saveErrorMessage = this.intl
+                .t('settings.account.security.saveError', { supportEmail, htmlSafe: true });
             return this.toast.error(saveErrorMessage);
         }
     });
