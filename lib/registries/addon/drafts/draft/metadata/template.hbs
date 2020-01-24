@@ -3,7 +3,7 @@
 {{else}}
     <form>
         <FormControls
-            @changeset={{changeset this.draftManager.metadataChangeset}}
+            @changeset={{this.draftManager.metadataChangeset}}
             ...attributes as |form|
         >
             <form.text
