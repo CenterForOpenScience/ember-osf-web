@@ -41,7 +41,10 @@ export default class DraftRegistrationManager {
 
     @computed('onInput.lastComplete')
     get lastSaveFailed() {
-        return this.onPageInput.lastComplete ? this.onPageInput.lastComplete.isError : false;
+        const pageInputFailed = this.onPageInput.lastComplete ? this.onPageInput.lastComplete.isError : false;
+        const metadataInputFailed = this.onMetadataInput.lastComplete ?
+            this.onMetadataInput.lastComplete.isError : false;
+        return pageInputFailed || metadataInputFailed;
     }
 
     @task({ on: 'init' })
@@ -122,7 +125,8 @@ export default class DraftRegistrationManager {
 
     constructor(draftRegistrationAndNodeTask: TaskInstance<{draftRegistration: DraftRegistration, node: NodeModel}>) {
         set(this, 'draftRegistrationAndNodeTask', draftRegistrationAndNodeTask);
-        this.initialize();
+        this.initializePageManagers.perform();
+        this.initializeMetadataChangeset.perform();
     }
 
     @action
@@ -155,11 +159,6 @@ export default class DraftRegistrationManager {
             .forEach(pageManager => {
                 pageManager.changeset!.validate();
             });
-    }
-
-    initialize() {
-        this.initializePageManagers.perform();
-        this.initializeMetadataChangeset.perform();
     }
 
     updateMetadataChangeset() {
