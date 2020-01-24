@@ -47,7 +47,7 @@ export default class DraftRegistrationManager {
         return pageInputFailed || metadataInputFailed;
     }
 
-    @task({ on: 'init' })
+    @task
     initializePageManagers = task(function *(this: DraftRegistrationManager) {
         const { draftRegistration, node } = yield this.draftRegistrationAndNodeTask;
         set(this, 'draftRegistration', draftRegistration);
@@ -70,7 +70,7 @@ export default class DraftRegistrationManager {
         set(this, 'pageManagers', pageManagers);
     });
 
-    @task({ on: 'init' })
+    @task
     initializeMetadataChangeset = task(function *(this: DraftRegistrationManager) {
         const { draftRegistration } = yield this.draftRegistrationAndNodeTask;
         const metadataChangeset = buildChangeset(draftRegistration, {});
