@@ -1,14 +1,13 @@
-import EmberObject from '@ember/object';
-import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
+import { setupIntl } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
-import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
 import hbs from 'htmlbars-inline-precompile';
 
-const intlStub = Service.extend({
-    translations: EmberObject.create({
+module('Integration | Component | inline-list', hooks => {
+    setupRenderingTest(hooks);
+    setupIntl(hooks, {
         list: {
             two_item: {
                 delimiter: ' and ',
@@ -19,19 +18,6 @@ const intlStub = Service.extend({
                 last_delimiter: ', and ',
             },
         },
-    }),
-
-    t(key: string): string {
-        // @ts-ignore
-        return this.get('translations').get(key);
-    },
-});
-
-module('Integration | Component | inline-list', hooks => {
-    setupRenderingTest(hooks);
-
-    hooks.beforeEach(function(this: TestContext) {
-        this.owner.register('service:intl', intlStub);
     });
 
     test('it renders without truncate', async function(assert) {

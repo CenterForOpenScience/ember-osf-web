@@ -1,5 +1,5 @@
 interface Translations {
-    [key: string]: string;
+    [key: string]: string|Translations;
 }
 
 /**

@@ -1,38 +1,24 @@
-import EmberObject from '@ember/object';
-import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import Intl from 'ember-intl/services/intl';
+import { setupIntl } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 import { OsfLinkRouterStub } from '../../helpers/osf-link-router-stub';
 
-const intlStub = Service.extend({
-    translations: EmberObject.create({
-        general: {
-            ellipsis: '\u2026',
-        },
-    }),
-
-    t(key: string): string {
-        // @ts-ignore
-        return this.get('translations').get(key);
-    },
-});
-
-interface ThisTestContext extends TestContext {
-    intl: Intl;
-}
-
 module('Integration | Component | ancestry-display', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
+    setupIntl(hooks, {
+        translations: {
+            general: {
+                ellipsis: '\u2026',
+            },
+        },
+    });
 
-    hooks.beforeEach(function(this: ThisTestContext) {
-        this.owner.register('service:intl', intlStub);
-        this.intl = this.owner.lookup('service:intl');
+    hooks.beforeEach(function(this: TestContext) {
         this.store = this.owner.lookup('service:store');
         this.owner.register('service:router', OsfLinkRouterStub.extend({
             urlFor(__: any, modelId: string) {
