@@ -83,11 +83,16 @@ module.exports = () => ({
      * See https://ember-intl.github.io/ember-intl/docs/guide/
      * missing-translations#throwing-a-build-error-on-missing-required-translation
      *
+     * What this setting does is produce a build time error if you have multiple locales and
+     * one of those locales does not implement a translation but another does.
+     *
+     * Turn on when we support multiple locales
+     *
      * @property errorOnMissingTranslations
      * @type {Boolean}
      * @default "false"
      */
-    errorOnMissingTranslations: true,
+    errorOnMissingTranslations: false,
 
     /**
      * removes empty translations from the build output.
