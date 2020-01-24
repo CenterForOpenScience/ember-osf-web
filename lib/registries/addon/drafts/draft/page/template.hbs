@@ -15,7 +15,7 @@
             {{#if navManager.currentPageManager}}
                 <Registries::PageRenderer
                     @pageManager={{navManager.currentPageManager}}
-                    @onInput={{perform draftManager.onInput navManager.currentPageManager}}
+                    @onInput={{perform draftManager.onPageInput navManager.currentPageManager}}
                     @node={{this.node}}
                 />
             {{/if}}

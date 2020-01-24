@@ -1,6 +1,7 @@
 import { action, computed, set } from '@ember/object';
-import { alias, filterBy, not, notEmpty } from '@ember/object/computed';
+import { alias, filterBy, not, notEmpty, or } from '@ember/object/computed';
 import { isEmpty } from '@ember/utils';
+import { ChangesetDef } from 'ember-changeset/types';
 import { TaskInstance, timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 
@@ -9,6 +10,8 @@ import NodeModel from 'ember-osf-web/models/node';
 import SchemaBlock from 'ember-osf-web/models/schema-block';
 
 import { getPages, PageManager, RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
+import buildChangeset from 'ember-osf-web/utils/build-changeset';
+import { MetadataProperties } from './metadata/route';
 
 export default class DraftRegistrationManager {
     // Required
@@ -19,10 +22,11 @@ export default class DraftRegistrationManager {
     registrationResponses!: RegistrationResponse;
 
     pageManagers: PageManager[] = [];
+    metadataChangeset!: ChangesetDef;
 
-    @alias('onInput.isRunning') autoSaving!: boolean;
-    @alias('initializePageManagers.isRunning') initializing!: boolean;
     @alias('draftRegistration.id') draftId!: string;
+    @or('onPageInput.isRunning', 'onMetadataInput.isRunning') autoSaving!: boolean;
+    @or('initializePageManagers.isRunning', 'initializeMetadataChangeset.isRunning') initializing!: boolean;
     @not('registrationResponsesIsValid') hasInvalidResponses!: boolean;
     @filterBy('pageManagers', 'isVisited', true) visitedPages!: PageManager[];
     @notEmpty('visitedPages') hasVisitedPages!: boolean;
@@ -37,10 +41,13 @@ export default class DraftRegistrationManager {
 
     @computed('onInput.lastComplete')
     get lastSaveFailed() {
-        return this.onInput.lastComplete ? this.onInput.lastComplete.isError : false;
+        const pageInputFailed = this.onPageInput.lastComplete ? this.onPageInput.lastComplete.isError : false;
+        const metadataInputFailed = this.onMetadataInput.lastComplete ?
+            this.onMetadataInput.lastComplete.isError : false;
+        return pageInputFailed || metadataInputFailed;
     }
 
-    @task({ on: 'init' })
+    @task
     initializePageManagers = task(function *(this: DraftRegistrationManager) {
         const { draftRegistration, node } = yield this.draftRegistrationAndNodeTask;
         set(this, 'draftRegistration', draftRegistration);
@@ -63,16 +70,34 @@ export default class DraftRegistrationManager {
         set(this, 'pageManagers', pageManagers);
     });
 
+    @task
+    initializeMetadataChangeset = task(function *(this: DraftRegistrationManager) {
+        const { draftRegistration } = yield this.draftRegistrationAndNodeTask;
+        const metadataChangeset = buildChangeset(draftRegistration, {});
+        set(this, 'metadataChangeset', metadataChangeset);
+    });
+
     @task({ restartable: true })
-    onInput = task(function *(this: DraftRegistrationManager, currentPageManager: PageManager) {
+    onMetadataInput = task(function *(this: DraftRegistrationManager) {
         yield timeout(5000); // debounce
+        this.updateMetadataChangeset();
+        try {
+            yield this.draftRegistration.save();
+        } catch (error) {
+            throw error;
+        }
+    });
+
+    @task({ restartable: true })
+    onPageInput = task(function *(this: DraftRegistrationManager, currentPageManager: PageManager) {
+        yield timeout(5000); // debounce
+
         if (currentPageManager && currentPageManager.schemaBlockGroups) {
             this.updateRegistrationResponses(currentPageManager);
 
             this.draftRegistration.setProperties({
                 registrationResponses: this.registrationResponses,
             });
-
             try {
                 yield this.draftRegistration.save();
             } catch (error) {
@@ -101,6 +126,7 @@ export default class DraftRegistrationManager {
     constructor(draftRegistrationAndNodeTask: TaskInstance<{draftRegistration: DraftRegistration, node: NodeModel}>) {
         set(this, 'draftRegistrationAndNodeTask', draftRegistrationAndNodeTask);
         this.initializePageManagers.perform();
+        this.initializeMetadataChangeset.perform();
     }
 
     @action
@@ -133,6 +159,17 @@ export default class DraftRegistrationManager {
             .forEach(pageManager => {
                 pageManager.changeset!.validate();
             });
+    }
+
+    updateMetadataChangeset() {
+        const { metadataChangeset, draftRegistration } = this;
+        Object.values(MetadataProperties).forEach(metadataKey => {
+            set(
+                draftRegistration,
+                metadataKey,
+                metadataChangeset!.get(metadataKey),
+            );
+        });
     }
 
     updateRegistrationResponses(pageManager: PageManager) {
