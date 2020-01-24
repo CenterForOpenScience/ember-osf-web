@@ -29,7 +29,7 @@ export default class LicensePickerManager extends Component {
 
     @alias('draftRegistrationManager.draftRegistration.license') selectedLicense!: License;
 
-    @alias('draftRegistrationManager.draftChangeset') changeset!: ChangesetDef;
+    @alias('draftRegistrationManager.draftChangeset') registration!: ChangesetDef;
     @alias('draftRegistrationManager.draftRegistration') draftRegistration!: DraftRegistration;
 
     @sort('selectedLicense.requiredFields', (a: string, b: string) => +(a > b))
@@ -73,8 +73,8 @@ export default class LicensePickerManager extends Component {
     changeLicense(selected: License) {
         this.set('selectedLicense', selected);
         this.draftRegistration.setNodeLicenseDefaults(selected.requiredFields);
-        this.changeset.set('license', selected);
-        this.changeset.set('nodeLicense', this.draftRegistration.nodeLicense);
+        this.registration.set('license', selected);
+        this.registration.set('nodeLicense', this.draftRegistration.nodeLicense);
         this.draftRegistrationManager.onMetadataInput();
     }
 
@@ -87,7 +87,7 @@ export default class LicensePickerManager extends Component {
     }
 
     @action
-    onMetadataInput() {
+    onInput() {
         this.draftRegistrationManager.onMetadataInput();
     }
 }

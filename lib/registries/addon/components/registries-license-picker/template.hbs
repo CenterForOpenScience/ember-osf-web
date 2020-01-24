@@ -47,9 +47,9 @@
                             <Input
                                 data-test-required-field={{key}}
                                 @class='form-control'
-                                @value={{mut (get this.registration.nodeLicense key)}}
+                                @value={{mut (get @manager.registration.nodeLicense key)}}
                                 @placeholder={{t 'general.required'}}
-                                @onchange={{action this.onMetadataInput}}
+                                @onchange={{action @manager.onInput}}
                             />
                         </label>
                     </div>

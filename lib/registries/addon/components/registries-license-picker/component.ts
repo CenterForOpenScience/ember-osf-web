@@ -15,6 +15,7 @@ interface LicenseManager {
     onError: () => void;
     onCancel: () => void;
     changeLicense: () => void;
+    onInput?: () => void;
     registration?: Registration;
     draftRegistrationManager?: DraftRegistrationManager;
     requiredFields: string[];
@@ -31,18 +32,4 @@ export default class RegistriesLicensePicker extends Component {
     showText: boolean = false;
     helpLink: string = 'https://help.osf.io/hc/en-us/articles/360019739014-Licensing';
     registration!: ChangesetDef | Registration;
-    onMetadataInput!: () => {};
-
-    init() {
-        super.init();
-        if (this.manager &&
-            this.manager.draftRegistrationManager &&
-            this.manager.draftRegistrationManager.draftChangeset
-        ) {
-            this.set('registration', this.manager.draftRegistrationManager.draftChangeset);
-            this.set('onMetadataInput', this.manager.draftRegistrationManager.onMetadataInput());
-        } else {
-            this.set('registration', this.manager.registration);
-        }
-    }
 }
