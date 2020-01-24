@@ -3,24 +3,27 @@
 {{else}}
     <form>
         <FormControls
-            @changeset={{changeset this.draftRegistration}}
+            @changeset={{changeset this.draftManager.metadataChangeset}}
             ...attributes as |form|
         >
             <form.text
                 data-test-metadata-title
                 @label={{t 'registries.registration_metadata.title'}}
                 @valuePath='title'
+                @onKeyUp={{perform this.draftManager.onMetadataInput}}
             />
             <form.textarea
                 data-test-metadata-description
                 @label={{t 'registries.registration_metadata.description'}}
                 @valuePath='description'
+                @onKeyUp={{perform this.draftManager.onMetadataInput}}
             />
             <form.select
                 data-test-metadata-category
                 @label={{t 'registries.registration_metadata.category'}}
                 @valuePath='category'
                 @options={{this.categoryOptions}}
+                @onchange={{perform this.draftManager.onMetadataInput}}
             />
         </FormControls>
     </form>
