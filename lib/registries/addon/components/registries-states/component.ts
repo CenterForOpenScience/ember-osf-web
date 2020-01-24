@@ -60,6 +60,7 @@ export default class RegistriesStates extends Component {
                 projectUrl: this.projectUrl,
                 embargoEndDate: this.registration.embargoEndDate &&
                   moment(this.registration.embargoEndDate).format('MMMM D, YYYY'),
+                htmlSafe: true,
             }),
             buttonText: this.intl.t(`registries.overview.${stateKey}.text`),
         };

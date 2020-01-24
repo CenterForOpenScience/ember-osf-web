@@ -202,6 +202,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
                     stripHtmlTags(
                         t(`registries.overview.${state}.long_description`, {
                             embargoEndDate: moment(reg.embargoEndDate).format('MMMM D, YYYY'),
+                            htmlSafe: true,
                         }).toString(),
                     ),
                 );

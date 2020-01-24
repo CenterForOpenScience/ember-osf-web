@@ -418,8 +418,8 @@ module('Registries | Acceptance | overview.overview', hooks => {
 
         await click('[data-test-save-license]');
 
-        const validationErrorMsg = `${t('validationErrors.node_license_missing_fields')} \
-            ${t('app_components.license_picker.fields.copyrightHolders')}`;
+        const missingFields = t('app_components.license_picker.fields.copyrightHolders').toString();
+        const validationErrorMsg = t('validationErrors.node_license_missing_fields', { missingFields }).toString();
         assert.dom('.help-block').hasText(validationErrorMsg, 'validation works');
 
         await fillIn('[data-test-required-field="copyrightHolders"]', 'Jane Doe, John Doe');
