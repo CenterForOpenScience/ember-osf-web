@@ -16,6 +16,7 @@ export enum MetadataProperties {
     Category = 'category',
     License = 'license',
     NodeLicense = 'nodeLicense',
+    Subjects = 'subjects',
 }
 
 export default class DraftRegistrationMetadataRoute extends Route {

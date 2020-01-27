@@ -9,7 +9,12 @@ import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import NodeModel from 'ember-osf-web/models/node';
 import SchemaBlock from 'ember-osf-web/models/schema-block';
 
-import { getPages, PageManager, RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
+import {
+    buildMetadataValidations,
+    getPages,
+    PageManager,
+    RegistrationResponse,
+} from 'ember-osf-web/packages/registration-schema';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
 import { MetadataProperties } from './metadata/route';
 
@@ -73,7 +78,8 @@ export default class DraftRegistrationManager {
     @task
     initializeMetadataChangeset = task(function *(this: DraftRegistrationManager) {
         const { draftRegistration } = yield this.draftRegistrationAndNodeTask;
-        const metadataChangeset = buildChangeset(draftRegistration, {});
+        const metadataValidations = buildMetadataValidations();
+        const metadataChangeset = buildChangeset(draftRegistration, metadataValidations);
         set(this, 'metadataChangeset', metadataChangeset);
     });
 
