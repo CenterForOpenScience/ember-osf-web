@@ -1,3 +1,9 @@
+documentType:
+    preprint:
+        plural: preprints
+        pluralCapitalized: Preprints
+        singular: preprint
+        singularCapitalized: Preprint
 general:
     OSF: OSF
     share: Share
