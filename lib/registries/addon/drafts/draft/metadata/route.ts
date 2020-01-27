@@ -9,16 +9,6 @@ import Analytics from 'ember-osf-web/services/analytics';
 import { DraftRoute } from 'registries/drafts/draft/navigation-manager';
 import { DraftRouteModel } from '../route';
 
-export enum MetadataProperties {
-    Title = 'title',
-    Description = 'description',
-    Tags = 'tags',
-    Category = 'category',
-    License = 'license',
-    NodeLicense = 'nodeLicense',
-    Subjects = 'subjects',
-}
-
 export default class DraftRegistrationMetadataRoute extends Route {
     @service analytics!: Analytics;
     @service store!: DS.Store;

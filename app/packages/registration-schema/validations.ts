@@ -4,13 +4,11 @@ import { ValidationObject, ValidatorFunction } from 'ember-changeset-validations
 import { validateLength, validatePresence } from 'ember-changeset-validations/validators';
 
 import translations from 'ember-osf-web/locales/en/translations';
-import DraftRegistration from 'ember-osf-web/models/draft-registration';
+import DraftRegistration, { DraftMetadataProperties } from 'ember-osf-web/models/draft-registration';
 import NodeModel from 'ember-osf-web/models/node';
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 import { SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema/schema-block-group';
 import { validateFileList } from 'ember-osf-web/validators/validate-response-format';
-
-import { MetadataProperties } from 'registries/drafts/draft/metadata/route';
 
 // TODO: find a way to use i18n to translate error messages
 
@@ -72,21 +70,21 @@ export function buildValidation(groups: SchemaBlockGroup[], node?: NodeModel) {
 
 export function buildMetadataValidations() {
     const validationObj: ValidationObject<DraftRegistration> = {};
-    const validationFuncs: ValidatorFunction[] = [validatePresence({
+    const notBlank: ValidatorFunction[] = [validatePresence({
         presence: true,
         ignoreBlank: true,
         allowBlank: false,
         allowNone: false,
         message: translations.validationErrors.blank,
     })];
-    set(validationObj, MetadataProperties.Title, validationFuncs);
-    set(validationObj, MetadataProperties.Description, validationFuncs);
-    set(validationObj, MetadataProperties.NodeLicense, validationFuncs);
+    set(validationObj, DraftMetadataProperties.Title, notBlank);
+    set(validationObj, DraftMetadataProperties.Description, notBlank);
+    set(validationObj, DraftMetadataProperties.License, notBlank);
 
-    validationFuncs.push(validateLength({
+    const pickOne: ValidatorFunction[] = [validateLength({
         min: 1,
         message: translations.validationErrors.mustSelectMinOne,
-    }));
-    set(validationObj, MetadataProperties.Subjects, validationFuncs);
+    })];
+    set(validationObj, DraftMetadataProperties.Subjects, pickOne);
     return validationObj;
 }

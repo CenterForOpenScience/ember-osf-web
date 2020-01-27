@@ -13,6 +13,15 @@ import UserModel from './user';
 
 const { attr, belongsTo, hasMany } = DS;
 
+export enum DraftMetadataProperties {
+    Title = 'title',
+    Description = 'description',
+    Tags = 'tags',
+    Category = 'category',
+    License = 'license',
+    Subjects = 'subjects',
+}
+
 export default class DraftRegistrationModel extends OsfModel {
     @attr('fixstring') registrationSupplement!: string;
     @attr('object') registrationMetadata!: RegistrationMetadata;

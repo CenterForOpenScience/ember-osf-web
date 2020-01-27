@@ -32,6 +32,7 @@ export default class PageLinkComponent extends Component {
     currentPageName?: string;
     label?: string;
     navMode?: string;
+    metadataIsValid?: boolean;
 
     @computed('pageName', 'pageIndex', 'pageManager', 'pageManager.pageHeadingText')
     get page(): string | undefined {
@@ -50,6 +51,12 @@ export default class PageLinkComponent extends Component {
         }
         if (this.pageManager && this.pageManager.isVisited) {
             if (this.pageManager.pageIsValid) {
+                return PageState.Valid;
+            }
+            return PageState.Invalid;
+        }
+        if (this.pageName === 'metadata') {
+            if (this.metadataIsValid) {
                 return PageState.Valid;
             }
             return PageState.Invalid;
