@@ -101,6 +101,11 @@ export default function(this: Server) {
         path: '/draft_registrations',
     });
 
+    osfToManyRelationship(this, 'draft-registration', 'affiliatedInstitutions', {
+        only: ['related', 'add', 'remove'],
+        path: '/draft_registrations/:parentID/relationships/institutions',
+    });
+
     osfResource(this, 'registration', { except: ['show', 'create'] });
     this.post('/registrations', createRegistration);
     this.get('/registrations/:id', registrationDetail);
