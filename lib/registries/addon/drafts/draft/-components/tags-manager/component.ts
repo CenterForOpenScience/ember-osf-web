@@ -21,6 +21,9 @@ export default class MetadataTagsManagerComponent extends Component {
     changeset!: ChangesetDef;
     valuePath!: string;
 
+    // optional
+    onMetadataInput?: () => void;
+
     // properties
     tags: string[] = [];
 
@@ -28,12 +31,18 @@ export default class MetadataTagsManagerComponent extends Component {
     addTag(tag: string) {
         this.set('tags', [...this.tags, tag].sort());
         this.changeset.set(this.valuePath, this.tags);
+        if (this.onMetadataInput) {
+            this.onMetadataInput();
+        }
     }
 
     @action
     removeTag(index: number) {
         this.set('tags', this.tags.slice().removeAt(index));
         this.changeset.set(this.valuePath, this.tags);
+        if (this.onMetadataInput) {
+            this.onMetadataInput();
+        }
     }
 
     @action

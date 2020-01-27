@@ -36,6 +36,7 @@
                 <label for={{tagsFieldId}}>{{t 'registries.registration_metadata.tags'}}</label>
                 <Drafts::Draft::-Components::TagsManager
                     @changeset={{this.draftManager.metadataChangeset}}
+                    @onMetadataInput={{perform this.draftManager.onMetadataInput}}
                     @valuePath='tags'
                     as |tagsManager|
                 >
