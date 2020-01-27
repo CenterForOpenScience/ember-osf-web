@@ -133,6 +133,7 @@ export default class SubjectManagerComponent extends Component {
 
         assert('@model is required', Boolean(this.model));
         assert('@provider is required', Boolean(this.provider));
+        assert('@doesAutosave is required', this.doesAutosave !== null && this.doesAutosave !== undefined);
     }
 
     @action
