@@ -35,8 +35,8 @@
             {{#let (unique-id 'subjects') as |subjectsFieldId|}}
                 <label for={{subjectsFieldId}}>{{t 'registries.registration_metadata.subjects'}}</label>
                 <Subjects::Manager
-                    @model={{this.draftRegistration}}
-                    @provider={{this.draftRegistration.provider}}
+                    @model={{this.draftManager.draftRegistration}}
+                    @provider={{this.draftManager.draftRegistration.provider}}
                     @doesAutosave={{true}}
                     as |subjectsManager|
                 >

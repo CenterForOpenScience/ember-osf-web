@@ -56,9 +56,6 @@ export default class DraftRegistrationModel extends OsfModel {
 
     @belongsTo('license', { inverse: null, async: false })
     license!: DS.PromiseObject<LicenseModel> & LicenseModel;
-
-    @belongsTo('registration-provider', { inverse: null })
-    provider!: DS.PromiseObject<RegistrationProviderModel> & RegistrationProviderModel;
 }
 
 declare module 'ember-data/types/registries/model' {
