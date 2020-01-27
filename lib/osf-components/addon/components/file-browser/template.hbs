@@ -330,7 +330,7 @@
     as |modal|
 >
     <modal.header @onClose={{action (mut this.currentModal) ''}}>
-        <h3 class='modal-title break-word'>{{t 'file_browser.conflict_modal.title'}}</h3>
+        <h3 class='modal-title break-word'>{{t 'file_browser.conflict_modal.title' textValue=this.conflictingItem.itemName}}</h3>
     </modal.header>
     <modal.body>
         <p>{{t 'file_browser.conflict_modal.keep_info'}}</p>
