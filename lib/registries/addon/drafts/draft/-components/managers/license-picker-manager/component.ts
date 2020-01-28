@@ -11,6 +11,7 @@ import { ChangesetDef } from 'ember-changeset/types';
 import { layout } from 'ember-osf-web/decorators/component';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import License from 'ember-osf-web/models/license';
+import { NodeLicense } from 'ember-osf-web/models/node';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
 
@@ -27,7 +28,7 @@ export default class LicensePickerManager extends Component {
     // private
     licensesAcceptable!: QueryHasManyResult<License>;
 
-    @alias('draftManager.draftRegistration.license') selectedLicense!: License;
+    @alias('draftManager.metadataChangeset.license') selectedLicense!: License;
 
     @alias('draftManager.metadataChangeset') registration!: ChangesetDef;
     @alias('draftManager.draftRegistration') draftRegistration!: DraftRegistration;
@@ -72,11 +73,20 @@ export default class LicensePickerManager extends Component {
     @action
     changeLicense(selected: License) {
         this.set('selectedLicense', selected);
-        this.draftRegistration.setNodeLicenseDefaults(selected.requiredFields);
-        /*
-        this.registration.set('license', selected);
-        this.registration.set('nodeLicense', this.draftRegistration.nodeLicense);
-        */
+        if (selected.requiredFields.length) {
+            const dummyNodeLicense: NodeLicense = {
+                copyrightHolders: '',
+                year: new Date().getUTCFullYear().toString(),
+            };
+            const props = selected.requiredFields.reduce(
+                (acc, val) => ({ ...acc, [val]: dummyNodeLicense[val] }),
+                {},
+            );
+            this.draftManager.metadataChangeset.set('nodeLicense', props);
+        } else {
+            this.draftManager.metadataChangeset.set('nodeLicense', null);
+        }
+        this.draftManager.onMetadataInput.perform();
     }
 
     @action
