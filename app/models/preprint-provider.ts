@@ -1,6 +1,8 @@
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import DS from 'ember-data';
+import Intl from 'ember-intl/services/intl';
 
 import { RelatedLinkMeta } from 'osf-api';
 
@@ -9,48 +11,16 @@ import ProviderModel from './provider';
 
 const { attr, hasMany } = DS;
 
-const documentType = {
-    default: {
-        plural: 'documents',
-        pluralCapitalized: 'Documents',
-        singular: 'document',
-        singularCapitalized: 'Document',
-    },
-    work: {
-        plural: 'works',
-        pluralCapitalized: 'Works',
-        singular: 'work',
-        singularCapitalized: 'Work',
-    },
-    paper: {
-        plural: 'papers',
-        pluralCapitalized: 'Papers',
-        singular: 'paper',
-        singularCapitalized: 'Paper',
-    },
-    preprint: {
-        plural: 'preprints',
-        pluralCapitalized: 'Preprints',
-        singular: 'preprint',
-        singularCapitalized: 'Preprint',
-    },
-    thesis: {
-        plural: 'theses',
-        pluralCapitalized: 'Theses',
-        singular: 'thesis',
-        singularCapitalized: 'Thesis',
-    },
-};
-
-export type DocumentTypes = keyof typeof documentType;
-
-export type PreprintDocumentType = typeof documentType[DocumentTypes];
+export type PreprintWord = 'default' | 'work' | 'paper' | 'preprint' | 'thesis';
+export type PreprintWordGrammar = 'plural' | 'pluralCapitalized' | 'singular' | 'singularCapitalized';
 
 export default class PreprintProviderModel extends ProviderModel {
+    @service intl!: Intl;
+
     @attr('array') subjectsAcceptable!: string[];
     @attr('array') additionalProviders!: string[];
     @attr('string') shareSource!: string;
-    @attr('string') preprintWord!: DocumentTypes;
+    @attr('string') preprintWord!: PreprintWord;
 
     // Reviews settings
     @attr('array') permissions!: string[];
@@ -68,10 +38,16 @@ export default class PreprintProviderModel extends ProviderModel {
     @alias('links.relationships.highlighted_subjects.links.related.meta.has_highlighted_subjects')
     hasHighlightedSubjects!: boolean;
 
-    @computed('preprintWord')
-    get documentType(): PreprintDocumentType {
-        // TODO: make this actually intl once we swicth to ember-intl
-        return documentType[this.preprintWord];
+    @computed('intl.locale', 'preprintWord')
+    get documentType(): Record<PreprintWordGrammar, string> {
+        const { preprintWord } = this;
+        const documentType = `documentType.${preprintWord}`;
+        return {
+            plural: this.intl.t(`${documentType}.plural`),
+            pluralCapitalized: this.intl.t(`${documentType}.pluralCapitalized`),
+            singular: this.intl.t(`${documentType}.singular`),
+            singularCapitalized: this.intl.t(`${documentType}.singularCapitalized`),
+        };
     }
 }
 
