@@ -2,7 +2,7 @@
     <ValidatedModelForm
         data-test-license-edit-form
         @model={{@manager.registration}}
-        @changeset={{@manager.draftRegistrationManager.draftChangeset}}
+        @changeset={{@manager.changeset}}
         @onSave={{@manager.onSave}}
         @onError={{@manager.onError}}
         as |form|
@@ -49,7 +49,7 @@
                                 @class='form-control'
                                 @value={{mut (get @manager.registration.nodeLicense key)}}
                                 @placeholder={{t 'general.required'}}
-                                @onchange={{action @manager.onInput}}
+                                @key-up={{action @manager.onInput}}
                             />
                         </label>
                     </div>

@@ -6,6 +6,9 @@ import DS from 'ember-data';
 
 import Analytics from 'ember-osf-web/services/analytics';
 
+import { DraftRoute } from 'registries/drafts/draft/navigation-manager';
+import { DraftRouteModel } from '../route';
+
 export enum MetadataProperties {
     Title = 'title',
     Description = 'description',
@@ -25,12 +28,6 @@ export default class DraftRegistrationMetadataRoute extends Route {
 
         navigationManager.setPageAndRoute(DraftRoute.Metadata);
         return draftRouteModel;
-    }
-
-    setupController(controller: Controller, model: DraftRouteModel) {
-        super.setupController(controller, model);
-        const changeset = buildChangeset(model, {});
-        controller.set('changeset', changeset);
     }
 
     @action

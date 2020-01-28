@@ -26,7 +26,7 @@
                 @onchange={{perform this.draftManager.onMetadataInput}}
             />
             <Drafts::Draft::-Components::Managers::LicensePickerManager
-                @draftRegistrationManager={{this.draftRegistrationManager}}
+                @draftManager={{this.draftManager}}
                 as |licenseManager|
             >
                 <label for='license-select'>{{t 'registries.registration_metadata.choose_license'}}</label>

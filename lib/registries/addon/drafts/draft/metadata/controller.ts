@@ -11,8 +11,6 @@ export default class RegistriesDraftMetadata extends Controller {
     @service media!: Media;
     @service router!: RouterService;
 
-    draftRegistrationManager!: DraftRegistrationManager;
-
     @alias('model.draftRegistrationManager') draftManager!: DraftRegistrationManager;
     @alias('model.draftRegistrationManager.initializing') loading!: boolean;
 

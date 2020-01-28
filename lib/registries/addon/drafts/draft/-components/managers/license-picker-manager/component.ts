@@ -22,15 +22,15 @@ export default class LicensePickerManager extends Component {
     @service store!: DS.Store;
 
     // required
-    draftRegistrationManager!: DraftRegistrationManager;
+    draftManager!: DraftRegistrationManager;
 
     // private
     licensesAcceptable!: QueryHasManyResult<License>;
 
-    @alias('draftRegistrationManager.draftRegistration.license') selectedLicense!: License;
+    @alias('draftManager.draftRegistration.license') selectedLicense!: License;
 
-    @alias('draftRegistrationManager.draftChangeset') registration!: ChangesetDef;
-    @alias('draftRegistrationManager.draftRegistration') draftRegistration!: DraftRegistration;
+    @alias('draftManager.metadataChangeset') registration!: ChangesetDef;
+    @alias('draftManager.draftRegistration') draftRegistration!: DraftRegistration;
 
     @sort('selectedLicense.requiredFields', (a: string, b: string) => +(a > b))
     requiredFields!: string[];
@@ -53,7 +53,7 @@ export default class LicensePickerManager extends Component {
 
     @task({ on: 'init' })
     getAllProviderLicenses = task(function *(this: LicensePickerManager) {
-        const provider = yield this.draftRegistrationManager.draftRegistration.provider;
+        const provider = yield this.draftManager.draftRegistration.provider;
 
         if (!provider) {
             return;
@@ -73,9 +73,10 @@ export default class LicensePickerManager extends Component {
     changeLicense(selected: License) {
         this.set('selectedLicense', selected);
         this.draftRegistration.setNodeLicenseDefaults(selected.requiredFields);
+        /*
         this.registration.set('license', selected);
         this.registration.set('nodeLicense', this.draftRegistration.nodeLicense);
-        this.draftRegistrationManager.onMetadataInput();
+        */
     }
 
     @action
@@ -88,6 +89,6 @@ export default class LicensePickerManager extends Component {
 
     @action
     onInput() {
-        this.draftRegistrationManager.onMetadataInput();
+        this.draftManager.onMetadataInput.perform();
     }
 }
