@@ -19,6 +19,7 @@
             @searchField={{'name'}}
             @noMatchesMessage={{t 'registries.registration_metadata.no_matches'}}
             @placeholder={{t 'registries.registration_metadata.add_license'}}
+            @searchField='name'
             as |license|
         >
             {{license.name}}
@@ -65,7 +66,7 @@
             </OsfButton>
 
             {{#if this.showText}}
-                <LicenseText @node={{this.registration}} />
+                <LicenseText @node={{@manager.registration}} />
             {{/if}}
 
             {{#if this.shouldShowButtons}}

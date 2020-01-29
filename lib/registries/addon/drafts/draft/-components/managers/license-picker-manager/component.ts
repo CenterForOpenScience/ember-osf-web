@@ -3,7 +3,6 @@ import Component from '@ember/component';
 import { action } from '@ember/object';
 import { alias, sort } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 
@@ -37,22 +36,6 @@ export default class LicensePickerManager extends Component {
     requiredFields!: string[];
 
     @task({ restartable: true, on: 'didReceiveAttrs' })
-    queryLicenses = task(function *(this: LicensePickerManager, name?: string) {
-        if (this.licensesAcceptable && this.licensesAcceptable.length) {
-            if (name) {
-                yield timeout(500);
-            }
-
-            const licensesAcceptable = this.licensesAcceptable
-                .filter(license => license.get('name').includes(name || ''));
-
-            this.setProperties({ licensesAcceptable });
-            return licensesAcceptable;
-        }
-        return undefined;
-    });
-
-    @task({ on: 'init' })
     getAllProviderLicenses = task(function *(this: LicensePickerManager) {
         const provider = yield this.draftManager.draftRegistration.provider;
 
