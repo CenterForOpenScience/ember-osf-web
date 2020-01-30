@@ -17,7 +17,7 @@ export function buildValidation(groups: SchemaBlockGroup[], node?: NodeModel) {
             const responseKey = group.registrationResponseKey;
             assert(`no response key for group ${group.schemaBlockGroupKey}`, Boolean(responseKey));
             const { inputBlock } = group;
-            let requiredMessage = 'validationErrors.blank';
+            let type = 'blank';
             switch (group.groupType) {
             case 'contributors-input':
                 // No validation for contributors input.
@@ -27,16 +27,16 @@ export function buildValidation(groups: SchemaBlockGroup[], node?: NodeModel) {
             case 'long-text-input':
                 break;
             case 'file-input':
-                requiredMessage = 'validationErrors.mustSelectFileMinOne';
+                type = 'mustSelectFileMinOne';
                 validationForResponse.push(
-                    validateFileList(node),
+                    validateFileList(responseKey as string, node),
                 );
                 break;
             case 'single-select-input':
-                requiredMessage = 'validationErrors.mustSelect';
+                type = 'mustSelect';
                 break;
             case 'multi-select-input':
-                requiredMessage = 'validationErrors.mustSelectMinOne';
+                type = 'mustSelectMinOne';
                 break;
             default:
                 break;
@@ -48,7 +48,7 @@ export function buildValidation(groups: SchemaBlockGroup[], node?: NodeModel) {
                         ignoreBlank: true,
                         allowBlank: false,
                         allowNone: false,
-                        message: requiredMessage,
+                        type,
                     }),
                 );
             }

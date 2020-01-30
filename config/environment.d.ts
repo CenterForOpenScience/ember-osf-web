@@ -178,6 +178,9 @@ declare const config: {
     'ember-cli-mirage': {
         enabled: boolean;
     };
+    'changeset-validations': {
+        rawOutput?: boolean,
+    };
 
     mirageScenarios: string[];
 
