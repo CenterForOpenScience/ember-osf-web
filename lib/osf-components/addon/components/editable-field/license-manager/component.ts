@@ -113,4 +113,12 @@ export default class LicenseManagerComponent extends Component {
         this.reset();
         this.set('requestedEditMode', false);
     }
+
+    @action
+    noop() {
+        //
+        // Empty action because the RegistriesLicensePicker expects
+        // an action onInput()
+        //
+    }
 }

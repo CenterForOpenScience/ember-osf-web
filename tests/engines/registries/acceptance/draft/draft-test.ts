@@ -53,7 +53,11 @@ module('Registries | Acceptance | draft form', hooks => {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
-            'draft-registration', { registrationSchema, initiator },
+            'draft-registration', {
+                registrationSchema,
+                initiator,
+                provider: server.schema.registrationProviders.find('osf'),
+            },
         );
 
         await visit(`/registries/drafts/${registration.id}/99/`);
@@ -65,7 +69,11 @@ module('Registries | Acceptance | draft form', hooks => {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
-            'draft-registration', { registrationSchema, initiator },
+            'draft-registration', {
+                registrationSchema,
+                initiator,
+                provider: server.schema.registrationProviders.find('osf'),
+            },
         );
 
         await visit(`/registries/drafts/${registration.id}/`);

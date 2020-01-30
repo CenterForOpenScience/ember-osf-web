@@ -3,8 +3,8 @@
         data-test-license-edit-form
         @model={{@manager.registration}}
         @changeset={{@manager.changeset}}
-        @onSave={{@manager.onSave}}
-        @onError={{@manager.onError}}
+        @onSave={{action @manager.onSave}}
+        @onError={{action @manager.onError}}
         as |form|
     >
         <form.select
@@ -13,13 +13,13 @@
             data-test-select-license
             @id='license-select'
             @valuePath='license'
+            @search={{action @manager.queryLicenses}}
             @selected={{@manager.selectedLicense}}
             @options={{@manager.licensesAcceptable}}
             @onchange={{@manager.changeLicense}}
             @searchField={{'name'}}
             @noMatchesMessage={{t 'registries.registration_metadata.no_matches'}}
             @placeholder={{t 'registries.registration_metadata.add_license'}}
-            @searchField='name'
             as |license|
         >
             {{license.name}}
