@@ -307,6 +307,9 @@ module.exports = function(environment) {
         'ember-cli-mirage': {
             enabled: Boolean(MIRAGE_ENABLED),
         },
+        'changeset-validations': {
+            rawOutput: true,
+        },
         mirageScenarios: MIRAGE_SCENARIOS,
 
         defaultProvider: 'osf',

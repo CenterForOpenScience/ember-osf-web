@@ -519,6 +519,7 @@ validationErrors:
     mustSelect: 'You must select a value for this field.'
     mustSelectMinOne: 'You must select at least one value for this field.'
     mustSelectFileMinOne: 'You must select at least one file for this field.'
+    onlyProjectOrComponentFiles: 'The {numOfFiles, plural, =1 {file} other {files}} "{missingFilesList}" cannot be found on this {projectOrComponent}.'
     new_folder_name: 'Folder name must not be blank.'
 validated_input_form:
     discard_changes: 'Discard changes'
