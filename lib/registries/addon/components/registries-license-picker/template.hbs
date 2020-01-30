@@ -11,10 +11,10 @@
             data-analytics-name='Select license'
             data-test-select-license
             @valuePath='license'
-            @search={{action @manager.queryLicenses}}
             @selected={{@manager.selectedLicense}}
             @options={{@manager.licensesAcceptable}}
             @onchange={{@manager.changeLicense}}
+            @searchField={{'name'}}
             @noMatchesMessage={{t 'registries.registration_metadata.no_matches'}}
             @placeholder={{t 'registries.registration_metadata.add_license'}}
             as |license|
