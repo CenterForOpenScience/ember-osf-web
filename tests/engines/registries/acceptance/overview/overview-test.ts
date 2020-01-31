@@ -410,6 +410,8 @@ module('Registries | Acceptance | overview.overview', hooks => {
         await click('[data-test-edit-button="license"]');
 
         assert.dom('[data-test-license-edit-form]').isVisible();
+        await selectSearch('[data-test-select-license]', 'MIT');
+        assert.dom('.ember-power-select-options').hasText('MIT License');
         await selectSearch('[data-test-select-license]', 'No');
         assert.dom('.ember-power-select-options').hasText('No license');
         await selectChoose('[data-test-select-license]', 'No license');
