@@ -29,7 +29,7 @@ const DoiValidations: ValidationObject<Registration> = {
         validateFormat({
             allowBlank: true,
             regex: DOIRegex,
-            message: 'Please use a valid DOI format (10.xxxx/xxxxx)',
+            type: 'invalid_doi',
         }),
     ],
 };

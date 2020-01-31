@@ -1,13 +1,13 @@
 {{#if @isValidating}}
     <LoadingIndicator @inline={{true}} @dark={{true}} />
 {{else}}
-    {{#if this.errors}}
+    {{#if this.validatorErrors}}
         <div
             data-test-validation-errors={{@key}}
             local-class='Errors'
             ...attributes
         >
-            {{#each this.errors as |error|}}
+            {{#each this.validatorErrors as |error|}}
                 <p>{{~error~}}</p>
             {{/each}}
         </div>
