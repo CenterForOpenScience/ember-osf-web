@@ -4,6 +4,8 @@
     "ember-addon"
   ],
   "dependencies": {
+    "@glimmer/component": "*",
+    "@glimmer/tracking": "*",
     "ember-angle-bracket-invocation-polyfill": "*",
     "ember-animated": "*",
     "ember-basic-dropdown": "*",

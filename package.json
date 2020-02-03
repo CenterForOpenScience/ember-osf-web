@@ -54,6 +54,8 @@
     "@ember/optional-features": "^1.0.0",
     "@ember/render-modifiers": "^1.0.0",
     "@ember/test-helpers": "^1.5.0",
+    "@glimmer/component": "^1.0.0",
+    "@glimmer/tracking": "^1.0.0",
     "@types/ace": "^0.0.42",
     "@types/dropzone": "^5.0.4",
     "@types/ember": "^3.1.1",

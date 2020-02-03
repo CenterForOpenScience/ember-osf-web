@@ -1,40 +1,32 @@
-import { tagName } from '@ember-decorators/component';
-import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import { computed, set } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { isEmpty } from '@ember/utils';
+import Component from '@glimmer/component';
 import { RawValidationResult } from 'ember-changeset-validations/utils/validation-errors';
 import { ChangesetDef } from 'ember-changeset/types';
 import Intl from 'ember-intl/services/intl';
 
-import { layout } from 'ember-osf-web/decorators/component';
+interface Args {
+    changeset?: ChangesetDef;
+    key?: string;
+    errors?: string | string[];
+}
 
-import styles from './styles';
-import template from './template';
-
-@tagName('')
-@layout(template, styles)
-export default class ValidationErrors extends Component {
+export default class ValidationErrors extends Component<Args> {
     @service intl!: Intl;
 
-    changeset!: ChangesetDef;
-    key!: string;
-    validatorResults!: RawValidationResult[];
-    errors?: string[];
+    constructor(owner: unknown, args: Args) {
+        super(owner, args);
+        const { changeset, key, errors } = args;
 
-    didReceiveAttrs() {
-        assert('validation-errors - requires (@changeset and @responseKey!) or @errors',
-            Boolean(this.changeset && this.key) || Boolean(this.errors));
-        const results = this.changeset.get('error')[this.key];
-        const validatorResults = results ? results.validation : [];
-        set(this, 'validatorResults', validatorResults as unknown as RawValidationResult[]);
+        assert('validation-errors - requires (@changeset and @key!) or @errors',
+            Boolean(changeset && key) || !isEmpty(errors));
     }
 
-    @computed('intl.locale', 'validatorResults.[]', 'errors.[]')
-    get validatorErrors() {
-        const { validatorResults, errors } = this;
+    get errors() {
+        // TODO: remove when we get rid of ember-cp-validations.
+        const { errors } = this.args;
         if (errors) {
-            // TODO: remove when we get rid of ember-cp-validations.
             if (Array.isArray(errors) && errors.every(error => typeof error === 'string')) {
                 // default validator messages from ember-cp-validations
                 return errors;
@@ -45,8 +37,25 @@ export default class ValidationErrors extends Component {
                 return [errors];
             }
         }
+        return [];
+    }
 
-        return validatorResults.map(({ context: { type, translationArgs } }) =>
-            this.intl.t(`validationErrors.${type}`, { ...translationArgs }));
+    get validatorResults() {
+        const { changeset, key } = this.args;
+        if (changeset && key) {
+            const errors = changeset.get('error')[key];
+            const validatorErrors: RawValidationResult[] = errors ? errors.validation : [];
+
+            if (Array.isArray(validatorErrors)) {
+                return validatorErrors.map(({ context: { type, translationArgs } }) =>
+                    this.intl.t(`validationErrors.${type}`, { ...translationArgs }));
+            }
+        }
+        return [];
+    }
+
+    get validatorErrors() {
+        const { errors, validatorResults } = this;
+        return isEmpty(errors) ? validatorResults : errors;
     }
 }
