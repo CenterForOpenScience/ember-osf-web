@@ -45,11 +45,11 @@ module('Acceptance | logged-out home page test', hooks => {
         // check for 3 carousel slides
         assert.dom('[data-test-testimonials-slide-1]').exists();
 
-        await percySnapshot(assert);
+        await percySnapshot('Acceptance | logged-out home page test | carousel exists');
 
         await click('[data-test-carousel-button-next]');
 
-        await percySnapshot(assert);
+        await percySnapshot('Acceptance | logged-out home page test | next carousel');
 
         assert.dom('[data-test-testimonials-slide-2]').exists();
         await click('[data-test-carousel-button-next]');
@@ -72,7 +72,7 @@ module('Acceptance | logged-out home page test', hooks => {
         // Check footer
         assert.dom('footer').exists();
         await a11yAudit();
-        await percySnapshot(assert);
+        await percySnapshot('Acceptance | logged-out home page test | footer exists');
     });
 
     test('visiting home version B', async function(assert) {

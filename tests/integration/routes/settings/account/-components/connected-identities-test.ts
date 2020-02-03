@@ -88,14 +88,18 @@ module('Integration | routes | settings | account | -components | connected-iden
             { count: 10 },
             'ten identities on the first page',
         );
-        await percySnapshot(assert);
+        await percySnapshot(
+            'Integration | routes | settings | account | -components | connected-identities | pagination | first page',
+        );
 
         await click('[data-test-next-page-button]');
         assert.dom('[data-test-connected-identities-item]').exists(
             { count: 2 },
             'two identites on the second page',
         );
-        await percySnapshot(assert);
+        await percySnapshot(
+            'Integration | routes | settings | account | -components | connected-identities | pagination | second page',
+        );
     });
 
     test('remove identity', async assert => {
