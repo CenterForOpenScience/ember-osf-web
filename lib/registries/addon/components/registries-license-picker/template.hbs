@@ -1,10 +1,10 @@
-{{#if @manager.inEditMode}}
+{{#if this.inEditMode}}
     <ValidatedModelForm
         data-test-license-edit-form
         @model={{@manager.registration}}
         @changeset={{@manager.changeset}}
-        @onSave={{action @manager.onSave}}
-        @onError={{action @manager.onError}}
+        @onSave={{@manager.onSave}}
+        @onError={{@manager.onError}}
         as |form|
     >
         <form.select
@@ -13,7 +13,6 @@
             data-test-select-license
             @id='license-select'
             @valuePath='license'
-            @search={{action @manager.queryLicenses}}
             @selected={{@manager.selectedLicense}}
             @options={{@manager.licensesAcceptable}}
             @onchange={{@manager.changeLicense}}
@@ -50,7 +49,7 @@
                                 @class='form-control'
                                 @value={{mut (get @manager.registration.nodeLicense key)}}
                                 @placeholder={{t 'general.required'}}
-                                @key-up={{action @manager.onInput}}
+                                @key-up={{action this.onInput}}
                             />
                         </label>
                     </div>
@@ -74,7 +73,7 @@
                     <OsfButton
                         @type='default'
                         @disabled={{form.disabled}}
-                        @onClick={{action @manager.onCancel}}
+                        @onClick={{@manager.onCancel}}
                     >
                         {{t 'general.cancel'}}
                     </OsfButton>

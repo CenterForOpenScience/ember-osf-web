@@ -46,36 +46,6 @@ export default class DraftRegistrationModel extends OsfModel {
 
     @belongsTo('license', { inverse: null, async: false })
     license!: DS.PromiseObject<LicenseModel> & LicenseModel;
-
-    /**
-     * Sets the nodeLicense field defaults based on required fields from a License
-     */
-    setNodeLicenseDefaults(requiredFields: Array<keyof NodeLicense>): void {
-        if (!requiredFields.length && this.nodeLicense) {
-            // If the nodeLicense exists, notify property change so that validation is triggered
-            this.notifyPropertyChange('nodeLicense');
-
-            return;
-        }
-
-        const {
-            copyrightHolders = '',
-            year = new Date().getUTCFullYear().toString(),
-        } = (this.nodeLicense || {});
-
-        const nodeLicenseDefaults: NodeLicense = {
-            copyrightHolders,
-            year,
-        };
-
-        // Only set the required fields on nodeLicense
-        const props = requiredFields.reduce(
-            (acc, val) => ({ ...acc, [val]: nodeLicenseDefaults[val] }),
-            {},
-        );
-
-        this.set('nodeLicense', props);
-    }
 }
 
 declare module 'ember-data/types/registries/model' {
