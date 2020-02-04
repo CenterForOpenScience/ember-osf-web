@@ -3,7 +3,6 @@ import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import config from 'ember-get-config';
-import Intl from 'ember-intl/services/intl';
 import QueryParams from 'ember-parachute';
 
 import PreprintProvider from 'ember-osf-web/models/preprint-provider';
@@ -28,7 +27,6 @@ export const registerQueryParams = new QueryParams<RegisterQueryParams>({
 
 export default class Register extends Controller.extend(registerQueryParams.Mixin) {
     @service analytics!: Analytics;
-    @service intl!: Intl;
 
     signUpCampaign?: string;
 

@@ -9,7 +9,6 @@ import { timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import config from 'ember-get-config';
-import Intl from 'ember-intl/services/intl';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -90,7 +89,6 @@ export default class DiscoverPage extends Component {
     @service currentUser!: CurrentUser;
     @service store!: DS.Store;
     @service theme!: Theme;
-    @service intl!: Intl;
 
     query!: (params: any) => Promise<any>;
     searchResultComponent: string = this.searchResultComponent;

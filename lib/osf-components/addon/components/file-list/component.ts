@@ -3,7 +3,6 @@ import { action, computed } from '@ember/object';
 import { notEmpty } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { localClassNames } from 'ember-css-modules';
-import Intl from 'ember-intl/services/intl';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import File from 'ember-osf-web/models/file';
@@ -29,7 +28,6 @@ import template from './template';
 @localClassNames('FileList')
 export default class FileList extends Component {
     @service currentUser!: CurrentUser;
-    @service intl!: Intl;
 
     node: Node | null = null;
     items: File[] = defaultTo(this.items, []);

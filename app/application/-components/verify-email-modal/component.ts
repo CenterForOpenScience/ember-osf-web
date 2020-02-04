@@ -144,7 +144,7 @@ export default class VerifyEmailModal extends Component {
         this.toast[level](
             this.intl.t(
                 this.translationKeys[key],
-                { email: userEmail.emailAddress },
+                { email: userEmail.emailAddress, htmlSafe: true },
             ),
         );
     }
