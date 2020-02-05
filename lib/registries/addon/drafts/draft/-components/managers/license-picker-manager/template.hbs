@@ -1,10 +1,10 @@
 {{yield (hash
     emptyFieldText=(t 'registries.registration_metadata.no_license')
-    changeLicense=(action this.changeLicense)
+    changeLicense=this.changeLicense
     requiredFields=this.requiredFields
     selectedLicense=this.selectedLicense
     licensesAcceptable=this.licensesAcceptable
     registration=this.registration
     changeset=this.registration
-    onInput=(action this.onInput)
+    onInput=this.onInput
 )}}

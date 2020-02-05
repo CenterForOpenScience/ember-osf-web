@@ -1,17 +1,17 @@
 {{yield (hash
     save=(perform this.save)
-    cancel=(action this.cancel)
+    cancel=this.cancel
     fieldIsEmpty=this.fieldIsEmpty
     emptyFieldText=(t 'registries.registration_metadata.no_license')
-    startEditing=(action this.startEditing)
+    startEditing=this.startEditing
     inEditMode=this.inEditMode
     userCanEdit=this.userCanEdit
     shouldShowField=this.shouldShowField
     registration=this.node
-    onSave=(action this.onSave)
-    onError=(action this.onError)
-    onCancel=(action this.onCancel)
-    changeLicense=(action this.changeLicense)
+    onSave=this.onSave
+    onError=this.onError
+    onCancel=this.onCancel
+    changeLicense=this.changeLicense
     requiredFields=this.requiredFields
     selectedLicense=this.selectedLicense
     licensesAcceptable=this.licensesAcceptable
