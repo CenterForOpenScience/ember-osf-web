@@ -12,19 +12,19 @@ import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import License from 'ember-osf-web/models/license';
 import { NodeLicense } from 'ember-osf-web/models/node';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
+import { LicenseManager } from 'registries/components/registries-license-picker/component';
 import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
 
 import template from './template';
 
 @tagName('')
 @layout(template)
-export default class LicensePickerManager extends Component {
+export default class LicensePickerManager extends Component implements LicenseManager {
     @service store!: DS.Store;
 
     // required
     draftManager!: DraftRegistrationManager;
 
-    // private
     licensesAcceptable!: QueryHasManyResult<License>;
 
     @alias('draftManager.metadataChangeset.license') selectedLicense!: License;

@@ -14,12 +14,13 @@ import { NodeLicense } from 'ember-osf-web/models/node';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import Registration from 'ember-osf-web/models/registration';
 import Analytics from 'ember-osf-web/services/analytics';
+import { LicenseManager } from 'registries/components/registries-license-picker/component';
 
 import template from './template';
 
 @tagName('')
 @layout(template)
-export default class LicenseManagerComponent extends Component {
+export default class LicenseManagerComponent extends Component implements LicenseManager {
     // required
     node!: Registration;
 

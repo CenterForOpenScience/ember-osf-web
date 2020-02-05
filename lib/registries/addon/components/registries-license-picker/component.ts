@@ -4,21 +4,22 @@ import { action } from '@ember/object';
 import { ChangesetDef } from 'ember-changeset/types';
 import { layout } from 'ember-osf-web/decorators/component';
 import License from 'ember-osf-web/models/license';
+import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import Registration from 'ember-osf-web/models/registration';
 
 import styles from './styles';
 import template from './template';
 
-interface LicenseManager {
+export interface LicenseManager {
     onSave?: () => void;
     onError?: () => void;
     onCancel?: () => void;
     onInput?: () => void;
-    changeLicense: () => void;
-    registration: Registration | ChangesetDef;
+    changeLicense: (selected: License) => void;
+    registration?: Registration | ChangesetDef;
     requiredFields: string[];
     selectedLicense: License;
-    licensesAcceptable: License[];
+    licensesAcceptable: QueryHasManyResult<License>;
 }
 
 @layout(template, styles)
