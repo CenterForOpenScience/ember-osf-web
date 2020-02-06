@@ -120,7 +120,7 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
     @belongsTo('region')
     region!: RegionModel;
 
-    @hasMany('node', { inverse: 'parent' })
+    @hasMany('node', { inverse: 'parent', async: false })
     children!: DS.PromiseManyArray<NodeModel>;
 
     @hasMany('preprint', { inverse: 'node' })
