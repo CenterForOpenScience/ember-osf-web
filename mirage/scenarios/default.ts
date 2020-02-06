@@ -55,7 +55,7 @@ function registrationScenario(
         'page-one_long-text': '',
         'page-one_multi-select': ['Crocs'],
         'page-one_multi-select-other': '',
-        'page-one_short-text': 'sdfsdfsd',
+        'page-one_short-text': 'Ravioli',
         'page-one_single-select-two': 'Remember who was in NSync and who was in Backstreet Boys',
     };
 
@@ -63,6 +63,7 @@ function registrationScenario(
     const childNodeA = server.create('node', { parent: rootNode });
     server.create('node', { parent: childNodeA });
     server.create('node', { parent: childNodeA });
+    const licenseReqFields = server.schema.licenses.find('5c252c8e0989e100220edb7d');
 
     server.create('draft-registration', {
         id: 'dcaf',
@@ -70,7 +71,8 @@ function registrationScenario(
         initiator: currentUser,
         registrationResponses,
         branchedFrom: rootNode,
-    });
+        license: licenseReqFields,
+    }, 'withSubjects', 'withAffiliatedInstitutions');
 
     server.create('draft-registration', {
         id: 'rrpre',
