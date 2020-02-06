@@ -6,7 +6,7 @@
             @type='link'
             @onClick={{dialog.open}}
         >
-            {{@manager.registration.license.name}}
+            {{@registration.license.name}}
         </OsfButton>
     </dialog.trigger>
 
@@ -15,16 +15,16 @@
     </dialog.heading>
 
     <dialog.main>
-        {{#if @manager.registration.license.url}}
+        {{#if @registration.license.url}}
             <p>
                 <OsfLink
                     data-analytics-name='License URL'
-                    @href={{@manager.registration.license.url}}
+                    @href={{@registration.license.url}}
                 >
-                    {{@manager.registration.license.name}}
+                    {{@registration.license.name}}
                 </OsfLink>
             </p>
         {{/if}}
-        <LicenseText @node={{@manager.registration}} />
+        <LicenseText @node={{@registration}} />
     </dialog.main>
 </OsfDialog>
