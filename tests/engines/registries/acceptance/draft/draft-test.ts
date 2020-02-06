@@ -2,6 +2,7 @@ import Service from '@ember/service';
 import { click, currentRouteName, currentURL, fillIn, settled } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { t } from 'ember-i18n/test-support';
+import { setBreakpoint } from 'ember-responsive/test-support';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
@@ -104,6 +105,43 @@ module('Registries | Acceptance | draft form', hooks => {
         // Can navigate back to the last page from review page
         await click('[data-test-goto-previous-page]');
         assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/2-`), 'At second (last) page');
+    });
+
+    test('mobile navigation works', async assert => {
+        const initiator = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const registration = server.create(
+            'draft-registration', { registrationSchema, initiator },
+        );
+
+        await visit(`/registries/drafts/${registration.id}/`);
+        setBreakpoint('mobile');
+
+        assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/1-`), 'At first schema page');
+
+        // Check header
+        assert.dom('[data-test-page-label]').containsText('First page of Test Schema');
+
+        // Check next page arrow
+        assert.dom('[data-analytics-name="Sidenav back"]').isNotVisible();
+        assert.dom('[data-analytics-name="Sidenav next"]').isVisible();
+        await click('[data-analytics-name="Sidenav next"]');
+
+        // Check that the header is expected
+        assert.dom('[data-test-page-label]').containsText('This is the second page');
+
+        // Check that left arrow exists
+        assert.dom('[data-analytics-name="Sidenav back"]').isVisible();
+
+        // Check navigation to review page
+        await click('[data-test-goto-review]');
+        assert.dom('[data-test-page-label]').containsText('Review');
+        assert.dom('[data-test-analytics-name="Sidenav Next"]').isNotVisible();
+        assert.dom('[data-test-goto-register]').isVisible();
+
+        // Check that back button works
+        await click('[data-analytics-name="Sidenav back"]');
+        assert.dom('[data-test-page-label]').containsText('This is the second page');
     });
 
     test('register button is disabled: invalid responses', async assert => {
