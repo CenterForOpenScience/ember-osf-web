@@ -16,6 +16,13 @@
                     {{t 'registries.drafts.draft.review.invalid_warning'}}
                 </div>
             {{/if}}
+            <Registries::RegistrationFormNavigationDropdown
+                @schemaBlocks={{draftManager.schemaBlocks}}
+            />
+            <Registries::ReviewMetadataRenderer
+                @metadataChangeset={{draftManager.metadataChangeset}}
+                @draftRegistration={{draftManager.draftRegistration}}
+            />
             <Registries::ReviewFormRenderer
                 @draftManager={{draftManager}}
                 @node={{this.node}}
