@@ -101,6 +101,8 @@ export default function(this: Server) {
         path: '/draft_registrations',
     });
 
+    osfNestedResource(this, 'draft-registration', 'subjects');
+
     osfResource(this, 'registration', { except: ['show', 'create'] });
     this.post('/registrations', createRegistration);
     this.get('/registrations/:id', registrationDetail);

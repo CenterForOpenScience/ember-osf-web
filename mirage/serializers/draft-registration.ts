@@ -48,6 +48,26 @@ export default class DraftRegistrationSerializer extends ApplicationSerializer<D
                     },
                 },
             },
+            subjects: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/draft_registrations/${model.id}/subjects`,
+                        meta: {},
+                    },
+                },
+            },
+            license: {
+                data: {
+                    id: model.license.id,
+                    type: 'licenses',
+                },
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/licenses/${model.license.id}`,
+                        meta: {},
+                    },
+                },
+            },
         };
     }
 

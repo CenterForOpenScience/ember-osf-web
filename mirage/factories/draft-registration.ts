@@ -2,7 +2,7 @@ import { association, Factory, faker, trait, Trait } from 'ember-cli-mirage';
 
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 
-import { NodeCategory } from 'ember-osf-web/models/node';
+import { NodeCategory, NodeLicense } from 'ember-osf-web/models/node';
 
 import { createRegistrationMetadata } from './utils';
 
@@ -51,7 +51,7 @@ export default Factory.extend<DraftRegistration & DraftRegistrationTraits>({
 
     registrationMetadata: {},
 
-    nodeLicense: null,
+    nodeLicense: { copyrightHolders: 'Fergie', year: '3008' } as NodeLicense,
 
     category: NodeCategory.Uncategorized,
 
@@ -72,7 +72,7 @@ export default Factory.extend<DraftRegistration & DraftRegistrationTraits>({
 
     withSubjects: trait<DraftRegistration>({
         afterCreate(draft, server) {
-            const subjects = server.create('subject', 'withChildren');
+            const subjects = [server.create('subject', 'withChildren')];
             draft.update({ subjects });
         },
     }),
