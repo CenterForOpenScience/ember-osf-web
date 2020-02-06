@@ -1,0 +1,92 @@
+{{assert 'Registries::ReviewMetadataRenderer requires a draftRegistration' @draftRegistration}}
+<h2>{{t 'registries.drafts.draft.metadata.page_label'}}</h2>
+
+<Registries::ReviewMetadataRenderer::LabelDisplay 
+    @draftRegistration={{@draftRegistration}}
+    @field='title'
+>
+    <p>
+        {{~if @draftRegistration.title @draftRegistration.title (t 'registries.registration_metadata.no_title')~}}
+    </p>
+</Registries::ReviewMetadataRenderer::LabelDisplay>
+
+<Registries::ReviewMetadataRenderer::LabelDisplay 
+    @draftRegistration={{@draftRegistration}}
+    @field='description'
+>
+    <p>
+        {{~if @draftRegistration.description @draftRegistration.description (t 'registries.registration_metadata.no_description')~}}
+    </p>
+</Registries::ReviewMetadataRenderer::LabelDisplay>
+
+<Registries::ReviewMetadataRenderer::LabelDisplay 
+    @draftRegistration={{@draftRegistration}}
+    @field='category'
+>
+    {{#if @draftRegistration.category}}
+        <NodeCategory
+            @category={{@draftRegistration.category}}
+        />
+    {{else}}
+        {{t 'registries.form_view.none_selected'}}
+    {{/if}}
+</Registries::ReviewMetadataRenderer::LabelDisplay>
+
+<Registries::ReviewMetadataRenderer::LabelDisplay 
+    @draftRegistration={{@draftRegistration}}
+    @field='affiliated_institutions'
+>
+    <p>
+        {{#if @draftRegistration.affiliatedInstitutions}}
+            {{join ', ' @draftRegistration.affiliatedInstitutions}}
+        {{else}}
+            {{t 'registries.registration_metadata.no_affiliated_institutions'}}
+        {{/if}}
+    </p>
+</Registries::ReviewMetadataRenderer::LabelDisplay>
+
+<Registries::ReviewMetadataRenderer::LabelDisplay 
+    @draftRegistration={{@draftRegistration}}
+    @field='license'
+>
+    {{#if @draftRegistration.license.name}} 
+        <LicenseViewer @registration={{@draftRegistration}} />
+    {{else}}
+        {{t 'registries.form_view.none_selected'}}
+    {{/if}}
+</Registries::ReviewMetadataRenderer::LabelDisplay>
+
+<Registries::ReviewMetadataRenderer::LabelDisplay 
+    @draftRegistration={{@draftRegistration}}
+    @field='subjects'
+>
+    {{#if @draftRegistration.subjects}} 
+        <Subjects::Display @subjects={{@draftRegistration.subjects}} />
+    {{else}}
+        {{t 'registries.registration_metadata.no_subjects'}}
+    {{/if}}
+
+</Registries::ReviewMetadataRenderer::LabelDisplay>
+
+<Registries::ReviewMetadataRenderer::LabelDisplay 
+    @draftRegistration={{@draftRegistration}}
+    @field='tags'
+>
+    <p>
+        {{#if @draftRegistration.tags}}
+            <Drafts::Draft::-Components::TagsManager
+                @changeset={{@metadataChangeset}}
+                @registration={{@draftRegistration}}
+                @valuePath='tags'
+                as |tagsManager|
+            >
+                <RegistriesTagsWidget
+                    @manager={{tagsManager}}
+                    @readOnly={{true}}
+                />
+            </Drafts::Draft::-Components::TagsManager>
+        {{else}}
+            {{t 'osf-components.tags-widget.no_tags'}}
+        {{/if}}
+    </p>
+</Registries::ReviewMetadataRenderer::LabelDisplay>
