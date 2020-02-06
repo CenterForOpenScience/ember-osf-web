@@ -123,24 +123,28 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-page-label]').containsText('First page of Test Schema');
 
         // Check next page arrow
-        assert.dom('[data-analytics-name="Sidenav back"]').isNotVisible();
-        assert.dom('[data-analytics-name="Sidenav next"]').isVisible();
-        await click('[data-analytics-name="Sidenav next"]');
+        assert.dom('[data-test-goto-previous-page]').isNotVisible();
+        assert.dom('[data-test-goto-next-page]').isVisible();
+        await click('[data-test-goto-next-page]');
 
         // Check that the header is expected
         assert.dom('[data-test-page-label]').containsText('This is the second page');
 
         // Check that left arrow exists
-        assert.dom('[data-analytics-name="Sidenav back"]').isVisible();
+        assert.dom('[data-test-goto-previous-page]').isVisible();
 
         // Check navigation to review page
         await click('[data-test-goto-review]');
         assert.dom('[data-test-page-label]').containsText('Review');
-        assert.dom('[data-test-analytics-name="Sidenav Next"]').isNotVisible();
+        assert.dom('[data-test-goto-next-page]').isNotVisible();
         assert.dom('[data-test-goto-register]').isVisible();
 
+        // check that register button is disabled
+        assert.dom('[data-test-goto-register]').isDisabled();
+        assert.dom('[data-test-invalid-responses-text]').isVisible();
+
         // Check that back button works
-        await click('[data-analytics-name="Sidenav back"]');
+        await click('[data-test-goto-previous-page]');
         assert.dom('[data-test-page-label]').containsText('This is the second page');
     });
 
