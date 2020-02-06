@@ -1,7 +1,7 @@
 import { assert } from '@ember/debug';
 import { set } from '@ember/object';
 import { ValidationObject, ValidatorFunction } from 'ember-changeset-validations';
-import { validateLength, validatePresence } from 'ember-changeset-validations/validators';
+import { validatePresence } from 'ember-changeset-validations/validators';
 
 import translations from 'ember-osf-web/locales/en/translations';
 import DraftRegistration, { DraftMetadataProperties } from 'ember-osf-web/models/draft-registration';
@@ -80,11 +80,5 @@ export function buildMetadataValidations() {
     set(validationObj, DraftMetadataProperties.Title, notBlank);
     set(validationObj, DraftMetadataProperties.Description, notBlank);
     set(validationObj, DraftMetadataProperties.License, notBlank);
-
-    const pickOne: ValidatorFunction[] = [validateLength({
-        min: 1,
-        message: translations.validationErrors.mustSelectMinOne,
-    })];
-    set(validationObj, DraftMetadataProperties.Subjects, pickOne);
     return validationObj;
 }
