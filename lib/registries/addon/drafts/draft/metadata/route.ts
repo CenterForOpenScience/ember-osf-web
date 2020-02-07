@@ -14,6 +14,7 @@ export enum MetadataProperties {
     Description = 'description',
     Tags = 'tags',
     Category = 'category',
+    License = 'license',
     NodeLicense = 'nodeLicense',
 }
 

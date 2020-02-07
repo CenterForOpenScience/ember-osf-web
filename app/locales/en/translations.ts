@@ -1204,6 +1204,7 @@ export default {
             add_license: 'Add license',
             affiliated_institutions: 'Affiliated institutions',
             category: 'Category',
+            choose_license: 'Choose a License',
             citation: 'Citation',
             contributors: 'Contributors',
             create_doi: 'Create DOI',

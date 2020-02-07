@@ -198,7 +198,10 @@
                         as |field|
                     >
                         <field.edit>
-                            <RegistriesLicensePicker @manager={{licenseManager}} />
+                            <RegistriesLicensePicker
+                                @manager={{licenseManager}}
+                                @shouldShowButtons={{true}}
+                            />
                         </field.edit>
                         <field.display>
                             <LicenseViewer @manager={{licenseManager}} />

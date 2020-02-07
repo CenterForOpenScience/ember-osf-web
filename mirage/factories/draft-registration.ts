@@ -13,6 +13,12 @@ export interface DraftRegistrationTraits {
 }
 
 export default Factory.extend<DraftRegistration & DraftRegistrationTraits>({
+    afterCreate(newDraft, server) {
+        newDraft.update({
+            provider: server.schema.registrationProviders.find('osf'),
+        });
+    },
+
     registrationSupplement: 'abcdefghijklmnopqrstuvwxyz',
 
     title() {

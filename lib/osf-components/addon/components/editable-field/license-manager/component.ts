@@ -14,24 +14,13 @@ import { NodeLicense } from 'ember-osf-web/models/node';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import Registration from 'ember-osf-web/models/registration';
 import Analytics from 'ember-osf-web/services/analytics';
+import { LicenseManager } from 'registries/components/registries-license-picker/component';
 
 import template from './template';
 
-export interface LicenseManager {
-    queryLicenses: () => void;
-    onSave: () => void;
-    onError: () => void;
-    onCancel: () => void;
-    changeLicense: () => void;
-    registration: Registration;
-    requiredFields: string[];
-    selectedLicense: License;
-    licensesAcceptable: License[];
-}
-
 @tagName('')
 @layout(template)
-export default class LicenseManagerComponent extends Component {
+export default class LicenseManagerComponent extends Component implements LicenseManager {
     // required
     node!: Registration;
 
@@ -89,6 +78,7 @@ export default class LicenseManagerComponent extends Component {
 
     @action
     cancel() {
+        this.reset();
         this.set('requestedEditMode', false);
     }
 
@@ -118,11 +108,5 @@ export default class LicenseManagerComponent extends Component {
     @action
     onError() {
         this.toast.error(this.i18n.t('registries.registration_metadata.edit_license.error'));
-    }
-
-    @action
-    onCancel() {
-        this.reset();
-        this.set('requestedEditMode', false);
     }
 }

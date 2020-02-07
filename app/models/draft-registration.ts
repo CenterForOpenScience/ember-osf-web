@@ -2,6 +2,7 @@ import DS from 'ember-data';
 
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 
+import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 import InstitutionModel from './institution';
 import LicenseModel from './license';
 import NodeModel, { NodeCategory, NodeLicense } from './node';
@@ -33,6 +34,9 @@ export default class DraftRegistrationModel extends OsfModel {
 
     @belongsTo('registration-schema', { inverse: null })
     registrationSchema!: DS.PromiseObject<RegistrationSchemaModel> & RegistrationSchemaModel;
+
+    @belongsTo('registration-provider', { inverse: null })
+    provider!: DS.PromiseObject<RegistrationProviderModel> & RegistrationProviderModel;
 
     @hasMany('institution', { inverse: null, async: false })
     affiliatedInstitutions!: DS.PromiseManyArray<InstitutionModel>;

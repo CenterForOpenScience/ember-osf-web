@@ -25,6 +25,13 @@
                 @options={{this.categoryOptions}}
                 @onchange={{perform this.draftManager.onMetadataInput}}
             />
+            <Drafts::Draft::-Components::Managers::LicensePickerManager
+                @draftManager={{this.draftManager}}
+                as |licenseManager|
+            >
+                <label for='license-select'>{{t 'registries.registration_metadata.choose_license'}}</label>
+                <RegistriesLicensePicker @manager={{licenseManager}} />
+            </Drafts::Draft::-Components::Managers::LicensePickerManager>
         </FormControls>
     </form>
 {{/if}}

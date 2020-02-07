@@ -40,4 +40,16 @@ const registrationProviders: Array<Partial<MirageRegistrationProvider>> = [
     },
 ];
 
-export default registrationProviders;
+export default registrationProviders as MirageRegistrationProvider[];
+
+declare module 'ember-cli-mirage/types/registries/schema' {
+    export default interface MirageSchemaRegistry {
+        registrationProviders: MirageRegistrationProvider;
+    } // eslint-disable-line semi
+}
+
+declare module 'ember-cli-mirage/types/registries/model' {
+    export default interface MirageModelRegistry {
+        'registration-provider': MirageRegistrationProvider;
+    } // eslint-disable-line semi
+}

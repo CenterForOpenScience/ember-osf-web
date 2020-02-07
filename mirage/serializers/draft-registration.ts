@@ -40,6 +40,14 @@ export default class DraftRegistrationSerializer extends ApplicationSerializer<D
                     },
                 },
             },
+            provider: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/providers/registrations/${model.provider.id}`,
+                        meta: {},
+                    },
+                },
+            },
         };
     }
 
