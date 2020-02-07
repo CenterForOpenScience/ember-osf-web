@@ -40,7 +40,6 @@ module('Registries | Acceptance | draft form', hooks => {
             {
                 registrationSchema,
                 initiator,
-                provider: server.schema.registrationProviders.find('osf'),
             },
         );
 
@@ -56,7 +55,6 @@ module('Registries | Acceptance | draft form', hooks => {
             'draft-registration', {
                 registrationSchema,
                 initiator,
-                provider: server.schema.registrationProviders.find('osf'),
             },
         );
 
@@ -72,7 +70,6 @@ module('Registries | Acceptance | draft form', hooks => {
             'draft-registration', {
                 registrationSchema,
                 initiator,
-                provider: server.schema.registrationProviders.find('osf'),
             },
         );
 
@@ -146,7 +143,6 @@ module('Registries | Acceptance | draft form', hooks => {
             {
                 registrationSchema,
                 initiator,
-                provider: server.schema.registrationProviders.find('osf'),
             },
         );
 
@@ -223,7 +219,6 @@ module('Registries | Acceptance | draft form', hooks => {
                 registrationSchema,
                 initiator,
                 registrationResponses,
-                provider: server.schema.registrationProviders.find('osf'),
             },
         );
 
@@ -250,7 +245,6 @@ module('Registries | Acceptance | draft form', hooks => {
                 registrationSchema,
                 initiator,
                 registrationResponses,
-                provider: server.schema.registrationProviders.find('osf'),
             },
         );
 
@@ -272,7 +266,6 @@ module('Registries | Acceptance | draft form', hooks => {
             {
                 registrationSchema,
                 initiator,
-                provider: server.schema.registrationProviders.find('osf'),
             },
         );
 
@@ -305,7 +298,6 @@ module('Registries | Acceptance | draft form', hooks => {
                 initiator,
                 registrationResponses,
                 branchedFrom: rootNode,
-                provider: server.schema.registrationProviders.find('osf'),
             },
         );
         await visit(`/registries/drafts/${registration.id}/review`);
@@ -356,7 +348,6 @@ module('Registries | Acceptance | draft form', hooks => {
             {
                 registrationSchema,
                 initiator,
-                provider: server.schema.registrationProviders.find('osf'),
             },
         );
 
@@ -383,7 +374,6 @@ module('Registries | Acceptance | draft form', hooks => {
             {
                 registrationSchema,
                 initiator,
-                provider: server.schema.registrationProviders.find('osf'),
             },
         );
 
@@ -407,7 +397,6 @@ module('Registries | Acceptance | draft form', hooks => {
             {
                 registrationSchema,
                 initiator,
-                provider: server.schema.registrationProviders.find('osf'),
             },
         );
 

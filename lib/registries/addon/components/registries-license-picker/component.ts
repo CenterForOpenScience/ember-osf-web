@@ -11,15 +11,23 @@ import styles from './styles';
 import template from './template';
 
 export interface LicenseManager {
+    cancel?: () => void;
     onSave?: () => void;
     onError?: () => void;
-    onCancel?: () => void;
     onInput?: () => void;
     changeLicense: (selected: License) => void;
+    startEditing?: () => void;
+    fieldIsEmpty?: License;
+    emptyFieldText?: string;
+    inEditMode?: boolean;
+    userCanEdit?: boolean;
+    shouldShowField?: boolean;
     registration?: Registration | ChangesetDef;
+    changeset?: ChangesetDef;
     requiredFields: string[];
     selectedLicense: License;
     licensesAcceptable: QueryHasManyResult<License>;
+    isSaving?: boolean;
 }
 
 @layout(template, styles)
@@ -34,6 +42,8 @@ export default class RegistriesLicensePicker extends Component {
 
     @action
     onInput() {
-        return this.manager.onInput ? this.manager.onInput() : true;
+        if (this.manager.onInput) {
+            this.manager.onInput();
+        }
     }
 }

@@ -78,6 +78,7 @@ export default class LicenseManagerComponent extends Component implements Licens
 
     @action
     cancel() {
+        this.reset();
         this.set('requestedEditMode', false);
     }
 
@@ -107,11 +108,5 @@ export default class LicenseManagerComponent extends Component implements Licens
     @action
     onError() {
         this.toast.error(this.i18n.t('registries.registration_metadata.edit_license.error'));
-    }
-
-    @action
-    onCancel() {
-        this.reset();
-        this.set('requestedEditMode', false);
     }
 }

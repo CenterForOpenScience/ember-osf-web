@@ -53,7 +53,6 @@ export function draftRegisterNode(
         registrationSchema: faker.random.arrayElement(
             server.schema.registrationSchemas.all().models,
         ),
-        provider: server.schema.registrationProviders.find('osf'),
         ...props,
     }, ...traits);
 }
