@@ -8,7 +8,6 @@ import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import { localClassNames } from 'ember-css-modules';
 import DS from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
 import $ from 'jquery';
 
@@ -53,7 +52,6 @@ enum modals {
 export default class FileBrowser extends Component {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
-    @service i18n!: I18N;
     @service ready!: Ready;
     @service store!: DS.Store;
     @service toast!: Toast;

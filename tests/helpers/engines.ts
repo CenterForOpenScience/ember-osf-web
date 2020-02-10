@@ -5,8 +5,6 @@ import { setupRenderingTest, setupTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 
 import breakpoints from 'ember-osf-web/breakpoints';
-import enConfig from 'ember-osf-web/locales/en/config';
-import enTranslations from 'ember-osf-web/locales/en/translations';
 import { setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 
 function setupEngineFixtures(hooks: any) {
@@ -14,8 +12,6 @@ function setupEngineFixtures(hooks: any) {
         // Register constants that injected services use to simulate the same
         // behavior as the actual app/engine
         this.owner.register('breakpoints:main', breakpoints, { instantiate: false });
-        this.owner.register('locale:en/config', enConfig);
-        this.owner.register('locale:en/translations', enTranslations, { instantiate: false });
     });
 }
 

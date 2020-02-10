@@ -7,7 +7,7 @@
             <div class='col-sm-12 col-md-8 col-md-offset-2'>
                 <p>
                     <span class='copyright'>
-                        {{t 'footer.copyright' currentYear=this.currentYear}}
+                        {{t 'footer.copyright' currentYear=this.currentYear htmlSafe=true}}
                     </span>
                     <OsfLink
                         data-analytics-name='cos_io'
@@ -22,7 +22,7 @@
                         data-analytics-name='terms'
                         @href={{this.termsLink}}
                     >
-                        {{t 'footer.terms'}}
+                        {{t 'footer.terms' htmlSafe=true}}
                     </OsfLink>
                     <span>
                         {{t 'footer.separator'}}
@@ -31,7 +31,7 @@
                         data-analytics-name='privacy'
                         @href={{this.privacyPolicyLink}}
                     >
-                        {{t 'footer.privacy'}}
+                        {{t 'footer.privacy' htmlSafe=true}}
                     </OsfLink>
                     <span>
                         {{t 'footer.separator'}}
@@ -65,7 +65,7 @@
                         data-analytics-name='rpp'
                         @href={{this.rpp}}
                     >
-                        {{t 'footer.rpp'}}
+                        {{t 'footer.rpp' htmlSafe=true}}
                     </OsfLink>
                     <span>
                         {{t 'footer.separator'}}
@@ -74,7 +74,7 @@
                         data-analytics-name='rpcb'
                         @href={{this.rpcb}}
                     >
-                        {{t 'footer.rpcb'}}
+                        {{t 'footer.rpcb' htmlSafe=true}}
                     </OsfLink>
                 </p>
                 <p>

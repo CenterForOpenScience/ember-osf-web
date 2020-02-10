@@ -22,7 +22,7 @@ const App = Application.extend({
                     'current-user',
                     'features',
                     'head-data',
-                    'i18n',
+                    'intl',
                     'page-title-list',
                     'session',
                     'store',
@@ -41,7 +41,7 @@ const App = Application.extend({
                     'analytics',
                     'current-user',
                     'features',
-                    'i18n',
+                    'intl',
                     'ready',
                     'router',
                     'session',
@@ -63,7 +63,7 @@ const App = Application.extend({
                     'head-data',
                     'meta-tags',
                     'head-tags',
-                    'i18n',
+                    'intl',
                     'media',
                     'page-title-list',
                     'ready',
@@ -84,7 +84,7 @@ const App = Application.extend({
         analyticsPage: {
             dependencies: {
                 services: [
-                    'i18n',
+                    'intl',
                     'cookies',
                     'store',
                     'analytics',

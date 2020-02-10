@@ -1,7 +1,7 @@
 import Service from '@ember/service';
 import { click, currentRouteName, currentURL, fillIn, settled } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { t } from 'ember-i18n/test-support';
+import { t } from 'ember-intl/test-support';
 import { setBreakpoint } from 'ember-responsive/test-support';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';

@@ -7,7 +7,7 @@ import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -46,7 +46,7 @@ type SortKey = 'date_modified' | '-date_modified' | 'name' | '-name';
 @tagName('')
 @layout(template)
 export default class FilesManagerComponent extends Component {
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service store!: DS.Store;
     @service toast!: Toast;
 
@@ -192,7 +192,7 @@ export default class FilesManagerComponent extends Component {
 
         this.lastUploaded.pushObject(file);
 
-        this.toast.success(this.i18n.t('file_browser.file_added_toast'));
+        this.toast.success(this.intl.t('file_browser.file_added_toast'));
         if (this.onAddFile) {
             this.onAddFile(file);
         }

@@ -1,0 +1,1629 @@
+documentType:
+    default:
+        plural: documents
+        pluralCapitalized: Documents
+        singular: document
+        singularCapitalized: Document
+    work:
+        plural: works
+        pluralCapitalized: Works
+        singular: work
+        singularCapitalized: Work
+    paper:
+        plural: papers
+        pluralCapitalized: Papers
+        singular: paper
+        singularCapitalized: Paper
+    preprint:
+        plural: preprints
+        pluralCapitalized: Preprints
+        singular: preprint
+        singularCapitalized: Preprint
+    thesis:
+        plural: theses
+        pluralCapitalized: Theses
+        singular: thesis
+        singularCapitalized: Thesis
+general:
+    OSF: OSF
+    share: Share
+    embed: Embed
+    download: Download
+    download_url: 'Download url'
+    done: Done
+    delete: Delete
+    view: View
+    edit: Edit
+    cancel: Cancel
+    ok: OK
+    revisions: Revisions
+    md5: MD5
+    date: Date
+    sha2: SHA2
+    title: Title
+    contributors: Contributors
+    modified: Modified
+    description: Description
+    create: Create
+    and: and
+    or: or
+    bookmark: Bookmark
+    more: more
+    upload: Upload
+    rename: Rename
+    move: Move
+    name: Name
+    size: Size
+    version: Version
+    downloads: Downloads
+    close: Close
+    back: Back
+    public: Public
+    filter: Filter
+    revert: Revert
+    save: Save
+    ellipsis: …
+    warning: Warning
+    sort_asc: 'Sort ascending'
+    sort_desc: 'Sort descending'
+    last_modified: 'Last modified'
+    sort: Sort
+    asc_paren: (asc)
+    desc_paren: (desc)
+    loading: Loading...
+    next: next
+    previous: previous
+    help: Help
+    api: API
+    cos: 'Center for Open Science'
+    home: Home
+    period: .
+    settings: Settings
+    project: project
+    component: component
+    hosted_on_the_osf: 'Hosted on OSF'
+    please_confirm: 'Please confirm'
+    required: Required
+    options: Options
+    optional: Optional
+    optional_paren: (optional)
+    services:
+        collections: Collections
+        institutions: Institutions
+        preprints: Preprints
+        registries: Registries
+node_categories:
+    analysis: Analysis
+    communication: Communication
+    data: Data
+    hypothesis: Hypothesis
+    instrumentation: Instrumentation
+    'methods and measures': 'Methods and measures'
+    procedure: Procedure
+    project: Project
+    software: Software
+    other: Other
+    uncategorized: Uncategorized
+maintenance:
+    line1: 'The site will undergo maintenance between <strong>{start} and {end}</strong> ({utc} UTC).'
+    line2: 'Thank you for your patience.'
+    title: 'Notice:'
+quickfiles:
+    title: '{user-name}''s Quick Files'
+    description: 'Files uploaded here are <b>publicly accessible</b> and easy to share with others using the share link.'
+    feedback_dialog_text: 'Tell us what you think of Quick Files'
+    transition_auth: 'You must be logged in to view your Quick Files. Redirecting to the login page.'
+    share_by_email: 'Share by email'
+feedback:
+    button_text: Feedback
+    placeholder: 'Share your feedback'
+    follow_up_label: 'Contact me about further opportunities to improve OSF.'
+    title: 'Send feedback'
+    confirm_button_text: Send
+    thank_you: 'Thank you!'
+    success: 'Your feedback has been submitted.'
+    dismiss: 'Got it'
+file_detail:
+    version:
+        id: 'Version ID'
+        title: '(Version: {version-number})'
+    embed:
+        dynamic: 'Dynamically render iframe with JavaScript'
+        direct: 'Direct iframe with fixed height and width'
+    tags: 'Tags:'
+    toggle: 'Toggle view:'
+    delete_file:
+        question: 'Delete file?'
+        confirm: 'Are you sure you want to delete <b>{file-name}</b>?'
+    sha2_description: 'SHA-2 is a cryptographic hash function designed by the NSA used to verify data integrity.'
+    md5_description: 'MD5 is an algorithm used to verify data integrity.'
+    delete_success: 'File deleted'
+    delete_fail: 'Unable to delete file'
+    save_success: 'File saved'
+    save_fail: 'Unable to save file'
+    mfr_iframe_title: 'Rendering of document'
+    embed_js_label: 'Embeddable javascript'
+    embed_iframe_label: 'Embeddable iframe'
+file_browser:
+    loading: Loading...
+    delete_multiple: 'Delete multiple'
+    download_zip: 'Download as zip'
+    drop_placeholder: 'Drop files here to upload'
+    drop_reminder: 'Drop file to upload'
+    no_files: 'This user has not uploaded any Quick Files'
+    share_title: Share
+    clipboard_copy: 'Copy to clipboard'
+    info:
+        title: 'How to use the file browser'
+        upload: '<b>Upload:</b> Upload single files via drag and drop or by clicking the upload button.'
+        select: '<b>Select rows:</b> Click on a row to show further actions in the toolbar. Use Command or Shift keys to select multiple files.'
+        folders: '<b>Folders:</b> Not supported; consider an OSF project for uploading and managing many files.'
+        open1: '<b>Open files:</b> Click a file name to view the file on OSF.'
+        open2: '<b>Open files in new tab:</b> Press Command (Ctrl in Windows) and click a file name to open it in a new tab.'
+        download: '<b>Download as zip:</b> Click the "Download as zip" button in the toolbar to download all files as a .zip.'
+    delete_modal:
+        title: 'Delete "{filename}"?'
+        title_multiple: 'Delete multiple?'
+        body: 'This action is irreversible.'
+    conflict_modal:
+        title: 'An item named {textValue} already exists in this location.'
+        keep_info: '"Keep both" will retain both files (and their version histories) in this location.'
+        replace_info: '"Replace" will overwrite the existing file in this location. You will lose previous versions of the overwritten file. You will keep previous versions of the moved file.'
+        keep_button: 'Keep both'
+        replace_button: Replace
+    move_modal:
+        title: 'Move file to project'
+        move_button: 'Move file'
+    filtering: Filtering
+    file_added: 'This file has been added.'
+    file_added_toast: 'File added'
+    file_replaced: 'This file has been replaced.'
+    file_deleted: 'This file has been deleted.'
+    delete_failed: 'Unable to delete file'
+    successfully_moved: 'This file has been successfully moved.'
+dashboard:
+    page_title: Home
+    title: Dashboard
+    create_new_project_button: 'Create new project'
+    quicksearch:
+        search: 'Search your projects'
+        other_links: 'Go to <a href="/myprojects/">My Projects</a> to organize your work or <a href="/search/">search</a> OSF'
+        no_results: 'No results found.'
+        no_projects:
+            line1: 'You have no projects yet. Create a project with the button on the top right.'
+            line2: 'This feature allows you to search and quickly access your projects.'
+            preview_alt: 'Preview of a full quick projects screen'
+        private_parent: 'Private project / '
+        private_grandparent: 'Private project / Private / '
+    noteworthy:
+        description: 'Discover public projects'
+        new_and_noteworthy: 'New and noteworthy'
+        failed_noteworthy: 'Failed loading "new and noteworthy" projects'
+        most_popular: 'Most popular'
+        failed_popular: 'Failed loading "most popular" projects'
+        search_more: 'Search for more projects'
+        by: by
+    meetings:
+        title: 'Hosting a conference or meeting?'
+        description: 'Use the OSF for Meetings service to provide a central location for conference submissions.'
+        button: 'View meetings'
+    preprints:
+        title: 'Browse the latest research'
+        description: 'Check out the latest preprints hosted on OSF covering a variety of research areas.'
+        button: 'View preprints'
+new_project:
+    header: 'Create new project'
+    title_placeholder: 'Enter project title'
+    more: More
+    affiliation: Affiliation
+    remove_all: 'Remove all'
+    select_all: 'Select all'
+    no_matches: 'No matches found'
+    description_placeholder: 'Enter project description'
+    template_title: 'Template (optional)'
+    template_search_help: 'Start typing to search your projects. Selecting project as template will duplicate its structure in the new project without importing the content of that project.'
+    template_placeholder: 'Select a project to use as template'
+    success_message: 'New project created successfully!'
+    stay_here: 'Keep working here'
+    go_to_new: 'Go to new project'
+    storage_region: 'Storage location'
+banners:
+    prereg:
+        description: 'Improve your next study. Enter the Prereg Challenge and you could win $1,000.'
+        button: 'Start Prereg Challenge'
+    view_only:
+        warning: 'You are viewing OSF through a view-only link, which may limit the data you have permission to see.'
+        view_normally: 'Leave this view'
+move_to_project:
+    create_new_project: 'Create new public project'
+    connect_to_existing: 'Connect file to existing OSF project'
+    enter_project_title: 'Enter project title'
+    new_project_message: 'You have selected to create a new public project for your file. Users will still have access to your file unless the project becomes private.'
+    choose_project: 'Choose project'
+    select_placeholder: 'Click to select'
+    project_select_message: 'The list of projects appearing are projects and components for which you have write access. Registrations are not included here.'
+    no_projects_exist_error: 'You have no available projects. Go back to create a new project.'
+    could_not_create_project: 'Could not create project. Please try again.'
+    convert_or_copy_message:
+        project: 'Clicking "Move file" will immediately make changes to your OSF project and move your file.'
+        component: 'Clicking "Move file" will immediately make changes to your OSF component and move your file.'
+    no_longer_public_warning:
+        project: 'Files moved to private projects will no longer be public or discoverable by others.'
+        component: 'Files moved to private components will no longer be public or discoverable by others.'
+    file_successfully_moved: 'File was moved successfully!'
+    could_not_move_file: 'Could not move file. Please try again.'
+    keep_working_here: 'Keep working here'
+    go_to_new_project: 'Go to new project'
+    go_to_component: 'Go to component'
+    go_to_project: 'Go to project'
+navbar:
+    add: Add
+    # add_a_preprint: 'Add a {preprintWords.preprint}'
+    browse: Browse
+    cancel_search: 'Cancel search'
+    donate: Donate
+    go_home: 'Go home'
+    my_projects: 'My Projects'
+    my_registrations: 'My Registrations'
+    my_quick_files: 'My Quick Files'
+    reviews: 'My Reviewing'
+    search: Search
+    search_help: 'Search help'
+    search_the_OSF: 'Search OSF'
+    send_search: 'Send search query'
+    support: Support
+    toggle_primary: 'Toggle primary navigation'
+    toggle_secondary: 'Toggle secondary navigation'
+    other_views: 'Other OSF views'
+    login: Login
+    join: Join
+    osf_logo: 'OSF logo'
+    search_bar: 'Search bar for registries'
+auth_dropdown:
+    log_out: 'Log Out'
+    my_profile: 'My Profile'
+    osf_support: 'OSF Support'
+    sign_up: 'Sign Up'
+    sign_in: 'Sign In'
+    user_gravatar: 'User gravatar'
+    toggle_auth_dropdown: 'Toggle auth dropdown'
+support:
+    title: Support
+    faq_title: 'Frequently asked questions'
+    faq_paragraph: 'How can it be free? How will OSF be useful to my research? What is a registration? Get your questions about OSF answered on our <a href="{faqPageUrl}" data-analytics-name="faq_link">FAQ page</a>.'
+    faq_button: 'Visit FAQ'
+    guides_title: 'OSF guides'
+    guides_paragraph: 'Learn how to use OSF for improving your research workflow. Read our <a href="{helpUrl}" data-analytics-name="guides_link">guides</a> for step-by-step screenshots that show you the basics of project structures, version control, privacy, files, add-on support, and more!'
+    guides_button: 'Visit guides'
+    contact_title: 'Get in touch'
+    contact_questions: 'For technical support or other questions,'
+    contact_form: 'submit a request.'
+    prereg_title: 'Do you have questions about preregistration?'
+    prereg_paragraph: 'Check out our <a href="{preregUrl}" data-analytics-name="prereg_link">prereg page</a>.'
+    status_title: 'Are you experiencing downtime with our services?'
+    status_paragraph: 'Check out our <a href="{statusPageUrl}" data-analytics-name="status_page_link">status page</a> for updates on how our services are operating.'
+    consultation_title: 'Are you looking for hands-on training?'
+    consultation_paragraph: 'COS leads workshops and webinars on how to use OSF and incorporate best practices in transparency into your research workflow. To learn more about this service visit our <a href="{consultationUrl}" data-analytics-name="consultation_link">Training Services page</a>.'
+    social_title: 'Other ways to get help'
+    social_twitter: 'Ask us a question on Twitter'
+    social_mailing: 'Join our mailing list'
+    social_facebook: 'Follow us on Facebook'
+    social_github: 'Connect with COS on GitHub'
+not_found:
+    title: 'Page not found'
+    body: 'The requested resource could not be found. If this should not have occurred and the issue persists, please report it to <a href="mailto:{supportEmail}">{supportEmail}</a>.'
+    registries:
+        contact: support@osf.io
+        go_to: 'Go to OSF Registries'
+        line1: 'The page you were looking for is not found on the OSF Registries service.'
+        line2: 'If this should not have occurred and the issue persists, please report it to '
+error_no_api:
+    title: 'API Unavailable'
+    body: 'Our API is currently unavailable. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{supportEmail}">{supportEmail}</a>.'
+osf_mode_footer:
+    dev_mode: 'This site is running in development mode.'
+footer:
+    status: Status
+    faq: FAQ/Guides
+    source_code: 'Source Code'
+    rpp: 'Reproducibility&nbsp;Project: Psychology'
+    rpcb: 'Reproducibility&nbsp;Project: Cancer Biology'
+    top: 'TOP Guidelines'
+    donate: Donate
+    socialize: Socialize
+    contact: Contact
+    copyright: 'Copyright &copy; 2011-{currentYear}'
+    terms: 'Terms&nbsp;of&nbsp;Use'
+    privacy: 'Privacy&nbsp;Policy'
+    separator: ' | '
+home:
+    title: Home
+    youtube_modal_title: 'Getting Started with OSF'
+    alert_logged_out: 'You have successfully logged out.'
+    brand: 'Open Science Framework'
+    tagline: 'A scholarly commons to connect the entire research cycle'
+    youtube_label: 'OSF YouTube Video'
+    osf_screenshot_alt: 'Screenshot of OSF'
+    signup_title: 'Free and open source. Start now.'
+    collaboration: 'Simplified Scholarly Collaboration'
+    management: 'Cloud-based management for your projects.'
+    structured_projects_title: 'Structured projects'
+    structured_projects_paragraph: 'Keep all your files, data, and protocols in <strong>one centralized location.</strong> No more trawling emails to find files or scrambling to recover from lost data.'
+    secure_cloud: 'Secure Cloud'
+    control_access_title: 'Control access'
+    control_access_paragraph: '<strong>You control which parts of your project are public or private</strong> making it easy to collaborate with the worldwide community or just your team.'
+    control_access_span: 'Project-level Permissions'
+    workflow_title: 'Respect for your workflow'
+    workflow_paragraph: '<strong>Connect your favorite third party services</strong> directly to OSF.'
+    workflow_span: '3rd Party Integrations'
+    student_main: '"OSF is a game changer for those wanting to effectively share their research process in the spirit of collaboration."'
+    student_attrib: '<strong>Patricia Ayala</strong>, Research Services Librarian, University of Toronto'
+    integrations_title: 'OSF integrations make your <strong>workflow more efficient</strong>'
+    integrations_alt_dropbox: 'Dropbox logo'
+    integrations_alt_github: 'Github logo'
+    integrations_alt_amazon: 'Amazon S3 logo'
+    integrations_alt_box: 'Box logo'
+    integrations_alt_google: 'Google Drive logo'
+    integrations_alt_figshare: 'Figshare logo'
+    integrations_alt_dataverse: 'Dataverse logo'
+    integrations_alt_mendeley: 'Mendeley logo'
+    features_title: '<strong>Everything</strong> your research needs to be a success'
+    features_manage_title: 'Manage your project'
+    features_manage_paragraph: 'View all of your projects from <strong>one dashboard.</strong>'
+    features_share_title: 'Quickly share files'
+    features_share_paragraph: '<strong>Share key project information</strong> and allow others to use and cite it.'
+    features_changes_title: 'See project changes'
+    features_changes_paragraph: 'See the latest project changes, who is contributing and <strong>historical file versions.</strong>'
+    features_analytics_title: 'View project analytics'
+    features_analytics_paragraph: 'Access <strong>project data</strong> ranging from visits over time to top referring websites.'
+    features_archive_title: 'Archive your data'
+    features_archive_paragraph: 'Computer or collaborator explode? With OSF <strong>you will never lose your project data.</strong>'
+    features_collaboration_title: 'Control access and collaboration'
+    features_collaboration_paragraph: 'Add others to your projects to collaborate, or provide private access to view.'
+    features_workflow_title: 'Supercharge your workflow'
+    features_workflow_paragraph: 'OSF helps individuals, teams and labs make their <strong>research processes more efficient.</strong>'
+    features_registration_title: Registration
+    features_registration_paragraph: '<strong>Preserve the state of a project at important parts of its lifecycle</strong> such as the onset of data collection.'
+    global_title: '<strong>Contribute</strong> to global scientific efforts'
+    global_paragraph: 'Labs and teams across the globe use OSF to open their projects up to the scientific community. You can browse the newest and most popular public projects'
+    global_link: 'right here.'
+    global_label: 'Get involved'
+    non_profit_title: 'We are a <strong>mission-driven non-profit</strong>'
+    non_profit_paragraph1: 'OSF is a free, open source service of the'
+    non_profit_link: 'Center for Open Science.'
+    non_profit_paragraph2: 'We’re aligning scientific practices with scientific values by improving openness, integrity and reproducibility of research.'
+    non_profit_label: Non-Profit
+    users_title: '<strong>Teachers, researchers, and global teams rely</strong> on OSF'
+    users_1_alt: 'Richard Ball'
+    users_1_title: 'Making research reproducible &amp; verifiable'
+    users_1_paragraph: 'The OSF helps our students understand and apply sound data management principles to their work. And since we have easy access to all of the files the students are working with, it greatly enhances our ability to offer them constructive guidance.'
+    users_1_small: 'Richard Ball, Professor of Economics, Haverford College'
+    users_2_title: 'Version control makes life easier'
+    users_2_paragraph: 'The OSF makes version control effortless. My PI, my lab mates, and I have access to previous versions of a file at any time&#151;and the most current version is always readily available.'
+    users_2_small: 'Erica Baranski, PhD Student, Social and Personality Psychology Funder Lab, UC Riverside'
+    users_2_alt: 'Erica Baranski'
+    users_3_alt: 'Anne Allison'
+    users_3_title: 'A centralized hub of information'
+    users_3_paragraph: 'The OSF creates a centralized hub of information where I can oversee a diversity of research projects across multiple classes. The centralization, organization, and anywhere-access save me the time and energy necessary for managing these projects.'
+    users_3_small: 'Anne Allison, Associate Professor of Biology at Piedmont Virginia Community College'
+    free_title1: 'Free and open source.'
+    free_title2: 'OSF is a public good built to support your research.'
+    free_link: 'Get started'
+    learn_more: 'Learn more'
+new-home:
+    support-section:
+        header: 'How OSF supports your research'
+        arrow: arrow
+        search:
+            header: 'Search and Discover'
+            description: 'Find papers, data, and materials to inspire your next research project. Search public projects to build on the work of others and find new collaborators.'
+        design:
+            header: 'Design Your Study'
+            description: 'Start a project and add collaborators, giving them access to protocols and other research materials. Built-in version control tracks the evolution of your study.'
+        analyze:
+            header: 'Collect and Analyze Data'
+            description: 'Store data, code, and other materials in OSF Storage, or connect your Dropbox or other third-party account. Every file gets a unique, persistent URL for citing and sharing.'
+        publish:
+            header: 'Publish Your Reports'
+            description: 'Share papers in OSF Preprints or a community-based preprint provider, so others can find and cite your work. Track impact with metrics like downloads and view counts.'
+    testimonials:
+        heading: 'What others are saying'
+        see_her_research: 'See her research'
+        see_his_research: 'See his research'
+        carousel_heading: 'User testimonials'
+        slide_1:
+            text: 'OSF is a game changer for those wanting to effectively share their research process in the spirit of collaboration.'
+            alt: 'Patricia Ayala testimonial'
+            description:
+                name: 'Patricia Ayala'
+                position: 'Research Services Librarian<br>University of Toronto'
+        slide_2:
+            text: 'OSF is indispensable in helping me create reproducible research pipelines from preregistration through data collection and analysis. Its versatility makes it my one-stop shop for projects. The Dropbox integration effortlessly transforms my existing local workflow to public repository.'
+            alt: 'Maya testimonial'
+            description:
+                name: 'Maya Mathur'
+                position: 'Department of Epidemiology<br>Harvard University'
+        slide_3:
+            text: 'Because SocArXiv is a not-for-profit organization, researchers can be assured that they are sharing their research in an environment where access, inclusivity, and preservation, rather than profit, will remain at the heart of the mission. A great benefit of partnering with OSF is that this application is a free public good.'
+            alt: 'Philip Cohen testimonial'
+            description:
+                name: 'Philip Cohen'
+                position: 'SocArXiv papers'
+    integrations-section:
+        header: 'OSF integrations make your workflow more efficient'
+        authentication: Authentication
+        discovery: Discovery
+        references: References
+        storage: Storage
+        incommon: 'Incommon logo'
+        sso: 'SSO logo'
+        google_scholar: 'Google Scholar logo'
+        orcid: 'Orcid logo'
+        mendeley: 'Mendeley logo'
+        zotero: 'Zotero logo'
+        dropbox: 'Dropbox logo'
+        google_drive: 'Google Drive logo'
+tos_consent:
+    paragraph: 'We''ve updated our <a href="{link1}">Terms of Use</a> and <a href="{link2}">Privacy Policy</a>. Please read them carefully.'
+    have_read_and_agree: 'I have read and agree to these terms.'
+    continue: Continue
+validationErrors:
+    description: 'This field'
+    inclusion: '{description} is not included in the list.'
+    exclusion: '{description} is reserved.'
+    invalid: '{description} is invalid.'
+    confirmation: '{description} doesn''t match {on}.'
+    accepted: '{description} must be accepted.'
+    empty: 'This field can''t be empty.'
+    blank: 'This field can''t be blank.'
+    present: '{description} must be blank.'
+    collection: '{description} must be a collection.'
+    singular: '{description} can''t be a collection.'
+    tooLong: '{description} is too long (maximum is {max} characters).'
+    tooShort: '{description} is too short (minimum is {min} characters).'
+    before: '{description} must be before {before}.'
+    after: '{description} must be after {after}.'
+    wrongDateFormat: '{description} must be in the format of {format}.'
+    wrongLength: '{description} is the wrong length (should be {is} characters).'
+    notANumber: '{description} must be a number.'
+    notAnInteger: '{description} must be an integer.'
+    greaterThan: '{description} must be greater than {gt}.'
+    greaterThanOrEqualTo: '{description} must be greater than or equal to {gte}.'
+    equalTo: '{description} must be equal to {is}.'
+    lessThan: '{description} must be less than {lt}.'
+    lessThanOrEqualTo: '{description} must be less than or equal to {lte}.'
+    otherThan: '{description} must be other than {value}.'
+    odd: '{description} must be odd.'
+    even: '{description} must be even.'
+    positive: '{description} must be positive.'
+    date: '{description} must be a valid date.'
+    onOrAfter: '{description} must be on or after {onOrAfter}.'
+    onOrBefore: '{description} must be on or before {onOrBefore}.'
+    email: '{description} must be a valid email address.'
+    phone: '{description} must be a valid phone number.'
+    url: '{description} must be a valid url.'
+    https_url: '{description} must be a valid https url.'
+    email_registered: 'This email address has already been registered.'
+    email_invalid: 'Invalid email address. If this should not have occurred, please report this to {supportEmail}'
+    email_match: 'Email addresses must match.'
+    email_duplicate: 'Duplicate email'
+    password_email: 'Your password cannot be the same as your email address.'
+    password_old: 'Your new password cannot be the same as your old password.'
+    password_match: 'Passwords must match.'
+    recaptcha: 'Please complete reCAPTCHA.'
+    affirm_terms: 'You must read and agree to the Terms of Use and Privacy Policy.'
+    min_subjects: 'You must select at least {minLength} subject(s).'
+    node_license_invalid: 'Invalid required fields for the license'
+    node_license_missing_fields: 'The following required fields are missing: {missingFields}'
+    invalid_doi: 'Please use a valid DOI format (10.xxxx/xxxxx)'
+    mustSelect: 'You must select a value for this field.'
+    mustSelectMinOne: 'You must select at least one value for this field.'
+    mustSelectFileMinOne: 'You must select at least one file for this field.'
+    onlyProjectOrComponentFiles: 'The {numOfFiles, plural, =1 {file} other {files}} "{missingFilesList}" cannot be found on this {projectOrComponent}.'
+    new_folder_name: 'Folder name must not be blank.'
+validated_input_form:
+    discard_changes: 'Discard changes'
+node_navbar:
+    toggle: 'Toggle navigation'
+    project_nav: 'Project Navigation'
+    wiki: Wiki
+    analytics: Analytics
+    registrations: Registrations
+    files: Files
+    contributors: Contributors
+    addons: Add-ons
+    settings: Settings
+    comments: Comments
+status:
+    welcome_message: '<h1>Welcome to OSF!</h1><p>Visit our <a href="https://openscience.zendesk.com/hc/en-us" target="_blank" rel="noreferrer">Guides</a> to learn about creating a project, or get inspiration from <a href="https://osf.io/explore/activity/#popularPublicProjects">popular public projects</a>.</p>'
+    alternate_email_error: 'The email address has <b>NOT</b> been added to your account. Please log out and revisit the link in your email. Thank you.'
+    # remove_addon: 'Because the GitHub add-on for {extra.category} "{extra.title}" was authenticated by {extra.user}, authentication information has been deleted.'
+    project_deleted: 'Project has been successfully deleted.'
+    component_deleted: 'Component has been successfully deleted.'
+    remove_self_contrib: 'You have removed yourself as a contributor from this project.'
+    registration_archiving: 'Files are being copied to the newly created registration, and you will receive an email notification when the copying is finished.'
+    registration_submitted: 'Your submission has been received. You will be notified within two business days regarding the status of your submission. If you have questions you may contact us at prereg@cos.io.'
+    redirected_to_registrations: 'You have been redirected to the project''s registrations page. From here you can initiate a new Draft Registration to complete the registration process.'
+dropzone_widget:
+    drop_files: 'Drop files here to upload'
+    error_multiple_files: 'Cannot upload multiple files'
+    error_directories: 'Cannot upload directories, applications, or packages'
+join_osf:
+    header: 'Start managing your projects on OSF today.'
+    pitch: 'Free and easy to use, OSF supports the entire research lifecycle: planning, execution, reporting, archiving, and discovery.'
+    create_account: 'Create an account'
+    learn_more: 'learn more'
+    hide_message: 'Hide this message'
+node_card:
+    generic:
+        private_tooltip: 'This project is private'
+        timestamp_label: ""
+    fork:
+        private_tooltip: 'This fork is private'
+        timestamp_label: 'Forked:'
+        manage_contributors: 'Manage contributors'
+    registration:
+        private_tooltip: 'This registration is private'
+        timestamp_label: 'Registered:'
+        statuses:
+            pending: 'Pending registration'
+            withdrawn: Withdrawn
+            pending_withdrawl: 'Pending withdrawal'
+            embargoed: Embargoed
+            pending_embargo: 'Pending embargo'
+            pending_embargo_termination: 'Pending embargo termination'
+            archiving: Archiving
+    tags: 'Tags:'
+    options: Options
+forks:
+    fork: Fork
+    title: Forks
+    info: 'Forks you have permission to view are shown here.'
+    back: 'Back to Analytics'
+    new: 'Create fork'
+    loading_new: 'Creating new fork'
+    new_fork_info_title: 'Fork status'
+    new_fork_info: 'Your fork is being created. You''ll receive an email when it is complete.'
+    create_fork_modal: 'Are you sure you want to fork this project?'
+    unable_to_delete_fork: 'Any child components must be deleted prior to deleting this component.'
+    page_title: '{nodeTitle} Forks'
+    no_forks: 'A fork is a copy of a project that you can change without affecting the original project.'
+    new_fork_failed: 'Failed to create a new fork. Please try again later.'
+    delete_fork_failed: 'Failed to delete the project. Please try again later.'
+node:
+    registrations:
+        new_registration_modal:
+            title: Register
+            info: 'Registration creates a frozen version of the project. Your original project remains editable and will have the registration linked. Things to know about registration:<ul><li><strong>Registrations cannot be edited or deleted.</strong></li><li>Withdrawing a registration removes its contents, but leaves behind basic metadata: title, contributors, date registered, date withdrawn, and justification (if provided).</li><li>Registrations can be public or embargoed for up to four years. Embargoed registrations will be made public automatically when the embargo expires.</li></ul>Continue your registration by selecting a registration form:'
+            create: 'Create draft'
+        prereg_modal:
+            title: 'Preregistration Challenge'
+            notice: Notice
+            eligibility: 'Articles must be published by an <a href="{approvedJournalLink}">approved</a> journal by December 31, 2018, to be eligible for a prize.'
+            info: 'Below are some important items for those who choose to enter the Preregistration Challenge. If you do not agree to the terms you may still continue, use the form, and register your research study without entering the Challenge. <strong>Only Preregistrations that enter the challenge and undergo review are eligible for a $1,000 prize.</strong> We welcome questions and comments (learn more <a href="{learnMoreLink}">here</a> or email us at <a href="mailto:prereg@cos.io">prereg@cos.io</a>).'
+            list: '<li>After submitting your research plan for review, it is not yet registered. Your research plan will become a static, time stamped preregistration after it passes review. <strong>Please do not begin your study until it is registered.</strong> You will hear back from the review team within 2 business days.</li><li>The published article must also be reviewed before receiving the prize.</li><li>Prizes will be awarded at predetermined dates to eligible entrants. If more eligible entrants exist than available prizes, entrants will be ranked based on the date of registration.</li><li>Articles must be published in an <a href="{eligibleJournalLink}">eligible journal</a>.</li><li>Residents of countries on the U.S. State Department''s <a href="{embargoedCountriesLink}">list of embargoed countries</a> may not participate in the Preregistration Challenge.</li><li>Entering the Preregistration Challenge requires that you agree to <a href="{termsLink}">all of its terms</a>.</li>'
+            consent: 'I have read these terms. I understand that articles must be published by December 31, 2018, in order to be eligible for a prize.'
+            continue: Continue
+        page_title: '{nodeTitle} Registrations'
+        no_registrations: 'There have been no completed registrations of this project.'
+        only_admins_can_initiate: 'Only project administrators can initiate registrations.'
+        no_drafts: 'There are no draft registrations of this project.'
+        start_new: 'Start a new registration by clicking the “New registration” button. Once created, registrations cannot be edited or deleted.'
+        learn_more: 'Learn more about registrations <a href="{learnMoreLink}">here</a>.'
+        register_entire_project: 'To register the entire project "{rootNodeTitle}" instead, click'
+        here: here
+        new: 'New registration'
+        registrations: Registrations
+        draft_registrations: 'Draft Registrations'
+delete_modal:
+    title: 'Are you sure you want to delete this {nodeType}?'
+    body: 'It will no longer be available to other contributors on the {nodeType}.'
+    type_this: 'Type the following to continue:'
+    input_label: 'Scientist name verification'
+paginator:
+    next: 'Next page'
+    previous: 'Previous page'
+    page: 'Page {page} of {max}'
+social:
+    twitter: Twitter
+    facebook: Facebook
+    google_group: 'Google Group'
+    github: GitHub
+    linkedin: LinkedIn
+institutions:
+    description: 'OSF Institutions is a free scholarly web tool that enhances transparency, fosters collaboration, and increases the visibility of research outputs at the institutional level.'
+    read_more: 'Read more'
+    footer: 'Interested in setting up an OSF Institutions page for your research institution?'
+    contact_us: 'Contact us'
+    title: Institutions
+    search_placeholder: 'Search institutions'
+    dashboard:
+        title: '{institutionName} Dashboard'
+        last_update: 'Last update'
+        download_csv: 'Download CSV'
+        select_default: 'All Departments'
+        users_list:
+            name: Name
+            department: Department
+            projects: Projects
+            public_projects: 'Public Projects'
+            private_projects: 'Private Projects'
+            empty: 'No users found matching search criteria.'
+        users_connected_panel: 'SSO Users Connected'
+        projects_panel: 'Total Projects'
+        departments_panel: Departments
+        public: Public
+        private: Private
+        users: Users
+        empty: 'No data for institution found.'
+registration:
+    project_alert: 'This registration is a frozen, non-editable version of <a class="link-solid" href="/{projectId}/">this project</a>'
+list:
+    two_item:
+        delimiter: ' and '
+    many_item:
+        first_delimiter: ', '
+        each_delimiter: ', '
+        last_delimiter: ', and '
+contributor_list:
+    x_more: '{x} more'
+    anonymous: 'Anonymous contributors'
+app_components:
+    branded_navbar:
+        my_osf_projects: 'My OSF Projects'
+        on_the_osf: 'On the OSF:'
+    error_page:
+        email_message: 'If this should not have occurred and the issue persists, please report it to'
+        go_to: 'Go to {brand}'
+    license_picker:
+        faq: 'License FAQ'
+        show: 'Show full text'
+        hide: 'Hide full text'
+        fields:
+            copyrightHolders: 'Copyright Holders'
+            year: Year
+    license_text:
+        anonymized_placeholder: '[anonymized]'
+    navbar:
+        add_item: 'Add to {objectType}'
+    project_contributors:
+        title: Contributors
+        contributors_popover_title: 'Contributor Information'
+        contributors_popover: 'Projects must have at least one registered administrator and one author showing in the citation at all times. A registered administrator is a user who has both confirmed their account and has administrator privileges.'
+        instructions: 'Drag and drop authors to change authorship order.'
+        list:
+            name: Name
+            permissions: Permissions
+            permissions_popover_title: 'Permission Information'
+            permissions_popover: "\n                    <dl>\n                        <dt>Read</dt>\n                        <dd>\n                            <ul>\n                                <li>View project</li>\n                            </ul>\n                        </dd>\n                        <dt>Read + Write</dt>\n                        <dd>\n                            <ul>\n                                <li>Read privileges</li>\n                                <li>Add and configure project</li>\n                                <li>Add and edit content</li>\n                            </ul>\n                        </dd>\n                        <dt>Administrator</dt>\n                        <dd>\n                            <ul>\n                                <li>Read and write privileges</li>\n                                <li>Manage contributors</li>\n                                <li>Public-private settings</li>\n                            </ul>\n                        </dd>\n                    </dl>\n                "
+            citation: Citiation
+            citation_popover_title: 'Citation Information'
+            citation_popover: 'Only checked contribotrs will be included in project citations. Contributors not in the citation can read and modify the project as normal.'
+            remove_contributor_success: 'Project contributor removed!'
+            remove_contributor_error: 'Could not remove contributor. Please try again.'
+            item:
+                img_alt: Gravatar
+                in_citation_label: 'In citation:'
+                permissions_label: 'Permissions:'
+                permissions:
+                    admin: Administrator
+                    write: 'Read + Write'
+                    read: Read
+                remove: Remove
+                remove_author: 'Remove author'
+            load_more_contributors: 'Load more contributors'
+        search:
+            placeholder: 'Search by name'
+            unregistered_description: 'Can''t find the user that you''re looking for?'
+            unregistered_button: 'Add author by email address'
+            results: Results
+            no_results: 'No results found.'
+            unregistered_contributor:
+                title: 'Add author by email'
+                full_name: 'Full name'
+                email: Email
+                paragraph: 'We will notify the user that they have been added to your project.'
+                cancel: Cancel
+                add: Add
+                add_success: 'Unregistered contributor added!'
+                add_error: 'Could not add unregistered contributor. Please try again.'
+            result:
+                yourself: yourself
+                add: Add
+            add_contributor_success: 'Project contributor added!'
+            add_contributor_error: 'Could not add contributor. Please try again.'
+    project_metadata:
+        field_title_label: 'Title:'
+        field_title_placeholder: ""
+        field_description_label: 'Description:'
+        field_description_placeholder: ""
+        field_license_label: 'Choose a license:'
+        field_license_placeholder: ""
+        field_tags_label: 'Tags:'
+        field_tags_placeholder: 'Add a tag'
+        save_success: 'Project Metadata saved.'
+        save_error: 'Unable to save Project Metadata.'
+    query_syntax:
+        allDatesIn: 'all dates in'
+        allFieldsSearched: 'By default, all available fields are searched, but you can choose to search specific fields instead'
+        allTagsBetween: 'all tags between'
+        and: and
+        booleanDesc1: 'By default, all terms in the query are optional, as long as one term matches. You can use boolean operators'
+        booleanDesc2: 'to have more control over the search'
+        booleanDesc3: 'The word'
+        booleanDesc4: 'be present. The words'
+        booleanDesc5: 'are optional but used for sorting by relevance'
+        booleanDesc6: 'Same as above, except the word'
+        booleanDesc7: 'be present'
+        booleanDesc8: 'Equivalent to'
+        booleanDesc9: 'The word'
+        booleanDesc10: 'The list of tags contains'
+        booleanOperators: 'Boolean Operators'
+        boosting: Boosting
+        boostingDesc1: 'Use the boost operator'
+        boostingDesc2: 'with a number to make one term more relevant than another. The boost can be any positive number. Boosts between 0 and 1 reduce relevance.'
+        boostingDesc3: 'Boost results with'
+        boostingDesc4: 'higher than results with just'
+        both: both
+        butNot: 'but not'
+        couldNotPerformQuery: 'Could not perform search query.'
+        damerauLevenshteinDistanceDesc: 'to match all words with at most 1 change. You can specify a different maximum edit distance with a number after the'
+        descriptionContainsPhrase: 'The description contains the exact phrase'
+        documentation: documentation
+        escapeReservedChars: ' If you want to use any of these reserved characters in your query, escape them with a leading backslash. For instance, to search for '
+        except: except
+        excluding: excluding
+        fuzziness: Fuzziness
+        fuzzinessDesc1: 'after a word to indicate a ''fuzzy'' search, to include matches that are similar but not exactly the same.'
+        listContainsExactPhrase: 'The list of contributor names contains the exact phrase'
+        listOfIdentifiersContains: 'The list of identifiers contains'
+        match: Match
+        matchWordStartsWith: 'Match any word that starts with'
+        moreInformation: 'More Information'
+        moreInformationOnSearch: 'Please see below for more information on advanced search queries.'
+        moreInfoQuerySyntax: 'For more details about query syntax, see the'
+        must: must
+        mustNot: 'must not'
+        needToType: 'you would need to type'
+        or: or
+        phraseProximity: 'Phrase Proximity'
+        phraseProximityDesc1: 'You can also specify a maximum edit distance for phrases, to allow the words in the phrase to be farther apart or in a different order.'
+        ranges: Ranges
+        rangesDesc1: 'Use brackets to specify ranges for a field. Square brackets'
+        rangesDesc2: 'indicate inclusive ranges and curly brackets'
+        rangesDesc3: 'indicate exclusive ranges'
+        reservedChars: 'Reserved Characters'
+        searchByField: 'Searching by Field'
+        specialMeanings: 'The following characters have special meanings in a query'
+        theWord: 'the word'
+        thisUsesThe: 'This uses the'
+        titleContainsWord: 'The title contains the word'
+        use: Use
+        wildcards: Wildcards
+        wildcardsDesc1: 'Use wildcards to match multiple terms at once. Use'
+        wildcardsDesc2: 'to match any single character, or'
+        wildcardsDesc3: 'to match zero or more characters.'
+    search_help_modal:
+        close: Close
+        title: 'Search help'
+        queries: Queries
+        searchSyntax: 'Search uses the <a href="http://extensions.xwiki.org/xwiki/bin/view/Extension/Search+Application+Query+Syntax">Lucene search syntax</a>.'
+        helpDescription: 'This gives you many options, but can be very simple as well. Examples of valid searches include:'
+    search_paginator:
+        prev: «
+        next: »
+    submit_section:
+        discard: 'Discard changes'
+        save: 'Save and continue'
+        continue: Continue
+        click_to_edit: 'Click to edit'
+collections:
+    general:
+        brand: '{name} Collection'
+    navbar:
+        add: 'Add to Collection'
+    index:
+        title: Collections
+        services_heading: 'Collection Services'
+        services_paragraph: 'Leading collection service providers use this open source infrastructure to support their communities.'
+        service_bottom:
+            p1: 'Create your own branded collection service backed by the OSF.'
+            div:
+                line1: 'Check out the'
+                linkText1: 'open source code'
+                line2: 'and our'
+                linkText2: 'public road map'
+                line3: '. Input welcome!'
+            contact: 'Contact us'
+    provider:
+        title: Provider
+    discover:
+        title: Discover
+        search_heading: 'Collections Search'
+        search_placeholder: 'Search collection'
+        other_repositories: 'Other collections'
+        facet_titles:
+            collection_provider: Providers
+            status: Status
+            collected_type: Type
+            issue: Issue
+            program_area: 'Program Area'
+            volume: Volume
+    collections_submission:
+        title: Submit
+        add_header: 'Add to Collection'
+        update_header: 'Update in Collection'
+        project_select_title: 'Select a project'
+        project_select_project_label: 'Project:'
+        closed_tooltip: 'Complete the previous section to edit this section'
+        project_metadata_title: 'Project metadata'
+        project_metadata_description: 'Updates made in this section will update the project.'
+        project_metadata_title_label: 'Title:'
+        project_metadata_description_label: 'Description:'
+        project_metadata_license_label: 'License:'
+        project_metadata_tags_label: 'Tags:'
+        project_contributors_title: 'Project contributors'
+        project_contributors_description: 'Updates made to this section will update the project.'
+        collection_metadata_title: 'Collection metadata'
+        cancel: Cancel
+        add_button: 'Add to collection'
+        update_button: Update
+        add_save_success: '{title} has been added to the collection.'
+        update_save_success: '{title} has been updated in the collection.'
+        add_save_error: "Error adding {title} to the collection:\n{error}"
+        update_save_error: "Error updating {title} in the collection:\n{error}"
+        warning_body: 'Are you sure you want to discard changes to the submission? Changes saved to the project will persist.'
+    collection_submission_confirmation_modal:
+        header: 'Submit project'
+        body: 'Once this project is submitted to the collection, it will be made public, and you should assume that it will always be public. You can return it to private later, but search engines (including Google’s cache) or others may access files, wiki pages, or analytics before you do.'
+        add_button: 'Add to collection'
+    collection_item_picker:
+        after_options:
+            loading: Loading…
+            load_more: 'Load More Projects'
+    collection_metadata:
+        collected_type_label: 'Type:'
+        issue_label: 'Issue:'
+        program_area_label: 'Program Area:'
+        status_label: 'Status:'
+        volume_label: 'Volume:'
+    collection_search_result:
+        expand: 'Expand search result'
+        collapse: 'Collapse search result'
+    discover_page:
+        active_filters:
+            button: 'Clear filters'
+            heading: 'Active Filters'
+            remove_provider: 'Remove provider'
+            remove_type: 'Remove type'
+            remove_status: 'Remove status'
+            remove_issue: 'Remove issue'
+            remove_program_area: 'Remove program area'
+            remove_volume: 'Remove volume'
+        asOf: 'as of'
+        broadenSearch: 'Try broadening your search terms'
+        date: Date
+        funder: Funder
+        language: Language
+        luceneHelp: 'Lucene search help'
+        noResults: 'No results. Try removing some filters.'
+        noResultsFound: 'No results found.'
+        partnerRepositories: 'Partner Repositories'
+        people: People
+        poweredBy: 'powered by'
+        publisher: Publisher
+        refineSearch: 'Refine your search by'
+        removeRegistrationType: 'Remove registration type'
+        search: Search
+        searchLoading: 'Search loading'
+        searchPlaceholder: Search...
+        share: SHARE
+        searchUnavailable: 'Search is Unavailable'
+        sortBy: 'Sort by'
+        sortSearchResults: 'Sort search results'
+        source: Source
+        tag: Tag
+        type: Type
+registries:
+    header:
+        search: Search
+        search_placeholder: 'Search registrations...'
+        searchable_as_of: '{registrations} searchable registrations as of {today}'
+    facets:
+        registration_type:
+            title: 'OSF Registration Type'
+            only_available_with_osf: 'Only available with OSF Registries'
+            registration_schema_error: 'An error occurred getting registration types. Please try again.'
+    application:
+        page_title: 'OSF Registries'
+    discover:
+        page_title: Search
+        SHARE: SHARE
+        sort_by: 'Sort by'
+        powered_by: 'powered by'
+        no_results: 'No results found.'
+        try_broadening: 'Try broadening your search terms'
+        order:
+            relevance: Relevance
+            modified_ascending: 'Modified Date (oldest to newest)'
+            modified_descending: 'Modified Date (newest to oldest)'
+        sidebar:
+            refine_your_search: 'Refine your search by'
+            clear_filters: 'Clear filters'
+            active_filters: 'Active filters'
+        search_result:
+            last_edited: 'Last edited: {date}'
+            withdrawn: Withdrawn
+        pagination:
+            previous: «
+            next: »
+    start:
+        page_title: 'Start Registration'
+    forms:
+        page_title: 'Select Registration Forms'
+        form:
+            title: 'Choose From Existing Registration Schema'
+        help:
+            title: 'Help Choose Registration Form'
+    drafts:
+        page_title: 'View Registration Drafts'
+        index:
+            title: 'Choose Unfinished Draft'
+        draft:
+            metadata:
+                title: 'Fill Out Basic Registration Info'
+            form:
+                title: 'Fill out registration form'
+                next: Next
+                back: Back
+                save_draft: 'Save draft'
+                new_registration: 'New registration'
+                last_saved: 'Auto-saved: '
+                save_failed: 'Save failed. Unsaved changes present.'
+            review:
+                title: 'Review registration before submitting'
+                page_label: Review
+                start_review: Review
+                invalid_warning: 'Please address invalid or missing entries to complete registration.'
+            register: Register
+            submit_error: 'Failed to create a registration. Please try again later.'
+    index:
+        lead: 'The <span class="f-w-lg">open</span> registries network'
+        see_example: 'See an example'
+        services:
+            top:
+                heading: 'Registry Services'
+                paragraph: 'Leading registry service providers use this open source infrastructure to support their communities.'
+            bottom:
+                p1: 'Create your own branded registry backed by the OSF.'
+                div:
+                    line1: 'Check out the'
+                    linkText1: 'open source code'
+                    line2: 'and the'
+                    linkText2: 'requirements and road map'
+                    line3: '. Input welcome!'
+                contact: 'Contact us'
+        advisory:
+            heading: 'Advisory Group'
+            paragraph: 'Our advisory group includes leaders in registrations across disciplines'
+        recent:
+            title: 'Browse Registrations'
+            more: 'See more'
+    registration_metadata:
+        add_description: 'Add description'
+        add_license: 'Add license'
+        affiliated_institutions: 'Affiliated institutions'
+        category: Category
+        citation: Citation
+        contributors: Contributors
+        create_doi: 'Create DOI'
+        date_created: 'Date created'
+        date_registered: 'Date registered'
+        description: Description
+        disciplines: Disciplines
+        edit_field: 'Edit {field}'
+        license: License
+        no_description: 'No description'
+        no_doi: 'No DOI assigned'
+        no_license: 'No license'
+        no_matches: 'No matches found'
+        no_publication_doi: 'No publication DOI'
+        no_subjects: 'No subjects'
+        publication_doi: 'Publication DOI'
+        registered_from: 'Registered from'
+        registration_doi: 'Registration DOI'
+        registration_type: 'Registration type'
+        select_license: 'Select license'
+        show_less: 'Show less'
+        show_more: 'Show more'
+        subjects: Subjects
+        tags: Tags
+        edit_description:
+            success: 'Description successfully updated.'
+            error: 'Unable to save description.'
+        edit_category:
+            success: 'Category successfully updated.'
+            error: 'Unable to save category.'
+        mint_doi:
+            header: 'Are you sure you want to create a DOI for this registration?'
+            text: 'A DOI is persistent and will always resolve to this page.'
+            success: 'DOI successfully created.'
+            error: 'Unable to create registration DOI.'
+        edit_pub_doi:
+            success: 'Publication DOI successfully updated.'
+            error: 'Unable to save publication DOI.'
+        edit_institutions:
+            success: 'Affiliated institutions successfully updated.'
+            error: 'Unable to save affiliated institutions.'
+        edit_license:
+            success: 'License successfully updated.'
+            error: 'Unable to save license.'
+        edit_tags:
+            success: 'Tags successfully updated.'
+            error: 'Unable to save tags.'
+        save_subjects_error: 'Unable to save subjects'
+    form_view:
+        none_selected: 'None selected'
+    overview:
+        title: Overview
+        collapse: Collapse
+        expand: Expand
+        contents: Contents
+        see_more: 'See more'
+        metadata: Metadata
+        component_of: 'This is a component of a registration:'
+        comments:
+            title: Comments
+            see_replies: 'See replies'
+            hide_replies: 'Hide replies'
+            report: Report
+            cancel: Cancel
+            load_more: 'Load more replies'
+            create_report:
+                success: 'Comment successfully reported'
+                error: 'Unable to report comment'
+            category_placeholder: 'Select a category that best describes abuse'
+            retract_report:
+                success: 'Report successfully retracted'
+                error: 'Unable to retract abuse report'
+            modified: 'Modified '
+            report_placeholder: 'Describe abuse'
+            comment_abuse: 'Comment reported.'
+            comment_abuse_action: 'Not abuse'
+            abuse_spam: 'Spam or advertising'
+            abuse_hate: 'Hate speech'
+            abuse_violence: 'Violence or harmful behavior'
+            cannot_retract_report: 'Only the reporter can retract report'
+            no_comments: 'No comments.'
+        links:
+            title: Links
+            linked_nodes: 'Linked projects and components'
+            no_linked_nodes: 'This registration has no linked projects or components.'
+            linked_registrations: 'Linked registrations'
+            no_linked_registrations: 'This registration has no linked registrations.'
+        contributors:
+            title: Contributors
+            gravatar_alt: 'Gravatar for {name}'
+        components:
+            title: Components
+            no_components: 'This registration has no components.'
+        external_links:
+            files: Files
+            wiki: Wiki
+            analytics: Analytics
+        form_view:
+            no_files: 'No files selected'
+        withdrawn:
+            has_been_withdrawn: 'This registration has been withdrawn for the reason(s) stated below.'
+            date_withdrawn: 'Date withdrawn'
+            justification: 'Justification for withdrawal'
+            no_justification: 'None given'
+            state: Withdrawn
+        withdraw:
+            withdraw: 'Withdraw registration'
+            withdrawal_justification_label: 'Please provide your justification for withdrawing this registration.'
+            random_scientist_x: 'Type <strong>{x}</strong> below and click Withdraw Registration if you are sure you want to continue.'
+            success: 'Withdrawal request submitted successfully'
+            error: 'Unable to withdraw this registration'
+            warning: 'Withdrawing a registration will remove its content from the OSF, but leave basic metadata behind. The title of a withdrawn registration and its contributor list will remain, as will justification or explanation of the withdrawal, should you wish to provide it. Withdrawn registrations will be marked with a "withdrawn" tag. This action is irreversible.'
+        archiving:
+            currently_archiving: 'This registration is currently archiving, and no changes can be made at this time.'
+            email_support: 'If this registration has been archiving for more than 72 hours, please email <a data-analytics-name="Email support" href="mailto:{supportEmail}">{supportEmail}</a> for assistance.'
+        pending:
+            state: Pending
+            action:
+                approve: Approve
+                reject: Reject
+        public:
+            state: Public
+            text: 'Public registration'
+            short_description: Public
+            long_description: 'This public registration is a frozen, non-editable version of this <strong><a href={projectUrl}>project</a></strong>.'
+        pendingRegistration:
+            text: 'Pending registration'
+            short_description: 'Pending registration approval'
+            long_description: 'This is a pending registration of this <strong><a href={projectUrl}>project</a></strong>, awaiting approval from project administrators. This registration will be final when all project administrators approve the registration or 48 hours pass, whichever comes first.'
+        pendingWithdrawal:
+            text: 'Public registration'
+            short_description: 'Pending withdrawal'
+            long_description: 'This registration will be withdrawn when all project administrators approve the withdrawal.'
+        pendingEmbargo:
+            text: 'Pending registration'
+            short_description: 'Pending embargo approval'
+            long_description: 'This registration is pending approval. It will be final and enter an embargo period when all project administrators approve the registration or 48 hours pass, whichever comes first. The embargo will keep the registration private until the embargo period ends.'
+        pendingEmbargoTermination:
+            text: 'Embargoed registration'
+            short_description: 'Pending embargo termination'
+            long_description: 'This registration is embargoed. It will remain private until {embargoEndDate}. A request to make this registration public is pending.'
+        embargoed:
+            state: Embargoed
+            action: 'End embargo early'
+            action_success: 'Embargo termination request successfully sent'
+            action_error: 'Unable to submit embargo termination request'
+            confirm_text: 'By clicking confirm, an email will be sent to project administrator(s) to approve ending the embargo. If approved, this registration, including any components, will be made public immmediately. This action is irreversible.'
+            confirm_button_text: Confirm
+            text: 'Embargoed registration'
+            short_description: Embargoed
+            long_description: 'This registration is embargoed. It will remain private until {embargoEndDate}.'
+        bookmark:
+            add:
+                text: Bookmark
+                success: 'Registration successfully added to your bookmarks'
+                error: 'Unable to bookmark this registration'
+            remove:
+                text: 'Remove from bookmarks'
+                success: 'Registration successfully removed from your bookmarks'
+                error: 'Unable to remove this registration from bookmarks'
+        fork:
+            success: 'Your fork is being created. You''ll receive an email when it is complete'
+            success_title: 'Fork status'
+            error: 'Unable to fork registration'
+        view_forks: 'View forks'
+        fork_registration: 'Fork this registration'
+        tooltips:
+            bookmark: 'Bookmark this registration'
+            remove_bookmark: 'Remove bookmark'
+            share: 'Share this registration'
+            fork: 'Fork this registration'
+    partialRegistrationModal:
+        title: 'Select Components'
+        continueButton: Continue
+        cancelButton: Cancel
+        selectAll: 'Select All'
+        clearAll: 'Clear All'
+    finalizeRegistrationModal:
+        title: 'Almost done...'
+        notice: "Please keep in mind that:\n                <ul>\n                    <li>\n                        Registrations cannot be modified or deleted once completed.\n                    </li>\n                    <li>\n                        The content and version history of Wiki and OSF Storage will be copied to the registration.\n                    </li>\n                    <li>\n                        This project contains links to other projects. These links will be copied into your registration, but the\n                        projects that they link to will not be registered. If you wish to register the linked projects, they must be\n                        registered separately. <a href='{learnMoreLink}' target='_blank' rel='noopener'>Learn more about links</a>.\n                    </li>\n                </ul>"
+        immediateOption: 'Make registration public immediately'
+        embargoOption: 'Enter registration into embargo'
+        createDoi: 'Create DOI'
+        submit: Submit
+        back: Back
+        datePlaceholder: 'Choose embargo end date'
+meetings:
+    index:
+        meetings-list:
+            min_5_submissions: 'Only conferences with at least five submissions are displayed.'
+            name: Name
+            submissions: Submissions
+            location: Location
+            date: Date
+            empty: 'No results found for this search term.'
+        meetings-hero-banner:
+            image_alt: 'Logo for OSF meeting'
+            h3: 'A <strong>free poster and presentation sharing service</strong> for academic meetings and conferences'
+            conference_organizers_h3: 'For Conference Organizers'
+            conference_organizers_help_text: 'Register your event to broaden its impact. Events get a dedicated page, an easy submission process, and persistent links.'
+            conference_organizers_register_button: Register
+            conference_organizers_register_panel_texts: '<p>OSF Meetings is a product that we offer to academic conferences at no cost. To request poster and talk hosting for a conference:</p><p class=''text-center''><strong>Submit this <a href=''https://docs.google.com/forms/d/e/1FAIpQLSeBq4CfC5CjTBz49TP2dO9ZIsQc6QAAJFUoUbkS767Le9twLw/viewform''>set-up form </a></strong></p><p>We''ll review and add your conference within one business day.</p>'
+            conference_participants_h3: 'For Conference Participants'
+            conference_participants_help_text: 'Share your posters and presentations along with any supporting data and materials. Get persistent links and usage analytics.'
+            conference_participants_upload_button: Upload
+            conference_participants_upload_panel_texts: '<p>The OSF can host posters and talks for scholarly meetings. Submitting a presentation is easy:</p><ul><li>Find the email address for your conference by clicking on its name in the list below</li><li>Send your materials to the OSF Meetings email address for your conference</li></ul><p>We’ll create an OSF project for you. You''ll get a permanent link to your presentation, plus analytics about who has viewed and downloaded your work.</p>'
+        meetings-footer:
+            discover: Discover
+            discover_text: 'Explore posters and presentations from events long after they''re over.'
+            share: Share
+            share_text: 'Get persistent links to your content and increase your impact.'
+            enhance: Enhance
+            enhance_text: 'Add supplementary data and materials to your submission to make your work more transparent.'
+            who_use_text: 'Who uses OSF Meetings?'
+            aps_img_alt: 'Logo for American Physiological Society (APS)'
+            bitss_img_alt: 'Logo for Berkeley Initiative for Transparency in the Social Sciences (BITSS)'
+            nrao_img_alt: 'Logo for National Radio Astronomy Observatory (NRAO)'
+            spsp_img_alt: 'Logo for Society for Personality and Social Psychology (SPSP)'
+    detail:
+        meeting-submissions-list:
+            title: Title
+            author: Author
+            category: Category
+            dateCreated: 'Date created'
+            downloads: Downloads
+            noSubmissions: 'No submissions'
+        meeting-detail-header:
+            image_alt: 'Meeting logo image'
+            add_your: 'Add your'
+            send_email: 'Send an email to the following address(es) from the email account you would like used on the OSF:'
+            email_text: 'For {typeName}, email <a href="{emailAddress}">{emailAddress}</a>'
+            format_header: 'The format of the email should be as follows:'
+            subject: Subject
+            message_body: 'Message body'
+            attachment: Attachment
+            panel_footer_note: 'Once sent, we will follow-up by sending you the permanent identifier that others can use to cite your work; you can also login and make changes, such as uploading additional files, to your project at that URL.If you didn''t have an OSF account, one will be created automatically and a link to set your password will be emailed to you; if you do, we will simply create a new project in your account.By creating an account you agree to our <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/TERMS_OF_USE.md">Terms</a> and that you have read our <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/PRIVACY_POLICY.md">Privacy Policy</a>, including our information on <a href="https://github.com/CenterForOpenScience/centerforopenscience.org/blob/master/PRIVACY_POLICY.md#f-cookies">Cookie Use</a>.'
+            conference_homepage: 'Conference homepage'
+analytics:
+    pageTitle: '{nodeTitle} Analytics'
+    forks: Forks
+    viewForks: 'View forks'
+    links: 'Links to this project'
+    viewLinks: 'View links'
+    noLinks: 'No links to this project'
+    templateCopies: 'Template copies'
+    adblockWarning: 'The use of adblocking software may prevent site analytics from loading properly'
+    uniqueVisits: 'Unique visits'
+    visitTimes: 'Time of day of visits'
+    topReferrers: 'Top referrers'
+    popularPages: 'Popular pages'
+    showForDateRange: 'Show analytics for date range:'
+    directLink: 'direct link'
+    enableChart: 'Enable chart'
+    visits: Visits
+    hourOfDay: 'Hour of day'
+    keenError: 'Error loading analytics data'
+    dateRanges:
+        pastWeek: 'Past week'
+        pastTwoWeeks: 'Past two weeks'
+        pastMonth: 'Past month'
+    popularPageNames:
+        home: Home
+        files: Files
+        fileDetail: 'File: {fileName}'
+        analytics: Analytics
+        forks: Forks
+        registrations: Registrations
+        wiki: Wiki
+    privateProject: "\n            <p>\n                Analytics are not available for private projects. To view Analytics, make your project public\n                by selecting Make Public from the project overview page. Public projects:\n            </p>\n            <ul>\n                <li>are discoverable</li>\n                <li>are citable</li>\n                <li>can be affiliated with OSF for Institutions partners</li>\n                <li>promote open practices among peers</li>\n            </ul>\n            <p>\n                Receive data on visitors to your project by enabling Analytics\n                and begin discovering the impact of your work.\n            </p>\n        "
+cookieBanner:
+    cookieWarning: 'This website relies on cookies to help provide a better user experience. By clicking Accept or continuing to use the site, you agree. For more information, see our <a href="https://github.com/CenterForOpenScience/cos.io/blob/master/PRIVACY_POLICY.md">Privacy Policy</a> and information on <a href="https://github.com/CenterForOpenScience/cos.io/blob/master/PRIVACY_POLICY.md#7-types-of-information-we-collect">cookie use</a>.'
+    accept: Accept
+discover:
+    relevance: Relevance
+    sort_oldest_newest: 'Modified Date (oldest to newest)'
+    sort_newest_oldest: 'Modified Date (newest to oldest)'
+    search_results:
+        lastEdited: 'Last edited: {date} (UTC)'
+        status: 'Status: {value}'
+page_not_found:
+    heading: 'Page not found'
+    message: 'The page you were looking for is not found on the {brand} service.'
+forbidden:
+    heading: Forbidden
+    message: 'User has restricted access to this page.'
+resource_deleted:
+    heading: 'Resource deleted'
+    message: 'User has deleted this content.'
+routes:
+    register:
+        sign_up: 'Sign Up'
+        create_a_free_account: 'Create a free account'
+        sign_up_using: 'Sign up using:'
+        orcid: ORCID
+        institution: Institution
+        email: Email
+osf-components:
+    draft-registration-card:
+        initiated_by: 'Initiated by:'
+        started: 'Started:'
+        last_updated: 'Last updated:'
+        register: Register
+        delete_draft_confirm: 'Are you sure you want to delete this draft registration?'
+    copyable-text:
+        copyToClipboard: 'Copy to clipboard'
+        copied: Copied
+    delete-button:
+        buttonLabel: Delete
+        confirmButtonText: Delete
+        cancelButtonText: Cancel
+        modalTitle: 'Are you sure you want to delete this?'
+        modalBody: 'This action is irreversible.'
+        hardConfirm: 'Type the following to continue: <strong>{text}</strong>'
+        error: 'There was an error deleting this item.'
+    paginated-list:
+        error: 'There was an error loading this list.'
+    sign-up-form:
+        full_name: 'Full name'
+        contact_email: 'Contact email'
+        confirm_email: 'Confirm email'
+        password: Password
+        sign_up_button_label: 'Sign up'
+        password_placeholder: 'Password (Must be {min} to {max} characters)'
+        registration_success: 'Registration successful. Please check {email} to confirm your email address.'
+    sign-up-policy:
+        paragraph: 'I have read and agree to the <a href="{link1}">Terms of Use</a> and <a href="{link2}">Privacy Policy</a>.'
+    tags-widget:
+        tags: Tags
+        add_tag: 'Add a tag to enhance discoverability'
+        no_tags: 'No tags'
+    institutions-list:
+        no_affiliated_institution:
+            project: 'This project has no affiliated institutions'
+            registration: 'This registration has no affiliated institutions'
+    institutions-select-list:
+        no_affiliated_institution: 'You have no institutional affiliations'
+    citation-viewer:
+        get_more: 'Get more citations'
+        placeholder: 'Enter citation style (e.g. "APA")'
+        type_to_search: 'Start typing to search citation styles'
+    search-bar:
+        aria: Search
+        heading: 'Discover public research'
+        subheading: 'Discover projects, data, materials, and collaborators on OSF that might be helpful to your own research.'
+        placeholder: 'Search discipline, author...'
+        search: Search
+    hero-banner:
+        headingA: 'The place to share your research'
+        headingB: 'There’s a better way to manage your research'
+        subheading: 'OSF is a free, open platform to support your research and enable collaboration.'
+        add_your_research:
+            heading: 'Add your research'
+            subheading: 'Labs and teams across the globe use OSF to open their projects up to the scientific community.'
+    carousel:
+        current_slide: '(Current Slide)'
+        previous_slide: 'Previous slide'
+        next_slide: 'Next slide'
+        go_to_slide: 'Go to slide {slideIndex}'
+    registries:
+        read-only-contributors-list:
+            editContributorsOnYourProject: 'Edit contributors on your project'
+        schema-block-renderer/label:
+            showExample: 'Show example'
+            hideExample: 'Hide example'
+            editButtonAriaLabel: 'Edit {questionLabel}'
+        schema-block-renderer/editable/files:
+            instructions: 'You may attach up to 5 file(s) to this question. You may attach files that you already have in OSF Storage in this <a href={nodeUrl}>{projectOrComponent}</a> or upload (drag and drop) a new file from your computer. Uploaded files will automatically be added to this <a href={nodeUrl}>{projectOrComponent}</a> so that they can be registered. To attach files from other components or an add-on, first add them to this <a href={nodeUrl}>{projectOrComponent}</a>.'
+        schema-block-renderer/read-only/response:
+            noResponse: 'No response'
+        schema-block-renderer/read-only/files:
+            noFilesSelected: 'No files selected'
+    files-widget:
+        drag_drop_files: 'Drag and drop files here to upload files to this folder'
+        load_more: 'Load more files'
+        unselect_file: 'Unselect file'
+        upload_file: 'Upload file'
+        expand_files_menu: 'Expand files menu'
+        create_folder: 'Create folder'
+        create: Create
+        folder_name_placeholder: 'New folder name'
+        create_folder_failed: 'Failed to create folder'
+    subjects:
+        browse:
+            browse_all: 'Browse all subjects'
+        search:
+            search_all: 'Search subjects'
+            placeholder: 'Type to search'
+            no_results: 'No matching subjects found. Try a less specific search.'
+        display:
+            placeholder: 'Your selections will appear here'
+    registries-side-nav:
+        expandSideNav: 'Expand registration form navigation'
+        collapseSideNav: 'Collapse registration form navigation'
+    registries-top-nav:
+        showRegistrationNavigation: 'Show registration form navigation'
+        previousPage: 'Previous page'
+        nextPage: 'Next page'
+        reviewRegistration: 'Review registration'
+settings:
+    toggleNav: 'Toggle navigation'
+    profile:
+        title: 'Profile information'
+        name:
+            title: Name
+            fullName: 'Display name (e.g. Rosalind Elsie Franklin)'
+            givenName: 'Given name (e.g. Rosalind)'
+            middleNames: 'Middle names (e.g. Elsie)'
+            familyName: 'Family name (e.g. Franklin)'
+            suffix: Suffix
+            citationName: 'Citation name'
+            instructions: 'Your full name, above, will be displayed in your profile. To control the way your name will appear in citations, edit the fields below.'
+            apa: APA
+            mla: MLA
+            citationPreview: 'Citation preview'
+        social:
+            title: Social
+        education:
+            title: Education
+        employment:
+            title: Employment
+    account:
+        deactivation:
+            title: 'Deactivate account'
+            body: 'Deactivating your account will remove you from all public projects to which you are a contributor. Your account will no longer be associated with OSF projects, and your work on the OSF will be inaccessible. If this is a secondary account that you want to close, consider <a href="https://openscience.zendesk.com/hc/en-us/articles/360019738014">merging your accounts</a>.'
+            warning: 'Warning:'
+            warningText: 'Once your deactivation has been approved the effects are irreversible.'
+            pending: 'Your account is currently pending deactivation.'
+            requestButton: 'Request deactivation'
+            confirmationTitle: 'Request account deactivation?'
+            confirmationBody: 'Are you sure you want to request account deactivation? An OSF administrator will review your request. If accepted, you will NOT be able to reactivate your account.'
+            confirmationButton: Request
+            confirmationToastMessage: 'An OSF administrator will contact you shortly to confirm your deactivation request.'
+            undoRequestButton: 'Undo deactivation request'
+            undoRequestConfirmationTitle: 'Undo deactivation request?'
+            undoRequestConfirmationBody: 'Are you sure you want to undo your account deactivation request? This will preserve your account status.'
+            undoRequestConfirmationButton: 'Undo deactivation request'
+            undoRequestToastMessage: 'Your deactivation request has been undone.'
+        defaultRegion:
+            title: 'Default storage location'
+            why: 'This location will be applied to new projects and components. It will not affect existing projects and components.'
+            updateButton: 'Update location'
+            successToast: 'You have successfully changed your default storage location to <strong>{region}</strong>'
+            saveError: 'Could not make this change. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{supportEmail}">{supportEmail}</a>.'
+        export:
+            title: 'Export account data'
+            body: 'Exporting your account data allows you to keep a permanent copy of the current state of your account. Keeping a copy of your account data can provide peace of mind or assist in transferring your information to another provider.'
+            requestButton: 'Request export'
+            confirmationTitle: 'Request account export?'
+            confirmationBody: 'Are you sure you want to request account export?'
+            confirmationButton: Request
+            confirmationToastMessage: 'An OSF administrator will contact you shortly to confirm your export request.'
+            saveError: 'Could not make this change. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{supportEmail}">{supportEmail}</a>.'
+        security:
+            title: 'Security settings'
+            twoFactorAuth: 'Two-factor authentication'
+            enableTwoFactor: Configure
+            enableWarning: 'Configuring two-factor authentication will not immediately activate this feature for your account. You will need to follow the steps that appear below to complete the activation of two-factor authentication for your account.'
+            disableTwoFactor: Disable
+            why: 'By using two-factor authentication, you will protect your OSF account with both your password and your mobile phone.'
+            enableButton: Configure
+            importantWarning: 'Important: If you lose access to your mobile device, you will not be able to log in to your OSF account.'
+            howTo: 'To use, you must install an appropriate application on your mobile device. Google Authenticator is a popular choice and is available for both Android and iOS.'
+            onceVerified: 'Once verified, your device will display a six-digit code that must be entered during the login process. This code changes every few seconds, which means that unauthorized users will not be able to log in to you account, even if they know your password.'
+            scanImage: 'Scan the image below, or enter the secret key <code>{secretKey}</code> into your authentication device.'
+            enterVerification: 'Enter your verification code:'
+            verificationFailed: 'Verification failed. Please enter your verification code again.'
+            disableWarning: 'Are you sure you want to disable two-factor authentication?'
+            disableButton: Disable
+            saveError: 'Could not make this change. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{supportEmail}">{supportEmail}</a>.'
+            submitVerification: Enable
+        title: 'Account settings'
+        connected_emails:
+            add_email: 'Add email'
+            add_email_modal:
+                title: 'Confirmation email sent'
+                body: '<strong>{emailAddress}</strong> was added to your account. You will receive a confirmation email at <strong>{emailAddress}</strong>. Please click the link in your email to confirm this action. You will be required to enter your password.'
+            alternate_emails: 'Alternate emails'
+            confirm_delete:
+                title: 'Remove email'
+                body: 'Are you sure you want to remove <strong>{emailAddress}</strong> from your email list?'
+            resend_confirmation_modal:
+                title: 'Resend email confirmation?'
+                body: 'Are you sure that you want to resend email confirmation to <strong>{emailAddress}</strong>?'
+                resend_button: Resend
+            resend_fail: 'Unable to resend confirmation email'
+            resend_success: 'Email resent'
+            delete_fail: 'Unable to delete email'
+            delete_success: 'Email deleted'
+            load_fail: 'Unable to load emails'
+            make_primary: 'Make primary'
+            merge_explanation: 'To merge an existing account with this one or to log in with multiple email addresses, add an alternate email address below. All projects and components will be displayed under the email address listed as primary.'
+            no_unconfirmed_emails: 'There are no unconfirmed emails'
+            no_alternate_emails: 'There are no alternate emails'
+            placeholder_text: 'Email address'
+            primary_email: 'Primary email'
+            resend_confirmation: 'Resend confirmation'
+            save_fail: 'Unable to add email'
+            save_success: 'Email added'
+            title: 'Connected emails'
+            unconfirmed_emails: 'Unconfirmed emails'
+            update_fail: 'Unable to update email'
+            update_success: 'Email updated'
+        changePassword:
+            title: 'Change password'
+            updateButton: 'Update password'
+            updateFail: 'Error updating password'
+            updateSuccess: 'Successfully changed password'
+            currentPassword:
+                placeholder: 'Old password'
+            newPassword:
+                placeholder: 'New password'
+            confirmPassword:
+                title: 'Confirm new password'
+                placeholder: 'Verify password'
+        connected_identities:
+            title: 'Connected identities'
+            description: 'Connected identities allow you to log in to the OSF via a third-party service.<br>You can revoke these authorizations here.'
+            no_identities: 'You have not authorized any external services to log in to the OSF.'
+            status:
+                verified: Verified
+                pending: Pending
+            confirm_remove:
+                title: 'Remove authorization?'
+                body: 'Are you sure you want to remove this authorization?'
+                confirm_button_text: Remove
+            remove_fail: 'Revocation request failed. Please contact <a href="mailto:{supportEmail}">{supportEmail}</a> if the problem persists.'
+            remove_success: 'You have revoked this connected identity.'
+    addons:
+        title: 'Configure add-on accounts'
+    notifications:
+        title: Notifications
+    developer-apps:
+        title: 'Developer apps'
+        explanation: 'The OSF allows third-party web applications to connect to the OSF on behalf of other users via the OAuth 2.0 web application flow.'
+        createApp: 'Create developer app'
+        backToList: 'Back to list of developer apps'
+        appDetail: 'Detail for app <strong>{appName}</strong>'
+        editApp: 'Edit app'
+        appName: 'App name'
+        appHomepage: 'Project homepage URL'
+        appDescription: 'App description'
+        appCallbackUrl: 'Authorization callback URL'
+        clientID: 'Client ID'
+        clientIDDescription: 'The unique identifier for this developer app. It is safe to share publicly with others.'
+        clientSecret: 'Client secret'
+        clientSecretDescription: 'The client secret is known only to you and OSF. Do not display or expose it to others.'
+        showSecret: 'Show client secret'
+        hideSecret: 'Hide client secret'
+        created: 'Developer app created.'
+        saved: 'Developer app saved.'
+        deleted: 'Developer app deleted.'
+        resetSecret:
+            label: 'Reset secret'
+            description: 'Resetting the client secret will render your application unusable until it is updated with the new client secret, and all users must reauthorize access. Previously issued access tokens will no longer work.'
+            modalTitle: 'Reset client secret?'
+            confirm: 'Are you sure you want to reset the client secret? This cannot be reversed.'
+            success: 'Client secret successfully reset.'
+            error: 'Error resetting client secret.'
+        confirmDelete:
+            title: 'Delete app <strong>{appName}</strong>?'
+            body: 'Are you sure you want to delete this developer app? All users'' access tokens will be revoked. This cannot be reversed.'
+    tokens:
+        title: 'Personal access tokens'
+        explanation: 'Personal access tokens function like ordinary OAuth access tokens. They can be used to authenticate to the API.'
+        createToken: 'Create token'
+        editToken: 'Edit token'
+        backToList: 'Back to list of tokens'
+        tokenName: 'Token name'
+        scopes: Scopes
+        scopesDescription: 'Scopes limit access for personal access tokens.'
+        created: 'Token created.'
+        saved: 'Token saved.'
+        deleted: 'Token deleted.'
+        confirmDelete:
+            title: 'Delete token <strong>{tokenName}</strong>?'
+            body: 'Are you sure you want to delete this personal access token? This cannot be reversed.'
+        createSuccess:
+            message: 'Token <strong>{tokenName}</strong> created:'
+            instructions: 'This token will never expire. This token should never be shared with others. If it is accidentally revealed publicly, it should be deactivated immediately.'
+            warning: 'This is the only time your token will be displayed.'
+            editScopes: 'Edit scopes'
+verifyEmail:
+    merge:
+        header: 'Merge account?'
+        body: 'Would you like to merge <strong>{email}</strong> into your account? This action is irreversible.'
+        verifyButton: 'Merge account'
+        denyButton: 'Do not merge account'
+        verifySuccess: '<strong>{email}</strong> has been merged into your account.'
+        denySuccess: '<strong>{email}</strong> has not been merged into your account.'
+        verifyError: 'There was a problem merging <strong>{email}</strong> into your account.'
+        denyError: 'There was a problem canceling the request to merge <strong>{email}</strong> into your account.'
+    add:
+        header: 'Add alternate email?'
+        body: 'Would you like to add <strong>{email}</strong> to your account?'
+        verifyButton: 'Add email'
+        denyButton: 'Do not add email'
+        verifySuccess: '<strong>{email}</strong> has been added to your account.'
+        denySuccess: '<strong>{email}</strong> has not been added to your account.'
+        verifyError: 'There was a problem adding <strong>{email}</strong> to your account.'
+        denyError: 'There was a problem canceling the request to add <strong>{email}</strong> to your account.'
+ipsum:
+    title: 'tempor nec feugiat nisl pretium'
+    sentence: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+    paragraph: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id velit ut tortor pretium. Nisi porta lorem mollis aliquam ut porttitor leo a. Cras fermentum odio eu feugiat. Eget mi proin sed libero enim. Quam adipiscing vitae proin sagittis. Volutpat consequat mauris nunc congue nisi vitae suscipit tellus. At varius vel pharetra vel turpis nunc eget. Purus ut faucibus pulvinar elementum integer enim neque volutpat. Turpis nunc eget lorem dolor. Mattis pellentesque id nibh tortor id aliquet lectus proin nibh. Arcu felis bibendum ut tristique et egestas quis. Nisl tincidunt eget nullam non nisi est sit amet. Fringilla urna porttitor rhoncus dolor purus non enim.'
+dev_tools:
+    title: 'Dev tools'
+    zoom_to_route:
+        title: 'Zoom to route'
+        zoom: Zoom!
+        placeholder: 'Choose a route'
+    options:
+        toast_events: 'Display toast for tracked events'
+        show_url_bar: 'Show URL bar -- navigate by URL without reloading'

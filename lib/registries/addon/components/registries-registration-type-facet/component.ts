@@ -6,7 +6,7 @@ import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
 import appConfig from 'ember-get-config';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import RegistrationSchema from 'ember-osf-web/adapters/registration-schema';
@@ -31,7 +31,7 @@ const {
 
 @layout(template)
 export default class RegistriesRegistrationTypeFacet extends Component {
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service toast!: Toast;
     @service store!: DS.Store;
     @service analytics!: Analytics;
@@ -58,13 +58,13 @@ export default class RegistriesRegistrationTypeFacet extends Component {
             }
             this.set('registrationTypes', A(metaschemaNames.sort()));
         } catch (e) {
-            this.toast.error(this.i18n.t('registries.facets.registration_type.registration_schema_error'));
+            this.toast.error(this.intl.t('registries.facets.registration_type.registration_schema_error'));
             throw e;
         }
     });
 
     get title() {
-        return this.i18n.t('registries.facets.registration_type.title');
+        return this.intl.t('registries.facets.registration_type.title');
     }
 
     @computed('searchOptions')

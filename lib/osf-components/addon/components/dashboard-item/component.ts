@@ -2,7 +2,6 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import I18N from 'ember-i18n/services/i18n';
 import moment from 'moment';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -14,7 +13,6 @@ import template from './template';
 
 @layout(template, styles)
 export default class DashboardItem extends Component {
-    @service i18n!: I18N;
     @service analytics!: Analytics;
 
     node?: Node;

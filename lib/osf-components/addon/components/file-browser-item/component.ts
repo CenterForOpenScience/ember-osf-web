@@ -57,13 +57,13 @@ export default class FileBrowserItem extends Component {
 
     @computed('item.size')
     get size(): string {
-        // TODO: This should be i18n-ized
+        // TODO: This should be intl-ized
         return this.item && this.item.size ? humanFileSize(this.item.size, true) : '';
     }
 
     @computed('item.dateModified')
     get date(): string {
-        // TODO: This should be i18n-ized
+        // TODO: This should be intl-ized
         return this.item ? moment(this.item.dateModified).format('YYYY-MM-DD h:mm A') : '';
     }
 

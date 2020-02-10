@@ -2,7 +2,7 @@ import { className } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import diffAttrs from 'ember-diff-attrs';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Session from 'ember-simple-auth/services/session';
 import $ from 'jquery';
 
@@ -68,7 +68,7 @@ export default class DropzoneWidget extends Component.extend({
     ),
 }) {
     @service session!: Session;
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service currentUser!: CurrentUser;
 
     @className
@@ -77,7 +77,7 @@ export default class DropzoneWidget extends Component.extend({
     clickable: string[] = defaultTo(this.clickable, []);
     dropzoneElement: any | null = defaultTo(this.dropzoneElement, null);
     options: Dropzone.DropzoneOptions = defaultTo(this.options, {});
-    defaultMessage: string = defaultTo(this.defaultMessage, this.i18n.t('dropzone_widget.drop_files'));
+    defaultMessage: string = defaultTo(this.defaultMessage, this.intl.t('dropzone_widget.drop_files'));
 
     @requiredAction buildUrl!: (files: File[]) => void;
     preUpload?: (context: any, drop: any, file: any) => Promise<any>;
@@ -103,19 +103,19 @@ export default class DropzoneWidget extends Component.extend({
             // @ts-ignore - Dropzone is a global
             Dropzone.call(this, ...args);
         }
-        const { i18n } = this;
+        const { intl } = this;
         // @ts-ignore - Dropzone is a global
         CustomDropzone.prototype = Object.create(Dropzone.prototype);
         CustomDropzone.prototype.drop = function(e: any) {
             if (this.options.preventMultipleFiles && e.dataTransfer) {
                 if ((e.dataTransfer.items && e.dataTransfer.items.length > 1) || e.dataTransfer.files.length > 1) {
                     this.emit('drop', e);
-                    this.emit('error', 'None', i18n.t('dropzone_widget.error_multiple_files'));
+                    this.emit('error', 'None', intl.t('dropzone_widget.error_multiple_files'));
                     return undefined;
                 }
                 if (e.dataTransfer.files.length === 0) {
                     this.emit('drop', e);
-                    this.emit('error', 'None', i18n.t('dropzone_widget.error_directories'));
+                    this.emit('error', 'None', intl.t('dropzone_widget.error_directories'));
                     return undefined;
                 }
             }
@@ -127,7 +127,7 @@ export default class DropzoneWidget extends Component.extend({
             if (!this.options.acceptDirectories) {
                 // @ts-ignore - Dropzone is a global
                 directory.status = Dropzone.ERROR;
-                this.emit('error', directory, i18n.t('dropzone_widget.error_directories'));
+                this.emit('error', directory, intl.t('dropzone_widget.error_directories'));
                 return undefined;
             }
             // @ts-ignore - Dropzone is a global
