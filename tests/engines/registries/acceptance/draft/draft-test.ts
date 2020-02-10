@@ -75,7 +75,6 @@ module('Registries | Acceptance | draft form', hooks => {
 
         await visit(`/registries/drafts/${registration.id}/`);
 
-        // TODO: Add necessary assertions to make sure metadata page undergoes validations
         // Metadata page
         assert.equal(currentRouteName(), 'registries.drafts.draft.metadata', 'Starts at metadata route');
         assert.dom('[data-test-link="metadata"] > [data-test-icon]')
@@ -91,7 +90,7 @@ module('Registries | Acceptance | draft form', hooks => {
         await click('[data-test-link="2-this-is-the-second-page"]');
         assert.equal(currentRouteName(), 'registries.drafts.draft.page', 'Goes to page route');
         assert.dom('[data-test-link="metadata"] > [data-test-icon]')
-            .hasClass('fa-circle', 'metadata is marked unvisited');
+            .hasClass('fa-check-circle-o', 'metadata is marked visited, valid');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-circle', 'page 1 is marked unvisited');
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
@@ -102,7 +101,7 @@ module('Registries | Acceptance | draft form', hooks => {
         // Navigate to first page
         await click('[data-test-link="1-first-page-of-test-schema"]');
         assert.dom('[data-test-link="metadata"] > [data-test-icon]')
-            .hasClass('fa-circle', 'metadata is marked unvisited');
+            .hasClass('fa-check-circle-o', 'metadata is marked visited, valid');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-circle-o', 'page 1 is marked current page');
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
@@ -114,9 +113,6 @@ module('Registries | Acceptance | draft form', hooks => {
         await click('[data-test-link="metadata"]');
         assert.dom('[data-test-link="metadata"] > [data-test-icon]')
             .hasClass('fa-circle-o', 'metadata is marked current again');
-        // TODO: Metadata route does not validate upon load. Please add this logic in later
-        // assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
-        //     .hasClass('fa-exclamation-circle', 'page 1 is marked visited, invalid');
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
             .hasClass('fa-check-circle-o', 'page 2 is marked visited, valid');
         assert.dom('[data-test-link="review"] > [data-test-icon]')
@@ -126,7 +122,7 @@ module('Registries | Acceptance | draft form', hooks => {
         await click('[data-test-link="review"]');
         assert.equal(currentRouteName(), 'registries.drafts.draft.review', 'Goes to review route');
         assert.dom('[data-test-link="metadata"] > [data-test-icon]')
-            .hasClass('fa-circle', 'metadata is marked unvisited');
+            .hasClass('fa-check-circle-o', 'metadata is marked visited, valid');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-exclamation-circle', 'page 1 is marked visited, invalid');
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
@@ -400,9 +396,18 @@ module('Registries | Acceptance | draft form', hooks => {
             },
         );
 
-        await visit(`/registries/drafts/${registration.id}/1`);
+        await visit(`/registries/drafts/${registration.id}/`);
+        assert.dom('[data-test-link="metadata"] > [data-test-icon]')
+            .hasClass('fa-circle-o', 'on metadata page');
+        await fillIn('input[name="title"]', '');
+        assert.dom('input[name="title"] + div')
+            .hasClass('help-block', 'Metadata title has validation errors');
+
+        await click('[data-test-goto-next-page]');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-circle-o', 'on page 1');
+        assert.dom('[data-test-link="metadata"] > [data-test-icon]')
+            .hasClass('fa-exclamation-circle', 'Metadata has validation error');
 
         await click('[data-test-goto-next-page]');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
@@ -415,8 +420,12 @@ module('Registries | Acceptance | draft form', hooks => {
             .hasClass('help-block', 'page-one_short-text has validation errors');
         await fillIn(`input[name="${shortTextKey}"]`, 'ditto');
 
-        await click('[data-test-goto-next-page]');
+        await click('[data-test-goto-metadata]');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-check-circle-o', 'page 1 is now valid');
+        await fillIn('input[name="title"]', 'A non-empty, but still vague title');
+        await click('[data-test-goto-next-page]');
+        assert.dom('[data-test-link="metadata"] > [data-test-icon]')
+            .hasClass('fa-check-circle-o', 'metadata page is now valid');
     });
 });

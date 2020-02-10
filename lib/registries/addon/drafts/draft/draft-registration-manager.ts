@@ -5,13 +5,17 @@ import { ChangesetDef } from 'ember-changeset/types';
 import { TaskInstance, timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 
-import DraftRegistration from 'ember-osf-web/models/draft-registration';
+import DraftRegistration, { DraftMetadataProperties } from 'ember-osf-web/models/draft-registration';
 import NodeModel from 'ember-osf-web/models/node';
 import SchemaBlock from 'ember-osf-web/models/schema-block';
 
-import { getPages, PageManager, RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
+import {
+    buildMetadataValidations,
+    getPages,
+    PageManager,
+    RegistrationResponse,
+} from 'ember-osf-web/packages/registration-schema';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
-import { MetadataProperties } from './metadata/route';
 
 export default class DraftRegistrationManager {
     // Required
@@ -36,7 +40,12 @@ export default class DraftRegistrationManager {
 
     @computed('pageManagers.{[],@each.pageIsValid}')
     get registrationResponsesIsValid() {
-        return this.pageManagers.every(pageManager => pageManager.pageIsValid);
+        return this.pageManagers.every(pageManager => pageManager.pageIsValid) && this.metadataIsValid;
+    }
+
+    @computed('metadataChangeset.isValid')
+    get metadataIsValid() {
+        return this.metadataChangeset.get('isValid');
     }
 
     @computed('onInput.lastComplete')
@@ -73,7 +82,8 @@ export default class DraftRegistrationManager {
     @task
     initializeMetadataChangeset = task(function *(this: DraftRegistrationManager) {
         const { draftRegistration } = yield this.draftRegistrationAndNodeTask;
-        const metadataChangeset = buildChangeset(draftRegistration, {});
+        const metadataValidations = buildMetadataValidations();
+        const metadataChangeset = buildChangeset(draftRegistration, metadataValidations);
         set(this, 'metadataChangeset', metadataChangeset);
     });
 
@@ -163,7 +173,7 @@ export default class DraftRegistrationManager {
 
     updateMetadataChangeset() {
         const { metadataChangeset, draftRegistration } = this;
-        Object.values(MetadataProperties).forEach(metadataKey => {
+        Object.values(DraftMetadataProperties).forEach(metadataKey => {
             set(
                 draftRegistration,
                 metadataKey,

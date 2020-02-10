@@ -41,6 +41,7 @@
                     @currentPageName={{navManager.currentRoute}}
                     @label='{{t 'registries.drafts.draft.metadata.page_label'}}'
                     @navMode={{leftNav.leftGutterMode}}
+                    @metadataIsValid={{draftManager.metadataIsValid}}
                 />
                 {{#each draftManager.pageManagers as |pageManager index|}}
                     <PageLink
