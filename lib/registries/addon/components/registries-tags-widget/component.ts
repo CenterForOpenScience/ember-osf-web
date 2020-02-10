@@ -1,4 +1,3 @@
-// import { assert } from '@ember/debug';
 import { attribute } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action } from '@ember/object';
