@@ -19,6 +19,7 @@ export enum DraftMetadataProperties {
     Tags = 'tags',
     Category = 'category',
     License = 'license',
+    NodeLicenseProperty = 'nodeLicense',
     Subjects = 'subjects',
 }
 
