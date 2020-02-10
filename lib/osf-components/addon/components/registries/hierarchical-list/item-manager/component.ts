@@ -31,6 +31,11 @@ export default class HierarchicalListItemManagerComponent extends Component {
         return this.listManager.isChecked(this.item);
     }
 
+    @computed('item')
+    get children() {
+        return this.item.hasMany('children').value();
+    }
+
     @action
     toggleShowChildren() {
         this.toggleProperty('shouldShowChildren');
