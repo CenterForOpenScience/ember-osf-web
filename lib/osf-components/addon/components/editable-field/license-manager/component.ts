@@ -48,10 +48,10 @@ export default class LicenseManagerComponent extends Component {
     helpLink: string = 'https://help.osf.io/hc/en-us/articles/360019739014-Licensing';
     currentLicense!: License;
     currentNodeLicense!: NodeLicense;
+    selectedLicense!: License;
 
     @alias('node.userHasAdminPermission') userCanEdit!: boolean;
     @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
-    @alias('node.license') selectedLicense!: License;
     @not('currentLicense') fieldIsEmpty!: License;
 
     @sort('selectedLicense.requiredFields', (a: string, b: string) => +(a > b))
