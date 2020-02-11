@@ -6,7 +6,7 @@ import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import config from 'ember-get-config';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
@@ -18,7 +18,7 @@ import CurrentUser from 'ember-osf-web/services/current-user';
 @tagName('')
 export default class SecurityPane extends Component {
     @service currentUser!: CurrentUser;
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service toast!: Toast;
     @alias('currentUser.user') user!: User;
     settings?: UserSettingModel;
@@ -65,7 +65,8 @@ export default class SecurityPane extends Component {
                 this.settings.rollbackAttributes();
             }
             const { supportEmail } = config.support;
-            const saveErrorMessage = this.i18n.t('settings.account.security.saveError', { supportEmail });
+            const saveErrorMessage = this.intl
+                .t('settings.account.security.saveError', { supportEmail, htmlSafe: true });
             this.toast.error(saveErrorMessage);
         } finally {
             this.hideDialogs();
@@ -134,7 +135,8 @@ export default class SecurityPane extends Component {
             this.set('showError', true);
         } else {
             const { supportEmail } = config.support;
-            const saveErrorMessage: string = this.i18n.t('settings.account.security.saveError', { supportEmail });
+            const saveErrorMessage: string = this.intl
+                .t('settings.account.security.saveError', { supportEmail, htmlSafe: true });
             this.toast.error(saveErrorMessage);
         }
     }

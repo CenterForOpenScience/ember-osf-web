@@ -2,7 +2,7 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import { NodeCategory } from 'ember-osf-web/models/node';
@@ -27,12 +27,12 @@ const categoryToIconMap: Record<NodeCategory, string> = {
 export default class NodeCategoryPicker extends Component {
     category!: NodeCategory;
 
-    @service i18n!: I18N;
+    @service intl!: Intl;
 
     @computed('category')
     get currentCategory() {
         return {
-            text: this.i18n.t(`node_categories.${this.category}`),
+            text: this.intl.t(`node_categories.${this.category}`),
             icon: categoryToIconMap[this.category],
         };
     }

@@ -6,9 +6,12 @@
 
 {{#if (or this.hasError this.hasWarning)}}
     {{#if this.changeset}}
-        <div class='help-block'>
-            {{@errors}}
-        </div>
+        <ValidationErrors
+            class='help-block'
+            @changeset={{this.changeset}}
+            @key={{this.valuePath}}
+            @errors={{@errors}}
+        />
     {{else}}
         <div class='help-block'>
             {{v-get this.model this.valuePath 'message'}}

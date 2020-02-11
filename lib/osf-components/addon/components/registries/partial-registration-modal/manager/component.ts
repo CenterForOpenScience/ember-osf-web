@@ -24,17 +24,25 @@ export default class PartialRegistrationModalManagerComponent extends Component 
     nodesIncludingRoot: NodeModel[] = defaultTo(this.nodesIncludingRoot, []);
     selectedNodes: NodeModel[] = defaultTo(this.selectedNodes, []);
 
+    @task
+    getChildren = task(function *(this: PartialRegistrationModalManagerComponent, node: NodeModel) {
+        const children = yield node.queryHasMany('children');
+        if (children !== null) {
+            let grandChildren: NodeModel[] = [];
+            for (const child of children) {
+                grandChildren = grandChildren.concat(yield this.getChildren.perform(child));
+            }
+            return children.concat(grandChildren);
+        }
+        return null;
+    });
+
     @alias('loadAllChildNodes.isRunning') loadingChildNodes!: boolean;
 
     @task({ on: 'didReceiveAttrs' })
     loadAllChildNodes = task(function *(this: PartialRegistrationModalManagerComponent) {
-        let allChildNodesIncludingRoot = yield this.store.query('node', {
-            'page[size]': 100,
-            filter: {
-                root: this.rootNode.id,
-            },
-        });
-        allChildNodesIncludingRoot = allChildNodesIncludingRoot.toArray();
+        const allChildNodesIncludingRoot = yield this.getChildren.perform(this.rootNode);
+        allChildNodesIncludingRoot.push(this.rootNode);
         this.set('nodesIncludingRoot', allChildNodesIncludingRoot.slice());
         this.set('selectedNodes', allChildNodesIncludingRoot.slice());
     });
@@ -79,8 +87,8 @@ export default class PartialRegistrationModalManagerComponent extends Component 
     }
 
     removeChildren(currentItem: NodeModel) {
-        if (currentItem.children.content.toArray().length > 0) {
-            for (const child of currentItem.children.content.toArray()) {
+        if (currentItem.children.toArray().length > 0) {
+            for (const child of currentItem.children.toArray()) {
                 if (this.selectedNodes.includes(child)) {
                     this.selectedNodes.removeObject(child);
                     this.removeChildren(child);

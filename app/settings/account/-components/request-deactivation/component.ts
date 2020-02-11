@@ -5,7 +5,7 @@ import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import config from 'ember-get-config';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import User from 'ember-osf-web/models/user';
@@ -15,7 +15,7 @@ import CurrentUser from 'ember-osf-web/services/current-user';
 @tagName('')
 export default class DeactivationPane extends Component {
     @service currentUser!: CurrentUser;
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service toast!: Toast;
     @alias('currentUser.user') user!: User;
     settings?: UserSettingModel;
@@ -42,7 +42,8 @@ export default class DeactivationPane extends Component {
             throw Error('No settings to save.');
         } catch (e) {
             const { supportEmail } = config.support;
-            const saveErrorMessage = this.i18n.t('settings.account.security.saveError', { supportEmail });
+            const saveErrorMessage = this.intl
+                .t('settings.account.security.saveError', { supportEmail, htmlSafe: true });
             return this.toast.error(saveErrorMessage);
         }
     });
@@ -58,7 +59,7 @@ export default class DeactivationPane extends Component {
         if (this.settings !== undefined) {
             this.settings.set('deactivationRequested', true);
             this.saveSettings.perform(
-                this.i18n.t('settings.account.deactivation.confirmationToastMessage'),
+                this.intl.t('settings.account.deactivation.confirmationToastMessage'),
             );
         }
     }
@@ -69,7 +70,7 @@ export default class DeactivationPane extends Component {
         if (this.settings !== undefined) {
             this.settings.set('deactivationRequested', false);
             this.saveSettings.perform(
-                this.i18n.t('settings.account.deactivation.undoRequestToastMessage'),
+                this.intl.t('settings.account.deactivation.undoRequestToastMessage'),
             );
         }
     }

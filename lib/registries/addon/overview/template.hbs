@@ -38,7 +38,7 @@
                         @icon='hourglass-half'
                         @titleText={{t 'registries.overview.archiving.currently_archiving'}}
                     >
-                        {{t 'registries.overview.archiving.email_support' supportEmail=this.supportEmail}}
+                        {{t 'registries.overview.archiving.email_support' supportEmail=this.supportEmail htmlSafe=true}}
                     </Overview::-Components::TombstonePage>
                 {{/if}}
             </layout.main>

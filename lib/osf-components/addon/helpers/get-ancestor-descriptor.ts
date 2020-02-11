@@ -2,7 +2,7 @@ import { helper } from '@ember/component/helper';
 import ObjectProxy from '@ember/object/proxy';
 import Node from 'ember-osf-web/models/node';
 
-// TODO: i18n-ize, this is probably better off as a component rather than a helper
+// TODO: intl-ize, this is probably better off as a component rather than a helper
 
 /**
  * Functions to format project titles the way they are displayed on the dashboard

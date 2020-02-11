@@ -18,7 +18,7 @@
                 </h4>
                 <div class='clearfix'>
                     <p>
-                        {{t 'support.faq_paragraph' faqPageUrl=this.faqPageUrl}}
+                        {{t 'support.faq_paragraph' faqPageUrl=this.faqPageUrl htmlSafe=true}}
                     </p>
                     <OsfLink
                         data-analytics-name='faq_button'
@@ -43,7 +43,7 @@
                 </h4>
                 <div class='clearfix'>
                     <p>
-                        {{t 'support.guides_paragraph' helpUrl=this.helpUrl}}
+                        {{t 'support.guides_paragraph' helpUrl=this.helpUrl htmlSafe=true}}
                     </p>
                     <OsfLink
                         data-analytics-name='guides_button'
@@ -79,19 +79,19 @@
         <div class='col-sm-4'>
             <h5 class='m-t-md f-w-xl'>{{t 'support.prereg_title'}}</h5>
             <p>
-                {{t 'support.prereg_paragraph' preregUrl=this.preregUrl}}
+                {{t 'support.prereg_paragraph' preregUrl=this.preregUrl htmlSafe=true}}
             </p>
         </div>
         <div class='col-sm-4'>
             <h5 class='m-t-md f-w-xl'>{{t 'support.status_title'}}</h5>
             <p>
-                {{t 'support.status_paragraph' statusPageUrl=this.statusPageUrl}}
+                {{t 'support.status_paragraph' statusPageUrl=this.statusPageUrl htmlSafe=true}}
             </p>
         </div>
         <div class='col-sm-4'>
             <h5 class='m-t-md f-w-xl'>{{t 'support.consultation_title'}}</h5>
             <p>
-                {{t 'support.consultation_paragraph' consultationUrl=this.consultationUrl}}
+                {{t 'support.consultation_paragraph' consultationUrl=this.consultationUrl htmlSafe=true}}
             </p>
         </div>
     </div>

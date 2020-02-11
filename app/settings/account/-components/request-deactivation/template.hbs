@@ -12,7 +12,7 @@
             {{t 'settings.account.deactivation.warningText'}}
         </BsAlert>
         <p>
-            {{t 'settings.account.deactivation.body'}}
+            {{t 'settings.account.deactivation.body' htmlSafe=true}}
         </p>
         {{#if (or this.loadSettings.isRunning this.saveSettings.isRunning)}}
             <OsfButton @disabled={{true}}>

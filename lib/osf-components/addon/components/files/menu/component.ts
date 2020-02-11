@@ -8,7 +8,7 @@ import { validatePresence } from 'ember-changeset-validations/validators';
 import { ChangesetDef } from 'ember-changeset/types';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -38,7 +38,7 @@ interface NewFolder {
 @layout(template, styles)
 export default class FilesMenu extends Component {
     @service toast!: Toast;
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service store!: DS.Store;
 
     filesManager!: FilesManager;
@@ -74,7 +74,7 @@ export default class FilesMenu extends Component {
         } catch (error) {
             this.toast.error(
                 error.responseJSON.message,
-                this.i18n.t('osf-components.files-widget.create_folder_failed'),
+                this.intl.t('osf-components.files-widget.create_folder_failed'),
             );
             throw error;
         }

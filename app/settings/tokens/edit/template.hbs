@@ -10,9 +10,14 @@
         </OsfLink>
     </div>
     {{#if this.token.tokenValue}}
-        <h4>{{t 'settings.tokens.createSuccess.message' tokenName=this.token.name}}</h4>
+        <h4>{{t
+                'settings.tokens.createSuccess.message'
+                tokenName=this.token.name
+                htmlSafe=true
+            }}
+        </h4>
         <p>
-            <CopyableText 
+            <CopyableText
                 data-test-new-token-value
                 @text={{this.token.tokenValue}}
                 @analyticsLabel='Settings - Tokens - Copy token'
@@ -46,7 +51,11 @@
                 <DeleteButton
                     @delete={{action this.deleteToken}}
                     @disabled={{form.disabled}}
-                    @modalTitle={{t 'settings.tokens.confirmDelete.title' tokenName=this.token.name}}
+                    @modalTitle={{t
+                        'settings.tokens.confirmDelete.title'
+                        tokenName=this.token.name
+                        htmlSafe=true
+                    }}
                     @modalBody={{t 'settings.tokens.confirmDelete.body'}}
                 />
 
