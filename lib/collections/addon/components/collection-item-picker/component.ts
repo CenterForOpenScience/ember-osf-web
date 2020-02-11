@@ -5,7 +5,6 @@ import { inject as service } from '@ember/service';
 import { timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
 import { stripDiacritics } from 'ember-power-select/utils/group-utils';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
@@ -25,7 +24,6 @@ function stripAndLower(text: string): string {
 @layout(template, styles)
 export default class CollectionItemPicker extends Component {
     @service currentUser!: CurrentUser;
-    @service i18n!: I18N;
     @service store!: DS.Store;
 
     @requiredAction projectSelected!: (value: Node) => void;

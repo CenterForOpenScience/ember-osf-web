@@ -27,9 +27,11 @@
             {{t 'osf-components.registries.schema-block-renderer/read-only/response.noResponse'}}
         </p>
     {{/if}}
-    <ValidationErrors
-        local-class='ValidationErrors'
-        @changeset={{@changeset}}
-        @key={{@schemaBlock.registrationResponseKey}}
-    />
+    {{#if @changeset}}
+        <ValidationErrors
+            local-class='ValidationErrors'
+            @changeset={{@changeset}}
+            @key={{@schemaBlock.registrationResponseKey}}
+        />
+    {{/if}}
 {{/let}}

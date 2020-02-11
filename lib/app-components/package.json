@@ -4,6 +4,8 @@
     "ember-addon"
   ],
   "dependencies": {
+    "@glimmer/tracking": "*",
+    "@glimmer/component": "*",
     "ember-angle-bracket-invocation-polyfill": "*",
     "ember-bootstrap": "*",
     "ember-bootstrap-datepicker": "*",
@@ -19,8 +21,7 @@
     "ember-cp-validations": "*",
     "ember-css-modules": "*",
     "ember-css-modules-sass": "*",
-    "ember-i18n": "*",
-    "ember-i18n-inject": "*",
+    "ember-intl": "*",
     "ember-moment": "*",
     "ember-page-title": "*",
     "ember-power-select": "*",

@@ -3,7 +3,7 @@ import Component from '@ember/component';
 import { action } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
-import I18n from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { requiredAction } from 'ember-osf-web/decorators/component';
@@ -11,7 +11,7 @@ import Token from 'ember-osf-web/models/token';
 
 @tagName('') // No div
 export default class TokenCard extends Component {
-    @service i18n!: I18n;
+    @service intl!: Intl;
     @service router!: RouterService;
     @service toast!: Toast;
 
@@ -24,7 +24,7 @@ export default class TokenCard extends Component {
         // Not a task -- if this removes the component, still want to run the callback
         this.token.deleteRecord();
         await this.token.save();
-        this.toast.success(this.i18n.t('settings.tokens.deleted'));
+        this.toast.success(this.intl.t('settings.tokens.deleted'));
         this.onDelete();
     }
 }

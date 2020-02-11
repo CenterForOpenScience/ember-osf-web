@@ -7,7 +7,6 @@ import { alias, notEmpty } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
 import $ from 'jquery';
 
@@ -41,7 +40,6 @@ interface UploadResponse {
 export default class UploadZone extends Component {
     @service toast!: Toast;
     @service analytics!: Analytics;
-    @service i18n!: I18N;
     @service currentUser!: CurrentUser;
     @service store!: DS.Store;
 

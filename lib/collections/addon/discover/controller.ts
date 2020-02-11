@@ -5,13 +5,13 @@ import { inject as service } from '@ember/service';
 import { underscore } from '@ember/string';
 import config from 'collections/config/environment';
 import DS from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import { choiceFields } from 'ember-osf-web/models/collected-metadatum';
 import Theme from 'ember-osf-web/services/theme';
 
 export default class Discover extends Controller {
     @service theme!: Theme;
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service store!: DS.Store;
 
     activeFilters = {
@@ -52,7 +52,7 @@ export default class Discover extends Controller {
         return this.model.filter(({ id }) => id !== this.theme.defaultProvider);
     }
 
-    @computed('i18n.locale', 'additionalProviders')
+    @computed('intl.locale', 'additionalProviders')
     get facets() { // List of facets available for preprints
         return (
             this.additionalProviders ?
@@ -74,7 +74,7 @@ export default class Discover extends Controller {
                 ]
         ).map(([key, component, options = {}]: [string, string, any]) => ({
             key,
-            title: this.i18n.t(`collections.discover.facet_titles.${underscore(component)}`),
+            title: this.intl.t(`collections.discover.facet_titles.${underscore(component)}`),
             component,
             options,
         }));
@@ -122,7 +122,7 @@ export default class Discover extends Controller {
             'collections.discover.search_placeholder';
     }
 
-    @computed('i18n.locale')
+    @computed('intl.locale')
     get sortOptions() { // Sort options for preprints
         return [
             {
@@ -138,7 +138,7 @@ export default class Discover extends Controller {
                 sortBy: '-modified',
             },
         ].map(({ display, sortBy }) => ({
-            display: this.i18n.t(`discover.${display}`),
+            display: this.intl.t(`discover.${display}`),
             sortBy,
         }));
     }

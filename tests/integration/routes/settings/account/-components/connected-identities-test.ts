@@ -1,6 +1,6 @@
 import { render } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { t } from 'ember-i18n/test-support';
+import { setupIntl, t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
@@ -11,6 +11,7 @@ import { click } from 'ember-osf-web/tests/helpers';
 module('Integration | routes | settings | account | -components | connected-identities', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
+    setupIntl(hooks);
 
     test('no connected identities', async assert => {
         await render(hbs`{{settings/account/-components/connected-identities}}`);
@@ -24,7 +25,8 @@ module('Integration | routes | settings | account | -components | connected-iden
             );
         assert.dom('[data-test-connected-identities-description]')
             .hasText(
-                t('settings.account.connected_identities.description').toString().replace(/(<([^>]+)>)/ig, ''),
+                t('settings.account.connected_identities.description', { htmlSafe: true })
+                    .toString().replace(/(<([^>]+)>)/ig, ''),
                 'description is correct',
             );
         assert.dom('[data-test-connected-identities-item').doesNotExist(

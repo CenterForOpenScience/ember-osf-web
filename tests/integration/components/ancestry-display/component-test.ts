@@ -1,38 +1,24 @@
-import EmberObject from '@ember/object';
-import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import I18N from 'ember-i18n/services/i18n';
+import { setupIntl } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 import { OsfLinkRouterStub } from '../../helpers/osf-link-router-stub';
 
-const i18nStub = Service.extend({
-    translations: EmberObject.create({
-        general: {
-            ellipsis: '\u2026',
-        },
-    }),
-
-    t(key: string): string {
-        // @ts-ignore
-        return this.get('translations').get(key);
-    },
-});
-
-interface ThisTestContext extends TestContext {
-    i18n: I18N;
-}
-
 module('Integration | Component | ancestry-display', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
+    setupIntl(hooks, {
+        translations: {
+            general: {
+                ellipsis: '\u2026',
+            },
+        },
+    });
 
-    hooks.beforeEach(function(this: ThisTestContext) {
-        this.owner.register('service:i18n', i18nStub);
-        this.i18n = this.owner.lookup('service:i18n');
+    hooks.beforeEach(function(this: TestContext) {
         this.store = this.owner.lookup('service:store');
         this.owner.register('service:router', OsfLinkRouterStub.extend({
             urlFor(__: any, modelId: string) {
@@ -100,7 +86,7 @@ module('Integration | Component | ancestry-display', hooks => {
         const child = server.create('node', { parent });
         const grandChild = server.create('node', { parent: child });
         const greatGrandChild = server.create('node', { parent: grandChild });
-        const expected = `${parent.title} / ${this.get('i18n').t('general.ellipsis')} /\
+        const expected = `${parent.title} / ${this.get('intl').t('general.ellipsis')} /\
             ${grandChild.title} /`;
 
         const greatGrandChildNode = await this.store.findRecord('node', greatGrandChild.id);

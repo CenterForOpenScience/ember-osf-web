@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { TaskInstance } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
-import I18n from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import KeenDataviz from 'keen-dataviz';
 import { Moment } from 'moment';
 
@@ -24,7 +24,7 @@ enum OverlayReason {
 @layout(template, styles)
 export default class ChartWrapper extends Component {
     @service keen!: KeenService;
-    @service i18n!: I18n;
+    @service intl!: Intl;
     @service analytics!: AnalyticsService;
 
     // Required arguments
@@ -54,7 +54,7 @@ export default class ChartWrapper extends Component {
             );
 
             if (this.chartSpec.processData) {
-                data = this.chartSpec.processData(data, this.i18n, node);
+                data = this.chartSpec.processData(data, this.intl, node);
             }
 
             this.hideOverlay();
@@ -104,7 +104,7 @@ export default class ChartWrapper extends Component {
     }
 
     initSkeletonChart() {
-        this.chartSpec.configureChart(this.chart, this.i18n);
+        this.chartSpec.configureChart(this.chart, this.intl);
         this.chart.chartOptions({
             data: {
                 labels: false,
@@ -140,6 +140,6 @@ export default class ChartWrapper extends Component {
             pie: {},
             axis: {},
         });
-        this.chartSpec.configureChart(this.chart, this.i18n);
+        this.chartSpec.configureChart(this.chart, this.intl);
     }
 }

@@ -7,7 +7,7 @@ import { ValidationObject } from 'ember-changeset-validations';
 import { validateFormat } from 'ember-changeset-validations/validators';
 import { ChangesetDef } from 'ember-changeset/types';
 import { task } from 'ember-concurrency-decorators';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -29,7 +29,7 @@ const DoiValidations: ValidationObject<Registration> = {
         validateFormat({
             allowBlank: true,
             regex: DOIRegex,
-            message: 'Please use a valid DOI format (10.xxxx/xxxxx)',
+            type: 'invalid_doi',
         }),
     ],
 };
@@ -41,7 +41,7 @@ export default class PublicationDoiManagerComponent extends Component {
     node!: Registration;
 
     // private
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service toast!: Toast;
 
     requestedEditMode: boolean = false;
@@ -82,11 +82,11 @@ export default class PublicationDoiManagerComponent extends Component {
             yield this.node.save();
         } catch (e) {
             this.node.rollbackAttributes();
-            this.toast.error(this.i18n.t('registries.registration_metadata.edit_pub_doi.error'));
+            this.toast.error(this.intl.t('registries.registration_metadata.edit_pub_doi.error'));
             throw e;
         }
         this.set('requestedEditMode', false);
-        this.toast.success(this.i18n.t('registries.registration_metadata.edit_pub_doi.success'));
+        this.toast.success(this.intl.t('registries.registration_metadata.edit_pub_doi.success'));
     });
 
     didReceiveAttrs() {

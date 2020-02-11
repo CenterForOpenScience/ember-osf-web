@@ -4,6 +4,8 @@
     "ember-addon"
   ],
   "dependencies": {
+    "@glimmer/component": "*",
+    "@glimmer/tracking": "*",
     "ember-angle-bracket-invocation-polyfill": "*",
     "ember-animated": "*",
     "ember-basic-dropdown": "*",
@@ -21,8 +23,7 @@
     "ember-css-modules": "*",
     "ember-css-modules-sass": "*",
     "ember-element-helper": "*",
-    "ember-i18n": "*",
-    "ember-i18n-inject": "*",
+    "ember-intl": "*",
     "ember-radio-button": "*",
     "ember-responsive": "*"
   }

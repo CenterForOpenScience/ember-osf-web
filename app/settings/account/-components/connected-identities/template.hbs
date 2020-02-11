@@ -6,7 +6,7 @@
     <panel.heading @title={{t 'settings.account.connected_identities.title'}} />
     <panel.body>
         <p data-test-connected-identities-description>
-            {{t 'settings.account.connected_identities.description'}}
+            {{t 'settings.account.connected_identities.description' htmlSafe=true}}
         </p>
         <hr local-class='description-list-separator'>
         <PaginatedList::All
