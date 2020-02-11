@@ -153,7 +153,7 @@ module.exports = function(environment) {
             apiUrl,
             apiVersion,
             apiHeaders: {
-                ACCEPT: `application/vnd.api+json; version=${apiVersion}`,
+                Accept: `application/vnd.api+json; version=${apiVersion}`,
             },
             learnMoreUrl: 'https://cos.io/our-products/osf/',
             renderUrl,
