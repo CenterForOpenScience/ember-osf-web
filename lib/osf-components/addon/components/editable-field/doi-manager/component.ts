@@ -6,7 +6,7 @@ import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import Store from 'ember-data/store';
 import config from 'ember-get-config';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -35,7 +35,7 @@ export default class DoiManagerComponent extends Component {
     nodeDoi!: string;
 
     // private
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service toast!: Toast;
     @service store!: Store;
 
@@ -86,11 +86,11 @@ export default class DoiManagerComponent extends Component {
                 }
             } catch (e) {
                 identifier.rollbackAttributes();
-                this.toast.error(this.i18n.t('registries.registration_metadata.mint_doi.error'));
+                this.toast.error(this.intl.t('registries.registration_metadata.mint_doi.error'));
                 throw e;
             }
             this.set('requestedEditMode', false);
-            this.toast.success(this.i18n.t('registries.registration_metadata.mint_doi.success'));
+            this.toast.success(this.intl.t('registries.registration_metadata.mint_doi.success'));
         }
     });
 

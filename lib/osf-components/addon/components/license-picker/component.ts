@@ -5,7 +5,6 @@ import { inject as service } from '@ember/service';
 import { timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import License from 'ember-osf-web/models/license';
@@ -21,7 +20,6 @@ import template from './template';
 @layout(template, styles)
 export default class LicensePicker extends Component {
     @service analytics!: Analytics;
-    @service i18n!: I18N;
     @service store!: DS.Store;
     @service theme!: Theme;
 

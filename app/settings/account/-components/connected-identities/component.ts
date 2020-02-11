@@ -3,7 +3,7 @@ import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import config from 'ember-get-config';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import ExternalIdentity from 'ember-osf-web/models/external-identity';
@@ -13,7 +13,7 @@ const { support: { supportEmail } } = config;
 @tagName('')
 export default class ConnectedIdentities extends Component {
     // Private properties
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service toast!: Toast;
     reloadIdentitiesList!: (page?: number) => void; // bound by paginated-list
 
@@ -26,11 +26,14 @@ export default class ConnectedIdentities extends Component {
         try {
             yield identity.destroyRecord();
         } catch (e) {
-            this.toast.error(this.i18n.t('settings.account.connected_identities.remove_fail', { supportEmail }));
+            this.toast.error(this.intl.t(
+                'settings.account.connected_identities.remove_fail',
+                { supportEmail, htmlSafe: true },
+            ));
             return false;
         }
         this.reloadIdentitiesList();
-        this.toast.success(this.i18n.t('settings.account.connected_identities.remove_success'));
+        this.toast.success(this.intl.t('settings.account.connected_identities.remove_success'));
         return true;
     });
 

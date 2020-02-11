@@ -8,7 +8,7 @@ import { isEmpty } from '@ember/utils';
 import { ChangesetDef } from 'ember-changeset/types';
 import { ResultCollection } from 'ember-cp-validations';
 import DS, { AttributesFor, RelationshipsFor } from 'ember-data';
-import I18n from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 
 import defaultTo from 'ember-osf-web/utils/default-to';
 
@@ -33,7 +33,7 @@ export default abstract class BaseValidatedInput<M extends DS.Model> extends Com
     model?: M;
 
     // Private properties
-    @service i18n!: I18n;
+    @service intl!: Intl;
 
     // defined in constructor
     errors?: string[];
@@ -65,7 +65,7 @@ export default abstract class BaseValidatedInput<M extends DS.Model> extends Com
 
     @computed('placeholder', 'isRequired')
     get _placeholder(): string {
-        return this.placeholder || this.i18n.t(this.isRequired ? 'general.required' : 'general.optional');
+        return this.placeholder || this.intl.t(this.isRequired ? 'general.required' : 'general.optional');
     }
 
     @computed('shouldShowMessages', 'value', 'isInvalid', 'isValidating')

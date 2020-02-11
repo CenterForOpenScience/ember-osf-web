@@ -8,7 +8,7 @@
         {{#if this.maintenance.message.length}}
             {{this.maintenance.message}}
         {{else}}
-            {{t 'maintenance.line1' start=this.start end=this.end utc=this.utc}}
+            {{t 'maintenance.line1' start=this.start end=this.end utc=this.utc htmlSafe=true}}
             {{t 'maintenance.line2'}}
         {{/if}}
     </BsAlert>

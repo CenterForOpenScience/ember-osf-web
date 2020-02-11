@@ -5,7 +5,7 @@ import { alias, and, not, sort } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -37,7 +37,7 @@ export default class LicenseManagerComponent extends Component {
 
     // private
     @service analytics!: Analytics;
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service store!: DS.Store;
     @service toast!: Toast;
 
@@ -107,7 +107,7 @@ export default class LicenseManagerComponent extends Component {
 
     @action
     onSave() {
-        this.toast.success(this.i18n.t('registries.registration_metadata.edit_license.success'));
+        this.toast.success(this.intl.t('registries.registration_metadata.edit_license.success'));
         this.setProperties({
             currentLicense: this.selectedLicense,
             currentNodeLicense: { ...this.node.nodeLicense },
@@ -117,7 +117,7 @@ export default class LicenseManagerComponent extends Component {
 
     @action
     onError() {
-        this.toast.error(this.i18n.t('registries.registration_metadata.edit_license.error'));
+        this.toast.error(this.intl.t('registries.registration_metadata.edit_license.error'));
     }
 
     @action

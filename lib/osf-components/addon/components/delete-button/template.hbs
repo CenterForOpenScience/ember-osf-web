@@ -43,7 +43,7 @@
             {{#if this.hardConfirm}}
                 <label local-class='Modal__confirmBlock' data-test-confirm-scientist-name>
                     <p local-class='Modal__confirmPrompt'>
-                        {{t 'osf-components.delete-button.hardConfirm' text=this.scientistName}}
+                        {{t 'osf-components.delete-button.hardConfirm' text=this.scientistName htmlSafe=true}}
                     </p>
                     <Input
                         local-class='DeleteModal__input'

@@ -1,5 +1,5 @@
 import { click, render } from '@ember/test-helpers';
-import { t } from 'ember-i18n/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';

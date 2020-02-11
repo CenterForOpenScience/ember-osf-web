@@ -17,7 +17,11 @@ module('Integration | Component | hierarchical-list', hooks => {
         const grandChild = server.create('node', { parent: child });
 
         const rootNode = await this.store.findRecord('node', root.id);
+        const childNode = await this.store.findRecord('node', child.id);
+        const grandChildNode = await this.store.findRecord('node', grandChild.id);
         this.set('rootNode', rootNode);
+        rootNode.set('children', [childNode]);
+        childNode.set('children', [grandChildNode]);
         const listManager: HierarchicalListManager = {
             nodesIncludingRoot: [],
             selectedNodes: [],
