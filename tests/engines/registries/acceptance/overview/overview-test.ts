@@ -3,7 +3,7 @@ import { click as untrackedClick, fillIn } from '@ember/test-helpers';
 import { faker, ModelInstance } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import config from 'ember-get-config';
-import { t } from 'ember-i18n/test-support';
+import { t } from 'ember-intl/test-support';
 import { selectChoose, selectSearch } from 'ember-power-select/test-support';
 import { TestContext } from 'ember-test-helpers';
 import moment from 'moment';
@@ -418,8 +418,8 @@ module('Registries | Acceptance | overview.overview', hooks => {
 
         await click('[data-test-save-license]');
 
-        const validationErrorMsg = `${t('validationErrors.node_license_missing_fields')} \
-            ${t('app_components.license_picker.fields.copyrightHolders')}`;
+        const missingFields = t('app_components.license_picker.fields.copyrightHolders').toString();
+        const validationErrorMsg = t('validationErrors.node_license_missing_fields', { missingFields }).toString();
         assert.dom('.help-block').hasText(validationErrorMsg, 'validation works');
 
         await fillIn('[data-test-required-field="copyrightHolders"]', 'Jane Doe, John Doe');

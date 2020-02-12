@@ -5,7 +5,7 @@ import { alias, and } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import config from 'ember-get-config';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -36,7 +36,7 @@ export default class TagsManagerComponent extends Component {
     registration!: Registration;
 
     // private
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service toast!: Toast;
 
     requestedEditMode: boolean = false;
@@ -63,11 +63,11 @@ export default class TagsManagerComponent extends Component {
             yield this.registration.save();
         } catch (e) {
             this.registration.rollbackAttributes();
-            this.toast.error(this.i18n.t('registries.registration_metadata.edit_tags.error'));
+            this.toast.error(this.intl.t('registries.registration_metadata.edit_tags.error'));
             throw e;
         }
         this.set('requestedEditMode', false);
-        this.toast.success(this.i18n.t('registries.registration_metadata.edit_tags.success'));
+        this.toast.success(this.intl.t('registries.registration_metadata.edit_tags.success'));
     });
 
     @action

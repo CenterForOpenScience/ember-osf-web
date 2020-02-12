@@ -5,7 +5,7 @@ import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -33,13 +33,13 @@ export default class FinalizeRegistrationModalManagerComponent extends Component
                 this.onSubmitRegistration(this.registration.id);
             }
         } catch (error) {
-            this.toast.error(this.i18n.t('registries.drafts.draft.submit_error'));
+            this.toast.error(this.intl.t('registries.drafts.draft.submit_error'));
             throw error;
         }
     }),
 })
     implements FinalizeRegistrationModalManager {
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service toast!: Toast;
 
     // Required attrs

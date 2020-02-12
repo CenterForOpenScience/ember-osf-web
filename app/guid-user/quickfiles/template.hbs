@@ -6,7 +6,7 @@
     <QuickfileNav @user={{this.user}} @onQuickfiles={{true}} />
     <div class='row container' local-class='Content'>
         {{#if this.canEdit}}
-            <h5><i>{{t 'quickfiles.description'}}</i></h5>
+            <h5><i>{{t 'quickfiles.description' htmlSafe=true}}</i></h5>
         {{else}}
             <div style='height: 14px;'></div>
         {{/if}}

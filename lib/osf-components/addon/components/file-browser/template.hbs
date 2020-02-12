@@ -237,12 +237,12 @@
         <h3 class='modal-title'>{{t 'file_browser.info.title'}}</h3>
     </modal.header>
     <modal.body>
-        <p>{{t 'file_browser.info.upload'}}</p>
-        <p>{{t 'file_browser.info.select'}}</p>
-        <p>{{t 'file_browser.info.folders'}}</p>
-        <p>{{t 'file_browser.info.open1'}}</p>
-        <p>{{t 'file_browser.info.open2'}}</p>
-        <p>{{t 'file_browser.info.download'}}</p>
+        <p>{{t 'file_browser.info.upload' htmlSafe=true}}</p>
+        <p>{{t 'file_browser.info.select' htmlSafe=true}}</p>
+        <p>{{t 'file_browser.info.folders' htmlSafe=true}}</p>
+        <p>{{t 'file_browser.info.open1' htmlSafe=true}}</p>
+        <p>{{t 'file_browser.info.open2' htmlSafe=true}}</p>
+        <p>{{t 'file_browser.info.download' htmlSafe=true}}</p>
     </modal.body>
     <modal.footer data-analytics-scope='File browser - Info modal'>
         <OsfButton
@@ -330,7 +330,7 @@
     as |modal|
 >
     <modal.header @onClose={{action (mut this.currentModal) ''}}>
-        <h3 class='modal-title break-word'>{{t 'file_browser.conflict_modal.title'}}</h3>
+        <h3 class='modal-title break-word'>{{t 'file_browser.conflict_modal.title' textValue=this.conflictingItem.itemName}}</h3>
     </modal.header>
     <modal.body>
         <p>{{t 'file_browser.conflict_modal.keep_info'}}</p>

@@ -5,7 +5,7 @@ import PasswordStrength from 'ember-cli-password-strength/services/password-stre
 import { timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import User from 'ember-osf-web/models/user';
@@ -15,7 +15,7 @@ import CurrentUser from 'ember-osf-web/services/current-user';
 export default class ChangePasswordPane extends Component {
     // Private properties
     @service currentUser!: CurrentUser;
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service passwordStrength!: PasswordStrength;
     @service toast!: Toast;
     @service store!: DS.Store;
@@ -34,8 +34,8 @@ export default class ChangePasswordPane extends Component {
 
     @task
     submitTask = task(function *(this: ChangePasswordPane) {
-        const errorMessage = this.i18n.t('settings.account.changePassword.updateFail');
-        const successMessage = this.i18n.t('settings.account.changePassword.updateSuccess');
+        const errorMessage = this.intl.t('settings.account.changePassword.updateFail');
+        const successMessage = this.intl.t('settings.account.changePassword.updateSuccess');
         const { validations } = yield this.userPassword.validate();
         this.set('didValidate', true);
 

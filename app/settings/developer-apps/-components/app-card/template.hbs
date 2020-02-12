@@ -22,7 +22,11 @@
             @small={{true}}
             @delete={{action this.delete}}
             @disabled={{not @developerApp}}
-            @modalTitle={{t 'settings.developer-apps.confirmDelete.title' appName=@developerApp.name}}
+            @modalTitle={{t
+                'settings.developer-apps.confirmDelete.title'
+                appName=@developerApp.name
+                htmlSafe=true
+            }}
             @modalBody={{t 'settings.developer-apps.confirmDelete.body'}}
         />
     </div>

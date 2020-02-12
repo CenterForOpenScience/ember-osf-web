@@ -39,10 +39,6 @@ declare const config: {
         };
     };
     APP: {};
-    i18n: {
-        defaultLocale: string;
-        enabledLocales: string[];
-    };
     moment: {
         includeTimezone: string;
         outputFormat: string;
@@ -181,6 +177,9 @@ declare const config: {
     };
     'ember-cli-mirage': {
         enabled: boolean;
+    };
+    'changeset-validations': {
+        rawOutput?: boolean,
     };
 
     mirageScenarios: string[];

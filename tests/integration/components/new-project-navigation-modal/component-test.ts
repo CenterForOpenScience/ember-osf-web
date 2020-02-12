@@ -1,5 +1,5 @@
 import { render } from '@ember/test-helpers';
-import { t } from 'ember-i18n/test-support';
+import { setupIntl, t } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 
@@ -10,6 +10,8 @@ import { click } from 'ember-osf-web/tests/helpers';
 
 module('Integration | Component | new-project-navigation-modal', hooks => {
     setupRenderingTest(hooks);
+    setupIntl(hooks);
+
     hooks.beforeEach(function(this: TestContext, assert) {
         this.setProperties({
             closeModal: (reload: boolean = false) => assert.ok(reload, 'Reload should have been true'),

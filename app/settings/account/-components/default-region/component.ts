@@ -6,7 +6,7 @@ import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import config from 'ember-get-config';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import RegionModel from 'ember-osf-web/models/region';
@@ -16,7 +16,7 @@ import CurrentUser from 'ember-osf-web/services/current-user';
 @tagName('')
 export default class DefaultRegionPane extends Component {
     @service currentUser!: CurrentUser;
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service toast!: Toast;
     @service store!: DS.Store;
     @alias('currentUser.user') user!: User;
@@ -50,10 +50,11 @@ export default class DefaultRegionPane extends Component {
     @action
     updateRegion() {
         this.toast.success(
-            this.i18n.t(
+            this.intl.t(
                 'settings.account.defaultRegion.successToast',
                 {
                     region: this.user.defaultRegion.name,
+                    htmlSafe: true,
                 },
             ),
         );
@@ -63,7 +64,8 @@ export default class DefaultRegionPane extends Component {
     updateError() {
         this.user.rollbackAttributes();
         const { supportEmail } = config.support;
-        const saveErrorMessage = this.i18n.t('settings.account.defaultRegion.saveError', { supportEmail });
+        const saveErrorMessage = this.intl
+            .t('settings.account.defaultRegion.saveError', { supportEmail, htmlSafe: true });
         return this.toast.error(saveErrorMessage);
     }
 
