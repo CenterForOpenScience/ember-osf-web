@@ -13,14 +13,17 @@ const {
 export default class UserSerializer extends OsfSerializer {
     normalize(modelClass: DS.Model, resourceHash: Resource) {
         const result = super.normalize(modelClass, resourceHash);
+        // TODO: ENG-1486
         // Manually insert a `sparseNodes` relationship to the model because the API doesn't serialize this relationship
-        result.data.relationships!.sparseNodes = {
-            links: {
-                related: {
-                    href: `${apiUrl}/${apiNamespace}/sparse/users/${resourceHash.id}/nodes`,
+        if (result.data.relationships!.sparseNodes === undefined) {
+            result.data.relationships!.sparseNodes = {
+                links: {
+                    related: {
+                        href: `${apiUrl}/${apiNamespace}/sparse/users/${resourceHash.id}/nodes`,
+                    },
                 },
-            },
-        };
+            };
+        }
         return result;
     }
 }
