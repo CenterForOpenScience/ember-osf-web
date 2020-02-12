@@ -65,7 +65,7 @@ const stateAttrs = {
     withdrawn: {
         withdrawn: true,
         pendingWithdrawal: false,
-        currentUserPermissions: null,
+        currentUserPermissions: [],
         dateWithdrawn() {
             return faker.date.past(1, new Date(2019, 0, 0));
         },
