@@ -89,6 +89,7 @@ export default class LicenseManagerComponent extends Component {
 
     @action
     cancel() {
+        this.reset();
         this.set('requestedEditMode', false);
     }
 
@@ -118,11 +119,5 @@ export default class LicenseManagerComponent extends Component {
     @action
     onError() {
         this.toast.error(this.intl.t('registries.registration_metadata.edit_license.error'));
-    }
-
-    @action
-    onCancel() {
-        this.reset();
-        this.set('requestedEditMode', false);
     }
 }
