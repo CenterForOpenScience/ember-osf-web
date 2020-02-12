@@ -1,6 +1,14 @@
 import DS from 'ember-data';
+import config from 'ember-get-config';
 import { Resource } from 'osf-api';
 import OsfSerializer from './osf-serializer';
+
+const {
+    OSF: {
+        apiUrl,
+        apiNamespace,
+    },
+} = config;
 
 export default class UserSerializer extends OsfSerializer {
     normalize(modelClass: DS.Model, resourceHash: Resource) {
@@ -9,7 +17,7 @@ export default class UserSerializer extends OsfSerializer {
         result.data.relationships!.sparseNodes = {
             links: {
                 related: {
-                    href: `http://localhost:8000/v2/sparse/users/${resourceHash.id}/nodes`,
+                    href: `${apiUrl}/${apiNamespace}/sparse/users/${resourceHash.id}/nodes`,
                 },
             },
         };
