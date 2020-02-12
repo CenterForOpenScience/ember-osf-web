@@ -1025,12 +1025,14 @@ registries:
         disciplines: Disciplines
         edit_field: 'Edit {field}'
         license: License
+        no_affiliated_institutions: 'No affiliated institutions'
         no_description: 'No description'
         no_doi: 'No DOI assigned'
         no_license: 'No license'
         no_matches: 'No matches found'
         no_publication_doi: 'No publication DOI'
         no_subjects: 'No subjects'
+        no_title: 'No title'
         publication_doi: 'Publication DOI'
         registered_from: 'Registered from'
         registration_doi: 'Registration DOI'
