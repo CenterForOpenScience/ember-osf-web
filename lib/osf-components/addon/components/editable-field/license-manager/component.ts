@@ -48,10 +48,10 @@ export default class LicenseManagerComponent extends Component {
     helpLink: string = 'https://help.osf.io/hc/en-us/articles/360019739014-Licensing';
     currentLicense!: License;
     currentNodeLicense!: NodeLicense;
+    selectedLicense!: License;
 
     @alias('node.userHasAdminPermission') userCanEdit!: boolean;
     @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
-    @alias('node.license') selectedLicense!: License;
     @not('currentLicense') fieldIsEmpty!: License;
 
     @sort('selectedLicense.requiredFields', (a: string, b: string) => +(a > b))
@@ -89,6 +89,7 @@ export default class LicenseManagerComponent extends Component {
 
     @action
     cancel() {
+        this.reset();
         this.set('requestedEditMode', false);
     }
 
@@ -118,11 +119,5 @@ export default class LicenseManagerComponent extends Component {
     @action
     onError() {
         this.toast.error(this.intl.t('registries.registration_metadata.edit_license.error'));
-    }
-
-    @action
-    onCancel() {
-        this.reset();
-        this.set('requestedEditMode', false);
     }
 }
