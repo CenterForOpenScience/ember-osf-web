@@ -32,6 +32,20 @@
                 <label for='license-select'>{{t 'registries.registration_metadata.choose_license'}}</label>
                 <RegistriesLicensePicker @manager={{licenseManager}} />
             </Drafts::Draft::-Components::Managers::LicensePickerManager>
+            {{#let (unique-id 'subjects') as |subjectsFieldId|}}
+                <label for={{subjectsFieldId}}>{{t 'registries.registration_metadata.subjects'}}</label>
+                <Subjects::Manager
+                    @model={{this.draftManager.draftRegistration}}
+                    @provider={{this.draftManager.draftRegistration.provider}}
+                    @doesAutosave={{true}}
+                    as |subjectsManager|
+                >
+                    <Subjects::Widget
+                        id={{subjectsFieldId}}
+                        @subjectsManager={{subjectsManager}}
+                    />
+                </Subjects::Manager>
+            {{/let}}
             {{#let (unique-id 'tags') as |tagsFieldId|}}
                 <label for={{tagsFieldId}}>{{t 'registries.registration_metadata.tags'}}</label>
                 <Drafts::Draft::-Components::TagsManager

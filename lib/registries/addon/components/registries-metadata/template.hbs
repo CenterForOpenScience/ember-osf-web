@@ -141,6 +141,7 @@
             <Subjects::Manager
                 @model={{this.registration}}
                 @provider={{this.registration.provider}}
+                @doesAutosave={{false}}
                 as |subjectsManager|
             >
                 <EditableField::SubjectFieldManager

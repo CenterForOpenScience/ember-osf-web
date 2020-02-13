@@ -100,6 +100,7 @@ export default function(this: Server) {
         only: ['index', 'show', 'update'],
         path: '/draft_registrations',
     });
+    osfNestedResource(this, 'draft-registration', 'subjects');
 
     osfResource(this, 'registration', { except: ['show', 'create'] });
     this.post('/registrations', createRegistration);
