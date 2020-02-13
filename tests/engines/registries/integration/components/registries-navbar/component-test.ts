@@ -1,7 +1,7 @@
 import Service from '@ember/service';
 import { click, fillIn, render, triggerKeyEvent } from '@ember/test-helpers';
 import config from 'ember-get-config';
-import { t } from 'ember-i18n/test-support';
+import { setupIntl, t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
 import { setBreakpoint } from 'ember-responsive/test-support';
 import { TestContext } from 'ember-test-helpers';
@@ -62,6 +62,7 @@ function visibleText(selector: string) {
 /* tslint:disable:only-arrow-functions */
 module('Registries | Integration | Component | registries-navbar', hooks => {
     setupEngineRenderingTest(hooks, 'registries');
+    setupIntl(hooks);
 
     hooks.beforeEach(function(this: TestContext) {
         this.owner.register('service:head-tags', headTagsStub);

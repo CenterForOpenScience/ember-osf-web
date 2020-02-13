@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -15,7 +15,7 @@ import template from './template';
 
 @layout(template, styles)
 export default class RegistrationIsPublic extends Component {
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service toast!: Toast;
 
     registration!: Registration;
@@ -40,11 +40,11 @@ export default class RegistrationIsPublic extends Component {
         try {
             yield this.registration.save();
         } catch (e) {
-            this.toast.error(this.i18n.t('registries.overview.withdraw.error'));
+            this.toast.error(this.intl.t('registries.overview.withdraw.error'));
             throw e;
         }
 
-        this.toast.success(this.i18n.t('registries.overview.withdraw.success'));
+        this.toast.success(this.intl.t('registries.overview.withdraw.success'));
 
         if (this.closeDropdown) {
             this.closeDropdown();

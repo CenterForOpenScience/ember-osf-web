@@ -5,7 +5,6 @@ import { inject as service } from '@ember/service';
 import PasswordStrength from 'ember-cli-password-strength/services/password-strength';
 import { timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
-import I18n from 'ember-i18n/services/i18n';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import defaultTo from 'ember-osf-web/utils/default-to';
@@ -30,7 +29,6 @@ export default class PasswordStrengthBar extends Component {
     minStrength: number = defaultTo(this.minStrength, 2);
 
     // Private properties
-    @service i18n!: I18n;
     @service passwordStrength!: PasswordStrength;
 
     @alias('checkStrength.lastSuccessful.value') strength?: Strength;

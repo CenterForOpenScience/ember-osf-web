@@ -1,7 +1,6 @@
-declare module 'ember-i18n-cp-validations/validators/messages' {
+declare module 'ember-intl-cp-validations/validators/messages' {
     class ValidatorsMessages {
         prefix: string;
     }
-
     export = ValidatorsMessages;
 }

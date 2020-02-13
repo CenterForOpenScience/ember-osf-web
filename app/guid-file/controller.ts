@@ -6,7 +6,7 @@ import { inject as service } from '@ember/service';
 import { timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 import config from 'ember-get-config';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import mimeTypes from 'ember-osf-web/const/mime-types';
 import File from 'ember-osf-web/models/file';
 import User from 'ember-osf-web/models/user';
@@ -43,7 +43,7 @@ const lookupTable: { [k: string]: { [s: string]: string} } = {
 export default class GuidFile extends Controller {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service toast!: Toast;
 
     queryParams = ['show'];
@@ -138,10 +138,10 @@ export default class GuidFile extends Controller {
         try {
             await this.file.destroyRecord();
             this.transitionToRoute('guid-user.quickfiles', this.user.id);
-            const message: string = this.i18n.t('file_detail.delete_success');
+            const message: string = this.intl.t('file_detail.delete_success');
             return this.toast.success(message);
         } catch (e) {
-            const message: string = this.i18n.t('file_detail.delete_fail');
+            const message: string = this.intl.t('file_detail.delete_fail');
             return this.toast.error(message);
         }
     }
@@ -161,9 +161,9 @@ export default class GuidFile extends Controller {
 
         try {
             await this.file.updateContents(text);
-            return this.toast.success(this.i18n.t('file_detail.save_success'));
+            return this.toast.success(this.intl.t('file_detail.save_success'));
         } catch (e) {
-            return this.toast.error(this.i18n.t('file_detail.save_fail'));
+            return this.toast.error(this.intl.t('file_detail.save_fail'));
         }
     }
 

@@ -8,7 +8,7 @@
         {{t 'settings.developer-apps.backToList'}}
     </OsfLink>
 
-    <h4>{{t 'settings.developer-apps.appDetail' appName=this.developerApp.name}}</h4>
+    <h4>{{t 'settings.developer-apps.appDetail' appName=this.developerApp.name htmlSafe=true}}</h4>
 
     {{#if this.model.taskInstance.isError}}
         {{this.model.taskInstance.error}}
@@ -62,7 +62,11 @@
                 <DeleteButton
                     @delete={{action this.deleteApp}}
                     @disabled={{form.disabled}}
-                    @modalTitle={{t 'settings.developer-apps.confirmDelete.title' appName=this.developerApp.name}}
+                    @modalTitle={{t
+                        'settings.developer-apps.confirmDelete.title'
+                        appName=this.developerApp.name
+                        htmlSafe=true
+                    }}
                     @modalBody={{t 'settings.developer-apps.confirmDelete.body'}}
                 />
 
