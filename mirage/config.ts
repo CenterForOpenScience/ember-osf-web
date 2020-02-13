@@ -100,6 +100,7 @@ export default function(this: Server) {
         only: ['index', 'show', 'update'],
         path: '/draft_registrations',
     });
+    osfNestedResource(this, 'draft-registration', 'subjects');
 
     osfToManyRelationship(this, 'draft-registration', 'affiliatedInstitutions', {
         only: ['related', 'add', 'remove'],
@@ -183,6 +184,8 @@ export default function(this: Server) {
     });
 
     this.get('/users/:id/nodes', userNodeList);
+    this.get('/sparse/users/:id/nodes', userNodeList);
+
     osfNestedResource(this, 'user', 'quickfiles', { only: ['index', 'show'] });
 
     osfResource(this, 'preprint-provider', { path: '/providers/preprints' });
