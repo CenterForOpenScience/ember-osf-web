@@ -46,6 +46,21 @@
                     />
                 </Subjects::Manager>
             {{/let}}
+            {{#let (unique-id 'tags') as |tagsFieldId|}}
+                <label for={{tagsFieldId}}>{{t 'registries.registration_metadata.tags'}}</label>
+                <Drafts::Draft::-Components::TagsManager
+                    @changeset={{this.draftManager.metadataChangeset}}
+                    @onMetadataInput={{perform this.draftManager.onMetadataInput}}
+                    @valuePath='tags'
+                    as |tagsManager|
+                >
+                    <RegistriesTagsWidget
+                        data-test-metadata-tags
+                        id={{tagsFieldId}}
+                        @manager={{tagsManager}}
+                    />
+                </Drafts::Draft::-Components::TagsManager>
+            {{/let}}
         </FormControls>
     </form>
 {{/if}}

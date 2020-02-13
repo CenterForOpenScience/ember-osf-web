@@ -4,7 +4,7 @@
     @cancel={{action this.resetShowSubmitModal}}
 />
 <div class='submit-header' local-class='header'>
-    <h1>{{t (concat this.i18nKeyPrefix (if this.edit 'update' 'add') '_header')}}</h1>
+    <h1>{{t (concat this.intlKeyPrefix (if this.edit 'update' 'add') '_header')}}</h1>
 </div>
 <div local-class='body'>
     <SubmitSections
@@ -16,7 +16,7 @@
         <sections.section
             data-test-collections-submit-section='project'
             @section={{this.sections.project}}
-            @title={{t (concat this.i18nKeyPrefix 'project_select_title')}}
+            @title={{t (concat this.intlKeyPrefix 'project_select_title')}}
             @continue={{action this.nextSection this.sections.project}}
             @editable={{not this.edit}}
             as |section|
@@ -32,7 +32,7 @@
             <section.complete>
                 <p>
                     <em data-test-project-complete-title-label>
-                        {{t (concat this.i18nKeyPrefix 'project_select_project_label')}}
+                        {{t (concat this.intlKeyPrefix 'project_select_project_label')}}
                     </em>
                     <span data-test-project-complete-title-value>
                         {{this.collectionItem.title}}
@@ -44,9 +44,9 @@
         <sections.section
             data-test-collections-submit-section='projectMetadata'
             @section={{this.sections.projectMetadata}}
-            @tooltip={{t (concat this.i18nKeyPrefix 'closed_tooltip')}}
-            @title={{t (concat this.i18nKeyPrefix 'project_metadata_title')}}
-            @description={{t (concat this.i18nKeyPrefix 'project_metadata_description')}}
+            @tooltip={{t (concat this.intlKeyPrefix 'closed_tooltip')}}
+            @title={{t (concat this.intlKeyPrefix 'project_metadata_title')}}
+            @description={{t (concat this.intlKeyPrefix 'project_metadata_description')}}
             as |section|
         >
             <section.active>
@@ -69,7 +69,7 @@
             <section.complete>
                 <p>
                     <em data-test-project-metadata-complete-title-label>
-                        {{t (concat this.i18nKeyPrefix 'project_metadata_title_label')}}
+                        {{t (concat this.intlKeyPrefix 'project_metadata_title_label')}}
                     </em>
                     <span data-test-project-metadata-complete-title-value>
                         {{this.collectionItem.title}}
@@ -77,7 +77,7 @@
                 </p>
                 <p>
                     <em data-test-project-metadata-complete-description-label>
-                        {{t (concat this.i18nKeyPrefix 'project_metadata_description_label')}}
+                        {{t (concat this.intlKeyPrefix 'project_metadata_description_label')}}
                     </em>
                     <span data-test-project-metadata-complete-description-value>
                         {{this.collectionItem.description}}
@@ -85,7 +85,7 @@
                 </p>
                 <p>
                     <em data-test-project-metadata-complete-license-name-label>
-                        {{t (concat this.i18nKeyPrefix 'project_metadata_license_label')}}
+                        {{t (concat this.intlKeyPrefix 'project_metadata_license_label')}}
                     </em>
                     <span data-test-project-metadata-complete-license-name-value>
                         {{this.collectionItem.license.name}}
@@ -93,7 +93,7 @@
                 </p>
                 <p>
                     <em data-test-project-metadata-complete-tags-label>
-                        {{t (concat this.i18nKeyPrefix 'project_metadata_tags_label')}}
+                        {{t (concat this.intlKeyPrefix 'project_metadata_tags_label')}}
                     </em>
                     {{#each this.collectionItem.tags as |tag|}}
                         <div
@@ -110,9 +110,9 @@
         <sections.section
             data-test-collections-submit-section='projectContributors'
             @section={{this.sections.projectContributors}}
-            @tooltip={{t (concat this.i18nKeyPrefix 'closed_tooltip')}}
-            @title={{t (concat this.i18nKeyPrefix 'project_contributors_title')}}
-            @description={{t (concat this.i18nKeyPrefix 'project_contributors_description')}}
+            @tooltip={{t (concat this.intlKeyPrefix 'closed_tooltip')}}
+            @title={{t (concat this.intlKeyPrefix 'project_contributors_title')}}
+            @description={{t (concat this.intlKeyPrefix 'project_contributors_description')}}
             as |section|
         >
             <section.active>
@@ -138,8 +138,8 @@
         <sections.section
             data-test-collections-submit-section='collectionMetadata'
             @section={{this.sections.collectionMetadata}}
-            @tooltip={{t (concat this.i18nKeyPrefix 'closed_tooltip')}}
-            @title={{t (concat this.i18nKeyPrefix 'collection_metadata_title')}}
+            @tooltip={{t (concat this.intlKeyPrefix 'closed_tooltip')}}
+            @title={{t (concat this.intlKeyPrefix 'collection_metadata_title')}}
             as |section|
         >
             <section.active>
@@ -175,7 +175,7 @@
                     class='btn btn-default'
                     {{action this.cancel}}
                 >
-                    {{t (concat this.i18nKeyPrefix 'cancel')}}
+                    {{t (concat this.intlKeyPrefix 'cancel')}}
                 </button>
                 {{#if this.edit}}
                     <button
@@ -184,7 +184,7 @@
                         class='btn btn-success'
                         {{action (perform this.save)}}
                     >
-                        {{t (concat this.i18nKeyPrefix 'update' '_button')}}
+                        {{t (concat this.intlKeyPrefix 'update' '_button')}}
                     </button>
                 {{else}}
                     <button
@@ -194,7 +194,7 @@
                         {{action this.setShowSubmitModal}}
                         disabled={{not (eq this.activeSection this.sections.submit)}}
                     >
-                        {{t (concat this.i18nKeyPrefix 'add' '_button')}}
+                        {{t (concat this.intlKeyPrefix 'add' '_button')}}
                     </button>
                 {{/if}}
             </div>

@@ -21,7 +21,6 @@
     "test": "EMBER_ENV=test ember test",
     "test:cover": "EMBER_ENV=test COVERAGE=true ember test",
     "test:config": "mocha node-tests/config-test.js",
-    "test:translations": "mocha node-tests/translations-test.js",
     "test:blueprints": "mocha node-tests/blueprints",
     "test:node-tests": "mocha 'node-tests/**/*-test.js'"
   },
@@ -39,7 +38,6 @@
       ],
       "*.scss": "stylelint",
       "*.hbs": "ember-template-lint",
-      "app/locales/*/translations.ts": "node bin/run-node-test.js translations",
       "config/environment.*": "node bin/run-node-test.js config"
     },
     "ignore": [
@@ -50,10 +48,14 @@
   },
   "devDependencies": {
     "@centerforopenscience/eslint-config": "^2.0.0",
+    "@ember-intl/cp-validations": "^4.0.1",
+    "@ember-intl/decorators": "^1.0.0",
     "@ember/jquery": "^0.6.0",
     "@ember/optional-features": "^1.0.0",
     "@ember/render-modifiers": "^1.0.0",
     "@ember/test-helpers": "^1.5.0",
+    "@glimmer/component": "^1.0.0",
+    "@glimmer/tracking": "^1.0.0",
     "@types/ace": "^0.0.42",
     "@types/dropzone": "^5.0.4",
     "@types/ember": "^3.1.1",
@@ -148,10 +150,8 @@
     "ember-font-awesome": "^3.1.0",
     "ember-g-recaptcha": "^1.0.0",
     "ember-get-config": "^0.2.4",
-    "ember-i18n": "^5.0.2",
-    "ember-i18n-cp-validations": "^3.1.0",
-    "ember-i18n-inject": "^1.0.0",
     "ember-in-viewport": "^3.5.8",
+    "ember-intl": "^4.2.2",
     "ember-load-initializers": "^2.0.0",
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-metrics": "https://github.com/cos-forks/ember-metrics#v0.12.1+cos0",

@@ -2,7 +2,7 @@
 {{scheduled-banner}}
 {{#registries-header onSearch=(action 'onSearch') searchable=searchableRegistrations as |header|}}
     {{#header.lead}}
-        <span>{{t 'registries.index.lead'}}</span>
+        <span>{{t 'registries.index.lead' htmlSafe=true}}</span>
     {{/header.lead}}
     {{#header.row}}
         <div class='text-center col-xs-12'>

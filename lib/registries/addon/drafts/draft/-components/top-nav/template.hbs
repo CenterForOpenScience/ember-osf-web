@@ -15,9 +15,11 @@
             </nav.buttons.default>
         </nav.bordered-section>
         <nav.bordered-section local-class='MobileNavPageLabelSection'>
-            <div local-class='MobileNavPageLabel'>
-                {{#if @inReview}}
+            <div local-class='MobileNavPageLabel' data-test-page-label>
+                {{#if @navManager.inReview}}
                     {{t 'registries.drafts.draft.review.page_label'}}
+                {{else if @navManager.inMetadata}}
+                    {{t 'registries.drafts.draft.metadata.page_label'}}
                 {{else}}
                     {{@navManager.currentPageManager.pageHeadingText}}
                 {{/if}}

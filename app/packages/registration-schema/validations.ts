@@ -3,17 +3,14 @@ import { set } from '@ember/object';
 import { ValidationObject, ValidatorFunction } from 'ember-changeset-validations';
 import { validatePresence } from 'ember-changeset-validations/validators';
 
-import translations from 'ember-osf-web/locales/en/translations';
 import DraftRegistration, { DraftMetadataProperties } from 'ember-osf-web/models/draft-registration';
 import NodeModel from 'ember-osf-web/models/node';
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 import { SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema/schema-block-group';
 import { validateFileList } from 'ember-osf-web/validators/validate-response-format';
 
-// TODO: find a way to use i18n to translate error messages
-
-function getRequiredMessage(groupType?: string) {
-    let requiredMessage = translations.validationErrors.blank;
+function getErrorType(groupType?: string) {
+    let validationErrorType = 'blank';
     switch (groupType) {
     case 'contributors-input':
         // No validation for contributors input.
@@ -23,18 +20,18 @@ function getRequiredMessage(groupType?: string) {
     case 'long-text-input':
         break;
     case 'file-input':
-        requiredMessage = translations.validationErrors.mustSelectFileMinOne;
+        validationErrorType = 'mustSelectFileMinOne';
         break;
     case 'single-select-input':
-        requiredMessage = translations.validationErrors.mustSelect;
+        validationErrorType = 'mustSelect';
         break;
     case 'multi-select-input':
-        requiredMessage = translations.validationErrors.mustSelectMinOne;
+        validationErrorType = 'mustSelectMinOne';
         break;
     default:
         break;
     }
-    return requiredMessage;
+    return validationErrorType;
 }
 
 export function buildValidation(groups: SchemaBlockGroup[], node?: NodeModel) {
@@ -48,7 +45,7 @@ export function buildValidation(groups: SchemaBlockGroup[], node?: NodeModel) {
             const { inputBlock } = group;
             if (group.groupType === 'file-input') {
                 validationForResponse.push(
-                    validateFileList(node),
+                    validateFileList(responseKey as string, node),
                 );
             }
             if (inputBlock.required) {
@@ -58,7 +55,7 @@ export function buildValidation(groups: SchemaBlockGroup[], node?: NodeModel) {
                         ignoreBlank: true,
                         allowBlank: false,
                         allowNone: false,
-                        message: getRequiredMessage(group.groupType),
+                        type: getErrorType(group.groupType),
                     }),
                 );
             }
@@ -75,7 +72,7 @@ export function buildMetadataValidations() {
         ignoreBlank: true,
         allowBlank: false,
         allowNone: false,
-        message: translations.validationErrors.blank,
+        type: 'blank',
     })];
     set(validationObj, DraftMetadataProperties.Title, notBlank);
     set(validationObj, DraftMetadataProperties.Description, notBlank);

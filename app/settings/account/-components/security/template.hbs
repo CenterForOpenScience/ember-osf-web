@@ -28,7 +28,7 @@
                     {{t 'settings.account.security.onceVerified'}}
                 </p>
                 <p data-test-2f-scan-image>
-                    {{t 'settings.account.security.scanImage' secretKey=this.settings.secret}}
+                    {{t 'settings.account.security.scanImage' secretKey=this.settings.secret htmlSafe=true}}
                 </p>
                 <QrCode
                     data-test-2f-qr-code

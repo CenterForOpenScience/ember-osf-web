@@ -4,7 +4,7 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
@@ -17,7 +17,7 @@ import template from './template';
 @tagName('')
 export default class ProjectMetadata extends Component {
     @service analytics!: Analytics;
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service store!: DS.Store;
     @service toast!: Toast;
 
@@ -45,12 +45,12 @@ export default class ProjectMetadata extends Component {
 
     @action
     onSave() {
-        this.toast.success(this.i18n.t('app_components.project_metadata.save_success'));
+        this.toast.success(this.intl.t('app_components.project_metadata.save_success'));
         this.continue();
     }
 
     @action
     onError() {
-        this.toast.error(this.i18n.t('app_components.project_metadata.save_error'));
+        this.toast.error(this.intl.t('app_components.project_metadata.save_error'));
     }
 }
