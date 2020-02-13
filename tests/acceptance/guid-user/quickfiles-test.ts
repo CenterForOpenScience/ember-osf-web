@@ -1,5 +1,6 @@
 import {
     click as untrackedClick,
+    currentRouteName,
     currentURL,
     fillIn,
     settled,
@@ -512,10 +513,12 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             await untrackedClick(`[data-test-file-icon-and-name="${file.name}"]`);
             assert.dom('[data-test-view-button]').exists();
             await click('[data-test-view-button]');
-            assert.equal(currentURL(), '/xyzzy');
+            assert.equal(currentRouteName(), 'guid-file');
+            assert.ok(currentURL().startsWith('/--file/xyzzy'));
             await visit(`/--user/${currentUser.id}/quickfiles`);
             await click('[data-test-file-item-link]');
-            assert.equal(currentURL(), '/xyzzy');
+            assert.equal(currentRouteName(), 'guid-file');
+            assert.ok(currentURL().startsWith('/--file/xyzzy'));
         });
 
         test('can filter files', async assert => {
