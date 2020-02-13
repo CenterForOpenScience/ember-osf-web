@@ -3,6 +3,7 @@ import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 import { Link } from 'jsonapi-typescript';
 
+import SparseNodeModel from 'ember-osf-web/models/sparse-node';
 import ContributorModel from './contributor';
 import FileModel from './file';
 import InstitutionModel from './institution';
@@ -92,6 +93,9 @@ export default class UserModel extends OsfModel.extend(Validations) {
 
     @hasMany('user-email', { inverse: 'user' })
     emails!: DS.PromiseManyArray<UserEmailModel>;
+
+    @hasMany('sparse-node', { inverse: null })
+    sparseNodes!: DS.PromiseArray<SparseNodeModel>;
 
     // Calculated fields
     @alias('links.html') profileURL!: string;

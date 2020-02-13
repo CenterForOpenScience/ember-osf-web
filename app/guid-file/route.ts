@@ -42,8 +42,12 @@ export default class GuidFile extends Route {
     });
 
     async model(params: { guid: string }) {
+        const { guid } = params;
         try {
-            const file = await this.store.findRecord('file', params.guid);
+            let file = this.store.peekAll('file').findBy('guid', guid);
+            if (!file) {
+                file = await this.store.findRecord('file', guid);
+            }
             const fileId = file.get('id');
             const fileUser: User = await file.get('user');
             const user: User = await fileUser.reload();
@@ -59,7 +63,7 @@ export default class GuidFile extends Route {
                 files,
             };
         } catch (error) {
-            this.transitionTo('not-found', params.guid);
+            this.transitionTo('not-found', guid);
             throw error;
         }
     }
