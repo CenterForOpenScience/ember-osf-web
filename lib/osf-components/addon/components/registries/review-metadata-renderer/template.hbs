@@ -3,24 +3,27 @@
 
 <Registries::ReviewMetadataRenderer::LabelDisplay 
     @draftRegistration={{@draftRegistration}}
+    @changeset={{@metadataChangeset}}
     @field='title'
 >
-    <p>
+    <p local-class='ResponseValue {{unless @draftRegistration.title 'NoResponse'}}'>
         {{~if @draftRegistration.title @draftRegistration.title (t 'registries.registration_metadata.no_title')~}}
     </p>
 </Registries::ReviewMetadataRenderer::LabelDisplay>
 
 <Registries::ReviewMetadataRenderer::LabelDisplay 
     @draftRegistration={{@draftRegistration}}
+    @changeset={{@metadataChangeset}}
     @field='description'
 >
-    <p>
+    <p local-class='ResponseValue {{unless @draftRegistration.description 'NoResponse'}}'>
         {{~if @draftRegistration.description @draftRegistration.description (t 'registries.registration_metadata.no_description')~}}
     </p>
 </Registries::ReviewMetadataRenderer::LabelDisplay>
 
 <Registries::ReviewMetadataRenderer::LabelDisplay 
     @draftRegistration={{@draftRegistration}}
+    @changeset={{@metadataChangeset}}
     @field='category'
 >
     {{#if @draftRegistration.category}}
@@ -28,65 +31,73 @@
             @category={{@draftRegistration.category}}
         />
     {{else}}
-        {{t 'registries.form_view.none_selected'}}
+        <p local-class='ResponseValue {{unless @draftRegistration.category 'NoResponse'}}'>
+            {{t 'registries.form_view.none_selected'}}
+        </p>
     {{/if}}
 </Registries::ReviewMetadataRenderer::LabelDisplay>
 
 <Registries::ReviewMetadataRenderer::LabelDisplay 
     @draftRegistration={{@draftRegistration}}
+    @changeset={{@metadataChangeset}}
     @field='affiliated_institutions'
 >
-    <p>
-        {{#if @draftRegistration.affiliatedInstitutions}}
-            {{join ', ' @draftRegistration.affiliatedInstitutions}}
-        {{else}}
-            {{t 'registries.registration_metadata.no_affiliated_institutions'}}
-        {{/if}}
+    <p local-class='ResponseValue {{unless @draftRegistration.affiliatedInstitutions 'NoResponse'}}'>
+        {{~if @draftRegistration.affiliatedInstitutions (join ', ' @draftRegistration.affiliatedInstitutions)
+            (t 'registries.registration_metadata.no_affiliated_institutions')~}}
     </p>
 </Registries::ReviewMetadataRenderer::LabelDisplay>
 
 <Registries::ReviewMetadataRenderer::LabelDisplay 
     @draftRegistration={{@draftRegistration}}
+    @changeset={{@metadataChangeset}}
     @field='license'
 >
     {{#if @draftRegistration.license.name}} 
         <LicenseViewer @registration={{@draftRegistration}} />
     {{else}}
-        {{t 'registries.form_view.none_selected'}}
+        <p local-class='ResponseValue NoResponse'>
+            {{t 'registries.form_view.none_selected'}}
+        </p>
     {{/if}}
 </Registries::ReviewMetadataRenderer::LabelDisplay>
 
 <Registries::ReviewMetadataRenderer::LabelDisplay 
     @draftRegistration={{@draftRegistration}}
+    @changeset={{@metadataChangeset}}
     @field='subjects'
 >
     {{#if @draftRegistration.subjects}} 
         <Subjects::Display @subjects={{@draftRegistration.subjects}} />
     {{else}}
-        {{t 'registries.registration_metadata.no_subjects'}}
+        <p local-class='ResponseValue NoResponse'>
+            {{t 'registries.registration_metadata.no_subjects'}}
+        </p>
     {{/if}}
 
 </Registries::ReviewMetadataRenderer::LabelDisplay>
 
 <Registries::ReviewMetadataRenderer::LabelDisplay 
     @draftRegistration={{@draftRegistration}}
+    @changeset={{@metadataChangeset}}
     @field='tags'
 >
-    <p>
-        {{#if @draftRegistration.tags}}
-            <Drafts::Draft::-Components::TagsManager
-                @changeset={{@metadataChangeset}}
-                @registration={{@draftRegistration}}
-                @valuePath='tags'
-                as |tagsManager|
-            >
-                <RegistriesTagsWidget
-                    @manager={{tagsManager}}
-                    @readOnly={{true}}
-                />
-            </Drafts::Draft::-Components::TagsManager>
-        {{else}}
+    {{#if @draftRegistration.tags}}
+        <Drafts::Draft::-Components::TagsManager
+            @changeset={{@metadataChangeset}}
+            @registration={{@draftRegistration}}
+            @valuePath='tags'
+            @tags={{@draftRegistration.tags}}
+            as |tagsManager|
+        >
+            <RegistriesTagsWidget
+                @manager={{tagsManager}}
+                @readOnly={{true}}
+            />
+        </Drafts::Draft::-Components::TagsManager>
+    {{else}}
+        <p local-class='ResponseValue NoResponse'>
             {{t 'osf-components.tags-widget.no_tags'}}
-        {{/if}}
-    </p>
+        </p>
+    {{/if}}
 </Registries::ReviewMetadataRenderer::LabelDisplay>
