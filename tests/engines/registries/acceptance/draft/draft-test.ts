@@ -209,14 +209,23 @@ module('Registries | Acceptance | draft form', hooks => {
         await visit(`/registries/drafts/${registration.id}/`);
         setBreakpoint('mobile');
 
-        assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/1-`), 'At first schema page');
+        assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/metadata`), 'At metadata page');
+
+        // Check header
+        assert.dom('[data-test-page-label]').containsText('Metadata');
+
+        // Check next page arrow
+        assert.dom('[data-test-goto-previous-page]').isNotVisible();
+        assert.dom('[data-test-goto-next-page]').isVisible();
+        await click('[data-test-goto-next-page]');
 
         // Check header
         assert.dom('[data-test-page-label]').containsText('First page of Test Schema');
 
         // Check next page arrow
-        assert.dom('[data-test-goto-previous-page]').isNotVisible();
-        assert.dom('[data-test-goto-next-page]').isVisible();
+        assert.dom('[data-test-goto-metadata]').isVisible();
+
+        // Next page
         await click('[data-test-goto-next-page]');
 
         // Check that the header is expected
@@ -224,6 +233,7 @@ module('Registries | Acceptance | draft form', hooks => {
 
         // Check that left arrow exists
         assert.dom('[data-test-goto-previous-page]').isVisible();
+        assert.dom('[data-test-goto-metadata]').isNotVisible();
 
         // Check navigation to review page
         await click('[data-test-goto-review]');
