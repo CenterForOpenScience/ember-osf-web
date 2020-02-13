@@ -1,7 +1,7 @@
 {{title (t 'dashboard.page_title')}}
 <div data-analytics-scope='Dashboard'>
     {{#if this.modalOpen}}
-        {{#if this.showNewNodeNavigation}} 
+        {{#if this.showNewNodeNavigation}}
             <NewProjectNavigationModal
                 @node={{this.newNode}}
                 @closeModal={{action this.closeModal}}
@@ -30,7 +30,7 @@
                                         data-analytics-name='create_new_project'
                                         @onClick={{action this.openModal}}
                                         @type='success'
-                                        @class='m-t-md f-w-xl' 
+                                        @class='m-t-md f-w-xl'
                                     >
                                         {{t 'dashboard.create_new_project_button'}}
                                     </OsfButton>
@@ -55,7 +55,7 @@
                                                     >
                                                 </div>
                                             </div>
-                                            <p class='text-center f-w-lg'>{{t 'dashboard.quicksearch.other_links'}}</p>
+                                            <p class='text-center f-w-lg'>{{t 'dashboard.quicksearch.other_links' htmlSafe=true}}</p>
                                             <div local-class='quick-search-table'>
                                                 <div class='row m-t-md' local-class='node-col-headers'>
                                                     <div class='col-sm-3 col-md-6'>
@@ -168,7 +168,7 @@
         <div class='container'>
             <div class='row'>
                 <div class='col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2'>
-                    <InstitutionCarousel 
+                    <InstitutionCarousel
                         data-test-institution-carousel
                         @institutions={{this.institutions}}
                     />
@@ -195,7 +195,7 @@
                                     {{else}}
                                         {{#if this.noteworthy.length}}
                                             {{#each this.noteworthy as | project | }}
-                                                <NoteworthyAndPopularProject 
+                                                <NoteworthyAndPopularProject
                                                     data-test-noteworthy-project={{project.id}}
                                                     @project={{project}}
                                                 />

@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
@@ -17,7 +17,7 @@ export default class ConnectedEmails extends Component {
     // Private properties
     @service currentUser!: CurrentUser;
     @service store!: DS.Store;
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service toast!: Toast;
     userEmail!: UserEmail;
     showAddModal = false;
@@ -44,14 +44,14 @@ export default class ConnectedEmails extends Component {
             );
             return emails.length ? emails[0] : undefined;
         } catch (e) {
-            return this.i18n.t('settings.account.connected_emails.load_fail');
+            return this.intl.t('settings.account.connected_emails.load_fail');
         }
     });
 
     @task
     deleteEmail = task(function *(this: ConnectedEmails, email: UserEmail) {
-        const errorMessage = this.i18n.t('settings.account.connected_emails.delete_fail');
-        const successMessage = this.i18n.t('settings.account.connected_emails.delete_success');
+        const errorMessage = this.intl.t('settings.account.connected_emails.delete_fail');
+        const successMessage = this.intl.t('settings.account.connected_emails.delete_success');
 
         if (!email) {
             return undefined;
@@ -72,8 +72,8 @@ export default class ConnectedEmails extends Component {
 
     @task
     updatePrimaryEmail = task(function *(this: ConnectedEmails, email: UserEmail) {
-        const errorMessage = this.i18n.t('settings.account.connected_emails.update_fail');
-        const successMessage = this.i18n.t('settings.account.connected_emails.update_success');
+        const errorMessage = this.intl.t('settings.account.connected_emails.update_fail');
+        const successMessage = this.intl.t('settings.account.connected_emails.update_success');
 
         if (!email) {
             return undefined;
@@ -96,8 +96,8 @@ export default class ConnectedEmails extends Component {
 
     @task
     resendEmail = task(function *(this: ConnectedEmails, email: UserEmail) {
-        const errorMessage = this.i18n.t('settings.account.connected_emails.resend_fail');
-        const successMessage = this.i18n.t('settings.account.connected_emails.resend_success');
+        const errorMessage = this.intl.t('settings.account.connected_emails.resend_fail');
+        const successMessage = this.intl.t('settings.account.connected_emails.resend_success');
 
         if (!email) {
             return this.toast.error(errorMessage);
@@ -129,7 +129,7 @@ export default class ConnectedEmails extends Component {
             this.set('showAddModal', true);
             this.reloadUnconfirmedList();
 
-            this.toast.success(this.i18n.t('settings.account.connected_emails.save_success'));
+            this.toast.success(this.intl.t('settings.account.connected_emails.save_success'));
         }
     }
     @action

@@ -18,7 +18,6 @@ const {
     BACKEND: backend = 'local',
     CAS_URL: casUrl = 'http://192.168.168.167:8080',
     CLIENT_ID: clientId,
-    ENABLED_LOCALES = 'en, en-US',
     COLLECTIONS_ENABLED = false,
     REGISTRIES_ENABLED = true,
     HANDBOOK_ENABLED = false,
@@ -98,10 +97,6 @@ module.exports = function(environment) {
             // Here you can pass flags/options to your application instance
             // when it is created
         },
-        i18n: {
-            defaultLocale: 'en-US',
-            enabledLocales: ENABLED_LOCALES.split(/[, ]+/),
-        },
         moment: {
             includeTimezone: 'all',
             outputFormat: 'YYYY-MM-DD h:mm A z',
@@ -158,7 +153,7 @@ module.exports = function(environment) {
             apiUrl,
             apiVersion,
             apiHeaders: {
-                ACCEPT: `application/vnd.api+json; version=${apiVersion}`,
+                Accept: `application/vnd.api+json; version=${apiVersion}`,
             },
             learnMoreUrl: 'https://cos.io/our-products/osf/',
             renderUrl,
@@ -311,6 +306,9 @@ module.exports = function(environment) {
         },
         'ember-cli-mirage': {
             enabled: Boolean(MIRAGE_ENABLED),
+        },
+        'changeset-validations': {
+            rawOutput: true,
         },
         mirageScenarios: MIRAGE_SCENARIOS,
 

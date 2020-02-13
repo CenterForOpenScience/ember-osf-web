@@ -5,7 +5,7 @@ import { inject as service } from '@ember/service';
 import { timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import License from 'ember-osf-web/models/license';
@@ -21,14 +21,15 @@ import template from './template';
 @layout(template, styles)
 export default class LicensePicker extends Component {
     @service analytics!: Analytics;
-    @service i18n!: I18N;
     @service store!: DS.Store;
     @service theme!: Theme;
+    @service intl!: Intl;
 
     showText: boolean = false;
     node: Node = this.node;
     licensesAcceptable!: QueryHasManyResult<License>;
     helpLink: string = 'https://openscience.zendesk.com/hc/en-us/articles/360019739014';
+    placeholder: string = this.intl.t('registries.registration_metadata.select_license');
 
     @alias('theme.provider') provider!: Provider;
     @alias('node.license') selected!: License;

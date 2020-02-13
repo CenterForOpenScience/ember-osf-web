@@ -5,7 +5,7 @@ import { inject as service } from '@ember/service';
 import { timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
-import I18n from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import UserEmail from 'ember-osf-web/models/user-email';
@@ -31,7 +31,7 @@ type MessageLevel = 'error' | 'info' | 'success' | 'warning';
 
 export default class VerifyEmailModal extends Component {
     @service currentUser!: CurrentUser;
-    @service i18n!: I18n;
+    @service intl!: Intl;
     @service store!: DS.Store;
     @service toast!: Toast;
 
@@ -142,9 +142,9 @@ export default class VerifyEmailModal extends Component {
         userEmail: UserEmail,
     ) {
         this.toast[level](
-            this.i18n.t(
+            this.intl.t(
                 this.translationKeys[key],
-                { email: userEmail.emailAddress },
+                { email: userEmail.emailAddress, htmlSafe: true },
             ),
         );
     }

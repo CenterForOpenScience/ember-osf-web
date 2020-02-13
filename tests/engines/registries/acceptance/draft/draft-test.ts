@@ -1,7 +1,8 @@
 import Service from '@ember/service';
 import { click, currentRouteName, currentURL, fillIn, settled } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { t } from 'ember-i18n/test-support';
+import { t } from 'ember-intl/test-support';
+import { setBreakpoint } from 'ember-responsive/test-support';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
@@ -196,6 +197,57 @@ module('Registries | Acceptance | draft form', hooks => {
         // Can navigate back to the last page from review page
         await click('[data-test-goto-previous-page]');
         assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/2-`), 'At second (last) page');
+    });
+
+    test('mobile navigation works', async assert => {
+        const initiator = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const registration = server.create(
+            'draft-registration', { registrationSchema, initiator },
+        );
+
+        await visit(`/registries/drafts/${registration.id}/`);
+        setBreakpoint('mobile');
+
+        assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/metadata`), 'At metadata page');
+
+        // Check header
+        assert.dom('[data-test-page-label]').containsText('Metadata');
+
+        // Check next page arrow
+        assert.dom('[data-test-goto-previous-page]').isNotVisible();
+        assert.dom('[data-test-goto-next-page]').isVisible();
+        await click('[data-test-goto-next-page]');
+
+        // Check header
+        assert.dom('[data-test-page-label]').containsText('First page of Test Schema');
+
+        // Check next page arrow
+        assert.dom('[data-test-goto-metadata]').isVisible();
+
+        // Next page
+        await click('[data-test-goto-next-page]');
+
+        // Check that the header is expected
+        assert.dom('[data-test-page-label]').containsText('This is the second page');
+
+        // Check that left arrow exists
+        assert.dom('[data-test-goto-previous-page]').isVisible();
+        assert.dom('[data-test-goto-metadata]').isNotVisible();
+
+        // Check navigation to review page
+        await click('[data-test-goto-review]');
+        assert.dom('[data-test-page-label]').containsText('Review');
+        assert.dom('[data-test-goto-next-page]').isNotVisible();
+        assert.dom('[data-test-goto-register]').isVisible();
+
+        // check that register button is disabled
+        assert.dom('[data-test-goto-register]').isDisabled();
+        assert.dom('[data-test-invalid-responses-text]').isVisible();
+
+        // Check that back button works
+        await click('[data-test-goto-previous-page]');
+        assert.dom('[data-test-page-label]').containsText('This is the second page');
     });
 
     test('register button is disabled: invalid responses', async assert => {
