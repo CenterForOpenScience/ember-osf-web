@@ -167,7 +167,9 @@ export default class SubjectManagerComponent extends Component {
                 this.selectSubject(subject.parent);
             }
         }
-        this.saveChanges.perform();
+        if (this.doesAutosave) {
+            this.saveChanges.perform();
+        }
     }
 
     @action
@@ -182,7 +184,9 @@ export default class SubjectManagerComponent extends Component {
                 .filter(s => s.belongsTo('parent').id() === subject.id)
                 .forEach(s => this.unselectSubject(s));
         }
-        this.saveChanges.perform();
+        if (this.doesAutosave) {
+            this.saveChanges.perform();
+        }
     }
 
     @action
