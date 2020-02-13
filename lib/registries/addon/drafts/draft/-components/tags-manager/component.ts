@@ -3,9 +3,12 @@ import Component from '@ember/component';
 import { action } from '@ember/object';
 import { ChangesetDef } from 'ember-changeset/types';
 import config from 'ember-get-config';
+
 import { layout } from 'ember-osf-web/decorators/component';
+import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import { TagsManager } from 'osf-components/components/editable-field/tags-manager/component';
+
 import template from './template';
 
 const {
@@ -22,6 +25,7 @@ export default class MetadataTagsManagerComponent extends Component {
     valuePath!: string;
 
     // optional
+    registration?: DraftRegistrationModel;
     onMetadataInput?: () => void;
 
     // properties

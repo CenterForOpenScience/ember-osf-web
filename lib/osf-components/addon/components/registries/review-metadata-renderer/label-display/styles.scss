@@ -1,0 +1,3 @@
+.ValidationErrors {
+    composes: ValidationErrors from '../../schema-block-renderer/read-only/response/styles.scss';
+}

@@ -1,0 +1,7 @@
+.ResponseValue {
+    composes: ResponseValue from '../schema-block-renderer/read-only/response/styles.scss';
+}
+
+.NoResponse {
+    composes: NoResponse from '../schema-block-renderer/read-only/response/styles.scss';
+}

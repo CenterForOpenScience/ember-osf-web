@@ -1,5 +1,6 @@
 {{assert 'Registries::ReviewMetadataRenderer::LabelDisplay requires a draftRegistration' @draftRegistration}}
 {{assert 'Registries::ReviewMetadataRenderer::LabelDisplay requires a field' @field}}
+{{assert 'Registries::ReviewMetadataRenderer::LabelDisplay requires a changeset' @changeset}}
 <h3>
     {{t (concat 'registries.registration_metadata.' @field)}}
     <OsfLink
@@ -14,6 +15,6 @@
 {{yield}}
 <ValidationErrors
     local-class='ValidationErrors'
-    @changeset={{@draftRegistration.metadataChangeset}}
+    @changeset={{@changeset}}
     @key={{@field}}
 />
