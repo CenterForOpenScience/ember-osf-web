@@ -3,7 +3,6 @@ import Component from '@ember/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
-import I18N from 'ember-i18n/services/i18n';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -21,7 +20,6 @@ export default class MetadataInstitutionsManagerComponent extends Component {
     node!: Node;
 
     // private properties
-    @service i18n!: I18N;
     @service toast!: Toast;
     @service currentUser!: CurrentUser;
 
