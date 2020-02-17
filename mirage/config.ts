@@ -103,7 +103,7 @@ export default function(this: Server) {
     osfNestedResource(this, 'draft-registration', 'subjects');
 
     osfToManyRelationship(this, 'draft-registration', 'affiliatedInstitutions', {
-        only: ['related', 'add', 'remove'],
+        only: ['related', 'update', 'add', 'remove'],
         path: '/draft_registrations/:parentID/relationships/institutions',
     });
 

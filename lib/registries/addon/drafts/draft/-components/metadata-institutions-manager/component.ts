@@ -65,5 +65,6 @@ export default class MetadataInstitutionsManagerComponent extends Component {
         } else {
             this.currentAffiliatedList.pushObject(institution);
         }
+        this.save.perform();
     }
 }
