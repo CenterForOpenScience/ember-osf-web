@@ -63,7 +63,7 @@ function registrationScenario(
     const childNodeA = server.create('node', { parent: rootNode });
     server.create('node', { parent: childNodeA });
     server.create('node', { parent: childNodeA });
-    const licenseReqFields = server.schema.licenses.find('5c252c8e0989e100220edb7d');
+    const licenseReqFields = server.schema.licenses.findBy({ name: 'MIT License' });
 
     server.create('draft-registration', {
         id: 'dcaf',

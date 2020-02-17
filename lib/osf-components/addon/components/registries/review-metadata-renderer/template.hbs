@@ -32,7 +32,7 @@
         />
     {{else}}
         <p local-class='ResponseValue {{unless @draftRegistration.category 'NoResponse'}}'>
-            {{t 'registries.form_view.none_selected'}}
+            {{~t 'registries.form_view.none_selected'~}}
         </p>
     {{/if}}
 </Registries::ReviewMetadataRenderer::LabelDisplay>
@@ -57,7 +57,7 @@
         <LicenseViewer @registration={{@draftRegistration}} />
     {{else}}
         <p local-class='ResponseValue NoResponse'>
-            {{t 'registries.form_view.none_selected'}}
+            {{~t 'registries.form_view.none_selected'~}}
         </p>
     {{/if}}
 </Registries::ReviewMetadataRenderer::LabelDisplay>
@@ -71,7 +71,7 @@
         <Subjects::Display @subjects={{@draftRegistration.subjects}} />
     {{else}}
         <p local-class='ResponseValue NoResponse'>
-            {{t 'registries.registration_metadata.no_subjects'}}
+            {{~t 'registries.registration_metadata.no_subjects'~}}
         </p>
     {{/if}}
 
@@ -97,7 +97,7 @@
         </Drafts::Draft::-Components::TagsManager>
     {{else}}
         <p local-class='ResponseValue NoResponse'>
-            {{t 'osf-components.tags-widget.no_tags'}}
+            {{~t 'osf-components.tags-widget.no_tags'~}}
         </p>
     {{/if}}
 </Registries::ReviewMetadataRenderer::LabelDisplay>

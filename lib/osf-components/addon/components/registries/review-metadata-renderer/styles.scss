@@ -1,7 +1,8 @@
 .ResponseValue {
-    composes: ResponseValue from '../schema-block-renderer/read-only/response/styles.scss';
+    composes: Element from '../schema-block-renderer/styles.scss';
+    white-space: pre-wrap;
 }
 
 .NoResponse {
-    composes: NoResponse from '../schema-block-renderer/read-only/response/styles.scss';
+    font-style: italic;
 }
