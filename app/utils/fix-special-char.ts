@@ -4,11 +4,8 @@
  * Template helper and ember-data field versions of this function are available.
  */
 export default function fixSpecialChar(inputString: string = ''): string | null {
-    if (inputString !== null) {
-        return inputString
-            .replace(/&amp;/gi, '&')
-            .replace(/&lt;/gi, '<')
-            .replace(/&gt;/gi, '>');
-    }
-    return null;
+    return inputString
+        .replace(/&amp;/gi, '&')
+        .replace(/&lt;/gi, '<')
+        .replace(/&gt;/gi, '>');
 }

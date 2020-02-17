@@ -18,7 +18,7 @@ export default class RegistrationResponsesTransform extends Transform {
         return mapKeysAndValues(
             obj,
             key => deserializeResponseKey(key),
-            value => fixSpecialChars(value as string),
+            value => (typeof value === 'string' ? fixSpecialChars(value) : value),
         );
     }
 
