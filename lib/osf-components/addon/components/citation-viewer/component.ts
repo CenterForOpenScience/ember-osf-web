@@ -85,6 +85,6 @@ export default class CitationViewer extends Component {
             url: citationUrl(this.citable, citationStyle.id),
         });
         const citationString = response.data.attributes!.citation;
-        return typeof citationString = 'string' ? fixSpecialChars(citationString) : citationString;
+        return typeof citationString === 'string' ? fixSpecialChars(citationString) : citationString;
     });
 }
