@@ -25,6 +25,18 @@
                 @options={{this.categoryOptions}}
                 @onchange={{perform this.draftManager.onMetadataInput}}
             />
+            {{#let (unique-id 'institutions') as |institutionsFieldId|}}
+                <label for={{institutionsFieldId}}>{{t 'registries.registration_metadata.affiliated_institutions'}}</label>
+                <Drafts::Draft::-Components::MetadataInstitutionsManager 
+                    @node={{this.draftManager.draftRegistration}}
+                    as |institutionsManager|
+                >
+                    <InstitutionSelectList
+                        @manager={{institutionsManager}}
+                        id={{institutionsFieldId}}
+                    />
+                </Drafts::Draft::-Components::MetadataInstitutionsManager>
+            {{/let}}
             <Drafts::Draft::-Components::Managers::LicensePickerManager
                 @draftManager={{this.draftManager}}
                 as |licenseManager|
