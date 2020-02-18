@@ -48,6 +48,18 @@ export default class DraftRegistrationSerializer extends ApplicationSerializer<D
                     },
                 },
             },
+            affiliatedInstitutions: {
+                links: {
+                    self: {
+                        href: `${apiUrl}/v2/draft_registrations/${model.id}/relationships/institutions/`,
+                        meta: {},
+                    },
+                    related: {
+                        href: `${apiUrl}/v2/draft_registrations/${model.id}/institutions/`,
+                        meta: this.buildRelatedLinkMeta(model, 'affiliatedInstitutions'),
+                    },
+                },
+            },
             subjects: {
                 links: {
                     related: {
