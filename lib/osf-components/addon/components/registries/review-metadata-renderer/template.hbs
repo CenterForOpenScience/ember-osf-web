@@ -40,7 +40,8 @@
     @field='affiliated_institutions'
     local-class='{{unless @draftRegistration.affiliatedInstitutions 'NoResponse'}}'
 >
-    {{~if @draftRegistration.affiliatedInstitutions (join ', ' @draftRegistration.affiliatedInstitutions)
+    {{~if @draftRegistration.affiliatedInstitutions 
+        (join ', ' (map-by 'name' @draftRegistration.affiliatedInstitutions))
         (t 'registries.registration_metadata.no_affiliated_institutions')~}}
 </Registries::ReviewMetadataRenderer::LabelDisplay>
 
