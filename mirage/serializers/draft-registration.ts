@@ -62,9 +62,13 @@ export default class DraftRegistrationSerializer extends ApplicationSerializer<D
             },
             subjects: {
                 links: {
+                    self: {
+                        href: `${apiUrl}/v2/draft_registrations/${model.id}/relationships/subjects/`,
+                        meta: {},
+                    },
                     related: {
                         href: `${apiUrl}/v2/draft_registrations/${model.id}/subjects`,
-                        meta: {},
+                        meta: this.buildRelatedLinkMeta(model, 'subjects'),
                     },
                 },
             },
