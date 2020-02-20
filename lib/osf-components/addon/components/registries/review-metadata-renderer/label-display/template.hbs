@@ -1,7 +1,7 @@
 {{assert 'Registries::ReviewMetadataRenderer::LabelDisplay requires a draftRegistration' @draftRegistration}}
 {{assert 'Registries::ReviewMetadataRenderer::LabelDisplay requires a field' @field}}
 {{assert 'Registries::ReviewMetadataRenderer::LabelDisplay requires a changeset' @changeset}}
-<h3>
+<p local-class='DisplayText'>
     {{t (concat 'registries.registration_metadata.' @field)}}
     <OsfLink
         aria-label={{t 'general.edit' (concat 'registries.registration_metadata.' @field)}}
@@ -11,7 +11,7 @@
     >
         <FaIcon @icon='edit' />
     </OsfLink>
-</h3>
+</p>
 {{yield}}
 <ValidationErrors
     local-class='ValidationErrors'
