@@ -1,8 +1,7 @@
-.ResponseValue {
-    composes: Element from '../schema-block-renderer/styles.scss';
-    white-space: pre-wrap;
-}
-
 .NoResponse {
     font-style: italic;
+}
+
+.TextResponse {
+    white-space: pre-wrap;
 }

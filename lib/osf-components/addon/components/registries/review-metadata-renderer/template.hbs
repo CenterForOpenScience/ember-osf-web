@@ -5,35 +5,32 @@
     @draftRegistration={{@draftRegistration}}
     @changeset={{@metadataChangeset}}
     @field='title'
+    local-class='TextResponse {{unless @draftRegistration.title 'NoResponse'}}'
 >
-    <p local-class='ResponseValue {{unless @draftRegistration.title 'NoResponse'}}'>
-        {{~if @draftRegistration.title @draftRegistration.title (t 'registries.registration_metadata.no_title')~}}
-    </p>
+    {{~if @draftRegistration.title @draftRegistration.title (t 'registries.registration_metadata.no_title')~}}
 </Registries::ReviewMetadataRenderer::LabelDisplay>
 
 <Registries::ReviewMetadataRenderer::LabelDisplay 
     @draftRegistration={{@draftRegistration}}
     @changeset={{@metadataChangeset}}
     @field='description'
+    local-class='TextResponse {{unless @draftRegistration.description 'NoResponse'}}'
 >
-    <p local-class='ResponseValue {{unless @draftRegistration.description 'NoResponse'}}'>
-        {{~if @draftRegistration.description @draftRegistration.description (t 'registries.registration_metadata.no_description')~}}
-    </p>
+    {{~if @draftRegistration.description @draftRegistration.description (t 'registries.registration_metadata.no_description')~}}
 </Registries::ReviewMetadataRenderer::LabelDisplay>
 
 <Registries::ReviewMetadataRenderer::LabelDisplay 
     @draftRegistration={{@draftRegistration}}
     @changeset={{@metadataChangeset}}
     @field='category'
+    local-class='{{unless @draftRegistration.category 'NoResponse'}}'
 >
     {{#if @draftRegistration.category}}
         <NodeCategory
             @category={{@draftRegistration.category}}
         />
     {{else}}
-        <p local-class='ResponseValue {{unless @draftRegistration.category 'NoResponse'}}'>
-            {{~t 'registries.form_view.none_selected'~}}
-        </p>
+        {{~t 'registries.form_view.none_selected'~}}
     {{/if}}
 </Registries::ReviewMetadataRenderer::LabelDisplay>
 
@@ -41,24 +38,22 @@
     @draftRegistration={{@draftRegistration}}
     @changeset={{@metadataChangeset}}
     @field='affiliated_institutions'
+    local-class='{{unless @draftRegistration.affiliatedInstitutions 'NoResponse'}}'
 >
-    <p local-class='ResponseValue {{unless @draftRegistration.affiliatedInstitutions 'NoResponse'}}'>
-        {{~if @draftRegistration.affiliatedInstitutions (join ', ' @draftRegistration.affiliatedInstitutions)
-            (t 'registries.registration_metadata.no_affiliated_institutions')~}}
-    </p>
+    {{~if @draftRegistration.affiliatedInstitutions (join ', ' @draftRegistration.affiliatedInstitutions)
+        (t 'registries.registration_metadata.no_affiliated_institutions')~}}
 </Registries::ReviewMetadataRenderer::LabelDisplay>
 
 <Registries::ReviewMetadataRenderer::LabelDisplay 
     @draftRegistration={{@draftRegistration}}
     @changeset={{@metadataChangeset}}
     @field='license'
+    local-class='{{unless @draftRegistration.license.name 'NoResponse'}}'
 >
     {{#if @draftRegistration.license.name}} 
         <LicenseViewer @registration={{@draftRegistration}} />
     {{else}}
-        <p local-class='ResponseValue NoResponse'>
-            {{~t 'registries.form_view.none_selected'~}}
-        </p>
+        {{~t 'registries.form_view.none_selected'~}}
     {{/if}}
 </Registries::ReviewMetadataRenderer::LabelDisplay>
 
@@ -66,13 +61,12 @@
     @draftRegistration={{@draftRegistration}}
     @changeset={{@metadataChangeset}}
     @field='subjects'
+    local-class='{{unless @draftRegistration.subjects 'NoResponse'}}'
 >
     {{#if @draftRegistration.subjects}} 
         <Subjects::Display @subjects={{@draftRegistration.subjects}} />
     {{else}}
-        <p local-class='ResponseValue NoResponse'>
-            {{~t 'registries.registration_metadata.no_subjects'~}}
-        </p>
+        {{~t 'registries.registration_metadata.no_subjects'~}}
     {{/if}}
 
 </Registries::ReviewMetadataRenderer::LabelDisplay>
@@ -81,6 +75,7 @@
     @draftRegistration={{@draftRegistration}}
     @changeset={{@metadataChangeset}}
     @field='tags'
+    local-class='{{unless @draftRegistration.tags 'NoResponse'}}'
 >
     {{#if @draftRegistration.tags}}
         <Drafts::Draft::-Components::TagsManager
@@ -96,8 +91,6 @@
             />
         </Drafts::Draft::-Components::TagsManager>
     {{else}}
-        <p local-class='ResponseValue NoResponse'>
-            {{~t 'osf-components.tags-widget.no_tags'~}}
-        </p>
+        {{~t 'osf-components.tags-widget.no_tags'~}}
     {{/if}}
 </Registries::ReviewMetadataRenderer::LabelDisplay>

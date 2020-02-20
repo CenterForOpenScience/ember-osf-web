@@ -1,3 +1,8 @@
+.ResponseValue {
+    composes: Element from '../../schema-block-renderer/styles.scss';
+    margin: 10px 0 0;
+}
+
 .ValidationErrors {
     composes: Element from '../../schema-block-renderer/styles.scss';
 }
@@ -5,4 +10,5 @@
 .DisplayText {
     font-size: 14px;
     font-weight: 700;
+    margin: 20px 0 0;
 }

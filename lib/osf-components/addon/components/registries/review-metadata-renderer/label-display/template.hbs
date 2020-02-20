@@ -12,7 +12,9 @@
         <FaIcon @icon='edit' />
     </OsfLink>
 </p>
-{{yield}}
+<p local-class='ResponseValue' ...attributes>
+    {{~yield~}}
+</p>
 <ValidationErrors
     local-class='ValidationErrors'
     @changeset={{@changeset}}
