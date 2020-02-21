@@ -24,7 +24,10 @@
                 @valuePath='category'
                 @options={{this.categoryOptions}}
                 @onchange={{perform this.draftManager.onMetadataInput}}
-            />
+                as |option|
+            >
+                <NodeCategory @category={{option}} />
+            </form.select>
             {{#let (unique-id 'institutions') as |institutionsFieldId|}}
                 <label for={{institutionsFieldId}}>{{t 'registries.registration_metadata.affiliated_institutions'}}</label>
                 <Drafts::Draft::-Components::MetadataInstitutionsManager 
