@@ -14,7 +14,7 @@ export default class RegistriesDraftMetadata extends Controller {
     @alias('model.draftRegistrationManager') draftManager!: DraftRegistrationManager;
     @alias('model.draftRegistrationManager.initializing') loading!: boolean;
 
-    categoryOptions = Object.keys(NodeCategory);
+    categoryOptions = Object.values(NodeCategory);
 
     @not('media.isDesktop') showMobileView!: boolean;
 }
