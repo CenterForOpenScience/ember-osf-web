@@ -21,7 +21,7 @@ import template from './template';
 export interface DraftRegistrationManager {
     registrationResponsesIsValid: boolean;
     hasInvalidResponses: boolean;
-    registrationResponses: RegistrationResponse;
+    draftRegistration: DraftRegistration;
     schemaBlocks: SchemaBlock[];
     currentPageManager: PageManager;
     pageManagers: PageManager[];
