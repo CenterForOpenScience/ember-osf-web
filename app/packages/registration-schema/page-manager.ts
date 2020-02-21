@@ -34,10 +34,6 @@ export class PageManager {
                 lookupValidator(validations),
                 validations,
             ) as ChangesetDef;
-
-            if (Object.values(registrationResponses).length) {
-                this.changeset.validate();
-            }
         } else {
             assert('PageManager: schemaBlockGroups is not defined.');
         }
