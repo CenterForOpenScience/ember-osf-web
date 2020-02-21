@@ -1,0 +1,22 @@
+{{assert 'Registries::ReviewMetadataRenderer::LabelDisplay requires a draftRegistration' @draftRegistration}}
+{{assert 'Registries::ReviewMetadataRenderer::LabelDisplay requires a field' @field}}
+{{assert 'Registries::ReviewMetadataRenderer::LabelDisplay requires a changeset' @changeset}}
+<p local-class='DisplayText'>
+    {{t (concat 'registries.registration_metadata.' @field)}}
+    <OsfLink
+        aria-label={{t 'general.edit' (concat 'registries.registration_metadata.' @field)}}
+        @route='registries.drafts.draft.metadata'
+        @models={{array @draftRegistration.id }}
+        @fragment={{@field}}
+    >
+        <FaIcon @icon='edit' />
+    </OsfLink>
+</p>
+<p local-class='ResponseValue' ...attributes>
+    {{~yield~}}
+</p>
+<ValidationErrors
+    local-class='ValidationErrors'
+    @changeset={{@changeset}}
+    @key={{@field}}
+/>

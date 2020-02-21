@@ -27,6 +27,7 @@ export default class DraftRegistrationManager {
 
     pageManagers: PageManager[] = [];
     metadataChangeset!: ChangesetDef;
+    schemaBlocks!: SchemaBlock[];
 
     @alias('draftRegistration.id') draftId!: string;
     @or('onPageInput.isRunning', 'onMetadataInput.isRunning') autoSaving!: boolean;
@@ -63,6 +64,7 @@ export default class DraftRegistrationManager {
         set(this, 'node', node);
         const registrationSchema = yield this.draftRegistration.registrationSchema;
         const schemaBlocks: SchemaBlock[] = yield registrationSchema.loadAll('schemaBlocks');
+        set(this, 'schemaBlocks', schemaBlocks);
         const pages = getPages(schemaBlocks);
         const { registrationResponses } = this.draftRegistration;
 

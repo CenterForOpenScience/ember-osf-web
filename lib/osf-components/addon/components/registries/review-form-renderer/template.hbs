@@ -1,8 +1,5 @@
 {{assert 'Registries::ReviewFormRenderer requires a draftManager' @draftManager}}
 {{assert 'Registries::ReviewFormRenderer requires a node' @node}}
-<Registries::RegistrationFormNavigationDropdown
-    @schemaBlocks={{@draftManager.schemaBlocks}}
-/>
 {{#each @draftManager.pageManagers as |pageManager|}}
     {{#each pageManager.schemaBlockGroups as |group|}}
         <Registries::SchemaBlockGroupRenderer
