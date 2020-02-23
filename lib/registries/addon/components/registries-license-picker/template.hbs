@@ -1,9 +1,6 @@
-<ValidatedModelForm
+<FormControls
     data-test-license-edit-form
-    @model={{@manager.registration}}
     @changeset={{@manager.changeset}}
-    @onSave={{@manager.onSave}}
-    @onError={{@manager.onError}}
     as |form|
 >
     <form.select
@@ -37,23 +34,17 @@
         {{#if @manager.requiredFields}}
             <br>
         {{/if}}
-
-        <form.custom @valuePath='nodeLicense'>
-            {{#each @manager.requiredFields as |key|}}
-                <div class='form-group'>
-                    <label>
-                        {{t (concat 'app_components.license_picker.fields.' key)}}
-                        <Input
-                            data-test-required-field={{key}}
-                            @class='form-control'
-                            @value={{mut (get @manager.registration.nodeLicense key)}}
-                            @placeholder={{t 'general.required'}}
-                            @key-up={{action this.onInput}}
-                        />
-                    </label>
-                </div>
-            {{/each}}
-        </form.custom>
+        {{#each @manager.requiredFields as |key|}}
+            <div class='form-group'>
+                <label>
+                    {{t (concat 'app_components.license_picker.fields.' key)}}
+                    <form.text
+                        @changeset={{@manager.changeset}}
+                        @valuePath={{concat 'nodeLicense.' key}}
+                    />
+                </label>
+            </div>
+        {{/each}}
 
         <OsfButton
             @type='link'
@@ -71,7 +62,6 @@
             <div local-class='Controls'>
                 <OsfButton
                     @type='default'
-                    @disabled={{form.disabled}}
                     @onClick={{@manager.cancel}}
                 >
                     {{t 'general.cancel'}}
@@ -81,11 +71,11 @@
                     data-test-save-license
                     @type='primary'
                     @buttonType='submit'
-                    @disabled={{form.disabled}}
+                    @onClick={{@manager.save}}
                 >
                     {{t 'general.save'}}
                 </OsfButton>
             </div>
         {{/if}}
     {{/if}}
-</ValidatedModelForm>
+</FormControls>
