@@ -9,6 +9,7 @@ import CitationStyle from 'ember-osf-web/models/citation-style';
 import Node from 'ember-osf-web/models/node';
 import Preprint from 'ember-osf-web/models/preprint';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import fixSpecialChars from 'ember-osf-web/utils/fix-special-char';
 import getRelatedHref from 'ember-osf-web/utils/get-related-href';
 import { addPathSegment } from 'ember-osf-web/utils/url-parts';
 import { SingleResourceDocument } from 'osf-api';
@@ -60,7 +61,9 @@ export default class CitationViewer extends Component {
         );
         return responses.map((r, i) => ({
             ...defaultCitations[i],
-            citation: r.data.attributes!.citation,
+            citation: typeof r.data.attributes!.citation === 'string' ?
+                fixSpecialChars(r.data.attributes!.citation) :
+                r.data.attributes!.citation,
         }));
     });
 
@@ -81,6 +84,7 @@ export default class CitationViewer extends Component {
         const response: SingleResourceDocument = yield this.currentUser.authenticatedAJAX({
             url: citationUrl(this.citable, citationStyle.id),
         });
-        return response.data.attributes!.citation;
+        const citationString = response.data.attributes!.citation;
+        return typeof citationString === 'string' ? fixSpecialChars(citationString) : citationString;
     });
 }
