@@ -79,7 +79,11 @@ export default class OsfCookie extends Base {
         }
 
         // Push the user into the store for later use
-        this.store.pushPayload(userData);
+        try {
+            this.store.pushPayload(userData);
+        } catch (error) {
+            throw error;
+        }
 
         const { id } = userData.data;
         this.set('lastVerifiedUserId', id);
