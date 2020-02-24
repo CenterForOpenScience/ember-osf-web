@@ -86,6 +86,11 @@ module('Registries | Acceptance | draft form', hooks => {
             .hasClass('fa-circle', 'page 2 is marked unvisited');
         assert.dom('[data-test-link="review"] > [data-test-icon]')
             .hasClass('fa-circle', 'review is marked unvisited');
+        assert.dom('[data-test-goto-metadata]').doesNotExist();
+        assert.dom('[data-test-goto-previous-page]').doesNotExist();
+        assert.dom('[data-test-goto-next-page]').isVisible();
+        assert.dom('[data-test-goto-review]').doesNotExist();
+        assert.dom('[data-test-goto-register]').doesNotExist();
 
         // Navigate to second page
         await click('[data-test-link="2-this-is-the-second-page"]');
@@ -98,6 +103,11 @@ module('Registries | Acceptance | draft form', hooks => {
             .hasClass('fa-circle-o', 'page 2 is marked as current page');
         assert.dom('[data-test-link="review"] > [data-test-icon]')
             .hasClass('fa-circle', 'review is marked unvisited');
+        assert.dom('[data-test-goto-metadata]').doesNotExist();
+        assert.dom('[data-test-goto-previous-page]').isVisible();
+        assert.dom('[data-test-goto-next-page]').doesNotExist();
+        assert.dom('[data-test-goto-review]').isVisible();
+        assert.dom('[data-test-goto-register]').doesNotExist();
 
         // Navigate to first page
         await click('[data-test-link="1-first-page-of-test-schema"]');
@@ -109,6 +119,11 @@ module('Registries | Acceptance | draft form', hooks => {
             .hasClass('fa-check-circle-o', 'page 2 is marked visited, valid');
         assert.dom('[data-test-link="review"] > [data-test-icon]')
             .hasClass('fa-circle', 'review is marked unvisited');
+        assert.dom('[data-test-goto-metadata]').isVisible();
+        assert.dom('[data-test-goto-previous-page]').doesNotExist();
+        assert.dom('[data-test-goto-next-page]').isVisible();
+        assert.dom('[data-test-goto-review]').doesNotExist();
+        assert.dom('[data-test-goto-register]').doesNotExist();
 
         // Navigate back to metadata
         await click('[data-test-link="metadata"]');
@@ -118,6 +133,11 @@ module('Registries | Acceptance | draft form', hooks => {
             .hasClass('fa-check-circle-o', 'page 2 is marked visited, valid');
         assert.dom('[data-test-link="review"] > [data-test-icon]')
             .hasClass('fa-circle', 'review is marked unvisited');
+        assert.dom('[data-test-goto-metadata]').doesNotExist();
+        assert.dom('[data-test-goto-previous-page]').doesNotExist();
+        assert.dom('[data-test-goto-next-page]').isVisible();
+        assert.dom('[data-test-goto-review]').doesNotExist();
+        assert.dom('[data-test-goto-register]').doesNotExist();
 
         // Navigate to review
         await click('[data-test-link="review"]');
@@ -130,6 +150,11 @@ module('Registries | Acceptance | draft form', hooks => {
             .hasClass('fa-check-circle-o', 'page 2 is marked visited, valid');
         assert.dom('[data-test-link="review"] > [data-test-icon]')
             .hasClass('fa-circle-o', 'review is marked current');
+        assert.dom('[data-test-goto-metadata]').doesNotExist();
+        assert.dom('[data-test-goto-previous-page]').isVisible();
+        assert.dom('[data-test-goto-next-page]').doesNotExist();
+        assert.dom('[data-test-goto-review]').doesNotExist();
+        assert.dom('[data-test-goto-register]').isVisible();
     });
 
     test('right sidenav controls', async assert => {
