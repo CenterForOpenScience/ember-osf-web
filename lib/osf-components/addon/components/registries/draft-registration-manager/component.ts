@@ -35,6 +35,7 @@ export interface DraftRegistrationManager {
 
     onInput(): void;
     onPageChange(): void;
+    onPageLoad(): void;
 }
 
 @tagName('')
@@ -198,20 +199,25 @@ export default class DraftRegistrationManagerComponent extends Component {
     });
 
     @action
-    onPageChange(_: HTMLElement, [currentPage, inReview, onLoad]: [number, boolean, boolean]) {
+    onPageChange(_: HTMLElement, [currentPage, inReview]: [number, boolean]) {
         if (inReview) {
             this.markAllPagesVisited();
-            if (!onLoad) {
+            this.saveAllVisitedPages.perform();
+            this.validateAllVisitedPages();
+        } else {
+            if (this.hasVisitedPages) {
                 this.saveAllVisitedPages.perform();
                 this.validateAllVisitedPages();
             }
+            this.markCurrentPageVisited(currentPage);
+        }
+    }
+
+    @action
+    onPageLoad(_: HTMLElement, [currentPage, inReview]: [number, boolean]) {
+        if (inReview) {
+            this.markAllPagesVisited();
         } else {
-            if (this.hasVisitedPages) {
-                if (!onLoad) {
-                    this.saveAllVisitedPages.perform();
-                    this.validateAllVisitedPages();
-                }
-            }
             this.markCurrentPageVisited(currentPage);
         }
     }
