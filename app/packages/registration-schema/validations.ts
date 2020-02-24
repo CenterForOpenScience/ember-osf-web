@@ -65,6 +65,32 @@ export function buildValidation(groups: SchemaBlockGroup[], node?: NodeModel) {
     return ret;
 }
 
+export function validateNodeLicense() {
+    return (_: any, __: any, ___: any, changes: DraftRegistration, ____: any) => {
+        if (changes.license.requiredFields.length === 0) {
+            return true;
+        }
+        const missingFieldsList: string[] = [];
+        for (const item of changes.license.requiredFields) {
+            if (!changes.nodeLicense![item]) {
+                missingFieldsList.push(item);
+            }
+        }
+        if (missingFieldsList.length === 0) {
+            return true;
+        }
+        const missingFields = missingFieldsList.join(', ');
+        return {
+            context: {
+                type: 'node_license_missing_fields',
+                translationArgs: {
+                    missingFields,
+                },
+            },
+        };
+    };
+}
+
 export function buildMetadataValidations() {
     const validationObj: ValidationObject<DraftRegistration> = {};
     const notBlank: ValidatorFunction[] = [validatePresence({

@@ -3,22 +3,25 @@
     @changeset={{@manager.changeset}}
     as |form|
 >
-    <form.select
-        data-analytics-category='text'
-        data-analytics-name='Select license'
-        data-test-select-license
-        @id='license-select'
-        @valuePath='license'
-        @selected={{@manager.selectedLicense}}
-        @options={{@manager.licensesAcceptable}}
-        @onchange={{@manager.changeLicense}}
-        @searchField={{'name'}}
-        @noMatchesMessage={{t 'registries.registration_metadata.no_matches'}}
-        @placeholder={{t 'registries.registration_metadata.add_license'}}
-        as |license|
-    >
-        {{license.name}}
-    </form.select>
+    {{#if @manager.licensesAcceptable}}
+        <form.select
+            data-analytics-category='text'
+            data-analytics-name='Select license'
+            data-test-select-license
+            @id='license-select'
+            @valuePath='license'
+            @selected={{@manager.selectedLicense}}
+            @options={{@manager.licensesAcceptable}}
+            @onchange={{@manager.changeLicense}}
+            @searchField={{'name'}}
+            @noMatchesMessage={{t 'registries.registration_metadata.no_matches'}}
+            @placeholder={{t 'registries.registration_metadata.add_license'}}
+        as |license|>
+            {{license.name}}
+        </form.select>
+    {{else}}
+        <LoadingIndicator @dark={{true}}/>
+    {{/if}}
 
     <div local-class='small help-link'>
         <OsfLink
@@ -34,17 +37,23 @@
         {{#if @manager.requiredFields}}
             <br>
         {{/if}}
-        {{#each @manager.requiredFields as |key|}}
-            <div class='form-group'>
-                <label>
-                    {{t (concat 'app_components.license_picker.fields.' key)}}
-                    <form.text
-                        @changeset={{@manager.changeset}}
-                        @valuePath={{concat 'nodeLicense.' key}}
-                    />
-                </label>
-            </div>
-        {{/each}}
+        <form.custom
+            @changeset={{@manager.changeset}}
+            @valuePath='nodeLicense'
+        >
+            {{#each @manager.requiredFields as |key|}}
+                <div class='form-group'>
+                    <label>
+                        {{t (concat 'app_components.license_picker.fields.' key)}}
+                        <Input data-test-required-field={{key}} @class='form-control'
+                            @value={{readonly (get @manager.changeset.nodeLicense key)}}
+                            @placeholder={{t 'general.required'}}
+                            @key-up={{action @manager.updateNodeLicense key}}
+                        />
+                    </label>
+                </div>
+            {{/each}}
+        </form.custom>
 
         <OsfButton
             @type='link'
@@ -71,6 +80,7 @@
                     data-test-save-license
                     @type='primary'
                     @buttonType='submit'
+                    @disabled={{@manager.changeset.isInvalid}}
                     @onClick={{@manager.save}}
                 >
                     {{t 'general.save'}}

@@ -17,7 +17,9 @@ import Analytics from 'ember-osf-web/services/analytics';
 import { LicenseManager } from 'registries/components/registries-license-picker/component';
 
 import Changeset from 'ember-changeset';
+import lookupValidator, { ValidationObject } from 'ember-changeset-validations';
 import { ChangesetDef } from 'ember-changeset/types';
+import { validateNodeLicense } from 'ember-osf-web/packages/registration-schema/validations';
 import template from './template';
 
 @tagName('')
@@ -76,7 +78,12 @@ export default class LicenseManagerComponent extends Component implements Licens
 
     didReceiveAttrs() {
         if (!this.changeset) {
-            this.changeset = new Changeset(this.node) as ChangesetDef;
+            const validatorObject: ValidationObject<Registration> = { nodeLicense: validateNodeLicense() };
+            this.changeset = new Changeset(
+                this.node,
+                lookupValidator(validatorObject),
+                validatorObject,
+            ) as ChangesetDef;
         }
     }
 
@@ -105,13 +112,6 @@ export default class LicenseManagerComponent extends Component implements Licens
     }
 
     setNodeLicenseDefaults(requiredFields: Array<keyof NodeLicense>): void {
-        // if (!requiredFields.length && this.nodeLicense) {
-        //     // If the nodeLicense exists, notify property change so that validation is triggered
-        //     this.notifyPropertyChange('nodeLicense');
-
-        //     return;
-        // }
-
         const {
             copyrightHolders = '',
             year = new Date().getUTCFullYear().toString(),
@@ -129,6 +129,7 @@ export default class LicenseManagerComponent extends Component implements Licens
         );
         set(this.changeset, 'nodeLicense', props);
     }
+
     @action
     async save() {
         try {
@@ -145,8 +146,10 @@ export default class LicenseManagerComponent extends Component implements Licens
         this.toast.success(this.intl.t('registries.registration_metadata.edit_license.success'));
     }
 
-    // @action
-    // onError() {
-    //     this.toast.error(this.intl.t('registries.registration_metadata.edit_license.error'));
-    // }
+    @action
+    updateNodeLicense(key: any, newValue: any) {
+        const newNodeLicense = { ...this.changeset.get('nodeLicense') };
+        newNodeLicense[key] = newValue;
+        set(this.changeset, 'nodeLicense', newNodeLicense);
+    }
 }
