@@ -10,7 +10,7 @@ export function validateFileList(responseKey: string, node?: NodeModel): Validat
         if (newValue && node) {
             const fileReloads: Array<() => Promise<File>> = [];
             newValue.forEach(file => {
-                if (file && !file.isError && typeof file.reload === 'function') {
+                if (file && !file.isError) {
                     fileReloads.push(file.reload());
                 }
             });

@@ -295,7 +295,7 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-circle-o', 'page 1 is current page');
 
-        await visit(`/registries/drafts/${registration.id}/2`);
+        await click('[data-test-goto-next-page]');
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
             .hasClass('fa-circle-o', 'page 2 is current page');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')

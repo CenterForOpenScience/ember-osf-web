@@ -198,15 +198,19 @@ export default class DraftRegistrationManagerComponent extends Component {
     });
 
     @action
-    onPageChange(_: HTMLElement, [currentPage, inReview]: [number, boolean]) {
+    onPageChange(_: HTMLElement, [currentPage, inReview, onLoad]: [number, boolean, boolean]) {
         if (inReview) {
             this.markAllPagesVisited();
             this.saveAllVisitedPages.perform();
-            this.validateAllVisitedPages();
+            if (!onLoad) {
+                this.validateAllVisitedPages();
+            }
         } else {
             if (this.hasVisitedPages) {
                 this.saveAllVisitedPages.perform();
-                this.validateAllVisitedPages();
+                if (!onLoad) {
+                    this.validateAllVisitedPages();
+                }
             }
             this.markCurrentPageVisited(currentPage);
         }
