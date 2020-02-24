@@ -52,7 +52,7 @@ export default class NavigationManager {
         return pageManagers.length - 1;
     }
 
-    @computed('currentPage', 'pageManagers.[]', 'currentRoute')
+    @computed('currentPage', 'pageManagers.[]', 'inMetadata', 'lastPage')
     get nextPageParam() {
         const {
             pageManagers,
@@ -77,7 +77,7 @@ export default class NavigationManager {
         return '';
     }
 
-    @computed('currentPage', 'pageManagers.[]', 'currentRoute')
+    @computed('currentPage', 'pageManagers.[]', 'inReview', 'lastPage')
     get prevPageParam() {
         const {
             pageManagers,
