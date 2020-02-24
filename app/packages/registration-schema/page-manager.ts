@@ -22,7 +22,6 @@ export class PageManager {
         this.schemaBlockGroups = getSchemaBlockGroups(pageSchemaBlocks);
         if (this.schemaBlockGroups) {
             this.pageHeadingText = this.schemaBlockGroups[0].labelBlock!.displayText!;
-            this.isVisited = false;
 
             this.isVisited = this.schemaBlockGroups.some(
                 ({ registrationResponseKey: key }) => Boolean(key && (key in registrationResponses)),
@@ -35,7 +34,7 @@ export class PageManager {
                 validations,
             ) as ChangesetDef;
 
-            if (Object.values(registrationResponses).length) {
+            if (this.isVisited) {
                 this.changeset.validate();
             }
         } else {
