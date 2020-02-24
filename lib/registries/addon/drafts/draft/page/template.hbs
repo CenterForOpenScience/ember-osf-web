@@ -72,7 +72,7 @@
                 </layout.leftNav>
                 <layout.main local-class='Main'>
                     <main
-                        {{did-insert draftManager.onPageChange this.pageIndex this.inReview}}
+                        {{did-insert draftManager.onPageLoad this.pageIndex this.inReview}}
                         {{did-update draftManager.onPageChange this.pageIndex this.inReview}}
                     >
                         {{#if this.inReview}}
