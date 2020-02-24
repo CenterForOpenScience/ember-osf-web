@@ -16,6 +16,7 @@ export default Factory.extend<DraftRegistration & DraftRegistrationTraits>({
     afterCreate(newDraft, server) {
         newDraft.update({
             provider: server.schema.registrationProviders.find('osf'),
+            license: server.schema.licenses.find('5c252c8e0989e100220edb6e'),
         });
     },
 

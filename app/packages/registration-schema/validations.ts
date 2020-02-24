@@ -66,7 +66,7 @@ export function buildValidation(groups: SchemaBlockGroup[], node?: NodeModel) {
 }
 
 export function validateNodeLicense() {
-    return async (_: any, __: any, ___: any, changes: DraftRegistration, content: DraftRegistration) => {
+    return async (_: unknown, __: unknown, ___: unknown, changes: DraftRegistration, content: DraftRegistration) => {
         let validateLicenseTarget = await content.license;
         let validateNodeLicenseTarget = content.nodeLicense;
         if (changes.license) {

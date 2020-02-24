@@ -134,7 +134,6 @@ export default class LicenseManagerComponent extends Component implements Licens
     async save() {
         try {
             await this.changeset.save({});
-            this.node.save();
             this.setProperties({
                 currentLicense: this.selectedLicense,
                 currentNodeLicense: { ...this.node.nodeLicense },
@@ -147,9 +146,10 @@ export default class LicenseManagerComponent extends Component implements Licens
     }
 
     @action
-    updateNodeLicense(key: any, newValue: any) {
+    updateNodeLicense(key: string, event: Event) {
+        const target = event.target as HTMLInputElement;
         const newNodeLicense = { ...this.changeset.get('nodeLicense') };
-        newNodeLicense[key] = newValue;
+        newNodeLicense[key] = target.value;
         set(this.changeset, 'nodeLicense', newNodeLicense);
     }
 }
