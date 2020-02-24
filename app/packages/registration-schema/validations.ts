@@ -66,13 +66,21 @@ export function buildValidation(groups: SchemaBlockGroup[], node?: NodeModel) {
 }
 
 export function validateNodeLicense() {
-    return (_: any, __: any, ___: any, changes: DraftRegistration, ____: any) => {
-        if (changes.license.requiredFields.length === 0) {
+    return (_: any, __: any, ___: any, changes: DraftRegistration, content: DraftRegistration) => {
+        let validateLicenseTarget = content.license;
+        let validateNodeLicenseTarget = content.nodeLicense;
+        if (changes.license) {
+            validateLicenseTarget = changes.license;
+        }
+        if (changes.nodeLicense) {
+            validateNodeLicenseTarget = changes.nodeLicense;
+        }
+        if (validateLicenseTarget.get('requiredFields').length === 0) {
             return true;
         }
         const missingFieldsList: string[] = [];
-        for (const item of changes.license.requiredFields) {
-            if (!changes.nodeLicense![item]) {
+        for (const item of validateLicenseTarget.get('requiredFields')) {
+            if (!validateNodeLicenseTarget![item]) {
                 missingFieldsList.push(item);
             }
         }
@@ -103,5 +111,6 @@ export function buildMetadataValidations() {
     set(validationObj, DraftMetadataProperties.Title, notBlank);
     set(validationObj, DraftMetadataProperties.Description, notBlank);
     set(validationObj, DraftMetadataProperties.License, notBlank);
+    set(validationObj, DraftMetadataProperties.NodeLicenseProperty, validateNodeLicense());
     return validationObj;
 }
