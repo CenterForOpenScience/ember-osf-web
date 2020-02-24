@@ -50,7 +50,7 @@
                                 @class='form-control'
                                 @value={{readonly (get @manager.changeset.nodeLicense key)}}
                                 @placeholder={{t 'general.required'}}
-                                @change={{action @manager.updateNodeLicense key}}
+                                @change={{fn @manager.updateNodeLicense key}}
                             />
                         </label>
                     </div>
