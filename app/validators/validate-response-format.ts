@@ -8,7 +8,13 @@ import { allSettled } from 'rsvp';
 export function validateFileList(responseKey: string, node?: NodeModel): ValidatorFunction {
     return async (_: string, newValue: File[]) => {
         if (newValue && node) {
-            await allSettled(newValue.map(file => file.reload()));
+            const fileReloads: Array<() => Promise<File>> = [];
+            newValue.forEach(file => {
+                if (file && !file.isError) {
+                    fileReloads.push(file.reload());
+                }
+            });
+            await allSettled(fileReloads);
 
             const detachedFiles = [];
 
