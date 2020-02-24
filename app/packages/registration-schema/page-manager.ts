@@ -34,6 +34,7 @@ export class PageManager {
                 lookupValidator(validations),
                 validations,
             ) as ChangesetDef;
+
             if (Object.values(registrationResponses).length) {
                 this.changeset.validate();
             }
