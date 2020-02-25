@@ -2,6 +2,7 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { computed, set } from '@ember/object';
+import { underscore } from '@ember/string';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import { DraftMetadataProperties } from 'ember-osf-web/models/draft-registration';
@@ -32,9 +33,12 @@ export default class RegistrationFormNavigationDropdown extends Component {
 
     didReceiveAttrs() {
         assert('Registries::RegistrationFormNavigationDropdown requires @schemablocks!', Boolean(this.schemaBlocks));
-        const metadataFields = Object.values(DraftMetadataProperties);
-        metadataFields.removeAt(metadataFields.indexOf('nodeLicense'));
-        metadataFields.replace(metadataFields.indexOf('affiliatedInstitutions'), 1, ['affiliated_institutions']);
-        set(this, 'metadataFields', metadataFields);
+        set(
+            this,
+            'metadataFields',
+            Object.values(DraftMetadataProperties)
+                .filter(prop => prop !== DraftMetadataProperties.NodeLicenseProperty)
+                .map(underscore),
+        );
     }
 }
