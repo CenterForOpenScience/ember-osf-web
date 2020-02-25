@@ -16,11 +16,12 @@ const { attr, belongsTo, hasMany } = DS;
 export enum DraftMetadataProperties {
     Title = 'title',
     Description = 'description',
-    Tags = 'tags',
     Category = 'category',
+    AffiliatedInstitutions = 'affiliatedInstitutions',
     License = 'license',
     NodeLicenseProperty = 'nodeLicense',
     Subjects = 'subjects',
+    Tags = 'tags',
 }
 
 export default class DraftRegistrationModel extends OsfModel {

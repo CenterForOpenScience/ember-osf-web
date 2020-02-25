@@ -143,6 +143,7 @@ export default class DraftRegistrationManager {
 
     @action
     onPageChange(currentPage: number) {
+        this.metadataChangeset.validate();
         if (this.hasVisitedPages) {
             this.validateAllVisitedPages();
             this.saveAllVisitedPages.perform();

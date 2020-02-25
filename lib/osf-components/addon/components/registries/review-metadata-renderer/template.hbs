@@ -1,5 +1,5 @@
 {{assert 'Registries::ReviewMetadataRenderer requires a draftRegistration' @draftRegistration}}
-<h2>{{t 'registries.drafts.draft.metadata.page_label'}}</h2>
+<h2 id='MetadataPageLabel'>{{t 'registries.drafts.draft.metadata.page_label'}}</h2>
 
 <Registries::ReviewMetadataRenderer::LabelDisplay 
     @draftRegistration={{@draftRegistration}}
@@ -38,6 +38,7 @@
     @draftRegistration={{@draftRegistration}}
     @changeset={{@metadataChangeset}}
     @field='affiliated_institutions'
+    @fieldText='affiliated institutions'
     local-class='{{unless @draftRegistration.affiliatedInstitutions 'NoResponse'}}'
 >
     {{~if @draftRegistration.affiliatedInstitutions 

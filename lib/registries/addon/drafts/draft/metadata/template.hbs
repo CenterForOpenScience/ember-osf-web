@@ -15,7 +15,11 @@
             as |form|
         >
             {{#let (unique-id 'title') as |titleFieldId|}}
-                <label local-class='Label' for={{titleFieldId}}>
+                <label
+                    local-class='Label'
+                    for={{titleFieldId}}
+                    id='title'
+                >
                     <p local-class='DisplayText'>
                         {{t 'registries.registration_metadata.title'}}
                         <span local-class='Required'>*</span>
@@ -31,7 +35,11 @@
                 />
             {{/let}}
             {{#let (unique-id 'description') as |descriptionFieldId|}}
-                <label local-class='Label' for={{descriptionFieldId}}>
+                <label
+                    local-class='Label'
+                    for={{descriptionFieldId}}
+                    id='description'
+                >
                     <p local-class='DisplayText'>
                         {{t 'registries.registration_metadata.description'}}
                         <span local-class='Required'>*</span>
@@ -49,6 +57,7 @@
             <form.select
                 data-test-metadata-category
                 local-class='SchemaBlockDropdown'
+                id='category'
                 @label={{t 'registries.registration_metadata.category'}}
                 @valuePath='category'
                 @options={{this.categoryOptions}}
@@ -58,7 +67,10 @@
                 <NodeCategory @category={{option}} />
             </form.select>
             {{#let (unique-id 'institutions') as |institutionsFieldId|}}
-                <label for={{institutionsFieldId}}>
+                <label 
+                    for={{institutionsFieldId}}
+                    id='affiliated_institutions'
+                >
                     {{t 'registries.registration_metadata.affiliated_institutions'}}
                 </label>
                 <Drafts::Draft::-Components::MetadataInstitutionsManager 
@@ -75,7 +87,10 @@
                 @draftManager={{this.draftManager}}
                 as |licenseManager|
             >
-                <label for='license-select'>
+                <label
+                    for='license-select'
+                    id='license'
+                >
                     {{t 'registries.registration_metadata.choose_license'}}
                 </label>
                 <RegistriesLicensePicker
@@ -84,7 +99,10 @@
                 />
             </Drafts::Draft::-Components::Managers::LicensePickerManager>
             {{#let (unique-id 'subjects') as |subjectsFieldId|}}
-                <label for={{subjectsFieldId}}>
+                <label
+                    for={{subjectsFieldId}}
+                    id='subjects'
+                >
                     {{t 'registries.registration_metadata.subjects'}}
                 </label>
                 <Subjects::Manager
@@ -100,7 +118,10 @@
                 </Subjects::Manager>
             {{/let}}
             {{#let (unique-id 'tags') as |tagsFieldId|}}
-                <label for={{tagsFieldId}}>
+                <label
+                    for={{tagsFieldId}}
+                    id='tags'
+                >
                     {{t 'registries.registration_metadata.tags'}}
                 </label>
                 <Drafts::Draft::-Components::TagsManager
