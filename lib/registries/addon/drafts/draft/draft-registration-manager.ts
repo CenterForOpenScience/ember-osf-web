@@ -87,7 +87,6 @@ export default class DraftRegistrationManager {
         const metadataValidations = buildMetadataValidations();
         const metadataChangeset = buildChangeset(draftRegistration, metadataValidations);
         set(this, 'metadataChangeset', metadataChangeset);
-        metadataChangeset.validate();
     });
 
     @task({ restartable: true })

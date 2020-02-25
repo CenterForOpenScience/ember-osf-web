@@ -75,12 +75,12 @@ export function validateNodeLicense() {
         if (changes.nodeLicense) {
             validateNodeLicenseTarget = changes.nodeLicense;
         }
-        if (validateLicenseTarget.get('requiredFields').length === 0) {
+        if (!validateLicenseTarget || validateLicenseTarget.get('requiredFields').length === 0) {
             return true;
         }
         const missingFieldsList: string[] = [];
         for (const item of validateLicenseTarget.get('requiredFields')) {
-            if (!validateNodeLicenseTarget![item]) {
+            if (!validateNodeLicenseTarget || !validateNodeLicenseTarget[item]) {
                 missingFieldsList.push(item);
             }
         }

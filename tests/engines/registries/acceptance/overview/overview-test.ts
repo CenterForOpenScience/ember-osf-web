@@ -407,7 +407,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         await visit(`/${reg.id}/`);
 
         assert.dom('[data-test-edit-button="license"]').isVisible();
-        // await pauseTest();
+
         await click('[data-test-edit-button="license"]');
 
         assert.dom('[data-test-license-edit-form]').isVisible();
