@@ -1,8 +1,9 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import { computed, set } from '@ember/object';
+import { computed } from '@ember/object';
 import { underscore } from '@ember/string';
+import { tracked } from '@glimmer/tracking';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import { DraftMetadataProperties } from 'ember-osf-web/models/draft-registration';
@@ -18,6 +19,7 @@ export default class RegistrationFormNavigationDropdown extends Component {
     schemaBlocks!: SchemaBlock[];
 
     // Private properties
+    @tracked
     metadataFields!: string[];
 
     @computed('schemaBlocks')
@@ -33,12 +35,8 @@ export default class RegistrationFormNavigationDropdown extends Component {
 
     didReceiveAttrs() {
         assert('Registries::RegistrationFormNavigationDropdown requires @schemablocks!', Boolean(this.schemaBlocks));
-        set(
-            this,
-            'metadataFields',
-            Object.values(DraftMetadataProperties)
-                .filter(prop => prop !== DraftMetadataProperties.NodeLicenseProperty)
-                .map(underscore),
-        );
+        this.metadataFields = Object.values(DraftMetadataProperties)
+            .filter(prop => prop !== DraftMetadataProperties.NodeLicenseProperty)
+            .map(underscore);
     }
 }
