@@ -47,8 +47,6 @@ export default Factory.extend<DraftRegistration & DraftRegistrationTraits>({
 
     registrationSchema: association() as DraftRegistration['registrationSchema'],
 
-    license: association() as DraftRegistration['license'],
-
     registrationMetadata: {},
 
     nodeLicense: { copyrightHolders: 'Fergie', year: '3008' } as NodeLicense,

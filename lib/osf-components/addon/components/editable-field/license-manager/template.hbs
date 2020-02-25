@@ -1,7 +1,6 @@
 {{yield (hash
+    save=this.save
     cancel=this.cancel
-    onSave=this.onSave
-    onError=this.onError
     changeLicense=this.changeLicense
     fieldIsEmpty=this.fieldIsEmpty
     emptyFieldText=(t 'registries.registration_metadata.no_license')
@@ -13,5 +12,6 @@
     requiredFields=this.requiredFields
     selectedLicense=this.selectedLicense
     licensesAcceptable=this.licensesAcceptable
-    isSaving=this.save.isRunning
+    changeset=this.changeset
+    updateNodeLicense=this.updateNodeLicense
 )}}

@@ -65,6 +65,40 @@ export function buildValidation(groups: SchemaBlockGroup[], node?: NodeModel) {
     return ret;
 }
 
+export function validateNodeLicense() {
+    return async (_: unknown, __: unknown, ___: unknown, changes: DraftRegistration, content: DraftRegistration) => {
+        let validateLicenseTarget = await content.license;
+        let validateNodeLicenseTarget = content.nodeLicense;
+        if (changes.license) {
+            validateLicenseTarget = changes.license;
+        }
+        if (changes.nodeLicense) {
+            validateNodeLicenseTarget = changes.nodeLicense;
+        }
+        if (!validateLicenseTarget || validateLicenseTarget.get('requiredFields').length === 0) {
+            return true;
+        }
+        const missingFieldsList: string[] = [];
+        for (const item of validateLicenseTarget.get('requiredFields')) {
+            if (!validateNodeLicenseTarget || !validateNodeLicenseTarget[item]) {
+                missingFieldsList.push(item);
+            }
+        }
+        if (missingFieldsList.length === 0) {
+            return true;
+        }
+        const missingFields = missingFieldsList.join(', ');
+        return {
+            context: {
+                type: 'node_license_missing_fields',
+                translationArgs: {
+                    missingFields,
+                },
+            },
+        };
+    };
+}
+
 export function buildMetadataValidations() {
     const validationObj: ValidationObject<DraftRegistration> = {};
     const notBlank: ValidatorFunction[] = [validatePresence({
@@ -77,5 +111,6 @@ export function buildMetadataValidations() {
     set(validationObj, DraftMetadataProperties.Title, notBlank);
     set(validationObj, DraftMetadataProperties.Description, notBlank);
     set(validationObj, DraftMetadataProperties.License, notBlank);
+    set(validationObj, DraftMetadataProperties.NodeLicenseProperty, validateNodeLicense());
     return validationObj;
 }

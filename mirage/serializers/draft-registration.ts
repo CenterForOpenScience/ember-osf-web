@@ -1,13 +1,13 @@
 import { ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
-import ApplicationSerializer from './application';
+import ApplicationSerializer, { SerializedRelationships } from './application';
 
 const { OSF: { apiUrl } } = config;
 
 export default class DraftRegistrationSerializer extends ApplicationSerializer<DraftRegistration> {
     buildRelationships(model: ModelInstance<DraftRegistration>) {
-        return {
+        const returnValue: SerializedRelationships<DraftRegistration> = {
             branchedFrom: {
                 data: {
                     id: model.branchedFrom.id,
@@ -72,7 +72,9 @@ export default class DraftRegistrationSerializer extends ApplicationSerializer<D
                     },
                 },
             },
-            license: {
+        };
+        if (model.license) {
+            returnValue.license = {
                 data: {
                     id: model.license.id,
                     type: 'licenses',
@@ -83,8 +85,9 @@ export default class DraftRegistrationSerializer extends ApplicationSerializer<D
                         meta: {},
                     },
                 },
-            },
-        };
+            };
+        }
+        return returnValue;
     }
 
     buildNormalLinks(model: ModelInstance<DraftRegistration>) {

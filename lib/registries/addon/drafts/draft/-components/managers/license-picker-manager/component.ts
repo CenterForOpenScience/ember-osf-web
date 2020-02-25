@@ -1,6 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
-import { action } from '@ember/object';
+import { action, set } from '@ember/object';
 import { alias, sort } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
@@ -75,5 +75,14 @@ export default class LicensePickerManager extends Component implements LicenseMa
     @action
     onInput() {
         this.draftManager.onMetadataInput.perform();
+    }
+
+    @action
+    updateNodeLicense(key: string, event: Event) {
+        const target = event.target as HTMLInputElement;
+        const newNodeLicense = { ...this.draftManager.metadataChangeset.get('nodeLicense') };
+        newNodeLicense[key] = target.value;
+        set(this.draftManager.metadataChangeset, 'nodeLicense', newNodeLicense);
+        this.onInput();
     }
 }
