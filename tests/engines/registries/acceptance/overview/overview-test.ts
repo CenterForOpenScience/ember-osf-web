@@ -9,6 +9,7 @@ import { TestContext } from 'ember-test-helpers';
 import moment from 'moment';
 import { module, test } from 'qunit';
 
+import { DraftMetadataProperties } from 'ember-osf-web/models/draft-registration';
 import { NodeCategory } from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import Registration from 'ember-osf-web/models/registration';
@@ -218,6 +219,9 @@ module('Registries | Acceptance | overview.overview', hooks => {
                 blockType === 'subsection-heading' ||
                 blockType === 'question-label'
             ) && displayText);
+        const metadataFieldAnchors = Object.values(DraftMetadataProperties)
+            .filter(prop => prop !== DraftMetadataProperties.NodeLicenseProperty);
+        const totalAnchorCount = blocksWithAnchors.length + metadataFieldAnchors.length;
         await visit(`/${reg.id}/`);
 
         assert.dom('[data-test-toggle-anchor-nav-button]').isVisible();
@@ -226,7 +230,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         await click('[data-test-toggle-anchor-nav-button]');
 
         assert.dom('[data-test-anchor-nav-title]').isVisible();
-        assert.dom('[data-test-page-anchor]').exists({ count: blocksWithAnchors.length });
+        assert.dom('[data-test-page-anchor]').exists({ count: totalAnchorCount });
     });
 
     test('Check head meta tags', async assert => {
