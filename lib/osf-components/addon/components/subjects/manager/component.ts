@@ -114,6 +114,7 @@ export default class SubjectManagerComponent extends Component {
 
         try {
             yield this.model.updateM2MRelationship('subjects', selectedSubjects);
+            yield this.model.reload();
         } catch (e) {
             this.toast.error(this.intl.t('registries.registration_metadata.save_subjects_error'));
             throw e;
