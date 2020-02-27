@@ -1,5 +1,5 @@
-import { service } from '@ember-decorators/service';
-import { task } from 'ember-concurrency';
+import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
 
@@ -16,6 +16,7 @@ export default class PaginatedAll extends BaseDataComponent {
     // Private properties
     @service store!: DS.Store;
 
+    @task
     loadItemsTask = task(function *(this: PaginatedAll) {
         const items: any = yield this.store.query(this.modelName, {
             page: this.page,

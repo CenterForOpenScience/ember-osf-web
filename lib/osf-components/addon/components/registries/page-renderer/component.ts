@@ -16,8 +16,8 @@ export default class PageRenderer extends Component {
     pageManager!: PageManager;
     node!: NodeModel;
 
-    constructor(...args: any[]) {
-        super(...args);
+    init() {
+        super.init();
         assert('A pageManger is needed for page-renderer', Boolean(this.pageManager));
     }
 }

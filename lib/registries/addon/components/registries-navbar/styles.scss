@@ -37,9 +37,7 @@
     background-color: $midnight-blue;
     border-radius: 2px;
     border: 0;
-    left: auto;
-    right: 0;
-    top: 35px;
+    top: 10px;
 
     // Override bootstrap/osf-style
     & > li > a:hover {
@@ -121,6 +119,8 @@
 
 .AuthDropdownMenu {
     font-size: 16px;
+    right: 0;
+    left: auto;
 
     // Logout and sign in buttons
     & > li > :global(.btn.btn-link) {

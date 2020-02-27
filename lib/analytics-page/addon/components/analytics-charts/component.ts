@@ -1,7 +1,7 @@
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { inject as service } from '@ember/service';
 import { TaskInstance } from 'ember-concurrency';
-import I18n from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import KeenDataviz from 'keen-dataviz';
 import moment, { Moment } from 'moment';
 
@@ -15,9 +15,9 @@ export interface ChartSpec {
     titleKey: string;
     keenQueryType: string;
     keenQueryOptions: any;
-    processData?: (data: any, i18n: I18n, node: Node) => any;
+    processData?: (data: any, intl: Intl, node: Node) => any;
     fakeData?: () => any;
-    configureChart(chart: KeenDataviz, i18n: I18n): void;
+    configureChart(chart: KeenDataviz, intl: Intl): void;
 }
 
 function excludeNonIntegers(d: any) {
@@ -27,7 +27,7 @@ function excludeNonIntegers(d: any) {
 @layout(template)
 export default class AnalyticsChart extends Component {
     @service keen!: KeenService;
-    @service i18n!: I18n;
+    @service intl!: Intl;
 
     // Required arguments
     nodeTaskInstance!: TaskInstance<Node>;
@@ -44,7 +44,7 @@ export default class AnalyticsChart extends Component {
                 interval: 'daily',
                 target_property: 'anon.id',
             },
-            configureChart(chart: KeenDataviz, i18n: I18n) {
+            configureChart(chart: KeenDataviz, intl: Intl) {
                 chart.type('line')
                     .dateFormat('%b %d')
                     .chartOptions({
@@ -54,7 +54,7 @@ export default class AnalyticsChart extends Component {
                         tooltip: {
                             format: {
                                 title: (x: Date) => x.toDateString(),
-                                name: () => i18n.t('analytics.visits'),
+                                name: () => intl.t('analytics.visits'),
                             },
                         },
                         axis: {
@@ -90,18 +90,18 @@ export default class AnalyticsChart extends Component {
                 target_property: 'anon.id',
                 group_by: 'time.local.hour_of_day',
             },
-            configureChart(chart: KeenDataviz, i18n: I18n) {
+            configureChart(chart: KeenDataviz, intl: Intl) {
                 chart.type('bar')
                     .chartOptions({
                         tooltip: {
                             format: {
-                                name: () => i18n.t('analytics.visits'),
+                                name: () => intl.t('analytics.visits'),
                             },
                         },
                         axis: {
                             x: {
                                 label: {
-                                    text: i18n.t('analytics.hourOfDay'),
+                                    text: intl.t('analytics.hourOfDay'),
                                     position: 'outer-center',
                                 },
                                 tick: {
@@ -166,20 +166,20 @@ export default class AnalyticsChart extends Component {
                 order_by: [{ property_name: 'result', direction: 'DESC' }],
                 limit: 10,
             },
-            configureChart(chart: KeenDataviz, i18n: I18n) {
+            configureChart(chart: KeenDataviz, intl: Intl) {
                 chart.type('pie')
                     .chartOptions({
                         tooltip: {
                             format: {
-                                name: () => i18n.t('analytics.visits'),
+                                name: () => intl.t('analytics.visits'),
                             },
                         },
                     });
             },
-            processData(data: any, i18n: I18n) {
+            processData(data: any, intl: Intl) {
                 for (const result of data.result) {
                     if (result['referrer.info.domain'] === null) {
-                        result['referrer.info.domain'] = i18n.t('analytics.directLink');
+                        result['referrer.info.domain'] = intl.t('analytics.directLink');
                     }
                 }
                 return data;
@@ -210,12 +210,12 @@ export default class AnalyticsChart extends Component {
                     property_value: '/project/',
                 }],
             },
-            configureChart(chart: KeenDataviz, i18n: I18n) {
+            configureChart(chart: KeenDataviz, intl: Intl) {
                 chart.type('horizontal-bar')
                     .chartOptions({
                         tooltip: {
                             format: {
-                                name: () => i18n.t('analytics.visits'),
+                                name: () => intl.t('analytics.visits'),
                             },
                         },
                         axis: {
@@ -232,7 +232,7 @@ export default class AnalyticsChart extends Component {
                         },
                     });
             },
-            processData(data: any, i18n: I18n, node: Node) {
+            processData(data: any, intl: Intl, node: Node) {
                 interface PopularPageResult {
                     'page.info.path': string;
                     'page.title': string;
@@ -253,13 +253,13 @@ export default class AnalyticsChart extends Component {
                     let pagePath;
                     if (guid === node.id) {
                         if (subPath && subPath.length) {
-                            pageTitle = i18n.t(`analytics.popularPageNames.${subPath}`);
+                            pageTitle = intl.t(`analytics.popularPageNames.${subPath}`);
                         } else {
-                            pageTitle = i18n.t('analytics.popularPageNames.home');
+                            pageTitle = intl.t('analytics.popularPageNames.home');
                         }
                         pagePath = `/${guid}/${subPath || ''}`;
                     } else if (/^\/[a-z0-9]{5}\/$/.test(path)) {
-                        pageTitle = i18n.t('analytics.popularPageNames.fileDetail', {
+                        pageTitle = intl.t('analytics.popularPageNames.fileDetail', {
                             fileName: result['page.title'].replace(/^OSF \| /, ''),
                         });
                         pagePath = path;

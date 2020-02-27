@@ -1,4 +1,3 @@
-import { attr, belongsTo } from '@ember-decorators/data';
 import { not } from '@ember/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
@@ -8,6 +7,8 @@ import defaultTo from 'ember-osf-web/utils/default-to';
 import NodeModel from './node';
 import OsfModel, { Permission } from './osf-model';
 import UserModel from './user';
+
+const { attr, belongsTo } = DS;
 
 const Validations = buildValidations({
     fullName: [

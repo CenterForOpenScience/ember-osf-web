@@ -1,6 +1,6 @@
-import { computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
 import Controller from '@ember/controller';
+import { computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
 
 import Registration from 'ember-osf-web/models/registration';
 import { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';

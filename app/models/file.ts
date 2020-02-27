@@ -1,4 +1,3 @@
-import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import DS from 'ember-data';
 import { Link } from 'jsonapi-typescript';
 
@@ -10,6 +9,8 @@ import CommentModel from './comment';
 import FileVersionModel from './file-version';
 import NodeModel from './node';
 import UserModel from './user';
+
+const { attr, belongsTo, hasMany } = DS;
 
 export interface FileLinks extends BaseFileLinks {
     info: Link;

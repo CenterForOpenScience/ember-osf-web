@@ -11,13 +11,13 @@
             {{#each types as |type index|}}
                 <li local-class='RegistrationType__Item'>
                     <label>
-                        {{input
-                            (html-attributes data-test-registration-type-filter-id=index)
-                            type='checkbox'
-                            disabled=(not onlyOSF)
-                            checked=type.checked
-                            change=(action 'typeChecked' type.filter type.checked)
-                        }}
+                        <Input
+                            data-test-registration-type-filter-id={{index}}
+                            @type='checkbox'
+                            @disabled={{not onlyOSF}}
+                            @checked={{type.checked}}
+                            @change={{action 'typeChecked' type.filter type.checked}}
+                        />
                         {{type.name}}
                     </label>
                 </li>

@@ -1,6 +1,6 @@
-import { alias } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
+import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';

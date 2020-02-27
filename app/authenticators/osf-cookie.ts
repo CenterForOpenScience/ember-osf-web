@@ -1,5 +1,5 @@
-import { service } from '@ember-decorators/service';
 import { warn } from '@ember/debug';
+import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
 import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
@@ -79,7 +79,11 @@ export default class OsfCookie extends Base {
         }
 
         // Push the user into the store for later use
-        this.store.pushPayload(userData);
+        try {
+            this.store.pushPayload(userData);
+        } catch (error) {
+            throw error;
+        }
 
         const { id } = userData.data;
         this.set('lastVerifiedUserId', id);

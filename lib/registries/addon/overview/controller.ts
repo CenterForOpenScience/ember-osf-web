@@ -1,6 +1,6 @@
-import { computed } from '@ember-decorators/object';
-import { alias, not } from '@ember-decorators/object/computed';
 import Controller from '@ember/controller';
+import { computed } from '@ember/object';
+import { alias, not } from '@ember/object/computed';
 import config from 'ember-get-config';
 
 import Registration from 'ember-osf-web/models/registration';

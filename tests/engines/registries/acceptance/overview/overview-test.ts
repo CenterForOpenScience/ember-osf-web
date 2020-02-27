@@ -3,7 +3,7 @@ import { click as untrackedClick, fillIn } from '@ember/test-helpers';
 import { faker, ModelInstance } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import config from 'ember-get-config';
-import { t } from 'ember-i18n/test-support';
+import { t } from 'ember-intl/test-support';
 import { selectChoose, selectSearch } from 'ember-power-select/test-support';
 import { TestContext } from 'ember-test-helpers';
 import moment from 'moment';
@@ -330,7 +330,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         await fillIn('[data-test-publication-doi-input] input', invalidDoi);
         await click('[data-test-save-publication-doi]');
 
-        assert.dom('.help-block').hasText(t('validationErrors.invalid_doi').toString(), 'validation works');
+        assert.dom('.help-block').hasText('Please use a valid DOI format (10.xxxx/xxxxx)', 'validation works');
         await untrackedClick('[data-test-cancel-publication-doi]');
 
         await click('[data-test-edit-button="publication DOI"]');
@@ -410,14 +410,16 @@ module('Registries | Acceptance | overview.overview', hooks => {
         await click('[data-test-edit-button="license"]');
 
         assert.dom('[data-test-license-edit-form]').isVisible();
+        await selectSearch('[data-test-select-license]', 'MIT');
+        assert.dom('.ember-power-select-options').hasText('MIT License');
         await selectSearch('[data-test-select-license]', 'No');
         assert.dom('.ember-power-select-options').hasText('No license');
         await selectChoose('[data-test-select-license]', 'No license');
 
         await click('[data-test-save-license]');
 
-        const validationErrorMsg = `${t('validationErrors.node_license_missing_fields')} \
-            ${t('app_components.license_picker.fields.copyrightHolders')}`;
+        const missingFields = t('app_components.license_picker.fields.copyrightHolders').toString();
+        const validationErrorMsg = t('validationErrors.node_license_missing_fields', { missingFields }).toString();
         assert.dom('.help-block').hasText(validationErrorMsg, 'validation works');
 
         await fillIn('[data-test-required-field="copyrightHolders"]', 'Jane Doe, John Doe');

@@ -1,13 +1,13 @@
 import { tagName } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
-import { alias, or } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
+import { action, computed } from '@ember/object';
+import { alias, or } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
-import { task } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -45,76 +45,8 @@ type SortKey = 'date_modified' | '-date_modified' | 'name' | '-name';
 
 @tagName('')
 @layout(template)
-export default class FilesManagerComponent extends Component.extend({
-    getRootItems: task(function *(this: FilesManagerComponent) {
-        assert('@node is required', Boolean(this.node));
-
-        const fileProviders = yield this.node.files;
-        const fileProvider = fileProviders.findBy('name', 'osfstorage') as FileProvider;
-
-        const rootFolder = yield fileProvider.rootFolder;
-
-        yield rootFolder.files;
-
-        this.setProperties({
-            fileProvider,
-            rootFolder,
-            currentFolder: rootFolder,
-        });
-    }).on('didReceiveAttrs').restartable(),
-    loadMore: task(function *(this: FilesManagerComponent) {
-        yield this.currentFolder.queryHasMany('files', {
-            page: this.page + 1,
-            pageSize: this.pageSize,
-            sort: this.sort,
-        });
-
-        this.incrementProperty('page');
-    }),
-
-    getCurrentFolderItems: task(function *(this: FilesManagerComponent, targetFolder: File) {
-        this.set('currentFolder', targetFolder);
-
-        yield this.currentFolder.files;
-    }),
-
-    sortFolderItems: task(function *(this: FilesManagerComponent) {
-        yield this.currentFolder.queryHasMany('files', {
-            pageSize: this.pageSize,
-            sort: this.sort,
-            page: 1,
-        });
-        this.setProperties({ lastUploaded: [] });
-    }),
-
-    addFile: task(function *(this: FilesManagerComponent, id: string) {
-        const duplicate = this.currentFolder.files.findBy('id', id);
-        const file = yield this.store
-            .findRecord(
-                'file',
-                id,
-                duplicate ? {} : { adapterOptions: { query: { create_guid: 1 } } },
-            );
-
-        if (duplicate) {
-            this.currentFolder.files.removeObject(duplicate);
-        }
-
-        this.currentFolder.files.pushObject(file);
-
-        if (duplicate) {
-            return;
-        }
-
-        this.lastUploaded.pushObject(file);
-
-        this.toast.success(this.i18n.t('file_browser.file_added_toast'));
-        if (this.onAddFile) {
-            this.onAddFile(file);
-        }
-    }),
-}) {
-    @service i18n!: I18N;
+export default class FilesManagerComponent extends Component {
+    @service intl!: Intl;
     @service store!: DS.Store;
     @service toast!: Toast;
 
@@ -192,6 +124,79 @@ export default class FilesManagerComponent extends Component.extend({
 
         return false;
     }
+
+    @task({ restartable: true, on: 'didReceiveAttrs' })
+    getRootItems = task(function *(this: FilesManagerComponent) {
+        assert('@node is required', Boolean(this.node));
+
+        const fileProviders = yield this.node.files;
+        const fileProvider = fileProviders.findBy('name', 'osfstorage') as FileProvider;
+        const rootFolder = yield fileProvider.rootFolder;
+
+        yield rootFolder.files;
+
+        this.setProperties({
+            fileProvider,
+            rootFolder,
+            currentFolder: rootFolder,
+        });
+    });
+
+    @task
+    loadMore = task(function *(this: FilesManagerComponent) {
+        yield this.currentFolder.queryHasMany('files', {
+            page: this.page + 1,
+            pageSize: this.pageSize,
+            sort: this.sort,
+        });
+
+        this.incrementProperty('page');
+    });
+
+    @task
+    getCurrentFolderItems = task(function *(this: FilesManagerComponent, targetFolder: File) {
+        this.set('currentFolder', targetFolder);
+
+        yield this.currentFolder.files;
+    });
+
+    @task
+    sortFolderItems = task(function *(this: FilesManagerComponent) {
+        yield this.currentFolder.queryHasMany('files', {
+            pageSize: this.pageSize,
+            sort: this.sort,
+            page: 1,
+        });
+        this.setProperties({ lastUploaded: [] });
+    });
+
+    @task
+    addFile = task(function *(this: FilesManagerComponent, id: string) {
+        const duplicate = this.currentFolder.files.findBy('id', id);
+        const file = yield this.store
+            .findRecord(
+                'file',
+                id,
+                duplicate ? {} : { adapterOptions: { query: { create_guid: 1 } } },
+            );
+
+        if (duplicate) {
+            this.currentFolder.files.removeObject(duplicate);
+        }
+
+        this.currentFolder.files.pushObject(file);
+
+        if (duplicate) {
+            return;
+        }
+
+        this.lastUploaded.pushObject(file);
+
+        this.toast.success(this.intl.t('file_browser.file_added_toast'));
+        if (this.onAddFile) {
+            this.onAddFile(file);
+        }
+    });
 
     @action
     goToParentFolder(currentFolder: File) {

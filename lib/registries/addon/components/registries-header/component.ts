@@ -1,6 +1,6 @@
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { localClassNames } from 'ember-css-modules';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
@@ -26,7 +26,7 @@ export default class RegistriesHeader extends Component {
     }
 
     @action
-    toggleHelp(this: RegistriesHeader) {
+    toggleHelp() {
         this.set('showingHelp', !this.showingHelp);
     }
 

@@ -1,14 +1,15 @@
-import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import DS from 'ember-data';
+
 import Theme from 'ember-osf-web/services/theme';
 
 export default class Provider extends Route {
     @service store!: DS.Store;
     @service theme!: Theme;
 
-    async beforeModel(this: Provider, transition: any) {
-        const { slug = '' } = transition.params['collections.provider'];
+    async beforeModel() {
+        const { slug = '' } = this.paramsFor(this.routeName) as { slug?: string };
         const slugLower = slug.toLowerCase();
 
         try {

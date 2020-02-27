@@ -1,4 +1,4 @@
-import { service } from '@ember-decorators/service';
+import { inject as service } from '@ember/service';
 
 import InViewport from 'ember-in-viewport/services/in-viewport.js';
 import Analytics from 'ember-osf-web/services/analytics';

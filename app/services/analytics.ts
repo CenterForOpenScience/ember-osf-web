@@ -1,9 +1,9 @@
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import { assert, debug, runInDebug } from '@ember/debug';
+import { action } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
-import Service from '@ember/service';
-import { task, waitForQueue } from 'ember-concurrency';
+import Service, { inject as service } from '@ember/service';
+import { waitForQueue } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import config from 'ember-get-config';
 import Metrics from 'ember-metrics/services/metrics';
 import Session from 'ember-simple-auth/services/session';
@@ -156,6 +156,7 @@ export default class Analytics extends Service {
 
     rootElement?: Element;
 
+    @task({ restartable: true })
     trackPageTask = task(function *(
         this: Analytics,
         pagePublic: boolean | undefined,
@@ -216,10 +217,10 @@ export default class Analytics extends Service {
             pagePublic,
             ...eventParams,
         });
-    }).restartable();
+    });
 
     @action
-    click(this: Analytics, category: string, label: string, extraInfo?: string | object) {
+    click(category: string, label: string, extraInfo?: string | object) {
         let extra = extraInfo;
         if (extra && typeof extra !== 'string') {
             // This is to remove the event object when used with onclick
@@ -235,7 +236,7 @@ export default class Analytics extends Service {
         return true;
     }
 
-    track(this: Analytics, category: string, actionName: string, label: string, extraInfo?: string) {
+    track(category: string, actionName: string, label: string, extraInfo?: string) {
         let extra = extraInfo;
         if (extra && typeof extra !== 'string') {
             extra = undefined;

@@ -1,13 +1,9 @@
-import { action, computed } from '@ember-decorators/object';
 import Component from '@ember/component';
-import { task, timeout } from 'ember-concurrency';
+import { action, computed } from '@ember/object';
+import { timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 
-export default class MeetingsList extends Component.extend({
-    searchMeetings: task(function *(this: MeetingsList, search: string) {
-        yield timeout(500); // debounce
-        this.set('search', search);
-    }).restartable(),
-}) {
+export default class MeetingsList extends Component {
     // Private properties
     search?: string;
     sort = '-submissions_count';
@@ -23,6 +19,12 @@ export default class MeetingsList extends Component.extend({
         }
         return query;
     }
+
+    @task({ restartable: true })
+    searchMeetings = task(function *(this: MeetingsList, search: string) {
+        yield timeout(500); // debounce
+        this.set('search', search);
+    });
 
     @action
     sortMeetings(sort: string) {

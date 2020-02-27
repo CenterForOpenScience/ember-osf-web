@@ -1,8 +1,7 @@
-import { service } from '@ember-decorators/service';
-import Service from '@ember/service';
+import Service, { inject as service } from '@ember/service';
 import HeadTagsService from 'ember-cli-meta-tags/services/head-tags';
 import config from 'ember-get-config';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import toArray from 'ember-osf-web/utils/to-array';
 
@@ -57,7 +56,7 @@ export interface HeadTagDef {
 }
 
 export default class MetaTags extends Service {
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service router!: any;
     @service headTags!: HeadTagsService;
 
@@ -68,20 +67,20 @@ export default class MetaTags extends Service {
      * @param {MetaTagsData} metaTagsOverrides Data values to override defaults.
      * @return {MetaTagsDefs} Returns meta tag definitions.
      */
-    getMetaTags(this: MetaTags, metaTagsOverrides: MetaTagsData): MetaTagsDefs {
+    getMetaTags(metaTagsOverrides: MetaTagsData): MetaTagsDefs {
         // Default values.
         const metaTagsData: MetaTagsData = {
             type: 'article',
-            description: this.get('i18n').t('general.hosted_on_the_osf'),
+            description: this.get('intl').t('general.hosted_on_the_osf'),
             url: pathJoin(config.OSF.url, this.get('router').get('currentURL')),
-            language: this.get('i18n').get('locale'),
+            language: this.get('intl').get('locale'),
             image: pathJoin(config.OSF.url, 'static/img/preprints_assets/osf/sharing.png'),
             imageType: 'image/png',
             imageWidth: 1200,
             imageHeight: 630,
-            imageAlt: this.get('i18n').t('home.brand'),
-            siteName: this.get('i18n').t('home.brand'),
-            institution: this.get('i18n').t('general.cos'),
+            imageAlt: this.get('intl').t('home.brand'),
+            siteName: this.get('intl').t('home.brand'),
+            institution: this.get('intl').t('general.cos'),
             fbAppId: config.FB_APP_ID,
             twitterSite: config.social.twitter.viaHandle,
             twitterCreator: config.social.twitter.viaHandle,
@@ -147,7 +146,7 @@ export default class MetaTags extends Service {
      * @param {MetaTagsData} metaTagsData Data values to use for meta tags.
      * @return {HeadTagDef[]} Returns head tag defintions.
      */
-    getHeadTags(this: MetaTags, metaTagsData: MetaTagsData): HeadTagDef[] {
+    getHeadTags(metaTagsData: MetaTagsData): HeadTagDef[] {
         const metaTagsDefs = this.getMetaTags(metaTagsData);
 
         // Morph MetaTagsDefs into an array of MetaTagAttrs.

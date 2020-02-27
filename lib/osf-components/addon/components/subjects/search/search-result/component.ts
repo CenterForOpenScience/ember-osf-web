@@ -1,8 +1,8 @@
 import { tagName } from '@ember-decorators/component';
-import { alias } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import { task } from 'ember-concurrency';
+import { alias } from '@ember/object/computed';
+import { task } from 'ember-concurrency-decorators';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import SubjectModel from 'ember-osf-web/models/subject';
@@ -13,8 +13,17 @@ import template from './template';
 
 @tagName('')
 @layout(template, styles)
-export default class SearchResult extends Component.extend({
-    loadAncestry: task(function *(this: SearchResult) {
+export default class SearchResult extends Component {
+    singleSubjectManager!: SingleSubjectManager;
+
+    @alias('singleSubjectManager.subject')
+    subject?: SubjectModel;
+
+    @alias('loadAncestry.lastSuccessful.value')
+    subjectAncestry?: SubjectModel[];
+
+    @task({ on: 'didReceiveAttrs' })
+    loadAncestry = task(function *(this: SearchResult) {
         const { subject } = this.singleSubjectManager;
         if (!subject) {
             return undefined;
@@ -27,15 +36,7 @@ export default class SearchResult extends Component.extend({
             nextParentRef = nextParent.belongsTo('parent');
         }
         return ancestors.reverse();
-    }).on('didReceiveAttrs'),
-}) {
-    singleSubjectManager!: SingleSubjectManager;
-
-    @alias('singleSubjectManager.subject')
-    subject?: SubjectModel;
-
-    @alias('loadAncestry.lastSuccessful.value')
-    subjectAncestry?: SubjectModel[];
+    });
 
     init() {
         super.init();

@@ -6,7 +6,7 @@ export function updatePassword(this: HandlerContext) {
 
     if (attrs.existingPassword !== undefined) {
         if (attrs.existingPassword === existingPassword) {
-            return new Response(204, undefined, undefined);
+            return new Response(204);
         }
         return new Response(409, { 'Content-Type': 'application/vnd.api+json' }, {
             errors: [{

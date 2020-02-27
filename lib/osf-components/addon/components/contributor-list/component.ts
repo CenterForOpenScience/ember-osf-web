@@ -1,11 +1,10 @@
 import { tagName } from '@ember-decorators/component';
-import { computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { task } from 'ember-concurrency';
+import { computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Contributor from 'ember-osf-web/models/contributor';
@@ -19,8 +18,28 @@ import template from './template';
 
 @layout(template, styles)
 @tagName('span')
-export default class ContributorList extends Component.extend({
-    loadContributors: task(function *(this: ContributorList, more?: boolean) {
+export default class ContributorList extends Component {
+    // Required arguments
+    node?: Node;
+
+    // Optional arguments
+    shouldTruncate: boolean = defaultTo(this.shouldTruncate, true);
+    shouldLinkUsers: boolean = defaultTo(this.shouldLinkUsers, false);
+
+    // Private properties
+    @service store!: DS.Store;
+    @service ready!: Ready;
+
+    page = 1;
+    displayedContributors: Contributor[] = [];
+    totalContributors?: number;
+    shouldLoadAll: boolean = navigator.userAgent.includes('Prerender');
+
+    @alias('loadContributors.isRunning')
+    isLoading!: boolean;
+
+    @task({ restartable: true, on: 'didReceiveAttrs' })
+    loadContributors = task(function *(this: ContributorList, more?: boolean) {
         if (!this.node || this.node.isAnonymous) {
             return;
         }
@@ -49,27 +68,7 @@ export default class ContributorList extends Component.extend({
         }
 
         blocker.done();
-    }).on('didReceiveAttrs').restartable(),
-}) {
-    // Required arguments
-    node?: Node;
-
-    // Optional arguments
-    shouldTruncate: boolean = defaultTo(this.shouldTruncate, true);
-    shouldLinkUsers: boolean = defaultTo(this.shouldLinkUsers, false);
-
-    // Private properties
-    @service i18n!: I18N;
-    @service store!: DS.Store;
-    @service ready!: Ready;
-
-    page = 1;
-    displayedContributors: Contributor[] = [];
-    totalContributors?: number;
-    shouldLoadAll: boolean = navigator.userAgent.includes('Prerender');
-
-    @alias('loadContributors.isRunning')
-    isLoading!: boolean;
+    });
 
     @computed('truncated')
     get truncateCount() {

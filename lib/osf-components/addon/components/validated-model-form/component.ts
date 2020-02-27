@@ -1,20 +1,17 @@
-import { layout } from '@ember-decorators/component';
-import { action } from '@ember-decorators/object';
-import { alias, or } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import { set } from '@ember/object';
+import { action, set } from '@ember/object';
+import { alias, or } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import { typeOf } from '@ember/utils';
 import Changeset from 'ember-changeset';
 import { ChangesetDef, ValidatorFunc } from 'ember-changeset/types';
-
-import { task } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
 import Toast from 'ember-toastr/services/toast';
 
-import { requiredAction } from 'ember-osf-web/decorators/component';
+import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import { ValidatedModelName } from 'ember-osf-web/models/osf-model';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
@@ -50,6 +47,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     @alias('changeset.isDirty')
     isDirty!: boolean;
 
+    @task
     saveModelTask = task(function *(this: ValidatedModelForm<M>) {
         yield this.changeset.validate();
 
@@ -78,8 +76,8 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
         }
     });
 
-    constructor(...args: any[]) {
-        super(...args);
+    init() {
+        super.init();
 
         if (!this.model && this.modelName) {
             this.model = this.store.createRecord(this.modelName, this.modelProperties);
@@ -111,6 +109,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     // Lifted wholesale from https://github.com/offirgolan/ember-changeset-cp-validations/blob/master/addon/index.js
     // tslint:disable-next-line: no-shadowed-variable
     buildChangeset<M extends ValidatedModelName>(model: ModelRegistry[M], options?: {}) {
+        // @ts-ignore (types for typeOf don't handle 'instance')
         assert('Object does not contain any validations', typeOf(model.validations) === 'instance');
         let useOptions = {};
         if (options !== undefined) {

@@ -1,6 +1,7 @@
 {{! using unsafeTitle here to avoid double encoding because the title helper does its own }}
+{{! template-lint-disable no-implicit-this }}
 {{title (t 'analytics.pageTitle' nodeTitle=node.unsafeTitle)}}
-<div class="container">
+<div class='container'>
     <div local-class='Counts' class='row'>
         <div class='col-sm-4 panel panel-default' local-class='CountBox'>
             <div class='panel-body'>
@@ -36,7 +37,7 @@
                                 onHide=(action 'hideLinksModal')
                             }}
                                 {{#if this.node}}
-                                    <ul class="list-group">
+                                    <ul class='list-group'>
                                         {{#paginated-list/has-many
                                             model=this.node
                                             relationshipName='linkedByNodes'
@@ -83,38 +84,42 @@
             {{/bs-alert}}
         {{/unless}}
 
-        <div local-class="PickDateRange">
+        <div local-class='PickDateRange'>
             <label>
                 {{t 'analytics.showForDateRange'}}
-                {{#bs-dropdown as |dd|}}
-                    {{#dd.button
-                        (html-attributes aria-haspopup=true aria-expanded=false)
-                        class=(local-class 'DateRangeButton')
-                    }}
+                <BsDropdown as |dd|>
+                    <dd.button
+                        aria-haspopup=true
+                        aria-expanded=false
+                        local-class='DateRangeButton'
+                    >
                         {{t (concat 'analytics.dateRanges.' activeDateRange.key)}}
                         {{fa-icon 'caret-down'}}
-                    {{/dd.button}}
-                    {{#dd.menu class=(concat (local-class 'DateRangeMenu') ' dropdown-menu-right')}}
+                    </dd.button>
+                    <dd.menu
+                        local-class='DateRangeMenu'
+                        @align='right'
+                    >
                         {{#each dateRanges as |dateRange|}}
-                            <li role="menuitem">
+                            <li role='menuitem'>
                                 <a
-                                    role="button"
-                                    local-class="DateRangeOption"
+                                    role='button'
+                                    local-class='DateRangeOption'
                                     {{action 'setDateRange' dateRange}}
                                 >
                                     {{t (concat 'analytics.dateRanges.' dateRange.key)}}
                                 </a>
                             </li>
                         {{/each}}
-                    {{/dd.menu}}
-                {{/bs-dropdown}}
+                    </dd.menu>
+                </BsDropdown>
             </label>
         </div>
     {{else}}
         {{!nodePublic}}
         <div class='row'>
             <div local-class='PrivateProject' class='col-xs-12'>
-                {{t 'analytics.privateProject'}}
+                {{t 'analytics.privateProject' htmlSafe=true}}
             </div>
         </div>
     {{/if}}
@@ -129,3 +134,4 @@
         }}
     </div>
 </div>
+{{! template-lint-enable no-implicit-this }}

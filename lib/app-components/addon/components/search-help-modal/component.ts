@@ -1,7 +1,7 @@
-import { service } from '@ember-decorators/service';
 import { getOwner } from '@ember/application';
 import Component from '@ember/component';
 import RouterService from '@ember/routing/router-service';
+import { inject as service } from '@ember/service';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import defaultTo from 'ember-osf-web/utils/default-to';

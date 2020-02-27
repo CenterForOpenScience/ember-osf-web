@@ -1,9 +1,9 @@
-import { attr, belongsTo, hasMany } from '@ember-decorators/data';
-import { alias } from '@ember-decorators/object/computed';
+import { alias } from '@ember/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 import { Link } from 'jsonapi-typescript';
 
+import SparseNodeModel from 'ember-osf-web/models/sparse-node';
 import ContributorModel from './contributor';
 import FileModel from './file';
 import InstitutionModel from './institution';
@@ -13,6 +13,8 @@ import RegionModel from './region';
 import RegistrationModel from './registration';
 import UserEmailModel from './user-email';
 import UserSettingModel from './user-setting';
+
+const { attr, belongsTo, hasMany } = DS;
 
 const Validations = buildValidations({
     acceptedTermsOfService: [
@@ -91,6 +93,9 @@ export default class UserModel extends OsfModel.extend(Validations) {
 
     @hasMany('user-email', { inverse: 'user' })
     emails!: DS.PromiseManyArray<UserEmailModel>;
+
+    @hasMany('sparse-node', { inverse: null })
+    sparseNodes!: DS.PromiseArray<SparseNodeModel>;
 
     // Calculated fields
     @alias('links.html') profileURL!: string;

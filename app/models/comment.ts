@@ -1,9 +1,11 @@
-import { attr, belongsTo, hasMany } from '@ember-decorators/data';
 import DS from 'ember-data';
+
 import CommentReportModel from './comment-report';
 import NodeModel from './node';
 import OsfModel from './osf-model';
 import UserModel from './user';
+
+const { attr, belongsTo, hasMany } = DS;
 
 export default class CommentModel extends OsfModel {
     // TODO validation: maxLength

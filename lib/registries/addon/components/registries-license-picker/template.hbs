@@ -11,10 +11,10 @@
             data-analytics-name='Select license'
             data-test-select-license
             @valuePath='license'
-            @search={{action @manager.queryLicenses}}
             @selected={{@manager.selectedLicense}}
             @options={{@manager.licensesAcceptable}}
             @onchange={{@manager.changeLicense}}
+            @searchField={{'name'}}
             @noMatchesMessage={{t 'registries.registration_metadata.no_matches'}}
             @placeholder={{t 'registries.registration_metadata.add_license'}}
             as |license|
@@ -42,12 +42,12 @@
                     <div class='form-group'>
                         <label>
                             {{t (concat 'app_components.license_picker.fields.' key)}}
-                            {{input
-                                (html-attributes data-test-required-field=key)
-                                class='form-control'
-                                value=(mut (get @manager.registration.nodeLicense key))
-                                placeholder=(t 'general.required')
-                            }}
+                            <Input
+                                data-test-required-field={{key}}
+                                @class='form-control'
+                                @value={{mut (get @manager.registration.nodeLicense key)}}
+                                @placeholder={{t 'general.required'}}
+                            />
                         </label>
                     </div>
                 {{/each}}
@@ -69,7 +69,7 @@
                 <OsfButton
                     @type='default'
                     @disabled={{form.disabled}}
-                    @onClick={{action @manager.onCancel}}
+                    @onClick={{action @manager.cancel}}
                 >
                     {{t 'general.cancel'}}
                 </OsfButton>

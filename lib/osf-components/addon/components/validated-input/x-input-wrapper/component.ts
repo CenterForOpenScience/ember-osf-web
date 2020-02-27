@@ -1,7 +1,7 @@
 import { className, classNames } from '@ember-decorators/component';
-import { computed } from '@ember-decorators/object';
-import { equal } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
+import { computed } from '@ember/object';
+import { equal } from '@ember/object/computed';
 
 import { layout } from 'ember-osf-web/decorators/component';
 

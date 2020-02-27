@@ -84,8 +84,8 @@ module('Unit | Location | history with fragments', hooks => {
                 history: new FakeHistory(),
                 location: mockBrowserLocation(testCase.start),
                 scrollToFragment: { perform: () => null },
-                osfRouter: new OsfRouterStub() as any,
-                ready: new ReadyStub() as any,
+                osfRouter: OsfRouterStub.create() as any,
+                ready: ReadyStub.create() as any,
             });
 
             historyLocation.replaceURL(testCase.replaceWith);

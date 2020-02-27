@@ -1,8 +1,9 @@
-import { attr, hasMany } from '@ember-decorators/data';
 import DS from 'ember-data';
 
 import MeetingSubmissionModel from 'ember-osf-web/models/meeting-submission';
 import OsfModel from './osf-model';
+
+const { attr, hasMany } = DS;
 
 export interface FieldNames {
     /* eslint-disable camelcase */

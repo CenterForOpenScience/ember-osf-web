@@ -1,6 +1,5 @@
-import { computed } from '@ember-decorators/object';
 import { assert } from '@ember/debug';
-import EmberObject from '@ember/object';
+import { computed, set } from '@ember/object';
 import Changeset from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
 import { ChangesetDef } from 'ember-changeset/types';
@@ -13,18 +12,16 @@ import {
 } from 'ember-osf-web/packages/registration-schema';
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema/registration-response';
 
-export class PageManager extends EmberObject {
+export class PageManager {
     changeset?: ChangesetDef;
     schemaBlockGroups?: SchemaBlockGroup[];
     pageHeadingText?: string;
     isVisited?: boolean;
 
     constructor(pageSchemaBlocks: SchemaBlock[], registrationResponses: RegistrationResponse, node?: NodeModel) {
-        super();
         this.schemaBlockGroups = getSchemaBlockGroups(pageSchemaBlocks);
         if (this.schemaBlockGroups) {
             this.pageHeadingText = this.schemaBlockGroups[0].labelBlock!.displayText!;
-            this.isVisited = false;
 
             this.isVisited = this.schemaBlockGroups.some(
                 ({ registrationResponseKey: key }) => Boolean(key && (key in registrationResponses)),
@@ -37,7 +34,7 @@ export class PageManager extends EmberObject {
                 validations,
             ) as ChangesetDef;
 
-            if (Object.values(registrationResponses).length) {
+            if (this.isVisited) {
                 this.changeset.validate();
             }
         } else {
@@ -62,7 +59,7 @@ export class PageManager extends EmberObject {
     }
 
     setPageIsVisited() {
-        this.set('isVisited', true);
+        set(this, 'isVisited', true);
     }
 
     getPageIsVisited() {

@@ -1,7 +1,7 @@
 import { classNames } from '@ember-decorators/component';
-import { computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { localClassName, localClassNames } from 'ember-css-modules';
 import DS from 'ember-data';
 import moment from 'moment';
@@ -12,6 +12,7 @@ import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import humanFileSize from 'ember-osf-web/utils/human-file-size';
 import pathJoin from 'ember-osf-web/utils/path-join';
+
 import styles from './styles';
 import template from './template';
 
@@ -56,13 +57,13 @@ export default class FileBrowserItem extends Component {
 
     @computed('item.size')
     get size(): string {
-        // TODO: This should be i18n-ized
+        // TODO: This should be intl-ized
         return this.item && this.item.size ? humanFileSize(this.item.size, true) : '';
     }
 
     @computed('item.dateModified')
     get date(): string {
-        // TODO: This should be i18n-ized
+        // TODO: This should be intl-ized
         return this.item ? moment(this.item.dateModified).format('YYYY-MM-DD h:mm A') : '';
     }
 

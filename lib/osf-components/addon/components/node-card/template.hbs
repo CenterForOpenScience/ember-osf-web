@@ -52,8 +52,8 @@
                         <dd.button local-class='NodeCard__dropdown-button'>
                             <span aria-label={{t 'node_card.options'}} class='glyphicon glyphicon-option-horizontal'></span>
                         </dd.button>
-                        <dd.menu @class='dropdown-menu-right' local-class='NodeCard__dropdown-list'>
-                            <li role='menuitem'>
+                        <dd.menu @align='right' local-class='NodeCard__dropdown-list' as |menu|>
+                            <menu.item role='menuitem'>
                                 <OsfLink
                                     data-analytics-name='Manage Contributors'
                                     local-class='NodeCard__dropdown-link'
@@ -61,8 +61,8 @@
                                 >
                                     {{t 'node_card.fork.manage_contributors'}}
                                 </OsfLink>
-                            </li>
-                            <li role='menuitem'>
+                            </menu.item>
+                            <menu.item role='menuitem'>
                                 <OsfLink
                                     data-analytics-name='Settings'
                                     local-class='NodeCard__dropdown-link'
@@ -70,8 +70,8 @@
                                 >
                                     {{t 'general.settings'}}
                                 </OsfLink>
-                            </li>
-                            <li role='menuitem'>
+                            </menu.item>
+                            <menu.item role='menuitem'>
                                 <OsfButton
                                     data-analytics-scope='Delete'
                                     local-class='NodeCard__dropdown-link'
@@ -79,7 +79,7 @@
                                 >
                                     {{t 'general.delete'}}
                                 </OsfButton>
-                            </li>
+                            </menu.item>
                         </dd.menu>
                     </BsDropdown>
                 </div>

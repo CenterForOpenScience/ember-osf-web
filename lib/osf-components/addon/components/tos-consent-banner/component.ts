@@ -1,7 +1,7 @@
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { task } from 'ember-concurrency';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency-decorators';
 import { localClassNames } from 'ember-css-modules';
 import config from 'ember-get-config';
 
@@ -23,6 +23,7 @@ export default class TosConsentBanner extends Component {
     didValidate = false;
     hasSubmitted = false;
 
+    @task({ drop: true })
     saveUser = task(function *(this: TosConsentBanner) {
         const user = yield this.currentUser.user;
         const { validations } = yield user.validate();
@@ -34,20 +35,20 @@ export default class TosConsentBanner extends Component {
 
         yield user.save();
         this.currentUser.set('showTosConsentBanner', false);
-    }).drop();
+    });
 
     constructor(properties: object) {
         super(properties);
         Object.assign(this, config.signUpPolicy);
     }
 
-    init(this: TosConsentBanner) {
+    init() {
         super.init();
         this.currentUser.checkShowTosConsentBanner();
     }
 
     @action
-    dismiss(this: TosConsentBanner) {
+    dismiss() {
         this.analytics.click('button', 'ToS Consent Banner - dismiss');
         this.set('didValidate', false);
         this.currentUser.set('showTosConsentBanner', false);

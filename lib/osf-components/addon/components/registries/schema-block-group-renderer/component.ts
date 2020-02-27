@@ -1,8 +1,8 @@
 import { tagName } from '@ember-decorators/component';
-import { computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
+import { computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import { SchemaBlock, SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema';

@@ -7,15 +7,15 @@
     validationStatus=this.validationStatus
     as |inputElementId|
 }}
-    {{input
-        (html-attributes aria-label=this.ariaLabel)
-        id=(or @uniqueID inputElementId)
-        type=(if this.password 'password' 'text')
-        value=this.value
-        placeholder=this._placeholder
-        class='form-control'
-        name=this.valuePath
-        keyUp=@onKeyUp
-        disabled=this.disabled
-    }}
+    <Input
+        aria-label={{this.ariaLabel}}
+        @id={{or @uniqueID inputElementId}}
+        @type={{if this.password 'password' 'text'}}
+        @value={{this.value}}
+        @placeholder={{this._placeholder}}
+        @class='form-control'
+        @name={{@valuePath}}
+        @keyUp={{@onKeyUp}}
+        @disabled={{this.disabled}}
+    />
 {{/validated-input/x-input-wrapper}}

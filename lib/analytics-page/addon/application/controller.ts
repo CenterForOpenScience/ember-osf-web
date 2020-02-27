@@ -1,11 +1,10 @@
-import { action, computed } from '@ember-decorators/object';
-import { reads } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
+import { action, computed } from '@ember/object';
+import { reads } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import Cookies from 'ember-cookies/services/cookies';
 import DS from 'ember-data';
 import config from 'ember-get-config';
-import I18n from 'ember-i18n/services/i18n';
 import moment, { Moment } from 'moment';
 
 import Node from 'ember-osf-web/models/node';
@@ -27,7 +26,6 @@ interface DateRange {
 
 export default class ApplicationController extends Controller {
     @service cookies!: Cookies;
-    @service i18n!: I18n;
     @service analytics!: AnalyticsService;
     @service store!: DS.Store;
 
@@ -84,7 +82,7 @@ export default class ApplicationController extends Controller {
     }
 
     @action
-    dismissAdblockWarning(this: ApplicationController) {
+    dismissAdblockWarning() {
         this.cookies.write(dismissAdblockCookie, 1, { path: '/' });
         this.set('hideAdblockWarning', true);
         this.analytics.click(
@@ -94,7 +92,7 @@ export default class ApplicationController extends Controller {
     }
 
     @action
-    setDateRange(this: ApplicationController, dateRange: DateRange) {
+    setDateRange(dateRange: DateRange) {
         this.set('activeDateRange', dateRange);
         this.analytics.click(
             'button',
@@ -103,7 +101,7 @@ export default class ApplicationController extends Controller {
     }
 
     @action
-    showLinksModal(this: ApplicationController) {
+    showLinksModal() {
         this.set('linksModalShown', true);
         this.analytics.click(
             'button',
@@ -112,7 +110,7 @@ export default class ApplicationController extends Controller {
     }
 
     @action
-    hideLinksModal(this: ApplicationController) {
+    hideLinksModal() {
         this.set('linksModalShown', false);
         this.analytics.click(
             'button',

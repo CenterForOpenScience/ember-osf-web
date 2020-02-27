@@ -7,11 +7,11 @@
         data-test-subject={{@singleSubjectManager.subject.id}}
         local-class='ItemLabel {{if @singleSubjectManager.hasSelectedChildren 'with-selected-child'}}'
     >
-        {{input
-            type='checkbox'
-            change=(action @singleSubjectManager.toggleSelected)
-            checked=@singleSubjectManager.isSelected
-        }}
+        <Input
+            @type='checkbox'
+            @change={{action @singleSubjectManager.toggleSelected}}
+            @checked={{@singleSubjectManager.isSelected}}
+        />
         {{#if this.isPlaceholder}}
             {{random-text wordsPerSentence=3}}
         {{else}}

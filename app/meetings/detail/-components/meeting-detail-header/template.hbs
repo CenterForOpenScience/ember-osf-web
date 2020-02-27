@@ -58,6 +58,7 @@
                     {{t 'meetings.detail.meeting-detail-header.email_text'
                         typeName=this.meeting.fieldNames.submission1_plural
                         emailAddress=this.meeting.typeOneSubmissionEmail
+                        htmlSafe=true
                     }}
                 </li>
             {{/if}}
@@ -67,6 +68,7 @@
                     {{t 'meetings.detail.meeting-detail-header.email_text'
                         typeName=this.meeting.fieldNames.submission2_plural
                         emailAddress=this.meeting.typeTwoSubmissionEmail
+                        htmlSafe=true
                     }}
                 </li>
             {{/if}}
@@ -97,7 +99,7 @@
             </dl>
         </div>
         <p data-test-meeting-panel-footer-note>
-            {{t 'meetings.detail.meeting-detail-header.panel_footer_note'}}
+            {{t 'meetings.detail.meeting-detail-header.panel_footer_note' htmlSafe=true}}
         </p>
     </panel.body>
 </CpPanel>

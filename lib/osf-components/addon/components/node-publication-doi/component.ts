@@ -1,10 +1,11 @@
 import { tagName } from '@ember-decorators/component';
-import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
+import { computed } from '@ember/object';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import { formatDoiAsUrl } from 'ember-osf-web/utils/doi';
 import { PublicationDoiManager } from 'osf-components/components/editable-field/publication-doi-manager/component';
+
 import template from './template';
 
 @tagName('')

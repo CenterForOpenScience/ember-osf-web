@@ -1,6 +1,6 @@
 import { tagName } from '@ember-decorators/component';
-import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
+import { computed } from '@ember/object';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 

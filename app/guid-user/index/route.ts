@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 
 export default class GuidUserIndex extends Route.extend({
 }) {
-    model(this: GuidUserIndex) {
+    model() {
         return this.modelFor('guid-user');
     }
 }

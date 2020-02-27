@@ -1,7 +1,8 @@
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
+import { action } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
-import { all, task } from 'ember-concurrency';
+import { inject as service } from '@ember/service';
+import { all } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import config from 'ember-get-config';
 import moment from 'moment';
 
@@ -26,6 +27,7 @@ export default class Overview extends GuidRoute {
 
     headTags?: HeadTagDef[];
 
+    @task({ restartable: true, cancelOn: 'deactivate' })
     setHeadTags = task(function *(this: Overview, model: any) {
         const blocker = this.ready.getBlocker();
 
@@ -76,7 +78,7 @@ export default class Overview extends GuidRoute {
         }
 
         blocker.done();
-    }).cancelOn('deactivate').restartable();
+    });
 
     modelName(): 'registration' {
         return 'registration';
@@ -94,11 +96,11 @@ export default class Overview extends GuidRoute {
         };
     }
 
-    afterModel(this: Overview, model: GuidRouteModel<Registration>) {
+    afterModel(model: GuidRouteModel<Registration>) {
         // Do not return model.taskInstance
         // as it would block rendering until model.taskInstance resolves and `setHeadTags` task terminates.
         if (!this.currentUser.viewOnlyToken) {
-            this.get('setHeadTags').perform(model);
+            this.setHeadTags.perform(model);
         }
     }
 

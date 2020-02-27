@@ -1,5 +1,5 @@
-import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import DS from 'ember-data';
 
 export default class Index extends Route {

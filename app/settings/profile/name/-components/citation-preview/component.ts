@@ -1,7 +1,7 @@
 import { tagName } from '@ember-decorators/component';
-import { computed } from '@ember-decorators/object';
-import { and } from '@ember-decorators/object/computed';
 import Component from '@ember/component';
+import { computed } from '@ember/object';
+import { and } from '@ember/object/computed';
 
 import User from 'ember-osf-web/models/user';
 

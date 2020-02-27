@@ -1,9 +1,10 @@
-import { action, computed } from '@ember-decorators/object';
-import { alias, overridableReads } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import { A } from '@ember/array';
 import Component from '@ember/component';
-import { task, timeout } from 'ember-concurrency';
+import { action, computed } from '@ember/object';
+import { alias, reads } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
+import { timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
@@ -25,38 +26,74 @@ const {
 } = config;
 
 @layout(template, styles)
-export default class NewProjectModal extends Component.extend({
-    initTask: task(function *(this: NewProjectModal) {
+export default class NewProjectModal extends Component {
+    @service analytics!: Analytics;
+    @service currentUser!: CurrentUser;
+    @service store!: DS.Store;
+    @service features!: Features;
+
+    // Required arguments
+    @requiredAction afterProjectCreated!: (newNode: Node) => void;
+
+    // Optional arguments
+    isPublic?: boolean;
+
+    // Private fields
+    nodeTitle?: string;
+    description?: string;
+    more: boolean = false;
+    templateFrom?: Node;
+    selectedRegion?: Region;
+    institutions: Institution[] = [];
+    regions: Region[] = [];
+
+    @alias('currentUser.user') user!: User;
+
+    @reads('institutions') selectedInstitutions!: Institution[];
+
+    @computed()
+    get storageI18nEnabled() {
+        return this.features.isEnabled(storageI18n);
+    }
+
+    @task({ on: 'init' })
+    initTask = task(function *(this: NewProjectModal) {
         if (this.storageI18nEnabled) {
             // not yielding so it runs in parallel
             this.get('getStorageRegionsTask').perform();
         }
         this.set('institutions', yield this.currentUser.user!.institutions);
-    }).on('init'),
+    });
 
-    getStorageRegionsTask: task(function *(this: NewProjectModal) {
+    @task
+    getStorageRegionsTask = task(function *(this: NewProjectModal) {
         const regions = yield this.store.findAll('region');
 
         this.setProperties({
             regions: regions.toArray(),
             selectedRegion: this.currentUser.user!.defaultRegion,
         });
-    }),
-    loadDefaultRegionTask: task(function *(this: NewProjectModal) {
+    });
+
+    @task
+    loadDefaultRegionTask = task(function *(this: NewProjectModal) {
         const { user } = this.currentUser;
         if (!user) {
             return;
         }
 
         yield user.belongsTo('defaultRegion').reload();
-    }),
-    searchUserNodesTask: task(function *(this: NewProjectModal, title: string) {
+    });
+
+    @task({ restartable: true })
+    searchUserNodesTask = task(function *(this: NewProjectModal, title: string) {
         yield timeout(500);
         const user: User = yield this.user;
         return yield user.queryHasMany('nodes', { filter: { title } });
-    }).restartable(),
+    });
 
-    createNodeTask: task(function *(
+    @task({ drop: true })
+    createNodeTask = task(function *(
         this: NewProjectModal,
         title: string,
         description: string,
@@ -87,40 +124,10 @@ export default class NewProjectModal extends Component.extend({
         yield node.save();
 
         this.afterProjectCreated(node);
-    }).drop(),
-
-}) {
-    @service analytics!: Analytics;
-    @service currentUser!: CurrentUser;
-    @service store!: DS.Store;
-    @service features!: Features;
-
-    // Required arguments
-    @requiredAction afterProjectCreated!: (newNode: Node) => void;
-
-    // Optional arguments
-    isPublic?: boolean;
-
-    // Private fields
-    nodeTitle?: string;
-    description?: string;
-    more: boolean = false;
-    templateFrom?: Node;
-    selectedRegion?: Region;
-    institutions: Institution[] = [];
-    regions: Region[] = [];
-
-    @alias('currentUser.user') user!: User;
-
-    @overridableReads('institutions') selectedInstitutions!: Institution[];
-
-    @computed()
-    get storageI18nEnabled() {
-        return this.features.isEnabled(storageI18n);
-    }
+    });
 
     @action
-    selectInstitution(this: NewProjectModal, institution: Institution) {
+    selectInstitution(institution: Institution) {
         const selected = this.set('selectedInstitutions', this.selectedInstitutions.slice());
 
         if (selected.includes(institution)) {
@@ -131,23 +138,23 @@ export default class NewProjectModal extends Component.extend({
     }
 
     @action
-    selectAllInstitutions(this: NewProjectModal) {
+    selectAllInstitutions() {
         this.set('selectedInstitutions', this.institutions.slice());
     }
 
     @action
-    removeAllInstitutions(this: NewProjectModal) {
+    removeAllInstitutions() {
         this.set('selectedInstitutions', A([]));
     }
 
     @action
-    selectTemplateFrom(this: NewProjectModal, templateFrom: Node) {
+    selectTemplateFrom(templateFrom: Node) {
         this.set('templateFrom', templateFrom);
         this.analytics.click('button', 'New project - Select template from');
     }
 
     @action
-    selectRegion(this: NewProjectModal, region: Region) {
+    selectRegion(region: Region) {
         this.set('selectedRegion', region);
         this.analytics.click('button', 'New project - Select storage region');
     }

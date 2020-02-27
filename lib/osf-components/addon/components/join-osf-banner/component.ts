@@ -1,7 +1,7 @@
-import { action } from '@ember-decorators/object';
-import { or } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { action } from '@ember/object';
+import { or } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 import Session from 'ember-simple-auth/services/session';
 

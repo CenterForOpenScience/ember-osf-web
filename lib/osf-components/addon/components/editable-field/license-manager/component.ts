@@ -1,11 +1,11 @@
 import { tagName } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
-import { alias, and, not, sort } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { task, timeout } from 'ember-concurrency';
+import { action, computed } from '@ember/object';
+import { alias, and, not, sort } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -31,22 +31,39 @@ export interface LicenseManager {
 
 @tagName('')
 @layout(template)
-export default class LicenseManagerComponent extends Component.extend({
-    queryLicenses: task(function *(this: LicenseManagerComponent, name?: string) {
-        if (this.licensesAcceptable && this.licensesAcceptable.length) {
-            if (name) {
-                yield timeout(500);
-            }
+export default class LicenseManagerComponent extends Component {
+    // required
+    node!: Registration;
 
-            const licensesAcceptable = this.licensesAcceptable
-                .filter(license => license.get('name').includes(name || ''));
+    // private
+    @service analytics!: Analytics;
+    @service intl!: Intl;
+    @service store!: DS.Store;
+    @service toast!: Toast;
 
-            this.setProperties({ licensesAcceptable });
-            return licensesAcceptable;
-        }
-        return undefined;
-    }).on('didReceiveAttrs').restartable(),
-    getAllProviderLicenses: task(function *(this: LicenseManagerComponent) {
+    requestedEditMode: boolean = false;
+
+    showText: boolean = false;
+    licensesAcceptable!: QueryHasManyResult<License>;
+    helpLink: string = 'https://help.osf.io/hc/en-us/articles/360019739014-Licensing';
+    currentLicense!: License;
+    currentNodeLicense!: NodeLicense;
+    selectedLicense!: License;
+
+    @alias('node.userHasAdminPermission') userCanEdit!: boolean;
+    @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
+    @not('currentLicense') fieldIsEmpty!: License;
+
+    @sort('selectedLicense.requiredFields', (a: string, b: string) => +(a > b))
+    requiredFields!: string[];
+
+    @computed('fieldIsEmpty', 'userCanEdit')
+    get shouldShowField() {
+        return this.userCanEdit || !this.fieldIsEmpty;
+    }
+
+    @task({ restartable: true, on: 'didReceiveAttrs' })
+    getAllProviderLicenses = task(function *(this: LicenseManagerComponent) {
         const provider = yield this.node.provider;
 
         if (!provider) {
@@ -63,37 +80,7 @@ export default class LicenseManagerComponent extends Component.extend({
             currentLicense: yield this.node.license,
             currentNodeLicense: { ...this.node.nodeLicense },
         });
-    }).on('init'),
-}) {
-    // required
-    node!: Registration;
-
-    // private
-    @service analytics!: Analytics;
-    @service i18n!: I18N;
-    @service store!: DS.Store;
-    @service toast!: Toast;
-
-    requestedEditMode: boolean = false;
-
-    showText: boolean = false;
-    licensesAcceptable!: QueryHasManyResult<License>;
-    helpLink: string = 'https://help.osf.io/hc/en-us/articles/360019739014-Licensing';
-    currentLicense!: License;
-    currentNodeLicense!: NodeLicense;
-
-    @alias('node.userHasAdminPermission') userCanEdit!: boolean;
-    @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
-    @alias('node.license') selectedLicense!: License;
-    @not('currentLicense') fieldIsEmpty!: License;
-
-    @sort('selectedLicense.requiredFields', (a: string, b: string) => +(a > b))
-    requiredFields!: string[];
-
-    @computed('fieldIsEmpty', 'userCanEdit')
-    get shouldShowField() {
-        return this.userCanEdit || !this.fieldIsEmpty;
-    }
+    });
 
     @action
     startEditing() {
@@ -102,6 +89,7 @@ export default class LicenseManagerComponent extends Component.extend({
 
     @action
     cancel() {
+        this.reset();
         this.set('requestedEditMode', false);
     }
 
@@ -120,7 +108,7 @@ export default class LicenseManagerComponent extends Component.extend({
 
     @action
     onSave() {
-        this.toast.success(this.i18n.t('registries.registration_metadata.edit_license.success'));
+        this.toast.success(this.intl.t('registries.registration_metadata.edit_license.success'));
         this.setProperties({
             currentLicense: this.selectedLicense,
             currentNodeLicense: { ...this.node.nodeLicense },
@@ -130,12 +118,6 @@ export default class LicenseManagerComponent extends Component.extend({
 
     @action
     onError() {
-        this.toast.error(this.i18n.t('registries.registration_metadata.edit_license.error'));
-    }
-
-    @action
-    onCancel() {
-        this.reset();
-        this.set('requestedEditMode', false);
+        this.toast.error(this.intl.t('registries.registration_metadata.edit_license.error'));
     }
 }

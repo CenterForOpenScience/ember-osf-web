@@ -1,15 +1,17 @@
-import { action, computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import { getOwner } from '@ember/application';
 import EmberArray, { A } from '@ember/array';
 import Controller from '@ember/controller';
-import { task, timeout } from 'ember-concurrency';
-import I18N from 'ember-i18n/services/i18n';
+import { action, computed } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
+import Intl from 'ember-intl/services/intl';
+import QueryParams from 'ember-parachute';
+import { is, OrderedSet } from 'immutable';
+
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import scrollTo from 'ember-osf-web/utils/scroll-to';
-import QueryParams from 'ember-parachute';
-import { is, OrderedSet } from 'immutable';
 import discoverStyles from 'registries/components/registries-discover-search/styles';
 import config from 'registries/config/environment';
 import { SearchFilter, SearchOptions, SearchOrder, SearchResults } from 'registries/services/search';
@@ -18,6 +20,7 @@ import ShareSearch, {
     ShareTermsAggregation,
     ShareTermsFilter,
 } from 'registries/services/share-search';
+
 import styles from './styles';
 
 // Helper for Immutable.is as it doesn't like Native Arrays
@@ -143,41 +146,8 @@ const queryParams = {
 
 export const discoverQueryParams = new QueryParams<DiscoverQueryParams>(queryParams);
 
-export default class Discover extends Controller.extend(discoverQueryParams.Mixin, {
-    getCountsAndAggs: task(function *(this: Discover) {
-        const results: SearchResults<any> = yield this.shareSearch.registrations(new SearchOptions({
-            size: 0,
-            modifiers: OrderedSet([
-                new ShareTermsAggregation('sources', 'sources'),
-            ]),
-        }));
-
-        const filterableSources: Array<{count: number, filter: SearchFilter}> = [];
-        /* eslint-disable camelcase */
-        const buckets = results.aggregations.sources.buckets as Array<{key: string, doc_count: number}>;
-        // NOTE: sourcesWhitelist is iterated over here to match it's order.
-        for (const source of config.sourcesWhitelist) {
-            const bucket = buckets.find(x => x.key === source.name);
-            if (!bucket) {
-                continue;
-            }
-
-            filterableSources.push({
-                count: bucket.doc_count,
-                filter: new ShareTermsFilter(
-                    'sources',
-                    bucket.key,
-                    source.display || source.name,
-                ),
-            });
-        }
-        /* eslint-enable camelcase */
-
-        this.set('searchable', results.total);
-        this.set('filterableSources', filterableSources);
-    }).on('init'),
-}) {
-    @service i18n!: I18N;
+export default class Discover extends Controller.extend(discoverQueryParams.Mixin) {
+    @service intl!: Intl;
     @service analytics!: Analytics;
     @service shareSearch!: ShareSearch;
 
@@ -209,6 +179,41 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         return max;
     }
 
+    @task({ on: 'init' })
+    getCountsAndAggs = task(function *(this: Discover) {
+        const results: SearchResults<any> = yield this.shareSearch.registrations(new SearchOptions({
+            size: 0,
+            modifiers: OrderedSet([
+                new ShareTermsAggregation('sources', 'sources'),
+            ]),
+        }));
+
+        const filterableSources: Array<{count: number, filter: SearchFilter}> = [];
+        /* eslint-disable camelcase */
+        const buckets = results.aggregations.sources.buckets as Array<{key: string, doc_count: number}>;
+        // NOTE: sourcesWhitelist is iterated over here to match it's order.
+        for (const source of config.sourcesWhitelist) {
+            const bucket = buckets.find(x => x.key === source.name);
+            if (!bucket) {
+                continue;
+            }
+
+            filterableSources.push({
+                count: bucket.doc_count,
+                filter: new ShareTermsFilter(
+                    'sources',
+                    bucket.key,
+                    source.display || source.name,
+                ),
+            });
+        }
+        /* eslint-enable camelcase */
+
+        this.set('searchable', results.total);
+        this.set('filterableSources', filterableSources);
+    });
+
+    @task({ restartable: true })
     doSearch = task(function *(this: Discover) {
         // Unless OSF is the only source, registration_type filters must be cleared
         if (!(this.sources.length === 1 && this.sources[0]!.value === 'OSF')) {
@@ -250,18 +255,18 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
 
         this.set('results', A(results.results));
         this.set('totalResults', results.total);
-    }).restartable();
+    });
 
-    setup(this: Discover) {
-        this.get('doSearch').perform();
+    setup() {
+        this.doSearch.perform();
     }
 
-    queryParamsDidChange(this: Discover) {
-        this.get('doSearch').perform();
+    queryParamsDidChange() {
+        this.doSearch.perform();
     }
 
     @action
-    onSearchOptionsUpdated(this: Discover, options: SearchOptions) {
+    onSearchOptionsUpdated(options: SearchOptions) {
         const sources: ShareTermsFilter[] = [];
         const registrationTypes: ShareTermsFilter[] = [];
         for (const filter of options.filters.values()) {
@@ -274,7 +279,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
             }
         }
 
-        const changes = {} as Pick<typeof this, keyof typeof this>;
+        const changes = {} as Discover;
 
         if (!isEqual(this.sources, sources)) {
             changes.page = 1;
@@ -291,7 +296,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
     }
 
     @action
-    changePage(this: Discover, page: number) {
+    changePage(page: number) {
         this.set('page', page);
 
         // Get the application owner by using
@@ -301,21 +306,21 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         if (!element) {
             return;
         }
-        scrollTo(getOwner(this.i18n), element);
+        scrollTo(getOwner(this.intl), element);
     }
 
     @action
-    onSearch(this: Discover, value: string) {
+    onSearch(value: string) {
         // Set page to 1 here to ensure page is always reset when updating a query
         this.setProperties({ page: 1, query: value });
         // If query or page don't actually change ember won't fire related events
         // So always kick off a doSearch task to allow forcing a "re-search"
-        this.get('doSearch').perform();
+        this.doSearch.perform();
     }
 
     @action
-    setOrder(this: Discover, value: SearchOrder) {
-        this.analytics.track('dropdown', 'select', `Discover - Sort By: ${this.i18n.t(value.display)}`);
+    setOrder(value: SearchOrder) {
+        this.analytics.track('dropdown', 'select', `Discover - Sort By: ${this.intl.t(value.display)}`);
         // Set page to 1 here to ensure page is always reset when changing the order/sorting of a search
         this.setProperties({ page: 1, sort: value });
     }

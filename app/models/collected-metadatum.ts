@@ -1,8 +1,7 @@
-import { attr, belongsTo } from '@ember-decorators/data';
-import { computed } from '@ember-decorators/object';
-import { computed as iComputed } from '@ember/object';
+import { computed } from '@ember/object';
 import { alias as iAlias } from '@ember/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
+import DS from 'ember-data';
 
 import tuple from 'ember-osf-web/utils/tuple';
 
@@ -10,6 +9,8 @@ import Collection, { ChoicesFields } from './collection';
 import Node from './node';
 import OsfModel from './osf-model';
 import User from './user';
+
+const { attr, belongsTo } = DS;
 
 export const choiceFields = tuple(
     'collectedType',
@@ -21,7 +22,7 @@ export const choiceFields = tuple(
 
 const Validations = buildValidations({
     ...choiceFields.reduce((acc, val) => {
-        const disabled = iComputed('model.displayChoiceFields.[]', function(): boolean {
+        const disabled = computed('model.displayChoiceFields.[]', function(): boolean {
             return !this.model.displayChoiceFields.includes(val);
         });
 

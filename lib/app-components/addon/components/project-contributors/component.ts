@@ -1,6 +1,6 @@
-import { action } from '@ember-decorators/object';
 import ArrayProxy from '@ember/array/proxy';
 import Component from '@ember/component';
+import { action } from '@ember/object';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Contributor from 'ember-osf-web/models/contributor';

@@ -1,12 +1,12 @@
-import { action, computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import EmberArray, { A } from '@ember/array';
 import Component from '@ember/component';
-import { task } from 'ember-concurrency';
+import { action, computed } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
 import appConfig from 'ember-get-config';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import RegistrationSchema from 'ember-osf-web/adapters/registration-schema';
@@ -30,8 +30,20 @@ const {
 } = appConfig;
 
 @layout(template)
-export default class RegistriesRegistrationTypeFacet extends Component.extend({
-    fetchRegistrationTypes: task(function *(this: RegistriesRegistrationTypeFacet): any {
+export default class RegistriesRegistrationTypeFacet extends Component {
+    @service intl!: Intl;
+    @service toast!: Toast;
+    @service store!: DS.Store;
+    @service analytics!: Analytics;
+    @service features!: Features;
+
+    searchOptions!: SearchOptions;
+    @requiredAction onSearchOptionsUpdated!: (options: SearchOptions) => void;
+
+    registrationTypes: EmberArray<string> = defaultTo(this.registrationTypes, A([]));
+
+    @task({ on: 'init' })
+    fetchRegistrationTypes = task(function *(this: RegistriesRegistrationTypeFacet): any {
         try {
             const metaschemas: RegistrationSchema[] = yield this.store.findAll('registration-schema');
 
@@ -46,24 +58,13 @@ export default class RegistriesRegistrationTypeFacet extends Component.extend({
             }
             this.set('registrationTypes', A(metaschemaNames.sort()));
         } catch (e) {
-            this.toast.error(this.i18n.t('registries.facets.registration_type.registration_schema_error'));
+            this.toast.error(this.intl.t('registries.facets.registration_type.registration_schema_error'));
             throw e;
         }
-    }).on('init'),
-}) {
-    @service i18n!: I18N;
-    @service toast!: Toast;
-    @service store!: DS.Store;
-    @service analytics!: Analytics;
-    @service features!: Features;
-
-    searchOptions!: SearchOptions;
-    @requiredAction onSearchOptionsUpdated!: (options: SearchOptions) => void;
-
-    registrationTypes: EmberArray<string> = defaultTo(this.registrationTypes, A([]));
+    });
 
     get title() {
-        return this.i18n.t('registries.facets.registration_type.title');
+        return this.intl.t('registries.facets.registration_type.title');
     }
 
     @computed('searchOptions')

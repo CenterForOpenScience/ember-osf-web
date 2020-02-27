@@ -1,7 +1,7 @@
 import { className } from '@ember-decorators/component';
-import { alias } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import { localClassNames } from 'ember-css-modules';
 import Media from 'ember-responsive';
 

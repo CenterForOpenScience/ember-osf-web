@@ -1,11 +1,11 @@
 <li local-class='SearchResult' ...attributes>
     {{#let (unique-id 'search-result') as |inputId|}}
-        {{input
-            id=inputId
-            type='checkbox'
-            change=@singleSubjectManager.toggleSelected
-            checked=@singleSubjectManager.isSelected
-        }}
+        <Input
+            @id={{inputId}}
+            @type='checkbox'
+            @change={{@singleSubjectManager.toggleSelected}}
+            @checked={{@singleSubjectManager.isSelected}}
+        />
 
         <span local-class='Ancestry'>
             {{#each this.subjectAncestry as |ancestor|}}

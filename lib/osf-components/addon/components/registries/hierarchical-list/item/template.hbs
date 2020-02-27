@@ -1,5 +1,10 @@
 <li data-test-item={{@manager.item.id}}>
-    {{input type='checkbox' change=(action @manager.onChange) checked=@manager.itemChecked disabled=@manager.isRoot}}
+    <Input
+        @type='checkbox'
+        @change={{action @manager.onChange}}
+        @checked={{@manager.itemChecked}}
+        @disabled={{@manager.isRoot}}
+    />
     <OsfButton
         local-class='expand-button'
         @type='link'
@@ -7,7 +12,7 @@
         data-test-expand-child={{@manager.item.id}}
     >
         {{@manager.item.title}}
-        {{#if @manager.item.children}}
+        {{#if @manager.children}}
             <FaIcon
                 @icon='caret-{{if @manager.shouldShowChildren 'up' 'down'}}'
                 @fixedWidth={{true}}
@@ -15,9 +20,9 @@
         {{/if}}
     </OsfButton>
 </li>
-{{#if (and @manager.item.children @manager.shouldShowChildren)}}
+{{#if (and @manager.children @manager.shouldShowChildren)}}
     <ul ...attributes>
-        {{#each @manager.item.children as |child|}}
+        {{#each @manager.children as |child|}}
             <Registries::HierarchicalList::ItemManager
                 @item={{child}}
                 @listManager={{@manager.listManager}}

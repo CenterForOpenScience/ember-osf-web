@@ -1,8 +1,9 @@
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
+import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
-import { task, TaskInstance } from 'ember-concurrency';
+import { inject as service } from '@ember/service';
+import { TaskInstance } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 
 import requireAuth from 'ember-osf-web/decorators/require-auth';
@@ -15,8 +16,13 @@ export interface DraftRouteModel {
 }
 
 @requireAuth()
-export default class DraftRegistrationRoute extends Route.extend({
-    loadModelTask: task(function *(this: DraftRegistrationRoute, draftId: string) {
+export default class DraftRegistrationRoute extends Route {
+    @service analytics!: Analytics;
+    @service store!: DS.Store;
+    @service router!: RouterService;
+
+    @task
+    loadModelTask = task(function *(this: DraftRegistrationRoute, draftId: string) {
         try {
             const draftRegistration = yield this.store.findRecord(
                 'draft-registration',
@@ -29,11 +35,7 @@ export default class DraftRegistrationRoute extends Route.extend({
             this.transitionTo('page-not-found', this.router.currentURL.slice(1));
             return undefined;
         }
-    }),
-}) {
-    @service analytics!: Analytics;
-    @service store!: DS.Store;
-    @service router!: RouterService;
+    });
 
     model(params: { id: string }): DraftRouteModel {
         const { id: draftId } = params;

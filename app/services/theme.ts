@@ -1,7 +1,6 @@
-import { computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import { assert } from '@ember/debug';
-import Service from '@ember/service';
+import { computed } from '@ember/object';
+import Service, { inject as service } from '@ember/service';
 import DS from 'ember-data';
 import config from 'ember-get-config';
 import Provider from 'ember-osf-web/models/provider';
@@ -114,7 +113,7 @@ export default class Theme extends Service {
         return assets && assets.style ? assets.style : `${this.assetsDir}/style.css`;
     }
 
-    reset(this: Theme) {
+    reset() {
         this.setProperties({
             id: defaultProvider,
             providerType: undefined,

@@ -1,10 +1,10 @@
 import { tagName } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
-import { alias, and } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { task } from 'ember-concurrency';
-import I18N from 'ember-i18n/services/i18n';
+import { action, computed } from '@ember/object';
+import { alias, and } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency-decorators';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -28,44 +28,12 @@ export interface InstitutionsManager {
 
 @tagName('')
 @layout(template)
-export default class InstitutionsManagerComponent extends Component.extend({
-    loadNodeAffiliatedInstitutions: task(function *(this: InstitutionsManagerComponent) {
-        if (this.node) {
-            try {
-                const affiliatedList: QueryHasManyResult<Institution> = yield this.node.queryHasMany(
-                    'affiliatedInstitutions', {
-                        pageSize: 100,
-                    },
-                );
-                this.setProperties({
-                    affiliatedList,
-                });
-            } catch (e) {
-                throw e;
-            }
-        }
-    }).on('didReceiveAttrs').restartable(),
-    save: task(function *(this: InstitutionsManagerComponent) {
-        try {
-            yield this.node.updateM2MRelationship('affiliatedInstitutions', this.currentAffiliatedList);
-        } catch (e) {
-            this.node.rollbackAttributes();
-            this.toast.error(this.i18n.t('registries.registration_metadata.edit_institutions.error'));
-            throw e;
-        }
-        this.setProperties({
-            affiliatedList: [...this.currentAffiliatedList],
-            requestedEditMode: false,
-        });
-        this.toast.success(this.i18n.t('registries.registration_metadata.edit_institutions.success'));
-        this.reloadList();
-    }),
-}) {
+export default class InstitutionsManagerComponent extends Component {
     // Required
     node!: Node;
 
     // private properties
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service toast!: Toast;
     @service currentUser!: CurrentUser;
 
@@ -89,15 +57,50 @@ export default class InstitutionsManagerComponent extends Component.extend({
     @computed('node.isRegistration')
     get emptyFieldText() {
         if (this.node.get('isRegistration')) {
-            return this.i18n.t('osf-components.institutions-list.no_affiliated_institution.registration');
+            return this.intl.t('osf-components.institutions-list.no_affiliated_institution.registration');
         }
-        return this.i18n.t('osf-components.institutions-list.no_affiliated_institution.project');
+        return this.intl.t('osf-components.institutions-list.no_affiliated_institution.project');
     }
 
     @computed('fieldIsEmpty', 'userCanEdit')
     get shouldShowField() {
         return this.userCanEdit || !this.fieldIsEmpty;
     }
+
+    @task({ restartable: true, on: 'didReceiveAttrs' })
+    loadNodeAffiliatedInstitutions = task(function *(this: InstitutionsManagerComponent) {
+        if (this.node) {
+            try {
+                const affiliatedList: QueryHasManyResult<Institution> = yield this.node.queryHasMany(
+                    'affiliatedInstitutions', {
+                        pageSize: 100,
+                    },
+                );
+                this.setProperties({
+                    affiliatedList,
+                });
+            } catch (e) {
+                throw e;
+            }
+        }
+    });
+
+    @task
+    save = task(function *(this: InstitutionsManagerComponent) {
+        try {
+            yield this.node.updateM2MRelationship('affiliatedInstitutions', this.currentAffiliatedList);
+        } catch (e) {
+            this.node.rollbackAttributes();
+            this.toast.error(this.intl.t('registries.registration_metadata.edit_institutions.error'));
+            throw e;
+        }
+        this.setProperties({
+            affiliatedList: [...this.currentAffiliatedList],
+            requestedEditMode: false,
+        });
+        this.toast.success(this.intl.t('registries.registration_metadata.edit_institutions.success'));
+        this.reloadList();
+    });
 
     @action
     startEditing() {

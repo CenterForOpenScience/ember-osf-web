@@ -1,8 +1,8 @@
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
+import { action } from '@ember/object';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import HeadTagsService from 'ember-cli-meta-tags/services/head-tags';
-import { task } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import moment from 'moment';
 
 import GuidFileController from 'ember-osf-web/guid-file/controller';
@@ -23,6 +23,7 @@ export default class GuidFile extends Route {
 
     headTags?: HeadTagDef[];
 
+    @task
     setHeadTags = task(function *(this: GuidFile, model: any) {
         const blocker = this.get('ready').getBlocker();
         const dateCreated = model.file.get('dateCreated');
@@ -40,9 +41,13 @@ export default class GuidFile extends Route {
         blocker.done();
     });
 
-    async model(this: GuidFile, params: { guid: string }) {
+    async model(params: { guid: string }) {
+        const { guid } = params;
         try {
-            const file = await this.store.findRecord('file', params.guid);
+            let file = this.store.peekAll('file').findBy('guid', guid);
+            if (!file) {
+                file = await this.store.findRecord('file', guid);
+            }
             const fileId = file.get('id');
             const fileUser: User = await file.get('user');
             const user: User = await fileUser.reload();
@@ -58,13 +63,13 @@ export default class GuidFile extends Route {
                 files,
             };
         } catch (error) {
-            this.transitionTo('not-found', params.guid);
+            this.transitionTo('not-found', guid);
             throw error;
         }
     }
 
-    afterModel(this: GuidFile, model: any) {
-        this.get('setHeadTags').perform(model);
+    afterModel(model: any) {
+        this.setHeadTags.perform(model);
     }
 
     resetController(controller: GuidFileController, isExiting: boolean, transition: { targetName: string }) {

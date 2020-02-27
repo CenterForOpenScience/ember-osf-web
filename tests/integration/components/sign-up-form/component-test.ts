@@ -7,11 +7,7 @@ module('Integration | Component | sign-up-form', hooks => {
     setupRenderingTest(hooks);
 
     test('it renders', async function(assert) {
-        this.set('submit', () => {
-            assert.ok(true);
-        });
-
-        await render(hbs`{{sign-up-form submit=submit}}`);
+        await render(hbs`<SignUpForm />`);
         assert.dom(this.element).includesText('I have read and agree to the Terms of Use and Privacy Policy.');
     });
 });

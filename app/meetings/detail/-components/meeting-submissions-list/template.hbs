@@ -1,10 +1,10 @@
 <div data-test-submissions-list-search local-class='search'>
     <div class='col-xs-12 col-sm-6 col-sm-offset-6'>
-        {{input
-            type='text'
-            placeholder='Search'
-            key-up=(perform this.searchSubmissions)
-        }}
+        <Input
+            @type='text'
+            @placeholder='Search'
+            @key-up={{perform this.searchSubmissions}}
+        />
     </div>
 </div>
 

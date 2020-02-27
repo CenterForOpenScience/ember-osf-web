@@ -1,13 +1,20 @@
 import { isEmpty } from '@ember/utils';
 import { ValidatorFunction } from 'ember-changeset-validations';
+import buildMessage from 'ember-changeset-validations/utils/validation-errors';
 import File from 'ember-osf-web/models/file';
 import NodeModel from 'ember-osf-web/models/node';
 import { allSettled } from 'rsvp';
 
-export function validateFileList(node?: NodeModel): ValidatorFunction {
+export function validateFileList(responseKey: string, node?: NodeModel): ValidatorFunction {
     return async (_: string, newValue: File[]) => {
         if (newValue && node) {
-            await allSettled(newValue.map(file => file.reload()));
+            const fileReloads: Array<() => Promise<File>> = [];
+            newValue.forEach(file => {
+                if (file && !file.isError) {
+                    fileReloads.push(file.reload());
+                }
+            });
+            await allSettled(fileReloads);
 
             const detachedFiles = [];
 
@@ -19,7 +26,16 @@ export function validateFileList(node?: NodeModel): ValidatorFunction {
             const projectOrComponent = node.isRoot ? 'project' : 'component';
 
             if (!isEmpty(detachedFiles)) {
-                return `The file(s) "${detachedFiles.join(', ')}" cannot be found on this ${projectOrComponent}.`;
+                const missingFilesList = detachedFiles.join(', ');
+                const numOfFiles = detachedFiles.length;
+
+                return buildMessage(responseKey, {
+                    type: 'presence',
+                    context: {
+                        type: 'onlyProjectOrComponentFiles',
+                        translationArgs: { projectOrComponent, missingFilesList, numOfFiles },
+                    },
+                });
             }
         }
         return true;

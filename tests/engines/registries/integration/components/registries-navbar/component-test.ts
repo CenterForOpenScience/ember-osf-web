@@ -1,7 +1,7 @@
 import Service from '@ember/service';
 import { click, fillIn, render, triggerKeyEvent } from '@ember/test-helpers';
 import config from 'ember-get-config';
-import { t } from 'ember-i18n/test-support';
+import { setupIntl, t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
 import { setBreakpoint } from 'ember-responsive/test-support';
 import { TestContext } from 'ember-test-helpers';
@@ -50,6 +50,10 @@ const osfRouterStub = Service.extend({
     transitionTo: () => null,
 });
 
+const headTagsStub = Service.extend({
+    collectHeadTags: () => { /* noop */ },
+});
+
 function visibleText(selector: string) {
     // https://stackoverflow.com/questions/1846177/how-do-i-get-just-the-visible-text-with-jquery-or-javascript
     return $(`${selector} *:not(:has(*)):visible`).text().replace(/\s+/g, ' ').trim();
@@ -58,8 +62,10 @@ function visibleText(selector: string) {
 /* tslint:disable:only-arrow-functions */
 module('Registries | Integration | Component | registries-navbar', hooks => {
     setupEngineRenderingTest(hooks, 'registries');
+    setupIntl(hooks);
 
     hooks.beforeEach(function(this: TestContext) {
+        this.owner.register('service:head-tags', headTagsStub);
         sinon.stub(this.owner.lookup('service:router'), 'urlFor').callsFake(
             (route: string, params?: { queryParams: object }) => {
                 let url = `/${route}`;
@@ -272,12 +278,12 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
     test('service list', async assert => {
         await render(hbs`<RegistriesNavbar />`);
 
-        assert.dom('[data-test-service-list]').isNotVisible();
+        assert.dom('[data-test-service-list] ul').isNotVisible();
 
         await click('[data-test-service]');
         await percySnapshot(assert);
 
-        assert.dom('[data-test-service-list]').isVisible();
+        assert.dom('[data-test-service-list] ul').isVisible();
     });
 
     test('auth dropdown', async function(assert) {
@@ -285,11 +291,11 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
 
         await render(hbs`<RegistriesNavbar />`);
 
-        assert.dom('[data-test-auth-dropdown]').isNotVisible();
+        assert.dom('[data-test-auth-dropdown] ul').isNotVisible();
 
         await click('[data-test-gravatar]');
         await percySnapshot(assert);
 
-        assert.dom('[data-test-auth-dropdown]').isVisible();
+        assert.dom('[data-test-auth-dropdown] ul').isVisible();
     });
 });

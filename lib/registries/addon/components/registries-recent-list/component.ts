@@ -1,6 +1,6 @@
-import { computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { localClassNames } from 'ember-css-modules';
 import Store from 'ember-data/store';
 

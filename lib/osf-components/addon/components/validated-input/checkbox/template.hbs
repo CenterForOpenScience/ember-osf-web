@@ -8,13 +8,13 @@
     as |inputElementId|
 }}
     <label>
-        {{input
-            id=inputElementId
-            type='checkbox'
-            checked=this.value
-            name=this.valuePath
-            disabled=this.disabled
-        }}
+        <Input
+            @id={{inputElementId}}
+            @type='checkbox'
+            @checked={{this.value}}
+            @name={{this.valuePath}}
+            @disabled={{this.disabled}}
+        />
         {{yield}}
     </label>
 {{/validated-input/x-input-wrapper}}

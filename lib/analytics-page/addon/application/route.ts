@@ -1,9 +1,10 @@
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import { assert } from '@ember/debug';
+import { action } from '@ember/object';
 import Transition from '@ember/routing/-private/transition';
 import Route from '@ember/routing/route';
-import { task, TaskInstance } from 'ember-concurrency';
+import { inject as service } from '@ember/service';
+import { TaskInstance } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import { pluralize } from 'ember-inflector';
 
@@ -17,6 +18,7 @@ export default class AnalyticsPageRoute extends Route {
     @service ready!: Ready;
     @service store!: DS.Store;
 
+    @task
     reloadNode = task(function *(this: AnalyticsPageRoute, model: Node, blocker: Blocker) {
         const node = yield model.reload({
             adapterOptions: {
@@ -31,6 +33,7 @@ export default class AnalyticsPageRoute extends Route {
         return node;
     });
 
+    @task
     getNodeWithCounts = task(function *(this: AnalyticsPageRoute, taskInstance: TaskInstance<Node>) {
         const blocker = this.ready.getBlocker();
 
@@ -45,14 +48,14 @@ export default class AnalyticsPageRoute extends Route {
         };
     });
 
-    model(this: AnalyticsPageRoute, _: {}, transition: Transition) {
-        const guidHandlerInfo = transition.handlerInfos.find(
-            handlerInfo => Boolean(handlerInfo.params) && 'guid' in handlerInfo.params!,
+    model(_: {}, transition: Transition) {
+        const guidRouteInfo = transition.routeInfos.find(
+            routeInfo => Boolean(routeInfo.params) && 'guid' in routeInfo.params!,
         )!;
 
-        assert('A parent route must have a dynamic segment ":guid"', Boolean(guidHandlerInfo));
+        assert('A parent route must have a dynamic segment ":guid"', Boolean(guidRouteInfo));
 
-        const model = transition.resolvedModels[guidHandlerInfo.name]!;
+        const model = transition.resolvedModels[guidRouteInfo.name]!;
 
         assert(
             'Guid Routes\' models must have a taskInstance property that is a TaskInstance',
@@ -60,7 +63,7 @@ export default class AnalyticsPageRoute extends Route {
             model.taskInstance && model.taskInstance.isRunning !== undefined,
         );
 
-        return this.get('getNodeWithCounts').perform(model.taskInstance);
+        return this.getNodeWithCounts.perform(model.taskInstance);
     }
 
     @action

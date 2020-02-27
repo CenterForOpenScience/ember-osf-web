@@ -1,8 +1,8 @@
 import { tagName } from '@ember-decorators/component';
-import { computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import ArrayProxy from '@ember/array/proxy';
 import Component from '@ember/component';
+import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Contributor from 'ember-osf-web/models/contributor';

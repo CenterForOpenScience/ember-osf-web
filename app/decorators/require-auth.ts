@@ -1,5 +1,5 @@
-import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import SessionService from 'ember-simple-auth/services/session';
 
 import CurrentUser from 'ember-osf-web/services/current-user';

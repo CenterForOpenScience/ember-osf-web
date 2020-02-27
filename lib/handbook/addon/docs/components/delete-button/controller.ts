@@ -1,6 +1,6 @@
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { timeout } from 'ember-concurrency';
 import Toast from 'ember-toastr/services/toast';
 

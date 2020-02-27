@@ -1,7 +1,7 @@
-import { action, computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import I18N from 'ember-i18n/services/i18n';
+import { action, computed } from '@ember/object';
+import { inject as service } from '@ember/service';
+import Intl from 'ember-intl/services/intl';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import defaultTo from 'ember-osf-web/utils/default-to';
@@ -16,13 +16,13 @@ interface Item {
 
 @layout(template, styles)
 export default class SearchPaginator extends Component {
-    @service i18n!: I18N;
+    @service intl!: Intl;
 
     current: number = defaultTo(this.current, 1);
     minimum: number = defaultTo(this.minimum, 1);
     maximum: number = defaultTo(this.maximum, 100);
 
-    @computed('current', 'minimum', 'maximum', 'i18n.locale')
+    @computed('current', 'minimum', 'maximum', 'intl.locale')
     get numbers(): Array<string|number> {
         const total = this.maximum - this.minimum;
         const numbers: Array<string|number> = [];
@@ -36,7 +36,7 @@ export default class SearchPaginator extends Component {
             return numbers;
         }
 
-        const ellipsis = this.i18n.t('general.ellipsis');
+        const ellipsis = this.intl.t('general.ellipsis');
         const minPlus5 = this.minimum + 5;
 
         // Close to the minimum
@@ -90,11 +90,11 @@ export default class SearchPaginator extends Component {
         ];
     }
 
-    @computed('numbers', 'current', 'minimum', 'maximum', 'i18n.locale')
+    @computed('numbers', 'current', 'minimum', 'maximum', 'intl.locale')
     get items(): Item[] {
         return [
             {
-                text: this.i18n.t('app_components.search_paginator.prev'),
+                text: this.intl.t('app_components.search_paginator.prev'),
                 disabled: this.current === this.minimum,
                 action: 'prevPage',
             },
@@ -103,7 +103,7 @@ export default class SearchPaginator extends Component {
                 disabled: typeof text !== 'number',
             })),
             {
-                text: this.i18n.t('app_components.search_paginator.next'),
+                text: this.intl.t('app_components.search_paginator.next'),
                 disabled: this.current === this.maximum,
                 action: 'nextPage',
             },
@@ -116,17 +116,17 @@ export default class SearchPaginator extends Component {
     @requiredAction pageChanged!: (page: number) => void;
 
     @action
-    setPage(this: SearchPaginator, page: number): void {
+    setPage(page: number): void {
         this.pageChanged(page);
     }
 
     @action
-    prevPage(this: SearchPaginator): void {
+    prevPage(): void {
         this.setPage(this.current - 1);
     }
 
     @action
-    nextPage(this: SearchPaginator): void {
+    nextPage(): void {
         this.setPage(this.current + 1);
     }
 }

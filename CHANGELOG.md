@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [20.2.0] - 2020-02-27
+### Changed
+- Upgrade to Ember 3.15
+- Miscellaneous bug fixes
+
 ## [20.1.0] - 2020-01-21
 ### Added
 - Components
@@ -179,6 +184,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Tests
     - `schema-block-renderer`
         - added `files` block test
+
+- Packages
+    - Update `eslint-config-airbnb-base` to 14.0.0
 
 ### Removed
 - Tests
@@ -1552,7 +1560,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/20.1.0...develop
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/20.2.0...develop
+[20.2.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.2.0
 [20.1.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.1.0
 [19.11.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.11.0
 [19.10.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/19.10.0

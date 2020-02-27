@@ -1,7 +1,8 @@
-import { action, computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
-import { task, timeout } from 'ember-concurrency';
+import { action, computed } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 
 import Institution from 'ember-osf-web/models/institution';
@@ -15,10 +16,11 @@ export default class Institutions extends Controller {
     page = 1;
     textValue: string = '';
 
+    @task({ restartable: true })
     trackFilter = task(function *(this: Institutions) {
         yield timeout(1000);
         this.analytics.track('list', 'filter', 'Institutions - Search');
-    }).restartable();
+    });
 
     @computed('model', 'textValue')
     get filtered(): Institution[] {
@@ -50,7 +52,7 @@ export default class Institutions extends Controller {
     }
 
     @action
-    sort(this: Institutions, sortOrder: 'title' | '-title') {
+    sort(sortOrder: 'title' | '-title') {
         this.set('sortOrder', sortOrder);
     }
 }

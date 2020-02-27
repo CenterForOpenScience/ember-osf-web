@@ -1,10 +1,11 @@
 import { classNames } from '@ember-decorators/component';
-import { action } from '@ember-decorators/object';
 import Component from '@ember/component';
+import { action } from '@ember/object';
 import { localClassNames } from 'ember-css-modules';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import { SearchOptions } from 'registries/services/search';
+
 import template from './template';
 
 @layout(template)

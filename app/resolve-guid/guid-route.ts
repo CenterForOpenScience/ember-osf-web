@@ -1,6 +1,7 @@
-import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
-import { task, TaskInstance } from 'ember-concurrency';
+import { inject as service } from '@ember/service';
+import { TaskInstance } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
 
@@ -13,8 +14,12 @@ export interface GuidRouteModel<T> {
 
 // Note: this class is to provide a small amount of backwards compatibility.
 // Don't use it if you're making something new.
-export default abstract class GuidRoute extends Route.extend({
-    getModel: task(function *(this: GuidRoute, guid: string) {
+export default abstract class GuidRoute extends Route {
+    @service ready!: Ready;
+    @service store!: DS.Store;
+
+    @task
+    getModel = task(function *(this: GuidRoute, guid: string) {
         const blocker = this.ready.getBlocker();
 
         let model;
@@ -31,10 +36,7 @@ export default abstract class GuidRoute extends Route.extend({
         blocker.done();
 
         return model;
-    }),
-}) {
-    @service ready!: Ready;
-    @service store!: DS.Store;
+    });
 
     abstract modelName(): keyof ModelRegistry;
 

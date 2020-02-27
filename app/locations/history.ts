@@ -1,7 +1,8 @@
-import { service } from '@ember-decorators/service';
 import { getOwner } from '@ember/application';
 import HistoryLocation from '@ember/routing/history-location';
-import { task, waitForQueue } from 'ember-concurrency';
+import { inject as service } from '@ember/service';
+import { waitForQueue } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 
 import GuidLocationMixin from 'ember-osf-web/locations/guid-mixin';
 import OsfRouterService from 'ember-osf-web/services/osf-router';
@@ -16,11 +17,12 @@ function splitFragment(url: string): [string, string?] {
 }
 
 // Add support for scrolling to elements according to the URL's #fragment.
-export default class FragmentHistoryLocation extends HistoryLocation.extend(GuidLocationMixin, {
-    /**
-     * After the current transition is complete, scroll to the element with the given id.
-     */
-    scrollToElement: task(function *(this: FragmentHistoryLocation, elementId: string) {
+export default class FragmentHistoryLocation extends HistoryLocation.extend(GuidLocationMixin) {
+    @service ready!: Ready;
+    @service osfRouter!: OsfRouterService;
+
+    @task({ restartable: true })
+    scrollToElement = task(function *(this: FragmentHistoryLocation, elementId: string) {
         yield this.ready.ready();
 
         yield waitForQueue('afterRender');
@@ -30,10 +32,7 @@ export default class FragmentHistoryLocation extends HistoryLocation.extend(Guid
         if (element) {
             scrollTo(getOwner(this), element);
         }
-    }).restartable(),
-}) {
-    @service ready!: Ready;
-    @service osfRouter!: OsfRouterService;
+    });
 
     /**
      * `setURL` is called during in-app transitions that use `transitionTo`

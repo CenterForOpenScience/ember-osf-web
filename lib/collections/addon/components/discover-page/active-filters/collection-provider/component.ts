@@ -1,5 +1,5 @@
 import { classNames } from '@ember-decorators/component';
-import { service } from '@ember-decorators/service';
+import { inject as service } from '@ember/service';
 import { localClassNames } from 'ember-css-modules';
 
 import { layout } from 'ember-osf-web/decorators/component';

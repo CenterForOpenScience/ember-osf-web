@@ -1,6 +1,6 @@
-import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { ChangesetDef } from 'ember-changeset/types';
 import Toast from 'ember-toastr/services/toast';
 

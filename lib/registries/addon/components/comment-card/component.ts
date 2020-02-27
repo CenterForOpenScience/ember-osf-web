@@ -1,13 +1,11 @@
 import Component from '@ember/component';
-import { task } from 'ember-concurrency';
+import { action, computed } from '@ember/object';
+import { alias, not } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
-
-import I18n from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
-
-import { action, computed } from '@ember-decorators/object';
-import { alias, not } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Comment from 'ember-osf-web/models/comment';
@@ -17,6 +15,7 @@ import Registration from 'ember-osf-web/models/registration';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
 import formattedTimeSince from 'ember-osf-web/utils/formatted-time-since';
+
 import styles from './styles';
 import template from './template';
 
@@ -27,51 +26,10 @@ enum AbuseCategories {
 }
 
 @layout(template, styles)
-export default class CommentCard extends Component.extend({
-    submitRetractReport: task(function *(this: CommentCard) {
-        const userReports: CommentReport[] = yield this.comment.reports;
-
-        const userReport: CommentReport | undefined = userReports.find(
-            (report: CommentReport) => (!report.isDeleted && (report.id !== null)),
-        );
-
-        if (!userReport) {
-            this.toast.error(this.i18n.t('registries.overview.comments.cannot_retract_report'));
-            return;
-        }
-
-        try {
-            this.comment.set('isAbuse', false);
-            yield userReport.destroyRecord();
-        } catch (e) {
-            this.toast.error(this.i18n.t('registries.overview.comments.retract_report.error'));
-            this.comment.rollbackAttributes();
-            userReport.rollbackAttributes();
-            throw e;
-        }
-
-        this.toast.success(this.i18n.t('registries.overview.comments.retract_report.success'));
-    }),
-    loadReplies: task(function *(this: CommentCard, more: boolean = false) {
-        if (!more) {
-            const replies = yield this.comment.replies;
-            if (!this.replies) {
-                this.set('replies', replies);
-            }
-        } else {
-            const moreReplies = yield this.comment.queryHasMany('replies', {
-                page: this.incrementProperty('page'),
-                embed: ['user'],
-            });
-
-            this.replies.pushObjects(moreReplies);
-            this.set('loadingMoreReplies', false);
-        }
-    }).restartable(),
-}) {
+export default class CommentCard extends Component {
     @service store!: DS.Store;
     @service ready!: Ready;
-    @service i18n!: I18n;
+    @service intl!: Intl;
     @service currentUser!: CurrentUser;
     @service toast!: Toast;
 
@@ -94,6 +52,50 @@ export default class CommentCard extends Component.extend({
     @alias('comment.hasReport') currentUserHasReported!: boolean;
     @alias('comment.hasChildren') hasReplies!: boolean;
     @not('comment') loading!: boolean;
+
+    @task
+    submitRetractReport = task(function *(this: CommentCard) {
+        const userReports: CommentReport[] = yield this.comment.reports;
+
+        const userReport: CommentReport | undefined = userReports.find(
+            (report: CommentReport) => (!report.isDeleted && (report.id !== null)),
+        );
+
+        if (!userReport) {
+            this.toast.error(this.intl.t('registries.overview.comments.cannot_retract_report'));
+            return;
+        }
+
+        try {
+            this.comment.set('isAbuse', false);
+            yield userReport.destroyRecord();
+        } catch (e) {
+            this.toast.error(this.intl.t('registries.overview.comments.retract_report.error'));
+            this.comment.rollbackAttributes();
+            userReport.rollbackAttributes();
+            throw e;
+        }
+
+        this.toast.success(this.intl.t('registries.overview.comments.retract_report.success'));
+    });
+
+    @task({ restartable: true })
+    loadReplies = task(function *(this: CommentCard, more: boolean = false) {
+        if (!more) {
+            const replies = yield this.comment.replies;
+            if (!this.replies) {
+                this.set('replies', replies);
+            }
+        } else {
+            const moreReplies = yield this.comment.queryHasMany('replies', {
+                page: this.incrementProperty('page'),
+                embed: ['user'],
+            });
+
+            this.replies.pushObjects(moreReplies);
+            this.set('loadingMoreReplies', false);
+        }
+    });
 
     @computed('node')
     get currentUserCanComment() {
@@ -150,7 +152,7 @@ export default class CommentCard extends Component.extend({
 
     @action
     onSave() {
-        this.toast.success(this.i18n.t('registries.overview.comments.create_report.success'));
+        this.toast.success(this.intl.t('registries.overview.comments.create_report.success'));
         this.comment.setProperties({
             isAbuse: true,
             hasReport: true,
@@ -170,11 +172,11 @@ export default class CommentCard extends Component.extend({
     @action
     onError() {
         this.comment.rollbackAttributes();
-        this.toast.error(this.i18n.t('registries.overview.comments.create_report.error'));
+        this.toast.error(this.intl.t('registries.overview.comments.create_report.error'));
     }
 
     @action
-    more(this: CommentCard) {
+    more() {
         this.set('loadingMoreReplies', true);
         this.loadReplies.perform(true);
     }

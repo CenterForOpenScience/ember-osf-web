@@ -1,9 +1,11 @@
-import { attr, belongsTo } from '@ember-decorators/data';
 import DS from 'ember-data';
 
 import InstitutionModel from 'ember-osf-web/models/institution';
 import UserModel from 'ember-osf-web/models/user';
+
 import OsfModel from './osf-model';
+
+const { attr, belongsTo } = DS;
 
 export default class InstitutionalUserModel extends OsfModel {
     @attr('fixstring') userFullName!: string;

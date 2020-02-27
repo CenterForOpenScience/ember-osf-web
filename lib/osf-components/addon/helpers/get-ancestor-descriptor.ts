@@ -2,19 +2,21 @@ import { helper } from '@ember/component/helper';
 import ObjectProxy from '@ember/object/proxy';
 import Node from 'ember-osf-web/models/node';
 
-// TODO: i18n-ize, this is probably better off as a component rather than a helper
+// TODO: intl-ize, this is probably better off as a component rather than a helper
 
 /**
  * Functions to format project titles the way they are displayed on the dashboard
  * Copied from ember-osf-preprints:
  * https://github.com/centerforopenscience/ember-osf-preprints/blob/develop/app/helpers/get-ancestor-descriptor.js
+ * Amended for record-data-based ember-data.
  */
 function fetchIdFromRelationshipLink(node: Node, relationship: keyof Node) {
     // If id is not embedded in request, Private node ids can be accessed under initializedRelationships.
     // May still return undefined if parent, for example, does not exist.
     if (node) {
         // @ts-ignore - private attribute
-        const initializedRelationship = node._internalModel._relationships.initializedRelationships[relationship];
+        const initializedRelationship = node._internalModel.__recordData
+            ._relationships.initializedRelationships[relationship];
 
         if (initializedRelationship && initializedRelationship.link) {
             return initializedRelationship.link.split('nodes')[1].replace(/\//g, '');

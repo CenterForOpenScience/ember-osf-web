@@ -1,16 +1,16 @@
-import { computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import { ChartData, ChartOptions } from 'ember-cli-chart';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import InstitutionModel from 'ember-osf-web/models/institution';
 
 export default class ProjectsPanel extends Component {
     institution!: InstitutionModel;
     @alias('institution.statSummary.numPublicProjects') numPublicProjects!: number;
     @alias('institution.statSummary.numPrivateProjects') numPrivateProjects!: number;
-    @service i18n!: I18N;
+    @service intl!: Intl;
 
     chartOptions: ChartOptions = {
         aspectRatio: 1,
@@ -28,8 +28,8 @@ export default class ProjectsPanel extends Component {
     get chartData(): ChartData {
         return {
             labels: [
-                this.i18n.t('institutions.dashboard.public'),
-                this.i18n.t('institutions.dashboard.private'),
+                this.intl.t('institutions.dashboard.public'),
+                this.intl.t('institutions.dashboard.private'),
             ],
             datasets: [{
                 data: [

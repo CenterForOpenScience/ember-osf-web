@@ -1,10 +1,10 @@
 import { tagName } from '@ember-decorators/component';
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { task } from 'ember-concurrency';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
@@ -17,7 +17,7 @@ import template from './template';
 @tagName('')
 export default class ProjectMetadata extends Component {
     @service analytics!: Analytics;
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service store!: DS.Store;
     @service toast!: Toast;
 
@@ -25,31 +25,32 @@ export default class ProjectMetadata extends Component {
 
     @requiredAction continue!: () => void;
 
+    @task
     reset = task(function *(this: ProjectMetadata) {
         this.node.rollbackAttributes();
         yield this.node.reload();
     });
 
     @action
-    addTag(this: ProjectMetadata, tag: string) {
+    addTag(tag: string) {
         this.analytics.click('button', 'Collection - Submit - Add tag');
         this.node.set('tags', [...this.node.tags.slice(), tag].sort());
     }
 
     @action
-    removeTagAtIndex(this: ProjectMetadata, index: number) {
+    removeTagAtIndex(index: number) {
         this.analytics.click('button', 'Collections - Submit - Remove tag');
         this.node.set('tags', this.node.tags.slice().removeAt(index));
     }
 
     @action
     onSave() {
-        this.toast.success(this.i18n.t('app_components.project_metadata.save_success'));
+        this.toast.success(this.intl.t('app_components.project_metadata.save_success'));
         this.continue();
     }
 
     @action
     onError() {
-        this.toast.error(this.i18n.t('app_components.project_metadata.save_error'));
+        this.toast.error(this.intl.t('app_components.project_metadata.save_error'));
     }
 }

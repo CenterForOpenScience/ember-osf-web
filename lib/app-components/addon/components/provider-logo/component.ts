@@ -1,7 +1,7 @@
 import { tagName } from '@ember-decorators/component';
-import { alias, and } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { alias, and } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Provider from 'ember-osf-web/models/provider';

@@ -1,15 +1,13 @@
 <div data-analytics-scope='Action buttons' class='row' local-class='actions-header'>
     {{#if this.showFilter}}
         <div class='col-xs-9 filter-input'>
-            {{input
-                (html-attributes 
-                    data-test-filter-input='filter'
-                    aria-label=(t 'file_browser.filtering')
-                )
-                placeholder=(t 'file_browser.filtering')
-                class='form-control'
-                keyUp=(action @updateFilter value='target.value')
-            }}
+            <Input
+                data-test-filter-input='filter'
+                aria-label={{t 'file_browser.filtering'}}
+                @placeholder={{t 'file_browser.filtering'}}
+                @class='form-control'
+                @keyUp={{action @updateFilter value='target.value'}}
+            />
         </div>
         <div class='col-xs-3'>
             <OsfButton
@@ -25,13 +23,13 @@
         </div>
     {{else if this.showRename}}
         <div class='col-xs-9 filter-input'>
-            {{input
-                (html-attributes data-test-rename-field='rename')
-                placeholder=this.selectedItems.firstObject.itemName
-                class='form-control'
-                value=this.renameValue
-                enter=(action 'rename' value='target.value')
-            }}
+            <Input
+                data-test-rename-field='rename'
+                @placeholder={{this.selectedItems.firstObject.itemName}}
+                @class='form-control'
+                @value={{this.renameValue}}
+                @enter={{action 'rename' value='target.value'}}
+            />
         </div>
         <div class='col-xs-3'>
             <OsfButton
@@ -50,7 +48,7 @@
                 aria-label={{t 'general.rename'}}
                 local-class='action-button'
                 @onClick={{action this.rename}}
-                @class='pull-right' 
+                @class='pull-right'
             >
                 {{fa-icon 'pencil'}}
             </OsfButton>
@@ -72,12 +70,12 @@
             {{#if this.selectedItems}}
                 {{! TODO: show available actions for selected files }}
                 {{#if (eq this.selectedItems.length 1)}}
-                    <OsfButton 
+                    <OsfButton
                         data-test-share-dialog-button
                         data-analytics-name='Share'
-                        local-class='action-button' 
-                        @class='popover-toggler' 
-                        @onClick={{action this.openSharePopup}}
+                        local-class='action-button'
+                        @class='popover-toggler'
+                        @onClick={{action this.toggleSharePopup}}
                     >
                         {{fa-icon 'share-alt'}}
                         {{t 'general.share'}}
@@ -85,12 +83,13 @@
                             @placement='bottom'
                             @title={{t 'general.share'}}
                             @visible={{this.popupOpen}}
+                            @renderInPlace={{this.renderInPlace}}
                         >
                             {{#if this.link}}
                                 <CopyableText
                                     data-test-file-share-copyable-text
                                     @text={{this.link}}
-                                    @success={{action (mut this.popupOpen) false}}
+                                    @success={{action this.toggleSharePopup}}
                                     @analyticsLabel='Quick Files - Share - Copy link'
                                 />
                             {{else}}
@@ -98,7 +97,7 @@
                             {{/if}}
                         </BsPopover>
                     </OsfButton>
-                    <OsfButton 
+                    <OsfButton
                         data-test-download-button
                         data-analytics-name={{if (not this.canEdit) 'Download'}}
                         local-class='action-button'
@@ -165,10 +164,10 @@
                     {{/if}}
                 {{/if}}
             {{else if this.hasItems}}
-                <OsfButton 
+                <OsfButton
                     data-test-download-zip-button
                     data-analytics-name={{if (not this.canEdit) 'Download Zip'}}
-                    local-class='action-button' 
+                    local-class='action-button'
                     local-class='action-button'
                     @bubble={{true}}
                     @onClick={{action this.downloadZip}}
@@ -221,7 +220,7 @@
     </div>
     <div class='col-lg-2 col-md-2 col-sm-3 hidden-xs' local-class='file-browser-header header'>
         <span local-class='sortable-column'>{{t 'general.modified'}}</span>
-        <SortButton 
+        <SortButton
             @sortAction={{action (mut this.sort)}}
             @sort={{this.sort}}
             @sortBy='dateModified'
@@ -238,12 +237,12 @@
         <h3 class='modal-title'>{{t 'file_browser.info.title'}}</h3>
     </modal.header>
     <modal.body>
-        <p>{{t 'file_browser.info.upload'}}</p>
-        <p>{{t 'file_browser.info.select'}}</p>
-        <p>{{t 'file_browser.info.folders'}}</p>
-        <p>{{t 'file_browser.info.open1'}}</p>
-        <p>{{t 'file_browser.info.open2'}}</p>
-        <p>{{t 'file_browser.info.download'}}</p>
+        <p>{{t 'file_browser.info.upload' htmlSafe=true}}</p>
+        <p>{{t 'file_browser.info.select' htmlSafe=true}}</p>
+        <p>{{t 'file_browser.info.folders' htmlSafe=true}}</p>
+        <p>{{t 'file_browser.info.open1' htmlSafe=true}}</p>
+        <p>{{t 'file_browser.info.open2' htmlSafe=true}}</p>
+        <p>{{t 'file_browser.info.download' htmlSafe=true}}</p>
     </modal.body>
     <modal.footer data-analytics-scope='File browser - Info modal'>
         <OsfButton
@@ -331,7 +330,7 @@
     as |modal|
 >
     <modal.header @onClose={{action (mut this.currentModal) ''}}>
-        <h3 class='modal-title break-word'>{{t 'file_browser.conflict_modal.title'}}</h3>
+        <h3 class='modal-title break-word'>{{t 'file_browser.conflict_modal.title' textValue=this.conflictingItem.itemName}}</h3>
     </modal.header>
     <modal.body>
         <p>{{t 'file_browser.conflict_modal.keep_info'}}</p>

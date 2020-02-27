@@ -1,7 +1,8 @@
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { task, TaskInstance } from 'ember-concurrency';
-import I18n from 'ember-i18n/services/i18n';
+import { inject as service } from '@ember/service';
+import { TaskInstance } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
+import Intl from 'ember-intl/services/intl';
 import KeenDataviz from 'keen-dataviz';
 import { Moment } from 'moment';
 
@@ -23,7 +24,7 @@ enum OverlayReason {
 @layout(template, styles)
 export default class ChartWrapper extends Component {
     @service keen!: KeenService;
-    @service i18n!: I18n;
+    @service intl!: Intl;
     @service analytics!: AnalyticsService;
 
     // Required arguments
@@ -39,6 +40,7 @@ export default class ChartWrapper extends Component {
     keenError: boolean = false;
     loading: boolean = false;
 
+    @task({ restartable: true })
     loadKeen = task(function *(this: ChartWrapper) {
         this.showOverlay(OverlayReason.Loading);
         const node = yield this.nodeTaskInstance;
@@ -52,7 +54,7 @@ export default class ChartWrapper extends Component {
             );
 
             if (this.chartSpec.processData) {
-                data = this.chartSpec.processData(data, this.i18n, node);
+                data = this.chartSpec.processData(data, this.intl, node);
             }
 
             this.hideOverlay();
@@ -61,26 +63,26 @@ export default class ChartWrapper extends Component {
             this.showOverlay(OverlayReason.Error);
             throw e;
         }
-    }).restartable();
+    });
 
-    didInsertElement(this: ChartWrapper) {
+    didInsertElement() {
         this.chart = new KeenDataviz()
             .el(`#${this.elementId} .${styles.Chart}`)
             .title(' '); // Prevent keen-dataviz from adding a default title
 
         this.initSkeletonChart();
         if (this.chartEnabled) {
-            this.get('loadKeen').perform();
+            this.loadKeen.perform();
         }
     }
 
-    didUpdateAttrs(this: ChartWrapper) {
+    didUpdateAttrs() {
         if (this.chartEnabled) {
-            this.get('loadKeen').perform();
+            this.loadKeen.perform();
         }
     }
 
-    showOverlay(this: ChartWrapper, reason?: OverlayReason) {
+    showOverlay(reason?: OverlayReason) {
         this.set('keenError', (reason === OverlayReason.Error));
         this.set('loading', (reason === OverlayReason.Loading));
         this.set('overlayShown', true);
@@ -91,7 +93,7 @@ export default class ChartWrapper extends Component {
         });
     }
 
-    hideOverlay(this: ChartWrapper) {
+    hideOverlay() {
         this.set('overlayShown', false);
         this.clearSkeletonChart();
         this.chart.chartOptions({
@@ -101,8 +103,8 @@ export default class ChartWrapper extends Component {
         });
     }
 
-    initSkeletonChart(this: ChartWrapper) {
-        this.chartSpec.configureChart(this.chart, this.i18n);
+    initSkeletonChart() {
+        this.chartSpec.configureChart(this.chart, this.intl);
         this.chart.chartOptions({
             data: {
                 labels: false,
@@ -132,12 +134,12 @@ export default class ChartWrapper extends Component {
         this.chart.render();
     }
 
-    clearSkeletonChart(this: ChartWrapper) {
+    clearSkeletonChart() {
         this.chart.chartOptions({
             data: {},
             pie: {},
             axis: {},
         });
-        this.chartSpec.configureChart(this.chart, this.i18n);
+        this.chartSpec.configureChart(this.chart, this.intl);
     }
 }

@@ -1,9 +1,10 @@
-import { attr, belongsTo } from '@ember-decorators/data';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 
 import CommentModel from './comment';
 import OsfModel from './osf-model';
+
+const { attr, belongsTo } = DS;
 
 /**
  * Model for OSF APIv2 comment reports. Primarily accessed via relationship fields.

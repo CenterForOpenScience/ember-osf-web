@@ -1,8 +1,8 @@
 import { tagName } from '@ember-decorators/component';
-import { computed } from '@ember-decorators/object';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import { action } from '@ember/object';
+import { action, computed } from '@ember/object';
+import config from 'ember-get-config';
 import moment from 'moment';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -23,6 +23,7 @@ export default class FinalizeRegisrationModalComponent extends Component {
     makePublicOption: string = '';
     embargoRangeStartDate: Date = moment().add(3, 'days').toDate();
     embargoRangeEndDate: Date = moment().add(1460, 'days').toDate();
+    learnMoreLink = config.helpLinks.linkToAProject;
 
     didReceiveAttrs() {
         assert('finalize-registration-modal requires @manager!', Boolean(this.manager));

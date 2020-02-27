@@ -1,6 +1,5 @@
 import { click, render } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { task } from 'ember-concurrency';
 import { OsfLinkRouterStub } from 'ember-osf-web/tests/integration/helpers/osf-link-router-stub';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
@@ -19,12 +18,8 @@ module('Integration | routes | institutions | dashboard | -components | institut
     test('it renders and paginates', async function(assert) {
         server.create('institution', { id: 'testinstitution' }, 'withInstitutionalUsers', 'withStatSummary');
 
-        this.set('modelTask', task(function *(this: TestContext, institutionId: string) {
-            return yield this.get('store').findRecord('institution', institutionId);
-        }));
-
         const model = {
-            taskInstance: this.get('modelTask').perform('testinstitution'),
+            taskInstance: this.get('store').findRecord('institution', 'testinstitution'),
         };
 
         this.set('model', model);
@@ -82,12 +77,8 @@ module('Integration | routes | institutions | dashboard | -components | institut
             ],
         }, 'withStatSummary');
 
-        this.set('modelTask', task(function *(this: TestContext, institutionId: string) {
-            return yield this.get('store').findRecord('institution', institutionId);
-        }));
-
         const model = {
-            taskInstance: this.get('modelTask').perform('testinstitution'),
+            taskInstance: this.get('store').findRecord('institution', 'testinstitution'),
         };
 
         this.set('model', model);

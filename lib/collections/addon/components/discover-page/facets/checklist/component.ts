@@ -1,7 +1,6 @@
-import { computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
-import { setProperties } from '@ember/object';
-import { task } from 'ember-concurrency';
+import { computed, setProperties } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -17,38 +16,16 @@ interface Item {
 }
 
 @layout(template, styles)
-export default abstract class SearchFacetChecklist extends Base.extend({
-    didInsertElement(this: SearchFacetChecklist, ...args: any[]) {
-        this._super(...args);
+export default abstract class SearchFacetChecklist extends Base {
+    @service store!: DS.Store;
 
-        const { context, filterChanged, filterProperty } = this;
+    allItems: Item[] = [];
 
-        setProperties(context, {
-            updateFilters(item?: string) {
-                const { activeFilter, defaultQueryFilters } = context;
+    abstract get modelAttribute(): keyof Collection;
+    abstract get filterProperty(): string;
 
-                if (item) {
-                    const method = activeFilter.includes(item) ? 'removeObject' : 'pushObject';
-                    activeFilter[method](item);
-                }
-
-                setProperties(context, {
-                    queryParam: activeFilter.join('OR'),
-                    currentQueryFilters: !activeFilter.length ?
-                        defaultQueryFilters :
-                        {
-                            [filterProperty]: activeFilter,
-                        },
-                });
-
-                filterChanged();
-            },
-        });
-
-        this.initialize.perform();
-    },
-
-    initialize: task(function *(this: SearchFacetChecklist): IterableIterator<any> {
+    @task
+    initialize = task(function *(this: SearchFacetChecklist): IterableIterator<any> {
         const providers: CollectionProvider[] = this.theme.isProvider ?
             [this.theme.provider] :
             yield this.store.findAll('collection-provider', {
@@ -79,17 +56,10 @@ export default abstract class SearchFacetChecklist extends Base.extend({
         });
 
         this.context.updateFilters();
-    }),
-}) {
-    @service store!: DS.Store;
-
-    allItems: Item[] = [];
-
-    abstract get modelAttribute(): keyof Collection;
-    abstract get filterProperty(): string;
+    });
 
     @computed('allItems.[]', 'context.activeFilter.[]')
-    get items(this: SearchFacetChecklist) {
+    get items() {
         const { activeFilter } = this.context;
 
         return this.allItems
@@ -97,5 +67,35 @@ export default abstract class SearchFacetChecklist extends Base.extend({
                 ...item,
                 checked: activeFilter.includes(item.key),
             }));
+    }
+
+    didInsertElement(this: SearchFacetChecklist, ...args: any[]) {
+        this._super(...args);
+
+        const { context, filterChanged, filterProperty } = this;
+
+        setProperties(context, {
+            updateFilters(item?: string) {
+                const { activeFilter, defaultQueryFilters } = context;
+
+                if (item) {
+                    const method = activeFilter.includes(item) ? 'removeObject' : 'pushObject';
+                    activeFilter[method](item);
+                }
+
+                setProperties(context, {
+                    queryParam: activeFilter.join('OR'),
+                    currentQueryFilters: !activeFilter.length ?
+                        defaultQueryFilters :
+                        {
+                            [filterProperty]: activeFilter,
+                        },
+                });
+
+                filterChanged();
+            },
+        });
+
+        this.initialize.perform();
     }
 }

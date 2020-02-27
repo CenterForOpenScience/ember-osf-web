@@ -4,13 +4,13 @@
         @icon='search'
         @fixedWidth={{true}}
     />
-    {{input
-        name='search'
-        type='text'
-        value=this.userQuery
-        placeholder=(t 'osf-components.subjects.search.placeholder')
-        key-up=(action (perform this.doSearch))
-    }}
+    <Input
+        @name='search'
+        @type='text'
+        @value={{this.userQuery}}
+        @placeholder={{t 'osf-components.subjects.search.placeholder'}}
+        @key-up={{action (perform this.doSearch)}}
+    />
 </div>
 
 {{#if (or this.isLoading this.searchResults)}}

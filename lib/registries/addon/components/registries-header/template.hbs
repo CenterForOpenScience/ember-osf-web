@@ -5,7 +5,7 @@
         <div class='text-center m-t-lg col-xs-12'>
             <div local-class='RegistriesHeader__Brand'></div>
             <p class='lead'>
-                {{yield 'lead'}}
+                {{yield (hash lead=(element ''))}}
             </p>
         </div>
     </div>
@@ -13,12 +13,12 @@
     <div class='row m-t-md m-b-lg text-center'>
         <div class='col-xs-12 col-sm-8 col-sm-offset-2'>
             <div class='input-group input-group-lg'>
-                {{input
-                    (html-attributes data-test-search-box=true)
-                    value=value
-                    class='form-control'
-                    placeholder=(t 'registries.header.search_placeholder')
-                }}
+                <Input
+                    data-test-search-box=true
+                    @value={{value}}
+                    @class='form-control'
+                    @placeholder={{t 'registries.header.search_placeholder'}}
+                />
                 <span class='input-group-btn'>
                     {{#if showHelp}}
                         <button class='btn btn-default' type='button' {{action 'toggleHelp'}}>{{fa-icon 'question' class='text-muted'}}</button>
@@ -27,16 +27,18 @@
                 </span>
             </div>
             <p class='p-l-md text-left'>
-                {{t 'registries.header.searchable_as_of'
-                    registrations=(number-format searchable)
-                    today=(moment-format today 'MMMM D, YYYY')
-                }}
+                {{#if searchable}}
+                    {{t 'registries.header.searchable_as_of'
+                        registrations=(number-format searchable)
+                        today=(moment-format today 'MMMM D, YYYY')
+                    }}
+                {{/if}}
             </p>
         </div>
     </div>
 
     <div class='row p-v-sm'>
-        {{yield}}
+        {{yield (hash row=(element ''))}}
     </div>
 
     {{search-help-modal isOpen=(mut showingHelp)}}

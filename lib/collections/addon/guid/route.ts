@@ -1,7 +1,8 @@
-import { service } from '@ember-decorators/service';
 import Route from '@ember/routing/route';
-import { task } from 'ember-concurrency';
+import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency-decorators';
 import { DS } from 'ember-data';
+
 import CollectedMetadatum from 'ember-osf-web/models/collected-metadatum';
 import Collection from 'ember-osf-web/models/collection';
 import CollectionProvider from 'ember-osf-web/models/collection-provider';
@@ -26,6 +27,7 @@ export default class Guid extends Route {
     @service store!: DS.Store;
     @service theme!: Theme;
 
+    @task
     loadModel = task(function *(this: Guid, guid: string): IterableIterator<any> {
         const provider = this.theme.provider as CollectionProvider;
 
@@ -69,7 +71,7 @@ export default class Guid extends Route {
         }
     });
 
-    model(this: Guid) {
+    model() {
         const { guid } = this.paramsFor(this.routeName) as Params;
 
         if (!/^[a-z0-9]{5}(-[a-z0-9]{5})?$/.test(guid)) {
@@ -78,7 +80,7 @@ export default class Guid extends Route {
         }
 
         return {
-            taskInstance: this.get('loadModel').perform(guid) as Promise<TaskInstanceResult>,
+            taskInstance: this.loadModel.perform(guid) as Promise<TaskInstanceResult>,
         };
     }
 }

@@ -1,9 +1,9 @@
-import { currentURL, settled, visit } from '@ember/test-helpers';
+import { currentRouteName, currentURL, settled, visit } from '@ember/test-helpers';
 import a11yAudit from 'ember-a11y-testing/test-support/audit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import Features from 'ember-feature-flags';
 import config from 'ember-get-config';
-import { t } from 'ember-i18n/test-support';
+import { t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
@@ -45,11 +45,11 @@ module('Acceptance | logged-out home page test', hooks => {
         // check for 3 carousel slides
         assert.dom('[data-test-testimonials-slide-1]').exists();
 
-        await percySnapshot(assert);
+        await percySnapshot('Acceptance | logged-out home page test | carousel exists');
 
         await click('[data-test-carousel-button-next]');
 
-        await percySnapshot(assert);
+        await percySnapshot('Acceptance | logged-out home page test | next carousel');
 
         assert.dom('[data-test-testimonials-slide-2]').exists();
         await click('[data-test-carousel-button-next]');
@@ -72,7 +72,7 @@ module('Acceptance | logged-out home page test', hooks => {
         // Check footer
         assert.dom('footer').exists();
         await a11yAudit();
-        await percySnapshot(assert);
+        await percySnapshot('Acceptance | logged-out home page test | footer exists');
     });
 
     test('visiting home version B', async function(assert) {
@@ -94,6 +94,6 @@ module('Acceptance | logged-out home page test', hooks => {
         await visit('/');
 
         await click('[data-test-get-started-button]');
-        assert.equal(currentURL(), '/register');
+        assert.equal(currentRouteName(), 'register', 'current route is register');
     });
 });

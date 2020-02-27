@@ -1,6 +1,7 @@
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
+
 import Node from 'ember-osf-web/models/node';
 import CurrentUser from 'ember-osf-web/services/current-user';
 
@@ -12,19 +13,19 @@ export default class NewProjectModalController extends Controller {
 
     // BEGIN-SNIPPET new-project-modal.controller.ts
     @action
-    openModal(this: NewProjectModalController) {
+    openModal() {
         this.set('newNode', null);
         this.set('shouldShowModal', true);
     }
 
     @action
-    projectCreated(this: NewProjectModalController, newNode: Node) {
+    projectCreated(newNode: Node) {
         this.set('newNode', newNode);
         this.closeModal(true);
     }
 
     @action
-    closeModal(this: NewProjectModalController, reload = false) {
+    closeModal(reload = false) {
         this.set('shouldShowModal', false);
         this.set('shouldReload', reload);
     }

@@ -1,7 +1,7 @@
-import { action, computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import I18N from 'ember-i18n/services/i18n';
+import { action, computed } from '@ember/object';
+import { inject as service } from '@ember/service';
+import Intl from 'ember-intl/services/intl';
 import MeetingModel from 'ember-osf-web/models/meeting';
 
 export default class MeetingDetailHeader extends Component {
@@ -9,7 +9,7 @@ export default class MeetingDetailHeader extends Component {
     meeting!: MeetingModel;
 
     // Private properties
-    @service i18n!: I18N;
+    @service intl!: Intl;
     isPanelOpen = false;
 
     @computed('meeting.{fieldNames,isAcceptingTypeOne,isAcceptingTypeTwo}')

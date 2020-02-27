@@ -1,9 +1,9 @@
 import { tagName } from '@ember-decorators/component';
-import { action } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { action } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
-import I18n from 'ember-i18n/services/i18n';
+import { inject as service } from '@ember/service';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import DeveloperApp from 'ember-osf-web/models/developer-app';
@@ -16,7 +16,7 @@ export default class DeveloperAppClientSecret extends Component {
 
     // Private properties
     @service analytics!: Analytics;
-    @service i18n!: I18n;
+    @service intl!: Intl;
     @service router!: RouterService;
     @service toast!: Toast;
 
@@ -33,7 +33,7 @@ export default class DeveloperAppClientSecret extends Component {
             this.set('shouldShowSecret', false);
             this.developerApp.set('clientSecret', null);
             await this.developerApp.save();
-            this.toast.success(this.i18n.t('settings.developer-apps.resetSecret.success'));
+            this.toast.success(this.intl.t('settings.developer-apps.resetSecret.success'));
         }
     }
 }

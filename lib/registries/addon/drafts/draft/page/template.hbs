@@ -23,7 +23,6 @@
                 <LoadingIndicator @dark={{true}} />
             </div>
         {{else}}
-            {{compute draftManager.onPageChange this.pageIndex this.inReview}}
             <OsfLayout @backgroundClass={{local-class 'ContentBackground'}} as |layout|>
                 <layout.heading local-class='Heading'>
                     <div local-class='Title'>
@@ -72,27 +71,32 @@
                     />
                 </layout.leftNav>
                 <layout.main local-class='Main'>
-                    {{#if this.inReview}}
-                        {{#if (and draftManager.hasInvalidResponses this.showMobileView)}}
-                            <div
-                                data-test-invalid-responses-text
-                                local-class='WarningMessage'
-                                class='text-danger'
-                            >
-                                {{t 'registries.drafts.draft.review.invalid_warning'}}
-                            </div>
+                    <main
+                        {{did-insert draftManager.onPageLoad this.pageIndex this.inReview}}
+                        {{did-update draftManager.onPageChange this.pageIndex this.inReview}}
+                    >
+                        {{#if this.inReview}}
+                            {{#if (and draftManager.hasInvalidResponses this.showMobileView)}}
+                                <div
+                                    data-test-invalid-responses-text
+                                    local-class='WarningMessage'
+                                    class='text-danger'
+                                >
+                                    {{t 'registries.drafts.draft.review.invalid_warning'}}
+                                </div>
+                            {{/if}}
+                            <Registries::ReviewFormRenderer
+                                @draftManager={{draftManager}}
+                                @node={{this.node}}
+                            />
+                        {{else}}
+                            <Registries::PageRenderer
+                                @pageManager={{draftManager.currentPageManager}}
+                                @onInput={{draftManager.onInput}}
+                                @node={{this.node}}
+                            />
                         {{/if}}
-                        <Registries::ReviewFormRenderer
-                            @draftManager={{draftManager}}
-                            @node={{this.node}}
-                        />
-                    {{else}}
-                        <Registries::PageRenderer
-                            @pageManager={{draftManager.currentPageManager}}
-                            @onInput={{draftManager.onInput}}
-                            @node={{this.node}}
-                        />
-                    {{/if}}
+                    </main>
                 </layout.main>
                 <layout.right local-class='Right'>
                     <div local-class='RightWrapper'>

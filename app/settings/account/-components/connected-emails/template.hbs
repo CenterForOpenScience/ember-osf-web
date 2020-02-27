@@ -57,7 +57,11 @@
                                         @delete={{action this.removeEmail email}}
                                         @analyticsScope='Settings - Alternate Emails'
                                         @modalTitle={{t 'settings.account.connected_emails.confirm_delete.title'}}
-                                        @modalBody={{t 'settings.account.connected_emails.confirm_delete.body' emailAddress=email.emailAddress}}
+                                        @modalBody={{t
+                                            'settings.account.connected_emails.confirm_delete.body'
+                                            emailAddress=email.emailAddress
+                                            htmlSafe=true
+                                        }}
                                     />
                                 </div>
                             </div>
@@ -118,7 +122,11 @@
 
                                         <modal.body>
                                             <p>
-                                                {{t 'settings.account.connected_emails.resend_confirmation_modal.body' emailAddress=email.emailAddress}}
+                                                {{t
+                                                    'settings.account.connected_emails.resend_confirmation_modal.body'
+                                                    emailAddress=email.emailAddress
+                                                    htmlSafe=true
+                                                }}
                                             </p>
                                         </modal.body>
 
@@ -147,7 +155,11 @@
                                         @delete={{action this.removeEmail email}}
                                         @analyticsScope='Settings - Unconfirmed Emails'
                                         @modalTitle={{t 'settings.account.connected_emails.confirm_delete.title'}}
-                                        @modalBody={{t 'settings.account.connected_emails.confirm_delete.body' emailAddress=email.emailAddress}}
+                                        @modalBody={{t
+                                            'settings.account.connected_emails.confirm_delete.body'
+                                            emailAddress=email.emailAddress
+                                            htmlSafe=true
+                                        }}
                                     />
                                 </div>
                             </div>
@@ -202,7 +214,7 @@
 
                 <modal.body>
                     <p>
-                        {{t 'settings.account.connected_emails.add_email_modal.body' emailAddress=this.lastUserEmail}}
+                        {{t 'settings.account.connected_emails.add_email_modal.body' emailAddress=this.lastUserEmail htmlSafe=true}}
                     </p>
                 </modal.body>
 

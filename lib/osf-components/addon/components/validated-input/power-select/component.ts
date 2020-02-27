@@ -1,4 +1,4 @@
-import { action, computed } from '@ember-decorators/object';
+import { action, computed } from '@ember/object';
 import { ChangesetDef } from 'ember-changeset/types';
 import DS, { AttributesFor, RelationshipsFor } from 'ember-data';
 

@@ -8,7 +8,7 @@
         </modal.header>
         <modal.body>
             <p data-test-verify-email-prompt>
-                {{t this.translationKeys.body email=this.userEmail.emailAddress}}
+                {{t this.translationKeys.body email=this.userEmail.emailAddress htmlSafe=true}}
             </p>
         </modal.body>
         <modal.footer data-analytics-scope='Verify email modal'>

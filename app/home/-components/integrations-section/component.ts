@@ -1,7 +1,7 @@
 import { tagName } from '@ember-decorators/component';
-import { alias } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';

@@ -1,9 +1,10 @@
-import { attr, hasMany } from '@ember-decorators/data';
 import DS from 'ember-data';
 
 import LicenseModel from './license';
 import OsfModel from './osf-model';
 import SubjectModel from './subject';
+
+const { attr, hasMany } = DS;
 
 /* eslint-disable camelcase */
 

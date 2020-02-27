@@ -1,12 +1,10 @@
 import { tagName } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { Registry as Services } from '@ember/service';
+import { action, computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import { inject as service, Registry as Services } from '@ember/service';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
-import I18N from 'ember-i18n/services/i18n';
 import Session from 'ember-simple-auth/services/session';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -16,6 +14,7 @@ import CurrentUser from 'ember-osf-web/services/current-user';
 import cleanURL from 'ember-osf-web/utils/clean-url';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import pathJoin from 'ember-osf-web/utils/path-join';
+
 import styles from './styles';
 import template from './template';
 
@@ -24,7 +23,6 @@ const { OSF: { url: baseUrl } } = config;
 export class AuthBase extends Component {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
-    @service i18n!: I18N;
     @service session!: Session;
     @service features!: Features;
     @service router!: Services['router'];
@@ -69,12 +67,12 @@ export class AuthBase extends Component {
     }
 
     @action
-    login(this: NavbarAuthDropdown) {
+    login() {
         this.currentUser.login();
     }
 
     @action
-    logout(this: NavbarAuthDropdown) {
+    logout() {
         this.currentUser.logout(this.redirectUrl);
     }
 }

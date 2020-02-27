@@ -29,38 +29,45 @@ jobs:
       install:
         - yarn --prefer-offline --frozen-lockfile --ignore-engines
         - greenkeeper-lockfile-update
+      before_script:
+        - yarn lint:es
+        - yarn lint:ts
+        - yarn lint:style
+        #- yarn lint:template
+        - yarn test:node-tests
+        - yarn build:test
       script:
-        - yarn lint && yarn test:node-tests && yarn test:cover
+        - yarn test:cover --path ./dist
       after_script:
         - greenkeeper-lockfile-upload
       after_success:
         - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 
-    - stage: "deploy handbook"
-      if: |
-        branch = develop AND \
-        type != pull_request AND \
-        env(DEPLOY_KEY) IS present
-      before_install:
-        - curl -o- -L https://yarnpkg.com/install.sh | bash
-        - export PATH=$HOME/.yarn/bin:$PATH
-      install:
-        - yarn --prefer-offline --frozen-lockfile --ignore-engines
-      env:
-        - HANDBOOK_ENABLED=1
-        - MIRAGE_ENABLED=1
-        - SHOW_DEV_BANNER=1
-        - A11Y_AUDIT=0
-        - NODE_OPTIONS=--max-old-space-size=4096
-        - TARGET_BRANCH=gh-pages
-      script:
-        - export ROOT_URL="/${TRAVIS_REPO_SLUG##*\/}/"
-        - export ASSETS_PREFIX="${ROOT_URL}"
-        - ember build --environment=production
-        - cp dist/index.html dist/404.html
-      deploy:
-        provider: script
-        skip-cleanup: true
-        script: scripts/handbook_deploy.sh
-        on:
-          branch: develop
+#    - stage: "deploy handbook"
+#      if: |
+#        branch = develop AND \
+#        type != pull_request AND \
+#        env(DEPLOY_KEY) IS present
+#      before_install:
+#        - curl -o- -L https://yarnpkg.com/install.sh | bash
+#        - export PATH=$HOME/.yarn/bin:$PATH
+#      install:
+#        - yarn --prefer-offline --frozen-lockfile --ignore-engines
+#      env:
+#        - HANDBOOK_ENABLED=1
+#        - MIRAGE_ENABLED=1
+#        - SHOW_DEV_BANNER=1
+#        - A11Y_AUDIT=0
+#        - NODE_OPTIONS=--max-old-space-size=4096
+#        - TARGET_BRANCH=gh-pages
+#      script:
+#        - export ROOT_URL="/${TRAVIS_REPO_SLUG##*\/}/"
+#        - export ASSETS_PREFIX="${ROOT_URL}"
+#        - ember build --environment=production
+#        - cp dist/index.html dist/404.html
+#      deploy:
+#        provider: script
+#        skip-cleanup: true
+#        script: scripts/handbook_deploy.sh
+#        on:
+#          branch: develop

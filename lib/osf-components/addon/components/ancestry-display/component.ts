@@ -1,20 +1,34 @@
 import { tagName } from '@ember-decorators/component';
-import { alias } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
-import { allSettled, task } from 'ember-concurrency';
-import I18N from 'ember-i18n/services/i18n';
+import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
+import { allSettled } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
+import Intl from 'ember-intl/services/intl';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import NodeModel from 'ember-osf-web/models/node';
 import defaultTo from 'ember-osf-web/utils/default-to';
+
 import styles from './styles';
 import template from './template';
 
 @tagName('')
 @layout(template, styles)
-export default class AncestryDisplay extends Component.extend({
-    getAncestors: task(function *(this: AncestryDisplay) {
+export default class AncestryDisplay extends Component {
+    @service intl!: Intl;
+
+    // Required arguments
+    node!: NodeModel;
+
+    // Optional arguments
+    delimiter: string = defaultTo(this.delimiter, '/');
+    useLinks: boolean = defaultTo(this.useLinks, false);
+
+    @alias('getAncestors.lastComplete.value') ancestry?: string[];
+
+    @task({ restartable: true, on: 'didReceiveAttrs' })
+    getAncestors = task(function *(this: AncestryDisplay) {
         if (!this.node || this.node.isRoot) {
             return [];
         }
@@ -44,20 +58,9 @@ export default class AncestryDisplay extends Component.extend({
         if (ancestors.length > 1) {
             const parent = results[1].value;
             if (parent && parent.belongsTo('parent').id() !== rootId) {
-                ancestors.insertAt(1, { id: '', title: this.i18n.t('general.ellipsis') });
+                ancestors.insertAt(1, { id: '', title: this.intl.t('general.ellipsis') });
             }
         }
         return ancestors;
-    }).on('didReceiveAttrs').restartable(),
-}) {
-    @service i18n!: I18N;
-
-    // Required arguments
-    node!: NodeModel;
-
-    // Optional arguments
-    delimiter: string = defaultTo(this.delimiter, '/');
-    useLinks: boolean = defaultTo(this.useLinks, false);
-
-    @alias('getAncestors.lastComplete.value') ancestry?: string[];
+    });
 }

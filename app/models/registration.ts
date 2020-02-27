@@ -1,5 +1,4 @@
-import { attr, belongsTo, hasMany } from '@ember-decorators/data';
-import { computed } from '@ember-decorators/object';
+import { computed } from '@ember/object';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 
@@ -13,6 +12,8 @@ import NodeModel from './node';
 import RegistrationProviderModel from './registration-provider';
 import RegistrationSchemaModel, { RegistrationMetadata } from './registration-schema';
 import UserModel from './user';
+
+const { attr, belongsTo, hasMany } = DS;
 
 export enum RegistrationState {
     Embargoed = 'Embargoed',

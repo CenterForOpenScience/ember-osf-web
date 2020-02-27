@@ -1,19 +1,21 @@
+{{! template-lint-disable no-implicit-this }}
 {{scheduled-banner}}
 {{#registries-header onSearch=(action 'onSearch') searchable=searchableRegistrations as |header|}}
-    {{#if (eq header 'lead')}}
-        <span>{{t "registries.index.lead"}}</span>
-    {{else}}
-        <div class="text-center col-xs-12">
-            <div class="m-t-md">
+    {{#header.lead}}
+        <span>{{t 'registries.index.lead' htmlSafe=true}}</span>
+    {{/header.lead}}
+    {{#header.row}}
+        <div class='text-center col-xs-12'>
+            <div class='m-t-md'>
                 <a
-                    href="https://osf.io/jsznk/register/565fb3678c5e4a66b5582f67"
-                    onclick={{action "click" "link" "Index - See Example" "https://osf.io/jsznk/register/565fb3678c5e4a66b5582f67" target=analytics}}
+                    href='https://osf.io/jsznk/register/565fb3678c5e4a66b5582f67'
+                    onclick={{action 'click' 'link' 'Index - See Example' 'https://osf.io/jsznk/register/565fb3678c5e4a66b5582f67' target=analytics}}
                 >
-                    {{t "registries.index.see_example"}}
+                    {{t 'registries.index.see_example'}}
                 </a>
             </div>
         </div>
-    {{/if}}
+    {{/header.row}}
 {{/registries-header}}
 
 {{#if getRecentRegistrations.isRunning}}
@@ -25,3 +27,4 @@
 {{registries-services-list}}
 
 {{registries-advisory-board}}
+{{! template-lint-enable no-implicit-this }}

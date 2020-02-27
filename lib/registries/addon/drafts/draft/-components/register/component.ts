@@ -1,10 +1,10 @@
 import { tagName } from '@ember-decorators/component';
-import { action } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
+import { action } from '@ember/object';
+import { alias } from '@ember/object/computed';
 import { run } from '@ember/runloop';
+import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 

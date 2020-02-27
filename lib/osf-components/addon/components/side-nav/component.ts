@@ -1,8 +1,8 @@
 import { tagName } from '@ember-decorators/component';
-import { action } from '@ember-decorators/object';
-import { and, or } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { action } from '@ember/object';
+import { and, or } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import Media from 'ember-responsive';
 
 import { layout } from 'ember-osf-web/decorators/component';

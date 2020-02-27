@@ -1,6 +1,7 @@
 import DS from 'ember-data';
 import { mapKeysAndValues } from 'ember-osf-web/utils/map-keys';
 
+import fixSpecialChars from 'ember-osf-web/utils/fix-special-char';
 import { deserializeResponseKey, serializeResponseKey } from './registration-response-key';
 
 const { Transform } = DS;
@@ -17,7 +18,7 @@ export default class RegistrationResponsesTransform extends Transform {
         return mapKeysAndValues(
             obj,
             key => deserializeResponseKey(key),
-            value => value,
+            value => (typeof value === 'string' ? fixSpecialChars(value) : value),
         );
     }
 

@@ -20,8 +20,11 @@ class RouterStub extends Service {
     }
 }
 
-class CurrentUserStub extends Service {
-}
+class CurrentUserStub extends Service {}
+
+const headTagsStub = Service.extend({
+    collectHeadTags: () => { /* noop */ },
+});
 
 /* tslint:disable:only-arrow-functions */
 module('Registries | Integration | Component | side-nav', hooks => {
@@ -31,6 +34,7 @@ module('Registries | Integration | Component | side-nav', hooks => {
         this.owner.register('service:router', RouterStub);
         this.owner.register('service:osf-router', RouterStub);
         this.owner.register('service:current-user', CurrentUserStub);
+        this.owner.register('service:head-tags', headTagsStub);
     });
 
     test('it renders', async assert => {

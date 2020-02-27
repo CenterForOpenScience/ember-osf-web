@@ -1,9 +1,9 @@
-import { computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
 import config from 'ember-get-config';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import moment from 'moment';
 
 import pathJoin from 'ember-osf-web/utils/path-join';
@@ -22,7 +22,7 @@ export default class RegistriesStates extends Component {
 
     // Private
     public = RegistrationState.Public;
-    @service i18n!: I18N;
+    @service intl!: Intl;
 
     @computed('registration.state')
     get stateIcon() {
@@ -55,13 +55,14 @@ export default class RegistriesStates extends Component {
         }
         const stateKey = camelize(this.registration.state);
         return {
-            short: this.i18n.t(`registries.overview.${stateKey}.short_description`),
-            long: this.i18n.t(`registries.overview.${stateKey}.long_description`, {
+            short: this.intl.t(`registries.overview.${stateKey}.short_description`),
+            long: this.intl.t(`registries.overview.${stateKey}.long_description`, {
                 projectUrl: this.projectUrl,
                 embargoEndDate: this.registration.embargoEndDate &&
                   moment(this.registration.embargoEndDate).format('MMMM D, YYYY'),
+                htmlSafe: true,
             }),
-            buttonText: this.i18n.t(`registries.overview.${stateKey}.text`),
+            buttonText: this.intl.t(`registries.overview.${stateKey}.text`),
         };
     }
 

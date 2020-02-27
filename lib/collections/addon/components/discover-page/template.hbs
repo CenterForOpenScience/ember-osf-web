@@ -94,10 +94,10 @@
 
         <div class='row p-v-sm'>
             <div class='col-sm-6 pull-right'>
-                <BsDropdown @classNames='dropdown pull-right' as |dd|>
+                <BsDropdown class='dropdown pull-right' as |dd|>
                     <dd.button
                         data-test-sort-by-button
-                        @classNames='btn btn-default'
+                        class='btn btn-default'
                     >
                         {{t 'collections.discover_page.sortBy'}}:
                         {{this.sortDisplay}}
@@ -108,8 +108,8 @@
                         </span>
                     </dd.button>
                     <dd.menu
-                        @classNames='dropdown-menu dropdown-menu-right'
                         local-class='sortByOptionList'
+                        @align='right'
                         as |ddm|
                     >
                         {{#each this.sortOptions as |sortChoice|}}

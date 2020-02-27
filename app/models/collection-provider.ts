@@ -1,8 +1,9 @@
-import { belongsTo } from '@ember-decorators/data';
 import DS from 'ember-data';
 
 import CollectionModel from './collection';
 import ProviderModel from './provider';
+
+const { belongsTo } = DS;
 
 export default class CollectionProviderModel extends ProviderModel {
     @belongsTo('collection')

@@ -1,5 +1,5 @@
-import { service } from '@ember-decorators/service';
 import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 import Analytics from 'ember-osf-web/services/analytics';
 
@@ -8,8 +8,8 @@ export default class Support extends Controller {
 
     helpUrl: string = config.OSF.helpUrl;
 
-    constructor() {
-        super();
+    constructor(...args: any[]) {
+        super(...args);
         Object.assign(this, config.support);
     }
 }

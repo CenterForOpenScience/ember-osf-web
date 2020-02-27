@@ -1,14 +1,14 @@
 import { tagName } from '@ember-decorators/component';
-import { action, computed } from '@ember-decorators/object';
-import { alias } from '@ember-decorators/object/computed';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { action, computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validatePresence } from 'ember-changeset-validations/validators';
 import { ChangesetDef } from 'ember-changeset/types';
-import { task } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -36,36 +36,9 @@ interface NewFolder {
 
 @tagName('')
 @layout(template, styles)
-export default class FilesMenu extends Component.extend({
-    createFolder: task(function *(this: FilesMenu, options: { onSuccess?: () => void }) {
-        const { inRootFolder, currentFolder, fileProvider } = this.filesManager;
-        const parentFolder = inRootFolder ? fileProvider : currentFolder;
-        const { onSuccess } = options;
-
-        const newFolderName = this.changeset.get('name');
-
-        let newFolderId;
-        try {
-            ({ newFolderId } = yield parentFolder.createFolder(newFolderName));
-        } catch (error) {
-            this.toast.error(
-                error.responseJSON.message,
-                this.i18n.t('osf-components.files-widget.create_folder_failed'),
-            );
-            throw error;
-        }
-        const newFolder = yield this.store.findRecord('file', newFolderId);
-        const folder = inRootFolder ? fileProvider.rootFolder : currentFolder;
-
-        if (onSuccess) {
-            onSuccess();
-        }
-
-        folder.files.pushObject(newFolder);
-    }),
-}) {
+export default class FilesMenu extends Component {
     @service toast!: Toast;
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service store!: DS.Store;
 
     filesManager!: FilesManager;
@@ -86,6 +59,34 @@ export default class FilesMenu extends Component.extend({
         }
         return this.changeset.isInvalid || this.createFolder.isRunning;
     }
+
+    @task
+    createFolder = task(function *(this: FilesMenu, options: { onSuccess?: () => void }) {
+        const { inRootFolder, currentFolder, fileProvider } = this.filesManager;
+        const parentFolder = inRootFolder ? fileProvider : currentFolder;
+        const { onSuccess } = options;
+
+        const newFolderName = this.changeset.get('name');
+
+        let newFolderId;
+        try {
+            ({ newFolderId } = yield parentFolder.createFolder(newFolderName));
+        } catch (error) {
+            this.toast.error(
+                error.responseJSON.message,
+                this.intl.t('osf-components.files-widget.create_folder_failed'),
+            );
+            throw error;
+        }
+        const newFolder = yield this.store.findRecord('file', newFolderId);
+        const folder = inRootFolder ? fileProvider.rootFolder : currentFolder;
+
+        if (onSuccess) {
+            onSuccess();
+        }
+
+        folder.files.pushObject(newFolder);
+    });
 
     beforeOpenDialog() {
         this.set('newFolder', { name: null });

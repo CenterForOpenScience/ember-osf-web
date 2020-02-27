@@ -1,10 +1,11 @@
-import { action, computed } from '@ember-decorators/object';
-import { service } from '@ember-decorators/service';
 import Component from '@ember/component';
+import { action, computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { underscore } from '@ember/string';
-import { task, timeout } from 'ember-concurrency';
+import { timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
-import I18N from 'ember-i18n/services/i18n';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
@@ -32,7 +33,7 @@ enum Section {
 export default class Submit extends Component {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
-    @service i18n!: I18N;
+    @service intl!: Intl;
     @service store!: DS.Store;
     @service theme!: Theme;
     @service toast!: Toast;
@@ -45,17 +46,13 @@ export default class Submit extends Component {
     collectionItem: Node | null = defaultTo(this.collectionItem, null);
     isProjectSelectorValid: boolean = false;
     sections = Section;
-    activeSection: Section = this.edit ? Section.projectMetadata : Section.project;
-    savedSections: Section[] = this.edit ? [
-        Section.project,
-        Section.projectMetadata,
-        Section.projectContributors,
-        Section.collectionMetadata,
-    ] : [];
+    activeSection!: Section;
+    savedSections!: Section[];
     showCancelDialog: boolean = false;
-    i18nKeyPrefix = 'collections.collections_submission.';
+    intlKeyPrefix = 'collections.collections_submission.';
     showSubmitModal: boolean = false;
 
+    @task({ drop: true })
     save = task(function *(this: Submit) {
         if (!this.collectionItem) {
             return;
@@ -85,7 +82,7 @@ export default class Submit extends Component {
 
             this.collectionItem.set('collectable', false);
 
-            this.toast.success(this.i18n.t(`${this.i18nKeyPrefix}${operation}_save_success`, {
+            this.toast.success(this.intl.t(`${this.intlKeyPrefix}${operation}_save_success`, {
                 title: this.collectionItem.title,
             }));
 
@@ -94,12 +91,12 @@ export default class Submit extends Component {
             // TODO: external-link-to / waffle for project main page
             window.location.href = getHref(this.collectionItem.links.html!);
         } catch (e) {
-            this.toast.error(this.i18n.t(`${this.i18nKeyPrefix}${operation}_save_error`, {
+            this.toast.error(this.intl.t(`${this.intlKeyPrefix}${operation}_save_error`, {
                 title: this.collectionItem.title,
                 error: e.errors[0].detail,
             }));
         }
-    }).drop();
+    });
 
     @computed('collectedMetadatum.{displayChoiceFields,collectedType,issue,volume,programArea,status}')
     get choiceFields(): Array<{ label: string; value: string | undefined; }> {
@@ -129,8 +126,19 @@ export default class Submit extends Component {
     @requiredAction
     resetPageDirty!: () => void;
 
+    init() {
+        super.init();
+        this.set('activeSection', this.edit ? Section.projectMetadata : Section.project);
+        this.set('savedSections', this.edit ? [
+            Section.project,
+            Section.projectMetadata,
+            Section.projectContributors,
+            Section.collectionMetadata,
+        ] : []);
+    }
+
     @action
-    projectSelected(this: Submit, collectionItem: Node) {
+    projectSelected(collectionItem: Node) {
         collectionItem.set('collectable', true);
 
         this.setProperties({

@@ -178,6 +178,8 @@ export default function(this: Server) {
     });
 
     this.get('/users/:id/nodes', userNodeList);
+    this.get('/sparse/users/:id/nodes', userNodeList);
+
     osfNestedResource(this, 'user', 'quickfiles', { only: ['index', 'show'] });
 
     osfResource(this, 'preprint-provider', { path: '/providers/preprints' });
