@@ -1,3 +1,4 @@
+{{assert 'Registries::RegistrationFormNavigationDropdown requires schemablocks' @schemaBlocks}}
 <ResponsiveDropdown local-class='Dropdown' @renderInPlace={{true}} as |dd|>
     {{#dd.trigger local-class='MenuTrigger'}}
         <OsfButton
@@ -31,7 +32,7 @@
                 </OsfButton>
             </h2>
             <ol local-class='Anchors' data-test-form-block-anchors>
-                {{#if @showMetadata}}
+                {{#if this.showMetadata}}
                     <li local-class='page-heading'>
                         <OsfLink
                             data-test-page-anchor='Metadata'

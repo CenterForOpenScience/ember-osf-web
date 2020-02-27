@@ -1,6 +1,5 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
-import { assert } from '@ember/debug';
 import { computed } from '@ember/object';
 import { underscore } from '@ember/string';
 
@@ -17,6 +16,9 @@ export default class RegistrationFormNavigationDropdown extends Component {
     // Required parameters
     schemaBlocks!: SchemaBlock[];
 
+    // Optional paramaters
+    showMetadata?: boolean = false;
+
     // Private properties
     metadataFields: string[] = Object.values(DraftMetadataProperties)
         .filter(prop => prop !== DraftMetadataProperties.NodeLicenseProperty)
@@ -31,9 +33,5 @@ export default class RegistrationFormNavigationDropdown extends Component {
                 blockType === 'subsection-heading' ||
                 blockType === 'question-label'
             ) && displayText);
-    }
-
-    didReceiveAttrs() {
-        assert('Registries::RegistrationFormNavigationDropdown requires @schemablocks!', Boolean(this.schemaBlocks));
     }
 }
