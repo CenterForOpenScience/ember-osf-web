@@ -36,6 +36,7 @@
         
         {{#if @manager.selectedLicense}}
             <form.custom
+                local-class='AdditionalFields'
                 @changeset={{@manager.changeset}}
                 @valuePath='nodeLicense'
             >

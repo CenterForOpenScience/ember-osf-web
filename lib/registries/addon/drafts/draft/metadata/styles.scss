@@ -3,7 +3,6 @@
         margin: 20px 0 0;
         padding: 0;
         color: $color-text-gray-blue;
-        width: 100%;
         border-bottom: 0;
         font-weight: 700;
         font-size: 14px;
@@ -17,8 +16,20 @@
         font-weight: normal;
     }
 
+    .SubjectsField label {
+        margin: 0;
+    }
+
     :global(.form-group) {
         margin: 10px 0 0;
+    }
+
+    :global(.form-control) {
+        height: 40px;
+        background-color: $color-bg-gray-blue-light;
+        color: $color-text-gray-blue;
+        border-radius: 2px;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
     }
 }
 

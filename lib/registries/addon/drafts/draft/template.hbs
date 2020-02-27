@@ -67,15 +67,17 @@
             <layout.main local-class='Main'>
                 {{outlet}}
             </layout.main>
-            <layout.right local-class='Right'>
-                <div local-class='RightWrapper'>
-                    <Drafts::Draft::-Components::RightNav
-                        @navManager={{navManager}}
-                        @draftManager={{draftManager}}
-                        @onSubmitRedirect={{this.onSubmitRedirect}}
-                    />
-                </div>
-            </layout.right>
+            {{#unless this.showMobileView}}
+                <layout.right local-class='Right'>
+                    <div local-class='RightWrapper'>
+                        <Drafts::Draft::-Components::RightNav
+                            @navManager={{navManager}}
+                            @draftManager={{draftManager}}
+                            @onSubmitRedirect={{this.onSubmitRedirect}}
+                        />
+                    </div>
+                </layout.right>
+            {{/unless}}
         </OsfLayout>
     {{/let}}
 {{/if}}

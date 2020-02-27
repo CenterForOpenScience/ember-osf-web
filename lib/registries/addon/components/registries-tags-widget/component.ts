@@ -37,12 +37,13 @@ export default class RegistriesTagsWidget extends Component.extend({ styles }) {
     }
 
     @action
-    removeTag(index: number) {
+    removeTag(tag: string) {
         this.analytics.trackFromElement(this.element, {
             name: 'Remove tag',
             category: 'tag',
             action: 'remove',
         });
+        const index = this.manager.tags.indexOf(tag);
         this.manager.removeTag(index);
     }
 }
