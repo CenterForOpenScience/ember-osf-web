@@ -5,7 +5,7 @@
         @classNames={{if stat.jumbo (local-class 'StatusBanner__jumbo')}}
     >
         <div class='{{if stat.jumbo 'jumbotron'}}'>
-            <p>{{t stat.id extra=stat.extra}}</p>
+            <p data-test-status-message={{stat.id}}>{{t stat.id extra=stat.extra htmlSafe=true}}</p>
         </div>
     </BsAlert>
 {{/each}}
