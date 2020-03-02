@@ -49,6 +49,7 @@ export default class MetadataInstitutionsManagerComponent extends Component {
     save = task(function *(this: MetadataInstitutionsManagerComponent) {
         try {
             yield this.node.updateM2MRelationship('affiliatedInstitutions', this.currentAffiliatedList);
+            yield this.node.reload();
         } catch (e) {
             this.node.rollbackAttributes();
             throw e;
