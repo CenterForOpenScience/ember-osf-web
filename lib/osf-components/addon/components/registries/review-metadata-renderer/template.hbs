@@ -85,11 +85,12 @@
             @registration={{@draftRegistration}}
             @valuePath='tags'
             @tags={{@draftRegistration.tags}}
+            @readOnly={{true}}
             as |tagsManager|
         >
             <RegistriesTagsWidget
                 @manager={{tagsManager}}
-                @readOnly={{true}}
+                @readOnly={{tagsManager.readOnly}}
             />
         </Drafts::Draft::-Components::TagsManager>
     {{else}}

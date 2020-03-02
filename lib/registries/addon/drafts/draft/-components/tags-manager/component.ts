@@ -1,6 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
-import { action } from '@ember/object';
+import { action, set } from '@ember/object';
 import { ChangesetDef } from 'ember-changeset/types';
 import config from 'ember-get-config';
 
@@ -23,6 +23,7 @@ export default class MetadataTagsManagerComponent extends Component {
     // required
     changeset!: ChangesetDef;
     valuePath!: string;
+    readOnly: boolean = false;
 
     // optional
     registration?: DraftRegistrationModel;
@@ -31,10 +32,16 @@ export default class MetadataTagsManagerComponent extends Component {
     // properties
     tags: string[] = [];
 
+    didReceiveAttrs() {
+        if (this.changeset && !this.readOnly) {
+            set(this, 'tags', this.changeset.get(this.valuePath).slice());
+        }
+    }
+
     @action
     addTag(tag: string) {
-        this.set('tags', [...this.tags, tag].sort());
-        this.changeset.set(this.valuePath, this.tags);
+        set(this, 'tags', [...this.tags, tag].sort());
+        set(this.changeset, this.valuePath, this.tags);
         if (this.onMetadataInput) {
             this.onMetadataInput();
         }
@@ -42,8 +49,8 @@ export default class MetadataTagsManagerComponent extends Component {
 
     @action
     removeTag(index: number) {
-        this.set('tags', this.tags.slice().removeAt(index));
-        this.changeset.set(this.valuePath, this.tags);
+        set(this, 'tags', this.tags.slice().removeAt(index));
+        set(this.changeset, this.valuePath, this.tags);
         if (this.onMetadataInput) {
             this.onMetadataInput();
         }
