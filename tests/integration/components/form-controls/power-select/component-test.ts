@@ -23,13 +23,17 @@ module('Integration | Component | form-controls/power-select', hooks => {
                     @options={{this.options}}
                     @label='Category'
                     @valuePath='nodeCategory'
-                />
+                    as |option|
+                >
+                    {{option}}
+                </form.select>
             </FormControls>
         `);
         assert.dom('label').hasText('Category');
         await click('.ember-power-select-trigger');
         for (const item of options) {
             assert.dom(`[data-test-option='${item}']`).exists();
+            assert.dom(`[data-test-option='${item}']`).hasText(item);
         }
     });
 });
