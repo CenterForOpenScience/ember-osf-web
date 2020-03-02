@@ -91,7 +91,10 @@
                     for='license-select'
                     id='license'
                 >
-                    {{t 'registries.registration_metadata.choose_license'}}
+                    <p local-class='DisplayText'>
+                        {{t 'registries.registration_metadata.choose_license'}}
+                        <span local-class='Required'>*</span>
+                    </p>
                 </label>
                 <RegistriesLicensePicker
                     local-class='SchemaBlockDropdown'

@@ -35,9 +35,6 @@
         </div>
         
         {{#if @manager.selectedLicense}}
-            {{#if @manager.requiredFields}}
-                <br>
-            {{/if}}
             <form.custom
                 @changeset={{@manager.changeset}}
                 @valuePath='nodeLicense'
@@ -45,15 +42,17 @@
                 {{#each @manager.requiredFields as |key|}}
                     <div class='form-group'>
                         <label>
-                            {{t (concat 'app_components.license_picker.fields.' key)}}
-                            <Input
-                                data-test-required-field={{key}}
-                                @class='form-control'
-                                @value={{readonly (get @manager.changeset.nodeLicense key)}}
-                                @placeholder={{t 'general.required'}}
-                                @change={{fn @manager.updateNodeLicense key}}
-                            />
+                            <p>
+                                {{t (concat 'app_components.license_picker.fields.' key)}}
+                                <span local-class='Required'>*</span>
+                            </p>
                         </label>
+                        <Input
+                            data-test-required-field={{key}}
+                            @class='form-control'
+                            @value={{readonly (get @manager.changeset.nodeLicense key)}}
+                            @change={{fn @manager.updateNodeLicense key}}
+                        />
                     </div>
                 {{/each}}
             </form.custom>
