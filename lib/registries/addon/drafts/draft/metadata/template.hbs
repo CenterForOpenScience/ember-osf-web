@@ -103,12 +103,16 @@
                     for={{subjectsFieldId}}
                     id='subjects'
                 >
-                    {{t 'registries.registration_metadata.subjects'}}
+                    <p local-class='DisplayText'>
+                        {{t 'registries.registration_metadata.subjects'}}
+                        <span local-class='Required'>*</span>
+                    </p>
                 </label>
                 <Subjects::Manager
                     @model={{this.draftManager.draftRegistration}}
                     @provider={{this.draftManager.draftRegistration.provider}}
                     @doesAutosave={{true}}
+                    @metadataChangeset={{this.draftManager.metadataChangeset}}
                     as |subjectsManager|
                 >
                     <Subjects::Widget
@@ -116,6 +120,7 @@
                         @subjectsManager={{subjectsManager}}
                     />
                 </Subjects::Manager>
+                <ValidationErrors @changeset={{this.draftManager.metadataChangeset}} @key={{'subjects'}} />
             {{/let}}
             {{#let (unique-id 'tags') as |tagsFieldId|}}
                 <label
