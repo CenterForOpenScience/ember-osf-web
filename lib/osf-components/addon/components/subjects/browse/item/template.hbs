@@ -22,6 +22,8 @@
             <OsfButton
                 data-test-expand-children={{@singleSubjectManager.subject.id}}
                 local-class='ExpandButton'
+                role='button'
+                aria-label='{{t (if this.shouldShowChildren 'osf-components.subjects.hide_child_subjects' 'osf-components.subjects.show_child_subjects')}}'
                 @type='link'
                 @onClick={{action this.toggleChildren}}
             >
