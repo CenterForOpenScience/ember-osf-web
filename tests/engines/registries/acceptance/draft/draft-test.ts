@@ -96,7 +96,7 @@ module('Registries | Acceptance | draft form', hooks => {
         await click('[data-test-link="2-this-is-the-second-page"]');
         assert.equal(currentRouteName(), 'registries.drafts.draft.page', 'Goes to page route');
         assert.dom('[data-test-link="metadata"] > [data-test-icon]')
-            .hasClass('fa-check-circle-o', 'metadata is marked visited, valid');
+            .hasClass('fa-exclamation-circle', 'metadata is marked visited, invalid');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-circle', 'page 1 is marked unvisited');
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
@@ -112,7 +112,7 @@ module('Registries | Acceptance | draft form', hooks => {
         // Navigate to first page
         await click('[data-test-link="1-first-page-of-test-schema"]');
         assert.dom('[data-test-link="metadata"] > [data-test-icon]')
-            .hasClass('fa-check-circle-o', 'metadata is marked visited, valid');
+            .hasClass('fa-exclamation-circle', 'metadata is marked visited, invalid');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-circle-o', 'page 1 is marked current page');
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
@@ -143,7 +143,7 @@ module('Registries | Acceptance | draft form', hooks => {
         await click('[data-test-link="review"]');
         assert.equal(currentRouteName(), 'registries.drafts.draft.review', 'Goes to review route');
         assert.dom('[data-test-link="metadata"] > [data-test-icon]')
-            .hasClass('fa-check-circle-o', 'metadata is marked visited, valid');
+            .hasClass('fa-exclamation-circle', 'metadata is marked visited, invalid');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-exclamation-circle', 'page 1 is marked visited, invalid');
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
@@ -503,6 +503,6 @@ module('Registries | Acceptance | draft form', hooks => {
         await fillIn('input[name="title"]', 'A non-empty, but still vague title');
         await click('[data-test-goto-next-page]');
         assert.dom('[data-test-link="metadata"] > [data-test-icon]')
-            .hasClass('fa-check-circle-o', 'metadata page is now valid');
+            .hasClass('fa-exclamation-circle', 'metadata page is now invalid');
     });
 });
