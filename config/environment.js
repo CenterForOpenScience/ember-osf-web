@@ -262,7 +262,7 @@ module.exports = function(environment) {
                 'registries.start': 'ember_registries_submission_start',
                 'registries.drafts': 'ember_registries_submission_drafts',
                 'registries.drafts.index': 'ember_registries_submission_drafts',
-                'registries.drafts.draft.metadata': 'ember_registries_submission_metadata',
+                'registries.drafts.draft.metadata': 'ember_edit_draft_registration_page',
                 'registries.drafts.draft.page': 'ember_edit_draft_registration_page',
                 'registries.drafts.draft.review': 'ember_edit_draft_registration_page',
                 'registries.forms': 'ember_registries_submission_forms',
