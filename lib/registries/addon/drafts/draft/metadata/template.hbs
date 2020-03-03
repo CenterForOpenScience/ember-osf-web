@@ -1,0 +1,144 @@
+{{#if this.loading}}
+    <LoadingIndicator @dark={{true}} />
+{{else}}
+    <h2 local-class='PageHeading'>
+        {{t 'registries.registration_metadata.metadata_page_heading'}}
+    </h2>
+    <p local-class='HeadingParagraph'>
+        {{t 'registries.registration_metadata.metadata_page_description'}}
+    </p>
+    <hr>
+    <form local-class='Metadata'>
+        <FormControls
+            @changeset={{this.draftManager.metadataChangeset}}
+            ...attributes
+            as |form|
+        >
+            {{#let (unique-id 'title') as |titleFieldId|}}
+                <label
+                    local-class='Label'
+                    for={{titleFieldId}}
+                    id='title'
+                >
+                    <p local-class='DisplayText'>
+                        {{t 'registries.registration_metadata.title'}}
+                        <span local-class='Required'>*</span>
+                    </p>
+                </label>
+                <form.text
+                    data-test-metadata-title
+                    local-class='SchemaBlockInput'
+                    id={{titleFieldId}}
+                    @valuePath='title'
+                    @onKeyUp={{perform this.draftManager.onMetadataInput}}
+                    @placeholder=' '
+                />
+            {{/let}}
+            {{#let (unique-id 'description') as |descriptionFieldId|}}
+                <label
+                    local-class='Label'
+                    for={{descriptionFieldId}}
+                    id='description'
+                >
+                    <p local-class='DisplayText'>
+                        {{t 'registries.registration_metadata.description'}}
+                        <span local-class='Required'>*</span>
+                    </p>
+                </label>
+                <form.textarea
+                    data-test-metadata-description
+                    local-class='SchemaBlockLongText'
+                    id={{descriptionFieldId}}
+                    @valuePath='description'
+                    @onKeyUp={{perform this.draftManager.onMetadataInput}}
+                    @placeholder=' '
+                />
+            {{/let}}
+            <form.select
+                data-test-metadata-category
+                local-class='SchemaBlockDropdown'
+                id='category'
+                @label={{t 'registries.registration_metadata.category'}}
+                @valuePath='category'
+                @options={{this.categoryOptions}}
+                @onchange={{perform this.draftManager.onMetadataInput}}
+                as |option|
+            >
+                <NodeCategory @category={{option}} />
+            </form.select>
+            {{#let (unique-id 'institutions') as |institutionsFieldId|}}
+                <label 
+                    for={{institutionsFieldId}}
+                    id='affiliated_institutions'
+                >
+                    {{t 'registries.registration_metadata.affiliated_institutions'}}
+                </label>
+                <Drafts::Draft::-Components::MetadataInstitutionsManager 
+                    @node={{this.draftManager.draftRegistration}}
+                    as |institutionsManager|
+                >
+                    <InstitutionSelectList
+                        @manager={{institutionsManager}}
+                        id={{institutionsFieldId}}
+                    />
+                </Drafts::Draft::-Components::MetadataInstitutionsManager>
+            {{/let}}
+            <Drafts::Draft::-Components::Managers::LicensePickerManager
+                @draftManager={{this.draftManager}}
+                as |licenseManager|
+            >
+                <label
+                    for='license-select'
+                    id='license'
+                >
+                    {{t 'registries.registration_metadata.choose_license'}}
+                </label>
+                <RegistriesLicensePicker
+                    local-class='SchemaBlockDropdown'
+                    @manager={{licenseManager}}
+                />
+            </Drafts::Draft::-Components::Managers::LicensePickerManager>
+            {{#let (unique-id 'subjects') as |subjectsFieldId|}}
+                <label
+                    for={{subjectsFieldId}}
+                    id='subjects'
+                >
+                    {{t 'registries.registration_metadata.subjects'}}
+                </label>
+                <Subjects::Manager
+                    @model={{this.draftManager.draftRegistration}}
+                    @provider={{this.draftManager.draftRegistration.provider}}
+                    @doesAutosave={{true}}
+                    as |subjectsManager|
+                >
+                    <Subjects::Widget
+                        id={{subjectsFieldId}}
+                        @subjectsManager={{subjectsManager}}
+                    />
+                </Subjects::Manager>
+            {{/let}}
+            {{#let (unique-id 'tags') as |tagsFieldId|}}
+                <label
+                    for={{tagsFieldId}}
+                    id='tags'
+                >
+                    {{t 'registries.registration_metadata.tags'}}
+                </label>
+                <Drafts::Draft::-Components::TagsManager
+                    @changeset={{this.draftManager.metadataChangeset}}
+                    @onMetadataInput={{perform this.draftManager.onMetadataInput}}
+                    @valuePath='tags'
+                    as |tagsManager|
+                >
+                    <div local-class='TagsContainer'>
+                        <RegistriesTagsWidget
+                            data-test-metadata-tags
+                            id={{tagsFieldId}}
+                            @manager={{tagsManager}}
+                        />
+                    </div>
+                </Drafts::Draft::-Components::TagsManager>
+            {{/let}}
+        </FormControls>
+    </form>
+{{/if}}

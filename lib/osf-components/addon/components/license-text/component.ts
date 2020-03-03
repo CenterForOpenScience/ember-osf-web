@@ -30,10 +30,8 @@ export default class LicenseText extends Component {
             intl,
         } = this;
 
-        const {
-            nodeLicense,
-            isAnonymous,
-        } = node;
+        const nodeLicense = node.get('nodeLicense');
+        const isAnonymous = node.get('isAnonymous');
 
         const licenseText = license.get('text') || '';
 

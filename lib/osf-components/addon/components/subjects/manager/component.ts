@@ -47,6 +47,7 @@ export default class SubjectManagerComponent extends Component {
     // required
     model!: ModelWithSubjects;
     provider!: ProviderModel;
+    doesAutosave!: boolean;
 
     // private
     @service intl!: Intl;
@@ -113,6 +114,7 @@ export default class SubjectManagerComponent extends Component {
 
         try {
             yield this.model.updateM2MRelationship('subjects', selectedSubjects);
+            yield this.model.reload();
         } catch (e) {
             this.toast.error(this.intl.t('registries.registration_metadata.save_subjects_error'));
             throw e;
@@ -132,6 +134,7 @@ export default class SubjectManagerComponent extends Component {
 
         assert('@model is required', Boolean(this.model));
         assert('@provider is required', Boolean(this.provider));
+        assert('@doesAutosave is required', this.doesAutosave !== null && this.doesAutosave !== undefined);
     }
 
     @action
@@ -165,6 +168,9 @@ export default class SubjectManagerComponent extends Component {
                 this.selectSubject(subject.parent);
             }
         }
+        if (this.doesAutosave) {
+            this.saveChanges.perform();
+        }
     }
 
     @action
@@ -178,6 +184,9 @@ export default class SubjectManagerComponent extends Component {
             this.selectedSubjects
                 .filter(s => s.belongsTo('parent').id() === subject.id)
                 .forEach(s => this.unselectSubject(s));
+        }
+        if (this.doesAutosave) {
+            this.saveChanges.perform();
         }
     }
 

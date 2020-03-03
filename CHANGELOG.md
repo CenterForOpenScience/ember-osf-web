@@ -86,6 +86,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `OsfLayout::RegistriesSideNav::Label`
     - `OsfLayout::RegistriesSideNav::XLink`
     - `PageLink`
+    - `Debouncer`
 - Mirage
     - Factories
         - `institutional-user`
@@ -96,6 +97,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - added `dashboard` nested route
     - `guid-node`
         - added `drafts` nested route
+    - `registries/drafts/draft`
+        - added `metadata` nested route
 - Engines
     - Components
         - `drafts/draft/-components/register`

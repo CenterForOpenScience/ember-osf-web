@@ -1,0 +1,31 @@
+{{assert 'FormControls::Select - @options are required' @options}}
+{{assert 'FormControls::Select - @valuePath are required' @valuePath}}
+{{assert 'FormControls::Select - @changeseet are required' @changeset}}
+<FormControls::Wrapper
+    @shouldShowMessages={{@shouldShowMessages}}
+    @label={{@label}}
+    @changeset={{@changeset}}
+    @valuePath={{@valuePath}}
+    as |inputElementId|
+>
+    <div
+        data-test-power-select-dropdown
+        id={{inputElementId}}
+        ...attributes
+    >
+        <PowerSelect
+            @options={{this.options}}
+            @onchange={{this.updateChangeset}}
+            @searchField={{@searchField}}
+            @searchEnabled={{@searchEnabled}}
+            @selected={{or (get @changeset this.valuePath) null}}
+            @disabled={{@disabled}}
+            id={{inputElementId}}
+            as |option|
+        >
+            <span data-test-option={{option}}>
+                {{yield option}}
+            </span>
+        </PowerSelect>
+    </div>
+</FormControls::Wrapper>

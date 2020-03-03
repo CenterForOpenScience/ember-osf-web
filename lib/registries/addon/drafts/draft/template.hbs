@@ -1,0 +1,81 @@
+{{#if this.model.draftRegistrationManager.initializing}}
+    <div local-class='ContentBackground Loading'>
+        <LoadingIndicator @dark={{true}} />
+    </div>
+{{else}}
+    {{#let
+        this.model.navigationManager
+        this.model.draftRegistrationManager
+        as |navManager draftManager|
+    }}
+        <OsfLayout @backgroundClass={{local-class 'ContentBackground'}} as |layout|>
+            <layout.heading local-class='Heading'>
+                <div local-class='Title'>
+                    <OsfLink
+                        data-analytics-name='Go to project'
+                        local-class='BreadCrumb'
+                        @route='guid-node'
+                        @models={{array draftManager.node.id}}
+                    >
+                        {{draftManager.node.title}} >
+                    </OsfLink>
+                    <h1>
+                        {{t 'registries.drafts.draft.form.new_registration'}}
+                    </h1>
+                </div>
+            </layout.heading>
+            {{#if this.showMobileView}}
+                <Drafts::Draft::-Components::TopNav
+                    @layout={{layout}}
+                    @draftManager={{draftManager}}
+                    @navManager={{navManager}}
+                    @onSubmitRedirect={{this.onSubmitRedirect}}
+                />
+            {{/if}}
+            <layout.leftNav as |leftNav|>
+                <PageLink
+                    @link={{component leftNav.link}}
+                    @draftId={{draftManager.draftId}}
+                    @pageName='metadata'
+                    @route='registries.drafts.draft.metadata'
+                    @currentPageName={{navManager.currentRoute}}
+                    @label='{{t 'registries.drafts.draft.metadata.page_label'}}'
+                    @navMode={{leftNav.leftGutterMode}}
+                    @metadataIsValid={{draftManager.metadataIsValid}}
+                />
+                {{#each draftManager.pageManagers as |pageManager index|}}
+                    <PageLink
+                        @link={{component leftNav.link}}
+                        @draftId={{draftManager.draftId}}
+                        @pageManager={{pageManager}}
+                        @route='registries.drafts.draft.page'
+                        @pageIndex={{index}}
+                        @currentPageIndex={{navManager.currentPage}}
+                        @navMode={{leftNav.leftGutterMode}}
+                    />
+                {{/each}}
+                <PageLink
+                    @link={{component leftNav.link}}
+                    @draftId={{draftManager.draftId}}
+                    @pageName='review'
+                    @route='registries.drafts.draft.review'
+                    @currentPageName={{navManager.currentRoute}}
+                    @label='{{t 'registries.drafts.draft.review.page_label'}}'
+                    @navMode={{leftNav.leftGutterMode}}
+                />
+            </layout.leftNav>
+            <layout.main local-class='Main'>
+                {{outlet}}
+            </layout.main>
+            <layout.right local-class='Right'>
+                <div local-class='RightWrapper'>
+                    <Drafts::Draft::-Components::RightNav
+                        @navManager={{navManager}}
+                        @draftManager={{draftManager}}
+                        @onSubmitRedirect={{this.onSubmitRedirect}}
+                    />
+                </div>
+            </layout.right>
+        </OsfLayout>
+    {{/let}}
+{{/if}}

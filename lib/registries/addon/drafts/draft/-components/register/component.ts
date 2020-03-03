@@ -11,7 +11,7 @@ import DS from 'ember-data';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import NodeModel from 'ember-osf-web/models/node';
 import Registration from 'ember-osf-web/models/registration';
-import { DraftRegistrationManager } from 'osf-components/components/registries/draft-registration-manager/component';
+import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
 
 @tagName('')
 export default class Register extends Component.extend({
@@ -38,20 +38,19 @@ export default class Register extends Component.extend({
 
     // Required
     draftManager!: DraftRegistrationManager;
-    draftRegistration!: DraftRegistration;
 
     // Private
     registration!: Registration;
-    node?: NodeModel;
     onSubmitRedirect?: (registrationId: string) => void;
     @alias('draftManager.hasInvalidResponses') isInvalid?: boolean;
+    @alias('draftManager.draftRegistration') draftRegistration!: DraftRegistration;
+    @alias('draftManager.node') node?: NodeModel;
 
     partialRegDialogIsOpen = false;
     finalizeRegDialogIsOpen = false;
 
     didReceiveAttrs() {
         assert('@draftManager is required!', Boolean(this.draftManager));
-        assert('@draftRegistration is required!', Boolean(this.draftRegistration));
     }
 
     @action

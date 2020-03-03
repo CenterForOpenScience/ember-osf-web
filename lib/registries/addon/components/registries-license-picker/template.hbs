@@ -1,43 +1,47 @@
-{{#if @manager.inEditMode}}
-    <ValidatedModelForm
-        data-test-license-edit-form
-        @model={{@manager.registration}}
-        @onSave={{@manager.onSave}}
-        @onError={{@manager.onError}}
-        as |form|
-    >
-        <form.select
-            data-analytics-category='text'
-            data-analytics-name='Select license'
-            data-test-select-license
-            @valuePath='license'
-            @selected={{@manager.selectedLicense}}
-            @options={{@manager.licensesAcceptable}}
-            @onchange={{@manager.changeLicense}}
-            @searchField={{'name'}}
-            @noMatchesMessage={{t 'registries.registration_metadata.no_matches'}}
-            @placeholder={{t 'registries.registration_metadata.add_license'}}
-            as |license|
-        >
-            {{license.name}}
-        </form.select>
-
+<FormControls
+    @changeset={{@manager.changeset}}
+    as |form|
+>
+    <div data-test-license-edit-form>
+        {{#if @manager.licensesAcceptable}}
+            <form.select
+                data-analytics-category='text'
+                data-analytics-name='Select license'
+                data-test-select-license
+                @id='license-select'
+                @valuePath='license'
+                @selected={{@manager.selectedLicense}}
+                @options={{@manager.licensesAcceptable}}
+                @onchange={{@manager.changeLicense}}
+                @searchField={{'name'}}
+                @noMatchesMessage={{t 'registries.registration_metadata.no_matches'}}
+                @placeholder={{t 'registries.registration_metadata.add_license'}}
+                ...attributes
+                as |license|
+            >
+                {{license.name}}
+            </form.select>
+        {{else}}
+            <LoadingIndicator @dark={{true}} />
+        {{/if}}
+        
         <div local-class='small help-link'>
             <OsfLink
                 @target='_blank'
                 @rel='noopener'
-                @href={{this.helpLink}}
-            >
+                @href={{this.helpLink}}>
                 {{t 'app_components.license_picker.faq'}}
             </OsfLink>
         </div>
-
+        
         {{#if @manager.selectedLicense}}
             {{#if @manager.requiredFields}}
                 <br>
             {{/if}}
-
-            <form.custom @valuePath='nodeLicense'>
+            <form.custom
+                @changeset={{@manager.changeset}}
+                @valuePath='nodeLicense'
+            >
                 {{#each @manager.requiredFields as |key|}}
                     <div class='form-group'>
                         <label>
@@ -45,14 +49,15 @@
                             <Input
                                 data-test-required-field={{key}}
                                 @class='form-control'
-                                @value={{mut (get @manager.registration.nodeLicense key)}}
+                                @value={{readonly (get @manager.changeset.nodeLicense key)}}
                                 @placeholder={{t 'general.required'}}
+                                @change={{fn @manager.updateNodeLicense key}}
                             />
                         </label>
                     </div>
                 {{/each}}
             </form.custom>
-
+        
             <OsfButton
                 @type='link'
                 @onClick={{action (mut this.showText) (not this.showText)}}
@@ -60,29 +65,26 @@
             >
                 {{t (concat 'app_components.license_picker.' (if this.showText 'hide' 'show'))}}
             </OsfButton>
-
+        
             {{#if this.showText}}
                 <LicenseText @node={{@manager.registration}} />
             {{/if}}
-
-            <div local-class='Controls'>
-                <OsfButton
-                    @type='default'
-                    @disabled={{form.disabled}}
-                    @onClick={{action @manager.cancel}}
-                >
-                    {{t 'general.cancel'}}
-                </OsfButton>
-                <OsfButton
-                    data-analytics-name='Save license'
-                    data-test-save-license
-                    @type='primary'
-                    @buttonType='submit'
-                    @disabled={{form.disabled}}
-                >
-                    {{t 'general.save'}}
-                </OsfButton>
-            </div>
+        
+            {{#if this.shouldShowButtons}}
+                <div local-class='Controls'>
+                    <OsfButton @type='default' @onClick={{@manager.cancel}}>
+                        {{t 'general.cancel'}}
+                    </OsfButton>
+                    <OsfButton
+                        data-analytics-name='Save license'
+                        data-test-save-license @type='primary'
+                        @buttonType='submit'
+                        @disabled={{@manager.changeset.isInvalid}}
+                        @onClick={{@manager.save}}>
+                        {{t 'general.save'}}
+                    </OsfButton>
+                </div>
+            {{/if}}
         {{/if}}
-    </ValidatedModelForm>
-{{/if}}
+    </div>
+</FormControls>

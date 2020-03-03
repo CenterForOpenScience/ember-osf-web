@@ -8,7 +8,7 @@
     @options={{this.licensesAcceptable}}
     @onchange={{action this.changeLicense}}
     @noMatchesMessage={{t 'new_project.no_matches'}}
-    @placeholder='Required'
+    @placeholder={{this.placeholder}}
     as |license|
 >
     {{license.name}}

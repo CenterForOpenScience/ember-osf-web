@@ -190,6 +190,8 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
+        server.loadFixtures('registration-providers');
+        server.loadFixtures('licenses');
 
         const registrationSchema = server.schema.registrationSchemas.all().models.filter(schema =>
             schema.name === 'Prereg Challenge')[0];
@@ -243,6 +245,8 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
+        server.loadFixtures('registration-providers');
+        server.loadFixtures('licenses');
 
         draftRegisterNodeMultiple(server, node, 12, { initiator });
 

@@ -141,6 +141,7 @@
             <Subjects::Manager
                 @model={{this.registration}}
                 @provider={{this.registration.provider}}
+                @doesAutosave={{false}}
                 as |subjectsManager|
             >
                 <EditableField::SubjectFieldManager
@@ -198,10 +199,13 @@
                         as |field|
                     >
                         <field.edit>
-                            <RegistriesLicensePicker @manager={{licenseManager}} />
+                            <RegistriesLicensePicker
+                                @manager={{licenseManager}}
+                                @shouldShowButtons={{true}}
+                            />
                         </field.edit>
                         <field.display>
-                            <LicenseViewer @manager={{licenseManager}} />
+                            <LicenseViewer @registration={{licenseManager.registration}} />
                         </field.display>
                     </EditableField>
                 </EditableField::LicenseManager>
