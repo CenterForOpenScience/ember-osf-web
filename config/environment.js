@@ -41,7 +41,7 @@ const {
     OSF_COOKIE_DOMAIN: cookieDomain = 'localhost',
     OSF_URL: url = 'http://localhost:5000/',
     OSF_API_URL: apiUrl = 'http://localhost:8000',
-    OSF_API_VERSION: apiVersion = '2.19',
+    OSF_API_VERSION: apiVersion = '2.20',
     OSF_RENDER_URL: renderUrl = 'http://localhost:7778/render',
     OSF_FILE_URL: waterbutlerUrl = 'http://localhost:7777/',
     OSF_HELP_URL: helpUrl = 'http://localhost:4200/help',
