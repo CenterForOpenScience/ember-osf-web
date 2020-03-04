@@ -371,8 +371,11 @@ module('Registries | Acceptance | draft form', hooks => {
                 initiator,
                 registrationResponses,
                 branchedFrom: rootNode,
+                license: server.schema.licenses.first(),
             },
         );
+        const subjects = [server.create('subject')];
+        registration.update({ subjects });
         await visit(`/registries/drafts/${registration.id}/review`);
         assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/review`), 'At review page');
         assert.dom('[data-test-goto-register]').isNotDisabled();
