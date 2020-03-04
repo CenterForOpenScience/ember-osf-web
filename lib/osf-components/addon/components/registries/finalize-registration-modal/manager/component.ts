@@ -10,6 +10,7 @@ import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import RegistrationModel from 'ember-osf-web/models/registration';
+import captureException from 'ember-osf-web/utils/capture-exception';
 
 import template from './template';
 
@@ -33,6 +34,7 @@ export default class FinalizeRegistrationModalManagerComponent extends Component
                 this.onSubmitRegistration(this.registration.id);
             }
         } catch (error) {
+            captureException(error);
             this.toast.error(this.intl.t('registries.drafts.draft.submit_error'));
             throw error;
         }
