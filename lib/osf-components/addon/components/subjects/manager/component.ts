@@ -112,7 +112,7 @@ export default class SubjectManagerComponent extends Component {
         this.incrementProperty('savedSubjectsChanges');
     });
 
-    @task({ drop: true })
+    @task({ restartable: true })
     saveChanges = task(function *(this: SubjectManagerComponent) {
         const { selectedSubjects } = this;
 
