@@ -122,12 +122,12 @@
                         id={{subjectsFieldId}}
                         @subjectsManager={{subjectsManager}}
                     />
+                    <ValidationErrors
+                        @changeset={{this.draftManager.metadataChangeset}}
+                        @key='subjects'
+                        @isValidating={{subjectsManager.isSaving}}
+                    />
                 </Subjects::Manager>
-                <ValidationErrors
-                    @changeset={{this.draftManager.metadataChangeset}}
-                    @key='subjects'
-                    @isValidating={{this.draftManager.metadataChangeset.isValidating}}
-                />
             {{/let}}
             {{#let (unique-id 'tags') as |tagsFieldId|}}
                 <label

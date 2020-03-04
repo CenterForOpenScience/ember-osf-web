@@ -118,7 +118,7 @@ export default class SubjectManagerComponent extends Component {
 
         try {
             yield this.model.updateM2MRelationship('subjects', selectedSubjects);
-            yield this.model.reload();
+            yield this.model.hasMany('subjects').reload();
             if (this.metadataChangeset) {
                 this.metadataChangeset.validate('subjects');
             }

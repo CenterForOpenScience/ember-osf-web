@@ -102,7 +102,7 @@ export function validateNodeLicense() {
 export function validateSubjects() {
     return async (_: unknown, __: unknown, ___: unknown, ____: unknown, content: DraftRegistration) => {
         const subjects = await content.subjects;
-        if (subjects.length === 0) {
+        if (!subjects || subjects.length === 0) {
             return {
                 context: {
                     type: 'min_subjects',
