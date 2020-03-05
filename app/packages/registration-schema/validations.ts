@@ -12,9 +12,6 @@ import { validateFileList } from 'ember-osf-web/validators/validate-response-for
 function getErrorType(groupType?: string) {
     let validationErrorType = 'blank';
     switch (groupType) {
-    case 'contributors-input':
-        // No validation for contributors input.
-        break;
     case 'short-text-input':
         break;
     case 'long-text-input':
@@ -48,7 +45,8 @@ export function buildValidation(groups: SchemaBlockGroup[], node?: NodeModel) {
                     validateFileList(responseKey as string, node),
                 );
             }
-            if (inputBlock.required) {
+            // TODO: remove check for contributors-input
+            if (inputBlock.required && inputBlock.blockType !== 'contributors-input') {
                 validationForResponse.push(
                     validatePresence({
                         presence: true,
