@@ -99,6 +99,23 @@ export function validateNodeLicense() {
     };
 }
 
+export function validateSubjects() {
+    return async (_: unknown, __: unknown, ___: unknown, ____: unknown, content: DraftRegistration) => {
+        const subjects = await content.subjects;
+        if (!subjects || subjects.length === 0) {
+            return {
+                context: {
+                    type: 'min_subjects',
+                    translationArgs: {
+                        minLength: 1,
+                    },
+                },
+            };
+        }
+        return true;
+    };
+}
+
 export function buildMetadataValidations() {
     const validationObj: ValidationObject<DraftRegistration> = {};
     const notBlank: ValidatorFunction[] = [validatePresence({
@@ -111,6 +128,7 @@ export function buildMetadataValidations() {
     set(validationObj, DraftMetadataProperties.Title, notBlank);
     set(validationObj, DraftMetadataProperties.Description, notBlank);
     set(validationObj, DraftMetadataProperties.License, notBlank);
+    set(validationObj, DraftMetadataProperties.Subjects, validateSubjects());
     set(validationObj, DraftMetadataProperties.NodeLicenseProperty, validateNodeLicense());
     return validationObj;
 }

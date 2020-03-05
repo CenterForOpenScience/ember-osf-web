@@ -44,7 +44,7 @@ export default class PageLinkComponent extends Component {
             undefined;
     }
 
-    @computed('pageManager', 'pageManager.{isVisited,pageIsValid}', 'pageIsActive')
+    @computed('pageManager', 'pageManager.{isVisited,pageIsValid}', 'pageIsActive', 'metadataIsValid')
     get pageState(): PageState {
         if (this.pageIsActive) {
             return PageState.Active;
