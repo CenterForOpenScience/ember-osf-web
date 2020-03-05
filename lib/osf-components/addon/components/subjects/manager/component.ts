@@ -14,6 +14,7 @@ import OsfModel from 'ember-osf-web/models/osf-model';
 import ProviderModel from 'ember-osf-web/models/provider';
 import SubjectModel from 'ember-osf-web/models/subject';
 
+import { ChangesetDef } from 'ember-changeset/types';
 import template from './template';
 
 interface ModelWithSubjects extends OsfModel {
@@ -48,6 +49,9 @@ export default class SubjectManagerComponent extends Component {
     model!: ModelWithSubjects;
     provider!: ProviderModel;
     doesAutosave!: boolean;
+
+    // optional
+    metadataChangeset?: ChangesetDef;
 
     // private
     @service intl!: Intl;
@@ -108,13 +112,16 @@ export default class SubjectManagerComponent extends Component {
         this.incrementProperty('savedSubjectsChanges');
     });
 
-    @task({ drop: true })
+    @task({ restartable: true })
     saveChanges = task(function *(this: SubjectManagerComponent) {
         const { selectedSubjects } = this;
 
         try {
             yield this.model.updateM2MRelationship('subjects', selectedSubjects);
-            yield this.model.reload();
+            yield this.model.hasMany('subjects').reload();
+            if (this.metadataChangeset) {
+                this.metadataChangeset.validate('subjects');
+            }
         } catch (e) {
             this.toast.error(this.intl.t('registries.registration_metadata.save_subjects_error'));
             throw e;
