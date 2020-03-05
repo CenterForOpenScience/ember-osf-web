@@ -45,6 +45,7 @@ export function buildValidation(groups: SchemaBlockGroup[], node?: NodeModel) {
                     validateFileList(responseKey as string, node),
                 );
             }
+            // TODO: remove check for contributors-input
             if (inputBlock.required && inputBlock.blockType !== 'contributors-input') {
                 validationForResponse.push(
                     validatePresence({
