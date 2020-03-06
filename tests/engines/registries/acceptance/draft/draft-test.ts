@@ -2,6 +2,7 @@ import Service from '@ember/service';
 import { click, currentRouteName, currentURL, fillIn, settled } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { t } from 'ember-intl/test-support';
+import { percySnapshot } from 'ember-percy';
 import { setBreakpoint } from 'ember-responsive/test-support';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
@@ -75,6 +76,7 @@ module('Registries | Acceptance | draft form', hooks => {
         );
 
         await visit(`/registries/drafts/${registration.id}/`);
+        await percySnapshot(assert);
 
         // Metadata page
         assert.equal(currentRouteName(), 'registries.drafts.draft.metadata', 'Starts at metadata route');
@@ -141,6 +143,7 @@ module('Registries | Acceptance | draft form', hooks => {
 
         // Navigate to review
         await click('[data-test-link="review"]');
+        await percySnapshot(assert);
         assert.equal(currentRouteName(), 'registries.drafts.draft.review', 'Goes to review route');
         assert.dom('[data-test-link="metadata"] > [data-test-icon]')
             .hasClass('fa-exclamation-circle', 'metadata is marked visited, invalid');
@@ -235,6 +238,7 @@ module('Registries | Acceptance | draft form', hooks => {
         setBreakpoint('mobile');
 
         assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/metadata`), 'At metadata page');
+        await percySnapshot(assert);
 
         // Check header
         assert.dom('[data-test-page-label]').containsText('Metadata');
@@ -252,6 +256,7 @@ module('Registries | Acceptance | draft form', hooks => {
 
         // Next page
         await click('[data-test-goto-next-page]');
+        await percySnapshot(assert);
 
         // Check that the header is expected
         assert.dom('[data-test-page-label]').containsText('This is the second page');
@@ -262,6 +267,7 @@ module('Registries | Acceptance | draft form', hooks => {
 
         // Check navigation to review page
         await click('[data-test-goto-review]');
+        await percySnapshot(assert);
         assert.dom('[data-test-page-label]').containsText('Review');
         assert.dom('[data-test-goto-next-page]').isNotVisible();
         assert.dom('[data-test-goto-register]').isVisible();
@@ -465,6 +471,66 @@ module('Registries | Acceptance | draft form', hooks => {
             .hasClass('fa-exclamation-circle', 'page 1 is validated, invalid');
     });
 
+    test('validations: validations status updates properly on metadata page', async assert => {
+        const initiator = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const registration = server.create(
+            'draft-registration',
+            {
+                registrationSchema,
+                initiator,
+            },
+        );
+
+        await visit(`/registries/drafts/${registration.id}/metadata`);
+        assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/metadata`), 'At metadata page');
+        assert.dom('[data-test-validation-errors="title"]').doesNotExist('no errors for title on first load');
+        assert.dom('[data-test-validation-errors="description"]')
+            .doesNotExist('no errors for description on first load');
+        await fillIn('input[name="description"]', 'The most dangerous game');
+        await fillIn('input[name="title"]', '');
+        assert.dom('[data-test-validation-errors="title"]').exists('error in title after filling in empty string');
+        assert.dom('[data-test-validation-errors="description"]')
+            .doesNotExist('no error in description after valid string');
+        await fillIn('input[name="title"]', 'Skiball');
+        await fillIn('input[name="description"]', '');
+        assert.dom('[data-test-validation-errors="title"]')
+            .doesNotExist('error in title goes away after filling in valid string');
+        assert.dom('[data-test-validation-errors="description"]')
+            .exists('error in description appears after removing valid string to blank string');
+        assert.dom('[data-test-validation-errors="subjects"]')
+            .doesNotExist('no error for required fields that user has yet to change: subjects');
+        assert.dom('[data-test-validation-errors="license"]')
+            .doesNotExist('no error for required fields that user has yet to change: license');
+
+        await click('[data-test-link="review"]');
+        assert.dom('[data-test-link="metadata"] > [data-test-icon]')
+            .hasClass('fa-exclamation-circle', 'metadata page is marked invalid');
+        assert.dom('[data-test-goto-register]').isDisabled();
+
+        await click('[data-test-link="metadata"]');
+        assert.dom('[data-test-validation-errors="subjects"]')
+            .exists('error appears for unedited, required fields after returning to metadata page: subjects');
+        assert.dom('[data-test-validation-errors="license"]')
+            .exists('error appears for unedited, required fields after returning to metadata page: license');
+        await click('[data-test-power-select-dropdown]');
+        await click('[data-option-index="14"]'); // This should be MIT License which requires Year and Copyright Holder
+        assert.dom('[data-test-required-field="year"]')
+            .hasText(new Date().getUTCFullYear().toString(), 'License: Year autofills to current year');
+        assert.dom('[data-test-required-field="copyrightHolders"]')
+            .hasText('', 'License: CopyrightHolders does not autofill');
+        assert.dom('[data-test-validation-errors="nodeLicense"]')
+            .doesNotExist('NodeLicense validations will not yell at you by default');
+        await fillIn('input[name="year"]', '');
+        await fillIn('input[name="copyrightHolder"]', '');
+        assert.dom('[data-test-validation-errors="nodeLicense"]')
+            .containsText(t('validationErrors.node_license_missing_fields').toString());
+
+        // TODO: add assertions for when user navigates to review page
+        // (should show error under metadata:license on review page)
+        // TODO: add assertions for when user comes back to fix nodelicense issues
+    });
+
     test('validations: validations status changes as user fixes/introduces errors', async assert => {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
@@ -476,36 +542,29 @@ module('Registries | Acceptance | draft form', hooks => {
             },
         );
 
-        await visit(`/registries/drafts/${registration.id}/`);
-        assert.dom('[data-test-link="metadata"] > [data-test-icon]')
-            .hasClass('fa-circle-o', 'on metadata page');
-        await fillIn('input[name="title"]', '');
-        assert.dom('input[name="title"] + div')
-            .hasClass('help-block', 'Metadata title has validation errors');
-
-        await click('[data-test-goto-next-page]');
+        await visit(`/registries/drafts/${registration.id}/1`);
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-circle-o', 'on page 1');
-        assert.dom('[data-test-link="metadata"] > [data-test-icon]')
-            .hasClass('fa-exclamation-circle', 'Metadata has validation error');
 
+        // should validate pages even without user input
         await click('[data-test-goto-next-page]');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-exclamation-circle', 'page 1 is invalid');
 
-        await click('[data-test-goto-previous-page]');
-
+        await click('[data-test-link-"review"]');
         const shortTextKey = deserializeResponseKey('page-one_short-text');
+        assert.dom(`data-test-validation-error="${shortTextKey}"]`)
+            .exists('page-one_short-text has validation errors on review page');
+
+        await click('[data-test-link="1-first-page-of-test-schema"]');
         assert.dom(`input[name="${shortTextKey}"] + div`)
             .hasClass('help-block', 'page-one_short-text has validation errors');
         await fillIn(`input[name="${shortTextKey}"]`, 'ditto');
+        assert.dom(`input[name="${shortTextKey}"] + div`)
+            .hasClass('help-block', 'page-one_short-text has validation errors');
 
         await click('[data-test-goto-metadata]');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-check-circle-o', 'page 1 is now valid');
-        await fillIn('input[name="title"]', 'A non-empty, but still vague title');
-        await click('[data-test-goto-next-page]');
-        assert.dom('[data-test-link="metadata"] > [data-test-icon]')
-            .hasClass('fa-exclamation-circle', 'metadata page is now invalid');
     });
 });
