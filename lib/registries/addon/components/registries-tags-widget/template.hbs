@@ -4,11 +4,11 @@
     local-class='TagsWidget'
     @tags={{if this.readOnly @manager.registration.tags @manager.tags}}
     @addTag={{action this.addTag}}
-    @removeTagAtIndex={{action this.removeTag}}
     @allowSpacesInTags={{true}}
     @placeholder={{t 'osf-components.tags-widget.add_tag'}}
     @readOnly={{this.readOnly}}
     @maxlength={{1024}}
+    @showRemoveButtons={{false}}
     as |tag|
 >
     <span
@@ -19,4 +19,15 @@
     >
         {{tag}}
     </span>
+    {{#if (not this.readOnly)}}
+        <OsfButton
+            local-class='RemoveButton'
+            data-analytics-name='Remove Tag'
+            data-analytics-extra={{tag}}
+            @type='link'
+            @onClick={{action this.removeTag tag}}
+        >
+            <FaIcon @icon='times' @fixedWidth={{true}} />
+        </OsfButton>
+    {{/if}}
 </TagInput>

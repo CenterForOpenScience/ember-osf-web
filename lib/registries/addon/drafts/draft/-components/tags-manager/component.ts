@@ -15,7 +15,7 @@ const {
     OSF: { url: baseUrl },
 } = config;
 
-export type MetadataTagsManager = Pick<TagsManager, 'addTag' | 'removeTag' | 'clickTag'>;
+export type MetadataTagsManager = Pick<TagsManager, 'addTag' | 'removeTag' | 'clickTag' | 'tags'>;
 
 @tagName('')
 @layout(template)

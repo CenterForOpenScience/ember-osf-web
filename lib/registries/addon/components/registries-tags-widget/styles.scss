@@ -9,9 +9,9 @@
     border-radius: 0;
     color: $color-text-black;
     cursor: pointer;
-    font-size: 13px;
     max-width: 100%;
     overflow-wrap: break-word;
+    font: 14px 'Open Sans', 'Helvatica Neue', sans-serif !important;
 
     > a {
         color: $color-text-black;
@@ -21,7 +21,8 @@
         background: $color-bg-blue-dark;
         color: $color-text-gray-cool;
 
-        > a {
+        > a,
+        > button {
             color: $color-text-gray-cool;
         }
     }
@@ -32,6 +33,7 @@
 
     > input {
         width: inherit;
+        font-size: 14px;
 
         &::placeholder {
             color: $color-text-gray-light;
@@ -42,4 +44,10 @@
 
 .TagsWidget:global(.emberTagInput--readOnly) :global(.emberTagInput-new) {
     display: none;
+}
+
+.RemoveButton.RemoveButton {
+    border: 0;
+    padding: 0;
+    margin-left: 5px;
 }
