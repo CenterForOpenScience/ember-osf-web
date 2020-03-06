@@ -23,7 +23,10 @@
             id={{inputElementId}}
             as |option|
         >
-            <span data-test-option={{option}}>
+            <span
+                aria-label={{option}}
+                data-test-option={{option}}
+            >
                 {{yield option}}
             </span>
         </PowerSelect>

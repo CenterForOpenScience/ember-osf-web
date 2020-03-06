@@ -986,6 +986,7 @@ registries:
                 page_label: Review
                 start_review: Review
                 invalid_warning: 'Please address invalid or missing entries to complete registration.'
+                toggle_dropdown: 'Toggle navigation dropdown'
             register: Register
             submit_error: 'Failed to create a registration. Please try again later.'
     index:
@@ -1405,12 +1406,15 @@ osf-components:
     subjects:
         browse:
             browse_all: 'Browse all subjects'
+            show_child_subjects: 'Show child subjects'
+            hide_child_subjects: 'Hide child subjects'
         search:
             search_all: 'Search subjects'
             placeholder: 'Type to search'
             no_results: 'No matching subjects found. Try a less specific search.'
         display:
             placeholder: 'Your selections will appear here'
+            remove_subject: 'Remove subject'
     registries-side-nav:
         expandSideNav: 'Expand registration form navigation'
         collapseSideNav: 'Collapse registration form navigation'
