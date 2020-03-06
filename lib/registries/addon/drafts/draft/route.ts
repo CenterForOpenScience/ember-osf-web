@@ -31,6 +31,8 @@ export default class DraftRegistrationRoute extends Route {
                 draftId,
                 { adapterOptions: { include: 'branched_from' } },
             );
+            const draftRegistrationSubjects = yield draftRegistration.loadAll('subjects');
+            draftRegistration.set('subjects', draftRegistrationSubjects);
             const node: NodeModel = yield draftRegistration.branchedFrom;
             return { draftRegistration, node };
         } catch (error) {

@@ -98,8 +98,8 @@ export function validateNodeLicense() {
 }
 
 export function validateSubjects() {
-    return async (_: unknown, __: unknown, ___: unknown, ____: unknown, content: DraftRegistration) => {
-        const subjects = await content.subjects;
+    return (_: unknown, __: unknown, ___: unknown, ____: unknown, content: DraftRegistration) => {
+        const subjects = content.hasMany('subjects').value();
         if (!subjects || subjects.length === 0) {
             return {
                 context: {

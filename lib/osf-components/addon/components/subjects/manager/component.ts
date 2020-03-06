@@ -15,6 +15,7 @@ import ProviderModel from 'ember-osf-web/models/provider';
 import SubjectModel from 'ember-osf-web/models/subject';
 
 import { ChangesetDef } from 'ember-changeset/types';
+import { ResourceCollectionDocument } from 'osf-api';
 import template from './template';
 
 interface ModelWithSubjects extends OsfModel {
@@ -117,8 +118,15 @@ export default class SubjectManagerComponent extends Component {
         const { selectedSubjects } = this;
 
         try {
-            yield this.model.updateM2MRelationship('subjects', selectedSubjects);
-            yield this.model.hasMany('subjects').reload();
+            const updateResult: ResourceCollectionDocument =
+                yield this.model.updateM2MRelationship('subjects', selectedSubjects);
+            const updatedSubjects = updateResult.data.map(
+                datum => this.store.peekRecord(
+                    'subject',
+                    datum.id,
+                ),
+            );
+            this.model.set('subjects', updatedSubjects);
             if (this.metadataChangeset) {
                 this.metadataChangeset.validate('subjects');
             }
