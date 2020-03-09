@@ -59,6 +59,30 @@
     {{/if}}
 </Registries::ReviewMetadataRenderer::LabelDisplay>
 
+{{#let @draftRegistration.license.requiredFields as |fields|}}
+    {{#if fields}}
+        <div local-class='NestedProperty'>
+            {{#each fields as |field|}}
+                <Registries::ReviewMetadataRenderer::LabelDisplay 
+                    @draftRegistration={{@draftRegistration}}
+                    @changeset={{@metadataChangeset}}
+                    @field='nodeLicense.{{field}}'
+                    @hideError={{true}}
+                    local-class='{{if (not (get @draftRegistration.nodeLicense field)) 'NoResponse'}}'
+                >
+                    {{~if (get @draftRegistration.nodeLicense field) (get @draftRegistration.nodeLicense field)
+                        (t (concat 'registries.registration_metadata.no_' field))~}}
+                </Registries::ReviewMetadataRenderer::LabelDisplay>
+            {{/each}}
+            <ValidationErrors
+                local-class='ValidationErrors'
+                @changeset={{@metadataChangeset}}
+                @key='nodeLicense'
+            />
+        </div>
+    {{/if}}
+{{/let}}
+
 <Registries::ReviewMetadataRenderer::LabelDisplay 
     @draftRegistration={{@draftRegistration}}
     @changeset={{@metadataChangeset}}
