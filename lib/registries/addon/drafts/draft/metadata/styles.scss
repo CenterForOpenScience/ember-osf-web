@@ -1,5 +1,6 @@
 .Metadata {
-    :global(label) {
+    :global(label),
+    :global(legend) {
         margin: 20px 0 0;
         padding: 0;
         color: $color-text-gray-blue;
@@ -10,6 +11,10 @@
         &:first-child {
             margin: 0;
         }
+    }
+
+    :global(fieldset) {
+        margin: 20px 0 0;
     }
 
     :global(.list-group-item label) {

@@ -43,7 +43,7 @@
                 {{#each @manager.requiredFields as |key|}}
                     <div class='form-group'>
                         <label>
-                            <p>
+                            <p id='nodeLicense.{{key}}'>
                                 {{t (concat 'app_components.license_picker.fields.' key)}}
                                 <span local-class='Required'>*</span>
                             </p>
