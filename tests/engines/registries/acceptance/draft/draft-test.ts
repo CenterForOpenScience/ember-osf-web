@@ -563,14 +563,14 @@ module('Registries | Acceptance | draft form', hooks => {
             .hasValue(new Date().getUTCFullYear().toString(), 'License: Year autofills to current year');
         assert.dom('[data-test-required-field="copyrightHolders"]')
             .hasText('', 'License: CopyrightHolders does not autofill');
-        let missingFields = 'copyrightHolders';
+        let missingFields = 'Copyright Holders';
         let validationErrorMsg = t('validationErrors.node_license_missing_fields', { missingFields }).toString();
         assert.dom('[data-test-validation-errors="nodeLicense"]')
             .containsText(validationErrorMsg, 'NodeLicense validation error when copyright holder is empty');
 
         // Input invalid Nodelicense fields
         await fillIn('[data-test-required-field="year"]', '');
-        missingFields = 'year, copyrightHolders';
+        missingFields = 'Year, Copyright Holders';
         validationErrorMsg = t('validationErrors.node_license_missing_fields', { missingFields }).toString();
         assert.dom('[data-test-validation-errors="nodeLicense"]')
             .containsText(validationErrorMsg, 'NodeLicense validation error when year and copyrightholder are empty');
