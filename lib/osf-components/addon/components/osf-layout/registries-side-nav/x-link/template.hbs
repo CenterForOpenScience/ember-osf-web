@@ -5,7 +5,6 @@
             {{if this.isCollapsed 'Collapsed'}}
             {{if this.isCurrentPage 'CurrentPage'}}
             {{if this.isDrawer 'Drawer'}}'
-        inert={{this.isInert}}
         @onClick={{@onClick}}
         @type='link'
         ...attributes
@@ -29,7 +28,6 @@
             {{if this.isCollapsed 'Collapsed'}}
             {{if this.isCurrentPage 'CurrentPage'}}
             {{if this.isDrawer 'Drawer'}}'
-        inert={{this.isInert}}
         @route={{@route}}
         @models={{@models}}
         @href={{@href}}
