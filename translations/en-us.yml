@@ -512,7 +512,7 @@ validationErrors:
     password_match: 'Passwords must match.'
     recaptcha: 'Please complete reCAPTCHA.'
     affirm_terms: 'You must read and agree to the Terms of Use and Privacy Policy.'
-    min_subjects: 'You must select at least {minLength} subject(s).'
+    min_subjects: 'You must select at least one subject.'
     node_license_invalid: 'Invalid required fields for the license'
     node_license_missing_fields: 'The following required fields are missing: {missingFields}'
     invalid_doi: 'Please use a valid DOI format (10.xxxx/xxxxx)'

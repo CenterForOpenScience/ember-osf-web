@@ -4,10 +4,15 @@ import { ValidationObject, ValidatorFunction } from 'ember-changeset-validations
 import { validatePresence } from 'ember-changeset-validations/validators';
 
 import DraftRegistration, { DraftMetadataProperties } from 'ember-osf-web/models/draft-registration';
-import NodeModel from 'ember-osf-web/models/node';
+import NodeModel, { NodeLicense } from 'ember-osf-web/models/node';
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 import { SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema/schema-block-group';
 import { validateFileList } from 'ember-osf-web/validators/validate-response-format';
+
+export const NodeLicenseFields: Record<keyof NodeLicense, string> = {
+    copyrightHolders: 'Copyright Holders',
+    year: 'Year',
+};
 
 function getErrorType(groupType?: string) {
     let validationErrorType = 'blank';
@@ -76,7 +81,7 @@ export function validateNodeLicense() {
         if (!validateLicenseTarget || validateLicenseTarget.get('requiredFields').length === 0) {
             return true;
         }
-        const missingFieldsList: string[] = [];
+        const missingFieldsList: Array<keyof NodeLicense> = [];
         for (const item of validateLicenseTarget.get('requiredFields')) {
             if (!validateNodeLicenseTarget || !validateNodeLicenseTarget[item]) {
                 missingFieldsList.push(item);
@@ -85,7 +90,7 @@ export function validateNodeLicense() {
         if (missingFieldsList.length === 0) {
             return true;
         }
-        const missingFields = missingFieldsList.join(', ');
+        const missingFields = missingFieldsList.map(field => NodeLicenseFields[field]).join(', ');
         return {
             context: {
                 type: 'node_license_missing_fields',
@@ -104,9 +109,6 @@ export function validateSubjects() {
             return {
                 context: {
                     type: 'min_subjects',
-                    translationArgs: {
-                        minLength: 1,
-                    },
                 },
             };
         }
