@@ -1,5 +1,5 @@
 import Service from '@ember/service';
-import { click, currentRouteName, currentURL, fillIn, settled } from '@ember/test-helpers';
+import { click, currentRouteName, currentURL, fillIn, settled, triggerKeyEvent } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
@@ -520,7 +520,7 @@ module('Registries | Acceptance | draft form', hooks => {
 
         await click('[data-test-metadata-tags]');
         await fillIn('[data-test-metadata-tags] input', 'ragtagbag');
-        await click('label#tags');
+        await triggerKeyEvent('[data-test-metadata-tags] input', 'keydown', 'Enter');
 
         // No errors for nodelicense fields
         assert.dom('[data-test-validation-errors="subjects"]')
