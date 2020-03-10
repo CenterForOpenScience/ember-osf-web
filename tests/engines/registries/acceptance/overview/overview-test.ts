@@ -419,7 +419,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
 
         await click('[data-test-save-license]');
 
-        const missingFields = 'copyrightHolders';
+        const missingFields = 'Copyright Holders';
         const validationErrorMsg = t('validationErrors.node_license_missing_fields', { missingFields }).toString();
         assert.dom('.help-block').hasText(validationErrorMsg, 'validation works');
 
