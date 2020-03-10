@@ -1029,7 +1029,7 @@ registries:
         metadata_page_heading: 'Registration Metadata'
         metadata_page_description: 'This metadata applies only to the registration you are creating, and will not be applied to your project.'
         no_affiliated_institutions: 'No affiliated institutions'
-        no_copyrightHolders: 'No copyright holder'
+        no_copyrightHolders: 'No copyright holders'
         no_description: 'No description'
         no_doi: 'No DOI assigned'
         no_license: 'No license'
