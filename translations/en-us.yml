@@ -971,7 +971,7 @@ registries:
             title: 'Choose Unfinished Draft'
         draft:
             metadata:
-                title: 'Fill Out Basic Registration Info'
+                title: 'Fill out basic registration info'
                 page_label: Metadata
             form:
                 title: 'Fill out registration form'
