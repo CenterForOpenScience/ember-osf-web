@@ -1073,7 +1073,7 @@ registries:
             error: 'Unable to save tags.'
         nodeLicense:
             year: 'Year'
-            copyrightHolders: 'Copyright Holder'
+            copyrightHolders: 'Copyright Holders'
         save_subjects_error: 'Unable to save subjects'
     form_view:
         none_selected: 'None selected'
