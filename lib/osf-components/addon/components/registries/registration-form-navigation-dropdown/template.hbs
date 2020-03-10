@@ -37,6 +37,7 @@
                     <li local-class='page-heading'>
                         <OsfLink
                             data-test-page-anchor='Metadata'
+                            data-test-list-item='page-heading'
                             data-analytics-name='Go to metadata page'
                             @href='#MetadataPageLabel'
                             @onClick={{action dd.close}}
@@ -48,6 +49,7 @@
                         <li local-class='question-label'>
                             <OsfLink
                                 data-test-page-anchor={{field}}
+                                data-test-list-item='question-label'
                                 data-analytics-name='Go to metadata: {{field}}'
                                 @href='#{{field}}'
                                 @onClick={{action dd.close}}
@@ -58,7 +60,7 @@
                     {{/each}}
                 {{/if}}
                 {{#each this.blocksWithAnchor as |block|}}
-                    <li local-class='{{block.blockType}}'>
+                    <li local-class='{{block.blockType}}' data-test-list-item='{{block.blockType}}'>
                         <OsfLink
                             data-test-page-anchor={{block.elementId}}
                             data-analytics-name='Go to {{block.blockType}}: {{block.displayText}}'
