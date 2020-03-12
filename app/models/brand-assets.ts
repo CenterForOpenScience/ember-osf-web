@@ -10,3 +10,9 @@ export default class BrandAssetsModel extends OsfModel {
     @attr('string') heroLogoImage!: string;
     @attr('string') heroBackgroundImage!: string;
 }
+
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        'brand-assets': BrandAssetsModel;
+    } // eslint-disable-line semi
+}
