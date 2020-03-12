@@ -8,6 +8,10 @@ function randomAssets() {
     };
 }
 
+function brandAssets() {
+    return [server.create('brand-assets')];
+}
+
 interface MirageRegistrationProvider extends RegistrationProvider {
     licensesAcceptableIds: string[];
 }
@@ -19,6 +23,7 @@ const registrationProviders: Array<Partial<MirageRegistrationProvider>> = [
         description: 'The open registries network',
         allowSubmissions: true,
         assets: randomAssets(),
+        brandAssets: brandAssets(),
         licensesAcceptableIds: [
             '5c252c8e0989e100220edb70',
             '5c252c8e0989e100220edb7a',
