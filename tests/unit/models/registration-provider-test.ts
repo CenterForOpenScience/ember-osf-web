@@ -21,10 +21,10 @@ module('Unit | Model | registration-provider', hooks => {
         }));
 
         const model = run(() => store.createRecord('registration-provider', {
-            brandAssets: [brandAsset],
+            brandAsset,
         }));
 
         assert.ok(!!model);
-        assert.strictEqual(model.brandAssets.firstObject.primaryColor, 'blue');
+        assert.strictEqual(model.brandAsset.get('primaryColor'), 'blue');
     });
 });
