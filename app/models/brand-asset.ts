@@ -3,7 +3,7 @@ import OsfModel from './osf-model';
 
 const { attr } = DS;
 
-export default class BrandAssetsModel extends OsfModel {
+export default class BrandAssetModel extends OsfModel {
     @attr('string') primaryColor!: string;
     @attr('string') secondaryColor!: string;
     @attr('string') navbarLogoImage!: string;
@@ -13,6 +13,6 @@ export default class BrandAssetsModel extends OsfModel {
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        'brand-assets': BrandAssetsModel;
+        'brand-asset': BrandAssetModel;
     } // eslint-disable-line semi
 }

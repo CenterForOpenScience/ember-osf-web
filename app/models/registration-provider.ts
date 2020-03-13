@@ -1,8 +1,8 @@
 import DS from 'ember-data';
 
+import BrandAssetModel from './brand-asset';
 import ProviderModel from './provider';
 import RegistrationModel from './registration';
-import BrandAssetsModel from './brand-assets';
 
 const { hasMany } = DS;
 
@@ -10,8 +10,8 @@ export default class RegistrationProviderModel extends ProviderModel {
     @hasMany('registration', { inverse: 'provider' })
     registrations!: DS.PromiseManyArray<RegistrationModel>;
 
-    @hasMany('brand-assets', { inverse: null })
-    brandAssets?: DS.PromiseManyArray<BrandAssetsModel>;
+    @hasMany('brand-asset', { inverse: null })
+    brandAssets?: DS.PromiseManyArray<BrandAssetModel>;
 }
 
 declare module 'ember-data/types/registries/model' {

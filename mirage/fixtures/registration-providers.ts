@@ -9,11 +9,12 @@ function randomAssets() {
 }
 
 function brandAssets() {
-    return [server.create('brand-assets')];
+    return [server.create('brand-asset')];
 }
 
 interface MirageRegistrationProvider extends RegistrationProvider {
     licensesAcceptableIds: string[];
+    brandAssets: any;
 }
 
 const registrationProviders: Array<Partial<MirageRegistrationProvider>> = [
