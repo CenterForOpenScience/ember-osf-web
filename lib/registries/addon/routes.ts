@@ -3,6 +3,9 @@ import buildRoutes from 'ember-engines/routes';
 export default buildRoutes(function() {
     this.route('index', { path: '/registries' });
     this.route('discover', { path: '/registries/discover' });
+    this.route('branded', { path: '/registries/:provider_id' } as any, function() {
+        this.route('discover', { path: '/discover' });
+    });
 
     this.route('start', { path: '/registries/start' });
 
