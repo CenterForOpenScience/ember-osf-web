@@ -1,8 +1,8 @@
 import { Factory } from 'ember-cli-mirage';
 
-import BrandAsset from 'ember-osf-web/models/brand-asset';
+import Brand from 'ember-osf-web/models/brand';
 
-export default Factory.extend<BrandAsset>({
+export default Factory.extend<Brand>({
     primaryColor: 'green',
     secondaryColor: 'blue',
     navbarLogoImage: 'http://somelogoimageurl',
@@ -12,12 +12,12 @@ export default Factory.extend<BrandAsset>({
 
 declare module 'ember-cli-mirage/types/registries/model' {
     export default interface MirageModelRegistry {
-        brandAsset: BrandAsset;
+        brand: Brand;
     } // eslint-disable-line semi
 }
 
 declare module 'ember-cli-mirage/types/registries/schema' {
     export default interface MirageSchemaRegistry {
-        brandAsset: BrandAsset;
+        brand: Brand;
     } // eslint-disable-line semi
 }

@@ -1,10 +1,10 @@
 import OsfAdapter from './osf-adapter';
 
-export default class BrandAssetAdapter extends OsfAdapter {
+export default class BrandAdapter extends OsfAdapter {
 }
 
 declare module 'ember-data/types/registries/adapter' {
     export default interface AdapterRegistry {
-        'brand-asset': BrandAssetAdapter;
+        brand: BrandAdapter;
     } // eslint-disable-line semi
 }

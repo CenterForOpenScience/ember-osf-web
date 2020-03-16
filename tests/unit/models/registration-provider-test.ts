@@ -10,9 +10,9 @@ module('Unit | Model | registration-provider', hooks => {
         assert.ok(!!model);
     });
 
-    test('it can have an associated brand-asset', function(assert) {
+    test('it can have an associated brand', function(assert) {
         const store = this.owner.lookup('service:store');
-        const brandAsset = run(() => store.createRecord('brand-asset', {
+        const brand = run(() => store.createRecord('brand', {
             primaryColor: 'blue',
             secondaryColor: 'green',
             navbarLogoImage: 'http://logoimage',
@@ -21,10 +21,10 @@ module('Unit | Model | registration-provider', hooks => {
         }));
 
         const model = run(() => store.createRecord('registration-provider', {
-            brandAsset,
+            brand,
         }));
 
         assert.ok(!!model);
-        assert.strictEqual(model.brandAsset.get('primaryColor'), 'blue');
+        assert.strictEqual(model.brand.get('primaryColor'), 'blue');
     });
 });
