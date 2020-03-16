@@ -12,12 +12,12 @@ export default Factory.extend<BrandAsset>({
 
 declare module 'ember-cli-mirage/types/registries/model' {
     export default interface MirageModelRegistry {
-        'brand-asset': BrandAsset;
+        brandAsset: BrandAsset;
     } // eslint-disable-line semi
 }
 
 declare module 'ember-cli-mirage/types/registries/schema' {
     export default interface MirageSchemaRegistry {
-        'brand-asset': BrandAsset;
+        brandAsset: BrandAsset;
     } // eslint-disable-line semi
 }
