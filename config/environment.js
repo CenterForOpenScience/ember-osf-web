@@ -232,8 +232,8 @@ module.exports = function(environment) {
         },
         featureFlagNames: {
             routes: {
-                'branded': 'ember_registries_detail_page', //TODO Replace with another flag
-                'branded.discover': 'ember_registries_detail_page', //TODO Replace with another flag
+                'registries.branded': 'branded_registries',
+                'registries.branded.discover': 'branded_registries',
                 'guid-node.index': 'ember_project_detail_page',
                 'guid-node.drafts.index': 'ember_edit_draft_registration_page',
                 'guid-node.drafts.register': 'ember_edit_draft_registration_page',
