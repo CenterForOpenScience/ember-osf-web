@@ -9,8 +9,8 @@ export default class BrandedRegistriesRoute extends Route {
     @service analytics!: Analytics;
     @service store!: DS.Store;
 
-    model(params: Record<string, string>) {
-        return this.store.findRecord('registration-provider', params.provider_id);
+    model(params: { providerId: string }) {
+        return this.store.findRecord('registration-provider', params.providerId);
     }
 
     @action
