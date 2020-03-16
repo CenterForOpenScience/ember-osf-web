@@ -1,10 +1,10 @@
 import OsfSerializer from './osf-serializer';
 
-export default class BrandAssetSerializer extends OsfSerializer {
+export default class BrandSerializer extends OsfSerializer {
 }
 
 declare module 'ember-data/types/registries/serializer' {
     export default interface SerializerRegistry {
-        'brand-asset': BrandAssetSerializer;
+        brand: BrandSerializer;
     } // eslint-disable-line semi
 }
