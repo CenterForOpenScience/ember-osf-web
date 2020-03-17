@@ -1,0 +1,12 @@
+// Brand Variables
+// TODO: Find proper place to put these
+:root {
+    --primary-color: #000;
+    --secondary-color: #666;
+}
+
+.PrimaryColor {
+    background-color: var(--primary-color);
+    height: 200px;
+    width: 200px;
+}

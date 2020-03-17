@@ -189,6 +189,7 @@ export default function(this: Server) {
 
     osfResource(this, 'preprint-provider', { path: '/providers/preprints' });
     osfResource(this, 'registration-provider', { path: '/providers/registrations' });
+    osfResource(this, 'brand', { path: '/brands' });
     osfNestedResource(this, 'registration-provider', 'licensesAcceptable', {
         only: ['index'],
         path: '/providers/registrations/:parentID/licenses/',
