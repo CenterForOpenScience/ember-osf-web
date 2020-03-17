@@ -514,13 +514,14 @@ validationErrors:
     affirm_terms: 'You must read and agree to the Terms of Use and Privacy Policy.'
     min_subjects: 'You must select at least one subject.'
     node_license_invalid: 'Invalid required fields for the license'
-    node_license_missing_fields: 'The following required fields are missing: {missingFields}'
+    node_license_missing_fields: 'The following required {numOfFields, plural, =1 {field is} other {fields are}} missing: {missingFields}'
     invalid_doi: 'Please use a valid DOI format (10.xxxx/xxxxx)'
     mustSelect: 'You must select a value for this field.'
     mustSelectMinOne: 'You must select at least one value for this field.'
     mustSelectFileMinOne: 'You must select at least one file for this field.'
     onlyProjectOrComponentFiles: 'The {numOfFiles, plural, =1 {file} other {files}} "{missingFilesList}" cannot be found on this {projectOrComponent}.'
     new_folder_name: 'Folder name must not be blank.'
+    year_format: 'Please specify a valid year.'
 validated_input_form:
     discard_changes: 'Discard changes'
 node_navbar:

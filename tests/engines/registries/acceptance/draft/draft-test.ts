@@ -564,14 +564,16 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-required-field="copyrightHolders"]')
             .hasText('', 'License: CopyrightHolders does not autofill');
         let missingFields = 'Copyright Holders';
-        let validationErrorMsg = t('validationErrors.node_license_missing_fields', { missingFields }).toString();
+        let validationErrorMsg = t('validationErrors.node_license_missing_fields',
+            { missingFields, numOfFields: 1 }).toString();
         assert.dom('[data-test-validation-errors="nodeLicense"]')
             .containsText(validationErrorMsg, 'NodeLicense validation error when copyright holder is empty');
 
         // Input invalid Nodelicense fields
         await fillIn('[data-test-required-field="year"]', '');
         missingFields = 'Year, Copyright Holders';
-        validationErrorMsg = t('validationErrors.node_license_missing_fields', { missingFields }).toString();
+        validationErrorMsg = t('validationErrors.node_license_missing_fields',
+            { missingFields, numOfFields: 2 }).toString();
         assert.dom('[data-test-validation-errors="nodeLicense"]')
             .containsText(validationErrorMsg, 'NodeLicense validation error when year and copyrightholder are empty');
         await percySnapshot('Registries | Acceptance | draft form | metadata editing | metadata: invalid nodelicense');
