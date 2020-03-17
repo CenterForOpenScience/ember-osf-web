@@ -2,7 +2,7 @@ import OsfAdapter from './osf-adapter';
 
 export default class RegistrationProviderAdapter extends OsfAdapter {
     pathForType(_: string): string {
-        return 'providers/registries';
+        return 'providers/registrations';
     }
 }
 
