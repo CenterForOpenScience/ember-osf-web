@@ -1,15 +1,3 @@
-// Brand Variables
-// TODO:
-// - Find proper place to put these
-// - Figure out defaults
-.BrandContainer {
-    --primary-color: #000;
-    --secondary-color: #666;
-    --navbar-logo-img-url: '';
-    --hero-logo-img-url: '';
-    --hero-background-img-url: '';
-}
-
 .PrimaryColor {
     background-color: var(--primary-color);
     height: 200px;
