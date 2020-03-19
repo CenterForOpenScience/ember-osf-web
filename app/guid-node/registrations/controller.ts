@@ -44,6 +44,7 @@ export default class GuidNodeRegistrations extends Controller {
                         'filter[active]': true,
                     },
                 },
+                reload: true,
             });
         schemas = schemas.toArray();
         schemas.sort((a: RegistrationSchema, b: RegistrationSchema) => a.name.length - b.name.length);
