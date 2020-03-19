@@ -12,11 +12,11 @@ class WithBrandingModifier extends Modifier {
         const { currentBrand } = this.brand;
 
         if (currentBrand) {
-            elementStyle.setProperty('--primary-color', currentBrand.get('primaryColor'));
-            elementStyle.setProperty('--secondary-color', currentBrand.get('secondaryColor'));
-            elementStyle.setProperty('--navbar-logo-img-url', currentBrand.get('navbarLogoImage'));
-            elementStyle.setProperty('--hero-logo-img-url', currentBrand.get('heroLogoImage'));
-            elementStyle.setProperty('--hero-background-img-url', currentBrand.get('heroBackgroundImage'));
+            elementStyle.setProperty('--primary-color', currentBrand.primaryColor);
+            elementStyle.setProperty('--secondary-color', currentBrand.secondaryColor);
+            elementStyle.setProperty('--navbar-logo-img-url', currentBrand.navbarLogoImage);
+            elementStyle.setProperty('--hero-logo-img-url', currentBrand.heroLogoImage);
+            elementStyle.setProperty('--hero-background-img-url', currentBrand.heroBackgroundImage);
         }
     }
 }

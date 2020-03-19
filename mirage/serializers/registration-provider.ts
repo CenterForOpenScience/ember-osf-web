@@ -1,13 +1,13 @@
 import { ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 import RegistrationProvider from 'ember-osf-web/models/registration-provider';
-import ApplicationSerializer from './application';
+import ApplicationSerializer, { SerializedRelationships } from './application';
 
 const { OSF: { apiUrl } } = config;
 
 export default class RegistrationProviderSerializer extends ApplicationSerializer<RegistrationProvider> {
     buildRelationships(model: ModelInstance<RegistrationProvider>) {
-        return {
+        const relationships: SerializedRelationships<RegistrationProvider> = {
             licensesAcceptable: {
                 links: {
                     related: {
@@ -24,14 +24,19 @@ export default class RegistrationProviderSerializer extends ApplicationSerialize
                     },
                 },
             },
-            brand: {
+        };
+
+        if (model.brand) {
+            relationships.brand = {
                 links: {
                     related: {
                         href: `${apiUrl}/v2/brands/${model.brand.id}/`,
                         meta: {},
                     },
                 },
-            },
-        };
+            };
+        }
+
+        return relationships;
     }
 }
