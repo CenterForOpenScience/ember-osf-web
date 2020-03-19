@@ -1,6 +1,6 @@
 .ember-application {
-    --primary-color: #000;
-    --secondary-color: #666;
+    --primary-color: $color-select;
+    --secondary-color: $color-bg-gray-blue;
     --navbar-logo-img-url: '';
     --hero-logo-img-url: '';
     --hero-background-img-url: '';
