@@ -5,6 +5,6 @@ export default class BrandService extends Service {
     currentBrand: Brand | null = null;
 
     setBrand(brand: Brand) {
-        this.set('currentBrand', brand);
+        this.currentBrand = brand;
     }
 }

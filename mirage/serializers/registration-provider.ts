@@ -27,7 +27,7 @@ export default class RegistrationProviderSerializer extends ApplicationSerialize
             brand: {
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/providers/registrations/${model.id}/brand/`,
+                        href: `${apiUrl}/v2/brands/${model.brand.id}/`,
                         meta: {},
                     },
                 },
