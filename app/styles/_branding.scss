@@ -5,3 +5,9 @@
     --hero-logo-img-url: '';
     --hero-background-img-url: '';
 }
+
+.brand-container {
+    .branded-logo {
+        background-image: var(--navbar-logo-img-url);
+    }
+}
