@@ -1,19 +1,20 @@
 import Modifier from 'ember-oo-modifiers';
 
-import Brand from 'registries/services/brand';
+import Brand from 'ember-osf-web/models/brand';
 
 class WithBrandingModifier extends Modifier {
-    didInsertElement([brand]: [Brand]) {
-        const elementStyle = this.element.style;
-        const { currentBrand } = brand;
-
-        if (currentBrand) {
-            elementStyle.setProperty('--primary-color', currentBrand.primaryColor);
-            elementStyle.setProperty('--secondary-color', currentBrand.secondaryColor);
-            elementStyle.setProperty('--navbar-logo-img-url', currentBrand.navbarLogoImage);
-            elementStyle.setProperty('--hero-logo-img-url', currentBrand.heroLogoImage);
-            elementStyle.setProperty('--hero-background-img-url', currentBrand.heroBackgroundImage);
+    didInsertElement([brand]: [Brand | null]) {
+        if (!brand) {
+            return;
         }
+
+        const elementStyle = this.element.style;
+
+        elementStyle.setProperty('--primary-color', brand.primaryColor);
+        elementStyle.setProperty('--secondary-color', brand.secondaryColor);
+        elementStyle.setProperty('--navbar-logo-img-url', brand.navbarLogoImage);
+        elementStyle.setProperty('--hero-logo-img-url', brand.heroLogoImage);
+        elementStyle.setProperty('--hero-background-img-url', brand.heroBackgroundImage);
     }
 }
 
