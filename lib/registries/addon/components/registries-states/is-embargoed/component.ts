@@ -7,6 +7,7 @@ import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Registration from 'ember-osf-web/models/registration';
+import captureException from 'ember-osf-web/utils/capture-exception';
 import template from './template';
 
 @layout(template)
@@ -25,6 +26,7 @@ export default class RegistrationIsEmbargoed extends Component {
         try {
             yield this.registration.save();
         } catch (e) {
+            captureException(e);
             this.toast.error(this.intl.t('registries.overview.embargoed.action_error'));
         }
 

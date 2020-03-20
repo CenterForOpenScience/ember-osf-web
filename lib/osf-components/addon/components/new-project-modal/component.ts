@@ -16,6 +16,7 @@ import Region from 'ember-osf-web/models/region';
 import User from 'ember-osf-web/models/user';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import captureException from 'ember-osf-web/utils/capture-exception';
 import styles from './styles';
 import template from './template';
 
@@ -121,7 +122,12 @@ export default class NewProjectModal extends Component {
         if (storageRegion) {
             node.set('region', storageRegion);
         }
-        yield node.save();
+
+        try {
+            yield node.save();
+        } catch (e) {
+            captureException(e);
+        }
 
         this.afterProjectCreated(node);
     });

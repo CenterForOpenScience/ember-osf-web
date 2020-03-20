@@ -15,6 +15,7 @@ import ProviderModel from 'ember-osf-web/models/provider';
 import SubjectModel from 'ember-osf-web/models/subject';
 
 import { ChangesetDef } from 'ember-changeset/types';
+import captureException from 'ember-osf-web/utils/capture-exception';
 import { ResourceCollectionDocument } from 'osf-api';
 import template from './template';
 
@@ -131,6 +132,7 @@ export default class SubjectManagerComponent extends Component {
                 this.metadataChangeset.validate('subjects');
             }
         } catch (e) {
+            captureException(e);
             this.toast.error(this.intl.t('registries.registration_metadata.save_subjects_error'));
             throw e;
         }

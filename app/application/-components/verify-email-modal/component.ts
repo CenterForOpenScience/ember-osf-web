@@ -10,6 +10,7 @@ import Toast from 'ember-toastr/services/toast';
 
 import UserEmail from 'ember-osf-web/models/user-email';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import captureException from 'ember-osf-web/utils/capture-exception';
 
 interface TranslationKeys {
     header: string;
@@ -126,6 +127,7 @@ export default class VerifyEmailModal extends Component {
             yield timeout(300);
             this.set('shouldShowModal', true);
         } catch (e) {
+            captureException(e);
             this.showMessage('error', errorKey, userEmail);
             throw e;
         }

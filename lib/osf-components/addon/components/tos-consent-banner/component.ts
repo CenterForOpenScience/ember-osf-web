@@ -8,6 +8,7 @@ import config from 'ember-get-config';
 import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import captureException from 'ember-osf-web/utils/capture-exception';
 
 import styles from './styles';
 import template from './template';
@@ -33,7 +34,12 @@ export default class TosConsentBanner extends Component {
             return;
         }
 
-        yield user.save();
+        try {
+            yield user.save();
+        } catch (e) {
+            captureException(e);
+        }
+
         this.currentUser.set('showTosConsentBanner', false);
     });
 

@@ -9,6 +9,7 @@ import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Node from 'ember-osf-web/models/node';
+import captureException from 'ember-osf-web/utils/capture-exception';
 
 import template from './template';
 
@@ -53,6 +54,7 @@ export default class DescriptionManagerComponent extends Component {
             try {
                 yield this.node.save();
             } catch (e) {
+                captureException(e);
                 this.node.rollbackAttributes();
                 this.toast.error(this.intl.t('registries.registration_metadata.edit_description.error'));
                 throw e;

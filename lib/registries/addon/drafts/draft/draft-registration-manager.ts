@@ -8,6 +8,7 @@ import { task } from 'ember-concurrency-decorators';
 import DraftRegistration, { DraftMetadataProperties } from 'ember-osf-web/models/draft-registration';
 import NodeModel from 'ember-osf-web/models/node';
 import SchemaBlock from 'ember-osf-web/models/schema-block';
+import captureException from 'ember-osf-web/utils/capture-exception';
 
 import {
     buildMetadataValidations,
@@ -96,6 +97,7 @@ export default class DraftRegistrationManager {
         try {
             yield this.draftRegistration.save();
         } catch (error) {
+            captureException(error);
             throw error;
         }
     });
@@ -113,6 +115,7 @@ export default class DraftRegistrationManager {
             try {
                 yield this.draftRegistration.save();
             } catch (error) {
+                captureException(error);
                 throw error;
             }
         }
@@ -131,7 +134,12 @@ export default class DraftRegistrationManager {
                 registrationResponses,
             });
 
-            yield this.draftRegistration.save();
+            try {
+                yield this.draftRegistration.save();
+            } catch (e) {
+                captureException(e);
+                throw e;
+            }
         }
     });
 

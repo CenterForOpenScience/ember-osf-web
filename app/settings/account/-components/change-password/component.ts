@@ -11,6 +11,7 @@ import Toast from 'ember-toastr/services/toast';
 import User from 'ember-osf-web/models/user';
 import UserPassword from 'ember-osf-web/models/user-password';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import captureException from 'ember-osf-web/utils/capture-exception';
 
 export default class ChangePasswordPane extends Component {
     // Private properties
@@ -45,6 +46,7 @@ export default class ChangePasswordPane extends Component {
         try {
             yield this.userPassword.save();
         } catch (e) {
+            captureException(e);
             this.toast.error(errorMessage);
             return;
         }

@@ -11,6 +11,7 @@ import Toast from 'ember-toastr/services/toast';
 import User from 'ember-osf-web/models/user';
 import UserSettingModel from 'ember-osf-web/models/user-setting';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import captureException from 'ember-osf-web/utils/capture-exception';
 
 @tagName('')
 export default class DeactivationPane extends Component {
@@ -44,6 +45,7 @@ export default class DeactivationPane extends Component {
             const { supportEmail } = config.support;
             const saveErrorMessage = this.intl
                 .t('settings.account.security.saveError', { supportEmail, htmlSafe: true });
+            captureException(e);
             return this.toast.error(saveErrorMessage);
         }
     });

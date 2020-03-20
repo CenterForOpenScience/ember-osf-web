@@ -14,6 +14,7 @@ import User from 'ember-osf-web/models/user';
 import UserEmail from 'ember-osf-web/models/user-email';
 import UserSettingModel from 'ember-osf-web/models/user-setting';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import captureException from 'ember-osf-web/utils/capture-exception';
 
 @tagName('')
 export default class SecurityPane extends Component {
@@ -67,6 +68,7 @@ export default class SecurityPane extends Component {
             const { supportEmail } = config.support;
             const saveErrorMessage = this.intl
                 .t('settings.account.security.saveError', { supportEmail, htmlSafe: true });
+            captureException(e);
             this.toast.error(saveErrorMessage);
         } finally {
             this.hideDialogs();

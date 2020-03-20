@@ -9,6 +9,7 @@ import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Node, { NodeCategory } from 'ember-osf-web/models/node';
+import captureException from 'ember-osf-web/utils/capture-exception';
 import template from './template';
 
 export interface CategoryManager {
@@ -47,6 +48,7 @@ export default class CategoryManagerComponent extends Component {
             yield this.node.save();
         } catch (e) {
             this.node.rollbackAttributes();
+            captureException(e);
             this.toast.error(this.intl.t('registries.registration_metadata.edit_category.error'));
             throw e;
         }

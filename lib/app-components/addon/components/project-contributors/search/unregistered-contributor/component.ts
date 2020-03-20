@@ -11,6 +11,7 @@ import Contributor from 'ember-osf-web/models/contributor';
 import Node from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import Analytics from 'ember-osf-web/services/analytics';
+import captureException from 'ember-osf-web/utils/capture-exception';
 import styles from './styles';
 import template from './template';
 
@@ -44,6 +45,7 @@ export default class UnregisteredContributor extends Component {
                 this.intl.t('app_components.project_contributors.search.unregistered_contributor.add_success'),
             );
         } catch (e) {
+            captureException(e);
             this.toast.error(
                 this.intl.t('app_components.project_contributors.search.unregistered_contributor.add_error'),
             );

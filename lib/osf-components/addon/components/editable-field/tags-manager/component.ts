@@ -10,6 +10,7 @@ import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Registration from 'ember-osf-web/models/registration';
+import captureException from 'ember-osf-web/utils/capture-exception';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
 import template from './template';
@@ -63,6 +64,7 @@ export default class TagsManagerComponent extends Component {
             yield this.registration.save();
         } catch (e) {
             this.registration.rollbackAttributes();
+            captureException(e);
             this.toast.error(this.intl.t('registries.registration_metadata.edit_tags.error'));
             throw e;
         }

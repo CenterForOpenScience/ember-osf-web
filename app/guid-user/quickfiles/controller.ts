@@ -13,6 +13,7 @@ import Node from 'ember-osf-web/models/node';
 import User from 'ember-osf-web/models/user';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import captureException from 'ember-osf-web/utils/capture-exception';
 
 export default class UserQuickfiles extends Controller {
     @service analytics!: Analytics;
@@ -42,6 +43,7 @@ export default class UserQuickfiles extends Controller {
         try {
             return yield node.save();
         } catch (ex) {
+            captureException(ex);
             this.toast.error(this.intl.t('move_to_project.could_not_create_project'));
             return undefined;
         }
