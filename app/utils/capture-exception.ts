@@ -1,21 +1,29 @@
+import { ErrorObject } from 'jsonapi-typescript';
+import { ErrorDocument } from 'osf-api';
 
 // Raven is defined only in prod builds
 declare const Raven: undefined | {
-    captureException(e: Error, extra: object): void;
+    captureException(e: ErrorDocument | Error, extra: object): void;
 };
 
-interface OsfApiError extends Error {
-    errors?: Array<{ detail?: string }>;
+export function getApiError(error: ErrorDocument): ErrorObject|undefined {
+    let apiError;
+    if (Array.isArray(error.errors) && error.errors.length &&
+        typeof error.errors[0].detail === 'string') {
+        [apiError] = error.errors;
+    }
+    return apiError;
+}
+
+export function getApiErrorMessage(error: ErrorDocument): string {
+    const apiError = getApiError(error);
+    return (apiError && apiError.detail) ? apiError.detail : '';
 }
 
 // send exception info to sentry, if it's hooked up
-export default function captureException(error: OsfApiError, extras = {}) {
-    let errorMessage;
-    if (Array.isArray(error.errors) && error.errors.length &&
-        typeof error.errors[0].detail === 'string') {
-        errorMessage = error.errors[0].detail;
-    }
-    const extra = { ...extras, ...(errorMessage ? { errorMessage } : {}) };
+export default function captureException(error: ErrorDocument, extras = {}) {
+    const apiError = getApiError(error);
+    const extra = { ...extras, ...(apiError || {}) };
 
     if (Raven) {
         Raven.captureException(error, { extra });
