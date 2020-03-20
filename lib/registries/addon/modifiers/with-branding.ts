@@ -2,14 +2,10 @@ import Modifier from 'ember-oo-modifiers';
 
 import Brand from 'registries/services/brand';
 
-import { inject as service } from '@ember/service';
-
 class WithBrandingModifier extends Modifier {
-    @service brand!: Brand;
-
-    didInsertElement() {
+    didInsertElement([brand]: [Brand]) {
         const elementStyle = this.element.style;
-        const { currentBrand } = this.brand;
+        const { currentBrand } = brand;
 
         if (currentBrand) {
             elementStyle.setProperty('--primary-color', currentBrand.primaryColor);
