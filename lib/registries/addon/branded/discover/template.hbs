@@ -1,4 +1,4 @@
-<div local-class='BrandContainer' {{with-branding this.brand}}>
+<div local-class='BrandContainer' {{with-branding this.brand.currentBrand}}>
     <div local-class='PrimaryColor'></div>
     <Navbar
         data-analytics-scope='Navbar'
@@ -16,7 +16,7 @@
                     class='branded-logo'
                     aria-label={{t 'navbar.go_home'}}
                 />
-                <OsfLink @route='registries.branded'>Test Link</OsfLink>
+                <OsfLink @route='registries.branded'>{{t 'donate'}}</OsfLink>
             </nav.section>
 
         </nav.container>
