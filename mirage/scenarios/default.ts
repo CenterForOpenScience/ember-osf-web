@@ -105,7 +105,7 @@ function registrationScenario(
         id: '1',
         primaryColor: 'green',
         secondaryColor: 'blue',
-        navbarLogoImage: 'http://somelogoimageurl',
+        navbarLogoImage: 'https://seeklogo.net/wp-content/uploads/2017/04/New-Google-Earth-logo.png',
         heroLogoImage: 'http://somelogoimageurl',
         heroBackgroundImage: 'http://herobackgroundimage',
     });

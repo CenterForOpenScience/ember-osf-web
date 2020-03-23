@@ -9,5 +9,10 @@
 .brand-container {
     .branded-logo {
         background-image: var(--navbar-logo-img-url);
+        width: 35px;
+        height: 35px;
+        margin-right: 5px;
+        background-size: 100%;
+        background-repeat: no-repeat;
     }
 }
