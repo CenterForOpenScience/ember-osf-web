@@ -34,8 +34,12 @@ export default class FinalizeRegistrationModalManagerComponent extends Component
                 this.onSubmitRegistration(this.registration.id);
             }
         } catch (error) {
+            if (error.errors) {
+                this.toast.error(error.errors[0].detail);
+            } else {
+                this.toast.error(this.intl.t('registries.drafts.draft.submit_error'));
+            }
             captureException(error);
-            this.toast.error(this.intl.t('registries.drafts.draft.submit_error'));
             throw error;
         }
     }),
