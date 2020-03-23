@@ -12,7 +12,7 @@ import Toast from 'ember-toastr/services/toast';
 import { layout } from 'ember-osf-web/decorators/component';
 import Identifier from 'ember-osf-web/models/identifier';
 import Registration, { RegistrationState } from 'ember-osf-web/models/registration';
-import captureException from 'ember-osf-web/utils/capture-exception';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 import template from './template';
 
@@ -87,8 +87,8 @@ export default class DoiManagerComponent extends Component {
                 }
             } catch (e) {
                 identifier.rollbackAttributes();
-                this.toast.error(this.intl.t('registries.registration_metadata.mint_doi.error'));
                 captureException(e);
+                this.toast.error(getApiErrorMessage(e), this.intl.t('registries.registration_metadata.mint_doi.error'));
                 throw e;
             }
             this.set('requestedEditMode', false);

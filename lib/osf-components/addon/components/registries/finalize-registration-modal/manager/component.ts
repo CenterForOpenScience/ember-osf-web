@@ -10,7 +10,7 @@ import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import RegistrationModel from 'ember-osf-web/models/registration';
-import captureException from 'ember-osf-web/utils/capture-exception';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
 import template from './template';
@@ -37,12 +37,8 @@ export default class FinalizeRegistrationModalManagerComponent extends Component
                 this.onSubmitRegistration(this.registration.id);
             }
         } catch (error) {
-            if (Array.isArray(error.errors) && error.errors.length) {
-                this.toast.error(error.errors[0].detail);
-            } else {
-                this.toast.error(this.intl.t('registries.drafts.draft.submit_error'));
-            }
             captureException(error);
+            this.toast.error(getApiErrorMessage(error), this.intl.t('registries.drafts.draft.submit_error'));
             throw error;
         }
     }),

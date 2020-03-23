@@ -14,7 +14,7 @@ import Toast from 'ember-toastr/services/toast';
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import { ValidatedModelName } from 'ember-osf-web/models/osf-model';
 import Analytics from 'ember-osf-web/services/analytics';
-import captureException from 'ember-osf-web/utils/capture-exception';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
 import template from './template';
@@ -69,7 +69,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
                     this.onError(e, this.changeset);
                 } else {
                     captureException(e);
-                    this.toast.error(e);
+                    this.toast.error(getApiErrorMessage(e));
                 }
                 throw e;
             }

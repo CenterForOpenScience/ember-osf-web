@@ -9,7 +9,7 @@ import Toast from 'ember-toastr/services/toast';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import UserEmail from 'ember-osf-web/models/user-email';
 import CurrentUser from 'ember-osf-web/services/current-user';
-import captureException from 'ember-osf-web/utils/capture-exception';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 import { ChangesetDef } from 'ember-changeset/types';
 import getHref from 'ember-osf-web/utils/get-href';
@@ -86,7 +86,7 @@ export default class ConnectedEmails extends Component {
             yield email.save();
         } catch (e) {
             captureException(e);
-            return this.toast.error(errorMessage);
+            return this.toast.error(getApiErrorMessage(e), errorMessage);
         }
 
         this.get('loadPrimaryEmail').perform();

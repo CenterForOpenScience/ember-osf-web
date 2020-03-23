@@ -16,7 +16,7 @@ import Node from 'ember-osf-web/models/node';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Theme from 'ember-osf-web/services/theme';
-import captureException from 'ember-osf-web/utils/capture-exception';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import getHref from 'ember-osf-web/utils/get-href';
 import styles from './styles';
@@ -95,7 +95,7 @@ export default class Submit extends Component {
             captureException(e);
             this.toast.error(this.intl.t(`${this.intlKeyPrefix}${operation}_save_error`, {
                 title: this.collectionItem.title,
-                error: e.errors[0].detail,
+                error: getApiErrorMessage(e),
             }));
         }
     });

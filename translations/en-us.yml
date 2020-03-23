@@ -227,6 +227,7 @@ new_project:
     stay_here: 'Keep working here'
     go_to_new: 'Go to new project'
     storage_region: 'Storage location'
+    could_not_create_project: 'Could not create project'
 banners:
     prereg:
         description: 'Improve your next study. Enter the Prereg Challenge and you could win $1,000.'
@@ -989,7 +990,7 @@ registries:
                 invalid_warning: 'Please address invalid or missing entries to complete registration.'
                 toggle_dropdown: 'Toggle navigation dropdown'
             register: Register
-            submit_error: 'Failed to create a registration. Please try again later.'
+            submit_error: 'Unable to create a registration.'
     index:
         lead: 'The <span class="f-w-lg">open</span> registries network'
         see_example: 'See an example'
