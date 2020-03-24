@@ -22,6 +22,7 @@ export default class PageLinkComponent extends Component {
     // Required
     link!: XLink;
     draftId!: string;
+    route!: string;
 
     // Optional
     pageManager?: PageManager;
@@ -31,6 +32,7 @@ export default class PageLinkComponent extends Component {
     currentPageName?: string;
     label?: string;
     navMode?: string;
+    metadataIsValid?: boolean;
 
     @computed('pageName', 'pageIndex', 'pageManager', 'pageManager.pageHeadingText')
     get page(): string | undefined {
@@ -42,13 +44,19 @@ export default class PageLinkComponent extends Component {
             undefined;
     }
 
-    @computed('pageManager', 'pageManager.{isVisited,pageIsValid}', 'pageIsActive')
+    @computed('pageManager', 'pageManager.{isVisited,pageIsValid}', 'pageIsActive', 'metadataIsValid')
     get pageState(): PageState {
         if (this.pageIsActive) {
             return PageState.Active;
         }
         if (this.pageManager && this.pageManager.isVisited) {
             if (this.pageManager.pageIsValid) {
+                return PageState.Valid;
+            }
+            return PageState.Invalid;
+        }
+        if (this.pageName === 'metadata') {
+            if (this.metadataIsValid) {
                 return PageState.Valid;
             }
             return PageState.Invalid;
@@ -110,6 +118,14 @@ export default class PageLinkComponent extends Component {
     @computed('navMode')
     get isDrawer() {
         return this.navMode === 'drawer';
+    }
+
+    @computed('route')
+    get models() {
+        if (this.route === 'registries.drafts.draft.page') {
+            return [this.draftId, this.page];
+        }
+        return [this.draftId];
     }
 
     didReceiveAttrs() {

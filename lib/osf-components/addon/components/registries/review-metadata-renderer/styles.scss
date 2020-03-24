@@ -1,0 +1,15 @@
+.NoResponse {
+    font-style: italic;
+}
+
+.TextResponse {
+    white-space: pre-wrap;
+}
+
+.NestedProperty {
+    margin: 0 0 0 20px;
+}
+
+.ValidationErrors {
+    composes: Element from '../schema-block-renderer/styles.scss';
+}

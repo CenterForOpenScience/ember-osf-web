@@ -512,15 +512,16 @@ validationErrors:
     password_match: 'Passwords must match.'
     recaptcha: 'Please complete reCAPTCHA.'
     affirm_terms: 'You must read and agree to the Terms of Use and Privacy Policy.'
-    min_subjects: 'You must select at least {minLength} subject(s).'
+    min_subjects: 'You must select at least one subject.'
     node_license_invalid: 'Invalid required fields for the license'
-    node_license_missing_fields: 'The following required fields are missing: {missingFields}'
+    node_license_missing_fields: 'The following required {numOfFields, plural, =1 {field is} other {fields are}} missing: {missingFields}'
     invalid_doi: 'Please use a valid DOI format (10.xxxx/xxxxx)'
     mustSelect: 'You must select a value for this field.'
     mustSelectMinOne: 'You must select at least one value for this field.'
     mustSelectFileMinOne: 'You must select at least one file for this field.'
     onlyProjectOrComponentFiles: 'The {numOfFiles, plural, =1 {file} other {files}} "{missingFilesList}" cannot be found on this {projectOrComponent}.'
     new_folder_name: 'Folder name must not be blank.'
+    year_format: 'Please specify a valid year.'
 validated_input_form:
     discard_changes: 'Discard changes'
 node_navbar:
@@ -971,7 +972,8 @@ registries:
             title: 'Choose Unfinished Draft'
         draft:
             metadata:
-                title: 'Fill Out Basic Registration Info'
+                title: 'Fill out basic registration info'
+                page_label: Metadata
             form:
                 title: 'Fill out registration form'
                 next: Next
@@ -985,6 +987,7 @@ registries:
                 page_label: Review
                 start_review: Review
                 invalid_warning: 'Please address invalid or missing entries to complete registration.'
+                toggle_dropdown: 'Toggle navigation dropdown'
             register: Register
             submit_error: 'Failed to create a registration. Please try again later.'
     index:
@@ -1014,6 +1017,7 @@ registries:
         add_license: 'Add license'
         affiliated_institutions: 'Affiliated institutions'
         category: Category
+        choose_license: 'Choose a License'
         citation: Citation
         contributors: Contributors
         create_doi: 'Create DOI'
@@ -1023,12 +1027,18 @@ registries:
         disciplines: Disciplines
         edit_field: 'Edit {field}'
         license: License
+        metadata_page_heading: 'Registration Metadata'
+        metadata_page_description: 'This metadata applies only to the registration you are creating, and will not be applied to your project.'
+        no_affiliated_institutions: 'No affiliated institutions'
+        no_copyrightHolders: 'No copyright holders'
         no_description: 'No description'
         no_doi: 'No DOI assigned'
         no_license: 'No license'
         no_matches: 'No matches found'
         no_publication_doi: 'No publication DOI'
         no_subjects: 'No subjects'
+        no_title: 'No title'
+        no_year: 'No year'
         publication_doi: 'Publication DOI'
         registered_from: 'Registered from'
         registration_doi: 'Registration DOI'
@@ -1038,6 +1048,7 @@ registries:
         show_more: 'Show more'
         subjects: Subjects
         tags: Tags
+        title: Title
         edit_description:
             success: 'Description successfully updated.'
             error: 'Unable to save description.'
@@ -1061,6 +1072,9 @@ registries:
         edit_tags:
             success: 'Tags successfully updated.'
             error: 'Unable to save tags.'
+        nodeLicense:
+            year: 'Year'
+            copyrightHolders: 'Copyright Holders'
         save_subjects_error: 'Unable to save subjects'
     form_view:
         none_selected: 'None selected'
@@ -1398,17 +1412,21 @@ osf-components:
     subjects:
         browse:
             browse_all: 'Browse all subjects'
+            show_child_subjects: 'Show child subjects'
+            hide_child_subjects: 'Hide child subjects'
         search:
             search_all: 'Search subjects'
             placeholder: 'Type to search'
             no_results: 'No matching subjects found. Try a less specific search.'
         display:
             placeholder: 'Your selections will appear here'
+            remove_subject: 'Remove subject'
     registries-side-nav:
         expandSideNav: 'Expand registration form navigation'
         collapseSideNav: 'Collapse registration form navigation'
     registries-top-nav:
         showRegistrationNavigation: 'Show registration form navigation'
+        metadata: 'Return to metadata'
         previousPage: 'Previous page'
         nextPage: 'Next page'
         reviewRegistration: 'Review registration'

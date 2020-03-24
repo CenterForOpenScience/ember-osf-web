@@ -11,6 +11,8 @@
     "ember-angle-bracket-invocation-polyfill": "*",
     "ember-basic-dropdown": "*",
     "ember-bootstrap": "*",
+    "ember-changeset": "*",
+    "ember-changeset-validations": "*",
     "ember-cli-babel": "*",
     "ember-cli-htmlbars": "*",
     "ember-cli-htmlbars-inline-precompile": "*",

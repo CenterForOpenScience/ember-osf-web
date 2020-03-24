@@ -1,9 +1,11 @@
+{{assert 'Registries::RegistrationFormNavigationDropdown requires schemablocks' @schemaBlocks}}
 <ResponsiveDropdown local-class='Dropdown' @renderInPlace={{true}} as |dd|>
     {{#dd.trigger local-class='MenuTrigger'}}
         <OsfButton
             data-analytics-name='Expand'
             data-test-toggle-anchor-nav-button @type='link'
             local-class='ToggleNav__button'
+            aria-label={{t 'registries.drafts.draft.review.toggle_dropdown'}}
         >
             <FaIcon @icon='bars' />
         </OsfButton>
@@ -31,8 +33,34 @@
                 </OsfButton>
             </h2>
             <ol local-class='Anchors' data-test-form-block-anchors>
+                {{#if this.showMetadata}}
+                    <li local-class='page-heading'>
+                        <OsfLink
+                            data-test-page-anchor='Metadata'
+                            data-test-list-item='page-heading'
+                            data-analytics-name='Go to metadata page'
+                            @href='#MetadataPageLabel'
+                            @onClick={{action dd.close}}
+                        >
+                            {{t 'registries.drafts.draft.metadata.page_label'}}
+                        </OsfLink>
+                    </li>
+                    {{#each this.metadataFields as |field|}}
+                        <li local-class='question-label'>
+                            <OsfLink
+                                data-test-page-anchor={{field}}
+                                data-test-list-item='question-label'
+                                data-analytics-name='Go to metadata: {{field}}'
+                                @href='#{{field}}'
+                                @onClick={{action dd.close}}
+                            >
+                                {{t (concat 'registries.registration_metadata.' field )}}
+                            </OsfLink>
+                        </li>
+                    {{/each}}
+                {{/if}}
                 {{#each this.blocksWithAnchor as |block|}}
-                    <li local-class='{{block.blockType}}'>
+                    <li local-class='{{block.blockType}}' data-test-list-item='{{block.blockType}}'>
                         <OsfLink
                             data-test-page-anchor={{block.elementId}}
                             data-analytics-name='Go to {{block.blockType}}: {{block.displayText}}'

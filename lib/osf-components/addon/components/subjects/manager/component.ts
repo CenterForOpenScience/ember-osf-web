@@ -14,6 +14,8 @@ import OsfModel from 'ember-osf-web/models/osf-model';
 import ProviderModel from 'ember-osf-web/models/provider';
 import SubjectModel from 'ember-osf-web/models/subject';
 
+import { ChangesetDef } from 'ember-changeset/types';
+import { ResourceCollectionDocument } from 'osf-api';
 import template from './template';
 
 interface ModelWithSubjects extends OsfModel {
@@ -47,6 +49,10 @@ export default class SubjectManagerComponent extends Component {
     // required
     model!: ModelWithSubjects;
     provider!: ProviderModel;
+    doesAutosave!: boolean;
+
+    // optional
+    metadataChangeset?: ChangesetDef;
 
     // private
     @service intl!: Intl;
@@ -107,12 +113,23 @@ export default class SubjectManagerComponent extends Component {
         this.incrementProperty('savedSubjectsChanges');
     });
 
-    @task({ drop: true })
+    @task({ restartable: true })
     saveChanges = task(function *(this: SubjectManagerComponent) {
         const { selectedSubjects } = this;
 
         try {
-            yield this.model.updateM2MRelationship('subjects', selectedSubjects);
+            const updateResult: ResourceCollectionDocument =
+                yield this.model.updateM2MRelationship('subjects', selectedSubjects);
+            const updatedSubjects = updateResult.data.map(
+                datum => this.store.peekRecord(
+                    'subject',
+                    datum.id,
+                ),
+            );
+            this.model.set('subjects', updatedSubjects);
+            if (this.metadataChangeset) {
+                this.metadataChangeset.validate('subjects');
+            }
         } catch (e) {
             this.toast.error(this.intl.t('registries.registration_metadata.save_subjects_error'));
             throw e;
@@ -132,6 +149,7 @@ export default class SubjectManagerComponent extends Component {
 
         assert('@model is required', Boolean(this.model));
         assert('@provider is required', Boolean(this.provider));
+        assert('@doesAutosave is required', this.doesAutosave !== null && this.doesAutosave !== undefined);
     }
 
     @action
@@ -165,6 +183,9 @@ export default class SubjectManagerComponent extends Component {
                 this.selectSubject(subject.parent);
             }
         }
+        if (this.doesAutosave) {
+            this.saveChanges.perform();
+        }
     }
 
     @action
@@ -178,6 +199,9 @@ export default class SubjectManagerComponent extends Component {
             this.selectedSubjects
                 .filter(s => s.belongsTo('parent').id() === subject.id)
                 .forEach(s => this.unselectSubject(s));
+        }
+        if (this.doesAutosave) {
+            this.saveChanges.perform();
         }
     }
 

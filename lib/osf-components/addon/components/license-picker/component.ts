@@ -5,6 +5,7 @@ import { inject as service } from '@ember/service';
 import { timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
+import Intl from 'ember-intl/services/intl';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import License from 'ember-osf-web/models/license';
@@ -14,6 +15,7 @@ import Provider from 'ember-osf-web/models/provider';
 import Analytics from 'ember-osf-web/services/analytics';
 import Theme from 'ember-osf-web/services/theme';
 
+import ValidatedModelForm from 'osf-components/components/validated-model-form/component';
 import styles from './styles';
 import template from './template';
 
@@ -22,11 +24,14 @@ export default class LicensePicker extends Component {
     @service analytics!: Analytics;
     @service store!: DS.Store;
     @service theme!: Theme;
+    @service intl!: Intl;
 
+    form?: ValidatedModelForm<'node'>;
     showText: boolean = false;
     node: Node = this.node;
     licensesAcceptable!: QueryHasManyResult<License>;
     helpLink: string = 'https://openscience.zendesk.com/hc/en-us/articles/360019739014';
+    placeholder: string = this.intl.t('registries.registration_metadata.select_license');
 
     @alias('theme.provider') provider!: Provider;
     @alias('node.license') selected!: License;
@@ -60,13 +65,14 @@ export default class LicensePicker extends Component {
         this.node.setNodeLicenseDefaults(selected.requiredFields);
     }
 
-    /**
-     * Calling notifyPropertyChange doesn't trigger dirty attributes
-     */
     @action
-    notify() {
-        // TODO: find a better way to set propertyDidChange
-        this.node.set('nodeLicense', { ...this.node.nodeLicense });
+    updateNodeLicense(key: string, event: Event) {
+        if (this.form) {
+            const target = event.target as HTMLInputElement;
+            const newNodeLicense = { ...this.form.changeset.get('nodeLicense') } as { [key: string]: string };
+            newNodeLicense[key] = target.value;
+            this.form.changeset.set('nodeLicense', newNodeLicense);
+        }
     }
 
     didReceiveAttrs(...args: any[]) {

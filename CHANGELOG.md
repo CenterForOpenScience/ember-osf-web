@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [20.3.0] - 2020-03-23
+### Added
+- Ability to create/edit draft registration metadata to the Registries Submission workflow.
+- Metadata to review page
+
 ## [20.2.1] - 2020-03-04
 ### Changed
 - log registration submit errors to sentry
@@ -90,6 +95,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
     - `OsfLayout::RegistriesSideNav::Label`
     - `OsfLayout::RegistriesSideNav::XLink`
     - `PageLink`
+    - `Debouncer`
 - Mirage
     - Factories
         - `institutional-user`
@@ -100,6 +106,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
         - added `dashboard` nested route
     - `guid-node`
         - added `drafts` nested route
+    - `registries/drafts/draft`
+        - added `metadata` nested route
 - Engines
     - Components
         - `drafts/draft/-components/register`
@@ -1564,7 +1572,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/20.2.1...develop
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/20.3.0...develop
+[20.3.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.3.0
 [20.2.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.2.1
 [20.2.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.2.0
 [20.1.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.1.0

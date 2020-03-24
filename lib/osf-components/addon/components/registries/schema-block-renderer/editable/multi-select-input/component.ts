@@ -15,18 +15,24 @@ export default class MultiSelectInput extends Component {
     // Required param
     optionBlocks!: SchemaBlock[];
 
-    // Private properties
-    helpTextMapping: any = {};
-
     didReceiveAttrs() {
         assert('multi-select-input requires optionBlocks to render', Boolean(this.optionBlocks));
-        this.optionBlocks.forEach(option => {
-            this.helpTextMapping[option.displayText!] = option.helpText;
-        });
     }
 
-    @computed('optionBlocks')
+    @computed('optionBlocks.[]')
     get optionBlockValues() {
         return this.optionBlocks.map(item => item.displayText);
+    }
+
+    @computed('optionBlocks.[]')
+    get helpTextMapping() {
+        const mapping: Record<string, string> = {};
+        this.optionBlocks.forEach(option => {
+            const { displayText, helpText } = option;
+            if (displayText && helpText) {
+                mapping[displayText] = helpText;
+            }
+        });
+        return mapping;
     }
 }

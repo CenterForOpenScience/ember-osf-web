@@ -1,3 +1,8 @@
+{{assert 'Drafts::Draft::-Components::TopNav requires a layout' @layout}}
+{{assert 'Drafts::Draft::-Components::TopNav requires a draft-registration-manager' @draftManager}}
+{{assert 'Drafts::Draft::-Components::TopNav requires a navigation-manager' @navManager}}
+{{assert 'Drafts::Draft::-Components::TopNav requires a onSubmitRedirect' @onSubmitRedirect}}
+
 <@layout.top as |layout|>
     <Navbar local-class='SideBarToggle' ...attributes as |nav|>
         <nav.bordered-section>
@@ -11,54 +16,66 @@
         </nav.bordered-section>
         <nav.bordered-section local-class='MobileNavPageLabelSection'>
             <div local-class='MobileNavPageLabel' data-test-page-label>
-                {{#if @inReview}}
+                {{#if @navManager.inReview}}
                     {{t 'registries.drafts.draft.review.page_label'}}
+                {{else if @navManager.inMetadata}}
+                    {{t 'registries.drafts.draft.metadata.page_label'}}
                 {{else}}
-                    {{@draftManager.currentPageManager.pageHeadingText}}
+                    {{@navManager.currentPageManager.pageHeadingText}}
                 {{/if}}
             </div>
         </nav.bordered-section>
         <nav.bordered-section>
-            {{#if @draftManager.prevPageParam}}
+            {{#if @navManager.isFirstPage}}
+                <nav.links.default
+                    data-test-goto-metadata
+                    data-analytics-name='Sidenav back to metadata'
+                    aria-label={{t 'osf-components.registries-top-nav.metadata'}}
+                    local-class='MetadataButton'
+                    @route='registries.drafts.draft.metadata'
+                    @models={{array @draftManager.draftId }}
+                >
+                    {{t 'registries.drafts.draft.metadata.page_label'}}
+                </nav.links.default>
+            {{/if}}
+            {{#if @navManager.prevPageParam}}
                 <nav.links.default
                     data-test-goto-previous-page
                     data-analytics-name='Sidenav back'
                     aria-label={{t 'osf-components.registries-top-nav.previousPage'}}
                     @route='registries.drafts.draft.page'
-                    @models={{array @draftManager.draftId @draftManager.prevPageParam}}
+                    @models={{array @draftManager.draftId @navManager.prevPageParam}}
                 >
                     <nav.icon @icon='arrow-left' />
                 </nav.links.default>
             {{/if}}
-            {{#if @draftManager.nextPageParam}}
+            {{#if @navManager.nextPageParam}}
                 <nav.links.default
                     data-test-goto-next-page
                     data-analytics-name='Sidenav next'
                     aria-label={{t 'osf-components.registries-top-nav.nextPage'}}
                     @route='registries.drafts.draft.page'
-                    @models={{array @draftManager.draftId @draftManager.nextPageParam}}
-                    @onClick={{@draftManager.setPageIsVisited}}
+                    @models={{array @draftManager.draftId @navManager.nextPageParam}}
+                    @onClick={{@navManager.currentPageManager.setPageIsVisited}}
                 >
                     <nav.icon @icon='arrow-right' />
                 </nav.links.default>
             {{/if}}
-            {{#if (eq @draftManager.lastPage @pageIndex)}}
+            {{#if @navManager.isLastPage}}
                 <nav.links.default
                     data-test-goto-review
                     data-analytics-name='Sidenav review'
                     aria-label={{t 'osf-components.registries-top-nav.reviewRegistration'}}
-                    @route='registries.drafts.draft.page'
-                    @models={{array @draftManager.draftId 'review'}}
+                    @route='registries.drafts.draft.review'
+                    @models={{array @draftManager.draftId}}
                 >
                     <nav.icon @icon='arrow-right' />
                 </nav.links.default>
             {{/if}}
-            {{#if @inReview}}
+            {{#if @navManager.inReview}}
                 <Drafts::Draft::-Components::Register
-                    @draftRegistration={{@draftRegistration}}
                     @draftManager={{@draftManager}}
                     @onSubmitRedirect={{action @onSubmitRedirect}}
-                    @node={{@node}}
                     @showMobileView={{true}}
                 />
             {{/if}}

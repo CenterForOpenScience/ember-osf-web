@@ -1,7 +1,10 @@
 {{#if this.fetchSchemaBlocks.isRunning}}
     <LoadingIndicator @dark={{true}}/>
 {{else}}
-    <Registries::RegistrationFormNavigationDropdown @schemaBlocks={{this.schemaBlocks}} />
+    <Registries::RegistrationFormNavigationDropdown
+        @showMetadata={{false}}
+        @schemaBlocks={{this.schemaBlocks}} 
+    />
     {{#each this.schemaBlockGroups as |group|}}
         <Registries::SchemaBlockGroupRenderer
             @schemaBlockGroup={{group}}

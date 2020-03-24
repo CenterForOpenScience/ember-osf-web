@@ -1,169 +1,24 @@
-{{#if this.inReview}}
-    {{title (t 'registries.drafts.draft.review.title')}}
-{{else}}
-    {{title (t 'registries.drafts.draft.form.title')}}
-{{/if}}
+{{title (t 'registries.drafts.draft.form.title')}}
 
-{{#if this.loading}}
-    <div local-class='ContentBackground Loading'>
+{{#let
+    this.draftRegistrationManager
+    this.navigationManager
+    as |draftManager navManager|
+}}
+    {{#if draftManager.initializing}}
         <LoadingIndicator @dark={{true}} />
-    </div>
-{{else}}
-    <Registries::DraftRegistrationManager
-        @currentPage={{this.pageIndex}}
-        @draftRegistration={{this.draftRegistration}}
-        @node={{this.node}}
-        @inReview={{this.inReview}}
-        @updateRoute={{action this.updateRoute}}
-        @onPageNotFound={{action this.onPageNotFound}}
-        as |draftManager|
-    >
-        {{#if draftManager.initializing}}
-            <div local-class='ContentBackground Loading'>
-                <LoadingIndicator @dark={{true}} />
-            </div>
-        {{else}}
-            <OsfLayout @backgroundClass={{local-class 'ContentBackground'}} as |layout|>
-                <layout.heading local-class='Heading'>
-                    <div local-class='Title'>
-                        <OsfLink
-                            data-analytics-name='Go to project'
-                            local-class='BreadCrumb'
-                            @route='guid-node'
-                            @models={{array this.draftRegistration.branchedFrom.id}}
-                        >
-                            {{this.draftRegistration.branchedFrom.title}} >
-                        </OsfLink>
-                        <h1>
-                            {{t 'registries.drafts.draft.form.new_registration'}}
-                        </h1>
-                    </div>
-                </layout.heading>
-                {{#if this.showMobileView}}
-                    <Drafts::Draft::-Components::TopNav
-                        @layout={{layout}}
-                        @inReview={{this.inReview}}
-                        @draftManager={{draftManager}}
-                        @draftRegistration={{this.draftRegistration}}
-                        @onSubmitRedirect={{action this.onSubmitRedirect}}
-                        @pageIndex={{this.pageIndex}}
-                        @node={{this.node}}
-                    />
-                {{/if}}
-                <layout.leftNav as |leftNav|>
-                    {{#each draftManager.pageManagers as |pageManager index|}}
-                        <PageLink
-                            @link={{component leftNav.link}}
-                            @draftId={{draftManager.draftId}}
-                            @pageManager={{pageManager}}
-                            @pageIndex={{index}}
-                            @currentPageIndex={{draftManager.currentPage}}
-                            @navMode={{leftNav.leftGutterMode}}
-                        />
-                    {{/each}}
-                    <PageLink
-                        @link={{component leftNav.link}}
-                        @draftId={{draftManager.draftId}}
-                        @pageName='review'
-                        @currentPageName={{this.model.page}}
-                        @label='{{t 'registries.drafts.draft.review.page_label'}}'
-                        @navMode={{leftNav.leftGutterMode}}
-                    />
-                </layout.leftNav>
-                <layout.main local-class='Main'>
-                    <main
-                        {{did-insert draftManager.onPageLoad this.pageIndex this.inReview}}
-                        {{did-update draftManager.onPageChange this.pageIndex this.inReview}}
-                    >
-                        {{#if this.inReview}}
-                            {{#if (and draftManager.hasInvalidResponses this.showMobileView)}}
-                                <div
-                                    data-test-invalid-responses-text
-                                    local-class='WarningMessage'
-                                    class='text-danger'
-                                >
-                                    {{t 'registries.drafts.draft.review.invalid_warning'}}
-                                </div>
-                            {{/if}}
-                            <Registries::ReviewFormRenderer
-                                @draftManager={{draftManager}}
-                                @node={{this.node}}
-                            />
-                        {{else}}
-                            <Registries::PageRenderer
-                                @pageManager={{draftManager.currentPageManager}}
-                                @onInput={{draftManager.onInput}}
-                                @node={{this.node}}
-                            />
-                        {{/if}}
-                    </main>
-                </layout.main>
-                <layout.right local-class='Right'>
-                    <div local-class='RightWrapper'>
-                        {{#if this.inReview}}
-                            <Drafts::Draft::-Components::Register
-                                @draftRegistration={{this.draftRegistration}}
-                                @draftManager={{draftManager}}
-                                @onSubmitRedirect={{action this.onSubmitRedirect}}
-                                @node={{this.node}}
-                            />
-                        {{/if}}
-                        {{#if (eq draftManager.lastPage this.pageIndex)}}
-                            <OsfLink
-                                data-test-goto-review
-                                data-analytics-name='Go to review'
-                                local-class='ReviewButton'
-                                class='btn btn-primary'
-                                @type='button'
-                                @route='registries.drafts.draft.page'
-                                @models={{array draftManager.draftId 'review'}}
-                            >
-                                {{t 'registries.drafts.draft.review.start_review'}}
-                            </OsfLink>
-                        {{/if}}
-                        {{#if draftManager.nextPageParam}}
-                            <OsfLink
-                                data-test-goto-next-page
-                                data-analytics-name='Go to next page'
-                                local-class='NextButton'
-                                class='btn btn-primary'
-                                @type='button'
-                                @route='registries.drafts.draft.page'
-                                @models={{array draftManager.draftId draftManager.nextPageParam}}
-                            >
-                                {{t 'registries.drafts.draft.form.next'}}
-                                <FaIcon @icon='arrow-right' @fixedWidth={{true}} />
-                            </OsfLink>
-                        {{/if}}
-                        {{#if draftManager.prevPageParam}}
-                            <OsfLink
-                                data-test-goto-previous-page
-                                data-analytics-name='Go to previous page'
-                                local-class='BackButton'
-                                class='btn btn-default'
-                                @type='button'
-                                @route='registries.drafts.draft.page'
-                                @models={{array draftManager.draftId draftManager.prevPageParam}}
-                            >
-                                <FaIcon @icon='arrow-left' @fixedWidth={{true}} />
-                                {{t 'registries.drafts.draft.form.back'}}
-                            </OsfLink>
-                        {{/if}}
-
-                        {{#if draftManager.lastSaveFailed}}
-                            <span local-class='SaveFailed'>
-                                {{t 'registries.drafts.draft.form.save_failed'}}
-                            </span>
-                        {{/if}}
-                        <span local-class='SaveMessage'>
-                            {{t 'registries.drafts.draft.form.last_saved'}}
-                            <TimeSince
-                                @date={{this.draftRegistration.datetimeUpdated}}
-                            />
-                        </span>
-                    </div>
-                </layout.right>
-            </OsfLayout>
-        {{/if}}
-    </Registries::DraftRegistrationManager>
-{{/if}}
+    {{else}}
+        <main
+            {{did-insert this.checkRouteParams this.page}}
+            {{did-update this.checkRouteParams this.page}}
+        >
+            {{#if navManager.currentPageManager}}
+                <Registries::PageRenderer
+                    @pageManager={{navManager.currentPageManager}}
+                    @onInput={{perform draftManager.onPageInput navManager.currentPageManager}}
+                    @node={{this.node}}
+                />
+            {{/if}}
+        </main>
+    {{/if}}
+{{/let}}

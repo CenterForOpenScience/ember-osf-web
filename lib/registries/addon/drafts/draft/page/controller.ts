@@ -1,56 +1,52 @@
 import Controller from '@ember/controller';
-import { action, computed } from '@ember/object';
-import { alias, equal, not } from '@ember/object/computed';
+import { action } from '@ember/object';
+import { alias } from '@ember/object/computed';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 
-import DraftRegistration from 'ember-osf-web/models/draft-registration';
-import Registration from 'ember-osf-web/models/registration';
-import { getPageParam } from 'ember-osf-web/utils/page-param';
-import Media from 'ember-responsive';
-
+import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
 import NodeModel from 'ember-osf-web/models/node';
+import { getPageParam } from 'ember-osf-web/utils/page-param';
+import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
+import NavigationManager from 'registries/drafts/draft/navigation-manager';
 import { DraftPageRouteModel } from './route';
 
-export default class RegistriesDrat extends Controller {
-    @service media!: Media;
+export default class RegistriesDraftPage extends Controller {
     @service router!: RouterService;
 
     model!: DraftPageRouteModel;
 
-    @alias('model.taskInstance.value.draftRegistration') draftRegistration?: DraftRegistration;
-    @alias('model.taskInstance.value.node') node?: NodeModel;
+    @alias('model.draftRegistrationManager') draftRegistrationManager!: DraftRegistrationManager;
+    @alias('model.navigationManager') navigationManager!: NavigationManager;
+    @alias('draftRegistrationManager.node') node!: NodeModel;
+    @alias('draftRegistrationManager.draftRegistration') draftRegistration!: DraftRegistrationModel;
     @alias('model.pageIndex') pageIndex!: number;
     @alias('model.page') page!: string;
-    @equal('page', 'review') inReview!: boolean;
-
-    @alias('draftRegistration.id') draftId!: string;
-
-    @not('draftRegistration') loading!: boolean;
-    @not('media.isDesktop') showMobileView!: boolean;
-
-    @computed('page')
-    get shouldAppendPageSlug() {
-        // Only update current route if it has a pageIndex but no page slug
-        const regex = /^\d+-?$/;
-        return regex.test(this.page);
-    }
 
     @action
-    updateRoute(headingText: string) {
-        if (this.page && this.shouldAppendPageSlug) {
-            const pageSlug = getPageParam(this.pageIndex, headingText);
-            this.replaceRoute('drafts.draft.page', this.draftId, pageSlug);
+    updateRoute(headingText: string, page: string, draftId: string, pageIndex: number) {
+        const shouldAppendPageSlug = /^\d+-?$/.test(page);
+        if (page && shouldAppendPageSlug) {
+            const pageSlug = getPageParam(pageIndex, headingText);
+            this.replaceRoute('drafts.draft.page', draftId, pageSlug);
         }
-    }
-
-    @action
-    onSubmitRedirect(registrationId: Registration) {
-        this.transitionToRoute('overview.index', registrationId);
+        this.draftRegistrationManager.onPageChange(pageIndex);
+        this.draftRegistrationManager.metadataChangeset.validate();
     }
 
     @action
     onPageNotFound() {
-        this.transitionToRoute('page-not-found', this.router.currentURL.slice(1));
+        this.replaceRoute('page-not-found', this.router.currentURL.slice(1));
+    }
+
+    @action
+    checkRouteParams(_: HTMLElement, [page]: [string]) {
+        const { currentPageManager } = this.navigationManager;
+        if (currentPageManager) {
+            const { pageHeadingText } = currentPageManager;
+            this.updateRoute(pageHeadingText!, page, this.draftRegistration.id, this.pageIndex!);
+        } else {
+            this.onPageNotFound();
+        }
     }
 }
