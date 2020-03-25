@@ -1,3 +1,11 @@
-<button type='button' local-class='Button' ...attributes>
-    {{yield}}
-</button>
+{{#if (eq @layout 'fake-link')}}
+    {{!-- template-lint-disable link-href-attributes  --}}
+    <a class={{this.classList}} role='button' local-class='Button' ...attributes>
+        {{yield}}
+    </a>
+{{else}}
+    <button class={{this.classList}} type='button' local-class='Button' ...attributes>
+        {{yield}}
+    </button>
+{{/if}}
+

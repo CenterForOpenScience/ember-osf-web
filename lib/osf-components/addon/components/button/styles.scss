@@ -11,8 +11,55 @@
     padding: 6px 12px;
     font-size: 14px;
     line-height: 1.42857;
-    border-radius: 4px;
+    border-radius: 2px;
     user-select: none;
-    background-color: var(--primary-color);
-    color: #fff;
+    color: $color-text-white;
+
+    &:hover {
+        filter: brightness(90%);
+    }
+
+    &:active {
+        filter: brightness(80%);
+    }
+
+    &:focus {
+        outline: 0;
+    }
+
+    &:global(.small) {
+        font-size: 100%;
+        padding: 2px 10px;
+    }
+
+    &:global(.large) {
+        padding: 15px 20px;
+    }
+
+    &:global(.fake-link) {
+        background: none !important;
+        border: transparent !important;
+        color: var(--primary-color);
+    }
+
+    &:global(.secondary) {
+        background-color: $color-bg-white;
+        border: 1px solid $color-border-gray-light;
+        color: var(--primary-color);
+    }
+
+    &:global(.primary) {
+        background-color: var(--primary-color);
+        color: $color-text-white;
+    }
+
+    &:global(.create) {
+        background-color: $brand-success;
+        color: $color-text-white;
+    }
+
+    &:global(.destroy) {
+        background-color: $brand-danger;
+        color: $color-text-white;
+    }
 }

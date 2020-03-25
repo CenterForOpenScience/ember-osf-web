@@ -22,7 +22,38 @@
         </nav.container>
     </Navbar>
 
-    <Button>
-        {{t 'auth_dropdown.osf_support'}}
+    <Button @layout='small'>
+        {{!-- template-lint-disable no-bare-strings  --}}
+        Small
+    </Button>
+
+    <Button @layout='medium'>
+        {{!-- template-lint-disable no-bare-strings  --}}
+        Medium
+    </Button>
+
+    <Button @layout='large'>
+        {{!-- template-lint-disable no-bare-strings  --}}
+        Large
+    </Button>
+
+    <Button @layout='fake-link' href='/registries/osf/discover'>
+        {{!-- template-lint-disable no-bare-strings  --}}
+        Fake Link
+    </Button>
+
+    <Button @type='primary'>
+        {{!-- template-lint-disable no-bare-strings  --}}
+        Primary
+    </Button>
+
+    <Button @type='create'>
+        {{!-- template-lint-disable no-bare-strings  --}}
+        Create
+    </Button>
+
+    <Button @type='destroy'>
+        {{!-- template-lint-disable no-bare-strings  --}}
+        Destroy
     </Button>
 </div>
