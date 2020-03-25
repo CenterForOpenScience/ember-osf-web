@@ -15,6 +15,7 @@ import Provider from 'ember-osf-web/models/provider';
 import Analytics from 'ember-osf-web/services/analytics';
 import Theme from 'ember-osf-web/services/theme';
 
+import ValidatedModelForm from 'osf-components/components/validated-model-form/component';
 import styles from './styles';
 import template from './template';
 
@@ -25,6 +26,7 @@ export default class LicensePicker extends Component {
     @service theme!: Theme;
     @service intl!: Intl;
 
+    form?: ValidatedModelForm<'node'>;
     showText: boolean = false;
     node: Node = this.node;
     licensesAcceptable!: QueryHasManyResult<License>;
@@ -63,13 +65,14 @@ export default class LicensePicker extends Component {
         this.node.setNodeLicenseDefaults(selected.requiredFields);
     }
 
-    /**
-     * Calling notifyPropertyChange doesn't trigger dirty attributes
-     */
     @action
-    notify() {
-        // TODO: find a better way to set propertyDidChange
-        this.node.set('nodeLicense', { ...this.node.nodeLicense });
+    updateNodeLicense(key: string, event: Event) {
+        if (this.form) {
+            const target = event.target as HTMLInputElement;
+            const newNodeLicense = { ...this.form.changeset.get('nodeLicense') } as { [key: string]: string };
+            newNodeLicense[key] = target.value;
+            this.form.changeset.set('nodeLicense', newNodeLicense);
+        }
     }
 
     didReceiveAttrs(...args: any[]) {
