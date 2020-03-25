@@ -101,18 +101,9 @@ function registrationScenario(
     server.createList('subject', 10, 'withChildren');
 
     const provider = server.schema.registrationProviders.find('osf');
-    const brand = server.create('brand', {
-        id: '1',
-        primaryColor: 'green',
-        secondaryColor: 'blue',
-        navbarLogoImage: 'http://somelogoimageurl',
-        heroLogoImage: 'http://somelogoimageurl',
-        heroBackgroundImage: 'http://herobackgroundimage',
-    });
 
     provider.update({
         subjects: server.schema.subjects.all().models,
-        brand,
     });
 
     // Current user Bookmarks collection
