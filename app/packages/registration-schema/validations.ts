@@ -96,9 +96,31 @@ export function validateNodeLicense() {
                 type: 'node_license_missing_fields',
                 translationArgs: {
                     missingFields,
+                    numOfFields: missingFieldsList.length,
                 },
             },
         };
+    };
+}
+
+export function validateNodeLicenseYear() {
+    return (_: unknown, __: unknown, ___: unknown, changes: any, content: DraftRegistration) => {
+        let validateYearTarget: string = '';
+        if (content.nodeLicense && content.nodeLicense.year) {
+            validateYearTarget = content.nodeLicense.year;
+        }
+        if (changes.nodeLicense && changes.nodeLicense.year) {
+            validateYearTarget = changes.nodeLicense.year;
+        }
+        const regex = /^((?!(0))[0-9]{4})$/;
+        if (validateYearTarget && !validateYearTarget.match(regex)) {
+            return {
+                context: {
+                    type: 'year_format',
+                },
+            };
+        }
+        return true;
     };
 }
 
@@ -129,6 +151,6 @@ export function buildMetadataValidations() {
     set(validationObj, DraftMetadataProperties.Description, notBlank);
     set(validationObj, DraftMetadataProperties.License, notBlank);
     set(validationObj, DraftMetadataProperties.Subjects, validateSubjects());
-    set(validationObj, DraftMetadataProperties.NodeLicenseProperty, validateNodeLicense());
+    set(validationObj, DraftMetadataProperties.NodeLicenseProperty, [validateNodeLicense(), validateNodeLicenseYear()]);
     return validationObj;
 }
