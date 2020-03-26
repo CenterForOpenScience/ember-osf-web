@@ -16,7 +16,7 @@ class WithBrandingModifier extends Modifier {
         elementStyle.setProperty('--secondary-color', brand.secondaryColor);
         elementStyle.setProperty('--navbar-logo-img-url', `url(${brand.navbarLogoImage})`);
         elementStyle.setProperty('--hero-logo-img-url', brand.heroLogoImage);
-        elementStyle.setProperty('--hero-background-img-url', brand.heroBackgroundImage);
+        elementStyle.setProperty('--hero-background-img-url', `url(${brand.heroBackgroundImage})`);
     }
 }
 

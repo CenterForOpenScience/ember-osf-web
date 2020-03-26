@@ -1,26 +1,9 @@
 <div local-class='BrandContainer' {{with-branding this.brand.currentBrand}}>
-    <div local-class='PrimaryColor'></div>
-    <Navbar
-        data-analytics-scope='Navbar'
-        @dark={{true}}
-        as |nav|
-    >
-        <nav.container>
-            {{! Left Side (Band, Service Dropdown) }}
-            <nav.section data-test-left>
-                <OsfLink
-                    data-test-brand
-                    data-analytics-name='Brand'
-                    @route='home'
-                    local-class='Logo'
-                    class='branded-logo'
-                    aria-label={{t 'navbar.go_home'}}
-                />
-                <OsfLink @route='registries.branded'>{{t 'navbar.donate'}}</OsfLink>
-            </nav.section>
-
-        </nav.container>
-    </Navbar>
+    <HeroOverlay>
+        {{!-- template-lint-disable no-bare-strings  --}}
+        <h1>EGAP Registries</h1>
+        <input type='text' />
+    </HeroOverlay>
 
     <Button @layout='small'>
         {{!-- template-lint-disable no-bare-strings  --}}
