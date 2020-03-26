@@ -24,48 +24,40 @@
 }
 
 .SmallButton {
-    composes: Button;
     font-size: 100%;
     padding: 2px 10px;
 }
 
 .MediumButton {
-    composes: Button;
     padding: 6px 12px;
 }
 
 .LargeButton {
-    composes: Button;
     padding: 15px 20px;
 }
 
 .SecondaryButton {
-    composes: Button;
     background-color: $color-bg-white;
     border: 1px solid $color-border-gray-light;
     color: var(--primary-color);
 }
 
 .PrimaryButton {
-    composes: Button;
     background-color: var(--primary-color);
     color: $color-text-white;
 }
 
 .CreateButton {
-    composes: Button;
     background-color: $brand-success;
     color: $color-text-white;
 }
 
 .DestroyButton {
-    composes: Button;
     background-color: $brand-danger;
     color: $color-text-white;
 }
 
 .FakeLink {
-    composes: Button;
     background: none;
     border: transparent;
     color: var(--primary-color);

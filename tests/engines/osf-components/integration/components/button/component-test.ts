@@ -3,6 +3,8 @@ import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
+import styles from 'osf-components/components/button/styles';
+
 /* tslint:disable:only-arrow-functions */
 module('Osf Components | Integration | Component | Button', hooks => {
     setupRenderingTest(hooks);
@@ -29,11 +31,11 @@ module('Osf Components | Integration | Component | Button', hooks => {
         `);
 
         assert.dom('button').hasClass(
-            'small',
+            styles.SmallButton,
             'Button should have a "small" class when small is passed in as layout',
         );
         assert.dom('button').hasClass(
-            'secondary',
+            styles.SecondaryButton,
             'Button should have a secondary type by default',
         );
     });
@@ -48,11 +50,11 @@ module('Osf Components | Integration | Component | Button', hooks => {
         `);
 
         assert.dom('button').hasClass(
-            'primary',
+            styles.PrimaryButton,
             'Button should have a "primary" class when primary is passed in as type',
         );
         assert.dom('button').hasClass(
-            'medium',
+            styles.MediumButton,
             'Button should have a medium layout by default',
         );
     });
