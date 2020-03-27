@@ -12,6 +12,7 @@ import { layout } from 'ember-osf-web/decorators/component';
 import RegistrationModel from 'ember-osf-web/models/registration';
 import captureException from 'ember-osf-web/utils/capture-exception';
 
+import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
 import template from './template';
 
 export interface FinalizeRegistrationModalManager {
@@ -21,6 +22,7 @@ export interface FinalizeRegistrationModalManager {
     setEmbargoEndDate: (embargoEndDate: Date | null) => void;
     setCreateDoi: (createDoi: boolean) => void;
     submittingRegistration: boolean;
+    draftManager: DraftRegistrationManager;
 }
 
 @layout(template)
@@ -28,14 +30,19 @@ export interface FinalizeRegistrationModalManager {
 export default class FinalizeRegistrationModalManagerComponent extends Component.extend({
     submitRegistration: task(function *(this: FinalizeRegistrationModalManagerComponent) {
         try {
+            this.draftManager.validateAllVisitedPages();
             yield this.registration.save();
 
             if (this.onSubmitRegistration) {
                 this.onSubmitRegistration(this.registration.id);
             }
         } catch (error) {
+            if (Array.isArray(error.errors) && error.errors.length) {
+                this.toast.error(error.errors[0].detail);
+            } else {
+                this.toast.error(this.intl.t('registries.drafts.draft.submit_error'));
+            }
             captureException(error);
-            this.toast.error(this.intl.t('registries.drafts.draft.submit_error'));
             throw error;
         }
     }),
@@ -46,6 +53,7 @@ export default class FinalizeRegistrationModalManagerComponent extends Component
 
     // Required attrs
     registration!: RegistrationModel;
+    draftManager!: DraftRegistrationManager;
 
     // Optional parameters
     onSubmitRegistration?: (registrationId: string) => void;

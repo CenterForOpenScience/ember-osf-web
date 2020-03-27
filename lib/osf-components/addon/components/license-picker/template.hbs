@@ -37,8 +37,8 @@
             <Input
                 @class='form-control'
                 @id={{concat 'nodeLicense-' key}}
-                @value={{mut (get this.node.nodeLicense key)}}
-                @input={{action 'notify'}}
+                @value={{readonly (get this.node.nodeLicense key)}}
+                @change={{fn this.updateNodeLicense key}}
                 @placeholder={{t 'general.required'}}
             />
         {{/each}}

@@ -34,14 +34,14 @@ export default class NodeLicenseValidator extends BaseValidator {
             return this.createErrorMessage('node_license_invalid', value, options);
         }
 
-        const missingFields = license.requiredFields
+        const missingFieldsList = license.requiredFields
             .filter(field => !value[field])
             .sort()
-            .map(field => this.intl.t(`app_components.license_picker.fields.${field}`))
-            .join(', ');
-
-        if (missingFields.length) {
-            return this.createErrorMessage('node_license_missing_fields', value, { missingFields });
+            .map(field => this.intl.t(`app_components.license_picker.fields.${field}`));
+        const missingFields = missingFieldsList.join(', ');
+        if (missingFieldsList.length) {
+            return this.createErrorMessage('node_license_missing_fields',
+                value, { missingFields, numOfFields: missingFieldsList.length });
         }
 
         return true;
