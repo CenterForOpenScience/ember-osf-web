@@ -57,10 +57,164 @@ module('Acceptance | guid-node/registrations', hooks => {
         assert.dom('[data-test-node-card-heading]').includesText(title);
     });
 
+    test('logged in read-permission, no registration', async assert => {
+        server.create('user', 'loggedIn');
+
+        const node = server.create('node', { id: 'decaf', currentUserPermissions: [Permission.Read] });
+
+        const url = `/${node.id}/registrations`;
+
+        await visit(url);
+
+        assert.equal(currentURL(), url, `We are on ${url}`);
+
+        assert.dom('[data-test-new-registration-button]').doesNotExist(
+            'read-permission contributors cannot start new registrations',
+        );
+
+        assert.dom('[data-test-node-card]').doesNotExist();
+
+        assert.dom('[data-test-registrations-container] a[href="#drafts"]').exists(
+            'read-permission contributors can see drafts tab',
+        );
+
+        assert.dom('[data-test-registrations-pane]').includesText(
+            'There have been no completed registrations of this project.',
+        );
+
+        await untrackedClick('[data-test-registrations-container] a[href="#drafts"]');
+
+        assert.dom('[data-test-registrations-pane]').isNotVisible();
+
+        assert.dom('[data-test-draft-registrations-pane]').isVisible();
+
+        assert.dom('[data-test-draft-registrations-pane]').includesText(
+            'There are no draft registrations of this project.',
+        );
+    });
+
+    test('logged in write-permission, 1 registration', async assert => {
+        const contributorUser = server.create('user', 'loggedIn');
+
+        const node = server.create('node', {
+            id: 'decaf',
+            title: 'Test Title',
+            currentUserPermissions: [Permission.Write, Permission.Read],
+        });
+
+        server.create('contributor', { node, users: contributorUser });
+
+        server.loadFixtures('schema-blocks');
+        server.loadFixtures('registration-schemas');
+        const registrationSchemaName = 'Prereg Challenge';
+        const registrationSchema = server.schema.registrationSchemas.all().models.filter(schema =>
+            schema.name === registrationSchemaName)[0];
+        const registrationTitle = 'Registration Title';
+        const registeredMeta = {
+            q1: { comments: [], value: registrationTitle, extra: [] },
+        };
+        registerNode(server, node, { registrationSchema, registeredMeta });
+
+        const url = `/${node.id}/registrations`;
+
+        await visit(url);
+
+        assert.equal(currentURL(), url, `We are on ${url}`);
+
+        assert.dom('[data-test-new-registration-button]').doesNotExist(
+            'write contributors cannot start new draft registrations',
+        );
+
+        assert.dom('[data-test-registrations-pane]').doesNotIncludeText(
+            'There have been no completed registrations of this project.',
+        );
+
+        assert.dom('[data-test-node-card]').exists({ count: 1 });
+
+        assert.dom('[data-test-node-card-heading]').includesText(node.title);
+
+        assert.dom('[data-test-node-card-body]').includesText(registrationSchemaName);
+
+        assert.dom('[data-test-node-card-body]').includesText(registrationTitle);
+
+        await untrackedClick('[data-test-registrations-container] a[href="#drafts"]');
+
+        assert.dom('[data-test-registrations-pane]').isNotVisible();
+        assert.dom('[data-test-draft-registrations-pane]').isVisible();
+
+        assert.dom('[data-test-draft-registrations-pane]').includesText(
+            'There are no draft registrations of this project.',
+        );
+    });
+
+    test('logged in write-permission, 1 draft registration', async assert => {
+        const initiator = server.create('user', 'loggedIn');
+
+        const node = server.create('node', {
+            id: 'decaf',
+            currentUserPermissions: [Permission.Write, Permission.Read],
+        });
+
+        server.loadFixtures('schema-blocks');
+        server.loadFixtures('registration-schemas');
+        server.loadFixtures('registration-providers');
+        server.loadFixtures('licenses');
+
+        const registrationSchema = server.schema.registrationSchemas.all().models.filter(schema =>
+            schema.name === 'Prereg Challenge')[0];
+
+        const registrationMetadata = {
+            q1: { comments: [], value: 'Registration Title', extra: [] },
+        };
+
+        draftRegisterNode(server, node, { initiator, registrationSchema, registrationMetadata });
+
+        const url = `/${node.id}/registrations`;
+
+        await visit(url);
+
+        assert.equal(currentURL(), url, `We are on ${url}`);
+
+        assert.dom('[data-test-new-registration-button]').doesNotExist(
+            'write-contributors cannot create new draft registration',
+        );
+
+        assert.dom('[data-test-registrations-pane]').includesText(
+            'There have been no completed registrations of this project.',
+        );
+
+        await untrackedClick('[data-test-registrations-container] a[href="#drafts"]');
+
+        assert.dom('[data-test-draft-registrations-pane]').isVisible();
+
+        assert.dom('[data-test-draft-registrations-pane]').doesNotIncludeText(
+            'There are no draft registrations of this project.',
+        );
+
+        assert.dom('[data-test-draft-registration-card]').exists({ count: 1 });
+
+        assert.dom('[data-test-draft-registration-card-title]').includesText(
+            'Prereg Challenge',
+        );
+
+        assert.dom('[data-test-draft-registration-card-progress-bar]').exists({ count: 1 });
+
+        const progressBarElement =
+            document.querySelector('[data-test-draft-registration-card-progress-bar] .progress-bar') as HTMLElement;
+
+        assert.ok(
+            parseFloat(progressBarElement.style.width ? progressBarElement.style.width : '') > 0,
+            'Progress bar shows progress',
+        );
+    });
+
     test('logged in admin, no registrations', async assert => {
         server.create('user', 'loggedIn');
 
-        const node = server.create('node', { id: 'decaf', currentUserPermissions: [Permission.Admin] });
+        const node = server.create('node', {
+            id: 'decaf',
+            currentUserPermissions: [Permission.Admin, Permission.Write, Permission.Read],
+        });
 
         const url = `/${node.id}/registrations`;
 
@@ -92,7 +246,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         const node = server.create('node', {
             id: 'decaf',
             title: 'Test Title',
-            currentUserPermissions: [Permission.Admin],
+            currentUserPermissions: [Permission.Admin, Permission.Write, Permission.Read],
         });
 
         server.create('contributor', { node, users: contributorUser });
@@ -140,7 +294,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         const node = server.create('node', {
             id: 'decaf',
             title: 'Test Title',
-            currentUserPermissions: [Permission.Admin],
+            currentUserPermissions: [Permission.Admin, Permission.Write, Permission.Read],
         });
 
         server.create('contributor', { node, users: contributorUser });
@@ -185,7 +339,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         const node = server.create('node', {
             id: 'decaf',
-            currentUserPermissions: [Permission.Admin],
+            currentUserPermissions: [Permission.Admin, Permission.Write, Permission.Read],
         });
 
         server.loadFixtures('schema-blocks');
@@ -240,7 +394,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         const node = server.create('node', {
             id: 'decaf',
-            currentUserPermissions: [Permission.Admin],
+            currentUserPermissions: [Permission.Admin, Permission.Write, Permission.Read],
         });
 
         server.loadFixtures('schema-blocks');
@@ -277,7 +431,10 @@ module('Acceptance | guid-node/registrations', hooks => {
     test('logged in admin, new registration', async assert => {
         server.create('user', 'loggedIn');
 
-        const node = server.create('node', { id: 'decaf', currentUserPermissions: [Permission.Admin] });
+        const node = server.create('node', {
+            id: 'decaf',
+            currentUserPermissions: [Permission.Admin, Permission.Write, Permission.Read],
+        });
 
         server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
@@ -310,7 +467,10 @@ module('Acceptance | guid-node/registrations', hooks => {
     test('logged in admin, prereg challenge modal', async assert => {
         server.create('user', 'loggedIn');
 
-        const node = server.create('node', { id: 'decaf', currentUserPermissions: [Permission.Admin] });
+        const node = server.create('node', {
+            id: 'decaf',
+            currentUserPermissions: [Permission.Admin, Permission.Write, Permission.Read],
+        });
 
         server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
