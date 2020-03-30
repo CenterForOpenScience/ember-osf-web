@@ -26,10 +26,22 @@ $sidenav-link-height: 40px;
     }
 
     &:global(.active) {
-        color: $color-text-gray-blue;
-        background-color: $color-bg-blue-lighter;
-        border: $color-border-white 1px solid;
-        border-radius: 5px;
+        color: var(--primary-color);
+        position: relative;
+
+        &::before {
+            content: '';
+            background-color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 5px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.4;
+        }
+
 
         .Count {
             color: inherit;
