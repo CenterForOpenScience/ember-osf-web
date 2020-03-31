@@ -42,7 +42,7 @@ export default class RegistrationIsPublic extends Component {
             yield this.registration.save();
         } catch (e) {
             captureException(e);
-            this.toast.error(getApiErrorMessage(e), this.intl.t('registries.overview.withdraw.error'));
+            this.toast.error(getApiErrorMessage(e) || this.intl.t('registries.overview.withdraw.error'));
             throw e;
         }
 

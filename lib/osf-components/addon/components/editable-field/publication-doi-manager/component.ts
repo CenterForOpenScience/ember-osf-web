@@ -83,7 +83,10 @@ export default class PublicationDoiManagerComponent extends Component {
             yield this.node.save();
         } catch (e) {
             this.node.rollbackAttributes();
-            this.toast.error(getApiErrorMessage(e), this.intl.t('registries.registration_metadata.edit_pub_doi.error'));
+            this.toast.error(
+                getApiErrorMessage(e) ||
+                this.intl.t('registries.registration_metadata.edit_pub_doi.error'),
+            );
             captureException(e);
             throw e;
         }

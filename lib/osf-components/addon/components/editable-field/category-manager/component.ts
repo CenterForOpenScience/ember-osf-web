@@ -50,7 +50,7 @@ export default class CategoryManagerComponent extends Component {
             this.node.rollbackAttributes();
             captureException(e);
             this.toast.error(
-                getApiErrorMessage(e),
+                getApiErrorMessage(e) ||
                 this.intl.t('registries.registration_metadata.edit_category.error'),
             );
             throw e;

@@ -69,7 +69,7 @@ export default class SecurityPane extends Component {
             const saveErrorMessage = this.intl
                 .t('settings.account.security.saveError', { supportEmail, htmlSafe: true });
             captureException(e);
-            this.toast.error(getApiErrorMessage(e), saveErrorMessage);
+            this.toast.error(getApiErrorMessage(e) || saveErrorMessage);
         } finally {
             this.hideDialogs();
         }

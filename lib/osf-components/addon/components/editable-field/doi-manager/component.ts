@@ -88,7 +88,10 @@ export default class DoiManagerComponent extends Component {
             } catch (e) {
                 identifier.rollbackAttributes();
                 captureException(e);
-                this.toast.error(getApiErrorMessage(e), this.intl.t('registries.registration_metadata.mint_doi.error'));
+                this.toast.error(
+                    getApiErrorMessage(e) ||
+                    this.intl.t('registries.registration_metadata.mint_doi.error'),
+                );
                 throw e;
             }
             this.set('requestedEditMode', false);

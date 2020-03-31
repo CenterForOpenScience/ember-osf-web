@@ -4,11 +4,13 @@ import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import { localClassNames } from 'ember-css-modules';
 import config from 'ember-get-config';
+import Intl from 'ember-intl/services/intl';
+import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
-import captureException from 'ember-osf-web/utils/capture-exception';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 import styles from './styles';
 import template from './template';
@@ -18,6 +20,8 @@ import template from './template';
 export default class TosConsentBanner extends Component {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
+    @service intl!: Intl;
+    @service toast!: Toast;
 
     // Private properties
     show = false;
@@ -38,6 +42,7 @@ export default class TosConsentBanner extends Component {
             yield user.save();
         } catch (e) {
             captureException(e);
+            this.toast.error(getApiErrorMessage(e) || this.intl.t('tos_consent.failed_save'));
         }
 
         this.currentUser.set('showTosConsentBanner', false);

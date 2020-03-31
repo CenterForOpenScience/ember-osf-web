@@ -86,7 +86,7 @@ export default class ConnectedEmails extends Component {
             yield email.save();
         } catch (e) {
             captureException(e);
-            return this.toast.error(getApiErrorMessage(e), errorMessage);
+            return this.toast.error(getApiErrorMessage(e) || errorMessage);
         }
 
         this.get('loadPrimaryEmail').perform();

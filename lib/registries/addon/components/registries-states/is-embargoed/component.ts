@@ -27,7 +27,7 @@ export default class RegistrationIsEmbargoed extends Component {
             yield this.registration.save();
         } catch (e) {
             captureException(e);
-            this.toast.error(getApiErrorMessage(e), this.intl.t('registries.overview.embargoed.action_error'));
+            this.toast.error(getApiErrorMessage(e) || this.intl.t('registries.overview.embargoed.action_error'));
         }
 
         this.toast.success(this.intl.t('registries.overview.embargoed.action_success'));

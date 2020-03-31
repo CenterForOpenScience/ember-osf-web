@@ -48,7 +48,7 @@ export default class SubjectFieldManagerComponent extends Component {
         } catch (e) {
             // TODO
             this.toast.error(
-                getApiErrorMessage(e),
+                getApiErrorMessage(e) ||
                 this.intl.t('registries.registration_metadata.save_subjects_error'),
             );
             captureException(e);

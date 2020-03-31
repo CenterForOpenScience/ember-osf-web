@@ -47,7 +47,7 @@ export default class UnregisteredContributor extends Component {
         } catch (e) {
             captureException(e);
             this.toast.error(
-                getApiErrorMessage(e),
+                getApiErrorMessage(e) ||
                 this.intl.t('app_components.project_contributors.search.unregistered_contributor.add_error'),
             );
         }

@@ -38,7 +38,7 @@ export default class FinalizeRegistrationModalManagerComponent extends Component
             }
         } catch (error) {
             captureException(error);
-            this.toast.error(getApiErrorMessage(error), this.intl.t('registries.drafts.draft.submit_error'));
+            this.toast.error(getApiErrorMessage(error) || this.intl.t('registries.drafts.draft.submit_error'));
             throw error;
         }
     }),

@@ -57,7 +57,7 @@ export default class DescriptionManagerComponent extends Component {
                 captureException(e);
                 this.node.rollbackAttributes();
                 this.toast.error(
-                    getApiErrorMessage(e),
+                    getApiErrorMessage(e) ||
                     this.intl.t('registries.registration_metadata.edit_description.error'),
                 );
                 throw e;
