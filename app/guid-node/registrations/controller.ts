@@ -39,11 +39,7 @@ export default class GuidNodeRegistrations extends Controller {
     getRegistrationSchemas = task(function *(this: GuidNodeRegistrations) {
         let schemas = yield this.store.query('registration-schema',
             {
-                adapterOptions: {
-                    query: {
-                        'filter[active]': true,
-                    },
-                },
+                'filter[active]': true,
             });
         schemas = schemas.toArray();
         schemas.sort((a: RegistrationSchema, b: RegistrationSchema) => a.name.length - b.name.length);
