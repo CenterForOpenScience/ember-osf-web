@@ -118,7 +118,7 @@
     "ember-cli-showdown": "^4.4.4",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-stylelint": "^2.1.0",
-    "ember-cli-template-lint": "^0.7.6",
+    "ember-cli-template-lint": "^2.0.2",
     "ember-cli-test-loader": "^2.2.0",
     "ember-cli-typescript": "^3.0.0",
     "ember-cli-typescript-blueprints": "^3.0.0",

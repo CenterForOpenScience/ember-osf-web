@@ -8,13 +8,15 @@ class WithBrandingModifier extends Modifier {
             return;
         }
 
-        const elementStyle = this.element.style;
+        const { element } = this;
+        const elementStyle = element.style;
 
+        element.classList.add('brand-container');
         elementStyle.setProperty('--primary-color', brand.primaryColor);
         elementStyle.setProperty('--secondary-color', brand.secondaryColor);
-        elementStyle.setProperty('--navbar-logo-img-url', brand.navbarLogoImage);
+        elementStyle.setProperty('--navbar-logo-img-url', `url(${brand.navbarLogoImage})`);
         elementStyle.setProperty('--hero-logo-img-url', brand.heroLogoImage);
-        elementStyle.setProperty('--hero-background-img-url', brand.heroBackgroundImage);
+        elementStyle.setProperty('--hero-background-img-url', `url(${brand.heroBackgroundImage})`);
     }
 }
 
