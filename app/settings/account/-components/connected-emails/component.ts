@@ -61,7 +61,8 @@ export default class ConnectedEmails extends Component {
         try {
             yield email.destroyRecord();
         } catch (e) {
-            return this.toast.error(errorMessage);
+            captureException(e);
+            return this.toast.error(getApiErrorMessage(e) || errorMessage);
         }
         if (email.isConfirmed) {
             this.reloadAlternateList();
@@ -113,7 +114,8 @@ export default class ConnectedEmails extends Component {
                 type: 'GET',
             });
         } catch (e) {
-            return this.toast.error(errorMessage);
+            captureException(e);
+            return this.toast.error(getApiErrorMessage(e) || errorMessage);
         }
 
         return this.toast.success(successMessage);

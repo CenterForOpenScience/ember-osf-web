@@ -11,6 +11,7 @@ import Toast from 'ember-toastr/services/toast';
 import { layout } from 'ember-osf-web/decorators/component';
 import CollectionModel from 'ember-osf-web/models/collection';
 import RegistrationModel, { RegistrationState } from 'ember-osf-web/models/registration';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
 import styles from './styles';
@@ -43,7 +44,11 @@ export default class OverviewTopbar extends Component {
                 this.intl.t('registries.overview.fork.success_title'),
             );
         } catch (e) {
-            this.toast.error(this.intl.t('registries.overview.fork.error'));
+            captureException(e);
+            this.toast.error(
+                getApiErrorMessage(e) ||
+                this.intl.t('registries.overview.fork.error'),
+            );
             throw e;
         } finally {
             closeDropdown();
@@ -73,7 +78,11 @@ export default class OverviewTopbar extends Component {
                 );
             }
         } catch (e) {
-            this.toast.error(this.intl.t(`registries.overview.bookmark.${op}.error`));
+            captureException(e);
+            this.toast.error(
+                getApiErrorMessage(e) ||
+                this.intl.t(`registries.overview.bookmark.${op}.error`),
+            );
             throw e;
         }
 

@@ -7,13 +7,15 @@ import { timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
+import Toast from 'ember-toastr/services/toast';
+
 import mimeTypes from 'ember-osf-web/const/mime-types';
 import File from 'ember-osf-web/models/file';
 import User from 'ember-osf-web/models/user';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import pathJoin from 'ember-osf-web/utils/path-join';
-import Toast from 'ember-toastr/services/toast';
 import $ from 'jquery';
 import mime from 'mime-types';
 
@@ -141,8 +143,9 @@ export default class GuidFile extends Controller {
             const message: string = this.intl.t('file_detail.delete_success');
             return this.toast.success(message);
         } catch (e) {
+            captureException(e);
             const message: string = this.intl.t('file_detail.delete_fail');
-            return this.toast.error(message);
+            return this.toast.error(getApiErrorMessage(e) || message);
         }
     }
 
@@ -163,7 +166,8 @@ export default class GuidFile extends Controller {
             await this.file.updateContents(text);
             return this.toast.success(this.intl.t('file_detail.save_success'));
         } catch (e) {
-            return this.toast.error(this.intl.t('file_detail.save_fail'));
+            captureException(e);
+            return this.toast.error(getApiErrorMessage(e) || this.intl.t('file_detail.save_fail'));
         }
     }
 

@@ -9,6 +9,7 @@ import { layout } from 'ember-osf-web/decorators/component';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import ProviderModel from 'ember-osf-web/models/provider';
 import SubjectModel from 'ember-osf-web/models/subject';
+import captureException from 'ember-osf-web/utils/capture-exception';
 import { SubjectManager } from 'osf-components/components/subjects/manager/component';
 
 import template from './template';
@@ -49,6 +50,7 @@ export default class SubjectBrowserManagerComponent extends Component {
             });
             this.setProperties({ rootSubjects });
         } catch (e) {
+            captureException(e);
             throw e;
         }
     });

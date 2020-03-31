@@ -14,6 +14,7 @@ import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import Registration from 'ember-osf-web/models/registration';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import formattedTimeSince from 'ember-osf-web/utils/formatted-time-since';
 
 import styles from './styles';
@@ -70,7 +71,11 @@ export default class CommentCard extends Component {
             this.comment.set('isAbuse', false);
             yield userReport.destroyRecord();
         } catch (e) {
-            this.toast.error(this.intl.t('registries.overview.comments.retract_report.error'));
+            captureException(e);
+            this.toast.error(
+                getApiErrorMessage(e) ||
+                this.intl.t('registries.overview.comments.retract_report.error'),
+            );
             this.comment.rollbackAttributes();
             userReport.rollbackAttributes();
             throw e;

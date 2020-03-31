@@ -10,6 +10,7 @@ import Institution from 'ember-osf-web/models/institution';
 import Node from 'ember-osf-web/models/node';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import captureException from 'ember-osf-web/utils/capture-exception';
 
 import template from './template';
 
@@ -40,6 +41,7 @@ export default class MetadataInstitutionsManagerComponent extends Component {
                     currentAffiliatedList: affiliatedList,
                 });
             } catch (e) {
+                captureException(e);
                 throw e;
             }
         }
@@ -51,7 +53,7 @@ export default class MetadataInstitutionsManagerComponent extends Component {
             yield this.node.updateM2MRelationship('affiliatedInstitutions', this.currentAffiliatedList);
             yield this.node.reload();
         } catch (e) {
-            this.node.rollbackAttributes();
+            captureException(e);
             throw e;
         }
         this.setProperties({
