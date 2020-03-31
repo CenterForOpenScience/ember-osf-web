@@ -1,7 +1,5 @@
 import Component from '@glimmer/component';
 
-import styles from './styles';
-
 type Layout = 'small' | 'medium' | 'large' | 'fake-link';
 type Type = 'primary' | 'secondary' | 'create' | 'destroy';
 
@@ -11,14 +9,14 @@ interface Args {
 }
 
 const classMap = {
-    small: styles.SmallButton,
-    medium: styles.MediumButton,
-    large: styles.LargeButton,
-    'fake-link': styles.FakeLink,
-    primary: styles.PrimaryButton,
-    secondary: styles.SecondaryButton,
-    create: styles.CreateButton,
-    destroy: styles.DestroyButton,
+    small: 'SmallButton',
+    medium: 'MediumButton',
+    large: 'LargeButton',
+    'fake-link': 'FakeLink',
+    primary: 'PrimaryButton',
+    secondary: 'SecondaryButton',
+    create: 'CreateButton',
+    destroy: 'DestroyButton',
 };
 
 export default class Button extends Component<Args> {
