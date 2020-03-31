@@ -168,3 +168,14 @@
         font-size: 20px;
     }
 }
+
+:global(.brand-container) {
+    .Logo {
+        background-image: var(--navbar-logo-img-url);
+        width: 35px;
+        height: 35px;
+        margin-right: 5px;
+        background-size: 100%;
+        background-repeat: no-repeat;
+    }
+}
