@@ -4,12 +4,14 @@ import { assert } from '@ember/debug';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
+import Intl from 'ember-intl/services/intl';
+import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import ProviderModel from 'ember-osf-web/models/provider';
 import SubjectModel from 'ember-osf-web/models/subject';
-import captureException from 'ember-osf-web/utils/capture-exception';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import { SubjectManager } from 'osf-components/components/subjects/manager/component';
 
 import template from './template';
@@ -32,6 +34,8 @@ export default class SubjectBrowserManagerComponent extends Component {
 
     // private
     @service store!: DS.Store;
+    @service toast!: Toast;
+    @service intl!: Intl;
 
     rootSubjects?: SubjectModel[];
 
@@ -50,7 +54,9 @@ export default class SubjectBrowserManagerComponent extends Component {
             });
             this.setProperties({ rootSubjects });
         } catch (e) {
-            captureException(e);
+            const errorMessage = this.intl.t('registries.registration_metadata.load_subjects_error');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
         }
     });

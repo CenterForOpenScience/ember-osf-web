@@ -10,7 +10,7 @@ import Toast from 'ember-toastr/services/toast';
 
 import UserEmail from 'ember-osf-web/models/user-email';
 import CurrentUser from 'ember-osf-web/services/current-user';
-import captureException from 'ember-osf-web/utils/capture-exception';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 interface TranslationKeys {
     header: string;
@@ -120,15 +120,24 @@ export default class VerifyEmailModal extends Component {
                 this.unverifiedEmails.shiftObject();
             }
 
-            this.showMessage(successMessageLevel, successKey, userEmail);
+            this.toast[successMessageLevel](
+                this.intl.t(
+                    this.translationKeys[successKey],
+                    { email: userEmail.emailAddress, htmlSafe: true },
+                ),
+            );
 
             // Close the modal and open another one (if needed) because it's confusing for the text to change in place
             this.set('shouldShowModal', false);
             yield timeout(300);
             this.set('shouldShowModal', true);
         } catch (e) {
-            captureException(e);
-            this.showMessage('error', errorKey, userEmail);
+            const errorMessage = this.intl.t(
+                this.translationKeys[errorKey],
+                { email: userEmail.emailAddress, htmlSafe: true },
+            );
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
         }
     });
@@ -136,19 +145,6 @@ export default class VerifyEmailModal extends Component {
     constructor(...args: any[]) {
         super(...args);
         this.loadEmailsTask.perform();
-    }
-
-    showMessage(
-        level: MessageLevel,
-        key: keyof TranslationKeys,
-        userEmail: UserEmail,
-    ) {
-        this.toast[level](
-            this.intl.t(
-                this.translationKeys[key],
-                { email: userEmail.emailAddress, htmlSafe: true },
-            ),
-        );
     }
 
     @action

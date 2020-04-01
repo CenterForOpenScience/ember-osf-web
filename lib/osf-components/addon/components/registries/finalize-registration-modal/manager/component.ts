@@ -36,10 +36,11 @@ export default class FinalizeRegistrationModalManagerComponent extends Component
             if (this.onSubmitRegistration) {
                 this.onSubmitRegistration(this.registration.id);
             }
-        } catch (error) {
-            captureException(error);
-            this.toast.error(getApiErrorMessage(error) || this.intl.t('registries.drafts.draft.submit_error'));
-            throw error;
+        } catch (e) {
+            const errorMessage = this.intl.t('registries.drafts.draft.submit_error');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
+            throw e;
         }
     }),
 })

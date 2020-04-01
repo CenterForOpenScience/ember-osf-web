@@ -47,11 +47,9 @@ export default class SubjectFieldManagerComponent extends Component {
             yield this.subjectsManager.saveChanges();
         } catch (e) {
             // TODO
-            this.toast.error(
-                getApiErrorMessage(e) ||
-                this.intl.t('registries.registration_metadata.save_subjects_error'),
-            );
-            captureException(e);
+            const errorMessage = this.intl.t('registries.registration_metadata.save_subjects_error');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
         }
         this.set('requestedEditMode', false);

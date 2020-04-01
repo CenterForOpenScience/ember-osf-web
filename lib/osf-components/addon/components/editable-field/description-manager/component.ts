@@ -54,12 +54,10 @@ export default class DescriptionManagerComponent extends Component {
             try {
                 yield this.node.save();
             } catch (e) {
-                captureException(e);
+                const errorMessage = this.intl.t('registries.registration_metadata.edit_description.error');
+                captureException(e, { errorMessage });
                 this.node.rollbackAttributes();
-                this.toast.error(
-                    getApiErrorMessage(e) ||
-                    this.intl.t('registries.registration_metadata.edit_description.error'),
-                );
+                this.toast.error(getApiErrorMessage(e), errorMessage);
                 throw e;
             }
             this.set('requestedEditMode', false);

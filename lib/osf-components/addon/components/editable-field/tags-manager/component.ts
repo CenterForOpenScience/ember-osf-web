@@ -64,11 +64,9 @@ export default class TagsManagerComponent extends Component {
             yield this.registration.save();
         } catch (e) {
             this.registration.rollbackAttributes();
-            captureException(e);
-            this.toast.error(
-                getApiErrorMessage(e) ||
-                this.intl.t('registries.registration_metadata.edit_tags.error'),
-            );
+            const errorMessage = this.intl.t('registries.registration_metadata.edit_tags.error');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
         }
         this.set('requestedEditMode', false);

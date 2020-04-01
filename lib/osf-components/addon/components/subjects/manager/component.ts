@@ -132,11 +132,9 @@ export default class SubjectManagerComponent extends Component {
                 this.metadataChangeset.validate('subjects');
             }
         } catch (e) {
-            captureException(e);
-            this.toast.error(
-                getApiErrorMessage(e) ||
-                this.intl.t('registries.registration_metadata.save_subjects_error'),
-            );
+            const errorMessage = this.intl.t('registries.registration_metadata.save_subjects_error');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
         }
 

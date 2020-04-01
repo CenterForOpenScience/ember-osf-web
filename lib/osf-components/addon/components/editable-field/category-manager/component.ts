@@ -48,11 +48,9 @@ export default class CategoryManagerComponent extends Component {
             yield this.node.save();
         } catch (e) {
             this.node.rollbackAttributes();
-            captureException(e);
-            this.toast.error(
-                getApiErrorMessage(e) ||
-                this.intl.t('registries.registration_metadata.edit_category.error'),
-            );
+            const errorMessage = this.intl.t('registries.registration_metadata.edit_category.error');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
         }
         this.set('inEditMode', false);

@@ -45,11 +45,10 @@ export default class UnregisteredContributor extends Component {
                 this.intl.t('app_components.project_contributors.search.unregistered_contributor.add_success'),
             );
         } catch (e) {
-            captureException(e);
-            this.toast.error(
-                getApiErrorMessage(e) ||
-                this.intl.t('app_components.project_contributors.search.unregistered_contributor.add_error'),
-            );
+            const errorMessage = this.intl
+                .t('app_components.project_contributors.search.unregistered_contributor.add_error');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
         }
 
         this.reset(false);

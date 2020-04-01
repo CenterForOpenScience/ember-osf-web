@@ -43,8 +43,9 @@ export default class UserQuickfiles extends Controller {
         try {
             return yield node.save();
         } catch (e) {
-            captureException(e);
-            this.toast.error(getApiErrorMessage(e) || this.intl.t('move_to_project.could_not_create_project'));
+            const errorMessage = this.intl.t('move_to_project.could_not_create_project');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
             return undefined;
         }
     });

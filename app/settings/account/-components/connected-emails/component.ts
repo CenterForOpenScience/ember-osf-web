@@ -61,8 +61,8 @@ export default class ConnectedEmails extends Component {
         try {
             yield email.destroyRecord();
         } catch (e) {
-            captureException(e);
-            return this.toast.error(getApiErrorMessage(e) || errorMessage);
+            captureException(e, { errorMessage });
+            return this.toast.error(getApiErrorMessage(e), errorMessage);
         }
         if (email.isConfirmed) {
             this.reloadAlternateList();
@@ -86,8 +86,8 @@ export default class ConnectedEmails extends Component {
         try {
             yield email.save();
         } catch (e) {
-            captureException(e);
-            return this.toast.error(getApiErrorMessage(e) || errorMessage);
+            captureException(e, { errorMessage });
+            return this.toast.error(getApiErrorMessage(e), errorMessage);
         }
 
         this.get('loadPrimaryEmail').perform();
@@ -114,8 +114,8 @@ export default class ConnectedEmails extends Component {
                 type: 'GET',
             });
         } catch (e) {
-            captureException(e);
-            return this.toast.error(getApiErrorMessage(e) || errorMessage);
+            captureException(e, { errorMessage });
+            return this.toast.error(getApiErrorMessage(e), errorMessage);
         }
 
         return this.toast.success(successMessage);

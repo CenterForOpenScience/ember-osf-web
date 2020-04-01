@@ -92,11 +92,11 @@ export default class Submit extends Component {
             // TODO: external-link-to / waffle for project main page
             window.location.href = getHref(this.collectionItem.links.html!);
         } catch (e) {
-            captureException(e);
-            this.toast.error(this.intl.t(`${this.intlKeyPrefix}${operation}_save_error`, {
+            const errorMessage = this.intl.t(`${this.intlKeyPrefix}${operation}_save_error`, {
                 title: this.collectionItem.title,
-                error: getApiErrorMessage(e),
-            }));
+            });
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
         }
     });
 

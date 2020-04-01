@@ -143,9 +143,9 @@ export default class GuidFile extends Controller {
             const message: string = this.intl.t('file_detail.delete_success');
             return this.toast.success(message);
         } catch (e) {
-            captureException(e);
-            const message: string = this.intl.t('file_detail.delete_fail');
-            return this.toast.error(getApiErrorMessage(e) || message);
+            const errorMessage: string = this.intl.t('file_detail.delete_fail');
+            captureException(e, { errorMessage });
+            return this.toast.error(getApiErrorMessage(e), errorMessage);
         }
     }
 
@@ -166,8 +166,9 @@ export default class GuidFile extends Controller {
             await this.file.updateContents(text);
             return this.toast.success(this.intl.t('file_detail.save_success'));
         } catch (e) {
-            captureException(e);
-            return this.toast.error(getApiErrorMessage(e) || this.intl.t('file_detail.save_fail'));
+            const errorMessage = this.intl.t('file_detail.save_fail');
+            captureException(e, { errorMessage });
+            return this.toast.error(getApiErrorMessage(e), errorMessage);
         }
     }
 

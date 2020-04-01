@@ -41,8 +41,9 @@ export default class TosConsentBanner extends Component {
         try {
             yield user.save();
         } catch (e) {
-            captureException(e);
-            this.toast.error(getApiErrorMessage(e) || this.intl.t('tos_consent.failed_save'));
+            const errorMessage = this.intl.t('tos_consent.failed_save');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
         }
 
         this.currentUser.set('showTosConsentBanner', false);

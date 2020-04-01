@@ -117,11 +117,9 @@ export default class List extends Component {
             this._doReload();
             this.toast.success(this.intl.t('app_components.project_contributors.list.remove_contributor_success'));
         } catch (e) {
-            captureException(e);
-            this.toast.error(
-                getApiErrorMessage(e) ||
-                this.intl.t('app_components.project_contributors.list.remove_contributor_error'),
-            );
+            const errorMessage = this.intl.t('app_components.project_contributors.list.remove_contributor_error');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
         }
 
         // It's necessary to unload the record from the store after destroying it, in case the user is added back as a

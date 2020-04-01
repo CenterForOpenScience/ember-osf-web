@@ -41,8 +41,9 @@ export default class RegistrationIsPublic extends Component {
         try {
             yield this.registration.save();
         } catch (e) {
-            captureException(e);
-            this.toast.error(getApiErrorMessage(e) || this.intl.t('registries.overview.withdraw.error'));
+            const errorMessage = this.intl.t('registries.overview.withdraw.error');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
         }
 

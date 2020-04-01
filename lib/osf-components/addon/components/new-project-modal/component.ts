@@ -130,11 +130,9 @@ export default class NewProjectModal extends Component {
         try {
             yield node.save();
         } catch (e) {
-            this.toast.error(
-                getApiErrorMessage(e) ||
-                this.intl.t('new_project.could_not_create_project'),
-            );
-            captureException(e);
+            const errorMessage = this.intl.t('new_project.could_not_create_project');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
         }
 
         this.afterProjectCreated(node);

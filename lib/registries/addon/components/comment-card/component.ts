@@ -71,11 +71,9 @@ export default class CommentCard extends Component {
             this.comment.set('isAbuse', false);
             yield userReport.destroyRecord();
         } catch (e) {
-            captureException(e);
-            this.toast.error(
-                getApiErrorMessage(e) ||
-                this.intl.t('registries.overview.comments.retract_report.error'),
-            );
+            const errorMessage = this.intl.t('registries.overview.comments.retract_report.error');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
             this.comment.rollbackAttributes();
             userReport.rollbackAttributes();
             throw e;

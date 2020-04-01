@@ -66,10 +66,10 @@ export default class SecurityPane extends Component {
                 this.settings.rollbackAttributes();
             }
             const { supportEmail } = config.support;
-            const saveErrorMessage = this.intl
+            const errorMessage = this.intl
                 .t('settings.account.security.saveError', { supportEmail, htmlSafe: true });
-            captureException(e);
-            this.toast.error(getApiErrorMessage(e) || saveErrorMessage);
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
         } finally {
             this.hideDialogs();
         }

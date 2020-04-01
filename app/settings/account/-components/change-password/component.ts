@@ -46,8 +46,8 @@ export default class ChangePasswordPane extends Component {
         try {
             yield this.userPassword.save();
         } catch (e) {
-            captureException(e);
-            this.toast.error(getApiErrorMessage(e) || errorMessage);
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
             return;
         }
         this.userPassword.unloadRecord();

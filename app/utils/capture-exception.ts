@@ -21,7 +21,7 @@ export function getApiErrorMessage(error: ErrorDocument): string {
 }
 
 // send exception info to sentry, if it's hooked up
-export default function captureException(error: ErrorDocument, extras = {}) {
+export default function captureException(error: ErrorDocument, extras: object = {}) {
     const apiError = getApiError(error);
     const extra = { ...extras, ...(apiError || {}) };
 

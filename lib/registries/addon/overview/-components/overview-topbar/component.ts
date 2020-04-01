@@ -44,11 +44,9 @@ export default class OverviewTopbar extends Component {
                 this.intl.t('registries.overview.fork.success_title'),
             );
         } catch (e) {
-            captureException(e);
-            this.toast.error(
-                getApiErrorMessage(e) ||
-                this.intl.t('registries.overview.fork.error'),
-            );
+            const errorMessage = this.intl.t('registries.overview.fork.error');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
         } finally {
             closeDropdown();
@@ -78,11 +76,9 @@ export default class OverviewTopbar extends Component {
                 );
             }
         } catch (e) {
-            captureException(e);
-            this.toast.error(
-                getApiErrorMessage(e) ||
-                this.intl.t(`registries.overview.bookmark.${op}.error`),
-            );
+            const errorMessage = this.intl.t(`registries.overview.bookmark.${op}.error`);
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
         }
 
