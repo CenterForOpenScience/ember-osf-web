@@ -244,7 +244,7 @@ move_to_project:
     select_placeholder: 'Click to select'
     project_select_message: 'The list of projects appearing are projects and components for which you have write access. Registrations are not included here.'
     no_projects_exist_error: 'You have no available projects. Go back to create a new project.'
-    could_not_create_project: 'Could not create project. Please try again.'
+    could_not_create_project: 'Could not create project.'
     convert_or_copy_message:
         project: 'Clicking "Move file" will immediately make changes to your OSF project and move your file.'
         component: 'Clicking "Move file" will immediately make changes to your OSF component and move your file.'
@@ -252,7 +252,7 @@ move_to_project:
         project: 'Files moved to private projects will no longer be public or discoverable by others.'
         component: 'Files moved to private components will no longer be public or discoverable by others.'
     file_successfully_moved: 'File was moved successfully!'
-    could_not_move_file: 'Could not move file. Please try again.'
+    could_not_move_file: 'Could not move file.'
     keep_working_here: 'Keep working here'
     go_to_new_project: 'Go to new project'
     go_to_component: 'Go to component'
@@ -591,8 +591,8 @@ forks:
     unable_to_delete_fork: 'Any child components must be deleted prior to deleting this component.'
     page_title: '{nodeTitle} Forks'
     no_forks: 'A fork is a copy of a project that you can change without affecting the original project.'
-    new_fork_failed: 'Failed to create a new fork. Please try again later.'
-    delete_fork_failed: 'Failed to delete the project. Please try again later.'
+    new_fork_failed: 'Failed to create a new fork.'
+    delete_fork_failed: 'Failed to delete the project.'
 node:
     registrations:
         new_registration_modal:
@@ -703,7 +703,7 @@ app_components:
             citation_popover_title: 'Citation Information'
             citation_popover: 'Only checked contribotrs will be included in project citations. Contributors not in the citation can read and modify the project as normal.'
             remove_contributor_success: 'Project contributor removed!'
-            remove_contributor_error: 'Could not remove contributor. Please try again.'
+            remove_contributor_error: 'Could not remove contributor.'
             item:
                 img_alt: Gravatar
                 in_citation_label: 'In citation:'
@@ -729,12 +729,12 @@ app_components:
                 cancel: Cancel
                 add: Add
                 add_success: 'Unregistered contributor added!'
-                add_error: 'Could not add unregistered contributor. Please try again.'
+                add_error: 'Could not add unregistered contributor.'
             result:
                 yourself: yourself
                 add: Add
             add_contributor_success: 'Project contributor added!'
-            add_contributor_error: 'Could not add contributor. Please try again.'
+            add_contributor_error: 'Could not add contributor.'
     project_metadata:
         field_title_label: 'Title:'
         field_title_placeholder: ""
@@ -936,7 +936,7 @@ registries:
         registration_type:
             title: 'OSF Registration Type'
             only_available_with_osf: 'Only available with OSF Registries'
-            registration_schema_error: 'An error occurred getting registration types. Please try again.'
+            registration_schema_error: 'An error occurred getting registration types.'
     application:
         page_title: 'OSF Registries'
     discover:
