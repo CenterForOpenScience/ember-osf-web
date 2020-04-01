@@ -107,8 +107,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
         const registrationSchemaName = 'Prereg Challenge';
-        const registrationSchema = server.schema.registrationSchemas.all().models.filter(schema =>
-            schema.name === registrationSchemaName)[0];
+        const registrationSchema = server.schema.registrationSchemas.findBy({ name: registrationSchemaName });
         const registrationTitle = 'Registration Title';
         const registeredMeta = {
             q1: { comments: [], value: registrationTitle, extra: [] },
@@ -160,8 +159,8 @@ module('Acceptance | guid-node/registrations', hooks => {
         server.loadFixtures('registration-providers');
         server.loadFixtures('licenses');
 
-        const registrationSchema = server.schema.registrationSchemas.all().models.filter(schema =>
-            schema.name === 'Prereg Challenge')[0];
+        const registrationSchemaName = 'Prereg Challenge';
+        const registrationSchema = server.schema.registrationSchemas.findBy({ name: registrationSchemaName });
 
         const registrationMetadata = {
             q1: { comments: [], value: 'Registration Title', extra: [] },
@@ -199,13 +198,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.dom('[data-test-draft-registration-card-progress-bar]').exists({ count: 1 });
 
-        const progressBarElement =
-            document.querySelector('[data-test-draft-registration-card-progress-bar] .progress-bar') as HTMLElement;
-
-        assert.ok(
-            parseFloat(progressBarElement.style.width ? progressBarElement.style.width : '') > 0,
-            'Progress bar shows progress',
-        );
+        assert.dom('[data-test-draft-registration-card-progress-bar]').isVisible();
     });
 
     test('logged in admin, no registrations', async assert => {
@@ -380,13 +373,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.dom('[data-test-draft-registration-card-progress-bar]').exists({ count: 1 });
 
-        const progressBarElement =
-            document.querySelector('[data-test-draft-registration-card-progress-bar] .progress-bar') as HTMLElement;
-
-        assert.ok(
-            parseFloat(progressBarElement.style.width ? progressBarElement.style.width : '') > 0,
-            'Progress bar shows progress',
-        );
+        assert.dom('[data-test-draft-registration-card-progress-bar]').isVisible();
     });
 
     test('logged in admin, 12 draft registrations', async assert => {
