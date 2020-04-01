@@ -206,8 +206,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         const node = server.create('node', {
             id: 'decaf',
-            currentUserPermissions: [Permission.Admin, Permission.Write, Permission.Read],
-        });
+        }, 'currentUserAdmin');
 
         const url = `/${node.id}/registrations`;
 
@@ -239,8 +238,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         const node = server.create('node', {
             id: 'decaf',
             title: 'Test Title',
-            currentUserPermissions: [Permission.Admin, Permission.Write, Permission.Read],
-        });
+        }, 'currentUserAdmin');
 
         server.create('contributor', { node, users: contributorUser });
 
@@ -287,8 +285,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         const node = server.create('node', {
             id: 'decaf',
             title: 'Test Title',
-            currentUserPermissions: [Permission.Admin, Permission.Write, Permission.Read],
-        });
+        }, 'currentUserAdmin');
 
         server.create('contributor', { node, users: contributorUser });
 
@@ -332,8 +329,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         const node = server.create('node', {
             id: 'decaf',
-            currentUserPermissions: [Permission.Admin, Permission.Write, Permission.Read],
-        });
+        }, 'currentUserAdmin');
 
         server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
@@ -381,8 +377,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         const node = server.create('node', {
             id: 'decaf',
-            currentUserPermissions: [Permission.Admin, Permission.Write, Permission.Read],
-        });
+        }, 'currentUserAdmin');
 
         server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
@@ -420,8 +415,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         const node = server.create('node', {
             id: 'decaf',
-            currentUserPermissions: [Permission.Admin, Permission.Write, Permission.Read],
-        });
+        }, 'currentUserAdmin');
 
         server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
@@ -456,8 +450,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         const node = server.create('node', {
             id: 'decaf',
-            currentUserPermissions: [Permission.Admin, Permission.Write, Permission.Read],
-        });
+        }, 'currentUserAdmin');
 
         server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
