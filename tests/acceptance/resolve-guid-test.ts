@@ -105,6 +105,7 @@ module('Acceptance | resolve-guid', hooks => {
         mhooks.beforeEach(async () => {
             const analyticsEngine = await loadEngine('analytics-page', 'guid-registration.analytics');
             analyticsEngine.register('service:keen', KeenStub);
+            server.create('registration-provider', { id: 'osf' });
         });
 
         module('No ember_registries_detail_page', __ => {

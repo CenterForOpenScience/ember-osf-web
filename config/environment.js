@@ -144,6 +144,7 @@ module.exports = function(environment) {
             },
         },
         OSF: {
+            providerId: 'osf',
             clientId,
             scope,
             apiNamespace: 'v2', // URL suffix (after host)

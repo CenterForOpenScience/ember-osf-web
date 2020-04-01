@@ -12,6 +12,10 @@ module('Acceptance | guid-registration/forks', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
+    hooks.beforeEach(() => {
+        server.create('registration-provider', { id: 'osf' });
+    });
+
     test('logged out, no forks', async assert => {
         const node = server.create('node', { id: 'regis', currentUserPermissions: [] });
         const registration = server.create('registration', { registeredFrom: node });

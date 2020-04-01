@@ -26,6 +26,7 @@ module('Acceptance | view-only-links', hooks => {
 
     hooks.beforeEach(function(this: ViewOnlyTestContext) {
         this.assignLocationStub = sinon.stub(WindowLocation, 'assignLocation');
+        server.create('registration-provider', { id: 'osf' });
     });
 
     hooks.afterEach(function(this: ViewOnlyTestContext) {
