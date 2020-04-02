@@ -99,7 +99,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         const node = server.create('node', {
             id: 'decaf',
             title: 'Test Title',
-            currentUserPermissions: [Permission.Write, Permission.Read],
+            currentUserPermissions: [Permission.Write],
         });
 
         server.create('contributor', { node, users: contributorUser });
@@ -151,7 +151,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         const node = server.create('node', {
             id: 'decaf',
-            currentUserPermissions: [Permission.Write, Permission.Read],
+            currentUserPermissions: [Permission.Write],
         });
 
         server.loadFixtures('schema-blocks');

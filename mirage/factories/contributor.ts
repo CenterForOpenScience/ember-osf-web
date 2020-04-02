@@ -21,13 +21,25 @@ export default Factory.extend<Contributor & ContributorTraits>({
     users: association() as Contributor['users'],
 
     afterCreate(contributor) {
+        const { node } = contributor;
         if (contributor.bibliographic) {
-            const { node } = contributor;
             node.bibliographicContributors = [
                 ...node.bibliographicContributors.models,
                 contributor,
             ] as unknown as Collection<Contributor>;
             node.save();
+        }
+        if (node.currentUserPermissions.includes(Permission.Admin)
+            && !node.currentUserPermissions.includes(Permission.Write)) {
+            node.update({
+                currentUserPermissions: [...node.currentUserPermissions, Permission.Write],
+            });
+        }
+        if (node.currentUserPermissions.includes(Permission.Write)
+            && !node.currentUserPermissions.includes(Permission.Read)) {
+            node.update({
+                currentUserPermissions: [...node.currentUserPermissions, Permission.Read],
+            });
         }
     },
 
