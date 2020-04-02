@@ -20,10 +20,19 @@ export function getApiErrorMessage(error: ErrorDocument): string {
     return (apiError && apiError.detail) ? apiError.detail : '';
 }
 
+export function getApiErrors(error: ErrorDocument): Record<string, ErrorObject> {
+    return error.errors.reduce(
+        (acc: Record<string, ErrorObject>, val: ErrorObject, index) => (
+            { ...acc, [`api_error_${index}`]: val }
+        ),
+        {},
+    );
+}
+
 // send exception info to sentry, if it's hooked up
 export default function captureException(error: ErrorDocument, extras: object = {}) {
-    const apiError = getApiError(error);
-    const extra = { ...extras, ...(apiError || {}) };
+    const apiErrors = getApiErrors(error);
+    const extra = { ...extras, ...apiErrors };
 
     if (Raven) {
         Raven.captureException(error, { extra });
