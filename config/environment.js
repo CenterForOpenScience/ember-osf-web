@@ -308,7 +308,7 @@ module.exports = function(environment) {
             shouldIncludeStyleguide: false,
         },
         'ember-cli-mirage': {
-            enabled: Boolean(MIRAGE_ENABLED),
+            enabled: isTruthy(MIRAGE_ENABLED),
         },
         'changeset-validations': {
             rawOutput: true,
