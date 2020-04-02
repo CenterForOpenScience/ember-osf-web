@@ -154,6 +154,8 @@ module('Acceptance | guid-node/registrations', hooks => {
             currentUserPermissions: [Permission.Write],
         });
 
+        server.create('contributor', { node, users: initiator });
+
         server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
         server.loadFixtures('registration-providers');
