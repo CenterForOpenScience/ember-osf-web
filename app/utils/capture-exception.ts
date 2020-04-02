@@ -30,14 +30,16 @@ export function getApiErrors(error: ErrorDocument): Record<string, ErrorObject> 
 }
 
 // send exception info to sentry, if it's hooked up
+/* eslint-disable consistent-return */
 export default function captureException(error: ErrorDocument, extras: object = {}) {
     const apiErrors = getApiErrors(error);
     const extra = { ...extras, ...apiErrors };
 
     if (Raven) {
-        Raven.captureException(error, { extra });
-    } else {
-        // eslint-disable-next-line no-console
-        console.error(error); // tslint:disable-line no-console
+        return Raven.captureException(error, { extra });
     }
+
+    // eslint-disable-next-line no-console
+    console.error(error); // tslint:disable-line no-console
 }
+/* eslint-enable consistent-return */
