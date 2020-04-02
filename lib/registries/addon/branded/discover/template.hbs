@@ -1,42 +1,91 @@
-<div local-class='BrandContainer'>
-    <HeroOverlay>
-        {{!-- template-lint-disable no-bare-strings  --}}
-        <h1>EGAP Registries</h1>
-        <input type='text' />
-    </HeroOverlay>
+{{! template-lint-disable no-implicit-this }}
+{{title (t 'registries.discover.page_title')}}
 
-    <Button @layout='small'>
-        {{!-- template-lint-disable no-bare-strings  --}}
-        Small
-    </Button>
+<HeroOverlay>
+    {{#registries-header notBranded=false showHelp=true value=(mut query) onSearch=(action 'onSearch') searchable=searchable as |header|}}
+        {{#header.lead}}
+            {{t 'registries.discover.powered_by' }}
+            <a href='https://share.osf.io/' local-class='ShareLogo' data-test-share-logo title={{t 'registries.discover.SHARE'}} onclick={{action 'click' 'link' 'Discover - SHARE Logo' target=analytics}}></a>
+        {{/header.lead}}
+        {{#header.row}}
+            <div class='col-sm-6 pull-right'>
+                <BsDropdown class='pull-right' as |dd|>
+                    <dd.button data-test-sort-dropdown=true>
+                        {{t 'registries.discover.sort_by'}}: {{t searchOptions.order.display}}
+                        <span aria-label='{{t 'registries.discover.sort_by'}}' class='caret'></span>
+                    </dd.button>
 
-    <Button @layout='medium'>
-        {{!-- template-lint-disable no-bare-strings  --}}
-        Medium
-    </Button>
+                    <dd.menu
+                        local-class='SortDropDown__List'
+                        @align='right'
+                        as |ddm|
+                    >
+                        {{#each sortOptions as |option index|}}
+                            <ddm.item>
+                                <button data-test-sort-option-id='{{index}}' class='btn' local-class='SortDropDown__Option' {{action 'setOrder' option}}>{{t option.display}}</button>
+                            </ddm.item>
+                        {{/each}}
+                    </dd.menu>
+                </BsDropdown>
+            </div>
+        {{/header.row}}
+    {{/registries-header}}
+</HeroOverlay>
+{{#registries-discover-search
+    results=results
+    isLoading=doSearch.isIdle
+    searchOptions=searchOptions
+    onSearchOptionsUpdated=(action onSearchOptionsUpdated)
+    as |discover|
+}}
 
-    <Button @layout='large'>
-        {{!-- template-lint-disable no-bare-strings  --}}
-        Large
-    </Button>
+    {{#discover.sidebar filterStyles=filterStyles as |sidebar|}}
+        {{registries-provider-facet
+            options=filterableSources
+            searchOptions=searchOptions
+            onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
+        }}
 
-    <Button @layout='fake-link' href='/registries/osf/discover'>
-        {{!-- template-lint-disable no-bare-strings  --}}
-        Fake Link
-    </Button>
+        {{registries-registration-type-facet
+            searchOptions=searchOptions
+            onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
+        }}
+    {{/discover.sidebar}}
 
-    <Button @type='primary'>
-        {{!-- template-lint-disable no-bare-strings  --}}
-        Primary
-    </Button>
+    {{#if (not doSearch.isIdle) }}
+        <div class='text-center p-v-md' aria-label={{t 'eosf.components.discoverPage.searchLoading'}}>
+            {{loading-indicator dark=true}}
+        </div>
+    {{else}}
+        {{#discover.results
+            (html-attributes data-test-results=true)
+            as |result|
+        }}
+            {{registries-search-result result=result}}
+        {{/discover.results}}
 
-    <Button @type='create'>
-        {{!-- template-lint-disable no-bare-strings  --}}
-        Create
-    </Button>
+        {{#unless totalResults}}
+            <div class='col-sm-8 col-xs-12'>
+                <div class='text-center text-muted'>
+                    <p class='lead'>
+                        {{t 'registries.discover.no_results'}}
+                    </p>
+                    {{t 'registries.discover.try_broadening'}}
+                </div>
+            </div>
+        {{/unless}}
 
-    <Button @type='destroy'>
-        {{!-- template-lint-disable no-bare-strings  --}}
-        Destroy
-    </Button>
-</div>
+        {{#if (gt maxPage 1) }}
+            <div local-class='Pagination' class='col-xs-12'>
+                {{search-paginator
+                    current=searchOptions.page
+                    maximum=maxPage
+                    pageChanged=(action 'changePage')
+                }}
+            </div>
+        {{/if}}
+
+    {{/if}}
+
+{{/registries-discover-search}}
+{{! template-lint-enable no-implicit-this }}

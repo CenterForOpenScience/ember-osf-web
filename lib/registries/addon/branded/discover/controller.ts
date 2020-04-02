@@ -1,9 +1,4 @@
-import Controller from '@ember/controller';
+import DiscoverController from 'registries/discover/controller';
 
-import Brand from 'registries/services/brand';
-
-import { inject as service } from '@ember/service';
-
-export default class Discover extends Controller {
-    @service brand!: Brand;
+export default class Discover extends DiscoverController {
 }
