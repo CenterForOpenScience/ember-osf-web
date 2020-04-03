@@ -1,3 +1,5 @@
+@import 'branding-mixins';
+
 .HeroOverlay {
     display: flex;
     flex-direction: column;
@@ -11,31 +13,18 @@
     position: relative;
 
     &::before {
+        @include primary-color-bg;
         background: var(--hero-background-img-url);
         background-size: cover;
-        content: '';
         display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
         z-index: -2;
-        opacity: 0.4;
         filter: grayscale(1);
     }
 
     &::after {
-        background-color: var(--primary-color);
-        content: '';
+        @include primary-color-bg;
         display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
         z-index: -1;
-        opacity: 0.4;
     }
 
     h1 {
