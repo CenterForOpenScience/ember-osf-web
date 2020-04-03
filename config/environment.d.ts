@@ -65,7 +65,7 @@ declare const config: {
         } | undefined };
     };
     OSF: {
-        providerId?: string;
+        osfRegistrationProviderId?: string;
         clientId?: string;
         scope?: string;
         apiNamespace: string;
