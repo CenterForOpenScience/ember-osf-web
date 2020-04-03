@@ -13,7 +13,7 @@ import RegistrationProvider from 'ember-osf-web/models/registration-provider';
 
 const {
     OSF: {
-        providerId,
+        osfRegistrationProviderId,
     },
 } = config;
 
@@ -23,7 +23,7 @@ export default class ApplicationRoute extends Route {
     @service brand!: BrandService;
 
     model() {
-        return this.store.findRecord('registration-provider', String(providerId), { include: 'brand' });
+        return this.store.findRecord('registration-provider', String(osfRegistrationProviderId), { include: 'brand' });
     }
 
     afterModel(model: RegistrationProvider) {
