@@ -1,6 +1,8 @@
 import { ErrorObject } from 'jsonapi-typescript';
 import { ErrorDocument } from 'osf-api';
 
+import stripHtmlTags from 'ember-osf-web/tests/helpers/strip-html-tags';
+
 // Raven is defined only in prod builds
 declare const Raven: undefined | {
     captureException(e: ErrorDocument | Error, extra: object): void;
@@ -31,8 +33,15 @@ export function getApiErrors(error: ErrorDocument): Record<string, ErrorObject> 
 
 // send exception info to sentry, if it's hooked up
 /* eslint-disable consistent-return */
-export default function captureException(error: ErrorDocument, extras: object = {}) {
+export default function captureException(
+    error: ErrorDocument,
+    extras: { errorMessage?: string } = {},
+) {
     const apiErrors = getApiErrors(error);
+    if (extras.errorMessage) {
+        /* eslint-disable-next-line no-param-reassign */
+        extras.errorMessage = stripHtmlTags(extras.errorMessage.toString());
+    }
     const extra = { ...extras, ...apiErrors };
 
     if (Raven) {

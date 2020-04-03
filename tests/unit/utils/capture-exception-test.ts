@@ -31,13 +31,30 @@ module('Unit | Utility | capture-exception', () => {
         window.Raven = {
             captureException: (_: ErrorDocument, { extra }: { extra: object }) => extra,
         };
-        const actual = captureException(apiError, { errorMessage: 'Failed to load subjects' });
+        let actual = captureException(apiError, { errorMessage: 'Failed to load subjects' });
         assert.propEqual(actual, {
             errorMessage: 'Failed to load subjects',
             api_error_0: { detail: error1, code: '400' },
             api_error_1: { detail: error2, code: '503' },
             api_error_2: { detail: error3, code: '405' },
+        }, 'Raven.captureException is called with the right extra context');
+
+        const apiErrorEmpty: ErrorDocument = {
+            errors: [],
+            meta: { version: '2.20' },
+        };
+        actual = captureException(apiErrorEmpty, { errorMessage: 'Failed to load subjects' });
+        assert.propEqual(actual, {
+            errorMessage: 'Failed to load subjects',
+        }, 'captureException handles empty errors list correctly');
+
+        actual = captureException(apiErrorEmpty, {
+            errorMessage: 'There was a problem merging <strong>foo@bar.ai</strong> into your account.',
         });
+        assert.propEqual(actual, {
+            errorMessage: 'There was a problem merging foo@bar.ai into your account.',
+        }, 'captureException cleans up translations passed in as extras.errorMessage');
+
         // @ts-ignore
         delete window.Raven;
     });
