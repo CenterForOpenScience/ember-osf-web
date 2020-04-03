@@ -1,5 +1,23 @@
-.PrimaryColor {
-    background-color: var(--primary-color);
-    height: 200px;
-    width: 200px;
+.ResultsHeader {
+    composes: ResultsHeader from '../../discover/styles';
+}
+
+.SortDropDown {
+    composes: SortDropDown from '../../discover/styles';
+}
+
+.SortDropDown__List {
+    composes: SortDropDown__List from '../../discover/styles';
+}
+
+.SortDropDown__Option {
+    composes: SortDropDown__Option from '../../discover/styles';
+}
+
+.BrandedRegistriesSearchResult {
+    composes: RegistriesSearchResult from '../../discover/styles';
+
+    i {
+        color: var(--primary-color);
+    }
 }

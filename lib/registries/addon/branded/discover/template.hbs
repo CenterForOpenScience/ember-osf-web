@@ -7,28 +7,6 @@
             {{t 'registries.discover.powered_by' }}
             <a href='https://share.osf.io/' local-class='ShareLogo' data-test-share-logo title={{t 'registries.discover.SHARE'}} onclick={{action 'click' 'link' 'Discover - SHARE Logo' target=analytics}}></a>
         {{/header.lead}}
-        {{#header.row}}
-            <div class='col-sm-6 pull-right'>
-                <BsDropdown class='pull-right' as |dd|>
-                    <dd.button data-test-sort-dropdown=true>
-                        {{t 'registries.discover.sort_by'}}: {{t searchOptions.order.display}}
-                        <span aria-label='{{t 'registries.discover.sort_by'}}' class='caret'></span>
-                    </dd.button>
-
-                    <dd.menu
-                        local-class='SortDropDown__List'
-                        @align='right'
-                        as |ddm|
-                    >
-                        {{#each sortOptions as |option index|}}
-                            <ddm.item>
-                                <button data-test-sort-option-id='{{index}}' class='btn' local-class='SortDropDown__Option' {{action 'setOrder' option}}>{{t option.display}}</button>
-                            </ddm.item>
-                        {{/each}}
-                    </dd.menu>
-                </BsDropdown>
-            </div>
-        {{/header.row}}
     {{/registries-header}}
 </HeroOverlay>
 {{#registries-discover-search
@@ -57,11 +35,37 @@
             {{loading-indicator dark=true}}
         </div>
     {{else}}
+        {{!-- put in a component --}}
+        <div class='col-sm-8 col-xs-12' local-class='ResultsHeader'>
+            <div class='col-sm-6'>
+                <h2>{{number-format totalResults}} Registrations</h2>
+            </div>
+            <div class='col-sm-6 text-right'>
+                <BsDropdown local-class='SortDropDown' as |dd|>
+                    <dd.button data-test-sort-dropdown=true>
+                        {{t 'registries.discover.sort_by'}}: {{t searchOptions.order.display}}
+                        <span aria-label='{{t 'registries.discover.sort_by'}}' class='caret'></span>
+                    </dd.button>
+
+                    <dd.menu
+                        local-class='SortDropDown__List'
+                        @align='right'
+                        as |ddm|
+                    >
+                        {{#each sortOptions as |option index|}}
+                            <ddm.item>
+                                <button data-test-sort-option-id='{{index}}' class='btn' local-class='SortDropDown__Option' {{action 'setOrder' option}}>{{t option.display}}</button>
+                            </ddm.item>
+                        {{/each}}
+                    </dd.menu>
+                </BsDropdown>
+            </div>
+        </div>
         {{#discover.results
             (html-attributes data-test-results=true)
             as |result|
         }}
-            {{registries-search-result result=result}}
+            {{registries-search-result result=result class=(local-class 'BrandedRegistriesSearchResult')}}
         {{/discover.results}}
 
         {{#unless totalResults}}

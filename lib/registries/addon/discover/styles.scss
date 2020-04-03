@@ -8,6 +8,14 @@
     width: 69px;
 }
 
+.ResultsHeader {
+    padding: 0 0 15px 0;
+}
+
+.SortDropDown {
+    margin-top: 15px;
+}
+
 .SortDropDown__List {
     background-color: $color-bg-gray-light;
 }
@@ -31,6 +39,13 @@
 
     & > i {
         color: #eee;
+    }
+}
+
+.RegistriesSearchResult {
+    h4 {
+        font-size: 24px;
+        font-weight: 400;
     }
 }
 
