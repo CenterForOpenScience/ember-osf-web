@@ -1,7 +1,7 @@
 import { ErrorObject } from 'jsonapi-typescript';
 import { ErrorDocument } from 'osf-api';
 
-import stripHtmlTags from 'ember-osf-web/tests/helpers/strip-html-tags';
+import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
 
 // Raven is defined only in prod builds
 declare const Raven: undefined | {
