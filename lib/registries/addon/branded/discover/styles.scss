@@ -2,10 +2,6 @@
     composes: ResultsHeader from '../../discover/styles';
 }
 
-.SortDropDown {
-    composes: SortDropDown from '../../discover/styles';
-}
-
 .SortDropDown__List {
     composes: SortDropDown__List from '../../discover/styles';
 }
@@ -20,4 +16,8 @@
     i {
         color: var(--primary-color);
     }
+}
+
+.Pagination {
+    composes: Pagination from '../../discover/styles';
 }

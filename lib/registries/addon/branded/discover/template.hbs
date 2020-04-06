@@ -41,7 +41,7 @@
                 <h2>{{number-format totalResults}} Registrations</h2>
             </div>
             <div class='col-sm-6 text-right'>
-                <BsDropdown local-class='SortDropDown' as |dd|>
+                <BsDropdown as |dd|>
                     <dd.button data-test-sort-dropdown=true>
                         {{t 'registries.discover.sort_by'}}: {{t searchOptions.order.display}}
                         <span aria-label='{{t 'registries.discover.sort_by'}}' class='caret'></span>
