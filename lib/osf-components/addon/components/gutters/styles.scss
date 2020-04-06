@@ -85,12 +85,4 @@
 
 .RightGutter {
     @include gutter('right');
-
-    i {
-        color: var(--primary-color);
-
-        &:hover {
-            color: var(--secondary-color);
-        }
-    }
 }
