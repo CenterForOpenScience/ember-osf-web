@@ -5,3 +5,17 @@
     --hero-logo-img-url: '';
     --hero-background-img-url: '';
 }
+
+.brand-container {
+    a:hover {
+        color: var(--primary-color);
+    }
+
+    .emberTagInput .emberTagInput-tag {
+        background: $color-bg-gray-light;
+
+        &:hover {
+            background: var(--primary-color);
+        }
+    }
+}
