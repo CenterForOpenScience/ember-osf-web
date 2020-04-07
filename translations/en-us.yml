@@ -227,6 +227,7 @@ new_project:
     stay_here: 'Keep working here'
     go_to_new: 'Go to new project'
     storage_region: 'Storage location'
+    could_not_create_project: 'Could not create project'
 banners:
     prereg:
         description: 'Improve your next study. Enter the Prereg Challenge and you could win $1,000.'
@@ -243,7 +244,7 @@ move_to_project:
     select_placeholder: 'Click to select'
     project_select_message: 'The list of projects appearing are projects and components for which you have write access. Registrations are not included here.'
     no_projects_exist_error: 'You have no available projects. Go back to create a new project.'
-    could_not_create_project: 'Could not create project. Please try again.'
+    could_not_create_project: 'Could not create project.'
     convert_or_copy_message:
         project: 'Clicking "Move file" will immediately make changes to your OSF project and move your file.'
         component: 'Clicking "Move file" will immediately make changes to your OSF component and move your file.'
@@ -251,7 +252,7 @@ move_to_project:
         project: 'Files moved to private projects will no longer be public or discoverable by others.'
         component: 'Files moved to private components will no longer be public or discoverable by others.'
     file_successfully_moved: 'File was moved successfully!'
-    could_not_move_file: 'Could not move file. Please try again.'
+    could_not_move_file: 'Could not move file.'
     keep_working_here: 'Keep working here'
     go_to_new_project: 'Go to new project'
     go_to_component: 'Go to component'
@@ -467,6 +468,7 @@ tos_consent:
     paragraph: 'We''ve updated our <a href="{link1}">Terms of Use</a> and <a href="{link2}">Privacy Policy</a>. Please read them carefully.'
     have_read_and_agree: 'I have read and agree to these terms.'
     continue: Continue
+    failed_save: 'Unable to save Terms of Services consent.'
 validationErrors:
     description: 'This field'
     inclusion: '{description} is not included in the list.'
@@ -589,8 +591,8 @@ forks:
     unable_to_delete_fork: 'Any child components must be deleted prior to deleting this component.'
     page_title: '{nodeTitle} Forks'
     no_forks: 'A fork is a copy of a project that you can change without affecting the original project.'
-    new_fork_failed: 'Failed to create a new fork. Please try again later.'
-    delete_fork_failed: 'Failed to delete the project. Please try again later.'
+    new_fork_failed: 'Failed to create a new fork.'
+    delete_fork_failed: 'Failed to delete the project.'
 node:
     registrations:
         new_registration_modal:
@@ -701,7 +703,7 @@ app_components:
             citation_popover_title: 'Citation Information'
             citation_popover: 'Only checked contribotrs will be included in project citations. Contributors not in the citation can read and modify the project as normal.'
             remove_contributor_success: 'Project contributor removed!'
-            remove_contributor_error: 'Could not remove contributor. Please try again.'
+            remove_contributor_error: 'Could not remove contributor.'
             item:
                 img_alt: Gravatar
                 in_citation_label: 'In citation:'
@@ -727,12 +729,12 @@ app_components:
                 cancel: Cancel
                 add: Add
                 add_success: 'Unregistered contributor added!'
-                add_error: 'Could not add unregistered contributor. Please try again.'
+                add_error: 'Could not add unregistered contributor.'
             result:
                 yourself: yourself
                 add: Add
             add_contributor_success: 'Project contributor added!'
-            add_contributor_error: 'Could not add contributor. Please try again.'
+            add_contributor_error: 'Could not add contributor.'
     project_metadata:
         field_title_label: 'Title:'
         field_title_placeholder: ""
@@ -871,8 +873,8 @@ collections:
         update_button: Update
         add_save_success: '{title} has been added to the collection.'
         update_save_success: '{title} has been updated in the collection.'
-        add_save_error: "Error adding {title} to the collection:\n{error}"
-        update_save_error: "Error updating {title} in the collection:\n{error}"
+        add_save_error: "Error adding {title} to the collection."
+        update_save_error: "Error updating {title} in the collection."
         warning_body: 'Are you sure you want to discard changes to the submission? Changes saved to the project will persist.'
     collection_submission_confirmation_modal:
         header: 'Submit project'
@@ -932,7 +934,7 @@ registries:
         registration_type:
             title: 'OSF Registration Type'
             only_available_with_osf: 'Only available with OSF Registries'
-            registration_schema_error: 'An error occurred getting registration types. Please try again.'
+            registration_schema_error: 'An error occurred getting registration types.'
     application:
         page_title: 'OSF Registries'
     discover:
@@ -971,6 +973,9 @@ registries:
             metadata:
                 title: 'Fill out basic registration info'
                 page_label: Metadata
+                failed_auto_save: 'Failed to auto-save draft registration metadata'
+                save_institutions_error: 'Failed to save affiliated institutions'
+                load_institutions_error: 'Failed to load affiliated institutions'
             form:
                 title: 'Fill out registration form'
                 next: Next
@@ -979,6 +984,7 @@ registries:
                 new_registration: 'New registration'
                 last_saved: 'Auto-saved: '
                 save_failed: 'Save failed. Unsaved changes present.'
+                failed_auto_save: 'Failed to auto-save draft registration form'
             review:
                 title: 'Review registration before submitting'
                 page_label: Review
@@ -986,7 +992,7 @@ registries:
                 invalid_warning: 'Please address invalid or missing entries to complete registration.'
                 toggle_dropdown: 'Toggle navigation dropdown'
             register: Register
-            submit_error: 'Failed to create a registration. Please try again later.'
+            submit_error: 'Unable to create a registration.'
     index:
         lead: 'The <span class="f-w-lg">open</span> registries network'
         see_example: 'See an example'
@@ -1073,6 +1079,7 @@ registries:
             year: 'Year'
             copyrightHolders: 'Copyright Holders'
         save_subjects_error: 'Unable to save subjects'
+        load_subjects_error: 'Unable to load subjects'
     form_view:
         none_selected: 'None selected'
     overview:

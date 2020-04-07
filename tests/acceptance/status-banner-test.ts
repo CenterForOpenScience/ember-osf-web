@@ -6,7 +6,7 @@ import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
 import { setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
-import stripHtmlTags from 'ember-osf-web/tests/helpers/strip-html-tags';
+import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
 
 const {
     OSF: {

@@ -12,6 +12,7 @@ import Contributor from 'ember-osf-web/models/contributor';
 import Node from 'ember-osf-web/models/node';
 import { Permission, QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import Analytics from 'ember-osf-web/services/analytics';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 import { HighlightableContributor } from './item/component';
 import styles from './styles';
@@ -116,7 +117,9 @@ export default class List extends Component {
             this._doReload();
             this.toast.success(this.intl.t('app_components.project_contributors.list.remove_contributor_success'));
         } catch (e) {
-            this.toast.error(this.intl.t('app_components.project_contributors.list.remove_contributor_error'));
+            const errorMessage = this.intl.t('app_components.project_contributors.list.remove_contributor_error');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
         }
 
         // It's necessary to unload the record from the store after destroying it, in case the user is added back as a

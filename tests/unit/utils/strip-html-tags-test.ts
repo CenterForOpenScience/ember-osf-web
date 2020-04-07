@@ -1,4 +1,4 @@
-import stripHtmlTags from 'ember-osf-web/tests/helpers/strip-html-tags';
+import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | strip-html-tags', () => {

@@ -12,6 +12,7 @@ import Toast from 'ember-toastr/services/toast';
 import RegistrationSchema from 'ember-osf-web/adapters/registration-schema';
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
 import engineConfig from 'registries/config/environment';
@@ -58,7 +59,9 @@ export default class RegistriesRegistrationTypeFacet extends Component {
             }
             this.set('registrationTypes', A(metaschemaNames.sort()));
         } catch (e) {
-            this.toast.error(this.intl.t('registries.facets.registration_type.registration_schema_error'));
+            const errorMessage = this.intl.t('registries.facets.registration_type.registration_schema_error');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
         }
     });
