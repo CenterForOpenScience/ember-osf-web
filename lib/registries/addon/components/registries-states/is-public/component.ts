@@ -7,6 +7,7 @@ import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Registration from 'ember-osf-web/models/registration';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import randomScientist from 'ember-osf-web/utils/random-scientist';
 
@@ -40,7 +41,9 @@ export default class RegistrationIsPublic extends Component {
         try {
             yield this.registration.save();
         } catch (e) {
-            this.toast.error(this.intl.t('registries.overview.withdraw.error'));
+            const errorMessage = this.intl.t('registries.overview.withdraw.error');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
         }
 

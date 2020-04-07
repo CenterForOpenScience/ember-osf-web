@@ -1,7 +1,7 @@
 import { render } from '@ember/test-helpers';
 import config from 'ember-get-config';
 import { setupIntl, t } from 'ember-intl/test-support';
-import stripHtmlTags from 'ember-osf-web/tests/helpers/strip-html-tags';
+import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
