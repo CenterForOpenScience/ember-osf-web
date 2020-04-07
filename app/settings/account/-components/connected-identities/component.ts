@@ -7,6 +7,7 @@ import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import ExternalIdentity from 'ember-osf-web/models/external-identity';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 const { support: { supportEmail } } = config;
 
@@ -26,10 +27,12 @@ export default class ConnectedIdentities extends Component {
         try {
             yield identity.destroyRecord();
         } catch (e) {
-            this.toast.error(this.intl.t(
+            const errorMessage = this.intl.t(
                 'settings.account.connected_identities.remove_fail',
                 { supportEmail, htmlSafe: true },
-            ));
+            );
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
             return false;
         }
         this.reloadIdentitiesList();

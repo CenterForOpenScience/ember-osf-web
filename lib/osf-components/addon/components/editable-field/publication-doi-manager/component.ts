@@ -13,6 +13,7 @@ import Toast from 'ember-toastr/services/toast';
 import { layout } from 'ember-osf-web/decorators/component';
 import Registration from 'ember-osf-web/models/registration';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import { DOIRegex, extractDoi } from 'ember-osf-web/utils/doi';
 import template from './template';
 
@@ -82,7 +83,9 @@ export default class PublicationDoiManagerComponent extends Component {
             yield this.node.save();
         } catch (e) {
             this.node.rollbackAttributes();
-            this.toast.error(this.intl.t('registries.registration_metadata.edit_pub_doi.error'));
+            const errorMessage = this.intl.t('registries.registration_metadata.edit_pub_doi.error');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
         }
         this.set('requestedEditMode', false);

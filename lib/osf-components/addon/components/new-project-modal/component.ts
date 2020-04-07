@@ -9,6 +9,7 @@ import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
 
+import Intl from 'ember-intl/services/intl';
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Institution from 'ember-osf-web/models/institution';
 import Node from 'ember-osf-web/models/node';
@@ -16,6 +17,8 @@ import Region from 'ember-osf-web/models/region';
 import User from 'ember-osf-web/models/user';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
+import Toast from 'ember-toastr/services/toast';
 import styles from './styles';
 import template from './template';
 
@@ -31,6 +34,8 @@ export default class NewProjectModal extends Component {
     @service currentUser!: CurrentUser;
     @service store!: DS.Store;
     @service features!: Features;
+    @service intl!: Intl;
+    @service toast!: Toast;
 
     // Required arguments
     @requiredAction afterProjectCreated!: (newNode: Node) => void;
@@ -121,7 +126,14 @@ export default class NewProjectModal extends Component {
         if (storageRegion) {
             node.set('region', storageRegion);
         }
-        yield node.save();
+
+        try {
+            yield node.save();
+        } catch (e) {
+            const errorMessage = this.intl.t('new_project.could_not_create_project');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
+        }
 
         this.afterProjectCreated(node);
     });
