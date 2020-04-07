@@ -1,15 +1,3 @@
-.ResultsHeader {
-    composes: ResultsHeader from '../../discover/styles';
-}
-
-.SortDropDown__List {
-    composes: SortDropDown__List from '../../discover/styles';
-}
-
-.SortDropDown__Option {
-    composes: SortDropDown__Option from '../../discover/styles';
-}
-
 .BrandedRegistriesSearchResult {
     composes: RegistriesSearchResult from '../../discover/styles';
 

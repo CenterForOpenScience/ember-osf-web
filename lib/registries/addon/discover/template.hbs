@@ -32,32 +32,12 @@
             {{loading-indicator dark=true}}
         </div>
     {{else}}
-        {{!-- put in a component --}}
-        <div class='col-sm-8 col-xs-12' local-class='ResultsHeader'>
-            <div class='col-sm-6'>
-                <h2>{{number-format totalResults}} Registrations</h2>
-            </div>
-            <div class='col-sm-6 text-right'>
-                <BsDropdown as |dd|>
-                    <dd.button data-test-sort-dropdown=true>
-                        {{t 'registries.discover.sort_by'}}: {{t searchOptions.order.display}}
-                        <span aria-label='{{t 'registries.discover.sort_by'}}' class='caret'></span>
-                    </dd.button>
-
-                    <dd.menu
-                        local-class='SortDropDown__List'
-                        @align='right'
-                        as |ddm|
-                    >
-                        {{#each sortOptions as |option index|}}
-                            <ddm.item>
-                                <button data-test-sort-option-id='{{index}}' class='btn' local-class='SortDropDown__Option' {{action 'setOrder' option}}>{{t option.display}}</button>
-                            </ddm.item>
-                        {{/each}}
-                    </dd.menu>
-                </BsDropdown>
-            </div>
-        </div>
+        {{registries-discover-results-header
+            totalResults=totalResults
+            searchOptions=searchOptions
+            sortOptions=sortOptions
+            setOrder=(action 'setOrder')
+        }}
         {{#discover.results
             (html-attributes data-test-results=true)
             as |result|
