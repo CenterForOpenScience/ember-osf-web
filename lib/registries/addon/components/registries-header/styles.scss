@@ -1,3 +1,7 @@
+.HeaderContainer {
+    padding: 30px 0;
+}
+
 .RegistriesHeader {
     background: url('img/bg-dark.jpg') top center $color-bg-blue-darker;
     border-bottom: 1px solid #ddd;
@@ -23,4 +27,30 @@
     background: url('img/osf-registries-white.png') top center no-repeat;
     background-size: contain;
     height: 70px;
+}
+
+.SearchForm {
+    position: relative;
+    margin: 0 50px;
+
+    input {
+        font-size: 18px;
+        padding: 28px 50px;
+    }
+
+    button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+    }
+
+}
+
+.HelpIcon {
+    position: absolute;
+    top: 16px;
+    left: 14px;
+    font-size: 24px;
+    color: var(--primary-color);
 }

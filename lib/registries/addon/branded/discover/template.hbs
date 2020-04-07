@@ -1,10 +1,9 @@
 {{! template-lint-disable no-implicit-this }}
 {{title (t 'registries.discover.page_title')}}
 
-<HeroOverlay>
+<HeroOverlay local-class='DiscoverHero'>
     {{#registries-header notBranded=false showHelp=true value=(mut query) onSearch=(action 'onSearch') searchable=searchable as |header|}}
         {{#header.lead}}
-            {{t 'registries.discover.powered_by' }}
             <a href='https://share.osf.io/' local-class='ShareLogo' data-test-share-logo title={{t 'registries.discover.SHARE'}} onclick={{action 'click' 'link' 'Discover - SHARE Logo' target=analytics}}></a>
         {{/header.lead}}
     {{/registries-header}}

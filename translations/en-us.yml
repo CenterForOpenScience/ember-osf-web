@@ -927,9 +927,7 @@ collections:
         type: Type
 registries:
     header:
-        search: Search
         search_placeholder: 'Search registrations...'
-        searchable_as_of: '{registrations} searchable registrations as of {today}'
     facets:
         registration_type:
             title: 'OSF Registration Type'
@@ -941,7 +939,6 @@ registries:
         page_title: Search
         SHARE: SHARE
         sort_by: 'Sort by'
-        powered_by: 'powered by'
         no_results: 'No results found.'
         try_broadening: 'Try broadening your search terms'
         order:

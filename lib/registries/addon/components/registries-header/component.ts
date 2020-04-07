@@ -31,7 +31,7 @@ export default class RegistriesHeader extends Component {
     }
 
     @action
-    onClick() {
+    onSubmit() {
         this._onSearch();
     }
 

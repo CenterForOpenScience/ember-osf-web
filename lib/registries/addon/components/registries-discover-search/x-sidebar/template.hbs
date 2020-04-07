@@ -11,9 +11,9 @@
 </div>
 
 {{#each filters as |filter|}}
-    <button class="{{filter.class}}" local-class="Sidebar__ActiveFilter" {{action 'removeFilter' filter.filter}}>
-        {{filter.display}}
-        {{fa-icon 'times-circle'}}
+    <div local-class='Sidebar__ActiveFilter'>{{filter.display}}</div>
+    <button class="{{filter.class}}" local-class="Sidebar__RemoveFilter" {{action 'removeFilter' filter.filter}}>
+        {{fa-icon 'times'}}
     </button>
 {{/each}}
 
