@@ -12,7 +12,11 @@
 
     <div class='row m-t-md m-b-lg text-center'>
         <div class='col-xs-12 col-sm-8 col-sm-offset-2'>
-            <form local-class='SearchForm' {{action 'onSubmit' on='submit'}}>
+            <form
+                local-class='SearchForm'
+                data-test-search-form
+                {{action 'onSubmit' on='submit'}}
+            >
                 {{fa-icon 'search' class=(local-class 'HelpIcon')}}
                 <Input
                     data-test-search-box=true
