@@ -27,6 +27,14 @@
             searchOptions=searchOptions
             onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
         }}
+
+        {{#if this.providerModel}}
+            {{registries-subjects-facet
+                provider=this.providerModel
+                searchOptions=searchOptions
+                onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
+            }}
+        {{/if}}
     {{/discover.sidebar}}
 
     {{#if (not doSearch.isIdle) }}

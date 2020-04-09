@@ -12,6 +12,8 @@ export interface MirageSubject extends SubjectModel {
 }
 
 export default Factory.extend<MirageSubject & SubjectTraits>({
+    taxonomyName: 'bepress',
+
     text() {
         return faker.lorem.words(3);
     },

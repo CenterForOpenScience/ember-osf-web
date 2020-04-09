@@ -935,6 +935,8 @@ registries:
             title: 'OSF Registration Type'
             only_available_with_osf: 'Only available with OSF Registries'
             registration_schema_error: 'An error occurred getting registration types.'
+        subjects:
+            title: 'Subjects'
     application:
         page_title: 'OSF Registries'
     discover:
