@@ -163,6 +163,10 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         filter: SearchFilter;
     }> = defaultTo(this.filterableSources, []);
 
+    get additionalFilters(): ShareTermsFilter[] {
+        return [];
+    }
+
     get filterStyles() {
         return {
             sources: styles['ActiveFilters--Sources'],
@@ -234,6 +238,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
             filters: OrderedSet([
                 ...this.sources,
                 ...this.registrationTypes,
+                ...this.additionalFilters,
             ]),
         });
 
