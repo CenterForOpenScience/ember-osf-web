@@ -13,7 +13,8 @@ interface Args {
     onSearchOptionsUpdated(options: SearchOptions): void;
 }
 
-// TODO: memoize? could get expensive
+// TODO: memoize some of these functions? could get expensive with lots of subjects expanded
+
 // WARNING: assumes subject.parent (and subject.parent.parent...) is already loaded
 function getSubjectTerm(subject: SubjectModel): string {
     // subjects are indexed with their full hierarchy, including taxonomy name
@@ -27,55 +28,99 @@ function getSubjectTerm(subject: SubjectModel): string {
 }
 
 function newSubjectFilter(subject: SubjectModel): ShareTermsFilter {
-    // TODO: not subject.text, gotta get the whole taxonomy...
     return new ShareTermsFilter('subjects', getSubjectTerm(subject), subject.text);
 }
 
+/* want to get filters for all ancestors, e.g.
+ *  given `bepress|foo|bar|baz`
+ *  get [`bepress|foo`, `bepress|foo|bar`]
+ */
+function getAncestry(subjectTerm: string): string[] {
+    const parentTerms: string[] = [];
+    const [taxonomyName, ...subjectAncestry] = subjectTerm.split('|');
+    for (let i = 1; i < subjectAncestry.length; i++) {
+        const ancestorLineage = subjectAncestry.slice(0, i).join('|');
+        parentTerms.push(`${taxonomyName}|${ancestorLineage}`);
+    }
+    return parentTerms;
+}
+
+function getAncestryFilters(subjectTerm: string): ShareTermsFilter[] {
+    const parentFilters: ShareTermsFilter[] = [];
+    const [taxonomyName, ...subjectAncestry] = subjectTerm.split('|');
+    for (let i = 1; i < subjectAncestry.length; i++) {
+        const ancestorText = subjectAncestry[i];
+        const ancestorLineage = subjectAncestry.slice(0, i).join('|');
+        parentFilters.push(new ShareTermsFilter(
+            'subjects',
+            `${taxonomyName}|${ancestorLineage}`,
+            ancestorText,
+        ));
+    }
+    return parentFilters;
+}
+
 export default class RegistriesSubjectsFacet extends Component<Args> {
-    get subjectsManager(): Partial<SubjectManager> {
+    get selectedSubjectFilters() {
+        const { searchOptions: { filters } } = this.args;
+        return filters.filter(f => f.key === 'subjects').toArray();
+    }
+
+    get selectedSubjectTerms(): Set<string> {
+        return new Set(
+            this.selectedSubjectFilters.map(f => f.value as string),
+        );
+    }
+
+    get parentTermsWithSelectedChild(): Set<string> {
+        const { selectedSubjectTerms } = this;
+        const parentTerms = new Set<string>();
+
+        selectedSubjectTerms.forEach(
+            subjectTerm => getAncestry(subjectTerm).forEach(
+                ancestorTerm => parentTerms.add(ancestorTerm),
+            ),
+        );
+
+        return parentTerms;
+    }
+
+    get subjectsManager(): SubjectManager {
         const {
             args: { provider },
             selectSubject,
             unselectSubject,
-            subjectIsSelected,
-            subjectHasSelectedChildren,
+            selectedSubjectTerms,
+            parentTermsWithSelectedChild,
         } = this;
 
         return {
             provider,
             selectSubject,
             unselectSubject,
-            subjectIsSelected,
-            subjectHasSelectedChildren,
+
+            subjectIsSelected(subject: SubjectModel): boolean {
+                // display a subject as selected if any of its children are selected
+                return selectedSubjectTerms.has(getSubjectTerm(subject))
+                    || parentTermsWithSelectedChild.has(getSubjectTerm(subject));
+            },
+
+            subjectHasSelectedChildren(subject: SubjectModel) {
+                return parentTermsWithSelectedChild.has(getSubjectTerm(subject));
+            },
 
             subjectIsSaved: () => false, // TODO: should this return true?
 
             // NOTE: everything below is not needed by Subjects::Browse, so they're
             // just here to fit the interface that assumes we're saving subjects
             // on a model instance
-            /*
             savedSubjects: [],
             selectedSubjects: [],
             isSaving: false,
             hasChanged: false,
             discardChanges: () => undefined,
             saveChanges: () => Promise.resolve(),
-            */
         };
-    }
-
-    @action
-    subjectIsSelected(subject: SubjectModel): boolean {
-        const { searchOptions: { filters } } = this.args;
-
-        const subjectFilter = newSubjectFilter(subject);
-        return filters.contains(subjectFilter);
-    }
-
-    @action
-    subjectHasSelectedChildren(/* subject: SubjectModel */): boolean {
-        // TODO
-        return false;
     }
 
     @action
@@ -86,23 +131,28 @@ export default class RegistriesSubjectsFacet extends Component<Args> {
         } = this.args;
 
         const filterToAdd = newSubjectFilter(subject);
+        const subjectTerm = getSubjectTerm(subject);
+        const parentFilters = getAncestryFilters(subjectTerm);
 
-        onSearchOptionsUpdated(
-            searchOptions.addFilters(filterToAdd),
-        );
+        onSearchOptionsUpdated(searchOptions.addFilters(filterToAdd, ...parentFilters));
     }
 
     @action
     unselectSubject(subject: SubjectModel): void {
         const {
-            searchOptions,
-            onSearchOptionsUpdated,
-        } = this.args;
+            args: {
+                searchOptions,
+                onSearchOptionsUpdated,
+            },
+            selectedSubjectFilters,
+        } = this;
 
-        const filterToRemove = newSubjectFilter(subject);
+        const subjectTerm = getSubjectTerm(subject);
 
-        onSearchOptionsUpdated(
-            searchOptions.removeFilters(filterToRemove),
+        const filtersToRemove = selectedSubjectFilters.filter(
+            f => (f.value as string).startsWith(subjectTerm),
         );
+
+        onSearchOptionsUpdated(searchOptions.removeFilters(...filtersToRemove));
     }
 }
