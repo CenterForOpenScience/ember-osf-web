@@ -12,7 +12,12 @@
 
 {{#each filters as |filter|}}
     <div local-class='Sidebar__ActiveFilter'>{{filter.display}}</div>
-    <button class="{{filter.class}}" local-class="Sidebar__RemoveFilter" {{action 'removeFilter' filter.filter}}>
+    <button
+        class="{{filter.class}}"
+        local-class="Sidebar__RemoveFilter"
+        aria-label='Remove {{filter.display}} filter'
+        {{action 'removeFilter' filter.filter}}
+      >
         {{fa-icon 'times'}}
     </button>
 {{/each}}
