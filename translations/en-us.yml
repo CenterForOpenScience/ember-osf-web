@@ -929,21 +929,20 @@ collections:
         type: Type
 registries:
     header:
-        search: Search
         search_placeholder: 'Search registrations...'
-        searchable_as_of: '{registrations} searchable registrations as of {today}'
     facets:
         registration_type:
             title: 'OSF Registration Type'
             only_available_with_osf: 'Only available with OSF Registries'
             registration_schema_error: 'An error occurred getting registration types.'
+        subjects:
+            title: 'Subjects'
     application:
         page_title: 'OSF Registries'
     discover:
         page_title: Search
         SHARE: SHARE
         sort_by: 'Sort by'
-        powered_by: 'powered by'
         no_results: 'No results found.'
         try_broadening: 'Try broadening your search terms'
         order:
@@ -951,9 +950,9 @@ registries:
             modified_ascending: 'Modified Date (oldest to newest)'
             modified_descending: 'Modified Date (newest to oldest)'
         sidebar:
-            refine_your_search: 'Refine your search by'
             clear_filters: 'Clear filters'
             active_filters: 'Active filters'
+            refine_search: 'Refine Search'
         search_result:
             last_edited: 'Last edited: {date}'
             withdrawn: Withdrawn

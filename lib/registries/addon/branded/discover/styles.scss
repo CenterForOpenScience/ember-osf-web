@@ -1,5 +1,11 @@
-.PrimaryColor {
-    background-color: var(--primary-color);
-    height: 200px;
-    width: 200px;
+.BrandedRegistriesSearchResult {
+    composes: RegistriesSearchResult from '../../discover/styles';
+
+    i {
+        color: var(--primary-color);
+    }
+}
+
+.Pagination {
+    composes: Pagination from '../../discover/styles';
 }

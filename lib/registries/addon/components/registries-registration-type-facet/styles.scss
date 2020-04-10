@@ -31,18 +31,19 @@
 .RegistrationType__Warning {
     font-weight: 700;
     color: #000;
-    padding-left: 10px;
+    padding-left: 0;
     display: block;
 }
 
 .RegistrationType__List {
     list-style: none;
-    padding-left: 25px;
+    padding: 0;
 }
 
 .RegistrationType__Item {
     label {
         font-weight: 400;
+        color: $color-text-blue-dark;
     }    
 }
 

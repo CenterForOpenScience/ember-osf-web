@@ -1,9 +1,17 @@
-import Controller from '@ember/controller';
+import DiscoverController from 'registries/discover/controller';
 
-import Brand from 'registries/services/brand';
+import { ShareTermsFilter } from 'registries/services/share-search';
 
-import { inject as service } from '@ember/service';
+export default class Discover extends DiscoverController {
+    get providerModel() {
+        return this.model;
+    }
 
-export default class Discover extends Controller {
-    @service brand!: Brand;
+    get additionalFilters() {
+        const { shareSourceKey, name } = this.model;
+
+        return [
+            new ShareTermsFilter('sources', shareSourceKey, name),
+        ];
+    }
 }

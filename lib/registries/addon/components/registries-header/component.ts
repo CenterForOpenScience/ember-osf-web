@@ -1,7 +1,6 @@
 import Component from '@ember/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { localClassNames } from 'ember-css-modules';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -9,11 +8,12 @@ import defaultTo from 'ember-osf-web/utils/default-to';
 import template from './template';
 
 @layout(template)
-@localClassNames('RegistriesHeader')
 export default class RegistriesHeader extends Component {
     @service analytics!: Analytics;
     @requiredAction onSearch!: (value: string) => void;
 
+    notBranded = true;
+    localClassNameBindings = ['notBranded:RegistriesHeader'];
     today = new Date();
     showingHelp = false;
     value: string = defaultTo(this.value, '');
@@ -31,7 +31,7 @@ export default class RegistriesHeader extends Component {
     }
 
     @action
-    onClick() {
+    onSubmit() {
         this._onSearch();
     }
 
