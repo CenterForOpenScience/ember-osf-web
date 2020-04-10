@@ -3,7 +3,6 @@
 .HeroOverlay {
     display: flex;
     flex-direction: column;
-    align-items: center;
     padding: 0 10px;
     overflow: hidden;
     width: 100%;
@@ -30,4 +29,12 @@
     h1 {
         color: $color-text-white;
     }
+}
+
+.AlignCenter {
+    align-items: center;
+}
+
+.AlignLeft {
+    align-items: flex-start;
 }
