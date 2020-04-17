@@ -197,7 +197,7 @@
     "mocha": "^6.1.4",
     "node-sass": "^4.11.0",
     "qunit-dom": "^1.0.0",
-    "sass": "^1.15.2",
+    "sass": "^1.26.3",
     "seedrandom": "^3.0.1",
     "sinon": "^7.3.2",
     "stylelint-config-css-modules": "^1.2.0",
