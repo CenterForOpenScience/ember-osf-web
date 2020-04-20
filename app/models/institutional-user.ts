@@ -1,3 +1,4 @@
+import { alias } from '@ember/object/computed';
 import DS from 'ember-data';
 
 import InstitutionModel from 'ember-osf-web/models/institution';
@@ -8,17 +9,18 @@ import OsfModel from './osf-model';
 const { attr, belongsTo } = DS;
 
 export default class InstitutionalUserModel extends OsfModel {
-    @attr('fixstring') userFullName!: string;
-    @attr('fixstring') userGuid!: string;
+    @attr('fixstring') userName!: string;
     @attr('fixstring') department?: string;
-    @attr('number') publicProjectCount!: number;
-    @attr('number') privateProjectCount!: number;
+    @attr('number') publicProjects!: number;
+    @attr('number') privateProjects!: number;
 
     @belongsTo('institution', { inverse: 'institutionalUsers' })
     institution!: DS.PromiseObject<InstitutionModel> & InstitutionModel;
 
     @belongsTo('user', { async: false })
     user!: DS.PromiseObject<UserModel> & UserModel;
+
+    @alias('user.id') userGuid!: string;
 }
 
 declare module 'ember-data/types/registries/model' {
