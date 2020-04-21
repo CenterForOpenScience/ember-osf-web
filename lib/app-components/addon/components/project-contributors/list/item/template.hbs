@@ -33,7 +33,7 @@
         {{#if @contributor.unregisteredContributor}}
             {{@contributor.unregisteredContributor}}
         {{else}}
-            <a href={{@contributor.users.links.html}} target='_blank' rel='noopener'>
+            <a href={{@contributor.users.links.html}} target='_blank' rel='noopener noreferrer'>
                 {{@contributor.users.fullName}}
             </a>
         {{/if}}
