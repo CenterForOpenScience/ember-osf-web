@@ -47,7 +47,7 @@
     ]
   },
   "devDependencies": {
-    "@centerforopenscience/eslint-config": "^3.0.0",
+    "@centerforopenscience/eslint-config": "^2.0.0",
     "@ember-intl/cp-validations": "^4.0.1",
     "@ember-intl/decorators": "^1.0.0",
     "@ember/jquery": "^0.6.0",
