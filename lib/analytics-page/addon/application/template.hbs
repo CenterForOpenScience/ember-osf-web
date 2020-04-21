@@ -46,7 +46,11 @@
                                             as |list|
                                         }}
                                             <list.item as |node|>
-                                                <NodeCard @node={{node}} @readOnly=true @analyticsScope='Project Analytics - Links' />
+                                                <NodeCard
+                                                    @node={{node}}
+                                                    @readOnly={{true}}
+                                                    @analyticsScope='Project Analytics - Links'
+                                                />
                                             </list.item>
 
                                             <list.empty>
@@ -55,7 +59,7 @@
                                         {{/paginated-list/has-many}}
                                     </ul>
                                 {{else}}
-                                    <LoadingIndicator @dark=true />
+                                    <LoadingIndicator @dark={{true}} />
                                 {{/if}}
                             {{/bs-modal-simple}}
                         {{/if}}
@@ -89,8 +93,8 @@
                 {{t 'analytics.showForDateRange'}}
                 <BsDropdown as |dd|>
                     <dd.button
-                        aria-haspopup=true
-                        aria-expanded=false
+                        aria-haspopup='true'
+                        aria-expanded='false'
                         local-class='DateRangeButton'
                     >
                         {{t (concat 'analytics.dateRanges.' activeDateRange.key)}}
