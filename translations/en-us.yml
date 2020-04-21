@@ -942,6 +942,7 @@ registries:
     discover:
         page_title: Search
         SHARE: SHARE
+        registrations: Registrations
         sort_by: 'Sort by'
         powered_by: 'powered by'
         no_results: 'No results found.'
@@ -954,6 +955,11 @@ registries:
             refine_your_search: 'Refine your search by'
             clear_filters: 'Clear filters'
             active_filters: 'Active filters'
+<<<<<<< HEAD
+=======
+            refine_search: 'Refine Search'
+            remove_filter_label: 'Remove {filterName} filter'
+>>>>>>> Fix no-bare-strings
         search_result:
             last_edited: 'Last edited: {date}'
             withdrawn: Withdrawn
