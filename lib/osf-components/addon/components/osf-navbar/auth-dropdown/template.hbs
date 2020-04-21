@@ -1,28 +1,4 @@
-{{#if (not this.session.isAuthenticated) }}
-    <li class='sign-in'>
-        <div>
-            <OsfLink
-                data-test-ad-sign-up-button
-                data-analytics-name='SignUp'
-                class='btn btn-success btn-top-signup m-l-sm m-r-xs'
-                @route='register'
-                @queryParams={{this.signUpQueryParams}}
-            >
-                {{t 'auth_dropdown.sign_up'}}
-            </OsfLink>
-            <OsfButton
-                data-test-sign-in-button
-                data-analytics-name='SignIn'
-                class='btn-top-login'
-                @onClick={{action this.login}}
-                @size='xs'
-                @type='info'
-            >
-                {{t 'auth_dropdown.sign_in'}}
-            </OsfButton>
-        </div>
-    </li>
-{{else}}
+{{#if this.session.isAuthenticated}}
     <BsDropdown
         data-test-auth-dropdown
         local-class='DropdownContainer'
@@ -93,4 +69,28 @@
             </ddm.item>
         </dd.menu>
     </BsDropdown>
+{{else}}
+    <li class='sign-in'>
+        <div>
+            <OsfLink
+                data-test-ad-sign-up-button
+                data-analytics-name='SignUp'
+                class='btn btn-success btn-top-signup m-l-sm m-r-xs'
+                @route='register'
+                @queryParams={{this.signUpQueryParams}}
+            >
+                {{t 'auth_dropdown.sign_up'}}
+            </OsfLink>
+            <OsfButton
+                data-test-sign-in-button
+                data-analytics-name='SignIn'
+                class='btn-top-login'
+                @onClick={{action this.login}}
+                @size='xs'
+                @type='info'
+            >
+                {{t 'auth_dropdown.sign_in'}}
+            </OsfButton>
+        </div>
+    </li>
 {{/if}}

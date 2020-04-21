@@ -99,7 +99,7 @@
                     </OsfButton>
                     <OsfButton
                         data-test-download-button
-                        data-analytics-name={{if (not this.canEdit) 'Download'}}
+                        data-analytics-name={{unless this.canEdit 'Download'}}
                         local-class='action-button'
                         @bubble={{true}}
                         @onClick={{action this.downloadItem}}
@@ -166,7 +166,7 @@
             {{else if this.hasItems}}
                 <OsfButton
                     data-test-download-zip-button
-                    data-analytics-name={{if (not this.canEdit) 'Download Zip'}}
+                    data-analytics-name={{unless this.canEdit 'Download Zip'}}
                     local-class='action-button'
                     local-class='action-button'
                     @bubble={{true}}
@@ -437,7 +437,7 @@
     @clickable={{this.clickable}}
 >
     <div class='file-browser-list' local-class='file-browser-list'>
-        <div local-class='shade {{if (not this.dropping) 'transparent'}}'>
+        <div local-class='shade {{unless this.dropping 'transparent'}}'>
             <div local-class='upload-drop'>
                 <div local-class='upload-text'>{{fa-icon 'upload' size=5}}</div>
                 <div local-class='upload-text'>{{t 'file_browser.drop_reminder'}}</div>
