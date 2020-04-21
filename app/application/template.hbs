@@ -8,9 +8,9 @@
     {{#unless this.disableHeader}}
         {{#if this.theme.isProvider}}
             <style>
-                {{! template-lint-disable bare-strings }}
+                {{!-- template-lint-disable no-bare-strings --}}
                 @import url('{{this.theme.stylesheet}}');
-                {{! template-lint-enable bare-strings }}
+                {{!-- template-lint-enable no-bare-strings --}}
             </style>
             <div id='branded-navbar'></div>
         {{else}}
