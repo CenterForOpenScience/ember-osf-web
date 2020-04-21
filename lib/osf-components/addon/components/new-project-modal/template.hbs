@@ -42,31 +42,33 @@
                         {{t 'new_project.select_all'}}
                     </OsfButton>
                     <table>
-                        <tr data-test-institution-button-row >
-                            {{#each this.institutions as | institution |}}
-                                <td>
-                                    <OsfButton
-                                        data-test-institution-selected='{{if (if-filter institution this.selectedInstitutions) 'selected' 'not-selected'}}'
-                                        data-analytics-name='select_institution'
-                                        local-class='NewProject__institution-button'
-                                        @type='link'
-                                        @onClick={{action this.selectInstitution institution}}
-                                    >
-                                        <div width='45px' height='45px' local-class='NewProject__institution-item'>
-                                            <img
-                                                name='{{institution.name}}'
-                                                width='45px'
-                                                height='45px'
-                                                class='img-circle pointer'
-                                                local-class='NewProject__institution-img-{{if (if-filter institution this.selectedInstitutions) 'selected' 'not-selected'}}'
-                                                src='{{institution.logoRoundedUrl}}'
-                                                alt='{{institution.name}}'
-                                                title='{{institution.name}}'>
-                                        </div>
-                                    </OsfButton>
-                                </td>
-                            {{/each}}
-                        </tr>
+                        <tbody>
+                            <tr data-test-institution-button-row >
+                                {{#each this.institutions as | institution |}}
+                                    <td>
+                                        <OsfButton
+                                            data-test-institution-selected='{{if (if-filter institution this.selectedInstitutions) 'selected' 'not-selected'}}'
+                                            data-analytics-name='select_institution'
+                                            local-class='NewProject__institution-button'
+                                            @type='link'
+                                            @onClick={{action this.selectInstitution institution}}
+                                        >
+                                            <div width='45px' height='45px' local-class='NewProject__institution-item'>
+                                                <img
+                                                    name='{{institution.name}}'
+                                                    width='45px'
+                                                    height='45px'
+                                                    class='img-circle pointer'
+                                                    local-class='NewProject__institution-img-{{if (if-filter institution this.selectedInstitutions) 'selected' 'not-selected'}}'
+                                                    src='{{institution.logoRoundedUrl}}'
+                                                    alt='{{institution.name}}'
+                                                    title='{{institution.name}}'>
+                                            </div>
+                                        </OsfButton>
+                                    </td>
+                                {{/each}}
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             {{/if}}
