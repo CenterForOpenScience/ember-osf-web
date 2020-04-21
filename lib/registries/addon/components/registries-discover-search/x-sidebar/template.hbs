@@ -21,7 +21,7 @@
         type='button'
         class='{{filter.class}}'
         local-class='Sidebar__RemoveFilter'
-        aria-label='Remove {{filter.display}} filter'
+        aria-label={{t 'registries.discover.sidebar.remove_filter_label' filterName=filter.display}}
         {{action 'removeFilter' filter.filter}}
     >
         {{fa-icon 'times'}}
