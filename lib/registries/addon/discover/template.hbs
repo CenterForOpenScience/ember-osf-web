@@ -50,11 +50,7 @@
         }}
     {{/discover.sidebar}}
 
-    {{#if (not doSearch.isIdle) }}
-        <div class='text-center p-v-md' aria-label={{t 'eosf.components.discoverPage.searchLoading'}}>
-            {{loading-indicator dark=true}}
-        </div>
-    {{else}}
+    {{#if doSearch.isIdle}}
         {{#discover.results
             (html-attributes data-test-results=true)
             as |result|
@@ -82,7 +78,10 @@
                 }}
             </div>
         {{/if}}
-
+    {{else}}
+        <div class='text-center p-v-md' aria-label={{t 'eosf.components.discoverPage.searchLoading'}}>
+            {{loading-indicator dark=true}}
+        </div>
     {{/if}}
 
 {{/registries-discover-search}}

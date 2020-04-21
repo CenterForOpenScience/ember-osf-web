@@ -88,9 +88,9 @@
                 <SearchHelpModal @isOpen={{this.showLuceneHelp}} />
 
                 {{!NUMBER OF SEARCHABLE RESULTS}}
-                {{#if (not this.theme.isProvider)}}
+                {{#unless this.theme.isProvider}}
                     <TotalShareResults />
-                {{/if}}
+                {{/unless}}
             </div>
         </div>
 

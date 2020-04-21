@@ -35,7 +35,7 @@
                     {{/if}}
                     <div class='btn-group m-l-xs m-t-xs'>
                         <OsfButton
-                            data-analytics-name={{if (not this.canEdit) 'Download'}}
+                            data-analytics-name={{unless this.canEdit 'Download'}}
                             data-test-download-button
                             @bubble={{true}}
                             @type='primary'
