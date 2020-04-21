@@ -1,11 +1,11 @@
 {{#if @showReopen}}
-    {{! template-lint-disable invalid-interactive }}
+    {{!-- template-lint-disable no-invalid-interactive --}}
     <div
         data-test-submit-section-click-to-edit
         role='{{if this.editable 'button'}}'
         {{action 'edit'}}
     >
-        {{! template-lint-enable invalid-interactive }}
+        {{!-- template-lint-enable no-invalid-interactive --}}
         {{yield}}
         <p
             local-class='edit-message'
