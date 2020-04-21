@@ -11,7 +11,7 @@
         </div>
     </div>
 
-    {{#each filters as |filter|}}
+    {{#each this.filters as |filter|}}
         <button type='button' class='{{filter.class}}' local-class='Sidebar__ActiveFilter' {{action 'removeFilter' filter.filter}}>
             {{filter.display}}
             {{fa-icon 'times-circle'}}
@@ -23,8 +23,8 @@
 
 <div local-class='Sidebar__Facets'>
     {{yield (hash
-        filters=filters
-        searchOptions=searchOptions
-        onSearchOptionsUpdated=(action _onSearchOptionsUpdated)
+        filters=this.filters
+        searchOptions=@searchOptions
+        onSearchOptionsUpdated=(action this._onSearchOptionsUpdated)
     )}}
 </div>

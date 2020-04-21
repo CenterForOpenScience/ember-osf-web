@@ -1,4 +1,3 @@
-{{! template-lint-disable no-implicit-this }}
 <div class='container'>
 
     <div class='row m-v-md'>
@@ -15,22 +14,35 @@
             <div class='input-group input-group-lg'>
                 <Input
                     data-test-search-box='true'
-                    @value={{value}}
+                    @value={{this.value}}
                     @class='form-control'
                     @placeholder={{t 'registries.header.search_placeholder'}}
                 />
                 <span class='input-group-btn'>
-                    {{#if showHelp}}
-                        <button class='btn btn-default' type='button' {{action 'toggleHelp'}}>{{fa-icon 'question' class='text-muted'}}</button>
+                    {{#if this.showHelp}}
+                        <button
+                            class='btn btn-default'
+                            type='button'
+                            {{action 'toggleHelp'}}
+                        >
+                            {{fa-icon 'question' class='text-muted'}}
+                        </button>
                     {{/if}}
-                    <button data-test-search-button class='btn btn-default' type='button' {{action 'onClick'}}>{{t 'registries.header.search'}}</button>
+                    <button
+                        data-test-search-button
+                        class='btn btn-default'
+                        type='button'
+                        {{action 'onClick'}}
+                    >
+                        {{t 'registries.header.search'}}
+                    </button>
                 </span>
             </div>
             <p class='p-l-md text-left'>
-                {{#if searchable}}
+                {{#if this.searchable}}
                     {{t 'registries.header.searchable_as_of'
-                        registrations=(number-format searchable)
-                        today=(moment-format today 'MMMM D, YYYY')
+                        registrations=(number-format this.searchable)
+                        today=(moment-format this.today 'MMMM D, YYYY')
                     }}
                 {{/if}}
             </p>
@@ -41,7 +53,6 @@
         {{yield (hash row=(element ''))}}
     </div>
 
-    {{search-help-modal isOpen=(mut showingHelp)}}
+    {{search-help-modal isOpen=(mut this.showingHelp)}}
 
 </div>
-{{! template-lint-enable no-implicit-this }}
