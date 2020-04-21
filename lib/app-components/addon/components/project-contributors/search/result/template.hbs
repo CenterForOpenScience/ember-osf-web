@@ -25,6 +25,7 @@
         >
             <button
                 data-test-project-contributors-is-contributor-button
+                type='button'
                 class='btn btn-default btn-small disabled disabled-checkmark'
             >
                 <FaIcon @icon='check' @aria-hidden='true' />
@@ -33,6 +34,7 @@
     {{else}}
         <button
             data-test-project-contributors-add-contributor-button
+            type='button'
             class='btn btn-success btn-small pull-right'
             {{action this.addContributor @user}}
         >

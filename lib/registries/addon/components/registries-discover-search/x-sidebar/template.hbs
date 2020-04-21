@@ -12,7 +12,7 @@
     </div>
 
     {{#each filters as |filter|}}
-        <button class="{{filter.class}}" local-class="Sidebar__ActiveFilter" {{action 'removeFilter' filter.filter}}>
+        <button type='button' class='{{filter.class}}' local-class='Sidebar__ActiveFilter' {{action 'removeFilter' filter.filter}}>
             {{filter.display}}
             {{fa-icon 'times-circle'}}
         </button>

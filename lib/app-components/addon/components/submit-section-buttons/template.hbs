@@ -1,5 +1,10 @@
 {{#if this.showDiscard}}
-    <button data-test-submit-section-discard class='btn btn-default' {{action this.discard}}>
+    <button
+        data-test-submit-section-discard
+        type='button'
+        class='btn btn-default'
+        {{action this.discard}}
+    >
         {{#if @discardButtonLabel}}
             {{@discardButtonLabel}}
         {{else}}
@@ -7,7 +12,13 @@
         {{/if}}
     </button>
 {{/if}}
-<button data-test-submit-section-continue class='btn btn-primary' {{action this.continue}} disabled={{this.continueDisabled}}>
+<button
+    data-test-submit-section-continue
+    type='button'
+    class='btn btn-primary'
+    disabled={{this.continueDisabled}}
+    {{action this.continue}}
+>
     {{#if @continueButtonLabel}}
         {{@continueButtonLabel}}
     {{else}}
