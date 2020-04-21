@@ -1,10 +1,10 @@
-<div local-class="Sidebar__ActiveFilters" class="well well-sm">
-    <div class="row">
-        <div class="col-xs-6">
+<div local-class='Sidebar__ActiveFilters' class='well well-sm'>
+    <div class='row'>
+        <div class='col-xs-6'>
             <h4>{{t 'registries.discover.sidebar.active_filters'}}:</h4>
         </div>
-        <div class="col-xs-6">
-            <button data-test-clear-filters class="pull-right btn btn-sm btn-default" {{action 'clearFilters'}}>
+        <div class='col-xs-6'>
+            <button data-test-clear-filters type='button' class='pull-right btn btn-sm btn-default' {{action 'clearFilters'}}>
                 {{t 'registries.discover.sidebar.clear_filters'}}
                 {{fa-icon 'times'}}
             </button>
@@ -21,7 +21,7 @@
 
 <h4>{{t 'registries.discover.sidebar.refine_your_search'}}</h4>
 
-<div local-class="Sidebar__Facets">
+<div local-class='Sidebar__Facets'>
     {{yield (hash
         filters=filters
         searchOptions=searchOptions

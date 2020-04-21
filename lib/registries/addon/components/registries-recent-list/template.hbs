@@ -1,9 +1,9 @@
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12">
+<div class='container'>
+    <div class='row'>
+        <div class='col-xs-12'>
             <h2>
-                {{t "registries.index.recent.title"}}
-                <span local-class="SeeMore">
+                {{t 'registries.index.recent.title'}}
+                <span local-class='SeeMore'>
                     {{link-to (t 'registries.index.recent.more') 'discover'}}
                 </span>
             </h2>
@@ -11,8 +11,8 @@
     </div>
 
     {{#each registrations as |reg|}}
-        <div class="row">
-            <div class="col-xs-12">
+        <div class='row'>
+            <div class='col-xs-12'>
                 <h4>
                     <a
                         href={{reg.registrationURL}}
@@ -24,9 +24,9 @@
                 </h4>
             </div>
         </div>
-        <div class="row">
-            <div class="col-xs-12">
-                <ul local-class="RecentList__Contributors">
+        <div class='row'>
+            <div class='col-xs-12'>
+                <ul local-class='RecentList__Contributors'>
                     {{#each reg.contributors as |contrib|}}
                         {{#if contrib.bibliographic}}
                             <li>{{contrib.name}}</li>
