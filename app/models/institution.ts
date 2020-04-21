@@ -2,6 +2,8 @@ import { computed } from '@ember/object';
 import { htmlSafe } from '@ember/string';
 import DS from 'ember-data';
 
+import InstitutionSummaryMetricsModel from 'ember-osf-web/models/institution-summary-metric';
+import InstitutionDepartmentsModel from './institution-department';
 import InstitutionalUserModel from './institutional-user';
 import NodeModel from './node';
 import OsfModel, { OsfLinks } from './osf-model';
@@ -22,13 +24,6 @@ export interface Assets {
 }
 /* eslint-enable camelcase */
 
-export interface StatSummary {
-    departments: Department[];
-    ssoUsersConnected: number;
-    numPrivateProjects: number;
-    numPublicProjects: number;
-}
-
 export interface Department {
     name: string;
     numUsers: number;
@@ -42,11 +37,7 @@ export default class InstitutionModel extends OsfModel {
     @attr('string') authUrl!: string;
     @attr('object') assets!: Partial<Assets>;
     @attr('boolean', { defaultValue: false }) currentUserIsAdmin!: boolean;
-    @attr('object') statSummary!: StatSummary;
     @attr('date') lastUpdated!: Date;
-
-    @hasMany('institutional-user', { inverse: 'institution' })
-    institutionalUsers!: DS.PromiseManyArray<InstitutionalUserModel>;
 
     // TODO Might want to replace calls to `users` with `institutionalUsers.user`?
     @hasMany('user', { inverse: 'institutions' })
@@ -57,6 +48,15 @@ export default class InstitutionModel extends OsfModel {
 
     @hasMany('registration', { inverse: 'affiliatedInstitutions' })
     registrations!: DS.PromiseManyArray<RegistrationModel>;
+
+    @hasMany('institution-department')
+    institutionDepartments!: DS.PromiseManyArray<InstitutionDepartmentsModel>;
+
+    @hasMany('institutional-user', { inverse: 'institution' })
+    institutionalUsers!: DS.PromiseManyArray<InstitutionalUserModel>;
+
+    @hasMany('institution-summary-metric')
+    institutionSummaryMetrics!: DS.PromiseObject<InstitutionSummaryMetricsModel>;
 
     // This is for the title helper, which does its own encoding of unsafe characters
     @computed('name')
