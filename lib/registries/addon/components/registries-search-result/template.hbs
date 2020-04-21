@@ -89,7 +89,14 @@
         </div>
 
         <div class="text-center">
-            <button {{action this.toggleExpanded}} data-test-result-toggle-id={{result.id}} local-class="RegistriesSearchResult__Toggle" class="btn btn-link" aria-label={{t 'eosf.components.searchResult.showResult'}}>
+            <button
+                data-test-result-toggle-id={{result.id}}
+                type='button'
+                local-class="RegistriesSearchResult__Toggle"
+                class="btn btn-link"
+                aria-label={{t 'eosf.components.searchResult.showResult'}}
+                {{action this.toggleExpanded}}
+            >
                 {{fa-icon footerIcon size=1 ariaHidden=false}}
             </button>
         </div>

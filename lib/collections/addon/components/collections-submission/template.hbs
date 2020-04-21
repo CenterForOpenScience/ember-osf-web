@@ -172,6 +172,7 @@
             <div class='col-xs-12 text-right'>
                 <button
                     data-test-collections-submit-cancel-button
+                    type='button'
                     class='btn btn-default'
                     {{action this.cancel}}
                 >
@@ -181,6 +182,7 @@
                     <button
                         data-test-collections-submit-update-button
                         data-analytics-name='Update'
+                        type='button'
                         class='btn btn-success'
                         {{action (perform this.save)}}
                     >
@@ -190,9 +192,10 @@
                     <button
                         data-test-collections-submit-submit-button
                         data-analytics-name='Submit'
+                        type='button'
                         class='btn btn-success'
-                        {{action this.setShowSubmitModal}}
                         disabled={{not (eq this.activeSection this.sections.submit)}}
+                        {{action this.setShowSubmitModal}}
                     >
                         {{t (concat this.intlKeyPrefix 'add' '_button')}}
                     </button>

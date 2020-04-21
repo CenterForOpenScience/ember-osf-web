@@ -3,9 +3,10 @@
         <li local-class='li'>
             <button
                 data-test-page={{item.text}}
+                type='button'
                 local-class={{if (eq this.current item.text) 'active'}}
-                {{action (or item.action 'setPage') item.text}}
                 disabled={{item.disabled}}
+                {{action (or item.action 'setPage') item.text}}
             >
                 {{item.text}}
             </button>

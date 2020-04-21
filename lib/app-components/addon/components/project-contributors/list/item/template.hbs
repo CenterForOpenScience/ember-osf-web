@@ -42,10 +42,11 @@
     <div class='visible-xs-inline-block col-xs-1'>
         <button
             data-test-project-contributors-list-item-x-button
-            {{action @removeContributor @contributor}}
+            type='button'
             class='text-danger'
             aria-label={{t 'app_components.project_contributors.list.item.remove_author'}}
             hidden={{not this.canRemove}}
+            {{action @removeContributor @contributor}}
         >
             <FaIcon @icon='times' />
         </button>
@@ -107,9 +108,10 @@
     <div class='hidden-xs col-sm-2 text-center'>
         <button
             data-test-project-contributors-list-item-remove-button
-            {{action @removeContributor @contributor}}
+            type='button'
             class='btn btn-danger btn-sm'
             disabled={{not this.canRemove}}
+            {{action @removeContributor @contributor}}
         >
             {{t 'app_components.project_contributors.list.item.remove'}}
         </button>

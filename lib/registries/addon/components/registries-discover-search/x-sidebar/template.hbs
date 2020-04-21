@@ -3,7 +3,12 @@
       <h4>{{t 'registries.discover.sidebar.refine_search'}}</h4>
     </div>
     <div class="col-xs-6">
-        <button data-test-clear-filters class="pull-right btn btn-sm btn-default" {{action 'clearFilters'}}>
+        <button
+            data-test-clear-filters
+            type='button'
+            class="pull-right btn btn-sm btn-default"
+            {{action 'clearFilters'}}
+        >
             {{t 'registries.discover.sidebar.clear_filters'}}
             {{fa-icon 'times'}}
         </button>
@@ -13,11 +18,12 @@
 {{#each filters as |filter|}}
     <div local-class='Sidebar__ActiveFilter'>{{filter.display}}</div>
     <button
+        type='button'
         class="{{filter.class}}"
         local-class="Sidebar__RemoveFilter"
         aria-label='Remove {{filter.display}} filter'
         {{action 'removeFilter' filter.filter}}
-      >
+    >
         {{fa-icon 'times'}}
     </button>
 {{/each}}

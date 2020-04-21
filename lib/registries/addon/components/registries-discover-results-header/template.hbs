@@ -16,7 +16,15 @@
             >
                 {{#each @sortOptions as |option index|}}
                     <ddm.item>
-                        <button data-test-sort-option-id='{{index}}' class='btn' local-class='SortDropDown__Option' {{on 'click' (fn @setOrder option)}}>{{t option.display}}</button>
+                        <button
+                            data-test-sort-option-id='{{index}}'
+                            type='button'
+                            class='btn'
+                            local-class='SortDropDown__Option'
+                            {{on 'click' (fn @setOrder option)}}
+                        >
+                            {{t option.display}}
+                        </button>
                     </ddm.item>
                 {{/each}}
             </dd.menu>
