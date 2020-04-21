@@ -1,12 +1,12 @@
-<div class="row">
-    <div class="col-xs-6">
+<div class='row'>
+    <div class='col-xs-6'>
       <h4>{{t 'registries.discover.sidebar.refine_search'}}</h4>
     </div>
-    <div class="col-xs-6">
+    <div class='col-xs-6'>
         <button
             data-test-clear-filters
             type='button'
-            class="pull-right btn btn-sm btn-default"
+            class='pull-right btn btn-sm btn-default'
             {{action 'clearFilters'}}
         >
             {{t 'registries.discover.sidebar.clear_filters'}}
@@ -19,8 +19,8 @@
     <div local-class='Sidebar__ActiveFilter'>{{filter.display}}</div>
     <button
         type='button'
-        class="{{filter.class}}"
-        local-class="Sidebar__RemoveFilter"
+        class='{{filter.class}}'
+        local-class='Sidebar__RemoveFilter'
         aria-label='Remove {{filter.display}} filter'
         {{action 'removeFilter' filter.filter}}
     >
@@ -28,7 +28,7 @@
     </button>
 {{/each}}
 
-<div local-class="Sidebar__Facets">
+<div local-class='Sidebar__Facets'>
     {{yield (hash
         filters=filters
         searchOptions=searchOptions
