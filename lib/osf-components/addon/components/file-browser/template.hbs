@@ -302,7 +302,7 @@
         {{#each this.selectedItems as | item |}}
             <div class='break-word'>
                 <b>{{item.itemName}}</b>
-                <hr style='margin-top: 5px'>
+                <hr local-class='selected-item-line'>
             </div>
         {{/each}}
     </modal.body>
@@ -446,7 +446,7 @@
         {{#if this.loading}}
             <br>
             <br>
-            <div class='ball-scale ball-dark' style='text-align: center'>
+            <div class='ball-scale ball-dark text-center'>
                 <div></div>
             </div>
         {{else if this.showItems}}
