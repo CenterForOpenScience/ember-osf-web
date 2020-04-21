@@ -14,10 +14,11 @@ const OSF_GUID_REGEX = /^https?:\/\/.*osf\.io\/([^/]+)/;
 @layout(template)
 @localClassNames('RegistriesSearchResult')
 export default class RegistriesSearchResult extends Component {
-    @service analytics!: Analytics;
-
+    // Required
     result!: ShareRegistration;
 
+    // Private
+    @service analytics!: Analytics;
     expanded = false;
 
     // For use later, when the registration overview page is implemented

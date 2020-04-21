@@ -15,7 +15,7 @@
     </div>
 </div>
 
-{{#each filters as |filter|}}
+{{#each this.filters as |filter|}}
     <div local-class='Sidebar__ActiveFilter'>{{filter.display}}</div>
     <button
         type='button'
@@ -30,8 +30,8 @@
 
 <div local-class='Sidebar__Facets'>
     {{yield (hash
-        filters=filters
-        searchOptions=searchOptions
-        onSearchOptionsUpdated=(action _onSearchOptionsUpdated)
+        filters=this.filters
+        searchOptions=@searchOptions
+        onSearchOptionsUpdated=(action this._onSearchOptionsUpdated)
     )}}
 </div>

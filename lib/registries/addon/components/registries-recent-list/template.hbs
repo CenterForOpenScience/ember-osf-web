@@ -10,14 +10,14 @@
         </div>
     </div>
 
-    {{#each registrations as |reg|}}
+    {{#each this.registrations as |reg|}}
         <div class='row'>
             <div class='col-xs-12'>
                 <h4>
                     <a
                         href={{reg.registrationURL}}
                         data-test-recent-registration-id={{reg.id}}
-                        onclick={{action 'click' 'link' (concat 'Index - Browse Recent: ' reg.title) reg.mainLink target=analytics}}
+                        onclick={{action 'click' 'link' (concat 'Index - Browse Recent: ' reg.title) reg.mainLink target=this.analytics}}
                     >
                         {{reg.title}}
                     </a>

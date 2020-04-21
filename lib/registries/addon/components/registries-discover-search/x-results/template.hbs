@@ -1,4 +1,4 @@
-{{#each results as |result|}}
+{{#each @results as |result|}}
     {{#registries-discover-search/x-result result=result as |ctxResult|}}
         {{yield ctxResult}}
     {{/registries-discover-search/x-result}}
