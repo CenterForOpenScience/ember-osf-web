@@ -36,6 +36,7 @@ module('Registries | Acceptance | overview.index', hooks => {
             archiving: false,
             withdrawn: false,
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            provider: server.create('registration-provider', { id: 'osf' }),
         }, 'withContributors', 'currentUserAdmin'));
     });
 

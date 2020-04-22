@@ -62,4 +62,8 @@
     border: transparent;
     color: var(--primary-color);
     display: inline;
+
+    i:hover {
+        color: var(--secondary-color);
+    }
 }
