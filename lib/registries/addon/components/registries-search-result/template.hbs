@@ -42,6 +42,10 @@
             </div>
         {{/if}}
 
+        <p local-class="Description {{if expanded 'Expanded' 'Collapsed'}}" class="text-muted m-t-sm">
+            {{math result.description}}
+        </p>
+
         <div class="m-t-sm">
             <span local-class="RegistriesSearchResult__Sources">
                 {{#each result.sources as |source index|}}
@@ -53,10 +57,6 @@
                 {{/if}}
             </span>
         </div>
-
-        <p local-class="Description {{if expanded 'Expanded' 'Collapsed'}}" class="text-muted m-t-sm">
-            {{math result.description}}
-        </p>
 
         <div local-class="Details {{if expanded 'Expanded' 'Collapsed'}}">
             <ul local-class="RegistriesSearchResult__HyperLinks" class="m-t-sm">

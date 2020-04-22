@@ -33,7 +33,6 @@ const { OSF: { apiUrl } } = config;
 
 export default function(this: Server) {
     this.passthrough(); // pass through all requests on currrent domain
-    this.passthrough('https://share.osf.io/api/*');
 
     this.urlPrefix = apiUrl;
     this.namespace = '/v2';

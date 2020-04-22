@@ -4,7 +4,7 @@ import BrandModel from './brand';
 import ProviderModel from './provider';
 import RegistrationModel from './registration';
 
-const { attr, hasMany, belongsTo } = DS;
+const { hasMany, belongsTo } = DS;
 
 export default class RegistrationProviderModel extends ProviderModel {
     @hasMany('registration', { inverse: 'provider' })
@@ -12,9 +12,6 @@ export default class RegistrationProviderModel extends ProviderModel {
 
     @belongsTo('brand')
     brand!: DS.PromiseObject<BrandModel> & BrandModel;
-
-    @attr('fixstring')
-    shareSourceKey?: string;
 }
 
 declare module 'ember-data/types/registries/model' {
