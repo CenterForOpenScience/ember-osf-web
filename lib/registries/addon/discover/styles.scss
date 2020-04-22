@@ -8,6 +8,14 @@
     width: 69px;
 }
 
+.ResultsHeader {
+    padding: 0 0 15px;
+
+    h2 {
+        margin: 0;
+    }
+}
+
 .SortDropDown__List {
     background-color: $color-bg-gray-light;
 }
@@ -25,12 +33,14 @@
     background-color: #d7e6e9;
 }
 
-.ActiveFilters--Sources {
-    background-color: #578ca2;
-    color: #eee;
+.RegistriesSearchResult {
+    h4 {
+        font-size: 24px;
+        font-weight: 400;
+    }
 
-    & > i {
-        color: #eee;
+    i {
+        color: var(--primary-color);
     }
 }
 

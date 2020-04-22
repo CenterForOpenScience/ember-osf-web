@@ -1,5 +1,5 @@
 {{! template-lint-disable no-implicit-this }}
-<div class='container'>
+<div class='container' local-class='HeaderContainer'>
 
     <div class='row m-v-md'>
         <div class='text-center m-t-lg col-xs-12'>
@@ -12,28 +12,22 @@
 
     <div class='row m-t-md m-b-lg text-center'>
         <div class='col-xs-12 col-sm-8 col-sm-offset-2'>
-            <div class='input-group input-group-lg'>
+            <form
+                local-class='SearchForm'
+                data-test-search-form
+                {{action 'onSubmit' on='submit'}}
+            >
+                {{fa-icon 'search' class=(local-class 'HelpIcon')}}
                 <Input
                     data-test-search-box=true
                     @value={{value}}
                     @class='form-control'
                     @placeholder={{t 'registries.header.search_placeholder'}}
                 />
-                <span class='input-group-btn'>
-                    {{#if showHelp}}
-                        <button class='btn btn-default' type='button' {{action 'toggleHelp'}}>{{fa-icon 'question' class='text-muted'}}</button>
-                    {{/if}}
-                    <button data-test-search-button class='btn btn-default' type='button' {{action 'onClick'}}>{{t 'registries.header.search'}}</button>
-                </span>
-            </div>
-            <p class='p-l-md text-left'>
-                {{#if searchable}}
-                    {{t 'registries.header.searchable_as_of'
-                        registrations=(number-format searchable)
-                        today=(moment-format today 'MMMM D, YYYY')
-                    }}
+                {{#if showHelp}}
+                    <Button @type='primary' @layout='fake-link' {{on 'click' this.toggleHelp}}>{{fa-icon 'question'}}</Button>
                 {{/if}}
-            </p>
+            </form>
         </div>
     </div>
 

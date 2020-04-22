@@ -49,6 +49,7 @@ interface DiscoverQueryParams {
     sort: SearchOrder;
     registrationTypes: ShareTermsFilter[];
     sources: ShareTermsFilter[];
+    subjects: ShareTermsFilter[];
 }
 
 const sortOptions = [
@@ -142,6 +143,21 @@ const queryParams = {
             return parseInt(value, 10) || this.defaultValue;
         },
     },
+    subjects: {
+        defaultValue: [] as ShareTermsFilter[],
+        serialize(value: ShareTermsFilter[]) {
+            return value.map(filter => filter.value).join(',,');
+        },
+        deserialize(value: string) {
+            return value.split(',,').map(
+                subjectTerm => {
+                    const subjectPieces = subjectTerm.split('|');
+                    const display = subjectPieces[subjectPieces.length - 1];
+                    return new ShareTermsFilter('subjects', subjectTerm, display);
+                },
+            );
+        },
+    },
 };
 
 export const discoverQueryParams = new QueryParams<DiscoverQueryParams>(queryParams);
@@ -162,6 +178,10 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         count: number;
         filter: SearchFilter;
     }> = defaultTo(this.filterableSources, []);
+
+    get additionalFilters(): ShareTermsFilter[] {
+        return [];
+    }
 
     get filterStyles() {
         return {
@@ -234,6 +254,8 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
             filters: OrderedSet([
                 ...this.sources,
                 ...this.registrationTypes,
+                ...this.subjects,
+                ...this.additionalFilters,
             ]),
         });
 
@@ -269,6 +291,8 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
     onSearchOptionsUpdated(options: SearchOptions) {
         const sources: ShareTermsFilter[] = [];
         const registrationTypes: ShareTermsFilter[] = [];
+        const subjects: ShareTermsFilter[] = [];
+
         for (const filter of options.filters.values()) {
             if (filter.key === 'sources') {
                 sources.push(filter as ShareTermsFilter);
@@ -276,6 +300,10 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
 
             if (filter.key === 'registration_type') {
                 registrationTypes.push(filter as ShareTermsFilter);
+            }
+
+            if (filter.key === 'subjects') {
+                subjects.push(filter as ShareTermsFilter);
             }
         }
 
@@ -289,6 +317,11 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         if (!isEqual(this.registrationTypes, registrationTypes)) {
             changes.page = 1;
             changes.registrationTypes = registrationTypes;
+        }
+
+        if (!isEqual(this.subjects, subjects)) {
+            changes.page = 1;
+            changes.subjects = subjects;
         }
 
         // If any filters are changed page is reset to 1

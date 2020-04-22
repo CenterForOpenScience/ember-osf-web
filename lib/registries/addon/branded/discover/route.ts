@@ -5,7 +5,13 @@ import { inject as service } from '@ember/service';
 import Analytics from 'ember-osf-web/services/analytics';
 
 export default class BrandedRegistriesDiscoverRoute extends Route {
+    templateName = 'discover';
+
     @service analytics!: Analytics;
+
+    model() {
+        return this.modelFor('branded');
+    }
 
     @action
     didTransition() {

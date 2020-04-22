@@ -1,5 +1,5 @@
 import EngineInstance from '@ember/engine/instance';
-import { click, fillIn, getRootElement } from '@ember/test-helpers';
+import { click, fillIn, getRootElement, triggerEvent } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { TestContext } from 'ember-test-helpers';
 import { OrderedSet, ValueObject } from 'immutable';
@@ -590,7 +590,7 @@ module('Registries | Integration | discover', hooks => {
             }),
         })));
 
-        await click('[data-test-search-button]');
+        await triggerEvent('[data-test-search-form]', 'submit');
 
         sinon.assert.calledWith(stub, equals(new SearchOptions({
             query: 'Testing',
