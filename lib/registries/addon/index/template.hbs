@@ -1,6 +1,6 @@
-{{! template-lint-disable no-implicit-this }}
-{{scheduled-banner}}
-{{#registries-header onSearch=(action 'onSearch') searchable=searchableRegistrations as |header|}}
+<ScheduledBanner />
+
+{{#registries-header onSearch=(action 'onSearch') searchable=this.searchableRegistrations as |header|}}
     {{#header.lead}}
         <span>{{t 'registries.index.lead' htmlSafe=true}}</span>
     {{/header.lead}}
@@ -9,7 +9,7 @@
             <div class='m-t-md'>
                 <a
                     href='https://osf.io/jsznk/register/565fb3678c5e4a66b5582f67'
-                    onclick={{action 'click' 'link' 'Index - See Example' 'https://osf.io/jsznk/register/565fb3678c5e4a66b5582f67' target=analytics}}
+                    onclick={{action 'click' 'link' 'Index - See Example' 'https://osf.io/jsznk/register/565fb3678c5e4a66b5582f67' target=this.analytics}}
                 >
                     {{t 'registries.index.see_example'}}
                 </a>
@@ -18,13 +18,11 @@
     {{/header.row}}
 {{/registries-header}}
 
-{{#if getRecentRegistrations.isRunning}}
+{{#if this.getRecentRegistrations.isRunning}}
     {{loading-indicator dark=true}}
 {{else}}
-    {{registries-recent-list recentRegistrations}}
+    {{registries-recent-list this.recentRegistrations}}
 {{/if}}
 
-{{registries-services-list}}
-
-{{registries-advisory-board}}
-{{! template-lint-enable no-implicit-this }}
+<RegistriesServicesList />
+<RegistriesAdvisoryBoard />

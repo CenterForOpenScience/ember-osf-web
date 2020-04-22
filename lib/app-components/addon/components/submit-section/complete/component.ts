@@ -17,8 +17,6 @@ export default class SubmitSectionComplete extends Component {
 
     @action
     edit() {
-        if (this.editable) {
-            this.editSection();
-        }
+        this.editSection();
     }
 }

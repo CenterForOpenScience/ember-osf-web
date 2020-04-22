@@ -1,16 +1,21 @@
-{{! template-lint-disable no-implicit-this }}
 {{title (t 'registries.discover.page_title')}}
 
-{{#registries-header showHelp=true value=(mut query) onSearch=(action 'onSearch') searchable=searchable as |header|}}
+{{#registries-header showHelp=true value=(mut this.query) onSearch=(action 'onSearch') searchable=this.searchable as |header|}}
     {{#header.lead}}
         {{t 'registries.discover.powered_by' }}
-        <a href='https://share.osf.io/' local-class='ShareLogo' data-test-share-logo title={{t 'registries.discover.SHARE'}} onclick={{action 'click' 'link' 'Discover - SHARE Logo' target=analytics}}></a>
+        <a
+            data-test-share-logo
+            href='https://share.osf.io/'
+            local-class='ShareLogo'
+            title={{t 'registries.discover.SHARE'}}
+            onclick={{action 'click' 'link' 'Discover - SHARE Logo' target=this.analytics}}
+        ></a>
     {{/header.lead}}
     {{#header.row}}
         <div class='col-sm-6 pull-right'>
             <BsDropdown class='pull-right' as |dd|>
-                <dd.button data-test-sort-dropdown=true>
-                    {{t 'registries.discover.sort_by'}}: {{t searchOptions.order.display}}
+                <dd.button data-test-sort-dropdown='true'>
+                    {{t 'registries.discover.sort_by'}}: {{t this.searchOptions.order.display}}
                     <span aria-label='{{t 'registries.discover.sort_by'}}' class='caret'></span>
                 </dd.button>
 
@@ -19,9 +24,15 @@
                     @align='right'
                     as |ddm|
                 >
-                    {{#each sortOptions as |option index|}}
+                    {{#each this.sortOptions as |option index|}}
                         <ddm.item>
-                            <button data-test-sort-option-id='{{index}}' class='btn' local-class='SortDropDown__Option' {{action 'setOrder' option}}>{{t option.display}}</button>
+                            <button
+                                data-test-sort-option-id='{{index}}'
+                                class='btn' local-class='SortDropDown__Option'
+                                {{action 'setOrder' option}}
+                            >
+                                {{t option.display}}
+                            </button>
                         </ddm.item>
                     {{/each}}
                 </dd.menu>
@@ -30,27 +41,27 @@
     {{/header.row}}
 {{/registries-header}}
 {{#registries-discover-search
-    results=results
-    isLoading=doSearch.isIdle
-    searchOptions=searchOptions
-    onSearchOptionsUpdated=(action onSearchOptionsUpdated)
+    results=this.results
+    isLoading=this.doSearch.isIdle
+    searchOptions=this.searchOptions
+    onSearchOptionsUpdated=(action this.onSearchOptionsUpdated)
     as |discover|
 }}
 
-    {{#discover.sidebar filterStyles=filterStyles as |sidebar|}}
+    {{#discover.sidebar filterStyles=this.filterStyles as |sidebar|}}
         {{registries-provider-facet
-            options=filterableSources
-            searchOptions=searchOptions
+            options=this.filterableSources
+            searchOptions=this.searchOptions
             onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
         }}
 
         {{registries-registration-type-facet
-            searchOptions=searchOptions
+            searchOptions=this.searchOptions
             onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
         }}
     {{/discover.sidebar}}
 
-    {{#if doSearch.isIdle}}
+    {{#if this.doSearch.isIdle}}
         {{#discover.results
             (html-attributes data-test-results=true)
             as |result|
@@ -58,7 +69,7 @@
             {{registries-search-result result=result}}
         {{/discover.results}}
 
-        {{#unless totalResults}}
+        {{#unless this.totalResults}}
             <div class='col-sm-8 col-xs-12'>
                 <div class='text-center text-muted'>
                     <p class='lead'>
@@ -69,11 +80,11 @@
             </div>
         {{/unless}}
 
-        {{#if (gt maxPage 1) }}
+        {{#if (gt this.maxPage 1) }}
             <div local-class='Pagination' class='col-xs-12'>
                 {{search-paginator
-                    current=searchOptions.page
-                    maximum=maxPage
+                    current=this.searchOptions.page
+                    maximum=this.maxPage
                     pageChanged=(action 'changePage')
                 }}
             </div>
@@ -85,4 +96,3 @@
     {{/if}}
 
 {{/registries-discover-search}}
-{{! template-lint-enable no-implicit-this }}

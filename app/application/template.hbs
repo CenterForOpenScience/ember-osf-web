@@ -18,9 +18,7 @@
         {{/if}}
     {{/unless}}
     {{#if this.shouldShowVerifyEmailModals}}
-        {{! template-lint-disable no-implicit-this }}
-        {{application/-components/verify-email-modal}}
-        {{! template-lint-enable no-implicit-this }}
+        <Application::-Components::VerifyEmailModal />
     {{/if}}
     {{!--
     NOTE: the global Application__page class is used in registries
