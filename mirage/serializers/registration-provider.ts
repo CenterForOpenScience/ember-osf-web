@@ -6,12 +6,6 @@ import ApplicationSerializer, { SerializedRelationships } from './application';
 const { OSF: { apiUrl } } = config;
 
 export default class RegistrationProviderSerializer extends ApplicationSerializer<RegistrationProvider> {
-    buildNormalLinks(model: ModelInstance) {
-        return {
-            self: `${apiUrl}/v2/providers/registrations/${model.id}/`,
-        };
-    }
-
     buildRelationships(model: ModelInstance<RegistrationProvider>) {
         const relationships: SerializedRelationships<RegistrationProvider> = {
             licensesAcceptable: {

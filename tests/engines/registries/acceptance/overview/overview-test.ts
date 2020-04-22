@@ -67,7 +67,6 @@ module('Registries | Acceptance | overview.overview', hooks => {
         const registration = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
             embargoed: true,
-            provider: server.create('registration-provider', { id: 'osf' }),
         });
 
         this.set('registration', registration);
@@ -393,11 +392,11 @@ module('Registries | Acceptance | overview.overview', hooks => {
 
     test('Editable license', async assert => {
         server.loadFixtures('licenses');
+        server.loadFixtures('registration-providers');
 
         const reg = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
             currentUserPermissions: [Permission.Write, Permission.Read],
-            provider: server.schema.registrationProviders.find('osf'),
         });
 
         await visit(`/${reg.id}/`);

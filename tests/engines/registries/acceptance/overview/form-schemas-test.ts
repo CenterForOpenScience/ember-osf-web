@@ -14,10 +14,7 @@ module('Registries | Acceptance | overview form schemas', hooks => {
         server.loadFixtures('registration-schemas');
 
         for (const registrationSchema of server.schema.registrationSchemas.all().models) {
-            const registration = server.create('registration', {
-                registrationSchema,
-                provider: server.create('registration-provider', { id: 'osf' }),
-            });
+            const registration = server.create('registration', { registrationSchema });
             await visit(`/${registration.id}`);
 
             const msg = `Registration form renders for schema ${registrationSchema.id}`;

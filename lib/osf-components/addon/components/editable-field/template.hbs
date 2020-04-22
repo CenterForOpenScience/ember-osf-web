@@ -3,17 +3,16 @@
         <div local-class='Editable__header'>
             <h4>{{@title}}</h4>
             {{#if @manager.userCanEdit}}
-                <Button
+                <OsfButton
                    data-test-edit-button={{@name}}
                    aria-label={{t 'general.edit'}}
                    data-analytics-name='Edit'
                    local-class='EditButton'
-                   @type='primary'
-                   @layout='fake-link'
-                   {{on 'click' @manager.startEditing}}
+                   @type='link'
+                   @onClick={{action @manager.startEditing}}
                 >
                     <FaIcon @icon='pencil' @fixedWidth={{true}} />
-                </Button>
+                </OsfButton>
             {{/if}}
         </div>
     </div>

@@ -1,5 +1,3 @@
-@import 'branding-mixins';
-
 $sidenav-link-height: 40px;
 
 .Link.Link {
@@ -24,19 +22,14 @@ $sidenav-link-height: 40px;
     &:hover,
     &:focus {
         text-decoration: none;
-        color: var(--primary-color);
+        color: $color-link-lighter;
     }
 
     &:global(.active) {
-        color: var(--primary-color);
-        position: relative;
-
-        &::before {
-            @include primary-color-bg(0.2);
-            border: solid 1px $color-border-white;
-            border-radius: 5px;
-        }
-
+        color: $color-text-gray-blue;
+        background-color: $color-bg-blue-lighter;
+        border: $color-border-white 1px solid;
+        border-radius: 5px;
 
         .Count {
             color: inherit;
@@ -137,11 +130,7 @@ $sidenav-link-height: 40px;
     }
 
     &:hover:global(.active) h4 {
-        position: relative;
-
-        &::before {
-            @include primary-color-bg(0.2);
-        }
+        background: $color-bg-blue-lighter;
     }
 
     &:hover:not(:global(.active)) h4 {

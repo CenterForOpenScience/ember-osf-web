@@ -8,8 +8,6 @@ import config from 'ember-get-config';
 
 import { OSFService } from 'osf-components/components/osf-navbar/component';
 
-import Brand from 'registries/services/brand';
-
 const {
     featureFlagNames: {
         routes: {
@@ -20,7 +18,6 @@ const {
 
 export default class Application extends Controller {
     @service features!: Features;
-    @service brand!: Brand;
     @alias(`features.${camelize(newStyleFlag)}`) newStyleEnabled!: boolean;
 
     activeService = OSFService.REGISTRIES;
