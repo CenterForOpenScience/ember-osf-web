@@ -1,7 +1,6 @@
 import { alias } from '@ember/object/computed';
 import DS from 'ember-data';
 
-import InstitutionModel from 'ember-osf-web/models/institution';
 import UserModel from 'ember-osf-web/models/user';
 
 import OsfModel from './osf-model';
@@ -13,9 +12,6 @@ export default class InstitutionalUserModel extends OsfModel {
     @attr('fixstring') department?: string;
     @attr('number') publicProjects!: number;
     @attr('number') privateProjects!: number;
-
-    @belongsTo('institution', { inverse: 'institutionalUsers' })
-    institution!: DS.PromiseObject<InstitutionModel> & InstitutionModel;
 
     @belongsTo('user', { async: false })
     user!: DS.PromiseObject<UserModel> & UserModel;

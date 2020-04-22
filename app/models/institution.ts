@@ -52,7 +52,7 @@ export default class InstitutionModel extends OsfModel {
     @hasMany('institution-department')
     institutionDepartments!: DS.PromiseManyArray<InstitutionDepartmentsModel>;
 
-    @hasMany('institutional-user', { inverse: 'institution' })
+    @hasMany('institutional-user')
     institutionalUsers!: DS.PromiseManyArray<InstitutionalUserModel>;
 
     @hasMany('institution-summary-metric')

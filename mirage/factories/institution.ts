@@ -6,7 +6,7 @@ import { placekitten, randomGravatar } from '../utils';
 
 export interface InstitutionTraits {
     withInstitutionalUsers: Trait;
-    withStatSummary: Trait;
+    withSummaryMetrics: Trait;
 }
 
 export default Factory.extend<Institution & InstitutionTraits>({
@@ -28,20 +28,14 @@ export default Factory.extend<Institution & InstitutionTraits>({
     },
     withInstitutionalUsers: trait<Institution>({
         afterCreate(institution, server) {
-            server.createList('institutional-user', 15, { institution });
+            const institutionalUsers = server.createList('institutional-user', 15);
+            institution.set('institutionalUsers', institutionalUsers);
         },
     }),
-    withStatSummary: trait<Institution>({
-        statSummary() {
-            return {
-                departments: ['Architecture', 'Biology', 'Psychology'].map(department => ({
-                    name: department,
-                    numUsers: faker.random.number({ min: 0, max: 99 }),
-                })),
-                ssoUsersConnected: faker.random.number({ min: 0, max: 999 }),
-                numPrivateProjects: faker.random.number({ min: 0, max: 999 }),
-                numPublicProjects: faker.random.number({ min: 0, max: 999 }),
-            };
+    withSummaryMetrics: trait<Institution>({
+        afterCreate(institution, server) {
+            const summaryMetrics = server.create('institution-summary-metric');
+            institution.set('institutionSummaryMetrics', summaryMetrics);
         },
     }),
 });

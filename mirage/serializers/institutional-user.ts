@@ -10,14 +10,6 @@ const { OSF: { apiUrl } } = config;
 export default class InstitutionalUsersSerializer extends ApplicationSerializer<InstitutionalUser> {
     buildRelationships(model: ModelInstance<InstitutionalUser>) {
         return {
-            institution: {
-                links: {
-                    related: {
-                        href: `${apiUrl}/v2/institutions/${model.institution.id}/`,
-                        meta: this.buildRelatedLinkMeta(model, 'institution'),
-                    },
-                },
-            },
             user: {
                 links: {
                     related: {
