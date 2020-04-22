@@ -27,9 +27,9 @@
                         {{loading-indicator dark=true}}
                     {{else}}
                         <h2>{{linkedByCount}}</h2>
-                        <a role='button' onclick={{action 'showLinksModal'}}>
+                        <button type='button' {{on 'click' this.showLinksModal}}>
                             {{t 'analytics.viewLinks'}}
-                        </a>
+                        </button>
                         {{#if linksModalShown}}
                             {{#bs-modal-simple
                                 title=(t 'analytics.links')
@@ -106,13 +106,13 @@
                     >
                         {{#each dateRanges as |dateRange|}}
                             <li role='menuitem'>
-                                <a
-                                    role='button'
+                                <button
+                                    type='button'
                                     local-class='DateRangeOption'
-                                    {{action 'setDateRange' dateRange}}
+                                    {{on 'click' (fn this.setDateRange dateRange)}}
                                 >
                                     {{t (concat 'analytics.dateRanges.' dateRange.key)}}
-                                </a>
+                                </button>
                             </li>
                         {{/each}}
                     </dd.menu>

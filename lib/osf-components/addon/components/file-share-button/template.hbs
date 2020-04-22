@@ -18,25 +18,27 @@
             <BsTab @customTabs={{true}} as |tab|>
                 <BsNav @class='nav-justified' @type='tabs' as |nav|>
                     <nav.item data-test-share-tab @active={{bs-eq tab.activeId this.sharePaneId}}>
-                        <a
+                        <button
                             data-test-share-pane-tab
+                            type='button'
                             role='tab'
-                            {{action tab.select this.sharePaneId}}
                             local-class='SharePane__tab'
+                            {{on 'click' (fn tab.select this.sharePaneId)}}
                         >
                             {{t 'general.share'}}
-                        </a>
+                        </button>
                     </nav.item>
                     <nav.item data-test-embed-tab @active={{bs-eq tab.activeId this.embedPaneId}}>
-                        <a
+                        <button
                             data-test-embed-pane-tab
+                            type='button'
                             role='tab'
-                            {{action tab.select this.embedPaneId}}
+                            {{on 'click' (fn tab.select this.embedPaneId)}}
                             local-class='SharePane__tab'
                         >
                             {{t 'general.embed'}}
                             <span class='badge'>{{@badge}}</span>
-                        </a>
+                        </button>
                     </nav.item>
                 </BsNav>
 

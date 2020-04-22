@@ -43,9 +43,9 @@
             />
         {{/each}}
     </this.form.custom>
-    <a role='button' onclick={{action (mut this.showText) (not this.showText)}}>
+    <button type='button' {{on 'click' (fn (mut this.showText) (not this.showText))}}>
         {{t (concat 'app_components.license_picker.' (if this.showText 'hide' 'show'))}}
-    </a>
+    </button>
     {{#if this.showText}}
         <LicenseText @node={{this.node}} />
     {{/if}}
