@@ -1,63 +1,55 @@
 <Navbar
     data-analytics-scope='Navbar'
     @dark={{true}}
-    {{with-branding this.brand.currentBrand}}
     ...attributes
     as |nav|
 >
     <nav.container>
+        {{! Left Side (Band, Service Dropdown) }}
         <nav.section data-test-left>
-            {{#if this.brand.currentBrand}}
-                <OsfLink
-                    data-test-brand
-                    data-analytics-name='Brand'
-                    @route='home'
-                    local-class='Logo'
-                    aria-label={{t 'navbar.go_home'}}
-                />
-            {{else}}
-                {{! Left Side (Band, Service Dropdown) }}
-                <OsfLink
-                    data-test-brand
-                    data-analytics-name='Brand'
-                    @route='home'
-                    aria-label={{t 'navbar.go_home'}}
-                />
 
-                <BsDropdown
-                    data-test-service-list
-                    data-analytics-scope='Services dropdown'
-                    as |dropdown|
+            <OsfLink
+                data-test-brand
+                data-analytics-name='Brand'
+                @route='home'
+                local-class='Logo'
+                aria-label={{t 'navbar.go_home'}}
+            />
+
+            <BsDropdown
+                data-test-service-list
+                data-analytics-scope='Services dropdown'
+                as |dropdown|
+            >
+                <dropdown.toggle
+                    data-test-service
+                    data-analytics-name='Toggle'
+                    @classNames={{local-class 'Service Dropdown'}}
                 >
-                    <dropdown.toggle
-                        data-test-service
-                        data-analytics-name='Toggle'
-                        @classNames={{local-class 'Service Dropdown'}}
-                    >
-                        <span>{{t 'general.OSF'}}</span>
-                        <strong>{{t 'general.services.registries'}}</strong>
-                        {{nav.icon (if dropdown.isOpen 'caret-up' 'caret-down')}}
-                    </dropdown.toggle>
+                    <span>{{t 'general.OSF'}}</span>
+                    <strong>{{t 'general.services.registries'}}</strong>
+                    {{nav.icon (if dropdown.isOpen 'caret-up' 'caret-down')}}
+                </dropdown.toggle>
 
-                    <dropdown.menu
-                        local-class='ServiceDropdownMenu DropdownMenu'
-                        as |menu|
-                    >
-                        {{#each this.services as |service|}}
-                            <menu.item role='menuitem'>
-                                <OsfLink
-                                    data-analytics-name={{service.name}}
-                                    {{! each service has one of `route` and `href` }}
-                                    @route={{service.route}}
-                                    @href={{service.href}}
-                                >
-                                    <strong local-class='ServiceDropdownEntry'>{{service.name}}</strong>
-                                </OsfLink>
-                            </menu.item>
-                        {{/each}}
-                    </dropdown.menu>
-                </BsDropdown>
-            {{/if}}
+                <dropdown.menu
+                    local-class='ServiceDropdownMenu DropdownMenu'
+                    as |menu|
+                >
+                    {{#each this.services as |service|}}
+                        <menu.item role='menuitem'>
+                            <OsfLink
+                                data-analytics-name={{service.name}}
+                                {{! each service has one of `route` and `href` }}
+                                @route={{service.route}}
+                                @href={{service.href}}
+                            >
+                                <strong local-class='ServiceDropdownEntry'>{{service.name}}</strong>
+                            </OsfLink>
+                        </menu.item>
+                    {{/each}}
+                </dropdown.menu>
+            </BsDropdown>
+
         </nav.section>
 
         {{! Right Side (Search, Buttons, Gravatar, Dropdown) }}
