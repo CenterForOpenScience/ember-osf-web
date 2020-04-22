@@ -41,7 +41,6 @@
         placeholder=(t 'osf-components.sign-up-form.password')
         ariaLabel=(t 'osf-components.sign-up-form.password')
     }}
-    {{! template-lint-enable no-implicit-this }}
     <div class='row' hidden={{not this.progress}}>
         <div class='col-xs-12'>
             <div class='progress' local-class='CreatePassword'>
@@ -52,33 +51,29 @@
             </div>
         </div>
     </div>
-    {{! template-lint-disable no-implicit-this }}
-    {{#validated-input/checkbox
+    <ValidatedInput::Checkbox
         data-test-sign-up-tos
-        model=this.userRegistration
-        valuePath='acceptedTermsOfService'
-        shouldShowMessages=this.didValidate
-        disabled=this.hasSubmitted
         local-class='tos-checkbox'
-    }}
+        disabled={{this.hasSubmitted}}
+        @model={{this.userRegistration}}
+        @valuePath='acceptedTermsOfService'
+        @shouldShowMessages={{this.didValidate}}
+    >
         <SignUpPolicy />
-    {{/validated-input/checkbox}}
-    {{! template-lint-enable no-implicit-this }}
+    </ValidatedInput::Checkbox>
     {{#if this.hasSubmitted}}
         <div class='osf-box-lt' local-class='help-block'>
             <p class='ext-success p-xs'>{{t 'osf-components.sign-up-form.registration_success' email=this.userRegistration.email1}}</p>
         </div>
     {{else}}
         <div class='col-md-12' local-class='RecaptchaParent'>
-            {{! template-lint-disable no-implicit-this }}
-            {{validated-input/recaptcha
+            <ValidatedInput::Recaptcha
                 data-test-recaptcha
-                model=this.userRegistration
-                valuePath='recaptchaResponse'
-                shouldShowMessages=this.didValidate
-                bindReset=(action (mut this.resetRecaptcha))
-            }}
-            {{! template-lint-enable no-implicit-this }}
+                @model={{this.userRegistration}}
+                @valuePath='recaptchaResponse'
+                @shouldShowMessages={{this.didValidate}}
+                @bindReset={{action (mut this.resetRecaptcha)}}
+            />
         </div>
         <div>
             <OsfButton

@@ -1,47 +1,51 @@
-{{! template-lint-disable no-implicit-this }}
 {{title (t 'registries.discover.page_title')}}
 
 <HeroOverlay local-class='DiscoverHero'>
-    {{#registries-header showHelp=true value=(mut query) onSearch=(action 'onSearch') searchable=searchable as |header|}}
+    {{#registries-header showHelp=true value=(mut this.query) onSearch=(action 'onSearch') searchable=this.searchable as |header|}}
         {{#header.lead}}
-            <a href='https://share.osf.io/' local-class='ShareLogo' data-test-share-logo title={{t 'registries.discover.SHARE'}} onclick={{action 'click' 'link' 'Discover - SHARE Logo' target=analytics}}></a>
+            <a
+                href='https://share.osf.io/'
+                data-test-share-logo title={{t 'registries.discover.SHARE'}}
+                local-class='ShareLogo'
+                onclick={{action 'click' 'link' 'Discover - SHARE Logo' target=this.analytics}}
+            ></a>
         {{/header.lead}}
     {{/registries-header}}
 </HeroOverlay>
 {{#registries-discover-search
-    results=results
-    isLoading=doSearch.isIdle
-    searchOptions=searchOptions
-    onSearchOptionsUpdated=(action onSearchOptionsUpdated)
+    results=this.results
+    isLoading=this.doSearch.isIdle
+    searchOptions=this.searchOptions
+    onSearchOptionsUpdated=(action this.onSearchOptionsUpdated)
     as |discover|
 }}
 
-    {{#discover.sidebar filterStyles=filterStyles as |sidebar|}}
+    {{#discover.sidebar filterStyles=this.filterStyles as |sidebar|}}
         {{registries-provider-facet
-            options=filterableSources
-            searchOptions=searchOptions
+            options=this.filterableSources
+            searchOptions=this.searchOptions
             onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
         }}
 
         {{registries-registration-type-facet
-            searchOptions=searchOptions
+            searchOptions=this.searchOptions
             onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
         }}
 
         {{#if this.providerModel}}
             {{registries-subjects-facet
                 provider=this.providerModel
-                searchOptions=searchOptions
+                searchOptions=this.searchOptions
                 onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
             }}
         {{/if}}
     {{/discover.sidebar}}
 
-    {{#if doSearch.isIdle}}
+    {{#if this.doSearch.isIdle}}
         {{registries-discover-results-header
-            totalResults=totalResults
-            searchOptions=searchOptions
-            sortOptions=sortOptions
+            totalResults=this.totalResults
+            searchOptions=this.searchOptions
+            sortOptions=this.sortOptions
             setOrder=(action 'setOrder')
         }}
         {{#discover.results
@@ -51,7 +55,7 @@
             {{registries-search-result result=result class=(local-class 'RegistriesSearchResult')}}
         {{/discover.results}}
 
-        {{#unless totalResults}}
+        {{#unless this.totalResults}}
             <div class='col-sm-8 col-xs-12'>
                 <div class='text-center text-muted'>
                     <p class='lead'>
@@ -62,11 +66,11 @@
             </div>
         {{/unless}}
 
-        {{#if (gt maxPage 1) }}
+        {{#if (gt this.maxPage 1) }}
             <div local-class='Pagination' class='col-xs-12'>
                 {{search-paginator
-                    current=searchOptions.page
-                    maximum=maxPage
+                    current=this.searchOptions.page
+                    maximum=this.maxPage
                     pageChanged=(action 'changePage')
                 }}
             </div>
@@ -78,4 +82,3 @@
     {{/if}}
 
 {{/registries-discover-search}}
-{{! template-lint-enable no-implicit-this }}

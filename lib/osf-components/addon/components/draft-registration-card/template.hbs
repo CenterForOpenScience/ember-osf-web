@@ -42,14 +42,15 @@
             <div class='col-md-10'>
                 <OsfButton
                     data-analytics-name='Edit'
-                    @type='default' 
+                    @type='default'
                     @onClick={{action this.edit}}
                     @disabled={{not this.draftRegistration}}
                 >
                     {{fa-icon 'pencil'}} {{t 'general.edit'}}
-                </OsfButton><OsfButton {{! template-lint-disable }}
+                </OsfButton>
+                <OsfButton
                     data-analytics-name='Delete'
-                    @type='default' 
+                    @type='default'
                     @onClick={{action this.delete}}
                     disabled={{not this.draftRegistration}}
                 >
@@ -58,7 +59,7 @@
                 <BsModal
                     @open={{this.deleteModalOpen}}
                     @onHidden={{action this.cancelDelete}}
-                    class='delete_draft_registration' 
+                    class='delete_draft_registration'
                     as |modal|
                 >
                     <modal.header>
