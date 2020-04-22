@@ -6,6 +6,7 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 
 import { draftRegisterNodeMultiple, forkNode, registerNodeMultiple } from '../helpers';
+import { placekitten } from '../utils';
 
 const {
     dashboard: {
@@ -105,9 +106,9 @@ function registrationScenario(
         id: '1',
         primaryColor: 'green',
         secondaryColor: 'blue',
-        navbarLogoImage: 'http://somelogoimageurl',
+        navbarLogoImage: placekitten(30, 30),
         heroLogoImage: 'http://somelogoimageurl',
-        heroBackgroundImage: 'http://herobackgroundimage',
+        heroBackgroundImage: placekitten(1350, 900),
     });
 
     provider.update({
