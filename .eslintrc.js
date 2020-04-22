@@ -106,4 +106,7 @@ module.exports = {
             },
         },
     ],
+    settings: {
+        'import/extensions': ['error', 'never'],
+    },
 };

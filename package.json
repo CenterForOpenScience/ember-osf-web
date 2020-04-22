@@ -47,7 +47,7 @@
     ]
   },
   "devDependencies": {
-    "@centerforopenscience/eslint-config": "^2.0.0",
+    "@centerforopenscience/eslint-config": "3.0.0",
     "@ember-intl/cp-validations": "^4.0.1",
     "@ember-intl/decorators": "^1.0.0",
     "@ember/jquery": "^0.6.0",
@@ -101,7 +101,6 @@
     "ember-cli-clipboard": "0.9.0",
     "ember-cli-code-coverage": "^1.0.0-beta.8",
     "ember-cli-dependency-checker": "^3.0.0",
-    "ember-cli-eslint": "^5.0.0",
     "ember-cli-htmlbars": "^4.2.2",
     "ember-cli-htmlbars-inline-precompile": "^2.1.0",
     "ember-cli-inject-live-reload": "^2.0.2",
@@ -178,6 +177,7 @@
     "ember-toastr": "^1.7.2",
     "ember-wormhole": "^0.5.4",
     "ember-youtube": "^0.9.0",
+    "eslint": "~6.8.0",
     "eslint-config-airbnb-base": "14.0.0",
     "eslint-plugin-ember": "^7.7.2",
     "eslint-plugin-eslint-comments": "^3.1.1",
