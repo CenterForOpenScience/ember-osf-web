@@ -26,7 +26,12 @@
                         {{loading-indicator dark=true}}
                     {{else}}
                         <h2>{{this.linkedByCount}}</h2>
-                        <button type='button' {{on 'click' this.showLinksModal}}>
+                        <button
+                            type='button'
+                            class='btn btn-link'
+                            local-class='button-link'
+                            {{on 'click' this.showLinksModal}}
+                        >
                             {{t 'analytics.viewLinks'}}
                         </button>
                         {{#if this.linksModalShown}}
