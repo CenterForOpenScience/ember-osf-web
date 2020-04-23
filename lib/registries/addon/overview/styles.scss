@@ -1,10 +1,9 @@
-@import 'branding-mixins';
-
 .Container {
     display: flex;
     align-items: center;
     justify-content: space-around;
     width: 100%;
+
     margin: 25px 0;
 }
 
@@ -12,21 +11,9 @@
     display: flex;
     flex-grow: 1;
     justify-content: center;
-    position: relative;
-
-    &::before {
-        @include primary-color-bg;
-        background-image: url('img/bg-light.jpg');
-        background-repeat: no-repeat;
-        background-size: cover;
-        filter: grayscale(1);
-    }
-
-    &::after {
-        @include primary-color-bg;
-        display: block;
-        z-index: 1;
-    }
+    background-image: url('img/bg-light.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .Loading {

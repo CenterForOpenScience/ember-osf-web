@@ -144,7 +144,6 @@ module.exports = function(environment) {
             },
         },
         OSF: {
-            osfRegistrationProviderId: 'osf',
             clientId,
             scope,
             apiNamespace: 'v2', // URL suffix (after host)
@@ -233,8 +232,6 @@ module.exports = function(environment) {
         },
         featureFlagNames: {
             routes: {
-                'registries.branded': 'branded_registries',
-                'registries.branded.discover': 'branded_registries',
                 'guid-node.index': 'ember_project_detail_page',
                 'guid-node.drafts.index': 'ember_edit_draft_registration_page',
                 'guid-node.drafts.register': 'ember_edit_draft_registration_page',

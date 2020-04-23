@@ -14,7 +14,6 @@ module('Registries | Acceptance | landing page', hooks => {
     setupMirage(hooks);
 
     hooks.beforeEach(function(this: TestContext) {
-        server.create('registration-provider', { id: 'osf' });
         stubRegistriesShareSearch(this);
         freezeDateAt('1982-06-23');
     });

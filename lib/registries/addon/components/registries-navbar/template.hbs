@@ -1,12 +1,13 @@
 <Navbar
     data-analytics-scope='Navbar'
     @dark={{true}}
-    {{with-branding this.brand.currentBrand}}
     ...attributes
     as |nav|
 >
     <nav.container>
+        {{! Left Side (Band, Service Dropdown) }}
         <nav.section data-test-left>
+
             <OsfLink
                 data-test-brand
                 data-analytics-name='Brand'
@@ -15,7 +16,6 @@
                 aria-label={{t 'navbar.go_home'}}
             />
 
-            {{! Left Side (Band, Service Dropdown) }}
             <BsDropdown
                 data-test-service-list
                 data-analytics-scope='Services dropdown'
@@ -49,6 +49,7 @@
                     {{/each}}
                 </dropdown.menu>
             </BsDropdown>
+
         </nav.section>
 
         {{! Right Side (Search, Buttons, Gravatar, Dropdown) }}

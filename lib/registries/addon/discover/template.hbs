@@ -1,13 +1,34 @@
 {{! template-lint-disable no-implicit-this }}
 {{title (t 'registries.discover.page_title')}}
 
-<HeroOverlay local-class='DiscoverHero'>
-    {{#registries-header showHelp=true value=(mut query) onSearch=(action 'onSearch') searchable=searchable as |header|}}
-        {{#header.lead}}
-            <a href='https://share.osf.io/' local-class='ShareLogo' data-test-share-logo title={{t 'registries.discover.SHARE'}} onclick={{action 'click' 'link' 'Discover - SHARE Logo' target=analytics}}></a>
-        {{/header.lead}}
-    {{/registries-header}}
-</HeroOverlay>
+{{#registries-header showHelp=true value=(mut query) onSearch=(action 'onSearch') searchable=searchable as |header|}}
+    {{#header.lead}}
+        {{t 'registries.discover.powered_by' }}
+        <a href='https://share.osf.io/' local-class='ShareLogo' data-test-share-logo title={{t 'registries.discover.SHARE'}} onclick={{action 'click' 'link' 'Discover - SHARE Logo' target=analytics}}></a>
+    {{/header.lead}}
+    {{#header.row}}
+        <div class='col-sm-6 pull-right'>
+            <BsDropdown class='pull-right' as |dd|>
+                <dd.button data-test-sort-dropdown=true>
+                    {{t 'registries.discover.sort_by'}}: {{t searchOptions.order.display}}
+                    <span aria-label='{{t 'registries.discover.sort_by'}}' class='caret'></span>
+                </dd.button>
+
+                <dd.menu
+                    local-class='SortDropDown__List'
+                    @align='right'
+                    as |ddm|
+                >
+                    {{#each sortOptions as |option index|}}
+                        <ddm.item>
+                            <button data-test-sort-option-id='{{index}}' class='btn' local-class='SortDropDown__Option' {{action 'setOrder' option}}>{{t option.display}}</button>
+                        </ddm.item>
+                    {{/each}}
+                </dd.menu>
+            </BsDropdown>
+        </div>
+    {{/header.row}}
+{{/registries-header}}
 {{#registries-discover-search
     results=results
     isLoading=doSearch.isIdle
@@ -27,14 +48,6 @@
             searchOptions=searchOptions
             onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
         }}
-
-        {{#if this.providerModel}}
-            {{registries-subjects-facet
-                provider=this.providerModel
-                searchOptions=searchOptions
-                onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
-            }}
-        {{/if}}
     {{/discover.sidebar}}
 
     {{#if (not doSearch.isIdle) }}
@@ -42,17 +55,11 @@
             {{loading-indicator dark=true}}
         </div>
     {{else}}
-        {{registries-discover-results-header
-            totalResults=totalResults
-            searchOptions=searchOptions
-            sortOptions=sortOptions
-            setOrder=(action 'setOrder')
-        }}
         {{#discover.results
             (html-attributes data-test-results=true)
             as |result|
         }}
-            {{registries-search-result result=result class=(local-class 'RegistriesSearchResult')}}
+            {{registries-search-result result=result}}
         {{/discover.results}}
 
         {{#unless totalResults}}

@@ -1,9 +1,9 @@
 .ContentBackground {
-    composes: ContentBackground from '../../overview/styles';
-}
-
-.DraftHeroOverlay {
-    padding: 20px 0;
+    flex-grow: 1;
+    justify-content: center;
+    background-image: url('img/bg-light.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .Left {
@@ -21,25 +21,35 @@
     width: 216px;
 }
 
-.Title {
+.Heading {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    min-height: 90px;
+    align-items: center;
     width: 100%;
-    max-width: 1140px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 1em 2em;
+    background-image: url('img/bg-dark.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
 
-    & > h1,
-    & > a {
-        color: $white;
-        width: fit-content;
-    }
+    .Title {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-height: 90px;
+        width: 100%;
+        max-width: 1140px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 1em 2em;
 
-    & > h1 {
-        margin-top: 5px;
+        & > h1,
+        & > a {
+            color: $white;
+            width: fit-content;
+        }
+
+        & > h1 {
+            margin-top: 5px;
+        }
     }
 }
 

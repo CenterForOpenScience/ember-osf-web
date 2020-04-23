@@ -6,7 +6,6 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 
 import { draftRegisterNodeMultiple, forkNode, registerNodeMultiple } from '../helpers';
-import { placekitten } from '../utils';
 
 const {
     dashboard: {
@@ -102,18 +101,9 @@ function registrationScenario(
     server.createList('subject', 10, 'withChildren');
 
     const provider = server.schema.registrationProviders.find('osf');
-    const brand = server.create('brand', {
-        id: '1',
-        primaryColor: 'green',
-        secondaryColor: 'blue',
-        navbarLogoImage: placekitten(30, 30),
-        heroLogoImage: 'http://somelogoimageurl',
-        heroBackgroundImage: placekitten(1350, 900),
-    });
 
     provider.update({
         subjects: server.schema.subjects.all().models,
-        brand,
     });
 
     // Current user Bookmarks collection
