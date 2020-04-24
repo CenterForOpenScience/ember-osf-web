@@ -30,6 +30,7 @@ export default class LicensePickerManager extends Component implements LicenseMa
     @alias('draftManager.metadataChangeset.license') selectedLicense!: License;
 
     @alias('draftManager.metadataChangeset') registration!: ChangesetDef;
+
     @alias('draftManager.draftRegistration') draftRegistration!: DraftRegistration;
 
     @sort('selectedLicense.requiredFields', (a: string, b: string) => +(a > b))

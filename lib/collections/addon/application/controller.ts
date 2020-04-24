@@ -9,6 +9,7 @@ import $ from 'jquery';
 
 export default class Application extends Controller {
     @service currentUser!: CurrentUser;
+
     @service theme!: Theme;
 
     signupUrl = `${pathJoin(config.OSF.url, 'register')}?${$.param({ next: window.location.href })}`;

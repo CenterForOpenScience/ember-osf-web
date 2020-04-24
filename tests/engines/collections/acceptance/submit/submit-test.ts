@@ -83,9 +83,8 @@ module('Collections | Acceptance | submit', hooks => {
             .hasText(firstLicense ? firstLicense.name : '', 'license is updated');
         assert.dom('[data-test-project-metadata-complete-tag]')
             .exists({ count: 4 }, 'only four tags remain');
-        nodeToBeAdded.tags.forEach(tag =>
-            assert.dom(`[data-test-project-metadata-complete-tag="${tag}"]`)
-                .exists({ count: 1 }, `found tag: "${tag}"`));
+        nodeToBeAdded.tags.forEach(tag => assert.dom(`[data-test-project-metadata-complete-tag="${tag}"]`)
+            .exists({ count: 1 }, `found tag: "${tag}"`));
 
         /* Project contributors */
 

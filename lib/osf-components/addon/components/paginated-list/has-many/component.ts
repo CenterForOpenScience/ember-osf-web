@@ -17,6 +17,7 @@ export default class PaginatedHasMany extends BaseDataComponent {
 
     // Either model xor modelTaskInstance is required
     model?: OsfModel;
+
     modelTaskInstance?: TaskInstance<OsfModel>;
 
     // Optional arguments

@@ -51,10 +51,13 @@ export interface OsfAjaxOptions {
 
 export default class CurrentUserService extends Service {
     @service store!: DS.Store;
+
     @service session!: Session;
+
     @service cookies!: Cookies;
 
     viewOnlyToken: string = '';
+
     anonymizedViewOnly: boolean = false;
 
     showTosConsentBanner = false;
@@ -180,9 +183,9 @@ export default class CurrentUserService extends Service {
      */
     @computed('currentUserId')
     get sessionKey(): string {
-        return this.currentUserId ?
-            hashCode(this.currentUserId).toString() :
-            Math.random().toString(36).substr(2, 10);
+        return this.currentUserId
+            ? hashCode(this.currentUserId).toString()
+            : Math.random().toString(36).substr(2, 10);
     }
 }
 

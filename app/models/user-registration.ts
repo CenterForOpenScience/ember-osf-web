@@ -15,6 +15,7 @@ const Validations = buildValidations({
             messageKey: 'validationErrors.email_registered',
             in: computed(function(): string[] {
                 return [...this.model.existingEmails];
+            // eslint-disable-next-line ember/no-volatile-computed-properties
             }).volatile(),
         }),
         validator('exclusion', {
@@ -22,6 +23,7 @@ const Validations = buildValidations({
             supportEmail,
             in: computed(function(): string[] {
                 return [...this.model.invalidEmails];
+            // eslint-disable-next-line ember/no-volatile-computed-properties
             }).volatile(),
         }),
         validator('length', {
@@ -73,14 +75,21 @@ const Validations = buildValidations({
 
 export default class UserRegistrationModel extends Model.extend(Validations) {
     @attr('string') email1!: string;
+
     @attr('string') email2!: string;
+
     @attr('string') fullName!: string;
+
     @attr('string') recaptchaResponse!: string;
+
     @attr('string') password!: string;
+
     @attr('boolean') acceptedTermsOfService!: boolean;
+
     @attr('string') campaign!: string;
 
     existingEmails: Set<string> = new Set();
+
     invalidEmails: Set<string> = new Set();
 
     addExistingEmail(email?: string) {

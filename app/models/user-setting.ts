@@ -25,12 +25,19 @@ export interface UserSettingsLinks extends OsfLinks {
 
 export default class UserSettingModel extends OsfModel.extend(Validations) {
     @attr() links!: UserSettingsLinks;
+
     @attr('boolean') twoFactorEnabled!: boolean;
+
     @attr('boolean') twoFactorConfirmed!: boolean;
+
     @attr('boolean') subscribeOsfHelpEmail!: boolean;
+
     @attr('boolean') subscribeOsfGeneralEmail!: boolean;
+
     @attr('boolean') deactivationRequested!: boolean;
+
     @attr('string') secret!: string;
+
     @attr('number') twoFactorVerification?: number;
 
     @belongsTo('user', { inverse: 'settings', async: false })

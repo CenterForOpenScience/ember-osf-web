@@ -29,29 +29,43 @@ enum AbuseCategories {
 @layout(template, styles)
 export default class CommentCard extends Component {
     @service store!: DS.Store;
+
     @service ready!: Ready;
+
     @service intl!: Intl;
+
     @service currentUser!: CurrentUser;
+
     @service toast!: Toast;
 
     // required arguments
     comment!: Comment;
+
     node!: Registration;
+
     reload?: () => void;
 
     // private arguments
     replies!: QueryHasManyResult<Comment>;
+
     abuseCategories: AbuseCategories[] = Object.values(AbuseCategories);
 
     page: number = 1;
+
     reporting?: boolean = false;
+
     showReplies?: boolean = false;
+
     loadingMoreReplies?: boolean = false;
 
     @alias('comment.deleted') isDeleted!: boolean;
+
     @alias('comment.isAbuse') isAbuse!: boolean;
+
     @alias('comment.hasReport') currentUserHasReported!: boolean;
+
     @alias('comment.hasChildren') hasReplies!: boolean;
+
     @not('comment') loading!: boolean;
 
     @task
@@ -139,8 +153,8 @@ export default class CommentCard extends Component {
         if (!this.comment) {
             return undefined;
         }
-        return this.comment.canEdit &&
-            (this.comment.user.get('id') === this.currentUser.currentUserId);
+        return this.comment.canEdit
+            && (this.comment.user.get('id') === this.currentUser.currentUserId);
     }
 
     @action

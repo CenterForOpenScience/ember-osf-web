@@ -16,6 +16,7 @@ export default class ItemList extends Component {
 
     // optional
     items?: unknown[];
+
     expectedNumItems?: number;
 
     @computed('items.length', 'expectedNumItems')

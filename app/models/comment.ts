@@ -10,19 +10,31 @@ const { attr, belongsTo, hasMany } = DS;
 export default class CommentModel extends OsfModel {
     // TODO validation: maxLength
     @attr('fixstring') content!: string;
+
     @attr('fixstring') page!: string;
+
     // Placeholder for comment creation: allow specifying attributes that are sent to the server, but not as attributes
     // Both type and ID will be serialized into relationships field
     @attr('fixstring') targetID!: string;
+
     @attr('fixstring') targetType!: string;
+
     @attr('date') dateCreated!: Date;
+
     @attr('date') dateModified!: Date;
+
     @attr('boolean') modified!: boolean;
+
     @attr('boolean') deleted!: boolean;
+
     @attr('boolean') isAbuse!: boolean;
+
     @attr('boolean') isHam!: boolean;
+
     @attr('boolean') hasReport!: boolean;
+
     @attr('boolean') hasChildren!: boolean;
+
     @attr('boolean') canEdit!: boolean;
 
     // TODO dynamic belongsTo

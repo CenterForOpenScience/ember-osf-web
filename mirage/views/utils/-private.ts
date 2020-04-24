@@ -243,9 +243,9 @@ export function compare(
 ): boolean {
     if (typeof actualValue === 'string') {
         return compareStrings(actualValue, comparisonValue, operator);
-    } else if (typeof actualValue === 'boolean') {
+    } if (typeof actualValue === 'boolean') {
         return compareBooleans(actualValue, queryParamIsTruthy(comparisonValue), operator);
-    } else if (actualValue instanceof Array) {
+    } if (actualValue instanceof Array) {
         return actualValue.includes(comparisonValue);
     }
     throw new Error(`We haven't implemented comparisons with "${operator}" yet.`);
@@ -254,7 +254,7 @@ export function compare(
 export function toOperator(operatorString: string): ComparisonOperators {
     if (!operatorString || operatorString === 'eq') {
         return ComparisonOperators.Eq;
-    } else if (Object.values(ComparisonOperators).includes(operatorString)) {
+    } if (Object.values(ComparisonOperators).includes(operatorString)) {
         return operatorString as ComparisonOperators;
     }
     throw new Error(`The operator ${operatorString} is unknown.`);

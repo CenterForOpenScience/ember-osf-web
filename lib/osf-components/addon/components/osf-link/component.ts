@@ -28,16 +28,23 @@ type AnchorTarget = '_self' | '_blank' | '_parent' | '_top';
 @layout(template)
 export default class OsfLink extends Component {
     @service router!: RouterService;
+
     @service osfRouter!: OsfRouterService;
+
     @service currentUser!: CurrentUser;
 
     route?: string;
+
     models?: any[];
+
     href?: string;
+
     queryParams?: Record<string, unknown>;
+
     fragment?: string;
 
     rel: AnchorRel = defaultTo(this.rel, 'noopener');
+
     target: AnchorTarget = defaultTo(this.target, '_self');
 
     onClick?: () => void;

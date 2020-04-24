@@ -100,8 +100,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
         const registrationSchemaName = 'Prereg Challenge';
-        const registrationSchema = server.schema.registrationSchemas.all().models.filter(schema =>
-            schema.name === registrationSchemaName)[0];
+        const registrationSchema = server.schema.registrationSchemas.all().models.filter(schema => schema.name === registrationSchemaName)[0];
         const registrationTitle = 'Registration Title';
         const registeredMeta = {
             q1: { comments: [], value: registrationTitle, extra: [] },
@@ -193,8 +192,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         server.loadFixtures('registration-providers');
         server.loadFixtures('licenses');
 
-        const registrationSchema = server.schema.registrationSchemas.all().models.filter(schema =>
-            schema.name === 'Prereg Challenge')[0];
+        const registrationSchema = server.schema.registrationSchemas.all().models.filter(schema => schema.name === 'Prereg Challenge')[0];
 
         const registrationMetadata = {
             q1: { comments: [], value: 'Registration Title', extra: [] },
@@ -226,8 +224,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.dom('[data-test-draft-registration-card-progress-bar]').exists({ count: 1 });
 
-        const progressBarElement =
-            document.querySelector('[data-test-draft-registration-card-progress-bar] .progress-bar') as HTMLElement;
+        const progressBarElement = document.querySelector('[data-test-draft-registration-card-progress-bar] .progress-bar') as HTMLElement;
 
         assert.ok(
             parseFloat(progressBarElement.style.width ? progressBarElement.style.width : '') > 0,
@@ -299,8 +296,7 @@ module('Acceptance | guid-node/registrations', hooks => {
             'Continue your registration by selecting a registration form:',
         );
 
-        server.schema.registrationSchemas.all().models.forEach(schema =>
-            assert.dom('[data-test-new-registration-modal-body]').includesText(schema.name));
+        server.schema.registrationSchemas.all().models.forEach(schema => assert.dom('[data-test-new-registration-modal-body]').includesText(schema.name));
 
         await click('[data-test-new-registration-modal-cancel-button]');
 

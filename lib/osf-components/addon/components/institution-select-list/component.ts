@@ -13,5 +13,6 @@ export default class InstitutionSelectList extends Component {
 
     // optional properties
     usePlaceholders: boolean = defaultTo(this.usePlaceholders, false);
+
     reloadList!: (page?: number) => void;
 }

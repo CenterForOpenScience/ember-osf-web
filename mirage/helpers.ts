@@ -22,8 +22,7 @@ export function registerNode(
         ),
         ...props,
     }, ...traits);
-    node.contributors.models.forEach(contributor =>
-        server.create('contributor', { node: registration, users: contributor.users }));
+    node.contributors.models.forEach(contributor => server.create('contributor', { node: registration, users: contributor.users }));
     return registration;
 }
 
@@ -85,8 +84,7 @@ export function forkNode(
         description: node.description,
         ...props,
     }, ...traits);
-    node.contributors.models.forEach(contributor =>
-        server.create('contributor', { node: nodeFork, users: contributor.users }));
+    node.contributors.models.forEach(contributor => server.create('contributor', { node: nodeFork, users: contributor.users }));
     return nodeFork;
 }
 
@@ -108,7 +106,6 @@ export function forkRegistration(
         },
         ...traits,
     );
-    registration.contributors.models.forEach(contributor =>
-        server.create('contributor', { node: nodeFork, users: contributor.users }));
+    registration.contributors.models.forEach(contributor => server.create('contributor', { node: nodeFork, users: contributor.users }));
     return nodeFork;
 }

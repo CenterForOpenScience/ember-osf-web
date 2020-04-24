@@ -7,6 +7,7 @@ import InstitutionModel from 'ember-osf-web/models/institution';
 
 export default class InstitutionsDashboardController extends Controller {
     @alias('model.taskInstance.value') institution!: InstitutionModel;
+
     csvImgSrc: string = '/assets/images/institutions/csv.svg';
 
     @computed('institution.lastUpdated')

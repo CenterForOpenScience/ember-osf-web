@@ -20,9 +20,13 @@ import { SparseModel } from 'ember-osf-web/utils/sparse-fieldsets';
 
 export default class Overview extends GuidRoute {
     @service analytics!: Analytics;
+
     @service currentUser!: CurrentUser;
+
     @service router!: RouterService;
+
     @service metaTags!: MetaTags;
+
     @service ready!: Ready;
 
     headTags?: HeadTagDef[];

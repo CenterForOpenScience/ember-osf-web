@@ -23,6 +23,7 @@ export default class Ready extends Service.extend(Evented) {
     isReady = false;
 
     lastId = 0;
+
     blockers = A();
 
     @task({ restartable: true })

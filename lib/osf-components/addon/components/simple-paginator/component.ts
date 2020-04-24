@@ -14,8 +14,11 @@ import template from './template';
 export default class SimplePaginator extends Component {
     // Optional arguments (omitting will display a placeholder)
     curPage?: number;
+
     maxPage?: number;
+
     previousPage?: () => unknown;
+
     nextPage?: () => unknown;
 
     @computed('curPage', 'maxPage')
@@ -24,6 +27,7 @@ export default class SimplePaginator extends Component {
     }
 
     @gt('curPage', 1) hasPrev!: boolean;
+
     @gt('maxPage', 1) hasMultiplePages!: boolean;
 
     @action

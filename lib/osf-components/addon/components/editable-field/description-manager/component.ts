@@ -29,12 +29,15 @@ export default class DescriptionManagerComponent extends Component {
 
     // private
     @service intl!: Intl;
+
     @service toast!: Toast;
 
     requestedEditMode: boolean = false;
+
     currentDescription!: string;
 
     @alias('node.userHasAdminPermission') userCanEdit!: boolean;
+
     @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
 
     @computed('node.description')

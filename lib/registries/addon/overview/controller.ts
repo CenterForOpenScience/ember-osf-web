@@ -21,6 +21,7 @@ export default class Overview extends Controller {
     supportEmail = supportEmail;
 
     @alias('model.taskInstance.value') registration?: Registration;
+
     @not('registration') loading!: boolean;
 
     @computed('registration.id')

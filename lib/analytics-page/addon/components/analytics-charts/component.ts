@@ -27,12 +27,16 @@ function excludeNonIntegers(d: any) {
 @layout(template)
 export default class AnalyticsChart extends Component {
     @service keen!: KeenService;
+
     @service intl!: Intl;
 
     // Required arguments
     nodeTaskInstance!: TaskInstance<Node>;
+
     startDate!: Moment;
+
     endDate!: Moment;
+
     chartsEnabled!: boolean;
 
     charts: ChartSpec[] = [

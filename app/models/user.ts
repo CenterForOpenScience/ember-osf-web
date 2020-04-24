@@ -57,17 +57,29 @@ export interface UserLinks extends OsfLinks {
 
 export default class UserModel extends OsfModel.extend(Validations) {
     @attr() links!: UserLinks;
+
     @attr('fixstring') fullName!: string;
+
     @attr('fixstring') givenName!: string;
+
     @attr('fixstring') middleNames!: string;
+
     @attr('fixstring') familyName!: string;
+
     @attr('fixstring') suffix!: string;
+
     @attr('fixstring') locale!: string;
+
     @attr('fixstring') timezone!: string;
+
     @attr('date') dateRegistered!: Date;
+
     @attr('boolean', { defaultValue: false }) canViewReviews!: boolean;
+
     @attr('boolean') acceptedTermsOfService?: boolean;
+
     @attr('boolean') active!: boolean;
+
     @attr('object') social!: {};
 
     @belongsTo('region', { async: false })
@@ -99,6 +111,7 @@ export default class UserModel extends OsfModel.extend(Validations) {
 
     // Calculated fields
     @alias('links.html') profileURL!: string;
+
     @alias('links.profile_image') profileImage!: string;
 }
 

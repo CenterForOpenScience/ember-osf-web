@@ -11,6 +11,7 @@ import SettingsTokensEditController from './controller';
 
 export default class SettingsTokensEditRoute extends Route {
     @service analytics!: Analytics;
+
     @service router!: RouterService;
 
     @task

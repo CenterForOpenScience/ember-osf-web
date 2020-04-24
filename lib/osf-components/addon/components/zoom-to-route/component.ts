@@ -19,6 +19,7 @@ export default class ZoomToRoute extends Component {
     @service router!: any;
 
     showModal: boolean = false;
+
     targetRoute?: string;
 
     routeArgs: { [k: string]: string } = {};

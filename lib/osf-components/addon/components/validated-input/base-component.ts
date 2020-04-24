@@ -25,11 +25,17 @@ export default abstract class BaseValidatedInput<M extends DS.Model> extends Com
 
     // Optional arguments
     changeset?: ChangesetDef & M;
+
     label?: string;
+
     ariaLabel?: string;
+
     placeholder?: string;
+
     disabled: boolean = defaultTo(this.disabled, false);
+
     shouldShowMessages: boolean = defaultTo(this.shouldShowMessages, true);
+
     model?: M;
 
     // Private properties
@@ -37,9 +43,13 @@ export default abstract class BaseValidatedInput<M extends DS.Model> extends Com
 
     // defined in constructor
     errors?: string[];
+
     value: any;
+
     isInvalid?: boolean;
+
     isValidating?: boolean;
+
     validation?: ResultCollection;
 
     @computed('errors', 'validation.options')

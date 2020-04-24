@@ -190,6 +190,7 @@ export default class SchemaBlockGroupRendererController extends Controller {
         'page-one_single-select-two': '',
         'page-one_file-input': [],
     };
+
     registrationResponseChangeset = new Changeset(this.registrationResponse);
 
     registrationResponses = {

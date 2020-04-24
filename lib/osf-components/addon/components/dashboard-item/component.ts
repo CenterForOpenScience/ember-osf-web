@@ -18,6 +18,7 @@ export default class DashboardItem extends Component {
     node?: Node;
 
     @alias('getAncestorTitles.lastComplete.value') ancestry!: string[];
+
     @alias('node.bibliographicContributors') contributors!: Contributor[];
 
     @computed('node.dateModified')

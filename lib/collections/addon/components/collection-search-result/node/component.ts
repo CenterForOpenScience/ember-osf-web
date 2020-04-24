@@ -21,13 +21,19 @@ export default class SearchResultNode extends Component.extend({
     },
 }) {
     @service analytics!: Analytics;
+
     @service theme!: Theme;
 
     hostAppName = config.hostAppName;
+
     maxTags: number = defaultTo(this.maxTags, 10);
+
     maxCreators: number = defaultTo(this.maxCreators, 10);
+
     maxDescription: number = defaultTo(this.maxDescription, 300);
+
     showBody: boolean = defaultTo(this.showBody, false);
+
     expandable: boolean = defaultTo(this.expandable, false);
 
     item: Node = this.item;

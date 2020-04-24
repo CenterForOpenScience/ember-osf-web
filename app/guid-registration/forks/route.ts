@@ -9,6 +9,7 @@ import Ready from 'ember-osf-web/services/ready';
 
 export default class GuidRegistrationForks extends Route {
     @service analytics!: Analytics;
+
     @service ready!: Ready;
 
     model() {

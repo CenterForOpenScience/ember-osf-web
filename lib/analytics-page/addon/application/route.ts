@@ -15,7 +15,9 @@ import Ready, { Blocker } from 'ember-osf-web/services/ready';
 
 export default class AnalyticsPageRoute extends Route {
     @service analytics!: AnalyticsService;
+
     @service ready!: Ready;
+
     @service store!: DS.Store;
 
     @task

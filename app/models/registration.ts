@@ -43,24 +43,40 @@ const Validations = buildValidations({
 
 export default class RegistrationModel extends NodeModel.extend(Validations) {
     @attr('date') dateRegistered!: Date;
+
     @attr('boolean') pendingRegistrationApproval!: boolean;
+
     @attr('boolean') archiving!: boolean;
+
     @attr('boolean') embargoed!: boolean;
+
     @attr('date') embargoEndDate!: Date | null;
+
     @attr('boolean') pendingEmbargoApproval!: boolean;
+
     @attr('boolean') pendingEmbargoTerminationApproval!: boolean;
+
     @attr('boolean') withdrawn!: boolean;
+
     @attr('date') dateWithdrawn!: Date | null;
+
     @attr('fixstring') withdrawalJustification?: string;
+
     @attr('boolean') pendingWithdrawal!: boolean;
+
     @attr('fixstring') registrationSupplement?: string;
+
     @attr('fixstring') articleDoi!: string | null;
+
     @attr('object') registeredMeta!: RegistrationMetadata;
+
     @attr('registration-responses') registrationResponses!: RegistrationResponse;
 
     // Write-only attributes
     @attr('array') includedNodeIds?: string[];
+
     @attr('boolean') createDoi?: boolean;
+
     @attr('fixstring') draftRegistrationId?: string;
 
     @computed(

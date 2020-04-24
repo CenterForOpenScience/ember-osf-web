@@ -16,6 +16,7 @@ export default class RegistrationFormViewSchemaBlocks extends Component {
 
     // Private properties
     schemaBlocks?: SchemaBlock[];
+
     schemaBlockGroups?: SchemaBlockGroup[];
 
     @task({ on: 'didReceiveAttrs', restartable: true })
@@ -23,8 +24,8 @@ export default class RegistrationFormViewSchemaBlocks extends Component {
         if (this.registration) {
             const registrationSchema = yield this.registration.registrationSchema;
             const schemaBlocksRef = registrationSchema.hasMany('schemaBlocks');
-            const schemaBlocks = schemaBlocksRef.ids().length ?
-                schemaBlocksRef.value() : yield registrationSchema.loadAll('schemaBlocks');
+            const schemaBlocks = schemaBlocksRef.ids().length
+                ? schemaBlocksRef.value() : yield registrationSchema.loadAll('schemaBlocks');
             const schemaBlockGroups = getSchemaBlockGroups(schemaBlocks);
             this.set('schemaBlocks', schemaBlocks);
             this.set('schemaBlockGroups', schemaBlockGroups);

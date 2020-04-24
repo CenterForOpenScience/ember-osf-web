@@ -44,24 +44,35 @@ const lookupTable: { [k: string]: { [s: string]: string} } = {
 
 export default class GuidFile extends Controller {
     @service analytics!: Analytics;
+
     @service currentUser!: CurrentUser;
+
     @service intl!: Intl;
+
     @service toast!: Toast;
 
     queryParams = ['show'];
 
     deleteModalOpen: boolean = false;
+
     filter: string = '';
+
     sort: string = this.sort || 'name';
+
     revision: null | number = null;
+
     show = 'view';
 
     searchUrl = pathJoin(config.OSF.url, 'search');
 
     @alias('canEdit') canDelete!: boolean;
+
     @alias('model.file') file!: File;
+
     @alias('model.file.links.download') downloadLink!: string;
+
     @alias('model.files') allFiles!: File[];
+
     @alias('model.user') user!: User;
 
     @computed('currentUser', 'user.id')

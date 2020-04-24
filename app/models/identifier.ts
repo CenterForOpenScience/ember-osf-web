@@ -7,6 +7,7 @@ const { attr, belongsTo } = DS;
 
 export default class IdentifierModel extends OsfModel {
     @attr('fixstring') category!: string;
+
     @attr('fixstring') value!: string;
 
     @belongsTo('node', { inverse: 'identifiers', polymorphic: true })

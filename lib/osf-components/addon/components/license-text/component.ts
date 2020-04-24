@@ -20,6 +20,7 @@ export default class LicenseText extends Component {
 
     // Private
     @service intl!: Intl;
+
     @alias('node.license') license!: License;
 
     @computed('license.text', 'node.{isAnonymous,nodeLicense}')
@@ -42,9 +43,9 @@ export default class LicenseText extends Component {
         return Object.entries(nodeLicense).reduce(
             (text, [key, value]) => text.replace(
                 new RegExp(`{{${key}}}`),
-                isAnonymous ?
-                    intl.t('app_components.license_text.anonymized_placeholder') :
-                    value,
+                isAnonymous
+                    ? intl.t('app_components.license_text.anonymized_placeholder')
+                    : value,
             ),
             licenseText,
         );

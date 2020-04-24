@@ -21,8 +21,11 @@ export default class ResponsiveDropdown extends Component {
 
     // eslint-disable-next-line ember/no-ember-testing-in-module-scope
     inTestMode: boolean = Ember.testing;
+
     renderInPlace: boolean = defaultTo(this.renderInPlace, false);
+
     horizontalPosition: string = defaultTo(this.horizontalPosition, 'right');
+
     verticalPosition: string = defaultTo(this.verticalPosition, 'below');
 
     @computed('inTestMode', 'useOverlay', 'renderInPlace')

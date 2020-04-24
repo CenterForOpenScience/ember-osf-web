@@ -16,13 +16,19 @@ import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/captur
 export default class ChangePasswordPane extends Component {
     // Private properties
     @service currentUser!: CurrentUser;
+
     @service intl!: Intl;
+
     @service passwordStrength!: PasswordStrength;
+
     @service toast!: Toast;
+
     @service store!: DS.Store;
 
     userPassword: UserPassword;
+
     didValidate = false;
+
     @not('didValidate') didNotValidate!: boolean;
 
     @alias('currentUser.user') user!: User;

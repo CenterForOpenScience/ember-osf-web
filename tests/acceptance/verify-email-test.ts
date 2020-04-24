@@ -52,9 +52,9 @@ module('Acceptance | verify email', hooks => {
         for (const unverifiedEmail of emails) {
             const { emailAddress } = unverifiedEmail;
             assert.dom('[data-test-verify-email-prompt]').hasText(
-                unverifiedEmail.isMerge ?
-                    `Would you like to merge ${emailAddress} into your account? This action is irreversible.` :
-                    `Would you like to add ${emailAddress} to your account?`,
+                unverifiedEmail.isMerge
+                    ? `Would you like to merge ${emailAddress} into your account? This action is irreversible.`
+                    : `Would you like to add ${emailAddress} to your account?`,
             );
             await click('[data-test-verify-email]');
         }
@@ -91,9 +91,9 @@ module('Acceptance | verify email', hooks => {
         for (const unverifiedEmail of emails) {
             const { emailAddress, isMerge } = unverifiedEmail;
             assert.dom('[data-test-verify-email-prompt]').hasText(
-                isMerge ?
-                    `Would you like to merge ${emailAddress} into your account? This action is irreversible.` :
-                    `Would you like to add ${emailAddress} to your account?`,
+                isMerge
+                    ? `Would you like to merge ${emailAddress} into your account? This action is irreversible.`
+                    : `Would you like to add ${emailAddress} to your account?`,
             );
             await click('[data-test-deny-email]');
         }

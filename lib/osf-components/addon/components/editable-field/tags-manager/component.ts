@@ -38,9 +38,11 @@ export default class TagsManagerComponent extends Component {
 
     // private
     @service intl!: Intl;
+
     @service toast!: Toast;
 
     requestedEditMode: boolean = false;
+
     currentTags: string[] = [];
 
     @alias('registration.userHasAdminPermission') userCanEdit!: boolean;

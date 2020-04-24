@@ -27,13 +27,17 @@ export default class CategoryManagerComponent extends Component {
 
     // private
     @service intl!: Intl;
+
     @service toast!: Toast;
 
     inEditMode: boolean = false;
+
     fieldIsEmpty = false;
+
     selectedCategory!: NodeCategory;
 
     @alias('node.userHasAdminPermission') userCanEdit!: boolean;
+
     @alias('node.category') category!: NodeCategory;
 
     @computed('fieldIsEmpty', 'userCanEdit')

@@ -5,5 +5,6 @@ import Media from 'ember-responsive';
 
 export default class OverviewHeader extends Component {
     @service media!: Media;
+
     @not('media.isDesktop') showMobileView!: boolean;
 }

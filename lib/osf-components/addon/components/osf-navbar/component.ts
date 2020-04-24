@@ -39,13 +39,17 @@ export const OSF_SERVICES: ServiceLink[] = [
 @layout(template, styles)
 export default class OsfNavbar extends Component {
     @service analytics!: Analytics;
+
     @service features!: Features;
+
     @service router!: any;
+
     @service session!: Session;
 
     showNavLinks: boolean = false;
 
     activeService: OSFService = defaultTo(this.activeService, OSFService.HOME);
+
     services: ServiceLink[] = defaultTo(this.services, OSF_SERVICES);
 
     @computed('activeService', 'router.currentRouteName')

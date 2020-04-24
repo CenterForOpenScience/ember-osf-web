@@ -8,6 +8,7 @@ import Analytics from 'ember-osf-web/services/analytics';
 
 export default class Register extends Route {
     @service analytics!: Analytics;
+
     @service session!: Session;
 
     async beforeModel(transition: Transition) {

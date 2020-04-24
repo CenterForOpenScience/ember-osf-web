@@ -175,8 +175,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         await click('[data-test-save-edits]');
 
         reg.reload();
-        user.institutionIds.every(userInstitutionId =>
-            reg.affiliatedInstitutionIds.includes(userInstitutionId));
+        user.institutionIds.every(userInstitutionId => reg.affiliatedInstitutionIds.includes(userInstitutionId));
 
         // Admin can remove affiliated institutions
         await click('[data-test-edit-button="affiliated institutions"]');
@@ -188,8 +187,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         await click('[data-test-save-edits]');
 
         reg.reload();
-        user.institutionIds.every(userInstitutionId =>
-            !reg.affiliatedInstitutionIds.includes(userInstitutionId));
+        user.institutionIds.every(userInstitutionId => !reg.affiliatedInstitutionIds.includes(userInstitutionId));
 
         // Discard edits works
         await click('[data-test-edit-button="affiliated institutions"]');
@@ -211,13 +209,12 @@ module('Registries | Acceptance | overview.overview', hooks => {
             registrationSchema: prereg,
             currentUserPermissions: Object.values(Permission),
         });
-        const blocksWithAnchors = prereg.schemaBlocks!.filter(({ blockType, displayText }) =>
-            (
-                blockType === 'page-heading' ||
-                blockType === 'section-heading' ||
-                blockType === 'subsection-heading' ||
-                blockType === 'question-label'
-            ) && displayText);
+        const blocksWithAnchors = prereg.schemaBlocks!.filter(({ blockType, displayText }) => (
+            blockType === 'page-heading'
+                || blockType === 'section-heading'
+                || blockType === 'subsection-heading'
+                || blockType === 'question-label'
+        ) && displayText);
         await visit(`/${reg.id}/`);
 
         assert.dom('[data-test-toggle-anchor-nav-button]').isVisible();

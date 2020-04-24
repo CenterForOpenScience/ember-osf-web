@@ -17,14 +17,19 @@ import template from './template';
 @layout(template, styles)
 export default class RegistrationIsPublic extends Component {
     @service intl!: Intl;
+
     @service toast!: Toast;
 
     registration!: Registration;
 
     scientistName?: string;
+
     scientistNameInput?: string = '';
+
     withdrawalJustification?: string = '';
+
     closeDropdown!: () => void;
+
     showModal: boolean = defaultTo(this.showModal, false);
 
     @task({ drop: true })
@@ -67,8 +72,8 @@ export default class RegistrationIsPublic extends Component {
         'scientistName',
     )
     get submitDisabled(): boolean {
-        return this.submitWithdrawal.isRunning ||
-            (this.scientistNameInput !== this.scientistName);
+        return this.submitWithdrawal.isRunning
+            || (this.scientistNameInput !== this.scientistName);
     }
 
     @action

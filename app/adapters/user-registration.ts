@@ -5,6 +5,7 @@ const { RESTAdapter } = DS;
 
 export default class UserRegistrationAdapter extends RESTAdapter {
     host: string = config.OSF.url.replace(/\/$/, '');
+
     namespace = 'api/v1';
 
     pathForType(_: string) {

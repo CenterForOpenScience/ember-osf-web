@@ -22,11 +22,14 @@ export type MetadataTagsManager = Pick<TagsManager, 'addTag' | 'removeTag' | 'cl
 export default class MetadataTagsManagerComponent extends Component {
     // required
     changeset!: ChangesetDef;
+
     valuePath!: string;
+
     readOnly: boolean = false;
 
     // optional
     registration?: DraftRegistrationModel;
+
     onMetadataInput?: () => void;
 
     // properties

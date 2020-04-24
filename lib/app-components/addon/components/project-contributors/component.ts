@@ -11,11 +11,15 @@ import template from './template';
 @layout(template, styles)
 export default class ProjectContributors extends Component {
     node: Node = this.node;
+
     contributors: ArrayProxy<Contributor> = this.contributors;
+
     reloadContributorsList?: () => void; // bound by project-contributors/list
 
     @requiredAction discard!: () => void;
+
     @requiredAction continue!: () => void;
+
     onAddContributor?: () => void;
 
     @action

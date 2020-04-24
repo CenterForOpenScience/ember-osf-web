@@ -16,8 +16,11 @@ export default class DeveloperAppClientSecret extends Component {
 
     // Private properties
     @service analytics!: Analytics;
+
     @service intl!: Intl;
+
     @service router!: RouterService;
+
     @service toast!: Toast;
 
     shouldShowSecret: boolean = false;

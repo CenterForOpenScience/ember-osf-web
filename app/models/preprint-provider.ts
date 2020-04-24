@@ -18,14 +18,20 @@ export default class PreprintProviderModel extends ProviderModel {
     @service intl!: Intl;
 
     @attr('array') subjectsAcceptable!: string[];
+
     @attr('array') additionalProviders!: string[];
+
     @attr('string') shareSource!: string;
+
     @attr('string') preprintWord!: PreprintWord;
 
     // Reviews settings
     @attr('array') permissions!: string[];
+
     @attr('string') reviewsWorkflow!: string | null;
+
     @attr('boolean', { allowNull: true }) reviewsCommentsPrivate!: boolean | null;
+
     @attr('boolean', { allowNull: true }) reviewsCommentsAnonymous!: boolean | null;
 
     // Relationships

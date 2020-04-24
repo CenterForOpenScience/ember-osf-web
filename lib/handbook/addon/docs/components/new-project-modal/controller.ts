@@ -7,8 +7,11 @@ import CurrentUser from 'ember-osf-web/services/current-user';
 
 export default class NewProjectModalController extends Controller {
     @service currentUser!: CurrentUser;
+
     newNode: Node | null = null;
+
     shouldShowModal: boolean = false;
+
     shouldReload: boolean = false;
 
     // BEGIN-SNIPPET new-project-modal.controller.ts

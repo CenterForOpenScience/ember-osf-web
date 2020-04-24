@@ -15,6 +15,7 @@ import template from './template';
 export default class ReadOnlyFiles extends Component {
     // Required params
     schemaBlock!: SchemaBlock;
+
     registrationResponses!: RegistrationResponse;
 
     // Optional params

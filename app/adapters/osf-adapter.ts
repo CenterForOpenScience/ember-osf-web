@@ -42,9 +42,11 @@ enum RequestType {
  */
 export default class OsfAdapter extends JSONAPIAdapter {
     @service session!: Session;
+
     @service currentUser!: CurrentUser;
 
     host = host;
+
     namespace = namespace;
 
     /**
@@ -102,7 +104,7 @@ export default class OsfAdapter extends JSONAPIAdapter {
         if (snapshot) {
             const { adapterOptions }: { adapterOptions?: { url?: string } } = snapshot;
             if (adapterOptions && adapterOptions.url) {
-                url = adapterOptions.url; // eslint-disable-line prefer-destructuring
+                url = adapterOptions.url;
             }
         }
 

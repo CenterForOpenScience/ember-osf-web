@@ -32,11 +32,15 @@ type MessageLevel = 'error' | 'info' | 'success' | 'warning';
 
 export default class VerifyEmailModal extends Component {
     @service currentUser!: CurrentUser;
+
     @service intl!: Intl;
+
     @service store!: DS.Store;
+
     @service toast!: Toast;
 
     shouldShowModal: boolean = true;
+
     unverifiedEmails?: UserEmail[];
 
     @alias('unverifiedEmails.firstObject')

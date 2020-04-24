@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import MirageModelRegistry from 'ember-cli-mirage/types/registries/model';
 import MirageSchemaRegistry from 'ember-cli-mirage/types/registries/schema';
 import DS from 'ember-data';
@@ -7,6 +8,7 @@ import { Document } from 'osf-api';
 export { default as faker } from 'faker';
 
 declare global {
+    // eslint-disable-next-line no-redeclare
     const server: Server; // TODO: only in tests?
 }
 
@@ -268,11 +270,17 @@ export class JSONAPISerializer {
     request!: Request;
 
     keyForAttribute(attr: string): string;
+
     keyForCollection(modelName: string): string;
+
     keyForModel(modelName: string): string;
+
     keyForRelationship(relationship: string): string;
+
     typeKeyForModel(model: ModelInstance): string;
 
     serialize(object: ModelInstance, request: Request): SingleResourceDocument;
+
     normalize(json: any): any;
 }
+/* eslint-enable max-classes-per-file */

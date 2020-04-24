@@ -10,15 +10,25 @@ const { attr, belongsTo, hasMany } = DS;
 
 export default class SparseNodeModel extends OsfModel {
     @attr('fixstring') title!: string;
+
     @attr('fixstring') description!: string;
+
     @attr('node-category') category!: NodeCategory;
+
     @attr('date') dateCreated!: Date;
+
     @attr('date') dateModified!: Date;
+
     @attr('boolean') fork!: boolean;
+
     @alias('fork') isFork!: boolean;
+
     @attr('fixstringarray') tags!: string[];
+
     @attr('array') currentUserPermissions!: Permission[];
+
     @attr('boolean') currentUserIsContributor!: boolean;
+
     @attr('boolean') public!: boolean;
 
     @hasMany('node', { inverse: 'parent' })

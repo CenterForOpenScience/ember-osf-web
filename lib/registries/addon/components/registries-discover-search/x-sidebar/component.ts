@@ -19,7 +19,9 @@ export default class SideBar extends Component {
     @service analytics!: Analytics;
 
     searchOptions!: SearchOptions;
+
     @requiredAction onSearchOptionsUpdated!: (options: SearchOptions) => void;
+
     filterStyles: {[key: string]: string | undefined} = defaultTo(this.filterStyles, {});
 
     @computed('searchOptions')

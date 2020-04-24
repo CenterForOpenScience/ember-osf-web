@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
@@ -22,9 +23,13 @@ const { OSF: { url: baseUrl } } = config;
 
 export class AuthBase extends Component {
     @service analytics!: Analytics;
+
     @service currentUser!: CurrentUser;
+
     @service session!: Session;
+
     @service features!: Features;
+
     @service router!: Services['router'];
 
     @alias('currentUser.user') user!: User;
@@ -42,8 +47,11 @@ export class AuthBase extends Component {
     campaign?: string;
 
     profileURL: string = defaultTo(this.profileURL, pathJoin(baseUrl, 'profile'));
+
     settingsURL: string = defaultTo(this.settingsURL, pathJoin(baseUrl, 'settings'));
+
     signUpURL: string = defaultTo(this.signUpURL, pathJoin(baseUrl, 'register'));
+
     onLinkClicked?: () => void;
 
     @computed('router.currentURL')
@@ -86,3 +94,4 @@ export class AuthBase extends Component {
 @tagName('')
 export default class NavbarAuthDropdown extends AuthBase {
 }
+/* eslint-enable max-classes-per-file */

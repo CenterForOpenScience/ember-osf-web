@@ -17,13 +17,19 @@ export default class Item extends Component {
     @service currentUser!: CurrentUser;
 
     permissions = permissions;
+
     contributor: HighlightableContributor = this.contributor;
+
     isAdmin: boolean = this.isAdmin;
+
     adminCount: number = this.adminCount;
+
     bibliographicCount: number = this.bibliographicCount;
 
     @requiredAction removeContributor!: () => void;
+
     @requiredAction toggleBibliographic!: () => void;
+
     @requiredAction updatePermissions!: () => void;
 
     @computed('currentUser.currentUserId', 'contributor.users.id')

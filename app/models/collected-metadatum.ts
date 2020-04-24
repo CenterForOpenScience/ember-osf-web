@@ -44,13 +44,19 @@ const Validations = buildValidations({
 
 export default class CollectedMetadatumModel extends OsfModel.extend(Validations) {
     @attr('string') collectedType?: string;
+
     @attr('string') issue?: string;
+
     @attr('string') programArea?: string;
+
     @attr('string') status?: string;
+
     @attr('string') volume?: string;
 
     @belongsTo('collection') collection!: Collection;
+
     @belongsTo('node') guid!: Node;
+
     @belongsTo('user') creator!: User;
 
     @computed('collection.displayChoicesFields.[]')

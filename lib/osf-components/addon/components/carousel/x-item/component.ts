@@ -12,14 +12,16 @@ import template from './template';
 export default class CarouselItem extends Component {
     // Required parameters
     allItems!: CarouselItem[];
+
     @requiredAction register!: (item: CarouselItem) => void;
 
     // Private properties
     index: number = 0;
+
     slideIndex: number = 0;
 
     didInsertElement(...args: any[]) {
-        this._super(...args);
+        super.didInsertElement(...args);
         this.register(this);
         this.set('index', this.allItems.indexOf(this));
         this.set('slideIndex', this.allItems.indexOf(this) + 1);

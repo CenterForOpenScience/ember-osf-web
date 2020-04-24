@@ -17,16 +17,23 @@ export default class HyperLink extends Component {
     @service analytics!: Analytics;
 
     route?: string;
+
     positionalRoute!: string;
 
     model?: any;
+
     positionalModel?: any;
 
     text?: string;
+
     analyticsLabel?: string;
+
     hidden: boolean = defaultTo(this.hidden, false);
+
     queryParams?: { [k: string]: string };
+
     params: any[] = defaultTo(this.params, []);
+
     onClicked?: () => void;
 
     @computed('route', 'positionalRoute')

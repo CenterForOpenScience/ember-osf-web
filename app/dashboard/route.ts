@@ -12,8 +12,11 @@ import Ready from 'ember-osf-web/services/ready';
 @requireAuth('home')
 export default class Dashboard extends Route {
     @service analytics!: Analytics;
+
     @service currentUser!: CurrentUser;
+
     @service ready!: Ready;
+
     @service session!: Session;
 
     async setupController(controller: DashboardController): Promise<void> {

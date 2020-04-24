@@ -13,8 +13,8 @@ module('Integration | Component | support-item', hooks => {
     test('it renders', async function(assert) {
         this.set('icon', 'search');
         this.set('header', 'Search and Discover');
-        this.set('description', 'Find papers, data, and materials to inspire your next research project. ' +
-        'Search public projects to build on the work of others and find new collaborators.');
+        this.set('description', 'Find papers, data, and materials to inspire your next research project. '
+        + 'Search public projects to build on the work of others and find new collaborators.');
 
         await render(hbs`
             <Home::-Components::SupportSection::SupportItem

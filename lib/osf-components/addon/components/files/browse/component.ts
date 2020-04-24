@@ -15,6 +15,7 @@ import template from './template';
 @layout(template, styles)
 export default class FileBrowser extends Component {
     filesManager!: FilesManager;
+
     transition = fade;
 
     @not('filesManager.inRootFolder') notInRootFolder!: boolean;

@@ -48,6 +48,7 @@ export default class CitationViewer extends Component {
 
     // Private properties
     @service store!: DS.Store;
+
     @service currentUser!: CurrentUser;
 
     selectedCitationStyle?: CitationStyle;
@@ -61,9 +62,9 @@ export default class CitationViewer extends Component {
         );
         return responses.map((r, i) => ({
             ...defaultCitations[i],
-            citation: typeof r.data.attributes!.citation === 'string' ?
-                fixSpecialChars(r.data.attributes!.citation) :
-                r.data.attributes!.citation,
+            citation: typeof r.data.attributes!.citation === 'string'
+                ? fixSpecialChars(r.data.attributes!.citation)
+                : r.data.attributes!.citation,
         }));
     });
 

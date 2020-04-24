@@ -57,8 +57,11 @@ export interface RegistrationMetadata {
 
 export default class RegistrationSchemaModel extends OsfModel {
     @attr('boolean') active!: boolean;
+
     @attr('fixstring') name!: string;
+
     @attr('number') schemaVersion!: number;
+
     @attr('object') schema!: Schema;
 
     @hasMany('schema-block', { inverse: 'schema', async: false })

@@ -12,9 +12,11 @@ import template from './template';
 @layout(template, styles)
 export default class ErrorPage extends Component {
     @service analytics!: Analytics;
+
     @service theme!: Theme;
 
     label: string = defaultTo(this.label, '');
+
     translateKey: string = defaultTo(this.translateKey, '');
 
     @computed('theme.{isProvider,provider}')

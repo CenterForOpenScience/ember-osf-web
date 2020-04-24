@@ -22,18 +22,27 @@ import template from './template';
 @layout(template, styles)
 export default class LicensePicker extends Component {
     @service analytics!: Analytics;
+
     @service store!: DS.Store;
+
     @service theme!: Theme;
+
     @service intl!: Intl;
 
     form?: ValidatedModelForm<'node'>;
+
     showText: boolean = false;
+
     node: Node = this.node;
+
     licensesAcceptable!: QueryHasManyResult<License>;
+
     helpLink: string = 'https://openscience.zendesk.com/hc/en-us/articles/360019739014';
+
     placeholder: string = this.intl.t('registries.registration_metadata.select_license');
 
     @alias('theme.provider') provider!: Provider;
+
     @alias('node.license') selected!: License;
 
     @sort('selected.requiredFields', (a: string, b: string) => +(a > b))
@@ -76,7 +85,7 @@ export default class LicensePicker extends Component {
     }
 
     didReceiveAttrs(...args: any[]) {
-        this._super(...args);
+        super.didReceiveAttrs(...args);
         this.queryLicenses.perform();
     }
 }

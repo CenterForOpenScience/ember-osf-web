@@ -17,18 +17,24 @@ import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/captur
 
 export default class UserQuickfiles extends Controller {
     @service analytics!: Analytics;
+
     @service currentUser!: CurrentUser;
+
     @service intl!: Intl;
+
     @service toast!: Toast;
 
     pageName = 'QuickFiles';
 
     filter: string = this.filter || '';
+
     // Initialized in setupController.
     newProject!: Node;
+
     sort: string = this.sort || 'name';
 
     @alias('model.taskInstance.value.user') user!: User;
+
     @alias('model.taskInstance.value.files') allFiles!: File[];
 
     @task({ restartable: true })

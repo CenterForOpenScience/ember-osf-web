@@ -126,8 +126,7 @@ const queryParams = {
         },
         deserialize(value: string) {
             return sortOptions.find(
-                option =>
-                    !!option.key
+                option => !!option.key
                     && value.endsWith(option.key)
                     && option.ascending === !value.startsWith('-'),
             ) || sortOptions[0];
@@ -148,14 +147,19 @@ export const discoverQueryParams = new QueryParams<DiscoverQueryParams>(queryPar
 
 export default class Discover extends Controller.extend(discoverQueryParams.Mixin) {
     @service intl!: Intl;
+
     @service analytics!: Analytics;
+
     @service shareSearch!: ShareSearch;
 
     sortOptions = sortOptions;
 
     results: EmberArray<ShareRegistration> = A([]);
+
     searchable!: number;
+
     totalResults: number = 0;
+
     searchOptions!: SearchOptions;
 
     filterableSources: Array<{

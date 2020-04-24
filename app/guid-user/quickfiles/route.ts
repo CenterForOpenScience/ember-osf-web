@@ -21,8 +21,11 @@ function preventDrop(e: DragEvent) {
 
 export default class UserQuickfiles extends Route {
     @service analytics!: Analytics;
+
     @service currentUser!: CurrentUser;
+
     @service ready!: Ready;
+
     @service router!: any;
 
     @task

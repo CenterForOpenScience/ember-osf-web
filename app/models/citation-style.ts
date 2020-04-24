@@ -6,8 +6,11 @@ const { attr } = DS;
 
 export default class CitationStyleModel extends OsfModel {
     @attr('fixstring') title?: string;
+
     @attr('fixstring') shortTitle?: string;
+
     @attr('fixstring') summary?: string;
+
     @attr('date') dateParsed?: string;
 }
 

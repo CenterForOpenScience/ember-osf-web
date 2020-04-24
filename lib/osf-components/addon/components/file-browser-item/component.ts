@@ -42,11 +42,15 @@ import template from './template';
 @localClassNames('file-browser-item')
 export default class FileBrowserItem extends Component {
     @service analytics!: Analytics;
+
     @service store!: DS.Store;
 
     item?: File;
+
     @requiredAction openItem!: (item: File | undefined, show: string) => void;
+
     @requiredAction selectItem!: (item: File | undefined) => void;
+
     @requiredAction selectMultiple!: (item: File | undefined, metaKey: boolean) => void;
 
     @localClassName()

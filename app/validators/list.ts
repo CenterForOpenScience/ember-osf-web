@@ -13,8 +13,8 @@ export type ListValidatorFunction = (
  */
 export default function validateList(validator: ValidatorFunction): ListValidatorFunction {
     return (key, newValue, oldValue, changes, content) => {
-        if ((typeof newValue !== 'undefined' && !Array.isArray(newValue)) ||
-            (typeof oldValue !== 'undefined' && !Array.isArray(oldValue))) {
+        if ((typeof newValue !== 'undefined' && !Array.isArray(newValue))
+            || (typeof oldValue !== 'undefined' && !Array.isArray(oldValue))) {
             throw new Error('validateList can only be used for array properties');
         }
         if (typeof newValue === 'undefined' || newValue.length === 0) {
@@ -39,7 +39,8 @@ export default function validateList(validator: ValidatorFunction): ListValidato
  * results that are not arrays (and thus aren't for individual list items).
  */
 export function transposeResults(results?: Array<ValidatorResult | ValidatorResult[]>) {
-    const transposer = (acc: ValidatorResult[][], validatorResults: ValidatorResult[]) =>
-        validatorResults.map((val, index) => [...(acc[index] || []), val]);
+    const transposer = (acc: ValidatorResult[][], validatorResults: ValidatorResult[]) => validatorResults.map(
+        (val, index) => [...(acc[index] || []), val],
+    );
     return results ? results.filter(Array.isArray).reduce(transposer, []) : undefined;
 }

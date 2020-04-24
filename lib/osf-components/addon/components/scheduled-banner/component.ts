@@ -16,6 +16,7 @@ import template from './template';
 @layout(template, styles)
 export default class ScheduledBanners extends Component {
     @service store!: DS.Store;
+
     @service analytics!: Analytics;
 
     @reads('loadBanner.last.value')

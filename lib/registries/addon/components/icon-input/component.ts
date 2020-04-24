@@ -11,6 +11,7 @@ import template from './template';
 @layout(template)
 export default class Content extends Component {
     icon!: string;
+
     dark: boolean = defaultTo(this.dark, false);
 
     value: string = '';

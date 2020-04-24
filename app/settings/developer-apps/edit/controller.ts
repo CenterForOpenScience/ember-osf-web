@@ -11,8 +11,11 @@ import Analytics from 'ember-osf-web/services/analytics';
 
 export default class SettingsDeveloperAppsEditController extends Controller {
     @service analytics!: Analytics;
+
     @service intl!: Intl;
+
     @service router!: RouterService;
+
     @service toast!: Toast;
 
     @reads('model.taskInstance.value')

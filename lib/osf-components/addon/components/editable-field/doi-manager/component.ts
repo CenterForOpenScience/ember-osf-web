@@ -33,17 +33,22 @@ const {
 export default class DoiManagerComponent extends Component {
     // required
     node!: Registration;
+
     nodeDoi!: string;
 
     // private
     @service intl!: Intl;
+
     @service toast!: Toast;
+
     @service store!: Store;
 
     requestedEditMode: boolean = false;
 
     @alias('node.userHasAdminPermission') userCanEdit!: boolean;
+
     @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
+
     @not('nodeDoi') fieldIsEmpty!: boolean;
 
     @computed('userCanEdit', 'node.state', 'nodeDoi')

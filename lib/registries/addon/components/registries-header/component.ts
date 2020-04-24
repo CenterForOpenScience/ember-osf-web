@@ -12,12 +12,17 @@ import template from './template';
 @localClassNames('RegistriesHeader')
 export default class RegistriesHeader extends Component {
     @service analytics!: Analytics;
+
     @requiredAction onSearch!: (value: string) => void;
 
     today = new Date();
+
     showingHelp = false;
+
     value: string = defaultTo(this.value, '');
+
     searchable: number = defaultTo(this.searchable, 0);
+
     showHelp: boolean = defaultTo(this.showHelp, false);
 
     _onSearch() {

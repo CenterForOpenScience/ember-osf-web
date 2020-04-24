@@ -9,10 +9,15 @@ const { attr, belongsTo } = DS;
 
 export default class ReviewActionModel extends OsfModel {
     @attr('string') actionTrigger!: string;
+
     @attr('string') comment!: string;
+
     @attr('string') fromState!: string;
+
     @attr('string') toState!: string;
+
     @attr('date') dateCreated!: Date;
+
     @attr('date') dateModified!: Date;
 
     @belongsTo('preprint-provider', { inverse: null })

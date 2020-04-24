@@ -13,6 +13,7 @@ import template from './template';
 @layout(template)
 export default class RegistrationIsEmbargoed extends Component {
     @service intl!: Intl;
+
     @service toast!: Toast;
 
     @task({ drop: true })
@@ -37,7 +38,9 @@ export default class RegistrationIsEmbargoed extends Component {
     });
 
     registration!: Registration;
+
     closeDropdown?: () => void;
+
     showModal?: boolean = false;
 
     @action

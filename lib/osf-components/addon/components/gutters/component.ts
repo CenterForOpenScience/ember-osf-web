@@ -14,9 +14,11 @@ export type GutterMode = 'column' | 'drawer' | 'page';
 @layout(template)
 export default class Gutter extends Component {
     leftClosed: boolean = defaultTo(this.leftClosed, false);
+
     leftMode: GutterMode = defaultTo(this.leftMode, 'drawer');
 
     rightClosed: boolean = defaultTo(this.rightClosed, true);
+
     rightMode: GutterMode = defaultTo(this.rightMode, 'drawer');
 
     @computed('rightMode', 'rightClosed')

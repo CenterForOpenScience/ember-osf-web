@@ -44,14 +44,14 @@ export function termsFilter(fieldName: string, terms: string[] = [], all = true)
 
     const field = exactFields.includes(fieldName) ? `${fieldName}.exact` : fieldName;
 
-    return all ?
-        terms.map((term: string) => ({
+    return all
+        ? terms.map((term: string) => ({
             term: {
                 // creative work filter should not include subtypes
                 [term === 'creative work' && field === 'types' ? 'type' : field]: term,
             },
-        })) :
-        {
+        }))
+        : {
             terms: {
                 [field]: terms,
             },
@@ -73,11 +73,11 @@ export function decodeParams(param: string) {
 export function getSplitParams(params: any) {
     if (!params.length) {
         return params.slice(0);
-    } else if (params.length && Array.isArray(params[0])) {
+    } if (params.length && Array.isArray(params[0])) {
         return params[0];
-    } else if (params.length && typeof (params) === 'string') {
+    } if (params.length && typeof (params) === 'string') {
         return decodeParams(params);
-    } else if (params.length === 1) {
+    } if (params.length === 1) {
         return decodeParams(params[0]);
     }
 

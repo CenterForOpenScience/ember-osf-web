@@ -13,14 +13,21 @@ import currentUser from 'ember-osf-web/services/current-user';
 
 export default class GuidNodeForks extends Controller {
     @service toast!: Toast;
+
     @service intl!: Intl;
+
     @service statusMessages!: StatusMessages;
+
     @service analytics!: Analytics;
+
     @service currentUser!: currentUser;
 
     toDelete: Node | null = null;
+
     deleteModal = false;
+
     loadingNew = false;
+
     newModal = false;
 
     reloadList?: (page?: number) => void; // bound by paginated-list

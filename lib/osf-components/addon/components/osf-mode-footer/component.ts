@@ -27,11 +27,15 @@ import template from './template';
 @layout(template, styles)
 export default class OsfModeFooter extends Component {
     @service analytics!: Analytics;
+
     @service features!: Features;
+
     @service router!: RouterService;
 
     showDevBanner = config.showDevBanner;
+
     showUrlInput = false;
+
     url: string = '/';
 
     get featureList() {

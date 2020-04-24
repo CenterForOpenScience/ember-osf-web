@@ -11,7 +11,9 @@ import Theme from 'ember-osf-web/services/theme';
 
 export default class Discover extends Controller {
     @service theme!: Theme;
+
     @service intl!: Intl;
+
     @service store!: DS.Store;
 
     activeFilters = {
@@ -35,6 +37,7 @@ export default class Discover extends Controller {
     }
 
     consumingService = 'collections'; // Consuming service - preprints here
+
     detailRoute = 'content'; // Name of detail route for this application
 
     // @computed('additionalProviders')
@@ -55,16 +58,16 @@ export default class Discover extends Controller {
     @computed('intl.locale', 'additionalProviders')
     get facets() { // List of facets available for preprints
         return (
-            this.additionalProviders ?
+            this.additionalProviders
                 // if additionalProviders exist, use subset of SHARE facets
-                [
+                ? [
                     ['sources', 'source'],
                     ['date', 'daterange'],
                     ['type', 'worktype'],
                     ['tags', 'typeahead'],
-                ] :
+                ]
                 // Regular preprints and branded preprints get provider and taxonomy facets
-                [
+                : [
                     ['sources', 'collection-provider', { hidden: true }],
                     ['type', 'collected-type'],
                     ['issue', 'issue'],
@@ -89,17 +92,25 @@ export default class Discover extends Controller {
     };
 
     page = 1; // Page query param. Must be passed to component, so can be reflected in URL
+
     provider = ''; // Provider query param. Must be passed to component, so can be reflected in URL
+
     q = ''; // q query param.  Must be passed to component, so can be reflected in URL
 
     sources = ''; // Sources query param. Must be passed to component, so can be reflected in the URL
+
     start = ''; // Start query param. Must be passed to component, so can be reflected in the URL
+
     tags = ''; // Tags query param.  Must be passed to component, so can be reflected in URL
 
     collectedType = '';
+
     issue = '';
+
     programArea = '';
+
     status = '';
+
     volume = '';
 
     // Pass in the list of queryParams for this component
@@ -117,9 +128,9 @@ export default class Discover extends Controller {
 
     @computed('additionalProviders')
     get searchPlaceholder() { // Search bar placeholder
-        return this.additionalProviders ?
-            'discover.search.repository_placeholder' :
-            'collections.discover.search_placeholder';
+        return this.additionalProviders
+            ? 'discover.search.repository_placeholder'
+            : 'collections.discover.search_placeholder';
     }
 
     @computed('intl.locale')
@@ -144,6 +155,7 @@ export default class Discover extends Controller {
     }
 
     type = ''; // Type query param. Must be passed to component, so can be reflected in URL
+
     whiteListedProviders = config.whiteListedProviders;
 
     @action

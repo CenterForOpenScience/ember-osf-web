@@ -39,14 +39,21 @@ class Session extends Service.extend(Evented) {
      */
 
     isAuthenticated: boolean;
+
     data: Data | null;
+
     store: any;
+
     attemptedTransition: any;
+
     session: any;
 
     set(key: string, value: any): any;
+
     authenticate(...args: any[]): RSVP.Promise;
+
     invalidate(...args: any): RSVP.Promise;
+
     authorize(...args: any[]): RSVP.Promise;
 }
 

@@ -26,20 +26,30 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
 
     // Optional arguments
     onError?: (e: object, changeset: ChangesetDef) => void;
+
     onWillDestroy?: (model: ModelRegistry[M], changeset?: ChangesetDef) => void;
+
     model?: ModelRegistry[M];
+
     modelName?: M; // If provided, new model instance created in constructor
+
     disabled: boolean = defaultTo(this.disabled, false);
+
     changeset!: ChangesetDef;
+
     recreateModel: boolean = defaultTo(this.recreateModel, false);
+
     onDirtChange?: (dirt: boolean) => boolean;
 
     // Private properties
     @service store!: DS.Store;
+
     @service analytics!: Analytics;
+
     @service toast!: Toast;
 
     shouldShowMessages: boolean = false;
+
     modelProperties: object = defaultTo(this.modelProperties, {});
 
     @or('disabled', 'saveModelTask.isRunning')

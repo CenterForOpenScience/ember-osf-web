@@ -82,7 +82,7 @@ export default class SearchFacetProvider extends Base {
     }
 
     didReceiveAttrs(...args: any[]) {
-        this._super(...args);
+        super.didReceiveAttrs(...args);
 
         const { context, filterChanged, theme } = this;
 
@@ -100,9 +100,9 @@ export default class SearchFacetProvider extends Base {
 
                 setProperties(context, {
                     queryParam,
-                    currentQueryFilters: !activeFilter.length || theme.isProvider ?
-                        defaultQueryFilters :
-                        {
+                    currentQueryFilters: !activeFilter.length || theme.isProvider
+                        ? defaultQueryFilters
+                        : {
                             provider: activeFilter.mapBy('id'),
                         },
                 });

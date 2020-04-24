@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import { assert, debug, runInDebug } from '@ember/debug';
 import { action } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
@@ -56,10 +57,15 @@ function logEvent(analytics: Analytics, title: string, data: object) {
 
 class EventInfo {
     scopes: string[] = [];
+
     name?: string;
+
     category?: string;
+
     action?: string;
+
     extra?: string;
+
     nonInteraction?: boolean;
 
     constructor(targetElement: Element, rootElement: Element, initialInfo?: InitialEventInfo) {
@@ -147,9 +153,13 @@ class EventInfo {
 
 export default class Analytics extends Service {
     @service metrics!: Metrics;
+
     @service session!: Session;
+
     @service ready!: Ready;
+
     @service router!: RouterService;
+
     @service toast!: Toast;
 
     shouldToastOnEvent: boolean = false;
@@ -302,3 +312,4 @@ declare module '@ember/service' {
         'analytics': Analytics;
     }
 }
+/* eslint-enable max-classes-per-file */

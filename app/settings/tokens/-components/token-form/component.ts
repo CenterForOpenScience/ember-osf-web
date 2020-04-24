@@ -11,6 +11,7 @@ export default class TokenForm extends Component {
 
     // Optional arguments
     token?: Token; // If not provided, new token created by validated-model-form
+
     disabled?: boolean;
 
     // Private properties

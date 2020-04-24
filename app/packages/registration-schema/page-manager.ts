@@ -14,8 +14,11 @@ import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema
 
 export class PageManager {
     changeset?: ChangesetDef;
+
     schemaBlockGroups?: SchemaBlockGroup[];
+
     pageHeadingText?: string;
+
     isVisited?: boolean;
 
     constructor(pageSchemaBlocks: SchemaBlock[], registrationResponses: RegistrationResponse, node?: NodeModel) {

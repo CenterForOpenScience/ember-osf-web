@@ -135,7 +135,7 @@ export class SearchOptions extends MapProxy<Options> implements Options {
     }
 
     constructor(values: Partial<Options>) {
-        super(Object.assign({}, SearchOptions.defaults, values));
+        super({ ...SearchOptions.defaults, ...values });
     }
 
     set<K extends keyof Options>(key: K, value: Options[K]) {
@@ -159,7 +159,9 @@ export interface SearchResults<T> {
 
 export default abstract class AbstractSearchService extends Service {
     abstract url(options: SearchOptions): string;
+
     abstract extractTotal(response: any): number;
+
     abstract buildQuery(options: SearchOptions): {[key: string]: any};
 
     extractAggregations(response: any): {[key: string]: any} {

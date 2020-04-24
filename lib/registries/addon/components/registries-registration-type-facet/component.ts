@@ -33,12 +33,17 @@ const {
 @layout(template)
 export default class RegistriesRegistrationTypeFacet extends Component {
     @service intl!: Intl;
+
     @service toast!: Toast;
+
     @service store!: DS.Store;
+
     @service analytics!: Analytics;
+
     @service features!: Features;
 
     searchOptions!: SearchOptions;
+
     @requiredAction onSearchOptionsUpdated!: (options: SearchOptions) => void;
 
     registrationTypes: EmberArray<string> = defaultTo(this.registrationTypes, A([]));

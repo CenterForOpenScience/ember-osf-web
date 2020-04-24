@@ -27,12 +27,16 @@ export default class Files extends Component {
 
     // Required param
     changeset!: ChangesetDef;
+
     node!: NodeModel;
+
     schemaBlock!: SchemaBlock;
 
     @alias('schemaBlock.registrationResponseKey')
     valuePath!: string;
+
     selectedFiles: File[] = [];
+
     onInput!: () => void;
 
     @computed('node')

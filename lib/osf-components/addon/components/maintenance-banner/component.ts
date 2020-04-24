@@ -34,7 +34,9 @@ const {
 @localClassNames('MaintenanceBanner')
 export default class MaintenanceBanner extends Component {
     @service analytics!: Analytics;
+
     @service cookies!: Cookies;
+
     @service currentUser!: CurrentUser;
 
     maintenance?: MaintenanceData | null;

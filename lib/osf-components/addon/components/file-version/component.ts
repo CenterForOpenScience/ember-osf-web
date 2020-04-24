@@ -45,6 +45,7 @@ export default class FileVersion extends Component {
     @service analytics!: Analytics;
 
     currentVersion!: number;
+
     version!: Version;
 
     @computed('version.id', 'currentVersion')
@@ -53,6 +54,7 @@ export default class FileVersion extends Component {
     }
 
     @requiredAction download!: (version: Version) => void;
+
     @requiredAction versionChange!: (version: Version) => void;
 
     @action

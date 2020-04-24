@@ -30,10 +30,15 @@ export default class FileList extends Component {
     @service currentUser!: CurrentUser;
 
     node: Node | null = null;
+
     items: File[] = defaultTo(this.items, []);
+
     showFilterClicked: boolean = false;
+
     filter: string = defaultTo(this.filter, '');
+
     user?: User;
+
     @requiredAction openFile!: (item: File) => void;
 
     @notEmpty('filter') showFilterInput!: boolean;

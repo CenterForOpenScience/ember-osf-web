@@ -38,7 +38,9 @@ const Validations = buildValidations({
 
 export default class UserPasswordModel extends Model.extend(Validations) {
     @attr('string') existingPassword!: string;
+
     @attr('string') newPassword!: string;
+
     @attr('string') confirmPassword!: string;
 
     @belongsTo('user')

@@ -6,7 +6,9 @@ const { attr } = DS;
 
 export default class FileVersionModel extends OsfModel {
     @attr('number') size!: number;
+
     @attr('date') dateCreated!: Date;
+
     @attr('fixstring') contentType!: string;
 }
 

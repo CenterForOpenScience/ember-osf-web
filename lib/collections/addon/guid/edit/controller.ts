@@ -9,8 +9,11 @@ import Node from 'ember-osf-web/models/node';
 
 export default class GuidEdit extends Controller {
     @alias('model.taskInstance.value.provider') provider!: CollectionProvider;
+
     @alias('model.taskInstance.value.collection') collection!: Collection;
+
     @alias('model.taskInstance.value.collectedMetadatum') collectedMetadatum!: CollectedMetadatum;
+
     @alias('model.taskInstance.value.collectionItem') collectionItem!: Node;
 
     isPageDirty: boolean = false;

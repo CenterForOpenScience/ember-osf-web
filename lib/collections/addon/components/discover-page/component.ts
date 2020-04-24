@@ -86,14 +86,19 @@ function emptyResults(): SearchQuery {
 @layout(template, styles)
 export default class DiscoverPage extends Component {
     @service analytics!: Analytics;
+
     @service currentUser!: CurrentUser;
+
     @service store!: DS.Store;
+
     @service theme!: Theme;
 
     query!: (params: any) => Promise<any>;
+
     searchResultComponent: string = this.searchResultComponent;
 
     firstLoad: boolean = true;
+
     results: SearchQuery = emptyResults();
 
     /**
@@ -106,22 +111,39 @@ export default class DiscoverPage extends Component {
      * Query params
      */
     contributors: string = defaultTo(this.contributors, '');
+
     end = '';
+
     funders: string = defaultTo(this.funders, '');
+
     institutions: string = defaultTo(this.institutions, '');
+
     language: string = defaultTo(this.language, '');
+
     organizations: string = defaultTo(this.organizations, '');
+
     page: number = defaultTo(+this.page, 1);
+
     provider: string = defaultTo(this.provider, '');
+
     publishers = '';
+
     q: string = defaultTo(this.q, '');
+
     size: number = defaultTo(this.size, 10);
+
     sort: string = defaultTo(this.sort, '');
+
     sources: string = defaultTo(this.sources, '');
+
     start: string = defaultTo(this.start, '');
+
     tags: string = defaultTo(this.tags, '');
+
     type: string = defaultTo(this.type, '');
+
     status: string = defaultTo(this.status, '');
+
     collectedType: string = defaultTo(this.collectedType, '');
 
     /**
@@ -162,7 +184,9 @@ export default class DiscoverPage extends Component {
     lockedParams: object = defaultTo(this.lockedParams, {});
 
     numberOfEvents = 0;
+
     numberOfResults = 0; // Number of search results returned
+
     numberOfSources = 0; // Number of sources
 
     /**
@@ -175,6 +199,7 @@ export default class DiscoverPage extends Component {
      * For PREPRINTS and REGISTRIES.  Displays activeFilters box above search facets.
      */
     showActiveFilters: boolean = defaultTo(this.showActiveFilters, false);
+
     showLuceneHelp: boolean = false; // Is Lucene Search help modal open?
 
     /**
@@ -200,10 +225,15 @@ export default class DiscoverPage extends Component {
     took = 0;
 
     displayQueryBody: { query?: string } = {};
+
     queryBody: {} = {};
+
     aggregations: any;
+
     whiteListedProviders: string[] = defaultTo(this.whiteListedProviders, []);
+
     queryError: boolean = false;
+
     serverError: boolean = false;
 
     // ************************************************************
@@ -266,9 +296,9 @@ export default class DiscoverPage extends Component {
                 results: emptyResults(),
             });
             // If issue with search query, for example, invalid lucene search syntax
-            if (errorResponse instanceof DS.ServerError ||
-                errorResponse instanceof DS.AbortError ||
-                errorResponse instanceof DS.TimeoutError) {
+            if (errorResponse instanceof DS.ServerError
+                || errorResponse instanceof DS.AbortError
+                || errorResponse instanceof DS.TimeoutError) {
                 this.set('serverError', true);
             } else {
                 this.set('queryError', true);
@@ -323,7 +353,7 @@ export default class DiscoverPage extends Component {
     }
 
     didInsertElement(...args: any[]) {
-        this._super(...args);
+        super.didInsertElement(...args);
         this.set('firstLoad', true);
     }
 

@@ -23,6 +23,7 @@ export default class StatusMessages extends Service {
     @service cookies!: Cookies;
 
     messages?: StatusMessage[];
+
     nextMessages: StatusMessage[];
 
     constructor(...args: any[]) {

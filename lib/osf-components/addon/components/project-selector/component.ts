@@ -44,26 +44,36 @@ export enum ProjectSelectState {
 @layout(template, styles)
 export default class ProjectSelector extends Component {
     @service currentUser!: CurrentUser;
+
     @service store!: DS.Store;
+
     @service analytics!: Analytics;
 
     // Required arguments
     newProject!: Node;
+
     @requiredAction projectSelected!: (value: Node) => void;
+
     @requiredAction validationChanged!: (isValid: boolean) => void;
+
     @requiredAction moveToNewProject!: () => unknown;
 
     // Optional arguments
     nodeTitle: string | null = defaultTo(this.nodeTitle, null);
+
     projectSelectState: string = defaultTo(this.projectSelectState, ProjectSelectState.main);
+
     selected: Node | null = defaultTo(this.selected, null);
+
     showErrorMessage: boolean = defaultTo(this.showErrorMessage, false);
 
     // Private properties
     didValidate = false;
+
     projectList = A([]);
 
     @alias('selected.public') isPublicProject!: boolean;
+
     @bool('selected.links.relationships.parent') isChildNode!: boolean;
 
     @computed('projectSelectState', 'newProject.validations.isValid', 'selected')

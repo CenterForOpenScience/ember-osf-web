@@ -6,6 +6,7 @@ declare module 'ember-metrics/services/metrics' {
 
         /* eslint-disable no-dupe-class-members */
         trackPage(params: object): void;
+
         trackPage(adapterName: string, params: object): void;
         /* eslint-enable no-dupe-class-members */
     }

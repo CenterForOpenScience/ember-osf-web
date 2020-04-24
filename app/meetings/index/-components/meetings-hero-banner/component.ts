@@ -4,6 +4,7 @@ import { action } from '@ember/object';
 export default class MeetingsHeroBanner extends Component {
     // Private properties
     registerPanelOpen = false;
+
     uploadPanelOpen = false;
 
     @action

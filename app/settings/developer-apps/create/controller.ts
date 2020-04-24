@@ -11,8 +11,11 @@ import Analytics from 'ember-osf-web/services/analytics';
 
 export default class SettingsApplicationCreateController extends Controller {
     @service analytics!: Analytics;
+
     @service intl!: Intl;
+
     @service router!: RouterService;
+
     @service toast!: Toast;
 
     @action

@@ -30,7 +30,9 @@ export default function checkAuth<T extends ConcreteSubclass<Route>>(
 ) {
     class AuthenticatedRoute extends RouteSubclass {
         @service router!: ServiceRegistry['router'];
+
         @service session!: SessionService;
+
         @service currentUser!: CurrentUser;
 
         async beforeModel(transition: any) {

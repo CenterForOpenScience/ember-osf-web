@@ -12,10 +12,15 @@ import template from './template';
 export default class ValidatedInputCheckboxesXCheckbox<T> extends Component {
     // Required arguments
     relationArray?: DS.PromiseArray<T> | T[];
+
     option!: T;
+
     checkboxName!: string;
+
     ariaLabel!: string;
+
     disabled!: boolean;
+
     checkboxId!: string;
 
     @computed('option', '_relationArray.[]')

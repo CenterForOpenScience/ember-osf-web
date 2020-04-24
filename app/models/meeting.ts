@@ -22,18 +22,31 @@ export interface FieldNames {
 
 export default class MeetingModel extends OsfModel {
     @attr('fixstring') name!: string;
+
     @attr('number') submissionsCount!: number;
+
     @attr('fixstring') location!: string;
+
     @attr('date') startDate!: Date;
+
     @attr('date') endDate!: Date;
+
     @attr('fixstring') infoUrl!: string;
+
     @attr('fixstring') typeOneSubmissionEmail!: string;
+
     @attr('fixstring') typeTwoSubmissionEmail!: string;
+
     @attr('boolean') isAcceptingTypeOne!: boolean;
+
     @attr('boolean') isAcceptingTypeTwo!: boolean;
+
     @attr('boolean') active!: boolean;
+
     @attr('fixstring') logoUrl!: string;
+
     @attr('object') fieldNames!: FieldNames;
+
     @hasMany('meeting-submission') submissions!: DS.PromiseManyArray<MeetingSubmissionModel>;
 }
 

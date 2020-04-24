@@ -7,6 +7,7 @@ import Theme from 'ember-osf-web/services/theme';
 
 export default class Index extends Controller {
     @service analytics!: Analytics;
+
     @service theme!: Theme;
 
     sanitizeOptions = {

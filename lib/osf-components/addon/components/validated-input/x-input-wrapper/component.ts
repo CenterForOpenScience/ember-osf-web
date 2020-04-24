@@ -13,12 +13,16 @@ import template from './template';
 export default class ValidatedXInputWrapper extends Component {
     // Required arguments
     changeset!: any;
+
     valuePath!: string;
+
     validationStatus!: ValidationStatus;
 
     // Optional arguments
     errors?: string;
+
     label?: string;
+
     id?: string;
 
     @className

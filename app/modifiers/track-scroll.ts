@@ -7,6 +7,7 @@ import Modifier from 'ember-oo-modifiers';
 
 class TrackScrollModifier extends Modifier {
     @service analytics!: Analytics;
+
     @service inViewport!: InViewport;
 
     didShow = false;

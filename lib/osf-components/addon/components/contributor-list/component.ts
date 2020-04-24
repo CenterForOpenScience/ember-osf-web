@@ -24,15 +24,20 @@ export default class ContributorList extends Component {
 
     // Optional arguments
     shouldTruncate: boolean = defaultTo(this.shouldTruncate, true);
+
     shouldLinkUsers: boolean = defaultTo(this.shouldLinkUsers, false);
 
     // Private properties
     @service store!: DS.Store;
+
     @service ready!: Ready;
 
     page = 1;
+
     displayedContributors: Contributor[] = [];
+
     totalContributors?: number;
+
     shouldLoadAll: boolean = navigator.userAgent.includes('Prerender');
 
     @alias('loadContributors.isRunning')

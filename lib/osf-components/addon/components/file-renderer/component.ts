@@ -41,11 +41,17 @@ export default class FileRenderer extends Component {
     };
 
     download?: string;
+
     lastDownload?: string;
+
     width: string = defaultTo(this.width, '100%');
+
     height: string = defaultTo(this.height, '100%');
+
     allowfullscreen: boolean = defaultTo(this.allowfullscreen, true);
+
     version?: number;
+
     isLoading: boolean = true;
 
     @computed('download', 'params', 'version')

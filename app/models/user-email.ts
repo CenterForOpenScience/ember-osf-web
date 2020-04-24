@@ -23,6 +23,7 @@ const Validations = buildValidations({
             messageKey: 'validationErrors.email_duplicate',
             in: computed(function(): string[] {
                 return [...this.model.existingEmails];
+            // eslint-disable-next-line ember/no-volatile-computed-properties
             }).volatile(),
         }),
         validator('exclusion', {
@@ -30,6 +31,7 @@ const Validations = buildValidations({
             supportEmail,
             in: computed(function(): string[] {
                 return [...this.model.invalidEmails];
+            // eslint-disable-next-line ember/no-volatile-computed-properties
             }).volatile(),
         }),
     ],
@@ -41,12 +43,19 @@ export interface UserEmailLinks extends OsfLinks {
 
 export default class UserEmailModel extends OsfModel.extend(Validations) {
     @attr() links!: UserEmailLinks;
+
     @attr() emailAddress!: string;
+
     @attr('boolean') confirmed!: boolean;
+
     @alias('confirmed') isConfirmed!: boolean;
+
     @attr('boolean') verified!: boolean;
+
     @attr('boolean') primary!: boolean;
+
     @alias('primary') isPrimary!: boolean;
+
     @attr('boolean') isMerge!: boolean;
 
     @belongsTo('user', {
@@ -54,6 +63,7 @@ export default class UserEmailModel extends OsfModel.extend(Validations) {
     }) user!: DS.PromiseObject<UserModel> & UserModel;
 
     existingEmails: Set<string> = new Set();
+
     invalidEmails: Set<string> = new Set();
 }
 

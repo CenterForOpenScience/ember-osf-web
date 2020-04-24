@@ -7,6 +7,7 @@ import Analytics from 'ember-osf-web/services/analytics';
 
 export default class MeetingsDetail extends Route {
     @service analytics!: Analytics;
+
     @service router!: any;
 
     @task

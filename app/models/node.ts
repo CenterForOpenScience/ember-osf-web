@@ -88,24 +88,43 @@ export interface NodeLicense {
 
 export default class NodeModel extends BaseFileItem.extend(Validations, CollectableValidations) {
     @attr('fixstring') title!: string;
+
     @attr('fixstring') description!: string;
+
     @attr('node-category') category!: NodeCategory;
+
     @attr('array') currentUserPermissions!: Permission[];
+
     @attr('boolean') currentUserIsContributor!: boolean;
+
     @attr('boolean') fork!: boolean;
+
     @alias('fork') isFork!: boolean;
+
     @attr('boolean') collection!: boolean;
+
     @attr('boolean') registration!: boolean;
+
     @attr('boolean') public!: boolean;
+
     @attr('date') dateCreated!: Date;
+
     @attr('date') dateModified!: Date;
+
     @attr('date') forkedDate!: Date;
+
     @attr('node-license') nodeLicense!: NodeLicense | null;
+
     @attr('fixstringarray') tags!: string[];
+
     @attr('fixstring') templateFrom!: string;
+
     @attr('string') analyticsKey?: string;
+
     @attr('boolean') preprint!: boolean;
+
     @attr('boolean') currentUserCanComment!: boolean;
+
     @attr('boolean') wikiEnabled!: boolean;
 
     @hasMany('contributor', { inverse: 'node' })
@@ -253,6 +272,7 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
 
     // BaseFileItem override
     isNode = true;
+
     collectable: boolean = defaultTo(this.collectable, false);
 
     makeFork(): Promise<object> {

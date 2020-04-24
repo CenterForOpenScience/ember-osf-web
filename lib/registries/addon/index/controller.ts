@@ -13,11 +13,15 @@ import ShareSearch, { ShareRegistration } from 'registries/services/share-search
 
 export default class Index extends Controller {
     @service store!: Store;
+
     @service router!: Services['router'];
+
     @service analytics!: Analytics;
+
     @service shareSearch!: ShareSearch;
 
     recentRegistrations: EmberArray<ShareRegistration> = A([]);
+
     searchableRegistrations = 0;
 
     @task({ on: 'init' })

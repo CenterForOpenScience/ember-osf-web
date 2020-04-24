@@ -25,7 +25,9 @@ export default class FileShareButton extends Component {
     @service analytics!: Analytics;
 
     file?: File;
+
     showPopup = false;
+
     elementId!: string;
 
     @computed('elementId')

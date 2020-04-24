@@ -11,10 +11,13 @@ import template from './template';
 @tagName('')
 export default class ContributorListContributor extends Component {
     contributor!: Contributor;
+
     shouldLinkUser: boolean = defaultTo(this.shouldLinkUser, false);
+
     shouldShortenName: boolean = defaultTo(this.shouldShortenName, false);
 
     contributorName?: string;
+
     contributorLink?: string;
 
     @task({ restartable: true, on: 'didReceiveAttrs' })
@@ -23,9 +26,9 @@ export default class ContributorListContributor extends Component {
 
         this.set(
             'contributorName',
-            this.shouldShortenName ?
-                user.familyName || user.givenName || user.fullName :
-                user.fullName,
+            this.shouldShortenName
+                ? user.familyName || user.givenName || user.fullName
+                : user.fullName,
         );
 
         const shouldLink = this.shouldLinkUser && !this.contributor.unregisteredContributor;

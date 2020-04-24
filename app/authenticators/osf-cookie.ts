@@ -24,8 +24,11 @@ const {
 
 export default class OsfCookie extends Base {
     @service features!: Features;
+
     @service session!: Session;
+
     @service store!: DS.Store;
+
     @service currentUser!: CurrentUser;
 
     lastVerifiedUserId?: string;
@@ -79,11 +82,7 @@ export default class OsfCookie extends Base {
         }
 
         // Push the user into the store for later use
-        try {
-            this.store.pushPayload(userData);
-        } catch (error) {
-            throw error;
-        }
+        this.store.pushPayload(userData);
 
         const { id } = userData.data;
         this.set('lastVerifiedUserId', id);
@@ -100,10 +99,10 @@ export default class OsfCookie extends Base {
         } = this;
 
         if (
-            isAuthenticated &&
-            lastVerifiedUserId &&
-            data &&
-            data.authenticated.id === lastVerifiedUserId
+            isAuthenticated
+            && lastVerifiedUserId
+            && data
+            && data.authenticated.id === lastVerifiedUserId
         ) {
             // Everything is in order, no need to re-auth
             return undefined;

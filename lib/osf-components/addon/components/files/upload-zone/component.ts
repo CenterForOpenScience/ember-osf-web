@@ -39,13 +39,19 @@ interface UploadResponse {
 @layout(template)
 export default class UploadZone extends Component {
     @service toast!: Toast;
+
     @service analytics!: Analytics;
+
     @service currentUser!: CurrentUser;
+
     @service store!: DS.Store;
 
     filesManager!: FilesManager;
+
     uploading: MutableArray<File> = A([]);
+
     dropping: boolean = false;
+
     dropzoneOptions = {
         createImageThumbnails: false,
         method: 'PUT',
@@ -53,10 +59,13 @@ export default class UploadZone extends Component {
         preventMultipleFiles: true,
         acceptDirectories: false,
     };
+
     buttonClass = '';
+
     existingFile?: File;
 
     @alias('filesManager.canEdit') canEdit!: boolean;
+
     @notEmpty('uploading') isUploading!: boolean;
 
     @computed('canEdit', 'buttonClass')

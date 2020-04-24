@@ -6,6 +6,7 @@ import { task } from 'ember-concurrency-decorators';
 export default class MeetingsList extends Component {
     // Private properties
     search?: string;
+
     sort = '-submissions_count';
 
     @computed('search', 'sort')

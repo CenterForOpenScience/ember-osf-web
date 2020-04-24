@@ -10,16 +10,13 @@ import template from './template';
 @layout(template)
 export default class Debouncer extends Component {
     fn!: () => void;
+
     timeoutInterval: number = 500;
 
     @task({ restartable: true })
     doFnDebounce = task(function *(this: Debouncer) {
         yield timeout(this.timeoutInterval);
-        try {
-            yield this.fn();
-        } catch (error) {
-            throw error;
-        }
+        yield this.fn();
     });
 
     didReceiveAttrs() {

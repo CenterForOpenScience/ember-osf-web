@@ -34,7 +34,9 @@ export default class SubjectBrowserManagerComponent extends Component {
 
     // private
     @service store!: DS.Store;
+
     @service toast!: Toast;
+
     @service intl!: Intl;
 
     rootSubjects?: SubjectModel[];

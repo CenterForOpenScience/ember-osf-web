@@ -14,11 +14,14 @@ export type NodeLike = Pick<Node, 'id' | 'isRegistration'>;
 export default class NodeNavbar extends Component {
     // Optional parameters
     node?: Node;
+
     allowComments?: boolean;
+
     renderInPlace?: boolean;
 
     // Private properties
     secondaryNavbarId = config.secondaryNavbarId;
+
     collapsedNav = true;
 
     @computed('node')

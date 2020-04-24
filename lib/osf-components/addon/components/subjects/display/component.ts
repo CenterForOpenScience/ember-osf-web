@@ -11,6 +11,7 @@ import template from './template';
 export default class SubjectDisplay extends Component {
     // optional
     subjects?: SubjectModel[];
+
     removeSubject?: (subject: SubjectModel) => void;
 
     @computed('subjects')

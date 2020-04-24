@@ -13,6 +13,7 @@ export default class SearchBar extends Component {
     @service analytics!: Analytics;
 
     value: string = '';
+
     @requiredAction onSearch!: (query: string) => void;
 
     @action

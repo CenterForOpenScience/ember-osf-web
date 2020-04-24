@@ -18,14 +18,21 @@ type ObjectType = 'collection' | 'preprint' | 'registration';
 @tagName('')
 export default class BrandedNavbar extends Component {
     @service analytics!: Analytics;
+
     @service intl!: Intl;
+
     @service session!: Session;
+
     @service theme!: Theme;
 
     brandRoute: string = this.brandRoute;
+
     objectType: ObjectType = this.objectType;
+
     signupUrl: string = this.signupUrl;
+
     translateKey: string = this.translateKey;
+
     showNavLinks: boolean = false;
 
     myProjectsUrl = serviceLinks.myProjects;

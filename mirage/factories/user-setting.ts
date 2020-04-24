@@ -10,7 +10,7 @@ export default Factory.extend<MirageUserSetting>({
     id(index) {
         if (this.user && 'id' in this.user) {
             return this.user.id;
-        } else if (this.userId) {
+        } if (this.userId) {
             return this.userId as string;
         }
         return index.toString();

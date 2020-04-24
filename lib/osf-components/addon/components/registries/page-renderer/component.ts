@@ -14,6 +14,7 @@ import template from './template';
 export default class PageRenderer extends Component {
     // Required param
     pageManager!: PageManager;
+
     node!: NodeModel;
 
     init() {

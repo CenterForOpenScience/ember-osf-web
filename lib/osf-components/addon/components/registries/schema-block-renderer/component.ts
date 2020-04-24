@@ -13,10 +13,12 @@ import template from './template';
 export default class SchemaBlockRenderer extends Component {
     // Required params
     schemaBlock!: SchemaBlock;
+
     renderStrategy!: Component;
 
     // Optional params
     disabled: boolean = defaultTo(this.disabled, false);
+
     shouldShowMessages: boolean = defaultTo(this.shouldShowMessages, true);
 
     didReceiveAttrs() {

@@ -13,45 +13,44 @@ import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
 
 const registrationStates: Record<string, {
     trait: string, icon: string,
-    initiallyOpened: boolean, hasAdminActions: boolean }>
-= {
-    embargoed: {
-        trait: 'isEmbargoed',
-        icon: 'lock',
-        initiallyOpened: false,
-        hasAdminActions: true,
-    },
-    pendingWithdrawal: {
-        trait: 'isPendingWithdrawal',
-        icon: 'clock-o',
-        initiallyOpened: true,
-        hasAdminActions: false,
-    },
-    pendingRegistration: {
-        trait: 'isPendingApproval',
-        icon: 'clock-o',
-        initiallyOpened: true,
-        hasAdminActions: false,
-    },
-    pendingEmbargo: {
-        trait: 'isPendingEmbargoApproval',
-        icon: 'clock-o',
-        initiallyOpened: true,
-        hasAdminActions: false,
-    },
-    pendingEmbargoTermination: {
-        trait: 'isPendingEmbargoTerminationApproval',
-        icon: 'clock-o',
-        initiallyOpened: true,
-        hasAdminActions: false,
-    },
-    public: {
-        trait: 'isPublic',
-        icon: 'eye',
-        initiallyOpened: false,
-        hasAdminActions: true,
-    },
-};
+    initiallyOpened: boolean, hasAdminActions: boolean }> = {
+        embargoed: {
+            trait: 'isEmbargoed',
+            icon: 'lock',
+            initiallyOpened: false,
+            hasAdminActions: true,
+        },
+        pendingWithdrawal: {
+            trait: 'isPendingWithdrawal',
+            icon: 'clock-o',
+            initiallyOpened: true,
+            hasAdminActions: false,
+        },
+        pendingRegistration: {
+            trait: 'isPendingApproval',
+            icon: 'clock-o',
+            initiallyOpened: true,
+            hasAdminActions: false,
+        },
+        pendingEmbargo: {
+            trait: 'isPendingEmbargoApproval',
+            icon: 'clock-o',
+            initiallyOpened: true,
+            hasAdminActions: false,
+        },
+        pendingEmbargoTermination: {
+            trait: 'isPendingEmbargoTerminationApproval',
+            icon: 'clock-o',
+            initiallyOpened: true,
+            hasAdminActions: false,
+        },
+        public: {
+            trait: 'isPublic',
+            icon: 'eye',
+            initiallyOpened: false,
+            hasAdminActions: true,
+        },
+    };
 
 module('Registries | Acceptance | overview.topbar', hooks => {
     setupEngineApplicationTest(hooks, 'registries');
@@ -143,8 +142,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         await click('[data-test-social-sharing-button]');
         assert.dom('[data-test-sharing-options]').isVisible();
 
-        ['Email', 'Linkedin', 'Twitter', 'Facebook'].forEach(medium =>
-            assert.dom(`[data-test-share-registration="${medium}"]`).isVisible());
+        ['Email', 'Linkedin', 'Twitter', 'Facebook'].forEach(medium => assert.dom(`[data-test-share-registration="${medium}"]`).isVisible());
     });
 
     test('forks dropdown works', async assert => {

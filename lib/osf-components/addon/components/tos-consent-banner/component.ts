@@ -19,13 +19,18 @@ import template from './template';
 @localClassNames('TosConsentBanner')
 export default class TosConsentBanner extends Component {
     @service analytics!: Analytics;
+
     @service currentUser!: CurrentUser;
+
     @service intl!: Intl;
+
     @service toast!: Toast;
 
     // Private properties
     show = false;
+
     didValidate = false;
+
     hasSubmitted = false;
 
     @task({ drop: true })

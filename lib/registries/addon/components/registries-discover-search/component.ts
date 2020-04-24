@@ -8,6 +8,8 @@ import template from './template';
 @layout(template)
 export default class Discover<T> extends Component {
     results = A<T>([]);
+
     searchOptions!: SearchOptions;
+
     @requiredAction onSearchOptionsUpdated!: (options: SearchOptions) => void;
 }

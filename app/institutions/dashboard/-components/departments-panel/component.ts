@@ -6,7 +6,9 @@ import InstitutionModel, { Department } from 'ember-osf-web/models/institution';
 
 export default class DepartmentsPanel extends Component {
     institution!: InstitutionModel;
+
     @alias('institution.statSummary.departments') departments!: any[];
+
     chartHoverIndex: number = -1;
 
     chartOptions: ChartOptions = {

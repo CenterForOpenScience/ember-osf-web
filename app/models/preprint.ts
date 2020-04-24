@@ -15,16 +15,27 @@ const { attr, belongsTo, hasMany } = DS;
 
 export default class PreprintModel extends OsfModel {
     @attr('fixstring') title!: string;
+
     @attr('date') dateCreated!: Date;
+
     @attr('date') datePublished!: Date;
+
     @attr('date') originalPublicationDate!: Date | null;
+
     @attr('date') dateModified!: Date;
+
     @attr('fixstring') doi!: string | null;
+
     @attr('boolean') isPublished!: boolean;
+
     @attr('boolean') isPreprintOrphan!: boolean;
+
     @attr('object') licenseRecord!: any;
+
     @attr('string') reviewsState!: string;
+
     @attr('date') dateLastTransitioned!: Date;
+
     @attr('date') preprintDoiCreated!: Date;
 
     @belongsTo('node', { inverse: 'preprints' })
@@ -49,6 +60,7 @@ export default class PreprintModel extends OsfModel {
     subjects!: DS.PromiseManyArray<SubjectModel>;
 
     @alias('links.doi') articleDoiUrl!: string | null;
+
     @alias('links.preprint_doi') preprintDoiUrl!: string;
 
     @computed('license')

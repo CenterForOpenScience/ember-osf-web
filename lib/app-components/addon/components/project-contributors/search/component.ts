@@ -25,17 +25,25 @@ const nameFields = [
 @layout(template, styles)
 export default class Search extends Component {
     @service analytics!: Analytics;
+
     @service intl!: Intl;
+
     @service store!: DS.Store;
+
     @service toast!: Toast;
 
     query: string = '';
+
     page: number = 1;
+
     showUnregisteredForm: boolean = false;
+
     node: Node = this.node;
+
     onAddContributor?: () => void;
 
     @alias('search.lastSuccessful.value') results?: DS.AdapterPopulatedRecordArray<User>;
+
     @alias('results.meta.total_pages') totalPages?: number;
 
     @task({ restartable: true })

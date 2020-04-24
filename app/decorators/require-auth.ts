@@ -30,6 +30,7 @@ export default function requireAuthFactory(
     function requireAuthDecorator<T extends ConcreteSubclass<Route>>(RouteSubclass: T) {
         class RequireAuthRoute extends RouteSubclass {
             @service session!: SessionService;
+
             @service currentUser!: CurrentUser;
 
             async beforeModel(transition: any) {

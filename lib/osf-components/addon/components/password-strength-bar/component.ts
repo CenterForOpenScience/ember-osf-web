@@ -26,6 +26,7 @@ export default class PasswordStrengthBar extends Component {
 
     // Optional parameters
     shouldShowMessages: boolean = defaultTo(this.shouldShowMessages, true);
+
     minStrength: number = defaultTo(this.minStrength, 2);
 
     // Private properties

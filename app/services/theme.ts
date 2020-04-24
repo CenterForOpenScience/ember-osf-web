@@ -38,6 +38,7 @@ export default class Theme extends Service {
     @service store!: DS.Store;
 
     id: string = defaultTo(this.id, defaultProvider);
+
     defaultProvider = defaultProvider;
 
     providerType?: ProviderType;

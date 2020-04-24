@@ -17,6 +17,7 @@ export default class FileBrowserItem extends Component {
     @service analytics!: Analytics;
 
     filesManager!: FilesManager;
+
     item!: File;
 
     didReceiveAttrs() {

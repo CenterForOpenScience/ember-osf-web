@@ -57,7 +57,9 @@ export interface HeadTagDef {
 
 export default class MetaTags extends Service {
     @service intl!: Intl;
+
     @service router!: any;
+
     @service headTags!: HeadTagsService;
 
     /**
@@ -151,9 +153,13 @@ export default class MetaTags extends Service {
 
         // Morph MetaTagsDefs into an array of MetaTagAttrs.
         const headTagsAttrs: MetaTagAttrs[] = Object.entries(metaTagsDefs)
-            .reduce((acc: MetaTagAttrs[], [name, content]) =>
-                acc.concat(toArray(content).map(contentMember =>
-                    this.makeMetaTagAttrs(name, contentMember))), []);
+            .reduce(
+                (acc: MetaTagAttrs[], [name, content]) => acc.concat(
+                    toArray(content).map(
+                        contentMember => this.makeMetaTagAttrs(name, contentMember),
+                    ),
+                ), [],
+            );
 
         return headTagsAttrs
             .filterBy('content') // Remove tags with no content.

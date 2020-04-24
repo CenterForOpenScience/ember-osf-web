@@ -10,6 +10,7 @@ export default class MeetingDetailHeader extends Component {
 
     // Private properties
     @service intl!: Intl;
+
     isPanelOpen = false;
 
     @computed('meeting.{fieldNames,isAcceptingTypeOne,isAcceptingTypeTwo}')
@@ -20,7 +21,7 @@ export default class MeetingDetailHeader extends Component {
         const submissionTwoPlural = this.meeting.fieldNames.submission2_plural;
         if (isAcceptingTypeOne && isAcceptingTypeTwo) {
             return addSubmission;
-        } else if (isAcceptingTypeOne) {
+        } if (isAcceptingTypeOne) {
             return submissionOnePlural;
         }
         return submissionTwoPlural;

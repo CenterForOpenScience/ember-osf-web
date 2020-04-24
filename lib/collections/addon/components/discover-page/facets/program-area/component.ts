@@ -3,6 +3,7 @@ import SearchFacetChecklist from '../checklist/component';
 
 class ProgramArea extends SearchFacetChecklist {
     get modelAttribute(): keyof Collection { return 'programAreaChoices'; }
+
     get filterProperty() { return 'programArea'; }
 }
 

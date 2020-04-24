@@ -9,6 +9,7 @@ import template from './template';
 export default class CommentsList extends Component {
     // Required parameters
     modelTaskInstance!: TaskInstance<OsfModel>;
+
     relationshipName!: string;
 
     // Optional parameters

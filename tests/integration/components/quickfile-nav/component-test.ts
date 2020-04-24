@@ -8,6 +8,7 @@ import { OsfLinkRouterStub } from '../../helpers/osf-link-router-stub';
 
 class FakeUser {
     id: string = faker.random.uuid();
+
     fullName: string = `${faker.name.firstName()} ${faker.name.lastName()}`;
 }
 

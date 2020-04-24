@@ -17,18 +17,31 @@ import getHref from 'ember-osf-web/utils/get-href';
 export default class ConnectedEmails extends Component {
     // Private properties
     @service currentUser!: CurrentUser;
+
     @service store!: DS.Store;
+
     @service intl!: Intl;
+
     @service toast!: Toast;
+
     userEmail!: UserEmail;
+
     showAddModal = false;
+
     showMergeModal = false;
+
     didValidate = false;
+
     lastUserEmail = '';
+
     modelProperties = { user: this.currentUser.user };
+
     reloadAlternateList!: (page?: number) => void; // bound by paginated-list
+
     reloadUnconfirmedList!: (page?: number) => void; // bound by paginated-list
+
     alternateQueryParams = { 'filter[primary]': false, 'filter[confirmed]': true };
+
     unconfirmedQueryParams = { 'filter[primary]': false, 'filter[confirmed]': false };
 
     @task({ restartable: true })
@@ -136,6 +149,7 @@ export default class ConnectedEmails extends Component {
             this.toast.success(this.intl.t('settings.account.connected_emails.save_success'));
         }
     }
+
     @action
     onError(e: DS.AdapterError | Error, changeset: ChangesetDef & UserEmail) {
         if (e instanceof DS.ConflictError) {

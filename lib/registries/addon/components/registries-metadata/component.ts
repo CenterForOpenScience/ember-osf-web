@@ -20,6 +20,7 @@ const {
 export default class RegistriesMetadata extends Component {
     // Parameters
     registration?: Registration;
+
     extendedFields?: boolean;
 
     // Private properties
@@ -40,8 +41,8 @@ export default class RegistriesMetadata extends Component {
 
     @computed('registration.id')
     get registrationDisplayUrl() {
-        return this.registration ?
-            `${osfUrl.split('//')[1]}${this.registration.id}` :
-            null;
+        return this.registration
+            ? `${osfUrl.split('//')[1]}${this.registration.id}`
+            : null;
     }
 }

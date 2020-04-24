@@ -10,15 +10,22 @@ import template from './template';
 export default class PaginatedList extends Component {
     // Required arguments
     items?: unknown[];
+
     page!: number;
+
     pageSize!: number;
+
     @requiredAction next!: () => void;
+
     @requiredAction previous!: () => void;
+
     @requiredAction doReload!: () => void;
 
     // Optional arguments
     loading: boolean = defaultTo(this.loading, false);
+
     errorShown: boolean = defaultTo(this.errorShown, false);
+
     totalCount?: number;
 
     // Private properties

@@ -16,11 +16,17 @@ import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/captur
 @tagName('')
 export default class DeactivationPane extends Component {
     @service currentUser!: CurrentUser;
+
     @service intl!: Intl;
+
     @service toast!: Toast;
+
     @alias('currentUser.user') user!: User;
+
     settings?: UserSettingModel;
+
     showRequestDialog = false;
+
     showUndoDialog = false;
 
     @task

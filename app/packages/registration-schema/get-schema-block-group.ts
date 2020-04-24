@@ -56,8 +56,8 @@ export function getSchemaBlockGroups(blocks: SchemaBlock[] | undefined) {
             case 'select-input-option':
                 if (schemaBlockGroup.inputBlock) {
                     assert('question with mismatched schemaBlockGroupKey!',
-                        !isEmpty(block.schemaBlockGroupKey) &&
-                        schemaBlockGroup.schemaBlockGroupKey === block.schemaBlockGroupKey);
+                        !isEmpty(block.schemaBlockGroupKey)
+                        && schemaBlockGroup.schemaBlockGroupKey === block.schemaBlockGroupKey);
                     schemaBlockGroup.optionBlocks = [
                         ...(schemaBlockGroup.optionBlocks || []),
                         block,

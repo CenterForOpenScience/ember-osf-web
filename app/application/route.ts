@@ -17,6 +17,7 @@ export default class ApplicationRoute extends Route.extend(
      */
 ) {
     @service intl!: Intl;
+
     @service currentUser!: CurrentUser;
 
     queryParams = {

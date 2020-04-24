@@ -16,12 +16,19 @@ import CurrentUser from 'ember-osf-web/services/current-user';
 @tagName('')
 export default class DefaultRegionPane extends Component {
     @service currentUser!: CurrentUser;
+
     @service intl!: Intl;
+
     @service toast!: Toast;
+
     @service store!: DS.Store;
+
     @alias('currentUser.user') user!: User;
+
     regions?: RegionModel[];
+
     @alias('loadDefaultRegionTask.isRunning') loadDefaultRunning!: boolean;
+
     @alias('loadRegionsTask.isRunning') loadRegionsRunning!: boolean;
 
     @task
