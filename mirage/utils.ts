@@ -1,7 +1,7 @@
 import { faker } from 'ember-cli-mirage';
 
-export function placekitten(width: number, height: number) {
-    return `https://placekitten.com/${width}/${height}`;
+export function placekitten(width: number, height: number, n: number = 12) {
+    return `https://placekitten.com/${width}/${height}?image=${n}`;
 }
 
 export function randomGravatar(size?: number) {
