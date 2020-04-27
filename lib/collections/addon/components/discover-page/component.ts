@@ -352,8 +352,8 @@ export default class DiscoverPage extends Component {
         this.analytics.track('input', 'onkeyup', 'Discover - Search', this.q);
     }
 
-    didInsertElement(...args: any[]) {
-        super.didInsertElement(...args);
+    didInsertElement() {
+        super.didInsertElement();
         this.set('firstLoad', true);
     }
 

@@ -23,6 +23,7 @@ interface RelationshipOptions extends ActionOptions<relationshipAction> {
     defaultPageSize?: number;
     path: string;
     defaultSortKey: string;
+    relatedModelName: string;
 }
 
 interface ActionOptions<T extends string> {
@@ -109,7 +110,7 @@ export function osfNestedResource<K extends keyof ModelRegistry>(
 ) {
     const opts: NestedResourceOptions = {
         path: `/${pluralize(underscore(parentModelName))}/:parentID/${underscore(relationshipName)}`,
-        relatedModelName: singularize(relationshipName),
+        relatedModelName: singularize(relationshipName) as keyof ModelRegistry,
         defaultSortKey: '-id',
         ...options,
     };

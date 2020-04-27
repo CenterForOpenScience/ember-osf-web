@@ -70,8 +70,8 @@ export default abstract class SearchFacetChecklist extends Base {
             }));
     }
 
-    didInsertElement(this: SearchFacetChecklist, ...args: any[]) {
-        super.didInsertElement(...args);
+    didInsertElement(this: SearchFacetChecklist) {
+        super.didInsertElement();
 
         const { context, filterChanged, filterProperty } = this;
 

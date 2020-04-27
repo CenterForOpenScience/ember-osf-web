@@ -81,8 +81,8 @@ export default class SearchFacetProvider extends Base {
             }));
     }
 
-    didReceiveAttrs(...args: any[]) {
-        super.didReceiveAttrs(...args);
+    didReceiveAttrs() {
+        super.didReceiveAttrs();
 
         const { context, filterChanged, theme } = this;
 

@@ -84,8 +84,8 @@ export default class LicensePicker extends Component {
         }
     }
 
-    didReceiveAttrs(...args: any[]) {
-        super.didReceiveAttrs(...args);
+    didReceiveAttrs() {
+        super.didReceiveAttrs();
         this.queryLicenses.perform();
     }
 }
