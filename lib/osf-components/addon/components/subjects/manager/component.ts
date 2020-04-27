@@ -125,7 +125,9 @@ export default class SubjectManagerComponent extends Component {
         const { selectedSubjects } = this;
 
         try {
-            const updateResult: ResourceCollectionDocument = yield this.model.updateM2MRelationship('subjects', selectedSubjects);
+            const updateResult: ResourceCollectionDocument = yield this.model.updateM2MRelationship(
+                'subjects', selectedSubjects,
+            );
             const updatedSubjects = updateResult.data.map(
                 datum => this.store.peekRecord(
                     'subject',

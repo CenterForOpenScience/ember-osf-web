@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
 import { TestContext } from 'ember-test-helpers';
@@ -170,3 +171,4 @@ module('Registries | Integration | Component | page-link', hooks => {
         assert.dom('[data-test-icon].fa-circle-o').exists('icon uses proper symbol');
     });
 });
+/* eslint-enable max-classes-per-file */

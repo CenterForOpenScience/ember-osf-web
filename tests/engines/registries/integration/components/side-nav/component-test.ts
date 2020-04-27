@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
 import { TestContext } from 'ember-test-helpers';
@@ -59,3 +60,4 @@ module('Registries | Integration | Component | side-nav', hooks => {
         assert.dom('nav a[data-for-a-test="bar"]').exists('The yieled element contains splattributes');
     });
 });
+/* eslint-enable max-classes-per-file */

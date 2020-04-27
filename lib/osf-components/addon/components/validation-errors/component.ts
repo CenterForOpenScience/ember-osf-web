@@ -47,7 +47,11 @@ export default class ValidationErrors extends Component<Args> {
             const validatorErrors: RawValidationResult[] = errors ? errors.validation : [];
 
             if (Array.isArray(validatorErrors)) {
-                return validatorErrors.map(({ context: { type, translationArgs } }) => this.intl.t(`validationErrors.${type}`, { ...translationArgs }));
+                return validatorErrors.map(
+                    ({ context: { type, translationArgs } }) => this.intl.t(
+                        `validationErrors.${type}`, { ...translationArgs },
+                    ),
+                );
             }
         }
         return [];

@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import Service from '@ember/service';
 import { is, Map, OrderedSet, ValueObject } from 'immutable';
 import $ from 'jquery';
@@ -184,3 +185,4 @@ export default abstract class AbstractSearchService extends Service {
         };
     }
 }
+/* eslint-enable max-classes-per-file */

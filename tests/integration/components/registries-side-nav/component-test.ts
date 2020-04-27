@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
 import { setupRenderingTest } from 'ember-qunit';
@@ -53,3 +54,4 @@ module('Integration | Component | registries-side-nav', hooks => {
         assert.dom('nav a[data-for-a-test="bar"]').exists('The yielded element contains splattributes');
     });
 });
+/* eslint-enable max-classes-per-file */

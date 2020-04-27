@@ -18,12 +18,7 @@ const {
 
 export default class Application extends Controller {
     @service features!: Features;
-<<<<<<< HEAD
-=======
 
-    @service brand!: Brand;
-
->>>>>>> linting fixes
     @alias(`features.${camelize(newStyleFlag)}`) newStyleEnabled!: boolean;
 
     activeService = OSFService.REGISTRIES;
