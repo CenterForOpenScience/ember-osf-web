@@ -65,7 +65,8 @@ export function getAncestorDescriptor(params: any[]): string {
 
     if (rootId === nodeId) { // One level
         return '';
-    } if (rootId === parentId) { // Two levels
+    }
+    if (rootId === parentId) { // Two levels
         result.push(parentTitle);
     } else if (rootId === parentParentId) { // Three levels
         result.push(rootTitle, parentTitle);

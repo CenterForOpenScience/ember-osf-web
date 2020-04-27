@@ -73,11 +73,14 @@ export function decodeParams(param: string) {
 export function getSplitParams(params: any) {
     if (!params.length) {
         return params.slice(0);
-    } if (params.length && Array.isArray(params[0])) {
+    }
+    if (params.length && Array.isArray(params[0])) {
         return params[0];
-    } if (params.length && typeof (params) === 'string') {
+    }
+    if (params.length && typeof (params) === 'string') {
         return decodeParams(params);
-    } if (params.length === 1) {
+    }
+    if (params.length === 1) {
         return decodeParams(params[0]);
     }
 

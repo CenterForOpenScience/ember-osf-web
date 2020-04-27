@@ -147,7 +147,8 @@ export default class OsfModel extends Model {
 
             const { meta, links } = response as ResourceCollectionDocument;
             return Object.assign(A(records), { meta, links });
-        } if ('errors' in response) {
+        }
+        if ('errors' in response) {
             throw new Error(response.errors.map(error => error.detail).join('\n'));
         } else {
             throw new Error(`Unexpected response while loading relationship ${this.modelName}.${propertyName}`);

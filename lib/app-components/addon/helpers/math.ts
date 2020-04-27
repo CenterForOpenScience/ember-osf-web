@@ -21,7 +21,8 @@ export function findEnd(content: string, start: number, end: string) {
     for (let i = start; i < content.length; i++) {
         if (contextLevel < 1 && content.startsWith(end, i)) {
             return i + end.length;
-        } if (content[i] === '{') {
+        }
+        if (content[i] === '{') {
             contextLevel++;
         } else if (content[i] === '}') {
             contextLevel--;

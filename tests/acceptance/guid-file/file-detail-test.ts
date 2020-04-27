@@ -1,13 +1,12 @@
 import {
+    blur,
     click as untrackedClick,
     currentRouteName,
     currentURL,
     fillIn,
     settled,
-    triggerEvent,
     triggerKeyEvent,
     visit,
-    blur,
 } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import config from 'ember-get-config';
