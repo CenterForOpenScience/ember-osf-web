@@ -9,6 +9,6 @@ module('Integration | Component | draft-registration-card', hooks => {
     test('it renders', async function(assert) {
         await render(hbs`{{draft-registration-card}}`);
 
-        assert.dom(this.element).hasText('Edit Delete Register');
+        assert.dom(this.element).hasText('Edit Delete Review');
     });
 });

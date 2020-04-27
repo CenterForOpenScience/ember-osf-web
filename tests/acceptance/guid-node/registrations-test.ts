@@ -223,16 +223,6 @@ module('Acceptance | guid-node/registrations', hooks => {
         assert.dom('[data-test-draft-registration-card-title]').includesText(
             'Prereg Challenge',
         );
-
-        assert.dom('[data-test-draft-registration-card-progress-bar]').exists({ count: 1 });
-
-        const progressBarElement =
-            document.querySelector('[data-test-draft-registration-card-progress-bar] .progress-bar') as HTMLElement;
-
-        assert.ok(
-            parseFloat(progressBarElement.style.width ? progressBarElement.style.width : '') > 0,
-            'Progress bar shows progress',
-        );
     });
 
     test('logged in admin, 12 draft registrations', async assert => {
