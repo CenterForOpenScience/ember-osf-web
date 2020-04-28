@@ -1,8 +1,8 @@
 import { Factory, faker } from 'ember-cli-mirage';
 
-import InstitutionSummaryMetricsModel from 'ember-osf-web/models/institution-summary-metric';
+import InstitutionSummaryMetricModel from 'ember-osf-web/models/institution-summary-metric';
 
-export default Factory.extend<InstitutionSummaryMetricsModel>({
+export default Factory.extend<InstitutionSummaryMetricModel>({
     publicProjectCount() {
         return faker.random.number({ min: 10, max: 100 });
     },
@@ -16,6 +16,6 @@ export default Factory.extend<InstitutionSummaryMetricsModel>({
 
 declare module 'ember-cli-mirage/types/registries/schema' {
     export default interface MirageSchemaRegistry {
-        institutionSummaryMetrics: InstitutionSummaryMetricsModel;
+        institutionSummaryMetrics: InstitutionSummaryMetricModel;
     } // eslint-disable-line semi
 }
