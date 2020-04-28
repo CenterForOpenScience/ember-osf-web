@@ -56,7 +56,7 @@ export default class InstitutionModel extends OsfModel {
     institutionalUsers!: DS.PromiseManyArray<InstitutionalUserModel>;
 
     @hasMany('institution-summary-metric')
-    institutionSummaryMetrics!: DS.PromiseObject<InstitutionSummaryMetricsModel>;
+    institutionSummaryMetrics!: DS.PromiseManyArray<InstitutionSummaryMetricsModel>;
 
     // This is for the title helper, which does its own encoding of unsafe characters
     @computed('name')

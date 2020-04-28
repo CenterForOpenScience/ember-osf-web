@@ -16,7 +16,7 @@ module('Integration | routes | institutions | dashboard | -components | institut
     });
 
     test('it renders and paginates', async function(assert) {
-        server.create('institution', { id: 'testinstitution' }, 'withInstitutionalUsers', 'withStatSummary');
+        server.create('institution', { id: 'testinstitution' }, 'withInstitutionalUsers', 'withSummaryMetrics');
 
         const model = {
             taskInstance: this.get('store').findRecord('institution', 'testinstitution'),
@@ -60,22 +60,22 @@ module('Integration | routes | institutions | dashboard | -components | institut
             id: 'testinstitution',
             institutionalUsers: [
                 server.create('institutional-user', {
-                    userFullName: 'John Doe',
+                    userName: 'John Doe',
                     userGuid: 'abcd',
                     department: 'Psychology',
                 }),
                 server.create('institutional-user', {
-                    userFullName: 'Jane Doe',
+                    userName: 'Jane Doe',
                     userGuid: 'abcd',
                     department: 'Architecture',
                 }),
                 server.create('institutional-user', {
-                    userFullName: 'Hulk Hogan',
+                    userName: 'Hulk Hogan',
                     userGuid: 'abcd',
                     department: 'Biology',
                 }),
             ],
-        }, 'withStatSummary');
+        }, 'withSummaryMetrics');
 
         const model = {
             taskInstance: this.get('store').findRecord('institution', 'testinstitution'),

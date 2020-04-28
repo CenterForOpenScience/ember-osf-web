@@ -24,8 +24,8 @@ export default class InstitutionalUsersList extends Component {
     get departments() {
         let departments = [this.defaultDepartment];
 
-        if (this.institution && this.institution.statSummary) {
-            const institutionDepartments = this.institution.statSummary.departments.map((x: any) => x.name);
+        if (this.institution && this.institution.institutionDepartments) {
+            const institutionDepartments = this.institution.institutionDepartments.map((x: any) => x.name);
             departments = departments.concat(institutionDepartments);
         }
 

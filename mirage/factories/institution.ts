@@ -5,6 +5,7 @@ import Institution from 'ember-osf-web/models/institution';
 import { placekitten, randomGravatar } from '../utils';
 
 export interface InstitutionTraits {
+    withInstitutionDepartments: Trait;
     withInstitutionalUsers: Trait;
     withSummaryMetrics: Trait;
 }
@@ -29,13 +30,19 @@ export default Factory.extend<Institution & InstitutionTraits>({
     withInstitutionalUsers: trait<Institution>({
         afterCreate(institution, server) {
             const institutionalUsers = server.createList('institutional-user', 15);
-            institution.set('institutionalUsers', institutionalUsers);
+            institution.update({ institutionalUsers });
+        },
+    }),
+    withInstitutionDepartments: trait<Institution>({
+        afterCreate(institution, server) {
+            const institutionDepartments = server.create('institution-department', 7);
+            institution.update({ institutionDepartments });
         },
     }),
     withSummaryMetrics: trait<Institution>({
         afterCreate(institution, server) {
-            const summaryMetrics = server.create('institution-summary-metric');
-            institution.set('institutionSummaryMetrics', summaryMetrics);
+            const institutionSummaryMetrics = server.create('institution-summary-metric');
+            institution.update({ institutionSummaryMetrics });
         },
     }),
 });
