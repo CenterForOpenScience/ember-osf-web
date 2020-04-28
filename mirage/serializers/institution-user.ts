@@ -1,14 +1,14 @@
 import { ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
-import InstitutionalUser from 'ember-osf-web/models/institutional-user';
+import InstitutionUser from 'ember-osf-web/models/institution-user';
 
 import ApplicationSerializer from './application';
 
 const { OSF: { apiUrl } } = config;
 
-export default class InstitutionalUsersSerializer extends ApplicationSerializer<InstitutionalUser> {
-    buildRelationships(model: ModelInstance<InstitutionalUser>) {
+export default class InstitutionUsersSerializer extends ApplicationSerializer<InstitutionUser> {
+    buildRelationships(model: ModelInstance<InstitutionUser>) {
         return {
             user: {
                 links: {

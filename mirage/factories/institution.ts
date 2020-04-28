@@ -6,7 +6,7 @@ import { placekitten, randomGravatar } from '../utils';
 
 export interface InstitutionTraits {
     withInstitutionDepartments: Trait;
-    withInstitutionalUsers: Trait;
+    withInstitutionUsers: Trait;
     withSummaryMetrics: Trait;
 }
 
@@ -27,10 +27,10 @@ export default Factory.extend<Institution & InstitutionTraits>({
     lastUpdated() {
         return faker.date.recent();
     },
-    withInstitutionalUsers: trait<Institution>({
+    withInstitutionUsers: trait<Institution>({
         afterCreate(institution, server) {
-            const institutionalUsers = server.createList('institutional-user', 15);
-            institution.update({ institutionalUsers });
+            const institutionUsers = server.createList('institution-user', 15);
+            institution.update({ institutionUsers });
         },
     }),
     withInstitutionDepartments: trait<Institution>({

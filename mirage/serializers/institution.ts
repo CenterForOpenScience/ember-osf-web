@@ -9,11 +9,11 @@ const { OSF: { apiUrl } } = config;
 export default class InstitutionSerializer extends ApplicationSerializer<Institution> {
     buildRelationships(model: ModelInstance<Institution>) {
         return {
-            institutionalUsers: {
+            institutionUsers: {
                 links: {
                     related: {
                         href: `${apiUrl}/v2/institutions/${model.id}/users`,
-                        meta: this.buildRelatedLinkMeta(model, 'institutionalUsers'),
+                        meta: this.buildRelatedLinkMeta(model, 'institutionUsers'),
                     },
                 },
             },

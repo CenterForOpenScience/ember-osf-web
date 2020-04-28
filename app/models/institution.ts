@@ -4,7 +4,7 @@ import DS from 'ember-data';
 
 import InstitutionSummaryMetricsModel from 'ember-osf-web/models/institution-summary-metric';
 import InstitutionDepartmentsModel from './institution-department';
-import InstitutionalUserModel from './institutional-user';
+import InstitutionUserModel from './institution-user';
 import NodeModel from './node';
 import OsfModel, { OsfLinks } from './osf-model';
 import RegistrationModel from './registration';
@@ -39,7 +39,7 @@ export default class InstitutionModel extends OsfModel {
     @attr('boolean', { defaultValue: false }) currentUserIsAdmin!: boolean;
     @attr('date') lastUpdated!: Date;
 
-    // TODO Might want to replace calls to `users` with `institutionalUsers.user`?
+    // TODO Might want to replace calls to `users` with `institutionUsers.user`?
     @hasMany('user', { inverse: 'institutions' })
     users!: DS.PromiseManyArray<UserModel>;
 
@@ -52,8 +52,8 @@ export default class InstitutionModel extends OsfModel {
     @hasMany('institution-department')
     institutionDepartments!: DS.PromiseManyArray<InstitutionDepartmentsModel>;
 
-    @hasMany('institutional-user')
-    institutionalUsers!: DS.PromiseManyArray<InstitutionalUserModel>;
+    @hasMany('institution-user')
+    institutionUsers!: DS.PromiseManyArray<InstitutionUserModel>;
 
     @hasMany('institution-summary-metric')
     institutionSummaryMetrics!: DS.PromiseManyArray<InstitutionSummaryMetricsModel>;

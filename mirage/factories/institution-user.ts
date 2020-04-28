@@ -1,9 +1,9 @@
 import { association, Factory, faker } from 'ember-cli-mirage';
 
-import InstitutionalUser from 'ember-osf-web/models/institutional-user';
+import InstitutionUser from 'ember-osf-web/models/institution-user';
 
-export default Factory.extend<InstitutionalUser>({
-    user: association() as InstitutionalUser['user'],
+export default Factory.extend<InstitutionUser>({
+    user: association() as InstitutionUser['user'],
     department() {
         return faker.random.arrayElement(['Architecture', 'Biology', 'Psychology']);
     },
@@ -13,10 +13,10 @@ export default Factory.extend<InstitutionalUser>({
     privateProjects() {
         return faker.random.number({ min: 0, max: 99 });
     },
-    afterCreate(institutionalUser, server) {
-        if (!institutionalUser.userName && !institutionalUser.userGuid) {
+    afterCreate(institutionUser, server) {
+        if (!institutionUser.userName && !institutionUser.userGuid) {
             const user = server.create('user');
-            institutionalUser.update({
+            institutionUser.update({
                 user,
                 userName: user.fullName,
                 userGuid: user.id,
@@ -27,6 +27,6 @@ export default Factory.extend<InstitutionalUser>({
 
 declare module 'ember-cli-mirage/types/registries/schema' {
     export default interface MirageSchemaRegistry {
-        'institutional-user': InstitutionalUser;
+        'institution-user': InstitutionUser;
     } // eslint-disable-line semi
 }

@@ -7,7 +7,7 @@ import OsfModel from './osf-model';
 
 const { attr, belongsTo } = DS;
 
-export default class InstitutionalUserModel extends OsfModel {
+export default class InstitutionUserModel extends OsfModel {
     @attr('fixstring') userName!: string;
     @attr('fixstring') department?: string;
     @attr('number') publicProjects!: number;
@@ -21,6 +21,6 @@ export default class InstitutionalUserModel extends OsfModel {
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        'institutional-user': InstitutionalUserModel;
+        'institution-user': InstitutionUserModel;
     } // eslint-disable-line semi
 }

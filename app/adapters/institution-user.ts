@@ -1,11 +1,11 @@
 import OsfAdapter from './osf-adapter';
 
-export default class InstitutionalUserAdapter extends OsfAdapter {
+export default class InstitutionUserAdapter extends OsfAdapter {
     parentRelationship = 'institution';
 }
 
 declare module 'ember-data/types/registries/adapter' {
     export default interface AdapterRegistry {
-        'institutional-user': InstitutionalUserAdapter;
+        'institution-user': InstitutionUserAdapter;
     } // eslint-disable-line semi
 }
