@@ -14,22 +14,25 @@
             </OsfLink>
         {{else}}
             <ContentPlaceholders as |placeholder|>
-                <placeholder.text @lines={{1}} />
+                <placeholder.text
+                    data-test-header-placeholder
+                    @lines={{1}}
+                />
             </ContentPlaceholders>
         {{/if}}
     </h4>
     <section local-class='DraftRegistrationCard__body' data-test-draft-registration-card-body>
         {{#if this.draftRegistration}}
             <small>
-                <p>
+                <p data-test-initiated-by>
                     {{t 'osf-components.draft-registration-card.initiated_by'}}
                     {{this.draftRegistration.initiator.fullName}}
                 </p>
-                <p>
+                <p data-test-time-initiated>
                     {{t 'osf-components.draft-registration-card.started'}}
                     {{moment this.draftRegistration.datetimeInitiated}}
                 </p>
-                <p>
+                <p data-test-time-updated>
                     {{t 'osf-components.draft-registration-card.last_updated'}}
                     {{moment this.draftRegistration.datetimeUpdated}}
                 </p>
@@ -95,7 +98,10 @@
             </div>
         {{else}}
             <ContentPlaceholders as |placeholder|>
-                <placeholder.text @lines={{3}} />
+                <placeholder.text
+                    data-test-content-placeholder
+                    @lines={{3}}
+                />
             </ContentPlaceholders>
         {{/if}}
     </section>
