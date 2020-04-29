@@ -1,7 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action } from '@ember/object';
-import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -15,7 +14,6 @@ import template from './template';
 @tagName('')
 export default class DraftRegistrationCard extends Component {
     @service analytics!: Analytics;
-    @service router!: RouterService;
 
     // Required arguments
     draftRegistration!: DraftRegistration;

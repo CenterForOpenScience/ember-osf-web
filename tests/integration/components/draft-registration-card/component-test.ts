@@ -31,11 +31,12 @@ module('Integration | Component | draft-registration-card', hooks => {
         const draftRegistration = await this.store.findRecord('draft-registration', draft.id);
         this.set('draftRegistration', draftRegistration);
 
-        /* eslint-disable max-len */
-        const initiated = `${this.intl.t('osf-components.draft-registration-card.initiated_by')} ${user.fullName}`;
-        const dateStarted = `${this.intl.t('osf-components.draft-registration-card.started')} ${moment(draftRegistration.datetimeInitiated)}`;
-        const dateUpdated = `${this.intl.t('osf-components.draft-registration-card.last_updated')} ${moment(draftRegistration.datetimeUpdated)}`;
-        /* eslint-enable max-len */
+        const initiated = `${this.intl.t('osf-components.draft-registration-card.initiated_by')} ` +
+                        `${user.fullName}`;
+        const dateStarted = `${this.intl.t('osf-components.draft-registration-card.started')} ` +
+                            `${moment(draftRegistration.datetimeInitiated)}`;
+        const dateUpdated = `${this.intl.t('osf-components.draft-registration-card.last_updated')} ` +
+                            `${moment(draftRegistration.datetimeUpdated)}`;
 
         await render(hbs`<DraftRegistrationCard @draftRegistration={{this.draftRegistration}} />`);
 
