@@ -1,10 +1,10 @@
 import {
-    blur,
     click as untrackedClick,
     currentRouteName,
     currentURL,
     fillIn,
     settled,
+    triggerEvent,
     triggerKeyEvent,
     visit,
 } from '@ember/test-helpers';
@@ -468,7 +468,7 @@ module('Acceptance | guid file', hooks => {
                 .doesNotExist();
 
             await fillIn('input[class*="emberTagInput-input"]', 'plugh');
-            await blur('input[class*="emberTagInput-input"]');
+            await triggerEvent('input[class*="emberTagInput-input"]', 'blur');
             assert.dom('[data-test-tags-widget-tag="plugh"]')
                 .exists();
         });
