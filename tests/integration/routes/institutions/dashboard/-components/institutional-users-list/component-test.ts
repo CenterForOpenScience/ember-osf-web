@@ -58,7 +58,7 @@ module('Integration | routes | institutions | dashboard | -components | institut
     test('it sorts', async function(assert) {
         server.create('institution', {
             id: 'testinstitution',
-            institutionUsers: [
+            userMetrics: [
                 server.create('institution-user', {
                     userName: 'John Doe',
                     userGuid: 'abcd',

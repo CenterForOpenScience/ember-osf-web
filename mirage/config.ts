@@ -49,7 +49,7 @@ export default function(this: Server) {
     this.get('/guids/:id', guidDetail);
 
     osfResource(this, 'institution', { only: ['index', 'show'], defaultPageSize: 1000 });
-    osfNestedResource(this, 'institution', 'institutionUsers', {
+    osfNestedResource(this, 'institution', 'userMetrics', {
         only: ['index'],
         path: '/institutions/:parentID/metrics/users',
     });

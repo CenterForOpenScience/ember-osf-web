@@ -2,7 +2,7 @@ import { computed } from '@ember/object';
 import { htmlSafe } from '@ember/string';
 import DS from 'ember-data';
 
-import InstitutionSummaryMetricsModel from 'ember-osf-web/models/institution-summary-metric';
+import InstitutionSummaryMetricModel from 'ember-osf-web/models/institution-summary-metric';
 import InstitutionDepartmentsModel from './institution-department';
 import InstitutionUserModel from './institution-user';
 import NodeModel from './node';
@@ -10,7 +10,7 @@ import OsfModel, { OsfLinks } from './osf-model';
 import RegistrationModel from './registration';
 import UserModel from './user';
 
-const { attr, hasMany } = DS;
+const { attr, belongsTo, hasMany } = DS;
 
 export interface InstitutionLinks extends OsfLinks {
     csv: string;
@@ -53,10 +53,10 @@ export default class InstitutionModel extends OsfModel {
     institutionDepartments!: DS.PromiseManyArray<InstitutionDepartmentsModel>;
 
     @hasMany('institution-user')
-    institutionUsers!: DS.PromiseManyArray<InstitutionUserModel>;
+    userMetrics!: DS.PromiseManyArray<InstitutionUserModel>;
 
-    @hasMany('institution-summary-metric')
-    institutionSummaryMetrics!: DS.PromiseManyArray<InstitutionSummaryMetricsModel>;
+    @belongsTo('institution-summary-metric')
+    institutionSummaryMetrics!: DS.PromiseObject<InstitutionSummaryMetricModel> & InstitutionSummaryMetricModel;
 
     // This is for the title helper, which does its own encoding of unsafe characters
     @computed('name')

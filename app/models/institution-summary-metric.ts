@@ -3,7 +3,7 @@ import OsfModel from './osf-model';
 
 const { attr } = DS;
 
-export default class InstitutionSummaryMetricsModel extends OsfModel {
+export default class InstitutionSummaryMetricModel extends OsfModel {
     @attr('number') publicProjectCount!: number;
     @attr('number') privateProjectCount!: number;
     @attr('number') userCount!: number;
@@ -11,6 +11,6 @@ export default class InstitutionSummaryMetricsModel extends OsfModel {
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        'institution-summary-metric': InstitutionSummaryMetricsModel;
+        'institution-summary-metric': InstitutionSummaryMetricModel;
     } // eslint-disable-line semi
 }
