@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
-import { alias, not } from '@ember/object/computed';
+import { alias } from '@ember/object/computed';
 import config from 'ember-get-config';
 
 import Registration from 'ember-osf-web/models/registration';
@@ -22,7 +22,7 @@ export default class Overview extends Controller {
 
     @alias('model.taskInstance.value') registration?: Registration;
 
-    @not('registration') loading!: boolean;
+    // @not('registration') loading!: boolean;
 
     @computed('registration.id')
     get registrationURL() {

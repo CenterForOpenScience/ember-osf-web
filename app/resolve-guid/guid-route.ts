@@ -53,6 +53,7 @@ export default abstract class GuidRoute extends Route {
         return {
             guid: params.guid,
             taskInstance: this.getModel.perform(params.guid),
+            task: this.getModel,
         };
     }
 }
