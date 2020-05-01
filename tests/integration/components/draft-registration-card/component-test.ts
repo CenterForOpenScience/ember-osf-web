@@ -31,21 +31,24 @@ module('Integration | Component | draft-registration-card', hooks => {
         const draftRegistration = await this.store.findRecord('draft-registration', draft.id);
         this.set('draftRegistration', draftRegistration);
 
+        await render(hbs`<DraftRegistrationCard @draftRegistration={{this.draftRegistration}} />`);
+
         const initiated = `${this.intl.t('osf-components.draft-registration-card.initiated_by')} ` +
                         `${user.fullName}`;
+        const formType = `${this.intl.t('osf-components.draft-registration-card.form_type')} ` +
+                        `${draftRegistration.registrationSchema.get('name')}`;
         const dateStarted = `${this.intl.t('osf-components.draft-registration-card.started')} ` +
                             `${moment(draftRegistration.datetimeInitiated)}`;
         const dateUpdated = `${this.intl.t('osf-components.draft-registration-card.last_updated')} ` +
                             `${moment(draftRegistration.datetimeUpdated)}`;
 
-        await render(hbs`<DraftRegistrationCard @draftRegistration={{this.draftRegistration}} />`);
-
         assert.dom('[data-test-header-placeholder]').doesNotExist();
         assert.dom('[data-test-content-placeholder]').doesNotExist();
 
         assert.dom('[data-test-draft-registration-card-title]')
-            .hasText(draftRegistration.registrationSchema.get('name'));
+            .hasText(draftRegistration.title);
         assert.dom('[data-test-initiated-by]').containsText(initiated);
+        assert.dom('[data-test-form-type]').containsText(formType);
         assert.dom('[data-test-time-initiated]').containsText(dateStarted);
         assert.dom('[data-test-time-updated]').containsText(dateUpdated);
     });

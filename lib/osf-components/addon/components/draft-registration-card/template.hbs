@@ -10,7 +10,8 @@
                 @route='registries.drafts.draft'
                 @models={{array this.draftRegistration.id}}
             >
-                {{this.draftRegistration.registrationSchema.name}}
+
+                {{this.draftRegistration.title}}
             </OsfLink>
         {{else}}
             <ContentPlaceholders as |placeholder|>
@@ -27,6 +28,10 @@
                 <p data-test-initiated-by>
                     {{t 'osf-components.draft-registration-card.initiated_by'}}
                     {{this.draftRegistration.initiator.fullName}}
+                </p>
+                <p data-test-form-type>
+                    {{t 'osf-components.draft-registration-card.form_type'}}
+                    {{this.draftRegistration.registrationSchema.name}}
                 </p>
                 <p data-test-time-initiated>
                     {{t 'osf-components.draft-registration-card.started'}}
