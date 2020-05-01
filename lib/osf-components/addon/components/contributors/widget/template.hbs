@@ -1,0 +1,13 @@
+<Contributors::Manager
+    @thingWithContributors={{@thingWithContributors}}
+    as |manager|
+>
+    {{#let (get
+        (hash
+            readonly=(component 'contributors/list/readonly')
+        )
+        this.widgetMode
+    ) as |List|}}
+        <List @contributorsManager={{manager}} />
+    {{/let}}
+</Contributors::Manager>
