@@ -53,11 +53,11 @@ export default function(this: Server) {
         only: ['index'],
         path: '/institutions/:parentID/metrics/users',
     });
-    osfNestedResource(this, 'institution', 'institutionDepartments', {
+    osfNestedResource(this, 'institution', 'departmentMetrics', {
         only: ['index'],
         path: '/institutions/:parentID/metrics/departments',
     });
-    osfNestedResource(this, 'institution', 'institutionSummaryMetrics', {
+    osfNestedResource(this, 'institution', 'summaryMetrics', {
         only: ['index'],
         path: '/institutions/:parentID/metrics/summary',
     });

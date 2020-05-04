@@ -13,7 +13,7 @@ export default class InstitutionUserModel extends OsfModel {
     @attr('number') publicProjects!: number;
     @attr('number') privateProjects!: number;
 
-    @belongsTo('user', { async: false })
+    @belongsTo('user', { async: true })
     user!: DS.PromiseObject<UserModel> & UserModel;
 
     @alias('user.id') userGuid!: string;

@@ -26,7 +26,7 @@ export interface Assets {
 
 export interface Department {
     name: string;
-    numUsers: number;
+    numberOfUsers: number;
 }
 
 export default class InstitutionModel extends OsfModel {
@@ -50,13 +50,13 @@ export default class InstitutionModel extends OsfModel {
     registrations!: DS.PromiseManyArray<RegistrationModel>;
 
     @hasMany('institution-department')
-    institutionDepartments!: DS.PromiseManyArray<InstitutionDepartmentsModel>;
+    departmentMetrics!: DS.PromiseManyArray<InstitutionDepartmentsModel>;
 
     @hasMany('institution-user')
     userMetrics!: DS.PromiseManyArray<InstitutionUserModel>;
 
     @belongsTo('institution-summary-metric')
-    institutionSummaryMetrics!: DS.PromiseObject<InstitutionSummaryMetricModel> & InstitutionSummaryMetricModel;
+    summaryMetrics!: DS.PromiseObject<InstitutionSummaryMetricModel> & InstitutionSummaryMetricModel;
 
     // This is for the title helper, which does its own encoding of unsafe characters
     @computed('name')
