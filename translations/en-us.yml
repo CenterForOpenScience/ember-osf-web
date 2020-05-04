@@ -634,7 +634,7 @@ social:
     github: GitHub
     linkedin: LinkedIn
 institutions:
-    description: 'OSF Institutions is a free scholarly web tool that enhances transparency, fosters collaboration, and increases the visibility of research outputs at the institutional level.'
+    description: 'OSF Institutions enhances transparency and increases the visibility of research outputs, accelerating discovery and reuse. Institutional members focus on generating and sharing research, and let OSF Institutions handle the infrastructure.'
     read_more: 'Read more'
     footer: 'Interested in setting up an OSF Institutions page for your research institution?'
     contact_us: 'Contact us'
