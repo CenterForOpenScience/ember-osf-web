@@ -1,12 +1,11 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
-import { alias } from '@ember/object/computed';
 import { ChartData, ChartOptions, Shape } from 'ember-cli-chart';
-import InstitutionModel, { Department } from 'ember-osf-web/models/institution';
+import InstitutionDepartmentsModel from 'ember-osf-web/models/institution-department';
 
 export default class DepartmentsPanel extends Component {
-    institution!: InstitutionModel;
-    @alias('institution.statSummary.departments') departments!: any[];
+    departments!: InstitutionDepartmentsModel[];
+
     chartHoverIndex: number = -1;
 
     chartOptions: ChartOptions = {
@@ -24,7 +23,7 @@ export default class DepartmentsPanel extends Component {
 
     didReceiveAttrs() {
         if (this.departments) {
-            const departmentNumbers = this.departments.map(x => x.numUsers);
+            const departmentNumbers = this.departments.map(x => x.numberOfUsers);
             this.set('chartHoverIndex', departmentNumbers.indexOf(Math.max(...departmentNumbers)));
         }
     }
@@ -32,7 +31,7 @@ export default class DepartmentsPanel extends Component {
     @computed('chartHoverIndex', 'departments')
     get chartData(): ChartData {
         const departmentNames = this.departments.map(x => x.name);
-        const departmentNumbers = this.departments.map(x => x.numUsers);
+        const departmentNumbers = this.departments.map(x => x.numberOfUsers);
 
         const backgroundColors = [];
         for (const index of departmentNumbers.keys()) {
@@ -53,13 +52,13 @@ export default class DepartmentsPanel extends Component {
     }
 
     @computed('chartHoverIndex', 'departments')
-    get activeDepartment(): Department {
+    get activeDepartment(): InstitutionDepartmentsModel {
         return this.departments[this.chartHoverIndex];
     }
 
     @computed('activeDepartment', 'departments')
     get activeDepartmentPercentage(): string {
-        const count = this.departments.reduce((total, currentValue) => total + currentValue.numUsers, 0);
-        return ((this.activeDepartment.numUsers / count) * 100).toFixed(2);
+        const count = this.departments.reduce((total, currentValue) => total + currentValue.numberOfUsers, 0);
+        return ((this.activeDepartment.numberOfUsers / count) * 100).toFixed(2);
     }
 }

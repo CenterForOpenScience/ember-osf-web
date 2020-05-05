@@ -6,7 +6,7 @@
             {{t 'institutions.dashboard.last_update'}}: {{this.lastUpdatedFromNow}}
         </div>
     </div>
-    <div style='display: flex;'>
+    <div local-class='dashboard-wrapper'>
         <div local-class='table-wrapper'>
             <Institutions::Dashboard::-Components::InstitutionalUsersList @model={{this.model}} />
         </div>
@@ -47,7 +47,7 @@
                     @isLoading={{this.model.taskInstance.isRunning}}
                     @title={{t 'institutions.dashboard.departments_panel'}}
             >
-                <Institutions::Dashboard::-Components::DepartmentsPanel @institution={{this.institution}} />
+                <Institutions::Dashboard::-Components::DepartmentsPanel @departments={{this.departmentMetrics}} />
             </Institutions::Dashboard::-Components::Panel>
         </div>
     </div>
