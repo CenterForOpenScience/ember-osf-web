@@ -13,11 +13,18 @@ export default class InstitutionsDashboardRoute extends Route {
     @task
     modelTask = task(function *(this: InstitutionsDashboardRoute, institutionId: string) {
         try {
-            const institution = yield this.get('store').findRecord('institution', institutionId);
-            if (!institution.get('currentUserIsAdmin')) {
-                throw new Error('Current user is not admin.');
-            }
-            return institution;
+            const institution = yield this.get('store').findRecord('institution', institutionId, {
+                adaptorOptions: {
+                    include: ['summary_metrics'],
+                },
+            });
+            const departmentMetrics = yield institution.get('departmentMetrics');
+            const userMetrics = yield institution.get('userMetrics');
+            const summaryMetrics = yield institution.get('summaryMetrics');
+            // if (!institution.get('currentUserIsAdmin')) {
+            //     throw new Error('Current user is not admin.');
+            // }
+            return { institution, departmentMetrics, userMetrics, summaryMetrics };
         } catch (error) {
             this.transitionTo('not-found', this.get('router').get('currentURL').slice(1));
             return undefined;

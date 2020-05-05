@@ -4,9 +4,17 @@ import moment from 'moment';
 
 import Controller from '@ember/controller';
 import InstitutionModel from 'ember-osf-web/models/institution';
+import InstitutionDepartmentModel from 'ember-osf-web/models/institution-department';
+import InstitutionSummaryMetricModel from 'ember-osf-web/models/institution-summary-metric';
+import InstitutionUserModel from 'ember-osf-web/models/institution-user';
 
 export default class InstitutionsDashboardController extends Controller {
-    @alias('model.taskInstance.value') institution!: InstitutionModel;
+    @alias('model.taskInstance.value') modelValue!: any;
+    @alias('modelValue.institution') institution!: InstitutionModel;
+    @alias('modelValue.summaryMetrics') summaryMetrics!: InstitutionSummaryMetricModel;
+    @alias('modelValue.userMetrics') userMetrics!: InstitutionUserModel[];
+    @alias('modelValue.departmentMetrics') departmentMetrics!: InstitutionDepartmentModel[];
+
     csvImgSrc: string = '/assets/images/institutions/csv.svg';
 
     @computed('institution.lastUpdated')
@@ -15,9 +23,11 @@ export default class InstitutionsDashboardController extends Controller {
         return lastUpdated.fromNow();
     }
 
+    // TODO: add csv link back when ENG-1810 is done
     @computed('institution.links.csv')
     get csvHref() {
-        return this.institution ? this.institution.links.csv : '#';
+        // return this.institution ? this.institution.links.csv : '#';
+        return '#';
     }
 
     @action
