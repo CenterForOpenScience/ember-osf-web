@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { ChartData, ChartOptions, Shape } from 'ember-cli-chart';
+import { Department } from 'ember-osf-web/models/institution';
 import InstitutionDepartmentsModel from 'ember-osf-web/models/institution-department';
 
 export default class DepartmentsPanel extends Component {
@@ -52,8 +53,8 @@ export default class DepartmentsPanel extends Component {
     }
 
     @computed('chartHoverIndex', 'departments')
-    get activeDepartment(): InstitutionDepartmentsModel {
-        return this.departments[this.chartHoverIndex];
+    get activeDepartment(): Department {
+        return this.departments.toArray()[this.chartHoverIndex];
     }
 
     @computed('activeDepartment', 'departments')
