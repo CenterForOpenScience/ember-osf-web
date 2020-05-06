@@ -12,9 +12,7 @@ export default class FormController extends Controller {
     @service toast!: Toast;
 
     validation = nodeValidation;
-
     node = Node;
-
     changeset!: ChangesetDef;
 
     @action

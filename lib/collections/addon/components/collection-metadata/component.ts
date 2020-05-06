@@ -15,9 +15,7 @@ interface CollectionMetadataField {
 
 export default class CollectionMetadata extends Component {
     collection: Collection = this.collection;
-
     collectedMetadatum: CollectedMetadatum = this.collectedMetadatum;
-
     didValidate: boolean = this.didValidate;
 
     initialCollectedMetadatumProperties: any;

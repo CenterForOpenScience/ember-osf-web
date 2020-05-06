@@ -21,11 +21,9 @@ import template from './template';
 @localClassNames('InstitutionCarousel')
 export default class InstitutionCarousel extends Component {
     @service store!: DS.Store;
-
     @service analytics!: Analytics;
 
     itemsPerSlide: number = defaultTo(this.itemsPerSlide, 5);
-
     institutions: Institution[] = defaultTo(this.institutions, A([]));
 
     @computed('institutions.length', 'itemsPerSlide')

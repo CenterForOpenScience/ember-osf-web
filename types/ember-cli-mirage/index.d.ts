@@ -270,17 +270,12 @@ export class JSONAPISerializer {
     request!: Request;
 
     keyForAttribute(attr: string): string;
-
     keyForCollection(modelName: string): string;
-
     keyForModel(modelName: string): string;
-
     keyForRelationship(relationship: string): string;
-
     typeKeyForModel(model: ModelInstance): string;
 
     serialize(object: ModelInstance, request: Request): SingleResourceDocument;
-
     normalize(json: any): any;
 }
 /* eslint-enable max-classes-per-file */

@@ -30,27 +30,18 @@ type CollectableType = keyof Pick<ModelRegistry, 'collection' | 'node' | 'prepri
 @localClassNames('search-result')
 export default class CollectionSearchResult extends Component {
     @service analytics!: Analytics;
-
     @service theme!: Theme;
 
     hostAppName = config.hostAppName;
-
     maxTags: number = defaultTo(this.maxTags, 10);
-
     maxCreators: number = defaultTo(this.maxCreators, 10);
-
     maxDescription: number = defaultTo(this.maxDescription, 300);
-
     showBody: boolean = defaultTo(this.showBody, false);
-
     facetContexts: FacetContext[] = this.facetContexts;
-
     queryParams: string[] | null = defaultTo(this.queryParams, null);
-
     result: CollectedMetadatum = this.result;
 
     @alias('result.guid.content') item!: Collectable;
-
     @alias('item.constructor.modelName') type!: CollectableType;
 
     @computed('result.displayChoiceFields')

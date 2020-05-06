@@ -15,16 +15,12 @@ import template from './template';
 export default class FormControlRadioButton extends Component {
     // Required params
     options!: string[];
-
     valuePath!: string;
-
     changeset!: ChangesetDef;
 
     // Optional params
     shouldShowMessages?: boolean;
-
     disabled: boolean = defaultTo(this.disabled, false);
-
     onchange?: (option: string) => void;
 
     didReceiveAttrs() {

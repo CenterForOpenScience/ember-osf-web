@@ -49,9 +49,7 @@ export interface SubjectManager {
 export default class SubjectManagerComponent extends Component {
     // required
     model!: ModelWithSubjects;
-
     provider!: ProviderModel;
-
     doesAutosave!: boolean;
 
     // optional
@@ -59,19 +57,15 @@ export default class SubjectManagerComponent extends Component {
 
     // private
     @service intl!: Intl;
-
     @service toast!: Toast;
-
     @service store!: DS.Store;
 
     savedSubjectIds = new Set<string>();
-
     selectedSubjectIds = new Set<string>();
 
     // incremented whenever 'savedSubjectIds' and `selectedSubjectIds` are modified.
     // meant for computed properties to depend on, since they can't watch for changes to Sets.
     savedSubjectsChanges: number = 0;
-
     selectedSubjectsChanges: number = 0;
 
     @alias('save.isRunning')

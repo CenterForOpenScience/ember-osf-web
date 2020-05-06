@@ -16,11 +16,9 @@ export default class RegistriesSourcesFacet extends Component {
     @service analytics!: Analytics;
 
     searchOptions!: SearchOptions;
-
     @requiredAction onSearchOptionsUpdated!: (options: SearchOptions) => void;
 
     title = 'Provider';
-
     options: EmberArray<{
         count: number,
         filter: SearchFilter,

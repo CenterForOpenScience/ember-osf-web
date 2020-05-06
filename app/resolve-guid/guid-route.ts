@@ -16,7 +16,6 @@ export interface GuidRouteModel<T> {
 // Don't use it if you're making something new.
 export default abstract class GuidRoute extends Route {
     @service ready!: Ready;
-
     @service store!: DS.Store;
 
     @task

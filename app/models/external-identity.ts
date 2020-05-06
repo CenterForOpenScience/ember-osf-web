@@ -12,7 +12,6 @@ export enum Status {
 
 export default class ExternalIdentityModel extends OsfModel {
     @attr('string') status!: Status;
-
     @attr('string') externalId!: string;
 }
 

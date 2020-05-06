@@ -14,9 +14,7 @@ export default class OsfFooter extends Component {
     @service analytics!: Analytics;
 
     serviceLinks = serviceLinks;
-
     supportEmail: string = config.support.supportEmail;
-
     currentYear: number = (new Date()).getUTCFullYear();
 
     constructor(properties: object) {

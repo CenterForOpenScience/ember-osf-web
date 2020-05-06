@@ -17,7 +17,6 @@ declare module 'keen-tracking' {
         recordEvent(collection: string, data: any): Promise<any>;
 
         extendEvents(extend: object | (() => any));
-
         extendEvents(collection: string, extend: object | (() => any)); // eslint-disable-line no-dupe-class-members
     }
 }

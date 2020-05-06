@@ -18,13 +18,10 @@ const {
 
 export default class Application extends Controller {
     @service features!: Features;
-
     @alias(`features.${camelize(newStyleFlag)}`) newStyleEnabled!: boolean;
 
     activeService = OSFService.REGISTRIES;
-
     searchRoute = 'registries.discover';
-
     supportRoute = 'https://openscience.zendesk.com/hc/en-us/categories/360001550953';
 
     @action

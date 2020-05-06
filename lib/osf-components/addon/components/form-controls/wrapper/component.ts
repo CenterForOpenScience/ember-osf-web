@@ -9,13 +9,10 @@ import template from './template';
 export default class FormControlWrapper extends Component {
     // Required arguments
     changeset!: ChangesetDef;
-
     valuePath!: string;
 
     // Optional arguments
     errors?: string;
-
     label?: string;
-
     id?: string;
 }

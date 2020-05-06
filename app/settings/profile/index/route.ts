@@ -14,7 +14,6 @@ const {
 @requireAuth()
 export default class SettingsProfileIndexRoute extends Route {
     @service features!: Features;
-
     beforeModel() {
         const flag = routeFlags['settings.profile'];
         if (flag && !this.get('features').isEnabled(flag)) {

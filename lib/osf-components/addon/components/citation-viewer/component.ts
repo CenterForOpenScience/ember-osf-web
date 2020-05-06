@@ -48,7 +48,6 @@ export default class CitationViewer extends Component {
 
     // Private properties
     @service store!: DS.Store;
-
     @service currentUser!: CurrentUser;
 
     selectedCitationStyle?: CitationStyle;

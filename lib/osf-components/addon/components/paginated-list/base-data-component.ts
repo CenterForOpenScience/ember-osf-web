@@ -16,7 +16,6 @@ export interface LoadItemsOptions {
 export default abstract class BaseDataComponent extends Component {
     // Optional arguments
     pageSize: number = defaultTo(this.pageSize, 10);
-
     query?: any;
 
     // Exposes a reload action the the parent scope.
@@ -27,15 +26,11 @@ export default abstract class BaseDataComponent extends Component {
 
     // Private properties
     @service ready!: Ready;
-
     @service analytics!: Analytics;
 
     totalCount?: number;
-
     items?: any[];
-
     errorShown: boolean = false;
-
     page: number = 1;
 
     // Will be performed with an options hash of type LoadItemsOptions

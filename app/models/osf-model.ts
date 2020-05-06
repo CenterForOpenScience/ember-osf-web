@@ -71,13 +71,10 @@ export type ValidatedModelName = {
 
 export default class OsfModel extends Model {
     @service store!: DS.Store;
-
     @service currentUser!: CurrentUser;
 
     @attr() links!: OsfLinks;
-
     @attr('object', { defaultValue: () => ({}) }) relatedCounts!: { [relName: string]: number };
-
     @attr() apiMeta!: BaseMeta;
 
     @alias('links.relationships') relationshipLinks!: Relationships;

@@ -43,23 +43,16 @@ export default class PublicationDoiManagerComponent extends Component {
 
     // private
     @service intl!: Intl;
-
     @service toast!: Toast;
 
     requestedEditMode: boolean = false;
-
     validationNode!: ValidationObject<Registration>;
-
     changeset!: ChangesetDef;
-
     didValidate = false;
 
     @not('didValidate') didNotValidate!: boolean;
-
     @alias('node.userHasAdminPermission') userCanEdit!: boolean;
-
     @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
-
     @alias('node.category') category!: boolean;
 
     @computed('node.articleDoi')

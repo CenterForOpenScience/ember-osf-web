@@ -22,13 +22,10 @@ const {
 @layout(template, styles)
 export default class JoinOsfBanner extends Component {
     @service analytics!: Analytics;
-
     @service session!: Session;
 
     dismissed: boolean = false;
-
     storage = window.localStorage;
-
     previouslyDismissed = this.storage.getItem(dismissedKey) !== null;
 
     @or('session.isAuthenticated', 'previouslyDismissed')

@@ -17,7 +17,6 @@ export default class extends Component {
     @service currentUser!: CurrentUser;
 
     contributors: ArrayProxy<Contributor> = this.contributors;
-
     user: User = this.user;
 
     @computed('currentUser.currentUserId', 'user.id')

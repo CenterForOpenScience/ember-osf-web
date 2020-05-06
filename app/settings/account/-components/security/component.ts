@@ -19,21 +19,13 @@ import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/captur
 @tagName('')
 export default class SecurityPane extends Component {
     @service currentUser!: CurrentUser;
-
     @service intl!: Intl;
-
     @service toast!: Toast;
-
     @alias('currentUser.user') user!: User;
-
     settings?: UserSettingModel;
-
     primaryEmail?: UserEmail;
-
     showError = false;
-
     showEnableWarning = false;
-
     showDisableWarning = false;
 
     @task

@@ -35,7 +35,6 @@ export default class FileListItem extends Component.extend({ styles }) {
     @service store!: DS.Store;
 
     item?: File;
-
     @requiredAction openItem!: (item: File | undefined) => void;
 
     @localClassName()

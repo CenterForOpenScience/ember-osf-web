@@ -15,7 +15,6 @@ export default class InlineList<T> extends Component {
 
     // Optional arguments
     truncate?: number;
-
     total?: number;
 
     @alias('items.firstObject') firstItem?: T;

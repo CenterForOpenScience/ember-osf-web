@@ -13,17 +13,11 @@ import template from './template';
 @localClassNames('Component')
 export default class SubmitSection extends Component {
     tooltip: string = this.tooltip;
-
     title: string = this.title;
-
     description?: string = this.description;
-
     section: number = this.section;
-
     activeSection: number = this.activeSection;
-
     savedSections: number[] = this.savedSections;
-
     editable: boolean = defaultTo(this.editable, true);
 
     @computed('activeSection', 'section')

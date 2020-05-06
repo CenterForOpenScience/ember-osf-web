@@ -24,9 +24,7 @@ interface Params {
 
 export default class Guid extends Route {
     @service currentUser!: CurrentUser;
-
     @service store!: DS.Store;
-
     @service theme!: Theme;
 
     @task

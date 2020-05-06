@@ -11,15 +11,10 @@ import template from './template';
 export default class SharingIcons extends Component {
     // optional arguments
     title!: string;
-
     hyperlink!: string;
-
     description?: string;
-
     resultId?: string;
-
     parentId?: string;
-
     facebookAppId?: string = config.FB_APP_ID || '';
 
     @computed('hyperlink', 'title')

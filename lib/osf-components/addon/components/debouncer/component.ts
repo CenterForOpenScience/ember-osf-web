@@ -10,7 +10,6 @@ import template from './template';
 @layout(template)
 export default class Debouncer extends Component {
     fn!: () => void;
-
     timeoutInterval: number = 500;
 
     @task({ restartable: true })

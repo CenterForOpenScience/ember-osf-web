@@ -2,11 +2,8 @@ import Service from '@ember/service';
 
 declare class Media extends Service {
     isMobile: boolean;
-
     isTablet: boolean;
-
     isDesktop: boolean;
-
     isJumbo: boolean;
 }
 

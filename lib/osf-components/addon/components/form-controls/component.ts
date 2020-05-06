@@ -15,6 +15,5 @@ export default class FormControls extends Component {
 
     // Optional parameters
     disabled: boolean = defaultTo(this.disabled, false);
-
     shouldShowMessages: boolean = defaultTo(this.shouldShowMessages, true);
 }

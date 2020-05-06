@@ -47,9 +47,7 @@ type SortKey = 'date_modified' | '-date_modified' | 'name' | '-name';
 @layout(template)
 export default class FilesManagerComponent extends Component {
     @service intl!: Intl;
-
     @service store!: DS.Store;
-
     @service toast!: Toast;
 
     node!: Node;
@@ -57,25 +55,16 @@ export default class FilesManagerComponent extends Component {
     onAddFile?: (file: File) => void;
 
     fileProvider!: FileProvider;
-
     currentFolder!: File;
-
     lastUploaded: File[] = []; // Files uploaded since last sort.
-
     rootFolder!: File;
-
     pageSize = 10;
-
     sort: SortKey = 'date_modified';
-
     page = 1;
 
     @alias('node.userHasAdminPermission') canEdit!: boolean;
-
     @alias('getRootItems.isRunning') loading!: boolean;
-
     @alias('loadMore.isRunning') loadingMore!: boolean;
-
     @or(
         'sortFolderItems.isRunning',
         'getCurrentFolderItems.isRunning',

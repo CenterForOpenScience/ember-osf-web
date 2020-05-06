@@ -24,11 +24,8 @@ interface TaskInstanceResult {
 @requireAuth()
 export default class Submit extends Route.extend(ConfirmationMixin) {
     @service currentUser!: CurrentUser;
-
     @service store!: DS.Store;
-
     @service theme!: Theme;
-
     @service intl!: Intl;
 
     // This tells ember-onbeforeunload what to use as the body for the warning before leaving the page.

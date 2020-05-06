@@ -26,23 +26,15 @@ export enum DraftMetadataProperties {
 
 export default class DraftRegistrationModel extends OsfModel {
     @attr('fixstring') registrationSupplement!: string;
-
     @attr('object') registrationMetadata!: RegistrationMetadata;
-
     @attr('registration-responses') registrationResponses!: RegistrationResponse;
-
     @attr('date') datetimeInitiated!: Date;
-
     @attr('date') datetimeUpdated!: Date;
 
     @attr('fixstring') title!: string;
-
     @attr('fixstring') description!: string;
-
     @attr('fixstringarray') tags!: string[];
-
     @attr('node-license') nodeLicense!: NodeLicense | null;
-
     @attr('node-category') category!: NodeCategory;
 
     @belongsTo('node', { inverse: 'draftRegistrations' })

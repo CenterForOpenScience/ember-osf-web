@@ -13,6 +13,5 @@ export default class NodePublicationDoiEditable extends Component {
     manager!: PublicationDoiManager;
 
     doiPlaceholder = DOIPlaceholder;
-
     doiUrlPrefix = DOIUrlPrefix;
 }

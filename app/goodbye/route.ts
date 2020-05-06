@@ -8,7 +8,6 @@ import Analytics from 'ember-osf-web/services/analytics';
 
 export default class Goodbye extends Route {
     @service analytics!: Analytics;
-
     @service session!: Session;
 
     async beforeModel(transition: Transition) {

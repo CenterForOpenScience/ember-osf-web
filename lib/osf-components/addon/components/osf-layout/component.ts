@@ -15,9 +15,7 @@ export default class OsfLayout extends Component {
     @service media!: Media;
 
     sidenavGutterClosed = true;
-
     metadataGutterClosed = true;
-
     backgroundClass?: string;
 
     init() {

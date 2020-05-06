@@ -22,11 +22,8 @@ export interface HierarchicalListItemManager {
 @tagName('')
 export default class HierarchicalListItemManagerComponent extends Component {
     listManager!: HierarchicalListManager;
-
     item!: NodeModel;
-
     shouldShowChildren: boolean = true;
-
     isRoot: boolean = defaultTo(this.isRoot, false);
 
     @computed('listManager.selectedNodes.[]')

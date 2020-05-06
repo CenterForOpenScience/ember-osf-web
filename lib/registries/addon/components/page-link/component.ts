@@ -21,26 +21,17 @@ export enum PageState {
 export default class PageLinkComponent extends Component {
     // Required
     link!: XLink;
-
     draftId!: string;
-
     route!: string;
 
     // Optional
     pageManager?: PageManager;
-
     pageIndex?: number;
-
     currentPageIndex?: number;
-
     pageName?: string;
-
     currentPageName?: string;
-
     label?: string;
-
     navMode?: string;
-
     metadataIsValid?: boolean;
 
     @computed('pageName', 'pageIndex', 'pageManager', 'pageManager.pageHeadingText')

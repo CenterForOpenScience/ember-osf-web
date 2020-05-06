@@ -12,14 +12,11 @@ import Token from 'ember-osf-web/models/token';
 @tagName('') // No div
 export default class TokenCard extends Component {
     @service intl!: Intl;
-
     @service router!: RouterService;
-
     @service toast!: Toast;
 
     // Required arguments
     token!: Token;
-
     @requiredAction onDelete!: () => unknown;
 
     @action

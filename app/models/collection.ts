@@ -20,25 +20,15 @@ export const choicesFields = choiceFields.map(field => `${field}Choices`) as Cho
 
 export default class CollectionModel extends OsfModel {
     @attr('fixstring') title!: string;
-
     @attr('date') dateCreated!: Date;
-
     @attr('date') dateModified!: Date;
-
     @attr('boolean') bookmarks!: boolean;
-
     @attr('boolean') isPromoted!: boolean;
-
     @attr('boolean') isPublic!: boolean;
-
     @attr('array') collectedTypeChoices!: string[];
-
     @attr('array') issueChoices!: string[];
-
     @attr('array') programAreaChoices!: string[];
-
     @attr('array') statusChoices!: string[];
-
     @attr('array') volumeChoices!: string[];
 
     @belongsTo('collection-provider')

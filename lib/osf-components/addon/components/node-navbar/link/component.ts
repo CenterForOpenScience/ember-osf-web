@@ -19,11 +19,8 @@ export default class NodeNavbarLink extends Component {
 
     // Optional arguments
     useLinkTo: boolean = defaultTo(this.useLinkTo, true);
-
     setActive: boolean = defaultTo(this.setActive, true);
-
     destination?: string;
-
     extraClasses?: string;
 
     // Private properties

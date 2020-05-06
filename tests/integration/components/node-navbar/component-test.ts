@@ -35,23 +35,14 @@ interface NavTestCase {
 
 export class FakeNode {
     id: string = faker.random.uuid();
-
     title: string = faker.lorem.sentence();
-
     public: boolean = false;
-
     isRegistration: boolean = false;
-
     wikiEnabled: boolean = false;
-
     currentUserIsContributor: boolean = false;
-
     userHasWritePermission: boolean = false;
-
     userHasReadPermission: boolean = false;
-
     parentId: string | null = null;
-
     links = {
         html: 'http://localhost:4200/fak3d',
     };

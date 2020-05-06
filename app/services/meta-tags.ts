@@ -57,9 +57,7 @@ export interface HeadTagDef {
 
 export default class MetaTags extends Service {
     @service intl!: Intl;
-
     @service router!: any;
-
     @service headTags!: HeadTagsService;
 
     /**
@@ -155,9 +153,7 @@ export default class MetaTags extends Service {
         const headTagsAttrs: MetaTagAttrs[] = Object.entries(metaTagsDefs)
             .reduce(
                 (acc: MetaTagAttrs[], [name, content]) => acc.concat(
-                    toArray(content).map(
-                        contentMember => this.makeMetaTagAttrs(name, contentMember),
-                    ),
+                    toArray(content).map(contentMember => this.makeMetaTagAttrs(name, contentMember)),
                 ), [],
             );
 

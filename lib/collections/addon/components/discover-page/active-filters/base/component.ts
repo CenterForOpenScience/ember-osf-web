@@ -9,13 +9,9 @@ import { FacetContext } from '../../component';
 @tagName('span')
 export default class ActiveFilterBase extends Component {
     context: FacetContext = this.context;
-
     item: any = this.item;
-
     text: string = this.text;
-
     ariaLabel: string = this.ariaLabel;
-
     extraClass: string = defaultTo(this.extraClass, '');
 
     @action

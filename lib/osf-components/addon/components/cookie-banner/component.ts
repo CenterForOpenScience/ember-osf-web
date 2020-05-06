@@ -22,7 +22,6 @@ const {
 @layout(template, styles)
 export default class CookieBanner extends Component {
     @service cookies!: Cookies;
-
     @service session!: Session;
 
     showBanner = !this.session.isAuthenticated && !this.cookies.exists(consentCookie);

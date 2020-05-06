@@ -10,7 +10,6 @@ import MeetingSubmissionModel from 'ember-osf-web/models/meeting-submission';
 export default class MeetingSubmissionsList extends Component {
     // Private properties
     search?: string;
-
     sort?: string;
 
     @computed('search', 'sort')

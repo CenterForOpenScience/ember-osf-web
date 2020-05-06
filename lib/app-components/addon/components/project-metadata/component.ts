@@ -17,11 +17,8 @@ import template from './template';
 @tagName('')
 export default class ProjectMetadata extends Component {
     @service analytics!: Analytics;
-
     @service intl!: Intl;
-
     @service store!: DS.Store;
-
     @service toast!: Toast;
 
     node: Node = this.node;

@@ -11,7 +11,6 @@ import template from './template';
 export default class NodeList extends Component {
     // Required parameters
     modelTaskInstance!: TaskInstance<OsfModel>;
-
     relationshipName!: string;
 
     // Optional parameters

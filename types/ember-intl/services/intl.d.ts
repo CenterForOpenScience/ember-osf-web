@@ -9,9 +9,7 @@ export default class Intl extends Service {
 
     /* tslint:disable:variable-name */
     private _locale: string[];
-
     private _adapter: unknown;
-
     private _timer: unknown;
     /* tslint:enable:variable-name */
 

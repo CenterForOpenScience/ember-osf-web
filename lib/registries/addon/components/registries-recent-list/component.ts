@@ -16,7 +16,6 @@ export default class RegistriesRecentList extends Component {
     static positionalParams = ['items'];
 
     @service analytics!: Analytics;
-
     @service store!: Store;
 
     items!: ShareRegistration[];

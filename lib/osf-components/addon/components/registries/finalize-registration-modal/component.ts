@@ -21,11 +21,8 @@ export default class FinalizeRegisrationModalComponent extends Component {
 
     // Private properties
     makePublicOption: string = '';
-
     embargoRangeStartDate: Date = moment().add(3, 'days').toDate();
-
     embargoRangeEndDate: Date = moment().add(1460, 'days').toDate();
-
     learnMoreLink = config.helpLinks.linkToAProject;
 
     didReceiveAttrs() {

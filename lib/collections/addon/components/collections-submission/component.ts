@@ -33,39 +33,24 @@ enum Section {
 @layout(template, styles)
 export default class Submit extends Component {
     @service analytics!: Analytics;
-
     @service currentUser!: CurrentUser;
-
     @service intl!: Intl;
-
     @service store!: DS.Store;
-
     @service theme!: Theme;
-
     @service toast!: Toast;
 
     readonly edit: boolean = defaultTo(this.edit, false);
-
     readonly provider: CollectionProvider = this.provider;
-
     readonly collection: Collection = this.collection;
-
     readonly collectedMetadatum: CollectedMetadatum = this.collectedMetadatum;
 
     collectionItem: Node | null = defaultTo(this.collectionItem, null);
-
     isProjectSelectorValid: boolean = false;
-
     sections = Section;
-
     activeSection!: Section;
-
     savedSections!: Section[];
-
     showCancelDialog: boolean = false;
-
     intlKeyPrefix = 'collections.collections_submission.';
-
     showSubmitModal: boolean = false;
 
     @task({ drop: true })

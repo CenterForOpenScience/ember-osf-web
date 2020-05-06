@@ -14,6 +14,5 @@ import template from './template';
 @tagName('')
 export default class HierarchicalListItem extends Component {
     manager!: HierarchicalListItemManager;
-
     listManager!: HierarchicalListManager;
 }

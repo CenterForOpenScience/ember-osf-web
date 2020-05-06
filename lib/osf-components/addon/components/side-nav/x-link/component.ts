@@ -13,17 +13,11 @@ import template from './template';
 @layout(template, styles)
 export default class XLink extends Component {
     icon!: string;
-
     label!: string;
-
     route?: string;
-
     href?: string;
-
     models?: any[];
-
     count?: number;
-
     isCollapsed: boolean = defaultTo(this.isCollapsed, false);
 
     onClick?: () => void;

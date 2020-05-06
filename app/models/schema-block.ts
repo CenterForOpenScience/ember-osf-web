@@ -11,19 +11,12 @@ const { attr, belongsTo } = DS;
 
 export default class SchemaBlockModel extends OsfModel implements SchemaBlock {
     @attr('string') blockType?: SchemaBlockType;
-
     @attr('string') schemaBlockGroupKey?: string;
-
     @attr('registration-response-key') registrationResponseKey?: string | null;
-
     @attr('string') displayText?: string;
-
     @attr('string') helpText?: string;
-
     @attr('string') exampleText?: string;
-
     @attr('boolean') required?: boolean;
-
     @attr('number') index?: number;
 
     @belongsTo('registration-schema', { inverse: 'schemaBlocks', async: false })

@@ -14,7 +14,6 @@ interface HistoryState {
 
 class FakeHistory {
     state: HistoryState | null = null;
-
     private states: HistoryState[] = [];
 
     replaceState(state: HistoryState) {

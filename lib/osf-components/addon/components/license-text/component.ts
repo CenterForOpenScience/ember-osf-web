@@ -20,7 +20,6 @@ export default class LicenseText extends Component {
 
     // Private
     @service intl!: Intl;
-
     @alias('node.license') license!: License;
 
     @computed('license.text', 'node.{isAnonymous,nodeLicense}')

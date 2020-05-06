@@ -17,7 +17,6 @@ import template from './template';
 @tagName('')
 export default class DraftRegistrationCard extends Component {
     @service analytics!: Analytics;
-
     @service router!: RouterService;
 
     // Required arguments
@@ -25,7 +24,6 @@ export default class DraftRegistrationCard extends Component {
 
     // Optional arguments
     onDelete?: (draftRegistration?: DraftRegistration) => void;
-
     decrementCount?: () => void;
 
     // Private properties

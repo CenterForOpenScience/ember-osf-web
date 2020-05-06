@@ -22,7 +22,6 @@ export default abstract class SearchFacetChecklist extends Base {
     allItems: Item[] = [];
 
     abstract get modelAttribute(): keyof Collection;
-
     abstract get filterProperty(): string;
 
     @task

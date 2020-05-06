@@ -147,19 +147,14 @@ export const discoverQueryParams = new QueryParams<DiscoverQueryParams>(queryPar
 
 export default class Discover extends Controller.extend(discoverQueryParams.Mixin) {
     @service intl!: Intl;
-
     @service analytics!: Analytics;
-
     @service shareSearch!: ShareSearch;
 
     sortOptions = sortOptions;
 
     results: EmberArray<ShareRegistration> = A([]);
-
     searchable!: number;
-
     totalResults: number = 0;
-
     searchOptions!: SearchOptions;
 
     filterableSources: Array<{

@@ -51,83 +51,46 @@ enum modals {
 @localClassNames('file-browser')
 export default class FileBrowser extends Component {
     @service analytics!: Analytics;
-
     @service currentUser!: CurrentUser;
-
     @service ready!: Ready;
-
     @service store!: DS.Store;
-
     @service toast!: Toast;
 
     @requiredAction openFile!: (file: File, show: string) => void;
-
     @requiredAction moveFile!: (file: File, node: Node) => void;
-
     @requiredAction renameFile!: (file: File, renameValue: string, conflict?: string, conflictingItem?: File) => void;
-
     @requiredAction addFile!: (fileId: string) => void;
-
     @requiredAction deleteFiles!: (files: File[]) => void;
 
     clickHandler?: JQuery.EventHandlerBase<HTMLElement, JQuery.Event>;
-
     dismissPop?: () => void;
-
     canEdit: boolean = defaultTo(this.canEdit, false);
-
     dropping: boolean = false;
-
     showRename: boolean = false;
-
     renameValue: string = '';
-
     multiple = true;
-
     unselect = true;
-
     openOnSelect = false;
-
     projectList = null;
-
     isLoadingProjects = null;
-
     selectedFile = null;
-
     node: Node | null = defaultTo(this.node, null);
-
     nodeTitle = null;
-
     newProject: Node = this.newProject;
-
     projectSelectState: ProjectSelectState = ProjectSelectState.main;
-
     isMoving = false;
-
     loaded = true;
-
     uploading: MutableArray<any> = A([]);
-
     currentModal = modals.None;
-
     popupOpen: boolean = false;
-
     items: File[] | null = null;
-
     conflictingItem: File | null = null;
-
     showFilterClicked: boolean = false;
-
     filter: string = defaultTo(this.filter, '');
-
     shiftAnchor: File | null = null;
-
     isNewProject?: boolean;
-
     isChildNode?: boolean;
-
     isProjectSelectorValid: boolean = false;
-
     sort: string = '';
 
     dropzoneOptions = {
@@ -176,23 +139,14 @@ export default class FileBrowser extends Component {
     });
 
     @not('items') loading!: boolean;
-
     @alias('user.links.relationships.quickfiles.links.upload.href') uploadUrl!: string;
-
     @alias('user.links.relationships.quickfiles.links.download.href') downloadUrl!: string;
-
     @alias('node.links.html') nodeLink!: string;
-
     @alias('canEdit') dropzone!: boolean;
-
     @notEmpty('uploading') isUploading!: boolean;
-
     @filterBy('items', 'isSelected', true) selectedItems!: File[];
-
     @notEmpty('filter') showFilterInput!: boolean;
-
     @or('showFilterClicked', 'showFilterInput') showFilter!: boolean;
-
     @or('items.length', 'filter', 'isUploading') showItems!: boolean;
 
     @computed()

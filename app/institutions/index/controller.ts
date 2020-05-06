@@ -10,13 +10,10 @@ import Analytics from 'ember-osf-web/services/analytics';
 
 export default class Institutions extends Controller {
     @service store!: DS.Store;
-
     @service analytics!: Analytics;
 
     sortOrder: 'title' | '-title' = 'title';
-
     page = 1;
-
     textValue: string = '';
 
     @task({ restartable: true })

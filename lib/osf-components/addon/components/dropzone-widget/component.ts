@@ -68,26 +68,18 @@ export default class DropzoneWidget extends Component.extend({
     ),
 }) {
     @service session!: Session;
-
     @service intl!: Intl;
-
     @service currentUser!: CurrentUser;
 
     @className
     dropzone: boolean = defaultTo(this.dropzone, true);
-
     enable: boolean = defaultTo(this.enable, true);
-
     clickable: string[] = defaultTo(this.clickable, []);
-
     dropzoneElement: any | null = defaultTo(this.dropzoneElement, null);
-
     options: Dropzone.DropzoneOptions = defaultTo(this.options, {});
-
     defaultMessage: string = defaultTo(this.defaultMessage, this.intl.t('dropzone_widget.drop_files'));
 
     @requiredAction buildUrl!: (files: File[]) => void;
-
     preUpload?: (context: any, drop: any, file: any) => Promise<any>;
 
     didInsertElement() {

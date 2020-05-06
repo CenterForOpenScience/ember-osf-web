@@ -27,33 +27,23 @@ export default class DraftRegistrationManager {
 
     // Private
     @service intl!: Intl;
-
     @service toast!: Toast;
 
     currentPage!: number;
-
     registrationResponses!: RegistrationResponse;
 
     pageManagers: PageManager[] = [];
-
     metadataChangeset!: ChangesetDef;
-
     schemaBlocks!: SchemaBlock[];
 
     @alias('draftRegistration.id') draftId!: string;
-
     @or('onPageInput.isRunning', 'onMetadataInput.isRunning') autoSaving!: boolean;
-
     @or('initializePageManagers.isRunning', 'initializeMetadataChangeset.isRunning') initializing!: boolean;
-
     @not('registrationResponsesIsValid') hasInvalidResponses!: boolean;
-
     @filterBy('pageManagers', 'isVisited', true) visitedPages!: PageManager[];
-
     @notEmpty('visitedPages') hasVisitedPages!: boolean;
 
     draftRegistration!: DraftRegistration;
-
     node!: NodeModel;
 
     @computed('pageManagers.{[],@each.pageIsValid}')

@@ -22,8 +22,6 @@ export default class Overview extends Controller {
 
     @alias('model.taskInstance.value') registration?: Registration;
 
-    // @not('registration') loading!: boolean;
-
     @computed('registration.id')
     get registrationURL() {
         return this.registration && pathJoin(baseURL, `${this.registration.id}`);

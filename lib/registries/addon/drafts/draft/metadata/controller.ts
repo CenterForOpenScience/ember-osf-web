@@ -9,11 +9,9 @@ import DraftRegistrationManager from 'registries/drafts/draft/draft-registration
 
 export default class RegistriesDraftMetadata extends Controller {
     @service media!: Media;
-
     @service router!: RouterService;
 
     @alias('model.draftRegistrationManager') draftManager!: DraftRegistrationManager;
-
     @alias('model.draftRegistrationManager.initializing') loading!: boolean;
 
     categoryOptions = Object.values(NodeCategory);

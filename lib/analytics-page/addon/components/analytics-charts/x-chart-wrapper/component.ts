@@ -24,29 +24,20 @@ enum OverlayReason {
 @layout(template, styles)
 export default class ChartWrapper extends Component {
     @service keen!: KeenService;
-
     @service intl!: Intl;
-
     @service analytics!: AnalyticsService;
 
     // Required arguments
     chartSpec!: ChartSpec;
-
     chartEnabled!: boolean;
-
     nodeTaskInstance!: TaskInstance<Node>;
-
     startDate!: Moment;
-
     endDate!: Moment;
 
     // Private properties
     chart!: KeenDataviz; // set in didInsertElement
-
     overlayShown: boolean = true;
-
     keenError: boolean = false;
-
     loading: boolean = false;
 
     @task({ restartable: true })

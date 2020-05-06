@@ -14,7 +14,6 @@ export default class NewProjectNavigationModal extends Component {
 
     // Required arguments
     @requiredAction closeModal!: () => unknown;
-
     // Optional arguments
     afterStayHere?: () => unknown;
 

@@ -20,7 +20,6 @@ const {
 export default class RegistriesMetadata extends Component {
     // Parameters
     registration?: Registration;
-
     extendedFields?: boolean;
 
     // Private properties

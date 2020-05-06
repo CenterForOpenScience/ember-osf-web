@@ -51,13 +51,10 @@ export interface OsfAjaxOptions {
 
 export default class CurrentUserService extends Service {
     @service store!: DS.Store;
-
     @service session!: Session;
-
     @service cookies!: Cookies;
 
     viewOnlyToken: string = '';
-
     anonymizedViewOnly: boolean = false;
 
     showTosConsentBanner = false;

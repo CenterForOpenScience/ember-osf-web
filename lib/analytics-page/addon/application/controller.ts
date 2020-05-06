@@ -26,9 +26,7 @@ interface DateRange {
 
 export default class ApplicationController extends Controller {
     @service cookies!: Cookies;
-
     @service analytics!: AnalyticsService;
-
     @service store!: DS.Store;
 
     dateRanges: DateRange[] = [
@@ -50,11 +48,9 @@ export default class ApplicationController extends Controller {
     ];
 
     activeDateRange = this.dateRanges[0];
-
     linksModalShown = false;
 
     hideAdblockWarning = Boolean(this.cookies.read(dismissAdblockCookie));
-
     userIsBot = navigator.userAgent.includes('Prerender');
 
     linkedByQueryParams = { embed: 'bibliographic_contributors' };

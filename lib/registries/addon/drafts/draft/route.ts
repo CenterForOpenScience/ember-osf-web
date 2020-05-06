@@ -20,9 +20,7 @@ export interface DraftRouteModel {
 @requireAuth()
 export default class DraftRegistrationRoute extends Route {
     @service analytics!: Analytics;
-
     @service store!: DS.Store;
-
     @service router!: RouterService;
 
     @task

@@ -24,27 +24,16 @@ export interface Assets {
 
 export default abstract class ProviderModel extends OsfModel {
     @attr('fixstring') name!: string;
-
     @attr('fixstring') description!: string;
-
     @attr('string') advisoryBoard!: string;
-
     @attr('fixstring') example!: string;
-
     @attr('string') domain!: string;
-
     @attr('boolean') domainRedirectEnabled!: boolean;
-
     @attr('fixstring') footerLinks!: string;
-
     @attr('fixstring') emailSupport!: string;
-
     @attr('string') facebookAppId!: string;
-
     @attr('boolean') allowSubmissions!: boolean;
-
     @attr('boolean') allowCommenting!: boolean;
-
     @attr() assets?: Partial<Assets>; // TODO: camelize in transform
 
     @hasMany('subject', { inverse: null, async: false })

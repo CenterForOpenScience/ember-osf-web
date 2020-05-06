@@ -13,7 +13,6 @@ export default class ValidatedCheckboxes<M extends DS.Model> extends BaseValidat
 
     // Additional required arguments
     options!: any[]; // Model instances that could be added to the hasMany
-
     onCheckCallback?: () => void;
 
     selectedOptions: unknown[] = [];

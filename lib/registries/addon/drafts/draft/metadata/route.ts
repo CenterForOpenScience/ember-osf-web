@@ -11,9 +11,7 @@ import { DraftRouteModel } from '../route';
 
 export default class DraftRegistrationMetadataRoute extends Route {
     @service analytics!: Analytics;
-
     @service store!: DS.Store;
-
     @service router!: RouterService;
 
     model(): DraftRouteModel {

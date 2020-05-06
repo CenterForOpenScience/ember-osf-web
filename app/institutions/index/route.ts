@@ -7,7 +7,6 @@ import Analytics from 'ember-osf-web/services/analytics';
 
 export default class Institutions extends Route {
     @service analytics!: Analytics;
-
     @service store!: DS.Store;
 
     model() {

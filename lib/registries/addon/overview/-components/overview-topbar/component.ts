@@ -23,15 +23,12 @@ const { OSF: { url: baseURL } } = config;
 @layout(template, styles)
 export default class OverviewTopbar extends Component {
     @service store!: DS.Store;
-
     @service toast!: Toast;
-
     @service intl!: Intl;
 
     registration!: RegistrationModel;
 
     bookmarksCollection!: CollectionModel;
-
     isBookmarked?: boolean;
 
     @task({ drop: true })

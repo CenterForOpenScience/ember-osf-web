@@ -19,7 +19,6 @@ function splitFragment(url: string): [string, string?] {
 // Add support for scrolling to elements according to the URL's #fragment.
 export default class FragmentHistoryLocation extends HistoryLocation.extend(GuidLocationMixin) {
     @service ready!: Ready;
-
     @service osfRouter!: OsfRouterService;
 
     @task({ restartable: true })

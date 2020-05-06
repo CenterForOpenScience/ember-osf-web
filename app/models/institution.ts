@@ -36,21 +36,13 @@ export interface Department {
 
 export default class InstitutionModel extends OsfModel {
     @attr() links!: InstitutionLinks;
-
     @attr('string') name!: string;
-
     @attr('fixstring') description!: string;
-
     @attr('string') logoPath!: string;
-
     @attr('string') authUrl!: string;
-
     @attr('object') assets!: Partial<Assets>;
-
     @attr('boolean', { defaultValue: false }) currentUserIsAdmin!: boolean;
-
     @attr('object') statSummary!: StatSummary;
-
     @attr('date') lastUpdated!: Date;
 
     @hasMany('institutional-user', { inverse: 'institution' })

@@ -24,11 +24,8 @@ const {
 
 export default class OsfCookie extends Base {
     @service features!: Features;
-
     @service session!: Session;
-
     @service store!: DS.Store;
-
     @service currentUser!: CurrentUser;
 
     lastVerifiedUserId?: string;

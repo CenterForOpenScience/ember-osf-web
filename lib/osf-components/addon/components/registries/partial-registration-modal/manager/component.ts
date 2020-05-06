@@ -18,12 +18,10 @@ import template from './template';
 @tagName('')
 export default class PartialRegistrationModalManagerComponent extends Component implements HierarchicalListManager {
     @service store!: DS.Store;
-
     rootNode!: NodeModel;
 
     // Private
     nodesIncludingRoot: NodeModel[] = defaultTo(this.nodesIncludingRoot, []);
-
     selectedNodes: NodeModel[] = defaultTo(this.selectedNodes, []);
 
     @task

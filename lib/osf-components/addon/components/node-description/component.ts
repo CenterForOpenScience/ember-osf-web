@@ -14,9 +14,7 @@ const heightLimit: number = 200; // height limit should be (.hide {max-height} -
 @layout(template, styles)
 export default class NodeDescription extends Component {
     manager!: DescriptionManager;
-
     shouldTruncate: boolean = false;
-
     truncateDescription: boolean = true;
 
     setTruncate(element: Element) {

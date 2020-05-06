@@ -18,7 +18,6 @@ export default class MeetingSerializer extends ApplicationSerializer<Meeting> {
             },
         };
     }
-
     buildNormalLinks(model: ModelInstance<Meeting>) {
         return {
             self: `${apiUrl}/_/meetings/${model.id}`,

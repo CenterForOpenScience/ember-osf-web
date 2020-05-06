@@ -11,13 +11,10 @@ import template from './template';
 @tagName('')
 export default class ContributorListContributor extends Component {
     contributor!: Contributor;
-
     shouldLinkUser: boolean = defaultTo(this.shouldLinkUser, false);
-
     shouldShortenName: boolean = defaultTo(this.shouldShortenName, false);
 
     contributorName?: string;
-
     contributorLink?: string;
 
     @task({ restartable: true, on: 'didReceiveAttrs' })

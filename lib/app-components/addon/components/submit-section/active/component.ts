@@ -9,10 +9,7 @@ import template from './template';
 @tagName('')
 export default class SubmitSectionActive extends Component {
     title: string = this.title;
-
     didSave: boolean = this.didSave;
-
     panel: any = this.panel;
-
     description?: string = this.description;
 }

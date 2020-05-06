@@ -23,31 +23,18 @@ export interface FileLinks extends BaseFileLinks {
 
 export default class FileModel extends BaseFileItem {
     @attr() links!: FileLinks;
-
     @attr('fixstring') name!: string;
-
     @attr('fixstring') guid!: string;
-
     @attr('string') path!: string;
-
     @attr('number') size!: number;
-
     @attr('number') currentVersion!: number;
-
     @attr('fixstring') provider!: string;
-
     @attr('string') materializedPath!: string;
-
     @attr('date') lastTouched!: Date;
-
     @attr('date') dateModified!: Date;
-
     @attr('date') dateCreated!: Date;
-
     @attr('object') extra!: any;
-
     @attr('fixstringarray') tags!: string[];
-
     @attr('fixstring') checkout!: string;
 
     @belongsTo('file', { inverse: 'files' })

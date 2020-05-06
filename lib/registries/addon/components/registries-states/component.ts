@@ -22,7 +22,6 @@ export default class RegistriesStates extends Component {
 
     // Private
     public = RegistrationState.Public;
-
     @service intl!: Intl;
 
     @computed('registration.state')

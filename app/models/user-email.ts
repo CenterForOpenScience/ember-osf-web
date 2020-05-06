@@ -43,19 +43,12 @@ export interface UserEmailLinks extends OsfLinks {
 
 export default class UserEmailModel extends OsfModel.extend(Validations) {
     @attr() links!: UserEmailLinks;
-
     @attr() emailAddress!: string;
-
     @attr('boolean') confirmed!: boolean;
-
     @alias('confirmed') isConfirmed!: boolean;
-
     @attr('boolean') verified!: boolean;
-
     @attr('boolean') primary!: boolean;
-
     @alias('primary') isPrimary!: boolean;
-
     @attr('boolean') isMerge!: boolean;
 
     @belongsTo('user', {
@@ -63,7 +56,6 @@ export default class UserEmailModel extends OsfModel.extend(Validations) {
     }) user!: DS.PromiseObject<UserModel> & UserModel;
 
     existingEmails: Set<string> = new Set();
-
     invalidEmails: Set<string> = new Set();
 }
 

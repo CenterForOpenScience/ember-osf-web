@@ -12,14 +12,11 @@ import DeveloperApp from 'ember-osf-web/models/developer-app';
 @tagName('') // No div
 export default class DeveloperAppCard extends Component {
     @service intl!: Intl;
-
     @service router!: RouterService;
-
     @service toast!: Toast;
 
     // Required arguments
     developerApp!: DeveloperApp;
-
     @requiredAction onDelete!: () => unknown;
 
     @action

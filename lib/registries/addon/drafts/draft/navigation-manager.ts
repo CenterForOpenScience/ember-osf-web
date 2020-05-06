@@ -14,9 +14,7 @@ export enum DraftRoute {
 
 export default class NavigationManager {
     currentPage?: number;
-
     draftManager!: DraftRegistrationManager;
-
     currentRoute!: DraftRoute;
 
     @alias('draftManager.pageManagers')

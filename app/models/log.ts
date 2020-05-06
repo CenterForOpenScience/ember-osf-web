@@ -8,9 +8,7 @@ const { attr, belongsTo } = DS;
 
 export default class LogModel extends OsfModel {
     @attr('date') date!: Date;
-
     @attr('fixstring') action!: string;
-
     @attr('object') params!: any;
 
     @belongsTo('node', { inverse: null })

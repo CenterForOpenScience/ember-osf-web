@@ -8,14 +8,11 @@ import Analytics from 'ember-osf-web/services/analytics';
 
 export default class InstitutionalUsersList extends Component {
     @alias('model.taskInstance.value') institution?: InstitutionModel;
-
     @service analytics!: Analytics;
-
     @service intl!: Intl;
 
     // Private properties
     department?: string;
-
     sort = 'user_full_name';
 
     @computed('intl.locale')

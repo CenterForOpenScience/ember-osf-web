@@ -25,42 +25,26 @@ const {
 
 export default class Dashboard extends Controller {
     @service analytics!: Analytics;
-
     @service currentUser!: CurrentUser;
-
     @service store!: DS.Store;
 
     page: number = 1;
-
     loading: boolean = false;
-
     loadingSearch: boolean = false;
-
     loadingMore: boolean = false;
-
     initialLoad: boolean = true;
-
     // Initialized in setupController.
     filter!: string | null;
-
     sort: string = '-last_logged';
-
     modalOpen: boolean = false;
-
     newNode: Node | null = null;
-
     showNewNodeNavigation: boolean = false;
-
     'failedLoading-noteworthy': boolean = false;
-
     'failedLoading-popular': boolean = false;
 
     institutions: Institution[] = A([]);
-
     nodes?: QueryHasManyResult<Node>;
-
     noteworthy!: QueryHasManyResult<Node>;
-
     popular!: QueryHasManyResult<Node>;
 
     @task({ restartable: true })

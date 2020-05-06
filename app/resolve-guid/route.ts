@@ -26,9 +26,7 @@ const { featureFlagNames: { routes } } = config;
 
 export default class ResolveGuid extends Route {
     @service features!: Features;
-
     @service store!: DS.Store;
-
     _router!: PrivateRouter; // tslint:disable-line:variable-name
 
     @computed(`features.${camelize(routes['registries.overview'])}`)

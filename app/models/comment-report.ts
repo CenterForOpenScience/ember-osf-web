@@ -23,9 +23,7 @@ const Validations = buildValidations({
 
 export default class CommentReportModel extends OsfModel.extend(Validations) {
     @attr('fixstring') reporter!: string;
-
     @attr('fixstring') category!: string;
-
     @attr('fixstring') message!: string;
 
     @belongsTo('comment') comment!: DS.PromiseObject<CommentModel> & CommentModel;

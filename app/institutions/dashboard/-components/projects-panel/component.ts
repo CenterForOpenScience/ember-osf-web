@@ -8,11 +8,8 @@ import InstitutionModel from 'ember-osf-web/models/institution';
 
 export default class ProjectsPanel extends Component {
     institution!: InstitutionModel;
-
     @alias('institution.statSummary.numPublicProjects') numPublicProjects!: number;
-
     @alias('institution.statSummary.numPrivateProjects') numPrivateProjects!: number;
-
     @service intl!: Intl;
 
     chartOptions: ChartOptions = {

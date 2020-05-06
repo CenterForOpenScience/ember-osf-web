@@ -28,17 +28,12 @@ export default class List extends Component {
 
     // Private properties
     @service analytics!: Analytics;
-
     @service intl!: Intl;
-
     @service store!: DS.Store;
-
     @service toast!: Toast;
 
     contributors: Contributor[] = [];
-
     hasMore = false;
-
     page = 1;
 
     @task

@@ -16,7 +16,6 @@ export default class RegistrationFormViewSchemaBlocks extends Component {
 
     // Private properties
     schemaBlocks?: SchemaBlock[];
-
     schemaBlockGroups?: SchemaBlockGroup[];
 
     @task({ on: 'didReceiveAttrs', restartable: true })

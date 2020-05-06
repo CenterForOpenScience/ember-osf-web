@@ -12,14 +12,9 @@ import template from './template';
 @tagName('')
 export default class ActiveFiltersFilter extends Component {
     context: FacetContext = this.context;
-
     item: any = this.item;
-
     text: string = this.text;
-
     ariaLabel: string = this.ariaLabel;
-
     hide: boolean = defaultTo(this.hide, false);
-
     extraClass: string = defaultTo(this.extraClass, '');
 }

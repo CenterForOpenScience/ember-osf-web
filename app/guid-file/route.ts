@@ -16,13 +16,9 @@ import Ready from 'ember-osf-web/services/ready';
 
 export default class GuidFile extends Route {
     @service analytics!: Analytics;
-
     @service currentUser!: CurrentUser;
-
     @service('head-tags') headTagsService!: HeadTagsService;
-
     @service metaTags!: MetaTags;
-
     @service ready!: Ready;
 
     headTags?: HeadTagDef[];

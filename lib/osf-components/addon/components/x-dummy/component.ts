@@ -13,11 +13,8 @@ export default class Dummy extends Component {
     static DATA_ATTR_REGEX = /^data-(?!test-).+$/;
 
     yieldValue!: any;
-
     @attribute role!: string;
-
     @attribute href!: string;
-
     @alias('click') onclick!: () => void;
 
     init() {

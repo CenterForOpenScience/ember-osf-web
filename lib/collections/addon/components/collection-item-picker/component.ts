@@ -24,25 +24,17 @@ function stripAndLower(text: string): string {
 @layout(template, styles)
 export default class CollectionItemPicker extends Component {
     @service currentUser!: CurrentUser;
-
     @service store!: DS.Store;
 
     @requiredAction projectSelected!: (value: Node) => void;
-
     @requiredAction validationChanged!: (isValid: boolean) => void;
 
     collection: Collection = this.collection;
-
     selected: Node | null = defaultTo(this.selected, null);
-
     filter: string = '';
-
     page: number = 1;
-
     hasMore: boolean = false;
-
     loadingMore: boolean = false;
-
     items: Node[] = [];
 
     @bool('selected') isValid!: boolean;

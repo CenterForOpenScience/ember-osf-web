@@ -23,15 +23,11 @@ export default class SignUpForm extends Component {
     userRegistration!: UserRegistration;
 
     hasSubmitted: boolean = false;
-
     didValidate = false;
-
     resetRecaptcha!: () => void; // bound by validated-input/recaptcha
 
     @service passwordStrength!: PasswordStrength;
-
     @service analytics!: Analytics;
-
     @service store!: DS.Store;
 
     @task({ drop: true })

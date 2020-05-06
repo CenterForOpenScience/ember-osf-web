@@ -23,13 +23,10 @@ export default class MetadataInstitutionsManagerComponent extends Component {
 
     // private properties
     @service toast!: Toast;
-
     @service intl!: Intl;
-
     @service currentUser!: CurrentUser;
 
     affiliatedList!: QueryHasManyResult<Institution>;
-
     currentAffiliatedList!: QueryHasManyResult<Institution>;
 
     @task({ restartable: true, on: 'didReceiveAttrs' })

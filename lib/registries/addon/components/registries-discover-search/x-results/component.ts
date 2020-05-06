@@ -15,7 +15,6 @@ export default class SearchResults<T> extends Component {
     static positionalParams = ['results'];
 
     searchOptions!: SearchOptions;
-
     @requiredAction onSearchOptionsUpdated!: (options: SearchOptions) => void;
 
     results!: T[];

@@ -30,17 +30,12 @@ interface PageParams {
 
 export default class KeenAdapter extends BaseAdapter {
     @service cookies!: Cookies;
-
     @service currentUser!: CurrentUser;
-
     @service headData!: any;
-
     @service router!: RouterService;
 
     config?: KeenConfig;
-
     publicClient?: KeenTracking;
-
     privateClient?: KeenTracking;
 
     init() {

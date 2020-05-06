@@ -30,9 +30,7 @@ import template from './template';
 @classNames('FileEditor')
 export default class FileEditor extends Component {
     fileText: string = defaultTo(this.fileText, '');
-
     unsavedText: string = defaultTo(this.unsavedText, '');
-
     @requiredAction save!: (text: string) => void;
 
     @computed('fileText')

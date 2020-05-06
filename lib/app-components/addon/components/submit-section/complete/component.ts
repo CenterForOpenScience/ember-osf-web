@@ -10,7 +10,6 @@ import template from './template';
 @tagName('')
 export default class SubmitSectionComplete extends Component {
     showReopen: boolean = this.showReopen;
-
     editable: boolean = this.editable;
 
     @requiredAction

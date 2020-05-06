@@ -34,17 +34,12 @@ export default class InstitutionsManagerComponent extends Component {
 
     // private properties
     @service intl!: Intl;
-
     @service toast!: Toast;
-
     @service currentUser!: CurrentUser;
 
     affiliatedList!: QueryHasManyResult<Institution>;
-
     currentAffiliatedList!: QueryHasManyResult<Institution>;
-
     reloadList!: (page?: number) => void;
-
     requestedEditMode: boolean = false;
 
     @alias('node.userHasAdminPermission') userCanEdit!: boolean;

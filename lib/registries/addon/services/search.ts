@@ -160,9 +160,7 @@ export interface SearchResults<T> {
 
 export default abstract class AbstractSearchService extends Service {
     abstract url(options: SearchOptions): string;
-
     abstract extractTotal(response: any): number;
-
     abstract buildQuery(options: SearchOptions): {[key: string]: any};
 
     extractAggregations(response: any): {[key: string]: any} {

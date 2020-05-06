@@ -19,9 +19,7 @@ export default class SearchPaginator extends Component {
     @service intl!: Intl;
 
     current: number = defaultTo(this.current, 1);
-
     minimum: number = defaultTo(this.minimum, 1);
-
     maximum: number = defaultTo(this.maximum, 100);
 
     @computed('current', 'minimum', 'maximum', 'intl.locale')

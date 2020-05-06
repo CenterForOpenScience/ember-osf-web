@@ -18,7 +18,6 @@ export default class CommentReportSerializer extends ApplicationSerializer<Comme
             },
         };
     }
-
     buildNormalLinks(model: ModelInstance<CommentReport>) {
         return {
             self: `${apiUrl}/v2/comments/${model.comment.id}/reports/${model.reporter}`,

@@ -12,25 +12,17 @@ import Analytics from 'ember-osf-web/services/analytics';
 
 export default class GuidNodeRegistrations extends Controller {
     @service analytics!: Analytics;
-
     @service store!: DS.Store;
 
     queryParams = ['tab'];
-
     tab?: string;
 
     draftsQueryParams = { embed: ['initiator', 'registration_schema', 'branched_from'] };
-
     defaultSchema!: RegistrationSchema;
-
     selectedSchema!: RegistrationSchema;
-
     schemas: RegistrationSchema[] = [];
-
     newModalOpen = false;
-
     preregModalOpen = false;
-
     preregConsented = false;
 
     reloadDrafts?: (page?: number) => void; // bound by paginated-list

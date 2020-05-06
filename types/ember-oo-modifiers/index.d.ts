@@ -4,6 +4,5 @@ import Service from '@ember/service';
 
 export default class Modifier {
     static modifier(a: typeof Modifier): unknown;
-
     element: HTMLElement;
 }

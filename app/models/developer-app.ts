@@ -32,21 +32,13 @@ export interface DeveloperAppLinks extends OsfLinks {
 
 export default class DeveloperAppModel extends OsfModel.extend(Validations) {
     @attr() links!: DeveloperAppLinks;
-
     @attr() callbackUrl!: string;
-
     @attr() clientId!: string;
-
     @attr() clientSecret!: string;
-
     @attr('date') dateCreated!: Date;
-
     @attr({ defaultValue: '' }) description!: string;
-
     @attr() homeUrl!: string;
-
     @attr() name!: string;
-
     @attr() owner!: string;
 }
 

@@ -46,7 +46,6 @@ export default class SingleSubjectManagerComponent extends Component {
 
     // private
     @service analytics!: Analytics;
-
     @service store!: DS.Store;
 
     children?: QueryHasManyResult<SubjectModel>;

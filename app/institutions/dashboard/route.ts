@@ -8,7 +8,6 @@ import Analytics from 'ember-osf-web/services/analytics';
 
 export default class InstitutionsDashboardRoute extends Route {
     @service analytics!: Analytics;
-
     @service router!: RouterService;
 
     @task

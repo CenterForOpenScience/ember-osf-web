@@ -6,7 +6,6 @@ import Theme from 'ember-osf-web/services/theme';
 
 export default class Provider extends Route {
     @service store!: DS.Store;
-
     @service theme!: Theme;
 
     async beforeModel() {

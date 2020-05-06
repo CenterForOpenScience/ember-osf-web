@@ -12,16 +12,12 @@ import template from './template';
 export default class FormControlPowerSelect extends Component {
     // Required params
     options!: any[];
-
     valuePath!: string;
-
     changeset!: ChangesetDef;
 
     // Optional params
     shouldShowMessages?: boolean;
-
     disabled: boolean = false;
-
     onchange?: (option: unknown) => void;
 
     @action

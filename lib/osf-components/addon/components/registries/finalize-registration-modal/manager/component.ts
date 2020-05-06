@@ -46,12 +46,10 @@ export default class FinalizeRegistrationModalManagerComponent extends Component
 })
     implements FinalizeRegistrationModalManager {
     @service intl!: Intl;
-
     @service toast!: Toast;
 
     // Required attrs
     registration!: RegistrationModel;
-
     draftManager!: DraftRegistrationManager;
 
     // Optional parameters

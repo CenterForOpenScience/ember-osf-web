@@ -14,7 +14,6 @@ import template from './template';
 @layout(template, styles)
 export default class BannersViewOnlyLink extends Component {
     @service currentUser!: CurrentUser;
-
     @service router!: RouterService;
 
     @bool('currentUser.viewOnlyToken') shouldDisplay!: boolean;

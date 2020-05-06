@@ -5,7 +5,6 @@ declare module 'ember-in-viewport/services/in-viewport.js' {
 
     export default class InViewport extends Service {
         stopWatching: (a: HTMLElement | null, ...args: any[]) => void;
-
         watchElement: (a: HTMLElement | null, ...args: any[]) => {
             onEnter: (a: () => void) => void,
             onExit: (a: () => void) => void,

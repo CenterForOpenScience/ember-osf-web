@@ -15,9 +15,7 @@ const { support: { supportEmail } } = config;
 export default class ConnectedIdentities extends Component {
     // Private properties
     @service intl!: Intl;
-
     @service toast!: Toast;
-
     reloadIdentitiesList!: (page?: number) => void; // bound by paginated-list
 
     @task

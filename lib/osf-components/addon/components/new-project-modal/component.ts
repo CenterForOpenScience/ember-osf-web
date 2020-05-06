@@ -31,15 +31,10 @@ const {
 @layout(template, styles)
 export default class NewProjectModal extends Component {
     @service analytics!: Analytics;
-
     @service currentUser!: CurrentUser;
-
     @service store!: DS.Store;
-
     @service features!: Features;
-
     @service intl!: Intl;
-
     @service toast!: Toast;
 
     // Required arguments
@@ -50,17 +45,11 @@ export default class NewProjectModal extends Component {
 
     // Private fields
     nodeTitle?: string;
-
     description?: string;
-
     more: boolean = false;
-
     templateFrom?: Node;
-
     selectedRegion?: Region;
-
     institutions: Institution[] = [];
-
     regions: Region[] = [];
 
     @alias('currentUser.user') user!: User;

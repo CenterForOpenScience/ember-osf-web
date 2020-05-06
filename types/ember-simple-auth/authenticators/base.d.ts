@@ -5,9 +5,7 @@ declare module 'ember-simple-auth/authenticators/base' {
 
     class Base extends EmberObject.extend(Evented) {
         authenticate(...args: any[]): RSVP.Promise;
-
         invalidate(data?: object, ...args?: any[]): RSVP.Promise;
-
         restore(data: object): RSVP.Promise;
     }
 

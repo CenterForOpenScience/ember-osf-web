@@ -8,7 +8,6 @@ import Route from '@ember/routing/route';
 declare module '@ember/routing/route' {
     class EngineRoute extends Route {
         replaceWithExternal(name: string, ...args: any[]): Transition;
-
         transitionToExternal(name: string, ...args: any[]): Transition;
     }
 

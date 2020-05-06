@@ -13,11 +13,8 @@ const { attr, belongsTo } = DS;
 
 export default class FileProviderModel extends BaseFileItem {
     @attr() links!: FileProviderLinks;
-
     @attr('fixstring') name!: string;
-
     @attr('string') path!: string;
-
     @attr('fixstring') provider!: string;
 
     @belongsTo('file')

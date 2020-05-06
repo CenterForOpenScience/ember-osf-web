@@ -42,11 +42,9 @@ enum RequestType {
  */
 export default class OsfAdapter extends JSONAPIAdapter {
     @service session!: Session;
-
     @service currentUser!: CurrentUser;
 
     host = host;
-
     namespace = namespace;
 
     /**

@@ -12,12 +12,10 @@ import template from './template';
 export default class CarouselItem extends Component {
     // Required parameters
     allItems!: CarouselItem[];
-
     @requiredAction register!: (item: CarouselItem) => void;
 
     // Private properties
     index: number = 0;
-
     slideIndex: number = 0;
 
     didInsertElement() {

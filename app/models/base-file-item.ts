@@ -27,18 +27,14 @@ export interface BaseFileLinks extends OsfLinks {
  */
 export default class BaseFileItem extends OsfModel {
     @attr() links!: BaseFileLinks;
-
     @attr('fixstring') kind?: FileItemKinds;
 
     // Override in subclasses to set `true` when appropriate
     isNode = false;
-
     isProvider = false;
-
     isFileModel = false;
 
     @or('name', 'title') itemName!: string;
-
     @or('isNode', 'isProvider', 'isFolder') canHaveChildren!: boolean;
 
     @computed('isFileModel', 'kind')

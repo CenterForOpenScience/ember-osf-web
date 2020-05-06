@@ -9,14 +9,11 @@ import Node from 'ember-osf-web/models/node';
 
 export default class ValidatedModelFormController extends Controller {
     @service store!: DS.Store;
-
     @service toast!: Toast;
 
     @reads('model.taskInstance.value')
     existingNode?: Node;
-
     createDirt = false;
-
     editDirt = false;
 
     // BEGIN-SNIPPET validated-model-form.controller.ts
@@ -41,7 +38,6 @@ export default class ValidatedModelFormController extends Controller {
     changeDirtEditForm(dirt: boolean) {
         this.set('editDirt', dirt);
     }
-
     @action
     changeDirtCreateForm(dirt: boolean) {
         this.set('createDirt', dirt);

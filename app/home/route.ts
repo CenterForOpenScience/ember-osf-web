@@ -12,9 +12,7 @@ const { featureFlagNames: { ABTesting } } = config;
 
 export default class Home extends Route {
   @service analytics!: Analytics;
-
   @service session!: Session;
-
   @service features!: Features;
 
   async beforeModel(transition: Transition) {

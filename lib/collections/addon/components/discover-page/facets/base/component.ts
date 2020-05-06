@@ -10,11 +10,9 @@ import { FacetContext } from '../../component';
 
 export default class Base extends Component {
     @service analytics!: Analytics;
-
     @service theme!: Theme;
 
     context: FacetContext = this.context;
-
     filterReplace: object = this.filterReplace;
 
     @requiredAction filterChanged!: () => void;

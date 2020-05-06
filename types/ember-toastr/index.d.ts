@@ -4,11 +4,8 @@ declare module 'ember-toastr/services/toast' {
 
     export default class Toast extends Service {
         error(message: string, title?: string, options?: Partial<ToastOptions>): void;
-
         info(message: string, title?: string, options?: Partial<ToastOptions>): void;
-
         success(message: string, title?: string, options?: Partial<ToastOptions>): void;
-
         warning(message: string, title?: string, options?: Partial<ToastOptions>): void;
     }
 }

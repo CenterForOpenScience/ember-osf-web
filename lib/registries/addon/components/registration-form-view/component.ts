@@ -96,7 +96,6 @@ export class Question {
     }
 
     readonly slug: string;
-
     readonly isQuestion = true;
 
     constructor(
@@ -139,7 +138,6 @@ export class Section {
     }
 
     readonly slug: string;
-
     readonly isSection = true;
 
     constructor(
@@ -160,7 +158,6 @@ export class RegistrationForm {
     }
 
     public readonly title: string;
-
     public readonly sections: Section[];
 
     constructor(title: string, sections: Section[]) {
@@ -174,7 +171,6 @@ export class RegistrationForm {
 @layout(template)
 export default class RegistrationFormView extends Component {
     schema!: Schema;
-
     answers!: RegistrationMetadata;
 
     @computed('schema', 'answers')

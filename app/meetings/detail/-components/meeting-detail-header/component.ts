@@ -10,7 +10,6 @@ export default class MeetingDetailHeader extends Component {
 
     // Private properties
     @service intl!: Intl;
-
     isPanelOpen = false;
 
     @computed('meeting.{fieldNames,isAcceptingTypeOne,isAcceptingTypeTwo}')

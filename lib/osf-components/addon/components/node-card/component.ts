@@ -24,11 +24,8 @@ export default class NodeCard extends Component {
 
     // Optional parameters
     node?: Node | Registration;
-
     delete?: (node: Node) => void;
-
     showTags: boolean = defaultTo(this.showTags, false);
-
     readOnly: boolean = defaultTo(this.readOnly, false);
 
     // Private properties

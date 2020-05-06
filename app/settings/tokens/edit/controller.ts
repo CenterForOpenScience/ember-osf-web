@@ -11,11 +11,8 @@ import Analytics from 'ember-osf-web/services/analytics';
 
 export default class SettingsTokensEditController extends Controller {
     @service analytics!: Analytics;
-
     @service intl!: Intl;
-
     @service router!: RouterService;
-
     @service toast!: Toast;
 
     deleteModalShown: boolean = false;

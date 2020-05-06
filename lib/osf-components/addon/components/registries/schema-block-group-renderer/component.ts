@@ -17,12 +17,10 @@ import template from './template';
 export default class SchemaBlockGroupRenderer extends Component {
     // Required parameters
     schemaBlockGroup!: SchemaBlockGroup;
-
     renderStrategy!: Component;
 
     // Optional params
     disabled: boolean = defaultTo(this.disabled, false);
-
     shouldShowMessages: boolean = defaultTo(this.shouldShowMessages, true);
 
     @alias('schemaBlockGroup.optionBlocks')

@@ -14,15 +14,11 @@ export default class RegistriesDraftReview extends Controller {
     @service media!: Media;
 
     @alias('model.draftRegistrationManager') draftRegistrationManager?: DraftRegistrationManager;
-
     @alias('draftRegistrationManager.pageManagers') pageManagers?: PageManager[];
-
     @alias('draftRegistrationManager.draftRegistration') draftRegistration?: DraftRegistration;
-
     @alias('draftRegistrationManager.node') node?: NodeModel;
 
     @not('draftRegistration') loading!: boolean;
-
     @not('media.isDesktop') showMobileView!: boolean;
 
     @action

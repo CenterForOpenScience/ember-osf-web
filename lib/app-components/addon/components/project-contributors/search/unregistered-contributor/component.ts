@@ -18,17 +18,12 @@ import template from './template';
 @layout(template, styles)
 export default class UnregisteredContributor extends Component {
     @service analytics!: Analytics;
-
     @service intl!: Intl;
-
     @service store!: DS.Store;
-
     @service toast!: Toast;
 
     model?: Contributor;
-
     node: Node = this.node;
-
     didValidate: boolean = false;
 
     @requiredAction closeForm!: () => void;

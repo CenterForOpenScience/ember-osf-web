@@ -18,12 +18,9 @@ import template from './template';
 @layout(template)
 export default class SubjectFieldManagerComponent extends Component {
     @service toast!: Toast;
-
     @service intl!: Intl;
-
     // required
     node!: Node;
-
     subjectsManager!: SubjectManager;
 
     requestedEditMode: boolean = false;

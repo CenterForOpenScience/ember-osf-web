@@ -17,17 +17,12 @@ const osfURL = config.OSF.url;
 @tagName('') // Don't wrap this component in a div
 export default class XLinks extends Component {
     @service router!: any;
-
     @service session!: Session;
-
     @service currentUser!: CurrentUser;
 
     searchURL: string = defaultTo(this.searchURL, `${osfURL}search/`);
-
     myProjectsURL: string = defaultTo(this.myProjectsURL, `${osfURL}myprojects/`);
-
     myRegistrationsURL: string = defaultTo(this.myRegistrationsURL, `${osfURL}myprojects/#registrations`);
-
     onLinkClicked: () => void = defaultTo(this.onLinkClicked, () => null);
 
     @computed('router.currentRouteName')

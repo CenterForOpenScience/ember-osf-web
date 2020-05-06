@@ -23,7 +23,6 @@ export default class AncestryDisplay extends Component {
 
     // Optional arguments
     delimiter: string = defaultTo(this.delimiter, '/');
-
     useLinks: boolean = defaultTo(this.useLinks, false);
 
     @alias('getAncestors.lastComplete.value') ancestry?: string[];

@@ -70,11 +70,9 @@ enum DialogState {
 @layout(template, styles)
 export default class FeedbackButton extends Component {
     pageName?: string;
-
     text?: string;
 
     @service analytics!: Analytics;
-
     @service currentUser!: CurrentUser;
 
     enabled: boolean = enabled;
@@ -84,7 +82,6 @@ export default class FeedbackButton extends Component {
     followup: boolean = false;
 
     state: DialogState = DialogState.empty;
-
     dialogRows = 5;
 
     @computed('state')

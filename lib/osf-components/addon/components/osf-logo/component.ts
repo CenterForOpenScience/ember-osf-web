@@ -8,6 +8,5 @@ import template from './template';
 @layout(template, styles)
 export default class OsfLogo extends Component {
     double: boolean = defaultTo(this.double, false);
-
     animate: boolean = defaultTo(this.animate, false);
 }

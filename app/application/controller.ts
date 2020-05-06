@@ -17,11 +17,8 @@ const {
 
 export default class Application extends Controller {
     @service router!: RouterService;
-
     @service theme!: Theme;
-
     @service features!: Features;
-
     @service osfModalState!: OsfModalState;
 
     queryParams = [{
@@ -31,7 +28,6 @@ export default class Application extends Controller {
             scope: 'controller' as 'controller',
         },
     }];
-
     viewOnlyToken = '';
 
     @alias(`features.${camelize(verifyEmailModals)}`)

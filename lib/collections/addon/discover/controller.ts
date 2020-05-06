@@ -11,9 +11,7 @@ import Theme from 'ember-osf-web/services/theme';
 
 export default class Discover extends Controller {
     @service theme!: Theme;
-
     @service intl!: Intl;
-
     @service store!: DS.Store;
 
     activeFilters = {
@@ -37,7 +35,6 @@ export default class Discover extends Controller {
     }
 
     consumingService = 'collections'; // Consuming service - preprints here
-
     detailRoute = 'content'; // Name of detail route for this application
 
     // @computed('additionalProviders')
@@ -92,25 +89,17 @@ export default class Discover extends Controller {
     };
 
     page = 1; // Page query param. Must be passed to component, so can be reflected in URL
-
     provider = ''; // Provider query param. Must be passed to component, so can be reflected in URL
-
     q = ''; // q query param.  Must be passed to component, so can be reflected in URL
 
     sources = ''; // Sources query param. Must be passed to component, so can be reflected in the URL
-
     start = ''; // Start query param. Must be passed to component, so can be reflected in the URL
-
     tags = ''; // Tags query param.  Must be passed to component, so can be reflected in URL
 
     collectedType = '';
-
     issue = '';
-
     programArea = '';
-
     status = '';
-
     volume = '';
 
     // Pass in the list of queryParams for this component
@@ -155,7 +144,6 @@ export default class Discover extends Controller {
     }
 
     type = ''; // Type query param. Must be passed to component, so can be reflected in URL
-
     whiteListedProviders = config.whiteListedProviders;
 
     @action

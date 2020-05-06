@@ -14,7 +14,6 @@ import template from './template';
 export default class ReadOnlyResponse extends Component {
     // Required param
     schemaBlock!: SchemaBlock;
-
     registrationResponses!: RegistrationResponse;
 
     didReceiveAttrs() {

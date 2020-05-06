@@ -18,11 +18,8 @@ export default class CopyableText extends Component {
 
     // Optional arguments
     analyticsLabel?: string;
-
     success?: () => void;
-
     error?: () => void;
-
     disabled: boolean = defaultTo(this.disabled, false);
 
     // Private properties

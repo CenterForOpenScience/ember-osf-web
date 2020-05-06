@@ -15,13 +15,9 @@ export default class ValidatedPowerSelect<M extends DS.Model> extends BaseValida
     onchange?: (value: string) => void;
 
     search: () => any = this.search;
-
     noMatchesMessage?: string = this.noMatchesMessage;
-
     options: any[] = this.options;
-
     searchEnabled?: boolean = this.searchEnabled;
-
     placeholder?: string = this.placeholder;
 
     // Set renderInPlace to true when <powerselect> is rendered in <bsModal>

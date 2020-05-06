@@ -38,20 +38,16 @@ interface NewFolder {
 @layout(template, styles)
 export default class FilesMenu extends Component {
     @service toast!: Toast;
-
     @service intl!: Intl;
-
     @service store!: DS.Store;
 
     filesManager!: FilesManager;
 
     // Private
     newFolderDialogIsOpen = false;
-
     uploadButtonClass = uniqueId(['dz-upload-button']);
 
     newFolder!: NewFolder;
-
     changeset!: ChangesetDef;
 
     @alias('filesManager.canEdit') canEdit!: boolean;

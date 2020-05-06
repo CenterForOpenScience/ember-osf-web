@@ -17,19 +17,14 @@ import template from './template';
 @layout(template, styles)
 export default class RegistrationIsPublic extends Component {
     @service intl!: Intl;
-
     @service toast!: Toast;
 
     registration!: Registration;
 
     scientistName?: string;
-
     scientistNameInput?: string = '';
-
     withdrawalJustification?: string = '';
-
     closeDropdown!: () => void;
-
     showModal: boolean = defaultTo(this.showModal, false);
 
     @task({ drop: true })
