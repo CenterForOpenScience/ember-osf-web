@@ -1,8 +1,8 @@
 import EmberObject from '@ember/object';
 import { render } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
 import { buildValidations, validator } from 'ember-cp-validations';
 import { setupRenderingTest } from 'ember-qunit';
-import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
 const Validations = buildValidations({

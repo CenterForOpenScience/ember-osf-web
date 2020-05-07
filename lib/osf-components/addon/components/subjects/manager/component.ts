@@ -104,7 +104,7 @@ export default class SubjectManagerComponent extends Component {
     @task({ on: 'init' })
     initializeSubjects = task(function *(this: SubjectManagerComponent) {
         const { model } = this;
-        const savedSubjects: SubjectModel[] = model.isNew ? model.subjects : yield model.loadAll('subjects');
+        const savedSubjects: SubjectModel[] = model.isNew ? model.subjects : (yield model.loadAll('subjects'));
         const savedSubjectIds = new Set(savedSubjects.map(s => s.id));
         this.setProperties({
             savedSubjectIds,

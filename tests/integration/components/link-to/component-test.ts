@@ -1,8 +1,8 @@
 import Service from '@ember/service';
 import { click, render } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
-import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
 const routerStub = Service.extend({

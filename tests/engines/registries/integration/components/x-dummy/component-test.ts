@@ -1,7 +1,7 @@
 import { render, waitFor } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
 import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
 import { TestContext } from 'ember-test-helpers';
-import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
 /* tslint:disable:only-arrow-functions */

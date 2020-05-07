@@ -1,9 +1,9 @@
 import { render } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import config from 'ember-get-config';
 import { setupRenderingTest } from 'ember-qunit';
 import test from 'ember-sinon-qunit/test-support/test';
-import hbs from 'htmlbars-inline-precompile';
 import { module } from 'qunit';
 
 const {

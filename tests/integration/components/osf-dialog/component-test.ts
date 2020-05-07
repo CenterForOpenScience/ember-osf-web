@@ -1,6 +1,6 @@
 import { click as untrackedClick, render, settled } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
-import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
 import { click } from 'ember-osf-web/tests/helpers';

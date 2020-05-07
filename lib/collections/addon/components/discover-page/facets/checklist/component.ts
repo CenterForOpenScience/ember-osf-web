@@ -28,9 +28,9 @@ export default abstract class SearchFacetChecklist extends Base {
     initialize = task(function *(this: SearchFacetChecklist): IterableIterator<any> {
         const providers: CollectionProvider[] = this.theme.isProvider
             ? [this.theme.provider]
-            : yield this.store.findAll('collection-provider', {
+            : (yield this.store.findAll('collection-provider', {
                 include: 'primary_collection',
-            });
+            }));
 
         const primaryCollections: Collection[] = yield Promise.all(
             providers.map(({ primaryCollection }) => primaryCollection),

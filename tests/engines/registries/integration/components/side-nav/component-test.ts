@@ -1,8 +1,8 @@
 /* eslint-disable max-classes-per-file */
 import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
 import { TestContext } from 'ember-test-helpers';
-import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
 import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
