@@ -10,7 +10,6 @@
                 @route='registries.drafts.draft'
                 @models={{array this.draftRegistration.id}}
             >
-
                 {{this.draftRegistration.title}}
             </OsfLink>
         {{else}}
@@ -105,7 +104,7 @@
             <ContentPlaceholders as |placeholder|>
                 <placeholder.text
                     data-test-content-placeholder
-                    @lines={{3}}
+                    @lines={{4}}
                 />
             </ContentPlaceholders>
         {{/if}}
