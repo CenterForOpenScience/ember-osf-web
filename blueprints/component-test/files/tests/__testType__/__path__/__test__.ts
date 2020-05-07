@@ -1,6 +1,6 @@
 <% if (testType === 'integration') { %>import { render } from '@ember/test-helpers';
-import { setupRenderingTest } from 'ember-qunit';
 import { hbs } from 'ember-cli-htmlbars';
+import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
 module('<%= friendlyTestDescription %>', hooks => {
