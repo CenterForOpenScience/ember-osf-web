@@ -1334,9 +1334,10 @@ routes:
 osf-components:
     draft-registration-card:
         initiated_by: 'Initiated by:'
+        form_type: 'Form:'
         started: 'Started:'
         last_updated: 'Last updated:'
-        register: Register
+        review: Review
         delete_draft_confirm: 'Are you sure you want to delete this draft registration?'
     copyable-text:
         copyToClipboard: 'Copy to clipboard'
