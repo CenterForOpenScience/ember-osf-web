@@ -1,4 +1,3 @@
-import { alias } from '@ember/object/computed';
 import DS from 'ember-data';
 
 import UserModel from 'ember-osf-web/models/user';
@@ -16,7 +15,9 @@ export default class InstitutionUserModel extends OsfModel {
     @belongsTo('user', { async: true })
     user!: DS.PromiseObject<UserModel> & UserModel;
 
-    @alias('user.id') userGuid!: string;
+    get userGuid(this: InstitutionUserModel) {
+        return this.belongsTo('user').id();
+    }
 }
 
 declare module 'ember-data/types/registries/model' {
