@@ -6,7 +6,7 @@
                 type='button'
                 local-class={{if (eq this.current item.text) 'active'}}
                 disabled={{item.disabled}}
-                {{action (or item.action 'setPage') item.text}}
+                {{action (or item.action this.setPage) item.text}}
             >
                 {{item.text}}
             </button>

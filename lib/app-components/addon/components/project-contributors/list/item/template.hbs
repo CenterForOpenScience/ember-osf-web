@@ -46,7 +46,7 @@
             class='text-danger'
             aria-label={{t 'app_components.project_contributors.list.item.remove_author'}}
             hidden={{not this.canRemove}}
-            {{action @removeContributor @contributor}}
+            {{on 'click' (fn @removeContributor @contributor)}}
         >
             <FaIcon @icon='times' />
         </button>

@@ -23,7 +23,7 @@
                         <button
                             class='btn btn-default'
                             type='button'
-                            {{action 'toggleHelp'}}
+                            {{on 'click' this.toggleHelp}}
                         >
                             {{fa-icon 'question' class='text-muted'}}
                         </button>
@@ -32,7 +32,7 @@
                         data-test-search-button
                         class='btn btn-default'
                         type='button'
-                        {{action 'onClick'}}
+                        {{on 'click' this.onClick}}
                     >
                         {{t 'registries.header.search'}}
                     </button>

@@ -195,7 +195,7 @@
                         type='button'
                         class='btn btn-success'
                         disabled={{not (eq this.activeSection this.sections.submit)}}
-                        {{action this.setShowSubmitModal}}
+                        {{on 'click' this.setShowSubmitModal}}
                     >
                         {{t (concat this.intlKeyPrefix 'add' '_button')}}
                     </button>

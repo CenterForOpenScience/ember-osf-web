@@ -11,7 +11,7 @@
                 type='button'
                 class='fa fa-times-circle'
                 local-class='removeActiveFilter'
-                {{action this.removeFilterItem}}
+                {{on 'click' this.removeFilterItem}}
             ></button>
         </span>
     {{/unless}}

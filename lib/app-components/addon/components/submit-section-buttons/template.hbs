@@ -3,7 +3,7 @@
         data-test-submit-section-discard
         type='button'
         class='btn btn-default'
-        {{action this.discard}}
+        {{on 'click' this.discard}}
     >
         {{#if @discardButtonLabel}}
             {{@discardButtonLabel}}
@@ -17,7 +17,7 @@
     type='button'
     class='btn btn-primary'
     disabled={{this.continueDisabled}}
-    {{action this.continue}}
+    {{on 'click' this.continue}}
 >
     {{#if @continueButtonLabel}}
         {{@continueButtonLabel}}

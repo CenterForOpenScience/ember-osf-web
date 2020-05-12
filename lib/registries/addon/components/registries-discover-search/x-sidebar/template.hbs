@@ -4,7 +4,12 @@
             <h4>{{t 'registries.discover.sidebar.active_filters'}}:</h4>
         </div>
         <div class='col-xs-6'>
-            <button data-test-clear-filters type='button' class='pull-right btn btn-sm btn-default' {{action 'clearFilters'}}>
+            <button
+                data-test-clear-filters
+                type='button'
+                class='pull-right btn btn-sm btn-default'
+                {{on 'click' this.clearFilters}}
+            >
                 {{t 'registries.discover.sidebar.clear_filters'}}
                 {{fa-icon 'times'}}
             </button>
@@ -12,7 +17,12 @@
     </div>
 
     {{#each this.filters as |filter|}}
-        <button type='button' class='{{filter.class}}' local-class='Sidebar__ActiveFilter' {{action 'removeFilter' filter.filter}}>
+        <button
+            type='button'
+            class='{{filter.class}}'
+            local-class='Sidebar__ActiveFilter'
+            {{on 'click' (fn this.removeFilter filter.filter)}}
+        >
             {{filter.display}}
             {{fa-icon 'times-circle'}}
         </button>
