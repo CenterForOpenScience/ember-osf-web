@@ -7,13 +7,11 @@ import { task } from 'ember-concurrency-decorators';
 import InstitutionModel from 'ember-osf-web/models/institution';
 import InstitutionDepartmentModel from 'ember-osf-web/models/institution-department';
 import InstitutionSummaryMetricModel from 'ember-osf-web/models/institution-summary-metric';
-import InstitutionUserModel from 'ember-osf-web/models/institution-user';
 import Analytics from 'ember-osf-web/services/analytics';
 
 export interface InstitutionsDashboardModel {
     institution: InstitutionModel;
     departmentMetrics: InstitutionDepartmentModel;
-    userMetrics: InstitutionUserModel;
     summaryMetrics: InstitutionSummaryMetricModel;
 }
 export default class InstitutionsDashboardRoute extends Route {
@@ -28,13 +26,12 @@ export default class InstitutionsDashboardRoute extends Route {
                     include: ['summary_metrics'],
                 },
             });
-            const departmentMetrics = yield institution.get('departmentMetrics');
-            const userMetrics = yield institution.get('userMetrics');
+            const departmentMetrics = yield institution.queryHasMany('departmentMetrics');
             const summaryMetrics = yield institution.get('summaryMetrics');
-            // if (!institution.get('currentUserIsAdmin')) {
-            //     throw new Error('Current user is not admin.');
-            // }
-            return { institution, departmentMetrics, userMetrics, summaryMetrics };
+            if (!summaryMetrics) {
+                throw new Error('Current user is not admin.');
+            }
+            return { institution, departmentMetrics, summaryMetrics };
         } catch (error) {
             this.transitionTo('not-found', this.get('router').get('currentURL').slice(1));
             return undefined;

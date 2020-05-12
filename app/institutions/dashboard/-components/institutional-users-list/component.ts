@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { TaskInstance } from 'ember-concurrency';
+import { TaskInstance, timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 import Intl from 'ember-intl/services/intl';
 
@@ -21,13 +21,29 @@ export default class InstitutionalUsersList extends Component {
     institution!: InstitutionModel;
     sort = 'user_name';
 
+    reloadUserList?: () => void;
+
     @task({ on: 'init' })
     loadDepartmentMetrics = task(function *(this: InstitutionalUsersList) {
         const modelValue = yield this.modelTaskInstance;
         const { institution } = modelValue;
         this.set('institution', institution);
-        const deptMetrics = yield modelValue.departmentMetrics;
+        let deptMetrics = [];
+        if (modelValue.departmentMetrics) {
+            deptMetrics = modelValue.departmentMetrics;
+        }
         this.set('departmentMetrics', deptMetrics.toArray());
+    });
+
+    @task({ restartable: true })
+    searchDepartment = task(function *(this: InstitutionalUsersList, name: string) {
+        yield timeout(500);
+        const depts: InstitutionDepartmentsModel[] = yield this.institution.queryHasMany('departmentMetrics', {
+            filter: {
+                name,
+            },
+        });
+        return depts.map(dept => dept.name);
     });
 
     @computed('intl.locale')
@@ -76,6 +92,9 @@ export default class InstitutionalUsersList extends Component {
             action: 'change',
         });
         this.set('department', department);
+        if (this.reloadUserList) {
+            this.reloadUserList();
+        }
     }
 
     @action

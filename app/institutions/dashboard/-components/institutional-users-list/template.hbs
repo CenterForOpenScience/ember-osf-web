@@ -2,21 +2,23 @@
     <LoadingIndicator data-test-loading-indicator @dark={{true}} />
 {{else}}
     <PowerSelect
-            @options={{this.departments}}
-            @searchEnabled={{false}}
-            @selected={{this.department}}
-            @triggerClass={{local-class 'select'}}
-            @onchange={{action this.onSelectChange}} as |department|
+        @options={{this.departments}}
+        @searchEnabled={{true}}
+        @selected={{this.department}}
+        @triggerClass={{local-class 'select'}}
+        @search={{perform this.searchDepartment}}
+        @onchange={{action this.onSelectChange}} as |department|
     >
         {{department}}
     </PowerSelect>
     <ContentPlaceholders as |placeholder|>
         <PaginatedList::HasMany
-                local-class='table'
-                @isTable={{true}}
-                @model={{this.institution}}
-                @relationshipName='userMetrics'
-                @query={{this.query}} as |list|
+            local-class='table'
+            @isTable={{true}}
+            @model={{this.institution}}
+            @relationshipName='userMetrics'
+            @bindReload={{action (mut this.reloadUserList)}}
+            @query={{this.query}} as |list|
         >
             <list.header local-class='header'>
                 {{#let (component 'sort-button'
@@ -55,10 +57,10 @@
                 {{#if institutionalUser}}
                     <td data-test-item-name>
                         <OsfLink
-                                @route='guid-user'
-                                @models={{array institutionalUser.userGuid}}
+                            @route='guid-user'
+                            @models={{array institutionalUser.userGuid}}
                         >
-                            {{institutionalUser.userName}}
+                            {{institutionalUser.userName}} - {{institutionalUser.userGuid}}
                         </OsfLink>
                     </td>
                     <td data-test-item-department>{{institutionalUser.department}}</td>
