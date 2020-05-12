@@ -200,7 +200,15 @@ module('Acceptance | guid-node/registrations', hooks => {
             q1: { comments: [], value: 'Registration Title', extra: [] },
         };
 
-        draftRegisterNode(server, node, { initiator, registrationSchema, registrationMetadata });
+        const draftRegistration = draftRegisterNode(
+            server,
+            node,
+            {
+                initiator,
+                registrationSchema,
+                registrationMetadata,
+            },
+        );
 
         const url = `/${node.id}/registrations`;
 
@@ -220,19 +228,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.dom('[data-test-draft-registration-card]').exists({ count: 1 });
 
-        assert.dom('[data-test-draft-registration-card-title]').includesText(
-            'Prereg Challenge',
-        );
-
-        assert.dom('[data-test-draft-registration-card-progress-bar]').exists({ count: 1 });
-
-        const progressBarElement =
-            document.querySelector('[data-test-draft-registration-card-progress-bar] .progress-bar') as HTMLElement;
-
-        assert.ok(
-            parseFloat(progressBarElement.style.width ? progressBarElement.style.width : '') > 0,
-            'Progress bar shows progress',
-        );
+        assert.dom('[data-test-draft-registration-card-title]').includesText(draftRegistration.title);
     });
 
     test('logged in admin, 12 draft registrations', async assert => {
