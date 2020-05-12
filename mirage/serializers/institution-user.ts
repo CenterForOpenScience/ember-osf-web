@@ -17,6 +17,10 @@ export default class InstitutionUsersSerializer extends ApplicationSerializer<In
                         meta: this.buildRelatedLinkMeta(model, 'user'),
                     },
                 },
+                data: {
+                    id: model.user.id,
+                    type: 'users',
+                },
             },
         };
     }

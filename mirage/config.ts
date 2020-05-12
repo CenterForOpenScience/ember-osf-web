@@ -27,6 +27,7 @@ import { createEmails, updateEmails } from './views/update-email';
 import { userNodeList } from './views/user';
 import { updatePassword } from './views/user-password';
 import * as userSettings from './views/user-setting';
+import { process } from './views/utils';
 import * as wb from './views/wb';
 
 const { OSF: { apiUrl } } = config;
@@ -49,6 +50,10 @@ export default function(this: Server) {
     this.get('/guids/:id', guidDetail);
 
     osfResource(this, 'institution', { only: ['index', 'show'], defaultPageSize: 1000 });
+    osfNestedResource(this, 'institution', 'users', {
+        only: ['index'],
+        path: '/institutions/:parentID/users',
+    });
     osfNestedResource(this, 'institution', 'userMetrics', {
         only: ['index'],
         path: '/institutions/:parentID/metrics/users',
@@ -57,10 +62,12 @@ export default function(this: Server) {
         only: ['index'],
         path: '/institutions/:parentID/metrics/departments',
     });
-    osfNestedResource(this, 'institution', 'summaryMetrics', {
-        only: ['index'],
-        path: '/institutions/:parentID/metrics/summary',
+    this.get('/institutions/:id/metrics/summary', function(schema, request) {
+        const model = this.serialize(schema.institutionSummaryMetrics.find(request.params.id)).data;
+        const data = process(schema, request, this, [model]).data[0];
+        return { data };
     });
+
     osfResource(this, 'license', { only: ['index', 'show'] });
     osfResource(this, 'citation-style', {
         only: ['index'],

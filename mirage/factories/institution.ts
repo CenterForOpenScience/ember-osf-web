@@ -35,13 +35,13 @@ export default Factory.extend<Institution & InstitutionTraits>({
     }),
     withInstitutionDepartments: trait<Institution>({
         afterCreate(institution, server) {
-            const departmentMetrics = server.createList('institution-department', 7);
+            const departmentMetrics = server.createList('institution-department', 29);
             institution.update({ departmentMetrics });
         },
     }),
     withSummaryMetrics: trait<Institution>({
         afterCreate(institution, server) {
-            const summaryMetrics = server.create('institution-summary-metric');
+            const summaryMetrics = server.create('institution-summary-metric', { id: institution.id });
             institution.update({ summaryMetrics });
         },
     }),
