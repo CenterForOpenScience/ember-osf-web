@@ -1,10 +1,8 @@
-import Component from '@glimmer/component';
+import Component from '@ember/component';
 
-import ContributorModel from 'ember-osf-web/models/contributor';
+import { layout } from 'ember-osf-web/decorators/component';
+import template from './template';
 
-interface Args {
-    contributors: ContributorModel[];
-}
-
-export class ContributorsManager extends Component<Args> {
+@layout(template)
+export default class ContributorsManager extends Component {
 }

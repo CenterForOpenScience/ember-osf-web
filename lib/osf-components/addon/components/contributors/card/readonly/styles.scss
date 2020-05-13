@@ -1,0 +1,15 @@
+.CardContainer {
+    display: flex;
+    margin: 10px 0;
+    border-bottom: 1px solid $color-border-gray;
+}
+
+.CardSection {
+    flex: 1 0 auto;
+    max-width: 30%;
+
+    &:first-of-type {
+        flex: 2 0 auto;
+        max-width: 40%;
+    }
+}

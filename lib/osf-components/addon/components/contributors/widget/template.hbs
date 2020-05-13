@@ -1,13 +1,16 @@
-<Contributors::Manager
-    @thingWithContributors={{@thingWithContributors}}
-    as |manager|
->
-    {{#let (get
-        (hash
-            readonly=(component 'contributors/list/readonly')
-        )
-        this.widgetMode
-    ) as |List|}}
-        <List @contributorsManager={{manager}} />
-    {{/let}}
-</Contributors::Manager>
+<div local-class='Container' ...attributes>
+    <div local-class='Heading'>
+        <span local-class='HeadingTitle'>{{t 'osf-components.contributors.name'}}</span>
+        <span local-class='HeadingTitle'>{{t 'osf-components.contributors.permission'}}</span>
+        <span local-class='HeadingTitle'>{{t 'osf-components.contributors.citation'}}</span>
+    </div>
+    <Contributors::Manager
+        @node={{@node}}
+        as |manager|
+    >
+        <Contributors::List
+            @contributorsManager={{manager}}
+            @widgetMode={{this.widgetMode}}
+        />
+    </Contributors::Manager>
+</div>

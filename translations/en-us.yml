@@ -1440,6 +1440,10 @@ osf-components:
         previousPage: 'Previous page'
         nextPage: 'Next page'
         reviewRegistration: 'Review registration'
+    contributors:
+        name: 'Name'
+        permission: 'Permission'
+        citation: 'Citation'
 settings:
     toggleNav: 'Toggle navigation'
     profile:
