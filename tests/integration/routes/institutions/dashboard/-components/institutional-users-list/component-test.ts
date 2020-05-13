@@ -16,15 +16,27 @@ module('Integration | routes | institutions | dashboard | -components | institut
     });
 
     test('it renders and paginates', async function(assert) {
-        server.create('institution', { id: 'testinstitution' }, 'withInstitutionUsers', 'withSummaryMetrics');
-
+        server.create('institution', {
+            id: 'testinstitution',
+        }, 'withInstitutionUsers', 'withSummaryMetrics', 'withInstitutionDepartments');
+        const institution = await this.get('store').findRecord('institution', 'testinstitution');
+        const departmentMetrics = await institution.get('departmentMetrics');
+        const { userMetrics } = institution;
         const model = {
-            taskInstance: this.get('store').findRecord('institution', 'testinstitution'),
+            taskInstance: {
+                institution,
+                departmentMetrics,
+                userMetrics,
+            },
         };
 
         this.set('model', model);
-        await render(hbs`<Institutions::Dashboard::-Components::InstitutionalUsersList @model={{this.model}} />`);
-
+        await render(hbs`
+            <Institutions::Dashboard::-Components::InstitutionalUsersList
+                @modelTaskInstance={{this.model.taskInstance}}
+                @institution={{this.model.taskInstance.institution}}
+            />
+        `);
         assert.dom('[data-test-header-name]')
             .exists({ count: 1 }, '1 name header');
         assert.dom('[data-test-header-department]')
@@ -76,24 +88,34 @@ module('Integration | routes | institutions | dashboard | -components | institut
                 }),
             ],
         }, 'withSummaryMetrics');
-
+        const institution = await this.get('store').findRecord('institution', 'testinstitution');
+        const departmentMetrics = await institution.get('departmentMetrics');
+        const { userMetrics } = institution;
         const model = {
-            taskInstance: this.get('store').findRecord('institution', 'testinstitution'),
+            taskInstance: {
+                institution,
+                departmentMetrics,
+                userMetrics,
+            },
         };
 
         this.set('model', model);
-        await render(hbs`<Institutions::Dashboard::-Components::InstitutionalUsersList @model={{this.model}} />`);
-
+        await render(hbs`
+            <Institutions::Dashboard::-Components::InstitutionalUsersList
+                @modelTaskInstance={{this.model.taskInstance}}
+                @institution={{this.model.taskInstance.institution}}
+            />
+        `);
         assert.dom('[data-test-item-name]')
             .exists({ count: 3 }, '3 users');
 
-        await click('[data-test-ascending-sort="user_full_name"]');
+        await click('[data-test-ascending-sort="user_name"]');
         assert.dom('[data-test-item-name]')
-            .hasText('Hulk Hogan', 'Sorts by name ascendening');
+            .containsText('Hulk Hogan', 'Sorts by name ascendening');
 
-        await click('[data-test-descending-sort="user_full_name"]');
+        await click('[data-test-descending-sort="user_name"]');
         assert.dom('[data-test-item-name]')
-            .hasText('John Doe', 'Sorts by name descendening');
+            .containsText('John Doe', 'Sorts by name descendening');
 
         await click('[data-test-ascending-sort="department"]');
         assert.dom('[data-test-item-department]')

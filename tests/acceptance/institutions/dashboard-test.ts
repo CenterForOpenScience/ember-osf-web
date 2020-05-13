@@ -12,7 +12,9 @@ module(moduleName, hooks => {
     setupMirage(hooks);
 
     test('institutions dashboard', async assert => {
-        server.create('institution', { id: 'has-users' }, 'withInstitutionUsers', 'withSummaryMetrics');
+        server.create('institution', {
+            id: 'has-users',
+        }, 'withInstitutionUsers', 'withSummaryMetrics', 'withInstitutionDepartments');
         await visit('/institutions/has-users/dashboard');
         assert.equal(
             currentURL(),
