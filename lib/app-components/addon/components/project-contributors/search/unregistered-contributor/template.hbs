@@ -25,12 +25,14 @@
 </p>
 <div class='pull-right text-right'>
     <button
+        type='button'
         class='btn btn-default'
         {{action this.cancel}}
     >
         {{t 'app_components.project_contributors.search.unregistered_contributor.cancel'}}
     </button>
     <button
+        type='button'
         class='btn btn-success'
         disabled={{and this.didValidate (v-get this.model 'isInvalid')}}
         {{action (perform this.add)}}

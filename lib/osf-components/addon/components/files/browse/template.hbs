@@ -41,7 +41,7 @@
                 <AnimatedEach
                     @items={{uploadZone.uploading}}
                     @use={{this.transition}}
-                    @duration=1000
+                    @duration={{1000}}
                     as |item|
                 >
                     <div local-class='uploading'>
@@ -57,7 +57,7 @@
                         <AnimatedValue
                             @value={{@filesManager.currentFolder}}
                             @rules={{this.rules}}
-                            @duration=500
+                            @duration={{500}}
                         >
                             <Files::List
                                 @items={{@filesManager.displayedItems}}

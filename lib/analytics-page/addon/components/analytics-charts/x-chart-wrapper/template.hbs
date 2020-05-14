@@ -1,17 +1,17 @@
 <div
-    local-class="ChartWrapper {{unless chartEnabled 'DisabledPanel'}}"
+    local-class='ChartWrapper {{unless @chartEnabled 'DisabledPanel'}}'
     class='panel panel-default'
 >
     <div class='panel-heading clearfix'>
-        <h3 class='panel-title'>{{t chartSpec.titleKey}}</h3>
+        <h3 class='panel-title'>{{t @chartSpec.titleKey}}</h3>
     </div>
     <div local-class='ChartContainer' class='panel-body'>
-        <div local-class='Chart {{if overlayShown 'Blurred'}}'></div>
-        {{#if overlayShown}}
+        <div local-class='Chart {{if this.overlayShown 'Blurred'}}'></div>
+        {{#if this.overlayShown}}
             <div local-class='ChartOverlay'>
-                {{#if keenError}}
+                {{#if this.keenError}}
                     <p>{{t 'analytics.keenError'}}</p>
-                {{else if loading}}
+                {{else if this.loading}}
                     {{loading-indicator dark=true}}
                 {{/if}}
             </div>

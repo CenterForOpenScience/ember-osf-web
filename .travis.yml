@@ -33,7 +33,7 @@ jobs:
         - yarn lint:es
         - yarn lint:ts
         - yarn lint:style
-        #- yarn lint:template
+        - yarn lint:template
         - yarn test:node-tests
         - yarn build:test
       script:

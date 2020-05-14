@@ -53,7 +53,7 @@
                     </OsfLink>
                     <OsfButton
                         data-analytics-name='Delete'
-                        @type='default' 
+                        @type='default'
                         @onClick={{action this.delete}}
                         disabled={{not this.draftRegistration}}
                     >
@@ -62,7 +62,7 @@
                     <BsModal
                         @open={{this.deleteModalOpen}}
                         @onHidden={{action this.cancelDelete}}
-                        class='delete_draft_registration' 
+                        class='delete_draft_registration'
                         as |modal|
                     >
                         <modal.header>

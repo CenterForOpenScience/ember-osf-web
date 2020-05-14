@@ -1,19 +1,25 @@
 {{title (t 'not_found.title')}}
 
-<div local-class="Registries404Page">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
+<div local-class='Registries404Page'>
+    <div class='container'>
+        <div class='row'>
+            <div class='col-xs-12'>
                 <h1>{{t 'not_found.title'}}</h1>
                 <p>
                     <span>{{t 'not_found.registries.line1'}}</span>
                     <br>
                     <span>{{t 'not_found.registries.line2'}}</span>
-                    <a href="mailto:{{t 'not_found.registries.contact'}}" onbeforeclick={{action "click" "link" "Page not found - Support" target=analytics}}>
+                    <a
+                        href='mailto:{{t 'not_found.registries.contact'}}'
+                        onbeforeclick={{action 'click' 'link' 'Page not found - Support' target=this.analytics}}
+                    >
                         {{t 'not_found.registries.contact'}}
                     </a>
                 </p>
-                {{#link-to 'index' class="btn btn-primary m-t-md" invokeAction=(action "click" "link" "Page not found - Go to Index" target=analytics)}}
+                {{#link-to 'index'
+                    class='btn btn-primary m-t-md'
+                    invokeAction=(action 'click' 'link' 'Page not found - Go to Index' target=this.analytics)
+                }}
                     {{t 'not_found.registries.go_to'}}
                 {{/link-to}}
             </div>

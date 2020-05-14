@@ -1,7 +1,6 @@
-{{! template-lint-disable no-implicit-this }}
 {{#registries-search-facet-container title='Provider'}}
     <ul>
-        {{#each providers as |provider index|}}
+        {{#each this.providers as |provider index|}}
             <li>
                 <label>
                     <Input
@@ -17,4 +16,3 @@
         {{/each}}
     </ul>
 {{/registries-search-facet-container}}
-{{! template-lint-enable no-implicit-this }}
