@@ -49,6 +49,18 @@ export default class InstitutionSerializer extends ApplicationSerializer<Institu
                     },
                 },
             },
+            summaryMetrics: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/institutions/${model.id}/metrics/summary`,
+                        meta: {},
+                    },
+                },
+                data: {
+                    id: model.id,
+                    type: 'institution-summary-metrics',
+                },
+            },
         };
     }
 
