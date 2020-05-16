@@ -1,35 +1,41 @@
 <div local-class='CardContainer'>
-    <span local-class='CardSection'>
-        <img
-            class='m-l-xs'
-            src={{@contributor.users.links.profile_image}}
-            alt={{@contributor.users.fullname}}
-            height='30'
-            width='30'
-        >
-        <OsfLink
-            data-analytics-name='View user'
-            @route='guid-user'
-            @models={{array @contributor.id}}
-        >
-            {{@contributor.fullName}}
-        </OsfLink>
-    </span>
-    <span local-class='CardSection'>
-        {{@contributor.permission}}
-    </span>
-    <span local-class='CardSection'>
-        {{@contributor.bibliographic}}
-        <OsfButton
-            data-test-expand-user-card
-            data-analytics-name='Expand contributor card'
-            @type='link'
-            @onClick={{action this.toggleDropdown}}
-        >
-            <i class='fa fa-angle-down'></i>
-        </OsfButton>
-    </span>
+    <div local-class='MainSection'>
+        <span local-class='CardSection'>
+            <img
+                class='m-l-xs'
+                src={{@contributor.users.links.profile_image}}
+                alt={{@contributor.users.fullname}}
+                height='30'
+                width='30'
+            >
+            <OsfLink
+                data-analytics-name='View user'
+                @route='guid-user'
+                @models={{array @contributor.id}}
+            >
+                {{@contributor.fullName}}
+            </OsfLink>
+        </span>
+        <span local-class='CardSection'>
+            {{@contributor.permission}}
+        </span>
+        <span local-class='CardSection'>
+            {{@contributor.bibliographic}}
+            <OsfButton
+                data-test-expand-user-card
+                data-analytics-name='Expand contributor card'
+                @type='link'
+                @onClick={{action this.toggleDropdown}}
+            >
+                <i class={{if this.showExpandedList 'fa fa-angle-up' 'fa fa-angle-down'}}></i>
+            </OsfButton>
+        </span>
+    </div>
     {{#if this.showExpandedList}}
-        <div></div>
+        {{#each @contributor.users.employment as |employer|}}
+            <div local-class='ExpandedSection'>
+                <span>{{employer.institution}}, {{employer.title}}</span>
+            </div>
+        {{/each}}
     {{/if}}
 </div>

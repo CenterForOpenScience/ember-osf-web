@@ -1,7 +1,10 @@
 .CardContainer {
-    display: flex;
-    margin: 10px 0;
     border-bottom: 1px solid $color-border-gray;
+    margin: 10px 0;
+}
+
+.MainSection {
+    display: flex;
 }
 
 .CardSection {

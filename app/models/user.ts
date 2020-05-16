@@ -55,6 +55,17 @@ export interface UserLinks extends OsfLinks {
     profile_image: Link; // eslint-disable-line camelcase
 }
 
+export interface Employment {
+    title: string;
+    endYear: number;
+    ongoing: boolean;
+    endMonth: number;
+    startYear: number;
+    department: string;
+    startMonth: number;
+    institution: string;
+}
+
 export default class UserModel extends OsfModel.extend(Validations) {
     @attr() links!: UserLinks;
     @attr('fixstring') fullName!: string;
@@ -69,6 +80,7 @@ export default class UserModel extends OsfModel.extend(Validations) {
     @attr('boolean') acceptedTermsOfService?: boolean;
     @attr('boolean') active!: boolean;
     @attr('object') social!: {};
+    @attr('array') employment!: Employment[];
 
     @belongsTo('region', { async: false })
     defaultRegion!: DS.PromiseObject<RegionModel> & RegionModel;
