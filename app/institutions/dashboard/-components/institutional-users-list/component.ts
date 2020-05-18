@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
+import { reads } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { TaskInstance } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
@@ -13,15 +14,11 @@ export default class InstitutionalUsersList extends Component {
     @service analytics!: Analytics;
     @service intl!: Intl;
 
-    @computed('modelTaskInstance')
-    get institution(): InstitutionModel | undefined {
-        return this.modelTaskInstance.value ? this.modelTaskInstance.value.institution : undefined;
-    }
+    @reads('modelTaskInstance.value.institution')
+    institution?: InstitutionModel;
 
-    @computed('modelTaskInstance')
-    get departmentMetrics() {
-        return this.modelTaskInstance.value!.departmentMetrics.toArray();
-    }
+    @reads('modelTaskInstance.value.departmentMetrics')
+    departmentMetrics?: InstitutionDepartmentsModel[];
 
     // Private properties
     modelTaskInstance!: TaskInstance<InstitutionsDashboardModel>;
