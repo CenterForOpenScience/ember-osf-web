@@ -3,13 +3,14 @@ import { alias } from '@ember/object/computed';
 import moment from 'moment';
 
 import Controller from '@ember/controller';
+import { InstitutionsDashboardModel } from 'ember-osf-web/institutions/dashboard/route';
 import InstitutionModel from 'ember-osf-web/models/institution';
 import InstitutionDepartmentModel from 'ember-osf-web/models/institution-department';
 import InstitutionSummaryMetricModel from 'ember-osf-web/models/institution-summary-metric';
 import InstitutionUserModel from 'ember-osf-web/models/institution-user';
 
 export default class InstitutionsDashboardController extends Controller {
-    @alias('model.taskInstance.value') modelValue!: any;
+    @alias('model.taskInstance.value') modelValue!: InstitutionsDashboardModel;
     @alias('modelValue.institution') institution!: InstitutionModel;
     @alias('modelValue.summaryMetrics') summaryMetrics!: InstitutionSummaryMetricModel;
     @alias('modelValue.userMetrics') userMetrics!: InstitutionUserModel[];

@@ -8,10 +8,11 @@ import InstitutionModel from 'ember-osf-web/models/institution';
 import InstitutionDepartmentModel from 'ember-osf-web/models/institution-department';
 import InstitutionSummaryMetricModel from 'ember-osf-web/models/institution-summary-metric';
 import Analytics from 'ember-osf-web/services/analytics';
+import captureException from 'ember-osf-web/utils/capture-exception';
 
 export interface InstitutionsDashboardModel {
     institution: InstitutionModel;
-    departmentMetrics: InstitutionDepartmentModel;
+    departmentMetrics: InstitutionDepartmentModel[];
     summaryMetrics: InstitutionSummaryMetricModel;
 }
 export default class InstitutionsDashboardRoute extends Route {
@@ -22,17 +23,15 @@ export default class InstitutionsDashboardRoute extends Route {
     modelTask = task(function *(this: InstitutionsDashboardRoute, institutionId: string) {
         try {
             const institution = yield this.get('store').findRecord('institution', institutionId, {
-                adaptorOptions: {
+                adapterOptions: {
                     include: ['summary_metrics'],
                 },
             });
-            const departmentMetrics = yield institution.queryHasMany('departmentMetrics');
-            const summaryMetrics = yield institution.get('summaryMetrics');
-            if (!summaryMetrics) {
-                throw new Error('Current user is not admin.');
-            }
+            const departmentMetrics = yield institution.loadAll('departmentMetrics');
+            const summaryMetrics = yield institution.summaryMetrics;
             return { institution, departmentMetrics, summaryMetrics };
         } catch (error) {
+            captureException(error);
             this.transitionTo('not-found', this.get('router').get('currentURL').slice(1));
             return undefined;
         }
