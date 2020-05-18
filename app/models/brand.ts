@@ -6,7 +6,7 @@ const { attr } = DS;
 export default class BrandModel extends OsfModel {
     @attr('string') primaryColor!: string;
     @attr('string') secondaryColor!: string;
-    @attr('string') navbarLogoImage!: string;
+    @attr('string') topnavLogoImage!: string;
     @attr('string') heroLogoImage!: string;
     @attr('string') heroBackgroundImage!: string;
 }

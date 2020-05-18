@@ -5,7 +5,7 @@ import Brand from 'ember-osf-web/models/brand';
 export default Factory.extend<Brand>({
     primaryColor: 'green',
     secondaryColor: 'blue',
-    navbarLogoImage: 'http://somelogoimageurl',
+    topnavLogoImage: 'http://somelogoimageurl',
     heroLogoImage: 'http://somelogoimageurl',
     heroBackgroundImage: 'http://herobackgroundimage',
 });

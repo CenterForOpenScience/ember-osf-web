@@ -15,7 +15,7 @@ module('Unit | Model | registration-provider', hooks => {
         const brand = run(() => store.createRecord('brand', {
             primaryColor: 'blue',
             secondaryColor: 'green',
-            navbarLogoImage: 'http://logoimage',
+            topnavLogoImage: 'http://logoimage',
             heroLogoImage: 'http://heroimg',
             heroBackgroundImage: 'http://herobg',
         }));

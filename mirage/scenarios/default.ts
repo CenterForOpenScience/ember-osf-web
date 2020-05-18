@@ -106,7 +106,7 @@ function registrationScenario(
         id: '1',
         primaryColor: 'green',
         secondaryColor: 'blue',
-        navbarLogoImage: placekitten(30, 30),
+        topnavLogoImage: placekitten(30, 30),
         heroLogoImage: 'http://somelogoimageurl',
         heroBackgroundImage: placekitten(1350, 900),
     });
