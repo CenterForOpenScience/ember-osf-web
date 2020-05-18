@@ -5,9 +5,7 @@ import Institution from 'ember-osf-web/models/institution';
 import { placekitten, randomGravatar } from '../utils';
 
 export interface InstitutionTraits {
-    withInstitutionDepartments: Trait;
-    withInstitutionUsers: Trait;
-    withSummaryMetrics: Trait;
+    withMetrics: Trait;
 }
 
 export default Factory.extend<Institution & InstitutionTraits>({
@@ -27,22 +25,20 @@ export default Factory.extend<Institution & InstitutionTraits>({
     lastUpdated() {
         return faker.date.recent();
     },
-    withInstitutionUsers: trait<Institution>({
+    withMetrics: trait<Institution>({
         afterCreate(institution, server) {
             const userMetrics = server.createList('institution-user', 15);
-            institution.update({ userMetrics });
-        },
-    }),
-    withInstitutionDepartments: trait<Institution>({
-        afterCreate(institution, server) {
-            const departmentMetrics = server.createList('institution-department', 29);
-            institution.update({ departmentMetrics });
-        },
-    }),
-    withSummaryMetrics: trait<Institution>({
-        afterCreate(institution, server) {
+            const departmentMetrics = server.createList('institution-department', 12);
+            const userCount = userMetrics.length;
+            let publicProjectCount = 0;
+            let privateProjectCount = 0;
+            userMetrics.forEach(({ publicProjects, privateProjects }) => {
+                publicProjectCount += publicProjects;
+                privateProjectCount += privateProjects;
+            });
             const summaryMetrics = server.create('institution-summary-metric', { id: institution.id });
-            institution.update({ summaryMetrics });
+            summaryMetrics.update({ publicProjectCount, privateProjectCount, userCount });
+            institution.update({ userMetrics, departmentMetrics, summaryMetrics });
         },
     }),
 });

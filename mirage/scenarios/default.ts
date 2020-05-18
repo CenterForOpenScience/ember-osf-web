@@ -207,7 +207,7 @@ function dashboardScenario(server: Server, currentUser: ModelInstance<User>) {
     // Create a specific institution to test institutional dashboard with; should be ID 29 at this point
     server.create('institution', {
         id: 'has-users',
-    }, 'withInstitutionUsers', 'withSummaryMetrics', 'withInstitutionDepartments');
+    }, 'withMetrics');
 }
 
 function forksScenario(server: Server, currentUser: ModelInstance<User>) {

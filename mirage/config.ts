@@ -17,6 +17,7 @@ import {
 import { createFork, createRegistrationFork } from './views/fork';
 import { guidDetail } from './views/guid';
 import { identifierCreate } from './views/identifier';
+import { summaryMetrics } from './views/institution';
 import { createNode } from './views/node';
 import { osfNestedResource, osfResource, osfToManyRelationship } from './views/osf-resource';
 import { getProviderSubjects } from './views/provider-subjects';
@@ -27,7 +28,6 @@ import { createEmails, updateEmails } from './views/update-email';
 import { userNodeList } from './views/user';
 import { updatePassword } from './views/user-password';
 import * as userSettings from './views/user-setting';
-import { process } from './views/utils';
 import * as wb from './views/wb';
 
 const { OSF: { apiUrl } } = config;
@@ -62,11 +62,7 @@ export default function(this: Server) {
         only: ['index'],
         path: '/institutions/:parentID/metrics/departments',
     });
-    this.get('/institutions/:id/metrics/summary', function(schema, request) {
-        const model = this.serialize(schema.institutionSummaryMetrics.find(request.params.id)).data;
-        const data = process(schema, request, this, [model]).data[0];
-        return { data };
-    });
+    this.get('/institutions/:id/metrics/summary', summaryMetrics);
 
     osfResource(this, 'license', { only: ['index', 'show'] });
     osfResource(this, 'citation-style', {

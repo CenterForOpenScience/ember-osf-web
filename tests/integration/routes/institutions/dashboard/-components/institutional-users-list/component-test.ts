@@ -18,7 +18,7 @@ module('Integration | routes | institutions | dashboard | -components | institut
     test('it renders and paginates', async function(assert) {
         server.create('institution', {
             id: 'testinstitution',
-        }, 'withInstitutionUsers', 'withSummaryMetrics', 'withInstitutionDepartments');
+        }, 'withMetrics');
         const institution = await this.get('store').findRecord('institution', 'testinstitution');
         const departmentMetrics = await institution.get('departmentMetrics');
         const { userMetrics } = institution;
@@ -68,34 +68,33 @@ module('Integration | routes | institutions | dashboard | -components | institut
     });
 
     test('it sorts', async function(assert) {
-        server.create('institution', {
+        const mirageInstitution = server.create('institution', {
             id: 'testinstitution',
-            userMetrics: [
-                server.create('institution-user', {
-                    userName: 'John Doe',
-                    userGuid: 'abcd',
-                    department: 'Psychology',
-                }),
-                server.create('institution-user', {
-                    userName: 'Jane Doe',
-                    userGuid: 'abcd',
-                    department: 'Architecture',
-                }),
-                server.create('institution-user', {
-                    userName: 'Hulk Hogan',
-                    userGuid: 'abcd',
-                    department: 'Biology',
-                }),
-            ],
-        }, 'withSummaryMetrics');
+        }, 'withMetrics');
+        const userMetrics = [
+            server.create('institution-user', {
+                userName: 'John Doe',
+                userGuid: 'abcd',
+                department: 'Psychology',
+            }),
+            server.create('institution-user', {
+                userName: 'Jane Doe',
+                userGuid: 'abcd',
+                department: 'Architecture',
+            }),
+            server.create('institution-user', {
+                userName: 'Hulk Hogan',
+                userGuid: 'abcd',
+                department: 'Biology',
+            }),
+        ];
+        mirageInstitution.update({ userMetrics });
         const institution = await this.get('store').findRecord('institution', 'testinstitution');
         const departmentMetrics = await institution.get('departmentMetrics');
-        const { userMetrics } = institution;
         const model = {
             taskInstance: {
                 institution,
                 departmentMetrics,
-                userMetrics,
             },
         };
 

@@ -14,7 +14,7 @@ module(moduleName, hooks => {
     test('institutions dashboard', async assert => {
         server.create('institution', {
             id: 'has-users',
-        }, 'withInstitutionUsers', 'withSummaryMetrics', 'withInstitutionDepartments');
+        }, 'withMetrics');
         await visit('/institutions/has-users/dashboard');
         assert.equal(
             currentURL(),
