@@ -1,7 +1,8 @@
-<div local-class='CardContainer'>
-    <div local-class='MainSection'>
+<div data-test-contributor-card ocal-class='CardContainer'>
+    <div data-test-contributor-card-main local-class='MainSection'>
         <span local-class='CardSection'>
             <img
+                data-test-contributor-gravatar
                 class='m-l-xs'
                 src={{@contributor.users.links.profile_image}}
                 alt={{@contributor.users.fullname}}
@@ -9,6 +10,7 @@
                 width='30'
             >
             <OsfLink
+                data-test-contributor-link
                 data-analytics-name='View user'
                 @route='guid-user'
                 @models={{array @contributor.id}}
@@ -16,10 +18,10 @@
                 {{@contributor.fullName}}
             </OsfLink>
         </span>
-        <span local-class='CardSection'>
+        <span data-test-contributor-permission local-class='CardSection'>
             {{@contributor.permission}}
         </span>
-        <span local-class='CardSection'>
+        <span data-test-contributor-citation local-class='CardSection'>
             {{@contributor.bibliographic}}
             <OsfButton
                 data-test-expand-user-card
@@ -33,8 +35,10 @@
     </div>
     {{#if this.showExpandedList}}
         {{#each @contributor.users.employment as |employer|}}
-            <div local-class='ExpandedSection'>
-                <span>{{employer.institution}}, {{employer.title}}</span>
+            <div data-test-contributor-card-expanded local-class='ExpandedSection'>
+                <span data-test-employer-info={{employer.institution}}>
+                    {{employer.institution}}, {{employer.title}}
+                </span>
             </div>
         {{/each}}
     {{/if}}

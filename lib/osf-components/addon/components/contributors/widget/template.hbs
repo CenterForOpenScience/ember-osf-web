@@ -1,8 +1,14 @@
 <div local-class='Container' ...attributes>
     <div local-class='Heading'>
-        <span local-class='HeadingTitle'>{{t 'osf-components.contributors.name'}}</span>
-        <span local-class='HeadingTitle'>{{t 'osf-components.contributors.permission'}}</span>
-        <span local-class='HeadingTitle'>{{t 'osf-components.contributors.citation'}}</span>
+        <span data-test-heading-name local-class='HeadingTitle'>
+            {{t 'osf-components.contributors.name'}}
+        </span>
+        <span data-test-heading-permission local-class='HeadingTitle'>
+            {{t 'osf-components.contributors.permission'}}
+        </span>
+        <span data-test-heading-citation local-class='HeadingTitle'>
+            {{t 'osf-components.contributors.citation'}}
+        </span>
     </div>
     <Contributors::Manager
         @node={{@node}}
