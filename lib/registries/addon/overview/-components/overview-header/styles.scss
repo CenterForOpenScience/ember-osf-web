@@ -1,3 +1,13 @@
+.TitleBackground {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background-image: url('img/bg-dark.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 .HeaderContainer {
     display: flex;
     flex-direction: column;

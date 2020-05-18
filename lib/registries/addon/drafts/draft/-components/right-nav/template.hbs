@@ -7,13 +7,12 @@
         data-test-goto-review
         data-analytics-name='Go to review'
         local-class='ReviewButton'
+        class='btn btn-primary'
         @type='button'
         @route='registries.drafts.draft.review'
         @models={{array @draftManager.draftId}}
     >
-        <Button @type='primary' @layout='large'>
-            {{t 'registries.drafts.draft.review.start_review'}}
-        </Button>
+        {{t 'registries.drafts.draft.review.start_review'}}
     </OsfLink>
 {{/if}}
 {{#if @navManager.inReview}}
@@ -27,14 +26,13 @@
         data-test-goto-next-page
         data-analytics-name='Go to next page'
         local-class='NextButton'
+        class='btn btn-primary'
         @type='button'
         @route='registries.drafts.draft.page'
         @models={{array @draftManager.draftId @navManager.nextPageParam}}
     >
-        <Button @type='primary' @layout='large'>
-            {{t 'registries.drafts.draft.form.next'}}
-            <FaIcon @icon='arrow-right' @fixedWidth={{true}} />
-        </Button>
+        {{t 'registries.drafts.draft.form.next'}}
+        <FaIcon @icon='arrow-right' @fixedWidth={{true}} />
     </OsfLink>
 {{/if}}
 {{#if @navManager.prevPageParam}}
@@ -42,14 +40,13 @@
         data-test-goto-previous-page
         data-analytics-name='Go to previous page'
         local-class='BackButton'
+        class='btn btn-default'
         @type='button'
         @route='registries.drafts.draft.page'
         @models={{array @draftManager.draftId @navManager.prevPageParam}}
     >
-        <Button @type='secondary'>
-            <FaIcon @icon='arrow-left' @fixedWidth={{true}} />
-            {{t 'registries.drafts.draft.form.back'}}
-        </Button>
+        <FaIcon @icon='arrow-left' @fixedWidth={{true}} />
+        {{t 'registries.drafts.draft.form.back'}}
     </OsfLink>
 {{/if}}
 {{#if @navManager.isFirstPage}}
@@ -57,14 +54,13 @@
         data-test-goto-metadata
         data-analytics-name='Back to metadata'
         local-class='BackButton'
+        class='btn btn-default'
         @type='button'
         @route='registries.drafts.draft.metadata'
         @models={{array @draftManager.draftId}}
     >
-        <Button @type='secondary'>
-            <FaIcon @icon='arrow-left' @fixedWidth={{true}} />
-            {{t 'registries.drafts.draft.metadata.page_label'}}
-        </Button>
+        <FaIcon @icon='arrow-left' @fixedWidth={{true}} />
+        {{t 'registries.drafts.draft.metadata.page_label'}}
     </OsfLink>
 {{/if}}
 

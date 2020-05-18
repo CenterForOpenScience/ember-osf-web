@@ -37,6 +37,17 @@ const schemaBlocks: Array<Partial<SchemaBlock>> = [
         schemaBlockGroupKey: '5da4cf5ff04bcd000155f331',
         id: '5da4cf5ff04bcd000155f333',
     },
+    {
+        displayText: '',
+        exampleText: '',
+        blockType: 'file-input',
+        registrationResponseKey: 'uploader',
+        index: 3,
+        required: false,
+        helpText: '',
+        schemaBlockGroupKey: '5e72398a31655a0001ea8ef8',
+        id: '5e72398a31655a0001ea8efa',
+    },
 ];
 
 export const schemaBlockIds = schemaBlocks.map(block => block.id);

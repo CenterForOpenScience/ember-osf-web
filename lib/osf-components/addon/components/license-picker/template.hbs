@@ -16,7 +16,7 @@
 <small>
     <a
         target='_blank'
-        rel='noopener'
+        rel='noopener noreferrer'
         href={{this.helpLink}}
     >
         {{t 'app_components.license_picker.faq'}}
@@ -43,9 +43,14 @@
             />
         {{/each}}
     </this.form.custom>
-    <a role='button' onclick={{action (mut this.showText) (not this.showText)}}>
+    <button
+        type='button'
+        local-class='button-link'
+        class='btn btn-link'
+        {{on 'click' (fn (mut this.showText) (not this.showText))}}
+    >
         {{t (concat 'app_components.license_picker.' (if this.showText 'hide' 'show'))}}
-    </a>
+    </button>
     {{#if this.showText}}
         <LicenseText @node={{this.node}} />
     {{/if}}

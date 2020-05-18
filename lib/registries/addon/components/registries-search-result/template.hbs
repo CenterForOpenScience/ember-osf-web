@@ -1,30 +1,30 @@
-<div class="row">
-    <div class="col-xs-12">
-        {{#if result.mainLink}}
+<div class='row'>
+    <div class='col-xs-12'>
+        {{#if @result.mainLink}}
             {{sharing-icons/popover
-                title=result.title
-                description=result.description
-                hyperlink=result.mainLink
-                resultId=result.id
+                title=@result.title
+                description=@result.description
+                hyperlink=@result.mainLink
+                resultId=@result.id
                 parentId=this.elementId
                 showText=false
             }}
         {{/if}}
-        <h4 local-class="RegistriesSearchResult__Title">
+        <h4 local-class='RegistriesSearchResult__Title'>
             <a
-                href={{result.mainLink}}
-                data-test-result-title-id={{result.id}}
-                onclick={{action 'click' 'link' (concat 'Discover - Result Title: ' result.mainLink) result.id target=analytics}}
+                href={{@result.mainLink}}
+                data-test-result-title-id={{@result.id}}
+                onclick={{action 'click' 'link' (concat 'Discover - Result Title: ' @result.mainLink) @result.id target=this.analytics}}
             >
-                {{math result.title}}
+                {{math @result.title}}
             </a>
 
-            {{#if result.withdrawn}}
-                <span class="label label-default">{{t 'registries.discover.search_result.withdrawn'}}</span>
+            {{#if @result.withdrawn}}
+                <span class='label label-default'>{{t 'registries.discover.search_result.withdrawn'}}</span>
             {{/if}}
         </h4>
 
-        <ul local-class="Contributors">
+        <ul local-class='Contributors'>
             {{#each this.contributors as |contrib|}}
                 <li>
                     {{#if contrib.link}}
@@ -36,36 +36,36 @@
             {{/each}}
         </ul>
 
-        {{#if result.dateUpdated}}
-            <div class="m-t-sm">
-                <em> {{t 'registries.discover.search_result.last_edited' date=(moment-format (utc result.dateUpdated) 'MMMM D, YYYY UTC')}}</em>
+        {{#if @result.dateUpdated}}
+            <div class='m-t-sm'>
+                <em> {{t 'registries.discover.search_result.last_edited' date=(moment-format (utc @result.dateUpdated) 'MMMM D, YYYY UTC')}}</em>
             </div>
         {{/if}}
 
-        <div class="m-t-sm">
-            <span local-class="RegistriesSearchResult__Sources">
-                {{#each result.sources as |source index|}}
+        <p local-class='Description {{if this.expanded 'Expanded' 'Collapsed'}}' class='text-muted m-t-sm'>
+            {{math @result.description}}
+        </p>
+
+        <div class='m-t-sm'>
+            <span local-class='RegistriesSearchResult__Sources'>
+                {{#each @result.sources as |source index|}}
                     {{if index '| '}}{{source}}
                 {{/each}}
 
-                {{#if result.registrationType}}
-                    | {{result.registrationType}}
+                {{#if @result.registrationType}}
+                    | {{@result.registrationType}}
                 {{/if}}
             </span>
         </div>
 
-        <p local-class="Description {{if expanded 'Expanded' 'Collapsed'}}" class="text-muted m-t-sm">
-            {{math result.description}}
-        </p>
-
-        <div local-class="Details {{if expanded 'Expanded' 'Collapsed'}}">
-            <ul local-class="RegistriesSearchResult__HyperLinks" class="m-t-sm">
-                {{#each result.hyperLinks as |hyperlink index|}}
+        <div local-class='Details {{if this.expanded 'Expanded' 'Collapsed'}}'>
+            <ul local-class='RegistriesSearchResult__HyperLinks' class='m-t-sm'>
+                {{#each @result.hyperLinks as |hyperlink index|}}
                     <li>
                         <a
                             href={{hyperlink}}
-                            data-test-result-hyperlink-id="{{result.id}} - {{index}}"
-                            onclick={{action 'click' 'link' (concat 'Discover - Result Hyperlink: ' hyperlink) result.id target=analytics}}
+                            data-test-result-hyperlink-id='{{@result.id}} - {{index}}'
+                            onclick={{action 'click' 'link' (concat 'Discover - Result Hyperlink: ' hyperlink) @result.id target=this.analytics}}
                         >
                             {{hyperlink}}
                         </a>
@@ -73,8 +73,8 @@
                 {{/each}}
             </ul>
 
-            <ul local-class="RegistriesSearchResult__InfoLinks">
-                {{#each result.infoLinks as |infolink|}}
+            <ul local-class='RegistriesSearchResult__InfoLinks'>
+                {{#each @result.infoLinks as |infolink|}}
                     <li>
                         <b>{{infolink.type}}: </b>
                         {{infolink.uri}}
@@ -82,15 +82,22 @@
                 {{/each}}
             </ul>
 
-            {{#each result.tags as |tag|}}
-                <span class="badge">{{math tag}}</span>
+            {{#each @result.tags as |tag|}}
+                <span class='badge'>{{math tag}}</span>
             {{/each}}
 
         </div>
 
-        <div class="text-center">
-            <button {{action this.toggleExpanded}} data-test-result-toggle-id={{result.id}} local-class="RegistriesSearchResult__Toggle" class="btn btn-link" aria-label={{t 'eosf.components.searchResult.showResult'}}>
-                {{fa-icon footerIcon size=1 ariaHidden=false}}
+        <div class='text-center'>
+            <button
+                data-test-result-toggle-id={{@result.id}}
+                type='button'
+                local-class='RegistriesSearchResult__Toggle'
+                class='btn btn-link'
+                aria-label={{t 'eosf.components.searchResult.showResult'}}
+                {{action this.toggleExpanded}}
+            >
+                {{fa-icon this.footerIcon size=1 ariaHidden=false}}
             </button>
         </div>
 

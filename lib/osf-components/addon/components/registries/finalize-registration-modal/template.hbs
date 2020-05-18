@@ -59,7 +59,7 @@
             @disabled={{this.shouldDisableSubmitButton}}
         >
             {{#if this.manager.submittingRegistration}}
-                <LoadingIndicator @inline=true />
+                <LoadingIndicator @inline={{true}} />
             {{else}}
                 {{t 'registries.finalizeRegistrationModal.submit'}}
             {{/if}}

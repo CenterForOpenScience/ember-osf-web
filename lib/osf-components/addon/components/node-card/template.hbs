@@ -30,6 +30,7 @@
                 {{node-card/node-icon category=@node.category}}
                 <OsfLink
                     data-analytics-name='Title'
+                    data-test-node-title='{{@node.id}}'
                     @route='resolve-guid'
                     @models={{array @node.id}}
                 >

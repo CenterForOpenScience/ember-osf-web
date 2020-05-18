@@ -95,7 +95,7 @@
                     </ValidatedModelForm>
                 {{/if}}
             </div>
-            {{#if (not this.reporting)}}
+            {{#unless this.reporting}}
                 <div local-class='CommentControls'>
                     <div>
                         {{#if this.canReport}}
@@ -120,7 +120,7 @@
                         {{/if}}
                     </div>
                 </div>
-            {{/if}}
+            {{/unless}}
             {{#if this.showReplies}}
                 {{#if this.loadingReplies}}
                     <ContentPlaceholders as |placeholder|>

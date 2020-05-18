@@ -634,7 +634,7 @@ social:
     github: GitHub
     linkedin: LinkedIn
 institutions:
-    description: 'OSF Institutions is a free scholarly web tool that enhances transparency, fosters collaboration, and increases the visibility of research outputs at the institutional level.'
+    description: 'OSF Institutions enhances transparency and increases the visibility of research outputs, accelerating discovery and reuse. Institutional members focus on generating and sharing research, and let OSF Institutions handle the infrastructure.'
     read_more: 'Read more'
     footer: 'Interested in setting up an OSF Institutions page for your research institution?'
     contact_us: 'Contact us'
@@ -929,20 +929,22 @@ collections:
         type: Type
 registries:
     header:
+        search: Search
         search_placeholder: 'Search registrations...'
+        searchable_as_of: '{registrations} searchable registrations as of {today}'
     facets:
         registration_type:
             title: 'OSF Registration Type'
             only_available_with_osf: 'Only available with OSF Registries'
             registration_schema_error: 'An error occurred getting registration types.'
-        subjects:
-            title: 'Subjects'
     application:
         page_title: 'OSF Registries'
     discover:
         page_title: Search
         SHARE: SHARE
+        registrations: Registrations
         sort_by: 'Sort by'
+        powered_by: 'powered by'
         no_results: 'No results found.'
         try_broadening: 'Try broadening your search terms'
         order:
@@ -950,9 +952,9 @@ registries:
             modified_ascending: 'Modified Date (oldest to newest)'
             modified_descending: 'Modified Date (newest to oldest)'
         sidebar:
+            refine_your_search: 'Refine your search by'
             clear_filters: 'Clear filters'
             active_filters: 'Active filters'
-            refine_search: 'Refine Search'
         search_result:
             last_edited: 'Last edited: {date}'
             withdrawn: Withdrawn
@@ -1213,7 +1215,7 @@ registries:
         clearAll: 'Clear All'
     finalizeRegistrationModal:
         title: 'Almost done...'
-        notice: "Please keep in mind that:\n                <ul>\n                    <li>\n                        Registrations cannot be modified or deleted once completed.\n                    </li>\n                    <li>\n                        The content and version history of Wiki and OSF Storage will be copied to the registration.\n                    </li>\n                    <li>\n                        This project contains links to other projects. These links will be copied into your registration, but the\n                        projects that they link to will not be registered. If you wish to register the linked projects, they must be\n                        registered separately. <a href='{learnMoreLink}' target='_blank' rel='noopener'>Learn more about links</a>.\n                    </li>\n                </ul>"
+        notice: "Please keep in mind that:\n                <ul>\n                    <li>\n                        Registrations cannot be modified or deleted once completed.\n                    </li>\n                    <li>\n                        The content and version history of Wiki and OSF Storage will be copied to the registration.\n                    </li>\n                    <li>\n                        This project contains links to other projects. These links will be copied into your registration, but the\n                        projects that they link to will not be registered. If you wish to register the linked projects, they must be\n                        registered separately. <a href='{learnMoreLink}' target='_blank' rel='noopener noreferrer'>Learn more about links</a>.\n                    </li>\n                </ul>"
         immediateOption: 'Make registration public immediately'
         embargoOption: 'Enter registration into embargo'
         createDoi: 'Create DOI'
@@ -1333,9 +1335,10 @@ routes:
 osf-components:
     draft-registration-card:
         initiated_by: 'Initiated by:'
+        form_type: 'Form:'
         started: 'Started:'
         last_updated: 'Last updated:'
-        register: Register
+        review: Review
         delete_draft_confirm: 'Are you sure you want to delete this draft registration?'
     copyable-text:
         copyToClipboard: 'Copy to clipboard'

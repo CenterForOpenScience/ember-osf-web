@@ -10,8 +10,6 @@ import { AuthBase } from 'osf-components/components/osf-navbar/auth-dropdown/com
 import { OSF_SERVICES } from 'osf-components/components/osf-navbar/component';
 import config from 'registries/config/environment';
 
-import Brand from 'registries/services/brand';
-
 import template from './template';
 
 const { externalLinks } = config;
@@ -20,7 +18,6 @@ const { externalLinks } = config;
 @layout(template)
 export default class RegistriesNavbar extends AuthBase {
     @service media!: Media;
-    @service brand!: Brand;
 
     @requiredAction onSearch!: (query: string) => void;
     @and('media.isMobile', 'searchDropdownOpen') showSearchDropdown!: boolean;

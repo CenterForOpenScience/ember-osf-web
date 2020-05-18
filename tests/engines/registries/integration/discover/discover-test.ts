@@ -1,5 +1,5 @@
 import EngineInstance from '@ember/engine/instance';
-import { click, fillIn, getRootElement, triggerEvent } from '@ember/test-helpers';
+import { click, fillIn, getRootElement } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { TestContext } from 'ember-test-helpers';
 import { OrderedSet, ValueObject } from 'immutable';
@@ -355,7 +355,6 @@ module('Registries | Integration | discover', hooks => {
     hooks.beforeEach(async function(this: TestContext) {
         server.create('registration-schema', { name: 'Open Ended' });
         server.create('registration-schema', { name: 'Close Fronted' });
-        server.create('registration-provider', { id: 'osf' });
 
         const engine = await loadEngine('registries', 'registries');
 
@@ -590,7 +589,7 @@ module('Registries | Integration | discover', hooks => {
             }),
         })));
 
-        await triggerEvent('[data-test-search-form]', 'submit');
+        await click('[data-test-search-button]');
 
         sinon.assert.calledWith(stub, equals(new SearchOptions({
             query: 'Testing',
