@@ -6,7 +6,6 @@
         @searchEnabled={{true}}
         @selected={{this.department}}
         @triggerClass={{local-class 'select'}}
-        @search={{perform this.searchDepartment}}
         @onchange={{action this.onSelectChange}} as |department|
     >
         {{department}}
@@ -18,7 +17,7 @@
             @model={{this.institution}}
             @relationshipName='userMetrics'
             @bindReload={{action (mut this.reloadUserList)}}
-            @query={{this.query}} as |list|
+            @query={{this.queryUsers}} as |list|
         >
             <list.header local-class='header'>
                 {{#let (component 'sort-button'

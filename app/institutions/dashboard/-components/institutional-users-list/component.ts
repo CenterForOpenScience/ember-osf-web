@@ -1,8 +1,7 @@
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { TaskInstance, timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { TaskInstance } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 
 import { InstitutionsDashboardModel } from 'ember-osf-web/institutions/dashboard/route';
@@ -14,37 +13,22 @@ export default class InstitutionalUsersList extends Component {
     @service analytics!: Analytics;
     @service intl!: Intl;
 
+    @computed('modelTaskInstance')
+    get institution(): InstitutionModel | undefined {
+        return this.modelTaskInstance.value ? this.modelTaskInstance.value.institution : undefined;
+    }
+
+    @computed('modelTaskInstance')
+    get departmentMetrics() {
+        return this.modelTaskInstance.value!.departmentMetrics.toArray();
+    }
+
     // Private properties
     modelTaskInstance!: TaskInstance<InstitutionsDashboardModel>;
-    departmentMetrics?: InstitutionDepartmentsModel[];
     department?: string;
-    institution!: InstitutionModel;
     sort = 'user_name';
 
     reloadUserList?: () => void;
-
-    @task({ on: 'init' })
-    loadDepartmentMetrics = task(function *(this: InstitutionalUsersList) {
-        const modelValue = yield this.modelTaskInstance;
-        const { institution } = modelValue;
-        this.set('institution', institution);
-        let deptMetrics = [];
-        if (modelValue.departmentMetrics) {
-            deptMetrics = modelValue.departmentMetrics;
-        }
-        this.set('departmentMetrics', deptMetrics.toArray());
-    });
-
-    @task({ restartable: true })
-    searchDepartment = task(function *(this: InstitutionalUsersList, name: string) {
-        yield timeout(500);
-        const depts: InstitutionDepartmentsModel[] = yield this.institution.queryHasMany('departmentMetrics', {
-            filter: {
-                name,
-            },
-        });
-        return depts.map(dept => dept.name);
-    });
 
     @computed('intl.locale')
     get defaultDepartment() {
@@ -73,7 +57,7 @@ export default class InstitutionalUsersList extends Component {
     }
 
     @computed('department', 'isDefaultDepartment', 'sort')
-    get query() {
+    get queryUsers() {
         const query = {} as Record<string, string>;
         if (this.department && !this.isDefaultDepartment) {
             query['filter[department]'] = this.department;
