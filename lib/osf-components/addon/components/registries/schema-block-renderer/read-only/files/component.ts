@@ -31,7 +31,7 @@ export default class ReadOnlyFiles extends Component {
         );
     }
 
-    @computed('schemaBlock')
+    @computed('schemaBlock', 'registrationResponses')
     get responses() {
         const {
             schemaBlock: { registrationResponseKey },

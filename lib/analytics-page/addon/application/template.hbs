@@ -1,18 +1,17 @@
 {{! using unsafeTitle here to avoid double encoding because the title helper does its own }}
-{{! template-lint-disable no-implicit-this }}
-{{title (t 'analytics.pageTitle' nodeTitle=node.unsafeTitle)}}
+{{title (t 'analytics.pageTitle' nodeTitle=this.node.unsafeTitle)}}
 <div class='container'>
     <div local-class='Counts' class='row'>
         <div class='col-sm-4 panel panel-default' local-class='CountBox'>
             <div class='panel-body'>
                 <h3>{{t 'analytics.forks'}}</h3>
-                {{#if loading}}
+                {{#if this.loading}}
                     {{loading-indicator dark=true}}
                 {{else}}
-                    <h2>{{forksCount}}</h2>
+                    <h2>{{this.forksCount}}</h2>
                     {{#link-to-external
-                        (if node.isProject 'nodeForks' 'registrationForks')
-                        model.id
+                        (if this.node.isProject 'nodeForks' 'registrationForks')
+                        this.model.id
                     }}
                         {{t 'analytics.viewForks'}}
                     {{/link-to-external}}
@@ -23,14 +22,19 @@
             <div class='panel panel-default'>
                 <div class='panel-body'>
                     <h3>{{t 'analytics.links'}}</h3>
-                    {{#if loading}}
+                    {{#if this.loading}}
                         {{loading-indicator dark=true}}
                     {{else}}
-                        <h2>{{linkedByCount}}</h2>
-                        <a role='button' onclick={{action 'showLinksModal'}}>
+                        <h2>{{this.linkedByCount}}</h2>
+                        <button
+                            type='button'
+                            class='btn btn-link'
+                            local-class='button-link'
+                            {{on 'click' this.showLinksModal}}
+                        >
                             {{t 'analytics.viewLinks'}}
-                        </a>
-                        {{#if linksModalShown}}
+                        </button>
+                        {{#if this.linksModalShown}}
                             {{#bs-modal-simple
                                 title=(t 'analytics.links')
                                 closeTitle=(t 'general.close')
@@ -46,7 +50,11 @@
                                             as |list|
                                         }}
                                             <list.item as |node|>
-                                                <NodeCard @node={{node}} @readOnly=true @analyticsScope='Project Analytics - Links' />
+                                                <NodeCard
+                                                    @node={{node}}
+                                                    @readOnly={{true}}
+                                                    @analyticsScope='Project Analytics - Links'
+                                                />
                                             </list.item>
 
                                             <list.empty>
@@ -55,7 +63,7 @@
                                         {{/paginated-list/has-many}}
                                     </ul>
                                 {{else}}
-                                    <LoadingIndicator @dark=true />
+                                    <LoadingIndicator @dark={{true}} />
                                 {{/if}}
                             {{/bs-modal-simple}}
                         {{/if}}
@@ -66,18 +74,18 @@
         <div class='col-sm-4 panel panel-default' local-class='CountBox'>
             <div class='panel-body'>
                 <h3>{{t 'analytics.templateCopies'}}</h3>
-                {{#if loading}}
+                {{#if this.loading}}
                     {{loading-indicator dark=true}}
                 {{else}}
-                    <h2>{{templatedByCount}}</h2>
+                    <h2>{{this.templatedByCount}}</h2>
                 {{/if}}
             </div>
         </div>
     </div>
 
-    {{#if nodePublic}}
-        {{#unless hideAdblockWarning}}
-            {{#bs-alert type='info' onDismissed=(action dismissAdblockWarning)}}
+    {{#if this.nodePublic}}
+        {{#unless this.hideAdblockWarning}}
+            {{#bs-alert type='info' onDismissed=(action this.dismissAdblockWarning)}}
                 <div class='text-center'>
                     {{t 'analytics.adblockWarning'}}
                 </div>
@@ -89,26 +97,26 @@
                 {{t 'analytics.showForDateRange'}}
                 <BsDropdown as |dd|>
                     <dd.button
-                        aria-haspopup=true
-                        aria-expanded=false
+                        aria-haspopup='true'
+                        aria-expanded='false'
                         local-class='DateRangeButton'
                     >
-                        {{t (concat 'analytics.dateRanges.' activeDateRange.key)}}
+                        {{t (concat 'analytics.dateRanges.' this.activeDateRange.key)}}
                         {{fa-icon 'caret-down'}}
                     </dd.button>
                     <dd.menu
                         local-class='DateRangeMenu'
                         @align='right'
                     >
-                        {{#each dateRanges as |dateRange|}}
+                        {{#each this.dateRanges as |dateRange|}}
                             <li role='menuitem'>
-                                <a
-                                    role='button'
+                                <button
+                                    type='button'
                                     local-class='DateRangeOption'
-                                    {{action 'setDateRange' dateRange}}
+                                    {{on 'click' (fn this.setDateRange dateRange)}}
                                 >
                                     {{t (concat 'analytics.dateRanges.' dateRange.key)}}
-                                </a>
+                                </button>
                             </li>
                         {{/each}}
                     </dd.menu>
@@ -127,11 +135,10 @@
     <div class='clearfix'></div>
     <div class='row'>
         {{analytics-charts
-            chartsEnabled=chartsEnabled
-            nodeTaskInstance=model.taskInstance
-            startDate=activeDateRange.start
-            endDate=activeDateRange.end
+            chartsEnabled=this.chartsEnabled
+            nodeTaskInstance=this.model.taskInstance
+            startDate=this.activeDateRange.start
+            endDate=this.activeDateRange.end
         }}
     </div>
 </div>
-{{! template-lint-enable no-implicit-this }}

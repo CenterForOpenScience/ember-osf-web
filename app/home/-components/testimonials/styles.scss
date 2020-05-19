@@ -67,6 +67,10 @@
     line-height: 48px;
     text-align: center;
     transform: rotate(180deg);
+
+    &::after {
+        content: open-quote;
+    }
 }
 
 .description-bold {
@@ -170,7 +174,7 @@
     .slide-content {
         height: 630px;
     }
-    
+
     .slide-image {
         width: 250px;
     }

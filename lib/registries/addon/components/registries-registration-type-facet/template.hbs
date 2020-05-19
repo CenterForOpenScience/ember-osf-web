@@ -1,20 +1,19 @@
-{{! template-lint-disable no-implicit-this }}
-{{#registries-search-facet-container title=title}}
-    <div local-class={{if onlyOSF 'RegistrationType' 'RegistrationType--Disabled'}}>
-        {{#unless onlyOSF}}
+{{#registries-search-facet-container title=this.title}}
+    <div local-class={{if this.onlyOSF 'RegistrationType' 'RegistrationType--Disabled'}}>
+        {{#unless this.onlyOSF}}
             <i local-class='RegistrationType__Warning'>
                 {{t 'registries.facets.registration_type.only_available_with_osf'}}
             </i>
         {{/unless}}
 
         <ul class='m-t-sm' local-class='RegistrationType__List'>
-            {{#each types as |type index|}}
+            {{#each this.types as |type index|}}
                 <li local-class='RegistrationType__Item'>
                     <label>
                         <Input
                             data-test-registration-type-filter-id={{index}}
                             @type='checkbox'
-                            @disabled={{not onlyOSF}}
+                            @disabled={{not this.onlyOSF}}
                             @checked={{type.checked}}
                             @change={{action 'typeChecked' type.filter type.checked}}
                         />
@@ -25,4 +24,3 @@
         </ul>
     </div>
 {{/registries-search-facet-container}}
-{{! template-lint-enable no-implicit-this }}

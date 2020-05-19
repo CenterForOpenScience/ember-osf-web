@@ -1,10 +1,4 @@
-{{#if (not this.findNodes.last)}}
-    <div class='ball-pulse ball-dark text-center'>
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
-{{else}}
+{{#if this.findNodes.last}}
     <div data-test-collections-item-picker class='form-group'>
         <div class='m-t-sm'>
             <PowerSelect
@@ -27,7 +21,12 @@
             >
                 {{get-ancestor-descriptor item}} <strong data-test-collections-node-title={{item.title}}>{{item.title}}</strong>
             </PowerSelect>
-            
         </div>
+    </div>
+{{else}}
+    <div class='ball-pulse ball-dark text-center'>
+        <div></div>
+        <div></div>
+        <div></div>
     </div>
 {{/if}}

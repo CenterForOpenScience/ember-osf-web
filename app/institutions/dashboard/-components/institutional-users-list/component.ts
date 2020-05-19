@@ -1,31 +1,43 @@
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
-import { alias } from '@ember/object/computed';
+import { reads } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { TaskInstance } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
+
+import { InstitutionsDashboardModel } from 'ember-osf-web/institutions/dashboard/route';
 import InstitutionModel from 'ember-osf-web/models/institution';
+import InstitutionDepartmentsModel from 'ember-osf-web/models/institution-department';
 import Analytics from 'ember-osf-web/services/analytics';
 
 export default class InstitutionalUsersList extends Component {
-    @alias('model.taskInstance.value') institution?: InstitutionModel;
     @service analytics!: Analytics;
     @service intl!: Intl;
 
+    @reads('modelTaskInstance.value.institution')
+    institution?: InstitutionModel;
+
+    @reads('modelTaskInstance.value.departmentMetrics')
+    departmentMetrics?: InstitutionDepartmentsModel[];
+
     // Private properties
+    modelTaskInstance!: TaskInstance<InstitutionsDashboardModel>;
     department?: string;
-    sort = 'user_full_name';
+    sort = 'user_name';
+
+    reloadUserList?: () => void;
 
     @computed('intl.locale')
     get defaultDepartment() {
         return this.intl.t('institutions.dashboard.select_default');
     }
 
-    @computed('defaultDepartment', 'institution')
+    @computed('defaultDepartment', 'institution', 'departmentMetrics.[]')
     get departments() {
         let departments = [this.defaultDepartment];
 
-        if (this.institution && this.institution.statSummary) {
-            const institutionDepartments = this.institution.statSummary.departments.map((x: any) => x.name);
+        if (this.institution && this.departmentMetrics) {
+            const institutionDepartments = this.departmentMetrics.map((x: InstitutionDepartmentsModel) => x.name);
             departments = departments.concat(institutionDepartments);
         }
 
@@ -42,7 +54,7 @@ export default class InstitutionalUsersList extends Component {
     }
 
     @computed('department', 'isDefaultDepartment', 'sort')
-    get query() {
+    get queryUsers() {
         const query = {} as Record<string, string>;
         if (this.department && !this.isDefaultDepartment) {
             query['filter[department]'] = this.department;
@@ -61,6 +73,9 @@ export default class InstitutionalUsersList extends Component {
             action: 'change',
         });
         this.set('department', department);
+        if (this.reloadUserList) {
+            this.reloadUserList();
+        }
     }
 
     @action

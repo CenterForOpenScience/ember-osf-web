@@ -53,3 +53,9 @@
 .PrivateProject {
     padding: 1em 3em 2em;
 }
+
+:global(.btn.btn-link).button-link {
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
