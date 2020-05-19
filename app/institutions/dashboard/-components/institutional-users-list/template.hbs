@@ -1,76 +1,80 @@
-<PowerSelect
+{{#if this.modelTaskInstance.isRunning}}
+    <LoadingIndicator data-test-loading-indicator @dark={{true}} />
+{{else}}
+    <PowerSelect
         @options={{this.departments}}
-        @searchEnabled={{false}}
+        @searchEnabled={{true}}
         @selected={{this.department}}
         @triggerClass={{local-class 'select'}}
         @onchange={{action this.onSelectChange}} as |department|
->
-    {{department}}
-</PowerSelect>
-
-<ContentPlaceholders as |placeholder|>
-    <PaginatedList::HasMany
+    >
+        {{department}}
+    </PowerSelect>
+    <ContentPlaceholders as |placeholder|>
+        <PaginatedList::HasMany
             local-class='table'
             @isTable={{true}}
-            @modelTaskInstance={{@model.taskInstance}}
-            @relationshipName='institutionalUsers'
-            @query={{this.query}} as |list|
-    >
-        <list.header local-class='header'>
-            {{#let (component 'sort-button'
-                class=(local-class 'sort-button')
-                sortAction=(action this.sortInstitutionalUsers)
-                sort=this.sort
-            ) as |SortButton|}}
-                <tr>
-                    <th data-test-header-name rowspan='2'>
-                        <strong>{{t 'institutions.dashboard.users_list.name'}}</strong>
-                        <SortButton @sortBy='user_full_name' />
-                    </th>
-                    <th data-test-header-department rowspan='2'>
-                        <strong>{{t 'institutions.dashboard.users_list.department'}}</strong>
-                        <SortButton @sortBy='department' />
-                    </th>
-                    <th local-class='nested-header' class='text-center' colspan='2' width='128'>
-                        {{t 'institutions.dashboard.users_list.projects'}}
-                    </th>
-                </tr>
-                <tr>
-                    <th local-class='nested-header' class='text-center' data-test-header-public-projects>
-                        <img src='/assets/images/global/open-lock.svg'
-                             alt={{t 'institutions.dashboard.users_list.public_projects'}}
-                        >
-                    </th>
-                    <th local-class='nested-header' class='text-center' data-test-header-private-projects>
-                        <img src='/assets/images/global/closed-lock.svg'
-                             alt={{t 'institutions.dashboard.users_list.private_projects'}}
-                        >
-                    </th>
-                </tr>
-            {{/let}}
-        </list.header>
-        <list.item local-class='item' as |institutionalUser|>
-            {{#if institutionalUser}}
-                <td data-test-item-name>
-                    <OsfLink
+            @model={{this.institution}}
+            @relationshipName='userMetrics'
+            @bindReload={{action (mut this.reloadUserList)}}
+            @query={{this.queryUsers}} as |list|
+        >
+            <list.header local-class='header'>
+                {{#let (component 'sort-button'
+                    class=(local-class 'sort-button')
+                    sortAction=(action this.sortInstitutionalUsers)
+                    sort=this.sort
+                ) as |SortButton|}}
+                    <tr>
+                        <th data-test-header-name rowspan='2'>
+                            <strong>{{t 'institutions.dashboard.users_list.name'}}</strong>
+                            <SortButton @sortBy='user_name' />
+                        </th>
+                        <th data-test-header-department rowspan='2'>
+                            <strong>{{t 'institutions.dashboard.users_list.department'}}</strong>
+                            <SortButton @sortBy='department' />
+                        </th>
+                        <th local-class='nested-header' class='text-center' colspan='2' width='128'>
+                            {{t 'institutions.dashboard.users_list.projects'}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th local-class='nested-header' class='text-center' data-test-header-public-projects>
+                            <img src='/assets/images/global/open-lock.svg'
+                                alt={{t 'institutions.dashboard.users_list.public_projects'}}
+                            >
+                        </th>
+                        <th local-class='nested-header' class='text-center' data-test-header-private-projects>
+                            <img src='/assets/images/global/closed-lock.svg'
+                                alt={{t 'institutions.dashboard.users_list.private_projects'}}
+                            >
+                        </th>
+                    </tr>
+                {{/let}}
+            </list.header>
+            <list.item local-class='item' as |institutionalUser|>
+                {{#if institutionalUser}}
+                    <td data-test-item-name>
+                        <OsfLink
                             @route='guid-user'
                             @models={{array institutionalUser.userGuid}}
-                    >
-                        {{institutionalUser.userFullName}}
-                    </OsfLink>
-                </td>
-                <td data-test-item-department>{{institutionalUser.department}}</td>
-                <td class='text-center' data-test-item-public-projects>{{institutionalUser.publicProjectCount}}</td>
-                <td class='text-center' data-test-item-private-projects>{{institutionalUser.privateProjectCount}}</td>
-            {{else}}
-                <td>{{placeholder.text lines=1}}</td>
-                <td>{{placeholder.text lines=1}}</td>
-                <td>{{placeholder.text lines=1}}</td>
-                <td>{{placeholder.text lines=1}}</td>
-            {{/if}}
-        </list.item>
-        <list.empty local-class='empty'>
-            {{t 'institutions.dashboard.users_list.empty'}}
-        </list.empty>
-    </PaginatedList::HasMany>
-</ContentPlaceholders>
+                        >
+                            {{institutionalUser.userName}} - {{institutionalUser.userGuid}}
+                        </OsfLink>
+                    </td>
+                    <td data-test-item-department>{{institutionalUser.department}}</td>
+                    <td class='text-center' data-test-item-public-projects>{{institutionalUser.publicProjects}}</td>
+                    <td class='text-center' data-test-item-private-projects>{{institutionalUser.privateProjects}}</td>
+                {{else}}
+                    <td>{{placeholder.text lines=1}}</td>
+                    <td>{{placeholder.text lines=1}}</td>
+                    <td>{{placeholder.text lines=1}}</td>
+                    <td>{{placeholder.text lines=1}}</td>
+                {{/if}}
+            </list.item>
+            <list.empty local-class='empty'>
+                {{t 'institutions.dashboard.users_list.empty'}}
+            </list.empty>
+        </PaginatedList::HasMany>
+    </ContentPlaceholders>
+{{/if}}
