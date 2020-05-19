@@ -10,11 +10,11 @@ import InstitutionSummaryMetricModel from 'ember-osf-web/models/institution-summ
 import InstitutionUserModel from 'ember-osf-web/models/institution-user';
 
 export default class InstitutionsDashboardController extends Controller {
-    @alias('model.taskInstance.value') modelValue!: InstitutionsDashboardModel;
-    @alias('modelValue.institution') institution!: InstitutionModel;
-    @alias('modelValue.summaryMetrics') summaryMetrics!: InstitutionSummaryMetricModel;
-    @alias('modelValue.userMetrics') userMetrics!: InstitutionUserModel[];
-    @alias('modelValue.departmentMetrics') departmentMetrics!: InstitutionDepartmentModel[];
+    @alias('model.taskInstance.value') modelValue?: InstitutionsDashboardModel;
+    @alias('modelValue.institution') institution?: InstitutionModel;
+    @alias('modelValue.summaryMetrics') summaryMetrics?: InstitutionSummaryMetricModel;
+    @alias('modelValue.userMetrics') userMetrics?: InstitutionUserModel[];
+    @alias('modelValue.departmentMetrics') departmentMetrics?: InstitutionDepartmentModel[];
 
     csvImgSrc: string = '/assets/images/institutions/csv.svg';
 
