@@ -10,7 +10,7 @@
                 width='30'
             >
             <OsfLink
-                data-test-contributor-link
+                data-test-contributor-link={{@contributor.id}}
                 data-analytics-name='View user'
                 @route='guid-user'
                 @models={{array @contributor.id}}
@@ -18,28 +18,17 @@
                 {{@contributor.fullName}}
             </OsfLink>
         </span>
-        <span data-test-contributor-permission local-class='CardSection'>
+        <span
+            data-test-contributor-permission={{@contributor.id}}
+            local-class='CardSection'
+        >
             {{@contributor.permission}}
         </span>
-        <span data-test-contributor-citation local-class='CardSection'>
+        <span
+            data-test-contributor-citation={{@contributor.id}}
+            local-class='CardSection'
+        >
             {{@contributor.bibliographic}}
-            <OsfButton
-                data-test-expand-user-card
-                data-analytics-name='Expand contributor card'
-                @type='link'
-                @onClick={{action this.toggleDropdown}}
-            >
-                <i class={{if this.showExpandedList 'fa fa-angle-up' 'fa fa-angle-down'}}></i>
-            </OsfButton>
         </span>
     </div>
-    {{#if this.showExpandedList}}
-        {{#each @contributor.users.employment as |employer|}}
-            <div data-test-contributor-card-expanded local-class='ExpandedSection'>
-                <span data-test-employer-info={{employer.institution}}>
-                    {{employer.institution}}, {{employer.title}}
-                </span>
-            </div>
-        {{/each}}
-    {{/if}}
 </div>

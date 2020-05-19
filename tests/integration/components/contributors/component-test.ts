@@ -1,4 +1,4 @@
-import { click, render } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import a11yAudit from 'ember-a11y-testing/test-support/audit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupIntl, t } from 'ember-intl/test-support';
@@ -7,6 +7,7 @@ import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
+// import ContributorModel from '../../../../app/models/contributor';
 import { OsfLinkRouterStub } from '../../helpers/osf-link-router-stub';
 
 module('Integration | Component | contributors', hooks => {
@@ -42,7 +43,7 @@ module('Integration | Component | contributors', hooks => {
         assert.dom('[data-test-heading-citation]').hasText(headingCitation);
     });
 
-    test('read-only user card renders 991', async function(assert) {
+    test('read-only user card renders', async function(assert) {
         const registration = server.create('draft-registration', {}, 'withContributors');
         const registrationModel = await this.store.findRecord('draft-registration', registration.id);
         this.set('node', registrationModel);
@@ -50,22 +51,16 @@ module('Integration | Component | contributors', hooks => {
         const { contributors } = registrationModel;
 
         await render(hbs`<Contributors::Widget @node={{this.node}} />`);
-
-        contributors.forEach(async contributor => {
+        contributors.forEach(contributor => {
             assert.dom('[data-test-contributor-card]').exists();
             assert.dom('[data-test-contributor-card-main]').exists();
             assert.dom('[data-test-contributor-gravatar]').exists();
-            assert.dom('[data-test-contributor-link]').hasText(contributor.fullName);
-            assert.dom('[data-test-contributor-permission]').hasText(contributor.permission);
-            assert.dom('[data-test-contributor-citation]').hasText(contributor.bibliographic.toString());
-
-            await click('[data-test-expand-user-card]');
-
-            contributor.users.get('employment').forEach(employer => {
-                assert.dom('[data-test-contributor-card-expanded]').exists();
-                assert.dom(`[data-test-employer-info="${employer.institution}"]`)
-                    .hasText(`${employer.institution}, ${employer.title}`);
-            });
+            assert.dom(`[data-test-contributor-link="${contributor.id}"]`)
+                .hasText(contributor.fullName);
+            assert.dom(`[data-test-contributor-permission="${contributor.id}"]`)
+                .hasText(contributor.permission);
+            assert.dom(`[data-test-contributor-citation="${contributor.id}"]`)
+                .hasText(contributor.bibliographic.toString());
         });
         await a11yAudit(this.element);
         assert.ok(true, 'No a11y errors on page');

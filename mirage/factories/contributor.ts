@@ -1,4 +1,4 @@
-import { association, /* Collection, */ Factory, faker, trait, Trait } from 'ember-cli-mirage';
+import { association, Collection, Factory, faker, trait, Trait } from 'ember-cli-mirage';
 
 import Contributor from 'ember-osf-web/models/contributor';
 import { Permission } from 'ember-osf-web/models/osf-model';
@@ -22,7 +22,7 @@ export default Factory.extend<Contributor & ContributorTraits>({
     fullName() {
         return `${faker.name.firstName()} ${faker.name.lastName()}`;
     },
-    /*
+
     afterCreate(contributor) {
         if (contributor.bibliographic) {
             const { node } = contributor;
@@ -35,7 +35,7 @@ export default Factory.extend<Contributor & ContributorTraits>({
             }
         }
     },
-    */
+
     registered: trait({ unregisteredContributor: undefined }),
     unregistered: trait({ unregisteredContributor: 'unregistered' }),
 });

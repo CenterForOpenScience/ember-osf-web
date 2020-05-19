@@ -29,7 +29,6 @@ export default Factory.extend<MirageUser & UserTraits>({
         if (!user.fullName && (user.givenName || user.familyName)) {
             user.update('fullName', [user.givenName, user.familyName].filter(Boolean).join(' '));
         }
-        server.createList('institution', 3, { users: [user] });
     },
 
     givenName() {
