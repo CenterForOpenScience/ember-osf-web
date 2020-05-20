@@ -5,7 +5,7 @@
                 data-test-contributor-gravatar
                 class='m-l-xs'
                 src={{@contributor.users.links.profile_image}}
-                alt={{@contributor.users.fullname}}
+                alt={{@contributor.users.fullName}}
                 height='30'
                 width='30'
             >
@@ -15,20 +15,24 @@
                 @route='guid-user'
                 @models={{array @contributor.id}}
             >
-                {{@contributor.fullName}}
+                {{@contributor.users.fullName}}
             </OsfLink>
         </span>
         <span
             data-test-contributor-permission={{@contributor.id}}
             local-class='CardSection'
         >
-            {{@contributor.permission}}
+            {{this.permission}}
         </span>
         <span
             data-test-contributor-citation={{@contributor.id}}
             local-class='CardSection'
         >
-            {{@contributor.bibliographic}}
+            {{#if (eq @contributor.bibliographic 'yes')}}
+                {{t 'osf-components.contributors.citation.yes'}}
+            {{else}}
+                {{t 'osf-components.contributors.citation.no'}}
+            {{/if}}
         </span>
     </div>
 </div>

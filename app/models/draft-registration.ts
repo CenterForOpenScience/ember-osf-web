@@ -60,7 +60,7 @@ export default class DraftRegistrationModel extends OsfModel {
     license!: DS.PromiseObject<LicenseModel> & LicenseModel;
 
     @hasMany('contributor')
-    contributors!: DS.PromiseManyArray<ContributorModel>;
+    contributors!: DS.PromiseManyArray<ContributorModel> & ContributorModel[];
 }
 
 declare module 'ember-data/types/registries/model' {

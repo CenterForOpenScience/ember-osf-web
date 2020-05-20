@@ -7,7 +7,6 @@ import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
-// import ContributorModel from '../../../../app/models/contributor';
 import { OsfLinkRouterStub } from '../../helpers/osf-link-router-stub';
 
 module('Integration | Component | contributors', hooks => {
