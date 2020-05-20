@@ -15,6 +15,7 @@
             local-class='table'
             @isTable={{true}}
             @model={{this.institution}}
+            @usePlaceholders={{false}}
             @relationshipName='userMetrics'
             @bindReload={{action (mut this.reloadUserList)}}
             @query={{this.queryUsers}} as |list|
