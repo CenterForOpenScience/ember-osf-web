@@ -1,11 +1,2 @@
 {{title (t 'registries.application.page_title') replace=true}}
 {{outlet}}
-
-<div
-    data-analytics-scope='Registries'
-    local-class='RegistriesLayout'
-    class='RegistriesStyle'
->
-    {{! TODO move this to subroutes: `branded`, `drafts.draft`, `overview` }}
-    <RegistriesNavbar class='RegistriesStyle' @campaign='osf-registries' />
-</div>

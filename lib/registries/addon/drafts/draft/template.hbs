@@ -1,5 +1,6 @@
-<div {{with-branding this.model.draftRegistrationManager.draftRegistration.brand}}>
-    <RegistriesNavbar class='RegistriesStyle' @campaign='osf-registries' />
+<RegistriesWrapper
+    {{with-branding this.model.draftRegistrationManager.draftRegistration.provider.brand}}
+>
     {{#if this.model.draftRegistrationManager.initializing}}
         <div local-class='ContentBackground Loading'>
             <LoadingIndicator @dark={{true}} />
@@ -85,4 +86,4 @@
             </OsfLayout>
         {{/let}}
     {{/if}}
-</div>
+</RegistriesWrapper>
