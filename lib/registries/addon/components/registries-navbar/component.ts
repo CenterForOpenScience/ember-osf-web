@@ -24,7 +24,6 @@ export default class RegistriesNavbar extends AuthBase {
     @service brand!: Brand;
     @service router!: RouterService;
 
-    @requiredAction onSearch!: (query: string) => void;
     @and('media.isMobile', 'searchDropdownOpen') showSearchDropdown!: boolean;
 
     services = OSF_SERVICES;
