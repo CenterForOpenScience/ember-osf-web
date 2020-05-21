@@ -1,4 +1,4 @@
-import { Factory, faker } from 'ember-cli-mirage';
+import { Factory, faker, trait, Trait } from 'ember-cli-mirage';
 
 import RegistrationProvider from 'ember-osf-web/models/registration-provider';
 
@@ -14,7 +14,11 @@ export interface MirageRegistrationProvider extends RegistrationProvider {
     licensesAcceptableIds: string[];
 }
 
-export default Factory.extend<MirageRegistrationProvider>({
+export interface RegistrationProviderTraits {
+    withBrand: Trait;
+}
+
+export default Factory.extend<MirageRegistrationProvider & RegistrationProviderTraits>({
     name() {
         return faker.lorem.word();
     },
@@ -38,6 +42,11 @@ export default Factory.extend<MirageRegistrationProvider>({
             ],
         });
     },
+    withBrand: trait<RegistrationProvider>({
+        afterCreate(provider, server) {
+            provider.update({ brand: server.create('brand') });
+        }
+    })
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {
