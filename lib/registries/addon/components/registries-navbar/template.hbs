@@ -62,7 +62,7 @@
                     @ariaLabel={{t 'navbar.search_bar'}}
                     @icon='search'
                     @dark={{true}}
-                    @enter={{action '_onSearch'}}
+                    @enter={{this.search}}
                 />
             </nav.item>
 
@@ -247,7 +247,7 @@
             @ariaLabel={{t 'navbar.search_bar'}}
             @icon='search'
             @dark={{true}}
-            @enter={{action '_onSearch'}}
+            @enter={{this.search}}
         />
     </Container>
 {{/if}}

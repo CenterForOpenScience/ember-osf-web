@@ -1,11 +1,11 @@
 {{title (t 'registries.application.page_title') replace=true}}
 
-<RegistriesNavbar class='RegistriesStyle' @campaign='osf-registries' @onSearch={{action 'search'}} />
+<RegistriesNavbar class='RegistriesStyle' @campaign='osf-registries' />
 
 <div
     data-analytics-scope='Registries'
     local-class='RegistriesLayout'
-    class={{if this.newStyleEnabled 'RegistriesStyle'}}
+    class='RegistriesStyle'
     {{with-branding this.model.brand}}
 >
     {{outlet}}

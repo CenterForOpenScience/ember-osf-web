@@ -1,6 +1,7 @@
 import { tagName } from '@ember-decorators/component';
 import { action } from '@ember/object';
 import { and } from '@ember/object/computed';
+import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import Media from 'ember-responsive';
 
@@ -21,6 +22,7 @@ const { externalLinks } = config;
 export default class RegistriesNavbar extends AuthBase {
     @service media!: Media;
     @service brand!: Brand;
+    @service router!: RouterService;
 
     @requiredAction onSearch!: (query: string) => void;
     @and('media.isMobile', 'searchDropdownOpen') showSearchDropdown!: boolean;
@@ -32,9 +34,11 @@ export default class RegistriesNavbar extends AuthBase {
     searchDropdownOpen: boolean = false;
 
     @action
-    _onSearch(query: string) {
-        this.onSearch(query);
+    search(query: string) {
         this.set('searchDropdownOpen', false);
+        this.router.transitionTo('discover', {
+            queryParams: { query },
+        });
     }
 
     @action
