@@ -27,6 +27,7 @@ export default Factory.extend<MirageRegistrationProvider & RegistrationProviderT
     },
     allowSubmissions: true,
     assets: randomAssets(),
+
     afterCreate(provider, server) {
         provider.update({
             licensesAcceptable: [
@@ -42,11 +43,12 @@ export default Factory.extend<MirageRegistrationProvider & RegistrationProviderT
             ],
         });
     },
+
     withBrand: trait<RegistrationProvider>({
         afterCreate(provider, server) {
             provider.update({ brand: server.create('brand') });
-        }
-    })
+        },
+    }),
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {
