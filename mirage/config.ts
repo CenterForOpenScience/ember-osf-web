@@ -31,7 +31,7 @@ import * as userSettings from './views/user-setting';
 import * as wb from './views/wb';
 
 const { OSF: { apiUrl } } = config;
-
+e
 export default function(this: Server) {
     this.passthrough(); // pass through all requests on currrent domain
     this.passthrough('https://share.osf.io/api/*');
