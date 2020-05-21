@@ -1,4 +1,4 @@
-<div {{with-branding this.brand.currentBrand}}>
+<div {{with-branding this.model.draftRegistrationManager.draftRegistration.brand}}>
     {{#if this.model.draftRegistrationManager.initializing}}
         <div local-class='ContentBackground Loading'>
             <LoadingIndicator @dark={{true}} />
