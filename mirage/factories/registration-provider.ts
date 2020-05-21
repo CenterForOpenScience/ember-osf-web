@@ -1,4 +1,4 @@
-import { Factory } from 'ember-cli-mirage';
+import { Factory, faker } from 'ember-cli-mirage';
 
 import RegistrationProvider from 'ember-osf-web/models/registration-provider';
 
@@ -15,9 +15,12 @@ export interface MirageRegistrationProvider extends RegistrationProvider {
 }
 
 export default Factory.extend<MirageRegistrationProvider>({
-    id: 'osf',
-    name: 'OSF Registries',
-    description: 'The open registries network',
+    name() {
+        return faker.lorem.word();
+    },
+    description() {
+        return faker.lorem.sentence();
+    },
     allowSubmissions: true,
     assets: randomAssets(),
     afterCreate(provider, server) {
