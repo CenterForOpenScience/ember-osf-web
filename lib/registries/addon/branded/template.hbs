@@ -1,1 +1,6 @@
-{{outlet}}
+<div data-analytics-scope='Registries' local-class='RegistriesLayout' class='RegistriesStyle'
+    {{with-branding this.model.brand}}
+>
+    <RegistriesNavbar class='RegistriesStyle' @campaign='osf-registries' />
+    {{outlet}}
+</div>

@@ -1,4 +1,5 @@
 <div {{with-branding this.model.draftRegistrationManager.draftRegistration.brand}}>
+    <RegistriesNavbar class='RegistriesStyle' @campaign='osf-registries' />
     {{#if this.model.draftRegistrationManager.initializing}}
         <div local-class='ContentBackground Loading'>
             <LoadingIndicator @dark={{true}} />

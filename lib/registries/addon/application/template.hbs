@@ -1,4 +1,5 @@
 {{title (t 'registries.application.page_title') replace=true}}
+{{outlet}}
 
 <div
     data-analytics-scope='Registries'
@@ -8,5 +9,5 @@
     {{! TODO move this to subroutes: `branded`, `drafts.draft`, `overview` }}
     <RegistriesNavbar class='RegistriesStyle' @campaign='osf-registries' />
 
-    {{outlet}}
+    
 </div>
