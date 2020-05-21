@@ -25,9 +25,9 @@ module('Integration | Component | contributors', hooks => {
 
     test('it renders', async function(assert) {
         // Translations
-        const headingName = t('osf-components.contributors.name');
-        const headingPermission = t('osf-components.contributors.permission');
-        const headingCitation = t('osf-components.contributors.citation');
+        const headingName = t('osf-components.contributors.headings.name');
+        const headingPermission = t('osf-components.contributors.headings.permission');
+        const headingCitation = t('osf-components.contributors.headings.citation');
 
         const registration = server.create('draft-registration', {}, 'withContributors');
         const registrationModel = await this.store.findRecord('draft-registration', registration.id);
@@ -51,15 +51,18 @@ module('Integration | Component | contributors', hooks => {
 
         await render(hbs`<Contributors::Widget @node={{this.node}} />`);
         contributors.forEach(contributor => {
+            const userPermission = t(`osf-components.contributors.permissions.${contributor.permission}`);
+            const userCitation = t(`osf-components.contributors.citation.${contributor.bibliographic}`);
+
             assert.dom('[data-test-contributor-card]').exists();
             assert.dom('[data-test-contributor-card-main]').exists();
             assert.dom('[data-test-contributor-gravatar]').exists();
             assert.dom(`[data-test-contributor-link="${contributor.id}"]`)
-                .hasText(contributor.fullName);
+                .hasText(contributor.users.get('fullName'));
             assert.dom(`[data-test-contributor-permission="${contributor.id}"]`)
-                .hasText(contributor.permission);
+                .hasText(userPermission);
             assert.dom(`[data-test-contributor-citation="${contributor.id}"]`)
-                .hasText(contributor.bibliographic.toString());
+                .hasText(userCitation);
         });
         await a11yAudit(this.element);
         assert.ok(true, 'No a11y errors on page');

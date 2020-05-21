@@ -1446,12 +1446,12 @@ osf-components:
             permission: 'Permission'
             citation: 'Citation'
         permissions:
-            administrator: 'Administrator'
-            readAndWrite: 'Read + Write'
+            admin: 'Administrator'
+            write: 'Read + Write'
             read: 'Read'
         citation:
-            yes: 'Yes'
-            no: 'No'
+            true: 'Yes'
+            false: 'No'
 settings:
     toggleNav: 'Toggle navigation'
     profile:

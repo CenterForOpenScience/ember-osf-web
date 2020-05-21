@@ -22,17 +22,13 @@
             data-test-contributor-permission={{@contributor.id}}
             local-class='CardSection'
         >
-            {{this.permission}}
+            {{t (concat 'osf-components.contributors.permissions.' @contributor.permission)}}
         </span>
         <span
             data-test-contributor-citation={{@contributor.id}}
             local-class='CardSection'
         >
-            {{#if (eq @contributor.bibliographic 'yes')}}
-                {{t 'osf-components.contributors.citation.yes'}}
-            {{else}}
-                {{t 'osf-components.contributors.citation.no'}}
-            {{/if}}
+            {{t (concat 'osf-components.contributors.citation.' @contributor.bibliographic)}}
         </span>
     </div>
 </div>
