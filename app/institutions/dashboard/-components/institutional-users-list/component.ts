@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { reads } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { TaskInstance } from 'ember-concurrency';
+import { TaskInstance, task, timeout } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 
 import { InstitutionsDashboardModel } from 'ember-osf-web/institutions/dashboard/route';
@@ -64,6 +64,19 @@ export default class InstitutionalUsersList extends Component {
         }
         return query;
     }
+
+    @task({ restartable: true })
+    searchDepartment = task(function *(this: InstitutionalUsersList, name: string) {
+        yield timeout(500);
+        if (this.institution) {
+            const depts: InstitutionDepartmentsModel[] = yield this.institution.queryHasMany('departmentMetrics', {
+                filter: {
+                    name,
+                },
+            });
+            return depts.map(dept => dept.name);
+        }
+    });
 
     @action
     onSelectChange(department: string) {
