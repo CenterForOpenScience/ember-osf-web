@@ -14,13 +14,9 @@ export default class InstitutionsDashboardController extends Controller {
     @alias('modelValue.institution') institution?: InstitutionModel;
     @alias('modelValue.summaryMetrics') summaryMetrics?: InstitutionSummaryMetricModel;
     @alias('modelValue.departmentMetrics') departmentMetrics?: InstitutionDepartmentModel[];
+    @alias('modelValue.totalUsers') totalUsers?: number;
 
     csvImgSrc: string = '/assets/images/institutions/csv.svg';
-
-    @computed('institution')
-    get totalUsers(): number {
-        const userMetrics = this.institution.queryHasMany('userMetrics');
-    }
 
     @computed('institution.lastUpdated')
     get lastUpdatedFromNow(): string {
