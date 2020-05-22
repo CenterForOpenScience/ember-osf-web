@@ -66,10 +66,7 @@ export default class InstitutionalUsersList extends Component {
     }
 
     @task({ restartable: true })
-    searchDepartment = task(function *(
-        this: InstitutionalUsersList,
-        name: string,
-    ): InstitutionDepartmentsModel[] {
+    searchDepartment = task(function *(this: InstitutionalUsersList, name: string) {
         yield timeout(500);
         if (this.institution) {
             const depts: InstitutionDepartmentsModel[] = yield this.institution.queryHasMany('departmentMetrics', {

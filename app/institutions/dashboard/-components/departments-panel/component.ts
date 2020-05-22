@@ -10,6 +10,7 @@ export default class DepartmentsPanel extends Component {
     @service intl!: Intl;
 
     topDepartments!: InstitutionDepartmentsModel[];
+    totalUsers!: number;
 
     chartHoverIndex: number = 0;
 
@@ -30,8 +31,10 @@ export default class DepartmentsPanel extends Component {
     get chartData(): ChartData {
         const departmentNames = this.topDepartments.map(x => x.name);
         const departmentNumbers = this.topDepartments.map(x => x.numberOfUsers);
+        const otherDepartmentNumber = this.totalUsers - departmentNumbers.reduce((a, b) => a + b);
 
         const displayDepartmentNames = [...departmentNames, this.intl.t('general.other')];
+        const displayDepartmentNumbers = [...departmentNumbers, otherDepartmentNumber];
         const backgroundColors = [];
         for (const index of departmentNumbers.keys()) {
             if (index === this.chartHoverIndex) {
@@ -42,9 +45,9 @@ export default class DepartmentsPanel extends Component {
         }
 
         return {
-            labels: departmentNames,
+            labels: displayDepartmentNames,
             datasets: [{
-                data: departmentNumbers,
+                data: displayDepartmentNumbers,
                 backgroundColor: backgroundColors,
             }],
         };
