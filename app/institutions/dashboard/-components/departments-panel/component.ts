@@ -1,13 +1,17 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { ChartData, ChartOptions, Shape } from 'ember-cli-chart';
+import Intl from 'ember-intl/services/intl';
 import { Department } from 'ember-osf-web/models/institution';
 import InstitutionDepartmentsModel from 'ember-osf-web/models/institution-department';
 
 export default class DepartmentsPanel extends Component {
+    @service intl!: Intl;
+
     topDepartments!: InstitutionDepartmentsModel[];
 
-    chartHoverIndex: number = -1;
+    chartHoverIndex: number = 0;
 
     chartOptions: ChartOptions = {
         aspectRatio: 1,
@@ -22,22 +26,12 @@ export default class DepartmentsPanel extends Component {
         },
     };
 
-    didReceiveAttrs() {
-    }
-
-    @computed('topDepartments')
-    get chartHoverIndex() {
-        if (this.departments) {
-            const departmentNumbers = this.departments.map(x => x.numberOfUsers);
-            this.set('chartHoverIndex', departmentNumbers.indexOf(Math.max(...departmentNumbers)));
-        }
-    }
-
-    @computed('chartHoverIndex', 'departments')
+    @computed('chartHoverIndex', 'topDepartments')
     get chartData(): ChartData {
-        const departmentNames = this.departments.map(x => x.name);
-        const departmentNumbers = this.departments.map(x => x.numberOfUsers);
+        const departmentNames = this.topDepartments.map(x => x.name);
+        const departmentNumbers = this.topDepartments.map(x => x.numberOfUsers);
 
+        const displayDepartmentNames = [...departmentNames, this.intl.t('general.other')];
         const backgroundColors = [];
         for (const index of departmentNumbers.keys()) {
             if (index === this.chartHoverIndex) {
@@ -56,14 +50,14 @@ export default class DepartmentsPanel extends Component {
         };
     }
 
-    @computed('chartHoverIndex', 'departments')
+    @computed('chartHoverIndex', 'topDepartments')
     get activeDepartment(): Department {
-        return this.departments.toArray()[this.chartHoverIndex];
+        return this.topDepartments.toArray()[this.chartHoverIndex];
     }
 
-    @computed('activeDepartment', 'departments')
+    @computed('activeDepartment', 'topDepartments')
     get activeDepartmentPercentage(): string {
-        const count = this.departments.reduce((total, currentValue) => total + currentValue.numberOfUsers, 0);
+        const count = this.topDepartments.reduce((total, currentValue) => total + currentValue.numberOfUsers, 0);
         return ((this.activeDepartment.numberOfUsers / count) * 100).toFixed(2);
     }
 }

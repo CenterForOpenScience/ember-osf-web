@@ -51,10 +51,10 @@
                     @isLoading={{this.model.taskInstance.isRunning}}
                     @title={{t 'institutions.dashboard.departments_panel'}}
             >
-            <Institutions::Dashboard::-Components::DepartmentsPanel
-                @topDepartments={{this.departmentMetrics}}
-                @totalUsers={{this.totalUsers}}
-            />
+                <Institutions::Dashboard::-Components::DepartmentsPanel
+                    @topDepartments={{this.departmentMetrics}}
+                    @totalUsers={{this.totalUsers}}
+                />
             </Institutions::Dashboard::-Components::Panel>
         </div>
     </div>

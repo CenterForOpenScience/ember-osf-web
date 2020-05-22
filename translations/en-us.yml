@@ -92,6 +92,7 @@ general:
         institutions: Institutions
         preprints: Preprints
         registries: Registries
+    other: Other
 node_categories:
     analysis: Analysis
     communication: Communication
