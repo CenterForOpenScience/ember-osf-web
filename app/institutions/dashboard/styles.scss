@@ -87,4 +87,13 @@
     .dashboard-wrapper {
         flex-wrap: wrap-reverse;
     }
+
+    .panel-wrapper {
+        padding-left: 0;
+        width: 100%;
+    }
+
+    .table-wrapper {
+        padding-right: 0;
+    }
 }

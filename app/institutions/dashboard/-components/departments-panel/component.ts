@@ -27,22 +27,25 @@ export default class DepartmentsPanel extends Component {
         },
     };
 
-    @computed('chartHoverIndex', 'topDepartments')
-    get chartData(): ChartData {
-        const departmentNames = this.topDepartments.map(x => x.name);
+    @computed('topDepartments')
+    get displayDepartments() {
+        const departments = this.topDepartments.map(({ name, numberOfUsers }) => ({ name, numberOfUsers }));
         const departmentNumbers = this.topDepartments.map(x => x.numberOfUsers);
         const otherDepartmentNumber = this.totalUsers - departmentNumbers.reduce((a, b) => a + b);
 
-        const displayDepartmentNames = [...departmentNames, this.intl.t('general.other')];
-        const displayDepartmentNumbers = [...departmentNumbers, otherDepartmentNumber];
-        const backgroundColors = [];
-        for (const index of departmentNumbers.keys()) {
-            if (index === this.chartHoverIndex) {
-                backgroundColors.push('#15a5eb');
-            } else {
-                backgroundColors.push('#a5b3bd');
+        return [...departments, { name: this.intl.t('general.other'), numberOfUsers: otherDepartmentNumber }];
+    }
+
+    @computed('chartHoverIndex', 'displayDepartments')
+    get chartData(): ChartData {
+        const backgroundColors = this.displayDepartments.map((_, i) => {
+            if (i === this.chartHoverIndex) {
+                return '#15a5eb';
             }
-        }
+            return '#a5b3bd';
+        });
+        const displayDepartmentNames = this.displayDepartments.map(({ name }) => name);
+        const displayDepartmentNumbers = this.displayDepartments.map(({ numberOfUsers }) => numberOfUsers);
 
         return {
             labels: displayDepartmentNames,
@@ -53,14 +56,15 @@ export default class DepartmentsPanel extends Component {
         };
     }
 
-    @computed('chartHoverIndex', 'topDepartments')
+    @computed('chartHoverIndex', 'displayDepartments')
     get activeDepartment(): Department {
-        return this.topDepartments.toArray()[this.chartHoverIndex];
+        return this.displayDepartments[this.chartHoverIndex];
     }
 
-    @computed('activeDepartment', 'topDepartments')
+    @computed('activeDepartment', 'displayDepartments')
     get activeDepartmentPercentage(): string {
-        const count = this.topDepartments.reduce((total, currentValue) => total + currentValue.numberOfUsers, 0);
+        const numUsersArray = this.displayDepartments.map(({ numberOfUsers }) => numberOfUsers);
+        const count = numUsersArray.reduce((a, b) => a + b);
         return ((this.activeDepartment.numberOfUsers / count) * 100).toFixed(2);
     }
 }
