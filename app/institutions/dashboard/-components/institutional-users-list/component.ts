@@ -2,7 +2,8 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { reads } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task, TaskInstance, timeout } from 'ember-concurrency';
+import { TaskInstance, timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import Intl from 'ember-intl/services/intl';
 
 import { InstitutionsDashboardModel } from 'ember-osf-web/institutions/dashboard/route';
