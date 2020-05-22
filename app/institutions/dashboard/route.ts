@@ -27,7 +27,7 @@ export default class InstitutionsDashboardRoute extends Route {
                     include: ['summary_metrics'],
                 },
             });
-            const departmentMetrics = yield institution.queryHasMany('departmentMetrics'); // ordering = ('-number_of_users', 'name’,) <<< is this true??
+            const departmentMetrics = yield institution.queryHasMany('departmentMetrics');
             const summaryMetrics = yield institution.summaryMetrics;
             return { institution, departmentMetrics, summaryMetrics };
         } catch (error) {

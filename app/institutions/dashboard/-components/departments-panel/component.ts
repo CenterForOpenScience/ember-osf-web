@@ -5,7 +5,7 @@ import { Department } from 'ember-osf-web/models/institution';
 import InstitutionDepartmentsModel from 'ember-osf-web/models/institution-department';
 
 export default class DepartmentsPanel extends Component {
-    departments!: InstitutionDepartmentsModel[];
+    topDepartments!: InstitutionDepartmentsModel[];
 
     chartHoverIndex: number = -1;
 
@@ -23,6 +23,10 @@ export default class DepartmentsPanel extends Component {
     };
 
     didReceiveAttrs() {
+    }
+
+    @computed('topDepartments')
+    get chartHoverIndex() {
         if (this.departments) {
             const departmentNumbers = this.departments.map(x => x.numberOfUsers);
             this.set('chartHoverIndex', departmentNumbers.indexOf(Math.max(...departmentNumbers)));

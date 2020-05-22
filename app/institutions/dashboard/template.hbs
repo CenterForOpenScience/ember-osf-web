@@ -8,7 +8,9 @@
     </div>
     <div local-class='dashboard-wrapper'>
         <div local-class='table-wrapper'>
-            <Institutions::Dashboard::-Components::InstitutionalUsersList @modelTaskInstance={{this.model.taskInstance}} />
+            <Institutions::Dashboard::-Components::InstitutionalUsersList
+                @modelTaskInstance={{this.model.taskInstance}}
+            />
         </div>
         <div local-class='panel-wrapper'>
             <OsfLink
@@ -40,14 +42,19 @@
                     @isLoading={{this.model.taskInstance.isRunning}}
                     @title={{t 'institutions.dashboard.projects_panel'}}
             >
-                <Institutions::Dashboard::-Components::ProjectsPanel @summaryMetrics={{this.summaryMetrics}} />
+                <Institutions::Dashboard::-Components::ProjectsPanel
+                    @summaryMetrics={{this.summaryMetrics}}
+                />
             </Institutions::Dashboard::-Components::Panel>
             <Institutions::Dashboard::-Components::Panel
                     local-class='departments'
                     @isLoading={{this.model.taskInstance.isRunning}}
                     @title={{t 'institutions.dashboard.departments_panel'}}
             >
-                <Institutions::Dashboard::-Components::DepartmentsPanel @departments={{this.departmentMetrics}} />
+            <Institutions::Dashboard::-Components::DepartmentsPanel
+                @topDepartments={{this.departmentMetrics}}
+                @totalUsers={{this.totalUsers}}
+            />
             </Institutions::Dashboard::-Components::Panel>
         </div>
     </div>
