@@ -11,15 +11,15 @@
 
 .dashboard-wrapper {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .table-wrapper {
-    width: 75%;
     padding-right: 15px;
+    flex-grow: 1;
 }
 
 .panel-wrapper {
-    width: 25%;
     padding-left: 15px;
     text-align: right;
 }
