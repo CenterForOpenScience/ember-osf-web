@@ -643,7 +643,7 @@ institutions:
     search_placeholder: 'Search institutions'
     dashboard:
         title: '{institutionName} Dashboard'
-        last_update: 'Last update'
+        last_update: 'Updated every 24 hours'
         download_csv: 'Download CSV'
         select_default: 'All Departments'
         users_list:

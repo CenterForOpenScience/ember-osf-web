@@ -1,6 +1,5 @@
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
-import moment from 'moment';
 
 import Controller from '@ember/controller';
 import { InstitutionsDashboardModel } from 'ember-osf-web/institutions/dashboard/route';
@@ -16,12 +15,6 @@ export default class InstitutionsDashboardController extends Controller {
     @alias('modelValue.totalUsers') totalUsers?: number;
 
     csvImgSrc: string = '/assets/images/institutions/csv.svg';
-
-    @computed('institution.lastUpdated')
-    get lastUpdatedFromNow(): string {
-        const lastUpdated = this.institution ? moment(this.institution.lastUpdated) : moment();
-        return lastUpdated.fromNow();
-    }
 
     // TODO: add csv link back when ENG-1810 is done
     @computed('institution.links.csv')
