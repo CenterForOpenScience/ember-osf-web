@@ -34,6 +34,7 @@
 
 {{#if this.registration}}
     <Registries::FinalizeRegistrationModal::Manager
+        @draftManager={{this.draftManager}}
         @registration={{this.registration}}
         @onSubmitRegistration={{action this.onSubmitRegistration}}
         as |finalizeRegistrationManager|

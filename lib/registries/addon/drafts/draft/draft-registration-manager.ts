@@ -1,13 +1,17 @@
 import { action, computed, set } from '@ember/object';
 import { alias, filterBy, not, notEmpty, or } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import { ChangesetDef } from 'ember-changeset/types';
 import { TaskInstance, timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
+import Intl from 'ember-intl/services/intl';
+import Toast from 'ember-toastr/services/toast';
 
 import DraftRegistration, { DraftMetadataProperties } from 'ember-osf-web/models/draft-registration';
 import NodeModel from 'ember-osf-web/models/node';
 import SchemaBlock from 'ember-osf-web/models/schema-block';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 import {
     buildMetadataValidations,
@@ -22,6 +26,9 @@ export default class DraftRegistrationManager {
     draftRegistrationAndNodeTask!: TaskInstance<{draftRegistration: DraftRegistration, node: NodeModel}>;
 
     // Private
+    @service intl!: Intl;
+    @service toast!: Toast;
+
     currentPage!: number;
     registrationResponses!: RegistrationResponse;
 
@@ -95,8 +102,11 @@ export default class DraftRegistrationManager {
         this.updateMetadataChangeset();
         try {
             yield this.draftRegistration.save();
-        } catch (error) {
-            throw error;
+        } catch (e) {
+            const errorMessage = this.intl.t('registries.drafts.draft.metadata.failed_auto_save');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
+            throw e;
         }
     });
 
@@ -112,8 +122,11 @@ export default class DraftRegistrationManager {
             });
             try {
                 yield this.draftRegistration.save();
-            } catch (error) {
-                throw error;
+            } catch (e) {
+                const errorMessage = this.intl.t('registries.drafts.draft.form.failed_auto_save');
+                captureException(e, { errorMessage });
+                this.toast.error(getApiErrorMessage(e), errorMessage);
+                throw e;
             }
         }
     });
@@ -131,7 +144,12 @@ export default class DraftRegistrationManager {
                 registrationResponses,
             });
 
-            yield this.draftRegistration.save();
+            try {
+                yield this.draftRegistration.save();
+            } catch (e) {
+                captureException(e);
+                throw e;
+            }
         }
     });
 

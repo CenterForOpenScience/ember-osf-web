@@ -1,18 +1,28 @@
-<div local-class="Sidebar__ActiveFilters" class="well well-sm">
-    <div class="row">
-        <div class="col-xs-6">
+<div local-class='Sidebar__ActiveFilters' class='well well-sm'>
+    <div class='row'>
+        <div class='col-xs-6'>
             <h4>{{t 'registries.discover.sidebar.active_filters'}}:</h4>
         </div>
-        <div class="col-xs-6">
-            <button data-test-clear-filters class="pull-right btn btn-sm btn-default" {{action 'clearFilters'}}>
+        <div class='col-xs-6'>
+            <button
+                data-test-clear-filters
+                type='button'
+                class='pull-right btn btn-sm btn-default'
+                {{on 'click' this.clearFilters}}
+            >
                 {{t 'registries.discover.sidebar.clear_filters'}}
                 {{fa-icon 'times'}}
             </button>
         </div>
     </div>
 
-    {{#each filters as |filter|}}
-        <button class="{{filter.class}}" local-class="Sidebar__ActiveFilter" {{action 'removeFilter' filter.filter}}>
+    {{#each this.filters as |filter|}}
+        <button
+            type='button'
+            class='{{filter.class}}'
+            local-class='Sidebar__ActiveFilter'
+            {{on 'click' (fn this.removeFilter filter.filter)}}
+        >
             {{filter.display}}
             {{fa-icon 'times-circle'}}
         </button>
@@ -21,10 +31,10 @@
 
 <h4>{{t 'registries.discover.sidebar.refine_your_search'}}</h4>
 
-<div local-class="Sidebar__Facets">
+<div local-class='Sidebar__Facets'>
     {{yield (hash
-        filters=filters
-        searchOptions=searchOptions
-        onSearchOptionsUpdated=(action _onSearchOptionsUpdated)
+        filters=this.filters
+        searchOptions=@searchOptions
+        onSearchOptionsUpdated=(action this._onSearchOptionsUpdated)
     )}}
 </div>

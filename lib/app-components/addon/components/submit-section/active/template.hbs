@@ -1,4 +1,4 @@
-<header local-class={{if (not this.panel.open) 'closed'}}>
+<header local-class={{unless this.panel.open 'closed'}}>
     {{this.title}}
 </header>
 {{#this.panel.body}}

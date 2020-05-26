@@ -10,6 +10,7 @@ import { layout } from 'ember-osf-web/decorators/component';
 import Node from 'ember-osf-web/models/node';
 import User from 'ember-osf-web/models/user';
 import Analytics from 'ember-osf-web/services/analytics';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import Toast from 'ember-toastr/services/toast';
 import styles from './styles';
 import template from './template';
@@ -79,7 +80,9 @@ export default class Search extends Component {
             }
             this.toast.success(this.intl.t('app_components.project_contributors.search.add_contributor_success'));
         } catch (e) {
-            this.toast.error(this.intl.t('app_components.project_contributors.search.add_contributor_error'));
+            const errorMessage = this.intl.t('app_components.project_contributors.search.add_contributor_error');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
         }
     });

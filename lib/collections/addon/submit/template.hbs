@@ -1,4 +1,4 @@
-{{#if (not this.model.taskInstance.isRunning)}}
+{{#unless this.model.taskInstance.isRunning}}
     <CollectionsSubmission
         @provider={{this.provider}}
         @collection={{this.collection}}
@@ -7,4 +7,4 @@
         @onNextSection={{action this.setPageDirty}}
         @resetPageDirty={{action this.resetPageDirty}}
     />
-{{/if}}
+{{/unless}}

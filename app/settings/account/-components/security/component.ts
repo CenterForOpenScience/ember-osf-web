@@ -14,6 +14,7 @@ import User from 'ember-osf-web/models/user';
 import UserEmail from 'ember-osf-web/models/user-email';
 import UserSettingModel from 'ember-osf-web/models/user-setting';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 @tagName('')
 export default class SecurityPane extends Component {
@@ -65,9 +66,10 @@ export default class SecurityPane extends Component {
                 this.settings.rollbackAttributes();
             }
             const { supportEmail } = config.support;
-            const saveErrorMessage = this.intl
+            const errorMessage = this.intl
                 .t('settings.account.security.saveError', { supportEmail, htmlSafe: true });
-            this.toast.error(saveErrorMessage);
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
         } finally {
             this.hideDialogs();
         }

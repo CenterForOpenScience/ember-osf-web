@@ -8,6 +8,7 @@
         {{did-insert (action this.updateModalState true)}}
         {{will-destroy (action this.updateModalState false)}}
     ></script>
+    {{!-- template-lint-disable no-invalid-interactive --}}
     <EmberWormhole
         @tagName='span'
         @destinationElement={{this.osfModalState.dialogWormholeTarget}}

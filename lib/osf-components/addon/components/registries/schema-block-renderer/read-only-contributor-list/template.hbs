@@ -1,4 +1,3 @@
-{{! template-lint-disable no-html-comments }}
 <div
     data-test-read-only-contributors-list
     local-class='ContributorList'
@@ -17,7 +16,7 @@
     data-test-edit-contributors
     local-class='EditContributors'
 >
-    <!-- TODO: change link to a route when we emberize contributors page -->
+    {{!-- TODO: change link to a route when we emberize contributors page --}}
     {{#unless @node.isRegistration}}
         <OsfLink
             data-test-to-contributors-page
