@@ -5,8 +5,9 @@ import FileProvider from 'ember-osf-web/models/file-provider';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 
-import { draftRegisterNodeMultiple, forkNode, registerNodeMultiple } from '../helpers';
-import { placekitten } from '../utils';
+// import { draftRegisterNodeMultiple, forkNode, registerNodeMultiple } from '../helpers';
+import { forkNode } from '../helpers';
+// import { placekitten } from '../utils';
 
 const {
     dashboard: {

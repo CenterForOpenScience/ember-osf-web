@@ -144,7 +144,13 @@ module.exports = function(environment) {
             },
         },
         OSF: {
-            osfRegistrationProviderId: 'osf',
+            defaultBrand: {
+                primaryColor: '#337ab7',
+                secondaryColor: '#263947',
+                topnavLogoImage: 'img/cos-logo-white.svg',
+                heroLogoImage: 'img/osf-registries-white.png',
+                heroBackgroundImage: 'img/bg-dark.jpg',
+            },
             clientId,
             scope,
             apiNamespace: 'v2', // URL suffix (after host)
