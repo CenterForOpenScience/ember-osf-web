@@ -1,86 +1,88 @@
 {{title (t 'registries.discover.page_title')}}
 
-<HeroOverlay local-class='DiscoverHero'>
-    {{#registries-header showHelp=true value=(mut this.query) onSearch=(action 'onSearch') searchable=this.searchable as |header|}}
-        {{#header.lead}}
-            {{t 'registries.discover.powered_by' }}
-            <a
-                data-test-share-logo
-                href='https://share.osf.io/'
-                local-class='ShareLogo'
-                title={{t 'registries.discover.SHARE'}}
-                onclick={{action 'click' 'link' 'Discover - SHARE Logo' target=this.analytics}}
-            ></a>
-        {{/header.lead}}
-    {{/registries-header}}
-</HeroOverlay>
-{{#registries-discover-search
-    results=this.results
-    isLoading=this.doSearch.isIdle
-    searchOptions=this.searchOptions
-    onSearchOptionsUpdated=(action this.onSearchOptionsUpdated)
-    as |discover|
-}}
+<RegistriesWrapper>
+    <HeroOverlay local-class='DiscoverHero'>
+        {{#registries-header showHelp=true value=(mut this.query) onSearch=(action 'onSearch') searchable=this.searchable as |header|}}
+            {{#header.lead}}
+                {{t 'registries.discover.powered_by' }}
+                <a
+                    data-test-share-logo
+                    href='https://share.osf.io/'
+                    local-class='ShareLogo'
+                    title={{t 'registries.discover.SHARE'}}
+                    onclick={{action 'click' 'link' 'Discover - SHARE Logo' target=this.analytics}}
+                ></a>
+            {{/header.lead}}
+        {{/registries-header}}
+    </HeroOverlay>
+    {{#registries-discover-search
+        results=this.results
+        isLoading=this.doSearch.isIdle
+        searchOptions=this.searchOptions
+        onSearchOptionsUpdated=(action this.onSearchOptionsUpdated)
+        as |discover|
+    }}
 
-    {{#discover.sidebar filterStyles=this.filterStyles as |sidebar|}}
-        {{registries-provider-facet
-            options=this.filterableSources
-            searchOptions=this.searchOptions
-            onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
-        }}
-
-        {{registries-registration-type-facet
-            searchOptions=this.searchOptions
-            onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
-        }}
-
-        {{#if this.providerModel}}
-            {{registries-subjects-facet
-                provider=this.providerModel
+        {{#discover.sidebar filterStyles=this.filterStyles as |sidebar|}}
+            {{registries-provider-facet
+                options=this.filterableSources
                 searchOptions=this.searchOptions
                 onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
             }}
-        {{/if}}
-    {{/discover.sidebar}}
 
-    {{#if this.doSearch.isIdle}}
-        {{registries-discover-results-header
-            totalResults=this.totalResults
-            searchOptions=this.searchOptions
-            sortOptions=this.sortOptions
-            setOrder=(action this.setOrder)
-        }}
-        {{#discover.results
-            (html-attributes data-test-results=true)
-            as |result|
-        }}
-            {{registries-search-result result=result class=(local-class 'RegistriesSearchResult')}}
-        {{/discover.results}}
+            {{registries-registration-type-facet
+                searchOptions=this.searchOptions
+                onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
+            }}
 
-        {{#unless this.totalResults}}
-            <div class='col-sm-8 col-xs-12'>
-                <div class='text-center text-muted'>
-                    <p class='lead'>
-                        {{t 'registries.discover.no_results'}}
-                    </p>
-                    {{t 'registries.discover.try_broadening'}}
-                </div>
-            </div>
-        {{/unless}}
-
-        {{#if (gt this.maxPage 1) }}
-            <div local-class='Pagination' class='col-xs-12'>
-                {{search-paginator
-                    current=this.searchOptions.page
-                    maximum=this.maxPage
-                    pageChanged=(action 'changePage')
+            {{#if this.providerModel}}
+                {{registries-subjects-facet
+                    provider=this.providerModel
+                    searchOptions=this.searchOptions
+                    onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
                 }}
+            {{/if}}
+        {{/discover.sidebar}}
+
+        {{#if this.doSearch.isIdle}}
+            {{registries-discover-results-header
+                totalResults=this.totalResults
+                searchOptions=this.searchOptions
+                sortOptions=this.sortOptions
+                setOrder=(action this.setOrder)
+            }}
+            {{#discover.results
+                (html-attributes data-test-results=true)
+                as |result|
+            }}
+                {{registries-search-result result=result class=(local-class 'RegistriesSearchResult')}}
+            {{/discover.results}}
+
+            {{#unless this.totalResults}}
+                <div class='col-sm-8 col-xs-12'>
+                    <div class='text-center text-muted'>
+                        <p class='lead'>
+                            {{t 'registries.discover.no_results'}}
+                        </p>
+                        {{t 'registries.discover.try_broadening'}}
+                    </div>
+                </div>
+            {{/unless}}
+
+            {{#if (gt this.maxPage 1) }}
+                <div local-class='Pagination' class='col-xs-12'>
+                    {{search-paginator
+                        current=this.searchOptions.page
+                        maximum=this.maxPage
+                        pageChanged=(action 'changePage')
+                    }}
+                </div>
+            {{/if}}
+        {{else}}
+            <div class='text-center p-v-md' aria-label={{t 'eosf.components.discoverPage.searchLoading'}}>
+                {{loading-indicator dark=true}}
             </div>
         {{/if}}
-    {{else}}
-        <div class='text-center p-v-md' aria-label={{t 'eosf.components.discoverPage.searchLoading'}}>
-            {{loading-indicator dark=true}}
-        </div>
-    {{/if}}
 
-{{/registries-discover-search}}
+    {{/registries-discover-search}}
+</RegistriesWrapper>

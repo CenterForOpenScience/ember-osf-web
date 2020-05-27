@@ -5,7 +5,7 @@ import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import Media from 'ember-responsive';
 
-import { layout, requiredAction } from 'ember-osf-web/decorators/component';
+import { layout } from 'ember-osf-web/decorators/component';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import { AuthBase } from 'osf-components/components/osf-navbar/auth-dropdown/component';
 import { OSF_SERVICES } from 'osf-components/components/osf-navbar/component';
