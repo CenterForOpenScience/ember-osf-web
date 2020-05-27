@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { computed } from '@ember/object';
+import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { ChartData, ChartOptions, Shape } from 'ember-cli-chart';
 import Intl from 'ember-intl/services/intl';
@@ -14,18 +14,23 @@ export default class DepartmentsPanel extends Component {
 
     chartHoverIndex: number = 0;
 
-    chartOptions: ChartOptions = {
-        aspectRatio: 1,
-        legend: {
-            display: false,
-        },
-        onHover: (_: MouseEvent, shapes: Shape[]): void => {
-            if (shapes.length === 0 || this.chartHoverIndex === shapes[0]._index) {
-                return;
-            }
-            this.set('chartHoverIndex', shapes[0]._index);
-        },
-    };
+    get chartOptions(): ChartOptions {
+        return {
+            aspectRatio: 1,
+            legend: {
+                display: false,
+            },
+            onHover: this.onChartHover,
+        };
+    }
+
+    @action
+    onChartHover(_: MouseEvent, shapes: Shape[]) {
+        if (shapes.length === 0 || this.chartHoverIndex === shapes[0]._index) {
+            return;
+        }
+        this.set('chartHoverIndex', shapes[0]._index);
+    }
 
     @computed('topDepartments')
     get displayDepartments() {
@@ -36,7 +41,7 @@ export default class DepartmentsPanel extends Component {
         return [...departments, { name: this.intl.t('general.other'), numberOfUsers: otherDepartmentNumber }];
     }
 
-    @computed('chartHoverIndex', 'displayDepartments')
+    @computed('chartHoverIndex', 'displayDepartments.[]')
     get chartData(): ChartData {
         const backgroundColors = this.displayDepartments.map((_, i) => {
             if (i === this.chartHoverIndex) {
@@ -56,7 +61,7 @@ export default class DepartmentsPanel extends Component {
         };
     }
 
-    @computed('chartHoverIndex', 'displayDepartments')
+    @computed('chartHoverIndex', 'displayDepartments.[]')
     get activeDepartment(): Department {
         return this.displayDepartments[this.chartHoverIndex];
     }
