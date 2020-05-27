@@ -13,9 +13,6 @@ const {
     featureFlagNames: {
         verifyEmailModals,
     },
-    OSF: {
-        defaultBrand,
-    },
 } = config;
 
 export default class Application extends Controller {
@@ -35,11 +32,6 @@ export default class Application extends Controller {
 
     @alias(`features.${camelize(verifyEmailModals)}`)
     shouldShowVerifyEmailModals!: boolean;
-
-    // This is a frontend only. Do not modify or save.
-    get defaultBrand() {
-        return this.store.createRecord('brand', { ...defaultBrand });
-    }
 
     // This is a hack until we move the main application into it's own engine.
     // Then each engine will be in charge of rendering/customizing the header.

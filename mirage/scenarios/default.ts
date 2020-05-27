@@ -66,6 +66,7 @@ function registrationScenario(
     server.create('node', { parent: childNodeA });
     server.create('node', { parent: childNodeA });
     const licenseReqFields = server.schema.licenses.findBy({ name: 'MIT License' });
+    const provider = server.create('registration-provider', 'withBrand');
 
     server.create('draft-registration', {
         id: 'dcaf',
@@ -75,6 +76,16 @@ function registrationScenario(
         branchedFrom: rootNode,
         license: licenseReqFields,
     }, 'withSubjects', 'withAffiliatedInstitutions');
+
+    server.create('draft-registration', {
+        id: 'decaf',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        initiator: currentUser,
+        registrationResponses,
+        branchedFrom: rootNode,
+        license: licenseReqFields,
+        provider,
+    });
 
     // server.create('draft-registration', {
     //     id: 'rrpre',

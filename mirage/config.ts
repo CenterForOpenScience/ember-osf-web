@@ -162,6 +162,8 @@ export default function(this: Server) {
         defaultPageSize: 1000,
     });
 
+    osfResource(this, 'brand', { only: ['show'] });
+
     osfResource(this, 'collection');
     osfToManyRelationship(this, 'collection', 'linkedRegistrations', {
         only: ['related', 'add', 'remove'],

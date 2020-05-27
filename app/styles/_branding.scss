@@ -1,9 +1,9 @@
 .ember-application {
     --primary-color: $color-select;
     --secondary-color: $color-bg-gray-blue;
-    --navbar-logo-img-url: 'img/cos-logo-white.svg';
+    --navbar-logo-img-url: url('images/default-brand/cos-logo-white.svg');
     --hero-logo-img-url: '';
-    --hero-background-img-url: 'img/bg-dark.jpg';
+    --hero-background-img-url: url('images/default-brand/bg-dark.jpg');
 }
 
 .brand-container {

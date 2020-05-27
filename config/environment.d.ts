@@ -65,14 +65,6 @@ declare const config: {
         } | undefined };
     };
     OSF: {
-        osfRegistrationProviderId?: string;
-        defaultBrand: {
-            primaryColor: string,
-            secondaryColor: string,
-            topnavLogoImage: string,
-            heroLogoImage: string,
-            heroBackgroundImage: string,
-        },
         clientId?: string;
         scope?: string;
         apiNamespace: string;
