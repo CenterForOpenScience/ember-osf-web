@@ -6,6 +6,7 @@
         @searchEnabled={{true}}
         @selected={{this.department}}
         @triggerClass={{local-class 'select'}}
+        @search={{perform this.searchDepartment}}
         @onchange={{action this.onSelectChange}} as |department|
     >
         {{department}}
