@@ -430,4 +430,60 @@ module('Registries | Acceptance | overview.overview', hooks => {
         // @ts-ignore
         assert.deepEqual(reg.nodeLicense!.copyright_holders, ['Jane Doe', 'John Doe']);
     });
+
+    test('File links show on registration detail', async assert => {
+        const openEndedReg = server.schema.registrationSchemas.find('open_ended_registration');
+        const registeredFrom = server.create('node', 'currentUserAdmin');
+        const fileOne = server.create('file', { target: registeredFrom });
+        const fileTwo = server.create('file', { target: registeredFrom });
+        const registrationResponses = {
+            summary: 'Test file links',
+            uploader: [fileOne.fileReference, fileTwo.fileReference],
+        };
+
+        const reg = server.create('registration', {
+            registrationSchema: openEndedReg,
+            currentUserPermissions: Object.values(Permission),
+            registrationResponses,
+            registeredFrom,
+        });
+
+        await visit(`/${reg.id}/`);
+
+        assert.dom('[data-test-read-only-file-widget]').isVisible();
+        assert.dom(`[data-test-file-link="${fileOne.id}"]`).hasText(fileOne.name);
+        assert.dom(`[data-test-file-link="${fileOne.id}"]`).hasAttribute('href', `fakedomain/${fileOne.id}`);
+        assert.dom(`[data-test-file-link="${fileTwo.id}"]`).hasText(fileTwo.name);
+        assert.dom(`[data-test-file-link="${fileTwo.id}"]`).hasAttribute('href', `fakedomain/${fileTwo.id}`);
+    });
+
+    test('File links show on registration detail from registrations list', async assert => {
+        const openEndedReg = server.schema.registrationSchemas.find('open_ended_registration');
+        const registeredFrom = server.create('node', 'currentUserAdmin');
+        const fileOne = server.create('file', { target: registeredFrom });
+        const fileTwo = server.create('file', { target: registeredFrom });
+        const registrationResponses = {
+            summary: 'Test file links',
+            uploader: [fileOne.fileReference, fileTwo.fileReference],
+        };
+
+        const reg = server.create('registration', {
+            registrationSchema: openEndedReg,
+            currentUserPermissions: Object.values(Permission),
+            registrationResponses,
+            registeredFrom,
+        });
+
+        await visit(`/--node/${registeredFrom.id}/registrations`);
+
+        assert.dom('[data-test-node-card]').exists({ count: 1 });
+
+        await click(`[data-test-node-title="${reg.id}"]`);
+
+        assert.dom('[data-test-read-only-file-widget]').isVisible();
+        assert.dom(`[data-test-file-link="${fileOne.id}"]`).hasText(fileOne.name);
+        assert.dom(`[data-test-file-link="${fileOne.id}"]`).hasAttribute('href', `fakedomain/${fileOne.id}`);
+        assert.dom(`[data-test-file-link="${fileTwo.id}"]`).hasText(fileTwo.name);
+        assert.dom(`[data-test-file-link="${fileTwo.id}"]`).hasAttribute('href', `fakedomain/${fileTwo.id}`);
+    });
 });

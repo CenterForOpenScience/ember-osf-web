@@ -1,48 +1,62 @@
-<div local-class="ServicesList" class="p-v-md">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <h2>{{t "registries.index.services.top.heading"}}</h2>
-                <p class="m-b-lg">{{t "registries.index.services.top.paragraph"}}</p>
+<div local-class='ServicesList' class='p-v-md'>
+    <div class='container'>
+        <div class='row'>
+            <div class='col-xs-12'>
+                <h2>{{t 'registries.index.services.top.heading'}}</h2>
+                <p class='m-b-lg'>{{t 'registries.index.services.top.paragraph'}}</p>
             </div>
         </div>
     </div>
-    <div class="row p-v-md">
-        <div class="col-sm-4 text-center">
-            <a href="http://ridie.3ieimpact.org/">
-                <div local-class="ServicesList__ProviderLogo provider-ridie"></div>
+    <div class='row p-v-md'>
+        <div class='col-sm-4 text-center'>
+            <a href='http://ridie.3ieimpact.org/'>
+                <div local-class='ServicesList__ProviderLogo provider-ridie'></div>
             </a>
         </div>
-        <div class="col-sm-4 text-center">
-            <a href="http://egap.org/content/registration">
-                <div local-class="ServicesList__ProviderLogo provider-egap"></div>
+        <div class='col-sm-4 text-center'>
+            <a href='http://egap.org/content/registration'>
+                <div local-class='ServicesList__ProviderLogo provider-egap'></div>
             </a>
         </div>
-        <div class="col-sm-4 text-center">
-            <a href="https://cos.io/prereg/">
-                <div local-class="ServicesList__ProviderLogo provider-prereg"></div>
+        <div class='col-sm-4 text-center'>
+            <a href='https://cos.io/prereg/'>
+                <div local-class='ServicesList__ProviderLogo provider-prereg'></div>
             </a>
         </div>
     </div>
-    <div class="row p-v-md">
-        <div class="col-md-12 text-center">
-            <p class="lead">
-                {{t "registries.index.services.bottom.p1"}}
-                <div class="p-t-sm">
-                    {{t "registries.index.services.bottom.div.line1"}}
-                    <a local-class="ServicesList__ExternalLink" href="https://github.com/CenterForOpenScience/ember-osf-registries"
-                        onclick={{action "click" "link" "Index - GitHub Repo" "https://github.com/CenterForOpenScience/ember-osf-registries" target=analytics}}>
-                        {{~t "registries.index.services.bottom.div.linkText1"~}}
+    <div class='row p-v-md'>
+        <div class='col-md-12 text-center'>
+            <p class='lead'>
+                {{t 'registries.index.services.bottom.p1'}}
+                <div class='p-t-sm'>
+                    {{t 'registries.index.services.bottom.div.line1'}}
+                    <a
+                        local-class='ServicesList__ExternalLink'
+                        href='https://github.com/CenterForOpenScience/ember-osf-registries'
+                        onclick={{action 'click' 'link' 'Index - GitHub Repo' 'https://github.com/CenterForOpenScience/ember-osf-registries'
+                            target=this.analytics}}
+                    >
+                        {{~t 'registries.index.services.bottom.div.linkText1'~}}
                     </a>
-                    {{t "registries.index.services.bottom.div.line2"}}
-                    <a local-class="ServicesList__ExternalLink" href="https://cos.io/our-products/product-roadmap/"
-                        onclick={{action "click" "link" "Index - public roadmap" "https://cos.io/our-products/product-roadmap/" target=analytics}}>
-                        {{~t "registries.index.services.bottom.div.linkText2"~}}
+                    {{t 'registries.index.services.bottom.div.line2'}}
+                    <a
+                        local-class='ServicesList__ExternalLink'
+                        href='https://cos.io/our-products/product-roadmap/'
+                        onclick={{action 'click' 'link' 'Index - public roadmap' 'https://cos.io/our-products/product-roadmap/'
+                            target=this.analytics}}
+                    >
+                        {{~t 'registries.index.services.bottom.div.linkText2'~}}
                     </a>
-                    {{t "registries.index.services.bottom.div.line3"}}
+                    {{t 'registries.index.services.bottom.div.line3'}}
                 </div>
             </p>
-            <a href="mailto:contact@osf.io" class="btn btn-info btn-lg" onclick={{action "click" "link" "Index - Contact" target=analytics}}>{{t "registries.index.services.bottom.contact"}}</a>
+            <a
+                href='mailto:contact@osf.io'
+                class='btn btn-info btn-lg'
+                onclick={{action 'click' 'link' 'Index - Contact' target=this.analytics}}
+            >
+                {{t 'registries.index.services.bottom.contact'}}
+            </a>
         </div>
     </div>
 </div>

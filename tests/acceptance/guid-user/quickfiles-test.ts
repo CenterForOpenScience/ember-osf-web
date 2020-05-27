@@ -305,9 +305,6 @@ module('Acceptance | Guid User Quickfiles', hooks => {
                 dateModified: '2016-08-07T16:43:18.319Z',
                 guid: 'xyzzy',
                 currentVersion: 7,
-                extra: {
-                    downloads: 42,
-                },
                 user: currentUser,
             });
             const date = moment('2016-08-07T16:43:18.319Z').format('YYYY-MM-DD h:mm A');
@@ -323,7 +320,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             assert.dom('[data-test-version-link]')
                 .containsText('7');
             assert.dom('[data-test-download-count]')
-                .containsText('42');
+                .containsText(file.extra.downloads);
             assert.dom('[data-test-date-modified]')
                 .hasText(date);
         });

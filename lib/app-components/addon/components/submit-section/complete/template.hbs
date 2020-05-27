@@ -1,18 +1,21 @@
 {{#if @showReopen}}
-    {{! template-lint-disable invalid-interactive }}
-    <div
-        data-test-submit-section-click-to-edit
-        role='{{if this.editable 'button'}}'
-        {{action 'edit'}}
-    >
-        {{! template-lint-enable invalid-interactive }}
-        {{yield}}
-        <p
-            local-class='edit-message'
-            class='text-smaller'
-            hidden={{not this.editable}}
+    {{#if this.editable}}
+        <div
+            data-test-submit-section-click-to-edit
+            role='button'
+            {{on 'click' this.edit}}
         >
-            {{t 'app_components.submit_section.click_to_edit'}}
-        </p>
-    </div>
+            {{yield}}
+            <p
+                local-class='edit-message'
+                class='text-smaller'
+            >
+                {{t 'app_components.submit_section.click_to_edit'}}
+            </p>
+        </div>
+    {{else}}
+        <div data-test-submit-section-click-to-edit>
+            {{yield}}
+        </div>
+    {{/if}}
 {{/if}}

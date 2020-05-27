@@ -6,9 +6,9 @@
             {{t 'institutions.dashboard.last_update'}}: {{this.lastUpdatedFromNow}}
         </div>
     </div>
-    <div style='display: flex;'>
+    <div local-class='dashboard-wrapper'>
         <div local-class='table-wrapper'>
-            <Institutions::Dashboard::-Components::InstitutionalUsersList @model={{this.model}} />
+            <Institutions::Dashboard::-Components::InstitutionalUsersList @modelTaskInstance={{this.model.taskInstance}} />
         </div>
         <div local-class='panel-wrapper'>
             <OsfLink
@@ -29,8 +29,8 @@
                     @isLoading={{this.model.taskInstance.isRunning}}
                     @title={{t 'institutions.dashboard.users_connected_panel'}}
             >
-                {{#if this.institution.statSummary}}
-                    <h3>{{this.institution.statSummary.ssoUsersConnected}}</h3>
+                {{#if this.summaryMetrics}}
+                    <h3>{{this.summaryMetrics.userCount}}</h3>
                 {{else}}
                     {{t 'institutions.dashboard.empty'}}
                 {{/if}}
@@ -40,14 +40,14 @@
                     @isLoading={{this.model.taskInstance.isRunning}}
                     @title={{t 'institutions.dashboard.projects_panel'}}
             >
-                <Institutions::Dashboard::-Components::ProjectsPanel @institution={{this.institution}} />
+                <Institutions::Dashboard::-Components::ProjectsPanel @summaryMetrics={{this.summaryMetrics}} />
             </Institutions::Dashboard::-Components::Panel>
             <Institutions::Dashboard::-Components::Panel
                     local-class='departments'
                     @isLoading={{this.model.taskInstance.isRunning}}
                     @title={{t 'institutions.dashboard.departments_panel'}}
             >
-                <Institutions::Dashboard::-Components::DepartmentsPanel @institution={{this.institution}} />
+                <Institutions::Dashboard::-Components::DepartmentsPanel @departments={{this.departmentMetrics}} />
             </Institutions::Dashboard::-Components::Panel>
         </div>
     </div>

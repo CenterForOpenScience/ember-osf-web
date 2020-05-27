@@ -19,7 +19,7 @@
     >
         {{tag}}
     </span>
-    {{#if (not this.readOnly)}}
+    {{#unless this.readOnly}}
         <OsfButton
             local-class='RemoveButton'
             data-analytics-name='Remove Tag'
@@ -29,5 +29,5 @@
         >
             <FaIcon @icon='times' @fixedWidth={{true}} />
         </OsfButton>
-    {{/if}}
+    {{/unless}}
 </TagInput>

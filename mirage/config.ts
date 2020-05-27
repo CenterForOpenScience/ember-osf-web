@@ -17,6 +17,7 @@ import {
 import { createFork, createRegistrationFork } from './views/fork';
 import { guidDetail } from './views/guid';
 import { identifierCreate } from './views/identifier';
+import { summaryMetrics } from './views/institution';
 import { createNode } from './views/node';
 import { osfNestedResource, osfResource, osfToManyRelationship } from './views/osf-resource';
 import { getProviderSubjects } from './views/provider-subjects';
@@ -48,10 +49,20 @@ export default function(this: Server) {
     this.get('/guids/:id', guidDetail);
 
     osfResource(this, 'institution', { only: ['index', 'show'], defaultPageSize: 1000 });
-    osfNestedResource(this, 'institution', 'institutionalUsers', {
+    osfNestedResource(this, 'institution', 'users', {
         only: ['index'],
         path: '/institutions/:parentID/users',
     });
+    osfNestedResource(this, 'institution', 'userMetrics', {
+        only: ['index'],
+        path: '/institutions/:parentID/metrics/users',
+    });
+    osfNestedResource(this, 'institution', 'departmentMetrics', {
+        only: ['index'],
+        path: '/institutions/:parentID/metrics/departments',
+    });
+    this.get('/institutions/:id/metrics/summary', summaryMetrics);
+
     osfResource(this, 'license', { only: ['index', 'show'] });
     osfResource(this, 'citation-style', {
         only: ['index'],

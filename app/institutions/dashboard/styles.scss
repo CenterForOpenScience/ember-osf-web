@@ -9,6 +9,10 @@
     }
 }
 
+.dashboard-wrapper {
+    display: flex;
+}
+
 .table-wrapper {
     width: 75%;
     padding-right: 15px;
@@ -40,7 +44,7 @@
     :global(.panel-body) {
         h3 {
             margin: 0;
-            font-size: 7.5vw;
+            font-size: 6vw;
             font-weight: bold;
         }
     }
@@ -66,7 +70,7 @@
     .sso-users-connected {
         :global(.panel-body) {
             h3 {
-                font-size: 120px;
+                font-size: 96px;
             }
         }
     }

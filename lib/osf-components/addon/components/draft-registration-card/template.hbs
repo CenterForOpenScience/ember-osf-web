@@ -5,96 +5,108 @@
 >
     <h4 local-class='DraftRegistratrionCard__title' data-test-draft-registration-card-title>
         {{#if this.draftRegistration}}
-            {{this.draftRegistration.registrationSchema.name}}
+            <OsfLink
+                data-analytics-name='view_registration'
+                @route='registries.drafts.draft'
+                @models={{array this.draftRegistration.id}}
+            >
+                {{this.draftRegistration.title}}
+            </OsfLink>
         {{else}}
             <ContentPlaceholders as |placeholder|>
-                <placeholder.text @lines={{1}} />
+                <placeholder.text
+                    data-test-header-placeholder
+                    @lines={{1}}
+                />
             </ContentPlaceholders>
         {{/if}}
     </h4>
-    <h4 local-class='DraftRegistratrionCard__body' data-test-draft-registration-card-body>
-        <small>
-            {{#if this.draftRegistration}}
-                {{#if this.showProgress}}
-                    <div class='progress progress-bar-md' data-test-draft-registration-card-progress-bar>
-                        <div class='progress-bar' style={{this.progressStyle}}></div>
-                    </div>
-                {{/if}}
-                <p>
+    <section local-class='DraftRegistrationCard__body' data-test-draft-registration-card-body>
+        {{#if this.draftRegistration}}
+            <small>
+                <p data-test-initiated-by>
                     {{t 'osf-components.draft-registration-card.initiated_by'}}
                     {{this.draftRegistration.initiator.fullName}}
                 </p>
-                <p>
+                <p data-test-form-type>
+                    {{t 'osf-components.draft-registration-card.form_type'}}
+                    {{this.draftRegistration.registrationSchema.name}}
+                </p>
+                <p data-test-time-initiated>
                     {{t 'osf-components.draft-registration-card.started'}}
                     {{moment this.draftRegistration.datetimeInitiated}}
                 </p>
-                <p>
+                <p data-test-time-updated>
                     {{t 'osf-components.draft-registration-card.last_updated'}}
                     {{moment this.draftRegistration.datetimeUpdated}}
                 </p>
-            {{else}}
-                <ContentPlaceholders as |placeholder|>
-                    <placeholder.text @lines={{3}} />
-                </ContentPlaceholders>
-            {{/if}}
-        </small>
-        <div class='row'>
-            <div class='col-md-10'>
-                <OsfButton
-                    data-analytics-name='Edit'
-                    @type='default' 
-                    @onClick={{action this.edit}}
-                    @disabled={{not this.draftRegistration}}
-                >
-                    {{fa-icon 'pencil'}} {{t 'general.edit'}}
-                </OsfButton><OsfButton {{! template-lint-disable }}
-                    data-analytics-name='Delete'
-                    @type='default' 
-                    @onClick={{action this.delete}}
-                    disabled={{not this.draftRegistration}}
-                >
-                    {{fa-icon 'times'}} {{t 'general.delete'}}
-                </OsfButton>
-                <BsModal
-                    @open={{this.deleteModalOpen}}
-                    @onHidden={{action this.cancelDelete}}
-                    class='delete_draft_registration' 
-                    as |modal|
-                >
-                    <modal.header>
-                        <h4>{{t 'general.please_confirm'}}</h4>
-                    </modal.header>
-                    <modal.body>
-                        {{t 'osf-components.draft-registration-card.delete_draft_confirm'}}
-                    </modal.body>
-                    <modal.footer data-analytics-scope='Draft registrations delete modal'>
-                        <OsfButton
-                            data-analytics-name='Cancel delete'
-                            @onClick={{action modal.close}}
-                            @type='default'
-                        >
-                            {{t 'general.cancel'}}
-                        </OsfButton>
-                        <OsfButton
-                            data-analytics-name='Confirm delete'
-                            @onClick={{action this.confirmDelete}}
-                            @type='danger'
-                        >
-                            {{t 'general.delete'}}
-                        </OsfButton>
-                    </modal.footer>
-                </BsModal>
+            </small>
+            <div class='row'>
+                <div class='col-md-10'>
+                    <OsfLink
+                        data-analytics-name='Edit'
+                        class='btn btn-default'
+                        @route='registries.drafts.draft'
+                        @models={{array @draftRegistration.id}}
+                    >
+                        {{fa-icon 'pencil'}} {{t 'general.edit'}}
+                    </OsfLink>
+                    <OsfButton
+                        data-analytics-name='Delete'
+                        @type='default'
+                        @onClick={{action this.delete}}
+                        disabled={{not this.draftRegistration}}
+                    >
+                        {{fa-icon 'times'}} {{t 'general.delete'}}
+                    </OsfButton>
+                    <BsModal
+                        @open={{this.deleteModalOpen}}
+                        @onHidden={{action this.cancelDelete}}
+                        class='delete_draft_registration'
+                        as |modal|
+                    >
+                        <modal.header>
+                            <h4>{{t 'general.please_confirm'}}</h4>
+                        </modal.header>
+                        <modal.body>
+                            {{t 'osf-components.draft-registration-card.delete_draft_confirm'}}
+                        </modal.body>
+                        <modal.footer data-analytics-scope='Draft registrations delete modal'>
+                            <OsfButton
+                                data-analytics-name='Cancel delete'
+                                @onClick={{action modal.close}}
+                                @type='default'
+                            >
+                                {{t 'general.cancel'}}
+                            </OsfButton>
+                            <OsfButton
+                                data-analytics-name='Confirm delete'
+                                @onClick={{action this.confirmDelete}}
+                                @type='danger'
+                            >
+                                {{t 'general.delete'}}
+                            </OsfButton>
+                        </modal.footer>
+                    </BsModal>
+                </div>
+                <div class='col-md-1'>
+                    <OsfLink
+                        data-analytics-name='Review'
+                        class='btn btn-default'
+                        @route='registries.drafts.draft.review'
+                        @models={{array this.draftRegistration.id}}
+                    >
+                        {{t 'osf-components.draft-registration-card.review'}}
+                    </OsfLink>
+                </div>
             </div>
-            <div class='col-md-1'>
-                <OsfButton
-                    data-analytics-name='Register'
-                    @type='default'
-                    @onClick={{action this.register}}
-                    @disabled={{not this.enableRegister}}
-                >
-                    {{t 'osf-components.draft-registration-card.register'}}
-                </OsfButton>
-            </div>
-        </div>
-    </h4>
+        {{else}}
+            <ContentPlaceholders as |placeholder|>
+                <placeholder.text
+                    data-test-content-placeholder
+                    @lines={{4}}
+                />
+            </ContentPlaceholders>
+        {{/if}}
+    </section>
 </div>

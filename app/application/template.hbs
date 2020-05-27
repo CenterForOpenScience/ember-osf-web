@@ -8,9 +8,9 @@
     {{#unless this.disableHeader}}
         {{#if this.theme.isProvider}}
             <style>
-                {{! template-lint-disable bare-strings }}
+                {{!-- template-lint-disable no-bare-strings --}}
                 @import url('{{this.theme.stylesheet}}');
-                {{! template-lint-enable bare-strings }}
+                {{!-- template-lint-enable no-bare-strings --}}
             </style>
             <div id='branded-navbar'></div>
         {{else}}
@@ -18,9 +18,7 @@
         {{/if}}
     {{/unless}}
     {{#if this.shouldShowVerifyEmailModals}}
-        {{! template-lint-disable no-implicit-this }}
-        {{application/-components/verify-email-modal}}
-        {{! template-lint-enable no-implicit-this }}
+        <Application::-Components::VerifyEmailModal />
     {{/if}}
     {{!--
     NOTE: the global Application__page class is used in registries

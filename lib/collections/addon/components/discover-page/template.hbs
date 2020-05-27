@@ -66,6 +66,7 @@
                         {{!HELP BUTTON}}
                         <button
                             data-test-help-button
+                            type='button'
                             class='btn btn-default'
                             aria-label={{t 'collections.discover_page.luceneHelp'}}
                             {{action this.toggleShowLuceneHelp}}
@@ -75,6 +76,7 @@
                         {{!SEARCH BUTTON}}
                         <button
                             data-test-search-button
+                            type='button'
                             class='btn btn-default'
                             {{action this.searchAction}}
                         >
@@ -86,9 +88,9 @@
                 <SearchHelpModal @isOpen={{this.showLuceneHelp}} />
 
                 {{!NUMBER OF SEARCHABLE RESULTS}}
-                {{#if (not this.theme.isProvider)}}
+                {{#unless this.theme.isProvider}}
                     <TotalShareResults />
-                {{/if}}
+                {{/unless}}
             </div>
         </div>
 
@@ -116,6 +118,7 @@
                             <ddm.item>
                                 <button
                                     data-test-sort-by-item={{sortChoice.sortBy}}
+                                    type='button'
                                     class='btn btn-link'
                                     local-class='listOption'
                                     {{action this.selectSortOption sortChoice.sortBy}}

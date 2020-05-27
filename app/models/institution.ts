@@ -2,13 +2,15 @@ import { computed } from '@ember/object';
 import { htmlSafe } from '@ember/string';
 import DS from 'ember-data';
 
-import InstitutionalUserModel from './institutional-user';
+import InstitutionSummaryMetricModel from 'ember-osf-web/models/institution-summary-metric';
+import InstitutionDepartmentsModel from './institution-department';
+import InstitutionUserModel from './institution-user';
 import NodeModel from './node';
 import OsfModel, { OsfLinks } from './osf-model';
 import RegistrationModel from './registration';
 import UserModel from './user';
 
-const { attr, hasMany } = DS;
+const { attr, belongsTo, hasMany } = DS;
 
 export interface InstitutionLinks extends OsfLinks {
     csv: string;
@@ -22,16 +24,9 @@ export interface Assets {
 }
 /* eslint-enable camelcase */
 
-export interface StatSummary {
-    departments: Department[];
-    ssoUsersConnected: number;
-    numPrivateProjects: number;
-    numPublicProjects: number;
-}
-
 export interface Department {
     name: string;
-    numUsers: number;
+    numberOfUsers: number;
 }
 
 export default class InstitutionModel extends OsfModel {
@@ -42,13 +37,9 @@ export default class InstitutionModel extends OsfModel {
     @attr('string') authUrl!: string;
     @attr('object') assets!: Partial<Assets>;
     @attr('boolean', { defaultValue: false }) currentUserIsAdmin!: boolean;
-    @attr('object') statSummary!: StatSummary;
     @attr('date') lastUpdated!: Date;
 
-    @hasMany('institutional-user', { inverse: 'institution' })
-    institutionalUsers!: DS.PromiseManyArray<InstitutionalUserModel>;
-
-    // TODO Might want to replace calls to `users` with `institutionalUsers.user`?
+    // TODO Might want to replace calls to `users` with `institutionUsers.user`?
     @hasMany('user', { inverse: 'institutions' })
     users!: DS.PromiseManyArray<UserModel>;
 
@@ -57,6 +48,15 @@ export default class InstitutionModel extends OsfModel {
 
     @hasMany('registration', { inverse: 'affiliatedInstitutions' })
     registrations!: DS.PromiseManyArray<RegistrationModel>;
+
+    @hasMany('institution-department')
+    departmentMetrics!: DS.PromiseManyArray<InstitutionDepartmentsModel>;
+
+    @hasMany('institution-user')
+    userMetrics!: DS.PromiseManyArray<InstitutionUserModel>;
+
+    @belongsTo('institution-summary-metric')
+    summaryMetrics!: DS.PromiseObject<InstitutionSummaryMetricModel> & InstitutionSummaryMetricModel;
 
     // This is for the title helper, which does its own encoding of unsafe characters
     @computed('name')

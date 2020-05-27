@@ -1,12 +1,12 @@
 <div class='row'>
-    {{#each charts as |chartSpec|}}
+    {{#each this.charts as |chartSpec|}}
         <div class='col-sm-6 col-xs-12'>
             {{analytics-charts/x-chart-wrapper
-                nodeTaskInstance=nodeTaskInstance
-                startDate=startDate
-                endDate=endDate
+                nodeTaskInstance=@nodeTaskInstance
+                startDate=@startDate
+                endDate=@endDate
                 chartSpec=chartSpec
-                chartEnabled=chartsEnabled
+                chartEnabled=@chartsEnabled
             }}
         </div>
     {{/each}}

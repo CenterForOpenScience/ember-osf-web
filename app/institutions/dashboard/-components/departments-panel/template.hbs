@@ -1,18 +1,18 @@
-{{#if this.institution.statSummary}}
+{{#if this.departments}}
     <div
-            data-test-chart
-            local-class='ember-chart'
+        data-test-chart
+        local-class='ember-chart'
     >
         <EmberChart
-                @type='pie'
-                @data={{this.chartData}}
-                @options={{this.chartOptions}}
+            @type='pie'
+            @data={{this.chartData}}
+            @options={{this.chartOptions}}
         />
     </div>
     <div local-class='department'>
         <h3>{{this.activeDepartment.name}}</h3>
         <p>
-            <strong>{{this.activeDepartmentPercentage}}%:</strong> {{this.activeDepartment.numUsers}} {{t 'institutions.dashboard.users'}}
+            <strong>{{this.activeDepartmentPercentage}}%:</strong> {{this.activeDepartment.numberOfUsers}} {{t 'institutions.dashboard.users'}}
         </p>
     </div>
 {{else}}

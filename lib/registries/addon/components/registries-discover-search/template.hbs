@@ -1,16 +1,16 @@
-<div local-class="Discover__Header">
-    <div class="container">
+<div local-class='Discover__Header'>
+    <div class='container'>
     </div>
 </div>
 
-<div local-class="Discover__Body">
-    <div class="container">
-        <div class="row">
+<div local-class='Discover__Body'>
+    <div class='container'>
+        <div class='row'>
             {{yield (hash
-                results=(component 'registries-discover-search/x-results' results)
+                results=(component 'registries-discover-search/x-results' @results)
                 sidebar=(component 'registries-discover-search/x-sidebar'
-                    searchOptions=searchOptions
-                    onSearchOptionsUpdated=(action onSearchOptionsUpdated)
+                    searchOptions=@searchOptions
+                    onSearchOptionsUpdated=(action @onSearchOptionsUpdated)
                 )
             )}}
         </div>

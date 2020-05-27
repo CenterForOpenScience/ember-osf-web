@@ -13,16 +13,16 @@
                 {{/link-to}}
 
                 {{! Navigation toggle - XS screen }}
-                <a
-                    role='button'
+                <button
+                    type='button'
                     class='navbar-toggle collapsed'
-                    onclick={{action this.toggleSecondaryNavigation}}
                     aria-label={{t 'navbar.toggle_secondary'}}
+                    {{on 'click' this.toggleSecondaryNavigation}}
                 >
                     <span class='icon-bar'></span>
                     <span class='icon-bar'></span>
                     <span class='icon-bar'></span>
-                </a>
+                </button>
             </div>
 
             {{! Secondary nav links }}

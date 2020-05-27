@@ -5,8 +5,7 @@ import Institution from 'ember-osf-web/models/institution';
 import { placekitten, randomGravatar } from '../utils';
 
 export interface InstitutionTraits {
-    withInstitutionalUsers: Trait;
-    withStatSummary: Trait;
+    withMetrics: Trait;
 }
 
 export default Factory.extend<Institution & InstitutionTraits>({
@@ -26,22 +25,20 @@ export default Factory.extend<Institution & InstitutionTraits>({
     lastUpdated() {
         return faker.date.recent();
     },
-    withInstitutionalUsers: trait<Institution>({
+    withMetrics: trait<Institution>({
         afterCreate(institution, server) {
-            server.createList('institutional-user', 15, { institution });
-        },
-    }),
-    withStatSummary: trait<Institution>({
-        statSummary() {
-            return {
-                departments: ['Architecture', 'Biology', 'Psychology'].map(department => ({
-                    name: department,
-                    numUsers: faker.random.number({ min: 0, max: 99 }),
-                })),
-                ssoUsersConnected: faker.random.number({ min: 0, max: 999 }),
-                numPrivateProjects: faker.random.number({ min: 0, max: 999 }),
-                numPublicProjects: faker.random.number({ min: 0, max: 999 }),
-            };
+            const userMetrics = server.createList('institution-user', 15);
+            const departmentMetrics = server.createList('institution-department', 12);
+            const userCount = userMetrics.length;
+            let publicProjectCount = 0;
+            let privateProjectCount = 0;
+            userMetrics.forEach(({ publicProjects, privateProjects }) => {
+                publicProjectCount += publicProjects;
+                privateProjectCount += privateProjects;
+            });
+            const summaryMetrics = server.create('institution-summary-metric', { id: institution.id });
+            summaryMetrics.update({ publicProjectCount, privateProjectCount, userCount });
+            institution.update({ userMetrics, departmentMetrics, summaryMetrics });
         },
     }),
 });

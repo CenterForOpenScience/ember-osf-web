@@ -4,12 +4,13 @@ import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { ChartData, ChartOptions } from 'ember-cli-chart';
 import Intl from 'ember-intl/services/intl';
-import InstitutionModel from 'ember-osf-web/models/institution';
+
+import InstitutionSummaryMetricModel from 'ember-osf-web/models/institution-summary-metric';
 
 export default class ProjectsPanel extends Component {
-    institution!: InstitutionModel;
-    @alias('institution.statSummary.numPublicProjects') numPublicProjects!: number;
-    @alias('institution.statSummary.numPrivateProjects') numPrivateProjects!: number;
+    summaryMetrics!: InstitutionSummaryMetricModel;
+    @alias('summaryMetrics.privateProjectCount') numPrivateProjects!: number;
+    @alias('summaryMetrics.publicProjectCount') numPublicProjects!: number;
     @service intl!: Intl;
 
     chartOptions: ChartOptions = {
@@ -19,12 +20,12 @@ export default class ProjectsPanel extends Component {
         },
     };
 
-    @computed('institution.statSummary.{numPrivateProjects,numPublicProjects}')
+    @computed('numPrivateProjects', 'numPublicProjects')
     get numProjects(): number {
         return this.numPublicProjects + this.numPrivateProjects;
     }
 
-    @computed('institution.statSummary.{numPrivateProjects,numPublicProjects}')
+    @computed('numPrivateProjects', 'numPublicProjects')
     get chartData(): ChartData {
         return {
             labels: [

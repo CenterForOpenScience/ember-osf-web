@@ -353,6 +353,7 @@ module('Acceptance | guid file', hooks => {
                 'file',
                 {
                     user: currentUser,
+                    currentVersion: 3,
                 },
             );
             await visit(`--file/${file.guid}`);

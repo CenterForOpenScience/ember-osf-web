@@ -23,28 +23,35 @@ export function getApiErrorMessage(error: ErrorDocument): string {
 }
 
 export function getApiErrors(error: ErrorDocument): Record<string, ErrorObject> {
-    return error.errors.reduce(
-        (acc: Record<string, ErrorObject>, val: ErrorObject, index) => (
-            { ...acc, [`api_error_${index}`]: val }
-        ),
-        {},
-    );
+    if (Array.isArray(error.errors)) {
+        return error.errors.reduce(
+            (acc: Record<string, ErrorObject>, val: ErrorObject, index) => (
+                { ...acc, [`api_error_${index}`]: val }
+            ),
+            {},
+        );
+    }
+    return {};
 }
 
 // send exception info to sentry, if it's hooked up
 /* eslint-disable consistent-return */
 export default function captureException(
-    error: ErrorDocument,
+    error: Error | ErrorDocument,
     extras: { errorMessage?: string } = {},
 ) {
-    const apiErrors = getApiErrors(error);
-    if (extras.errorMessage) {
-        /* eslint-disable-next-line no-param-reassign */
-        extras.errorMessage = stripHtmlTags(extras.errorMessage.toString());
+    let apiErrors = {};
+    if (!(error instanceof Error)) {
+        apiErrors = getApiErrors(error);
+        if (extras.errorMessage) {
+            /* eslint-disable-next-line no-param-reassign */
+            extras.errorMessage = stripHtmlTags(extras.errorMessage.toString());
+        }
     }
+
     const extra = { ...extras, ...apiErrors };
 
-    if (Raven) {
+    if (typeof Raven !== 'undefined') {
         return Raven.captureException(error, { extra });
     }
 
