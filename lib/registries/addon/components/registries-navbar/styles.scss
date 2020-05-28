@@ -60,7 +60,7 @@
     height: 35px;
     margin-right: 5px;
     background-size: 100%;
-    background-image: url('img/cos-logo-white.svg');
+    background-image: var(--navbar-logo-img-url);
     background-repeat: no-repeat;
 }
 
@@ -166,16 +166,5 @@
 
     & i {
         font-size: 20px;
-    }
-}
-
-:global(.brand-container) {
-    .Logo {
-        background-image: var(--navbar-logo-img-url);
-        width: 35px;
-        height: 35px;
-        margin-right: 5px;
-        background-size: 100%;
-        background-repeat: no-repeat;
     }
 }
