@@ -1,13 +1,13 @@
+import DS from 'ember-data';
 import Modifier from 'ember-oo-modifiers';
-
-import Brand from 'ember-osf-web/models/brand';
+import BrandModel from 'ember-osf-web/models/brand';
 
 class WithBrandingModifier extends Modifier {
-    didReceiveArguments([brand]: [Brand | null]) {
+    didReceiveArguments([brand]: [BrandModel | DS.PromiseObject<BrandModel>]) {
         const { element } = this;
         const elementStyle = element.style;
 
-        if (brand) {
+        if (brand.content) {
             element.classList.add('brand-container');
             elementStyle.setProperty('--primary-color', brand.primaryColor);
             elementStyle.setProperty('--secondary-color', brand.secondaryColor);
