@@ -33,6 +33,10 @@
     }
 }
 
+:global(.brand-container) .Service.Dropdown {
+    display: none;
+}
+
 .DropdownMenu {
     background-color: $midnight-blue;
     border-radius: 2px;
