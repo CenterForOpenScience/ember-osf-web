@@ -23,7 +23,7 @@
 }
 
 .RegistriesHeader__Brand {
-    background: url('img/osf-registries-white.png') top center no-repeat;
+    background: var(--hero-logo-img-url) top center no-repeat;
     background-size: contain;
     height: 70px;
 }
