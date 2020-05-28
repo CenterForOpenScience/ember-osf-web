@@ -13,14 +13,6 @@
     border-radius: 2px;
     user-select: none;
     color: $color-text-white;
-
-    &:hover {
-        filter: brightness(90%);
-    }
-
-    &:active {
-        filter: brightness(80%);
-    }
 }
 
 .SmallButton {
@@ -40,11 +32,27 @@
     background-color: $color-bg-white;
     border: 1px solid $color-border-gray-light;
     color: var(--primary-color);
+
+    &:hover {
+        filter: brightness(90%);
+    }
+
+    &:active {
+        filter: brightness(80%);
+    }
 }
 
 .PrimaryButton {
     background-color: var(--primary-color);
     color: $color-text-white;
+
+    &:hover {
+        filter: brightness(90%);
+    }
+
+    &:active {
+        filter: brightness(80%);
+    }
 }
 
 .CreateButton {

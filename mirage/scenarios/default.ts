@@ -78,7 +78,7 @@ function registrationScenario(
     }, 'withSubjects', 'withAffiliatedInstitutions');
 
     server.create('draft-registration', {
-        id: 'decaf',
+        id: 'brand',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         initiator: currentUser,
         registrationResponses,

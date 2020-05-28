@@ -6,7 +6,7 @@ export default class BrandColorInputs extends Component {
 
     @action
     setPrimaryColor() {
-        const brandContainers = Array.from(document.getElementsByClassName('brand-container'));
+        const brandContainers = Array.from(document.getElementsByClassName('with-custom-branding'));
         // @ts-ignore - style is present on CSSStyleDeclaration
         brandContainers.map(container => container.style).forEach(style => {
             style.setProperty('--primary-color', this.primaryColor);
