@@ -13,6 +13,14 @@
     border-radius: 2px;
     user-select: none;
     color: $color-text-white;
+
+    &:focus {
+    }
+
+    &:active {
+        // TODO: color variable
+        box-shadow: inset 0px 1px 2px rgba(38,57,71,0.2);
+    }
 }
 
 .SmallButton {
@@ -34,11 +42,8 @@
     color: var(--primary-color);
 
     &:hover {
-        filter: brightness(90%);
-    }
-
-    &:active {
-        filter: brightness(80%);
+        // TODO: color variable
+        border: 1px solid #263947;
     }
 }
 
@@ -47,11 +52,7 @@
     color: $color-text-white;
 
     &:hover {
-        filter: brightness(90%);
-    }
-
-    &:active {
-        filter: brightness(80%);
+        background-color: var(--secondary-color);
     }
 }
 
