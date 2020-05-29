@@ -1,5 +1,7 @@
 .Container {
     border: 1px solid $color-border-gray;
+    overflow: scroll;
+    max-height: 500px;
 }
 
 .Heading {
