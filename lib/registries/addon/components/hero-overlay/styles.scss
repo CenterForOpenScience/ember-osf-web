@@ -31,7 +31,7 @@
     &::after {
         @include primary-color-bg;
         display: block;
-        z-index: -1; /* should be in front of the ::after defined below */
+        z-index: -1; /* should be in front of the ::before defined below */
     }
 }
 

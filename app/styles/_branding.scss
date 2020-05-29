@@ -6,16 +6,9 @@
     --hero-background-img-url: url('images/default-brand/bg-dark.jpg');
 }
 
-.with-custom-branding {
+:global(.with-custom-branding) {
+    // TODO: turn all links into OSF links and then we can remove this rule?
     a:hover {
         color: var(--primary-color);
-    }
-
-    .emberTagInput .emberTagInput-tag {
-        background: $color-bg-gray-light;
-
-        &:hover {
-            background: var(--primary-color);
-        }
     }
 }
