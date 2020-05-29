@@ -7,7 +7,7 @@
 }
 
 :global(.with-custom-branding) {
-    // TODO: turn all links into OSF links and then we can remove this rule?
+    // TODO: audit all links and turn them into OSF links and then we can remove this rule?
     a:hover {
         color: var(--primary-color);
     }

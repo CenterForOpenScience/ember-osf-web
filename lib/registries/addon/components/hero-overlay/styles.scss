@@ -13,7 +13,8 @@
 
     &::before {
         @include primary-color-bg;
-        background: var(--hero-background-img-url) cover;
+        background: var(--hero-background-img-url);
+        background-size: cover;
         z-index: -2; /* should be behind the ::after defined below */
         display: block;
     }
