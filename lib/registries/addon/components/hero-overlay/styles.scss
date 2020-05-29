@@ -20,14 +20,16 @@
         filter: grayscale(1);
     }
 
+    h1 {
+        color: $color-text-white;
+    }
+}
+
+:global(.with-custom-branding) .HeroOverlay {
     &::after {
         @include primary-color-bg;
         display: block;
         z-index: -1;
-    }
-
-    h1 {
-        color: $color-text-white;
     }
 }
 
