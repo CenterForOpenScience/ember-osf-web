@@ -26,11 +26,13 @@
 
 :global(.with-custom-branding) .HeroOverlay {
     &::before {
+        opacity: 0.4;
         filter: grayscale(1);
     }
 
     &::after {
         @include primary-color-bg;
+        opacity: 0.4;
         display: block;
         z-index: -1; /* should be in front of the ::before defined below */
     }

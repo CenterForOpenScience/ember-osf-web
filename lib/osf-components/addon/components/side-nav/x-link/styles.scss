@@ -32,7 +32,8 @@ $sidenav-link-height: 40px;
         position: relative;
 
         &::before {
-            @include primary-color-bg(0.2);
+            @include primary-color-bg;
+            opacity: 0.2;
             border: solid 1px $color-border-white;
             border-radius: 5px;
         }
@@ -140,7 +141,8 @@ $sidenav-link-height: 40px;
         position: relative;
 
         &::before {
-            @include primary-color-bg(0.2);
+            @include primary-color-bg;
+            opacity: 0.2;
         }
     }
 

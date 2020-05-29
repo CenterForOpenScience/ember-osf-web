@@ -16,6 +16,7 @@
 
     &::before {
         @include primary-color-bg;
+        opacity: 0.4;
         background-image: url('img/bg-light.jpg');
         background-repeat: no-repeat;
         background-size: cover;
@@ -24,6 +25,7 @@
 
     &::after {
         @include primary-color-bg;
+        opacity: 0.4;
         display: block;
         z-index: 1;
     }
