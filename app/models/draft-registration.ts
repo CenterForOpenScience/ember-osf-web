@@ -2,11 +2,12 @@ import DS from 'ember-data';
 
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 
-import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
+import ContributorModel from './contributor';
 import InstitutionModel from './institution';
 import LicenseModel from './license';
 import NodeModel, { NodeCategory, NodeLicense } from './node';
 import OsfModel from './osf-model';
+import RegistrationProviderModel from './registration-provider';
 import RegistrationSchemaModel, { RegistrationMetadata } from './registration-schema';
 import SubjectModel from './subject';
 import UserModel from './user';
@@ -57,6 +58,9 @@ export default class DraftRegistrationModel extends OsfModel {
 
     @belongsTo('license', { inverse: null, async: true })
     license!: DS.PromiseObject<LicenseModel> & LicenseModel;
+
+    @hasMany('contributor')
+    contributors!: DS.PromiseManyArray<ContributorModel> & ContributorModel[];
 }
 
 declare module 'ember-data/types/registries/model' {

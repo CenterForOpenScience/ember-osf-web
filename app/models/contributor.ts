@@ -4,6 +4,7 @@ import DS from 'ember-data';
 
 import defaultTo from 'ember-osf-web/utils/default-to';
 
+import DraftRegistrationModel from './draft-registration';
 import NodeModel from './node';
 import OsfModel, { Permission } from './osf-model';
 import UserModel from './user';
@@ -49,6 +50,9 @@ export default class ContributorModel extends OsfModel.extend(Validations) {
 
     @belongsTo('node', { inverse: 'contributors', polymorphic: true })
     node!: DS.PromiseObject<NodeModel> & NodeModel;
+
+    @belongsTo('draft-registration', { inverse: 'contributors' })
+    draftRegistration!: DS.PromiseObject<DraftRegistrationModel> & DraftRegistrationModel;
 
     isUnregistered: boolean = defaultTo(this.isUnregistered, false);
 }
