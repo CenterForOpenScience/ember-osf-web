@@ -12,6 +12,7 @@
         </p>
         <hr>
         <form local-class='Metadata'>
+            <Contributors::Widget @node={{this.draftManager.draftRegistration}} />
             <FormControls
                 @changeset={{this.draftManager.metadataChangeset}}
                 ...attributes

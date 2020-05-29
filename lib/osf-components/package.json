@@ -24,6 +24,7 @@
     "ember-element-helper": "*",
     "ember-intl": "*",
     "ember-radio-button": "*",
-    "ember-responsive": "*"
+    "ember-responsive": "*",
+    "ember-in-viewport": "*"
   }
 }

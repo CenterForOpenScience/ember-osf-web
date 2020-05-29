@@ -1452,6 +1452,7 @@ osf-components:
         citation:
             true: 'Yes'
             false: 'No'
+        loadMore: 'Load more'
 settings:
     toggleNav: 'Toggle navigation'
     profile:

@@ -8,5 +8,17 @@
         {{#each @contributorsManager.contributors as |contributor|}}
             <Card @contributor={{contributor}} />
         {{/each}}
+        {{#if (and (not @contributorsManager.isLoading) @contributorsManager.hasMore)}}
+            <div local-class='InfinityLoader'
+                {{in-viewport
+                    onEnter=(fn @contributorsManager.fetchContributors)
+                }}
+            >
+                {{t 'osf-components.contributors.loadMore'}}
+            </div>
+        {{/if}}
+        {{#if @contributorsManager.isLoading}}
+            <LoadingIndicator @dark={{true}} />
+        {{/if}}
     {{/let}}
 </ul>
