@@ -17,7 +17,7 @@ export default Factory.extend<Brand>({
         return placekitten(300, 60, i);
     },
     heroBackgroundImage(i: number) {
-        return placekitten(1350, 900, i);
+        return placekitten(1350, 900, i + 1);
     },
 });
 
