@@ -10,6 +10,9 @@
     font-weight: bold;
     display: flex;
     border-bottom: 1px solid $color-border-gray;
+    background-color: #fff;
+    position: sticky;
+    top: 0;
 }
 
 .HeadingTitle {
