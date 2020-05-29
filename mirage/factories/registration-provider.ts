@@ -25,6 +25,9 @@ export default Factory.extend<MirageRegistrationProvider & RegistrationProviderT
     description() {
         return faker.lorem.sentence();
     },
+    shareSourceKey() {
+        return 'OSF'; // will need to update this once custom source keys are implemented in Backend
+    },
     allowSubmissions: true,
     assets: randomAssets(),
 
