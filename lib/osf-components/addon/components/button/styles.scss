@@ -1,7 +1,6 @@
 .Button {
     display: inline-block;
     margin-bottom: 0;
-    font-weight: bold;
     text-align: center;
     white-space: nowrap;
     vertical-align: middle;
@@ -15,6 +14,7 @@
     color: $color-text-white;
 
     &:focus {
+        // DON'T
     }
 
     &:active {
@@ -36,6 +36,16 @@
     padding: 15px 20px;
 }
 
+.PrimaryButton {
+    background-color: var(--primary-color);
+    color: $color-text-white;
+    font-weight: bold;
+
+    &:hover {
+        background-color: var(--secondary-color);
+    }
+}
+
 .SecondaryButton {
     background-color: $color-bg-white;
     border: 1px solid $color-border-gray-light;
@@ -44,15 +54,7 @@
     &:hover {
         // TODO: color variable
         border: 1px solid #263947;
-    }
-}
-
-.PrimaryButton {
-    background-color: var(--primary-color);
-    color: $color-text-white;
-
-    &:hover {
-        background-color: var(--secondary-color);
+        background-color: $color-bg-gray-blue-light;
     }
 }
 
