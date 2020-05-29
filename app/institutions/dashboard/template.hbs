@@ -1,7 +1,7 @@
 {{title (t 'institutions.dashboard.title' institutionName=this.institution.unsafeName)}}
 <div class='container' data-analytics-scope='Dashboard'>
     <div local-class='banner'>
-        <img src='{{this.institution.assets.banner}}' alt='{{this.institution.name}}'>
+        <img src='{{this.institution.bannerUrl}}' alt='{{this.institution.name}}'>
         <div>
             {{t 'institutions.dashboard.last_update'}}
         </div>
@@ -13,7 +13,8 @@
             />
         </div>
         <div local-class='panel-wrapper'>
-            <OsfLink
+            {{!-- TODO: comment this back in when ENG-1810 is implemented + tested + merged--}}
+            {{!-- <OsfLink
                 data-analytics-name='Download CSV'
                 class='btn btn-primary'
                 local-class='csv-button'
@@ -25,7 +26,7 @@
                 <img src={{this.csvImgSrc}}
                      alt={{t 'institutions.dashboard.download_csv'}}
                 >
-            </OsfLink>
+            </OsfLink> --}}
             <Institutions::Dashboard::-Components::Panel
                     local-class='sso-users-connected'
                     @isLoading={{this.model.taskInstance.isRunning}}
