@@ -1,6 +1,8 @@
 {{title (t 'registries.discover.page_title')}}
 
-<RegistriesWrapper>
+<RegistriesWrapper
+    {{with-branding this.providerModel.brand}}
+>
     <HeroOverlay local-class='DiscoverHero'>
         {{#registries-header showHelp=true value=(mut this.query) onSearch=(action 'onSearch') searchable=this.searchable as |header|}}
             {{#header.lead}}
