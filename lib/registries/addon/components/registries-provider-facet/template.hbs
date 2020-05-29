@@ -15,4 +15,7 @@
             </li>
         {{/each}}
     </ul>
+    {{#if this.shouldLinkToAggregateDiscover}}
+        <OsfLink @route='registries.discover'>blah blah aggregrate page</OsfLink>
+    {{/if}}
 {{/registries-search-facet-container}}

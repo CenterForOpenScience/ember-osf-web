@@ -32,6 +32,11 @@ export default class RegistriesSourcesFacet extends Component {
         }));
     }
 
+    @computed('options.length')
+    get shouldLinkToAggregateDiscover() {
+        return this.options.length === 1;
+    }
+
     @action
     providerChecked(filter: SearchFilter, remove: boolean) {
         this.analytics.track('filter', remove ? 'remove' : 'add', `Discover - providers ${filter.display}`);

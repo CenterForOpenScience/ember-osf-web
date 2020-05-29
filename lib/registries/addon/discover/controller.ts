@@ -179,6 +179,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         filter: SearchFilter;
     }> = defaultTo(this.filterableSources, []);
 
+    // used to filter the counts/aggregations and all search results
     get additionalFilters(): ShareTermsFilter[] {
         return [];
     }
@@ -199,12 +200,17 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         return max;
     }
 
-    @task({ on: 'init' })
+    @task
     getCountsAndAggs = task(function *(this: Discover) {
+        console.log('running getCountsAndAggs -- TODO: is this happening too often?');
+
         const results: SearchResults<any> = yield this.shareSearch.registrations(new SearchOptions({
             size: 0,
             modifiers: OrderedSet([
                 new ShareTermsAggregation('sources', 'sources'),
+            ]),
+            filters: OrderedSet([
+                ...this.additionalFilters,
             ]),
         }));
 
