@@ -944,6 +944,7 @@ registries:
         SHARE: SHARE
         registrations: Registrations
         sort_by: 'Sort by'
+        powered_by: 'powered by'
         no_results: 'No results found.'
         try_broadening: 'Try broadening your search terms'
         order:
