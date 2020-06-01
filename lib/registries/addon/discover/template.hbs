@@ -37,13 +37,14 @@
                 onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
             }}
 
-            {{#if this.providerModel}}
+            {{!-- TODO: this feature is not ready yet. Will be implemented in Phase2 Branded Reg --}}
+            {{!-- {{#if this.providerModel}}
                 {{registries-subjects-facet
                     provider=this.providerModel
                     searchOptions=this.searchOptions
                     onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
                 }}
-            {{/if}}
+            {{/if}} --}}
         {{/discover.sidebar}}
 
         {{#if this.doSearch.isIdle}}
