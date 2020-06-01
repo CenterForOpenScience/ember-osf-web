@@ -3,11 +3,6 @@
     animation: enable 0.5s ease-in-out;
 }
 
-.RegistrationType--Disabled {
-    opacity: 0.5;
-    animation: disable 0.5s ease-in-out;
-}
-
 @keyframes disable {
     0% {
         opacity: 1;
@@ -44,7 +39,7 @@
     label {
         font-weight: 400;
         color: $color-text-blue-dark;
-    }    
+    }
 }
 
 .RegistrationType__Filter {
