@@ -18,9 +18,9 @@ export interface InstitutionLinks extends OsfLinks {
 
 /* eslint-disable camelcase */
 export interface Assets {
-    banner: string;
-    logo: string;
-    logo_rounded: string;
+    banner?: string;
+    logo?: string;
+    logo_rounded?: string;
 }
 /* eslint-enable camelcase */
 
@@ -33,9 +33,8 @@ export default class InstitutionModel extends OsfModel {
     @attr() links!: InstitutionLinks;
     @attr('string') name!: string;
     @attr('fixstring') description!: string;
-    @attr('string') logoPath!: string;
     @attr('string') authUrl!: string;
-    @attr('object') assets!: Partial<Assets>;
+    @attr('object') assets?: Assets;
     @attr('boolean', { defaultValue: false }) currentUserIsAdmin!: boolean;
     @attr('date') lastUpdated!: Date;
 
@@ -64,12 +63,18 @@ export default class InstitutionModel extends OsfModel {
         return htmlSafe(this.name);
     }
 
-    @computed('assets', 'assets.logo', 'logoPath', 'id')
+    @computed('assets.banner', 'logoUrl')
+    get bannerUrl(): string {
+        if (this.assets && this.assets.banner) {
+            return this.assets.banner;
+        }
+        return this.logoUrl;
+    }
+
+    @computed('assets', 'assets.logo', 'id')
     get logoUrl(): string {
         if (this.assets && this.assets.logo) {
             return this.assets.logo;
-        } else if (this.logoPath) {
-            return this.logoPath;
         }
         return `/static/img/institutions/shields-rounded-corners/${this.id}-shield-rounded-corners.png`;
     }
