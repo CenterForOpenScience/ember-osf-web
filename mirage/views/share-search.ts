@@ -34,7 +34,7 @@ function buildProviderBuckets(registrations: Collection<MirageRegistration>): Pr
     );
     return Object.entries(providerBuckets)
         .sortBy('count')
-        .map(([key, count]) => ({ key, doc_count: count }));
+        .map(([key, count]) => ({ key, doc_count: count! }));
 }
 
 function getRegistrationsForRequest(schema: Schema, request: Request): Collection<MirageRegistration> {
