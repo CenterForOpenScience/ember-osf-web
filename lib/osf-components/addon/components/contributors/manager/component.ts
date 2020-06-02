@@ -6,6 +6,7 @@ import { layout } from 'ember-osf-web/decorators/component';
 import ContributorModel from 'ember-osf-web/models/contributor';
 import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
 import NodeModel from 'ember-osf-web/models/node';
+import { Permission } from 'ember-osf-web/models/osf-model';
 import template from './template';
 
 @layout(template)
@@ -31,4 +32,27 @@ export default class ContributorsManager extends Component {
             this.currentPage = this.currentPage + 1;
         }
     });
+
+    @task({ enqueue: true })
+    toggleContributorIsBibliographic = task(function *(this: ContributorsManager, contributor: ContributorModel) {
+        contributor.toggleProperty('bibliographic');
+        try {
+            yield contributor.save();
+        } catch {
+            contributor.rollbackAttributes();
+        }
+    });
+
+    @task({ enqueue: true })
+    updateContributorPermission = task(
+        function *(this: ContributorsManager, contributor: ContributorModel, permission: Permission) {
+            // eslint-disable-next-line no-param-reassign
+            contributor.permission = permission;
+            try {
+                yield contributor.save();
+            } catch {
+                contributor.rollbackAttributes();
+            }
+        },
+    );
 }

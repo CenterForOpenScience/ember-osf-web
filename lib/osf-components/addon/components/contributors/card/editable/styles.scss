@@ -1,0 +1,38 @@
+.CardContainer {
+    margin: 0;
+    height: 60px;
+
+    &:not(:first-of-type) {
+        margin-top: 10px;
+    }
+
+    &:not(:last-of-type) {
+        border-bottom: 1px solid $color-border-gray;
+        margin-bottom: 10px;
+    }
+}
+
+.MainSection {
+    display: flex;
+    height: inherit;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.CardSection {
+    flex: 1 0 auto;
+    max-width: 30%;
+
+    &:first-of-type {
+        flex: 2 0 auto;
+        max-width: 40%;
+    }
+
+    :global(.ember-power-select-trigger) {
+        max-width: 150px;
+    }
+}
+
+// .PowerSelect {
+//     max-width: 150px;
+// }
