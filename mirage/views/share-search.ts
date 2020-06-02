@@ -5,6 +5,38 @@ import RegistrationModel from 'ember-osf-web/models/registration';
 
 import { MirageRegistration } from 'ember-osf-web/mirage/factories/registration';
 
+function hasProviderAggregation(request: Request): boolean {
+    const requestBody = JSON.parse(request.requestBody);
+    return Boolean(
+        requestBody &&
+        requestBody.aggregations &&
+        requestBody.aggregations.sources &&
+        requestBody.aggregations.sources.terms &&
+        requestBody.aggregations.sources.terms.field === 'sources',
+    );
+}
+
+interface ProviderBucket {
+    // eslint-disable-next-line camelcase
+    doc_count: number;
+    key: string;
+}
+
+function buildProviderBuckets(registrations: Collection<MirageRegistration>): ProviderBucket[] {
+    const providerBuckets = registrations.models.reduce(
+        (counts, reg) => {
+            const count = counts[reg.provider.shareSourceKey!] || 0;
+            // eslint-disable-next-line no-param-reassign
+            counts[reg.provider.shareSourceKey!] = count + 1;
+            return counts;
+        },
+        {} as Record<string, number | undefined>,
+    );
+    return Object.entries(providerBuckets)
+        .sortBy('count')
+        .map(([key, count]) => ({ key, doc_count: count }));
+}
+
 function getRegistrationsForRequest(schema: Schema, request: Request): Collection<MirageRegistration> {
     const {
         query: {
@@ -80,6 +112,14 @@ function serializeRegistration(reg: ModelInstance<RegistrationModel>) {
     return serialized;
 }
 
+interface SearchResponse {
+    hits: {
+        total: number,
+        hits: unknown[],
+    };
+    aggregations?: any;
+}
+
 export function shareSearch(schema: Schema, request: Request) {
     // TODO:
     // get provider from request body
@@ -87,10 +127,18 @@ export function shareSearch(schema: Schema, request: Request) {
 
     const registrations = getRegistrationsForRequest(schema, request);
 
-    return {
+    const response: SearchResponse = {
         hits: {
             total: registrations.length,
             hits: registrations.models.map(reg => serializeRegistration(reg)),
         },
     };
+    if (hasProviderAggregation(request)) {
+        response.aggregations = {
+            sources: {
+                buckets: buildProviderBuckets(registrations),
+            },
+        };
+    }
+    return response;
 }
