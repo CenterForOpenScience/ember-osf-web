@@ -23,6 +23,7 @@ import { osfNestedResource, osfResource, osfToManyRelationship } from './views/o
 import { getProviderSubjects } from './views/provider-subjects';
 import { createRegistration, forkRegistration, registrationDetail } from './views/registration';
 import { rootDetail } from './views/root';
+import { shareSearch } from './views/share-search';
 import { createToken } from './views/token';
 import { createEmails, updateEmails } from './views/update-email';
 import { userNodeList } from './views/user';
@@ -34,7 +35,6 @@ const { OSF: { apiUrl } } = config;
 
 export default function(this: Server) {
     this.passthrough(); // pass through all requests on currrent domain
-    this.passthrough('https://share.osf.io/api/*');
 
     this.urlPrefix = apiUrl;
     this.namespace = '/v2';
@@ -244,4 +244,10 @@ export default function(this: Server) {
         only: ['related'],
         path: '/meetings/:parentID/submissions/',
     });
+
+    // SHARE search
+    this.urlPrefix = 'https://share.osf.io';
+    this.namespace = '/api/v2';
+
+    this.post('search', shareSearch);
 }
