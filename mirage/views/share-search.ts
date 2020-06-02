@@ -25,6 +25,44 @@ function getRegistrationsForRequest(schema: Schema, request: Request): Collectio
     return schema.registrations.all();
 }
 
+
+function serializeContributor(contributor: ModelInstance<Contributor>) {
+}
+
+function serializeRegistration(reg: ModelInstance<RegistrationModel>) {
+    // TODO serialize all contributors for the given reg
+    const serialized = {
+        _source: {
+            date: reg.dateRegistered,
+            date_published: reg.dateRegistered,
+            justification: reg.withdrawalJustification,
+            sources: [reg.provider.shareSourceKey],
+            affiliations: [],
+            registration_type: reg.registrationSchema.name,
+            type: 'registration',
+            subject_synonyms: [],
+            id: reg.id,
+            language: null,
+            types: ['registration', 'publication', 'creative work'],
+            lists: {
+                contributors: reg.contributors.models.map(contributor => serializeContributor(contributor)),
+            },
+            subjects: [],
+            title: reg.title,
+            retracted: reg.withdrawn,
+            contributors: reg.contributors.models.map(contributor => contributor.fullName),
+            date_updated: reg.dateModified,
+            description: reg.description,
+            date_modified: reg.dateModified,
+            date_created: reg.dateRegistered,
+            tags: ['project'],
+            withdrawn: reg.withdrawn,
+            identifiers: ['http://osf.io/aurjt/'],
+        },
+    };
+    return serialized;
+}
+
 export function shareSearch(schema: Schema, request: Request) {
     // TODO:
     // get provider from request body
@@ -40,43 +78,6 @@ export function shareSearch(schema: Schema, request: Request) {
     };
 }
 
-function serializeRegistration(reg: ModelInstance<RegistrationModel>) {
-    // TODO serialize all contributors for the given reg
-    const serialized = {
-        _source: {
-            date: reg.dateRegistered,
-            date_published: reg.dateRegistered,
-            justification:   null,
-            sources: [reg.provider.shareSourceKey],
-            affiliations: [],
-            registration_type: reg.schema.name,
-            type: 'registration',
-            subject_synonyms: [],
-            id: reg.id,
-            language:   null,
-            types: ['registration', 'publication', 'creative work'],
-            lists: {
-                contributors: [],
-            },
-            subjects: [],
-            title:   "2016, Deutchman, The Role of Framing Effects, the Dark Triad, and Empathy in Predicting Behavior in a One-shot Prisoner's Dilemma",
-            retracted:   false,
-            contributors: ['Jess Sullivan', 'Paul Michael Deutchman'],
-            date_updated:   '2017-07-30T17:34:31.234631+00:00',
-            description:   'This project is designed to support Haverford College economics majors who produce empirical theses. The structure is based on the TIER Documentation Protocol. Additional information about Project TIER is available at http://projecttier.org',
-            date_modified:   '2017-07-31T02:26:51.566149+00:00',
-            date_created:   '2016-12-07T18:00:39.914615+00:00',
-            tags: ['project'],
-            withdrawn:   false,
-            identifiers: ['http://osf.io/aurjt/'], , ,
-        },
-    };
-    return serialized;
-}
-
-function serializeContributor(contributor: ModelInstance<Contributor>) {
-}
-
 const contributor = {
     affiliations: [],
     awards: [],
@@ -88,7 +89,10 @@ const contributor = {
     name: 'Paul Michael Deutchman',
     cited_as: 'Paul Michael Deutchman',
     type: 'person',
-    identifiers: ['http://secure.gravatar.com/avatar/6bffdffd2515a211b5121ab9546a64cf?d=identicon', 'http://osf.io/6khef/'],
+    identifiers: [
+        'http://secure.gravatar.com/avatar/6bffdffd2515a211b5121ab9546a64cf?d=identicon',
+        'http://osf.io/6khef/',
+    ],
     id: '64229-6B9-B38',
     additional_name: 'Michael',
 };
