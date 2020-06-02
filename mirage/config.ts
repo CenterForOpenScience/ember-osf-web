@@ -247,7 +247,7 @@ export default function(this: Server) {
 
     // SHARE search
     this.urlPrefix = 'https://share.osf.io';
-    this.namespace = '/api/v2';
+    this.namespace = '/api/v2/';
 
-    this.post('search', shareSearch);
+    this.post('/search/creativeworks/_search', shareSearch);
 }

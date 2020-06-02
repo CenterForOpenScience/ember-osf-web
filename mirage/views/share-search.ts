@@ -1,5 +1,6 @@
 import { Collection, ModelInstance, Request, Schema } from 'ember-cli-mirage';
 
+import Contributor from 'ember-osf-web/models/contributor';
 import RegistrationModel from 'ember-osf-web/models/registration';
 
 import { MirageRegistration } from 'ember-osf-web/mirage/factories/registration';
@@ -25,8 +26,24 @@ function getRegistrationsForRequest(schema: Schema, request: Request): Collectio
     return schema.registrations.all();
 }
 
-
 function serializeContributor(contributor: ModelInstance<Contributor>) {
+    return {
+        affiliations: [],
+        awards: [],
+        family_name: contributor.users.familyName,
+        given_name: contributor.users.givenName,
+        types: ['person', 'agent'],
+        order_cited: contributor.index,
+        relation: 'creator',
+        name: contributor.users.fullName,
+        cited_as: contributor.fullName,
+        type: 'person',
+        identifiers: [
+            `/${contributor.users.id}/`,
+        ],
+        id: contributor.id,
+        additional_name: contributor.users.middleNames,
+    };
 }
 
 function serializeRegistration(reg: ModelInstance<RegistrationModel>) {
@@ -57,7 +74,7 @@ function serializeRegistration(reg: ModelInstance<RegistrationModel>) {
             date_created: reg.dateRegistered,
             tags: ['project'],
             withdrawn: reg.withdrawn,
-            identifiers: ['http://osf.io/aurjt/'],
+            identifiers: [`/${reg.id}/`],
         },
     };
     return serialized;
@@ -77,22 +94,3 @@ export function shareSearch(schema: Schema, request: Request) {
         },
     };
 }
-
-const contributor = {
-    affiliations: [],
-    awards: [],
-    family_name: 'Deutchman',
-    given_name: 'Paul',
-    types: ['person', 'agent'],
-    order_cited: 0,
-    relation: 'creator',
-    name: 'Paul Michael Deutchman',
-    cited_as: 'Paul Michael Deutchman',
-    type: 'person',
-    identifiers: [
-        'http://secure.gravatar.com/avatar/6bffdffd2515a211b5121ab9546a64cf?d=identicon',
-        'http://osf.io/6khef/',
-    ],
-    id: '64229-6B9-B38',
-    additional_name: 'Michael',
-};
