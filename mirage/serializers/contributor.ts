@@ -9,9 +9,9 @@ const { OSF: { apiUrl } } = config;
 
 export default class ContributorSerializer extends ApplicationSerializer<Contributor> {
     buildNormalLinks(model: ModelInstance<Contributor>) {
-        const url = model.node ?
-            `${apiUrl}/v2/nodes/${model.node.id}/contributors/${model.id}` :
-            `${apiUrl}/v2/draft_registrations/${model.draftRegistration.id}/contributors/${model.id}`;
+        const url = model.node
+            ? `${apiUrl}/v2/nodes/${model.node.id}/contributors/${model.id}`
+            : `${apiUrl}/v2/draft_registrations/${model.draftRegistration.id}/contributors/${model.id}`;
         return {
             self: url,
         };
