@@ -937,6 +937,8 @@ registries:
             registration_schema_error: 'An error occurred getting registration types.'
         subjects:
             title: 'Subjects'
+        provider:
+            other_registries: 'Other registries'
     application:
         page_title: 'OSF Registries'
     discover:
