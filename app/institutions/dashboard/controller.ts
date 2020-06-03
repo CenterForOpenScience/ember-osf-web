@@ -1,23 +1,26 @@
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
-import moment from 'moment';
 
 import Controller from '@ember/controller';
+import { InstitutionsDashboardModel } from 'ember-osf-web/institutions/dashboard/route';
 import InstitutionModel from 'ember-osf-web/models/institution';
+import InstitutionDepartmentModel from 'ember-osf-web/models/institution-department';
+import InstitutionSummaryMetricModel from 'ember-osf-web/models/institution-summary-metric';
 
 export default class InstitutionsDashboardController extends Controller {
-    @alias('model.taskInstance.value') institution!: InstitutionModel;
+    @alias('model.taskInstance.value') modelValue?: InstitutionsDashboardModel;
+    @alias('modelValue.institution') institution?: InstitutionModel;
+    @alias('modelValue.summaryMetrics') summaryMetrics?: InstitutionSummaryMetricModel;
+    @alias('modelValue.departmentMetrics') departmentMetrics?: InstitutionDepartmentModel[];
+    @alias('modelValue.totalUsers') totalUsers?: number;
+
     csvImgSrc: string = '/assets/images/institutions/csv.svg';
 
-    @computed('institution.lastUpdated')
-    get lastUpdatedFromNow(): string {
-        const lastUpdated = this.institution ? moment(this.institution.lastUpdated) : moment();
-        return lastUpdated.fromNow();
-    }
-
+    // TODO: add csv link back when ENG-1810 is done
     @computed('institution.links.csv')
     get csvHref() {
-        return this.institution ? this.institution.links.csv : '#';
+        // return this.institution ? this.institution.links.csv : '#';
+        return '#';
     }
 
     @action

@@ -1,10 +1,10 @@
 import OsfSerializer from './osf-serializer';
 
-export default class InstitutionalUserSerializer extends OsfSerializer {
+export default class InstitutionSummaryMetricSerializer extends OsfSerializer {
 }
 
 declare module 'ember-data/types/registries/serializer' {
     export default interface SerializerRegistry {
-        'institutional-user': InstitutionalUserSerializer;
+        'institution-summary-metric': InstitutionSummaryMetricSerializer;
     } // eslint-disable-line semi
 }

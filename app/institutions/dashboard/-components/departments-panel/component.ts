@@ -1,65 +1,75 @@
 import Component from '@ember/component';
-import { computed } from '@ember/object';
-import { alias } from '@ember/object/computed';
+import { action, computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { ChartData, ChartOptions, Shape } from 'ember-cli-chart';
-import InstitutionModel, { Department } from 'ember-osf-web/models/institution';
+import Intl from 'ember-intl/services/intl';
+import { Department } from 'ember-osf-web/models/institution';
+import InstitutionDepartmentsModel from 'ember-osf-web/models/institution-department';
 
 export default class DepartmentsPanel extends Component {
-    institution!: InstitutionModel;
-    @alias('institution.statSummary.departments') departments!: any[];
-    chartHoverIndex: number = -1;
+    @service intl!: Intl;
 
-    chartOptions: ChartOptions = {
-        aspectRatio: 1,
-        legend: {
-            display: false,
-        },
-        onHover: (_: MouseEvent, shapes: Shape[]): void => {
-            if (shapes.length === 0 || this.chartHoverIndex === shapes[0]._index) {
-                return;
-            }
-            this.set('chartHoverIndex', shapes[0]._index);
-        },
-    };
+    topDepartments!: InstitutionDepartmentsModel[];
+    totalUsers!: number;
 
-    didReceiveAttrs() {
-        if (this.departments) {
-            const departmentNumbers = this.departments.map(x => x.numUsers);
-            this.set('chartHoverIndex', departmentNumbers.indexOf(Math.max(...departmentNumbers)));
-        }
+    chartHoverIndex: number = 0;
+
+    get chartOptions(): ChartOptions {
+        return {
+            aspectRatio: 1,
+            legend: {
+                display: false,
+            },
+            onHover: this.onChartHover,
+        };
     }
 
-    @computed('chartHoverIndex', 'departments')
-    get chartData(): ChartData {
-        const departmentNames = this.departments.map(x => x.name);
-        const departmentNumbers = this.departments.map(x => x.numUsers);
-
-        const backgroundColors = [];
-        for (const index of departmentNumbers.keys()) {
-            if (index === this.chartHoverIndex) {
-                backgroundColors.push('#15a5eb');
-            } else {
-                backgroundColors.push('#a5b3bd');
-            }
+    @action
+    onChartHover(_: MouseEvent, shapes: Shape[]) {
+        if (shapes.length === 0 || this.chartHoverIndex === shapes[0]._index) {
+            return;
         }
+        this.set('chartHoverIndex', shapes[0]._index);
+    }
+
+    @computed('topDepartments')
+    get displayDepartments() {
+        const departments = this.topDepartments.map(({ name, numberOfUsers }) => ({ name, numberOfUsers }));
+        const departmentNumbers = this.topDepartments.map(x => x.numberOfUsers);
+        const otherDepartmentNumber = this.totalUsers - departmentNumbers.reduce((a, b) => a + b);
+
+        return [...departments, { name: this.intl.t('general.other'), numberOfUsers: otherDepartmentNumber }];
+    }
+
+    @computed('chartHoverIndex', 'displayDepartments.[]')
+    get chartData(): ChartData {
+        const backgroundColors = this.displayDepartments.map((_, i) => {
+            if (i === this.chartHoverIndex) {
+                return '#15a5eb';
+            }
+            return '#a5b3bd';
+        });
+        const displayDepartmentNames = this.displayDepartments.map(({ name }) => name);
+        const displayDepartmentNumbers = this.displayDepartments.map(({ numberOfUsers }) => numberOfUsers);
 
         return {
-            labels: departmentNames,
+            labels: displayDepartmentNames,
             datasets: [{
-                data: departmentNumbers,
+                data: displayDepartmentNumbers,
                 backgroundColor: backgroundColors,
             }],
         };
     }
 
-    @computed('chartHoverIndex', 'departments')
+    @computed('chartHoverIndex', 'displayDepartments.[]')
     get activeDepartment(): Department {
-        return this.departments[this.chartHoverIndex];
+        return this.displayDepartments[this.chartHoverIndex];
     }
 
-    @computed('activeDepartment', 'departments')
+    @computed('activeDepartment', 'displayDepartments')
     get activeDepartmentPercentage(): string {
-        const count = this.departments.reduce((total, currentValue) => total + currentValue.numUsers, 0);
-        return ((this.activeDepartment.numUsers / count) * 100).toFixed(2);
+        const numUsersArray = this.displayDepartments.map(({ numberOfUsers }) => numberOfUsers);
+        const count = numUsersArray.reduce((a, b) => a + b);
+        return ((this.activeDepartment.numberOfUsers / count) * 100).toFixed(2);
     }
 }

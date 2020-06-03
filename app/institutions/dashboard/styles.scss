@@ -9,13 +9,16 @@
     }
 }
 
+.dashboard-wrapper {
+    display: flex;
+}
+
 .table-wrapper {
-    width: 75%;
     padding-right: 15px;
+    flex-grow: 1;
 }
 
 .panel-wrapper {
-    width: 25%;
     padding-left: 15px;
     text-align: right;
 }
@@ -40,7 +43,7 @@
     :global(.panel-body) {
         h3 {
             margin: 0;
-            font-size: 7.5vw;
+            font-size: 6vw;
             font-weight: bold;
         }
     }
@@ -66,7 +69,7 @@
     .sso-users-connected {
         :global(.panel-body) {
             h3 {
-                font-size: 120px;
+                font-size: 96px;
             }
         }
     }
@@ -77,5 +80,20 @@
                 font-size: 72px;
             }
         }
+    }
+}
+
+@media (max-width: 767px) {
+    .dashboard-wrapper {
+        flex-wrap: wrap-reverse;
+    }
+
+    .panel-wrapper {
+        padding-left: 0;
+        width: 100%;
+    }
+
+    .table-wrapper {
+        padding-right: 0;
     }
 }

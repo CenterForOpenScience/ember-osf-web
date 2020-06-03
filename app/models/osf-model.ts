@@ -30,7 +30,35 @@ import {
     ResourceCollectionDocument,
 } from 'osf-api';
 
+import captureException from 'ember-osf-web/utils/capture-exception';
+
 const { attr, Model } = DS;
+
+function getRelatedCountFromResponse(response: ApiResponseDocument, apiRelationshipName: string, errorContext: string) {
+    if ('data' in response && !Array.isArray(response.data)) {
+        if (response.data.relationships && apiRelationshipName in response.data.relationships) {
+            const relationship = response.data.relationships[apiRelationshipName];
+            if ('links' in relationship) {
+                if (typeof relationship.links.related === 'object') {
+                    if (relationship.links.related.meta) {
+                        if (typeof relationship.links.related.meta.count === 'number') {
+                            return relationship.links.related.meta.count;
+                        }
+                        throw new Error(`Count not found in related link meta ${errorContext}`);
+                    }
+                    throw new Error(`Meta not found in related link ${errorContext}`);
+                }
+                throw new Error(`Related link not found in relationship links ${errorContext}`);
+            }
+            throw new Error(`Relationship links not found ${errorContext}`);
+        }
+        throw new Error(`Relationship not serialized ${errorContext}`);
+    } else if ('errors' in response) {
+        throw new Error(response.errors.map(error => error.detail).concat(errorContext).join('\n'));
+    } else {
+        throw new Error(`Unexpected response ${errorContext}`);
+    }
+}
 
 export enum Permission {
     Read = 'read',
@@ -293,33 +321,12 @@ export default class OsfModel extends Model {
             },
         });
 
-        if ('data' in response && !Array.isArray(response.data)) {
-            if (response.data.relationships && apiRelationshipName in response.data.relationships) {
-                const relationship = response.data.relationships[apiRelationshipName];
-                if ('links' in relationship) {
-                    if (typeof relationship.links.related === 'object') {
-                        if (relationship.links.related.meta) {
-                            if (typeof relationship.links.related.meta.count === 'number') {
-                                set(this.relatedCounts, relationshipName, relationship.links.related.meta.count);
-                            } else {
-                                throw new Error(`Count not found in related link meta ${errorContext}`);
-                            }
-                        } else {
-                            throw new Error(`Meta not found in related link ${errorContext}`);
-                        }
-                    } else {
-                        throw new Error(`Related link not found in relationship links ${errorContext}`);
-                    }
-                } else {
-                    throw new Error(`Relationship links not found ${errorContext}`);
-                }
-            } else {
-                throw new Error(`Relationship not serialized ${errorContext}`);
-            }
-        } else if ('errors' in response) {
-            throw new Error(response.errors.map(error => error.detail).concat(errorContext).join('\n'));
-        } else {
-            throw new Error(`Unexpected response ${errorContext}`);
+        try {
+            const count = getRelatedCountFromResponse(response, apiRelationshipName, errorContext);
+            set(this.relatedCounts, relationshipName, count);
+        } catch (e) {
+            // Not throwing error
+            captureException(e);
         }
     }
 
