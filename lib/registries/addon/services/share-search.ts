@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import unescapeXMLEntities from 'ember-osf-web/utils/fix-special-char';
 import { Map } from 'immutable';
 import config from 'registries/config/environment';
@@ -225,3 +226,4 @@ export default class ShareSearch extends Search {
         });
     }
 }
+/* eslint-enable max-classes-per-file */

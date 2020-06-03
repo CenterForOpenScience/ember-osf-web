@@ -1,10 +1,10 @@
 import { render } from '@ember/test-helpers';
 import a11yAudit from 'ember-a11y-testing/test-support/audit';
+import { hbs } from 'ember-cli-htmlbars';
 import { setupIntl, t } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
-import { module, test } from 'qunit';
 
-import hbs from 'htmlbars-inline-precompile';
+import { module, test } from 'qunit';
 
 module('Integration | Component | support-section', hooks => {
     setupRenderingTest(hooks);

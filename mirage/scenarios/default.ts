@@ -315,8 +315,8 @@ export default function(server: Server) {
     server.loadFixtures('licenses');
     server.loadFixtures('registration-providers');
 
-    const userTraits = !mirageScenarios.includes('loggedIn') ? [] :
-        [
+    const userTraits = !mirageScenarios.includes('loggedIn') ? []
+        : [
             'loggedIn',
             'withInstitutions',
             'withSettings',

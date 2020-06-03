@@ -68,7 +68,8 @@ export default class InstitutionModel extends OsfModel {
     get logoUrl(): string {
         if (this.assets && this.assets.logo) {
             return this.assets.logo;
-        } else if (this.logoPath) {
+        }
+        if (this.logoPath) {
             return this.logoPath;
         }
         return `/static/img/institutions/shields-rounded-corners/${this.id}-shield-rounded-corners.png`;

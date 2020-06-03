@@ -15,6 +15,7 @@ const Validations = buildValidations({
             messageKey: 'validationErrors.email_registered',
             in: computed(function(): string[] {
                 return [...this.model.existingEmails];
+            // eslint-disable-next-line ember/no-volatile-computed-properties
             }).volatile(),
         }),
         validator('exclusion', {
@@ -22,6 +23,7 @@ const Validations = buildValidations({
             supportEmail,
             in: computed(function(): string[] {
                 return [...this.model.invalidEmails];
+            // eslint-disable-next-line ember/no-volatile-computed-properties
             }).volatile(),
         }),
         validator('length', {

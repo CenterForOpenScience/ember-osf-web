@@ -139,8 +139,8 @@ export default class CommentCard extends Component {
         if (!this.comment) {
             return undefined;
         }
-        return this.comment.canEdit &&
-            (this.comment.user.get('id') === this.currentUser.currentUserId);
+        return this.comment.canEdit
+            && (this.comment.user.get('id') === this.currentUser.currentUserId);
     }
 
     @action

@@ -1,8 +1,8 @@
 import { render } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
 import { Server } from 'ember-cli-mirage';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
-import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
 import { startMirage } from 'ember-osf-web/initializers/ember-cli-mirage';

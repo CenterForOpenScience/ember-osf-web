@@ -70,18 +70,14 @@ export default class InstitutionsManagerComponent extends Component {
     @task({ restartable: true, on: 'didReceiveAttrs' })
     loadNodeAffiliatedInstitutions = task(function *(this: InstitutionsManagerComponent) {
         if (this.node) {
-            try {
-                const affiliatedList: QueryHasManyResult<Institution> = yield this.node.queryHasMany(
-                    'affiliatedInstitutions', {
-                        pageSize: 100,
-                    },
-                );
-                this.setProperties({
-                    affiliatedList,
-                });
-            } catch (e) {
-                throw e;
-            }
+            const affiliatedList: QueryHasManyResult<Institution> = yield this.node.queryHasMany(
+                'affiliatedInstitutions', {
+                    pageSize: 100,
+                },
+            );
+            this.setProperties({
+                affiliatedList,
+            });
         }
     });
 

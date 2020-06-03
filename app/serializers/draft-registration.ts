@@ -21,8 +21,8 @@ function isObject(value: unknown) {
 }
 
 export function normalizeRegistrationResponses(value: ResponseValue, store: DS.Store) {
-    if (Array.isArray(value) && !isEmpty(value) && isObject(value.firstObject) &&
-        ('file_id' in value.firstObject)) {
+    if (Array.isArray(value) && !isEmpty(value) && isObject(value.firstObject)
+        && ('file_id' in value.firstObject)) {
         return (value as FileReference[]).map((fileRef: FileReference) => {
             const {
                 file_name: name, file_id: id,
@@ -59,8 +59,8 @@ export function normalizeRegistrationResponses(value: ResponseValue, store: DS.S
 }
 
 function serializeRegistrationResponses(value: NormalizedResponseValue) {
-    if (Array.isArray(value) && !isEmpty(value) && isObject(value.firstObject) &&
-        ('materializedPath' in value.firstObject)) {
+    if (Array.isArray(value) && !isEmpty(value) && isObject(value.firstObject)
+        && ('materializedPath' in value.firstObject)) {
         return value.map(file => file.toFileReference());
     }
     return value;

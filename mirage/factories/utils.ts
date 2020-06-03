@@ -133,25 +133,24 @@ export function createRegistrationMetadata(
 ) {
     const registrationMetadata: RegistrationMetadata = {};
     if (registrationSchema.schemaNoConflict) {
-        registrationSchema.schemaNoConflict.pages.forEach(page =>
-            page.questions.forEach(question => {
-                if (anonymized && anonymizedQuestions.includes(question.title)) {
-                    return;
-                }
-                if (question.type === 'object' && question.properties) {
-                    const value: RegistrationMetadata = { };
-                    question.properties.forEach(property => {
-                        value[property.id] = fakeAnswer(property, answerAllRequired);
-                    });
-                    registrationMetadata[question.qid] = {
-                        comments: [],
-                        extra: [],
-                        value,
-                    };
-                } else {
-                    registrationMetadata[question.qid] = fakeAnswer(question, answerAllRequired);
-                }
-            }));
+        registrationSchema.schemaNoConflict.pages.forEach(page => page.questions.forEach(question => {
+            if (anonymized && anonymizedQuestions.includes(question.title)) {
+                return;
+            }
+            if (question.type === 'object' && question.properties) {
+                const value: RegistrationMetadata = { };
+                question.properties.forEach(property => {
+                    value[property.id] = fakeAnswer(property, answerAllRequired);
+                });
+                registrationMetadata[question.qid] = {
+                    comments: [],
+                    extra: [],
+                    value,
+                };
+            } else {
+                registrationMetadata[question.qid] = fakeAnswer(question, answerAllRequired);
+            }
+        }));
     }
     return registrationMetadata;
 }

@@ -10,8 +10,8 @@ declare const Raven: undefined | {
 
 export function getApiError(error: ErrorDocument): ErrorObject|undefined {
     let apiError;
-    if (Array.isArray(error.errors) && error.errors.length &&
-        typeof error.errors[0].detail === 'string') {
+    if (Array.isArray(error.errors) && error.errors.length
+        && typeof error.errors[0].detail === 'string') {
         [apiError] = error.errors;
     }
     return apiError;

@@ -172,7 +172,8 @@ export default class OsfModel extends Model {
 
             const { meta, links } = response as ResourceCollectionDocument;
             return Object.assign(A(records), { meta, links });
-        } else if ('errors' in response) {
+        }
+        if ('errors' in response) {
             throw new Error(response.errors.map(error => error.detail).join('\n'));
         } else {
             throw new Error(`Unexpected response while loading relationship ${this.modelName}.${propertyName}`);
@@ -241,8 +242,7 @@ export default class OsfModel extends Model {
         const url = getSelfHref(this.relationshipLinks[apiRelationshipName]);
 
         const data = JSON.stringify({
-            data: relatedModels.map(relatedModel =>
-                ({ id: relatedModel.id, type: relatedModel.apiType })),
+            data: relatedModels.map(relatedModel => ({ id: relatedModel.id, type: relatedModel.apiType })),
         });
 
         if (!url) {

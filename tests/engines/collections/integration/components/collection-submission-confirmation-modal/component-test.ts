@@ -1,7 +1,7 @@
 import { click, render } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
 import { t } from 'ember-intl/test-support';
 import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
-import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
 module('Integration | Component | collection-submission-confirmation-modal', hooks => {

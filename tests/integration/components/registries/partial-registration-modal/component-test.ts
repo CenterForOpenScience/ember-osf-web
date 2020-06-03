@@ -1,8 +1,8 @@
 import { click, render, settled } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import NodeModel from 'ember-osf-web/models/node';
 import { setupRenderingTest } from 'ember-qunit';
-import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
 module('Integration | Component | partial-registration-modal', hooks => {

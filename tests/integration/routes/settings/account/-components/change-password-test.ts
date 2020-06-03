@@ -1,10 +1,10 @@
 import { fillIn, render, settled } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
 import { percySnapshot } from 'ember-percy';
 import { setupRenderingTest } from 'ember-qunit';
-import { module, test } from 'qunit';
 
 import { click } from 'ember-osf-web/tests/helpers';
-import hbs from 'htmlbars-inline-precompile';
+import { module, test } from 'qunit';
 
 module('Integration | routes | settings | account | -components | change-password', hooks => {
     setupRenderingTest(hooks);

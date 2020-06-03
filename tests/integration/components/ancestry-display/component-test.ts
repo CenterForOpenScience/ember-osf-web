@@ -1,9 +1,9 @@
 import { render } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupIntl } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
-import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 import { OsfLinkRouterStub } from '../../helpers/osf-link-router-stub';
 

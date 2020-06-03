@@ -26,12 +26,11 @@ export default class RegistrationFormNavigationDropdown extends Component {
 
     @computed('schemaBlocks')
     get blocksWithAnchor() {
-        return this.schemaBlocks.filter(({ blockType, displayText }) =>
-            (
-                blockType === 'page-heading' ||
-                blockType === 'section-heading' ||
-                blockType === 'subsection-heading' ||
-                blockType === 'question-label'
-            ) && displayText);
+        return this.schemaBlocks.filter(({ blockType, displayText }) => (
+            blockType === 'page-heading'
+                || blockType === 'section-heading'
+                || blockType === 'subsection-heading'
+                || blockType === 'question-label'
+        ) && displayText);
     }
 }

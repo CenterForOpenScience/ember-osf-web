@@ -27,23 +27,23 @@ export default class InlineList<T> extends Component {
 
     @computed('items.[]', 'remainingCount', 'shownCount')
     get lastItem(): T | undefined {
-        return this.remainingCount ?
-            undefined :
-            this.items[this.shownCount - 1];
+        return this.remainingCount
+            ? undefined
+            : this.items[this.shownCount - 1];
     }
 
     @computed('total', 'items.length')
     get totalCount() {
-        return typeof this.total === 'undefined' ?
-            this.items.length :
-            this.total;
+        return typeof this.total === 'undefined'
+            ? this.items.length
+            : this.total;
     }
 
     @computed('truncate', 'items.length')
     get shownCount() {
-        return typeof this.truncate === 'undefined' ?
-            this.items.length :
-            Math.min(this.truncate, this.items.length);
+        return typeof this.truncate === 'undefined'
+            ? this.items.length
+            : Math.min(this.truncate, this.items.length);
     }
 
     @computed('totalCount', 'shownCount')

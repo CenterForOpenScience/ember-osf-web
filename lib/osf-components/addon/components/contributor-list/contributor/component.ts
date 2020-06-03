@@ -23,9 +23,9 @@ export default class ContributorListContributor extends Component {
 
         this.set(
             'contributorName',
-            this.shouldShortenName ?
-                user.familyName || user.givenName || user.fullName :
-                user.fullName,
+            this.shouldShortenName
+                ? user.familyName || user.givenName || user.fullName
+                : user.fullName,
         );
 
         const shouldLink = this.shouldLinkUser && !this.contributor.unregisteredContributor;

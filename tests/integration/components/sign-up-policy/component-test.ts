@@ -1,9 +1,9 @@
 import { render } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
 import config from 'ember-get-config';
 import { setupIntl, t } from 'ember-intl/test-support';
 import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
 import { setupRenderingTest } from 'ember-qunit';
-import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
 const { signUpPolicy: { termsLink, privacyPolicyLink } } = config;
