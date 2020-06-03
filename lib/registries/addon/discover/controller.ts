@@ -79,9 +79,7 @@ const queryParams = {
         },
         deserialize(value: string) {
             return value.split(/OR|\|/).map(
-                name => config.sourcesWhitelist.find(x => x.name === name),
-            ).filter(Boolean).map(
-                source => new ShareTermsFilter('sources', source!.name, source!.display || source!.name),
+                name => new ShareTermsFilter('sources', name, name),
             );
         },
     },
@@ -214,11 +212,31 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
             ]),
         }));
 
+        const osfProviders = yield this.store.findAll('registration-provider', {
+            adapterOptions: { queryParams: { 'page[size]': 100 } },
+        });
+
         const filterableSources: Array<{count: number, filter: SearchFilter}> = [];
         /* eslint-disable camelcase */
         const buckets = results.aggregations.sources.buckets as Array<{key: string, doc_count: number}>;
+        for (const osfProvider of osfProviders) {
+            const bucket = buckets.find(x => x.key === osfProvider.shareSourceKey);
+            if (!bucket) {
+                continue;
+            }
+
+            filterableSources.push({
+                count: bucket.doc_count,
+                filter: new ShareTermsFilter(
+                    'sources',
+                    bucket.key,
+                    osfProvider.name,
+                ),
+            });
+        }
+
         // NOTE: sourcesWhitelist is iterated over here to match it's order.
-        for (const source of config.sourcesWhitelist) {
+        for (const source of config.externalRegistries) {
             const bucket = buckets.find(x => x.key === source.name);
             if (!bucket) {
                 continue;
@@ -229,7 +247,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
                 filter: new ShareTermsFilter(
                     'sources',
                     bucket.key,
-                    source.display || source.name,
+                    source.name,
                 ),
             });
         }
