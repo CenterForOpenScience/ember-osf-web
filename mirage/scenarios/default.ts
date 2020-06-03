@@ -72,7 +72,7 @@ function registrationScenario(
         registrationResponses,
         branchedFrom: rootNode,
         license: licenseReqFields,
-    }, 'withSubjects', 'withAffiliatedInstitutions');
+    }, 'withSubjects', 'withAffiliatedInstitutions', 'withContributors');
 
     server.create('draft-registration', {
         id: 'rrpre',

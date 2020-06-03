@@ -3,6 +3,7 @@ import { association, Factory, faker, trait, Trait } from 'ember-cli-mirage';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 
 import { NodeCategory, NodeLicense } from 'ember-osf-web/models/node';
+import { Permission } from 'ember-osf-web/models/osf-model';
 
 import { createRegistrationMetadata } from './utils';
 
@@ -10,6 +11,7 @@ export interface DraftRegistrationTraits {
     withRegistrationMetadata: Trait;
     withAffiliatedInstitutions: Trait;
     withSubjects: Trait;
+    withContributors: Trait;
 }
 
 export default Factory.extend<DraftRegistration & DraftRegistrationTraits>({
@@ -72,6 +74,38 @@ export default Factory.extend<DraftRegistration & DraftRegistrationTraits>({
         afterCreate(draft, server) {
             const subjects = [server.create('subject', 'withChildren')];
             draft.update({ subjects });
+        },
+    }),
+
+    withContributors: trait<DraftRegistration>({
+        afterCreate(draftRegistration, server) {
+            const contributorCount = faker.random.number({ min: 1, max: 5 });
+            if (contributorCount === 1) {
+                server.create(
+                    'contributor',
+                    {
+                        draftRegistration,
+                        index: 0,
+                        permission: Permission.Admin,
+                        bibliographic: true,
+                    },
+                );
+            } else if (contributorCount === 2) {
+                server.create(
+                    'contributor',
+                    {
+                        draftRegistration,
+                        index: 0,
+                        permission: Permission.Admin,
+                        bibliographic: true,
+                    },
+                );
+                server.create('contributor', { draftRegistration, index: 1 });
+            } else {
+                for (let i = 0; i < contributorCount; i++) {
+                    server.create('contributor', { draftRegistration, index: i });
+                }
+            }
         },
     }),
 });
