@@ -1,9 +1,16 @@
 import { Collection, ModelInstance, Request, Schema } from 'ember-cli-mirage';
+import config from 'ember-get-config';
 
 import Contributor from 'ember-osf-web/models/contributor';
 import RegistrationModel from 'ember-osf-web/models/registration';
 
 import { MirageRegistration } from 'ember-osf-web/mirage/factories/registration';
+
+const {
+    OSF: {
+        url: osfUrl,
+    },
+} = config;
 
 function hasProviderAggregation(request: Request): boolean {
     const requestBody = JSON.parse(request.requestBody);
@@ -71,7 +78,7 @@ function serializeContributor(contributor: ModelInstance<Contributor>) {
         cited_as: contributor.fullName,
         type: 'person',
         identifiers: [
-            `/${contributor.users.id}/`,
+            `${osfUrl}${contributor.users.id}/`,
         ],
         id: contributor.id,
         additional_name: contributor.users.middleNames,
@@ -81,6 +88,7 @@ function serializeContributor(contributor: ModelInstance<Contributor>) {
 function serializeRegistration(reg: ModelInstance<RegistrationModel>) {
     // TODO serialize all contributors for the given reg
     const serialized = {
+        _id: 'fake-share-id',
         _source: {
             date: reg.dateRegistered,
             date_published: reg.dateRegistered,
@@ -106,7 +114,7 @@ function serializeRegistration(reg: ModelInstance<RegistrationModel>) {
             date_created: reg.dateRegistered,
             tags: ['project'],
             withdrawn: reg.withdrawn,
-            identifiers: [`/${reg.id}/`],
+            identifiers: [`${osfUrl}${reg.id}/`],
         },
     };
     return serialized;
