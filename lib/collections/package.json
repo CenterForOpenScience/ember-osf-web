@@ -9,7 +9,6 @@
     "ember-bootstrap": "*",
     "ember-cli-babel": "*",
     "ember-cli-htmlbars": "*",
-    "ember-cli-htmlbars-inline-precompile": "*",
     "ember-cli-sanitize-html": "*",
     "ember-cli-sass": "*",
     "ember-cli-template-lint": "*",
