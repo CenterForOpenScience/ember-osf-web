@@ -21,7 +21,7 @@ import { ShareTermsFilter } from 'registries/services/share-search';
 import template from './template';
 
 const {
-    sourcesWhitelist,
+    externalRegistries,
 } = engineConfig;
 
 const {
@@ -72,10 +72,9 @@ export default class RegistriesRegistrationTypeFacet extends Component {
 
     @computed('searchOptions')
     get onlyOSF() {
-        return this.searchOptions.filters.filter(filter => filter.key === 'sources').size === 1
-        && this.searchOptions.filters.contains(
-            new ShareTermsFilter('sources', 'OSF', sourcesWhitelist.find(x => x.name === 'OSF')!.display!),
-        );
+        const osfSelected = this.searchOptions.filters.find(item =>
+            item instanceof ShareTermsFilter && item.key === 'sources' && item.value === 'OSF');
+        return this.searchOptions.filters.filter(filter => filter.key === 'sources').size === 1 && osfSelected;
     }
 
     @computed('searchOptions', 'registrationTypes')
