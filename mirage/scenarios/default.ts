@@ -346,7 +346,7 @@ export default function(server: Server) {
     server.loadFixtures('regions');
     server.loadFixtures('preprint-providers');
     server.loadFixtures('licenses');
-    server.loadFixtures('registration-providers');
+    // server.loadFixtures('registration-providers');
 
     const userTraits = !mirageScenarios.includes('loggedIn') ? [] :
         [

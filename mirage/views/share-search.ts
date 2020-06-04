@@ -1,4 +1,4 @@
-import { Collection, ModelInstance, Request, Schema } from 'ember-cli-mirage';
+import { ModelInstance, Request, Schema } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
 import Contributor from 'ember-osf-web/models/contributor';
@@ -29,8 +29,8 @@ interface ProviderBucket {
     key: string;
 }
 
-function buildProviderBuckets(registrations: Collection<MirageRegistration>): ProviderBucket[] {
-    const providerBuckets = registrations.models.reduce(
+function buildProviderBuckets(registrations: Array<ModelInstance<MirageRegistration>>): ProviderBucket[] {
+    const providerBuckets = registrations.reduce(
         (counts, reg) => {
             const count = counts[reg.provider.shareSourceKey!] || 0;
             // eslint-disable-next-line no-param-reassign
@@ -44,7 +44,10 @@ function buildProviderBuckets(registrations: Collection<MirageRegistration>): Pr
         .map(([key, count]) => ({ key, doc_count: count! }));
 }
 
-function getRegistrationsForRequest(schema: Schema, request: Request): Collection<MirageRegistration> {
+function getRegistrationsForRequest(schema: Schema, request: Request): Array<ModelInstance<MirageRegistration>> {
+    debugger;
+    const filterList = JSON.parse(request.requestBody).query.bool.filter;
+    /*
     const {
         query: {
             bool: {
@@ -52,17 +55,18 @@ function getRegistrationsForRequest(schema: Schema, request: Request): Collectio
             },
         },
     } = JSON.parse(request.requestBody);
-
+    */
     // TODO type safety
     const providerFilter = filterList.find((filter: any) => Boolean(filter.terms && filter.terms.sources));
     if (providerFilter) {
         const { terms: { sources: providerShareKeys } } = providerFilter;
 
-        return schema.registrations.where(
-            reg => providerShareKeys.includes(reg.provider.shareSourceKey),
-        );
+        return schema.registrations.all().models.filter(reg => {
+            console.log(reg);
+            return reg.provider && providerShareKeys.includes(reg.provider.shareSourceKey);
+        });
     }
-    return schema.registrations.all();
+    return schema.registrations.all().models;
 }
 
 function serializeContributor(contributor: ModelInstance<Contributor>) {
@@ -133,7 +137,7 @@ export function shareSearch(schema: Schema, request: Request) {
     const response: SearchResponse = {
         hits: {
             total: registrations.length,
-            hits: registrations.models.map(reg => serializeRegistration(reg)),
+            hits: registrations.map(reg => serializeRegistration(reg)),
         },
     };
     if (hasProviderAggregation(request)) {
