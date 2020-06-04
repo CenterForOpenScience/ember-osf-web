@@ -200,8 +200,6 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
 
     @task
     getCountsAndAggs = task(function *(this: Discover) {
-        console.log('running getCountsAndAggs -- TODO: is this happening too often?');
-
         const results: SearchResults<any> = yield this.shareSearch.registrations(new SearchOptions({
             size: 0,
             modifiers: OrderedSet([
@@ -215,6 +213,13 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         const osfProviders = yield this.store.findAll('registration-provider', {
             adapterOptions: { queryParams: { 'page[size]': 100 } },
         });
+
+        // Setting osfProviders on the share-search service
+        this.shareSearch.osfProviders = osfProviders.map(item => ({
+            name: ,
+            https: ,
+            urlRegex: ,
+        }));
 
         const filterableSources: Array<{count: number, filter: SearchFilter}> = [];
         /* eslint-disable camelcase */
@@ -235,7 +240,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
             });
         }
 
-        // NOTE: sourcesWhitelist is iterated over here to match it's order.
+        // NOTE: config.externalRegistries is iterated over here to match its order.
         for (const source of config.externalRegistries) {
             const bucket = buckets.find(x => x.key === source.name);
             if (!bucket) {
