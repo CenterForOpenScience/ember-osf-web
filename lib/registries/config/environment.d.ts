@@ -9,6 +9,7 @@ declare const config: {
         name: string;
         https: boolean;
         urlRegex: string;
+        display?: string;
     }>;
     externalLinks: {
         help: string;

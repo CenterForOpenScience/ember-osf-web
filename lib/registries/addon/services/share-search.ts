@@ -104,13 +104,17 @@ export interface ShareRegistration {
     withdrawn: boolean;
 }
 
+export interface SourceDescriptor {
+    name: string;
+    https: boolean;
+    urlRegex: string;
+    display?: string;
+}
+
 export default class ShareSearch extends Search {
     static registrationsFilter = new ShareTermsFilter('types', 'registration', 'Registration');
-    osfProviders: Array<{
-        name: string;
-        https: boolean;
-        urlRegex: string;
-    }> = [];
+
+    osfProviders: SourceDescriptor[] = [];
 
     url(): string {
         return `${config.shareSearchBaseURL}/creativeworks/_search`;
@@ -189,6 +193,7 @@ export default class ShareSearch extends Search {
                 if (/^https?:\/\//.test(identifier)) {
                     hyperLinks.push(identifier);
 
+                    // TODO move to computed?
                     const allRegistries = config.externalRegistries.concat(this.osfProviders);
                     // Test to see if this link is the "main" link
                     for (const source of allRegistries) {
