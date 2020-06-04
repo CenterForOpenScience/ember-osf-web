@@ -218,34 +218,20 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
 
         // Setting osfProviders on the share-search service
         const urlRegex = config.OSF.url.replace(/^https?/, '^https?');
-        this.shareSearch.osfProviders = osfProviders.map(provider => ({
-            name: provider.shareSourceKey, // `name` should match what SHARE calls it
+        const filteredProviders = osfProviders.filter(provider => provider.shareSourceKey).map(provider => ({
+            name: provider.shareSourceKey!, // `name` should match what SHARE calls it
             display: provider.name,
             https: true,
             urlRegex,
         }));
+        this.shareSearch.set('osfProviders', filteredProviders);
 
         const filterableSources: Array<{count: number, filter: SearchFilter}> = [];
         /* eslint-disable camelcase */
         const buckets = results.aggregations.sources.buckets as Array<{key: string, doc_count: number}>;
-        for (const osfProvider of osfProviders) {
-            const bucket = buckets.find(x => x.key === osfProvider.shareSourceKey);
-            if (!bucket) {
-                continue;
-            }
-
-            filterableSources.push({
-                count: bucket.doc_count,
-                filter: new ShareTermsFilter(
-                    'sources',
-                    bucket.key,
-                    osfProvider.name,
-                ),
-            });
-        }
 
         // NOTE: config.externalRegistries is iterated over here to match its order.
-        for (const source of registriesConfig.externalRegistries) {
+        for (const source of this.shareSearch.allRegistries) {
             const bucket = buckets.find(x => x.key === source.name);
             if (!bucket) {
                 continue;
@@ -256,7 +242,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
                 filter: new ShareTermsFilter(
                     'sources',
                     bucket.key,
-                    source.name,
+                    source.display || source.name,
                 ),
             });
         }

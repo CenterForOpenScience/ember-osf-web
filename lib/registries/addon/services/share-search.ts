@@ -1,3 +1,4 @@
+import { computed } from '@ember/object';
 import unescapeXMLEntities from 'ember-osf-web/utils/fix-special-char';
 import { Map } from 'immutable';
 import config from 'registries/config/environment';
@@ -135,6 +136,11 @@ export default class ShareSearch extends Search {
         );
     }
 
+    @computed('osfProviders.[]')
+    get allRegistries() {
+        return config.externalRegistries.concat(this.osfProviders);
+    }
+
     // The output of this method must be a valid ES query
     // See here for details:
     // https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-body.html
@@ -193,10 +199,8 @@ export default class ShareSearch extends Search {
                 if (/^https?:\/\//.test(identifier)) {
                     hyperLinks.push(identifier);
 
-                    // TODO move to computed?
-                    const allRegistries = config.externalRegistries.concat(this.osfProviders);
                     // Test to see if this link is the "main" link
-                    for (const source of allRegistries) {
+                    for (const source of this.allRegistries) {
                         if (!new RegExp(source.urlRegex).test(identifier)) {
                             continue;
                         }
@@ -216,7 +220,7 @@ export default class ShareSearch extends Search {
                 id: r._id,
                 sources: r._source.sources.map(
                     (source: string) => {
-                        const entry = config.sourcesWhitelist.find(x => x.name === source);
+                        const entry = this.allRegistries.find(x => x.name === source);
                         return (entry && entry.display) ? entry.display : source;
                     },
                 ),

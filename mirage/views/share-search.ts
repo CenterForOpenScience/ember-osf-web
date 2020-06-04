@@ -86,7 +86,6 @@ function serializeContributor(contributor: ModelInstance<Contributor>) {
 }
 
 function serializeRegistration(reg: ModelInstance<RegistrationModel>) {
-    // TODO serialize all contributors for the given reg
     const serialized = {
         _id: 'fake-share-id',
         _source: {
@@ -129,10 +128,6 @@ interface SearchResponse {
 }
 
 export function shareSearch(schema: Schema, request: Request) {
-    // TODO:
-    // get provider from request body
-    // call buildRegistrationSearchResponse
-
     const registrations = getRegistrationsForRequest(schema, request);
 
     const response: SearchResponse = {
