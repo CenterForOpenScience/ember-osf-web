@@ -9,11 +9,13 @@ import Intl from 'ember-intl/services/intl';
 import QueryParams from 'ember-parachute';
 import { is, OrderedSet } from 'immutable';
 
+import config from 'ember-get-config';
+import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import scrollTo from 'ember-osf-web/utils/scroll-to';
 import discoverStyles from 'registries/components/registries-discover-search/styles';
-import config from 'registries/config/environment';
+import registriesConfig from 'registries/config/environment';
 import { SearchFilter, SearchOptions, SearchOrder, SearchResults } from 'registries/services/search';
 import ShareSearch, {
     ShareRegistration,
@@ -210,15 +212,16 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
             ]),
         }));
 
-        const osfProviders = yield this.store.findAll('registration-provider', {
+        const osfProviders: RegistrationProviderModel[] = yield this.store.findAll('registration-provider', {
             adapterOptions: { queryParams: { 'page[size]': 100 } },
         });
 
         // Setting osfProviders on the share-search service
-        this.shareSearch.osfProviders = osfProviders.map(item => ({
-            name,
+        const urlRegex = config.OSF.url.replace(/^https?/, 'https?');
+        this.shareSearch.osfProviders = osfProviders.map(provider => ({
+            name: provider.name,
             https: true,
-            urlRegex: , // check if domain name is in this? config.OSF_URL
+            urlRegex,
         }));
 
         const filterableSources: Array<{count: number, filter: SearchFilter}> = [];
@@ -241,7 +244,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         }
 
         // NOTE: config.externalRegistries is iterated over here to match its order.
-        for (const source of config.externalRegistries) {
+        for (const source of registriesConfig.externalRegistries) {
             const bucket = buckets.find(x => x.key === source.name);
             if (!bucket) {
                 continue;
