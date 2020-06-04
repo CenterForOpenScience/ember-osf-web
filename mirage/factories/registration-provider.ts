@@ -19,8 +19,8 @@ export interface RegistrationProviderTraits {
 }
 
 export default Factory.extend<MirageRegistrationProvider & RegistrationProviderTraits>({
-    name() {
-        return faker.lorem.word();
+    name(i: number) {
+        return `provider-${i}`;
     },
     description() {
         return faker.lorem.sentence();

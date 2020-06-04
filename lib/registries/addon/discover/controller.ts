@@ -13,7 +13,6 @@ import { is, OrderedSet } from 'immutable';
 import config from 'ember-get-config';
 import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 import Analytics from 'ember-osf-web/services/analytics';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import scrollTo from 'ember-osf-web/utils/scroll-to';
 import discoverStyles from 'registries/components/registries-discover-search/styles';
 import { SearchFilter, SearchOptions, SearchOrder, SearchResults } from 'registries/services/search';
@@ -50,7 +49,7 @@ interface DiscoverQueryParams {
     size: number;
     sort: SearchOrder;
     registrationTypes: ShareTermsFilter[];
-    sources: ShareTermsFilter[];
+    sourceNames: string[];
     subjects: ShareTermsFilter[];
 }
 
@@ -73,16 +72,14 @@ const sortOptions = [
 ];
 
 const queryParams = {
-    sources: {
+    sourceNames: {
         as: 'provider',
-        defaultValue: [] as ShareTermsFilter[],
-        serialize(value: ShareTermsFilter[]) {
-            return value.map(filter => filter.value).join('|');
+        defaultValue: [] as string[],
+        serialize(value: string[]) {
+            return value.join('|');
         },
         deserialize(value: string) {
-            return value.split(/OR|\|/).map(
-                name => new ShareTermsFilter('sources', name, name),
-            );
+            return value.split('|');
         },
     },
     registrationTypes: {
@@ -97,7 +94,7 @@ const queryParams = {
             if (value.trim().length < 1) {
                 return [];
             }
-            return value.split(/OR|\|/).map(
+            return value.split('|').map(
                 registrationType => new ShareTermsFilter('registration_type', registrationType, registrationType),
             );
         },
@@ -178,11 +175,20 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
     filterableSources: Array<{
         count: number;
         filter: SearchFilter;
-    }> = defaultTo(this.filterableSources, []);
+    }> = [];
 
     // used to filter the counts/aggregations and all search results
     get additionalFilters(): ShareTermsFilter[] {
         return [];
+    }
+
+    @computed('sourceNames.[]')
+    get sourceFilters() {
+        return this.sourceNames.map(
+            name => this.shareSearch.allRegistries.find(r => r.name === name),
+        ).filter(Boolean).map(
+            source => new ShareTermsFilter('sources', source!.name, source!.display || source!.name),
+        );
     }
 
     get filterStyles() {
@@ -255,8 +261,10 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
 
     @task({ restartable: true })
     doSearch = task(function *(this: Discover) {
+        // TODO-mob don't hard-code 'OSF'
+
         // Unless OSF is the only source, registration_type filters must be cleared
-        if (!(this.sources.length === 1 && this.sources[0]!.value === 'OSF')) {
+        if (!(this.sourceNames.length === 1 && this.sourceNames[0]! === 'OSF')) {
             this.set('registrationTypes', A([]));
         }
 
@@ -272,7 +280,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
             page: this.page,
             order: this.sort,
             filters: OrderedSet([
-                ...this.sources,
+                ...this.sourceFilters,
                 ...this.registrationTypes,
                 ...this.subjects,
                 ...this.additionalFilters,
@@ -329,9 +337,9 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
 
         const changes = {} as Discover;
 
-        if (!isEqual(this.sources, sources)) {
+        if (!isEqual(this.sourceFilters, sources)) {
             changes.page = 1;
-            changes.sources = sources;
+            changes.sourceNames = sources.map(filter => filter.value.toString());
         }
 
         if (!isEqual(this.registrationTypes, registrationTypes)) {

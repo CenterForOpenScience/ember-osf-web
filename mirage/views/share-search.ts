@@ -45,7 +45,6 @@ function buildProviderBuckets(registrations: Array<ModelInstance<MirageRegistrat
 }
 
 function getRegistrationsForRequest(schema: Schema, request: Request): Array<ModelInstance<MirageRegistration>> {
-    debugger;
     const filterList = JSON.parse(request.requestBody).query.bool.filter;
     /*
     const {

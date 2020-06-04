@@ -6,7 +6,6 @@ import { localClassNames } from 'ember-css-modules';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import { SearchFilter, SearchOptions } from 'registries/services/search';
 import template from './template';
 
@@ -22,7 +21,7 @@ export default class RegistriesSourcesFacet extends Component {
     options: EmberArray<{
         count: number,
         filter: SearchFilter,
-    }> = defaultTo(this.options, A([]));
+    }> = A([]);
 
     @computed('options', 'searchOptions')
     get providers() {

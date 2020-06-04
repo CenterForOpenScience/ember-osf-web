@@ -71,13 +71,13 @@ function registrationScenario(
     server.create('registration', {
         id: 'decaf',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
-    });
+    }, 'withContributors');
 
     server.create('registration', {
         id: 'berand',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider,
-    });
+    }, 'withContributors');
 
     server.create('draft-registration', {
         id: 'dcaf',
