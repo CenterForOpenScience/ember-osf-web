@@ -216,9 +216,9 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
 
         // Setting osfProviders on the share-search service
         this.shareSearch.osfProviders = osfProviders.map(item => ({
-            name: ,
-            https: ,
-            urlRegex: ,
+            name,
+            https: true,
+            urlRegex: , // check if domain name is in this? config.OSF_URL
         }));
 
         const filterableSources: Array<{count: number, filter: SearchFilter}> = [];
