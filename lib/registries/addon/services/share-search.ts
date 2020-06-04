@@ -94,8 +94,6 @@ export interface ShareRegistration {
     datePublished?: Date;
     dateUpdated?: Date;
     mainLink: string;
-    hyperLinks: string[];
-    infoLinks: Array<{ type: string; uri: string; }>;
     registrationType: string;
     sources: string[];
     subjectSynonyms: string[];
@@ -215,8 +213,6 @@ export default class ShareSearch extends Search {
 
             return {
                 contributors,
-                hyperLinks,
-                infoLinks,
                 id: r._id,
                 sources: r._source.sources.map(
                     (source: string) => {

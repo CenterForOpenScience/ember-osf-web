@@ -61,29 +61,6 @@
         </p>
 
         <div local-class='Details {{if this.expanded 'Expanded' 'Collapsed'}}'>
-            <ul local-class='RegistriesSearchResult__HyperLinks' class='m-t-sm'>
-                {{#each @result.hyperLinks as |hyperlink index|}}
-                    <li>
-                        <a
-                            href={{hyperlink}}
-                            data-test-result-hyperlink-id='{{@result.id}} - {{index}}'
-                            onclick={{action 'click' 'link' (concat 'Discover - Result Hyperlink: ' hyperlink) @result.id target=this.analytics}}
-                        >
-                            {{hyperlink}}
-                        </a>
-                    </li>
-                {{/each}}
-            </ul>
-
-            <ul local-class='RegistriesSearchResult__InfoLinks'>
-                {{#each @result.infoLinks as |infolink|}}
-                    <li>
-                        <b>{{infolink.type}}: </b>
-                        {{infolink.uri}}
-                    </li>
-                {{/each}}
-            </ul>
-
             {{#each @result.tags as |tag|}}
                 <span class='badge'>{{math tag}}</span>
             {{/each}}
