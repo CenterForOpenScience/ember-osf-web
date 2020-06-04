@@ -22,8 +22,6 @@ import ShareSearch, {
     ShareTermsFilter,
 } from 'registries/services/share-search';
 
-import styles from './styles';
-
 // Helper for Immutable.is as it doesn't like Native Arrays
 function isEqual(obj1: any, obj2: any) {
     if (Array.isArray(obj1) && Array.isArray(obj2)) {
