@@ -5,6 +5,7 @@ import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
+import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import QueryParams from 'ember-parachute';
 import { is, OrderedSet } from 'immutable';
@@ -15,7 +16,6 @@ import Analytics from 'ember-osf-web/services/analytics';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import scrollTo from 'ember-osf-web/utils/scroll-to';
 import discoverStyles from 'registries/components/registries-discover-search/styles';
-import registriesConfig from 'registries/config/environment';
 import { SearchFilter, SearchOptions, SearchOrder, SearchResults } from 'registries/services/search';
 import ShareSearch, {
     ShareRegistration,
@@ -165,6 +165,7 @@ export const discoverQueryParams = new QueryParams<DiscoverQueryParams>(queryPar
 export default class Discover extends Controller.extend(discoverQueryParams.Mixin) {
     @service intl!: Intl;
     @service analytics!: Analytics;
+    @service store!: DS.Store;
     @service shareSearch!: ShareSearch;
 
     sortOptions = sortOptions;

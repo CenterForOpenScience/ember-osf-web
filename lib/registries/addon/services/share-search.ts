@@ -132,7 +132,7 @@ export default class ShareSearch extends Search {
     async registrations(options: SearchOptions): Promise<SearchResults<ShareRegistration>> {
         return this.search(
             options.addFilters(ShareSearch.registrationsFilter),
-            this._postProcessRegistrations,
+            this._postProcessRegistrations.bind(this),
         );
     }
 

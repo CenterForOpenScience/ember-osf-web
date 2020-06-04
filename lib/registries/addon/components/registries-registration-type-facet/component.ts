@@ -15,14 +15,9 @@ import Analytics from 'ember-osf-web/services/analytics';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
-import engineConfig from 'registries/config/environment';
 import { SearchOptions } from 'registries/services/search';
 import { ShareTermsFilter } from 'registries/services/share-search';
 import template from './template';
-
-const {
-    externalRegistries,
-} = engineConfig;
 
 const {
     featureFlagNames: {
