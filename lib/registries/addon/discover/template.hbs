@@ -25,7 +25,7 @@
         as |discover|
     }}
 
-        {{#discover.sidebar filterStyles=this.filterStyles as |sidebar|}}
+        {{#discover.sidebar as |sidebar|}}
             {{registries-provider-facet
                 options=this.filterableSources
                 searchOptions=this.searchOptions

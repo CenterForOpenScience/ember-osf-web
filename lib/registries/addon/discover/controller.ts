@@ -191,13 +191,6 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         );
     }
 
-    get filterStyles() {
-        return {
-            sources: styles['ActiveFilters--Sources'],
-            registration_type: styles['ActiveFilters--RegistrationType'],
-        };
-    }
-
     @computed('searchOptions', 'totalResults')
     get maxPage() {
         const max = Math.ceil(this.totalResults / this.searchOptions.size);
