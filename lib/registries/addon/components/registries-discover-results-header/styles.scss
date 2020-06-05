@@ -9,3 +9,7 @@
 .SortDropDown__Option {
     composes: SortDropDown__Option from '../../discover/styles';
 }
+
+.DropdownContent {
+    border: $color-border-gray;
+}

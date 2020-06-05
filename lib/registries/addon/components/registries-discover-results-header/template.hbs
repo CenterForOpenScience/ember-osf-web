@@ -1,6 +1,6 @@
 <div class='col-sm-8 col-xs-12' local-class='ResultsHeader'>
     <div class='col-sm-6'>
-        <h2>{{number-format @totalResults}} Registrations</h2>
+        <h2>{{number-format @totalResults}} {{t 'registries.discover.registrations'}}</h2>
     </div>
     <div class='col-sm-6 text-right'>
         <ResponsiveDropdown as |dd|>
@@ -12,9 +12,9 @@
                 {{t 'registries.discover.sort_by'}}: {{t @searchOptions.order.display}}
                 <span aria-label='{{t 'registries.discover.sort_by'}}' class='caret'></span>
             </Button>
-            <dd.content>
+            <dd.content @class={{local-class 'DropdownContent'}}>
                 {{#each @sortOptions as |option index|}}
-                {{!-- TODO: add list component functionality to responsive dropdown? Or just do this differently--}}
+                    {{!-- TODO: add list component functionality to responsive dropdown? Or just do this differently--}}
                     <div> 
                         <button data-test-sort-option-id='{{index}}' class='btn' local-class='SortDropDown__Option' {{on 'click' (fn @setOrder option)}}>{{t option.display}}</button>
                     </div>
