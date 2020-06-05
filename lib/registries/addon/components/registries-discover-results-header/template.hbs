@@ -4,19 +4,25 @@
     </div>
     <div class='col-sm-6 text-right'>
         <ResponsiveDropdown as |dd|>
-            <Button
-                data-test-sort-dropdown=true
-                data-ebd-id='{{dd.uniqueId}}-trigger'
-                {{on 'click' dd.toggle}}
-            >
-                {{t 'registries.discover.sort_by'}}: {{t @searchOptions.order.display}}
-                <span aria-label='{{t 'registries.discover.sort_by'}}' class='caret'></span>
-            </Button>
+            <dd.trigger>
+                <Button data-test-sort-dropdown=true>
+                    {{t 'registries.discover.sort_by'}}: {{t @searchOptions.order.display}}
+                    <span aria-label='{{t 'registries.discover.sort_by'}}' class='caret'></span>
+                </Button>
+            </dd.trigger>
             <dd.content @class={{local-class 'DropdownContent'}}>
                 {{#each @sortOptions as |option index|}}
                     {{!-- TODO: add list component functionality to responsive dropdown? Or just do this differently--}}
-                    <div> 
-                        <button data-test-sort-option-id='{{index}}' class='btn' local-class='SortDropDown__Option' {{on 'click' (fn @setOrder option)}}>{{t option.display}}</button>
+                    <div>
+                        <button
+                            data-test-sort-option-id='{{index}}'
+                            class='btn'
+                            local-class='SortDropDown__Option'
+                            {{on 'click' (fn @setOrder option)}}
+                            {{on 'click' dd.close}}
+                        >
+                            {{t option.display}}
+                        </button>
                     </div>
                 {{/each}}
             </dd.content>

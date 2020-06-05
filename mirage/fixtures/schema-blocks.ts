@@ -174,6 +174,20 @@ const exampleSchema: Array<Partial<SchemaBlock>> = [
         schemaBlockGroupKey: 'q6',
         index: 22,
     },
+    {
+        id: 'SB24',
+        blockType: 'question-label',
+        displayText: 'Gimme a file',
+        schemaBlockGroupKey: 'q7',
+        index: 23,
+    },
+    {
+        id: 'SB25',
+        blockType: 'file-input',
+        registrationResponseKey: 'page-two_file',
+        schemaBlockGroupKey: 'q7',
+        index: 24,
+    },
 ];
 
 export const ids = exampleSchema.map(block => block.id);

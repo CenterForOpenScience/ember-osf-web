@@ -1,26 +1,18 @@
 .Sidebar__ActiveFilter {
-    background-color: $color-filter-bg;
-    color: $color-text-white;
-    display: inline-block;
-    padding: 0 15px;
     line-height: 30px;
-    margin-right: -5px;
-    border-radius: 2px;
+    display: inline-block;
 }
 
-// .Sidebar__RemoveFilter {
-//     margin: 2px;
-//     padding: 0 6px;
-//     line-height: 30px;
-//     border: 1px solid #e3e3e3;
-//     border-radius: 2px;
-//     background-color: $color-bg-white;
+.Sidebar__ActiveFilterLabel {
+    background-color: $color-filter-bg;
+    color: $color-text-white;
+    border-radius: 2px;
+    padding: 0 15px;
+}
 
-//     & > i {
-//         padding: 5px;
-//         color: var(--primary-color);
-//     }
-// }
+.Sidebar__RemoveFilter {
+    line-height: 30px;
+}
 
 .Sidebar__Facets {
     padding-top: 15px;

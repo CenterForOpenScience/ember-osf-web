@@ -11,5 +11,6 @@
 }
 
 .DropdownContent {
-    border: $color-border-gray;
+    border: 1px solid $color-border-gray;
+    box-shadow: 0px 1px 2px $primary-box-shadow;
 }

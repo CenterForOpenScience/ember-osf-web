@@ -61,7 +61,7 @@ function registrationScenario(
         'page-one_single-select-two': 'Remember who was in NSync and who was in Backstreet Boys',
     };
 
-    const rootNode = server.create('node');
+    const rootNode = server.create('node', 'withFiles');
     const childNodeA = server.create('node', { parent: rootNode });
     server.create('node', { parent: childNodeA });
     server.create('node', { parent: childNodeA });
