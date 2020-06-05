@@ -1,17 +1,20 @@
 .Sidebar__ActiveFilter {
     line-height: 30px;
     display: inline-block;
+    margin-top: 5px;
 }
 
 .Sidebar__ActiveFilterLabel {
     background-color: $color-filter-bg;
     color: $color-text-white;
-    border-radius: 2px;
-    padding: 0 15px;
+    padding: 1.5px 8px 4px;
+    display: inline-block;
+    border-radius: 2px 0 0 2px;
 }
 
 .Sidebar__RemoveFilter {
-    line-height: 30px;
+    line-height: inherit;
+    border-radius: 0 2px 2px 0;
 }
 
 .Sidebar__Facets {
