@@ -13,7 +13,7 @@ import template from './template';
 
 @layout(template)
 @localClassNames('Sidebar')
-@classNames('col-sm-4', 'col-xs-12')
+@classNames('col-sm-3', 'col-xs-12')
 export default class SideBar extends Component {
     @service analytics!: Analytics;
 
