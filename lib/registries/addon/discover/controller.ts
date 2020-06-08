@@ -180,7 +180,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         return [];
     }
 
-    @computed('sourceNames.[]')
+    @computed('sourceNames.[]', 'shareSearch.allRegistries.[]')
     get sourceFilters() {
         return this.sourceNames.map(
             name => this.shareSearch.allRegistries.find(r => r.name === name),
@@ -248,6 +248,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
 
         this.set('searchable', results.total);
         this.set('filterableSources', filterableSources);
+        this.doSearch.perform();
     });
 
     @task({ restartable: true })
@@ -299,7 +300,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
     });
 
     setup() {
-        this.doSearch.perform();
+        this.getCountsAndAggs.perform();
     }
 
     queryParamsDidChange() {

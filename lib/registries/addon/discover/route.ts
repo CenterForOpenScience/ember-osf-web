@@ -11,7 +11,6 @@ export default class RegistriesDiscoverRoute extends Route {
 
     setupController(controller: RegistriesDiscoverController, model: {}) {
         super.setupController(controller, model);
-        controller.getCountsAndAggs.perform();
     }
 
     @action
