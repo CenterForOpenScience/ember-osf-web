@@ -4,12 +4,16 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { localClassNames } from 'ember-css-modules';
-import { OrderedSet } from 'immutable';
+import { is, OrderedSet } from 'immutable';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import { SearchFilter, SearchOptions } from 'registries/services/search';
 import template from './template';
+
+function includesImmutable(someArray: unknown[], someValue: unknown) {
+    return someArray.any(val => is(val, someValue));
+}
 
 @layout(template)
 @localClassNames('Sidebar')
@@ -25,7 +29,7 @@ export default class SideBar extends Component {
     get filters() {
         const filters = A<any>([]);
         for (const filter of this.searchOptions.filters) {
-            if (!this.additionalFilters.includes(filter)) {
+            if (!includesImmutable(this.additionalFilters, filter)) {
                 filters.addObject({
                     filter,
                     display: filter.display,

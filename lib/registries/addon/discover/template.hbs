@@ -21,6 +21,7 @@
         results=this.results
         isLoading=this.doSearch.isIdle
         searchOptions=this.searchOptions
+        additionalFilters=this.additionalFilters
         onSearchOptionsUpdated=(action this.onSearchOptionsUpdated)
         as |discover|
     }}
@@ -31,12 +32,12 @@
                     searchOptions=this.searchOptions
                     onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
                 }}
-            
+
                 {{registries-registration-type-facet
                     searchOptions=this.searchOptions
                     onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
                 }}
-            
+
                 {{!-- TODO: this feature is not ready yet. Will be implemented in Phase2 Branded Reg --}}
                 {{!-- {{#if this.providerModel}}
                             {{registries-subjects-facet

@@ -1,7 +1,13 @@
+.Sidebar__ActiveFilters {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .Sidebar__ActiveFilter {
     line-height: 30px;
     display: flex;
     margin-top: 5px;
+    margin-right: 5px;
 }
 
 .Sidebar__ActiveFilterLabel {
