@@ -61,7 +61,6 @@ function getRegistrationsForRequest(schema: Schema, request: Request): Array<Mod
         const { terms: { sources: providerShareKeys } } = providerFilter;
 
         return schema.registrations.all().models.filter(reg => {
-            console.log(reg);
             return reg.provider && providerShareKeys.includes(reg.provider.shareSourceKey);
         });
     }
@@ -81,7 +80,7 @@ function serializeContributor(contributor: ModelInstance<Contributor>) {
         cited_as: contributor.fullName,
         type: 'person',
         identifiers: [
-            `${osfUrl}${contributor.users.id}/`,
+            `https://osf.io/${contributor.users.id}/`,
         ],
         id: contributor.id,
         additional_name: contributor.users.middleNames,
