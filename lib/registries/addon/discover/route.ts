@@ -4,14 +4,8 @@ import { inject as service } from '@ember/service';
 
 import Analytics from 'ember-osf-web/services/analytics';
 
-import RegistriesDiscoverController from './controller';
-
 export default class RegistriesDiscoverRoute extends Route {
     @service analytics!: Analytics;
-
-    setupController(controller: RegistriesDiscoverController, model: {}) {
-        super.setupController(controller, model);
-    }
 
     @action
     didTransition() {

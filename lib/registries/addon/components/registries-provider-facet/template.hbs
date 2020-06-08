@@ -6,6 +6,7 @@
                     <Input
                         local-class='ProviderFacet__Checkbox'
                         data-test-source-filter-id={{index}}
+                        disabled={{this.shouldLinkToAggregateDiscover}}
                         @type='checkbox'
                         @change={{action 'providerChecked' provider.filter provider.checked}}
                         @checked={{provider.checked}}
