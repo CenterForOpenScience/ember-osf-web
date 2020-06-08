@@ -12,7 +12,9 @@
                     />
                     {{provider.filter.display}}
                 </label>
-                <span local-class='ProviderFacet__Count'>{{number-format provider.count}}</span>
+                <span local-class='ProviderFacet__Count'>
+                    {{format-number provider.count notation='compact'}}
+                </span>
             </li>
         {{/each}}
     </ul>

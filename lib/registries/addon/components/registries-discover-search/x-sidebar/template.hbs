@@ -1,19 +1,4 @@
-<div class='row'>
-    <div class='col-xs-6'>
-        <h4>{{t 'registries.discover.sidebar.active_filters'}}:</h4>
-    </div>
-    <div class='col-xs-6'>
-        <Button
-            data-test-clear-filters
-            @layout='medium'
-            @type='secondary'
-            {{on 'click' this.clearFilters}}
-        >
-            {{t 'registries.discover.sidebar.clear_filters'}}
-            {{fa-icon 'times'}}
-        </Button>
-    </div>
-</div>
+<h4>{{t 'registries.discover.sidebar.refine_search'}}</h4>
 
 {{#each this.filters as |filter|}}
     <div local-class='Sidebar__ActiveFilter'>

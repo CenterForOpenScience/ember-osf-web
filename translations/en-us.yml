@@ -954,8 +954,6 @@ registries:
             modified_ascending: 'Modified Date (oldest to newest)'
             modified_descending: 'Modified Date (newest to oldest)'
         sidebar:
-            clear_filters: 'Clear filters'
-            active_filters: 'Active filters'
             refine_search: 'Refine Search'
             remove_filter_label: 'Remove {filterName} filter'
         search_result:
