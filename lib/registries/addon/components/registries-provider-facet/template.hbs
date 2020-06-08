@@ -1,7 +1,7 @@
 {{#registries-search-facet-container title='Provider'}}
     <ul>
         {{#each this.providers as |provider index|}}
-            <li>
+            <li local-class='ProviderLabel'>
                 <label local-class='CheckboxLabel'>
                     <Input
                         data-test-source-filter-id={{index}}
@@ -10,8 +10,8 @@
                         @checked={{provider.checked}}
                     />
                     {{provider.filter.display}}
-                    <small>{{number-format provider.count}}</small>
                 </label>
+                <small>{{number-format provider.count}}</small>
             </li>
         {{/each}}
     </ul>
