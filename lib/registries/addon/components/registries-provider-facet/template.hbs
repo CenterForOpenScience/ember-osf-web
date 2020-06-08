@@ -2,7 +2,7 @@
     <ul>
         {{#each this.providers as |provider index|}}
             <li>
-                <label>
+                <label local-class='CheckboxLabel'>
                     <Input
                         data-test-source-filter-id={{index}}
                         @type='checkbox'
@@ -10,7 +10,7 @@
                         @checked={{provider.checked}}
                     />
                     {{provider.filter.display}}
-                    <small>({{number-format provider.count}})</small>
+                    <small>{{number-format provider.count}}</small>
                 </label>
             </li>
         {{/each}}
