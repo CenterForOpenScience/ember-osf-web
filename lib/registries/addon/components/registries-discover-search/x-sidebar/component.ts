@@ -18,16 +18,19 @@ export default class SideBar extends Component {
     @service analytics!: Analytics;
 
     searchOptions!: SearchOptions;
+    additionalFilters!: SearchFilter[];
     @requiredAction onSearchOptionsUpdated!: (options: SearchOptions) => void;
 
     @computed('searchOptions')
     get filters() {
         const filters = A<any>([]);
         for (const filter of this.searchOptions.filters) {
-            filters.addObject({
-                filter,
-                display: filter.display,
-            });
+            if (!this.additionalFilters.includes(filter)) {
+                filters.addObject({
+                    filter,
+                    display: filter.display,
+                });
+            }
         }
         return filters;
     }
