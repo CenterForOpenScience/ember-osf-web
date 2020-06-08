@@ -1,9 +1,10 @@
 {{#registries-search-facet-container title='Provider'}}
-    <ul>
+    <ul local-class='ProviderFacet__List'>
         {{#each this.providers as |provider index|}}
-            <li local-class='ProviderLabel'>
-                <label local-class='CheckboxLabel'>
+            <li local-class='ProviderFacet__ListItem'>
+                <label local-class='ProviderFacet__Label'>
                     <Input
+                        local-class='ProviderFacet__Checkbox'
                         data-test-source-filter-id={{index}}
                         @type='checkbox'
                         @change={{action 'providerChecked' provider.filter provider.checked}}
@@ -11,7 +12,7 @@
                     />
                     {{provider.filter.display}}
                 </label>
-                <small>{{number-format provider.count}}</small>
+                <span local-class='ProviderFacet__Count'>{{number-format provider.count}}</span>
             </li>
         {{/each}}
     </ul>
