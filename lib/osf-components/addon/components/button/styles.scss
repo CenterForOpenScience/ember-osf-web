@@ -71,10 +71,11 @@
 .FakeLink {
     background: none;
     border: transparent;
-    color: var(--primary-color);
     display: inline;
+    color: $color-link-dark;
 
-    i:hover {
-        color: var(--secondary-color);
+    &:hover {
+        color: var(--primary-color);
+        text-decoration: underline;
     }
 }

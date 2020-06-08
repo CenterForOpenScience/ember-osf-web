@@ -1,23 +1,26 @@
 import Component from '@glimmer/component';
 
-type Layout = 'small' | 'medium' | 'large' | 'fake-link';
-type Type = 'primary' | 'secondary' | 'create' | 'destroy';
-
-interface Args {
-    layout?: Layout;
-    type?: Type;
-}
-
-const classMap = {
+const layoutClasses = {
     small: 'SmallButton',
     medium: 'MediumButton',
     large: 'LargeButton',
     'fake-link': 'FakeLink',
+};
+
+const typeClasses = {
     primary: 'PrimaryButton',
     secondary: 'SecondaryButton',
     create: 'CreateButton',
     destroy: 'DestroyButton',
 };
+
+type Layout = keyof typeof layoutClasses;
+type Type = keyof typeof typeClasses;
+
+interface Args {
+    layout?: Layout;
+    type?: Type;
+}
 
 export default class Button extends Component<Args> {
     get classList(): string {
@@ -25,15 +28,15 @@ export default class Button extends Component<Args> {
         const { layout, type } = this.args;
 
         if (layout) {
-            classes.push(classMap[layout]);
+            classes.push(layoutClasses[layout]);
         } else {
-            classes.push(classMap.medium);
+            classes.push(layoutClasses.medium);
         }
 
         if (type) {
-            classes.push(classMap[type]);
-        } else {
-            classes.push(classMap.secondary);
+            classes.push(typeClasses[type]);
+        } else if (layout !== 'fake-link') {
+            classes.push(typeClasses.secondary);
         }
 
         return classes.join(' ');

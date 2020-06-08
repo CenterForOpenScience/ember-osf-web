@@ -1,5 +1,8 @@
 .OsfLink {
+    color: $color-link-dark;
+
     &:hover {
         color: var(--primary-color);
+        text-decoration: underline;
     }
 }

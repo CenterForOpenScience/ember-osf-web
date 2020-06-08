@@ -11,13 +11,13 @@
             }}
         {{/if}}
         <h4 local-class='RegistriesSearchResult__Title'>
-            <a
-                href={{@result.mainLink}}
+            <OsfLink
                 data-test-result-title-id={{@result.id}}
-                onclick={{action 'click' 'link' (concat 'Discover - Result Title: ' @result.mainLink) @result.id target=this.analytics}}
+                @href={{@result.mainLink}}
+                {{on 'click' (action 'click' 'link' (concat 'Discover - Result Title: ' @result.mainLink) @result.id target=this.analytics)}}
             >
                 {{math @result.title}}
-            </a>
+            </OsfLink>
 
             {{#if @result.withdrawn}}
                 <span class='label label-default'>{{t 'registries.discover.search_result.withdrawn'}}</span>
@@ -28,7 +28,7 @@
             {{#each this.contributors as |contrib|}}
                 <li>
                     {{#if contrib.link}}
-                        <a href={{contrib.link}}>{{contrib.name}}</a>
+                        <OsfLink @href={{contrib.link}}>{{contrib.name}}</OsfLink>
                     {{else}}
                         {{contrib.name}}
                     {{/if}}
