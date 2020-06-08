@@ -1,23 +1,23 @@
 <h3>
     {{t 'registries.discover.sidebar.refine_search'}}
 </h3>
-
-{{#each this.filters as |filter|}}
-    <div local-class='Sidebar__ActiveFilter'>
-        <span local-class='Sidebar__ActiveFilterLabel'>
-            {{filter.display}}
-        </span>
-        <Button
-            @layout='small'
-            local-class='Sidebar__RemoveFilter'
-            aria-label={{t 'registries.discover.sidebar.remove_filter_label' filterName=filter.display}}
-            {{on 'click' (fn this.removeFilter filter.filter)}}
-        >
-            {{fa-icon 'times'}}
-        </Button>
-    </div>
-{{/each}}
-
+<div>
+    {{#each this.filters as |filter|}}
+        <div local-class='Sidebar__ActiveFilter'>
+            <span local-class='Sidebar__ActiveFilterLabel'>
+                {{filter.display}}
+            </span>
+            <Button
+                @layout='small'
+                local-class='Sidebar__RemoveFilter'
+                aria-label={{t 'registries.discover.sidebar.remove_filter_label' filterName=filter.display}}
+                {{on 'click' (fn this.removeFilter filter.filter)}}
+            >
+                {{fa-icon 'times'}}
+            </Button>
+        </div>
+    {{/each}}
+</div>
 <div local-class='Sidebar__Facets'>
     {{yield (hash
         filters=this.filters

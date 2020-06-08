@@ -1,6 +1,6 @@
 .Sidebar__ActiveFilter {
     line-height: 30px;
-    display: inline-block;
+    display: flex;
     margin-top: 5px;
 }
 
@@ -8,7 +8,6 @@
     background-color: $color-filter-bg;
     color: $color-text-white;
     padding: 1.5px 8px 4px;
-    display: inline-block;
     border-radius: 2px 0 0 2px;
 }
 
