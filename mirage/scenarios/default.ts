@@ -67,22 +67,6 @@ function registrationScenario(
     server.create('node', { parent: childNodeA });
     const licenseReqFields = server.schema.licenses.findBy({ name: 'MIT License' });
     const provider = server.create('registration-provider', 'withBrand');
-    const clinicalTrialsProvider = server.create(
-        'registration-provider',
-        {
-            name: 'ClinicalTrials.gov',
-            shareSourceKey: 'ClinicalTrials.gov',
-        },
-        'withBrand',
-    );
-    const researchRegistryProvider = server.create(
-        'registration-provider',
-        {
-            name: 'Research Registry',
-            shareSourceKey: 'Research Registry',
-        },
-        'withBrand',
-    );
 
     server.create('registration', {
         id: 'decaf',
@@ -93,18 +77,6 @@ function registrationScenario(
         id: 'berand',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider,
-    }, 'withContributors');
-
-    server.create('registration', {
-        id: 'testa',
-        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
-        provider: clinicalTrialsProvider,
-    }, 'withContributors');
-
-    server.create('registration', {
-        id: 'testb',
-        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
-        provider: researchRegistryProvider,
     }, 'withContributors');
 
     server.create('draft-registration', {

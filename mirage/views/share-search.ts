@@ -29,6 +29,13 @@ interface ProviderBucket {
     key: string;
 }
 
+function getExternalProviders(): ProviderBucket[] {
+    return [
+        { doc_count: 10000, key: 'ClinicalTrials.gov'},
+        { doc_count: 3200, key: 'Research Registry' },
+    ];
+}
+
 function buildProviderBuckets(registrations: Array<ModelInstance<MirageRegistration>>): ProviderBucket[] {
     const providerBuckets = registrations.reduce(
         (counts, reg) => {
@@ -141,7 +148,7 @@ export function shareSearch(schema: Schema, request: Request) {
     if (hasProviderAggregation(request)) {
         response.aggregations = {
             sources: {
-                buckets: buildProviderBuckets(registrations),
+                buckets: [...buildProviderBuckets(registrations), ...getExternalProviders()],
             },
         };
     }
