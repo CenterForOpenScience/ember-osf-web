@@ -4,7 +4,7 @@ import config from 'ember-get-config';
 import Contributor from 'ember-osf-web/models/contributor';
 import RegistrationModel from 'ember-osf-web/models/registration';
 
-import { MirageRegistration } from 'ember-osf-web/mirage/factories/registration';
+import RegistrationFactory, { MirageRegistration } from 'ember-osf-web/mirage/factories/registration';
 
 const {
     OSF: {
@@ -63,6 +63,10 @@ function getRegistrationsForRequest(schema: Schema, request: Request): Array<Mod
     } = JSON.parse(request.requestBody);
     */
     // TODO type safety
+    // @ts-ignore
+    const externalRegistrations = RegistrationFactory().build(100);
+    console.log("externalRegistrations", externalRegistrations)
+
     const providerFilter = filterList.find((filter: any) => Boolean(filter.terms && filter.terms.sources));
     if (providerFilter) {
         const { terms: { sources: providerShareKeys } } = providerFilter;
