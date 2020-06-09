@@ -31,8 +31,8 @@ interface ProviderBucket {
 
 function getExternalProviders(): ProviderBucket[] {
     return [
-        { doc_count: 10000, key: 'ClinicalTrials.gov'},
-        { doc_count: 3200, key: 'Research Registry' },
+        { doc_count: 10000, key: 'ClinicalTrials.gov' },
+        { doc_count: 3200000, key: 'Research Registry' },
     ];
 }
 
@@ -62,20 +62,80 @@ function getRegistrationsForRequest(schema: Schema, request: Request): Array<Mod
         },
     } = JSON.parse(request.requestBody);
     */
-    // TODO type safety
-    // @ts-ignore
-    const externalRegistrations = RegistrationFactory().build(100);
-    console.log("externalRegistrations", externalRegistrations)
 
     const providerFilter = filterList.find((filter: any) => Boolean(filter.terms && filter.terms.sources));
     if (providerFilter) {
         const { terms: { sources: providerShareKeys } } = providerFilter;
 
-        return schema.registrations.all().models.filter(reg => {
-            return reg.provider && providerShareKeys.includes(reg.provider.shareSourceKey);
-        });
+        return schema.registrations.all().models.filter(
+            reg => reg.provider && providerShareKeys.includes(reg.provider.shareSourceKey),
+        );
     }
     return schema.registrations.all().models;
+}
+
+function serializeExternalRegistration(externalReg: any, shareSourceKey: string) {
+    const serialized = {
+        _id: 'fake-share-id',
+        _source: {
+            date: externalReg.dateRegistered,
+            date_published: externalReg.dateRegistered,
+            justification: externalReg.withdrawalJustification,
+            sources: [shareSourceKey],
+            affiliations: [],
+            registration_type: 'yes this is a schema',
+            type: 'registration',
+            subject_synonyms: [],
+            id: externalReg.id,
+            language: null,
+            types: ['registration', 'publication', 'creative work'],
+            lists: {
+                contributors: [
+                    {
+                        affiliations: [],
+                        awards: [],
+                        family_name: 'Famfam',
+                        given_name: 'Givgiv',
+                        types: ['person', 'agent'],
+                        order_cited: 0,
+                        relation: 'creator',
+                        name: 'Givgiv Addadd Famfam',
+                        cited_as: 'G.A. Famfam',
+                        type: 'person',
+                        identifiers: [
+                            'https://elsewhere.example.com/givgiv',
+                        ],
+                        id: 'haha',
+                        additional_name: 'Addadd',
+                    },
+                ],
+            },
+            subjects: [],
+            title: externalReg.title,
+            retracted: externalReg.withdrawn,
+            contributors: ['G.A. Famfam'],
+            date_updated: externalReg.dateModified,
+            description: externalReg.description,
+            date_modified: externalReg.dateModified,
+            date_created: externalReg.dateRegistered,
+            tags: ['project'],
+            withdrawn: externalReg.withdrawn,
+            identifiers: ['https://elsewhere.example.com/registration'],
+        },
+    };
+    return serialized;
+}
+
+function buildExternalRegistrations(shareSourceKey: string) {
+    // TODO type safety
+    const externalRegistrations = Array.from({ length: 3 }).map(
+        // @ts-ignore
+        () => new RegistrationFactory().build(100),
+    ).map(
+        externalReg => serializeExternalRegistration(externalReg, shareSourceKey),
+    );
+
+    return externalRegistrations;
 }
 
 function serializeContributor(contributor: ModelInstance<Contributor>) {
@@ -143,16 +203,25 @@ interface SearchResponse {
 export function shareSearch(schema: Schema, request: Request) {
     const registrations = getRegistrationsForRequest(schema, request);
 
+    const externalProviders = getExternalProviders();
+
+    const externalRegistrations = externalProviders
+        .map(({ key }) => buildExternalRegistrations(key))
+        .reduce((a1, a2) => [...a1, ...a2]);
+
     const response: SearchResponse = {
         hits: {
             total: registrations.length,
-            hits: registrations.map(reg => serializeRegistration(reg)),
+            hits: [
+                ...registrations.map(reg => serializeRegistration(reg)),
+                ...externalRegistrations,
+            ],
         },
     };
     if (hasProviderAggregation(request)) {
         response.aggregations = {
             sources: {
-                buckets: [...buildProviderBuckets(registrations), ...getExternalProviders()],
+                buckets: [...buildProviderBuckets(registrations), ...externalProviders],
             },
         };
     }
