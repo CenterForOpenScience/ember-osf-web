@@ -14,7 +14,6 @@ export interface DraftRegistrationTraits {
 
 export default Factory.extend<DraftRegistration & DraftRegistrationTraits>({
     afterCreate(newDraft, server) {
-        debugger;
         const draftProvider = newDraft.provider;
         if (!draftProvider) {
             const defaultProvider = server.schema.registrationProviders.find('osf') || server.create('registration-provider', { id: 'osf' });

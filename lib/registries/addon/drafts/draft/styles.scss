@@ -1,5 +1,7 @@
 .ContentBackground {
-    composes: ContentBackground from '../../overview/styles';
+    flex-grow: 1;
+    justify-content: center;
+    position: relative;
 }
 
 .DraftHeroOverlay {
