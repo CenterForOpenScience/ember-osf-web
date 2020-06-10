@@ -12,10 +12,6 @@ import UserModel from './user';
 
 const { attr, belongsTo, hasMany } = DS;
 
-export interface InstitutionLinks extends OsfLinks {
-    csv: string;
-}
-
 /* eslint-disable camelcase */
 export interface Assets {
     banner?: string;
@@ -30,7 +26,6 @@ export interface Department {
 }
 
 export default class InstitutionModel extends OsfModel {
-    @attr() links!: InstitutionLinks;
     @attr('string') name!: string;
     @attr('fixstring') description!: string;
     @attr('string') authUrl!: string;

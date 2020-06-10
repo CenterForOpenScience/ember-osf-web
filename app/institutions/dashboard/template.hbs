@@ -13,15 +13,19 @@
             />
         </div>
         <div local-class='panel-wrapper'>
-            <Button
+            <button
                 data-analytics-name='Download CSV'
+                aria-label={{t 'institutions.dashboard.download_csv'}}
                 local-class='csv-button'
-                {{on 'click' this.downloadCsv}}
+                disabled={{not this.institution}}
+                {{on 'click' (perform this.downloadCsv)}}
             >
-                <img src={{this.csvImgSrc}}
-                     alt={{t 'institutions.dashboard.download_csv'}}
-                >
-            </Button>
+                {{#if this.downloadCsv.isRunning}}
+                    <FaIcon @icon='spinner' @pulse={{true}} />
+                {{else}}
+                    <FaIcon @icon='table' />
+                {{/if}}
+            </button>
             <Institutions::Dashboard::-Components::Panel
                     local-class='sso-users-connected'
                     @isLoading={{this.model.taskInstance.isRunning}}
