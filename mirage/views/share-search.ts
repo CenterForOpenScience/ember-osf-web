@@ -52,7 +52,12 @@ function buildProviderBuckets(registrations: Array<ModelInstance<MirageRegistrat
 }
 
 function getRegistrationsForRequest(schema: Schema, request: Request): Array<ModelInstance<MirageRegistration>> {
-    const filterList = JSON.parse(request.requestBody).query.bool.filter;
+    const requestBody = JSON.parse(request.requestBody);
+    debugger;
+    const filterList = requestBody.query.bool.filter;
+    const fromNumber = requestBody.from;
+    const sizeNumber = requestBody.size;
+    // const { filter: filterList, from, size } = requestBody;
     /*
     const {
         query: {
@@ -62,14 +67,13 @@ function getRegistrationsForRequest(schema: Schema, request: Request): Array<Mod
         },
     } = JSON.parse(request.requestBody);
     */
-
     const providerFilter = filterList.find((filter: any) => Boolean(filter.terms && filter.terms.sources));
     if (providerFilter) {
         const { terms: { sources: providerShareKeys } } = providerFilter;
 
         return schema.registrations.all().models.filter(
             reg => reg.provider && providerShareKeys.includes(reg.provider.shareSourceKey),
-        );
+        ).slice(fromNumber, fromNumber + sizeNumber);
     }
     return schema.registrations.all().models;
 }

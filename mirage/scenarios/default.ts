@@ -68,6 +68,7 @@ function registrationScenario(
     const licenseReqFields = server.schema.licenses.findBy({ name: 'MIT License' });
     const provider = server.create('registration-provider', 'withBrand');
 
+    server.createList('registration', 21);
     server.create('registration', {
         id: 'decaf',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
