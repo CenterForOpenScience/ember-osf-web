@@ -6,7 +6,7 @@ import InstitutionSummaryMetricModel from 'ember-osf-web/models/institution-summ
 import InstitutionDepartmentsModel from './institution-department';
 import InstitutionUserModel from './institution-user';
 import NodeModel from './node';
-import OsfModel, { OsfLinks } from './osf-model';
+import OsfModel from './osf-model';
 import RegistrationModel from './registration';
 import UserModel from './user';
 
