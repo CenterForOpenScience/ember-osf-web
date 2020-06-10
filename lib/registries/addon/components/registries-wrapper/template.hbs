@@ -4,19 +4,10 @@
     class='RegistriesStyle'
     ...attributes
 >
-
-    <RegistriesNavbar class='RegistriesStyle' @campaign='osf-registries'>
-        {{#if (has-block 'navbar-logo')}}
-            <:logo>
-                {{yield to='navbar-logo'}}
-            </:logo>
-        {{/if}}
-    </RegistriesNavbar>
-
+    <RegistriesNavbar class='RegistriesStyle' @campaign='osf-registries' />
     <MaintenanceBanner />
     <StatusBanner />
     <TosConsentBanner />
     <Banners::ViewOnlyLink />
-    {{yield to='body'}}
+    {{yield}}
 </div>
-

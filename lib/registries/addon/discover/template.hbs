@@ -3,109 +3,91 @@
 <RegistriesWrapper
     {{with-branding this.providerModel.brand}}
 >
-    {{#if this.providerModel}}
-        <:navbar-logo>
-            <OsfLink
-                data-test-brand
-                data-analytics-name='Brand'
-                @route='registries.branded.discover'
-                @models={{array this.providerModel.id}}
-                local-class='Logo'
-                aria-label={{t 'navbar.go_home'}}
-            />
-        </:navbar-logo>
-    {{/if}}
-    <:body>
-        <HeroOverlay local-class='DiscoverHero'>
-            {{#registries-header showHelp=true value=(mut this.query) onSearch=(action 'onSearch') searchable=this.searchable as |header|}}
-                {{#header.lead}}
-                    {{t 'registries.discover.powered_by' }}
-                    <a
-                        data-test-share-logo
-                        href='https://share.osf.io/'
-                        local-class='ShareLogo'
-                        title={{t 'registries.discover.SHARE'}}
-                        onclick={{action 'click' 'link' 'Discover - SHARE Logo' target=this.analytics}}
-                    ></a>
-                {{/header.lead}}
-            {{/registries-header}}
-        </HeroOverlay>
-        {{#registries-discover-search
-            results=this.results
-            isLoading=this.doSearch.isIdle
-            searchOptions=this.searchOptions
-            additionalFilters=this.additionalFilters
-            onSearchOptionsUpdated=(action this.onSearchOptionsUpdated)
-            as |discover|
-        }}
-            {{#if this.searchOptions}}
-                {{#discover.sidebar as |sidebar|}}
-                    {{registries-provider-facet
-                        options=this.filterableSources
-                        searchOptions=this.searchOptions
-                        onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
-                    }}
-
-                    {{registries-registration-type-facet
-                        searchOptions=this.searchOptions
-                        onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
-                    }}
-
-                    {{!-- TODO: this feature is not ready yet. Will be implemented in Phase2 Branded Reg --}}
-                    {{!-- {{#if this.providerModel}}
-                                {{registries-subjects-facet
-                                    provider=this.providerModel
-                                    searchOptions=this.searchOptions
-                                    onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
-                                }}
-                            {{/if}} --}}
-                {{/discover.sidebar}}
-            {{/if}}
-
-            {{#if this.searchOptions}}
-                {{registries-discover-results-header
-                    totalResults=this.totalResults
+    <HeroOverlay local-class='DiscoverHero'>
+        {{#registries-header showHelp=true value=(mut this.query) onSearch=(action 'onSearch') searchable=this.searchable as |header|}}
+            {{#header.lead}}
+                {{t 'registries.discover.powered_by' }}
+                <a
+                    data-test-share-logo
+                    href='https://share.osf.io/'
+                    local-class='ShareLogo'
+                    title={{t 'registries.discover.SHARE'}}
+                    onclick={{action 'click' 'link' 'Discover - SHARE Logo' target=this.analytics}}
+                ></a>
+            {{/header.lead}}
+        {{/registries-header}}
+    </HeroOverlay>
+    {{#registries-discover-search
+        results=this.results
+        isLoading=this.doSearch.isIdle
+        searchOptions=this.searchOptions
+        additionalFilters=this.additionalFilters
+        onSearchOptionsUpdated=(action this.onSearchOptionsUpdated)
+        as |discover|
+    }}
+        {{#if this.searchOptions}}
+            {{#discover.sidebar as |sidebar|}}
+                {{registries-provider-facet
+                    options=this.filterableSources
                     searchOptions=this.searchOptions
-                    sortOptions=this.sortOptions
-                    setOrder=(action this.setOrder)
+                    onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
                 }}
-                {{#discover.results
-                    (html-attributes data-test-results=true)
-                    as |result|
+
+                {{registries-registration-type-facet
+                    searchOptions=this.searchOptions
+                    onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
                 }}
-                    <RegistriesSearchResult
-                        local-class='RegistriesSearchResult'
-                        inert={{this.doSearch.isRunning}}
-                        @result={{result}}
-                    />
-                {{/discover.results}}
 
-                {{#unless this.totalResults}}
-                    <div class='col-sm-8 col-xs-12'>
-                        <div class='text-center text-muted'>
-                            <p class='lead'>
-                                {{t 'registries.discover.no_results'}}
-                            </p>
-                            {{t 'registries.discover.try_broadening'}}
-                        </div>
-                    </div>
-                {{/unless}}
+                {{!-- TODO: this feature is not ready yet. Will be implemented in Phase2 Branded Reg --}}
+                {{!-- {{#if this.providerModel}}
+                            {{registries-subjects-facet
+                                provider=this.providerModel
+                                searchOptions=this.searchOptions
+                                onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
+                            }}
+                        {{/if}} --}}
+            {{/discover.sidebar}}
+        {{/if}}
 
-                {{#if (gt this.maxPage 1) }}
-                    <div local-class='Pagination' class='col-xs-12'>
-                        {{search-paginator
-                            current=this.searchOptions.page
-                            maximum=this.maxPage
-                            pageChanged=(action 'changePage')
-                        }}
+        {{#if (and this.doSearch.isIdle this.searchOptions)}}
+            {{registries-discover-results-header
+                totalResults=this.totalResults
+                searchOptions=this.searchOptions
+                sortOptions=this.sortOptions
+                setOrder=(action this.setOrder)
+            }}
+            {{#discover.results
+                (html-attributes data-test-results=true)
+                as |result|
+            }}
+                {{registries-search-result result=result class=(local-class 'RegistriesSearchResult')}}
+            {{/discover.results}}
+
+            {{#unless this.totalResults}}
+                <div class='col-sm-8 col-xs-12'>
+                    <div class='text-center text-muted'>
+                        <p class='lead'>
+                            {{t 'registries.discover.no_results'}}
+                        </p>
+                        {{t 'registries.discover.try_broadening'}}
                     </div>
-                {{/if}}
-            {{else}}
-                <div class='text-center p-v-md' aria-label={{t 'eosf.components.discoverPage.searchLoading'}}>
-                    {{loading-indicator dark=true}}
+                </div>
+            {{/unless}}
+
+            {{#if (gt this.maxPage 1) }}
+                <div local-class='Pagination' class='col-xs-12'>
+                    {{search-paginator
+                        current=this.searchOptions.page
+                        maximum=this.maxPage
+                        pageChanged=(action 'changePage')
+                    }}
                 </div>
             {{/if}}
+        {{else}}
+            <div class='text-center p-v-md' aria-label={{t 'eosf.components.discoverPage.searchLoading'}}>
+                {{loading-indicator dark=true}}
+            </div>
+        {{/if}}
 
-        {{/registries-discover-search}}
-    </:body>
+    {{/registries-discover-search}}
 </RegistriesWrapper>

@@ -52,6 +52,7 @@ module('Registries | Integration | Component | page-link', hooks => {
                 @pageManager={{this.pageManager}}
                 @pageIndex={{100}}
                 @currentPageIndex={{1}}
+                as |pageLink|
             />
         `);
 
@@ -76,6 +77,7 @@ module('Registries | Integration | Component | page-link', hooks => {
                 @pageManager={{this.pageManager}}
                 @pageIndex={{0}}
                 @currentPageIndex={{2}}
+                as |pageLink|
             />
         `);
 
@@ -100,6 +102,7 @@ module('Registries | Integration | Component | page-link', hooks => {
                 @pageManager={{this.pageManager}}
                 @pageIndex={{1}}
                 @currentPageIndex={{3}}
+                as |pageLink|
             />
         `);
 
@@ -124,6 +127,7 @@ module('Registries | Integration | Component | page-link', hooks => {
                 @pageManager={{this.pageManager}}
                 @pageIndex={{5}}
                 @currentPageIndex={{5}}
+                as |pageLink|
             />
         `);
 
@@ -140,6 +144,7 @@ module('Registries | Integration | Component | page-link', hooks => {
                 @pageName='foo'
                 @currentPageName='bar'
                 @label='Foo'
+                as |pageLink|
             />
         `);
 
@@ -156,6 +161,7 @@ module('Registries | Integration | Component | page-link', hooks => {
                 @pageName='foo'
                 @currentPageName='foo'
                 @label='Foo'
+                as |pageLink|
             />
         `);
 
