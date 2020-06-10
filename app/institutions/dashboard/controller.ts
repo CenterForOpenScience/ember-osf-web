@@ -25,9 +25,8 @@ export default class InstitutionsDashboardController extends Controller {
             url,
             headers: { Accept: 'text/csv' },
         });
-        const csvBlob = new File(
+        const csvBlob = new Blob(
             [csvData],
-            `user-metrics-${this.institution!.name.replace(' ', '-')}`,
             { type: 'text/csv' },
         );
         const csvUrl = URL.createObjectURL(csvBlob);
