@@ -2,6 +2,7 @@
 
 <RegistriesWrapper
     {{with-branding this.providerModel.brand}}
+    data-analytics-scope='Registries Discover page'
 >
     <HeroOverlay local-class='DiscoverHero'>
         {{#registries-header showHelp=true value=(mut this.query) onSearch=(action 'onSearch') searchable=this.searchable as |header|}}
@@ -12,7 +13,7 @@
                     href='https://share.osf.io/'
                     local-class='ShareLogo'
                     title={{t 'registries.discover.SHARE'}}
-                    onclick={{action 'click' 'link' 'Discover - SHARE Logo' target=this.analytics}}
+                    data-analytics-name='SHARE Logo'
                 ></a>
             {{/header.lead}}
         {{/registries-header}}

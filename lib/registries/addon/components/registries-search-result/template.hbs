@@ -1,4 +1,8 @@
-<div class='row' ...attributes>
+<div
+    class='row'
+    data-analytics-scope='Registries search results'
+    ...attributes
+>
     <div class='col-xs-12'>
         {{#if @result.mainLink}}
             {{sharing-icons/popover
@@ -14,7 +18,7 @@
             <OsfLink
                 data-test-result-title-id={{@result.id}}
                 @href={{@result.mainLink}}
-                {{on 'click' (action 'click' 'link' (concat 'Discover - Result Title: ' @result.mainLink) @result.id target=this.analytics)}}
+                data-analytics-name='Result Title'
             >
                 {{math @result.title}}
             </OsfLink>
@@ -28,7 +32,12 @@
             {{#each this.contributors as |contrib|}}
                 <li>
                     {{#if contrib.link}}
-                        <OsfLink @href={{contrib.link}}>{{contrib.name}}</OsfLink>
+                        <OsfLink
+                            @href={{contrib.link}}
+                            data-analytics-name='Contributor Link'
+                        >
+                            {{contrib.name}}
+                        </OsfLink>
                     {{else}}
                         {{contrib.name}}
                     {{/if}}
@@ -73,6 +82,7 @@
                 local-class='RegistriesSearchResult__Toggle'
                 class='btn btn-link'
                 aria-label={{t 'eosf.components.searchResult.showResult'}}
+                data-analytics-name='Expand button'
                 {{action this.toggleExpanded}}
             >
                 {{fa-icon this.footerIcon size=1 ariaHidden=false}}
