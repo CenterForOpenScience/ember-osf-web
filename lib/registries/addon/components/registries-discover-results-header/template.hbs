@@ -5,7 +5,10 @@
     <div class='col-sm-6 text-right'>
         <ResponsiveDropdown as |dd|>
             <dd.trigger>
-                <Button data-test-sort-dropdown=true>
+                <Button
+                    data-test-sort-dropdown=true
+                    data-analytics-name='Sort Registries Button'
+                >
                     {{t 'registries.discover.sort_by'}}: {{t @searchOptions.order.display}}
                     <span aria-label='{{t 'registries.discover.sort_by'}}' class='caret'></span>
                 </Button>

@@ -11,6 +11,8 @@
                         <label>
                             <Input
                                 data-test-registration-type-filter-id={{index}}
+                                data-analytics-name='Registration Type Facet Checkbox'
+                                data-analytics-extra={{concat 'Type: ' type.name}}
                                 @type='checkbox'
                                 @checked={{type.checked}}
                                 @change={{action 'typeChecked' type.filter type.checked}}

@@ -6,6 +6,7 @@
                     <Input
                         local-class='ProviderFacet__Checkbox'
                         data-test-source-filter-id={{index}}
+                        data-analytics-name='Provider Facet Checkbox'
                         disabled={{this.shouldLinkToAggregateDiscover}}
                         @type='checkbox'
                         @change={{action 'providerChecked' provider.filter provider.checked}}
@@ -20,6 +21,11 @@
         {{/each}}
     </ul>
     {{#if this.shouldLinkToAggregateDiscover}}
-        <OsfLink @route='registries.discover'>{{t 'registries.facets.provider.other_registries'}}</OsfLink>
+        <OsfLink
+            data-analytics-name='Other Registries Link'
+            @route='registries.discover'
+        >
+            {{t 'registries.facets.provider.other_registries'}}
+        </OsfLink>
     {{/if}}
 {{/registries-search-facet-container}}
