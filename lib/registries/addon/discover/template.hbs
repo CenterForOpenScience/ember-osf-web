@@ -49,7 +49,7 @@
             {{/discover.sidebar}}
         {{/if}}
 
-        {{#if (and this.doSearch.isIdle this.searchOptions)}}
+        {{#if this.searchOptions}}
             {{registries-discover-results-header
                 totalResults=this.totalResults
                 searchOptions=this.searchOptions
@@ -60,7 +60,11 @@
                 (html-attributes data-test-results=true)
                 as |result|
             }}
-                {{registries-search-result result=result class=(local-class 'RegistriesSearchResult')}}
+                <RegistriesSearchResult
+                    local-class='RegistriesSearchResult'
+                    inert={{this.doSearch.isRunning}}
+                    @result={{result}}
+                />
             {{/discover.results}}
 
             {{#unless this.totalResults}}
