@@ -236,5 +236,8 @@
   "volta": {
     "node": "10.18.0",
     "yarn": "1.21.1"
+  },
+  "dependencies": {
+    "ember-named-blocks-polyfill": "^0.2.1"
   }
 }
