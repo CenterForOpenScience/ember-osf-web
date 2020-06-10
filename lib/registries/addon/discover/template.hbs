@@ -49,7 +49,7 @@
             {{/discover.sidebar}}
         {{/if}}
 
-        {{#if this.searchOptions}}
+        {{#if (and this.doSearch.lastSuccessful this.searchOptions)}}
             {{registries-discover-results-header
                 totalResults=this.totalResults
                 searchOptions=this.searchOptions
@@ -87,6 +87,14 @@
                     }}
                 </div>
             {{/if}}
+        {{else if this.doSearch.isError}}
+            <div class='col-sm-8 col-xs-12'>
+                <div class='text-center text-muted'>
+                    <p class='lead'>
+                        {{t 'registries.discover.error_loading'}}
+                    </p>
+                </div>
+            </div>
         {{else}}
             <div class='text-center p-v-md' aria-label={{t 'eosf.components.discoverPage.searchLoading'}}>
                 {{loading-indicator dark=true}}

@@ -949,6 +949,7 @@ registries:
         powered_by: 'powered by'
         no_results: 'No results found.'
         try_broadening: 'Try broadening your search terms'
+        error_loading: 'There was an error loading registrations'
         order:
             relevance: Relevance
             modified_ascending: 'Modified Date (oldest to newest)'
