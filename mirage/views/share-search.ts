@@ -34,12 +34,16 @@ interface SerializedContributor {
 interface SerializedRegistration {
     id: string;
     description: string;
-    contributors: SerializedContributor[];
+    contributors: string[];
     date_created?: string;
     date_modified?: string;
     date_published?: string;
+    date_registered?: string;
     date_updated?: string;
     main_link: string;
+    list: {
+        contributors: SerializedContributor[],
+    };
     registration_type: string;
     sources: string[];
     subject_synonyms: string[];
@@ -93,9 +97,9 @@ function serializeExternalRegistration(
     externalReg: MirageExternalRegistration,
 ): SerializedRegistration {
     return {
-        date: externalReg.dateRegistered,
-        date_published: externalReg.dateRegistered,
-        sources: [externalReg.provider],
+        date_registered: externalReg.dateRegistered,
+        date_published: externalReg.dateRegistered, // eslint-disable-line camelcase
+        sources: [externalReg.provider.shareSourceKey],
         affiliations: [],
         registration_type: 'yes this is a schema',
         type: 'registration',

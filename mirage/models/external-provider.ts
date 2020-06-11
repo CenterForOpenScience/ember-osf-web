@@ -3,6 +3,7 @@ import { MirageExternalRegistration } from './external-registration';
 
 export interface MirageExternalProvider {
     registrations: MirageExternalRegistration[];
+    shareSourceKey: string;
 }
 
 export default Model.extend({
