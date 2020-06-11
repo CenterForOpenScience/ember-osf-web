@@ -5,12 +5,22 @@ import Contributor from 'ember-osf-web/models/contributor';
 import RegistrationModel from 'ember-osf-web/models/registration';
 
 import RegistrationFactory, { MirageRegistration } from 'ember-osf-web/mirage/factories/registration';
+import { MirageExternalProvider } from 'ember-osf-web/mirage/models/external-provider';
+import { MirageExternalRegistration } from 'ember-osf-web/mirage/models/external-registration';
 
 const {
     OSF: {
         url: osfUrl,
     },
 } = config;
+
+type MixedResult = ModelInstance<MirageRegistration> | ModelInstance<MirageExternalRegistration>;
+
+interface ProviderBucket {
+    // eslint-disable-next-line camelcase
+    doc_count: number;
+    key: string;
+}
 
 function hasProviderAggregation(request: Request): boolean {
     const requestBody = JSON.parse(request.requestBody);
@@ -23,20 +33,7 @@ function hasProviderAggregation(request: Request): boolean {
     );
 }
 
-interface ProviderBucket {
-    // eslint-disable-next-line camelcase
-    doc_count: number;
-    key: string;
-}
-
-function getExternalProviders(): ProviderBucket[] {
-    return [
-        { doc_count: 10000, key: 'ClinicalTrials.gov' },
-        { doc_count: 3200000, key: 'Research Registry' },
-    ];
-}
-
-function buildProviderBuckets(registrations: Array<ModelInstance<MirageRegistration>>): ProviderBucket[] {
+function buildProviderBuckets(registrations: MixedResult[]): ProviderBucket[] {
     const providerBuckets = registrations.reduce(
         (counts, reg) => {
             const count = counts[reg.provider.shareSourceKey!] || 0;
@@ -49,20 +46,6 @@ function buildProviderBuckets(registrations: Array<ModelInstance<MirageRegistrat
     return Object.entries(providerBuckets)
         .sortBy('count')
         .map(([key, count]) => ({ key, doc_count: count! }));
-}
-
-function getRegistrationsForRequest(schema: Schema, request: Request): Array<ModelInstance<MirageRegistration>> {
-    const requestBody = JSON.parse(request.requestBody);
-    const filterList = requestBody.query.bool.filter;
-    const providerFilter = filterList.find((filter: any) => Boolean(filter.terms && filter.terms.sources));
-    if (providerFilter) {
-        const { terms: { sources: providerShareKeys } } = providerFilter;
-
-        return schema.registrations.all().models.filter(
-            reg => reg.provider && providerShareKeys.includes(reg.provider.shareSourceKey),
-        );
-    }
-    return schema.registrations.all().models;
 }
 
 function serializeExternalRegistration(externalReg: any, shareSourceKey: string) {
@@ -115,18 +98,6 @@ function serializeExternalRegistration(externalReg: any, shareSourceKey: string)
         },
     };
     return serialized;
-}
-
-function buildExternalRegistrations(shareSourceKey: string) {
-    // TODO type safety
-    const externalRegistrations = Array.from({ length: 3 }).map(
-        // @ts-ignore
-        () => new RegistrationFactory().build(100),
-    ).map(
-        externalReg => serializeExternalRegistration(externalReg, shareSourceKey),
-    );
-
-    return externalRegistrations;
 }
 
 function serializeContributor(contributor: ModelInstance<Contributor>) {
@@ -191,28 +162,56 @@ interface SearchResponse {
     aggregations?: any;
 }
 
+function getResultsForProviders(schema: Schema, providerShareKeys: string[]): MixedResult[] {
+    const results = [];
+    for (const providerShareKey of providerShareKeys) {
+        const provider = schema.registrationProviders.findBy({ shareSourceKey: providerShareKey });
+        if (provider) {
+            results.push(...provider.registrations.models);
+        } else {
+            const externalProvider = schema.externalProviders.findBy({ shareSourceKey: providerShareKey });
+            if (externalProvider) {
+                results.push(...externalProvider.registrations.models);
+            }
+        }
+    }
+    return results;
+}
+
 export function shareSearch(schema: Schema, request: Request) {
-    const registrations = getRegistrationsForRequest(schema, request);
+    const requestBody = JSON.parse(request.requestBody);
+    const filterList = requestBody.query.bool.filter;
+    const providerFilter = filterList.find((filter: any) => Boolean(filter.terms && filter.terms.sources));
 
-    const externalProviders = server.schema.externalProviders().all();
+    let allResults: MixedResult[];
+    if (providerFilter) {
+        // get registrations (and external-registrations) for the given providers
+        const { terms: { sources: providerShareKeys } } = providerFilter;
+        allResults = getResultsForProviders(schema, providerShareKeys);
+    } else {
+        // get all registrations (and external-registrations)
+        allResults = [
+            ...schema.registrations.all().models,
+            ...schema.externalRegistrations.all().models,
+        ];
+    }
 
-    const externalRegistrations = externalProviders
-        .map(({ key }) => buildExternalRegistrations(key))
-        .reduce((a1, a2) => [...a1, ...a2]);
+    // paginate
+    const fromIndex: number = requestBody.from;
+    const pageSize: number = requestBody.size;
+    const resultPage = allResults.slice(fromIndex, fromIndex + pageSize);
 
     const response: SearchResponse = {
         hits: {
-            total: registrations.length,
-            hits: [
-                ...registrations.map(reg => serializeRegistration(reg)),
-                ...externalRegistrations,
-            ],
+            total: allResults.length,
+            hits: resultPage.map(reg => serializeRegistration(reg)),
         },
     };
+
     if (hasProviderAggregation(request)) {
         response.aggregations = {
             sources: {
-                buckets: [...buildProviderBuckets(registrations), ...externalProviders],
+                buckets: buildProviderBuckets(allResults),
             },
         };
     }
