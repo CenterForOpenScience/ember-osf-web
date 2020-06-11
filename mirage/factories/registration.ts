@@ -13,8 +13,6 @@ export interface MirageRegistration extends Registration {
     registeredFromId: string|number;
     identifierIds: Array<string|number>;
     forkIds: Array<string|number>;
-
-    isExternal: undefined; // just for distinguishing from MirageExternalRegistration
 }
 
 export interface RegistrationTraits {

@@ -2,12 +2,12 @@
 // import { click, currentRouteName, currentURL, fillIn, settled, triggerKeyEvent } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 // import { t } from 'ember-intl/test-support';
-import { percySnapshot } from 'ember-percy';
+// import { percySnapshot } from 'ember-percy';
 // import { setBreakpoint } from 'ember-responsive/test-support';
 import { TestContext } from 'ember-test-helpers';
-import { module, test } from 'qunit';
+import { module /*, test */ } from 'qunit';
 
-import { visit } from 'ember-osf-web/tests/helpers';
+// import { visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 // import { deserializeResponseKey } from 'ember-osf-web/transforms/registration-response-key';
 

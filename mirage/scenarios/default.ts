@@ -99,6 +99,16 @@ function registrationScenario(
         provider,
     });
 
+    const clinicalTrials = server.create('external-provider', {
+        shareSourceKey: 'ClinicalTrials.gov',
+    });
+    const researchRegistry = server.create('external-provider', {
+        shareSourceKey: 'Research Registry',
+    });
+
+    server.createList('external-registration', 3, { provider: clinicalTrials });
+    server.createList('external-registration', 2, { provider: researchRegistry });
+
     // server.create('draft-registration', {
     //     id: 'rrpre',
     //     registrationSchema: server.schema.registrationSchemas.find('replication_recipe_pre_registration'),

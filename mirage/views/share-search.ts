@@ -4,7 +4,6 @@ import config from 'ember-get-config';
 import Contributor from 'ember-osf-web/models/contributor';
 import RegistrationModel from 'ember-osf-web/models/registration';
 
-import { MirageRegistration } from 'ember-osf-web/mirage/factories/registration';
 import { MirageExternalRegistration } from 'ember-osf-web/mirage/models/external-registration';
 
 const {
@@ -13,7 +12,7 @@ const {
     },
 } = config;
 
-type MixedResult = ModelInstance<MirageRegistration> | ModelInstance<MirageExternalRegistration>;
+type MixedResult = ModelInstance<RegistrationModel> | ModelInstance<MirageExternalRegistration>;
 
 interface ProviderBucket {
     // eslint-disable-next-line camelcase
@@ -180,8 +179,12 @@ function serializeRegistration(reg: ModelInstance<RegistrationModel>): Serialize
     };
 }
 
+function isExternal(reg: MixedResult): reg is ModelInstance<MirageExternalRegistration> {
+    return Boolean('isExternal' in reg && reg.isExternal);
+}
+
 function serializeMixedResult(reg: MixedResult): SearchHit {
-    const serialized = ('isExternal' in reg && reg.isExternal) ?
+    const serialized = isExternal(reg) ?
         serializeExternalRegistration(reg) :
         serializeRegistration(reg);
     return {
@@ -191,7 +194,7 @@ function serializeMixedResult(reg: MixedResult): SearchHit {
 }
 
 function getResultsForProviders(schema: Schema, providerShareKeys: string[]): MixedResult[] {
-    const results = [];
+    const results: MixedResult[] = [];
     for (const providerShareKey of providerShareKeys) {
         const provider = schema.registrationProviders.findBy({ shareSourceKey: providerShareKey });
         if (provider) {
