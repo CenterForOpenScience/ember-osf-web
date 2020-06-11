@@ -34,7 +34,7 @@ export interface Database {
     [collectionName: string]: DatabaseCollection;
 }
 
-export type Model<T> = {
+export type ModelInstanceAttrs<T> = {
     [P in keyof T]:
         T[P] extends DS.Model & DS.PromiseObject<infer M> ? ModelInstance<M> :
         T[P] extends DS.Model ? ModelInstance<T[P]> :
@@ -60,7 +60,16 @@ interface ModelInstanceShared<T> {
     toString(): string;
 }
 
-export type ModelInstance<T = AnyAttrs> = ModelInstanceShared<T> & Model<T>;
+export function hasMany(model: string): void;
+export function belongsTo(model: string): void;
+
+export type ModelInstance<T = AnyAttrs> = ModelInstanceShared<T> & ModelInstanceAttrs<T>;
+
+export class ModelClass {
+    extend(attrs: unknown): ModelClass;
+}
+
+export const Model: ModelClass;
 
 export interface Collection<T> {
     models: Array<ModelInstance<T>>;
