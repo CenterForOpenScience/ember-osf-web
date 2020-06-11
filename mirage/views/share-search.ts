@@ -4,8 +4,7 @@ import config from 'ember-get-config';
 import Contributor from 'ember-osf-web/models/contributor';
 import RegistrationModel from 'ember-osf-web/models/registration';
 
-import RegistrationFactory, { MirageRegistration } from 'ember-osf-web/mirage/factories/registration';
-import { MirageExternalProvider } from 'ember-osf-web/mirage/models/external-provider';
+import { MirageRegistration } from 'ember-osf-web/mirage/factories/registration';
 import { MirageExternalRegistration } from 'ember-osf-web/mirage/models/external-registration';
 
 const {
@@ -20,6 +19,48 @@ interface ProviderBucket {
     // eslint-disable-next-line camelcase
     doc_count: number;
     key: string;
+}
+
+/* eslint-disable camelcase */
+interface SerializedContributor {
+    id: string;
+    bibliographic: boolean;
+    cited_as: string;
+    identifiers: string[];
+    name: string;
+    order_cited: number;
+}
+
+interface SerializedRegistration {
+    id: string;
+    description: string;
+    contributors: SerializedContributor[];
+    date_created?: string;
+    date_modified?: string;
+    date_published?: string;
+    date_updated?: string;
+    main_link: string;
+    registration_type: string;
+    sources: string[];
+    subject_synonyms: string[];
+    subjects: string[];
+    tags: string[];
+    title: string;
+    withdrawn: boolean;
+}
+
+interface SearchHit {
+    _id: string;
+    _source: SerializedRegistration;
+}
+/* eslint-enable camelcase */
+
+interface SearchResponse {
+    hits: {
+        total: number,
+        hits: SearchHit[],
+    };
+    aggregations?: unknown;
 }
 
 function hasProviderAggregation(request: Request): boolean {
@@ -48,56 +89,54 @@ function buildProviderBuckets(registrations: MixedResult[]): ProviderBucket[] {
         .map(([key, count]) => ({ key, doc_count: count! }));
 }
 
-function serializeExternalRegistration(externalReg: MirageExternalRegistration) {
-    const serialized = {
-        _id: 'fake-share-id',
-        _source: {
-            date: externalReg.dateRegistered,
-            date_published: externalReg.dateRegistered,
-            sources: [externalReg.provider],
-            affiliations: [],
-            registration_type: 'yes this is a schema',
-            type: 'registration',
-            subject_synonyms: [],
-            id: externalReg.id,
-            language: null,
-            types: ['registration', 'publication', 'creative work'],
-            lists: {
-                contributors: [
-                    {
-                        affiliations: [],
-                        awards: [],
-                        family_name: 'Famfam',
-                        given_name: 'Givgiv',
-                        types: ['person', 'agent'],
-                        order_cited: 0,
-                        relation: 'creator',
-                        name: 'Givgiv Addadd Famfam',
-                        cited_as: 'G.A. Famfam',
-                        type: 'person',
-                        identifiers: [
-                            'https://elsewhere.example.com/givgiv',
-                        ],
-                        id: 'haha',
-                        additional_name: 'Addadd',
-                    },
-                ],
-            },
-            subjects: [],
-            title: externalReg.title,
-            contributors: ['G.A. Famfam'],
-            date_updated: externalReg.dateModified,
-            description: externalReg.description,
-            date_modified: externalReg.dateModified,
-            date_created: externalReg.dateRegistered,
-            tags: ['project'],
-            identifiers: ['https://elsewhere.example.com/registration'],
+function serializeExternalRegistration(
+    externalReg: MirageExternalRegistration,
+): SerializedRegistration {
+    return {
+        date: externalReg.dateRegistered,
+        date_published: externalReg.dateRegistered,
+        sources: [externalReg.provider],
+        affiliations: [],
+        registration_type: 'yes this is a schema',
+        type: 'registration',
+        subject_synonyms: [],
+        id: externalReg.id,
+        language: null,
+        types: ['registration', 'publication', 'creative work'],
+        lists: {
+            contributors: [
+                {
+                    affiliations: [],
+                    awards: [],
+                    family_name: 'Famfam',
+                    given_name: 'Givgiv',
+                    types: ['person', 'agent'],
+                    order_cited: 0,
+                    relation: 'creator',
+                    name: 'Givgiv Addadd Famfam',
+                    cited_as: 'G.A. Famfam',
+                    type: 'person',
+                    identifiers: [
+                        'https://elsewhere.example.com/givgiv',
+                    ],
+                    id: 'haha',
+                    additional_name: 'Addadd',
+                },
+            ],
         },
+        subjects: [],
+        title: externalReg.title,
+        contributors: ['G.A. Famfam'],
+        date_updated: externalReg.dateModified,
+        description: externalReg.description,
+        date_modified: externalReg.dateModified,
+        date_created: externalReg.dateRegistered,
+        tags: ['project'],
+        identifiers: ['https://elsewhere.example.com/registration'],
     };
-    return serialized;
 }
 
-function serializeContributor(contributor: ModelInstance<Contributor>) {
+function serializeContributor(contributor: ModelInstance<Contributor>): SerializedContributor {
     return {
         affiliations: [],
         awards: [],
@@ -117,46 +156,44 @@ function serializeContributor(contributor: ModelInstance<Contributor>) {
     };
 }
 
-function serializeRegistration(reg: ModelInstance<RegistrationModel>) {
-    const serialized = {
-        _id: 'fake-share-id',
-        _source: {
-            date: reg.dateRegistered,
-            date_published: reg.dateRegistered,
-            justification: reg.withdrawalJustification,
-            sources: [reg.provider.shareSourceKey],
-            affiliations: [],
-            registration_type: reg.registrationSchema.name,
-            type: 'registration',
-            subject_synonyms: [],
-            id: reg.id,
-            language: null,
-            types: ['registration', 'publication', 'creative work'],
-            lists: {
-                contributors: reg.contributors.models.map(contributor => serializeContributor(contributor)),
-            },
-            subjects: [],
-            title: reg.title,
-            retracted: reg.withdrawn,
-            contributors: reg.contributors.models.map(contributor => contributor.fullName),
-            date_updated: reg.dateModified,
-            description: reg.description,
-            date_modified: reg.dateModified,
-            date_created: reg.dateRegistered,
-            tags: ['project'],
-            withdrawn: reg.withdrawn,
-            identifiers: [`${osfUrl}${reg.id}/`],
+function serializeRegistration(reg: ModelInstance<RegistrationModel>): SerializedRegistration {
+    return {
+        date: reg.dateRegistered,
+        date_published: reg.dateRegistered,
+        justification: reg.withdrawalJustification,
+        sources: [reg.provider.shareSourceKey],
+        affiliations: [],
+        registration_type: reg.registrationSchema.name,
+        type: 'registration',
+        subject_synonyms: [],
+        id: reg.id,
+        language: null,
+        types: ['registration', 'publication', 'creative work'],
+        lists: {
+            contributors: reg.contributors.models.map(contributor => serializeContributor(contributor)),
         },
+        subjects: [],
+        title: reg.title,
+        retracted: reg.withdrawn,
+        contributors: reg.contributors.models.map(contributor => contributor.fullName),
+        date_updated: reg.dateModified,
+        description: reg.description,
+        date_modified: reg.dateModified,
+        date_created: reg.dateRegistered,
+        tags: ['project'],
+        withdrawn: reg.withdrawn,
+        identifiers: [`${osfUrl}${reg.id}/`],
     };
-    return serialized;
 }
 
-interface SearchResponse {
-    hits: {
-        total: number,
-        hits: unknown[],
+function serializeMixedResult(reg: MixedResult): SearchHit {
+    const serialized = ('isExternal' in reg && reg.isExternal) ?
+        serializeExternalRegistration(reg) :
+        serializeRegistration(reg);
+    return {
+        _id: 'fake-share-id',
+        _source: serialized,
     };
-    aggregations?: any;
 }
 
 function getResultsForProviders(schema: Schema, providerShareKeys: string[]): MixedResult[] {
@@ -201,10 +238,7 @@ export function shareSearch(schema: Schema, request: Request) {
     const response: SearchResponse = {
         hits: {
             total: allResults.length,
-            hits: resultPage.map(reg => {
-                // check if external, and call serialize external if so
-                serializeRegistration(reg)
-            }),
+            hits: resultPage.map(reg => serializeMixedResult(reg)),
         },
     };
 

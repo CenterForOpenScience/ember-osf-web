@@ -10,10 +10,12 @@ export interface MirageExternalRegistration {
     provider: MirageExternalProvider;
     withdrawn?: boolean;
     withdrawalJustification?: string;
+    isExternal: true;
 }
 
 export default Model.extend({
     provider: belongsTo('external-provider'),
+    isExternal: true,
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {
