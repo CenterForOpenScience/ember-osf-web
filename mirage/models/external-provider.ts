@@ -1,8 +1,8 @@
-import { hasMany, Model } from 'ember-cli-mirage';
+import { Collection, hasMany, Model } from 'ember-cli-mirage';
 import { MirageExternalRegistration } from './external-registration';
 
 export interface MirageExternalProvider {
-    registrations: MirageExternalRegistration[];
+    registrations: Collection<MirageExternalRegistration>;
     shareSourceKey: string;
 }
 

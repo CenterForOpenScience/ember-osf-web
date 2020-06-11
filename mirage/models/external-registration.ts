@@ -1,5 +1,4 @@
-import { belongsTo, hasMany, Model, SchemaModelCollection } from 'ember-cli-mirage';
-import Contributor from 'ember-osf-web/models/contributor';
+import { belongsTo, Model } from 'ember-cli-mirage';
 import { MirageExternalProvider } from './external-provider';
 
 export interface MirageExternalRegistration {

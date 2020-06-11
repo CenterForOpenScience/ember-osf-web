@@ -25,6 +25,8 @@ interface ProviderBucket {
 interface SerializedContributor {
     id: string;
     bibliographic: boolean;
+    family_name: string;
+    given_name: string;
     cited_as: string;
     identifiers: string[];
     name: string;
@@ -40,16 +42,19 @@ interface SerializedRegistration {
     date_published?: string;
     date_registered?: string;
     date_updated?: string;
-    main_link: string;
-    list: {
+    identifiers: string[];
+    justification?: string;
+    lists: {
         contributors: SerializedContributor[],
     };
     registration_type: string;
-    sources: string[];
+    retracted?: boolean;
+    sources?: string[];
     subject_synonyms: string[];
     subjects: string[];
     tags: string[];
     title: string;
+    type: string;
     withdrawn: boolean;
 }
 
@@ -98,33 +103,25 @@ function serializeExternalRegistration(
 ): SerializedRegistration {
     return {
         date_registered: externalReg.dateRegistered,
-        date_published: externalReg.dateRegistered, // eslint-disable-line camelcase
+        date_published: externalReg.dateRegistered,
         sources: [externalReg.provider.shareSourceKey],
-        affiliations: [],
         registration_type: 'yes this is a schema',
         type: 'registration',
         subject_synonyms: [],
         id: externalReg.id,
-        language: null,
-        types: ['registration', 'publication', 'creative work'],
         lists: {
             contributors: [
                 {
-                    affiliations: [],
-                    awards: [],
                     family_name: 'Famfam',
                     given_name: 'Givgiv',
-                    types: ['person', 'agent'],
+                    bibliographic: true,
                     order_cited: 0,
-                    relation: 'creator',
                     name: 'Givgiv Addadd Famfam',
                     cited_as: 'G.A. Famfam',
-                    type: 'person',
                     identifiers: [
                         'https://elsewhere.example.com/givgiv',
                     ],
                     id: 'haha',
-                    additional_name: 'Addadd',
                 },
             ],
         },
@@ -137,42 +134,35 @@ function serializeExternalRegistration(
         date_created: externalReg.dateRegistered,
         tags: ['project'],
         identifiers: ['https://elsewhere.example.com/registration'],
+        withdrawn: false,
     };
 }
 
 function serializeContributor(contributor: ModelInstance<Contributor>): SerializedContributor {
     return {
-        affiliations: [],
-        awards: [],
         family_name: contributor.users.familyName,
         given_name: contributor.users.givenName,
-        types: ['person', 'agent'],
-        order_cited: contributor.index,
-        relation: 'creator',
         name: contributor.users.fullName,
+        order_cited: contributor.index,
+        bibliographic: true,
         cited_as: contributor.fullName,
-        type: 'person',
         identifiers: [
             `https://osf.io/${contributor.users.id}/`,
         ],
         id: contributor.id,
-        additional_name: contributor.users.middleNames,
     };
 }
 
 function serializeRegistration(reg: ModelInstance<RegistrationModel>): SerializedRegistration {
     return {
-        date: reg.dateRegistered,
-        date_published: reg.dateRegistered,
+        date_registered: reg.dateRegistered.toString(),
+        date_published: reg.dateRegistered.toString(),
         justification: reg.withdrawalJustification,
-        sources: [reg.provider.shareSourceKey],
-        affiliations: [],
+        sources: [reg.provider.shareSourceKey!],
         registration_type: reg.registrationSchema.name,
         type: 'registration',
         subject_synonyms: [],
         id: reg.id,
-        language: null,
-        types: ['registration', 'publication', 'creative work'],
         lists: {
             contributors: reg.contributors.models.map(contributor => serializeContributor(contributor)),
         },
@@ -180,10 +170,10 @@ function serializeRegistration(reg: ModelInstance<RegistrationModel>): Serialize
         title: reg.title,
         retracted: reg.withdrawn,
         contributors: reg.contributors.models.map(contributor => contributor.fullName),
-        date_updated: reg.dateModified,
+        date_updated: reg.dateModified.toString(),
         description: reg.description,
-        date_modified: reg.dateModified,
-        date_created: reg.dateRegistered,
+        date_modified: reg.dateModified.toString(),
+        date_created: reg.dateRegistered.toString(),
         tags: ['project'],
         withdrawn: reg.withdrawn,
         identifiers: [`${osfUrl}${reg.id}/`],
