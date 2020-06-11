@@ -2,7 +2,14 @@ import { belongsTo, Model } from 'ember-cli-mirage';
 import { MirageExternalProvider } from './external-provider';
 
 export interface MirageExternalRegistration {
+    id: string;
+    title: string;
+    description: string;
+    dateModified: string;
+    dateRegistered: string;
     provider: MirageExternalProvider;
+    withdrawn?: boolean;
+    withdrawalJustification?: string;
 }
 
 export default Model.extend({

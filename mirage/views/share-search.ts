@@ -48,14 +48,13 @@ function buildProviderBuckets(registrations: MixedResult[]): ProviderBucket[] {
         .map(([key, count]) => ({ key, doc_count: count! }));
 }
 
-function serializeExternalRegistration(externalReg: any, shareSourceKey: string) {
+function serializeExternalRegistration(externalReg: MirageExternalRegistration) {
     const serialized = {
         _id: 'fake-share-id',
         _source: {
             date: externalReg.dateRegistered,
             date_published: externalReg.dateRegistered,
-            justification: externalReg.withdrawalJustification,
-            sources: [shareSourceKey],
+            sources: [externalReg.provider],
             affiliations: [],
             registration_type: 'yes this is a schema',
             type: 'registration',
@@ -86,14 +85,12 @@ function serializeExternalRegistration(externalReg: any, shareSourceKey: string)
             },
             subjects: [],
             title: externalReg.title,
-            retracted: externalReg.withdrawn,
             contributors: ['G.A. Famfam'],
             date_updated: externalReg.dateModified,
             description: externalReg.description,
             date_modified: externalReg.dateModified,
             date_created: externalReg.dateRegistered,
             tags: ['project'],
-            withdrawn: externalReg.withdrawn,
             identifiers: ['https://elsewhere.example.com/registration'],
         },
     };
@@ -204,7 +201,10 @@ export function shareSearch(schema: Schema, request: Request) {
     const response: SearchResponse = {
         hits: {
             total: allResults.length,
-            hits: resultPage.map(reg => serializeRegistration(reg)),
+            hits: resultPage.map(reg => {
+                // check if external, and call serialize external if so
+                serializeRegistration(reg)
+            }),
         },
     };
 
