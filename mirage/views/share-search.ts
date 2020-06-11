@@ -54,16 +54,6 @@ function buildProviderBuckets(registrations: Array<ModelInstance<MirageRegistrat
 function getRegistrationsForRequest(schema: Schema, request: Request): Array<ModelInstance<MirageRegistration>> {
     const requestBody = JSON.parse(request.requestBody);
     const filterList = requestBody.query.bool.filter;
-    // const { filter: filterList, from, size } = requestBody;
-    /*
-    const {
-        query: {
-            bool: {
-                filter: filterList,
-            },
-        },
-    } = JSON.parse(request.requestBody);
-    */
     const providerFilter = filterList.find((filter: any) => Boolean(filter.terms && filter.terms.sources));
     if (providerFilter) {
         const { terms: { sources: providerShareKeys } } = providerFilter;
@@ -204,7 +194,7 @@ interface SearchResponse {
 export function shareSearch(schema: Schema, request: Request) {
     const registrations = getRegistrationsForRequest(schema, request);
 
-    const externalProviders = getExternalProviders();
+    const externalProviders = server.schema.externalProviders().all();
 
     const externalRegistrations = externalProviders
         .map(({ key }) => buildExternalRegistrations(key))
