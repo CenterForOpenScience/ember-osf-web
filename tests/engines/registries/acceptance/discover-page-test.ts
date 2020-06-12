@@ -2,12 +2,12 @@
 // import { click, currentRouteName, currentURL, fillIn, settled, triggerKeyEvent } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 // import { t } from 'ember-intl/test-support';
-// import { percySnapshot } from 'ember-percy';
+import { percySnapshot } from 'ember-percy';
 // import { setBreakpoint } from 'ember-responsive/test-support';
 import { TestContext } from 'ember-test-helpers';
-import { module /*, test */ } from 'qunit';
+import { module, test } from 'qunit';
 
-// import { visit } from 'ember-osf-web/tests/helpers';
+import { visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 // import { deserializeResponseKey } from 'ember-osf-web/transforms/registration-response-key';
 
@@ -29,8 +29,12 @@ module('Registries | Acceptance | aggregate discover', hooks => {
         server.loadFixtures('registration-schemas');
         server.loadFixtures('licenses');
         */
-        server.create('registration-provider', { id: 'osf' });
-        server.create('registration-provider', { id: 'another' });
+        const osfProvider = server.create('registration-provider', { id: 'osf' });
+        const anotherProvider = server.create('registration-provider', { id: 'another' });
+        const externalProvider = server.create('external-provider', { shareSourceKey: 'ClinicalTrials.gov' });
+        server.createList('external-registration', 3, { provider: externalProvider });
+        server.createList('registration', 3, { provider: osfProvider });
+        server.createList('registration', 3, { provider: anotherProvider });
     });
 
     // available assertions:
@@ -42,7 +46,7 @@ module('Registries | Acceptance | aggregate discover', hooks => {
     // context:
     // - multiple providers
     // - multiple registrations for each provider
-    //
+
     // happy path:
     // - arrive at the page (no query params)
     // - take percy snapshot
@@ -51,7 +55,14 @@ module('Registries | Acceptance | aggregate discover', hooks => {
     // - enter query -- search happens
     // - click filters -- search happens
     // - assert paginator exists
-    //
+    test('happy path', async assert => {
+        await visit('/registries/discover');
+        await percySnapshot('happy path');
+        const registrationIds = server.schema.registrations.all().models.map(item => item.id);
+        for (const id of registrationIds) {
+            assert.dom(`[data-test-result-title-id=${id}]`).exists();
+        }
+    });
     // path with different initial state:
     // - arrive at page WITH query params
     // - take percy snapshot
