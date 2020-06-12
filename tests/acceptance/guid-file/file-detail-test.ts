@@ -68,27 +68,27 @@ module('Acceptance | guid file', hooks => {
             assert.dom('[data-test-filter-input]').exists('after clicking filter');
             percySnapshot(assert);
 
-            fillIn('[data-test-filter-input]', 'a');
+            await fillIn('[data-test-filter-input]', 'a');
             triggerKeyEvent('[data-test-filter-input]', 'keyup', 'Shift');
             await settled();
             assert.dom('[data-test-file-item-link]').exists({ count: 3 }, 'filter for a');
 
-            fillIn('[data-test-filter-input]', 'z');
+            await fillIn('[data-test-filter-input]', 'z');
             triggerKeyEvent('[data-test-filter-input]', 'keyup', 'Shift');
             await settled();
             assert.dom('[data-test-file-item-link]').exists({ count: 3 }, 'filter for z');
 
-            fillIn('[data-test-filter-input]', 'az');
+            await fillIn('[data-test-filter-input]', 'az');
             triggerKeyEvent('[data-test-filter-input]', 'keyup', 'Shift');
             await settled();
             assert.dom('[data-test-file-item-link]').exists({ count: 1 }, 'filter for az');
 
-            fillIn('[data-test-filter-input]', 'aa');
+            await fillIn('[data-test-filter-input]', 'aa');
             triggerKeyEvent('[data-test-filter-input]', 'keyup', 'Shift');
             await settled();
             assert.dom('[data-test-file-item-link]').exists({ count: 1 }, 'filter for aa');
 
-            fillIn('[data-test-filter-input]', 'zz');
+            await fillIn('[data-test-filter-input]', 'zz');
             triggerKeyEvent('[data-test-filter-input]', 'keyup', 'Shift');
             await settled();
             assert.dom('[data-test-file-item-link]').exists({ count: 1 }, 'filter for zz');
@@ -265,27 +265,27 @@ module('Acceptance | guid file', hooks => {
             assert.dom('[data-test-filter-input]').exists('after clicking filter');
             percySnapshot(assert);
 
-            fillIn('[data-test-filter-input]', 'a');
+            await fillIn('[data-test-filter-input]', 'a');
             triggerKeyEvent('[data-test-filter-input]', 'keyup', 'Shift');
             await settled();
             assert.dom('[data-test-file-item-link]').exists({ count: 3 }, 'filter for a');
 
-            fillIn('[data-test-filter-input]', 'z');
+            await fillIn('[data-test-filter-input]', 'z');
             triggerKeyEvent('[data-test-filter-input]', 'keyup', 'Shift');
             await settled();
             assert.dom('[data-test-file-item-link]').exists({ count: 3 }, 'filter for z');
 
-            fillIn('[data-test-filter-input]', 'az');
+            await fillIn('[data-test-filter-input]', 'az');
             triggerKeyEvent('[data-test-filter-input]', 'keyup', 'Shift');
             await settled();
             assert.dom('[data-test-file-item-link]').exists({ count: 1 }, 'filter for az');
 
-            fillIn('[data-test-filter-input]', 'aa');
+            await fillIn('[data-test-filter-input]', 'aa');
             triggerKeyEvent('[data-test-filter-input]', 'keyup', 'Shift');
             await settled();
             assert.dom('[data-test-file-item-link]').exists({ count: 1 }, 'filter for aa');
 
-            fillIn('[data-test-filter-input]', 'zz');
+            await fillIn('[data-test-filter-input]', 'zz');
             triggerKeyEvent('[data-test-filter-input]', 'keyup', 'Shift');
             await settled();
             assert.dom('[data-test-file-item-link]').exists({ count: 1 }, 'filter for zz');

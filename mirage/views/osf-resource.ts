@@ -23,6 +23,7 @@ interface RelationshipOptions extends ActionOptions<relationshipAction> {
     defaultPageSize?: number;
     path: string;
     defaultSortKey: string;
+    relatedModelName: string;
 }
 
 interface ActionOptions<T extends string> {
@@ -57,10 +58,11 @@ export function osfResource(
     options?: Partial<ResourceOptions>,
 ) {
     const mirageModelName = pluralize(camelize(modelName));
-    const opts: ResourceOptions = Object.assign({
+    const opts: ResourceOptions = {
         path: `/${pluralize(underscore(modelName))}`,
         defaultSortKey: '-id',
-    }, options);
+        ...options,
+    };
     const detailPath = `${opts.path}/:id`;
     const actions = gatherResourceActions(opts);
 
@@ -106,11 +108,12 @@ export function osfNestedResource<K extends keyof ModelRegistry>(
     relationshipName: string & RelationshipsFor<ModelRegistry[K]>,
     options?: Partial<NestedResourceOptions>,
 ) {
-    const opts: NestedResourceOptions = Object.assign({
+    const opts: NestedResourceOptions = {
         path: `/${pluralize(underscore(parentModelName))}/:parentID/${underscore(relationshipName)}`,
-        relatedModelName: singularize(relationshipName),
+        relatedModelName: singularize(relationshipName) as keyof ModelRegistry,
         defaultSortKey: '-id',
-    }, options);
+        ...options,
+    };
     const mirageParentModelName = pluralize(camelize(parentModelName));
     const mirageRelatedModelName = pluralize(camelize(opts.relatedModelName));
     const detailPath = `${opts.path}/:id`;
@@ -168,11 +171,12 @@ export function osfToManyRelationship<K extends keyof ModelRegistry>(
     relationshipName: string & RelationshipsFor<ModelRegistry[K]>,
     options?: Partial<RelationshipOptions>,
 ) {
-    const opts: RelationshipOptions = Object.assign({
+    const opts: RelationshipOptions = {
         path: `/${pluralize(underscore(parentModelName))}/:parentID/relationships/${underscore(relationshipName)}`,
         relatedModelName: relationshipName,
         defaultSortKey: '-id',
-    }, options);
+        ...options,
+    };
     const mirageParentModelName = pluralize(camelize(parentModelName));
     const actions = gatherRelationshipActions(opts);
 

@@ -67,8 +67,8 @@ export default class RegistrationIsPublic extends Component {
         'scientistName',
     )
     get submitDisabled(): boolean {
-        return this.submitWithdrawal.isRunning ||
-            (this.scientistNameInput !== this.scientistName);
+        return this.submitWithdrawal.isRunning
+            || (this.scientistNameInput !== this.scientistName);
     }
 
     @action

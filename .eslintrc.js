@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
     globals: {
         server: true,
@@ -45,6 +47,7 @@ module.exports = {
         }],
         'no-underscore-dangle': 'off',
         'linebreak-style': ['error', (process.platform === 'win32' ? 'windows' : 'unix')],
+        'lines-between-class-members': 'off',
     },
     overrides: [
         {
@@ -104,4 +107,7 @@ module.exports = {
             },
         },
     ],
+    settings: {
+        'import/extensions': ['error', 'never'],
+    },
 };

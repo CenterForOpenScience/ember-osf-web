@@ -103,9 +103,9 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
                 newReg.update({ root: newReg.parent.root || newReg.parent });
             }
         } else if (!newReg.registeredMeta) {
-            const registrationSchema = newReg.registrationSchema ||
-                faker.random.arrayElement(server.schema.registrationSchemas.all().models) ||
-                server.create('registration-schema');
+            const registrationSchema = newReg.registrationSchema
+                || faker.random.arrayElement(server.schema.registrationSchemas.all().models)
+                || server.create('registration-schema');
             newReg.update({
                 registrationSchema,
                 registeredMeta: createRegistrationMetadata(registrationSchema, true),
@@ -114,8 +114,8 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
 
         if (!newReg.provider) {
             newReg.update({
-                provider: server.schema.registrationProviders.find('osf') ||
-                  server.create('registration-provider', { id: 'osf' }),
+                provider: server.schema.registrationProviders.find('osf')
+                    || server.create('registration-provider', { id: 'osf' }),
             });
         }
     },
@@ -188,8 +188,7 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     }),
     withArbitraryState: trait<MirageRegistration>({
         afterCreate(registration) {
-            const arbitraryState =
-                faker.list.cycle(...Object.keys(stateAttrs))(registration.index);
+            const arbitraryState = faker.list.cycle(...Object.keys(stateAttrs))(registration.index);
             const attrsToUse = stateAttrs[arbitraryState as keyof typeof stateAttrs];
             registration.update(attrsToUse);
         },

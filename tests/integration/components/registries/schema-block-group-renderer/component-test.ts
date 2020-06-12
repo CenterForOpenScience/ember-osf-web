@@ -1,8 +1,8 @@
 import { render } from '@ember/test-helpers';
 import Changeset from 'ember-changeset';
+import { hbs } from 'ember-cli-htmlbars';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupRenderingTest } from 'ember-qunit';
-import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
 import { getSchemaBlockGroups, SchemaBlock } from 'ember-osf-web/packages/registration-schema';

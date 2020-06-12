@@ -6,6 +6,7 @@
         @searchEnabled={{true}}
         @selected={{this.department}}
         @triggerClass={{local-class 'select'}}
+        @search={{perform this.searchDepartment}}
         @onchange={{action this.onSelectChange}} as |department|
     >
         {{department}}
@@ -15,6 +16,7 @@
             local-class='table'
             @isTable={{true}}
             @model={{this.institution}}
+            @usePlaceholders={{false}}
             @relationshipName='userMetrics'
             @bindReload={{action (mut this.reloadUserList)}}
             @query={{this.queryUsers}} as |list|
@@ -59,7 +61,7 @@
                             @route='guid-user'
                             @models={{array institutionalUser.userGuid}}
                         >
-                            {{institutionalUser.userName}} - {{institutionalUser.userGuid}}
+                            {{institutionalUser.userName}} ({{institutionalUser.userGuid}})
                         </OsfLink>
                     </td>
                     <td data-test-item-department>{{institutionalUser.department}}</td>

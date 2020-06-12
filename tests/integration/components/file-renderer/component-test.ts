@@ -1,7 +1,7 @@
 import { render, settled } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
 import config from 'ember-get-config';
 import { setupRenderingTest } from 'ember-qunit';
-import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
 const { OSF: { renderUrl } } = config;

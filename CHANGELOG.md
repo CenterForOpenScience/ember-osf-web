@@ -4,6 +4,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [20.5.0] - 2020-06-03
+## Changed
+- Components
+    - `institutions`
+        - `dashboard/departments-panel`
+        - `dashboard/institutional-users-list`
+        - `dashboard/panel`
+        - `dashboard/projects-panel`
+- Mirage
+    - Factories
+        - `institution-user`
+    - Serializers
+        - `institution-user`
+
+## [20.4.0] - 2020-05-26
+### Changed
+- link to institutions
+- wording of OSFInstitutions
+- config to use `isTruthy`
+- draft-registration card component to remove progress-bar
+
+### Added
+- newline to "Read more" link
+- logging API error messages
+- CI template linting
+- log API draft-registration submission error
+
+### Fixed
+- file links issue on overview page
+
 ## [20.3.1] - 2020-03-26
 ### Fixed
 - `active` schemas filter parameter.
@@ -1576,7 +1606,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/20.3.1...develop
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/20.5.0...develop
+[20.4.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.5.0
+[20.4.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.4.0
 [20.3.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.3.1
 [20.3.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.3.0
 [20.2.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.2.1

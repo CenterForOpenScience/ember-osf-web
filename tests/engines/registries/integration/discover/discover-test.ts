@@ -454,7 +454,7 @@ module('Registries | Integration | discover', hooks => {
             await testCase.action(stub);
 
             sinon.assert.calledOnce(stub);
-            sinon.assert.calledWith(stub, Object.assign({ extra: undefined }, testCase.expected));
+            sinon.assert.calledWith(stub, { extra: undefined, ...testCase.expected });
         }
     });
 

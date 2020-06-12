@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 /* eslint-disable no-useless-constructor, no-empty-function */
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
@@ -189,3 +190,4 @@ export default class RegistrationFormView extends Component {
         }));
     }
 }
+/* eslint-enable max-classes-per-file */

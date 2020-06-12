@@ -1,7 +1,7 @@
 <RegistriesWrapper
     {{with-branding this.registration.provider.brand}}
 >
-    {{#if this.loading}}
+    {{#if this.model.task.isRunning}}
         <div local-class='ContentBackground Loading'>
             <LoadingIndicator @dark={{true}} />
         </div>

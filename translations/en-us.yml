@@ -92,6 +92,7 @@ general:
         institutions: Institutions
         preprints: Preprints
         registries: Registries
+    other: Other
 node_categories:
     analysis: Analysis
     communication: Communication
@@ -642,7 +643,7 @@ institutions:
     search_placeholder: 'Search institutions'
     dashboard:
         title: '{institutionName} Dashboard'
-        last_update: 'Last update'
+        last_update: 'Updated every 24 hours'
         download_csv: 'Download CSV'
         select_default: 'All Departments'
         users_list:
@@ -1442,6 +1443,18 @@ osf-components:
         previousPage: 'Previous page'
         nextPage: 'Next page'
         reviewRegistration: 'Review registration'
+    contributors:
+        headings:
+            name: 'Name'
+            permission: 'Permission'
+            citation: 'Citation'
+        permissions:
+            admin: 'Administrator'
+            write: 'Read + Write'
+            read: 'Read'
+        citation:
+            true: 'Yes'
+            false: 'No'
 settings:
     toggleNav: 'Toggle navigation'
     profile:

@@ -1,0 +1,12 @@
+<ul local-class='ContributorList' ...attributes>
+    {{#let (get
+        (hash
+            readonly=(component 'contributors/card/readonly')
+        )
+        @widgetMode
+    ) as |Card|}}
+        {{#each @contributorsManager.contributors as |contributor|}}
+            <Card @contributor={{contributor}} />
+        {{/each}}
+    {{/let}}
+</ul>

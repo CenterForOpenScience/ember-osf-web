@@ -266,9 +266,9 @@ export default class DiscoverPage extends Component {
                 results: emptyResults(),
             });
             // If issue with search query, for example, invalid lucene search syntax
-            if (errorResponse instanceof DS.ServerError ||
-                errorResponse instanceof DS.AbortError ||
-                errorResponse instanceof DS.TimeoutError) {
+            if (errorResponse instanceof DS.ServerError
+                || errorResponse instanceof DS.AbortError
+                || errorResponse instanceof DS.TimeoutError) {
                 this.set('serverError', true);
             } else {
                 this.set('queryError', true);
@@ -322,8 +322,8 @@ export default class DiscoverPage extends Component {
         this.analytics.track('input', 'onkeyup', 'Discover - Search', this.q);
     }
 
-    didInsertElement(...args: any[]) {
-        this._super(...args);
+    didInsertElement() {
+        super.didInsertElement();
         this.set('firstLoad', true);
     }
 

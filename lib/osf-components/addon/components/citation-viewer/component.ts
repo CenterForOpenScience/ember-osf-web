@@ -61,9 +61,9 @@ export default class CitationViewer extends Component {
         );
         return responses.map((r, i) => ({
             ...defaultCitations[i],
-            citation: typeof r.data.attributes!.citation === 'string' ?
-                fixSpecialChars(r.data.attributes!.citation) :
-                r.data.attributes!.citation,
+            citation: typeof r.data.attributes!.citation === 'string'
+                ? fixSpecialChars(r.data.attributes!.citation)
+                : r.data.attributes!.citation,
         }));
     });
 

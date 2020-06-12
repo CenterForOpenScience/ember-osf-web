@@ -1,0 +1,34 @@
+<div data-test-contributor-card local-class='CardContainer'>
+    <div data-test-contributor-card-main local-class='MainSection'>
+        <span local-class='CardSection'>
+            <img
+                data-test-contributor-gravatar
+                class='m-r-xs'
+                src={{@contributor.users.links.profile_image}}
+                alt={{@contributor.users.fullName}}
+                height='30'
+                width='30'
+            >
+            <OsfLink
+                data-test-contributor-link={{@contributor.id}}
+                data-analytics-name='View user'
+                @route='guid-user'
+                @models={{array @contributor.id}}
+            >
+                {{@contributor.users.fullName}}
+            </OsfLink>
+        </span>
+        <span
+            data-test-contributor-permission={{@contributor.id}}
+            local-class='CardSection'
+        >
+            {{t (concat 'osf-components.contributors.permissions.' @contributor.permission)}}
+        </span>
+        <span
+            data-test-contributor-citation={{@contributor.id}}
+            local-class='CardSection'
+        >
+            {{t (concat 'osf-components.contributors.citation.' @contributor.bibliographic)}}
+        </span>
+    </div>
+</div>

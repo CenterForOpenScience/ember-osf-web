@@ -59,8 +59,8 @@ export default class DraftRegistrationManager {
     @computed('onInput.lastComplete')
     get lastSaveFailed() {
         const pageInputFailed = this.onPageInput.lastComplete ? this.onPageInput.lastComplete.isError : false;
-        const metadataInputFailed = this.onMetadataInput.lastComplete ?
-            this.onMetadataInput.lastComplete.isError : false;
+        const metadataInputFailed = this.onMetadataInput.lastComplete
+            ? this.onMetadataInput.lastComplete.isError : false;
         return pageInputFailed || metadataInputFailed;
     }
 

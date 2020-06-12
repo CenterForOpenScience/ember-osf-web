@@ -4,13 +4,13 @@ export default buildRoutes(function() {
     this.route('index', { path: '/registries' });
     this.route('discover', { path: '/registries/discover' });
     this.route('branded', { path: '/registries/:providerId' }, function() {
-        this.route('discover', { path: '/discover' });
+        this.route('discover');
     });
 
     this.route('start', { path: '/registries/start' });
 
     this.route('forms', { path: '/registries/forms' }, function() {
-        this.route('help', { path: '/help' });
+        this.route('help');
     });
 
     this.route('drafts', { path: '/registries/drafts' }, function() {

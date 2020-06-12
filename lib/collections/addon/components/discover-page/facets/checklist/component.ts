@@ -26,11 +26,11 @@ export default abstract class SearchFacetChecklist extends Base {
 
     @task
     initialize = task(function *(this: SearchFacetChecklist): IterableIterator<any> {
-        const providers: CollectionProvider[] = this.theme.isProvider ?
-            [this.theme.provider] :
-            yield this.store.findAll('collection-provider', {
+        const providers: CollectionProvider[] = this.theme.isProvider
+            ? [this.theme.provider]
+            : (yield this.store.findAll('collection-provider', {
                 include: 'primary_collection',
-            });
+            }));
 
         const primaryCollections: Collection[] = yield Promise.all(
             providers.map(({ primaryCollection }) => primaryCollection),
@@ -69,8 +69,8 @@ export default abstract class SearchFacetChecklist extends Base {
             }));
     }
 
-    didInsertElement(this: SearchFacetChecklist, ...args: any[]) {
-        this._super(...args);
+    didInsertElement(this: SearchFacetChecklist) {
+        super.didInsertElement();
 
         const { context, filterChanged, filterProperty } = this;
 
@@ -85,9 +85,9 @@ export default abstract class SearchFacetChecklist extends Base {
 
                 setProperties(context, {
                     queryParam: activeFilter.join('OR'),
-                    currentQueryFilters: !activeFilter.length ?
-                        defaultQueryFilters :
-                        {
+                    currentQueryFilters: !activeFilter.length
+                        ? defaultQueryFilters
+                        : {
                             [filterProperty]: activeFilter,
                         },
                 });

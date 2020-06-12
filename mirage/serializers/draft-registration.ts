@@ -72,6 +72,14 @@ export default class DraftRegistrationSerializer extends ApplicationSerializer<D
                     },
                 },
             },
+            contributors: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/draft_registrations/${model.id}/contributors`,
+                        meta: this.buildRelatedLinkMeta(model, 'contributors'),
+                    },
+                },
+            },
         };
         if (model.license) {
             returnValue.license = {

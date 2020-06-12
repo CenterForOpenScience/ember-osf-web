@@ -1,17 +1,20 @@
 {{title (t 'institutions.dashboard.title' institutionName=this.institution.unsafeName)}}
 <div class='container' data-analytics-scope='Dashboard'>
     <div local-class='banner'>
-        <img src='{{this.institution.assets.banner}}' alt='{{this.institution.name}}'>
+        <img src='{{this.institution.bannerUrl}}' alt='{{this.institution.name}}'>
         <div>
-            {{t 'institutions.dashboard.last_update'}}: {{this.lastUpdatedFromNow}}
+            {{t 'institutions.dashboard.last_update'}}
         </div>
     </div>
     <div local-class='dashboard-wrapper'>
         <div local-class='table-wrapper'>
-            <Institutions::Dashboard::-Components::InstitutionalUsersList @modelTaskInstance={{this.model.taskInstance}} />
+            <Institutions::Dashboard::-Components::InstitutionalUsersList
+                @modelTaskInstance={{this.model.taskInstance}}
+            />
         </div>
         <div local-class='panel-wrapper'>
-            <OsfLink
+            {{!-- TODO: comment this back in when ENG-1810 is implemented + tested + merged--}}
+            {{!-- <OsfLink
                 data-analytics-name='Download CSV'
                 class='btn btn-primary'
                 local-class='csv-button'
@@ -23,7 +26,7 @@
                 <img src={{this.csvImgSrc}}
                      alt={{t 'institutions.dashboard.download_csv'}}
                 >
-            </OsfLink>
+            </OsfLink> --}}
             <Institutions::Dashboard::-Components::Panel
                     local-class='sso-users-connected'
                     @isLoading={{this.model.taskInstance.isRunning}}
@@ -40,14 +43,19 @@
                     @isLoading={{this.model.taskInstance.isRunning}}
                     @title={{t 'institutions.dashboard.projects_panel'}}
             >
-                <Institutions::Dashboard::-Components::ProjectsPanel @summaryMetrics={{this.summaryMetrics}} />
+                <Institutions::Dashboard::-Components::ProjectsPanel
+                    @summaryMetrics={{this.summaryMetrics}}
+                />
             </Institutions::Dashboard::-Components::Panel>
             <Institutions::Dashboard::-Components::Panel
                     local-class='departments'
                     @isLoading={{this.model.taskInstance.isRunning}}
                     @title={{t 'institutions.dashboard.departments_panel'}}
             >
-                <Institutions::Dashboard::-Components::DepartmentsPanel @departments={{this.departmentMetrics}} />
+                <Institutions::Dashboard::-Components::DepartmentsPanel
+                    @topDepartments={{this.departmentMetrics}}
+                    @totalUsers={{this.totalUsers}}
+                />
             </Institutions::Dashboard::-Components::Panel>
         </div>
     </div>

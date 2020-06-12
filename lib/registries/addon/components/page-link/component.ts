@@ -39,9 +39,9 @@ export default class PageLinkComponent extends Component {
         if (this.pageName) {
             return this.pageName;
         }
-        return typeof this.pageIndex === 'number' && this.pageManager ?
-            getPageParam(this.pageIndex, this.pageManager.pageHeadingText) :
-            undefined;
+        return typeof this.pageIndex === 'number' && this.pageManager
+            ? getPageParam(this.pageIndex, this.pageManager.pageHeadingText)
+            : undefined;
     }
 
     @computed('pageManager', 'pageManager.{isVisited,pageIsValid}', 'pageIsActive', 'metadataIsValid')

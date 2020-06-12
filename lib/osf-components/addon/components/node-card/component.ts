@@ -35,16 +35,16 @@ export default class NodeCard extends Component {
     get registrationTitle(): string | undefined {
         if (this.node && this.node.isRegistration) {
             const registration = this.node as Registration;
-            const titleQuestion = registration.registrationSchema.get('schema') &&
-                registration.registrationSchema.get('schema').pages.reduce(
+            const titleQuestion = registration.registrationSchema.get('schema')
+                && registration.registrationSchema.get('schema').pages.reduce(
                     (acc: Question, page) => (acc || page.questions.filter(
                         question => question.title === 'Title',
                     ).firstObject),
                     undefined,
                 );
 
-            if (titleQuestion && typeof registration.registeredMeta === 'object' &&
-                titleQuestion.qid in registration.registeredMeta) {
+            if (titleQuestion && typeof registration.registeredMeta === 'object'
+                && titleQuestion.qid in registration.registeredMeta) {
                 const answer = registration.registeredMeta[titleQuestion.qid];
                 if ('value' in answer) {
                     return answer.value as string;

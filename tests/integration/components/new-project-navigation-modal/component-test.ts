@@ -1,9 +1,9 @@
 import { render } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
 import { setupIntl, t } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
-import { TestContext } from 'ember-test-helpers';
 
-import hbs from 'htmlbars-inline-precompile';
+import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
 import { click } from 'ember-osf-web/tests/helpers';

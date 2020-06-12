@@ -1,7 +1,7 @@
 import { render } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
 import { setupIntl, TestContext } from 'ember-intl/test-support';
 import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
-import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
 module('Integration | Helper | clip', hooks => {

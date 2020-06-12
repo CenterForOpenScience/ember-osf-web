@@ -33,14 +33,14 @@ module('Integration | Component | draft-registration-card', hooks => {
 
         await render(hbs`<DraftRegistrationCard @draftRegistration={{this.draftRegistration}} />`);
 
-        const initiated = `${this.intl.t('osf-components.draft-registration-card.initiated_by')} ` +
-                        `${user.fullName}`;
-        const formType = `${this.intl.t('osf-components.draft-registration-card.form_type')} ` +
-                        `${draftRegistration.registrationSchema.get('name')}`;
-        const dateStarted = `${this.intl.t('osf-components.draft-registration-card.started')} ` +
-                            `${moment(draftRegistration.datetimeInitiated)}`;
-        const dateUpdated = `${this.intl.t('osf-components.draft-registration-card.last_updated')} ` +
-                            `${moment(draftRegistration.datetimeUpdated)}`;
+        const initiated = `${this.intl.t('osf-components.draft-registration-card.initiated_by')} `
+            + `${user.fullName}`;
+        const formType = `${this.intl.t('osf-components.draft-registration-card.form_type')} `
+            + `${draftRegistration.registrationSchema.get('name')}`;
+        const dateStarted = `${this.intl.t('osf-components.draft-registration-card.started')} `
+            + `${moment(draftRegistration.datetimeInitiated)}`;
+        const dateUpdated = `${this.intl.t('osf-components.draft-registration-card.last_updated')} `
+            + `${moment(draftRegistration.datetimeUpdated)}`;
 
         assert.dom('[data-test-header-placeholder]').doesNotExist();
         assert.dom('[data-test-content-placeholder]').doesNotExist();

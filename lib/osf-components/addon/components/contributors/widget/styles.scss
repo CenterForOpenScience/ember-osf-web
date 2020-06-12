@@ -1,0 +1,21 @@
+.Container {
+    border: 1px solid $color-border-gray;
+}
+
+.Heading {
+    padding: 11px 20px;
+    height: 40px;
+    font-weight: bold;
+    display: flex;
+    border-bottom: 1px solid $color-border-gray;
+}
+
+.HeadingTitle {
+    flex: 1 0 auto;
+    max-width: 30%;
+
+    &:first-of-type {
+        flex: 2 0 auto;
+        max-width: 41%;
+    }
+}

@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import Service from '@ember/service';
 import { is, Map, OrderedSet, ValueObject } from 'immutable';
 import $ from 'jquery';
@@ -137,7 +138,7 @@ export class SearchOptions extends MapProxy<Options> implements Options {
     }
 
     constructor(values: Partial<Options>) {
-        super(Object.assign({}, SearchOptions.defaults, values));
+        super({ ...SearchOptions.defaults, ...values });
     }
 
     set<K extends keyof Options>(key: K, value: Options[K]) {
@@ -190,3 +191,4 @@ export default abstract class AbstractSearchService extends Service {
         };
     }
 }
+/* eslint-enable max-classes-per-file */

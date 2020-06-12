@@ -1,6 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 import { layout } from 'ember-osf-web/decorators/component';
 

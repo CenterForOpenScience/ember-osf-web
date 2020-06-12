@@ -1,7 +1,7 @@
 import EmberObject from '@ember/object';
 import { click as untrackedClick, fillIn, render, triggerKeyEvent } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
-import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
 function fakeNode(tags: string[]) {

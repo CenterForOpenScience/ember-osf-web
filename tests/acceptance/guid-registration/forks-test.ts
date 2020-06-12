@@ -28,8 +28,7 @@ module('Acceptance | guid-registration/forks', hooks => {
 
     test('logged out, 1 fork', async assert => {
         const node = server.create('node', { id: 'regis', currentUserPermissions: [] });
-        const registration =
-            server.create('registration', { registeredFrom: node });
+        const registration = server.create('registration', { registeredFrom: node });
         const url = `/${registration.id}/forks`;
 
         const fork = forkRegistration(
@@ -95,8 +94,7 @@ module('Acceptance | guid-registration/forks', hooks => {
             currentUserPermissions: [Permission.Admin],
         });
         server.create('contributor', { node, users: contributorUser });
-        const registration =
-            server.create('registration', { registeredFrom: node });
+        const registration = server.create('registration', { registeredFrom: node });
         for (let i = 0; i < 12; i++) {
             forkRegistration(
                 server,

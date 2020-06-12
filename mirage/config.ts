@@ -117,6 +117,9 @@ export default function(this: Server) {
         only: ['related', 'update', 'add', 'remove'],
         path: '/draft_registrations/:parentID/relationships/institutions',
     });
+    osfNestedResource(this, 'draft-registration', 'contributors', {
+        defaultSortKey: 'index',
+    });
 
     osfResource(this, 'registration', { except: ['show', 'create'] });
     this.post('/registrations', createRegistration);

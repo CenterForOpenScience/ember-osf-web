@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import { assert, debug, runInDebug } from '@ember/debug';
 import { action } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
@@ -302,3 +303,4 @@ declare module '@ember/service' {
         'analytics': Analytics;
     }
 }
+/* eslint-enable max-classes-per-file */

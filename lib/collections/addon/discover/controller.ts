@@ -55,16 +55,16 @@ export default class Discover extends Controller {
     @computed('intl.locale', 'additionalProviders')
     get facets() { // List of facets available for preprints
         return (
-            this.additionalProviders ?
+            this.additionalProviders
                 // if additionalProviders exist, use subset of SHARE facets
-                [
+                ? [
                     ['sources', 'source'],
                     ['date', 'daterange'],
                     ['type', 'worktype'],
                     ['tags', 'typeahead'],
-                ] :
+                ]
                 // Regular preprints and branded preprints get provider and taxonomy facets
-                [
+                : [
                     ['sources', 'collection-provider', { hidden: true }],
                     ['type', 'collected-type'],
                     ['issue', 'issue'],
@@ -117,9 +117,9 @@ export default class Discover extends Controller {
 
     @computed('additionalProviders')
     get searchPlaceholder() { // Search bar placeholder
-        return this.additionalProviders ?
-            'discover.search.repository_placeholder' :
-            'collections.discover.search_placeholder';
+        return this.additionalProviders
+            ? 'discover.search.repository_placeholder'
+            : 'collections.discover.search_placeholder';
     }
 
     @computed('intl.locale')

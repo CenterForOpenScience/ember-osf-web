@@ -40,8 +40,8 @@ export default class FinalizeRegisrationModalComponent extends Component {
 
     @computed('manager.{hasEmbargoEndDate,submittingRegistration}', 'makePublicOption')
     get shouldDisableSubmitButton() {
-        return this.makePublicOption === '' ||
-          (this.makePublicOption === 'embargo' && !this.manager.hasEmbargoEndDate) ||
-          this.manager.submittingRegistration;
+        return this.makePublicOption === ''
+          || (this.makePublicOption === 'embargo' && !this.manager.hasEmbargoEndDate)
+          || this.manager.submittingRegistration;
     }
 }

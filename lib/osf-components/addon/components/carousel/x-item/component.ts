@@ -18,8 +18,8 @@ export default class CarouselItem extends Component {
     index: number = 0;
     slideIndex: number = 0;
 
-    didInsertElement(...args: any[]) {
-        this._super(...args);
+    didInsertElement() {
+        super.didInsertElement();
         this.register(this);
         this.set('index', this.allItems.indexOf(this));
         this.set('slideIndex', this.allItems.indexOf(this) + 1);

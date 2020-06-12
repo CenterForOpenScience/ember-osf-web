@@ -4,7 +4,6 @@
 
 root = true
 
-
 [*]
 # end_of_line = lf (https://github.com/editorconfig/editorconfig/issues/226)
 charset = utf-8
