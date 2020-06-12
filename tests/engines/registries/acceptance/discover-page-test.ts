@@ -4,7 +4,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 // import { t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
 // import { setBreakpoint } from 'ember-responsive/test-support';
-import { TestContext } from 'ember-test-helpers';
+import { TestContext, fillIn, click } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
 import { visit } from 'ember-osf-web/tests/helpers';
@@ -62,6 +62,13 @@ module('Registries | Acceptance | aggregate discover', hooks => {
         for (const id of registrationIds) {
             assert.dom(`[data-test-result-title-id=${id}]`).exists();
         }
+        assert.dom(`[data-test-sort-dropdown]`).exists(); // TODO: see if one of thse fails and get rid of redundant
+        assert.dom(`[data-test-sort-dropdown="true"]`).exists('Sort dropdown exists');
+        assert.dom(`[data-test-active-filter]`).doesNotExist('No filters are applied by default');
+        assert.dom(`[data-test-source-filter-id]`).exists({ count: 3 }, 'Three sources exist');
+        assert.dom(`[data-test-page-number]`).doesNotExist('No pagination for less than 10 registrations');
+
+        await fillIn(`[data-test-search-box]`, 'registrations are the best');
     });
     // path with different initial state:
     // - arrive at page WITH query params

@@ -10,6 +10,7 @@
             <Button
                 @layout='small'
                 local-class='Sidebar__RemoveFilter'
+                data-test-active-filter={{filter.display}}
                 aria-label={{t 'registries.discover.sidebar.remove_filter_label' filterName=filter.display}}
                 {{on 'click' (fn this.removeFilter filter.filter)}}
             >

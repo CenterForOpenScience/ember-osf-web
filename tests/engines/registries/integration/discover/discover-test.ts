@@ -629,7 +629,7 @@ module('Registries | Integration | discover', hooks => {
 
         assert.notEqual(resultsEl.offsetTop, 0);
 
-        await click('[data-test-page="2"]');
+        await click('[data-test-page-number="2"]');
 
         assert.equal(resultsEl.offsetTop, 0);
         sinon.assert.calledWith(stub, new SearchOptions({
