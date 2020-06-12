@@ -212,6 +212,7 @@ function getResultsForProviders(schema: Schema, providerShareKeys: string[]): Mi
 export function shareSearch(schema: Schema, request: Request) {
     const requestBody = JSON.parse(request.requestBody);
     const filterList = requestBody.query.bool.filter;
+    const queryString = requestBody.query.bool.must.query_string.query;
     const providerFilter = filterList.find((filter: any) => Boolean(filter.terms && filter.terms.sources));
 
     let allResults: MixedResult[];
@@ -225,6 +226,9 @@ export function shareSearch(schema: Schema, request: Request) {
             ...schema.registrations.all().models,
             ...schema.externalRegistrations.all().models,
         ];
+    }
+    if (queryString !== '*') {
+        allResults = allResults.filter(item => item.title.includes(queryString));
     }
 
     // paginate
