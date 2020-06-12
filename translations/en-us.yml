@@ -930,6 +930,7 @@ collections:
 registries:
     header:
         search_placeholder: 'Search registrations...'
+        search_label: 'Search'
     facets:
         registration_type:
             title: 'OSF Registration Type'
