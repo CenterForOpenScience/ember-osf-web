@@ -1,11 +1,11 @@
 {{#registries-search-facet-container title='Provider'}}
     <ul local-class='ProviderFacet__List'>
-        {{#each this.providers as |provider index|}}
+        {{#each this.providers as |provider|}}
             <li local-class='ProviderFacet__ListItem'>
                 <label local-class='ProviderFacet__Label'>
                     <Input
                         local-class='ProviderFacet__Checkbox'
-                        data-test-source-filter-id={{index}}
+                        data-test-source-filter-id={{provider.filter.value}}
                         data-analytics-name='Provider Facet Checkbox'
                         disabled={{this.shouldLinkToAggregateDiscover}}
                         @type='checkbox'
@@ -15,7 +15,7 @@
                     {{provider.filter.display}}
                 </label>
                 <span local-class='ProviderFacet__Count'>
-                    {{format-number provider.count notation='compact'}}
+                    {{t 'registries.discover.sidebar.provider_count' count=provider.count}}
                 </span>
             </li>
         {{/each}}

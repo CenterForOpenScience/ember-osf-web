@@ -1,15 +1,14 @@
 <div class='col-sm-9 col-xs-12' local-class='ResultsHeader'>
     <div class='col-sm-6'>
         <h2 data-test-results-count>
-            {{format-number @totalResults}}
-            {{t 'registries.discover.registrations' count=@totalResults}}
+            {{t 'registries.discover.registration_count' count=@totalResults}}
         </h2>
     </div>
     <div class='col-sm-6 text-right'>
         <ResponsiveDropdown as |dd|>
             <dd.trigger>
                 <Button
-                    data-test-sort-dropdown=true
+                    data-test-sort-dropdown
                     data-analytics-name='Sort Registries Button'
                 >
                     {{t 'registries.discover.sort_by'}}: {{t @searchOptions.order.display}}
@@ -23,6 +22,7 @@
                         <button
                             data-test-sort-option-id='{{index}}'
                             class='btn'
+                            type='button'
                             local-class='SortDropDown__Option'
                             {{on 'click' (fn @setOrder option)}}
                             {{on 'click' dd.close}}
