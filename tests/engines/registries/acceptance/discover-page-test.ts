@@ -4,7 +4,6 @@ import { click, fillIn } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
-import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
 import { visit } from 'ember-osf-web/tests/helpers';
@@ -23,12 +22,7 @@ module('Registries | Acceptance | aggregate discover', hooks => {
     setupEngineApplicationTest(hooks, 'registries');
     setupMirage(hooks);
 
-    hooks.beforeEach(function(this: TestContext) {
-        /*
-        server.loadFixtures('schema-blocks');
-        server.loadFixtures('registration-schemas');
-        server.loadFixtures('licenses');
-        */
+    hooks.beforeEach(() => {
         const osfProvider = server.create('registration-provider', { id: 'osf' });
         const anotherProvider = server.create('registration-provider', { id: 'another' });
         const externalProvider = server.create('external-provider', { shareSourceKey: 'ClinicalTrials.gov' });
@@ -62,7 +56,7 @@ module('Registries | Acceptance | aggregate discover', hooks => {
 
         const registrationIds = server.schema.registrations.all().models.map(item => item.id);
         for (const id of registrationIds) {
-            assert.dom(`[data-test-result-title-id=${id}]`).exists();
+            assert.dom(`[data-test-result-title-id="${id}"]`).exists();
         }
         assert.dom('[data-test-sort-dropdown]').exists('Sort dropdown exists');
         assert.dom('[data-test-active-filter]').doesNotExist('No filters are applied by default');
@@ -71,7 +65,7 @@ module('Registries | Acceptance | aggregate discover', hooks => {
 
         const searchableReg = server.schema.registrations.first();
         await fillIn('[data-test-search-box]', searchableReg.title);
-        assert.dom(`[data-test-result-title-id=${searchableReg.id}]`).exists('Search shows appropriate result');
+        assert.dom(`[data-test-result-title-id='${searchableReg.id}']`).exists('Search shows appropriate result');
 
         await fillIn('[data-test-search-box]', '');
         await click('[data-test-source-filter-id="osf"]');
@@ -87,7 +81,8 @@ module('Registries | Acceptance | aggregate discover', hooks => {
 
         await visit('/registries/discover/');
 
-        assert.dom('[data-test-page-number]').exists({ count: 2 }, 'Exactly two pages of results');
+        // Count is 4 including previous and next buttons
+        assert.dom('[data-test-page-number]').exists({ count: 4 }, 'Exactly two pages of results');
         assert.dom('[data-test-page-number="1"]').exists();
         assert.dom('[data-test-page-number="2"]').exists();
         assert.dom('[data-test-results-count]').hasText(t('registries.discover.registration_count', { count: 11 }));
@@ -108,7 +103,7 @@ module('Registries | Acceptance | aggregate discover', hooks => {
     // - assert filter checkbox is unchecked
     test('initial state from query params', async assert => {
         const anotherProvider = server.schema.registrationProviders.find('another');
-        const searchableReg = anotherProvider.registrations.firstObject;
+        const searchableReg = anotherProvider.registrations.models[0];
 
         await visit(`/registries/discover?provider=${anotherProvider.shareSourceKey}&q=${searchableReg.title}`);
 
@@ -116,9 +111,9 @@ module('Registries | Acceptance | aggregate discover', hooks => {
 
         assert.dom('[data-test-search-box]').hasValue(searchableReg.title, 'Search box has initial value');
 
-        assert.dom(`[data-test-source-filter-id=${anotherProvider.shareSourceKey}]`).isChecked();
+        assert.dom(`[data-test-source-filter-id='${anotherProvider.shareSourceKey}']`).isChecked();
         assert.dom(
-            `[data-test-source-filter-id]:not([data-test-source-filter-id=${anotherProvider.shareSourceKey}])`,
+            `[data-test-source-filter-id]:not([data-test-source-filter-id='${anotherProvider.shareSourceKey}'])`,
         ).isNotChecked();
 
         assert.dom('[data-test-result-title-id]').exists({ count: 1 }, 'Initial search uses initial params');
