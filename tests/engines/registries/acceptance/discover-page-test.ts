@@ -1,5 +1,3 @@
-// import Service from '@ember/service';
-// import { setBreakpoint } from 'ember-responsive/test-support';
 import { click, fillIn } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { t } from 'ember-intl/test-support';
@@ -8,15 +6,6 @@ import { module, test } from 'qunit';
 
 import { visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
-// import { deserializeResponseKey } from 'ember-osf-web/transforms/registration-response-key';
-
-// const currentUserStub = Service.extend();
-// const storeStub = Service.extend();
-// const analyticsStub = Service.extend();
-
-// function getHrefAttribute(selector: string) {
-//     return document.querySelector(selector)!.getAttribute('href');
-// }
 
 module('Registries | Acceptance | aggregate discover', hooks => {
     setupEngineApplicationTest(hooks, 'registries');
@@ -54,6 +43,7 @@ module('Registries | Acceptance | aggregate discover', hooks => {
         await click('[data-test-sort-dropdown]');
         await percySnapshot('happy path');
 
+        const osfProvider = server.schema.registrationProviders.find('osf');
         const registrationIds = server.schema.registrations.all().models.map(item => item.id);
         for (const id of registrationIds) {
             assert.dom(`[data-test-result-title-id="${id}"]`).exists();
@@ -68,7 +58,8 @@ module('Registries | Acceptance | aggregate discover', hooks => {
         assert.dom(`[data-test-result-title-id='${searchableReg.id}']`).exists('Search shows appropriate result');
 
         await fillIn('[data-test-search-box]', '');
-        await click('[data-test-source-filter-id="osf"]');
+
+        await click(`[data-test-source-filter-id="${osfProvider.shareSourceKey}"]`);
         assert.dom('[data-test-result-title-id]').exists({ count: 3 }, 'Provider filter works');
 
         await fillIn('[data-test-search-box]', 'kjafnsdflkjhsdfnasdkndfa random string');
@@ -118,8 +109,4 @@ module('Registries | Acceptance | aggregate discover', hooks => {
 
         assert.dom('[data-test-result-title-id]').exists({ count: 1 }, 'Initial search uses initial params');
     });
-
-    // query returns no result:
-    // - assert the page shows no result help text
-    // - take percy snapshot
 });

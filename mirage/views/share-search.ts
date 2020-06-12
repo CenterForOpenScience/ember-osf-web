@@ -188,7 +188,7 @@ function serializeMixedResult(reg: MixedResult): SearchHit {
         ? serializeExternalRegistration(reg)
         : serializeRegistration(reg);
     return {
-        _id: 'fake-share-id',
+        _id: reg.id,
         _source: serialized,
     };
 }
