@@ -67,8 +67,11 @@ export default class RegistriesRegistrationTypeFacet extends Component {
 
     @computed('searchOptions')
     get onlyOSF() {
-        const osfSelected = this.searchOptions.filters.find(item =>
-            item instanceof ShareTermsFilter && item.key === 'sources' && item.value === 'OSF');
+        const osfSelected = this.searchOptions.filters.find(
+            item => item instanceof ShareTermsFilter
+                && item.key === 'sources'
+                && item.value === 'OSF',
+        );
         return this.searchOptions.filters.filter(filter => filter.key === 'sources').size === 1 && osfSelected;
     }
 

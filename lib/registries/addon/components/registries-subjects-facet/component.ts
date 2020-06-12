@@ -22,9 +22,9 @@ function getSubjectTerm(subject: SubjectModel): string {
     // e.g. 'bepress|Law|Bird Law'
     const parentSubject = subject.belongsTo('parent').value() as SubjectModel | null;
 
-    return parentSubject ?
-        `${getSubjectTerm(parentSubject)}|${subject.text}` :
-        `${subject.taxonomyName}|${subject.text}`;
+    return parentSubject
+        ? `${getSubjectTerm(parentSubject)}|${subject.text}`
+        : `${subject.taxonomyName}|${subject.text}`;
 }
 
 function newSubjectFilter(subject: SubjectModel): ShareTermsFilter {

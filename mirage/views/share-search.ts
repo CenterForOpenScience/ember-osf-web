@@ -74,11 +74,11 @@ interface SearchResponse {
 function hasProviderAggregation(request: Request): boolean {
     const requestBody = JSON.parse(request.requestBody);
     return Boolean(
-        requestBody &&
-        requestBody.aggregations &&
-        requestBody.aggregations.sources &&
-        requestBody.aggregations.sources.terms &&
-        requestBody.aggregations.sources.terms.field === 'sources',
+        requestBody
+        && requestBody.aggregations
+        && requestBody.aggregations.sources
+        && requestBody.aggregations.sources.terms
+        && requestBody.aggregations.sources.terms.field === 'sources',
     );
 }
 
@@ -184,9 +184,9 @@ function isExternal(reg: MixedResult): reg is ModelInstance<MirageExternalRegist
 }
 
 function serializeMixedResult(reg: MixedResult): SearchHit {
-    const serialized = isExternal(reg) ?
-        serializeExternalRegistration(reg) :
-        serializeRegistration(reg);
+    const serialized = isExternal(reg)
+        ? serializeExternalRegistration(reg)
+        : serializeRegistration(reg);
     return {
         _id: 'fake-share-id',
         _source: serialized,
