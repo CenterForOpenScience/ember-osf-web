@@ -77,7 +77,6 @@ export interface Collection<T> {
     models: Array<ModelInstance<T>>;
     length: number;
     modelName: string;
-    firstObject: ModelInstance<T>;
     update<K extends keyof T>(key: K, val: T[K]): void;
     update<K extends keyof T>(attrs: { [key: K]: T[K] }): void;
     save(): void;
