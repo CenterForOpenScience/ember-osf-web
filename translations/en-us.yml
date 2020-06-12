@@ -944,7 +944,7 @@ registries:
     discover:
         page_title: Search
         SHARE: SHARE
-        registrations: Registrations
+        registrations: '{count, plural, =1 {Registration} other {Registrations}}'
         sort_by: 'Sort by'
         powered_by: 'powered by'
         no_results: 'No results found.'

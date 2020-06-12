@@ -1,6 +1,6 @@
 // import Service from '@ember/service';
 // import { setBreakpoint } from 'ember-responsive/test-support';
-import { fillIn } from '@ember/test-helpers';
+import { click, fillIn } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
@@ -77,10 +77,22 @@ module('Registries | Acceptance | aggregate discover', hooks => {
         assert.dom('[data-test-result-title-id]').exists({ count: 3 }, 'Provider filter works');
 
         await fillIn('[data-test-search-box]', 'kjafnsdflkjhsdfnasdkndfa random string');
-        assert.dom() // Test the 'no results' function
+        assert.dom('[data-test-no-results-placeholder]').hasText(t('registries.discover.no_results'));
+    });
+    test('paginator works', async assert => {
+        server.createList('registration', 2, { provider: server.schema.registrationProviders.first() });
 
+        await visit('/registries/discover/');
 
+        assert.dom('[data-test-page-number="1"]').exists();
+        assert.dom('[data-test-page-number="2"]').exists();
+        assert.dom('[data-test-results-count]').hasText(`11 ${t('registries.discover.registrations', { count: 11 })}`);
 
+        await click('[data-test-page-number="1"]');
+        assert.dom('[data-test-result-title-id]').exists({ count: 10 }, 'First page has correct number of results');
+
+        await click('[data-test-page-number="2"]');
+        assert.dom('[data-test-result-title-id]').exists({ count: 1 }, 'Second page has correct number of results');
     });
     // path with different initial state:
     // - arrive at page WITH query params
