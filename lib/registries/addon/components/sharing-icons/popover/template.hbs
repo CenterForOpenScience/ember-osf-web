@@ -7,7 +7,7 @@
     ...attributes
 >
     <FaIcon @icon='share-alt' />
-    {{#bs-popover placement='left' triggerEvents='focus' local-class='Popover' viewportSelector=(concat '#' @parentId) autoPlacement=true }}
+    {{#bs-popover placement='left' local-class='Popover' viewportSelector=(concat '#' @parentId) autoPlacement=true renderInPlace=true }}
         <SharingIcons
             @title={{@title}}
             @description={{@description}}
