@@ -1,11 +1,12 @@
 <RegistriesWrapper
-    {{with-branding this.registration.provider.brand}}
+    {{with-branding (if this.model.task.isIdle this.registration.provider.brand)}}
 >
     {{#if this.model.task.isRunning}}
         <div local-class='ContentBackground Loading'>
             <LoadingIndicator @dark={{true}} />
         </div>
     {{else}}
+        {{assert 'Registries::Overview - registration should not be null or undefined' this.registration}}
         {{title this.registration.title}}
         {{#if (or this.registration.withdrawn this.registration.archiving)}}
             <OsfLayout @backgroundClass='{{local-class 'ContentBackground'}}' as |layout|>
