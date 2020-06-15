@@ -27,6 +27,7 @@
                 />
                 {{#if this.showHelp}}
                     <Button
+                        aria-label={{t 'registries.header.search_help'}} 
                         local-class='HelpIcon'
                         @layout='fake-link'
                         {{on 'click' this.toggleHelp}}

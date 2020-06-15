@@ -932,6 +932,7 @@ registries:
     header:
         search_placeholder: 'Search registrations...'
         search_label: 'Search'
+        search_help: 'Search help'
     facets:
         registration_type:
             title: 'OSF Registration Type'
@@ -945,7 +946,7 @@ registries:
         page_title: 'OSF Registries'
     discover:
         page_title: Search
-        SHARE: SHARE
+        SHARE: 'About SHARE'
         registration_count: '{count, plural, =1 {# Registration} other {# Registrations}}'
         sort_by: 'Sort by'
         powered_by: 'powered by'
@@ -1227,6 +1228,8 @@ registries:
         submit: Submit
         back: Back
         datePlaceholder: 'Choose embargo end date'
+    sharingIcons:
+        lable: 'Share this registration'
 meetings:
     index:
         meetings-list:

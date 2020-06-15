@@ -1,4 +1,5 @@
 <button
+    aria-label={{t 'registries.sharing_icons.label'}}
     type='button'
     local-class='SharingIconsPopover__anchor'
     class='btn-link pull-right'
@@ -8,7 +9,7 @@
 >
     <FaIcon @icon='share-alt' />
     {{#bs-popover placement='left' local-class='Popover' viewportSelector=(concat '#' @parentId) autoPlacement=true renderInPlace=true }}
-        <SharingIcons
+    <SharingIcons
             @title={{@title}}
             @description={{@description}}
             @hyperlink={{@hyperlink}}
