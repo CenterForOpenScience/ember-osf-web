@@ -1,5 +1,6 @@
 import { currentRouteName } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import config from 'ember-get-config';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
@@ -7,6 +8,10 @@ import { forkNode } from 'ember-osf-web/mirage/helpers';
 import { click, currentURL, setupOSFApplicationTest, visit } from 'ember-osf-web/tests/helpers';
 
 import { Permission } from 'ember-osf-web/models/osf-model';
+
+const {
+    OSF: { apiUrl },
+} = config;
 
 module('Acceptance | guid-node/forks', hooks => {
     setupOSFApplicationTest(hooks);
@@ -128,6 +133,7 @@ module('Acceptance | guid-node/forks', hooks => {
         const url = `/${node.id}/forks`;
         const done = assert.async();
         server.namespace = '/v2';
+        server.urlPrefix = apiUrl;
         server.post('/nodes/:parentID/forks', () => {
             assert.ok(true, 'Create forks called');
             done();
