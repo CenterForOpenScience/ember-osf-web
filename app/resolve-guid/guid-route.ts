@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-import { TaskInstance } from 'ember-concurrency';
+import { Task, TaskInstance } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
@@ -10,6 +10,7 @@ import Ready from 'ember-osf-web/services/ready';
 export interface GuidRouteModel<T> {
     guid: string;
     taskInstance: TaskInstance<T>;
+    task: Task<T>;
 }
 
 // Note: this class is to provide a small amount of backwards compatibility.

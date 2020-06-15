@@ -5,7 +5,7 @@
         </div>
         {{#if (not (or @registration.archiving @registration.withdrawn))}}
             <div local-class='ActionBar'>
-                <Overview::-Components::OverviewTopbar @registration={{this.registration}} />
+                <Overview::-Components::OverviewTopbar @registration={{@registration}} />
             </div>
             {{#if this.showMobileView}}
                 <Navbar local-class='SideBarToggle' as |nav|>
@@ -17,7 +17,7 @@
                             {{nav.icon (if @sidenavGutterClosed 'bars' 'times')}}
                         </nav.buttons.default>
                     </nav.bordered-section>
-                    
+
                     <nav.bordered-section>
                         <nav.buttons.default
                             data-analytics-name='Show metadata'
