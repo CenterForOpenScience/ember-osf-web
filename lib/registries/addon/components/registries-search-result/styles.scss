@@ -36,6 +36,10 @@
         max-height: 500px;
         transition: max-height 1s ease-in-out;
     }
+
+    .Details__Badge {
+        background-color: $color-bg-gray-darker;
+    }
 }
 
 .Contributors {

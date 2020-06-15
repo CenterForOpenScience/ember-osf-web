@@ -71,7 +71,7 @@
 
         <div local-class='Details {{if this.expanded 'Expanded' 'Collapsed'}}'>
             {{#each @result.tags as |tag|}}
-                <span class='badge'>{{math tag}}</span>
+                <span local-class='Details__Badge' class='badge'>{{math tag}}</span>
             {{/each}}
         </div>
 
