@@ -1,3 +1,9 @@
+// stylelint-disable selector-no-qualifying-type
+h2.Sidebar__FilterHeading {
+    font-size: 18px;
+    font-weight: 700;
+}
+// stylelint-enable selector-no-qualifying-type
 .Sidebar__ActiveFilters {
     display: flex;
     flex-wrap: wrap;

@@ -930,6 +930,7 @@ collections:
         type: Type
 registries:
     header:
+        osf_registrations: 'OSF Registrations'
         search_placeholder: 'Search registrations...'
         search_label: 'Search'
         search_help: 'Search help'
@@ -944,9 +945,11 @@ registries:
             other_registries: 'Other registries'
     application:
         page_title: 'OSF Registries'
+        main_aria: 'Registries main content'
     discover:
         page_title: Search
         SHARE: 'About SHARE'
+        go_to_SHARE: 'Go to SHARE'
         registration_count: '{count, plural, =1 {# Registration} other {# Registrations}}'
         sort_by: 'Sort by'
         powered_by: 'powered by'

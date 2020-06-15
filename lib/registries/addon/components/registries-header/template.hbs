@@ -2,7 +2,12 @@
 
     <div class='row m-v-md'>
         <div class='text-center m-t-lg col-xs-12'>
-            <div local-class='RegistriesHeader__Brand'></div>
+            <div
+                local-class='RegistriesHeader__Brand'
+                role='heading'
+                aria-level='1'
+                aria-label={{t 'registries.header.osf_registrations'}}
+            ></div>
             <p class='lead'>
                 {{yield (hash lead=(element ''))}}
             </p>
@@ -27,7 +32,7 @@
                 />
                 {{#if this.showHelp}}
                     <Button
-                        aria-label={{t 'registries.header.search_help'}} 
+                        aria-label={{t 'registries.header.search_help'}}
                         local-class='HelpIcon'
                         @layout='fake-link'
                         {{on 'click' this.toggleHelp}}

@@ -1,7 +1,10 @@
-.RegistriesSearchResult__Title {
+// stylelint-disable selector-no-qualifying-type
+h3.RegistriesSearchResult__Title {
     font-weight: 400;
+    font-size: 24px;
+    margin-top: 10px;
 }
-
+// stylelint-enable selector-no-qualifying-type
 .RegistriesSearchResult__Sources {
     font-weight: 700;
 }

@@ -2,12 +2,13 @@
     border-width: 0;
     box-shadow: none;
 }
-
-.SearchFacet__Heading {
+// stylelint-disable selector-no-qualifying-type
+h3.SearchFacet__Heading {
     font-size: 15px;
     font-weight: 700;
+    margin-top: 10px;
 }
-
+// stylelint-enable selector-no-qualifying-type
 .SearchFacet__Body {
     padding: 10px 0;
 }
