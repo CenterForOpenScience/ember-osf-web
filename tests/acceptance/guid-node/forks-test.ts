@@ -1,4 +1,4 @@
-import { currentRouteName } from '@ember/test-helpers';
+import { currentRouteName, settled } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import config from 'ember-get-config';
 import { percySnapshot } from 'ember-percy';
@@ -22,6 +22,7 @@ module('Acceptance | guid-node/forks', hooks => {
         const url = `/${node.id}/forks`;
 
         await visit(url);
+        await settled();
         assert.equal(currentURL(), url, `We are on ${url}`);
         assert.equal(currentRouteName(), 'guid-node.forks', 'We are at guid-node.forks');
         await percySnapshot(assert);
@@ -46,6 +47,7 @@ module('Acceptance | guid-node/forks', hooks => {
 
         const url = `/${node.id}/forks`;
         await visit(url);
+        await settled();
         assert.equal(currentURL(), url, `We are on ${url}`);
         assert.dom('[data-test-new-fork-button]').doesNotExist();
         assert.dom('[data-test-node-card]').exists({ count: 1 });
@@ -58,6 +60,7 @@ module('Acceptance | guid-node/forks', hooks => {
         const url = `/${node.id}/forks`;
 
         await visit(url);
+        await settled();
         assert.equal(currentURL(), url, `We are on ${url}`);
         assert.dom('[data-test-new-fork-button]').exists({ count: 1 });
         assert.dom('[data-test-forks-info]')
@@ -82,6 +85,7 @@ module('Acceptance | guid-node/forks', hooks => {
         const url = `/${node.id}/forks`;
 
         await visit(url);
+        await settled();
         assert.equal(currentURL(), url, `We are on ${url}`);
         assert.dom('[data-test-new-fork-button]').exists({ count: 1 });
         assert.dom('[data-test-node-card]').exists({ count: 1 });
@@ -109,6 +113,7 @@ module('Acceptance | guid-node/forks', hooks => {
         const url = `/${node.id}/forks`;
 
         await visit(url);
+        await settled();
         assert.equal(currentURL(), url, `We are on ${url}`);
         assert.dom('[data-test-new-fork-button]').exists({ count: 1 });
         assert.dom('[data-test-node-card]').exists({ count: 10 });
@@ -116,6 +121,7 @@ module('Acceptance | guid-node/forks', hooks => {
         await percySnapshot(assert);
 
         await click('[data-analytics-name="Pagination next"]');
+        await settled();
         assert.dom('[data-test-node-card]').exists({ count: 2 });
         assert.dom('[data-test-node-card]').includesText(node.title);
     });
@@ -140,6 +146,7 @@ module('Acceptance | guid-node/forks', hooks => {
         });
 
         await visit(url);
+        await settled();
         assert.equal(currentURL(), url, `We are on ${url}`);
 
         await click('[data-test-new-fork-button]');

@@ -1,4 +1,4 @@
-import { click as untrackedClick, currentRouteName } from '@ember/test-helpers';
+import { click as untrackedClick, currentRouteName, settled } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
@@ -23,6 +23,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         const url = `/${node.id}/registrations`;
 
         await visit(url);
+        await settled();
 
         assert.equal(currentURL(), url, `We are on ${url}`);
         assert.equal(currentRouteName(), 'guid-node.registrations', 'We are at guid-node.registrations');
@@ -47,6 +48,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         const url = `/${node.id}/registrations`;
 
         await visit(url);
+        await settled();
 
         assert.equal(currentURL(), url, `We are on ${url}`);
 
@@ -65,6 +67,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         const url = `/${node.id}/registrations`;
 
         await visit(url);
+        await settled();
 
         assert.equal(currentURL(), url, `We are on ${url}`);
 
@@ -112,6 +115,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         const url = `/${node.id}/registrations`;
 
         await visit(url);
+        await settled();
 
         assert.equal(currentURL(), url, `We are on ${url}`);
 
@@ -155,6 +159,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         const url = `/${node.id}/registrations`;
 
         await visit(url);
+        await settled();
 
         assert.equal(currentURL(), url, `We are on ${url}`);
 
@@ -166,6 +171,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         await percySnapshot(assert);
 
         await click('[data-analytics-name="Pagination next"]');
+        await settled();
 
         assert.dom('[data-test-node-card]').exists({ count: 2 });
 
@@ -215,6 +221,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         const url = `/${node.id}/registrations`;
 
         await visit(url);
+        await settled();
 
         assert.equal(currentURL(), url, `We are on ${url}`);
 
@@ -251,12 +258,14 @@ module('Acceptance | guid-node/registrations', hooks => {
         const url = `/${node.id}/registrations`;
 
         await visit(url);
+        await settled();
 
         assert.equal(currentURL(), url, `We are on ${url}`);
 
         assert.dom('[data-test-new-registration-button]').exists({ count: 1 });
 
         await untrackedClick('[data-test-registrations-container] a[href="#drafts"]');
+        await settled();
 
         assert.dom('[data-test-draft-registrations-pane]').isVisible();
 
@@ -267,6 +276,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         assert.dom('[data-test-draft-registration-card]').exists({ count: 10 });
 
         await click('[data-analytics-name="Pagination next"]');
+        await settled();
 
         assert.dom('[data-test-draft-registration-card]').exists({ count: 2 });
         await percySnapshot(assert);
@@ -283,10 +293,12 @@ module('Acceptance | guid-node/registrations', hooks => {
         const url = `/${node.id}/registrations`;
 
         await visit(url);
+        await settled();
 
         assert.equal(currentURL(), url, `We are on ${url}`);
 
         await click('[data-test-new-registration-button]');
+        await settled();
         await percySnapshot(assert);
 
         assert.dom('[data-test-new-registration-modal-body]').isVisible();
@@ -317,6 +329,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         const url = `/${node.id}/registrations`;
 
         await visit(url);
+        await settled();
 
         assert.equal(currentURL(), url, `We are on ${url}`);
 
