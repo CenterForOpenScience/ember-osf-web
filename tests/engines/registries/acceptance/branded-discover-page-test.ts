@@ -17,7 +17,7 @@ module('Registries | Acceptance | branded discover', hooks => {
     });
 
     test('branded discover with no external providers', async assert => {
-        await visit('/registries/1/discover');
+        await visit('/registries/brand/discover');
         await percySnapshot('branded discover page');
         assert.equal(currentRouteName(), 'registries.branded.discover', 'On the branded discover page');
 
@@ -31,7 +31,9 @@ module('Registries | Acceptance | branded discover', hooks => {
     test('branded discover with external providers', async assert => {
         const externalProvider = server.create('external-provider', { shareSourceKey: 'ClinicalTrials.gov' });
         server.createList('external-registration', 3, { provider: externalProvider });
-        assert.dom('[data-test-source-filter-id]').exists({ count: 1 }, 'External provider is not shown');
+
+        await visit('/registries/brand/discover');
+        assert.dom('[data-test-source-filter-id]').exists({ count: 1 }, 'Only brand provider is shown');
         assert.dom(`[data-test-source-filter-id="${externalProvider.shareSourceKey}"]`)
             .doesNotExist('External provider is not shown');
     });
