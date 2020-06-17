@@ -13,20 +13,17 @@
             />
         </div>
         <div local-class='panel-wrapper'>
-            {{!-- TODO: comment this back in when ENG-1810 is implemented + tested + merged--}}
-            {{!-- <OsfLink
-                data-analytics-name='Download CSV'
-                class='btn btn-primary'
-                local-class='csv-button'
-                @target='_blank'
-                @href={{this.csvHref}}
-                onmouseenter={{action 'onCsvButtonMouseEnter'}}
-                onmouseleave={{action 'onCsvButtonMouseLeave'}}
-            >
-                <img src={{this.csvImgSrc}}
-                     alt={{t 'institutions.dashboard.download_csv'}}
+            {{#if this.csvHref}}
+                <OsfLink
+                    data-analytics-name='Download CSV'
+                    aria-label={{t 'institutions.dashboard.download_csv'}}
+                    local-class='csv-button'
+                    download='user-metrics.csv'
+                    @href={{this.csvHref}}
                 >
-            </OsfLink> --}}
+                    <FaIcon @icon='table' />
+                </OsfLink>
+            {{/if}}
             <Institutions::Dashboard::-Components::Panel
                     local-class='sso-users-connected'
                     @isLoading={{this.model.taskInstance.isRunning}}
