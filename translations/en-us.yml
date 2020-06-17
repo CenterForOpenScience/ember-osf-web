@@ -815,7 +815,10 @@ app_components:
         helpDescription: 'This gives you many options, but can be very simple as well. Examples of valid searches include:'
     search_paginator:
         prev: «
+        prev_aria: 'Go to previous page'
         next: »
+        next_aria: 'Go to next page'
+        go_to: 'Go to page {page}'
     submit_section:
         discard: 'Discard changes'
         save: 'Save and continue'
@@ -967,6 +970,8 @@ registries:
         search_result:
             last_edited: 'Last edited: {date}'
             withdrawn: Withdrawn
+            toggle_result: 'Toggle result'
+            sharing_popover: 'Share registration'
         pagination:
             previous: «
             next: »

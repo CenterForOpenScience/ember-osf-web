@@ -6,14 +6,13 @@
     </div>
     <div class='col-sm-6 text-right'>
         <ResponsiveDropdown as |dd|>
-            <dd.trigger>
-                <Button
-                    data-test-sort-dropdown
-                    data-analytics-name='Sort Registries Button'
-                >
-                    {{t 'registries.discover.sort_by'}}: {{t @searchOptions.order.display}}
-                    <span aria-label='{{t 'registries.discover.sort_by'}}' class='caret'></span>
-                </Button>
+            <dd.trigger
+                data-test-sort-dropdown
+                data-analytics-name='Sort Registries Button'
+                local-class='DropdownTrigger'
+            >
+                {{t 'registries.discover.sort_by'}}: {{t @searchOptions.order.display}}
+                <span aria-label='{{t 'registries.discover.sort_by'}}' class='caret'></span>
             </dd.trigger>
             <dd.content @class={{local-class 'DropdownContent'}}>
                 {{#each @sortOptions as |option index|}}

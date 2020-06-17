@@ -4,6 +4,7 @@
             <button
                 data-test-page-number={{item.text}}
                 data-analytics-name='Search paginator button {{item.text}}'
+                aria-label={{item.aria}}
                 type='button'
                 local-class={{if (eq this.current item.text) 'active'}}
                 disabled={{item.disabled}}
