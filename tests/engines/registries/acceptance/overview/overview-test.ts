@@ -1,5 +1,5 @@
 import { capitalize } from '@ember/string';
-import { click as untrackedClick, fillIn } from '@ember/test-helpers';
+import { click as untrackedClick, fillIn, settled } from '@ember/test-helpers';
 import { faker, ModelInstance } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import config from 'ember-get-config';
@@ -79,6 +79,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         const reg = server.create('registration', { provider: brandedProvider });
 
         await visit(`/${reg.id}/`);
+        await settled();
         await percySnapshot(assert);
     });
 
@@ -87,6 +88,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
             this.registration.update({ currentUserPermissions: Object.values(Permission) });
 
             await visit(`/${this.registration.id}/`);
+            await settled();
 
             assert.dom('[data-test-registration-title]').isVisible();
         });
@@ -98,6 +100,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
             });
 
             await visit(`/${this.registration.id}/`);
+            await settled();
 
             assert.dom('[data-test-registration-title]').isVisible();
         });
@@ -108,6 +111,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
 
             try {
                 await visit(`/${this.registration.id}/`);
+                await settled();
             } catch (e) {
                 assert.equal(e.errors.length, 1);
                 assert.equal(e.errors[0].detail, 'Not found.');
@@ -118,6 +122,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         async function(this: OverviewTestContext, assert: Assert) {
             try {
                 await visit(`/${this.registration.id}/`);
+                await settled();
             } catch (e) {
                 assert.equal(e.errors.length, 1);
                 assert.equal(e.errors[0].detail, 'Not found.');
@@ -133,9 +138,11 @@ module('Registries | Acceptance | overview.overview', hooks => {
         });
 
         await visit(`/${reg.id}/`);
+        await settled();
 
         assert.dom('[data-test-edit-button="tags"]').isVisible();
         await click('[data-test-edit-button="tags"]');
+        await settled();
 
         assert.dom('[data-test-tags]').isVisible();
         assert.dom('[data-test-tags-widget-tag-input="edit"] input').isVisible();
@@ -143,6 +150,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
 
         reg.update({ currentUserPermissions: [Permission.Read] });
         await visit(`/${reg.id}/`);
+        await settled();
 
         assert.dom('[data-test-tags-read-only]').isVisible();
         assert.dom('[data-test-tags-widget-tag-input] input').isNotVisible();
@@ -161,6 +169,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
 
         // Non admin: read only view
         await visit(`/${reg.id}/`);
+        await settled();
         assert.dom('[data-test-edit-button="affiliated institutions"]').isNotVisible();
         reg.affiliatedInstitutionIds.forEach(institutionId => assert
             .dom(`[data-test-institution-list-institution="${institutionId}"]`)
@@ -169,6 +178,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         // Admin: editable view
         reg.update({ currentUserPermissions: Object.values(Permission) });
         await visit(`/${reg.id}/`);
+        await settled();
 
         assert.dom('[data-test-edit-button="affiliated institutions"]').isVisible();
 
@@ -179,10 +189,13 @@ module('Registries | Acceptance | overview.overview', hooks => {
             .exists('user institution list is correct'));
 
         await click(`[data-test-institution-button="add-${user.institutionIds[0]}"]`);
+        await settled();
         await click(`[data-test-institution-button="add-${user.institutionIds[1]}"]`);
+        await settled();
 
         assert.dom('[data-test-save-edits]').isVisible();
         await click('[data-test-save-edits]');
+        await settled();
 
         reg.reload();
         user.institutionIds.every(userInstitutionId => reg.affiliatedInstitutionIds.includes(userInstitutionId));
@@ -191,10 +204,13 @@ module('Registries | Acceptance | overview.overview', hooks => {
         await click('[data-test-edit-button="affiliated institutions"]');
 
         await click(`[data-test-institution-button="remove-${user.institutionIds[0]}"]`);
+        await settled();
         await click(`[data-test-institution-button="remove-${user.institutionIds[1]}"]`);
+        await settled();
 
         assert.dom('[data-test-save-edits]').isVisible();
         await click('[data-test-save-edits]');
+        await settled();
 
         reg.reload();
         user.institutionIds.every(userInstitutionId => !reg.affiliatedInstitutionIds.includes(userInstitutionId));
@@ -203,10 +219,13 @@ module('Registries | Acceptance | overview.overview', hooks => {
         await click('[data-test-edit-button="affiliated institutions"]');
 
         await click(`[data-test-institution-button="add-${user.institutionIds[0]}"]`);
+        await settled();
         await click(`[data-test-institution-button="add-${user.institutionIds[1]}"]`);
+        await settled();
 
         assert.dom('[data-test-discard-edits]').isVisible();
         await click('[data-test-discard-edits]');
+        await settled();
 
         user.institutionIds.forEach(userinstitutionId => assert
             .dom(`[data-test-institution-list-institution="${userinstitutionId}"]`)
@@ -226,6 +245,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
                 || blockType === 'question-label'
         ) && displayText);
         await visit(`/${reg.id}/`);
+        await settled();
 
         assert.dom('[data-test-toggle-anchor-nav-button]').isVisible();
         assert.dom('[data-test-page-anchor]').isNotVisible();
@@ -246,6 +266,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         const affiliatedInstitutions = server.createList('institution', 2, { registrations: [reg] });
 
         await visit(`/${reg.id}/`);
+        await settled();
 
         assertHeadMetaTags(assert, 'title', reg.title);
         assertHeadMetaTags(assert, 'description', reg.description);
@@ -266,6 +287,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         });
 
         await visit(`/${reg.id}/`);
+        await settled();
 
         assert.dom('[data-test-edit-button="description"]').isVisible();
         assert.dom('[data-test-description-input]').isNotVisible();
@@ -275,8 +297,10 @@ module('Registries | Acceptance | overview.overview', hooks => {
         const newDescription = faker.lorem.sentences(500);
 
         await fillIn('[data-test-description-input] textarea', newDescription);
+        await settled();
         assert.dom('[data-test-save-edits]').isVisible();
         await click('[data-test-save-edits]');
+        await settled();
 
         assert.equal(reg.description, newDescription, 'description successfully updated');
         assert.dom('[data-test-node-description-overlay]').exists('description is truncated');
@@ -290,6 +314,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         });
         reg.update({ currentUserPermissions: [] });
         await visit(`/${reg.id}/`);
+        await settled();
         assert.dom('[data-test-edit-button="description"]').isNotVisible();
     });
 
@@ -300,16 +325,19 @@ module('Registries | Acceptance | overview.overview', hooks => {
         });
 
         await visit(`/${reg.id}/`);
+        await settled();
 
         await click('[data-test-edit-button="category"]');
         assert.dom('[data-test-select-category] div[class~="ember-power-select-trigger"]')
             .hasText(capitalize(reg.category));
 
         await untrackedClick('[data-test-select-category] div[class~="ember-power-select-trigger"]');
+        await settled();
         assert.dom('.ember-power-select-option').exists({ count: Object.values(NodeCategory).length - 1 });
 
         await selectChoose('[data-test-select-category]', capitalize(NodeCategory.Instrumentation));
         await click('[data-test-save-edits]');
+        await settled();
 
         reg.reload();
         assert.equal(reg.category, NodeCategory.Instrumentation);
@@ -318,6 +346,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         reg.update({ currentUserPermissions: [Permission.Read, Permission.Write] });
 
         await visit(`/${reg.id}/`);
+        await settled();
         assert.dom('[data-test-edit-button="category"]').doesNotExist();
     });
 
@@ -327,6 +356,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         });
 
         await visit(`/${reg.id}/`);
+        await settled();
 
         await click('[data-test-edit-button="publication DOI"]');
 
@@ -336,9 +366,11 @@ module('Registries | Acceptance | overview.overview', hooks => {
         const invalidDoi = '10.123213';
         await fillIn('[data-test-publication-doi-input] input', invalidDoi);
         await click('[data-test-save-publication-doi]');
+        await settled();
 
         assert.dom('.help-block').hasText('Please use a valid DOI format (10.xxxx/xxxxx)', 'validation works');
         await untrackedClick('[data-test-cancel-publication-doi]');
+        await settled();
 
         await click('[data-test-edit-button="publication DOI"]');
         assert.dom('.help-block').isNotVisible();
@@ -346,6 +378,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         const publicationDoi = '10.12312/123';
         await fillIn('[data-test-publication-doi-input] input', publicationDoi);
         await click('[data-test-save-publication-doi]');
+        await settled();
 
         reg.reload();
         assert.ok(reg.articleDoi);
@@ -355,6 +388,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         await click('[data-test-edit-button="publication DOI"]');
         await fillIn('[data-test-publication-doi-input] input', '');
         await click('[data-test-save-publication-doi]');
+        await settled();
 
         reg.reload();
         assert.notOk(reg.articleDoi);
@@ -363,6 +397,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         reg.update({ currentUserPermissions: [] });
 
         await visit(`/${reg.id}/`);
+        await settled();
         assert.dom('[data-test-edit-button="publication DOI"]').doesNotExist();
     });
 
@@ -372,9 +407,11 @@ module('Registries | Acceptance | overview.overview', hooks => {
         });
 
         await visit(`/${reg.id}/`);
+        await settled();
         assert.dom('[data-test-create-doi]').doesNotExist();
         reg.update({ currentUserPermissions: Object.values(Permission) });
         await visit(`/${reg.id}/`);
+        await settled();
         await click('[data-test-edit-button="doi"]');
 
         assert.dom('[data-test-create-doi]').isVisible();
@@ -382,6 +419,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assert.notOk(Boolean(reg.identifierIds.length));
 
         await click('[data-test-create-doi]');
+        await settled();
 
         assert.dom('[data-test-registration-doi]').isVisible();
         reg.reload();
@@ -394,6 +432,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         }, 'isEmbargoed');
 
         await visit(`/${nonPublicReg.id}/`);
+        await settled();
         assert.dom('[data-test-editable-field="doi"]').doesNotExist('DOIs are only available for public registrations');
     });
 
@@ -407,11 +446,13 @@ module('Registries | Acceptance | overview.overview', hooks => {
         });
 
         await visit(`/${reg.id}/`);
+        await settled();
 
         assert.dom('[data-test-edit-button="license"]').isNotVisible();
         reg.update({ currentUserPermissions: Object.values(Permission) });
 
         await visit(`/${reg.id}/`);
+        await settled();
 
         assert.dom('[data-test-edit-button="license"]').isVisible();
 
@@ -425,6 +466,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         await selectChoose('[data-test-power-select-dropdown]', 'No license');
 
         await click('[data-test-save-license]');
+        await settled();
 
         const missingFields = 'Copyright Holders';
         const validationErrorMsg = t('validationErrors.node_license_missing_fields',
@@ -433,6 +475,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
 
         await fillIn('[data-test-required-field="copyrightHolders"]', 'Jane Doe, John Doe');
         await click('[data-test-save-license]');
+        await settled();
 
         assert.equal(reg.license.name, 'No license');
         assert.equal(reg.nodeLicense!.year, new Date().getUTCFullYear().toString());
@@ -459,6 +502,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         });
 
         await visit(`/${reg.id}/`);
+        await settled();
 
         assert.dom('[data-test-read-only-file-widget]').isVisible();
         assert.dom(`[data-test-file-link="${fileOne.id}"]`).hasText(fileOne.name);
@@ -485,6 +529,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         });
 
         await visit(`/--node/${registeredFrom.id}/registrations`);
+        await settled();
 
         assert.dom('[data-test-node-card]').exists({ count: 1 });
 

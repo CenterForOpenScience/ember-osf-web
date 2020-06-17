@@ -1,3 +1,4 @@
+import { settled } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { module, test } from 'qunit';
 
@@ -27,6 +28,7 @@ module('Registries | Acceptance | overview.view-only-link', hooks => {
         });
 
         await visit(`/${mirageReg.id}?view_only=${viewOnlyToken}`);
+        await settled();
 
         assert.dom('[data-test-page-heading]').exists({ count: 7 });
 

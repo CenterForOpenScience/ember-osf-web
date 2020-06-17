@@ -1,4 +1,4 @@
-import { triggerEvent } from '@ember/test-helpers';
+import { settled, triggerEvent } from '@ember/test-helpers';
 import { ModelInstance } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { t } from 'ember-intl/test-support';
@@ -62,6 +62,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
             provider: server.create('registration-provider', { id: 'osf' }),
         });
         await visit(`/${reg.id}/`);
+        await settled();
 
         assert.dom('[data-test-topbar-share-bookmark-fork]').isVisible();
         assert.dom('[data-test-topbar-states]').isVisible();
@@ -71,6 +72,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         }, 'isWithdrawn');
 
         await visit(`/${withdrawnReg.id}/`);
+        await settled();
 
         assert.dom('[data-test-topbar-share-bookmark-fork]').doesNotExist();
         assert.dom('[data-test-topbar-states]').doesNotExist();
@@ -80,6 +82,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         }, 'isWithdrawn');
 
         await visit(`/${archivingReg.id}/`);
+        await settled();
 
         assert.dom('[data-test-topbar-share-bookmark-fork]').doesNotExist();
         assert.dom('[data-test-topbar-states]').doesNotExist();
@@ -97,6 +100,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         ) as ModelInstance<MirageCollection>;
 
         await visit(`/${reg.id}/`);
+        await settled();
 
         assert.dom('[data-test-bookmarks-button]').isVisible();
         assert.dom('[data-test-bookmarks-button] i').hasClass('fa-bookmark-o');
@@ -108,6 +112,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         );
 
         await click('[data-test-bookmarks-button]');
+        await settled();
         assert.dom('[data-test-bookmarks-button] i').hasClass('fa-bookmark');
 
         bookmarksColl.reload();
@@ -120,6 +125,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         );
 
         await click('[data-test-bookmarks-button]');
+        await settled();
         assert.dom('[data-test-bookmarks-button] i').hasClass('fa-bookmark-o');
 
         bookmarksColl.reload();
@@ -142,6 +148,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
 
         assert.dom('[data-test-sharing-options]').isNotVisible();
         await click('[data-test-social-sharing-button]');
+        await settled();
         assert.dom('[data-test-sharing-options]').isVisible();
 
         ['Email', 'Linkedin', 'Twitter', 'Facebook'].forEach(
@@ -155,6 +162,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         });
 
         await visit(`/${reg.id}/`);
+        await settled();
 
         assert.dom('[data-test-forks-dropdown-button]').isVisible();
 
@@ -171,6 +179,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         assert.notOk(Boolean(reg.forkIds.length));
 
         await click('[data-test-fork-registration]');
+        await settled();
 
         reg.reload();
         assert.ok(Boolean(reg.forkIds.length));
@@ -184,11 +193,13 @@ module('Registries | Acceptance | overview.topbar', hooks => {
             }, stateInfo.trait);
 
             await visit(`/${reg.id}/`);
+            await settled();
 
             assert.dom('[data-test-state-button]').hasText(t(`registries.overview.${state}.text`).toString());
 
             if (!stateInfo.initiallyOpened) {
                 await click('[data-test-state-button]');
+                await settled();
             }
 
             if (stateInfo.hasAdminActions) {
