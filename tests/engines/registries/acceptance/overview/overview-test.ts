@@ -184,6 +184,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
 
         // Admin can affiliate institutions
         await click('[data-test-edit-button="affiliated institutions"]');
+        await settled();
         user.institutionIds.forEach(institutionId => assert
             .dom(`[data-test-institution="${institutionId}"]`)
             .exists('user institution list is correct'));
@@ -202,6 +203,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
 
         // Admin can remove affiliated institutions
         await click('[data-test-edit-button="affiliated institutions"]');
+        await settled();
 
         await click(`[data-test-institution-button="remove-${user.institutionIds[0]}"]`);
         await settled();
@@ -217,6 +219,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
 
         // Discard edits works
         await click('[data-test-edit-button="affiliated institutions"]');
+        await settled();
 
         await click(`[data-test-institution-button="add-${user.institutionIds[0]}"]`);
         await settled();
