@@ -1,4 +1,4 @@
-import { click, render } from '@ember/test-helpers';
+import { click, render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { OsfLinkRouterStub } from 'ember-osf-web/tests/integration/helpers/osf-link-router-stub';
@@ -37,6 +37,7 @@ module('Integration | routes | institutions | dashboard | -components | institut
                 @institution={{this.model.taskInstance.institution}}
             />
         `);
+        await settled();
         assert.dom('[data-test-header-name]')
             .exists({ count: 1 }, '1 name header');
         assert.dom('[data-test-header-department]')
@@ -56,6 +57,7 @@ module('Integration | routes | institutions | dashboard | -components | institut
             .exists({ count: 10 }, '10 in the list with private projects');
 
         await click('[data-test-next-page-button]');
+        await settled();
 
         assert.dom('[data-test-item-name]')
             .exists({ count: 5 }, '5 in the list with a name');
@@ -105,22 +107,27 @@ module('Integration | routes | institutions | dashboard | -components | institut
                 @institution={{this.model.taskInstance.institution}}
             />
         `);
+        await settled();
         assert.dom('[data-test-item-name]')
             .exists({ count: 3 }, '3 users');
 
         await click('[data-test-ascending-sort="user_name"]');
+        await settled();
         assert.dom('[data-test-item-name]')
             .containsText('Hulk Hogan', 'Sorts by name ascendening');
 
         await click('[data-test-descending-sort="user_name"]');
+        await settled();
         assert.dom('[data-test-item-name]')
             .containsText('John Doe', 'Sorts by name descendening');
 
         await click('[data-test-ascending-sort="department"]');
+        await settled();
         assert.dom('[data-test-item-department]')
             .hasText('Architecture', 'Sorts by department ascendening');
 
         await click('[data-test-descending-sort="department"]');
+        await settled();
         assert.dom('[data-test-item-department]')
             .hasText('Psychology', 'Sorts by department descendening');
     });

@@ -3,12 +3,11 @@
         <OsfButton
             data-test-previous-page-button
             data-analytics-name='Pagination previous'
+            aria-label={{t 'paginator.previous'}}
             @disabled={{not this.hasPrev}}
             @onClick={{action this._previous}}
         >
-            <span aria-label='{{t 'paginator.previous'}}'>
-                &lt;
-            </span>
+            &lt;
         </OsfButton>
     </span>
     <span local-class='SimplePaginator__element SimplePaginator__text'>
@@ -20,12 +19,11 @@
         <OsfButton
             data-test-next-page-button
             data-analytics-name='Pagination next'
+            aria-label={{t 'paginator.next'}}
             @disabled={{not this.hasNext}}
             @onClick={{action this._next}}
         >
-            <span aria-label='{{t 'paginator.previous'}}'>
-                &gt;
-            </span>
+            &gt;
         </OsfButton>
     </span>
 {{/if}}
