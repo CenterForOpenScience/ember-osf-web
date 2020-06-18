@@ -934,6 +934,7 @@ collections:
 registries:
     header:
         osf_registrations: 'OSF Registrations'
+        registrations: 'Registrations'
         search_placeholder: 'Search registrations...'
         search_label: 'Search'
         search_help: 'Search help'
@@ -949,6 +950,8 @@ registries:
     application:
         page_title: 'OSF Registries'
         main_aria: 'Registries main content'
+    branded:
+        page_title: 'Registries'
     discover:
         page_title: Search
         SHARE: 'About SHARE'

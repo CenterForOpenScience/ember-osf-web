@@ -5,7 +5,13 @@
     data-analytics-scope='Registries Discover page'
 >
     <HeroOverlay local-class='DiscoverHero'>
-        {{#registries-header showHelp=true value=(mut this.query) onSearch=(action 'onSearch') searchable=this.searchable as |header|}}
+        {{#registries-header 
+            providerModel=this.providerModel
+            showHelp=true
+            value=(mut this.query)
+            onSearch=(action 'onSearch')
+            searchable=this.searchable
+        as |header|}}
             {{#header.lead}}
                 {{t 'registries.discover.powered_by' }}
                 <a

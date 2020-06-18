@@ -6,7 +6,7 @@
                 local-class='RegistriesHeader__Brand'
                 role='heading'
                 aria-level='1'
-                aria-label={{t 'registries.header.osf_registrations'}}
+                aria-label={{this.headerAriaLabel}}
             ></div>
             <p class='lead'>
                 {{yield (hash lead=(element ''))}}
