@@ -157,14 +157,6 @@ const AnalyticsTestCases: Array<{
     extra?: string;
     }
     }> = [{
-        name: 'SHARE Logo Clicked',
-        action: async () => click('[data-test-share-logo]'),
-        expected: {
-            action: 'click',
-            category: 'link',
-            label: 'Discover - SHARE Logo',
-        },
-    }, {
         name: 'Sort by (Date Modified)',
         action: async () => {
             await click('[data-test-sort-dropdown]');
