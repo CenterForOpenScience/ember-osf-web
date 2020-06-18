@@ -31,9 +31,10 @@ import { updatePassword } from './views/user-password';
 import * as userSettings from './views/user-setting';
 import * as wb from './views/wb';
 
-const { OSF: { apiUrl } } = config;
+const { OSF: { apiUrl }, environment } = config;
 
 export default function(this: Server) {
+    this.logging = ['test', 'development'].includes(environment);
     this.passthrough(); // pass through all requests on currrent domain
     // SHARE search
     this.urlPrefix = 'https://share.osf.io';
