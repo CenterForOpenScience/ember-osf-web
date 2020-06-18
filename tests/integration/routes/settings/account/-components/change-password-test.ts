@@ -1,4 +1,4 @@
-import { fillIn, render, settled } from '@ember/test-helpers';
+import { fillIn, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { percySnapshot } from 'ember-percy';
 import { setupRenderingTest } from 'ember-qunit';
@@ -32,13 +32,11 @@ module('Integration | routes | settings | account | -components | change-passwor
         await percySnapshot(assert);
 
         // Check that validations are for empty fields
-        settled().then(() => {
-            assert.dom('[data-test-current-password] div[class*="help-block"]')
-                .exists('Validation works for old password');
-            assert.dom('[data-test-new-password] div[class*="help-block"]').exists('Validation works for new password');
-            assert.dom('[data-test-confirm-password] div[class*="help-block"]')
-                .exists('Validation works for confirm password');
-        });
+        assert.dom('[data-test-current-password] div[class*="help-block"]')
+            .exists('Validation works for old password');
+        assert.dom('[data-test-new-password] div[class*="help-block"]').exists('Validation works for new password');
+        assert.dom('[data-test-confirm-password] div[class*="help-block"]')
+            .exists('Validation works for confirm password');
 
         await fillIn('[data-test-current-password] input', oldPassword);
         await fillIn('[data-test-new-password] input', oldPassword);
@@ -48,33 +46,27 @@ module('Integration | routes | settings | account | -components | change-passwor
         // 1.) Old password no longer has a validation message
         // 2.) New password has a validation error for matching old password
         // 3.) Confirm password has a validation error for not matching new password
-        settled().then(() => {
-            assert.dom('[data-test-current-password] div[class*="help-block"]')
-                .doesNotExist('No error validations on old password');
-            assert.dom('[data-test-new-password] div[class*="help-block"]')
-                .matchesText('Your new password cannot be the same as your old password.');
-            assert.dom('[data-test-confirm-password] div[class*="help-block"]').matchesText('Passwords must match.');
-        });
+        assert.dom('[data-test-current-password] div[class*="help-block"]')
+            .doesNotExist('No error validations on old password');
+        assert.dom('[data-test-new-password] div[class*="help-block"]')
+            .matchesText('Your new password cannot be the same as your old password.');
+        assert.dom('[data-test-confirm-password] div[class*="help-block"]').matchesText('Passwords must match.');
 
         await fillIn('[data-test-new-password] input', newPassword);
 
         // Check:
         // 1.) New password no longer has validation error for matching old password
         // 2.) Confirm password still has a validation error for not matching new password
-        settled().then(() => {
-            assert.dom('[data-test-new-password] div[class*="help-block"]')
-                .doesNotExist('No error validations on new password');
-            assert.dom('[data-test-confirm-password] div[class*="help-block"]').matchesText('Passwords must match.');
-        });
+        assert.dom('[data-test-new-password] div[class*="help-block"]')
+            .doesNotExist('No error validations on new password');
+        assert.dom('[data-test-confirm-password] div[class*="help-block"]').matchesText('Passwords must match.');
 
         await fillIn('[data-test-confirm-password] input', newPassword);
 
         // Check:
         // 1.) Confirm password no longer has validation error
-        settled().then(() => {
-            assert.dom('[data-test-new-password] div[class*="help-block"]')
-                .doesNotExist('No error validations on current password');
-        });
+        assert.dom('[data-test-new-password] div[class*="help-block"]')
+            .doesNotExist('No error validations on current password');
     });
 
     // Check validation double message for new password
@@ -83,18 +75,14 @@ module('Integration | routes | settings | account | -components | change-passwor
 
         await click('[data-test-update-password-button]');
 
-        settled().then(() => {
-            assert.dom('[data-test-new-password] div[class*="help-block"]').matchesText("This field can't be blank.");
-        });
+        assert.dom('[data-test-new-password] div[class*="help-block"]').matchesText("This field can't be blank.");
 
         await fillIn('[data-test-new-password] input', 'abcabcab');
 
-        settled().then(() => {
-            // Check to make sure that when both the validation and password suggestion would return an string,
-            // only one is shown
-            assert.dom('[data-test-new-password] div[class*="help-block"]')
-                .matchesText('Repeats like "abcabcabc" are only slightly harder to guess than "abc"');
-            assert.dom('[data-test-new-password] div[class*="help-block"]').exists({ count: 1 });
-        });
+        // Check to make sure that when both the validation and password suggestion would return an string,
+        // only one is shown
+        assert.dom('[data-test-new-password] div[class*="help-block"]')
+            .matchesText('Repeats like "abcabcabc" are only slightly harder to guess than "abc"');
+        assert.dom('[data-test-new-password] div[class*="help-block"]').exists({ count: 1 });
     });
 });
