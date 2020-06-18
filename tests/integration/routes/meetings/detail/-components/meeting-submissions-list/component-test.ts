@@ -1,4 +1,4 @@
-import { click, render } from '@ember/test-helpers';
+import { click, render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupRenderingTest, skip } from 'ember-qunit';
@@ -19,9 +19,13 @@ module('Integration | routes | meetings | detail | -components | meeting-submiss
             name: 'Test Meeting',
             submissions: server.createList('meeting-submission', 15),
         });
+
         const model = { taskInstance: this.store.findRecord('meeting', 'testmeeting') };
         this.set('model', model);
+
         await render(hbs`<Meetings::Detail::-Components::MeetingSubmissionsList @model={{this.model}} />`);
+        await settled();
+        await settled();
 
         assert.dom('[data-test-submissions-list-header-title]')
             .exists({ count: 1 }, '1 title header');
@@ -46,6 +50,7 @@ module('Integration | routes | meetings | detail | -components | meeting-submiss
             .exists({ count: 10 }, '10 submissions in the list with download counts');
 
         await click('[data-test-next-page-button]');
+        await settled();
 
         assert.dom('[data-test-submissions-list-item-title]')
             .exists({ count: 5 }, '5 submissions in the list with a title');
@@ -133,39 +138,49 @@ module('Integration | routes | meetings | detail | -components | meeting-submiss
         this.set('model', model);
 
         await render(hbs`<Meetings::Detail::-Components::MeetingSubmissionsList @model={{this.model}} />`);
+        await settled();
+        await settled();
 
         assert.dom('[data-test-submissions-list-item-title]')
             .exists({ count: 3 }, '3 submissions');
 
         await click('[data-test-ascending-sort="title"]');
+        await settled();
         assert.dom('[data-test-submissions-list-item-title]')
             .hasText('a', 'Sorts by title ascending');
 
         await click('[data-test-descending-sort="title"]');
+        await settled();
         assert.dom('[data-test-submissions-list-item-title]')
             .hasText('c', 'Sorts by title descending');
 
         await click('[data-test-ascending-sort="author_name"]');
+        await settled();
         assert.dom('[data-test-submissions-list-item-author]')
             .hasText('Jisoo', 'Sorts by author ascending');
 
         await click('[data-test-descending-sort="author_name"]');
+        await settled();
         assert.dom('[data-test-submissions-list-item-author]')
             .hasText('Rosé', 'Sorts by author descending');
 
         await click('[data-test-ascending-sort="meeting_category"]');
+        await settled();
         assert.dom('[data-test-submissions-list-item-category]')
             .hasText('poster', 'Sorts by category ascending');
 
         await click('[data-test-descending-sort="meeting_category"]');
+        await settled();
         assert.dom('[data-test-submissions-list-item-category]')
             .hasText('talk', 'Sorts by category descending');
 
         await click('[data-test-ascending-sort="created"]');
+        await settled();
         assert.dom('[data-test-submissions-list-item-date]')
             .containsText('2017', 'Sorts by date ascending');
 
         await click('[data-test-descending-sort="created"]');
+        await settled();
         assert.dom('[data-test-submissions-list-item-date]')
             .containsText('2019', 'Sorts by date descending');
     });
