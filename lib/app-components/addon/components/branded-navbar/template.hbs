@@ -43,7 +43,7 @@
                     <li>
                         {{#link-to
                             'provider.submit'
-                            click=(action 'click' 'link' (concat 'Navbar - Add ' @objectType) target=this.analytics)
+                            click=(action 'click' 'link' (concat 'Navbar - ' (t @addLinkKey)) target=this.analytics)
                         }}
                             <span role='button'>{{t @addLinkKey}}</span>
                         {{/link-to}}
