@@ -5,6 +5,7 @@ import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 import sinon, { SinonStub } from 'sinon';
 
+import { settled } from '@ember/test-helpers';
 import { click, currentURL, visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 import WindowLocation from 'ember-osf-web/utils/window-location';
@@ -142,6 +143,7 @@ module('Acceptance | view-only-links', hooks => {
         }, 'currentUserAdmin');
 
         await visit(`/${mirageProject.id}/registrations`);
+        await settled();
         await click('[data-test-node-card-heading] a');
 
         assert.equal(currentURL(), `/--registries/${mirageRegistration.id}`, 'URL does not have view_only');

@@ -1,4 +1,4 @@
-import { currentRouteName } from '@ember/test-helpers';
+import { currentRouteName, settled } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 // import { t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
@@ -18,6 +18,7 @@ module('Registries | Acceptance | branded discover', hooks => {
 
     test('branded discover with no external providers', async assert => {
         await visit('/registries/brand/discover');
+        await settled();
         await percySnapshot('branded discover page');
         assert.equal(currentRouteName(), 'registries.branded.discover', 'On the branded discover page');
 
@@ -33,6 +34,7 @@ module('Registries | Acceptance | branded discover', hooks => {
         server.createList('external-registration', 3, { provider: externalProvider });
 
         await visit('/registries/brand/discover');
+        await settled();
         assert.dom('[data-test-source-filter-id]').exists({ count: 1 }, 'Only brand provider is shown');
         assert.dom(`[data-test-source-filter-id="${externalProvider.shareSourceKey}"]`)
             .doesNotExist('External provider is not shown');
