@@ -19,7 +19,7 @@ export default class TimeSince extends Component {
     // Private properties
     displayTime?: string;
 
-    @task({ restartable: true, on: 'didReceiveAttrs' })
+    @task({ withTestWaiter: true, restartable: true, on: 'didReceiveAttrs' })
     calculateRelativeTime = task(function *(this: TimeSince) {
         assert('RelativeTime @date is required', Boolean(this.date));
         if (Ember.testing) {

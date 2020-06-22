@@ -53,7 +53,7 @@ export default class Submit extends Component {
     intlKeyPrefix = 'collections.collections_submission.';
     showSubmitModal: boolean = false;
 
-    @task({ drop: true })
+    @task({ withTestWaiter: true, drop: true })
     save = task(function *(this: Submit) {
         if (!this.collectionItem) {
             return;

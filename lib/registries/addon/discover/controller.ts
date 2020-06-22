@@ -197,7 +197,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         return max;
     }
 
-    @task
+    @task({ withTestWaiter: true })
     getCountsAndAggs = task(function *(this: Discover) {
         const results: SearchResults<any> = yield this.shareSearch.registrations(new SearchOptions({
             size: 0,
@@ -250,7 +250,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         this.doSearch.perform();
     });
 
-    @task({ restartable: true })
+    @task({ withTestWaiter: true, restartable: true })
     doSearch = task(function *(this: Discover) {
         // TODO-mob don't hard-code 'OSF'
 

@@ -41,7 +41,7 @@ export default class CategoryManagerComponent extends Component {
         return this.userCanEdit || !this.fieldIsEmpty;
     }
 
-    @task
+    @task({ withTestWaiter: true })
     save = task(function *(this: CategoryManagerComponent) {
         this.node.set('category', this.selectedCategory);
         try {

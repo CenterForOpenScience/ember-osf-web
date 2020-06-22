@@ -67,7 +67,7 @@ export default class InstitutionsManagerComponent extends Component {
         return this.userCanEdit || !this.fieldIsEmpty;
     }
 
-    @task({ restartable: true, on: 'didReceiveAttrs' })
+    @task({ withTestWaiter: true, restartable: true, on: 'didReceiveAttrs' })
     loadNodeAffiliatedInstitutions = task(function *(this: InstitutionsManagerComponent) {
         if (this.node) {
             const affiliatedList: QueryHasManyResult<Institution> = yield this.node.queryHasMany(
@@ -81,7 +81,7 @@ export default class InstitutionsManagerComponent extends Component {
         }
     });
 
-    @task
+    @task({ withTestWaiter: true })
     save = task(function *(this: InstitutionsManagerComponent) {
         try {
             yield this.node.updateM2MRelationship('affiliatedInstitutions', this.currentAffiliatedList);

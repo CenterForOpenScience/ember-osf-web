@@ -20,7 +20,7 @@ export default class Index extends Controller {
     recentRegistrations: EmberArray<ShareRegistration> = A([]);
     searchableRegistrations = 0;
 
-    @task({ on: 'init' })
+    @task({ withTestWaiter: true, on: 'init' })
     getRecentRegistrations = task(function *(this: Index) {
         const [recentResults, totalResults]: Array<SearchResults<ShareRegistration>> = yield RSVP.all([
             this.shareSearch.registrations(new SearchOptions({

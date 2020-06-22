@@ -24,14 +24,14 @@ export default class DefaultRegionPane extends Component {
     @alias('loadDefaultRegionTask.isRunning') loadDefaultRunning!: boolean;
     @alias('loadRegionsTask.isRunning') loadRegionsRunning!: boolean;
 
-    @task
+    @task({ withTestWaiter: true })
     loadRegionsTask = task(function *(this: DefaultRegionPane) {
         const regions = yield this.store.findAll('region');
 
         this.set('regions', regions.toArray());
     });
 
-    @task
+    @task({ withTestWaiter: true })
     loadDefaultRegionTask = task(function *(this: DefaultRegionPane) {
         const { user } = this.currentUser;
         if (!user) {

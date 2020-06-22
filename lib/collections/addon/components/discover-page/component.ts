@@ -236,7 +236,7 @@ export default class DiscoverPage extends Component {
         return this.facetContexts && this.facetContexts.every(({ didInit }) => didInit);
     }
 
-    @task({ keepLatest: true })
+    @task({ withTestWaiter: true, keepLatest: true })
     loadPage = task(function *(this: DiscoverPage) {
         this.set('loading', true);
 

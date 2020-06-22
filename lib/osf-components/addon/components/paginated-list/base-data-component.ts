@@ -40,7 +40,7 @@ export default abstract class BaseDataComponent extends Component {
     // @ts-ignore because TS doesn't let us initialize abstract properties
     abstract loadItemsTask: ComputedProperty<Task<void>> = this.loadItemsTask;
 
-    @task({ restartable: true })
+    @task({ withTestWaiter: true, restartable: true })
     loadItemsWrapperTask = task(function *(
         this: BaseDataComponent,
         { reloading }: LoadItemsOptions,

@@ -25,7 +25,7 @@ export default class ProjectMetadata extends Component {
 
     @requiredAction continue!: () => void;
 
-    @task
+    @task({ withTestWaiter: true })
     reset = task(function *(this: ProjectMetadata) {
         this.node.rollbackAttributes();
         yield this.node.reload();

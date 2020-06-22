@@ -33,7 +33,7 @@ export default class PasswordStrengthBar extends Component {
 
     @alias('checkStrength.lastSuccessful.value') strength?: Strength;
 
-    @task({ restartable: true })
+    @task({ withTestWaiter: true, restartable: true })
     checkStrength = task(function *(this: PasswordStrengthBar, value: string) {
         if (!value) {
             return 0;

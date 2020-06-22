@@ -38,7 +38,7 @@ export default class RegistriesRegistrationTypeFacet extends Component {
 
     registrationTypes: EmberArray<string> = defaultTo(this.registrationTypes, A([]));
 
-    @task({ on: 'init' })
+    @task({ withTestWaiter: true, on: 'init' })
     fetchRegistrationTypes = task(function *(this: RegistriesRegistrationTypeFacet): any {
         try {
             const metaschemas: RegistrationSchema[] = yield this.store.findAll('registration-schema');

@@ -29,7 +29,7 @@ export default class ScheduledBanners extends Component {
         return htmlSafe(`background-color: ${this.banner.color};`);
     }
 
-    @task({ on: 'init' })
+    @task({ withTestWaiter: true, on: 'init' })
     loadBanner = task(function *(this: ScheduledBanners) {
         const banner = yield this.store.findRecord('banner', 'current');
         return banner.name ? banner : null;

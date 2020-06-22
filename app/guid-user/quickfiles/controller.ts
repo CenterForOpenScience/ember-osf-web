@@ -31,14 +31,14 @@ export default class UserQuickfiles extends Controller {
     @alias('model.taskInstance.value.user') user!: User;
     @alias('model.taskInstance.value.files') allFiles!: File[];
 
-    @task({ restartable: true })
+    @task({ withTestWaiter: true, restartable: true })
     updateFilter = task(function *(this: UserQuickfiles, filter: string) {
         yield timeout(250);
         this.setProperties({ filter });
         this.analytics.track('list', 'filter', 'Quick Files - Filter files');
     });
 
-    @task
+    @task({ withTestWaiter: true })
     createProject = task(function *(this: UserQuickfiles, node: Node) {
         try {
             return yield node.save();
@@ -50,14 +50,14 @@ export default class UserQuickfiles extends Controller {
         }
     });
 
-    @task
+    @task({ withTestWaiter: true })
     flash = task(function *(item: File, message: string, type: string = 'success', duration: number = 2000) {
         item.set('flash', { message, type });
         yield timeout(duration);
         item.set('flash', null);
     });
 
-    @task
+    @task({ withTestWaiter: true })
     addFile = task(function *(this: UserQuickfiles, id: string) {
         const duplicate = this.allFiles.findBy('id', id);
 
@@ -78,7 +78,7 @@ export default class UserQuickfiles extends Controller {
         this.flash.perform(file, this.intl.t('file_browser.file_added'));
     });
 
-    @task
+    @task({ withTestWaiter: true })
     deleteFile = task(function *(this: UserQuickfiles, file: File) {
         try {
             yield file.destroyRecord();
@@ -89,12 +89,12 @@ export default class UserQuickfiles extends Controller {
         }
     });
 
-    @task
+    @task({ withTestWaiter: true })
     deleteFiles = task(function *(this: UserQuickfiles, files: File[]) {
         yield all(files.map(file => this.deleteFile.perform(file)));
     });
 
-    @task
+    @task({ withTestWaiter: true })
     moveFile = task(function *(this: UserQuickfiles, file: File, node: Node): IterableIterator<any> {
         try {
             if (node.isNew) {
@@ -119,7 +119,7 @@ export default class UserQuickfiles extends Controller {
         return false;
     });
 
-    @task
+    @task({ withTestWaiter: true })
     renameFile = task(function *(
         this: UserQuickfiles,
         file: File,

@@ -101,7 +101,7 @@ export default class FileBrowser extends Component {
         acceptDirectories: false,
     };
 
-    @task
+    @task({ withTestWaiter: true })
     moveToProject = task(function *(this: FileBrowser) {
         if (!this.node) {
             return;

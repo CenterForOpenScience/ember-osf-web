@@ -17,7 +17,7 @@ export default class ContributorListContributor extends Component {
     contributorName?: string;
     contributorLink?: string;
 
-    @task({ restartable: true, on: 'didReceiveAttrs' })
+    @task({ withTestWaiter: true, restartable: true, on: 'didReceiveAttrs' })
     loadUser = task(function *(this: ContributorListContributor) {
         const user = yield this.contributor.users;
 

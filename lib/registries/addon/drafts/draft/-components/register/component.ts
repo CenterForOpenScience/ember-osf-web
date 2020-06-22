@@ -5,7 +5,7 @@ import { action } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { run } from '@ember/runloop';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
@@ -14,8 +14,24 @@ import Registration from 'ember-osf-web/models/registration';
 import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
 
 @tagName('')
-export default class Register extends Component.extend({
-    onClickRegister: task(function *(this: Register) {
+export default class Register extends Component {
+    @service store!: DS.Store;
+
+    // Required
+    draftManager!: DraftRegistrationManager;
+
+    // Private
+    registration!: Registration;
+    onSubmitRedirect?: (registrationId: string) => void;
+    @alias('draftManager.hasInvalidResponses') isInvalid?: boolean;
+    @alias('draftManager.draftRegistration') draftRegistration!: DraftRegistration;
+    @alias('draftManager.node') node?: NodeModel;
+
+    partialRegDialogIsOpen = false;
+    finalizeRegDialogIsOpen = false;
+
+    @task({ withTestWaiter: true })
+    onClickRegister = task(function *(this: Register) {
         if (!this.registration) {
             const registration = this.store.createRecord('registration', {
                 draftRegistrationId: this.draftRegistration.id,
@@ -32,22 +48,7 @@ export default class Register extends Component.extend({
         } else {
             this.showFinalizeRegDialog();
         }
-    }),
-}) {
-    @service store!: DS.Store;
-
-    // Required
-    draftManager!: DraftRegistrationManager;
-
-    // Private
-    registration!: Registration;
-    onSubmitRedirect?: (registrationId: string) => void;
-    @alias('draftManager.hasInvalidResponses') isInvalid?: boolean;
-    @alias('draftManager.draftRegistration') draftRegistration!: DraftRegistration;
-    @alias('draftManager.node') node?: NodeModel;
-
-    partialRegDialogIsOpen = false;
-    finalizeRegDialogIsOpen = false;
+    });
 
     didReceiveAttrs() {
         assert('@draftManager is required!', Boolean(this.draftManager));

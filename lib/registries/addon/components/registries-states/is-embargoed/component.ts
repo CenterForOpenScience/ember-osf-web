@@ -15,7 +15,7 @@ export default class RegistrationIsEmbargoed extends Component {
     @service intl!: Intl;
     @service toast!: Toast;
 
-    @task({ drop: true })
+    @task({ withTestWaiter: true, drop: true })
     endEmbargo = task(function *(this: RegistrationIsEmbargoed) {
         if (!this.registration) {
             return;

@@ -27,7 +27,7 @@ export default class AncestryDisplay extends Component {
 
     @alias('getAncestors.lastComplete.value') ancestry?: string[];
 
-    @task({ restartable: true, on: 'didReceiveAttrs' })
+    @task({ withTestWaiter: true, restartable: true, on: 'didReceiveAttrs' })
     getAncestors = task(function *(this: AncestryDisplay) {
         if (!this.node || this.node.isRoot) {
             return [];

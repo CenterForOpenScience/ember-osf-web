@@ -28,7 +28,7 @@ export default class SecurityPane extends Component {
     showEnableWarning = false;
     showDisableWarning = false;
 
-    @task
+    @task({ withTestWaiter: true })
     loadSettings = task(function *(this: SecurityPane) {
         const { user } = this.currentUser;
 
@@ -38,7 +38,7 @@ export default class SecurityPane extends Component {
         this.set('settings', yield user.belongsTo('settings').reload());
     });
 
-    @task
+    @task({ withTestWaiter: true })
     loadPrimaryEmail = task(function *(this: SecurityPane) {
         const { user } = this.currentUser;
 
@@ -53,7 +53,7 @@ export default class SecurityPane extends Component {
         this.set('primaryEmail', emails.length ? emails[0] : undefined);
     });
 
-    @task
+    @task({ withTestWaiter: true })
     saveSettings = task(function *(this: SecurityPane) {
         try {
             if (this.settings !== undefined) {

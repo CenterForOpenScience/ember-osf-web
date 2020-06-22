@@ -23,7 +23,7 @@ export default class GuidFile extends Route {
 
     headTags?: HeadTagDef[];
 
-    @task
+    @task({ withTestWaiter: true })
     setHeadTags = task(function *(this: GuidFile, model: any) {
         const blocker = this.get('ready').getBlocker();
         const dateCreated = model.file.get('dateCreated');

@@ -39,7 +39,7 @@ export default class CollectionItemPicker extends Component {
 
     @bool('selected') isValid!: boolean;
 
-    @task
+    @task({ withTestWaiter: true })
     initialLoad = task(function *(this: CollectionItemPicker) {
         this.setProperties({
             selected: null,
@@ -50,7 +50,7 @@ export default class CollectionItemPicker extends Component {
         yield this.get('findNodes').perform();
     });
 
-    @task({ restartable: true })
+    @task({ withTestWaiter: true, restartable: true })
     findNodes = task(function *(this: CollectionItemPicker, filter: string = '') {
         if (filter) {
             yield timeout(250);

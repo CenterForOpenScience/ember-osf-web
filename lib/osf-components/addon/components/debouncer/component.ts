@@ -12,7 +12,7 @@ export default class Debouncer extends Component {
     fn!: () => void;
     timeoutInterval: number = 500;
 
-    @task({ restartable: true })
+    @task({ withTestWaiter: true, restartable: true })
     doFnDebounce = task(function *(this: Debouncer) {
         yield timeout(this.timeoutInterval);
         yield this.fn();

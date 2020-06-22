@@ -125,7 +125,7 @@ export default class FilesManagerComponent extends Component {
         return false;
     }
 
-    @task({ restartable: true, on: 'didReceiveAttrs' })
+    @task({ withTestWaiter: true, restartable: true, on: 'didReceiveAttrs' })
     getRootItems = task(function *(this: FilesManagerComponent) {
         assert('@node is required', Boolean(this.node));
 
@@ -142,7 +142,7 @@ export default class FilesManagerComponent extends Component {
         });
     });
 
-    @task
+    @task({ withTestWaiter: true })
     loadMore = task(function *(this: FilesManagerComponent) {
         yield this.currentFolder.queryHasMany('files', {
             page: this.page + 1,
@@ -153,14 +153,14 @@ export default class FilesManagerComponent extends Component {
         this.incrementProperty('page');
     });
 
-    @task
+    @task({ withTestWaiter: true })
     getCurrentFolderItems = task(function *(this: FilesManagerComponent, targetFolder: File) {
         this.set('currentFolder', targetFolder);
 
         yield this.currentFolder.files;
     });
 
-    @task
+    @task({ withTestWaiter: true })
     sortFolderItems = task(function *(this: FilesManagerComponent) {
         yield this.currentFolder.queryHasMany('files', {
             pageSize: this.pageSize,
@@ -170,7 +170,7 @@ export default class FilesManagerComponent extends Component {
         this.setProperties({ lastUploaded: [] });
     });
 
-    @task
+    @task({ withTestWaiter: true })
     addFile = task(function *(this: FilesManagerComponent, id: string) {
         const duplicate = this.currentFolder.files.findBy('id', id);
         const file = yield this.store

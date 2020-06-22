@@ -64,7 +64,7 @@ export default class DraftRegistrationManager {
         return pageInputFailed || metadataInputFailed;
     }
 
-    @task
+    @task({ withTestWaiter: true })
     initializePageManagers = task(function *(this: DraftRegistrationManager) {
         const { draftRegistration, node } = yield this.draftRegistrationAndNodeTask;
         set(this, 'draftRegistration', draftRegistration);
@@ -88,7 +88,7 @@ export default class DraftRegistrationManager {
         set(this, 'pageManagers', pageManagers);
     });
 
-    @task
+    @task({ withTestWaiter: true })
     initializeMetadataChangeset = task(function *(this: DraftRegistrationManager) {
         const { draftRegistration } = yield this.draftRegistrationAndNodeTask;
         const metadataValidations = buildMetadataValidations();
@@ -96,7 +96,7 @@ export default class DraftRegistrationManager {
         set(this, 'metadataChangeset', metadataChangeset);
     });
 
-    @task({ restartable: true })
+    @task({ withTestWaiter: true, restartable: true })
     onMetadataInput = task(function *(this: DraftRegistrationManager) {
         yield timeout(5000); // debounce
         this.updateMetadataChangeset();
@@ -110,7 +110,7 @@ export default class DraftRegistrationManager {
         }
     });
 
-    @task({ restartable: true })
+    @task({ withTestWaiter: true, restartable: true })
     onPageInput = task(function *(this: DraftRegistrationManager, currentPageManager: PageManager) {
         yield timeout(5000); // debounce
 
@@ -131,7 +131,7 @@ export default class DraftRegistrationManager {
         }
     });
 
-    @task({ restartable: true })
+    @task({ withTestWaiter: true, restartable: true })
     saveAllVisitedPages = task(function *(this: DraftRegistrationManager) {
         if (this.pageManagers && this.pageManagers.length) {
             this.pageManagers

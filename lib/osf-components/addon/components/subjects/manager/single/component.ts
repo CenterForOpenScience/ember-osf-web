@@ -93,7 +93,7 @@ export default class SingleSubjectManagerComponent extends Component {
         return Boolean(subject && subjectsManager.subjectIsSaved(subject));
     }
 
-    @task({ drop: true })
+    @task({ withTestWaiter: true, drop: true })
     loadChildren = task(function *(this: SingleSubjectManagerComponent) {
         const { subject } = this;
         if (subject) {

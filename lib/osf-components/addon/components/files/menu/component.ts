@@ -60,7 +60,7 @@ export default class FilesMenu extends Component {
         return this.changeset.isInvalid || this.createFolder.isRunning;
     }
 
-    @task
+    @task({ withTestWaiter: true })
     createFolder = task(function *(this: FilesMenu, options: { onSuccess?: () => void }) {
         const { inRootFolder, currentFolder, fileProvider } = this.filesManager;
         const parentFolder = inRootFolder ? fileProvider : currentFolder;

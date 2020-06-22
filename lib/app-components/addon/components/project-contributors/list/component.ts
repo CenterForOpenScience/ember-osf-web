@@ -36,7 +36,7 @@ export default class List extends Component {
     hasMore = false;
     page = 1;
 
-    @task
+    @task({ withTestWaiter: true })
     loadContributors = task(function *(this: List) {
         const contributors: QueryHasManyResult<Contributor> = yield this.node.queryHasMany(
             'contributors',
@@ -49,7 +49,7 @@ export default class List extends Component {
     /**
      * Changes the contributor's permissions
      */
-    @task({ enqueue: true })
+    @task({ withTestWaiter: true, enqueue: true })
     updatePermissions = task(function *(this: List, contributor: HighlightableContributor, permission: Permission) {
         this.analytics.track('option', 'select', 'Collections - Submit - Change Permission');
         contributor.setProperties({ permission });
@@ -60,7 +60,7 @@ export default class List extends Component {
     /**
      * Changes the contributor's bibliographic
      */
-    @task({ enqueue: true })
+    @task({ withTestWaiter: true, enqueue: true })
     toggleBibliographic = task(function *(this: List, contributor: HighlightableContributor) {
         const actionName = `${contributor.toggleProperty('bibliographic') ? '' : 'de'}select`;
         this.analytics.track('checkbox', actionName, 'Collections - Submit - Update Bibliographic');
@@ -71,7 +71,7 @@ export default class List extends Component {
     /**
      * Changes the order of contributors for ember-sortable
      */
-    @task({ drop: true })
+    @task({ withTestWaiter: true, drop: true })
     reorderContributors = task(function *(
         this: List,
         contributors: HighlightableContributor[],
@@ -89,7 +89,7 @@ export default class List extends Component {
     /**
      * Saves the contributor and highlights the row with success/failure
      */
-    @task
+    @task({ withTestWaiter: true })
     saveAndHighlight = task(function *(this: List, contributor: HighlightableContributor): IterableIterator<any> {
         let highlightClass: typeof contributor.highlightClass;
 
@@ -108,7 +108,7 @@ export default class List extends Component {
     /**
      * Removes a contributor
      */
-    @task
+    @task({ withTestWaiter: true })
     removeContributor = task(function *(this: List, contributor: Contributor) {
         this.analytics.track('button', 'click', 'Collections - Submit - Remove Contributor');
 

@@ -64,7 +64,7 @@ export default class Register extends Controller.extend(registerQueryParams.Mixi
         return '';
     }
 
-    @task
+    @task({ withTestWaiter: true })
     getProvider = task(function *(this: Register, preprintProviderId: string) {
         const provider: PreprintProvider = yield this.store.findRecord('preprint-provider', preprintProviderId);
         if (provider) {

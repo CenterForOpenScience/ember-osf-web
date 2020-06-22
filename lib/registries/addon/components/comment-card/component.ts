@@ -54,7 +54,7 @@ export default class CommentCard extends Component {
     @alias('comment.hasChildren') hasReplies!: boolean;
     @not('comment') loading!: boolean;
 
-    @task
+    @task({ withTestWaiter: true })
     submitRetractReport = task(function *(this: CommentCard) {
         const userReports: CommentReport[] = yield this.comment.reports;
 
@@ -82,7 +82,7 @@ export default class CommentCard extends Component {
         this.toast.success(this.intl.t('registries.overview.comments.retract_report.success'));
     });
 
-    @task({ restartable: true })
+    @task({ withTestWaiter: true, restartable: true })
     loadReplies = task(function *(this: CommentCard, more: boolean = false) {
         if (!more) {
             const replies = yield this.comment.replies;

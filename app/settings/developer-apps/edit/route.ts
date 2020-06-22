@@ -8,7 +8,7 @@ import { notFoundURL } from 'ember-osf-web/utils/clean-url';
 export default class SettingsDeveloperAppsEditRoute extends Route {
     @service router!: RouterService;
 
-    @task
+    @task({ withTestWaiter: true })
     modelTask = task(function *(this: SettingsDeveloperAppsEditRoute, id: string) {
         try {
             return yield this.store.findRecord('developer-app', id, { reload: false });

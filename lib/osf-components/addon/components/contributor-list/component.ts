@@ -38,7 +38,7 @@ export default class ContributorList extends Component {
     @alias('loadContributors.isRunning')
     isLoading!: boolean;
 
-    @task({ restartable: true, on: 'didReceiveAttrs' })
+    @task({ withTestWaiter: true, restartable: true, on: 'didReceiveAttrs' })
     loadContributors = task(function *(this: ContributorList, more?: boolean) {
         if (!this.node || this.node.isAnonymous) {
             return;

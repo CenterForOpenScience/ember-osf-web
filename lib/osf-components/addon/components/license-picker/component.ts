@@ -39,7 +39,7 @@ export default class LicensePicker extends Component {
     @sort('selected.requiredFields', (a: string, b: string) => +(a > b))
     requiredFields!: string[];
 
-    @task({ restartable: true })
+    @task({ withTestWaiter: true, restartable: true })
     queryLicenses = task(function *(this: LicensePicker, name?: string) {
         if (name) {
             yield timeout(500);

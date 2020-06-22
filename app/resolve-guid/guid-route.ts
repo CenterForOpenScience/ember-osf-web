@@ -19,7 +19,7 @@ export default abstract class GuidRoute extends Route {
     @service ready!: Ready;
     @service store!: DS.Store;
 
-    @task
+    @task({ withTestWaiter: true })
     getModel = task(function *(this: GuidRoute, guid: string) {
         const blocker = this.ready.getBlocker();
 

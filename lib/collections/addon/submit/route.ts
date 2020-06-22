@@ -31,7 +31,7 @@ export default class Submit extends Route.extend(ConfirmationMixin) {
     // This tells ember-onbeforeunload what to use as the body for the warning before leaving the page.
     confirmationMessage = this.intl.t('collections.collections_submission.warning_body');
 
-    @task
+    @task({ withTestWaiter: true })
     loadModel = task(function *(this: Submit): IterableIterator<any> {
         const provider = this.theme.provider as CollectionProvider;
         const collection = yield provider.primaryCollection;
