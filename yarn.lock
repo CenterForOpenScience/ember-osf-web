@@ -2215,18 +2215,6 @@
     ember-cli-babel "^7.10.0"
     ember-modifier-manager-polyfill "^1.1.0"
 
-"@ember/test-helpers@^1.5.0":
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/@ember/test-helpers/-/test-helpers-1.6.1.tgz#5eb0b58486524c54f1b617a83e4ab327b7c62f07"
-  integrity sha512-gXLXR0XdZKfyXHFP+QLpG55TlrDtvrZI6TMQVQxdZwsz589kN8idmc01rDjyy53jx430tZTEsdhJvC2LrHXPwg==
-  dependencies:
-    broccoli-debug "^0.6.5"
-    broccoli-funnel "^2.0.2"
-    ember-assign-polyfill "^2.6.0"
-    ember-cli-babel "^7.7.3"
-    ember-cli-htmlbars-inline-precompile "^2.1.0"
-    ember-test-waiters "^1.0.0"
-
 "@ember/test-helpers@^1.7.1":
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/@ember/test-helpers/-/test-helpers-1.7.1.tgz#cc22a954b3b46856518f034bd492a74e0482389f"
@@ -2596,7 +2584,7 @@
     "@types/ember" "*"
     "@types/ember-test-helpers" "*"
 
-"@types/ember-test-helpers@*", "@types/ember-test-helpers@^1.0.5":
+"@types/ember-test-helpers@*":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@types/ember-test-helpers/-/ember-test-helpers-1.0.6.tgz#4d63faf26bae0511289c281fce019800b167f7fd"
   integrity sha512-NhYw7NdY+l/R94ePq3FqGoejJDRrqU0wPLU1itZBLGS8z6BGOBPS0stip9oWnGs5kDgTVWD/m56gkY3mbSbz0Q==
@@ -2737,10 +2725,10 @@
   resolved "https://registry.yarnpkg.com/@types/ember__template/-/ember__template-3.0.0.tgz#d499ebf000faa371c1c98124633b9864be69b968"
   integrity sha512-aWNg/kL2QToE0fwI8MVgAr2upWyAUwqRv2sp3CpypsMTOC1lZizIehz8QI6w1m1+Eh1WYs/89gvuM3mTc4OyIw==
 
-"@types/ember__test-helpers@^0.7.10":
-  version "0.7.10"
-  resolved "https://registry.yarnpkg.com/@types/ember__test-helpers/-/ember__test-helpers-0.7.10.tgz#2ade4fc848d35aafef42db97574a5845dcafdab7"
-  integrity sha512-e+NVsScAO+BcWCki9CuepScJ4akiKORrFyYaEvpoRSyyM5UpvY4Ov175hXxcNFv5JSyIvPUvhZtOH2W3BlLHhA==
+"@types/ember__test-helpers@^1.7.0":
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/@types/ember__test-helpers/-/ember__test-helpers-1.7.0.tgz#d1f18c283744ca17b04dc185602f67a5fee77f7d"
+  integrity sha512-8pd+KNnus948oAQh0pdpP4SioaBTJDqn+H4FkBjphZf+VzFZMVbJoDtDqCcBH/d2Cr2gXPd4RDjZRprg/bRVLQ==
   dependencies:
     "@types/ember" "*"
     "@types/ember__application" "*"
@@ -9601,6 +9589,13 @@ ember-concurrency-decorators@^1.1.0-alpha.1:
     ember-cli-babel "^7.8.0"
     ember-cli-typescript "^2.0.2"
 
+ember-concurrency-test-waiter@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/ember-concurrency-test-waiter/-/ember-concurrency-test-waiter-0.3.2.tgz#3d1ea28d78bb1ed26c374233cb84673db43e9f57"
+  integrity sha512-7AkltohwutNhwknycqd7sF0bh6MhkJKB3WdyHpV4RnPMZzILaIGfFHsosy33eMQ3sC46iwA7QE9TSOMEQZOCGQ==
+  dependencies:
+    ember-cli-babel "^6.6.0"
+
 ember-concurrency@1.1.7:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/ember-concurrency/-/ember-concurrency-1.1.7.tgz#b3f0c0478db1096503499d39e1b263c575cd52ef"
@@ -10515,13 +10510,6 @@ ember-template-recast@^4.1.1:
     slash "^3.0.0"
     tmp "^0.1.0"
     workerpool "^5.0.4"
-
-ember-test-waiters@^1.0.0:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/ember-test-waiters/-/ember-test-waiters-1.1.1.tgz#7df6e7a47e0fdca814aa351f7f7f9a006e15fdcd"
-  integrity sha512-ra71ZWTGBGLeDPa308aeAg9+/nYxv2fk4OEzmXdhvbSa5Dtbei94sr5pbLXx2IiK3Re2gDAvDzxg9PVhLy9fig==
-  dependencies:
-    ember-cli-babel "^7.1.2"
 
 ember-test-waiters@^1.1.1:
   version "1.2.0"
