@@ -1,4 +1,4 @@
-import { click as untrackedClick, currentURL, fillIn, settled, visit } from '@ember/test-helpers';
+import { click as untrackedClick, currentURL, fillIn, visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import config from 'ember-get-config';
 import { percySnapshot } from 'ember-percy';
@@ -54,7 +54,6 @@ module('Acceptance | dashboard', hooks => {
         const institutions = server.createList('institution', 20);
 
         await visit('/dashboard');
-        await settled();
         assert.dom(`[data-test-institution-carousel] img[name*="${institutions[0].name}"]`).exists();
         assert.dom('[data-test-institution-carousel-item="1"]').exists();
         assert.dom('[data-test-institution-carousel-item="6"]').isNotVisible();
@@ -82,7 +81,6 @@ module('Acceptance | dashboard', hooks => {
             title: 'Popular',
         });
         await visit('/dashboard');
-        await settled();
         let i = 0;
         for (const node of nodes) {
             const { id, title, description } = node.attrs;
@@ -103,7 +101,6 @@ module('Acceptance | dashboard', hooks => {
     test('user has no projects', async assert => {
         server.create('user', 'loggedIn');
         await visit('/dashboard');
-        await settled();
         assert.dom('div[class*="quick-project"]')
             .includesText('You have no projects yet. Create a project with the button on the top right.');
         await percySnapshot(assert);
@@ -114,7 +111,6 @@ module('Acceptance | dashboard', hooks => {
         const node = server.create('node', {}, 'withContributors');
         server.create('contributor', { node, users: currentUser, index: 11 });
         await visit('/dashboard');
-        await settled();
         assert.dom('div[class*="quick-project"]')
             .doesNotIncludeText('You have no projects yet. Create a project with the button on the top right.');
         assert.dom('div[class*="quick-project"]').includesText(node.attrs.title);
@@ -184,7 +180,6 @@ module('Acceptance | dashboard', hooks => {
             { node: nodeThree, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
         );
         await visit('/dashboard');
-        await settled();
 
         // Default sort
         let projectTitles = this.element.querySelectorAll('[data-test-dashboard-item-title]');
@@ -195,7 +190,6 @@ module('Acceptance | dashboard', hooks => {
 
         // Sort date ascending
         await click('[data-test-ascending-sort="last_logged"]');
-        await settled();
         projectTitles = this.element.querySelectorAll('[data-test-dashboard-item-title]');
         assert.equal(projectTitles.length, 3, 'Proper number of items are in list in date asc sort');
         assert.dom(projectTitles[0]).hasText('az', 'Date asc sort item 0 is in proper position');
@@ -204,7 +198,6 @@ module('Acceptance | dashboard', hooks => {
 
         // Sort date descending (should be same as default)
         await click('[data-test-descending-sort="last_logged"]');
-        await settled();
         projectTitles = this.element.querySelectorAll('[data-test-dashboard-item-title]');
         assert.equal(projectTitles.length, 3, 'Proper number of items are in list in date desc sort');
         assert.dom(projectTitles[0]).hasText('z', 'Date desc sort item 0 is in proper position');
@@ -213,7 +206,6 @@ module('Acceptance | dashboard', hooks => {
 
         // Sort title ascending
         await click('[data-test-ascending-sort="title"]');
-        await settled();
         projectTitles = this.element.querySelectorAll('[data-test-dashboard-item-title]');
         assert.equal(projectTitles.length, 3, 'Proper number of items are in list in title asc sort');
         assert.dom(projectTitles[0]).hasText('a', 'Title asc sort item 0 is in proper position');
@@ -222,7 +214,6 @@ module('Acceptance | dashboard', hooks => {
 
         // Sort title descending
         await click('[data-test-descending-sort="title"]');
-        await settled();
         projectTitles = this.element.querySelectorAll('[data-test-dashboard-item-title]');
         assert.equal(projectTitles.length, 3, 'Proper number of items are in list in title desc sort');
         assert.dom(projectTitles[0]).hasText('z', 'Title desc sort item 0 is in proper position');
@@ -257,7 +248,6 @@ module('Acceptance | dashboard', hooks => {
             { node: nodeThree, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
         );
         await visit('/dashboard');
-        await settled();
 
         // No filtering
         let projectTitles = this.element.querySelectorAll('[data-test-dashboard-item-title]');
@@ -267,14 +257,12 @@ module('Acceptance | dashboard', hooks => {
         assert.dom(projectTitles[2]).hasText('az', 'Not filtering item 2 is correct');
 
         await fillIn('[data-test-quick-search-input]', 'z');
-        await settled();
         projectTitles = this.element.querySelectorAll('[data-test-dashboard-item-title]');
         assert.equal(projectTitles.length, 2, 'One character filtering has correct number of projects');
         assert.dom(projectTitles[0]).hasText('z', 'One character filtering item 0 is correct');
         assert.dom(projectTitles[1]).hasText('az', 'One character filtering item 1 is correct');
 
         await fillIn('[data-test-quick-search-input]', 'az');
-        await settled();
         projectTitles = this.element.querySelectorAll('[data-test-dashboard-item-title]');
         assert.equal(projectTitles.length, 1, 'Two character filtering has correct number of projects');
         assert.dom(projectTitles[0]).hasText('az', 'Two character filtering item is correct');
@@ -285,7 +273,6 @@ module('Acceptance | dashboard', hooks => {
         server.create('user', 'loggedIn', 'withUsRegion');
         const title = 'Giraffical Interchange Format';
         await visit('/dashboard');
-        await settled();
         assert.dom('div[class*="quick-project"]')
             .includesText('You have no projects yet. Create a project with the button on the top right.');
         assert.dom('div[class*="quick-project"]').doesNotIncludeText(title);
@@ -297,7 +284,6 @@ module('Acceptance | dashboard', hooks => {
         await fillIn('[data-test-new-project-title]', title);
         await click('[data-test-create-project-submit]');
         await click('[data-test-stay-here]');
-        await settled();
 
         assert.dom('div[class*="quick-project"]')
             .doesNotIncludeText('You have no projects yet. Create a project with the button on the top right.');
@@ -342,7 +328,6 @@ module('Acceptance | dashboard', hooks => {
         server.create('user', 'loggedIn');
         const title = 'Giraffical Interchange Format';
         await visit('/dashboard');
-        await settled();
         assert.dom('div[class*="quick-project"]')
             .includesText('You have no projects yet. Create a project with the button on the top right.');
         await click('[data-analytics-name="create_new_project"]');
@@ -359,7 +344,6 @@ module('Acceptance | dashboard', hooks => {
         server.create('user', 'loggedIn');
         const title = 'Giraffical Interchange Format';
         await visit('/dashboard');
-        await settled();
         assert.dom('div[class*="quick-project"]')
             .includesText('You have no projects yet. Create a project with the button on the top right.');
         await click('[data-analytics-name="create_new_project"]');

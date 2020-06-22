@@ -1,4 +1,4 @@
-import { currentRouteName, currentURL, fillIn, settled, visit, waitFor } from '@ember/test-helpers';
+import { currentRouteName, currentURL, fillIn, visit, waitFor } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
@@ -135,7 +135,6 @@ module('Acceptance | settings | developer apps', hooks => {
 
         await click('[data-analytics-scope="Reset client secret"] [data-test-delete-button]');
         await click('[data-test-confirm-delete]');
-        await settled();
 
         app.reload();
         assert.notEqual(app.clientSecret, oldSecret, 'client secret updated');

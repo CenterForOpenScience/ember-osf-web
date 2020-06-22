@@ -53,8 +53,6 @@ module('Integration | Component | partial-registration-modal', hooks => {
         `);
         this.set('isOpen', true);
         await settled();
-        await settled();
-        await settled();
 
         assert.dom(`[data-test-item="${root.id}"]`).exists();
         assert.dom(`[data-test-item="${child.id}"]`).exists();
@@ -108,8 +106,6 @@ module('Integration | Component | partial-registration-modal', hooks => {
             </Registries::PartialRegistrationModal::Manager>
         `);
         this.set('isOpen', true);
-        await settled();
-        await settled();
         await settled();
         assert.dom(`[data-test-item="${grandChild.id}"] input`).isChecked();
         assert.dom(`[data-test-item="${child.id}"] input`).isChecked();
@@ -167,8 +163,6 @@ module('Integration | Component | partial-registration-modal', hooks => {
             </Registries::PartialRegistrationModal::Manager>
         `);
         this.set('isOpen', true);
-        await settled();
-        await settled();
         await settled();
         assert.dom(`[data-test-item="${root.id}"] input`).isChecked();
         assert.dom(`[data-test-item="${grandChild.id}"] input`).isChecked();
@@ -229,8 +223,6 @@ module('Integration | Component | partial-registration-modal', hooks => {
             </Registries::PartialRegistrationModal::Manager>
         `);
         this.set('isOpen', true);
-        await settled();
-        await settled();
         await settled();
         assert.dom(`[data-test-item="${grandChild.id}"] input`).isChecked();
         assert.dom(`[data-test-item="${child.id}"] input`).isChecked();

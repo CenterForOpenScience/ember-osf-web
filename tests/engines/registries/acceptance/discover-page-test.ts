@@ -1,4 +1,4 @@
-import { click, fillIn, settled } from '@ember/test-helpers';
+import { click, fillIn } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
@@ -40,7 +40,6 @@ module('Registries | Acceptance | aggregate discover', hooks => {
     // - assert paginator exists
     test('happy path', async assert => {
         await visit('/registries/discover');
-        await settled();
         await click('[data-test-sort-dropdown]');
         await percySnapshot('happy path');
 
@@ -61,7 +60,6 @@ module('Registries | Acceptance | aggregate discover', hooks => {
         await fillIn('[data-test-search-box]', '');
 
         await click(`[data-test-source-filter-id="${osfProvider.shareSourceKey}"]`);
-        await settled();
         assert.dom('[data-test-result-title-id]').exists({ count: 3 }, 'Provider filter works');
 
         await fillIn('[data-test-search-box]', 'kjafnsdflkjhsdfnasdkndfa random string');
@@ -83,7 +81,6 @@ module('Registries | Acceptance | aggregate discover', hooks => {
         assert.dom('[data-test-result-title-id]').exists({ count: 10 }, 'First page has correct number of results');
 
         await click('[data-test-page-number="2"]');
-        await settled();
         assert.dom('[data-test-result-title-id]').exists({ count: 1 }, 'Second page has correct number of results');
     });
 

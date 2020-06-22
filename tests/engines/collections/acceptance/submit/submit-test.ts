@@ -1,4 +1,4 @@
-import { click as untrackedClick, fillIn, settled } from '@ember/test-helpers';
+import { click as untrackedClick, fillIn } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
 import faker from 'faker';
@@ -98,7 +98,6 @@ module('Collections | Acceptance | submit', hooks => {
         assert.dom(userToAddSelector)
             .exists({ count: 1 }, 'found contributor');
         await untrackedClick(`${userToAddSelector} [data-test-project-contributors-add-contributor-button]`);
-        await settled();
         const contribListSelector = `[data-test-project-contributors-list-item-id=${userToAdd.id}]`;
         assert.dom(contribListSelector)
             .exists({ count: 1 }, 'contributor added to list');

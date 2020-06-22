@@ -1,4 +1,4 @@
-import { fillIn, settled, visit } from '@ember/test-helpers';
+import { fillIn, visit } from '@ember/test-helpers';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { percySnapshot } from 'ember-percy';
@@ -83,11 +83,9 @@ module('Acceptance | settings | account information page', hooks => {
         const { emailAddress } = user.emails.models[1];
 
         await visit('/settings/account');
-        await settled();
         assert.dom(`[data-test-alternate-email-item='${emailAddress}']`).exists();
 
         await click('[data-test-make-primary]');
-        await settled();
         await percySnapshot(assert);
         assert.dom('[data-test-primary-email]').hasText(emailAddress);
     });
