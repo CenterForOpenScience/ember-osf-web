@@ -3,6 +3,7 @@ import {
     currentRouteName,
     currentURL,
     fillIn,
+    settled,
     triggerEvent,
     triggerKeyEvent,
     visit,
@@ -69,22 +70,27 @@ module('Acceptance | guid file', hooks => {
 
             await fillIn('[data-test-filter-input]', 'a');
             triggerKeyEvent('[data-test-filter-input]', 'keyup', 'Shift');
+            await settled();
             assert.dom('[data-test-file-item-link]').exists({ count: 3 }, 'filter for a');
 
             await fillIn('[data-test-filter-input]', 'z');
             triggerKeyEvent('[data-test-filter-input]', 'keyup', 'Shift');
+            await settled();
             assert.dom('[data-test-file-item-link]').exists({ count: 3 }, 'filter for z');
 
             await fillIn('[data-test-filter-input]', 'az');
             triggerKeyEvent('[data-test-filter-input]', 'keyup', 'Shift');
+            await settled();
             assert.dom('[data-test-file-item-link]').exists({ count: 1 }, 'filter for az');
 
             await fillIn('[data-test-filter-input]', 'aa');
             triggerKeyEvent('[data-test-filter-input]', 'keyup', 'Shift');
+            await settled();
             assert.dom('[data-test-file-item-link]').exists({ count: 1 }, 'filter for aa');
 
             await fillIn('[data-test-filter-input]', 'zz');
             triggerKeyEvent('[data-test-filter-input]', 'keyup', 'Shift');
+            await settled();
             assert.dom('[data-test-file-item-link]').exists({ count: 1 }, 'filter for zz');
 
             assert.dom('[data-test-close-filter-button]').exists('after final filter');
@@ -261,22 +267,27 @@ module('Acceptance | guid file', hooks => {
 
             await fillIn('[data-test-filter-input]', 'a');
             triggerKeyEvent('[data-test-filter-input]', 'keyup', 'Shift');
+            await settled();
             assert.dom('[data-test-file-item-link]').exists({ count: 3 }, 'filter for a');
 
             await fillIn('[data-test-filter-input]', 'z');
             triggerKeyEvent('[data-test-filter-input]', 'keyup', 'Shift');
+            await settled();
             assert.dom('[data-test-file-item-link]').exists({ count: 3 }, 'filter for z');
 
             await fillIn('[data-test-filter-input]', 'az');
             triggerKeyEvent('[data-test-filter-input]', 'keyup', 'Shift');
+            await settled();
             assert.dom('[data-test-file-item-link]').exists({ count: 1 }, 'filter for az');
 
             await fillIn('[data-test-filter-input]', 'aa');
             triggerKeyEvent('[data-test-filter-input]', 'keyup', 'Shift');
+            await settled();
             assert.dom('[data-test-file-item-link]').exists({ count: 1 }, 'filter for aa');
 
             await fillIn('[data-test-filter-input]', 'zz');
             triggerKeyEvent('[data-test-filter-input]', 'keyup', 'Shift');
+            await settled();
             assert.dom('[data-test-file-item-link]').exists({ count: 1 }, 'filter for zz');
 
             assert.dom('[data-test-close-filter-button]').exists('after final filter');
@@ -348,6 +359,7 @@ module('Acceptance | guid file', hooks => {
             await visit(`--file/${file.guid}`);
 
             await click('[data-test-revisions-tab]');
+            await settled();
             await percySnapshot(assert);
 
             assert.dom('[data-test-version-cell="1"]').hasText('1', 'initial state');

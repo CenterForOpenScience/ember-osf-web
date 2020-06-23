@@ -3,6 +3,7 @@ import {
     currentRouteName,
     currentURL,
     fillIn,
+    settled,
     triggerKeyEvent,
     visit,
 } from '@ember/test-helpers';
@@ -583,22 +584,27 @@ module('Acceptance | Guid User Quickfiles', hooks => {
 
             await fillIn('[data-test-filter-input]', 'a');
             triggerKeyEvent('[data-test-filter-input]', 'keyup', 'Shift');
+            await settled();
             assert.dom('[data-test-file-item-link]').exists({ count: 3 }, 'filter for a');
 
             await fillIn('[data-test-filter-input]', 'z');
             triggerKeyEvent('[data-test-filter-input]', 'keyup', 'Shift');
+            await settled();
             assert.dom('[data-test-file-item-link]').exists({ count: 3 }, 'filter for z');
 
             await fillIn('[data-test-filter-input]', 'az');
             triggerKeyEvent('[data-test-filter-input]', 'keyup', 'Shift');
+            await settled();
             assert.dom('[data-test-file-item-link]').exists({ count: 1 }, 'filter for az');
 
             await fillIn('[data-test-filter-input]', 'aa');
             triggerKeyEvent('[data-test-filter-input]', 'keyup', 'Shift');
+            await settled();
             assert.dom('[data-test-file-item-link]').exists({ count: 1 }, 'filter for aa');
 
             await fillIn('[data-test-filter-input]', 'zz');
             triggerKeyEvent('[data-test-filter-input]', 'keyup', 'Shift');
+            await settled();
             assert.dom('[data-test-file-item-link]').exists({ count: 1 }, 'filter for zz');
         });
 
@@ -642,15 +648,19 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             assert.dom('[data-test-file-item-link]').hasText('aa.gif', 'initial setup');
 
             await click('[data-test-descending-sort="name"]');
+            await settled();
             assert.dom('[data-test-file-item-link]').hasText('zz.gif', 'click descending by name');
 
             await click('[data-test-ascending-sort="name"]');
+            await settled();
             assert.dom('[data-test-file-item-link]').hasText('aa.gif', 'click ascending by name');
 
             await click('[data-test-ascending-sort="dateModified"]');
+            await settled();
             assert.dom('[data-test-file-item-link]').hasText('za.gif', 'click ascending by modified');
 
             await click('[data-test-descending-sort="dateModified"]');
+            await settled();
             assert.dom('[data-test-file-item-link]').hasText('az.gif', 'click descending by modified');
         });
     });
