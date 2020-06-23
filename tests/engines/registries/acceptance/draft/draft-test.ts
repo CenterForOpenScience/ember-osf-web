@@ -40,6 +40,13 @@ module('Registries | Acceptance | draft form', hooks => {
         server.loadFixtures('registration-providers');
     });
 
+    test('branded draft page', async () => {
+        const provider = server.create('registration-provider', 'withBranding');
+        const registration = server.create('draft-registration', { provider });
+        await visit(`registries/drafts/${registration.id}/`);
+        await percySnapshot('Branded draft page');
+    });
+
     test('it redirects to metadata page of the draft form', async assert => {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
