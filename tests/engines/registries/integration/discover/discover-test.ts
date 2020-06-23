@@ -128,7 +128,11 @@ module('Registries | Integration | discover', hooks => {
     hooks.beforeEach(async function(this: TestContext) {
         server.create('registration-schema', { name: 'Open Ended' });
         server.create('registration-schema', { name: 'Close Fronted' });
-        server.create('registration-provider', { id: 'osf' });
+        server.create('registration-provider', {
+            id: 'osf',
+            shareSourceKey: 'OSF',
+            name: 'OSF Registries',
+        });
 
         const engine = await loadEngine('registries', 'registries');
 
