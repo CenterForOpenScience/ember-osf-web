@@ -41,7 +41,7 @@ module('Registries | Acceptance | draft form', hooks => {
     });
 
     test('branded draft page', async () => {
-        const provider = server.create('registration-provider', 'withBranding');
+        const provider = server.create('registration-provider', 'withBrand');
         const registration = server.create('draft-registration', { provider });
         await visit(`registries/drafts/${registration.id}/`);
         await percySnapshot('Branded draft page');

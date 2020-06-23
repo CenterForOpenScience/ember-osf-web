@@ -9,7 +9,10 @@
     <StatusBanner />
     <TosConsentBanner />
     <Banners::ViewOnlyLink />
-    <main aria-label={{t 'registries.application.main_aria'}}>
+    <main
+        local-class='WrapperMainContents'
+        aria-label={{t 'registries.application.main_aria'}}
+    >
         {{yield}}
     </main>
 </div>

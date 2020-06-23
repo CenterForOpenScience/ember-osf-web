@@ -80,6 +80,12 @@ function registrationScenario(
         provider,
     }, 'withContributors');
 
+    server.create('registration', {
+        id: 'aerchive',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        provider,
+    }, 'isArchiving');
+
     server.create('draft-registration', {
         id: 'dcaf',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
