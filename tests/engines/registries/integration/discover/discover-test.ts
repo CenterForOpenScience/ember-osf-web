@@ -1,4 +1,4 @@
-import { click, fillIn, getRootElement, triggerEvent } from '@ember/test-helpers';
+import { click, fillIn, getRootElement, pauseTest, triggerEvent } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { TestContext } from 'ember-test-helpers';
 import { OrderedSet, ValueObject } from 'immutable';
@@ -133,6 +133,11 @@ module('Registries | Integration | discover', hooks => {
             shareSourceKey: 'OSF',
             name: 'OSF Registries',
         });
+        server.create('registration-provider', {
+            id: 'someother',
+            shareSourceKey: 'someother',
+            name: 'Some Other',
+        });
 
         const engine = await loadEngine('registries', 'registries');
 
@@ -177,7 +182,10 @@ module('Registries | Integration | discover', hooks => {
             results: [],
             aggregations: {
                 sources: {
-                    buckets: [{ key: 'OSF', doc_count: 10 }],
+                    buckets: [
+                        { key: 'OSF', doc_count: 10 },
+                        { key: 'someother', doc_count: 10 },
+                    ],
                 },
             },
         });
@@ -194,7 +202,7 @@ module('Registries | Integration | discover', hooks => {
             }),
         }));
 
-        await click('[data-test-source-filter-id="0"]');
+        await click('[data-test-source-filter-id="OSF"]');
 
         sinon.assert.calledWith(stub, new SearchOptions({
             query: '',
@@ -323,6 +331,7 @@ module('Registries | Integration | discover', hooks => {
                 title: 'place holder',
                 description: 'place holder',
                 contributors: [],
+                mainLink: 'fakeLink',
             }),
             aggregations: {
                 sources: {
