@@ -6,7 +6,6 @@ import Ember from 'ember';
 import config from 'ember-get-config';
 
 import { Blocker } from 'ember-osf-web/services/ready';
-import { scrollTo } from 'ember-osf-web/utils/scroll-to';
 import transitionTargetURL from 'ember-osf-web/utils/transition-target-url';
 
 const {
@@ -49,7 +48,7 @@ const Router = EmberRouter.extend({
         if (this.shouldScrollTop) {
             const { application: { rootElement: rootElementSelector } } = getOwner(this);
             const rootElement = document.querySelector(rootElementSelector);
-            scrollTo(rootElement);
+            rootElement.scrollIntoView();
         }
 
         if (this.readyBlocker && !this.readyBlocker.isDone()) {

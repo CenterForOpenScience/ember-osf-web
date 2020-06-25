@@ -6,7 +6,6 @@ import { task } from 'ember-concurrency-decorators';
 import OsfRouterService from 'ember-osf-web/services/osf-router';
 import Ready from 'ember-osf-web/services/ready';
 import cleanURL from 'ember-osf-web/utils/clean-url';
-import { scrollTo } from 'ember-osf-web/utils/scroll-to';
 
 function splitFragment(url: string): [string, string?] {
     const [pathAndQuery, fragment] = url.split(/#(.+)?/, 2);
@@ -29,7 +28,7 @@ export default class FragmentHistoryLocation extends HistoryLocation {
         // Not using `#id` as fragment could contain a `.`
         const element = document.querySelector(`[id="${elementId}"]`) as HTMLElement;
         if (element) {
-            scrollTo(element);
+            element.scrollIntoView();
         }
     });
 

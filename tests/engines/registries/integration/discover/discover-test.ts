@@ -349,11 +349,10 @@ module('Registries | Integration | discover', hooks => {
 
         const resultsEl = getRootElement().querySelector('[data-test-results]')! as HTMLElement;
 
-        assert.notEqual(resultsEl.offsetTop, 0);
-
+        const initialTopPosition = resultsEl.getBoundingClientRect().top;
         await click('[data-test-page-number="2"]');
-
-        assert.equal(resultsEl.offsetTop, 0);
+        const currentTopPosition = resultsEl.getBoundingClientRect().top;
+        assert.ok(currentTopPosition < initialTopPosition, 'we have scrolled');
         sinon.assert.calledWith(stub, new SearchOptions({
             query: '',
             page: 2,
