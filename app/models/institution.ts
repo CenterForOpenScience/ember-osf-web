@@ -6,15 +6,11 @@ import InstitutionSummaryMetricModel from 'ember-osf-web/models/institution-summ
 import InstitutionDepartmentsModel from './institution-department';
 import InstitutionUserModel from './institution-user';
 import NodeModel from './node';
-import OsfModel, { OsfLinks } from './osf-model';
+import OsfModel from './osf-model';
 import RegistrationModel from './registration';
 import UserModel from './user';
 
 const { attr, belongsTo, hasMany } = DS;
-
-export interface InstitutionLinks extends OsfLinks {
-    csv: string;
-}
 
 /* eslint-disable camelcase */
 export interface Assets {
@@ -30,7 +26,6 @@ export interface Department {
 }
 
 export default class InstitutionModel extends OsfModel {
-    @attr() links!: InstitutionLinks;
     @attr('string') name!: string;
     @attr('fixstring') description!: string;
     @attr('string') authUrl!: string;
