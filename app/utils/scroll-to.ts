@@ -1,23 +1,13 @@
-interface Owner {
-    application: {
-        rootElement: string;
-    };
-}
+import Ember from 'ember';
 
-function getRootElement({ application: { rootElement: rootElementSelector } }: Owner): HTMLElement {
-    return document.querySelector(rootElementSelector) as HTMLElement;
-}
-
-// Helper to avoid throwing QUnit's test window around
-export default function(owner: Owner, offsetOrElement: HTMLElement | number) {
-    let offset: number;
-    const root = getRootElement(owner);
-
-    if (offsetOrElement instanceof HTMLElement) {
-        offset = offsetOrElement.getBoundingClientRect().top;
+export function scrollTo(element: HTMLElement) {
+    const position = element.getBoundingClientRect().top + window.scrollY;
+    if (!Ember.testing) {
+        element.scrollIntoView();
     } else {
-        offset = offsetOrElement;
+        const testContainer = element.closest('#ember-testing-container');
+        if (testContainer) {
+            testContainer.scrollTop = position;
+        }
     }
-
-    root.parentElement!.scrollTop = offset;
 }

@@ -1,4 +1,3 @@
-import { getOwner } from '@ember/application';
 import EmberArray, { A } from '@ember/array';
 import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
@@ -13,7 +12,7 @@ import { is, OrderedSet } from 'immutable';
 import config from 'ember-get-config';
 import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 import Analytics from 'ember-osf-web/services/analytics';
-import scrollTo from 'ember-osf-web/utils/scroll-to';
+import { scrollTo } from 'ember-osf-web/utils/scroll-to';
 import discoverStyles from 'registries/components/registries-discover-search/styles';
 import { SearchFilter, SearchOptions, SearchOrder, SearchResults } from 'registries/services/search';
 import ShareSearch, {
@@ -197,7 +196,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         return max;
     }
 
-    @task({ withTestWaiter: true })
+    @task
     getCountsAndAggs = task(function *(this: Discover) {
         const results: SearchResults<any> = yield this.shareSearch.registrations(new SearchOptions({
             size: 0,
@@ -250,7 +249,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         this.doSearch.perform();
     });
 
-    @task({ withTestWaiter: true, restartable: true })
+    @task({ restartable: true })
     doSearch = task(function *(this: Discover) {
         // TODO-mob don't hard-code 'OSF'
 
@@ -358,7 +357,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         if (!element) {
             return;
         }
-        scrollTo(getOwner(this.intl), element);
+        scrollTo(element);
     }
 
     @action
