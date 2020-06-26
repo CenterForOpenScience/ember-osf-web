@@ -28,30 +28,30 @@ function registrationScenario(
 ) {
     server.loadFixtures('citation-styles');
 
-    // const registrationNode = server.create(
-    //     'node',
-    //     {
-    //         id: 'regis', currentUserPermissions: Object.values(Permission),
-    //     },
-    //     'withContributors',
-    // );
-    // server.create('contributor', {
-    //     node: registrationNode,
-    //     users: currentUser,
-    //     permission: Permission.Admin,
-    //     index: 0,
-    // });
+    const registrationNode = server.create(
+        'node',
+        {
+            id: 'regis', currentUserPermissions: Object.values(Permission),
+        },
+        'withContributors',
+    );
+    server.create('contributor', {
+        node: registrationNode,
+        users: currentUser,
+        permission: Permission.Admin,
+        index: 0,
+    });
 
-    // registerNodeMultiple(
-    //     server,
-    //     registrationNode,
-    //     12,
-    //     { currentUserPermissions: Object.values(Permission) },
-    //     'withArbitraryState',
-    // );
-    // draftRegisterNodeMultiple(server, registrationNode, 12, {}, 'withRegistrationMetadata');
+    registerNodeMultiple(
+        server,
+        registrationNode,
+        12,
+        { currentUserPermissions: Object.values(Permission) },
+        'withArbitraryState',
+    );
+    draftRegisterNodeMultiple(server, registrationNode, 12, {}, 'withRegistrationMetadata');
 
-    // server.create('registration', { id: 'beefs' });
+    server.create('registration', { id: 'beefs' });
 
     const registrationResponses = {
         'page-one_long-text': '',
@@ -68,7 +68,6 @@ function registrationScenario(
     const licenseReqFields = server.schema.licenses.findBy({ name: 'MIT License' });
     const provider = server.create('registration-provider', 'withBrand');
 
-    server.createList('registration', 21);
     server.create('registration', {
         id: 'decaf',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
@@ -115,49 +114,34 @@ function registrationScenario(
     server.createList('external-registration', 3, { provider: clinicalTrials });
     server.createList('external-registration', 2, { provider: researchRegistry });
 
-    // server.create('draft-registration', {
-    //     id: 'rrpre',
-    //     registrationSchema: server.schema.registrationSchemas.find('replication_recipe_pre_registration'),
-    //     initiator: currentUser,
-    //     registrationResponses,
-    //     branchedFrom: rootNode,
-    // });
+    server.create('draft-registration', {
+        id: 'rrpre',
+        registrationSchema: server.schema.registrationSchemas.find('replication_recipe_pre_registration'),
+        initiator: currentUser,
+        registrationResponses,
+        branchedFrom: rootNode,
+    });
 
-    // server.create('draft-registration', {
-    //     id: 'pregc',
-    //     registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-    //     initiator: currentUser,
-    //     registrationResponses,
-    //     branchedFrom: rootNode,
-    // });
+    server.create('draft-registration', {
+        id: 'pregc',
+        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+        initiator: currentUser,
+        registrationResponses,
+        branchedFrom: rootNode,
+    });
 
-    // server.create('registration', {
-    //     id: 'decaf',
-    //     registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-    //     linkedNodes: server.createList('node', 2),
-    //     linkedRegistrations: server.createList('registration', 2),
-    //     currentUserPermissions: Object.values(Permission),
-    // }, 'withContributors', 'withComments', 'withAffiliatedInstitutions');
+    server.create('registration', {
+        id: 'decaf',
+        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+        linkedNodes: server.createList('node', 2),
+        linkedRegistrations: server.createList('registration', 2),
+        currentUserPermissions: Object.values(Permission),
+    }, 'withContributors', 'withComments', 'withAffiliatedInstitutions');
 
-    // server.createList('subject', 10, 'withChildren');
+    server.createList('subject', 10, 'withChildren');
 
-    // const provider = server.schema.registrationProviders.find('osf');
-    // const brand = server.create('brand', {
-    //     id: '1',
-    //     primaryColor: 'green',
-    //     secondaryColor: 'blue',
-    //     topnavLogoImage: placekitten(30, 30),
-    //     heroLogoImage: 'http://somelogoimageurl',
-    //     heroBackgroundImage: placekitten(1350, 900),
-    // });
-
-    // provider.update({
-    //     subjects: server.schema.subjects.all().models,
-    //     brand,
-    // });
-
-    // // Current user Bookmarks collection
-    // server.create('collection', { title: 'Bookmarks', bookmarks: true });
+    // Current user Bookmarks collection
+    server.create('collection', { title: 'Bookmarks', bookmarks: true });
 }
 
 function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {
