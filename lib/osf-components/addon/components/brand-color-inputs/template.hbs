@@ -1,5 +1,3 @@
-{{!-- template-lint-disable no-bare-strings  --}}
-<label>Brand Primary Color</label>
+<label>{{t 'app_components.brand_color_inputs.primary_label'}}</label>
 <Input @value={{this.primaryColor}} />
-{{!-- template-lint-disable no-bare-strings  --}}
-<Button {{on 'click' this.setPrimaryColor}}>Set Primary Color</Button>
+<Button {{on 'click' this.setPrimaryColor}}>{{t 'app_components.brand_color_inputs.primary_set'}}</Button>
