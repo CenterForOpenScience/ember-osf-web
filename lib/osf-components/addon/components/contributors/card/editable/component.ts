@@ -8,5 +8,5 @@ import template from './template';
 @layout(template, styles)
 @tagName('')
 export default class ContributorsCardEditable extends Component {
-    options = ['read', 'write', 'admin'];
+    permissionOptions = ['read', 'write', 'admin'];
 }

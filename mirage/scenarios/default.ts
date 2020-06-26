@@ -72,7 +72,8 @@ function registrationScenario(
         registrationResponses,
         branchedFrom: rootNode,
         license: licenseReqFields,
-    }, 'withSubjects', 'withAffiliatedInstitutions', 'withContributors');
+        contributors: server.createList('contributor', 21),
+    }, 'withSubjects', 'withAffiliatedInstitutions');
 
     server.create('draft-registration', {
         id: 'rrpre',

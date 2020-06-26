@@ -24,7 +24,7 @@
         >
             <PowerSelect
                 @selected={{@contributor.permission}}
-                @options={{this.options}}
+                @options={{this.permissionOptions}}
                 @onchange={{fn @manager.updateContributorPermission @contributor}}
                 as |option|
             >

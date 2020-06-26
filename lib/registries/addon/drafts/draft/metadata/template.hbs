@@ -12,7 +12,6 @@
         </p>
         <hr>
         <form local-class='Metadata'>
-            <Contributors::Widget @node={{this.draftManager.draftRegistration}} />
             <FormControls
                 @changeset={{this.draftManager.metadataChangeset}}
                 ...attributes
@@ -56,6 +55,20 @@
                         @onKeyUp={{perform this.draftManager.onMetadataInput}}
                         @placeholder=' '
                         @uniqueID={{descriptionFieldId}}
+                    />
+                {{/let}}
+                {{#let (unique-id) 'contributors' as |contributorFieldId|}}
+                    <label
+                        local-class='label'
+                        for={{contributorFieldId}}
+                        id='contributors'
+                    >
+                        {{t 'registries.registration_metadata.contributors'}}
+                    </label>
+                    <Contributors::Widget 
+                        @node={{this.draftManager.draftRegistration}}
+                        @widgetMode={{'readonly'}}
+                        id={{contributorFieldId}}
                     />
                 {{/let}}
                 <form.select
