@@ -67,7 +67,7 @@ export default class NewProjectModal extends Component {
             // not yielding so it runs in parallel
             this.get('getStorageRegionsTask').perform();
         }
-        this.set('institutions', yield this.currentUser.user!.institutions);
+        this.set('institutions', (yield this.currentUser.user!.institutions));
     });
 
     @task

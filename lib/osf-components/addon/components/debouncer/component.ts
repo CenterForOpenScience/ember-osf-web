@@ -15,11 +15,7 @@ export default class Debouncer extends Component {
     @task({ restartable: true })
     doFnDebounce = task(function *(this: Debouncer) {
         yield timeout(this.timeoutInterval);
-        try {
-            yield this.fn();
-        } catch (error) {
-            throw error;
-        }
+        yield this.fn();
     });
 
     didReceiveAttrs() {

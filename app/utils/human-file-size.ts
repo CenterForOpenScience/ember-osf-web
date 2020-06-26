@@ -26,9 +26,9 @@ export default function humanFileSize(bytes: number, si: boolean = true): string
         return `${bytes} B`;
     }
 
-    const units: string[] = si ?
-        ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'] :
-        ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+    const units: string[] = si
+        ? ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+        : ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
 
     let u: number;
     let b: number = bytes / thresh;

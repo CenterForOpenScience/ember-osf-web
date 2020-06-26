@@ -58,8 +58,8 @@ export default class RegistriesStates extends Component {
             short: this.intl.t(`registries.overview.${stateKey}.short_description`),
             long: this.intl.t(`registries.overview.${stateKey}.long_description`, {
                 projectUrl: this.projectUrl,
-                embargoEndDate: this.registration.embargoEndDate &&
-                  moment(this.registration.embargoEndDate).format('MMMM D, YYYY'),
+                embargoEndDate: this.registration.embargoEndDate
+                  && moment(this.registration.embargoEndDate).format('MMMM D, YYYY'),
                 htmlSafe: true,
             }),
             buttonText: this.intl.t(`registries.overview.${stateKey}.text`),
@@ -68,8 +68,8 @@ export default class RegistriesStates extends Component {
 
     @computed('registration.{userHasAdminPermission,state}')
     get shouldOpenDropdownOnLoad() {
-        return this.registration.userHasAdminPermission &&
-            ![RegistrationState.Embargoed, RegistrationState.Public].includes(this.registration.state);
+        return this.registration.userHasAdminPermission
+            && ![RegistrationState.Embargoed, RegistrationState.Public].includes(this.registration.state);
     }
 
     @computed('registration.registeredFrom.id')
@@ -83,7 +83,7 @@ export default class RegistriesStates extends Component {
 
     @computed('registration.{userHasAdminPermission,state,isRoot}')
     get shouldHideAdminActions() {
-        return (!this.registration.isRoot || !this.registration.userHasAdminPermission ||
-            !([RegistrationState.Public, RegistrationState.Embargoed].includes(this.registration.state)));
+        return (!this.registration.isRoot || !this.registration.userHasAdminPermission
+            || !([RegistrationState.Public, RegistrationState.Embargoed].includes(this.registration.state)));
     }
 }

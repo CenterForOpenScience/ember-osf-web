@@ -1,7 +1,7 @@
 import { render } from '@ember/test-helpers';
 import ace from 'ember-ace';
+import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
-import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
 import { click } from 'ember-osf-web/tests/helpers';

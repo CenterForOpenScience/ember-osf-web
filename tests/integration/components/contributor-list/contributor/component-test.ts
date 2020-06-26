@@ -1,9 +1,9 @@
 import { render } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
 import { setupRenderingTest } from 'ember-qunit';
 import faker from 'faker';
-import { module, test } from 'qunit';
 
-import hbs from 'htmlbars-inline-precompile';
+import { module, test } from 'qunit';
 
 module('Integration | Component | contributor-list/contributor', hooks => {
     setupRenderingTest(hooks);

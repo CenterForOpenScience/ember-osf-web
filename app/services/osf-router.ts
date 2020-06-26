@@ -26,9 +26,9 @@ export default class OsfRouterService extends Service {
     transitionTo(routeName: string, ...args: any[]): Transition {
         const possibleOptions = args[args.length - 1];
         if (
-            typeof possibleOptions === 'object' &&
-            possibleOptions !== null &&
-            possibleOptions.fragment
+            typeof possibleOptions === 'object'
+            && possibleOptions !== null
+            && possibleOptions.fragment
         ) {
             const { fragment } = possibleOptions as { fragment?: string };
             assert('OsfRouterService.transitionTo: `fragment` must be a string', typeof fragment === 'string');

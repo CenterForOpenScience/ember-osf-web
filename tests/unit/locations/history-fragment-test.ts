@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import Service from '@ember/service';
 import { setupTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
@@ -163,3 +164,4 @@ module('Unit | Location | history with fragments', hooks => {
         }
     });
 });
+/* eslint-enable max-classes-per-file */

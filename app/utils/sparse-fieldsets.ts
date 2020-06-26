@@ -32,9 +32,9 @@ export function parseSparseResource(resource: Resource): SparseModel {
     const mappedEmbeds = mapKeysAndValues(
         embeds || {},
         key => camelize(key),
-        value => (value.data instanceof Array ?
-            value.data.map(embeddedDoc => parseSparseResource(embeddedDoc)) :
-            parseSparseResource(value.data)),
+        value => (value.data instanceof Array
+            ? value.data.map(embeddedDoc => parseSparseResource(embeddedDoc))
+            : parseSparseResource(value.data)),
     );
 
     return {

@@ -19,7 +19,8 @@ export default class FakeNode {
     belongsTo(relationship: string) {
         if (relationship === 'parent') {
             return { id: () => this.parentId };
-        } else if (relationship === 'root') {
+        }
+        if (relationship === 'root') {
             return { id: () => this.parentId };
         }
         throw new Error('Unknown relationship passed to FakeNode helper\'s belongsTo().');

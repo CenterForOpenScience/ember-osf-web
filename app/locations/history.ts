@@ -4,9 +4,9 @@ import { inject as service } from '@ember/service';
 import { waitForQueue } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 
-import GuidLocationMixin from 'ember-osf-web/locations/guid-mixin';
 import OsfRouterService from 'ember-osf-web/services/osf-router';
 import Ready from 'ember-osf-web/services/ready';
+import cleanURL from 'ember-osf-web/utils/clean-url';
 import scrollTo from 'ember-osf-web/utils/scroll-to';
 
 function splitFragment(url: string): [string, string?] {
@@ -17,7 +17,7 @@ function splitFragment(url: string): [string, string?] {
 }
 
 // Add support for scrolling to elements according to the URL's #fragment.
-export default class FragmentHistoryLocation extends HistoryLocation.extend(GuidLocationMixin) {
+export default class FragmentHistoryLocation extends HistoryLocation {
     @service ready!: Ready;
     @service osfRouter!: OsfRouterService;
 
@@ -44,7 +44,7 @@ export default class FragmentHistoryLocation extends HistoryLocation.extend(Guid
         if (fragment) {
             this.osfRouter.set('currentTransitionTargetFragment', null);
             this.scrollToElement.perform(fragment);
-            return super.setURL(`${newURL}#${fragment}`);
+            return super.setURL(cleanURL(`${newURL}#${fragment}`));
         }
         return super.setURL(newURL);
     }
@@ -60,11 +60,18 @@ export default class FragmentHistoryLocation extends HistoryLocation.extend(Guid
         const currentURL = this.getURL();
         const [currentPathAndQuery, fragment] = splitFragment(currentURL);
 
-        if (fragment && newURL === currentPathAndQuery) {
-            this.scrollToElement.perform(fragment);
-            return super.replaceURL(`${newURL}#${fragment}`);
+        if (super.replaceURL) {
+            if (fragment && newURL === currentPathAndQuery) {
+                this.scrollToElement.perform(fragment);
+                return super.replaceURL(cleanURL(`${newURL}#${fragment}`));
+            }
+            return super.replaceURL(cleanURL(newURL));
         }
-        return super.replaceURL(newURL);
+        return undefined;
+    }
+
+    formatURL(url: string): string {
+        return super.formatURL(cleanURL(url));
     }
 
     /**

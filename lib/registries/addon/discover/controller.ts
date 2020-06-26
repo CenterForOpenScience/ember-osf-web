@@ -126,8 +126,7 @@ const queryParams = {
         },
         deserialize(value: string) {
             return sortOptions.find(
-                option =>
-                    !!option.key
+                option => !!option.key
                     && value.endsWith(option.key)
                     && option.ascending === !value.startsWith('-'),
             ) || sortOptions[0];

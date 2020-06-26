@@ -138,9 +138,9 @@ export default class DropzoneWidget extends Component.extend({
 
         // @ts-ignore
         const drop = new CustomDropzone(`#${this.elementId}`, {
-            url: (file: any) => (typeof this.buildUrl === 'function' ?
-                this.buildUrl(file) :
-                this.buildUrl),
+            url: (file: any) => (typeof this.buildUrl === 'function'
+                ? this.buildUrl(file)
+                : this.buildUrl),
             autoProcessQueue: false,
             autoQueue: false,
             clickable: this.clickable.length ? this.clickable : '',

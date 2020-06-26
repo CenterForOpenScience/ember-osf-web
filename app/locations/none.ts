@@ -1,10 +1,21 @@
 import NoneLocation from '@ember/routing/none-location';
-import GuidLocationMixin from 'ember-osf-web/locations/guid-mixin';
+import cleanURL from 'ember-osf-web/utils/clean-url';
 
 // Sadly the `none` location must be overriden, otherwise
 // ember-test-helper's helpers will leave --segments left over in the URL
-export default class GuidNoneLocation extends NoneLocation.extend(GuidLocationMixin) {
+export default class GuidNoneLocation extends NoneLocation {
     path!: string;
+
+    replaceURL(url: string) {
+        if (super.replaceURL) {
+            return super.replaceURL(cleanURL(url));
+        }
+        return undefined;
+    }
+
+    formatURL(url: string): string {
+        return super.formatURL(cleanURL(url));
+    }
 
     // Opt out of URL "cleaning" when in tests.
     // This will allow tests to go to a specific route (Skip resolve-guid) by including

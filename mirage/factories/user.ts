@@ -53,6 +53,23 @@ export default Factory.extend<MirageUser & UserTraits>({
     acceptedTermsOfService: true,
     canViewReviews: false,
     social: {},
+    employment() {
+        const employmentCount = faker.random.number({ min: 1, max: 3 });
+        const employers = [];
+        for (let i = 0; i < employmentCount; i++) {
+            employers.push({
+                title: faker.company.bsNoun(),
+                endYear: faker.date.between('2005', '2020').getFullYear(),
+                ongoing: faker.random.boolean(),
+                endMonth: faker.random.number(11),
+                startYear: faker.date.between('1990', '2005').getFullYear(),
+                department: faker.company.bsNoun(),
+                startMonth: faker.random.number(11),
+                institution: faker.company.companyName(),
+            });
+        }
+        return employers;
+    },
     defaultRegion: association(),
     dateRegistered() {
         return faker.date.past(2, new Date(2018, 0, 0));
