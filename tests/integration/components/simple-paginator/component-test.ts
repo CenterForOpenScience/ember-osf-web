@@ -14,7 +14,7 @@ module('Integration | Component | simple-paginator', hooks => {
 
     test('it renders', async function(assert) {
         await render(hbs`{{simple-paginator nextPage=stubAction previousPage=stubAction maxPage=3 curPage=2}}`);
-        assert.dom(this.element).hasText('< Page 2 of 3 >');
+        assert.dom(this.element).hasText('Page 2 of 3');
     });
 
     test('if no more than 1 page, don\'t show paginator at all', async function(assert) {
