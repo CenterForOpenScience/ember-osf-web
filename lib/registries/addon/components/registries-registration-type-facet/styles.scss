@@ -38,7 +38,10 @@
 .RegistrationType__Item {
     label {
         font-weight: 400;
-        color: $color-text-blue-dark;
+
+        &:hover {
+            color: var(--primary-color);
+        }
     }
 }
 
