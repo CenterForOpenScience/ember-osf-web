@@ -4,11 +4,10 @@
             data-test-previous-page-button
             data-analytics-name='Pagination previous'
             aria-label={{t 'paginator.previous'}}
+            local-class='SimplePaginator__previous'
             @disabled={{not this.hasPrev}}
             @onClick={{action this._previous}}
-        >
-            &lt;
-        </OsfButton>
+        />
     </span>
     <span local-class='SimplePaginator__element SimplePaginator__text'>
         {{#if (and this.curPage this.maxPage)}}
@@ -20,10 +19,9 @@
             data-test-next-page-button
             data-analytics-name='Pagination next'
             aria-label={{t 'paginator.next'}}
+            local-class='SimplePaginator__next'
             @disabled={{not this.hasNext}}
             @onClick={{action this._next}}
-        >
-            &gt;
-        </OsfButton>
+        />
     </span>
 {{/if}}
