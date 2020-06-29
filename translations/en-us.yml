@@ -1243,7 +1243,7 @@ registries:
         back: Back
         datePlaceholder: 'Choose embargo end date'
     sharingIcons:
-        lable: 'Share this registration'
+        label: 'Share this registration via {mediaType}'
 meetings:
     index:
         meetings-list:
