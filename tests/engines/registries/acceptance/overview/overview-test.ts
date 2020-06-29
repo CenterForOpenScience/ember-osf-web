@@ -68,7 +68,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         const registration = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
             embargoed: true,
-            provider: server.create('registration-provider', { id: 'osf' }),
+            provider: server.create('registration-provider'),
         });
 
         this.set('registration', registration);

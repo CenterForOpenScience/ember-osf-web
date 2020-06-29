@@ -59,7 +59,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
     test('topbar is not visible for archiving or withdrawn registrations', async assert => {
         const reg = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-            provider: server.create('registration-provider', { id: 'osf' }),
+            provider: server.create('registration-provider'),
         });
         await visit(`/${reg.id}/`);
 
@@ -88,7 +88,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
     test('bookmarks work', async assert => {
         const reg = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-            provider: server.create('registration-provider', { id: 'osf' }),
+            provider: server.create('registration-provider'),
         });
 
         const bookmarksColl = server.create(

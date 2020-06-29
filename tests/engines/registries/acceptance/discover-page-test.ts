@@ -20,25 +20,7 @@ module('Registries | Acceptance | aggregate discover', hooks => {
         server.createList('registration', 3, { provider: anotherProvider });
     });
 
-    // available assertions:
-    // - for each result, link element with correct href and text
-    // - search box exists and is usable
-    // - filters exist and are usable
-    // - paginator exists and is usable
-    //
-    // context:
-    // - multiple providers
-    // - multiple registrations for each provider
-
-    // happy path:
-    // - arrive at the page (no query params)
-    // - take percy snapshot
-    // - assert search results exist
-    // - important controls exist
-    // - enter query -- search happens
-    // - click filters -- search happens
-    // - assert paginator exists
-    test('happy path', async assert => {
+    test('page renders with all functionality', async assert => {
         await visit('/registries/discover');
         await click('[data-test-sort-dropdown]');
         await percySnapshot('happy path');
@@ -84,14 +66,6 @@ module('Registries | Acceptance | aggregate discover', hooks => {
         assert.dom('[data-test-result-title-id]').exists({ count: 1 }, 'Second page has correct number of results');
     });
 
-    // path with different initial state:
-    // - arrive at page WITH query params
-    // - take percy snapshot
-    // - assert initial search reflects query params
-    // - assert filter checkbox is checked
-    // - uncheck filter
-    // - assert search reflects new query
-    // - assert filter checkbox is unchecked
     test('initial state from query params', async assert => {
         const anotherProvider = server.schema.registrationProviders.find('another');
         const searchableReg = anotherProvider.registrations.models[0];
