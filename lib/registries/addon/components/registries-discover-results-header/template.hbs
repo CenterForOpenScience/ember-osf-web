@@ -16,7 +16,6 @@
             </dd.trigger>
             <dd.content @class={{local-class 'DropdownContent'}}>
                 {{#each @sortOptions as |option index|}}
-                    {{!-- TODO: add list component functionality to responsive dropdown? Or just do this differently--}}
                     <div>
                         <button
                             data-test-sort-option-id='{{index}}'
