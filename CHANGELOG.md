@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [20.7.0] - 2020-07-01
+## Added
+- user metrics CSV export on the institutional dashboard
+
+## [20.6.1] - 2020-06-29
+## Fixed
+- broken UI due to `ember-responsive` ignoring our `app/breakpoints.ts`
+
 ## [20.6.0] - 2020-06-26
 ## Changed
 - Upgrade to Ember 3.16
@@ -1611,7 +1619,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/20.6.0...develop
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/20.7.0...develop
+[20.7.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.7.0
+[20.6.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.6.1
 [20.6.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.6.0
 [20.5.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.5.0
 [20.4.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.4.0
