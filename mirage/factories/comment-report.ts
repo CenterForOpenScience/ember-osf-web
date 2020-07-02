@@ -22,7 +22,10 @@ export default Factory.extend<CommentReport>({
             });
         }
     },
-    category: faker.list.cycle('spam', 'hate', 'violence'),
+    category(i) {
+        const categories = ['spam', 'hate', 'violence'];
+        return categories[i % categories.length];
+    },
     message: faker.lorem.sentences(2),
 
     comment: association() as CommentReport['comment'],
