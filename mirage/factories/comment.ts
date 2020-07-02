@@ -1,4 +1,5 @@
-import { association, Factory, trait, Trait } from 'ember-cli-mirage';
+// @ts-ignore
+import { association, belongsTo, Factory, trait, Trait } from 'ember-cli-mirage';
 import faker from 'faker';
 
 import Comment from 'ember-osf-web/models/comment';
@@ -11,7 +12,7 @@ export interface CommentTraits {
 
 export default Factory.extend<Comment & CommentTraits>({
     id: guid('comment'),
-    node: association() as Comment['node'],
+    node: belongsTo({ polymorphic: true }),
     user: association() as Comment['user'],
 
     afterCreate(comment) {

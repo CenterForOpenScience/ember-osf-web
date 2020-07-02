@@ -473,12 +473,9 @@ module('Registries | Acceptance | draft form', hooks => {
     });
 
     test('validations: validations status updates properly on metadata page', async assert => {
-        server.loadFixtures('subjects');
-
-        server.createList('subject', 10, 'withChildren');
         const provider = server.schema.registrationProviders.find('osf');
         provider.update({
-            subjects: server.schema.subjects.all().models,
+            subjects: server.createList('subject', 10, 'withChildren'),
         });
 
         const initiator = server.create('user', 'loggedIn');
