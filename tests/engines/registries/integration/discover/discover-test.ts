@@ -1,5 +1,5 @@
 import { click, fillIn, getRootElement, triggerEvent } from '@ember/test-helpers';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { TestContext } from 'ember-test-helpers';
 import { OrderedSet, ValueObject } from 'immutable';
 import { module, test } from 'qunit';
