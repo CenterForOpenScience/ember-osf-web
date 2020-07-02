@@ -1,6 +1,6 @@
 import { click, render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import NodeModel from 'ember-osf-web/models/node';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';

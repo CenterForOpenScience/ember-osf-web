@@ -1,5 +1,5 @@
 import { Request } from 'ember-cli-mirage';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import config from 'ember-get-config';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';

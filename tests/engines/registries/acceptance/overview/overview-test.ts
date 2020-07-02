@@ -1,7 +1,7 @@
 import { capitalize } from '@ember/string';
 import { click as untrackedClick, fillIn } from '@ember/test-helpers';
 import { ModelInstance } from 'ember-cli-mirage';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import config from 'ember-get-config';
 import { t } from 'ember-intl/test-support';
 import { selectChoose, selectSearch } from 'ember-power-select/test-support';

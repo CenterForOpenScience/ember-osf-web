@@ -1,6 +1,6 @@
 import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { HierarchicalListManager } from 'osf-components/components/registries/hierarchical-list';
 import { module, test } from 'qunit';
