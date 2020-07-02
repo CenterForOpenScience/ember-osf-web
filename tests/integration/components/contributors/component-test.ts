@@ -1,4 +1,4 @@
-import { render, click } from '@ember/test-helpers';
+import { click, render } from '@ember/test-helpers';
 import a11yAudit from 'ember-a11y-testing/test-support/audit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupIntl, t } from 'ember-intl/test-support';
