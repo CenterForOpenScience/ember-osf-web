@@ -7,7 +7,9 @@
         @widgetMode
     ) as |Card|}}
         {{#each @contributorsManager.contributors as |contributor|}}
-            <Card @contributor={{contributor}} />
+            <li>
+                <Card @contributor={{contributor}} />
+            </li>
         {{/each}}
         {{#if (and (not @contributorsManager.isLoading) @contributorsManager.hasMore)}}
             <div local-class='InfinityLoader'

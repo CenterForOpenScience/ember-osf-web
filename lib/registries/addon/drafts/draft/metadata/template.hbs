@@ -12,107 +12,70 @@
         </p>
         <hr>
         <form local-class='Metadata'>
-            <FormControls
-                @changeset={{this.draftManager.metadataChangeset}}
-                ...attributes
-                as |form|
-            >
+            <FormControls @changeset={{this.draftManager.metadataChangeset}} ...attributes as |form|>
                 {{#let (unique-id 'title') as |titleFieldId|}}
-                    <label
-                        local-class='Label'
-                        for={{titleFieldId}}
-                        id='title'
-                    >
+                    <label local-class='Label' for={{titleFieldId}} id='title'>
                         <p local-class='DisplayText'>
                             {{t 'registries.registration_metadata.title'}}
                             <span local-class='Required'>*</span>
                         </p>
                     </label>
-                    <form.text
-                        data-test-metadata-title
-                        local-class='SchemaBlockInput'
-                        @valuePath='title'
-                        @onKeyUp={{perform this.draftManager.onMetadataInput}}
-                        @placeholder=' '
-                        @uniqueID={{titleFieldId}}
-                    />
+                    <form.text data-test-metadata-title local-class='SchemaBlockInput' @valuePath='title'
+                        @onKeyUp={{perform this.draftManager.onMetadataInput}} @placeholder=' '
+                        @uniqueID={{titleFieldId}} />
                 {{/let}}
                 {{#let (unique-id 'description') as |descriptionFieldId|}}
-                    <label
-                        local-class='Label'
-                        for={{descriptionFieldId}}
-                        id='description'
-                    >
+                    <label local-class='Label' for={{descriptionFieldId}} id='description'>
                         <p local-class='DisplayText'>
                             {{t 'registries.registration_metadata.description'}}
                             <span local-class='Required'>*</span>
                         </p>
                     </label>
-                    <form.textarea
-                        data-test-metadata-description
-                        local-class='SchemaBlockLongText'
-                        @valuePath='description'
-                        @onKeyUp={{perform this.draftManager.onMetadataInput}}
-                        @placeholder=' '
-                        @uniqueID={{descriptionFieldId}}
-                    />
+                    <form.textarea data-test-metadata-description local-class='SchemaBlockLongText'
+                        @valuePath='description' @onKeyUp={{perform this.draftManager.onMetadataInput}} @placeholder=' '
+                        @uniqueID={{descriptionFieldId}} />
                 {{/let}}
                 {{#let (unique-id) 'contributors' as |contributorFieldId|}}
-                    <label
-                        local-class='label'
-                        for={{contributorFieldId}}
-                        id='contributors'
-                    >
+                    <label local-class='label' for={{contributorFieldId}} id='contributors'>
                         {{t 'registries.registration_metadata.contributors'}}
                     </label>
-                    <Contributors::Widget 
-                        @node={{this.draftManager.draftRegistration}}
+                    <p>
+                        <OsfLink
+                            data-test-to-contributors-page
+                            @href={{concat this.osfUrl this.draftManager.node.id '/contributors/'}}>
+                            {{t 'osf-components.registries.read-only-contributors-list.editContributorsOnYourProject'}}
+                        </OsfLink>
+                    </p>
+                    <Contributors::Widget
+                        @node={{this.draftManager.node}}
                         @widgetMode={{'readonly'}}
                         id={{contributorFieldId}}
                     />
                 {{/let}}
-                <form.select
-                    data-test-metadata-category
-                    local-class='SchemaBlockDropdown'
-                    id='category'
-                    @label={{t 'registries.registration_metadata.category'}}
-                    @valuePath='category'
-                    @options={{this.categoryOptions}}
-                    @onchange={{perform this.draftManager.onMetadataInput}}
-                    as |option|
-                >
+                <form.select data-test-metadata-category local-class='SchemaBlockDropdown' id='category'
+                    @label={{t 'registries.registration_metadata.category'}} @valuePath='category'
+                    @options={{this.categoryOptions}} @onchange={{perform this.draftManager.onMetadataInput}} as
+                    |option|>
                     <NodeCategory @category={{option}} />
                 </form.select>
                 <fieldset id='affiliated_institutions'>
                     <legend>
                         {{t 'registries.registration_metadata.affiliated_institutions'}}
                     </legend>
-                    <Drafts::Draft::-Components::MetadataInstitutionsManager 
-                        @node={{this.draftManager.draftRegistration}}
-                        as |institutionsManager|
-                    >
-                        <InstitutionSelectList
-                            @manager={{institutionsManager}}
-                        />
+                    <Drafts::Draft::-Components::MetadataInstitutionsManager
+                        @node={{this.draftManager.draftRegistration}} as |institutionsManager|>
+                        <InstitutionSelectList @manager={{institutionsManager}} />
                     </Drafts::Draft::-Components::MetadataInstitutionsManager>
                 </fieldset>
-                <Drafts::Draft::-Components::Managers::LicensePickerManager
-                    @draftManager={{this.draftManager}}
-                    as |licenseManager|
-                >
-                    <label
-                        for='license-select'
-                        id='license'
-                    >
+                <Drafts::Draft::-Components::Managers::LicensePickerManager @draftManager={{this.draftManager}} as
+                    |licenseManager|>
+                    <label for='license-select' id='license'>
                         <p local-class='DisplayText'>
                             {{t 'registries.registration_metadata.license'}}
                             <span local-class='Required'>*</span>
                         </p>
                     </label>
-                    <RegistriesLicensePicker
-                        local-class='SchemaBlockDropdown'
-                        @manager={{licenseManager}}
-                    />
+                    <RegistriesLicensePicker local-class='SchemaBlockDropdown' @manager={{licenseManager}} />
                 </Drafts::Draft::-Components::Managers::LicensePickerManager>
                 <fieldset id='subjects'>
                     <legend>
@@ -121,43 +84,23 @@
                             <span local-class='Required'>*</span>
                         </p>
                     </legend>
-                    <Subjects::Manager
-                        @model={{this.draftManager.draftRegistration}}
-                        @provider={{this.draftManager.draftRegistration.provider}}
-                        @doesAutosave={{true}}
-                        @metadataChangeset={{this.draftManager.metadataChangeset}}
-                        as |subjectsManager|
-                    >
-                        <Subjects::Widget
-                            local-class='SubjectsField'
-                            @subjectsManager={{subjectsManager}}
-                        />
-                        <ValidationErrors
-                            @changeset={{this.draftManager.metadataChangeset}}
-                            @key='subjects'
-                            @isValidating={{subjectsManager.isSaving}}
-                        />
+                    <Subjects::Manager @model={{this.draftManager.draftRegistration}}
+                        @provider={{this.draftManager.draftRegistration.provider}} @doesAutosave={{true}}
+                        @metadataChangeset={{this.draftManager.metadataChangeset}} as |subjectsManager|>
+                        <Subjects::Widget local-class='SubjectsField' @subjectsManager={{subjectsManager}} />
+                        <ValidationErrors @changeset={{this.draftManager.metadataChangeset}} @key='subjects'
+                            @isValidating={{subjectsManager.isSaving}} />
                     </Subjects::Manager>
                 </fieldset>
                 {{#let (unique-id 'tags') as |tagsFieldId|}}
-                    <label
-                        for={{tagsFieldId}}
-                        id='tags'
-                    >
+                    <label for={{tagsFieldId}} id='tags'>
                         {{t 'registries.registration_metadata.tags'}}
                     </label>
-                    <Drafts::Draft::-Components::TagsManager
-                        @changeset={{this.draftManager.metadataChangeset}}
-                        @onMetadataInput={{perform this.draftManager.onMetadataInput}}
-                        @valuePath='tags'
-                        as |tagsManager|
-                    >
+                    <Drafts::Draft::-Components::TagsManager @changeset={{this.draftManager.metadataChangeset}}
+                        @onMetadataInput={{perform this.draftManager.onMetadataInput}} @valuePath='tags' as
+                        |tagsManager|>
                         <div local-class='TagsContainer'>
-                            <RegistriesTagsWidget
-                                data-test-metadata-tags
-                                id={{tagsFieldId}}
-                                @manager={{tagsManager}}
-                            />
+                            <RegistriesTagsWidget data-test-metadata-tags id={{tagsFieldId}} @manager={{tagsManager}} />
                         </div>
                     </Drafts::Draft::-Components::TagsManager>
                 {{/let}}

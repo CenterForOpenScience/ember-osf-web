@@ -1,15 +1,7 @@
 .CardContainer {
     margin: 0;
     height: 60px;
-
-    &:not(:first-of-type) {
-        margin-top: 10px;
-    }
-
-    &:not(:last-of-type) {
-        border-bottom: 1px solid $color-border-gray;
-        margin-bottom: 10px;
-    }
+    border-bottom: 1px solid $color-border-gray;
 }
 
 .MainSection {

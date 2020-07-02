@@ -28,7 +28,9 @@
                 @onchange={{fn @manager.updateContributorPermission @contributor}}
                 as |option|
             >
-                {{t (concat 'osf-components.contributors.permissions.' option)}}
+                <span data-test-contributor-permission-choice={{option}}>
+                    {{t (concat 'osf-components.contributors.permissions.' option)}}
+                </span>
             </PowerSelect>
         </span>
         <span data-test-contributor-citation={{@contributor.id}} local-class='CardSection'>
@@ -36,6 +38,7 @@
                 @type='checkbox'
                 @checked={{readonly @contributor.bibliographic}}
                 {{on 'click' (fn @manager.toggleContributorIsBibliographic @contributor)}}
+                data-test-contributor-citation-checkbox
             />
         </span>
     </div>

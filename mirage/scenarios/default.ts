@@ -59,7 +59,7 @@ function registrationScenario(
         'page-one_single-select-two': 'Remember who was in NSync and who was in Backstreet Boys',
     };
 
-    const rootNode = server.create('node');
+    const rootNode = server.create('node', { contributors: server.createList('contributor', 21) });
     const childNodeA = server.create('node', { parent: rootNode });
     server.create('node', { parent: childNodeA });
     server.create('node', { parent: childNodeA });
@@ -72,7 +72,6 @@ function registrationScenario(
         registrationResponses,
         branchedFrom: rootNode,
         license: licenseReqFields,
-        contributors: server.createList('contributor', 21),
     }, 'withSubjects', 'withAffiliatedInstitutions');
 
     server.create('draft-registration', {

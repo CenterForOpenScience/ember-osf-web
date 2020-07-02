@@ -1,4 +1,4 @@
-import { render } from '@ember/test-helpers';
+import { render, click } from '@ember/test-helpers';
 import a11yAudit from 'ember-a11y-testing/test-support/audit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupIntl, t } from 'ember-intl/test-support';
@@ -7,6 +7,9 @@ import { TestContext } from 'ember-test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 
+import { Permission } from 'ember-osf-web/models/osf-model';
+import { selectChoose } from 'ember-power-select/test-support';
+import { clickTrigger } from 'ember-power-select/test-support/helpers';
 import { OsfLinkRouterStub } from '../../helpers/osf-link-router-stub';
 
 module('Integration | Component | contributors', hooks => {
@@ -48,7 +51,6 @@ module('Integration | Component | contributors', hooks => {
         this.set('node', registrationModel);
 
         const { contributors } = registrationModel;
-
         await render(hbs`<Contributors::Widget @node={{this.node}} />`);
         contributors.forEach(contributor => {
             const userPermission = t(`osf-components.contributors.permissions.${contributor.permission}`);
@@ -66,5 +68,33 @@ module('Integration | Component | contributors', hooks => {
         });
         await a11yAudit(this.element);
         assert.ok(true, 'No a11y errors on page');
+    });
+
+    test('editable user card renders', async function(assert) {
+        const draftRegistration = server.create('draft-registration');
+        const contributor = server.create('contributor', {
+            draftRegistration,
+            permission: Permission.Admin,
+            bibliographic: false,
+        });
+        const registrationModel = await this.store.findRecord('draft-registration', draftRegistration.id);
+        this.set('node', registrationModel);
+
+        await render(hbs`<Contributors::Widget @node={{this.node}} @widgetMode={{'editable'}} />`);
+
+        assert.dom('[data-test-contributor-card]').exists();
+        assert.dom('[data-test-contributor-card-main]').exists();
+        assert.dom('[data-test-contributor-gravatar]').exists();
+        assert.dom(`[data-test-contributor-link="${contributor.id}"]`)
+            .hasText(contributor.users.fullName);
+        assert.dom(`[data-test-contributor-permission="${contributor.id}"]`)
+            .hasText('Administrator');
+        assert.dom('[data-test-contributor-citation-checkbox]').isNotChecked();
+        await clickTrigger();
+        await selectChoose('[data-test-contributor-permission]', 'Read');
+        await click('[data-test-contributor-citation-checkbox]');
+        assert.dom(`[data-test-contributor-permission="${contributor.id}"]`)
+            .hasText('Read');
+        assert.dom('[data-test-contributor-citation-checkbox]').isChecked();
     });
 });

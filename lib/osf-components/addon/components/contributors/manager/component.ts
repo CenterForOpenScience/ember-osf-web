@@ -44,10 +44,10 @@ export default class ContributorsManager extends Component {
         contributor.toggleProperty('bibliographic');
         try {
             yield contributor.save();
-            this.toast.success(this.intl.t('osf-component.contributors.editIsBibliographic.success'));
+            this.toast.success(this.intl.t('osf-components.contributors.editIsBibliographic.success'));
         } catch (e) {
             contributor.rollbackAttributes();
-            const errorMessage = this.intl.t('osf-component.contributors.editIsBibliographic.error');
+            const errorMessage = this.intl.t('osf-components.contributors.editIsBibliographic.error');
             this.toast.error(errorMessage);
             captureException(e, { errorMessage });
         }
@@ -60,10 +60,10 @@ export default class ContributorsManager extends Component {
             contributor.permission = permission;
             try {
                 yield contributor.save();
-                this.toast.success(this.intl.t('osf-component.contributors.editPermission.success'));
+                this.toast.success(this.intl.t('osf-components.contributors.editPermission.success'));
             } catch (e) {
                 contributor.rollbackAttributes();
-                const errorMessage = this.intl.t('osf-component.contributors.editPermission.error');
+                const errorMessage = this.intl.t('osf-components.contributors.editPermission.error');
                 this.toast.error(errorMessage);
                 captureException(e, { errorMessage });
             }
