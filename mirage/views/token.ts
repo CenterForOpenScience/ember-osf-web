@@ -1,4 +1,5 @@
-import { faker, HandlerContext, Schema } from 'ember-cli-mirage';
+import { HandlerContext, Schema } from 'ember-cli-mirage';
+import faker from 'faker';
 
 export function createToken(this: HandlerContext, schema: Schema) {
     const attrs = this.normalizedRequestAttrs('token');

@@ -5,8 +5,6 @@ import DS from 'ember-data';
 import EmberDataModelRegistry from 'ember-data/types/registries/model';
 import { Document } from 'osf-api';
 
-export { default as faker } from 'faker';
-
 declare global {
     // eslint-disable-next-line no-redeclare
     const server: Server; // TODO: only in tests?

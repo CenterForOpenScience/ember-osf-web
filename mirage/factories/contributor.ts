@@ -1,4 +1,5 @@
-import { association, Collection, Factory, faker, trait, Trait } from 'ember-cli-mirage';
+import { association, Collection, Factory, trait, Trait } from 'ember-cli-mirage';
+import faker from 'faker';
 
 import Contributor from 'ember-osf-web/models/contributor';
 import { Permission } from 'ember-osf-web/models/osf-model';

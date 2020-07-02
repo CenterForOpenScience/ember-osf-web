@@ -1,10 +1,10 @@
 import { setApplication } from '@ember/test-helpers';
 import preloadAssets from 'ember-asset-loader/test-support/preload-assets';
-import { faker } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 import Application from 'ember-osf-web/app';
 import manifest from 'ember-osf-web/config/asset-manifest';
 import { start } from 'ember-qunit';
+import faker from 'faker';
 import 'qunit-dom';
 
 setApplication(Application.create(config.APP) as any);

@@ -1,12 +1,13 @@
 import { capitalize } from '@ember/string';
 import { click as untrackedClick, fillIn } from '@ember/test-helpers';
-import { faker, ModelInstance } from 'ember-cli-mirage';
+import { ModelInstance } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import config from 'ember-get-config';
 import { t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
 import { selectChoose, selectSearch } from 'ember-power-select/test-support';
 import { TestContext } from 'ember-test-helpers';
+import faker from 'faker';
 import moment from 'moment';
 import { module, test } from 'qunit';
 
