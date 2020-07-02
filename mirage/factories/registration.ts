@@ -188,7 +188,8 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     }),
     withArbitraryState: trait<MirageRegistration>({
         afterCreate(registration) {
-            const arbitraryState = faker.list.cycle(...Object.keys(stateAttrs))(registration.index);
+            const stateAttrsKeys = Object.keys(stateAttrs);
+            const arbitraryState = stateAttrsKeys[registration.index % stateAttrsKeys.length];
             const attrsToUse = stateAttrs[arbitraryState as keyof typeof stateAttrs];
             registration.update(attrsToUse);
         },

@@ -10,7 +10,10 @@ interface ContributorTraits {
 }
 
 export default Factory.extend<Contributor & ContributorTraits>({
-    permission: faker.list.cycle(...Object.values(Permission)),
+    permission(i) {
+        const permissions = Object.values(Permission);
+        return permissions[i % permissions.length];
+    },
     bibliographic: true,
     unregisteredContributor() {
         return faker.random.number(5) ? undefined : faker.name.firstName();
