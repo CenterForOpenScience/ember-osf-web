@@ -1,4 +1,5 @@
-import { association, Factory, faker } from 'ember-cli-mirage';
+import { association, Factory } from 'ember-cli-mirage';
+import faker from 'faker';
 
 import CommentReport from 'ember-osf-web/models/comment-report';
 

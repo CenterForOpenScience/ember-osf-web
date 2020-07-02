@@ -1,4 +1,5 @@
-import { Factory, faker, ID, Trait, trait } from 'ember-cli-mirage';
+import { Factory, ID, Trait, trait } from 'ember-cli-mirage';
+import faker from 'faker';
 
 import SubjectModel from 'ember-osf-web/models/subject';
 

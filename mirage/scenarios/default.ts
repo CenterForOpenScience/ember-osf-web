@@ -1,5 +1,6 @@
-import { faker, ModelInstance, Server } from 'ember-cli-mirage';
+import { ModelInstance, Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
+import faker from 'faker';
 
 import FileProvider from 'ember-osf-web/models/file-provider';
 import { Permission } from 'ember-osf-web/models/osf-model';

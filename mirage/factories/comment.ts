@@ -1,4 +1,5 @@
-import { association, Factory, faker, trait, Trait } from 'ember-cli-mirage';
+import { association, Factory, trait, Trait } from 'ember-cli-mirage';
+import faker from 'faker';
 
 import Comment from 'ember-osf-web/models/comment';
 import { guid } from './utils';

@@ -1,4 +1,4 @@
-import { faker } from 'ember-cli-mirage';
+import faker from 'faker';
 
 export function placekitten(width: number, height: number, n: number = 12) {
     return `https://placekitten.com/${width}/${height}?image=${n}`;

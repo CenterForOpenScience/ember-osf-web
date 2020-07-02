@@ -1,4 +1,5 @@
-import { association, Factory, faker, trait, Trait } from 'ember-cli-mirage';
+import { association, Factory, trait, Trait } from 'ember-cli-mirage';
+import faker from 'faker';
 
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 
