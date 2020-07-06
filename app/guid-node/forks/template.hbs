@@ -16,7 +16,7 @@
                 data-analytics-name='close_modal'
                 aria-label={{t 'general.close'}}
                 @class='close'
-                @onClick={{action (mut this.newModal false)}}
+                @onClick={{action (mut this.newModal) false}}
             >
                 {{fa-icon 'times' size='sm'}}
             </OsfButton>

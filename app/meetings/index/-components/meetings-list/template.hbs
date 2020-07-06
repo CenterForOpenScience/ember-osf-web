@@ -26,19 +26,19 @@
                 sortAction=(action this.sortMeetings)
                 sort=this.sort
             ) as |SortButton|}}
-                <div data-test-meetings-list-header-name style='width: 45%'>
+                <div data-test-meetings-list-header-name local-class='HeaderWide' >
                     {{t 'meetings.index.meetings-list.name'}}
                     <SortButton @sortBy='name' />
                 </div>
-                <div data-test-meetings-list-header-submissions style='width: 15%'>
+                <div data-test-meetings-list-header-submissions local-class='HeaderNarrow' >
                     {{t 'meetings.index.meetings-list.submissions'}}
                     <SortButton @sortBy='submissions_count' />
                 </div>
-                <div data-test-meetings-list-header-location style='width: 20%'>
+                <div data-test-meetings-list-header-location local-class='HeaderMedium' >
                     {{t 'meetings.index.meetings-list.location'}}
                     <SortButton @sortBy='location' />
                 </div>
-                <div data-test-meetings-list-header-date style='width: 20%'>
+                <div data-test-meetings-list-header-date local-class='HeaderMedium' >
                     {{t 'meetings.index.meetings-list.date'}}
                     <SortButton @sortBy='start_date' />
                 </div>

@@ -17,7 +17,7 @@
     "lint:es": "eslint --ext js,ts --max-warnings=0 .",
     "lint:ts": "tslint -p .",
     "lint:style": "stylelint 'app/**/*.scss' 'lib/**/*.scss'",
-    "lint:template": "ember-template-lint app/**/*.hbs lib/**/*.hbs",
+    "lint:template": "ember-template-lint 'app/**/*.hbs' 'lib/**/*.hbs'",
     "test": "EMBER_ENV=test ember test",
     "test:cover": "EMBER_ENV=test COVERAGE=true ember test",
     "test:config": "mocha node-tests/config-test.js",
