@@ -1473,6 +1473,13 @@ osf-components:
         citation:
             true: 'Yes'
             false: 'No'
+        loadMore: 'Load more'
+        editPermission:
+            success: 'Contributor permission updated.'
+            error: 'Error updating contributor permission.'
+        editIsBibliographic:
+            success: 'Contributor bibliographic status updated.'
+            error: 'Error updating contributor bibliographic status.'
 settings:
     toggleNav: 'Toggle navigation'
     profile:

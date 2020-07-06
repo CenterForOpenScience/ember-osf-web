@@ -6,6 +6,7 @@ import DS from 'ember-data';
 import { layout } from 'ember-osf-web/decorators/component';
 import Collection from 'ember-osf-web/models/collection';
 import CollectionProvider from 'ember-osf-web/models/collection-provider';
+import Analytics from 'ember-osf-web/services/analytics';
 
 import Base from '../base/component';
 import styles from './styles';
@@ -17,6 +18,7 @@ interface Item {
 
 @layout(template, styles)
 export default abstract class SearchFacetChecklist extends Base {
+    @service analytics!: Analytics;
     @service store!: DS.Store;
 
     allItems: Item[] = [];
@@ -72,7 +74,7 @@ export default abstract class SearchFacetChecklist extends Base {
     didInsertElement(this: SearchFacetChecklist) {
         super.didInsertElement();
 
-        const { context, filterChanged, filterProperty } = this;
+        const { analytics, context, filterChanged, filterProperty } = this;
 
         setProperties(context, {
             updateFilters(item?: string) {
@@ -81,6 +83,8 @@ export default abstract class SearchFacetChecklist extends Base {
                 if (item) {
                     const method = activeFilter.includes(item) ? 'removeObject' : 'pushObject';
                     activeFilter[method](item);
+                    const filterAction = method === 'removeObject' ? 'remove' : 'add';
+                    analytics.track('filter', filterAction, `Collections Discover - Filter ${context.title} ${item}`);
                 }
 
                 setProperties(context, {

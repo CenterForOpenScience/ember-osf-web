@@ -1,0 +1,25 @@
+.CardContainer {
+    margin: 0;
+    height: 60px;
+    border-bottom: 1px solid $color-border-gray;
+}
+
+.MainSection {
+    display: flex;
+    height: inherit;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.CardSection {
+    flex: 1 0 auto;
+    max-width: 30%;
+
+    &:first-of-type {
+        flex: 2 0 auto;
+        max-width: 40%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
