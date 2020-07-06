@@ -18,5 +18,8 @@
     &:first-of-type {
         flex: 2 0 auto;
         max-width: 40%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 }
