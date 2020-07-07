@@ -1,4 +1,5 @@
 /* eslint-disable max-classes-per-file */
+import { computed } from '@ember/object';
 import unescapeXMLEntities from 'ember-osf-web/utils/fix-special-char';
 import { Map } from 'immutable';
 import config from 'registries/config/environment';
@@ -94,8 +95,6 @@ export interface ShareRegistration {
     datePublished?: Date;
     dateUpdated?: Date;
     mainLink: string;
-    hyperLinks: string[];
-    infoLinks: Array<{ type: string; uri: string; }>;
     registrationType: string;
     sources: string[];
     subjectSynonyms: string[];
@@ -105,8 +104,17 @@ export interface ShareRegistration {
     withdrawn: boolean;
 }
 
+export interface SourceDescriptor {
+    name: string;
+    https: boolean;
+    urlRegex: string;
+    display?: string;
+}
+
 export default class ShareSearch extends Search {
     static registrationsFilter = new ShareTermsFilter('types', 'registration', 'Registration');
+
+    osfProviders: SourceDescriptor[] = [];
 
     url(): string {
         return `${config.shareSearchBaseURL}/creativeworks/_search`;
@@ -123,8 +131,13 @@ export default class ShareSearch extends Search {
     async registrations(options: SearchOptions): Promise<SearchResults<ShareRegistration>> {
         return this.search(
             options.addFilters(ShareSearch.registrationsFilter),
-            this._postProcessRegistrations,
+            this._postProcessRegistrations.bind(this),
         );
+    }
+
+    @computed('osfProviders.[]')
+    get allRegistries() {
+        return config.externalRegistries.concat(this.osfProviders);
     }
 
     // The output of this method must be a valid ES query
@@ -186,7 +199,7 @@ export default class ShareSearch extends Search {
                     hyperLinks.push(identifier);
 
                     // Test to see if this link is the "main" link
-                    for (const source of config.sourcesWhitelist) {
+                    for (const source of this.allRegistries) {
                         if (!new RegExp(source.urlRegex).test(identifier)) {
                             continue;
                         }
@@ -201,12 +214,10 @@ export default class ShareSearch extends Search {
 
             return {
                 contributors,
-                hyperLinks,
-                infoLinks,
                 id: r._id,
                 sources: r._source.sources.map(
                     (source: string) => {
-                        const entry = config.sourcesWhitelist.find(x => x.name === source);
+                        const entry = this.allRegistries.find(x => x.name === source);
                         return (entry && entry.display) ? entry.display : source;
                     },
                 ),

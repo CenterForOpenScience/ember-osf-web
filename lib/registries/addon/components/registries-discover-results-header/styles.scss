@@ -1,0 +1,28 @@
+.ResultsHeader {
+    composes: ResultsHeader from '../../discover/styles';
+}
+
+.SortDropDown__List {
+    composes: SortDropDown__List from '../../discover/styles';
+}
+
+.SortDropDown__Option {
+    composes: SortDropDown__Option from '../../discover/styles';
+}
+
+.DropdownTrigger {
+    composes: Button from 'osf-components/components/button/styles';
+    composes: MediumButton from 'osf-components/components/button/styles';
+    composes: SecondaryButton from 'osf-components/components/button/styles';
+
+    // Recreate the browser focus state for buttons
+    &:focus {
+        outline: auto 2px Highlight;
+        outline: auto 5px -webkit-focus-ring-color;
+    }
+}
+
+.DropdownContent {
+    border: 1px solid $color-border-gray;
+    box-shadow: 0 1px 2px $primary-box-shadow;
+}

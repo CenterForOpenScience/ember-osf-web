@@ -18,7 +18,7 @@ export default class RegistrationFormViewSchemaBlocks extends Component {
     schemaBlocks?: SchemaBlock[];
     schemaBlockGroups?: SchemaBlockGroup[];
 
-    @task({ on: 'didReceiveAttrs', restartable: true })
+    @task({ withTestWaiter: true, on: 'didReceiveAttrs', restartable: true })
     fetchSchemaBlocks = task(function *(this: RegistrationFormViewSchemaBlocks) {
         if (this.registration) {
             const registrationSchema = yield this.registration.registrationSchema;

@@ -1,3 +1,4 @@
+import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setupEngineTest } from 'ember-osf-web/tests/helpers/engines';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
@@ -63,6 +64,7 @@ function getSearchResponse(identifiers?: string[]) {
 
 module('Registries | Unit | Service | share-search', hooks => {
     setupEngineTest(hooks, 'registries');
+    setupMirage(hooks);
 
     // Replace this with your real tests.
     test('it exists', function(assert) {
@@ -85,6 +87,28 @@ module('Registries | Unit | Service | share-search', hooks => {
 
     test('recognizes all OSF source envs', function(this: TestContext, assert) {
         const service = this.owner.lookup('service:share-search') as ShareSearch;
+        service.set('osfProviders', [{
+            name: 'OSF',
+            urlRegex: 'https://osf.io/',
+            https: true,
+        }, {
+            name: 'testOSF',
+            urlRegex: 'https://test.osf.io/',
+            https: true,
+        }, {
+            name: 'stagingOSF',
+            urlRegex: 'https://staging.osf.io/',
+            https: true,
+        }, {
+            name: 'staging2OSF',
+            urlRegex: 'https://staging2.osf.io/',
+            https: true,
+        }, {
+            name: 'staging3OSF',
+            urlRegex: 'https://staging3.osf.io/',
+            https: true,
+        }]);
+
         [ // Source envs
             'https://osf.io/w4yhb/',
             'https://test.osf.io/w4yhb/',

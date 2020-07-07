@@ -23,7 +23,7 @@ export default class PaginatedHasMany extends BaseDataComponent {
     usePlaceholders: boolean = defaultTo(this.usePlaceholders, true);
 
     // Private properties
-    @task
+    @task({ withTestWaiter: true })
     loadItemsTask = task(function *(this: PaginatedHasMany, { reloading }: LoadItemsOptions) {
         const model = yield this.get('getModelTask').perform();
         if (this.usePlaceholders) {
@@ -49,7 +49,7 @@ export default class PaginatedHasMany extends BaseDataComponent {
         });
     });
 
-    @task
+    @task({ withTestWaiter: true })
     getModelTask = task(function *(this: PaginatedHasMany) {
         let model = this.modelInstance;
         if (!model && this.modelTaskInstance) {
@@ -61,7 +61,7 @@ export default class PaginatedHasMany extends BaseDataComponent {
         return model;
     });
 
-    @task({ restartable: true })
+    @task({ withTestWaiter: true, restartable: true })
     loadRelatedCountTask = task(function *(this: PaginatedHasMany, reloading: boolean) {
         const model = yield this.get('getModelTask').perform();
         if (reloading || typeof this.totalCount === 'undefined') {

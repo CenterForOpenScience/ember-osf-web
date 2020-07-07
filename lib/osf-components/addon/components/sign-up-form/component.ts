@@ -30,7 +30,7 @@ export default class SignUpForm extends Component {
     @service analytics!: Analytics;
     @service store!: DS.Store;
 
-    @task({ drop: true })
+    @task({ withTestWaiter: true, drop: true })
     submitTask = task(function *(this: SignUpForm) {
         const { validations } = yield this.userRegistration.validate();
         this.set('didValidate', true);
@@ -59,7 +59,7 @@ export default class SignUpForm extends Component {
         this.set('hasSubmitted', true);
     });
 
-    @task({ restartable: true })
+    @task({ withTestWaiter: true, restartable: true })
     strength = task(function *(this: SignUpForm, value: string) {
         if (!value) {
             return 0;

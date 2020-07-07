@@ -9,7 +9,7 @@ export default class MeetingsDetail extends Route {
     @service analytics!: Analytics;
     @service router!: any;
 
-    @task
+    @task({ withTestWaiter: true })
     loadMeetingDetail = task(function *(this: MeetingsDetail, meetingId: string) {
         try {
             const meeting = yield this.store.findRecord('meeting', meetingId);

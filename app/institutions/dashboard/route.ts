@@ -20,7 +20,7 @@ export default class InstitutionsDashboardRoute extends Route {
     @service analytics!: Analytics;
     @service router!: RouterService;
 
-    @task
+    @task({ withTestWaiter: true })
     modelTask = task(function *(this: InstitutionsDashboardRoute, institutionId: string) {
         try {
             const institution = yield this.get('store').findRecord('institution', institutionId, {

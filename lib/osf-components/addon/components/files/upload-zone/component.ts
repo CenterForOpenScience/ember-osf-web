@@ -75,7 +75,7 @@ export default class UploadZone extends Component {
         return folder ? folder.links.upload : undefined;
     }
 
-    @task
+    @task({ withTestWaiter: true })
     success = task(function *(this: UploadZone, _: unknown, __: unknown, file: File, response: UploadResponse) {
         this.analytics.trackFromElement(this.element, {
             name: 'Upload file',
@@ -88,7 +88,7 @@ export default class UploadZone extends Component {
         this.uploading.removeObject(file);
     });
 
-    @task
+    @task({ withTestWaiter: true })
     preUpload = task(function *(this: UploadZone, _: unknown, __: unknown, file: File) {
         let existingFile = this.filesManager.displayedItems.findBy('itemName', file.name);
         if (!existingFile) {

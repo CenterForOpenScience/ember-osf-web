@@ -3,6 +3,8 @@ import Service from '@ember/service';
 import { is, Map, OrderedSet, ValueObject } from 'immutable';
 import $ from 'jquery';
 
+import captureException from 'ember-osf-web/utils/capture-exception';
+
 // Used later on for slightly stricter typing of immutable Maps
 // Records don't conform to the same interface as Map, so it may not be used as
 // a key in other Maps
@@ -168,13 +170,19 @@ export default abstract class AbstractSearchService extends Service {
     }
 
     async search<T>(options: SearchOptions, postProcess: (x: any) => T[]): Promise<SearchResults<T>> {
-        const response = await $.ajax({
-            type: 'POST',
-            crossDomain: true,
-            url: this.url(options),
-            contentType: 'application/json',
-            data: JSON.stringify(this.buildQuery(options)),
-        });
+        let response;
+        try {
+            response = await $.ajax({
+                type: 'POST',
+                crossDomain: true,
+                url: this.url(options),
+                contentType: 'application/json',
+                data: JSON.stringify(this.buildQuery(options)),
+            });
+        } catch (error) {
+            captureException(error, { errorMessage: 'Error search service' });
+            throw error;
+        }
 
         return {
             aggregations: this.extractAggregations(response),

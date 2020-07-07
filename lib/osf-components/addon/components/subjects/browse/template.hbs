@@ -2,7 +2,6 @@
     <Subjects::Browse::ItemList
         @items={{browseManager.rootSubjects}}
         @expectedNumItems={{10}} {{! current number of root subjects in bepress taxonomy }}
-        @subjectsManager={{@subjectsManager}}
         @ItemManager={{component 'subjects/manager/single' subjectsManager=@subjectsManager}}
     />
 </Subjects::Browse::BrowseManager>

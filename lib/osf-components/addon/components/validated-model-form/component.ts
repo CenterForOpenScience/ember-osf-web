@@ -48,7 +48,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     @alias('changeset.isDirty')
     isDirty!: boolean;
 
-    @task
+    @task({ withTestWaiter: true })
     saveModelTask = task(function *(this: ValidatedModelForm<M>) {
         yield this.changeset.validate();
 

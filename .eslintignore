@@ -7,3 +7,4 @@
 /vendor/**
 /blueprints/*/files/**
 /blueprints/*/engine-files/**
+/config/local.js

@@ -1,0 +1,18 @@
+<div
+    data-analytics-scope='Registries'
+    local-class='RegistriesLayout'
+    class='RegistriesStyle'
+    ...attributes
+>
+    <RegistriesNavbar class='RegistriesStyle' @campaign='osf-registries' />
+    <MaintenanceBanner />
+    <StatusBanner />
+    <TosConsentBanner />
+    <Banners::ViewOnlyLink />
+    <main
+        local-class='RegistriesLayout'
+        aria-label={{t 'registries.application.main_aria'}}
+    >
+        {{yield}}
+    </main>
+</div>

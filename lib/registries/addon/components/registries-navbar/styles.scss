@@ -33,6 +33,10 @@
     }
 }
 
+:global(.with-custom-branding) .Service.Dropdown {
+    display: none;
+}
+
 .DropdownMenu {
     background-color: $midnight-blue;
     border-radius: 2px;
@@ -60,7 +64,7 @@
     height: 35px;
     margin-right: 5px;
     background-size: 100%;
-    background-image: url('img/cos-logo-white.svg');
+    background-image: var(--navbar-logo-img-url);
     background-repeat: no-repeat;
 }
 

@@ -101,7 +101,7 @@ export default class SubjectManagerComponent extends Component {
         );
     }
 
-    @task({ on: 'init' })
+    @task({ withTestWaiter: true, on: 'init' })
     initializeSubjects = task(function *(this: SubjectManagerComponent) {
         const { model } = this;
         const savedSubjects: SubjectModel[] = model.isNew ? model.subjects : (yield model.loadAll('subjects'));
@@ -114,7 +114,7 @@ export default class SubjectManagerComponent extends Component {
         this.incrementProperty('savedSubjectsChanges');
     });
 
-    @task({ restartable: true })
+    @task({ withTestWaiter: true, restartable: true })
     saveChanges = task(function *(this: SubjectManagerComponent) {
         const { selectedSubjects } = this;
 

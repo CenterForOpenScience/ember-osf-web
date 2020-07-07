@@ -30,7 +30,7 @@ export default class SearchFacetProvider extends Base {
 
     allProviders!: ProviderHit[];
 
-    @task
+    @task({ withTestWaiter: true })
     initialize = task(function *(this: SearchFacetProvider): IterableIterator<any> {
         if (this.theme.isProvider) {
             const { name: key, id } = this.theme.provider!;

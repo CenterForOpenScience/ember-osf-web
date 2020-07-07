@@ -1,13 +1,3 @@
-.TitleBackground {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    background-image: url('img/bg-dark.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
 .HeaderContainer {
     display: flex;
     flex-direction: column;
@@ -45,7 +35,8 @@
     justify-content: space-between;
     background-color: rgba(38, 57, 71, 0.5);
     width: 100%;
-    padding: 8px 0;
+    height: 37px;
+    line-height: 37px;
 }
 
 @media(min-width: 992px) {

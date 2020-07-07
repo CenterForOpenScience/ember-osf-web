@@ -1,9 +1,9 @@
+.HeaderContainer {
+    padding: 30px 0;
+}
+
 .RegistriesHeader {
-    background: url('img/bg-dark.jpg') top center $color-bg-blue-darker;
-    border-bottom: 1px solid #ddd;
     color: #fff;
-    padding-bottom: 30px;
-    padding-top: 120px;
 
     a {
         color: #80c2f7;
@@ -20,7 +20,45 @@
 }
 
 .RegistriesHeader__Brand {
-    background: url('img/osf-registries-white.png') top center no-repeat;
+    background: var(--hero-logo-img-url) top center no-repeat;
     background-size: contain;
     height: 70px;
+}
+
+.SearchForm {
+    position: relative;
+    margin: 0 50px;
+
+    input {
+        font-size: 18px;
+        padding: 28px 50px;
+    }
+}
+
+.SearchForm__HiddenLabel {
+    position: absolute;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+}
+
+.SearchIcon {
+    position: absolute;
+    top: 16px;
+    left: 14px;
+    font-size: 24px;
+    color: var(--primary-color);
+}
+
+.HelpIcon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: var(--primary-color);
+
+    &:hover {
+        color: var(--secondary-color);
+    }
 }

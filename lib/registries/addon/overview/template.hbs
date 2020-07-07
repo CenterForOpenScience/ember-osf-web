@@ -1,137 +1,93 @@
-{{#if this.model.task.isRunning}}
-    <div local-class='ContentBackground Loading'>
-        <LoadingIndicator @dark={{true}} />
-    </div>
-{{else}}
-    {{title this.registration.title}}
-    {{#if (or this.registration.withdrawn this.registration.archiving)}}
-        <OsfLayout @backgroundClass='{{local-class 'ContentBackground'}}' as |layout|>
-            <layout.heading>
-                <Overview::-Components::OverviewHeader
-                    @registration={{this.registration}}
-                />
-            </layout.heading>
-            <layout.main>
-                {{#if this.registration.withdrawn}}
-                    <Overview::-Components::TombstonePage
-                        @registration={{this.registration}}
-                        @icon='ban'
-                        @titleText={{t 'registries.overview.withdrawn.has_been_withdrawn'}}
-                    >
-                        <dl>
-                            <dt>{{t 'registries.overview.withdrawn.date_withdrawn'}}</dt>
-                            <dd>{{moment-format this.registration.dateWithdrawn 'MMMM D, YYYY'}}</dd>
-
-                            <dt>{{t 'registries.overview.withdrawn.justification'}}</dt>
-                            <dd>
-                                {{#if this.registration.withdrawalJustification}}
-                                    {{this.registration.withdrawalJustification}}
-                                {{else}}
-                                    {{t 'registries.overview.withdrawn.no_justification'}}
-                                {{/if}}
-                            </dd>
-                        </dl>
-                    </Overview::-Components::TombstonePage>
-                {{else}}
-                    <Overview::-Components::TombstonePage
-                        @registration={{this.registration}}
-                        @icon='hourglass-half'
-                        @titleText={{t 'registries.overview.archiving.currently_archiving'}}
-                    >
-                        {{t 'registries.overview.archiving.email_support' supportEmail=this.supportEmail htmlSafe=true}}
-                    </Overview::-Components::TombstonePage>
-                {{/if}}
-            </layout.main>
-        </OsfLayout>
+<RegistriesWrapper
+    {{with-branding (if this.model.task.isIdle this.registration.provider.brand)}}
+>
+    {{#if this.model.task.isRunning}}
+        <div local-class='ContentBackground Loading'>
+            <LoadingIndicator @dark={{true}} />
+        </div>
     {{else}}
-        <OsfLayout @backgroundClass='{{local-class 'ContentBackground'}}' as |layout|>
-            <layout.heading>
-                <Overview::-Components::OverviewHeader
-                    @registration={{this.registration}}
-                    @sidenavGutterClosed={{layout.sidenavGutterClosed}}
-                    @toggleSidenav={{layout.toggleSidenav}}
-                    @metadataGutterClosed={{layout.metadataGutterClosed}}
-                    @toggleMetadata={{layout.toggleMetadata}}
-                />
-            </layout.heading>
+        {{assert 'Registries::Overview - registration should not be null or undefined' this.registration}}
+        {{title this.registration.title}}
+        {{#if (or this.registration.withdrawn this.registration.archiving)}}
+            <OsfLayout @backgroundClass='{{local-class 'ContentBackground'}}' as |layout|>
+                <layout.heading>
+                    <Overview::-Components::OverviewHeader @registration={{this.registration}} />
+                </layout.heading>
+                <layout.main>
+                    {{#if this.registration.withdrawn}}
+                        <Overview::-Components::TombstonePage @registration={{this.registration}} @icon='ban'
+                            @titleText={{t 'registries.overview.withdrawn.has_been_withdrawn'}}>
+                            <dl>
+                                <dt>{{t 'registries.overview.withdrawn.date_withdrawn'}}</dt>
+                                <dd>{{moment-format this.registration.dateWithdrawn 'MMMM D, YYYY'}}</dd>
 
-            <layout.leftNavOld as |leftNav|>
-                <leftNav.link
-                    data-analytics-name='Overview'
-                    @route='registries.overview.index'
-                    @models={{array this.registration.id}}
-                    @icon='home'
-                    @label={{t 'registries.overview.title'}}
-                />
-                <leftNav.link
-                    data-analytics-name='Files'
-                    @href='/{{this.registration.id}}/files/'
-                    @icon='file-text'
-                    @label={{t 'registries.overview.external_links.files'}}
-                />
-                <leftNav.link
-                    data-analytics-name='Wiki'
-                    @href='/{{this.registration.id}}/wiki/'
-                    @icon='window-maximize'
-                    @label={{t 'registries.overview.external_links.wiki'}}
-                />
-                <leftNav.link
-                    data-analytics-name='Components'
-                    @route='registries.overview.children'
-                    @models={{array this.registration.id}}
-                    @icon='puzzle-piece'
-                    @label={{t 'registries.overview.components.title'}}
-                    @count={{this.registration.relatedCounts.children}}
-                />
-                <leftNav.link
-                    data-analytics-name='Links'
-                    @route='registries.overview.links'
-                    @models={{array this.registration.id}}
-                    @icon='link'
-                    @label={{t 'registries.overview.links.title'}}
-                    @count={{this.linksCount}}
-                />
-                <leftNav.link
-                    data-analytics-name='Analytics'
-                    @route='registries.overview.analytics'
-                    @models={{array this.registration.id}}
-                    @icon='bar-chart'
-                    @label={{t 'registries.overview.external_links.analytics'}}
-                />
-                <leftNav.link
-                    data-analytics-name='Comments'
-                    @route='registries.overview.comments'
-                    @models={{array this.registration.id}}
-                    @icon='comments'
-                    @label={{t 'registries.overview.comments.title'}}
-                    @count={{this.commentsCount}}
-                />
-            </layout.leftNavOld>
+                                <dt>{{t 'registries.overview.withdrawn.justification'}}</dt>
+                                <dd>
+                                    {{#if this.registration.withdrawalJustification}}
+                                        {{this.registration.withdrawalJustification}}
+                                    {{else}}
+                                        {{t 'registries.overview.withdrawn.no_justification'}}
+                                    {{/if}}
+                                </dd>
+                            </dl>
+                        </Overview::-Components::TombstonePage>
+                    {{else}}
+                        <Overview::-Components::TombstonePage @registration={{this.registration}} @icon='hourglass-half'
+                            @titleText={{t 'registries.overview.archiving.currently_archiving'}}>
+                            {{t 'registries.overview.archiving.email_support' supportEmail=this.supportEmail htmlSafe=true}}
+                        </Overview::-Components::TombstonePage>
+                    {{/if}}
+                </layout.main>
+            </OsfLayout>
+        {{else}}
+            <OsfLayout @backgroundClass='{{local-class 'ContentBackground'}}' as |layout|>
+                <layout.heading>
+                    <Overview::-Components::OverviewHeader @registration={{this.registration}}
+                        @sidenavGutterClosed={{layout.sidenavGutterClosed}} @toggleSidenav={{layout.toggleSidenav}}
+                        @metadataGutterClosed={{layout.metadataGutterClosed}}
+                        @toggleMetadata={{layout.toggleMetadata}} />
+                </layout.heading>
 
-            <layout.main local-class='OverviewBody'>
-                {{outlet}}
-            </layout.main>
+                <layout.leftNavOld as |leftNav|>
+                    <leftNav.link data-analytics-name='Overview' @route='registries.overview.index'
+                        @models={{array this.registration.id}} @icon='home' @label={{t 'registries.overview.title'}} />
+                    <leftNav.link data-analytics-name='Files' @href='/{{this.registration.id}}/files/' @icon='file-text'
+                        @label={{t 'registries.overview.external_links.files'}} />
+                    <leftNav.link data-analytics-name='Wiki' @href='/{{this.registration.id}}/wiki/'
+                        @icon='window-maximize' @label={{t 'registries.overview.external_links.wiki'}} />
+                    <leftNav.link data-analytics-name='Components' @route='registries.overview.children'
+                        @models={{array this.registration.id}} @icon='puzzle-piece'
+                        @label={{t 'registries.overview.components.title'}}
+                        @count={{this.registration.relatedCounts.children}} />
+                    <leftNav.link data-analytics-name='Links' @route='registries.overview.links'
+                        @models={{array this.registration.id}} @icon='link'
+                        @label={{t 'registries.overview.links.title'}} @count={{this.linksCount}} />
+                    <leftNav.link data-analytics-name='Analytics' @route='registries.overview.analytics'
+                        @models={{array this.registration.id}} @icon='bar-chart'
+                        @label={{t 'registries.overview.external_links.analytics'}} />
+                    <leftNav.link data-analytics-name='Comments' @route='registries.overview.comments'
+                        @models={{array this.registration.id}} @icon='comments'
+                        @label={{t 'registries.overview.comments.title'}} @count={{this.commentsCount}} />
+                </layout.leftNavOld>
 
-            <layout.right local-class='SideMetadata' as |right|>
-                {{#if (not-eq right.rightGutterMode 'column')}}
-                    <h3 local-class='MetadataTitle'>
-                        {{t 'registries.overview.metadata'}}
-                        <OsfButton
-                            data-analytics-name='Close metadata sidebar'
-                            aria-label={{t 'general.close'}}
-                            @type='link'
-                            @onClick={{right.toggleMetadata}}
-                        >
-                            <FaIcon @icon='times' />
-                        </OsfButton>
-                    </h3>
-                {{/if}}
+                <layout.main local-class='OverviewBody'>
+                    {{outlet}}
+                </layout.main>
 
-                <RegistriesMetadata
-                    @registration={{this.registration}}
-                    @extendedFields={{true}}
-                />
-            </layout.right>
-        </OsfLayout>
+                <layout.right local-class='SideMetadata' as |right|>
+                    {{#if (not-eq right.rightGutterMode 'column')}}
+                        <h3 local-class='MetadataTitle'>
+                            {{t 'registries.overview.metadata'}}
+                            <OsfButton data-analytics-name='Close metadata sidebar' aria-label={{t 'general.close'}}
+                                @type='link' @onClick={{right.toggleMetadata}}>
+                                <FaIcon @icon='times' />
+                            </OsfButton>
+                        </h3>
+                    {{/if}}
+
+                    <RegistriesMetadata @registration={{this.registration}} @extendedFields={{true}} />
+                </layout.right>
+            </OsfLayout>
+        {{/if}}
     {{/if}}
-{{/if}}
+</RegistriesWrapper>

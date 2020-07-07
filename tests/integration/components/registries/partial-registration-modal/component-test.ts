@@ -53,6 +53,7 @@ module('Integration | Component | partial-registration-modal', hooks => {
         `);
         this.set('isOpen', true);
         await settled();
+
         assert.dom(`[data-test-item="${root.id}"]`).exists();
         assert.dom(`[data-test-item="${child.id}"]`).exists();
         assert.dom(`[data-test-item="${grandChild.id}"]`).exists();

@@ -39,7 +39,7 @@ export default class SubjectBrowserManagerComponent extends Component {
 
     rootSubjects?: SubjectModel[];
 
-    @task({ on: 'init' })
+    @task({ withTestWaiter: true, on: 'init' })
     loadRootSubjects = task(function *(this: SubjectBrowserManagerComponent) {
         try {
             const provider: ProviderModel = yield this.subjectsManager.provider;

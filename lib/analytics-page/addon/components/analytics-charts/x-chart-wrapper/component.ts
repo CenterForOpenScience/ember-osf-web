@@ -40,7 +40,7 @@ export default class ChartWrapper extends Component {
     keenError: boolean = false;
     loading: boolean = false;
 
-    @task({ restartable: true })
+    @task({ withTestWaiter: true, restartable: true })
     loadKeen = task(function *(this: ChartWrapper) {
         this.showOverlay(OverlayReason.Loading);
         const node = yield this.nodeTaskInstance;

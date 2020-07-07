@@ -12,6 +12,7 @@ interface Item {
     text: string|number;
     disabled?: boolean;
     action?: string;
+    aria: string|number;
 }
 
 @layout(template, styles)
@@ -97,15 +98,18 @@ export default class SearchPaginator extends Component {
                 text: this.intl.t('app_components.search_paginator.prev'),
                 disabled: this.current === this.minimum,
                 action: 'prevPage',
+                aria: this.intl.t('app_components.search_paginator.prev_aria'),
             },
             ...this.numbers.map(text => ({
                 text,
                 disabled: typeof text !== 'number',
+                aria: this.intl.t('app_components.search_paginator.go_to', { page: text }),
             })),
             {
                 text: this.intl.t('app_components.search_paginator.next'),
                 disabled: this.current === this.maximum,
                 action: 'nextPage',
+                aria: this.intl.t('app_components.search_paginator.next_aria'),
             },
         ];
     }

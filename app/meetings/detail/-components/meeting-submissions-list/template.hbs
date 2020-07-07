@@ -23,23 +23,23 @@
                 sortAction=(action this.sortSubmissions)
                 sort=this.sort
             ) as |SortButton|}}
-                <div data-test-submissions-list-header-title style='width: 40%'>
+                <div data-test-submissions-list-header-title local-class='HeaderWide'>
                     {{t 'meetings.detail.meeting-submissions-list.title'}}
                     <SortButton @sortBy='title' />
                 </div>
-                <div data-test-submissions-list-header-author style='width: 15%'>
+                <div data-test-submissions-list-header-author local-class='HeaderNarrow'>
                     {{t 'meetings.detail.meeting-submissions-list.author'}}
                     <SortButton @sortBy='author_name' />
                 </div>
-                <div data-test-submissions-list-header-category style='width: 15%'>
+                <div data-test-submissions-list-header-category local-class='HeaderNarrow'>
                     {{t 'meetings.detail.meeting-submissions-list.category'}}
                     <SortButton @sortBy='meeting_category' />
                 </div>
-                <div data-test-submissions-list-header-date style='width: 15%'>
+                <div data-test-submissions-list-header-date local-class='HeaderNarrow'>
                     {{t 'meetings.detail.meeting-submissions-list.dateCreated'}}
                     <SortButton @sortBy='created' />
                 </div>
-                <div data-test-submissions-list-header-download style='width: 15%'>
+                <div data-test-submissions-list-header-download local-class='HeaderNarrow'>
                     {{t 'meetings.detail.meeting-submissions-list.downloads'}}
                 </div>
             {{/let}}

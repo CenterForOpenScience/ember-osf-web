@@ -1,5 +1,11 @@
 import Service from '@ember/service';
-import { click, currentRouteName, currentURL, fillIn, settled, triggerKeyEvent } from '@ember/test-helpers';
+import {
+    click,
+    currentRouteName,
+    currentURL,
+    fillIn,
+    triggerKeyEvent,
+} from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
@@ -30,8 +36,21 @@ module('Registries | Acceptance | draft form', hooks => {
 
         server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
-        server.loadFixtures('registration-providers');
         server.loadFixtures('licenses');
+        server.loadFixtures('registration-providers');
+    });
+
+    test('branded draft page', async () => {
+        const provider = server.create('registration-provider', 'withBrand');
+        const initiator = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const draftRegistration = server.create('draft-registration', {
+            provider,
+            registrationSchema,
+            initiator,
+        });
+        await visit(`registries/drafts/${draftRegistration.id}/`);
+        await percySnapshot('Branded draft page');
     });
 
     test('it redirects to metadata page of the draft form', async assert => {
@@ -68,14 +87,14 @@ module('Registries | Acceptance | draft form', hooks => {
     test('left nav controls', async assert => {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
-        const registration = server.create(
+        const draftRegistration = server.create(
             'draft-registration', {
                 registrationSchema,
                 initiator,
             },
         );
 
-        await visit(`/registries/drafts/${registration.id}/`);
+        await visit(`/registries/drafts/${draftRegistration.id}/`);
         await percySnapshot('Registries | Acceptance | draft form | left nav controls | metadata page');
 
         // Metadata page
@@ -225,6 +244,7 @@ module('Registries | Acceptance | draft form', hooks => {
 
         // Can navigate back to the last page from review page
         await click('[data-test-goto-previous-page]');
+
         assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/2-`), 'At second (last) page');
     });
 
@@ -236,6 +256,7 @@ module('Registries | Acceptance | draft form', hooks => {
         );
 
         await visit(`/registries/drafts/${registration.id}/`);
+
         setBreakpoint('mobile');
 
         assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/metadata`), 'At metadata page');
@@ -257,6 +278,7 @@ module('Registries | Acceptance | draft form', hooks => {
 
         // Next page
         await click('[data-test-goto-next-page]');
+
         await percySnapshot('Registries | Acceptance | draft form | mobile navigation | second page');
 
         // Check that the header is expected
@@ -268,6 +290,7 @@ module('Registries | Acceptance | draft form', hooks => {
 
         // Check navigation to review page
         await click('[data-test-goto-review]');
+
         await percySnapshot('Registries | Acceptance | draft form | mobile navigation | review page');
         assert.dom('[data-test-page-label]').containsText('Review');
         assert.dom('[data-test-goto-next-page]').isNotVisible();
@@ -279,6 +302,7 @@ module('Registries | Acceptance | draft form', hooks => {
 
         // Check that back button works
         await click('[data-test-goto-previous-page]');
+
         assert.dom('[data-test-page-label]').containsText('This is the second page');
     });
 
@@ -303,6 +327,7 @@ module('Registries | Acceptance | draft form', hooks => {
         );
 
         await visit(`/registries/drafts/${registration.id}/review`);
+
         assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/review`), 'At review page');
         assert.dom('[data-test-goto-register]').isDisabled();
         assert.dom('[data-test-invalid-responses-text]').isVisible();
@@ -329,6 +354,7 @@ module('Registries | Acceptance | draft form', hooks => {
         );
 
         await visit(`/registries/drafts/${registration.id}/review`);
+
         assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/review`), 'At review page');
         assert.dom(`[data-test-validation-errors="${deserializeResponseKey('page-one_short-text')}"]`).exists();
         assert.dom(`[data-test-validation-errors="${deserializeResponseKey('page-one_long-text')}"]`).doesNotExist();
@@ -384,21 +410,21 @@ module('Registries | Acceptance | draft form', hooks => {
         const subjects = [server.create('subject')];
         registration.update({ subjects });
         await visit(`/registries/drafts/${registration.id}/review`);
+
         assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/review`), 'At review page');
         assert.dom('[data-test-goto-register]').isNotDisabled();
 
         await click('[data-test-goto-register]');
-        await settled();
 
         // PartialRegistrationModal
         assert.dom('#osf-dialog-heading').hasText(t('registries.partialRegistrationModal.title').toString());
         [rootNode, childNode, grandChildNode].mapBy('id').forEach(id => assert.dom(`[data-test-expand-child="${id}"]`));
         await click('[data-test-cancel-registration-button]');
-        await settled();
+
         assert.dom('#osf-dialog-heading').isNotVisible('cancel closes the modal');
 
         await click('[data-test-goto-register]');
-        await settled();
+
         assert.dom('[data-test-continue-registration-button]').isVisible();
         await click('[data-test-continue-registration-button]');
 
@@ -418,7 +444,6 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-submit-registration-button]').isNotDisabled();
 
         await click('[data-test-submit-registration-button]');
-        await settled();
 
         assert.equal(currentRouteName(), 'registries.overview.index', 'Redicted to new registration overview page');
     });
@@ -461,6 +486,7 @@ module('Registries | Acceptance | draft form', hooks => {
         );
 
         await visit(`/registries/drafts/${registration.id}/1`);
+
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-circle-o', 'page 1 is current page');
 
@@ -474,13 +500,11 @@ module('Registries | Acceptance | draft form', hooks => {
 
     test('validations: validations status updates properly on metadata page', async assert => {
         server.loadFixtures('subjects');
-
         server.createList('subject', 10, 'withChildren');
         const provider = server.schema.registrationProviders.find('osf');
         provider.update({
             subjects: server.schema.subjects.all().models,
         });
-
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
@@ -492,6 +516,7 @@ module('Registries | Acceptance | draft form', hooks => {
         );
 
         await visit(`/registries/drafts/${registration.id}/metadata`);
+
         assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/metadata`), 'At metadata page');
         assert.dom('[data-test-validation-errors="title"]').doesNotExist('no errors for title on first load');
         assert.dom('[data-test-validation-errors="description"]')
@@ -530,6 +555,7 @@ module('Registries | Acceptance | draft form', hooks => {
 
         // Validation errors exist on review page
         await click('[data-test-link="review"]');
+
         assert.dom('[data-test-link="metadata"] > [data-test-icon]')
             .hasClass('fa-exclamation-circle', 'metadata page is marked invalid');
         assert.dom('[data-test-goto-register]').isDisabled();
@@ -544,6 +570,7 @@ module('Registries | Acceptance | draft form', hooks => {
 
         // Return to Metadata page and address errors for subjects and license
         await click('[data-test-link="metadata"]');
+
         assert.dom('[data-test-validation-errors="subjects"]')
             .exists('error appears for unedited, required fields after returning to metadata page: subjects');
         assert.dom('[data-test-validation-errors="license"]')
@@ -580,11 +607,13 @@ module('Registries | Acceptance | draft form', hooks => {
 
         // validation errors for nodelicense should show on review page
         await click('[data-test-link="review"]');
+
         assert.dom('[data-test-validation-errors="nodeLicense"]').exists('NodeLicense errors exist on Review page');
         await percySnapshot('Registries | Acceptance | draft form | metadata editing | review: invalid nodelicense');
 
         // Return to metadata page to address empty fields
         await click('[data-test-link="metadata"]');
+
         await fillIn('[data-test-required-field="year"]', '2222');
         await fillIn('[data-test-required-field="copyrightHolders"]', 'Twice and BlackPink');
         assert.dom('[data-test-validation-errors="nodeLicense"]')
@@ -592,6 +621,7 @@ module('Registries | Acceptance | draft form', hooks => {
 
         // NodeLicense fields appear on review page
         await click('[data-test-link="review"]');
+
         assert.dom('[data-test-review-label="nodeLicense.year"]')
             .exists('NodeLicense: year fields exist on Review page');
         assert.dom('[data-test-review-label="nodeLicense.copyrightHolders"]')
@@ -599,6 +629,7 @@ module('Registries | Acceptance | draft form', hooks => {
 
         // Choose a license that does not require either year or copyright holder
         await click('[data-test-link="metadata"]');
+
         await click('[data-test-select-license] > .ember-basic-dropdown-trigger');
         assert.dom('[data-option-index="1"]').containsText('General Public License');
         await click('[data-option-index="1"]'); // This should be General Public which does not require any fields
@@ -620,20 +651,24 @@ module('Registries | Acceptance | draft form', hooks => {
         );
 
         await visit(`/registries/drafts/${registration.id}/1`);
+
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-circle-o', 'on page 1');
 
         // should validate pages even without user input
         await click('[data-test-goto-next-page]');
+
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-exclamation-circle', 'page 1 is invalid');
 
         await click('[data-test-goto-review]');
+
         const shortTextKey = deserializeResponseKey('page-one_short-text');
         assert.dom(`[data-test-validation-errors="${shortTextKey}"]`)
             .exists('page-one_short-text has validation errors on review page');
 
         await click('[data-test-link="1-first-page-of-test-schema"]');
+
         assert.dom(`[data-test-validation-errors="${shortTextKey}"]`)
             .exists('page-one_short-text has validation errors when empty');
         await fillIn(`input[name="${shortTextKey}"]`, 'ditto');
@@ -641,6 +676,7 @@ module('Registries | Acceptance | draft form', hooks => {
             .doesNotExist('page-one_short-text has no validation errors with non-empty string');
 
         await click('[data-test-goto-metadata]');
+
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-check-circle-o', 'page 1 is now valid');
     });

@@ -6,6 +6,7 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 
 import { draftRegisterNodeMultiple, forkNode, registerNodeMultiple } from '../helpers';
+// import { placekitten } from '../utils';
 
 const {
     dashboard: {
@@ -59,11 +60,29 @@ function registrationScenario(
         'page-one_single-select-two': 'Remember who was in NSync and who was in Backstreet Boys',
     };
 
-    const rootNode = server.create('node', { contributors: server.createList('contributor', 21) });
+    const rootNode = server.create('node', { contributors: server.createList('contributor', 21) }, 'withFiles');
     const childNodeA = server.create('node', { parent: rootNode });
     server.create('node', { parent: childNodeA });
     server.create('node', { parent: childNodeA });
     const licenseReqFields = server.schema.licenses.findBy({ name: 'MIT License' });
+    const provider = server.create('registration-provider', 'withBrand');
+
+    server.create('registration', {
+        id: 'decaf',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+    }, 'withContributors');
+
+    server.create('registration', {
+        id: 'berand',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        provider,
+    }, 'withContributors');
+
+    server.create('registration', {
+        id: 'aerchive',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        provider,
+    }, 'isArchiving');
 
     server.create('draft-registration', {
         id: 'dcaf',
@@ -73,6 +92,26 @@ function registrationScenario(
         branchedFrom: rootNode,
         license: licenseReqFields,
     }, 'withSubjects', 'withAffiliatedInstitutions');
+
+    server.create('draft-registration', {
+        id: 'brand',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        initiator: currentUser,
+        registrationResponses,
+        branchedFrom: rootNode,
+        license: licenseReqFields,
+        provider,
+    });
+
+    const clinicalTrials = server.create('external-provider', {
+        shareSourceKey: 'ClinicalTrials.gov',
+    });
+    const researchRegistry = server.create('external-provider', {
+        shareSourceKey: 'Research Registry',
+    });
+
+    server.createList('external-registration', 3, { provider: clinicalTrials });
+    server.createList('external-registration', 2, { provider: researchRegistry });
 
     server.create('draft-registration', {
         id: 'rrpre',
@@ -99,12 +138,6 @@ function registrationScenario(
     }, 'withContributors', 'withComments', 'withAffiliatedInstitutions');
 
     server.createList('subject', 10, 'withChildren');
-
-    const provider = server.schema.registrationProviders.find('osf');
-
-    provider.update({
-        subjects: server.schema.subjects.all().models,
-    });
 
     // Current user Bookmarks collection
     server.create('collection', { title: 'Bookmarks', bookmarks: true });
@@ -313,7 +346,7 @@ export default function(server: Server) {
     server.loadFixtures('regions');
     server.loadFixtures('preprint-providers');
     server.loadFixtures('licenses');
-    server.loadFixtures('registration-providers');
+    // server.loadFixtures('registration-providers');
 
     const userTraits = !mirageScenarios.includes('loggedIn') ? []
         : [

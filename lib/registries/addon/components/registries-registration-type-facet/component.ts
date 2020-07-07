@@ -15,14 +15,9 @@ import Analytics from 'ember-osf-web/services/analytics';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
-import engineConfig from 'registries/config/environment';
 import { SearchOptions } from 'registries/services/search';
 import { ShareTermsFilter } from 'registries/services/share-search';
 import template from './template';
-
-const {
-    sourcesWhitelist,
-} = engineConfig;
 
 const {
     featureFlagNames: {
@@ -43,7 +38,7 @@ export default class RegistriesRegistrationTypeFacet extends Component {
 
     registrationTypes: EmberArray<string> = defaultTo(this.registrationTypes, A([]));
 
-    @task({ on: 'init' })
+    @task({ withTestWaiter: true, on: 'init' })
     fetchRegistrationTypes = task(function *(this: RegistriesRegistrationTypeFacet): any {
         try {
             const metaschemas: RegistrationSchema[] = yield this.store.findAll('registration-schema');
@@ -72,10 +67,12 @@ export default class RegistriesRegistrationTypeFacet extends Component {
 
     @computed('searchOptions')
     get onlyOSF() {
-        return this.searchOptions.filters.filter(filter => filter.key === 'sources').size === 1
-        && this.searchOptions.filters.contains(
-            new ShareTermsFilter('sources', 'OSF', sourcesWhitelist.find(x => x.name === 'OSF')!.display!),
+        const osfSelected = this.searchOptions.filters.find(
+            item => item instanceof ShareTermsFilter
+                && item.key === 'sources'
+                && item.value === 'OSF',
         );
+        return this.searchOptions.filters.filter(filter => filter.key === 'sources').size === 1 && osfSelected;
     }
 
     @computed('searchOptions', 'registrationTypes')

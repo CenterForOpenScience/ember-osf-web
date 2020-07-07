@@ -23,6 +23,7 @@ import { osfNestedResource, osfResource, osfToManyRelationship } from './views/o
 import { getProviderSubjects } from './views/provider-subjects';
 import { createRegistration, forkRegistration, registrationDetail } from './views/registration';
 import { rootDetail } from './views/root';
+import { shareSearch } from './views/share-search';
 import { createToken } from './views/token';
 import { createEmails, updateEmails } from './views/update-email';
 import { userNodeList } from './views/user';
@@ -30,10 +31,16 @@ import { updatePassword } from './views/user-password';
 import * as userSettings from './views/user-setting';
 import * as wb from './views/wb';
 
-const { OSF: { apiUrl } } = config;
+const { OSF: { apiUrl }, environment } = config;
 
 export default function(this: Server) {
+    this.logging = ['test', 'development'].includes(environment);
     this.passthrough(); // pass through all requests on currrent domain
+    // SHARE search
+    this.urlPrefix = 'https://share.osf.io';
+    this.namespace = '/api/v2/';
+
+    this.post('/search/creativeworks/_search', shareSearch);
 
     this.urlPrefix = apiUrl;
     this.namespace = '/v2';
@@ -163,6 +170,8 @@ export default function(this: Server) {
         defaultSortKey: 'index',
         defaultPageSize: 1000,
     });
+
+    osfResource(this, 'brand', { only: ['show'] });
 
     osfResource(this, 'collection');
     osfToManyRelationship(this, 'collection', 'linkedRegistrations', {

@@ -1,4 +1,8 @@
-<div class='row'>
+<div
+    class='row'
+    data-analytics-scope='Registries search results'
+    ...attributes
+>
     <div class='col-xs-12'>
         {{#if @result.mainLink}}
             {{sharing-icons/popover
@@ -10,25 +14,30 @@
                 showText=false
             }}
         {{/if}}
-        <h4 local-class='RegistriesSearchResult__Title'>
-            <a
-                href={{@result.mainLink}}
+        <h3 local-class='RegistriesSearchResult__Title'>
+            <OsfLink
                 data-test-result-title-id={{@result.id}}
-                onclick={{action 'click' 'link' (concat 'Discover - Result Title: ' @result.mainLink) @result.id target=this.analytics}}
+                @href={{@result.mainLink}}
+                data-analytics-name='Result Title'
             >
                 {{math @result.title}}
-            </a>
+            </OsfLink>
 
             {{#if @result.withdrawn}}
                 <span class='label label-default'>{{t 'registries.discover.search_result.withdrawn'}}</span>
             {{/if}}
-        </h4>
+        </h3>
 
         <ul local-class='Contributors'>
             {{#each this.contributors as |contrib|}}
                 <li>
                     {{#if contrib.link}}
-                        <a href={{contrib.link}}>{{contrib.name}}</a>
+                        <OsfLink
+                            @href={{contrib.link}}
+                            data-analytics-name='Contributor Link'
+                        >
+                            {{contrib.name}}
+                        </OsfLink>
                     {{else}}
                         {{contrib.name}}
                     {{/if}}
@@ -38,13 +47,11 @@
 
         {{#if @result.dateUpdated}}
             <div class='m-t-sm'>
-                <em> {{t 'registries.discover.search_result.last_edited' date=(moment-format (utc @result.dateUpdated) 'MMMM D, YYYY UTC')}}</em>
+                <em>
+                    {{t 'registries.discover.search_result.last_edited' date=(moment-format (utc @result.dateUpdated) 'MMMM D, YYYY UTC')}}
+                </em>
             </div>
         {{/if}}
-
-        <p local-class='Description {{if this.expanded 'Expanded' 'Collapsed'}}' class='text-muted m-t-sm'>
-            {{math @result.description}}
-        </p>
 
         <div class='m-t-sm'>
             <span local-class='RegistriesSearchResult__Sources'>
@@ -58,34 +65,14 @@
             </span>
         </div>
 
+        <p local-class='Description {{if this.expanded 'Expanded' 'Collapsed'}}' class='text-muted m-t-sm'>
+            {{math @result.description}}
+        </p>
+
         <div local-class='Details {{if this.expanded 'Expanded' 'Collapsed'}}'>
-            <ul local-class='RegistriesSearchResult__HyperLinks' class='m-t-sm'>
-                {{#each @result.hyperLinks as |hyperlink index|}}
-                    <li>
-                        <a
-                            href={{hyperlink}}
-                            data-test-result-hyperlink-id='{{@result.id}} - {{index}}'
-                            onclick={{action 'click' 'link' (concat 'Discover - Result Hyperlink: ' hyperlink) @result.id target=this.analytics}}
-                        >
-                            {{hyperlink}}
-                        </a>
-                    </li>
-                {{/each}}
-            </ul>
-
-            <ul local-class='RegistriesSearchResult__InfoLinks'>
-                {{#each @result.infoLinks as |infolink|}}
-                    <li>
-                        <b>{{infolink.type}}: </b>
-                        {{infolink.uri}}
-                    </li>
-                {{/each}}
-            </ul>
-
             {{#each @result.tags as |tag|}}
-                <span class='badge'>{{math tag}}</span>
+                <span local-class='Details__Badge' class='badge'>{{math tag}}</span>
             {{/each}}
-
         </div>
 
         <div class='text-center'>
@@ -94,7 +81,8 @@
                 type='button'
                 local-class='RegistriesSearchResult__Toggle'
                 class='btn btn-link'
-                aria-label={{t 'eosf.components.searchResult.showResult'}}
+                aria-label={{t 'registries.discover.search_result.toggle_result'}}
+                data-analytics-name='Expand button'
                 {{action this.toggleExpanded}}
             >
                 {{fa-icon this.footerIcon size=1 ariaHidden=false}}

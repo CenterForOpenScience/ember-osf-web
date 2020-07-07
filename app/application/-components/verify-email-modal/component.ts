@@ -71,7 +71,7 @@ export default class VerifyEmailModal extends Component {
         };
     }
 
-    @task
+    @task({ withTestWaiter: true })
     loadEmailsTask = task(function *(this: VerifyEmailModal) {
         const { user } = this.currentUser;
         if (user) {
@@ -85,7 +85,7 @@ export default class VerifyEmailModal extends Component {
         }
     });
 
-    @task({ drop: true })
+    @task({ withTestWaiter: true, drop: true })
     verifyTask = task(function *(this: VerifyEmailModal, emailAction: EmailActions) {
         const { userEmail } = this;
         if (!userEmail) {

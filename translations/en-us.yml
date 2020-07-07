@@ -676,6 +676,9 @@ app_components:
     branded_navbar:
         my_osf_projects: 'My OSF Projects'
         on_the_osf: 'On the OSF:'
+    brand_color_inputs:
+        primary_label: 'Brand Primary Color'
+        primary_set: 'Set Primary Color'
     error_page:
         email_message: 'If this should not have occurred and the issue persists, please report it to'
         go_to: 'Go to {brand}'
@@ -702,7 +705,7 @@ app_components:
             permissions_popover: "\n                    <dl>\n                        <dt>Read</dt>\n                        <dd>\n                            <ul>\n                                <li>View project</li>\n                            </ul>\n                        </dd>\n                        <dt>Read + Write</dt>\n                        <dd>\n                            <ul>\n                                <li>Read privileges</li>\n                                <li>Add and configure project</li>\n                                <li>Add and edit content</li>\n                            </ul>\n                        </dd>\n                        <dt>Administrator</dt>\n                        <dd>\n                            <ul>\n                                <li>Read and write privileges</li>\n                                <li>Manage contributors</li>\n                                <li>Public-private settings</li>\n                            </ul>\n                        </dd>\n                    </dl>\n                "
             citation: Citiation
             citation_popover_title: 'Citation Information'
-            citation_popover: 'Only checked contribotrs will be included in project citations. Contributors not in the citation can read and modify the project as normal.'
+            citation_popover: 'Only checked contributors will be included in project citations. Contributors not in the citation can read and modify the project as normal.'
             remove_contributor_success: 'Project contributor removed!'
             remove_contributor_error: 'Could not remove contributor.'
             item:
@@ -815,7 +818,10 @@ app_components:
         helpDescription: 'This gives you many options, but can be very simple as well. Examples of valid searches include:'
     search_paginator:
         prev: «
+        prev_aria: 'Go to previous page'
         next: »
+        next_aria: 'Go to next page'
+        go_to: 'Go to page {page}'
     submit_section:
         discard: 'Discard changes'
         save: 'Save and continue'
@@ -930,35 +936,48 @@ collections:
         type: Type
 registries:
     header:
-        search: Search
+        osf_registrations: 'OSF Registrations'
+        registrations: 'Registrations'
         search_placeholder: 'Search registrations...'
-        searchable_as_of: '{registrations} searchable registrations as of {today}'
+        search_label: 'Search'
+        search_help: 'Search help'
     facets:
         registration_type:
             title: 'OSF Registration Type'
             only_available_with_osf: 'Only available with OSF Registries'
             registration_schema_error: 'An error occurred getting registration types.'
+        subjects:
+            title: 'Subjects'
+        provider:
+            other_registries: 'Other registries'
     application:
         page_title: 'OSF Registries'
+        main_aria: 'Registries main content'
+    branded:
+        page_title: 'Registries'
     discover:
         page_title: Search
-        SHARE: SHARE
-        registrations: Registrations
+        SHARE: 'About SHARE'
+        go_to_SHARE: 'Go to SHARE'
+        registration_count: '{count, plural, =1 {# Registration} other {# Registrations}}'
         sort_by: 'Sort by'
         powered_by: 'powered by'
         no_results: 'No results found.'
         try_broadening: 'Try broadening your search terms'
+        error_loading: 'There was an error loading registrations'
         order:
             relevance: Relevance
             modified_ascending: 'Modified Date (oldest to newest)'
             modified_descending: 'Modified Date (newest to oldest)'
         sidebar:
-            refine_your_search: 'Refine your search by'
-            clear_filters: 'Clear filters'
-            active_filters: 'Active filters'
+            refine_search: 'Refine Search'
+            remove_filter_label: 'Remove {filterName} filter'
+            provider_count: '{count, shortNumber}'
         search_result:
             last_edited: 'Last edited: {date}'
             withdrawn: Withdrawn
+            toggle_result: 'Toggle result'
+            sharing_popover: 'Share registration'
         pagination:
             previous: «
             next: »
@@ -1223,6 +1242,8 @@ registries:
         submit: Submit
         back: Back
         datePlaceholder: 'Choose embargo end date'
+    sharingIcons:
+        label: 'Share this registration via {mediaType}'
 meetings:
     index:
         meetings-list:

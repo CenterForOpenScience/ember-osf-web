@@ -35,7 +35,7 @@ export default class LicensePickerManager extends Component implements LicenseMa
     @sort('selectedLicense.requiredFields', (a: string, b: string) => +(a > b))
     requiredFields!: string[];
 
-    @task({ restartable: true, on: 'didReceiveAttrs' })
+    @task({ withTestWaiter: true, restartable: true, on: 'didReceiveAttrs' })
     getAllProviderLicenses = task(function *(this: LicensePickerManager) {
         const provider = yield this.draftManager.draftRegistration.provider;
 

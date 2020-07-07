@@ -35,7 +35,7 @@ export default class GuidNodeRegistrations extends Controller {
         terms: 'https://osf.io/4uxbj/',
     };
 
-    @task
+    @task({ withTestWaiter: true })
     getRegistrationSchemas = task(function *(this: GuidNodeRegistrations) {
         let schemas = yield this.store.query('registration-schema',
             {

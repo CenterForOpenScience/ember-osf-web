@@ -4,6 +4,7 @@ import { faker, ModelInstance } from 'ember-cli-mirage';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import config from 'ember-get-config';
 import { t } from 'ember-intl/test-support';
+import { percySnapshot } from 'ember-percy';
 import { selectChoose, selectSearch } from 'ember-power-select/test-support';
 import { TestContext } from 'ember-test-helpers';
 import moment from 'moment';
@@ -67,9 +68,18 @@ module('Registries | Acceptance | overview.overview', hooks => {
         const registration = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
             embargoed: true,
+            provider: server.create('registration-provider'),
         });
 
         this.set('registration', registration);
+    });
+
+    test('Branded overview page', async assert => {
+        const brandedProvider = server.create('registration-provider', 'withBrand');
+        const reg = server.create('registration', { provider: brandedProvider });
+
+        await visit(`/${reg.id}/`);
+        await percySnapshot(assert);
     });
 
     test('admin can view embargoed registration',
@@ -389,11 +399,11 @@ module('Registries | Acceptance | overview.overview', hooks => {
 
     test('Editable license', async assert => {
         server.loadFixtures('licenses');
-        server.loadFixtures('registration-providers');
 
         const reg = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
             currentUserPermissions: [Permission.Write, Permission.Read],
+            provider: server.schema.registrationProviders.find('osf'),
         });
 
         await visit(`/${reg.id}/`);

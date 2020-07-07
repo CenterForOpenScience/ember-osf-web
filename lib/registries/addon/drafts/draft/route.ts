@@ -23,7 +23,7 @@ export default class DraftRegistrationRoute extends Route {
     @service store!: DS.Store;
     @service router!: RouterService;
 
-    @task
+    @task({ withTestWaiter: true })
     loadDraftRegistrationAndNode = task(function *(this: DraftRegistrationRoute, draftId: string) {
         try {
             const draftRegistration: DraftRegistration = yield this.store.findRecord(

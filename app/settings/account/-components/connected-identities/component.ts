@@ -18,7 +18,7 @@ export default class ConnectedIdentities extends Component {
     @service toast!: Toast;
     reloadIdentitiesList!: (page?: number) => void; // bound by paginated-list
 
-    @task
+    @task({ withTestWaiter: true })
     removeIdentityTask = task(function *(this: ConnectedIdentities, identity: ExternalIdentity) {
         if (!identity) {
             return undefined;

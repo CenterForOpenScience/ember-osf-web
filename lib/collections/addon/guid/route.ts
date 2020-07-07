@@ -27,7 +27,7 @@ export default class Guid extends Route {
     @service store!: DS.Store;
     @service theme!: Theme;
 
-    @task
+    @task({ withTestWaiter: true })
     loadModel = task(function *(this: Guid, guid: string): IterableIterator<any> {
         const provider = this.theme.provider as CollectionProvider;
 

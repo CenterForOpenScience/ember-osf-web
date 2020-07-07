@@ -31,7 +31,7 @@ export default class SearchSubjects extends Component {
         return typeof searchResults === 'undefined' ? 10 : searchResults.length;
     }
 
-    @task({ restartable: true })
+    @task({ withTestWaiter: true, restartable: true })
     doSearch = task(function *(this: SearchSubjects) {
         yield timeout(500); // debounce
 

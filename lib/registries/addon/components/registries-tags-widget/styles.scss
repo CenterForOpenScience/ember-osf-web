@@ -5,7 +5,7 @@
 }
 
 .TagsWidget :global(.emberTagInput-tag) {
-    background: $color-bg-blue-light;
+    background: $color-bg-gray-light;
     border-radius: 0;
     color: $color-text-black;
     cursor: pointer;
@@ -18,7 +18,7 @@
     }
 
     &:hover {
-        background: $color-bg-blue-dark;
+        background: var(--primary-color);
         color: $color-text-gray-cool;
 
         > a,

@@ -1,13 +1,12 @@
-.RegistriesSearchResult__Title {
+// stylelint-disable selector-no-qualifying-type
+h3.RegistriesSearchResult__Title {
     font-weight: 400;
+    font-size: 24px;
+    margin-top: 10px;
 }
 
 .RegistriesSearchResult__Sources {
     font-weight: 700;
-}
-
-.RegistriesSearchResult__Toggle:focus {
-    outline: 0;
 }
 
 .RegistriesSearchResult__HyperLinks {
@@ -39,6 +38,10 @@
     &.Expanded {
         max-height: 500px;
         transition: max-height 1s ease-in-out;
+    }
+
+    .Details__Badge {
+        background-color: $color-bg-gray-darker;
     }
 }
 

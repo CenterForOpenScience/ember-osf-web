@@ -1,8 +1,13 @@
-<div class='container'>
+<div class='container' local-class='HeaderContainer'>
 
     <div class='row m-v-md'>
         <div class='text-center m-t-lg col-xs-12'>
-            <div local-class='RegistriesHeader__Brand'></div>
+            <div
+                local-class='RegistriesHeader__Brand'
+                role='heading'
+                aria-level='1'
+                aria-label={{this.headerAriaLabel}}
+            ></div>
             <p class='lead'>
                 {{yield (hash lead=(element ''))}}
             </p>
@@ -11,41 +16,31 @@
 
     <div class='row m-t-md m-b-lg text-center'>
         <div class='col-xs-12 col-sm-8 col-sm-offset-2'>
-            <div class='input-group input-group-lg'>
+            <form
+                local-class='SearchForm'
+                data-test-search-form
+                {{action 'onSubmit' on='submit'}}
+            >
+                {{fa-icon 'search' class=(local-class 'SearchIcon')}}
+                <label local-class='SearchForm__HiddenLabel' for='search'>{{t 'registries.header.search_label'}}</label>
                 <Input
-                    data-test-search-box='true'
+                    data-test-search-box={{true}}
+                    id='search'
                     @value={{this.value}}
                     @class='form-control'
                     @placeholder={{t 'registries.header.search_placeholder'}}
                 />
-                <span class='input-group-btn'>
-                    {{#if this.showHelp}}
-                        <button
-                            class='btn btn-default'
-                            type='button'
-                            {{on 'click' this.toggleHelp}}
-                        >
-                            {{fa-icon 'question' class='text-muted'}}
-                        </button>
-                    {{/if}}
-                    <button
-                        data-test-search-button
-                        class='btn btn-default'
-                        type='button'
-                        {{on 'click' this.onClick}}
+                {{#if this.showHelp}}
+                    <Button
+                        aria-label={{t 'registries.header.search_help'}}
+                        local-class='HelpIcon'
+                        @layout='fake-link'
+                        {{on 'click' this.toggleHelp}}
                     >
-                        {{t 'registries.header.search'}}
-                    </button>
-                </span>
-            </div>
-            <p class='p-l-md text-left'>
-                {{#if this.searchable}}
-                    {{t 'registries.header.searchable_as_of'
-                        registrations=(number-format this.searchable)
-                        today=(moment-format this.today 'MMMM D, YYYY')
-                    }}
+                        {{fa-icon 'question'}}
+                    </Button>
                 {{/if}}
-            </p>
+            </form>
         </div>
     </div>
 

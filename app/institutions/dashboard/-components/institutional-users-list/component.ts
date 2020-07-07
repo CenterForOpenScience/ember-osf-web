@@ -66,7 +66,7 @@ export default class InstitutionalUsersList extends Component {
         return query;
     }
 
-    @task({ restartable: true })
+    @task({ withTestWaiter: true, restartable: true })
     searchDepartment = task(function *(this: InstitutionalUsersList, name: string) {
         yield timeout(500);
         if (this.institution) {

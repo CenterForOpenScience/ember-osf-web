@@ -6,7 +6,7 @@
     @onSave={{action this.onSave}}
     as |form|
 >
-    <form.text 
+    <form.text
         data-test-token-name
         @valuePath='name'
         @label={{t 'settings.tokens.tokenName'}}
@@ -22,7 +22,7 @@
             @ariaLabel={{t 'settings.tokens.scopes'}}
             as |cb|
         >
-            <div local-class='Scope' data-test-scope=cb.option.id>
+            <div local-class='Scope' data-test-scope={{cb.option.id}}>
                 {{cb.checkbox}}
                 <label for={{cb.checkboxId}}>
                     {{cb.option.id}}

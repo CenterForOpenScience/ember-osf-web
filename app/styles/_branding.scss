@@ -1,0 +1,13 @@
+.ember-application {
+    --primary-color: #{$color-osf-primary};
+    --secondary-color: #{$color-osf-secondary};
+    --navbar-logo-img-url: url('images/default-brand/cos-logo-white.svg');
+    --hero-logo-img-url: url('images/default-brand/osf-registries-white.png');
+    --hero-background-img-url: url('images/default-brand/bg-dark.jpg');
+}
+
+:global(.with-custom-branding) {
+    a:hover {
+        color: var(--primary-color);
+    }
+}

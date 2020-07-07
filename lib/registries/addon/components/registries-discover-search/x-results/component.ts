@@ -10,7 +10,7 @@ import template from './template';
 
 @layout(template)
 @localClassNames('SearchResults')
-@classNames('col-sm-8', 'col-xs-12')
+@classNames('col-sm-9', 'col-xs-12')
 export default class SearchResults<T> extends Component {
     static positionalParams = ['results'];
 

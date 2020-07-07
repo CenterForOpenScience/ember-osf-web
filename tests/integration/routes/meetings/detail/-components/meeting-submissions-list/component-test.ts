@@ -19,8 +19,10 @@ module('Integration | routes | meetings | detail | -components | meeting-submiss
             name: 'Test Meeting',
             submissions: server.createList('meeting-submission', 15),
         });
+
         const model = { taskInstance: this.store.findRecord('meeting', 'testmeeting') };
         this.set('model', model);
+
         await render(hbs`<Meetings::Detail::-Components::MeetingSubmissionsList @model={{this.model}} />`);
 
         assert.dom('[data-test-submissions-list-header-title]')

@@ -22,6 +22,7 @@ module(moduleName, hooks => {
             "Still at '/institutions/has-users/dashboard'.",
         );
         await percySnapshot(`${moduleName} - default`);
+        assert.dom('[data-test-next-page-button]').exists({ count: 1 }, 'next page button exists!?');
         await click('[data-test-next-page-button]');
         await percySnapshot(`${moduleName} - next page`);
     });

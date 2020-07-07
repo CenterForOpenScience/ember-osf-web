@@ -17,11 +17,7 @@
             as |list|
         >
             <list.item as |identity|>
-                {{#if (not identity)}}
-                    <ContentPlaceholders as |placeholder|>
-                        <placeholder.heading @subtitle={{false}} />
-                    </ContentPlaceholders>
-                {{else}}
+                {{#if identity}}
                     <span data-test-connected-identities-item='{{identity.id}}'>
                         {{identity.id}}: {{identity.externalId}}
                         (
@@ -41,6 +37,10 @@
                             @confirmButtonText={{t 'settings.account.connected_identities.confirm_remove.confirm_button_text'}}
                         />
                     </span>
+                {{else}}
+                    <ContentPlaceholders as |placeholder|>
+                        <placeholder.heading @subtitle={{false}} />
+                    </ContentPlaceholders>
                 {{/if}}
             </list.item>
             <list.empty>

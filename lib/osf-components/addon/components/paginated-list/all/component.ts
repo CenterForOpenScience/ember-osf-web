@@ -16,7 +16,7 @@ export default class PaginatedAll extends BaseDataComponent {
     // Private properties
     @service store!: DS.Store;
 
-    @task
+    @task({ withTestWaiter: true })
     loadItemsTask = task(function *(this: PaginatedAll) {
         const items: any = yield this.store.query(this.modelName, {
             page: this.page,

@@ -1,10 +1,11 @@
 import { tagName } from '@ember-decorators/component';
 import { action } from '@ember/object';
 import { and } from '@ember/object/computed';
+import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import Media from 'ember-responsive';
 
-import { layout, requiredAction } from 'ember-osf-web/decorators/component';
+import { layout } from 'ember-osf-web/decorators/component';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import { AuthBase } from 'osf-components/components/osf-navbar/auth-dropdown/component';
 import { OSF_SERVICES } from 'osf-components/components/osf-navbar/component';
@@ -18,8 +19,8 @@ const { externalLinks } = config;
 @layout(template)
 export default class RegistriesNavbar extends AuthBase {
     @service media!: Media;
+    @service router!: RouterService;
 
-    @requiredAction onSearch!: (query: string) => void;
     @and('media.isMobile', 'searchDropdownOpen') showSearchDropdown!: boolean;
 
     services = OSF_SERVICES;
@@ -29,9 +30,11 @@ export default class RegistriesNavbar extends AuthBase {
     searchDropdownOpen: boolean = false;
 
     @action
-    _onSearch(query: string) {
-        this.onSearch(query);
+    search(query: string) {
         this.set('searchDropdownOpen', false);
+        this.router.transitionTo('discover', {
+            queryParams: { query },
+        });
     }
 
     @action

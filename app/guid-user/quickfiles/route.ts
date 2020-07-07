@@ -25,7 +25,7 @@ export default class UserQuickfiles extends Route {
     @service ready!: Ready;
     @service router!: any;
 
-    @task
+    @task({ withTestWaiter: true })
     loadModel = task(function *(this: UserQuickfiles, userModel: any) {
         const blocker = this.ready.getBlocker();
         try {
