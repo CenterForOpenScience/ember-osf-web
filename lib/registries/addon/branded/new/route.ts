@@ -15,7 +15,7 @@ const {
     },
 } = config;
 
-@requireAuth('')
+@requireAuth()
 export default class BrandedRegistriesNewSubmissionRoute extends Route {
     @service analytics!: Analytics;
     @service features!: Features;

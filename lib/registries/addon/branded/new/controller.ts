@@ -36,9 +36,12 @@ export default class BrandedRegistriesNewSubmissionController extends Controller
     @task({ withTestWaiter: true, restartable: true })
     projectSearch = task(function *(this: BrandedRegistriesNewSubmissionController, query: string) {
         yield timeout(500); // debounce
-        const nodes = yield this.currentUser.user!.queryHasMany('nodes', { filter: {
-            title: query,
-        }});
+        const nodes = yield this.currentUser.user!.queryHasMany('nodes',
+            {
+                filter: {
+                    title: query,
+                },
+            });
         return nodes;
     });
 
