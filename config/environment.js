@@ -281,6 +281,7 @@ module.exports = function(environment) {
             ABTesting: {
                 homePageHeroTextVersionB: 'ab_testing_home_page_hero_text_version_b',
             },
+            egapAdmins: 'egap_admins',
         },
         gReCaptcha: {
             siteKey: RECAPTCHA_SITE_KEY,
