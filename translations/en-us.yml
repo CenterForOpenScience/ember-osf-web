@@ -955,6 +955,8 @@ registries:
         main_aria: 'Registries main content'
     branded:
         page_title: 'Registries'
+    new:
+        page_title: 'New Registration'
     discover:
         page_title: Search
         SHARE: 'About SHARE'
