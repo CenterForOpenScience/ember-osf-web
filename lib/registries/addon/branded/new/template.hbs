@@ -5,4 +5,8 @@
     data-analytics-scope='Registries Discover page'
 >
     {{! Add new route content }}
+    <PowerSelect
+        @search={{perform this.findProjects}}
+    >
+    </PowerSelect>
 </RegistriesWrapper>

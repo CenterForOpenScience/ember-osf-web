@@ -1,10 +1,11 @@
 import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-
 import { camelize } from '@ember/string';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
+
+import requireAuth from 'ember-osf-web/decorators/require-auth';
 import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 import Analytics from 'ember-osf-web/services/analytics';
 
@@ -14,6 +15,7 @@ const {
     },
 } = config;
 
+@requireAuth('')
 export default class BrandedRegistriesNewSubmissionRoute extends Route {
     @service analytics!: Analytics;
     @service features!: Features;
