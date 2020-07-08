@@ -957,6 +957,8 @@ registries:
         page_title: 'Registries'
     new:
         page_title: 'New Registration'
+        select_schema: 'Select registration type'
+        select_project: 'Select project to register'
     discover:
         page_title: Search
         SHARE: 'About SHARE'

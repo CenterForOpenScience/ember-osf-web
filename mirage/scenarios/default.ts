@@ -65,7 +65,11 @@ function registrationScenario(
     server.create('node', { parent: childNodeA });
     server.create('node', { parent: childNodeA });
     const licenseReqFields = server.schema.licenses.findBy({ name: 'MIT License' });
-    const provider = server.create('registration-provider', { id: 'ispor', name: 'ISPOR' }, 'withBrand');
+    const provider = server.create('registration-provider',
+        { id: 'ispor', name: 'ISPOR' },
+        'withBrand',
+        'withSchemas');
+
     server.create('registration-provider', { id: 'egap', name: 'EGAP' }, 'withBrand');
 
     server.create('registration', {

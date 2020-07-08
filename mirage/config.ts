@@ -218,6 +218,13 @@ export default function(this: Server) {
         relatedModelName: 'license',
     });
     this.get('/providers/registrations/:parentID/subjects/', getProviderSubjects);
+    osfNestedResource(this, 'registration-provider', 'schemas', {
+        only: ['index'],
+        path: '/providers/registrations/:parentID/schemas/',
+        relatedModelName: 'registration-schema',
+    });
+
+    this.get('/providers/registrations/:parentID/subjects/', getProviderSubjects);
 
     osfResource(this, 'collection-provider', { path: '/providers/collections' });
     osfNestedResource(this, 'collection-provider', 'licensesAcceptable', {

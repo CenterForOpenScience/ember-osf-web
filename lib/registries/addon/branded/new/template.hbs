@@ -4,24 +4,29 @@
     {{with-branding this.model.brand}}
     data-analytics-scope='Registries Discover page'
 >
-    {{! Add new route content }}
-    <PowerSelect
-        @search={{perform this.projectSearch}}
-        @selected={{this.selectedProject}}
-        @onchange={{this.updateSelectedProject}}
-        @options={{this.projectOptions}}
-        as |option|
-    >
-        {{option.title}}
-    </PowerSelect>
+    <label>
+        {{t 'registries.new.select_project'}}
+        <PowerSelect
+            @options={{this.projectOptions}}
+            @search={{perform this.projectSearch}}
+            @selected={{this.selectedProject}}
+            @onchange={{this.updateSelectedProject}}
+            as |option|
+        >
+            {{option.title}}
+        </PowerSelect>
+    </label>
 
-    <PowerSelect
-        @options={{this.schemaOptions}}
-        @selected={{this.selectedSchema}}
-        @searchEnabled={{false}}
-        @onchange={{this.updateSelectedSchema}}
-        as |option|
-    >
-        {{option.name}}
-    </PowerSelect>
+    <label>
+        {{t 'registries.new.select_schema'}}
+        <PowerSelect
+            @options={{this.schemaOptions}}
+            @selected={{this.selectedSchema}}
+            @searchEnabled={{false}}
+            @onchange={{this.updateSelectedSchema}}
+            as |option|
+        >
+            {{option.name}}
+        </PowerSelect>
+    </label>
 </RegistriesWrapper>

@@ -16,6 +16,8 @@ export interface MirageRegistrationProvider extends RegistrationProvider {
 
 export interface RegistrationProviderTraits {
     withBrand: Trait;
+    withSchemas: Trait;
+    submissionsNotAllowed: Trait;
 }
 
 export default Factory.extend<MirageRegistrationProvider & RegistrationProviderTraits>({
@@ -50,6 +52,17 @@ export default Factory.extend<MirageRegistrationProvider & RegistrationProviderT
     withBrand: trait<RegistrationProvider>({
         afterCreate(provider, server) {
             provider.update({ brand: server.create('brand') });
+        },
+    }),
+    withSchemas: trait<RegistrationProvider>({
+        afterCreate(provider, server) {
+            server.loadFixtures('registration-schemas');
+            provider.update({ schemas: server.schema.registrationSchemas.find('testSchema') });
+        },
+    }),
+    submissionsNotAllowed: trait<RegistrationProvider>({
+        afterCreate(provider) {
+            provider.update({ allowSubmissions: false });
         },
     }),
 });
