@@ -1,13 +1,15 @@
 {{title (t 'registries.new.page_title')}}
 
 <RegistriesWrapper
-    {{with-branding this.providerModel.brand}}
+    {{with-branding this.model.brand}}
     data-analytics-scope='Registries Discover page'
 >
     {{! Add new route content }}
     <PowerSelect
-        @search={{perform this.findProjects}}
+        @search={{perform this.projectSearch}}
         @onchange={{this.updateSelectedProject}}
+        as |option|
     >
+        {{option.title}}
     </PowerSelect>
 </RegistriesWrapper>
