@@ -23,13 +23,13 @@ export default class BrandedRegistriesNewSubmissionController extends Controller
     createNewDraftRegistration = task(function *(this: BrandedRegistriesNewSubmissionController) {
         const newRegistration = this.store.createRecord('draft-registration',
             {
-                schema: this.selectedSchema,
+                registrationSchema: this.selectedSchema,
                 provider: this.model,
                 branchedFrom: this.selectedProject,
             });
         try {
             yield newRegistration.save();
-            this.transitionToRoute('registries.drafts.draft', newRegistration.id);
+            this.transitionToRoute('drafts.draft', newRegistration.id);
         } catch (e) {
             captureException(e);
         }

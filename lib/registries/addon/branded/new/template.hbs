@@ -4,35 +4,38 @@
     {{with-branding this.model.brand}}
     data-analytics-scope='Registries Discover page'
 >
-    <label>
-        {{t 'registries.new.select_project'}}
-        <PowerSelect
-            @options={{this.projectOptions}}
-            @search={{perform this.projectSearch}}
-            @selected={{this.selectedProject}}
-            @onchange={{this.updateSelectedProject}}
-            as |option|
-        >
-            {{option.title}}
-        </PowerSelect>
-    </label>
+    <form data-test-new-registration-form>
+        <label>
+            {{t 'registries.new.select_project'}}
+            <PowerSelect
+                @options={{this.projectOptions}}
+                @search={{perform this.projectSearch}}
+                @selected={{this.selectedProject}}
+                @onchange={{this.updateSelectedProject}}
+                as |option|
+            >
+                {{option.title}}
+            </PowerSelect>
+        </label>
 
-    <label>
-        {{t 'registries.new.select_schema'}}
-        <PowerSelect
-            @options={{this.schemaOptions}}
-            @selected={{this.selectedSchema}}
-            @searchEnabled={{false}}
-            @onchange={{this.updateSelectedSchema}}
-            as |option|
-        >
-            {{option.name}}
-        </PowerSelect>
-    </label>
+        <label>
+            {{t 'registries.new.select_schema'}}
+            <PowerSelect
+                @options={{this.schemaOptions}}
+                @selected={{this.selectedSchema}}
+                @searchEnabled={{false}}
+                @onchange={{this.updateSelectedSchema}}
+                as |option|
+            >
+                {{option.name}}
+            </PowerSelect>
+        </label>
 
-    <Button
-        @type='primary'
-        @layout='large'
-    >
-    </Button>
+        <Button
+            @type='primary'
+            @layout='large'
+            {{ on 'click' (perform this.createNewDraftRegistration) }}
+        >
+        </Button>
+    </form>
 </RegistriesWrapper>
