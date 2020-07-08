@@ -17,6 +17,7 @@ export default class BrandedRegistriesNewSubmissionController extends Controller
     @tracked selectedProject?: NodeModel = undefined;
     @tracked selectedSchema?: RegistrationSchemaModel = undefined;
     @tracked schemaOptions?: RegistrationSchemaModel[] = undefined;
+    @tracked projectOptions?: NodeModel[] = undefined;
 
     @task({ withTestWaiter: true })
     createNewDraftRegistration = task(function *(this: BrandedRegistriesNewSubmissionController) {
@@ -34,7 +35,7 @@ export default class BrandedRegistriesNewSubmissionController extends Controller
         }
     });
 
-    @task({ withTestWaiter: true, on: 'init' })
+    @task({ withTestWaiter: true })
     findAllSchemas = task(function *(this: BrandedRegistriesNewSubmissionController) {
         try {
             const schemas = yield this.model.schemas;
@@ -54,7 +55,7 @@ export default class BrandedRegistriesNewSubmissionController extends Controller
                     title: query,
                 },
             });
-        return nodes;
+        this.projectOptions = nodes;
     });
 
     @action
