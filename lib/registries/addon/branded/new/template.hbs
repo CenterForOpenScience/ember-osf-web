@@ -18,6 +18,7 @@
         @options={{this.schemaOptions}}
         @selected={{this.selectedSchema}}
         @searchEnabled={{false}}
+        @onchange={{this.updateSelectedSchema}}
         as |option|
     >
         {{option.name}}
