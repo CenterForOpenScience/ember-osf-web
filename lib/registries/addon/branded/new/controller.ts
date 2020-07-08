@@ -16,6 +16,7 @@ export default class BrandedRegistriesNewSubmissionController extends Controller
     @service currentUser!: CurrentUserService;
     @tracked selectedProject?: NodeModel = undefined;
     @tracked selectedSchema?: RegistrationSchemaModel = undefined;
+    @tracked schemaOptions?: RegistrationSchemaModel[] = undefined;
 
     @task({ withTestWaiter: true })
     createNewDraftRegistration = task(function *(this: BrandedRegistriesNewSubmissionController) {
@@ -28,6 +29,17 @@ export default class BrandedRegistriesNewSubmissionController extends Controller
         try {
             yield newRegistration.save();
             this.transitionToRoute('registries.drafts.draft', newRegistration.id);
+        } catch (e) {
+            captureException(e);
+        }
+    });
+
+    @task({ withTestWaiter: true, on: 'init' })
+    findAllSchemas = task(function *(this: BrandedRegistriesNewSubmissionController) {
+        try {
+            const schemas = yield this.model.schemas;
+            this.selectedSchema = schemas.firstObject();
+            this.schemaOptions = schemas;
         } catch (e) {
             captureException(e);
         }

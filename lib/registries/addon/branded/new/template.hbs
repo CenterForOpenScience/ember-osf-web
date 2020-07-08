@@ -7,9 +7,19 @@
     {{! Add new route content }}
     <PowerSelect
         @search={{perform this.projectSearch}}
+        @selected={{this.selectedProject}}
         @onchange={{this.updateSelectedProject}}
         as |option|
     >
         {{option.title}}
+    </PowerSelect>
+
+    <PowerSelect
+        @options={{this.schemaOptions}}
+        @selected={{this.selectedSchema}}
+        @searchEnabled={{false}}
+        as |option|
+    >
+        {{option.name}}
     </PowerSelect>
 </RegistriesWrapper>
