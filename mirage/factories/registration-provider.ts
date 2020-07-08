@@ -56,8 +56,7 @@ export default Factory.extend<MirageRegistrationProvider & RegistrationProviderT
     }),
     withSchemas: trait<RegistrationProvider>({
         afterCreate(provider, server) {
-            server.loadFixtures('registration-schemas');
-            provider.update({ schemas: server.schema.registrationSchemas.find('testSchema') });
+            provider.update({ schemas: [server.schema.registrationSchemas.find('testSchema')] });
         },
     }),
     submissionsNotAllowed: trait<RegistrationProvider>({
