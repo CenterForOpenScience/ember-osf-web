@@ -261,7 +261,7 @@ move_to_project:
 navbar:
     add: Add
     # add_a_preprint: 'Add a {preprintWords.preprint}'
-    add_registration: Add New Registration
+    add_registration: 'Add New'
     browse: Browse
     cancel_search: 'Cancel search'
     donate: Donate
@@ -958,8 +958,10 @@ registries:
         page_title: 'Registries'
     new:
         page_title: 'New Registration'
+        page_header: 'Add New Registration'
         select_schema: 'Select registration type'
         select_project: 'Select project to register'
+        start_registration: 'Start registration draft'
     discover:
         page_title: Search
         SHARE: 'About SHARE'

@@ -2,40 +2,57 @@
 
 <RegistriesWrapper
     {{with-branding this.model.brand}}
-    data-analytics-scope='Registries Discover page'
+    data-analytics-scope='New Registration Page'
+    @provider={{this.model}}
 >
-    <form data-test-new-registration-form>
-        <label>
-            {{t 'registries.new.select_project'}}
-            <PowerSelect
-                @options={{this.projectOptions}}
-                @search={{perform this.projectSearch}}
-                @selected={{this.selectedProject}}
-                @onchange={{this.updateSelectedProject}}
-                as |option|
-            >
-                {{option.title}}
-            </PowerSelect>
-        </label>
+    <OsfLayout @backgroundClass={{local-class 'ContentBackground'}} as |layout|>
+        <layout.heading>
+            <HeroOverlay @align='left' local-class='DraftHeroOverlay'>
+                <div local-class='Title'>
+                    <h1>
+                        {{t 'registries.new.page_header'}}
+                    </h1>
+                </div>
+            </HeroOverlay>
+        </layout.heading>
+        <layout.main local-class='Main'>
+            <form data-test-new-registration-form>
+                <label local-class='selectLabel'>
+                    {{t 'registries.new.select_project'}}
+                    <PowerSelect
+                        local-class='selectDropdown'
+                        @options={{this.projectOptions}}
+                        @search={{perform this.projectSearch}}
+                        @selected={{this.selectedProject}}
+                        @onchange={{this.updateSelectedProject}}
+                        as |option|
+                    >
+                        {{option.title}}
+                    </PowerSelect>
+                </label>
 
-        <label>
-            {{t 'registries.new.select_schema'}}
-            <PowerSelect
-                @options={{this.schemaOptions}}
-                @selected={{this.selectedSchema}}
-                @searchEnabled={{false}}
-                @onchange={{this.updateSelectedSchema}}
-                as |option|
-            >
-                {{option.name}}
-            </PowerSelect>
-        </label>
+                <label local-class='selectLabel'>
+                    {{t 'registries.new.select_schema'}}
+                    <PowerSelect
+                        local-class='selectDropdown'
+                        @options={{this.schemaOptions}}
+                        @selected={{this.selectedSchema}}
+                        @searchEnabled={{false}}
+                        @onchange={{this.updateSelectedSchema}}
+                        as |option|
+                    >
+                        {{option.name}}
+                    </PowerSelect>
+                </label>
 
-        <Button
-            @type='primary'
-            @layout='large'
-            {{ on 'click' (perform this.createNewDraftRegistration) }}
-        >
-        </Button>
-    </form>
+                <Button
+                    @type='primary'
+                    @layout='medium'
+                    {{ on 'click' (perform this.createNewDraftRegistration) }}
+                >
+                    {{t 'registries.new.start_registration'}}
+                </Button>
+            </form>
+        </layout.main>
+    </OsfLayout>
 </RegistriesWrapper>

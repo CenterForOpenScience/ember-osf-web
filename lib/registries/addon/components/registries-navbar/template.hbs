@@ -48,18 +48,17 @@
                     {{/each}}
                 </dropdown.menu>
             </BsDropdown>
-        </nav.section>
-
-        {{#if this.showAddRegistrationButton}}
-            <nav.section>
-                <Button
-                    @layout='medium'
-                    @type='create'
+            {{#if this.showAddRegistrationButton}}
+                <nav.links.secondary
+                    data-test-create='1'
+                    data-analytics-name='Create new registration'
+                    @route='registries.branded.new'
+                    @models={{array this.provider.id}}
                 >
                     {{t 'navbar.add_registration'}}
-                </Button>
-            </nav.section>
-        {{/if}}
+                </nav.links.secondary>
+            {{/if}}
+        </nav.section>
 
         {{! Right Side (Search, Buttons, Gravatar, Dropdown) }}
         <nav.section data-test-right>

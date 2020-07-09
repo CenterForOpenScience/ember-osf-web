@@ -66,7 +66,7 @@ function registrationScenario(
     server.create('node', { parent: childNodeA });
     const licenseReqFields = server.schema.licenses.findBy({ name: 'MIT License' });
     const provider = server.create('registration-provider',
-        { id: 'ispor', name: 'ISPOR', allowSubmissions: false },
+        { id: 'ispor', name: 'ISPOR', allowSubmissions: true },
         'withBrand',
         'withSchemas');
 

@@ -1,0 +1,19 @@
+.ContentBackground {
+    composes: ContentBackground from '../../overview/styles.scss';
+}
+
+.selectLabel {
+    display: block;
+}
+
+.Main {
+    composes: Main from '../../drafts/draft/styles.scss';
+}
+
+.Title {
+    composes: Title from '../../drafts/draft/styles.scss';
+}
+
+.selectLabel {
+    composes: SchemaBlockDropdown from '../../drafts/draft/metadata/styles.scss';
+}
