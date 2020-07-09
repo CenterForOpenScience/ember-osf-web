@@ -964,6 +964,7 @@ registries:
         new_project_help: 'If you have not started the project yet, click below to go to your dashboard to create a new project'
         go_to_dashboard: 'Go to dashboard'
         start_registration: 'Start registration draft'
+        select_project_placeholder: 'Select your project'
     discover:
         page_title: Search
         SHARE: 'About SHARE'

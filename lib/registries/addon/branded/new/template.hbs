@@ -16,10 +16,13 @@
             </HeroOverlay>
         </layout.heading>
         <layout.main local-class='Main'>
-            <form data-test-new-registration-form>
+            <form data-test-new-registration-form local-class='Form'>
                 <label local-class='selectLabel'>
-                    {{t 'registries.new.select_project'}}
+                    <h2>
+                        {{t 'registries.new.select_project'}}
+                    </h2>
                     <PowerSelect
+                        @placeholder={{t 'registries.new.select_project_placeholder'}}
                         @options={{this.projectOptions}}
                         @search={{perform this.projectSearch}}
                         @selected={{this.selectedProject}}
@@ -30,21 +33,21 @@
                     </PowerSelect>
                 </label>
 
-                <div local-class=''>
-                    <p local-class='newProjectHelpText'>
-                        {{t 'registries.new.new_project_help'}}
-                    </p>
-                    <Button
-                        @type='secondary'
-                        @layout='medium'
-                    >
-                        {{t 'registries.new.go_to_dashboard'}}
-                    </Button>
-                </div>
+                <p local-class='newProjectHelpText'>
+                    {{t 'registries.new.new_project_help'}}
+                </p>
+                <Button
+                    @type='secondary'
+                    @layout='medium'
+                >
+                    {{t 'registries.new.go_to_dashboard'}}
+                </Button>
                 
 
                 <label local-class='selectLabel'>
-                    {{t 'registries.new.select_schema'}}
+                    <h2>
+                        {{t 'registries.new.select_schema'}}
+                    </h2>
                     <PowerSelect
                         local-class='selectDropdown'
                         @options={{this.schemaOptions}}
