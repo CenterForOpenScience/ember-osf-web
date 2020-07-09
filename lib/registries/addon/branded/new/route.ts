@@ -26,12 +26,16 @@ export default class BrandedRegistriesNewSubmissionRoute extends Route {
     }
 
     afterModel(provider: RegistrationProviderModel) {
+        const { href, origin } = window.location;
+        const currentUrl = href.replace(origin, '');
+
         if (!provider.allowSubmissions) {
-            this.transitionTo('page-not-found');
+            this.transitionTo('page-not-found', currentUrl.slice(1));
         }
+
         // TODO: Remove this when moderation is in place
         if (provider.id === 'egap' && !this.features.flags.includes(camelize(egapAdmins))) {
-            this.transitionTo('page-not-found');
+            this.transitionTo('page-not-found', currentUrl.slice(1));
         }
     }
 
