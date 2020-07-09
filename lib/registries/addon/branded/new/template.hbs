@@ -46,9 +46,9 @@
 
                 <Button
                     local-class='createDraftButton'
+                    disabled={{this.disableCreateDraft}}
                     @type='primary'
                     @layout='medium'
-                    disabled={{this.disableCreateDraft}}
                     {{on 'click' (perform this.createNewDraftRegistration)}}
                 >
                     {{t 'registries.new.start_registration'}}

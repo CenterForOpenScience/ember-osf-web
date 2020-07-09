@@ -20,4 +20,11 @@
 
 .createDraftButton {
     margin: 20px 0;
+
+    &:disabled {
+        cursor: not-allowed;
+        filter: alpha(opacity=65);
+        opacity: 0.65;
+        box-shadow: none;
+    }
 }

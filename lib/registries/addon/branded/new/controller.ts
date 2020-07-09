@@ -1,6 +1,5 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
-import { and } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { timeout } from 'ember-concurrency';
@@ -20,8 +19,9 @@ export default class BrandedRegistriesNewSubmissionController extends Controller
     @tracked schemaOptions?: RegistrationSchemaModel[] = [];
     @tracked projectOptions?: NodeModel[] = [];
 
-    @and('selectedSchema', 'selectedProject')
-    disableCreateDraft!: boolean;
+    get disableCreateDraft() {
+        return !Boolean(this.selectedSchema && this.selectedProject);
+    }
 
     @task({ withTestWaiter: true })
     createNewDraftRegistration = task(function *(this: BrandedRegistriesNewSubmissionController) {
