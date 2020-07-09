@@ -261,6 +261,7 @@ move_to_project:
 navbar:
     add: Add
     # add_a_preprint: 'Add a {preprintWords.preprint}'
+    add_registration: Add New Registration
     browse: Browse
     cancel_search: 'Cancel search'
     donate: Donate

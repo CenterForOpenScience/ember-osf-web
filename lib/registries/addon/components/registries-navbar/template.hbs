@@ -50,6 +50,17 @@
             </BsDropdown>
         </nav.section>
 
+        {{#if this.showAddRegistrationButton}}
+            <nav.section>
+                <Button
+                    @layout='medium'
+                    @type='create'
+                >
+                    {{t 'navbar.add_registration'}}
+                </Button>
+            </nav.section>
+        {{/if}}
+
         {{! Right Side (Search, Buttons, Gravatar, Dropdown) }}
         <nav.section data-test-right>
 
