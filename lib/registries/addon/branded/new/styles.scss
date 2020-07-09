@@ -17,3 +17,7 @@
 .selectLabel {
     composes: SchemaBlockDropdown from '../../drafts/draft/metadata/styles.scss';
 }
+
+.createDraftButton {
+    margin: 20px 0;
+}

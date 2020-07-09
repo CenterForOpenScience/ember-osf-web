@@ -45,9 +45,11 @@
                 </label>
 
                 <Button
+                    local-class='createDraftButton'
                     @type='primary'
                     @layout='medium'
-                    {{ on 'click' (perform this.createNewDraftRegistration) }}
+                    disabled={{this.disableCreateDraft}}
+                    {{on 'click' (perform this.createNewDraftRegistration)}}
                 >
                     {{t 'registries.new.start_registration'}}
                 </Button>
