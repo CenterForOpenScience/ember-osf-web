@@ -5,7 +5,7 @@ import FileProvider from 'ember-osf-web/models/file-provider';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 
-import { draftRegisterNodeMultiple, forkNode, registerNodeMultiple } from '../helpers';
+import { forkNode } from '../helpers';
 // import { placekitten } from '../utils';
 
 const {
@@ -27,30 +27,30 @@ function registrationScenario(
 ) {
     server.loadFixtures('citation-styles');
 
-    const registrationNode = server.create(
-        'node',
-        {
-            id: 'regis', currentUserPermissions: Object.values(Permission),
-        },
-        'withContributors',
-    );
-    server.create('contributor', {
-        node: registrationNode,
-        users: currentUser,
-        permission: Permission.Admin,
-        index: 0,
-    });
+    // const registrationNode = server.create(
+    //     'node',
+    //     {
+    //         id: 'regis', currentUserPermissions: Object.values(Permission),
+    //     },
+    //     'withContributors',
+    // );
+    // server.create('contributor', {
+    //     node: registrationNode,
+    //     users: currentUser,
+    //     permission: Permission.Admin,
+    //     index: 0,
+    // });
 
-    registerNodeMultiple(
-        server,
-        registrationNode,
-        12,
-        { currentUserPermissions: Object.values(Permission) },
-        'withArbitraryState',
-    );
-    draftRegisterNodeMultiple(server, registrationNode, 12, {}, 'withRegistrationMetadata');
+    // registerNodeMultiple(
+    //     server,
+    //     registrationNode,
+    //     12,
+    //     { currentUserPermissions: Object.values(Permission) },
+    //     'withArbitraryState',
+    // );
+    // draftRegisterNodeMultiple(server, registrationNode, 12, {}, 'withRegistrationMetadata');
 
-    server.create('registration', { id: 'beefs' });
+    // server.create('registration', { id: 'beefs' });
 
     const registrationResponses = {
         'page-one_long-text': '',
@@ -61,9 +61,9 @@ function registrationScenario(
     };
 
     const rootNode = server.create('node', { contributors: server.createList('contributor', 21) }, 'withFiles');
-    const childNodeA = server.create('node', { parent: rootNode });
-    server.create('node', { parent: childNodeA });
-    server.create('node', { parent: childNodeA });
+    // const childNodeA = server.create('node', { parent: rootNode });
+    // server.create('node', { parent: childNodeA });
+    // server.create('node', { parent: childNodeA });
     const licenseReqFields = server.schema.licenses.findBy({ name: 'MIT License' });
     const provider = server.create('registration-provider',
         { id: 'ispor', name: 'ISPOR', allowSubmissions: true },
@@ -83,11 +83,11 @@ function registrationScenario(
         provider,
     }, 'withContributors');
 
-    server.create('registration', {
-        id: 'aerchive',
-        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
-        provider,
-    }, 'isArchiving');
+    // server.create('registration', {
+    //     id: 'aerchive',
+    //     registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+    //     provider,
+    // }, 'isArchiving');
 
     server.create('draft-registration', {
         id: 'dcaf',
@@ -108,44 +108,44 @@ function registrationScenario(
         provider,
     });
 
-    const clinicalTrials = server.create('external-provider', {
-        shareSourceKey: 'ClinicalTrials.gov',
-    });
-    const researchRegistry = server.create('external-provider', {
-        shareSourceKey: 'Research Registry',
-    });
+    // const clinicalTrials = server.create('external-provider', {
+    //     shareSourceKey: 'ClinicalTrials.gov',
+    // });
+    // const researchRegistry = server.create('external-provider', {
+    //     shareSourceKey: 'Research Registry',
+    // });
 
-    server.createList('external-registration', 3, { provider: clinicalTrials });
-    server.createList('external-registration', 2, { provider: researchRegistry });
+    // server.createList('external-registration', 3, { provider: clinicalTrials });
+    // server.createList('external-registration', 2, { provider: researchRegistry });
 
-    server.create('draft-registration', {
-        id: 'rrpre',
-        registrationSchema: server.schema.registrationSchemas.find('replication_recipe_pre_registration'),
-        initiator: currentUser,
-        registrationResponses,
-        branchedFrom: rootNode,
-    });
+    // server.create('draft-registration', {
+    //     id: 'rrpre',
+    //     registrationSchema: server.schema.registrationSchemas.find('replication_recipe_pre_registration'),
+    //     initiator: currentUser,
+    //     registrationResponses,
+    //     branchedFrom: rootNode,
+    // });
 
-    server.create('draft-registration', {
-        id: 'pregc',
-        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-        initiator: currentUser,
-        registrationResponses,
-        branchedFrom: rootNode,
-    });
+    // server.create('draft-registration', {
+    //     id: 'pregc',
+    //     registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+    //     initiator: currentUser,
+    //     registrationResponses,
+    //     branchedFrom: rootNode,
+    // });
 
-    server.create('registration', {
-        id: 'decaf',
-        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-        linkedNodes: server.createList('node', 2),
-        linkedRegistrations: server.createList('registration', 2),
-        currentUserPermissions: Object.values(Permission),
-    }, 'withContributors', 'withComments', 'withAffiliatedInstitutions');
+    // server.create('registration', {
+    //     id: 'decaf',
+    //     registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+    //     linkedNodes: server.createList('node', 2),
+    //     linkedRegistrations: server.createList('registration', 2),
+    //     currentUserPermissions: Object.values(Permission),
+    // }, 'withContributors', 'withComments', 'withAffiliatedInstitutions');
 
-    server.createList('subject', 10, 'withChildren');
+    // server.createList('subject', 10, 'withChildren');
 
     // Current user Bookmarks collection
-    server.create('collection', { title: 'Bookmarks', bookmarks: true });
+    // server.create('collection', { title: 'Bookmarks', bookmarks: true });
 }
 
 function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {
