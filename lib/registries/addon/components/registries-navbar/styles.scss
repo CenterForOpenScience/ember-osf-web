@@ -87,6 +87,10 @@
     text-transform: uppercase;
 }
 
+.AddRegistrationButton {
+    margin-left: 25px;
+}
+
 .SearchBar {
     :global(.media-desktop) & {
         width: 300px;

@@ -30,6 +30,19 @@
                     </PowerSelect>
                 </label>
 
+                <div local-class=''>
+                    <p local-class='newProjectHelpText'>
+                        {{t 'registries.new.new_project_help'}}
+                    </p>
+                    <Button
+                        @type='secondary'
+                        @layout='medium'
+                    >
+                        {{t 'registries.new.go_to_dashboard'}}
+                    </Button>
+                </div>
+                
+
                 <label local-class='selectLabel'>
                     {{t 'registries.new.select_schema'}}
                     <PowerSelect

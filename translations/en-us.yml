@@ -961,6 +961,8 @@ registries:
         page_header: 'Add New Registration'
         select_schema: 'Select registration type'
         select_project: 'Select project to register'
+        new_project_help: 'If you have not started the project yet, click below to go to your dashboard to create a new project'
+        go_to_dashboard: 'Go to dashboard'
         start_registration: 'Start registration draft'
     discover:
         page_title: Search

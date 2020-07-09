@@ -18,8 +18,13 @@
     composes: SchemaBlockDropdown from '../../drafts/draft/metadata/styles.scss';
 }
 
+.newProjectHelpText {
+    margin-top: 20px;
+}
+
 .createDraftButton {
     margin: 20px 0;
+    float: right;
 
     &:disabled {
         cursor: not-allowed;

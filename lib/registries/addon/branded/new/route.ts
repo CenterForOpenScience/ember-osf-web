@@ -34,7 +34,7 @@ export default class BrandedRegistriesNewSubmissionRoute extends Route {
         }
 
         // TODO: Remove this when moderation is in place
-        if (provider.id === 'egap' && !this.features.isEnabled(camelize(egapAdmins))) {
+        if ((provider.id === 'osf') || (provider.id === 'egap' && !this.features.isEnabled(camelize(egapAdmins)))) {
             this.transitionTo('page-not-found', currentUrl.slice(1));
         }
     }
