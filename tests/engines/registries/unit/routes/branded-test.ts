@@ -10,10 +10,13 @@ const currentUserStub = Service.extend();
 const sessionStub = Service.extend({
     isAuthenticated: true,
 });
+const featuresStub = Service.extend({
+    isEnabled: () => false,
+});
 const storeStub = Service.extend();
 const analyticsStub = Service.extend();
 
-module('Registries | Unit | Route | drafts.draft', hooks => {
+module('Registries | Unit | Route | branded', hooks => {
     setupEngineTest(hooks, 'registries');
 
     hooks.beforeEach(function(this: TestContext) {
@@ -22,30 +25,16 @@ module('Registries | Unit | Route | drafts.draft', hooks => {
         this.owner.register('service:session', sessionStub);
         this.owner.register('service:store', storeStub);
         this.owner.register('service:analytics', analyticsStub);
+        this.owner.register('service:features', featuresStub);
     });
 
-    test('drafts index exists', function(assert) {
-        const route = this.owner.lookup('route:drafts.index');
+    test('branded.discover exists', function(assert) {
+        const route = this.owner.lookup('route:branded.discover');
         assert.ok(route);
     });
 
-    test('drafts.draft.page exists', function(assert) {
-        const route = this.owner.lookup('route:drafts.draft.page');
-        assert.ok(route);
-    });
-
-    test('drafts.draft.review exists', function(assert) {
-        const route = this.owner.lookup('route:drafts.draft.review');
-        assert.ok(route);
-    });
-
-    test('drafts.draft exists', function(assert) {
-        const route = this.owner.lookup('route:drafts.draft');
-        assert.ok(route);
-    });
-
-    test('drafts.draft.metadata exists', function(assert) {
-        const route = this.owner.lookup('route:drafts.draft.metadata');
+    test('branded.new exists', function(assert) {
+        const route = this.owner.lookup('route:branded.new');
         assert.ok(route);
     });
 });

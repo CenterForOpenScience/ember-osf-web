@@ -18,10 +18,11 @@
         <layout.main local-class='Main'>
             <form data-test-new-registration-form local-class='Form'>
                 <label local-class='selectLabel'>
-                    <h2>
+                    <h2 data-test-schema-select-title>
                         {{t 'registries.new.select_project'}}
                     </h2>
                     <PowerSelect
+                        data-test-project-select
                         @placeholder={{t 'registries.new.select_project_placeholder'}}
                         @options={{this.projectOptions}}
                         @search={{perform this.projectSearch}}
@@ -44,10 +45,11 @@
                 </p>
 
                 <label local-class='selectLabel'>
-                    <h2>
+                    <h2 data-test-schema-select-title>
                         {{t 'registries.new.select_schema'}}
                     </h2>
                     <PowerSelect
+                        data-test-schema-select
                         local-class='selectDropdown'
                         @options={{this.schemaOptions}}
                         @selected={{this.selectedSchema}}

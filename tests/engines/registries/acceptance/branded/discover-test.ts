@@ -6,7 +6,7 @@ import { module, test } from 'qunit';
 import { visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 
-module('Registries | Acceptance | branded discover', hooks => {
+module('Registries | Acceptance | branded.discover', hooks => {
     setupEngineApplicationTest(hooks, 'registries');
     setupMirage(hooks);
 
