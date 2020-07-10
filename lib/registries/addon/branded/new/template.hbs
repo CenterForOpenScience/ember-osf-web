@@ -34,15 +34,14 @@
                 </label>
 
                 <p local-class='newProjectHelpText'>
-                    {{t 'registries.new.new_project_help'}}
+                    {{t 'registries.new.new_project_help_fragment1'}}
+                    <OsfLink
+                        @route='dashboard'
+                    >
+                        {{t 'registries.new.go_to_dashboard'}}
+                    </OsfLink>
+                    {{t 'registries.new.new_project_help_fragment2'}}
                 </p>
-                <Button
-                    @type='secondary'
-                    @layout='medium'
-                >
-                    {{t 'registries.new.go_to_dashboard'}}
-                </Button>
-                
 
                 <label local-class='selectLabel'>
                     <h2>

@@ -962,7 +962,9 @@ registries:
         select_schema: 'Select registration type'
         select_project: 'Select project to register'
         new_project_help: 'If you have not started the project yet, click below to go to your dashboard to create a new project'
-        go_to_dashboard: 'Go to dashboard'
+        new_project_help_fragment1: 'If you have not started the project yet,'
+        new_project_help_fragment2: 'to create a new project.'
+        go_to_dashboard: 'go to your dashboard'
         start_registration: 'Start registration draft'
         select_project_placeholder: 'Select your project'
     discover:
