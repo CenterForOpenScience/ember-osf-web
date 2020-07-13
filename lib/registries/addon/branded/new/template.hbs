@@ -23,6 +23,7 @@
                     </h2>
                     <PowerSelect
                         data-test-project-select
+                        @ariaLabel={{this.selectedProject.title}}
                         @placeholder={{t 'registries.new.select_project_placeholder'}}
                         @options={{this.projectOptions}}
                         @search={{perform this.projectSearch}}
@@ -51,6 +52,7 @@
                     <PowerSelect
                         data-test-schema-select
                         local-class='selectDropdown'
+                        @ariaLabel={{this.selectedSchema.name}}
                         @options={{this.schemaOptions}}
                         @selected={{this.selectedSchema}}
                         @searchEnabled={{false}}
