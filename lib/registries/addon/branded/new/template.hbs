@@ -18,8 +18,12 @@
         <layout.main local-class='Main'>
             <form data-test-new-registration-form local-class='Form'>
                 <label local-class='selectLabel'>
+                    <p local-class='stepLabel'>
+                        {{t 'registries.new.step_one'}}
+                    </p>
                     <h2 data-test-schema-select-title>
                         {{t 'registries.new.select_project'}}
+                        <span local-class='required' aria-label={{t 'registries.new.required'}}>*</span>
                     </h2>
                     <PowerSelect
                         data-test-project-select
@@ -42,12 +46,16 @@
                     >
                         {{t 'registries.new.go_to_dashboard'}}
                     </OsfLink>
-                    {{t 'registries.new.new_project_help_fragment2'}}
+                    {{t 'registries.new.new_project_help_fragment2' htmlSafe=true}}
                 </p>
 
                 <label local-class='selectLabel'>
+                    <p local-class='stepLabel'>
+                        {{t 'registries.new.step_two'}}
+                    </p>
                     <h2 data-test-schema-select-title>
                         {{t 'registries.new.select_schema'}}
+                        <span local-class='required' aria-label={{t 'registries.new.required'}}>*</span>
                     </h2>
                     <PowerSelect
                         data-test-schema-select

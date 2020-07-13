@@ -26,6 +26,7 @@
 
 .newProjectHelpText {
     margin-top: 20px;
+    max-width: 45%;
 }
 
 .createDraftButton {
@@ -37,4 +38,13 @@
         opacity: 0.65;
         box-shadow: none;
     }
+}
+
+.stepLabel {
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.required {
+    color: $brand-danger;
 }

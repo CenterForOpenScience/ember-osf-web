@@ -957,14 +957,17 @@ registries:
     branded:
         page_title: 'Registries'
     new:
+        required: 'required'
         page_title: 'New Registration'
         page_header: 'Add New Registration'
+        step_one: 'Step 1'
+        step_two: 'Step 2'
         select_schema: 'Select registration type'
         select_project: 'Select project to register'
         new_project_help: 'If you have not started the project yet, click below to go to your dashboard to create a new project'
-        new_project_help_fragment1: 'If you have not started the project yet,'
-        new_project_help_fragment2: 'to create a new project.'
-        go_to_dashboard: 'go to your dashboard'
+        new_project_help_fragment1: 'A project is required for registration. If you haven’t started the project yet, you can create a new project from'
+        new_project_help_fragment2: 'To learn more about regstration, <a href="https://help.osf.io/hc/en-us/articles/360019930893">visit our help docs.</a>'
+        go_to_dashboard: 'your dashboard.'
         start_registration: 'Start registration draft'
         select_project_placeholder: 'Select your project'
     discover:
