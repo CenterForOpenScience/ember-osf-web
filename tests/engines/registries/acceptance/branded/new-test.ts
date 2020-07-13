@@ -52,13 +52,26 @@ module('Registries | Acceptance | branded.new', hooks => {
     });
 
     test('users are prevented from submitting incomplete form 991', async assert => {
+        server.loadFixtures('registration-schemas');
+        server.loadFixtures('schema-blocks');
+        const currentUser = server.create('user', 'loggedIn');
+        const node = server.create('node', { id: 'decaf', title: 'This is your project' }, 'currentUserAdmin');
+        server.create('contributor', { node, users: currentUser });
         const brandedProvider = server.create('registration-provider', 'withBrand', 'withSchemas');
-        server.create('node', { id: 'decaf' }, 'currentUserAdmin');
         await visit(`/registries/${brandedProvider.id}/new`);
 
-        assert.dom('[data-test-start-registration-button]').isDisabled();
-        await click('.ember-power-select-trigger');
+        assert.dom('[data-test-start-registration-button]')
+            .isDisabled('Start registration button is disabled on first load');
+        await click('[data-test-project-select] .ember-power-select-trigger');
+        assert.dom('.ember-power-select-options > li.ember-power-select-option:first-of-type')
+            .hasText('This is your project', 'Project dropdown shows project title');
         await click('.ember-power-select-options > li.ember-power-select-option:first-of-type');
-        assert.dom('[data-test-start-registration-button]').isEnabled();
+        assert.dom('[data-test-schema-select] .ember-power-select-trigger')
+            .hasText('This is a Test Schema', 'Schema dropdown is autopopulated with first schema available');
+        assert.dom('[data-test-start-registration-button]')
+            .isEnabled('Start registration button is enabled after choosing a project and schema');
+        await click('[data-test-start-registration-button]');
+        assert.equal(currentRouteName(), 'registries.drafts.draft.metadata',
+            'Go to draft registration metadata page on start');
     });
 });

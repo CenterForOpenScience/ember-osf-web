@@ -17,11 +17,14 @@
         </layout.heading>
         <layout.main local-class='main'>
             <form data-test-new-registration-form local-class='registrationForm'>
-                <label local-class='selectLabel'>
+                <label
+                    data-test-project-select
+                    local-class='selectLabel'
+                >
                     <p local-class='stepLabel'>
                         {{t 'registries.new.step_one'}}
                     </p>
-                    <h2 data-test-schema-select-title>
+                    <h2 data-test-project-select-title>
                         {{t 'registries.new.select_project'}}
                         <span local-class='required' aria-label={{t 'registries.new.required'}}>*</span>
                     </h2>
@@ -49,7 +52,10 @@
                     {{t 'registries.new.new_project_help_fragment2' htmlSafe=true}}
                 </p>
 
-                <label local-class='selectLabel'>
+                <label
+                    data-test-schema-select
+                    local-class='selectLabel'
+                >
                     <p local-class='stepLabel'>
                         {{t 'registries.new.step_two'}}
                     </p>
