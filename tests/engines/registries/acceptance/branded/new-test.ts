@@ -51,7 +51,7 @@ module('Registries | Acceptance | branded.new', hooks => {
         assert.equal(currentRouteName(), 'registries.page-not-found', 'At the correct route: page-not-found');
     });
 
-    test('users are prevented from submitting incomplete form 991', async assert => {
+    test('users are prevented from submitting incomplete form', async assert => {
         server.loadFixtures('registration-schemas');
         server.loadFixtures('schema-blocks');
         const currentUser = server.create('user', 'loggedIn');
