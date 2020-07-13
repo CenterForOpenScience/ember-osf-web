@@ -19,8 +19,8 @@ export default class BrandedRegistriesNewSubmissionController extends Controller
     @tracked schemaOptions?: RegistrationSchemaModel[] = [];
     @tracked projectOptions?: NodeModel[] = [];
 
-    get disableCreateDraft() {
-        return !Boolean(this.selectedSchema && this.selectedProject);
+    get disableCreateDraft(): boolean {
+        return !(this.selectedSchema && this.selectedProject);
     }
 
     @task({ withTestWaiter: true })

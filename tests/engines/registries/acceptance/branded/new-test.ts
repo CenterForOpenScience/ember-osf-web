@@ -1,4 +1,4 @@
-import { currentRouteName } from '@ember/test-helpers';
+import { click, currentRouteName } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import Features from 'ember-feature-flags';
 import config from 'ember-get-config';
@@ -49,5 +49,16 @@ module('Registries | Acceptance | branded.new', hooks => {
         await visit(`/registries/${brandedProvider.id}/new`);
         assert.notOk(features.isEnabled(egapAdmins), 'egapAdmins flag is disabled');
         assert.equal(currentRouteName(), 'registries.page-not-found', 'At the correct route: page-not-found');
+    });
+
+    test('users are prevented from submitting incomplete form 991', async assert => {
+        const brandedProvider = server.create('registration-provider', 'withBrand', 'withSchemas');
+        server.create('node', { id: 'decaf' }, 'currentUserAdmin');
+        await visit(`/registries/${brandedProvider.id}/new`);
+
+        assert.dom('[data-test-start-registration-button]').isDisabled();
+        await click('.ember-power-select-trigger');
+        await click('.ember-power-select-options > li.ember-power-select-option:first-of-type');
+        assert.dom('[data-test-start-registration-button]').isEnabled();
     });
 });

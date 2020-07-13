@@ -5,18 +5,18 @@
     data-analytics-scope='New Registration Page'
     @provider={{this.model}}
 >
-    <OsfLayout @backgroundClass={{local-class 'ContentBackground'}} as |layout|>
+    <OsfLayout @backgroundClass={{local-class 'contentBackground'}} as |layout|>
         <layout.heading>
-            <HeroOverlay @align='left' local-class='DraftHeroOverlay'>
-                <div local-class='Title'>
+            <HeroOverlay @align='left'>
+                <div local-class='title'>
                     <h1>
                         {{t 'registries.new.page_header'}}
                     </h1>
                 </div>
             </HeroOverlay>
         </layout.heading>
-        <layout.main local-class='Main'>
-            <form data-test-new-registration-form local-class='Form'>
+        <layout.main local-class='main'>
+            <form data-test-new-registration-form local-class='registrationForm'>
                 <label local-class='selectLabel'>
                     <p local-class='stepLabel'>
                         {{t 'registries.new.step_one'}}
@@ -26,7 +26,7 @@
                         <span local-class='required' aria-label={{t 'registries.new.required'}}>*</span>
                     </h2>
                     <PowerSelect
-                        data-test-project-select
+                        @data-analytics-name='Project select dropdown'
                         @ariaLabel={{this.selectedProject.title}}
                         @placeholder={{t 'registries.new.select_project_placeholder'}}
                         @options={{this.projectOptions}}
@@ -58,8 +58,7 @@
                         <span local-class='required' aria-label={{t 'registries.new.required'}}>*</span>
                     </h2>
                     <PowerSelect
-                        data-test-schema-select
-                        local-class='selectDropdown'
+                        @data-analytics-name='Schema select dropdown'
                         @ariaLabel={{this.selectedSchema.name}}
                         @options={{this.schemaOptions}}
                         @selected={{this.selectedSchema}}
@@ -72,6 +71,7 @@
                 </label>
 
                 <Button
+                    data-test-start-registration-button
                     local-class='createDraftButton'
                     disabled={{this.disableCreateDraft}}
                     @type='primary'

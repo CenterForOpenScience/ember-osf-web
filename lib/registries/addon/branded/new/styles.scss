@@ -1,32 +1,29 @@
-.ContentBackground {
+.contentBackground {
     composes: ContentBackground from '../../overview/styles.scss';
 }
 
-.selectLabel {
-    display: block;
-}
-
-.Main {
+.main {
     composes: Main from '../../drafts/draft/styles.scss';
 }
 
-.Title {
+.title {
     composes: Title from '../../drafts/draft/styles.scss';
 }
 
-.Form {
+.selectLabel {
+    composes: SchemaBlockDropdown from '../../drafts/draft/metadata/styles.scss';
+    display: block;
+}
+
+.registrationForm {
     display: flex;
     align-items: center;
     flex-direction: column;
 }
 
-.selectLabel {
-    composes: SchemaBlockDropdown from '../../drafts/draft/metadata/styles.scss';
-}
-
 .newProjectHelpText {
     margin-top: 20px;
-    max-width: 45%;
+    max-width: 600px;
 }
 
 .createDraftButton {
