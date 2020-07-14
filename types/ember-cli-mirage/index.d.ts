@@ -3,6 +3,7 @@ import MirageModelRegistry from 'ember-cli-mirage/types/registries/model';
 import MirageSchemaRegistry from 'ember-cli-mirage/types/registries/schema';
 import DS from 'ember-data';
 import EmberDataModelRegistry from 'ember-data/types/registries/model';
+import { BelongsTo } from 'miragejs/-types';
 import { Document } from 'osf-api';
 
 declare global {
@@ -251,9 +252,10 @@ export function trait<
 // function association(...traits: string[], overrides?: { [key: string]: any }): any;
 
 export function association(...args: any[]): any;
+export { belongsTo } from 'miragejs';
 
 export type FactoryAttrs<T> = {
-    [P in keyof T]?: T[P] | ((index: number) => T[P]);
+    [P in keyof T]?: T[P] | BelongsTo | ((index: number) => T[P]);
 } & {
     afterCreate?(newObj: ModelInstance<T>, server: Server): void;
 };

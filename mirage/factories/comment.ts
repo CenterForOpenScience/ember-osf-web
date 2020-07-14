@@ -1,4 +1,3 @@
-// @ts-ignore
 import { association, belongsTo, Factory, trait, Trait } from 'ember-cli-mirage';
 import faker from 'faker';
 
