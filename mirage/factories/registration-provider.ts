@@ -56,6 +56,8 @@ export default Factory.extend<MirageRegistrationProvider & RegistrationProviderT
     }),
     withSchemas: trait<RegistrationProvider>({
         afterCreate(provider, server) {
+            server.loadFixtures('registration-schemas');
+            server.loadFixtures('schema-blocks');
             provider.update({ schemas: [server.schema.registrationSchemas.find('testSchema')] });
         },
     }),

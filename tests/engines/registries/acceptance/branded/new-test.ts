@@ -52,8 +52,6 @@ module('Registries | Acceptance | branded.new', hooks => {
     });
 
     test('users are prevented from submitting incomplete form', async assert => {
-        server.loadFixtures('registration-schemas');
-        server.loadFixtures('schema-blocks');
         const currentUser = server.create('user', 'loggedIn');
         const node = server.create('node', { id: 'decaf', title: 'This is your project' }, 'currentUserAdmin');
         server.create('contributor', { node, users: currentUser });

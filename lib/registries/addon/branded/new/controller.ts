@@ -10,12 +10,14 @@ import NodeModel from 'ember-osf-web/models/node';
 import RegistrationSchemaModel from 'ember-osf-web/models/registration-schema';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUserService from 'ember-osf-web/services/current-user';
-import captureException from 'ember-osf-web/utils/capture-exception';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
+import Toast from 'ember-toastr/services/toast';
 
 export default class BrandedRegistriesNewSubmissionController extends Controller {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUserService;
     @service store!: DS.Store;
+    @service toast!: Toast;
 
     @tracked selectedProject?: NodeModel = undefined;
     @tracked selectedSchema?: RegistrationSchemaModel = undefined;
@@ -39,6 +41,7 @@ export default class BrandedRegistriesNewSubmissionController extends Controller
             this.transitionToRoute('drafts.draft', newRegistration.id);
         } catch (e) {
             captureException(e);
+            this.toast.error(getApiErrorMessage(e));
         }
     });
 
@@ -50,6 +53,7 @@ export default class BrandedRegistriesNewSubmissionController extends Controller
             this.schemaOptions = schemas;
         } catch (e) {
             captureException(e);
+            this.toast.error(getApiErrorMessage(e));
         }
     });
 
@@ -64,10 +68,9 @@ export default class BrandedRegistriesNewSubmissionController extends Controller
                     },
                 });
             this.projectOptions = nodes;
-            return nodes;
         } catch (e) {
             captureException(e);
-            throw e;
+            this.toast.error(getApiErrorMessage(e));
         }
     });
 
