@@ -29,7 +29,6 @@
                         <span local-class='required' aria-label={{t 'registries.new.required'}}>*</span>
                     </h2>
                     <PowerSelect
-                        @data-analytics-name='Project select dropdown'
                         @ariaLabel={{this.selectedProject.title}}
                         @placeholder={{t 'registries.new.select_project_placeholder'}}
                         @options={{this.projectOptions}}
@@ -64,7 +63,6 @@
                         <span local-class='required' aria-label={{t 'registries.new.required'}}>*</span>
                     </h2>
                     <PowerSelect
-                        @data-analytics-name='Schema select dropdown'
                         @ariaLabel={{this.selectedSchema.name}}
                         @options={{this.schemaOptions}}
                         @selected={{this.selectedSchema}}
@@ -78,6 +76,7 @@
 
                 <Button
                     data-test-start-registration-button
+                    data-analytics-name='Create new draft registration'
                     local-class='createDraftButton'
                     disabled={{this.disableCreateDraft}}
                     @type='primary'

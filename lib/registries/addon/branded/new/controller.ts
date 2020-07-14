@@ -8,12 +8,15 @@ import DS from 'ember-data';
 
 import NodeModel from 'ember-osf-web/models/node';
 import RegistrationSchemaModel from 'ember-osf-web/models/registration-schema';
+import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import captureException from 'ember-osf-web/utils/capture-exception';
 
 export default class BrandedRegistriesNewSubmissionController extends Controller {
-    @service store!: DS.Store;
+    @service analytics!: Analytics;
     @service currentUser!: CurrentUserService;
+    @service store!: DS.Store;
+
     @tracked selectedProject?: NodeModel = undefined;
     @tracked selectedSchema?: RegistrationSchemaModel = undefined;
     @tracked schemaOptions?: RegistrationSchemaModel[] = [];
@@ -70,11 +73,13 @@ export default class BrandedRegistriesNewSubmissionController extends Controller
 
     @action
     updateSelectedSchema(schema: RegistrationSchemaModel) {
+        this.analytics.click('button', 'Update selected schema');
         this.selectedSchema = schema;
     }
 
     @action
     updateSelectedProject(project: NodeModel) {
+        this.analytics.click('button', 'Update selected project');
         this.selectedProject = project;
     }
 }
