@@ -966,7 +966,7 @@ registries:
         select_project: 'Select project to register'
         new_project_help: 'If you have not started the project yet, click below to go to your dashboard to create a new project'
         new_project_help_fragment1: 'A project is required for registration. If you haven’t started the project yet, you can create a new project from'
-        new_project_help_fragment2: 'To learn more about regstration, <a href="https://help.osf.io/hc/en-us/articles/360019930893">visit our help docs.</a>'
+        new_project_help_fragment2: 'To learn more about registration, <a href="https://help.osf.io/hc/en-us/articles/360019930893">visit our help docs.</a>'
         go_to_dashboard: 'your dashboard.'
         start_registration: 'Start registration draft'
         select_project_placeholder: 'Select your project'
