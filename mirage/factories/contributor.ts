@@ -10,7 +10,7 @@ interface ContributorTraits {
 }
 
 export default Factory.extend<Contributor & ContributorTraits>({
-    permission(i) {
+    permission(i: number) {
         const permissions = Object.values(Permission);
         return permissions[i % permissions.length];
     },

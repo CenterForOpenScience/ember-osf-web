@@ -136,7 +136,7 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     pendingEmbargoTerminationApproval: false,
     registeredFrom: association(),
 
-    index(i) {
+    index(i: number) {
         return i;
     },
     withComments: trait<MirageRegistration>({
