@@ -34,7 +34,6 @@ import * as wb from './views/wb';
 const { OSF: { apiUrl }, environment } = config;
 
 export default function(this: Server) {
-    this.logging = ['test', 'development'].includes(environment);
     this.passthrough(); // pass through all requests on currrent domain
     // SHARE search
     this.urlPrefix = 'https://share.osf.io';
