@@ -1,5 +1,5 @@
 import { click, currentRouteName } from '@ember/test-helpers';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import Features from 'ember-feature-flags';
 import config from 'ember-get-config';
 import { percySnapshot } from 'ember-percy';

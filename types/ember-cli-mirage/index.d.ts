@@ -62,7 +62,6 @@ interface ModelInstanceShared<T> {
 }
 
 export function hasMany(model: string): void;
-export function belongsTo(model: string): void;
 
 export type ModelInstance<T = AnyAttrs> = ModelInstanceShared<T> & ModelInstanceAttrs<T>;
 
