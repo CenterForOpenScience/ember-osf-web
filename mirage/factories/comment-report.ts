@@ -22,7 +22,7 @@ export default Factory.extend<CommentReport>({
             });
         }
     },
-    category(i) {
+    category(i: number) {
         const categories = ['spam', 'hate', 'violence'];
         return categories[i % categories.length];
     },
