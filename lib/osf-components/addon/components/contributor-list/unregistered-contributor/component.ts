@@ -13,7 +13,7 @@ import template from './template';
 @tagName('')
 export default class UnregisteredContributorComponent extends Component {
     @service currentUser!: CurrentUserService;
-    @bool('currentUser.currentUserId') isLoggedIn: boolean = false;
+    @bool('currentUser.currentUserId') isLoggedIn?: boolean;
     @tracked shouldOpenClaimDialog: boolean = false;
 
     @action

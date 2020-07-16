@@ -19,7 +19,7 @@ export default class ContributorListContributor extends Component {
     contributorName?: string;
     contributorLink?: string;
 
-    @bool('contributor.unregisteredContributor') isUnregistered: boolean = false;
+    @bool('contributor.unregisteredContributor') isUnregistered?: boolean;
 
     @task({ withTestWaiter: true, restartable: true, on: 'didReceiveAttrs' })
     loadUser = task(function *(this: ContributorListContributor) {

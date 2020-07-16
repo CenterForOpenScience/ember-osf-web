@@ -10,6 +10,7 @@
         {{~#if list.item}}
             {{~contributor-list/contributor
                 contributor=list.item
+                shouldEnableClaimUser=@shouldEnableClaimUser
                 shouldLinkUser=this.shouldLinkUsers
                 shouldShortenName=this.shouldTruncate
             ~}}
