@@ -6,7 +6,6 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 
 import { draftRegisterNodeMultiple, forkNode, registerNodeMultiple } from '../helpers';
-// import { placekitten } from '../utils';
 
 const {
     dashboard: {
@@ -70,7 +69,7 @@ function registrationScenario(
     const decaf = server.create('registration', {
         id: 'decaf',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
-    });
+    }, 'withContributors');
 
     server.create('contributor', { node: decaf }, 'unregistered');
 
@@ -130,14 +129,6 @@ function registrationScenario(
         registrationResponses,
         branchedFrom: rootNode,
     });
-
-    server.create('registration', {
-        id: 'decaf',
-        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-        linkedNodes: server.createList('node', 2),
-        linkedRegistrations: server.createList('registration', 2),
-        currentUserPermissions: Object.values(Permission),
-    }, 'withContributors', 'withComments', 'withAffiliatedInstitutions');
 
     server.createList('subject', 10, 'withChildren');
 

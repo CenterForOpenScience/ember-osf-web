@@ -1,4 +1,8 @@
-<span role='button' {{onClick this.showDialog}}>
+{{assert
+      'ContributorList::UnregisteredContributor @contributor must be unregistered'
+      @contributor.unregisteredContributor
+}}
+<span role='button' {{on 'click' this.showDialog}}>
     <BsPopover
         @placement='top'
         @triggerEvents='hover'
@@ -8,7 +12,7 @@
     </BsPopover>
     {{~@contributor.unregisteredContributor~}}
 </span>
-{{!-- 
+
 <OsfDialog @open={{this.shouldOpenClaimDialog}} as |dialog|>
     <dialog.heading>
         <h3>
@@ -30,4 +34,4 @@
             {{t 'components.contributor_list.unregistered_contributor.claim'}}
         </Button>
     </dialog.footer>
-</OsfDialog> --}}
+</OsfDialog>
