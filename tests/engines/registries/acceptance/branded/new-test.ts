@@ -17,7 +17,7 @@ module('Registries | Acceptance | branded.new', hooks => {
     });
 
     test('serves branded.new route if provider.allowSubmissions: true', async assert => {
-        const brandedProvider = server.create('registration-provider', 'withBrand', 'withSchemas');
+        const brandedProvider = server.create('registration-provider', 'withBrand');
         await visit(`/registries/${brandedProvider.id}/new`);
         await percySnapshot(assert);
 
@@ -26,14 +26,14 @@ module('Registries | Acceptance | branded.new', hooks => {
 
     test('redirects to page-not-found if provider.allowSubmissions: false', async assert => {
         const brandedProvider = server.create('registration-provider',
-            'withBrand', 'withSchemas', 'submissionsNotAllowed');
+            'withBrand', 'submissionsNotAllowed');
         await visit(`/registries/${brandedProvider.id}/new`);
         assert.equal(currentRouteName(), 'registries.page-not-found', 'At the correct route: page-not-found');
     });
 
     test('only serves EGAP brand.new if egapAdmins feature flag is enabled', async function(assert) {
         const brandedProvider = server.create('registration-provider',
-            { id: 'egap' }, 'withBrand', 'withSchemas');
+            { id: 'egap' }, 'withBrand');
         const { featureFlagNames: { egapAdmins } } = config;
         const features = this.owner.lookup('service:features') as Features;
 

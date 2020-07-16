@@ -19,10 +19,10 @@ export default class BrandedRegistriesNewSubmissionController extends Controller
     @service store!: DS.Store;
     @service toast!: Toast;
 
-    @tracked selectedProject?: NodeModel = undefined;
-    @tracked selectedSchema?: RegistrationSchemaModel = undefined;
-    @tracked schemaOptions?: RegistrationSchemaModel[] = [];
-    @tracked projectOptions?: NodeModel[] = [];
+    @tracked selectedProject?: NodeModel;
+    @tracked selectedSchema?: RegistrationSchemaModel;
+    @tracked schemaOptions: RegistrationSchemaModel[] = [];
+    @tracked projectOptions: NodeModel[] = [];
 
     get disableCreateDraft(): boolean {
         return !(this.selectedSchema && this.selectedProject);

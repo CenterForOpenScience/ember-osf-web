@@ -1,7 +1,6 @@
 import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-import { camelize } from '@ember/string';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
 
@@ -34,7 +33,7 @@ export default class BrandedRegistriesNewSubmissionRoute extends Route {
         }
 
         // TODO: Remove this when moderation is in place
-        if (provider.id === 'egap' && !this.features.isEnabled(camelize(egapAdmins))) {
+        if (provider.id === 'egap' && !this.features.isEnabled(egapAdmins)) {
             this.transitionTo('page-not-found', currentUrl.slice(1));
         }
     }
