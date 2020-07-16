@@ -1,0 +1,26 @@
+<span>
+    {{this.contributor.unregisteredContributor}}
+</span>
+
+<OsfDialog as |dialog|>
+    <dialog.heading>
+        <h3>
+            {{t 'components.contributor_list.unregistered_contributor.loggedInClaimHeader'}}
+        </h3>
+    </dialog.heading>
+    <dialog.main>
+        {{t 'components.contributor_list.unregistered_contributor.loggedInClaimMain'}}
+    </dialog.main>
+    <dialog.footer>
+        <Button
+            @type='secondary'
+        >
+            {{t 'general.cancel'}}
+        </Button>
+        <Button
+            @type='primary'
+        >
+            {{t 'components.contributor_list.unregistered_contributor.claim'}}
+        </Button>
+    </dialog.footer>
+</OsfDialog>
