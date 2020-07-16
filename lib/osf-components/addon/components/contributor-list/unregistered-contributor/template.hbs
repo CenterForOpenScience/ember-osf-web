@@ -1,8 +1,15 @@
-<span>
-    {{this.contributor.unregisteredContributor}}
+<span role='button' {{onClick this.showDialog}}>
+    <BsPopover
+        @placement='top'
+        @triggerEvents='hover'
+        @title={{t 'contributor_list.unregistered_contributor.popover_title'}}
+    >
+        {{t 'contributor_list.unregistered_contributor.tooltip_message'}}
+    </BsPopover>
+    {{~@contributor.unregisteredContributor~}}
 </span>
 
-<OsfDialog as |dialog|>
+<OsfDialog @open={{this.shouldOpenClaimDialog}} as |dialog|>
     <dialog.heading>
         <h3>
             {{t 'components.contributor_list.unregistered_contributor.loggedInClaimHeader'}}

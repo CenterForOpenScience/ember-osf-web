@@ -676,7 +676,8 @@ contributor_list:
         tooltip_message: 'Is this you? Click to claim.'
         loggedInClaimHeader: 'Claim as {email}?'
         loggedInClaimMain: 'If you claim this account, a contributor of this project will be emailed to confirm your identity.'
-        claim: 'Claim'
+        claim: 'Claim',
+        popover_title: 'Claim contributor'
 app_components:
     branded_navbar:
         my_osf_projects: 'My OSF Projects'
