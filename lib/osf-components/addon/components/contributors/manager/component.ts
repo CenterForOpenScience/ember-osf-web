@@ -69,4 +69,20 @@ export default class ContributorsManager extends Component {
             }
         },
     );
+
+    @task({ withTestWaiter: true, enqueue: true })
+    reorderContributor = task(
+        function *(this: ContributorsManager, newOrder: ContributorModel[], contributor: ContributorModel) {
+            const newIndex = newOrder.indexOf(contributor);
+            try {
+                contributor.setProperties({
+                    index: newIndex,
+                });
+                yield contributor.save();
+                this.contributors = newOrder;
+            } catch (e) {
+                this.toast.error('some error message here');
+            }
+        },
+    );
 }
