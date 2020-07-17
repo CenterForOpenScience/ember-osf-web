@@ -12,7 +12,7 @@
     </a>
 {{~else~}}
     {{~#if (and this.isUnregistered this.shouldEnableClaimUser)}}
-        <ContributorList::UnregisteredContributor @contributor={{this.contributor}} />
+        <ContributorList::UnregisteredContributor @contributor={{this.contributor}} @nodeId={{@nodeId}} />
     {{else}}
         <span data-test-contributor-name={{@contributor.users.id}}>
             {{~this.contributorName~}}

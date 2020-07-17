@@ -4,7 +4,7 @@ import { action } from '@ember/object';
 import { bool } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import { task } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Contributor from 'ember-osf-web/models/contributor';
@@ -47,11 +47,6 @@ export default class UnregisteredContributorComponent extends Component {
         if (this.isLoggedIn) {
             this.loadEmailsTask.perform();
         }
-    }
-
-    @action
-    claimUser() {
-        return null;
     }
 
     @action
