@@ -1,6 +1,7 @@
 import { alias } from '@ember/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
+import config from 'ember-get-config';
 import { Link } from 'jsonapi-typescript';
 
 import SparseNodeModel from 'ember-osf-web/models/sparse-node';
@@ -13,6 +14,8 @@ import RegionModel from './region';
 import RegistrationModel from './registration';
 import UserEmailModel from './user-email';
 import UserSettingModel from './user-setting';
+
+const { OSF: { apiUrl } } = config;
 
 const { attr, belongsTo, hasMany } = DS;
 
@@ -112,6 +115,23 @@ export default class UserModel extends OsfModel.extend(Validations) {
     // Calculated fields
     @alias('links.html') profileURL!: string;
     @alias('links.profile_image') profileImage!: string;
+
+    claimUnregisteredUser(nodeId: string, email?: string) {
+        const url = `${apiUrl}users/${this.id}/claim`;
+        return this.currentUser.authenticatedAJAX({
+            url,
+            type: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: JSON.stringify({
+                attributes: {
+                    email,
+                    id: nodeId,
+                },
+            }),
+        });
+    }
 }
 
 declare module 'ember-data/types/registries/model' {

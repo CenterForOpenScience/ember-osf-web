@@ -1,7 +1,8 @@
 {{assert
-      'ContributorList::UnregisteredContributor @contributor must be unregistered'
-      @contributor.unregisteredContributor
+      'ContributorList::UnregisteredContributor @contributor must be unregistered and @nodeId is required!'
+      (and @contributor.unregisteredContributor @nodeId)
 }}
+
 <span
     role='button'
     {{on 'click' this.showDialog}}
@@ -18,7 +19,7 @@
 </span>
 
 <OsfDialog
-    @isOpen={{this.shouldOpenClaimDialog}} 
+    @isOpen={{this.shouldOpenClaimDialog}}
     @onClose={{this.closeDialog}}
     as |dialog|
 >

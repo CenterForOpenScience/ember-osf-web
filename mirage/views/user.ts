@@ -15,3 +15,7 @@ export function userNodeList(this: HandlerContext, schema: Schema, request: Requ
     const json = process(schema, request, this, nodes, { defaultSortKey: 'last_logged' });
     return json;
 }
+
+export function claimUnregisteredUser(this: HandlerContext /* schema: Schema, request: Request */) {
+    // TODO: define me.
+}

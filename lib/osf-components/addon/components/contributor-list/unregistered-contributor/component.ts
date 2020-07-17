@@ -7,6 +7,7 @@ import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 
 import { layout } from 'ember-osf-web/decorators/component';
+import Contributor from 'ember-osf-web/models/contributor';
 import UserEmail from 'ember-osf-web/models/user-email';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 
@@ -21,6 +22,8 @@ export default class UnregisteredContributorComponent extends Component {
     @tracked shouldOpenClaimDialog: boolean = false;
 
     @tracked currentUserEmail?: string;
+    contributor!: Contributor;
+    nodeId!: string;
 
     @task({ withTestWaiter: true })
     loadEmailsTask = task(function *(this: UnregisteredContributorComponent) {
@@ -32,11 +35,13 @@ export default class UnregisteredContributorComponent extends Component {
         this.currentUserEmail = emails[0].emailAddress;
     });
 
-    // @task({ withTestWaiter: true })
-    // claimContributor = task(function *(this: UnregisteredContributorComponent) {
-    //     //TODO: What should this do?
-    //     return '';
-    // });
+    @task({ withTestWaiter: true })
+    claimContributor = task(function *(this: UnregisteredContributorComponent) {
+        if (this.isLoggedIn) {
+            yield this.contributor.users.claimUnregisteredUser(this.nodeId);
+        }
+        // TODO: Handle logged out user;
+    });
 
     didReceiveAttrs() {
         if (this.isLoggedIn) {
