@@ -22,6 +22,9 @@ export default Factory.extend<Contributor & ContributorTraits>({
     fullName() {
         return `${faker.name.firstName()} ${faker.name.lastName()}`;
     },
+    email() {
+        return faker.internet.email();
+    },
 
     afterCreate(contributor) {
         if (contributor.bibliographic) {

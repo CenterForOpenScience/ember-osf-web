@@ -2,7 +2,11 @@
       'ContributorList::UnregisteredContributor @contributor must be unregistered'
       @contributor.unregisteredContributor
 }}
-<span role='button' {{on 'click' this.showDialog}}>
+<span
+    role='button'
+    {{on 'click' this.showDialog}}
+    data-analytics-name='Open claim unregistered user dialog'
+>
     <BsPopover
         @placement='top'
         @triggerEvents='hover'
@@ -13,25 +17,33 @@
     {{~@contributor.unregisteredContributor~}}
 </span>
 
-<OsfDialog @open={{this.shouldOpenClaimDialog}} as |dialog|>
+<OsfDialog
+    @isOpen={{this.shouldOpenClaimDialog}} 
+    @onClose={{this.closeDialog}}
+    as |dialog|
+>
     <dialog.heading>
         <h3>
-            {{t 'components.contributor_list.unregistered_contributor.loggedInClaimHeader'}}
+            {{t 'contributor_list.unregistered_contributor.loggedInClaimHeader' email=@contributor.email}}
         </h3>
     </dialog.heading>
     <dialog.main>
-        {{t 'components.contributor_list.unregistered_contributor.loggedInClaimMain'}}
+        {{t 'contributor_list.unregistered_contributor.loggedInClaimMain'}}
     </dialog.main>
     <dialog.footer>
         <Button
+            data-analytics-name='Cancel claim unregistered user'
             @type='secondary'
+            {{on 'click' dialog.close}}
         >
             {{t 'general.cancel'}}
         </Button>
         <Button
+            data-analytics-name='Claim unregistered user'
             @type='primary'
+            {{on 'click' (perform this.claimContributor)}}
         >
-            {{t 'components.contributor_list.unregistered_contributor.claim'}}
+            {{t 'contributor_list.unregistered_contributor.claim'}}
         </Button>
     </dialog.footer>
 </OsfDialog>
