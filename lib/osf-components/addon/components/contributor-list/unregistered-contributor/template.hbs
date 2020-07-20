@@ -24,7 +24,7 @@
     as |dialog|
 >
     <dialog.heading>
-        {{#if this.loggedIn}}        
+        {{#if this.loggedIn}}
             {{t 'contributor_list.unregistered_contributor.loggedInClaimHeader' email=@contributor.email}}
         {{else}}
             {{t 'contributor_list.unregistered_contributor.loggedOutClaimHeader' userFullName=@contributor.unregisteredContributor}}
@@ -39,7 +39,11 @@
                 <Input
                     local-class='emailInput'
                     @placeholder={{t 'contributor_list.unregistered_contributor.emailPlaceholder'}}
-                    @value={{this.loggedOutClaimEmail}}
+                    @value={{get this.emailChangeset 'userEmail'}}
+                />
+                <ValidationErrors
+                    @changeset={{this.emailChangeset}}
+                    @key='userEmail'
                 />
             </label>
         {{/if}}
@@ -54,6 +58,7 @@
         </Button>
         <Button
             data-analytics-name='Claim unregistered user'
+            disabled={{this.emailChangeset.isInvalid}}
             @type='primary'
             {{on 'click' (perform this.claimContributor)}}
         >
