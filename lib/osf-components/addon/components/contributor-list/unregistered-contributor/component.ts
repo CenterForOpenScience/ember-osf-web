@@ -1,6 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
-import { action } from '@ember/object';
+import { action, computed } from '@ember/object';
 import { bool } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
@@ -42,6 +42,10 @@ export default class UnregisteredContributorComponent extends Component {
     @service toast!: Toast;
     @service intl!: Intl;
     @bool('currentUser.currentUserId') isLoggedIn?: boolean;
+    @computed('isLoggedIn', 'emailChangeset.isInValid')
+    get isClaimButtonDisabled(): boolean {
+        return Boolean(!this.isLoggedIn && this.emailChangeset.isInvalid);
+    }
 
     @tracked shouldOpenClaimDialog: boolean = false;
     @tracked currentUserEmail?: string;
@@ -63,24 +67,24 @@ export default class UnregisteredContributorComponent extends Component {
 
     @task({ withTestWaiter: true })
     claimContributor = task(function *(this: UnregisteredContributorComponent) {
-        this.emailChangeset.validate();
-        if (this.emailChangeset.isValid) {
-            try {
-                const user: UserModel = yield this.contributor.users;
-                if (user) {
-                    if (this.isLoggedIn) {
-                        yield user.claimUnregisteredUser(this.nodeId);
-                    } else {
+        try {
+            const user: UserModel = yield this.contributor.users;
+            if (user) {
+                if (this.isLoggedIn) {
+                    yield user.claimUnregisteredUser(this.nodeId);
+                } else {
+                    this.emailChangeset.validate();
+                    if (this.emailChangeset.isValid) {
                         yield user.claimUnregisteredUser(this.nodeId, this.emailChangeset.get('userEmail'));
                     }
                 }
-                this.closeDialog();
-            } catch (e) {
-                const errorMessage = this.intl.t('contributor_list.unregistered_contributor.toast_error_title');
-                captureException(e, { errorMessage });
-                this.toast.error(getApiErrorMessage(e), errorMessage);
-                throw e;
             }
+            this.closeDialog();
+        } catch (e) {
+            const errorMessage = this.intl.t('contributor_list.unregistered_contributor.toast_error_title');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
+            throw e;
         }
     });
 

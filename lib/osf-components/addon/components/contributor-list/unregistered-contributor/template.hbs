@@ -24,14 +24,14 @@
     as |dialog|
 >
     <dialog.heading>
-        {{#if this.loggedIn}}
+        {{#if this.isLoggedIn}}
             {{t 'contributor_list.unregistered_contributor.loggedInClaimHeader' email=@contributor.email}}
         {{else}}
             {{t 'contributor_list.unregistered_contributor.loggedOutClaimHeader' userFullName=@contributor.unregisteredContributor}}
         {{/if}}
     </dialog.heading>
     <dialog.main>
-        {{#if this.loggedIn}}
+        {{#if this.isLoggedIn}}
             {{t 'contributor_list.unregistered_contributor.loggedInClaimMain'}}
         {{else}}
             <label local-class='emailLabel'>
@@ -58,7 +58,7 @@
         </Button>
         <Button
             data-analytics-name='Claim unregistered user'
-            disabled={{this.emailChangeset.isInvalid}}
+            disabled={{this.isClaimButtonDisabled}}
             @type='primary'
             {{on 'click' (perform this.claimContributor)}}
         >
