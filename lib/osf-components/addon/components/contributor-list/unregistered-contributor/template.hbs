@@ -24,22 +24,24 @@
     as |dialog|
 >
     <dialog.heading>
-        <h3>
-            {{#if this.loggedIn}}        
-                {{t 'contributor_list.unregistered_contributor.loggedInClaimHeader' email=@contributor.email}}
-            {{else}}
-                {{t 'contributor_list.unregistered_contributor.loggedOutClaimHeader' userFullName=@contributor.unregisteredContributor}}
-            {{/if}}
-        </h3>
+        {{#if this.loggedIn}}        
+            {{t 'contributor_list.unregistered_contributor.loggedInClaimHeader' email=@contributor.email}}
+        {{else}}
+            {{t 'contributor_list.unregistered_contributor.loggedOutClaimHeader' userFullName=@contributor.unregisteredContributor}}
+        {{/if}}
     </dialog.heading>
     <dialog.main>
         {{#if this.loggedIn}}
             {{t 'contributor_list.unregistered_contributor.loggedInClaimMain'}}
         {{else}}
-            <Input
-                @placeholder={{t 'contributor_list.unregistered_contributor.enterEmail'}}
-                @value={{this.loggedOutClaimEmail}}
-            />
+            <label local-class='emailLabel'>
+                {{t 'contributor_list.unregistered_contributor.enterEmail'}}
+                <Input
+                    local-class='emailInput'
+                    @placeholder={{t 'contributor_list.unregistered_contributor.emailPlaceholder'}}
+                    @value={{this.loggedOutClaimEmail}}
+                />
+            </label>
         {{/if}}
     </dialog.main>
     <dialog.footer>

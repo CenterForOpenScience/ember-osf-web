@@ -677,7 +677,8 @@ contributor_list:
         loggedInClaimHeader: 'Claim as {email}?'
         loggedInClaimMain: 'If you claim this account, a contributor of this project will be emailed to confirm your identity.'
         loggedOutClaimHeader: 'Claim this user ({userFullName})?'
-        enterEmail: 'Enter email'
+        enterEmail: 'Enter email to claim account'
+        emailPlaceholder: 'Email address'
         claim: Claim
         popover_title: 'Claim contributor'
 app_components:
