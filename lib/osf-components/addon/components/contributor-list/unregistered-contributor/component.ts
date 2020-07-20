@@ -8,6 +8,7 @@ import { task } from 'ember-concurrency-decorators';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Contributor from 'ember-osf-web/models/contributor';
+import UserModel from 'ember-osf-web/models/user';
 import UserEmail from 'ember-osf-web/models/user-email';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 
@@ -38,7 +39,10 @@ export default class UnregisteredContributorComponent extends Component {
     @task({ withTestWaiter: true })
     claimContributor = task(function *(this: UnregisteredContributorComponent) {
         if (this.isLoggedIn) {
-            yield this.contributor.users.claimUnregisteredUser(this.nodeId);
+            const user: UserModel = yield this.contributor.users;
+            if (user) {
+                yield user.claimUnregisteredUser(this.nodeId);
+            }
         }
         // TODO: Handle logged out user;
     });
