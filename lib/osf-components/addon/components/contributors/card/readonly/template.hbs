@@ -13,7 +13,7 @@
                 data-test-contributor-link={{@contributor.id}}
                 data-analytics-name='View user'
                 @route='guid-user'
-                @models={{array @contributor.id}}
+                @models={{array @contributor.users.id}}
             >
                 {{@contributor.users.fullName}}
             </OsfLink>
