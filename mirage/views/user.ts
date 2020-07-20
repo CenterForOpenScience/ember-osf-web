@@ -1,4 +1,4 @@
-import { HandlerContext, Request, Schema } from 'ember-cli-mirage';
+import { HandlerContext, Request, Response, Schema } from 'ember-cli-mirage';
 
 import { filter, process } from './utils';
 
@@ -17,5 +17,5 @@ export function userNodeList(this: HandlerContext, schema: Schema, request: Requ
 }
 
 export function claimUnregisteredUser(this: HandlerContext /* schema: Schema, request: Request */) {
-    // TODO: define me.
+    return new Response(204);
 }

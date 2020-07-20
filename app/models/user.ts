@@ -16,7 +16,7 @@ import RegistrationModel from './registration';
 import UserEmailModel from './user-email';
 import UserSettingModel from './user-setting';
 
-const { OSF: { apiUrl } } = config;
+const { OSF: { apiUrl, apiNamespace } } = config;
 
 const { attr, belongsTo, hasMany } = DS;
 
@@ -119,7 +119,7 @@ export default class UserModel extends OsfModel.extend(Validations) {
 
     @action
     claimUnregisteredUser(nodeId: string, email?: string) {
-        const url = `${apiUrl}/users/${this.id}/claim`;
+        const url = `${apiUrl}/${apiNamespace}/users/${this.id}/claim`;
         return this.currentUser.authenticatedAJAX({
             url,
             type: 'POST',

@@ -25,11 +25,22 @@
 >
     <dialog.heading>
         <h3>
-            {{t 'contributor_list.unregistered_contributor.loggedInClaimHeader' email=@contributor.email}}
+            {{#if this.loggedIn}}        
+                {{t 'contributor_list.unregistered_contributor.loggedInClaimHeader' email=@contributor.email}}
+            {{else}}
+                {{t 'contributor_list.unregistered_contributor.loggedOutClaimHeader' userFullName=@contributor.unregisteredContributor}}
+            {{/if}}
         </h3>
     </dialog.heading>
     <dialog.main>
-        {{t 'contributor_list.unregistered_contributor.loggedInClaimMain'}}
+        {{#if this.loggedIn}}
+            {{t 'contributor_list.unregistered_contributor.loggedInClaimMain'}}
+        {{else}}
+            <Input
+                @placeholder={{t 'contributor_list.unregistered_contributor.enterEmail'}}
+                @value={{this.loggedOutClaimEmail}}
+            />
+        {{/if}}
     </dialog.main>
     <dialog.footer>
         <Button

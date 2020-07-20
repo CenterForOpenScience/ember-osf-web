@@ -23,6 +23,7 @@ export default class UnregisteredContributorComponent extends Component {
     @tracked shouldOpenClaimDialog: boolean = false;
 
     @tracked currentUserEmail?: string;
+    @tracked loggedOutClaimEmail?: string;
     contributor!: Contributor;
     nodeId!: string;
 
@@ -38,13 +39,14 @@ export default class UnregisteredContributorComponent extends Component {
 
     @task({ withTestWaiter: true })
     claimContributor = task(function *(this: UnregisteredContributorComponent) {
-        if (this.isLoggedIn) {
-            const user: UserModel = yield this.contributor.users;
-            if (user) {
+        const user: UserModel = yield this.contributor.users;
+        if (user) {
+            if (this.isLoggedIn) {
                 yield user.claimUnregisteredUser(this.nodeId);
+            } else {
+                yield user.claimUnregisteredUser(this.nodeId, this.loggedOutClaimEmail);
             }
         }
-        // TODO: Handle logged out user;
     });
 
     didReceiveAttrs() {
