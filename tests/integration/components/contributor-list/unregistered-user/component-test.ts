@@ -32,6 +32,7 @@ module('Integration | Component | contributor-list/unregistered-user', hooks => 
     // - Heading text containts the current logged in user's email
     // - No textbox
     // - "Claim" button is enabled
+
     // Check logged out scenario
     // - hovered text is correct
     // - Heading text containts the name of the unregistered contrib
@@ -39,7 +40,7 @@ module('Integration | Component | contributor-list/unregistered-user', hooks => 
     // - has error messages
     // - "Claim" button disabled when invalid text inputed
     test('logged in scenario', async function(assert) {
-        await render(hbs`<ContributorList::UnregisteredUser @contributor={{this.contrib}} @nodeId={{this.node.id}}>`);
+        await render(hbs`<ContributorList::UnregisteredUser @contributor={{this.contrib}} @nodeId={{this.node.id}}/>`);
         assert.dom(this.element).hasText('Lou Bega', 'Has correct name');
         await triggerEvent('[data-test-unregistered-contributor-name]', 'mouseover');
         // check the popover
