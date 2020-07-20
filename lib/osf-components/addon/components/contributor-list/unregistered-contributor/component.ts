@@ -101,6 +101,7 @@ export default class UnregisteredContributorComponent extends Component {
 
     @action
     closeDialog() {
+        this.emailChangeset.rollback();
         this.shouldOpenClaimDialog = false;
     }
 }

@@ -7,6 +7,7 @@
     role='button'
     {{on 'click' this.showDialog}}
     data-analytics-name='Open claim unregistered user dialog'
+    data-test-unregistered-contributor-name
 >
     <BsPopover
         @placement='top'
@@ -23,14 +24,14 @@
     @onClose={{this.closeDialog}}
     as |dialog|
 >
-    <dialog.heading>
+    <dialog.heading data-test-modal-heading>
         {{#if this.isLoggedIn}}
             {{t 'contributor_list.unregistered_contributor.loggedInClaimHeader' email=@contributor.email}}
         {{else}}
             {{t 'contributor_list.unregistered_contributor.loggedOutClaimHeader' userFullName=@contributor.unregisteredContributor}}
         {{/if}}
     </dialog.heading>
-    <dialog.main>
+    <dialog.main data-test-modal-main>
         {{#if this.isLoggedIn}}
             {{t 'contributor_list.unregistered_contributor.loggedInClaimMain'}}
         {{else}}
@@ -38,6 +39,7 @@
                 {{t 'contributor_list.unregistered_contributor.enterEmail'}}
                 <Input
                     local-class='emailInput'
+                    data-test-email-input
                     @placeholder={{t 'contributor_list.unregistered_contributor.emailPlaceholder'}}
                     @value={{get this.emailChangeset 'userEmail'}}
                 />
@@ -51,6 +53,7 @@
     <dialog.footer>
         <Button
             data-analytics-name='Cancel claim unregistered user'
+            data-test-modal-cancel-button
             @type='secondary'
             {{on 'click' dialog.close}}
         >
@@ -58,6 +61,7 @@
         </Button>
         <Button
             data-analytics-name='Claim unregistered user'
+            data-test-modal-claim-button
             disabled={{this.isClaimButtonDisabled}}
             @type='primary'
             {{on 'click' (perform this.claimContributor)}}
