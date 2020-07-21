@@ -1,4 +1,4 @@
-import Service from '@ember/service';
+// import Service from '@ember/service';
 import { fillIn, pauseTest, render, triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -11,10 +11,10 @@ import { click } from 'ember-osf-web/tests/helpers';
 
 import { module, test } from 'qunit';
 
-const currentUserStub = Service.extend({
-    currentUserId: 'dscf',
-    ajaxHeaders: () => ({}),
-});
+// const currentUserStub = Service.extend({
+//     currentUserId: 'dscf',
+//     ajaxHeaders: () => ({}),
+// });
 
 interface ThisTestContext extends TestContext {
     contrib: { email: string, unregisteredContributor: string, users: { fullName: string } };
@@ -48,17 +48,17 @@ module('Integration | Component | contributor-list/unregistered-user', hooks => 
     // - has error messages
     // - "Claim" button disabled when invalid text inputed
     test('logged in scenario', async function(this: ThisTestContext, assert) {
-        this.owner.register('service:current-user', currentUserStub);
         const user = server.create('user', { id: 'dscf' });
         server.create('user-email', { primary: true, user });
         const userModel = await this.store.findRecord('user', user.id);
-        this.currentUser.set('user', userModel);
+        this.owner.lookup('service:current-user').set('user', userModel);
+        this.owner.lookup('service:current-user').set('currentUserId', user.id);
 
         await render(hbs`<ContributorList::UnregisteredContributor
             @contributor={{this.contrib}} @nodeId={{this.node.id}}/>`);
-        await pauseTest();
         assert.dom(this.element).hasText(this.contrib.unregisteredContributor, 'Has correct name');
         await triggerEvent('[data-test-unregistered-contributor-name]', 'mouseover');
+        await pauseTest();
         // check the popover
         assert.dom('[data-test-claim-user-tooltip-message]').isVisible('tooltip message is visible');
 
