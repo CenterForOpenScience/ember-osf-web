@@ -45,6 +45,7 @@
                     @value={{get this.emailChangeset 'userEmail'}}
                 />
                 <ValidationErrors
+                    data-test-unreg-contrib-validation-error
                     @changeset={{this.emailChangeset}}
                     @key='userEmail'
                 />
