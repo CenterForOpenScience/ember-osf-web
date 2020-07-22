@@ -338,7 +338,7 @@ export default class DiscoverPage extends Component {
 
     @action
     clearFilters() {
-        this.analytics.track('button', 'click', `${this.theme.id} Discover - Clear Filters`);
+        this.analytics.track('button', 'click', `Discover - Clear Filters - ${this.theme.id}`);
         if (this.facetContexts) {
             // Clear all of the activeFilters
             this.facetContexts
@@ -365,7 +365,7 @@ export default class DiscoverPage extends Component {
     @action
     searchAction() {
         // Only want to track search here when button clicked. Keypress search tracking is debounced in trackSearch
-        this.analytics.track('button', 'click', `${this.theme.id} Discover - Search`, this.q);
+        this.analytics.track('button', 'click', `Discover - Search - ${this.theme.id}`, this.q);
         this.search();
     }
 

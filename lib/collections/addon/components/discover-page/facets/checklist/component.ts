@@ -87,7 +87,7 @@ export default abstract class SearchFacetChecklist extends Base {
                     analytics.track(
                         'filter',
                         filterAction,
-                        `${theme.id} Discover - Filter ${context.title} ${item}`,
+                        `Discover - Filter ${context.title} ${item} - ${theme.id}`,
                     );
                 }
 
