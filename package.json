@@ -1,6 +1,6 @@
 {
   "name": "ember-osf-web",
-  "version": "20.7.0",
+  "version": "20.7.1",
   "description": "Ember front-end for the Open Science Framework",
   "license": "Apache-2.0",
   "author": "Center for Open Science <support@cos.io>",
