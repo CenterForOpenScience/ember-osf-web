@@ -26,19 +26,6 @@ module('Integration | Component | contributor-list/unregistered-user', hooks => 
         this.setProperties({ contrib, node });
     });
 
-    // TODO:
-    // Check logged in scenario
-    // - hovered text is correct
-    // - Heading text containts the current logged in user's email
-    // - No textbox
-    // - "Claim" button is enabled
-
-    // Check logged out scenario
-    // - hovered text is correct
-    // - Heading text containts the name of the unregistered contrib
-    // - has textbox
-    // - has error messages
-    // - "Claim" button disabled when invalid text inputed
     test('logged in scenario', async function(this: ThisTestContext, assert) {
         const mirageUser = server.create('user');
         server.create('user-email', { primary: true, user: mirageUser });
@@ -78,17 +65,18 @@ module('Integration | Component | contributor-list/unregistered-user', hooks => 
         assert.dom('[data-test-modal-main]').isVisible();
         assert.dom('[data-test-modal-cancel-button]').isVisible();
         assert.dom('[data-test-modal-claim-button]').isVisible();
-        // TODO: figure/fix why is disabled does not work
-        assert.dom('[data-test-modal-claim-button]').isDisabled('Claim button is disabled by default');
-        assert.dom('[data-test-email-input]').exists('Claim email input exists');
+        assert.dom('[data-test-modal-claim-button]').isEnabled('Claim button is enabled before we validate');
+        await click('[data-test-modal-claim-button]');
+        assert.dom('[data-test-modal-claim-button]').isDisabled('Claim button is disabled after we validate');
 
-        await fillIn('[data-test-email-input]', 'lou bega');
-        assert.dom('[data-test-unreg-contrib-validation-error]').isVisible('Has invalid email address');
-        // TODO: figure/fix why is disabled does not work
-        assert.dom('[data-test-modal-claim-button]').isDisabled('Claim button is disabled');
+        assert.dom('[data-test-email-input]').exists('Claim email input exists');
 
         await fillIn('[data-test-email-input]', 'lou.bega@bega.lou');
         assert.dom('[data-test-unreg-contrib-validation-error]').doesNotExist('Has valid email address');
         assert.dom('[data-test-modal-claim-button]').isEnabled('Claim button is now enabled');
+
+        await fillIn('[data-test-email-input]', 'lou bega');
+        assert.dom('[data-test-unreg-contrib-validation-error]').isVisible('Has invalid email address');
+        assert.dom('[data-test-modal-claim-button]').isDisabled('Claim button is disabled');
     });
 });
