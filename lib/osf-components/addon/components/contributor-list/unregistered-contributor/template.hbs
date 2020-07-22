@@ -7,7 +7,7 @@
     role='button'
     {{on 'click' this.showDialog}}
     data-analytics-name='Open claim unregistered user dialog'
-    data-test-unregistered-contributor-name
+    data-test-unregistered-contributor-name={{@contributor.unregisteredContributor}}
 >
     <BsPopover
         data-test-claim-user-tooltip-message
@@ -27,7 +27,7 @@
 >
     <dialog.heading data-test-modal-heading>
         {{#if this.isLoggedIn}}
-            {{t 'contributor_list.unregistered_contributor.loggedInClaimHeader' email=@contributor.email}}
+            {{t 'contributor_list.unregistered_contributor.loggedInClaimHeader' email=this.currentUserEmail}}
         {{else}}
             {{t 'contributor_list.unregistered_contributor.loggedOutClaimHeader' userFullName=@contributor.unregisteredContributor}}
         {{/if}}

@@ -28,7 +28,7 @@ module('Integration | Component | contributor-list/unregistered-user', hooks => 
 
     test('logged in scenario', async function(this: ThisTestContext, assert) {
         const mirageUser = server.create('user');
-        server.create('user-email', { primary: true, user: mirageUser });
+        const email = server.create('user-email', { primary: true, user: mirageUser });
         const user = await this.store.findRecord('user', mirageUser.id);
         this.owner.lookup('service:current-user').setProperties({ user, currentUserId: user.id });
 
@@ -39,7 +39,7 @@ module('Integration | Component | contributor-list/unregistered-user', hooks => 
         await click('[data-test-unregistered-contributor-name]');
         // check the modal
         assert.dom('[data-test-modal-heading]').isVisible('Modal heading is visible');
-        assert.dom('[data-test-modal-heading]').containsText(this.contrib.email,
+        assert.dom('[data-test-modal-heading]').containsText(email.emailAddress,
             'Modal heading contains unreg. contrib email');
         assert.dom('[data-test-modal-main]').isVisible('Modal main is visible');
         assert.dom('[data-test-modal-cancel-button]').isVisible();

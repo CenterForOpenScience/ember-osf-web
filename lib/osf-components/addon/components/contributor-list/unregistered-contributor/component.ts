@@ -42,7 +42,7 @@ export default class UnregisteredContributorComponent extends Component {
     @service toast!: Toast;
     @service intl!: Intl;
     @bool('currentUser.currentUserId') isLoggedIn?: boolean;
-    @computed('isLoggedIn', 'emailChangeset.isInValid')
+    @computed('isLoggedIn', 'emailChangeset.isInvalid')
     get isClaimButtonDisabled(): boolean {
         return Boolean(!this.isLoggedIn && this.emailChangeset.isInvalid);
     }
@@ -72,14 +72,15 @@ export default class UnregisteredContributorComponent extends Component {
             if (user) {
                 if (this.isLoggedIn) {
                     yield user.claimUnregisteredUser(this.nodeId);
+                    this.closeDialog();
                 } else {
                     this.emailChangeset.validate();
                     if (this.emailChangeset.isValid) {
                         yield user.claimUnregisteredUser(this.nodeId, this.emailChangeset.get('userEmail'));
+                        this.closeDialog();
                     }
                 }
             }
-            this.closeDialog();
         } catch (e) {
             const errorMessage = this.intl.t('contributor_list.unregistered_contributor.toast_error_title');
             captureException(e, { errorMessage });
