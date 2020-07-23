@@ -1,5 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
+import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
@@ -22,7 +23,17 @@ export default class ContributorsManager extends Component {
     @tracked contributors: ContributorModel[] = [];
     @tracked totalPage: number = 1;
     @tracked currentPage: number = 1;
+    @tracked isDragging = false;
 
+    @computed('fetchContributors.isRunning', 'hasMore', 'isDragging')
+    get shouldShowLoadMore() {
+        return !this.fetchContributors.isRunning
+            && this.fetchContributors.lastComplete
+            && this.hasMore
+            && !this.isDragging;
+    }
+
+    @computed('currentPage', 'totalPage')
     get hasMore() {
         return this.currentPage <= this.totalPage;
     }
@@ -73,19 +84,15 @@ export default class ContributorsManager extends Component {
     @task({ withTestWaiter: true, enqueue: true })
     reorderContributor = task(
         function *(this: ContributorsManager, newOrder: ContributorModel[], contributor: ContributorModel) {
-            console.log('i am here');
             const oldOrder = this.contributors;
             const newIndex = newOrder.indexOf(contributor);
             try {
-                console.log(contributor);
-                console.log(newIndex);
                 contributor.setProperties({
                     index: newIndex,
                 });
                 this.contributors = newOrder;
                 yield contributor.save();
             } catch (e) {
-                console.log(e);
                 this.contributors = oldOrder;
                 this.toast.error(getApiErrorMessage(e));
             }

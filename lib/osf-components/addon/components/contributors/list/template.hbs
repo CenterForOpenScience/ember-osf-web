@@ -11,11 +11,21 @@
         @widgetMode
     ) as |Card|}}
         {{#each @contributorsManager.contributors as |contributor|}}
-            <li {{sortable-item model=contributor}}>
-                <Card @contributor={{contributor}} />
-            </li>
+            {{#if (eq @widgetMode 'editable')}}
+                <li {{sortable-item
+                                    model=contributor
+                                    onDragStart=(action (mut @contributorsManager.isDragging) true)
+                                    onDragStop=(action (mut @contributorsManager.isDragging) false)
+                                }}>
+                    <Card @contributor={{contributor}} />
+                </li>
+            {{else}}
+                <li>
+                    <Card @contributor={{contributor}} />
+                </li>
+            {{/if}}
         {{/each}}
-        {{#if (and (not @contributorsManager.isLoading) @contributorsManager.hasMore)}}
+        {{#if @contributorsManager.shouldShowLoadMore}}
             <div local-class='InfinityLoader'
                 {{in-viewport
                     onEnter=(fn @contributorsManager.fetchContributors)
