@@ -511,6 +511,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
 
         assert.dom('[data-test-unregistered-contributor-name]').exists('unregistered contributor exists');
         await click('[data-test-unregistered-contributor-name]');
+        await percySnapshot(assert);
         assert.dom('[data-test-modal-heading]').containsText(unregContributor.unregisteredContributor!,
             'claim unregistered user modal header contains unregistered contributor name');
         await fillIn('[data-test-email-input]', 'lmnop');
@@ -538,6 +539,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         await visit(`/${reg.id}`);
         assert.dom('[data-test-unregistered-contributor-name]').exists('unregistered contributor exists');
         await click('[data-test-unregistered-contributor-name]');
+        await percySnapshot(assert);
         assert.dom('[data-test-modal-heading]').containsText(currentUser.emails.models[0].emailAddress,
             'claim unregistered user modal header contains current users email');
         assert.dom('[data-test-modal-claim-button]')

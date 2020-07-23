@@ -16,7 +16,7 @@
                 nodeId=@node.id
             ~}}
         {{else if list.remainingCount}}
-            {{#if this.isLoading }}
+            {{#if this.isLoading}}
                 <LoadingIndicator @inline={{true}} @dark={{true}} />
             {{else if this.shouldTruncate}}
                 {{t 'contributor_list.x_more' x=list.remainingCount}}
