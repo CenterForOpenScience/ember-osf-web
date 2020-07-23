@@ -9,7 +9,7 @@ import ContributorModel from 'ember-osf-web/models/contributor';
 import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
 import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
-import captureException from 'ember-osf-web/utils/capture-exception';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import Toast from 'ember-toastr/services/toast';
 import template from './template';
 
@@ -73,15 +73,21 @@ export default class ContributorsManager extends Component {
     @task({ withTestWaiter: true, enqueue: true })
     reorderContributor = task(
         function *(this: ContributorsManager, newOrder: ContributorModel[], contributor: ContributorModel) {
+            console.log('i am here');
+            const oldOrder = this.contributors;
             const newIndex = newOrder.indexOf(contributor);
             try {
+                console.log(contributor);
+                console.log(newIndex);
                 contributor.setProperties({
                     index: newIndex,
                 });
-                yield contributor.save();
                 this.contributors = newOrder;
+                yield contributor.save();
             } catch (e) {
-                this.toast.error('some error message here');
+                console.log(e);
+                this.contributors = oldOrder;
+                this.toast.error(getApiErrorMessage(e));
             }
         },
     );
