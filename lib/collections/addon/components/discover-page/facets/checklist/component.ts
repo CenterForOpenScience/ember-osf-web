@@ -74,7 +74,7 @@ export default abstract class SearchFacetChecklist extends Base {
     didInsertElement(this: SearchFacetChecklist) {
         super.didInsertElement();
 
-        const { analytics, context, filterChanged, filterProperty } = this;
+        const { analytics, context, filterChanged, filterProperty, theme } = this;
 
         setProperties(context, {
             updateFilters(item?: string) {
@@ -84,7 +84,11 @@ export default abstract class SearchFacetChecklist extends Base {
                     const method = activeFilter.includes(item) ? 'removeObject' : 'pushObject';
                     activeFilter[method](item);
                     const filterAction = method === 'removeObject' ? 'remove' : 'add';
-                    analytics.track('filter', filterAction, `Collections Discover - Filter ${context.title} ${item}`);
+                    analytics.track(
+                        'filter',
+                        filterAction,
+                        `Discover - Filter ${context.title} ${item} - ${theme.id}`,
+                    );
                 }
 
                 setProperties(context, {
