@@ -511,12 +511,13 @@ module('Registries | Acceptance | overview.overview', hooks => {
 
         assert.dom('[data-test-unregistered-contributor-name]').exists('unregistered contributor exists');
         await click('[data-test-unregistered-contributor-name]');
-        await percySnapshot(assert);
+        await percySnapshot('Claim unregistered contributor for logged out users, no validation errors');
         assert.dom('[data-test-modal-heading]').containsText(unregContributor.unregisteredContributor!,
             'claim unregistered user modal header contains unregistered contributor name');
         await fillIn('[data-test-email-input]', 'lmnop');
         assert.dom('[data-test-validation-errors="userEmail"]')
             .exists('validation error shows after invalid email is entered');
+        await percySnapshot('Claim unregistered contributor for logged out users, with validation errors');
         await fillIn('[data-test-email-input]', 'lmnop@abd.xyz');
         assert.dom('[data-test-modal-claim-button]')
             .isEnabled('claim unregistered user modal claim button is enabled after user enters valid email');
