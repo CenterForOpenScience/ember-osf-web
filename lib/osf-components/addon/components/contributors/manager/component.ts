@@ -92,6 +92,7 @@ export default class ContributorsManager extends Component {
                 });
                 this.contributors = newOrder;
                 yield contributor.save();
+                this.toast.success(this.intl.t('osf-components.contributors.reorderContributor.success'));
             } catch (e) {
                 this.contributors = oldOrder;
                 this.toast.error(getApiErrorMessage(e));

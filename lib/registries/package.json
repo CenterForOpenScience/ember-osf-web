@@ -8,6 +8,8 @@
     "@ember/render-modifiers": "*",
     "@glimmer/component": "*",
     "@glimmer/tracking": "*",
+    "@fortawesome/ember-fontawesome": "0.2.1",
+    "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "ember-angle-bracket-invocation-polyfill": "*",
     "ember-basic-dropdown": "*",
     "ember-bootstrap": "*",

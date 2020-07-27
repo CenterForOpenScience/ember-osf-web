@@ -1,41 +1,42 @@
-<ul
+{{!-- <ul
     local-class='ContributorList'
     ...attributes
     {{sortable-group onChange=@contributorsManager.reorderContributor}}
->
-    {{#let (get
-        (hash
-            readonly=(component 'contributors/card/readonly')
-            editable=(component 'contributors/card/editable' manager=@contributorsManager)
-        )
-        @widgetMode
-    ) as |Card|}}
-        {{#each @contributorsManager.contributors as |contributor|}}
-            {{#if (eq @widgetMode 'editable')}}
-                <li {{sortable-item
-                                    model=contributor
-                                    onDragStart=(action (mut @contributorsManager.isDragging) true)
-                                    onDragStop=(action (mut @contributorsManager.isDragging) false)
-                                }}>
-                    <Card @contributor={{contributor}} />
-                </li>
-            {{else}}
-                <li>
-                    <Card @contributor={{contributor}} />
-                </li>
-            {{/if}}
+> --}}
+{{#let (get
+    (hash
+        readonly=(component 'contributors/card/readonly')
+        editable=(component 'contributors/card/editable' manager=@contributorsManager)
+    )
+    @widgetMode
+) as |Card|}}
+    <SortableGroup
+        @model={{@contributorsManager.contributors}}
+        @onChange={{@contributorsManager.reorderContributor}}
+        local-class='ContributorList'
+        as |group|
+    >
+        {{#each group.model as |contributor|}}
+            {{#group.item
+                model=contributor
+                isDraggingDisabled=(eq this.widgetMode 'readonly')
+                onDragStart=(action (mut @contributorsManager.isDragging) true)
+                onDragStop=(action (mut @contributorsManager.isDragging) false)
+                as |item|
+            }}
+                <Card @contributor={{contributor}} @item={{item}} />
+            {{/group.item}}
         {{/each}}
         {{#if @contributorsManager.shouldShowLoadMore}}
-            <div local-class='InfinityLoader'
-                {{in-viewport
-                    onEnter=(fn @contributorsManager.fetchContributors)
-                }}
-            >
+            <div local-class='InfinityLoader' {{in-viewport
+                        onEnter=(fn @contributorsManager.fetchContributors)
+                    }}>
                 {{t 'osf-components.contributors.loadMore'}}
             </div>
         {{/if}}
         {{#if @contributorsManager.isLoading}}
             <LoadingIndicator @dark={{true}} />
         {{/if}}
-    {{/let}}
-</ul>
+    </SortableGroup>
+{{/let}}
+{{!-- </ul> --}}
