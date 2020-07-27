@@ -101,6 +101,14 @@ export default class UnregisteredContributorComponent extends Component {
     }
 
     @action
+    onKeyPress(event: KeyboardEvent) {
+        if ([13, 32].includes(event.keyCode)) {
+            event.preventDefault();
+            this.showDialog();
+        }
+    }
+
+    @action
     closeDialog() {
         this.emailChangeset.rollback();
         this.shouldOpenClaimDialog = false;

@@ -5,9 +5,11 @@
 
 <span
     role='button'
-    {{on 'click' this.showDialog}}
+    tabindex='0'
     data-analytics-name='Open claim unregistered user dialog'
     data-test-unregistered-contributor-name={{@contributor.unregisteredContributor}}
+    {{on 'click' this.showDialog}}
+    {{on 'keypress' this.onKeyPress}}
 >
     <BsPopover
         data-test-claim-user-tooltip-message
