@@ -70,6 +70,32 @@ module('Integration | Component | contributors', hooks => {
         assert.ok(true, 'No a11y errors on page');
     });
 
+    test('read-only user card renders unregistered contributor', async function(assert) {
+        const registration = server.create('draft-registration');
+        const unregContributor = server.create('contributor', {
+            draftRegistration: registration,
+        }, 'unregistered');
+        const registrationModel = await this.store.findRecord('draft-registration', registration.id);
+        this.set('node', registrationModel);
+
+        await render(hbs`<Contributors::Widget @node={{this.node}} />`);
+        const userPermission = t(`osf-components.contributors.permissions.${unregContributor.permission}`);
+        const userCitation = t(`osf-components.contributors.citation.${unregContributor.bibliographic}`);
+
+        assert.dom('[data-test-contributor-card]').exists();
+        assert.dom('[data-test-contributor-card-main]').exists();
+        assert.dom('[data-test-contributor-gravatar]').exists();
+        assert.dom('[data-test-contributor-link]').doesNotExist();
+        assert.dom('[data-test-contributor-card-main] CardSection')
+            .containsText(unregContributor.unregisteredContributor!);
+        assert.dom(`[data-test-contributor-permission="${unregContributor.id}"]`)
+            .hasText(userPermission);
+        assert.dom(`[data-test-contributor-citation="${unregContributor.id}"]`)
+            .hasText(userCitation);
+        await a11yAudit(this.element);
+        assert.ok(true, 'No a11y errors on page');
+    });
+
     test('editable user card renders', async function(assert) {
         const draftRegistration = server.create('draft-registration');
         const contributor = server.create('contributor', {

@@ -9,14 +9,18 @@
                 height='30'
                 width='30'
             >
-            <OsfLink
-                data-test-contributor-link={{@contributor.id}}
-                data-analytics-name='View user'
-                @route='guid-user'
-                @models={{array @contributor.users.id}}
-            >
-                {{@contributor.users.fullName}}
-            </OsfLink>
+            {{#if @contributor.unregisteredContributor}}
+                {{@contributor.unregisteredContributor}}
+            {{else}}
+                <OsfLink
+                    data-test-contributor-link={{@contributor.id}}
+                    data-analytics-name='View user'
+                    @route='guid-user'
+                    @models={{array @contributor.users.id}}
+                >
+                    {{@contributor.users.fullName}}
+                </OsfLink>
+            {{/if}}
         </span>
         <span
             data-test-contributor-permission={{@contributor.id}}
