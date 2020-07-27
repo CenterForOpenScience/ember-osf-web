@@ -14,7 +14,7 @@
     <BsPopover
         data-test-claim-user-tooltip-message
         @placement='top'
-        @triggerEvents='hover'
+        @triggerEvents='hover focus'
         @title={{t 'contributor_list.unregistered_contributor.popover_title'}}
     >
         {{t 'contributor_list.unregistered_contributor.tooltip_message'}}
@@ -22,55 +22,58 @@
     {{~@contributor.unregisteredContributor~}}
 </span>
 
-<OsfDialog
-    @isOpen={{this.shouldOpenClaimDialog}}
-    @onClose={{this.closeDialog}}
-    as |dialog|
->
-    <dialog.heading data-test-modal-heading>
-        {{#if this.isLoggedIn}}
-            {{t 'contributor_list.unregistered_contributor.loggedInClaimHeader' email=this.currentUserEmail}}
-        {{else}}
-            {{t 'contributor_list.unregistered_contributor.loggedOutClaimHeader' userFullName=@contributor.unregisteredContributor}}
-        {{/if}}
-    </dialog.heading>
-    <dialog.main data-test-modal-main>
-        {{#if this.isLoggedIn}}
-            {{t 'contributor_list.unregistered_contributor.loggedInClaimMain'}}
-        {{else}}
-            <label local-class='emailLabel'>
-                {{t 'contributor_list.unregistered_contributor.enterEmail'}}
-                <Input
-                    local-class='emailInput'
-                    data-test-email-input
-                    @placeholder={{t 'contributor_list.unregistered_contributor.emailPlaceholder'}}
-                    @value={{get this.emailChangeset 'userEmail'}}
-                />
-                <ValidationErrors
-                    data-test-unreg-contrib-validation-error
-                    @changeset={{this.emailChangeset}}
-                    @key='userEmail'
-                />
-            </label>
-        {{/if}}
-    </dialog.main>
-    <dialog.footer>
-        <Button
-            data-analytics-name='Cancel claim unregistered user'
-            data-test-modal-cancel-button
-            @type='secondary'
-            {{on 'click' dialog.close}}
-        >
-            {{t 'general.cancel'}}
-        </Button>
-        <Button
-            data-analytics-name='Claim unregistered user'
-            data-test-modal-claim-button
-            disabled={{this.isClaimButtonDisabled}}
-            @type='primary'
-            {{on 'click' (perform this.claimContributor)}}
-        >
-            {{t 'contributor_list.unregistered_contributor.claim'}}
-        </Button>
-    </dialog.footer>
-</OsfDialog>
+{{~!-- this condition is needed to prevent extra whitespace --~}}
+{{~#if this.shouldOpenClaimDialog}}
+    <OsfDialog
+        @isOpen={{this.shouldOpenClaimDialog}}
+        @onClose={{this.closeDialog}}
+        as |dialog|
+    >
+        <dialog.heading data-test-modal-heading>
+            {{#if this.isLoggedIn}}
+                {{t 'contributor_list.unregistered_contributor.loggedInClaimHeader' email=this.currentUserEmail}}
+            {{else}}
+                {{t 'contributor_list.unregistered_contributor.loggedOutClaimHeader' userFullName=@contributor.unregisteredContributor}}
+            {{/if}}
+        </dialog.heading>
+        <dialog.main data-test-modal-main>
+            {{#if this.isLoggedIn}}
+                {{t 'contributor_list.unregistered_contributor.loggedInClaimMain'}}
+            {{else}}
+                <label local-class='emailLabel'>
+                    {{t 'contributor_list.unregistered_contributor.enterEmail'}}
+                    <Input
+                        local-class='emailInput'
+                        data-test-email-input
+                        @placeholder={{t 'contributor_list.unregistered_contributor.emailPlaceholder'}}
+                        @value={{get this.emailChangeset 'userEmail'}}
+                    />
+                    <ValidationErrors
+                        data-test-unreg-contrib-validation-error
+                        @changeset={{this.emailChangeset}}
+                        @key='userEmail'
+                    />
+                </label>
+            {{/if}}
+        </dialog.main>
+        <dialog.footer>
+            <Button
+                data-analytics-name='Cancel claim unregistered user'
+                data-test-modal-cancel-button
+                @type='secondary'
+                {{on 'click' dialog.close}}
+            >
+                {{t 'general.cancel'}}
+            </Button>
+            <Button
+                data-analytics-name='Claim unregistered user'
+                data-test-modal-claim-button
+                disabled={{this.isClaimButtonDisabled}}
+                @type='primary'
+                {{on 'click' (perform this.claimContributor)}}
+            >
+                {{t 'contributor_list.unregistered_contributor.claim'}}
+            </Button>
+        </dialog.footer>
+    </OsfDialog>
+{{/if~}}

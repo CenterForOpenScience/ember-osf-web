@@ -8,3 +8,8 @@
     height: 40px;
     padding: 6px 12px;
 }
+
+:global(.popover-title) {
+    font-size: 16px;
+    font-weight: bold;
+}
