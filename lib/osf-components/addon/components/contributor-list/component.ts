@@ -25,6 +25,7 @@ export default class ContributorList extends Component {
     // Optional arguments
     shouldTruncate: boolean = defaultTo(this.shouldTruncate, true);
     shouldLinkUsers: boolean = defaultTo(this.shouldLinkUsers, false);
+    shouldEnableClaimUser: boolean = false;
 
     // Private properties
     @service store!: DS.Store;

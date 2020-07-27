@@ -8,13 +8,19 @@
         as |list|
     >
         {{~#if list.item}}
-            {{~contributor-list/contributor
-                contributor=list.item
-                shouldEnableClaimUser=@shouldEnableClaimUser
-                shouldLinkUser=this.shouldLinkUsers
-                shouldShortenName=this.shouldTruncate
-                nodeId=@node.id
-            ~}}
+            {{~#if (and list.item.unregisteredContributor this.shouldEnableClaimUser)~}}
+                {{~contributor-list/unregistered-contributor
+                    contributor=list.item
+                    nodeId=@node.id
+                ~}}
+            {{~else~}}
+                {{~contributor-list/contributor
+                    contributor=list.item
+                    shouldLinkUser=this.shouldLinkUsers
+                    shouldShortenName=this.shouldTruncate
+                    nodeId=@node.id
+                ~}}
+            {{~/if~}}
         {{else if list.remainingCount}}
             {{#if this.isLoading}}
                 <LoadingIndicator @inline={{true}} @dark={{true}} />

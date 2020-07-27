@@ -14,7 +14,6 @@ export default class ContributorListContributor extends Component {
     contributor!: Contributor;
     shouldLinkUser: boolean = defaultTo(this.shouldLinkUser, false);
     shouldShortenName: boolean = defaultTo(this.shouldShortenName, false);
-    shouldEnableClaimUser: boolean = false;
 
     contributorName?: string;
     contributorLink?: string;
