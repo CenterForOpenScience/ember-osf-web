@@ -86,7 +86,7 @@ module('Integration | Component | contributors', hooks => {
         assert.dom('[data-test-contributor-card-main]').exists();
         assert.dom('[data-test-contributor-gravatar]').exists();
         assert.dom('[data-test-contributor-link]').doesNotExist();
-        assert.dom('[data-test-contributor-card-main] CardSection')
+        assert.dom('[data-test-contributor-card-main]')
             .containsText(unregContributor.unregisteredContributor!);
         assert.dom(`[data-test-contributor-permission="${unregContributor.id}"]`)
             .hasText(userPermission);
