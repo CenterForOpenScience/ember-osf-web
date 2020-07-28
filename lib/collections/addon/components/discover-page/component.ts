@@ -318,7 +318,7 @@ export default class DiscoverPage extends Component {
     }
 
     trackDebouncedSearch() {
-        // For use in tracking debounced search of registries in Keen and GA
+        // For use in tracking debounced search of registries in GA
         this.analytics.track('input', 'onkeyup', 'Discover - Search', this.q);
     }
 
