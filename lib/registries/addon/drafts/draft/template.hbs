@@ -30,12 +30,14 @@
                     </HeroOverlay>
                 </layout.heading>
                 {{#if this.showMobileView}}
-                    <Drafts::Draft::-Components::TopNav
-                        @layout={{layout}}
-                        @draftManager={{draftManager}}
-                        @navManager={{navManager}}
-                        @onSubmitRedirect={{this.onSubmitRedirect}}
-                    />
+                    <layout.top as |topLayout|>
+                        <Drafts::Draft::-Components::TopNav
+                            @layout={{topLayout}}
+                            @draftManager={{draftManager}}
+                            @navManager={{navManager}}
+                            @onSubmitRedirect={{this.onSubmitRedirect}}
+                        />
+                    </layout.top>
                 {{/if}}
                 <layout.leftNav as |leftNav|>
                     <PageLink

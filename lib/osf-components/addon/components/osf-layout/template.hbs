@@ -5,15 +5,14 @@
     metadataGutterClosed=this.metadataGutterClosed
     toggleMetadata=(action this.toggleMetadata)
 )}}
-
+{{yield (hash
+    top=(
+        component 'osf-layout/top'
+        toggleSidenav=(action this.toggleSidenav)
+        sidenavGutterClosed=this.sidenavGutterClosed
+    )
+)}}
 <div class={{this.backgroundClass}}>
-    {{yield (hash
-        top=(
-            component 'osf-layout/top'
-            toggleSidenav=(action this.toggleSidenav)
-            sidenavGutterClosed=this.sidenavGutterClosed
-        )
-    )}}
     <Gutters
         @leftMode={{this.sidenavGutterMode}}
         @leftClosed={{this.sidenavGutterClosed}}
