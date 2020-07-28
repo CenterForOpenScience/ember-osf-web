@@ -6,7 +6,6 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 
 import { draftRegisterNodeMultiple, forkNode, registerNodeMultiple } from '../helpers';
-// import { placekitten } from '../utils';
 
 const {
     dashboard: {
@@ -65,7 +64,12 @@ function registrationScenario(
     server.create('node', { parent: childNodeA });
     server.create('node', { parent: childNodeA });
     const licenseReqFields = server.schema.licenses.findBy({ name: 'MIT License' });
-    const provider = server.create('registration-provider', 'withBrand');
+    const provider = server.create('registration-provider',
+        { id: 'ispor', name: 'ISPOR', allowSubmissions: true },
+        'withBrand',
+        'withSchemas');
+
+    server.create('registration-provider', { id: 'egap', name: 'EGAP' }, 'withBrand');
 
     server.create('registration', {
         id: 'decaf',
