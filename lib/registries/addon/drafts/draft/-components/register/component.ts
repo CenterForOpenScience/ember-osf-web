@@ -36,6 +36,7 @@ export default class Register extends Component {
             const registration = this.store.createRecord('registration', {
                 draftRegistrationId: this.draftRegistration.id,
                 registeredFrom: this.draftRegistration.branchedFrom,
+                provider: this.draftRegistration.provider,
             });
 
             this.setProperties({ registration });
