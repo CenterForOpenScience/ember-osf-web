@@ -1,16 +1,18 @@
 <div
     data-test-collection-search-result-node={{this.item.id}}
+    data-analytics-scope={{concat 'Collections search results - ' this.theme.id}}
     class='row'
 >
     <div class='col-xs-12'>
         {{!Title}}
         <h4>
-            <a
+            <OsfLink
                 data-test-collection-search-result-node-title
-                href={{this.item.links.html}}
+                @href={{this.item.links.html}}
+                data-analytics-name='Result Title'
             >
                 {{this.item.title}}
-            </a>
+            </OsfLink>
         </h4>
     </div>
 

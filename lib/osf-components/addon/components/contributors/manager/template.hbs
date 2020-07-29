@@ -1,3 +1,8 @@
 {{yield (hash
-    contributors=@node.contributors
+    contributors=this.contributors
+    fetchContributors=(perform this.fetchContributors)
+    toggleContributorIsBibliographic=(perform this.toggleContributorIsBibliographic)
+    updateContributorPermission=(perform this.updateContributorPermission)
+    isLoading=this.fetchContributors.isRunning
+    hasMore=this.hasMore
 )}}
