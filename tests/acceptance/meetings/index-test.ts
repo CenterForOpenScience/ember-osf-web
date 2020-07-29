@@ -1,7 +1,7 @@
 import { click as untrackedClick, currentURL, visit } from '@ember/test-helpers';
-import { faker } from 'ember-cli-mirage';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { percySnapshot } from 'ember-percy';
+import faker from 'faker';
 import { module, test } from 'qunit';
 
 import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';

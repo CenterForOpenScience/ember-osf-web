@@ -7,14 +7,14 @@ export interface MirageUserSetting extends UserSetting {
 }
 
 export default Factory.extend<MirageUserSetting>({
-    id(index) {
+    id(i: number) {
         if (this.user && 'id' in this.user) {
             return this.user.id;
         }
         if (this.userId) {
             return this.userId as string;
         }
-        return index.toString();
+        return i.toString();
     },
     twoFactorEnabled: false,
     twoFactorConfirmed: false,

@@ -1,5 +1,6 @@
 import { capitalize } from '@ember/string';
-import { Factory, faker } from 'ember-cli-mirage';
+import { Factory } from 'ember-cli-mirage';
+import faker from 'faker';
 
 import Meeting from 'ember-osf-web/models/meeting';
 

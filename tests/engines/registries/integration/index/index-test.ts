@@ -1,6 +1,6 @@
 import EngineInstance from '@ember/engine/instance';
 import { click, fillIn, triggerKeyEvent } from '@ember/test-helpers';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { TestContext } from 'ember-test-helpers';
 import { module, skip } from 'qunit';
 import sinon from 'sinon';

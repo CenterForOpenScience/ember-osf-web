@@ -1,4 +1,5 @@
-import { faker, HandlerContext, Request, Schema } from 'ember-cli-mirage';
+import { HandlerContext, Request, Schema } from 'ember-cli-mirage';
+import faker from 'faker';
 
 export function createDeveloperApp(this: HandlerContext, schema: Schema) {
     const attrs = {

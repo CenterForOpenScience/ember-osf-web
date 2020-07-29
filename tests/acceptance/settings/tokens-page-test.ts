@@ -1,6 +1,6 @@
 import { click as untrackedClick, currentRouteName, currentURL, fillIn, visit, waitFor } from '@ember/test-helpers';
 
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
