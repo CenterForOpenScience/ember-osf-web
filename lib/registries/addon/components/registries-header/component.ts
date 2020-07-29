@@ -31,7 +31,7 @@ export default class RegistriesHeader extends Component {
     }
 
     _onSearch() {
-        this.analytics.click('link', 'Index - Search', this.value);
+        this.analytics.click('link', 'Discover - Search', this.value);
         this.onSearch(this.value);
     }
 
@@ -46,9 +46,9 @@ export default class RegistriesHeader extends Component {
     }
 
     @action
-    keyDown(event: KeyboardEvent) {
-        if (event.keyCode === 13) {
-            this._onSearch();
+    keyPress(event: KeyboardEvent) {
+        if (event.keyCode !== 13) {
+            this.analytics.track('input', 'onkeyup', 'Discover - Search', this.value);
         }
     }
 }

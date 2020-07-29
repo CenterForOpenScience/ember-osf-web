@@ -38,8 +38,6 @@ export default class RegistriesSourcesFacet extends Component {
 
     @action
     providerChecked(filter: SearchFilter, remove: boolean) {
-        this.analytics.track('filter', remove ? 'remove' : 'add', `Discover - providers ${filter.display}`);
-
         if (remove) {
             this.onSearchOptionsUpdated(this.searchOptions.removeFilters(filter));
         } else {

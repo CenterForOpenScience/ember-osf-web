@@ -46,6 +46,7 @@ export default class SideBar extends Component {
 
     @action
     removeFilter(filter: SearchFilter) {
+        this.analytics.track('button', 'click', 'Discover - Remove Filter');
         this.onSearchOptionsUpdated(this.searchOptions.removeFilters(filter));
     }
 
