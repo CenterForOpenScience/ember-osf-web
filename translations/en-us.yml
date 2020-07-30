@@ -675,7 +675,7 @@ contributor_list:
     unregistered_contributor:
         tooltip_message: 'Is this you? Click to claim.'
         loggedInClaimHeader: 'Claim as {email}?'
-        loggedInClaimMain: 'If you claim this account, a contributor of this project will be emailed to confirm your identity.'
+        loggedInClaimMain: 'If you claim this account, a contributor of this registration will be emailed to confirm your identity.'
         loggedOutClaimHeader: 'Claim this user ({userFullName})?'
         enterEmail: 'Enter email to claim account'
         emailPlaceholder: 'Email address'

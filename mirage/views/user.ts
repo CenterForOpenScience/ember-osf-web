@@ -16,6 +16,6 @@ export function userNodeList(this: HandlerContext, schema: Schema, request: Requ
     return json;
 }
 
-export function claimUnregisteredUser(this: HandlerContext /* schema: Schema, request: Request */) {
+export function claimUnregisteredUser(this: HandlerContext) {
     return new Response(204);
 }

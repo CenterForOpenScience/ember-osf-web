@@ -69,6 +69,7 @@ function registrationScenario(
     const decaf = server.create('registration', {
         id: 'decaf',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        provider,
     }, 'withContributors');
 
     server.create('contributor', { node: decaf }, 'unregistered');

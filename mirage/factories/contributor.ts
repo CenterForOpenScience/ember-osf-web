@@ -40,11 +40,7 @@ export default Factory.extend<Contributor & ContributorTraits>({
     },
 
     registered: trait({ unregisteredContributor: undefined }),
-    unregistered: trait<Contributor>({
-        afterCreate(contributor) {
-            contributor.update({ unregisteredContributor: 'unregistered user' });
-        },
-    }),
+    unregistered: trait({ unregisteredContributor: 'unregistered' }),
 });
 
 declare module 'ember-cli-mirage/types/registries/schema' {

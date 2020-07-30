@@ -9,7 +9,7 @@
     padding: 6px 12px;
 }
 
-:global(.popover-title).spanPopover {
+.spanPopover :global(.popover-title) {
     font-size: 16px;
     font-weight: bold;
 }
