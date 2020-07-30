@@ -1,4 +1,3 @@
-import { action } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
@@ -117,7 +116,6 @@ export default class UserModel extends OsfModel.extend(Validations) {
     @alias('links.html') profileURL!: string;
     @alias('links.profile_image') profileImage!: string;
 
-    @action
     claimUnregisteredUser(nodeId: string, email?: string) {
         const url = `${apiUrl}/${apiNamespace}/users/${this.id}/claim`;
         return this.currentUser.authenticatedAJAX({

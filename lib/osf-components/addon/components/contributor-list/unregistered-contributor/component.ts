@@ -6,6 +6,7 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validateFormat } from 'ember-changeset-validations/validators';
+import { ChangesetDef } from 'ember-changeset/types';
 import { task } from 'ember-concurrency-decorators';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
@@ -41,17 +42,19 @@ export default class UnregisteredContributorComponent extends Component {
     @service currentUser!: CurrentUserService;
     @service toast!: Toast;
     @service intl!: Intl;
+
     @bool('currentUser.currentUserId') isLoggedIn?: boolean;
+
     @computed('isLoggedIn', 'emailChangeset.isInvalid')
     get isClaimButtonDisabled(): boolean {
-        return Boolean(!this.isLoggedIn && this.emailChangeset.isInvalid);
+        return Boolean(!this.isLoggedIn && this.emailChangeset!.isInvalid);
     }
 
     @tracked shouldOpenClaimDialog: boolean = false;
     @tracked currentUserEmail?: string;
 
-    emailObj = { userEmail: '' };
-    emailChangeset = buildChangeset(this.emailObj, emailValidations);
+    emailObj?: EmailValidation = undefined;
+    emailChangeset?: ChangesetDef = undefined;
     contributor!: Contributor;
     nodeId!: string;
 
@@ -74,9 +77,9 @@ export default class UnregisteredContributorComponent extends Component {
                     yield user.claimUnregisteredUser(this.nodeId);
                     this.closeDialog();
                 } else {
-                    this.emailChangeset.validate();
-                    if (this.emailChangeset.isValid) {
-                        yield user.claimUnregisteredUser(this.nodeId, this.emailChangeset.get('userEmail'));
+                    this.emailChangeset!.validate();
+                    if (this.emailChangeset!.isValid) {
+                        yield user.claimUnregisteredUser(this.nodeId, this.emailChangeset!.get('userEmail'));
                         this.closeDialog();
                     }
                 }
@@ -92,6 +95,9 @@ export default class UnregisteredContributorComponent extends Component {
     didReceiveAttrs() {
         if (this.isLoggedIn) {
             this.loadEmailsTask.perform();
+        } else {
+            this.emailObj = { userEmail: '' };
+            this.emailChangeset = buildChangeset(this.emailObj, emailValidations);
         }
     }
 
@@ -110,7 +116,9 @@ export default class UnregisteredContributorComponent extends Component {
 
     @action
     closeDialog() {
-        this.emailChangeset.rollback();
+        if (!this.isLoggedIn) {
+            this.emailChangeset!.rollback();
+        }
         this.shouldOpenClaimDialog = false;
     }
 }

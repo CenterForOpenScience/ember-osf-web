@@ -8,11 +8,13 @@
     tabindex='0'
     data-analytics-name='Open claim unregistered user dialog'
     data-test-unregistered-contributor-name={{@contributor.unregisteredContributor}}
+    aria-label={{t 'contributor_list.unregistered_contributor.userLabel' user=@contributor.unregisteredContributor}}
     {{on 'click' this.showDialog}}
     {{on 'keypress' this.onKeyPress}}
 >
     <BsPopover
         data-test-claim-user-tooltip-message
+        local-class='spanPopover'
         @placement='top'
         @triggerEvents='hover focus'
         @title={{t 'contributor_list.unregistered_contributor.popover_title'}}
