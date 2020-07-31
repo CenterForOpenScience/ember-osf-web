@@ -26,7 +26,7 @@ import { rootDetail } from './views/root';
 import { shareSearch } from './views/share-search';
 import { createToken } from './views/token';
 import { createEmails, updateEmails } from './views/update-email';
-import { userNodeList } from './views/user';
+import { claimUnregisteredUser, userNodeList } from './views/user';
 import { updatePassword } from './views/user-password';
 import * as userSettings from './views/user-setting';
 import * as wb from './views/wb';
@@ -198,6 +198,7 @@ export default function(this: Server) {
     this.post('/users/:parentID/settings/emails/', createEmails);
     this.post('/users/:id/settings/export', userSettings.requestExport);
     this.post('/users/:parentID/settings/password/', updatePassword);
+    this.post('/users/:parentID/claim/', claimUnregisteredUser);
 
     osfResource(this, 'external-identity', {
         path: '/users/me/settings/identities',

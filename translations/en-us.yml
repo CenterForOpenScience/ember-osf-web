@@ -673,6 +673,17 @@ list:
 contributor_list:
     x_more: '{x} more'
     anonymous: 'Anonymous contributors'
+    unregistered_contributor:
+        tooltip_message: 'Is this you? Click to claim.'
+        loggedInClaimHeader: 'Claim as {email}?'
+        loggedInClaimMain: 'If you claim this account, a contributor of this registration will be emailed to confirm your identity.'
+        loggedOutClaimHeader: 'Claim this user ({userFullName})?'
+        enterEmail: 'Enter email to claim account'
+        emailPlaceholder: 'Email address'
+        claim: Claim
+        popover_title: 'Claim contributor'
+        toast_error_title: 'Error in claiming contributor'
+        userLabel: '{user}. Claim this user?'
 app_components:
     branded_navbar:
         my_osf_projects: 'My OSF Projects'
