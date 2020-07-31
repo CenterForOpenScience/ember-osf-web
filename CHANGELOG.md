@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [20.8.0] - 2020-07-29
+### Added
+- `contributor-list` read-only to draft metadata page
+- `ember-template-lint` addon
+
+### Changed
+- analytics for collections
+- styles for registries discover sort dropdown (bugfix)
+
+### Removed
+- `ember-cli-template-lint`
+
 ## [20.7.1] - 2020-07-22
 ### Changed
 - keen public pageviews logging
@@ -1623,7 +1635,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/20.7.1...develop
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/20.8.0...develop
+[20.8.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.8.0
 [20.7.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.7.1
 [20.7.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.7.0
 [20.6.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.6.1

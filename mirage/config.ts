@@ -31,10 +31,9 @@ import { updatePassword } from './views/user-password';
 import * as userSettings from './views/user-setting';
 import * as wb from './views/wb';
 
-const { OSF: { apiUrl }, environment } = config;
+const { OSF: { apiUrl } } = config;
 
 export default function(this: Server) {
-    this.logging = ['test', 'development'].includes(environment);
     this.passthrough(); // pass through all requests on currrent domain
     // SHARE search
     this.urlPrefix = 'https://share.osf.io';
@@ -218,6 +217,13 @@ export default function(this: Server) {
         path: '/providers/registrations/:parentID/licenses/',
         relatedModelName: 'license',
     });
+    this.get('/providers/registrations/:parentID/subjects/', getProviderSubjects);
+    osfNestedResource(this, 'registration-provider', 'schemas', {
+        only: ['index'],
+        path: '/providers/registrations/:parentID/schemas/',
+        relatedModelName: 'registration-schema',
+    });
+
     this.get('/providers/registrations/:parentID/subjects/', getProviderSubjects);
 
     osfResource(this, 'collection-provider', { path: '/providers/collections' });

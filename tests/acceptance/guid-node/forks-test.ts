@@ -1,5 +1,5 @@
 import { currentRouteName } from '@ember/test-helpers';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import config from 'ember-get-config';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';

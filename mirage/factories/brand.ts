@@ -1,4 +1,5 @@
-import { Factory, faker } from 'ember-cli-mirage';
+import { Factory } from 'ember-cli-mirage';
+import faker from 'faker';
 
 import { placekitten } from 'ember-osf-web/mirage/utils';
 import Brand from 'ember-osf-web/models/brand';

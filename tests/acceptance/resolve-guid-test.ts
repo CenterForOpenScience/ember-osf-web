@@ -2,7 +2,7 @@ import Transition from '@ember/routing/-private/transition';
 import Service from '@ember/service';
 import { currentRouteName, currentURL, settled } from '@ember/test-helpers';
 import { getContext } from '@ember/test-helpers/setup-context';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupApplicationTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';

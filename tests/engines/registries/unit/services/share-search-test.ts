@@ -1,4 +1,4 @@
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupEngineTest } from 'ember-osf-web/tests/helpers/engines';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';

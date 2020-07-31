@@ -1,4 +1,5 @@
-import { Factory, faker } from 'ember-cli-mirage';
+import { Factory } from 'ember-cli-mirage';
+import faker from 'faker';
 
 import { MirageExternalRegistration } from 'ember-osf-web/mirage/models/external-registration';
 

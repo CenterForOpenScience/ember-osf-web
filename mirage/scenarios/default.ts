@@ -1,5 +1,6 @@
-import { faker, ModelInstance, Server } from 'ember-cli-mirage';
+import { ModelInstance, Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
+import faker from 'faker';
 
 import FileProvider from 'ember-osf-web/models/file-provider';
 import { Permission } from 'ember-osf-web/models/osf-model';
@@ -64,7 +65,12 @@ function registrationScenario(
     server.create('node', { parent: childNodeA });
     server.create('node', { parent: childNodeA });
     const licenseReqFields = server.schema.licenses.findBy({ name: 'MIT License' });
-    const provider = server.create('registration-provider', 'withBrand');
+    const provider = server.create('registration-provider',
+        { id: 'ispor', name: 'ISPOR', allowSubmissions: true },
+        'withBrand',
+        'withSchemas');
+
+    server.create('registration-provider', { id: 'egap', name: 'EGAP' }, 'withBrand');
 
     const decaf = server.create('registration', {
         id: 'decaf',

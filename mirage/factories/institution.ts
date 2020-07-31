@@ -1,4 +1,5 @@
-import { Factory, faker, trait, Trait } from 'ember-cli-mirage';
+import { Factory, trait, Trait } from 'ember-cli-mirage';
+import faker from 'faker';
 
 import Institution from 'ember-osf-web/models/institution';
 
