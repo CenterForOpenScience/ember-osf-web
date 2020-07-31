@@ -117,7 +117,7 @@ export default class UserModel extends OsfModel.extend(Validations) {
     @alias('links.profile_image') profileImage!: string;
 
     claimUnregisteredUser(nodeId: string, email?: string) {
-        const url = `${apiUrl}/${apiNamespace}/users/${this.id}/claim`;
+        const url = `${apiUrl}/${apiNamespace}/users/${this.id}/claim/`;
         return this.currentUser.authenticatedAJAX({
             url,
             type: 'POST',
@@ -125,9 +125,11 @@ export default class UserModel extends OsfModel.extend(Validations) {
                 'Content-Type': 'application/json',
             },
             data: JSON.stringify({
-                attributes: {
-                    email,
-                    id: nodeId,
+                data: {
+                    attributes: {
+                        email,
+                        id: nodeId,
+                    },
                 },
             }),
         });
