@@ -29,6 +29,7 @@
     <OsfDialog
         @isOpen={{this.shouldOpenClaimDialog}}
         @onClose={{this.closeDialog}}
+        @renderInPlace={{true}}
         as |dialog|
     >
         <dialog.heading data-test-modal-heading>
