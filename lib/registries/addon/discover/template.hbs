@@ -30,6 +30,7 @@
         isLoading=this.doSearch.isIdle
         searchOptions=this.searchOptions
         additionalFilters=this.additionalFilters
+        provider=this.providerModel
         onSearchOptionsUpdated=(action this.onSearchOptionsUpdated)
         as |discover|
     }}
@@ -62,6 +63,7 @@
                 totalResults=this.totalResults
                 searchOptions=this.searchOptions
                 sortOptions=this.sortOptions
+                provider=this.providerModel
                 setOrder=(action this.setOrder)
             }}
             {{#discover.results
@@ -72,6 +74,7 @@
                     local-class='RegistriesSearchResult'
                     inert={{this.doSearch.isRunning}}
                     @result={{result}}
+                    @provider={{this.providerModel}}
                 />
             {{/discover.results}}
 

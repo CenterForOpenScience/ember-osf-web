@@ -31,7 +31,11 @@ export default class RegistriesHeader extends Component {
     }
 
     _onSearch() {
-        this.analytics.click('link', 'Discover - Search', this.value);
+        if (this.providerModel) {
+            this.analytics.click('link', `Discover - Search ${this.providerModel.name}`, this.value);
+        } else {
+            this.analytics.click('link', 'Discover - Search', this.value);
+        }
         this.onSearch(this.value);
     }
 
@@ -48,7 +52,11 @@ export default class RegistriesHeader extends Component {
     @action
     keyPress(event: KeyboardEvent) {
         if (event.keyCode !== 13) {
-            this.analytics.track('input', 'onkeyup', 'Discover - Search', this.value);
+            if (this.providerModel) {
+                this.analytics.track('input', 'onkeyup', `Discover - Search ${this.providerModel.name}`, this.value);
+            } else {
+                this.analytics.track('input', 'onkeyup', 'Discover - Search', this.value);
+            }
         }
     }
 }
