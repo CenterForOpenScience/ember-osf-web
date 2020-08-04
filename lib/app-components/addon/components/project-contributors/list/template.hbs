@@ -30,19 +30,24 @@
     </div>
     <SortableGroup
         @onChange={{action (perform this.reorderContributors)}}
+        @model={{this.contributors}}
+        local-class='contributors-list'
         as |group|
     >
-        {{#each this.contributors as |contributor|}}
-            <ProjectContributors::List::Item
-                @group={{group}}
-                @contributor={{contributor}}
-                @isAdmin={{this.isAdmin}}
-                @adminCount={{this.adminCount}}
-                @bibliographicCount={{this.bibliographicCount}}
-                @removeContributor={{action (perform this.removeContributor)}}
-                @toggleBibliographic={{action (perform this.toggleBibliographic)}}
-                @updatePermissions={{action (perform this.updatePermissions)}}
-            />
+        {{#each group.model as |modelItem|}}
+            {{#group.item model=modelItem as |item|}}
+                <ProjectContributors::List::Item
+                    @group={{group}}
+                    @contributor={{modelItem}}
+                    @isAdmin={{this.isAdmin}}
+                    @adminCount={{this.adminCount}}
+                    @bibliographicCount={{this.bibliographicCount}}
+                    @removeContributor={{action (perform this.removeContributor)}}
+                    @toggleBibliographic={{action (perform this.toggleBibliographic)}}
+                    @updatePermissions={{action (perform this.updatePermissions)}}
+                    @item={{item}}
+                />
+            {{/group.item}}
         {{/each}}
     </SortableGroup>
     {{#if this.loadContributors.isRunning}}

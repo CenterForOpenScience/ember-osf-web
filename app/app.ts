@@ -10,12 +10,6 @@ const App = Application.extend({
     modulePrefix,
     Resolver,
     // eslint-disable-next-line ember/avoid-leaking-state-in-ember-objects
-    fontawesome: {
-        icons: {
-            'free-solid-svg-icons': 'all',
-        },
-    },
-    // eslint-disable-next-line ember/avoid-leaking-state-in-ember-objects
     engines: {
         collections: {
             dependencies: {
