@@ -40,11 +40,13 @@
                     options=this.filterableSources
                     searchOptions=this.searchOptions
                     onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
+                    provider=this.providerModel
                 }}
 
                 {{registries-registration-type-facet
                     searchOptions=this.searchOptions
                     onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
+                    provider=this.providerModel
                 }}
 
                 {{!-- TODO: this feature is not ready yet. Will be implemented in Phase2 Branded Reg --}}
@@ -53,6 +55,7 @@
                                 provider=this.providerModel
                                 searchOptions=this.searchOptions
                                 onSearchOptionsUpdated=sidebar.onSearchOptionsUpdated
+                                provider=this.providerModel
                             }}
                         {{/if}} --}}
             {{/discover.sidebar}}

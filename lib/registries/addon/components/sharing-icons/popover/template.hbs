@@ -4,7 +4,7 @@
     local-class='SharingIconsPopover__anchor'
     class='btn-link pull-right'
     tabindex='0'
-    data-analytics-name='Sharing Icons Popover{{if @provider (concat ' ' @provider.name)}}'
+    data-analytics-name='Sharing Icons Popover{{if @provider concat ' @provider.name'}}'
     ...attributes
 >
     <FaIcon @icon='share-alt' />

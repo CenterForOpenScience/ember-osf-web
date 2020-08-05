@@ -5,6 +5,7 @@ import { inject as service } from '@ember/service';
 import { localClassNames } from 'ember-css-modules';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
+import ProviderModel from 'ember-osf-web/models/provider';
 import Analytics from 'ember-osf-web/services/analytics';
 import { SearchFilter, SearchOptions } from 'registries/services/search';
 import template from './template';
@@ -15,6 +16,7 @@ export default class RegistriesSourcesFacet extends Component {
     @service analytics!: Analytics;
 
     searchOptions!: SearchOptions;
+    provider?: ProviderModel;
     @requiredAction onSearchOptionsUpdated!: (options: SearchOptions) => void;
 
     title = 'Provider';
@@ -38,6 +40,17 @@ export default class RegistriesSourcesFacet extends Component {
 
     @action
     providerChecked(filter: SearchFilter, remove: boolean) {
+        if (this.provider) {
+            this.analytics.track(
+                'filter',
+                remove
+                    ? 'remove'
+                    : 'add',
+                `Discover - providers ${filter.display} ${this.provider.name}`,
+            );
+        } else {
+            this.analytics.track('filter', remove ? 'remove' : 'add', `Discover - providers ${filter.display}`);
+        }
         if (remove) {
             this.onSearchOptionsUpdated(this.searchOptions.removeFilters(filter));
         } else {

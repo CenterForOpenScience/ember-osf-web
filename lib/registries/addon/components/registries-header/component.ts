@@ -30,7 +30,8 @@ export default class RegistriesHeader extends Component {
             : this.intl.t('registries.header.osf_registrations');
     }
 
-    _onSearch() {
+    @action
+    onSubmit() {
         if (this.providerModel) {
             this.analytics.click('link', `Discover - Search ${this.providerModel.name}`, this.value);
         } else {
@@ -42,11 +43,6 @@ export default class RegistriesHeader extends Component {
     @action
     toggleHelp() {
         this.set('showingHelp', !this.showingHelp);
-    }
-
-    @action
-    onSubmit() {
-        this._onSearch();
     }
 
     @action
