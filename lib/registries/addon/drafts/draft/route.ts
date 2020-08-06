@@ -8,6 +8,8 @@ import DS from 'ember-data';
 import requireAuth from 'ember-osf-web/decorators/require-auth';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import NodeModel from 'ember-osf-web/models/node';
+import ProviderModel from 'ember-osf-web/models/provider';
+import SubjectModel from 'ember-osf-web/models/subject';
 import Analytics from 'ember-osf-web/services/analytics';
 import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
 import NavigationManager from 'registries/drafts/draft/navigation-manager';
@@ -31,10 +33,14 @@ export default class DraftRegistrationRoute extends Route {
                 draftId,
                 { adapterOptions: { include: 'branched_from' } },
             );
-            const draftRegistrationSubjects = yield draftRegistration.loadAll('subjects');
-            draftRegistration.set('subjects', draftRegistrationSubjects);
-            const node: NodeModel = yield draftRegistration.branchedFrom;
-            return { draftRegistration, node };
+            const [subjects, node, provider]: [SubjectModel[], NodeModel, ProviderModel] = yield Promise.all([
+                draftRegistration.loadAll('subjects'),
+                draftRegistration.branchedFrom,
+                draftRegistration.provider,
+            ]);
+
+            draftRegistration.setProperties({ subjects });
+            return { draftRegistration, node, provider };
         } catch (error) {
             this.transitionTo('page-not-found', this.router.currentURL.slice(1));
             return undefined;

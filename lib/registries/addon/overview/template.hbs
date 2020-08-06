@@ -1,4 +1,5 @@
 <RegistriesWrapper
+    @provider={{this.registration.provider}}
     {{with-branding (if this.model.task.isIdle this.registration.provider.brand)}}
 >
     {{#if this.model.task.isRunning}}
