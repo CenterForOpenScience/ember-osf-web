@@ -22,7 +22,7 @@ import {
 } from 'ember-osf-web/packages/registration-schema';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
 
-type DraftsDraftModelTaskInstance = TaskInstance<{
+type LoadDraftModelTask = TaskInstance<{
     draftRegistration: DraftRegistration,
     node: NodeModel,
     provider: ProviderModel,
@@ -30,7 +30,7 @@ type DraftsDraftModelTaskInstance = TaskInstance<{
 
 export default class DraftRegistrationManager {
     // Required
-    draftRegistrationAndNodeTask!: DraftsDraftModelTaskInstance;
+    draftRegistrationAndNodeTask!: LoadDraftModelTask;
 
     // Private
     @service intl!: Intl;
@@ -162,7 +162,7 @@ export default class DraftRegistrationManager {
         }
     });
 
-    constructor(draftRegistrationAndNodeTask: DraftsDraftModelTaskInstance) {
+    constructor(draftRegistrationAndNodeTask: LoadDraftModelTask) {
         set(this, 'draftRegistrationAndNodeTask', draftRegistrationAndNodeTask);
         this.initializePageManagers.perform();
         this.initializeMetadataChangeset.perform();

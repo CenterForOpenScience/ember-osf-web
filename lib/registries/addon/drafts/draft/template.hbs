@@ -1,6 +1,6 @@
 <RegistriesWrapper
     @provider={{this.provider}}
-    {{with-branding this.brand}}
+    {{with-branding (get-model this.brand)}}
 >
     {{#if this.model.draftRegistrationManager.initializing}}
         <div local-class='ContentBackground Loading'>
