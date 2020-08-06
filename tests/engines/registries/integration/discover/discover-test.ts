@@ -130,12 +130,12 @@ module('Registries | Integration | discover', hooks => {
         server.create('registration-schema', { name: 'Close Fronted' });
         server.create('registration-provider', {
             id: 'osf',
-            shareSourceKey: 'OSF',
+            shareSource: 'OSF',
             name: 'OSF Registries',
         });
         server.create('registration-provider', {
             id: 'someother',
-            shareSourceKey: 'someother',
+            shareSource: 'someother',
             name: 'Some Other',
         });
 

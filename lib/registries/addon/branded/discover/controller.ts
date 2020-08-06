@@ -9,10 +9,10 @@ export default class Discover extends DiscoverController {
     }
 
     get additionalFilters() {
-        const { shareSourceKey, name } = this.model;
+        const { shareSource, name } = this.model;
 
         return [
-            new ShareTermsFilter('sources', shareSourceKey, name),
+            new ShareTermsFilter('sources', shareSource, name),
         ];
     }
 }
