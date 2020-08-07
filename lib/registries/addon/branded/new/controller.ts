@@ -7,6 +7,7 @@ import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 
 import NodeModel from 'ember-osf-web/models/node';
+import { Permission } from 'ember-osf-web/models/osf-model';
 import RegistrationSchemaModel from 'ember-osf-web/models/registration-schema';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUserService from 'ember-osf-web/services/current-user';
@@ -65,6 +66,7 @@ export default class BrandedRegistriesNewSubmissionController extends Controller
                 {
                     filter: {
                         title: query,
+                        current_user_permissions: Permission.Admin,
                     },
                 });
             this.projectOptions = nodes;
