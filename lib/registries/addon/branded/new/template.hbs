@@ -1,7 +1,7 @@
 {{title (t 'registries.new.page_title')}}
 
 <RegistriesWrapper
-    {{with-branding this.model.brand}}
+    {{with-branding (get-model this.model.brand)}}
     data-analytics-scope='New Registration Page'
     @provider={{this.model}}
 >
