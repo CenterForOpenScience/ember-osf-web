@@ -213,8 +213,8 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
 
         // Setting osfProviders on the share-search service
         const urlRegex = config.OSF.url.replace(/^https?/, '^https?');
-        const filteredProviders = osfProviders.filter(provider => provider.shareSourceKey).map(provider => ({
-            name: provider.shareSourceKey!, // `name` should match what SHARE calls it
+        const filteredProviders = osfProviders.filter(provider => provider.shareSource).map(provider => ({
+            name: provider.shareSource!, // `name` should match what SHARE calls it
             display: provider.name,
             https: true,
             urlRegex,

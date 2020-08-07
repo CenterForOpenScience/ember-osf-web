@@ -45,8 +45,8 @@ export default Factory.extend<MirageRegistrationProvider & RegistrationProviderT
                 }),
             ],
         });
-        if (!provider.shareSourceKey) {
-            provider.update({ shareSourceKey: `share-${provider.name}` });
+        if (!provider.shareSource) {
+            provider.update({ shareSource: `share-${provider.name}` });
         }
     },
 

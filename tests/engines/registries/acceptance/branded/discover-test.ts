@@ -28,12 +28,12 @@ module('Registries | Acceptance | branded.discover', hooks => {
     });
 
     test('branded discover with external providers', async assert => {
-        const externalProvider = server.create('external-provider', { shareSourceKey: 'ClinicalTrials.gov' });
+        const externalProvider = server.create('external-provider', { shareSource: 'ClinicalTrials.gov' });
         server.createList('external-registration', 3, { provider: externalProvider });
 
         await visit('/registries/brand/discover');
         assert.dom('[data-test-source-filter-id]').exists({ count: 1 }, 'Only brand provider is shown');
-        assert.dom(`[data-test-source-filter-id="${externalProvider.shareSourceKey}"]`)
+        assert.dom(`[data-test-source-filter-id="${externalProvider.shareSource}"]`)
             .doesNotExist('External provider is not shown');
     });
 });

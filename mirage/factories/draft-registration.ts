@@ -22,7 +22,7 @@ export default Factory.extend<DraftRegistration & DraftRegistrationTraits>({
             const defaultProvider = server.schema.registrationProviders.find('osf')
                 || server.create('registration-provider', {
                     id: 'osf',
-                    shareSourceKey: 'OSF',
+                    shareSource: 'OSF',
                     name: 'OSF Registries',
                 });
             newDraft.update({

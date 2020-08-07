@@ -112,10 +112,10 @@ function registrationScenario(
     });
 
     const clinicalTrials = server.create('external-provider', {
-        shareSourceKey: 'ClinicalTrials.gov',
+        shareSource: 'ClinicalTrials.gov',
     });
     const researchRegistry = server.create('external-provider', {
-        shareSourceKey: 'Research Registry',
+        shareSource: 'Research Registry',
     });
 
     server.createList('external-registration', 3, { provider: clinicalTrials });
