@@ -29,6 +29,7 @@ export default Factory.extend<MirageRegistrationProvider & RegistrationProviderT
         return faker.lorem.sentence();
     },
     allowSubmissions: true,
+    brandedDiscoveryPage: true,
     assets: randomAssets(),
 
     afterCreate(provider, server) {

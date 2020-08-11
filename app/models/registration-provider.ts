@@ -19,6 +19,9 @@ export default class RegistrationProviderModel extends ProviderModel {
 
     @attr('fixstring')
     shareSource?: string;
+
+    @attr('boolean')
+    brandedDiscoveryPage?: boolean;
 }
 
 declare module 'ember-data/types/registries/model' {

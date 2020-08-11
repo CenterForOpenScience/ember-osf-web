@@ -2,6 +2,7 @@ import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
+import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 import Analytics from 'ember-osf-web/services/analytics';
 
 export default class BrandedRegistriesDiscoverRoute extends Route {
@@ -12,6 +13,18 @@ export default class BrandedRegistriesDiscoverRoute extends Route {
 
     model() {
         return this.modelFor('branded');
+    }
+
+    afterModel(provider: RegistrationProviderModel) {
+        if (!provider.brandedDiscoveryPage) {
+            if (provider.id === 'osf') {
+                this.transitionTo('discover');
+            } else {
+                const { href, origin } = window.location;
+                const currentUrl = href.replace(origin, '');
+                this.transitionTo('page-not-found', currentUrl);
+            }
+        }
     }
 
     @action

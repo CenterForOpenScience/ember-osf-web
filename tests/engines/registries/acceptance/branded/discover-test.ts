@@ -51,4 +51,30 @@ module('Registries | Acceptance | branded.discover', hooks => {
             'registries.branded.discover', 'successfully redirects index to discover');
         assert.dom(`[data-test-source-filter-id="${this.brandedProvider.shareSource}"]`).exists({ count: 1 });
     });
+
+    test('redirects', async assert => {
+        const provider = server.create('registration-provider', {
+            brandedDiscoveryPage: false,
+        }, 'withBrand');
+
+        await visit(`/registries/${provider.id}/discover`);
+        assert.equal(currentRouteName(),
+            'registries.page-not-found',
+            'Gets page-not-found if provider.brandedDiscoveryPage set to False');
+
+        const osfProvider = server.create('registration-provider', {
+            id: 'osf',
+            brandedDiscoveryPage: false,
+        });
+
+        await visit(`/registries/${osfProvider.id}/discover`);
+        assert.equal(currentRouteName(),
+            'registries.discover',
+            '/registries/osf/discover redirects to registries/discover');
+
+        await visit(`/registries/${osfProvider.id}`);
+        assert.equal(currentRouteName(),
+            'registries.discover',
+            '/registries/osf redirects to registries/discover');
+    });
 });
