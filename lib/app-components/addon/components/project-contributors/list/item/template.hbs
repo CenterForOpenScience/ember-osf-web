@@ -1,16 +1,8 @@
-{{!-- <SortableItem
-    data-test-project-contributors-list-item-id={{@contributor.users.id}}
-    local-class={{concat 'row ' (get @contributor 'highlightClass')}}
-    @class='row'
-    @model={{@contributor}}
-    @group={{@group}}
-    @spacing={{1}}
-    @handle='.handle'
-> --}}
-    {{! Handle }}
 <div
     local-class={{concat 'row ' (get @contributor 'highlightClass')}}
+    data-test-project-contributors-list-item-id={{@contributor.users.id}}
 >
+    {{! Handle }}
     <div class='col-xs-2 col-sm-1 text-nowrap'>
         <span class='fa fa-bars sortable-bars handle small'></span>
     </div>
