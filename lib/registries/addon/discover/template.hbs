@@ -70,7 +70,8 @@
                 as |result|
             }}
                 <RegistriesSearchResult
-                    local-class='RegistriesSearchResult {{if this.doSearch.isRunning 'BlurredSearchResult'}}'
+                    class={{if this.doSearch.isRunning 'BlurredInert'}}
+                    local-class='RegistriesSearchResult'
                     inert={{this.doSearch.isRunning}}
                     @result={{result}}
                 />
