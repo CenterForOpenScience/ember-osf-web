@@ -7,6 +7,10 @@
     }
 }
 
+.Placeholder {
+    filter: grayscale(100%) blur(5px);
+}
+
 .ItemLabel.ItemLabel {
     display: flex;
     align-items: center;

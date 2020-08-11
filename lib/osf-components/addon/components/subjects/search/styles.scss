@@ -27,3 +27,7 @@
 .SearchResults {
     list-style: none;
 }
+
+.BlurSearch {
+    filter: grayscale(100%) blur(5px);
+}

@@ -41,6 +41,10 @@
     }
 }
 
+.BlurredSearchResult {
+    filter: grayscale(100%) blur(5px);
+}
+
 .Pagination {
     display: inline-flex;
     justify-content: flex-end;

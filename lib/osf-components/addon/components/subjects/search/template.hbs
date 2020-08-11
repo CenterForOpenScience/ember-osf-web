@@ -15,8 +15,7 @@
 
 {{#if (or this.isLoading this.searchResults)}}
     <ol
-        local-class='SearchResults'
-        inert={{this.isLoading}}
+        local-class='SearchResults {{if this.isLoading 'BlurSearch'}}'
     >
         {{#each (range 0 this.resultCount) as |index|}}
             <Subjects::Manager::Single

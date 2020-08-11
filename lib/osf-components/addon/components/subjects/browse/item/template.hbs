@@ -1,6 +1,5 @@
 <li
-    local-class='Item'
-    inert={{this.isPlaceholder}}
+    local-class='Item {{if this.isPlaceholder 'Placeholder'}}'
     ...attributes
 >
     <label
