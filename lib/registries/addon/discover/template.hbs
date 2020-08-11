@@ -71,6 +71,7 @@
             }}
                 <RegistriesSearchResult
                     local-class='RegistriesSearchResult {{if this.doSearch.isRunning 'BlurredSearchResult'}}'
+                    inert={{this.doSearch.isRunning}}
                     @result={{result}}
                 />
             {{/discover.results}}
