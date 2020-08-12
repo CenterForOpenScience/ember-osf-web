@@ -1,65 +1,63 @@
-<div class='container-fluid'>
-    <div class='row hidden-xs'>
-        <div class='col-sm-3 col-sm-offset-2'>
-            <strong>{{t 'app_components.project_contributors.list.name'}}</strong>
-        </div>
-        <div class='col-sm-3'>
-            <strong>{{t 'app_components.project_contributors.list.permissions'}}</strong>
-            <FaIcon @icon='question-circle'>
-                <BsPopover
-                    @placement='bottom'
-                    @triggerEvents='hover'
-                    @title={{t 'app_components.project_contributors.list.permissions_popover_title'}}
-                >
-                    {{t 'app_components.project_contributors.list.permissions_popover' htmlSafe=true}}
-                </BsPopover>
-            </FaIcon>
-        </div>
-        <div class='col-sm-2 bib-padding'>
-            <strong>{{t 'app_components.project_contributors.list.citation'}}</strong>
-            <FaIcon @icon='question-circle'>
-                <BsPopover
-                    @placement='bottom'
-                    @triggerEvents='hover'
-                    @title={{t 'app_components.project_contributors.list.citation_popover_title'}}
-                >
-                    {{t 'app_components.project_contributors.list.citation_popover'}}
-                </BsPopover>
-            </FaIcon>
-        </div>
+<div class='row hidden-xs'>
+    <div class='col-sm-3 col-sm-offset-2'>
+        <strong>{{t 'app_components.project_contributors.list.name'}}</strong>
     </div>
-    <SortableGroup
-        @onChange={{action (perform this.reorderContributors)}}
-        @model={{this.contributors}}
-        local-class='contributors-list'
-        as |group|
-    >
-        {{#each group.model as |modelItem|}}
-            {{#group.item model=modelItem as |item|}}
-                <ProjectContributors::List::Item
-                    @group={{group}}
-                    @contributor={{modelItem}}
-                    @isAdmin={{this.isAdmin}}
-                    @adminCount={{this.adminCount}}
-                    @bibliographicCount={{this.bibliographicCount}}
-                    @removeContributor={{action (perform this.removeContributor)}}
-                    @toggleBibliographic={{action (perform this.toggleBibliographic)}}
-                    @updatePermissions={{action (perform this.updatePermissions)}}
-                    @item={{item}}
-                />
-            {{/group.item}}
-        {{/each}}
-    </SortableGroup>
-    {{#if this.loadContributors.isRunning}}
-        <LoadingIndicator @dark={{true}} />
-    {{else if this.hasMore}}
-        <div local-class='has-more-container'>
-            <OsfButton
-                @type='link'
-                @onClick={{action this.loadMoreContributors}}
+    <div class='col-sm-3'>
+        <strong>{{t 'app_components.project_contributors.list.permissions'}}</strong>
+        <FaIcon @icon='question-circle'>
+            <BsPopover
+                @placement='bottom'
+                @triggerEvents='hover'
+                @title={{t 'app_components.project_contributors.list.permissions_popover_title'}}
             >
-                {{t 'app_components.project_contributors.list.load_more_contributors'}}
-            </OsfButton>
-        </div>
-    {{/if}}
+                {{t 'app_components.project_contributors.list.permissions_popover' htmlSafe=true}}
+            </BsPopover>
+        </FaIcon>
+    </div>
+    <div class='col-sm-2 bib-padding'>
+        <strong>{{t 'app_components.project_contributors.list.citation'}}</strong>
+        <FaIcon @icon='question-circle'>
+            <BsPopover
+                @placement='bottom'
+                @triggerEvents='hover'
+                @title={{t 'app_components.project_contributors.list.citation_popover_title'}}
+            >
+                {{t 'app_components.project_contributors.list.citation_popover'}}
+            </BsPopover>
+        </FaIcon>
+    </div>
 </div>
+<SortableGroup
+    @onChange={{action (perform this.reorderContributors)}}
+    @model={{this.contributors}}
+    local-class='contributors-list'
+    as |group|
+>
+    {{#each group.model as |modelItem|}}
+        {{#group.item model=modelItem as |item|}}
+            <ProjectContributors::List::Item
+                @group={{group}}
+                @contributor={{modelItem}}
+                @isAdmin={{this.isAdmin}}
+                @adminCount={{this.adminCount}}
+                @bibliographicCount={{this.bibliographicCount}}
+                @removeContributor={{action (perform this.removeContributor)}}
+                @toggleBibliographic={{action (perform this.toggleBibliographic)}}
+                @updatePermissions={{action (perform this.updatePermissions)}}
+                @item={{item}}
+            />
+        {{/group.item}}
+    {{/each}}
+</SortableGroup>
+{{#if this.loadContributors.isRunning}}
+    <LoadingIndicator @dark={{true}} />
+{{else if this.hasMore}}
+    <div local-class='has-more-container'>
+        <OsfButton
+            @type='link'
+            @onClick={{action this.loadMoreContributors}}
+        >
+            {{t 'app_components.project_contributors.list.load_more_contributors'}}
+        </OsfButton>
+    </div>
+{{/if}}
