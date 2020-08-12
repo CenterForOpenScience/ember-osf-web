@@ -72,10 +72,13 @@ function registrationScenario(
 
     server.create('registration-provider', { id: 'egap', name: 'EGAP' }, 'withBrand');
 
-    server.create('registration', {
+    const decaf = server.create('registration', {
         id: 'decaf',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        provider,
     }, 'withContributors');
+
+    server.create('contributor', { node: decaf }, 'unregistered');
 
     server.create('registration', {
         id: 'berand',
@@ -133,14 +136,6 @@ function registrationScenario(
         registrationResponses,
         branchedFrom: rootNode,
     });
-
-    server.create('registration', {
-        id: 'decaf',
-        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-        linkedNodes: server.createList('node', 2),
-        linkedRegistrations: server.createList('registration', 2),
-        currentUserPermissions: Object.values(Permission),
-    }, 'withContributors', 'withComments', 'withAffiliatedInstitutions');
 
     server.createList('subject', 10, 'withChildren');
 

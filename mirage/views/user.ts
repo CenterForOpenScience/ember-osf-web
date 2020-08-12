@@ -1,4 +1,4 @@
-import { HandlerContext, Request, Schema } from 'ember-cli-mirage';
+import { HandlerContext, Request, Response, Schema } from 'ember-cli-mirage';
 
 import { filter, process } from './utils';
 
@@ -14,4 +14,8 @@ export function userNodeList(this: HandlerContext, schema: Schema, request: Requ
     }
     const json = process(schema, request, this, nodes, { defaultSortKey: 'last_logged' });
     return json;
+}
+
+export function claimUnregisteredUser(this: HandlerContext) {
+    return new Response(204);
 }

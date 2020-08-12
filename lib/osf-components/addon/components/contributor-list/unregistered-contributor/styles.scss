@@ -1,0 +1,15 @@
+.emailLabel,
+.emailInput {
+    width: 100%;
+}
+
+.emailInput {
+    display: block;
+    height: 40px;
+    padding: 6px 12px;
+}
+
+.spanPopover :global(.popover-title) {
+    font-size: 16px;
+    font-weight: bold;
+}
