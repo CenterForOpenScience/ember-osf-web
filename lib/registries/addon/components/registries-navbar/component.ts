@@ -34,6 +34,15 @@ export default class RegistriesNavbar extends AuthBase {
     provider?: RegistrationProviderModel;
 
     @and('media.isMobile', 'searchDropdownOpen') showSearchDropdown!: boolean;
+
+    @computed('provider')
+    get signUpQueryParams() {
+        if (this.provider) {
+            return { campaign: `${this.provider.id}-registries` };
+        }
+        return { campaign: 'osf-registries' };
+    }
+
     @computed('provider.{allowSubmissions,id}')
     get showAddRegistrationButton() {
         if (!this.provider) {
