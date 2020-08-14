@@ -2207,7 +2207,7 @@
     ember-cli-babel "^6.16.0"
     ember-compatibility-helpers "^1.1.1"
 
-"@ember/render-modifiers@^1.0.0":
+"@ember/render-modifiers@^1.0.0", "@ember/render-modifiers@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@ember/render-modifiers/-/render-modifiers-1.0.2.tgz#2e87c48db49d922ce4850d707215caaac60d8444"
   integrity sha512-6tEnHl5+62NTSAG2mwhGMFPhUrJQjoVqV+slsn+rlTknm2Zik+iwxBQEbwaiQOU1FUYxkS8RWcieovRNMR8inQ==
@@ -9699,6 +9699,15 @@ ember-decorators-polyfill@^1.0.6:
     ember-cli-version-checker "^3.1.3"
     ember-compatibility-helpers "^1.2.0"
 
+ember-decorators-polyfill@^1.1.1:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/ember-decorators-polyfill/-/ember-decorators-polyfill-1.1.5.tgz#49203c302ea4486618ba4866923ec657cf2c9f3d"
+  integrity sha512-O154i8sLoVjsiKzSqxGRfHGr+N+drT6mRrLDbNgJCnW/V5uLg/ppZFpUsrdxuXnp5Q9us3OfXV1nX2CH+7bUpA==
+  dependencies:
+    ember-cli-babel "^7.1.2"
+    ember-cli-version-checker "^3.1.3"
+    ember-compatibility-helpers "^1.2.0"
+
 ember-decorators@^6.1.0, ember-decorators@^6.1.1:
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/ember-decorators/-/ember-decorators-6.1.1.tgz#6d770f8999cf5a413a1ee459afd520838c0fc470"
@@ -10098,6 +10107,17 @@ ember-named-arguments-polyfill@^1.0.0:
     ember-cli-babel "^6.6.0"
     ember-cli-version-checker "^2.1.2"
 
+ember-native-class-polyfill@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/ember-native-class-polyfill/-/ember-native-class-polyfill-1.0.6.tgz#cc7a3407d461acb797bd3253e433936a3261e8bc"
+  integrity sha512-KY2zhSSEar9Tk3CWzI63MjiytfqaECnzkxRz2rbm1FTiGAPzEW7x9hXQrSkFFJpF7L3+rrdTdhXCUhKd35aKvw==
+  dependencies:
+    broccoli-debug "^0.6.5"
+    broccoli-funnel "^2.0.1"
+    ember-cli-babel "^7.1.3"
+    ember-cli-version-checker "^2.1.2"
+    semver "^5.6.0"
+
 ember-on-helper@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/ember-on-helper/-/ember-on-helper-0.1.0.tgz#c8b1fef9173fc8546c4933b57ecd7ffbcebad99e"
@@ -10349,13 +10369,19 @@ ember-sinon@^5.0.0:
     ember-cli-babel "^7.17.2"
     sinon "^9.0.0"
 
-ember-sortable@^1.11.2:
-  version "1.12.10"
-  resolved "https://registry.yarnpkg.com/ember-sortable/-/ember-sortable-1.12.10.tgz#3d28ae7cae4cc5fe0e067ff08ee0f5d4d0e8353e"
-  integrity sha512-QYgm5IQtXvbsk9/MOTb/ECGuX57wEsVBuYxdc4OZ+ZXzgx4HnujBDn4zz+0eLFkopVnuqRy7TRMQsZEeMzvTAA==
+ember-sortable@2.2:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/ember-sortable/-/ember-sortable-2.2.0.tgz#60227c7eef70a7d4a2390b4ad0258176f76a9745"
+  integrity sha512-eQsocE8D0ax1lfgmmNbcT2iGJdNu32T4hmnUao1qzzlByoRqToIP0+t0BRQCZYIkbG8vEI3/hSJsFmDuaop5GA==
   dependencies:
-    ember-cli-babel "^7.1.2"
+    "@ember/render-modifiers" "^1.0.2"
+    ember-cli-babel "^7.11.1"
     ember-cli-htmlbars "^3.0.0"
+    ember-decorators-polyfill "^1.1.1"
+    ember-modifier "^1.0.2"
+    ember-native-class-polyfill "^1.0.6"
+    ember-test-selectors "^2.1.0"
+    ember-test-waiters "^1.1.1"
 
 ember-source-channel-url@^2.0.1:
   version "2.0.1"
@@ -10454,6 +10480,14 @@ ember-template-recast@^4.1.4:
     slash "^3.0.0"
     tmp "^0.1.0"
     workerpool "^5.0.4"
+
+ember-test-selectors@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/ember-test-selectors/-/ember-test-selectors-2.1.0.tgz#faebdf06702aaa0bc510d55eb721ce54d2e85793"
+  integrity sha512-c5HmvefmeABH8hg380TSNZiE9VAK1CBeXWrgyXy+IXHtsew4lZHHw7GnqCAqsakxwvmaMARbAKY9KfSAE91s1g==
+  dependencies:
+    ember-cli-babel "^6.8.2"
+    ember-cli-version-checker "^3.1.2"
 
 ember-test-waiters@^1.1.1:
   version "1.2.0"

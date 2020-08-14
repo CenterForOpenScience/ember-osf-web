@@ -1,27 +1,36 @@
-<ul local-class='ContributorList' ...attributes>
-    {{#let (get
-        (hash
-            readonly=(component 'contributors/card/readonly')
-            editable=(component 'contributors/card/editable' manager=@contributorsManager)
-        )
-        @widgetMode
-    ) as |Card|}}
-        {{#each @contributorsManager.contributors as |contributor|}}
-            <li>
-                <Card @contributor={{contributor}} />
-            </li>
+{{#let (get
+    (hash
+        readonly=(component 'contributors/card/readonly')
+        editable=(component 'contributors/card/editable' manager=@contributorsManager)
+    )
+    @widgetMode
+) as |Card|}}
+    <SortableGroup
+        @model={{@contributorsManager.contributors}}
+        @onChange={{@contributorsManager.reorderContributor}}
+        local-class='ContributorList'
+        as |group|
+    >
+        {{#each group.model as |contributor|}}
+            {{#group.item
+                model=contributor
+                isDraggingDisabled=(eq this.widgetMode 'readonly')
+                onDragStart=(action (mut @contributorsManager.isDragging) true)
+                onDragStop=(action (mut @contributorsManager.isDragging) false)
+                as |item|
+            }}
+                <Card @contributor={{contributor}} @item={{item}} />
+            {{/group.item}}
         {{/each}}
-        {{#if (and (not @contributorsManager.isLoading) @contributorsManager.hasMore)}}
-            <div local-class='InfinityLoader'
-                {{in-viewport
-                    onEnter=(fn @contributorsManager.fetchContributors)
-                }}
-            >
+        {{#if @contributorsManager.shouldShowLoadMore}}
+            <div local-class='InfinityLoader' {{in-viewport
+                        onEnter=(fn @contributorsManager.fetchContributors)
+                    }}>
                 {{t 'osf-components.contributors.loadMore'}}
             </div>
         {{/if}}
         {{#if @contributorsManager.isLoading}}
             <LoadingIndicator @dark={{true}} />
         {{/if}}
-    {{/let}}
-</ul>
+    </SortableGroup>
+{{/let}}

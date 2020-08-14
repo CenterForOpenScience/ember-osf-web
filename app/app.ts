@@ -9,7 +9,6 @@ const { modulePrefix } = config;
 const App = Application.extend({
     modulePrefix,
     Resolver,
-
     // eslint-disable-next-line ember/avoid-leaking-state-in-ember-objects
     engines: {
         collections: {

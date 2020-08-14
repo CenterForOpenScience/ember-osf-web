@@ -1506,6 +1506,8 @@ osf-components:
         editIsBibliographic:
             success: 'Contributor bibliographic status updated.'
             error: 'Error updating contributor bibliographic status.'
+        reorderContributor:
+            success: 'Contributor order updated.'
 settings:
     toggleNav: 'Toggle navigation'
     profile:
