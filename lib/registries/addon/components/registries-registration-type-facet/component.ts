@@ -70,7 +70,7 @@ export default class RegistriesRegistrationTypeFacet extends Component {
         const osfSelected = this.searchOptions.filters.find(
             item => item instanceof ShareTermsFilter
                 && item.key === 'sources'
-                && item.value === 'OSF',
+                && item.value === 'OSF Registries',
         );
         return this.searchOptions.filters.filter(filter => filter.key === 'sources').size === 1 && osfSelected;
     }

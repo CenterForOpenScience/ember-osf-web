@@ -253,7 +253,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         // TODO-mob don't hard-code 'OSF'
 
         // Unless OSF is the only source, registration_type filters must be cleared
-        if (!(this.sourceNames.length === 1 && this.sourceNames[0]! === 'OSF')) {
+        if (!(this.sourceNames.length === 1 && this.sourceNames[0]! === 'OSF Registries')) {
             this.set('registrationTypes', A([]));
         }
 
