@@ -101,7 +101,7 @@
 
                 <nav.links.secondary
                     data-test-join='1'
-                    data-analytics-name='Sign up'
+                    data-analytics-name='Sign up {{@campaign}}'
                     @route='register'
                     @queryParams={{this.signUpQueryParams}}
                     local-class='HideOnMobile'
@@ -187,7 +187,7 @@
                         <menu.item role='menuitem' local-class='OnlyOnMobile'>
                             <OsfLink
                                 data-test-join-mobile
-                                data-analytics-name='Sign up'
+                                data-analytics-name='Sign up {{@campaign}}'
                                 @route='register'
                                 @queryParams={{this.signUpQueryParams}}
                             >
