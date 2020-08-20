@@ -19,7 +19,7 @@ const registrationProviders: Array<Partial<MirageRegistrationProvider>> = [
         description: 'The open registries network',
         allowSubmissions: true,
         assets: randomAssets(),
-        shareSource: 'OSF',
+        shareSource: 'OSF Registries',
         licensesAcceptableIds: [
             '5c252c8e0989e100220edb70',
             '5c252c8e0989e100220edb7a',
