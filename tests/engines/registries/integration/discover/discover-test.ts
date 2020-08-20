@@ -190,6 +190,7 @@ module('Registries | Integration | discover', hooks => {
                     buckets: [
                         { key: 'OSF Registries', doc_count: 10 },
                         { key: 'someother', doc_count: 10 },
+                        { key: 'clinicaltrials', doc_count: 10 },
                     ],
                 },
             },
@@ -207,7 +208,7 @@ module('Registries | Integration | discover', hooks => {
             }),
         }));
 
-        await click('[data-test-source-filter-id="OSF"]');
+        await click('[data-test-source-filter-id="OSF Registries"]');
 
         sinon.assert.calledWith(stub, new SearchOptions({
             query: '',
