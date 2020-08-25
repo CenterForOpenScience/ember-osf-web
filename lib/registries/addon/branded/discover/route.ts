@@ -20,9 +20,7 @@ export default class BrandedRegistriesDiscoverRoute extends Route {
             if (provider.id === 'osf') {
                 this.transitionTo('discover');
             } else {
-                const { href, origin } = window.location;
-                const currentUrl = href.replace(origin, '');
-                this.transitionTo('page-not-found', currentUrl);
+                this.transitionTo('page-not-found', window.location.pathname.replace(/^\//, ''));
             }
         }
     }
