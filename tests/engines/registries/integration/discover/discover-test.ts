@@ -77,24 +77,24 @@ const QueryParamTestCases: Array<{
         },
     }, {
         name: 'Sort',
-        params: { sort: 'date_updated' },
+        params: { sort: 'date' },
         expected: {
             query: '',
             order: new SearchOrder({
                 ascending: true,
                 display: 'registries.discover.order.modified_ascending',
-                key: 'date_updated',
+                key: 'date',
             }),
         },
     }, {
         name: 'Sort decending',
-        params: { sort: '-date_updated' },
+        params: { sort: '-date' },
         expected: {
             query: '',
             order: new SearchOrder({
                 ascending: false,
                 display: 'registries.discover.order.modified_descending',
-                key: 'date_updated',
+                key: 'date',
             }),
         },
     }, {
@@ -252,7 +252,7 @@ module('Registries | Integration | discover', hooks => {
             order: new SearchOrder({
                 ascending: true,
                 display: 'registries.discover.order.modified_ascending',
-                key: 'date_updated',
+                key: 'date',
             }),
         }));
     });

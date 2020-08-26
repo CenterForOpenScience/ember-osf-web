@@ -58,12 +58,12 @@ const sortOptions = [
     new SearchOrder({
         ascending: true,
         display: 'registries.discover.order.modified_ascending',
-        key: 'date_updated',
+        key: 'date',
     }),
     new SearchOrder({
         ascending: false,
         display: 'registries.discover.order.modified_descending',
-        key: 'date_updated',
+        key: 'date',
     }),
 ];
 
