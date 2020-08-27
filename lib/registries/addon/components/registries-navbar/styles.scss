@@ -68,6 +68,19 @@
     background-repeat: no-repeat;
 }
 
+.HomeLink {
+    color: $white;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    margin: 0 16px 0 10px;
+
+    &.HomeLink:hover {
+        color: $white;
+        text-decoration: none;
+    }
+}
+
 .Service {
     color: $white;
     font-size: 20px;
