@@ -58,6 +58,8 @@ export class AuthBase extends Component {
 
         if (this.campaign) {
             params.campaign = this.campaign;
+        } else {
+            params.campaign = '';
         }
 
         if (this.router.currentRouteName !== 'register') {

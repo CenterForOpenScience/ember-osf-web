@@ -22,6 +22,5 @@
 
 // Used for modal backdrops and loading states. See https://github.com/WICG/inert
 [inert] {
-    filter: grayscale(100%) blur(5px);
     overflow: hidden;
 }

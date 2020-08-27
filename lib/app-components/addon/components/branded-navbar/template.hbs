@@ -43,7 +43,7 @@
                     <li>
                         {{#link-to
                             'provider.submit'
-                            click=(action 'click' 'link' (concat 'Navbar - ' (t @addLinkKey)) target=this.analytics)
+                            click=(action 'click' 'link' (concat 'Navbar - ' (t @addLinkKey) ' - ' this.theme.id) target=this.analytics)
                         }}
                             <span role='button'>{{t @addLinkKey}}</span>
                         {{/link-to}}
@@ -71,6 +71,7 @@
                         @onLinkClicked={{action (mut this.showNavLinks) false}}
                         @headline={{t 'app_components.branded_navbar.on_the_osf'}}
                         @externalLink={{true}}
+                        @campaign={{this.campaign}}
                     />
                 </ul>
             </BsCollapse>

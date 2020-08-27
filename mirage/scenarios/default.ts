@@ -1,12 +1,12 @@
-import { faker, ModelInstance, Server } from 'ember-cli-mirage';
+import { ModelInstance, Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
+import faker from 'faker';
 
 import FileProvider from 'ember-osf-web/models/file-provider';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 
 import { draftRegisterNodeMultiple, forkNode, registerNodeMultiple } from '../helpers';
-// import { placekitten } from '../utils';
 
 const {
     dashboard: {
@@ -65,12 +65,20 @@ function registrationScenario(
     server.create('node', { parent: childNodeA });
     server.create('node', { parent: childNodeA });
     const licenseReqFields = server.schema.licenses.findBy({ name: 'MIT License' });
-    const provider = server.create('registration-provider', 'withBrand');
+    const provider = server.create('registration-provider',
+        { id: 'ispor', name: 'ISPOR', allowSubmissions: true },
+        'withBrand',
+        'withSchemas');
 
-    server.create('registration', {
+    server.create('registration-provider', { id: 'egap', name: 'EGAP' }, 'withBrand');
+
+    const decaf = server.create('registration', {
         id: 'decaf',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        provider,
     }, 'withContributors');
+
+    server.create('contributor', { node: decaf }, 'unregistered');
 
     server.create('registration', {
         id: 'berand',
@@ -128,14 +136,6 @@ function registrationScenario(
         registrationResponses,
         branchedFrom: rootNode,
     });
-
-    server.create('registration', {
-        id: 'decaf',
-        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-        linkedNodes: server.createList('node', 2),
-        linkedRegistrations: server.createList('registration', 2),
-        currentUserPermissions: Object.values(Permission),
-    }, 'withContributors', 'withComments', 'withAffiliatedInstitutions');
 
     server.createList('subject', 10, 'withChildren');
 

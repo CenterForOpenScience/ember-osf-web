@@ -1,4 +1,5 @@
-import { faker, ModelInstance, Server } from 'ember-cli-mirage';
+import { ModelInstance, Server } from 'ember-cli-mirage';
+import faker from 'faker';
 import SeedRandom from 'seedrandom';
 
 import { GUID_ALPHABET } from 'ember-osf-web/const/guid-alphabet';

@@ -81,7 +81,9 @@ export default class List extends Component {
         this.contributors.removeObject(contributor);
         this.contributors.insertAt(newIndex, contributor);
 
-        contributor.set('index', newIndex);
+        contributor.setProperties({
+            index: newIndex,
+        });
 
         yield this.get('saveAndHighlight').perform(contributor);
     });

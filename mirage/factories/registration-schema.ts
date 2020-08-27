@@ -1,4 +1,5 @@
-import { Factory, faker } from 'ember-cli-mirage';
+import { Factory } from 'ember-cli-mirage';
+import faker from 'faker';
 
 import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 

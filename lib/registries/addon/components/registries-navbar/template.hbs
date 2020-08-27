@@ -48,6 +48,17 @@
                     {{/each}}
                 </dropdown.menu>
             </BsDropdown>
+            {{#if this.showAddRegistrationButton}}
+                <nav.links.secondary
+                    data-test-add-new-button
+                    data-analytics-name='Create new registration'
+                    local-class='AddRegistrationButton'
+                    @route='registries.branded.new'
+                    @models={{array this.provider.id}}
+                >
+                    {{t 'navbar.add_registration'}}
+                </nav.links.secondary>
+            {{/if}}
         </nav.section>
 
         {{! Right Side (Search, Buttons, Gravatar, Dropdown) }}
@@ -90,7 +101,7 @@
 
                 <nav.links.secondary
                     data-test-join='1'
-                    data-analytics-name='Sign up'
+                    data-analytics-name='Sign up {{@campaign}}'
                     @route='register'
                     @queryParams={{this.signUpQueryParams}}
                     local-class='HideOnMobile'
@@ -176,7 +187,7 @@
                         <menu.item role='menuitem' local-class='OnlyOnMobile'>
                             <OsfLink
                                 data-test-join-mobile
-                                data-analytics-name='Sign up'
+                                data-analytics-name='Sign up {{@campaign}}'
                                 @route='register'
                                 @queryParams={{this.signUpQueryParams}}
                             >

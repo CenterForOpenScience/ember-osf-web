@@ -1,5 +1,14 @@
-<div data-test-contributor-card local-class='CardContainer'>
+<div data-test-contributor-card={{@contributor.id}}
+    local-class='CardContainer'>
     <div data-test-contributor-card-main local-class='MainSection'>
+        <span local-class='Handle'>
+            {{#@item.handle}}
+                <FaIcon
+                    @icon='sort'
+                    data-test-sortable-handle={{@contributor.id}}
+                />
+            {{/@item.handle}}
+        </span>
         <span local-class='CardSection'>
             <img
                 data-test-contributor-gravatar
@@ -13,7 +22,7 @@
                 data-test-contributor-link={{@contributor.id}}
                 data-analytics-name='View user'
                 @route='guid-user'
-                @models={{array @contributor.id}}
+                @models={{array @contributor.users.id}}
             >
                 {{@contributor.users.fullName}}
             </OsfLink>

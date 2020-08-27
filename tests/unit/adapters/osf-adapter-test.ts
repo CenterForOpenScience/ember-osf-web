@@ -1,4 +1,4 @@
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import DS from 'ember-data';
 import { setupTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';

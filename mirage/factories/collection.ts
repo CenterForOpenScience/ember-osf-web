@@ -1,4 +1,5 @@
-import { Factory, faker } from 'ember-cli-mirage';
+import { Factory } from 'ember-cli-mirage';
+import faker from 'faker';
 
 import Collection from 'ember-osf-web/models/collection';
 

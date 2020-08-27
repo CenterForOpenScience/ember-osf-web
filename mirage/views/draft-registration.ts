@@ -14,6 +14,7 @@ export function createDraftRegistration(this: HandlerContext, schema: Schema) {
         datetimeInitiated: now,
         datetimeUpdated: now,
         initiator: currentUser,
+        tags: [],
         ...attrs,
     });
 

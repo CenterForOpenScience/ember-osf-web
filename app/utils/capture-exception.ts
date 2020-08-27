@@ -8,11 +8,23 @@ declare const Raven: undefined | {
     captureException(e: ErrorDocument | Error, extra: object): void;
 };
 
+// Errors from currentUser.authenticatedAJAX requests.
+interface AjaxRequestError {
+    responseJSON: {
+        errors: ErrorObject[];
+    };
+}
+
+function getErrors(error: ErrorDocument | AjaxRequestError): ErrorObject[] {
+    return 'responseJSON' in error ? error.responseJSON.errors : error.errors;
+}
+
 export function getApiError(error: ErrorDocument): ErrorObject|undefined {
     let apiError;
-    if (Array.isArray(error.errors) && error.errors.length
-        && typeof error.errors[0].detail === 'string') {
-        [apiError] = error.errors;
+    const errors: ErrorObject[] = getErrors(error);
+    if (Array.isArray(errors) && errors.length
+        && typeof errors[0].detail === 'string') {
+        [apiError] = errors;
     }
     return apiError;
 }
@@ -23,8 +35,9 @@ export function getApiErrorMessage(error: ErrorDocument): string {
 }
 
 export function getApiErrors(error: ErrorDocument): Record<string, ErrorObject> {
-    if (Array.isArray(error.errors)) {
-        return error.errors.reduce(
+    const errors: ErrorObject[] = getErrors(error);
+    if (Array.isArray(errors)) {
+        return errors.reduce(
             (acc: Record<string, ErrorObject>, val: ErrorObject, index) => (
                 { ...acc, [`api_error_${index}`]: val }
             ),

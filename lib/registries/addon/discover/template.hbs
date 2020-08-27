@@ -1,6 +1,7 @@
-{{title (t 'registries.discover.page_title')}}
+{{title (t 'registries.discover.page_title') prepend=false}}
 
 <RegistriesWrapper
+    @provider={{this.providerModel}}
     {{with-branding this.providerModel.brand}}
     data-analytics-scope='Registries Discover page'
 >

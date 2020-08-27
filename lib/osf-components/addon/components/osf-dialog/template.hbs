@@ -16,7 +16,7 @@
     >
         <div
             data-test-dialog-background
-            local-class='DialogBackground {{unless this.isModal 'Unclickable'}}'
+            local-class='DialogBackground {{if this.isModal 'BackgroundClickable' 'BackgroundUnclickable'}}'
             {{on 'click' (action this.onClickBackground)}}
         >
             <div

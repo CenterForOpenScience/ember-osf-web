@@ -1,5 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
+import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
@@ -9,7 +10,7 @@ import ContributorModel from 'ember-osf-web/models/contributor';
 import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
 import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
-import captureException from 'ember-osf-web/utils/capture-exception';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import Toast from 'ember-toastr/services/toast';
 import template from './template';
 
@@ -22,7 +23,17 @@ export default class ContributorsManager extends Component {
     @tracked contributors: ContributorModel[] = [];
     @tracked totalPage: number = 1;
     @tracked currentPage: number = 1;
+    @tracked isDragging = false;
 
+    @computed('fetchContributors.isRunning', 'hasMore', 'isDragging')
+    get shouldShowLoadMore() {
+        return !this.fetchContributors.isRunning
+            && this.fetchContributors.lastComplete
+            && this.hasMore
+            && !this.isDragging;
+    }
+
+    @computed('currentPage', 'totalPage')
     get hasMore() {
         return this.currentPage <= this.totalPage;
     }
@@ -66,6 +77,25 @@ export default class ContributorsManager extends Component {
                 const errorMessage = this.intl.t('osf-components.contributors.editPermission.error');
                 this.toast.error(errorMessage);
                 captureException(e, { errorMessage });
+            }
+        },
+    );
+
+    @task({ withTestWaiter: true, enqueue: true })
+    reorderContributor = task(
+        function *(this: ContributorsManager, newOrder: ContributorModel[], contributor: ContributorModel) {
+            const oldOrder = this.contributors;
+            const newIndex = newOrder.indexOf(contributor);
+            try {
+                contributor.setProperties({
+                    index: newIndex,
+                });
+                this.contributors = newOrder;
+                yield contributor.save();
+                this.toast.success(this.intl.t('osf-components.contributors.reorderContributor.success'));
+            } catch (e) {
+                this.contributors = oldOrder;
+                this.toast.error(getApiErrorMessage(e));
             }
         },
     );

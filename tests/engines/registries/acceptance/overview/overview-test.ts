@@ -1,12 +1,13 @@
 import { capitalize } from '@ember/string';
 import { click as untrackedClick, fillIn } from '@ember/test-helpers';
-import { faker, ModelInstance } from 'ember-cli-mirage';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { ModelInstance } from 'ember-cli-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import config from 'ember-get-config';
 import { t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
 import { selectChoose, selectSearch } from 'ember-power-select/test-support';
 import { TestContext } from 'ember-test-helpers';
+import faker from 'faker';
 import moment from 'moment';
 import { module, test } from 'qunit';
 
@@ -495,5 +496,58 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assert.dom(`[data-test-file-link="${fileOne.id}"]`).hasAttribute('href', `fakedomain/${fileOne.id}`);
         assert.dom(`[data-test-file-link="${fileTwo.id}"]`).hasText(fileTwo.name);
         assert.dom(`[data-test-file-link="${fileTwo.id}"]`).hasAttribute('href', `fakedomain/${fileTwo.id}`);
+    });
+
+    test('Logged out user can claim an unregistered contributor', async assert => {
+        const openEndedReg = server.schema.registrationSchemas.find('open_ended_registration');
+        const registeredFrom = server.create('node');
+
+        const reg = server.create('registration', {
+            registrationSchema: openEndedReg,
+            registeredFrom,
+        }, 'withContributors');
+        const unregContributor = server.create('contributor', { node: reg }, 'unregistered');
+
+        await visit(`/${reg.id}`);
+
+        assert.dom('[data-test-unregistered-contributor-name]').exists('unregistered contributor exists');
+        await click('[data-test-unregistered-contributor-name]');
+        await percySnapshot('Claim unregistered contributor for logged out users, no validation errors');
+        assert.dom('[data-test-modal-heading]').containsText(unregContributor.unregisteredContributor!,
+            'claim unregistered user modal header contains unregistered contributor name');
+        await fillIn('[data-test-email-input]', 'lmnop');
+        assert.dom('[data-test-validation-errors="userEmail"]')
+            .exists('validation error shows after invalid email is entered');
+        await percySnapshot('Claim unregistered contributor for logged out users, with validation errors');
+        await fillIn('[data-test-email-input]', 'lmnop@abd.xyz');
+        assert.dom('[data-test-modal-claim-button]')
+            .isEnabled('claim unregistered user modal claim button is enabled after user enters valid email');
+        await click('[data-test-modal-cancel-button]');
+        assert.dom('[data-test-modal-heading]')
+            .doesNotExist('claim unregistered user modal gone after canceling claim');
+    });
+
+    test('Logged in user can claim an unregistered contributor', async assert => {
+        const currentUser = server.create('user', 'loggedIn');
+        const openEndedReg = server.schema.registrationSchemas.find('open_ended_registration');
+        const registeredFrom = server.create('node');
+
+        const reg = server.create('registration', {
+            registrationSchema: openEndedReg,
+            registeredFrom,
+        }, 'withContributors');
+        server.create('contributor', { node: reg }, 'unregistered');
+
+        await visit(`/${reg.id}`);
+        assert.dom('[data-test-unregistered-contributor-name]').exists('unregistered contributor exists');
+        await click('[data-test-unregistered-contributor-name]');
+        await percySnapshot(assert);
+        assert.dom('[data-test-modal-heading]').containsText(currentUser.emails.models[0].emailAddress,
+            'claim unregistered user modal header contains current users email');
+        assert.dom('[data-test-modal-claim-button]')
+            .isEnabled('claim unregistered user modal has claim button that is enabled');
+        await click('[data-test-modal-cancel-button]');
+        assert.dom('[data-test-modal-heading]')
+            .doesNotExist('claim unregistered user modal gone after canceling claim');
     });
 });

@@ -1,12 +1,12 @@
 import { currentRouteName } from '@ember/test-helpers';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
 import { visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 
-module('Registries | Acceptance | branded discover', hooks => {
+module('Registries | Acceptance | branded.discover', hooks => {
     setupEngineApplicationTest(hooks, 'registries');
     setupMirage(hooks);
 

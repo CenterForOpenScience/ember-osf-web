@@ -1,4 +1,5 @@
-import { faker, ModelAttrs, ModelInstance, Server } from 'ember-cli-mirage';
+import { ModelAttrs, ModelInstance, Server } from 'ember-cli-mirage';
+import faker from 'faker';
 
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 

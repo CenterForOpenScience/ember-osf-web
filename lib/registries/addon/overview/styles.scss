@@ -1,5 +1,8 @@
 @import 'branding-mixins';
 
+// .ContentBackground is being composed in registries/addon/branded/new/styles.scss
+// and registries/addon/drafts/draft/styles.scss
+
 .Container {
     display: flex;
     align-items: center;

@@ -6,7 +6,7 @@ import {
     fillIn,
     triggerKeyEvent,
 } from '@ember/test-helpers';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
 import { setBreakpoint } from 'ember-responsive/test-support';
@@ -499,11 +499,9 @@ module('Registries | Acceptance | draft form', hooks => {
     });
 
     test('validations: validations status updates properly on metadata page', async assert => {
-        server.loadFixtures('subjects');
-        server.createList('subject', 10, 'withChildren');
         const provider = server.schema.registrationProviders.find('osf');
         provider.update({
-            subjects: server.schema.subjects.all().models,
+            subjects: server.createList('subject', 10, 'withChildren'),
         });
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');

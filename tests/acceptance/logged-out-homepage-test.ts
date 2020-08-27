@@ -1,6 +1,6 @@
 import { currentRouteName, currentURL, settled, visit } from '@ember/test-helpers';
 import a11yAudit from 'ember-a11y-testing/test-support/audit';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import Features from 'ember-feature-flags';
 import config from 'ember-get-config';
 import { t } from 'ember-intl/test-support';

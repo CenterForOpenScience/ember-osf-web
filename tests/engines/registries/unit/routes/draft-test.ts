@@ -24,7 +24,7 @@ module('Registries | Unit | Route | drafts.draft', hooks => {
         this.owner.register('service:analytics', analyticsStub);
     });
 
-    test('drafts index exits', function(assert) {
+    test('drafts index exists', function(assert) {
         const route = this.owner.lookup('route:drafts.index');
         assert.ok(route);
     });

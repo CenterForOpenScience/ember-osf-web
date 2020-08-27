@@ -15,8 +15,12 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.Unclickable {
+.BackgroundUnclickable {
     pointer-events: none;
+}
+
+.BackgroundClickable {
+    backdrop-filter: grayscale(100%) blur(5px);
 }
 
 .Dialog {

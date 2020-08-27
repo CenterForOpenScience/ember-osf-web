@@ -1,3 +1,5 @@
+// .Main and .Title is being composed in registries/branded/new
+
 .ContentBackground {
     composes: ContentBackground from '../../overview/styles.scss';
 }

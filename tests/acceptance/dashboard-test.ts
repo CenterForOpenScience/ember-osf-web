@@ -1,5 +1,5 @@
 import { click as untrackedClick, currentURL, fillIn, visit } from '@ember/test-helpers';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import config from 'ember-get-config';
 import { percySnapshot } from 'ember-percy';
 import { selectChoose, selectSearch } from 'ember-power-select/test-support';

@@ -1,0 +1,91 @@
+{{title (t 'registries.new.page_title') prepend=false}}
+
+<RegistriesWrapper
+    {{with-branding this.model.brand}}
+    data-analytics-scope='New Registration Page'
+    @provider={{this.model}}
+>
+    <OsfLayout @backgroundClass={{local-class 'contentBackground'}} as |layout|>
+        <layout.heading>
+            <HeroOverlay @align='left'>
+                <div local-class='title'>
+                    <h1>
+                        {{t 'registries.new.page_header'}}
+                    </h1>
+                </div>
+            </HeroOverlay>
+        </layout.heading>
+        <layout.main local-class='main'>
+            <form data-test-new-registration-form local-class='registrationForm'>
+                <label
+                    data-test-project-select
+                    local-class='selectLabel'
+                >
+                    <p local-class='stepLabel'>
+                        {{t 'registries.new.step_one'}}
+                    </p>
+                    <h2 data-test-project-select-title>
+                        {{t 'registries.new.select_project'}}
+                        <span local-class='required' aria-label={{t 'registries.new.required'}}>*</span>
+                    </h2>
+                    <PowerSelect
+                        @ariaLabel={{this.selectedProject.title}}
+                        @placeholder={{t 'registries.new.select_project_placeholder'}}
+                        @options={{this.projectOptions}}
+                        @search={{perform this.projectSearch}}
+                        @selected={{this.selectedProject}}
+                        @onchange={{this.updateSelectedProject}}
+                        as |option|
+                    >
+                        {{option.title}}
+                    </PowerSelect>
+                </label>
+
+                <p local-class='newProjectHelpText'>
+                    {{t 'registries.new.new_project_help_fragment1'}}
+                    <OsfLink
+                        @route='dashboard'
+                    >
+                        {{t 'registries.new.go_to_dashboard'}}
+                    </OsfLink>
+                    {{t 'registries.new.new_project_help_fragment2' htmlSafe=true}}
+                </p>
+
+                <label
+                    data-test-schema-select
+                    local-class='selectLabel'
+                >
+                    <p local-class='stepLabel'>
+                        {{t 'registries.new.step_two'}}
+                    </p>
+                    <h2 data-test-schema-select-title>
+                        {{t 'registries.new.select_schema'}}
+                        <span local-class='required' aria-label={{t 'registries.new.required'}}>*</span>
+                    </h2>
+                    <PowerSelect
+                        @ariaLabel={{this.selectedSchema.name}}
+                        @options={{this.schemaOptions}}
+                        @selected={{this.selectedSchema}}
+                        @searchEnabled={{false}}
+                        @onchange={{this.updateSelectedSchema}}
+                        as |option|
+                    >
+                        {{option.name}}
+                    </PowerSelect>
+                </label>
+
+                <Button
+                    data-test-start-registration-button
+                    data-analytics-name='Create new draft registration'
+                    local-class='createDraftButton'
+                    disabled={{this.disableCreateDraft}}
+                    @type='primary'
+                    @layout='medium'
+                    {{on 'click' (perform this.createNewDraftRegistration)}}
+                >
+                    {{t 'registries.new.start_registration'}}
+                </Button>
+            </form>
+        </layout.main>
+    </OsfLayout>
+</RegistriesWrapper>
