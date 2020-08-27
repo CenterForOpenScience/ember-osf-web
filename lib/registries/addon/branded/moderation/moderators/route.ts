@@ -5,7 +5,7 @@ import DS from 'ember-data';
 
 import Analytics from 'ember-osf-web/services/analytics';
 
-export default class BrandedModerationOverviewRoute extends Route {
+export default class BrandedModerationModeratorsRoute extends Route {
     @service analytics!: Analytics;
     @service store!: DS.Store;
 

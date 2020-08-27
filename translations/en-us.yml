@@ -967,6 +967,15 @@ registries:
         main_aria: 'Registries main content'
     branded:
         page_title: 'Registries'
+    moderation:
+        submissions:
+            title: 'Moderate Submissions'
+        withdrawals:
+            title: 'Moderate Withdrawals'
+        moderators:
+            title: 'Moderator Management'
+    moderated_overview:
+        title: 'Moderated Overview' # TODO: Change this to something better
     new:
         required: 'required'
         page_title: 'New Registration'
