@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { action, computed } from '@ember/object';
+import { computed } from '@ember/object';
 import { localClassNames } from 'ember-css-modules';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -14,9 +14,6 @@ const OSF_GUID_REGEX = /^https?:\/\/.*osf\.io\/([^/]+)/;
 export default class RegistriesSearchResult extends Component {
     // Required
     result!: ShareRegistration;
-
-    // Private
-    expanded = false;
 
     // For use later, when the registration overview page is implemented
     // @computed('result')
@@ -38,15 +35,5 @@ export default class RegistriesSearchResult extends Component {
             name: contrib.name,
             link: contrib.identifiers.filter(ident => OSF_GUID_REGEX.test(ident))[0],
         }));
-    }
-
-    @computed('expanded')
-    get footerIcon() {
-        return this.expanded ? 'caret-up' : 'caret-down';
-    }
-
-    @action
-    toggleExpanded() {
-        this.set('expanded', !this.expanded);
     }
 }
