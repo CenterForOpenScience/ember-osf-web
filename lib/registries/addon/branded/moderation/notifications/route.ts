@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 
 import Analytics from 'ember-osf-web/services/analytics';
 
-export default class BrandedModerationWithdrawalsRoute extends Route {
+export default class BrandedModerationNotificationsRoute extends Route {
     @service analytics!: Analytics;
 
     @action

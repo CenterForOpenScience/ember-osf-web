@@ -11,7 +11,7 @@ export default class BrandedModeratedOverviewRoute extends Route {
 
     model(params: { providerId: string, guid: string }) {
         return {
-            provider: this.store.findRecord('registration-provider', params.providerId, { include: 'brand' }),
+            provider: this.modelFor('branded'),
             registration: this.store.findRecord('registration', params.guid),
         };
     }

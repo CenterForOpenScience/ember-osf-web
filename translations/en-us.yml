@@ -974,8 +974,10 @@ registries:
             title: 'Moderate Withdrawals'
         moderators:
             title: 'Moderator Management'
-    moderated_overview:
-        title: 'Moderated Overview' # TODO: Change this to something better
+        notifications:
+            title: 'Notifications Settings'
+        overview:
+            title: 'Moderated Overview'
     new:
         required: 'required'
         page_title: 'New Registration'
