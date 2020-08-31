@@ -972,12 +972,13 @@ registries:
             accepted: Accepted
             rejected: Rejected
             pending: Pending
+            withdrawn: Withdrawn
         submissions:
-            title: 'Moderate Submissions'
+            title: Submissions
         withdrawals:
-            title: 'Moderate Withdrawals'
+            title: Withdrawals
         moderators:
-            title: 'Moderator Management'
+            title: Moderators
         notifications:
             title: 'Notifications Settings'
         overview:
