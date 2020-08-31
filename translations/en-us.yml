@@ -968,6 +968,10 @@ registries:
     branded:
         page_title: 'Registries'
     moderation:
+        states:
+            accepted: Accepted
+            rejected: Rejected
+            pending: Pending
         submissions:
             title: 'Moderate Submissions'
         withdrawals:
