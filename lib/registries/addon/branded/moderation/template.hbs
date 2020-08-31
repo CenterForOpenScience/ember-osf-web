@@ -3,32 +3,41 @@
     data-analytics-scope='Registries Moderation'
     @provider={{this.model}}
 >
-    <BsTab @type='tabs' as |nav|>
-        <nav.item>
-            <OsfLink
-                @route='registries.branded.moderation.submissions'
-                @models={{array this.model.id}}
-            >
-                Submissions
-            </OsfLink>
-        </nav.item>
-        <nav.item>
-            <OsfLink
-                @route='registries.branded.moderation.withdrawals'
-                @models={{array this.model.id}}
-            >
-                Withdrawals
-            </OsfLink>
-        </nav.item>
-        <nav.item>
-            <OsfLink
-                @route='registries.branded.moderation.moderators'
-                @models={{array this.model.id}}
-            >
-                Moderators
-            </OsfLink>
-        </nav.item>
-    </BsTab>
+    <OsfLayout @backgroundClass={{local-class 'contentBackground'}} as |layout|>
+        <layout.heading local-class='heading'>
+            <HeroOverlay @align='left'>
+                {{!-- What do we want to show on the hero overlay? --}}
+            </HeroOverlay>
+        </layout.heading>
+        <layout.main local-class='main'>
+            <BsNav @type='tabs' as |nav|>
+                <nav.item>
+                    <OsfLink
+                        @route='registries.branded.moderation.submissions'
+                        @models={{array this.model.id}}
+                    >
+                        {{t 'registries.moderation.submissions.title'}}
+                    </OsfLink>
+                </nav.item>
+                <nav.item>
+                    <OsfLink
+                        @route='registries.branded.moderation.withdrawals'
+                        @models={{array this.model.id}}
+                    >
+                        {{t 'registries.moderation.withdrawals.title'}}
+                    </OsfLink>
+                </nav.item>
+                <nav.item>
+                    <OsfLink
+                        @route='registries.branded.moderation.moderators'
+                        @models={{array this.model.id}}
+                    >
+                        {{t 'registries.moderation.moderators.title'}}
+                    </OsfLink>
+                </nav.item>
+            </BsNav>
 
-    {{outlet}}
+            {{outlet}}
+        </layout.main>
+    </OsfLayout>
 </RegistriesWrapper>

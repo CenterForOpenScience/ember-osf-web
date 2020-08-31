@@ -1,0 +1,7 @@
+.contentBackground {
+    composes: ContentBackground from '../../overview/styles.scss';
+}
+
+.main {
+    composes: Main from '../../drafts/draft/styles.scss';
+}
