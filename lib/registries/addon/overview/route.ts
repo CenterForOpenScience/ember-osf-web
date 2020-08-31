@@ -74,13 +74,16 @@ export default class Overview extends GuidRoute {
                 ),
                 institution: (institutions as SparseModel[]).map(institution => institution.name as string),
             };
-            const headTags = [...this.metaTags.getHeadTags(metaTagsData), {
-                type: 'link',
-                attrs: {
-                    rel: 'icon',
-                    href: provider.assets!.favicon,
-                },
-            }];
+            const headTags = [...this.metaTags.getHeadTags(metaTagsData)];
+            if (provider.assets && provider.assets.favicon) {
+                headTags.push({
+                    type: 'link',
+                    attrs: {
+                        rel: 'icon',
+                        href: provider.assets.favicon,
+                    },
+                });
+            }
             this.set('headTags', headTags);
             this.metaTags.updateHeadTags();
         }

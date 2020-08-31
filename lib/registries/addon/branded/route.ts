@@ -18,12 +18,12 @@ export default class BrandedRegistriesRoute extends Route {
     }
 
     afterModel(model: RegistrationProviderModel) {
-        if (model) {
+        if (model && model.assets && model.assets.favicon) {
             const headTags = [{
                 type: 'link',
                 attrs: {
                     rel: 'icon',
-                    href: model.assets!.favicon,
+                    href: model.assets.favicon,
                 },
             }];
             this.set('headTags', headTags);
