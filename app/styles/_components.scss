@@ -420,11 +420,16 @@
     color: rgba(255, 255, 255, 0.8);
 }
 
-#navbarScope .btn-top-login,
 #navbarScope .btn-top-signup {
-    padding: 2px 30px;
-    margin-top: 5px;
-    line-height: 1.7;
+    padding: 4px 13px;
+    margin-top: 3px;
+    font-size: 15px;
+}
+
+#navbarScope .btn-top-login {
+    padding: 4px 17px;
+    margin-top: 3px;
+    font-size: 15px;
 }
 
 .navbar-default {
@@ -850,20 +855,6 @@
             top: -8px;
             left: 126px;
         }
-    }
-
-    /* Overrides for signup button */
-    #navbarScope .btn-top-signup {
-        padding: 4px 13px;
-        margin-top: 3px;
-        font-size: 15px;
-    }
-
-    /* Overrides for Sign in button */
-    #navbarScope .btn-top-login {
-        padding: 4px 17px;
-        margin-top: 3px;
-        font-size: 15px;
     }
 
     /* sm screen formatting */
