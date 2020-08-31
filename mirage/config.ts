@@ -240,6 +240,8 @@ export default function(this: Server) {
     });
     this.post('/search/collections/', searchCollections);
 
+    osfResource(this, 'subscription', { only: ['index', 'show', 'update'] });
+
     // Waterbutler namespace
     this.namespace = '/wb';
     this.post('/files/:id/move', wb.moveFile);
