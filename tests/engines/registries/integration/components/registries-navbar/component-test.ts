@@ -1,6 +1,7 @@
 import Service from '@ember/service';
 import { click, fillIn, render, triggerKeyEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import config from 'ember-get-config';
 import { setupIntl, t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
@@ -62,6 +63,7 @@ function visibleText(selector: string) {
 /* tslint:disable:only-arrow-functions */
 module('Registries | Integration | Component | registries-navbar', hooks => {
     setupEngineRenderingTest(hooks, 'registries');
+    setupMirage(hooks);
     setupIntl(hooks);
 
     hooks.beforeEach(function(this: TestContext) {
@@ -100,6 +102,9 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
 
         await render(hbs`<RegistriesNavbar />`);
         await percySnapshot(assert);
+
+        // Don't show provider name unless provider is branded
+        assert.dom('[data-test-brand-link]').doesNotExist('Branded provider name exists');
 
         assert.equal(visibleText('[data-test-service]'), `${t('general.OSF')}${t('general.services.registries')}`);
         assert.dom('[data-test-search-bar]').isVisible('Search bar is visible');
@@ -300,5 +305,32 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         await percySnapshot(assert);
 
         assert.dom('[data-test-auth-dropdown] ul').isVisible();
+    });
+
+    test('branded desktop layout', async function(assert) {
+        const brand = server.create('brand');
+        const brandedProvider = server.create('registration-provider', { name: 'ISPOR', brand });
+
+        this.set('provider', brandedProvider);
+        setBreakpoint('desktop');
+
+        await render(hbs`<RegistriesNavbar @provider={{this.provider}} />`);
+        await percySnapshot(assert);
+
+        assert.dom('[data-test-brand-link]').exists('Branded provider name exists');
+        assert.dom('[data-test-brand-link]').hasText(brandedProvider.name, 'Branded provider name is correct');
+    });
+
+    test('branded name does not show up on mobile layout', async function(assert) {
+        const brand = server.create('brand');
+        const brandedProvider = server.create('registration-provider', { name: 'ISPOR', brand });
+
+        this.set('provider', brandedProvider);
+        setBreakpoint('mobile');
+
+        await render(hbs`<RegistriesNavbar @provider={{this.provider}} />`);
+        await percySnapshot(assert);
+
+        assert.dom('[data-test-brand-link]').doesNotExist('Branded provider name exists');
     });
 });
