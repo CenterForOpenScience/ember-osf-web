@@ -70,9 +70,11 @@ function registrationScenario(
         'withBrand',
         'withSchemas');
 
+    const egapMod = server.create('moderator');
+    const egapAdmin = server.create('moderator', { permissionGroup: 'admin' });
     const egap = server.create('registration-provider', { id: 'egap', name: 'EGAP' }, 'withBrand');
     egap.update({
-        moderators: [server.create('moderator')],
+        moderators: [egapMod, egapAdmin],
     });
 
     const decaf = server.create('registration', {

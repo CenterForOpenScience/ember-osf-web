@@ -2,3 +2,11 @@
 
 {{!-- Moderators Route content.  --}}
 {{!-- TODO: Add Moderator list and permissions toggling based on current user permissions --}}
+{{#if this.loadModerators.isRunning}}
+    <LoadingIndicator @dark={{true}} />
+{{else}}
+    <ModeratorList
+        @provider={{this.model}}
+        @moderators={{this.moderators}}
+    />
+{{/if}}

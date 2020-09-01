@@ -1,0 +1,22 @@
+{{!-- {{#if this.currentUserIsProviderAdmin}}
+    <button {{on 'click' this.addModerator}}>
+        add
+    </button>
+{{/if}} --}}
+<ul>
+    {{#each @moderators as |moderator|}}
+        <li>
+            {{moderator.fullName}}
+            {{#if this.currentUserIsProviderAdmin}}
+                {{!-- something to adjust permission --}}
+            {{else}}
+                {{moderator.permissionGroup}}
+            {{/if}}
+            {{!-- {{#if (or this.currentUserIsProviderAdmin this.isSelf)}}
+                <button {{on 'click' (fn this.removeModerator moderator)}}>
+                    remove
+                </button>
+            {{/if}} --}}
+        </li>
+    {{/each}}
+</ul>
