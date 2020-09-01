@@ -38,6 +38,14 @@ export default class RegistrationProviderSerializer extends ApplicationSerialize
                     },
                 },
             },
+            moderators: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/providers/registrations/${model.id}/moderators/`,
+                        meta: this.buildRelatedLinkMeta(model, 'moderators'),
+                    },
+                },
+            },
         };
 
         if (model.brand) {

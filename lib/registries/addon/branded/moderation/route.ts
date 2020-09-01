@@ -17,12 +17,13 @@ export default class BrandedModerationRoute extends Route {
         return this.modelFor('branded');
     }
 
-    afterModel() {
-        const { user } = this.currentUser;
-        if (!user || !user.canViewReviews) {
-            this.transitionTo('page-not-found', window.location.pathname.slice(1));
-        }
-    }
+    // TODO: Uncomment this when we can have current user who is a moderator for a provider
+    // afterModel() {
+    //     const { user } = this.currentUser;
+    //     if (!user || !user.canViewReviews) {
+    //         this.transitionTo('page-not-found', window.location.pathname.slice(1));
+    //     }
+    // }
 
     @action
     didTransition() {

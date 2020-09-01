@@ -2,6 +2,7 @@ import DS from 'ember-data';
 
 import RegistrationSchemaModel from 'ember-osf-web/models/registration-schema';
 import BrandModel from './brand';
+import ModeratorModel from './moderator';
 import ProviderModel from './provider';
 import RegistrationModel from './registration';
 
@@ -16,6 +17,9 @@ export default class RegistrationProviderModel extends ProviderModel {
 
     @hasMany('registration-schema', { inverse: null })
     schemas!: DS.PromiseManyArray<RegistrationSchemaModel> | RegistrationSchemaModel[];
+
+    @hasMany('moderator', { inverse: null })
+    moderators!: DS.PromiseManyArray<ModeratorModel> | ModeratorModel[];
 
     @attr('fixstring')
     shareSourceKey?: string;

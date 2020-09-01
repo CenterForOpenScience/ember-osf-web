@@ -70,7 +70,10 @@ function registrationScenario(
         'withBrand',
         'withSchemas');
 
-    server.create('registration-provider', { id: 'egap', name: 'EGAP' }, 'withBrand');
+    const egap = server.create('registration-provider', { id: 'egap', name: 'EGAP' }, 'withBrand');
+    egap.update({
+        moderators: [server.create('moderator')],
+    });
 
     const decaf = server.create('registration', {
         id: 'decaf',
