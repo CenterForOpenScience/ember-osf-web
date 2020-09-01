@@ -2,10 +2,14 @@
     <div local-class='SubscriptionRow'>
         <span
             data-test-subscription-event-name 
-            local-class='RowEventNameSection'>
+            local-class='RowEventNameSection'
+        >
             {{humanize @subscription.eventName}}
         </span>
-        <span local-class='RowPowerSelectSection'>
+        <span
+            data-test-power-select
+            local-class='RowPowerSelectSection'
+        >
             <PowerSelect
                 @selected={{@subscription.frequency}}
                 @options={{this.frequencyOptions}}
