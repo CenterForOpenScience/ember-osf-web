@@ -1530,6 +1530,9 @@ osf-components:
             daily: 'Daily'
             instant: 'Instant'
             none: 'None'
+        success: 'Notification frequency updated.'
+        error: 'Error updating notification frequency.'
+
 settings:
     toggleNav: 'Toggle navigation'
     profile:
