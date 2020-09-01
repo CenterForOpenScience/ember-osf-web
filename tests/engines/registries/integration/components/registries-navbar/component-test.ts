@@ -104,7 +104,7 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         await percySnapshot(assert);
 
         // Don't show provider name unless provider is branded
-        assert.dom('[data-test-brand-link]').doesNotExist('Branded provider name exists');
+        assert.dom('[data-test-brand-link]').doesNotExist('Branded provider name does not exists');
 
         assert.equal(visibleText('[data-test-service]'), `${t('general.OSF')}${t('general.services.registries')}`);
         assert.dom('[data-test-search-bar]').isVisible('Search bar is visible');
@@ -331,6 +331,6 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         await render(hbs`<RegistriesNavbar @provider={{this.provider}} />`);
         await percySnapshot(assert);
 
-        assert.dom('[data-test-brand-link]').doesNotExist('Branded provider name exists');
+        assert.dom('[data-test-brand-link]').doesNotExist('Branded provider name does not exists');
     });
 });
