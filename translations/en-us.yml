@@ -1525,6 +1525,11 @@ osf-components:
             error: 'Error updating contributor bibliographic status.'
         reorderContributor:
             success: 'Contributor order updated.'
+    subscriptions:
+        frequency:
+            daily: 'Daily'
+            instant: 'Instant'
+            none: 'None'
 settings:
     toggleNav: 'Toggle navigation'
     profile:

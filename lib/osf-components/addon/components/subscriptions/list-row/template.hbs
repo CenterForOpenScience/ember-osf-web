@@ -1,0 +1,19 @@
+<li data-test-subscription-list-row={{@subscription.id}}>
+    <div local-class='SubscriptionRow'>
+        <span>
+            {{humanize @subscription.eventName}}
+        </span>
+        <span>
+            <PowerSelect
+                @selected={{@subscription.frequency}}
+                @options={{this.frequencyOptions}}
+                @onchange={{fn @manager.updateSubscriptionFrequency @subscription}}
+                as |option|
+            >
+                <span data-test-subscription-option={{option}}>
+                    {{t (concat 'osf-components.subscriptions.frequency.' option)}}
+                </span>
+            </PowerSelect>
+        </span>
+    </div>
+</li>
