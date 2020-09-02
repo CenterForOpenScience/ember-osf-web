@@ -1,0 +1,14 @@
+{{!-- {{#if this.currentUserIsProviderAdmin}} funcitonality to be addded in ENG-2188
+    <button {{on 'click' this.addModerator}}>
+        add
+    </button>
+{{/if}} --}}
+
+{{#each this.moderators as |moderator|}}
+    <Moderators::Row
+        @moderator={{moderator}}
+        @updateModeratorPermission={{this.updateModeratorPermission}}
+        @removeModerator={{this.removeModerator}}
+        @currentUserIsProviderAdmin={{this.currentUserIsProviderAdmin}}
+    />
+{{/each}}

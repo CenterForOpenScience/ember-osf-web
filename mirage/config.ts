@@ -213,7 +213,7 @@ export default function(this: Server) {
     osfResource(this, 'preprint-provider', { path: '/providers/preprints' });
     osfResource(this, 'registration-provider', { path: '/providers/registrations' });
     osfNestedResource(this, 'registration-provider', 'moderators', {
-        only: ['index'],
+        only: ['index', 'update', 'delete'],
         path: '/providers/registrations/:parentID/moderators/',
         relatedModelName: 'moderator',
     });

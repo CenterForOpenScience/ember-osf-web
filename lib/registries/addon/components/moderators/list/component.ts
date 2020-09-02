@@ -17,12 +17,13 @@ import template from './template';
 export default class ModeratorList extends Component {
     @service currentUser!: CurrentUserService;
     @service toast!: Toast;
+
     moderators!: ModeratorModel[];
     provider!: ProviderModel;
 
-    permissionOptions = ['Moderator', 'Admin']; // TODO: import the enum on the moderator model (coming soon)
+    reloadModerators!: () => void;
 
-    @computed('currentUser')
+    @computed('currentUser.currentUserId', 'moderators.[]')
     get currentUserIsProviderAdmin(): boolean {
         if (this.currentUser && this.moderators) {
             const moderator = this.moderators.findBy('id', this.currentUser.currentUserId);
@@ -36,10 +37,33 @@ export default class ModeratorList extends Component {
     // TODO: Functionality to add/remove others (admins)
 
     @task({ withTestWaiter: true, enqueue: true })
+    addModeratorPermission = task(function *(this: ModeratorList, moderator: ModeratorModel, newPermission: string) {
+        try {
+            moderator.set('permissionGroup', newPermission);
+            yield moderator.save({
+                adapterOptions: {
+                    provider: this.provider,
+                },
+            });
+            if (this.reloadModerators) {
+                this.reloadModerators();
+            }
+        } catch (e) {
+            captureException(e);
+            this.toast.error(getApiErrorMessage(e));
+            throw e;
+        }
+    });
+
+    @task({ withTestWaiter: true, enqueue: true })
     updateModeratorPermission = task(function *(this: ModeratorList, moderator: ModeratorModel, newPermission: string) {
         try {
             moderator.set('permissionGroup', newPermission);
-            yield moderator.save();
+            yield moderator.save({
+                adapterOptions: {
+                    provider: this.provider,
+                },
+            });
         } catch (e) {
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
@@ -50,12 +74,12 @@ export default class ModeratorList extends Component {
     @task({ withTestWaiter: true })
     removeModerator = task(function *(this: ModeratorList, moderator: ModeratorModel) {
         try {
-            this.moderators.removeObject(moderator);
             yield moderator.destroyRecord({
                 adapterOptions: {
                     provider: this.provider,
                 },
             });
+            moderator.unloadRecord();
         } catch (e) {
             captureException(e);
             this.toast.error(getApiErrorMessage(e));

@@ -1,0 +1,32 @@
+<div local-class='Moderator'>
+    <span localClass='Name'>{{@moderator.fullName}}</span>
+    <span local-class='PermissionGroup'>
+        {{#if @currentUserIsProviderAdmin}}
+            <PowerSelect
+                @selected={{@moderator.permissionGroup}}
+                @options={{this.permissionOptions}}
+                @onchange={{perform @updateModeratorPermission @moderator}}
+                @searchEnabled={{false}}
+                @disabled={{@updateModeratorPermission.isRunning}}
+                as |option|
+            >
+                <span data-test-moderator-permission-option={{option}}>
+                    {{option}}
+                </span>
+            </PowerSelect>
+        {{else}}
+            {{@moderator.permissionGroup}}
+        {{/if}}
+    </span>
+    <span>
+        {{#if this.shouldShowRemove}}
+            <Button
+                @type='destroy'
+                disabled={{@removeModerator.isRunning}}
+                {{on 'click' (perform @removeModerator @moderator)}}
+            >
+                {{t 'registries.moderation.moderators.remove'}}
+            </Button>
+        {{/if}}
+    </span>
+</div>

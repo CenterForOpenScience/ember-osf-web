@@ -1,11 +1,9 @@
 {{title (t 'registries.moderation.moderators.title') prepend=false}}
 
-{{!-- Moderators Route content.  --}}
-{{!-- TODO: Add Moderator list and permissions toggling based on current user permissions --}}
 {{#if this.loadModerators.isRunning}}
     <LoadingIndicator @dark={{true}} />
 {{else}}
-    <ModeratorList
+    <Moderators::List
         @provider={{this.model}}
         @moderators={{this.moderators}}
     />
