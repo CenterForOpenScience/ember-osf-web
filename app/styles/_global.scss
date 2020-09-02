@@ -24,3 +24,7 @@
 [inert] {
     overflow: hidden;
 }
+
+.BlurredInert[inert] {
+    filter: grayscale(100%) blur(5px);
+}

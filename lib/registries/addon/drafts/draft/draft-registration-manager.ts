@@ -10,6 +10,7 @@ import Toast from 'ember-toastr/services/toast';
 
 import DraftRegistration, { DraftMetadataProperties } from 'ember-osf-web/models/draft-registration';
 import NodeModel from 'ember-osf-web/models/node';
+import ProviderModel from 'ember-osf-web/models/provider';
 import SchemaBlock from 'ember-osf-web/models/schema-block';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
@@ -21,9 +22,15 @@ import {
 } from 'ember-osf-web/packages/registration-schema';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
 
+type LoadDraftModelTask = TaskInstance<{
+    draftRegistration: DraftRegistration,
+    node: NodeModel,
+    provider: ProviderModel,
+}>;
+
 export default class DraftRegistrationManager {
     // Required
-    draftRegistrationAndNodeTask!: TaskInstance<{draftRegistration: DraftRegistration, node: NodeModel}>;
+    draftRegistrationAndNodeTask!: LoadDraftModelTask;
 
     // Private
     @service intl!: Intl;
@@ -45,6 +52,7 @@ export default class DraftRegistrationManager {
 
     draftRegistration!: DraftRegistration;
     node!: NodeModel;
+    provider!: ProviderModel;
 
     @computed('pageManagers.{[],@each.pageIsValid}')
     get registrationResponsesIsValid() {
@@ -66,9 +74,10 @@ export default class DraftRegistrationManager {
 
     @task({ withTestWaiter: true })
     initializePageManagers = task(function *(this: DraftRegistrationManager) {
-        const { draftRegistration, node } = yield this.draftRegistrationAndNodeTask;
+        const { draftRegistration, node, provider } = yield this.draftRegistrationAndNodeTask;
         set(this, 'draftRegistration', draftRegistration);
         set(this, 'node', node);
+        set(this, 'provider', provider);
         const registrationSchema = yield this.draftRegistration.registrationSchema;
         const schemaBlocks: SchemaBlock[] = yield registrationSchema.loadAll('schemaBlocks');
         set(this, 'schemaBlocks', schemaBlocks);
@@ -153,7 +162,7 @@ export default class DraftRegistrationManager {
         }
     });
 
-    constructor(draftRegistrationAndNodeTask: TaskInstance<{draftRegistration: DraftRegistration, node: NodeModel}>) {
+    constructor(draftRegistrationAndNodeTask: LoadDraftModelTask) {
         set(this, 'draftRegistrationAndNodeTask', draftRegistrationAndNodeTask);
         this.initializePageManagers.perform();
         this.initializeMetadataChangeset.perform();

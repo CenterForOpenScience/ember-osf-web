@@ -14,7 +14,7 @@ module('Registries | Acceptance | aggregate discover', hooks => {
     hooks.beforeEach(() => {
         const osfProvider = server.create('registration-provider', { id: 'osf' });
         const anotherProvider = server.create('registration-provider', { id: 'another' });
-        const externalProvider = server.create('external-provider', { shareSourceKey: 'ClinicalTrials.gov' });
+        const externalProvider = server.create('external-provider', { shareSource: 'ClinicalTrials.gov' });
         server.createList('external-registration', 3, { provider: externalProvider });
         server.createList('registration', 3, { provider: osfProvider });
         server.createList('registration', 3, { provider: anotherProvider });
@@ -41,7 +41,7 @@ module('Registries | Acceptance | aggregate discover', hooks => {
 
         await fillIn('[data-test-search-box]', '');
 
-        await click(`[data-test-source-filter-id="${osfProvider.shareSourceKey}"]`);
+        await click(`[data-test-source-filter-id="${osfProvider.shareSource}"]`);
         assert.dom('[data-test-result-title-id]').exists({ count: 3 }, 'Provider filter works');
 
         await fillIn('[data-test-search-box]', 'kjafnsdflkjhsdfnasdkndfa random string');
@@ -70,15 +70,15 @@ module('Registries | Acceptance | aggregate discover', hooks => {
         const anotherProvider = server.schema.registrationProviders.find('another');
         const searchableReg = anotherProvider.registrations.models[0];
 
-        await visit(`/registries/discover?provider=${anotherProvider.shareSourceKey}&q=${searchableReg.title}`);
+        await visit(`/registries/discover?provider=${anotherProvider.shareSource}&q=${searchableReg.title}`);
 
         await percySnapshot('with initial query params');
 
         assert.dom('[data-test-search-box]').hasValue(searchableReg.title, 'Search box has initial value');
 
-        assert.dom(`[data-test-source-filter-id='${anotherProvider.shareSourceKey}']`).isChecked();
+        assert.dom(`[data-test-source-filter-id='${anotherProvider.shareSource}']`).isChecked();
         assert.dom(
-            `[data-test-source-filter-id]:not([data-test-source-filter-id='${anotherProvider.shareSourceKey}'])`,
+            `[data-test-source-filter-id]:not([data-test-source-filter-id='${anotherProvider.shareSource}'])`,
         ).isNotChecked();
 
         assert.dom('[data-test-result-title-id]').exists({ count: 1 }, 'Initial search uses initial params');

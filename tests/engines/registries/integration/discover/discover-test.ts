@@ -56,45 +56,45 @@ const QueryParamTestCases: Array<{
         expected: { order, query: 'What', page: 10 },
     }, {
         name: 'Providers Filters',
-        params: { q: 'Foo', provider: 'OSF' },
+        params: { q: 'Foo', provider: 'OSF Registries' },
         expected: {
             order,
             query: 'Foo',
             filters: OrderedSet([
-                new ShareTermsFilter('sources', 'OSF', 'OSF Registries'),
+                new ShareTermsFilter('sources', 'OSF Registries', 'OSF Registries'),
             ]),
         },
     }, {
         name: 'Multiple Providers Filters With Validation',
-        params: { q: 'Foo', provider: 'OSF|ClinicalTrials.gov|Bar' },
+        params: { q: 'Foo', provider: 'OSF Registries|ClinicalTrials.gov|Bar' },
         expected: {
             order,
             query: 'Foo',
             filters: OrderedSet([
-                new ShareTermsFilter('sources', 'OSF', 'OSF Registries'),
+                new ShareTermsFilter('sources', 'OSF Registries', 'OSF Registries'),
                 new ShareTermsFilter('sources', 'ClinicalTrials.gov', 'ClinicalTrials.gov'),
             ]),
         },
     }, {
         name: 'Sort',
-        params: { sort: 'date_updated' },
+        params: { sort: 'date' },
         expected: {
             query: '',
             order: new SearchOrder({
                 ascending: true,
                 display: 'registries.discover.order.modified_ascending',
-                key: 'date_updated',
+                key: 'date',
             }),
         },
     }, {
         name: 'Sort decending',
-        params: { sort: '-date_updated' },
+        params: { sort: '-date' },
         expected: {
             query: '',
             order: new SearchOrder({
                 ascending: false,
                 display: 'registries.discover.order.modified_descending',
-                key: 'date_updated',
+                key: 'date',
             }),
         },
     }, {
@@ -108,13 +108,13 @@ const QueryParamTestCases: Array<{
     }, {
     // NOTE: Not currently validated :(
         name: 'Registration Types',
-        params: { q: 'What', page: 10, provider: 'OSF', type: 'Foo|BAR' },
+        params: { q: 'What', page: 10, provider: 'OSF Registries', type: 'Foo|BAR' },
         expected: {
             order,
             query: 'What',
             page: 10,
             filters: OrderedSet([
-                new ShareTermsFilter('sources', 'OSF', 'OSF Registries'),
+                new ShareTermsFilter('sources', 'OSF Registries', 'OSF Registries'),
                 new ShareTermsFilter('registration_type', 'Foo', 'Foo'),
                 new ShareTermsFilter('registration_type', 'BAR', 'BAR'),
             ]),
@@ -130,13 +130,18 @@ module('Registries | Integration | discover', hooks => {
         server.create('registration-schema', { name: 'Close Fronted' });
         server.create('registration-provider', {
             id: 'osf',
-            shareSourceKey: 'OSF',
+            shareSource: 'OSF Registries',
             name: 'OSF Registries',
         });
         server.create('registration-provider', {
             id: 'someother',
-            shareSourceKey: 'someother',
+            shareSource: 'someother',
             name: 'Some Other',
+        });
+        server.create('registration-provider', {
+            id: 'clinicaltrials',
+            shareSource: 'ClinicalTrials.gov',
+            name: 'ClinicalTrials.gov',
         });
 
         const engine = await loadEngine('registries', 'registries');
@@ -183,8 +188,9 @@ module('Registries | Integration | discover', hooks => {
             aggregations: {
                 sources: {
                     buckets: [
-                        { key: 'OSF', doc_count: 10 },
+                        { key: 'OSF Registries', doc_count: 10 },
                         { key: 'someother', doc_count: 10 },
+                        { key: 'clinicaltrials', doc_count: 10 },
                     ],
                 },
             },
@@ -202,14 +208,14 @@ module('Registries | Integration | discover', hooks => {
             }),
         }));
 
-        await click('[data-test-source-filter-id="OSF"]');
+        await click('[data-test-source-filter-id="OSF Registries"]');
 
         sinon.assert.calledWith(stub, new SearchOptions({
             query: '',
             page: 1,
             order,
             filters: OrderedSet([
-                new ShareTermsFilter('sources', 'OSF', 'OSF Registries'),
+                new ShareTermsFilter('sources', 'OSF Registries', 'OSF Registries'),
             ]),
         }));
     });
@@ -220,7 +226,7 @@ module('Registries | Integration | discover', hooks => {
             results: [],
             aggregations: {
                 sources: {
-                    buckets: [{ key: 'OSF', doc_count: 10 }],
+                    buckets: [{ key: 'OSF Registries', doc_count: 10 }],
                 },
             },
         });
@@ -246,7 +252,7 @@ module('Registries | Integration | discover', hooks => {
             order: new SearchOrder({
                 ascending: true,
                 display: 'registries.discover.order.modified_ascending',
-                key: 'date_updated',
+                key: 'date',
             }),
         }));
     });
@@ -257,7 +263,7 @@ module('Registries | Integration | discover', hooks => {
             results: [],
             aggregations: {
                 sources: {
-                    buckets: [{ key: 'OSF', doc_count: 10 }],
+                    buckets: [{ key: 'OSF Registries', doc_count: 10 }],
                 },
             },
         });
@@ -294,7 +300,7 @@ module('Registries | Integration | discover', hooks => {
             results: [],
             aggregations: {
                 sources: {
-                    buckets: [{ key: 'OSF', doc_count: 10 }],
+                    buckets: [{ key: 'OSF Registries', doc_count: 10 }],
                 },
             },
         });
