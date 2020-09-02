@@ -13,7 +13,16 @@
                 local-class='Logo'
                 aria-label={{t 'navbar.go_home'}}
             />
-
+            {{#if this.shouldShowProviderName}}
+                <OsfLink
+                    data-test-brand-link
+                    data-analytics-name='Brand'
+                    @route='home'
+                    local-class='HomeLink'
+                >
+                    {{this.provider.name}}
+                </OsfLink>
+            {{/if}}
             {{! Left Side (Band, Service Dropdown) }}
             <BsDropdown
                 data-test-service-list
