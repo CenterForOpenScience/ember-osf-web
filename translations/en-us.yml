@@ -979,6 +979,7 @@ registries:
             title: Withdrawals
         moderators:
             title: Moderators
+            remove: Remove
         notifications:
             title: 'Notifications Settings'
         overview:

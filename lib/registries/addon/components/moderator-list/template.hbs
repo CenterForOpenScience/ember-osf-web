@@ -1,4 +1,4 @@
-{{!-- {{#if this.currentUserIsProviderAdmin}}
+{{!-- {{#if this.currentUserIsProviderAdmin}} funcitonality to be addded in ENG-2188
     <button {{on 'click' this.addModerator}}>
         add
     </button>
@@ -8,15 +8,27 @@
         <li>
             {{moderator.fullName}}
             {{#if this.currentUserIsProviderAdmin}}
-                {{!-- something to adjust permission --}}
+                <PowerSelect
+                    @selected={{moderator.permissionGroup}}
+                    @options={{this.permissionOptions}}
+                    @onchange={{perform this.updateModeratorPermission moderator}}
+                    @searchEnabled={{false}}
+                    @disabled={{this.updateModeratorPermission.isRunning}}
+                    as |option|
+                >
+                    <span data-test-moderator-permission-option={{option}}>
+                        {{option}}
+                    </span>
+                </PowerSelect>
             {{else}}
                 {{moderator.permissionGroup}}
             {{/if}}
-            {{!-- {{#if (or this.currentUserIsProviderAdmin this.isSelf)}}
-                <button {{on 'click' (fn this.removeModerator moderator)}}>
-                    remove
-                </button>
-            {{/if}} --}}
+            {{#if (or this.currentUserIsProviderAdmin (eq moderator.id this.currentUser.currentUserId))}}
+                {{!-- should throw up a warning?? --}}
+                <Button @type='destroy' {{on 'click' (perform this.removeModerator moderator)}}>
+                    {{t 'registries.moderation.moderators.remove'}}
+                </Button>
+            {{/if}}
         </li>
     {{/each}}
 </ul>
