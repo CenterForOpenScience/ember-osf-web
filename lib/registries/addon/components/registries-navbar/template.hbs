@@ -9,11 +9,21 @@
             <OsfLink
                 data-test-brand
                 data-analytics-name='Brand'
-                @route='home'
+                @route='{{if @provider 'registries.branded.discover' 'registries.discover'}}'
+                @models={{if @provider (array @provider.id)}}
                 local-class='Logo'
                 aria-label={{t 'navbar.go_home'}}
             />
-
+            {{#if this.shouldShowProviderName}}
+                <OsfLink
+                    data-test-brand-link
+                    data-analytics-name='Brand'
+                    @route='home'
+                    local-class='HomeLink'
+                >
+                    {{this.provider.name}}
+                </OsfLink>
+            {{/if}}
             {{! Left Side (Band, Service Dropdown) }}
             <BsDropdown
                 data-test-service-list

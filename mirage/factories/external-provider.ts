@@ -3,7 +3,7 @@ import { MirageExternalProvider } from 'ember-osf-web/mirage/models/external-pro
 import faker from 'faker';
 
 export default Factory.extend<MirageExternalProvider>({
-    shareSourceKey() {
+    shareSource() {
         return faker.random.words(2);
     },
 });

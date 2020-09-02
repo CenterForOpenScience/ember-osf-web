@@ -2,11 +2,11 @@
 
 <RegistriesWrapper
     @provider={{this.providerModel}}
-    {{with-branding this.providerModel.brand}}
+    {{with-branding (get-model this.providerModel.brand)}}
     data-analytics-scope='Registries Discover page'
 >
     <HeroOverlay local-class='DiscoverHero'>
-        {{#registries-header 
+        {{#registries-header
             providerModel=this.providerModel
             showHelp=true
             value=(mut this.query)
@@ -75,6 +75,7 @@
                 as |result|
             }}
                 <RegistriesSearchResult
+                    class={{if this.doSearch.isRunning 'BlurredInert'}}
                     local-class='RegistriesSearchResult'
                     inert={{this.doSearch.isRunning}}
                     @result={{result}}

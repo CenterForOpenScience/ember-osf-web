@@ -18,7 +18,10 @@ export default class RegistrationProviderModel extends ProviderModel {
     schemas!: DS.PromiseManyArray<RegistrationSchemaModel> | RegistrationSchemaModel[];
 
     @attr('fixstring')
-    shareSourceKey?: string;
+    shareSource?: string;
+
+    @attr('boolean')
+    brandedDiscoveryPage?: boolean;
 }
 
 declare module 'ember-data/types/registries/model' {

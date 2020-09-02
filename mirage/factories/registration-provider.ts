@@ -29,6 +29,7 @@ export default Factory.extend<MirageRegistrationProvider & RegistrationProviderT
         return faker.lorem.sentence();
     },
     allowSubmissions: true,
+    brandedDiscoveryPage: true,
     assets: randomAssets(),
 
     afterCreate(provider, server) {
@@ -45,8 +46,8 @@ export default Factory.extend<MirageRegistrationProvider & RegistrationProviderT
                 }),
             ],
         });
-        if (!provider.shareSourceKey) {
-            provider.update({ shareSourceKey: `share-${provider.name}` });
+        if (!provider.shareSource) {
+            provider.update({ shareSource: `share-${provider.name}` });
         }
     },
 
