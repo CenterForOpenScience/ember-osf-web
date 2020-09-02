@@ -1,4 +1,5 @@
-import { association, faker, trait, Trait } from 'ember-cli-mirage';
+import { association, trait, Trait } from 'ember-cli-mirage';
+import faker from 'faker';
 
 import Registration from 'ember-osf-web/models/registration';
 
@@ -114,7 +115,12 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
 
         if (!newReg.provider) {
             newReg.update({
-                provider: server.schema.registrationProviders.find('osf'),
+                provider: server.schema.registrationProviders.find('osf')
+                    || server.create('registration-provider', {
+                        id: 'osf',
+                        shareSource: 'OSF Registries',
+                        name: 'OSF Registries',
+                    }),
             });
         }
     },
@@ -135,7 +141,7 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     pendingEmbargoTerminationApproval: false,
     registeredFrom: association(),
 
-    index(i) {
+    index(i: number) {
         return i;
     },
     withComments: trait<MirageRegistration>({
@@ -187,7 +193,8 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     }),
     withArbitraryState: trait<MirageRegistration>({
         afterCreate(registration) {
-            const arbitraryState = faker.list.cycle(...Object.keys(stateAttrs))(registration.index);
+            const stateAttrsKeys = Object.keys(stateAttrs);
+            const arbitraryState = stateAttrsKeys[registration.index % stateAttrsKeys.length];
             const attrsToUse = stateAttrs[arbitraryState as keyof typeof stateAttrs];
             registration.update(attrsToUse);
         },

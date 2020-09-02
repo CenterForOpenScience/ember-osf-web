@@ -1,4 +1,5 @@
-import { faker, HandlerContext, Request, Response, Schema } from 'ember-cli-mirage';
+import { HandlerContext, Request, Response, Schema } from 'ember-cli-mirage';
+import faker from 'faker';
 
 import { guid } from '../factories/utils';
 import { process } from './utils';

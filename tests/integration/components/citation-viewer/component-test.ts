@@ -1,7 +1,7 @@
-import { click, render, settled } from '@ember/test-helpers';
+import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { ModelInstance } from 'ember-cli-mirage';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { clickTrigger, typeInSearch } from 'ember-power-select/test-support/helpers';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
@@ -26,7 +26,6 @@ module('Integration | Component | citation-viewer', hooks => {
         this.set('node', reg);
 
         await render(hbs`<CitationViewer @citable={{this.node}} />`);
-        await settled();
 
         for (const citationStyle of ['apa', 'modern-language-association', 'chicago-author-date']) {
             assert.dom(`[data-test-default-citation="${citationStyle}"] input`).hasValue(

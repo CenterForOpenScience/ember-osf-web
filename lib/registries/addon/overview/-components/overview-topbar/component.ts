@@ -31,7 +31,7 @@ export default class OverviewTopbar extends Component {
     bookmarksCollection!: CollectionModel;
     isBookmarked?: boolean;
 
-    @task({ drop: true })
+    @task({ withTestWaiter: true, drop: true })
     forkRegistration = task(function *(this: OverviewTopbar, closeDropdown: () => void) {
         if (!this.registration) {
             return;
@@ -53,7 +53,7 @@ export default class OverviewTopbar extends Component {
         }
     });
 
-    @task({ drop: true })
+    @task({ withTestWaiter: true, drop: true })
     bookmark = task(function *(this: OverviewTopbar) {
         if (!this.bookmarksCollection || !this.registration) {
             return;
@@ -87,7 +87,7 @@ export default class OverviewTopbar extends Component {
         this.toggleProperty('isBookmarked');
     });
 
-    @task({ on: 'init' })
+    @task({ withTestWaiter: true, on: 'init' })
     getBookmarksCollection = task(function *(this: OverviewTopbar) {
         const collections = yield this.store.findAll('collection', {
             adapterOptions: { 'filter[bookmarks]': 'true' },

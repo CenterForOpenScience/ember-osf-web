@@ -3,9 +3,8 @@ import MirageModelRegistry from 'ember-cli-mirage/types/registries/model';
 import MirageSchemaRegistry from 'ember-cli-mirage/types/registries/schema';
 import DS from 'ember-data';
 import EmberDataModelRegistry from 'ember-data/types/registries/model';
+import { BelongsTo } from 'miragejs/-types';
 import { Document } from 'osf-api';
-
-export { default as faker } from 'faker';
 
 declare global {
     // eslint-disable-next-line no-redeclare
@@ -36,7 +35,7 @@ export interface Database {
     [collectionName: string]: DatabaseCollection;
 }
 
-export type Model<T> = {
+export type ModelInstanceAttrs<T> = {
     [P in keyof T]:
         T[P] extends DS.Model & DS.PromiseObject<infer M> ? ModelInstance<M> :
         T[P] extends DS.Model ? ModelInstance<T[P]> :
@@ -62,13 +61,20 @@ interface ModelInstanceShared<T> {
     toString(): string;
 }
 
-export type ModelInstance<T = AnyAttrs> = ModelInstanceShared<T> & Model<T>;
+export function hasMany(model: string): void;
+
+export type ModelInstance<T = AnyAttrs> = ModelInstanceShared<T> & ModelInstanceAttrs<T>;
+
+export class ModelClass {
+    extend(attrs: unknown): ModelClass;
+}
+
+export const Model: ModelClass;
 
 export interface Collection<T> {
     models: Array<ModelInstance<T>>;
     length: number;
     modelName: string;
-    firstObject: ModelInstance<T>;
     update<K extends keyof T>(key: K, val: T[K]): void;
     update<K extends keyof T>(attrs: { [key: K]: T[K] }): void;
     save(): void;
@@ -78,7 +84,7 @@ export interface Collection<T> {
     filter(filterFn: (model: ModelInstance<T>) => boolean): Collection<T>;
 }
 
-interface ModelClass<T = AnyAttrs> {
+interface SchemaModelCollection<T = AnyAttrs> {
     new(attrs: Partial<ModelAttrs<T>>): ModelInstance<T>;
     create(attrs: Partial<ModelAttrs<T>>): ModelInstance<T>;
     update(attrs: Partial<ModelAttrs<T>>): ModelInstance<T>;
@@ -90,10 +96,10 @@ interface ModelClass<T = AnyAttrs> {
 }
 
 export type Schema = {
-    [modelName in keyof MirageSchemaRegistry]: ModelClass<MirageSchemaRegistry[modelName]>;
+    [modelName in keyof MirageSchemaRegistry]: SchemaModelCollection<MirageSchemaRegistry[modelName]>;
 } & {
     db: Database;
-    [modelName: string]: ModelClass;
+    [modelName: string]: SchemaModelCollection;
 };
 
 export declare class Response {
@@ -124,7 +130,7 @@ export type NormalizedRequestAttrs<T> = {
 
 export interface HandlerContext {
     request: Request;
-    serialize(modelOrCollection: ModelInstance | ModelInstance[] | ModelClass, serializerName?: string): any;
+    serialize(modelOrCollection: ModelInstance | ModelInstance[] | SchemaModelCollection, serializerName?: string): any;
     normalizedRequestAttrs<M extends keyof ModelRegistry>(model: M): NormalizedRequestAttrs<ModelRegistry[M]>;
 }
 interface HandlerObject {
@@ -253,9 +259,10 @@ export function trait<
 // function association(...traits: string[], overrides?: { [key: string]: any }): any;
 
 export function association(...args: any[]): any;
+export { belongsTo } from 'miragejs';
 
 export type FactoryAttrs<T> = {
-    [P in keyof T]?: T[P] | ((index: number) => T[P]);
+    [P in keyof T]?: T[P] | BelongsTo | ((index: number) => T[P]);
 } & {
     afterCreate?(newObj: ModelInstance<T>, server: Server): void;
 };

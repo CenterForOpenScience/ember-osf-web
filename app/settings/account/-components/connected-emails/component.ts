@@ -31,7 +31,7 @@ export default class ConnectedEmails extends Component {
     alternateQueryParams = { 'filter[primary]': false, 'filter[confirmed]': true };
     unconfirmedQueryParams = { 'filter[primary]': false, 'filter[confirmed]': false };
 
-    @task({ restartable: true })
+    @task({ withTestWaiter: true, restartable: true })
     loadPrimaryEmail = task(function *(this: ConnectedEmails) {
         const { user } = this.currentUser;
 
@@ -49,7 +49,7 @@ export default class ConnectedEmails extends Component {
         }
     });
 
-    @task
+    @task({ withTestWaiter: true })
     deleteEmail = task(function *(this: ConnectedEmails, email: UserEmail) {
         const errorMessage = this.intl.t('settings.account.connected_emails.delete_fail');
         const successMessage = this.intl.t('settings.account.connected_emails.delete_success');
@@ -72,7 +72,7 @@ export default class ConnectedEmails extends Component {
         return this.toast.success(successMessage);
     });
 
-    @task
+    @task({ withTestWaiter: true })
     updatePrimaryEmail = task(function *(this: ConnectedEmails, email: UserEmail) {
         const errorMessage = this.intl.t('settings.account.connected_emails.update_fail');
         const successMessage = this.intl.t('settings.account.connected_emails.update_success');
@@ -97,7 +97,7 @@ export default class ConnectedEmails extends Component {
         return this.toast.success(successMessage);
     });
 
-    @task
+    @task({ withTestWaiter: true })
     resendEmail = task(function *(this: ConnectedEmails, email: UserEmail) {
         const errorMessage = this.intl.t('settings.account.connected_emails.resend_fail');
         const successMessage = this.intl.t('settings.account.connected_emails.resend_success');

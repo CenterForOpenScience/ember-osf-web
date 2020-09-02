@@ -56,7 +56,7 @@ export default class LicenseManagerComponent extends Component implements Licens
         return this.userCanEdit || !this.fieldIsEmpty;
     }
 
-    @task({ restartable: true, on: 'didReceiveAttrs' })
+    @task({ withTestWaiter: true, restartable: true, on: 'didReceiveAttrs' })
     getAllProviderLicenses = task(function *(this: LicenseManagerComponent) {
         const provider = yield this.node.provider;
 

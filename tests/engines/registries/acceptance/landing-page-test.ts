@@ -1,4 +1,4 @@
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { freezeDateAt, unfreezeDate } from 'ember-mockdate-shim';
 import { percySnapshot } from 'ember-percy';
 import { TestContext } from 'ember-test-helpers';
@@ -14,6 +14,7 @@ module('Registries | Acceptance | landing page', hooks => {
     setupMirage(hooks);
 
     hooks.beforeEach(function(this: TestContext) {
+        server.create('registration-provider', { id: 'osf' });
         stubRegistriesShareSearch(this);
         freezeDateAt('1982-06-23');
     });

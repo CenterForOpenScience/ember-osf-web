@@ -1,5 +1,6 @@
-import { faker, ModelInstance, Server } from 'ember-cli-mirage';
+import { ModelInstance, Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
+import faker from 'faker';
 
 import FileProvider from 'ember-osf-web/models/file-provider';
 import { Permission } from 'ember-osf-web/models/osf-model';
@@ -59,11 +60,37 @@ function registrationScenario(
         'page-one_single-select-two': 'Remember who was in NSync and who was in Backstreet Boys',
     };
 
-    const rootNode = server.create('node', { contributors: server.createList('contributor', 21) });
+    const rootNode = server.create('node', { contributors: server.createList('contributor', 21) }, 'withFiles');
     const childNodeA = server.create('node', { parent: rootNode });
     server.create('node', { parent: childNodeA });
     server.create('node', { parent: childNodeA });
     const licenseReqFields = server.schema.licenses.findBy({ name: 'MIT License' });
+    const provider = server.create('registration-provider',
+        { id: 'ispor', name: 'ISPOR', allowSubmissions: true },
+        'withBrand',
+        'withSchemas');
+
+    server.create('registration-provider', { id: 'egap', name: 'EGAP' }, 'withBrand');
+
+    const decaf = server.create('registration', {
+        id: 'decaf',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        provider,
+    }, 'withContributors');
+
+    server.create('contributor', { node: decaf }, 'unregistered');
+
+    server.create('registration', {
+        id: 'berand',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        provider,
+    }, 'withContributors');
+
+    server.create('registration', {
+        id: 'aerchive',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        provider,
+    }, 'isArchiving');
 
     server.create('draft-registration', {
         id: 'dcaf',
@@ -73,6 +100,26 @@ function registrationScenario(
         branchedFrom: rootNode,
         license: licenseReqFields,
     }, 'withSubjects', 'withAffiliatedInstitutions');
+
+    server.create('draft-registration', {
+        id: 'brand',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        initiator: currentUser,
+        registrationResponses,
+        branchedFrom: rootNode,
+        license: licenseReqFields,
+        provider,
+    });
+
+    const clinicalTrials = server.create('external-provider', {
+        shareSource: 'ClinicalTrials.gov',
+    });
+    const researchRegistry = server.create('external-provider', {
+        shareSource: 'Research Registry',
+    });
+
+    server.createList('external-registration', 3, { provider: clinicalTrials });
+    server.createList('external-registration', 2, { provider: researchRegistry });
 
     server.create('draft-registration', {
         id: 'rrpre',
@@ -90,21 +137,7 @@ function registrationScenario(
         branchedFrom: rootNode,
     });
 
-    server.create('registration', {
-        id: 'decaf',
-        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-        linkedNodes: server.createList('node', 2),
-        linkedRegistrations: server.createList('registration', 2),
-        currentUserPermissions: Object.values(Permission),
-    }, 'withContributors', 'withComments', 'withAffiliatedInstitutions');
-
     server.createList('subject', 10, 'withChildren');
-
-    const provider = server.schema.registrationProviders.find('osf');
-
-    provider.update({
-        subjects: server.schema.subjects.all().models,
-    });
 
     // Current user Bookmarks collection
     server.create('collection', { title: 'Bookmarks', bookmarks: true });
@@ -313,7 +346,7 @@ export default function(server: Server) {
     server.loadFixtures('regions');
     server.loadFixtures('preprint-providers');
     server.loadFixtures('licenses');
-    server.loadFixtures('registration-providers');
+    // server.loadFixtures('registration-providers');
 
     const userTraits = !mirageScenarios.includes('loggedIn') ? []
         : [

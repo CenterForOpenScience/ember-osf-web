@@ -10,7 +10,7 @@
                         @disabled={{this.theme.isProvider}}
                     />
                     {{filter-replace item.key @filterReplace}}
-                    <small>({{number-format item.doc_count}})</small>
+                    <small>({{format-number item.doc_count}})</small>
                 </label>
             </li>
         {{/each}}

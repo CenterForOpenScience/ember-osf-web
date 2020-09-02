@@ -27,7 +27,7 @@ export default class Overview extends GuidRoute {
 
     headTags?: HeadTagDef[];
 
-    @task({ restartable: true, cancelOn: 'deactivate' })
+    @task({ withTestWaiter: true, restartable: true, cancelOn: 'deactivate' })
     setHeadTags = task(function *(this: Overview, model: any) {
         const blocker = this.ready.getBlocker();
 

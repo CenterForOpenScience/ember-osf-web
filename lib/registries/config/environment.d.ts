@@ -5,7 +5,7 @@ declare const config: {
     modulePrefix: string;
     shareBaseURL: string;
     shareSearchBaseURL: string;
-    sourcesWhitelist: Array<{
+    externalRegistries: Array<{
         name: string;
         https: boolean;
         urlRegex: string;

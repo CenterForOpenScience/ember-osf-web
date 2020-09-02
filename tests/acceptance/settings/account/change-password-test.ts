@@ -1,6 +1,6 @@
 import { fillIn, visit } from '@ember/test-helpers';
 
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 import sinon, { SinonStub } from 'sinon';

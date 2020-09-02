@@ -24,7 +24,7 @@ export default class PartialRegistrationModalManagerComponent extends Component 
     nodesIncludingRoot: NodeModel[] = defaultTo(this.nodesIncludingRoot, []);
     selectedNodes: NodeModel[] = defaultTo(this.selectedNodes, []);
 
-    @task
+    @task({ withTestWaiter: true })
     getChildren = task(function *(this: PartialRegistrationModalManagerComponent, node: NodeModel) {
         const children = yield node.queryHasMany('children');
         if (children !== null) {
@@ -39,7 +39,7 @@ export default class PartialRegistrationModalManagerComponent extends Component 
 
     @alias('loadAllChildNodes.isRunning') loadingChildNodes!: boolean;
 
-    @task({ on: 'didReceiveAttrs' })
+    @task({ withTestWaiter: true, on: 'didReceiveAttrs' })
     loadAllChildNodes = task(function *(this: PartialRegistrationModalManagerComponent) {
         const allChildNodesIncludingRoot = yield this.getChildren.perform(this.rootNode);
         allChildNodesIncludingRoot.push(this.rootNode);

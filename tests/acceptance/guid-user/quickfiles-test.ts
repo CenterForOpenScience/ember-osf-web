@@ -7,7 +7,7 @@ import {
     triggerKeyEvent,
     visit,
 } from '@ember/test-helpers';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { percySnapshot } from 'ember-percy';
 import { selectChoose } from 'ember-power-select/test-support';
 import moment from 'moment';
@@ -25,6 +25,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         const user = server.create('user', 'withFiles');
         assert.ok(this.element === undefined, 'Should not have element before visit');
         await visit(`/--user/${user.id}/quickfiles`);
+
         assert.ok(
             this.element !== undefined,
             'Should have element after visit (guid routing / visit helper problem)',
@@ -41,6 +42,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         const user = server.create('user', 'withFiles');
         server.createList('file', 5, { user });
         await visit(`/--user/${user.id}/quickfiles`);
+
         assert.dom('nav.navbar').exists();
         assert.dom('nav.navbar .service-name').hasText('OSF HOME');
         assert.dom('nav.navbar .secondary-nav-dropdown .nav-profile-name')
@@ -55,6 +57,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
         const user = server.create('user', 'withFiles');
         server.createList('file', 5, { user });
         await visit(`/--user/${currentUser.id}/quickfiles`);
+
         assert.dom('[data-test-file-item-link]').exists({ count: 5 });
     });
 
@@ -65,6 +68,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             server.loadFixtures('regions');
 
             await visit(`/--user/${currentUser.id}/quickfiles`);
+
             const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
             assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
 
@@ -79,6 +83,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             await click('[data-test-create-project-submit]');
             await percySnapshot('Acceptance | Guid User Quickfiles | move file to a new project | Create project');
             await click('[data-test-stay-here]');
+
             const newFiles = this.element.querySelectorAll('div[class*="file-browser-item"]');
             assert.equal(newFiles.length, files.length - 1);
             const newNode = server.schema.nodes.findBy({ title });
@@ -91,6 +96,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             server.loadFixtures('regions');
 
             await visit(`/--user/${currentUser.id}/quickfiles`);
+
             const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
             assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
 
@@ -101,6 +107,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             assert.dom('[data-test-new-project-title]').hasValue(title);
 
             await click('[data-analytics-name="cancel"]');
+
             const newFiles = this.element.querySelectorAll('div[class*="file-browser-item"]');
             assert.equal(newFiles.length, 5, `Check for proper number of files in list. Found ${newFiles.length}`);
 
@@ -116,6 +123,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             server.loadFixtures('regions');
 
             await visit(`/--user/${currentUser.id}/quickfiles`);
+
             const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
             assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
 
@@ -152,6 +160,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             );
 
             await visit(`/--user/${currentUser.id}/quickfiles`);
+
             const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
             assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
 
@@ -168,6 +177,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
 
             await click('[data-test-move-to-project-modal-perform-button]');
             await click('[data-test-stay-here]');
+
             const newFiles = this.element.querySelectorAll('div[class*="file-browser-item"]');
             assert.equal(newFiles.length, files.length - 1);
         });
@@ -197,6 +207,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             );
 
             await visit(`/--user/${currentUser.id}/quickfiles`);
+
             assert.dom('img[alt*="Missing translation"]').doesNotExist();
             const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
             assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
@@ -206,6 +217,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             await click('[data-test-ps-existing-project-button]');
             await untrackedClick('[data-test-ps-select-project] div[class*="ember-power-select-trigger"]');
             await selectChoose('[data-test-ps-select-project]', title);
+
             assert.dom('[data-test-ps-select-project] span[class~="ember-power-select-selected-item"]')
                 .containsText(title);
             assert.dom('[data-test-no-longer-public]')
@@ -215,6 +227,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
 
             await click('[data-test-move-to-project-modal-perform-button]');
             await click('[data-test-stay-here]');
+
             const newFiles = this.element.querySelectorAll('div[class*="file-browser-item"]');
             assert.equal(newFiles.length, files.length - 1);
         });
@@ -233,6 +246,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             server.loadFixtures('regions');
 
             await visit(`/--user/${currentUser.id}/quickfiles`);
+
             const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
             assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
 
@@ -268,6 +282,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             server.loadFixtures('regions');
 
             await visit(`/--user/${currentUser.id}/quickfiles`);
+
             const files = this.element.querySelectorAll('div[class*="file-browser-item"]');
             assert.equal(files.length, 5, `Check for proper number of files in list. Found ${files.length}`);
 
@@ -310,6 +325,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             const date = moment('2016-08-07T16:43:18.319Z').format('YYYY-MM-DD h:mm A');
 
             await visit(`/--user/${currentUser.id}/quickfiles`);
+
             assert.dom('[data-test-file-item-link]').exists({ count: 1 });
             assert.dom('[data-test-file-icon-and-name]:first-child i')
                 .hasClass('fa-file-image-o');
@@ -329,6 +345,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             const currentUser = server.create('user', 'loggedIn', 'withFiles');
 
             await visit(`/--user/${currentUser.id}/quickfiles`);
+
             assert.dom('[data-test-file-item-link]').exists({ count: 5 }, 'initial state');
 
             await untrackedClick('[data-test-file-icon-and-name]');
@@ -359,6 +376,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             });
 
             await visit(`/--user/${currentUser.id}/quickfiles`);
+
             assert.dom('[data-test-file-item-link]')
                 .exists({ count: 1 }, 'initial state');
             assert.dom('[data-test-file-item-link]')
@@ -409,6 +427,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             );
 
             await visit(`/--user/${currentUser.id}/quickfiles`);
+
             assert.dom('[data-test-file-item-link]')
                 .exists({ count: 2 }, 'initial state');
             assert.dom('[data-test-file-item-link]')
@@ -460,6 +479,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
                 },
             );
             await visit(`/--user/${currentUser.id}/quickfiles`);
+
             assert.dom('[data-test-file-item-link]').exists({ count: 1 });
 
             await untrackedClick(`[data-test-file-icon-and-name="${file.name}"]`);
@@ -505,15 +525,21 @@ module('Acceptance | Guid User Quickfiles', hooks => {
                 },
             );
             await visit(`/--user/${currentUser.id}/quickfiles`);
+
             assert.dom('[data-test-file-item-link]').exists({ count: 1 });
 
             await untrackedClick(`[data-test-file-icon-and-name="${file.name}"]`);
             assert.dom('[data-test-view-button]').exists();
+
             await click('[data-test-view-button]');
+
             assert.equal(currentRouteName(), 'guid-file');
             assert.ok(currentURL().startsWith('/--file/xyzzy'));
+
             await visit(`/--user/${currentUser.id}/quickfiles`);
+
             await click('[data-test-file-item-link]');
+
             assert.equal(currentRouteName(), 'guid-file');
             assert.ok(currentURL().startsWith('/--file/xyzzy'));
         });

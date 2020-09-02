@@ -1,5 +1,6 @@
 import { capitalize } from '@ember/string';
-import { Collection, Factory, faker, trait, Trait } from 'ember-cli-mirage';
+import { Collection, Factory, trait, Trait } from 'ember-cli-mirage';
+import faker from 'faker';
 
 import Identifier from 'ember-osf-web/models/identifier';
 import Node, { NodeCategory } from 'ember-osf-web/models/node';

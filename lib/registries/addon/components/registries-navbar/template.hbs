@@ -5,17 +5,17 @@
     as |nav|
 >
     <nav.container>
-        {{! Left Side (Band, Service Dropdown) }}
         <nav.section data-test-left>
-
             <OsfLink
                 data-test-brand
                 data-analytics-name='Brand'
-                @route='home'
+                @route='{{if @provider 'registries.branded.discover' 'registries.discover'}}'
+                @models={{if @provider (array @provider.id)}}
                 local-class='Logo'
                 aria-label={{t 'navbar.go_home'}}
             />
 
+            {{! Left Side (Band, Service Dropdown) }}
             <BsDropdown
                 data-test-service-list
                 data-analytics-scope='Services dropdown'
@@ -49,7 +49,17 @@
                     {{/each}}
                 </dropdown.menu>
             </BsDropdown>
-
+            {{#if this.showAddRegistrationButton}}
+                <nav.links.secondary
+                    data-test-add-new-button
+                    data-analytics-name='Create new registration'
+                    local-class='AddRegistrationButton'
+                    @route='registries.branded.new'
+                    @models={{array this.provider.id}}
+                >
+                    {{t 'navbar.add_registration'}}
+                </nav.links.secondary>
+            {{/if}}
         </nav.section>
 
         {{! Right Side (Search, Buttons, Gravatar, Dropdown) }}
@@ -64,7 +74,7 @@
                     @ariaLabel={{t 'navbar.search_bar'}}
                     @icon='search'
                     @dark={{true}}
-                    @enter={{action '_onSearch'}}
+                    @enter={{this.search}}
                 />
             </nav.item>
 
@@ -249,7 +259,7 @@
             @ariaLabel={{t 'navbar.search_bar'}}
             @icon='search'
             @dark={{true}}
-            @enter={{action '_onSearch'}}
+            @enter={{this.search}}
         />
     </Container>
 {{/if}}

@@ -1,0 +1,11 @@
+.BrandedRegistriesSearchResult {
+    composes: RegistriesSearchResult from '../../discover/styles';
+
+    i {
+        color: var(--primary-color);
+    }
+}
+
+.Pagination {
+    composes: Pagination from '../../discover/styles';
+}

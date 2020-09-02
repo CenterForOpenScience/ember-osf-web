@@ -1,5 +1,5 @@
 import { currentURL, visit } from '@ember/test-helpers';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
@@ -22,6 +22,7 @@ module(moduleName, hooks => {
             "Still at '/institutions/has-users/dashboard'.",
         );
         await percySnapshot(`${moduleName} - default`);
+        assert.dom('[data-test-next-page-button]').exists({ count: 1 }, 'next page button exists!?');
         await click('[data-test-next-page-button]');
         await percySnapshot(`${moduleName} - next page`);
     });

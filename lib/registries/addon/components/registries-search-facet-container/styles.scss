@@ -2,15 +2,13 @@
     border-width: 0;
     box-shadow: none;
 }
-
-.SearchFacet__Heading {
-    background-color: $color-bg-gray-light !important;
-    border-radius: 2px;
-    border-width: 0;
-    font-size: 18px;
+// stylelint-disable selector-no-qualifying-type
+h3.SearchFacet__Heading {
+    font-size: 15px;
+    font-weight: 700;
+    margin-top: 10px;
 }
 
 .SearchFacet__Body {
-    background-color: #fbfbfb;
     padding: 10px 0;
 }

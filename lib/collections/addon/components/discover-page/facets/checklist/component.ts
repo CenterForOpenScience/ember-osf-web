@@ -26,7 +26,7 @@ export default abstract class SearchFacetChecklist extends Base {
     abstract get modelAttribute(): keyof Collection;
     abstract get filterProperty(): string;
 
-    @task
+    @task({ withTestWaiter: true })
     initialize = task(function *(this: SearchFacetChecklist): IterableIterator<any> {
         const providers: CollectionProvider[] = this.theme.isProvider
             ? [this.theme.provider]

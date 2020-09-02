@@ -70,7 +70,7 @@ $color-link-lighter: #15a5eb;
 
 $color-bg-black: #333;
 $color-bg-white: #fff;
-$color-bg-gray-dark: #4c4c4c;
+$color-bg-gray-darker: #4c4c4c;
 $color-bg-gray: #e0e0e0;
 $color-bg-gray-light: #efefef;
 $color-bg-gray-lighter: #f7f7f7;
@@ -109,6 +109,8 @@ danger: #d9534f,
 /*
  * OSF Color Palette
  */
+$color-osf-primary: #337ab7;
+$color-osf-secondary: #15a5eb;
 
 $color-blue: #204762;
 $color-pure-blue: #00f;
@@ -117,6 +119,7 @@ $color-light: #eee;
 $color-alt: #c7ffc7;
 $color-select: #337ab7;
 $color-grey: #333;
+$color-filter-bg: #a4b3bd;
 
 .bg-color-blue {
     background-color: $color-blue;

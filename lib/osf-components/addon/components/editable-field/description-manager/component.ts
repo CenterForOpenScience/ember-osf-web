@@ -47,7 +47,7 @@ export default class DescriptionManagerComponent extends Component {
         return this.userCanEdit || !this.fieldIsEmpty;
     }
 
-    @task
+    @task({ withTestWaiter: true })
     save = task(function *(this: DescriptionManagerComponent) {
         if (this.node) {
             this.node.set('description', this.currentDescription);

@@ -41,7 +41,7 @@ export default class SubjectFieldManagerComponent extends Component {
         return this.userCanEdit || !this.fieldIsEmpty;
     }
 
-    @task({ drop: true })
+    @task({ withTestWaiter: true, drop: true })
     save = task(function *(this: SubjectFieldManagerComponent) {
         try {
             yield this.subjectsManager.saveChanges();

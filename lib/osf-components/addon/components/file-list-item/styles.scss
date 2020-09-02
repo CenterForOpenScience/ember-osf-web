@@ -7,17 +7,8 @@
     line-height: 27px;
     padding-top: 0;
 
-    a {
-        color: $color-text-black;
-    }
-
     &:hover {
         background-color: $color-text-gray-cool;
-        color: $color-text-black;
-    
-        a {
-            color: inherit;
-        }
     }
 
     &.selected,

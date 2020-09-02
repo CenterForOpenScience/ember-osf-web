@@ -5,7 +5,7 @@ import { action } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { run } from '@ember/runloop';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
@@ -14,26 +14,7 @@ import Registration from 'ember-osf-web/models/registration';
 import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
 
 @tagName('')
-export default class Register extends Component.extend({
-    onClickRegister: task(function *(this: Register) {
-        if (!this.registration) {
-            const registration = this.store.createRecord('registration', {
-                draftRegistrationId: this.draftRegistration.id,
-                registeredFrom: this.draftRegistration.branchedFrom,
-            });
-
-            this.setProperties({ registration });
-        }
-        if (this.node) {
-            yield this.node.loadRelatedCount('children');
-        }
-        if (this.node && this.node.relatedCounts.children > 0) {
-            this.showPartialRegDialog();
-        } else {
-            this.showFinalizeRegDialog();
-        }
-    }),
-}) {
+export default class Register extends Component {
     @service store!: DS.Store;
 
     // Required
@@ -48,6 +29,27 @@ export default class Register extends Component.extend({
 
     partialRegDialogIsOpen = false;
     finalizeRegDialogIsOpen = false;
+
+    @task({ withTestWaiter: true })
+    onClickRegister = task(function *(this: Register) {
+        if (!this.registration) {
+            const registration = this.store.createRecord('registration', {
+                draftRegistrationId: this.draftRegistration.id,
+                registeredFrom: this.draftRegistration.branchedFrom,
+                provider: this.draftRegistration.provider,
+            });
+
+            this.setProperties({ registration });
+        }
+        if (this.node) {
+            yield this.node.loadRelatedCount('children');
+        }
+        if (this.node && this.node.relatedCounts.children > 0) {
+            this.showPartialRegDialog();
+        } else {
+            this.showFinalizeRegDialog();
+        }
+    });
 
     didReceiveAttrs() {
         assert('@draftManager is required!', Boolean(this.draftManager));

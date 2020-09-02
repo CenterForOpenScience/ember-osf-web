@@ -27,7 +27,7 @@ export default class RegistrationIsPublic extends Component {
     closeDropdown!: () => void;
     showModal: boolean = defaultTo(this.showModal, false);
 
-    @task({ drop: true })
+    @task({ withTestWaiter: true, drop: true })
     submitWithdrawal = task(function *(this: RegistrationIsPublic) {
         if (!this.registration) {
             return;

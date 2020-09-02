@@ -23,7 +23,7 @@ export default class DeactivationPane extends Component {
     showRequestDialog = false;
     showUndoDialog = false;
 
-    @task
+    @task({ withTestWaiter: true })
     loadSettings = task(function *(this: DeactivationPane) {
         const { user } = this.currentUser;
 
@@ -33,7 +33,7 @@ export default class DeactivationPane extends Component {
         this.settings = yield user.belongsTo('settings').reload();
     });
 
-    @task
+    @task({ withTestWaiter: true })
     saveSettings = task(function *(this: DeactivationPane, successMessage: string) {
         try {
             if (this.settings !== undefined) {

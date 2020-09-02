@@ -29,7 +29,7 @@ export default class MetadataInstitutionsManagerComponent extends Component {
     affiliatedList!: QueryHasManyResult<Institution>;
     currentAffiliatedList!: QueryHasManyResult<Institution>;
 
-    @task({ restartable: true, on: 'didReceiveAttrs' })
+    @task({ withTestWaiter: true, restartable: true, on: 'didReceiveAttrs' })
     loadNodeAffiliatedInstitutions = task(function *(this: MetadataInstitutionsManagerComponent) {
         if (this.node) {
             try {
@@ -51,7 +51,7 @@ export default class MetadataInstitutionsManagerComponent extends Component {
         }
     });
 
-    @task
+    @task({ withTestWaiter: true })
     save = task(function *(this: MetadataInstitutionsManagerComponent) {
         try {
             yield this.node.updateM2MRelationship('affiliatedInstitutions', this.currentAffiliatedList);

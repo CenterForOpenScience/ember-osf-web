@@ -1,12 +1,35 @@
-.SourcesFacet ul {
+.ProviderFacet__List {
     list-style: none;
-    padding-left: 25px;
+    padding: 0;
 }
 
-.SourcesFacet label {
+.ProviderFacet__ListItem {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ProviderFacet__Label {
     font-weight: 400;
+    min-width: 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    flex-grow: 1;
+
+    &:hover {
+        color: var(--primary-color);
+    }
 }
 
-.SourcesFacet small {
+.ProviderFacet__Checkbox.ProviderFacet__Checkbox {
+    margin-right: 5px;
+    float: left;
+}
+
+.ProviderFacet__Count {
     font-size: 85%;
+    font-weight: bold;
+    color: $color-text-gray;
+    align-self: center;
+    white-space: nowrap;
 }

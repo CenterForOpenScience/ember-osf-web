@@ -1,10 +1,8 @@
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
-import { inject as service } from '@ember/service';
 import { localClassNames } from 'ember-css-modules';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import Analytics from 'ember-osf-web/services/analytics';
 import { ShareRegistration } from 'registries/services/share-search';
 
 import template from './template';
@@ -18,7 +16,6 @@ export default class RegistriesSearchResult extends Component {
     result!: ShareRegistration;
 
     // Private
-    @service analytics!: Analytics;
     expanded = false;
 
     // For use later, when the registration overview page is implemented
@@ -51,11 +48,5 @@ export default class RegistriesSearchResult extends Component {
     @action
     toggleExpanded() {
         this.set('expanded', !this.expanded);
-        this.analytics.track(
-            'result',
-            this.expanded ? 'expand' : 'contract',
-            `Discover - ${this.result.title}`,
-            this.result.id,
-        );
     }
 }

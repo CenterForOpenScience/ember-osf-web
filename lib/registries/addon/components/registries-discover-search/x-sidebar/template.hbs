@@ -1,36 +1,24 @@
-<div local-class='Sidebar__ActiveFilters' class='well well-sm'>
-    <div class='row'>
-        <div class='col-xs-6'>
-            <h4>{{t 'registries.discover.sidebar.active_filters'}}:</h4>
-        </div>
-        <div class='col-xs-6'>
-            <button
-                data-test-clear-filters
-                type='button'
-                class='pull-right btn btn-sm btn-default'
-                {{on 'click' this.clearFilters}}
-            >
-                {{t 'registries.discover.sidebar.clear_filters'}}
-                {{fa-icon 'times'}}
-            </button>
-        </div>
-    </div>
-
+<h2 local-class='Sidebar__FilterHeading'>
+    {{t 'registries.discover.sidebar.refine_search'}}
+</h2>
+<div local-class='Sidebar__ActiveFilters'>
     {{#each this.filters as |filter|}}
-        <button
-            type='button'
-            class='{{filter.class}}'
-            local-class='Sidebar__ActiveFilter'
-            {{on 'click' (fn this.removeFilter filter.filter)}}
-        >
-            {{filter.display}}
-            {{fa-icon 'times-circle'}}
-        </button>
+        <div local-class='Sidebar__ActiveFilter'>
+            <span local-class='Sidebar__ActiveFilterLabel'>
+                {{filter.display}}
+            </span>
+            <Button
+                @layout='small'
+                local-class='Sidebar__RemoveFilter'
+                data-test-active-filter={{filter.display}}
+                aria-label={{t 'registries.discover.sidebar.remove_filter_label' filterName=filter.display}}
+                {{on 'click' (fn this.removeFilter filter.filter)}}
+            >
+                {{fa-icon 'times'}}
+            </Button>
+        </div>
     {{/each}}
 </div>
-
-<h4>{{t 'registries.discover.sidebar.refine_your_search'}}</h4>
-
 <div local-class='Sidebar__Facets'>
     {{yield (hash
         filters=this.filters

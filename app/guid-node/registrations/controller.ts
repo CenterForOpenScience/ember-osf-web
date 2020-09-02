@@ -17,7 +17,7 @@ export default class GuidNodeRegistrations extends Controller {
     queryParams = ['tab'];
     tab?: string;
 
-    draftsQueryParams = { embed: ['initiator', 'registration_schema', 'branched_from'] };
+    draftsQueryParams = { embed: ['initiator', 'registration_schema', 'branched_from', 'provider'] };
     defaultSchema!: RegistrationSchema;
     selectedSchema!: RegistrationSchema;
     schemas: RegistrationSchema[] = [];
@@ -35,7 +35,7 @@ export default class GuidNodeRegistrations extends Controller {
         terms: 'https://osf.io/4uxbj/',
     };
 
-    @task
+    @task({ withTestWaiter: true })
     getRegistrationSchemas = task(function *(this: GuidNodeRegistrations) {
         let schemas = yield this.store.query('registration-schema',
             {

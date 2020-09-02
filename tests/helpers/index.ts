@@ -1,8 +1,8 @@
 import { click as _click, settled, Target, visit as _visit } from '@ember/test-helpers';
 import { getContext } from '@ember/test-helpers/setup-context';
-import { faker } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 import { setupApplicationTest } from 'ember-qunit';
+import faker from 'faker';
 
 const {
     OSF: {

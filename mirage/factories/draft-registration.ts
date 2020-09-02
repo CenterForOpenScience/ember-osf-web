@@ -1,4 +1,5 @@
-import { association, Factory, faker, trait, Trait } from 'ember-cli-mirage';
+import { association, Factory, trait, Trait } from 'ember-cli-mirage';
+import faker from 'faker';
 
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 
@@ -16,9 +17,18 @@ export interface DraftRegistrationTraits {
 
 export default Factory.extend<DraftRegistration & DraftRegistrationTraits>({
     afterCreate(newDraft, server) {
-        newDraft.update({
-            provider: server.schema.registrationProviders.find('osf'),
-        });
+        const draftProvider = newDraft.provider;
+        if (!draftProvider) {
+            const defaultProvider = server.schema.registrationProviders.find('osf')
+                || server.create('registration-provider', {
+                    id: 'osf',
+                    shareSource: 'OSF Registries',
+                    name: 'OSF Registries',
+                });
+            newDraft.update({
+                provider: defaultProvider,
+            });
+        }
     },
 
     registrationSupplement: 'abcdefghijklmnopqrstuvwxyz',

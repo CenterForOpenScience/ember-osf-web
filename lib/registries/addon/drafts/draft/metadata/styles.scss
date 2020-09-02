@@ -83,13 +83,17 @@
     margin: 10px 0 0;
 
     :global(.ember-power-select-trigger) {
-        line-height: 40px;
+        padding: 10px;
         color: $color-text-gray-blue;
         background-color: $color-bg-gray-blue-light;
         border: 1px solid $color-border-gray;
         border-radius: 2px;
         font-size: 14px;
         box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+        margin: auto;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 }
 

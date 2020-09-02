@@ -1,4 +1,6 @@
-import { association, Factory, faker, trait, Trait } from 'ember-cli-mirage';
+import { association, Factory, trait, Trait } from 'ember-cli-mirage';
+import faker from 'faker';
+
 import File from 'ember-osf-web/models/file';
 import { FileReference } from 'ember-osf-web/packages/registration-schema';
 

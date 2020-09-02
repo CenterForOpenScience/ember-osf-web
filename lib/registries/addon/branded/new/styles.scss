@@ -1,0 +1,51 @@
+.contentBackground {
+    composes: ContentBackground from '../../overview/styles.scss';
+}
+
+.main {
+    composes: Main from '../../drafts/draft/styles.scss';
+}
+
+.title {
+    composes: Title from '../../drafts/draft/styles.scss';
+}
+
+.selectLabel {
+    composes: SchemaBlockDropdown from '../../drafts/draft/metadata/styles.scss';
+    display: block;
+}
+
+.projectHeading {
+    text-align: center;
+}
+
+.registrationForm {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.newProjectHelpText {
+    margin-top: 20px;
+    max-width: 600px;
+}
+
+.createDraftButton {
+    margin: 20px 0;
+
+    &:disabled {
+        cursor: not-allowed;
+        filter: alpha(opacity=65);
+        opacity: 0.65;
+        box-shadow: none;
+    }
+}
+
+.stepLabel {
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.required {
+    color: $brand-danger;
+}

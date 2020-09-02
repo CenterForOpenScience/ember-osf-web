@@ -3,11 +3,6 @@
     animation: enable 0.5s ease-in-out;
 }
 
-.RegistrationType--Disabled {
-    opacity: 0.5;
-    animation: disable 0.5s ease-in-out;
-}
-
 @keyframes disable {
     0% {
         opacity: 1;
@@ -31,19 +26,23 @@
 .RegistrationType__Warning {
     font-weight: 700;
     color: #000;
-    padding-left: 10px;
+    padding-left: 0;
     display: block;
 }
 
 .RegistrationType__List {
     list-style: none;
-    padding-left: 25px;
+    padding: 0;
 }
 
 .RegistrationType__Item {
     label {
         font-weight: 400;
-    }    
+
+        &:hover {
+            color: var(--primary-color);
+        }
+    }
 }
 
 .RegistrationType__Filter {

@@ -50,9 +50,6 @@ export default class ResponsiveDropdown extends Component {
         // On Desktop
         const pos = calculatePosition(...args);
         if (!this.useOverlay) {
-            if (pos && pos.style) {
-                pos.style.top += 10;
-            }
             return pos;
         }
 

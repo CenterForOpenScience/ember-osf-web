@@ -1,4 +1,4 @@
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
@@ -14,7 +14,10 @@ module('Registries | Acceptance | overview form schemas', hooks => {
         server.loadFixtures('registration-schemas');
 
         for (const registrationSchema of server.schema.registrationSchemas.all().models) {
-            const registration = server.create('registration', { registrationSchema });
+            const registration = server.create('registration', {
+                registrationSchema,
+                provider: server.create('registration-provider'),
+            });
             await visit(`/${registration.id}`);
 
             const msg = `Registration form renders for schema ${registrationSchema.id}`;

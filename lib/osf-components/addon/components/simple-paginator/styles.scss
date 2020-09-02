@@ -18,3 +18,15 @@
     display: inline-block;
     width: 10em;
 }
+
+.SimplePaginator__previous {
+    &::after {
+        content: '<';
+    }
+}
+
+.SimplePaginator__next {
+    &::after {
+        content: '>';
+    }
+}

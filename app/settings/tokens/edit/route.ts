@@ -13,7 +13,7 @@ export default class SettingsTokensEditRoute extends Route {
     @service analytics!: Analytics;
     @service router!: RouterService;
 
-    @task
+    @task({ withTestWaiter: true })
     modelTask = task(function *(this: SettingsTokensEditRoute, id: string) {
         try {
             return yield this.store.findRecord('token', id, { reload: false });

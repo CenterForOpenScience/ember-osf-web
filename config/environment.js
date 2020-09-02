@@ -232,6 +232,8 @@ module.exports = function(environment) {
         },
         featureFlagNames: {
             routes: {
+                'registries.branded': 'branded_registries',
+                'registries.branded.discover': 'branded_registries',
                 'guid-node.index': 'ember_project_detail_page',
                 'guid-node.drafts.index': 'ember_edit_draft_registration_page',
                 'guid-node.drafts.register': 'ember_edit_draft_registration_page',
@@ -279,6 +281,7 @@ module.exports = function(environment) {
             ABTesting: {
                 homePageHeroTextVersionB: 'ab_testing_home_page_hero_text_version_b',
             },
+            egapAdmins: 'egap_admins',
         },
         gReCaptcha: {
             siteKey: RECAPTCHA_SITE_KEY,
@@ -326,6 +329,8 @@ module.exports = function(environment) {
         // ENV.APP.LOG_VIEW_LOOKUPS = true;
 
         ENV.metricsAdapters[0].config.cookieDomain = 'none';
+        ENV.APP.LOG_TRANSITIONS = true;
+        ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
 
         Object.assign(ENV, {
             'ember-a11y-testing': {

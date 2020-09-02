@@ -8,7 +8,7 @@ import {
     triggerKeyEvent,
     visit,
 } from '@ember/test-helpers';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import config from 'ember-get-config';
 import { percySnapshot } from 'ember-percy';
 import moment from 'moment';
@@ -359,7 +359,9 @@ module('Acceptance | guid file', hooks => {
             await visit(`--file/${file.guid}`);
 
             await click('[data-test-revisions-tab]');
+            await settled();
             await percySnapshot(assert);
+
             assert.dom('[data-test-version-cell="1"]').hasText('1', 'initial state');
             assert.dom('[data-test-select-version="1"]').exists('initial state');
             assert.dom('[data-test-modified-date-cell="2"]')

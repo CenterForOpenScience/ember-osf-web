@@ -61,7 +61,7 @@ export default class DoiManagerComponent extends Component {
         return `${doiUrlPrefix}${this.nodeDoi}`;
     }
 
-    @task({ on: 'didReceiveAttrs' })
+    @task({ withTestWaiter: true, on: 'didReceiveAttrs' })
     loadIdentifiers = task(function *(this: DoiManagerComponent) {
         if (this.node) {
             const identifiers: Identifier[] = yield this.node.identifiers;
@@ -72,7 +72,7 @@ export default class DoiManagerComponent extends Component {
         }
     });
 
-    @task
+    @task({ withTestWaiter: true })
     requestDoi = task(function *(this: DoiManagerComponent) {
         if (this.node) {
             const identifier = this.store.createRecord('identifier', {

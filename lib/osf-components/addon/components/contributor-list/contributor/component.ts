@@ -2,6 +2,7 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { task } from 'ember-concurrency-decorators';
 
+import { bool } from '@ember/object/computed';
 import { layout } from 'ember-osf-web/decorators/component';
 import Contributor from 'ember-osf-web/models/contributor';
 import defaultTo from 'ember-osf-web/utils/default-to';
@@ -17,7 +18,9 @@ export default class ContributorListContributor extends Component {
     contributorName?: string;
     contributorLink?: string;
 
-    @task({ restartable: true, on: 'didReceiveAttrs' })
+    @bool('contributor.unregisteredContributor') isUnregistered?: boolean;
+
+    @task({ withTestWaiter: true, restartable: true, on: 'didReceiveAttrs' })
     loadUser = task(function *(this: ContributorListContributor) {
         const user = yield this.contributor.users;
 

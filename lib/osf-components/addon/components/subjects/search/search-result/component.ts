@@ -22,7 +22,7 @@ export default class SearchResult extends Component {
     @alias('loadAncestry.lastSuccessful.value')
     subjectAncestry?: SubjectModel[];
 
-    @task({ on: 'didReceiveAttrs' })
+    @task({ withTestWaiter: true, on: 'didReceiveAttrs' })
     loadAncestry = task(function *(this: SearchResult) {
         const { subject } = this.singleSubjectManager;
         if (!subject) {

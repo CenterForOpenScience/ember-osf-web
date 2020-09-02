@@ -157,7 +157,7 @@ export default class Analytics extends Service {
 
     rootElement?: Element;
 
-    @task({ restartable: true })
+    @task({ withTestWaiter: true, restartable: true })
     trackPageTask = task(function *(
         this: Analytics,
         pagePublic: boolean | undefined,

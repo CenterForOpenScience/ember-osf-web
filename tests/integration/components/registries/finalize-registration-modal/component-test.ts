@@ -1,6 +1,6 @@
 import { click, fillIn, render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import moment from 'moment';
 import { module, test } from 'qunit';

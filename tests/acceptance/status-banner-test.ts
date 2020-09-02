@@ -1,5 +1,5 @@
 import { visit } from '@ember/test-helpers';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import config from 'ember-get-config';
 import { t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';

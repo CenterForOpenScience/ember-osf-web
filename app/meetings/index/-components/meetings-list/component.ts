@@ -20,7 +20,7 @@ export default class MeetingsList extends Component {
         return query;
     }
 
-    @task({ restartable: true })
+    @task({ withTestWaiter: true, restartable: true })
     searchMeetings = task(function *(this: MeetingsList, search: string) {
         yield timeout(500); // debounce
         this.set('search', search);

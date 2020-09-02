@@ -8,7 +8,7 @@
         {{#if this.canEdit}}
             <h5><i>{{t 'quickfiles.description' htmlSafe=true}}</i></h5>
         {{else}}
-            <div style='height: 14px;'></div>
+            <div local-class='EmptyDiv'></div>
         {{/if}}
         <FileBrowser
             @user={{this.user}}

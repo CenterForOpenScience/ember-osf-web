@@ -248,23 +248,24 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
     test('onSearch', async function(assert) {
         setBreakpoint('desktop');
 
-        this.set('onSearch', sinon.stub());
+        const transitionTo = sinon.stub(this.owner.lookup('service:router'), 'transitionTo').returns({});
 
-        await render(hbs`<RegistriesNavbar @onSearch={{this.onSearch}} />`);
+        await render(hbs`<RegistriesNavbar />`);
 
         await fillIn('[data-test-search-bar] input', 'This is my query');
         await triggerKeyEvent('[data-test-search-bar] input', 'keyup', 13);
         await percySnapshot(assert);
 
-        assert.ok(this.get('onSearch').calledWith('This is my query'));
+        assert.ok(transitionTo.calledWith('discover', {
+            queryParams: { query: 'This is my query' },
+        }));
     });
 
     test('onSearch (Mobile)', async function(assert) {
         setBreakpoint('mobile');
+        const transitionTo = sinon.stub(this.owner.lookup('service:router'), 'transitionTo').returns({});
 
-        this.set('onSearch', sinon.stub());
-
-        await render(hbs`<RegistriesNavbar @onSearch={{this.onSearch}} />`);
+        await render(hbs`<RegistriesNavbar />`);
 
         assert.dom('[data-test-search-bar-mobile]').isVisible();
 
@@ -272,7 +273,9 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         await triggerKeyEvent('[data-test-search-bar-mobile] input', 'keyup', 13);
         await percySnapshot(assert);
 
-        assert.ok(this.get('onSearch').calledWith('This is my query'));
+        assert.ok(transitionTo.calledWith('discover', {
+            queryParams: { query: 'This is my query' },
+        }));
     });
 
     test('service list', async assert => {

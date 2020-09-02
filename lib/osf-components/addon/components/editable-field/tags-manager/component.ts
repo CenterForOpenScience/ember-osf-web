@@ -57,7 +57,7 @@ export default class TagsManagerComponent extends Component {
         return this.userCanEdit || !this.fieldIsEmpty;
     }
 
-    @task
+    @task({ withTestWaiter: true })
     save = task(function *(this: TagsManagerComponent) {
         this.registration.set('tags', [...this.currentTags]);
         try {

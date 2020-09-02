@@ -27,7 +27,7 @@ export default class ContributorsManager extends Component {
         return this.currentPage <= this.totalPage;
     }
 
-    @task({ on: 'init', enqueue: true })
+    @task({ withTestWaiter: true, on: 'init', enqueue: true })
     fetchContributors = task(function *(this: ContributorsManager) {
         if (this.node && this.hasMore) {
             const currentPageResult = yield this.node.queryHasMany('contributors', {
@@ -39,7 +39,7 @@ export default class ContributorsManager extends Component {
         }
     });
 
-    @task({ enqueue: true })
+    @task({ withTestWaiter: true, enqueue: true })
     toggleContributorIsBibliographic = task(function *(this: ContributorsManager, contributor: ContributorModel) {
         contributor.toggleProperty('bibliographic');
         try {
@@ -53,7 +53,7 @@ export default class ContributorsManager extends Component {
         }
     });
 
-    @task({ enqueue: true })
+    @task({ withTestWaiter: true, enqueue: true })
     updateContributorPermission = task(
         function *(this: ContributorsManager, contributor: ContributorModel, permission: Permission) {
             // eslint-disable-next-line no-param-reassign

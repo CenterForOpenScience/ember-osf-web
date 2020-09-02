@@ -28,7 +28,7 @@ export default class TosConsentBanner extends Component {
     didValidate = false;
     hasSubmitted = false;
 
-    @task({ drop: true })
+    @task({ withTestWaiter: true, drop: true })
     saveUser = task(function *(this: TosConsentBanner) {
         const user = yield this.currentUser.user;
         const { validations } = yield user.validate();

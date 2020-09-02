@@ -1,4 +1,5 @@
-import { association, Factory, faker } from 'ember-cli-mirage';
+import { association, Factory } from 'ember-cli-mirage';
+import faker from 'faker';
 
 import CommentReport from 'ember-osf-web/models/comment-report';
 
@@ -21,7 +22,10 @@ export default Factory.extend<CommentReport>({
             });
         }
     },
-    category: faker.list.cycle('spam', 'hate', 'violence'),
+    category(i: number) {
+        const categories = ['spam', 'hate', 'violence'];
+        return categories[i % categories.length];
+    },
     message: faker.lorem.sentences(2),
 
     comment: association() as CommentReport['comment'],

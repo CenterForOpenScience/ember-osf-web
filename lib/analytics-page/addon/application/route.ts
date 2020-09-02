@@ -18,7 +18,7 @@ export default class AnalyticsPageRoute extends Route {
     @service ready!: Ready;
     @service store!: DS.Store;
 
-    @task
+    @task({ withTestWaiter: true })
     reloadNode = task(function *(this: AnalyticsPageRoute, model: Node, blocker: Blocker) {
         const node = yield model.reload({
             adapterOptions: {
@@ -33,7 +33,7 @@ export default class AnalyticsPageRoute extends Route {
         return node;
     });
 
-    @task
+    @task({ withTestWaiter: true })
     getNodeWithCounts = task(function *(this: AnalyticsPageRoute, taskInstance: TaskInstance<Node>) {
         const blocker = this.ready.getBlocker();
 

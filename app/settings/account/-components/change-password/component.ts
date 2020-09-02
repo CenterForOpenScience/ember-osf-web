@@ -33,7 +33,7 @@ export default class ChangePasswordPane extends Component {
     )
     shouldHideStrengthBarMessage!: boolean;
 
-    @task
+    @task({ withTestWaiter: true })
     submitTask = task(function *(this: ChangePasswordPane) {
         const errorMessage = this.intl.t('settings.account.changePassword.updateFail');
         const successMessage = this.intl.t('settings.account.changePassword.updateSuccess');

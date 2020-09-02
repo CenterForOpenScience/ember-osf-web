@@ -6,7 +6,7 @@ import ConfirmationMixin from 'ember-onbeforeunload/mixins/confirmation';
 import ValidatedModelFormController from './controller';
 
 export default class ValidatedModelFormRoute extends Route.extend(ConfirmationMixin) {
-    @task
+    @task({ withTestWaiter: true })
     modelTask = task(function *(this: ValidatedModelFormRoute) {
         return yield this.store.findRecord('node', 'extng');
     });

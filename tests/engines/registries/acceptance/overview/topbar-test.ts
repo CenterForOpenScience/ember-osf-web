@@ -1,6 +1,6 @@
 import { triggerEvent } from '@ember/test-helpers';
 import { ModelInstance } from 'ember-cli-mirage';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { t } from 'ember-intl/test-support';
 import moment from 'moment';
 import { module, test } from 'qunit';
@@ -59,6 +59,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
     test('topbar is not visible for archiving or withdrawn registrations', async assert => {
         const reg = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            provider: server.create('registration-provider'),
         });
         await visit(`/${reg.id}/`);
 
@@ -87,6 +88,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
     test('bookmarks work', async assert => {
         const reg = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            provider: server.create('registration-provider'),
         });
 
         const bookmarksColl = server.create(

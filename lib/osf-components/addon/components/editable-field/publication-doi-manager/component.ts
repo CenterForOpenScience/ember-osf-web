@@ -65,7 +65,7 @@ export default class PublicationDoiManagerComponent extends Component {
         return this.userCanEdit || !this.fieldIsEmpty;
     }
 
-    @task({ restartable: true })
+    @task({ withTestWaiter: true, restartable: true })
     save = task(function *(this: PublicationDoiManagerComponent) {
         this.changeset.validate();
 

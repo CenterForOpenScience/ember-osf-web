@@ -1,7 +1,7 @@
 import Service from '@ember/service';
 import { currentRouteName } from '@ember/test-helpers';
 import { ModelInstance } from 'ember-cli-mirage';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { percySnapshot } from 'ember-percy';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
@@ -36,6 +36,7 @@ module('Registries | Acceptance | overview.index', hooks => {
             archiving: false,
             withdrawn: false,
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            provider: server.create('registration-provider'),
         }, 'withContributors', 'currentUserAdmin'));
     });
 

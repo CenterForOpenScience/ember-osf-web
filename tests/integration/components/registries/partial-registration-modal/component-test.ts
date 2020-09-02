@@ -1,6 +1,6 @@
 import { click, render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import NodeModel from 'ember-osf-web/models/node';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -53,6 +53,7 @@ module('Integration | Component | partial-registration-modal', hooks => {
         `);
         this.set('isOpen', true);
         await settled();
+
         assert.dom(`[data-test-item="${root.id}"]`).exists();
         assert.dom(`[data-test-item="${child.id}"]`).exists();
         assert.dom(`[data-test-item="${grandChild.id}"]`).exists();

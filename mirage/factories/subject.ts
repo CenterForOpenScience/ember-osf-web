@@ -1,4 +1,5 @@
-import { Factory, faker, ID, Trait, trait } from 'ember-cli-mirage';
+import { Factory, ID, Trait, trait } from 'ember-cli-mirage';
+import faker from 'faker';
 
 import SubjectModel from 'ember-osf-web/models/subject';
 
@@ -12,6 +13,8 @@ export interface MirageSubject extends SubjectModel {
 }
 
 export default Factory.extend<MirageSubject & SubjectTraits>({
+    taxonomyName: 'bepress',
+
     text() {
         return faker.lorem.words(3);
     },

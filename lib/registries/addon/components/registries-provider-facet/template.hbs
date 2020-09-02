@@ -1,18 +1,32 @@
 {{#registries-search-facet-container title='Provider'}}
-    <ul>
-        {{#each this.providers as |provider index|}}
-            <li>
-                <label>
+    <ul local-class='ProviderFacet__List'>
+        {{#each this.providers as |provider|}}
+            <li local-class='ProviderFacet__ListItem'>
+                <label local-class='ProviderFacet__Label'>
                     <Input
-                        data-test-source-filter-id={{index}}
+                        local-class='ProviderFacet__Checkbox'
+                        data-test-source-filter-id={{provider.filter.value}}
+                        data-analytics-name='Provider Facet Checkbox'
+                        disabled={{this.shouldLinkToAggregateDiscover}}
                         @type='checkbox'
                         @change={{action 'providerChecked' provider.filter provider.checked}}
                         @checked={{provider.checked}}
                     />
                     {{provider.filter.display}}
-                    <small>({{number-format provider.count}})</small>
                 </label>
+                <span local-class='ProviderFacet__Count'>
+                    {{t 'registries.discover.sidebar.provider_count' count=provider.count}}
+                </span>
             </li>
         {{/each}}
     </ul>
+    {{#if this.shouldLinkToAggregateDiscover}}
+        <OsfLink
+            data-test-link-other-registries
+            data-analytics-name='Other Registries Link'
+            @route='registries.discover'
+        >
+            {{t 'registries.facets.provider.other_registries'}}
+        </OsfLink>
+    {{/if}}
 {{/registries-search-facet-container}}
