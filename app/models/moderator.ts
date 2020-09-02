@@ -4,8 +4,13 @@ import OsfModel from './osf-model';
 
 const { attr } = DS;
 
+export enum PermissionGroup {
+    Admin = 'admin',
+    Moderator = 'moderator',
+}
+
 export default class ModeratorModel extends OsfModel {
-    @attr('string') permissionGroup!: string;
+    @attr('string') permissionGroup!: PermissionGroup;
     @attr('string') fullName!: string;
     @attr('string') email!: string;
 }
