@@ -981,7 +981,9 @@ registries:
             title: Moderators
             remove: Remove
         notifications:
-            title: 'Notifications Settings'
+            title: 'Notifications'
+            heading: 'Configure reviews notification preferences'
+            paragraph: 'To configure other notification preferences visit your <a href={link}>user settings</a>.'    
         overview:
             title: 'Moderated Overview'
     new:
