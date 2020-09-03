@@ -11,7 +11,12 @@ module('Registries | Acceptance | branded.discover', hooks => {
     setupMirage(hooks);
 
     hooks.beforeEach(() => {
-        const brandedProvider = server.create('registration-provider', { id: 'brand' }, 'withBrand');
+        const brandedProvider = server.create('registration-provider', {
+            id: 'brand',
+            assets: {
+                favicon: 'fakelink',
+            },
+        }, 'withBrand');
         server.createList('registration', 3, { provider: brandedProvider });
     });
 
@@ -25,6 +30,7 @@ module('Registries | Acceptance | branded.discover', hooks => {
         assert.dom('[data-test-source-filter-id]').isChecked('Provider facet checkbox is checked');
         assert.dom('[data-test-source-filter-id]').isDisabled('Provider facet checkbox is disabled');
         assert.dom('[data-test-link-other-registries]').exists('Link to other registries is shown');
+        assert.ok(document.querySelector('link[rel="icon"][href="fakelink"]'));
     });
 
     test('branded discover with external providers', async assert => {
@@ -35,5 +41,6 @@ module('Registries | Acceptance | branded.discover', hooks => {
         assert.dom('[data-test-source-filter-id]').exists({ count: 1 }, 'Only brand provider is shown');
         assert.dom(`[data-test-source-filter-id="${externalProvider.shareSourceKey}"]`)
             .doesNotExist('External provider is not shown');
+        assert.ok(document.querySelector('link[rel="icon"][href="fakelink"]'));
     });
 });
