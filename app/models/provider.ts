@@ -1,6 +1,7 @@
 import DS from 'ember-data';
 
 import LicenseModel from './license';
+import ModeratorModel from './moderator';
 import OsfModel from './osf-model';
 import SubjectModel from './subject';
 
@@ -44,4 +45,7 @@ export default abstract class ProviderModel extends OsfModel {
 
     @hasMany('license', { inverse: null })
     licensesAcceptable!: DS.PromiseManyArray<LicenseModel>;
+
+    @hasMany('moderator')
+    moderators!: DS.PromiseManyArray<ModeratorModel>;
 }
