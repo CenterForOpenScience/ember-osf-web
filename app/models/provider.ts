@@ -47,7 +47,7 @@ export default abstract class ProviderModel extends OsfModel {
     licensesAcceptable!: DS.PromiseManyArray<LicenseModel>;
 
     @hasMany('moderator')
-    moderators!: DS.PromiseManyArray<ModeratorModel>;
+    moderators!: DS.PromiseManyArray<ModeratorModel> | ModeratorModel[];
 }
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
