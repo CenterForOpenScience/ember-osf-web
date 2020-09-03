@@ -18,8 +18,11 @@
     }
 }
 
+// stylelint-disable selector-no-qualifying-type
 .btn-success.disabled,
-.btn-success.disabled:hover {
+.btn-success.disabled:hover,
+button.btn-success[disabled],
+button.btn-success[disabled]:hover {
     color: darken($brand-success, 85%);
     background-color: lighten($brand-success, 50%);
     border-color: lighten($brand-success, 45%);
