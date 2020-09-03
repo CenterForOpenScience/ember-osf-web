@@ -15,7 +15,7 @@ export default class ModeratorModel extends OsfModel {
     @attr('string') fullName!: string;
     @attr('string') email!: string;
 
-    @belongsTo('moderator')
+    @belongsTo('provider', { polymorphic: true })
     provider?: ProviderModel;
 }
 
