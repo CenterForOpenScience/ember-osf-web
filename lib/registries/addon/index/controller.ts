@@ -24,7 +24,7 @@ export default class Index extends Controller {
     getRecentRegistrations = task(function *(this: Index) {
         const [recentResults, totalResults]: Array<SearchResults<ShareRegistration>> = yield RSVP.all([
             this.shareSearch.registrations(new SearchOptions({
-                order: new SearchOrder({ display: '', ascending: false, key: 'date_updated' }),
+                order: new SearchOrder({ display: '', ascending: false, key: 'date' }),
                 query: config.indexPageRegistrationsQuery,
                 size: 5,
             })),

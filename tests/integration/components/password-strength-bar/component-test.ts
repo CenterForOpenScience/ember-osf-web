@@ -31,12 +31,10 @@ module('Integration | Component | password-strength-bar', hooks => {
         await render(hbs`<PasswordStrengthBar @password={{this.password}}/>`);
 
         this.set('password', 'abc');
+        await settled();
 
         assert.dom('[data-test-password-bar]').exists('Password-bar renders');
-
-        settled().then(() => {
-            assert.dom('[data-test-password-color-bar]').hasClass('progress-bar-danger');
-        });
+        assert.dom('[data-test-password-color-bar]').hasClass('progress-bar-danger');
     });
 
     test('weak password', async function(assert) {
@@ -45,12 +43,10 @@ module('Integration | Component | password-strength-bar', hooks => {
         await render(hbs`<PasswordStrengthBar @password={{this.password}}/>`);
 
         this.set('password', 'abcs');
+        await settled();
 
         assert.dom('[data-test-password-bar]').exists('Password-bar renders');
-
-        settled().then(() => {
-            assert.dom('[data-test-password-color-bar]').hasClass('progress-bar-danger');
-        });
+        assert.dom('[data-test-password-color-bar]').hasClass('progress-bar-danger');
     });
 
     test('so-so password', async function(assert) {
@@ -60,11 +56,10 @@ module('Integration | Component | password-strength-bar', hooks => {
 
         this.set('password', 'abcstest');
 
-        assert.dom('[data-test-password-bar]').exists('Password-bar renders');
+        await settled();
 
-        settled().then(() => {
-            assert.dom('[data-test-password-color-bar]').hasClass('progress-bar-warning');
-        });
+        assert.dom('[data-test-password-bar]').exists('Password-bar renders');
+        assert.dom('[data-test-password-color-bar]').hasClass('progress-bar-warning');
     });
 
     test('good password', async function(assert) {
@@ -73,10 +68,10 @@ module('Integration | Component | password-strength-bar', hooks => {
         await render(hbs`<PasswordStrengthBar @password={{this.password}}/>`);
 
         this.set('password', 'testpassword12310');
+        await settled();
 
-        settled().then(() => {
-            assert.dom('[data-test-password-color-bar]').hasClass('progress-bar-success');
-        });
+        assert.dom('[data-test-password-bar]').exists('Password-bar renders');
+        assert.dom('[data-test-password-color-bar]').hasClass('progress-bar-success');
     });
 
     test('great password', async function(assert) {
@@ -85,9 +80,8 @@ module('Integration | Component | password-strength-bar', hooks => {
         await render(hbs`<PasswordStrengthBar @password={{this.password}}/>`);
 
         this.set('password', 'testpassword12310abc');
+        await settled();
 
-        settled().then(() => {
-            assert.dom('[data-test-password-color-bar]').hasClass('progress-bar-success');
-        });
+        assert.dom('[data-test-password-color-bar]').hasClass('progress-bar-success');
     });
 });

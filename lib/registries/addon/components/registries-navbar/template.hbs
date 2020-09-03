@@ -9,7 +9,8 @@
             <OsfLink
                 data-test-brand
                 data-analytics-name='Brand'
-                @route='home'
+                @route='{{if @provider 'registries.branded.discover' 'registries.discover'}}'
+                @models={{if @provider (array @provider.id)}}
                 local-class='Logo'
                 aria-label={{t 'navbar.go_home'}}
             />

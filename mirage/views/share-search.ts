@@ -85,9 +85,9 @@ function hasProviderAggregation(request: Request): boolean {
 function buildProviderBuckets(registrations: MixedResult[]): ProviderBucket[] {
     const providerBuckets = registrations.reduce(
         (counts, reg) => {
-            const count = counts[reg.provider.shareSourceKey!] || 0;
+            const count = counts[reg.provider.shareSource!] || 0;
             // eslint-disable-next-line no-param-reassign
-            counts[reg.provider.shareSourceKey!] = count + 1;
+            counts[reg.provider.shareSource!] = count + 1;
             return counts;
         },
         {} as Record<string, number | undefined>,
@@ -103,7 +103,7 @@ function serializeExternalRegistration(
     return {
         date_registered: externalReg.dateRegistered,
         date_published: externalReg.dateRegistered,
-        sources: [externalReg.provider.shareSourceKey],
+        sources: [externalReg.provider.shareSource],
         registration_type: 'yes this is a schema',
         type: 'registration',
         subject_synonyms: [],
@@ -157,7 +157,7 @@ function serializeRegistration(reg: ModelInstance<RegistrationModel>): Serialize
         date_registered: reg.dateRegistered.toString(),
         date_published: reg.dateRegistered.toString(),
         justification: reg.withdrawalJustification,
-        sources: [reg.provider.shareSourceKey!],
+        sources: [reg.provider.shareSource!],
         registration_type: reg.registrationSchema.name,
         type: 'registration',
         subject_synonyms: [],
@@ -196,11 +196,11 @@ function serializeMixedResult(reg: MixedResult): SearchHit {
 function getResultsForProviders(schema: Schema, providerShareKeys: string[]): MixedResult[] {
     const results: MixedResult[] = [];
     for (const providerShareKey of providerShareKeys) {
-        const provider = schema.registrationProviders.findBy({ shareSourceKey: providerShareKey });
+        const provider = schema.registrationProviders.findBy({ shareSource: providerShareKey });
         if (provider) {
             results.push(...provider.registrations.models);
         } else {
-            const externalProvider = schema.externalProviders.findBy({ shareSourceKey: providerShareKey });
+            const externalProvider = schema.externalProviders.findBy({ shareSource: providerShareKey });
             if (externalProvider) {
                 results.push(...externalProvider.registrations.models);
             }
