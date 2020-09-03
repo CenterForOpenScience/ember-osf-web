@@ -9,6 +9,8 @@
         border-color: darken($brand-success, 15%);
     }
 
+    &[disabled],
+    &[disabled]:hover,
     :global(&.disabled),
     :global(&.disabled):hover {
         color: darken($brand-success, 85%);
@@ -18,11 +20,8 @@
     }
 }
 
-// stylelint-disable selector-no-qualifying-type
 .btn-success.disabled,
-.btn-success.disabled:hover,
-button.btn-success[disabled],
-button.btn-success[disabled]:hover {
+.btn-success.disabled:hover {
     color: darken($brand-success, 85%);
     background-color: lighten($brand-success, 50%);
     border-color: lighten($brand-success, 45%);
@@ -34,7 +33,7 @@ button.btn-success[disabled]:hover {
     background-color: $brand-info;
     border-color: darken($brand-info, 5%);
 
-    &:hover {
+    &:hover:not([disabled]) {
         background-color: darken($brand-info, 10%);
         border-color: darken($brand-info, 15%);
     }
@@ -45,7 +44,7 @@ button.btn-success[disabled]:hover {
     background-color: $brand-danger;
     border-color: darken($brand-danger, 5%);
 
-    &:hover {
+    &:hover:not([disabled]) {
         background-color: darken($brand-danger, 10%);
         border-color: darken($brand-danger, 15%);
     }
