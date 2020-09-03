@@ -17,14 +17,14 @@ module('Registries | Acceptance | branded.discover', hooks => {
     setupEngineApplicationTest(hooks, 'registries');
     setupMirage(hooks);
 
-    hooks.beforeEach(() => {
-        const brandedProvider = server.create('registration-provider', {
+    hooks.beforeEach(function(this: ThisTestContext) {
+        this.brandedProvider = server.create('registration-provider', {
             id: 'brand',
             assets: {
                 favicon: 'fakelink',
             },
         }, 'withBrand');
-        server.createList('registration', 3, { provider: brandedProvider });
+        server.createList('registration', 3, { provider: this.brandedProvider });
     });
 
     test('branded discover with no external providers', async function(this: ThisTestContext, assert) {
