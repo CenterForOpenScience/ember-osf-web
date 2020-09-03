@@ -49,3 +49,8 @@ export default abstract class ProviderModel extends OsfModel {
     @hasMany('moderator')
     moderators!: DS.PromiseManyArray<ModeratorModel>;
 }
+declare module 'ember-data/types/registries/model' {
+    export default interface ModelRegistry {
+        provider: ProviderModel;
+    } // eslint-disable-line semi
+}
