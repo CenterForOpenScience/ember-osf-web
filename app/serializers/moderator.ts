@@ -5,6 +5,6 @@ export default class ModeratorSerializer extends OsfSerializer {
 
 declare module 'ember-data/types/registries/serializer' {
     export default interface SerializerRegistry {
-        'moderator': ModeratorSerializer;
+        moderator: ModeratorSerializer;
     } // eslint-disable-line semi
 }
