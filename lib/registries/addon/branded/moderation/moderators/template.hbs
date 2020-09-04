@@ -1,10 +1,11 @@
 {{title (t 'registries.moderation.moderators.title') prepend=false}}
 
-{{#if this.loadModerators.isRunning}}
-    <LoadingIndicator @dark={{true}} />
-{{else}}
+
+<Moderators::Manager
+    @provider={{this.model}}
+    as |moderatorManager|
+>
     <Moderators::List
-        @provider={{this.model}}
-        @moderators={{this.moderators}}
+        @manager={{moderatorManager}}
     />
-{{/if}}
+</Moderators::Manager>

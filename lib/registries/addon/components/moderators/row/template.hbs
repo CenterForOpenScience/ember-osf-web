@@ -1,17 +1,34 @@
 <div local-class='Moderator'>
-    <span localClass='Name'>{{@moderator.fullName}}</span>
+    <span localClass='Name'>
+        {{!-- <OsfLink
+            data-test-moderator-link={{@moderator.id}}
+            data-analytics-name='View moderator profile'
+            @route='guid-user'
+            @models={{array @moderator.user.id}}
+        > --}}
+        <img
+            data-test-moderator-gravatar={{@moderator.fullName}}
+            class='m-r-xs'
+            src={{@moderator.user.links.profile_image}}
+            alt={{@moderator.fullName}}
+            height='30'
+            width='30'
+        >
+        {{@moderator.fullName}}
+        {{!-- </OsfLink> --}}
+    </span>
     <span local-class='PermissionGroup'>
-        {{#if @currentUserIsProviderAdmin}}
+        {{#if @manager.currentUserIsProviderAdmin}}
             <PowerSelect
                 @selected={{@moderator.permissionGroup}}
                 @options={{this.permissionOptions}}
-                @onchange={{perform @updateModeratorPermission @moderator}}
+                @onchange={{fn @manager.updateModeratorPermission @moderator}}
                 @searchEnabled={{false}}
                 @disabled={{@updateModeratorPermission.isRunning}}
                 as |option|
             >
                 <span data-test-moderator-permission-option={{option}}>
-                    {{option}}
+                    {{get this.permissionOptions option}}
                 </span>
             </PowerSelect>
         {{else}}
@@ -22,10 +39,10 @@
         {{#if this.shouldShowRemove}}
             <Button
                 @type='destroy'
-                disabled={{@removeModerator.isRunning}}
-                {{on 'click' (perform @removeModerator @moderator)}}
+                disabled={{@manager.removeModerator.isRunning}}
+                {{on 'click' (fn @manager.removeModerator @moderator)}}
             >
-                {{t 'registries.moderation.moderators.remove'}}
+                <FaIcon @icon='times' />
             </Button>
         {{/if}}
     </span>
