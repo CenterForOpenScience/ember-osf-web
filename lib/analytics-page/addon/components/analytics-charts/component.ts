@@ -14,7 +14,7 @@ import template from './template';
 export interface ChartSpec {
     titleKey: string;
     keenQueryType: string;
-    keenQueryOptions: any;
+    keenQueryOptions: (node: Node) => any;
     processData?: (data: any, intl: Intl, node: Node) => any;
     fakeData?: () => any;
     configureChart(chart: KeenDataviz, intl: Intl): void;
@@ -39,10 +39,12 @@ export default class AnalyticsChart extends Component {
         {
             titleKey: 'analytics.uniqueVisits',
             keenQueryType: 'count_unique',
-            keenQueryOptions: {
-                event_collection: 'pageviews',
-                interval: 'daily',
-                target_property: 'anon.id',
+            keenQueryOptions(node: Node) {
+                return {
+                    event_collection: `pageviews-${node.id.charAt(0)}`,
+                    interval: 'daily',
+                    target_property: 'anon.id',
+                };
             },
             configureChart(chart: KeenDataviz, intl: Intl) {
                 chart.type('line')
@@ -85,10 +87,12 @@ export default class AnalyticsChart extends Component {
         {
             titleKey: 'analytics.visitTimes',
             keenQueryType: 'count_unique',
-            keenQueryOptions: {
-                event_collection: 'pageviews',
-                target_property: 'anon.id',
-                group_by: 'time.local.hour_of_day',
+            keenQueryOptions(node: Node) {
+                return {
+                    event_collection: `pageviews-${node.id.charAt(0)}`,
+                    target_property: 'anon.id',
+                    group_by: 'time.local.hour_of_day',
+                };
             },
             configureChart(chart: KeenDataviz, intl: Intl) {
                 chart.type('bar')
@@ -159,12 +163,14 @@ export default class AnalyticsChart extends Component {
         {
             titleKey: 'analytics.topReferrers',
             keenQueryType: 'count_unique',
-            keenQueryOptions: {
-                event_collection: 'pageviews',
-                target_property: 'anon.id',
-                group_by: 'referrer.info.domain',
-                order_by: [{ property_name: 'result', direction: 'DESC' }],
-                limit: 10,
+            keenQueryOptions(node: Node) {
+                return {
+                    event_collection: `pageviews-${node.id.charAt(0)}`,
+                    target_property: 'anon.id',
+                    group_by: 'referrer.info.domain',
+                    order_by: [{ property_name: 'result', direction: 'DESC' }],
+                    limit: 10,
+                };
             },
             configureChart(chart: KeenDataviz, intl: Intl) {
                 chart.type('pie')
@@ -200,15 +206,17 @@ export default class AnalyticsChart extends Component {
         {
             titleKey: 'analytics.popularPages',
             keenQueryType: 'count',
-            keenQueryOptions: {
-                event_collection: 'pageviews',
-                target_property: 'anon.id',
-                group_by: ['page.info.path', 'page.title'],
-                filters: [{
-                    property_name: 'page.info.path',
-                    operator: 'not_contains',
-                    property_value: '/project/',
-                }],
+            keenQueryOptions(node: Node) {
+                return {
+                    event_collection: `pageviews-${node.id.charAt(0)}`,
+                    target_property: 'anon.id',
+                    group_by: ['page.info.path', 'page.title'],
+                    filters: [{
+                        property_name: 'page.info.path',
+                        operator: 'not_contains',
+                        property_value: '/project/',
+                    }],
+                };
             },
             configureChart(chart: KeenDataviz, intl: Intl) {
                 chart.type('horizontal-bar')

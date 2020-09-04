@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [20.9.1] - 2020-09-03
+### Changed
+- pull keen analytics from partitioned collections
+
 ## [20.9.0] - 2020-09-01
 ### Added
 - branded registries submission
@@ -1639,7 +1643,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/20.9.0...develop
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/20.9.1...develop
+[20.9.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.9.1
 [20.9.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.9.0
 [20.8.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.8.0
 [20.7.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.7.1
