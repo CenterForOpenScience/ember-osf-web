@@ -2,7 +2,7 @@ import DS from 'ember-data';
 
 import UserModel from 'ember-osf-web/models/user';
 import OsfModel from './osf-model';
-import ProviderModel from './provider';
+import RegistrationProviderModel from './registration-provider';
 
 const { attr, belongsTo } = DS;
 
@@ -16,11 +16,11 @@ export default class ModeratorModel extends OsfModel {
     @attr('string') fullName!: string;
     @attr('string') email!: string;
 
-    @belongsTo('provider', { polymorphic: true })
-    provider?: ProviderModel;
+    @belongsTo('registration-provider', { polymorphic: true })
+    provider!: RegistrationProviderModel;
 
     @belongsTo('user', { inverse: null })
-    user?: UserModel;
+    user!: UserModel;
 }
 
 declare module 'ember-data/types/registries/model' {

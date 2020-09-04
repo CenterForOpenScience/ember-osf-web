@@ -1,4 +1,4 @@
-import { Factory } from 'ember-cli-mirage';
+import { association, Factory } from 'ember-cli-mirage';
 import faker from 'faker';
 
 import Moderator from 'ember-osf-web/models/moderator';
@@ -13,6 +13,7 @@ export default Factory.extend<Moderator>({
     email() {
         return faker.internet.email;
     },
+    user: association() as Moderator['user'],
 });
 
 declare module 'ember-cli-mirage/types/registries/schema' {
