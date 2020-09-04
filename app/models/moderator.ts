@@ -1,5 +1,6 @@
 import DS from 'ember-data';
 
+import UserModel from 'ember-osf-web/models/user';
 import OsfModel from './osf-model';
 import ProviderModel from './provider';
 
@@ -17,6 +18,9 @@ export default class ModeratorModel extends OsfModel {
 
     @belongsTo('provider', { polymorphic: true })
     provider?: ProviderModel;
+
+    @belongsTo('user', { inverse: null })
+    user?: UserModel;
 }
 
 declare module 'ember-data/types/registries/model' {
