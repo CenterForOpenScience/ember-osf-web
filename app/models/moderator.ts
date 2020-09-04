@@ -1,13 +1,22 @@
 import DS from 'ember-data';
 
 import OsfModel from './osf-model';
+import ProviderModel from './provider';
 
-const { attr } = DS;
+const { attr, belongsTo } = DS;
+
+export enum PermissionGroup {
+    Admin = 'admin',
+    Moderator = 'moderator',
+}
 
 export default class ModeratorModel extends OsfModel {
-    @attr('string') permissionGroup!: string;
+    @attr('string') permissionGroup!: PermissionGroup;
     @attr('string') fullName!: string;
     @attr('string') email!: string;
+
+    @belongsTo('provider', { polymorphic: true })
+    provider?: ProviderModel;
 }
 
 declare module 'ember-data/types/registries/model' {
