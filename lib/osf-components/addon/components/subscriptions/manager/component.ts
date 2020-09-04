@@ -28,8 +28,9 @@ export default class SubscriptionsManager extends Component {
             this.subscriptions = yield this.store.query('subscription', {
                 'filter[id]': this.subscriptionIds.join(','),
             });
+        } else {
+            this.subscriptions = yield this.store.findAll('subscription');
         }
-        this.subscriptions = yield this.store.findAll('subscription');
     });
 
     @task({ withTestWaiter: true, restartable: true })
