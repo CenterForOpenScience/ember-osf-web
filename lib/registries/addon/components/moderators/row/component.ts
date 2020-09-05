@@ -1,10 +1,11 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import ModeratorModel from 'ember-osf-web/models/moderator';
+import ModeratorModel, { PermissionGroup } from 'ember-osf-web/models/moderator';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import template from './template';
 
@@ -13,8 +14,8 @@ import template from './template';
 export default class ModeratorRow extends Component {
     @service currentUser!: CurrentUserService;
     moderator!: ModeratorModel;
-    currentUserIsProviderAdmin!: boolean;
-    permissionOptions = ['Moderator', 'Admin']; // TODO: import the enum on the moderator model (coming soon)
+    permissionOptions = Object.values(PermissionGroup);
+    @alias('manager.currentUserIsProviderAdmin') currentUserIsProviderAdmin!: boolean;
 
     @computed('currentUser.currentUserId', 'moderator')
     get moderatorIsCurrentUser(): boolean {

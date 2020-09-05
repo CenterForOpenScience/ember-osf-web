@@ -1,14 +1,17 @@
-{{!-- {{#if this.currentUserIsProviderAdmin}} funcitonality to be addded in ENG-2188
+{{!-- TODO: funcitonality to be addded in ENG-2188 --}}
+{{!-- {{#if this.currentUserIsProviderAdmin}}
     <button {{on 'click' this.addModerator}}>
         add
     </button>
 {{/if}} --}}
-
-{{#each this.moderators as |moderator|}}
-    <Moderators::Row
-        @moderator={{moderator}}
-        @updateModeratorPermission={{this.updateModeratorPermission}}
-        @removeModerator={{this.removeModerator}}
-        @currentUserIsProviderAdmin={{this.currentUserIsProviderAdmin}}
-    />
-{{/each}}
+{{!-- TODO: Paginate --}}
+{{#if @manager.loadModerators.isRunning}}
+    <LoadingIndicator @dark={{true}} />
+{{else}}
+    {{#each @manager.moderators as |moderator|}}
+        <Moderators::Row
+            @moderator={{moderator}}
+            @manager={{@manager}}
+        />
+    {{/each}}
+{{/if}}
