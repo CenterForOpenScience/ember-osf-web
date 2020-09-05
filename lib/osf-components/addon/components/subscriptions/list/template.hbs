@@ -1,0 +1,5 @@
+<ul data-test-subscription-list>
+    {{#each @manager.subscriptions as |subscription|}}
+        <Subscriptions::ListRow @manager={{@manager}} @subscription={{subscription}} />
+    {{/each}}
+</ul>

@@ -35,6 +35,14 @@
                         {{t 'registries.moderation.moderators.title'}}
                     </OsfLink>
                 </nav.item>
+                <nav.item>
+                    <OsfLink
+                        @route='registries.branded.moderation.notifications'
+                        @models={{array this.model.id}}
+                    >
+                        {{t 'registries.moderation.notifications.title'}}
+                    </OsfLink>
+                </nav.item>
             </BsNav>
 
             {{outlet}}

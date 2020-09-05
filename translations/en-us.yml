@@ -981,7 +981,9 @@ registries:
             title: Moderators
             remove: Remove
         notifications:
-            title: 'Notifications Settings'
+            title: 'Notifications'
+            heading: 'Configure reviews notification preferences'
+            paragraph: 'To configure other notification preferences visit your <a href={link}>user settings</a>.'    
         overview:
             title: 'Moderated Overview'
     new:
@@ -1525,6 +1527,14 @@ osf-components:
             error: 'Error updating contributor bibliographic status.'
         reorderContributor:
             success: 'Contributor order updated.'
+    subscriptions:
+        frequency:
+            daily: 'Daily'
+            instant: 'Instant'
+            none: 'None'
+        success: 'Notification frequency updated.'
+        error: 'Error updating notification frequency.'
+
 settings:
     toggleNav: 'Toggle navigation'
     profile:

@@ -1,1 +1,11 @@
 {{title (t 'registries.moderation.notifications.title') prepend=false}}
+
+<h2>
+    {{t 'registries.moderation.notifications.heading'}}
+</h2>
+<p>
+    {{t 'registries.moderation.notifications.paragraph' link=this.userSettingsLink htmlSafe=true}}
+</p>
+<Subscriptions::Manager as |manager|>
+    <Subscriptions::List @manager={{manager}} />
+</Subscriptions::Manager>
