@@ -37,14 +37,15 @@ export default class SubscriptionsManager extends Component {
     updateSubscriptionFrequency = task(function *(
         this: SubscriptionsManager,
         subscription: SubscriptionModel,
-        frequency: SubscriptionFrequency,
+        newFrequency: SubscriptionFrequency,
     ) {
         // eslint-disable-next-line no-param-reassign
-        subscription.frequency = frequency;
+        subscription.frequency = newFrequency;
         try {
             yield subscription.save();
             this.toast.success(this.intl.t('osf-components.subscriptions.success'));
         } catch {
+            subscription.rollbackAttributes();
             this.toast.error(this.intl.t('osf-components.subscriptions.error'));
         }
     });
