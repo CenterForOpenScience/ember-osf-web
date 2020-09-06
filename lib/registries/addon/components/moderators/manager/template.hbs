@@ -1,5 +1,7 @@
 {{yield (hash
     moderators=this.moderators
+    provider=this.provider
+    reloadModeratorList=(action (mut this.reloadModeratorList))
     updateModeratorPermission=(perform this.updateModeratorPermission)
     removeModerator=(perform this.removeModerator)
     currentUserIsProviderAdmin=(perform this.currentUserIsProviderAdmin)
