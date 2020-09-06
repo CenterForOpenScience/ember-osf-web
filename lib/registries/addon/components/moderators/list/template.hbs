@@ -5,13 +5,17 @@
     </button>
 {{/if}} --}}
 {{!-- TODO: Paginate --}}
-{{#if @manager.loadModerators.isRunning}}
-    <LoadingIndicator @dark={{true}} />
-{{else}}
-    {{#each @manager.moderators as |moderator|}}
+<PaginatedList::HasMany
+    {{!-- @isTable={{true}} --}}
+    @model={{@manager.provider}}
+    @relationshipName='moderators'
+    @bindReload={{@manager.reloadModeratorList}}
+    as |list|
+>
+    <list.item as |moderator|>
         <Moderators::Row
             @moderator={{moderator}}
             @manager={{@manager}}
         />
-    {{/each}}
-{{/if}}
+    </list.item>
+</PaginatedList::HasMany>

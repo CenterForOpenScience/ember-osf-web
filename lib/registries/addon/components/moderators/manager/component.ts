@@ -21,6 +21,7 @@ export default class ModeratorManager extends Component {
 
     provider!: RegistrationProviderModel;
     permissionOptions = Object.values(PermissionGroup);
+    reloadModeratorList?: () => void;
 
     @tracked moderators?: ModeratorModel[];
 
@@ -37,26 +38,12 @@ export default class ModeratorManager extends Component {
     // TODO: Functionality to remove self (moderators)
     // TODO: Functionality to add/remove others (admins)
 
-    @task({ withTestWaiter: true, on: 'didReceiveAttrs' })
-    loadModerators = task(function *(this: ModeratorManager) {
-        try {
-            this.moderators = yield this.provider.moderators;
-        } catch (e) {
-            captureException(e);
-            this.toast.error(getApiErrorMessage(e));
-        }
-    });
-
     @task({ withTestWaiter: true, enqueue: true })
     updateModeratorPermission =
     task(function *(this: ModeratorManager, moderator: ModeratorModel, newPermission: string) {
         try {
             moderator.set('permissionGroup', newPermission);
-            yield moderator.save({
-                adapterOptions: {
-                    provider: this.provider,
-                },
-            });
+            yield moderator.save();
         } catch (e) {
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
@@ -67,12 +54,10 @@ export default class ModeratorManager extends Component {
     @task({ withTestWaiter: true })
     removeModerator = task(function *(this: ModeratorManager, moderator: ModeratorModel) {
         try {
-            yield moderator.destroyRecord({
-                adapterOptions: {
-                    provider: this.provider,
-                },
-            });
-            moderator.unloadRecord();
+            yield moderator.destroyRecord();
+            if (this.reloadModeratorList) {
+                this.reloadModeratorList();
+            }
         } catch (e) {
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
