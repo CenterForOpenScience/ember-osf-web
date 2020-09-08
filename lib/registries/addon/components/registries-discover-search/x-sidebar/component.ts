@@ -7,6 +7,7 @@ import { localClassNames } from 'ember-css-modules';
 import { is, OrderedSet } from 'immutable';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
+import ProviderModel from 'ember-osf-web/models/provider';
 import Analytics from 'ember-osf-web/services/analytics';
 import { SearchFilter, SearchOptions } from 'registries/services/search';
 import template from './template';
@@ -23,6 +24,7 @@ export default class SideBar extends Component {
 
     searchOptions!: SearchOptions;
     additionalFilters!: SearchFilter[];
+    provider?: ProviderModel;
     @requiredAction onSearchOptionsUpdated!: (options: SearchOptions) => void;
 
     @computed('searchOptions')
@@ -46,6 +48,11 @@ export default class SideBar extends Component {
 
     @action
     removeFilter(filter: SearchFilter) {
+        if (this.provider) {
+            this.analytics.click('link', `Discover - Remove Filter ${this.provider.name}`, filter);
+        } else {
+            this.analytics.click('link', 'Discover - Remove Filter', filter);
+        }
         this.onSearchOptionsUpdated(this.searchOptions.removeFilters(filter));
     }
 
