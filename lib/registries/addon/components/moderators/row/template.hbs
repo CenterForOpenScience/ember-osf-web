@@ -1,49 +1,53 @@
 <div local-class='Moderator'>
-    <span localClass='Name'>
-        {{!-- <OsfLink
-            data-test-moderator-link={{@moderator.id}}
-            data-analytics-name='View moderator profile'
-            @route='guid-user'
-            @models={{array @moderator.user.id}}
-        > --}}
-        <img
-            data-test-moderator-gravatar={{@moderator.fullName}}
-            class='m-r-xs'
-            src={{@moderator.user.links.profile_image}}
-            alt={{@moderator.fullName}}
-            height='30'
-            width='30'
-        >
-        {{@moderator.fullName}}
-        {{!-- </OsfLink> --}}
-    </span>
-    <span local-class='PermissionGroup'>
-        {{#if @manager.currentUserIsProviderAdmin}}
-            <PowerSelect
-                @selected={{@moderator.permissionGroup}}
-                @options={{this.permissionOptions}}
-                @onchange={{fn @manager.updateModeratorPermission @moderator}}
-                @searchEnabled={{false}}
-                @disabled={{@updateModeratorPermission.isRunning}}
-                as |option|
+    <div local-class='ModeratorNamePermission'>
+        <span localClass='Name'>
+            <OsfLink
+                data-test-moderator-link={{@moderator.id}}
+                data-analytics-name='View moderator profile'
+                @route='guid-user'
+                @models={{array @moderator.id}}
             >
-                <span data-test-moderator-permission-option={{option}}>
-                    {{option}}
-                </span>
-            </PowerSelect>
-        {{else}}
-            {{@moderator.permissionGroup}}
-        {{/if}}
-    </span>
-    <span>
-        {{#if this.shouldShowRemove}}
-            <Button
-                @type='destroy'
-                disabled={{@manager.removeModerator.isRunning}}
-                {{on 'click' (fn @manager.removeModerator @moderator)}}
-            >
-                <FaIcon @icon='times' />
-            </Button>
-        {{/if}}
-    </span>
+                <img
+                    data-test-moderator-gravatar={{@moderator.fullName}}
+                    class='m-r-xs'
+                    src={{@moderator.user.links.profile_image}}
+                    alt={{@moderator.fullName}}
+                    height='30'
+                    width='30'
+                >
+                {{@moderator.fullName}}
+            </OsfLink>
+        </span>
+        <span local-class='PermissionGroup'>
+            {{#if @manager.currentUserIsProviderAdmin}}
+                <PowerSelect
+                    @selected={{@moderator.permissionGroup}}
+                    @options={{capitalize this.permissionOptions}}
+                    @onchange={{fn @manager.updateModeratorPermission @moderator}}
+                    @searchEnabled={{false}}
+                    @disabled={{@manager.updateModeratorPermission.isRunning}}
+                    as |option|
+                >
+                    <span data-test-moderator-permission-option={{option}}>
+                        {{option}}
+                    </span>
+                </PowerSelect>
+            {{else}}
+                {{@moderator.permissionGroup}}
+            {{/if}}
+        </span>
+    </div>
+    <div>
+        <span>
+            {{#if this.shouldShowRemove}}
+                <Button
+                    @type='destroy'
+                    disabled={{@manager.removeModerator.isRunning}}
+                    {{on 'click' (fn @manager.removeModerator @moderator)}}
+                >
+                    <FaIcon @icon='times' />
+                </Button>
+            {{/if}}
+        </span>
+    </div>
 </div>

@@ -10,9 +10,6 @@ export default Factory.extend<Moderator>({
     fullName() {
         return `${faker.name.firstName()} ${faker.name.lastName()}`;
     },
-    email() {
-        return faker.internet.email;
-    },
     user: association() as Moderator['user'],
 });
 

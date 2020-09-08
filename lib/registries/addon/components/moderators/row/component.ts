@@ -7,23 +7,29 @@ import { inject as service } from '@ember/service';
 import { layout } from 'ember-osf-web/decorators/component';
 import ModeratorModel, { PermissionGroup } from 'ember-osf-web/models/moderator';
 import CurrentUserService from 'ember-osf-web/services/current-user';
+import { ModeratorManager } from '../manager/component';
 import template from './template';
 
 @tagName('')
 @layout(template)
 export default class ModeratorRow extends Component {
     @service currentUser!: CurrentUserService;
+    manager!: ModeratorManager;
     moderator!: ModeratorModel;
     permissionOptions = Object.values(PermissionGroup);
     @alias('manager.currentUserIsProviderAdmin') currentUserIsProviderAdmin!: boolean;
 
-    @computed('currentUser.currentUserId', 'moderator')
+    @computed('currentUser.currentUserId', 'moderator.user')
     get moderatorIsCurrentUser(): boolean {
-        return this.moderator && (this.moderator.id === this.currentUser.currentUserId);
+        if (this.moderator) {
+            const moderatorUserId = this.moderator.belongsTo('user').id();
+            return moderatorUserId === this.currentUser.currentUserId;
+        }
+        return false;
     }
 
     @computed('moderatorIsCurrentUser', 'currentUserIsProviderAdmin')
     get shouldShowRemove(): boolean {
-        return this.moderatorIsCurrentUser || this.currentUserIsProviderAdmin;
+        return this.currentUserIsProviderAdmin || this.moderatorIsCurrentUser;
     }
 }

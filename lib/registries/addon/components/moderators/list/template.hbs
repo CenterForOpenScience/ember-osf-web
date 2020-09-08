@@ -13,9 +13,13 @@
     as |list|
 >
     <list.item as |moderator|>
-        <Moderators::Row
-            @moderator={{moderator}}
-            @manager={{@manager}}
-        />
+        {{#if moderator}}
+            <Moderators::Row
+                @moderator={{moderator}}
+                @manager={{@manager}}
+            />
+        {{else}}
+            <LoadingIndicator />
+        {{/if}}
     </list.item>
 </PaginatedList::HasMany>

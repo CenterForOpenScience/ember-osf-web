@@ -5,7 +5,7 @@ import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import CurrentUserService from 'ember-osf-web/services/current-user';
-import ModeratorManager from '../manager/component';
+import { ModeratorManager } from '../manager/component';
 import template from './template';
 
 @tagName('')
