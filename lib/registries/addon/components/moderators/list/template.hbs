@@ -5,20 +5,22 @@
     </button>
 {{/if}} --}}
 {{!-- TODO: Paginate --}}
-<PaginatedList::HasMany
-    @model={{@manager.provider}}
-    @relationshipName='moderators'
-    @bindReload={{@manager.reloadModeratorList}}
-    as |list|
->
-    <list.item as |moderator|>
-        {{#if moderator}}
-            <Moderators::Row
-                @moderator={{moderator}}
-                @manager={{@manager}}
-            />
-        {{else}}
-            <LoadingIndicator />
-        {{/if}}
-    </list.item>
-</PaginatedList::HasMany>
+<ContentPlaceholders as |placeholder|>
+    <PaginatedList::HasMany
+        @model={{@manager.provider}}
+        @relationshipName='moderators'
+        @bindReload={{@manager.reloadModeratorList}}
+        as |list|
+    >
+        <list.item as |moderator|>
+            {{#if moderator}}
+                <Moderators::Row
+                    @moderator={{moderator}}
+                    @manager={{@manager}}
+                />
+            {{else}}
+                {{placeholder.text lines=1}}
+            {{/if}}
+        </list.item>
+    </PaginatedList::HasMany>
+</ContentPlaceholders>

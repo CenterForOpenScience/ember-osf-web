@@ -16,7 +16,14 @@
 }
 
 .ModeratorNamePermission {
-    width: 80%;
+    width: 50%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+
+    @media (max-width: 767px) {
+        width: 80%;
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }

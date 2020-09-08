@@ -1,6 +1,6 @@
 <div local-class='Moderator'>
     <div local-class='ModeratorNamePermission'>
-        <span localClass='Name'>
+        <span local-class='Name'>
             <OsfLink
                 data-test-moderator-link={{@moderator.id}}
                 data-analytics-name='View moderator profile'
@@ -29,11 +29,11 @@
                     as |option|
                 >
                     <span data-test-moderator-permission-option={{option}}>
-                        {{option}}
+                        {{capitalize option}}
                     </span>
                 </PowerSelect>
             {{else}}
-                {{@moderator.permissionGroup}}
+                {{capitalize @moderator.permissionGroup}}
             {{/if}}
         </span>
     </div>
