@@ -11,38 +11,46 @@
         </layout.heading>
         <layout.main local-class='main'>
             <BsNav local-class='mainNav' @type='tabs' as |nav|>
-                <nav.item>
-                    <OsfLink
-                        @route='registries.branded.moderation.submissions'
-                        @models={{array this.model.id}}
-                    >
-                        {{t 'registries.moderation.submissions.title'}}
-                    </OsfLink>
-                </nav.item>
-                <nav.item>
-                    <OsfLink
-                        @route='registries.branded.moderation.withdrawals'
-                        @models={{array this.model.id}}
-                    >
-                        {{t 'registries.moderation.withdrawals.title'}}
-                    </OsfLink>
-                </nav.item>
-                <nav.item>
-                    <OsfLink
-                        @route='registries.branded.moderation.moderators'
-                        @models={{array this.model.id}}
-                    >
-                        {{t 'registries.moderation.moderators.title'}}
-                    </OsfLink>
-                </nav.item>
-                <nav.item>
-                    <OsfLink
-                        @route='registries.branded.moderation.notifications'
-                        @models={{array this.model.id}}
-                    >
-                        {{t 'registries.moderation.notifications.title'}}
-                    </OsfLink>
-                </nav.item>
+                {{#let 'registries.branded.moderation.submissions' as |submissionsRoute|}}
+                    <nav.item @active={{eq this.target.currentRouteName submissionsRoute}}>
+                        <OsfLink
+                            @route={{submissionsRoute}}
+                            @models={{array this.model.id}}
+                        >
+                            {{t 'registries.moderation.submissions.title'}}
+                        </OsfLink>
+                    </nav.item>
+                {{/let}}
+                {{#let 'registries.branded.moderation.withdrawals' as |withdrawalsRoute|}}
+                    <nav.item @active={{eq this.target.currentRouteName withdrawalsRoute}}>
+                        <OsfLink
+                            @route={{withdrawalsRoute}}
+                            @models={{array this.model.id}}
+                        >
+                            {{t 'registries.moderation.withdrawals.title'}}
+                        </OsfLink>
+                    </nav.item>
+                {{/let}}
+                {{#let 'registries.branded.moderation.moderators' as |moderatorsRoute|}}
+                    <nav.item @active={{eq this.target.currentRouteName moderatorsRoute}}>
+                        <OsfLink
+                            @route={{moderatorsRoute}}
+                            @models={{array this.model.id}}
+                        >
+                            {{t 'registries.moderation.moderators.title'}}
+                        </OsfLink>
+                    </nav.item>
+                {{/let}}
+                {{#let 'registries.branded.moderation.notifications' as |notificationsRoute|}}
+                    <nav.item @active={{eq this.target.currentRouteName notificationsRoute}}>
+                        <OsfLink
+                            @route={{notificationsRoute}}
+                            @models={{array this.model.id}}
+                        >
+                            {{t 'registries.moderation.notifications.title'}}
+                        </OsfLink>
+                    </nav.item>
+                {{/let}}
             </BsNav>
 
             {{outlet}}
