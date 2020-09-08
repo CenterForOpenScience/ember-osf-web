@@ -50,7 +50,7 @@ export default class ChartWrapper extends Component {
                 this.startDate,
                 this.endDate,
                 this.chartSpec.keenQueryType,
-                this.chartSpec.keenQueryOptions,
+                this.chartSpec.keenQueryOptions(node),
             );
 
             if (this.chartSpec.processData) {

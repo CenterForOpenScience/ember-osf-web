@@ -42,7 +42,7 @@
     color: $color-text-white;
     font-weight: bold;
 
-    &:hover {
+    &:hover:not([disabled]) {
         background-color: var(--secondary-color);
     }
 }
@@ -52,7 +52,7 @@
     border: 1px solid $color-border-gray-light;
     color: var(--primary-color);
 
-    &:hover {
+    &:hover:not([disabled]) {
         border: 1px solid $color-bg-gray-blue;
         background-color: $color-bg-gray-blue-light;
     }

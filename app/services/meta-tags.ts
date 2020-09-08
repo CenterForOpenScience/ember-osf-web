@@ -48,7 +48,12 @@ export interface PropMetaTagAttrs {
     content: Content;
 }
 
-export type MetaTagAttrs = NameMetaTagAttrs | PropMetaTagAttrs;
+export interface LinkMetaTagAttrs {
+    rel: string;
+    href: string;
+}
+
+export type MetaTagAttrs = NameMetaTagAttrs | PropMetaTagAttrs | LinkMetaTagAttrs;
 
 export interface HeadTagDef {
     type: string;
