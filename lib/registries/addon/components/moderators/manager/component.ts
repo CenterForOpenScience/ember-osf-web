@@ -37,7 +37,7 @@ export default class ModeratorManagerComponent extends Component {
 
     @tracked self?: ModeratorModel;
 
-    @computed('currentUser.currentUserId', 'moderators.[]')
+    @computed('currentUser.currentUserId', 'self')
     get currentUserIsProviderAdmin(): boolean {
         if (this.currentUser && this.self) {
             return this.self.permissionGroup === PermissionGroup.Admin;
@@ -50,7 +50,12 @@ export default class ModeratorManagerComponent extends Component {
     task(function *(this: ModeratorManagerComponent) {
         try {
             if (this.currentUser.currentUserId) {
-                this.self = yield this.store.findRecord('moderator', this.currentUser.currentUserId);
+                this.self = yield this.store.findRecord('moderator', this.currentUser.currentUserId,
+                    {
+                        adapterOptions: {
+                            providerId: this.provider.id,
+                        },
+                    });
             }
         } catch (e) {
             captureException(e);

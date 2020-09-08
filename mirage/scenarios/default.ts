@@ -71,8 +71,12 @@ function registrationScenario(
         'withBrand',
         'withSchemas');
 
-    const egapMod = server.create('moderator', { id: currentUser.id, user: currentUser });
-    const egapAdmin = server.create('moderator', { permissionGroup: PermissionGroup.Admin });
+    const egapMod = server.create('moderator');
+    const egapAdmin = server.create('moderator', {
+        id: currentUser.id,
+        user: currentUser,
+        permissionGroup: PermissionGroup.Admin,
+    });
     const otherEgapMods = server.createList('moderator', 20);
     const egap = server.create('registration-provider', { id: 'egap', name: 'EGAP' }, 'withBrand');
     egap.update({

@@ -6,7 +6,6 @@
 {{/if}} --}}
 {{!-- TODO: Paginate --}}
 <PaginatedList::HasMany
-    {{!-- @isTable={{true}} --}}
     @model={{@manager.provider}}
     @relationshipName='moderators'
     @bindReload={{@manager.reloadModeratorList}}
