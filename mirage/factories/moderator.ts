@@ -1,16 +1,25 @@
-import { association, Factory } from 'ember-cli-mirage';
-import faker from 'faker';
+import { association, Factory, Trait, trait } from 'ember-cli-mirage';
 
-import Moderator from 'ember-osf-web/models/moderator';
+import Moderator, { PermissionGroup } from 'ember-osf-web/models/moderator';
 
-export default Factory.extend<Moderator>({
-    permissionGroup() {
-        return 'moderator'; // TODO: get the permissions from the moderator model and choose one randomly?
+interface ModeratorTraits {
+    asAdmin: Trait;
+}
+
+export default Factory.extend<Moderator & ModeratorTraits>({
+    afterCreate(newModerator) {
+        if (newModerator.user) {
+            newModerator.update({
+                id: newModerator.user.id,
+                fullName: newModerator.user.fullName,
+            });
+        }
     },
-    fullName() {
-        return `${faker.name.firstName()} ${faker.name.lastName()}`;
-    },
+
+    permissionGroup: PermissionGroup.Moderator,
     user: association() as Moderator['user'],
+
+    asAdmin: trait({ permissionGroup: PermissionGroup.Admin }),
 });
 
 declare module 'ember-cli-mirage/types/registries/schema' {
