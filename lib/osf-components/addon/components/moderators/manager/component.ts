@@ -53,7 +53,7 @@ export default class ModeratorManagerComponent extends Component {
                 this.self = yield this.store.findRecord('moderator', this.currentUser.currentUserId,
                     {
                         adapterOptions: {
-                            providerId: this.provider.id,
+                            providerId: this.provider.get('id'),
                         },
                     });
             }
