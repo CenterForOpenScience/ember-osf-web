@@ -9,6 +9,8 @@
         border-color: darken($brand-success, 15%);
     }
 
+    &[disabled],
+    &[disabled]:hover,
     :global(&.disabled),
     :global(&.disabled):hover {
         color: darken($brand-success, 85%);
@@ -31,7 +33,7 @@
     background-color: $brand-info;
     border-color: darken($brand-info, 5%);
 
-    &:hover {
+    &:hover:not([disabled]) {
         background-color: darken($brand-info, 10%);
         border-color: darken($brand-info, 15%);
     }
@@ -42,7 +44,7 @@
     background-color: $brand-danger;
     border-color: darken($brand-danger, 5%);
 
-    &:hover {
+    &:hover:not([disabled]) {
         background-color: darken($brand-danger, 10%);
         border-color: darken($brand-danger, 15%);
     }

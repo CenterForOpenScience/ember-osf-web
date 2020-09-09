@@ -12,13 +12,14 @@
                 resultId=@result.id
                 parentId=this.elementId
                 showText=false
+                provider=@provider
             }}
         {{/if}}
         <h3 local-class='RegistriesSearchResult__Title'>
             <OsfLink
                 data-test-result-title-id={{@result.id}}
                 @href={{@result.mainLink}}
-                data-analytics-name='Result Title'
+                data-analytics-name='Result Title{{if @provider concat ' @provider.name'}}'
             >
                 {{math @result.title}}
             </OsfLink>

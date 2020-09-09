@@ -10,6 +10,7 @@ import QueryParams from 'ember-parachute';
 import { is, OrderedSet } from 'immutable';
 
 import config from 'ember-get-config';
+import ProviderModel from 'ember-osf-web/models/provider';
 import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 import Analytics from 'ember-osf-web/services/analytics';
 import discoverStyles from 'registries/components/registries-discover-search/styles';
@@ -171,6 +172,10 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         count: number;
         filter: SearchFilter;
     }> = [];
+
+    get providerModel(): ProviderModel | undefined {
+        return undefined;
+    }
 
     // used to filter the counts/aggregations and all search results
     get additionalFilters(): ShareTermsFilter[] {
@@ -370,7 +375,15 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
 
     @action
     setOrder(value: SearchOrder) {
-        this.analytics.track('dropdown', 'select', `Discover - Sort By: ${this.intl.t(value.display)}`);
+        if (this.providerModel) {
+            this.analytics.track(
+                'dropdown',
+                'select',
+                `Discover - Sort By: ${this.intl.t(value.display)} ${this.providerModel.name}`,
+            );
+        } else {
+            this.analytics.track('dropdown', 'select', `Discover - Sort By: ${this.intl.t(value.display)}`);
+        }
         // Set page to 1 here to ensure page is always reset when changing the order/sorting of a search
         this.setProperties({ page: 1, sort: value });
     }

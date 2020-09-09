@@ -30,8 +30,13 @@ export default class RegistriesHeader extends Component {
             : this.intl.t('registries.header.osf_registrations');
     }
 
-    _onSearch() {
-        this.analytics.click('link', 'Index - Search', this.value);
+    @action
+    onSubmit() {
+        if (this.providerModel) {
+            this.analytics.click('link', `Discover - Search ${this.providerModel.name}`, this.value);
+        } else {
+            this.analytics.click('link', 'Discover - Search', this.value);
+        }
         this.onSearch(this.value);
     }
 
@@ -41,14 +46,13 @@ export default class RegistriesHeader extends Component {
     }
 
     @action
-    onSubmit() {
-        this._onSearch();
-    }
-
-    @action
-    keyDown(event: KeyboardEvent) {
-        if (event.keyCode === 13) {
-            this._onSearch();
+    keyPress(event: KeyboardEvent) {
+        if (event.keyCode !== 13) {
+            if (this.providerModel) {
+                this.analytics.track('input', 'onkeyup', `Discover - Search ${this.providerModel.name}`, this.value);
+            } else {
+                this.analytics.track('input', 'onkeyup', 'Discover - Search', this.value);
+            }
         }
     }
 }
