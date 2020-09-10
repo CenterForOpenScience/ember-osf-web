@@ -87,9 +87,11 @@ module('Integration | Component | moderators', hooks => {
         await selectChoose(`[data-test-moderator-row="${moderator.id}"]`, 'Admin');
         assert.dom(`[data-test-moderator-row="${currentUser.id}"]>div>[data-test-permission-group]`).hasText('Admin');
         assert.dom(`[data-test-moderator-row="${moderator.id}"]>div>[data-test-permission-group]`).hasText('Admin');
-        await click(`[data-test-delete-moderator-button="${moderator.id}"]`);
+        await click(`[data-test-delete-moderator-button="${moderator.id}"]>[data-test-delete-button]`);
+        await click('[data-test-confirm-delete]');
         assert.dom('[data-test-moderator-link]').exists({ count: 1 });
         assert.dom('[data-test-permission-group]').exists({ count: 1 });
+        assert.dom('[data-test-delete-moderator-button]').exists({ count: 1 });
     });
 
     test('can only remove self as a moderator', async function(
@@ -129,8 +131,10 @@ module('Integration | Component | moderators', hooks => {
             `[data-test-moderator-row="${currentUser.id}"]>div>[data-test-permission-group]`,
         ).hasText('Moderator');
         assert.dom(`[data-test-moderator-row="${admin.id}"]>div>[data-test-permission-group]`).hasText('Admin');
-        await click(`[data-test-delete-moderator-button="${moderator.id}"]`);
+        await click(`[data-test-delete-moderator-button="${moderator.id}"]>[data-test-delete-button]`);
+        await click('[data-test-confirm-delete]');
         assert.dom('[data-test-moderator-link]').exists({ count: 1 });
         assert.dom('[data-test-permission-group]').exists({ count: 1 });
+        assert.dom('[data-test-delete-moderator-button]').doesNotExist();
     });
 });

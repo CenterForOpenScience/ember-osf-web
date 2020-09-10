@@ -55,6 +55,7 @@
                     @modalBody={{t 'registries.moderation.moderators.remove.modal.body'
                         moderator=(if this.moderatorIsCurrentUser 'yourself' @moderator.fullName)
                     }}
+                    data-test-delete-moderator-button={{@moderator.id}}
                 />
             {{/if}}
         </span>
