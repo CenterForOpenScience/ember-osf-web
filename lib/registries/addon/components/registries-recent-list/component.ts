@@ -26,7 +26,7 @@ export default class RegistriesRecentList extends Component {
         return this.recentRegistrations.map(({ id, title, contributors }) => ({
             id,
             title,
-            url: `${osfUrl}/${id}`,
+            url: `${osfUrl}${id}`,
             contributors: contributors
                 .filterBy('bibliographic')
                 .map(({ fullName }) => ({ name: fullName })),
