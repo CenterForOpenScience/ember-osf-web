@@ -6,7 +6,6 @@ import FileProvider from 'ember-osf-web/models/file-provider';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 
-import { PermissionGroup } from 'ember-osf-web/models/moderator';
 import { draftRegisterNodeMultiple, forkNode, registerNodeMultiple } from '../helpers';
 
 const {
@@ -72,12 +71,8 @@ function registrationScenario(
         'withSchemas');
 
     const egapMod = server.create('moderator');
-    const egapAdmin = server.create('moderator', {
-        id: currentUser.id,
-        user: currentUser,
-        permissionGroup: PermissionGroup.Admin,
-    });
-    const otherEgapMods = server.createList('moderator', 20);
+    const egapAdmin = server.create('moderator', { user: currentUser }, 'asAdmin');
+    const otherEgapMods = server.createList('moderator', 5);
     const egap = server.create('registration-provider', { id: 'egap', name: 'EGAP' }, 'withBrand');
     egap.update({
         moderators: [egapMod, egapAdmin, ...otherEgapMods],

@@ -46,14 +46,16 @@
     <div>
         <span>
             {{#if this.shouldShowRemove}}
-                <Button
-                    @type='destroy'
-                    disabled={{@manager.removeModerator.isRunning}}
-                    data-test-delete-moderator-button={{@moderator.id}}
-                    {{on 'click' (fn @manager.removeModerator @moderator)}}
-                >
-                    <FaIcon @icon='times' />
-                </Button>
+                <DeleteButton
+                    @small={{true}}
+                    @delete={{action @manager.removeModerator @moderator}}
+                    @disabled={{@manager.removeModerator.isRunning}}
+                    @analyticsScope='Moderation - Moderators'
+                    @modalTitle={{t 'registries.moderation.moderators.remove.modal.title'}}
+                    @modalBody={{t 'registries.moderation.moderators.remove.modal.body'
+                        moderator=(if this.moderatorIsCurrentUser 'yourself' @moderator.fullName)
+                    }}
+                />
             {{/if}}
         </span>
     </div>
