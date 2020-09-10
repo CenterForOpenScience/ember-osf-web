@@ -4,6 +4,7 @@ import Moderator, { PermissionGroup } from 'ember-osf-web/models/moderator';
 
 interface ModeratorTraits {
     asAdmin: Trait;
+    asModerator: Trait;
 }
 
 export default Factory.extend<Moderator & ModeratorTraits>({
@@ -20,6 +21,7 @@ export default Factory.extend<Moderator & ModeratorTraits>({
     user: association() as Moderator['user'],
 
     asAdmin: trait({ permissionGroup: PermissionGroup.Admin }),
+    asModerator: trait({ permissionGroup: PermissionGroup.Moderator }),
 });
 
 declare module 'ember-cli-mirage/types/registries/schema' {

@@ -979,10 +979,6 @@ registries:
             title: Withdrawals
         moderators:
             title: Moderators
-            remove:
-                modal:
-                    title: 'Confirm moderator removal'
-                    body: 'Are you sure you want to remove {moderator}?'
         notifications:
             title: 'Notifications'
             heading: 'Configure reviews notification preferences'
@@ -1537,6 +1533,11 @@ osf-components:
             none: 'None'
         success: 'Notification frequency updated.'
         error: 'Error updating notification frequency.'
+    moderators:
+        remove:
+            modal:
+                title: 'Confirm moderator removal'
+                body: 'Are you sure you want to remove {moderator}?'
 
 settings:
     toggleNav: 'Toggle navigation'

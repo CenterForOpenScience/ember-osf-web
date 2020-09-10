@@ -1,4 +1,7 @@
-<div local-class='Moderator'>
+<div
+    local-class='Moderator'
+    data-test-moderator-row={{@moderator.id}}
+>
     <div local-class='ModeratorNamePermission'>
         <span local-class='Name'>
             <OsfLink
@@ -18,7 +21,10 @@
                 {{@moderator.fullName}}
             </OsfLink>
         </span>
-        <span local-class='PermissionGroup'>
+        <span
+            local-class='PermissionGroup'
+            data-test-permission-group
+        >
             {{#if @manager.currentUserIsProviderAdmin}}
                 <PowerSelect
                     @selected={{@moderator.permissionGroup}}
@@ -45,10 +51,11 @@
                     @delete={{action @manager.removeModerator @moderator}}
                     @disabled={{@manager.removeModerator.isRunning}}
                     @analyticsScope='Moderation - Moderators'
-                    @modalTitle={{t 'registries.moderation.moderators.remove.modal.title'}}
-                    @modalBody={{t 'registries.moderation.moderators.remove.modal.body'
+                    @modalTitle={{t 'osf-components.moderators.remove.modal.title'}}
+                    @modalBody={{t 'osf-components.moderators.remove.modal.body'
                         moderator=(if this.moderatorIsCurrentUser 'yourself' @moderator.fullName)
                     }}
+                    data-test-delete-moderator-button={{@moderator.id}}
                 />
             {{/if}}
         </span>
