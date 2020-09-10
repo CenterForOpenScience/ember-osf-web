@@ -8,15 +8,6 @@ interface ModeratorTraits {
 }
 
 export default Factory.extend<Moderator & ModeratorTraits>({
-    afterCreate(newModerator) {
-        if (newModerator.user) {
-            newModerator.update({
-                id: newModerator.user.id,
-                fullName: newModerator.user.fullName,
-            });
-        }
-    },
-
     permissionGroup: PermissionGroup.Moderator,
     user: association() as Moderator['user'],
 

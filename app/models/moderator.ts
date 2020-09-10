@@ -16,7 +16,7 @@ export default class ModeratorModel extends OsfModel {
     @attr('string') fullName!: string;
     @attr('string') email!: string;
 
-    @belongsTo('registration-provider', { polymorphic: true })
+    @belongsTo('registration-provider', { inverse: 'moderators', polymorphic: true })
     provider!: RegistrationProviderModel;
 
     @belongsTo('user', { inverse: null })

@@ -18,7 +18,7 @@ export default class RegistrationProviderModel extends ProviderModel {
     @hasMany('registration-schema', { inverse: null })
     schemas!: DS.PromiseManyArray<RegistrationSchemaModel> | RegistrationSchemaModel[];
 
-    @hasMany('moderator', { inverse: null })
+    @hasMany('moderator', { inverse: 'provider' })
     moderators!: DS.PromiseManyArray<ModeratorModel> | ModeratorModel[];
 
     @attr('fixstring')
