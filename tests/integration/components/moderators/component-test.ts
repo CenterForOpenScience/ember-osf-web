@@ -21,9 +21,10 @@ module('Integration | Component | moderators', hooks => {
 
     hooks.beforeEach(async function(this: ModeratorsTestContext) {
         this.store = this.owner.lookup('service:store');
+        this.intl = this.owner.lookup('service:intl');
         this.owner.register('service:router', OsfLinkRouterStub);
         this.provider = server.create('registration-provider', { id: 'egap', name: 'EGAP' });
-        const providerModel = this.store.findRecord('registration-provider', 'egap');
+        const providerModel = await this.store.findRecord('registration-provider', 'egap');
         this.set('providerModel', providerModel);
     });
 
@@ -63,8 +64,7 @@ module('Integration | Component | moderators', hooks => {
         const admin = server.create('moderator', {
             id: currentUserModel.id,
             user: currentUser,
-            permissionGroup: PermissionGroup.Admin,
-        });
+        }, 'asAdmin');
         this.provider.update({
             moderators: [moderator, admin],
         });
@@ -88,6 +88,9 @@ module('Integration | Component | moderators', hooks => {
         assert.dom(`[data-test-moderator-row="${currentUser.id}"]>div>[data-test-permission-group]`).hasText('Admin');
         assert.dom(`[data-test-moderator-row="${moderator.id}"]>div>[data-test-permission-group]`).hasText('Admin');
         await click(`[data-test-delete-moderator-button="${moderator.id}"]>[data-test-delete-button]`);
+        assert.dom('.modal-body').hasText(
+            this.intl.t('osf-components.moderators.remove.modal.body', { moderator: moderator.fullName }),
+        );
         await click('[data-test-confirm-delete]');
         assert.dom('[data-test-moderator-link]').exists({ count: 1 });
         assert.dom('[data-test-permission-group]').exists({ count: 1 });
@@ -108,8 +111,7 @@ module('Integration | Component | moderators', hooks => {
         const moderator = server.create('moderator', {
             id: currentUserModel.id,
             user: currentUser,
-            permissionGroup: PermissionGroup.Moderator,
-        });
+        }, 'asModerator');
         this.provider.update({
             moderators: [moderator, admin],
         });
@@ -132,6 +134,9 @@ module('Integration | Component | moderators', hooks => {
         ).hasText('Moderator');
         assert.dom(`[data-test-moderator-row="${admin.id}"]>div>[data-test-permission-group]`).hasText('Admin');
         await click(`[data-test-delete-moderator-button="${moderator.id}"]>[data-test-delete-button]`);
+        assert.dom('.modal-body').hasText(
+            this.intl.t('osf-components.moderators.remove.modal.body', { moderator: 'yourself' }),
+        );
         await click('[data-test-confirm-delete]');
         assert.dom('[data-test-moderator-link]').exists({ count: 1 });
         assert.dom('[data-test-permission-group]').exists({ count: 1 });

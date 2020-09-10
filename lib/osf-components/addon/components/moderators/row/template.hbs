@@ -51,8 +51,8 @@
                     @delete={{action @manager.removeModerator @moderator}}
                     @disabled={{@manager.removeModerator.isRunning}}
                     @analyticsScope='Moderation - Moderators'
-                    @modalTitle={{t 'registries.moderation.moderators.remove.modal.title'}}
-                    @modalBody={{t 'registries.moderation.moderators.remove.modal.body'
+                    @modalTitle={{t 'osf-components.moderators.remove.modal.title'}}
+                    @modalBody={{t 'osf-components.moderators.remove.modal.body'
                         moderator=(if this.moderatorIsCurrentUser 'yourself' @moderator.fullName)
                     }}
                     data-test-delete-moderator-button={{@moderator.id}}
