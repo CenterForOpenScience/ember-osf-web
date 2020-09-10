@@ -15,9 +15,9 @@
             <div class='col-xs-12'>
                 <h4>
                     <a
-                        href={{reg.registrationURL}}
+                        href={{reg.url}}
                         data-test-recent-registration-id={{reg.id}}
-                        onclick={{action 'click' 'link' (concat 'Index - Browse Recent: ' reg.title) reg.mainLink target=this.analytics}}
+                        onclick={{action 'click' 'link' (concat 'Index - Browse Recent: ' reg.title) reg.url target=this.analytics}}
                     >
                         {{reg.title}}
                     </a>
@@ -28,9 +28,7 @@
             <div class='col-xs-12'>
                 <ul local-class='RecentList__Contributors'>
                     {{#each reg.contributors as |contrib|}}
-                        {{#if contrib.bibliographic}}
-                            <li>{{contrib.name}}</li>
-                        {{/if}}
+                        <li>{{contrib.name}}</li>
                     {{/each}}
                 </ul>
             </div>
