@@ -28,7 +28,6 @@ export default class RegistriesRecentList extends Component {
             title,
             url: `${osfUrl}${id}`,
             contributors: contributors
-                .filterBy('bibliographic')
                 .map(({ fullName }) => ({ name: fullName })),
         }));
     }

@@ -25,7 +25,7 @@ export default class Index extends Controller {
                 id: config.indexPageRegistrationsQuery,
             },
             sort: '-date_modified',
-            embed: 'contributors',
+            embed: 'bibliographic_contributors',
         });
         this.setProperties({ recentRegistrations });
     });
