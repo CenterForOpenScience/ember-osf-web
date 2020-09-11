@@ -66,6 +66,10 @@
 .DestroyButton {
     background-color: $brand-danger;
     color: $color-text-white;
+
+    &:hover {
+        background-color: darken($brand-danger, 15%);
+    }
 }
 
 .FakeLink {
