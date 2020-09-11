@@ -60,7 +60,6 @@ export default class ModeratorManagerComponent extends Component {
         } catch (e) {
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
-            throw e;
         }
     });
 
@@ -74,7 +73,6 @@ export default class ModeratorManagerComponent extends Component {
             moderator.rollbackAttributes();
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
-            throw e;
         }
     });
 
@@ -88,7 +86,6 @@ export default class ModeratorManagerComponent extends Component {
         } catch (e) {
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
-            throw e;
         }
     });
 }
