@@ -12,8 +12,10 @@ module('Registries | Acceptance | registries index (landing page)', hooks => {
     setupMirage(hooks);
 
     test('recent registrations list', async assert => {
+        const indexPageRegistrationIds = [...registriesConfig.indexPageRegistrationIds];
+
         const recentRegs = server.createList('registration', 5, 'withContributors');
-        registriesConfig.indexPageRegistrationsQuery = recentRegs.mapBy('id').join(',');
+        registriesConfig.indexPageRegistrationIds = recentRegs.mapBy('id');
         server.createList('registration', 2, 'withContributors');
 
         await visit('/registries');
@@ -29,6 +31,6 @@ module('Registries | Acceptance | registries index (landing page)', hooks => {
         assert.dom('[data-test-recent-registration-id]').exists({ count: recentRegs.length },
             'non-recent registrations don\'t show');
 
-        delete registriesConfig.indexPageRegistrationsQuery;
+        registriesConfig.indexPageRegistrationIds = indexPageRegistrationIds;
     });
 });

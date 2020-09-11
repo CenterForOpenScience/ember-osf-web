@@ -22,7 +22,7 @@ export default class Index extends Controller {
     getRecentRegistrations = task(function *(this: Index) {
         const recentRegistrations = yield this.store.query('registration', {
             filter: {
-                id: config.indexPageRegistrationsQuery,
+                id: config.indexPageRegistrationIds.join(','),
             },
             sort: '-date_modified',
             embed: 'bibliographic_contributors',
