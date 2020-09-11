@@ -71,6 +71,7 @@ export default class ModeratorManagerComponent extends Component {
             moderator.set('permissionGroup', newPermission);
             yield moderator.save();
         } catch (e) {
+            moderator.rollbackAttributes();
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
             throw e;

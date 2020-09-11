@@ -13,6 +13,9 @@ export default Factory.extend<Moderator & ModeratorTraits>({
 
     asAdmin: trait({ permissionGroup: PermissionGroup.Admin }),
     asModerator: trait({ permissionGroup: PermissionGroup.Moderator }),
+    afterCreate(moderator) {
+        moderator.user.update({ canViewReviews: true });
+    },
 });
 
 declare module 'ember-cli-mirage/types/registries/schema' {
