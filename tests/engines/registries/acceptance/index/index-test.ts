@@ -1,5 +1,4 @@
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import config from 'ember-get-config';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 import registriesConfig from 'registries/config/environment';
@@ -23,7 +22,7 @@ module('Registries | Acceptance | registries index (landing page)', hooks => {
 
         for (const reg of recentRegs) {
             assert.dom(`[data-test-recent-registration-id=${reg.id}]`)
-                .hasProperty('href', `${config.OSF.url}${reg.id}`);
+                .hasProperty('href', new RegExp(`.*/${reg.id}$`));
             assert.dom(`[data-test-recent-registration-id=${reg.id}]`)
                 .hasText(reg.title);
         }
