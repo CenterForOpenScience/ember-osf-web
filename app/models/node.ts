@@ -17,6 +17,7 @@ import IdentifierModel from './identifier';
 import InstitutionModel from './institution';
 import LicenseModel from './license';
 import LogModel from './log';
+import NodeStorageModel from './node-storage';
 import { Permission } from './osf-model';
 import PreprintModel from './preprint';
 import RegionModel from './region';
@@ -162,6 +163,9 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
 
     @belongsTo('node', { inverse: null })
     root!: DS.PromiseObject<NodeModel> & NodeModel;
+
+    @belongsTo('node-storage', { inverse: 'node' })
+    storage!: DS.PromiseObject<NodeStorageModel> & NodeStorageModel;
 
     @hasMany('node', { inverse: null })
     linkedByNodes!: DS.PromiseManyArray<NodeModel>;
