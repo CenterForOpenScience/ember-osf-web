@@ -25,8 +25,10 @@ module('Registries | Acceptance | registries index (landing page)', hooks => {
                 .hasProperty('href', new RegExp(`.*/${reg.id}$`));
             assert.dom(`[data-test-recent-registration-id=${reg.id}]`)
                 .hasText(reg.title);
+            assert.dom(`[data-test-recent-registration-contrib-list=${reg.id}]`).hasAnyText();
         }
 
+        assert.dom('[data-test-recent-registration-contrib=false]').doesNotExist();
         assert.dom('[data-test-recent-registration-id]').exists({ count: recentRegs.length },
             'non-recent registrations don\'t show');
 
