@@ -1,31 +1,32 @@
 import { Factory, trait, Trait } from 'ember-cli-mirage';
 import faker from 'faker';
 
-import NodeStorageModel, { StorageStatuses } from 'ember-osf-web/models/node-storage';
+import NodeStorageModel, { StorageStatus } from 'ember-osf-web/models/node-storage';
 
 export interface NodeStorageTraits {
     approachingPrivate: Trait;
+    approachingPublic: Trait;
     overPrivate: Trait;
+    overPublic: Trait;
 }
 
 export default Factory.extend<NodeStorageModel & NodeStorageTraits>({
-    storageLimitStatus() {
-        return faker.random.number({ min: 10, max: 100 });
-    },
+    storageLimitStatus: StorageStatus.DEFAULT,
     storageUsage() {
-        return faker.random.number({ min: 10, max: 100 });
+        return `${faker.random.number({ min: 10, max: 100 })}`;
     },
     approachingPrivate: trait<NodeStorageModel>({
-        afterCreate(nodeStorage) {
-            nodeStorage.set('storageLimitStatus', StorageStatuses.APPROACHING_PRIVATE);
-        },
+        storageLimitStatus: StorageStatus.APPROACHING_PRIVATE,
+    }),
+    approachingPublic: trait<NodeStorageModel>({
+        storageLimitStatus: StorageStatus.APPROACHING_PUBLIC,
     }),
     overPrivate: trait<NodeStorageModel>({
-        afterCreate(nodeStorage) {
-            nodeStorage.set('storageLimitStatus', StorageStatuses.OVER_PRIVATE);
-        },
+        storageLimitStatus: StorageStatus.OVER_PRIVATE,
     }),
-    // TODO: Add traits for all of the storage statuses? or is there a better way?
+    overPublic: trait<NodeStorageModel>({
+        storageLimitStatus: StorageStatus.OVER_PUBLIC,
+    }),
 });
 
 declare module 'ember-cli-mirage/types/registries/schema' {

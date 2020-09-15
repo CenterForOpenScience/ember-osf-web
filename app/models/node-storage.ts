@@ -1,11 +1,10 @@
 import DS from 'ember-data';
 
-import NodeModel from './node';
 import OsfModel from './osf-model';
 
-const { attr, belongsTo } = DS;
+const { attr } = DS;
 
-export enum StorageStatuses {
+export enum StorageStatus {
     DEFAULT = 'default',
     APPROACHING_PRIVATE = 'approachingPrivate',
     OVER_PRIVATE = 'overPrivate',
@@ -14,11 +13,8 @@ export enum StorageStatuses {
 }
 
 export default class NodeStorageModel extends OsfModel {
-    @attr('fixstring') storageLimitStatus!: string;
-    @attr('number') storageUsage!: number;
-
-    @belongsTo('node', { inverse: 'storage' })
-    node!: DS.PromiseObject<NodeModel> & NodeModel;
+    @attr('string') storageLimitStatus!: StorageStatus;
+    @attr('string') storageUsage!: string;
 }
 
 declare module 'ember-data/types/registries/model' {

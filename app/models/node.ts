@@ -164,7 +164,7 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
     @belongsTo('node', { inverse: null })
     root!: DS.PromiseObject<NodeModel> & NodeModel;
 
-    @belongsTo('node-storage', { inverse: 'node' })
+    @belongsTo('node-storage', { inverse: null })
     storage!: DS.PromiseObject<NodeStorageModel> & NodeStorageModel;
 
     @hasMany('node', { inverse: null })
