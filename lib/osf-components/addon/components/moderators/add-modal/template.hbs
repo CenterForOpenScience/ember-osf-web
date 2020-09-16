@@ -1,0 +1,84 @@
+<Button
+    {{on 'click' this.openAddModeratorDialog}}
+>
+    {{t 'osf-components.moderators.add.button'}}
+</Button>
+<OsfDialog
+    @isOpen={{this.shouldOpenAddDialog}}
+    @onClose={{this.closeAddModeratorDialog}}
+    @closeOnOutsideClick={{true}}
+    as |dialog|
+>
+    <dialog.heading>
+        {{t 'osf-components.moderators.add.modal.heading'}}
+    </dialog.heading>
+    <dialog.main>
+        <CpPanels
+            @accordion={{true}}
+            as |panels|
+        >
+            {{#panels.panel
+                open=true
+                didToggle=this.didToggle
+            as |panel|}}
+                {{#panel.toggle}}
+                    {{t 'osf-components.moderators.add.modal.searchByName'}}
+                {{/panel.toggle}}
+                {{#panel.body}}
+                    <FormControls
+                        @changeset={{this.userChangeset}}
+                        as |form|
+                    >
+                        <form.select
+                            @search={{perform this.searchUser}}
+                            @selected={{this.userToAdd}}
+                            @onchange={{this.onChange}}
+                            @valuePath={{'user'}}
+                            as |user|
+                        >
+                            {{user.fullName}}
+                        </form.select>
+                    </FormControls>
+                {{/panel.body}}
+            {{/panels.panel}}
+
+            {{#panels.panel didToggle=this.didToggle as |panel|}}
+                {{#panel.toggle}}
+                    {{t 'osf-components.moderators.add.modal.inviteByEmail'}}
+                {{/panel.toggle}}
+                {{#panel.body}}
+                    <FormControls
+                        @changeset={{this.inviteChangeset}}
+                        as |form|
+                    >
+                        <form.text
+                            @valuePath={{'email'}}
+                            @label={{'Email'}}
+                        />
+                        <form.text
+                            @valuePath={{'fullName'}}
+                            @label={{'Full name'}}
+                        />
+                    </FormControls>
+                {{/panel.body}}
+            {{/panels.panel}}
+        </CpPanels>
+    </dialog.main>
+    <dialog.footer>
+        <Button
+            data-test-continue-registration-button
+            disabled={{not (or this.userChangesetIsValid this.inviteChangesetIsValid)}}
+            @type='primary'
+            {{on 'click' this.addUser}}
+        >
+            {{t 'osf-components.moderators.add.modal.add'}}
+        </Button>
+        <Button
+            data-test-cancel-registration-button
+            @type='secondary'
+            {{on 'click' this.closeAddModeratorDialog}}
+        >
+            {{t 'osf-components.moderators.add.modal.cancel'}}
+        </Button>
+    </dialog.footer>
+</OsfDialog>
