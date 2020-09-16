@@ -16,16 +16,24 @@ export default Factory.extend<NodeStorageModel & NodeStorageTraits>({
         return `${faker.random.number({ min: 10, max: 100 })}`;
     },
     approachingPrivate: trait<NodeStorageModel>({
-        storageLimitStatus: StorageStatus.APPROACHING_PRIVATE,
+        afterCreate(nodeStorage) {
+            nodeStorage.update('storageLimitStatus', StorageStatus.APPROACHING_PRIVATE);
+        },
     }),
     approachingPublic: trait<NodeStorageModel>({
-        storageLimitStatus: StorageStatus.APPROACHING_PUBLIC,
+        afterCreate(nodeStorage) {
+            nodeStorage.update('storageLimitStatus', StorageStatus.APPROACHING_PUBLIC);
+        },
     }),
     overPrivate: trait<NodeStorageModel>({
-        storageLimitStatus: StorageStatus.OVER_PRIVATE,
+        afterCreate(nodeStorage) {
+            nodeStorage.update('storageLimitStatus', StorageStatus.OVER_PRIVATE);
+        },
     }),
     overPublic: trait<NodeStorageModel>({
-        storageLimitStatus: StorageStatus.OVER_PUBLIC,
+        afterCreate(nodeStorage) {
+            nodeStorage.update('storageLimitStatus', StorageStatus.OVER_PUBLIC);
+        },
     }),
 });
 

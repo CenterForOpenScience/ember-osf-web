@@ -108,6 +108,8 @@ export default function(this: Server) {
         only: ['related', 'add', 'remove'],
         path: '/nodes/:parentID/relationships/institutions',
     });
+    // TODO: May need a custom view for storage status
+    // osfNestedResource(this, 'node', 'storage', { only: ['show'] });
 
     osfToManyRelationship(this, 'node', 'subjects', {
         only: ['related', 'self'],
