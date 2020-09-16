@@ -1538,6 +1538,17 @@ osf-components:
             modal:
                 title: 'Confirm moderator removal'
                 body: 'Are you sure you want to remove {moderator}?'
+        add:
+            button: 'Add moderator'
+            modal:
+                heading: 'Add a moderator'
+                add: 'Add'
+                selectUser: 'Select user'
+                cancel: 'Cancel'
+                searchByName: 'Search user by name'
+                inviteByEmail: 'Invite user by email'
+                email: 'Email'
+                fullName: 'Full name'
 
 settings:
     toggleNav: 'Toggle navigation'
