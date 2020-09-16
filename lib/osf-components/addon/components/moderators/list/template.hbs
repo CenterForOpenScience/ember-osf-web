@@ -11,6 +11,9 @@
         @bindReload={{@manager.reloadModeratorList}}
         as |list|
     >
+        <list.header>
+            <Moderators::AddModal @manager={{@manager}} />
+        </list.header>
         <list.item as |moderator|>
             {{#if moderator}}
                 <Moderators::Row
