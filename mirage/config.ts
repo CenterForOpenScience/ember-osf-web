@@ -1,6 +1,7 @@
 import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
+import { addModerator } from './views/addModerator';
 import { getCitation } from './views/citation';
 import { searchCollections } from './views/collection-search';
 import { reportDelete } from './views/comment';
@@ -213,9 +214,11 @@ export default function(this: Server) {
     osfResource(this, 'preprint-provider', { path: '/providers/preprints' });
     osfResource(this, 'registration-provider', { path: '/providers/registrations' });
     osfNestedResource(this, 'registration-provider', 'moderators', {
+        only: ['index', 'show', 'update', 'delete'],
         path: '/providers/registrations/:parentID/moderators/',
         relatedModelName: 'moderator',
     });
+    this.post('providers/registrations/:parentID/moderators', addModerator);
     osfNestedResource(this, 'registration-provider', 'licensesAcceptable', {
         only: ['index'],
         path: '/providers/registrations/:parentID/licenses/',

@@ -10,6 +10,7 @@ import { timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import { layout } from 'ember-osf-web/decorators/component';
+import { PermissionGroup } from 'ember-osf-web/models/moderator';
 import UserModel from 'ember-osf-web/models/user';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
@@ -21,10 +22,12 @@ import template from './template';
 interface InviteFormFields {
     email: string;
     fullName: string;
+    permissionGroup: PermissionGroup;
 }
 
 interface UserFormFields {
     user: UserModel;
+    permissionGroup: PermissionGroup;
 }
 
 const InviteFormValidations: ValidationObject<InviteFormFields> = {
@@ -33,10 +36,12 @@ const InviteFormValidations: ValidationObject<InviteFormFields> = {
         validateFormat({ type: 'email', translationArgs: { description: 'This field' } }),
     ],
     fullName: validatePresence({ presence: true, type: 'empty' }),
+    permissionGroup: validatePresence({ presence: true, type: 'empty' }),
 };
 
 const UserFormValidations: ValidationObject<UserFormFields> = {
     user: validatePresence({ presence: true, type: 'empty' }),
+    permissionGroup: validatePresence({ presence: true, type: 'empty' }),
 };
 
 @tagName('')
@@ -49,13 +54,20 @@ export default class AddModalComponent extends Component {
     manager!: ModeratorManager;
     @tracked shouldOpenAddDialog = false;
 
+    permissionOptions = [
+        PermissionGroup.Moderator,
+        PermissionGroup.Admin,
+    ];
+
     inviteChangeset = buildChangeset({
         fullName: null,
         email: null,
+        permissionGroup: null,
     }, InviteFormValidations);
 
     userChangeset = buildChangeset({
         user: null,
+        permissionGroup: null,
     }, UserFormValidations);
 
     @task({ withTestWaiter: true, restartable: true })
@@ -82,12 +94,16 @@ export default class AddModalComponent extends Component {
     @action
     addUser() {
         if (this.userChangesetIsValid) {
-            this.manager.addUserAsModerator(this.userChangeset.get('user'));
+            this.manager.addUserAsModerator(
+                this.userChangeset.get('user'),
+                this.userChangeset.get('permissionGroup'),
+            );
         }
         if (this.inviteChangesetIsValid) {
             this.manager.addEmailAsModerator(
                 this.inviteChangeset.get('fullName'),
                 this.inviteChangeset.get('email'),
+                this.inviteChangeset.get('permissionGroup'),
             );
         }
         this.closeAddModeratorDialog();
@@ -107,14 +123,18 @@ export default class AddModalComponent extends Component {
     closeAddModeratorDialog() {
         this.shouldOpenAddDialog = false;
         this.userChangeset.set('user', null);
+        this.userChangeset.set('permissionGroup', null);
         this.inviteChangeset.set('email', null);
         this.inviteChangeset.set('fullName', null);
+        this.inviteChangeset.set('permissionGroup', null);
     }
 
     @action
     didToggle() {
         this.userChangeset.set('user', null);
+        this.userChangeset.set('permissionGroup', null);
         this.inviteChangeset.set('email', null);
         this.inviteChangeset.set('fullName', null);
+        this.inviteChangeset.set('permissionGroup', null);
     }
 }

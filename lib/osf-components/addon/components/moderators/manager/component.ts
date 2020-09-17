@@ -20,8 +20,8 @@ export interface ModeratorManager {
     permissionOptions: PermissionGroup;
     provider: RegistrationProviderModel;
     currentUserIsProviderAdmin: boolean;
-    addUserAsModerator: (user: UserModel) => void;
-    addEmailAsModerator: (name: string, email: string) => void;
+    addUserAsModerator: (user: UserModel, permissionGroup: PermissionGroup) => void;
+    addEmailAsModerator: (name: string, email: string, permissionGroup: PermissionGroup) => void;
     reloadModeratorList?: () => void;
     updateModeratorPermission?: () => void;
     removeModerator?: () => void;
@@ -82,11 +82,12 @@ export default class ModeratorManagerComponent extends Component {
 
     @task({ withTestWaiter: true, enqueue: true })
     addUserAsModerator =
-    task(function *(this: ModeratorManagerComponent, user: UserModel) {
+    task(function *(this: ModeratorManagerComponent, user: UserModel, permissionGroup: PermissionGroup) {
         try {
             const newModerator = this.store.createRecord('moderator', {
                 id: user.id,
                 provider: this.provider,
+                permissionGroup,
             });
             yield newModerator.save();
             if (this.reloadModeratorList) {
@@ -100,12 +101,18 @@ export default class ModeratorManagerComponent extends Component {
 
     @task({ withTestWaiter: true, enqueue: true })
     addEmailAsModerator =
-    task(function *(this: ModeratorManagerComponent, fullName: string, email: string) {
+    task(function *(
+        this: ModeratorManagerComponent,
+        fullName: string,
+        email: string,
+        permissionGroup: PermissionGroup,
+    ) {
         try {
             const newModerator = this.store.createRecord('moderator', {
                 provider: this.provider,
                 fullName,
                 email,
+                permissionGroup,
             });
             yield newModerator.save();
             if (this.reloadModeratorList) {

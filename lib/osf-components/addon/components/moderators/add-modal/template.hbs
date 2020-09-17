@@ -31,12 +31,19 @@
                     >
                         <form.select
                             @search={{perform this.searchUser}}
-                            @selected={{this.userToAdd}}
-                            @onchange={{this.onChange}}
                             @valuePath={{'user'}}
+                            @label={{t 'osf-components.moderators.add.modal.selectUser'}}
                             as |user|
                         >
                             {{user.fullName}}
+                        </form.select>
+                        <form.select
+                            @options={{this.permissionOptions}}
+                            @valuePath={{'permissionGroup'}}
+                            @label={{t 'osf-components.moderators.add.modal.selectPermission'}}
+                            as |permission|
+                        >
+                            {{capitalize permission}}
                         </form.select>
                     </FormControls>
                 {{/panel.body}}
@@ -59,6 +66,14 @@
                             @valuePath={{'fullName'}}
                             @label={{t 'osf-components.moderators.add.modal.fullName'}}
                         />
+                        <form.select
+                            @options={{this.permissionOptions}}
+                            @valuePath={{'permissionGroup'}}
+                            @label={{t 'osf-components.moderators.add.modal.selectPermission'}}
+                            as |permission|
+                        >
+                            {{capitalize permission}}
+                        </form.select>
                     </FormControls>
                 {{/panel.body}}
             {{/panels.panel}}

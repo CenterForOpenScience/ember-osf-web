@@ -21,6 +21,6 @@ export default Factory.extend<Moderator & ModeratorTraits>({
 
 declare module 'ember-cli-mirage/types/registries/schema' {
     export default interface MirageSchemaRegistry {
-        moderator: Moderator;
+        moderators: Moderator;
     } // eslint-disable-line semi
 }
