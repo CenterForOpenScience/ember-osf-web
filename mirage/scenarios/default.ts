@@ -146,26 +146,29 @@ function registrationScenario(
 function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {
     const overPrivate = server.create('node-storage', 'overPrivate');
     const overPrivateNode = server.create('node', {
+        id: 'ovpri',
         title: 'Over the Private Storage Limit',
         storage: overPrivate,
         currentUserPermissions: Object.values(Permission),
+    }, 'withContributors');
+
+    // const overPublic = server.create('node-storage', 'overPublic');
+    // const overPublicNode = server.create('node', {
+    //     id: 'ovpub',
+    //     title: 'Over the Public Storage Limit',
+    //     storage: overPublic,
+    //     currentUserPermissions: Object.values(Permission),
+    // }, 'withContributors');
+    // const nodes = [overPrivateNode, overPublicNode];
+    // for (const node of nodes) {
+    server.create('contributor', {
+        node: overPrivateNode,
+        users: currentUser,
+        permission: Permission.Admin,
+        index: 0,
     });
-    const overPublic = server.create('node-storage', 'overPublic');
-    const overPublicNode = server.create('node', {
-        title: 'Over the Public Storage Limit',
-        storage: overPublic,
-        currentUserPermissions: Object.values(Permission),
-    });
-    const nodes = [overPrivateNode, overPublicNode];
-    for (const node of nodes) {
-        server.create('contributor', {
-            node,
-            users: currentUser,
-            permission: Permission.Admin,
-            index: 0,
-        });
-    }
-    server.createList('file', 5, { user: currentUser });
+    // }
+    server.createList('file', 8, { user: currentUser });
 }
 
 function collectionScenario(server: Server, currentUser: ModelInstance<User>) {

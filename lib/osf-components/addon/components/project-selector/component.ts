@@ -101,6 +101,7 @@ export default class ProjectSelector extends Component {
         }
 
         const nodes = yield user.queryHasMany('nodes', {
+            embed: ['storage'],
             filter: filter ? { title: filter } : undefined,
         });
 
