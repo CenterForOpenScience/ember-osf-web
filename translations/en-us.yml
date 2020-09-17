@@ -1544,6 +1544,7 @@ osf-components:
                 heading: 'Add a moderator'
                 add: 'Add'
                 selectUser: 'Select user'
+                selectPermission: 'Select permission'
                 cancel: 'Cancel'
                 searchByName: 'Search user by name'
                 inviteByEmail: 'Invite user by email'
