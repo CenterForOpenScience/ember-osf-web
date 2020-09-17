@@ -1,7 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action } from '@ember/object';
-import { and } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { ValidationObject } from 'ember-changeset-validations';
@@ -32,16 +31,34 @@ interface UserFormFields {
 
 const InviteFormValidations: ValidationObject<InviteFormFields> = {
     email: [
-        validatePresence({ presence: true, type: 'empty' }),
-        validateFormat({ type: 'email', translationArgs: { description: 'This field' } }),
+        validatePresence({
+            presence: true,
+            type: 'empty',
+        }),
+        validateFormat({
+            type: 'email',
+            translationArgs: { description: 'This field' },
+        }),
     ],
-    fullName: validatePresence({ presence: true, type: 'empty' }),
-    permissionGroup: validatePresence({ presence: true, type: 'empty' }),
+    fullName: validatePresence({
+        presence: true,
+        type: 'empty',
+    }),
+    permissionGroup: validatePresence({
+        presence: true,
+        type: 'empty',
+    }),
 };
 
 const UserFormValidations: ValidationObject<UserFormFields> = {
-    user: validatePresence({ presence: true, type: 'empty' }),
-    permissionGroup: validatePresence({ presence: true, type: 'empty' }),
+    user: validatePresence({
+        presence: true,
+        type: 'empty',
+    }),
+    permissionGroup: validatePresence({
+        presence: true,
+        type: 'empty',
+    }),
 };
 
 @tagName('')
@@ -85,33 +102,25 @@ export default class AddModalComponent extends Component {
         }
     });
 
-    @and('userChangeset.isDirty', 'userChangeset.isValid')
-    userChangesetIsValid!: boolean;
-
-    @and('inviteChangeset.isDirty', 'inviteChangeset.isValid')
-    inviteChangesetIsValid!: boolean;
-
     @action
     addUser() {
-        if (this.userChangesetIsValid) {
+        this.userChangeset.validate();
+        this.inviteChangeset.validate();
+        if (this.userChangeset.get('isValid')) {
             this.manager.addUserAsModerator(
                 this.userChangeset.get('user'),
                 this.userChangeset.get('permissionGroup'),
             );
+            this.closeAddModeratorDialog();
         }
-        if (this.inviteChangesetIsValid) {
+        if (this.inviteChangeset.get('isValid')) {
             this.manager.addEmailAsModerator(
                 this.inviteChangeset.get('fullName'),
                 this.inviteChangeset.get('email'),
                 this.inviteChangeset.get('permissionGroup'),
             );
+            this.closeAddModeratorDialog();
         }
-        this.closeAddModeratorDialog();
-    }
-
-    @action
-    onChange(user: UserModel) {
-        this.userChangeset.set('user', user);
     }
 
     @action
@@ -122,19 +131,13 @@ export default class AddModalComponent extends Component {
     @action
     closeAddModeratorDialog() {
         this.shouldOpenAddDialog = false;
-        this.userChangeset.set('user', null);
-        this.userChangeset.set('permissionGroup', null);
-        this.inviteChangeset.set('email', null);
-        this.inviteChangeset.set('fullName', null);
-        this.inviteChangeset.set('permissionGroup', null);
+        this.userChangeset.rollback();
+        this.inviteChangeset.rollback();
     }
 
     @action
     didToggle() {
-        this.userChangeset.set('user', null);
-        this.userChangeset.set('permissionGroup', null);
-        this.inviteChangeset.set('email', null);
-        this.inviteChangeset.set('fullName', null);
-        this.inviteChangeset.set('permissionGroup', null);
+        this.userChangeset.rollback();
+        this.inviteChangeset.rollback();
     }
 }

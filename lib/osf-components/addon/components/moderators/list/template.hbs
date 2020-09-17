@@ -1,9 +1,3 @@
-{{!-- TODO: funcitonality to be addded in ENG-2188 --}}
-{{!-- {{#if this.currentUserIsProviderAdmin}}
-    <button {{on 'click' this.addModerator}}>
-        add
-    </button>
-{{/if}} --}}
 <ContentPlaceholders as |placeholder|>
     <PaginatedList::HasMany
         @model={{@manager.provider}}
@@ -12,7 +6,9 @@
         as |list|
     >
         <list.header>
-            <Moderators::AddModal @manager={{@manager}} />
+            {{#if @manager.currentUserIsProviderAdmin}}
+                <Moderators::AddModal @manager={{@manager}} />
+            {{/if}}
         </list.header>
         <list.item as |moderator|>
             {{#if moderator}}

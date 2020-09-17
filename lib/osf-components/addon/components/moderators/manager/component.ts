@@ -84,14 +84,16 @@ export default class ModeratorManagerComponent extends Component {
     addUserAsModerator =
     task(function *(this: ModeratorManagerComponent, user: UserModel, permissionGroup: PermissionGroup) {
         try {
-            const newModerator = this.store.createRecord('moderator', {
-                id: user.id,
-                provider: this.provider,
-                permissionGroup,
-            });
-            yield newModerator.save();
-            if (this.reloadModeratorList) {
-                this.reloadModeratorList();
+            if (user && permissionGroup) {
+                const newModerator = this.store.createRecord('moderator', {
+                    id: user.id,
+                    provider: this.provider,
+                    permissionGroup,
+                });
+                yield newModerator.save();
+                if (this.reloadModeratorList) {
+                    this.reloadModeratorList();
+                }
             }
         } catch (e) {
             captureException(e);
@@ -108,15 +110,17 @@ export default class ModeratorManagerComponent extends Component {
         permissionGroup: PermissionGroup,
     ) {
         try {
-            const newModerator = this.store.createRecord('moderator', {
-                provider: this.provider,
-                fullName,
-                email,
-                permissionGroup,
-            });
-            yield newModerator.save();
-            if (this.reloadModeratorList) {
-                this.reloadModeratorList();
+            if (fullName && email && permissionGroup) {
+                const newModerator = this.store.createRecord('moderator', {
+                    provider: this.provider,
+                    fullName,
+                    email,
+                    permissionGroup,
+                });
+                yield newModerator.save();
+                if (this.reloadModeratorList) {
+                    this.reloadModeratorList();
+                }
             }
         } catch (e) {
             captureException(e);
