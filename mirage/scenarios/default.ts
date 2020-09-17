@@ -150,7 +150,15 @@ function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {
         title: 'Over the Private Storage Limit',
         storage: overPrivate,
         currentUserPermissions: Object.values(Permission),
-    }, 'withContributors');
+    });
+
+    const approachingPrivate = server.create('node-storage', 'approachingPrivate');
+    const approachingPrivateNode = server.create('node', {
+        id: 'appri',
+        title: 'Approaching the Private Storage Limit',
+        storage: approachingPrivate,
+        currentUserPermissions: Object.values(Permission),
+    });
 
     const overPublic = server.create('node-storage', 'overPublic');
     const overPublicNode = server.create('node', {
@@ -158,8 +166,17 @@ function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {
         title: 'Over the Public Storage Limit',
         storage: overPublic,
         currentUserPermissions: Object.values(Permission),
-    }, 'withContributors');
-    const nodes = [overPrivateNode, overPublicNode];
+    });
+
+    const approachingPublic = server.create('node-storage', 'approachingPublic');
+    const approachingPublicNode = server.create('node', {
+        id: 'appub',
+        title: 'Approaching the Public Storage Limit',
+        storage: approachingPublic,
+        currentUserPermissions: Object.values(Permission),
+    });
+
+    const nodes = [overPrivateNode, approachingPrivateNode, overPublicNode, approachingPublicNode];
     for (const node of nodes) {
         server.create('contributor', {
             node,

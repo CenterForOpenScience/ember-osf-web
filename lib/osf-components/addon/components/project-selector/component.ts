@@ -67,9 +67,9 @@ export default class ProjectSelector extends Component {
     @alias('selected.public') isPublicProject!: boolean;
     @bool('selected.links.relationships.parent') isChildNode!: boolean;
 
-    @computed('selected.storage.storageLimitStatus', 'isPublicProject')
+    @computed('selected.storage', 'isPublicProject')
     get fileMovable(): boolean {
-        const storageStatus = this.selected!.storage.storageLimitStatus;
+        const storageStatus = this.selected!.storage.get('storageLimitStatus');
         if (storageStatus === StorageStatus.DEFAULT) {
             return true;
         }
@@ -85,9 +85,9 @@ export default class ProjectSelector extends Component {
         return true;
     }
 
-    @computed('selected.storage.storageLimitStatus', 'fileMovable')
+    @computed('selected.storage', 'fileMovable')
     get fileMoveMessage(): string {
-        const storageStatus = this.selected!.storage.storageLimitStatus;
+        const storageStatus = this.selected!.storage.get('storageLimitStatus');
         if (storageStatus === StorageStatus.DEFAULT) {
             return '';
         }
