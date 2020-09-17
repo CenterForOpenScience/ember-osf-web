@@ -9,6 +9,7 @@ import DS from 'ember-data';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Node from 'ember-osf-web/models/node';
+import { StorageStatus } from 'ember-osf-web/models/node-storage';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
@@ -65,6 +66,36 @@ export default class ProjectSelector extends Component {
 
     @alias('selected.public') isPublicProject!: boolean;
     @bool('selected.links.relationships.parent') isChildNode!: boolean;
+
+    @computed('selected.storage.storageLimitStatus', 'isPublicProject')
+    get fileMovable(): boolean {
+        const storageStatus = this.selected!.storage.storageLimitStatus;
+        if (storageStatus === StorageStatus.DEFAULT) {
+            return true;
+        }
+        if (storageStatus === StorageStatus.OVER_PUBLIC) {
+            return false;
+        }
+        if (storageStatus === StorageStatus.OVER_PRIVATE) {
+            if (this.isPublicProject) {
+                return true;
+            }
+            return false;
+        }
+        return true;
+    }
+
+    @computed('selected.storage.storageLimitStatus', 'fileMovable')
+    get fileMoveMessage(): string {
+        const storageStatus = this.selected!.storage.storageLimitStatus;
+        if (storageStatus === StorageStatus.DEFAULT) {
+            return '';
+        }
+        if (!this.fileMovable) {
+            return 'move_to_project.storage_limit.error';
+        }
+        return 'move_to_project.storage_limit.warning';
+    }
 
     @computed('projectSelectState', 'newProject.validations.isValid', 'selected')
     get isValid(): boolean {

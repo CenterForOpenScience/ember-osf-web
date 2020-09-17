@@ -252,6 +252,9 @@ move_to_project:
     no_longer_public_warning:
         project: 'Files moved to private projects will no longer be public or discoverable by others.'
         component: 'Files moved to private components will no longer be public or discoverable by others.'
+    storage_limit:
+        warning: 'This project is approaching its storage limit.'
+        error: 'This project is past its storage limit.'
     file_successfully_moved: 'File was moved successfully!'
     could_not_move_file: 'Could not move file.'
     keep_working_here: 'Keep working here'
