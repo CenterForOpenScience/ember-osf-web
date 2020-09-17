@@ -149,6 +149,7 @@ function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {
         id: 'ovpri',
         title: 'Over the Private Storage Limit',
         storage: overPrivate,
+        public: false,
         currentUserPermissions: Object.values(Permission),
     });
 
@@ -157,6 +158,7 @@ function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {
         id: 'appri',
         title: 'Approaching the Private Storage Limit',
         storage: approachingPrivate,
+        public: false,
         currentUserPermissions: Object.values(Permission),
     });
 

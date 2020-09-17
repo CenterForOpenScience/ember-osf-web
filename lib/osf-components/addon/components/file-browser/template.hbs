@@ -369,7 +369,10 @@
             @validationChanged={{action (mut this.isProjectSelectorValid)}}
             @projectSelected={{action this.projectSelected}}
             @moveToNewProject={{action this.moveToNewProject}}
-        />
+            as |projectSelector|
+        >
+            <FileBrowser::Display @selected={{projectSelector.selected}} />
+        </ProjectSelector>
     </modal.body>
     <modal.footer data-analytics-scope='File browser - Move to project Modal'>
         <OsfButton
