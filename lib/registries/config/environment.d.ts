@@ -1,7 +1,7 @@
 declare const config: {
     environment: any;
     hostAppName: string;
-    indexPageRegistrationsQuery: string;
+    indexPageRegistrationIds: string[];
     modulePrefix: string;
     shareBaseURL: string;
     shareSearchBaseURL: string;
