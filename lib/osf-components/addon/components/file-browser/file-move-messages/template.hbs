@@ -13,12 +13,12 @@
     </p>
 {{/unless}}
 {{#if this.shouldShowError}}
-    <div class='text-danger'>
+    <div data-test-file-move-error class='text-danger'>
         {{t 'move_to_project.storage_limit.error'}}
     </div>
 {{/if}}
 {{#if this.shouldShowWarning}}
-    <div class='text-warning'>
+    <div data-test-file-move-warning class='text-warning'>
         {{t 'move_to_project.storage_limit.warning'}}
     </div>
 {{/if}}

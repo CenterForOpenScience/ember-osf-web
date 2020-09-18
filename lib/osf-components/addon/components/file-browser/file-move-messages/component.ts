@@ -9,7 +9,7 @@ import NodeStorageModel, { StorageStatus } from 'ember-osf-web/models/node-stora
 import template from './template';
 
 @layout(template)
-export default class FileBrowserDisplay extends Component {
+export default class FileBrowserFileMoveMessages extends Component {
     selected!: Node;
 
     @alias('selected.public') isPublicProject!: boolean;

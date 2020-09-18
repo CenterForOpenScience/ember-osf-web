@@ -154,6 +154,8 @@ module('Acceptance | Guid User Quickfiles', hooks => {
                     public: true,
                 },
             );
+            const nodeStorage = server.create('node-storage');
+            node.update({ storage: nodeStorage });
             server.create(
                 'contributor',
                 { node, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
@@ -195,6 +197,8 @@ module('Acceptance | Guid User Quickfiles', hooks => {
                     public: false,
                 },
             );
+            const nodeStorage = server.create('node-storage');
+            node.update({ storage: nodeStorage });
             server.create(
                 'contributor',
                 {
@@ -239,6 +243,8 @@ module('Acceptance | Guid User Quickfiles', hooks => {
                 'node',
                 { title, lastLogged: '2017-10-19T12:05:10.571Z', dateModified: '2017-10-19T12:05:10.571Z' },
             );
+            const nodeStorage = server.create('node-storage');
+            node.update({ storage: nodeStorage });
             server.create(
                 'contributor',
                 { node, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
@@ -275,6 +281,8 @@ module('Acceptance | Guid User Quickfiles', hooks => {
                 'node',
                 { title, lastLogged: '2017-10-19T12:05:10.571Z', dateModified: '2017-10-19T12:05:10.571Z' },
             );
+            const nodeStorage = server.create('node-storage');
+            node.update({ storage: nodeStorage });
             server.create(
                 'contributor',
                 { node, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
