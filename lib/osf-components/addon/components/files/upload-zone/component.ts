@@ -15,7 +15,8 @@ import File from 'ember-osf-web/models/file';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 
-import { Resource } from 'osf-api';
+import { getApiError, getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
+import { ErrorDocument, Resource } from 'osf-api';
 import { FilesManager } from 'osf-components/components/files/manager/component';
 import template from './template';
 
@@ -115,9 +116,22 @@ export default class UploadZone extends Component {
     }
 
     @action
-    error(_: unknown, __: unknown, file: File & DropzoneFileUpload, response: UploadResponse | string) {
+    error(_: unknown, __: unknown, file: File & DropzoneFileUpload, response: ErrorDocument & UploadResponse | string) {
         this.uploading.removeObject(file);
-        this.toast.error((typeof response === 'string') ? response : (response.message_long || response.message));
+        let toastMessage = '';
+        if (typeof response === 'string') {
+            toastMessage = response;
+        } else {
+            const apiError = getApiError(response);
+            // TODO: Double-check when [ENG-2122] is merged,
+            // might need to change how we grab the api error
+            if (apiError && apiError.status === '507') {
+                toastMessage = getApiErrorMessage(response);
+            } else {
+                toastMessage = response.message_long || response.message;
+            }
+        }
+        this.toast.error(toastMessage);
     }
 
     @action
