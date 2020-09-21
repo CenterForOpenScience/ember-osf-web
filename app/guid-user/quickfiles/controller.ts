@@ -107,13 +107,16 @@ export default class UserQuickfiles extends Controller {
                     }),
                 });
             }
-
             yield file.move(node);
             yield this.flash.perform(file, this.intl.t('file_browser.successfully_moved'));
             this.allFiles.removeObject(file);
             return true;
-        } catch (ex) {
-            this.toast.error(this.intl.t('move_to_project.could_not_move_file'));
+        } catch (e) {
+            if (e.errors[0].status === 507) {
+                this.toast.error(this.intl.t('move_to_project.storage_error'));
+            } else {
+                this.toast.error(this.intl.t('move_to_project.could_not_move_file'));
+            }
         }
 
         return false;
