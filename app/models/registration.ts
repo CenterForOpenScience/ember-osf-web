@@ -15,6 +15,7 @@ import UserModel from './user';
 
 const { attr, belongsTo, hasMany } = DS;
 
+// TODO: incorporate this into RegistrationReviewStates
 export enum RegistrationState {
     Embargoed = 'Embargoed',
     Public = 'Public',
@@ -23,6 +24,16 @@ export enum RegistrationState {
     PendingWithdrawal = 'PendingWithdrawal',
     PendingEmbargo = 'PendingEmbargo',
     PendingEmbargoTermination = 'PendingEmbargoTermination',
+}
+
+export enum RegistrationReviewStates {
+    Pending = 'pending',
+    Accepted = 'accepted',
+    Rejected = 'rejected',
+    Withdrawn = 'withdrawn',
+    Embargo = 'embargo',
+    PendingEmbargoTermination = 'pending_embargo_termination',
+    PendingWithdraw = 'pending_withdraw',
 }
 
 const Validations = buildValidations({
@@ -57,6 +68,7 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @attr('fixstring') articleDoi!: string | null;
     @attr('object') registeredMeta!: RegistrationMetadata;
     @attr('registration-responses') registrationResponses!: RegistrationResponse;
+    @attr('fixstring') machineState!: RegistrationReviewStates;
 
     // Write-only attributes
     @attr('array') includedNodeIds?: string[];
