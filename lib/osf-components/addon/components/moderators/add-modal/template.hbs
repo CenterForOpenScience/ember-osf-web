@@ -1,0 +1,125 @@
+<Button
+    {{on 'click' this.openAddModeratorDialog}}
+    data-test-add-moderator-button
+>
+    {{t 'osf-components.moderators.add.button'}}
+</Button>
+<OsfDialog
+    @isOpen={{this.shouldOpenAddDialog}}
+    @onClose={{this.closeAddModeratorDialog}}
+    @closeOnOutsideClick={{true}}
+    as |dialog|
+>
+    <dialog.heading>
+        {{t 'osf-components.moderators.add.modal.heading'}}
+    </dialog.heading>
+    <dialog.main>
+        <CpPanels
+            @accordion={{true}}
+            as |panels|
+        >
+            {{#panels.panel
+                open=true
+                didToggle=this.didToggle
+            as |panel|}}
+                {{#panel.toggle}}
+                    <span data-test-toggle-user-form>
+                        {{t 'osf-components.moderators.add.modal.searchByName'}}
+                    </span>
+                {{/panel.toggle}}
+                {{#panel.body}}
+                    <FormControls
+                        @changeset={{this.userChangeset}}
+                        data-test-add-user-form
+                        as |form|
+                    >
+                        <form.select
+                            @search={{perform this.searchUser}}
+                            @valuePath={{'user'}}
+                            @label={{t 'osf-components.moderators.add.modal.selectUser'}}
+                            data-test-select-user
+                            as |user|
+                        >
+                            <span data-test-user-option={{user.id}}>
+                                <img
+                                    data-test-contributor-gravatar
+                                    class='m-r-xs'
+                                    src={{user.links.profile_image}}
+                                    alt={{user.fullName}}
+                                    height='20'
+                                    width='20'
+                                >
+                                {{user.fullName}}
+                            </span>
+                        </form.select>
+                        <form.select
+                            @options={{this.permissionOptions}}
+                            @valuePath={{'permissionGroup'}}
+                            @label={{t 'osf-components.moderators.add.modal.selectPermission'}}
+                            data-test-select-permission
+                            as |permission|
+                        >
+                            <span data-test-permission-option={{permission}}>
+                                {{capitalize permission}}
+                            </span>
+                        </form.select>
+                    </FormControls>
+                {{/panel.body}}
+            {{/panels.panel}}
+
+            {{#panels.panel didToggle=this.didToggle as |panel|}}
+                {{#panel.toggle}}
+                    <span data-test-toggle-invite-form>
+                        {{t 'osf-components.moderators.add.modal.inviteByEmail'}}
+                    </span>
+                {{/panel.toggle}}
+                {{#panel.body}}
+                    <FormControls
+                        @changeset={{this.inviteChangeset}}
+                        data-test-invite-form
+                        as |form|
+                    >
+                        <form.text
+                            @valuePath={{'email'}}
+                            @label={{t 'osf-components.moderators.add.modal.email'}}
+                            @isRequired={{true}}
+                            data-test-email-input
+                        />
+                        <form.text
+                            @valuePath={{'fullName'}}
+                            @label={{t 'osf-components.moderators.add.modal.fullName'}}
+                            @isRequired={{true}}
+                            data-test-full-name-input
+                        />
+                        <form.select
+                            @options={{this.permissionOptions}}
+                            @valuePath={{'permissionGroup'}}
+                            @label={{t 'osf-components.moderators.add.modal.selectPermission'}}
+                            data-test-select-permission
+                            as |permission|
+                        >
+                            {{capitalize permission}}
+                        </form.select>
+                    </FormControls>
+                {{/panel.body}}
+            {{/panels.panel}}
+        </CpPanels>
+    </dialog.main>
+    <dialog.footer>
+        <Button
+            data-test-confirm-add-moderator-button
+            disabled={{not (or this.userChangeset.isValid this.this.inviteChangeset.isValid)}}
+            @type='primary'
+            {{on 'click' this.addUser}}
+        >
+            {{t 'osf-components.moderators.add.modal.add'}}
+        </Button>
+        <Button
+            data-test-cancel-add-moderator-button
+            @type='secondary'
+            {{on 'click' this.closeAddModeratorDialog}}
+        >
+            {{t 'osf-components.moderators.add.modal.cancel'}}
+        </Button>
+    </dialog.footer>
+</OsfDialog>
