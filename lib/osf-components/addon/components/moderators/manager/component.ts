@@ -67,20 +67,6 @@ export default class ModeratorManagerComponent extends Component {
     });
 
     @task({ withTestWaiter: true, enqueue: true })
-    searchUser =
-    task(function *(this: ModeratorManagerComponent, name: string) {
-        try {
-            return yield this.store.query('user', {
-                'filter[fullName]': name,
-            });
-        } catch (e) {
-            captureException(e);
-            this.toast.error(getApiErrorMessage(e));
-            return null;
-        }
-    });
-
-    @task({ withTestWaiter: true, enqueue: true })
     addUserAsModerator =
     task(function *(this: ModeratorManagerComponent, user: UserModel, permissionGroup: PermissionGroup) {
         try {

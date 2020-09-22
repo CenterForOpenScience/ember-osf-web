@@ -106,14 +106,14 @@ export default class AddModalComponent extends Component {
     addUser() {
         this.userChangeset.validate();
         this.inviteChangeset.validate();
-        if (this.userChangeset.get('isValid')) {
+        if (this.userChangeset.get('isValid') && this.userChangeset.changes) {
             this.manager.addUserAsModerator(
                 this.userChangeset.get('user'),
                 this.userChangeset.get('permissionGroup'),
             );
             this.closeAddModeratorDialog();
         }
-        if (this.inviteChangeset.get('isValid')) {
+        if (this.inviteChangeset.get('isValid') && this.inviteChangeset.changes) {
             this.manager.addEmailAsModerator(
                 this.inviteChangeset.get('fullName'),
                 this.inviteChangeset.get('email'),
