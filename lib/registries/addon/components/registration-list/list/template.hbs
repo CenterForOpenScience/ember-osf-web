@@ -1,0 +1,13 @@
+{{#if @manager.fetchRegistrations.isRunning}}
+    <LoadingIndicator @dark={{true}}/>
+{{else}}
+    {{#each @manager.registrations as |registration|}}
+        <RegistrationList::Card
+            @registration={{registration}}
+            @filterState={{@manager.filterState}}
+            inert={{@manager.fetchRegistrations.isRunning}}
+        />
+    {{else}}
+        {{t 'registries.registrationList.noRegistrationsFound' filterState=@manager.filterState}}
+    {{/each}}
+{{/if}}

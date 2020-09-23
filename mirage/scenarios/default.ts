@@ -78,7 +78,9 @@ function registrationScenario(
     const decaf = server.create('registration', {
         id: 'decaf',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
-        provider,
+        provider: egap,
+        machineState: 'pending',
+        registeredBy: currentUser,
     }, 'withContributors');
 
     server.create('contributor', { node: decaf }, 'unregistered');
@@ -86,7 +88,8 @@ function registrationScenario(
     server.create('registration', {
         id: 'berand',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
-        provider,
+        provider: egap,
+        machineState: 'withdrawn',
     }, 'withContributors');
 
     server.create('registration', {

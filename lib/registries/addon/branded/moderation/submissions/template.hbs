@@ -1,6 +1,6 @@
 {{title (t 'registries.moderation.submissions.title') prepend=false}}
 
-<BsTab local-class='contentBorder' @customTabs={{true}} as |tab|>
+<BsTab local-class='contentBorder' @customTabs={{true}} @onChange={{this.changeTab}} as |tab|>
     <BsNav @type='tabs' as |nav|>
         <nav.item @active={{eq tab.activeId 'pending'}}>
             <a role='tab' href='#pending' {{on 'click' (fn tab.select 'pending')}}>
@@ -37,4 +37,11 @@
             <p>{{t 'registries.moderation.states.withdrawn'}}</p>
         </tab.pane>
     </div>
+    <RegistrationList::Manager
+        @provider={{this.model}}
+        @filterState={{this.filterState}}
+        as |manager|
+    >
+        <RegistrationList::List @manager={{manager}} />
+    </RegistrationList::Manager>
 </BsTab>
