@@ -16,7 +16,7 @@
             >
                 <span local-class='Logo'></span>
                 {{#if this.shouldShowProviderName}}
-                    <span local-class='HomeLink'>{{this.provider.name}}</span>
+                    <span data-test-brand-link local-class='HomeLink'>{{this.provider.name}}</span>
                 {{/if}}
             </OsfLink>
             {{! Left Side (Band, Service Dropdown) }}
