@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 
 export default class RegistrationListManager extends Component {
-    reloadSubmissionsList!: () => void;
+    reloadRegistrationsList!: () => void;
     filterState!: string;
 
     @computed('filterState')

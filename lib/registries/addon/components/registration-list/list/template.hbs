@@ -2,8 +2,9 @@
     <PaginatedList::HasMany
         @model={{@manager.provider}}
         @relationshipName='registrations'
-        @bindReload={{action (mut @manager.reloadSubmissionsList)}}
         @query={{@manager.filterParams}}
+        @usePlaceholders={{false}}
+        @bindReload={{@manager.reloadRegistrationsList}}
         as |list|
     >
         <list.item as |registration|>
