@@ -1,13 +1,23 @@
-{{#if @manager.fetchRegistrations.isRunning}}
-    <LoadingIndicator @dark={{true}}/>
-{{else}}
-    {{#each @manager.registrations as |registration|}}
-        <RegistrationList::Card
-            @registration={{registration}}
-            @filterState={{@manager.filterState}}
-            inert={{@manager.fetchRegistrations.isRunning}}
-        />
-    {{else}}
-        {{t 'registries.registrationList.noRegistrationsFound' filterState=@manager.filterState}}
-    {{/each}}
-{{/if}}
+<ContentPlaceholders as |placeholder|>
+    <PaginatedList::HasMany
+        @model={{@manager.provider}}
+        @relationshipName='registrations'
+        @bindReload={{@manager.reloadSubmissionsList}}
+        @query={{@manager.filterParams}}
+        as |list|
+    >
+        <list.item as |registration|>
+            {{#if registration}}
+                <RegistrationList::Card
+                    @registration={{registration}}
+                    @filterState={{@manager.filterState}}
+                />
+            {{else}}
+                {{placeholder.text lines=1}}
+            {{/if}}
+        </list.item>
+        <list.empty>
+            {{t 'registries.registrationList.noRegistrationsFound' filterState=@manager.filterState}}
+        </list.empty>
+    </PaginatedList::HasMany>
+</ContentPlaceholders>

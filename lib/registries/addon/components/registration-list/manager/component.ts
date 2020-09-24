@@ -1,22 +1,16 @@
-import Component from '@ember/component';
-import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import Component from '@glimmer/component';
 
-import RegistrationModel from 'ember-osf-web/models/registration';
-import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
+interface Args {
+    filterState: string;
+}
 
-export default class RegistrationListManager extends Component {
-    @service store!: DS.Store;
+export default class RegistrationListManager extends Component<Args> {
+    reloadSubmissionsList!: () => void;
 
-    provider!: RegistrationProviderModel;
-    registrations?: RegistrationModel[];
-    filterState: string = 'pending';
-
-    @task({ withTestWaiter: true, drop: true, on: 'didReceiveAttrs' })
-    fetchRegistrationss = task(function *(this: RegistrationListManager) {
-        const registrations = yield this.provider.queryHasMany('registrations',
-            { filter: { machine_state: this.filterState } });
-        this.set('registrations', registrations);
-    });
+    get filterParams() {
+        const query: Record<string, string> = {};
+        query['filter[machine_state]'] = this.args.filterState || 'pending';
+        // TODO: Add sorting params
+        return query;
+    }
 }
