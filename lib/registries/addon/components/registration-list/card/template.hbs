@@ -1,19 +1,23 @@
 <p ...attributes>
     <FaIcon @icon={{this.icon}} />
-    {{@registration.title}}
-    {{t 'registries.registrationList.moderatorAction'
-        action='Submitted'
-        moderator=this.registeredBy
-        date=@registration.dateRegistered
-    }}
-    {{#if this.showModerator}}
-        {{!-- need to update this when the actions endpoint is in mirage 
-            need to update moderatorname and date
-        --}}
+    <h3>{{@registration.title}}</h3>
+    <p>
         {{t 'registries.registrationList.moderatorAction'
-            action=(capitalize this.filterState)
+            action='Submitted'
             moderator=this.registeredBy
             date=@registration.dateRegistered
         }}
+    </p>
+    {{#if this.showModerator}}
+        <p>
+            {{!-- need to update this when the actions endpoint is in mirage 
+                need to update moderatorname and date
+            --}}
+            {{t 'registries.registrationList.moderatorAction'
+                action=(capitalize this.filterState)
+                moderator=this.registeredBy
+                date=@registration.dateRegistered
+            }}
+        </p>
     {{/if}}
 </p>
