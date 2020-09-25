@@ -4,6 +4,7 @@ import { task } from 'ember-concurrency-decorators';
 
 import RegistrationModel from 'ember-osf-web/models/registration';
 import UserModel from 'ember-osf-web/models/user';
+import formattedTimeSince from 'ember-osf-web/utils/formatted-time-since';
 
 const iconMap: Record<string, string> = {
     pending: 'hourglass',
@@ -13,7 +14,7 @@ const iconMap: Record<string, string> = {
 };
 
 interface Args {
-    registation: RegistrationModel;
+    registration: RegistrationModel;
     filterState: string;
 }
 
@@ -22,7 +23,7 @@ export default class RegistrationListCard extends Component<Args> {
 
     @task({ withTestWaiter: true, on: 'init' })
     fetchRegisteredBy = task(function *(this: RegistrationListCard) {
-        const registeredByUser: UserModel = yield this.args.registation.registeredBy;
+        const registeredByUser: UserModel = yield this.args.registration.registeredBy;
         this.registeredBy = registeredByUser.fullName;
     });
 
@@ -37,5 +38,9 @@ export default class RegistrationListCard extends Component<Args> {
     get icon(): string {
         const { filterState } = this.args;
         return iconMap[filterState] ? iconMap[filterState] : '';
+    }
+
+    get timeSubmitted(): string {
+        return formattedTimeSince(this.args.registration.dateRegistered);
     }
 }

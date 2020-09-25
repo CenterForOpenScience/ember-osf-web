@@ -1278,7 +1278,7 @@ registries:
         selectAll: 'Select All'
         clearAll: 'Clear All'
     registrationList:
-        noRegistrationsFound: 'No registrations have been found in the state: {filterState}'
+        noRegistrationsFound: 'No {filterState} registrations have been found'
         moderatorAction: '{action} on {date} by {moderator}'
     finalizeRegistrationModal:
         title: 'Almost done...'

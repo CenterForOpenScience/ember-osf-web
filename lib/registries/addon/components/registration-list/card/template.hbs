@@ -5,7 +5,7 @@
         {{t 'registries.registrationList.moderatorAction'
             action='Submitted'
             moderator=this.registeredBy
-            date=@registration.dateRegistered
+            date=this.timeSubmitted
         }}
     </p>
     {{#if this.showModerator}}
@@ -14,7 +14,7 @@
                 need to update moderatorname and date
             --}}
             {{t 'registries.registrationList.moderatorAction'
-                action=(capitalize this.filterState)
+                action=(capitalize @filterState)
                 moderator=this.registeredBy
                 date=@registration.dateRegistered
             }}
