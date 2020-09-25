@@ -14,6 +14,14 @@ export default class RegistrationProviderSerializer extends ApplicationSerialize
 
     buildRelationships(model: ModelInstance<RegistrationProvider>) {
         const relationships: SerializedRelationships<RegistrationProvider> = {
+            registrations: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/providers/registrations/${model.id}/registrations/`,
+                        meta: {},
+                    },
+                },
+            },
             licensesAcceptable: {
                 links: {
                     related: {
