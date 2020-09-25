@@ -83,7 +83,7 @@ export default class ModeratorManagerComponent extends Component {
                     this.reloadModeratorList();
                 }
                 this.toast.success(this.intl.t(
-                    'moderation.moderators.addedNewModerator',
+                    'registries.moderation.moderators.addedNewModerator',
                     { userName: user.fullName, permission: permissionGroup },
                 ));
             }
@@ -114,7 +114,7 @@ export default class ModeratorManagerComponent extends Component {
                     this.reloadModeratorList();
                 }
                 this.toast.success(this.intl.t(
-                    'moderation.moderators.addedNewModerator',
+                    'registries.moderation.moderators.addedNewModerator',
                     { userName: fullName, permission: permissionGroup },
                 ));
             }
@@ -131,7 +131,7 @@ export default class ModeratorManagerComponent extends Component {
             moderator.set('permissionGroup', newPermission);
             yield moderator.save();
             this.toast.success(this.intl.t(
-                'moderation.moderators.updatedModeratorPermission',
+                'registries.moderation.moderators.updatedModeratorPermission',
                 { userName: moderator.fullName, permission: newPermission },
             ));
         } catch (e) {
@@ -149,7 +149,7 @@ export default class ModeratorManagerComponent extends Component {
                 this.reloadModeratorList();
             }
             this.toast.success(this.intl.t(
-                'moderation.moderators.removedModerator',
+                'registries.moderation.moderators.removedModerator',
                 { userName: moderator.fullName },
             ));
         } catch (e) {
