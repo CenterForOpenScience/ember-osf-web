@@ -21,11 +21,16 @@ interface Args {
 export default class RegistrationListCard extends Component<Args> {
     @tracked registeredBy?: string;
 
-    @task({ withTestWaiter: true, on: 'init' })
+    @task({ withTestWaiter: true })
     fetchRegisteredBy = task(function *(this: RegistrationListCard) {
         const registeredByUser: UserModel = yield this.args.registration.registeredBy;
         this.registeredBy = registeredByUser.fullName;
     });
+
+    constructor(owner: unknown, args: Args) {
+        super(owner, args);
+        this.fetchRegisteredBy.perform();
+    }
 
     get showModerator() {
         const { filterState } = this.args;
