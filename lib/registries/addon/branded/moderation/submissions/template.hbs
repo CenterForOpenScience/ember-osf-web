@@ -1,6 +1,6 @@
 {{title (t 'registries.moderation.submissions.title') prepend=false}}
 
-<BsTab local-class='contentBorder' @customTabs={{true}} as |tab|>
+<BsTab local-class='contentBorder' @customTabs={{true}} @onChange={{this.changeTab}} as |tab|>
     <BsNav @type='tabs' as |nav|>
         <nav.item @active={{eq tab.activeId 'pending'}}>
             <a role='tab' href='#pending' {{on 'click' (fn tab.select 'pending')}}>
@@ -23,18 +23,13 @@
             </a>
         </nav.item>
     </BsNav>
-    <div class='tab-content'>
-        <tab.pane @id='pending' @title='Pending'>
-            <p>{{t 'registries.moderation.states.pending'}}</p>
-        </tab.pane>
-        <tab.pane @id='accepted' @title='Accepted'>
-            <p>{{t 'registries.moderation.states.accepted'}}</p>
-        </tab.pane>
-        <tab.pane @id='rejected' @title='Rejected'>
-            <p>{{t 'registries.moderation.states.rejected'}}</p>
-        </tab.pane>
-        <tab.pane @id='withdrawn' @title='Withdrawn'>
-            <p>{{t 'registries.moderation.states.withdrawn'}}</p>
-        </tab.pane>
-    </div>
+    <RegistrationList::Manager
+        @provider={{this.model}}
+        @filterState={{this.filterState}}
+        as |manager|
+    >
+        <div class='tab-content'>
+            <RegistrationList::List @manager={{manager}} />
+        </div>
+    </RegistrationList::Manager>
 </BsTab>

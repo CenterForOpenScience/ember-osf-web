@@ -54,6 +54,14 @@ export default class RegistrationProviderSerializer extends ApplicationSerialize
                     },
                 },
             },
+            registrations: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/providers/registrations/${model.id}/registrations/`,
+                        meta: this.buildRelatedLinkMeta(model, 'registrations'),
+                    },
+                },
+            },
         };
 
         if (model.brand) {

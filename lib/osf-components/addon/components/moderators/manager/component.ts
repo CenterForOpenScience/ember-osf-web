@@ -10,6 +10,7 @@ import Toast from 'ember-toastr/services/toast';
 import { layout } from 'ember-osf-web/decorators/component';
 import ModeratorModel, { PermissionGroup } from 'ember-osf-web/models/moderator';
 import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
+import UserModel from 'ember-osf-web/models/user';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import template from './template';
@@ -19,6 +20,8 @@ export interface ModeratorManager {
     permissionOptions: PermissionGroup;
     provider: RegistrationProviderModel;
     currentUserIsProviderAdmin: boolean;
+    addUserAsModerator: (user: UserModel, permissionGroup: PermissionGroup) => void;
+    addEmailAsModerator: (name: string, email: string, permissionGroup: PermissionGroup) => void;
     reloadModeratorList?: () => void;
     updateModeratorPermission?: () => void;
     removeModerator?: () => void;
@@ -60,7 +63,54 @@ export default class ModeratorManagerComponent extends Component {
         } catch (e) {
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
-            throw e;
+        }
+    });
+
+    @task({ withTestWaiter: true, enqueue: true })
+    addUserAsModerator =
+    task(function *(this: ModeratorManagerComponent, user: UserModel, permissionGroup: PermissionGroup) {
+        try {
+            if (user && permissionGroup) {
+                const newModerator = this.store.createRecord('moderator', {
+                    id: user.id,
+                    provider: this.provider,
+                    permissionGroup,
+                });
+                yield newModerator.save();
+                if (this.reloadModeratorList) {
+                    this.reloadModeratorList();
+                }
+            }
+        } catch (e) {
+            captureException(e);
+            this.toast.error(getApiErrorMessage(e));
+        }
+    });
+
+    @task({ withTestWaiter: true, enqueue: true })
+    addEmailAsModerator =
+    task(function *(
+        this: ModeratorManagerComponent,
+        fullName: string,
+        email: string,
+        permissionGroup: PermissionGroup,
+    ) {
+        try {
+            if (fullName && email && permissionGroup) {
+                const newModerator = this.store.createRecord('moderator', {
+                    provider: this.provider,
+                    fullName,
+                    email,
+                    permissionGroup,
+                });
+                yield newModerator.save();
+                if (this.reloadModeratorList) {
+                    this.reloadModeratorList();
+                }
+            }
+        } catch (e) {
+            captureException(e);
+            this.toast.error(getApiErrorMessage(e));
         }
     });
 
@@ -74,7 +124,6 @@ export default class ModeratorManagerComponent extends Component {
             moderator.rollbackAttributes();
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
-            throw e;
         }
     });
 
@@ -88,7 +137,6 @@ export default class ModeratorManagerComponent extends Component {
         } catch (e) {
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
-            throw e;
         }
     });
 }

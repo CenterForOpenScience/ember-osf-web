@@ -77,16 +77,37 @@ function registrationScenario(
 
     const decaf = server.create('registration', {
         id: 'decaf',
+        title: 'Pending Penguins',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
-        provider,
+        provider: egap,
+        machineState: 'pending',
+        registeredBy: currentUser,
     }, 'withContributors');
 
     server.create('contributor', { node: decaf }, 'unregistered');
 
     server.create('registration', {
-        id: 'berand',
+        id: 'wdrwn',
+        title: 'Withdrawn Hermit',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
-        provider,
+        provider: egap,
+        machineState: 'withdrawn',
+    }, 'withContributors');
+
+    server.create('registration', {
+        id: 'r3jct',
+        title: 'Hector the Rejector',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        provider: egap,
+        machineState: 'rejected',
+    }, 'withContributors');
+
+    server.create('registration', {
+        id: 'accpt',
+        title: 'Acceptember',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        provider: egap,
+        machineState: 'accepted',
     }, 'withContributors');
 
     server.create('registration', {

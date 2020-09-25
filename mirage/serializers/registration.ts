@@ -123,6 +123,18 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
                     },
                 },
             },
+            registeredBy: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/users/${model.registeredBy.id}`,
+                        meta: {},
+                    },
+                },
+                data: {
+                    id: `${model.registeredBy.id}`,
+                    type: 'users',
+                },
+            },
         };
         if (model.attrs.providerId) {
             const { providerId } = model.attrs;

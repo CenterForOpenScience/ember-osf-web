@@ -140,6 +140,7 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     pendingWithdrawal: false,
     pendingEmbargoTerminationApproval: false,
     registeredFrom: association(),
+    registeredBy: association(),
 
     index(i: number) {
         return i;

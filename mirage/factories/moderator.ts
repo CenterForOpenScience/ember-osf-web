@@ -15,11 +15,12 @@ export default Factory.extend<Moderator & ModeratorTraits>({
     asModerator: trait({ permissionGroup: PermissionGroup.Moderator }),
     afterCreate(moderator) {
         moderator.user.update({ canViewReviews: true });
+        moderator.update({ fullName: moderator.user.fullName });
     },
 });
 
 declare module 'ember-cli-mirage/types/registries/schema' {
     export default interface MirageSchemaRegistry {
-        moderator: Moderator;
+        moderators: Moderator;
     } // eslint-disable-line semi
 }
