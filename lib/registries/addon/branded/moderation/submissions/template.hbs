@@ -1,5 +1,5 @@
 {{title (t 'registries.moderation.submissions.title') prepend=false}}
-
+{{!-- TODO: Add number of registrations in each state in tab --}}
 <BsTab local-class='contentBorder' @customTabs={{true}} @onChange={{this.changeTab}} as |tab|>
     <BsNav @type='tabs' as |nav|>
         <nav.item @active={{eq tab.activeId 'pending'}}>

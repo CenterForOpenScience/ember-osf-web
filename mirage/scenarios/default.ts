@@ -94,13 +94,13 @@ function registrationScenario(
         machineState: 'withdrawn',
     }, 'withContributors');
 
-    server.create('registration', {
-        id: 'r3jct',
-        title: 'Hector the Rejector',
-        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
-        provider: egap,
-        machineState: 'rejected',
-    }, 'withContributors');
+    // server.create('registration', {
+    //     id: 'r3jct',
+    //     title: 'Hector the Rejector',
+    //     registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+    //     provider: egap,
+    //     machineState: 'rejected',
+    // }, 'withContributors');
 
     server.create('registration', {
         id: 'accpt',

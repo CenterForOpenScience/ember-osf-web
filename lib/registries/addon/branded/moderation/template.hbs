@@ -6,10 +6,15 @@
     <OsfLayout @backgroundClass={{local-class 'contentBackground'}} as |layout|>
         <layout.heading local-class='heading'>
             <HeroOverlay @align='left'>
-                {{!-- What do we want to show on the hero overlay? --}}
+                <div local-class='title'>
+                    <h1>
+                        {{t 'registries.moderation.header'}}
+                    </h1>
+                </div>
             </HeroOverlay>
         </layout.heading>
         <layout.main local-class='main'>
+            {{!-- TODO: add pending count in Submissions and Withdrawals tab --}}
             <BsNav local-class='mainNav' @type='tabs' as |nav|>
                 {{#let 'registries.branded.moderation.submissions' as |submissionsRoute|}}
                     <nav.item @active={{eq this.target.currentRouteName submissionsRoute}}>

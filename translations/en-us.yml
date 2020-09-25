@@ -968,6 +968,7 @@ registries:
     branded:
         page_title: 'Registries'
     moderation:
+        header: Moderation
         states:
             accepted: Accepted
             rejected: Rejected
@@ -976,9 +977,12 @@ registries:
         submissions:
             title: Submissions
         withdrawals:
-            title: Withdrawals
+            title: 'Withdrawal Requests'
         moderators:
             title: Moderators
+            addedNewModerator: 'Successfully added {userName} as {permission}'
+            removedModerator: 'Successfully removed {userName}'
+            updatedModeratorPermission: 'Successfully updated {userName} to {permission}'
         notifications:
             title: 'Notifications'
             heading: 'Configure reviews notification preferences'
