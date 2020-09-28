@@ -1,3 +1,17 @@
 .contentBorder {
     composes: childNav from '../styles.scss';
 }
+
+.tabWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.tabs {
+    text-decoration: none;
+}
+
+.sortButton {
+    margin-right: 15px;
+}
