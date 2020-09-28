@@ -5,11 +5,12 @@
     @filterState={{this.filterState}}
     as |manager|
 >
-    <div local-class='tabWrapper'>
+    <div local-class='tabSortingWrapper'>
         <div local-class='tabs'>
             <button
                 type='button'
                 {{on 'click' (fn this.changeTab 'pending')}}
+                local-class='tab {{if (eq this.filterState 'pending') 'selected'}}'
             >
                 <FaIcon @icon='hourglass' />
                 {{t 'registries.moderation.states.pending'}}
@@ -17,6 +18,7 @@
             <button
                 type='button'
                 {{on 'click' (fn this.changeTab 'accepted')}}
+                local-class='tab {{if (eq this.filterState 'accepted') 'selected'}}'
             >
                 <FaIcon @icon='check-circle-o' />
                 {{t 'registries.moderation.states.accepted'}}
@@ -24,6 +26,7 @@
             <button
                 type='button'
                 {{on 'click' (fn this.changeTab 'rejected')}}
+                local-class='tab {{if (eq this.filterState 'rejected') 'selected'}}'
             >
                 <FaIcon @icon='times' />
                 {{t 'registries.moderation.states.rejected'}}
@@ -31,6 +34,7 @@
             <button
                 type='button'
                 {{on 'click' (fn this.changeTab 'withdrawn')}}
+                local-class='tab {{if (eq this.filterState 'withdrawn') 'selected'}}'
             >
                 <FaIcon @icon='ban' />
                 {{t 'registries.moderation.states.withdrawn'}}
@@ -43,7 +47,5 @@
             local-class='sortButton'
         />
     </div>
-    <div class='tab-content'>
-        <RegistrationList::List @manager={{manager}} />
-    </div>
+    <RegistrationList::List @manager={{manager}} />
 </RegistrationList::Manager>

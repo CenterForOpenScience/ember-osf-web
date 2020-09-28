@@ -2,14 +2,29 @@
     composes: childNav from '../styles.scss';
 }
 
-.tabWrapper {
+.tabSortingWrapper {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    border-bottom: 1px solid $color-border-gray;
 }
 
 .tabs {
-    text-decoration: none;
+    position: relative;
+}
+
+.tab {
+    height: 30px;
+    border: 0;
+    background: none;
+
+    &.selected {
+        bottom: -1px;
+        position: relative;
+        border: 1px solid $color-border-gray;
+        border-radius: 5px 5px 0 0;
+        border-bottom: 1px solid $color-border-white;
+    }
 }
 
 .sortButton {
