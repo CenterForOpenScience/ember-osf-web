@@ -28,6 +28,11 @@
         @filterState={{this.filterState}}
         as |manager|
     >
+        <SortButton
+            @sortAction={{manager.sortRegistrationsBy}}
+            @sort={{manager.sort}}
+            @sortBy='date_registered'
+        />
         <div class='tab-content'>
             <RegistrationList::List @manager={{manager}} />
         </div>
