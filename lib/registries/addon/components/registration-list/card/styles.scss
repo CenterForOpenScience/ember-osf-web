@@ -7,3 +7,16 @@
 .cardInfo {
     margin-left: 15px;
 }
+
+.pending {
+    color: $brand-warning;
+}
+
+.accepted {
+    color: $brand-success;
+}
+
+.rejected,
+.withdrawn {
+    color: $brand-danger;
+}

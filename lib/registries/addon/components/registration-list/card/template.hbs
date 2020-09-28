@@ -1,5 +1,9 @@
 <div local-class='cardWrapper'...attributes>
-    <FaIcon @icon={{this.icon}} @size={{2}}/>
+    <FaIcon
+        @icon={{this.icon}}
+        @size={{2}}
+        local-class='{{@filterState}}'
+    />
     <div local-class='cardInfo'>
         <h3>{{@registration.title}}</h3>
         <p>

@@ -1,0 +1,15 @@
+.Moderator {
+    composes: Moderator from '../row/styles.scss';
+}
+
+.ModeratorNamePermission {
+    composes: ModeratorNamePermission from '../row/styles.scss';
+}
+
+.Name {
+    composes: Name from '../row/styles.scss';
+}
+
+.PermissionGroup {
+    composes: PermissionGroup from '../row/styles.scss';
+}

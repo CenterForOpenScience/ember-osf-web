@@ -980,6 +980,8 @@ registries:
             title: 'Withdrawal Requests'
         moderators:
             title: Moderators
+            nameHeader: Name
+            permissionHeader: Permission
             addedNewModerator: 'Successfully added {userName} as {permission}'
             removedModerator: 'Successfully removed {userName}'
             updatedModeratorPermission: 'Successfully updated {userName} to {permission}'

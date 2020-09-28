@@ -4,22 +4,27 @@
 >
     <div local-class='ModeratorNamePermission'>
         <span local-class='Name'>
-            <OsfLink
-                data-test-moderator-link={{@moderator.id}}
-                data-analytics-name='View moderator profile'
-                @route='guid-user'
-                @models={{array @moderator.id}}
-            >
-                <img
-                    data-test-moderator-gravatar={{@moderator.fullName}}
-                    class='m-r-xs'
-                    src={{@moderator.user.links.profile_image}}
-                    alt={{@moderator.fullName}}
-                    height='30'
-                    width='30'
+            {{!-- only link if user is registered? --}}
+            {{#if @moderator.user}}
+                <OsfLink
+                    data-test-moderator-link={{@moderator.id}}
+                    data-analytics-name='View moderator profile'
+                    @route='guid-user'
+                    @models={{array @moderator.id}}
                 >
-                {{@moderator.fullName}}
-            </OsfLink>
+                    <img
+                        data-test-moderator-gravatar={{@moderator.fullName}}
+                        class='m-r-xs'
+                        src={{@moderator.user.links.profile_image}}
+                        alt={{@moderator.fullName}}
+                        height='30'
+                        width='30'
+                    >
+                    {{@moderator.fullName}}
+                </OsfLink>
+            {{else}}
+                <p>{{@moderator.fullName}}</p>
+            {{/if}}
         </span>
         <span
             local-class='PermissionGroup'

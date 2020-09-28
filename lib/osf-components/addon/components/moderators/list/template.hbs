@@ -5,7 +5,11 @@
         @bindReload={{@manager.reloadModeratorList}}
         as |list|
     >
-        <list.header>
+        <list.header local-class='Moderator'>
+            <div local-class='ModeratorNamePermission'>
+                <div local-class='Name'>{{t 'registries.moderation.moderators.nameHeader'}}</div>
+                <div local-class='PermissionGroup'>{{t 'registries.moderation.moderators.nameHeader'}}</div>
+            </div>
             {{#if @manager.currentUserIsProviderAdmin}}
                 {{!-- TODO: move this button to the right, add a + icon, and make it green --}}
                 <Moderators::AddModal @manager={{@manager}} />
