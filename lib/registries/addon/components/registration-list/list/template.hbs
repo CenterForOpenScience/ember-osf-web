@@ -18,7 +18,9 @@
             {{/if}}
         </list.item>
         <list.empty>
-            {{t 'registries.registrationList.noRegistrationsFound' filterState=@manager.filterState}}
+            <p data-test-registration-list-none>
+                {{t 'registries.registrationList.noRegistrationsFound' filterState=@manager.filterState}}
+            </p>
         </list.empty>
     </PaginatedList::HasMany>
 </ContentPlaceholders>

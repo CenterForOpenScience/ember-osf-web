@@ -8,7 +8,7 @@
         <list.header local-class='Moderator'>
             <div local-class='ModeratorNamePermission'>
                 <div local-class='Name'>{{t 'registries.moderation.moderators.nameHeader'}}</div>
-                <div local-class='PermissionGroup'>{{t 'registries.moderation.moderators.nameHeader'}}</div>
+                <div local-class='PermissionGroup'>{{t 'registries.moderation.moderators.permissionHeader'}}</div>
             </div>
             {{#if @manager.currentUserIsProviderAdmin}}
                 <Moderators::AddModal @manager={{@manager}} />

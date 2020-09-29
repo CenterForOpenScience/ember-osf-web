@@ -1,13 +1,18 @@
-<div local-class='cardWrapper'...attributes>
+<div
+    data-test-registration-list-card
+    local-class='cardWrapper'
+    ...attributes
+>
     <FaIcon
+        data-test-registration-list-card-icon='{{@filterState}}'
         @icon={{this.icon}}
         @size={{2}}
         local-class='{{@filterState}}'
     />
     <div local-class='cardInfo'>
-        <h3>{{@registration.title}}</h3>
+        <h3 data-test-registration-list-card-title>{{@registration.title}}</h3>
         {{!-- TODO: Update this to be a link to the moderation overview page --}}
-        <p>
+        <p data-test-registration-list-card-submitted>
             {{t 'registries.registrationList.moderatorAction'
                 action='Submitted'
                 moderator=this.registeredBy
@@ -15,7 +20,7 @@
             }}
         </p>
         {{#if this.showModerator}}
-            <p>
+            <p data-test-registration-list-card-moderated>
                 {{!-- need to update this when the actions endpoint is in mirage 
                     need to update moderatorname and date
                 --}}

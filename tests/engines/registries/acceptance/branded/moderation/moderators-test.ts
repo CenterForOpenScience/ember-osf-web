@@ -31,7 +31,7 @@ module('Registries | Acceptance | branded.moderation | moderators', hooks => {
         const currentUser = server.create('user', 'loggedIn');
         server.create('moderator', { id: currentUser.id, user: currentUser, provider: regProvider }, 'asModerator');
         await visit('/registries/mdr8n/moderation/moderators');
-        await percySnapshot('moderation moderators page');
+        await percySnapshot('moderation moderators page: moderator view');
         assert.equal(currentRouteName(), 'registries.branded.moderation.moderators',
             'On the moderators page of registries reviews');
         assert.dom('[data-test-moderator-row]').exists({ count: 4 }, 'There are 4 moderators shown');
@@ -40,13 +40,15 @@ module('Registries | Acceptance | branded.moderation | moderators', hooks => {
         assert.dom('[data-test-moderator-permission-option]')
             .doesNotExist('Moderators are not able to edit permissions');
         assert.dom(`[data-test-delete-moderator-button=${currentUser.id}]`).exists('Only able to remove self');
+        assert.dom('[data-test-add-moderator-button]')
+            .doesNotExist('Button to add moderator is not visible for moderators');
     });
 
     test('admins list view for moderators', async assert => {
         const regProvider = server.schema.registrationProviders.find('mdr8n');
         const currentUser = server.create('user', 'loggedIn');
         server.create('moderator', { id: currentUser.id, user: currentUser, provider: regProvider }, 'asAdmin');
-        await visit('/registries/mdr8n/moderation/moderators');
+        await visit('/registries/mdr8n/moderation/moderators: admin view');
         await percySnapshot('moderation moderators page');
         assert.equal(currentRouteName(), 'registries.branded.moderation.moderators',
             'On the moderators page of registries reviews');
@@ -56,5 +58,7 @@ module('Registries | Acceptance | branded.moderation | moderators', hooks => {
             .exists({ count: 4 }, 'Admins are able to edit permissions for all users');
         assert.dom('[data-test-delete-moderator-button]')
             .exists({ count: 4 }, 'All moderators and admins are able to be removed');
+        assert.dom('[data-test-add-moderator-button]')
+            .exists('Button to add moderator is visible for admins');
     });
 });

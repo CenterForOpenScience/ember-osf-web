@@ -8,6 +8,7 @@
     <div local-class='tabSortingWrapper'>
         <div local-class='tabs'>
             <button
+                data-test-submissions-type='pending'
                 type='button'
                 {{on 'click' (fn this.changeTab 'pending')}}
                 local-class='tab {{if (eq this.filterState 'pending') 'selected'}}'
@@ -16,6 +17,7 @@
                 {{t 'registries.moderation.states.pending'}}
             </button>
             <button
+                data-test-submissions-type='accepted'
                 type='button'
                 {{on 'click' (fn this.changeTab 'accepted')}}
                 local-class='tab {{if (eq this.filterState 'accepted') 'selected'}}'
@@ -24,6 +26,7 @@
                 {{t 'registries.moderation.states.accepted'}}
             </button>
             <button
+                data-test-submissions-type='rejected'
                 type='button'
                 {{on 'click' (fn this.changeTab 'rejected')}}
                 local-class='tab {{if (eq this.filterState 'rejected') 'selected'}}'
@@ -32,6 +35,7 @@
                 {{t 'registries.moderation.states.rejected'}}
             </button>
             <button
+                data-test-submissions-type='pending'
                 type='button'
                 {{on 'click' (fn this.changeTab 'withdrawn')}}
                 local-class='tab {{if (eq this.filterState 'withdrawn') 'selected'}}'
