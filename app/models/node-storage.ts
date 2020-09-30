@@ -5,11 +5,11 @@ import OsfModel from './osf-model';
 const { attr } = DS;
 
 export enum StorageStatus {
-    DEFAULT = 'default',
-    APPROACHING_PRIVATE = 'approachingPrivate',
-    OVER_PRIVATE = 'overPrivate',
-    APPROACHING_PUBLIC = 'approachingPublic',
-    OVER_PUBLIC = 'overPublic',
+    DEFAULT = 'DEFAULT',
+    APPROACHING_PRIVATE = 'APPROACHING_PRIVATE',
+    OVER_PRIVATE = 'OVER_PRIVATE',
+    APPROACHING_PUBLIC = 'APPROACHING_PUBLIC',
+    OVER_PUBLIC = 'OVER_PUBLIC',
 }
 
 export default class NodeStorageModel extends OsfModel {

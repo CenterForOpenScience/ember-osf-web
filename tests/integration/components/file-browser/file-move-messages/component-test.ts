@@ -16,49 +16,49 @@ interface ThisTestContext extends TestContext {
     node: ModelInstance<Node>;
 }
 
-type testKeys = 'default' | 'approachingPrivate' | 'overPrivate' | 'approachingPublic' | 'overPublic';
+type testKeys = 'DEFAULT' | 'APPROACHING_PRIVATE' | 'OVER_PRIVATE' | 'APPROACHING_PUBLIC' | 'OVER_PUBLIC';
 
 const testCases: Record<'public' | 'private', Record<testKeys, { warning: boolean, error: boolean }>> = {
     public: {
-        default: {
+        DEFAULT: {
             warning: false,
             error: false,
         },
-        approachingPrivate: {
+        APPROACHING_PRIVATE: {
             warning: false,
             error: false,
         },
-        overPrivate: {
+        OVER_PRIVATE: {
             warning: false,
             error: false,
         },
-        approachingPublic: {
+        APPROACHING_PUBLIC: {
             warning: true,
             error: false,
         },
-        overPublic: {
+        OVER_PUBLIC: {
             warning: false,
             error: true,
         },
     },
     private: {
-        default: {
+        DEFAULT: {
             warning: false,
             error: false,
         },
-        approachingPrivate: {
+        APPROACHING_PRIVATE: {
             warning: true,
             error: false,
         },
-        overPrivate: {
+        OVER_PRIVATE: {
             warning: false,
             error: true,
         },
-        approachingPublic: {
+        APPROACHING_PUBLIC: {
             warning: false,
             error: true,
         },
-        overPublic: {
+        OVER_PUBLIC: {
             warning: false,
             error: true,
         },
