@@ -71,10 +71,10 @@
     </BsDropdown>
 {{else}}
     <li class='sign-in'>
-        <div>
+        <div class='button-container'>
             <OsfLink
                 data-test-ad-sign-up-button
-                data-analytics-name='SignUp'
+                data-analytics-name='SignUp {{@campaign}}'
                 class='btn btn-success btn-top-signup m-l-sm m-r-xs'
                 @route='register'
                 @queryParams={{this.signUpQueryParams}}

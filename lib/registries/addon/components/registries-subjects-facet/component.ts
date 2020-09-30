@@ -1,8 +1,10 @@
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 
 import ProviderModel from 'ember-osf-web/models/provider';
 import SubjectModel from 'ember-osf-web/models/subject';
+import Analytics from 'ember-osf-web/services/analytics';
 import { SubjectManager } from 'osf-components/components/subjects/manager/component';
 import { SearchOptions } from 'registries/services/search';
 import { ShareTermsFilter } from 'registries/services/share-search';
@@ -61,6 +63,10 @@ function getAncestryFilters(subjectTerm: string): ShareTermsFilter[] {
 }
 
 export default class RegistriesSubjectsFacet extends Component<Args> {
+    @service analytics!: Analytics;
+
+    provider?: ProviderModel;
+
     get selectedSubjectFilters() {
         const { searchOptions: { filters } } = this.args;
         return filters.filter(f => f.key === 'subjects').toArray();
@@ -130,6 +136,16 @@ export default class RegistriesSubjectsFacet extends Component<Args> {
             onSearchOptionsUpdated,
         } = this.args;
 
+        if (this.provider) {
+            this.analytics.track(
+                'filter',
+                'add',
+                `Discover - subject ${subject.text} ${this.provider.name}`,
+            );
+        } else {
+            this.analytics.track('filter', 'add', `Discover - subject ${subject.taxonomyName}`);
+        }
+
         const filterToAdd = newSubjectFilter(subject);
         const subjectTerm = getSubjectTerm(subject);
         const parentFilters = getAncestryFilters(subjectTerm);
@@ -146,6 +162,16 @@ export default class RegistriesSubjectsFacet extends Component<Args> {
             },
             selectedSubjectFilters,
         } = this;
+
+        if (this.provider) {
+            this.analytics.track(
+                'filter',
+                'remove',
+                `Discover - subject ${subject.text} ${this.provider.name}`,
+            );
+        } else {
+            this.analytics.track('filter', 'remove', `Discover - subject ${subject.taxonomyName}`);
+        }
 
         const subjectTerm = getSubjectTerm(subject);
 

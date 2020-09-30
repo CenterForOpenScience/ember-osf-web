@@ -59,6 +59,11 @@
 
 // /Utility classes
 
+.Brand {
+    display: flex;
+    align-items: center;
+}
+
 .Logo {
     width: 35px;
     height: 35px;
@@ -66,6 +71,19 @@
     background-size: 100%;
     background-image: var(--navbar-logo-img-url);
     background-repeat: no-repeat;
+}
+
+.HomeLink {
+    color: $white;
+    font-size: 18px;
+    font-weight: 400;
+    text-decoration: none;
+    margin: 0 16px 0 10px;
+
+    &.HomeLink:hover {
+        color: $white;
+        text-decoration: none;
+    }
 }
 
 .Service {

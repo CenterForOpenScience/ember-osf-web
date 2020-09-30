@@ -1,15 +1,15 @@
-import { click, render } from '@ember/test-helpers';
+import { click, findAll, render, triggerKeyEvent } from '@ember/test-helpers';
 import a11yAudit from 'ember-a11y-testing/test-support/audit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupIntl, t } from 'ember-intl/test-support';
-import { setupRenderingTest } from 'ember-qunit';
-import { TestContext } from 'ember-test-helpers';
-import hbs from 'htmlbars-inline-precompile';
-import { module, test } from 'qunit';
-
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { selectChoose } from 'ember-power-select/test-support';
 import { clickTrigger } from 'ember-power-select/test-support/helpers';
+import { setupRenderingTest } from 'ember-qunit';
+import { reorder } from 'ember-sortable/test-support/helpers';
+import { TestContext } from 'ember-test-helpers';
+import hbs from 'htmlbars-inline-precompile';
+import { module, skip, test } from 'qunit';
 import { OsfLinkRouterStub } from '../../helpers/osf-link-router-stub';
 
 module('Integration | Component | contributors', hooks => {
@@ -122,5 +122,77 @@ module('Integration | Component | contributors', hooks => {
         assert.dom(`[data-test-contributor-permission="${contributor.id}"]`)
             .hasText('Read');
         assert.dom('[data-test-contributor-citation-checkbox]').isChecked();
+    });
+
+    test('editable user card can be reordered using mouse', async function(assert) {
+        const firstContributor = server.create('contributor', {
+            fullName: 'First Contributor',
+            index: 0,
+            id: 'first',
+        });
+        const secondContributor = server.create('contributor', {
+            fullName: 'Second Contributor',
+            index: 1,
+            id: 'second',
+        });
+        const draftRegistration = server.create('draft-registration', {
+            contributors: [firstContributor, secondContributor],
+        });
+        const registrationModel = await this.store.findRecord('draft-registration', draftRegistration.id);
+        this.set('node', registrationModel);
+        await render(hbs`<Contributors::Widget @node={{this.node}} @widgetMode={{'editable'}} />`);
+        const elementsBefore = findAll('[data-test-contributor-card]');
+        assert.equal(elementsBefore[0].getAttribute('data-test-contributor-card'), 'first');
+        assert.equal(elementsBefore[1].getAttribute('data-test-contributor-card'), 'second');
+        await reorder(
+            'mouse',
+            '[data-test-sortable-handle]',
+            '[data-test-sortable-handle="second"]',
+            '[data-test-sortable-handle="first"]',
+        );
+        const elementsAfter = findAll('[data-test-contributor-card]');
+        assert.equal(elementsAfter[0].getAttribute('data-test-contributor-card'), 'second');
+        assert.equal(elementsAfter[1].getAttribute('data-test-contributor-card'), 'first');
+    });
+
+    skip('editable user card can be reordered using keyboard', async function(assert) {
+        const firstContributor = server.create('contributor', {
+            fullName: 'First Contributor',
+            index: 0,
+            id: 'first',
+        });
+        const secondContributor = server.create('contributor', {
+            fullName: 'Second Contributor',
+            index: 1,
+            id: 'second',
+        });
+        const draftRegistration = server.create('draft-registration', {
+            contributors: [firstContributor, secondContributor],
+        });
+        const registrationModel = await this.store.findRecord('draft-registration', draftRegistration.id);
+        this.set('node', registrationModel);
+        await render(hbs`<Contributors::Widget @node={{this.node}} @widgetMode={{'editable'}} />`);
+        const elementsBefore = findAll('[data-test-contributor-card]');
+        assert.equal(elementsBefore[0].getAttribute('data-test-contributor-card'), 'first');
+        assert.equal(elementsBefore[1].getAttribute('data-test-contributor-card'), 'second');
+        await triggerKeyEvent(
+            '[data-test-sortable-handle="first"]',
+            'keydown',
+            13,
+        );
+        await triggerKeyEvent(
+            '[data-test-sortable-handle="first"]',
+            'keydown',
+            40,
+        );
+        await this.pauseTest();
+        await triggerKeyEvent(
+            '[data-test-sortable-handle="first"]',
+            'keydown',
+            13,
+        );
+        const elementsAfter = findAll('[data-test-contributor-card]');
+        assert.equal(elementsAfter[0].getAttribute('data-test-contributor-card'), 'second');
+        assert.equal(elementsAfter[1].getAttribute('data-test-contributor-card'), 'first');
     });
 });

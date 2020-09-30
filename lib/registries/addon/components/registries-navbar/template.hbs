@@ -11,10 +11,14 @@
                 data-analytics-name='Brand'
                 @route='{{if @provider 'registries.branded.discover' 'registries.discover'}}'
                 @models={{if @provider (array @provider.id)}}
-                local-class='Logo'
                 aria-label={{t 'navbar.go_home'}}
-            />
-
+                local-class='Brand'
+            >
+                <span local-class='Logo'></span>
+                {{#if this.shouldShowProviderName}}
+                    <span data-test-brand-link local-class='HomeLink'>{{this.provider.name}}</span>
+                {{/if}}
+            </OsfLink>
             {{! Left Side (Band, Service Dropdown) }}
             <BsDropdown
                 data-test-service-list
@@ -102,7 +106,7 @@
 
                 <nav.links.secondary
                     data-test-join='1'
-                    data-analytics-name='Sign up'
+                    data-analytics-name='Sign up {{@campaign}}'
                     @route='register'
                     @queryParams={{this.signUpQueryParams}}
                     local-class='HideOnMobile'
@@ -188,7 +192,7 @@
                         <menu.item role='menuitem' local-class='OnlyOnMobile'>
                             <OsfLink
                                 data-test-join-mobile
-                                data-analytics-name='Sign up'
+                                data-analytics-name='Sign up {{@campaign}}'
                                 @route='register'
                                 @queryParams={{this.signUpQueryParams}}
                             >

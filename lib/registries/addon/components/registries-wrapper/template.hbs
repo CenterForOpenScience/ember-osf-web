@@ -4,7 +4,7 @@
     class='RegistriesStyle'
     ...attributes
 >
-    <RegistriesNavbar class='RegistriesStyle' @campaign='osf-registries' @provider={{@provider}}/>
+    <RegistriesNavbar class='RegistriesStyle' @campaign='{{if @provider @provider.id 'osf'}}-registries' @provider={{@provider}}/>
     <MaintenanceBanner />
     <StatusBanner />
     <TosConsentBanner />

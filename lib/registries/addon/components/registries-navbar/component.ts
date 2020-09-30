@@ -34,6 +34,12 @@ export default class RegistriesNavbar extends AuthBase {
     provider?: RegistrationProviderModel;
 
     @and('media.isMobile', 'searchDropdownOpen') showSearchDropdown!: boolean;
+
+    @computed('media.isMobile', 'provider.brand')
+    get shouldShowProviderName() {
+        return !this.media.isMobile && this.provider && this.provider.brand;
+    }
+
     @computed('provider.{allowSubmissions,id}')
     get showAddRegistrationButton() {
         if (!this.provider) {
