@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [20.10.0] - 2020-09-30
+### Added
+- registry brand name to navbar
+- headTags so that favicon changes for branded registries
+- Reorder contributors through dragging and dropping
+- Add campaign queryParam for collections and registries
+
+### Changed
+- Update analytics to registries discover
+- Reduce font-size for Registry Discover search results
+- page title to have provider brand display first
+
+### Fixed
+- navbar styling to have buttons with same height
+- provider link on branded navbar
+- 404ing recent registrations links
+
+### Removed
+- color change for disabled buttons
+- old style for navbar buttons
+- tags toggle on discover pages
+
 ## [20.9.1] - 2020-09-03
 ### Changed
 - pull keen analytics from partitioned collections
