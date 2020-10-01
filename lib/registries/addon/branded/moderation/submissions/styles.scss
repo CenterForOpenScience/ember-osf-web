@@ -2,11 +2,26 @@
     composes: childNav from '../styles.scss';
 }
 
+.registrationListContainer {
+    border: 1px solid #ddd;
+
+    ul {
+        margin: 0;
+    }
+
+    li {
+        border: 0;
+    }
+}
+
 .tabSortingWrapper {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    border-bottom: 1px solid $color-border-gray;
+    font-size: 15px;
+    background-color: #efefef;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 20px;
 }
 
 .tabs {
@@ -19,14 +34,21 @@
     background: none;
 
     &.selected {
-        bottom: -1px;
+        font-weight: 700;
         position: relative;
-        border: 1px solid $color-border-gray;
-        border-radius: 5px 5px 0 0;
-        border-bottom: 1px solid $color-border-white;
     }
 }
 
 .sortButton {
     margin-right: 15px;
+
+    /* TODO fix buttons so they're even with other elements */
+    /*
+    button,
+    button:hover,
+    button:focus,
+    button:active {
+        padding: 0 0 0 0.4em;
+    }
+    */
 }
