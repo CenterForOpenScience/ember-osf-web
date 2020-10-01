@@ -44,6 +44,15 @@
                 <FaIcon @icon='ban' />
                 {{t 'registries.moderation.states.withdrawn'}}
             </button>
+            <button
+                data-test-submissions-type='pending-withdraw'
+                type='button'
+                {{on 'click' (fn this.changeTab 'pendingWithdraw')}}
+                local-class='tab {{if (eq this.filterState 'pendingWithdraw') 'selected'}}'
+            >
+                <FaIcon @icon='clock-o' />
+                {{t 'registries.moderation.states.pendingWithdraw'}}
+            </button>
         </div>
         <SortButton
             local-class='sortButton'

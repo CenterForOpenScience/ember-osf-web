@@ -22,7 +22,7 @@
                 data-test-registration-list-none
                 local-class='noRegistrationMessage'
             >
-                {{t 'registries.registrationList.noRegistrationsFound' filterState=@manager.filterState}}
+                {{t (concat 'registries.registrationList.' @manager.filterState)}}
             </p>
         </list.empty>
     </PaginatedList::HasMany>

@@ -26,16 +26,6 @@
                         </OsfLink>
                     </nav.item>
                 {{/let}}
-                {{#let 'registries.branded.moderation.withdrawals' as |withdrawalsRoute|}}
-                    <nav.item @active={{eq this.target.currentRouteName withdrawalsRoute}}>
-                        <OsfLink
-                            @route={{withdrawalsRoute}}
-                            @models={{array this.model.id}}
-                        >
-                            {{t 'registries.moderation.withdrawals.title'}}
-                        </OsfLink>
-                    </nav.item>
-                {{/let}}
                 {{#let 'registries.branded.moderation.moderators' as |moderatorsRoute|}}
                     <nav.item @active={{eq this.target.currentRouteName moderatorsRoute}}>
                         <OsfLink

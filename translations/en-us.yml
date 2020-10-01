@@ -974,6 +974,7 @@ registries:
             rejected: Rejected
             pending: Pending
             withdrawn: Withdrawn
+            pendingWithdraw: 'Pending Withdraw'
         submissions:
             title: Submissions
         withdrawals:
@@ -1284,7 +1285,11 @@ registries:
         selectAll: 'Select All'
         clearAll: 'Clear All'
     registrationList:
-        noRegistrationsFound: 'No {filterState} registrations have been found'
+        pending: 'No registrations pending approval have been found'
+        accepted: 'No accepted registrations have been found'
+        rejected: 'No rejected registrations have been found'
+        withdrawn: 'No withdrawn registrations have been found'
+        pendingWithdraw: 'No registrations found pending withdrawal'
         moderatorAction: '{action} {date} by {moderator}'
     finalizeRegistrationModal:
         title: 'Almost done...'
