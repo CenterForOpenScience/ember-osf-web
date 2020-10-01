@@ -18,7 +18,10 @@
             {{/if}}
         </list.item>
         <list.empty>
-            <p data-test-registration-list-none>
+            <p
+                data-test-registration-list-none
+                local-class='noRegistrationMessage'
+            >
                 {{t 'registries.registrationList.noRegistrationsFound' filterState=@manager.filterState}}
             </p>
         </list.empty>
