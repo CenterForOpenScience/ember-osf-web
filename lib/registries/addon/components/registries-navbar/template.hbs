@@ -53,6 +53,11 @@
                     {{/each}}
                 </dropdown.menu>
             </BsDropdown>
+        </nav.section>
+
+        {{! Right Side (Search, Buttons, Gravatar, Dropdown) }}
+        <nav.section data-test-right>
+     
             {{#if this.showAddRegistrationButton}}
                 <nav.links.secondary
                     data-test-add-new-button
@@ -64,23 +69,6 @@
                     {{t 'navbar.add_registration'}}
                 </nav.links.secondary>
             {{/if}}
-        </nav.section>
-
-        {{! Right Side (Search, Buttons, Gravatar, Dropdown) }}
-        <nav.section data-test-right>
-
-            <nav.item
-                data-test-search-bar='1'
-                @classNames={{local-class 'HideOnMobile SearchBar'}}
-            >
-                <IconInput
-                    data-analytics-name='Search box'
-                    @ariaLabel={{t 'navbar.search_bar'}}
-                    @icon='search'
-                    @dark={{true}}
-                    @enter={{this.search}}
-                />
-            </nav.item>
 
             <nav.links.secondary
                 data-test-help='1'
@@ -252,18 +240,3 @@
         </nav.section>
     </nav.container>
 </Navbar>
-
-{{#if (media 'isMobile')}}
-    <Container
-        data-test-search-bar-mobile='1'
-        local-class='SearchDropdown'
-    >
-        <IconInput
-            data-analytics-name='Search box'
-            @ariaLabel={{t 'navbar.search_bar'}}
-            @icon='search'
-            @dark={{true}}
-            @enter={{this.search}}
-        />
-    </Container>
-{{/if}}
