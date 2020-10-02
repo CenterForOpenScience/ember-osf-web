@@ -84,6 +84,7 @@ function registrationScenario(
         registeredBy: currentUser,
     }, 'withContributors');
 
+    server.createList('registration', 4, { machineState: 'pending', provider: egap });
     server.create('contributor', { node: decaf }, 'unregistered');
 
     server.create('registration', {

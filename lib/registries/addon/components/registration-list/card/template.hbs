@@ -7,29 +7,70 @@
         data-test-registration-list-card-icon='{{@filterState}}'
         @icon={{this.icon}}
         @size={{2}}
-        local-class='{{@filterState}}'
+        local-class='filterIcon {{@filterState}}'
     />
     <div local-class='cardInfo'>
-        <h3 data-test-registration-list-card-title>{{@registration.title}}</h3>
         {{!-- TODO: Update this to be a link to the moderation overview page --}}
-        <p data-test-registration-list-card-submitted>
-            {{t 'registries.registrationList.moderatorAction'
-                action='Submitted'
-                moderator=this.registeredBy
-                date=this.timeSubmitted
-            }}
-        </p>
-        {{#if this.showModerator}}
-            <p data-test-registration-list-card-moderated>
-                {{!-- need to update this when the actions endpoint is in mirage 
-                    need to update moderatorname and date
-                --}}
-                {{t 'registries.registrationList.moderatorAction'
-                    action=(capitalize @filterState)
-                    moderator=this.registeredBy
-                    date=this.timeSubmitted
-                }}
-            </p>
-        {{/if}}
+        <h3
+            data-test-registration-list-card-title
+            local-class='registrationTitle'
+        >
+            {{@registration.title}}
+        </h3>
+        <div local-class='actionsWrapper'>
+            <FaIcon 
+                @icon={{this.actionsListIcon}}
+                @fixedWidth={{true}}
+                local-class='toggleActions'
+                {{on 'click' this.toggleActionList}}
+            />
+            <div local-class='actionsList'>
+                {{!-- TODO: Update this to show the last action done to it --}}
+                <p data-test-registration-list-card-submitted>
+                    {{t 'registries.registrationList.moderatorAction'
+                        action='Submitted'
+                        moderator=this.registeredBy
+                        date=this.timeSubmitted
+                    }}
+                </p>
+                <AnimatedContainer local-class='ExpandyContainer'>
+                    <AnimatedIf
+                        @predicate={{this.showFullActionList}}
+                        @duration='100'
+                    >
+                        {{!-- TODO: add placeholder while actions list is being loaded --}}
+                        <p data-test-registration-list-card-submitted>
+                            {{t 'registries.registrationList.moderatorAction'
+                                action='Submitted'
+                                moderator=this.registeredBy
+                                date=this.timeSubmitted
+                            }}
+                        </p>
+                        <p data-test-registration-list-card-submitted>
+                            {{t 'registries.registrationList.moderatorAction'
+                                action='Rejected'
+                                moderator='Judge Judy'
+                                date=this.timeSubmitted
+                            }}
+                        </p>
+                        <p data-test-registration-list-card-submitted>
+                            {{t 'registries.registrationList.moderatorAction'
+                                action='Accepted'
+                                moderator='Happy Mod'
+                                date=this.timeSubmitted
+                            }}
+                        </p>
+                        {{!-- {{#each this.actions as |action, index|}} --}}
+                        {{!-- skip latest action since it will already be shown --}}
+                        {{!-- {{t 'registries.registrationList.moderatorAction'
+                            action=action.actionTrigger
+                            moderator=action.creator
+                            date=action.dateModified
+                        }} --}}
+                        {{!-- {{/each}} --}}
+                    </AnimatedIf>
+                </AnimatedContainer>
+            </div>
+        </div>
     </div>
 </div>

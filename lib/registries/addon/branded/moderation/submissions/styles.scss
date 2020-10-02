@@ -3,7 +3,7 @@
 }
 
 .registrationListContainer {
-    border: 1px solid #ddd;
+    border: 1px solid $color-border-gray;
 
     ul {
         margin: 0;
@@ -19,8 +19,8 @@
     flex-direction: row;
     justify-content: space-between;
     font-size: 15px;
-    background-color: #efefef;
-    border-bottom: 1px solid #ddd;
+    background-color: $color-bg-gray-light;
+    border-bottom: 1px solid $color-border-gray;
     padding: 10px 20px;
 }
 
