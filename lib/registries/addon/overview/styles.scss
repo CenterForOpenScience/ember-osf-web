@@ -14,6 +14,7 @@
 .ContentBackground {
     display: flex;
     flex-grow: 1;
+    z-index: 1;
     justify-content: center;
     position: relative;
 
