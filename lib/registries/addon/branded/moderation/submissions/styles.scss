@@ -10,7 +10,14 @@
     }
 
     li {
-        border: 0;
+        background-color: initial;
+        border-left: 0;
+        border-right: 0;
+        border-top: 0;
+    }
+
+    li:last-of-type {
+        border-bottom: 0;
     }
 }
 
