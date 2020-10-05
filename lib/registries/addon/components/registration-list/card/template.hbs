@@ -1,0 +1,25 @@
+<div local-class='cardWrapper'...attributes>
+    <FaIcon @icon={{this.icon}} @size={{2}}/>
+    <div local-class='cardInfo'>
+        <h3>{{@registration.title}}</h3>
+        <p>
+            {{t 'registries.registrationList.moderatorAction'
+                action='Submitted'
+                moderator=this.registeredBy
+                date=this.timeSubmitted
+            }}
+        </p>
+        {{#if this.showModerator}}
+            <p>
+                {{!-- need to update this when the actions endpoint is in mirage 
+                    need to update moderatorname and date
+                --}}
+                {{t 'registries.registrationList.moderatorAction'
+                    action=(capitalize @filterState)
+                    moderator=this.registeredBy
+                    date=this.timeSubmitted
+                }}
+            </p>
+        {{/if}}
+    </div>
+</div>

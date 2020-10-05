@@ -1277,6 +1277,9 @@ registries:
         cancelButton: Cancel
         selectAll: 'Select All'
         clearAll: 'Clear All'
+    registrationList:
+        noRegistrationsFound: 'No {filterState} registrations have been found'
+        moderatorAction: '{action} {date} by {moderator}'
     finalizeRegistrationModal:
         title: 'Almost done...'
         notice: "Please keep in mind that:\n                <ul>\n                    <li>\n                        Registrations cannot be modified or deleted once completed.\n                    </li>\n                    <li>\n                        The content and version history of Wiki and OSF Storage will be copied to the registration.\n                    </li>\n                    <li>\n                        This project contains links to other projects. These links will be copied into your registration, but the\n                        projects that they link to will not be registered. If you wish to register the linked projects, they must be\n                        registered separately. <a href='{learnMoreLink}' target='_blank' rel='noopener noreferrer'>Learn more about links</a>.\n                    </li>\n                </ul>"
@@ -1538,6 +1541,18 @@ osf-components:
             modal:
                 title: 'Confirm moderator removal'
                 body: 'Are you sure you want to remove {moderator}?'
+        add:
+            button: 'Add moderator'
+            modal:
+                heading: 'Add a moderator'
+                add: 'Add'
+                selectUser: 'Select user'
+                selectPermission: 'Select permission'
+                cancel: 'Cancel'
+                searchByName: 'Search user by name'
+                inviteByEmail: 'Invite user by email'
+                email: 'Email'
+                fullName: 'Full name'
 
 settings:
     toggleNav: 'Toggle navigation'
