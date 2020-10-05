@@ -6,7 +6,7 @@ import UserModel from 'ember-osf-web/models/user';
 
 const { attr, belongsTo } = DS;
 
-export default class NodeRequestActionModel extends OsfModel {
+export default class RegistrationActionModel extends OsfModel {
     @attr('string') actionTrigger!: string;
     @attr('string') comment!: string;
     @attr('string') fromState!: string;
@@ -28,6 +28,6 @@ export default class NodeRequestActionModel extends OsfModel {
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        'node-request-action': NodeRequestActionModel;
+        'registration-action': RegistrationActionModel;
     } // eslint-disable-line semi
 }

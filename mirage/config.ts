@@ -229,7 +229,7 @@ export default function(this: Server) {
     });
     osfNestedResource(this, 'registration-provider', 'actions', {
         path: '/providers/registrations/:parentID/actions/',
-        relatedModelName: 'node-request-action',
+        relatedModelName: 'registration-action',
     });
     osfNestedResource(this, 'registration-provider', 'licensesAcceptable', {
         only: ['index'],

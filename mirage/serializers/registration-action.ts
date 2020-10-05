@@ -1,19 +1,19 @@
 import { ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
-import NodeRequestActionModel from 'ember-osf-web/models/node-request-action';
+import RegistrationActionModel from 'ember-osf-web/models/registration-action';
 import ApplicationSerializer, { SerializedRelationships } from './application';
 
 const { OSF: { apiUrl } } = config;
 
-export default class NodeRequestActionSerializer extends ApplicationSerializer<NodeRequestActionModel> {
-    buildNormalLinks(model: ModelInstance<NodeRequestActionModel>) {
+export default class RegistrationActionSerializer extends ApplicationSerializer<RegistrationActionModel> {
+    buildNormalLinks(model: ModelInstance<RegistrationActionModel>) {
         return {
             self: `${apiUrl}/v2/providers/registrations/${model.provider.id}/actions/${model.id}`,
         };
     }
 
-    buildRelationships(model: ModelInstance<NodeRequestActionModel>) {
-        const relationships: SerializedRelationships<NodeRequestActionModel> = {
+    buildRelationships(model: ModelInstance<RegistrationActionModel>) {
+        const relationships: SerializedRelationships<RegistrationActionModel> = {
             provider: {
                 links: {
                     related: {

@@ -1,5 +1,5 @@
 import DS from 'ember-data';
-import NodeRequestActionModel from 'ember-osf-web/models/node-request-action';
+import RegistrationActionModel from 'ember-osf-web/models/registration-action';
 import RegistrationRequestModel from 'ember-osf-web/models/registration-request';
 
 import RegistrationSchemaModel from 'ember-osf-web/models/registration-schema';
@@ -26,8 +26,8 @@ export default class RegistrationProviderModel extends ProviderModel {
     @hasMany('registration-request', { inverse: null })
     requests!: DS.PromiseManyArray<RegistrationRequestModel> | RegistrationRequestModel[];
 
-    @hasMany('node-request-action', { inverse: 'target' })
-    actions!: DS.PromiseManyArray<NodeRequestActionModel> | NodeRequestActionModel[];
+    @hasMany('registration-action', { inverse: 'target' })
+    actions!: DS.PromiseManyArray<RegistrationActionModel> | RegistrationActionModel[];
 
     @attr('fixstring')
     shareSourceKey?: string;

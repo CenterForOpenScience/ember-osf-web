@@ -3,7 +3,7 @@ import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 
 import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
-import NodeRequestActionModel from 'ember-osf-web/models/node-request-action';
+import RegistrationActionModel from 'ember-osf-web/models/registration-action';
 import RegistrationRequestModel from 'ember-osf-web/models/registration-request';
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 
@@ -124,8 +124,8 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @hasMany('registration-request', { inverse: 'target' })
     requests!: DS.PromiseManyArray<RegistrationRequestModel> | RegistrationRequestModel[];
 
-    @hasMany('node-request-action', { inverse: 'target' })
-    actions!: DS.PromiseManyArray<NodeRequestActionModel> | NodeRequestActionModel[];
+    @hasMany('registration-action', { inverse: 'target' })
+    reviewActions!: DS.PromiseManyArray<RegistrationActionModel> | RegistrationActionModel[];
 
     // Write-only relationships
     @belongsTo('draft-registration', { inverse: null })
