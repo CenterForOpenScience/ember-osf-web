@@ -52,6 +52,7 @@
             {{#if this.shouldShowRemove}}
                 <DeleteButton
                     @small={{true}}
+                    @noBackground={{true}}
                     @delete={{action @manager.removeModerator @moderator}}
                     @disabled={{@manager.removeModerator.isRunning}}
                     @analyticsScope='Moderation - Moderators'

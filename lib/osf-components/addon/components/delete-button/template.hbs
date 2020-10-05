@@ -3,6 +3,7 @@
         data-analytics-name='Delete button'
         data-test-delete-button
         aria-label={{this.buttonLabel}}
+        local-class={{if this.noBackground 'Button__noBackground'}}
         @type='destroy'
         {{on 'click' this._show}}
         @disabled={{this.disabled}}
