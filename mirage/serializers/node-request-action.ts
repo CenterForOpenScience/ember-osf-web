@@ -6,7 +6,7 @@ import ApplicationSerializer, { SerializedRelationships } from './application';
 const { OSF: { apiUrl } } = config;
 
 export default class NodeRequestActionSerializer extends ApplicationSerializer<NodeRequestActionModel> {
-    buildNormalLinks(model: ModelInstance) {
+    buildNormalLinks(model: ModelInstance<NodeRequestActionModel>) {
         return {
             self: `${apiUrl}/v2/providers/registrations/${model.provider.id}/actions/${model.id}`,
         };

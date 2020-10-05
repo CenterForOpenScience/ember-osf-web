@@ -6,9 +6,9 @@ import ApplicationSerializer, { SerializedRelationships } from './application';
 const { OSF: { apiUrl } } = config;
 
 export default class RegistrationRequestSerializer extends ApplicationSerializer<RegistrationRequestModel> {
-    buildNormalLinks(model: ModelInstance) {
+    buildNormalLinks(model: ModelInstance<RegistrationRequestModel>) {
         return {
-            self: `${apiUrl}/v2/providers/registrations/${model.provider.id}/requests/${model.id}`,
+            self: `${apiUrl}/v2/providers/registrations/${model.target.provider.id}/requests/${model.id}`,
         };
     }
 

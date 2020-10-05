@@ -9,7 +9,7 @@ const { attr, belongsTo } = DS;
 export enum RegistrationRequestStates {
     Initial = 'initial',
     Pending = 'pending',
-    Accepted = 'accetped',
+    Accepted = 'accepted',
     Rejected = 'rejected',
 }
 
