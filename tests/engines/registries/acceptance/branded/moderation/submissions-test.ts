@@ -117,7 +117,7 @@ module('Registries | Acceptance | branded.moderation | submissions', hooks => {
 
         // Pending tab
         assert.dom('[data-test-ascending-sort]').exists({ count: 1 }, 'Ascending sort button exists');
-        assert.dom('[data-test-ascending-sort]').exists({ count: 1 }, 'Descending sort button exists');
+        assert.dom('[data-test-descending-sort]').exists({ count: 1 }, 'Descending sort button exists');
         assert.dom('[data-test-registration-list-card]').exists({ count: 10 }, '10 pending registrations shown');
         assert.dom('[data-test-registration-list-card-icon="pending"]').exists({ count: 10 }, 'Proper icons shown');
         assert.dom('[data-test-registration-list-card-title]').exists({ count: 10 }, 'Title shown');
@@ -130,7 +130,7 @@ module('Registries | Acceptance | branded.moderation | submissions', hooks => {
         // Accepted tab
         await click('[data-test-submissions-type="accepted"]');
         assert.dom('[data-test-ascending-sort]').exists({ count: 1 }, 'Ascending sort button exists');
-        assert.dom('[data-test-ascending-sort]').exists({ count: 1 }, 'Descending sort button exists');
+        assert.dom('[data-test-descending-sort]').exists({ count: 1 }, 'Descending sort button exists');
         assert.dom('[data-test-registration-list-card]').exists({ count: 2 }, '2 accepted registrations shown');
         assert.dom('[data-test-registration-list-card-icon="accepted"]').exists({ count: 2 }, 'Proper icons shown');
         assert.dom('[data-test-registration-list-card-title]').exists({ count: 2 }, 'Title shown');
@@ -140,7 +140,7 @@ module('Registries | Acceptance | branded.moderation | submissions', hooks => {
         // Rejected tab
         await click('[data-test-submissions-type="rejected"]');
         assert.dom('[data-test-ascending-sort]').exists({ count: 1 }, 'Ascending sort button exists');
-        assert.dom('[data-test-ascending-sort]').exists({ count: 1 }, 'Descending sort button exists');
+        assert.dom('[data-test-descending-sort]').exists({ count: 1 }, 'Descending sort button exists');
         assert.dom('[data-test-registration-list-card]').exists({ count: 3 }, '3 rejected registrations shown');
         assert.dom('[data-test-registration-list-card-icon="rejected"]').exists({ count: 3 }, 'Proper icons shown');
         assert.dom('[data-test-registration-list-card-title]').exists({ count: 3 }, 'Title shown');
@@ -150,7 +150,7 @@ module('Registries | Acceptance | branded.moderation | submissions', hooks => {
         // Withdrawn tab
         await click('[data-test-submissions-type="withdrawn"]');
         assert.dom('[data-test-ascending-sort]').exists({ count: 1 }, 'Ascending sort button exists');
-        assert.dom('[data-test-ascending-sort]').exists({ count: 1 }, 'Descending sort button exists');
+        assert.dom('[data-test-descending-sort]').exists({ count: 1 }, 'Descending sort button exists');
         assert.dom('[data-test-registration-list-card]').exists({ count: 4 }, '4 withdrawn registrations shown');
         assert.dom('[data-test-registration-list-card-icon="withdrawn"]').exists({ count: 4 }, 'Proper icons shown');
         assert.dom('[data-test-registration-list-card-title]').exists({ count: 4 }, 'Title shown');
