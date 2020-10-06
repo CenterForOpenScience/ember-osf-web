@@ -1,0 +1,33 @@
+:global(.cp-Panel) {
+    border: 1px solid $color-border-gray;
+
+    &:not(:last-of-type) {
+        border-bottom: 0;
+    }
+}
+
+:global(.cp-Panel-toggle) {
+    display: block;
+    padding: 1em;
+
+    &:global(.cp-is-open),
+    &:hover {
+        background: $color-bg-gray-light;
+    }
+}
+
+:global(.cp-Panel-toggle:link) {
+    text-decoration: none;
+
+    &:global(.cp-is-open) {
+        font-weight: 700;
+    }
+}
+
+:global(.cp-Panel-body-inner) {
+    padding: 1em;
+}
+
+.powerSelect {
+    margin-bottom: 15px;
+}
