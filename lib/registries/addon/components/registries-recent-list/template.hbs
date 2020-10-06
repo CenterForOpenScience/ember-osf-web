@@ -32,9 +32,14 @@
             </div>
             <div class='row'>
                 <div class='col-xs-12'>
-                    <ul local-class='RecentList__Contributors'>
+                    <ul
+                        data-test-recent-registration-contrib-list={{reg.id}}
+                        local-class='RecentList__Contributors'
+                    >
                         {{#each reg.bibliographicContributors as |contrib|}}
-                            <li>{{contrib.fullName}}</li>
+                            <li data-test-recent-registration-contrib={{contrib.bibliographic}}>
+                                {{contrib.users.fullName}}
+                            </li>
                         {{/each}}
                     </ul>
                 </div>

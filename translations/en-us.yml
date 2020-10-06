@@ -977,8 +977,6 @@ registries:
     application:
         page_title: 'OSF Registries'
         main_aria: 'Registries main content'
-    branded:
-        page_title: 'Registries'
     new:
         required: 'required'
         page_title: 'New Registration'
