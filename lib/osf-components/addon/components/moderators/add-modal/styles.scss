@@ -28,10 +28,12 @@
     padding: 1em;
 }
 
-.dialogMain {
-    min-width: 40vw;
+.panelBody {
+    label:last-of-type {
+        margin-top: 15px;
+    }
 }
 
-.powerSelect {
-    margin-bottom: 15px;
+.dialogMain {
+    min-width: 40vw;
 }

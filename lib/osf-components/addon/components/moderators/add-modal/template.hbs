@@ -29,7 +29,7 @@
                         {{t 'osf-components.moderators.add.modal.searchByName'}}
                     </span>
                 {{/panel.toggle}}
-                {{#panel.body}}
+                {{#panel.body local-class='panelBody'}}
                     <FormControls
                         @changeset={{this.userChangeset}}
                         data-test-add-user-form
@@ -39,7 +39,6 @@
                             @search={{perform this.searchUser}}
                             @valuePath={{'user'}}
                             @label={{t 'osf-components.moderators.add.modal.selectUser'}}
-                            local-class='powerSelect'
                             data-test-select-user
                             as |user|
                         >
