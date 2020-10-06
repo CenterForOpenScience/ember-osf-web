@@ -19,7 +19,7 @@ export default class RegistrationActionModel extends OsfModel {
     @belongsTo('registration-provider', { inverse: 'actions' })
     provider!: DS.PromiseObject<RegistrationProviderModel> & RegistrationProviderModel;
 
-    @belongsTo('registration', { inverse: 'actions' })
+    @belongsTo('registration', { inverse: 'reviewActions' })
     target!: DS.PromiseObject<RegistrationModel> & RegistrationModel;
 
     @belongsTo('user', { inverse: null })
