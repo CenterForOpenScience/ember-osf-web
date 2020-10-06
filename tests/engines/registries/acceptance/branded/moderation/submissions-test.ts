@@ -46,17 +46,19 @@ module('Registries | Acceptance | branded.moderation | submissions', hooks => {
             'On the submissions page of registries reviews');
 
         // Pending tab
-        assert.dom('[data-test-submissions-type="pending"]')
-            .hasClass('selected', 'Pending is selected by default for submissions page');
+        assert.dom('[data-test-submissions-type="pending"][data-test-is-selected="true"]')
+            .exists('Pending is selected by default for submissions page');
         assert.dom('[data-test-registration-list-card]')
             .doesNotExist('No cards shown for pending submissions');
-        assert.dom('[data-test-registration-list-none]').containsText('No pending registrations have been found',
-            'Proper message is shown when no pending registrations found');
+        assert.dom('[data-test-registration-list-none]').containsText(
+            'No registrations pending approval have been found',
+            'Proper message is shown when no pending registrations found',
+        );
 
         // Accepted tab
         await click('[data-test-submissions-type="accepted"]');
-        assert.dom('[data-test-submissions-type="accepted"]')
-            .hasClass('selected', 'Accepted tab has been selected');
+        assert.dom('[data-test-submissions-type="accepted"][data-test-is-selected="true"]')
+            .exists('Accepted tab has been selected');
         assert.dom('[data-test-registration-list-card]')
             .doesNotExist('No cards shown for accepted submissions');
         assert.dom('[data-test-registration-list-none]').containsText('No accepted registrations have been found',
@@ -64,8 +66,8 @@ module('Registries | Acceptance | branded.moderation | submissions', hooks => {
 
         // Rejected tab
         await click('[data-test-submissions-type="rejected"]');
-        assert.dom('[data-test-submissions-type="rejected"]')
-            .hasClass('selected', 'Rejected tab has been selected');
+        assert.dom('[data-test-submissions-type="rejected"][data-test-is-selected="true"]')
+            .exists('Rejected tab has been selected');
         assert.dom('[data-test-registration-list-card]')
             .doesNotExist('No cards shown for rejected submissions');
         assert.dom('[data-test-registration-list-none]').containsText('No rejected registrations have been found',
@@ -73,8 +75,8 @@ module('Registries | Acceptance | branded.moderation | submissions', hooks => {
 
         // Withdrawn tab
         await click('[data-test-submissions-type="withdrawn"]');
-        assert.dom('[data-test-submissions-type="withdrawn"]')
-            .hasClass('selected', 'Withdrawn tab has been selected');
+        assert.dom('[data-test-submissions-type="withdrawn"][data-test-is-selected="true"]')
+            .exists('Withdrawn tab has been selected');
         assert.dom('[data-test-registration-list-card]')
             .doesNotExist('No cards shown for withdrawn submissions');
         assert.dom('[data-test-registration-list-none]').containsText('No withdrawn registrations have been found',
@@ -114,45 +116,45 @@ module('Registries | Acceptance | branded.moderation | submissions', hooks => {
             'On the submissions page of registries reviews');
 
         // Pending tab
-        assert.dom('[data-test-ascending-sort]').exists({ count: 2 }, 'Sort button exists');
+        assert.dom('[data-test-ascending-sort]').exists({ count: 1 }, 'Ascending sort button exists');
+        assert.dom('[data-test-ascending-sort]').exists({ count: 1 }, 'Descending sort button exists');
         assert.dom('[data-test-registration-list-card]').exists({ count: 10 }, '10 pending registrations shown');
         assert.dom('[data-test-registration-list-card-icon="pending"]').exists({ count: 10 }, 'Proper icons shown');
         assert.dom('[data-test-registration-list-card-title]').exists({ count: 10 }, 'Title shown');
         assert.dom('[data-test-registration-list-card-submitted]').exists({ count: 10 }, 'Submitted info shown');
-        assert.dom('[data-test-registration-list-card-moderated]').doesNotExist('Moderator action is not shown');
         assert.dom('[data-test-next-page-button]').exists('Pagination shown');
         await click('[data-test-next-page-button]');
-        assert.dom('[data-test-next-page-button]').hasAttribute('disabled', 'Pagination stops at 2 pages');
+        assert.dom('[data-test-next-page-button]').hasAttribute('disabled');
         assert.dom('[data-test-registration-list-card]').exists({ count: 2 }, '2 more pending registrations shown');
 
         // Accepted tab
-        await click('[data-test-next-page-button]');
-        assert.dom('[data-test-ascending-sort]').exists({ count: 2 }, 'Sort button exists');
+        await click('[data-test-submissions-type="accepted"]');
+        assert.dom('[data-test-ascending-sort]').exists({ count: 1 }, 'Ascending sort button exists');
+        assert.dom('[data-test-ascending-sort]').exists({ count: 1 }, 'Descending sort button exists');
         assert.dom('[data-test-registration-list-card]').exists({ count: 2 }, '2 accepted registrations shown');
         assert.dom('[data-test-registration-list-card-icon="accepted"]').exists({ count: 2 }, 'Proper icons shown');
         assert.dom('[data-test-registration-list-card-title]').exists({ count: 2 }, 'Title shown');
         assert.dom('[data-test-registration-list-card-submitted]').exists({ count: 2 }, 'Submitted info shown');
-        assert.dom('[data-test-registration-list-card-moderated]').exists({ count: 2 }, 'Moderator action is shown');
         assert.dom('[data-test-next-page-button]').doesNotExist('No pagination shown');
 
         // Rejected tab
         await click('[data-test-submissions-type="rejected"]');
-        assert.dom('[data-test-ascending-sort]').exists({ count: 2 }, 'Sort button exists');
+        assert.dom('[data-test-ascending-sort]').exists({ count: 1 }, 'Ascending sort button exists');
+        assert.dom('[data-test-ascending-sort]').exists({ count: 1 }, 'Descending sort button exists');
         assert.dom('[data-test-registration-list-card]').exists({ count: 3 }, '3 rejected registrations shown');
         assert.dom('[data-test-registration-list-card-icon="rejected"]').exists({ count: 3 }, 'Proper icons shown');
         assert.dom('[data-test-registration-list-card-title]').exists({ count: 3 }, 'Title shown');
         assert.dom('[data-test-registration-list-card-submitted]').exists({ count: 3 }, 'Submitted info shown');
-        assert.dom('[data-test-registration-list-card-moderated]').exists({ count: 3 }, 'Moderator action is shown');
         assert.dom('[data-test-next-page-button]').doesNotExist('No pagination shown');
 
         // Withdrawn tab
         await click('[data-test-submissions-type="withdrawn"]');
-        assert.dom('[data-test-ascending-sort]').exists({ count: 2 }, 'Sort button exists');
+        assert.dom('[data-test-ascending-sort]').exists({ count: 1 }, 'Ascending sort button exists');
+        assert.dom('[data-test-ascending-sort]').exists({ count: 1 }, 'Descending sort button exists');
         assert.dom('[data-test-registration-list-card]').exists({ count: 4 }, '4 withdrawn registrations shown');
         assert.dom('[data-test-registration-list-card-icon="withdrawn"]').exists({ count: 4 }, 'Proper icons shown');
         assert.dom('[data-test-registration-list-card-title]').exists({ count: 4 }, 'Title shown');
         assert.dom('[data-test-registration-list-card-submitted]').exists({ count: 4 }, 'Submitted info shown');
-        assert.dom('[data-test-registration-list-card-moderated]').doesNotExist('Moderator action is not shown');
         assert.dom('[data-test-next-page-button]').doesNotExist('No pagination shown');
     });
 });

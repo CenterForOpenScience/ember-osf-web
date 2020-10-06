@@ -48,8 +48,8 @@ module('Registries | Acceptance | branded.moderation | moderators', hooks => {
         const regProvider = server.schema.registrationProviders.find('mdr8n');
         const currentUser = server.create('user', 'loggedIn');
         server.create('moderator', { id: currentUser.id, user: currentUser, provider: regProvider }, 'asAdmin');
-        await visit('/registries/mdr8n/moderation/moderators: admin view');
-        await percySnapshot('moderation moderators page');
+        await visit('/registries/mdr8n/moderation/moderators');
+        await percySnapshot('moderation moderators page: admin view');
         assert.equal(currentRouteName(), 'registries.branded.moderation.moderators',
             'On the moderators page of registries reviews');
 

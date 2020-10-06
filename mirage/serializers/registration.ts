@@ -123,7 +123,10 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
                     },
                 },
             },
-            registeredBy: {
+        };
+
+        if (model.registeredBy) {
+            relationships.registeredBy = {
                 links: {
                     related: {
                         href: `${apiUrl}/v2/users/${model.registeredBy.id}`,
@@ -134,8 +137,9 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
                     id: `${model.registeredBy.id}`,
                     type: 'users',
                 },
-            },
-        };
+            };
+        }
+
         if (model.attrs.providerId) {
             const { providerId } = model.attrs;
             relationships.provider = {
