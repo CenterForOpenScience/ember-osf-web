@@ -10,6 +10,7 @@
         <div local-class='tabs'>
             <button
                 data-test-submissions-type='pending'
+                data-test-is-selected={{if (eq this.filterState 'pending') 'true' 'false'}}
                 type='button'
                 {{on 'click' (fn this.changeTab 'pending')}}
                 local-class='tab {{if (eq this.filterState 'pending') 'selected'}}'
@@ -19,6 +20,7 @@
             </button>
             <button
                 data-test-submissions-type='accepted'
+                data-test-is-selected={{if (eq this.filterState 'accepted') 'true' 'false'}}
                 type='button'
                 {{on 'click' (fn this.changeTab 'accepted')}}
                 local-class='tab {{if (eq this.filterState 'accepted') 'selected'}}'
@@ -28,6 +30,7 @@
             </button>
             <button
                 data-test-submissions-type='rejected'
+                data-test-is-selected={{if (eq this.filterState 'rejected') 'true' 'false'}}
                 type='button'
                 {{on 'click' (fn this.changeTab 'rejected')}}
                 local-class='tab {{if (eq this.filterState 'rejected') 'selected'}}'
@@ -36,7 +39,8 @@
                 {{t 'registries.moderation.states.rejected'}}
             </button>
             <button
-                data-test-submissions-type='pending'
+                data-test-submissions-type='withdrawn'
+                data-test-is-selected={{if (eq this.filterState 'withdrawn') 'true' 'false'}}
                 type='button'
                 {{on 'click' (fn this.changeTab 'withdrawn')}}
                 local-class='tab {{if (eq this.filterState 'withdrawn') 'selected'}}'
@@ -46,6 +50,7 @@
             </button>
             <button
                 data-test-submissions-type='pending-withdraw'
+                data-test-is-selected={{if (eq this.filterState 'pendingWithdraw') 'true' 'false'}}
                 type='button'
                 {{on 'click' (fn this.changeTab 'pendingWithdraw')}}
                 local-class='tab {{if (eq this.filterState 'pendingWithdraw') 'selected'}}'

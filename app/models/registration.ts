@@ -3,6 +3,8 @@ import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 
 import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
+import RegistrationActionModel from 'ember-osf-web/models/registration-action';
+import RegistrationRequestModel from 'ember-osf-web/models/registration-request';
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 
 import CommentModel from './comment';
@@ -15,6 +17,7 @@ import UserModel from './user';
 
 const { attr, belongsTo, hasMany } = DS;
 
+// TODO: incorporate this into RegistrationReviewStates
 export enum RegistrationState {
     Embargoed = 'Embargoed',
     Public = 'Public',
@@ -23,6 +26,16 @@ export enum RegistrationState {
     PendingWithdrawal = 'PendingWithdrawal',
     PendingEmbargo = 'PendingEmbargo',
     PendingEmbargoTermination = 'PendingEmbargoTermination',
+}
+
+export enum RegistrationReviewStates {
+    Pending = 'pending',
+    Accepted = 'accepted',
+    Rejected = 'rejected',
+    Withdrawn = 'withdrawn',
+    Embargo = 'embargo',
+    PendingEmbargoTermination = 'pending_embargo_termination',
+    PendingWithdraw = 'pending_withdraw',
 }
 
 const Validations = buildValidations({
@@ -57,7 +70,7 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @attr('fixstring') articleDoi!: string | null;
     @attr('object') registeredMeta!: RegistrationMetadata;
     @attr('registration-responses') registrationResponses!: RegistrationResponse;
-    @attr('fixstring') machineState?: string;
+    @attr('fixstring') machineState!: RegistrationReviewStates;
 
     // Write-only attributes
     @attr('array') includedNodeIds?: string[];
@@ -107,6 +120,12 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
 
     @hasMany('institution', { inverse: 'registrations' })
     affiliatedInstitutions!: DS.PromiseManyArray<InstitutionModel> | InstitutionModel[];
+
+    @hasMany('registration-request', { inverse: 'target' })
+    requests!: DS.PromiseManyArray<RegistrationRequestModel> | RegistrationRequestModel[];
+
+    @hasMany('registration-action', { inverse: 'target' })
+    reviewActions!: DS.PromiseManyArray<RegistrationActionModel> | RegistrationActionModel[];
 
     // Write-only relationships
     @belongsTo('draft-registration', { inverse: null })

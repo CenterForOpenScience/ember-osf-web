@@ -219,9 +219,17 @@ export default function(this: Server) {
         relatedModelName: 'moderator',
     });
     this.post('providers/registrations/:parentID/moderators', addModerator);
+    osfNestedResource(this, 'registration-provider', 'requests', {
+        path: '/providers/registrations/:parentID/requests/',
+        relatedModelName: 'registration-request',
+    });
     osfNestedResource(this, 'registration-provider', 'registrations', {
         path: '/providers/registrations/:parentID/registrations/',
         relatedModelName: 'registration',
+    });
+    osfNestedResource(this, 'registration-provider', 'actions', {
+        path: '/providers/registrations/:parentID/actions/',
+        relatedModelName: 'registration-action',
     });
     osfNestedResource(this, 'registration-provider', 'licensesAcceptable', {
         only: ['index'],

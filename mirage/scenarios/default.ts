@@ -6,6 +6,7 @@ import FileProvider from 'ember-osf-web/models/file-provider';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 
+import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import { draftRegisterNodeMultiple, forkNode, registerNodeMultiple } from '../helpers';
 
 const {
@@ -80,11 +81,15 @@ function registrationScenario(
         title: 'Pending Penguins',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider: egap,
-        machineState: 'pending',
+        machineState: RegistrationReviewStates.Pending,
         registeredBy: currentUser,
     }, 'withContributors');
 
-    server.createList('registration', 4, { machineState: 'pending', provider: egap });
+    server.createList('registration', 4,
+        {
+            machineState: RegistrationReviewStates.Pending,
+            provider: egap,
+        });
     server.create('contributor', { node: decaf }, 'unregistered');
 
     server.create('registration', {
@@ -92,7 +97,7 @@ function registrationScenario(
         title: 'Withdrawn Hermit',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider: egap,
-        machineState: 'withdrawn',
+        machineState: RegistrationReviewStates.Withdrawn,
     }, 'withContributors');
 
     // server.create('registration', {
@@ -108,7 +113,7 @@ function registrationScenario(
         title: 'Acceptember',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider: egap,
-        machineState: 'accepted',
+        machineState: RegistrationReviewStates.Accepted,
     }, 'withContributors');
 
     server.create('registration', {
