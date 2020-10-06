@@ -1,9 +1,43 @@
 .cardWrapper {
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     display: flex;
+}
+
+.registrationTitle {
+    margin-top: 10px;
 }
 
 .cardInfo {
     margin-left: 15px;
+}
+
+.ExpandyContainer {
+    overflow: hidden;
+}
+
+.actionsWrapper {
+    display: flex;
+}
+
+.toggleActions {
+    margin-top: 2px;
+}
+
+.pending,
+.pendingWithdraw {
+    color: $brand-warning;
+}
+
+.filterIcon {
+    margin-top: 15px;
+}
+
+.accepted {
+    color: $brand-success;
+}
+
+.rejected,
+.withdrawn {
+    color: $brand-danger;
 }

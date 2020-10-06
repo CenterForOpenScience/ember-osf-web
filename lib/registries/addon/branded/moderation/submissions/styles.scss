@@ -1,3 +1,61 @@
 .contentBorder {
     composes: childNav from '../styles.scss';
 }
+
+.registrationListContainer {
+    border: 1px solid $color-border-gray;
+
+    ul {
+        margin: 0;
+    }
+
+    li {
+        background-color: initial;
+        border-left: 0;
+        border-right: 0;
+        border-top: 0;
+    }
+
+    li:last-of-type {
+        border-bottom: 0;
+    }
+}
+
+.tabSortingWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 15px;
+    background-color: $color-bg-gray-light;
+    border-bottom: 1px solid $color-border-gray;
+    padding: 10px 20px;
+}
+
+.tabs {
+    position: relative;
+}
+
+.tab {
+    height: 30px;
+    border: 0;
+    background: none;
+
+    &.selected {
+        font-weight: 700;
+        position: relative;
+    }
+}
+
+.sortButton {
+    margin-right: 15px;
+
+    /* TODO fix buttons so they're even with other elements */
+    /*
+    button,
+    button:hover,
+    button:focus,
+    button:active {
+        padding: 0 0 0 0.4em;
+    }
+    */
+}

@@ -6,8 +6,14 @@
     composes: Main from '../../drafts/draft/styles.scss';
 }
 
+.title {
+    composes: Title from '../../drafts/draft/styles.scss';
+}
+
+
 .mainNav {
-    border-bottom: 1px solid transparent;
+    border-bottom: 0;
+    font-size: 18px;
 }
 
 .childNav {

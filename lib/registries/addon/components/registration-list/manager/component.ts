@@ -1,19 +1,24 @@
 import Component from '@ember/component';
-import { computed } from '@ember/object';
+import { action, computed } from '@ember/object';
 
 export default class RegistrationListManager extends Component {
     reloadRegistrationsList!: () => void;
     filterState!: string;
 
-    @computed('filterState')
+    sort: string = 'date_registered';
+
+    @computed('filterState', 'sort')
     get filterParams() {
-        const query: Record<string, Record<string, string>> = {
+        const query: Record<string, string | Record<string, string>> = {
             filter: { machine_state: this.filterState || 'pending' },
+            sort: this.sort,
         };
 
-        // const query: Record<string, string> = {};
-        // query['filter[machine_state]'] = this.filterState || 'pending';
-        // TODO: Add sorting params
         return query;
+    }
+
+    @action
+    sortRegistrationsBy(sort: string) {
+        this.set('sort', sort);
     }
 }

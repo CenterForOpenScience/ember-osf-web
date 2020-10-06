@@ -968,17 +968,24 @@ registries:
     branded:
         page_title: 'Registries'
     moderation:
+        header: Moderation
         states:
             accepted: Accepted
             rejected: Rejected
             pending: Pending
             withdrawn: Withdrawn
+            pendingWithdraw: 'Pending Withdraw'
         submissions:
             title: Submissions
         withdrawals:
-            title: Withdrawals
+            title: 'Withdrawal Requests'
         moderators:
             title: Moderators
+            nameHeader: Name
+            permissionHeader: Permission
+            addedNewModerator: 'Successfully added {userName} as {permission}'
+            removedModerator: 'Successfully removed {userName}'
+            updatedModeratorPermission: 'Successfully updated {userName} to {permission}'
         notifications:
             title: 'Notifications'
             heading: 'Configure reviews notification preferences'
@@ -1278,7 +1285,11 @@ registries:
         selectAll: 'Select All'
         clearAll: 'Clear All'
     registrationList:
-        noRegistrationsFound: 'No {filterState} registrations have been found'
+        pending: 'No registrations pending approval have been found'
+        accepted: 'No accepted registrations have been found'
+        rejected: 'No rejected registrations have been found'
+        withdrawn: 'No withdrawn registrations have been found'
+        pendingWithdraw: 'No registrations found pending withdrawal'
         moderatorAction: '{action} {date} by {moderator}'
     finalizeRegistrationModal:
         title: 'Almost done...'

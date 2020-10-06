@@ -5,6 +5,7 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -33,6 +34,7 @@ export default class ModeratorManagerComponent extends Component {
     @service currentUser!: CurrentUserService;
     @service store!: DS.Store;
     @service toast!: Toast;
+    @service intl!: Intl;
 
     provider!: RegistrationProviderModel;
     permissionOptions = Object.values(PermissionGroup);
@@ -80,6 +82,10 @@ export default class ModeratorManagerComponent extends Component {
                 if (this.reloadModeratorList) {
                     this.reloadModeratorList();
                 }
+                this.toast.success(this.intl.t(
+                    'registries.moderation.moderators.addedNewModerator',
+                    { userName: user.fullName, permission: permissionGroup },
+                ));
             }
         } catch (e) {
             captureException(e);
@@ -107,6 +113,10 @@ export default class ModeratorManagerComponent extends Component {
                 if (this.reloadModeratorList) {
                     this.reloadModeratorList();
                 }
+                this.toast.success(this.intl.t(
+                    'registries.moderation.moderators.addedNewModerator',
+                    { userName: fullName, permission: permissionGroup },
+                ));
             }
         } catch (e) {
             captureException(e);
@@ -120,6 +130,10 @@ export default class ModeratorManagerComponent extends Component {
         try {
             moderator.set('permissionGroup', newPermission);
             yield moderator.save();
+            this.toast.success(this.intl.t(
+                'registries.moderation.moderators.updatedModeratorPermission',
+                { userName: moderator.fullName, permission: newPermission },
+            ));
         } catch (e) {
             moderator.rollbackAttributes();
             captureException(e);
@@ -134,6 +148,10 @@ export default class ModeratorManagerComponent extends Component {
             if (this.reloadModeratorList) {
                 this.reloadModeratorList();
             }
+            this.toast.success(this.intl.t(
+                'registries.moderation.moderators.removedModerator',
+                { userName: moderator.fullName },
+            ));
         } catch (e) {
             captureException(e);
             this.toast.error(getApiErrorMessage(e));

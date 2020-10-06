@@ -1,7 +1,9 @@
 <Button
+    @type='create'
     {{on 'click' this.openAddModeratorDialog}}
     data-test-add-moderator-button
 >
+    <FaIcon @icon='plus' />
     {{t 'osf-components.moderators.add.button'}}
 </Button>
 <OsfDialog

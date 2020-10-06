@@ -84,6 +84,7 @@ function registrationScenario(
         registeredBy: currentUser,
     }, 'withContributors');
 
+    server.createList('registration', 4, { machineState: 'pending', provider: egap });
     server.create('contributor', { node: decaf }, 'unregistered');
 
     server.create('registration', {
@@ -94,13 +95,13 @@ function registrationScenario(
         machineState: 'withdrawn',
     }, 'withContributors');
 
-    server.create('registration', {
-        id: 'r3jct',
-        title: 'Hector the Rejector',
-        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
-        provider: egap,
-        machineState: 'rejected',
-    }, 'withContributors');
+    // server.create('registration', {
+    //     id: 'r3jct',
+    //     title: 'Hector the Rejector',
+    //     registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+    //     provider: egap,
+    //     machineState: 'rejected',
+    // }, 'withContributors');
 
     server.create('registration', {
         id: 'accpt',

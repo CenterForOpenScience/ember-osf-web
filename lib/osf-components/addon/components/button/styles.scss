@@ -61,13 +61,17 @@
 .CreateButton {
     background-color: $brand-success;
     color: $color-text-white;
+
+    &:hover:not([disabled]) {
+        background-color: darken($brand-success, 15%);
+    }
 }
 
 .DestroyButton {
     background-color: $brand-danger;
     color: $color-text-white;
 
-    &:hover {
+    &:hover:not([disabled]) {
         background-color: darken($brand-danger, 15%);
     }
 }

@@ -1,35 +1,65 @@
 {{title (t 'registries.moderation.submissions.title') prepend=false}}
-
-<BsTab local-class='contentBorder' @customTabs={{true}} @onChange={{this.changeTab}} as |tab|>
-    <BsNav @type='tabs' as |nav|>
-        <nav.item @active={{eq tab.activeId 'pending'}}>
-            <a role='tab' href='#pending' {{on 'click' (fn tab.select 'pending')}}>
+{{!-- TODO: Add number of registrations in each state in tab --}}
+<RegistrationList::Manager
+    local-class='registrationListContainer'
+    @provider={{this.model}}
+    @filterState={{this.filterState}}
+    as |manager|
+>
+    <div local-class='tabSortingWrapper'>
+        <div local-class='tabs'>
+            <button
+                data-test-submissions-type='pending'
+                type='button'
+                {{on 'click' (fn this.changeTab 'pending')}}
+                local-class='tab {{if (eq this.filterState 'pending') 'selected'}}'
+            >
+                <FaIcon @icon='hourglass' />
                 {{t 'registries.moderation.states.pending'}}
-            </a>
-        </nav.item>
-        <nav.item @active={{eq tab.activeId 'accepted'}}>
-            <a role='tab' href='#accepted' {{on 'click' (fn tab.select 'accepted')}}>
+            </button>
+            <button
+                data-test-submissions-type='accepted'
+                type='button'
+                {{on 'click' (fn this.changeTab 'accepted')}}
+                local-class='tab {{if (eq this.filterState 'accepted') 'selected'}}'
+            >
+                <FaIcon @icon='check' />
                 {{t 'registries.moderation.states.accepted'}}
-            </a>
-        </nav.item>
-        <nav.item @active={{eq tab.activeId 'rejected'}}>
-            <a role='tab' href='#rejected' {{on 'click' (fn tab.select 'rejected')}}>
+            </button>
+            <button
+                data-test-submissions-type='rejected'
+                type='button'
+                {{on 'click' (fn this.changeTab 'rejected')}}
+                local-class='tab {{if (eq this.filterState 'rejected') 'selected'}}'
+            >
+                <FaIcon @icon='times' />
                 {{t 'registries.moderation.states.rejected'}}
-            </a>
-        </nav.item>
-        <nav.item @active={{eq tab.activeId 'withdrawn'}}>
-            <a role='tab' href='#withdrawn' {{on 'click' (fn tab.select 'withdrawn')}}>
+            </button>
+            <button
+                data-test-submissions-type='pending'
+                type='button'
+                {{on 'click' (fn this.changeTab 'withdrawn')}}
+                local-class='tab {{if (eq this.filterState 'withdrawn') 'selected'}}'
+            >
+                <FaIcon @icon='ban' />
                 {{t 'registries.moderation.states.withdrawn'}}
-            </a>
-        </nav.item>
-    </BsNav>
-    <RegistrationList::Manager
-        @provider={{this.model}}
-        @filterState={{this.filterState}}
-        as |manager|
-    >
-        <div class='tab-content'>
-            <RegistrationList::List @manager={{manager}} />
+            </button>
+            <button
+                data-test-submissions-type='pending-withdraw'
+                type='button'
+                {{on 'click' (fn this.changeTab 'pendingWithdraw')}}
+                local-class='tab {{if (eq this.filterState 'pendingWithdraw') 'selected'}}'
+            >
+                <FaIcon @icon='clock-o' />
+                {{t 'registries.moderation.states.pendingWithdraw'}}
+            </button>
         </div>
-    </RegistrationList::Manager>
-</BsTab>
+        <SortButton
+            local-class='sortButton'
+            @sortAction={{manager.sortRegistrationsBy}}
+            @sort={{manager.sort}}
+            @sortBy='date_registered'
+        />
+    </div>
+    <RegistrationList::List @manager={{manager}} />
+</RegistrationList::Manager>

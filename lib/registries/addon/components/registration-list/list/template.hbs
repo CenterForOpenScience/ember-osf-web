@@ -18,7 +18,12 @@
             {{/if}}
         </list.item>
         <list.empty>
-            {{t 'registries.registrationList.noRegistrationsFound' filterState=@manager.filterState}}
+            <p
+                data-test-registration-list-none
+                local-class='noRegistrationMessage'
+            >
+                {{t (concat 'registries.registrationList.' @manager.filterState)}}
+            </p>
         </list.empty>
     </PaginatedList::HasMany>
 </ContentPlaceholders>
