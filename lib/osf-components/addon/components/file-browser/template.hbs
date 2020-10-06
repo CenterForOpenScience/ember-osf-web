@@ -371,7 +371,7 @@
             @moveToNewProject={{action this.moveToNewProject}}
             as |projectSelector|
         >
-            <FileBrowser::FileMoveMessages @selected={{projectSelector.selected}} />
+            <FileBrowser::FileMoveMessages @project={{projectSelector.selected}} />
         </ProjectSelector>
     </modal.body>
     <modal.footer data-analytics-scope='File browser - Move to project Modal'>

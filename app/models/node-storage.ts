@@ -14,7 +14,7 @@ export enum StorageStatus {
 
 export default class NodeStorageModel extends OsfModel {
     @attr('string') storageLimitStatus!: StorageStatus;
-    @attr('string') storageUsage!: string;
+    @attr('number') storageUsage!: number;
 }
 
 declare module 'ember-data/types/registries/model' {

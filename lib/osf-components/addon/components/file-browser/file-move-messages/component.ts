@@ -10,20 +10,20 @@ import template from './template';
 
 @layout(template)
 export default class FileBrowserFileMoveMessages extends Component {
-    selected!: Node;
+    project!: Node;
 
-    @alias('selected.public') isPublicProject!: boolean;
-    @bool('selected.links.relationships.parent') isChildNode!: boolean;
+    @alias('project.public') isPublicProject!: boolean;
+    @bool('project.links.relationships.parent') isChildNode!: boolean;
 
-    @computed('selected.storage')
+    @computed('project.storage')
     get selectedStorageStatus() {
-        if (this.selected) {
-            return (this.selected.belongsTo('storage').value() as NodeStorageModel).storageLimitStatus;
+        if (this.project) {
+            return (this.project.belongsTo('storage').value() as NodeStorageModel).storageLimitStatus;
         }
         return undefined;
     }
 
-    @computed('selected.storage', 'selectedStorageStatus', 'isPublicProject')
+    @computed('selectedStorageStatus', 'isPublicProject')
     get shouldShowError(): boolean {
         if (this.selectedStorageStatus) {
             if (this.selectedStorageStatus === StorageStatus.DEFAULT) {
@@ -41,7 +41,7 @@ export default class FileBrowserFileMoveMessages extends Component {
         return false;
     }
 
-    @computed('selected.storage', 'selectedStorageStatus', 'isPublicProject')
+    @computed('selectedStorageStatus', 'isPublicProject')
     get shouldShowWarning() {
         if (this.selectedStorageStatus) {
             if (!this.isPublicProject && (this.selectedStorageStatus === StorageStatus.APPROACHING_PRIVATE)) {

@@ -16,9 +16,7 @@ interface ThisTestContext extends TestContext {
     node: ModelInstance<Node>;
 }
 
-type testKeys = 'DEFAULT' | 'APPROACHING_PRIVATE' | 'OVER_PRIVATE' | 'APPROACHING_PUBLIC' | 'OVER_PUBLIC';
-
-const testCases: Record<'public' | 'private', Record<testKeys, { warning: boolean, error: boolean }>> = {
+const testCases: Record<'public' | 'private', Record<StorageStatus, { warning: boolean, error: boolean }>> = {
     public: {
         DEFAULT: {
             warning: false,
@@ -85,7 +83,7 @@ module('Integration | Component | file-browser | file-move-messages', hooks => {
         this.node = project;
     });
 
-    const statuses = Object.values(StorageStatus) as testKeys[];
+    const statuses = Object.values(StorageStatus) as StorageStatus[];
     for (const status of statuses) {
         test(`Public project with storage ${status}`, async function(this: ThisTestContext, assert) {
             this.set('user', this.user);
@@ -93,7 +91,7 @@ module('Integration | Component | file-browser | file-move-messages', hooks => {
             if (status === StorageStatus.DEFAULT) {
                 nodeStorage = server.create('node-storage');
             } else {
-                nodeStorage = server.create('node-storage', status);
+                nodeStorage = server.create('node-storage', { storageLimitStatus: status });
             }
             this.node.update({ storage: nodeStorage });
             const selected = await this.store.findRecord('node', this.node.id, { include: 'storage' });
@@ -117,7 +115,7 @@ module('Integration | Component | file-browser | file-move-messages', hooks => {
             if (status === StorageStatus.DEFAULT) {
                 nodeStorage = server.create('node-storage');
             } else {
-                nodeStorage = server.create('node-storage', status);
+                nodeStorage = server.create('node-storage', { storageLimitStatus: status });
             }
             this.node.public = false;
             this.node.update({ storage: nodeStorage });
