@@ -86,17 +86,14 @@ module('Integration | Component | file-browser | file-move-messages', hooks => {
     const statuses = Object.values(StorageStatus) as StorageStatus[];
     for (const status of statuses) {
         test(`Public project with storage ${status}`, async function(this: ThisTestContext, assert) {
-            this.set('user', this.user);
-            let nodeStorage = null;
-            if (status === StorageStatus.DEFAULT) {
-                nodeStorage = server.create('node-storage');
-            } else {
-                nodeStorage = server.create('node-storage', { storageLimitStatus: status });
-            }
+            const nodeStorage = server.create('node-storage', { storageLimitStatus: status });
             this.node.update({ storage: nodeStorage });
+
             const selected = await this.store.findRecord('node', this.node.id, { include: 'storage' });
             this.set('selected', selected);
-            await render(hbs`<FileBrowser::FileMoveMessages @selected={{this.selected}} />`);
+
+            await render(hbs`<FileBrowser::FileMoveMessages @project={{this.selected}} />`);
+
             if (testCases.public[status].error) {
                 assert.dom('[data-test-file-move-error]').exists();
             } else {
@@ -110,18 +107,14 @@ module('Integration | Component | file-browser | file-move-messages', hooks => {
             assert.dom('[data-test-no-longer-public]').doesNotExist();
         });
         test(`Private project with storage ${status}`, async function(this: ThisTestContext, assert) {
-            this.set('user', this.user);
-            let nodeStorage = null;
-            if (status === StorageStatus.DEFAULT) {
-                nodeStorage = server.create('node-storage');
-            } else {
-                nodeStorage = server.create('node-storage', { storageLimitStatus: status });
-            }
-            this.node.public = false;
-            this.node.update({ storage: nodeStorage });
+            const nodeStorage = server.create('node-storage', { storageLimitStatus: status });
+            this.node.update({ public: false, storage: nodeStorage });
+
             const selected = await this.store.findRecord('node', this.node.id, { include: 'storage' });
             this.set('selected', selected);
-            await render(hbs`<FileBrowser::FileMoveMessages @selected={{this.selected}} />`);
+
+            await render(hbs`<FileBrowser::FileMoveMessages @project={{this.selected}} />`);
+
             if (testCases.private[status].error) {
                 assert.dom('[data-test-file-move-error]').exists();
             } else {
