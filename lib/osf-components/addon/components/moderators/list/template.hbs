@@ -1,28 +1,30 @@
 <ContentPlaceholders as |placeholder|>
-    <PaginatedList::HasMany
-        @model={{@manager.provider}}
-        @relationshipName='moderators'
-        @bindReload={{@manager.reloadModeratorList}}
-        as |list|
-    >
-        <list.header local-class='Moderator Header'>
-            <div local-class='ModeratorNamePermission'>
-                <div local-class='Name'>{{t 'registries.moderation.moderators.nameHeader'}}</div>
-                <div local-class='PermissionGroup'>{{t 'registries.moderation.moderators.permissionHeader'}}</div>
-            </div>
-            {{#if @manager.currentUserIsProviderAdmin}}
-                <Moderators::AddModal @manager={{@manager}} />
-            {{/if}}
-        </list.header>
-        <list.item as |moderator|>
-            {{#if moderator}}
-                <Moderators::Row
-                    @moderator={{moderator}}
-                    @manager={{@manager}}
-                />
-            {{else}}
-                {{placeholder.text lines=1}}
-            {{/if}}
-        </list.item>
-    </PaginatedList::HasMany>
+    <div local-class='ModeratorWrapper'>
+        <PaginatedList::HasMany
+            @model={{@manager.provider}}
+            @relationshipName='moderators'
+            @bindReload={{@manager.reloadModeratorList}}
+            as |list|
+        >
+            <list.header local-class='Moderator Header'>
+                <div local-class='ModeratorNamePermission'>
+                    <b local-class='Name'>{{t 'registries.moderation.moderators.nameHeader'}}</b>
+                    <b local-class='PermissionGroup'>{{t 'registries.moderation.moderators.permissionHeader'}}</b>
+                </div>
+                {{#if @manager.currentUserIsProviderAdmin}}
+                    <Moderators::AddModal @manager={{@manager}} />
+                {{/if}}
+            </list.header>
+            <list.item as |moderator|>
+                {{#if moderator}}
+                    <Moderators::Row
+                        @moderator={{moderator}}
+                        @manager={{@manager}}
+                    />
+                {{else}}
+                    {{placeholder.text lines=1}}
+                {{/if}}
+            </list.item>
+        </PaginatedList::HasMany>
+    </div>
 </ContentPlaceholders>

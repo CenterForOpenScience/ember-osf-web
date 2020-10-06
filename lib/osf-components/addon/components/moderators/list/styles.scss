@@ -14,10 +14,15 @@
     composes: PermissionGroup from '../row/styles.scss';
 }
 
+.ModeratorWrapper ul {
+    margin: 0;
+}
+
 .Header {
     font-size: 15px;
     background-color: $color-bg-gray-light;
     border: 1px solid $color-border-gray;
     border-bottom: 0;
     padding: 10px 20px;
+    line-height: initial;
 }
