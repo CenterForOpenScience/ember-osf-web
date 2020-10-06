@@ -5,6 +5,7 @@ import { percySnapshot } from 'ember-percy';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
+import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 import { visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
@@ -81,10 +82,26 @@ module('Registries | Acceptance | branded.moderation | submissions', hooks => {
     });
 
     test('Submissions pending: many registrations', async function(this: ModerationSubmissionsTestContext, assert) {
-        server.createList('registration', 12, { machineState: 'pending', provider: this.registrationProvider });
-        server.createList('registration', 2, { machineState: 'accepted', provider: this.registrationProvider });
-        server.createList('registration', 3, { machineState: 'rejected', provider: this.registrationProvider });
-        server.createList('registration', 4, { machineState: 'withdrawn', provider: this.registrationProvider });
+        server.createList(
+            'registration', 12, {
+                machineState: RegistrationReviewStates.Pending, provider: this.registrationProvider,
+            },
+        );
+        server.createList(
+            'registration', 2, {
+                machineState: RegistrationReviewStates.Accepted, provider: this.registrationProvider,
+            },
+        );
+        server.createList(
+            'registration', 3, {
+                machineState: RegistrationReviewStates.Rejected, provider: this.registrationProvider,
+            },
+        );
+        server.createList(
+            'registration', 4, {
+                machineState: RegistrationReviewStates.Withdrawn, provider: this.registrationProvider,
+            },
+        );
         const currentUser = server.create('user', 'loggedIn');
         server.create('moderator', {
             id: currentUser.id,
