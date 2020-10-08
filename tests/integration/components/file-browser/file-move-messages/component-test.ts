@@ -38,6 +38,10 @@ const testCases: Record<'public' | 'private', Record<StorageStatus, { warning: b
             warning: false,
             error: true,
         },
+        NOT_CALCULATED: {
+            warning: false,
+            error: false,
+        },
     },
     private: {
         DEFAULT: {
@@ -59,6 +63,10 @@ const testCases: Record<'public' | 'private', Record<StorageStatus, { warning: b
         OVER_PUBLIC: {
             warning: false,
             error: true,
+        },
+        NOT_CALCULATED: {
+            warning: false,
+            error: false,
         },
     },
 };
