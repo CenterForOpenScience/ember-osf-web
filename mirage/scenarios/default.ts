@@ -85,7 +85,7 @@ function registrationScenario(
         registeredBy: currentUser,
     }, 'withContributors');
 
-    server.createList('registration', 4,
+    server.createList('registration', 12,
         {
             machineState: RegistrationReviewStates.Pending,
             provider: egap,

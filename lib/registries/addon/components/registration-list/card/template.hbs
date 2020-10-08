@@ -38,36 +38,15 @@
                         @predicate={{this.showFullActionList}}
                         @duration='100'
                     >
-                        {{!-- TODO: add placeholder while actions list is being loaded --}}
-                        <p data-test-registration-list-card-submitted>
-                            {{t 'registries.registrationList.moderatorAction'
-                                action='Submitted'
-                                moderator=this.registeredBy
-                                date=this.timeSubmitted
-                            }}
-                        </p>
-                        <p data-test-registration-list-card-submitted>
-                            {{t 'registries.registrationList.moderatorAction'
-                                action='Rejected'
-                                moderator='Judge Judy'
-                                date=this.timeSubmitted
-                            }}
-                        </p>
-                        <p data-test-registration-list-card-submitted>
-                            {{t 'registries.registrationList.moderatorAction'
-                                action='Accepted'
-                                moderator='Happy Mod'
-                                date=this.timeSubmitted
-                            }}
-                        </p>
-                        {{!-- {{#each this.actions as |action, index|}} --}}
-                        {{!-- skip latest action since it will already be shown --}}
-                        {{!-- {{t 'registries.registrationList.moderatorAction'
-                            action=action.actionTrigger
-                            moderator=action.creator
-                            date=action.dateModified
-                        }} --}}
-                        {{!-- {{/each}} --}}
+                        {{#each this.reviewActions as |action|}}
+                            <p data-test-registration-list-card-submitted>
+                                {{t 'registries.registrationList.moderatorAction'
+                                    action=action.actionTrigger
+                                    moderator=action.creator
+                                    date=action.dateModified
+                                }}
+                            </p>
+                        {{/each}}
                     </AnimatedIf>
                 </AnimatedContainer>
             </div>
