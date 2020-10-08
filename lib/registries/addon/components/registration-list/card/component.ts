@@ -4,7 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
 
 import RegistrationModel from 'ember-osf-web/models/registration';
-import RegistrationActionModel from 'ember-osf-web/models/registration-action';
+import ReviewActionModel from 'ember-osf-web/models/review-action';
 
 import UserModel from 'ember-osf-web/models/user';
 import formattedTimeSince from 'ember-osf-web/utils/formatted-time-since';
@@ -25,7 +25,7 @@ interface Args {
 export default class RegistrationListCard extends Component<Args> {
     @tracked registeredBy?: string;
     @tracked showFullActionList: boolean = false;
-    @tracked reviewActions?: RegistrationActionModel[];
+    @tracked reviewActions?: ReviewActionModel[];
 
     get actionsListIcon() {
         return this.showFullActionList ? 'caret-down' : 'caret-right';
@@ -48,8 +48,7 @@ export default class RegistrationListCard extends Component<Args> {
 
     @task({ withTestWaiter: true })
     fetchActions = task(function *(this: RegistrationListCard) {
-        const actionsProxy = yield this.args.registration.reviewActions;
-        this.reviewActions = actionsProxy.content();
+        this.reviewActions = yield this.args.registration.reviewActions;
     });
 
     constructor(owner: unknown, args: Args) {

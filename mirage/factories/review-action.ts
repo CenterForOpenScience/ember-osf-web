@@ -1,13 +1,21 @@
 import { association, Factory } from 'ember-cli-mirage';
 import faker from 'faker';
 
-import RegistrationActionModel from 'ember-osf-web/models/registration-action';
+import ReviewActionModel from 'ember-osf-web/models/review-action';
 
-export default Factory.extend<RegistrationActionModel>({
+export default Factory.extend<ReviewActionModel>({
     auto: false,
     visible: true,
     fromState: 'initial',
     toState: 'pending',
+
+    afterCreate(reviewAction) {
+        if (reviewAction.target) {
+            reviewAction.update({
+                provider: reviewAction.target.provider,
+            });
+        }
+    },
 
     actionTrigger() {
         return 'Submit';
@@ -25,19 +33,19 @@ export default Factory.extend<RegistrationActionModel>({
         return faker.date.recent(5);
     },
 
-    provider: association() as RegistrationActionModel['provider'],
-    target: association() as RegistrationActionModel['target'],
-    creator: association() as RegistrationActionModel['creator'],
+    provider: association() as ReviewActionModel['provider'],
+    target: association() as ReviewActionModel['target'],
+    creator: association() as ReviewActionModel['creator'],
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {
     export default interface MirageModelRegistry {
-        'registration-action': RegistrationActionModel;
+        'review-action': ReviewActionModel;
     } // eslint-disable-line semi
 }
 
 declare module 'ember-cli-mirage/types/registries/schema' {
     export default interface MirageSchemaRegistry {
-        registrationAction: RegistrationActionModel;
+        reviewAction: ReviewActionModel;
     } // eslint-disable-line semi
 }

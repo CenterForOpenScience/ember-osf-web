@@ -1,8 +1,8 @@
 import DS from 'ember-data';
 
 import OsfModel from './osf-model';
-import PreprintModel from './preprint';
-import PreprintProviderModel from './preprint-provider';
+import RegistrationModel from './registration';
+import RegistrationProviderModel from './registration-provider';
 import UserModel from './user';
 
 const { attr, belongsTo } = DS;
@@ -14,12 +14,14 @@ export default class ReviewActionModel extends OsfModel {
     @attr('string') toState!: string;
     @attr('date') dateCreated!: Date;
     @attr('date') dateModified!: Date;
+    @attr('boolean') auto!: boolean;
+    @attr('boolean') visible!: boolean;
 
-    @belongsTo('preprint-provider', { inverse: null })
-    provider!: DS.PromiseObject<PreprintProviderModel> & PreprintProviderModel;
+    @belongsTo('registration-provider', { inverse: 'actions', polymorphic: true })
+    provider!: DS.PromiseObject<RegistrationProviderModel> & RegistrationProviderModel;
 
-    @belongsTo('preprint', { inverse: 'reviewActions' })
-    target!: DS.PromiseObject<PreprintModel> & PreprintModel;
+    @belongsTo('registration', { inverse: 'reviewActions', polymorphic: true })
+    target!: DS.PromiseObject<RegistrationModel> & RegistrationModel;
 
     @belongsTo('user', { inverse: null })
     creator!: DS.PromiseObject<UserModel> & UserModel;

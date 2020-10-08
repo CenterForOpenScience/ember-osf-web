@@ -1,19 +1,19 @@
 import { ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
-import RegistrationActionModel from 'ember-osf-web/models/registration-action';
+import ReviewActionModel from 'ember-osf-web/models/review-action';
 import ApplicationSerializer, { SerializedRelationships } from './application';
 
 const { OSF: { apiUrl } } = config;
 
-export default class RegistrationActionSerializer extends ApplicationSerializer<RegistrationActionModel> {
-    buildNormalLinks(model: ModelInstance<RegistrationActionModel>) {
+export default class ReviewActionSerializer extends ApplicationSerializer<ReviewActionModel> {
+    buildNormalLinks(model: ModelInstance<ReviewActionModel>) {
         return {
             self: `${apiUrl}/v2/providers/registrations/${model.provider.id}/actions/${model.id}`,
         };
     }
 
-    buildRelationships(model: ModelInstance<RegistrationActionModel>) {
-        const relationships: SerializedRelationships<RegistrationActionModel> = {
+    buildRelationships(model: ModelInstance<ReviewActionModel>) {
+        const relationships: SerializedRelationships<ReviewActionModel> = {
             provider: {
                 links: {
                     related: {
