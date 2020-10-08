@@ -3,10 +3,9 @@
 }
 
 .registrationListContainer {
-    border: 1px solid $color-border-gray;
-
     ul {
         margin: 0;
+        border: 1px solid $color-border-gray;
     }
 
     li {
