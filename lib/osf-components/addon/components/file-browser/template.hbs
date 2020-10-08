@@ -397,7 +397,7 @@
             <OsfButton
                 data-test-move-to-project-modal-perform-button
                 data-analytics-name='Move'
-                @disabled={{this.moveAllowed}}
+                @disabled={{not this.moveAllowed}}
                 @onClick={{action (perform this.moveToProject)}}
                 @type='primary'
             >
