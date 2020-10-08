@@ -112,11 +112,11 @@ export default class UserQuickfiles extends Controller {
             this.allFiles.removeObject(file);
             return true;
         } catch (e) {
-            if (e.errors[0].status === 507) {
-                this.toast.error(this.intl.t('move_to_project.storage_error'));
-            } else {
-                this.toast.error(this.intl.t('move_to_project.could_not_move_file'));
+            let toastMessage = this.intl.t('move_to_project.could_not_move_file');
+            if (e.code === 507) {
+                toastMessage = e.message;
             }
+            this.toast.error(toastMessage);
         }
 
         return false;
