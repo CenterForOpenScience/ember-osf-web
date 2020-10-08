@@ -123,9 +123,7 @@ export default class UploadZone extends Component {
             toastMessage = response;
         } else {
             const apiError = getApiError(response);
-            // TODO: Double-check when [ENG-2122] is merged,
-            // might need to change how we grab the api error
-            if (apiError && apiError.status === '507') {
+            if (apiError) {
                 toastMessage = getApiErrorMessage(response);
             } else {
                 toastMessage = response.message_long || response.message;
