@@ -181,7 +181,7 @@ export default class FileBrowser extends Component {
 
     @computed('node.{public}', 'isProjectSelectorValid', 'isMoving')
     get moveAllowed(): boolean {
-        if (!this.isProjectSelectorValid && this.isMoving) {
+        if (!this.isProjectSelectorValid || this.isMoving) {
             return false;
         }
         if (this.node) {

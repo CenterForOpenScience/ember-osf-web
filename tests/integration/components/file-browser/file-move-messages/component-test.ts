@@ -80,6 +80,7 @@ module('Integration | Component | file-browser | file-move-messages', hooks => {
         const mirageUser = server.create('user');
         this.user = mirageUser;
         const project = server.create('node', {
+            id: 'aaaaa',
             currentUserPermissions: Object.values(Permission),
         });
         server.create('contributor', {
@@ -94,7 +95,7 @@ module('Integration | Component | file-browser | file-move-messages', hooks => {
     const statuses = Object.values(StorageStatus) as StorageStatus[];
     for (const status of statuses) {
         test(`Public project with storage ${status}`, async function(this: ThisTestContext, assert) {
-            const nodeStorage = server.create('node-storage', { storageLimitStatus: status });
+            const nodeStorage = server.create('node-storage', { id: 'aaaaa', storageLimitStatus: status });
             this.node.update({ storage: nodeStorage });
 
             const selected = await this.store.findRecord('node', this.node.id, { include: 'storage' });
@@ -115,7 +116,7 @@ module('Integration | Component | file-browser | file-move-messages', hooks => {
             assert.dom('[data-test-no-longer-public]').doesNotExist();
         });
         test(`Private project with storage ${status}`, async function(this: ThisTestContext, assert) {
-            const nodeStorage = server.create('node-storage', { storageLimitStatus: status });
+            const nodeStorage = server.create('node-storage', { id: 'aaaaa', storageLimitStatus: status });
             this.node.update({ public: false, storage: nodeStorage });
 
             const selected = await this.store.findRecord('node', this.node.id, { include: 'storage' });
