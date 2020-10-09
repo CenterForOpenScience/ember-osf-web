@@ -3,6 +3,7 @@ import config from 'ember-get-config';
 import faker from 'faker';
 
 import FileProvider from 'ember-osf-web/models/file-provider';
+import { StorageStatus } from 'ember-osf-web/models/node-storage';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 
@@ -150,39 +151,35 @@ function registrationScenario(
 }
 
 function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {
-    const overPrivate = server.create('node-storage', { id: 'ovpri' }, 'overPrivate');
     const overPrivateNode = server.create('node', {
         id: 'ovpri',
         title: 'Over the Private Storage Limit',
-        storage: overPrivate,
         public: false,
         currentUserPermissions: Object.values(Permission),
-    });
+    }, 'withStorage');
+    overPrivateNode.storage.update({ storageLimitStatus: StorageStatus.OVER_PRIVATE });
 
-    const approachingPrivate = server.create('node-storage', { id: 'appri' }, 'approachingPrivate');
     const approachingPrivateNode = server.create('node', {
         id: 'appri',
         title: 'Approaching the Private Storage Limit',
-        storage: approachingPrivate,
         public: false,
         currentUserPermissions: Object.values(Permission),
-    });
+    }, 'withStorage');
+    approachingPrivateNode.storage.update({ storageLimitStatus: StorageStatus.APPROACHING_PRIVATE });
 
-    const overPublic = server.create('node-storage', { id: 'ovpub' }, 'overPublic');
     const overPublicNode = server.create('node', {
         id: 'ovpub',
         title: 'Over the Public Storage Limit',
-        storage: overPublic,
         currentUserPermissions: Object.values(Permission),
-    });
+    }, 'withStorage');
+    overPublicNode.storage.update({ storageLimitStatus: StorageStatus.OVER_PUBLIC });
 
-    const approachingPublic = server.create('node-storage', { id: 'appub' }, 'approachingPublic');
     const approachingPublicNode = server.create('node', {
         id: 'appub',
         title: 'Approaching the Public Storage Limit',
-        storage: approachingPublic,
         currentUserPermissions: Object.values(Permission),
-    });
+    }, 'withStorage');
+    approachingPublicNode.storage.update({ storageLimitStatus: StorageStatus.APPROACHING_PUBLIC });
 
     const nodes = [overPrivateNode, approachingPrivateNode, overPublicNode, approachingPublicNode];
     for (const node of nodes) {
