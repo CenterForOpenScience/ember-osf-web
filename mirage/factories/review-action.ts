@@ -17,9 +17,7 @@ export default Factory.extend<ReviewActionModel>({
         }
     },
 
-    actionTrigger() {
-        return 'Submit';
-    },
+    actionTrigger: 'Submit',
 
     comment() {
         return faker.lorem.sentence();

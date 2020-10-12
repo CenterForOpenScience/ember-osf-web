@@ -42,7 +42,7 @@ export default class RegistrationListCard extends Component<Args> {
     fetchActions = task(function *(this: RegistrationListCard) {
         this.reviewActions = yield this.args.registration.reviewActions;
         if (this.reviewActions) {
-            [this.latestAction] = this.reviewActions;
+            [this.latestAction] = this.reviewActions.toArray();
         }
     });
 

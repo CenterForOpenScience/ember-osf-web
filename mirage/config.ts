@@ -132,6 +132,11 @@ export default function(this: Server) {
     this.get('/registrations/:id', registrationDetail);
     osfNestedResource(this, 'registration', 'children');
     osfNestedResource(this, 'registration', 'forks', { except: ['create'] });
+    osfNestedResource(this, 'registration', 'reviewActions', {
+        only: ['index'],
+        path: '/registrations/:parentID/review-actions',
+        relatedModelName: 'review-action',
+    });
     this.post('/registrations/:id/forks', forkRegistration);
 
     osfNestedResource(this, 'registration', 'contributors', { defaultSortKey: 'index' });
