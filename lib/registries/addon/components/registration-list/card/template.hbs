@@ -40,14 +40,16 @@
                             @predicate={{this.showFullActionList}}
                             @duration='100'
                         >
-                            {{#each this.reviewActions as |reviewAction|}}
-                                <p data-test-registration-list-card-submitted>
-                                    {{t 'registries.registrationList.moderatorAction'
-                                        action=reviewAction.actionTrigger
-                                        moderator=reviewAction.creator.fullName
-                                        date=(time-since reviewAction.dateModified)
-                                    }}
-                                </p>
+                            {{#each this.reviewActions as |reviewAction index|}}
+                                {{#if (gt index 0)}}
+                                    <p data-test-registration-list-card-submitted>
+                                        {{t 'registries.registrationList.moderatorAction'
+                                            action=reviewAction.actionTrigger
+                                            moderator=reviewAction.creator.fullName
+                                            date=(time-since reviewAction.dateModified)
+                                        }}
+                                    </p>
+                                {{/if}}
                             {{/each}}
                         </AnimatedIf>
                     </AnimatedContainer>
