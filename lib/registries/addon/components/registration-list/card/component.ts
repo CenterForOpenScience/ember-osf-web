@@ -5,7 +5,6 @@ import { task } from 'ember-concurrency-decorators';
 
 import RegistrationModel from 'ember-osf-web/models/registration';
 import ReviewActionModel from 'ember-osf-web/models/review-action';
-import formattedTimeSince from 'ember-osf-web/utils/formatted-time-since';
 
 const iconMap: Record<string, string> = {
     pending: 'hourglass',
@@ -32,10 +31,6 @@ export default class RegistrationListCard extends Component<Args> {
     get icon(): string {
         const { filterState } = this.args;
         return iconMap[filterState] ? iconMap[filterState] : '';
-    }
-
-    get timeSubmitted(): string {
-        return formattedTimeSince(this.args.registration.dateRegistered);
     }
 
     @task({ withTestWaiter: true })

@@ -30,9 +30,9 @@
                 <div local-class='actionsList'>
                     <p data-test-registration-list-card-submitted>
                         {{t 'registries.registrationList.moderatorAction'
-                            action=this.latestAction.trigger
+                            action=this.latestAction.actionTrigger
                             moderator=this.latestAction.creator.fullName
-                            date=this.latestAction.dateModified
+                            date=(time-since this.latestAction.dateModified)
                         }}
                     </p>
                     <AnimatedContainer local-class='ExpandyContainer'>
@@ -40,12 +40,12 @@
                             @predicate={{this.showFullActionList}}
                             @duration='100'
                         >
-                            {{#each this.reviewActions as |action|}}
+                            {{#each this.reviewActions as |reviewAction|}}
                                 <p data-test-registration-list-card-submitted>
                                     {{t 'registries.registrationList.moderatorAction'
-                                        action=action.actionTrigger
-                                        moderator=action.creator.fullName
-                                        date=action.dateModified
+                                        action=reviewAction.actionTrigger
+                                        moderator=reviewAction.creator.fullName
+                                        date=(time-since reviewAction.dateModified)
                                     }}
                                 </p>
                             {{/each}}
