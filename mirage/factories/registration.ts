@@ -29,6 +29,7 @@ export interface RegistrationTraits {
     withAffiliatedInstitutions: Trait;
     isPublic: Trait;
     withSubjects: Trait;
+    withReviewActions: Trait;
 }
 
 const stateAttrs = {
@@ -209,6 +210,12 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
                 subjects.push(faker.random.arrayElement(providerSubjects));
             }
             registration.update({ subjects });
+        },
+    }),
+    withReviewActions: trait<MirageRegistration>({
+        afterCreate(registration, server) {
+            const reviewActions = server.createList('review-action', 3, { target: registration });
+            registration.update({ reviewActions });
         },
     }),
 });

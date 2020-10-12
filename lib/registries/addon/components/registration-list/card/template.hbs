@@ -9,47 +9,50 @@
         @size={{2}}
         local-class='filterIcon {{@filterState}}'
     />
-    <div local-class='cardInfo'>
-        {{!-- TODO: Update this to be a link to the moderation overview page --}}
-        <h3
-            data-test-registration-list-card-title
-            local-class='registrationTitle'
-        >
-            {{@registration.title}}
-        </h3>
-        <div local-class='actionsWrapper'>
-            <FaIcon 
-                @icon={{this.actionsListIcon}}
-                @fixedWidth={{true}}
-                local-class='toggleActions'
-                {{on 'click' this.toggleActionList}}
-            />
-            <div local-class='actionsList'>
-                {{!-- TODO: Update this to show the last action done to it --}}
-                <p data-test-registration-list-card-submitted>
-                    {{t 'registries.registrationList.moderatorAction'
-                        action='Submitted'
-                        moderator=this.registeredBy
-                        date=this.timeSubmitted
-                    }}
-                </p>
-                <AnimatedContainer local-class='ExpandyContainer'>
-                    <AnimatedIf
-                        @predicate={{this.showFullActionList}}
-                        @duration='100'
-                    >
-                        {{#each this.reviewActions as |action|}}
-                            <p data-test-registration-list-card-submitted>
-                                {{t 'registries.registrationList.moderatorAction'
-                                    action=action.actionTrigger
-                                    moderator=action.creator
-                                    date=action.dateModified
-                                }}
-                            </p>
-                        {{/each}}
-                    </AnimatedIf>
-                </AnimatedContainer>
+    {{#if this.fetchActions.isRunning}}
+        <LoadingIndicator />
+    {{else}}
+        <div local-class='cardInfo'>
+            {{!-- TODO: Update this to be a link to the moderation overview page --}}
+            <h3
+                data-test-registration-list-card-title
+                local-class='registrationTitle'
+            >
+                {{@registration.title}}
+            </h3>
+            <div local-class='actionsWrapper'>
+                <FaIcon 
+                    @icon={{this.actionsListIcon}}
+                    @fixedWidth={{true}}
+                    local-class='toggleActions'
+                    {{on 'click' this.toggleActionList}}
+                />
+                <div local-class='actionsList'>
+                    <p data-test-registration-list-card-submitted>
+                        {{t 'registries.registrationList.moderatorAction'
+                            action=this.latestAction.trigger
+                            moderator=this.latestAction.creator.fullName
+                            date=this.latestAction.dateModified
+                        }}
+                    </p>
+                    <AnimatedContainer local-class='ExpandyContainer'>
+                        <AnimatedIf
+                            @predicate={{this.showFullActionList}}
+                            @duration='100'
+                        >
+                            {{#each this.reviewActions as |action|}}
+                                <p data-test-registration-list-card-submitted>
+                                    {{t 'registries.registrationList.moderatorAction'
+                                        action=action.actionTrigger
+                                        moderator=action.creator.fullName
+                                        date=action.dateModified
+                                    }}
+                                </p>
+                            {{/each}}
+                        </AnimatedIf>
+                    </AnimatedContainer>
+                </div>
             </div>
         </div>
-    </div>
+    {{/if}}
 </div>

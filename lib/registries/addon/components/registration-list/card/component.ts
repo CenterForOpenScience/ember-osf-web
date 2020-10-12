@@ -5,8 +5,6 @@ import { task } from 'ember-concurrency-decorators';
 
 import RegistrationModel from 'ember-osf-web/models/registration';
 import ReviewActionModel from 'ember-osf-web/models/review-action';
-
-import UserModel from 'ember-osf-web/models/user';
 import formattedTimeSince from 'ember-osf-web/utils/formatted-time-since';
 
 const iconMap: Record<string, string> = {
@@ -23,9 +21,9 @@ interface Args {
 }
 
 export default class RegistrationListCard extends Component<Args> {
-    @tracked registeredBy?: string;
     @tracked showFullActionList: boolean = false;
     @tracked reviewActions?: ReviewActionModel[];
+    @tracked latestAction?: ReviewActionModel;
 
     get actionsListIcon() {
         return this.showFullActionList ? 'caret-down' : 'caret-right';
@@ -41,26 +39,20 @@ export default class RegistrationListCard extends Component<Args> {
     }
 
     @task({ withTestWaiter: true })
-    fetchRegisteredBy = task(function *(this: RegistrationListCard) {
-        const registeredByUser: UserModel = yield this.args.registration.registeredBy;
-        this.registeredBy = registeredByUser.fullName;
-    });
-
-    @task({ withTestWaiter: true })
     fetchActions = task(function *(this: RegistrationListCard) {
         this.reviewActions = yield this.args.registration.reviewActions;
+        if (this.reviewActions) {
+            [this.latestAction] = this.reviewActions;
+        }
     });
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
-        this.fetchRegisteredBy.perform();
+        this.fetchActions.perform();
     }
 
     @action
     toggleActionList() {
-        if (!this.fetchActions.value) {
-            this.fetchActions.perform();
-        }
         this.showFullActionList = !this.showFullActionList;
     }
 }

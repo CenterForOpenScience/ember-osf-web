@@ -98,7 +98,7 @@ function registrationScenario(
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider: egap,
         machineState: RegistrationReviewStates.Withdrawn,
-    }, 'withContributors');
+    }, 'withContributors', 'withReviewActions');
 
     // server.create('registration', {
     //     id: 'r3jct',
@@ -115,6 +115,13 @@ function registrationScenario(
         provider: egap,
         machineState: RegistrationReviewStates.Accepted,
     }, 'withContributors');
+
+    server.create('registration', {
+        id: 'pndwd',
+        title: 'Cold Turkey',
+        provider: egap,
+        machineState: RegistrationReviewStates.PendingWithdraw,
+    });
 
     server.create('registration', {
         id: 'aerchive',

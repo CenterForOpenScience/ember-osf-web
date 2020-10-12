@@ -50,10 +50,10 @@
             </button>
             <button
                 data-test-submissions-type='pending-withdraw'
-                data-test-is-selected={{if (eq this.filterState 'pendingWithdraw') 'true' 'false'}}
+                data-test-is-selected={{if (eq this.filterState 'pending_withdraw') 'true' 'false'}}
                 type='button'
-                {{on 'click' (fn this.changeTab 'pendingWithdraw')}}
-                local-class='tab {{if (eq this.filterState 'pendingWithdraw') 'selected'}}'
+                {{on 'click' (fn this.changeTab 'pending_withdraw')}}
+                local-class='tab {{if (eq this.filterState 'pending_withdraw') 'selected'}}'
             >
                 <FaIcon @icon='clock-o' />
                 {{t 'registries.moderation.states.pendingWithdraw'}}

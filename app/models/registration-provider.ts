@@ -26,7 +26,7 @@ export default class RegistrationProviderModel extends ProviderModel {
     @hasMany('registration-request', { inverse: null })
     requests!: DS.PromiseManyArray<RegistrationRequestModel> | RegistrationRequestModel[];
 
-    @hasMany('review-action', { inverse: 'target' })
+    @hasMany('review-action', { inverse: 'provider' })
     actions!: DS.PromiseManyArray<ReviewActionModel> | ReviewActionModel[];
 
     @attr('fixstring')

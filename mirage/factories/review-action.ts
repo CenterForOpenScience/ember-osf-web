@@ -33,8 +33,6 @@ export default Factory.extend<ReviewActionModel>({
         return faker.date.recent(5);
     },
 
-    provider: association() as ReviewActionModel['provider'],
-    target: association() as ReviewActionModel['target'],
     creator: association() as ReviewActionModel['creator'],
 });
 
