@@ -116,6 +116,7 @@ export default class UserQuickfiles extends Controller {
             if (e.status === '507') {
                 toastMessage = this.intl.t('move_to_project.storage_error');
             }
+            captureException(e);
             this.toast.error(toastMessage);
         }
 

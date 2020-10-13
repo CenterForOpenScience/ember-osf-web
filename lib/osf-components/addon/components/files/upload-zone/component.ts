@@ -7,6 +7,7 @@ import { alias, notEmpty } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 import $ from 'jquery';
 
@@ -32,8 +33,9 @@ interface DropzoneFileUpload {
 /* eslint-disable camelcase */
 interface UploadResponse {
     message: string;
-    message_long: string;
+    message_long?: string;
     data: FileResource;
+    code: string;
 }
 /* eslint-enable camelcase */
 
@@ -43,6 +45,7 @@ export default class UploadZone extends Component {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service store!: DS.Store;
+    @service intl!: Intl;
 
     filesManager!: FilesManager;
     uploading: MutableArray<File> = A([]);
@@ -119,12 +122,19 @@ export default class UploadZone extends Component {
     error(_: unknown, __: unknown, file: File & DropzoneFileUpload, response: ErrorDocument & UploadResponse | string) {
         this.uploading.removeObject(file);
         let toastMessage = '';
+        let error;
         if (typeof response === 'string') {
             toastMessage = response;
+            error = new Error(response);
         } else {
-            captureException(response);
-            toastMessage = response.message_long || response.message;
+            error = response;
+            if (response.code === '507') {
+                toastMessage = this.intl.t('osf-components.files-widget.insufficient_storage_error');
+            } else {
+                toastMessage = response.message_long || response.message;
+            }
         }
+        captureException(error, { errorMessage: toastMessage });
         this.toast.error(toastMessage);
     }
 

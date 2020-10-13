@@ -1476,6 +1476,7 @@ osf-components:
         create: Create
         folder_name_placeholder: 'New folder name'
         create_folder_failed: 'Failed to create folder'
+        insufficient_storage_error: 'This file cannot be uploaded to this project/component because it has exceeded the storage limit for OSF Storage.'
     subjects:
         browse:
             browse_all: 'Browse all subjects'
