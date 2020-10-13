@@ -35,7 +35,7 @@ interface UploadResponse {
     message: string;
     message_long?: string;
     data: FileResource;
-    code: string;
+    code: number;
 }
 /* eslint-enable camelcase */
 
@@ -128,7 +128,7 @@ export default class UploadZone extends Component {
             error = new Error(response);
         } else {
             error = response;
-            if (response.code === '507') {
+            if (response.code === 507) {
                 toastMessage = this.intl.t('osf-components.files-widget.insufficient_storage_error');
             } else {
                 toastMessage = response.message_long || response.message;
