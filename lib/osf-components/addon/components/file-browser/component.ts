@@ -14,7 +14,7 @@ import $ from 'jquery';
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import File from 'ember-osf-web/models/file';
 import Node from 'ember-osf-web/models/node';
-import NodeStorageModel, { StorageStatus } from 'ember-osf-web/models/node-storage';
+import NodeStorageModel from 'ember-osf-web/models/node-storage';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
@@ -179,21 +179,15 @@ export default class FileBrowser extends Component {
         ].filter(item => item.length);
     }
 
-    @computed('node', 'isProjectSelectorValid', 'isMoving')
+    @computed('node.{public}', 'isProjectSelectorValid', 'isMoving')
     get moveAllowed(): boolean {
-        if (!this.isProjectSelectorValid && this.isMoving) {
+        if (!this.isProjectSelectorValid || this.isMoving) {
             return false;
         }
         if (this.node) {
             const storage = this.node.belongsTo('storage').value() as NodeStorageModel;
-            const { storageLimitStatus } = storage;
-            if (storageLimitStatus === StorageStatus.OVER_PUBLIC) {
-                return false;
-            }
-            if ([StorageStatus.OVER_PRIVATE, StorageStatus.APPROACHING_PUBLIC].includes(storageLimitStatus)) {
-                if (!this.node.public) {
-                    return false;
-                }
+            if (storage) {
+                return !storage.isOverStorageCap;
             }
         }
         return true;

@@ -4,7 +4,7 @@ import { alias, bool } from '@ember/object/computed';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Node from 'ember-osf-web/models/node';
-import NodeStorageModel, { StorageStatus } from 'ember-osf-web/models/node-storage';
+import NodeStorageModel from 'ember-osf-web/models/node-storage';
 
 import template from './template';
 
@@ -23,35 +23,13 @@ export default class FileBrowserFileMoveMessages extends Component {
         return undefined;
     }
 
-    @computed('selectedStorageStatus', 'isPublicProject')
+    @computed('project.storage', 'isPublicProject')
     get shouldShowError(): boolean {
-        if (this.selectedStorageStatus) {
-            if (this.selectedStorageStatus === StorageStatus.DEFAULT) {
-                return false;
-            }
-            if (this.selectedStorageStatus === StorageStatus.OVER_PUBLIC) {
-                return true;
-            }
-            if ([StorageStatus.OVER_PRIVATE, StorageStatus.APPROACHING_PUBLIC].includes(this.selectedStorageStatus)) {
-                if (!this.isPublicProject) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return (this.project.belongsTo('storage').value() as NodeStorageModel).isOverStorageCap;
     }
 
-    @computed('selectedStorageStatus', 'isPublicProject')
+    @computed('project.storage', 'isPublicProject')
     get shouldShowWarning() {
-        if (this.selectedStorageStatus) {
-            if (!this.isPublicProject && (this.selectedStorageStatus === StorageStatus.APPROACHING_PRIVATE)) {
-                return true;
-            }
-
-            if (this.isPublicProject && (this.selectedStorageStatus === StorageStatus.APPROACHING_PUBLIC)) {
-                return true;
-            }
-        }
-        return false;
+        return (this.project.belongsTo('storage').value() as NodeStorageModel).isApproachingStorageCap;
     }
 }

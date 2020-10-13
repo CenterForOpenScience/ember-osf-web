@@ -15,7 +15,7 @@ import File from 'ember-osf-web/models/file';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 
-import { getApiError, getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
+import captureException from 'ember-osf-web/utils/capture-exception';
 import { ErrorDocument, Resource } from 'osf-api';
 import { FilesManager } from 'osf-components/components/files/manager/component';
 import template from './template';
@@ -122,12 +122,8 @@ export default class UploadZone extends Component {
         if (typeof response === 'string') {
             toastMessage = response;
         } else {
-            const apiError = getApiError(response);
-            if (apiError) {
-                toastMessage = getApiErrorMessage(response);
-            } else {
-                toastMessage = response.message_long || response.message;
-            }
+            captureException(response);
+            toastMessage = response.message_long || response.message;
         }
         this.toast.error(toastMessage);
     }
