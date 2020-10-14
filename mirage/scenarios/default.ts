@@ -61,13 +61,12 @@ function registrationScenario(
         'page-one_single-select-two': 'Remember who was in NSync and who was in Backstreet Boys',
     };
 
-    const rootNodeStorage = server.create('node-storage', 'overPrivate');
     const rootNode = server.create('node', {
-        storage: rootNodeStorage,
         public: false,
         contributors: server.createList('contributor', 11),
         currentUserPermissions: [Permission.Admin],
-    }, 'withFiles');
+    }, 'withFiles', 'withStorage');
+    rootNode.update({ storage: StorageStatus.OVER_PRIVATE });
 
     const childNodeA = server.create('node', { parent: rootNode });
     server.create('node', { parent: childNodeA });
@@ -181,7 +180,15 @@ function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {
     }, 'withStorage');
     approachingPublicNode.storage.update({ storageLimitStatus: StorageStatus.APPROACHING_PUBLIC });
 
-    const nodes = [overPrivateNode, approachingPrivateNode, overPublicNode, approachingPublicNode];
+    const notCalculatedNode = server.create('node', {
+        id: 'noCal',
+        public: false,
+        title: 'Storage Status not calculated',
+        currentUserPermissions: Object.values(Permission),
+    }, 'withStorage');
+    approachingPublicNode.storage.update({ storageLimitStatus: StorageStatus.NOT_CALCULATED });
+
+    const nodes = [overPrivateNode, approachingPrivateNode, overPublicNode, approachingPublicNode, notCalculatedNode];
     for (const node of nodes) {
         server.create('contributor', {
             node,

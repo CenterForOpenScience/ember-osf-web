@@ -180,7 +180,7 @@ export default class FileBrowser extends Component {
     }
 
     @computed('node.public', 'isProjectSelectorValid', 'isMoving')
-    get moveAllowed(): boolean {
+    get isMoveButtonEnabled(): boolean {
         if (!this.isProjectSelectorValid || this.isMoving) {
             return false;
         }

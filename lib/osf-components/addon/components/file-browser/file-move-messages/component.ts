@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
-import { alias, bool } from '@ember/object/computed';
+import { alias, not } from '@ember/object/computed';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Node from 'ember-osf-web/models/node';
@@ -13,15 +13,7 @@ export default class FileBrowserFileMoveMessages extends Component {
     project!: Node;
 
     @alias('project.public') isPublicProject!: boolean;
-    @bool('project.links.relationships.parent') isChildNode!: boolean;
-
-    @computed('project.storage')
-    get selectedStorageStatus() {
-        if (this.project) {
-            return (this.project.belongsTo('storage').value() as NodeStorageModel).storageLimitStatus;
-        }
-        return undefined;
-    }
+    @not('project.isRoot') isChildNode!: boolean;
 
     @computed('project.storage', 'isPublicProject')
     get shouldShowError(): boolean {

@@ -153,9 +153,8 @@ module('Acceptance | Guid User Quickfiles', hooks => {
                     dateModified: '2017-10-19T12:05:10.571Z',
                     public: true,
                 },
+                'withStorage',
             );
-            const nodeStorage = server.create('node-storage');
-            node.update({ storage: nodeStorage });
             server.create(
                 'contributor',
                 { node, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
@@ -196,9 +195,8 @@ module('Acceptance | Guid User Quickfiles', hooks => {
                     dateModified: '2017-10-19T12:05:10.571Z',
                     public: false,
                 },
+                'withStorage',
             );
-            const nodeStorage = server.create('node-storage');
-            node.update({ storage: nodeStorage });
             server.create(
                 'contributor',
                 {
@@ -242,9 +240,8 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             const node = server.create(
                 'node',
                 { title, lastLogged: '2017-10-19T12:05:10.571Z', dateModified: '2017-10-19T12:05:10.571Z' },
+                'withStorage',
             );
-            const nodeStorage = server.create('node-storage');
-            node.update({ storage: nodeStorage });
             server.create(
                 'contributor',
                 { node, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },
@@ -280,9 +277,8 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             const node = server.create(
                 'node',
                 { title, lastLogged: '2017-10-19T12:05:10.571Z', dateModified: '2017-10-19T12:05:10.571Z' },
+                'withStorage',
             );
-            const nodeStorage = server.create('node-storage');
-            node.update({ storage: nodeStorage });
             server.create(
                 'contributor',
                 { node, users: currentUser, index: 0, permission: Permission.Admin, bibliographic: true },

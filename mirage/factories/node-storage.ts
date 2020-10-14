@@ -8,6 +8,7 @@ export interface NodeStorageTraits {
     approachingPublic: Trait;
     overPrivate: Trait;
     overPublic: Trait;
+    notCalculated: Trait;
 }
 
 export default Factory.extend<NodeStorageModel & NodeStorageTraits>({
@@ -33,6 +34,11 @@ export default Factory.extend<NodeStorageModel & NodeStorageTraits>({
     overPublic: trait<NodeStorageModel>({
         afterCreate(nodeStorage) {
             nodeStorage.update('storageLimitStatus', StorageStatus.OVER_PUBLIC);
+        },
+    }),
+    notCalculated: trait<NodeStorageModel>({
+        afterCreate(nodeStorage) {
+            nodeStorage.update('storageLimitStatus', StorageStatus.NOT_CALCULATED);
         },
     }),
 });

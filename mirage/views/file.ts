@@ -1,7 +1,6 @@
 import { HandlerContext, Response, Schema } from 'ember-cli-mirage';
 import faker from 'faker';
 
-import { StorageStatus } from 'ember-osf-web/models/node-storage';
 import { guid } from '../factories/utils';
 import { process } from './utils';
 
@@ -47,7 +46,7 @@ export function uploadToRoot(this: HandlerContext, schema: Schema) {
     const fileGuid = guid('file');
     const id = fileGuid(randomNum);
 
-    if (!node.public && node.storage.storageLimitStatus === StorageStatus.OVER_PRIVATE) {
+    if (node.storage && node.storage.isOverStorageCap) {
         return new Response(507, {}, {
             errors: [{ status: '507', detail: 'Unable to upload file. Node has exceeded its storage limit' }],
         });
