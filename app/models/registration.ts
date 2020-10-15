@@ -29,6 +29,7 @@ export enum RegistrationState {
 }
 
 export enum RegistrationReviewStates {
+    Initial = 'initial',
     Pending = 'pending',
     Accepted = 'accepted',
     Rejected = 'rejected',
