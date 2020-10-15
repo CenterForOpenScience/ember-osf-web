@@ -14,6 +14,7 @@ import $ from 'jquery';
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import File from 'ember-osf-web/models/file';
 import Node from 'ember-osf-web/models/node';
+import NodeStorageModel from 'ember-osf-web/models/node-storage';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
@@ -176,6 +177,20 @@ export default class FileBrowser extends Component {
             '.dz-upload-button',
             this.hasItems ? '' : '.file-browser-list',
         ].filter(item => item.length);
+    }
+
+    @computed('node.public', 'isProjectSelectorValid', 'isMoving')
+    get isMoveButtonEnabled(): boolean {
+        if (!this.isProjectSelectorValid || this.isMoving) {
+            return false;
+        }
+        if (this.node) {
+            const storage = this.node.belongsTo('storage').value() as NodeStorageModel;
+            if (storage) {
+                return !storage.isOverStorageCap;
+            }
+        }
+        return true;
     }
 
     didReceiveAttrs() {

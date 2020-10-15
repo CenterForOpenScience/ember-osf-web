@@ -18,7 +18,7 @@ import { createFork, createRegistrationFork } from './views/fork';
 import { guidDetail } from './views/guid';
 import { identifierCreate } from './views/identifier';
 import { summaryMetrics } from './views/institution';
-import { createNode } from './views/node';
+import { createNode, storageStatus } from './views/node';
 import { osfNestedResource, osfResource, osfToManyRelationship } from './views/osf-resource';
 import { getProviderSubjects } from './views/provider-subjects';
 import { createRegistration, forkRegistration, registrationDetail } from './views/registration';
@@ -108,6 +108,7 @@ export default function(this: Server) {
         only: ['related', 'add', 'remove'],
         path: '/nodes/:parentID/relationships/institutions',
     });
+    this.get('/nodes/:id/storage', storageStatus);
 
     osfToManyRelationship(this, 'node', 'subjects', {
         only: ['related', 'self'],
