@@ -7,7 +7,7 @@ import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
 import Node from 'ember-osf-web/models/node';
-import { StorageStatus } from 'ember-osf-web/models/node-storage';
+import { StorageStatus, TestCases } from 'ember-osf-web/models/node-storage';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 
@@ -15,61 +15,6 @@ interface ThisTestContext extends TestContext {
     user: ModelInstance<User>;
     node: ModelInstance<Node>;
 }
-
-const testCases: Record<'public' | 'private', Record<StorageStatus, { warning: boolean, error: boolean }>> = {
-    public: {
-        DEFAULT: {
-            warning: false,
-            error: false,
-        },
-        APPROACHING_PRIVATE: {
-            warning: false,
-            error: false,
-        },
-        OVER_PRIVATE: {
-            warning: false,
-            error: false,
-        },
-        APPROACHING_PUBLIC: {
-            warning: true,
-            error: false,
-        },
-        OVER_PUBLIC: {
-            warning: false,
-            error: true,
-        },
-        NOT_CALCULATED: {
-            warning: false,
-            error: false,
-        },
-    },
-    private: {
-        DEFAULT: {
-            warning: false,
-            error: false,
-        },
-        APPROACHING_PRIVATE: {
-            warning: true,
-            error: false,
-        },
-        OVER_PRIVATE: {
-            warning: false,
-            error: true,
-        },
-        APPROACHING_PUBLIC: {
-            warning: false,
-            error: true,
-        },
-        OVER_PUBLIC: {
-            warning: false,
-            error: true,
-        },
-        NOT_CALCULATED: {
-            warning: false,
-            error: false,
-        },
-    },
-};
 
 module('Integration | Component | file-browser | file-move-messages', hooks => {
     setupRenderingTest(hooks);
@@ -103,12 +48,12 @@ module('Integration | Component | file-browser | file-move-messages', hooks => {
 
             await render(hbs`<FileBrowser::FileMoveMessages @project={{this.selected}} />`);
 
-            if (testCases.public[status].error) {
+            if (TestCases.public[status].error) {
                 assert.dom('[data-test-file-move-error]').exists();
             } else {
                 assert.dom('[data-test-file-move-error]').doesNotExist();
             }
-            if (testCases.public[status].warning) {
+            if (TestCases.public[status].warning) {
                 assert.dom('[data-test-file-move-warning]').exists();
             } else {
                 assert.dom('[data-test-file-move-warning]').doesNotExist();
@@ -124,12 +69,12 @@ module('Integration | Component | file-browser | file-move-messages', hooks => {
 
             await render(hbs`<FileBrowser::FileMoveMessages @project={{this.selected}} />`);
 
-            if (testCases.private[status].error) {
+            if (TestCases.private[status].error) {
                 assert.dom('[data-test-file-move-error]').exists();
             } else {
                 assert.dom('[data-test-file-move-error]').doesNotExist();
             }
-            if (testCases.private[status].warning) {
+            if (TestCases.private[status].warning) {
                 assert.dom('[data-test-file-move-warning]').exists();
             } else {
                 assert.dom('[data-test-file-move-warning]').doesNotExist();
