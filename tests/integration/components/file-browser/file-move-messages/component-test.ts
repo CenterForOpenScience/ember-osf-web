@@ -7,9 +7,10 @@ import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
 import Node from 'ember-osf-web/models/node';
-import { StorageStatus, TestCases } from 'ember-osf-web/models/node-storage';
+import { StorageStatus } from 'ember-osf-web/models/node-storage';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
+import { TestCases } from 'ember-osf-web/tests/fixtures/storage-statuses';
 
 interface ThisTestContext extends TestContext {
     user: ModelInstance<User>;

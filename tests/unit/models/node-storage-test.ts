@@ -3,7 +3,8 @@ import { run } from '@ember/runloop';
 import { setupTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
-import { StorageStatus, TestCases } from 'ember-osf-web/models/node-storage';
+import { StorageStatus } from 'ember-osf-web/models/node-storage';
+import { TestCases } from 'ember-osf-web/tests/fixtures/storage-statuses';
 
 module('Unit | Model | node-storage', hooks => {
     setupTest(hooks);
