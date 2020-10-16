@@ -8,6 +8,7 @@ export default Factory.extend<ReviewActionModel>({
     visible: true,
     fromState: 'initial',
     toState: 'pending',
+    actionTrigger: 'submit',
 
     afterCreate(reviewAction) {
         if (reviewAction.target) {
@@ -16,8 +17,6 @@ export default Factory.extend<ReviewActionModel>({
             });
         }
     },
-
-    actionTrigger: 'Submit',
 
     comment() {
         return faker.lorem.sentence();

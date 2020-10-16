@@ -30,7 +30,7 @@
                 <div local-class='actionsList'>
                     <p data-test-registration-list-card-submitted>
                         {{t 'registries.registrationList.moderatorAction'
-                            action=this.latestAction.actionTrigger
+                            action=this.latestAction.triggerPastTense
                             moderator=this.latestAction.creator.fullName
                             date=(time-since this.latestAction.dateModified)
                         }}
@@ -44,7 +44,7 @@
                                 {{#if (gt index 0)}}
                                     <p data-test-registration-list-card-submitted>
                                         {{t 'registries.registrationList.moderatorAction'
-                                            action=reviewAction.actionTrigger
+                                            action=reviewAction.triggerPastTense
                                             moderator=reviewAction.creator.fullName
                                             date=(time-since reviewAction.dateModified)
                                         }}
