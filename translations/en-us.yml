@@ -1291,6 +1291,7 @@ registries:
         withdrawn: 'No withdrawn registrations have been found'
         pendingWithdraw: 'No registrations found pending withdrawal'
         moderatorAction: '{action} {date} by {moderator}'
+        noActionsFound: 'Failed to load registration review history'
     finalizeRegistrationModal:
         title: 'Almost done...'
         notice: "Please keep in mind that:\n                <ul>\n                    <li>\n                        Registrations cannot be modified or deleted once completed.\n                    </li>\n                    <li>\n                        The content and version history of Wiki and OSF Storage will be copied to the registration.\n                    </li>\n                    <li>\n                        This project contains links to other projects. These links will be copied into your registration, but the\n                        projects that they link to will not be registered. If you wish to register the linked projects, they must be\n                        registered separately. <a href='{learnMoreLink}' target='_blank' rel='noopener noreferrer'>Learn more about links</a>.\n                    </li>\n                </ul>"

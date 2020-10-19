@@ -1,14 +1,14 @@
 import { association, Factory } from 'ember-cli-mirage';
 import faker from 'faker';
 
-import ReviewActionModel from 'ember-osf-web/models/review-action';
+import ReviewActionModel, { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
 
 export default Factory.extend<ReviewActionModel>({
     auto: false,
     visible: true,
     fromState: 'initial',
     toState: 'pending',
-    actionTrigger: 'submit',
+    actionTrigger: faker.random.objectElement(Object.values(ReviewActionTrigger)),
 
     afterCreate(reviewAction) {
         if (reviewAction.target) {

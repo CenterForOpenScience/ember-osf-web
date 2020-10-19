@@ -83,7 +83,7 @@ function registrationScenario(
         provider: egap,
         machineState: RegistrationReviewStates.Pending,
         registeredBy: currentUser,
-    }, 'withContributors');
+    }, 'withContributors', 'withReviewActions');
 
     server.createList('registration', 12,
         {
@@ -121,7 +121,7 @@ function registrationScenario(
         title: 'Cold Turkey',
         provider: egap,
         machineState: RegistrationReviewStates.PendingWithdraw,
-    });
+    }, 'withSingleReviewAction');
 
     server.create('registration', {
         id: 'aerchive',

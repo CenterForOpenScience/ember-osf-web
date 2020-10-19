@@ -87,12 +87,13 @@ module('Registries | Acceptance | branded.moderation | submissions', hooks => {
         server.createList(
             'registration', 12, {
                 machineState: RegistrationReviewStates.Pending, provider: this.registrationProvider,
-            },
+            }, 'withReviewActions',
         );
         server.createList(
             'registration', 2, {
-                machineState: RegistrationReviewStates.Accepted, provider: this.registrationProvider,
-            },
+                machineState: RegistrationReviewStates.Accepted,
+                provider: this.registrationProvider,
+            }, 'withSingleReviewAction',
         );
         server.createList(
             'registration', 3, {
@@ -121,11 +122,17 @@ module('Registries | Acceptance | branded.moderation | submissions', hooks => {
         assert.dom('[data-test-registration-list-card]').exists({ count: 10 }, '10 pending registrations shown');
         assert.dom('[data-test-registration-list-card-icon="pending"]').exists({ count: 10 }, 'Proper icons shown');
         assert.dom('[data-test-registration-list-card-title]').exists({ count: 10 }, 'Title shown');
-        assert.dom('[data-test-registration-list-card-submitted]').exists({ count: 10 }, 'Submitted info shown');
+        assert.dom('[data-test-registration-list-card-latest-action]').exists({ count: 10 }, 'Latest action shown');
         assert.dom('[data-test-next-page-button]').exists('Pagination shown');
         await click('[data-test-next-page-button]');
         assert.dom('[data-test-next-page-button]').hasAttribute('disabled');
         assert.dom('[data-test-registration-list-card]').exists({ count: 2 }, '2 more pending registrations shown');
+        assert.dom('[data-test-registration-card-toggle-actions]')
+            .exists({ count: 2 }, 'Toggle to show more review actions');
+        const toggleActions = this.element.querySelectorAll('[data-test-registration-card-toggle-actions]');
+        await click(toggleActions[0]);
+        assert.dom('[data-test-registration-list-card-more-actions]')
+            .exists({ count: 2 }, 'More actions shown after clicking the toggler');
 
         // Accepted tab
         await click('[data-test-submissions-type="accepted"]');
@@ -134,7 +141,9 @@ module('Registries | Acceptance | branded.moderation | submissions', hooks => {
         assert.dom('[data-test-registration-list-card]').exists({ count: 2 }, '2 accepted registrations shown');
         assert.dom('[data-test-registration-list-card-icon="accepted"]').exists({ count: 2 }, 'Proper icons shown');
         assert.dom('[data-test-registration-list-card-title]').exists({ count: 2 }, 'Title shown');
-        assert.dom('[data-test-registration-list-card-submitted]').exists({ count: 2 }, 'Submitted info shown');
+        assert.dom('[data-test-registration-list-card-latest-action]').exists({ count: 2 }, 'Latest action shown');
+        assert.dom('[data-test-registration-card-toggle-actions]')
+            .doesNotExist('No toggle to show more review actions');
         assert.dom('[data-test-next-page-button]').doesNotExist('No pagination shown');
 
         // Rejected tab
@@ -144,7 +153,7 @@ module('Registries | Acceptance | branded.moderation | submissions', hooks => {
         assert.dom('[data-test-registration-list-card]').exists({ count: 3 }, '3 rejected registrations shown');
         assert.dom('[data-test-registration-list-card-icon="rejected"]').exists({ count: 3 }, 'Proper icons shown');
         assert.dom('[data-test-registration-list-card-title]').exists({ count: 3 }, 'Title shown');
-        assert.dom('[data-test-registration-list-card-submitted]').exists({ count: 3 }, 'Submitted info shown');
+        assert.dom('[data-test-no-actions-found]').exists({ count: 3 }, 'No actions found');
         assert.dom('[data-test-next-page-button]').doesNotExist('No pagination shown');
 
         // Withdrawn tab
@@ -154,7 +163,7 @@ module('Registries | Acceptance | branded.moderation | submissions', hooks => {
         assert.dom('[data-test-registration-list-card]').exists({ count: 4 }, '4 withdrawn registrations shown');
         assert.dom('[data-test-registration-list-card-icon="withdrawn"]').exists({ count: 4 }, 'Proper icons shown');
         assert.dom('[data-test-registration-list-card-title]').exists({ count: 4 }, 'Title shown');
-        assert.dom('[data-test-registration-list-card-submitted]').exists({ count: 4 }, 'Submitted info shown');
+        assert.dom('[data-test-no-actions-found]').exists({ count: 4 }, 'No actions found');
         assert.dom('[data-test-next-page-button]').doesNotExist('No pagination shown');
     });
 });

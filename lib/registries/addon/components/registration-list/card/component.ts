@@ -11,7 +11,7 @@ const iconMap: Record<string, string> = {
     withdrawn: 'ban',
     accepted: 'check',
     rejected: 'times',
-    pendingWithdraw: 'clock',
+    pending_withdraw: 'clock-o',
 };
 
 interface Args {

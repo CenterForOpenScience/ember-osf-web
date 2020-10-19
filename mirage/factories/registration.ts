@@ -30,6 +30,7 @@ export interface RegistrationTraits {
     isPublic: Trait;
     withSubjects: Trait;
     withReviewActions: Trait;
+    withSingleReviewAction: Trait;
 }
 
 const stateAttrs = {
@@ -215,6 +216,12 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     withReviewActions: trait<MirageRegistration>({
         afterCreate(registration, server) {
             const reviewActions = server.createList('review-action', 3, { target: registration });
+            registration.update({ reviewActions });
+        },
+    }),
+    withSingleReviewAction: trait<MirageRegistration>({
+        afterCreate(registration, server) {
+            const reviewActions = server.createList('review-action', 1, { target: registration });
             registration.update({ reviewActions });
         },
     }),
