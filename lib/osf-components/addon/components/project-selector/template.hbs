@@ -63,20 +63,7 @@
             </p>
         {{/if}}
         {{#if this.selected}}
-            <p class='m-t-lg'>
-                {{t (concat
-                    'move_to_project.convert_or_copy_message.'
-                    (if this.isChildNode 'component' 'project')
-                )}}
-            </p>
-            {{#unless this.isPublicProject}}
-                <p data-test-no-longer-public class='text-danger m-t-sm'>
-                    {{t (concat
-                        'move_to_project.no_longer_public_warning.'
-                        (if this.isChildNode 'component' 'project')
-                    )}}
-                </p>
-            {{/unless}}
+            {{yield (hash selected=this.selected)}}
         {{/if}}
     {{/if}}
 </div>
