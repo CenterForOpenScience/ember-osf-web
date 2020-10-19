@@ -1,6 +1,7 @@
 import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
+import { createReviewAction } from 'ember-osf-web/mirage/views/review-action';
 import { addModerator } from './views/addModerator';
 import { getCitation } from './views/citation';
 import { searchCollections } from './views/collection-search';
@@ -137,6 +138,7 @@ export default function(this: Server) {
         path: '/registrations/:parentID/review-actions',
         relatedModelName: 'review-action',
     });
+    this.post('/registrations/:parentID/review-actions', createReviewAction);
     this.post('/registrations/:id/forks', forkRegistration);
 
     osfNestedResource(this, 'registration', 'contributors', { defaultSortKey: 'index' });
