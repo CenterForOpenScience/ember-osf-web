@@ -1,4 +1,6 @@
 .noRegistrationMessage {
     font-size: 15px;
-    margin: 15px;
+    border: 1px solid $color-border-gray;
+    border-top: 0;
+    padding: 15px;
 }
