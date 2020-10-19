@@ -1289,7 +1289,7 @@ registries:
         accepted: 'No accepted registrations have been found'
         rejected: 'No rejected registrations have been found'
         withdrawn: 'No withdrawn registrations have been found'
-        pendingWithdraw: 'No registrations found pending withdrawal'
+        pending_withdraw: 'No registrations found pending withdrawal'
         moderatorAction: '{action} {date} by {moderator}'
         noActionsFound: 'Failed to load registration review history'
     finalizeRegistrationModal:
