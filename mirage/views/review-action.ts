@@ -21,32 +21,16 @@ export function createReviewAction(this: HandlerContext, schema: Schema, request
             ...attrs,
         });
         switch (trigger) {
-        case ReviewActionTrigger.Accept:
-        case ReviewActionTrigger.WithdrawRequestFails:
-        case ReviewActionTrigger.RejectWithdraw:
-        case ReviewActionTrigger.TerminateEmbargo:
+        case ReviewActionTrigger.AcceptSubmission:
+        case ReviewActionTrigger.RejectWithdrawal:
             registration.machineState = RegistrationReviewStates.Accepted;
             break;
-        case ReviewActionTrigger.Reject:
+        case ReviewActionTrigger.RejectSubmission:
             registration.machineState = RegistrationReviewStates.Rejected;
             break;
-        case ReviewActionTrigger.Embargo:
-            registration.machineState = RegistrationReviewStates.Embargo;
-            break;
         case ReviewActionTrigger.ForceWithdraw:
+        case ReviewActionTrigger.AcceptWithdrawal:
             registration.machineState = RegistrationReviewStates.Withdrawn;
-            break;
-        case ReviewActionTrigger.RequestWithdraw:
-            registration.machineState = RegistrationReviewStates.PendingWithdrawRequest;
-            break;
-        case ReviewActionTrigger.WithdrawRequestPasses:
-            registration.machineState = RegistrationReviewStates.PendingWithdraw;
-            break;
-        case ReviewActionTrigger.Withdraw:
-            registration.machineState = RegistrationReviewStates.Withdrawn;
-            break;
-        case ReviewActionTrigger.RequestEmbargoTermination:
-            registration.machineState = RegistrationReviewStates.PendingEmbargoTermination;
             break;
         default:
             break;
