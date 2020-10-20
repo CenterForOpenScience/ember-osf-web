@@ -8,20 +8,6 @@ import UserModel from './user';
 
 const { attr, belongsTo } = DS;
 
-export enum ReviewActionTrigger {
-    Accept = 'accept', // accept submission
-    Reject = 'reject', // reject submission
-    Embargo = 'embargo', // embargo (accept) submission
-    ForceWithdraw = 'force_withdraw', // force withdraw without request
-    RequestWithdraw = 'request_withdraw', // request to withdraw by contributors
-    WithdrawRequestPasses = 'withdraw_request_passes', // other contributors approves requests
-    WithdrawRequestFails = 'withdraw_request_fails', // other contributors disapprove of requests
-    Withdraw = 'withdraw', // accept withdrawal request
-    RejectWithdraw = 'reject_withdraw', // deny withdrawal request
-    RequestEmbargoTermination = 'request_embargo_termination', // request to end embargo early
-    TerminateEmbargo = 'terminate_embargo', // contributors approve request to end embargo early
-}
-
 // make sure these match the reviewActionTriggers
 const TriggersPastTenseMap: Record<string, string> = {
     submit: 'Submitted',
