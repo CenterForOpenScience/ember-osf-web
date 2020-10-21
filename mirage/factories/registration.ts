@@ -1,7 +1,7 @@
 import { association, trait, Trait } from 'ember-cli-mirage';
 import faker from 'faker';
 
-import Registration from 'ember-osf-web/models/registration';
+import Registration, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 
 import NodeFactory from './node';
 import { createRegistrationMetadata, guid, guidAfterCreate } from './utils';
@@ -143,6 +143,7 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     pendingEmbargoTerminationApproval: false,
     registeredFrom: association(),
     registeredBy: association(),
+    machineState: RegistrationReviewStates.Accepted,
 
     index(i: number) {
         return i;

@@ -9,7 +9,7 @@ import moment from 'moment';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import RegistrationModel, { RegistrationState } from 'ember-osf-web/models/registration';
+import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import styles from './styles';
 import template from './template';
 
@@ -21,39 +21,36 @@ export default class RegistriesStates extends Component {
     registration!: RegistrationModel;
 
     // Private
-    public = RegistrationState.Public;
     @service intl!: Intl;
 
-    @computed('registration.state')
+    @computed('registration.machineState')
     get stateIcon() {
         const { registration } = this;
-        const {
-            PendingRegistration,
-            PendingWithdrawal,
-            PendingEmbargo,
-            PendingEmbargoTermination,
-            Embargoed,
-        } = RegistrationState;
-
-        switch (registration.state) {
-        case PendingRegistration:
-        case PendingWithdrawal:
-        case PendingEmbargo:
-        case PendingEmbargoTermination:
+        switch (registration.machineState) {
+        case RegistrationReviewStates.Initial:
+        case RegistrationReviewStates.Pending:
+        case RegistrationReviewStates.PendingWithdrawRequest:
+        case RegistrationReviewStates.PendingEmbargoTermination:
+        case RegistrationReviewStates.PendingWithdraw:
             return 'clock-o';
-        case Embargoed:
+        case RegistrationReviewStates.Embargo:
             return 'lock';
         default:
             return 'eye';
         }
     }
 
-    @computed('registration.state', 'stateIcon')
+    @computed('registration.machineState', 'stateIcon')
     get stateText() {
         if (!this.registration) {
             return undefined;
         }
-        const stateKey = camelize(this.registration.state);
+        let stateKey;
+        if (!this.registration.userHasAdminPermission) {
+            stateKey = RegistrationReviewStates.Accepted;
+        } else {
+            stateKey = camelize(this.registration.machineState);
+        }
         return {
             short: this.intl.t(`registries.overview.${stateKey}.short_description`),
             long: this.intl.t(`registries.overview.${stateKey}.long_description`, {
@@ -66,10 +63,13 @@ export default class RegistriesStates extends Component {
         };
     }
 
-    @computed('registration.{userHasAdminPermission,state}')
+    @computed('registration.{userHasAdminPermission,machineState}')
     get shouldOpenDropdownOnLoad() {
         return this.registration.userHasAdminPermission
-            && ![RegistrationState.Embargoed, RegistrationState.Public].includes(this.registration.state);
+        && ![
+            RegistrationReviewStates.Embargo,
+            RegistrationReviewStates.Accepted,
+        ].includes(this.registration.machineState);
     }
 
     @computed('registration.registeredFrom.id')
@@ -84,6 +84,11 @@ export default class RegistriesStates extends Component {
     @computed('registration.{userHasAdminPermission,state,isRoot}')
     get shouldHideAdminActions() {
         return (!this.registration.isRoot || !this.registration.userHasAdminPermission
-            || !([RegistrationState.Public, RegistrationState.Embargoed].includes(this.registration.state)));
+            || !(
+                [RegistrationReviewStates.Accepted, RegistrationReviewStates.Embargo].includes(
+                    this.registration.machineState,
+                )
+            )
+        );
     }
 }
