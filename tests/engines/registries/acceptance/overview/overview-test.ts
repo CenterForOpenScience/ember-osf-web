@@ -76,10 +76,15 @@ module('Registries | Acceptance | overview.overview', hooks => {
     });
 
     test('Branded overview page', async assert => {
-        const brandedProvider = server.create('registration-provider', 'withBrand');
+        const brandedProvider = server.create('registration-provider', {
+            assets: {
+                favicon: 'fakelink',
+            },
+        }, 'withBrand');
         const reg = server.create('registration', { provider: brandedProvider });
 
         await visit(`/${reg.id}/`);
+        assert.ok(document.querySelector('link[rel="icon"][href="fakelink"]'));
         await percySnapshot(assert);
     });
 

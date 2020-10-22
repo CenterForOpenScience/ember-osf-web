@@ -1,4 +1,4 @@
-import { HandlerContext, Schema } from 'ember-cli-mirage';
+import { HandlerContext, Response, Schema } from 'ember-cli-mirage';
 import faker from 'faker';
 
 import { guid } from '../factories/utils';
@@ -45,6 +45,13 @@ export function uploadToRoot(this: HandlerContext, schema: Schema) {
     const randomNum = faker.random.number();
     const fileGuid = guid('file');
     const id = fileGuid(randomNum);
+
+    if (node.storage && node.storage.isOverStorageCap) {
+        return new Response(507, {}, {
+            errors: [{ status: '507', detail: 'Unable to upload file. Node has exceeded its storage limit' }],
+        });
+    }
+
     schema.guids.create({
         id,
         referentType: 'file',

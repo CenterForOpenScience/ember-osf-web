@@ -6,6 +6,7 @@ import { inject as service } from '@ember/service';
 import Media from 'ember-responsive';
 
 import BrandModel from 'ember-osf-web/models/brand';
+import ProviderModel from 'ember-osf-web/models/provider';
 import Registration from 'ember-osf-web/models/registration';
 
 export default class RegistriesDraft extends Controller {
@@ -13,7 +14,10 @@ export default class RegistriesDraft extends Controller {
 
     @not('media.isDesktop') showMobileView!: boolean;
 
-    @alias('model.draftRegistrationManager.draftRegistration.provider.brand')
+    @alias('model.draftRegistrationManager.provider')
+    provider?: ProviderModel;
+
+    @alias('model.draftRegistrationManager.provider.brand')
     brand?: BrandModel;
 
     @action

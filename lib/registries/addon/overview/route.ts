@@ -39,6 +39,7 @@ export default class Overview extends GuidRoute {
                 institutions = [],
                 license = null,
                 identifiers = [],
+                provider = null,
             ] = yield all([
                 registration.sparseLoadAll(
                     'bibliographicContributors',
@@ -50,6 +51,7 @@ export default class Overview extends GuidRoute {
                 ),
                 registration.license,
                 registration.identifiers,
+                registration.provider,
             ]);
 
             const doi = (identifiers as Identifier[]).find(identifier => identifier.category === 'doi');
@@ -72,8 +74,17 @@ export default class Overview extends GuidRoute {
                 ),
                 institution: (institutions as SparseModel[]).map(institution => institution.name as string),
             };
-
-            this.set('headTags', this.metaTags.getHeadTags(metaTagsData));
+            const headTags = [...this.metaTags.getHeadTags(metaTagsData)];
+            if (provider.assets && provider.assets.favicon) {
+                headTags.push({
+                    type: 'link',
+                    attrs: {
+                        rel: 'icon',
+                        href: provider.assets.favicon,
+                    },
+                });
+            }
+            this.set('headTags', headTags);
             this.metaTags.updateHeadTags();
         }
 

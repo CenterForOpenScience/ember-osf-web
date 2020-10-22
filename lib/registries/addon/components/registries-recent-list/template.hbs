@@ -1,40 +1,50 @@
-<div class='container'>
-    <div class='row'>
-        <div class='col-xs-12'>
-            <h2>
-                {{t 'registries.index.recent.title'}}
-                <span local-class='SeeMore'>
-                    {{link-to (t 'registries.index.recent.more') 'discover'}}
-                </span>
-            </h2>
+<div local-class='RecentList'>
+    <div
+        data-analytics-scope='Registries index'
+        class='container'
+    >
+        <div class='row'>
+            <div class='col-xs-12'>
+                <h2>
+                    {{t 'registries.index.recent.title'}}
+                    <span local-class='SeeMore'>
+                        {{link-to (t 'registries.index.recent.more') 'discover'}}
+                    </span>
+                </h2>
+            </div>
         </div>
-    </div>
 
-    {{#each this.registrations as |reg|}}
-        <div class='row'>
-            <div class='col-xs-12'>
-                <h4>
-                    <a
-                        href={{reg.registrationURL}}
-                        data-test-recent-registration-id={{reg.id}}
-                        onclick={{action 'click' 'link' (concat 'Index - Browse Recent: ' reg.title) reg.mainLink target=this.analytics}}
+        {{#each @recentRegistrations as |reg|}}
+            <div class='row'>
+                <div class='col-xs-12'>
+                    <h4>
+                        <OsfLink
+                            data-test-recent-registration-id={{reg.id}}
+                            data-analytics-name='Browse recent registrations'
+                            data-analytics-extra={{reg.id}}
+                            @route='registries.overview'
+                            @models={{array reg.id}}
+                        >
+                            {{reg.title}}
+                        </OsfLink>
+                    </h4>
+                </div>
+            </div>
+            <div class='row'>
+                <div class='col-xs-12'>
+                    <ul
+                        data-test-recent-registration-contrib-list={{reg.id}}
+                        local-class='RecentList__Contributors'
                     >
-                        {{reg.title}}
-                    </a>
-                </h4>
+                        {{#each reg.bibliographicContributors as |contrib|}}
+                            <li data-test-recent-registration-contrib={{contrib.bibliographic}}>
+                                {{contrib.users.fullName}}
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
             </div>
-        </div>
-        <div class='row'>
-            <div class='col-xs-12'>
-                <ul local-class='RecentList__Contributors'>
-                    {{#each reg.contributors as |contrib|}}
-                        {{#if contrib.bibliographic}}
-                            <li>{{contrib.name}}</li>
-                        {{/if}}
-                    {{/each}}
-                </ul>
-            </div>
-        </div>
-        <hr>
-    {{/each}}
+            <hr>
+        {{/each}}
+    </div>
 </div>

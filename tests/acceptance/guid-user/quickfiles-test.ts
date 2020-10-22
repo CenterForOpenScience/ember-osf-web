@@ -153,6 +153,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
                     dateModified: '2017-10-19T12:05:10.571Z',
                     public: true,
                 },
+                'withStorage',
             );
             server.create(
                 'contributor',
@@ -194,6 +195,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
                     dateModified: '2017-10-19T12:05:10.571Z',
                     public: false,
                 },
+                'withStorage',
             );
             server.create(
                 'contributor',
@@ -238,6 +240,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             const node = server.create(
                 'node',
                 { title, lastLogged: '2017-10-19T12:05:10.571Z', dateModified: '2017-10-19T12:05:10.571Z' },
+                'withStorage',
             );
             server.create(
                 'contributor',
@@ -274,6 +277,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             const node = server.create(
                 'node',
                 { title, lastLogged: '2017-10-19T12:05:10.571Z', dateModified: '2017-10-19T12:05:10.571Z' },
+                'withStorage',
             );
             server.create(
                 'contributor',

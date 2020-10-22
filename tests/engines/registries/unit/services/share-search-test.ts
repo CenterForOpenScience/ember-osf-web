@@ -27,7 +27,7 @@ function getSearchResponse(identifiers?: string[]) {
                     justification: null,
                     tags: ['&amp;', 'Foo'],
                     identifiers: identifiers || ['http://osf.io/w4yhb/'],
-                    sources: ['OSF'],
+                    sources: ['OSF', 'OSF Registries'],
                     subjects: [],
                     subject_synonyms: [],
                     lists: {
@@ -88,7 +88,7 @@ module('Registries | Unit | Service | share-search', hooks => {
     test('recognizes all OSF source envs', function(this: TestContext, assert) {
         const service = this.owner.lookup('service:share-search') as ShareSearch;
         service.set('osfProviders', [{
-            name: 'OSF',
+            name: 'OSF Registries',
             urlRegex: 'https://osf.io/',
             https: true,
         }, {

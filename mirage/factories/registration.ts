@@ -120,7 +120,7 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
                 provider: server.schema.registrationProviders.find('osf')
                     || server.create('registration-provider', {
                         id: 'osf',
-                        shareSourceKey: 'OSF',
+                        shareSource: 'OSF Registries',
                         name: 'OSF Registries',
                     }),
             });
