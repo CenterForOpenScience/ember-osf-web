@@ -1234,11 +1234,11 @@ registries:
         archiving:
             currently_archiving: 'This registration is currently archiving, and no changes can be made at this time.'
             email_support: 'If this registration has been archiving for more than 72 hours, please email <a data-analytics-name="Email support" href="mailto:{supportEmail}">{supportEmail}</a> for assistance.'
-        pendingSubmission:
+        pendingRegistrationApproval:
             text: 'Pending registration'
             short_description: 'Pending registration approval'
             long_description: 'This is a pending registration of this <strong><a href={projectUrl}>project</a></strong>, awaiting approval from project administrators. This registration will be final when all project administrators approve the registration or 48 hours pass, whichever comes first.'
-        pendingEmbargo:
+        pendingEmbargoApproval:
             text: 'Pending registration'
             short_description: 'Pending embargo approval'
             long_description: 'This registration is pending approval. It will be final and enter an embargo period when all project administrators approve the registration or 48 hours pass, whichever comes first. The embargo will keep the registration private until the embargo period ends.'

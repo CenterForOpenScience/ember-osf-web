@@ -397,7 +397,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         const nonPublicReg = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
             currentUserPermissions: Object.values(Permission),
-        }, 'isEmbargoed');
+        }, 'isEmbargo');
 
         await visit(`/${nonPublicReg.id}/`);
         assert.dom('[data-test-editable-field="doi"]').doesNotExist('DOIs are only available for public registrations');

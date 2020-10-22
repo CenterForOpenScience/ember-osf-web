@@ -40,12 +40,18 @@ export default class RegistriesStates extends Component {
         }
     }
 
-    @computed('registration.machineState', 'stateIcon')
+    @computed('registration.{machineState,pendingRegistrationApproval,pendingEmbargoApproval}', 'stateIcon')
     get stateText() {
         if (!this.registration) {
             return undefined;
         }
         let stateKey;
+        if (this.registration.pendingRegistrationApproval) {
+            stateKey = 'pendingRegistrationApproval';
+        }
+        if (this.registration.pendingEmbargoApproval) {
+            stateKey = 'pendingEmbargoApproval';
+        }
         if (!this.registration.userHasAdminPermission) {
             stateKey = RegistrationReviewStates.Accepted;
         } else {

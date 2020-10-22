@@ -15,7 +15,7 @@ const registrationStates: Record<string, {
     trait: string, icon: string,
     initiallyOpened: boolean, hasAdminActions: boolean }> = {
         embargoed: {
-            trait: 'isEmbargoed',
+            trait: 'isEmbargo',
             icon: 'lock',
             initiallyOpened: false,
             hasAdminActions: true,
@@ -27,7 +27,7 @@ const registrationStates: Record<string, {
             hasAdminActions: false,
         },
         pendingRegistration: {
-            trait: 'isPendingApproval',
+            trait: 'isPendingRegistrationApproval',
             icon: 'clock-o',
             initiallyOpened: true,
             hasAdminActions: false,
