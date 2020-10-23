@@ -14,37 +14,43 @@ import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
 const registrationStates: Record<string, {
     trait: string, icon: string,
     initiallyOpened: boolean, hasAdminActions: boolean }> = {
-        embargoed: {
+        embargo: {
             trait: 'isEmbargo',
             icon: 'lock',
             initiallyOpened: false,
             hasAdminActions: true,
         },
-        pendingWithdrawal: {
-            trait: 'isPendingWithdrawal',
+        pendingWithdraw: {
+            trait: 'isPendingWithdraw',
             icon: 'clock-o',
             initiallyOpened: true,
             hasAdminActions: false,
         },
-        pendingRegistration: {
+        pendingRegistrationApproval: {
             trait: 'isPendingRegistrationApproval',
             icon: 'clock-o',
             initiallyOpened: true,
             hasAdminActions: false,
         },
-        pendingEmbargo: {
+        pendingEmbargoApproval: {
             trait: 'isPendingEmbargoApproval',
             icon: 'clock-o',
             initiallyOpened: true,
             hasAdminActions: false,
         },
         pendingEmbargoTermination: {
-            trait: 'isPendingEmbargoTerminationApproval',
+            trait: 'isPendingEmbargoTermination',
             icon: 'clock-o',
             initiallyOpened: true,
             hasAdminActions: false,
         },
-        public: {
+        pendingWithdrawRequest: {
+            trait: 'isPendingWithdrawRequest',
+            icon: 'clock-o',
+            initiallyOpened: true,
+            hasAdminActions: false,
+        },
+        accepted: {
             trait: 'isPublic',
             icon: 'eye',
             initiallyOpened: false,
@@ -182,7 +188,6 @@ module('Registries | Acceptance | overview.topbar', hooks => {
                 registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
                 currentUserPermissions: Object.values(Permission),
             }, stateInfo.trait);
-
             await visit(`/${reg.id}/`);
 
             assert.dom('[data-test-state-button]').hasText(t(`registries.overview.${state}.text`).toString());
@@ -194,7 +199,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
             if (stateInfo.hasAdminActions) {
                 assert.dom('[data-test-state-admin-actions]').isVisible();
             }
-
+            assert.dom('[data-test-state-description-short]').exists();
             assert.dom('[data-test-state-description-short]').hasText(
                 t(`registries.overview.${state}.short_description`).toString(),
             );

@@ -40,7 +40,10 @@ export default class RegistriesStates extends Component {
         }
     }
 
-    @computed('registration.{machineState,pendingRegistrationApproval,pendingEmbargoApproval}', 'stateIcon')
+    @computed(
+        'registration.{machineState,pendingRegistrationApproval,pendingEmbargoApproval,userHasAdminPermission}',
+        'stateIcon',
+    )
     get stateText() {
         if (!this.registration) {
             return undefined;
@@ -48,11 +51,9 @@ export default class RegistriesStates extends Component {
         let stateKey;
         if (this.registration.pendingRegistrationApproval) {
             stateKey = 'pendingRegistrationApproval';
-        }
-        if (this.registration.pendingEmbargoApproval) {
+        } else if (this.registration.pendingEmbargoApproval) {
             stateKey = 'pendingEmbargoApproval';
-        }
-        if (!this.registration.userHasAdminPermission) {
+        } else if (!this.registration.userHasAdminPermission) {
             stateKey = RegistrationReviewStates.Accepted;
         } else {
             stateKey = camelize(this.registration.machineState);

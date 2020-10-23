@@ -1263,11 +1263,11 @@ registries:
             text: 'Embargoed registration'
             short_description: 'Pending embargo termination'
             long_description: 'This registration is embargoed. It will remain private until {embargoEndDate}. A request to make this registration public is pending.'
-        pendingWithdrawalRequest:
+        pendingWithdrawRequest:
             text: 'Public registration'
-            short_description: 'Pending withdrawal request'
+            short_description: 'Pending withdraw request'
             long_description: 'This registration will be withdrawn when all project administrators approve the withdrawal.'
-        pendingWithdrawal:
+        pendingWithdraw:
             text: 'Public registration'
             short_description: 'Pending withdrawal moderation'
             long_description: 'This registration is awaiting a withdrawal decision by the registry moderators. An email will notify all registration contributors of the decision.'

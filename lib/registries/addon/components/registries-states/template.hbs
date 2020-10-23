@@ -34,7 +34,7 @@
                 {{#if (eq this.registration.machineState 'accepted')}}
                     <RegistriesStates::IsPublic @registration={{@registration}} @closeDropdown={{dd.close}} />
                 {{/if}}
-                {{#if (eq this.regitration.machineState 'embargo')}}
+                {{#if (eq this.registration.machineState 'embargo')}}
                     <RegistriesStates::IsEmbargoed @registration={{@registration}} @closeDropdown={{dd.close}} />
                 {{/if}}
             </div>

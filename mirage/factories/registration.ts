@@ -24,6 +24,7 @@ export interface RegistrationTraits {
     isPending: Trait;
     isEmbargo: Trait;
     isPendingEmbargoTermination: Trait;
+    isPendingWithdrawRequest: Trait;
     isPendingWithdraw: Trait;
     isWithdrawn: Trait;
     withArbitraryState: Trait;
@@ -73,6 +74,8 @@ const stateAttrs = {
     },
     pendingWithdrawRequest: {
         machineState: RegistrationReviewStates.PendingWithdrawRequest,
+        withdrawn: false,
+        pendingWithdrawal: false,
     },
     pendingWithdraw: {
         machineState: RegistrationReviewStates.PendingWithdraw,
@@ -193,6 +196,9 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     }),
     isEmbargo: trait<MirageRegistration>({
         ...stateAttrs.embargo,
+    }),
+    isPendingWithdrawRequest: trait<MirageRegistration>({
+        ...stateAttrs.pendingWithdrawRequest,
     }),
     isPendingWithdraw: trait<MirageRegistration>({
         ...stateAttrs.pendingWithdraw,
