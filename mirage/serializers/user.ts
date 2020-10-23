@@ -11,7 +11,7 @@ const { OSF: { apiUrl } } = config;
 
 export default class UserSerializer extends ApplicationSerializer<User> {
     buildRelationships(model: ModelInstance<User>) {
-        const retVal: SerializedRelationships<User> = {
+        const serializedRelationships: SerializedRelationships<User> = {
             emails: {
                 links: {
                     related: {
@@ -52,7 +52,7 @@ export default class UserSerializer extends ApplicationSerializer<User> {
             },
         };
         if (model.defaultRegion) {
-            retVal.defaultRegion = {
+            serializedRelationships.defaultRegion = {
                 data: {
                     type: 'regions',
                     id: `${model.defaultRegion.id}`,
@@ -65,7 +65,7 @@ export default class UserSerializer extends ApplicationSerializer<User> {
                 },
             };
         }
-        return retVal;
+        return serializedRelationships;
     }
 
     buildNormalLinks(model: ModelInstance<User>) {

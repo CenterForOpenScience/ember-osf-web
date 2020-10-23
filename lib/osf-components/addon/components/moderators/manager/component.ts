@@ -40,22 +40,22 @@ export default class ModeratorManagerComponent extends Component {
     permissionOptions = Object.values(PermissionGroup);
     reloadModeratorList?: () => void;
 
-    @tracked self?: ModeratorModel;
+    @tracked currentModerator?: ModeratorModel;
 
-    @computed('currentUser.currentUserId', 'self')
+    @computed('currentUser.currentUserId', 'currentModerator')
     get currentUserIsProviderAdmin(): boolean {
-        if (this.currentUser && this.self) {
-            return this.self.permissionGroup === PermissionGroup.Admin;
+        if (this.currentUser && this.currentModerator) {
+            return this.currentModerator.permissionGroup === PermissionGroup.Admin;
         }
         return false;
     }
 
     @task({ withTestWaiter: true, on: 'init' })
-    loadSelf =
+    loadcurrentModerator =
     task(function *(this: ModeratorManagerComponent) {
         try {
             if (this.currentUser.currentUserId) {
-                this.self = yield this.store.findRecord('moderator', this.currentUser.currentUserId,
+                this.currentModerator = yield this.store.findRecord('moderator', this.currentUser.currentUserId,
                     {
                         adapterOptions: {
                             providerId: this.provider.id,

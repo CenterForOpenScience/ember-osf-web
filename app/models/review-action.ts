@@ -1,5 +1,7 @@
 import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import DS from 'ember-data';
+import Intl from 'ember-intl/services/intl';
 
 import OsfModel from './osf-model';
 import RegistrationModel from './registration';
@@ -7,23 +9,6 @@ import RegistrationProviderModel from './registration-provider';
 import UserModel from './user';
 
 const { attr, belongsTo } = DS;
-
-// make sure these match the reviewActionTriggers
-const TriggersPastTenseMap: Record<string, string> = {
-    submit: 'Submitted',
-    accept: 'Accepted',
-    reject: 'Rejected',
-    edit_comment: 'Comment edited',
-    embargo: 'Embargoed',
-    withdraw: 'Withdrawn',
-    request_withdraw: 'Withdrawal requested',
-    withdraw_request_passes: 'Withdrawal request accepted',
-    withdraw_request_fails: 'Withdrawal rejected',
-    force_withdraw: 'Withdrawal forced',
-    request_embargo: 'Embargo requested',
-    request_embargo_termination: 'Embargo termination requested',
-    terminate_embargo: 'Embargo terminated',
-};
 
 export enum ReviewActionTrigger {
     AcceptSubmission = 'accept_submission', // accept submission
@@ -34,7 +19,18 @@ export enum ReviewActionTrigger {
     RejectWithdrawal = 'reject_withdrawal', // deny withdrawal request
 }
 
+const TriggerToPastTenseTranslationKey: Record<ReviewActionTrigger, string> = {
+    accept_submission: 'registries.reviewActions.triggerPastTense.accept_submission',
+    reject_submission: 'registries.reviewActions.triggerPastTense.reject_submission',
+    force_withdraw: 'registries.reviewActions.triggerPastTense.force_withdraw',
+    request_withdrawal: 'registries.reviewActions.triggerPastTense.request_withdrawal',
+    accept_withdrawal: 'registries.reviewActions.triggerPastTense.accept_withdrawal',
+    reject_withdrawal: 'registries.reviewActions.triggerPastTense.reject_withdrawal',
+};
+
 export default class ReviewActionModel extends OsfModel {
+    @service intl!: Intl;
+
     @attr('string') actionTrigger!: ReviewActionTrigger;
     @attr('string') comment!: string;
     @attr('string') fromState!: string;
@@ -55,7 +51,8 @@ export default class ReviewActionModel extends OsfModel {
 
     @computed('actionTrigger')
     get triggerPastTense(): string {
-        return TriggersPastTenseMap[this.actionTrigger];
+        const translationKey = TriggerToPastTenseTranslationKey[this.actionTrigger];
+        return translationKey ? this.intl.t(translationKey) : '';
     }
 }
 

@@ -13,6 +13,8 @@ export enum PermissionGroup {
 
 export default class ModeratorModel extends OsfModel {
     @attr('string') permissionGroup!: PermissionGroup;
+
+    // Write-only attributes
     @attr('string') fullName!: string;
     @attr('string') email!: string;
 
