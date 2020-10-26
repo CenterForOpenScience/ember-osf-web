@@ -6,13 +6,13 @@ export default buildRoutes(function() {
     this.route('branded', { path: '/registries/:providerId' }, function() {
         this.route('discover');
         this.route('new');
+        this.route('moderation-overview', { path: '/moderation/:guid' }, function() {
+            this.route('index', { path: '/' });
+        });
         this.route('moderation', function() {
             this.route('submissions');
             this.route('moderators');
             this.route('notifications');
-            this.route('overview', { path: '/:guid' }, function() {
-                this.route('index', { path: '/' });
-            });
         });
     });
 
