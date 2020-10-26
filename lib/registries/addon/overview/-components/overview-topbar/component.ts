@@ -30,6 +30,8 @@ export default class OverviewTopbar extends Component {
 
     bookmarksCollection!: CollectionModel;
     isBookmarked?: boolean;
+    mode?: string = 'default';
+    showDropdown: boolean = false;
 
     @task({ withTestWaiter: true, drop: true })
     forkRegistration = task(function *(this: OverviewTopbar, closeDropdown: () => void) {
