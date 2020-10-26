@@ -152,7 +152,7 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
             const { providerId } = model.attrs;
             relationships.provider = {
                 data: {
-                    id: model.attrs,
+                    id: providerId,
                     type: 'registration-providers',
                 },
                 links: {

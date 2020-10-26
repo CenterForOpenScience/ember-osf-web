@@ -12,18 +12,6 @@
     margin-left: 15px;
 }
 
-.ExpandyContainer {
-    overflow: hidden;
-}
-
-.actionsWrapper {
-    display: flex;
-}
-
-.toggleActions {
-    margin-top: 2px;
-}
-
 .pending,
 .pending_withdraw {
     color: $brand-warning;

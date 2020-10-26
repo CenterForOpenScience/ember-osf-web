@@ -1,7 +1,6 @@
 // stylelint-disable selector-no-qualifying-type
 h3.RegistriesSearchResult__Title {
-    font-weight: 400;
-    font-size: 24px;
+    line-height: inherit;
     margin-top: 10px;
 }
 
@@ -20,29 +19,11 @@ h3.RegistriesSearchResult__Title {
 }
 
 .Description {
-    max-height: 42px;  // Roughtly 2x line height;
-    overflow-y: hidden;
+    height: 42px;  // Roughtly 2x line height;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
-
-    &.Expanded {
-        max-height: 500px;
-        transition: max-height 1s ease-in-out;
-    }
-}
-
-.Details {
-    max-height: 0;
-    overflow-y: hidden;
-    transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
-
-    &.Expanded {
-        max-height: 500px;
-        transition: max-height 1s ease-in-out;
-    }
-
-    .Details__Badge {
-        background-color: $color-bg-gray-darker;
-    }
 }
 
 .Contributors {

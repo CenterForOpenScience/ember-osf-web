@@ -1,7 +1,7 @@
 import OsfAdapter from './osf-adapter';
 
 export default class ReviewActionAdapter extends OsfAdapter {
-    parentRelationship = 'provider';
+    parentRelationship = 'target';
 }
 
 declare module 'ember-data/types/registries/adapter' {

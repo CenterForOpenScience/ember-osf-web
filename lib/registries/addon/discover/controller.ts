@@ -10,6 +10,7 @@ import QueryParams from 'ember-parachute';
 import { is, OrderedSet } from 'immutable';
 
 import config from 'ember-get-config';
+import ProviderModel from 'ember-osf-web/models/provider';
 import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 import Analytics from 'ember-osf-web/services/analytics';
 import discoverStyles from 'registries/components/registries-discover-search/styles';
@@ -58,12 +59,12 @@ const sortOptions = [
     new SearchOrder({
         ascending: true,
         display: 'registries.discover.order.modified_ascending',
-        key: 'date_updated',
+        key: 'date',
     }),
     new SearchOrder({
         ascending: false,
         display: 'registries.discover.order.modified_descending',
-        key: 'date_updated',
+        key: 'date',
     }),
 ];
 
@@ -172,6 +173,10 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         filter: SearchFilter;
     }> = [];
 
+    get providerModel(): ProviderModel | undefined {
+        return undefined;
+    }
+
     // used to filter the counts/aggregations and all search results
     get additionalFilters(): ShareTermsFilter[] {
         return [];
@@ -213,8 +218,8 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
 
         // Setting osfProviders on the share-search service
         const urlRegex = config.OSF.url.replace(/^https?/, '^https?');
-        const filteredProviders = osfProviders.filter(provider => provider.shareSourceKey).map(provider => ({
-            name: provider.shareSourceKey!, // `name` should match what SHARE calls it
+        const filteredProviders = osfProviders.filter(provider => provider.shareSource).map(provider => ({
+            name: provider.shareSource!, // `name` should match what SHARE calls it
             display: provider.name,
             https: true,
             urlRegex,
@@ -253,7 +258,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         // TODO-mob don't hard-code 'OSF'
 
         // Unless OSF is the only source, registration_type filters must be cleared
-        if (!(this.sourceNames.length === 1 && this.sourceNames[0]! === 'OSF')) {
+        if (!(this.sourceNames.length === 1 && this.sourceNames[0]! === 'OSF Registries')) {
             this.set('registrationTypes', A([]));
         }
 
@@ -370,7 +375,15 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
 
     @action
     setOrder(value: SearchOrder) {
-        this.analytics.track('dropdown', 'select', `Discover - Sort By: ${this.intl.t(value.display)}`);
+        if (this.providerModel) {
+            this.analytics.track(
+                'dropdown',
+                'select',
+                `Discover - Sort By: ${this.intl.t(value.display)} ${this.providerModel.name}`,
+            );
+        } else {
+            this.analytics.track('dropdown', 'select', `Discover - Sort By: ${this.intl.t(value.display)}`);
+        }
         // Set page to 1 here to ensure page is always reset when changing the order/sorting of a search
         this.setProperties({ page: 1, sort: value });
     }

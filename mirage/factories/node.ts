@@ -26,6 +26,7 @@ export interface NodeTraits {
     withAffiliatedInstitutions: Trait;
     withManyAffiliatedInstitutions: Trait;
     withFiles: Trait;
+    withStorage: Trait;
 }
 
 export default Factory.extend<MirageNode & NodeTraits>({
@@ -159,6 +160,13 @@ export default Factory.extend<MirageNode & NodeTraits>({
             const files = server.createList('file', count, { target: node });
 
             osfstorage.rootFolder.update({ files });
+        },
+    }),
+
+    withStorage: trait<MirageNode>({
+        afterCreate(node, server) {
+            const storage = server.create('node-storage', { id: node.id });
+            node.update({ storage });
         },
     }),
 

@@ -4,11 +4,9 @@ import { action } from '@ember/object';
 import { inject as service, Registry as Services } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import Store from 'ember-data/store';
-import RSVP from 'rsvp';
 
 import Analytics from 'ember-osf-web/services/analytics';
 import config from 'registries/config/environment';
-import { SearchOptions, SearchOrder, SearchResults } from 'registries/services/search';
 import ShareSearch, { ShareRegistration } from 'registries/services/share-search';
 
 export default class Index extends Controller {
@@ -22,19 +20,14 @@ export default class Index extends Controller {
 
     @task({ withTestWaiter: true, on: 'init' })
     getRecentRegistrations = task(function *(this: Index) {
-        const [recentResults, totalResults]: Array<SearchResults<ShareRegistration>> = yield RSVP.all([
-            this.shareSearch.registrations(new SearchOptions({
-                order: new SearchOrder({ display: '', ascending: false, key: 'date_updated' }),
-                query: config.indexPageRegistrationsQuery,
-                size: 5,
-            })),
-            this.shareSearch.registrations(new SearchOptions({
-                size: 0,
-            })),
-            this.store.findAll('registration-schema'),
-        ]);
-        this.set('recentRegistrations', recentResults.results);
-        this.set('searchableRegistrations', totalResults.total);
+        const recentRegistrations = yield this.store.query('registration', {
+            filter: {
+                id: config.indexPageRegistrationIds.join(','),
+            },
+            sort: '-date_modified',
+            embed: 'bibliographic_contributors',
+        });
+        this.setProperties({ recentRegistrations });
     });
 
     @action

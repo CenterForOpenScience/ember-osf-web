@@ -30,7 +30,10 @@ export default class RegistrationProviderModel extends ProviderModel {
     actions!: DS.PromiseManyArray<ReviewActionModel> | ReviewActionModel[];
 
     @attr('fixstring')
-    shareSourceKey?: string;
+    shareSource?: string;
+
+    @attr('boolean')
+    brandedDiscoveryPage?: boolean;
 }
 
 declare module 'ember-data/types/registries/model' {

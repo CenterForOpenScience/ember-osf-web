@@ -3,15 +3,19 @@
     local-class='cardWrapper'
     ...attributes
 >
-    <FaIcon
-        data-test-registration-list-card-icon='{{@filterState}}'
-        @icon={{this.icon}}
-        @size={{2}}
-        local-class='filterIcon {{@filterState}}'
-    />
     {{#if this.fetchActions.isRunning}}
-        <LoadingIndicator />
+        <LoadingIndicator @dark={{true}} />
+    {{else if this.fetchActions.isError}}
+        <p data-test-loading-actions-failed>
+            {{t 'registries.registrationList.failedToLoadActions'}}
+        </p>
     {{else}}
+        <FaIcon
+            data-test-registration-list-card-icon='{{@filterState}}'
+            @icon={{this.icon}}
+            @size={{2}}
+            local-class='filterIcon {{@filterState}}'
+        />
         <div local-class='cardInfo'>
             {{!-- TODO: Update this to be a link to the moderation overview page --}}
             <h3
@@ -20,48 +24,7 @@
             >
                 {{@registration.title}}
             </h3>
-            <div local-class='actionsWrapper'>
-                {{#if this.reviewActions}}
-                    {{#if (gt this.reviewActions.length 1)}}
-                        <FaIcon
-                            @icon={{this.actionsListIcon}}
-                            @fixedWidth={{true}}
-                            data-test-registration-card-toggle-actions
-                            local-class='toggleActions'
-                            {{on 'click' this.toggleActionList}}
-                        />
-                    {{/if}}
-                    <div local-class='actionsList'>
-                        <p data-test-registration-list-card-latest-action>
-                            {{t 'registries.registrationList.moderatorAction'
-                                action=this.latestAction.triggerPastTense
-                                moderator=this.latestAction.creator.fullName
-                                date=(time-since this.latestAction.dateModified)
-                            }}
-                        </p>
-                        <AnimatedContainer local-class='ExpandyContainer'>
-                            <AnimatedIf
-                                @predicate={{this.showFullActionList}}
-                                @duration='100'
-                            >
-                                {{#each this.reviewActions as |reviewAction index|}}
-                                    {{#if (gt index 0)}}
-                                        <p data-test-registration-list-card-more-actions>
-                                            {{t 'registries.registrationList.moderatorAction'
-                                                action=reviewAction.triggerPastTense
-                                                moderator=reviewAction.creator.fullName
-                                                date=(time-since reviewAction.dateModified)
-                                            }}
-                                        </p>
-                                    {{/if}}
-                                {{/each}}
-                            </AnimatedIf>
-                        </AnimatedContainer>
-                    </div>
-                {{else}}
-                    <p data-test-no-actions-found>{{t 'registries.registrationList.noActionsFound'}}</p>
-                {{/if}}
-            </div>
+            <ReviewActionsList @reviewActions={{this.reviewActions}} />
         </div>
     {{/if}}
 </div>

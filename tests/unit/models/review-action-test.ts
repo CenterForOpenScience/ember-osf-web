@@ -58,7 +58,7 @@ module('Unit | Model | review-action', hooks => {
         const relationship = get(model, 'relationshipsByName').get('provider');
 
         assert.equal(relationship.key, 'provider');
-        assert.equal(relationship.type, 'preprint-provider');
+        assert.equal(relationship.type, 'registration-provider');
         assert.equal(relationship.kind, 'belongsTo');
     });
 
@@ -67,7 +67,7 @@ module('Unit | Model | review-action', hooks => {
         const relationship = get(model, 'relationshipsByName').get('target');
 
         assert.equal(relationship.key, 'target');
-        assert.equal(relationship.type, 'preprint');
+        assert.equal(relationship.type, 'registration');
         assert.equal(relationship.kind, 'belongsTo');
     });
 

@@ -2,7 +2,7 @@
     <ScheduledBanner />
 
     <HeroOverlay>
-        {{#registries-header onSearch=(action 'onSearch') searchable=this.searchableRegistrations as |header|}}
+        {{#registries-header onSearch=(action 'onSearch') as |header|}}
             {{#header.lead}}
                 <span>{{t 'registries.index.lead' htmlSafe=true}}</span>
             {{/header.lead}}
@@ -24,7 +24,7 @@
     {{#if this.getRecentRegistrations.isRunning}}
         {{loading-indicator dark=true}}
     {{else}}
-        {{registries-recent-list this.recentRegistrations}}
+        {{registries-recent-list recentRegistrations=this.recentRegistrations}}
     {{/if}}
 
     <RegistriesServicesList />

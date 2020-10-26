@@ -7,6 +7,7 @@ import { alias, notEmpty } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 import $ from 'jquery';
 
@@ -15,7 +16,8 @@ import File from 'ember-osf-web/models/file';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 
-import { Resource } from 'osf-api';
+import captureException from 'ember-osf-web/utils/capture-exception';
+import { ErrorDocument, Resource } from 'osf-api';
 import { FilesManager } from 'osf-components/components/files/manager/component';
 import template from './template';
 
@@ -31,8 +33,9 @@ interface DropzoneFileUpload {
 /* eslint-disable camelcase */
 interface UploadResponse {
     message: string;
-    message_long: string;
+    message_long?: string;
     data: FileResource;
+    code: number;
 }
 /* eslint-enable camelcase */
 
@@ -42,6 +45,7 @@ export default class UploadZone extends Component {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service store!: DS.Store;
+    @service intl!: Intl;
 
     filesManager!: FilesManager;
     uploading: MutableArray<File> = A([]);
@@ -115,9 +119,23 @@ export default class UploadZone extends Component {
     }
 
     @action
-    error(_: unknown, __: unknown, file: File & DropzoneFileUpload, response: UploadResponse | string) {
+    error(_: unknown, __: unknown, file: File & DropzoneFileUpload, response: ErrorDocument & UploadResponse | string) {
         this.uploading.removeObject(file);
-        this.toast.error((typeof response === 'string') ? response : (response.message_long || response.message));
+        let toastMessage = '';
+        let error;
+        if (typeof response === 'string') {
+            toastMessage = response;
+            error = new Error(response);
+        } else {
+            error = response;
+            if (response.code === 507) {
+                toastMessage = this.intl.t('osf-components.files-widget.insufficient_storage_error');
+            } else {
+                toastMessage = response.message_long || response.message;
+            }
+        }
+        captureException(error, { errorMessage: toastMessage });
+        this.toast.error(toastMessage);
     }
 
     @action

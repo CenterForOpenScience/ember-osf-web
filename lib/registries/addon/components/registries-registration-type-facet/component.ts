@@ -11,6 +11,7 @@ import Toast from 'ember-toastr/services/toast';
 
 import RegistrationSchema from 'ember-osf-web/adapters/registration-schema';
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
+import ProviderModel from 'ember-osf-web/models/provider';
 import Analytics from 'ember-osf-web/services/analytics';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import defaultTo from 'ember-osf-web/utils/default-to';
@@ -34,6 +35,7 @@ export default class RegistriesRegistrationTypeFacet extends Component {
     @service features!: Features;
 
     searchOptions!: SearchOptions;
+    provider?: ProviderModel;
     @requiredAction onSearchOptionsUpdated!: (options: SearchOptions) => void;
 
     registrationTypes: EmberArray<string> = defaultTo(this.registrationTypes, A([]));
@@ -70,7 +72,7 @@ export default class RegistriesRegistrationTypeFacet extends Component {
         const osfSelected = this.searchOptions.filters.find(
             item => item instanceof ShareTermsFilter
                 && item.key === 'sources'
-                && item.value === 'OSF',
+                && item.value === 'OSF Registries',
         );
         return this.searchOptions.filters.filter(filter => filter.key === 'sources').size === 1 && osfSelected;
     }
@@ -94,7 +96,17 @@ export default class RegistriesRegistrationTypeFacet extends Component {
             return undefined;
         }
 
-        this.analytics.track('filter', checked ? 'remove' : 'add', `Discover - type ${filter.display}`);
+        if (this.provider) {
+            this.analytics.track(
+                'filter',
+                checked
+                    ? 'remove'
+                    : 'add',
+                `Discover - type ${filter.display} ${this.provider.name}`,
+            );
+        } else {
+            this.analytics.track('filter', checked ? 'remove' : 'add', `Discover - type ${filter.display}`);
+        }
 
         if (checked) {
             return this.onSearchOptionsUpdated(this.searchOptions.removeFilters(filter));

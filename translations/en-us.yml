@@ -252,8 +252,12 @@ move_to_project:
     no_longer_public_warning:
         project: 'Files moved to private projects will no longer be public or discoverable by others.'
         component: 'Files moved to private components will no longer be public or discoverable by others.'
+    storage_limit:
+        warning: 'This project is approaching its storage limit.'
+        error: 'This project is past its storage limit.'
     file_successfully_moved: 'File was moved successfully!'
     could_not_move_file: 'Could not move file.'
+    storage_error: 'This file cannot be added to this project/component because it would exceed the storage limit for OSF Storage.'
     keep_working_here: 'Keep working here'
     go_to_new_project: 'Go to new project'
     go_to_component: 'Go to component'
@@ -549,6 +553,14 @@ status:
     registration_archiving: 'Files are being copied to the newly created registration, and you will receive an email notification when the copying is finished.'
     registration_submitted: 'Your submission has been received. You will be notified within two business days regarding the status of your submission. If you have questions you may contact us at prereg@cos.io.'
     redirected_to_registrations: 'You have been redirected to the project''s registrations page. From here you can initiate a new Draft Registration to complete the registration process.'
+    registration_approved: 'Your registration approval has been accepted.'
+    registration_rejected: 'Your disapproval has been accepted and the registration has been cancelled.'
+    embargo_approved: 'Your embargo approval has been accepted.'
+    embargo_rejected: 'Your disapproval has been accepted and the embargo has been cancelled.'
+    embargo_termination_approved: 'Your approval to make this embargo public has been accepted.'
+    embargo_termination_rejected: 'Your disapproval has been accepted and this embargo will not be made public.'
+    retraction_approved: 'Your withdrawal approval has been accepted.'
+    retraction_rejected: 'Your disapproval has been accepted and the withdrawal has been cancelled.'
 dropzone_widget:
     drop_files: 'Drop files here to upload'
     error_multiple_files: 'Cannot upload multiple files'
@@ -989,7 +1001,7 @@ registries:
         notifications:
             title: 'Notifications'
             heading: 'Configure reviews notification preferences'
-            paragraph: 'To configure other notification preferences visit your <a href={link}>user settings</a>.'    
+            paragraph: 'To configure other notification preferences visit your <a href={link}>user settings</a>.'
         overview:
             title: 'Moderated Overview'
     new:
@@ -1290,8 +1302,18 @@ registries:
         rejected: 'No rejected registrations have been found'
         withdrawn: 'No withdrawn registrations have been found'
         pending_withdraw: 'No registrations found pending withdrawal'
+        failedToLoadActions: 'Failed to load registration review history'
+    reviewActionsList:
         moderatorAction: '{action} {date} by {moderator}'
-        noActionsFound: 'Failed to load registration review history'
+        noActionsFound: 'No review history found for this registration'
+    reviewActions:
+        triggerPastTense:
+            accept_submission: 'Accepted'
+            reject_submission: 'Rejected'
+            force_withdraw: 'Withdrawal forced'
+            request_withdrawal: 'Withdrawal requested'
+            accept_withdrawal: 'Withdrawal request accepted'
+            reject_withdrawal: 'Withdrawal request rejected'
     finalizeRegistrationModal:
         title: 'Almost done...'
         notice: "Please keep in mind that:\n                <ul>\n                    <li>\n                        Registrations cannot be modified or deleted once completed.\n                    </li>\n                    <li>\n                        The content and version history of Wiki and OSF Storage will be copied to the registration.\n                    </li>\n                    <li>\n                        This project contains links to other projects. These links will be copied into your registration, but the\n                        projects that they link to will not be registered. If you wish to register the linked projects, they must be\n                        registered separately. <a href='{learnMoreLink}' target='_blank' rel='noopener noreferrer'>Learn more about links</a>.\n                    </li>\n                </ul>"
@@ -1499,6 +1521,7 @@ osf-components:
         create: Create
         folder_name_placeholder: 'New folder name'
         create_folder_failed: 'Failed to create folder'
+        insufficient_storage_error: 'This file cannot be uploaded to this project/component because it has exceeded the storage limit for OSF Storage.'
     subjects:
         browse:
             browse_all: 'Browse all subjects'

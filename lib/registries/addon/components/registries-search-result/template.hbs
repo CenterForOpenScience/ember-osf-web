@@ -12,13 +12,14 @@
                 resultId=@result.id
                 parentId=this.elementId
                 showText=false
+                provider=@provider
             }}
         {{/if}}
         <h3 local-class='RegistriesSearchResult__Title'>
             <OsfLink
                 data-test-result-title-id={{@result.id}}
                 @href={{@result.mainLink}}
-                data-analytics-name='Result Title'
+                data-analytics-name='Result Title{{if @provider concat ' @provider.name'}}'
             >
                 {{math @result.title}}
             </OsfLink>
@@ -65,29 +66,8 @@
             </span>
         </div>
 
-        <p local-class='Description {{if this.expanded 'Expanded' 'Collapsed'}}' class='text-muted m-t-sm'>
+        <p local-class='Description' class='text-muted m-t-sm'>
             {{math @result.description}}
         </p>
-
-        <div local-class='Details {{if this.expanded 'Expanded' 'Collapsed'}}'>
-            {{#each @result.tags as |tag|}}
-                <span local-class='Details__Badge' class='badge'>{{math tag}}</span>
-            {{/each}}
-        </div>
-
-        <div class='text-center'>
-            <button
-                data-test-result-toggle-id={{@result.id}}
-                type='button'
-                local-class='RegistriesSearchResult__Toggle'
-                class='btn btn-link'
-                aria-label={{t 'registries.discover.search_result.toggle_result'}}
-                data-analytics-name='Expand button'
-                {{action this.toggleExpanded}}
-            >
-                {{fa-icon this.footerIcon size=1 ariaHidden=false}}
-            </button>
-        </div>
-
     </div>
 </div>

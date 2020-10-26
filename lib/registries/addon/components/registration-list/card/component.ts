@@ -1,12 +1,12 @@
-import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
 
-import RegistrationModel from 'ember-osf-web/models/registration';
+import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import ReviewActionModel from 'ember-osf-web/models/review-action';
 
 const iconMap: Record<string, string> = {
+    // This is a subset of RegistrationReviewStates that only applies to moderation
     pending: 'hourglass',
     withdrawn: 'ban',
     accepted: 'check',
@@ -16,38 +16,25 @@ const iconMap: Record<string, string> = {
 
 interface Args {
     registration: RegistrationModel;
-    filterState: string;
+    filterState: RegistrationReviewStates;
 }
 
 export default class RegistrationListCard extends Component<Args> {
-    @tracked showFullActionList: boolean = false;
     @tracked reviewActions?: ReviewActionModel[];
-    @tracked latestAction?: ReviewActionModel;
-
-    get actionsListIcon() {
-        return this.showFullActionList ? 'caret-down' : 'caret-right';
-    }
 
     get icon(): string {
         const { filterState } = this.args;
-        return iconMap[filterState] ? iconMap[filterState] : '';
+        return iconMap[filterState] || '';
     }
 
     @task({ withTestWaiter: true })
     fetchActions = task(function *(this: RegistrationListCard) {
-        this.reviewActions = yield this.args.registration.reviewActions;
-        if (this.reviewActions) {
-            [this.latestAction] = this.reviewActions.toArray();
-        }
+        const reviewActions = yield this.args.registration.reviewActions;
+        this.reviewActions = reviewActions.toArray();
     });
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
         this.fetchActions.perform();
-    }
-
-    @action
-    toggleActionList() {
-        this.showFullActionList = !this.showFullActionList;
     }
 }

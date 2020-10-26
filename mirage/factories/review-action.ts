@@ -41,6 +41,6 @@ declare module 'ember-cli-mirage/types/registries/model' {
 
 declare module 'ember-cli-mirage/types/registries/schema' {
     export default interface MirageSchemaRegistry {
-        reviewAction: ReviewActionModel;
+        reviewActions: ReviewActionModel;
     } // eslint-disable-line semi
 }

@@ -3,6 +3,7 @@ import config from 'ember-get-config';
 import faker from 'faker';
 
 import FileProvider from 'ember-osf-web/models/file-provider';
+import { StorageStatus } from 'ember-osf-web/models/node-storage';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 
@@ -61,7 +62,15 @@ function registrationScenario(
         'page-one_single-select-two': 'Remember who was in NSync and who was in Backstreet Boys',
     };
 
-    const rootNode = server.create('node', { contributors: server.createList('contributor', 21) }, 'withFiles');
+    const rootNode = server.create('node', {
+        public: false,
+        contributors: server.createList('contributor', 11),
+        currentUserPermissions: [Permission.Admin],
+    }, 'withFiles', 'withStorage');
+    rootNode.update({
+        storage: server.create('node-storage', { storageLimitStatus: StorageStatus.OVER_PRIVATE }),
+    });
+
     const childNodeA = server.create('node', { parent: rootNode });
     server.create('node', { parent: childNodeA });
     server.create('node', { parent: childNodeA });
@@ -131,9 +140,8 @@ function registrationScenario(
 
     server.create('draft-registration', {
         id: 'dcaf',
-        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        registrationSchema: server.schema.registrationSchemas.find('open_ended_registration'),
         initiator: currentUser,
-        registrationResponses,
         branchedFrom: rootNode,
         license: licenseReqFields,
     }, 'withSubjects', 'withAffiliatedInstitutions');
@@ -149,10 +157,10 @@ function registrationScenario(
     });
 
     const clinicalTrials = server.create('external-provider', {
-        shareSourceKey: 'ClinicalTrials.gov',
+        shareSource: 'ClinicalTrials.gov',
     });
     const researchRegistry = server.create('external-provider', {
-        shareSourceKey: 'Research Registry',
+        shareSource: 'Research Registry',
     });
 
     server.createList('external-registration', 3, { provider: clinicalTrials });
@@ -181,7 +189,54 @@ function registrationScenario(
 }
 
 function quickfilesScenario(server: Server, currentUser: ModelInstance<User>) {
-    server.createList('file', 5, { user: currentUser });
+    const overPrivateNode = server.create('node', {
+        id: 'ovpri',
+        title: 'Over the Private Storage Limit',
+        public: false,
+        currentUserPermissions: Object.values(Permission),
+    }, 'withStorage');
+    overPrivateNode.storage.update({ storageLimitStatus: StorageStatus.OVER_PRIVATE });
+
+    const approachingPrivateNode = server.create('node', {
+        id: 'appri',
+        title: 'Approaching the Private Storage Limit',
+        public: false,
+        currentUserPermissions: Object.values(Permission),
+    }, 'withStorage');
+    approachingPrivateNode.storage.update({ storageLimitStatus: StorageStatus.APPROACHING_PRIVATE });
+
+    const overPublicNode = server.create('node', {
+        id: 'ovpub',
+        title: 'Over the Public Storage Limit',
+        currentUserPermissions: Object.values(Permission),
+    }, 'withStorage');
+    overPublicNode.storage.update({ storageLimitStatus: StorageStatus.OVER_PUBLIC });
+
+    const approachingPublicNode = server.create('node', {
+        id: 'appub',
+        title: 'Approaching the Public Storage Limit',
+        currentUserPermissions: Object.values(Permission),
+    }, 'withStorage');
+    approachingPublicNode.storage.update({ storageLimitStatus: StorageStatus.APPROACHING_PUBLIC });
+
+    const notCalculatedNode = server.create('node', {
+        id: 'noCal',
+        public: false,
+        title: 'Storage Status not calculated',
+        currentUserPermissions: Object.values(Permission),
+    }, 'withStorage');
+    approachingPublicNode.storage.update({ storageLimitStatus: StorageStatus.NOT_CALCULATED });
+
+    const nodes = [overPrivateNode, approachingPrivateNode, overPublicNode, approachingPublicNode, notCalculatedNode];
+    for (const node of nodes) {
+        server.create('contributor', {
+            node,
+            users: currentUser,
+            permission: Permission.Admin,
+            index: 0,
+        });
+    }
+    server.createList('file', 8, { user: currentUser });
 }
 
 function collectionScenario(server: Server, currentUser: ModelInstance<User>) {

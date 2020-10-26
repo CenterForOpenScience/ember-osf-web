@@ -17,10 +17,14 @@ module('Registries | Acceptance | branded.new', hooks => {
     });
 
     test('serves branded.new route if provider.allowSubmissions: true', async assert => {
-        const brandedProvider = server.create('registration-provider', 'withBrand');
+        const brandedProvider = server.create('registration-provider', {
+            assets: {
+                favicon: 'fakelink',
+            },
+        }, 'withBrand');
         await visit(`/registries/${brandedProvider.id}/new`);
         await percySnapshot(assert);
-
+        assert.ok(document.querySelector('link[rel="icon"][href="fakelink"]'));
         assert.equal(currentRouteName(), 'registries.branded.new', 'At the correct route: branded.new');
     });
 
@@ -32,8 +36,12 @@ module('Registries | Acceptance | branded.new', hooks => {
     });
 
     test('only serves EGAP brand.new if egapAdmins feature flag is enabled', async function(assert) {
-        const brandedProvider = server.create('registration-provider',
-            { id: 'egap' }, 'withBrand');
+        const brandedProvider = server.create('registration-provider', {
+            id: 'egap',
+            assets: {
+                favicon: 'fakelink',
+            },
+        }, 'withBrand');
         const { featureFlagNames: { egapAdmins } } = config;
         const features = this.owner.lookup('service:features') as Features;
 
@@ -44,6 +52,7 @@ module('Registries | Acceptance | branded.new', hooks => {
         await visit(`/registries/${brandedProvider.id}/new`);
         assert.ok(features.isEnabled(egapAdmins), 'egapAdmins flag is enabled');
         assert.equal(currentRouteName(), 'registries.branded.new', 'At the correct route: EGAP branded.new');
+        assert.ok(document.querySelector('link[rel="icon"][href="fakelink"]'));
 
         features.disable(egapAdmins);
         await visit(`/registries/${brandedProvider.id}/new`);
@@ -56,7 +65,9 @@ module('Registries | Acceptance | branded.new', hooks => {
         server.loadFixtures('schema-blocks');
         const currentUser = server.create('user', 'loggedIn');
         const node = server.create('node', { id: 'decaf', title: 'This is your project' }, 'currentUserAdmin');
+        const nonAdminNode = server.create('node', { id: 'badmin', title: 'User is not admin' });
         server.create('contributor', { node, users: currentUser });
+        server.create('contributor', { node: nonAdminNode, users: currentUser });
         const brandedProvider = server.create('registration-provider', 'withBrand', 'withSchemas');
         await visit(`/registries/${brandedProvider.id}/new`);
 
@@ -65,6 +76,8 @@ module('Registries | Acceptance | branded.new', hooks => {
         await click('[data-test-project-select] .ember-power-select-trigger');
         assert.dom('.ember-power-select-options > li.ember-power-select-option:first-of-type')
             .hasText('This is your project', 'Project dropdown shows project title');
+        assert.dom('.ember-power-select-options > li.ember-power-select-option')
+            .doesNotContainText('User is not admin', 'Project dropdown only shows projects the user is admin for');
         await click('.ember-power-select-options > li.ember-power-select-option:first-of-type');
         assert.dom('[data-test-schema-select] .ember-power-select-trigger')
             .hasText('This is a Test Schema', 'Schema dropdown is autopopulated with first schema available');

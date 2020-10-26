@@ -1,5 +1,4 @@
 import { association, Collection, Factory, trait, Trait } from 'ember-cli-mirage';
-import faker from 'faker';
 
 import Contributor from 'ember-osf-web/models/contributor';
 import { Permission } from 'ember-osf-web/models/osf-model';
@@ -20,13 +19,6 @@ export default Factory.extend<Contributor & ContributorTraits>({
         return i;
     },
     users: association() as Contributor['users'],
-
-    fullName() {
-        return `${faker.name.firstName()} ${faker.name.lastName()}`;
-    },
-    email() {
-        return faker.internet.email();
-    },
 
     afterCreate(contributor) {
         if (contributor.bibliographic) {

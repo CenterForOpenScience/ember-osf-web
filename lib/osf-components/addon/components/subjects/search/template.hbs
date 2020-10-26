@@ -15,6 +15,7 @@
 
 {{#if (or this.isLoading this.searchResults)}}
     <ol
+        class='{{if this.isLoading 'BlurredInert'}}'
         local-class='SearchResults'
         inert={{this.isLoading}}
     >
