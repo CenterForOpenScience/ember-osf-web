@@ -1,19 +1,13 @@
 import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-import { Task, TaskInstance } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import Toast from 'ember-toastr/services/toast';
 
+import { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
 import Analytics from 'ember-osf-web/services/analytics';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
-
-export interface GuidRouteModel<T> {
-    guid: string;
-    taskInstance: TaskInstance<T>;
-    task: Task<T>;
-}
 
 export default class BrandedModerationOverviewRoute extends Route {
     @service analytics!: Analytics;
@@ -40,7 +34,7 @@ export default class BrandedModerationOverviewRoute extends Route {
         }
     });
 
-    model(params: { providerId: string, guid: string }) {
+    model(params: { providerId: string, guid: string }): GuidRouteModel<BrandedModerationOverviewRoute> {
         return {
             guid: params.guid,
             taskInstance: this.getModel.perform(params.guid),
