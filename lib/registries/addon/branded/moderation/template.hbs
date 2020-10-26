@@ -1,22 +1,22 @@
-<RegistriesWrapper
-    {{with-branding (get-model this.model.brand)}}
-    data-analytics-scope='Registries Moderation'
-    @provider={{this.model}}
->
-    <OsfLayout @backgroundClass={{local-class 'contentBackground'}} as |layout|>
-        <layout.heading local-class='heading'>
-            <HeroOverlay @align='left'>
-                <div local-class='title'>
-                    <h1>
-                        {{t 'registries.moderation.header'}}
-                    </h1>
-                </div>
-            </HeroOverlay>
-        </layout.heading>
-        <layout.main local-class='main'>
-            {{#if (eq this.target.currentRouteName 'registries.branded.moderation.overview')}}
-                {{outlet}}
-            {{else}}
+{{#if (eq this.target.currentRouteName 'registries.branded.moderation.overview.index')}}
+    {{outlet}}
+{{else}}
+    <RegistriesWrapper
+        {{with-branding (get-model this.model.brand)}}
+        data-analytics-scope='Registries Moderation'
+        @provider={{this.model}}
+    >
+        <OsfLayout @backgroundClass={{local-class 'contentBackground'}} as |layout|>
+            <layout.heading local-class='heading'>
+                <HeroOverlay @align='left'>
+                    <div local-class='title'>
+                        <h1>
+                            {{t 'registries.moderation.header'}}
+                        </h1>
+                    </div>
+                </HeroOverlay>
+            </layout.heading>
+            <layout.main local-class='main'>
                 {{!-- TODO: add pending count in Submissions and Withdrawals tab --}}
                 <BsNav local-class='mainNav' @type='tabs' as |nav|>
                     {{#let 'registries.branded.moderation.submissions' as |submissionsRoute|}}
@@ -51,7 +51,7 @@
                     {{/let}}
                 </BsNav>
                 {{outlet}}
-            {{/if}}
-        </layout.main>
-    </OsfLayout>
-</RegistriesWrapper>
+            </layout.main>
+        </OsfLayout>
+    </RegistriesWrapper>
+{{/if}}

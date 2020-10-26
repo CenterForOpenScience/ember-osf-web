@@ -1,4 +1,5 @@
 <RegistriesWrapper
+    data-analytics-scope={{or this.analyticsScope 'Overview'}}
     @provider={{if this.model.task.isIdle (get-model this.registration.provider)}}
     {{with-branding (if this.model.task.isIdle (get-model this.registration.provider.brand))}}
 >
@@ -43,10 +44,13 @@
         {{else}}
             <OsfLayout @backgroundClass='{{local-class 'ContentBackground'}}' as |layout|>
                 <layout.heading>
-                    <Overview::-Components::OverviewHeader @registration={{this.registration}}
-                        @sidenavGutterClosed={{layout.sidenavGutterClosed}} @toggleSidenav={{layout.toggleSidenav}}
+                    <Overview::-Components::OverviewHeader
+                        @registration={{this.registration}}
+                        @sidenavGutterClosed={{layout.sidenavGutterClosed}}
+                        @toggleSidenav={{layout.toggleSidenav}}
                         @metadataGutterClosed={{layout.metadataGutterClosed}}
-                        @toggleMetadata={{layout.toggleMetadata}} />
+                        @toggleMetadata={{layout.toggleMetadata}}
+                    />
                 </layout.heading>
 
                 <layout.leftNavOld as |leftNav|>
