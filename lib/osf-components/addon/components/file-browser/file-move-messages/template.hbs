@@ -15,7 +15,7 @@
 {{#if this.shouldShowError}}
     <p data-test-file-move-error class='text-danger'>
         {{t 'move_to_project.storage_error'}}
-        {{t 'move_to_project.storage_limit.learn_more'}}
+        {{t 'move_to_project.storage_limit.learn_more' htmlSafe=true}}
     </p>
 {{/if}}
 {{#if this.shouldShowWarning}}
