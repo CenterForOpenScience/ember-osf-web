@@ -53,12 +53,6 @@
       "osf-components/*": [
         "lib/osf-components/addon/*"
       ],
-      "handbook": [
-        "lib/handbook/addon"
-      ],
-      "handbook/*": [
-        "lib/handbook/addon/*"
-      ],
       "analytics-page": [
         "lib/analytics-page/addon"
       ],
@@ -88,7 +82,6 @@
     "lib/analytics-page",
     "lib/collections",
     "lib/app-components",
-    "lib/handbook",
     "lib/osf-components",
     "lib/registries"
   ]
