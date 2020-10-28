@@ -1,6 +1,11 @@
 import MutableArray from '@ember/array/mutable';
 import Copyable from '@ember/object/-private/copyable';
 
+import 'ember-concurrency-async';
+import 'ember-concurrency-decorators';
+import 'ember-concurrency-test-waiter';
+import 'ember-concurrency-ts/async';
+
 declare global {
     interface Array<T> extends MutableArray<T>, Copyable {}
 
