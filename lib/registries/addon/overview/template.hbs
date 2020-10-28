@@ -13,7 +13,7 @@
         {{#if (or this.registration.withdrawn this.registration.archiving)}}
             <OsfLayout @backgroundClass='{{local-class 'ContentBackground'}}' as |layout|>
                 <layout.heading>
-                    <Overview::-Components::OverviewHeader @registration={{this.registration}} />
+                    <Overview::-Components::OverviewHeader @viewMode={{this.viewMode}} @registration={{this.registration}} />
                 </layout.heading>
                 <layout.main>
                     {{#if this.registration.withdrawn}}
@@ -45,6 +45,7 @@
             <OsfLayout @backgroundClass='{{local-class 'ContentBackground'}}' as |layout|>
                 <layout.heading>
                     <Overview::-Components::OverviewHeader
+                        @viewMode={{this.viewMode}}
                         @registration={{this.registration}}
                         @sidenavGutterClosed={{layout.sidenavGutterClosed}}
                         @toggleSidenav={{layout.toggleSidenav}}

@@ -24,6 +24,7 @@
                 <OsfLink
                     @route='registries.branded.moderation-overview.index'
                     @models={{array @registration.provider.id @registration.id}}
+                    @queryParams={{hash viewMode='moderator'}}
                 >
                     {{@registration.title}}
                 </OsfLink>
