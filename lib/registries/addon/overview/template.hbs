@@ -1,5 +1,4 @@
 <RegistriesWrapper
-    data-analytics-scope={{or this.analyticsScope 'Overview'}}
     @provider={{if this.model.task.isIdle (get-model this.registration.provider)}}
     {{with-branding (if this.model.task.isIdle (get-model this.registration.provider.brand))}}
 >

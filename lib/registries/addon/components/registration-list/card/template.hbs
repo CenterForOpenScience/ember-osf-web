@@ -22,8 +22,8 @@
                 local-class='registrationTitle'
             >
                 <OsfLink
-                    @route='registries.branded.moderation-overview.index'
-                    @models={{array @registration.provider.id @registration.id}}
+                    @route='registries.overview'
+                    @models={{array @registration.id}}
                     @queryParams={{hash viewMode='moderator'}}
                 >
                     {{@registration.title}}
