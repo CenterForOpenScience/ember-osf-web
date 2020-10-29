@@ -31,7 +31,7 @@ export default class Register extends Component {
     finalizeRegDialogIsOpen = false;
 
     @task({ withTestWaiter: true })
-    onClickRegister = task(function *(this: Register) {
+    async onClickRegister() {
         if (!this.registration) {
             const registration = this.store.createRecord('registration', {
                 draftRegistrationId: this.draftRegistration.id,
@@ -42,14 +42,14 @@ export default class Register extends Component {
             this.setProperties({ registration });
         }
         if (this.node) {
-            yield this.node.loadRelatedCount('children');
+            await this.node.loadRelatedCount('children');
         }
         if (this.node && this.node.relatedCounts.children > 0) {
             this.showPartialRegDialog();
         } else {
             this.showFinalizeRegDialog();
         }
-    });
+    }
 
     didReceiveAttrs() {
         assert('@draftManager is required!', Boolean(this.draftManager));

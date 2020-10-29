@@ -4,7 +4,8 @@ import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import { ChangesetDef } from 'ember-changeset/types';
 import { TaskInstance, timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { restartableTask, task } from 'ember-concurrency-decorators';
+import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -56,6 +57,12 @@ export default class DraftRegistrationManager {
     node?: NodeModel;
     provider!: ProviderModel;
 
+    constructor(draftRegistrationAndNodeTask: LoadDraftModelTask) {
+        set(this, 'draftRegistrationAndNodeTask', draftRegistrationAndNodeTask);
+        taskFor(this.initializePageManagers).perform();
+        taskFor(this.initializeMetadataChangeset).perform();
+    }
+
     @computed('pageManagers.{[],@each.pageIsValid}')
     get registrationResponsesIsValid() {
         return this.pageManagers.every(pageManager => pageManager.pageIsValid) && this.metadataIsValid;
@@ -68,9 +75,10 @@ export default class DraftRegistrationManager {
 
     @computed('onInput.lastComplete')
     get lastSaveFailed() {
-        const pageInputFailed = this.onPageInput.lastComplete ? this.onPageInput.lastComplete.isError : false;
-        const metadataInputFailed = this.onMetadataInput.lastComplete
-            ? this.onMetadataInput.lastComplete.isError : false;
+        const pageInputFailed = taskFor(this.onPageInput).lastComplete
+            ? taskFor(this.onPageInput).lastComplete.isError : false;
+        const metadataInputFailed = taskFor(this.onMetadataInput).lastComplete
+            ? taskFor(this.onMetadataInput).lastComplete.isError : false;
         return pageInputFailed || metadataInputFailed;
     }
 
@@ -83,13 +91,13 @@ export default class DraftRegistrationManager {
     }
 
     @task({ withTestWaiter: true })
-    initializePageManagers = task(function *(this: DraftRegistrationManager) {
-        const { draftRegistration, node, provider } = yield this.draftRegistrationAndNodeTask;
+    async initializePageManagers() {
+        const { draftRegistration, node, provider } = await this.draftRegistrationAndNodeTask;
         set(this, 'draftRegistration', draftRegistration);
         set(this, 'node', node);
         set(this, 'provider', provider);
-        const registrationSchema = yield this.draftRegistration.registrationSchema;
-        const schemaBlocks: SchemaBlock[] = yield registrationSchema.loadAll('schemaBlocks');
+        const registrationSchema = await this.draftRegistration.registrationSchema;
+        const schemaBlocks: SchemaBlock[] = await registrationSchema.loadAll('schemaBlocks');
         set(this, 'schemaBlocks', schemaBlocks);
         const pages = getPages(schemaBlocks);
         const { registrationResponses } = this.draftRegistration;
@@ -105,53 +113,32 @@ export default class DraftRegistrationManager {
         );
 
         set(this, 'pageManagers', pageManagers);
-    });
+    }
 
     @task({ withTestWaiter: true })
-    initializeMetadataChangeset = task(function *(this: DraftRegistrationManager) {
-        const { draftRegistration } = yield this.draftRegistrationAndNodeTask;
+    async initializeMetadataChangeset() {
+        const { draftRegistration } = await this.draftRegistrationAndNodeTask;
         const metadataValidations = buildMetadataValidations();
         const metadataChangeset = buildChangeset(draftRegistration, metadataValidations);
         set(this, 'metadataChangeset', metadataChangeset);
-    });
+    }
 
-    @task({ withTestWaiter: true, restartable: true })
-    onMetadataInput = task(function *(this: DraftRegistrationManager) {
-        yield timeout(5000); // debounce
+    @restartableTask({ withTestWaiter: true })
+    async onMetadataInput() {
+        await timeout(5000); // debounce
         this.updateMetadataChangeset();
         try {
-            yield this.draftRegistration.save();
+            await this.draftRegistration.save();
         } catch (e) {
             const errorMessage = this.intl.t('registries.drafts.draft.metadata.failed_auto_save');
             captureException(e, { errorMessage });
             this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
         }
-    });
+    }
 
-    @task({ withTestWaiter: true, restartable: true })
-    onPageInput = task(function *(this: DraftRegistrationManager, currentPageManager: PageManager) {
-        yield timeout(5000); // debounce
-
-        if (currentPageManager && currentPageManager.schemaBlockGroups) {
-            this.updateRegistrationResponses(currentPageManager);
-
-            this.draftRegistration.setProperties({
-                registrationResponses: this.registrationResponses,
-            });
-            try {
-                yield this.draftRegistration.save();
-            } catch (e) {
-                const errorMessage = this.intl.t('registries.drafts.draft.form.failed_auto_save');
-                captureException(e, { errorMessage });
-                this.toast.error(getApiErrorMessage(e), errorMessage);
-                throw e;
-            }
-        }
-    });
-
-    @task({ withTestWaiter: true, restartable: true })
-    saveAllVisitedPages = task(function *(this: DraftRegistrationManager) {
+    @restartableTask({ withTestWaiter: true })
+    async saveAllVisitedPages() {
         if (this.pageManagers && this.pageManagers.length) {
             this.pageManagers
                 .filter(pageManager => pageManager.isVisited)
@@ -164,25 +151,40 @@ export default class DraftRegistrationManager {
             });
 
             try {
-                yield this.draftRegistration.save();
+                await this.draftRegistration.save();
             } catch (e) {
                 captureException(e);
                 throw e;
             }
         }
-    });
+    }
 
-    constructor(draftRegistrationAndNodeTask: LoadDraftModelTask) {
-        set(this, 'draftRegistrationAndNodeTask', draftRegistrationAndNodeTask);
-        this.initializePageManagers.perform();
-        this.initializeMetadataChangeset.perform();
+    @restartableTask({ withTestWaiter: true })
+    async onPageInput(currentPageManager: PageManager) {
+        await timeout(5000); // debounce
+
+        if (currentPageManager && currentPageManager.schemaBlockGroups) {
+            this.updateRegistrationResponses(currentPageManager);
+
+            this.draftRegistration.setProperties({
+                registrationResponses: this.registrationResponses,
+            });
+            try {
+                await this.draftRegistration.save();
+            } catch (e) {
+                const errorMessage = this.intl.t('registries.drafts.draft.form.failed_auto_save');
+                captureException(e, { errorMessage });
+                this.toast.error(getApiErrorMessage(e), errorMessage);
+                throw e;
+            }
+        }
     }
 
     @action
     onPageChange(currentPage: number) {
         if (this.hasVisitedPages) {
             this.validateAllVisitedPages();
-            this.saveAllVisitedPages.perform();
+            taskFor(this.saveAllVisitedPages).perform();
         }
         this.markCurrentPageVisited(currentPage);
     }

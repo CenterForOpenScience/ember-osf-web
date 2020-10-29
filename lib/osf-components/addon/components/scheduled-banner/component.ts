@@ -30,8 +30,8 @@ export default class ScheduledBanners extends Component {
     }
 
     @task({ withTestWaiter: true, on: 'init' })
-    loadBanner = task(function *(this: ScheduledBanners) {
-        const banner = yield this.store.findRecord('banner', 'current');
+    async loadBanner() {
+        const banner = await this.store.findRecord('banner', 'current');
         return banner.name ? banner : null;
-    });
+    }
 }

@@ -2,6 +2,7 @@ import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
+import { taskFor } from 'ember-concurrency-ts';
 
 import GuidUserQuickfilesController from 'ember-osf-web/guid-user/quickfiles/controller';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -26,14 +27,14 @@ export default class UserQuickfiles extends Route {
     @service router!: any;
 
     @task({ withTestWaiter: true })
-    loadModel = task(function *(this: UserQuickfiles, userModel: any) {
+    async loadModel(userModel: any) {
         const blocker = this.ready.getBlocker();
         try {
-            const user = yield userModel.taskInstance;
+            const user = await userModel.taskInstance;
 
             const model = {
                 user,
-                files: yield user.loadAll('quickfiles'),
+                files: await user.loadAll('quickfiles'),
             };
             blocker.done();
             return model;
@@ -42,11 +43,11 @@ export default class UserQuickfiles extends Route {
             this.replaceWith('not-found', notFoundURL(this.router.currentURL));
             return undefined;
         }
-    });
+    }
 
     model() {
         return {
-            taskInstance: this.loadModel.perform(this.modelFor('guid-user')),
+            taskInstance: taskFor(this.loadModel).perform(this.modelFor('guid-user')),
         };
     }
 

@@ -2,10 +2,10 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { alias, not } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-
-import DraftRegistration from 'ember-osf-web/models/draft-registration';
+import { taskFor } from 'ember-concurrency-ts';
 import Media from 'ember-responsive';
 
+import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import NodeModel from 'ember-osf-web/models/node';
 import { PageManager } from 'ember-osf-web/packages/registration-schema';
 import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
@@ -26,7 +26,7 @@ export default class RegistriesDraftReview extends Controller {
         if (this.draftRegistrationManager) {
             this.draftRegistrationManager.markAllPagesVisited();
             this.draftRegistrationManager.validateAllVisitedPages();
-            this.draftRegistrationManager.saveAllVisitedPages.perform();
+            taskFor(this.draftRegistrationManager.saveAllVisitedPages).perform();
         }
     }
 }

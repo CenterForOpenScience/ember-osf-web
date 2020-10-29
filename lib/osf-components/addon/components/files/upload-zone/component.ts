@@ -80,28 +80,28 @@ export default class UploadZone extends Component {
     }
 
     @task({ withTestWaiter: true })
-    success = task(function *(this: UploadZone, _: unknown, __: unknown, file: File, response: UploadResponse) {
+    async success(_: unknown, __: unknown, file: File, response: UploadResponse) {
         this.analytics.trackFromElement(this.element, {
             name: 'Upload file',
             category: 'upload',
             action: 'link',
         });
         const fileId = response.data.id;
-        yield this.filesManager.addFile(fileId.replace(/^.*\//, ''));
+        await this.filesManager.addFile(fileId.replace(/^.*\//, ''));
 
         this.uploading.removeObject(file);
-    });
+    }
 
     @task({ withTestWaiter: true })
-    preUpload = task(function *(this: UploadZone, _: unknown, __: unknown, file: File) {
+    async preUpload(_: unknown, __: unknown, file: File) {
         let existingFile = this.filesManager.displayedItems.findBy('itemName', file.name);
         if (!existingFile) {
-            [existingFile] = yield this.filesManager.currentFolder.queryHasMany('files', {
+            [existingFile] = await this.filesManager.currentFolder.queryHasMany('files', {
                 'filter[name][eq]': file.name,
             });
         }
         this.setProperties({ existingFile });
-    });
+    }
 
     didReceiveAttrs() {
         assert('Files::UploadZone requires @filesManager!', Boolean(this.filesManager));

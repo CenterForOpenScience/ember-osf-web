@@ -26,10 +26,10 @@ export default class ProjectMetadata extends Component {
     @requiredAction continue!: () => void;
 
     @task({ withTestWaiter: true })
-    reset = task(function *(this: ProjectMetadata) {
+    async reset() {
         this.node.rollbackAttributes();
-        yield this.node.reload();
-    });
+        await this.node.reload();
+    }
 
     @action
     addTag(tag: string) {

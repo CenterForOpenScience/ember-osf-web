@@ -65,8 +65,8 @@ export default class PublicationDoiManagerComponent extends Component {
         return this.userCanEdit || !this.fieldIsEmpty;
     }
 
-    @task({ withTestWaiter: true, restartable: true })
-    save = task(function *(this: PublicationDoiManagerComponent) {
+    @task({ withTestWaiter: true })
+    async save() {
         this.changeset.validate();
 
         this.set('didValidate', true);
@@ -80,7 +80,7 @@ export default class PublicationDoiManagerComponent extends Component {
 
         this.node.set('articleDoi', doi);
         try {
-            yield this.node.save();
+            await this.node.save();
         } catch (e) {
             this.node.rollbackAttributes();
             const errorMessage = this.intl.t('registries.registration_metadata.edit_pub_doi.error');
@@ -90,7 +90,7 @@ export default class PublicationDoiManagerComponent extends Component {
         }
         this.set('requestedEditMode', false);
         this.toast.success(this.intl.t('registries.registration_metadata.edit_pub_doi.success'));
-    });
+    }
 
     didReceiveAttrs() {
         if (this.node) {

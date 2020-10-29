@@ -72,7 +72,7 @@ export default class MakeDecisionDropdown extends Component<Args> {
     }
 
     @task({ withTestWaiter: true })
-    submitDecision = task(function *(this: MakeDecisionDropdown) {
+    async submitDecision() {
         if (this.decisionTrigger) {
             const newAction = this.store.createRecord('review-action', {
                 actionTrigger: this.decisionTrigger,
@@ -80,7 +80,7 @@ export default class MakeDecisionDropdown extends Component<Args> {
                 target: this.args.registration,
             });
             try {
-                yield newAction.save();
+                await newAction.save();
                 this.toast.success(this.intl.t('registries.makeDecisionDropdown.success'));
                 if (this.decisionTrigger === ReviewActionTrigger.RejectSubmission) {
                     this.router.transitionTo(
@@ -99,7 +99,7 @@ export default class MakeDecisionDropdown extends Component<Args> {
                 this.comment = undefined;
             }
         }
-    });
+    }
 
     @action
     updateDecisionTrigger(trigger: ReviewActionTrigger) {

@@ -2,7 +2,7 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import { task } from 'ember-concurrency-decorators';
+import { enqueueTask, restartableTask } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
@@ -24,32 +24,31 @@ export default class SubscriptionsManager extends Component {
     // tracked properties
     @tracked subscriptions: SubscriptionModel[] | null = null;
 
-    @task({ withTestWaiter: true, enqueue: true, on: 'didReceiveAttrs' })
-    fetchSubscriptions = task(function *(this: SubscriptionsManager) {
+    @enqueueTask({ withTestWaiter: true, on: 'didReceiveAttrs' })
+    async fetchSubscriptions() {
         try {
             if (Array.isArray(this.subscriptionIds) && this.subscriptionIds.length) {
-                this.subscriptions = yield this.store.query('subscription', {
+                this.subscriptions = await this.store.query('subscription', {
                     'filter[id]': this.subscriptionIds.join(','),
-                });
+                }) as unknown as SubscriptionModel[];
             } else {
-                this.subscriptions = yield this.store.findAll('subscription');
+                this.subscriptions = await this.store.findAll('subscription') as unknown as SubscriptionModel[];
             }
         } catch (e) {
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
         }
-    });
+    }
 
-    @task({ withTestWaiter: true, restartable: true })
-    updateSubscriptionFrequency = task(function *(
-        this: SubscriptionsManager,
+    @restartableTask({ withTestWaiter: true })
+    async updateSubscriptionFrequency(
         subscription: SubscriptionModel,
         newFrequency: SubscriptionFrequency,
     ) {
         // eslint-disable-next-line no-param-reassign
         subscription.frequency = newFrequency;
         try {
-            yield subscription.save();
+            await subscription.save();
             this.toast.success(this.intl.t('osf-components.subscriptions.success'));
         } catch (e) {
             const errorMessage = this.intl.t('osf-components.subscriptions.error');
@@ -57,5 +56,5 @@ export default class SubscriptionsManager extends Component {
             this.toast.error(getApiErrorMessage(e), errorMessage);
             subscription.rollbackAttributes();
         }
-    });
+    }
 }

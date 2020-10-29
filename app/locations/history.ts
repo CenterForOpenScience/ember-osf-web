@@ -1,7 +1,8 @@
 import HistoryLocation from '@ember/routing/history-location';
 import { inject as service } from '@ember/service';
 import { waitForQueue } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { restartableTask } from 'ember-concurrency-decorators';
+import { taskFor } from 'ember-concurrency-ts';
 
 import OsfRouterService from 'ember-osf-web/services/osf-router';
 import Ready from 'ember-osf-web/services/ready';
@@ -19,18 +20,18 @@ export default class FragmentHistoryLocation extends HistoryLocation {
     @service ready!: Ready;
     @service osfRouter!: OsfRouterService;
 
-    @task({ withTestWaiter: true, restartable: true })
-    scrollToElement = task(function *(this: FragmentHistoryLocation, elementId: string) {
-        yield this.ready.ready();
+    @restartableTask({ withTestWaiter: true })
+    async scrollToElement(elementId: string) {
+        await this.ready.ready();
 
-        yield waitForQueue('afterRender');
+        await waitForQueue('afterRender');
 
         // Not using `#id` as fragment could contain a `.`
         const element = document.querySelector(`[id="${elementId}"]`) as HTMLElement;
         if (element) {
             element.scrollIntoView();
         }
-    });
+    }
 
     /**
      * `setURL` is called during in-app transitions that use `transitionTo`
@@ -41,7 +42,7 @@ export default class FragmentHistoryLocation extends HistoryLocation {
         const fragment = this.osfRouter.currentTransitionTargetFragment;
         if (fragment) {
             this.osfRouter.set('currentTransitionTargetFragment', null);
-            this.scrollToElement.perform(fragment);
+            taskFor(this.scrollToElement).perform(fragment);
             return super.setURL(cleanURL(`${newURL}#${fragment}`));
         }
         return super.setURL(newURL);
@@ -60,7 +61,7 @@ export default class FragmentHistoryLocation extends HistoryLocation {
 
         if (super.replaceURL) {
             if (fragment && newURL === currentPathAndQuery) {
-                this.scrollToElement.perform(fragment);
+                taskFor(this.scrollToElement).perform(fragment);
                 return super.replaceURL(cleanURL(`${newURL}#${fragment}`));
             }
             return super.replaceURL(cleanURL(newURL));

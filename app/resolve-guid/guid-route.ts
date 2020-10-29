@@ -2,6 +2,7 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import { Task, TaskInstance } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
+import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
 
@@ -20,12 +21,12 @@ export default abstract class GuidRoute extends Route {
     @service store!: DS.Store;
 
     @task({ withTestWaiter: true })
-    getModel = task(function *(this: GuidRoute, guid: string) {
+    async getModel(guid: string) {
         const blocker = this.ready.getBlocker();
 
         let model;
         try {
-            model = yield this.store.findRecord(this.modelName(), guid, {
+            model = await this.store.findRecord(this.modelName(), guid, {
                 include: this.include(),
                 adapterOptions: this.adapterOptions(),
             });
@@ -37,7 +38,7 @@ export default abstract class GuidRoute extends Route {
         blocker.done();
 
         return model;
-    });
+    }
 
     abstract modelName(): keyof ModelRegistry;
 
@@ -52,7 +53,7 @@ export default abstract class GuidRoute extends Route {
     model(params: { guid: string }) {
         return {
             guid: params.guid,
-            taskInstance: this.getModel.perform(params.guid),
+            taskInstance: taskFor(this.getModel).perform(params.guid),
             task: this.getModel,
         };
     }

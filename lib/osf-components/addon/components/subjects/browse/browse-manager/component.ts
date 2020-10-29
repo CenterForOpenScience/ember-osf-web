@@ -9,7 +9,6 @@ import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
-import ProviderModel from 'ember-osf-web/models/provider';
 import SubjectModel from 'ember-osf-web/models/subject';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import { SubjectManager } from 'osf-components/components/subjects/manager/component';
@@ -40,10 +39,10 @@ export default class SubjectBrowserManagerComponent extends Component {
     rootSubjects?: SubjectModel[];
 
     @task({ withTestWaiter: true, on: 'init' })
-    loadRootSubjects = task(function *(this: SubjectBrowserManagerComponent) {
+    async loadRootSubjects() {
         try {
-            const provider: ProviderModel = yield this.subjectsManager.provider;
-            const rootSubjects: QueryHasManyResult<SubjectModel> = yield provider.queryHasMany('subjects', {
+            const provider = await this.subjectsManager.provider;
+            const rootSubjects: QueryHasManyResult<SubjectModel> = await provider.queryHasMany('subjects', {
                 filter: {
                     parent: 'null',
                 },
@@ -59,7 +58,7 @@ export default class SubjectBrowserManagerComponent extends Component {
             this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
         }
-    });
+    }
 
     init() {
         super.init();

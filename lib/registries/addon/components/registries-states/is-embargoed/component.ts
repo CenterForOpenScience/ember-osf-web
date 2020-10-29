@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
+import { dropTask } from 'ember-concurrency-decorators';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -15,8 +15,12 @@ export default class RegistrationIsEmbargoed extends Component {
     @service intl!: Intl;
     @service toast!: Toast;
 
-    @task({ withTestWaiter: true, drop: true })
-    endEmbargo = task(function *(this: RegistrationIsEmbargoed) {
+    registration!: Registration;
+    closeDropdown?: () => void;
+    showModal?: boolean = false;
+
+    @dropTask({ withTestWaiter: true })
+    async endEmbargo() {
         if (!this.registration) {
             return;
         }
@@ -24,7 +28,7 @@ export default class RegistrationIsEmbargoed extends Component {
         this.registration.set('public', true);
 
         try {
-            yield this.registration.save();
+            await this.registration.save();
         } catch (e) {
             const errorMessage = this.intl.t('registries.overview.embargo.action_error');
             captureException(e, { errorMessage });
@@ -34,11 +38,7 @@ export default class RegistrationIsEmbargoed extends Component {
         this.toast.success(this.intl.t('registries.overview.embargo.action_success'));
 
         this.close();
-    });
-
-    registration!: Registration;
-    closeDropdown?: () => void;
-    showModal?: boolean = false;
+    }
 
     @action
     close() {

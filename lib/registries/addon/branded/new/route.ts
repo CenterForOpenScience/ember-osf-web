@@ -1,6 +1,7 @@
 import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import { taskFor } from 'ember-concurrency-ts';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
 
@@ -41,8 +42,8 @@ export default class BrandedRegistriesNewSubmissionRoute extends Route {
     setupController(controller: BrandedRegistriesNewSubmissionController, model: RegistrationProviderModel) {
         super.setupController(controller, model);
 
-        controller.projectSearch.perform();
-        controller.findAllSchemas.perform();
+        taskFor(controller.projectSearch).perform();
+        taskFor(controller.findAllSchemas).perform();
     }
 
     @action

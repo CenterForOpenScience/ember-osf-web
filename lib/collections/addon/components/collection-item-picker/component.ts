@@ -3,14 +3,15 @@ import { action } from '@ember/object';
 import { bool } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { restartableTask, task } from 'ember-concurrency-decorators';
+import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
 import { stripDiacritics } from 'ember-power-select/utils/group-utils';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Collection from 'ember-osf-web/models/collection';
 import Node from 'ember-osf-web/models/node';
-import { Permission, QueryHasManyResult } from 'ember-osf-web/models/osf-model';
+import { Permission } from 'ember-osf-web/models/osf-model';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
@@ -40,20 +41,20 @@ export default class CollectionItemPicker extends Component {
     @bool('selected') isValid!: boolean;
 
     @task({ withTestWaiter: true })
-    initialLoad = task(function *(this: CollectionItemPicker) {
+    async initialLoad() {
         this.setProperties({
             selected: null,
             filter: '',
             page: 1,
         });
 
-        yield this.get('findNodes').perform();
-    });
+        await taskFor(this.findNodes).perform();
+    }
 
-    @task({ withTestWaiter: true, restartable: true })
-    findNodes = task(function *(this: CollectionItemPicker, filter: string = '') {
+    @restartableTask({ withTestWaiter: true })
+    async findNodes(filter: string = '') {
         if (filter) {
-            yield timeout(250);
+            await timeout(250);
         }
 
         const { user } = this.currentUser;
@@ -76,7 +77,7 @@ export default class CollectionItemPicker extends Component {
             this.set('loadingMore', true);
         }
 
-        const nodes: QueryHasManyResult<Node> = yield user.queryHasMany('nodes', {
+        const nodes = await user.queryHasMany('nodes', {
             filter: {
                 current_user_permissions: Permission.Admin,
                 title: this.filter ? this.filter : undefined,
@@ -86,7 +87,7 @@ export default class CollectionItemPicker extends Component {
 
         // Filter out nodes that are already in the current collection
         const nodeIds = nodes.mapBy('id').join();
-        const cgm = yield this.collection.queryHasMany('collectedMetadata', {
+        const cgm = await this.collection.queryHasMany('collectedMetadata', {
             'filter[id]': nodeIds,
         });
 
@@ -100,7 +101,8 @@ export default class CollectionItemPicker extends Component {
 
         // Check if all of the nodes from the current list are in the collection
         if (!items.length && hasMore) {
-            return yield this.loadMore();
+            const moreNodes = await this.loadMore();
+            return moreNodes;
         }
 
         this.setProperties({
@@ -110,7 +112,7 @@ export default class CollectionItemPicker extends Component {
         });
 
         return items;
-    });
+    }
 
     /**
      * Passed into power-select component for customized searching.
@@ -143,17 +145,17 @@ export default class CollectionItemPicker extends Component {
     loadMore(this: CollectionItemPicker): Promise<Node[]> {
         this.incrementProperty('page');
 
-        return this.get('findNodes').perform();
+        return taskFor(this.findNodes).perform();
     }
 
     @action
     oninput(this: CollectionItemPicker, term: string): true | Promise<Node[]> {
-        return !!term || this.get('findNodes').perform();
+        return !!term || taskFor(this.findNodes).perform();
     }
 
     didReceiveAttrs() {
-        if (!this.initialLoad.hasStarted && this.collection) {
-            this.initialLoad.perform();
+        if (!taskFor(this.initialLoad).hasStarted && this.collection) {
+            taskFor(this.initialLoad).perform();
         }
     }
 }

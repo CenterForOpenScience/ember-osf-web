@@ -19,8 +19,8 @@ export default class Index extends Controller {
     searchableRegistrations = 0;
 
     @task({ withTestWaiter: true, on: 'init' })
-    getRecentRegistrations = task(function *(this: Index) {
-        const recentRegistrations = yield this.store.query('registration', {
+    async getRecentRegistrations() {
+        const recentRegistrations = await this.store.query('registration', {
             filter: {
                 id: config.indexPageRegistrationIds.join(','),
             },
@@ -28,7 +28,7 @@ export default class Index extends Controller {
             embed: 'bibliographic_contributors',
         });
         this.setProperties({ recentRegistrations });
-    });
+    }
 
     @action
     onSearch(query: string) {

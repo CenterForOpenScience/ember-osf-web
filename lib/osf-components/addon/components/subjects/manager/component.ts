@@ -4,7 +4,8 @@ import { assert } from '@ember/debug';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
+import { restartableTask, task } from 'ember-concurrency-decorators';
+import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
@@ -102,9 +103,9 @@ export default class SubjectManagerComponent extends Component {
     }
 
     @task({ withTestWaiter: true, on: 'init' })
-    initializeSubjects = task(function *(this: SubjectManagerComponent) {
+    async initializeSubjects() {
         const { model } = this;
-        const savedSubjects: SubjectModel[] = model.isNew ? model.subjects : (yield model.loadAll('subjects'));
+        const savedSubjects = model.isNew ? model.subjects : (await model.loadAll('subjects'));
         const savedSubjectIds = new Set(savedSubjects.map(s => s.id));
         this.setProperties({
             savedSubjectIds,
@@ -112,14 +113,14 @@ export default class SubjectManagerComponent extends Component {
         });
         this.incrementProperty('selectedSubjectsChanges');
         this.incrementProperty('savedSubjectsChanges');
-    });
+    }
 
-    @task({ withTestWaiter: true, restartable: true })
-    saveChanges = task(function *(this: SubjectManagerComponent) {
+    @restartableTask({ withTestWaiter: true })
+    async saveChanges() {
         const { selectedSubjects } = this;
 
         try {
-            const updateResult: ResourceCollectionDocument = yield this.model.updateM2MRelationship(
+            const updateResult: ResourceCollectionDocument = await this.model.updateM2MRelationship(
                 'subjects', selectedSubjects,
             );
             const updatedSubjects = updateResult.data.map(
@@ -146,7 +147,7 @@ export default class SubjectManagerComponent extends Component {
         });
         this.incrementProperty('selectedSubjectsChanges');
         this.incrementProperty('savedSubjectsChanges');
-    });
+    }
 
     init() {
         super.init();
@@ -188,7 +189,7 @@ export default class SubjectManagerComponent extends Component {
             }
         }
         if (this.doesAutosave) {
-            this.saveChanges.perform();
+            taskFor(this.saveChanges).perform();
         }
     }
 
@@ -205,7 +206,7 @@ export default class SubjectManagerComponent extends Component {
                 .forEach(s => this.unselectSubject(s));
         }
         if (this.doesAutosave) {
-            this.saveChanges.perform();
+            taskFor(this.saveChanges).perform();
         }
     }
 

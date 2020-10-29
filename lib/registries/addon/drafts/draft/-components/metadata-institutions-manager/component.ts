@@ -2,7 +2,8 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
+import { restartableTask, task } from 'ember-concurrency-decorators';
+import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -29,11 +30,11 @@ export default class MetadataInstitutionsManagerComponent extends Component {
     affiliatedList!: QueryHasManyResult<Institution>;
     currentAffiliatedList!: QueryHasManyResult<Institution>;
 
-    @task({ withTestWaiter: true, restartable: true, on: 'didReceiveAttrs' })
-    loadNodeAffiliatedInstitutions = task(function *(this: MetadataInstitutionsManagerComponent) {
+    @restartableTask({ withTestWaiter: true, on: 'didReceiveAttrs' })
+    async loadNodeAffiliatedInstitutions() {
         if (this.node) {
             try {
-                const affiliatedList: QueryHasManyResult<Institution> = yield this.node.queryHasMany(
+                const affiliatedList = await this.node.queryHasMany(
                     'affiliatedInstitutions', {
                         pageSize: 100,
                     },
@@ -49,13 +50,13 @@ export default class MetadataInstitutionsManagerComponent extends Component {
                 throw e;
             }
         }
-    });
+    }
 
     @task({ withTestWaiter: true })
-    save = task(function *(this: MetadataInstitutionsManagerComponent) {
+    async save() {
         try {
-            yield this.node.updateM2MRelationship('affiliatedInstitutions', this.currentAffiliatedList);
-            yield this.node.reload();
+            await this.node.updateM2MRelationship('affiliatedInstitutions', this.currentAffiliatedList);
+            await this.node.reload();
         } catch (e) {
             const errorMessage = this.intl.t('registries.drafts.draft.metadata.save_institutions_error');
             captureException(e, { errorMessage });
@@ -65,7 +66,7 @@ export default class MetadataInstitutionsManagerComponent extends Component {
         this.setProperties({
             affiliatedList: [...this.currentAffiliatedList],
         });
-    });
+    }
 
     @action
     toggleInstitution(institution: Institution) {
@@ -74,6 +75,6 @@ export default class MetadataInstitutionsManagerComponent extends Component {
         } else {
             this.currentAffiliatedList.pushObject(institution);
         }
-        this.save.perform();
+        taskFor(this.save).perform();
     }
 }

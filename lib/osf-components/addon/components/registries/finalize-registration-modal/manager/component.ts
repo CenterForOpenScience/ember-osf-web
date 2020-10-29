@@ -4,7 +4,7 @@ import { assert } from '@ember/debug';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -28,10 +28,10 @@ export interface FinalizeRegistrationModalManager {
 @layout(template)
 @tagName('')
 export default class FinalizeRegistrationModalManagerComponent extends Component.extend({
-    submitRegistration: task(function *(this: FinalizeRegistrationModalManagerComponent) {
+    submitRegistration: taskFor(async function(this: FinalizeRegistrationModalManagerComponent) {
         try {
             this.draftManager.validateAllVisitedPages();
-            yield this.registration.save();
+            await this.registration.save();
 
             if (this.onSubmitRegistration) {
                 this.onSubmitRegistration(this.registration.id);

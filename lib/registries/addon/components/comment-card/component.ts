@@ -2,7 +2,8 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias, not } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
+import { restartableTask, task } from 'ember-concurrency-decorators';
+import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
@@ -55,8 +56,8 @@ export default class CommentCard extends Component {
     @not('comment') loading!: boolean;
 
     @task({ withTestWaiter: true })
-    submitRetractReport = task(function *(this: CommentCard) {
-        const userReports: CommentReport[] = yield this.comment.reports;
+    async submitRetractReport() {
+        const userReports = await this.comment.reports;
 
         const userReport: CommentReport | undefined = userReports.find(
             (report: CommentReport) => (!report.isDeleted && (report.id !== null)),
@@ -69,7 +70,7 @@ export default class CommentCard extends Component {
 
         try {
             this.comment.set('isAbuse', false);
-            yield userReport.destroyRecord();
+            await userReport.destroyRecord();
         } catch (e) {
             const errorMessage = this.intl.t('registries.overview.comments.retract_report.error');
             captureException(e, { errorMessage });
@@ -80,17 +81,17 @@ export default class CommentCard extends Component {
         }
 
         this.toast.success(this.intl.t('registries.overview.comments.retract_report.success'));
-    });
+    }
 
-    @task({ withTestWaiter: true, restartable: true })
-    loadReplies = task(function *(this: CommentCard, more: boolean = false) {
+    @restartableTask({ withTestWaiter: true })
+    async loadReplies(more: boolean = false) {
         if (!more) {
-            const replies = yield this.comment.replies;
+            const replies = await this.comment.replies;
             if (!this.replies) {
                 this.set('replies', replies);
             }
         } else {
-            const moreReplies = yield this.comment.queryHasMany('replies', {
+            const moreReplies = await this.comment.queryHasMany('replies', {
                 page: this.incrementProperty('page'),
                 embed: ['user'],
             });
@@ -98,7 +99,7 @@ export default class CommentCard extends Component {
             this.replies.pushObjects(moreReplies);
             this.set('loadingMoreReplies', false);
         }
-    });
+    }
 
     @computed('node')
     get currentUserCanComment() {
@@ -131,7 +132,7 @@ export default class CommentCard extends Component {
 
     @computed('loadingMoreReplies', 'loadReplies.isRunning')
     get loadingReplies() {
-        return this.loadReplies.isRunning && !this.loadingMoreReplies;
+        return taskFor(this.loadReplies).isRunning && !this.loadingMoreReplies;
     }
 
     @computed('currentUser', 'comment')
@@ -168,7 +169,7 @@ export default class CommentCard extends Component {
         this.toggleProperty('showReplies');
 
         if (this.showReplies) {
-            this.loadReplies.perform();
+            taskFor(this.loadReplies).perform();
         }
     }
 
@@ -181,6 +182,6 @@ export default class CommentCard extends Component {
     @action
     more() {
         this.set('loadingMoreReplies', true);
-        this.loadReplies.perform(true);
+        taskFor(this.loadReplies).perform(true);
     }
 }

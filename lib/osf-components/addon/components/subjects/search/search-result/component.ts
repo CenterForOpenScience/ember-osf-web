@@ -23,7 +23,7 @@ export default class SearchResult extends Component {
     subjectAncestry?: SubjectModel[];
 
     @task({ withTestWaiter: true, on: 'didReceiveAttrs' })
-    loadAncestry = task(function *(this: SearchResult) {
+    async loadAncestry() {
         const { subject } = this.singleSubjectManager;
         if (!subject) {
             return undefined;
@@ -31,12 +31,13 @@ export default class SearchResult extends Component {
         const ancestors: SubjectModel[] = [];
         let nextParentRef = subject.belongsTo('parent');
         while (nextParentRef.id()) {
-            const nextParent: SubjectModel = yield nextParentRef.load();
+            // eslint-disable-next-line no-await-in-loop
+            const nextParent = await nextParentRef.load();
             ancestors.push(nextParent);
             nextParentRef = nextParent.belongsTo('parent');
         }
         return ancestors.reverse();
-    });
+    }
 
     init() {
         super.init();

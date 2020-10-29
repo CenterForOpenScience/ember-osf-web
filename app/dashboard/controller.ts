@@ -4,13 +4,15 @@ import { action, computed } from '@ember/object';
 import { alias, or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { all, timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { restartableTask, task } from 'ember-concurrency-decorators';
+import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
 import config from 'ember-get-config';
 
 import Institution from 'ember-osf-web/models/institution';
 import Node from 'ember-osf-web/models/node';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
+import SparseNodeModel from 'ember-osf-web/models/sparse-node';
 import User from 'ember-osf-web/models/user';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
@@ -43,42 +45,30 @@ export default class Dashboard extends Controller {
     'failedLoading-popular': boolean = false;
 
     institutions: Institution[] = A([]);
-    nodes?: QueryHasManyResult<Node>;
+    nodes?: QueryHasManyResult<SparseNodeModel>;
     noteworthy!: QueryHasManyResult<Node>;
     popular!: QueryHasManyResult<Node>;
 
-    @task({ withTestWaiter: true, restartable: true })
-    setupTask = task(function *(this: Dashboard) {
-        this.set('filter', null);
+    @alias('currentUser.user') user!: User;
 
-        const institutions = this.store.findAll('institution');
+    @or('nodes.length', 'filter', 'findNodes.isRunning') hasNodes!: boolean;
 
-        yield all([
-            institutions,
-            this.findNodes.perform(),
-            this.getPopularAndNoteworthy.perform(popularNode, 'popular'),
-            this.getPopularAndNoteworthy.perform(noteworthyNode, 'noteworthy'),
-        ]);
-
-        this.set('institutions', institutions.toArray());
-    });
-
-    @task({ withTestWaiter: true, restartable: true })
-    filterNodes = task(function *(this: Dashboard, filter: string) {
-        yield timeout(500);
+    @restartableTask({ withTestWaiter: true })
+    async filterNodes(filter: string) {
+        await timeout(500);
         this.setProperties({ filter });
         this.analytics.track('list', 'filter', 'Dashboard - Search projects');
-        yield this.findNodes.perform();
-    });
+        await taskFor(this.findNodes).perform();
+    }
 
-    @task({ withTestWaiter: true, restartable: true })
-    findNodes = task(function *(this: Dashboard, more?: boolean) {
+    @restartableTask({ withTestWaiter: true })
+    async findNodes(more?: boolean) {
         const indicatorProperty = more ? 'loadingMore' : 'loading';
         this.set(indicatorProperty, true);
 
-        const user: User = yield this.currentUser.user;
+        const user = await this.currentUser.user;
 
-        const nodes: QueryHasManyResult<Node> = yield user.queryHasMany('sparseNodes', {
+        const nodes = await user!.queryHasMany('sparseNodes', {
             embed: ['bibliographic_contributors', 'parent', 'root'],
             // eslint-disable-next-line ember/no-global-jquery
             filter: this.filter ? { title: $('<div>').text(this.filter).html() } : undefined,
@@ -94,13 +84,13 @@ export default class Dashboard extends Controller {
 
         this.set(indicatorProperty, false);
         this.set('initialLoad', false);
-    });
+    }
 
     @task({ withTestWaiter: true })
-    getPopularAndNoteworthy = task(function *(this: Dashboard, id: string, dest: 'noteworthy' | 'popular') {
+    async getPopularAndNoteworthy(id: string, dest: 'noteworthy' | 'popular') {
         try {
-            const node: Node = yield this.store.findRecord('node', id);
-            const linkedNodes: QueryHasManyResult<Node> = yield node.queryHasMany('linkedNodes', {
+            const node = await this.store.findRecord('node', id);
+            const linkedNodes = await node.queryHasMany('linkedNodes', {
                 embed: 'bibliographic_contributors',
                 page: { size: 5 },
             });
@@ -109,11 +99,23 @@ export default class Dashboard extends Controller {
             const failedProperty = `failedLoading-${dest}` as 'failedLoading-noteworthy' | 'failedLoading-popular';
             this.set(failedProperty, true);
         }
-    });
+    }
 
-    @alias('currentUser.user') user!: User;
+    @restartableTask({ withTestWaiter: true })
+    async setupTask() {
+        this.set('filter', null);
 
-    @or('nodes.length', 'filter', 'findNodes.isRunning') hasNodes!: boolean;
+        const institutions = this.store.findAll('institution');
+
+        await all([
+            institutions,
+            taskFor(this.findNodes).perform(),
+            taskFor(this.getPopularAndNoteworthy).perform(popularNode, 'popular'),
+            taskFor(this.getPopularAndNoteworthy).perform(noteworthyNode, 'noteworthy'),
+        ]);
+
+        this.set('institutions', institutions.toArray());
+    }
 
     @computed('nodes.{length,meta.total}')
     get hasMore(): boolean {
@@ -122,13 +124,13 @@ export default class Dashboard extends Controller {
 
     @action
     more() {
-        this.findNodes.perform(true);
+        taskFor(this.findNodes).perform(true);
     }
 
     @action
     sortProjects(sort: string) {
         this.setProperties({ sort });
-        this.findNodes.perform();
+        taskFor(this.findNodes).perform();
     }
 
     @action
@@ -147,7 +149,7 @@ export default class Dashboard extends Controller {
 
     @action
     afterStay() {
-        this.findNodes.perform();
+        taskFor(this.findNodes).perform();
     }
 
     @action

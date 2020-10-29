@@ -1,19 +1,21 @@
 import { computed } from '@ember/object';
 import Route from '@ember/routing/route';
 import { task } from 'ember-concurrency-decorators';
+import { taskFor } from 'ember-concurrency-ts';
 import ConfirmationMixin from 'ember-onbeforeunload/mixins/confirmation';
 
 import ValidatedModelFormController from './controller';
 
 export default class ValidatedModelFormRoute extends Route.extend(ConfirmationMixin) {
     @task({ withTestWaiter: true })
-    modelTask = task(function *(this: ValidatedModelFormRoute) {
-        return yield this.store.findRecord('node', 'extng');
-    });
+    async modelTask() {
+        const node = await this.store.findRecord('node', 'extng');
+        return node;
+    }
 
     model() {
         return {
-            taskInstance: this.modelTask.perform(),
+            taskInstance: taskFor(this.modelTask).perform(),
         };
     }
 

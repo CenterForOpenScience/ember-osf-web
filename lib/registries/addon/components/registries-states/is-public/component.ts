@@ -1,7 +1,8 @@
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
+import { dropTask } from 'ember-concurrency-decorators';
+import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -27,8 +28,8 @@ export default class RegistrationIsPublic extends Component {
     closeDropdown!: () => void;
     showModal: boolean = defaultTo(this.showModal, false);
 
-    @task({ withTestWaiter: true, drop: true })
-    submitWithdrawal = task(function *(this: RegistrationIsPublic) {
+    @dropTask({ withTestWaiter: true })
+    async submitWithdrawal() {
         if (!this.registration) {
             return;
         }
@@ -39,7 +40,7 @@ export default class RegistrationIsPublic extends Component {
         });
 
         try {
-            yield this.registration.save();
+            await this.registration.save();
         } catch (e) {
             const errorMessage = this.intl.t('registries.overview.withdraw.error');
             captureException(e, { errorMessage });
@@ -52,7 +53,7 @@ export default class RegistrationIsPublic extends Component {
         if (this.closeDropdown) {
             this.closeDropdown();
         }
-    });
+    }
 
     didReceiveAttrs() {
         this.setProperties({
@@ -67,7 +68,7 @@ export default class RegistrationIsPublic extends Component {
         'scientistName',
     )
     get submitDisabled(): boolean {
-        return this.submitWithdrawal.isRunning
+        return taskFor(this.submitWithdrawal).isRunning
             || (this.scientistNameInput !== this.scientistName);
     }
 

@@ -33,18 +33,26 @@ export default class ChangePasswordPane extends Component {
     )
     shouldHideStrengthBarMessage!: boolean;
 
+    constructor(...args: any[]) {
+        super(...args);
+
+        // creates a fake id because ember data expects one
+        const id = Math.floor(Math.random() * 1000000);
+        this.userPassword = this.store.createRecord('user-password', { id });
+    }
+
     @task({ withTestWaiter: true })
-    submitTask = task(function *(this: ChangePasswordPane) {
+    async submitTask() {
         const errorMessage = this.intl.t('settings.account.changePassword.updateFail');
         const successMessage = this.intl.t('settings.account.changePassword.updateSuccess');
-        const { validations } = yield this.userPassword.validate();
+        const { validations } = await this.userPassword.validate();
         this.set('didValidate', true);
 
         if (!validations.isValid) {
             return;
         }
         try {
-            yield this.userPassword.save();
+            await this.userPassword.save();
         } catch (e) {
             captureException(e, { errorMessage });
             this.toast.error(getApiErrorMessage(e), errorMessage);
@@ -54,16 +62,8 @@ export default class ChangePasswordPane extends Component {
         this.toast.success(successMessage);
         const { timeOut, hideDuration } = window.toastr.options;
         if (typeof timeOut !== 'undefined' && typeof hideDuration !== 'undefined') {
-            yield timeout(Number(timeOut) + Number(hideDuration));
+            await timeout(Number(timeOut) + Number(hideDuration));
         }
         this.currentUser.logout();
-    });
-
-    constructor(...args: any[]) {
-        super(...args);
-
-        // creates a fake id because ember data expects one
-        const id = Math.floor(Math.random() * 1000000);
-        this.userPassword = this.store.createRecord('user-password', { id });
     }
 }

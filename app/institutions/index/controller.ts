@@ -2,7 +2,7 @@ import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { restartableTask } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 
 import Institution from 'ember-osf-web/models/institution';
@@ -16,11 +16,11 @@ export default class Institutions extends Controller {
     page = 1;
     textValue: string = '';
 
-    @task({ withTestWaiter: true, restartable: true })
-    trackFilter = task(function *(this: Institutions) {
-        yield timeout(1000);
+    @restartableTask({ withTestWaiter: true })
+    async trackFilter() {
+        await timeout(1000);
         this.analytics.track('list', 'filter', 'Institutions - Search');
-    });
+    }
 
     @computed('model', 'textValue')
     get filtered(): Institution[] {

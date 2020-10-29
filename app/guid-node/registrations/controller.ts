@@ -35,20 +35,20 @@ export default class GuidNodeRegistrations extends Controller {
         terms: 'https://osf.io/4uxbj/',
     };
 
+    @alias('model.taskInstance.value') node!: Node | null;
+
     @task({ withTestWaiter: true })
-    getRegistrationSchemas = task(function *(this: GuidNodeRegistrations) {
-        let schemas = yield this.store.query('registration-schema',
+    async getRegistrationSchemas() {
+        const activeSchemas = await this.store.query('registration-schema',
             {
                 'filter[active]': true,
             });
-        schemas = schemas.toArray();
+        const schemas = activeSchemas.toArray();
         schemas.sort((a: RegistrationSchema, b: RegistrationSchema) => a.name.length - b.name.length);
         this.set('defaultSchema', schemas.firstObject);
         this.set('selectedSchema', this.defaultSchema);
         this.set('schemas', schemas);
-    });
-
-    @alias('model.taskInstance.value') node!: Node | null;
+    }
 
     @computed('tab')
     get activeTab() {

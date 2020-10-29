@@ -4,7 +4,8 @@ import Evented from '@ember/object/evented';
 import Service from '@ember/service';
 
 import { waitForQueue } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { restartableTask } from 'ember-concurrency-decorators';
+import { taskFor } from 'ember-concurrency-ts';
 import RSVP from 'rsvp';
 
 export interface Blocker {
@@ -25,17 +26,17 @@ export default class Ready extends Service.extend(Evented) {
     lastId = 0;
     blockers = A();
 
-    @task({ withTestWaiter: true, restartable: true })
-    tryReady = task(function *(this: Ready) {
+    @restartableTask({ withTestWaiter: true })
+    async tryReady() {
         // Waiting until `destroy` makes sure that everyone in `render` and `afterRender`
         // (e.g. components, jQuery plugins, etc.) has a chance to call `getBlocker`, and that
         // all DOM manipulation has settled.
-        yield waitForQueue('destroy');
+        await waitForQueue('destroy');
         if (!get(this, 'blockers').length) {
             set(this, 'isReady', true);
             this.trigger(Events.IsReady);
         }
-    });
+    }
 
     getBlocker(): Blocker {
         if (get(this, 'isReady')) {
@@ -77,7 +78,7 @@ export default class Ready extends Service.extend(Evented) {
             const blockers = get(this, 'blockers');
             blockers.removeObject(id);
             if (!blockers.length) {
-                get(this, 'tryReady').perform();
+                taskFor(get(this, 'tryReady')).perform();
             }
         };
     }

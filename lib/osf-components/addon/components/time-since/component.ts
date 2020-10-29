@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import Ember from 'ember';
 import { timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { restartableTask } from 'ember-concurrency-decorators';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import formattedTimeSince from 'ember-osf-web/utils/formatted-time-since';
@@ -19,15 +19,17 @@ export default class TimeSince extends Component {
     // Private properties
     displayTime?: string;
 
-    @task({ withTestWaiter: true, restartable: true, on: 'didReceiveAttrs' })
-    calculateRelativeTime = task(function *(this: TimeSince) {
+    @restartableTask({ withTestWaiter: true, on: 'didReceiveAttrs' })
+    async calculateRelativeTime() {
         assert('RelativeTime @date is required', Boolean(this.date));
         if (Ember.testing) {
             return;
         }
+        // eslint-disable-next-line no-constant-condition
         while (true) {
             this.set('displayTime', formattedTimeSince(this.date));
-            yield timeout(interval);
+            // eslint-disable-next-line no-await-in-loop
+            await timeout(interval);
         }
-    });
+    }
 }

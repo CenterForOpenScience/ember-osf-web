@@ -3,7 +3,8 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { dropTask, task } from 'ember-concurrency-decorators';
+import { dropTask, restartableTask } from 'ember-concurrency-decorators';
+import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
@@ -13,11 +14,11 @@ import RouterService from '@ember/routing/router-service';
 import { layout } from 'ember-osf-web/decorators/component';
 import Contributor from 'ember-osf-web/models/contributor';
 import Node from 'ember-osf-web/models/node';
-import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
 import captureException from 'ember-osf-web/utils/capture-exception';
 import defaultTo from 'ember-osf-web/utils/default-to';
+import { ResourceCollectionDocument } from 'osf-api';
 
 import styles from './styles';
 import template from './template';
@@ -50,21 +51,21 @@ export default class ContributorList extends Component {
     @alias('loadContributors.isRunning')
     isLoading!: boolean;
 
-    @task({ withTestWaiter: true, restartable: true, on: 'didReceiveAttrs' })
-    loadContributors = task(function *(this: ContributorList, more?: boolean) {
+    @restartableTask({ withTestWaiter: true, on: 'didReceiveAttrs' })
+    async loadContributors(more?: boolean) {
         if (!this.node || this.node.isAnonymous) {
             return;
         }
 
         const blocker = this.ready.getBlocker();
         if (this.shouldLoadAll && !this.shouldTruncate) {
-            const allContributors = yield this.node.loadAll('bibliographicContributors');
+            const allContributors = await this.node.loadAll('bibliographicContributors');
             this.setProperties({
                 displayedContributors: allContributors.toArray(),
                 totalContributors: allContributors.length,
             });
         } else if (more) {
-            const nextPage: QueryHasManyResult<Contributor> = yield this.node.queryHasMany(
+            const nextPage = await this.node.queryHasMany(
                 'bibliographicContributors',
                 { page: this.incrementProperty('page') },
             );
@@ -72,18 +73,18 @@ export default class ContributorList extends Component {
             this.set('totalContributors', nextPage.meta.total);
         } else {
             this.set('page', 1);
-            const firstPage = yield this.node.bibliographicContributors;
+            const firstPage = await this.node.bibliographicContributors;
             this.setProperties({
                 displayedContributors: firstPage.toArray(),
-                totalContributors: firstPage.meta.total,
+                totalContributors: (firstPage as unknown as ResourceCollectionDocument).meta.total,
             });
         }
 
         blocker.done();
-    });
+    }
 
     @dropTask({ withTestWaiter: true })
-    removeMeTask = task(function *(this: ContributorList) {
+    async removeMeTask() {
         if (!this.node || this.node.isAnonymous || !this.currentUser.currentUserId) {
             return;
         }
@@ -93,14 +94,14 @@ export default class ContributorList extends Component {
             .find(contrib => contrib.users.get('id') === this.currentUser.currentUserId);
 
         if (!contributor) {
-            contributor = yield this.store.findRecord('contributor', `${this.node.id}-${userID}`);
+            contributor = await this.store.findRecord('contributor', `${this.node.id}-${userID}`);
             this.setProperties({
                 displayedContributors: [...this.displayedContributors, contributor],
             });
         }
 
         try {
-            yield contributor!.destroyRecord();
+            await contributor!.destroyRecord();
             this.toast.success(this.intl.t('contributor_list.remove_contributor.success'));
             this.router.transitionTo('home');
         } catch (e) {
@@ -110,11 +111,11 @@ export default class ContributorList extends Component {
             captureException(e, { errorMessage });
             this.toast.error(errorMessage);
         }
-    });
+    }
 
     @action
     removeMe() {
-        this.removeMeTask.perform();
+        taskFor(this.removeMeTask).perform();
     }
 
     @computed('allowRemoveMe', 'currentUser.currentUserId', 'totalContributors')

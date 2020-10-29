@@ -3,7 +3,7 @@ import Component from '@ember/component';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { allSettled } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { restartableTask } from 'ember-concurrency-decorators';
 import Intl from 'ember-intl/services/intl';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -27,8 +27,8 @@ export default class AncestryDisplay extends Component {
 
     @alias('getAncestors.lastComplete.value') ancestry?: string[];
 
-    @task({ withTestWaiter: true, restartable: true, on: 'didReceiveAttrs' })
-    getAncestors = task(function *(this: AncestryDisplay) {
+    @restartableTask({ withTestWaiter: true, on: 'didReceiveAttrs' })
+    async getAncestors() {
         if (!this.node || this.node.isRoot) {
             return [];
         }
@@ -38,13 +38,13 @@ export default class AncestryDisplay extends Component {
 
         // One ancestor
         if (parentId === rootId) {
-            const parentNode = yield this.node.parent;
+            const parentNode = await this.node.parent;
             const { id, title }: {id: string, title: string } = parentNode;
             return [{ id, title }];
         }
 
         // At least two ancestors
-        const results = yield allSettled([
+        const results = await allSettled([
             this.node.root,
             this.node.parent,
         ]);
@@ -62,5 +62,5 @@ export default class AncestryDisplay extends Component {
             }
         }
         return ancestors;
-    });
+    }
 }

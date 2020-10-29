@@ -58,10 +58,10 @@ export default class TagsManagerComponent extends Component {
     }
 
     @task({ withTestWaiter: true })
-    save = task(function *(this: TagsManagerComponent) {
+    async save() {
         this.registration.set('tags', [...this.currentTags]);
         try {
-            yield this.registration.save();
+            await this.registration.save();
         } catch (e) {
             this.registration.rollbackAttributes();
             const errorMessage = this.intl.t('registries.registration_metadata.edit_tags.error');
@@ -71,7 +71,7 @@ export default class TagsManagerComponent extends Component {
         }
         this.set('requestedEditMode', false);
         this.toast.success(this.intl.t('registries.registration_metadata.edit_tags.success'));
-    });
+    }
 
     @action
     startEditing() {

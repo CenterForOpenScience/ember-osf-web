@@ -8,6 +8,7 @@ import { ValidationObject } from 'ember-changeset-validations';
 import { validateNumber, validatePresence } from 'ember-changeset-validations/validators';
 import { ChangesetDef } from 'ember-changeset/types';
 import { task } from 'ember-concurrency-decorators';
+import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
@@ -59,57 +60,11 @@ export default class SecurityPane extends Component {
     };
 
     @task({ withTestWaiter: true })
-    loadSettings = task(function *(this: SecurityPane) {
-        const { user } = this.currentUser;
-
-        if (!user) {
-            return;
-        }
-        const settings = yield user.belongsTo('settings').reload();
-        this.set('settings', settings);
-        this.changeset = buildChangeset(settings, this.securityValidations, { skipValidate: true });
-    });
-
-    @task({ withTestWaiter: true })
-    loadPrimaryEmail = task(function *(this: SecurityPane) {
-        const { user } = this.currentUser;
-
-        if (!user) {
-            return;
-        }
-
-        const emails: QueryHasManyResult<UserEmail> = yield user.queryHasMany(
-            'emails',
-            { 'filter[primary]': true },
-        );
-        this.set('primaryEmail', emails.length ? emails[0] : undefined);
-    });
-
-    @task({ withTestWaiter: true })
-    saveSettings = task(function *(this: SecurityPane) {
-        try {
-            if (this.settings !== undefined) {
-                yield this.settings.save();
-            } else {
-                throw Error('No settings to save.');
-            }
-        } catch (e) {
-            const { supportEmail } = config.support;
-            const errorMessage = this.intl
-                .t('settings.account.security.saveError', { supportEmail, htmlSafe: true });
-            captureException(e, { errorMessage });
-            this.toast.error(getApiErrorMessage(e), errorMessage);
-        } finally {
-            this.hideDialogs();
-        }
-    });
-
-    @task({ withTestWaiter: true })
-    verifySecret = task(function *(this: SecurityPane) {
+    async verifySecret() {
         this.changeset.validate();
         try {
             if (this.changeset.isValid) {
-                yield this.changeset.save({});
+                await this.changeset.save({});
                 this.showError = false;
             }
         } catch (e) {
@@ -122,19 +77,52 @@ export default class SecurityPane extends Component {
                 this.toast.error(saveErrorMessage);
             }
         }
-    });
-
-    init() {
-        super.init();
-        this.loadSettings.perform();
-        this.loadPrimaryEmail.perform();
     }
 
-    hideDialogs() {
-        this.setProperties({
-            showEnableWarning: false,
-            showDisableWarning: false,
-        });
+    @task({ withTestWaiter: true })
+    async loadSettings() {
+        const { user } = this.currentUser;
+
+        if (!user) {
+            return;
+        }
+        const settings = await user.belongsTo('settings').reload();
+        this.set('settings', settings);
+        this.changeset = buildChangeset(settings, this.securityValidations, { skipValidate: true });
+    }
+
+    @task({ withTestWaiter: true })
+    async loadPrimaryEmail() {
+        const { user } = this.currentUser;
+
+        if (!user) {
+            return;
+        }
+
+        const emails: QueryHasManyResult<UserEmail> = await user.queryHasMany(
+            'emails',
+            { 'filter[primary]': true },
+        );
+        this.set('primaryEmail', emails.length ? emails[0] : undefined);
+    }
+
+    @task({ withTestWaiter: true })
+    async saveSettings() {
+        try {
+            if (this.settings !== undefined) {
+                await this.settings.save();
+            } else {
+                throw Error('No settings to save.');
+            }
+        } catch (e) {
+            const { supportEmail } = config.support;
+            const errorMessage = this.intl
+                .t('settings.account.security.saveError', { supportEmail, htmlSafe: true });
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
+        } finally {
+            this.hideDialogs();
+        }
     }
 
     @computed('primaryEmail', 'settings')
@@ -144,6 +132,19 @@ export default class SecurityPane extends Component {
             return keyUri;
         }
         return undefined;
+    }
+
+    init() {
+        super.init();
+        taskFor(this.loadSettings).perform();
+        taskFor(this.loadPrimaryEmail).perform();
+    }
+
+    hideDialogs() {
+        this.setProperties({
+            showEnableWarning: false,
+            showDisableWarning: false,
+        });
     }
 
     @action
@@ -156,7 +157,7 @@ export default class SecurityPane extends Component {
     confirmEnableTwoFactor() {
         if (this.settings !== undefined) {
             this.settings.set('twoFactorEnabled', true);
-            this.saveSettings.perform();
+            taskFor(this.saveSettings).perform();
         }
     }
 
@@ -170,7 +171,7 @@ export default class SecurityPane extends Component {
         this.set('showError', false);
         if (this.settings !== undefined) {
             this.settings.set('twoFactorEnabled', false);
-            this.saveSettings.perform();
+            taskFor(this.saveSettings).perform();
         }
     }
 }

@@ -3,7 +3,8 @@ import { action } from '@ember/object';
 import ComputedProperty from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { Task } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { restartableTask } from 'ember-concurrency-decorators';
+import { taskFor } from 'ember-concurrency-ts';
 
 import Analytics from 'ember-osf-web/services/analytics';
 import Ready from 'ember-osf-web/services/ready';
@@ -40,50 +41,47 @@ export default abstract class BaseDataComponent extends Component {
     // @ts-ignore because TS doesn't let us initialize abstract properties
     abstract loadItemsTask: ComputedProperty<Task<void>> = this.loadItemsTask;
 
-    @task({ withTestWaiter: true, restartable: true })
-    loadItemsWrapperTask = task(function *(
-        this: BaseDataComponent,
-        { reloading }: LoadItemsOptions,
-    ) {
+    @restartableTask({ withTestWaiter: true })
+    async loadItemsWrapperTask({ reloading }: LoadItemsOptions) {
         const blocker = this.ready.getBlocker();
 
         // Resolve race condition on init: Let component finish initializing before continuing
         // TODO: Remove once we have task decorators, so the child classes' tasks are defined on the prototype
-        yield;
+        // yield; TODO: Do we need this?
 
         try {
-            yield this.get('loadItemsTask').perform(reloading);
+            await taskFor(this.loadItemsTask).perform(reloading);
             blocker.done();
         } catch (e) {
             this.set('errorShown', true);
             blocker.errored(e);
             throw e;
         }
-    });
+    }
 
     didReceiveAttrs() {
         this.set('page', 1);
         if (this.bindReload) {
             this.bindReload(this._doReload.bind(this));
         }
-        this.loadItemsWrapperTask.perform({ reloading: false });
+        taskFor(this.loadItemsWrapperTask).perform({ reloading: false });
     }
 
     @action
     _doReload(page: number = 1) {
         this.setProperties({ page });
-        this.loadItemsWrapperTask.perform({ reloading: true });
+        taskFor(this.loadItemsWrapperTask).perform({ reloading: true });
     }
 
     @action
     next() {
         this.incrementProperty('page');
-        this.loadItemsWrapperTask.perform({ reloading: false });
+        taskFor(this.loadItemsWrapperTask).perform({ reloading: false });
     }
 
     @action
     previous() {
         this.decrementProperty('page');
-        this.loadItemsWrapperTask.perform({ reloading: false });
+        taskFor(this.loadItemsWrapperTask).perform({ reloading: false });
     }
 }

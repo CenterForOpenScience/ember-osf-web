@@ -6,7 +6,7 @@ import { tracked } from '@glimmer/tracking';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validateFormat, validatePresence } from 'ember-changeset-validations/validators';
 import { timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { restartableTask } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import Toast from 'ember-toastr/services/toast';
 
@@ -89,12 +89,11 @@ export default class AddModalComponent extends Component {
         permissionGroup: PermissionGroup.Moderator,
     }, UserFormValidations);
 
-    @task({ withTestWaiter: true, restartable: true })
-    searchUser =
-    task(function *(this: AddModalComponent, name: string) {
+    @restartableTask({ withTestWaiter: true })
+    async searchUser(name: string) {
         try {
-            yield timeout(500);
-            return yield this.store.query('user', {
+            await timeout(500);
+            return await this.store.query('user', {
                 'filter[full_name]': name,
             });
         } catch (e) {
@@ -102,7 +101,7 @@ export default class AddModalComponent extends Component {
             this.toast.error(getApiErrorMessage(e));
             return null;
         }
-    });
+    }
 
     @action
     addUser() {

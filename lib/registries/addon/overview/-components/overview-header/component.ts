@@ -4,6 +4,7 @@ import { not } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
+import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import Media from 'ember-responsive';
@@ -42,10 +43,9 @@ export default class OverviewHeader extends Component {
     }
 
     @task({ withTestWaiter: true })
-    loadCurrentModerator =
-    task(function *(this: OverviewHeader) {
+    async loadCurrentModerator() {
         try {
-            this.currentModerator = yield this.store.findRecord('moderator', this.currentUser.currentUserId!,
+            this.currentModerator = await this.store.findRecord('moderator', this.currentUser.currentUserId!,
                 {
                     adapterOptions: {
                         providerId: this.registration.provider.get('id'),
@@ -55,11 +55,11 @@ export default class OverviewHeader extends Component {
             captureException(e);
             this.toast.error(this.intl.t('registries.overviewHeader.needModeratorPermission'));
         }
-    });
+    }
 
     didReceiveAttrs() {
         if (this.mode === 'moderator' && this.currentUser.currentUserId) {
-            this.loadCurrentModerator.perform();
+            taskFor(this.loadCurrentModerator).perform();
         }
     }
 }

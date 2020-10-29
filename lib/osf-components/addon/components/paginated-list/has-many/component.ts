@@ -2,7 +2,8 @@ import { assert } from '@ember/debug';
 import { defineProperty } from '@ember/object';
 import { or, reads } from '@ember/object/computed';
 import { TaskInstance } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { restartableTask, task } from 'ember-concurrency-decorators';
+import { taskFor } from 'ember-concurrency-ts';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import OsfModel from 'ember-osf-web/models/osf-model';
@@ -22,18 +23,21 @@ export default class PaginatedHasMany extends BaseDataComponent {
     // Optional arguments
     usePlaceholders: boolean = defaultTo(this.usePlaceholders, true);
 
+    @or('model', 'modelTaskInstance.value')
+    modelInstance?: OsfModel;
+
     // Private properties
     @task({ withTestWaiter: true })
-    loadItemsTask = task(function *(this: PaginatedHasMany, { reloading }: LoadItemsOptions) {
-        const model = yield this.get('getModelTask').perform();
+    loadItemsTask = taskFor(async function(this: PaginatedHasMany, { reloading }: LoadItemsOptions) {
+        const model = await taskFor(this.getModelTask).perform();
         if (this.usePlaceholders) {
-            yield this.get('loadRelatedCountTask').perform(reloading);
+            await taskFor(this.loadRelatedCountTask).perform(reloading);
             // Don't bother querying if we already know there's nothing there.
             if (this.totalCount === 0) {
                 return;
             }
         }
-        const items = yield model.queryHasMany(
+        const items = await model.queryHasMany(
             this.relationshipName,
             {
                 page: this.page,
@@ -50,27 +54,24 @@ export default class PaginatedHasMany extends BaseDataComponent {
     });
 
     @task({ withTestWaiter: true })
-    getModelTask = task(function *(this: PaginatedHasMany) {
+    async getModelTask() {
         let model = this.modelInstance;
         if (!model && this.modelTaskInstance) {
-            model = yield this.modelTaskInstance;
+            model = await this.modelTaskInstance;
         }
         if (!model) {
             throw new Error('Error loading model');
         }
         return model;
-    });
+    }
 
-    @task({ withTestWaiter: true, restartable: true })
-    loadRelatedCountTask = task(function *(this: PaginatedHasMany, reloading: boolean) {
-        const model = yield this.get('getModelTask').perform();
+    @restartableTask({ withTestWaiter: true })
+    async loadRelatedCountTask(reloading: boolean) {
+        const model = await taskFor(this.getModelTask).perform();
         if (reloading || typeof this.totalCount === 'undefined') {
-            yield model.loadRelatedCount(this.relationshipName);
+            await model.loadRelatedCount(this.relationshipName);
         }
-    });
-
-    @or('model', 'modelTaskInstance.value')
-    modelInstance?: OsfModel;
+    }
 
     init() {
         super.init();

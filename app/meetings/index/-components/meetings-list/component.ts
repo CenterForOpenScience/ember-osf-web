@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { restartableTask } from 'ember-concurrency-decorators';
 
 export default class MeetingsList extends Component {
     // Private properties
@@ -20,11 +20,11 @@ export default class MeetingsList extends Component {
         return query;
     }
 
-    @task({ withTestWaiter: true, restartable: true })
-    searchMeetings = task(function *(this: MeetingsList, search: string) {
-        yield timeout(500); // debounce
+    @restartableTask({ withTestWaiter: true })
+    async searchMeetings(search: string) {
+        await timeout(500); // debounce
         this.set('search', search);
-    });
+    }
 
     @action
     sortMeetings(sort: string) {

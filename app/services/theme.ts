@@ -3,7 +3,7 @@ import { computed } from '@ember/object';
 import Service, { inject as service } from '@ember/service';
 import DS from 'ember-data';
 import config from 'ember-get-config';
-import Provider from 'ember-osf-web/models/provider';
+import CollectionProvider from 'ember-osf-web/models/collection-provider';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
 const { defaultProvider, assetsPrefix } = config;
@@ -57,7 +57,7 @@ export default class Theme extends Service {
     }
 
     @computed('id', 'settings', 'isProvider')
-    get provider(): Provider | null {
+    get provider(): CollectionProvider | null {
         if (!this.providerType) {
             return null;
         }
@@ -77,7 +77,7 @@ export default class Theme extends Service {
             window.location.replace(url);
         }
 
-        return provider;
+        return provider as CollectionProvider;
     }
 
     // If we're using a branded provider and not under a branded domain (e.g. /collections/<provider>)

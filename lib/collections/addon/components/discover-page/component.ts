@@ -7,6 +7,7 @@ import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
 import { timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
+import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
 import config from 'ember-get-config';
 
@@ -237,15 +238,15 @@ export default class DiscoverPage extends Component {
     }
 
     @task({ withTestWaiter: true, keepLatest: true })
-    loadPage = task(function *(this: DiscoverPage) {
+    async loadPage() {
         this.set('loading', true);
 
         if (!this.firstLoad) {
-            yield timeout(500);
+            await timeout(500);
         }
 
         try {
-            const results = yield this.query(this.queryAttributes);
+            const results = await this.query(this.queryAttributes);
 
             this.setProperties({
                 numberOfResults: results.meta.total,
@@ -277,7 +278,7 @@ export default class DiscoverPage extends Component {
             // re-throw for error monitoring
             throw errorResponse;
         }
-    });
+    }
 
     init() {
         super.init();
@@ -314,7 +315,7 @@ export default class DiscoverPage extends Component {
             this.set('page', 1);
         }
 
-        this.loadPage.perform();
+        taskFor(this.loadPage).perform();
     }
 
     trackDebouncedSearch() {
@@ -386,7 +387,7 @@ export default class DiscoverPage extends Component {
             this.scrollToResults();
         }
 
-        this.loadPage.perform();
+        taskFor(this.loadPage).perform();
     }
 
     @action

@@ -3,13 +3,10 @@ import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
+import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
 
 import requireAuth from 'ember-osf-web/decorators/require-auth';
-import DraftRegistration from 'ember-osf-web/models/draft-registration';
-import NodeModel from 'ember-osf-web/models/node';
-import ProviderModel from 'ember-osf-web/models/provider';
-import SubjectModel from 'ember-osf-web/models/subject';
 import Analytics from 'ember-osf-web/services/analytics';
 import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
 import NavigationManager from 'registries/drafts/draft/navigation-manager';
@@ -26,14 +23,14 @@ export default class DraftRegistrationRoute extends Route {
     @service router!: RouterService;
 
     @task({ withTestWaiter: true })
-    loadDraftRegistrationAndNode = task(function *(this: DraftRegistrationRoute, draftId: string) {
+    async loadDraftRegistrationAndNode(draftId: string) {
         try {
-            const draftRegistration: DraftRegistration = yield this.store.findRecord(
+            const draftRegistration = await this.store.findRecord(
                 'draft-registration',
                 draftId,
                 { adapterOptions: { include: 'branched_from' } },
             );
-            const [subjects, node, provider]: [SubjectModel[], NodeModel, ProviderModel] = yield Promise.all([
+            const [subjects, node, provider] = await Promise.all([
                 draftRegistration.loadAll('subjects'),
                 draftRegistration.branchedFrom,
                 draftRegistration.provider,
@@ -45,11 +42,11 @@ export default class DraftRegistrationRoute extends Route {
             this.transitionTo('page-not-found', this.router.currentURL.slice(1));
             return undefined;
         }
-    });
+    }
 
     model(params: { id: string }): DraftRouteModel {
         const { id: draftId } = params;
-        const draftRegistrationAndNodeTask = this.loadDraftRegistrationAndNode.perform(draftId);
+        const draftRegistrationAndNodeTask = taskFor(this.loadDraftRegistrationAndNode).perform(draftId);
         const draftRegistrationManager = new DraftRegistrationManager(draftRegistrationAndNodeTask);
         const navigationManager = new NavigationManager(draftRegistrationManager);
         return {

@@ -1,5 +1,6 @@
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
+import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
 
@@ -17,8 +18,8 @@ export default class PaginatedAll extends BaseDataComponent {
     @service store!: DS.Store;
 
     @task({ withTestWaiter: true })
-    loadItemsTask = task(function *(this: PaginatedAll) {
-        const items: any = yield this.store.query(this.modelName, {
+    loadItemsTask = taskFor(async function(this: PaginatedAll) {
+        const items: any = await this.store.query(this.modelName, {
             page: this.page,
             'page[size]': this.pageSize,
             ...this.query,

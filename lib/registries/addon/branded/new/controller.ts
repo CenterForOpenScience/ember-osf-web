@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { restartableTask, task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 
 import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
@@ -32,7 +32,7 @@ export default class BrandedRegistriesNewSubmissionController extends Controller
     }
 
     @task({ withTestWaiter: true })
-    createNewDraftRegistration = task(function *(this: BrandedRegistriesNewSubmissionController) {
+    async createNewDraftRegistration() {
         let newRegistration: DraftRegistrationModel;
         if (this.isBasedOnProject) {
             newRegistration = this.store.createRecord('draft-registration', {
@@ -47,31 +47,31 @@ export default class BrandedRegistriesNewSubmissionController extends Controller
             });
         }
         try {
-            yield newRegistration.save();
+            await newRegistration.save();
             this.transitionToRoute('drafts.draft', newRegistration.id);
         } catch (e) {
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
         }
-    });
+    }
 
     @task({ withTestWaiter: true })
-    findAllSchemas = task(function *(this: BrandedRegistriesNewSubmissionController) {
+    async findAllSchemas() {
         try {
-            const schemas: RegistrationSchemaModel[] = yield this.model.schemas;
+            const schemas = await this.model.schemas;
             [this.selectedSchema] = schemas.toArray();
             this.schemaOptions = schemas;
         } catch (e) {
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
         }
-    });
+    }
 
-    @task({ withTestWaiter: true, restartable: true })
-    projectSearch = task(function *(this: BrandedRegistriesNewSubmissionController, query: string) {
-        yield timeout(500); // debounce
+    @restartableTask({ withTestWaiter: true })
+    async projectSearch(query: string) {
+        await timeout(500); // debounce
         try {
-            const nodes = yield this.currentUser.user!.queryHasMany('nodes',
+            const nodes = await this.currentUser.user!.queryHasMany('nodes',
                 {
                     filter: {
                         title: query,
@@ -83,7 +83,7 @@ export default class BrandedRegistriesNewSubmissionController extends Controller
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
         }
-    });
+    }
 
     @action
     updateSelectedSchema(schema: RegistrationSchemaModel) {

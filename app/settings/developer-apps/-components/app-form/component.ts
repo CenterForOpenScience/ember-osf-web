@@ -7,6 +7,7 @@ import { inject as service } from '@ember/service';
 import { ChangesetDef } from 'ember-changeset/types';
 import { TaskInstance } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
+import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -29,24 +30,24 @@ export default class DeveloperAppForm extends Component {
     appInstance?: DeveloperApp;
 
     @task({ withTestWaiter: true })
-    createChangeset = task(function *(this: DeveloperAppForm) {
+    async createChangeset() {
         this.appInstance = this.developerApp;
         if (this.appTaskInstance) {
-            yield this.appTaskInstance;
+            await this.appTaskInstance;
             this.appInstance = this.appTaskInstance.value;
         }
 
         if (this.appInstance) {
             this.changeset = buildChangeset(this.appInstance, developerAppValidations, { skipValidate: true });
         }
-    });
+    }
 
     @task({ withTestWaiter: true })
-    createNewApp = task(function *(this: DeveloperAppForm) {
+    async createNewApp() {
         this.changeset.validate();
         try {
             if (this.appInstance && this.changeset.isValid) {
-                yield this.changeset.save({});
+                await this.changeset.save({});
                 this.toast.success(this.intl.t('settings.developer-apps.created'));
                 this.router.transitionTo('settings.developer-apps.edit', this.appInstance.get('id'));
             }
@@ -54,14 +55,14 @@ export default class DeveloperAppForm extends Component {
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
         }
-    });
+    }
 
     @task({ withTestWaiter: true })
-    updateApp = task(function *(this: DeveloperAppForm) {
+    async updateApp() {
         this.changeset.validate();
         try {
             if (this.changeset.isValid) {
-                yield this.changeset.save({});
+                await this.changeset.save({});
                 this.toast.success(this.intl.t('settings.developer-apps.saved'));
                 this.router.transitionTo('settings.developer-apps');
             }
@@ -69,7 +70,7 @@ export default class DeveloperAppForm extends Component {
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
         }
-    });
+    }
 
     init() {
         super.init();
@@ -77,7 +78,7 @@ export default class DeveloperAppForm extends Component {
             'AppForm requires either @developerApp xor @taskInstance',
             Boolean(this.developerApp) !== Boolean(this.appTaskInstance),
         );
-        this.createChangeset.perform();
+        taskFor(this.createChangeset).perform();
     }
 
     @action

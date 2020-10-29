@@ -4,7 +4,8 @@ import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { all, timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { restartableTask, task } from 'ember-concurrency-decorators';
+import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -31,37 +32,37 @@ export default class UserQuickfiles extends Controller {
     @alias('model.taskInstance.value.user') user!: User;
     @alias('model.taskInstance.value.files') allFiles!: File[];
 
-    @task({ withTestWaiter: true, restartable: true })
-    updateFilter = task(function *(this: UserQuickfiles, filter: string) {
-        yield timeout(250);
+    @restartableTask({ withTestWaiter: true })
+    async updateFilter(filter: string) {
+        await timeout(250);
         this.setProperties({ filter });
         this.analytics.track('list', 'filter', 'Quick Files - Filter files');
-    });
+    }
 
     @task({ withTestWaiter: true })
-    createProject = task(function *(this: UserQuickfiles, node: Node) {
+    async createProject(node: Node) {
         try {
-            return yield node.save();
+            return await node.save();
         } catch (e) {
             const errorMessage = this.intl.t('move_to_project.could_not_create_project');
             captureException(e, { errorMessage });
             this.toast.error(getApiErrorMessage(e), errorMessage);
             return undefined;
         }
-    });
+    }
 
     @task({ withTestWaiter: true })
-    flash = task(function *(item: File, message: string, type: string = 'success', duration: number = 2000) {
+    async flash(item: File, message: string, type: string = 'success', duration: number = 2000) {
         item.set('flash', { message, type });
-        yield timeout(duration);
+        await timeout(duration);
         item.set('flash', null);
-    });
+    }
 
     @task({ withTestWaiter: true })
-    addFile = task(function *(this: UserQuickfiles, id: string) {
+    async addFile(id: string) {
         const duplicate = this.allFiles.findBy('id', id);
 
-        const file = yield this.store
+        const file = await this.store
             .findRecord('file', id, duplicate ? {} : { adapterOptions: { query: { create_guid: 1 } } });
 
         if (duplicate) {
@@ -75,30 +76,30 @@ export default class UserQuickfiles extends Controller {
         }
 
         this.toast.success(this.intl.t('file_browser.file_added_toast'));
-        this.flash.perform(file, this.intl.t('file_browser.file_added'));
-    });
+        taskFor(this.flash).perform(file, this.intl.t('file_browser.file_added'));
+    }
 
     @task({ withTestWaiter: true })
-    deleteFile = task(function *(this: UserQuickfiles, file: File) {
+    async deleteFile(file: File) {
         try {
-            yield file.destroyRecord();
-            yield this.flash.perform(file, this.intl.t('file_browser.file_deleted'), 'danger');
+            await file.destroyRecord();
+            await taskFor(this.flash).perform(file, this.intl.t('file_browser.file_deleted'), 'danger');
             this.allFiles.removeObject(file);
         } catch (e) {
-            yield this.flash.perform(file, this.intl.t('file_browser.delete_failed'), 'danger');
+            await taskFor(this.flash).perform(file, this.intl.t('file_browser.delete_failed'), 'danger');
         }
-    });
+    }
 
     @task({ withTestWaiter: true })
-    deleteFiles = task(function *(this: UserQuickfiles, files: File[]) {
-        yield all(files.map(file => this.deleteFile.perform(file)));
-    });
+    async deleteFiles(files: File[]) {
+        await all(files.map(file => taskFor(this.deleteFile).perform(file)));
+    }
 
     @task({ withTestWaiter: true })
-    moveFile = task(function *(this: UserQuickfiles, file: File, node: Node): IterableIterator<any> {
+    async moveFile(file: File, node: Node) {
         try {
             if (node.isNew) {
-                yield this.createProject.perform(node);
+                await taskFor(this.createProject).perform(node);
 
                 this.setProperties({
                     newProject: this.store.createRecord('node', {
@@ -107,8 +108,8 @@ export default class UserQuickfiles extends Controller {
                     }),
                 });
             }
-            yield file.move(node);
-            yield this.flash.perform(file, this.intl.t('file_browser.successfully_moved'));
+            await file.move(node);
+            await taskFor(this.flash).perform(file, this.intl.t('file_browser.successfully_moved'));
             this.allFiles.removeObject(file);
             return true;
         } catch (e) {
@@ -121,30 +122,29 @@ export default class UserQuickfiles extends Controller {
         }
 
         return false;
-    });
+    }
 
     @task({ withTestWaiter: true })
-    renameFile = task(function *(
-        this: UserQuickfiles,
+    async renameFile(
         file: File,
         name: string,
         conflict?: string,
         conflictingFile?: File,
     ) {
         try {
-            yield file.rename(name, conflict);
+            await file.rename(name, conflict);
 
             // intentionally not yielded
-            this.flash.perform(file, 'Successfully renamed');
+            taskFor(this.flash).perform(file, 'Successfully renamed');
 
             if (conflictingFile) {
-                yield this.flash.perform(conflictingFile, this.intl.t('file_browser.file_replaced'), 'danger');
+                await taskFor(this.flash).perform(conflictingFile, this.intl.t('file_browser.file_replaced'), 'danger');
                 this.allFiles.removeObject(conflictingFile);
             }
         } catch (ex) {
-            this.flash.perform(file, 'Failed to rename item', 'danger');
+            taskFor(this.flash).perform(file, 'Failed to rename item', 'danger');
         }
-    });
+    }
 
     @computed('allFiles.[]', 'filter', 'sort')
     get files(): File[] | null {
