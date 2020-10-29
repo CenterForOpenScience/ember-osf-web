@@ -5,11 +5,11 @@
         </div>
         {{#if (not (or @registration.archiving @registration.withdrawn))}}
             <div local-class='ActionBar'>
-                {{#if this.canViewAsModerator}}
-                    {{!-- moderator top bar here --}}
-                {{else}}
+                {{!-- {{#if this.canViewAsModerator}}
                     <Overview::-Components::OverviewTopbar @registration={{@registration}} />
-                {{/if}}
+                {{else}} --}}
+                <Overview::-Components::OverviewTopbar @mode={{@viewMode}} @registration={{@registration}} />
+                {{!-- {{/if}} --}}
             </div>
             {{#if this.showMobileView}}
                 <Navbar local-class='SideBarToggle' as |nav|>
