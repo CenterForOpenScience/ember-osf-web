@@ -1270,6 +1270,7 @@ registries:
             text: 'Embargoed registration'
             short_description: Embargoed
             long_description: 'This registration is embargoed. It will remain private until {embargoEndDate}.'
+        makeDecision: 'Make decision'
         bookmark:
             add:
                 text: Bookmark
