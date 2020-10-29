@@ -8,7 +8,7 @@
                 {{!-- {{#if this.canViewAsModerator}}
                     <Overview::-Components::OverviewTopbar @registration={{@registration}} />
                 {{else}} --}}
-                <Overview::-Components::OverviewTopbar @mode={{@viewMode}} @registration={{@registration}} />
+                <Overview::-Components::OverviewTopbar @isModeratorMode={{this.canViewAsModerator}} @registration={{@registration}} />
                 {{!-- {{/if}} --}}
             </div>
             {{#if this.showMobileView}}

@@ -216,22 +216,24 @@ module('Registries | Acceptance | overview.topbar', hooks => {
     test('non-moderators cannot see moderator top-bar',
         async assert => {
             const reg = server.create('registration', {
-                registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
                 currentUserPermissions: Object.values(Permission),
+                provider: server.create('registration-provider'),
             });
 
             await visit(`/${reg.id}?viewMode=moderator`);
             assert.dom('[data-test-moderation-dropdown-button]').doesNotExist();
+            assert.dom('[data-test-topbar-share-bookmark-fork]').exists();
         });
 
-    test('moderators can see dropdown to make decision on registration',
+    test('moderators can see dropdown to make decision on registration 991',
         async assert => {
             const reg = server.create('registration', {
-                registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+                provider: server.create('registration-provider', 'currentUserIsModerator'),
             });
 
             await visit(`/${reg.id}?viewMode=moderator`);
             assert.dom('[data-test-moderation-dropdown-button]').exists();
+            assert.dom('[data-test-topbar-share-bookmark-fork]').doesNotExist();
 
             // await click('[data-test-moderation-dropdown-button]');
             // test for dropdown content here

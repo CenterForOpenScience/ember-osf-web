@@ -19,6 +19,8 @@ export interface RegistrationProviderTraits {
     withBrand: Trait;
     withSchemas: Trait;
     submissionsNotAllowed: Trait;
+    withModerators: Trait;
+    currentUserIsModerator: Trait;
 }
 
 export default Factory.extend<MirageRegistrationProvider & RegistrationProviderTraits>({
@@ -64,6 +66,18 @@ export default Factory.extend<MirageRegistrationProvider & RegistrationProviderT
     submissionsNotAllowed: trait<RegistrationProvider>({
         afterCreate(provider) {
             provider.update({ allowSubmissions: false });
+        },
+    }),
+    withModerators: trait<RegistrationProvider>({
+        afterCreate(provider) {
+            const moderatorList = server.createList('moderator', 4);
+            provider.update({ moderators: moderatorList });
+        },
+    }),
+    currentUserIsModerator: trait<RegistrationProvider>({
+        afterCreate(provider) {
+            const moderator = server.create('moderator', { user: server.schema.roots.first().currentUser! });
+            provider.update({ moderators: moderator });
         },
     }),
 });
