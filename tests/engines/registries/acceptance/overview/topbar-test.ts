@@ -212,4 +212,28 @@ module('Registries | Acceptance | overview.topbar', hooks => {
             assert.dom('[data-test-state-icon]').hasClass(`fa-${stateInfo.icon}`);
         }
     });
+
+    test('non-moderators cannot see moderator top-bar',
+        async assert => {
+            const reg = server.create('registration', {
+                registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+                currentUserPermissions: Object.values(Permission),
+            });
+
+            await visit(`/${reg.id}?viewMode=moderator`);
+            assert.dom('[data-test-moderation-dropdown-button]').doesNotExist();
+        });
+
+    test('moderators can see dropdown to make decision on registration',
+        async assert => {
+            const reg = server.create('registration', {
+                registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            });
+
+            await visit(`/${reg.id}?viewMode=moderator`);
+            assert.dom('[data-test-moderation-dropdown-button]').exists();
+
+            // await click('[data-test-moderation-dropdown-button]');
+            // test for dropdown content here
+        });
 });
