@@ -75,9 +75,10 @@ export default Factory.extend<MirageRegistrationProvider & RegistrationProviderT
         },
     }),
     currentUserIsModerator: trait<RegistrationProvider>({
-        afterCreate(provider) {
-            const moderator = server.create('moderator', { user: server.schema.roots.first().currentUser! });
-            provider.update({ moderators: moderator });
+        afterCreate(provider, server) {
+            const { currentUserId, currentUser } = server.schema.roots.first();
+            const moderator = server.create('moderator', { id: currentUserId, user: currentUser! });
+            provider.update({ moderators: [moderator] });
         },
     }),
 });

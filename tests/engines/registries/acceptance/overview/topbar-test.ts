@@ -227,10 +227,10 @@ module('Registries | Acceptance | overview.topbar', hooks => {
 
     test('moderators can see dropdown to make decision on registration 991',
         async assert => {
+            server.create('user', 'loggedIn');
             const reg = server.create('registration', {
                 provider: server.create('registration-provider', 'currentUserIsModerator'),
             });
-
             await visit(`/${reg.id}?viewMode=moderator`);
             assert.dom('[data-test-moderation-dropdown-button]').exists();
             assert.dom('[data-test-topbar-share-bookmark-fork]').doesNotExist();
