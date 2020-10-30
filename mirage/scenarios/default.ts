@@ -94,6 +94,16 @@ function registrationScenario(
         registeredBy: currentUser,
     }, 'withContributors', 'withReviewActions');
 
+    server.create('registration', {
+        id: 'cuban',
+        title: 'embargoed',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        embargoEndDate: faker.date.future(2),
+        provider: egap,
+        machineState: RegistrationReviewStates.Embargo,
+        registeredBy: currentUser,
+    }, 'withContributors', 'withReviewActions');
+
     server.createList('registration', 12,
         {
             machineState: RegistrationReviewStates.Pending,

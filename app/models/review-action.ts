@@ -11,6 +11,7 @@ import UserModel from './user';
 const { attr, belongsTo } = DS;
 
 export enum ReviewActionTrigger {
+    Submit = 'submit', // registration submitted by admins
     AcceptSubmission = 'accept_submission', // accept submission
     RejectSubmission = 'reject_submission', // reject submission
     ForceWithdraw = 'force_withdraw', // force withdraw without request
@@ -20,6 +21,7 @@ export enum ReviewActionTrigger {
 }
 
 const TriggerToPastTenseTranslationKey: Record<ReviewActionTrigger, string> = {
+    submit: 'registries.reviewActions.triggerPastTense.submit',
     accept_submission: 'registries.reviewActions.triggerPastTense.accept_submission',
     reject_submission: 'registries.reviewActions.triggerPastTense.reject_submission',
     force_withdraw: 'registries.reviewActions.triggerPastTense.force_withdraw',

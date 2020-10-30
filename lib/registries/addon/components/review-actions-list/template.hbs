@@ -10,26 +10,22 @@
             />
         {{/if}}
         <div>
-            <p data-test-registration-list-card-latest-action>
-                {{t 'registries.reviewActionsList.moderatorAction'
-                    action=this.latestAction.triggerPastTense
-                    moderator=this.latestAction.creator.fullName
-                    date=(time-since this.latestAction.dateModified)
-                }}
-            </p>
+            <ReviewActionsList::ReviewAction
+                data-test-registration-list-card-latest-action
+                @reviewAction={{this.latestAction}}
+                @embargoEndDate={{@registration.embargoEndDate}}
+            />
             <AnimatedContainer local-class='animationContainer'>
                 <AnimatedIf
                     @predicate={{this.showFullActionList}}
                     @duration='100'
                 >
                     {{#each (without this.latestAction @reviewActions) as |reviewAction|}}
-                        <p data-test-registration-list-card-more-actions>
-                            {{t 'registries.reviewActionsList.moderatorAction'
-                                action=reviewAction.triggerPastTense
-                                moderator=reviewAction.creator.fullName
-                                date=(time-since reviewAction.dateModified)
-                            }}
-                        </p>
+                        <ReviewActionsList::ReviewAction
+                            data-test-registration-list-card-more-actions
+                            @reviewAction={{reviewAction}}
+                            @embargoEndDate={{@registration.embargoEndDate}}
+                        />
                     {{/each}}
                 </AnimatedIf>
             </AnimatedContainer>

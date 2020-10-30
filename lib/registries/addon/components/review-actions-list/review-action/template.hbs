@@ -1,0 +1,11 @@
+<div data-test-review-action-wrapper ...attributes>
+    <p>
+        {{this.translationString}}
+        {{#if this.hasComment}}
+            <br>
+            <i>
+                &mdash; {{@reviewAction.comment}}
+            </i>
+        {{/if}}
+    </p>
+</div>
