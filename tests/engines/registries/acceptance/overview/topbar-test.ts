@@ -225,7 +225,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
             assert.dom('[data-test-topbar-share-bookmark-fork]').exists();
         });
 
-    test('moderators can see dropdown to make decision on registration 991',
+    test('moderators can see dropdown to make decision on registration',
         async assert => {
             server.create('user', 'loggedIn');
             const reg = server.create('registration', {
