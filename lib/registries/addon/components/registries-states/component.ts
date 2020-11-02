@@ -19,6 +19,7 @@ const { OSF: { url: baseURL } } = config;
 export default class RegistriesStates extends Component {
     // Required
     registration!: RegistrationModel;
+    isModeratorMode = false;
 
     // Private
     @service intl!: Intl;
@@ -90,7 +91,10 @@ export default class RegistriesStates extends Component {
 
     @computed('registration.{userHasAdminPermission,state,isRoot}')
     get shouldHideAdminActions() {
-        return (!this.registration.isRoot || !this.registration.userHasAdminPermission
+        return (
+            !this.registration.isRoot
+            || !this.registration.userHasAdminPermission
+            || this.isModeratorMode
             || !(
                 [RegistrationReviewStates.Accepted, RegistrationReviewStates.Embargo].includes(
                     this.registration.machineState,
