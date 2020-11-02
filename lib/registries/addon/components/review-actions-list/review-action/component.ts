@@ -15,7 +15,7 @@ export default class ReviewAction extends Component<Args> {
     @service intl!: Intl;
 
     get hasComment() {
-        return Boolean(this.args.reviewAction);
+        return Boolean(this.args.reviewAction.comment);
     }
 
     get translationString() {
@@ -25,7 +25,7 @@ export default class ReviewAction extends Component<Args> {
                 return this.intl.t('registries.reviewAction.acceptEmbargoSubmission',
                     {
                         action: reviewAction.triggerPastTense,
-                        moderator: reviewAction.creator.get('fullName'),
+                        submitter: reviewAction.creator.get('fullName'),
                         date: formattedTimeSince(reviewAction.dateModified),
                         embargoEndDate: this.args.embargoEndDate,
                     });
@@ -33,7 +33,7 @@ export default class ReviewAction extends Component<Args> {
             return this.intl.t('registries.reviewAction.acceptSubmission',
                 {
                     action: reviewAction.triggerPastTense,
-                    moderator: reviewAction.creator.get('fullName'),
+                    submitter: reviewAction.creator.get('fullName'),
                     date: formattedTimeSince(reviewAction.dateModified),
                 });
         }

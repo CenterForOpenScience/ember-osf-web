@@ -1303,12 +1303,11 @@ registries:
         rejected: 'No rejected registrations have been found'
         withdrawn: 'No withdrawn registrations have been found'
         pending_withdraw: 'No registrations found pending withdrawal'
-        failedToLoadActions: 'Failed to load registration review history'
     reviewActionsList:
-        noActionsFound: 'No review history found for this registration'
+        failedToLoadActions: 'Failed to load registration review history'
     reviewAction:
-        acceptSubmission: '{action} {date} by {moderator} for immediate publication'
-        acceptEmbargoSubmission: '{action} {date} by {moderator} for publication on {embargoEndDate}'
+        acceptSubmission: '{action} {date} by {submitter} for immediate publication'
+        acceptEmbargoSubmission: '{action} {date} by {submitter} for publication on {embargoEndDate}'
         moderatorAction: '{action} {date} by {moderator}'
         comment: 'Comment'
     reviewActions:

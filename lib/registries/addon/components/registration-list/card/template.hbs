@@ -3,28 +3,20 @@
     local-class='cardWrapper'
     ...attributes
 >
-    {{#if this.fetchActions.isRunning}}
-        <LoadingIndicator @dark={{true}} />
-    {{else if this.fetchActions.isError}}
-        <p data-test-loading-actions-failed>
-            {{t 'registries.registrationList.failedToLoadActions'}}
-        </p>
-    {{else}}
-        <FaIcon
-            data-test-registration-list-card-icon='{{@filterState}}'
-            @icon={{this.icon}}
-            @size={{2}}
-            local-class='filterIcon {{@filterState}}'
-        />
-        <div local-class='cardInfo'>
-            {{!-- TODO: Update this to be a link to the moderation overview page --}}
-            <h3
-                data-test-registration-list-card-title
-                local-class='registrationTitle'
-            >
-                {{@registration.title}}
-            </h3>
-            <ReviewActionsList @reviewActions={{this.reviewActions}} @registration={{@registration}}/>
-        </div>
-    {{/if}}
+    <FaIcon
+        data-test-registration-list-card-icon='{{@filterState}}'
+        @icon={{this.icon}}
+        @size={{2}}
+        local-class='filterIcon {{@filterState}}'
+    />
+    <div local-class='cardInfo'>
+        {{!-- TODO: Update this to be a link to the moderation overview page --}}
+        <h3
+            data-test-registration-list-card-title
+            local-class='registrationTitle'
+        >
+            {{@registration.title}}
+        </h3>
+        <ReviewActionsList @registration={{@registration}}/>
+    </div>
 </div>

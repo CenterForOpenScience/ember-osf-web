@@ -1,6 +1,12 @@
 <div local-class='actionsWrapper'>
-    {{#if @reviewActions}}
-        {{#if (gt @reviewActions.length 1)}}
+    {{#if this.fetchActions.isRunning}}
+        <LoadingIndicator @dark={{true}} />
+    {{else if this.fetchActions.isError}}
+        <p data-test-loading-actions-failed>
+            {{t 'registries.reviewActionsList.failedToLoadActions'}}
+        </p>
+    {{else}}
+        {{#if (gt this.reviewActions.length 1)}}
             <FaIcon
                 data-test-registration-card-toggle-actions
                 local-class='toggleActions'
@@ -20,7 +26,7 @@
                     @predicate={{this.showFullActionList}}
                     @duration='100'
                 >
-                    {{#each (without this.latestAction @reviewActions) as |reviewAction|}}
+                    {{#each (without this.latestAction this.reviewActions) as |reviewAction|}}
                         <ReviewActionsList::ReviewAction
                             data-test-registration-list-card-more-actions
                             @reviewAction={{reviewAction}}
@@ -30,9 +36,5 @@
                 </AnimatedIf>
             </AnimatedContainer>
         </div>
-    {{else}}
-        <p data-test-no-actions-found>
-            {{t 'registries.reviewActionsList.noActionsFound'}}
-        </p>
     {{/if}}
 </div>
