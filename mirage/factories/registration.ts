@@ -92,7 +92,7 @@ const stateAttrs = {
         },
     },
     normal: {
-        machinieState: RegistrationReviewStates.Accepted,
+        machineState: RegistrationReviewStates.Accepted,
         pendingRegistrationApproval: false,
         archiving: false,
         embargoed: false,
