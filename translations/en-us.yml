@@ -1305,6 +1305,7 @@ registries:
         pending_withdraw: 'No registrations found pending withdrawal'
     reviewActionsList:
         failedToLoadActions: 'Failed to load registration review history'
+        noActionsFound: 'No review history found for this registration'
     reviewAction:
         acceptSubmission: '{action} {date} by {submitter} for immediate publication'
         acceptEmbargoSubmission: '{action} {date} by {submitter} for publication on {embargoEndDate}'

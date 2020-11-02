@@ -1,8 +1,6 @@
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
 
 import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
-import ReviewActionModel from 'ember-osf-web/models/review-action';
 
 const iconMap: Record<string, string> = {
     // This is a subset of RegistrationReviewStates that only applies to moderation
