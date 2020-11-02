@@ -1270,7 +1270,6 @@ registries:
             text: 'Embargoed registration'
             short_description: Embargoed
             long_description: 'This registration is embargoed. It will remain private until {embargoEndDate}.'
-        makeDecision: 'Make decision'
         bookmark:
             add:
                 text: Bookmark
@@ -1326,6 +1325,20 @@ registries:
         datePlaceholder: 'Choose embargo end date'
     sharingIcons:
         label: 'Share this registration via {mediaType}'
+    makeDecisionDropdown:
+        makeDecision: 'Make Decision'
+        acceptSubmission: 'Accept Submission'
+        acceptSubmissionDescription: 'Registration will appear in search results and be made public. Embargoed registrations will only become public on embargo end date.'
+        rejectSubmission: 'Reject Submission'
+        rejectSubmissionDescription: 'Registration will not appear in search results and will return to a private draft state'
+        forceWithdraw: 'Force Withdraw'
+        forceWithdrawDescription: 'Registration will be withdrawn but still have a tombstone page with a justification for withdrawal and a subset of the metadata available'
+        acceptWithdrawal: 'Accept Withdrawal'
+        acceptWithdrawalDescription: 'Registration will be withdrawn but still have a tombstone page with a justification for withdrawal and subset of the metadata available'
+        rejectWithdrawal: 'Reject Withdrawal'
+        rejectWithdrawalDescription: 'Registration will remain fully public'
+        additionalComment: 'Additional comment'
+        submit: 'Submit'
 meetings:
     index:
         meetings-list:

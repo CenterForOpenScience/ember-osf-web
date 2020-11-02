@@ -1,0 +1,29 @@
+.Dropdown {
+    padding: 15px;
+    border: 1px solid $alto;
+    border-radius: 2px;
+    background-color: $white;
+    background-size: cover;
+    box-shadow: 0 1px 2px $primary-box-shadow;
+    max-width: 300px;
+}
+
+.Description {
+    padding-left: 16px;
+}
+
+.Comment {
+    min-height: 100px;
+    min-width: 268px;
+    color: $color-text-gray-blue;
+    background-color: $color-bg-gray-blue-light;
+    border: 1px solid $color-border-gray;
+    border-radius: 2px;
+    font-size: 14px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+    padding: 6px 12px;
+}
+
+.SubmitButton {
+    float: right;
+}

@@ -2,15 +2,7 @@
     <RegistriesStates @registration={{@registration}} />
 </div>
 {{#if (eq this.mode 'moderator')}}
-    <OsfButton
-        data-test-moderation-dropdown-button
-        data-analytics-name='Display Moderation Actions'
-        @type='success'
-        @onClick={{fn (mut this.showDropdown) (not this.showDropdown)}}
-    >
-        {{t 'registries.overview.makeDecision'}}
-        <FaIcon @icon='caret-down' />
-    </OsfButton>
+    <MakeDecisionDropdown @registration={{@registration}} />
 {{else}}
     <div data-test-topbar-share-bookmark-fork
         local-class='RightActionsContainer'
