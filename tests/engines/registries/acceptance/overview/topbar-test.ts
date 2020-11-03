@@ -263,7 +263,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
                 .exists('dropdown for review actions exist');
             assert.dom('[data-test-moderation-dropdown-decision-checkbox]')
                 .exists({ count: 1 }, 'only one option for moderator action for public registrations');
-            assert.dom('[data-test-moderation-dropdown-decision-checkbox=force_withdraw}]')
+            assert.dom('[data-test-moderation-dropdown-decision-checkbox=force_withdraw]')
                 .exists('checkbox to force withdraw shown for public registrations');
             assert.dom('[data-test-moderation-dropdown-comment]').exists('comment box shown');
             assert.dom('[data-test-moderation-dropdown-submit]')
