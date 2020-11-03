@@ -2,6 +2,7 @@ import { triggerEvent } from '@ember/test-helpers';
 import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { t } from 'ember-intl/test-support';
+import { percySnapshot } from 'ember-percy';
 import moment from 'moment';
 import { module, test } from 'qunit';
 
@@ -221,21 +222,55 @@ module('Registries | Acceptance | overview.topbar', hooks => {
             });
 
             await visit(`/${reg.id}?viewMode=moderator`);
-            assert.dom('[data-test-moderation-dropdown-button]').doesNotExist();
-            assert.dom('[data-test-topbar-share-bookmark-fork]').exists();
+            assert.dom('[data-test-moderation-dropdown-button]')
+                .doesNotExist('non-moderators do not have access to moderator dropdown');
+            assert.dom('[data-test-topbar-share-bookmark-fork]')
+                .exists('moderator dropdown defaults to the bookmark and fork buttons for non-mods');
         });
 
-    test('moderators can see dropdown to make decision on registration',
+    test('moderators does not see decision dropdown in standard view mode',
         async assert => {
             server.create('user', 'loggedIn');
             const reg = server.create('registration', {
                 provider: server.create('registration-provider', 'currentUserIsModerator'),
-            });
-            await visit(`/${reg.id}?viewMode=moderator`);
-            assert.dom('[data-test-moderation-dropdown-button]').exists();
-            assert.dom('[data-test-topbar-share-bookmark-fork]').doesNotExist();
+            }, 'withReviewActions');
+            await visit(`/${reg.id}`);
+            assert.dom('[data-test-moderation-dropdown-button]')
+                .doesNotExist('moderator action dropdown not shown in standard mode');
+            assert.dom('[data-test-topbar-share-bookmark-fork]')
+                .exists('moderators can see bookmark and fork buttons in standard mode');
 
-            // await click('[data-test-moderation-dropdown-button]');
-            // test for dropdown content here
+            await click('[data-test-moderation-dropdown-button]');
+            assert.dom('[data-test-registration-list-card-latest-action]')
+                .exists('latest action is shown');
+            assert.dom('[data-test-registration-card-toggle-actions]')
+                .exists('dropdown for review actions exist');
+        });
+
+    test('moderators can see dropdown to make decision on public registration',
+        async assert => {
+            server.create('user', 'loggedIn');
+            const reg = server.create('registration', {
+                provider: server.create('registration-provider', 'currentUserIsModerator'),
+            }, 'withReviewActions');
+            await visit(`/${reg.id}?viewMode=moderator`);
+            assert.dom('[data-test-moderation-dropdown-button]')
+                .exists('moderator action dropdown exists');
+            assert.dom('[data-test-topbar-share-bookmark-fork]')
+                .doesNotExist('bookmark and fork buttons are hidden in moderator mode');
+
+            await click('[data-test-moderation-dropdown-button]');
+            await percySnapshot(assert);
+            assert.dom('[data-test-registration-list-card-latest-action]')
+                .exists('latest action is shown');
+            assert.dom('[data-test-registration-card-toggle-actions]')
+                .exists('dropdown for review actions exist');
+            assert.dom('[data-test-moderation-dropdown-decision-checkbox]')
+                .exists({ count: 1 }, 'only one option for moderator action for public registrations');
+            assert.dom('[data-test-moderation-dropdown-decision-checkbox=force_withdraw}]')
+                .exists('checkbox to force withdraw shown for public registrations');
+            assert.dom('[data-test-moderation-dropdown-comment]').exists('comment box shown');
+            assert.dom('[data-test-moderation-dropdown-submit]')
+                .isDisabled('submit button exists and is disabled before selection');
         });
 });
