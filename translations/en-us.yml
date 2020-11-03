@@ -1234,34 +1234,23 @@ registries:
         archiving:
             currently_archiving: 'This registration is currently archiving, and no changes can be made at this time.'
             email_support: 'If this registration has been archiving for more than 72 hours, please email <a data-analytics-name="Email support" href="mailto:{supportEmail}">{supportEmail}</a> for assistance.'
-        pending:
-            state: Pending
-            action:
-                approve: Approve
-                reject: Reject
-        public:
-            state: Public
-            text: 'Public registration'
-            short_description: Public
-            long_description: 'This public registration is a frozen, non-editable version of this <strong><a href={projectUrl}>project</a></strong>.'
-        pendingRegistration:
+        pendingRegistrationApproval:
             text: 'Pending registration'
             short_description: 'Pending registration approval'
             long_description: 'This is a pending registration of this <strong><a href={projectUrl}>project</a></strong>, awaiting approval from project administrators. This registration will be final when all project administrators approve the registration or 48 hours pass, whichever comes first.'
-        pendingWithdrawal:
-            text: 'Public registration'
-            short_description: 'Pending withdrawal'
-            long_description: 'This registration will be withdrawn when all project administrators approve the withdrawal.'
-        pendingEmbargo:
+        pendingEmbargoApproval:
             text: 'Pending registration'
             short_description: 'Pending embargo approval'
             long_description: 'This registration is pending approval. It will be final and enter an embargo period when all project administrators approve the registration or 48 hours pass, whichever comes first. The embargo will keep the registration private until the embargo period ends.'
-        pendingEmbargoTermination:
-            text: 'Embargoed registration'
-            short_description: 'Pending embargo termination'
-            long_description: 'This registration is embargoed. It will remain private until {embargoEndDate}. A request to make this registration public is pending.'
-        embargoed:
-            state: Embargoed
+        pending:
+            text: 'Pending registration'
+            short_description: 'Pending moderator approval'
+            long_description: 'This registration is awaiting a decision by the registry moderators. An email will notify all registration contributors of the decision.'
+        accepted:
+            text: 'Public registration'
+            short_description: Public
+            long_description: 'This public registration is a frozen, non-editable version of this <strong><a href={projectUrl}>project</a></strong>.'
+        embargo:
             action: 'End embargo early'
             action_success: 'Embargo termination request successfully sent'
             action_error: 'Unable to submit embargo termination request'
@@ -1270,6 +1259,18 @@ registries:
             text: 'Embargoed registration'
             short_description: Embargoed
             long_description: 'This registration is embargoed. It will remain private until {embargoEndDate}.'
+        pendingEmbargoTermination:
+            text: 'Embargoed registration'
+            short_description: 'Pending embargo termination'
+            long_description: 'This registration is embargoed. It will remain private until {embargoEndDate}. A request to make this registration public is pending.'
+        pendingWithdrawRequest:
+            text: 'Public registration'
+            short_description: 'Pending withdraw request'
+            long_description: 'This registration will be withdrawn when all project administrators approve the withdrawal.'
+        pendingWithdraw:
+            text: 'Public registration'
+            short_description: 'Pending withdrawal moderation'
+            long_description: 'This registration is awaiting a withdrawal decision by the registry moderators. An email will notify all registration contributors of the decision.'
         bookmark:
             add:
                 text: Bookmark

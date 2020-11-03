@@ -92,6 +92,7 @@ function registrationScenario(
         provider: egap,
         machineState: RegistrationReviewStates.Pending,
         registeredBy: currentUser,
+        currentUserPermissions: Object.values(Permission),
     }, 'withContributors', 'withReviewActions');
 
     server.createList('registration', 12,
