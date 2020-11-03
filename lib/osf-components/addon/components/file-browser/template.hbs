@@ -369,7 +369,10 @@
             @validationChanged={{action (mut this.isProjectSelectorValid)}}
             @projectSelected={{action this.projectSelected}}
             @moveToNewProject={{action this.moveToNewProject}}
-        />
+            as |projectSelector|
+        >
+            <FileBrowser::FileMoveMessages @project={{projectSelector.selected}} />
+        </ProjectSelector>
     </modal.body>
     <modal.footer data-analytics-scope='File browser - Move to project Modal'>
         <OsfButton
@@ -394,7 +397,7 @@
             <OsfButton
                 data-test-move-to-project-modal-perform-button
                 data-analytics-name='Move'
-                @disabled={{or (not this.isProjectSelectorValid) this.isMoving}}
+                @disabled={{not this.isMoveButtonEnabled}}
                 @onClick={{action (perform this.moveToProject)}}
                 @type='primary'
             >

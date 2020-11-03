@@ -252,8 +252,12 @@ move_to_project:
     no_longer_public_warning:
         project: 'Files moved to private projects will no longer be public or discoverable by others.'
         component: 'Files moved to private components will no longer be public or discoverable by others.'
+    storage_limit:
+        warning: 'This project is approaching its storage cap.'
+        learn_more: '<a href "https://help.osf.io/hc/en-us/articles/360054528874-OSF-Storage-Caps" data-analytics-name="Learn about storage caps">Learn more about storage limits</a>.'
     file_successfully_moved: 'File was moved successfully!'
     could_not_move_file: 'Could not move file.'
+    storage_error: 'This file cannot be added to this project/component because it has exceeded the storage limit for OSF Storage.'
     keep_working_here: 'Keep working here'
     go_to_new_project: 'Go to new project'
     go_to_component: 'Go to component'
@@ -1472,6 +1476,7 @@ osf-components:
         create: Create
         folder_name_placeholder: 'New folder name'
         create_folder_failed: 'Failed to create folder'
+        insufficient_storage_error: 'This file cannot be uploaded to this project/component because it has exceeded the storage limit for OSF Storage.'
     subjects:
         browse:
             browse_all: 'Browse all subjects'

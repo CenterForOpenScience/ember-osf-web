@@ -14,7 +14,7 @@
             @uploadprogress={{action this.uploadProgress}}
             @success={{queue (perform this.success) menu.close}}
             @preUpload={{perform this.preUpload}}
-            @error={{action this.error}}
+            @error={{queue (action this.error) menu.close}}
             @buildUrl={{action this.buildUrl}}
             @addedfile={{action this.addedFile}}
             @dragenter={{action (mut this.dropping) true}}
