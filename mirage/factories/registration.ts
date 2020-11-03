@@ -91,7 +91,7 @@ const stateAttrs = {
             return faker.date.past(1, new Date(2019, 0, 0));
         },
     },
-    normal: {
+    public: {
         machineState: RegistrationReviewStates.Accepted,
         pendingRegistrationApproval: false,
         archiving: false,
@@ -210,7 +210,7 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
         ...stateAttrs.withdrawn,
     }),
     isPublic: trait<MirageRegistration>({
-        ...stateAttrs.normal,
+        ...stateAttrs.public,
     }),
     withAffiliatedInstitutions: trait<MirageRegistration>({
         afterCreate(registration, server) {
