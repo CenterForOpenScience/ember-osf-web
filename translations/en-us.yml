@@ -1340,7 +1340,7 @@ registries:
         additionalComment: 'Additional comment'
         submit: 'Submit'
         success: 'Successfully submitting moderator decision.'
-        failure: ''
+        failure: 'Failed to submit moderator decision.'
 meetings:
     index:
         meetings-list:
