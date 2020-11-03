@@ -89,7 +89,7 @@ export default class RegistriesStates extends Component {
         return registeredFromId && pathJoin(baseURL, registeredFromId);
     }
 
-    @computed('registration.{userHasAdminPermission,state,isRoot}', 'isModeratorMode')
+    @computed('registration.{userHasAdminPermission,machineState,isRoot}', 'isModeratorMode')
     get shouldHideAdminActions() {
         return (
             !this.registration.isRoot
