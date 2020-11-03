@@ -1328,7 +1328,7 @@ registries:
     makeDecisionDropdown:
         makeDecision: 'Make Decision'
         acceptSubmission: 'Accept Submission'
-        acceptSubmissionDescription: 'Registration will appear in search results and be made public. Embargoed registrations will only become public on embargo end date.'
+        acceptSubmissionDescription: 'Registration will appear in search results and be made public. Embargoed registrations will only become public after embargo end date.'
         rejectSubmission: 'Reject Submission'
         rejectSubmissionDescription: 'Registration will not appear in search results and will return to a private draft state'
         forceWithdraw: 'Force Withdraw'
@@ -1339,7 +1339,7 @@ registries:
         rejectWithdrawalDescription: 'Registration will remain fully public'
         additionalComment: 'Additional comment'
         submit: 'Submit'
-        success: 'Successfully submitting moderator decision.'
+        success: 'Successfully submitted moderator decision.'
         failure: 'Failed to submit moderator decision.'
 meetings:
     index:
