@@ -18,11 +18,11 @@
             <div>
                 {{#let (unique-id 'radio' option) as |uniqueId|}}
                     <Input
-                        type='radio'
+                        @type='radio'
                         @id={{uniqueId}}
                         @value={{option}}
-                        onclick={{action this.updateDecisionTrigger option}}
-                        checked={{if (eq this.decisionTrigger option) true false}}
+                        @checked={{if (eq this.decisionTrigger option) true false}}
+                        {{on 'click' (fn this.updateDecisionTrigger option)}}
                     />
                     <label
                         for={{uniqueId}}
@@ -48,6 +48,7 @@
             disabled={{not this.decisionTrigger}}
             local-class='SubmitButton'
             {{on 'click' (perform this.submitDecision)}}
+            {{on 'click' dd.close}}
         >
             {{t 'registries.makeDecisionDropdown.submit'}}
         </Button>

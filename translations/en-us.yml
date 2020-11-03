@@ -1339,6 +1339,8 @@ registries:
         rejectWithdrawalDescription: 'Registration will remain fully public'
         additionalComment: 'Additional comment'
         submit: 'Submit'
+        success: 'Successfully submitting moderator decision.'
+        failure: ''
 meetings:
     index:
         meetings-list:

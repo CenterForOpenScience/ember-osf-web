@@ -1,6 +1,5 @@
 import Component from '@glimmer/component';
 
-import { tagName } from '@ember-decorators/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
@@ -9,15 +8,16 @@ import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import ReviewActionModel, { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
+import Toast from 'ember-toastr/services/toast';
 
 interface Args {
     registration: RegistrationModel;
 }
 
-@tagName('')
 export default class MakeDecisionDropdown extends Component<Args> {
     @service intl!: Intl;
     @service store!: DS.Store;
+    @service toast!: Toast;
 
     @tracked reviewActions: ReviewActionModel[] = [];
     @tracked decisionTrigger?: ReviewActionTrigger;
@@ -58,8 +58,13 @@ export default class MakeDecisionDropdown extends Component<Args> {
                 comment: this.comment,
                 target: this.args.registration,
             });
-            yield newAction.save();
-            this.args.registration.reload();
+            try {
+                yield newAction.save();
+                this.toast.success(this.intl.t('registries.makeDecisionDropdown.success'));
+                this.args.registration.reload();
+            } catch {
+                this.toast.success(this.intl.t('registries.makeDecisionDropdown.failure'));
+            }
         }
     });
 
