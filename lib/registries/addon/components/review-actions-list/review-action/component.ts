@@ -27,13 +27,21 @@ export default class ReviewAction extends Component<Args> {
                         action: reviewAction.triggerPastTense,
                         submitter: reviewAction.creator.get('fullName'),
                         date: formattedTimeSince(reviewAction.dateModified),
-                        embargoEndDate: this.args.embargoEndDate,
+                        embargoEndDate: this.intl.formatDate(this.args.embargoEndDate, { locale: this.intl.locale }),
                     });
             }
             return this.intl.t('registries.reviewAction.acceptSubmission',
                 {
                     action: reviewAction.triggerPastTense,
                     submitter: reviewAction.creator.get('fullName'),
+                    date: formattedTimeSince(reviewAction.dateModified),
+                });
+        }
+        if (reviewAction.actionTrigger === ReviewActionTrigger.RequestWithdrawal) {
+            return this.intl.t('registries.reviewAction.contributorAction',
+                {
+                    action: reviewAction.triggerPastTense,
+                    contributor: reviewAction.creator.get('fullName'),
                     date: formattedTimeSince(reviewAction.dateModified),
                 });
         }

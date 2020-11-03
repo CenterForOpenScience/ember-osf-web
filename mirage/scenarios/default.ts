@@ -98,11 +98,10 @@ function registrationScenario(
         id: 'cuban',
         title: 'embargoed',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
-        embargoEndDate: faker.date.future(2),
         provider: egap,
         machineState: RegistrationReviewStates.Embargo,
         registeredBy: currentUser,
-    }, 'withContributors', 'withReviewActions');
+    }, 'withContributors', 'withReviewActions', 'isEmbargoed');
 
     server.createList('registration', 12,
         {
