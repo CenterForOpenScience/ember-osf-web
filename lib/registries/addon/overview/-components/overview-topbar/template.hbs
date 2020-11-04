@@ -1,7 +1,7 @@
 <div data-test-topbar-states>
     <RegistriesStates @registration={{@registration}} />
 </div>
-{{#if (eq this.mode 'moderator')}}
+{{#if @isModeratorMode}}
     <MakeDecisionDropdown @registration={{@registration}} />
 {{else}}
     <div data-test-topbar-share-bookmark-fork

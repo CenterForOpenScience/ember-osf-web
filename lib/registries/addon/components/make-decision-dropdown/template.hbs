@@ -18,6 +18,7 @@
             <div>
                 {{#let (unique-id 'radio' option) as |uniqueId|}}
                     <Input
+                        data-test-moderation-dropdown-decision-checkbox={{option}}
                         @type='radio'
                         @id={{uniqueId}}
                         @value={{option}}
@@ -29,7 +30,10 @@
                     >
                         {{humanize option}}
                     </label>
-                    <p local-class='Description'>
+                    <p
+                        data-test-moderation-dropdown-decision-description={{option}}
+                        local-class='Description'
+                    >
                         {{get this.decisionDescriptionMap option}}
                     </p>
                 {{/let}}
@@ -39,11 +43,13 @@
             {{t 'registries.makeDecisionDropdown.additionalComment'}}
         </label>
         <Textarea
+            data-test-moderation-dropdown-comment
             @id='moderator-comment'
             @value={{this.comment}}
             local-class='Comment'
         />
         <Button
+            data-test-moderation-dropdown-submit
             @type='create'
             disabled={{not this.decisionTrigger}}
             local-class='SubmitButton'

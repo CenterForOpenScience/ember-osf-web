@@ -17,12 +17,17 @@
             local-class='filterIcon {{@filterState}}'
         />
         <div local-class='cardInfo'>
-            {{!-- TODO: Update this to be a link to the moderation overview page --}}
             <h3
                 data-test-registration-list-card-title
                 local-class='registrationTitle'
             >
-                {{@registration.title}}
+                <OsfLink
+                    @route='registries.overview'
+                    @models={{array @registration.id}}
+                    @queryParams={{hash viewMode='moderator'}}
+                >
+                    {{@registration.title}}
+                </OsfLink>
             </h3>
             <ReviewActionsList @reviewActions={{this.reviewActions}} />
         </div>

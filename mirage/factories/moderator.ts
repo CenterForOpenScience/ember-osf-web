@@ -15,7 +15,6 @@ export default Factory.extend<Moderator & ModeratorTraits>({
     asModerator: trait({ permissionGroup: PermissionGroup.Moderator }),
     afterCreate(moderator) {
         moderator.user.update({ canViewReviews: true });
-        moderator.update({ fullName: moderator.user.fullName });
     },
 });
 

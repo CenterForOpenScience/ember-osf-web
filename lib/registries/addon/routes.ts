@@ -10,7 +10,6 @@ export default buildRoutes(function() {
             this.route('submissions');
             this.route('moderators');
             this.route('notifications');
-            // this.route('overview', { path: '/:guid' });
         });
     });
 

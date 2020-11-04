@@ -5,7 +5,7 @@
         </div>
         {{#if (not (or @registration.archiving @registration.withdrawn))}}
             <div local-class='ActionBar'>
-                <Overview::-Components::OverviewTopbar @registration={{@registration}} />
+                <Overview::-Components::OverviewTopbar @isModeratorMode={{this.canViewAsModerator}} @registration={{@registration}} />
             </div>
             {{#if this.showMobileView}}
                 <Navbar local-class='SideBarToggle' as |nav|>
