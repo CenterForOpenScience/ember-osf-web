@@ -6,9 +6,11 @@ import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
+import Toast from 'ember-toastr/services/toast';
+
 import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import ReviewActionModel, { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
-import Toast from 'ember-toastr/services/toast';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 interface Args {
     registration: RegistrationModel;
@@ -23,7 +25,7 @@ export default class MakeDecisionDropdown extends Component<Args> {
     @tracked decisionTrigger?: ReviewActionTrigger;
     @tracked comment?: string;
 
-    machineStateDecisionMap = {
+    reviewsStateDecisionMap = {
         [RegistrationReviewStates.Accepted]: [ReviewActionTrigger.ForceWithdraw],
         [RegistrationReviewStates.Embargo]: [ReviewActionTrigger.ForceWithdraw],
         [RegistrationReviewStates.Pending]:
@@ -62,10 +64,13 @@ export default class MakeDecisionDropdown extends Component<Args> {
                 yield newAction.save();
                 this.toast.success(this.intl.t('registries.makeDecisionDropdown.success'));
                 this.args.registration.reload();
+            } catch (e) {
+                const errorMessage = this.intl.t('registries.makeDecisionDropdown.failure');
+                captureException(e, { errorMessage });
+                this.toast.error(getApiErrorMessage(e), errorMessage);
+            } finally {
                 this.decisionTrigger = undefined;
                 this.comment = undefined;
-            } catch {
-                this.toast.success(this.intl.t('registries.makeDecisionDropdown.failure'));
             }
         }
     });

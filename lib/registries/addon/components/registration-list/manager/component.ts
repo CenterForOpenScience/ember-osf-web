@@ -15,7 +15,7 @@ export default class RegistrationListManager extends Component {
         //     filter = 'pending,embargo';
         // }
         const query: Record<string, string | Record<string, string>> = {
-            filter: { machine_state: filter },
+            filter: { reviews_state: this.filterState || 'pending' },
             sort: this.sort,
         };
 

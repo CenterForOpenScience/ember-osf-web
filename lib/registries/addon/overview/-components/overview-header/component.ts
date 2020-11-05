@@ -34,7 +34,7 @@ export default class OverviewHeader extends Component {
     }
 
     @task({ withTestWaiter: true, on: 'init' })
-    loadcurrentModerator =
+    loadCurrentModerator =
     task(function *(this: OverviewHeader) {
         try {
             if (this.currentUser.currentUserId) {

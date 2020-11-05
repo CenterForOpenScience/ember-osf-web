@@ -86,23 +86,23 @@ module('Registries | Acceptance | branded.moderation | submissions', hooks => {
     test('Submissions pending: many registrations', async function(this: ModerationSubmissionsTestContext, assert) {
         server.createList(
             'registration', 12, {
-                machineState: RegistrationReviewStates.Pending, provider: this.registrationProvider,
+                reviewsState: RegistrationReviewStates.Pending, provider: this.registrationProvider,
             }, 'withReviewActions',
         );
         server.createList(
             'registration', 2, {
-                machineState: RegistrationReviewStates.Accepted,
+                reviewsState: RegistrationReviewStates.Accepted,
                 provider: this.registrationProvider,
             }, 'withSingleReviewAction',
         );
         server.createList(
             'registration', 3, {
-                machineState: RegistrationReviewStates.Rejected, provider: this.registrationProvider,
+                reviewsState: RegistrationReviewStates.Rejected, provider: this.registrationProvider,
             },
         );
         server.createList(
             'registration', 4, {
-                machineState: RegistrationReviewStates.Withdrawn, provider: this.registrationProvider,
+                reviewsState: RegistrationReviewStates.Withdrawn, provider: this.registrationProvider,
             },
         );
         const currentUser = server.create('user', 'loggedIn');

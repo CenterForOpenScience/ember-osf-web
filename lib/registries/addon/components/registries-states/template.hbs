@@ -31,10 +31,10 @@
         {{/if}}
         {{#unless this.shouldHideAdminActions}}
             <div data-test-state-admin-actions local-class='AdminActions'>
-                {{#if (eq this.registration.machineState 'accepted')}}
+                {{#if (eq this.registration.reviewsState 'accepted')}}
                     <RegistriesStates::IsPublic @registration={{@registration}} @closeDropdown={{dd.close}} />
                 {{/if}}
-                {{#if (eq this.registration.machineState 'embargo')}}
+                {{#if (eq this.registration.reviewsState 'embargo')}}
                     <RegistriesStates::IsEmbargoed @registration={{@registration}} @closeDropdown={{dd.close}} />
                 {{/if}}
             </div>

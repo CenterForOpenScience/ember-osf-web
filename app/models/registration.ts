@@ -60,7 +60,7 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @attr('fixstring') articleDoi!: string | null;
     @attr('object') registeredMeta!: RegistrationMetadata;
     @attr('registration-responses') registrationResponses!: RegistrationResponse;
-    @attr('fixstring') machineState!: RegistrationReviewStates;
+    @attr('fixstring') reviewsState!: RegistrationReviewStates;
 
     // Write-only attributes
     @attr('array') includedNodeIds?: string[];
