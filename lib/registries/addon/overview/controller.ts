@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
+import { tracked } from '@glimmer/tracking';
 import config from 'ember-get-config';
 
 import Registration from 'ember-osf-web/models/registration';
@@ -18,7 +19,10 @@ const { OSF: { url: baseURL } } = config;
 export default class Overview extends Controller {
     model!: GuidRouteModel<Registration>;
 
+    queryParams = ['viewMode'];
     supportEmail = supportEmail;
+
+    @tracked viewMode: string = '';
 
     @alias('model.taskInstance.value') registration?: Registration;
 

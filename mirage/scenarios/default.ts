@@ -92,6 +92,7 @@ function registrationScenario(
         provider: egap,
         machineState: RegistrationReviewStates.Pending,
         registeredBy: currentUser,
+        currentUserPermissions: Object.values(Permission),
     }, 'withContributors', 'withReviewActions');
 
     server.create('registration', {
@@ -125,6 +126,8 @@ function registrationScenario(
     //     provider: egap,
     //     machineState: 'rejected',
     // }, 'withContributors');
+
+    server.create('subscription');
 
     server.create('registration', {
         id: 'accpt',

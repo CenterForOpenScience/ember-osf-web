@@ -9,13 +9,13 @@
     {{else}}
         {{assert 'Registries::Overview - registration should not be null or undefined' this.registration}}
         {{title this.registration.title prepend=false}}
-        {{#if (or this.registration.withdrawn this.registration.archiving)}}
+        {{#if (or (eq this.registration.machineState 'withdrawn') this.registration.archiving)}}
             <OsfLayout @backgroundClass='{{local-class 'ContentBackground'}}' as |layout|>
                 <layout.heading>
-                    <Overview::-Components::OverviewHeader @registration={{this.registration}} />
+                    <Overview::-Components::OverviewHeader @viewMode={{this.viewMode}} @registration={{this.registration}} />
                 </layout.heading>
                 <layout.main>
-                    {{#if this.registration.withdrawn}}
+                    {{#if (eq this.registration.machineState 'withdrawn')}}
                         <Overview::-Components::TombstonePage @registration={{this.registration}} @icon='ban'
                             @titleText={{t 'registries.overview.withdrawn.has_been_withdrawn'}}>
                             <dl>
@@ -43,10 +43,14 @@
         {{else}}
             <OsfLayout @backgroundClass='{{local-class 'ContentBackground'}}' as |layout|>
                 <layout.heading>
-                    <Overview::-Components::OverviewHeader @registration={{this.registration}}
-                        @sidenavGutterClosed={{layout.sidenavGutterClosed}} @toggleSidenav={{layout.toggleSidenav}}
+                    <Overview::-Components::OverviewHeader
+                        @viewMode={{this.viewMode}}
+                        @registration={{this.registration}}
+                        @sidenavGutterClosed={{layout.sidenavGutterClosed}}
+                        @toggleSidenav={{layout.toggleSidenav}}
                         @metadataGutterClosed={{layout.metadataGutterClosed}}
-                        @toggleMetadata={{layout.toggleMetadata}} />
+                        @toggleMetadata={{layout.toggleMetadata}}
+                    />
                 </layout.heading>
 
                 <layout.leftNavOld as |leftNav|>

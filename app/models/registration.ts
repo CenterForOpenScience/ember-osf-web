@@ -1,4 +1,3 @@
-import { computed } from '@ember/object';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 
@@ -16,17 +15,6 @@ import RegistrationSchemaModel, { RegistrationMetadata } from './registration-sc
 import UserModel from './user';
 
 const { attr, belongsTo, hasMany } = DS;
-
-// TODO: incorporate this into RegistrationReviewStates
-export enum RegistrationState {
-    Embargoed = 'Embargoed',
-    Public = 'Public',
-    Withdrawn = 'Withdrawn',
-    PendingRegistration = 'PendingRegistration',
-    PendingWithdrawal = 'PendingWithdrawal',
-    PendingEmbargo = 'PendingEmbargo',
-    PendingEmbargoTermination = 'PendingEmbargoTermination',
-}
 
 export enum RegistrationReviewStates {
     Initial = 'initial',
@@ -79,20 +67,6 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @attr('boolean') createDoi?: boolean;
     @attr('fixstring') draftRegistrationId?: string;
 
-    @computed(
-        'withdrawn', 'embargoed', 'public', 'pendingRegistrationApproval',
-        'pendingEmbargoApproval', 'pendingEmbargoTerminationApproval',
-        'pendingWithdrawal',
-    )
-    get state(): RegistrationState {
-        const stateMap: any = this.registrationStateMap();
-        const currentState: RegistrationState = Object.keys(stateMap)
-            .filter(active => stateMap[active])
-            .map(key => RegistrationState[key as keyof typeof RegistrationState])[0];
-
-        return currentState || RegistrationState.Public;
-    }
-
     @belongsTo('node', { inverse: 'registrations' })
     registeredFrom!: DS.PromiseObject<NodeModel> & NodeModel;
 
@@ -132,28 +106,6 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     // Write-only relationships
     @belongsTo('draft-registration', { inverse: null })
     draftRegistration!: DraftRegistrationModel;
-
-    registrationStateMap(): Record<RegistrationState, boolean> {
-        const {
-            pendingRegistrationApproval,
-            pendingEmbargoApproval,
-            pendingEmbargoTerminationApproval,
-            pendingWithdrawal,
-            withdrawn,
-            embargoed,
-        } = this;
-        const embargo = embargoed && !pendingEmbargoTerminationApproval;
-
-        return {
-            PendingRegistration: pendingRegistrationApproval,
-            PendingEmbargo: pendingEmbargoApproval,
-            PendingEmbargoTermination: pendingEmbargoTerminationApproval,
-            PendingWithdrawal: pendingWithdrawal,
-            Withdrawn: withdrawn,
-            Embargoed: embargo,
-            Public: !pendingWithdrawal,
-        };
-    }
 }
 
 declare module 'ember-data/types/registries/model' {

@@ -1,0 +1,62 @@
+<ResponsiveDropdown
+    @horizontalPosition='right'
+    as |dd|
+>
+    <dd.trigger>
+        <Button
+            data-test-moderation-dropdown-button
+            data-analytics-name='Display Moderation Actions'
+            @type='create'
+        >
+            {{t 'registries.makeDecisionDropdown.makeDecision'}}
+            <FaIcon @icon='caret-down' />
+        </Button>
+    </dd.trigger>
+    <dd.content @class={{local-class 'Dropdown'}}>
+        <ReviewActionsList @reviewActions={{this.reviewActions}} />
+        {{#each (get this.machineStateDecisionMap @registration.machineState) as |option|}}
+            <div>
+                {{#let (unique-id 'radio' option) as |uniqueId|}}
+                    <Input
+                        data-test-moderation-dropdown-decision-checkbox={{option}}
+                        @type='radio'
+                        @id={{uniqueId}}
+                        @value={{option}}
+                        checked={{if (eq this.decisionTrigger option) true false}}
+                        {{on 'click' (fn this.updateDecisionTrigger option)}}
+                    />
+                    <label
+                        for={{uniqueId}}
+                    >
+                        {{humanize option}}
+                    </label>
+                    <p
+                        data-test-moderation-dropdown-decision-description={{option}}
+                        local-class='Description'
+                    >
+                        {{get this.decisionDescriptionMap option}}
+                    </p>
+                {{/let}}
+            </div>
+        {{/each}}
+        <label for='moderator-comment'>
+            {{t 'registries.makeDecisionDropdown.additionalComment'}}
+        </label>
+        <Textarea
+            data-test-moderation-dropdown-comment
+            @id='moderator-comment'
+            @value={{this.comment}}
+            local-class='Comment'
+        />
+        <Button
+            data-test-moderation-dropdown-submit
+            @type='create'
+            disabled={{not this.decisionTrigger}}
+            local-class='SubmitButton'
+            {{on 'click' (perform this.submitDecision)}}
+            {{on 'click' dd.close}}
+        >
+            {{t 'registries.makeDecisionDropdown.submit'}}
+        </Button>
+    </dd.content>
+</ResponsiveDropdown>
