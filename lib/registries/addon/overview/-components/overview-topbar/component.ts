@@ -107,9 +107,9 @@ export default class OverviewTopbar extends Component {
         this.set('isBookmarked', isBookmarked);
     });
 
-    @computed('registration.machineState')
+    @computed('registration.reviewsState')
     get isWithdrawn() {
-        return this.registration.machineState === RegistrationReviewStates.Withdrawn;
+        return this.registration.reviewsState === RegistrationReviewStates.Withdrawn;
     }
 
     @computed('registration.id')
