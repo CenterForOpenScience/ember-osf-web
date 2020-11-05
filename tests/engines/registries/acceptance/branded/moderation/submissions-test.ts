@@ -108,7 +108,7 @@ module('Registries | Acceptance | branded.moderation | submissions', hooks => {
             'registration', 5, {
                 machineState: RegistrationReviewStates.Embargo,
                 provider: this.registrationProvider,
-            }, 'withSingleReviewAction', 'isEmbargoed',
+            }, 'withSingleReviewAction', 'isEmbargo',
         );
         server.createList(
             'registration', 3, {
