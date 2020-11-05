@@ -29,6 +29,16 @@
                 {{t 'registries.moderation.states.accepted'}}
             </button>
             <button
+                data-test-submissions-type='embargo'
+                data-test-is-selected={{if (eq this.filterState 'embargo') 'true' 'false'}}
+                type='button'
+                {{on 'click' (fn this.changeTab 'embargo')}}
+                local-class='tab {{if (eq this.filterState 'embargo') 'selected'}}'
+            >
+                <FaIcon @icon='check' />
+                {{t 'registries.moderation.states.embargo'}}
+            </button>
+            <button
                 data-test-submissions-type='rejected'
                 data-test-is-selected={{if (eq this.filterState 'rejected') 'true' 'false'}}
                 type='button'
