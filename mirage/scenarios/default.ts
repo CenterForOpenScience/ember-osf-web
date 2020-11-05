@@ -118,6 +118,8 @@ function registrationScenario(
     //     machineState: 'rejected',
     // }, 'withContributors');
 
+    server.create('subscription');
+
     server.create('registration', {
         id: 'accpt',
         title: 'Acceptember',

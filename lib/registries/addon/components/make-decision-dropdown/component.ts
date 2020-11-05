@@ -62,6 +62,8 @@ export default class MakeDecisionDropdown extends Component<Args> {
                 yield newAction.save();
                 this.toast.success(this.intl.t('registries.makeDecisionDropdown.success'));
                 this.args.registration.reload();
+                this.decisionTrigger = undefined;
+                this.comment = undefined;
             } catch {
                 this.toast.success(this.intl.t('registries.makeDecisionDropdown.failure'));
             }
