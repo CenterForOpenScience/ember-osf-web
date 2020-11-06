@@ -9,11 +9,6 @@ export default class RegistrationListManager extends Component {
 
     @computed('filterState', 'sort')
     get filterParams() {
-        const filter = this.filterState;
-        // TODO: commented out while using mirage. uncomment this when testing with real backend
-        // if (this.filterState === 'pending') {
-        //     filter = 'pending,embargo';
-        // }
         const query: Record<string, string | Record<string, string>> = {
             filter: { reviews_state: this.filterState || 'pending' },
             sort: this.sort,

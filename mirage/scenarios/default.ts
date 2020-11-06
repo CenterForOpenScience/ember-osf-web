@@ -100,9 +100,8 @@ function registrationScenario(
         title: 'embargoed',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider: egap,
-        machineState: RegistrationReviewStates.Embargo,
         registeredBy: currentUser,
-    }, 'withContributors', 'withReviewActions', 'isEmbargoed');
+    }, 'withContributors', 'withReviewActions', 'isEmbargo');
 
     server.createList('registration', 12,
         {
