@@ -93,7 +93,7 @@ export default class AddModalComponent extends Component {
         try {
             yield timeout(500);
             return yield this.store.query('user', {
-                'filter[fullName]': name,
+                'filter[full_name]': name,
             });
         } catch (e) {
             captureException(e);
