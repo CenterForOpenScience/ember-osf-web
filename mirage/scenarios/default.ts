@@ -133,7 +133,6 @@ function registrationScenario(
         title: 'Embargo',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider: egap,
-        machineState: RegistrationReviewStates.Embargo,
     }, 'withContributors', 'isEmbargo');
 
     server.create('registration', {

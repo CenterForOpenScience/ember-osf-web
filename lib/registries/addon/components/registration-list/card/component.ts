@@ -10,9 +10,9 @@ const iconMap: Partial<Record<RegistrationReviewStates, string>> = {
     [RegistrationReviewStates.Pending]: 'hourglass',
     [RegistrationReviewStates.Withdrawn]: 'ban',
     [RegistrationReviewStates.Accepted]: 'check',
-    [RegistrationReviewStates.Embargo]: 'lock',
     [RegistrationReviewStates.Rejected]: 'times',
     [RegistrationReviewStates.PendingWithdraw]: 'clock-o',
+    [RegistrationReviewStates.Embargo]: 'lock',
 };
 
 interface Args {

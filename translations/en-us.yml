@@ -982,7 +982,7 @@ registries:
     moderation:
         header: Moderation
         states:
-            accepted: Accepted
+            accepted: Public
             embargo: Embargo
             rejected: Rejected
             pending: Pending

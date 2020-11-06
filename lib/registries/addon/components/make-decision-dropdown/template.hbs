@@ -13,7 +13,7 @@
         </Button>
     </dd.trigger>
     <dd.content @class={{local-class 'Dropdown'}}>
-        <ReviewActionsList @reviewActions={{this.reviewActions}} />
+        <ReviewActionsList @registration={{@registration}} />
         {{#each (get this.reviewsStateDecisionMap @registration.reviewsState) as |option|}}
             <div>
                 {{#let (unique-id 'radio' option) as |uniqueId|}}
