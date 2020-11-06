@@ -51,7 +51,7 @@ export default class ModeratorManagerComponent extends Component {
     }
 
     @task({ withTestWaiter: true, on: 'init' })
-    loadcurrentModerator =
+    loadCurrentModerator =
     task(function *(this: ModeratorManagerComponent) {
         try {
             if (this.currentUser.currentUserId) {
@@ -71,9 +71,10 @@ export default class ModeratorManagerComponent extends Component {
     @task({ withTestWaiter: true, enqueue: true })
     addUserAsModerator =
     task(function *(this: ModeratorManagerComponent, user: UserModel, permissionGroup: PermissionGroup) {
+        let newModerator;
         try {
             if (user && permissionGroup) {
-                const newModerator = this.store.createRecord('moderator', {
+                newModerator = this.store.createRecord('moderator', {
                     id: user.id,
                     provider: this.provider,
                     permissionGroup,
@@ -88,6 +89,9 @@ export default class ModeratorManagerComponent extends Component {
                 ));
             }
         } catch (e) {
+            if (newModerator) {
+                newModerator.unloadRecord();
+            }
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
         }
@@ -101,9 +105,10 @@ export default class ModeratorManagerComponent extends Component {
         email: string,
         permissionGroup: PermissionGroup,
     ) {
+        let newModerator;
         try {
             if (fullName && email && permissionGroup) {
-                const newModerator = this.store.createRecord('moderator', {
+                newModerator = this.store.createRecord('moderator', {
                     provider: this.provider,
                     fullName,
                     email,
@@ -119,6 +124,9 @@ export default class ModeratorManagerComponent extends Component {
                 ));
             }
         } catch (e) {
+            if (newModerator) {
+                newModerator.unloadRecord();
+            }
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
         }

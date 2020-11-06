@@ -23,14 +23,14 @@ export function createReviewAction(this: HandlerContext, schema: Schema, request
         switch (trigger) {
         case ReviewActionTrigger.AcceptSubmission:
         case ReviewActionTrigger.RejectWithdrawal:
-            registration.machineState = RegistrationReviewStates.Accepted;
+            registration.reviewsState = RegistrationReviewStates.Accepted;
             break;
         case ReviewActionTrigger.RejectSubmission:
-            registration.machineState = RegistrationReviewStates.Rejected;
+            registration.reviewsState = RegistrationReviewStates.Rejected;
             break;
         case ReviewActionTrigger.ForceWithdraw:
         case ReviewActionTrigger.AcceptWithdrawal:
-            registration.machineState = RegistrationReviewStates.Withdrawn;
+            registration.reviewsState = RegistrationReviewStates.Withdrawn;
             break;
         default:
             break;

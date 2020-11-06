@@ -252,7 +252,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
             server.create('user', 'loggedIn');
             const reg = server.create('registration', {
                 provider: server.create('registration-provider', 'currentUserIsModerator'),
-                machineState: RegistrationReviewStates.Accepted,
+                reviewsState: RegistrationReviewStates.Accepted,
             }, 'withReviewActions');
             await visit(`/${reg.id}?viewMode=moderator`);
             assert.dom('[data-test-moderation-dropdown-button]')

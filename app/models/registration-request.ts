@@ -15,7 +15,7 @@ export enum RegistrationRequestStates {
 
 export default class RegistrationRequestModel extends OsfModel {
     @attr('fixstring') requestType!: string;
-    @attr('fixstring') machineState!: RegistrationRequestStates;
+    @attr('fixstring') reviewsState!: RegistrationRequestStates;
     @attr('fixstring') comment!: string;
     @attr('date') created!: Date;
     @attr('date') modified!: Date;

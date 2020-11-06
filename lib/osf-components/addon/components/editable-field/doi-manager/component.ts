@@ -46,9 +46,9 @@ export default class DoiManagerComponent extends Component {
     @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
     @not('nodeDoi') fieldIsEmpty!: boolean;
 
-    @computed('userCanEdit', 'node.machineState', 'nodeDoi')
+    @computed('userCanEdit', 'node.reviewsState', 'nodeDoi')
     get userCanMintDoi() {
-        return !this.nodeDoi && this.userCanEdit && this.node.machineState === RegistrationReviewStates.Accepted;
+        return !this.nodeDoi && this.userCanEdit && this.node.reviewsState === RegistrationReviewStates.Accepted;
     }
 
     @computed('fieldIsEmpty', 'userCanMintDoi')

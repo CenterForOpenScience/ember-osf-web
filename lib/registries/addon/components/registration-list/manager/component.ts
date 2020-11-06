@@ -11,8 +11,8 @@ export default class RegistrationListManager extends Component {
 
     @computed('filterState', 'sort')
     get filterParams() {
-        const query: Record<string, string | Record<string, RegistrationReviewStates>> = {
-            filter: { machine_state: this.filterState || 'pending' },
+        const query: Record<string, string | Record<string, string>> = {
+            filter: { reviews_state: this.filterState || 'pending' },
             sort: this.sort,
         };
 

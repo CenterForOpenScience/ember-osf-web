@@ -24,10 +24,10 @@ export default class RegistriesStates extends Component {
     // Private
     @service intl!: Intl;
 
-    @computed('registration.machineState')
+    @computed('registration.reviewsState')
     get stateIcon() {
         const { registration } = this;
-        switch (registration.machineState) {
+        switch (registration.reviewsState) {
         case RegistrationReviewStates.Initial:
         case RegistrationReviewStates.Pending:
         case RegistrationReviewStates.PendingWithdrawRequest:
@@ -42,7 +42,7 @@ export default class RegistriesStates extends Component {
     }
 
     @computed(
-        'registration.{machineState,pendingRegistrationApproval,pendingEmbargoApproval,userHasAdminPermission}',
+        'registration.{reviewsState,pendingRegistrationApproval,pendingEmbargoApproval,userHasAdminPermission}',
         'stateIcon',
     )
     get stateText() {
@@ -57,7 +57,7 @@ export default class RegistriesStates extends Component {
         } else if (!this.registration.userHasAdminPermission) {
             stateKey = RegistrationReviewStates.Accepted;
         } else {
-            stateKey = camelize(this.registration.machineState);
+            stateKey = camelize(this.registration.reviewsState);
         }
         return {
             short: this.intl.t(`registries.overview.${stateKey}.short_description`),
@@ -71,13 +71,13 @@ export default class RegistriesStates extends Component {
         };
     }
 
-    @computed('registration.{userHasAdminPermission,machineState}')
+    @computed('registration.{userHasAdminPermission,reviewsState}')
     get shouldOpenDropdownOnLoad() {
         return this.registration.userHasAdminPermission
         && ![
             RegistrationReviewStates.Embargo,
             RegistrationReviewStates.Accepted,
-        ].includes(this.registration.machineState);
+        ].includes(this.registration.reviewsState);
     }
 
     @computed('registration.registeredFrom.id')
@@ -89,7 +89,7 @@ export default class RegistriesStates extends Component {
         return registeredFromId && pathJoin(baseURL, registeredFromId);
     }
 
-    @computed('registration.{userHasAdminPermission,machineState,isRoot}', 'isModeratorMode')
+    @computed('registration.{userHasAdminPermission,reviewsState,isRoot}', 'isModeratorMode')
     get shouldHideAdminActions() {
         return (
             !this.registration.isRoot
@@ -97,7 +97,7 @@ export default class RegistriesStates extends Component {
             || this.isModeratorMode
             || !(
                 [RegistrationReviewStates.Accepted, RegistrationReviewStates.Embargo].includes(
-                    this.registration.machineState,
+                    this.registration.reviewsState,
                 )
             )
         );

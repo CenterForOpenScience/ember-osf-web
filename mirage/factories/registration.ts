@@ -43,47 +43,47 @@ const stateAttrs = {
     pendingRegistrationApproval: {
         pendingRegistrationApproval: true,
         archiving: false,
-        machineState: RegistrationReviewStates.Initial,
+        reviewsState: RegistrationReviewStates.Initial,
     },
     pendingEmbargoApproval: {
         pendingEmbargoApproval: true,
         embargoed: false,
         embargoEndDate: null,
-        machineState: RegistrationReviewStates.Initial,
+        reviewsState: RegistrationReviewStates.Initial,
     },
     pending: {
-        machineState: RegistrationReviewStates.Pending,
+        reviewsState: RegistrationReviewStates.Pending,
     },
     embargo: {
         pendingEmbargoApproval: false,
-        machineState: RegistrationReviewStates.Embargo,
+        reviewsState: RegistrationReviewStates.Embargo,
         embargoEndDate() {
             return faker.date.future(1, new Date(2022, 0, 0));
         },
     },
     rejected: {
-        machineState: RegistrationReviewStates.Rejected,
+        reviewsState: RegistrationReviewStates.Rejected,
     },
     pendingEmbargoTermination: {
         pendingEmbargoTerminationApproval: true,
-        machineState: RegistrationReviewStates.PendingEmbargoTermination,
+        reviewsState: RegistrationReviewStates.PendingEmbargoTermination,
         embargoed: true,
         embargoEndDate() {
             return faker.date.future(1, new Date(2022, 0, 0));
         },
     },
     pendingWithdrawRequest: {
-        machineState: RegistrationReviewStates.PendingWithdrawRequest,
+        reviewsState: RegistrationReviewStates.PendingWithdrawRequest,
         withdrawn: false,
         pendingWithdrawal: false,
     },
     pendingWithdraw: {
-        machineState: RegistrationReviewStates.PendingWithdraw,
+        reviewsState: RegistrationReviewStates.PendingWithdraw,
         withdrawn: false,
         pendingWithdrawal: true,
     },
     withdrawn: {
-        machineState: RegistrationReviewStates.Withdrawn,
+        reviewsState: RegistrationReviewStates.Withdrawn,
         withdrawn: true,
         pendingWithdrawal: false,
         currentUserPermissions: [],
@@ -92,7 +92,7 @@ const stateAttrs = {
         },
     },
     public: {
-        machineState: RegistrationReviewStates.Accepted,
+        reviewsState: RegistrationReviewStates.Accepted,
         pendingRegistrationApproval: false,
         archiving: false,
         embargoed: false,
@@ -162,7 +162,7 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     pendingEmbargoTerminationApproval: false,
     registeredFrom: association(),
     registeredBy: association(),
-    machineState: RegistrationReviewStates.Accepted,
+    reviewsState: RegistrationReviewStates.Accepted,
 
     index(i: number) {
         return i;

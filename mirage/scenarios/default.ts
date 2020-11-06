@@ -90,14 +90,14 @@ function registrationScenario(
         title: 'Pending Penguins',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider: egap,
-        machineState: RegistrationReviewStates.Pending,
+        reviewsState: RegistrationReviewStates.Pending,
         registeredBy: currentUser,
         currentUserPermissions: Object.values(Permission),
     }, 'withContributors', 'withReviewActions');
 
     server.createList('registration', 12,
         {
-            machineState: RegistrationReviewStates.Pending,
+            reviewsState: RegistrationReviewStates.Pending,
             provider: egap,
         });
     server.create('contributor', { node: decaf }, 'unregistered');
@@ -107,7 +107,7 @@ function registrationScenario(
         title: 'Withdrawn Hermit',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider: egap,
-        machineState: RegistrationReviewStates.Withdrawn,
+        reviewsState: RegistrationReviewStates.Withdrawn,
     }, 'withContributors', 'withReviewActions');
 
     // server.create('registration', {
@@ -115,15 +115,17 @@ function registrationScenario(
     //     title: 'Hector the Rejector',
     //     registrationSchema: server.schema.registrationSchemas.find('testSchema'),
     //     provider: egap,
-    //     machineState: 'rejected',
+    //     reviewsState: 'rejected',
     // }, 'withContributors');
+
+    server.create('subscription');
 
     server.create('registration', {
         id: 'accpt',
         title: 'Acceptember',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider: egap,
-        machineState: RegistrationReviewStates.Accepted,
+        reviewsState: RegistrationReviewStates.Accepted,
     }, 'withContributors');
 
     server.create('registration', {
@@ -138,7 +140,7 @@ function registrationScenario(
         id: 'pndwd',
         title: 'Cold Turkey',
         provider: egap,
-        machineState: RegistrationReviewStates.PendingWithdraw,
+        reviewsState: RegistrationReviewStates.PendingWithdraw,
     }, 'withSingleReviewAction');
 
     server.create('registration', {
