@@ -137,6 +137,13 @@ function registrationScenario(
     }, 'withContributors');
 
     server.create('registration', {
+        id: 'cuban',
+        title: 'Embargo',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        provider: egap,
+    }, 'withContributors', 'isEmbargo');
+
+    server.create('registration', {
         id: 'pndwd',
         title: 'Cold Turkey',
         provider: egap,

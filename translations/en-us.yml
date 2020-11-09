@@ -982,7 +982,8 @@ registries:
     moderation:
         header: Moderation
         states:
-            accepted: Accepted
+            accepted: Public
+            embargo: Embargo
             rejected: Rejected
             pending: Pending
             withdrawn: Withdrawn
@@ -1299,7 +1300,8 @@ registries:
         clearAll: 'Clear All'
     registrationList:
         pending: 'No registrations pending approval have been found'
-        accepted: 'No accepted registrations have been found'
+        accepted: 'No public registrations have been found'
+        embargo: 'No embargoed registrations have been found'
         rejected: 'No rejected registrations have been found'
         withdrawn: 'No withdrawn registrations have been found'
         pending_withdraw: 'No registrations found pending withdrawal'
