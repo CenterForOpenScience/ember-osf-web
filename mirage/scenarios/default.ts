@@ -95,6 +95,14 @@ function registrationScenario(
         currentUserPermissions: Object.values(Permission),
     }, 'withContributors', 'withReviewActions');
 
+    server.create('registration', {
+        id: 'cuban',
+        title: 'embargoed',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        provider: egap,
+        registeredBy: currentUser,
+    }, 'withContributors', 'withReviewActions', 'isEmbargo');
+
     server.createList('registration', 12,
         {
             reviewsState: RegistrationReviewStates.Pending,

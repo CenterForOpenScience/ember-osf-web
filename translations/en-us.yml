@@ -1305,18 +1305,23 @@ registries:
         rejected: 'No rejected registrations have been found'
         withdrawn: 'No withdrawn registrations have been found'
         pending_withdraw: 'No registrations found pending withdrawal'
-        failedToLoadActions: 'Failed to load registration review history'
     reviewActionsList:
-        moderatorAction: '{action} {date} by {moderator}'
-        noActionsFound: 'No review history found for this registration'
+        failedToLoadActions: 'Failed to load registration moderation history'
+        noActionsFound: 'No moderation history found for this registration'
+    reviewAction:
+        acceptSubmission: 'Registration {action} {date} by {submitter} with no embargo'
+        acceptEmbargoSubmission: 'Registration {action} {date} by {submitter} with embargo ending {embargoEndDate}'
+        moderatorAction: 'Registration {action} {date} by moderator {moderator}'
+        contributorAction: 'Registration {action} {date} by contributor {contributor}'
     reviewActions:
         triggerPastTense:
-            accept_submission: 'Accepted'
-            reject_submission: 'Rejected'
-            force_withdraw: 'Withdrawal forced'
-            request_withdrawal: 'Withdrawal requested'
-            accept_withdrawal: 'Withdrawal request accepted'
-            reject_withdrawal: 'Withdrawal request rejected'
+            submit: 'submitted'
+            accept_submission: 'submission accepted'
+            reject_submission: 'submission rejected'
+            force_withdraw: 'withdrawn'
+            request_withdrawal: 'withdrawal requested'
+            accept_withdrawal: 'withdrawal request accepted'
+            reject_withdrawal: 'withdrawal request rejected'
     finalizeRegistrationModal:
         title: 'Almost done...'
         notice: "Please keep in mind that:\n                <ul>\n                    <li>\n                        Registrations cannot be modified or deleted once completed.\n                    </li>\n                    <li>\n                        The content and version history of Wiki and OSF Storage will be copied to the registration.\n                    </li>\n                    <li>\n                        This project contains links to other projects. These links will be copied into your registration, but the\n                        projects that they link to will not be registered. If you wish to register the linked projects, they must be\n                        registered separately. <a href='{learnMoreLink}' target='_blank' rel='noopener noreferrer'>Learn more about links</a>.\n                    </li>\n                </ul>"
