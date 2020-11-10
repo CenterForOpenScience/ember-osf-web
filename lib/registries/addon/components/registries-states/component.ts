@@ -19,7 +19,7 @@ const { OSF: { url: baseURL } } = config;
 export default class RegistriesStates extends Component {
     // Required
     registration!: RegistrationModel;
-    isModeratorMode = false;
+    isModeratorMode: boolean = this.isModeratorMode;
 
     // Private
     @service intl!: Intl;
@@ -44,6 +44,7 @@ export default class RegistriesStates extends Component {
     @computed(
         'registration.{reviewsState,pendingRegistrationApproval,pendingEmbargoApproval,userHasAdminPermission}',
         'stateIcon',
+        'isModeratorMode',
     )
     get stateText() {
         if (!this.registration) {

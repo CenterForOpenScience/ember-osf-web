@@ -30,7 +30,6 @@ export default class OverviewTopbar extends Component {
 
     bookmarksCollection!: CollectionModel;
     isBookmarked?: boolean;
-    isModeratorMode?: boolean = false;
     showDropdown: boolean = false;
 
     @task({ withTestWaiter: true, drop: true })
