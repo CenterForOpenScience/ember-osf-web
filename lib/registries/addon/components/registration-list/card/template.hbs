@@ -14,14 +14,20 @@
             data-test-registration-list-card-title
             local-class='registrationTitle'
         >
-            <OsfLink
-                @route='registries.overview'
-                @models={{array @registration.id}}
-                @queryParams={{hash viewMode='moderator'}}
-            >
+            {{#if (eq @filterState 'rejected')}}
                 {{@registration.title}}
-            </OsfLink>
+            {{else}}
+                <OsfLink
+                    @route='registries.overview'
+                    @models={{array @registration.id}}
+                    @queryParams={{hash viewMode='moderator'}}
+                >
+                    {{@registration.title}}
+                </OsfLink>
+            {{/if}}
         </h3>
-        <ReviewActionsList @registration={{@registration}}/>
+        {{#if (not (eq @filterState 'rejected'))}}
+            <ReviewActionsList @registration={{@registration}}/>
+        {{/if}}
     </div>
 </div>
