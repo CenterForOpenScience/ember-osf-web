@@ -583,12 +583,15 @@ node_card:
         private_tooltip: 'This registration is private'
         timestamp_label: 'Registered:'
         statuses:
-            pending: 'Pending registration'
-            withdrawn: Withdrawn
-            pending_withdrawl: 'Pending withdrawal'
-            embargoed: Embargoed
-            pending_embargo: 'Pending embargo'
+            pending_registration_approval: 'Pending registration'
+            pending_embargo_approval: 'Pending embargo'
+            pending: 'Pending moderation'
+            embargo: Embargoed
+            rejected: 'Rejected'
             pending_embargo_termination: 'Pending embargo termination'
+            pending_withdraw_request: 'Pending withdrawal'
+            pending_withdraw: 'Pending withdrawal moderation'
+            withdrawn: Withdrawn
             archiving: Archiving
     tags: 'Tags:'
     options: Options
@@ -1342,6 +1345,7 @@ registries:
         submit: 'Submit'
         success: 'Successfully submitted moderator decision.'
         failure: 'Failed to submit moderator decision.'
+        noActionAvailable: 'The withdraw request is pending approval by registration admins. No moderator action is available at this moment.'
 meetings:
     index:
         meetings-list:

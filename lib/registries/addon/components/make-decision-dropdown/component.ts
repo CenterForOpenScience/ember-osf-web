@@ -78,9 +78,6 @@ export default class MakeDecisionDropdown extends Component<Args> {
     constructor(owner: unknown, args: Args) {
         super(owner, args);
         this.fetchActions.perform();
-        if (this.args.registration.withdrawalJustification) {
-            this.comment = this.args.registration.withdrawalJustification;
-        }
     }
 
     @action
