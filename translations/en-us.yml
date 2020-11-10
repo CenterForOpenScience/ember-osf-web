@@ -1352,7 +1352,6 @@ registries:
         submit: 'Submit'
         success: 'Successfully submitted moderator decision.'
         failure: 'Failed to submit moderator decision.'
-        noActionAvailable: 'The withdrawal request is pending approval by registration admins. No moderator action is available at this moment.'
 meetings:
     index:
         meetings-list:

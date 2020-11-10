@@ -32,6 +32,8 @@ export default class MakeDecisionDropdown extends Component<Args> {
             [ReviewActionTrigger.AcceptSubmission, ReviewActionTrigger.RejectSubmission],
         [RegistrationReviewStates.PendingWithdraw]:
             [ReviewActionTrigger.AcceptWithdrawal, ReviewActionTrigger.RejectWithdrawal],
+        [RegistrationReviewStates.PendingWithdrawRequest]: [ReviewActionTrigger.ForceWithdraw],
+        [RegistrationReviewStates.PendingEmbargoTermination]: [ReviewActionTrigger.ForceWithdraw],
     };
 
     decisionDescriptionMap = {
