@@ -13,7 +13,7 @@
         </Button>
     </dd.trigger>
     <dd.content @class={{local-class 'Dropdown'}}>
-        <ReviewActionsList @reviewActions={{this.reviewActions}} />
+        <ReviewActionsList @registration={{@registration}} />
         {{#if (eq @registration.reviewsState 'pending_withdraw_request')}}
             {{t 'registries.makeDecisionDropdown.noActionAvailable'}}
         {{else}}
