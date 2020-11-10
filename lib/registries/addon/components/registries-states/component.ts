@@ -54,7 +54,7 @@ export default class RegistriesStates extends Component {
             stateKey = 'pendingRegistrationApproval';
         } else if (this.registration.pendingEmbargoApproval) {
             stateKey = 'pendingEmbargoApproval';
-        } else if (!this.registration.userHasAdminPermission) {
+        } else if (!this.registration.userHasAdminPermission && !this.isModeratorMode) {
             stateKey = RegistrationReviewStates.Accepted;
         } else {
             stateKey = camelize(this.registration.reviewsState);
