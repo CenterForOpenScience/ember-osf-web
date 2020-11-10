@@ -18,6 +18,7 @@ export default class OverviewHeader extends Component {
     @service currentUser!: CurrentUserService;
     @service store!: DS.Store;
     @service toast!: Toast;
+
     @not('media.isDesktop') showMobileView!: boolean;
 
     registration!: RegistrationModel;
@@ -33,21 +34,25 @@ export default class OverviewHeader extends Component {
         return false;
     }
 
-    @task({ withTestWaiter: true, on: 'init' })
+    @task({ withTestWaiter: true })
     loadCurrentModerator =
     task(function *(this: OverviewHeader) {
         try {
-            if (this.currentUser.currentUserId) {
-                this.currentModerator = yield this.store.findRecord('moderator', this.currentUser.currentUserId,
-                    {
-                        adapterOptions: {
-                            providerId: this.registration.provider.get('id'),
-                        },
-                    });
-            }
+            this.currentModerator = yield this.store.findRecord('moderator', this.currentUser.currentUserId!,
+                {
+                    adapterOptions: {
+                        providerId: this.registration.provider.get('id'),
+                    },
+                });
         } catch (e) {
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
         }
     });
+
+    didReceiveAttrs() {
+        if (this.viewMode === 'moderator' && this.currentUser.currentUserId) {
+            this.loadCurrentModerator.perform();
+        }
+    }
 }

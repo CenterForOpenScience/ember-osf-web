@@ -95,6 +95,14 @@ function registrationScenario(
         currentUserPermissions: Object.values(Permission),
     }, 'withContributors', 'withReviewActions');
 
+    server.create('registration', {
+        id: 'cuban',
+        title: 'embargoed',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        provider: egap,
+        registeredBy: currentUser,
+    }, 'withContributors', 'withReviewActions', 'isEmbargo');
+
     server.createList('registration', 12,
         {
             reviewsState: RegistrationReviewStates.Pending,
@@ -127,6 +135,13 @@ function registrationScenario(
         provider: egap,
         reviewsState: RegistrationReviewStates.Accepted,
     }, 'withContributors');
+
+    server.create('registration', {
+        id: 'cuban',
+        title: 'Embargo',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        provider: egap,
+    }, 'withContributors', 'isEmbargo');
 
     server.create('registration', {
         id: 'pndwd',

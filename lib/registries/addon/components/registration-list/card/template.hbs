@@ -3,33 +3,25 @@
     local-class='cardWrapper'
     ...attributes
 >
-    {{#if this.fetchActions.isRunning}}
-        <LoadingIndicator @dark={{true}} />
-    {{else if this.fetchActions.isError}}
-        <p data-test-loading-actions-failed>
-            {{t 'registries.registrationList.failedToLoadActions'}}
-        </p>
-    {{else}}
-        <FaIcon
-            data-test-registration-list-card-icon='{{@filterState}}'
-            @icon={{this.icon}}
-            @size={{2}}
-            local-class='filterIcon {{@filterState}}'
-        />
-        <div local-class='cardInfo'>
-            <h3
-                data-test-registration-list-card-title
-                local-class='registrationTitle'
+    <FaIcon
+        data-test-registration-list-card-icon='{{@filterState}}'
+        @icon={{this.icon}}
+        @size={{2}}
+        local-class='filterIcon {{@filterState}}'
+    />
+    <div local-class='cardInfo'>
+        <h3
+            data-test-registration-list-card-title
+            local-class='registrationTitle'
+        >
+            <OsfLink
+                @route='registries.overview'
+                @models={{array @registration.id}}
+                @queryParams={{hash viewMode='moderator'}}
             >
-                <OsfLink
-                    @route='registries.overview'
-                    @models={{array @registration.id}}
-                    @queryParams={{hash viewMode='moderator'}}
-                >
-                    {{@registration.title}}
-                </OsfLink>
-            </h3>
-            <ReviewActionsList @reviewActions={{this.reviewActions}} />
-        </div>
-    {{/if}}
+                {{@registration.title}}
+            </OsfLink>
+        </h3>
+        <ReviewActionsList @registration={{@registration}}/>
+    </div>
 </div>

@@ -1,9 +1,11 @@
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 
+import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
+
 export default class RegistrationListManager extends Component {
     reloadRegistrationsList!: () => void;
-    filterState!: string;
+    filterState!: RegistrationReviewStates;
 
     sort: string = 'date_registered';
 

@@ -61,7 +61,16 @@ module('Registries | Acceptance | branded.moderation | submissions', hooks => {
             .exists('Accepted tab has been selected');
         assert.dom('[data-test-registration-list-card]')
             .doesNotExist('No cards shown for accepted submissions');
-        assert.dom('[data-test-registration-list-none]').containsText('No accepted registrations have been found',
+        assert.dom('[data-test-registration-list-none]').containsText('No public registrations have been found',
+            'Proper message is shown when no accepted registrations found');
+
+        // Embargo tab
+        await click('[data-test-submissions-type="embargo"]');
+        assert.dom('[data-test-submissions-type="embargo"][data-test-is-selected="true"]')
+            .exists('Embargo tab has been selected');
+        assert.dom('[data-test-registration-list-card]')
+            .doesNotExist('No cards shown for embargoed submissions');
+        assert.dom('[data-test-registration-list-none]').containsText('No embargoed registrations have been found',
             'Proper message is shown when no accepted registrations found');
 
         // Rejected tab
@@ -94,6 +103,11 @@ module('Registries | Acceptance | branded.moderation | submissions', hooks => {
                 reviewsState: RegistrationReviewStates.Accepted,
                 provider: this.registrationProvider,
             }, 'withSingleReviewAction',
+        );
+        server.createList(
+            'registration', 5, {
+                provider: this.registrationProvider,
+            }, 'withSingleReviewAction', 'isEmbargo',
         );
         server.createList(
             'registration', 3, {
@@ -142,6 +156,18 @@ module('Registries | Acceptance | branded.moderation | submissions', hooks => {
         assert.dom('[data-test-registration-list-card-icon="accepted"]').exists({ count: 2 }, 'Proper icons shown');
         assert.dom('[data-test-registration-list-card-title]').exists({ count: 2 }, 'Title shown');
         assert.dom('[data-test-registration-list-card-latest-action]').exists({ count: 2 }, 'Latest action shown');
+        assert.dom('[data-test-registration-card-toggle-actions]')
+            .doesNotExist('No toggle to show more review actions');
+        assert.dom('[data-test-next-page-button]').doesNotExist('No pagination shown');
+
+        // Embargo tab
+        await click('[data-test-submissions-type="embargo"]');
+        assert.dom('[data-test-ascending-sort]').exists({ count: 1 }, 'Ascending sort button exists');
+        assert.dom('[data-test-descending-sort]').exists({ count: 1 }, 'Descending sort button exists');
+        assert.dom('[data-test-registration-list-card]').exists({ count: 5 }, '5 embargoed registrations shown');
+        assert.dom('[data-test-registration-list-card-icon="embargo"]').exists({ count: 5 }, 'Proper icons shown');
+        assert.dom('[data-test-registration-list-card-title]').exists({ count: 5 }, 'Title shown');
+        assert.dom('[data-test-registration-list-card-latest-action]').exists({ count: 5 }, 'Latest action shown');
         assert.dom('[data-test-registration-card-toggle-actions]')
             .doesNotExist('No toggle to show more review actions');
         assert.dom('[data-test-next-page-button]').doesNotExist('No pagination shown');
