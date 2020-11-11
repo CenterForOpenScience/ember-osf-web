@@ -1,5 +1,5 @@
 import { tagName } from '@ember-decorators/component';
-import { action, computed } from '@ember/object';
+import { computed } from '@ember/object';
 import { and } from '@ember/object/computed';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
@@ -54,19 +54,4 @@ export default class RegistriesNavbar extends AuthBase {
     services = OSF_SERVICES;
     helpRoute: string = defaultTo(this.helpRoute, externalLinks.help);
     donateRoute: string = defaultTo(this.donateRoute, externalLinks.donate);
-
-    searchDropdownOpen: boolean = false;
-
-    @action
-    search(query: string) {
-        this.set('searchDropdownOpen', false);
-        this.router.transitionTo('discover', {
-            queryParams: { query },
-        });
-    }
-
-    @action
-    toggleMobileSearch() {
-        this.set('searchDropdownOpen', !this.searchDropdownOpen);
-    }
 }
