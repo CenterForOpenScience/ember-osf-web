@@ -7,6 +7,7 @@ import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import { layout } from 'ember-osf-web/decorators/component';
 import SubscriptionModel, { SubscriptionFrequency } from 'ember-osf-web/models/subscription';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import Toast from 'ember-toastr/services/toast';
 import template from './template';
 
@@ -24,12 +25,17 @@ export default class SubscriptionsManager extends Component {
 
     @task({ withTestWaiter: true, enqueue: true, on: 'didReceiveAttrs' })
     fetchSubscriptions = task(function *(this: SubscriptionsManager) {
-        if (this.subscriptionIds) {
-            this.subscriptions = yield this.store.query('subscription', {
-                'filter[id]': this.subscriptionIds.join(','),
-            });
-        } else {
-            this.subscriptions = yield this.store.findAll('subscription');
+        try {
+            if (this.subscriptionIds) {
+                this.subscriptions = yield this.store.query('subscription', {
+                    'filter[id]': this.subscriptionIds.join(','),
+                });
+            } else {
+                this.subscriptions = yield this.store.findAll('subscription');
+            }
+        } catch (e) {
+            captureException(e);
+            this.toast.error(getApiErrorMessage(e));
         }
     });
 
@@ -44,9 +50,11 @@ export default class SubscriptionsManager extends Component {
         try {
             yield subscription.save();
             this.toast.success(this.intl.t('osf-components.subscriptions.success'));
-        } catch {
+        } catch (e) {
+            const errorMessage = this.intl.t('osf-components.subscriptions.error');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
             subscription.rollbackAttributes();
-            this.toast.error(this.intl.t('osf-components.subscriptions.error'));
         }
     });
 }
