@@ -1,5 +1,5 @@
 import Service from '@ember/service';
-import { click, fillIn, render, triggerKeyEvent } from '@ember/test-helpers';
+import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import config from 'ember-get-config';
@@ -107,7 +107,6 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         assert.dom('[data-test-brand-link]').doesNotExist('Branded provider name does not exists');
 
         assert.equal(visibleText('[data-test-service]'), `${t('general.OSF')}${t('general.services.registries')}`);
-        assert.dom('[data-test-search-bar]').isVisible('Search bar is visible');
         assert.dom('[data-test-search-bar-mobile]').isNotVisible('Mobile search bar is not visible on desktop');
 
         assert.dom('a[data-test-help]').isVisible('Help button is visible');
@@ -160,7 +159,6 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         await percySnapshot(assert);
 
         assert.equal(visibleText('[data-test-service]'), `${t('general.OSF')}${t('general.services.registries')}`);
-        assert.dom('[data-test-search-bar]').isVisible('Search bar is visible');
         assert.dom('[data-test-search-bar-mobile]').isNotVisible('Mobile search bar is not visible on tablet');
 
         assert.dom('a[data-test-help]').isVisible('Help button is visible');
@@ -210,11 +208,9 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         await percySnapshot(assert);
 
         assert.equal(visibleText('[data-test-service]'), `${t('general.OSF')}${t('general.services.registries')}`);
-        assert.dom('[data-test-search-bar-mobile]').isVisible('Mobile search bar visible');
 
         assert.dom('a[data-test-help-mobile]').isVisible();
         assert.dom('a[data-test-donate-mobile]').isVisible();
-        assert.dom('[data-test-search-bar]').isNotVisible('Search bar hidden');
     });
 
     test('mobile layout (logged out)', async function(assert) {
@@ -248,39 +244,6 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
 
         assert.dom('a[role="button"][data-test-join]').isNotVisible('Join button not is visible');
         assert.dom('a[role="button"][data-test-login]').isNotVisible('Login button not is visible');
-    });
-
-    test('onSearch', async function(assert) {
-        setBreakpoint('desktop');
-
-        const transitionTo = sinon.stub(this.owner.lookup('service:router'), 'transitionTo').returns({});
-
-        await render(hbs`<RegistriesNavbar />`);
-
-        await fillIn('[data-test-search-bar] input', 'This is my query');
-        await triggerKeyEvent('[data-test-search-bar] input', 'keyup', 13);
-        await percySnapshot(assert);
-
-        assert.ok(transitionTo.calledWith('discover', {
-            queryParams: { query: 'This is my query' },
-        }));
-    });
-
-    test('onSearch (Mobile)', async function(assert) {
-        setBreakpoint('mobile');
-        const transitionTo = sinon.stub(this.owner.lookup('service:router'), 'transitionTo').returns({});
-
-        await render(hbs`<RegistriesNavbar />`);
-
-        assert.dom('[data-test-search-bar-mobile]').isVisible();
-
-        await fillIn('[data-test-search-bar-mobile] input', 'This is my query');
-        await triggerKeyEvent('[data-test-search-bar-mobile] input', 'keyup', 13);
-        await percySnapshot(assert);
-
-        assert.ok(transitionTo.calledWith('discover', {
-            queryParams: { query: 'This is my query' },
-        }));
     });
 
     test('service list', async assert => {
