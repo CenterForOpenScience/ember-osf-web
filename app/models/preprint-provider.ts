@@ -24,9 +24,7 @@ export default class PreprintProviderModel extends ProviderModel {
 
     // Reviews settings
     @attr('array') permissions!: string[];
-    @attr('string') reviewsWorkflow!: string | null;
     @attr('boolean', { allowNull: true }) reviewsCommentsPrivate!: boolean | null;
-    @attr('boolean', { allowNull: true }) reviewsCommentsAnonymous!: boolean | null;
 
     // Relationships
     @hasMany('preprint', { inverse: 'provider' })
