@@ -9,7 +9,7 @@ import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
-import ReviewActionModel, { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
+import { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 interface Args {
@@ -21,7 +21,6 @@ export default class MakeDecisionDropdown extends Component<Args> {
     @service store!: DS.Store;
     @service toast!: Toast;
 
-    @tracked reviewActions: ReviewActionModel[] = [];
     @tracked decisionTrigger?: ReviewActionTrigger;
     @tracked comment?: string;
 
@@ -49,12 +48,6 @@ export default class MakeDecisionDropdown extends Component<Args> {
     };
 
     @task({ withTestWaiter: true })
-    fetchActions = task(function *(this: MakeDecisionDropdown) {
-        const reviewActions = yield this.args.registration.reviewActions;
-        this.reviewActions = reviewActions.toArray();
-    });
-
-    @task({ withTestWaiter: true })
     submitDecision = task(function *(this: MakeDecisionDropdown) {
         if (this.decisionTrigger) {
             const newAction = this.store.createRecord('review-action', {
@@ -76,11 +69,6 @@ export default class MakeDecisionDropdown extends Component<Args> {
             }
         }
     });
-
-    constructor(owner: unknown, args: Args) {
-        super(owner, args);
-        this.fetchActions.perform();
-    }
 
     @action
     updateDecisionTrigger(trigger: ReviewActionTrigger) {
