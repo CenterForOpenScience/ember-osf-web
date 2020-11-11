@@ -52,7 +52,7 @@ export default class MakeDecisionDropdown extends Component<Args> {
         if (this.decisionTrigger) {
             const newAction = this.store.createRecord('review-action', {
                 actionTrigger: this.decisionTrigger,
-                comment: this.comment,
+                comment: (this.comment ? this.comment : undefined),
                 target: this.args.registration,
             });
             try {
