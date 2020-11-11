@@ -19,7 +19,7 @@ export default class BrandedModerationRoute extends Route {
 
     afterModel() {
         const { user } = this.currentUser;
-        if (!user || !user.canViewReviews) {
+        if (!user || !user.canViewReviews || this.model.reviewsWorkflow !== 'pre-moderation') {
             this.transitionTo('page-not-found', window.location.pathname.slice(1));
         }
     }

@@ -23,7 +23,12 @@ import { summaryMetrics } from './views/institution';
 import { createNode, storageStatus } from './views/node';
 import { osfNestedResource, osfResource, osfToManyRelationship } from './views/osf-resource';
 import { getProviderSubjects } from './views/provider-subjects';
-import { createRegistration, forkRegistration, registrationDetail } from './views/registration';
+import {
+    createRegistration,
+    forkRegistration,
+    getProviderRegistrations,
+    registrationDetail,
+} from './views/registration';
 import { rootDetail } from './views/root';
 import { shareSearch } from './views/share-search';
 import { createToken } from './views/token';
@@ -232,9 +237,11 @@ export default function(this: Server) {
         relatedModelName: 'registration-request',
     });
     osfNestedResource(this, 'registration-provider', 'registrations', {
+        only: ['show', 'update', 'delete'],
         path: '/providers/registrations/:parentID/registrations/',
         relatedModelName: 'registration',
     });
+    this.get('/providers/registrations/:parentID/registrations/', getProviderRegistrations);
     osfNestedResource(this, 'registration-provider', 'actions', {
         path: '/providers/registrations/:parentID/actions/',
         relatedModelName: 'review-action',

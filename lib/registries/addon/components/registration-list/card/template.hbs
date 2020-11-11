@@ -26,8 +26,6 @@
                 </OsfLink>
             {{/if}}
         </h3>
-        {{#if (not (eq @filterState 'rejected'))}}
-            <ReviewActionsList @registration={{@registration}}/>
-        {{/if}}
+        <ReviewActionsList @registration={{@registration}}/>
     </div>
 </div>
