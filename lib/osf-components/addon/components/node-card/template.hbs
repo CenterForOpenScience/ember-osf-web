@@ -12,17 +12,23 @@
                     </span> |
                 {{/unless}}
                 {{#if @node.pendingRegistrationApproval}}
+                    <span class='label label-info'>{{t 'node_card.registration.statuses.pending_registration_approval'}}</span> |
+                {{else if @node.pendingEmbargoApproval}}
+                    <span class='label label-info'>{{t 'node_card.registration.statuses.pending_embargo_approval'}}</span> |
+                {{else if (eq @node.reviewsState 'pending')}}
                     <span class='label label-info'>{{t 'node_card.registration.statuses.pending'}}</span> |
+                {{else if (eq @node.reviewsState 'embargo')}}
+                    <span class='label label-info'>{{t 'node_card.registration.statuses.embargo'}}</span> |
+                {{else if (eq @node.reviewsState 'rejected')}}
+                    <span class='label label-info'>{{t 'node_card.registration.statuses.rejected'}}</span> |
+                {{else if (eq @node.reviewsState 'pending_embargo_termination')}}
+                    <span class='label label-info'>{{t 'node_card.registration.statuses.pending_embargo_termination'}}</span> |
+                {{else if (eq @node.reviewsState 'pending_withdraw_request')}}
+                    <span class='label label-info'>{{t 'node_card.registration.statuses.pending_withdraw_request'}}</span> |
+                {{else if (eq @node.reviewsState 'pending_withdraw')}}
+                    <span class='label label-info'>{{t 'node_card.registration.statuses.pending_withdraw'}}</span> |
                 {{else if @node.withdrawn}}
                     <span class='label label-danger'>{{t 'node_card.registration.statuses.withdrawn'}}</span> |
-                {{else if @node.pendingWithdrawal}}
-                    <span class='label label-info'>{{t 'node_card.registration.statuses.pending_withdrawl'}}</span> |
-                {{else if @node.pendingEmbargoTerminationApproval}}
-                    <span class='label label-info'>{{t 'node_card.registration.statuses.pending_embargo_termination'}}</span> |
-                {{else if @node.embargoed}}
-                    <span class='label label-info'>{{t 'node_card.registration.statuses.embargoed'}}</span> |
-                {{else if @node.pendingEmbargoApproval}}
-                    <span class='label label-info'>{{t 'node_card.registration.statuses.pending_embargo'}}</span> |
                 {{/if}}
                 {{#if @node.archiving}}
                     <span class='label label-primary'>{{t 'node_card.registration.statuses.archiving'}}</span> |
