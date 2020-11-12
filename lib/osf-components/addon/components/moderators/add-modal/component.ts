@@ -79,12 +79,12 @@ export default class AddModalComponent extends Component {
     inviteChangeset = buildChangeset({
         fullName: null,
         email: null,
-        permissionGroup: null,
+        permissionGroup: PermissionGroup.Moderator,
     }, InviteFormValidations);
 
     userChangeset = buildChangeset({
         user: null,
-        permissionGroup: null,
+        permissionGroup: PermissionGroup.Moderator,
     }, UserFormValidations);
 
     @task({ withTestWaiter: true, restartable: true })
