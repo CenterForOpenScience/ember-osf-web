@@ -5,10 +5,11 @@ import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
+import Toast from 'ember-toastr/services/toast';
+
 import { layout } from 'ember-osf-web/decorators/component';
 import SubscriptionModel, { SubscriptionFrequency } from 'ember-osf-web/models/subscription';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
-import Toast from 'ember-toastr/services/toast';
 import template from './template';
 
 @tagName('')
@@ -26,7 +27,7 @@ export default class SubscriptionsManager extends Component {
     @task({ withTestWaiter: true, enqueue: true, on: 'didReceiveAttrs' })
     fetchSubscriptions = task(function *(this: SubscriptionsManager) {
         try {
-            if (this.subscriptionIds) {
+            if (Array.isArray(this.subscriptionIds) && this.subscriptionIds.length) {
                 this.subscriptions = yield this.store.query('subscription', {
                     'filter[id]': this.subscriptionIds.join(','),
                 });

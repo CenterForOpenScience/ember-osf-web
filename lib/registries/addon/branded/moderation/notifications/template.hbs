@@ -6,6 +6,12 @@
 <p>
     {{t 'registries.moderation.notifications.paragraph' link=this.userSettingsLink htmlSafe=true}}
 </p>
-<Subscriptions::Manager as |manager|>
-    <Subscriptions::List @manager={{manager}} />
+
+<Subscriptions::Manager
+    @subscriptionIds={{this.subscriptionIds}}
+    as |manager|
+>
+    <Subscriptions::List
+        @manager={{manager}}
+    />
 </Subscriptions::Manager>
