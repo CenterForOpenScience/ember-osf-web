@@ -90,7 +90,7 @@ export function getProviderRegistrations(this: HandlerContext, schema: Schema, r
         schema,
         request,
         this,
-        filteredRegistrations,
+        filteredRegistrations.map(reg => this.serialize(reg).data),
         { defaultPageSize: Number(pageSize) },
     );
 }
