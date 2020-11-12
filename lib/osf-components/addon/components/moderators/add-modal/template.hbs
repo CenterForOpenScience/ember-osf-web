@@ -56,6 +56,7 @@
                         </form.select>
                         <form.select
                             @options={{this.permissionOptions}}
+                            @searchEnabled={{false}}
                             @valuePath={{'permissionGroup'}}
                             @label={{t 'osf-components.moderators.add.modal.selectPermission'}}
                             data-test-select-permission
@@ -95,6 +96,7 @@
                         />
                         <form.select
                             @options={{this.permissionOptions}}
+                            @searchEnabled={{false}}
                             @valuePath={{'permissionGroup'}}
                             @label={{t 'osf-components.moderators.add.modal.selectPermission'}}
                             data-test-select-permission
