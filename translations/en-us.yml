@@ -1353,7 +1353,7 @@ registries:
         success: 'Successfully submitted moderator decision.'
         failure: 'Failed to submit moderator decision.'
         justificationForWithdrawal: 'Justification for Withdrawal'
-        remarksToAdmin: 'Remarks to registration admin'
+        remarksToAdmin: 'Add remarks to registration admins'
 meetings:
     index:
         meetings-list:
