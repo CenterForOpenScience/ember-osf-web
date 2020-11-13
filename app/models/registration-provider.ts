@@ -1,5 +1,4 @@
 import DS from 'ember-data';
-import RegistrationRequestModel from 'ember-osf-web/models/registration-request';
 import ReviewActionModel from 'ember-osf-web/models/review-action';
 
 import RegistrationSchemaModel from 'ember-osf-web/models/registration-schema';
@@ -22,9 +21,6 @@ export default class RegistrationProviderModel extends ProviderModel {
 
     @hasMany('moderator', { inverse: 'provider' })
     moderators!: DS.PromiseManyArray<ModeratorModel> | ModeratorModel[];
-
-    @hasMany('registration-request', { inverse: null })
-    requests!: DS.PromiseManyArray<RegistrationRequestModel> | RegistrationRequestModel[];
 
     @hasMany('review-action', { inverse: 'provider' })
     actions!: DS.PromiseManyArray<ReviewActionModel> | ReviewActionModel[];

@@ -232,10 +232,6 @@ export default function(this: Server) {
         relatedModelName: 'moderator',
     });
     this.post('providers/registrations/:parentID/moderators', addModerator);
-    osfNestedResource(this, 'registration-provider', 'requests', {
-        path: '/providers/registrations/:parentID/requests/',
-        relatedModelName: 'registration-request',
-    });
     osfNestedResource(this, 'registration-provider', 'registrations', {
         only: ['show', 'update', 'delete'],
         path: '/providers/registrations/:parentID/registrations/',
