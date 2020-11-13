@@ -4,12 +4,14 @@
         {{placeholder.text local-class='SubscriptionPlaceholder' lines=1}}
     </ContentPlaceholders>
 {{else}}
-    <ul data-test-subscription-list>
-        {{#each @manager.subscriptions as |subscription|}}
-            <Subscriptions::ListRow
-                @manager={{@manager}}
-                @subscription={{subscription}}
-            />
-        {{/each}}
-    </ul>
+    <div local-class='SubscriptionsList'>
+        <ul data-test-subscription-list>
+            {{#each @manager.subscriptions as |subscription|}}
+                <Subscriptions::ListRow
+                    @manager={{@manager}}
+                    @subscription={{subscription}}
+                />
+            {{/each}}
+        </ul>
+    </div>
 {{/if}}
