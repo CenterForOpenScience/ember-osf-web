@@ -126,7 +126,7 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
             reviewActions: {
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/registrations/${model.id}/review-actions/`,
+                        href: `${apiUrl}/v2/registrations/${model.id}/actions/`,
                         meta: this.buildRelatedLinkMeta(model, 'reviewActions'),
                     },
                 },

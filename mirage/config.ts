@@ -2,7 +2,6 @@ import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
 import { createReviewAction } from 'ember-osf-web/mirage/views/review-action';
-import { addModerator } from './views/addModerator';
 import { getCitation } from './views/citation';
 import { searchCollections } from './views/collection-search';
 import { reportDelete } from './views/comment';
@@ -20,6 +19,7 @@ import { createFork, createRegistrationFork } from './views/fork';
 import { guidDetail } from './views/guid';
 import { identifierCreate } from './views/identifier';
 import { summaryMetrics } from './views/institution';
+import { addModerator } from './views/moderator';
 import { createNode, storageStatus } from './views/node';
 import { osfNestedResource, osfResource, osfToManyRelationship } from './views/osf-resource';
 import { getProviderSubjects } from './views/provider-subjects';
@@ -141,7 +141,7 @@ export default function(this: Server) {
     osfNestedResource(this, 'registration', 'forks', { except: ['create'] });
     osfNestedResource(this, 'registration', 'reviewActions', {
         only: ['index'],
-        path: '/registrations/:parentID/review-actions',
+        path: '/registrations/:parentID/actions',
         relatedModelName: 'review-action',
     });
     this.post('/registrations/:parentID/review-actions', createReviewAction);

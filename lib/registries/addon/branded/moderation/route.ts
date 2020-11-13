@@ -14,10 +14,6 @@ export default class BrandedModerationRoute extends Route {
     @service router!: RouterService;
     @service store!: DS.Store;
 
-    model() {
-        return this.modelFor('branded');
-    }
-
     afterModel(model: RegistrationProviderModel) {
         const { user } = this.currentUser;
         if (!user || !user.canViewReviews || model.reviewsWorkflow !== 'pre-moderation') {
