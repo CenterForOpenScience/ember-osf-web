@@ -175,7 +175,6 @@ module('Integration | Component | moderators', hooks => {
         await click('[data-test-confirm-add-moderator-button]');
         assert.dom('[data-test-confirm-add-moderator-button]').isDisabled();
         assert.dom('[data-test-validation-errors="user"]').hasText(this.intl.t('validationErrors.empty'));
-        assert.dom('[data-test-validation-errors="permissionGroup"]').hasText(this.intl.t('validationErrors.empty'));
         await selectSearch('[data-test-select-user]', 'Yeji');
         await selectChoose('[data-test-select-user]', 'Hwang Yeji');
         await selectChoose('[data-test-select-permission]', 'Moderator');
@@ -222,9 +221,7 @@ module('Integration | Component | moderators', hooks => {
             this.intl.t('validationErrors.email', { description: 'This field' }),
         );
         assert.dom('[data-test-validation-errors="fullName"]').containsText(this.intl.t('validationErrors.empty'));
-        assert.dom('[data-test-validation-errors="permissionGroup"]').containsText(
-            this.intl.t('validationErrors.empty'),
-        );
+
         await fillIn('[data-test-email-input]>div>input', 'testing@cos.io');
         await fillIn('[data-test-full-name-input]>div>input', 'Hwang Yeji');
         await selectChoose('[data-test-select-permission]', 'Moderator');
