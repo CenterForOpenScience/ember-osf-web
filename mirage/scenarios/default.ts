@@ -118,14 +118,6 @@ function registrationScenario(
         reviewsState: RegistrationReviewStates.Withdrawn,
     }, 'withContributors', 'withReviewActions');
 
-    // server.create('registration', {
-    //     id: 'r3jct',
-    //     title: 'Hector the Rejector',
-    //     registrationSchema: server.schema.registrationSchemas.find('testSchema'),
-    //     provider: egap,
-    //     reviewsState: 'rejected',
-    // }, 'withContributors');
-
     server.create('subscription');
 
     server.create('registration', {

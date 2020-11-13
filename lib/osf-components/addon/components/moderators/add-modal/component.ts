@@ -8,13 +8,15 @@ import { validateFormat, validatePresence } from 'ember-changeset-validations/va
 import { timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
+import Toast from 'ember-toastr/services/toast';
+
 import { layout } from 'ember-osf-web/decorators/component';
 import { PermissionGroup } from 'ember-osf-web/models/moderator';
 import UserModel from 'ember-osf-web/models/user';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
-import Toast from 'ember-toastr/services/toast';
+
 import { ModeratorManager } from '../manager/component';
 import template from './template';
 

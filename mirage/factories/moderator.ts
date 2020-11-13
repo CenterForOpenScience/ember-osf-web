@@ -9,6 +9,8 @@ interface ModeratorTraits {
 
 export default Factory.extend<Moderator & ModeratorTraits>({
     permissionGroup: PermissionGroup.Moderator,
+
+    // associated user must have the same id as the moderator
     user: association() as Moderator['user'],
 
     asAdmin: trait({ permissionGroup: PermissionGroup.Admin }),
