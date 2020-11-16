@@ -134,6 +134,10 @@ export default function(this: Server) {
         defaultSortKey: 'index',
     });
 
+    osfResource(this, 'review-action', {
+        only: ['show'],
+        path: '/actions',
+    });
     osfResource(this, 'registration', { except: ['show', 'create'] });
     this.post('/registrations', createRegistration);
     this.get('/registrations/:id', registrationDetail);

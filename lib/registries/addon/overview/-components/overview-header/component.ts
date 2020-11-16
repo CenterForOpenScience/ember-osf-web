@@ -5,18 +5,20 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
+import Intl from 'ember-intl/services/intl';
 import Media from 'ember-responsive';
 import Toast from 'ember-toastr/services/toast';
 
 import ModeratorModel from 'ember-osf-web/models/moderator';
 import RegistrationModel from 'ember-osf-web/models/registration';
 import CurrentUserService from 'ember-osf-web/services/current-user';
-import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
+import captureException from 'ember-osf-web/utils/capture-exception';
 
 export default class OverviewHeader extends Component {
     @service media!: Media;
     @service currentUser!: CurrentUserService;
     @service store!: DS.Store;
+    @service intl!: Intl;
     @service toast!: Toast;
 
     @not('media.isDesktop') showMobileView!: boolean;
@@ -51,7 +53,7 @@ export default class OverviewHeader extends Component {
                 });
         } catch (e) {
             captureException(e);
-            this.toast.error(getApiErrorMessage(e));
+            this.toast.error(this.intl.t('registries.overviewHeader.needModeratorPermission'));
         }
     });
 

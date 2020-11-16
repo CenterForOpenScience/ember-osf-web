@@ -22,7 +22,7 @@ export default class RegistrationProviderModel extends ProviderModel {
     @hasMany('moderator', { inverse: 'provider' })
     moderators!: DS.PromiseManyArray<ModeratorModel> | ModeratorModel[];
 
-    @hasMany('review-action', { inverse: 'provider' })
+    @hasMany('review-action', { inverse: null })
     actions!: DS.PromiseManyArray<ReviewActionModel> | ReviewActionModel[];
 
     @attr('fixstring')

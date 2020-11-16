@@ -5,7 +5,6 @@ import Intl from 'ember-intl/services/intl';
 
 import OsfModel from './osf-model';
 import RegistrationModel from './registration';
-import RegistrationProviderModel from './registration-provider';
 import UserModel from './user';
 
 const { attr, belongsTo } = DS;
@@ -41,9 +40,6 @@ export default class ReviewActionModel extends OsfModel {
     @attr('date') dateModified!: Date;
     @attr('boolean') auto!: boolean;
     @attr('boolean') visible!: boolean;
-
-    @belongsTo('registration-provider', { inverse: 'actions', polymorphic: true })
-    provider!: DS.PromiseObject<RegistrationProviderModel> & RegistrationProviderModel;
 
     @belongsTo('registration', { inverse: 'reviewActions', polymorphic: true })
     target!: DS.PromiseObject<RegistrationModel> & RegistrationModel;

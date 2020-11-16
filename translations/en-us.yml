@@ -1295,6 +1295,8 @@ registries:
             remove_bookmark: 'Remove bookmark'
             share: 'Share this registration'
             fork: 'Fork this registration'
+    overviewHeader:
+        needModeratorPermission: 'You do not have permission to moderate this registration.'
     partialRegistrationModal:
         title: 'Select Components'
         continueButton: Continue

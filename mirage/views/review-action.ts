@@ -15,7 +15,6 @@ export function createReviewAction(this: HandlerContext, schema: Schema, request
         reviewAction = schema.reviewActions.create({
             creator: currentUser,
             target: registration,
-            provider: registration.provider,
             dateCreated: now,
             dateModified: now,
             ...attrs,

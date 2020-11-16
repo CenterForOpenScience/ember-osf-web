@@ -52,10 +52,9 @@
         <Button
             data-test-moderation-dropdown-submit
             @type='create'
-            disabled={{not this.decisionTrigger}}
+            disabled={{or (not this.decisionTrigger) this.submitDecision.isRunning}}
             local-class='SubmitButton'
-            {{on 'click' (perform this.submitDecision)}}
-            {{on 'click' dd.close}}
+            {{on 'click' (queue (perform this.submitDecision) dd.close)}}
         >
             {{t 'registries.makeDecisionDropdown.submit'}}
         </Button>
