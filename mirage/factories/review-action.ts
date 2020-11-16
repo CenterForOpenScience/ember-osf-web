@@ -10,14 +10,6 @@ export default Factory.extend<ReviewActionModel>({
     toState: 'pending',
     actionTrigger: faker.random.objectElement(Object.values(ReviewActionTrigger)),
 
-    afterCreate(reviewAction) {
-        if (reviewAction.target) {
-            reviewAction.update({
-                provider: reviewAction.target.provider,
-            });
-        }
-    },
-
     comment() {
         return faker.lorem.sentence();
     },
