@@ -1,6 +1,7 @@
 import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
+import { createReviewAction } from 'ember-osf-web/mirage/views/review-action';
 import { getCitation } from './views/citation';
 import { searchCollections } from './views/collection-search';
 import { reportDelete } from './views/comment';
@@ -18,10 +19,16 @@ import { createFork, createRegistrationFork } from './views/fork';
 import { guidDetail } from './views/guid';
 import { identifierCreate } from './views/identifier';
 import { summaryMetrics } from './views/institution';
+import { addModerator } from './views/moderator';
 import { createNode, storageStatus } from './views/node';
 import { osfNestedResource, osfResource, osfToManyRelationship } from './views/osf-resource';
 import { getProviderSubjects } from './views/provider-subjects';
-import { createRegistration, forkRegistration, registrationDetail } from './views/registration';
+import {
+    createRegistration,
+    forkRegistration,
+    getProviderRegistrations,
+    registrationDetail,
+} from './views/registration';
 import { rootDetail } from './views/root';
 import { shareSearch } from './views/share-search';
 import { createToken } from './views/token';
@@ -127,11 +134,21 @@ export default function(this: Server) {
         defaultSortKey: 'index',
     });
 
+    osfResource(this, 'review-action', {
+        only: ['show'],
+        path: '/actions',
+    });
     osfResource(this, 'registration', { except: ['show', 'create'] });
     this.post('/registrations', createRegistration);
     this.get('/registrations/:id', registrationDetail);
     osfNestedResource(this, 'registration', 'children');
     osfNestedResource(this, 'registration', 'forks', { except: ['create'] });
+    osfNestedResource(this, 'registration', 'reviewActions', {
+        only: ['index'],
+        path: '/registrations/:parentID/actions',
+        relatedModelName: 'review-action',
+    });
+    this.post('/registrations/:parentID/review-actions', createReviewAction);
     this.post('/registrations/:id/forks', forkRegistration);
 
     osfNestedResource(this, 'registration', 'contributors', { defaultSortKey: 'index' });
@@ -213,6 +230,22 @@ export default function(this: Server) {
 
     osfResource(this, 'preprint-provider', { path: '/providers/preprints' });
     osfResource(this, 'registration-provider', { path: '/providers/registrations' });
+    osfNestedResource(this, 'registration-provider', 'moderators', {
+        only: ['index', 'show', 'update', 'delete'],
+        path: '/providers/registrations/:parentID/moderators/',
+        relatedModelName: 'moderator',
+    });
+    this.post('providers/registrations/:parentID/moderators', addModerator);
+    osfNestedResource(this, 'registration-provider', 'registrations', {
+        only: ['show', 'update', 'delete'],
+        path: '/providers/registrations/:parentID/registrations/',
+        relatedModelName: 'registration',
+    });
+    this.get('/providers/registrations/:parentID/registrations/', getProviderRegistrations);
+    osfNestedResource(this, 'registration-provider', 'actions', {
+        path: '/providers/registrations/:parentID/actions/',
+        relatedModelName: 'review-action',
+    });
     osfNestedResource(this, 'registration-provider', 'licensesAcceptable', {
         only: ['index'],
         path: '/providers/registrations/:parentID/licenses/',
@@ -235,6 +268,8 @@ export default function(this: Server) {
         path: 'collections/:parentID/collected_metadata/',
     });
     this.post('/search/collections/', searchCollections);
+
+    osfResource(this, 'subscription', { only: ['index', 'show', 'update'] });
 
     // Waterbutler namespace
     this.namespace = '/wb';

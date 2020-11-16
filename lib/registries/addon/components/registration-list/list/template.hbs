@@ -1,0 +1,29 @@
+<ContentPlaceholders as |placeholder|>
+    <PaginatedList::HasMany
+        @model={{@manager.provider}}
+        @relationshipName='registrations'
+        @query={{@manager.filterParams}}
+        @usePlaceholders={{false}}
+        @bindReload={{@manager.reloadRegistrationsList}}
+        as |list|
+    >
+        <list.item as |registration|>
+            {{#if registration}}
+                <RegistrationList::Card
+                    @registration={{registration}}
+                    @state={{@manager.state}}
+                />
+            {{else}}
+                {{placeholder.text lines=1}}
+            {{/if}}
+        </list.item>
+        <list.empty>
+            <p
+                data-test-registration-list-none
+                local-class='noRegistrationMessage'
+            >
+                {{t (concat 'registries.registrationList.' @manager.state)}}
+            </p>
+        </list.empty>
+    </PaginatedList::HasMany>
+</ContentPlaceholders>

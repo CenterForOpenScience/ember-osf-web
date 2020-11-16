@@ -583,12 +583,15 @@ node_card:
         private_tooltip: 'This registration is private'
         timestamp_label: 'Registered:'
         statuses:
-            pending: 'Pending registration'
-            withdrawn: Withdrawn
-            pending_withdrawl: 'Pending withdrawal'
-            embargoed: Embargoed
-            pending_embargo: 'Pending embargo'
+            pending_registration_approval: 'Pending registration'
+            pending_embargo_approval: 'Pending embargo'
+            pending: 'Pending moderation'
+            embargo: Embargoed
+            rejected: 'Rejected'
             pending_embargo_termination: 'Pending embargo termination'
+            pending_withdraw_request: 'Pending withdrawal'
+            pending_withdraw: 'Pending withdrawal moderation'
+            withdrawn: Withdrawn
             archiving: Archiving
     tags: 'Tags:'
     options: Options
@@ -977,6 +980,34 @@ registries:
     application:
         page_title: 'OSF Registries'
         main_aria: 'Registries main content'
+    branded:
+        page_title: 'Registries'
+    moderation:
+        header: Moderation
+        states:
+            accepted: Public
+            embargo: Embargo
+            rejected: Rejected
+            pending: Pending
+            withdrawn: Withdrawn
+            pendingWithdraw: 'Pending Withdrawal'
+        submissions:
+            title: Submissions
+        withdrawals:
+            title: 'Withdrawal Requests'
+        moderators:
+            title: Moderators
+            nameHeader: Name
+            permissionHeader: Permission
+            addedNewModerator: 'Successfully added {userName} as {permission}'
+            removedModerator: 'Successfully removed {userName}'
+            updatedModeratorPermission: 'Successfully updated {userName} to {permission}'
+        notifications:
+            title: 'Notifications'
+            heading: 'Configure reviews notification preferences'
+            paragraph: 'To configure other notification preferences visit your <a href={link}>user settings</a>.'
+        overview:
+            title: 'Moderated Overview'
     new:
         required: 'required'
         page_title: 'New Registration'
@@ -1207,34 +1238,23 @@ registries:
         archiving:
             currently_archiving: 'This registration is currently archiving, and no changes can be made at this time.'
             email_support: 'If this registration has been archiving for more than 72 hours, please email <a data-analytics-name="Email support" href="mailto:{supportEmail}">{supportEmail}</a> for assistance.'
-        pending:
-            state: Pending
-            action:
-                approve: Approve
-                reject: Reject
-        public:
-            state: Public
-            text: 'Public registration'
-            short_description: Public
-            long_description: 'This public registration is a frozen, non-editable version of this <strong><a href={projectUrl}>project</a></strong>.'
-        pendingRegistration:
+        pendingRegistrationApproval:
             text: 'Pending registration'
             short_description: 'Pending registration approval'
             long_description: 'This is a pending registration of this <strong><a href={projectUrl}>project</a></strong>, awaiting approval from project administrators. This registration will be final when all project administrators approve the registration or 48 hours pass, whichever comes first.'
-        pendingWithdrawal:
-            text: 'Public registration'
-            short_description: 'Pending withdrawal'
-            long_description: 'This registration will be withdrawn when all project administrators approve the withdrawal.'
-        pendingEmbargo:
+        pendingEmbargoApproval:
             text: 'Pending registration'
             short_description: 'Pending embargo approval'
             long_description: 'This registration is pending approval. It will be final and enter an embargo period when all project administrators approve the registration or 48 hours pass, whichever comes first. The embargo will keep the registration private until the embargo period ends.'
-        pendingEmbargoTermination:
-            text: 'Embargoed registration'
-            short_description: 'Pending embargo termination'
-            long_description: 'This registration is embargoed. It will remain private until {embargoEndDate}. A request to make this registration public is pending.'
-        embargoed:
-            state: Embargoed
+        pending:
+            text: 'Pending registration'
+            short_description: 'Pending moderator approval'
+            long_description: 'This registration is awaiting a decision by the registry moderators. An email will notify all registration contributors of the decision.'
+        accepted:
+            text: 'Public registration'
+            short_description: Public
+            long_description: 'This public registration is a frozen, non-editable version of this <strong><a href={projectUrl}>project</a></strong>.'
+        embargo:
             action: 'End embargo early'
             action_success: 'Embargo termination request successfully sent'
             action_error: 'Unable to submit embargo termination request'
@@ -1243,6 +1263,18 @@ registries:
             text: 'Embargoed registration'
             short_description: Embargoed
             long_description: 'This registration is embargoed. It will remain private until {embargoEndDate}.'
+        pendingEmbargoTermination:
+            text: 'Embargoed registration'
+            short_description: 'Pending embargo termination'
+            long_description: 'This registration is embargoed. It will remain private until {embargoEndDate}. A request to make this registration public is pending.'
+        pendingWithdrawRequest:
+            text: 'Public registration'
+            short_description: 'Pending withdraw request'
+            long_description: 'This registration will be withdrawn when all project administrators approve the withdrawal.'
+        pendingWithdraw:
+            text: 'Public registration'
+            short_description: 'Pending withdrawal moderation'
+            long_description: 'This registration is awaiting a withdrawal decision by the registry moderators. An email will notify all registration contributors of the decision.'
         bookmark:
             add:
                 text: Bookmark
@@ -1263,12 +1295,38 @@ registries:
             remove_bookmark: 'Remove bookmark'
             share: 'Share this registration'
             fork: 'Fork this registration'
+    overviewHeader:
+        needModeratorPermission: 'You do not have permission to moderate this registration.'
     partialRegistrationModal:
         title: 'Select Components'
         continueButton: Continue
         cancelButton: Cancel
         selectAll: 'Select All'
         clearAll: 'Clear All'
+    registrationList:
+        pending: 'No registrations pending approval have been found'
+        accepted: 'No public registrations have been found'
+        embargo: 'No embargoed registrations have been found'
+        rejected: 'No rejected registrations have been found'
+        withdrawn: 'No withdrawn registrations have been found'
+        pending_withdraw: 'No registrations found pending withdrawal'
+    reviewActionsList:
+        failedToLoadActions: 'Failed to load registration moderation history'
+        noActionsFound: 'No moderation history found for this registration'
+    reviewAction:
+        acceptSubmission: 'Registration {action} {date} by {submitter} with no embargo'
+        acceptEmbargoSubmission: 'Registration {action} {date} by {submitter} with embargo ending {embargoEndDate}'
+        moderatorAction: 'Registration {action} {date} by moderator {moderator}'
+        contributorAction: 'Registration {action} {date} by contributor {contributor}'
+    reviewActions:
+        triggerPastTense:
+            submit: 'submitted'
+            accept_submission: 'submission accepted'
+            reject_submission: 'submission rejected'
+            force_withdraw: 'withdrawn'
+            request_withdrawal: 'withdrawal requested'
+            accept_withdrawal: 'withdrawal request accepted'
+            reject_withdrawal: 'withdrawal request rejected'
     finalizeRegistrationModal:
         title: 'Almost done...'
         notice: "Please keep in mind that:\n                <ul>\n                    <li>\n                        Registrations cannot be modified or deleted once completed.\n                    </li>\n                    <li>\n                        The content and version history of Wiki and OSF Storage will be copied to the registration.\n                    </li>\n                    <li>\n                        This project contains links to other projects. These links will be copied into your registration, but the\n                        projects that they link to will not be registered. If you wish to register the linked projects, they must be\n                        registered separately. <a href='{learnMoreLink}' target='_blank' rel='noopener noreferrer'>Learn more about links</a>.\n                    </li>\n                </ul>"
@@ -1280,6 +1338,24 @@ registries:
         datePlaceholder: 'Choose embargo end date'
     sharingIcons:
         label: 'Share this registration via {mediaType}'
+    makeDecisionDropdown:
+        makeDecision: 'Make Decision'
+        acceptSubmission: 'Accept Submission'
+        acceptSubmissionDescription: 'Registration will appear in search results and be made public. Embargoed registrations will only become public after embargo end date.'
+        rejectSubmission: 'Reject Submission'
+        rejectSubmissionDescription: 'Registration will not appear in search results and will return to a private draft state'
+        forceWithdraw: 'Force Withdraw'
+        forceWithdrawDescription: 'Registration will be withdrawn but still have a tombstone page with a justification for withdrawal and a subset of the metadata available'
+        acceptWithdrawal: 'Accept Withdrawal'
+        acceptWithdrawalDescription: 'Registration will be withdrawn but still have a tombstone page with a justification for withdrawal and subset of the metadata available'
+        rejectWithdrawal: 'Reject Withdrawal'
+        rejectWithdrawalDescription: 'Registration will remain fully public'
+        additionalComment: 'Additional comment'
+        submit: 'Submit'
+        success: 'Successfully submitted moderator decision.'
+        failure: 'Failed to submit moderator decision.'
+        justificationForWithdrawal: 'Justification for Withdrawal'
+        remarksToAdmin: 'Add remarks to registration admins'
 meetings:
     index:
         meetings-list:
@@ -1519,6 +1595,31 @@ osf-components:
             error: 'Error updating contributor bibliographic status.'
         reorderContributor:
             success: 'Contributor order updated.'
+    subscriptions:
+        frequency:
+            daily: 'Daily'
+            instant: 'Instant'
+            none: 'None'
+        success: 'Notification frequency updated.'
+        error: 'Error updating notification frequency.'
+    moderators:
+        remove:
+            modal:
+                title: 'Confirm moderator removal'
+                body: 'Are you sure you want to remove {moderator}?'
+        add:
+            button: 'Add moderator'
+            modal:
+                heading: 'Add a moderator'
+                add: 'Add'
+                selectUser: 'Select user'
+                selectPermission: 'Select permission'
+                cancel: 'Cancel'
+                searchByName: 'Search user by name'
+                inviteByEmail: 'Invite user by email'
+                email: 'Email'
+                fullName: 'Full name'
+
 settings:
     toggleNav: 'Toggle navigation'
     profile:

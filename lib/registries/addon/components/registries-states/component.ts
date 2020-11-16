@@ -9,7 +9,7 @@ import moment from 'moment';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import RegistrationModel, { RegistrationState } from 'ember-osf-web/models/registration';
+import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import styles from './styles';
 import template from './template';
 
@@ -19,41 +19,47 @@ const { OSF: { url: baseURL } } = config;
 export default class RegistriesStates extends Component {
     // Required
     registration!: RegistrationModel;
+    isModeratorMode: boolean = this.isModeratorMode;
 
     // Private
-    public = RegistrationState.Public;
     @service intl!: Intl;
 
-    @computed('registration.state')
+    @computed('registration.reviewsState')
     get stateIcon() {
         const { registration } = this;
-        const {
-            PendingRegistration,
-            PendingWithdrawal,
-            PendingEmbargo,
-            PendingEmbargoTermination,
-            Embargoed,
-        } = RegistrationState;
-
-        switch (registration.state) {
-        case PendingRegistration:
-        case PendingWithdrawal:
-        case PendingEmbargo:
-        case PendingEmbargoTermination:
+        switch (registration.reviewsState) {
+        case RegistrationReviewStates.Initial:
+        case RegistrationReviewStates.Pending:
+        case RegistrationReviewStates.PendingWithdrawRequest:
+        case RegistrationReviewStates.PendingEmbargoTermination:
+        case RegistrationReviewStates.PendingWithdraw:
             return 'clock-o';
-        case Embargoed:
+        case RegistrationReviewStates.Embargo:
             return 'lock';
         default:
             return 'eye';
         }
     }
 
-    @computed('registration.state', 'stateIcon')
+    @computed(
+        'registration.{reviewsState,pendingRegistrationApproval,pendingEmbargoApproval,userHasAdminPermission}',
+        'stateIcon',
+        'isModeratorMode',
+    )
     get stateText() {
         if (!this.registration) {
             return undefined;
         }
-        const stateKey = camelize(this.registration.state);
+        let stateKey;
+        if (this.registration.pendingRegistrationApproval) {
+            stateKey = 'pendingRegistrationApproval';
+        } else if (this.registration.pendingEmbargoApproval) {
+            stateKey = 'pendingEmbargoApproval';
+        } else if (!this.registration.userHasAdminPermission && !this.isModeratorMode) {
+            stateKey = RegistrationReviewStates.Accepted;
+        } else {
+            stateKey = camelize(this.registration.reviewsState);
+        }
         return {
             short: this.intl.t(`registries.overview.${stateKey}.short_description`),
             long: this.intl.t(`registries.overview.${stateKey}.long_description`, {
@@ -66,10 +72,13 @@ export default class RegistriesStates extends Component {
         };
     }
 
-    @computed('registration.{userHasAdminPermission,state}')
+    @computed('registration.{userHasAdminPermission,reviewsState}')
     get shouldOpenDropdownOnLoad() {
         return this.registration.userHasAdminPermission
-            && ![RegistrationState.Embargoed, RegistrationState.Public].includes(this.registration.state);
+        && ![
+            RegistrationReviewStates.Embargo,
+            RegistrationReviewStates.Accepted,
+        ].includes(this.registration.reviewsState);
     }
 
     @computed('registration.registeredFrom.id')
@@ -81,9 +90,17 @@ export default class RegistriesStates extends Component {
         return registeredFromId && pathJoin(baseURL, registeredFromId);
     }
 
-    @computed('registration.{userHasAdminPermission,state,isRoot}')
+    @computed('registration.{userHasAdminPermission,reviewsState,isRoot}', 'isModeratorMode')
     get shouldHideAdminActions() {
-        return (!this.registration.isRoot || !this.registration.userHasAdminPermission
-            || !([RegistrationState.Public, RegistrationState.Embargoed].includes(this.registration.state)));
+        return (
+            !this.registration.isRoot
+            || !this.registration.userHasAdminPermission
+            || this.isModeratorMode
+            || !(
+                [RegistrationReviewStates.Accepted, RegistrationReviewStates.Embargo].includes(
+                    this.registration.reviewsState,
+                )
+            )
+        );
     }
 }

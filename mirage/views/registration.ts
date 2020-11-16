@@ -1,5 +1,7 @@
-import { HandlerContext, Request, Response, Schema } from 'ember-cli-mirage';
+import { HandlerContext, ModelInstance, Request, Response, Schema } from 'ember-cli-mirage';
 import faker from 'faker';
+
+import RegistrationModel from 'ember-osf-web/models/registration';
 
 import { guid } from '../factories/utils';
 import { process } from './utils';
@@ -65,4 +67,30 @@ export function createRegistration(this: HandlerContext, schema: Schema) {
     }
 
     return newReg;
+}
+
+export function getProviderRegistrations(this: HandlerContext, schema: Schema, request: Request) {
+    const { parentID: providerId } = request.params;
+    const { 'filter[reviews_state]': params, pageSize } = request.queryParams;
+    const filterParams = params.split(',');
+
+    const provider = schema.registrationProviders.find(providerId);
+    const providerRegistrations = provider.registrations.models;
+    let filteredRegistrations: Array<ModelInstance<RegistrationModel>> = [];
+
+    for (const param of filterParams) {
+        filteredRegistrations = filteredRegistrations.concat(
+            providerRegistrations.filter(
+                (registration: ModelInstance<RegistrationModel>) => registration.reviewsState === param,
+            ),
+        );
+    }
+
+    return process(
+        schema,
+        request,
+        this,
+        filteredRegistrations.map(reg => this.serialize(reg).data),
+        { defaultPageSize: Number(pageSize) },
+    );
 }

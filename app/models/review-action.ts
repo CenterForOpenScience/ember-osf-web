@@ -1,28 +1,57 @@
+import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import DS from 'ember-data';
+import Intl from 'ember-intl/services/intl';
 
 import OsfModel from './osf-model';
-import PreprintModel from './preprint';
-import PreprintProviderModel from './preprint-provider';
+import RegistrationModel from './registration';
 import UserModel from './user';
 
 const { attr, belongsTo } = DS;
 
+export enum ReviewActionTrigger {
+    Submit = 'submit', // registration submitted by admins
+    AcceptSubmission = 'accept_submission', // accept submission
+    RejectSubmission = 'reject_submission', // reject submission
+    ForceWithdraw = 'force_withdraw', // force withdraw without request
+    RequestWithdrawal = 'request_withdrawal', // request to withdraw by contributors
+    AcceptWithdrawal = 'accept_withdrawal', // accept withdrawal request
+    RejectWithdrawal = 'reject_withdrawal', // deny withdrawal request
+}
+
+const TriggerToPastTenseTranslationKey: Record<ReviewActionTrigger, string> = {
+    submit: 'registries.reviewActions.triggerPastTense.submit',
+    accept_submission: 'registries.reviewActions.triggerPastTense.accept_submission',
+    reject_submission: 'registries.reviewActions.triggerPastTense.reject_submission',
+    force_withdraw: 'registries.reviewActions.triggerPastTense.force_withdraw',
+    request_withdrawal: 'registries.reviewActions.triggerPastTense.request_withdrawal',
+    accept_withdrawal: 'registries.reviewActions.triggerPastTense.accept_withdrawal',
+    reject_withdrawal: 'registries.reviewActions.triggerPastTense.reject_withdrawal',
+};
+
 export default class ReviewActionModel extends OsfModel {
-    @attr('string') actionTrigger!: string;
+    @service intl!: Intl;
+
+    @attr('string') actionTrigger!: ReviewActionTrigger;
     @attr('string') comment!: string;
     @attr('string') fromState!: string;
     @attr('string') toState!: string;
     @attr('date') dateCreated!: Date;
     @attr('date') dateModified!: Date;
+    @attr('boolean') auto!: boolean;
+    @attr('boolean') visible!: boolean;
 
-    @belongsTo('preprint-provider', { inverse: null })
-    provider!: DS.PromiseObject<PreprintProviderModel> & PreprintProviderModel;
-
-    @belongsTo('preprint', { inverse: 'reviewActions' })
-    target!: DS.PromiseObject<PreprintModel> & PreprintModel;
+    @belongsTo('registration', { inverse: 'reviewActions', polymorphic: true })
+    target!: DS.PromiseObject<RegistrationModel> & RegistrationModel;
 
     @belongsTo('user', { inverse: null })
     creator!: DS.PromiseObject<UserModel> & UserModel;
+
+    @computed('actionTrigger')
+    get triggerPastTense(): string {
+        const translationKey = TriggerToPastTenseTranslationKey[this.actionTrigger];
+        return translationKey ? this.intl.t(translationKey) : '';
+    }
 }
 
 declare module 'ember-data/types/registries/model' {

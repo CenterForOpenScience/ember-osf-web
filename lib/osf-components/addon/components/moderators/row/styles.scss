@@ -1,0 +1,29 @@
+.Moderator {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 2.5rem;
+
+    .Name {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .PermissionGroup {
+        flex-basis: 30%;
+    }
+}
+
+.ModeratorNamePermission {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @media (max-width: 767px) {
+        width: 80%;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

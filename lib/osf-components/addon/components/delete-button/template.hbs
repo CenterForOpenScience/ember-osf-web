@@ -1,26 +1,25 @@
 {{#if this.small}}
-    <OsfButton
+    <Button
         data-analytics-name='Delete button'
         data-test-delete-button
         aria-label={{this.buttonLabel}}
-        @type='link'
-        @size='sm'
-        local-class='SmallDelete'
-        @onClick={{action this._show}}
+        local-class={{if this.noBackground 'Button__noBackground'}}
+        @type='destroy'
+        {{on 'click' this._show}}
         @disabled={{this.disabled}}
     >
         {{fa-icon 'times' size='lg'}}
-    </OsfButton>
+    </Button>
 {{else}}
-    <OsfButton
+    <Button
         data-analytics-name='Delete button'
         data-test-delete-button
-        @type='default'
-        @onClick={{action this._show}}
+        @type='destroy'
+        {{on 'click' this._show}}
         @disabled={{this.disabled}}
     >
         {{this.buttonLabel}}
-    </OsfButton>
+    </Button>
 {{/if}}
 
 {{#if this.modalShown}}

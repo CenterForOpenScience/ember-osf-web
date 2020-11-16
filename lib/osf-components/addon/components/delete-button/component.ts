@@ -26,6 +26,7 @@ export default class DeleteButton extends Component {
 
     // Optional arguments
     small: boolean = defaultTo(this.small, false);
+    noBackground: boolean = defaultTo(this.noBackground, false);
     hardConfirm: boolean = defaultTo(this.hardConfirm, false);
     disabled: boolean = defaultTo(this.disabled, false);
     buttonLabel: string = defaultTo(

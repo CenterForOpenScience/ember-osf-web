@@ -1,0 +1,46 @@
+<div local-class='actionsWrapper'>
+    {{#if this.fetchActions.isRunning}}
+        <LoadingIndicator @dark={{true}} />
+    {{else if this.fetchActions.isError}}
+        <p data-test-loading-actions-failed>
+            {{t 'registries.reviewActionsList.failedToLoadActions'}}
+        </p>
+    {{else}}
+        {{#if this.reviewActions}}
+            {{#if (gt this.reviewActions.length 1)}}
+                <FaIcon
+                    data-test-registration-card-toggle-actions
+                    local-class='toggleActions'
+                    @icon={{this.toggleIcon}}
+                    @fixedWidth={{true}}
+                    {{on 'click' this.toggleActionList}}
+                />
+            {{/if}}
+            <div>
+                <ReviewActionsList::ReviewAction
+                    data-test-registration-list-card-latest-action
+                    @reviewAction={{this.latestAction}}
+                    @embargoEndDate={{@registration.embargoEndDate}}
+                />
+                <AnimatedContainer local-class='animationContainer'>
+                    <AnimatedIf
+                        @predicate={{this.showFullActionList}}
+                        @duration='100'
+                    >
+                        {{#each (without this.latestAction this.reviewActions) as |reviewAction|}}
+                            <ReviewActionsList::ReviewAction
+                                data-test-registration-list-card-more-actions
+                                @reviewAction={{reviewAction}}
+                                @embargoEndDate={{@registration.embargoEndDate}}
+                            />
+                        {{/each}}
+                    </AnimatedIf>
+                </AnimatedContainer>
+            </div>
+        {{else}}
+            <p data-test-no-actions-found>
+                {{t 'registries.reviewActionsList.noActionsFound'}}
+            </p>
+        {{/if}}
+    {{/if}}
+</div>

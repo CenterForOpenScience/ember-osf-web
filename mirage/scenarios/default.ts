@@ -7,6 +7,7 @@ import { StorageStatus } from 'ember-osf-web/models/node-storage';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 
+import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import { draftRegisterNodeMultiple, forkNode, registerNodeMultiple } from '../helpers';
 
 const {
@@ -66,7 +67,9 @@ function registrationScenario(
         contributors: server.createList('contributor', 11),
         currentUserPermissions: [Permission.Admin],
     }, 'withFiles', 'withStorage');
-    rootNode.update({ storage: StorageStatus.OVER_PRIVATE });
+    rootNode.update({
+        storage: server.create('node-storage', { storageLimitStatus: StorageStatus.OVER_PRIVATE }),
+    });
 
     const childNodeA = server.create('node', { parent: rootNode });
     server.create('node', { parent: childNodeA });
@@ -77,21 +80,67 @@ function registrationScenario(
         'withBrand',
         'withSchemas');
 
-    server.create('registration-provider', { id: 'egap', name: 'EGAP' }, 'withBrand');
+    const egap = server.create('registration-provider', { id: 'egap', name: 'EGAP' }, 'withBrand');
+    server.create('moderator', { provider: egap });
+    server.create('moderator', { id: currentUser.id, user: currentUser, provider: egap }, 'asAdmin');
+    server.createList('moderator', 5, { provider: egap });
 
     const decaf = server.create('registration', {
         id: 'decaf',
+        title: 'Pending Penguins',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
-        provider,
-    }, 'withContributors');
+        provider: egap,
+        reviewsState: RegistrationReviewStates.Pending,
+        registeredBy: currentUser,
+        currentUserPermissions: Object.values(Permission),
+    }, 'withContributors', 'withReviewActions');
 
+    server.create('registration', {
+        id: 'cuban',
+        title: 'embargoed',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        provider: egap,
+        registeredBy: currentUser,
+    }, 'withContributors', 'withReviewActions', 'isEmbargo');
+
+    server.createList('registration', 12,
+        {
+            reviewsState: RegistrationReviewStates.Pending,
+            provider: egap,
+        });
     server.create('contributor', { node: decaf }, 'unregistered');
 
     server.create('registration', {
-        id: 'berand',
+        id: 'wdrwn',
+        title: 'Withdrawn Hermit',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
-        provider,
+        provider: egap,
+        reviewsState: RegistrationReviewStates.Withdrawn,
+    }, 'withContributors', 'withReviewActions');
+
+    server.create('subscription');
+
+    server.create('registration', {
+        id: 'accpt',
+        title: 'Acceptember',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        provider: egap,
+        reviewsState: RegistrationReviewStates.Accepted,
     }, 'withContributors');
+
+    server.create('registration', {
+        id: 'cuban',
+        title: 'Embargo',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        provider: egap,
+    }, 'withContributors', 'isEmbargo');
+
+    server.create('registration', {
+        id: 'pndwd',
+        title: 'Cold Turkey',
+        provider: egap,
+        reviewsState: RegistrationReviewStates.PendingWithdraw,
+    }, 'withSingleReviewAction');
 
     server.create('registration', {
         id: 'aerchive',

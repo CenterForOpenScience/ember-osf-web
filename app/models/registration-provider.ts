@@ -1,7 +1,9 @@
 import DS from 'ember-data';
+import ReviewActionModel from 'ember-osf-web/models/review-action';
 
 import RegistrationSchemaModel from 'ember-osf-web/models/registration-schema';
 import BrandModel from './brand';
+import ModeratorModel from './moderator';
 import ProviderModel from './provider';
 import RegistrationModel from './registration';
 
@@ -16,6 +18,12 @@ export default class RegistrationProviderModel extends ProviderModel {
 
     @hasMany('registration-schema', { inverse: null })
     schemas!: DS.PromiseManyArray<RegistrationSchemaModel> | RegistrationSchemaModel[];
+
+    @hasMany('moderator', { inverse: 'provider' })
+    moderators!: DS.PromiseManyArray<ModeratorModel> | ModeratorModel[];
+
+    @hasMany('review-action', { inverse: null })
+    actions!: DS.PromiseManyArray<ReviewActionModel> | ReviewActionModel[];
 
     @attr('fixstring')
     shareSource?: string;

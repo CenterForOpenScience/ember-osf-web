@@ -1,0 +1,64 @@
+<div
+    local-class='Moderator'
+    data-test-moderator-row={{@moderator.id}}
+>
+    <div local-class='ModeratorNamePermission'>
+        <span local-class='Name'>
+            <OsfLink
+                data-test-moderator-link={{@moderator.id}}
+                data-analytics-name='View moderator profile'
+                @route='guid-user'
+                @models={{array @moderator.id}}
+            >
+                <img
+                    data-test-moderator-gravatar={{@moderator.fullName}}
+                    class='m-r-xs'
+                    src={{@moderator.user.links.profile_image}}
+                    alt={{@moderator.fullName}}
+                    height='30'
+                    width='30'
+                >
+                {{@moderator.user.fullName}}
+            </OsfLink>
+        </span>
+        <span
+            local-class='PermissionGroup'
+            data-test-permission-group
+        >
+            {{#if @manager.currentUserIsProviderAdmin}}
+                <PowerSelect
+                    @selected={{@moderator.permissionGroup}}
+                    @options={{capitalize this.permissionOptions}}
+                    @onchange={{fn @manager.updateModeratorPermission @moderator}}
+                    @searchEnabled={{false}}
+                    @disabled={{@manager.updateModeratorPermission.isRunning}}
+                    as |option|
+                >
+                    <span data-test-moderator-permission-option={{option}}>
+                        {{capitalize option}}
+                    </span>
+                </PowerSelect>
+            {{else}}
+                {{capitalize @moderator.permissionGroup}}
+            {{/if}}
+        </span>
+    </div>
+    <div>
+        <span>
+            {{#if this.shouldShowRemove}}
+                <DeleteButton
+                    @small={{true}}
+                    @noBackground={{true}}
+                    @delete={{action @manager.removeModerator @moderator}}
+                    @disabled={{@manager.removeModerator.isRunning}}
+                    @analyticsScope='Moderation - Moderators'
+                    @modalTitle={{t 'osf-components.moderators.remove.modal.title'}}
+                    @modalBody={{t 'osf-components.moderators.remove.modal.body'
+                        moderator=(if this.moderatorIsCurrentUser 'yourself' @moderator.fullName)
+                    }}
+                    data-test-delete-moderator-button={{@moderator.id}}
+                />
+            {{/if}}
+        </span>
+    </div>
+</div>

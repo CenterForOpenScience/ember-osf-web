@@ -5,13 +5,13 @@ import User from 'ember-osf-web/models/user';
 
 import { randomGravatar } from '../utils';
 
-import ApplicationSerializer from './application';
+import ApplicationSerializer, { SerializedRelationships } from './application';
 
 const { OSF: { apiUrl } } = config;
 
 export default class UserSerializer extends ApplicationSerializer<User> {
     buildRelationships(model: ModelInstance<User>) {
-        return {
+        const serializedRelationships: SerializedRelationships<User> = {
             emails: {
                 links: {
                     related: {
@@ -50,7 +50,9 @@ export default class UserSerializer extends ApplicationSerializer<User> {
                     },
                 },
             },
-            default_region: {
+        };
+        if (model.defaultRegion) {
+            serializedRelationships.defaultRegion = {
                 data: {
                     type: 'regions',
                     id: `${model.defaultRegion.id}`,
@@ -61,8 +63,9 @@ export default class UserSerializer extends ApplicationSerializer<User> {
                         meta: {},
                     },
                 },
-            },
-        };
+            };
+        }
+        return serializedRelationships;
     }
 
     buildNormalLinks(model: ModelInstance<User>) {

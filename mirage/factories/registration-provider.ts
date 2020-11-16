@@ -19,6 +19,8 @@ export interface RegistrationProviderTraits {
     withBrand: Trait;
     withSchemas: Trait;
     submissionsNotAllowed: Trait;
+    withModerators: Trait;
+    currentUserIsModerator: Trait;
 }
 
 export default Factory.extend<MirageRegistrationProvider & RegistrationProviderTraits>({
@@ -31,6 +33,7 @@ export default Factory.extend<MirageRegistrationProvider & RegistrationProviderT
     allowSubmissions: true,
     brandedDiscoveryPage: true,
     assets: randomAssets(),
+    reviewsWorkflow: 'pre-moderation',
 
     afterCreate(provider, server) {
         provider.update({
@@ -64,6 +67,19 @@ export default Factory.extend<MirageRegistrationProvider & RegistrationProviderT
     submissionsNotAllowed: trait<RegistrationProvider>({
         afterCreate(provider) {
             provider.update({ allowSubmissions: false });
+        },
+    }),
+    withModerators: trait<RegistrationProvider>({
+        afterCreate(provider) {
+            const moderatorList = server.createList('moderator', 4);
+            provider.update({ moderators: moderatorList });
+        },
+    }),
+    currentUserIsModerator: trait<RegistrationProvider>({
+        afterCreate(provider, server) {
+            const { currentUserId, currentUser } = server.schema.roots.first();
+            const moderator = server.create('moderator', { id: currentUserId, user: currentUser! });
+            provider.update({ moderators: [moderator] });
         },
     }),
 });

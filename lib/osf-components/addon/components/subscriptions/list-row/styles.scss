@@ -1,0 +1,18 @@
+.SubscriptionRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 75%;
+    height: 45px;
+    border-top: 1px solid $color-bg-gray-dark;
+}
+
+li:last-of-type {
+    .SubscriptionRow {
+        border-bottom: 1px solid $color-bg-gray-dark;
+    }
+}
+
+.RowPowerSelectSection {
+    width: 15%;
+}
