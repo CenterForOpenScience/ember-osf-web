@@ -11,7 +11,7 @@
             {{#if registration}}
                 <RegistrationList::Card
                     @registration={{registration}}
-                    @filterState={{@manager.filterState}}
+                    @state={{@manager.state}}
                 />
             {{else}}
                 {{placeholder.text lines=1}}
@@ -22,7 +22,7 @@
                 data-test-registration-list-none
                 local-class='noRegistrationMessage'
             >
-                {{t (concat 'registries.registrationList.' @manager.filterState)}}
+                {{t (concat 'registries.registrationList.' @manager.state)}}
             </p>
         </list.empty>
     </PaginatedList::HasMany>

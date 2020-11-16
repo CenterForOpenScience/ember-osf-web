@@ -3,67 +3,67 @@
 <RegistrationList::Manager
     local-class='registrationListContainer'
     @provider={{this.model}}
-    @filterState={{this.filterState}}
+    @state={{this.state}}
     as |manager|
 >
     <div local-class='tabSortingWrapper'>
         <div local-class='tabs'>
             <button
                 data-test-submissions-type='pending'
-                data-test-is-selected={{if (eq this.filterState 'pending') 'true' 'false'}}
+                data-test-is-selected={{if (eq this.state 'pending') 'true' 'false'}}
                 type='button'
                 {{on 'click' (fn this.changeTab 'pending')}}
-                local-class='tab {{if (eq this.filterState 'pending') 'selected'}}'
+                local-class='tab {{if (eq this.state 'pending') 'selected'}}'
             >
                 <FaIcon @icon='hourglass' />
                 {{t 'registries.moderation.states.pending'}}
             </button>
             <button
                 data-test-submissions-type='accepted'
-                data-test-is-selected={{if (eq this.filterState 'accepted') 'true' 'false'}}
+                data-test-is-selected={{if (eq this.state 'accepted') 'true' 'false'}}
                 type='button'
                 {{on 'click' (fn this.changeTab 'accepted')}}
-                local-class='tab {{if (eq this.filterState 'accepted') 'selected'}}'
+                local-class='tab {{if (eq this.state 'accepted') 'selected'}}'
             >
                 <FaIcon @icon='check' />
                 {{t 'registries.moderation.states.accepted'}}
             </button>
             <button
                 data-test-submissions-type='embargo'
-                data-test-is-selected={{if (eq this.filterState 'embargo') 'true' 'false'}}
+                data-test-is-selected={{if (eq this.state 'embargo') 'true' 'false'}}
                 type='button'
                 {{on 'click' (fn this.changeTab 'embargo')}}
-                local-class='tab {{if (eq this.filterState 'embargo') 'selected'}}'
+                local-class='tab {{if (eq this.state 'embargo') 'selected'}}'
             >
                 <FaIcon @icon='lock' />
                 {{t 'registries.moderation.states.embargo'}}
             </button>
             <button
                 data-test-submissions-type='rejected'
-                data-test-is-selected={{if (eq this.filterState 'rejected') 'true' 'false'}}
+                data-test-is-selected={{if (eq this.state 'rejected') 'true' 'false'}}
                 type='button'
                 {{on 'click' (fn this.changeTab 'rejected')}}
-                local-class='tab {{if (eq this.filterState 'rejected') 'selected'}}'
+                local-class='tab {{if (eq this.state 'rejected') 'selected'}}'
             >
                 <FaIcon @icon='times' />
                 {{t 'registries.moderation.states.rejected'}}
             </button>
             <button
                 data-test-submissions-type='withdrawn'
-                data-test-is-selected={{if (eq this.filterState 'withdrawn') 'true' 'false'}}
+                data-test-is-selected={{if (eq this.state 'withdrawn') 'true' 'false'}}
                 type='button'
                 {{on 'click' (fn this.changeTab 'withdrawn')}}
-                local-class='tab {{if (eq this.filterState 'withdrawn') 'selected'}}'
+                local-class='tab {{if (eq this.state 'withdrawn') 'selected'}}'
             >
                 <FaIcon @icon='ban' />
                 {{t 'registries.moderation.states.withdrawn'}}
             </button>
             <button
                 data-test-submissions-type='pending-withdraw'
-                data-test-is-selected={{if (eq this.filterState 'pending_withdraw') 'true' 'false'}}
+                data-test-is-selected={{if (eq this.state 'pending_withdraw') 'true' 'false'}}
                 type='button'
                 {{on 'click' (fn this.changeTab 'pending_withdraw')}}
-                local-class='tab {{if (eq this.filterState 'pending_withdraw') 'selected'}}'
+                local-class='tab {{if (eq this.state 'pending_withdraw') 'selected'}}'
             >
                 <FaIcon @icon='clock-o' />
                 {{t 'registries.moderation.states.pendingWithdraw'}}

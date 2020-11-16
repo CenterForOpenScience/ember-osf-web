@@ -74,7 +74,7 @@ export default class MakeDecisionDropdown extends Component<Args> {
                     this.router.transitionTo(
                         'registries.branded.moderation.submissions',
                         this.args.registration.provider.get('id'),
-                        { queryParams: { filterState: RegistrationReviewStates.Rejected } },
+                        { queryParams: { state: RegistrationReviewStates.Rejected } },
                     );
                 }
                 this.args.registration.reload();

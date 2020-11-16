@@ -3,7 +3,7 @@
         <div local-class='Header'>
             <h1 data-test-registration-title>{{@registration.title}}</h1>
         </div>
-        {{#if (not (or @registration.archiving (eq @registration.reviewsState 'withdrawn')))}}
+        {{#if this.showTopbar}}
             <div local-class='ActionBar'>
                 <Overview::-Components::OverviewTopbar @isModeratorMode={{this.canViewAsModerator}} @registration={{@registration}} />
             </div>

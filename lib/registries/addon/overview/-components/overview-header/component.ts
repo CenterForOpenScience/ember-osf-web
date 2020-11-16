@@ -22,13 +22,18 @@ export default class OverviewHeader extends Component {
     @not('media.isDesktop') showMobileView!: boolean;
 
     registration!: RegistrationModel;
-    viewMode!: string;
+    mode!: string;
 
     @tracked currentModerator?: ModeratorModel;
 
-    @computed('viewMode', 'currentModerator')
+    @computed('registration.{reviewState,archiving}')
+    get showTopbar() {
+        return this.registration && !(this.registration.reviewsState === 'withdrawn' || this.registration.archiving);
+    }
+
+    @computed('mode', 'currentModerator')
     get canViewAsModerator() {
-        if (this.viewMode === 'moderator' && Boolean(this.currentModerator)) {
+        if (this.mode === 'moderator' && Boolean(this.currentModerator)) {
             return true;
         }
         return false;
@@ -51,7 +56,7 @@ export default class OverviewHeader extends Component {
     });
 
     didReceiveAttrs() {
-        if (this.viewMode === 'moderator' && this.currentUser.currentUserId) {
+        if (this.mode === 'moderator' && this.currentUser.currentUserId) {
             this.loadCurrentModerator.perform();
         }
     }

@@ -19,12 +19,17 @@ const { OSF: { url: baseURL } } = config;
 export default class Overview extends Controller {
     model!: GuidRouteModel<Registration>;
 
-    queryParams = ['viewMode'];
+    queryParams = ['mode'];
     supportEmail = supportEmail;
 
-    @tracked viewMode: string = '';
+    @tracked mode: string = '';
 
     @alias('model.taskInstance.value') registration?: Registration;
+
+    @computed('registration.{reviewState,archiving}')
+    get showTombstone() {
+        return this.registration && (this.registration.reviewsState === 'withdrawn' || this.registration.archiving);
+    }
 
     @computed('registration.id')
     get registrationURL() {

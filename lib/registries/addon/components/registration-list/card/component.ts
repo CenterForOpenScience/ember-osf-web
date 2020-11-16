@@ -13,12 +13,12 @@ const iconMap: Partial<Record<RegistrationReviewStates, string>> = {
 
 interface Args {
     registration: RegistrationModel;
-    filterState: RegistrationReviewStates;
+    state: RegistrationReviewStates;
 }
 
 export default class RegistrationListCard extends Component<Args> {
     get icon(): string {
-        const { filterState } = this.args;
-        return iconMap[filterState] || '';
+        const { state } = this.args;
+        return iconMap[state] || '';
     }
 }

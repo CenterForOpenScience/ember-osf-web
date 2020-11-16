@@ -4,23 +4,23 @@
     ...attributes
 >
     <FaIcon
-        data-test-registration-list-card-icon='{{@filterState}}'
+        data-test-registration-list-card-icon='{{@state}}'
         @icon={{this.icon}}
         @size={{2}}
-        local-class='filterIcon {{@filterState}}'
+        local-class='filterIcon {{@state}}'
     />
     <div local-class='cardInfo'>
         <h3
             data-test-registration-list-card-title
             local-class='registrationTitle'
         >
-            {{#if (eq @filterState 'rejected')}}
+            {{#if (eq @state 'rejected')}}
                 {{@registration.title}}
             {{else}}
                 <OsfLink
                     @route='registries.overview'
                     @models={{array @registration.id}}
-                    @queryParams={{hash viewMode='moderator'}}
+                    @queryParams={{hash mode='moderator'}}
                 >
                     {{@registration.title}}
                 </OsfLink>

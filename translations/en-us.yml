@@ -990,7 +990,7 @@ registries:
             rejected: Rejected
             pending: Pending
             withdrawn: Withdrawn
-            pendingWithdraw: 'Pending Withdraw'
+            pendingWithdraw: 'Pending Withdrawal'
         submissions:
             title: Submissions
         withdrawals:

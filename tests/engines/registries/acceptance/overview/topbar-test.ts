@@ -227,7 +227,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
                 provider: server.create('registration-provider'),
             });
 
-            await visit(`/${reg.id}?viewMode=moderator`);
+            await visit(`/${reg.id}?mode=moderator`);
             assert.dom('[data-test-moderation-dropdown-button]')
                 .doesNotExist('non-moderators do not have access to moderator dropdown');
             assert.dom('[data-test-topbar-share-bookmark-fork]')
@@ -254,7 +254,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
                 provider: server.create('registration-provider', 'currentUserIsModerator'),
                 reviewsState: RegistrationReviewStates.Accepted,
             }, 'withReviewActions');
-            await visit(`/${reg.id}?viewMode=moderator`);
+            await visit(`/${reg.id}?mode=moderator`);
             assert.dom('[data-test-moderation-dropdown-button]')
                 .exists('moderator action dropdown exists');
             assert.dom('[data-test-topbar-share-bookmark-fork]')

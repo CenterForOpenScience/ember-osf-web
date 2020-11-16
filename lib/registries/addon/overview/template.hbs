@@ -9,10 +9,10 @@
     {{else}}
         {{assert 'Registries::Overview - registration should not be null or undefined' this.registration}}
         {{title this.registration.title prepend=false}}
-        {{#if (or (eq this.registration.reviewsState 'withdrawn') this.registration.archiving)}}
+        {{#if this.showTombstone}}
             <OsfLayout @backgroundClass='{{local-class 'ContentBackground'}}' as |layout|>
                 <layout.heading>
-                    <Overview::-Components::OverviewHeader @viewMode={{this.viewMode}} @registration={{this.registration}} />
+                    <Overview::-Components::OverviewHeader @mode={{this.mode}} @registration={{this.registration}} />
                 </layout.heading>
                 <layout.main>
                     {{#if (eq this.registration.reviewsState 'withdrawn')}}
@@ -44,7 +44,7 @@
             <OsfLayout @backgroundClass='{{local-class 'ContentBackground'}}' as |layout|>
                 <layout.heading>
                     <Overview::-Components::OverviewHeader
-                        @viewMode={{this.viewMode}}
+                        @mode={{this.mode}}
                         @registration={{this.registration}}
                         @sidenavGutterClosed={{layout.sidenavGutterClosed}}
                         @toggleSidenav={{layout.toggleSidenav}}

@@ -5,12 +5,12 @@ import { tracked } from '@glimmer/tracking';
 import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 
 export default class RegistriesModerationSubmissionController extends Controller {
-    queryParams = ['filterState'];
+    queryParams = ['state'];
 
-    @tracked filterState: RegistrationReviewStates = RegistrationReviewStates.Pending;
+    @tracked state: RegistrationReviewStates = RegistrationReviewStates.Pending;
 
     @action
     changeTab(tab: RegistrationReviewStates) {
-        this.filterState = tab;
+        this.state = tab;
     }
 }
