@@ -4,6 +4,7 @@ import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import DS from 'ember-data';
 
+import { ReviewPermissions } from 'ember-osf-web/models/provider';
 import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUserService from 'ember-osf-web/services/current-user';
@@ -16,7 +17,8 @@ export default class BrandedModerationRoute extends Route {
 
     afterModel(model: RegistrationProviderModel) {
         const { user } = this.currentUser;
-        if (!user || !user.canViewReviews || model.reviewsWorkflow !== 'pre-moderation') {
+        if (!user || !user.canViewReviews || model.reviewsWorkflow !== 'pre-moderation'
+            || !model.permissions.includes(ReviewPermissions.ViewSubmissions)) {
             this.transitionTo('page-not-found', window.location.pathname.slice(1));
         }
     }
