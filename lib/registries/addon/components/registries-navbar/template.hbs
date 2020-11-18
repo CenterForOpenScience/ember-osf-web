@@ -62,11 +62,22 @@
                 <nav.links.secondary
                     data-test-add-new-button
                     data-analytics-name='Create new registration'
-                    local-class='AddRegistrationButton'
+                    local-class='SecondaryNavLinkButton'
                     @route='registries.branded.new'
                     @models={{array this.provider.id}}
                 >
                     {{t 'navbar.add_registration'}}
+                </nav.links.secondary>
+            {{/if}}
+            {{#if this.provider.currentUserCanReview}}
+                <nav.links.secondary
+                    data-test-my-reviewing-button
+                    data-analytics-name='Go to moderation view'
+                    local-class='SecondaryNavLinkButton'
+                    @route='registries.branded.moderation'
+                    @models={{array this.provider.id}}
+                >
+                    {{t 'navbar.my_reviewing'}}
                 </nav.links.secondary>
             {{/if}}
 
