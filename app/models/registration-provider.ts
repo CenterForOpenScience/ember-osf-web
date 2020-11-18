@@ -37,7 +37,10 @@ export default class RegistrationProviderModel extends ProviderModel {
 
     @computed('permissions')
     get currentUserCanReview() {
-        return this.permissions.includes(ReviewPermissions.ViewSubmissions);
+        if (this.permissions) {
+            return this.permissions.includes(ReviewPermissions.ViewSubmissions);
+        }
+        return false;
     }
 }
 
