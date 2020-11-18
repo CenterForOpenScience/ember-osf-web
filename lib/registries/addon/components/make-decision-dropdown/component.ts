@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
@@ -49,14 +49,19 @@ export default class MakeDecisionDropdown extends Component<Args> {
             this.intl.t('registries.makeDecisionDropdown.rejectWithdrawalDescription'),
     };
 
-    @computed('this.args.registration.reviewsState')
-    get commentLabel() {
-        const { reviewsState } = this.args.registration;
-        if (reviewsState === RegistrationReviewStates.Pending
-            || reviewsState === RegistrationReviewStates.PendingWithdraw) {
-            return this.intl.t('registries.makeDecisionDropdown.additionalComment');
+    get commentTextArea() {
+        if ([RegistrationReviewStates.Pending, RegistrationReviewStates.PendingWithdraw]
+            .includes(this.args.registration.reviewsState)) {
+            return {
+                label: this.intl.t('registries.makeDecisionDropdown.additionalComment'),
+                placeholder: this.intl.t('registries.makeDecisionDropdown.additionalCommentPlaceholder'),
+            };
         }
-        return this.intl.t('registries.makeDecisionDropdown.justificationForWithdrawal');
+
+        return {
+            label: this.intl.t('registries.makeDecisionDropdown.justificationForWithdrawal'),
+            placeholder: this.intl.t('registries.makeDecisionDropdown.justificationForWithdrawalPlaceholder'),
+        };
     }
 
     @task({ withTestWaiter: true })
