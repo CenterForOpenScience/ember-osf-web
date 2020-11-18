@@ -68,6 +68,8 @@
                 >
                     {{t 'navbar.add_registration'}}
                 </nav.links.secondary>
+            {{/if}}
+            {{#if this.provider.currentUserCanReview}}
                 <nav.links.secondary
                     data-test-my-reviewing-button
                     data-analytics-name='Go to moderation view'
