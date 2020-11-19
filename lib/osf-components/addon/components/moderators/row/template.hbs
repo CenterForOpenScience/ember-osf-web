@@ -47,16 +47,19 @@
         <span>
             {{#if this.shouldShowRemove}}
                 <DeleteButton
+                    data-test-delete-moderator-button={{@moderator.id}}
                     @small={{true}}
                     @noBackground={{true}}
-                    @delete={{action @manager.removeModerator @moderator}}
-                    @disabled={{@manager.removeModerator.isRunning}}
+                    @delete={{fn @manager.removeModerator @moderator}}
+                    @disabled={{@manager.removeModeratorTask.isRunning}}
                     @analyticsScope='Moderation - Moderators'
                     @modalTitle={{t 'osf-components.moderators.remove.modal.title'}}
                     @modalBody={{t 'osf-components.moderators.remove.modal.body'
                         moderator=(if this.moderatorIsCurrentUser 'yourself' @moderator.fullName)
                     }}
-                    data-test-delete-moderator-button={{@moderator.id}}
+                    @errorMessage={{t 'registries.moderation.moderators.removedModeratorError'
+                        permission=@moderator.permissionGroup
+                    }}
                 />
             {{/if}}
         </span>
