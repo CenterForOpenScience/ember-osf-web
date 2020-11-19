@@ -30,6 +30,7 @@ module('Registries | Acceptance | branded.moderation | moderators', hooks => {
         const regProvider = server.schema.registrationProviders.find('mdr8n');
         const currentUser = server.create('user', 'loggedIn');
         server.create('moderator', { id: currentUser.id, user: currentUser, provider: regProvider }, 'asModerator');
+        regProvider.update({ permissions: ['view_submissions'] });
         await visit('/registries/mdr8n/moderation/moderators');
         await percySnapshot('moderation moderators page: moderator view');
         assert.equal(currentRouteName(), 'registries.branded.moderation.moderators',
@@ -48,6 +49,7 @@ module('Registries | Acceptance | branded.moderation | moderators', hooks => {
         const regProvider = server.schema.registrationProviders.find('mdr8n');
         const currentUser = server.create('user', 'loggedIn');
         server.create('moderator', { id: currentUser.id, user: currentUser, provider: regProvider }, 'asAdmin');
+        regProvider.update({ permissions: ['view_submissions'] });
         await visit('/registries/mdr8n/moderation/moderators');
         await percySnapshot('moderation moderators page: admin view');
         assert.equal(currentRouteName(), 'registries.branded.moderation.moderators',

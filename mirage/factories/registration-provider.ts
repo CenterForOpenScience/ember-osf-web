@@ -34,6 +34,7 @@ export default Factory.extend<MirageRegistrationProvider & RegistrationProviderT
     brandedDiscoveryPage: true,
     assets: randomAssets(),
     reviewsWorkflow: 'pre-moderation',
+    permissions: [],
 
     afterCreate(provider, server) {
         provider.update({

@@ -34,6 +34,7 @@ module('Registries | Acceptance | branded.moderation | submissions', hooks => {
     });
 
     test('Submissions pending: no registrations', async function(this: ModerationSubmissionsTestContext, assert) {
+        this.registrationProvider.update({ permissions: ['view_submissions'] });
         const currentUser = server.create('user', 'loggedIn');
         server.create('moderator', {
             id: currentUser.id,
@@ -119,6 +120,7 @@ module('Registries | Acceptance | branded.moderation | submissions', hooks => {
                 reviewsState: RegistrationReviewStates.Withdrawn, provider: this.registrationProvider,
             },
         );
+        this.registrationProvider.update({ permissions: ['view_submissions'] });
         const currentUser = server.create('user', 'loggedIn');
         server.create('moderator', {
             id: currentUser.id,
