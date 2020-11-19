@@ -1351,12 +1351,13 @@ registries:
         acceptWithdrawalDescription: 'Registration will be withdrawn but still have a tombstone page with a justification for withdrawal and subset of the metadata available'
         rejectWithdrawal: 'Reject Withdrawal'
         rejectWithdrawalDescription: 'Registration will remain fully public'
-        additionalComment: 'Additional comment'
         submit: 'Submit'
         success: 'Successfully submitted moderator decision.'
         failure: 'Failed to submit moderator decision.'
+        additionalComment: 'Additional comment'
+        additionalCommentPlaceholder: 'Add remarks to registration admins'
         justificationForWithdrawal: 'Justification for Withdrawal'
-        remarksToAdmin: 'Add remarks to registration admins'
+        justificationForWithdrawalPlaceholder: 'Provide justification for withdrawal'
 meetings:
     index:
         meetings-list:

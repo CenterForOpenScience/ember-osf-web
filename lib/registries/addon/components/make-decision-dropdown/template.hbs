@@ -40,13 +40,13 @@
             </div>
         {{/each}}
         <label for='moderator-comment'>
-            {{this.commentLabel}}
+            {{this.commentTextArea.label}}
         </label>
         <Textarea
             data-test-moderation-dropdown-comment
             @id='moderator-comment'
             @value={{this.comment}}
-            placeholder={{t 'registries.makeDecisionDropdown.remarksToAdmin'}}
+            placeholder={{this.commentTextArea.placeholder}}
             local-class='Comment'
         />
         <Button
