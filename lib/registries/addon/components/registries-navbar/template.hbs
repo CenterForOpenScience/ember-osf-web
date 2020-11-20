@@ -58,6 +58,17 @@
         {{! Right Side (Search, Buttons, Gravatar, Dropdown) }}
         <nav.section data-test-right>
      
+            {{#if this.provider.currentUserCanReview}}
+                <nav.links.secondary
+                    data-test-my-reviewing-button
+                    data-analytics-name='Go to moderation view'
+                    local-class='SecondaryNavLinkButton'
+                    @route='registries.branded.moderation'
+                    @models={{array this.provider.id}}
+                >
+                    {{t 'navbar.moderation'}}
+                </nav.links.secondary>
+            {{/if}}
             {{#if this.showAddRegistrationButton}}
                 <nav.links.secondary
                     data-test-add-new-button
@@ -67,17 +78,6 @@
                     @models={{array this.provider.id}}
                 >
                     {{t 'navbar.add_registration'}}
-                </nav.links.secondary>
-            {{/if}}
-            {{#if this.provider.currentUserCanReview}}
-                <nav.links.secondary
-                    data-test-my-reviewing-button
-                    data-analytics-name='Go to moderation view'
-                    local-class='SecondaryNavLinkButton'
-                    @route='registries.branded.moderation'
-                    @models={{array this.provider.id}}
-                >
-                    {{t 'navbar.my_reviewing'}}
                 </nav.links.secondary>
             {{/if}}
 
