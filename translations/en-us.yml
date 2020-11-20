@@ -266,7 +266,7 @@ navbar:
     add: Add
     # add_a_preprint: 'Add a {preprintWords.preprint}'
     add_registration: 'Add New'
-    my_reviewing: 'My Reviewing'
+    moderation: 'Moderation'
     browse: Browse
     cancel_search: 'Cancel search'
     donate: Donate
