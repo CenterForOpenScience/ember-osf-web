@@ -2,10 +2,11 @@
     @horizontalPosition='right'
     as |dd|
 >
-    <dd.trigger>
+    <dd.trigger local-class='TriggerDiv'>
         <Button
             data-test-moderation-dropdown-button
             data-analytics-name='Display Moderation Actions'
+            local-class='TriggerButton'
             @type='create'
         >
             {{t 'registries.makeDecisionDropdown.makeDecision'}}
