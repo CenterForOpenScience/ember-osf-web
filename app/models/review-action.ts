@@ -17,6 +17,7 @@ export enum ReviewActionTrigger {
     RequestWithdrawal = 'request_withdrawal', // request to withdraw by contributors
     AcceptWithdrawal = 'accept_withdrawal', // accept withdrawal request
     RejectWithdrawal = 'reject_withdrawal', // deny withdrawal request
+    RequestEmbargoTermination = 'request_embargo_termination', // admin requests embargo termination
 }
 
 const TriggerToPastTenseTranslationKey: Record<ReviewActionTrigger, string> = {
@@ -27,6 +28,7 @@ const TriggerToPastTenseTranslationKey: Record<ReviewActionTrigger, string> = {
     request_withdrawal: 'registries.reviewActions.triggerPastTense.request_withdrawal',
     accept_withdrawal: 'registries.reviewActions.triggerPastTense.accept_withdrawal',
     reject_withdrawal: 'registries.reviewActions.triggerPastTense.reject_withdrawal',
+    request_embargo_termination: 'registries.reviewActions.triggerPastTense.request_embargo_termination',
 };
 
 export default class ReviewActionModel extends OsfModel {
