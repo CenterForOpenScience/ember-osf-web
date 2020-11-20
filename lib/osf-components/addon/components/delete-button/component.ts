@@ -8,6 +8,7 @@ import Toast from 'ember-toastr/services/toast';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import randomScientist from 'ember-osf-web/utils/random-scientist';
 
@@ -72,8 +73,8 @@ export default class DeleteButton extends Component {
             yield this.delete();
             this.set('modalShown', false);
         } catch (e) {
-            this.toast.error(this.errorMessage);
-            throw e;
+            captureException(e, { errorMessage: this.errorMessage });
+            this.toast.error(getApiErrorMessage(e), this.errorMessage);
         }
     });
 
