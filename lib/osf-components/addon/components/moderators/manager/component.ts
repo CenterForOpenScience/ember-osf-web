@@ -147,29 +147,41 @@ export default class ModeratorManagerComponent extends Component {
             moderator.set('permissionGroup', newPermission);
             yield moderator.save();
             this.toast.success(this.intl.t(
-                'registries.moderation.moderators.updatedModeratorPermission',
+                'registries.moderation.moderators.updatedModeratorPermissionSuccess',
                 { userName: moderator.fullName, permission: newPermission },
             ));
         } catch (e) {
+            const errorMessage = this.intl.t(
+                'registries.moderation.moderators.updatedModeratorPermissionError',
+                { permission: newPermission },
+            );
             moderator.rollbackAttributes();
-            captureException(e);
-            this.toast.error(getApiErrorMessage(e));
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
         }
     });
 
     @task({ withTestWaiter: true })
     removeModeratorTask = task(function *(this: ModeratorManagerComponent, moderator: ModeratorModel) {
-        moderator.deleteRecord();
-        yield moderator.save();
+        try {
+            yield moderator.destroyRecord();
 
-        if (this.reloadModeratorList) {
-            this.reloadModeratorList();
+            this.toast.success(this.intl.t(
+                'registries.moderation.moderators.removedModeratorSuccess',
+                { userName: moderator.fullName },
+            ));
+        } catch (e) {
+            const errorMessage = this.intl.t(
+                'registries.moderation.moderators.removedModeratorError',
+                { permission: moderator.permissionGroup },
+            );
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
+        } finally {
+            if (this.reloadModeratorList) {
+                this.reloadModeratorList();
+            }
         }
-
-        this.toast.success(this.intl.t(
-            'registries.moderation.moderators.removedModeratorSuccess',
-            { userName: moderator.fullName },
-        ));
     });
 
     @action

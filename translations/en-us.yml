@@ -1004,7 +1004,8 @@ registries:
             addedNewModeratorError: 'Error adding {permission}'
             removedModeratorSuccess: 'Successfully removed {userName}'
             removedModeratorError: 'Error removing {permission}'
-            updatedModeratorPermission: 'Successfully updated {userName} to {permission}'
+            updatedModeratorPermissionSuccess: 'Successfully updated {userName} to {permission}'
+            updatedModeratorPermissionError: 'Error updating permission to {permission}'
         notifications:
             title: 'Notifications'
             heading: 'Configure reviews notification preferences'
