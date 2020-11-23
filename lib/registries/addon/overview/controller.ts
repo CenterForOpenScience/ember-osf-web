@@ -26,7 +26,7 @@ export default class Overview extends Controller {
 
     @alias('model.taskInstance.value') registration?: Registration;
 
-    @computed('registration.{reviewState,archiving}')
+    @computed('registration.{reviewsState,archiving}')
     get showTombstone() {
         return this.registration && (this.registration.reviewsState === 'withdrawn' || this.registration.archiving);
     }
