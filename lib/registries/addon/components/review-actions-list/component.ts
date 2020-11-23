@@ -19,8 +19,8 @@ export default class ReviewActionsList extends Component<Args> {
     @tracked showFullActionList: boolean = false;
     @tracked reviewActions?: ReviewActionModel[];
 
-    get toggleIcon() {
-        return this.showFullActionList ? 'caret-down' : 'caret-right';
+    get showOrHide() {
+        return this.showFullActionList ? 'Hide' : 'Show full history';
     }
 
     get latestAction() {
