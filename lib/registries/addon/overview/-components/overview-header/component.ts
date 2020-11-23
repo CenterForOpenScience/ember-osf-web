@@ -28,7 +28,7 @@ export default class OverviewHeader extends Component {
 
     @tracked currentModerator?: ModeratorModel;
 
-    @computed('registration.{reviewState,archiving}')
+    @computed('registration.{reviewsState,archiving}')
     get showTopbar() {
         return this.registration && !(this.registration.reviewsState === 'withdrawn' || this.registration.archiving);
     }
