@@ -73,9 +73,9 @@ module('Integration | Component | subscriptions', hooks => {
                 <Subscriptions::List @manager={{manager}} />
             </Subscriptions::Manager>
         `);
-        assert.dom('[data-test-power-select').hasText('Instant');
+        assert.dom('[data-test-power-select]').hasText('Instant');
         await clickTrigger();
         await click('[data-test-subscription-option="daily"]');
-        assert.dom('[data-test-power-select').hasText('Daily');
+        assert.dom('[data-test-power-select]').hasText('Daily');
     });
 });
