@@ -1364,6 +1364,7 @@ registries:
         additionalCommentPlaceholder: 'Add remarks to registration admins'
         justificationForWithdrawal: 'Justification for Withdrawal'
         justificationForWithdrawalPlaceholder: 'Provide justification for withdrawal'
+        noModeratorActions: 'No moderator decision can be made at this time'
 meetings:
     index:
         meetings-list:

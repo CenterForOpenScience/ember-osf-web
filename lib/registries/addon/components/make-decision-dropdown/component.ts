@@ -9,7 +9,8 @@ import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import RouterService from '@ember/routing/router-service';
-import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
+import RegistrationModel,
+{ RegistrationReviewStates, reviewsStateToDecisionMap } from 'ember-osf-web/models/registration';
 import { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
@@ -26,17 +27,7 @@ export default class MakeDecisionDropdown extends Component<Args> {
     @tracked decisionTrigger?: ReviewActionTrigger;
     @tracked comment?: string;
 
-    reviewsStateDecisionMap = {
-        [RegistrationReviewStates.Accepted]: [ReviewActionTrigger.ForceWithdraw],
-        [RegistrationReviewStates.Embargo]: [ReviewActionTrigger.ForceWithdraw],
-        [RegistrationReviewStates.Pending]:
-            [ReviewActionTrigger.AcceptSubmission, ReviewActionTrigger.RejectSubmission],
-        [RegistrationReviewStates.PendingWithdraw]:
-            [ReviewActionTrigger.AcceptWithdrawal, ReviewActionTrigger.RejectWithdrawal],
-        [RegistrationReviewStates.PendingWithdrawRequest]: [ReviewActionTrigger.ForceWithdraw],
-        [RegistrationReviewStates.PendingEmbargoTermination]: [ReviewActionTrigger.ForceWithdraw],
-    };
-
+    reviewsStateToDecisionMap = reviewsStateToDecisionMap;
     decisionDescriptionMap = {
         [ReviewActionTrigger.ForceWithdraw]: this.intl.t('registries.makeDecisionDropdown.forceWithdrawDescription'),
         [ReviewActionTrigger.AcceptSubmission]:
@@ -62,6 +53,14 @@ export default class MakeDecisionDropdown extends Component<Args> {
             label: this.intl.t('registries.makeDecisionDropdown.justificationForWithdrawal'),
             placeholder: this.intl.t('registries.makeDecisionDropdown.justificationForWithdrawalPlaceholder'),
         };
+    }
+
+    get hasModeratorActions() {
+        return ![
+            RegistrationReviewStates.Initial,
+            RegistrationReviewStates.Withdrawn,
+            RegistrationReviewStates.Rejected,
+        ].includes(this.args.registration.reviewsState);
     }
 
     @task({ withTestWaiter: true })

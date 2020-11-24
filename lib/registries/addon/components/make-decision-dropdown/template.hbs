@@ -14,53 +14,62 @@
         </Button>
     </dd.trigger>
     <dd.content @class={{local-class 'Dropdown'}}>
-        <Registries::ReviewActionsList @registration={{@registration}} />
-        {{#each (get this.reviewsStateDecisionMap @registration.reviewsState) as |option|}}
-            <div>
-                {{#let (unique-id 'radio' option) as |uniqueId|}}
-                    <Input
-                        data-test-moderation-dropdown-decision-checkbox={{option}}
-                        data-analytics-name={{concat 'clicking checkbox for' option}}
-                        @type='radio'
-                        @id={{uniqueId}}
-                        @value={{option}}
-                        checked={{if (eq this.decisionTrigger option) true false}}
-                        {{on 'click' (fn this.updateDecisionTrigger option)}}
-                    />
-                    <label
-                        data-test-moderation-dropdown-decision-label={{option}}
-                        for={{uniqueId}}
-                    >
-                        {{humanize option}}
-                    </label>
-                    <p
-                        data-test-moderation-dropdown-decision-description={{option}}
-                        local-class='Description'
-                    >
-                        {{get this.decisionDescriptionMap option}}
-                    </p>
-                {{/let}}
+        <Registries::ReviewActionsList data-test-review-actions-list  @registration={{@registration}} />
+        {{#if this.hasModeratorActions}}
+            {{#each (get this.reviewsStateToDecisionMap @registration.reviewsState) as |option|}}
+                <div>
+                    {{#let (unique-id 'radio' option) as |uniqueId|}}
+                        <Input
+                            data-test-moderation-dropdown-decision-checkbox={{option}}
+                            data-analytics-name='Select checkbox for {{option}}'
+                            @type='radio'
+                            @id={{uniqueId}}
+                            @value={{option}}
+                            checked={{if (eq this.decisionTrigger option) true false}}
+                            {{on 'click' (fn this.updateDecisionTrigger option)}}
+                        />
+                        <label
+                            data-test-moderation-dropdown-decision-label={{option}}
+                            for={{uniqueId}}
+                        >
+                            {{humanize option}}
+                        </label>
+                        <p
+                            data-test-moderation-dropdown-decision-description={{option}}
+                            local-class='Description'
+                        >
+                            {{get this.decisionDescriptionMap option}}
+                        </p>
+                    {{/let}}
+                </div>
+            {{/each}}
+            <label
+                data-test-moderation-dropdown-action-label
+                for='moderator-comment'
+            >
+                {{this.commentTextArea.label}}
+            </label>
+            <Textarea
+                data-test-moderation-dropdown-comment
+                @id='moderator-comment'
+                @value={{this.comment}}
+                placeholder={{this.commentTextArea.placeholder}}
+                local-class='Comment'
+            />
+            <Button
+                data-test-moderation-dropdown-submit
+                data-analytics-name='Submit decision'
+                @type='create'
+                disabled={{or (not this.decisionTrigger) this.submitDecision.isRunning}}
+                local-class='SubmitButton'
+                {{on 'click' (queue (perform this.submitDecision) dd.close)}}
+            >
+                {{t 'registries.makeDecisionDropdown.submit'}}
+            </Button>
+        {{else}}
+            <div data-test-no-moderator-actions>
+                {{t 'registries.makeDecisionDropdown.noModeratorActions'}}
             </div>
-        {{/each}}
-        <label for='moderator-comment'>
-            {{this.commentTextArea.label}}
-        </label>
-        <Textarea
-            data-test-moderation-dropdown-comment
-            @id='moderator-comment'
-            @value={{this.comment}}
-            placeholder={{this.commentTextArea.placeholder}}
-            local-class='Comment'
-        />
-        <Button
-            data-test-moderation-dropdown-submit
-            data-analytics-name='Submit decision'
-            @type='create'
-            disabled={{or (not this.decisionTrigger) this.submitDecision.isRunning}}
-            local-class='SubmitButton'
-            {{on 'click' (queue (perform this.submitDecision) dd.close)}}
-        >
-            {{t 'registries.makeDecisionDropdown.submit'}}
-        </Button>
+        {{/if}}
     </dd.content>
 </ResponsiveDropdown>
