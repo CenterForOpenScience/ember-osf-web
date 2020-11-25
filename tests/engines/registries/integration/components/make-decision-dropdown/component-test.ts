@@ -1,3 +1,4 @@
+import { camelize } from '@ember/string';
 import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -81,7 +82,7 @@ module('Registries | Integration | Component | make-decision-dropdown', hooks =>
                     .isNotChecked(`'${actionTrigger}' checkbox option is not checked by default`);
                 assert.dom('[data-test-moderation-action-text]').hasAnyText();
                 assert.dom(`[data-test-moderation-action-text=${actionTrigger}`).hasText(
-                    (actionTrigger.charAt(0).toUpperCase() + actionTrigger.slice(1)).replace('_', ' '),
+                    t(`registries.makeDecisionDropdown.${camelize(actionTrigger)}`),
                     'has the right action trigger text',
                 );
             });

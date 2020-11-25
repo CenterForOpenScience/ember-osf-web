@@ -32,13 +32,13 @@
                             data-test-moderation-dropdown-decision-label={{option}}
                             for={{uniqueId}}
                         >
-                            {{humanize option}}
+                            {{get this.actionTriggerToTextMap option}}
                         </label>
                         <p
                             data-test-moderation-dropdown-decision-description={{option}}
                             local-class='Description'
                         >
-                            {{get this.decisionDescriptionMap option}}
+                            {{get this.actionTriggerToDescriptionMap option}}
                         </p>
                     {{/let}}
                 </div>

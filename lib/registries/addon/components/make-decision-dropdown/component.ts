@@ -28,7 +28,7 @@ export default class MakeDecisionDropdown extends Component<Args> {
     @tracked comment?: string;
 
     reviewsStateToDecisionMap = reviewsStateToDecisionMap;
-    decisionDescriptionMap = {
+    actionTriggerToDescriptionMap = {
         [ReviewActionTrigger.ForceWithdraw]: this.intl.t('registries.makeDecisionDropdown.forceWithdrawDescription'),
         [ReviewActionTrigger.AcceptSubmission]:
             this.intl.t('registries.makeDecisionDropdown.acceptSubmissionDescription'),
@@ -38,6 +38,14 @@ export default class MakeDecisionDropdown extends Component<Args> {
             this.intl.t('registries.makeDecisionDropdown.acceptWithdrawalDescription'),
         [ReviewActionTrigger.RejectWithdrawal]:
             this.intl.t('registries.makeDecisionDropdown.rejectWithdrawalDescription'),
+    };
+
+    actionTriggerToTextMap = {
+        [ReviewActionTrigger.ForceWithdraw]: this.intl.t('registries.makeDecisionDropdown.forceWithdraw'),
+        [ReviewActionTrigger.AcceptSubmission]: this.intl.t('registries.makeDecisionDropdown.acceptSubmission'),
+        [ReviewActionTrigger.RejectSubmission]: this.intl.t('registries.makeDecisionDropdown.rejectSubmission'),
+        [ReviewActionTrigger.AcceptWithdrawal]: this.intl.t('registries.makeDecisionDropdown.acceptWithdrawal'),
+        [ReviewActionTrigger.RejectWithdrawal]: this.intl.t('registries.makeDecisionDropdown.rejectWithdrawal'),
     };
 
     get commentTextArea() {
