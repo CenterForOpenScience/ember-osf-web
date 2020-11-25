@@ -244,4 +244,19 @@ module('Registries | Acceptance | branded.moderation | submissions', hooks => {
         assert.ok(currentURL().includes('state=embargo'), 'current URL contains the state query param set');
         assert.dom('[data-test-is-selected="true"]').hasText('Embargo', 'embargo tab selected');
     });
+
+    test('Submissions page: invalid queryParam', async function(this: ModerationSubmissionsTestContext, assert) {
+        this.registrationProvider.update({ permissions: ['view_submissions'] });
+        const currentUser = server.create('user', 'loggedIn');
+        server.create('moderator', {
+            id: currentUser.id,
+            user: currentUser,
+            provider: this.registrationProvider,
+        }, 'asModerator');
+        await visit('/registries/sbmit/moderation/submissions?state=embargooooo');
+        assert.equal(currentRouteName(), 'registries.branded.moderation.submissions',
+            'On the submissions page of registries reviews');
+        assert.notOk(currentURL().includes('state=embargooooo'), 'Invalid query param is gone');
+        assert.dom('[data-test-is-selected="true"]').hasText('Pending', 'Pending tab selected');
+    });
 });
