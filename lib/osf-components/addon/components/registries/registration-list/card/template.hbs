@@ -18,6 +18,7 @@
                 {{@registration.title}}
             {{else}}
                 <OsfLink
+                    data-test-registration-title-link
                     @route='registries.overview'
                     @models={{array @registration.id}}
                     @queryParams={{hash mode='moderator'}}
