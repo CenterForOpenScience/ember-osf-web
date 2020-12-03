@@ -1,5 +1,4 @@
-// @ts-ignore
-import { click, render, setupOnerror } from '@ember/test-helpers'; // type for setupError is not defined :/
+import { click, render, resetOnerror, setupOnerror } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupIntl, t } from 'ember-intl/test-support';
@@ -40,7 +39,7 @@ module('Integration | Component | review-actions-list', hooks => {
         assert.dom('[data-test-loading-actions-failed]').exists('Loading error shown');
         assert.dom('[data-test-registration-list-card-latest-action]').doesNotExist('Latest action not shown');
         assert.dom('[data-test-registration-card-toggle-actions]').doesNotExist('Toggle button not shown');
-        setupOnerror(); // Reset the ember.onerror function
+        resetOnerror();
     });
 
     test('no review-actions', async function(assert) {
