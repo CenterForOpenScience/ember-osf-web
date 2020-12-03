@@ -1,4 +1,5 @@
 import { render } from '@ember/test-helpers';
+import a11yAudit from 'ember-a11y-testing/test-support/audit';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { TestContext } from 'ember-intl/test-support';
@@ -14,6 +15,7 @@ module('Registries | Integration | Component | registration-list-card', hooks =>
     test('it renders non rejected', async function(this: TestContext, assert) {
         this.store = this.owner.lookup('service:store');
         this.owner.register('service:router', OsfLinkRouterStub);
+
         const provider = server.create('registration-provider');
 
         const registration = server.create('registration', {
@@ -21,6 +23,7 @@ module('Registries | Integration | Component | registration-list-card', hooks =>
             provider,
         }, 'withReviewActions');
         const registrationModel = await this.store.findRecord('registration', registration.id);
+
         const manager = { state: 'pending', provider };
 
         this.set('registration', registrationModel);
@@ -32,6 +35,7 @@ module('Registries | Integration | Component | registration-list-card', hooks =>
             @state={{this.manager.state}}
         />`);
 
+        await a11yAudit(this.element);
         assert.dom('[data-test-registration-list-card]').isVisible();
         assert.dom(`[data-test-registration-list-card-icon="${manager.state}"]`).exists();
         assert.dom('[data-test-registration-title-link]').exists();
@@ -41,6 +45,7 @@ module('Registries | Integration | Component | registration-list-card', hooks =>
     test('it renders rejected', async function(assert) {
         this.store = this.owner.lookup('service:store');
         this.owner.register('service:router', OsfLinkRouterStub);
+
         const provider = server.create('registration-provider');
 
         const registration = server.create('registration', {
@@ -48,9 +53,8 @@ module('Registries | Integration | Component | registration-list-card', hooks =>
             provider,
         }, 'withReviewActions');
         const registrationModel = await this.store.findRecord('registration', registration.id);
-        const manager = {
-            state: 'rejected',
-        };
+
+        const manager = { state: 'rejected' };
 
         this.set('registration', registrationModel);
         this.set('manager', manager);
@@ -60,6 +64,8 @@ module('Registries | Integration | Component | registration-list-card', hooks =>
             @registration={{this.registration}}
             @state={{this.manager.state}}
         />`);
+
+        await a11yAudit(this.element);
         assert.dom('[data-test-registration-list-card]').isVisible();
         assert.dom(`[data-test-registration-list-card-icon="${manager.state}"]`).exists();
         assert.dom('[data-test-registration-title-link]').doesNotExist();
