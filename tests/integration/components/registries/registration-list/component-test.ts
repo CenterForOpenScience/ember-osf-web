@@ -9,7 +9,6 @@ import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { OsfLinkRouterStub } from '../../../helpers/osf-link-router-stub';
 
-
 module('Integration | Component | registration-list', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
