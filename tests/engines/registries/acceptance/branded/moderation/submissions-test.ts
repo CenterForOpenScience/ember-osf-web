@@ -47,6 +47,7 @@ module('Registries | Acceptance | branded.moderation | submissions', hooks => {
             'On the submissions page of registries reviews');
 
         // Pending tab
+        assert.ok(currentURL().includes('state=pending'), 'Default state is pending');
         assert.dom('[data-test-submissions-type="pending"][data-test-is-selected="true"]')
             .exists('Pending is selected by default for submissions page');
         assert.dom('[data-test-registration-list-card]')
@@ -152,6 +153,7 @@ module('Registries | Acceptance | branded.moderation | submissions', hooks => {
             'On the submissions page of registries reviews');
 
         // Pending tab
+        assert.ok(currentURL().includes('state=pending'), 'Default state is pending');
         assert.dom('[data-test-ascending-sort]').exists({ count: 1 }, 'Ascending sort button exists');
         assert.dom('[data-test-descending-sort]').exists({ count: 1 }, 'Descending sort button exists');
         assert.dom('[data-test-registration-list-card]').exists({ count: 10 }, '10 pending registrations shown');
@@ -257,6 +259,7 @@ module('Registries | Acceptance | branded.moderation | submissions', hooks => {
         assert.equal(currentRouteName(), 'registries.branded.moderation.submissions',
             'On the submissions page of registries reviews');
         assert.notOk(currentURL().includes('state=embargooooo'), 'Invalid query param is gone');
+        assert.ok(currentURL().includes('state=pending'), 'Invalid query param replaced with pending');
         assert.dom('[data-test-is-selected="true"]').hasText('Pending', 'Pending tab selected');
     });
 });

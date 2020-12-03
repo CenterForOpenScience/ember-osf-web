@@ -14,17 +14,17 @@ export default class BrandedModerationSubmissionsRoute extends Route {
     setupController(controller: RegistriesModerationSubmissionController, model: RegistrationProviderModel) {
         super.setupController(controller, model);
         const { state } = controller;
-        if (state
-            && ![
+        if (!state
+            || ![
                 RegistrationReviewStates.Pending,
                 RegistrationReviewStates.Accepted,
                 RegistrationReviewStates.Embargo,
                 RegistrationReviewStates.Rejected,
                 RegistrationReviewStates.Withdrawn,
                 RegistrationReviewStates.PendingWithdraw,
-            ].includes(state)) {
-            this.replaceWith('branded.moderation.submissions');
+            ].includes(state!)) {
             controller.set('state', 'pending');
+            this.replaceWith('branded.moderation.submissions');
         }
     }
 
