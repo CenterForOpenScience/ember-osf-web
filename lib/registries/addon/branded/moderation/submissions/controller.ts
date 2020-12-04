@@ -7,7 +7,7 @@ import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 export default class RegistriesModerationSubmissionController extends Controller {
     queryParams = ['state'];
 
-    @tracked state: RegistrationReviewStates = RegistrationReviewStates.Pending;
+    @tracked state?: RegistrationReviewStates;
 
     @action
     changeTab(tab: RegistrationReviewStates) {
