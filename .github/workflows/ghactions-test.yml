@@ -22,11 +22,18 @@ jobs:
         restore-keys: cached_node_modules_
     - run: yarn --prefer-offline --frozen-lockfile --ignore-engines
     - run: yarn build:test
+    - uses: actions/upload-artifact@v1
+      with:
+        name: current-directory
+        path: .
 
   lint:
     runs-on: ubuntu-latest
     needs: fetch-dependencies-and-build
     steps:
+    - uses: actions/download-artifact@v2
+      with:
+        name: current-directory
     - run: yarn lint:es
     - run: yarn lint:ts
     - run: yarn lint:style
@@ -36,11 +43,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: fetch-dependencies-and-build
     steps:
+    - uses: actions/download-artifact@v2
+      with:
+        name: current-directory
     - run: yarn test:cover --path ./dist
-  
-  send-to-coverall:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
     - run: cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
-    
