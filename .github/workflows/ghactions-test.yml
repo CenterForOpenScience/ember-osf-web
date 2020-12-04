@@ -33,9 +33,11 @@ jobs:
 
   test:
     needs: fetch-dependencies-and-build
+    steps:
     - run: yarn test:cover --path ./dist
   
   send-to-coverall:
     needs: test
+    steps:
     - run: cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
     
