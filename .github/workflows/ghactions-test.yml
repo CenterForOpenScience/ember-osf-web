@@ -24,6 +24,7 @@ jobs:
     - run: yarn build:test
 
   lint:
+    runs-on: ubuntu-latest
     needs: fetch-dependencies-and-build
     steps:
     - run: yarn lint:es
@@ -32,11 +33,13 @@ jobs:
     - run: yarn lint:template
 
   test:
+    runs-on: ubuntu-latest
     needs: fetch-dependencies-and-build
     steps:
     - run: yarn test:cover --path ./dist
   
   send-to-coverall:
+    runs-on: ubuntu-latest
     needs: test
     steps:
     - run: cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
