@@ -3,10 +3,8 @@ import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { module, test } from 'qunit';
 
-import Intl from 'ember-intl/services/intl';
-import { setupIntl } from 'ember-intl/test-support';
+import { setupIntl, TestContext } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
-import { TestContext } from 'ember-test-helpers';
 import { OsfLinkRouterStub } from '../../../helpers/osf-link-router-stub';
 
 module('Integration | Component | registration-list', hooks => {
@@ -14,7 +12,7 @@ module('Integration | Component | registration-list', hooks => {
     setupMirage(hooks);
     setupIntl(hooks);
 
-    hooks.beforeEach(function(this: RegistrationListTestContext) {
+    hooks.beforeEach(function(this: TestContext) {
         this.owner.register('service:router', OsfLinkRouterStub);
         this.store = this.owner.lookup('service:store');
     });
