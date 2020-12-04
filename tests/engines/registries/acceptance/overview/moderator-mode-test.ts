@@ -8,6 +8,7 @@ import { click, visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
 import { percySnapshot } from 'ember-percy';
+import moment from 'moment';
 import { module, test } from 'qunit';
 
 interface ModeratorModeTestContext extends TestContext {
@@ -38,6 +39,15 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             id: 'stayc',
         }, 'isPending', 'withReviewActions');
         await visit(`/${registration.id}?mode=moderator`);
+        assert.dom('[data-test-state-description-short]').exists('Short description for pending status exists');
+        assert.dom('[data-test-state-description-short]').hasText(
+            t('registries.overview.pending.short_description').toString(),
+            'The registration is pending',
+        );
+        assert.dom('[data-test-state-description-long]').hasText(
+            stripHtmlTags(t('registries.overview.pending.long_description')),
+            'Long description matches the reviewsState of the registration',
+        );
         await click('[data-test-moderation-dropdown-button]');
         assert.dom('[data-test-moderation-dropdown-decision-label]').exists({ count: 2 }, 'Two options are available');
         assert.dom('[data-test-moderation-dropdown-decision-label="accept_submission"]').exists(
@@ -57,12 +67,8 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         await percySnapshot(assert);
         await click('[data-test-moderation-dropdown-decision-checkbox="accept_submission"]');
         await click('[data-test-moderation-dropdown-submit]');
-        assert.dom('#toast-container', document as any).hasTextContaining(
-            t('registries.makeDecisionDropdown.success'),
-            'Toast successful message for submitting decision',
-        );
         await click('[data-test-state-button]');
-        assert.dom('[data-test-state-description-short]').exists('Short description for the status exists');
+        assert.dom('[data-test-state-description-short]').exists('Short description for accepted status exists');
         assert.dom('[data-test-state-description-short]').hasText(
             t('registries.overview.accepted.short_description').toString(),
             'The registration is now accepted',
@@ -84,10 +90,6 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         await click('[data-test-moderation-dropdown-button]');
         await click('[data-test-moderation-dropdown-decision-checkbox="reject_submission"]');
         await click('[data-test-moderation-dropdown-submit]');
-        assert.dom('#toast-container', document as any).hasTextContaining(
-            t('registries.makeDecisionDropdown.success'),
-            'Toast successful message for submitting decision',
-        );
         assert.equal(
             currentRouteName(),
             'registries.branded.moderation.submissions',
@@ -96,5 +98,228 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         assert.dom(
             '[data-test-submissions-type="rejected"][data-test-is-selected="true"]',
         ).exists('Rejected tab is selected');
+    });
+
+    test('pending_withdraw_request -> withdrawn', async function(this: ModeratorModeTestContext, assert) {
+        const registration = server.create('registration', {
+            currentUserPermissions: Object.values(Permission),
+            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            provider: this.provider,
+            id: 'stayc',
+        }, 'isPendingWithdrawRequest', 'withReviewActions');
+        await visit(`/${registration.id}?mode=moderator`);
+        assert.dom('[data-test-state-description-short]').exists(
+            'Short description for pending_withdraw_request status exists',
+        );
+        assert.dom('[data-test-state-description-short]').hasText(
+            t('registries.overview.pendingWithdrawRequest.short_description').toString(),
+            'The registration is pending withdraw request',
+        );
+        assert.dom('[data-test-state-description-long]').hasText(
+            stripHtmlTags(t('registries.overview.pendingWithdrawRequest.long_description')),
+            'Long description matches the reviewsState of the registration',
+        );
+        await click('[data-test-moderation-dropdown-button]');
+        assert.dom('[data-test-moderation-dropdown-decision-label]').exists(
+            { count: 1 },
+            'Only one option is available',
+        );
+        assert.dom('[data-test-moderation-dropdown-decision-label="force_withdraw"]').exists(
+            'Option to force withdraw exists',
+        );
+        assert.dom('[data-test-moderation-dropdown-decision-label="force_withdraw"]').hasText(
+            'Force withdraw',
+            'Force withdraw option has correct text',
+        );
+        await percySnapshot(assert);
+        await click('[data-test-moderation-dropdown-decision-checkbox="force_withdraw"]');
+        await click('[data-test-moderation-dropdown-submit]');
+        assert.dom('[data-test-tombstone-title]').exists('Tombstone page shows');
+    });
+
+    test('pending_withdraw -> withdrawn', async function(this: ModeratorModeTestContext, assert) {
+        const registration = server.create('registration', {
+            currentUserPermissions: Object.values(Permission),
+            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            provider: this.provider,
+            id: 'stayc',
+        }, 'isPendingWithdraw', 'withReviewActions');
+        await visit(`/${registration.id}?mode=moderator`);
+        assert.dom('[data-test-state-description-short]').exists(
+            'Short description for pending_withdraw status exists',
+        );
+        assert.dom('[data-test-state-description-short]').hasText(
+            t('registries.overview.pendingWithdraw.short_description').toString(),
+            'The registration is pending withdraw',
+        );
+        assert.dom('[data-test-state-description-long]').hasText(
+            stripHtmlTags(t('registries.overview.pendingWithdraw.long_description')),
+            'Long description matches the reviewsState of the registration',
+        );
+        await click('[data-test-moderation-dropdown-button]');
+        assert.dom('[data-test-moderation-dropdown-decision-label]').exists({ count: 2 }, 'Two options are available');
+        assert.dom('[data-test-moderation-dropdown-decision-label="accept_withdrawal"]').exists(
+            'Option to accept withdraw exists',
+        );
+        assert.dom('[data-test-moderation-dropdown-decision-label="accept_withdrawal"]').hasText(
+            'Accept withdrawal',
+            'Accept withdrawal option has correct text',
+        );
+        assert.dom('[data-test-moderation-dropdown-decision-label="reject_withdrawal"]').exists(
+            'Option to reject withdraw exists',
+        );
+        assert.dom('[data-test-moderation-dropdown-decision-label="reject_withdrawal"]').hasText(
+            'Reject withdrawal',
+            'Reject withdrawal option has correct text',
+        );
+        await percySnapshot(assert);
+        await click('[data-test-moderation-dropdown-decision-checkbox="accept_withdrawal"]');
+        await click('[data-test-moderation-dropdown-submit]');
+        assert.dom('[data-test-tombstone-title]').exists('Tombstone page shows');
+    });
+
+    test('pending_withdraw -> accepted', async function(this: ModeratorModeTestContext, assert) {
+        const registration = server.create('registration', {
+            currentUserPermissions: Object.values(Permission),
+            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            provider: this.provider,
+            id: 'stayc',
+        }, 'isPendingWithdraw', 'withReviewActions');
+        await visit(`/${registration.id}?mode=moderator`);
+        await click('[data-test-moderation-dropdown-button]');
+        await percySnapshot(assert);
+        await click('[data-test-moderation-dropdown-decision-checkbox="reject_withdrawal"]');
+        await click('[data-test-moderation-dropdown-submit]');
+        await click('[data-test-state-button]');
+        assert.dom('[data-test-state-description-short]').exists('Short description for accepted status exists');
+        assert.dom('[data-test-state-description-short]').hasText(
+            t('registries.overview.accepted.short_description').toString(),
+            'The registration is now accepted',
+        );
+        assert.dom('[data-test-state-description-long]').hasText(
+            stripHtmlTags(t('registries.overview.accepted.long_description', { projectUrl: '' })),
+            'Long description matches the reviewsState of the registration',
+        );
+    });
+
+    test('accepted -> withdrawn', async function(this: ModeratorModeTestContext, assert) {
+        const registration = server.create('registration', {
+            currentUserPermissions: Object.values(Permission),
+            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            provider: this.provider,
+            id: 'stayc',
+        }, 'isPublic', 'withReviewActions');
+        await visit(`/${registration.id}?mode=moderator`);
+        await click('[data-test-state-button]');
+        assert.dom('[data-test-state-description-short]').exists(
+            'Short description for accepted status exists',
+        );
+        assert.dom('[data-test-state-description-short]').hasText(
+            t('registries.overview.accepted.short_description').toString(),
+            'The registration is accepted',
+        );
+        assert.dom('[data-test-state-description-long]').hasText(
+            stripHtmlTags(t('registries.overview.accepted.long_description', { projectUrl: '' })),
+            'Long description matches the reviewsState of the registration',
+        );
+        await click('[data-test-moderation-dropdown-button]');
+        assert.dom('[data-test-moderation-dropdown-decision-label]').exists(
+            { count: 1 },
+            'Only one option is available',
+        );
+        assert.dom('[data-test-moderation-dropdown-decision-label="force_withdraw"]').exists(
+            'Option to force withdraw exists',
+        );
+        assert.dom('[data-test-moderation-dropdown-decision-label="force_withdraw"]').hasText(
+            'Force withdraw',
+            'Force withdraw option has correct text',
+        );
+        await percySnapshot(assert);
+        await click('[data-test-moderation-dropdown-decision-checkbox="force_withdraw"]');
+        await click('[data-test-moderation-dropdown-submit]');
+        assert.dom('[data-test-tombstone-title]').exists('Tombstone page shows');
+    });
+
+    test('embargo -> withdrawn', async function(this: ModeratorModeTestContext, assert) {
+        const registration = server.create('registration', {
+            currentUserPermissions: Object.values(Permission),
+            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            provider: this.provider,
+            id: 'stayc',
+        }, 'isEmbargo', 'withReviewActions');
+        await visit(`/${registration.id}?mode=moderator`);
+        await click('[data-test-state-button]');
+        assert.dom('[data-test-state-description-short]').exists(
+            'Short description for embargo status exists',
+        );
+        assert.dom('[data-test-state-description-short]').hasText(
+            t('registries.overview.embargo.short_description').toString(),
+            'The registration is in embargo',
+        );
+        assert.dom('[data-test-state-description-long]').hasText(
+            stripHtmlTags(
+                t('registries.overview.embargo.long_description', {
+                    embargoEndDate: moment(registration.embargoEndDate!).format('MMMM D, YYYY'),
+                    htmlSafe: true,
+                }).toString(),
+            ),
+        );
+        await click('[data-test-moderation-dropdown-button]');
+        assert.dom('[data-test-moderation-dropdown-decision-label]').exists(
+            { count: 1 },
+            'Only one option is available',
+        );
+        assert.dom('[data-test-moderation-dropdown-decision-label="force_withdraw"]').exists(
+            'Option to force withdraw exists',
+        );
+        assert.dom('[data-test-moderation-dropdown-decision-label="force_withdraw"]').hasText(
+            'Force withdraw',
+            'Force withdraw option has correct text',
+        );
+        await percySnapshot(assert);
+        await click('[data-test-moderation-dropdown-decision-checkbox="force_withdraw"]');
+        await click('[data-test-moderation-dropdown-submit]');
+        assert.dom('[data-test-tombstone-title]').exists('Tombstone page shows');
+    });
+
+    test('pending_embargo_termination -> withdrawn', async function(this: ModeratorModeTestContext, assert) {
+        const registration = server.create('registration', {
+            currentUserPermissions: Object.values(Permission),
+            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            provider: this.provider,
+            id: 'stayc',
+        }, 'isPendingEmbargoTermination', 'withReviewActions');
+        await visit(`/${registration.id}?mode=moderator`);
+        assert.dom('[data-test-state-description-short]').exists(
+            'Short description for pending_embargo_termination status exists',
+        );
+        assert.dom('[data-test-state-description-short]').hasText(
+            t('registries.overview.pendingEmbargoTermination.short_description').toString(),
+            'The registration is pending embargo termination',
+        );
+        assert.dom('[data-test-state-description-long]').hasText(
+            stripHtmlTags(
+                t('registries.overview.pendingEmbargoTermination.long_description', {
+                    embargoEndDate: moment(registration.embargoEndDate!).format('MMMM D, YYYY'),
+                    htmlSafe: true,
+                }).toString(),
+            ),
+        );
+        await click('[data-test-moderation-dropdown-button]');
+        assert.dom('[data-test-moderation-dropdown-decision-label]').exists(
+            { count: 1 },
+            'Only one option is available',
+        );
+        assert.dom('[data-test-moderation-dropdown-decision-label="force_withdraw"]').exists(
+            'Option to force withdraw exists',
+        );
+        assert.dom('[data-test-moderation-dropdown-decision-label="force_withdraw"]').hasText(
+            'Force withdraw',
+            'Force withdraw option has correct text',
+        );
+        await percySnapshot(assert);
+        await click('[data-test-moderation-dropdown-decision-checkbox="force_withdraw"]');
+        await click('[data-test-moderation-dropdown-submit]');
+        assert.dom('[data-test-tombstone-title]').exists('Tombstone page shows');
     });
 });
