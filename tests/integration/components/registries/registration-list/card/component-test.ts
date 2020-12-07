@@ -7,7 +7,6 @@ import { OsfLinkRouterStub } from 'ember-osf-web/tests/integration/helpers/osf-l
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
-/* tslint:disable:only-arrow-functions */
 module('Registries | Integration | Component | registration-list-card', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
@@ -24,20 +23,17 @@ module('Registries | Integration | Component | registration-list-card', hooks =>
         }, 'withReviewActions');
         const registrationModel = await this.store.findRecord('registration', registration.id);
 
-        const manager = { state: 'pending', provider };
-
         this.set('registration', registrationModel);
-        this.set('manager', manager);
 
         await render(hbs`
             <Registries::RegistrationList::Card
             @registration={{this.registration}}
-            @state={{this.manager.state}}
+            @state='pending'
         />`);
 
         await a11yAudit(this.element);
         assert.dom('[data-test-registration-list-card]').isVisible();
-        assert.dom(`[data-test-registration-list-card-icon="${manager.state}"]`).exists();
+        assert.dom('[data-test-registration-list-card-icon="pending"]').exists();
         assert.dom('[data-test-registration-title-link]').exists();
         assert.dom('[data-test-registration-title-link]').hasText(`${registration.title}`);
     });
@@ -54,20 +50,17 @@ module('Registries | Integration | Component | registration-list-card', hooks =>
         }, 'withReviewActions');
         const registrationModel = await this.store.findRecord('registration', registration.id);
 
-        const manager = { state: 'rejected' };
-
         this.set('registration', registrationModel);
-        this.set('manager', manager);
 
         await render(hbs`
             <Registries::RegistrationList::Card
             @registration={{this.registration}}
-            @state={{this.manager.state}}
+            @state='rejected'
         />`);
 
         await a11yAudit(this.element);
         assert.dom('[data-test-registration-list-card]').isVisible();
-        assert.dom(`[data-test-registration-list-card-icon="${manager.state}"]`).exists();
+        assert.dom('[data-test-registration-list-card-icon="rejected"]').exists();
         assert.dom('[data-test-registration-title-link]').doesNotExist();
         assert.dom('[data-test-registration-list-card-title]').hasText(`${registration.title}`);
     });
