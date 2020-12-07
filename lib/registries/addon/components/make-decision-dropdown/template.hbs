@@ -20,6 +20,7 @@
                 {{#let (unique-id 'radio' option) as |uniqueId|}}
                     <Input
                         data-test-moderation-dropdown-decision-checkbox={{option}}
+                        data-analytics-name={{concat 'clicking checkbox for' option}}
                         @type='radio'
                         @id={{uniqueId}}
                         @value={{option}}
@@ -27,6 +28,7 @@
                         {{on 'click' (fn this.updateDecisionTrigger option)}}
                     />
                     <label
+                        data-test-moderation-dropdown-decision-label={{option}}
                         for={{uniqueId}}
                     >
                         {{humanize option}}
@@ -52,6 +54,7 @@
         />
         <Button
             data-test-moderation-dropdown-submit
+            data-analytics-name='Submit decision'
             @type='create'
             disabled={{or (not this.decisionTrigger) this.submitDecision.isRunning}}
             local-class='SubmitButton'

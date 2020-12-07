@@ -148,7 +148,7 @@ export default function(this: Server) {
         path: '/registrations/:parentID/actions',
         relatedModelName: 'review-action',
     });
-    this.post('/registrations/:parentID/review-actions', createReviewAction);
+    this.post('/registrations/:parentID/actions', createReviewAction);
     this.post('/registrations/:id/forks', forkRegistration);
 
     osfNestedResource(this, 'registration', 'contributors', { defaultSortKey: 'index' });
