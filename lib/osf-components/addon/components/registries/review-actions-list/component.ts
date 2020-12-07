@@ -1,3 +1,4 @@
+import { A } from '@ember/array';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
@@ -28,14 +29,13 @@ export default class ReviewActionsList extends Component<Args> {
 
     get latestAction() {
         const { reviewActions } = this;
-        return (reviewActions || [])[0];
+        return A(reviewActions || []).objectAt(0);
     }
 
     @task({ withTestWaiter: true })
     fetchActions = task(function *(this: ReviewActionsList) {
         try {
-            const reviewActions = yield this.args.registration.reviewActions;
-            this.reviewActions = reviewActions.toArray();
+            this.reviewActions = yield this.args.registration.reviewActions;
         } catch (e) {
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
