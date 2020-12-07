@@ -80,8 +80,8 @@ module('Registries | Integration | Component | make-decision-dropdown', hooks =>
                     .isVisible(`'${actionTrigger}' checkbox option is visible`);
                 assert.dom(`[data-test-moderation-dropdown-decision-checkbox=${actionTrigger}]`)
                     .isNotChecked(`'${actionTrigger}' checkbox option is not checked by default`);
-                assert.dom('[data-test-moderation-action-text]').hasAnyText();
-                assert.dom(`[data-test-moderation-action-text=${actionTrigger}`).hasText(
+                assert.dom('[data-test-moderation-dropdown-decision-label]').hasAnyText();
+                assert.dom(`[data-test-moderation-dropdown-decision-label=${actionTrigger}]`).hasText(
                     t(`registries.makeDecisionDropdown.${camelize(actionTrigger)}`),
                     'has the right action trigger text',
                 );
