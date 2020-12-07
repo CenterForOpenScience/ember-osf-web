@@ -1,7 +1,7 @@
 <div local-class='actionsWrapper'>
     {{#if this.fetchActions.isRunning}}
         <LoadingIndicator @dark={{true}} />
-    {{else if this.fetchActions.isError}}
+    {{else if this.fetchActions.last.isError}}
         <p data-test-loading-actions-failed>
             {{t 'registries.reviewActionsList.failedToLoadActions'}}
         </p>

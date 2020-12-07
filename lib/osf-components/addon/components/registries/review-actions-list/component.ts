@@ -3,6 +3,7 @@ import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import RegistrationModel from 'ember-osf-web/models/registration';
@@ -15,12 +16,14 @@ interface Args {
 
 export default class ReviewActionsList extends Component<Args> {
     @service toast!: Toast;
+    @service intl!: Intl;
 
     @tracked showFullActionList: boolean = false;
     @tracked reviewActions?: ReviewActionModel[];
 
     get showOrHide() {
-        return this.showFullActionList ? 'Hide' : 'Show full history';
+        return this.showFullActionList ? this.intl.t('registries.reviewActionsList.hide')
+            : this.intl.t('registries.reviewActionsList.show');
     }
 
     get latestAction() {
@@ -36,6 +39,7 @@ export default class ReviewActionsList extends Component<Args> {
         } catch (e) {
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
+            throw e;
         }
     });
 

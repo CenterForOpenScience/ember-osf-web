@@ -1317,6 +1317,8 @@ registries:
     reviewActionsList:
         failedToLoadActions: 'Failed to load registration moderation history'
         noActionsFound: 'No moderation history found for this registration'
+        hide: Hide
+        show: 'Show full history'
     reviewAction:
         acceptSubmission: 'Registration {action} {date} by {moderator} with no embargo'
         acceptEmbargoSubmission: 'Registration {action} {date} by {moderator} with embargo ending {embargoEndDate}'
