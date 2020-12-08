@@ -1,6 +1,7 @@
 import { Factory, trait, Trait } from 'ember-cli-mirage';
 import faker from 'faker';
 
+import { ReviewPermissions } from 'ember-osf-web/models/provider';
 import RegistrationProvider from 'ember-osf-web/models/registration-provider';
 
 import { randomGravatar } from '../utils';
@@ -34,6 +35,7 @@ export default Factory.extend<MirageRegistrationProvider & RegistrationProviderT
     brandedDiscoveryPage: true,
     assets: randomAssets(),
     reviewsWorkflow: 'pre-moderation',
+    permissions: [],
 
     afterCreate(provider, server) {
         provider.update({
@@ -79,7 +81,10 @@ export default Factory.extend<MirageRegistrationProvider & RegistrationProviderT
         afterCreate(provider, server) {
             const { currentUserId, currentUser } = server.schema.roots.first();
             const moderator = server.create('moderator', { id: currentUserId, user: currentUser! });
-            provider.update({ moderators: [moderator] });
+            provider.update({
+                moderators: [moderator],
+                permissions: [ReviewPermissions.ViewSubmissions],
+            });
         },
     }),
 });

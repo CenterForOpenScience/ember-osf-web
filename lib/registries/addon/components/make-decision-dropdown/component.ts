@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
 
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
@@ -9,7 +9,8 @@ import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import RouterService from '@ember/routing/router-service';
-import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
+import RegistrationModel,
+{ RegistrationReviewStates, reviewsStateToDecisionMap } from 'ember-osf-web/models/registration';
 import { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
@@ -26,18 +27,8 @@ export default class MakeDecisionDropdown extends Component<Args> {
     @tracked decisionTrigger?: ReviewActionTrigger;
     @tracked comment?: string;
 
-    reviewsStateDecisionMap = {
-        [RegistrationReviewStates.Accepted]: [ReviewActionTrigger.ForceWithdraw],
-        [RegistrationReviewStates.Embargo]: [ReviewActionTrigger.ForceWithdraw],
-        [RegistrationReviewStates.Pending]:
-            [ReviewActionTrigger.AcceptSubmission, ReviewActionTrigger.RejectSubmission],
-        [RegistrationReviewStates.PendingWithdraw]:
-            [ReviewActionTrigger.AcceptWithdrawal, ReviewActionTrigger.RejectWithdrawal],
-        [RegistrationReviewStates.PendingWithdrawRequest]: [ReviewActionTrigger.ForceWithdraw],
-        [RegistrationReviewStates.PendingEmbargoTermination]: [ReviewActionTrigger.ForceWithdraw],
-    };
-
-    decisionDescriptionMap = {
+    reviewsStateToDecisionMap = reviewsStateToDecisionMap;
+    actionTriggerToDescriptionMap = {
         [ReviewActionTrigger.ForceWithdraw]: this.intl.t('registries.makeDecisionDropdown.forceWithdrawDescription'),
         [ReviewActionTrigger.AcceptSubmission]:
             this.intl.t('registries.makeDecisionDropdown.acceptSubmissionDescription'),
@@ -49,14 +40,35 @@ export default class MakeDecisionDropdown extends Component<Args> {
             this.intl.t('registries.makeDecisionDropdown.rejectWithdrawalDescription'),
     };
 
-    @computed('this.args.registration.reviewsState')
-    get commentLabel() {
-        const { reviewsState } = this.args.registration;
-        if (reviewsState === RegistrationReviewStates.Pending
-            || reviewsState === RegistrationReviewStates.PendingWithdraw) {
-            return this.intl.t('registries.makeDecisionDropdown.additionalComment');
+    actionTriggerToTextMap = {
+        [ReviewActionTrigger.ForceWithdraw]: this.intl.t('registries.makeDecisionDropdown.forceWithdraw'),
+        [ReviewActionTrigger.AcceptSubmission]: this.intl.t('registries.makeDecisionDropdown.acceptSubmission'),
+        [ReviewActionTrigger.RejectSubmission]: this.intl.t('registries.makeDecisionDropdown.rejectSubmission'),
+        [ReviewActionTrigger.AcceptWithdrawal]: this.intl.t('registries.makeDecisionDropdown.acceptWithdrawal'),
+        [ReviewActionTrigger.RejectWithdrawal]: this.intl.t('registries.makeDecisionDropdown.rejectWithdrawal'),
+    };
+
+    get commentTextArea() {
+        if ([RegistrationReviewStates.Pending, RegistrationReviewStates.PendingWithdraw]
+            .includes(this.args.registration.reviewsState)) {
+            return {
+                label: this.intl.t('registries.makeDecisionDropdown.additionalComment'),
+                placeholder: this.intl.t('registries.makeDecisionDropdown.additionalCommentPlaceholder'),
+            };
         }
-        return this.intl.t('registries.makeDecisionDropdown.justificationForWithdrawal');
+
+        return {
+            label: this.intl.t('registries.makeDecisionDropdown.justificationForWithdrawal'),
+            placeholder: this.intl.t('registries.makeDecisionDropdown.justificationForWithdrawalPlaceholder'),
+        };
+    }
+
+    get hasModeratorActions() {
+        return ![
+            RegistrationReviewStates.Initial,
+            RegistrationReviewStates.Withdrawn,
+            RegistrationReviewStates.Rejected,
+        ].includes(this.args.registration.reviewsState);
     }
 
     @task({ withTestWaiter: true })

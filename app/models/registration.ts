@@ -2,7 +2,7 @@ import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 
 import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
-import ReviewActionModel from 'ember-osf-web/models/review-action';
+import ReviewActionModel, { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 
 import CommentModel from './comment';
@@ -26,6 +26,21 @@ export enum RegistrationReviewStates {
     PendingWithdrawRequest = 'pending_withdraw_request',
     PendingWithdraw = 'pending_withdraw',
 }
+
+type NonActionableStates = RegistrationReviewStates.Initial
+    | RegistrationReviewStates.Withdrawn | RegistrationReviewStates.Rejected;
+
+export type ReviewsStateToDecisionMap = Exclude<RegistrationReviewStates, NonActionableStates>;
+export const reviewsStateToDecisionMap: { [index in ReviewsStateToDecisionMap]: ReviewActionTrigger[] } = {
+    [RegistrationReviewStates.Accepted]: [ReviewActionTrigger.ForceWithdraw],
+    [RegistrationReviewStates.Embargo]: [ReviewActionTrigger.ForceWithdraw],
+    [RegistrationReviewStates.Pending]:
+        [ReviewActionTrigger.AcceptSubmission, ReviewActionTrigger.RejectSubmission],
+    [RegistrationReviewStates.PendingWithdraw]:
+        [ReviewActionTrigger.AcceptWithdrawal, ReviewActionTrigger.RejectWithdrawal],
+    [RegistrationReviewStates.PendingWithdrawRequest]: [ReviewActionTrigger.ForceWithdraw],
+    [RegistrationReviewStates.PendingEmbargoTermination]: [ReviewActionTrigger.ForceWithdraw],
+};
 
 const Validations = buildValidations({
     license: [

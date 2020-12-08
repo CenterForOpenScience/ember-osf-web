@@ -1,6 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
-import { computed } from '@ember/object';
+import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
@@ -84,7 +84,7 @@ export default class ModeratorManagerComponent extends Component {
                     this.reloadModeratorList();
                 }
                 this.toast.success(this.intl.t(
-                    'registries.moderation.moderators.addedNewModerator',
+                    'registries.moderation.moderators.addedNewModeratorSuccess',
                     { userName: user.fullName, permission: permissionGroup },
                 ));
             }
@@ -92,8 +92,12 @@ export default class ModeratorManagerComponent extends Component {
             if (newModerator) {
                 newModerator.unloadRecord();
             }
-            captureException(e);
-            this.toast.error(getApiErrorMessage(e));
+            const errorMessage = this.intl.t(
+                'registries.moderation.moderators.addedNewModeratorError',
+                { permission: permissionGroup },
+            );
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
         }
     });
 
@@ -119,7 +123,7 @@ export default class ModeratorManagerComponent extends Component {
                     this.reloadModeratorList();
                 }
                 this.toast.success(this.intl.t(
-                    'registries.moderation.moderators.addedNewModerator',
+                    'registries.moderation.moderators.addedNewModeratorSuccess',
                     { userName: fullName, permission: permissionGroup },
                 ));
             }
@@ -127,8 +131,12 @@ export default class ModeratorManagerComponent extends Component {
             if (newModerator) {
                 newModerator.unloadRecord();
             }
-            captureException(e);
-            this.toast.error(getApiErrorMessage(e));
+            const errorMessage = this.intl.t(
+                'registries.moderation.moderators.addedNewModeratorError',
+                { permission: permissionGroup },
+            );
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
         }
     });
 
@@ -139,30 +147,45 @@ export default class ModeratorManagerComponent extends Component {
             moderator.set('permissionGroup', newPermission);
             yield moderator.save();
             this.toast.success(this.intl.t(
-                'registries.moderation.moderators.updatedModeratorPermission',
+                'registries.moderation.moderators.updatedModeratorPermissionSuccess',
                 { userName: moderator.fullName, permission: newPermission },
             ));
         } catch (e) {
+            const errorMessage = this.intl.t(
+                'registries.moderation.moderators.updatedModeratorPermissionError',
+                { permission: newPermission },
+            );
             moderator.rollbackAttributes();
-            captureException(e);
-            this.toast.error(getApiErrorMessage(e));
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
         }
     });
 
     @task({ withTestWaiter: true })
-    removeModerator = task(function *(this: ModeratorManagerComponent, moderator: ModeratorModel) {
+    removeModeratorTask = task(function *(this: ModeratorManagerComponent, moderator: ModeratorModel) {
         try {
             yield moderator.destroyRecord();
-            if (this.reloadModeratorList) {
-                this.reloadModeratorList();
-            }
+
             this.toast.success(this.intl.t(
-                'registries.moderation.moderators.removedModerator',
+                'registries.moderation.moderators.removedModeratorSuccess',
                 { userName: moderator.fullName },
             ));
         } catch (e) {
-            captureException(e);
-            this.toast.error(getApiErrorMessage(e));
+            const errorMessage = this.intl.t(
+                'registries.moderation.moderators.removedModeratorError',
+                { permission: moderator.permissionGroup },
+            );
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
+        } finally {
+            if (this.reloadModeratorList) {
+                this.reloadModeratorList();
+            }
         }
     });
+
+    @action
+    removeModerator(moderator: ModeratorModel) {
+        this.removeModeratorTask.perform(moderator);
+    }
 }

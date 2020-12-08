@@ -31,6 +31,7 @@
                             data-test-connected-identities-delete
                             local-class='delete-button'
                             @small={{true}}
+                            @noBackground={{true}}
                             @delete={{action this.removeIdentity identity}}
                             @modalTitle={{t 'settings.account.connected_identities.confirm_remove.title'}}
                             @modalBody={{t 'settings.account.connected_identities.confirm_remove.body' identity=identity}}

@@ -25,7 +25,7 @@ export default class ReviewAction extends Component<Args> {
                 return this.intl.t('registries.reviewAction.acceptEmbargoSubmission',
                     {
                         action: reviewAction.triggerPastTense,
-                        submitter: reviewAction.creator.get('fullName'),
+                        moderator: reviewAction.creator.get('fullName'),
                         date: formattedTimeSince(reviewAction.dateModified),
                         embargoEndDate: this.intl.formatDate(this.args.embargoEndDate, { locale: this.intl.locale }),
                     });
@@ -33,11 +33,13 @@ export default class ReviewAction extends Component<Args> {
             return this.intl.t('registries.reviewAction.acceptSubmission',
                 {
                     action: reviewAction.triggerPastTense,
-                    submitter: reviewAction.creator.get('fullName'),
+                    moderator: reviewAction.creator.get('fullName'),
                     date: formattedTimeSince(reviewAction.dateModified),
                 });
         }
-        if (reviewAction.actionTrigger === ReviewActionTrigger.RequestWithdrawal) {
+        if ([ReviewActionTrigger.RequestWithdrawal,
+            ReviewActionTrigger.Submit,
+            ReviewActionTrigger.RequestEmbargoTermination].includes(reviewAction.actionTrigger)) {
             return this.intl.t('registries.reviewAction.contributorAction',
                 {
                     action: reviewAction.triggerPastTense,

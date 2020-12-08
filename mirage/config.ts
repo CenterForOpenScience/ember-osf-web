@@ -148,7 +148,7 @@ export default function(this: Server) {
         path: '/registrations/:parentID/actions',
         relatedModelName: 'review-action',
     });
-    this.post('/registrations/:parentID/review-actions', createReviewAction);
+    this.post('/registrations/:parentID/actions', createReviewAction);
     this.post('/registrations/:id/forks', forkRegistration);
 
     osfNestedResource(this, 'registration', 'contributors', { defaultSortKey: 'index' });
@@ -242,10 +242,6 @@ export default function(this: Server) {
         relatedModelName: 'registration',
     });
     this.get('/providers/registrations/:parentID/registrations/', getProviderRegistrations);
-    osfNestedResource(this, 'registration-provider', 'actions', {
-        path: '/providers/registrations/:parentID/actions/',
-        relatedModelName: 'review-action',
-    });
     osfNestedResource(this, 'registration-provider', 'licensesAcceptable', {
         only: ['index'],
         path: '/providers/registrations/:parentID/licenses/',

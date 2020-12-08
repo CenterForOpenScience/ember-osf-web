@@ -1,23 +1,14 @@
 <div local-class='actionsWrapper'>
     {{#if this.fetchActions.isRunning}}
         <LoadingIndicator @dark={{true}} />
-    {{else if this.fetchActions.isError}}
+    {{else if this.fetchActions.last.isError}}
         <p data-test-loading-actions-failed>
             {{t 'registries.reviewActionsList.failedToLoadActions'}}
         </p>
     {{else}}
         {{#if this.reviewActions}}
-            {{#if (gt this.reviewActions.length 1)}}
-                <FaIcon
-                    data-test-registration-card-toggle-actions
-                    local-class='toggleActions'
-                    @icon={{this.toggleIcon}}
-                    @fixedWidth={{true}}
-                    {{on 'click' this.toggleActionList}}
-                />
-            {{/if}}
             <div>
-                <ReviewActionsList::ReviewAction
+                <Registries::ReviewActionsList::ReviewAction
                     data-test-registration-list-card-latest-action
                     @reviewAction={{this.latestAction}}
                     @embargoEndDate={{@registration.embargoEndDate}}
@@ -28,7 +19,7 @@
                         @duration='100'
                     >
                         {{#each (without this.latestAction this.reviewActions) as |reviewAction|}}
-                            <ReviewActionsList::ReviewAction
+                            <Registries::ReviewActionsList::ReviewAction
                                 data-test-registration-list-card-more-actions
                                 @reviewAction={{reviewAction}}
                                 @embargoEndDate={{@registration.embargoEndDate}}
@@ -36,6 +27,15 @@
                         {{/each}}
                     </AnimatedIf>
                 </AnimatedContainer>
+                {{#if (gt this.reviewActions.length 1)}}
+                    <Button
+                        data-test-registration-card-toggle-actions
+                        @layout='fake-link'
+                        {{on 'click' this.toggleActionList}}
+                    >
+                        {{this.showOrHide}}
+                    </Button>
+                {{/if}}
             </div>
         {{else}}
             <p data-test-no-actions-found>

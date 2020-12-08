@@ -1,8 +1,10 @@
+import { A } from '@ember/array';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
+import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import RegistrationModel from 'ember-osf-web/models/registration';
@@ -15,27 +17,29 @@ interface Args {
 
 export default class ReviewActionsList extends Component<Args> {
     @service toast!: Toast;
+    @service intl!: Intl;
 
     @tracked showFullActionList: boolean = false;
     @tracked reviewActions?: ReviewActionModel[];
 
-    get toggleIcon() {
-        return this.showFullActionList ? 'caret-down' : 'caret-right';
+    get showOrHide() {
+        return this.showFullActionList ? this.intl.t('registries.reviewActionsList.hide')
+            : this.intl.t('registries.reviewActionsList.show');
     }
 
     get latestAction() {
         const { reviewActions } = this;
-        return (reviewActions || [])[0];
+        return A(reviewActions || []).objectAt(0);
     }
 
     @task({ withTestWaiter: true })
     fetchActions = task(function *(this: ReviewActionsList) {
         try {
-            const reviewActions = yield this.args.registration.reviewActions;
-            this.reviewActions = reviewActions.toArray();
+            this.reviewActions = yield this.args.registration.reviewActions;
         } catch (e) {
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
+            throw e;
         }
     });
 

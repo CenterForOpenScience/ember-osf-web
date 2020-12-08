@@ -80,7 +80,8 @@ function registrationScenario(
         'withBrand',
         'withSchemas');
 
-    const egap = server.create('registration-provider', { id: 'egap', name: 'EGAP' }, 'withBrand');
+    const egap = server.create('registration-provider', { id: 'egap', name: 'EGAP' },
+        'withBrand', 'currentUserIsModerator');
     server.create('moderator', { provider: egap });
     server.create('moderator', { id: currentUser.id, user: currentUser, provider: egap }, 'asAdmin');
     server.createList('moderator', 5, { provider: egap });
