@@ -28,6 +28,7 @@ module('Integration | Component | review-actions', hooks => {
         this.set('reviewAction', reviewAction);
     });
 
+    // Moderator actions
     test('Standard accept action', async function(assert) {
         const reviewAction = this.get('reviewAction') as ReviewActionModel;
         reviewAction.setProperties({
@@ -49,7 +50,7 @@ module('Integration | Component | review-actions', hooks => {
         assert.dom('[data-test-review-action-comment]').doesNotExist('No comment to show');
     });
 
-    test('Embargo accept action', async function(assert) {
+    test('Embargo accept action', async function(this: TestContext, assert) {
         const reviewAction = this.get('reviewAction') as ReviewActionModel;
         const embargoEndDate = faker.date.future(1, new Date(2099, 0, 0));
         reviewAction.setProperties({
@@ -57,7 +58,7 @@ module('Integration | Component | review-actions', hooks => {
             toState: RegistrationReviewStates.Embargo,
         });
         const dateString = formattedTimeSince(reviewAction.dateModified);
-        const embargoEndDateString = this.owner.lookup('service:intl').formatDate(embargoEndDate);
+        const embargoEndDateString = this.intl.formatDate(embargoEndDate, { locale: this.intl.locale });
         const pastTenseString = t('registries.reviewActions.triggerPastTense.accept_submission');
         this.set('embargoEndDate', embargoEndDate);
 
@@ -80,6 +81,45 @@ module('Integration | Component | review-actions', hooks => {
         assert.dom('[data-test-review-action-comment]').doesNotExist('No comment to show');
     });
 
+    test('Accept withdraw action', async function(assert) {
+        const reviewAction = this.get('reviewAction') as ReviewActionModel;
+        reviewAction.set('actionTrigger', ReviewActionTrigger.AcceptWithdrawal);
+        const dateString = formattedTimeSince(reviewAction.dateModified);
+        const pastTenseString = t('registries.reviewActions.triggerPastTense.accept_withdrawal');
+
+        await render(hbs`<Registries::ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
+        assert.dom('[data-test-review-action-wrapper]').containsText(
+            t('registries.reviewAction.moderatorAction',
+                { action: pastTenseString, moderator: 'Superb Mario', date: dateString }),
+            'Review action wrapper shows proper string',
+        );
+        assert.dom('[data-test-review-action-wrapper]')
+            .doesNotContainText('contributor', 'Review action does not mention contributor');
+        assert.dom('[data-test-review-action-wrapper]')
+            .containsText('moderator', 'Review action explicitly mentions it is created by moderator');
+    });
+
+    test('Reject withdraw action', async function(assert) {
+        const reviewAction = this.get('reviewAction') as ReviewActionModel;
+        reviewAction.set('actionTrigger', ReviewActionTrigger.RejectWithdrawal);
+        const dateString = formattedTimeSince(reviewAction.dateModified);
+        const pastTenseString = t('registries.reviewActions.triggerPastTense.reject_withdrawal');
+
+        await render(hbs`<Registries::ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
+        assert.dom('[data-test-review-action-wrapper]').containsText(
+            t('registries.reviewAction.moderatorAction',
+                { action: pastTenseString, moderator: 'Superb Mario', date: dateString }),
+            'Review action wrapper shows proper string',
+        );
+        assert.dom('[data-test-review-action-wrapper]')
+            .doesNotContainText('contributor', 'Review action does not mention contributor');
+        assert.dom('[data-test-review-action-wrapper]')
+            .containsText('moderator', 'Review action explicitly mentions it is created by moderator');
+    });
+
+    // Registraton Admin actions
     test('Submit action', async function(assert) {
         const reviewAction = this.get('reviewAction') as ReviewActionModel;
         reviewAction.set('actionTrigger', ReviewActionTrigger.Submit);
@@ -118,5 +158,47 @@ module('Integration | Component | review-actions', hooks => {
             .doesNotContainText('moderator', 'Review action does not mention moderator');
         assert.dom('[data-test-review-action-comment]')
             .containsText('I need my brother Luigi to help me', 'Comment shown');
+    });
+
+    test('Request embargo termination action', async function(assert) {
+        const reviewAction = this.get('reviewAction') as ReviewActionModel;
+        reviewAction.setProperties({
+            actionTrigger: ReviewActionTrigger.RequestEmbargoTermination,
+            comment: '',
+        });
+        const dateString = formattedTimeSince(reviewAction.dateModified);
+        const pastTenseString = t('registries.reviewActions.triggerPastTense.request_embargo_termination');
+
+        await render(hbs`<Registries::ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
+        assert.dom('[data-test-review-action-wrapper]').containsText(
+            t('registries.reviewAction.contributorAction',
+                { action: pastTenseString, contributor: 'Superb Mario', date: dateString }),
+            'Review action wrapper shows proper string',
+        );
+        assert.dom('[data-test-review-action-wrapper]')
+            .doesNotContainText('moderator', 'Review action does not mention moderator');
+        assert.dom('[data-test-review-action-comment]').doesNotExist('Empty strings do not create comment');
+    });
+
+    test('Request embargo termination action', async function(assert) {
+        const reviewAction = this.get('reviewAction') as ReviewActionModel;
+        reviewAction.setProperties({
+            actionTrigger: ReviewActionTrigger.RequestEmbargoTermination,
+            comment: '',
+        });
+        const dateString = formattedTimeSince(reviewAction.dateModified);
+        const pastTenseString = t('registries.reviewActions.triggerPastTense.request_embargo_termination');
+
+        await render(hbs`<Registries::ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
+        assert.dom('[data-test-review-action-wrapper]').containsText(
+            t('registries.reviewAction.contributorAction',
+                { action: pastTenseString, contributor: 'Superb Mario', date: dateString }),
+            'Review action wrapper shows proper string',
+        );
+        assert.dom('[data-test-review-action-wrapper]')
+            .doesNotContainText('moderator', 'Review action does not mention moderator');
+        assert.dom('[data-test-review-action-comment]').doesNotExist('Empty strings do not create comment');
     });
 });
