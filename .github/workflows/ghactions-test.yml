@@ -78,36 +78,31 @@ jobs:
         restore-keys: cached_node_modules_
     - run: COVERAGE=true yarn test --path ./dist
       timeout-minutes: 25
-    # - name: Save code coverage artifact
-    #   uses: actions/upload-artifact@v2
-    #   with:
-    #     name: coverage-info
-    #     path: ./coverage/lcov.info
+    - name: Save code coverage artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: coverage-info
+        path: ./coverage/lcov.info
+
+  send-coverage:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+    - name: Set up Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 10.x
+    - uses: actions/download-artifact@v2
+      with:
+        name: coverage-info
+        path: ./lcov.info
+    - uses: actions/cache@v2
+      with:
+        path: ./node_modules
+        key: cached_node_modules_${{ hashFiles('**/yarn.lock') }}
+        restore-keys: cached_node_modules_
     - run: yarn coveralls
     - name: Coveralls
       uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-
-  # send-coverage:
-  #   runs-on: ubuntu-latest
-  #   needs: test
-  #   steps:
-  #   - name: Set up Node.js
-  #     uses: actions/setup-node@v1
-  #     with:
-  #       node-version: 10.x
-  #   - uses: actions/download-artifact@v2
-  #     with:
-  #       name: coverage-info
-  #       path: ./lcov.info
-  #   - uses: actions/cache@v2
-  #     with:
-  #       path: ./node_modules
-  #       key: cached_node_modules_${{ hashFiles('**/yarn.lock') }}
-  #       restore-keys: cached_node_modules_
-  #   - run: yarn coveralls
-  #   - name: Coveralls
-  #     uses: coverallsapp/github-action@master
-  #     with:
-  #       github-token: ${{ secrets.GITHUB_TOKEN }}
