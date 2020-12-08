@@ -2,6 +2,7 @@
     @changeset={{@manager.changeset}}
     as |form|
 >
+    <p local-class='LicenseHelpText'>{{t 'registries.registration_metadata.license_help_text' htmlSafe=true}}</p>
     <div data-test-license-edit-form>
         {{#if @manager.licensesAcceptable}}
             <form.select
