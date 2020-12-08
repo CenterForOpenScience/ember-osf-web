@@ -22,7 +22,8 @@
     "test:cover": "EMBER_ENV=test COVERAGE=true ember test",
     "test:config": "mocha node-tests/config-test.js",
     "test:blueprints": "mocha node-tests/blueprints",
-    "test:node-tests": "mocha 'node-tests/**/*-test.js'"
+    "test:node-tests": "mocha 'node-tests/**/*-test.js'",
+    "coveralls": "cat ./lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "husky": {
     "hooks": {
