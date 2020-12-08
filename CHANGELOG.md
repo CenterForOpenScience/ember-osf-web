@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [20.12.0] - 2020-12-08
+### Added
+- branded registries moderation
+
 ## [20.11.0] - 2020-11-03
 ### Added
 - storage caps support in quickfiles and draft registrations
@@ -1674,7 +1678,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/20.11.0...develop
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/20.12.0...develop
+[20.12.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.12.0
 [20.11.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.11.0
 [20.10.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.10.1
 [20.10.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.10.0
