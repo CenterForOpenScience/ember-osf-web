@@ -41,7 +41,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         await visit(`/${registration.id}?mode=moderator`);
         assert.dom('[data-test-state-description-short]').exists('Short description for pending status exists');
         assert.dom('[data-test-state-description-short]').hasText(
-            t('registries.overview.pending.short_description').toString(),
+            t('registries.overview.pending.short_description'),
             'The registration is pending',
         );
         assert.dom('[data-test-state-description-long]').hasText(
@@ -54,14 +54,14 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             'Option to accept submission exists',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="accept_submission"]').hasText(
-            'Accept submission',
+            t('registries.makeDecisionDropdown.acceptSubmission'),
             'Accept submission option has correct text',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="reject_submission"]').exists(
             'Option to reject submission exists',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="reject_submission"]').hasText(
-            'Reject submission',
+            t('registries.makeDecisionDropdown.rejectSubmission'),
             'Reject submission option has correct text',
         );
         await percySnapshot(assert);
@@ -70,7 +70,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         await click('[data-test-state-button]');
         assert.dom('[data-test-state-description-short]').exists('Short description for accepted status exists');
         assert.dom('[data-test-state-description-short]').hasText(
-            t('registries.overview.accepted.short_description').toString(),
+            t('registries.overview.accepted.short_description'),
             'The registration is now accepted',
         );
         assert.dom('[data-test-state-description-long]').hasText(
@@ -112,7 +112,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             'Short description for pending_withdraw_request status exists',
         );
         assert.dom('[data-test-state-description-short]').hasText(
-            t('registries.overview.pendingWithdrawRequest.short_description').toString(),
+            t('registries.overview.pendingWithdrawRequest.short_description'),
             'The registration is pending withdraw request',
         );
         assert.dom('[data-test-state-description-long]').hasText(
@@ -128,7 +128,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             'Option to force withdraw exists',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="force_withdraw"]').hasText(
-            'Force withdraw',
+            t('registries.makeDecisionDropdown.forceWithdraw'),
             'Force withdraw option has correct text',
         );
         await percySnapshot(assert);
@@ -149,7 +149,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             'Short description for pending_withdraw status exists',
         );
         assert.dom('[data-test-state-description-short]').hasText(
-            t('registries.overview.pendingWithdraw.short_description').toString(),
+            t('registries.overview.pendingWithdraw.short_description'),
             'The registration is pending withdraw',
         );
         assert.dom('[data-test-state-description-long]').hasText(
@@ -162,14 +162,14 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             'Option to accept withdraw exists',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="accept_withdrawal"]').hasText(
-            'Accept withdrawal',
+            t('registries.makeDecisionDropdown.acceptWithdrawal'),
             'Accept withdrawal option has correct text',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="reject_withdrawal"]').exists(
             'Option to reject withdraw exists',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="reject_withdrawal"]').hasText(
-            'Reject withdrawal',
+            t('registries.makeDecisionDropdown.rejectWithdrawal'),
             'Reject withdrawal option has correct text',
         );
         await percySnapshot(assert);
@@ -193,7 +193,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         await click('[data-test-state-button]');
         assert.dom('[data-test-state-description-short]').exists('Short description for accepted status exists');
         assert.dom('[data-test-state-description-short]').hasText(
-            t('registries.overview.accepted.short_description').toString(),
+            t('registries.overview.accepted.short_description'),
             'The registration is now accepted',
         );
         assert.dom('[data-test-state-description-long]').hasText(
@@ -215,7 +215,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             'Short description for accepted status exists',
         );
         assert.dom('[data-test-state-description-short]').hasText(
-            t('registries.overview.accepted.short_description').toString(),
+            t('registries.overview.accepted.short_description'),
             'The registration is accepted',
         );
         assert.dom('[data-test-state-description-long]').hasText(
@@ -231,7 +231,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             'Option to force withdraw exists',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="force_withdraw"]').hasText(
-            'Force withdraw',
+            t('registries.makeDecisionDropdown.forceWithdraw'),
             'Force withdraw option has correct text',
         );
         await percySnapshot(assert);
@@ -253,7 +253,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             'Short description for embargo status exists',
         );
         assert.dom('[data-test-state-description-short]').hasText(
-            t('registries.overview.embargo.short_description').toString(),
+            t('registries.overview.embargo.short_description'),
             'The registration is in embargo',
         );
         assert.dom('[data-test-state-description-long]').hasText(
@@ -273,7 +273,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             'Option to force withdraw exists',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="force_withdraw"]').hasText(
-            'Force withdraw',
+            t('registries.makeDecisionDropdown.forceWithdraw'),
             'Force withdraw option has correct text',
         );
         await percySnapshot(assert);
@@ -294,7 +294,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             'Short description for pending_embargo_termination status exists',
         );
         assert.dom('[data-test-state-description-short]').hasText(
-            t('registries.overview.pendingEmbargoTermination.short_description').toString(),
+            t('registries.overview.pendingEmbargoTermination.short_description'),
             'The registration is pending embargo termination',
         );
         assert.dom('[data-test-state-description-long]').hasText(
@@ -314,7 +314,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             'Option to force withdraw exists',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="force_withdraw"]').hasText(
-            'Force withdraw',
+            t('registries.makeDecisionDropdown.forceWithdraw'),
             'Force withdraw option has correct text',
         );
         await percySnapshot(assert);

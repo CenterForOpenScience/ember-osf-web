@@ -242,10 +242,6 @@ export default function(this: Server) {
         relatedModelName: 'registration',
     });
     this.get('/providers/registrations/:parentID/registrations/', getProviderRegistrations);
-    osfNestedResource(this, 'registration-provider', 'actions', {
-        path: '/providers/registrations/:parentID/actions/',
-        relatedModelName: 'review-action',
-    });
     osfNestedResource(this, 'registration-provider', 'licensesAcceptable', {
         only: ['index'],
         path: '/providers/registrations/:parentID/licenses/',
