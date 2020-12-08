@@ -1,0 +1,31 @@
+<div
+    data-test-registration-list-card
+    local-class='cardWrapper'
+    ...attributes
+>
+    <FaIcon
+        data-test-registration-list-card-icon='{{@state}}'
+        @icon={{this.icon}}
+        @size={{2}}
+        local-class='filterIcon {{@state}}'
+    />
+    <div local-class='cardInfo'>
+        <h3
+            data-test-registration-list-card-title
+            local-class='registrationTitle'
+        >
+            {{#if (eq @state 'rejected')}}
+                {{@registration.title}}
+            {{else}}
+                <OsfLink
+                    @route='registries.overview'
+                    @models={{array @registration.id}}
+                    @queryParams={{hash mode='moderator'}}
+                >
+                    {{@registration.title}}
+                </OsfLink>
+            {{/if}}
+        </h3>
+        <Registries::ReviewActionsList @registration={{@registration}}/>
+    </div>
+</div>

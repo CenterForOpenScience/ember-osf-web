@@ -105,30 +105,8 @@
     text-transform: uppercase;
 }
 
-.AddRegistrationButton {
+.SecondaryNavLinkButton {
     margin-left: 25px;
-}
-
-.SearchBar {
-    :global(.media-desktop) & {
-        width: 300px;
-    }
-
-    :global(.media-tablet) & {
-        width: 200px;
-    }
-
-    :global(.media-mobile) & {
-        display: none;
-    }
-
-    & i {
-        font-size: 20px;
-    }
-
-    input {
-        min-width: 0;
-    }
 }
 
 .AuthDropdown {
@@ -166,31 +144,5 @@
         position: relative;
         left: 2px;
         margin-right: 3px;
-    }
-}
-
-.SearchDropdown {
-    height: 50px;
-    transition: height 0.4s;
-    overflow: hidden;
-    background: $dark-slate-gray;
-
-    &.Closed {
-        height: 0;
-    }
-
-    // Remove padding from the icon-input component
-    // and rely on the padding from <Container />
-    & span > span {
-        padding: 0;
-    }
-
-    & span,
-    & input {
-        height: 100%;
-    }
-
-    & i {
-        font-size: 20px;
     }
 }

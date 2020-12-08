@@ -1,7 +1,7 @@
 @import 'branding-mixins';
 
 // .ContentBackground is being composed in registries/addon/branded/new/styles.scss
-// and registries/addon/drafts/draft/styles.scss
+// registries/addon/branded/moderation/index and registries/addon/drafts/draft/styles.scss
 
 .Container {
     display: flex;
@@ -14,6 +14,7 @@
 .ContentBackground {
     display: flex;
     flex-grow: 1;
+    z-index: 1;
     justify-content: center;
     position: relative;
 

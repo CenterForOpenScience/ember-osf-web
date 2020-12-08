@@ -1,4 +1,4 @@
-{{assert 'FormControls::Select - @options are required' @options}}
+{{assert 'FormControls::Select - @options xor @search are required' (xor @options @search)}}
 {{assert 'FormControls::Select - @valuePath are required' @valuePath}}
 {{assert 'FormControls::Select - @changeseet are required' @changeset}}
 <FormControls::Wrapper
@@ -20,6 +20,7 @@
             @searchEnabled={{@searchEnabled}}
             @selected={{or (get @changeset this.valuePath) null}}
             @disabled={{@disabled}}
+            @search={{@search}}
             id={{inputElementId}}
             as |option|
         >

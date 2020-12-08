@@ -2731,10 +2731,10 @@
   resolved "https://registry.yarnpkg.com/@types/ember__template/-/ember__template-3.0.0.tgz#d499ebf000faa371c1c98124633b9864be69b968"
   integrity sha512-aWNg/kL2QToE0fwI8MVgAr2upWyAUwqRv2sp3CpypsMTOC1lZizIehz8QI6w1m1+Eh1WYs/89gvuM3mTc4OyIw==
 
-"@types/ember__test-helpers@^1.7.0":
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/@types/ember__test-helpers/-/ember__test-helpers-1.7.0.tgz#d1f18c283744ca17b04dc185602f67a5fee77f7d"
-  integrity sha512-8pd+KNnus948oAQh0pdpP4SioaBTJDqn+H4FkBjphZf+VzFZMVbJoDtDqCcBH/d2Cr2gXPd4RDjZRprg/bRVLQ==
+"@types/ember__test-helpers@^1.7.3":
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/@types/ember__test-helpers/-/ember__test-helpers-1.7.3.tgz#a3553f5c3318032dcdf03b7b511254b9edf930eb"
+  integrity sha512-5LGWJHkdbKYrrA/l4QFeu2WNE0iaz5lBjc980VLzOqyfy2/r4CbZbuHtg+oL5jYQDnB2Udpz9b3EwwM3lg7hsA==
   dependencies:
     "@types/ember" "*"
     "@types/ember__application" "*"
@@ -5296,6 +5296,22 @@ broccoli-funnel@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/broccoli-funnel/-/broccoli-funnel-3.0.2.tgz#25e1c9a512b3852d3c9dde19ebdf07880d619c73"
   integrity sha512-yRa7f0H/BtfqXNmL4eCYtAiVAQASI5b83//17MxAYp3I+w8XzGY8Tc3mwhdUrAgh6Zhb6LZwgvUZDZPTLmkK7w==
+  dependencies:
+    array-equal "^1.0.0"
+    blank-object "^1.0.1"
+    broccoli-plugin "^4.0.1"
+    debug "^4.1.1"
+    fast-ordered-set "^1.0.0"
+    fs-tree-diff "^2.0.1"
+    heimdalljs "^0.2.0"
+    minimatch "^3.0.0"
+    path-posix "^1.0.0"
+    walk-sync "^2.0.2"
+
+broccoli-funnel@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/broccoli-funnel/-/broccoli-funnel-3.0.3.tgz#26fd42632471f67a91f4770d1987118087219937"
+  integrity sha512-LPzZ91BwStoHZXdXHQAJeYORl189OrRKM5NdIi86SDU9wZ4s/3lV1PRFOiobDT/jKM10voM7CDzfvicHbCYxAQ==
   dependencies:
     array-equal "^1.0.0"
     blank-object "^1.0.1"
@@ -9151,6 +9167,14 @@ ember-cli-string-helpers@^1.7.0:
   dependencies:
     broccoli-funnel "^1.0.1"
     ember-cli-babel "^6.6.0"
+
+ember-cli-string-helpers@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/ember-cli-string-helpers/-/ember-cli-string-helpers-5.0.0.tgz#b1e08ec3ca1c9a457f9fd9aafff60b5939fbf91d"
+  integrity sha512-PodD3Uf7BkOXIu95E6cWEC0ERroTiUOAwOr828Vb+fPFtV7WYNSC27C9Ds1ggCyyRqnXmpS0JSqCTN1gPZfkWQ==
+  dependencies:
+    broccoli-funnel "^3.0.3"
+    ember-cli-babel "^7.7.3"
 
 ember-cli-string-utils@^1.0.0, ember-cli-string-utils@^1.1.0:
   version "1.1.0"

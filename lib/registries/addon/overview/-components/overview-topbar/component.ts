@@ -10,7 +10,7 @@ import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import CollectionModel from 'ember-osf-web/models/collection';
-import RegistrationModel, { RegistrationState } from 'ember-osf-web/models/registration';
+import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
@@ -30,6 +30,7 @@ export default class OverviewTopbar extends Component {
 
     bookmarksCollection!: CollectionModel;
     isBookmarked?: boolean;
+    showDropdown: boolean = false;
 
     @task({ withTestWaiter: true, drop: true })
     forkRegistration = task(function *(this: OverviewTopbar, closeDropdown: () => void) {
@@ -105,9 +106,9 @@ export default class OverviewTopbar extends Component {
         this.set('isBookmarked', isBookmarked);
     });
 
-    @computed('registration.state')
+    @computed('registration.reviewsState')
     get isWithdrawn() {
-        return this.registration.state === RegistrationState.Withdrawn;
+        return this.registration.reviewsState === RegistrationReviewStates.Withdrawn;
     }
 
     @computed('registration.id')

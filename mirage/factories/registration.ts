@@ -1,7 +1,7 @@
 import { association, trait, Trait } from 'ember-cli-mirage';
 import faker from 'faker';
 
-import Registration from 'ember-osf-web/models/registration';
+import Registration, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 
 import NodeFactory from './node';
 import { createRegistrationMetadata, guid, guidAfterCreate } from './utils';
@@ -18,52 +18,72 @@ export interface MirageRegistration extends Registration {
 
 export interface RegistrationTraits {
     withComments: Trait;
-    isPendingApproval: Trait;
     isArchiving: Trait;
-    isEmbargoed: Trait;
+    isPendingRegistrationApproval: Trait;
     isPendingEmbargoApproval: Trait;
-    isPendingEmbargoTerminationApproval: Trait;
-    isPendingWithdrawal: Trait;
+    isPending: Trait;
+    isEmbargo: Trait;
+    isPendingEmbargoTermination: Trait;
+    isPendingWithdrawRequest: Trait;
+    isPendingWithdraw: Trait;
     isWithdrawn: Trait;
     withArbitraryState: Trait;
     withAffiliatedInstitutions: Trait;
     isPublic: Trait;
     withSubjects: Trait;
+    withReviewActions: Trait;
+    withSingleReviewAction: Trait;
 }
 
 const stateAttrs = {
-    pendingApproval: {
-        pendingRegistrationApproval: true,
-        archiving: false,
-    },
     archiving: {
         archiving: true,
         pendingRegistrationApproval: false,
     },
-    embargoed: {
-        pendingEmbargoApproval: false,
-        embargoed: true,
-        embargoEndDate() {
-            return faker.date.future(1, new Date(2022, 0, 0));
-        },
-    },
-    pendingEmbargoTerminationApproval: {
-        pendingEmbargoTerminationApproval: true,
-        embargoed: true,
-        embargoEndDate() {
-            return faker.date.future(1, new Date(2022, 0, 0));
-        },
+    pendingRegistrationApproval: {
+        pendingRegistrationApproval: true,
+        archiving: false,
+        reviewsState: RegistrationReviewStates.Initial,
     },
     pendingEmbargoApproval: {
         pendingEmbargoApproval: true,
         embargoed: false,
         embargoEndDate: null,
+        reviewsState: RegistrationReviewStates.Initial,
     },
-    pendingWithdrawal: {
+    pending: {
+        reviewsState: RegistrationReviewStates.Pending,
+    },
+    embargo: {
+        pendingEmbargoApproval: false,
+        reviewsState: RegistrationReviewStates.Embargo,
+        embargoEndDate() {
+            return faker.date.future(1, new Date(2022, 0, 0));
+        },
+    },
+    rejected: {
+        reviewsState: RegistrationReviewStates.Rejected,
+    },
+    pendingEmbargoTermination: {
+        pendingEmbargoTerminationApproval: true,
+        reviewsState: RegistrationReviewStates.PendingEmbargoTermination,
+        embargoed: true,
+        embargoEndDate() {
+            return faker.date.future(1, new Date(2022, 0, 0));
+        },
+    },
+    pendingWithdrawRequest: {
+        reviewsState: RegistrationReviewStates.PendingWithdrawRequest,
+        withdrawn: false,
+        pendingWithdrawal: false,
+    },
+    pendingWithdraw: {
+        reviewsState: RegistrationReviewStates.PendingWithdraw,
         withdrawn: false,
         pendingWithdrawal: true,
     },
     withdrawn: {
+        reviewsState: RegistrationReviewStates.Withdrawn,
         withdrawn: true,
         pendingWithdrawal: false,
         currentUserPermissions: [],
@@ -71,7 +91,8 @@ const stateAttrs = {
             return faker.date.past(1, new Date(2019, 0, 0));
         },
     },
-    normal: {
+    public: {
+        reviewsState: RegistrationReviewStates.Accepted,
         pendingRegistrationApproval: false,
         archiving: false,
         embargoed: false,
@@ -140,6 +161,8 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     pendingWithdrawal: false,
     pendingEmbargoTerminationApproval: false,
     registeredFrom: association(),
+    registeredBy: association(),
+    reviewsState: RegistrationReviewStates.Accepted,
 
     index(i: number) {
         return i;
@@ -159,29 +182,35 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
             );
         },
     }),
-    isPendingApproval: trait<MirageRegistration>({
-        ...stateAttrs.pendingApproval,
-    }),
     isArchiving: trait<MirageRegistration>({
         ...stateAttrs.archiving,
     }),
-    isEmbargoed: trait<MirageRegistration>({
-        ...stateAttrs.embargoed,
+    isPendingRegistrationApproval: trait<MirageRegistration>({
+        ...stateAttrs.pendingRegistrationApproval,
     }),
     isPendingEmbargoApproval: trait<MirageRegistration>({
         ...stateAttrs.pendingEmbargoApproval,
     }),
-    isPendingWithdrawal: trait<MirageRegistration>({
-        ...stateAttrs.pendingWithdrawal,
+    isPending: trait<MirageRegistration>({
+        ...stateAttrs.pending,
     }),
-    isPendingEmbargoTerminationApproval: trait<MirageRegistration>({
-        ...stateAttrs.pendingEmbargoTerminationApproval,
+    isEmbargo: trait<MirageRegistration>({
+        ...stateAttrs.embargo,
+    }),
+    isPendingWithdrawRequest: trait<MirageRegistration>({
+        ...stateAttrs.pendingWithdrawRequest,
+    }),
+    isPendingWithdraw: trait<MirageRegistration>({
+        ...stateAttrs.pendingWithdraw,
+    }),
+    isPendingEmbargoTermination: trait<MirageRegistration>({
+        ...stateAttrs.pendingEmbargoTermination,
     }),
     isWithdrawn: trait<MirageRegistration>({
         ...stateAttrs.withdrawn,
     }),
     isPublic: trait<MirageRegistration>({
-        ...stateAttrs.normal,
+        ...stateAttrs.public,
     }),
     withAffiliatedInstitutions: trait<MirageRegistration>({
         afterCreate(registration, server) {
@@ -208,6 +237,18 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
                 subjects.push(faker.random.arrayElement(providerSubjects));
             }
             registration.update({ subjects });
+        },
+    }),
+    withReviewActions: trait<MirageRegistration>({
+        afterCreate(registration, server) {
+            const reviewActions = server.createList('review-action', 3, { target: registration });
+            registration.update({ reviewActions });
+        },
+    }),
+    withSingleReviewAction: trait<MirageRegistration>({
+        afterCreate(registration, server) {
+            const reviewActions = server.createList('review-action', 1, { target: registration });
+            registration.update({ reviewActions });
         },
     }),
 });

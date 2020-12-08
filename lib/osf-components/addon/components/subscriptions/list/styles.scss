@@ -1,0 +1,27 @@
+.SubscriptionsList {
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+}
+
+.SubscriptionPlaceholder {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 75%;
+    height: 45px;
+    border-top: 1px solid $color-bg-gray-dark;
+
+    &:global(.ember-content-placeholders-text) {
+        margin-top: 0 !important;
+
+        :global(.ember-content-placeholders-text__line) {
+            width: 100%;
+        }
+    }
+
+    &:last-of-type {
+        border-bottom: 1px solid $color-bg-gray-dark;
+    }
+}

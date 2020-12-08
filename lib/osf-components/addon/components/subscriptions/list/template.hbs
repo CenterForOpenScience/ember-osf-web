@@ -1,0 +1,17 @@
+{{#if @manager.fetchSubscriptions.isRunning}}
+    <ContentPlaceholders as |placeholder|>
+        {{placeholder.text local-class='SubscriptionPlaceholder' lines=1}}
+        {{placeholder.text local-class='SubscriptionPlaceholder' lines=1}}
+    </ContentPlaceholders>
+{{else}}
+    <div local-class='SubscriptionsList'>
+        <ul data-test-subscription-list>
+            {{#each @manager.subscriptions as |subscription|}}
+                <Subscriptions::ListRow
+                    @manager={{@manager}}
+                    @subscription={{subscription}}
+                />
+            {{/each}}
+        </ul>
+    </div>
+{{/if}}

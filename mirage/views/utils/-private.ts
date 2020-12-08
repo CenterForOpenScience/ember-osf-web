@@ -27,6 +27,7 @@ interface QueryParameters {
 const alwaysEmbed: { [key: string]: string[] } = {
     contributors: ['users'],
     'collected-metadata': ['guid'],
+    moderators: ['user'],
 };
 
 interface WithAttributes {

@@ -11,7 +11,7 @@ import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Identifier from 'ember-osf-web/models/identifier';
-import Registration, { RegistrationState } from 'ember-osf-web/models/registration';
+import Registration, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 import template from './template';
@@ -46,9 +46,9 @@ export default class DoiManagerComponent extends Component {
     @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
     @not('nodeDoi') fieldIsEmpty!: boolean;
 
-    @computed('userCanEdit', 'node.state', 'nodeDoi')
+    @computed('userCanEdit', 'node.reviewsState', 'nodeDoi')
     get userCanMintDoi() {
-        return !this.nodeDoi && this.userCanEdit && this.node.state === RegistrationState.Public;
+        return !this.nodeDoi && this.userCanEdit && this.node.reviewsState === RegistrationReviewStates.Accepted;
     }
 
     @computed('fieldIsEmpty', 'userCanMintDoi')

@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
+import { tracked } from '@glimmer/tracking';
 import config from 'ember-get-config';
 
 import Registration from 'ember-osf-web/models/registration';
@@ -18,9 +19,17 @@ const { OSF: { url: baseURL } } = config;
 export default class Overview extends Controller {
     model!: GuidRouteModel<Registration>;
 
+    queryParams = ['mode'];
     supportEmail = supportEmail;
 
+    @tracked mode: string = '';
+
     @alias('model.taskInstance.value') registration?: Registration;
+
+    @computed('registration.{reviewsState,archiving}')
+    get showTombstone() {
+        return this.registration && (this.registration.reviewsState === 'withdrawn' || this.registration.archiving);
+    }
 
     @computed('registration.id')
     get registrationURL() {

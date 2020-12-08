@@ -1,5 +1,13 @@
-.SmallDelete.SmallDelete {
-    color: $color-text-black;
+.Button__noBackground {
+    background-color: transparent;
+    color: $brand-danger;
+
+    &:hover:not([disabled]) {
+        // used to overwrite Button component's hover style
+        // TODO: create a new style in the Button component to handle no background buttons?
+        background-color: transparent;
+        color: darken($brand-danger, 15%);
+    }
 }
 
 .Modal__confirmBlock {

@@ -1,8 +1,8 @@
-import { computed } from '@ember/object';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 
 import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
+import ReviewActionModel, { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 
 import CommentModel from './comment';
@@ -15,15 +15,32 @@ import UserModel from './user';
 
 const { attr, belongsTo, hasMany } = DS;
 
-export enum RegistrationState {
-    Embargoed = 'Embargoed',
-    Public = 'Public',
-    Withdrawn = 'Withdrawn',
-    PendingRegistration = 'PendingRegistration',
-    PendingWithdrawal = 'PendingWithdrawal',
-    PendingEmbargo = 'PendingEmbargo',
-    PendingEmbargoTermination = 'PendingEmbargoTermination',
+export enum RegistrationReviewStates {
+    Initial = 'initial',
+    Pending = 'pending',
+    Accepted = 'accepted',
+    Rejected = 'rejected',
+    Withdrawn = 'withdrawn',
+    Embargo = 'embargo',
+    PendingEmbargoTermination = 'pending_embargo_termination',
+    PendingWithdrawRequest = 'pending_withdraw_request',
+    PendingWithdraw = 'pending_withdraw',
 }
+
+type NonActionableStates = RegistrationReviewStates.Initial
+    | RegistrationReviewStates.Withdrawn | RegistrationReviewStates.Rejected;
+
+export type ReviewsStateToDecisionMap = Exclude<RegistrationReviewStates, NonActionableStates>;
+export const reviewsStateToDecisionMap: { [index in ReviewsStateToDecisionMap]: ReviewActionTrigger[] } = {
+    [RegistrationReviewStates.Accepted]: [ReviewActionTrigger.ForceWithdraw],
+    [RegistrationReviewStates.Embargo]: [ReviewActionTrigger.ForceWithdraw],
+    [RegistrationReviewStates.Pending]:
+        [ReviewActionTrigger.AcceptSubmission, ReviewActionTrigger.RejectSubmission],
+    [RegistrationReviewStates.PendingWithdraw]:
+        [ReviewActionTrigger.AcceptWithdrawal, ReviewActionTrigger.RejectWithdrawal],
+    [RegistrationReviewStates.PendingWithdrawRequest]: [ReviewActionTrigger.ForceWithdraw],
+    [RegistrationReviewStates.PendingEmbargoTermination]: [ReviewActionTrigger.ForceWithdraw],
+};
 
 const Validations = buildValidations({
     license: [
@@ -57,25 +74,12 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @attr('fixstring') articleDoi!: string | null;
     @attr('object') registeredMeta!: RegistrationMetadata;
     @attr('registration-responses') registrationResponses!: RegistrationResponse;
+    @attr('fixstring') reviewsState!: RegistrationReviewStates;
 
     // Write-only attributes
     @attr('array') includedNodeIds?: string[];
     @attr('boolean') createDoi?: boolean;
     @attr('fixstring') draftRegistrationId?: string;
-
-    @computed(
-        'withdrawn', 'embargoed', 'public', 'pendingRegistrationApproval',
-        'pendingEmbargoApproval', 'pendingEmbargoTerminationApproval',
-        'pendingWithdrawal',
-    )
-    get state(): RegistrationState {
-        const stateMap: any = this.registrationStateMap();
-        const currentState: RegistrationState = Object.keys(stateMap)
-            .filter(active => stateMap[active])
-            .map(key => RegistrationState[key as keyof typeof RegistrationState])[0];
-
-        return currentState || RegistrationState.Public;
-    }
 
     @belongsTo('node', { inverse: 'registrations' })
     registeredFrom!: DS.PromiseObject<NodeModel> & NodeModel;
@@ -107,31 +111,12 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @hasMany('institution', { inverse: 'registrations' })
     affiliatedInstitutions!: DS.PromiseManyArray<InstitutionModel> | InstitutionModel[];
 
+    @hasMany('review-action', { inverse: 'target' })
+    reviewActions!: DS.PromiseManyArray<ReviewActionModel> | ReviewActionModel[];
+
     // Write-only relationships
     @belongsTo('draft-registration', { inverse: null })
     draftRegistration!: DraftRegistrationModel;
-
-    registrationStateMap(): Record<RegistrationState, boolean> {
-        const {
-            pendingRegistrationApproval,
-            pendingEmbargoApproval,
-            pendingEmbargoTerminationApproval,
-            pendingWithdrawal,
-            withdrawn,
-            embargoed,
-        } = this;
-        const embargo = embargoed && !pendingEmbargoTerminationApproval;
-
-        return {
-            PendingRegistration: pendingRegistrationApproval,
-            PendingEmbargo: pendingEmbargoApproval,
-            PendingEmbargoTermination: pendingEmbargoTerminationApproval,
-            PendingWithdrawal: pendingWithdrawal,
-            Withdrawn: withdrawn,
-            Embargoed: embargo,
-            Public: !pendingWithdrawal,
-        };
-    }
 }
 
 declare module 'ember-data/types/registries/model' {

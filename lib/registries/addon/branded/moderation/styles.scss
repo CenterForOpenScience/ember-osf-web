@@ -1,0 +1,22 @@
+.contentBackground {
+    composes: ContentBackground from '../../overview/styles.scss';
+}
+
+.main {
+    composes: Main from '../../drafts/draft/styles.scss';
+}
+
+.title {
+    composes: Title from '../../drafts/draft/styles.scss';
+}
+
+
+.mainNav {
+    border-bottom: 0;
+    font-size: 18px;
+}
+
+.childNav {
+    margin: 10px;
+    box-shadow: 0 0 9px -1px $color-shadow-gray-light;
+}

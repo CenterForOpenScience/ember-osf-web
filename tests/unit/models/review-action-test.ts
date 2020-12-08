@@ -53,21 +53,12 @@ module('Unit | Model | review-action', hooks => {
         assert.ok(hasAttr);
     });
 
-    test('preprint-provider relationship', function(assert) {
-        const model = this.owner.lookup('service:store').modelFor('review-action');
-        const relationship = get(model, 'relationshipsByName').get('provider');
-
-        assert.equal(relationship.key, 'provider');
-        assert.equal(relationship.type, 'preprint-provider');
-        assert.equal(relationship.kind, 'belongsTo');
-    });
-
     test('target relationship', function(assert) {
         const model = this.owner.lookup('service:store').modelFor('review-action');
         const relationship = get(model, 'relationshipsByName').get('target');
 
         assert.equal(relationship.key, 'target');
-        assert.equal(relationship.type, 'preprint');
+        assert.equal(relationship.type, 'registration');
         assert.equal(relationship.kind, 'belongsTo');
     });
 

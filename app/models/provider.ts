@@ -20,6 +20,24 @@ export interface Assets {
     wide_white: string;
 }
 
+export enum ReviewPermissions {
+    SetUpModeration = 'set_up_moderation',
+    ViewSubmissions = 'view_submissions',
+    AcceptSubmissions = 'accept_submissions',
+    RejectSubmissions = 'reject_submissions',
+    WithdrawSubmissions = 'withdraw_submissions',
+    EditReviewComments = 'edit_review_comments',
+    ViewActions = 'view_actions',
+    AddModerator = 'add_moderator',
+    UpdateModerator = 'update_moderator',
+    RemoveModerator = 'remove_moderator',
+    EditReviewSettings = 'edit_review_settings',
+    AddReviewer = 'add_reviewer',
+    AssignReviewer = 'assign_reviewer',
+    ViewAssignedSubmissions = 'view_assigned_submissions',
+    ReviewAssignedSubmissions = 'review_assigned_submissions',
+}
+
 /* eslint-enable camelcase */
 
 export default abstract class ProviderModel extends OsfModel {
@@ -34,6 +52,8 @@ export default abstract class ProviderModel extends OsfModel {
     @attr('string') facebookAppId!: string;
     @attr('boolean') allowSubmissions!: boolean;
     @attr('boolean') allowCommenting!: boolean;
+    @attr('fixstring') reviewsWorkflow!: string | null;
+    @attr('boolean') reviewsCommentsAnonymous!: boolean | null;
     @attr() assets?: Partial<Assets>; // TODO: camelize in transform
 
     @hasMany('subject', { inverse: null, async: false })
