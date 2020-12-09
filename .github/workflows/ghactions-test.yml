@@ -7,10 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: 10.x
+    - uses: rwjblue/setup-volta@v1
     - id: cache-node-modules
       uses: actions/cache@v2
       with:
@@ -25,16 +22,13 @@ jobs:
     needs: fetch-dependencies
     steps:
     - uses: actions/checkout@v2
+    - uses: rwjblue/setup-volta@v1
     - id: cache-node-modules
       uses: actions/cache@v2
       with:
         path: ./node_modules
         key: cached_node_modules_${{ hashFiles('**/yarn.lock') }}
         restore-keys: cached_node_modules_
-    - name: Set up Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: 10.x
     - run: yarn build:test
     - uses: actions/upload-artifact@v2
       with:
@@ -62,10 +56,7 @@ jobs:
     needs: build
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: 10.x
+    - uses: rwjblue/setup-volta@v1
     - uses: actions/download-artifact@v2
       with:
         name: dist
@@ -77,17 +68,14 @@ jobs:
         key: cached_node_modules_${{ hashFiles('**/yarn.lock') }}
         restore-keys: cached_node_modules_
     - run: COVERAGE=true yarn test --path ./dist --partition 1
-      timeout-minutes: 25
+      timeout-minutes: 10
 
   test-partition-2:
     runs-on: ubuntu-latest
     needs: build
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: 10.x
+    - uses: rwjblue/setup-volta@v1
     - uses: actions/download-artifact@v2
       with:
         name: dist
@@ -99,17 +87,14 @@ jobs:
         key: cached_node_modules_${{ hashFiles('**/yarn.lock') }}
         restore-keys: cached_node_modules_
     - run: COVERAGE=true yarn test --path ./dist --partition 2
-      timeout-minutes: 25
+      timeout-minutes: 10
 
   test-partition-3:
     runs-on: ubuntu-latest
     needs: build
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: 10.x
+    - uses: rwjblue/setup-volta@v1
     - uses: actions/download-artifact@v2
       with:
         name: dist
@@ -121,17 +106,14 @@ jobs:
         key: cached_node_modules_${{ hashFiles('**/yarn.lock') }}
         restore-keys: cached_node_modules_
     - run: COVERAGE=true yarn test --path ./dist --partition 3
-      timeout-minutes: 25
+      timeout-minutes: 10
 
   test-partition-4:
     runs-on: ubuntu-latest
     needs: build
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: 10.x
+    - uses: rwjblue/setup-volta@v1
     - uses: actions/download-artifact@v2
       with:
         name: dist
@@ -143,14 +125,33 @@ jobs:
         key: cached_node_modules_${{ hashFiles('**/yarn.lock') }}
         restore-keys: cached_node_modules_
     - run: COVERAGE=true yarn test --path ./dist --partition 4
-      timeout-minutes: 25
+      timeout-minutes: 10
 
-  #  - name: Save code coverage artifact
-  #    uses: actions/upload-artifact@v2
-  #    with:
-  #      name: coverage-info
-  #      path: ./coverage/lcov.info
-
+  # test-with-coverage:
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - uses: rwjblue/setup-volta@v1
+  #   - uses: actions/download-artifact@v2
+  #     with:
+  #       name: dist
+  #       path: ./dist
+  #   - id: cache-node-modules
+  #     uses: actions/cache@v2
+  #     with:
+  #       path: ./node_modules
+  #       key: cached_node_modules_${{ hashFiles('**/yarn.lock') }}
+  #       restore-keys: cached_node_modules_
+  #   - run: COVERAGE=true yarn test --path ./dist
+  #     timeout-minutes: 25
+  #
+  #   - name: Save code coverage artifact
+  #     uses: actions/upload-artifact@v2
+  #     with:
+  #       name: coverage-info
+  #       path: ./coverage/lcov.info
+  #
   # send-coverage:
   #   runs-on: ubuntu-latest
   #   needs: test
