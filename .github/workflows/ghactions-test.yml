@@ -73,7 +73,7 @@ jobs:
         restore-keys: cached_node_modules_
     - uses: percy/exec-action@v0.3.1
       with:
-        custom-command: COVERAGE=true yarn test --path ./dist --partition 1
+        custom-command: yarn test --path ./dist --partition 1
       env:
         PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
         PERCY_PARALLEL_TOTAL: ${{ env.PERCY_PARALLEL_TOTAL }}
@@ -98,7 +98,7 @@ jobs:
         restore-keys: cached_node_modules_
     - uses: percy/exec-action@v0.3.1
       with:
-        custom-command: COVERAGE=true yarn test --path ./dist --partition 2
+        custom-command: yarn test --path ./dist --partition 2
       env:
         PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
         PERCY_PARALLEL_TOTAL: ${{ env.PERCY_PARALLEL_TOTAL }}
@@ -123,7 +123,7 @@ jobs:
         restore-keys: cached_node_modules_
     - uses: percy/exec-action@v0.3.1
       with:
-        custom-command: COVERAGE=true yarn test --path ./dist --partition 3
+        custom-command: yarn test --path ./dist --partition 3
       env:
         PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
         PERCY_PARALLEL_TOTAL: ${{ env.PERCY_PARALLEL_TOTAL }}
@@ -148,7 +148,7 @@ jobs:
         restore-keys: cached_node_modules_
     - uses: percy/exec-action@v0.3.1
       with:
-        custom-command: COVERAGE=true yarn test --path ./dist --partition 4
+        custom-command: yarn test --path ./dist --partition 4
       env:
         PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
         PERCY_PARALLEL_TOTAL: ${{ env.PERCY_PARALLEL_TOTAL }}
