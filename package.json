@@ -18,7 +18,7 @@
     "lint:ts": "tslint -p .",
     "lint:style": "stylelint 'app/**/*.scss' 'lib/**/*.scss'",
     "lint:template": "ember-template-lint 'app/**/*.hbs' 'lib/**/*.hbs'",
-    "test": "EMBER_ENV=test ember exam --split=4 --parallel=1",
+    "test": "percy exec -- EMBER_ENV=test ember exam --split=4 --parallel=1",
     "test:cover": "EMBER_ENV=test COVERAGE=true ember test",
     "test:config": "mocha node-tests/config-test.js",
     "test:blueprints": "mocha node-tests/blueprints",
