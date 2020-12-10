@@ -74,10 +74,10 @@ jobs:
     - uses: percy/exec-action@v0.3.1
       with:
         custom-command: COVERAGE=true yarn test --path ./dist --partition 1
-        env:
-          PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
-          PERCY_PARALLEL_TOTAL: ${{ env.PERCY_PARALLEL_TOTAL }}
-          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+      env:
+        PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
+        PERCY_PARALLEL_TOTAL: ${{ env.PERCY_PARALLEL_TOTAL }}
+        PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
       timeout-minutes: 10
 
   test-partition-2:
@@ -99,10 +99,10 @@ jobs:
     - uses: percy/exec-action@v0.3.1
       with:
         custom-command: COVERAGE=true yarn test --path ./dist --partition 2
-        env:
-          PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
-          PERCY_PARALLEL_TOTAL: ${{ env.PERCY_PARALLEL_TOTAL }}
-          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+      env:
+        PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
+        PERCY_PARALLEL_TOTAL: ${{ env.PERCY_PARALLEL_TOTAL }}
+        PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
       timeout-minutes: 10
 
   test-partition-3:
@@ -124,10 +124,10 @@ jobs:
     - uses: percy/exec-action@v0.3.1
       with:
         custom-command: COVERAGE=true yarn test --path ./dist --partition 3
-        env:
-          PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
-          PERCY_PARALLEL_TOTAL: ${{ env.PERCY_PARALLEL_TOTAL }}
-          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+      env:
+        PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
+        PERCY_PARALLEL_TOTAL: ${{ env.PERCY_PARALLEL_TOTAL }}
+        PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
       timeout-minutes: 10
 
   test-partition-4:
@@ -149,10 +149,10 @@ jobs:
     - uses: percy/exec-action@v0.3.1
       with:
         custom-command: COVERAGE=true yarn test --path ./dist --partition 4
-        env:
-          PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
-          PERCY_PARALLEL_TOTAL: ${{ env.PERCY_PARALLEL_TOTAL }}
-          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+      env:
+        PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
+        PERCY_PARALLEL_TOTAL: ${{ env.PERCY_PARALLEL_TOTAL }}
+        PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
       timeout-minutes: 10
 
   # test-with-coverage:
