@@ -64,15 +64,6 @@
         </div>
     </div>
 
-    {{#if this.registration.embargoEndDate}}
-        <div local-class='Field'>
-            <h4>{{t 'registries.registration_metadata.embargo_end_date'}}</h4>
-            <div data-test-registries-metadata='embargo end date'>
-                {{moment-format this.registration.embargoEndDate 'MMMM D, YYYY'}}
-            </div>
-        </div>
-    {{/if}}
-
     <div local-class='Field'>
         <h4>{{t 'registries.registration_metadata.registered_from'}}</h4>
         <div>
