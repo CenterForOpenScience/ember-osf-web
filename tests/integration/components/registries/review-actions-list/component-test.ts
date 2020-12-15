@@ -11,15 +11,6 @@ module('Integration | Component | review-actions-list', hooks => {
     setupIntl(hooks);
     setupMirage(hooks);
 
-    hooks.beforeEach(() => {
-        server.create('registration', {
-            id: 'single',
-        }, 'withSingleReviewAction');
-        server.create('registration', {
-            id: 'multi',
-        }, 'withReviewActions');
-    });
-
     test('error fetching review-actions', async function(assert) {
         setupOnerror((e: any) => assert.ok(e, 'Error is handled'));
 
