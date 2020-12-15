@@ -1,5 +1,4 @@
 import Component from '@glimmer/component';
-
 import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 
 const iconMap: Partial<Record<RegistrationReviewStates, string>> = {

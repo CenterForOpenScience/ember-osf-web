@@ -1,6 +1,6 @@
 {{title (t 'registries.moderation.submissions.title') prepend=false}}
 {{!-- TODO: Add number of registrations in each state in tab --}}
-<RegistrationList::Manager
+<Registries::RegistrationList::Manager
     local-class='registrationListContainer'
     @provider={{this.model}}
     @state={{this.state}}
@@ -76,5 +76,5 @@
             @sortBy='date_registered'
         />
     </div>
-    <RegistrationList::List @manager={{manager}} />
-</RegistrationList::Manager>
+    <Registries::RegistrationList::List @manager={{manager}} />
+</Registries::RegistrationList::Manager>
