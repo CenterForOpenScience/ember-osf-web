@@ -1,12 +1,18 @@
 # ember-osf-web
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/CenterForOpenScience/ember-osf-web.svg)](https://greenkeeper.io/)
+`master build`<a href="https://github.com/CenterForOpenScience/ember-osf-web/actions">
+    <img alt="master build status" style="margin-bottom: -4px" src="https://github.com/CenterForOpenScience/ember-osf-web/workflows/CI/badge.svg?branch=master">
+</a>
+<a href="https://coveralls.io/github/CenterForOpenScience/ember-osf-web?branch=master">
+    <img alt="Coverage Status" style="margin-bottom: -4px;" src="https://coveralls.io/repos/github/CenterForOpenScience/ember-osf-web/badge.svg?branch=master">
+</a>
 
-`master` Build Status: [![Build Status](https://travis-ci.org/CenterForOpenScience/ember-osf-web.svg?branch=master)](https://travis-ci.org/CenterForOpenScience/ember-osf-web)
-[![Coverage Status](https://coveralls.io/repos/github/CenterForOpenScience/ember-osf-web/badge.svg?branch=master)](https://coveralls.io/github/CenterForOpenScience/ember-osf-web?branch=master)
-
-`develop` Build Status: [![Build Status](https://travis-ci.org/CenterForOpenScience/ember-osf-web.svg?branch=develop)](https://travis-ci.org/CenterForOpenScience/ember-osf-web)
-[![Coverage Status](https://coveralls.io/repos/github/CenterForOpenScience/ember-osf-web/badge.svg?branch=develop)](https://coveralls.io/github/CenterForOpenScience/ember-osf-web?branch=develop)
+`develop build`<a href="https://github.com/CenterForOpenScience/ember-osf-web/actions">
+    <img alt="develop build status" style="margin-bottom: -4px;" src="https://github.com/CenterForOpenScience/ember-osf-web/workflows/CI/badge.svg?branch=develop">
+</a>
+<a href="https://coveralls.io/github/CenterForOpenScience/ember-osf-web?branch=master">
+    <img alt="Coverage Status" style="margin-bottom: -4px;" src="https://coveralls.io/repos/github/CenterForOpenScience/ember-osf-web/badge.svg?branch=develop">
+</a>
 
 A front end for [osf.io](https://github.com/CenterForOpenScience/osf.io).
 
