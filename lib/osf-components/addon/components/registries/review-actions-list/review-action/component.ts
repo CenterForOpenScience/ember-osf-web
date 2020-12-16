@@ -38,11 +38,25 @@ export default class ReviewAction extends Component<Args> {
                 });
         }
         if ([ReviewActionTrigger.RequestWithdrawal,
-            ReviewActionTrigger.Submit,
             ReviewActionTrigger.RequestEmbargoTermination].includes(reviewAction.actionTrigger)) {
             return this.intl.t('registries.reviewAction.contributorAction',
                 {
                     action: reviewAction.triggerPastTense,
+                    contributor: reviewAction.creator.get('fullName'),
+                    date: formattedTimeSince(reviewAction.dateModified),
+                });
+        }
+        if (reviewAction.actionTrigger === ReviewActionTrigger.Submit) {
+            if (this.args.embargoEndDate) {
+                return this.intl.t('registries.reviewAction.submitActionWithEmbargo',
+                    {
+                        contributor: reviewAction.creator.get('fullName'),
+                        date: formattedTimeSince(reviewAction.dateModified),
+                        embargoEndDate: this.intl.formatDate(this.args.embargoEndDate, { locale: this.intl.locale }),
+                    });
+            }
+            return this.intl.t('registries.reviewAction.submitActionWithoutEmbargo',
+                {
                     contributor: reviewAction.creator.get('fullName'),
                     date: formattedTimeSince(reviewAction.dateModified),
                 });
