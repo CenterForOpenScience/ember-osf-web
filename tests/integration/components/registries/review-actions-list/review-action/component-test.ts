@@ -120,17 +120,50 @@ module('Integration | Component | review-actions', hooks => {
     });
 
     // Registraton Admin actions
-    test('Submit action', async function(assert) {
+    test('Submit action without embargo end date', async function(assert) {
         const reviewAction = this.get('reviewAction') as ReviewActionModel;
         reviewAction.set('actionTrigger', ReviewActionTrigger.Submit);
         const dateString = formattedTimeSince(reviewAction.dateModified);
-        const pastTenseString = t('registries.reviewActions.triggerPastTense.submit');
+        this.set('embargoEndDate', null);
 
-        await render(hbs`<Registries::ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        await render(hbs`<Registries::ReviewActionsList::ReviewAction
+            @reviewAction={{this.reviewAction}}
+            @embargoEndDate={{this.embargoEndDate}}
+        />`);
         assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
-        assert.dom('[data-test-review-action-wrapper]').containsText(
-            t('registries.reviewAction.contributorAction',
-                { action: pastTenseString, contributor: 'Superb Mario', date: dateString }),
+        assert.dom('[data-test-review-action-wrapper]').hasTextContaining(
+            t('registries.reviewAction.submitActionWithoutEmbargo',
+                {
+                    contributor: 'Superb Mario',
+                    date: dateString,
+                }),
+            'Review action wrapper shows proper string',
+        );
+        assert.dom('[data-test-review-action-wrapper]')
+            .doesNotContainText('moderator', 'Review action does not mention moderator');
+        assert.dom('[data-test-review-action-comment]').doesNotExist('No comment to show');
+    });
+
+    test('Submit action with embargo end date', async function(this: TestContext, assert) {
+        const reviewAction = this.get('reviewAction') as ReviewActionModel;
+        reviewAction.set('actionTrigger', ReviewActionTrigger.Submit);
+        const dateString = formattedTimeSince(reviewAction.dateModified);
+        const embargoEndDate = faker.date.future(1, new Date(2099, 0, 0));
+        const embargoEndDateString = this.intl.formatDate(embargoEndDate, { locale: this.intl.locale });
+        this.set('embargoEndDate', embargoEndDate);
+
+        await render(hbs`<Registries::ReviewActionsList::ReviewAction
+            @reviewAction={{this.reviewAction}}
+            @embargoEndDate={{this.embargoEndDate}}
+        />`);
+        assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
+        assert.dom('[data-test-review-action-wrapper]').hasTextContaining(
+            t('registries.reviewAction.submitActionWithEmbargo',
+                {
+                    contributor: 'Superb Mario',
+                    date: dateString,
+                    embargoEndDate: embargoEndDateString,
+                }),
             'Review action wrapper shows proper string',
         );
         assert.dom('[data-test-review-action-wrapper]')

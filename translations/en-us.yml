@@ -1326,12 +1326,8 @@ registries:
         acceptEmbargoSubmission: 'Registration {action} {date} by {moderator} with embargo ending {embargoEndDate}'
         moderatorAction: 'Registration {action} {date} by moderator {moderator}'
         contributorAction: 'Registration {action} {date} by contributor {contributor}'
-        submitAction: 'Registration submitted {date} by contributor {contributor} 
-            {isEmbargo, select,
-                true {with embargo ending {embargoEndDate}}
-                other {} 
-            }
-        '
+        submitActionWithoutEmbargo: 'Registration submitted {date} by contributor {contributor}'
+        submitActionWithEmbargo: 'Registration submitted {date} by contributor {contributor} with embargo ending {embargoEndDate}'
     reviewActions:
         triggerPastTense:
             submit: 'submitted'
