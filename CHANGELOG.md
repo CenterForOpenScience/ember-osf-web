@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [20.13.0] - 2020-12-17
+### Added
+- moderation tests
+- the embargo end date to the moderation dropdown on the registration overview page
+- sub-dependency security (minor) upgrades
+
 ## [20.12.1] - 2020-12-09
 ### Added
 - help text to the license metadata section when submitting registration
@@ -1682,7 +1688,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/20.12.1...develop
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/20.13.0...develop
+[20.13.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.13.0
 [20.12.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.12.1
 [20.12.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.12.0
 [20.11.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.11.0

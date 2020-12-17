@@ -1122,6 +1122,7 @@ registries:
         create_doi: 'Create DOI'
         date_created: 'Date created'
         date_registered: 'Date registered'
+        embargo_end_date: 'Date embargo ends'
         description: Description
         disciplines: Disciplines
         edit_field: 'Edit {field}'
@@ -1325,6 +1326,8 @@ registries:
         acceptEmbargoSubmission: 'Registration {action} {date} by {moderator} with embargo ending {embargoEndDate}'
         moderatorAction: 'Registration {action} {date} by moderator {moderator}'
         contributorAction: 'Registration {action} {date} by contributor {contributor}'
+        submitActionWithoutEmbargo: 'Registration submitted {date} by contributor {contributor}'
+        submitActionWithEmbargo: 'Registration submitted {date} by contributor {contributor} with embargo ending {embargoEndDate}'
     reviewActions:
         triggerPastTense:
             submit: 'submitted'
