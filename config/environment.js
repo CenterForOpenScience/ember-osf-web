@@ -20,8 +20,6 @@ const {
     CLIENT_ID: clientId,
     COLLECTIONS_ENABLED = false,
     REGISTRIES_ENABLED = true,
-    HANDBOOK_ENABLED = false,
-    HANDBOOK_DOC_GENERATION_ENABLED = false,
     TESTS_ENABLED = false,
     FB_APP_ID,
     GIT_COMMIT: release,
@@ -298,10 +296,6 @@ module.exports = function(environment) {
             },
             registries: {
                 enabled: !devMode || isTruthy(REGISTRIES_ENABLED),
-            },
-            handbook: {
-                enabled: isTruthy(HANDBOOK_ENABLED),
-                docGenerationEnabled: HANDBOOK_DOC_GENERATION_ENABLED,
             },
         },
         'ember-cli-tailwind': {

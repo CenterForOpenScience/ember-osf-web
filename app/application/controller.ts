@@ -36,7 +36,7 @@ export default class Application extends Controller {
     // This is a hack until we move the main application into it's own engine.
     // Then each engine will be in charge of rendering/customizing the header.
     // Feel free to move it over, any time. Just go for it. We'll love you. I promise.
-    @match('router.currentRouteName', /^handbook|^registries/) disableHeader!: boolean;
+    @match('router.currentRouteName', /^registries/) disableHeader!: boolean;
 }
 
 declare module '@ember/controller' {

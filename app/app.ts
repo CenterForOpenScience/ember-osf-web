@@ -35,24 +35,6 @@ const App = Application.extend({
                 ],
             },
         },
-        handbook: {
-            dependencies: {
-                services: [
-                    'analytics',
-                    'current-user',
-                    'features',
-                    'intl',
-                    'ready',
-                    'router',
-                    'session',
-                    'store',
-                    'toast',
-                    'osf-modal-state',
-                    'osf-router',
-                    'media',
-                ],
-            },
-        },
         registries: {
             dependencies: {
                 services: [

@@ -13,7 +13,4 @@ module.exports = {
         quotes: 'single',
     },
 
-    ignore: [
-        '**/lib/handbook/**/*',
-    ],
 };
