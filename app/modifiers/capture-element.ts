@@ -1,4 +1,4 @@
-import Modifier from 'ember-oo-modifiers';
+import Modifier from 'ember-modifier';
 
 type CaptureFn = (e: Element | null) => void;
 
@@ -15,14 +15,17 @@ type CaptureFn = (e: Element | null) => void;
  * {{will-destroy (action (mut this.myElement) null)}}
  * ```
  */
-class CaptureElementModifier extends Modifier {
-    didInsertElement([captureFn]: [CaptureFn]) {
-        captureFn(this.element);
+export default class CaptureElementModifier extends Modifier {
+    get captureFn(): CaptureFn {
+        const captureFn = this.args.positional[0] as CaptureFn;
+        return captureFn;
     }
 
-    willDestroyElement([captureFn]: [CaptureFn]) {
-        captureFn(null);
+    didInstall() {
+        this.captureFn(this.element);
+    }
+
+    willRemove() {
+        this.captureFn(null);
     }
 }
-
-export default Modifier.modifier(CaptureElementModifier);
