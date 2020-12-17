@@ -1,6 +1,5 @@
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
-
 import { layout } from 'ember-osf-web/decorators/component';
 import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import template from './template';
