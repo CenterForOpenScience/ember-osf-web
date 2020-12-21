@@ -180,6 +180,7 @@ jobs:
           key: cached_node_modules_${{ hashFiles('**/yarn.lock') }}
           restore-keys: cached_node_modules_
       - run: yarn test:cover --path ./dist
+      - run: find . -type f -name 'lcov.info'
       - run: yarn coveralls
       - name: Coveralls
         uses: coverallsapp/github-action@master

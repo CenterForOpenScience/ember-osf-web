@@ -3,7 +3,6 @@
 'use strict';
 
 module.exports = {
-    useBabelInstrumenter: true,
-    coverageEnvVar: true,
+    coverageEnvVar: 'COVERAGE',
     excludes: ['*/mirage/**/*', 'lib/handbook/**/*'],
 };
