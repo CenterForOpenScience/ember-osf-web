@@ -23,7 +23,7 @@
     "test:config": "mocha node-tests/config-test.js",
     "test:blueprints": "mocha node-tests/blueprints",
     "test:node-tests": "mocha 'node-tests/**/*-test.js'",
-    "coveralls": "cat ./lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "husky": {
     "hooks": {
