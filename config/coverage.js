@@ -4,4 +4,6 @@
 
 module.exports = {
     useBabelInstrumenter: true,
+    coverageEnvVar: true,
+    excludes: ['*/mirage/**/*', 'lib/handbook/**/*'],
 };
