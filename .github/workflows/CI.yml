@@ -1,6 +1,15 @@
 name: CI
 
-on: [push, pull_request]
+on:
+  pull_request:
+  push:
+    - branches:
+      - develop
+      - master
+      - 'release/*'
+      - 'hotfix/*'
+  tags:
+      - '*'
 
 env:
   PERCY_PARALLEL_NONCE: ${{ github.run_id }}-${{ github.run_number }}
@@ -9,6 +18,7 @@ env:
 jobs:
   fetch-dependencies:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
     steps:
     - uses: actions/checkout@v2
     - uses: rwjblue/setup-volta@v1
@@ -155,6 +165,9 @@ jobs:
         PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
       timeout-minutes: 10
 
+  # Coverage disabled while these are worked out:
+  # https://github.com/babel/ember-cli-babel/issues/350
+  # https://github.com/ember-cli/babel-plugin-ember-modules-api-polyfill/issues/112
   # test-with-coverage:
   #   runs-on: ubuntu-latest
   #   needs: build
