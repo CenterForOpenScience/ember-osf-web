@@ -163,7 +163,7 @@ jobs:
         PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
       timeout-minutes: 10
 
-    test--with-coverage:
+  test--with-coverage:
       runs-on: ubuntu-latest
       needs: build
       steps:
