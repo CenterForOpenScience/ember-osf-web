@@ -5048,12 +5048,33 @@ babel-plugin-ember-data-packages-polyfill@^0.1.2:
   dependencies:
     "@ember-data/rfc395-data" "^0.0.4"
 
-babel-plugin-ember-modules-api-polyfill@2.13.0, babel-plugin-ember-modules-api-polyfill@^1.4.2, babel-plugin-ember-modules-api-polyfill@^2.12.0, babel-plugin-ember-modules-api-polyfill@^2.13.4, babel-plugin-ember-modules-api-polyfill@^2.3.0, babel-plugin-ember-modules-api-polyfill@^2.6.0, babel-plugin-ember-modules-api-polyfill@^2.7.0, babel-plugin-ember-modules-api-polyfill@^2.8.0, babel-plugin-ember-modules-api-polyfill@^3.2.0:
+babel-plugin-ember-modules-api-polyfill@^1.4.2:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-ember-modules-api-polyfill/-/babel-plugin-ember-modules-api-polyfill-1.6.0.tgz#abd1afa4237b3121cb51222f9bf3283cad8990aa"
+  integrity sha512-HIOU4QBiselFqEvx6QaKrS/zxnfRQygQyA8wGdVUd42zO26G0jUqbEr1IE/NkTAbP4zsF0sY/ZLtVpjYiVB3VQ==
+  dependencies:
+    ember-rfc176-data "^0.2.0"
+
+babel-plugin-ember-modules-api-polyfill@^2.12.0, babel-plugin-ember-modules-api-polyfill@^2.3.0, babel-plugin-ember-modules-api-polyfill@^2.6.0, babel-plugin-ember-modules-api-polyfill@^2.7.0, babel-plugin-ember-modules-api-polyfill@^2.8.0:
   version "2.13.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-ember-modules-api-polyfill/-/babel-plugin-ember-modules-api-polyfill-2.13.0.tgz#f9d3928d4c40192a44a5b52b67bbdedc4a748ea2"
   integrity sha512-Q2i7uZMNSuJFYUV8stEsLQIRfMhQJew62sOnR+ESNjb4vlI7Rj1JlSgymTGwmCTVh+poTBpMidiWCoITDtbiIA==
   dependencies:
     ember-rfc176-data "^0.3.13"
+
+babel-plugin-ember-modules-api-polyfill@^2.13.4:
+  version "2.13.4"
+  resolved "https://registry.yarnpkg.com/babel-plugin-ember-modules-api-polyfill/-/babel-plugin-ember-modules-api-polyfill-2.13.4.tgz#cf62bc9bfd808c48d810d5194f4329e9453bd603"
+  integrity sha512-uxQPkEQAzCYdwhZk16O9m1R4xtCRNy4oEUTBrccOPfzlIahRZJic/JeP/ZEL0BC6Mfq6r55eOg6gMF/zdFoCvA==
+  dependencies:
+    ember-rfc176-data "^0.3.13"
+
+babel-plugin-ember-modules-api-polyfill@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-ember-modules-api-polyfill/-/babel-plugin-ember-modules-api-polyfill-3.2.0.tgz#302cb58a3c0fa33d93ab5115f1e91d76c6ec766b"
+  integrity sha512-k5gyC1kUDyZDcdD8LMGTI7KA+cHdKainuWpmc7d5yv42WgZFO75njPi3hZchEGsFFXtSqm9jiahgvLBUV8E8mA==
+  dependencies:
+    ember-rfc176-data "^0.3.16"
 
 babel-plugin-feature-flags@^0.3.1:
   version "0.3.1"
@@ -9786,7 +9807,7 @@ ember-cli-clipboard@0.9.0, ember-cli-clipboard@^0.8.1:
     ember-cli-htmlbars "^2.0.2"
     fastboot-transform "0.1.1"
 
-ember-cli-code-coverage@^1.0.2:
+ember-cli-code-coverage@^1.0.0-beta.9:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/ember-cli-code-coverage/-/ember-cli-code-coverage-1.0.2.tgz#615fc7af8bc7d9388a28371c2825c224a936d73f"
   integrity sha512-uD0RA6A4p/AOpPGq8JXIiZeDFWjzEm5fyWZLU5W8nCF//t3wbkly8tZukiYchJNNYEeESzd6gqdwgDkLMRzZYA==
@@ -11347,6 +11368,11 @@ ember-responsive@^3.0.0-beta.1:
   dependencies:
     ember-cli-babel "^6.6.0"
 
+ember-rfc176-data@^0.2.0:
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/ember-rfc176-data/-/ember-rfc176-data-0.2.7.tgz#bd355bc9b473e08096b518784170a23388bc973b"
+  integrity sha512-pJE2w+sI22UDsYmudI4nCp3WcImpUzXwe9qHfpOcEu3yM/HD1nGpDRt6kZD0KUnDmqkLeik/nYyzEwN/NU6xxA==
+
 ember-rfc176-data@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/ember-rfc176-data/-/ember-rfc176-data-0.3.1.tgz#6a5a4b8b82ec3af34f3010965fa96b936ca94519"
@@ -11356,6 +11382,11 @@ ember-rfc176-data@^0.3.12, ember-rfc176-data@^0.3.13:
   version "0.3.13"
   resolved "https://registry.yarnpkg.com/ember-rfc176-data/-/ember-rfc176-data-0.3.13.tgz#ed1712a26e65fec703655f35410414aa1982cf3b"
   integrity sha512-m9JbwQlT6PjY7x/T8HslnXP7Sz9bx/pz3FrNfNi2NesJnbNISly0Lix6NV1fhfo46572cpq4jrM+/6yYlMefTQ==
+
+ember-rfc176-data@^0.3.16:
+  version "0.3.16"
+  resolved "https://registry.yarnpkg.com/ember-rfc176-data/-/ember-rfc176-data-0.3.16.tgz#2ace0ac9cf9016d493a74a1d931643a308679803"
+  integrity sha512-IYAzffS90r2ybAcx8c2qprYfkxa70G+/UPkxMN1hw55DU5S2aLOX6v3umKDZItoRhrvZMCnzwsdfKSrKdC9Wbg==
 
 ember-router-generator@^2.0.0:
   version "2.0.0"
