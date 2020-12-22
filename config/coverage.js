@@ -3,6 +3,6 @@
 'use strict';
 
 module.exports = {
-    coverageEnvVar: 'COVERAGE',
+    // coverageEnvVar: 'COVERAGE',
     excludes: ['*/mirage/**/*', 'lib/handbook/**/*'],
 };
