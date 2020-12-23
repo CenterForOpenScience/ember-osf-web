@@ -11,7 +11,7 @@
   "repository": "https://github.com/CenterForOpenScience/ember-osf-web",
   "scripts": {
     "build": "ember build --environment=production",
-    "build:test": "COVERAGE=true ember build --environment=test",
+    "build:test": "ember build --environment=test",
     "start": "ember server",
     "lint": "eslint --ext js,ts --max-warnings=0 . && tslint -p . && stylelint 'app/**/*.scss' 'lib/**/*.scss'",
     "lint:es": "eslint --ext js,ts --max-warnings=0 .",
@@ -98,7 +98,7 @@
     "ember-cli-blueprint-test-helpers": "^0.19.2",
     "ember-cli-chart": "^3.5.0",
     "ember-cli-clipboard": "0.9.0",
-    "ember-cli-code-coverage": "^1.0.2",
+    "ember-cli-code-coverage": "https://github.com/fabmiz/ember-cli-code-coverage#fix-string-response",
     "ember-cli-dependency-checker": "^3.0.0",
     "ember-cli-htmlbars": "^4.2.2",
     "ember-cli-inject-live-reload": "^2.0.2",
