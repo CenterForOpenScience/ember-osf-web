@@ -29,23 +29,23 @@ jobs:
     - if: steps.cache-node-modules.outputs.cache-hit != 'true'
       run: yarn --prefer-offline --frozen-lockfile --ignore-engines
 
-  build:
-    runs-on: ubuntu-latest
-    needs: fetch-dependencies
-    steps:
-    - uses: actions/checkout@v2
-    - uses: volta-cli/action@v1
-    - id: cache-node-modules
-      uses: actions/cache@v2
-      with:
-        path: ./node_modules
-        key: cached_node_modules_${{ hashFiles('**/yarn.lock') }}
-        restore-keys: cached_node_modules_
-    - run: yarn build:test
-    - uses: actions/upload-artifact@v2
-      with:
-        name: dist
-        path: ./dist
+  # build:
+  #   runs-on: ubuntu-latest
+  #   needs: fetch-dependencies
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - uses: volta-cli/action@v1
+  #   - id: cache-node-modules
+  #     uses: actions/cache@v2
+  #     with:
+  #       path: ./node_modules
+  #       key: cached_node_modules_${{ hashFiles('**/yarn.lock') }}
+  #       restore-keys: cached_node_modules_
+  #   - run: yarn build:test
+  #   - uses: actions/upload-artifact@v2
+  #     with:
+  #       name: dist
+  #       path: ./dist
 
   # lint:
   #   runs-on: ubuntu-latest
@@ -167,14 +167,15 @@ jobs:
       runs-on: ubuntu-latest
       continue-on-error: true
       timeout-minutes: 25
-      needs: build
+      # needs: build
+      needs: fetch-dependencies
       steps:
       - uses: actions/checkout@v2
       - uses: volta-cli/action@v1
-      - uses: actions/download-artifact@v2
-        with:
-          name: dist
-          path: ./dist
+      # - uses: actions/download-artifact@v2
+      #   with:
+      #     name: dist
+      #     path: ./dist
       - id: cache-node-modules
         uses: actions/cache@v2
         with:
