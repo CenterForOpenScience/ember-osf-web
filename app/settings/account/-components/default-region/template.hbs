@@ -4,13 +4,10 @@
 >
     <panel.heading @title={{t 'settings.account.defaultRegion.title'}} />
     <panel.body data-analytics-scope='Default region panel'>
-        <ValidatedModelForm
-            @onSave={{action this.updateRegion}}
-            @onError={{action this.updateError}}
-            @model={{this.user}}
+        <FormControls
             @disabled={{or this.loadDefaultRunning this.loadRegionsRunning}}
-            as |form|
-        >
+            @changeset={{this.changeset}}
+        as |form|>
             {{#if (or this.loadDefaultRunning this.loadRegionsRunning)}}
                 <ContentPlaceholders as |placeholder|>
                     <placeholder.text @lines={{1}} />
@@ -19,12 +16,11 @@
                 <form.select
                     data-test-region-selector
                     @renderInPlace={{true}}
-                    @selected={{this.user.defaultRegion.name}}
-                    @model={{this.user}}
-                    @valuePath='defaultRegion'
+                    @selected={{this.selectedRegion}}
+                    @valuePath={{'defaultRegion'}}
                     @options={{this.regions}}
                     @searchEnabled={{false}}
-                    @placeholder={{this.user.defaultRegion.name}}
+                    @placeholder={{this.selectedRegion.name}}
                     as |regionOption|
                 >
                     {{regionOption.name}}
@@ -38,9 +34,10 @@
                 data-analytics-name='Submit'
                 type='submit'
                 @disabled={{form.disabled}}
+                {{on 'click' (perform this.updateRegion)}}
             >
                 {{t 'settings.account.defaultRegion.updateButton'}}
             </OsfButton>
-        </ValidatedModelForm>
+        </FormControls>
     </panel.body>
 </Panel>
