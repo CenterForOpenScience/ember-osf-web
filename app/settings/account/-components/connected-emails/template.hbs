@@ -175,15 +175,10 @@
             <p local-class='merge-explanation'>
                 {{t 'settings.account.connected_emails.merge_explanation'}}
             </p>
-            <ValidatedModelForm
+            <FormControls
                 data-analytics-scope='Add email form'
-                @onSave={{action this.onSave}}
-                @onError={{action this.onError}}
-                @modelName='userEmail'
-                @modelProperties={{this.modelProperties}}
-                @recreateModel={{true}}
-                as |form|
-            >
+                @changeset={{this.changeset}}
+            as |form|>
                 <form.text
                     data-test-add-email
                     @local-class='input-form'
@@ -196,10 +191,12 @@
                     data-analytics-name='add email'
                     @buttonType='submit'
                     @local-class='add-email-button'
+                    @disabled={{this.changeset.isInvalid}}
+                    {{on 'click' (perform this.onSave)}}
                 >
                     {{t 'settings.account.connected_emails.add_email'}}
                 </OsfButton>
-            </ValidatedModelForm>
+            </FormControls>
             <BsModal
                 @open={{this.showAddModal}}
                 @tagName='span'
