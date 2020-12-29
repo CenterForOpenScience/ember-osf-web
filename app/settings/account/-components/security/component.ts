@@ -3,6 +3,10 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
+import { ValidationObject } from 'ember-changeset-validations';
+import { validateNumber, validatePresence } from 'ember-changeset-validations/validators';
+import { ChangesetDef } from 'ember-changeset/types';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import config from 'ember-get-config';
@@ -14,8 +18,31 @@ import User from 'ember-osf-web/models/user';
 import UserEmail from 'ember-osf-web/models/user-email';
 import UserSettingModel from 'ember-osf-web/models/user-setting';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import buildChangeset from 'ember-osf-web/utils/build-changeset';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
+interface SecurityValidation {
+    twoFactorVerification: string;
+}
+
+const securityValidations: ValidationObject<SecurityValidation> = {
+    twoFactorVerification: [
+        validatePresence({
+            presence: true,
+            ignoreBlank: true,
+            type: 'empty',
+        }),
+        validateNumber({
+            allowBlank: false,
+            allowNone: false,
+            allowString: true,
+            integer: true,
+            positive: true,
+            type: 'invalid',
+            translationArgs: { description: 'Verification code' },
+        }),
+    ],
+};
 @tagName('')
 export default class SecurityPane extends Component {
     @service currentUser!: CurrentUser;
@@ -24,9 +51,11 @@ export default class SecurityPane extends Component {
     @alias('currentUser.user') user!: User;
     settings?: UserSettingModel;
     primaryEmail?: UserEmail;
-    showError = false;
+    changeset!: ChangesetDef;
     showEnableWarning = false;
     showDisableWarning = false;
+
+    @tracked showError = false;
 
     @task({ withTestWaiter: true })
     loadSettings = task(function *(this: SecurityPane) {
@@ -35,7 +64,9 @@ export default class SecurityPane extends Component {
         if (!user) {
             return;
         }
-        this.set('settings', yield user.belongsTo('settings').reload());
+        const settings = yield user.belongsTo('settings').reload();
+        this.set('settings', settings);
+        this.changeset = buildChangeset(settings, securityValidations);
     });
 
     @task({ withTestWaiter: true })
@@ -62,9 +93,6 @@ export default class SecurityPane extends Component {
                 throw Error('No settings to save.');
             }
         } catch (e) {
-            if (this.settings !== undefined) {
-                this.settings.rollbackAttributes();
-            }
             const { supportEmail } = config.support;
             const errorMessage = this.intl
                 .t('settings.account.security.saveError', { supportEmail, htmlSafe: true });
@@ -72,6 +100,26 @@ export default class SecurityPane extends Component {
             this.toast.error(getApiErrorMessage(e), errorMessage);
         } finally {
             this.hideDialogs();
+        }
+    });
+
+    @task({ withTestWaiter: true })
+    verifySecret = task(function *(this: SecurityPane) {
+        this.changeset.validate();
+        try {
+            if (this.changeset.isValid) {
+                yield this.changeset.save({});
+                this.showError = false;
+            }
+        } catch (e) {
+            if (e instanceof DS.ForbiddenError) {
+                this.showError = true;
+            } else {
+                const { supportEmail } = config.support;
+                const saveErrorMessage: string = this.intl
+                    .t('settings.account.security.saveError', { supportEmail, htmlSafe: true });
+                this.toast.error(saveErrorMessage);
+            }
         }
     });
 
@@ -120,33 +168,8 @@ export default class SecurityPane extends Component {
     confirmDisableTwoFactor() {
         this.set('showError', false);
         if (this.settings !== undefined) {
-            this.settings.rollbackAttributes();
             this.settings.set('twoFactorEnabled', false);
             this.saveSettings.perform();
-        }
-    }
-
-    @action
-    verifySecret() {
-        this.set('showError', false);
-    }
-
-    @action
-    verificationError(error: DS.AdapterError) {
-        if (error instanceof DS.ForbiddenError) {
-            this.set('showError', true);
-        } else {
-            const { supportEmail } = config.support;
-            const saveErrorMessage: string = this.intl
-                .t('settings.account.security.saveError', { supportEmail, htmlSafe: true });
-            this.toast.error(saveErrorMessage);
-        }
-    }
-
-    @action
-    destroyForm() {
-        if (this.settings !== undefined) {
-            this.settings.rollbackAttributes();
         }
     }
 }
