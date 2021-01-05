@@ -25,24 +25,6 @@ interface SecurityValidation {
     twoFactorVerification: string;
 }
 
-const securityValidations: ValidationObject<SecurityValidation> = {
-    twoFactorVerification: [
-        validatePresence({
-            presence: true,
-            ignoreBlank: true,
-            type: 'empty',
-        }),
-        validateNumber({
-            allowBlank: false,
-            allowNone: false,
-            allowString: true,
-            integer: true,
-            positive: true,
-            type: 'invalid',
-            translationArgs: { description: 'Verification code' },
-        }),
-    ],
-};
 @tagName('')
 export default class SecurityPane extends Component {
     @service currentUser!: CurrentUser;
@@ -57,6 +39,25 @@ export default class SecurityPane extends Component {
 
     @tracked showError = false;
 
+    securityValidations: ValidationObject<SecurityValidation> = {
+        twoFactorVerification: [
+            validatePresence({
+                presence: true,
+                ignoreBlank: true,
+                type: 'empty',
+            }),
+            validateNumber({
+                allowBlank: false,
+                allowNone: false,
+                allowString: true,
+                integer: true,
+                positive: true,
+                type: 'invalid',
+                translationArgs: { description: this.intl.t('settings.account.security.verificationCode') },
+            }),
+        ],
+    };
+
     @task({ withTestWaiter: true })
     loadSettings = task(function *(this: SecurityPane) {
         const { user } = this.currentUser;
@@ -66,7 +67,7 @@ export default class SecurityPane extends Component {
         }
         const settings = yield user.belongsTo('settings').reload();
         this.set('settings', settings);
-        this.changeset = buildChangeset(settings, securityValidations);
+        this.changeset = buildChangeset(settings, this.securityValidations, { skipValidate: true });
     });
 
     @task({ withTestWaiter: true })

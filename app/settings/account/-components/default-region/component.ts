@@ -57,7 +57,7 @@ export default class DefaultRegionPane extends Component {
             return;
         }
         this.set('user', user);
-        this.changeset = buildChangeset(user, regionValidation);
+        this.changeset = buildChangeset(user, regionValidation, { skipValidate: true });
         yield user.belongsTo('defaultRegion').reload();
     });
 

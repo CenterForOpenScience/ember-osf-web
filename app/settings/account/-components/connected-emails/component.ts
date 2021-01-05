@@ -20,16 +20,6 @@ interface EmailValidation {
     emailAddress: string;
 }
 
-const emailValidations: ValidationObject<EmailValidation> = {
-    emailAddress: [
-        validateFormat({
-            allowBlank: false,
-            type: 'email',
-            translationArgs: { description: 'Email address' },
-        }),
-    ],
-};
-
 export default class ConnectedEmails extends Component {
     // Private properties
     @service currentUser!: CurrentUser;
@@ -45,6 +35,16 @@ export default class ConnectedEmails extends Component {
     reloadUnconfirmedList!: (page?: number) => void; // bound by paginated-list
     alternateQueryParams = { 'filter[primary]': false, 'filter[confirmed]': true };
     unconfirmedQueryParams = { 'filter[primary]': false, 'filter[confirmed]': false };
+
+    emailValidations: ValidationObject<EmailValidation> = {
+        emailAddress: [
+            validateFormat({
+                allowBlank: false,
+                type: 'email',
+                translationArgs: { description: this.intl.t('settings.account.connected_emails.email_address') },
+            }),
+        ],
+    };
 
     @task({ withTestWaiter: true, restartable: true })
     loadPrimaryEmail = task(function *(this: ConnectedEmails) {
@@ -164,7 +164,7 @@ export default class ConnectedEmails extends Component {
     init() {
         super.init();
         this.loadPrimaryEmail.perform();
-        this.changeset = buildChangeset({ emailAddress: '' }, emailValidations);
+        this.changeset = buildChangeset({ emailAddress: '' }, this.emailValidations, { skipValidate: true });
     }
 
     @action

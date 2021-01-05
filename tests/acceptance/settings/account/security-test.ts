@@ -145,6 +145,7 @@ module('Acceptance | settings/account | security', hooks => {
         assert.dom('[data-test-verification-code-field] .help-block')
             .includesText('Verification code is invalid');
         await fillIn('[data-test-verification-code-field] input', 'a');
+        await click('[data-test-verify-button]');
         assert.dom('[data-test-verification-code-field] .help-block')
             .includesText('Verification code is invalid.');
 
