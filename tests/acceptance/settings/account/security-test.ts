@@ -141,10 +141,12 @@ module('Acceptance | settings/account | security', hooks => {
         assertionsEnabledNotConfirmed(assert, 'Initial state');
         await click('[data-test-verify-button]');
         assert.dom('[data-test-verification-code-field] .help-block')
-            .containsText('This field can\'t be blank');
+            .includesText('This field can\'t be empty');
+        assert.dom('[data-test-verification-code-field] .help-block')
+            .includesText('Verification code is invalid');
         await fillIn('[data-test-verification-code-field] input', 'a');
         assert.dom('[data-test-verification-code-field] .help-block')
-            .containsText('This field must be a number.');
+            .includesText('Verification code is invalid.');
 
         /* I don't think I can test this properly right now. Ember qunit has a problem with waiting
         so long for catching the assertion.
