@@ -4,7 +4,6 @@ on:
   pull_request:
   push:
     branches:
-      - gh-actions-test
       - develop
       - master
       - 'release/*'

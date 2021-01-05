@@ -41,9 +41,8 @@ import * as wb from './views/wb';
 const { OSF: { apiUrl } } = config;
 
 export default function(this: Server) {
-    // ember-cli-code-coverage has to post coverage results back to a middleware at /write-coverage
-    this.passthrough('/write-coverage');
-    // this.passthrough(); // pass through all requests on currrent domain
+    this.passthrough(); // pass through all requests on currrent domain
+
     // SHARE search
     this.urlPrefix = 'https://share.osf.io';
     this.namespace = '/api/v2/';

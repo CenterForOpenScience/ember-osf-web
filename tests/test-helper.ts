@@ -1,6 +1,5 @@
 import { setApplication } from '@ember/test-helpers';
 import preloadAssets from 'ember-asset-loader/test-support/preload-assets';
-// import { start } from 'ember-qunit';
 import start from 'ember-exam/test-support/start';
 import config from 'ember-get-config';
 import Application from 'ember-osf-web/app';
