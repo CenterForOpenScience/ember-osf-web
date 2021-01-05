@@ -1243,7 +1243,8 @@ registries:
             warning: 'Withdrawing a registration will remove its content from the OSF, but leave basic metadata behind. The title of a withdrawn registration and its contributor list will remain, as will justification or explanation of the withdrawal, should you wish to provide it. Withdrawn registrations will be marked with a "withdrawn" tag. This action is irreversible.'
         archiving:
             currently_archiving: 'This registration is currently archiving, and no changes can be made at this time.'
-            email_support: 'If this registration has been archiving for more than 72 hours, please email <a data-analytics-name="Email support" href="mailto:{supportEmail}">{supportEmail}</a> for assistance.'
+            please_note: 'Please note:'
+            email_support: 'Changes to any files (1) in the projects or components being registered, (2) uploaded or selected as prompt responses, including those connected through add-ons during archiving will result in archiving failure and loss of your registration timestamp. Please do not modify your files until after you have received email confirmation of archiving completion. If this registration has been archiving for more than 72 hours, please email <a data-analytics-name="Email support" href="mailto:{supportEmail}">{supportEmail}</a> for assistance.'
         pendingRegistrationApproval:
             text: 'Pending registration'
             short_description: 'Pending registration approval'
