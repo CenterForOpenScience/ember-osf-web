@@ -34,5 +34,26 @@
         >
             {{t (concat 'osf-components.contributors.citation.' @contributor.bibliographic)}}
         </span>
+        <span
+            data-test-contributor-caret={{@contributor.id}}
+            local-class='CardSection'
+        >
+            <FaIcon
+                @icon={{if this.showDropdown 'caret-up' 'caret-down'}}
+                {{on 'click' this.toggleDropdown}}
+            />
+        </span>
     </div>
+    {{#if this.showDropdown}}
+        <div data-test-contributor-card-dropdown local-class='DropdownSection'>
+            <ul local-class='DropdownList'>
+                {{#each this.employmentList as |item|}}
+                    <li>{{item}}</li>
+                {{/each}}
+                {{#each this.educationList as |item|}}
+                    <li>{{item}}</li>
+                {{/each}}
+            </ul>
+        </div>
+    {{/if}}
 </div>

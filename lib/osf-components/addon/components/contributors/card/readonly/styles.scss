@@ -9,3 +9,17 @@
 .CardSection {
     composes: CardSection from '../styles.scss';
 }
+
+.DropdownSection {
+    display: flex;
+}
+
+.DropdownList {
+    list-style: none;
+    padding-inline-start: 20px;
+}
+
+.DropdownCaret {
+    composes: CardSection from '../styles.scss';
+    max-width: 25px;
+}
