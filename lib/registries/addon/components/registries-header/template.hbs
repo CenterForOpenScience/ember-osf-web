@@ -31,6 +31,7 @@
                 />
                 {{#if this.showHelp}}
                     <Button
+                        data-test-search-help-button
                         aria-label={{t 'registries.header.search_help'}}
                         local-class='HelpIcon'
                         @layout='fake-link'
@@ -40,10 +41,11 @@
                     </Button>
                 {{/if}}
                 <Button
+                    data-test-perform-search-button
                     aria-label={{t 'registries.header.search_button'}}
                     local-class='SearchIcon'
                     @layout='fake-link'
-                    {{on 'click' (action this.onSubmit)}}
+                    {{on 'click' this.onSubmit}}
                 >
                     <FaIcon @icon='search' />
                 </Button>
