@@ -143,7 +143,7 @@ export default class ConnectedEmails extends Component {
             this.changeset.validate();
             if (this.changeset.get('isValid') && this.changeset.get('emailAddress')) {
                 this.set('lastUserEmail', this.changeset.get('emailAddress'));
-                newEmail = yield this.store.createRecord('user-email', {
+                newEmail = this.store.createRecord('user-email', {
                     emailAddress: this.changeset.get('emailAddress'),
                     user: this.currentUser.user,
                 });
@@ -157,7 +157,7 @@ export default class ConnectedEmails extends Component {
                 newEmail.unloadRecord();
             }
             captureException(e);
-            this.toast.error(getApiErrorMessage(e));
+            this.toast.error(getApiErrorMessage(e), this.intl.t('settings.account.connected_emails.save_fail'));
         }
     });
 
