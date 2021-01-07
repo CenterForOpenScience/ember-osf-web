@@ -21,8 +21,8 @@ export default class ContributorsCardReadonly extends Component {
     @tracked showDropdown = false;
 
     didReceiveAttrs() {
-        const employment = this.contributor.users.get('employment');
-        const education = this.contributor.users.get('education');
+        const employment = this.contributor.users.get('employment') || [];
+        const education = this.contributor.users.get('education') || [];
         this.employmentList = Array.from(
             employment, item => [item.institution, item.department].join(', ').replace(/,\s*$/, ''),
         );
