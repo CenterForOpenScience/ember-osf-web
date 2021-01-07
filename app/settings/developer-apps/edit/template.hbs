@@ -30,56 +30,9 @@
         </dl>
 
         <h4>{{t 'settings.developer-apps.editApp'}}</h4>
-        <ValidatedModelForm
-            data-analytics-scope='Form'
-            @model={{this.developerApp}}
-            @disabled={{this.model.taskInstance.isRunning}}
-            @onSave={{action this.appSaved}}
-            as |form|
-        >
-            <form.text
-                data-test-developer-app-name
-                @valuePath='name'
-                @label={{t 'settings.developer-apps.appName'}}
-            />
-            <form.text
-                data-test-developer-app-homepage
-                @valuePath='homeUrl'
-                @label={{t 'settings.developer-apps.appHomepage'}}
-            />
-            <form.textarea
-                data-test-developer-app-description
-                @valuePath='description'
-                @label={{t 'settings.developer-apps.appDescription'}}
-            />
-            <form.text
-                data-test-developer-app-callback-url
-                @valuePath='callbackUrl'
-                @label={{t 'settings.developer-apps.appCallbackUrl'}}
-            />
-
-            <div>
-                <DeleteButton
-                    @delete={{action this.deleteApp}}
-                    @disabled={{form.disabled}}
-                    @modalTitle={{t
-                        'settings.developer-apps.confirmDelete.title'
-                        appName=this.developerApp.name
-                        htmlSafe=true
-                    }}
-                    @modalBody={{t 'settings.developer-apps.confirmDelete.body'}}
-                />
-
-                <OsfButton
-                    data-test-save-developer-app-button
-                    data-analytics-name='Save'
-                    @type='primary'
-                    @buttonType='submit'
-                    @disabled={{form.disabled}}
-                >
-                    {{t 'general.save'}}
-                </OsfButton>
-            </div>
-        </ValidatedModelForm>
+        <Settings::DeveloperApps::-Components::AppForm
+            @appTaskInstance={{this.model.taskInstance}}
+            @mode='edit'
+        />
     {{/if}}
 </div>

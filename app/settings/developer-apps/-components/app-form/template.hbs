@@ -1,0 +1,69 @@
+{{#if this.createChangeset.isRunning}}
+    <LoadingIndicator @dark={{true}}/>
+{{else}}
+    <FormControls
+        data-analytics-scope={{if (eq this.mode 'create') 'Create form' 'Form'}}
+        @changeset={{this.changeset}}
+        as |form|
+    >
+        <form.text
+            data-test-developer-app-name
+            @valuePath={{'name'}}
+            @label={{t 'settings.developer-apps.appName'}}
+            @placeholder={{t 'general.required'}}
+        />
+        <form.text
+            data-test-developer-app-homepage
+            @valuePath={{'homeUrl'}}
+            @label={{t 'settings.developer-apps.appHomepage'}}
+            @placeholder={{t 'general.required'}}
+        />
+        <form.textarea 
+            data-test-developer-app-description
+            @valuePath={{'description'}}
+            @label={{t 'settings.developer-apps.appDescription'}}
+        />
+        <form.text
+            data-test-developer-app-callback-url
+            @valuePath={{'callbackUrl'}}
+            @label={{t 'settings.developer-apps.appCallbackUrl'}}
+            @placeholder={{t 'general.required'}}
+        />
+
+        <div>
+            {{#if (eq this.mode 'create')}}
+                <OsfButton
+                    data-test-create-developer-app-button
+                    data-analytics-name='Create'
+                    @type='primary'
+                    @buttonType='submit'
+                    @disabled={{or this.changeset.isInvalid this.createNewApp.isRunning}}
+                    {{on 'click' (perform this.createNewApp)}}
+                >
+                    {{t 'settings.developer-apps.createApp'}}
+                </OsfButton>
+            {{else}}
+                <DeleteButton
+                    @delete={{action this.deleteApp}}
+                    @disabled={{form.disabled}}
+                    @modalTitle={{t
+                        'settings.developer-apps.confirmDelete.title'
+                        appName=this.developerApp.name
+                        htmlSafe=true
+                    }}
+                    @modalBody={{t 'settings.developer-apps.confirmDelete.body'}}
+                />
+                <OsfButton
+                    data-test-save-developer-app-button
+                    data-analytics-name='Save'
+                    @type='primary'
+                    @buttonType='submit'
+                    @disabled={{not this.appInstance}}
+                    {{on 'click' (perform this.updateApp)}}
+                >
+                    {{t 'general.save'}}
+                </OsfButton>
+            {{/if}}
+        </div>
+    </FormControls>
+{{/if}}
