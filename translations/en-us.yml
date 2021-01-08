@@ -967,6 +967,7 @@ registries:
         osf_registrations: 'OSF Registrations'
         registrations: 'Registrations'
         search_placeholder: 'Search registrations...'
+        search_button: 'Perform search'
         search_label: 'Search'
         search_help: 'Search help'
     facets:

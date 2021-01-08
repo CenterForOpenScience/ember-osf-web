@@ -45,10 +45,14 @@
 
 .SearchIcon {
     position: absolute;
-    top: 16px;
-    left: 14px;
+    top: 9px;
+    left: 8px;
     font-size: 24px;
     color: var(--primary-color);
+
+    &:hover {
+        color: var(--secondary-color);
+    }
 }
 
 .HelpIcon {
