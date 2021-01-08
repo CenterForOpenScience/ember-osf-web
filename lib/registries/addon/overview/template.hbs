@@ -35,6 +35,9 @@
                     {{else}}
                         <Overview::-Components::TombstonePage @registration={{this.registration}} @icon='hourglass-half'
                             @titleText={{t 'registries.overview.archiving.currently_archiving'}}>
+                            <div local-class='NoticeText'>
+                                {{t 'registries.overview.archiving.please_note'}}
+                            </div>
                             {{t 'registries.overview.archiving.email_support' supportEmail=this.supportEmail htmlSafe=true}}
                         </Overview::-Components::TombstonePage>
                     {{/if}}
