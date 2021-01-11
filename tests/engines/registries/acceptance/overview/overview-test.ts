@@ -135,7 +135,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
             }
         });
 
-    test('only admin can edit registration tags', async assert => {
+    test('only write and admin can edit registration tags', async assert => {
         const tags = ['Suspendisse', 'Mauris', 'ipsum', 'facilisis'];
         const reg = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
@@ -152,6 +152,11 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assert.dom('[data-test-tags-widget-tag-input="edit"] input').isVisible();
         tags.forEach(tag => assert.dom(`[data-test-tags-widget-tag="${tag}"]`).exists());
 
+        reg.update({ currentUserPermissions: [Permission.Write, Permission.Read] });
+        await visit(`/${reg.id}/`);
+
+        assert.dom('[data-test-tags-widget-tag-input="edit"] input').isVisible();
+
         reg.update({ currentUserPermissions: [Permission.Read] });
         await visit(`/${reg.id}/`);
 
@@ -160,22 +165,28 @@ module('Registries | Acceptance | overview.overview', hooks => {
         tags.forEach(tag => assert.dom(`[data-test-tags-widget-tag="${tag}"]`).exists());
     });
 
-    test('only admin can edit affiliated institutions', async assert => {
+    test('only write and admin can edit affiliated institutions', async assert => {
         const user = server.create('user', {
             institutions: server.createList('institution', 2),
         }, 'loggedIn');
 
         const reg = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-            currentUserPermissions: [Permission.Write, Permission.Read],
+            currentUserPermissions: [Permission.Read],
         }, 'withAffiliatedInstitutions');
 
-        // Non admin: read only view
+        // Read user: read only view
         await visit(`/${reg.id}/`);
         assert.dom('[data-test-edit-button="affiliated institutions"]').isNotVisible();
         reg.affiliatedInstitutionIds.forEach(institutionId => assert
             .dom(`[data-test-institution-list-institution="${institutionId}"]`)
             .exists('registration institution list is correct'));
+
+        // Write user: editable view
+        reg.update({ currentUserPermissions: [Permission.Read, Permission.Write] });
+
+        await visit(`/${reg.id}/`);
+        assert.dom('[data-test-edit-button="affiliated institutions"]').isVisible();
 
         // Admin: editable view
         reg.update({ currentUserPermissions: Object.values(Permission) });
@@ -299,6 +310,11 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assert.dom('[data-test-node-description-wrapper]').hasStyle({
             maxHeight: 'none',
         });
+
+        reg.update({ currentUserPermissions: [Permission.Write, Permission.Read] });
+        await visit(`/${reg.id}/`);
+        assert.dom('[data-test-edit-button="description"]').isVisible();
+
         reg.update({ currentUserPermissions: [] });
         await visit(`/${reg.id}/`);
         assert.dom('[data-test-edit-button="description"]').isNotVisible();
@@ -325,11 +341,17 @@ module('Registries | Acceptance | overview.overview', hooks => {
         reg.reload();
         assert.equal(reg.category, NodeCategory.Instrumentation);
 
-        // Non-admin cannot edit
-        reg.update({ currentUserPermissions: [Permission.Read, Permission.Write] });
+        // Read user cannot edit
+        reg.update({ currentUserPermissions: [Permission.Read] });
 
         await visit(`/${reg.id}/`);
         assert.dom('[data-test-edit-button="category"]').doesNotExist();
+
+        // Write user can edit
+        reg.update({ currentUserPermissions: [Permission.Read, Permission.Write] });
+
+        await visit(`/${reg.id}/`);
+        assert.dom('[data-test-edit-button="category"]').exists();
     });
 
     test('editable publication doi', async assert => {
@@ -370,14 +392,20 @@ module('Registries | Acceptance | overview.overview', hooks => {
         reg.reload();
         assert.notOk(reg.articleDoi);
 
-        // Non-admin cannot edit
-        reg.update({ currentUserPermissions: [] });
+        // Read-Write can edit
+        reg.update({ currentUserPermissions: [Permission.Write, Permission.Read] });
+
+        await visit(`/${reg.id}/`);
+        assert.dom('[data-test-edit-button="publication DOI"]').exists();
+
+        // Read-only cannot edit
+        reg.update({ currentUserPermissions: [Permission.Read] });
 
         await visit(`/${reg.id}/`);
         assert.dom('[data-test-edit-button="publication DOI"]').doesNotExist();
     });
 
-    test('Check only admin can mint registration DOI', async assert => {
+    test('Check only admin and write can mint registration DOI', async assert => {
         const reg = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
         });
@@ -389,6 +417,17 @@ module('Registries | Acceptance | overview.overview', hooks => {
         await click('[data-test-edit-button="doi"]');
 
         assert.dom('[data-test-create-doi]').isVisible();
+
+        reg.update({ currentUserPermissions: [Permission.Read] });
+        await visit(`/${reg.id}/`);
+        assert.dom('[data-test-edit-button="doi"]').doesNotExist();
+
+        reg.update({ currentUserPermissions: [Permission.Write, Permission.Read] });
+        await visit(`/${reg.id}/`);
+        await click('[data-test-edit-button="doi"]');
+
+        assert.dom('[data-test-create-doi]').isVisible();
+
         assert.dom('[data-test-registration-doi]').isNotVisible();
         assert.notOk(Boolean(reg.identifierIds.length));
 

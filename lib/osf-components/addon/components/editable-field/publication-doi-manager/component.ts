@@ -51,7 +51,7 @@ export default class PublicationDoiManagerComponent extends Component {
     didValidate = false;
 
     @not('didValidate') didNotValidate!: boolean;
-    @alias('node.userHasAdminPermission') userCanEdit!: boolean;
+    @alias('node.userHasWritePermission') userCanEdit!: boolean;
     @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
     @alias('node.category') category!: boolean;
 

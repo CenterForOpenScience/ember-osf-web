@@ -42,7 +42,7 @@ export default class InstitutionsManagerComponent extends Component {
     reloadList!: (page?: number) => void;
     requestedEditMode: boolean = false;
 
-    @alias('node.userHasAdminPermission') userCanEdit!: boolean;
+    @alias('node.userHasWritePermission') userCanEdit!: boolean;
 
     @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
 

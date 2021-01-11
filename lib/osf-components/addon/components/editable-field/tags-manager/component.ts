@@ -43,7 +43,7 @@ export default class TagsManagerComponent extends Component {
     requestedEditMode: boolean = false;
     currentTags: string[] = [];
 
-    @alias('registration.userHasAdminPermission') userCanEdit!: boolean;
+    @alias('registration.userHasWritePermission') userCanEdit!: boolean;
 
     @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
 
