@@ -81,10 +81,15 @@ module('Registries | Acceptance | overview.overview', hooks => {
                 favicon: 'fakelink',
             },
         }, 'withBrand');
+
         const reg = server.create('registration', { provider: brandedProvider });
 
         await visit(`/${reg.id}/`);
         assert.ok(document.querySelector('link[rel="icon"][href="fakelink"]'));
+
+        const pageTitle = document.getElementsByTagName('title')[0].textContent;
+        assert.equal(pageTitle, `${brandedProvider.name} | ${reg.title}`);
+
         await percySnapshot(assert);
     });
 
