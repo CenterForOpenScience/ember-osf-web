@@ -54,6 +54,14 @@ function registrationScenario(
 
     server.create('registration', { id: 'beefs' });
 
+    const currentUserWrite = server.create('registration', {
+        id: 'writr',
+        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+        currentUserPermissions: [Permission.Read, Permission.Write],
+    });
+
+    server.create('contributor', { users: currentUser, node: currentUserWrite });
+
     const registrationResponses = {
         'page-one_long-text': '',
         'page-one_multi-select': ['Crocs'],
