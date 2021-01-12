@@ -42,7 +42,7 @@ export default class DoiManagerComponent extends Component {
 
     requestedEditMode: boolean = false;
 
-    @alias('node.userHasAdminPermission') userCanEdit!: boolean;
+    @alias('node.userHasWritePermission') userCanEdit!: boolean;
     @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
     @not('nodeDoi') fieldIsEmpty!: boolean;
 
