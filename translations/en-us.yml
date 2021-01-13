@@ -1610,6 +1610,8 @@ osf-components:
             error: 'Error updating contributor bibliographic status.'
         reorderContributor:
             success: 'Contributor order updated.'
+        noAffiliations: 'No institutional affiliations to show'
+            
     subscriptions:
         frequency:
             daily: 'Daily'
