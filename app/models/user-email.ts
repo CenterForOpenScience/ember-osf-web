@@ -1,8 +1,5 @@
-import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
-import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
-import config from 'ember-get-config';
 import { Link } from 'jsonapi-typescript';
 
 import OsfModel, { OsfLinks } from './osf-model';
