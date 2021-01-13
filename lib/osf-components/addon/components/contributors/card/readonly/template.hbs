@@ -59,10 +59,20 @@
             <ul local-class='DropdownList'>
                 {{#if (or this.employmentList this.educationList)}}
                     {{#each this.employmentList as |item|}}
-                        <li>{{item}}</li>
+                        <li>
+                            {{#if (and item.institution item.department)}}
+                                {{concat item.institution ', ' item.department}}
+                            {{else}}
+                                {{item.institution}}
+                            {{/if}}
+                        </li>
                     {{/each}}
                     {{#each this.educationList as |item|}}
-                        <li>{{item}}</li>
+                        {{#if (and item.institution item.department)}}
+                            {{concat item.institution ', ' item.department}}
+                        {{else}}
+                            {{item.institution}}
+                        {{/if}}
                     {{/each}}
                 {{else}}
                     {{t 'osf-components.contributors.noAffiliations'}}

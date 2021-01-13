@@ -5,6 +5,7 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { layout } from 'ember-osf-web/decorators/component';
 import ContributorModel from 'ember-osf-web/models/contributor';
+import { Education, Employment } from 'ember-osf-web/models/user';
 import styles from './styles';
 import template from './template';
 
@@ -15,20 +16,14 @@ export default class ContributorsCardReadonly extends Component {
     contributor!: ContributorModel;
 
     // private properties
-    employmentList!: string[];
-    educationList!: string[];
+    employmentList!: Employment[];
+    educationList!: Education[];
 
     @tracked showDropdown = false;
 
     didReceiveAttrs() {
-        const employment = this.contributor.users.get('employment') || [];
-        const education = this.contributor.users.get('education') || [];
-        this.employmentList = Array.from(
-            employment, item => [item.institution, item.department].join(', ').replace(/,\s*$/, ''),
-        );
-        this.educationList = Array.from(
-            education, item => [item.institution, item.department].join(', ').replace(/,\s*$/, ''),
-        );
+        this.employmentList = this.contributor.users.get('employment') || [];
+        this.educationList = this.contributor.users.get('education') || [];
     }
 
     @action
