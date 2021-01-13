@@ -1610,7 +1610,8 @@ osf-components:
             error: 'Error updating contributor bibliographic status.'
         reorderContributor:
             success: 'Contributor order updated.'
-        noAffiliations: 'No institutional affiliations to show'
+        noEducation: 'No education history to show'
+        noEmployment: 'No employment history to show'
             
     subscriptions:
         frequency:
