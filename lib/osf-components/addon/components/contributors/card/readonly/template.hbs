@@ -1,4 +1,8 @@
-<div data-test-contributor-card local-class='CardContainer'>
+<div
+    data-test-contributor-card
+    data-analytics-scope='Contributor card'
+    local-class='CardContainer'
+>
     <div data-test-contributor-card-main local-class='MainSection'>
         <span local-class='CardSection'>
             <img
@@ -34,5 +38,52 @@
         >
             {{t (concat 'osf-components.contributors.citation.' @contributor.bibliographic)}}
         </span>
+        <span
+            data-test-contributor-caret={{@contributor.id}}
+            data-analytics-name='{{if this.showDropdown 'Expand'  'Collapse'}} employment and education info'
+            local-class='CardSection'
+            role='button'
+            {{on 'click' this.toggleDropdown}}
+        >
+            <FaIcon
+                @icon={{if this.showDropdown 'caret-up' 'caret-down'}}
+            />
+        </span>
     </div>
+    {{#if this.showDropdown}}
+        <div data-test-contributor-card-dropdown local-class='DropdownSection'>
+            <ul local-class='DropdownList'>
+                {{#if @contributor.users.employment}}
+                    {{#each @contributor.users.employment as |item|}}
+                        <li>
+                            {{#if (and item.institution item.department)}}
+                                {{concat item.institution ', ' item.department}}
+                            {{else}}
+                                {{item.institution}}
+                            {{/if}}
+                        </li>
+                    {{/each}}
+                {{else}}
+                    <li>
+                        {{t 'osf-components.contributors.noEmployment'}}    
+                    </li>
+                {{/if}}
+                {{#if @contributor.users.education}}
+                    {{#each @contributor.users.education as |item|}}
+                        <li>
+                            {{#if (and item.institution item.department)}}
+                                {{concat item.institution ', ' item.department}}
+                            {{else}}
+                                {{item.institution}}
+                            {{/if}}
+                        </li>
+                    {{/each}}
+                {{else}}
+                    <li>    
+                        {{t 'osf-components.contributors.noEducation'}}
+                    </li>
+                {{/if}}
+            </ul>
+        </div>
+    {{/if}}
 </div>
