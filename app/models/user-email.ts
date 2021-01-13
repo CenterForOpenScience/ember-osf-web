@@ -10,38 +10,11 @@ import UserModel from './user';
 
 const { attr, belongsTo } = DS;
 
-const { support: { supportEmail } } = config;
-
-const Validations = buildValidations({
-    emailAddress: [
-        validator('presence', true),
-        validator('format', { type: 'email' }),
-        validator('length', {
-            max: 255,
-        }),
-        validator('exclusion', {
-            messageKey: 'validationErrors.email_duplicate',
-            in: computed(function(): string[] {
-                return [...this.model.existingEmails];
-            // eslint-disable-next-line ember/no-volatile-computed-properties
-            }).volatile(),
-        }),
-        validator('exclusion', {
-            messageKey: 'validationErrors.email_invalid',
-            supportEmail,
-            in: computed(function(): string[] {
-                return [...this.model.invalidEmails];
-            // eslint-disable-next-line ember/no-volatile-computed-properties
-            }).volatile(),
-        }),
-    ],
-});
-
 export interface UserEmailLinks extends OsfLinks {
     resend_confirmation: Link; // eslint-disable-line camelcase
 }
 
-export default class UserEmailModel extends OsfModel.extend(Validations) {
+export default class UserEmailModel extends OsfModel {
     @attr() links!: UserEmailLinks;
     @attr() emailAddress!: string;
     @attr('boolean') confirmed!: boolean;
