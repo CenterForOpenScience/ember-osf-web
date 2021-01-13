@@ -151,6 +151,7 @@ export default class ConnectedEmails extends Component {
                 this.set('showAddModal', true);
                 this.reloadUnconfirmedList();
                 this.toast.success(this.intl.t('settings.account.connected_emails.save_success'));
+                this.changeset.set('emailAddress', '');
             }
         } catch (e) {
             if (newEmail) {
