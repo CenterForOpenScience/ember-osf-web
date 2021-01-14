@@ -1,5 +1,4 @@
 import Controller from '@ember/controller';
-import { action } from '@ember/object';
 import { reads } from '@ember/object/computed';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
@@ -17,22 +16,4 @@ export default class SettingsDeveloperAppsEditController extends Controller {
 
     @reads('model.taskInstance.value')
     developerApp?: DeveloperApp;
-
-    @action
-    appSaved() {
-        // Analytics handled by validated-model-form
-        this.toast.success(this.intl.t('settings.developer-apps.saved'));
-        this.router.transitionTo('settings.developer-apps');
-    }
-
-    @action
-    async deleteApp() {
-        // Analytics and errors handled by delete-button
-        if (this.developerApp) {
-            await this.developerApp.destroyRecord();
-            this.toast.success(this.intl.t('settings.developer-apps.deleted'));
-        }
-
-        this.router.transitionTo('settings.developer-apps');
-    }
 }
