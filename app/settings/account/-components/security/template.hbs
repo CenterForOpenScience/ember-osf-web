@@ -37,13 +37,10 @@
                     @height={{260}}
                     @correctLevel='L'
                 />
-                <ValidatedModelForm
+                <FormControls
                     data-analytics-scope='Verification form'
-                    @model={{this.settings}}
-                    @onSave={{action this.verifySecret}}
-                    @onError={{action this.verificationError}}
-                    as |form|
-                >
+                    @changeset={{this.changeset}}
+                as |form|>
                     <div>
                         <form.text
                             data-test-verification-code-field
@@ -63,7 +60,8 @@
                             data-analytics-name='Submit verification'
                             @type='primary'
                             @buttonType='submit'
-                            @disabled={{form.submitting}}
+                            @disabled={{or this.changeset.isInvalid this.verifySecret.isRunning}}
+                            {{on 'click' (perform this.verifySecret)}}
                         >
                             {{t 'settings.account.security.submitVerification'}}
                         </BsButton>
@@ -75,7 +73,7 @@
                             {{t 'general.cancel'}}
                         </BsButton>
                     </div>
-                </ValidatedModelForm>
+                </FormControls>
             {{/if}}
             {{#if (and this.settings.twoFactorEnabled this.settings.twoFactorConfirmed)}}
                 <BsButton

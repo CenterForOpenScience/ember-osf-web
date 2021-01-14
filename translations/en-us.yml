@@ -1610,6 +1610,9 @@ osf-components:
             error: 'Error updating contributor bibliographic status.'
         reorderContributor:
             success: 'Contributor order updated.'
+        noEducation: 'No education history to show'
+        noEmployment: 'No employment history to show'
+            
     subscriptions:
         frequency:
             daily: 'Daily'
@@ -1707,6 +1710,7 @@ settings:
             disableButton: Disable
             saveError: 'Could not make this change. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{supportEmail}">{supportEmail}</a>.'
             submitVerification: Enable
+            verificationCode: 'Verification code'
         title: 'Account settings'
         connected_emails:
             add_email: 'Add email'
@@ -1739,6 +1743,7 @@ settings:
             unconfirmed_emails: 'Unconfirmed emails'
             update_fail: 'Unable to update email'
             update_success: 'Email updated'
+            email_address: 'Email address'
         changePassword:
             title: 'Change password'
             updateButton: 'Update password'
