@@ -53,6 +53,6 @@ module('Acceptance | settings', hooks => {
         assertionsEnabledNotConfirmed(assert, 'After deactivation');
         await click('[data-test-verify-button]');
         assert.dom('[data-test-verification-code-field] .help-block')
-            .containsText('This field must be a number.');
+            .containsText('Verification code is invalid.', 'End test');
     });
 });
