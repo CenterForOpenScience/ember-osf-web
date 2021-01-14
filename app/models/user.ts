@@ -59,14 +59,25 @@ export interface UserLinks extends OsfLinks {
 }
 
 export interface Employment {
-    title: string;
-    endYear: number;
-    ongoing: boolean;
-    endMonth: number;
-    startYear: number;
-    department: string;
-    startMonth: number;
-    institution: string;
+    title?: string;
+    endYear?: number;
+    ongoing?: boolean;
+    endMonth?: number;
+    startYear?: number;
+    department?: string;
+    startMonth?: number;
+    institution?: string;
+}
+
+export interface Education {
+    degree?: string;
+    endYear?: string;
+    startYear?: string;
+    endMonth?: number;
+    startMonth?: number;
+    ongoing?: boolean;
+    department?: string;
+    institution?: string;
 }
 
 export default class UserModel extends OsfModel.extend(Validations) {
@@ -84,6 +95,7 @@ export default class UserModel extends OsfModel.extend(Validations) {
     @attr('boolean') active!: boolean;
     @attr('object') social!: {};
     @attr('array') employment!: Employment[];
+    @attr('array') education!: Education[];
 
     @belongsTo('region', { async: false })
     defaultRegion!: DS.PromiseObject<RegionModel> & RegionModel;

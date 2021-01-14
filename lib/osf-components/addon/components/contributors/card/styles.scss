@@ -1,13 +1,14 @@
 .CardContainer {
     margin: 0;
-    height: 60px;
     border-bottom: 1px solid $color-border-gray;
     background-color: #fff;
+    display: flex;
+    flex-direction: column;
 }
 
 .MainSection {
     display: flex;
-    height: inherit;
+    height: 60px;
     align-items: center;
     padding-left: 20px;
 }

@@ -47,7 +47,7 @@ export default Factory.extend<MirageNode & NodeTraits>({
     currentUserIsContributor: false,
     preprint: false,
     description() {
-        return faker.lorem.sentences(faker.random.number({ min: 0, max: 4 }));
+        return faker.lorem.paragraph();
     },
     currentUserPermissions: [],
     dateModified() {
