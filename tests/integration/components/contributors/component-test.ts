@@ -122,6 +122,37 @@ module('Integration | Component | contributors', hooks => {
         assert.dom(`[data-test-contributor-permission="${contributor.id}"]`)
             .hasText('Read');
         assert.dom('[data-test-contributor-citation-checkbox]').isChecked();
+        assert.dom(`[data-test-contributor-remove="${contributor.id}"]`).exists();
+    });
+
+    test('editable contributor card can remove contributor', async function(assert) {
+        const firstContributor = server.create('contributor', {
+            fullName: 'First Contributor',
+            index: 0,
+            id: 'Keep',
+        });
+        const secondContributor = server.create('contributor', {
+            fullName: 'Second Contributor',
+            index: 1,
+            id: 'Remove',
+        });
+        const draftRegistration = server.create('draft-registration', {
+            contributors: [firstContributor, secondContributor],
+        });
+        const registrationModel = await this.store.findRecord('draft-registration', draftRegistration.id);
+        this.set('node', registrationModel);
+        await render(hbs`<Contributors::Widget @node={{this.node}} @widgetMode={{'editable'}} />`);
+        const elementsBefore = findAll('[data-test-contributor-card]');
+        assert.equal(elementsBefore[0].getAttribute('data-test-contributor-card'), 'Keep');
+        assert.equal(elementsBefore[1].getAttribute('data-test-contributor-card'), 'Remove');
+        const deleteButtons = findAll('[data-test-delete-button]');
+        const removeButton = deleteButtons[1];
+        await click(removeButton);
+        await click('[data-test-confirm-delete]');
+
+        const elementsAfter = findAll('[data-test-contributor-card]');
+        assert.equal(elementsAfter.length, 1);
+        assert.equal(elementsAfter[0].getAttribute('data-test-contributor-card'), 'Keep');
     });
 
     test('editable user card can be reordered using mouse', async function(assert) {

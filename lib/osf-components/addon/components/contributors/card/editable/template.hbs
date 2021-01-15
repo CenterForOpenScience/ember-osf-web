@@ -51,5 +51,15 @@
                 {{on 'click' (fn @manager.toggleContributorIsBibliographic @contributor)}}
             />
         </span>
+        <DeleteButton
+            data-test-contributor-remove={{@contributor.id}}
+            local-class='RemoveContributorButton'
+            @small={{true}}
+            @noBackground={{true}}
+            @delete={{fn @manager.removeContributor @contributor}}
+            @modalTitle={{t 'osf-components.contributors.removeContributor.confirmRemove.title'}}
+            @modalBody={{t 'osf-components.contributors.removeContributor.confirmRemove.body'}}
+            @confirmButtonText={{t 'osf-components.contributors.removeContributor.confirmRemove.button'}}
+        />
     </div>
 </div>

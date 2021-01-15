@@ -99,4 +99,18 @@ export default class ContributorsManager extends Component {
             }
         },
     );
+
+    @task({ withTestWaiter: true, enqueue: true })
+    removeContributor = task(
+        function *(this: ContributorsManager, contributor: ContributorModel) {
+            try {
+                yield contributor.destroyRecord();
+                this.contributors.removeObject(contributor);
+                this.toast.success(this.intl.t('osf-components.contributors.removeContributor.success'));
+            } catch (e) {
+                contributor.rollbackAttributes();
+                this.toast.error(getApiErrorMessage(e));
+            }
+        },
+    );
 }

@@ -1612,6 +1612,13 @@ osf-components:
             success: 'Contributor order updated.'
         noEducation: 'No education history to show'
         noEmployment: 'No employment history to show'
+        removeContributor:
+            confirmRemove:
+                title: 'Remove contributor'
+                body: 'Are you sure you want to remove this contributor?'
+                button: 'Remove contributor'
+            success: 'You have successfully removed this contributor.'
+
             
     subscriptions:
         frequency:
