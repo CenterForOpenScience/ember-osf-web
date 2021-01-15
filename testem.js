@@ -7,6 +7,7 @@ module.exports = {
     test_page: 'tests/index.html?hidepassed&dockcontainer&nocontainer',
     disable_watching: true,
     reporter: new DotReporter(),
+    parallel: 2,
     launch_in_ci: [
         'Chrome',
     ],
