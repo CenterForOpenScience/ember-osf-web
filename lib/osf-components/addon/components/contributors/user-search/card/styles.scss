@@ -1,0 +1,12 @@
+.CardContainer {
+    composes: CardContainer from '../../card/styles.scss';
+}
+
+.MainSection {
+    composes: MainSection from '../../card/styles.scss';
+    justify-content: space-between;
+}
+
+.CardSection {
+    composes: CardSection from '../../card/styles.scss';
+}

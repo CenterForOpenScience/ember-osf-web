@@ -1,0 +1,34 @@
+{{#if @results}}
+    <div local-class='Heading'>
+        <span data-test-heading-name local-class='HeadingTitle'>
+            {{t 'osf-components.contributors.headings.name'}}
+        </span>
+        <OsfButton
+            data-test-add-unregistered-contributor
+            data-analytics-name='Add unregistered contributor'
+            @type='link'
+        >
+            {{t 'registries.registration_metadata.add_contributors.add_unregistered_contributor'}}
+        </OsfButton>
+    </div>
+    {{#each @results as |result|}}
+        <Contributors::UserSearch::Card
+            @user={{result}}
+            @addUser={{@manager.addUser}}
+        />
+    {{/each}}
+    {{#if @manager.shouldShowLoadMoreUsers}}
+        <div local-class='InfinityLoader'
+            {{in-viewport
+                onEnter=(fn @manager.fetchUsers)
+            }}
+        >
+            {{t 'osf-components.contributors.loadMore'}}
+        </div>
+    {{/if}}
+    {{#if @manager.isLoading}}
+        <LoadingIndicator @dark={{true}} />
+    {{/if}}
+{{else}}
+    {{t 'registries.registration_metadata.add_contributors.help_text' htmlSafe=true}}
+{{/if}}

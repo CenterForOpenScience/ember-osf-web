@@ -1,6 +1,7 @@
 {{yield (hash
     contributors=this.contributors
     fetchContributors=(perform this.fetchContributors)
+    fetchUsers=(perform this.fetchUsers)
     toggleContributorIsBibliographic=(perform this.toggleContributorIsBibliographic)
     updateContributorPermission=(perform this.updateContributorPermission)
     reorderContributor=(perform this.reorderContributor)
@@ -8,5 +9,11 @@
     isLoading=this.fetchContributors.isRunning
     isDragging=this.isDragging
     shouldShowLoadMore=this.shouldShowLoadMore
+    shouldShowLoadMoreUsers=this.shouldShowLoadMoreUsers
     hasMore=this.hasMore
+    hasMoreUsers=this.hasMoreUsers
+    query=this.query
+    results=this.results
+    addedUsers=this.addedUsers
+    addUser=this.addUser
 )}}

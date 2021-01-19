@@ -1,0 +1,33 @@
+.Heading {
+    padding: 11px 20px;
+    height: 40px;
+    font-weight: bold;
+    display: flex;
+    border-bottom: 1px solid $color-border-gray;
+    background-color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0;
+}
+
+.ContributorList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.InfinityLoader {
+    text-align: center;
+}
+
+:global(.is-dragging) {
+    opacity: 0.6;
+    z-index: 10;
+}
+
+:global(.sortable-item) {
+    position: relative;
+}

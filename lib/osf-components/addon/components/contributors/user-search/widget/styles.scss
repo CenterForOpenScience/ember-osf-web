@@ -1,0 +1,59 @@
+.Container {
+    border: 1px solid $color-border-gray;
+    margin-top: 10px;
+    overflow-y: scroll;
+    max-height: 500px;
+
+    p {
+        padding: 5px 20px;
+        color: $color-text-gray-light;
+        font-style: italic;
+    }
+}
+
+.HeadingTitle {
+    flex: 1 0 auto;
+    max-width: 30%;
+
+    &:first-of-type {
+        flex: 2 0 auto;
+        max-width: 41%;
+    }
+}
+
+.Heading {
+    padding: 11px 20px;
+    height: 40px;
+    font-weight: bold;
+    display: flex;
+    border-bottom: 1px solid $color-border-gray;
+    background-color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0;
+}
+
+input {
+    height: 40px;
+    width: 100%;
+    background-color: #ecf0f1;
+    color: #263947;
+    border-radius: 2px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+    border: 1px solid #ddd;
+    padding: 6px 12px;
+}
+
+.InputContainer {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 25px;
+}
+
+.ClearButton {
+    height: 40px;
+    border-radius: 0;
+}
