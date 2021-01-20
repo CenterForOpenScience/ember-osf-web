@@ -18,7 +18,7 @@ const {
     BACKEND: backend = 'local',
     CAS_URL: casUrl = 'http://192.168.168.167:8080',
     CLIENT_ID: clientId,
-    COLLECTIONS_ENABLED = false,
+    COLLECTIONS_ENABLED = true,
     REGISTRIES_ENABLED = true,
     HANDBOOK_ENABLED = false,
     HANDBOOK_DOC_GENERATION_ENABLED = false,
