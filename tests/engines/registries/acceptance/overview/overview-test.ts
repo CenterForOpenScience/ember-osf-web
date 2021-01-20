@@ -405,25 +405,31 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assert.dom('[data-test-edit-button="publication DOI"]').doesNotExist();
     });
 
-    test('Check only admin and write can mint registration DOI', async assert => {
+    test('Check only admin can mint registration DOI', async assert => {
         const reg = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
         });
 
         await visit(`/${reg.id}/`);
+        assert.dom('[data-test-edit-button="doi"]').doesNotExist();
         assert.dom('[data-test-create-doi]').doesNotExist();
+
+        reg.update({ currentUserPermissions: [Permission.Read] });
+        await visit(`/${reg.id}/`);
+        assert.dom('[data-test-edit-button="doi"]').doesNotExist();
+        assert.dom('[data-test-create-doi]').doesNotExist();
+
+        reg.update({ currentUserPermissions: [Permission.Write, Permission.Read] });
+        await visit(`/${reg.id}/`);
+        assert.dom('[data-test-edit-button="doi"]').doesNotExist();
+        assert.dom('[data-test-create-doi]').doesNotExist();
+
         reg.update({ currentUserPermissions: Object.values(Permission) });
         await visit(`/${reg.id}/`);
         await click('[data-test-edit-button="doi"]');
 
         assert.dom('[data-test-create-doi]').isVisible();
 
-        reg.update({ currentUserPermissions: [Permission.Read] });
-        await visit(`/${reg.id}/`);
-        assert.dom('[data-test-edit-button="doi"]').doesNotExist();
-
-        reg.update({ currentUserPermissions: [Permission.Write, Permission.Read] });
-        await visit(`/${reg.id}/`);
         await click('[data-test-edit-button="doi"]');
 
         assert.dom('[data-test-create-doi]').isVisible();
