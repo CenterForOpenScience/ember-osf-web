@@ -42,7 +42,7 @@
                 </span>
             </PowerSelect>
         </span>
-        <span data-test-contributor-citation={{@contributor.id}} local-class='CardSection'>
+        <span data-test-contributor-citation={{@contributor.id}} local-class='CardSectionSmall'>
             <Input
                 @type='checkbox'
                 @checked={{readonly @contributor.bibliographic}}
@@ -51,15 +51,22 @@
                 {{on 'click' (fn @manager.toggleContributorIsBibliographic @contributor)}}
             />
         </span>
-        <DeleteButton
-            data-test-contributor-remove={{@contributor.id}}
-            local-class='RemoveContributorButton'
-            @small={{true}}
-            @noBackground={{true}}
-            @delete={{fn @manager.removeContributor @contributor}}
-            @modalTitle={{t 'osf-components.contributors.removeContributor.confirmRemove.title'}}
-            @modalBody={{t 'osf-components.contributors.removeContributor.confirmRemove.body'}}
-            @confirmButtonText={{t 'osf-components.contributors.removeContributor.confirmRemove.button'}}
-        />
+        <span local-class='CardSectionSmall'>
+            <DeleteButton
+                data-test-contributor-remove={{@contributor.id}}
+                @small={{true}}
+                @noBackground={{true}}
+                @delete={{fn @manager.removeContributor @contributor}}
+                @modalTitle={{t 'osf-components.contributors.removeContributor.confirmRemove.title'}}
+                @modalBody={{t 
+                    'osf-components.contributors.removeContributor.confirmRemove.body' 
+                    userName=(if @contributor.unregisteredContributor
+                        @contributor.unregisteredContributor
+                        @contributor.users.fullName
+                    )
+                }}
+                @confirmButtonText={{t 'osf-components.contributors.removeContributor.confirmRemove.button'}}
+            />
+        </span>
     </div>
 </div>

@@ -108,8 +108,9 @@ export default class ContributorsManager extends Component {
                 this.contributors.removeObject(contributor);
                 this.toast.success(this.intl.t('osf-components.contributors.removeContributor.success'));
             } catch (e) {
-                contributor.rollbackAttributes();
-                this.toast.error(getApiErrorMessage(e));
+                const apiError = getApiErrorMessage(e);
+                const errorHeading = this.intl.t('osf-components.contributors.removeContributor.errorHeading');
+                this.toast.error(`${errorHeading}${apiError}`);
             }
         },
     );
