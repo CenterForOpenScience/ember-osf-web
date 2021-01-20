@@ -1617,8 +1617,8 @@ osf-components:
                 title: 'Remove contributor'
                 body: 'Are you sure you want to remove {userName}?'
                 button: 'Remove contributor'
-            success: 'You have successfully removed this contributor.'
-            errorHeading: 'Could not remove contributor: '
+            success: 'You have successfully removed {contributorName}.'
+            errorHeading: 'Could not remove contributor. '
 
             
     subscriptions:

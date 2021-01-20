@@ -106,7 +106,13 @@ export default class ContributorsManager extends Component {
             try {
                 yield contributor.destroyRecord();
                 this.contributors.removeObject(contributor);
-                this.toast.success(this.intl.t('osf-components.contributors.removeContributor.success'));
+                const contributorName = contributor.unregisteredContributor
+                    ? contributor.unregisteredContributor
+                    : contributor.users.get('fullName');
+                this.toast.success(this.intl.t(
+                    'osf-components.contributors.removeContributor.success',
+                    { contributorName, htmlSafe: true },
+                ));
             } catch (e) {
                 const apiError = getApiErrorMessage(e);
                 const errorHeading = this.intl.t('osf-components.contributors.removeContributor.errorHeading');

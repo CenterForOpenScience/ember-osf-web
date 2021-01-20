@@ -122,7 +122,7 @@ module('Integration | Component | contributors', hooks => {
         assert.dom(`[data-test-contributor-permission="${contributor.id}"]`)
             .hasText('Read');
         assert.dom('[data-test-contributor-citation-checkbox]').isChecked();
-        assert.dom(`[data-test-contributor-remove="${contributor.id}"]`).exists();
+        assert.dom(`[data-test-contributor-remove="${contributor.id}"]`).exists('Remove contributor button is visible');
     });
 
     test('editable contributor card can remove contributor', async function(assert) {
@@ -142,17 +142,23 @@ module('Integration | Component | contributors', hooks => {
         const registrationModel = await this.store.findRecord('draft-registration', draftRegistration.id);
         this.set('node', registrationModel);
         await render(hbs`<Contributors::Widget @node={{this.node}} @widgetMode={{'editable'}} />`);
-        const elementsBefore = findAll('[data-test-contributor-card]');
-        assert.equal(elementsBefore[0].getAttribute('data-test-contributor-card'), 'Keep');
-        assert.equal(elementsBefore[1].getAttribute('data-test-contributor-card'), 'Remove');
+        assert.dom('[data-test-contributor-card="Keep"]').isVisible(
+            '"Keep" card is visible before contributor removal',
+        );
+        assert.dom('[data-test-contributor-card="Remove"]').isVisible(
+            '"Remove" card is visible before contributor removal',
+        );
         const deleteButtons = findAll('[data-test-delete-button]');
         const removeButton = deleteButtons[1];
         await click(removeButton);
         await click('[data-test-confirm-delete]');
 
-        const elementsAfter = findAll('[data-test-contributor-card]');
-        assert.equal(elementsAfter.length, 1);
-        assert.equal(elementsAfter[0].getAttribute('data-test-contributor-card'), 'Keep');
+        assert.dom('[data-test-contributor-card="Keep"]').isVisible(
+            '"Keep" card is visible after contributor removal',
+        );
+        assert.dom('[data-test-contributor-card="Remove"]').isNotVisible(
+            '"Remove" card is not visible after contributor removal',
+        );
     });
 
     test('editable user card can be reordered using mouse', async function(assert) {
