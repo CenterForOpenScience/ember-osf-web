@@ -1,12 +1,13 @@
 {{yield (hash
     contributors=this.contributors
     fetchContributors=(perform this.fetchContributors)
-    fetchUsers=(perform this.fetchUsers)
+    fetchUsers=this.fetchUsers
     toggleContributorIsBibliographic=(perform this.toggleContributorIsBibliographic)
     updateContributorPermission=(perform this.updateContributorPermission)
     reorderContributor=(perform this.reorderContributor)
     removeContributor=(perform this.removeContributor)
     isLoading=this.fetchContributors.isRunning
+    isLoadingUsers=this.fetchUsers.isRunning
     isDragging=this.isDragging
     shouldShowLoadMore=this.shouldShowLoadMore
     shouldShowLoadMoreUsers=this.shouldShowLoadMoreUsers

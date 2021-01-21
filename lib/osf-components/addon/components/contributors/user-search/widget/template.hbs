@@ -4,25 +4,25 @@
             @type='text'
             @placeholder={{t 'registries.registration_metadata.add_contributors.search_placeholder'}}
             @value={{@manager.query}}
-            @enter={{fn @manager.fetchUsers}}
+            @enter={{perform @manager.fetchUsers}}
         />
         <OsfButton
             data-test-search-contributors
             local-class='ClearButton'
-            @onClick={{fn @manager.fetchUsers}}
+            @onClick={{perform @manager.fetchUsers}}
             @type='success'
             @class='m-t-md f-w-xl'
         >
-            {{t 'registries.registration_metadata.add_contributors.clear'}}
+            {{t 'registries.registration_metadata.add_contributors.search'}}
         </OsfButton>
     </div>
     <div local-class='Container'>
-        <h3 local-class='Heading'>
+        <span data-test-heading-name local-class='Heading'>
             {{t 'registries.registration_metadata.add_contributors.results_heading'}}
-        </h3>
+        </span>
         <Contributors::UserSearch::List
             @manager={{@manager}}
             @results={{@manager.results}}
         />
     </div>
-</div> 
+</div>

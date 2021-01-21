@@ -1,16 +1,15 @@
 .Heading {
-    padding: 11px 20px;
-    height: 40px;
-    font-weight: bold;
-    display: flex;
-    border-bottom: 1px solid $color-border-gray;
-    background-color: #fff;
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0;
+    composes: Heading from '../widget/styles.scss';
+}
+
+.HeadingTitle {
+    flex: 1 0 auto;
+    max-width: 30%;
+
+    &:first-of-type {
+        flex: 2 0 auto;
+        max-width: 41%;
+    }
 }
 
 .ContributorList {

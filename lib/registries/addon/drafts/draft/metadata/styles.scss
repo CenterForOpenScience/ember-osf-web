@@ -118,3 +118,13 @@
     justify-content: space-between;
     margin-top: 20px;
 }
+
+.ContributorButton {
+    height: 32px;
+    width: 32px;
+    border-radius: 16px;
+
+    i {
+        margin-left: -2px;
+    }
+}

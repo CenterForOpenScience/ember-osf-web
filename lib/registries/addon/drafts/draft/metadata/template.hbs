@@ -54,13 +54,25 @@
                                 {{t 'registries.registration_metadata.contributors'}}
                             {{/if}}
                         </label>
-                        <OsfButton
-                            aria-label={{t 'registries.registration_metadata.add_contributors.add_new_button'}}
-                            @type='primary'
-                            @onClick={{action this.toggleContributorWidget}}
-                        >
-                            {{fa-icon 'plus'}}
-                        </OsfButton>
+                        {{#if this.showAddContributorWidget}}
+                            <OsfButton
+                                aria-label={{t 'registries.registration_metadata.add_contributors.add_new_button'}}
+                                local-class='ContributorButton'
+                                @type='danger'
+                                @onClick={{action this.toggleContributorWidget}}
+                            >
+                                {{fa-icon 'times'}}
+                            </OsfButton>
+                        {{else}}
+                            <OsfButton
+                                aria-label={{t 'registries.registration_metadata.add_contributors.add_new_button'}}
+                                local-class='ContributorButton'
+                                @type='primary'
+                                @onClick={{action this.toggleContributorWidget}}
+                            >
+                                {{fa-icon 'plus'}}
+                            </OsfButton>
+                        {{/if}}
                     </div>
                     <Contributors::Widget
                         @node={{this.draftManager.node}}

@@ -1,12 +1,19 @@
 .CardContainer {
-    composes: CardContainer from '../../card/styles.scss';
-}
-
-.MainSection {
-    composes: MainSection from '../../card/styles.scss';
+    margin: 0;
+    border-bottom: 1px solid $color-border-gray;
+    background-color: $color-bg-white;
+    display: flex;
     justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    padding-left: 20px;
 }
 
-.CardSection {
-    composes: CardSection from '../../card/styles.scss';
+.ButtonSection {
+    width: 60px;
+}
+
+.AddButton {
+    background-color: $color-bg-white;
+    color: #458446;
 }
