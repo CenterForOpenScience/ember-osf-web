@@ -1,9 +1,12 @@
 import { click, fillIn, render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { t } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import moment from 'moment';
 import { module, test } from 'qunit';
+
+import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
 
 module('Integration | Component | finalize-registration-modal', hooks => {
     setupRenderingTest(hooks);
@@ -132,8 +135,10 @@ module('Integration | Component | finalize-registration-modal', hooks => {
         // Click submit button
         await click('[data-test-submit-registration-button]');
 
+        const opts = { learnMoreLink: 'aaa.aa', htmlSafe: true };
         assert.dom('[data-test-finalize-main]').hasTextContaining(
-            'Registrations cannot be modified or deleted', 'modal shows warning',
+            stripHtmlTags(t('registries.finalizeRegistrationModal.notice.noModerationFromProject', opts).toString()),
+            'modal shows warning',
         );
         assert.dom('[data-test-finalize-main]').doesNotHaveTextContaining(
             'A moderator must review and approve', 'modal does not mention moderation for unmoderated providers',
@@ -163,9 +168,10 @@ module('Integration | Component | finalize-registration-modal', hooks => {
         // Click submit button
         await click('[data-test-submit-registration-button]');
 
-        assert.dom('[data-test-finalize-main]').includesText(
-            'A moderator must review and approve your registration',
-            'modal mentions moderation for moderated providers',
+        const opts = { learnMoreLink: 'aaa.aa', htmlSafe: true };
+        assert.dom('[data-test-finalize-main]').hasTextContaining(
+            stripHtmlTags(t('registries.finalizeRegistrationModal.notice.withModerationFromProject', opts).toString()),
+            'modal shows warning with moderation for moderated providers',
         );
     });
 });
