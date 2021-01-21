@@ -41,10 +41,10 @@ export default class FinalizeRegisrationModalComponent extends Component {
         }
     }
 
-    @computed('manager.draftManager.provider')
+    @computed('manager.draftManager.moderatedProvider')
     get noticeText() {
         const translationOptions = { learnMoreLink: this.learnMoreLink, htmlSafe: true };
-        if (this.manager.draftManager.provider.reviewsWorkflow) {
+        if (this.manager.draftManager.moderatedProvider) {
             return this.intl.t(
                 'registries.finalizeRegistrationModal.notice.withModerationFromProject',
                 translationOptions,

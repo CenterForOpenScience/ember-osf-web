@@ -54,6 +54,11 @@ export default class DraftRegistrationManager {
     node!: NodeModel;
     provider!: ProviderModel;
 
+    @computed('provider.reviewsWorkflow')
+    get moderatedProvider() {
+        return this.provider.reviewsWorkflow;
+    }
+
     @computed('pageManagers.{[],@each.pageIsValid}')
     get registrationResponsesIsValid() {
         return this.pageManagers.every(pageManager => pageManager.pageIsValid) && this.metadataIsValid;
