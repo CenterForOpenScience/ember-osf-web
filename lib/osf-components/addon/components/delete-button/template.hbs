@@ -10,6 +10,18 @@
     >
         {{fa-icon 'times' size='lg'}}
     </Button>
+{{else if this.smallSecondary}}
+    <Button
+        data-analytics-name='Delete button'
+        data-test-delete-button
+        local-class='Button__secondaryDestroy'
+        disabled={{this.disabled}}
+        @type='secondary'
+        @layout='small'
+        {{on 'click' this._show}}
+    >
+        {{this.buttonLabel}}
+    </Button>
 {{else}}
     <Button
         data-analytics-name='Delete button'

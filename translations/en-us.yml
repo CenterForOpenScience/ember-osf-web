@@ -689,6 +689,16 @@ list:
 contributor_list:
     x_more: '{x} more'
     anonymous: 'Anonymous contributors'
+    more: 'Load more contributors'
+    remove_contributor:
+        confirm_remove:
+            title: 'Remove yourself'
+            body: 'Are you sure you want to remove yourself as a contributor on this draft registration?'
+            button: 'Remove me'
+        button_label: 'Remove me'
+        success: 'You have successfully removed yourself as a contributor.'
+        error: 'Failed to remove contributor'
+
     unregistered_contributor:
         tooltip_message: 'Is this you? Click to claim.'
         loggedInClaimHeader: 'Claim as {email}?'
@@ -1620,7 +1630,7 @@ osf-components:
             success: 'You have successfully removed {contributorName}.'
             errorHeading: 'Could not remove contributor. '
 
-            
+
     subscriptions:
         frequency:
             daily: 'Daily'

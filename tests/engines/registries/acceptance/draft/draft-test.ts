@@ -4,6 +4,7 @@ import {
     currentRouteName,
     currentURL,
     fillIn,
+    settled,
     triggerKeyEvent,
 } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -362,6 +363,36 @@ module('Registries | Acceptance | draft form', hooks => {
             .hasClass('fa-exclamation-circle', 'page 1 is marked visited, invalid');
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
             .hasClass('fa-check-circle-o', 'page 2 is marked visited, valid');
+    });
+
+    test('review: contributor can remove herself', async assert => {
+        const currentUser = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const branchedFrom = server.create('node');
+        server.create('contributor', { users: currentUser, index: 0, bibliographic: true, node: branchedFrom });
+        server.createList('contributor', 11, { bibliographic: true, node: branchedFrom });
+        const draftRegistration = server.create('draft-registration',
+            { registrationSchema, initiator: currentUser, branchedFrom });
+
+        await visit(`/registries/drafts/${draftRegistration.id}/review`);
+
+        assert.dom('a[data-test-contributor-name]').exists({ count: 10 }, 'shows 1 page of contributors');
+        assert.dom('[data-test-load-more-contribs]').isVisible('x_more button is visible');
+        assert.dom('[data-test-contributor-remove-me] > button').isVisible('remove me button is visible');
+        await click('[data-test-contributor-remove-me] > button');
+
+        assert.dom('.modal-content').isVisible('removeMe hard-confirm modal is visible');
+        assert.dom('[data-test-confirm-delete]').isVisible('removeMe hard-confirm modal has confirm button');
+        await percySnapshot(assert);
+
+        await click('[data-test-confirm-delete]');
+        assert.dom('#toast-container', document as unknown as Element).hasTextContaining(
+            t('contributor_list.remove_contributor.success'),
+            'Toast success message shows; has the right text',
+        );
+
+        await settled();
+        assert.equal(currentURL(), '/dashboard', 'user is redirected to /dashboard');
     });
 
     test('validations: cannot register with empty registrationResponses', async assert => {
