@@ -23,7 +23,7 @@ export default class RegistriesDraftMetadata extends Controller {
     osfUrl = config.OSF.url;
 
     @action
-    toggleContributorWidget() {
+    toggleAddContributorWidget() {
         this.toggleProperty('showAddContributorWidget');
     }
 }
