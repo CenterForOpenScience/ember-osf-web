@@ -11,14 +11,17 @@ module('Integration | Component | finalize-registration-modal', hooks => {
 
     test('make registration public immediately', async function(assert) {
         this.store = this.owner.lookup('service:store');
-        const registration = server.create('registration');
+        const provider = server.create('registration-provider');
+        const registration = server.create('registration', { provider });
 
         const registrationModel = await this.store.findRecord('registration', registration.id);
+        this.set('draftManager', { provider });
         this.set('model', registrationModel);
         this.set('isOpen', false);
         await render(hbs`
             <Registries::FinalizeRegistrationModal::Manager
                 @registration={{this.model}}
+                @draftManager={{this.draftManager}}
                 as |manager|
             >
                 <Registries::FinalizeRegistrationModal @isOpen={{this.isOpen}} @manager={{manager}} />
@@ -55,14 +58,17 @@ module('Integration | Component | finalize-registration-modal', hooks => {
 
     test('embargo registration', async function(assert) {
         this.store = this.owner.lookup('service:store');
-        const registration = server.create('registration');
+        const provider = server.create('registration-provider');
+        const registration = server.create('registration', { provider });
 
         const registrationModel = await this.store.findRecord('registration', registration.id);
+        this.set('draftManager', { provider });
         this.set('model', registrationModel);
         this.set('isOpen', false);
         await render(hbs`
             <Registries::FinalizeRegistrationModal::Manager
                 @registration={{this.model}}
+                @draftManager={{this.draftManager}}
                 as |manager|
             >
                 <Registries::FinalizeRegistrationModal @isOpen={{this.isOpen}} @manager={{manager}} />
@@ -101,5 +107,65 @@ module('Integration | Component | finalize-registration-modal', hooks => {
 
         // // Close the dialog
         this.set('isOpen', false);
+    });
+
+    test('almost done modal content: no moderation', async function(assert) {
+        this.store = this.owner.lookup('service:store');
+        const noModerationProvider = server.create('registration-provider', { reviewsWorkflow: null });
+        const noModRegistration = server.create('registration', { provider: noModerationProvider });
+
+        const registrationModel = await this.store.findRecord('registration', noModRegistration.id);
+        this.set('draftManager', { provider: noModerationProvider });
+        this.set('model', registrationModel);
+        this.set('isOpen', true);
+        await render(hbs`
+            <Registries::FinalizeRegistrationModal::Manager
+                @registration={{this.model}}
+                @draftManager={{this.draftManager}}
+                as |manager|
+            >
+                <Registries::FinalizeRegistrationModal @isOpen={{this.isOpen}} @manager={{manager}} />
+            </Registries::FinalizeRegistrationModal::Manager>
+        `);
+        // Click immediate radio button
+        await click('[data-test-immediate-button]');
+        // Click submit button
+        await click('[data-test-submit-registration-button]');
+
+        assert.dom('[data-test-finalize-main]').hasTextContaining(
+            'Registrations cannot be modified or deleted', 'modal shows warning',
+        );
+        assert.dom('[data-test-finalize-main]').doesNotHaveTextContaining(
+            'A moderator must review and approve', 'modal does not mention moderation for unmoderated providers',
+        );
+    });
+
+    test('almost done modal content: with moderation', async function(assert) {
+        this.store = this.owner.lookup('service:store');
+        const withModerationProvider = server.create('registration-provider');
+        const withModRegistration = server.create('registration', { provider: withModerationProvider });
+
+        const registrationModel = await this.store.findRecord('registration', withModRegistration.id);
+        this.set('draftManager', { provider: withModerationProvider });
+        this.set('model', registrationModel);
+        this.set('isOpen', true);
+        await render(hbs`
+            <Registries::FinalizeRegistrationModal::Manager
+                @registration={{this.model}}
+                @draftManager={{this.draftManager}}
+                as |manager|
+            >
+                <Registries::FinalizeRegistrationModal @isOpen={{this.isOpen}} @manager={{manager}} />
+            </Registries::FinalizeRegistrationModal::Manager>
+        `);
+        // Click immediate radio button
+        await click('[data-test-immediate-button]');
+        // Click submit button
+        await click('[data-test-submit-registration-button]');
+
+        assert.dom('[data-test-finalize-main]').includesText(
+            'A moderator must review and approve your registration',
+            'modal mentions moderation for moderated providers',
+        );
     });
 });
