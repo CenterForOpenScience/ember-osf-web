@@ -1,6 +1,7 @@
 <div ...attributes>
     <div local-class='InputContainer'>
         <Input
+            local-class='UserSearchInput'
             @type='text'
             @placeholder={{t 'registries.registration_metadata.add_contributors.search_placeholder'}}
             @value={{@manager.query}}
@@ -16,7 +17,7 @@
             {{t 'registries.registration_metadata.add_contributors.search'}}
         </OsfButton>
     </div>
-    <div local-class='Container'>
+    <div local-class='UserSearchResultsContainer'>
         <span data-test-heading-name local-class='Heading'>
             {{t 'registries.registration_metadata.add_contributors.results_heading'}}
         </span>

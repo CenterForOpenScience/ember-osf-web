@@ -1,4 +1,4 @@
-.Container {
+.UserSearchResultsContainer {
     border: 1px solid $color-border-gray;
     margin-top: 10px;
     overflow-y: scroll;
@@ -27,7 +27,7 @@
     font-size: 16px;
 }
 
-input {
+.UserSearchInput {
     height: 40px;
     width: 100%;
     background-color: $color-bg-gray-blue-light;

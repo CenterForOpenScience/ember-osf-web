@@ -1,5 +1,6 @@
 .Heading {
     composes: Heading from '../widget/styles.scss';
+    top: 40px;
 }
 
 .HeadingTitle {
@@ -21,13 +22,4 @@
 
 .InfinityLoader {
     text-align: center;
-}
-
-:global(.is-dragging) {
-    opacity: 0.6;
-    z-index: 10;
-}
-
-:global(.sortable-item) {
-    position: relative;
 }
