@@ -122,6 +122,43 @@ module('Integration | Component | contributors', hooks => {
         assert.dom(`[data-test-contributor-permission="${contributor.id}"]`)
             .hasText('Read');
         assert.dom('[data-test-contributor-citation-checkbox]').isChecked();
+        assert.dom(`[data-test-contributor-remove="${contributor.id}"]`).exists('Remove contributor button is visible');
+    });
+
+    test('editable contributor card can remove contributor', async function(assert) {
+        const firstContributor = server.create('contributor', {
+            fullName: 'First Contributor',
+            index: 0,
+            id: 'Keep',
+        });
+        const secondContributor = server.create('contributor', {
+            fullName: 'Second Contributor',
+            index: 1,
+            id: 'Remove',
+        });
+        const draftRegistration = server.create('draft-registration', {
+            contributors: [firstContributor, secondContributor],
+        });
+        const registrationModel = await this.store.findRecord('draft-registration', draftRegistration.id);
+        this.set('node', registrationModel);
+        await render(hbs`<Contributors::Widget @node={{this.node}} @widgetMode={{'editable'}} />`);
+        assert.dom('[data-test-contributor-card="Keep"]').isVisible(
+            '"Keep" card is visible before contributor removal',
+        );
+        assert.dom('[data-test-contributor-card="Remove"]').isVisible(
+            '"Remove" card is visible before contributor removal',
+        );
+        const deleteButtons = findAll('[data-test-delete-button]');
+        const removeButton = deleteButtons[1];
+        await click(removeButton);
+        await click('[data-test-confirm-delete]');
+
+        assert.dom('[data-test-contributor-card="Keep"]').isVisible(
+            '"Keep" card is visible after contributor removal',
+        );
+        assert.dom('[data-test-contributor-card="Remove"]').isNotVisible(
+            '"Remove" card is not visible after contributor removal',
+        );
     });
 
     test('editable user card can be reordered using mouse', async function(assert) {

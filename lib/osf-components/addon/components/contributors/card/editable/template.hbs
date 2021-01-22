@@ -42,13 +42,30 @@
                 </span>
             </PowerSelect>
         </span>
-        <span data-test-contributor-citation={{@contributor.id}} local-class='CardSection'>
+        <span data-test-contributor-citation={{@contributor.id}} local-class='CardSectionSmall'>
             <Input
                 @type='checkbox'
                 @checked={{readonly @contributor.bibliographic}}
                 data-test-contributor-citation-checkbox
                 data-analytics-name='Toogle isBibliographic'
                 {{on 'click' (fn @manager.toggleContributorIsBibliographic @contributor)}}
+            />
+        </span>
+        <span local-class='CardSectionSmall'>
+            <DeleteButton
+                data-test-contributor-remove={{@contributor.id}}
+                @small={{true}}
+                @noBackground={{true}}
+                @delete={{fn @manager.removeContributor @contributor}}
+                @modalTitle={{t 'osf-components.contributors.removeContributor.confirmRemove.title'}}
+                @modalBody={{t 
+                    'osf-components.contributors.removeContributor.confirmRemove.body' 
+                    userName=(if @contributor.unregisteredContributor
+                        @contributor.unregisteredContributor
+                        @contributor.users.fullName
+                    )
+                }}
+                @confirmButtonText={{t 'osf-components.contributors.removeContributor.confirmRemove.button'}}
             />
         </span>
     </div>
