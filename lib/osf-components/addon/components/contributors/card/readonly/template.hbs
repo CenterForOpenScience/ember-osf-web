@@ -1,5 +1,5 @@
 <div
-    data-test-contributor-card
+    data-test-contributor-card={{@contributor.id}}
     data-analytics-scope='Contributor card'
     local-class='CardContainer'
 >
@@ -34,14 +34,14 @@
         </span>
         <span
             data-test-contributor-citation={{@contributor.id}}
-            local-class='CardSection'
+            local-class='CardSectionSmall'
         >
             {{t (concat 'osf-components.contributors.citation.' @contributor.bibliographic)}}
         </span>
         <span
             data-test-contributor-caret={{@contributor.id}}
             data-analytics-name='{{if this.showDropdown 'Expand'  'Collapse'}} employment and education info'
-            local-class='CardSection'
+            local-class='CardSectionXS'
             role='button'
             {{on 'click' this.toggleDropdown}}
         >
@@ -49,7 +49,27 @@
                 @icon={{if this.showDropdown 'caret-up' 'caret-down'}}
             />
         </span>
+        <span local-class='CardSectionXS'>
+            {{#if (eq @contributor.users.id this.currentUser.user.id)}}
+                <DeleteButton
+                    data-test-contributor-remove-self={{@contributor.id}}
+                    @small={{true}}
+                    @noBackground={{true}}
+                    @delete={{fn @manager.removeContributor @contributor}}
+                    @modalTitle={{t 'osf-components.contributors.removeContributor.confirmRemove.title'}}
+                    @modalBody={{t 
+                        'osf-components.contributors.removeContributor.confirmRemove.body' 
+                        userName=(if @contributor.unregisteredContributor
+                            @contributor.unregisteredContributor
+                            @contributor.users.fullName
+                        )
+                    }}
+                    @confirmButtonText={{t 'osf-components.contributors.removeContributor.confirmRemove.button'}}
+                />
+            {{/if}}
+        </span>
     </div>
+</div>
     {{#if this.showDropdown}}
         <div data-test-contributor-card-dropdown local-class='DropdownSection'>
             <ul local-class='DropdownList'>
@@ -86,4 +106,3 @@
             </ul>
         </div>
     {{/if}}
-</div>
