@@ -151,7 +151,7 @@ module('Integration | Component | finalize-registration-modal', hooks => {
         const withModRegistration = server.create('registration', { provider: withModerationProvider });
 
         const registrationModel = await this.store.findRecord('registration', withModRegistration.id);
-        this.set('draftManager', { provider: withModerationProvider, moderatedProvider: true });
+        this.set('draftManager', { provider: withModerationProvider, reviewsWorkflow: 'pre-moderation' });
         this.set('model', registrationModel);
         this.set('isOpen', true);
         await render(hbs`

@@ -44,6 +44,7 @@ export default class DraftRegistrationManager {
     schemaBlocks!: SchemaBlock[];
 
     @alias('draftRegistration.id') draftId!: string;
+    @alias('provider.reviewsWorkflow') reviewsWorkflow?: string;
     @or('onPageInput.isRunning', 'onMetadataInput.isRunning') autoSaving!: boolean;
     @or('initializePageManagers.isRunning', 'initializeMetadataChangeset.isRunning') initializing!: boolean;
     @not('registrationResponsesIsValid') hasInvalidResponses!: boolean;
@@ -53,11 +54,6 @@ export default class DraftRegistrationManager {
     draftRegistration!: DraftRegistration;
     node!: NodeModel;
     provider!: ProviderModel;
-
-    @computed('provider.reviewsWorkflow')
-    get moderatedProvider() {
-        return this.provider.reviewsWorkflow;
-    }
 
     @computed('pageManagers.{[],@each.pageIsValid}')
     get registrationResponsesIsValid() {
