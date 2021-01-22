@@ -15,6 +15,11 @@
     }
 }
 
+.CardSectionSmall {
+    composes: CardSection from '../styles.scss';
+    max-width: 14%;
+}
+
 .Handle {
     padding-right: 10px;
     color: var(--primary-color);
