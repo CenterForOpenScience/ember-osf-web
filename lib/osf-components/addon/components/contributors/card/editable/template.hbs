@@ -34,7 +34,7 @@
             <PowerSelect
                 @selected={{@contributor.permission}}
                 @options={{this.permissionOptions}}
-                @onchange={{fn @manager.updateContributorPermission @contributor}}
+                @onchange={{fn @manager.updateContributorPermission (not @addContributorsMode) @contributor}}
                 as |option|
             >
                 <span data-test-contributor-permission-choice={{option}}>
@@ -48,7 +48,7 @@
                 @checked={{readonly @contributor.bibliographic}}
                 data-test-contributor-citation-checkbox
                 data-analytics-name='Toogle isBibliographic'
-                {{on 'click' (fn @manager.toggleContributorIsBibliographic @contributor)}}
+                {{on 'click' (fn @manager.toggleContributorIsBibliographic (not @addContributorsMode) @contributor)}}
             />
         </span>
         <span local-class='CardSectionSmall'>

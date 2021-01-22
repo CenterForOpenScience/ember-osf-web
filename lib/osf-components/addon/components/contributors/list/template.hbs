@@ -1,7 +1,10 @@
 {{#let (get
     (hash
         readonly=(component 'contributors/card/readonly')
-        editable=(component 'contributors/card/editable' manager=@contributorsManager)
+        editable=(component 'contributors/card/editable'
+            manager=@contributorsManager
+            addContributorsMode=false
+        )
     )
     @widgetMode
 ) as |Card|}}

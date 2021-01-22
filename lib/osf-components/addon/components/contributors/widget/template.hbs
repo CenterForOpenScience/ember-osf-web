@@ -1,8 +1,14 @@
 {{#if (eq @widgetMode 'add')}}
-    <Contributors::Manager as |manager|>
+    <Contributors::Manager
+        @node={{@node}}
+        as |manager|
+    >
         <Contributors::UserSearch::Widget
             @manager={{manager}}
         />
+        {{#if manager.addedContributors}}
+            <Contributors::UserAdd @manager={{manager}} />
+        {{/if}}
     </Contributors::Manager>
 {{else}}
     <div local-class='Container' ...attributes>

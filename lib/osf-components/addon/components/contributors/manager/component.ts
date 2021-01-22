@@ -31,7 +31,7 @@ export default class ContributorsManager extends Component {
     @service intl!: Intl;
     @service store!: DS.Store;
 
-    node?: NodeModel | DraftRegistrationModel;
+    node!: NodeModel | DraftRegistrationModel;
     @tracked contributors: ContributorModel[] = [];
     @tracked totalPage: number = 1;
     @tracked currentPage: number = 1;
@@ -40,7 +40,7 @@ export default class ContributorsManager extends Component {
     @tracked isDragging = false;
     @tracked query: string = '';
     @tracked results: UserModel[] = [];
-    @tracked addedUsers: UserModel[] = [];
+    @tracked addedContributors: ContributorModel[] = [];
 
     @computed('fetchContributors.isRunning', 'hasMore', 'isDragging')
     get shouldShowLoadMore() {
@@ -94,32 +94,36 @@ export default class ContributorsManager extends Component {
     });
 
     @task({ withTestWaiter: true, enqueue: true })
-    toggleContributorIsBibliographic = task(function *(this: ContributorsManager, contributor: ContributorModel) {
+    toggleContributorIsBibliographic = task(function *(this: ContributorsManager, autoSave: boolean, contributor: ContributorModel) {
         contributor.toggleProperty('bibliographic');
-        try {
-            yield contributor.save();
-            this.toast.success(this.intl.t('osf-components.contributors.editIsBibliographic.success'));
-        } catch (e) {
-            contributor.rollbackAttributes();
-            const errorMessage = this.intl.t('osf-components.contributors.editIsBibliographic.error');
-            this.toast.error(errorMessage);
-            captureException(e, { errorMessage });
+        if (autoSave) {
+            try {
+                yield contributor.save();
+                this.toast.success(this.intl.t('osf-components.contributors.editIsBibliographic.success'));
+            } catch (e) {
+                contributor.rollbackAttributes();
+                const errorMessage = this.intl.t('osf-components.contributors.editIsBibliographic.error');
+                this.toast.error(errorMessage);
+                captureException(e, { errorMessage });
+            }
         }
     });
 
     @task({ withTestWaiter: true, enqueue: true })
     updateContributorPermission = task(
-        function *(this: ContributorsManager, contributor: ContributorModel, permission: Permission) {
+        function *(this: ContributorsManager, autoSave: boolean, contributor: ContributorModel, permission: Permission) {
             // eslint-disable-next-line no-param-reassign
             contributor.permission = permission;
-            try {
-                yield contributor.save();
-                this.toast.success(this.intl.t('osf-components.contributors.editPermission.success'));
-            } catch (e) {
-                contributor.rollbackAttributes();
-                const errorMessage = this.intl.t('osf-components.contributors.editPermission.error');
-                this.toast.error(errorMessage);
-                captureException(e, { errorMessage });
+            if (autoSave) {
+                try {
+                    yield contributor.save();
+                    this.toast.success(this.intl.t('osf-components.contributors.editPermission.success'));
+                } catch (e) {
+                    contributor.rollbackAttributes();
+                    const errorMessage = this.intl.t('osf-components.contributors.editPermission.error');
+                    this.toast.error(errorMessage);
+                    captureException(e, { errorMessage });
+                }
             }
         },
     );
@@ -166,6 +170,14 @@ export default class ContributorsManager extends Component {
 
     @action
     addUser(user: UserModel) {
-        this.addedUsers.pushObject(user);
+        const newContributor = this.store.createRecord('contributor', {
+            permission: 'write',
+            bibliographic: true,
+            sendEmail: 'false',
+            nodeId: this.node.id,
+            userId: user.id,
+            users: user,
+        });
+        this.addedContributors.pushObject(newContributor);
     }
 }
