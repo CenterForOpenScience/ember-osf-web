@@ -46,9 +46,37 @@
                             {{t 'osf-components.registries.read-only-contributors-list.editContributorsOnYourProject'}}
                         </OsfLink>
                     </p>
+                    <div local-class='FlexContainer'>
+                        <label local-class='label' for={{contributorFieldId}} id='contributors'>
+                            {{#if this.showAddContributorWidget}}
+                                {{t 'registries.registration_metadata.add_contributors.section_heading'}}
+                            {{else}}
+                                {{t 'registries.registration_metadata.contributors'}}
+                            {{/if}}
+                        </label>
+                        {{#if this.showAddContributorWidget}}
+                            <OsfButton
+                                aria-label={{t 'registries.registration_metadata.add_contributors.add_new_button'}}
+                                local-class='ContributorButton'
+                                @type='danger'
+                                @onClick={{action this.toggleAddContributorWidget}}
+                            >
+                                {{fa-icon 'times'}}
+                            </OsfButton>
+                        {{else}}
+                            <OsfButton
+                                aria-label={{t 'registries.registration_metadata.add_contributors.add_new_button'}}
+                                local-class='ContributorButton'
+                                @type='primary'
+                                @onClick={{action this.toggleAddContributorWidget}}
+                            >
+                                {{fa-icon 'plus'}}
+                            </OsfButton>
+                        {{/if}}
+                    </div>
                     <Contributors::Widget
                         @node={{this.draftManager.node}}
-                        @widgetMode={{'readonly'}}
+                        @widgetMode={{if this.showAddContributorWidget 'add' 'readonly'}}
                         id={{contributorFieldId}}
                     />
                 {{/let}}

@@ -1113,6 +1113,18 @@ registries:
             more: 'See more'
     registration_metadata:
         add_description: 'Add description'
+        add_contributors:
+            section_heading: 'Add Contributors'
+            add_new_button: 'Add new contributor'
+            results_heading: '1. Results'
+            adding_heading: '2. Adding'
+            search_placeholder: 'Search by name or profile information'
+            help_text: '<p>Search results will appear here. Click the + icon in each row to set permissions for that contributor.</p><p>You can perform additional searches to add more contributors. Your selections will remain listed below until you click Save.</p>'
+            search: 'Search'
+            add_unregistered_contributor: 'Add unregistered contributor'
+            error_loading: 'Error, could not load contributors'
+            no_results: 'No results found'
+            add_contributor_aria: 'Add contributor'
         add_license: 'Add license'
         license_help_text: 'A license tells others how they can use your work in the future and only applies to the information and files submitted with the registration. For more information, see this <a href=''https://help.osf.io/hc/en-us/articles/360019739014-Licensing''>article on licenses</a>.'
         affiliated_institutions: 'Affiliated institutions'

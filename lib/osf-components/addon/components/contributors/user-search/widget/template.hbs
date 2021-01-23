@@ -1,0 +1,29 @@
+<div ...attributes>
+    <div local-class='InputContainer'>
+        <Input
+            local-class='UserSearchInput'
+            @type='text'
+            @placeholder={{t 'registries.registration_metadata.add_contributors.search_placeholder'}}
+            @value={{@manager.query}}
+            @enter={{perform @manager.fetchUsers}}
+        />
+        <OsfButton
+            data-test-search-contributors
+            local-class='ClearButton'
+            @onClick={{perform @manager.fetchUsers}}
+            @type='success'
+            @class='m-t-md f-w-xl'
+        >
+            {{t 'registries.registration_metadata.add_contributors.search'}}
+        </OsfButton>
+    </div>
+    <div local-class='UserSearchResultsContainer'>
+        <span data-test-heading-name local-class='Heading'>
+            {{t 'registries.registration_metadata.add_contributors.results_heading'}}
+        </span>
+        <Contributors::UserSearch::List
+            @manager={{@manager}}
+            @results={{@manager.results}}
+        />
+    </div>
+</div>

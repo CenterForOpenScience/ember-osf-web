@@ -1,0 +1,31 @@
+<div data-test-contributor-card local-class='CardContainer'>
+    <span>
+        <img
+            data-test-contributor-gravatar
+            class='m-r-xs'
+            src={{@user.links.profile_image}}
+            alt={{@user.fullName}}
+            height='30'
+            width='30'
+        >
+        <OsfLink
+            data-test-contributor-link={{@user.id}}
+            data-analytics-name='View user'
+            @route='guid-user'
+            @models={{array @user.id}}
+        >
+            {{@user.fullName}}
+        </OsfLink>
+    </span>
+    <span local-class='ButtonSection'>
+        <Button
+            data-test-add-contributor
+            local-class='AddButton'
+            aria-label={{t 'registries.registration_metadata.add_contributors.add_contributor_aria'}}
+            @type='light'
+            @onClick={{fn @addUser @user}}
+        >
+            {{fa-icon 'plus'}}
+        </Button>
+    </span>
+</div>

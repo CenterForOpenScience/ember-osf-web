@@ -1,0 +1,19 @@
+.CardContainer {
+    margin: 0;
+    border-bottom: 1px solid $color-border-gray;
+    background-color: $color-bg-white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    padding-left: 20px;
+}
+
+.ButtonSection {
+    width: 60px;
+}
+
+.AddButton {
+    background-color: $color-bg-white;
+    color: #458446;
+}

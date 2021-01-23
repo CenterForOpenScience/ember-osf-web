@@ -111,3 +111,20 @@
     padding: 5px 5px 0;
     border: 1px dotted #d9d9d9;
 }
+
+.FlexContainer {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.ContributorButton {
+    height: 32px;
+    width: 32px;
+    border-radius: 16px;
+
+    i {
+        margin-left: -2px;
+    }
+}
