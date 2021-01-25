@@ -3,8 +3,9 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
+import { dropTask, task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
+import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -15,7 +16,7 @@ import Node from 'ember-osf-web/models/node';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
-import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
+import captureException from 'ember-osf-web/utils/capture-exception';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
 import styles from './styles';
@@ -81,7 +82,7 @@ export default class ContributorList extends Component {
         blocker.done();
     });
 
-    @task({ withTestWaiter: true, enqueue: true })
+    @dropTask({ withTestWaiter: true })
     removeMeTask = task(function *(this: ContributorList) {
         if (!this.node || this.node.isAnonymous || !this.currentUser.currentUserId) {
             return;
@@ -95,20 +96,20 @@ export default class ContributorList extends Component {
             contributor = yield this.store.findRecord('contributor', `${this.node.id}-${userID}`);
             this.setProperties({
                 displayedContributors: [...this.displayedContributors, contributor],
-                totalContributors: this.totalContributors + 1,
             });
         }
 
         try {
             yield contributor!.destroyRecord();
+            this.toast.success(this.intl.t('contributor_list.remove_contributor.success'));
+            this.router.transitionTo('home');
         } catch (e) {
-            const errorMessage = this.intl.t('contributor_list.remove_contributor.error');
+            const { supportEmail } = config.support;
+            const errorMessage = this.intl
+                .t('contributor_list.remove_contributor.error', { supportEmail, htmlSafe: true });
             captureException(e, { errorMessage });
-            this.toast.error(getApiErrorMessage(e), errorMessage);
+            this.toast.error(errorMessage);
         }
-
-        this.toast.success(this.intl.t('contributor_list.remove_contributor.success'));
-        this.router.transitionTo('home');
     });
 
     @action
@@ -118,7 +119,7 @@ export default class ContributorList extends Component {
 
     @computed('allowRemoveMe', 'currentUser.currentUserId', 'totalContributors')
     get shouldShowRemoveMeButton() {
-        return this.allowRemoveMe && this.currentUser.currentUserId && (this.totalContributors || 0) > 1;
+        return this.allowRemoveMe && this.currentUser.currentUserId && this.totalContributors > 1;
     }
 
     @computed('truncated')
