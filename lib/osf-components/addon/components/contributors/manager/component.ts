@@ -94,7 +94,11 @@ export default class ContributorsManager extends Component {
     });
 
     @task({ withTestWaiter: true, enqueue: true })
-    toggleContributorIsBibliographic = task(function *(this: ContributorsManager, autoSave: boolean, contributor: ContributorModel) {
+    toggleContributorIsBibliographic = task(function *(
+        this: ContributorsManager,
+        autoSave: boolean,
+        contributor: ContributorModel,
+    ) {
         contributor.toggleProperty('bibliographic');
         if (autoSave) {
             try {
@@ -110,23 +114,26 @@ export default class ContributorsManager extends Component {
     });
 
     @task({ withTestWaiter: true, enqueue: true })
-    updateContributorPermission = task(
-        function *(this: ContributorsManager, autoSave: boolean, contributor: ContributorModel, permission: Permission) {
-            // eslint-disable-next-line no-param-reassign
-            contributor.permission = permission;
-            if (autoSave) {
-                try {
-                    yield contributor.save();
-                    this.toast.success(this.intl.t('osf-components.contributors.editPermission.success'));
-                } catch (e) {
-                    contributor.rollbackAttributes();
-                    const errorMessage = this.intl.t('osf-components.contributors.editPermission.error');
-                    this.toast.error(errorMessage);
-                    captureException(e, { errorMessage });
-                }
+    updateContributorPermission = task(function *(
+        this: ContributorsManager,
+        autoSave: boolean,
+        contributor: ContributorModel,
+        permission: Permission,
+    ) {
+        // eslint-disable-next-line no-param-reassign
+        contributor.permission = permission;
+        if (autoSave) {
+            try {
+                yield contributor.save();
+                this.toast.success(this.intl.t('osf-components.contributors.editPermission.success'));
+            } catch (e) {
+                contributor.rollbackAttributes();
+                const errorMessage = this.intl.t('osf-components.contributors.editPermission.error');
+                this.toast.error(errorMessage);
+                captureException(e, { errorMessage });
             }
-        },
-    );
+        }
+    });
 
     @task({ withTestWaiter: true, enqueue: true })
     reorderContributor = task(
@@ -169,7 +176,7 @@ export default class ContributorsManager extends Component {
     );
 
     @action
-    addUser(user: UserModel) {
+    addContributor(user: UserModel) {
         const newContributor = this.store.createRecord('contributor', {
             permission: 'write',
             bibliographic: true,

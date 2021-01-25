@@ -17,7 +17,7 @@
         {{#each @results as |result|}}
             <Contributors::UserSearch::Card
                 @user={{result}}
-                @addUser={{@manager.addUser}}
+                @addContributor={{@manager.addContributor}}
             />
         {{/each}}
         {{#if @manager.shouldShowLoadMoreUsers}}

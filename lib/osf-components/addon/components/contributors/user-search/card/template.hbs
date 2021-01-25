@@ -23,7 +23,7 @@
             local-class='AddButton'
             aria-label={{t 'registries.registration_metadata.add_contributors.add_contributor_aria'}}
             @type='light'
-            @onClick={{fn @addUser @user}}
+            {{on 'click' (fn @addContributor @user)}}
         >
             {{fa-icon 'plus'}}
         </Button>
