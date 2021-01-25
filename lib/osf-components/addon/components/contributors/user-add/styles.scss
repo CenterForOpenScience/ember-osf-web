@@ -6,7 +6,6 @@
 }
 
 .Heading {
-    padding: 11px 20px;
     height: 40px;
     font-weight: bold;
     display: flex;
@@ -15,14 +14,33 @@
     position: sticky;
     top: 0;
     z-index: 1;
+    align-items: center;
 }
 
-.HeadingTitle {
-    flex: 1 0 auto;
-    max-width: 30%;
+.NameHeading {
+    padding: 11px 20px;
+    flex-grow: 5;
+}
 
-    &:first-of-type {
-        flex: 2 0 auto;
-        max-width: 41%;
-    }
+.PermissionHeading {
+    padding: 11px 20px;
+    flex-grow: 1;
+}
+
+.CitationHeading {
+    padding: 11px 20px;
+    flex-grow: 3;
+}
+
+.SectionHeading {
+    font-size: 16px;
+    padding: 11px 20px;
+}
+
+.Button {
+    height: 40px;
+}
+
+.SectionButtons {
+    margin-left: auto;
 }

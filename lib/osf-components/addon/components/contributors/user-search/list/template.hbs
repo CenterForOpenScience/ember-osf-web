@@ -6,18 +6,19 @@
             <span data-test-heading-name local-class='HeadingTitle'>
                 {{t 'osf-components.contributors.headings.name'}}
             </span>
-            <OsfButton
+            <Button
                 data-test-add-unregistered-contributor
                 data-analytics-name='Add unregistered contributor'
-                @type='link'
+                @layout='fake-link'
             >
                 {{t 'registries.registration_metadata.add_contributors.add_unregistered_contributor'}}
-            </OsfButton>
+            </Button>
         </div>
         {{#each @results as |result|}}
             <Contributors::UserSearch::Card
                 @user={{result}}
                 @addContributor={{@manager.addContributor}}
+                @addedContributors={{@manager.addedContributors}}
             />
         {{/each}}
         {{#if @manager.shouldShowLoadMoreUsers}}

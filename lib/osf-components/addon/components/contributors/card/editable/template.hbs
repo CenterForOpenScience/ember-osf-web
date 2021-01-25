@@ -1,14 +1,16 @@
 <div data-test-contributor-card={{@contributor.id}}
     local-class='CardContainer'>
     <div data-test-contributor-card-main local-class='MainSection'>
-        <span local-class='Handle'>
-            {{#@item.handle}}
-                <FaIcon
-                    @icon='sort'
-                    data-test-sortable-handle={{@contributor.id}}
-                />
-            {{/@item.handle}}
-        </span>
+        {{#unless @addContributorsMode}}
+            <span local-class='Handle'>
+                {{#@item.handle}}
+                    <FaIcon
+                        @icon='sort'
+                        data-test-sortable-handle={{@contributor.id}}
+                    />
+                {{/@item.handle}}
+            </span>
+        {{/unless}}
         <span local-class='CardSection'>
             <img
                 data-test-contributor-gravatar

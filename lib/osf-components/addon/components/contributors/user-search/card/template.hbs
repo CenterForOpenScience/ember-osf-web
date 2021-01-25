@@ -17,15 +17,24 @@
             {{@user.fullName}}
         </OsfLink>
     </span>
-    <span local-class='ButtonSection'>
-        <Button
-            data-test-add-contributor
-            local-class='AddButton'
-            aria-label={{t 'registries.registration_metadata.add_contributors.add_contributor_aria'}}
-            @type='light'
-            {{on 'click' (fn @addContributor @user)}}
-        >
-            {{fa-icon 'plus'}}
-        </Button>
-    </span>
+
+    {{#if this.isAdded}}
+        <span local-class='ButtonSection'>
+            <div local-class='Check'>
+                <FaIcon @icon='check' />
+            </div>
+        </span>
+    {{else}}
+        <span local-class='ButtonSection'>
+            <Button
+                data-test-add-contributor
+                local-class='AddButton'
+                aria-label={{t 'registries.registration_metadata.add_contributors.add_contributor_aria'}}
+                @type='light'
+                {{on 'click' (fn @addContributor @user)}}
+            >
+                {{fa-icon 'plus'}}
+            </Button>
+        </span>
+    {{/if}}
 </div>
