@@ -15,6 +15,7 @@ import { setBreakpoint } from 'ember-responsive/test-support';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
+import { Permission } from 'ember-osf-web/models/osf-model';
 import { visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 import { deserializeResponseKey } from 'ember-osf-web/transforms/registration-response-key';
@@ -397,7 +398,73 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.equal(currentURL(), '/dashboard', 'user is redirected to /dashboard');
     });
 
-    test('removeMe fails', async assert => {
+    test('metadata: contributor can remove herself', async assert => {
+        const currentUser = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const branchedFrom = server.create('node');
+        const thisContributor = server.create('contributor', {
+            users: currentUser,
+            index: 0,
+            node: branchedFrom,
+            permission: Permission.Write,
+        });
+        server.createList('contributor', 1, { node: branchedFrom });
+        const draftRegistration = server.create('draft-registration',
+            { registrationSchema, initiator: currentUser, branchedFrom });
+
+        await visit(`/registries/drafts/${draftRegistration.id}/metadata`);
+
+        assert.dom(`[data-test-contributor-remove-self="${thisContributor.id}"] > button`)
+            .isVisible('remove me button is visible');
+        await click(`[data-test-contributor-remove-self="${thisContributor.id}"] > button`);
+
+        assert.dom('.modal-content').isVisible('removeMe hard-confirm modal is visible');
+        assert.dom('[data-test-confirm-delete]').isVisible('removeMe hard-confirm modal has confirm button');
+        await percySnapshot(assert);
+
+        await click('[data-test-confirm-delete]');
+        await settled();
+        assert.equal(currentURL(), '/dashboard', 'user is redirected to /dashboard');
+    });
+
+    test('metadata: removeMe fails', async assert => {
+        const currentUser = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const branchedFrom = server.create('node');
+        const thisContributor = server.create('contributor', {
+            users: currentUser,
+            index: 0,
+            node: branchedFrom,
+            permission: Permission.Write,
+        });
+        server.createList('contributor', 1, { node: branchedFrom });
+        const draftRegistration = server.create('draft-registration',
+            { registrationSchema, initiator: currentUser, branchedFrom });
+
+        await visit(`/registries/drafts/${draftRegistration.id}/metadata`);
+
+        assert.dom(`[data-test-contributor-remove-self="${thisContributor.id}"] > button`)
+            .isVisible('remove me button is visible');
+        await click(`[data-test-contributor-remove-self="${thisContributor.id}"] > button`);
+
+        assert.dom('.modal-content').isVisible('removeMe hard-confirm modal is visible');
+        assert.dom('[data-test-confirm-delete]').isVisible('removeMe hard-confirm modal has confirm button');
+
+        server.namespace = '/v2';
+        server.del('/nodes/:parentID/contributors/:id', () => ({
+            errors: [{ detail: 'Error occured' }],
+        }), 400);
+
+        await click('[data-test-confirm-delete]');
+        const errorHeading = t('osf-components.contributors.removeContributor.errorHeading');
+        const errorMessage = `${errorHeading}Error occured`;
+        assert.dom('#toast-container', document as unknown as Element).hasTextContaining(
+            stripHtmlTags(errorMessage.toString()),
+            'Toast error message shows; has the right text',
+        );
+    });
+
+    test('review: removeMe fails', async assert => {
         const currentUser = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const branchedFrom = server.create('node');
