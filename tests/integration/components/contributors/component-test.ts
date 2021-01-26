@@ -125,7 +125,7 @@ module('Integration | Component | contributors', hooks => {
         });
         const registrationModel = await this.store.findRecord('draft-registration', draftRegistration.id);
         this.set('node', registrationModel);
-        await render(hbs`<Contributors::Widget @node={{this.node}} @widgetMode={{'readonly'}} />`);
+        await render(hbs`<Contributors::Widget @node={{this.node}} @widgetMode='readonly' />`);
         assert.dom('[data-test-contributor-card="Keep"]').isVisible(
             '"Keep" card is visible before contributor removal',
         );
