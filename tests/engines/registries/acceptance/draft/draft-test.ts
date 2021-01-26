@@ -4,9 +4,11 @@ import {
     currentRouteName,
     currentURL,
     fillIn,
+    settled,
     triggerKeyEvent,
 } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import config from 'ember-get-config';
 import { t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
 import { setBreakpoint } from 'ember-responsive/test-support';
@@ -16,6 +18,7 @@ import { module, test } from 'qunit';
 import { visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 import { deserializeResponseKey } from 'ember-osf-web/transforms/registration-response-key';
+import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
 
 const currentUserStub = Service.extend();
 const storeStub = Service.extend();
@@ -362,6 +365,82 @@ module('Registries | Acceptance | draft form', hooks => {
             .hasClass('fa-exclamation-circle', 'page 1 is marked visited, invalid');
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
             .hasClass('fa-check-circle-o', 'page 2 is marked visited, valid');
+    });
+
+    test('review: contributor can remove herself', async assert => {
+        const currentUser = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const branchedFrom = server.create('node');
+        server.create('contributor', { users: currentUser, index: 0, node: branchedFrom });
+        server.createList('contributor', 11, { node: branchedFrom });
+        const draftRegistration = server.create('draft-registration',
+            { registrationSchema, initiator: currentUser, branchedFrom });
+
+        await visit(`/registries/drafts/${draftRegistration.id}/review`);
+
+        assert.dom('a[data-test-contributor-name]').exists({ count: 10 }, 'shows 1 page of contributors');
+        assert.dom('[data-test-load-more-contribs]').isVisible('x_more button is visible');
+        assert.dom('[data-test-contributor-remove-me] > button').isVisible('remove me button is visible');
+        await click('[data-test-contributor-remove-me] > button');
+
+        assert.dom('.modal-content').isVisible('removeMe hard-confirm modal is visible');
+        assert.dom('[data-test-confirm-delete]').isVisible('removeMe hard-confirm modal has confirm button');
+        await percySnapshot(assert);
+
+        await click('[data-test-confirm-delete]');
+        assert.dom('#toast-container', document as unknown as Element).hasTextContaining(
+            t('contributor_list.remove_contributor.success'),
+            'Toast success message shows; has the right text',
+        );
+
+        await settled();
+        assert.equal(currentURL(), '/dashboard', 'user is redirected to /dashboard');
+    });
+
+    test('removeMe fails', async assert => {
+        const currentUser = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const branchedFrom = server.create('node');
+        const users = server.createList('user', 10);
+        users.forEach((user, index) => {
+            server.create('contributor', { users: user, index, node: branchedFrom });
+        });
+        const currentUserContrib = server.create('contributor',
+            { id: currentUser.id, users: currentUser, index: 10, node: branchedFrom });
+
+        const draftRegistration = server.create('draft-registration',
+            { registrationSchema, initiator: currentUser, branchedFrom });
+
+        await visit(`/registries/drafts/${draftRegistration.id}/review`);
+
+        assert.dom('a[data-test-contributor-name]').exists({ count: 10 }, 'shows 1 page of contributors');
+        assert.dom('[data-test-load-more-contribs]')
+            .hasText(t('contributor_list.x_more', { x: 1 }), '1 more contributor left to load.');
+        assert.dom(`[data-test-contributor-name=${currentUserContrib.users.id}]`).doesNotExist();
+        assert.dom('[data-test-contributor-remove-me] > button').isVisible('remove me button is visible');
+
+        server.namespace = '/v2';
+        server.del('/nodes/:parentID/contributors/:id', () => ({
+            errors: [{ detail: 'Error occured' }],
+        }), 400);
+
+        await click('[data-test-contributor-remove-me] > button');
+
+        assert.dom('.modal-content').isVisible('removeMe hard-confirm modal is visible');
+        assert.dom('[data-test-confirm-delete]').isVisible('removeMe hard-confirm modal has confirm button');
+
+        await click('[data-test-confirm-delete]');
+        const { supportEmail } = config.support;
+        const errorMessage = t('contributor_list.remove_contributor.error', { supportEmail, htmlSafe: true });
+        assert.dom('#toast-container', document as unknown as Element).hasTextContaining(
+            stripHtmlTags(errorMessage.toString()),
+            'Toast error message shows; has the right text',
+        );
+
+        await settled();
+        assert.dom('[data-test-load-more-contribs]')
+            .isNotVisible('An additional contributor (currentUser) was loaded, none left');
+        assert.equal(currentRouteName(), 'registries.drafts.draft.review', 'no redirect on remove error');
     });
 
     test('validations: cannot register with empty registrationResponses', async assert => {
