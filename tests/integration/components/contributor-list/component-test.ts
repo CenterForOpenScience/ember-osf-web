@@ -50,6 +50,7 @@ module('Integration | Component | contributor-list', hooks => {
         for (const user of users.slice(0, 3)) {
             assert.dom(`a[data-test-contributor-name][href="/${user.id}"]`).exists();
         }
+        assert.dom('[data-test-contributor-remove-me]').doesNotExist('Remove me button does not exist');
     });
 
     test('it renders', async function(assert) {
@@ -91,6 +92,7 @@ module('Integration | Component | contributor-list', hooks => {
         assert.dom(this.element).hasText(
             `${users[0].familyName}, ${users[1].familyName}, ${users[2].familyName}, and 1 more`,
         );
+        assert.dom('[data-test-contributor-remove-me]').doesNotExist('Remove me button does not exist');
     });
 
     test('it renders multiple pages', async function(assert) {
@@ -117,6 +119,7 @@ module('Integration | Component | contributor-list', hooks => {
         await click('[data-test-load-more-contribs]');
         assert.dom('[data-test-contributor-name]').exists({ count: 28 });
         assert.dom('[data-test-load-more-contribs]').doesNotExist();
+        assert.dom('[data-test-contributor-remove-me]').doesNotExist('Remove me button does not exist');
     });
 
     test('it handles anonymized nodes', async function(this: ThisTestContext, assert) {
@@ -145,6 +148,36 @@ module('Integration | Component | contributor-list', hooks => {
 
         assert.dom('[data-test-contributor-name]').doesNotExist();
         assert.dom('[data-test-load-more-contribs]').doesNotExist();
+        assert.dom('[data-test-contributor-remove-me]').doesNotExist('Remove me button does not exist');
         assert.dom().hasText('Anonymous contributors');
+    });
+
+    test('removeMe button only shows for more contributor', async function(this: ThisTestContext, assert) {
+        const mirageNode = server.create('node');
+        const mirageUser = server.create('user', 'loggedIn');
+        const onlyContributor = server.create('contributor',
+            { users: mirageUser, node: mirageNode, bibliographic: true });
+        const user = await this.store.findRecord('user', mirageUser.id);
+        const node = await this.store.findRecord('node', mirageNode.id);
+        this.set('node', node);
+
+        this.currentUser.setProperties({ user, currentUserId: user.id });
+        await render(hbs`<ContributorList @node={{this.node}}
+            @shouldTruncate={{false}} @shouldLinkUsers={{true}} @allowRemoveMe={{true}} />`);
+
+        assert.dom('[data-test-contributor-name]').exists({ count: 1 }, 'One contributor is visible');
+        assert.dom(`[data-test-contributor-name=${onlyContributor.users.id}]`).exists();
+        assert.dom('[data-test-contributor-remove-me]')
+            .doesNotExist('Remove me button does not show for one contributor');
+
+        server.create('contributor', { node: mirageNode, bibliographic: true });
+        this.set('node', await node.reload());
+
+        await render(hbs`<ContributorList @node={{this.node}}
+            @shouldTruncate={{false}} @shouldLinkUsers={{true}} @allowRemoveMe={{true}} />`);
+
+        assert.dom('[data-test-contributor-name]').exists({ count: 2 }, 'two contributors are visible');
+        assert.dom('[data-test-contributor-remove-me]')
+            .isVisible('Remove me button is visible with multiple contributors');
     });
 });

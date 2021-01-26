@@ -1,6 +1,20 @@
 {{#if this.node.isAnonymous}}
     {{t 'contributor_list.anonymous'}}
 {{else}}
+    {{#if this.shouldShowRemoveMeButton}}
+        <div local-class='Button__removeMe'>
+            <DeleteButton
+                data-test-contributor-remove-me
+                local-class='RemoveContributorButton'
+                @buttonLabel={{t 'contributor_list.remove_contributor.button_label'}}
+                @delete={{this.removeMe}}
+                @smallSecondary={{true}}
+                @modalTitle={{t 'contributor_list.remove_contributor.confirm_remove.title'}}
+                @modalBody={{t 'contributor_list.remove_contributor.confirm_remove.body'}}
+                @confirmButtonText={{t 'contributor_list.remove_contributor.confirm_remove.button'}}
+            />
+        </div>
+    {{/if}}
     <InlineList
         @items={{this.displayedContributors}}
         @total={{this.totalContributors}}

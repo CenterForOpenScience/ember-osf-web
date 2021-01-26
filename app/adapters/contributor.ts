@@ -1,3 +1,4 @@
+import { assert } from '@ember/debug';
 import { inject as service } from '@ember/service';
 import DS from 'ember-data';
 
@@ -15,18 +16,27 @@ export default class ContributorAdapter extends OsfAdapter {
         requestType: string,
     ) {
         if (requestType === 'createRecord' || requestType === 'findRecord') {
-            const [nId, uId] = (id || '').split('-');
-            const nodeId = snapshot ? snapshot.record.get('nodeId') : nId;
+            let userId;
+            let nodeId;
+
+            if (requestType === 'findRecord') {
+                [nodeId, userId] = (id || '').split('-');
+                assert(`"contributorId" must be "nodeId-userId": got ${nodeId}-${userId}`, Boolean(nodeId && userId));
+            } else {
+                nodeId = snapshot.record.get('nodeId');
+                assert(`"nodeId" is required to create a contributor; got ${nodeId}`, Boolean(nodeId));
+            }
+
             const node = this.store.peekRecord('node', nodeId);
 
             if (!node) {
                 throw new Error('Trying to add a contributor to a Node that hasn\'t been loaded into the store');
             }
 
-            const base = this.buildRelationshipURL((node as any)._internalModel.createSnapshot(), 'contributors');
+            const baseUrl = this.buildRelationshipURL((node as any)._internalModel.createSnapshot(), 'contributors');
 
             if (requestType === 'findRecord') {
-                return `${base}${uId}/`;
+                return `${baseUrl}${userId}/`;
             }
 
             const params = {
@@ -35,7 +45,7 @@ export default class ContributorAdapter extends OsfAdapter {
                 send_email: snapshot ? (snapshot.record.get('sendEmail') || false) : true,
             };
 
-            return `${base}?${param(params)}`;
+            return `${baseUrl}?${param(params)}`;
         }
 
         return super.buildURL(modelName, id, snapshot, requestType);
