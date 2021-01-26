@@ -136,9 +136,7 @@ module('Integration | Component | contributors', hooks => {
             .exists('There is a delete button for currentUser contributor');
         assert.dom('[data-test-contributor-remove-self="Keep"]')
             .doesNotExist('There is no delete button for non-currentUser contributor');
-        const deleteButtons = findAll('[data-test-delete-button]');
-        const removeButton = deleteButtons[0];
-        await click(removeButton);
+        await click('[data-test-contributor-remove-self="Remove"] > button');
         await click('[data-test-confirm-delete]');
 
         assert.dom('[data-test-contributor-card="Keep"]').isVisible(
