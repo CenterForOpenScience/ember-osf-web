@@ -64,6 +64,7 @@ general:
     save: Save
     ellipsis: …
     warning: Warning
+    caution: Caution
     sort_asc: 'Sort ascending'
     sort_desc: 'Sort descending'
     last_modified: 'Last modified'
@@ -1091,6 +1092,7 @@ registries:
                 last_saved: 'Auto-saved: '
                 save_failed: 'Save failed. Unsaved changes present.'
                 failed_auto_save: 'Failed to auto-save draft registration form'
+                collaborative_edit_warning: 'Only one person is able to edit a registration draft at a time. Be sure to coordinate with any other contributors.'
             review:
                 title: 'Review registration before submitting'
                 page_label: Review

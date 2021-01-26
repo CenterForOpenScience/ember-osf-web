@@ -84,6 +84,18 @@
                                 @onSubmitRedirect={{this.onSubmitRedirect}}
                             />
                         </div>
+                        <div local-class='EditWarning'>
+                            <strong>
+                                <FaIcon
+                                    @icon='exclamation-circle'
+                                    @fixedWidth={{true}}
+                                />
+                                {{t 'general.caution'}}
+                            </strong>
+                            <span>
+                                {{t 'registries.drafts.draft.form.collaborative_edit_warning'}}
+                            </span>
+                        </div>
                     </layout.right>
                 {{/unless}}
             </OsfLayout>
