@@ -40,7 +40,11 @@
         </span>
         <span
             data-test-contributor-caret={{@contributor.id}}
-            data-analytics-name='{{if this.showDropdown 'Expand'  'Collapse'}} employment and education info'
+            data-analytics-name='{{if this.showDropdown 'Collapse' 'Expand'}} employment and education info'
+            aria-label={{if this.showDropdown  
+                (t 'osf-components.contributors.educationAndEmployment.collapse')
+                (t 'osf-components.contributors.educationAndEmployment.expand')
+            }}
             local-class='CardSectionXS'
             role='button'
             {{on 'click' this.toggleDropdown}}
@@ -56,15 +60,9 @@
                     @small={{true}}
                     @noBackground={{true}}
                     @delete={{fn @manager.removeContributor @contributor}}
-                    @modalTitle={{t 'osf-components.contributors.removeContributor.confirmRemove.title'}}
-                    @modalBody={{t 
-                        'osf-components.contributors.removeContributor.confirmRemove.body' 
-                        userName=(if @contributor.unregisteredContributor
-                            @contributor.unregisteredContributor
-                            @contributor.users.fullName
-                        )
-                    }}
-                    @confirmButtonText={{t 'osf-components.contributors.removeContributor.confirmRemove.button'}}
+                    @modalTitle={{t 'contributor_list.remove_contributor.confirm_remove.title'}}
+                    @modalBody={{t 'contributor_list.remove_contributor.confirm_remove.body'}}
+                    @confirmButtonText={{t 'contributor_list.remove_contributor.confirm_remove.button'}}
                 />
             {{/if}}
         </span>

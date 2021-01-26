@@ -72,7 +72,7 @@ function registrationScenario(
 
     const rootNode = server.create('node', {
         public: false,
-        contributors: server.createList('contributor', 11),
+        contributors: server.createList('contributor', 10),
         currentUserPermissions: [Permission.Admin],
     }, 'withFiles', 'withStorage');
     rootNode.update({

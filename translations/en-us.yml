@@ -1612,6 +1612,9 @@ osf-components:
             success: 'Contributor order updated.'
         noEducation: 'No education history to show'
         noEmployment: 'No employment history to show'
+        educationAndEmployment:
+            expand: 'Expand employment and education info'
+            collapse: 'Collapse employment and education info'
         removeContributor:
             confirmRemove:
                 title: 'Remove contributor'
