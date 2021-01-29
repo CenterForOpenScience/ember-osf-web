@@ -12,7 +12,6 @@ import template from './template';
 export default class ContributorsCardEditable extends Component {
     // arguments
     manager!: ContributorsManager;
-    addContributorsMode = false;
 
     // private properties
     permissionOptions = [...Object.values(Permission)];

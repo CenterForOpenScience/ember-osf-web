@@ -1,17 +1,34 @@
-import { computed } from '@ember/object';
+import { action, computed } from '@ember/object';
 import Component from '@glimmer/component';
-import ContributorModel from 'ember-osf-web/models/contributor';
+import { tracked } from '@glimmer/tracking';
+import { Permission } from 'ember-osf-web/models/osf-model';
 import UserModel from 'ember-osf-web/models/user';
+import ContributorsManager from 'osf-components/components/contributors/manager/component';
 
 interface UserSearchCardComponentArguments {
-    addedContributors: ContributorModel[];
+    manager: ContributorsManager;
     user: UserModel;
 }
 
 export default class UserSearchCardComponent extends Component<UserSearchCardComponentArguments> {
-    @computed('args.{addedContributors.[],user.id}')
+    @tracked permission = Permission.Write;
+    @tracked isBibliographic = true;
+
+    permissionOptions = [...Object.values(Permission)];
+
+    @computed('args.{manager.contributors.[],user.id}')
     get isAdded() {
-        const addedContributorsId = this.args.addedContributors.map(item => item.users.get('id'));
+        const addedContributorsId = this.args.manager.contributors.map(item => item.users.get('id'));
         return addedContributorsId.includes(this.args.user.id);
+    }
+
+    @action
+    updatePermission(permission: Permission) {
+        this.permission = permission;
+    }
+
+    @action
+    toggleIsBibliographic() {
+        this.isBibliographic = !this.isBibliographic;
     }
 }

@@ -36,16 +36,6 @@
                         @uniqueID={{descriptionFieldId}} />
                 {{/let}}
                 {{#let (unique-id) 'contributors' as |contributorFieldId|}}
-                    <label local-class='label' for={{contributorFieldId}} id='contributors'>
-                        {{t 'registries.registration_metadata.contributors'}}
-                    </label>
-                    <p>
-                        <OsfLink
-                            data-test-to-contributors-page
-                            @href={{concat this.osfUrl this.draftManager.node.id '/contributors/'}}>
-                            {{t 'osf-components.registries.read-only-contributors-list.editContributorsOnYourProject'}}
-                        </OsfLink>
-                    </p>
                     <div local-class='FlexContainer'>
                         <label local-class='label' for={{contributorFieldId}} id='contributors'>
                             {{#if this.showAddContributorWidget}}
@@ -76,7 +66,8 @@
                     </div>
                     <Contributors::Widget
                         @node={{this.draftManager.node}}
-                        @widgetMode={{if this.showAddContributorWidget 'add' 'editable'}}
+                        @shouldShowAdd={{this.showAddContributorWidget}}
+                        @toggleAddContributorWidget={{this.toggleAddContributorWidget}}
                         id={{contributorFieldId}}
                     />
                 {{/let}}

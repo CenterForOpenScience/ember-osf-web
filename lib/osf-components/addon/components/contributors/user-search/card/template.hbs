@@ -1,40 +1,71 @@
-<div data-test-contributor-card local-class='CardContainer'>
-    <span>
-        <img
-            data-test-contributor-gravatar
-            class='m-r-xs'
-            src={{@user.links.profile_image}}
-            alt={{@user.fullName}}
-            height='30'
-            width='30'
-        >
-        <OsfLink
-            data-test-contributor-link={{@user.id}}
-            data-analytics-name='View user'
-            @route='guid-user'
-            @models={{array @user.id}}
-        >
-            {{@user.fullName}}
-        </OsfLink>
-    </span>
-
-    {{#if this.isAdded}}
-        <span local-class='ButtonSection'>
-            <div local-class='Check'>
-                <FaIcon @icon='check' />
-            </div>
-        </span>
-    {{else}}
-        <span local-class='ButtonSection'>
-            <Button
-                data-test-add-contributor
-                local-class='AddButton'
-                aria-label={{t 'registries.registration_metadata.add_contributors.add_contributor_aria'}}
-                @type='light'
-                {{on 'click' (fn @addContributor @user)}}
+<div data-test-user-card local-class='CardContainer'>
+    <div data-test-user-card-main local-class='MainSection'>
+        <span local-class='CardSection'>
+            <img
+                data-test-user-gravatar
+                class='m-r-xs'
+                src={{@user.links.profile_image}}
+                alt={{@user.fullName}}
+                height='30'
+                width='30'
             >
-                {{fa-icon 'plus'}}
-            </Button>
+            <OsfLink
+                data-test-user-link={{@user.id}}
+                data-analytics-name='View user'
+                @route='guid-user'
+                @models={{array @user.id}}
+            >
+                {{@user.fullName}}
+            </OsfLink>
         </span>
-    {{/if}}
+        <span
+            data-test-user-permission={{@user.id}}
+            local-class='CardSection'
+        >
+            {{#unless this.isAdded}}
+                <PowerSelect
+                    @selected={{this.permission}}
+                    @options={{this.permissionOptions}}
+                    @onchange={{fn this.updatePermission}}
+                    @disabled={{this.isAdded}}
+                    as |option|
+                >
+                    <span data-test-user-permission-choice={{option}}>
+                        {{t (concat 'osf-components.contributors.permissions.' option)}}
+                    </span>
+                </PowerSelect>
+            {{/unless}}
+        </span>
+        <span data-test-user-citation={{@user.id}} local-class='CardSectionSmall'>
+            {{#unless this.isAdded}}
+                <Input
+                    @type='checkbox'
+                    @checked={{readonly this.isBibliographic}}
+                    @disabled={{this.isAdded}}
+                    data-test-user-citation-checkbox
+                    data-analytics-name='Toogle isBibliographic'
+                    {{on 'click' (fn this.toggleIsBibliographic)}}
+                />
+            {{/unless}}
+        </span>
+        {{#if this.isAdded}}
+            <span local-class='CardSectionSmall'>
+                <div local-class='Check'>
+                    <FaIcon @icon='check' />
+                </div>
+            </span>
+        {{else}}
+            <span local-class='CardSectionSmall'>
+                <Button
+                    data-test-add-contributor
+                    local-class='AddButton'
+                    aria-label={{t 'registries.registration_metadata.add_contributors.add_contributor_aria'}}
+                    @type='light'
+                    {{on 'click' (fn @manager.addContributor @user this.permission this.isBibliographic)}}
+                >
+                    {{fa-icon 'plus'}}
+                </Button>
+            </span>
+        {{/if}}
+    </div>
 </div>

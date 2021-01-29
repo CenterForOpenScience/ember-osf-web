@@ -1116,8 +1116,7 @@ registries:
         add_contributors:
             section_heading: 'Add Contributors'
             add_new_button: 'Add new contributor'
-            results_heading: '1. Results'
-            adding_heading: '2. Adding'
+            results_heading: 'Results'
             search_placeholder: 'Search by name or profile information'
             help_text: '<p>Search results will appear here. Click the + icon in each row to set permissions for that contributor.</p><p>You can perform additional searches to add more contributors. Your selections will remain listed below until you click Save.</p>'
             search: 'Search'
@@ -1626,6 +1625,8 @@ osf-components:
             success: 'Contributor order updated.'
         noEducation: 'No education history to show'
         noEmployment: 'No employment history to show'
+        addContributor:
+            errorHeading: 'Error adding contributor'
         removeContributor:
             confirmRemove:
                 title: 'Remove contributor'

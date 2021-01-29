@@ -4,26 +4,43 @@
             local-class='UserSearchInput'
             @type='text'
             @placeholder={{t 'registries.registration_metadata.add_contributors.search_placeholder'}}
-            @value={{@manager.query}}
-            @enter={{perform @manager.fetchUsers}}
+            @value={{this.query}}
+            @enter={{perform this.fetchUsers}}
         />
-        <OsfButton
+        <Button
             data-test-search-contributors
             local-class='ClearButton'
-            @onClick={{perform @manager.fetchUsers}}
-            @type='success'
-            @class='m-t-md f-w-xl'
+            @type='create'
+            {{on 'click' (fn (perform this.fetchUsers))}}
         >
             {{t 'registries.registration_metadata.add_contributors.search'}}
-        </OsfButton>
+        </Button>
     </div>
+    <Button
+        data-test-add-unregistered-contributor
+        data-analytics-name='Add unregistered contributor'
+        @layout='fake-link'
+    >
+        {{t 'registries.registration_metadata.add_contributors.add_unregistered_contributor'}}
+    </Button>
     <div local-class='UserSearchResultsContainer'>
-        <span data-test-heading-name local-class='Heading'>
-            {{t 'registries.registration_metadata.add_contributors.results_heading'}}
-        </span>
+        <div local-class='Heading'>
+            <span data-test-heading-name>
+                {{t 'registries.registration_metadata.add_contributors.results_heading'}}
+            </span>
+            <Button
+                local-class='ClearButton'
+                data-test-add-unregistered-contributor
+                data-analytics-name='Add unregistered contributor'
+                @type='create'
+                {{on 'click' @toggleAddContributorWidget}}
+            >
+                Done
+            </Button>
+        </div>
         <Contributors::UserSearch::List
             @manager={{@manager}}
-            @results={{@manager.results}}
+            @results={{this.results}}
         />
     </div>
 </div>

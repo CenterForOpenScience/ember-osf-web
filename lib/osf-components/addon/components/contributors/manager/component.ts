@@ -1,6 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
-import { action, computed } from '@ember/object';
+import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
@@ -17,13 +17,6 @@ import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/captur
 import Toast from 'ember-toastr/services/toast';
 import template from './template';
 
-const nameFields = [
-    'full_name',
-    'given_name',
-    'middle_names',
-    'family_name',
-].join();
-
 @layout(template)
 @tagName('')
 export default class ContributorsManager extends Component {
@@ -35,37 +28,11 @@ export default class ContributorsManager extends Component {
     @tracked contributors: ContributorModel[] = [];
     @tracked totalPage: number = 1;
     @tracked currentPage: number = 1;
-    @tracked totalUsersPage: number = 1;
-    @tracked currentUsersPage: number = 1;
     @tracked isDragging = false;
-    @tracked query: string = '';
-    @tracked results: UserModel[] = [];
-    @tracked addedContributors: ContributorModel[] = [];
-
-    @computed('fetchContributors.isRunning', 'hasMore', 'isDragging')
-    get shouldShowLoadMore() {
-        return !this.fetchContributors.isRunning
-            && this.fetchContributors.lastComplete
-            && this.hasMore
-            && !this.isDragging;
-    }
 
     @computed('currentPage', 'totalPage')
     get hasMore() {
         return this.currentPage <= this.totalPage;
-    }
-
-    @computed('fetchContributors.isRunning', 'hasMore', 'isDragging')
-    get shouldShowLoadMoreUsers() {
-        return !this.fetchUsers.isRunning
-            && this.fetchUsers.lastComplete
-            && this.hasMoreUsers
-            && !this.isDragging;
-    }
-
-    @computed('currentPage', 'totalPage')
-    get hasMoreUsers() {
-        return this.currentUsersPage <= this.totalUsersPage;
     }
 
     @task({ withTestWaiter: true, on: 'init', enqueue: true })
@@ -80,58 +47,47 @@ export default class ContributorsManager extends Component {
         }
     });
 
-    @task({ withTestWaiter: true, enqueue: true })
-    fetchUsers = task(function *(this: ContributorsManager) {
-        const currentPageResult = yield this.store.query('user', {
-            filter: {
-                [nameFields]: this.query,
-            },
-            page: this.currentUsersPage,
-        });
-        this.results = currentPageResult.toArray();
-        this.totalUsersPage = Math.ceil(currentPageResult.meta.total / currentPageResult.meta.per_page);
-        this.currentUsersPage += 1;
-    });
+    @computed('fetchContributors.isRunning', 'hasMore', 'isDragging')
+    get shouldShowLoadMore() {
+        return !this.fetchContributors.isRunning
+            && this.fetchContributors.lastComplete
+            && this.hasMore
+            && !this.isDragging;
+    }
 
     @task({ withTestWaiter: true, enqueue: true })
     toggleContributorIsBibliographic = task(function *(
         this: ContributorsManager,
-        autoSave: boolean,
         contributor: ContributorModel,
     ) {
         contributor.toggleProperty('bibliographic');
-        if (autoSave) {
-            try {
-                yield contributor.save();
-                this.toast.success(this.intl.t('osf-components.contributors.editIsBibliographic.success'));
-            } catch (e) {
-                contributor.rollbackAttributes();
-                const errorMessage = this.intl.t('osf-components.contributors.editIsBibliographic.error');
-                this.toast.error(errorMessage);
-                captureException(e, { errorMessage });
-            }
+        try {
+            yield contributor.save();
+            this.toast.success(this.intl.t('osf-components.contributors.editIsBibliographic.success'));
+        } catch (e) {
+            contributor.rollbackAttributes();
+            const errorMessage = this.intl.t('osf-components.contributors.editIsBibliographic.error');
+            this.toast.error(errorMessage);
+            captureException(e, { errorMessage });
         }
     });
 
     @task({ withTestWaiter: true, enqueue: true })
     updateContributorPermission = task(function *(
         this: ContributorsManager,
-        autoSave: boolean,
         contributor: ContributorModel,
         permission: Permission,
     ) {
         // eslint-disable-next-line no-param-reassign
         contributor.permission = permission;
-        if (autoSave) {
-            try {
-                yield contributor.save();
-                this.toast.success(this.intl.t('osf-components.contributors.editPermission.success'));
-            } catch (e) {
-                contributor.rollbackAttributes();
-                const errorMessage = this.intl.t('osf-components.contributors.editPermission.error');
-                this.toast.error(errorMessage);
-                captureException(e, { errorMessage });
-            }
+        try {
+            yield contributor.save();
+            this.toast.success(this.intl.t('osf-components.contributors.editPermission.success'));
+        } catch (e) {
+            contributor.rollbackAttributes();
+            const errorMessage = this.intl.t('osf-components.contributors.editPermission.error');
+            this.toast.error(errorMessage);
+            captureException(e, { errorMessage });
         }
     });
 
@@ -175,16 +131,25 @@ export default class ContributorsManager extends Component {
         },
     );
 
-    @action
-    addContributor(user: UserModel) {
-        const newContributor = this.store.createRecord('contributor', {
-            permission: 'write',
-            bibliographic: true,
-            sendEmail: 'false',
-            nodeId: this.node.id,
-            userId: user.id,
-            users: user,
-        });
-        this.addedContributors.pushObject(newContributor);
-    }
+    @task({ withTestWaiter: true, enqueue: true })
+    addContributor = task(
+        function *(this: ContributorsManager, user: UserModel, permission: Permission, bibliographic: boolean) {
+            try {
+                const newContributor = this.store.createRecord('contributor', {
+                    permission,
+                    bibliographic,
+                    sendEmail: 'false',
+                    nodeId: this.node.id,
+                    userId: user.id,
+                    users: user,
+                });
+                yield newContributor.save();
+                this.contributors.pushObject(newContributor);
+            } catch (e) {
+                const apiError = getApiErrorMessage(e);
+                const errorHeading = this.intl.t('osf-components.contributors.addContributor.errorHeading');
+                this.toast.error(`${errorHeading}${apiError}`);
+            }
+        },
+    );
 }

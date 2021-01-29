@@ -6,19 +6,17 @@
             <span data-test-heading-name local-class='HeadingTitle'>
                 {{t 'osf-components.contributors.headings.name'}}
             </span>
-            <Button
-                data-test-add-unregistered-contributor
-                data-analytics-name='Add unregistered contributor'
-                @layout='fake-link'
-            >
-                {{t 'registries.registration_metadata.add_contributors.add_unregistered_contributor'}}
-            </Button>
+            <span data-test-heading-permission local-class='HeadingTitle'>
+                {{t 'osf-components.contributors.headings.permission'}}
+            </span>
+            <span data-test-heading-citation local-class='HeadingTitle'>
+                {{t 'osf-components.contributors.headings.citation'}}
+            </span>
         </div>
         {{#each @results as |result|}}
             <Contributors::UserSearch::Card
                 @user={{result}}
-                @addContributor={{@manager.addContributor}}
-                @addedContributors={{@manager.addedContributors}}
+                @manager={{@manager}}
             />
         {{/each}}
         {{#if @manager.shouldShowLoadMoreUsers}}

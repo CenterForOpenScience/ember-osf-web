@@ -1,16 +1,13 @@
-{{#if (eq @widgetMode 'add')}}
-    <Contributors::Manager
-        @node={{@node}}
-        as |manager|
-    >
+<Contributors::Manager
+    @node={{@node}}
+    as |manager|
+>
+    {{#if @shouldShowAdd}}
         <Contributors::UserSearch::Widget
             @manager={{manager}}
+            @toggleAddContributorWidget={{@toggleAddContributorWidget}}
         />
-        {{#if manager.addedContributors}}
-            <Contributors::UserAdd @manager={{manager}} />
-        {{/if}}
-    </Contributors::Manager>
-{{else}}
+    {{/if}}
     <div local-class='Container' ...attributes>
         <div local-class='Heading'>
             <span data-test-heading-name local-class='HeadingTitle'>
@@ -23,14 +20,9 @@
                 {{t 'osf-components.contributors.headings.citation'}}
             </span>
         </div>
-        <Contributors::Manager
-            @node={{@node}}
-            as |manager|
-        >
-            <Contributors::List
-                @contributorsManager={{manager}}
-                @widgetMode={{this.widgetMode}}
-            />
-        </Contributors::Manager>
+        <Contributors::List
+            @contributorsManager={{manager}}
+            @widgetMode={{'editable'}}
+        />
     </div>
-{{/if}}
+</Contributors::Manager>

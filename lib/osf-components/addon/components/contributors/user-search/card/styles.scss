@@ -1,12 +1,22 @@
 .CardContainer {
-    margin: 0;
-    border-bottom: 1px solid $color-border-gray;
-    background-color: $color-bg-white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 60px;
-    padding-left: 20px;
+    composes: CardContainer from '../../card/styles.scss';
+}
+
+.MainSection {
+    composes: MainSection from '../../card/styles.scss';
+}
+
+.CardSection {
+    composes: CardSection from '../../card/styles.scss';
+
+    :global(.ember-power-select-trigger) {
+        max-width: 150px;
+    }
+}
+
+.CardSectionSmall {
+    composes: CardSection from '../../card/styles.scss';
+    max-width: 14%;
 }
 
 .ButtonSection {
@@ -20,5 +30,8 @@
 
 .AddButton {
     background-color: $color-bg-white;
-    color: #458446;
+
+    i {
+        color: #458446;
+    }
 }
