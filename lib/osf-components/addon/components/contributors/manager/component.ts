@@ -1,6 +1,7 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
+import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
@@ -10,6 +11,7 @@ import ContributorModel from 'ember-osf-web/models/contributor';
 import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
 import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
+import CurrentUser from 'ember-osf-web/services/current-user';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import Toast from 'ember-toastr/services/toast';
 import template from './template';
@@ -17,8 +19,10 @@ import template from './template';
 @layout(template)
 @tagName('')
 export default class ContributorsManager extends Component {
+    @service currentUser!: CurrentUser;
     @service toast!: Toast;
     @service intl!: Intl;
+    @service router!: RouterService;
     node?: NodeModel | DraftRegistrationModel;
     @tracked contributors: ContributorModel[] = [];
     @tracked totalPage: number = 1;
@@ -96,6 +100,34 @@ export default class ContributorsManager extends Component {
             } catch (e) {
                 this.contributors = oldOrder;
                 this.toast.error(getApiErrorMessage(e));
+            }
+        },
+    );
+
+    @task({ withTestWaiter: true, enqueue: true })
+    removeContributor = task(
+        function *(this: ContributorsManager, contributor: ContributorModel) {
+            const user = this.currentUser.get('user');
+            try {
+                yield contributor.destroyRecord();
+                this.contributors.removeObject(contributor);
+
+                if (user && user.id === contributor.users.get('id')) {
+                    this.toast.success(this.intl.t('contributor_list.remove_contributor.success'));
+                    this.router.transitionTo('home');
+                } else {
+                    const contributorName = contributor.unregisteredContributor
+                        ? contributor.unregisteredContributor
+                        : contributor.users.get('fullName');
+                    this.toast.success(this.intl.t(
+                        'osf-components.contributors.removeContributor.success',
+                        { contributorName, htmlSafe: true },
+                    ));
+                }
+            } catch (e) {
+                const apiError = getApiErrorMessage(e);
+                const errorHeading = this.intl.t('osf-components.contributors.removeContributor.errorHeading');
+                this.toast.error(`${errorHeading}${apiError}`);
             }
         },
     );
