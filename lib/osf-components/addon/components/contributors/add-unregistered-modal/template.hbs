@@ -1,0 +1,78 @@
+<OsfDialog as |dialog|>
+    <dialog.trigger>
+        <Button 
+            @layout='fake-link'
+            {{on 'click' dialog.open}}
+        >
+            {{t 'registries.registration_metadata.add_contributors.add_unregistered_contributor'}}
+        </Button>
+    </dialog.trigger>
+    <dialog.heading>
+        {{t 'registries.registration_metadata.add_contributors.add_unregistered_contributor'}}
+    </dialog.heading>
+    <dialog.main>
+        <FormControls
+            @changeset={{this.unregisteredFormChangeset}}
+            data-test-invite-form
+            as |form|
+        >
+            <form.text
+                @valuePath={{'email'}}
+                @label={{t 'osf-components.contributors.email'}}
+                @isRequired={{true}}
+                data-test-email-input
+            />
+            <form.text
+                @valuePath={{'fullName'}}
+                @label={{t 'osf-components.contributors.fullName'}}
+                @isRequired={{true}}
+                data-test-full-name-input
+            />
+            <form.select
+                class='form-group'
+                @options={{this.permissionOptions}}
+                @searchEnabled={{false}}
+                @valuePath={{'permission'}}
+                @label={{t 'osf-components.contributors.selectPermission'}}
+                data-test-select-permission
+                as |permission|
+            >
+                {{capitalize permission}}
+            </form.select>
+            <label>
+                {{t 'osf-components.contributors.headings.citation'}}
+            </label>
+            <Input
+                @type='checkbox'
+                @checked={{this.unregisteredFormChangeset.bibliographic}}
+            />
+        </FormControls>
+    </dialog.main>
+    <dialog.footer>
+        <Button
+            {{on 'click' dialog.close}}
+        >
+            {{t 'general.cancel'}}
+        </Button>
+        <Button
+            disabled={{this.unregisteredFormChangeset.isInvalid}}
+            @type='create'
+            {{on 'click' (
+                    queue
+                    this.validate
+                    (fn
+                        @addUnregisteredContributor
+                        this.unregisteredFormChangeset.email
+                        this.unregisteredFormChangeset.fullName
+                        this.unregisteredFormChangeset.permission
+                        this.unregisteredFormChangeset.bibliographic
+                    )
+                    this.clearChangeset
+                    dialog.close
+                )
+            }}
+        >
+            {{t 'general.add'}}
+        </Button>
+    </dialog.footer>
+</OsfDialog>

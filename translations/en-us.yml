@@ -35,6 +35,7 @@ general:
     view: View
     edit: Edit
     cancel: Cancel
+    add: Add
     ok: OK
     revisions: Revisions
     md5: MD5
@@ -1626,7 +1627,12 @@ osf-components:
         noEducation: 'No education history to show'
         noEmployment: 'No employment history to show'
         addContributor:
+            success: 'Contributor added'
             errorHeading: 'Error adding contributor'
+        currentContributors: 'Current contributors'
+        email: 'Email'
+        fullName: 'Full name'
+        selectPermission: 'Select permission'
         removeContributor:
             confirmRemove:
                 title: 'Remove contributor'

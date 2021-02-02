@@ -16,13 +16,9 @@
             {{t 'registries.registration_metadata.add_contributors.search'}}
         </Button>
     </div>
-    <Button
-        data-test-add-unregistered-contributor
-        data-analytics-name='Add unregistered contributor'
-        @layout='fake-link'
-    >
-        {{t 'registries.registration_metadata.add_contributors.add_unregistered_contributor'}}
-    </Button>
+    <Contributors::AddUnregisteredModal
+        @addUnregisteredContributor={{@manager.addUnregisteredContributor}}
+    />
     <div local-class='UserSearchResultsContainer'>
         <div local-class='Heading'>
             <span data-test-heading-name>
@@ -35,7 +31,7 @@
                 @type='create'
                 {{on 'click' @toggleAddContributorWidget}}
             >
-                Done
+                {{t 'general.done'}}
             </Button>
         </div>
         <Contributors::UserSearch::List

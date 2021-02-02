@@ -145,6 +145,36 @@ export default class ContributorsManager extends Component {
                 });
                 yield newContributor.save();
                 this.contributors.pushObject(newContributor);
+                this.toast.success(this.intl.t('osf-components.contributors.addContributor.success'));
+            } catch (e) {
+                const apiError = getApiErrorMessage(e);
+                const errorHeading = this.intl.t('osf-components.contributors.addContributor.errorHeading');
+                this.toast.error(`${errorHeading}${apiError}`);
+            }
+        },
+    );
+
+    @task({ withTestWaiter: true, enqueue: true })
+    addUnregisteredContributor = task(
+        function *(
+            this: ContributorsManager,
+            email: string,
+            fullName: string,
+            permission: Permission,
+            bibliographic: boolean,
+        ) {
+            try {
+                const newContributor = this.store.createRecord('contributor', {
+                    permission,
+                    bibliographic,
+                    email,
+                    fullName,
+                    sendEmail: 'false',
+                    nodeId: this.node.id,
+                });
+                yield newContributor.save();
+                this.contributors.pushObject(newContributor);
+                this.toast.success(this.intl.t('osf-components.contributors.addContributor.success'));
             } catch (e) {
                 const apiError = getApiErrorMessage(e);
                 const errorHeading = this.intl.t('osf-components.contributors.addContributor.errorHeading');
