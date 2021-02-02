@@ -1,16 +1,22 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
-import { computed } from '@ember/object';
+import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
+import { dropTask, task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
+import config from 'ember-get-config';
+import Intl from 'ember-intl/services/intl';
+import Toast from 'ember-toastr/services/toast';
 
+import RouterService from '@ember/routing/router-service';
 import { layout } from 'ember-osf-web/decorators/component';
 import Contributor from 'ember-osf-web/models/contributor';
 import Node from 'ember-osf-web/models/node';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
+import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
+import captureException from 'ember-osf-web/utils/capture-exception';
 import defaultTo from 'ember-osf-web/utils/default-to';
 
 import styles from './styles';
@@ -26,14 +32,19 @@ export default class ContributorList extends Component {
     shouldTruncate: boolean = defaultTo(this.shouldTruncate, true);
     shouldLinkUsers: boolean = defaultTo(this.shouldLinkUsers, false);
     shouldEnableClaimUser: boolean = false;
+    allowRemoveMe: boolean = false;
 
     // Private properties
     @service store!: DS.Store;
     @service ready!: Ready;
+    @service toast!: Toast;
+    @service intl!: Intl;
+    @service currentUser!: CurrentUser;
+    @service router!: RouterService;
 
     page = 1;
     displayedContributors: Contributor[] = [];
-    totalContributors?: number;
+    totalContributors = 0;
     shouldLoadAll: boolean = navigator.userAgent.includes('Prerender');
 
     @alias('loadContributors.isRunning')
@@ -70,6 +81,46 @@ export default class ContributorList extends Component {
 
         blocker.done();
     });
+
+    @dropTask({ withTestWaiter: true })
+    removeMeTask = task(function *(this: ContributorList) {
+        if (!this.node || this.node.isAnonymous || !this.currentUser.currentUserId) {
+            return;
+        }
+
+        const userID = this.currentUser.currentUserId;
+        let contributor = this.displayedContributors
+            .find(contrib => contrib.users.get('id') === this.currentUser.currentUserId);
+
+        if (!contributor) {
+            contributor = yield this.store.findRecord('contributor', `${this.node.id}-${userID}`);
+            this.setProperties({
+                displayedContributors: [...this.displayedContributors, contributor],
+            });
+        }
+
+        try {
+            yield contributor!.destroyRecord();
+            this.toast.success(this.intl.t('contributor_list.remove_contributor.success'));
+            this.router.transitionTo('home');
+        } catch (e) {
+            const { supportEmail } = config.support;
+            const errorMessage = this.intl
+                .t('contributor_list.remove_contributor.error', { supportEmail, htmlSafe: true });
+            captureException(e, { errorMessage });
+            this.toast.error(errorMessage);
+        }
+    });
+
+    @action
+    removeMe() {
+        this.removeMeTask.perform();
+    }
+
+    @computed('allowRemoveMe', 'currentUser.currentUserId', 'totalContributors')
+    get shouldShowRemoveMeButton() {
+        return this.allowRemoveMe && this.currentUser.currentUserId && this.totalContributors > 1;
+    }
 
     @computed('truncated')
     get truncateCount() {

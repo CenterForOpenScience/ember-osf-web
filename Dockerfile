@@ -1,5 +1,5 @@
 ### App code
-FROM quay.io/centerforopenscience/ember-base AS app
+FROM quay.io/centerforopenscience/ember-base-10 AS app
 
 COPY ./package.json ./yarn.lock ./.yarnrc ./
 RUN yarn --frozen-lockfile

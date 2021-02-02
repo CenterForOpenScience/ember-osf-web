@@ -65,6 +65,7 @@ general:
     save: Save
     ellipsis: …
     warning: Warning
+    caution: Caution
     sort_asc: 'Sort ascending'
     sort_desc: 'Sort descending'
     last_modified: 'Last modified'
@@ -690,6 +691,16 @@ list:
 contributor_list:
     x_more: '{x} more'
     anonymous: 'Anonymous contributors'
+    more: 'Load more contributors'
+    remove_contributor:
+        confirm_remove:
+            title: 'Remove me'
+            body: 'Are you sure you want to remove yourself as a contributor on this draft registration?'
+            button: 'Remove me'
+        button_label: 'Remove me'
+        success: 'You have successfully removed yourself as a contributor.'
+        error: 'Could not remove you from this draft registration. Please refresh the page and try again. If the issue persists, please contact support at <a href="mailto:{supportEmail}">{supportEmail}</a>.'
+
     unregistered_contributor:
         tooltip_message: 'Is this you? Click to claim.'
         loggedInClaimHeader: 'Claim as {email}?'
@@ -1082,6 +1093,7 @@ registries:
                 last_saved: 'Auto-saved: '
                 save_failed: 'Save failed. Unsaved changes present.'
                 failed_auto_save: 'Failed to auto-save draft registration form'
+                collaborative_edit_warning: 'Only one person is able to edit a registration draft at a time. Be sure to coordinate with any other contributors.'
             review:
                 title: 'Review registration before submitting'
                 page_label: Review
@@ -1633,6 +1645,9 @@ osf-components:
         email: 'Email'
         fullName: 'Full name'
         selectPermission: 'Select permission'
+        educationAndEmployment:
+            expand: 'Expand employment and education info'
+            collapse: 'Collapse employment and education info'
         removeContributor:
             confirmRemove:
                 title: 'Remove contributor'
@@ -1641,7 +1656,7 @@ osf-components:
             success: 'You have successfully removed {contributorName}.'
             errorHeading: 'Could not remove contributor. '
 
-            
+
     subscriptions:
         frequency:
             daily: 'Daily'
