@@ -1567,6 +1567,7 @@ osf-components:
             editButtonAriaLabel: 'Edit {questionLabel}'
         schema-block-renderer/editable/files:
             instructions: 'You may attach up to 5 file(s) to this question. You may attach files that you already have in OSF Storage in this <a href={nodeUrl}>{projectOrComponent}</a> or upload (drag and drop) a new file from your computer. Uploaded files will automatically be added to this <a href={nodeUrl}>{projectOrComponent}</a> so that they can be registered. To attach files from other components or an add-on, first add them to this <a href={nodeUrl}>{projectOrComponent}</a>.'
+            instructionsNoProject: 'You may attach up to 5 file(s) to this question. Files cannot total over 5GB in size.<br><br>Uploaded files will automatically be archived in this registration. They will also be added to a related project that will be created for this registration.'
         schema-block-renderer/read-only/response:
             noResponse: 'No response'
         schema-block-renderer/read-only/files:
@@ -1582,6 +1583,15 @@ osf-components:
         folder_name_placeholder: 'New folder name'
         create_folder_failed: 'Failed to create folder'
         insufficient_storage_error: 'This file cannot be uploaded to this project/component because it has exceeded the storage limit for OSF Storage.'
+        delete_failed: 'Failed to delete {filename}'
+        delete_success: 'Successfully deleted {filename}'
+        delete: Delete
+        confirm_delete:
+            title_file: 'Delete "{filename}"?'
+            title_folder: 'Delete "{filename}" and all its contents?'
+            body: 'This action is irreversible.'
+            button: Delete
+
     subjects:
         browse:
             browse_all: 'Browse all subjects'

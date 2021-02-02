@@ -99,4 +99,24 @@ export default class Files extends Component {
     onAddFile(addedFile: File) {
         this.select(addedFile);
     }
+
+    @action
+    onDeleteFile(deleteFileOrFolder: File, options: { callback?: () => void }) {
+        let filesToUnselect: File[] = [];
+        if (deleteFileOrFolder.isFolder) {
+            filesToUnselect = this.selectedFiles
+                .filter(({ materializedPath }) => materializedPath.includes(deleteFileOrFolder.materializedPath));
+        } else {
+            const isSelected = this.selectedFiles.some(file => deleteFileOrFolder.id === file.id);
+            if (isSelected) {
+                filesToUnselect = [deleteFileOrFolder];
+            }
+        }
+
+        filesToUnselect.forEach(file => this.unselect(file));
+
+        if (options && options.callback) {
+            options.callback();
+        }
+    }
 }

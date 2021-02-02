@@ -7,6 +7,7 @@ import {
     settled,
     triggerKeyEvent,
 } from '@ember/test-helpers';
+import { animationsSettled, TimeControl } from 'ember-animated/test-support';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import config from 'ember-get-config';
 import { t } from 'ember-intl/test-support';
@@ -781,6 +782,110 @@ module('Registries | Acceptance | draft form', hooks => {
             .doesNotExist('year field does not display on a license that does not require it');
         assert.dom('[data-test-required-field="copyrightHolders"]')
             .doesNotExist('copyright holders field does not display on a license that does not require it');
+    });
+
+    test('Contributor with write permissions can delete files/folder', async assert => {
+        const time = new TimeControl();
+        // Speed up ember-animated animations by 100x
+        time.runAtSpeed(100);
+
+        const initiator = server.create('user', 'loggedIn');
+        const openEndedReg = server.schema.registrationSchemas.find('open_ended_registration');
+        const branchedFrom = server
+            .create('node', { currentUserPermissions: [Permission.Read, Permission.Write] });
+        const fileOne = server.create('file', { target: branchedFrom });
+        const fileTwo = server.create('file', { target: branchedFrom });
+        const folderOne = server.create('file', { target: branchedFrom }, 'asFolder');
+        const [folderOneFileOne, folderOneFileTwo] = server
+            .createList('file', 2, { target: branchedFrom, parentFolder: folderOne });
+
+        const registrationResponses = {
+            summary: 'Test file links',
+            uploader: [fileOne.fileReference, folderOneFileOne.fileReference, folderOneFileTwo.fileReference],
+        };
+        const osfstorage = server.create('file-provider', { node: branchedFrom });
+        osfstorage.rootFolder.update({
+            files: [fileOne, fileTwo, folderOne],
+        });
+
+        const draftRegistration = server.create('draft-registration', {
+            registrationSchema: openEndedReg,
+            registrationResponses,
+            branchedFrom,
+            initiator,
+        });
+
+        await visit(`/registries/drafts/${draftRegistration.id}/`);
+        await click('[data-test-goto-next-page]');
+
+        assert.dom(`[data-test-delete-file="${fileOne.id}"] > button`)
+            .isVisible('fileOne row has a delete button');
+        assert.dom(`[data-test-delete-file="${fileTwo.id}"] > button`)
+            .isVisible('fileTwo has has a delete button');
+
+        assert.dom(`[data-test-selected-file="${fileOne.id}"]`)
+            .exists('fileOne is selected (attached as a registration response)');
+        await click(`[data-test-delete-file="${fileOne.id}"] > button`);
+
+        assert.dom('.modal-content').isVisible('file delete hard-confirm modal is visible');
+        assert.dom('[data-test-confirm-delete]')
+            .isVisible('file delete hard-confirm modal has a confirm button');
+        await click('[data-test-confirm-delete]');
+
+        assert.dom(`[data-test-file-name="${fileOne.itemName}"]`)
+            .doesNotExist('fileOne has been deleted from the draft');
+        assert.dom(`[data-test-selected-file="${fileOne.id}"]`)
+            .doesNotExist('fileOne is no longer selected');
+        assert.notOk(server.schema.files.findBy({ id: fileOne.id }), 'fileOne is deleted from the db');
+
+        // folder deletion
+        assert.dom(`[data-test-delete-file="${folderOne.id}"] > button`)
+            .doesNotExist('folderOne has no delete button');
+        await click(`[data-test-file-browser-item="${folderOne.id}"]`);
+        await animationsSettled();
+
+        assert.dom(`[data-test-delete-current-folder="${folderOne.id}"] > button`)
+            .isVisible('folderOne has a delete button');
+        assert.dom('[data-test-file-browser-item]')
+            .exists({ count: 3 }, 'folderOne contains two visible files');
+        assert.dom(`[data-test-selected-file="${folderOneFileOne.id}"]`)
+            .isVisible('folderOneFileOne is selected');
+        assert.dom(`[data-test-selected-file="${folderOneFileTwo.id}"]`)
+            .isVisible('folderOneFileTwo is selected');
+
+        await click(`[data-test-delete-current-folder="${folderOne.id}"] > button`);
+        assert.dom('[data-test-confirm-delete]')
+            .isVisible('folder delete hard-confirm modal has a confirm button');
+        await click('[data-test-confirm-delete]');
+
+        assert.dom('#toast-container', document as unknown as Element).hasTextContaining(
+            t('osf-components.files-widget.delete_success', { filename: folderOne.itemName }),
+            'Toast success message shows; folderOne succesfully deleted',
+        );
+
+        await settled();
+        assert.dom(`[data-test-file-browser-item="${folderOne.id}"]`)
+            .doesNotExist('folderOne no longer shows in the parent folder view');
+        assert.dom(`[data-test-selected-file="${folderOneFileOne.id}"]`)
+            .isVisible('folderOneFileOne is no longer selected.'
+            + 'Deleting a folder unselect any of its selected descendants');
+        assert.dom(`[data-test-selected-file="${folderOneFileTwo.id}"]`)
+            .isVisible('folderOneFileTwo is no longer selected.'
+            + 'Deleting a folder unselect any of its selected descendants');
+
+        // test file deletion fails
+        server.namespace = '/wb';
+        server.del('/files/:id/delete', () => ({
+            errors: [{ detail: 'Error occured' }],
+        }), 400);
+        assert.dom(`[data-test-file-browser-item="${fileTwo.id}"]`).isVisible('fileTwo is visible');
+        await click(`[data-test-delete-file="${fileTwo.id}"] > button`);
+        await click('[data-test-confirm-delete]');
+        assert.dom('#toast-container', document as unknown as Element).hasTextContaining(
+            t('osf-components.files-widget.delete_failed', { filename: fileTwo.itemName }),
+            'Toast error message shows; has the right text',
+        );
+        assert.dom(`[data-test-file-browser-item="${fileTwo.id}"]`).isVisible('fileTwo is still visible');
     });
 
     test('validations: validations status changes as user fixes/introduces errors', async assert => {
