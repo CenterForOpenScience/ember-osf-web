@@ -20,6 +20,7 @@
     <Drafts::Draft::-Components::Register
         @draftManager={{@draftManager}}
         @onSubmitRedirect={{@onSubmitRedirect}}
+        @clickable={{@clickable}}
     />
 {{/if}}
 {{#if @navManager.nextPageParam}}
@@ -46,7 +47,7 @@
         @route='registries.drafts.draft.page'
         @models={{array @draftManager.draftId @navManager.prevPageParam}}
     >
-        <Button @type='secondary'>
+        <Button @type='secondary' disabled={{not @clickable}}>
             <FaIcon @icon='arrow-left' @fixedWidth={{true}} />
             {{t 'registries.drafts.draft.form.back'}}
         </Button>
