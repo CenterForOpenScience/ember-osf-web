@@ -37,6 +37,7 @@ export default class DraftRegistrationModel extends OsfModel {
     @attr('fixstringarray') tags!: string[];
     @attr('node-license') nodeLicense!: NodeLicense | null;
     @attr('node-category') category!: NodeCategory;
+    @attr('boolean') hasProject!: boolean;
 
     @belongsTo('node', { inverse: 'draftRegistrations' })
     branchedFrom!: DS.PromiseObject<NodeModel> & NodeModel;
