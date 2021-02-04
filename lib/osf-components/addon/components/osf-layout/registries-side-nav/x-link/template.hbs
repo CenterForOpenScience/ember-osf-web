@@ -7,6 +7,7 @@
             {{if this.isDrawer 'Drawer'}}'
         @onClick={{@onClick}}
         @type='link'
+        disabled={{@disabled}}
         ...attributes
     >
         {{yield (hash
@@ -27,11 +28,13 @@
         local-class='Link
             {{if this.isCollapsed 'Collapsed'}}
             {{if this.isCurrentPage 'CurrentPage'}}
-            {{if this.isDrawer 'Drawer'}}'
+            {{if this.isDrawer 'Drawer'}}
+            {{if @disabled 'Disabled'}}'
         @route={{@route}}
         @models={{@models}}
         @href={{@href}}
         @onClick={{@onClick}}
+        @disabled={{@disabled}}
         ...attributes
     >
         {{yield (hash

@@ -1,13 +1,24 @@
-<a
-    href={{this._href}}
-    target={{this.target}}
-    rel={{this.rel}}
-    class='{{this.class}} {{if this.isActive 'active'}}'
-    local-class='OsfLink'
-    onclick={{action this._onClick}}
-    ...attributes
->
-    {{~yield (hash
-        active=this.isActive
-    )~}}
-</a>
+{{#if @disabled}}
+    <span
+        class='{{this.class}} {{if this.isActive 'active'}}'
+        local-class='OsfLink'
+        ...attributes
+    >
+        {{~yield (hash
+            active=this.isActive
+        )~}}
+    </span>
+{{else}}
+    <a
+        href={{this._href}}
+        target={{this.target}}
+        rel={{this.rel}}
+        local-class='OsfLink'
+        onclick={{action this._onClick}}
+        ...attributes
+    >
+        {{~yield (hash
+            active=this.isActive
+        )~}}
+    </a>
+{{/if}}
