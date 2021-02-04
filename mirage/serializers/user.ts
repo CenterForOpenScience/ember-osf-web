@@ -42,6 +42,22 @@ export default class UserSerializer extends ApplicationSerializer<User> {
                     },
                 },
             },
+            registrations: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/users/${model.id}/registrations/`,
+                        meta: this.buildRelatedLinkMeta(model, 'registrations'),
+                    },
+                },
+            },
+            draftRegistrations: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/users/${model.id}/draft_registrations/`,
+                        meta: this.buildRelatedLinkMeta(model, 'draftRegistrations'),
+                    },
+                },
+            },
             quickfiles: {
                 links: {
                     related: {
