@@ -5,6 +5,7 @@ export default class ContributorSerializer extends OsfSerializer {
     serialize(snapshot: DS.Snapshot, options: {}) {
         const serialized = super.serialize(snapshot, options);
         delete serialized!.data!.relationships!.node;
+        delete serialized!.data!.relationships!.draft_registration;
 
         return serialized;
     }

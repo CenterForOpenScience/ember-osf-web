@@ -28,7 +28,9 @@ export default class ContributorsManager extends Component {
     @service store!: DS.Store;
     @service router!: RouterService;
 
-    node!: NodeModel | DraftRegistrationModel;
+    node!: NodeModel;
+    draftRegistration!: DraftRegistrationModel;
+
     @tracked contributors: ContributorModel[] = [];
     @tracked totalPage: number = 1;
     @tracked currentPage: number = 1;
@@ -41,8 +43,9 @@ export default class ContributorsManager extends Component {
 
     @task({ withTestWaiter: true, on: 'init', enqueue: true })
     fetchContributors = task(function *(this: ContributorsManager) {
-        if (this.node && this.hasMore) {
-            const currentPageResult = yield this.node.queryHasMany('contributors', {
+        const object = this.node || this.draftRegistration;
+        if (object && this.hasMore) {
+            const currentPageResult = yield object.queryHasMany('contributors', {
                 page: this.currentPage,
             });
             this.totalPage = Math.ceil(currentPageResult.meta.total / currentPageResult.meta.per_page);
@@ -150,6 +153,7 @@ export default class ContributorsManager extends Component {
                     permission,
                     bibliographic,
                     node: this.node,
+                    draftRegistration: this.draftRegistration,
                     users: user,
                 });
                 yield newContributor.save();
@@ -179,6 +183,7 @@ export default class ContributorsManager extends Component {
                     email,
                     fullName,
                     node: this.node,
+                    draftRegistration: this.draftRegistration,
                 });
                 yield newContributor.save();
                 this.contributors.pushObject(newContributor);
