@@ -149,9 +149,7 @@ export default class ContributorsManager extends Component {
                 const newContributor = this.store.createRecord('contributor', {
                     permission,
                     bibliographic,
-                    sendEmail: 'false',
-                    nodeId: this.node.id,
-                    userId: user.id,
+                    node: this.node,
                     users: user,
                 });
                 yield newContributor.save();
@@ -180,8 +178,7 @@ export default class ContributorsManager extends Component {
                     bibliographic,
                     email,
                     fullName,
-                    sendEmail: 'false',
-                    nodeId: this.node.id,
+                    node: this.node,
                 });
                 yield newContributor.save();
                 this.contributors.pushObject(newContributor);

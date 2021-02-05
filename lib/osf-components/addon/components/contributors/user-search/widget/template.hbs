@@ -2,13 +2,14 @@
     <div local-class='InputContainer'>
         <Input
             local-class='UserSearchInput'
+            data-test-user-search-input
             @type='text'
             @placeholder={{t 'registries.registration_metadata.add_contributors.search_placeholder'}}
             @value={{this.query}}
             @enter={{perform this.fetchUsers}}
         />
         <Button
-            data-test-search-contributors
+            data-test-user-search-button
             local-class='ClearButton'
             @type='create'
             {{on 'click' (fn (perform this.fetchUsers))}}
@@ -19,15 +20,18 @@
     <Contributors::AddUnregisteredModal
         @addUnregisteredContributor={{@manager.addUnregisteredContributor}}
     />
-    <div local-class='UserSearchResultsContainer'>
+    <div
+        local-class='UserSearchResultsContainer'
+        data-test-user-search-results
+    >
         <div local-class='Heading'>
             <span data-test-heading-name>
                 {{t 'registries.registration_metadata.add_contributors.results_heading'}}
             </span>
             <Button
                 local-class='ClearButton'
-                data-test-add-unregistered-contributor
                 data-analytics-name='Add unregistered contributor'
+                data-test-add-unregistered-contributor
                 @type='create'
                 {{on 'click' @toggleAddContributorWidget}}
             >

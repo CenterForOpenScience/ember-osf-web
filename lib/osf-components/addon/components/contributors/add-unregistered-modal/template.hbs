@@ -1,16 +1,21 @@
 <OsfDialog as |dialog|>
     <dialog.trigger>
-        <Button 
+        <Button
+            data-test-add-unregistered-contributor-button
             @layout='fake-link'
             {{on 'click' dialog.open}}
         >
             {{t 'registries.registration_metadata.add_contributors.add_unregistered_contributor'}}
         </Button>
     </dialog.trigger>
-    <dialog.heading>
+    <dialog.heading
+        data-test-dialog-heading
+    >
         {{t 'registries.registration_metadata.add_contributors.add_unregistered_contributor'}}
     </dialog.heading>
-    <dialog.main>
+    <dialog.main
+        data-test-dialog-body
+    >
         <FormControls
             @changeset={{this.unregisteredFormChangeset}}
             data-test-invite-form
@@ -45,16 +50,19 @@
             <Input
                 @type='checkbox'
                 @checked={{this.unregisteredFormChangeset.bibliographic}}
+                data-test-is-bibliographic
             />
         </FormControls>
     </dialog.main>
     <dialog.footer>
         <Button
+            data-test-cancel-button
             {{on 'click' dialog.close}}
         >
             {{t 'general.cancel'}}
         </Button>
         <Button
+            data-test-add-button
             disabled={{this.unregisteredFormChangeset.isInvalid}}
             @type='create'
             {{on 'click' (
