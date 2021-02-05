@@ -23,10 +23,6 @@ interface UnregisteredFormFields {
 
 const UnregisteredFormValidations: ValidationObject<UnregisteredFormFields> = {
     email: [
-        validatePresence({
-            presence: true,
-            type: 'empty',
-        }),
         validateFormat({
             type: 'email',
             translationArgs: { description: 'This field' },
