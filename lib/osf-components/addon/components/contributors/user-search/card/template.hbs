@@ -1,8 +1,9 @@
-<div data-test-user-card local-class='CardContainer'>
+<div data-test-user-card={{@user.id}}
+    local-class='CardContainer'>
     <div data-test-user-card-main local-class='MainSection'>
         <span local-class='CardSection'>
             <img
-                data-test-user-gravatar
+                data-test-user-gravatar={{@user.id}}
                 class='m-r-xs'
                 src={{@user.links.profile_image}}
                 alt={{@user.fullName}}
@@ -42,7 +43,7 @@
                     @type='checkbox'
                     @checked={{readonly this.isBibliographic}}
                     @disabled={{this.isAdded}}
-                    data-test-user-citation-checkbox
+                    data-test-user-citation-checkbox={{@user.id}}
                     data-analytics-name='Toogle isBibliographic'
                     {{on 'click' (fn this.toggleIsBibliographic)}}
                 />
@@ -57,7 +58,7 @@
         {{else}}
             <span local-class='CardSectionSmall'>
                 <Button
-                    data-test-add-contributor-button
+                    data-test-add-contributor-button={{@user.id}}
                     local-class='AddButton'
                     aria-label={{t 'registries.registration_metadata.add_contributors.add_contributor_aria'}}
                     @type='light'

@@ -25,6 +25,7 @@ const UnregisteredFormValidations: ValidationObject<UnregisteredFormFields> = {
     email: [
         validateFormat({
             type: 'email',
+            allowBlank: true,
             translationArgs: { description: 'This field' },
         }),
     ],

@@ -7,7 +7,7 @@ import ApplicationSerializer from './application';
 
 const { OSF: { apiUrl } } = config;
 
-export default class ContributorSerializer extends ApplicationSerializer<Comment> {
+export default class CommentSerializer extends ApplicationSerializer<Comment> {
     buildRelationships(model: ModelInstance<Comment>) {
         return {
             user: {
