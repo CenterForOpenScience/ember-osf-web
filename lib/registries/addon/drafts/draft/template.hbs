@@ -16,14 +16,16 @@
                 <layout.heading>
                     <HeroOverlay @align='left' local-class='DraftHeroOverlay'>
                         <div local-class='Title'>
-                            <OsfLink
-                                data-analytics-name='Go to project'
-                                local-class='BreadCrumb'
-                                @route='guid-node'
-                                @models={{array draftManager.node.id}}
-                            >
-                                {{draftManager.node.title}} >
-                            </OsfLink>
+                            {{#if draftManager.node}}
+                                <OsfLink
+                                    data-analytics-name='Go to project'
+                                    local-class='BreadCrumb'
+                                    @route='guid-node'
+                                    @models={{array draftManager.node.id}}
+                                >
+                                    {{draftManager.node.title}} >
+                                </OsfLink>
+                            {{/if}}
                             <h1>
                                 {{t 'registries.drafts.draft.form.new_registration'}}
                             </h1>

@@ -16,50 +16,83 @@
             </HeroOverlay>
         </layout.heading>
         <layout.main local-class='main'>
+            <p local-class='InformationText'>
+                {{t 'registries.new.provider_info' provider=this.model.name htmlSafe=true}}
+            </p>
             <form data-test-new-registration-form local-class='registrationForm'>
-                <label
-                    data-test-project-select
-                    local-class='selectLabel'
-                >
+                <label local-class='selectLabel StepOneContainer'>
                     <p local-class='stepLabel'>
                         {{t 'registries.new.step_one'}}
                     </p>
-                    <h2
-                        data-test-project-select-title
-                        local-class='projectHeading'
-                    >
-                        {{t 'registries.new.select_project'}}
-                        <span local-class='required' aria-label={{t 'registries.new.required'}}>*</span>
-                    </h2>
-                    <PowerSelect
-                        @ariaLabel={{this.selectedProject.title}}
-                        @placeholder={{t 'registries.new.select_project_placeholder'}}
-                        @options={{this.projectOptions}}
-                        @search={{perform this.projectSearch}}
-                        @selected={{this.selectedProject}}
-                        @onchange={{this.updateSelectedProject}}
-                        as |option|
-                    >
-                        {{option.title}}
-                    </PowerSelect>
+                    <fieldset local-class='RadioFieldset'>
+                        <legend local-class='RadioLegend'>
+                            {{t 'registries.new.step_one_project_heading'}}
+                        </legend>
+                        <input
+                            data-test-has-project-button
+                            local-class='RadioElement RadioInput'
+                            type='radio'
+                            name='HasProject'
+                            value='yes'
+                            onclick={{fn (mut this.shouldShowProjectSelect) true}}
+                            checked={{if (eq this.shouldShowProjectSelect true) true false}}
+                        >
+                        <label
+                            local-class='RadioElement RadioLabel {{if this.shouldShowProjectSelect 'IsChecked'}}'
+                            for='HasProject'
+                        >
+                            {{t 'registries.new.yes'}}
+                        </label>
+                        <input
+                            data-test-no-project-button
+                            local-class='RadioElement RadioInput'
+                            type='radio'
+                            name='no-project'
+                            value='no'
+                            onclick={{fn (mut this.shouldShowProjectSelect) false}}
+                            checked={{if (eq this.shouldShowProjectSelect false) true false}}
+                        >
+                        <label
+                            local-class='RadioElement RadioLabel {{unless this.shouldShowProjectSelect 'IsChecked'}}'
+                            for='NoProject'
+                        >
+                            {{t 'registries.new.no'}}
+                        </label>
+                    </fieldset>
                 </label>
+                {{#if this.shouldShowProjectSelect}}
+                    <label data-test-project-select local-class='selectLabel'>
+                        <p local-class='stepLabel'>
+                            {{t 'registries.new.step_two'}}
+                        </p>
+                        <h3 data-test-project-select-title local-class='projectHeading'>
+                            {{t 'registries.new.select_project'}}
+                            <span local-class='required' aria-label={{t 'registries.new.required'}}>*</span>
+                        </h3>
+                        <PowerSelect
+                            @ariaLabel={{this.selectedProject.title}}
+                            @placeholder={{t 'registries.new.select_project_placeholder'}}
+                            @options={{this.projectOptions}}
+                            @search={{perform this.projectSearch}}
+                            @selected={{this.selectedProject}}
+                            @onchange={{this.updateSelectedProject}}
+                            as |option|
+                        >
+                            {{option.title}}
+                        </PowerSelect>
+                    </label>
+                    <p local-class='InformationText ComponentHelpText'>
+                        {{t 'registries.new.component_help_text'}}
+                    </p>
+                {{/if}}
 
-                <p local-class='newProjectHelpText'>
-                    {{t 'registries.new.new_project_help_fragment1'}}
-                    <OsfLink
-                        @route='dashboard'
-                    >
-                        {{t 'registries.new.go_to_dashboard'}}
-                    </OsfLink>
-                    {{t 'registries.new.new_project_help_fragment2' htmlSafe=true}}
-                </p>
-
-                <label
-                    data-test-schema-select
-                    local-class='selectLabel'
-                >
+                <label data-test-schema-select local-class='selectLabel'>
                     <p local-class='stepLabel'>
-                        {{t 'registries.new.step_two'}}
+                        {{#if this.shouldShowProjectSelect}}
+                            {{t 'registries.new.step_three'}}
+                        {{else}}
+                            {{t 'registries.new.step_two'}}
+                        {{/if}}
                     </p>
                     <h2 data-test-schema-select-title>
                         {{t 'registries.new.select_schema'}}

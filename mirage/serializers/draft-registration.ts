@@ -8,18 +8,6 @@ const { OSF: { apiUrl } } = config;
 export default class DraftRegistrationSerializer extends ApplicationSerializer<DraftRegistration> {
     buildRelationships(model: ModelInstance<DraftRegistration>) {
         const returnValue: SerializedRelationships<DraftRegistration> = {
-            branchedFrom: {
-                data: {
-                    id: model.branchedFrom.id,
-                    type: 'nodes',
-                },
-                links: {
-                    related: {
-                        href: `${apiUrl}/v2/nodes/${model.branchedFrom.id}`,
-                        meta: {},
-                    },
-                },
-            },
             initiator: {
                 data: {
                     id: model.initiator.id,
@@ -81,6 +69,20 @@ export default class DraftRegistrationSerializer extends ApplicationSerializer<D
                 },
             },
         };
+        if (model.branchedFrom) {
+            returnValue.branchedFrom = {
+                data: {
+                    id: model.branchedFrom.id,
+                    type: 'nodes',
+                },
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/nodes/${model.branchedFrom.id}`,
+                        meta: {},
+                    },
+                },
+            };
+        }
         if (model.license) {
             returnValue.license = {
                 data: {
