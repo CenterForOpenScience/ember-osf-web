@@ -34,11 +34,11 @@
                             type='radio'
                             name='HasProject'
                             value='yes'
-                            onclick={{fn (mut this.shouldShowProjectSelect) true}}
-                            checked={{if (eq this.shouldShowProjectSelect true) true false}}
+                            onclick={{fn (mut this.isBasedOnProject) true}}
+                            checked={{this.isBasedOnProject}}
                         >
                         <label
-                            local-class='RadioElement RadioLabel {{if this.shouldShowProjectSelect 'IsChecked'}}'
+                            local-class='RadioElement RadioLabel {{if this.isBasedOnProject 'IsChecked'}}'
                             for='HasProject'
                         >
                             {{t 'registries.new.yes'}}
@@ -49,18 +49,18 @@
                             type='radio'
                             name='no-project'
                             value='no'
-                            onclick={{fn (mut this.shouldShowProjectSelect) false}}
-                            checked={{if (eq this.shouldShowProjectSelect false) true false}}
+                            onclick={{fn (mut this.isBasedOnProject) false}}
+                            checked={{this.isBasedOnProject}}
                         >
                         <label
-                            local-class='RadioElement RadioLabel {{unless this.shouldShowProjectSelect 'IsChecked'}}'
+                            local-class='RadioElement RadioLabel {{unless this.isBasedOnProject 'IsChecked'}}'
                             for='NoProject'
                         >
                             {{t 'registries.new.no'}}
                         </label>
                     </fieldset>
                 </label>
-                {{#if this.shouldShowProjectSelect}}
+                {{#if this.isBasedOnProject}}
                     <label data-test-project-select local-class='selectLabel'>
                         <p local-class='stepLabel'>
                             {{t 'registries.new.step_two'}}
@@ -88,7 +88,7 @@
 
                 <label data-test-schema-select local-class='selectLabel'>
                     <p local-class='stepLabel'>
-                        {{#if this.shouldShowProjectSelect}}
+                        {{#if this.isBasedOnProject}}
                             {{t 'registries.new.step_three'}}
                         {{else}}
                             {{t 'registries.new.step_two'}}

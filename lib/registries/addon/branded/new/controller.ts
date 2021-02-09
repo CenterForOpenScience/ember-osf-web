@@ -25,16 +25,16 @@ export default class BrandedRegistriesNewSubmissionController extends Controller
     @tracked selectedSchema?: RegistrationSchemaModel;
     @tracked schemaOptions: RegistrationSchemaModel[] = [];
     @tracked projectOptions: NodeModel[] = [];
-    @tracked shouldShowProjectSelect: boolean = false;
+    @tracked isBasedOnProject: boolean = false;
 
     get disableCreateDraft(): boolean {
-        return this.shouldShowProjectSelect ? !(this.selectedSchema && this.selectedProject) : !this.selectedSchema;
+        return this.isBasedOnProject ? !(this.selectedSchema && this.selectedProject) : !this.selectedSchema;
     }
 
     @task({ withTestWaiter: true })
     createNewDraftRegistration = task(function *(this: BrandedRegistriesNewSubmissionController) {
         let newRegistration: DraftRegistrationModel;
-        if (this.shouldShowProjectSelect) {
+        if (this.isBasedOnProject) {
             newRegistration = this.store.createRecord('draft-registration', {
                 registrationSchema: this.selectedSchema,
                 provider: this.model,

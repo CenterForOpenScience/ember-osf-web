@@ -94,11 +94,6 @@ module('Registries | Acceptance | branded.new', hooks => {
     test('users are prevented from submitting incomplete form no project', async assert => {
         server.loadFixtures('registration-schemas');
         server.loadFixtures('schema-blocks');
-        const currentUser = server.create('user', 'loggedIn');
-        const node = server.create('node', { id: 'decaf', title: 'This is your project' }, 'currentUserAdmin');
-        const nonAdminNode = server.create('node', { id: 'badmin', title: 'User is not admin' });
-        server.create('contributor', { node, users: currentUser });
-        server.create('contributor', { node: nonAdminNode, users: currentUser });
         const brandedProvider = server.create('registration-provider', 'withBrand', 'withSchemas');
         await visit(`/registries/${brandedProvider.id}/new`);
 
