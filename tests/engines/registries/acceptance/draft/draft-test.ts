@@ -398,11 +398,11 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.equal(currentURL(), '/dashboard', 'user is redirected to /dashboard');
     });
 
-    test('metadata: contributor can remove herself', async assert => {
+    test('metadata: read and write contributor can remove herself', async assert => {
         const currentUser = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const draftRegistration = server.create('draft-registration',
-            { registrationSchema, initiator: currentUser });
+            { registrationSchema, initiator: currentUser }, 'currentUserIsReadAndWrite');
         const thisContributor = server.create('contributor', {
             users: currentUser,
             index: 0,
@@ -412,9 +412,9 @@ module('Registries | Acceptance | draft form', hooks => {
         server.createList('contributor', 1, { draftRegistration });
 
         await visit(`/registries/drafts/${draftRegistration.id}/metadata`);
-        assert.dom(`[data-test-contributor-remove="${thisContributor.id}"] > button`)
+        assert.dom(`[data-test-contributor-remove-self="${thisContributor.id}"] > button`)
             .isVisible('remove me button is visible');
-        await click(`[data-test-contributor-remove="${thisContributor.id}"] > button`);
+        await click(`[data-test-contributor-remove-self="${thisContributor.id}"] > button`);
 
         assert.dom('.modal-content').isVisible('removeMe hard-confirm modal is visible');
         assert.dom('[data-test-confirm-delete]').isVisible('removeMe hard-confirm modal has confirm button');
@@ -429,7 +429,7 @@ module('Registries | Acceptance | draft form', hooks => {
         const currentUser = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const draftRegistration = server.create('draft-registration',
-            { registrationSchema, initiator: currentUser });
+            { registrationSchema, initiator: currentUser }, 'currentUserIsReadAndWrite');
         const thisContributor = server.create('contributor', {
             users: currentUser,
             index: 0,
@@ -439,9 +439,9 @@ module('Registries | Acceptance | draft form', hooks => {
         server.createList('contributor', 1, { draftRegistration });
 
         await visit(`/registries/drafts/${draftRegistration.id}/metadata`);
-        assert.dom(`[data-test-contributor-remove="${thisContributor.id}"] > button`)
+        assert.dom(`[data-test-contributor-remove-self="${thisContributor.id}"] > button`)
             .isVisible('remove me button is visible');
-        await click(`[data-test-contributor-remove="${thisContributor.id}"] > button`);
+        await click(`[data-test-contributor-remove-self="${thisContributor.id}"] > button`);
 
         assert.dom('.modal-content').isVisible('removeMe hard-confirm modal is visible');
         assert.dom('[data-test-confirm-delete]').isVisible('removeMe hard-confirm modal has confirm button');
