@@ -50,7 +50,7 @@
                             name='no-project'
                             value='no'
                             onclick={{fn (mut this.isBasedOnProject) false}}
-                            checked={{this.isBasedOnProject}}
+                            checked={{not this.isBasedOnProject}}
                         >
                         <label
                             local-class='RadioElement RadioLabel {{unless this.isBasedOnProject 'IsChecked'}}'
