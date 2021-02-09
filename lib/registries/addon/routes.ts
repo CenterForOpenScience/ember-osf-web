@@ -13,6 +13,7 @@ export default buildRoutes(function() {
         });
     });
 
+    this.route('my-registrations', { path: '/registries/my-registrations' });
     this.route('start', { path: '/registries/start' });
 
     this.route('forms', { path: '/registries/forms' }, function() {

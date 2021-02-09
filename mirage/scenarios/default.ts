@@ -72,11 +72,17 @@ function registrationScenario(
 
     const rootNode = server.create('node', {
         public: false,
-        contributors: server.createList('contributor', 11),
+        contributors: server.createList('contributor', 10),
         currentUserPermissions: [Permission.Admin],
     }, 'withFiles', 'withStorage');
     rootNode.update({
         storage: server.create('node-storage', { storageLimitStatus: StorageStatus.OVER_PRIVATE }),
+    });
+    server.create('contributor', {
+        node: rootNode,
+        users: currentUser,
+        permission: Permission.Admin,
+        index: 0,
     });
 
     const childNodeA = server.create('node', { parent: rootNode });

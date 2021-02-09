@@ -3,6 +3,7 @@ import a11yAudit from 'ember-a11y-testing/test-support/audit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupIntl, t } from 'ember-intl/test-support';
 import { Permission } from 'ember-osf-web/models/osf-model';
+import CurrentUser from 'ember-osf-web/services/current-user';
 import { selectChoose } from 'ember-power-select/test-support';
 import { clickTrigger } from 'ember-power-select/test-support/helpers';
 import { setupRenderingTest } from 'ember-qunit';
@@ -12,13 +13,18 @@ import hbs from 'htmlbars-inline-precompile';
 import { module, skip, test } from 'qunit';
 import { OsfLinkRouterStub } from '../../helpers/osf-link-router-stub';
 
+interface ThisTestContext extends TestContext {
+    currentUser: CurrentUser;
+}
+
 module('Integration | Component | contributors', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
     setupIntl(hooks);
 
-    hooks.beforeEach(function(this: TestContext) {
+    hooks.beforeEach(function(this: ThisTestContext) {
         this.store = this.owner.lookup('service:store');
+        this.currentUser = this.owner.lookup('service:current-user');
         this.owner.register('service:router', OsfLinkRouterStub);
         server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
@@ -94,6 +100,51 @@ module('Integration | Component | contributors', hooks => {
             .hasText(userCitation);
         await a11yAudit(this.element);
         assert.ok(true, 'No a11y errors on page');
+    });
+
+    test('read-only contributor card can remove self as contributor', async function(assert) {
+        const currentUser = server.create('user', { id: 'sprout' });
+        const currentUserModel = await this.store.findRecord('user', 'sprout');
+        this.owner.lookup('service:current-user').setProperties({
+            user: currentUserModel, currentUserId: currentUserModel.id,
+        });
+
+        const firstContributor = server.create('contributor', {
+            fullName: 'First Contributor',
+            index: 0,
+            id: 'Remove',
+            users: currentUser,
+        });
+        const secondContributor = server.create('contributor', {
+            fullName: 'Second Contributor',
+            index: 1,
+            id: 'Keep',
+        });
+        const draftRegistration = server.create('draft-registration', {
+            contributors: [firstContributor, secondContributor],
+        });
+        const registrationModel = await this.store.findRecord('draft-registration', draftRegistration.id);
+        this.set('node', registrationModel);
+        await render(hbs`<Contributors::Widget @node={{this.node}} @widgetMode='readonly' />`);
+        assert.dom('[data-test-contributor-card="Keep"]').isVisible(
+            '"Keep" card is visible before contributor removal',
+        );
+        assert.dom('[data-test-contributor-card="Remove"]').isVisible(
+            '"Remove" card is visible before contributor removal',
+        );
+        assert.dom('[data-test-contributor-remove-self="Remove"]')
+            .exists('There is a delete button for currentUser contributor');
+        assert.dom('[data-test-contributor-remove-self="Keep"]')
+            .doesNotExist('There is no delete button for non-currentUser contributor');
+        await click('[data-test-contributor-remove-self="Remove"] > button');
+        await click('[data-test-confirm-delete]');
+
+        assert.dom('[data-test-contributor-card="Keep"]').isVisible(
+            '"Keep" card is visible after contributor removal',
+        );
+        assert.dom('[data-test-contributor-card="Remove"]').isNotVisible(
+            '"Remove" card is not visible after contributor removal',
+        );
     });
 
     test('editable user card renders', async function(assert) {

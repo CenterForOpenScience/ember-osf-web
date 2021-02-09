@@ -18,7 +18,6 @@
 }
 
 .Right {
-    padding: 30px;
     min-width: 216px;
     width: 216px;
 }
@@ -53,15 +52,28 @@
 }
 
 .RightWrapper {
+    padding: 30px;
     position: sticky;
-    top: 20px;
+    top: 0;
     display: flex;
     flex-direction: column;
     text-align: center;
+    z-index: 1;
+    background: $color-bg-white;
+    border-bottom: 1px solid $color-border-gray;
 
     & > * {
         margin-bottom: 15px;
     }
+}
+
+.EditWarning {
+    position: sticky;
+    top: 223px; // this is the height of .RightWrapper and its content
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
 }
 
 .BackButton {

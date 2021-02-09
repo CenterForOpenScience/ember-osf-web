@@ -33,7 +33,11 @@ import { rootDetail } from './views/root';
 import { shareSearch } from './views/share-search';
 import { createToken } from './views/token';
 import { createEmails, updateEmails } from './views/update-email';
-import { claimUnregisteredUser, userNodeList } from './views/user';
+import {
+    claimUnregisteredUser,
+    userNodeList,
+    userRegistrationList,
+} from './views/user';
 import { updatePassword } from './views/user-password';
 import * as userSettings from './views/user-setting';
 import * as wb from './views/wb';
@@ -225,6 +229,10 @@ export default function(this: Server) {
 
     this.get('/users/:id/nodes', userNodeList);
     this.get('/sparse/users/:id/nodes', userNodeList);
+    this.get('/users/:id/registrations', userRegistrationList);
+    osfNestedResource(this, 'user', 'draftRegistrations', {
+        only: ['index'],
+    });
 
     osfNestedResource(this, 'user', 'quickfiles', { only: ['index', 'show'] });
 

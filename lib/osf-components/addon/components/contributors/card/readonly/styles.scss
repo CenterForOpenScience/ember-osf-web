@@ -8,6 +8,17 @@
 
 .CardSection {
     composes: CardSection from '../styles.scss';
+    max-width: 34%;
+}
+
+.CardSectionSmall {
+    composes: CardSection from '../styles.scss';
+    max-width: 16%;
+}
+
+.CardSectionXS {
+    composes: CardSection from '../styles.scss';
+    max-width: 8%;
 }
 
 .DropdownSection {

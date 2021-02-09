@@ -67,6 +67,8 @@ export default Factory.extend<DraftRegistration & DraftRegistrationTraits>({
 
     currentUserPermissions: Object.values(Permission),
 
+    hasProject: true,
+
     withRegistrationMetadata: trait<DraftRegistration>({
         afterCreate(draftRegistration) {
             draftRegistration.update({
