@@ -50,6 +50,7 @@
                         @label='{{t 'registries.drafts.draft.metadata.page_label'}}'
                         @navMode={{leftNav.leftGutterMode}}
                         @metadataIsValid={{draftManager.metadataIsValid}}
+                        @clickable={{not draftManager.readOnly}}
                     />
                     {{#each draftManager.pageManagers as |pageManager index|}}
                         <PageLink
@@ -60,6 +61,7 @@
                             @pageIndex={{index}}
                             @currentPageIndex={{navManager.currentPage}}
                             @navMode={{leftNav.leftGutterMode}}
+                            @clickable={{not draftManager.readOnly}}
                         />
                     {{/each}}
                     <PageLink
@@ -70,6 +72,7 @@
                         @currentPageName={{navManager.currentRoute}}
                         @label='{{t 'registries.drafts.draft.review.page_label'}}'
                         @navMode={{leftNav.leftGutterMode}}
+                        @clickable={{not draftManager.readOnly}}
                     />
                 </layout.leftNav>
                 <layout.main local-class='Main'>
@@ -82,6 +85,7 @@
                                 @navManager={{navManager}}
                                 @draftManager={{draftManager}}
                                 @onSubmitRedirect={{this.onSubmitRedirect}}
+                                @clickable={{not draftManager.readOnly}}
                             />
                         </div>
                     </layout.right>

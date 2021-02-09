@@ -65,6 +65,8 @@ export default Factory.extend<DraftRegistration & DraftRegistrationTraits>({
 
     category: NodeCategory.Uncategorized,
 
+    currentUserPermissions: Object.values(Permission),
+
     withRegistrationMetadata: trait<DraftRegistration>({
         afterCreate(draftRegistration) {
             draftRegistration.update({

@@ -23,10 +23,12 @@
             <Registries::ReviewMetadataRenderer
                 @metadataChangeset={{draftManager.metadataChangeset}}
                 @draftRegistration={{draftManager.draftRegistration}}
+                @showEditButton={{not draftManager.readOnly}}
             />
             <Registries::ReviewFormRenderer
                 @draftManager={{draftManager}}
                 @node={{this.node}}
+                @showEditButton={{not draftManager.readOnly}}
             />
         </main>
     {{/if}}

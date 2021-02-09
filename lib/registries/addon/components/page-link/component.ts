@@ -33,6 +33,7 @@ export default class PageLinkComponent extends Component {
     label?: string;
     navMode?: string;
     metadataIsValid?: boolean;
+    clickable?: boolean;
 
     @computed('pageName', 'pageIndex', 'pageManager', 'pageManager.pageHeadingText')
     get page(): string | undefined {

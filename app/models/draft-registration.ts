@@ -1,3 +1,4 @@
+import { computed } from '@ember/object';
 import DS from 'ember-data';
 
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
@@ -6,7 +7,7 @@ import ContributorModel from './contributor';
 import InstitutionModel from './institution';
 import LicenseModel from './license';
 import NodeModel, { NodeCategory, NodeLicense } from './node';
-import OsfModel from './osf-model';
+import OsfModel, { Permission } from './osf-model';
 import RegistrationProviderModel from './registration-provider';
 import RegistrationSchemaModel, { RegistrationMetadata } from './registration-schema';
 import SubjectModel from './subject';
@@ -35,6 +36,7 @@ export default class DraftRegistrationModel extends OsfModel {
     @attr('fixstring') title!: string;
     @attr('fixstring') description!: string;
     @attr('fixstringarray') tags!: string[];
+    @attr('array') currentUserPermissions!: Permission[];
     @attr('node-license') nodeLicense!: NodeLicense | null;
     @attr('node-category') category!: NodeCategory;
 
@@ -61,6 +63,17 @@ export default class DraftRegistrationModel extends OsfModel {
 
     @hasMany('contributor')
     contributors!: DS.PromiseManyArray<ContributorModel> & ContributorModel[];
+
+    @computed('currentUserPermissions')
+    get userHasAdminPermission() {
+        return Array.isArray(this.currentUserPermissions) && this.currentUserPermissions.includes(Permission.Admin);
+    }
+
+    @computed('currentUserPermissions')
+    get userIsReadOnly() {
+        return Array.isArray(this.currentUserPermissions) && this.currentUserPermissions.includes(Permission.Read)
+            && this.currentUserPermissions.length === 1;
+    }
 }
 
 declare module 'ember-data/types/registries/model' {

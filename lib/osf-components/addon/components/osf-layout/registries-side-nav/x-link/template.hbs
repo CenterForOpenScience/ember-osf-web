@@ -23,30 +23,51 @@
         )}}
     </OsfButton>
 {{else}}
-    <OsfLink
-        data-test-collapsed={{this.isCollapsed}}
-        local-class='Link
-            {{if this.isCollapsed 'Collapsed'}}
-            {{if this.isCurrentPage 'CurrentPage'}}
-            {{if this.isDrawer 'Drawer'}}
-            {{if @disabled 'Disabled'}}'
-        @route={{@route}}
-        @models={{@models}}
-        @href={{@href}}
-        @onClick={{@onClick}}
-        @disabled={{@disabled}}
-        ...attributes
-    >
-        {{yield (hash
-            label=(component 'osf-layout/registries-side-nav/label'
-                label=@label
-                count=@count
-                isCollapsed=this.isCollapsed
-            )
-            icon=(component 'osf-layout/registries-side-nav/icon'
-                fixedWidth=true
-                icon=@icon
-            )
-        )}}
-    </OsfLink>
+    {{#if @clickable}}
+        <OsfLink
+            data-test-collapsed={{this.isCollapsed}}
+            local-class='Link
+                {{if this.isCollapsed 'Collapsed'}}
+                {{if this.isCurrentPage 'CurrentPage'}}
+                {{if this.isDrawer 'Drawer'}}'
+            @route={{@route}}
+            @models={{@models}}
+            @href={{@href}}
+            @onClick={{@onClick}}
+            ...attributes
+        >
+            {{yield (hash
+                label=(component 'osf-layout/registries-side-nav/label'
+                    label=@label
+                    count=@count
+                    isCollapsed=this.isCollapsed
+                )
+                icon=(component 'osf-layout/registries-side-nav/icon'
+                    fixedWidth=true
+                    icon=@icon
+                )
+            )}}
+        </OsfLink>
+    {{else}}
+        <span
+            class='{{this.class}} {{if this.isActive 'active'}}'
+            local-class='Link Disabled
+                {{if this.isCollapsed 'Collapsed'}}
+                {{if this.isCurrentPage 'CurrentPage'}}
+                {{if this.isDrawer 'Drawer'}}'
+            ...attributes
+        >
+            {{yield (hash
+                label=(component 'osf-layout/registries-side-nav/label'
+                    label=@label
+                    count=@count
+                    isCollapsed=this.isCollapsed
+                )
+                icon=(component 'osf-layout/registries-side-nav/icon'
+                    fixedWidth=true
+                    icon=@icon
+                )
+            )}}
+        </span>
+    {{/if}}
 {{/if}}
