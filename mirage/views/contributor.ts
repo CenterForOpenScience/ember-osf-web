@@ -28,8 +28,7 @@ export function addContributor(this: HandlerContext, schema: Schema, request: Re
             users: user,
             draftRegistration,
         });
-    }
-    if (attrs.email || attrs.fullName) {
+    } else if (attrs.fullName) {
         // The request comes without an id in the payload
         // That means we are inviting a user as a contributor
         const user = schema.users.create({ fullName: attrs.fullName });

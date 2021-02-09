@@ -28,8 +28,8 @@ export default class ContributorsManager extends Component {
     @service store!: DS.Store;
     @service router!: RouterService;
 
-    node!: NodeModel;
-    draftRegistration!: DraftRegistrationModel;
+    node?: NodeModel;
+    draftRegistration?: DraftRegistrationModel;
 
     @tracked contributors: ContributorModel[] = [];
     @tracked totalPage: number = 1;
@@ -146,26 +146,29 @@ export default class ContributorsManager extends Component {
     );
 
     @task({ withTestWaiter: true, enqueue: true })
-    addContributor = task(
-        function *(this: ContributorsManager, user: UserModel, permission: Permission, bibliographic: boolean) {
-            try {
-                const newContributor = this.store.createRecord('contributor', {
-                    permission,
-                    bibliographic,
-                    node: this.node,
-                    draftRegistration: this.draftRegistration,
-                    users: user,
-                });
-                yield newContributor.save();
-                this.contributors.pushObject(newContributor);
-                this.toast.success(this.intl.t('osf-components.contributors.addContributor.success'));
-            } catch (e) {
-                const apiError = getApiErrorMessage(e);
-                const errorHeading = this.intl.t('osf-components.contributors.addContributor.errorHeading');
-                this.toast.error(`${errorHeading}${apiError}`);
-            }
-        },
-    );
+    addContributor = task(function *(
+        this: ContributorsManager,
+        user: UserModel,
+        permission: Permission,
+        bibliographic: boolean,
+    ) {
+        try {
+            const newContributor = this.store.createRecord('contributor', {
+                permission,
+                bibliographic,
+                node: this.node,
+                draftRegistration: this.draftRegistration,
+                users: user,
+            });
+            yield newContributor.save();
+            this.contributors.pushObject(newContributor);
+            this.toast.success(this.intl.t('osf-components.contributors.addContributor.success'));
+        } catch (e) {
+            const apiError = getApiErrorMessage(e);
+            const errorHeading = this.intl.t('osf-components.contributors.addContributor.errorHeading');
+            this.toast.error(`${errorHeading}${apiError}`);
+        }
+    });
 
     @task({ withTestWaiter: true, enqueue: true })
     addUnregisteredContributor = task(

@@ -33,7 +33,6 @@ export default class UserSearchComponent extends Component<UserSearchComponentAr
             && this.hasMoreUsers;
     }
 
-    @computed('currentPage', 'totalPage')
     get hasMoreUsers() {
         return this.currentUsersPage <= this.totalUsersPage;
     }

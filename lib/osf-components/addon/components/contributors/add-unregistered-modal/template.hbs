@@ -44,14 +44,17 @@
             >
                 {{capitalize permission}}
             </form.select>
-            <label>
-                {{t 'osf-components.contributors.headings.citation'}}
-            </label>
-            <Input
-                @type='checkbox'
-                @checked={{this.unregisteredFormChangeset.bibliographic}}
-                data-test-is-bibliographic
-            />
+            {{#let (unique-id 'citation-checkbox') as |id|}}
+                <label for={{id}}>
+                    {{t 'osf-components.contributors.headings.citation'}}
+                </label>
+                <Input
+                    id={{id}}
+                    @type='checkbox'
+                    @checked={{this.unregisteredFormChangeset.bibliographic}}
+                    data-test-is-bibliographic
+                />
+            {{/let}}
         </FormControls>
     </dialog.main>
     <dialog.footer>

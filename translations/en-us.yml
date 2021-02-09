@@ -1128,7 +1128,8 @@ registries:
         add_description: 'Add description'
         add_contributors:
             section_heading: 'Add Contributors'
-            add_new_button: 'Add new contributor'
+            add_new_button: 'Add new contributors'
+            done_add_new_button: 'Done adding new contributors'
             results_heading: 'Results'
             search_placeholder: 'Search by name or profile information'
             help_text: '<p>Search results will appear here. Click the + icon in each row to set permissions for that contributor.</p><p>You can perform additional searches to add more contributors. Your selections will remain listed below until you click Save.</p>'
