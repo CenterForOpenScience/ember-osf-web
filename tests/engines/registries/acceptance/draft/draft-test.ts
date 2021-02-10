@@ -57,7 +57,40 @@ module('Registries | Acceptance | draft form', hooks => {
         await percySnapshot('Branded draft page');
     });
 
-    test('it redirects to metadata page of the draft form', async assert => {
+    test('it redirects to review page of the draft form for read-only users', async assert => {
+        const initiator = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const registration = server.create(
+            'draft-registration',
+            {
+                registrationSchema,
+                initiator,
+                currentUserPermissions: [Permission.Read],
+            },
+        );
+
+        await visit(`/registries/drafts/${registration.id}/`);
+
+        assert.equal(currentRouteName(), 'registries.drafts.draft.review', 'Read-only users redirected to review page');
+
+        // check leftnav
+        assert.dom('data-test-link="metadata"').hasClass('Disabled', 'Leftnav: Metadata is disabled');
+        assert.dom('data-test-link="review"').hasClass('Disabled', 'LeftNav: Review is disabled');
+        assert.dom('data-test-link="review"').hasClass('Active', 'LeftNav: Review is active page');
+        // check rightnav
+        assert.dom('data-test-goto-register').hasAttribute('disabled', 'RightNav: Register button disabled');
+        assert.dom('data-test-goto-previous-page').doesNotExist('RightNav: Back button not shown');
+        // check metadata and form renderer
+        assert.dom('data-test-edit-button').doesNotExist('MetadataRenderer: Edit button not shown');
+
+        await percySnapshot('Read-only Review page');
+
+        await visit(`/registries/drafts/${registration.id}/metadata`);
+        assert.equal(currentRouteName(), 'registries.drafts.draft.review',
+            'Read-only users redirected to review page after trying to go to the metadata page');
+    });
+
+    test('it redirects to metadata page of the draft form for admins', async assert => {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(

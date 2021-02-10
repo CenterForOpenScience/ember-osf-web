@@ -20,7 +20,7 @@
     <Drafts::Draft::-Components::Register
         @draftManager={{@draftManager}}
         @onSubmitRedirect={{@onSubmitRedirect}}
-        @clickable={{@clickable}}
+        @clickable={{not @readOnly}}
     />
 {{/if}}
 {{#if @navManager.nextPageParam}}
@@ -38,7 +38,7 @@
         </Button>
     </OsfLink>
 {{/if}}
-{{#if @navManager.prevPageParam}}
+{{#if (and @navManager.prevPageParam (not @readOnly))}}
     <OsfLink
         data-test-goto-previous-page
         data-analytics-name='Go to previous page'
@@ -47,7 +47,7 @@
         @route='registries.drafts.draft.page'
         @models={{array @draftManager.draftId @navManager.prevPageParam}}
     >
-        <Button @type='secondary' disabled={{not @clickable}}>
+        <Button @type='secondary'>
             <FaIcon @icon='arrow-left' @fixedWidth={{true}} />
             {{t 'registries.drafts.draft.form.back'}}
         </Button>
