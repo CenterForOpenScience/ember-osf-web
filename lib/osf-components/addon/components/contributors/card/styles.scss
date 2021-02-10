@@ -15,7 +15,9 @@
 
 .CardSection {
     flex: 1 0 auto;
-    max-width: 30%;
+    max-width: 34%;
+    display: flex;
+    align-items: center;
 
     &:first-of-type {
         flex: 2 0 auto;

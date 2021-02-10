@@ -398,22 +398,20 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.equal(currentURL(), '/dashboard', 'user is redirected to /dashboard');
     });
 
-    test('metadata: contributor can remove herself', async assert => {
+    test('metadata: read and write contributor can remove herself', async assert => {
         const currentUser = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
-        const branchedFrom = server.create('node');
+        const draftRegistration = server.create('draft-registration',
+            { registrationSchema, initiator: currentUser }, 'currentUserIsReadAndWrite');
         const thisContributor = server.create('contributor', {
             users: currentUser,
             index: 0,
-            node: branchedFrom,
+            draftRegistration,
             permission: Permission.Write,
         });
-        server.createList('contributor', 1, { node: branchedFrom });
-        const draftRegistration = server.create('draft-registration',
-            { registrationSchema, initiator: currentUser, branchedFrom });
+        server.createList('contributor', 1, { draftRegistration });
 
         await visit(`/registries/drafts/${draftRegistration.id}/metadata`);
-
         assert.dom(`[data-test-contributor-remove-self="${thisContributor.id}"] > button`)
             .isVisible('remove me button is visible');
         await click(`[data-test-contributor-remove-self="${thisContributor.id}"] > button`);
@@ -430,19 +428,17 @@ module('Registries | Acceptance | draft form', hooks => {
     test('metadata: removeMe fails', async assert => {
         const currentUser = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
-        const branchedFrom = server.create('node');
+        const draftRegistration = server.create('draft-registration',
+            { registrationSchema, initiator: currentUser }, 'currentUserIsReadAndWrite');
         const thisContributor = server.create('contributor', {
             users: currentUser,
             index: 0,
-            node: branchedFrom,
+            draftRegistration,
             permission: Permission.Write,
         });
-        server.createList('contributor', 1, { node: branchedFrom });
-        const draftRegistration = server.create('draft-registration',
-            { registrationSchema, initiator: currentUser, branchedFrom });
+        server.createList('contributor', 1, { draftRegistration });
 
         await visit(`/registries/drafts/${draftRegistration.id}/metadata`);
-
         assert.dom(`[data-test-contributor-remove-self="${thisContributor.id}"] > button`)
             .isVisible('remove me button is visible');
         await click(`[data-test-contributor-remove-self="${thisContributor.id}"] > button`);
@@ -451,7 +447,7 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-confirm-delete]').isVisible('removeMe hard-confirm modal has confirm button');
 
         server.namespace = '/v2';
-        server.del('/nodes/:parentID/contributors/:id', () => ({
+        server.del('/draft_registrations/:parentID/contributors/:id', () => ({
             errors: [{ detail: 'Error occured' }],
         }), 400);
 

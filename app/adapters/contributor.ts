@@ -1,9 +1,6 @@
 import { assert } from '@ember/debug';
 import { inject as service } from '@ember/service';
 import DS from 'ember-data';
-
-import param from 'ember-osf-web/utils/param';
-
 import OsfAdapter from './osf-adapter';
 
 export default class ContributorAdapter extends OsfAdapter {
@@ -12,42 +9,45 @@ export default class ContributorAdapter extends OsfAdapter {
     buildURL(
         modelName: 'contributor',
         id: string,
-        snapshot: DS.Snapshot,
+        snapshot: DS.Snapshot<'contributor'>,
         requestType: string,
     ) {
-        if (requestType === 'createRecord' || requestType === 'findRecord') {
-            let userId;
-            let nodeId;
-
-            if (requestType === 'findRecord') {
-                [nodeId, userId] = (id || '').split('-');
-                assert(`"contributorId" must be "nodeId-userId": got ${nodeId}-${userId}`, Boolean(nodeId && userId));
+        if (requestType === 'findRecord') {
+            const [objectId, userId] = (id || '').split('-');
+            const node = this.store.peekRecord('node', objectId);
+            const draft = this.store.peekRecord('draft-registration', objectId);
+            let baseUrl;
+            assert(`"contributorId" must be "objectId-userId": got ${objectId}-${userId}`, Boolean(objectId && userId));
+            if (node) {
+                baseUrl = this.buildRelationshipURL((node as any)._internalModel.createSnapshot(), 'contributors');
             } else {
-                nodeId = snapshot.record.get('nodeId');
-                assert(`"nodeId" is required to create a contributor; got ${nodeId}`, Boolean(nodeId));
+                baseUrl = this.buildRelationshipURL((draft as any)._internalModel.createSnapshot(), 'contributors');
             }
-
-            const node = this.store.peekRecord('node', nodeId);
-
-            if (!node) {
-                throw new Error('Trying to add a contributor to a Node that hasn\'t been loaded into the store');
-            }
-
-            const baseUrl = this.buildRelationshipURL((node as any)._internalModel.createSnapshot(), 'contributors');
-
-            if (requestType === 'findRecord') {
-                return `${baseUrl}${userId}/`;
-            }
-
-            const params = {
-                // Needed for Ember Data to update the inverse record's (the node's) relationship
-                embed: 'node',
-                send_email: snapshot ? (snapshot.record.get('sendEmail') || false) : true,
-            };
-
-            return `${baseUrl}?${param(params)}`;
+            return `${baseUrl}${userId}/`;
         }
 
+        if (requestType === 'createRecord') {
+            const node = snapshot.belongsTo('node');
+            const draftRegistration = snapshot.belongsTo('draftRegistration');
+            const user = snapshot.belongsTo('users');
+            assert('"node" or "draftRegistration" relationship is needed to create a contributor',
+                Boolean(node || draftRegistration));
+            assert('"users" relationship, "email" or "fullName" is needed to create a contributor',
+                Boolean(user || snapshot.attr('email') || snapshot.attr('fullName')));
+            let baseUrl;
+            if (node) {
+                // if node relationship is defined
+                // we post to v2/nodes/<node_id>/contributors
+                baseUrl = this.buildRelationshipURL(node, 'contributors');
+            }
+
+            if (draftRegistration) {
+                // if draftRegistration relationship is defined
+                // we post to v2/draft_registrations/<draft_id>/contributors
+                baseUrl = this.buildRelationshipURL(draftRegistration, 'contributors');
+            }
+            return `${baseUrl}`;
+        }
         return super.buildURL(modelName, id, snapshot, requestType);
     }
 }

@@ -35,6 +35,7 @@ general:
     view: View
     edit: Edit
     cancel: Cancel
+    add: Add
     ok: OK
     revisions: Revisions
     md5: MD5
@@ -1128,6 +1129,20 @@ registries:
             more: 'See more'
     registration_metadata:
         add_description: 'Add description'
+        add_contributors:
+            section_heading: 'Add Contributors'
+            add_new_button: 'Add new contributors'
+            done_add_new_button: 'Done adding new contributors'
+            results_heading: 'Results'
+            search_placeholder: 'Search by name or profile information'
+            help_text: '<p>Search results will appear here. Click the + icon in each row to set permissions for that contributor.</p><p>You can perform additional searches to add more contributors. Your selections will remain listed below until you click Save.</p>'
+            search: 'Search'
+            add_unregistered_contributor: 'Add unregistered contributor'
+            error_loading: 'Error, could not load contributors'
+            no_results: 'No results found'
+            add_contributor_aria: 'Add contributor'
+            save: 'Save'
+            clear_all: 'Clear all'
         add_license: 'Add license'
         license_help_text: 'A license tells others how they can use your work in the future and only applies to the information and files submitted with the registration. For more information, see this <a href=''https://help.osf.io/hc/en-us/articles/360019739014-Licensing''>article on licenses</a>.'
         affiliated_institutions: 'Affiliated institutions'
@@ -1629,6 +1644,13 @@ osf-components:
             success: 'Contributor order updated.'
         noEducation: 'No education history to show'
         noEmployment: 'No employment history to show'
+        addContributor:
+            success: 'Contributor added'
+            errorHeading: 'Error adding contributor'
+        currentContributors: 'Current contributors'
+        email: 'Email'
+        fullName: 'Full name'
+        selectPermission: 'Select permission'
         educationAndEmployment:
             expand: 'Expand employment and education info'
             collapse: 'Collapse employment and education info'
