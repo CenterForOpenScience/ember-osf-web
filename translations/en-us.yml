@@ -1025,19 +1025,22 @@ registries:
         overview:
             title: 'Moderated Overview'
     new:
+        provider_info: 'You are submitting to {provider}. <a href="https://help.osf.io/hc/en-us/categories/360001550953-Registrations">Click here</a> to learn more about other hosted registries.'
         required: 'required'
         page_title: 'New Registration'
         page_header: 'Add New Registration'
         step_one: 'Step 1'
         step_two: 'Step 2'
-        select_schema: 'Select registration type'
-        select_project: 'Select project to register'
-        new_project_help: 'If you have not started the project yet, click below to go to your dashboard to create a new project'
-        new_project_help_fragment1: 'A project is required for registration. If you haven’t started the project yet, you can create a new project from'
-        new_project_help_fragment2: 'To learn more about registration, <a href="https://help.osf.io/hc/en-us/articles/360019930893">visit our help docs.</a>'
+        step_three: 'Step 3'
+        step_one_project_heading: 'Do you have content for registration in an existing OSF project?'
+        select_schema: 'Which type of registration would you like to create?'
+        select_project: 'Which project do you want to register?'
+        component_help_text: 'If your project includes components, you can select which components to include or exclude at the end of the registration.'
         go_to_dashboard: 'your dashboard.'
-        start_registration: 'Start registration draft'
+        start_registration: 'Create draft'
         select_project_placeholder: 'Select your project'
+        yes: 'Yes'
+        no: 'No'
     discover:
         page_title: Search
         SHARE: 'About SHARE'

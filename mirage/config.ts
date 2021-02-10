@@ -129,6 +129,7 @@ export default function(this: Server) {
         only: ['index', 'show', 'update'],
         path: '/draft_registrations',
     });
+    this.post('/draft_registrations', createDraftRegistration);
     osfToManyRelationship(this, 'draft-registration', 'subjects');
     osfToManyRelationship(this, 'draft-registration', 'affiliatedInstitutions', {
         only: ['related', 'update', 'add', 'remove'],
