@@ -14,15 +14,13 @@ export default class ContributorAdapter extends OsfAdapter {
     ) {
         if (requestType === 'findRecord') {
             const [objectId, userId] = (id || '').split('-');
+            const node = this.store.peekRecord('node', objectId);
+            const draft = this.store.peekRecord('draft-registration', objectId);
             let baseUrl;
             assert(`"contributorId" must be "objectId-userId": got ${objectId}-${userId}`, Boolean(objectId && userId));
-            if (objectId.length === 5) {
-                // object is a node because objectId is a 5 digit guid
-                const node = this.store.peekRecord('node', objectId);
+            if (node) {
                 baseUrl = this.buildRelationshipURL((node as any)._internalModel.createSnapshot(), 'contributors');
             } else {
-                // object is not a node (only possibility is a draft_registration as of now)
-                const draft = this.store.peekRecord('draft-registration', objectId);
                 baseUrl = this.buildRelationshipURL((draft as any)._internalModel.createSnapshot(), 'contributors');
             }
             return `${baseUrl}${userId}/`;
