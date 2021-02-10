@@ -11,7 +11,7 @@ interface AddUnregisteredModalArgs {
         fullName: string,
         permission: Permission,
         bibliographic: boolean,
-    ) => null;
+    ) => void;
 }
 
 interface UnregisteredFormFields {
