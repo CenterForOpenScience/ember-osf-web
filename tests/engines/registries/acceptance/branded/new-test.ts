@@ -60,7 +60,7 @@ module('Registries | Acceptance | branded.new', hooks => {
         assert.equal(currentRouteName(), 'registries.page-not-found', 'At the correct route: page-not-found');
     });
 
-    test('users are prevented from submitting incomplete form', async assert => {
+    test('users are prevented from submitting incomplete form with project', async assert => {
         server.loadFixtures('registration-schemas');
         server.loadFixtures('schema-blocks');
         const currentUser = server.create('user', 'loggedIn');
@@ -72,7 +72,11 @@ module('Registries | Acceptance | branded.new', hooks => {
         await visit(`/registries/${brandedProvider.id}/new`);
 
         assert.dom('[data-test-start-registration-button]')
-            .isDisabled('Start registration button is disabled on first load');
+            .isNotDisabled('Start registration button is enabled on first load with schema selected');
+        await click('[data-test-has-project-button]');
+        assert.dom('[data-test-project-select]').exists();
+        assert.dom('[data-test-start-registration-button]')
+            .isDisabled('Start button is disabled without project selected');
         await click('[data-test-project-select] .ember-power-select-trigger');
         assert.dom('.ember-power-select-options > li.ember-power-select-option:first-of-type')
             .hasText('This is your project', 'Project dropdown shows project title');
@@ -83,6 +87,21 @@ module('Registries | Acceptance | branded.new', hooks => {
             .hasText('This is a Test Schema', 'Schema dropdown is autopopulated with first schema available');
         assert.dom('[data-test-start-registration-button]')
             .isEnabled('Start registration button is enabled after choosing a project and schema');
+        await click('[data-test-start-registration-button]');
+        assert.equal(currentRouteName(), 'registries.drafts.draft.metadata',
+            'Go to draft registration metadata page on start');
+    });
+    test('users are prevented from submitting incomplete form no project', async assert => {
+        server.loadFixtures('registration-schemas');
+        server.loadFixtures('schema-blocks');
+        const brandedProvider = server.create('registration-provider', 'withBrand', 'withSchemas');
+        await visit(`/registries/${brandedProvider.id}/new`);
+
+        assert.dom('[data-test-start-registration-button]')
+            .isNotDisabled('Start registration button is enabled on first load with schema selected');
+        assert.dom('[data-test-project-select]').doesNotExist();
+        assert.dom('[data-test-schema-select] .ember-power-select-trigger')
+            .hasText('This is a Test Schema', 'Schema dropdown is autopopulated with first schema available');
         await click('[data-test-start-registration-button]');
         assert.equal(currentRouteName(), 'registries.drafts.draft.metadata',
             'Go to draft registration metadata page on start');

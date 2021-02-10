@@ -11,7 +11,7 @@ interface AddUnregisteredModalArgs {
         fullName: string,
         permission: Permission,
         bibliographic: boolean,
-    ) => null;
+    ) => void;
 }
 
 interface UnregisteredFormFields {
@@ -42,7 +42,7 @@ export default class UserSearchComponent extends Component<AddUnregisteredModalA
         permission: Permission.Write,
         bibliographic: true,
     }, UnregisteredFormValidations);
-    permissionOptions = [...Object.values(Permission)];
+    permissionOptions = Object.values(Permission);
 
     @action
     validate() {
