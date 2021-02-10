@@ -3,7 +3,7 @@
     @draftRegistration={{@draftRegistration}}
     as |manager|
 >
-    {{#let (unique-id) 'current-contributors' as |currentContributorFieldId|}}
+    {{#let (unique-id 'current-contributors') as |currentContributorFieldId|}}
         {{#if @shouldShowAdd}}
             <Contributors::UserSearch::Widget
                 @manager={{manager}}

@@ -14,5 +14,5 @@ export default class ContributorsCardEditable extends Component {
     manager!: ContributorsManager;
 
     // private properties
-    permissionOptions = [...Object.values(Permission)];
+    permissionOptions = Object.values(Permission);
 }

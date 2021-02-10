@@ -14,9 +14,8 @@ export default class UserSearchCardComponent extends Component<UserSearchCardCom
     @tracked permission = Permission.Write;
     @tracked isBibliographic = true;
 
-    permissionOptions = [...Object.values(Permission)];
+    permissionOptions = Object.values(Permission);
 
-    @computed('args.{manager.contributors.[],user.id}')
     get isAdded() {
         const addedContributorsId = this.args.manager.contributors.map(item => item.users.get('id'));
         return addedContributorsId.includes(this.args.user.id);
