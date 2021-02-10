@@ -6,7 +6,7 @@ import ContributorModel from './contributor';
 import InstitutionModel from './institution';
 import LicenseModel from './license';
 import NodeModel, { NodeCategory, NodeLicense } from './node';
-import OsfModel from './osf-model';
+import OsfModel, { Permission } from './osf-model';
 import RegistrationProviderModel from './registration-provider';
 import RegistrationSchemaModel, { RegistrationMetadata } from './registration-schema';
 import SubjectModel from './subject';
@@ -38,6 +38,7 @@ export default class DraftRegistrationModel extends OsfModel {
     @attr('node-license') nodeLicense!: NodeLicense | null;
     @attr('node-category') category!: NodeCategory;
     @attr('boolean') hasProject!: boolean;
+    @attr('array') currentUserPermissions!: Permission[];
 
     @belongsTo('node', { inverse: 'draftRegistrations' })
     branchedFrom!: DS.PromiseObject<NodeModel> & NodeModel;

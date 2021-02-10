@@ -66,7 +66,7 @@ export default class UnregisteredContributor extends Component {
 
         this.setProperties({
             model: this.store.createRecord('contributor', {
-                nodeId: this.node.id,
+                node: this.node,
                 permission: Permission.Write,
                 isUnregistered: true,
             }),

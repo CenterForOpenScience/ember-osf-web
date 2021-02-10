@@ -68,9 +68,8 @@ export default class Search extends Component {
         const contributor = this.store.createRecord('contributor', {
             permission: 'write',
             bibliographic: true,
-            sendEmail: 'false',
-            nodeId: this.node.id,
-            userId: user.id,
+            node: this.node,
+            users: user,
         });
 
         try {

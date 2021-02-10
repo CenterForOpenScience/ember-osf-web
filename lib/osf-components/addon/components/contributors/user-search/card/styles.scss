@@ -1,0 +1,37 @@
+.CardContainer {
+    composes: CardContainer from '../../card/styles.scss';
+}
+
+.MainSection {
+    composes: MainSection from '../../card/styles.scss';
+}
+
+.CardSection {
+    composes: CardSection from '../../card/styles.scss';
+
+    :global(.ember-power-select-trigger) {
+        max-width: 150px;
+    }
+}
+
+.CardSectionSmall {
+    composes: CardSection from '../../card/styles.scss';
+    max-width: 14%;
+}
+
+.ButtonSection {
+    width: 60px;
+}
+
+.Check {
+    padding-left: 12px;
+    color: $color-border-gray;
+}
+
+.AddButton {
+    background-color: $color-bg-white;
+
+    i {
+        color: #458446;
+    }
+}

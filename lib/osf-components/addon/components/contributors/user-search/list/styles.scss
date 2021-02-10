@@ -1,0 +1,25 @@
+.Heading {
+    composes: Heading from '../widget/styles.scss';
+    top: 40px;
+}
+
+.HeadingTitle {
+    flex: 1 0 auto;
+    max-width: 30%;
+    font-size: 14px;
+
+    &:first-of-type {
+        flex: 2 0 auto;
+        max-width: 41%;
+    }
+}
+
+.ContributorList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.InfinityLoader {
+    text-align: center;
+}

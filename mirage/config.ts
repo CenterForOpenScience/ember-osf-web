@@ -5,7 +5,7 @@ import { createReviewAction } from 'ember-osf-web/mirage/views/review-action';
 import { getCitation } from './views/citation';
 import { searchCollections } from './views/collection-search';
 import { reportDelete } from './views/comment';
-import { createBibliographicContributor } from './views/contributor';
+import { addContributor, createBibliographicContributor } from './views/contributor';
 import { createDeveloperApp, updateDeveloperApp } from './views/developer-app';
 import { createDraftRegistration } from './views/draft-registration';
 import {
@@ -137,7 +137,9 @@ export default function(this: Server) {
     });
     osfNestedResource(this, 'draft-registration', 'contributors', {
         defaultSortKey: 'index',
+        except: ['create'],
     });
+    this.post('/draft_registrations/:draftId/contributors/', addContributor);
 
     osfResource(this, 'review-action', {
         only: ['show'],

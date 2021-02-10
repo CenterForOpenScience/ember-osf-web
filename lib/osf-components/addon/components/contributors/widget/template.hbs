@@ -1,22 +1,34 @@
-<div local-class='Container' ...attributes>
-    <div local-class='Heading'>
-        <span data-test-heading-name local-class='HeadingTitle'>
-            {{t 'osf-components.contributors.headings.name'}}
-        </span>
-        <span data-test-heading-permission local-class='HeadingTitle'>
-            {{t 'osf-components.contributors.headings.permission'}}
-        </span>
-        <span data-test-heading-citation local-class='HeadingTitle'>
-            {{t 'osf-components.contributors.headings.citation'}}
-        </span>
-    </div>
-    <Contributors::Manager
-        @node={{@node}}
-        as |manager|
-    >
-        <Contributors::List
-            @contributorsManager={{manager}}
-            @widgetMode={{this.widgetMode}}
-        />
-    </Contributors::Manager>
-</div>
+<Contributors::Manager
+    @node={{@node}}
+    @draftRegistration={{@draftRegistration}}
+    as |manager|
+>
+    {{#let (unique-id 'current-contributors') as |currentContributorFieldId|}}
+        {{#if @shouldShowAdd}}
+            <Contributors::UserSearch::Widget
+                @manager={{manager}}
+                @toggleAddContributorWidget={{@toggleAddContributorWidget}}
+            />
+            <label for={{currentContributorFieldId}}>
+                {{t 'osf-components.contributors.currentContributors'}}
+            </label>
+        {{/if}}
+        <div local-class='Container' ...attributes>
+            <div local-class='Heading'>
+                <span data-test-heading-name local-class='HeadingTitle'>
+                    {{t 'osf-components.contributors.headings.name'}}
+                </span>
+                <span data-test-heading-permission local-class='HeadingTitle'>
+                    {{t 'osf-components.contributors.headings.permission'}}
+                </span>
+                <span data-test-heading-citation local-class='HeadingTitle'>
+                    {{t 'osf-components.contributors.headings.citation'}}
+                </span>
+            </div>
+            <Contributors::List
+                @contributorsManager={{manager}}
+                @widgetMode={{@widgetMode}}
+            />
+        </div>
+    {{/let}}
+</Contributors::Manager>
