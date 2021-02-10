@@ -2,11 +2,17 @@
     data-test-files-instructions
     local-class='FilesInstructions'
 >
-    {{t 'osf-components.registries.schema-block-renderer/editable/files.instructions'
-        projectOrComponent=(if @node.isRoot 'project' 'component')
-        nodeUrl=this.nodeUrl
-        htmlSafe=true
-    }}
+    {{#if @nodeIsDraftNode}}
+        {{t 'osf-components.registries.schema-block-renderer/editable/files.instructionsNoProject'
+            htmlSafe=true
+        }}
+    {{else}}
+        {{t 'osf-components.registries.schema-block-renderer/editable/files.instructions'
+            projectOrComponent=(if @node.isRoot 'project' 'component')
+            nodeUrl=this.nodeUrl
+            htmlSafe=true
+        }}
+    {{/if}}
 </p>
 <Files::SelectedList
     local-class='SelectedList'
@@ -25,5 +31,6 @@
     @node={{@node}}
     @onSelectFile={{action this.onSelectFile}}
     @onAddFile={{action this.onAddFile}}
+    @onDeleteFile={{this.onDeleteFile}}
     ...attributes
 />

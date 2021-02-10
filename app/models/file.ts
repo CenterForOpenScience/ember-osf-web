@@ -1,3 +1,4 @@
+import { assert } from '@ember/debug';
 import DS from 'ember-data';
 import { Link } from 'jsonapi-typescript';
 
@@ -151,6 +152,15 @@ export default class FileModel extends BaseFileItem {
                 resource: node.id,
             }),
         }).then(() => this.reload());
+    }
+
+    delete(): Promise<null> {
+        assert('links.delete is required to remove a file or folder', Boolean(this.links.delete));
+        return this.currentUser.authenticatedAJAX({
+            url: getHref(this.links.delete),
+            type: 'DELETE',
+            xhrFields: { withCredentials: true },
+        });
     }
 }
 
