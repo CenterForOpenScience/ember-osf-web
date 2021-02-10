@@ -1,7 +1,6 @@
 import OsfAdapter from './osf-adapter';
 
 export default class DraftRegistrationAdapter extends OsfAdapter {
-    parentRelationship = 'branchedFrom';
 }
 
 declare module 'ember-data/types/registries/adapter' {

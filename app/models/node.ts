@@ -152,7 +152,7 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
     registrations!: DS.PromiseManyArray<RegistrationModel>;
 
     @hasMany('draft-registration', { inverse: 'branchedFrom' })
-    draftRegistrations!: DS.PromiseManyArray<DraftRegistrationModel>;
+    draftRegistrations?: DS.PromiseManyArray<DraftRegistrationModel>;
 
     @hasMany('node', { inverse: 'forkedFrom' })
     forks!: DS.PromiseManyArray<NodeModel>;

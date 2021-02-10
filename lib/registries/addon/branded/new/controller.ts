@@ -6,6 +6,7 @@ import { timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 
+import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
 import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import RegistrationSchemaModel from 'ember-osf-web/models/registration-schema';
@@ -24,19 +25,27 @@ export default class BrandedRegistriesNewSubmissionController extends Controller
     @tracked selectedSchema?: RegistrationSchemaModel;
     @tracked schemaOptions: RegistrationSchemaModel[] = [];
     @tracked projectOptions: NodeModel[] = [];
+    @tracked isBasedOnProject: boolean = false;
 
     get disableCreateDraft(): boolean {
-        return !(this.selectedSchema && this.selectedProject);
+        return this.isBasedOnProject ? !(this.selectedSchema && this.selectedProject) : !this.selectedSchema;
     }
 
     @task({ withTestWaiter: true })
     createNewDraftRegistration = task(function *(this: BrandedRegistriesNewSubmissionController) {
-        const newRegistration = this.store.createRecord('draft-registration',
-            {
+        let newRegistration: DraftRegistrationModel;
+        if (this.isBasedOnProject) {
+            newRegistration = this.store.createRecord('draft-registration', {
                 registrationSchema: this.selectedSchema,
                 provider: this.model,
                 branchedFrom: this.selectedProject,
             });
+        } else {
+            newRegistration = this.store.createRecord('draft-registration', {
+                registrationSchema: this.selectedSchema,
+                provider: this.model,
+            });
+        }
         try {
             yield newRegistration.save();
             this.transitionToRoute('drafts.draft', newRegistration.id);

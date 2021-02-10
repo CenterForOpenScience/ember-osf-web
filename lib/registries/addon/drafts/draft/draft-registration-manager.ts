@@ -25,7 +25,7 @@ import buildChangeset from 'ember-osf-web/utils/build-changeset';
 
 type LoadDraftModelTask = TaskInstance<{
     draftRegistration: DraftRegistration,
-    node: NodeModel,
+    node?: NodeModel,
     provider: ProviderModel,
 }>;
 
@@ -53,7 +53,7 @@ export default class DraftRegistrationManager {
     @notEmpty('visitedPages') hasVisitedPages!: boolean;
 
     draftRegistration!: DraftRegistration;
-    node!: NodeModel;
+    node?: NodeModel;
     provider!: ProviderModel;
 
     @computed('pageManagers.{[],@each.pageIsValid}')
