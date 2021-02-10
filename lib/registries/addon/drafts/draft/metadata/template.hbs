@@ -73,6 +73,9 @@
                             id={{contributorFieldId}}
                         />
                     {{else}}
+                        <label local-class='label' for={{contributorFieldId}} id='contributors'>
+                            {{t 'registries.registration_metadata.contributors'}}
+                        </label>
                         <Contributors::Widget
                             @draftRegistration={{this.draftManager.draftRegistration}}
                             @widgetMode={{'readonly'}}
