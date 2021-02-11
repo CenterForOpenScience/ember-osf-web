@@ -14,7 +14,6 @@ import ProviderModel from 'ember-osf-web/models/provider';
 import SchemaBlock from 'ember-osf-web/models/schema-block';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
-import { Permission } from 'ember-osf-web/models/osf-model';
 import {
     buildMetadataValidations,
     getPages,
@@ -74,13 +73,6 @@ export default class DraftRegistrationManager {
         const metadataInputFailed = this.onMetadataInput.lastComplete
             ? this.onMetadataInput.lastComplete.isError : false;
         return pageInputFailed || metadataInputFailed;
-    }
-
-    @computed('draftRegistration.currentUserPermissions')
-    get currentUserIsReadOnly() {
-        const { currentUserPermissions } = this.draftRegistration;
-        return Array.isArray(currentUserPermissions) && currentUserPermissions.includes(Permission.Read)
-            && currentUserPermissions.length === 1;
     }
 
     @task({ withTestWaiter: true })
