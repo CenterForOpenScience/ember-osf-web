@@ -587,6 +587,7 @@ module('Registries | Acceptance | draft form', hooks => {
                 initiator,
                 registrationResponses,
                 branchedFrom: rootNode,
+                currentUserPermissions: Object.values(Permission),
                 license: server.schema.licenses.first(),
             },
         );
@@ -629,6 +630,37 @@ module('Registries | Acceptance | draft form', hooks => {
         await click('[data-test-submit-registration-button]');
 
         assert.equal(currentRouteName(), 'registries.overview.index', 'Redicted to new registration overview page');
+    });
+
+    test('write user cannot register draft', async assert => {
+        const initiator = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const rootNode = server.create('node');
+        const registrationResponses = {
+            'page-one_long-text': '',
+            'page-one_multi-select': [],
+            'page-one_multi-select-other': '',
+            'page-one_short-text': 'ditto',
+            'page-one_single-select': 'tuna',
+            'page-one_single-select-two': '',
+        };
+        const registration = server.create(
+            'draft-registration',
+            {
+                registrationSchema,
+                initiator,
+                registrationResponses,
+                branchedFrom: rootNode,
+                currentUserPermissions: [Permission.Read, Permission.Write],
+                license: server.schema.licenses.first(),
+            },
+        );
+        const subjects = [server.create('subject')];
+        registration.update({ subjects });
+        await visit(`/registries/drafts/${registration.id}/review`);
+
+        assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/review`), 'At review page');
+        assert.dom('[data-test-goto-register]').isDisabled('Register button is disabled for write users');
     });
 
     test('validations: marks all pages (visited or unvisited) as visited and validates all in review', async assert => {

@@ -45,7 +45,8 @@ export default class DraftRegistrationManager {
     schemaBlocks!: SchemaBlock[];
 
     @alias('draftRegistration.id') draftId!: string;
-    @alias('draftRegistration.userIsReadOnly') readOnly!: boolean;
+    @alias('draftRegistration.currentUserIsReadOnly') readOnly!: boolean;
+    @alias('draftRegistration.currentUserIsAdmin') currentUserIsAdmin!: boolean;
     @alias('provider.reviewsWorkflow') reviewsWorkflow?: string;
     @or('onPageInput.isRunning', 'onMetadataInput.isRunning') autoSaving!: boolean;
     @or('initializePageManagers.isRunning', 'initializeMetadataChangeset.isRunning') initializing!: boolean;
@@ -75,12 +76,11 @@ export default class DraftRegistrationManager {
         return pageInputFailed || metadataInputFailed;
     }
 
-    get currentUserIsAdmin() {
+    @computed('draftRegistration.currentUserPermissions')
+    get currentUserIsReadOnly() {
         const { currentUserPermissions } = this.draftRegistration;
-        if (currentUserPermissions) {
-            return currentUserPermissions.includes(Permission.Admin);
-        }
-        return false;
+        return Array.isArray(currentUserPermissions) && currentUserPermissions.includes(Permission.Read)
+            && currentUserPermissions.length === 1;
     }
 
     @task({ withTestWaiter: true })

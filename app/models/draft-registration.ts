@@ -40,7 +40,6 @@ export default class DraftRegistrationModel extends OsfModel {
     @attr('node-license') nodeLicense!: NodeLicense | null;
     @attr('node-category') category!: NodeCategory;
     @attr('boolean') hasProject!: boolean;
-    @attr('array') currentUserPermissions!: Permission[];
 
     @belongsTo('node', { inverse: 'draftRegistrations' })
     branchedFrom!: DS.PromiseObject<NodeModel> & NodeModel;
@@ -67,12 +66,12 @@ export default class DraftRegistrationModel extends OsfModel {
     contributors!: DS.PromiseManyArray<ContributorModel> & ContributorModel[];
 
     @computed('currentUserPermissions')
-    get userHasAdminPermission() {
+    get currentUserIsAdmin() {
         return Array.isArray(this.currentUserPermissions) && this.currentUserPermissions.includes(Permission.Admin);
     }
 
     @computed('currentUserPermissions')
-    get userIsReadOnly() {
+    get currentUserIsReadOnly() {
         return Array.isArray(this.currentUserPermissions) && this.currentUserPermissions.includes(Permission.Read)
             && this.currentUserPermissions.length === 1;
     }

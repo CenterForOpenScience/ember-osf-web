@@ -20,7 +20,7 @@
     <Drafts::Draft::-Components::Register
         @draftManager={{@draftManager}}
         @onSubmitRedirect={{@onSubmitRedirect}}
-        @clickable={{not @readOnly}}
+        @clickable={{@draftManager.currentUserIsAdmin}}
     />
 {{/if}}
 {{#if @navManager.nextPageParam}}
