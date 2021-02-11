@@ -120,6 +120,7 @@ export default function(this: Server) {
         path: '/nodes/:parentID/relationships/institutions',
     });
     this.get('/nodes/:id/storage', storageStatus);
+    osfResource(this, 'draft-node', { only: ['show', 'index', 'create'] });
 
     osfToManyRelationship(this, 'node', 'subjects', {
         only: ['related', 'self'],

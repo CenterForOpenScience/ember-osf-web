@@ -7,7 +7,7 @@ const { OSF: { apiUrl } } = config;
 
 export default class DraftRegistrationSerializer extends ApplicationSerializer<DraftRegistration> {
     buildRelationships(model: ModelInstance<DraftRegistration>) {
-        const returnValue: SerializedRelationships<DraftRegistration> = {
+        const relationships: SerializedRelationships<DraftRegistration> = {
             initiator: {
                 data: {
                     id: model.initiator.id,
@@ -69,22 +69,39 @@ export default class DraftRegistrationSerializer extends ApplicationSerializer<D
                 },
             },
         };
+
         if (model.branchedFrom) {
-            returnValue.branchedFrom = {
-                data: {
-                    id: model.branchedFrom.id,
-                    type: 'nodes',
-                },
-                links: {
-                    related: {
-                        href: `${apiUrl}/v2/nodes/${model.branchedFrom.id}`,
-                        meta: {},
+            if (model.hasProject) {
+                relationships.branchedFrom = {
+                    data: {
+                        id: model.branchedFrom.id,
+                        type: 'nodes',
                     },
-                },
-            };
+                    links: {
+                        related: {
+                            href: `${apiUrl}/v2/nodes/${model.branchedFrom.id}`,
+                            meta: {},
+                        },
+                    },
+                };
+            } else {
+                relationships.branchedFrom = {
+                    data: {
+                        id: model.branchedFrom.id,
+                        type: 'draft-nodes',
+                    },
+                    links: {
+                        related: {
+                            href: `${apiUrl}/v2/draft_nodes/${model.branchedFrom.id}`,
+                            meta: {},
+                        },
+                    },
+                };
+            }
         }
+
         if (model.license) {
-            returnValue.license = {
+            relationships.license = {
                 data: {
                     id: model.license.id,
                     type: 'licenses',
@@ -97,7 +114,8 @@ export default class DraftRegistrationSerializer extends ApplicationSerializer<D
                 },
             };
         }
-        return returnValue;
+
+        return relationships;
     }
 
     buildNormalLinks(model: ModelInstance<DraftRegistration>) {
