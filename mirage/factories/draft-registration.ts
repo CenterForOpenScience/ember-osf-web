@@ -13,6 +13,9 @@ export interface DraftRegistrationTraits {
     withAffiliatedInstitutions: Trait;
     withSubjects: Trait;
     withContributors: Trait;
+    currentUserIsAdmin: Trait;
+    currentUserIsReadOnly: Trait;
+    currentUserIsReadAndWrite: Trait;
 }
 
 export default Factory.extend<DraftRegistration & DraftRegistrationTraits>({
@@ -120,6 +123,27 @@ export default Factory.extend<DraftRegistration & DraftRegistrationTraits>({
                     server.create('contributor', { draftRegistration, index: i });
                 }
             }
+        },
+    }),
+
+    currentUserIsAdmin: trait<DraftRegistration>({
+        afterCreate(draftRegistration) {
+            const currentUserPermissions = [Permission.Admin, Permission.Read, Permission.Write];
+            draftRegistration.update({ currentUserPermissions });
+        },
+    }),
+
+    currentUserIsReadOnly: trait<DraftRegistration>({
+        afterCreate(draftRegistration) {
+            const currentUserPermissions = [Permission.Read];
+            draftRegistration.update({ currentUserPermissions });
+        },
+    }),
+
+    currentUserIsReadAndWrite: trait<DraftRegistration>({
+        afterCreate(draftRegistration) {
+            const currentUserPermissions = [Permission.Read, Permission.Write];
+            draftRegistration.update({ currentUserPermissions });
         },
     }),
 });

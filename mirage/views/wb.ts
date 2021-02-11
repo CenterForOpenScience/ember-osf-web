@@ -1,4 +1,4 @@
-import { HandlerContext, Schema } from 'ember-cli-mirage';
+import { HandlerContext, Response, Schema } from 'ember-cli-mirage';
 
 export function moveFile(this: HandlerContext, schema: Schema) {
     const fileId = this.request.params.id;
@@ -25,7 +25,7 @@ export function deleteFile(this: HandlerContext, schema: Schema) {
     const fileId = this.request.params.id;
     const file = schema.files.find(fileId);
     file.destroy();
-    return null;
+    return new Response(204);
 }
 
 export function fileVersions(this: HandlerContext) {

@@ -8,7 +8,11 @@ interface ContributorTraits {
     unregistered: Trait;
 }
 
-export default Factory.extend<Contributor & ContributorTraits>({
+export interface MirageContributor extends Contributor {
+    usersId: string | number | null;
+}
+
+export default Factory.extend<MirageContributor & ContributorTraits>({
     permission(i: number) {
         const permissions = Object.values(Permission);
         return permissions[i % permissions.length];
@@ -37,8 +41,14 @@ export default Factory.extend<Contributor & ContributorTraits>({
     unregistered: trait({ unregisteredContributor: 'unregistered' }),
 });
 
+declare module 'ember-cli-mirage/types/registries/model' {
+    export default interface MirageModelRegistry {
+        contributor: MirageContributor;
+    } // eslint-disable-line semi
+}
+
 declare module 'ember-cli-mirage/types/registries/schema' {
     export default interface MirageSchemaRegistry {
-        contributors: Contributor;
+        contributors: MirageContributor;
     } // eslint-disable-line semi
 }

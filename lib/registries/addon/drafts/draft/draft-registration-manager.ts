@@ -14,6 +14,7 @@ import ProviderModel from 'ember-osf-web/models/provider';
 import SchemaBlock from 'ember-osf-web/models/schema-block';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
+import { Permission } from 'ember-osf-web/models/osf-model';
 import {
     buildMetadataValidations,
     getPages,
@@ -24,7 +25,7 @@ import buildChangeset from 'ember-osf-web/utils/build-changeset';
 
 type LoadDraftModelTask = TaskInstance<{
     draftRegistration: DraftRegistration,
-    node: NodeModel,
+    node?: NodeModel,
     provider: ProviderModel,
 }>;
 
@@ -53,7 +54,7 @@ export default class DraftRegistrationManager {
     @notEmpty('visitedPages') hasVisitedPages!: boolean;
 
     draftRegistration!: DraftRegistration;
-    node!: NodeModel;
+    node?: NodeModel;
     provider!: ProviderModel;
 
     @computed('pageManagers.{[],@each.pageIsValid}')
@@ -72,6 +73,14 @@ export default class DraftRegistrationManager {
         const metadataInputFailed = this.onMetadataInput.lastComplete
             ? this.onMetadataInput.lastComplete.isError : false;
         return pageInputFailed || metadataInputFailed;
+    }
+
+    get currentUserIsAdmin() {
+        const { currentUserPermissions } = this.draftRegistration;
+        if (currentUserPermissions) {
+            return currentUserPermissions.includes(Permission.Admin);
+        }
+        return false;
     }
 
     @task({ withTestWaiter: true })

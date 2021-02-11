@@ -13,6 +13,10 @@
 .selectLabel {
     composes: SchemaBlockDropdown from '../../drafts/draft/metadata/styles.scss';
     display: block;
+
+    div {
+        max-width: 361px;
+    }
 }
 
 .projectHeading {
@@ -25,9 +29,14 @@
     flex-direction: column;
 }
 
-.newProjectHelpText {
-    margin-top: 20px;
-    max-width: 600px;
+.InformationText {
+    margin: 20px 0 30px;
+    text-align: center;
+    font-style: italic;
+
+    &.ComponentHelpText {
+        max-width: 390px;
+    }
 }
 
 .createDraftButton {
@@ -48,4 +57,48 @@
 
 .required {
     color: $brand-danger;
+}
+
+.StepOneContainer {
+    margin-bottom: 30px;
+}
+
+.RadioFieldset {
+    position: relative;
+    text-align: center;
+}
+
+.RadioLegend {
+    border-bottom: 0;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.RadioElement {
+    width: 80px;
+    height: 40px;
+    margin: 0;
+}
+
+.RadioInput {
+    position: absolute;
+    opacity: 0;
+
+    &:hover {
+        cursor: pointer;
+    } 
+}
+
+.RadioLabel {
+    text-align: center;
+    line-height: 40px;
+    border: 1px solid $color-border-gray;
+    color: $color-text-blue-dark;
+    text-transform: uppercase;
+}
+
+.IsChecked {
+    color: $color-osf-secondary;
+    background-color: $color-bg-gray-blue-light;
+    border: 1px solid $color-bg-gray-blue-light;
 }

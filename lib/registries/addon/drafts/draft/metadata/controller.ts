@@ -1,4 +1,5 @@
 import Controller from '@ember/controller';
+import { action } from '@ember/object';
 import { alias, not } from '@ember/object/computed';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
@@ -16,7 +17,13 @@ export default class RegistriesDraftMetadata extends Controller {
     @alias('model.draftRegistrationManager.initializing') loading!: boolean;
 
     categoryOptions = Object.values(NodeCategory);
+    showAddContributorWidget: boolean = false;
 
     @not('media.isDesktop') showMobileView!: boolean;
     osfUrl = config.OSF.url;
+
+    @action
+    toggleAddContributorWidget() {
+        this.toggleProperty('showAddContributorWidget');
+    }
 }
