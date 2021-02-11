@@ -7,6 +7,7 @@ import getHref from 'ember-osf-web/utils/get-href';
 
 import BaseFileItem, { BaseFileLinks } from './base-file-item';
 import CommentModel from './comment';
+import DraftNode from './draft-node';
 import FileVersionModel from './file-version';
 import NodeModel from './node';
 import UserModel from './user';
@@ -53,8 +54,9 @@ export default class FileModel extends BaseFileItem {
     comments!: DS.PromiseManyArray<CommentModel>;
 
     // TODO: In the future apiv2 may also need to support this pointing at nodes OR registrations
-    @belongsTo('node')
-    target!: DS.PromiseObject<NodeModel> & NodeModel;
+    @belongsTo('node', { polymorphic: true })
+    target!: DS.PromiseObject<NodeModel> & NodeModel |
+        (DS.PromiseObject<DraftNode> & DraftNode);
 
     @belongsTo('user')
     user!: DS.PromiseObject<UserModel> & UserModel;
