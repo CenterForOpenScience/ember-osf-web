@@ -79,9 +79,9 @@ module('Registries | Acceptance | draft form', hooks => {
         const reviewNav = find('[data-test-link="review"]');
         assert.dom('span[data-test-link="metadata"]').exists('Leftnav: Metadata label is a span');
         assert.dom('a[data-test-link]').doesNotExist('Leftnav: Labels are not links');
-        assert.ok(metadataNav.classList.toString().includes('Disabled'), 'LeftNav: Metadata is disabled');
-        assert.ok(reviewNav.classList.toString().includes('Disabled'), 'LeftNav: Review is disabled');
-        assert.ok(reviewNav.classList.toString().includes('Active'), 'LeftNav: Review is active page');
+        assert.ok(metadataNav!.classList.toString().includes('Disabled'), 'LeftNav: Metadata is disabled');
+        assert.ok(reviewNav!.classList.toString().includes('Disabled'), 'LeftNav: Review is disabled');
+        assert.ok(reviewNav!.classList.toString().includes('Active'), 'LeftNav: Review is active page');
 
         // check rightnav
         assert.dom('[data-test-goto-register]').isDisabled('RightNav: Register button disabled');
