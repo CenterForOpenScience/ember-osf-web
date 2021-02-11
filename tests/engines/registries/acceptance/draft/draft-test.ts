@@ -4,6 +4,7 @@ import {
     currentRouteName,
     currentURL,
     fillIn,
+    find,
     settled,
     triggerKeyEvent,
 } from '@ember/test-helpers';
@@ -74,14 +75,20 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.equal(currentRouteName(), 'registries.drafts.draft.review', 'Read-only users redirected to review page');
 
         // check leftnav
-        assert.dom('data-test-link="metadata"').hasClass('Disabled', 'Leftnav: Metadata is disabled');
-        assert.dom('data-test-link="review"').hasClass('Disabled', 'LeftNav: Review is disabled');
-        assert.dom('data-test-link="review"').hasClass('Active', 'LeftNav: Review is active page');
+        const metadataNav = find('[data-test-link="metadata"]');
+        const reviewNav = find('[data-test-link="review"]');
+        assert.dom('span[data-test-link="metadata"]').exists('Leftnav: Metadata label is a span');
+        assert.dom('a[data-test-link]').doesNotExist('Leftnav: Labels are not links');
+        assert.ok(metadataNav.classList.toString().includes('Disabled'), 'LeftNav: Metadata is disabled');
+        assert.ok(reviewNav.classList.toString().includes('Disabled'), 'LeftNav: Review is disabled');
+        assert.ok(reviewNav.classList.toString().includes('Active'), 'LeftNav: Review is active page');
+
         // check rightnav
-        assert.dom('data-test-goto-register').hasAttribute('disabled', 'RightNav: Register button disabled');
-        assert.dom('data-test-goto-previous-page').doesNotExist('RightNav: Back button not shown');
+        assert.dom('[data-test-goto-register]').isDisabled('RightNav: Register button disabled');
+        assert.dom('[data-test-goto-previous-page]').doesNotExist('RightNav: Back button not shown');
+
         // check metadata and form renderer
-        assert.dom('data-test-edit-button').doesNotExist('MetadataRenderer: Edit button not shown');
+        assert.dom('[data-test-edit-button]').doesNotExist('MetadataRenderer: Edit button not shown');
 
         await percySnapshot('Read-only Review page');
 
