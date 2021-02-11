@@ -4,7 +4,7 @@
     local-class='registerButton {{if @showMobileView 'mobileReviewButtonItem'}}'
     @type='success'
     @onClick={{perform this.onClickRegister}}
-    @disabled={{not this.draftManager.registrationResponsesIsValid}}
+    @disabled={{not (and this.draftManager.registrationResponsesIsValid this.currentUserIsAdmin)}}
 >
     {{#if this.onClickRegister.isRunning}}
         <LoadingIndicator @inline={{true}} />

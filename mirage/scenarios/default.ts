@@ -169,6 +169,7 @@ function registrationScenario(
         initiator: currentUser,
         branchedFrom: rootNode,
         license: licenseReqFields,
+        currentUserPermissions: [Permission.Read, Permission.Write],
     }, 'withSubjects', 'withAffiliatedInstitutions');
 
     server.create('draft-registration', {
