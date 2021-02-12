@@ -1,8 +1,7 @@
 import Component from '@ember/component';
 import { action } from '@ember/object';
-import ComputedProperty from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { Task } from 'ember-concurrency';
+import { timeout } from 'ember-concurrency';
 import { restartableTask } from 'ember-concurrency-decorators';
 import { taskFor } from 'ember-concurrency-ts';
 
@@ -34,12 +33,9 @@ export default abstract class BaseDataComponent extends Component {
     errorShown: boolean = false;
     page: number = 1;
 
-    // Will be performed with an options hash of type LoadItemsOptions
-    //
-    // We must initialize this to itself because of task decorators (otherwise
-    // it ends up being undefined in child classes), but then we have to
-    // @ts-ignore because TS doesn't let us initialize abstract properties
-    abstract loadItemsTask: ComputedProperty<Task<void>> = this.loadItemsTask;
+    async loadItemsTask(_: LoadItemsOptions) {
+        throw new Error('Must implement loadItemsTask task');
+    }
 
     @restartableTask({ withTestWaiter: true })
     async loadItemsWrapperTask({ reloading }: LoadItemsOptions) {
@@ -47,7 +43,7 @@ export default abstract class BaseDataComponent extends Component {
 
         // Resolve race condition on init: Let component finish initializing before continuing
         // TODO: Remove once we have task decorators, so the child classes' tasks are defined on the prototype
-        // yield; TODO: Do we need this?
+        await timeout(0);
 
         try {
             await taskFor(this.loadItemsTask).perform(reloading);

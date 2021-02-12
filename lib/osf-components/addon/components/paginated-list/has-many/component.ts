@@ -28,7 +28,7 @@ export default class PaginatedHasMany extends BaseDataComponent {
 
     // Private properties
     @task({ withTestWaiter: true })
-    loadItemsTask = taskFor(async function(this: PaginatedHasMany, { reloading }: LoadItemsOptions) {
+    async loadItemsTask({ reloading }: LoadItemsOptions) {
         const model = await taskFor(this.getModelTask).perform();
         if (this.usePlaceholders) {
             await taskFor(this.loadRelatedCountTask).perform(reloading);
@@ -51,7 +51,7 @@ export default class PaginatedHasMany extends BaseDataComponent {
             totalCount: items.meta.total,
             errorShown: false,
         });
-    });
+    }
 
     @task({ withTestWaiter: true })
     async getModelTask() {
