@@ -39,33 +39,34 @@
                             @draftManager={{draftManager}}
                             @navManager={{navManager}}
                             @onSubmitRedirect={{this.onSubmitRedirect}}
+                            @readOnly={{draftManager.readOnly}}
                         />
                     </layout.top>
                 {{/if}}
                 <layout.leftNav as |leftNav|>
-                    <PageLink
-                        @link={{component leftNav.link}}
-                        @draftId={{draftManager.draftId}}
-                        @pageName='metadata'
-                        @route='registries.drafts.draft.metadata'
-                        @currentPageName={{navManager.currentRoute}}
-                        @label='{{t 'registries.drafts.draft.metadata.page_label'}}'
-                        @navMode={{leftNav.leftGutterMode}}
-                        @metadataIsValid={{draftManager.metadataIsValid}}
-                        @clickable={{not draftManager.readOnly}}
-                    />
-                    {{#each draftManager.pageManagers as |pageManager index|}}
+                    {{#unless draftManager.readOnly}}
                         <PageLink
                             @link={{component leftNav.link}}
                             @draftId={{draftManager.draftId}}
-                            @pageManager={{pageManager}}
-                            @route='registries.drafts.draft.page'
-                            @pageIndex={{index}}
-                            @currentPageIndex={{navManager.currentPage}}
+                            @pageName='metadata'
+                            @route='registries.drafts.draft.metadata'
+                            @currentPageName={{navManager.currentRoute}}
+                            @label='{{t 'registries.drafts.draft.metadata.page_label'}}'
                             @navMode={{leftNav.leftGutterMode}}
-                            @clickable={{not draftManager.readOnly}}
+                            @metadataIsValid={{draftManager.metadataIsValid}}
                         />
-                    {{/each}}
+                        {{#each draftManager.pageManagers as |pageManager index|}}
+                            <PageLink
+                                @link={{component leftNav.link}}
+                                @draftId={{draftManager.draftId}}
+                                @pageManager={{pageManager}}
+                                @route='registries.drafts.draft.page'
+                                @pageIndex={{index}}
+                                @currentPageIndex={{navManager.currentPage}}
+                                @navMode={{leftNav.leftGutterMode}}
+                            />
+                        {{/each}}
+                    {{/unless}}
                     <PageLink
                         @link={{component leftNav.link}}
                         @draftId={{draftManager.draftId}}
@@ -74,7 +75,6 @@
                         @currentPageName={{navManager.currentRoute}}
                         @label='{{t 'registries.drafts.draft.review.page_label'}}'
                         @navMode={{leftNav.leftGutterMode}}
-                        @clickable={{not draftManager.readOnly}}
                     />
                 </layout.leftNav>
                 <layout.main local-class='Main'>

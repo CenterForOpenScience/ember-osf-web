@@ -76,12 +76,9 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.equal(currentRouteName(), 'registries.drafts.draft.review', 'Read-only users redirected to review page');
 
         // check leftnav
-        const metadataNav = find('[data-test-link="metadata"]');
         const reviewNav = find('[data-test-link="review"]');
-        assert.dom('span[data-test-link="metadata"]').exists('Leftnav: Metadata label is a span');
-        assert.dom('a[data-test-link]').doesNotExist('Leftnav: Labels are not links');
-        assert.ok(metadataNav!.classList.toString().includes('Disabled'), 'LeftNav: Metadata is disabled');
-        assert.ok(reviewNav!.classList.toString().includes('Disabled'), 'LeftNav: Review is disabled');
+        assert.dom('[data-test-link="metadata"]').doesNotExist('Leftnav: Metadata label is not shown');
+        assert.dom('[data-test-link="review"]').exists('Leftnav: Review label shown');
         assert.ok(reviewNav!.classList.toString().includes('Active'), 'LeftNav: Review is active page');
 
         // check rightnav
@@ -91,11 +88,18 @@ module('Registries | Acceptance | draft form', hooks => {
         // check metadata and form renderer
         assert.dom('[data-test-edit-button]').doesNotExist('MetadataRenderer: Edit button not shown');
 
-        await percySnapshot('Read-only Review page');
+        await percySnapshot('Read-only Review page: Desktop');
 
+        setBreakpoint('mobile');
         await visit(`/registries/drafts/${registration.id}/metadata`);
         assert.equal(currentRouteName(), 'registries.drafts.draft.review',
             'Read-only users redirected to review page after trying to go to the metadata page');
+
+        assert.dom('[data-test-sidenav-toggle]').doesNotExist('Mobile view: sidenav toggle not shown');
+        assert.dom('[data-test-goto-previous-page]').doesNotExist('Mobile view: previous page button not shown');
+        assert.dom('[data-test-goto-register]').isDisabled('Mobile view: Register button disabled');
+
+        await percySnapshot('Read-only Review page: Mobile');
     });
 
     test('it redirects to metadata page of the draft form for admins', async assert => {

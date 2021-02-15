@@ -5,13 +5,16 @@
 
 <Navbar local-class='SideBarToggle' ...attributes as |nav|>
     <nav.bordered-section>
-        <nav.buttons.default
-            data-analytics-name='Show sidenav'
-            aria-label={{t 'osf-components.registries-top-nav.showRegistrationNavigation'}}
-            @onclick={{action @layout.toggleSidenav}}
-        >
-            <nav.icon @icon={{if @layout.sidenavGutterClosed 'bars' 'times'}} />
-        </nav.buttons.default>
+        {{#unless @readOnly}}
+            <nav.buttons.default
+                data-test-sidenav-toggle
+                data-analytics-name='Show sidenav'
+                aria-label={{t 'osf-components.registries-top-nav.showRegistrationNavigation'}}
+                @onclick={{action @layout.toggleSidenav}}
+            >
+                <nav.icon @icon={{if @layout.sidenavGutterClosed 'bars' 'times'}} />
+            </nav.buttons.default>
+        {{/unless}}
     </nav.bordered-section>
     <nav.bordered-section local-class='MobileNavPageLabelSection'>
         <div local-class='MobileNavPageLabel' data-test-page-label>
@@ -37,7 +40,7 @@
                 {{t 'registries.drafts.draft.metadata.page_label'}}
             </nav.links.default>
         {{/if}}
-        {{#if @navManager.prevPageParam}}
+        {{#if (and @navManager.prevPageParam (not @readOnly))}}
             <nav.links.default
                 data-test-goto-previous-page
                 data-analytics-name='Sidenav back'
@@ -76,6 +79,7 @@
                 @draftManager={{@draftManager}}
                 @onSubmitRedirect={{action @onSubmitRedirect}}
                 @showMobileView={{true}}
+                @clickable={{@draftManager.currentUserIsAdmin}}
             />
         {{/if}}
     </nav.bordered-section>

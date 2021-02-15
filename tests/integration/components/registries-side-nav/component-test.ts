@@ -47,7 +47,7 @@ module('Integration | Component | registries-side-nav', hooks => {
     test('it yielded component render splattributes', async assert => {
         await render(hbs`
             <OsfLayout::RegistriesSideNav as |nav|>
-                <nav.link data-for-a-test="bar" @route="home" @icon="home" @label="test" @clickable={{true}}/>
+                <nav.link data-for-a-test="bar" @route="home" @icon="home" @label="test"/>
             </OsfLayout::RegistriesSideNav>
         `);
 
