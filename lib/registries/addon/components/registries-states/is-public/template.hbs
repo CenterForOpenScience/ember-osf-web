@@ -22,14 +22,13 @@
         <div local-class='WithdrawDropdown' data-test-withdrawal-form>
             <p>{{t 'registries.overview.withdraw.warning'}}</p>
             <p><strong>{{t 'registries.overview.withdraw.withdrawal_justification_label'}}</strong></p>
-            <div class='form-group'>
-                {{textarea
-                    class='form-control'
-                    rows='4'
-                    required=true
-                    value=this.withdrawalJustification
-                }}
-            </div>
+            <FormControls
+                @changeset={{this.changeset}}
+            as |form|>
+                <form.textarea
+                    @valuePath='withdrawalJustification'
+                />
+            </FormControls>
             <p>{{t 'registries.overview.withdraw.random_scientist_x' x=this.scientistName htmlSafe=true}}</p>
             <div local-class='Container'>
                 <div>
