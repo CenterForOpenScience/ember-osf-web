@@ -39,12 +39,12 @@
                             @draftManager={{draftManager}}
                             @navManager={{navManager}}
                             @onSubmitRedirect={{this.onSubmitRedirect}}
-                            @readOnly={{draftManager.readOnly}}
+                            @readOnly={{draftManager.currentUserIsReadOnly}}
                         />
                     </layout.top>
                 {{/if}}
                 <layout.leftNav as |leftNav|>
-                    {{#unless draftManager.readOnly}}
+                    {{#unless draftManager.currentUserIsReadOnly}}
                         <PageLink
                             @link={{component leftNav.link}}
                             @draftId={{draftManager.draftId}}
@@ -87,7 +87,7 @@
                                 @navManager={{navManager}}
                                 @draftManager={{draftManager}}
                                 @onSubmitRedirect={{this.onSubmitRedirect}}
-                                @readOnly={{draftManager.readOnly}}
+                                @readOnly={{draftManager.currentUserIsReadOnly}}
                             />
                         </div>
                         <div local-class='EditWarning'>

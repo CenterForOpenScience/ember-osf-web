@@ -44,7 +44,7 @@ export default class DraftRegistrationManager {
     schemaBlocks!: SchemaBlock[];
 
     @alias('draftRegistration.id') draftId!: string;
-    @alias('draftRegistration.currentUserIsReadOnly') readOnly!: boolean;
+    @alias('draftRegistration.currentUserIsReadOnly') currentUserIsReadOnly!: boolean;
     @alias('draftRegistration.currentUserIsAdmin') currentUserIsAdmin!: boolean;
     @alias('provider.reviewsWorkflow') reviewsWorkflow?: string;
     @or('onPageInput.isRunning', 'onMetadataInput.isRunning') autoSaving!: boolean;

@@ -1,4 +1,3 @@
-import { computed } from '@ember/object';
 import DS from 'ember-data';
 
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
@@ -65,12 +64,10 @@ export default class DraftRegistrationModel extends OsfModel {
     @hasMany('contributor')
     contributors!: DS.PromiseManyArray<ContributorModel> & ContributorModel[];
 
-    @computed('currentUserPermissions')
     get currentUserIsAdmin() {
         return Array.isArray(this.currentUserPermissions) && this.currentUserPermissions.includes(Permission.Admin);
     }
 
-    @computed('currentUserPermissions')
     get currentUserIsReadOnly() {
         return Array.isArray(this.currentUserPermissions) && this.currentUserPermissions.includes(Permission.Read)
             && this.currentUserPermissions.length === 1;
