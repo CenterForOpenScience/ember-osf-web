@@ -90,6 +90,7 @@ module('Registries | Acceptance | draft form', hooks => {
 
         await percySnapshot('Read-only Review page: Desktop');
 
+        // check mobile view
         setBreakpoint('mobile');
         await visit(`/registries/drafts/${registration.id}/metadata`);
         assert.equal(currentRouteName(), 'registries.drafts.draft.review',
