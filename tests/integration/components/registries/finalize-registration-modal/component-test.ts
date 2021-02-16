@@ -112,13 +112,17 @@ module('Integration | Component | finalize-registration-modal', hooks => {
         this.set('isOpen', false);
     });
 
-    test('almost done modal content: no moderation', async function(assert) {
+    test('almost done modal content: no moderation with project', async function(assert) {
         this.store = this.owner.lookup('service:store');
         const noModerationProvider = server.create('registration-provider', { reviewsWorkflow: null });
-        const noModRegistration = server.create('registration', { provider: noModerationProvider });
+        const node = server.create('node', 'currentUserAdmin');
+        const noModRegistration = server.create(
+            'registration',
+            { provider: noModerationProvider, registeredFrom: node },
+        );
 
         const registrationModel = await this.store.findRecord('registration', noModRegistration.id);
-        this.set('draftManager', { provider: noModerationProvider });
+        this.set('draftManager', { provider: noModerationProvider, node });
         this.set('model', registrationModel);
         this.set('isOpen', true);
         await render(hbs`
@@ -145,10 +149,83 @@ module('Integration | Component | finalize-registration-modal', hooks => {
         );
     });
 
-    test('almost done modal content: with moderation', async function(assert) {
+    test('almost done modal content: with moderation with project', async function(assert) {
         this.store = this.owner.lookup('service:store');
         const withModerationProvider = server.create('registration-provider');
-        const withModRegistration = server.create('registration', { provider: withModerationProvider });
+        const node = server.create('node', 'currentUserAdmin');
+        const withModRegistration = server.create(
+            'registration',
+            { provider: withModerationProvider, registeredFrom: node },
+        );
+
+        const registrationModel = await this.store.findRecord('registration', withModRegistration.id);
+        this.set('draftManager', { provider: withModerationProvider, reviewsWorkflow: 'pre-moderation', node });
+        this.set('model', registrationModel);
+        this.set('isOpen', true);
+        await render(hbs`
+            <Registries::FinalizeRegistrationModal::Manager
+                @registration={{this.model}}
+                @draftManager={{this.draftManager}}
+                as |manager|
+            >
+                <Registries::FinalizeRegistrationModal @isOpen={{this.isOpen}} @manager={{manager}} />
+            </Registries::FinalizeRegistrationModal::Manager>
+        `);
+        // Click immediate radio button
+        await click('[data-test-immediate-button]');
+        // Click submit button
+        await click('[data-test-submit-registration-button]');
+
+        const opts = { learnMoreLink: 'aaa.aa', htmlSafe: true };
+        assert.dom('[data-test-finalize-main]').hasTextContaining(
+            stripHtmlTags(t('registries.finalizeRegistrationModal.notice.withModerationFromProject', opts).toString()),
+            'modal shows warning with moderation for moderated providers',
+        );
+    });
+
+    test('almost done modal content: no moderation no project', async function(assert) {
+        this.store = this.owner.lookup('service:store');
+        const noModerationProvider = server.create('registration-provider', { reviewsWorkflow: null });
+        const noModRegistration = server.create(
+            'registration',
+            { provider: noModerationProvider },
+        );
+
+        const registrationModel = await this.store.findRecord('registration', noModRegistration.id);
+        this.set('draftManager', { provider: noModerationProvider });
+        this.set('model', registrationModel);
+        this.set('isOpen', true);
+        await render(hbs`
+            <Registries::FinalizeRegistrationModal::Manager
+                @registration={{this.model}}
+                @draftManager={{this.draftManager}}
+                as |manager|
+            >
+                <Registries::FinalizeRegistrationModal @isOpen={{this.isOpen}} @manager={{manager}} />
+            </Registries::FinalizeRegistrationModal::Manager>
+        `);
+        // Click immediate radio button
+        await click('[data-test-immediate-button]');
+        // Click submit button
+        await click('[data-test-submit-registration-button]');
+
+        const opts = { learnMoreLink: 'aaa.aa', htmlSafe: true };
+        assert.dom('[data-test-finalize-main]').hasTextContaining(
+            stripHtmlTags(t('registries.finalizeRegistrationModal.notice.noModerationNoProject', opts).toString()),
+            'modal shows warning',
+        );
+        assert.dom('[data-test-finalize-main]').doesNotHaveTextContaining(
+            'A moderator must review and approve', 'modal does not mention moderation for unmoderated providers',
+        );
+    });
+
+    test('almost done modal content: with moderation no project', async function(assert) {
+        this.store = this.owner.lookup('service:store');
+        const withModerationProvider = server.create('registration-provider');
+        const withModRegistration = server.create(
+            'registration',
+            { provider: withModerationProvider },
+        );
 
         const registrationModel = await this.store.findRecord('registration', withModRegistration.id);
         this.set('draftManager', { provider: withModerationProvider, reviewsWorkflow: 'pre-moderation' });
@@ -170,7 +247,7 @@ module('Integration | Component | finalize-registration-modal', hooks => {
 
         const opts = { learnMoreLink: 'aaa.aa', htmlSafe: true };
         assert.dom('[data-test-finalize-main]').hasTextContaining(
-            stripHtmlTags(t('registries.finalizeRegistrationModal.notice.withModerationFromProject', opts).toString()),
+            stripHtmlTags(t('registries.finalizeRegistrationModal.notice.withModerationNoProject', opts).toString()),
             'modal shows warning with moderation for moderated providers',
         );
     });

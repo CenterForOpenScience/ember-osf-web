@@ -44,13 +44,18 @@ export default class FinalizeRegisrationModalComponent extends Component {
     @computed('manager.draftManager.reviewsWorkflow')
     get noticeText() {
         const translationOptions = { learnMoreLink: this.learnMoreLink, htmlSafe: true };
-        if (this.manager.draftManager.reviewsWorkflow) {
-            return this.intl.t(
-                'registries.finalizeRegistrationModal.notice.withModerationFromProject',
-                translationOptions,
-            );
+        let translationString = '';
+
+        if (this.manager.draftManager.node) {
+            translationString = this.manager.draftManager.reviewsWorkflow
+                ? 'withModerationFromProject'
+                : 'noModerationFromProject';
+        } else {
+            translationString = this.manager.draftManager.reviewsWorkflow
+                ? 'withModerationNoProject'
+                : 'noModerationNoProject';
         }
-        return this.intl.t('registries.finalizeRegistrationModal.notice.noModerationFromProject', translationOptions);
+        return this.intl.t(`registries.finalizeRegistrationModal.notice.${translationString}`, translationOptions);
     }
 
     @computed('manager.{hasEmbargoEndDate,submittingRegistration}', 'makePublicOption')
