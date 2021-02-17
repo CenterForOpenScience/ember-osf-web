@@ -1,4 +1,4 @@
-import { association, Factory } from 'ember-cli-mirage';
+import { Factory } from 'ember-cli-mirage';
 
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 
@@ -19,7 +19,6 @@ export default Factory.extend<MirageFileProvider>({
         const rootFolder = server.create('file', 'asFolder');
         provider.update({ rootFolder });
     },
-    node: association() as FileProviderModel['node'],
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {

@@ -8,6 +8,7 @@ import { task } from 'ember-concurrency-decorators';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
+import DraftNode from 'ember-osf-web/models/draft-node';
 import DraftRegistration, { DraftMetadataProperties } from 'ember-osf-web/models/draft-registration';
 import NodeModel from 'ember-osf-web/models/node';
 import ProviderModel from 'ember-osf-web/models/provider';
@@ -53,7 +54,7 @@ export default class DraftRegistrationManager {
     @notEmpty('visitedPages') hasVisitedPages!: boolean;
 
     draftRegistration!: DraftRegistration;
-    node?: NodeModel;
+    node?: NodeModel | DraftNode;
     provider!: ProviderModel;
 
     @computed('pageManagers.{[],@each.pageIsValid}')

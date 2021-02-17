@@ -163,11 +163,13 @@ function registrationScenario(
         provider,
     }, 'isArchiving');
 
+    const draftNode = server.create('draft-node');
     server.create('draft-registration', {
         id: 'dcaf',
         registrationSchema: server.schema.registrationSchemas.find('open_ended_registration'),
         initiator: currentUser,
-        branchedFrom: rootNode,
+        branchedFrom: draftNode,
+        hasProject: false,
         license: licenseReqFields,
     }, 'withSubjects', 'withAffiliatedInstitutions');
 

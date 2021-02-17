@@ -1,4 +1,4 @@
-import { association, Factory, trait, Trait } from 'ember-cli-mirage';
+import { Factory, trait, Trait } from 'ember-cli-mirage';
 import faker from 'faker';
 
 import File from 'ember-osf-web/models/file';
@@ -55,7 +55,6 @@ export default Factory.extend<MirageFile & FileTraits>({
     size() {
         return faker.random.number(1000000000);
     },
-    target: association() as File['target'],
 
     asFolder: trait<File>({
         afterCreate(file) {

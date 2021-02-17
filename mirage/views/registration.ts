@@ -63,8 +63,8 @@ export function createRegistration(this: HandlerContext, schema: Schema) {
             registrationSchema: draft.registrationSchema,
             tags: branchedFrom.tags || [],
             category: branchedFrom.category,
-            contributors: branchedFrom.contributors.models,
-            currentUserPermissions: branchedFrom.currentUserPermissions,
+            contributors: draft.contributors.models,
+            currentUserPermissions: draft.currentUserPermissions,
             ...attrs,
         });
     } else {

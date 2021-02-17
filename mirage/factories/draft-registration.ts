@@ -56,8 +56,6 @@ export default Factory.extend<DraftRegistration & DraftRegistrationTraits>({
         return faker.date.past(2, new Date(2018, 0, 0));
     },
 
-    branchedFrom: association() as DraftRegistration['branchedFrom'],
-
     initiator: association() as DraftRegistration['initiator'],
 
     registrationSchema: association() as DraftRegistration['registrationSchema'],
