@@ -2,6 +2,7 @@ import DS from 'ember-data';
 
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 
+import DraftNodeModel from 'ember-osf-web/models/draft-node';
 import ContributorModel from './contributor';
 import InstitutionModel from './institution';
 import LicenseModel from './license';
@@ -40,8 +41,9 @@ export default class DraftRegistrationModel extends OsfModel {
     @attr('boolean') hasProject!: boolean;
     @attr('array') currentUserPermissions!: Permission[];
 
-    @belongsTo('node', { inverse: 'draftRegistrations' })
-    branchedFrom!: DS.PromiseObject<NodeModel> & NodeModel;
+    @belongsTo('node', { inverse: 'draftRegistrations', polymorphic: true })
+    branchedFrom!: DS.PromiseObject<NodeModel> & NodeModel
+        | DS.PromiseObject<DraftNodeModel> & DraftNodeModel;
 
     @belongsTo('user', { inverse: null })
     initiator!: DS.PromiseObject<UserModel> & UserModel;
@@ -63,6 +65,9 @@ export default class DraftRegistrationModel extends OsfModel {
 
     @hasMany('contributor')
     contributors!: DS.PromiseManyArray<ContributorModel> & ContributorModel[];
+
+    @hasMany('contributor', { inverse: null })
+    bibliographicContributors!: DS.PromiseManyArray<ContributorModel> & ContributorModel[];
 }
 
 declare module 'ember-data/types/registries/model' {
