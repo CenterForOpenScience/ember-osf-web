@@ -164,7 +164,6 @@ function registrationScenario(
     }, 'isArchiving');
 
     const draftNode = server.create('draft-node', 'withFiles');
-    // const dcaf =
     server.create('draft-registration', {
         id: 'dcaf',
         registrationSchema: server.schema.registrationSchemas.find('open_ended_registration'),
@@ -172,9 +171,8 @@ function registrationScenario(
         branchedFrom: draftNode,
         hasProject: false,
         license: licenseReqFields,
-    }, 'withSubjects', 'withAffiliatedInstitutions');
+    }, 'withSubjects', 'withAffiliatedInstitutions', 'withContributors');
 
-    // draftNode.update({ draftRegistrations: [dcaf] });
     server.create('draft-registration', {
         id: 'brand',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
