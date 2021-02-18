@@ -123,6 +123,12 @@ export default function(this: Server) {
     osfResource(this, 'draft-node', { only: ['show', 'index', 'create'] });
     osfNestedResource(this, 'draft-node', 'draftRegistrations', { only: ['index'] });
     osfNestedResource(this, 'draft-node', 'files', { only: ['index'] });
+    this.get('/draft_nodes/:parentID/files', nodeFileProviderList); // DraftNode file providers list
+    this.get('/draft_nodes/:parentID/files/:fileProviderId',
+        nodeFilesListForProvider); // DraftNode files list for file provider
+    this.get('/draft_nodes/:parentID/files/:fileProviderId/:folderId',
+        folderFilesList); // DraftNode folder detail view
+    this.put('/draft_nodes/:parentID/files/:fileProviderId/upload', uploadToRoot); // Upload to file provider
 
     osfToManyRelationship(this, 'node', 'subjects', {
         only: ['related', 'self'],
