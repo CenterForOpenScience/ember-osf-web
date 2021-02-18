@@ -20,10 +20,17 @@ export default class FileSerializer extends ApplicationSerializer<File> {
         };
 
         if (model.target && model.target.id && model.kind === 'folder') {
+            let relatedHref;
+
+            if (model.target.modelName === 'draft-node') {
+                relatedHref = `${apiUrl}/v2/draft_nodes/${model.target.id}/files/${model.provider}/${model.id}`;
+            } else {
+                relatedHref = `${apiUrl}/v2/nodes/${model.target.id}/files/${model.provider}/${model.id}`;
+            }
             returnValue.files = {
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/nodes/${model.target.id}/files/${model.provider}/${model.id}`,
+                        href: relatedHref,
                         meta: this.buildRelatedLinkMeta(model, 'files'),
                     },
                 },
@@ -62,12 +69,14 @@ export default class FileSerializer extends ApplicationSerializer<File> {
         if (model.target !== null) {
             returnValue.target = {
                 data: {
-                    type: 'nodes',
+                    type: model.target.modelName === 'draft-node' ? 'draft_nodes' : 'nodes',
                     id: model.target.id,
                 },
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/nodes/${model.target.id}/`,
+                        href: model.target.modelName === 'draft-node'
+                            ? `${apiUrl}/v2/draft_nodes/${model.target.id}/`
+                            : `${apiUrl}/v2/nodes/${model.target.id}/`,
                         meta: this.buildRelatedLinkMeta(model, 'target'),
                     },
                 },

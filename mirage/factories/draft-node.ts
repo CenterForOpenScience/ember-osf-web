@@ -13,7 +13,7 @@ export default Factory.extend <DraftNode & DraftNodeTraits>({
             const count = faker.random.number({ min: 1, max: 5 });
             const osfstorage = server.create('file-provider', { draftNode });
             const files = server.createList('file', count, { target: draftNode });
-            osfstorage.rootFolder.update({ files });
+            osfstorage.rootFolder.update({ files, target: draftNode });
         },
     }),
 });
