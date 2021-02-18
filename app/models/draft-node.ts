@@ -8,6 +8,7 @@ const { hasMany } = DS;
 export default class DraftNode extends OsfModel {
     @hasMany('file-provider', { inverse: 'draftNode' })
     files!: DS.PromiseManyArray<FileProviderModel> & FileProviderModel[];
+
     @hasMany('draft-registration', { inverse: 'branchedFrom' })
     draftRegistrations!: DS.PromiseManyArray<DraftRegistrationModel> & DraftRegistrationModel[];
 }

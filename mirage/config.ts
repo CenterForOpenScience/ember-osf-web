@@ -122,7 +122,6 @@ export default function(this: Server) {
     this.get('/nodes/:id/storage', storageStatus);
     osfResource(this, 'draft-node', { only: ['show', 'index', 'create'] });
     osfNestedResource(this, 'draft-node', 'draftRegistrations', { only: ['index'] });
-    osfNestedResource(this, 'draft-node', 'files', { only: ['index'] });
     this.get('/draft_nodes/:parentID/files', nodeFileProviderList); // DraftNode file providers list
     this.get('/draft_nodes/:parentID/files/:fileProviderId',
         nodeFilesListForProvider); // DraftNode files list for file provider

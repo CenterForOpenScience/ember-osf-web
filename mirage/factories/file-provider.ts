@@ -15,6 +15,10 @@ export default Factory.extend<MirageFileProvider>({
             provider.update({
                 providerId: `${provider.node.id}:${provider.name}`,
             });
+        } else if (provider.draftNode) {
+            provider.update({
+                providerId: `${provider.draftNode.id}:${provider.name}`,
+            });
         }
         const rootFolder = server.create('file', 'asFolder');
         provider.update({ rootFolder });
