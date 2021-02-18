@@ -16,9 +16,11 @@ module('Integration | Component | finalize-registration-modal', hooks => {
         this.store = this.owner.lookup('service:store');
         const provider = server.create('registration-provider');
         const registration = server.create('registration', { provider });
+        const node = server.create('node', 'currentUserAdmin');
+        const draftRegistration = server.create('draft-registration', { branchedFrom: node });
 
         const registrationModel = await this.store.findRecord('registration', registration.id);
-        this.set('draftManager', { provider });
+        this.set('draftManager', { provider, draftRegistration });
         this.set('model', registrationModel);
         this.set('isOpen', false);
         await render(hbs`
@@ -63,9 +65,11 @@ module('Integration | Component | finalize-registration-modal', hooks => {
         this.store = this.owner.lookup('service:store');
         const provider = server.create('registration-provider');
         const registration = server.create('registration', { provider });
+        const node = server.create('node', 'currentUserAdmin');
+        const draftRegistration = server.create('draft-registration', { branchedFrom: node });
 
         const registrationModel = await this.store.findRecord('registration', registration.id);
-        this.set('draftManager', { provider });
+        this.set('draftManager', { provider, draftRegistration });
         this.set('model', registrationModel);
         this.set('isOpen', false);
         await render(hbs`
@@ -118,11 +122,12 @@ module('Integration | Component | finalize-registration-modal', hooks => {
         const node = server.create('node', 'currentUserAdmin');
         const noModRegistration = server.create(
             'registration',
-            { provider: noModerationProvider, registeredFrom: node },
+            { provider: noModerationProvider },
         );
+        const draftRegistration = server.create('draft-registration', { branchedFrom: node });
 
         const registrationModel = await this.store.findRecord('registration', noModRegistration.id);
-        this.set('draftManager', { provider: noModerationProvider, node });
+        this.set('draftManager', { provider: noModerationProvider, draftRegistration });
         this.set('model', registrationModel);
         this.set('isOpen', true);
         await render(hbs`
@@ -155,11 +160,19 @@ module('Integration | Component | finalize-registration-modal', hooks => {
         const node = server.create('node', 'currentUserAdmin');
         const withModRegistration = server.create(
             'registration',
-            { provider: withModerationProvider, registeredFrom: node },
+            { provider: withModerationProvider },
         );
+        const draftRegistration = server.create('draft-registration', { branchedFrom: node });
 
         const registrationModel = await this.store.findRecord('registration', withModRegistration.id);
-        this.set('draftManager', { provider: withModerationProvider, reviewsWorkflow: 'pre-moderation', node });
+        this.set(
+            'draftManager',
+            {
+                provider: withModerationProvider,
+                reviewsWorkflow: 'pre-moderation',
+                draftRegistration,
+            },
+        );
         this.set('model', registrationModel);
         this.set('isOpen', true);
         await render(hbs`
@@ -190,9 +203,10 @@ module('Integration | Component | finalize-registration-modal', hooks => {
             'registration',
             { provider: noModerationProvider },
         );
+        const draftRegistration = server.create('draft-registration', { hasProject: false });
 
         const registrationModel = await this.store.findRecord('registration', noModRegistration.id);
-        this.set('draftManager', { provider: noModerationProvider });
+        this.set('draftManager', { provider: noModerationProvider, draftRegistration });
         this.set('model', registrationModel);
         this.set('isOpen', true);
         await render(hbs`
@@ -226,9 +240,17 @@ module('Integration | Component | finalize-registration-modal', hooks => {
             'registration',
             { provider: withModerationProvider },
         );
+        const draftRegistration = server.create('draft-registration', { hasProject: false });
 
         const registrationModel = await this.store.findRecord('registration', withModRegistration.id);
-        this.set('draftManager', { provider: withModerationProvider, reviewsWorkflow: 'pre-moderation' });
+        this.set(
+            'draftManager',
+            {
+                provider: withModerationProvider,
+                reviewsWorkflow: 'pre-moderation',
+                draftRegistration,
+            },
+        );
         this.set('model', registrationModel);
         this.set('isOpen', true);
         await render(hbs`

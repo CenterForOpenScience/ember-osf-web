@@ -46,7 +46,7 @@ export default class FinalizeRegisrationModalComponent extends Component {
         const translationOptions = { learnMoreLink: this.learnMoreLink, htmlSafe: true };
         let translationString = '';
 
-        if (this.manager.draftManager.node) {
+        if (this.manager.draftManager.draftRegistration.hasProject) {
             translationString = this.manager.draftManager.reviewsWorkflow
                 ? 'withModerationFromProject'
                 : 'noModerationFromProject';
