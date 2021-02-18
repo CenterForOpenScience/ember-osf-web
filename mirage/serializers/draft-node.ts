@@ -11,7 +11,7 @@ export default class DraftNodeSerializer extends ApplicationSerializer<DraftNode
             files: {
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/nodes/${model.id}/files/`,
+                        href: `${apiUrl}/v2/draft_nodes/${model.id}/files/`,
                         meta: this.buildRelatedLinkMeta(model, 'files'),
                     },
                 },

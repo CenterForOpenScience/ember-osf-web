@@ -122,6 +122,7 @@ export default function(this: Server) {
     this.get('/nodes/:id/storage', storageStatus);
     osfResource(this, 'draft-node', { only: ['show', 'index', 'create'] });
     osfNestedResource(this, 'draft-node', 'draftRegistrations', { only: ['index'] });
+    osfNestedResource(this, 'draft-node', 'files', { only: ['index'] });
 
     osfToManyRelationship(this, 'node', 'subjects', {
         only: ['related', 'self'],

@@ -27,9 +27,16 @@ export default class FileSerializer extends ApplicationSerializer<FileProviderMo
     }
 
     buildNormalLinks(model: ModelInstance<FileProviderModel>) {
+        let uploadUrl;
+        if (model.draftNode) {
+            uploadUrl = `${apiUrl}/v2/draft_nodes/${model.draftNode.id}/files/${model.name}/upload`;
+        } else {
+            uploadUrl = `${apiUrl}/v2/nodes/${model.node.id}/files/${model.name}/upload`;
+        }
+
         return {
             ...super.buildNormalLinks(model),
-            upload: `${apiUrl}/v2/nodes/${model.node.id}/files/${model.name}/upload`,
+            upload: uploadUrl,
         };
     }
 }
