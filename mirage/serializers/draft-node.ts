@@ -16,6 +16,14 @@ export default class DraftNodeSerializer extends ApplicationSerializer<DraftNode
                     },
                 },
             },
+            draftRegistrations: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/draft_nodes/${model.id}/draft_registrations/`,
+                        meta: this.buildRelatedLinkMeta(model, 'files'),
+                    },
+                },
+            },
         };
     }
 
