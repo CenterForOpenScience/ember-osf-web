@@ -1,6 +1,6 @@
 import { ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
-import DraftNodeModel from 'ember-osf-web/models/registration';
+import DraftNodeModel from 'ember-osf-web/models/draft-node';
 import ApplicationSerializer, { SerializedRelationships } from './application';
 
 const { OSF: { apiUrl } } = config;
