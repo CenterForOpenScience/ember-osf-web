@@ -61,11 +61,11 @@ export default class FilesManagerComponent extends Component {
     currentFolder!: File;
     lastUploaded: File[] = []; // Files uploaded since last sort.
     rootFolder!: File;
+    canEdit!: boolean;
     pageSize = 10;
     sort: SortKey = 'date_modified';
     page = 1;
 
-    @alias('node.userHasWritePermission') canEdit!: boolean;
     @alias('getRootItems.isRunning') loading!: boolean;
     @alias('loadMore.isRunning') loadingMore!: boolean;
     @or(
