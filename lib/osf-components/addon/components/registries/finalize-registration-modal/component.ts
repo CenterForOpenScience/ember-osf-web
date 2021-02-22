@@ -41,7 +41,7 @@ export default class FinalizeRegisrationModalComponent extends Component {
         }
     }
 
-    @computed('manager.draftManager.reviewsWorkflow')
+    @computed('manager.draftManager.{reviewsWorkflow,draftRegistration.hasProject}')
     get noticeText() {
         const translationOptions = { learnMoreLink: this.learnMoreLink, htmlSafe: true };
         let translationString = '';
