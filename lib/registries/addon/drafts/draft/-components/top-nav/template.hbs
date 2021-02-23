@@ -5,7 +5,7 @@
 
 <Navbar local-class='SideBarToggle' ...attributes as |nav|>
     <nav.bordered-section>
-        {{#unless @readOnly}}
+        {{#unless @currentUserIsReadOnly}}
             <nav.buttons.default
                 data-test-sidenav-toggle
                 data-analytics-name='Show sidenav'
@@ -40,7 +40,7 @@
                 {{t 'registries.drafts.draft.metadata.page_label'}}
             </nav.links.default>
         {{/if}}
-        {{#if (and @navManager.prevPageParam (not @readOnly))}}
+        {{#if (and @navManager.prevPageParam (not @currentUserIsReadOnly))}}
             <nav.links.default
                 data-test-goto-previous-page
                 data-analytics-name='Sidenav back'

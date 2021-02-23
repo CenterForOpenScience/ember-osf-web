@@ -39,7 +39,7 @@
                             @draftManager={{draftManager}}
                             @navManager={{navManager}}
                             @onSubmitRedirect={{this.onSubmitRedirect}}
-                            @readOnly={{draftManager.currentUserIsReadOnly}}
+                            @currentUserIsReadOnly={{draftManager.currentUserIsReadOnly}}
                         />
                     </layout.top>
                 {{/if}}
@@ -87,7 +87,7 @@
                                 @navManager={{navManager}}
                                 @draftManager={{draftManager}}
                                 @onSubmitRedirect={{this.onSubmitRedirect}}
-                                @readOnly={{draftManager.currentUserIsReadOnly}}
+                                @currentUserIsReadOnly={{draftManager.currentUserIsReadOnly}}
                             />
                         </div>
                         <div local-class='EditWarning'>
