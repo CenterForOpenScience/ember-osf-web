@@ -1,7 +1,7 @@
 .BrandedRegistriesSearchResult {
     composes: RegistriesSearchResult from '../../discover/styles';
 
-    i {
+    svg {
         color: var(--primary-color);
     }
 }

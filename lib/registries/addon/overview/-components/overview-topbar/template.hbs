@@ -18,7 +18,7 @@
             >
                 <FaIcon
                     local-class='Icon'
-                    @icon='code-fork'
+                    @icon='code-branch'
                 />
                 <BsTooltip
                     @placement='top'
@@ -62,7 +62,8 @@
         >
             <FaIcon
                 local-class='Icon'
-                @icon='{{if this.isBookmarked 'bookmark' 'bookmark-o'}}'
+                @icon='bookmark'
+                @prefix={{if this.isBookmarked 'fas' 'far'}}
             />
             <BsTooltip
                 @placement='top'

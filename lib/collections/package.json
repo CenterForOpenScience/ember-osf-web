@@ -5,6 +5,10 @@
     "ember-engine"
   ],
   "dependencies": {
+    "@fortawesome/free-regular-svg-icons": "*",
+    "@fortawesome/free-solid-svg-icons": "*",
+    "@fortawesome/ember-fontawesome": "*",
+    "@fortawesome/free-brands-svg-icons": "*",
     "ember-angle-bracket-invocation-polyfill": "*",
     "ember-bootstrap": "*",
     "ember-cli-babel": "*",
@@ -19,7 +23,6 @@
     "ember-css-modules": "*",
     "ember-css-modules-sass": "*",
     "ember-intl": "*",
-    "ember-font-awesome": "*",
     "ember-moment": "*",
     "ember-page-title": "*",
     "ember-power-select": "*",

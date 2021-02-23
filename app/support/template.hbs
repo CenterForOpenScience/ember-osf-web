@@ -26,7 +26,7 @@
                         @href={{this.faqPageUrl}}
                     >
                         {{t 'support.faq_button'}}
-                        <i class='fa fa-angle-right'></i>
+                        <FaIcon @icon='angle-right' />
                     </OsfLink>
                 </div>
             </div>
@@ -51,7 +51,7 @@
                         @href={{this.helpUrl}}
                     >
                         {{t 'support.guides_button'}}
-                        <i class='fa fa-angle-right'></i>
+                        <FaIcon @icon='angle-right' />
                     </OsfLink>
                 </div>
             </div>
@@ -104,28 +104,28 @@
                 class='btn btn-link'
                 @href={{this.twitterUrl}}
             >
-                <i class='fa fa-twitter'></i>{{t 'support.social_twitter'}}
+                <FaIcon @icon='twitter' @prefix='fab' />{{t 'support.social_twitter'}}
             </OsfLink>
             <OsfLink
                 data-analytics-name='social_email'
                 class='btn btn-link'
                 @href={{this.mailingUrl}}
             >
-                <i class='fa fa-users'></i> {{t 'support.social_mailing'}}
+                <FaIcon @icon='users' /> {{t 'support.social_mailing'}}
             </OsfLink>
             <OsfLink
                 data-analytics-name='social_facebook'
                 class='btn btn-link'
                 @href={{this.facebookUrl}}
             >
-                <i class='fa fa-facebook'></i> {{t 'support.social_facebook'}}
+                <FaIcon @icon='facebook' @prefix='fab' /> {{t 'support.social_facebook'}}
             </OsfLink>
             <OsfLink
                 data-analytics-name='social_github'
                 class='btn btn-link'
                 @href={{this.githubUrl}}
             >
-                <i class='fa fa-github'></i> {{t 'support.social_github'}}
+                <FaIcon @icon='github' @prefix='fab' /> {{t 'support.social_github'}}
             </OsfLink>
         </div>
     </div>

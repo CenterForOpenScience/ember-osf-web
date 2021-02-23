@@ -8,14 +8,14 @@ import defaultTo from 'ember-osf-web/utils/default-to';
 import template from './template';
 
 const iconMap: { [index: string]: string } = {
-    hypothesis: 'lightbulb-o',
+    hypothesis: 'lightbulb',
     'methods and measures': 'pencil',
     procedure: 'cogs',
     instrumentation: 'flask',
     data: 'database',
     software: 'laptop',
     project: 'cube',
-    analysis: 'bar-chart',
+    analysis: 'chart-bar',
     communication: 'comment',
     other: 'th-large',
     collection: 'cubes',
@@ -24,7 +24,7 @@ const iconMap: { [index: string]: string } = {
     component: 'th-large',
     registeredComponent: 'th-large',
     link: 'link',
-    preprint: 'file-text',
+    preprint: 'file-alt',
 };
 
 @layout(template)
@@ -34,7 +34,7 @@ export default class NodeCardNodeIcon extends Component {
 
     @computed('category')
     get iconType(): string {
-        return iconMap[this.get('category')] || 'circle-o-notch';
+        return iconMap[this.get('category')] || 'circle-notch';
     }
 
     @className('text-muted', '')

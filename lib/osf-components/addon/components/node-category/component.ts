@@ -9,17 +9,17 @@ import { NodeCategory } from 'ember-osf-web/models/node';
 import template from './template';
 
 const categoryToIconMap: Record<NodeCategory, string> = {
-    analysis: 'bar-chart',
+    analysis: 'chart-bar',
     communication: 'comment',
     data: 'database',
-    hypothesis: 'lightbulb-o',
+    hypothesis: 'lightbulb',
     instrumentation: 'flask',
     'methods and measures': 'pencil',
     procedure: 'cogs',
     project: 'cube',
     software: 'laptop',
     other: 'th-large',
-    uncategorized: 'circle-o-notch',
+    uncategorized: 'circle-notch',
 };
 
 @tagName('')
