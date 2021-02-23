@@ -35,10 +35,10 @@ export default class DraftRegistrationModel extends OsfModel {
     @attr('fixstring') title!: string;
     @attr('fixstring') description!: string;
     @attr('fixstringarray') tags!: string[];
+    @attr('array') currentUserPermissions!: Permission[];
     @attr('node-license') nodeLicense!: NodeLicense | null;
     @attr('node-category') category!: NodeCategory;
     @attr('boolean') hasProject!: boolean;
-    @attr('array') currentUserPermissions!: Permission[];
 
     @belongsTo('node', { inverse: 'draftRegistrations' })
     branchedFrom!: DS.PromiseObject<NodeModel> & NodeModel;
@@ -63,6 +63,15 @@ export default class DraftRegistrationModel extends OsfModel {
 
     @hasMany('contributor')
     contributors!: DS.PromiseManyArray<ContributorModel> & ContributorModel[];
+
+    get currentUserIsAdmin() {
+        return Array.isArray(this.currentUserPermissions) && this.currentUserPermissions.includes(Permission.Admin);
+    }
+
+    get currentUserIsReadOnly() {
+        return Array.isArray(this.currentUserPermissions) && this.currentUserPermissions.includes(Permission.Read)
+            && this.currentUserPermissions.length === 1;
+    }
 }
 
 declare module 'ember-data/types/registries/model' {
