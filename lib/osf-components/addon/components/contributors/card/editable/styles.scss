@@ -19,6 +19,11 @@
     max-width: 14%;
 }
 
+.CardSectionXS {
+    composes: CardSection from '../styles.scss';
+    max-width: 8%;
+}
+
 .Handle {
     padding-right: 10px;
     color: var(--primary-color);
