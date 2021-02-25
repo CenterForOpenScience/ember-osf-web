@@ -14,7 +14,7 @@ const categoryToIconMap: Record<NodeCategory, string> = {
     data: 'database',
     hypothesis: 'lightbulb',
     instrumentation: 'flask',
-    'methods and measures': 'pencil',
+    'methods and measures': 'pencil-alt',
     procedure: 'cogs',
     project: 'cube',
     software: 'laptop',

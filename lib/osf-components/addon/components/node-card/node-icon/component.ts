@@ -9,7 +9,7 @@ import template from './template';
 
 const iconMap: { [index: string]: string } = {
     hypothesis: 'lightbulb',
-    'methods and measures': 'pencil',
+    'methods and measures': 'pencil-alt',
     procedure: 'cogs',
     instrumentation: 'flask',
     data: 'database',
