@@ -1,13 +1,23 @@
-import { ModelInstance } from 'ember-cli-mirage';
+import { ID, ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import ApplicationSerializer, { SerializedRelationships } from './application';
 
 const { OSF: { apiUrl } } = config;
 
-export default class DraftRegistrationSerializer extends ApplicationSerializer<DraftRegistration> {
-    buildRelationships(model: ModelInstance<DraftRegistration>) {
-        const relationships: SerializedRelationships<DraftRegistration> = {
+export interface BranchedFromId {
+    type: string;
+    id: ID;
+}
+interface DraftRegistrationAttrs {
+    branchedFromId: BranchedFromId;
+}
+
+type MirageDraftRegistration = DraftRegistration & { attrs: DraftRegistrationAttrs };
+
+export default class DraftRegistrationSerializer extends ApplicationSerializer<MirageDraftRegistration> {
+    buildRelationships(model: ModelInstance<MirageDraftRegistration>) {
+        const relationships: SerializedRelationships<MirageDraftRegistration> = {
             initiator: {
                 data: {
                     id: model.initiator.id,
@@ -126,7 +136,7 @@ export default class DraftRegistrationSerializer extends ApplicationSerializer<D
         return relationships;
     }
 
-    buildNormalLinks(model: ModelInstance<DraftRegistration>) {
+    buildNormalLinks(model: ModelInstance<MirageDraftRegistration>) {
         return {
             self: `${apiUrl}/v2/draft_registrations/${model.id}`,
         };
