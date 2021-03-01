@@ -1,11 +1,12 @@
 import DS from 'ember-data';
 
-import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
+import BaseFileItem from 'ember-osf-web/models/base-file-item';
 import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 
 const { hasMany } = DS;
-export default class DraftNode extends AbstractNodeModel {
+
+export default class AbstractNodeModel extends BaseFileItem {
     @hasMany('file-provider', { inverse: 'draftNode' })
     files!: DS.PromiseManyArray<FileProviderModel> & FileProviderModel[];
 
@@ -15,6 +16,6 @@ export default class DraftNode extends AbstractNodeModel {
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        'draft-node': DraftNode;
+        'abstract-node': AbstractNodeModel;
     } // eslint-disable-line semi
 }

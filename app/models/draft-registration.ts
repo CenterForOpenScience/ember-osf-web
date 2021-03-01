@@ -41,7 +41,7 @@ export default class DraftRegistrationModel extends OsfModel {
     @attr('boolean') hasProject!: boolean;
     @attr('array') currentUserPermissions!: Permission[];
 
-    @belongsTo('node', { inverse: 'draftRegistrations', polymorphic: true })
+    @belongsTo('abstract-node', { inverse: 'draftRegistrations', polymorphic: true })
     branchedFrom!: DS.PromiseObject<NodeModel> & NodeModel
         | DS.PromiseObject<DraftNodeModel> & DraftNodeModel;
 

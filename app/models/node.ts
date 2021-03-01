@@ -7,12 +7,10 @@ import DS from 'ember-data';
 import defaultTo from 'ember-osf-web/utils/default-to';
 import getRelatedHref from 'ember-osf-web/utils/get-related-href';
 
-import BaseFileItem from './base-file-item';
+import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
 import CitationModel from './citation';
 import CommentModel from './comment';
 import ContributorModel from './contributor';
-import DraftRegistrationModel from './draft-registration';
-import FileProviderModel from './file-provider';
 import IdentifierModel from './identifier';
 import InstitutionModel from './institution';
 import LicenseModel from './license';
@@ -87,7 +85,7 @@ export interface NodeLicense {
     readonly year?: string;
 }
 
-export default class NodeModel extends BaseFileItem.extend(Validations, CollectableValidations) {
+export default class NodeModel extends AbstractNodeModel.extend(Validations, CollectableValidations) {
     @attr('fixstring') title!: string;
     @attr('fixstring') description!: string;
     @attr('node-category') category!: NodeCategory;
@@ -139,9 +137,6 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
     @belongsTo('license', { inverse: null })
     license!: DS.PromiseObject<LicenseModel> & LicenseModel;
 
-    @hasMany('file-provider', { inverse: 'node' })
-    files!: DS.PromiseManyArray<FileProviderModel>;
-
     @hasMany('node', { inverse: null })
     linkedNodes!: DS.PromiseManyArray<NodeModel>;
 
@@ -150,9 +145,6 @@ export default class NodeModel extends BaseFileItem.extend(Validations, Collecta
 
     @hasMany('registration', { inverse: 'registeredFrom' })
     registrations!: DS.PromiseManyArray<RegistrationModel>;
-
-    @hasMany('draft-registration', { inverse: 'branchedFrom' })
-    draftRegistrations?: DS.PromiseManyArray<DraftRegistrationModel>;
 
     @hasMany('node', { inverse: 'forkedFrom' })
     forks!: DS.PromiseManyArray<NodeModel>;
