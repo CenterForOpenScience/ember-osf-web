@@ -8,29 +8,29 @@
 
 .CardSection {
     composes: CardSection from '../styles.scss';
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     max-width: 34%;
 }
 
 .CardSectionSmall {
     composes: CardSection from '../styles.scss';
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     max-width: 16%;
 }
 
 .CardSectionXS {
     composes: CardSection from '../styles.scss';
-    max-width: 8%;
+    max-width: 4%;
 }
 
 .DropdownSection {
-    display: flex;
+    composes: DropdownSection from '../styles.scss';
 }
 
 .DropdownList {
-    list-style: none;
-    padding-inline-start: 20px;
-}
-
-.DropdownCaret {
-    composes: CardSection from '../styles.scss';
-    max-width: 25px;
+    composes: DropdownList from '../styles.scss';
 }

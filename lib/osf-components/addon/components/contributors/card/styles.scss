@@ -10,7 +10,7 @@
     display: flex;
     height: 60px;
     align-items: center;
-    padding-left: 20px;
+    padding: 0 20px;
 }
 
 .CardSection {
@@ -26,4 +26,13 @@
         text-overflow: ellipsis;
         white-space: nowrap;
     }
+}
+
+.DropdownSection {
+    display: flex;
+}
+
+.DropdownList {
+    list-style: none;
+    padding-inline-start: 20px;
 }
