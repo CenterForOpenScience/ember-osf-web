@@ -25,6 +25,7 @@ export default class Register extends Component {
     onSubmitRedirect?: (registrationId: string) => void;
     @alias('draftManager.hasInvalidResponses') isInvalid?: boolean;
     @alias('draftManager.draftRegistration') draftRegistration!: DraftRegistration;
+    @alias('draftManager.hasProject') hasProject!: boolean;
     @alias('draftManager.node') node?: NodeModel;
 
     partialRegDialogIsOpen = false;
@@ -44,7 +45,7 @@ export default class Register extends Component {
         if (this.node) {
             yield this.node.loadRelatedCount('children');
         }
-        if (this.node && this.node.relatedCounts.children > 0) {
+        if (this.hasProject && this.node && this.node.relatedCounts.children > 0) {
             this.showPartialRegDialog();
         } else {
             this.showFinalizeRegDialog();
