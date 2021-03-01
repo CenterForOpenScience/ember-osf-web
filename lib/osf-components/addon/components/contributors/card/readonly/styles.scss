@@ -8,18 +8,12 @@
 
 .CardSection {
     composes: CardSection from '../styles.scss';
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
     max-width: 34%;
 }
 
 .CardSectionSmall {
     composes: CardSection from '../styles.scss';
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 16%;
 }
 
 .CardSectionXS {
