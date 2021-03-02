@@ -7,7 +7,7 @@ import FileProviderModel from 'ember-osf-web/models/file-provider';
 const { hasMany } = DS;
 
 export default class AbstractNodeModel extends BaseFileItem {
-    @hasMany('file-provider', { inverse: 'draftNode' })
+    @hasMany('file-provider')
     files!: DS.PromiseManyArray<FileProviderModel> & FileProviderModel[];
 
     @hasMany('draft-registration', { inverse: 'branchedFrom' })

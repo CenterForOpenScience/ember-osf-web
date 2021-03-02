@@ -17,7 +17,7 @@
                     @pageManager={{navManager.currentPageManager}}
                     @onInput={{perform draftManager.onPageInput navManager.currentPageManager}}
                     @node={{this.node}}
-                    @nodeIsDraftNode={{not draftManager.draftRegistration.hasProject}}
+                    @nodeIsDraftNode={{not draftManager.hasProject}}
                 />
             {{/if}}
         </main>

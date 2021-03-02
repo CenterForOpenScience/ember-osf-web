@@ -11,7 +11,7 @@ export default Factory.extend <DraftNode & DraftNodeTraits>({
     withFiles: trait<DraftNode>({
         afterCreate(draftNode, server) {
             const count = faker.random.number({ min: 1, max: 5 });
-            const osfstorage = server.create('file-provider', { draftNode });
+            const osfstorage = server.create('file-provider', { target: draftNode });
             const files = server.createList('file', count, { target: draftNode });
             osfstorage.rootFolder.update({ files, target: draftNode });
         },

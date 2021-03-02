@@ -63,7 +63,7 @@ module('Integration | Component | files-widget', hooks => {
     test('can sort files by name and date', async function(this: ThisTestContext, assert) {
         const mirageNode = server.create('node', { currentUserPermissions: Object.values(Permission) });
 
-        const osfstorage = server.create('file-provider', { node: mirageNode });
+        const osfstorage = server.create('file-provider', { target: mirageNode });
         const folderOne = server.create('file',
             { target: mirageNode, name: 'c' }, 'asFolder');
         const fileOne = server.create('file',
@@ -106,7 +106,7 @@ module('Integration | Component | files-widget', hooks => {
         const mirageNode = server.create('node', { currentUserPermissions: Object.values(Permission) });
 
         const folder = server.create('file', { target: mirageNode }, 'asFolder');
-        const osfstorage = server.create('file-provider', { node: mirageNode });
+        const osfstorage = server.create('file-provider', { target: mirageNode });
         const folderItems = server.createList('file', 6, { target: mirageNode, parentFolder: folder });
 
         osfstorage.rootFolder.update({ files: [folder] });
@@ -144,7 +144,7 @@ module('Integration | Component | files-widget', hooks => {
     test('no files, shows upload placeholder ', async function(this: ThisTestContext, assert) {
         const mirageNode = server.create('node', { currentUserPermissions: Object.values(Permission) });
 
-        server.create('file-provider', { node: mirageNode });
+        server.create('file-provider', { target: mirageNode });
         const node = await this.store.findRecord('node', mirageNode.id);
 
         this.set('node', node);
@@ -159,7 +159,7 @@ module('Integration | Component | files-widget', hooks => {
         const totalCount = 15;
         const pageSize = 10;
         const files = server.createList('file', totalCount, { target: mirageNode });
-        const osfstorage = server.create('file-provider', { node: mirageNode });
+        const osfstorage = server.create('file-provider', { target: mirageNode });
 
         osfstorage.rootFolder.update({ files });
 

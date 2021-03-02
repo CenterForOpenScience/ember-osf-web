@@ -1,14 +1,15 @@
+import { underscore } from '@ember/string';
 import { ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
-import FileProviderModel from 'ember-osf-web/models/file-provider';
+import { MirageFileProvider } from '../factories/file-provider';
 
 import ApplicationSerializer, { SerializedRelationships } from './application';
 
 const { OSF: { apiUrl } } = config;
 
-export default class FileSerializer extends ApplicationSerializer<FileProviderModel> {
-    buildRelationships(model: ModelInstance<FileProviderModel>) {
-        const relationships: SerializedRelationships<FileProviderModel> = {};
+export default class FileSerializer extends ApplicationSerializer<MirageFileProvider> {
+    buildRelationships(model: ModelInstance<MirageFileProvider>) {
+        const relationships: SerializedRelationships<MirageFileProvider> = {};
         if (model.rootFolder) {
             relationships.rootFolder = {
                 data: {
@@ -26,17 +27,11 @@ export default class FileSerializer extends ApplicationSerializer<FileProviderMo
         return relationships;
     }
 
-    buildNormalLinks(model: ModelInstance<FileProviderModel>) {
-        let uploadUrl;
-        if (model.draftNode) {
-            uploadUrl = `${apiUrl}/v2/draft_nodes/${model.draftNode.id}/files/${model.name}/upload`;
-        } else {
-            uploadUrl = `${apiUrl}/v2/nodes/${model.node.id}/files/${model.name}/upload`;
-        }
-
+    buildNormalLinks(model: ModelInstance<MirageFileProvider>) {
+        const pathName = underscore(model.targetId.type);
         return {
             ...super.buildNormalLinks(model),
-            upload: uploadUrl,
+            upload: `${apiUrl}/v2/${pathName}/${model.targetId.id}/files/${model.name}/upload`,
         };
     }
 }

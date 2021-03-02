@@ -1,9 +1,10 @@
-import { Factory } from 'ember-cli-mirage';
+import { Factory, ID } from 'ember-cli-mirage';
 
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 
 export interface MirageFileProvider extends FileProviderModel {
     providerId: string;
+    targetId: { id: ID, type: 'draft-nodes' | 'nodes' };
 }
 
 export default Factory.extend<MirageFileProvider>({
@@ -11,15 +12,10 @@ export default Factory.extend<MirageFileProvider>({
     path: '/',
     provider: 'osfstorage',
     afterCreate(provider, server) {
-        if (provider.node) {
-            provider.update({
-                providerId: `${provider.node.id}:${provider.name}`,
-            });
-        } else if (provider.draftNode) {
-            provider.update({
-                providerId: `${provider.draftNode.id}:${provider.name}`,
-            });
-        }
+        provider.update({
+            providerId: `${provider.targetId.id}:${provider.name}`,
+        });
+
         const rootFolder = server.create('file', 'asFolder');
         provider.update({ rootFolder });
     },

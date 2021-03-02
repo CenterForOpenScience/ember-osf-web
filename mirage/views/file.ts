@@ -107,15 +107,10 @@ export function nodeFileProviderList(this: HandlerContext, schema: Schema) {
     } else {
         node = schema.nodes.find(parentID);
     }
+
     const fileProviders = schema.fileProviders.all().models;
-    const nodeFileProviders = fileProviders.filter(
-        fp => {
-            if (fp.draftNode) {
-                return fp.draftNode.id === node.id;
-            }
-            return fp.node.id === node.id;
-        },
-    );
+    const nodeFileProviders = fileProviders.filter(fp => fp.targetId.id === node.id);
+
     return process(
         schema,
         this.request,

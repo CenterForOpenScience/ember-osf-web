@@ -1,16 +1,6 @@
-import DS from 'ember-data';
-
 import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
-import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
-import FileProviderModel from 'ember-osf-web/models/file-provider';
 
-const { hasMany } = DS;
 export default class DraftNode extends AbstractNodeModel {
-    @hasMany('file-provider', { inverse: 'draftNode' })
-    files!: DS.PromiseManyArray<FileProviderModel> & FileProviderModel[];
-
-    @hasMany('draft-registration', { inverse: 'branchedFrom' })
-    draftRegistrations!: DS.PromiseManyArray<DraftRegistrationModel> & DraftRegistrationModel[];
 }
 
 declare module 'ember-data/types/registries/model' {

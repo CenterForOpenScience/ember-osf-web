@@ -799,7 +799,7 @@ module('Registries | Acceptance | draft form', hooks => {
             summary: 'Test file links',
             uploader: [fileOne.fileReference, folderOneFileOne.fileReference, folderOneFileTwo.fileReference],
         };
-        const osfstorage = server.create('file-provider', { node: branchedFrom });
+        const osfstorage = server.create('file-provider', { target: branchedFrom });
         osfstorage.rootFolder.update({
             files: [fileOne, fileTwo, folderOne],
         });
