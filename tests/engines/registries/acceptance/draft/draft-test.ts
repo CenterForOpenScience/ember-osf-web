@@ -4,6 +4,7 @@ import {
     currentRouteName,
     currentURL,
     fillIn,
+    find,
     settled,
     triggerKeyEvent,
 } from '@ember/test-helpers';
@@ -64,6 +65,50 @@ module('Registries | Acceptance | draft form', hooks => {
         });
         await visit(`registries/drafts/${draftRegistration.id}/`);
         await percySnapshot('Branded draft page');
+    });
+
+    test('it redirects to review page of the draft form for read-only users', async assert => {
+        const initiator = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const registration = server.create(
+            'draft-registration',
+            {
+                registrationSchema,
+                initiator,
+                currentUserPermissions: [Permission.Read],
+            },
+        );
+
+        await visit(`/registries/drafts/${registration.id}/`);
+
+        assert.equal(currentRouteName(), 'registries.drafts.draft.review', 'Read-only users redirected to review page');
+
+        // check leftnav
+        const reviewNav = find('[data-test-link="review"]');
+        assert.dom('[data-test-link="metadata"]').doesNotExist('Leftnav: Metadata label is not shown');
+        assert.dom('[data-test-link="review"]').exists('Leftnav: Review label shown');
+        assert.ok(reviewNav!.classList.toString().includes('Active'), 'LeftNav: Review is active page');
+
+        // check rightnav
+        assert.dom('[data-test-goto-register]').isDisabled('RightNav: Register button disabled');
+        assert.dom('[data-test-goto-previous-page]').doesNotExist('RightNav: Back button not shown');
+
+        // check metadata and form renderer
+        assert.dom('[data-test-edit-button]').doesNotExist('MetadataRenderer: Edit button not shown');
+
+        await percySnapshot('Read-only Review page: Desktop');
+
+        // check mobile view
+        setBreakpoint('mobile');
+        await visit(`/registries/drafts/${registration.id}/metadata`);
+        assert.equal(currentRouteName(), 'registries.drafts.draft.review',
+            'Read-only users redirected to review page after trying to go to the metadata page');
+
+        assert.dom('[data-test-sidenav-toggle]').doesNotExist('Mobile view: sidenav toggle not shown');
+        assert.dom('[data-test-goto-previous-page]').doesNotExist('Mobile view: previous page button not shown');
+        assert.dom('[data-test-goto-register]').isDisabled('Mobile view: Register button disabled');
+
+        await percySnapshot('Read-only Review page: Mobile');
     });
 
     test('it redirects to metadata page of the draft form', async function(this: DraftFormTestContext, assert) {
@@ -578,6 +623,7 @@ module('Registries | Acceptance | draft form', hooks => {
                 initiator,
                 registrationResponses,
                 branchedFrom: rootNode,
+                currentUserPermissions: Object.values(Permission),
                 license: server.schema.licenses.first(),
             },
         );

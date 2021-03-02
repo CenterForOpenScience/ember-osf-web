@@ -27,6 +27,7 @@ export default class Register extends Component {
     @alias('draftManager.draftRegistration') draftRegistration!: DraftRegistration;
     @alias('draftManager.hasProject') hasProject!: boolean;
     @alias('draftManager.node') node?: NodeModel;
+    @alias('draftManager.currentUserIsAdmin') currentUserIsAdmin!: boolean;
 
     partialRegDialogIsOpen = false;
     finalizeRegDialogIsOpen = false;

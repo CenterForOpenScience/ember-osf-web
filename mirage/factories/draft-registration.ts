@@ -71,6 +71,8 @@ export default Factory.extend<MirageDraftRegistration & DraftRegistrationTraits>
 
     category: NodeCategory.Uncategorized,
 
+    currentUserPermissions: Object.values(Permission),
+
     hasProject: true,
 
     withRegistrationMetadata: trait<MirageDraftRegistration>({

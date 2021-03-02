@@ -42,6 +42,9 @@ export default class DraftRegistrationRoute extends Route {
                 ]);
 
             draftRegistration.setProperties({ subjects });
+            if (draftRegistration.currentUserIsReadOnly) {
+                this.replaceWith('drafts.draft.review', draftId);
+            }
             return { draftRegistration, node, provider };
         } catch (error) {
             this.transitionTo('page-not-found', this.router.currentURL.slice(1));
