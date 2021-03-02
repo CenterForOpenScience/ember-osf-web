@@ -63,6 +63,9 @@ export default class DraftRegistrationModel extends OsfModel {
 
     @hasMany('contributor')
     contributors!: DS.PromiseManyArray<ContributorModel> & ContributorModel[];
+
+    @hasMany('contributor')
+    bibliographicContributors!: DS.PromiseManyArray<ContributorModel> & ContributorModel[];
 }
 
 declare module 'ember-data/types/registries/model' {
