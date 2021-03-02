@@ -54,7 +54,7 @@ export default class FileModel extends BaseFileItem {
     comments!: DS.PromiseManyArray<CommentModel>;
 
     // TODO: In the future apiv2 may also need to support this pointing at nodes OR registrations
-    @belongsTo('node', { polymorphic: true })
+    @belongsTo('abstract-node', { inverse: 'files', polymorphic: true })
     target!: DS.PromiseObject<NodeModel> & NodeModel |
         (DS.PromiseObject<DraftNode> & DraftNode);
 

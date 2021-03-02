@@ -67,7 +67,9 @@ module('Registries | Acceptance | draft form', hooks => {
         await percySnapshot('Branded draft page');
     });
 
-    test('it redirects to review page of the draft form for read-only users', async assert => {
+    test('it redirects to review page of the draft form for read-only users', async function(
+        this: DraftFormTestContext, assert,
+    ) {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
@@ -75,6 +77,7 @@ module('Registries | Acceptance | draft form', hooks => {
             {
                 registrationSchema,
                 initiator,
+                branchedFrom: this.branchedFrom,
                 currentUserPermissions: [Permission.Read],
             },
         );
