@@ -21,14 +21,6 @@
                     {{t 'registries.finalizeRegistrationModal.immediateOption'}}
                 </span>
             </RadioButton>
-            {{#if (eq this.makePublicOption 'immediate')}}
-                <span local-class='create-doi-option'>
-                    <label data-test-create-doi-label>
-                        <Input @type='checkbox' @checked={{this.manager.registration.createDoi}} />
-                        {{t 'registries.finalizeRegistrationModal.createDoi'}}
-                    </label>
-                </span>
-            {{/if}}
         </div>
         <div>
             <RadioButton
