@@ -54,7 +54,7 @@ module('Integration | Component | files-widget', hooks => {
 
         const node = await this.store.findRecord('node', mirageNode.id);
         this.set('node', node);
-        await render(hbs`<Files::Widget @node={{this.node}} />`);
+        await render(hbs`<Files::Widget @node={{this.node}} @canEdit={{true}} />`);
 
         assert.dom('[data-test-file-browser-list]').isVisible();
         assert.dom('[data-test-file-row]').exists({ count });
@@ -77,7 +77,7 @@ module('Integration | Component | files-widget', hooks => {
 
         const node = await this.store.findRecord('node', mirageNode.id);
         this.set('node', node);
-        await render(hbs`<Files::Widget @node={{this.node}} />`);
+        await render(hbs`<Files::Widget @node={{this.node}} @canEdit={{true}} />`);
 
         let expected;
 
@@ -114,7 +114,7 @@ module('Integration | Component | files-widget', hooks => {
         const node = await this.store.findRecord('node', mirageNode.id);
         this.set('node', node);
 
-        await render(hbs`<Files::Widget @node={{this.node}} />`);
+        await render(hbs`<Files::Widget @node={{this.node}} @canEdit={{true}} />`);
 
         assert.dom('[data-test-current-folder]').isNotVisible();
         assert.dom('[data-test-file-browser-list]').isVisible();
@@ -144,11 +144,13 @@ module('Integration | Component | files-widget', hooks => {
     test('no files, shows upload placeholder ', async function(this: ThisTestContext, assert) {
         const mirageNode = server.create('node', { currentUserPermissions: Object.values(Permission) });
 
-        server.create('file-provider', { target: mirageNode });
+        const osfstorage = server.create('file-provider', { target: mirageNode });
+
+        osfstorage.rootFolder.update({ files: [] });
         const node = await this.store.findRecord('node', mirageNode.id);
 
         this.set('node', node);
-        await render(hbs`<Files::Widget @node={{this.node}} />`);
+        await render(hbs`<Files::Widget @node={{this.node}} @canEdit={{true}} />`);
 
         assert.dom('[data-test-no-files-placeholder]').isVisible('Shows drag and drop files to upload in folder');
     });
@@ -166,7 +168,7 @@ module('Integration | Component | files-widget', hooks => {
         const node = await this.store.findRecord('node', mirageNode.id);
         this.set('node', node);
 
-        await render(hbs`<Files::Widget @node={{this.node}} />`);
+        await render(hbs`<Files::Widget @node={{this.node}} @canEdit={{true}} />`);
 
         assert.dom('[data-test-file-browser-list]').isVisible();
         assert.dom('[data-test-file-row]').exists({ count: pageSize });
