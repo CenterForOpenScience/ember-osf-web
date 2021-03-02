@@ -2,12 +2,15 @@ import { Factory, trait, Trait } from 'ember-cli-mirage';
 import faker from 'faker';
 
 import DraftNode from 'ember-osf-web/models/draft-node';
+import { guid } from './utils';
 
 export interface DraftNodeTraits {
     withFiles: Trait;
 }
 
 export default Factory.extend <DraftNode & DraftNodeTraits>({
+    id: guid('draft-node'),
+
     withFiles: trait<DraftNode>({
         afterCreate(draftNode, server) {
             const count = faker.random.number({ min: 1, max: 5 });
