@@ -925,4 +925,27 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-check-circle-o', 'page 1 is now valid');
     });
+
+    test('No-Project: Metadata page', async assert => {
+        const initiator = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const draftNode = server.create('draft-node');
+        const registration = server.create(
+            'draft-registration',
+            {
+                registrationSchema,
+                initiator,
+                branchedFrom: draftNode,
+                hasProject: false,
+            },
+        );
+
+        await visit(`/registries/drafts/${registration.id}/1`);
+
+        // TODO: check the link back to project does not exist
+        // TODO: Title, description, contributors, category, institutions, license, subjects, tags
+        assert.dom('[data-test-metadata-title] > input').hasValue('', 'Title is blank');
+        assert.dom('[data-test-metadata-description] > input').hasValue('', 'Description blank');
+        assert.dom('[data-test-option="uncategorized"]').exists('Category is uncategorized by default');
+    });
 });

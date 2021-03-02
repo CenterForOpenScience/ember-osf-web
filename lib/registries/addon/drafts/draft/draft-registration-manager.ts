@@ -47,6 +47,7 @@ export default class DraftRegistrationManager {
 
     @alias('draftRegistration.id') draftId!: string;
     @alias('provider.reviewsWorkflow') reviewsWorkflow?: string;
+    @alias('draftRegistration.hasProject') hasProject?: boolean;
     @or('onPageInput.isRunning', 'onMetadataInput.isRunning') autoSaving!: boolean;
     @or('initializePageManagers.isRunning', 'initializeMetadataChangeset.isRunning') initializing!: boolean;
     @not('registrationResponsesIsValid') hasInvalidResponses!: boolean;
