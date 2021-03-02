@@ -77,6 +77,21 @@
         </div>
     </div>
 
+    {{#if this.registration.iaUrl}}
+        <div local-class='Field'>
+            <h4>{{t 'registries.registration_metadata.link_to_archived_copy'}}</h4>
+            <div>
+                <OsfLink
+                    data-analytics-name='Link to archived copy'
+                    @href={{this.registration.iaUrl}}
+                    @target='_blank'
+                >
+                    {{this.registration.iaUrl}}
+                </OsfLink>
+            </div>
+        </div>
+    {{/if}}
+
     <div local-class='Field'>
         <EditableField::CategoryManager @node={{this.registration}} as |categoryManager|>
             <EditableField
