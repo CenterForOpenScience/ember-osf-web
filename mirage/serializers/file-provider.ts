@@ -1,6 +1,7 @@
 import { underscore } from '@ember/string';
 import { ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
+import { pluralize } from 'ember-inflector';
 import { MirageFileProvider } from '../factories/file-provider';
 
 import ApplicationSerializer, { SerializedRelationships } from './application';
@@ -28,7 +29,7 @@ export default class FileSerializer extends ApplicationSerializer<MirageFileProv
     }
 
     buildNormalLinks(model: ModelInstance<MirageFileProvider>) {
-        const pathName = underscore(model.targetId.type);
+        const pathName = pluralize(underscore(model.targetId.type));
         return {
             ...super.buildNormalLinks(model),
             upload: `${apiUrl}/v2/${pathName}/${model.targetId.id}/files/${model.name}/upload`,

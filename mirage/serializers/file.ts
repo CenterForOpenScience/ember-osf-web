@@ -1,14 +1,17 @@
+import { underscore } from '@ember/string';
 import { ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
-import File from 'ember-osf-web/models/file';
+import { pluralize } from 'ember-inflector';
+import { MirageFile } from '../factories/file';
 
 import ApplicationSerializer, { SerializedRelationships } from './application';
 
 const { OSF: { apiUrl, url } } = config;
 
-export default class FileSerializer extends ApplicationSerializer<File> {
-    buildRelationships(model: ModelInstance<File>) {
-        const returnValue: SerializedRelationships<File> = {
+export default class FileSerializer extends ApplicationSerializer<MirageFile> {
+    buildRelationships(model: ModelInstance<MirageFile>) {
+        const pathName = pluralize(underscore(model.targetId.type));
+        const returnValue: SerializedRelationships<MirageFile> = {
             versions: {
                 links: {
                     related: {
@@ -19,18 +22,11 @@ export default class FileSerializer extends ApplicationSerializer<File> {
             },
         };
 
-        if (model.target && model.target.id && model.kind === 'folder') {
-            let relatedHref;
-
-            if (model.target.modelName === 'draft-node') {
-                relatedHref = `${apiUrl}/v2/draft_nodes/${model.target.id}/files/${model.provider}/${model.id}`;
-            } else {
-                relatedHref = `${apiUrl}/v2/nodes/${model.target.id}/files/${model.provider}/${model.id}`;
-            }
+        if (model.targetId && model.targetId.id && model.kind === 'folder') {
             returnValue.files = {
                 links: {
                     related: {
-                        href: relatedHref,
+                        href: `${apiUrl}/v2/${pathName}/${model.targetId.id}/files/${model.provider}/${model.id}`,
                         meta: this.buildRelatedLinkMeta(model, 'files'),
                     },
                 },
@@ -66,17 +62,15 @@ export default class FileSerializer extends ApplicationSerializer<File> {
             };
         }
 
-        if (model.target !== null) {
+        if (model.targetId !== null) {
             returnValue.target = {
                 data: {
-                    type: model.target.modelName === 'draft-node' ? 'draft_nodes' : 'nodes',
-                    id: model.target.id,
+                    type: model.targetId.type,
+                    id: model.targetId.id,
                 },
                 links: {
                     related: {
-                        href: model.target.modelName === 'draft-node'
-                            ? `${apiUrl}/v2/draft_nodes/${model.target.id}/`
-                            : `${apiUrl}/v2/nodes/${model.target.id}/`,
+                        href: `${apiUrl}/v2/${pathName}/${model.targetId.id}/`,
                         meta: this.buildRelatedLinkMeta(model, 'target'),
                     },
                 },
@@ -85,7 +79,7 @@ export default class FileSerializer extends ApplicationSerializer<File> {
         return returnValue;
     }
 
-    buildNormalLinks(model: ModelInstance<File>) {
+    buildNormalLinks(model: ModelInstance<MirageFile>) {
         const { id } = model;
         return {
             ...super.buildNormalLinks(model),

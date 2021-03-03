@@ -1,10 +1,11 @@
-import { Factory, ID } from 'ember-cli-mirage';
+import { Factory } from 'ember-cli-mirage';
 
 import FileProviderModel from 'ember-osf-web/models/file-provider';
+import { PolymorphicTargetRelationship } from '../factories/file';
 
 export interface MirageFileProvider extends FileProviderModel {
     providerId: string;
-    targetId: { id: ID, type: 'draft-nodes' | 'nodes' };
+    targetId: PolymorphicTargetRelationship;
 }
 
 export default Factory.extend<MirageFileProvider>({

@@ -1,4 +1,4 @@
-import { Factory, trait, Trait } from 'ember-cli-mirage';
+import { Factory, ID, trait, Trait } from 'ember-cli-mirage';
 import faker from 'faker';
 
 import File from 'ember-osf-web/models/file';
@@ -10,8 +10,14 @@ export interface FileTraits {
     asFolder: Trait;
 }
 
+export interface PolymorphicTargetRelationship {
+    id: ID;
+    type: 'draft-nodes' | 'nodes';
+}
+
 export interface MirageFile extends File {
     fileReference: FileReference;
+    targetId: PolymorphicTargetRelationship;
 }
 
 export default Factory.extend<MirageFile & FileTraits>({
