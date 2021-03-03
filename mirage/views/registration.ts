@@ -2,7 +2,7 @@ import { HandlerContext, ModelInstance, Request, Response, Schema } from 'ember-
 import faker from 'faker';
 
 import DraftNodeModel from 'ember-osf-web/models/draft-node';
-import RegistrationModel from 'ember-osf-web/models/registration';
+import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import { MirageNode } from '../factories/node';
 
 import { guid } from '../factories/utils';
@@ -65,6 +65,7 @@ export function createRegistration(this: HandlerContext, schema: Schema) {
             category: branchedFrom.category,
             contributors: draft.contributors.models,
             currentUserPermissions: draft.currentUserPermissions,
+            reviewsState: RegistrationReviewStates.Accepted,
             ...attrs,
         });
     } else {
@@ -77,6 +78,7 @@ export function createRegistration(this: HandlerContext, schema: Schema) {
             registrationSchema: draft.registrationSchema,
             contributors: draft.contributors.models,
             currentUserPermissions: draft.currentUserPermissions,
+            reviewsState: RegistrationReviewStates.Accepted,
             ...attrs,
         });
     }

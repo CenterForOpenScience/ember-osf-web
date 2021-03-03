@@ -1032,12 +1032,11 @@ module('Registries | Acceptance | draft form', hooks => {
             },
         );
 
-        await visit(`/registries/drafts/${registration.id}/1`);
-
+        await visit(`/registries/drafts/${registration.id}/metadata`);
         // TODO: check the link back to project does not exist
         // TODO: Title, description, contributors, category, institutions, license, subjects, tags
-        assert.dom('[data-test-metadata-title] > input').hasValue('', 'Title is blank');
-        assert.dom('[data-test-metadata-description] > input').hasValue('', 'Description blank');
+        assert.dom('[data-test-metadata-title] input').hasValue('', 'Title is blank');
+        assert.dom('[data-test-metadata-description] textarea').hasValue('', 'Description blank');
         assert.dom('[data-test-option="uncategorized"]').exists('Category is uncategorized by default');
     });
 });
