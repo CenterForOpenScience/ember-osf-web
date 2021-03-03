@@ -76,6 +76,7 @@ export function createRegistration(this: HandlerContext, schema: Schema) {
             dateRegistered: new Date(),
             registeredFrom: branchedFrom,
             registrationSchema: draft.registrationSchema,
+            tags: [],
             contributors: draft.contributors.models,
             currentUserPermissions: draft.currentUserPermissions,
             reviewsState: RegistrationReviewStates.Accepted,

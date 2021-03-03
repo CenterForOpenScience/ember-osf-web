@@ -8,6 +8,7 @@ import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 
+import { tracked } from '@glimmer/tracking';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import NodeModel from 'ember-osf-web/models/node';
 import Registration from 'ember-osf-web/models/registration';
@@ -21,7 +22,7 @@ export default class Register extends Component {
     draftManager!: DraftRegistrationManager;
 
     // Private
-    registration!: Registration;
+    @tracked registration!: Registration;
     onSubmitRedirect?: (registrationId: string) => void;
     @alias('draftManager.hasInvalidResponses') isInvalid?: boolean;
     @alias('draftManager.draftRegistration') draftRegistration!: DraftRegistration;
@@ -29,21 +30,21 @@ export default class Register extends Component {
     @alias('draftManager.node') node?: NodeModel;
     @alias('draftManager.currentUserIsAdmin') currentUserIsAdmin!: boolean;
 
-    partialRegDialogIsOpen = false;
-    finalizeRegDialogIsOpen = false;
+    @tracked partialRegDialogIsOpen = false;
+    @tracked finalizeRegDialogIsOpen = false;
 
     @task({ withTestWaiter: true })
     onClickRegister = task(function *(this: Register) {
         if (!this.registration) {
             const registration = this.store.createRecord('registration', {
                 draftRegistrationId: this.draftRegistration.id,
-                registeredFrom: this.draftRegistration.branchedFrom,
+                registeredFrom: this.hasProject ? this.draftRegistration.branchedFrom : null,
                 provider: this.draftRegistration.provider,
             });
 
             this.setProperties({ registration });
         }
-        if (this.node) {
+        if (this.node && this.hasProject) {
             yield this.node.loadRelatedCount('children');
         }
         if (this.hasProject && this.node && this.node.relatedCounts.children > 0) {
