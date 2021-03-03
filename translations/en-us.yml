@@ -1266,6 +1266,7 @@ registries:
             no_justification: 'None given'
             state: Withdrawn
         withdraw:
+            withdrawal_justification: 'Withdrawal justification'
             withdraw: 'Withdraw registration'
             withdrawal_justification_label: 'Please provide your justification for withdrawing this registration.'
             random_scientist_x: 'Type <strong>{x}</strong> below and click Withdraw Registration if you are sure you want to continue.'
