@@ -18,6 +18,7 @@
                         <div local-class='Title'>
                             {{#if draftManager.hasProject}}
                                 <OsfLink
+                                    data-test-link-back-to-project
                                     data-analytics-name='Go to project'
                                     local-class='BreadCrumb'
                                     @route='guid-node'

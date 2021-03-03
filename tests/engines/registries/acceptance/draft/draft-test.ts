@@ -1018,7 +1018,7 @@ module('Registries | Acceptance | draft form', hooks => {
             .hasClass('fa-check-circle-o', 'page 1 is now valid');
     });
 
-    test('No-Project: Metadata page', async assert => {
+    test('No-Project: Review page', async assert => {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const draftNode = server.create('draft-node');
@@ -1032,11 +1032,6 @@ module('Registries | Acceptance | draft form', hooks => {
             },
         );
 
-        await visit(`/registries/drafts/${registration.id}/metadata`);
-        // TODO: check the link back to project does not exist
-        // TODO: Title, description, contributors, category, institutions, license, subjects, tags
-        assert.dom('[data-test-metadata-title] input').hasValue('', 'Title is blank');
-        assert.dom('[data-test-metadata-description] textarea').hasValue('', 'Description blank');
-        assert.dom('[data-test-option="uncategorized"]').exists('Category is uncategorized by default');
+        await visit(`/registries/drafts/${registration.id}/review`);
     });
 });
