@@ -1,11 +1,13 @@
 <div class='row icon-bar m-v-lg' ...attributes>
     <div class='col-md-4 col-sm-4 text-center '>
         <div class='p-v-md m-t-xl m-h-md'>
-            <FaIcon
-                data-test-eye-icon
-                @icon='eye'
-                local-class='blue-icon icon-circle'
-            />
+            <div local-class='icon-circle'>
+                <FaIcon
+                    data-test-eye-icon
+                    @icon='eye'
+                    local-class='blue-icon'
+                />
+            </div>
             <h3>
                 {{t 'meetings.index.meetings-footer.discover'}}
             </h3>
@@ -18,11 +20,13 @@
     </div>
     <div class='col-md-4 col-sm-4 text-center'>
         <div class=' p-v-md  m-t-xl m-h-md'>
-            <FaIcon
-                data-test-share-alt-icon
-                @icon='share-alt'
-                local-class='blue-icon icon-circle'
-            />
+            <div local-class='icon-circle'>
+                <FaIcon
+                    data-test-share-alt-icon
+                    @icon='share-alt'
+                    local-class='blue-icon'
+                />
+            </div>
             <h3>
                 {{t 'meetings.index.meetings-footer.share'}}
             </h3>
@@ -35,11 +39,13 @@
     </div>
     <div class='col-md-4 col-sm-4 text-center'>
         <div class='p-v-md  m-t-xl m-h-md'>
-            <FaIcon
-                data-test-magic-icon
-                @icon='magic'
-                local-class='blue-icon icon-circle'
-            />
+            <div local-class='icon-circle'>
+                <FaIcon
+                    data-test-magic-icon
+                    @icon='magic'
+                    local-class='blue-icon'
+                />
+            </div>
             <h3>
                 {{t 'meetings.index.meetings-footer.enhance'}}
             </h3>
