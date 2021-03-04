@@ -10,7 +10,6 @@ const { OSF: { apiUrl, url } } = config;
 
 export default class FileSerializer extends ApplicationSerializer<MirageFile> {
     buildRelationships(model: ModelInstance<MirageFile>) {
-        const pathName = pluralize(underscore(model.targetId.type));
         const returnValue: SerializedRelationships<MirageFile> = {
             versions: {
                 links: {
@@ -23,11 +22,24 @@ export default class FileSerializer extends ApplicationSerializer<MirageFile> {
         };
 
         if (model.targetId && model.targetId.id && model.kind === 'folder') {
+            const pathName = pluralize(underscore(model.targetId.type));
             returnValue.files = {
                 links: {
                     related: {
                         href: `${apiUrl}/v2/${pathName}/${model.targetId.id}/files/${model.provider}/${model.id}`,
                         meta: this.buildRelatedLinkMeta(model, 'files'),
+                    },
+                },
+            };
+            returnValue.target = {
+                data: {
+                    type: model.targetId.type,
+                    id: model.targetId.id,
+                },
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/${pathName}/${model.targetId.id}/`,
+                        meta: this.buildRelatedLinkMeta(model, 'target'),
                     },
                 },
             };
@@ -57,21 +69,6 @@ export default class FileSerializer extends ApplicationSerializer<MirageFile> {
                     related: {
                         href: `${apiUrl}/v2/users/${model.user.id}/`,
                         meta: this.buildRelatedLinkMeta(model, 'user'),
-                    },
-                },
-            };
-        }
-
-        if (model.targetId !== null) {
-            returnValue.target = {
-                data: {
-                    type: model.targetId.type,
-                    id: model.targetId.id,
-                },
-                links: {
-                    related: {
-                        href: `${apiUrl}/v2/${pathName}/${model.targetId.id}/`,
-                        meta: this.buildRelatedLinkMeta(model, 'target'),
                     },
                 },
             };
