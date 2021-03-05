@@ -11,7 +11,6 @@ import config from 'ember-get-config';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import File from 'ember-osf-web/models/file';
-import { Permission } from 'ember-osf-web/models/osf-model';
 import { SchemaBlock } from 'ember-osf-web/packages/registration-schema';
 import Analytics from 'ember-osf-web/services/analytics';
 import pathJoin from 'ember-osf-web/utils/path-join';
@@ -35,7 +34,7 @@ export default class Files extends Component {
 
     @alias('schemaBlock.registrationResponseKey')
     valuePath!: string;
-    @alias('draftRegistration.currentUserPermissions') currentUserPermissions!: Permission[];
+    @alias('draftRegistration.currentUserIsReadOnly') currentUserIsReadOnly!: boolean;
     selectedFiles: File[] = [];
 
     @tracked node?: AbstractNodeModel;
