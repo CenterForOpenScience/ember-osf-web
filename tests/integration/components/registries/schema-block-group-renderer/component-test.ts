@@ -165,6 +165,8 @@ module('Integration | Component | schema-block-group-renderer', hooks => {
         ];
         const schemaBlockGroups = getSchemaBlockGroups(schemaBlocks);
         const mirageNode = server.create('node', 'withFiles');
+        const mirageDraftRegistration = server.create('draft-registration',
+            { branchedFrom: mirageNode }, 'withFiles');
         const testFile = server.create('file', { target: mirageNode });
         const registrationResponse = {
             'page-one_short-text': '',
@@ -174,12 +176,15 @@ module('Integration | Component | schema-block-group-renderer', hooks => {
             'page-one_file-input': [testFile],
         };
         const registrationResponseChangeset = new Changeset(registrationResponse);
-        const node = await this.store.findRecord('node', mirageNode.id, {
-            include: 'bibliographic_contributors',
-            reload: true,
-        });
+        const draftRegistration = await this.store.findRecord(
+            'draft-registration',
+            mirageDraftRegistration.id, {
+                include: 'bibliographic_contributors',
+                reload: true,
+            },
+        );
 
-        this.set('node', await node);
+        this.set('draftRegistration', draftRegistration);
         this.set('schemaBlockGroups', schemaBlockGroups);
         this.set('pageResponseChangeset', registrationResponseChangeset);
         await render(hbs`
@@ -190,7 +195,7 @@ module('Integration | Component | schema-block-group-renderer', hooks => {
                         component
                         'registries/schema-block-renderer/editable/mapper'
                         changeset=this.pageResponseChangeset
-                        node=this.node
+                        draftRegistration=this.draftRegistration
                     }}
                 />
             {{/each}}
