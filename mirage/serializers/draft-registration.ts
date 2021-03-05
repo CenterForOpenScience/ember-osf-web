@@ -76,7 +76,7 @@ export default class DraftRegistrationSerializer extends ApplicationSerializer<M
             contributors: {
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/draft_registrations/${model.id}/contributors`,
+                        href: `${apiUrl}/v2/draft_registrations/${model.id}/contributors/`,
                         meta: this.buildRelatedLinkMeta(model, 'contributors'),
                     },
                 },
