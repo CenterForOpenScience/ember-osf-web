@@ -4,6 +4,7 @@
 <Registries::ReviewMetadataRenderer::LabelDisplay
     @draftRegistration={{@draftRegistration}}
     @changeset={{@metadataChangeset}}
+    @showEditButton={{@showEditButton}}
     @field='title'
     local-class='TextResponse {{unless @draftRegistration.title 'NoResponse'}}'
 >
@@ -13,6 +14,7 @@
 <Registries::ReviewMetadataRenderer::LabelDisplay
     @draftRegistration={{@draftRegistration}}
     @changeset={{@metadataChangeset}}
+    @showEditButton={{@showEditButton}}
     @field='description'
     local-class='TextResponse {{unless @draftRegistration.description 'NoResponse'}}'
 >
@@ -35,6 +37,7 @@
 <Registries::ReviewMetadataRenderer::LabelDisplay
     @draftRegistration={{@draftRegistration}}
     @changeset={{@metadataChangeset}}
+    @showEditButton={{@showEditButton}}
     @field='category'
     local-class='{{unless @draftRegistration.category 'NoResponse'}}'
 >
@@ -50,6 +53,7 @@
 <Registries::ReviewMetadataRenderer::LabelDisplay
     @draftRegistration={{@draftRegistration}}
     @changeset={{@metadataChangeset}}
+    @showEditButton={{@showEditButton}}
     @field='affiliated_institutions'
     @fieldText='affiliated institutions'
     local-class='{{unless @draftRegistration.affiliatedInstitutions 'NoResponse'}}'
@@ -62,6 +66,7 @@
 <Registries::ReviewMetadataRenderer::LabelDisplay
     @draftRegistration={{@draftRegistration}}
     @changeset={{@metadataChangeset}}
+    @showEditButton={{@showEditButton}}
     @field='license'
     local-class='{{unless @draftRegistration.license.name 'NoResponse'}}'
 >
@@ -80,6 +85,7 @@
                     <Registries::ReviewMetadataRenderer::LabelDisplay
                         @draftRegistration={{@draftRegistration}}
                         @changeset={{@metadataChangeset}}
+                        @showEditButton={{@showEditButton}}
                         @field='nodeLicense.{{field}}'
                         @hideError={{true}}
                         local-class='{{unless nodeLicenseField 'NoResponse'}}'
@@ -100,6 +106,7 @@
 <Registries::ReviewMetadataRenderer::LabelDisplay
     @draftRegistration={{@draftRegistration}}
     @changeset={{@metadataChangeset}}
+    @showEditButton={{@showEditButton}}
     @field='subjects'
     local-class='{{unless @draftRegistration.subjects 'NoResponse'}}'
 >
@@ -114,6 +121,7 @@
 <Registries::ReviewMetadataRenderer::LabelDisplay
     @draftRegistration={{@draftRegistration}}
     @changeset={{@metadataChangeset}}
+    @showEditButton={{@showEditButton}}
     @field='tags'
     local-class='{{unless @draftRegistration.tags 'NoResponse'}}'
 >

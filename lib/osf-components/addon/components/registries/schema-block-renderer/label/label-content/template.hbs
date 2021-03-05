@@ -30,7 +30,7 @@
         {{/if}}
     {{/if}}
 {{else}}
-    {{#if @draftManager}}
+    {{#if (and @draftManager @showEditButton)}}
         <OsfLink
             aria-label={{t 'osf-components.registries.schema-block-renderer/label.editButtonAriaLabel' questionLabel=@schemaBlock.displayText}}
             @route='registries.drafts.draft.page'
