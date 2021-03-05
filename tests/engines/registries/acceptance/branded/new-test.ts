@@ -117,7 +117,6 @@ module('Registries | Acceptance | branded.new', hooks => {
         await click('[data-test-start-registration-button]');
         assert.equal(currentRouteName(), 'registries.drafts.draft.metadata',
             'Go to draft registration metadata page on start');
-        // TODO: institutions, license, subjects, tags
         assert.dom('[data-test-link-back-to-project]').doesNotExist('No link back to project');
         assert.dom('[data-test-metadata-title] input').hasValue('', 'Title is blank');
         assert.dom('[data-test-metadata-description] textarea').hasValue('', 'Description blank');

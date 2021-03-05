@@ -4,17 +4,20 @@ import { assert } from '@ember/debug';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 
 import { ChangesetDef } from 'ember-changeset/types';
 import config from 'ember-get-config';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import File from 'ember-osf-web/models/file';
-import NodeModel from 'ember-osf-web/models/node';
+import { Permission } from 'ember-osf-web/models/osf-model';
 import { SchemaBlock } from 'ember-osf-web/packages/registration-schema';
 import Analytics from 'ember-osf-web/services/analytics';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
+import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
+import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
 import styles from './styles';
 import template from './template';
 
@@ -27,12 +30,15 @@ export default class Files extends Component {
 
     // Required param
     changeset!: ChangesetDef;
-    node!: NodeModel;
     schemaBlock!: SchemaBlock;
+    draftRegistration!: DraftRegistrationModel;
 
     @alias('schemaBlock.registrationResponseKey')
     valuePath!: string;
+    @alias('draftRegistration.currentUserPermissions') currentUserPermissions!: Permission[];
     selectedFiles: File[] = [];
+
+    @tracked node?: AbstractNodeModel;
     onInput!: () => void;
 
     @computed('node')
@@ -46,8 +52,8 @@ export default class Files extends Component {
             Boolean(this.changeset),
         );
         assert(
-            'Registries::SchemaBlockRenderer::Editable::Files requires a node to render',
-            Boolean(this.node),
+            'Registries::SchemaBlockRenderer::Editable::Files requires a draft-registration to render',
+            Boolean(this.draftRegistration),
         );
         assert(
             'Registries::SchemaBlockRenderer::Editable::Files requires a valuePath to render',
@@ -58,6 +64,7 @@ export default class Files extends Component {
             Boolean(this.schemaBlock),
         );
 
+        this.node = this.draftRegistration.belongsTo('branchedFrom').value() as AbstractNodeModel;
         this.set('selectedFiles', this.changeset.get(this.valuePath) || []);
     }
 

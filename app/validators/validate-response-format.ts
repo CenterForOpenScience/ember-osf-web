@@ -24,18 +24,24 @@ export function validateFileList(responseKey: string, node?: NodeModel | DraftNo
                     detachedFiles.push(file.name);
                 }
             }
-            // TODO: update the returned translation string for no-project
-            const projectOrComponent = 'isRoot' in node && node.isRoot ? 'project' : 'component';
 
             if (!isEmpty(detachedFiles)) {
                 const missingFilesList = detachedFiles.join(', ');
                 const numOfFiles = detachedFiles.length;
+                let type = 'onlyProjectOrComponentFiles';
+                let translationArgs = { missingFilesList, numOfFiles };
+                if (node.modelName === 'node' && 'isRoot' in node) {
+                    const projectOrComponent = node.isRoot ? 'project' : 'component';
+                    translationArgs = { ...translationArgs, ...{ projectOrComponent } };
+                } else {
+                    type = 'missingFileNoProject';
+                }
 
                 return buildMessage(responseKey, {
                     type: 'presence',
                     context: {
-                        type: 'onlyProjectOrComponentFiles',
-                        translationArgs: { projectOrComponent, missingFilesList, numOfFiles },
+                        type,
+                        translationArgs,
                     },
                 });
             }

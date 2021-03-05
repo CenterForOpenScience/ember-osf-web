@@ -21,16 +21,18 @@ export default class FileSerializer extends ApplicationSerializer<MirageFile> {
             },
         };
 
-        if (model.targetId && model.targetId.id && model.kind === 'folder') {
+        if (model.targetId && model.targetId.id) {
             const pathName = pluralize(underscore(model.targetId.type));
-            returnValue.files = {
-                links: {
-                    related: {
-                        href: `${apiUrl}/v2/${pathName}/${model.targetId.id}/files/${model.provider}/${model.id}`,
-                        meta: this.buildRelatedLinkMeta(model, 'files'),
+            if (model.kind === 'folder') {
+                returnValue.files = {
+                    links: {
+                        related: {
+                            href: `${apiUrl}/v2/${pathName}/${model.targetId.id}/files/${model.provider}/${model.id}`,
+                            meta: this.buildRelatedLinkMeta(model, 'files'),
+                        },
                     },
-                },
-            };
+                };
+            }
             returnValue.target = {
                 data: {
                     type: model.targetId.type,

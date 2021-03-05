@@ -2,23 +2,24 @@
     data-test-files-instructions
     local-class='FilesInstructions'
 >
-    {{#if @nodeIsDraftNode}}
-        {{t 'osf-components.registries.schema-block-renderer/editable/files.instructionsNoProject'
-            htmlSafe=true
-        }}
-    {{else}}
+    {{#if @draftRegistration.hasProject}}
         {{t 'osf-components.registries.schema-block-renderer/editable/files.instructions'
-            projectOrComponent=(if @node.isRoot 'project' 'component')
+            projectOrComponent=(if this.node.isRoot 'project' 'component')
             nodeUrl=this.nodeUrl
             htmlSafe=true
         }}
+    {{else}}
+        {{t 'osf-components.registries.schema-block-renderer/editable/files.instructionsNoProject'
+            htmlSafe=true
+        }}
+        
     {{/if}}
 </p>
 <Files::SelectedList
     local-class='SelectedList'
     @selectedFiles={{this.selectedFiles}}
     @unselect={{action this.unselect}}
-    @node={{@node}}
+    @node={{this.node}}
 />
 <ValidationErrors
     local-class='ValidationErrors'
@@ -28,7 +29,7 @@
 <Files::Widget
     data-test-editable-file-widget
     local-class='FilesWidget'
-    @node={{@node}}
+    @node={{this.node}}
     @onSelectFile={{action this.onSelectFile}}
     @onAddFile={{action this.onAddFile}}
     @onDeleteFile={{this.onDeleteFile}}

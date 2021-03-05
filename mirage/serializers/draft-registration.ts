@@ -1,5 +1,8 @@
+import { underscore } from '@ember/string';
 import { ID, ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
+import { pluralize } from 'ember-inflector';
+
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import ApplicationSerializer, { SerializedRelationships } from './application';
 
@@ -13,7 +16,7 @@ interface DraftRegistrationAttrs {
     branchedFromId: BranchedFromId;
 }
 
-type MirageDraftRegistration = DraftRegistration & { attrs: DraftRegistrationAttrs };
+type MirageDraftRegistration = DraftRegistration & DraftRegistrationAttrs;
 
 export default class DraftRegistrationSerializer extends ApplicationSerializer<MirageDraftRegistration> {
     buildRelationships(model: ModelInstance<MirageDraftRegistration>) {
@@ -89,33 +92,19 @@ export default class DraftRegistrationSerializer extends ApplicationSerializer<M
         };
 
         if (model.branchedFrom) {
-            if (model.hasProject) {
-                relationships.branchedFrom = {
-                    data: {
-                        id: model.branchedFrom.id,
-                        type: 'nodes',
+            const pathName = pluralize(underscore(model.branchedFromId.type));
+            relationships.branchedFrom = {
+                data: {
+                    id: model.branchedFromId.id,
+                    type: model.branchedFromId.type,
+                },
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/${pathName}/${model.branchedFromId.id}`,
+                        meta: {},
                     },
-                    links: {
-                        related: {
-                            href: `${apiUrl}/v2/nodes/${model.branchedFrom.id}`,
-                            meta: {},
-                        },
-                    },
-                };
-            } else {
-                relationships.branchedFrom = {
-                    data: {
-                        id: model.branchedFrom.id,
-                        type: 'draft-nodes',
-                    },
-                    links: {
-                        related: {
-                            href: `${apiUrl}/v2/draft_nodes/${model.branchedFrom.id}`,
-                            meta: {},
-                        },
-                    },
-                };
-            }
+                },
+            };
         }
 
         if (model.license) {
