@@ -21,6 +21,6 @@ export default class ContributorsCardEditable extends Component {
 
     @action
     toggleDropdown() {
-        this.toggleProperty('showDropdown');
+        this.showDropdown = !this.showDropdown;
     }
 }
