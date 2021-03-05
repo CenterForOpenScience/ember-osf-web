@@ -79,10 +79,10 @@
 
     {{#if this.registration.iaUrl}}
         <div local-class='Field'>
-            <h4>{{t 'registries.registration_metadata.link_to_archived_copy'}}</h4>
+            <h4>{{t 'registries.registration_metadata.internet_archive_link'}}</h4>
             <div>
                 <OsfLink
-                    data-analytics-name='Link to archived copy'
+                    data-analytics-name='internet_archive_link'
                     @href={{this.registration.iaUrl}}
                     @target='_blank'
                 >

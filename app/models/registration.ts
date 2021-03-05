@@ -75,7 +75,7 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @attr('object') registeredMeta!: RegistrationMetadata;
     @attr('registration-responses') registrationResponses!: RegistrationResponse;
     @attr('fixstring') reviewsState!: RegistrationReviewStates;
-    @attr('fixstring') iaUrl!: string | null;
+    @attr('fixstring') iaUrl?: string;
 
     // Write-only attributes
     @attr('array') includedNodeIds?: string[];
