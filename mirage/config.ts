@@ -139,6 +139,11 @@ export default function(this: Server) {
         defaultSortKey: 'index',
         except: ['create'],
     });
+    osfNestedResource(this, 'draft-registration', 'bibliographicContributors', {
+        only: ['index'],
+        relatedModelName: 'contributor',
+        defaultSortKey: 'index',
+    });
     this.post('/draft_registrations/:draftId/contributors/', addContributor);
 
     osfResource(this, 'review-action', {
