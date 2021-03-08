@@ -1342,6 +1342,7 @@ registries:
         cancelButton: Cancel
         selectAll: 'Select All'
         clearAll: 'Clear All'
+        componentContributorWarning: 'Contributor changes for included components must be done on the component contributor page before submitting this registration.'
     registrationList:
         pending: 'No registrations pending approval have been found'
         accepted: 'No public registrations have been found'
