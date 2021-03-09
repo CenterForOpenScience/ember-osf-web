@@ -537,12 +537,16 @@ module('Registries | Acceptance | draft form', hooks => {
         );
     });
 
-    test('review: removeMe fails', async assert => {
+    test('review: removeMe fails', async function(this: DraftFormTestContext, assert) {
         const currentUser = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const users = server.createList('user', 10);
         const draftRegistration = server.create('draft-registration',
-            { registrationSchema, initiator: currentUser });
+            {
+                branchedFrom: this.branchedFrom,
+                registrationSchema,
+                initiator: currentUser,
+            });
 
         users.forEach((user, index) => {
             server.create('contributor', { users: user, index, draftRegistration });
