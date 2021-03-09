@@ -1,12 +1,11 @@
 import DS from 'ember-data';
-
 import {
     NormalizedRegistrationResponse,
     RegistrationResponse,
 } from 'ember-osf-web/packages/registration-schema';
 import { normalizeRegistrationResponses } from 'ember-osf-web/serializers/draft-registration';
 import { mapKeysAndValues } from 'ember-osf-web/utils/map-keys';
-import { Resource } from 'osf-api';
+import { RelationshipWithData, Resource } from 'osf-api';
 import OsfSerializer from './osf-serializer';
 
 export default class RegistrationSerializer extends OsfSerializer {
@@ -22,6 +21,17 @@ export default class RegistrationSerializer extends OsfSerializer {
             ) as NormalizedRegistrationResponse;
         }
         return super.normalize(modelClass, resourceHash) as { data: Resource };
+    }
+    serialize(snapshot: DS.Snapshot, options: {}) {
+        const serialized = super.serialize(snapshot, options);
+        const { data: { relationships } } = serialized;
+        if (relationships) {
+            const registeredFrom = relationships.registered_from as RelationshipWithData;
+            if (registeredFrom && !registeredFrom.data) {
+                delete serialized.data!.relationships!.registered_from;
+            }
+        }
+        return serialized;
     }
 }
 
