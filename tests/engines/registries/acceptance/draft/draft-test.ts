@@ -540,10 +540,9 @@ module('Registries | Acceptance | draft form', hooks => {
     test('review: removeMe fails', async assert => {
         const currentUser = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
-        const branchedFrom = server.create('node');
         const users = server.createList('user', 10);
         const draftRegistration = server.create('draft-registration',
-            { registrationSchema, initiator: currentUser, branchedFrom });
+            { registrationSchema, initiator: currentUser });
 
         users.forEach((user, index) => {
             server.create('contributor', { users: user, index, draftRegistration });

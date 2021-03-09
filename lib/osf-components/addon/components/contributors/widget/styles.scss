@@ -20,6 +20,9 @@
 .HeadingTitle {
     flex: 1 0 auto;
     max-width: 30%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 
     &:first-of-type {
         flex: 2 0 auto;
