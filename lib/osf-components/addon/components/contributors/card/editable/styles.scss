@@ -19,7 +19,20 @@
     max-width: 14%;
 }
 
+.CardSectionXS {
+    composes: CardSection from '../styles.scss';
+    max-width: 4%;
+}
+
 .Handle {
     padding-right: 10px;
     color: var(--primary-color);
+}
+
+.DropdownSection {
+    composes: DropdownSection from '../styles.scss';
+}
+
+.DropdownList {
+    composes: DropdownList from '../styles.scss';
 }

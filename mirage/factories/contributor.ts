@@ -26,13 +26,20 @@ export default Factory.extend<MirageContributor & ContributorTraits>({
 
     afterCreate(contributor) {
         if (contributor.bibliographic) {
-            const { node } = contributor;
+            const { node, draftRegistration } = contributor;
             if (node) {
                 node.bibliographicContributors = [
                     ...node.bibliographicContributors.models,
                     contributor,
                 ] as unknown as Collection<Contributor>;
                 node.save();
+            }
+            if (draftRegistration) {
+                draftRegistration.bibliographicContributors = [
+                    ...draftRegistration.bibliographicContributors.models,
+                    contributor,
+                ] as unknown as Collection<Contributor>;
+                draftRegistration.save();
             }
         }
     },

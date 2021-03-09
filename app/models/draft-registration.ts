@@ -64,6 +64,9 @@ export default class DraftRegistrationModel extends OsfModel {
     @hasMany('contributor')
     contributors!: DS.PromiseManyArray<ContributorModel> & ContributorModel[];
 
+    @hasMany('contributor')
+    bibliographicContributors!: DS.PromiseManyArray<ContributorModel> & ContributorModel[];
+
     get currentUserIsAdmin() {
         return Array.isArray(this.currentUserPermissions) && this.currentUserPermissions.includes(Permission.Admin);
     }
