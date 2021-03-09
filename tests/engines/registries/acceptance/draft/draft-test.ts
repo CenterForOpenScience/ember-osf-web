@@ -418,10 +418,10 @@ module('Registries | Acceptance | draft form', hooks => {
         const currentUser = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const branchedFrom = server.create('node');
-        server.create('contributor', { users: currentUser, index: 0, node: branchedFrom });
-        server.createList('contributor', 11, { node: branchedFrom });
         const draftRegistration = server.create('draft-registration',
             { registrationSchema, initiator: currentUser, branchedFrom });
+        server.create('contributor', { users: currentUser, index: 0, draftRegistration });
+        server.createList('contributor', 11, { draftRegistration });
 
         await visit(`/registries/drafts/${draftRegistration.id}/review`);
 
@@ -509,16 +509,15 @@ module('Registries | Acceptance | draft form', hooks => {
     test('review: removeMe fails', async assert => {
         const currentUser = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
-        const branchedFrom = server.create('node');
         const users = server.createList('user', 10);
+        const draftRegistration = server.create('draft-registration',
+            { registrationSchema, initiator: currentUser });
+
         users.forEach((user, index) => {
-            server.create('contributor', { users: user, index, node: branchedFrom });
+            server.create('contributor', { users: user, index, draftRegistration });
         });
         const currentUserContrib = server.create('contributor',
-            { id: currentUser.id, users: currentUser, index: 10, node: branchedFrom });
-
-        const draftRegistration = server.create('draft-registration',
-            { registrationSchema, initiator: currentUser, branchedFrom });
+            { id: currentUser.id, users: currentUser, index: 10, draftRegistration });
 
         await visit(`/registries/drafts/${draftRegistration.id}/review`);
 
@@ -529,7 +528,7 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-contributor-remove-me] > button').isVisible('remove me button is visible');
 
         server.namespace = '/v2';
-        server.del('/nodes/:parentID/contributors/:id', () => ({
+        server.del('/draft_registrations/:parentID/contributors/:id', () => ({
             errors: [{ detail: 'Error occured' }],
         }), 400);
 

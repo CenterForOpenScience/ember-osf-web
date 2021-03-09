@@ -27,7 +27,7 @@
     @field='contributors'
 >
     <ContributorList
-        @node={{get-model @draftRegistration.branchedFrom}}
+        @node={{@draftRegistration}}
         @shouldLinkUsers={{true}}
         @shouldTruncate={{false}}
         @allowRemoveMe={{true}}
