@@ -140,31 +140,21 @@ module('Integration | Component | schema-block-group-renderer', hooks => {
             },
             {
                 blockType: 'question-label',
-                displayText: 'Contributors:',
-                schemaBlockGroupKey: 'q6',
-                index: 21,
-            },
-            {
-                blockType: 'contributors-input',
-                registrationResponseKey: 'page-one_contributors-input',
-                schemaBlockGroupKey: 'q6',
-                index: 22,
-            },
-            {
-                blockType: 'question-label',
                 displayText: 'Files:',
-                schemaBlockGroupKey: 'q7',
+                schemaBlockGroupKey: 'q6',
                 index: 23,
             },
             {
                 blockType: 'file-input',
                 registrationResponseKey: 'page-one_file-input',
-                schemaBlockGroupKey: 'q7',
+                schemaBlockGroupKey: 'q6',
                 index: 24,
             },
         ];
         const schemaBlockGroups = getSchemaBlockGroups(schemaBlocks);
         const mirageNode = server.create('node', 'withFiles');
+        const mirageDraftRegistration = server.create('draft-registration',
+            { branchedFrom: mirageNode });
         const testFile = server.create('file', { target: mirageNode });
         const registrationResponse = {
             'page-one_short-text': '',
@@ -174,12 +164,19 @@ module('Integration | Component | schema-block-group-renderer', hooks => {
             'page-one_file-input': [testFile],
         };
         const registrationResponseChangeset = new Changeset(registrationResponse);
-        const node = await this.store.findRecord('node', mirageNode.id, {
-            include: 'bibliographic_contributors',
-            reload: true,
-        });
+        await this.store.findRecord(
+            'node',
+            mirageNode.id,
+        );
+        const draftRegistration = await this.store.findRecord(
+            'draft-registration',
+            mirageDraftRegistration.id, {
+                include: 'branchedFrom',
+                reload: true,
+            },
+        );
 
-        this.set('node', await node);
+        this.set('draftRegistration', draftRegistration);
         this.set('schemaBlockGroups', schemaBlockGroups);
         this.set('pageResponseChangeset', registrationResponseChangeset);
         await render(hbs`
@@ -190,7 +187,7 @@ module('Integration | Component | schema-block-group-renderer', hooks => {
                         component
                         'registries/schema-block-renderer/editable/mapper'
                         changeset=this.pageResponseChangeset
-                        node=this.node
+                        draftRegistration=this.draftRegistration
                     }}
                 />
             {{/each}}
@@ -198,13 +195,12 @@ module('Integration | Component | schema-block-group-renderer', hooks => {
         assert.dom('[data-test-page-heading]').exists();
         assert.dom('[data-test-section-heading]').exists();
         assert.dom('[data-test-subsection-heading]').exists();
-        assert.dom('[data-test-question-label]').exists({ count: 7 });
+        assert.dom('[data-test-question-label]').exists({ count: 6 });
         assert.dom('[data-test-radio-button-group]').exists({ count: 2 });
         assert.dom('[data-test-radio-input]').exists({ count: 4 });
         assert.dom('[data-test-text-input]').exists();
         assert.dom('[data-test-textarea-input]').exists();
         assert.dom('[data-test-multi-select-input]').exists();
-        assert.dom('[data-test-read-only-contributors-list]').exists();
         assert.dom('[data-test-editable-file-widget]').exists();
         assert.dom('[data-test-selected-files]').exists();
         assert.dom(`[data-test-selected-file="${testFile.id}"]`).exists();

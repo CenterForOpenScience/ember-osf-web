@@ -3,6 +3,7 @@ import { computed, set } from '@ember/object';
 import Changeset from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
 import { ChangesetDef } from 'ember-changeset/types';
+import DraftNode from 'ember-osf-web/models/draft-node';
 import NodeModel from 'ember-osf-web/models/node';
 import {
     buildValidation,
@@ -18,7 +19,11 @@ export class PageManager {
     pageHeadingText?: string;
     isVisited?: boolean;
 
-    constructor(pageSchemaBlocks: SchemaBlock[], registrationResponses: RegistrationResponse, node?: NodeModel) {
+    constructor(
+        pageSchemaBlocks: SchemaBlock[],
+        registrationResponses: RegistrationResponse,
+        node?: NodeModel | DraftNode,
+    ) {
         this.schemaBlockGroups = getSchemaBlockGroups(pageSchemaBlocks);
         if (this.schemaBlockGroups) {
             this.pageHeadingText = this.schemaBlockGroups[0].labelBlock!.displayText!;

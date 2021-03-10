@@ -18,7 +18,7 @@
     </div>
 {{/if}}
 
-{{#if this.node}}
+{{#if (and this.node this.hasProject)}}
     <Registries::PartialRegistrationModal::Manager
         @rootNode={{this.node}}
         as |partialRegistrationManager|

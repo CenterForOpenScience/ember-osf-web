@@ -120,6 +120,14 @@ export default function(this: Server) {
         path: '/nodes/:parentID/relationships/institutions',
     });
     this.get('/nodes/:id/storage', storageStatus);
+    osfResource(this, 'draft-node', { only: ['show', 'index', 'create'] });
+    osfNestedResource(this, 'draft-node', 'draftRegistrations', { only: ['index'] });
+    this.get('/draft_nodes/:parentID/files', nodeFileProviderList); // DraftNode file providers list
+    this.get('/draft_nodes/:parentID/files/:fileProviderId',
+        nodeFilesListForProvider); // DraftNode files list for file provider
+    this.get('/draft_nodes/:parentID/files/:fileProviderId/:folderId',
+        folderFilesList); // DraftNode folder detail view
+    this.put('/draft_nodes/:parentID/files/:fileProviderId/upload', uploadToRoot); // Upload to file provider
 
     osfToManyRelationship(this, 'node', 'subjects', {
         only: ['related', 'self'],
@@ -145,6 +153,11 @@ export default function(this: Server) {
         defaultSortKey: 'index',
     });
     this.post('/draft_registrations/:draftId/contributors/', addContributor);
+    osfNestedResource(this, 'draft-registration', 'bibliographicContributors', {
+        only: ['index'],
+        relatedModelName: 'contributor',
+        defaultSortKey: 'index',
+    });
 
     osfResource(this, 'review-action', {
         only: ['show'],

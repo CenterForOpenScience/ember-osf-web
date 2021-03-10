@@ -1,6 +1,8 @@
 import { assert } from '@ember/debug';
 import { inject as service } from '@ember/service';
 import DS from 'ember-data';
+
+import pathJoin from 'ember-osf-web/utils/path-join';
 import OsfAdapter from './osf-adapter';
 
 export default class ContributorAdapter extends OsfAdapter {
@@ -23,7 +25,7 @@ export default class ContributorAdapter extends OsfAdapter {
             } else {
                 baseUrl = this.buildRelationshipURL((draft as any)._internalModel.createSnapshot(), 'contributors');
             }
-            return `${baseUrl}${userId}/`;
+            return pathJoin(baseUrl, userId);
         }
 
         if (requestType === 'createRecord') {
