@@ -1,4 +1,4 @@
-import { computed } from '@ember/object';
+import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
@@ -49,4 +49,9 @@ export default class UserSearchComponent extends Component<UserSearchComponentAr
         this.totalUsersPage = Math.ceil(currentPageResult.meta.total / currentPageResult.meta.per_page);
         this.currentUsersPage += 1;
     });
+
+    @action
+    resetPage() {
+        this.currentUsersPage = 1;
+    }
 }
