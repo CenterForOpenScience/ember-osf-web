@@ -1,9 +1,11 @@
-import { association, Factory } from 'ember-cli-mirage';
+import { Factory } from 'ember-cli-mirage';
 
 import FileProviderModel from 'ember-osf-web/models/file-provider';
+import { PolymorphicTargetRelationship } from '../factories/file';
 
 export interface MirageFileProvider extends FileProviderModel {
     providerId: string;
+    targetId: PolymorphicTargetRelationship;
 }
 
 export default Factory.extend<MirageFileProvider>({
@@ -11,15 +13,13 @@ export default Factory.extend<MirageFileProvider>({
     path: '/',
     provider: 'osfstorage',
     afterCreate(provider, server) {
-        if (provider.node) {
-            provider.update({
-                providerId: `${provider.node.id}:${provider.name}`,
-            });
-        }
-        const rootFolder = server.create('file', 'asFolder');
+        provider.update({
+            providerId: `${provider.targetId.id}:${provider.name}`,
+        });
+
+        const rootFolder = server.create('file', { target: provider.target }, 'asFolder');
         provider.update({ rootFolder });
     },
-    node: association() as FileProviderModel['node'],
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {

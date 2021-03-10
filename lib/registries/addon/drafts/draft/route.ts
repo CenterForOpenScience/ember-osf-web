@@ -6,6 +6,7 @@ import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 
 import requireAuth from 'ember-osf-web/decorators/require-auth';
+import DraftNode from 'ember-osf-web/models/draft-node';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import NodeModel from 'ember-osf-web/models/node';
 import ProviderModel from 'ember-osf-web/models/provider';
@@ -33,13 +34,17 @@ export default class DraftRegistrationRoute extends Route {
                 draftId,
                 { adapterOptions: { include: 'branched_from' } },
             );
-            const [subjects, node, provider]: [SubjectModel[], NodeModel, ProviderModel] = yield Promise.all([
-                draftRegistration.loadAll('subjects'),
-                draftRegistration.branchedFrom,
-                draftRegistration.provider,
-            ]);
+            const [subjects, node, provider]:
+                [SubjectModel[], NodeModel | DraftNode, ProviderModel] = yield Promise.all([
+                    draftRegistration.loadAll('subjects'),
+                    draftRegistration.branchedFrom as NodeModel | DraftNode,
+                    draftRegistration.provider,
+                ]);
 
             draftRegistration.setProperties({ subjects });
+            if (draftRegistration.currentUserIsReadOnly) {
+                this.replaceWith('drafts.draft.review', draftId);
+            }
             return { draftRegistration, node, provider };
         } catch (error) {
             this.transitionTo('page-not-found', this.router.currentURL.slice(1));

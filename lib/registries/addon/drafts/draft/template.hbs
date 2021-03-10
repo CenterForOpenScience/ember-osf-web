@@ -16,8 +16,9 @@
                 <layout.heading>
                     <HeroOverlay @align='left' local-class='DraftHeroOverlay'>
                         <div local-class='Title'>
-                            {{#if draftManager.node}}
+                            {{#if draftManager.hasProject}}
                                 <OsfLink
+                                    data-test-link-back-to-project
                                     data-analytics-name='Go to project'
                                     local-class='BreadCrumb'
                                     @route='guid-node'
@@ -39,31 +40,34 @@
                             @draftManager={{draftManager}}
                             @navManager={{navManager}}
                             @onSubmitRedirect={{this.onSubmitRedirect}}
+                            @currentUserIsReadOnly={{draftManager.currentUserIsReadOnly}}
                         />
                     </layout.top>
                 {{/if}}
                 <layout.leftNav as |leftNav|>
-                    <PageLink
-                        @link={{component leftNav.link}}
-                        @draftId={{draftManager.draftId}}
-                        @pageName='metadata'
-                        @route='registries.drafts.draft.metadata'
-                        @currentPageName={{navManager.currentRoute}}
-                        @label='{{t 'registries.drafts.draft.metadata.page_label'}}'
-                        @navMode={{leftNav.leftGutterMode}}
-                        @metadataIsValid={{draftManager.metadataIsValid}}
-                    />
-                    {{#each draftManager.pageManagers as |pageManager index|}}
+                    {{#unless draftManager.currentUserIsReadOnly}}
                         <PageLink
                             @link={{component leftNav.link}}
                             @draftId={{draftManager.draftId}}
-                            @pageManager={{pageManager}}
-                            @route='registries.drafts.draft.page'
-                            @pageIndex={{index}}
-                            @currentPageIndex={{navManager.currentPage}}
+                            @pageName='metadata'
+                            @route='registries.drafts.draft.metadata'
+                            @currentPageName={{navManager.currentRoute}}
+                            @label='{{t 'registries.drafts.draft.metadata.page_label'}}'
                             @navMode={{leftNav.leftGutterMode}}
+                            @metadataIsValid={{draftManager.metadataIsValid}}
                         />
-                    {{/each}}
+                        {{#each draftManager.pageManagers as |pageManager index|}}
+                            <PageLink
+                                @link={{component leftNav.link}}
+                                @draftId={{draftManager.draftId}}
+                                @pageManager={{pageManager}}
+                                @route='registries.drafts.draft.page'
+                                @pageIndex={{index}}
+                                @currentPageIndex={{navManager.currentPage}}
+                                @navMode={{leftNav.leftGutterMode}}
+                            />
+                        {{/each}}
+                    {{/unless}}
                     <PageLink
                         @link={{component leftNav.link}}
                         @draftId={{draftManager.draftId}}
@@ -84,6 +88,7 @@
                                 @navManager={{navManager}}
                                 @draftManager={{draftManager}}
                                 @onSubmitRedirect={{this.onSubmitRedirect}}
+                                @currentUserIsReadOnly={{draftManager.currentUserIsReadOnly}}
                             />
                         </div>
                         <div local-class='EditWarning'>

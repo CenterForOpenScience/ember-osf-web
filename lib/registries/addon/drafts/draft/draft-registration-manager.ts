@@ -8,13 +8,13 @@ import { task } from 'ember-concurrency-decorators';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
+import DraftNode from 'ember-osf-web/models/draft-node';
 import DraftRegistration, { DraftMetadataProperties } from 'ember-osf-web/models/draft-registration';
 import NodeModel from 'ember-osf-web/models/node';
 import ProviderModel from 'ember-osf-web/models/provider';
 import SchemaBlock from 'ember-osf-web/models/schema-block';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
-import { Permission } from 'ember-osf-web/models/osf-model';
 import {
     buildMetadataValidations,
     getPages,
@@ -45,7 +45,10 @@ export default class DraftRegistrationManager {
     schemaBlocks!: SchemaBlock[];
 
     @alias('draftRegistration.id') draftId!: string;
+    @alias('draftRegistration.currentUserIsReadOnly') currentUserIsReadOnly!: boolean;
+    @alias('draftRegistration.currentUserIsAdmin') currentUserIsAdmin!: boolean;
     @alias('provider.reviewsWorkflow') reviewsWorkflow?: string;
+    @alias('draftRegistration.hasProject') hasProject?: boolean;
     @or('onPageInput.isRunning', 'onMetadataInput.isRunning') autoSaving!: boolean;
     @or('initializePageManagers.isRunning', 'initializeMetadataChangeset.isRunning') initializing!: boolean;
     @not('registrationResponsesIsValid') hasInvalidResponses!: boolean;
@@ -53,7 +56,7 @@ export default class DraftRegistrationManager {
     @notEmpty('visitedPages') hasVisitedPages!: boolean;
 
     draftRegistration!: DraftRegistration;
-    node?: NodeModel;
+    node?: NodeModel | DraftNode;
     provider!: ProviderModel;
 
     @computed('pageManagers.{[],@each.pageIsValid}')
@@ -72,14 +75,6 @@ export default class DraftRegistrationManager {
         const metadataInputFailed = this.onMetadataInput.lastComplete
             ? this.onMetadataInput.lastComplete.isError : false;
         return pageInputFailed || metadataInputFailed;
-    }
-
-    get currentUserIsAdmin() {
-        const { currentUserPermissions } = this.draftRegistration;
-        if (currentUserPermissions) {
-            return currentUserPermissions.includes(Permission.Admin);
-        }
-        return false;
     }
 
     @task({ withTestWaiter: true })

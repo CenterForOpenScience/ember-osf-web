@@ -1,5 +1,4 @@
 {{assert 'Registries::ReviewFormRenderer requires a draftManager' @draftManager}}
-{{assert 'Registries::ReviewFormRenderer requires a node' @node}}
 {{#each @draftManager.pageManagers as |pageManager|}}
     {{#each pageManager.schemaBlockGroups as |group|}}
         <Registries::SchemaBlockGroupRenderer
@@ -8,10 +7,10 @@
                 component
                 'registries/schema-block-renderer/read-only/mapper'
                 registrationResponses=@draftManager.draftRegistration.registrationResponses
-                node=@node
                 changeset=pageManager.changeset
                 draftManager=@draftManager
             }}
+            @showEditButton={{@showEditButton}}
         />
     {{/each}}
 {{/each}}
