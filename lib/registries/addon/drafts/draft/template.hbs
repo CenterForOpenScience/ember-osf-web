@@ -16,8 +16,9 @@
                 <layout.heading>
                     <HeroOverlay @align='left' local-class='DraftHeroOverlay'>
                         <div local-class='Title'>
-                            {{#if draftManager.node}}
+                            {{#if draftManager.hasProject}}
                                 <OsfLink
+                                    data-test-link-back-to-project
                                     data-analytics-name='Go to project'
                                     local-class='BreadCrumb'
                                     @route='guid-node'

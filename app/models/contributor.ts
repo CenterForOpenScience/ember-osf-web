@@ -11,6 +11,10 @@ import UserModel from './user';
 
 const { attr, belongsTo } = DS;
 
+export interface ModelWithBibliographicContributors extends OsfModel {
+    bibliographicContributors: DS.PromiseManyArray<ContributorModel> & ContributorModel[];
+}
+
 const Validations = buildValidations({
     fullName: [
         validator('presence', {
