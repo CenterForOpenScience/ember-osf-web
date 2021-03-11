@@ -6,14 +6,14 @@
             @type='text'
             @placeholder={{t 'registries.registration_metadata.add_contributors.search_placeholder'}}
             @value={{this.query}}
-            @enter={{perform this.fetchUsers}}
+            @enter={{queue this.resetPage (perform this.fetchUsers)}}
             {{on 'input' this.resetPage}}
         />
         <Button
             data-test-user-search-button
             local-class='ClearButton'
             @type='create'
-            {{on 'click' (fn (perform this.fetchUsers))}}
+            {{on 'click' (queue this.resetPage (perform this.fetchUsers))}}
         >
             {{t 'registries.registration_metadata.add_contributors.search'}}
         </Button>
