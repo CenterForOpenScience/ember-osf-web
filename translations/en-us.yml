@@ -530,6 +530,7 @@ validationErrors:
     mustSelect: 'You must select a value for this field.'
     mustSelectMinOne: 'You must select at least one value for this field.'
     mustSelectFileMinOne: 'You must select at least one file for this field.'
+    missingFileNoProject: 'The {numOfFiles, plural, =1 {file} other {files}} "{missingFilesList}" cannot be found.'
     onlyProjectOrComponentFiles: 'The {numOfFiles, plural, =1 {file} other {files}} "{missingFilesList}" cannot be found on this {projectOrComponent}.'
     new_folder_name: 'Folder name must not be blank.'
     year_format: 'Please specify a valid year.'
@@ -1104,6 +1105,7 @@ registries:
                 invalid_warning: 'Please address invalid or missing entries to complete registration.'
                 toggle_dropdown: 'Toggle navigation dropdown'
             register: Register
+            unable_to_fetch_children_count: 'Unable to fetch project''s components'
             submit_error: 'Unable to create a registration.'
     index:
         lead: 'The <span class="f-w-lg">open</span> registries network'
@@ -1343,6 +1345,7 @@ registries:
         cancelButton: Cancel
         selectAll: 'Select All'
         clearAll: 'Clear All'
+        componentContributorWarning: 'Contributor changes for included components must be done on the component contributor page before submitting this registration.'
     registrationList:
         pending: 'No registrations pending approval have been found'
         accepted: 'No public registrations have been found'

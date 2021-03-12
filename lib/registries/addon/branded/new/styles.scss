@@ -97,6 +97,10 @@
     text-transform: uppercase;
 }
 
+.RadioButtonAndLabelDiv {
+    display: inline;
+}
+
 .IsChecked {
     color: $color-osf-secondary;
     background-color: $color-bg-gray-blue-light;

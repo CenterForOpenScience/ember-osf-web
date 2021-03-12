@@ -1,7 +1,9 @@
 import { HandlerContext, ModelInstance, Request, Response, Schema } from 'ember-cli-mirage';
 import faker from 'faker';
 
-import RegistrationModel from 'ember-osf-web/models/registration';
+import DraftNodeModel from 'ember-osf-web/models/draft-node';
+import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
+import { MirageNode } from '../factories/node';
 
 import { guid } from '../factories/utils';
 import { process } from './utils';
@@ -36,6 +38,12 @@ export function registrationDetail(this: HandlerContext, schema: Schema, request
     return { data: data[0] };
 }
 
+export function createNodeFromDraftNode(
+    schema: Schema, draftNode: ModelInstance<DraftNodeModel>,
+): ModelInstance<MirageNode> {
+    return schema.nodes.create({ files: draftNode.files.models });
+}
+
 export function createRegistration(this: HandlerContext, schema: Schema) {
     const attrs = this.normalizedRequestAttrs('registration');
     const randomNum = faker.random.number();
@@ -44,19 +52,37 @@ export function createRegistration(this: HandlerContext, schema: Schema) {
     const draft = schema.draftRegistrations.find(attrs.draftRegistrationId);
 
     schema.guids.create({ id, referentType: 'registration' });
-
-    const newReg = schema.registrations.create({
-        id,
-        embargoed: Boolean(attrs.embargoEndDate),
-        dateRegistered: new Date(),
-        registeredFrom: draft.branchedFrom,
-        registrationSchema: draft.registrationSchema,
-        tags: draft.branchedFrom.tags || [],
-        category: draft.branchedFrom.category,
-        contributors: draft.branchedFrom.contributors.models,
-        currentUserPermissions: draft.branchedFrom.currentUserPermissions,
-        ...attrs,
-    });
+    let newReg;
+    if (draft.hasProject) {
+        const branchedFrom = draft.branchedFrom as ModelInstance<MirageNode>;
+        newReg = schema.registrations.create({
+            id,
+            embargoed: Boolean(attrs.embargoEndDate),
+            dateRegistered: new Date(),
+            registeredFrom: draft.branchedFrom,
+            registrationSchema: draft.registrationSchema,
+            tags: branchedFrom.tags || [],
+            category: branchedFrom.category,
+            contributors: draft.contributors.models,
+            currentUserPermissions: draft.currentUserPermissions,
+            reviewsState: RegistrationReviewStates.Accepted,
+            ...attrs,
+        });
+    } else {
+        const branchedFrom = createNodeFromDraftNode(schema, draft.branchedFrom as ModelInstance<DraftNodeModel>);
+        newReg = schema.registrations.create({
+            id,
+            embargoed: Boolean(attrs.embargoEndDate),
+            dateRegistered: new Date(),
+            registeredFrom: branchedFrom,
+            registrationSchema: draft.registrationSchema,
+            tags: [],
+            contributors: draft.contributors.models,
+            currentUserPermissions: draft.currentUserPermissions,
+            reviewsState: RegistrationReviewStates.Accepted,
+            ...attrs,
+        });
+    }
 
     if (attrs.createDoi) {
         schema.identifiers.create({

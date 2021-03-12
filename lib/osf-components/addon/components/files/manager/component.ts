@@ -11,6 +11,7 @@ import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
+import DraftNode from 'ember-osf-web/models/draft-node';
 import File from 'ember-osf-web/models/file';
 import FileProvider from 'ember-osf-web/models/file-provider';
 import Node from 'ember-osf-web/models/node';
@@ -51,7 +52,7 @@ export default class FilesManagerComponent extends Component {
     @service store!: DS.Store;
     @service toast!: Toast;
 
-    node!: Node;
+    node!: Node | DraftNode;
 
     onAddFile?: (file: File) => void;
     onDeleteFile?: (file: File, options?: { callback?: () => void }) => void;
@@ -60,11 +61,11 @@ export default class FilesManagerComponent extends Component {
     currentFolder!: File;
     lastUploaded: File[] = []; // Files uploaded since last sort.
     rootFolder!: File;
+    canEdit!: boolean;
     pageSize = 10;
     sort: SortKey = 'date_modified';
     page = 1;
 
-    @alias('node.userHasWritePermission') canEdit!: boolean;
     @alias('getRootItems.isRunning') loading!: boolean;
     @alias('loadMore.isRunning') loadingMore!: boolean;
     @or(

@@ -28,36 +28,40 @@
                         <legend local-class='RadioLegend'>
                             {{t 'registries.new.step_one_project_heading'}}
                         </legend>
-                        <input
-                            data-test-has-project-button
-                            local-class='RadioElement RadioInput'
-                            type='radio'
-                            name='HasProject'
-                            value='yes'
-                            onclick={{fn (mut this.isBasedOnProject) true}}
-                            checked={{this.isBasedOnProject}}
-                        >
-                        <label
-                            local-class='RadioElement RadioLabel {{if this.isBasedOnProject 'IsChecked'}}'
-                            for='HasProject'
-                        >
-                            {{t 'registries.new.yes'}}
-                        </label>
-                        <input
-                            data-test-no-project-button
-                            local-class='RadioElement RadioInput'
-                            type='radio'
-                            name='no-project'
-                            value='no'
-                            onclick={{fn (mut this.isBasedOnProject) false}}
-                            checked={{not this.isBasedOnProject}}
-                        >
-                        <label
-                            local-class='RadioElement RadioLabel {{unless this.isBasedOnProject 'IsChecked'}}'
-                            for='NoProject'
-                        >
-                            {{t 'registries.new.no'}}
-                        </label>
+                        <div local-class='RadioButtonAndLabelDiv'>
+                            <input
+                                data-test-has-project-button
+                                local-class='RadioElement RadioInput'
+                                type='radio'
+                                name='HasProject'
+                                value='yes'
+                                onclick={{fn (mut this.isBasedOnProject) true}}
+                                checked={{this.isBasedOnProject}}
+                            >
+                            <label
+                                local-class='RadioElement RadioLabel {{if this.isBasedOnProject 'IsChecked'}}'
+                                for='HasProject'
+                            >
+                                {{t 'registries.new.yes'}}
+                            </label>
+                        </div>
+                        <div local-class='RadioButtonAndLabelDiv'>
+                            <input
+                                data-test-no-project-button
+                                local-class='RadioElement RadioInput'
+                                type='radio'
+                                name='no-project'
+                                value='no'
+                                onclick={{fn (mut this.isBasedOnProject) false}}
+                                checked={{not this.isBasedOnProject}}
+                            >
+                            <label
+                                local-class='RadioElement RadioLabel {{unless this.isBasedOnProject 'IsChecked'}}'
+                                for='NoProject'
+                            >
+                                {{t 'registries.new.no'}}
+                            </label>
+                        </div>
                     </fieldset>
                 </label>
                 {{#if this.isBasedOnProject}}
@@ -112,7 +116,7 @@
 
                 <Button
                     data-test-start-registration-button
-                    data-analytics-name='Create new draft registration'
+                    data-analytics-name={{if this.isBasedOnProject 'Create new draft registration' 'Create new no-project draft registration'}}
                     local-class='createDraftButton'
                     disabled={{this.disableCreateDraft}}
                     @type='primary'

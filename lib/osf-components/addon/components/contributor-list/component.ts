@@ -11,8 +11,7 @@ import Toast from 'ember-toastr/services/toast';
 
 import RouterService from '@ember/routing/router-service';
 import { layout } from 'ember-osf-web/decorators/component';
-import Contributor from 'ember-osf-web/models/contributor';
-import Node from 'ember-osf-web/models/node';
+import Contributor, { ModelWithBibliographicContributors } from 'ember-osf-web/models/contributor';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
@@ -26,7 +25,7 @@ import template from './template';
 @tagName('span')
 export default class ContributorList extends Component {
     // Required arguments
-    node?: Node;
+    model!: ModelWithBibliographicContributors & { isAnonymous?: boolean };
 
     // Optional arguments
     shouldTruncate: boolean = defaultTo(this.shouldTruncate, true);
@@ -52,19 +51,19 @@ export default class ContributorList extends Component {
 
     @task({ withTestWaiter: true, restartable: true, on: 'didReceiveAttrs' })
     loadContributors = task(function *(this: ContributorList, more?: boolean) {
-        if (!this.node || this.node.isAnonymous) {
+        if (!this.model || this.model.isAnonymous) {
             return;
         }
 
         const blocker = this.ready.getBlocker();
         if (this.shouldLoadAll && !this.shouldTruncate) {
-            const allContributors = yield this.node.loadAll('bibliographicContributors');
+            const allContributors = yield this.model.loadAll('bibliographicContributors');
             this.setProperties({
                 displayedContributors: allContributors.toArray(),
                 totalContributors: allContributors.length,
             });
         } else if (more) {
-            const nextPage: QueryHasManyResult<Contributor> = yield this.node.queryHasMany(
+            const nextPage: QueryHasManyResult<Contributor> = yield this.model.queryHasMany(
                 'bibliographicContributors',
                 { page: this.incrementProperty('page') },
             );
@@ -72,7 +71,7 @@ export default class ContributorList extends Component {
             this.set('totalContributors', nextPage.meta.total);
         } else {
             this.set('page', 1);
-            const firstPage = yield this.node.bibliographicContributors;
+            const firstPage = yield this.model.bibliographicContributors;
             this.setProperties({
                 displayedContributors: firstPage.toArray(),
                 totalContributors: firstPage.meta.total,
@@ -84,7 +83,7 @@ export default class ContributorList extends Component {
 
     @dropTask({ withTestWaiter: true })
     removeMeTask = task(function *(this: ContributorList) {
-        if (!this.node || this.node.isAnonymous || !this.currentUser.currentUserId) {
+        if (!this.model || this.model.isAnonymous || !this.currentUser.currentUserId) {
             return;
         }
 
@@ -93,7 +92,7 @@ export default class ContributorList extends Component {
             .find(contrib => contrib.users.get('id') === this.currentUser.currentUserId);
 
         if (!contributor) {
-            contributor = yield this.store.findRecord('contributor', `${this.node.id}-${userID}`);
+            contributor = yield this.store.findRecord('contributor', `${this.model.id}-${userID}`);
             this.setProperties({
                 displayedContributors: [...this.displayedContributors, contributor],
             });

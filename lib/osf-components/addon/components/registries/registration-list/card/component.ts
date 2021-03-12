@@ -6,7 +6,7 @@ const iconMap: Partial<Record<RegistrationReviewStates, string>> = {
     [RegistrationReviewStates.Withdrawn]: 'ban',
     [RegistrationReviewStates.Accepted]: 'check',
     [RegistrationReviewStates.Rejected]: 'times',
-    [RegistrationReviewStates.PendingWithdraw]: 'clock-o',
+    [RegistrationReviewStates.PendingWithdraw]: 'clock',
     [RegistrationReviewStates.Embargo]: 'lock',
 };
 

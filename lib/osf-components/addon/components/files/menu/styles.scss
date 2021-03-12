@@ -17,7 +17,7 @@
             box-shadow: 0 0 0 2px #4d90fe;
         }
 
-        i {
+        svg {
             height: 28px;
             width: 28px;
             transform: translate(0, 1px);
@@ -33,7 +33,7 @@
             background-color: darken($color-bg-blue-dark, 10%);
         }
 
-        i {
+        svg {
             transform: translate(0, 1px) rotate(45deg);
         }
     }

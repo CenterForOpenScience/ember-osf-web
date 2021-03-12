@@ -6,7 +6,6 @@ import { inject as service } from '@ember/service';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import Media from 'ember-responsive';
 
-import NodeModel from 'ember-osf-web/models/node';
 import { PageManager } from 'ember-osf-web/packages/registration-schema';
 import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
 
@@ -16,7 +15,6 @@ export default class RegistriesDraftReview extends Controller {
     @alias('model.draftRegistrationManager') draftRegistrationManager?: DraftRegistrationManager;
     @alias('draftRegistrationManager.pageManagers') pageManagers?: PageManager[];
     @alias('draftRegistrationManager.draftRegistration') draftRegistration?: DraftRegistration;
-    @alias('draftRegistrationManager.node') node?: NodeModel;
 
     @not('draftRegistration') loading!: boolean;
     @not('media.isDesktop') showMobileView!: boolean;
