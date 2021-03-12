@@ -2,6 +2,7 @@ import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import { timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import UserModel from 'ember-osf-web/models/user';
@@ -39,6 +40,7 @@ export default class UserSearchComponent extends Component<UserSearchComponentAr
 
     @task({ withTestWaiter: true, enqueue: true })
     fetchUsers = task(function *(this: UserSearchComponent) {
+        yield timeout(500);
         const currentPageResult = yield this.store.query('user', {
             filter: {
                 [nameFields]: this.query,
