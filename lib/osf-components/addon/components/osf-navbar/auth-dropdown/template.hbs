@@ -31,7 +31,7 @@
                     data-analytics-name='MyProfile'
                     @href={{this.profileURL}}
                 >
-                    <i class='fa fa-user fa-lg p-r-xs'></i>
+                    <FaIcon @icon='user' class='fa-lg p-r-xs' />
                     {{t 'auth_dropdown.my_profile'}}
                 </OsfLink>
             </ddm.item>
@@ -41,7 +41,7 @@
                     data-analytics-name='Support'
                     @route='support'
                 >
-                    <i class='fa fa-life-ring fa-lg p-r-xs'></i>
+                    <FaIcon @icon='life-ring' class='fa-lg p-r-xs' />
                     {{t 'auth_dropdown.osf_support'}}
                 </OsfLink>
             </ddm.item>
@@ -51,7 +51,7 @@
                     data-analytics-name='Settings'
                     @href={{this.settingsURL}}
                 >
-                    <i class='fa fa-cog fa-lg p-r-xs'></i>
+                    <FaIcon @icon='cog' class='fa-lg p-r-xs' />
                     {{t 'general.settings'}}
                 </OsfLink>
             </ddm.item>
@@ -63,7 +63,7 @@
                     @type='link'
                     @onClick={{action 'logout'}}
                 >
-                    <i class='fa fa-sign-out fa-lg p-r-xs'></i>
+                    <FaIcon @icon='sign-out-alt' class='fa-lg p-r-xs' />
                     {{t 'auth_dropdown.log_out'}}
                 </OsfButton>
             </ddm.item>

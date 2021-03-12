@@ -3,7 +3,7 @@
 {{else}}
     <Registries::RegistrationFormNavigationDropdown
         @showMetadata={{false}}
-        @schemaBlocks={{this.schemaBlocks}} 
+        @schemaBlocks={{this.schemaBlocks}}
     />
     {{#each this.schemaBlockGroups as |group|}}
         <Registries::SchemaBlockGroupRenderer
@@ -12,7 +12,6 @@
                 component
                 'registries/schema-block-renderer/read-only/mapper'
                 registrationResponses=@registration.registrationResponses
-                node=@registration
             }}
         />
     {{/each}}

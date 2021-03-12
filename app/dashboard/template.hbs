@@ -134,14 +134,14 @@
                                                             @class='col-sm-12'
                                                             @onClick={{action this.more}}
                                                         >
-                                                            {{fa-icon
-                                                                'caret-down'
-                                                                class=(
+                                                            <FaIcon
+                                                                @icon='caret-down'
+                                                                class={{
                                                                     concat
                                                                     (local-class 'load-nodes')
                                                                     ' text-muted m-b-xl'
-                                                                )
-                                                            }}
+                                                                }}
+                                                            />
                                                         </OsfButton>
                                                     </div>
                                                 {{/if}}

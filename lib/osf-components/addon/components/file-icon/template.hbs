@@ -1,1 +1,6 @@
-{{fa-icon this.iconName fixedWidth=true}}
+<FaIcon
+    data-test-file-icon
+    @icon={{this.iconName}}
+    @prefix={{if (eq this.iconName 'cube') 'fas' 'far'}}
+    @fixedWidth={{true}}
+/>

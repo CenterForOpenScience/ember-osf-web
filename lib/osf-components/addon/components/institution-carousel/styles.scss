@@ -11,10 +11,14 @@
 
 .left {
     composes: left from global;
+    transform: scale(2);
+    margin-top: -20px;
 }
 
 .right {
     composes: right from global;
+    transform: scale(2);
+    margin-top: -20px;
 }
 
 .InstitutionCarousel__item {

@@ -9,6 +9,7 @@ import {
     triggerKeyEvent,
 } from '@ember/test-helpers';
 import { animationsSettled, TimeControl } from 'ember-animated/test-support';
+import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import config from 'ember-get-config';
 import { t } from 'ember-intl/test-support';
@@ -17,6 +18,7 @@ import { setBreakpoint } from 'ember-responsive/test-support';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
+import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
@@ -31,14 +33,19 @@ function getHrefAttribute(selector: string) {
     return document.querySelector(selector)!.getAttribute('href');
 }
 
+interface DraftFormTestContext extends TestContext {
+    branchedFrom: ModelInstance<NodeModel>;
+}
+
 module('Registries | Acceptance | draft form', hooks => {
     setupEngineApplicationTest(hooks, 'registries');
     setupMirage(hooks);
 
-    hooks.beforeEach(function(this: TestContext) {
+    hooks.beforeEach(function(this: DraftFormTestContext) {
         this.owner.register('service:currentUser', currentUserStub);
         this.owner.register('service:store', storeStub);
         this.owner.register('service:analytics', analyticsStub);
+        this.branchedFrom = server.create('node');
 
         server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
@@ -46,7 +53,7 @@ module('Registries | Acceptance | draft form', hooks => {
         server.loadFixtures('registration-providers');
     });
 
-    test('branded draft page', async () => {
+    test('branded draft page', async function(this: DraftFormTestContext) {
         const provider = server.create('registration-provider', 'withBrand');
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
@@ -54,12 +61,15 @@ module('Registries | Acceptance | draft form', hooks => {
             provider,
             registrationSchema,
             initiator,
+            branchedFrom: this.branchedFrom,
         });
         await visit(`registries/drafts/${draftRegistration.id}/`);
         await percySnapshot('Branded draft page');
     });
 
-    test('it redirects to review page of the draft form for read-only users', async assert => {
+    test('it redirects to review page of the draft form for read-only users', async function(
+        this: DraftFormTestContext, assert,
+    ) {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
@@ -67,6 +77,7 @@ module('Registries | Acceptance | draft form', hooks => {
             {
                 registrationSchema,
                 initiator,
+                branchedFrom: this.branchedFrom,
                 currentUserPermissions: [Permission.Read],
             },
         );
@@ -103,7 +114,7 @@ module('Registries | Acceptance | draft form', hooks => {
         await percySnapshot('Read-only Review page: Mobile');
     });
 
-    test('it redirects to metadata page of the draft form for admins', async assert => {
+    test('it redirects to metadata page of the draft form', async function(this: DraftFormTestContext, assert) {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
@@ -111,6 +122,7 @@ module('Registries | Acceptance | draft form', hooks => {
             {
                 registrationSchema,
                 initiator,
+                branchedFrom: this.branchedFrom,
             },
         );
 
@@ -119,13 +131,16 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.equal(currentRouteName(), 'registries.drafts.draft.metadata', 'At the expected route');
     });
 
-    test('it redirects page-not-found if the pageIndex route param is out of range', async assert => {
+    test('it redirects page-not-found if the pageIndex route param is out of range', async function(
+        this: DraftFormTestContext, assert,
+    ) {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
             'draft-registration', {
                 registrationSchema,
                 initiator,
+                branchedFrom: this.branchedFrom,
             },
         );
 
@@ -134,13 +149,14 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.equal(currentRouteName(), 'registries.page-not-found', 'At page not found');
     });
 
-    test('left nav controls', async assert => {
+    test('left nav controls', async function(this: DraftFormTestContext, assert) {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const draftRegistration = server.create(
             'draft-registration', {
                 registrationSchema,
                 initiator,
+                branchedFrom: this.branchedFrom,
             },
         );
 
@@ -150,7 +166,7 @@ module('Registries | Acceptance | draft form', hooks => {
         // Metadata page
         assert.equal(currentRouteName(), 'registries.drafts.draft.metadata', 'Starts at metadata route');
         assert.dom('[data-test-link="metadata"] > [data-test-icon]')
-            .hasClass('fa-circle-o', 'metadata is marked current page');
+            .hasClass('fa-dot-circle', 'metadata is marked current page');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-circle', 'page 1 is marked unvisited');
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
@@ -172,7 +188,7 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-circle', 'page 1 is marked unvisited');
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
-            .hasClass('fa-circle-o', 'page 2 is marked as current page');
+            .hasClass('fa-dot-circle', 'page 2 is marked as current page');
         assert.dom('[data-test-link="review"] > [data-test-icon]')
             .hasClass('fa-circle', 'review is marked unvisited');
         assert.dom('[data-test-goto-metadata]').doesNotExist();
@@ -186,9 +202,9 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-link="metadata"] > [data-test-icon]')
             .hasClass('fa-exclamation-circle', 'metadata is marked visited, invalid');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
-            .hasClass('fa-circle-o', 'page 1 is marked current page');
+            .hasClass('fa-dot-circle', 'page 1 is marked current page');
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
-            .hasClass('fa-check-circle-o', 'page 2 is marked visited, valid');
+            .hasClass('fa-check-circle', 'page 2 is marked visited, valid');
         assert.dom('[data-test-link="review"] > [data-test-icon]')
             .hasClass('fa-circle', 'review is marked unvisited');
         assert.dom('[data-test-goto-metadata]').isVisible();
@@ -200,9 +216,9 @@ module('Registries | Acceptance | draft form', hooks => {
         // Navigate back to metadata
         await click('[data-test-link="metadata"]');
         assert.dom('[data-test-link="metadata"] > [data-test-icon]')
-            .hasClass('fa-circle-o', 'metadata is marked current again');
+            .hasClass('fa-dot-circle', 'metadata is marked current again');
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
-            .hasClass('fa-check-circle-o', 'page 2 is marked visited, valid');
+            .hasClass('fa-check-circle', 'page 2 is marked visited, valid');
         assert.dom('[data-test-link="review"] > [data-test-icon]')
             .hasClass('fa-circle', 'review is marked unvisited');
         assert.dom('[data-test-goto-metadata]').doesNotExist();
@@ -220,9 +236,9 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-exclamation-circle', 'page 1 is marked visited, invalid');
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
-            .hasClass('fa-check-circle-o', 'page 2 is marked visited, valid');
+            .hasClass('fa-check-circle', 'page 2 is marked visited, valid');
         assert.dom('[data-test-link="review"] > [data-test-icon]')
-            .hasClass('fa-circle-o', 'review is marked current');
+            .hasClass('fa-dot-circle', 'review is marked current');
         assert.dom('[data-test-goto-metadata]').doesNotExist();
         assert.dom('[data-test-goto-previous-page]').isVisible();
         assert.dom('[data-test-goto-next-page]').doesNotExist();
@@ -230,7 +246,7 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-goto-register]').isVisible();
     });
 
-    test('right sidenav controls', async assert => {
+    test('right sidenav controls', async function(this: DraftFormTestContext, assert) {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
@@ -238,6 +254,7 @@ module('Registries | Acceptance | draft form', hooks => {
             {
                 registrationSchema,
                 initiator,
+                branchedFrom: this.branchedFrom,
             },
         );
 
@@ -298,11 +315,15 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/2-`), 'At second (last) page');
     });
 
-    test('mobile navigation works', async assert => {
+    test('mobile navigation works', async function(this: DraftFormTestContext, assert) {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
-            'draft-registration', { registrationSchema, initiator },
+            'draft-registration', {
+                registrationSchema,
+                initiator,
+                branchedFrom: this.branchedFrom,
+            },
         );
 
         await visit(`/registries/drafts/${registration.id}/`);
@@ -356,7 +377,7 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-page-label]').containsText('This is the second page');
     });
 
-    test('register button is disabled: invalid responses', async assert => {
+    test('register button is disabled: invalid responses', async function(this: DraftFormTestContext, assert) {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registrationResponses = {
@@ -373,6 +394,7 @@ module('Registries | Acceptance | draft form', hooks => {
                 registrationSchema,
                 initiator,
                 registrationResponses,
+                branchedFrom: this.branchedFrom,
             },
         );
 
@@ -383,7 +405,7 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-invalid-responses-text]').isVisible();
     });
 
-    test('validations: errors show on review page', async assert => {
+    test('validations: errors show on review page', async function(this: DraftFormTestContext, assert) {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registrationResponses = {
@@ -400,6 +422,7 @@ module('Registries | Acceptance | draft form', hooks => {
                 registrationSchema,
                 initiator,
                 registrationResponses,
+                branchedFrom: this.branchedFrom,
             },
         );
 
@@ -411,17 +434,17 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-exclamation-circle', 'page 1 is marked visited, invalid');
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
-            .hasClass('fa-check-circle-o', 'page 2 is marked visited, valid');
+            .hasClass('fa-check-circle', 'page 2 is marked visited, valid');
     });
 
     test('review: contributor can remove herself', async assert => {
         const currentUser = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const branchedFrom = server.create('node');
-        server.create('contributor', { users: currentUser, index: 0, node: branchedFrom });
-        server.createList('contributor', 11, { node: branchedFrom });
         const draftRegistration = server.create('draft-registration',
             { registrationSchema, initiator: currentUser, branchedFrom });
+        server.create('contributor', { users: currentUser, index: 0, draftRegistration });
+        server.createList('contributor', 11, { draftRegistration });
 
         await visit(`/registries/drafts/${draftRegistration.id}/review`);
 
@@ -444,11 +467,15 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.equal(currentURL(), '/dashboard', 'user is redirected to /dashboard');
     });
 
-    test('metadata: read and write contributor can remove herself', async assert => {
+    test('metadata: read and write contributor can remove herself', async function(this: DraftFormTestContext, assert) {
         const currentUser = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const draftRegistration = server.create('draft-registration',
-            { registrationSchema, initiator: currentUser }, 'currentUserIsReadAndWrite');
+            {
+                registrationSchema,
+                initiator: currentUser,
+                branchedFrom: this.branchedFrom,
+            }, 'currentUserIsReadAndWrite');
         const thisContributor = server.create('contributor', {
             users: currentUser,
             index: 0,
@@ -471,11 +498,15 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.equal(currentURL(), '/dashboard', 'user is redirected to /dashboard');
     });
 
-    test('metadata: removeMe fails', async assert => {
+    test('metadata: removeMe fails', async function(this: DraftFormTestContext, assert) {
         const currentUser = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const draftRegistration = server.create('draft-registration',
-            { registrationSchema, initiator: currentUser }, 'currentUserIsReadAndWrite');
+            {
+                registrationSchema,
+                initiator: currentUser,
+                branchedFrom: this.branchedFrom,
+            }, 'currentUserIsReadAndWrite');
         const thisContributor = server.create('contributor', {
             users: currentUser,
             index: 0,
@@ -506,19 +537,22 @@ module('Registries | Acceptance | draft form', hooks => {
         );
     });
 
-    test('review: removeMe fails', async assert => {
+    test('review: removeMe fails', async function(this: DraftFormTestContext, assert) {
         const currentUser = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
-        const branchedFrom = server.create('node');
         const users = server.createList('user', 10);
+        const draftRegistration = server.create('draft-registration',
+            {
+                branchedFrom: this.branchedFrom,
+                registrationSchema,
+                initiator: currentUser,
+            });
+
         users.forEach((user, index) => {
-            server.create('contributor', { users: user, index, node: branchedFrom });
+            server.create('contributor', { users: user, index, draftRegistration });
         });
         const currentUserContrib = server.create('contributor',
-            { id: currentUser.id, users: currentUser, index: 10, node: branchedFrom });
-
-        const draftRegistration = server.create('draft-registration',
-            { registrationSchema, initiator: currentUser, branchedFrom });
+            { id: currentUser.id, users: currentUser, index: 10, draftRegistration });
 
         await visit(`/registries/drafts/${draftRegistration.id}/review`);
 
@@ -529,7 +563,7 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-contributor-remove-me] > button').isVisible('remove me button is visible');
 
         server.namespace = '/v2';
-        server.del('/nodes/:parentID/contributors/:id', () => ({
+        server.del('/draft_registrations/:parentID/contributors/:id', () => ({
             errors: [{ detail: 'Error occured' }],
         }), 400);
 
@@ -552,7 +586,9 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.equal(currentRouteName(), 'registries.drafts.draft.review', 'no redirect on remove error');
     });
 
-    test('validations: cannot register with empty registrationResponses', async assert => {
+    test('validations: cannot register with empty registrationResponses', async function(
+        this: DraftFormTestContext, assert,
+    ) {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
@@ -560,6 +596,7 @@ module('Registries | Acceptance | draft form', hooks => {
             {
                 registrationSchema,
                 initiator,
+                branchedFrom: this.branchedFrom,
             },
         );
 
@@ -571,130 +608,156 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-invalid-responses-text]').isVisible();
     });
 
-    test('partial and finalize registration modal show, can register draft', async assert => {
+    test(
+        'Project-based registration: partial and finalize registration modal show, can register draft',
+        async assert => {
+            const initiator = server.create('user', 'loggedIn');
+            const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+            const rootNode = server.create('node');
+            const childNode = server.create('node', { parent: rootNode });
+            const grandChildNode = server.create('node', { parent: childNode });
+            const registrationResponses = {
+                'page-one_long-text': '',
+                'page-one_multi-select': [],
+                'page-one_multi-select-other': '',
+                'page-one_short-text': 'ditto',
+                'page-one_single-select': 'tuna',
+                'page-one_single-select-two': '',
+            };
+            const registration = server.create(
+                'draft-registration',
+                {
+                    registrationSchema,
+                    initiator,
+                    registrationResponses,
+                    branchedFrom: rootNode,
+                    currentUserPermissions: Object.values(Permission),
+                    license: server.schema.licenses.first(),
+                },
+            );
+            const subjects = [server.create('subject')];
+            registration.update({ subjects });
+            await visit(`/registries/drafts/${registration.id}/review`);
+
+            assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/review`), 'At review page');
+            assert.dom('[data-test-goto-register]').isNotDisabled();
+
+            await click('[data-test-goto-register]');
+
+            // PartialRegistrationModal
+            assert.dom('#osf-dialog-heading').hasText(t('registries.partialRegistrationModal.title').toString());
+            [
+                rootNode, childNode, grandChildNode,
+            ].mapBy('id').forEach(id => assert.dom(`[data-test-expand-child="${id}"]`));
+            await click('[data-test-cancel-registration-button]');
+
+            assert.dom('#osf-dialog-heading').isNotVisible('cancel closes the modal');
+
+            await click('[data-test-goto-register]');
+
+            assert.dom('[data-test-continue-registration-button]').isVisible();
+            await click('[data-test-continue-registration-button]');
+
+            // FinalizeRegistrationModal
+            assert.dom('#osf-dialog-heading').hasText(t('registries.finalizeRegistrationModal.title').toString());
+            assert.dom('[data-test-submit-registration-button]').isDisabled();
+
+            await click('[data-test-back-button]');
+            assert.dom('#osf-dialog-heading').hasText(
+                t('registries.partialRegistrationModal.title').toString(),
+                'back button switches to partialRegistrationModal',
+            );
+
+            await click('[data-test-continue-registration-button]');
+
+            await click('[data-test-immediate-button]');
+            assert.dom('[data-test-submit-registration-button]').isNotDisabled();
+
+            await click('[data-test-submit-registration-button]');
+
+            assert.equal(currentRouteName(), 'registries.overview.index', 'Redicted to new registration overview page');
+        },
+    );
+
+    test(
+        'No-project registration: only finalize registration modal show, can register draft',
+        async assert => {
+            const initiator = server.create('user', 'loggedIn');
+            const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+            const draftNode = server.create('draft-node');
+            const registrationResponses = {
+                'page-one_long-text': '',
+                'page-one_multi-select': [],
+                'page-one_multi-select-other': '',
+                'page-one_short-text': 'ditto',
+                'page-one_single-select': 'tuna',
+                'page-one_single-select-two': '',
+            };
+            const registration = server.create(
+                'draft-registration',
+                {
+                    registrationSchema,
+                    initiator,
+                    registrationResponses,
+                    branchedFrom: draftNode,
+                    currentUserPermissions: Object.values(Permission),
+                    license: server.schema.licenses.first(),
+                    hasProject: false,
+                },
+            );
+            const subjects = [server.create('subject')];
+            registration.update({ subjects });
+            await visit(`/registries/drafts/${registration.id}/review`);
+
+            assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/review`), 'At review page');
+            assert.dom('[data-test-goto-register]').isNotDisabled();
+
+            await click('[data-test-goto-register]');
+            // FinalizeRegistrationModal
+            assert.dom('#osf-dialog-heading').hasText(t('registries.finalizeRegistrationModal.title').toString());
+            assert.dom('[data-test-submit-registration-button]').isDisabled();
+
+            await click('[data-test-immediate-button]');
+            assert.dom('[data-test-submit-registration-button]').isNotDisabled();
+
+            await click('[data-test-submit-registration-button]');
+
+            assert.equal(currentRouteName(), 'registries.overview.index', 'Redicted to new registration overview page');
+        },
+    );
+
+    test('validations: marks all pages (visited or unvisited) as visited and validates all in review', async function(
+        this: DraftFormTestContext, assert,
+    ) {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
-        const rootNode = server.create('node');
-        const childNode = server.create('node', { parent: rootNode });
-        const grandChildNode = server.create('node', { parent: childNode });
-        const registrationResponses = {
-            'page-one_long-text': '',
-            'page-one_multi-select': [],
-            'page-one_multi-select-other': '',
-            'page-one_short-text': 'ditto',
-            'page-one_single-select': 'tuna',
-            'page-one_single-select-two': '',
-        };
         const registration = server.create(
             'draft-registration',
             {
                 registrationSchema,
                 initiator,
-                registrationResponses,
-                branchedFrom: rootNode,
-                currentUserPermissions: Object.values(Permission),
-                license: server.schema.licenses.first(),
-            },
-        );
-        const subjects = [server.create('subject')];
-        registration.update({ subjects });
-        await visit(`/registries/drafts/${registration.id}/review`);
-
-        assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/review`), 'At review page');
-        assert.dom('[data-test-goto-register]').isNotDisabled();
-
-        await click('[data-test-goto-register]');
-
-        // PartialRegistrationModal
-        assert.dom('#osf-dialog-heading').hasText(t('registries.partialRegistrationModal.title').toString());
-        [rootNode, childNode, grandChildNode].mapBy('id').forEach(id => assert.dom(`[data-test-expand-child="${id}"]`));
-        await click('[data-test-cancel-registration-button]');
-
-        assert.dom('#osf-dialog-heading').isNotVisible('cancel closes the modal');
-
-        await click('[data-test-goto-register]');
-
-        assert.dom('[data-test-continue-registration-button]').isVisible();
-        await click('[data-test-continue-registration-button]');
-
-        // FinalizeRegistrationModal
-        assert.dom('#osf-dialog-heading').hasText(t('registries.finalizeRegistrationModal.title').toString());
-        assert.dom('[data-test-submit-registration-button]').isDisabled();
-
-        await click('[data-test-back-button]');
-        assert.dom('#osf-dialog-heading').hasText(
-            t('registries.partialRegistrationModal.title').toString(),
-            'back button switches to partialRegistrationModal',
-        );
-
-        await click('[data-test-continue-registration-button]');
-
-        await click('[data-test-immediate-button]');
-        assert.dom('[data-test-submit-registration-button]').isNotDisabled();
-
-        await click('[data-test-submit-registration-button]');
-
-        assert.equal(currentRouteName(), 'registries.overview.index', 'Redicted to new registration overview page');
-    });
-
-    test('write user cannot register draft', async assert => {
-        const initiator = server.create('user', 'loggedIn');
-        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
-        const rootNode = server.create('node');
-        const registrationResponses = {
-            'page-one_long-text': '',
-            'page-one_multi-select': [],
-            'page-one_multi-select-other': '',
-            'page-one_short-text': 'ditto',
-            'page-one_single-select': 'tuna',
-            'page-one_single-select-two': '',
-        };
-        const registration = server.create(
-            'draft-registration',
-            {
-                registrationSchema,
-                initiator,
-                registrationResponses,
-                branchedFrom: rootNode,
-                currentUserPermissions: [Permission.Read, Permission.Write],
-                license: server.schema.licenses.first(),
-            },
-        );
-        const subjects = [server.create('subject')];
-        registration.update({ subjects });
-        await visit(`/registries/drafts/${registration.id}/review`);
-
-        assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/review`), 'At review page');
-        assert.dom('[data-test-goto-register]').isDisabled('Register button is disabled for write users');
-    });
-
-    test('validations: marks all pages (visited or unvisited) as visited and validates all in review', async assert => {
-        const initiator = server.create('user', 'loggedIn');
-        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
-        const registration = server.create(
-            'draft-registration',
-            {
-                registrationSchema,
-                initiator,
+                branchedFrom: this.branchedFrom,
             },
         );
 
         await visit(`/registries/drafts/${registration.id}/2`);
 
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
-            .hasClass('fa-circle-o', 'current page, not validated');
+            .hasClass('fa-dot-circle', 'current page, not validated');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-circle', 'page 1 is unvisited, not validated');
 
         await click('[data-test-goto-review]');
 
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
-            .hasClass('fa-check-circle-o', 'page 2 is marked visited, valid');
+            .hasClass('fa-check-circle', 'page 2 is marked visited, valid');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-exclamation-circle', 'page 1 is marked visited, invalid');
     });
 
-    test('validations: validates all visited pages upon current page load', async assert => {
+    test('validations: validates all visited pages upon current page load', async function(
+        this: DraftFormTestContext, assert,
+    ) {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
@@ -702,23 +765,26 @@ module('Registries | Acceptance | draft form', hooks => {
             {
                 registrationSchema,
                 initiator,
+                branchedFrom: this.branchedFrom,
             },
         );
 
         await visit(`/registries/drafts/${registration.id}/1`);
 
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
-            .hasClass('fa-circle-o', 'page 1 is current page');
+            .hasClass('fa-dot-circle', 'page 1 is current page');
 
         await click('[data-test-goto-next-page]');
 
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
-            .hasClass('fa-circle-o', 'page 2 is current page');
+            .hasClass('fa-dot-circle', 'page 2 is current page');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-exclamation-circle', 'page 1 is validated, invalid');
     });
 
-    test('validations: validations status updates properly on metadata page', async assert => {
+    test('validations: validations status updates properly on metadata page', async function(
+        this: DraftFormTestContext, assert,
+    ) {
         const provider = server.schema.registrationProviders.find('osf');
         provider.update({
             subjects: server.createList('subject', 10, 'withChildren'),
@@ -730,6 +796,7 @@ module('Registries | Acceptance | draft form', hooks => {
             {
                 registrationSchema,
                 initiator,
+                branchedFrom: this.branchedFrom,
             },
         );
 
@@ -876,7 +943,7 @@ module('Registries | Acceptance | draft form', hooks => {
             summary: 'Test file links',
             uploader: [fileOne.fileReference, folderOneFileOne.fileReference, folderOneFileTwo.fileReference],
         };
-        const osfstorage = server.create('file-provider', { node: branchedFrom });
+        const osfstorage = server.create('file-provider', { target: branchedFrom });
         osfstorage.rootFolder.update({
             files: [fileOne, fileTwo, folderOne],
         });
@@ -961,7 +1028,9 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom(`[data-test-file-browser-item="${fileTwo.id}"]`).isVisible('fileTwo is still visible');
     });
 
-    test('validations: validations status changes as user fixes/introduces errors', async assert => {
+    test('validations: validations status changes as user fixes/introduces errors', async function(
+        this: DraftFormTestContext, assert,
+    ) {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
@@ -969,13 +1038,14 @@ module('Registries | Acceptance | draft form', hooks => {
             {
                 registrationSchema,
                 initiator,
+                branchedFrom: this.branchedFrom,
             },
         );
 
         await visit(`/registries/drafts/${registration.id}/1`);
 
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
-            .hasClass('fa-circle-o', 'on page 1');
+            .hasClass('fa-dot-circle', 'on page 1');
 
         // should validate pages even without user input
         await click('[data-test-goto-next-page]');
@@ -1000,6 +1070,6 @@ module('Registries | Acceptance | draft form', hooks => {
         await click('[data-test-goto-metadata]');
 
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
-            .hasClass('fa-check-circle-o', 'page 1 is now valid');
+            .hasClass('fa-check-circle', 'page 1 is now valid');
     });
 });

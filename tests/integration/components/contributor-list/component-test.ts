@@ -44,7 +44,7 @@ module('Integration | Component | contributor-list', hooks => {
         const nodeWithContribs = await this.store.findRecord('node', node.id);
         this.set('node', nodeWithContribs);
 
-        await render(hbs`<ContributorList @node={{this.node}} @shouldLinkUsers={{true}} />`);
+        await render(hbs`<ContributorList @model={{this.node}} @shouldLinkUsers={{true}} />`);
 
         assert.dom('a[data-test-contributor-name]').exists({ count: 3 });
         for (const user of users.slice(0, 3)) {
@@ -66,29 +66,29 @@ module('Integration | Component | contributor-list', hooks => {
         server.create('contributor', { node, bibliographic: false });
 
         this.set('node', await reloadNode());
-        await render(hbs`<ContributorList @node={{this.node}} />`);
+        await render(hbs`<ContributorList @model={{this.node}} />`);
         assert.dom(this.element).hasText('');
 
         server.create('contributor', { node, users: users[0] });
         this.set('node', await reloadNode());
-        await render(hbs`<ContributorList @node={{this.node}} />`);
+        await render(hbs`<ContributorList @model={{this.node}} />`);
         assert.dom(this.element).hasText(users[0].familyName);
 
         server.create('contributor', { node, users: users[1] });
         this.set('node', await reloadNode());
-        await render(hbs`<ContributorList @node={{this.node}} />`);
+        await render(hbs`<ContributorList @model={{this.node}} />`);
         assert.dom(this.element).hasText(`${users[0].familyName} and ${users[1].familyName}`);
 
         server.create('contributor', { node, users: users[2] });
         this.set('node', await reloadNode());
-        await render(hbs`<ContributorList @node={{this.node}} />`);
+        await render(hbs`<ContributorList @model={{this.node}} />`);
         assert.dom(this.element).hasText(
             `${users[0].familyName}, ${users[1].familyName}, and ${users[2].familyName}`,
         );
 
         server.create('contributor', { node, users: users[3] });
         this.set('node', await reloadNode());
-        await render(hbs`<ContributorList @node={{this.node}} />`);
+        await render(hbs`<ContributorList @model={{this.node}} />`);
         assert.dom(this.element).hasText(
             `${users[0].familyName}, ${users[1].familyName}, ${users[2].familyName}, and 1 more`,
         );
@@ -111,7 +111,7 @@ module('Integration | Component | contributor-list', hooks => {
         const nodeWithContribs = await this.store.findRecord('node', node.id);
         this.set('node', nodeWithContribs);
 
-        await render(hbs`<ContributorList @node={{this.node}} @shouldTruncate={{false}} />`);
+        await render(hbs`<ContributorList @model={{this.node}} @shouldTruncate={{false}} />`);
 
         assert.dom('[data-test-contributor-name]').exists({ count: 10 });
         await click('[data-test-load-more-contribs]');
@@ -138,13 +138,13 @@ module('Integration | Component | contributor-list', hooks => {
         });
         this.setProperties({ node });
 
-        await render(hbs`<ContributorList @node={{this.node}} @shouldTruncate={{false}} />`);
+        await render(hbs`<ContributorList @model={{this.node}} @shouldTruncate={{false}} />`);
 
         assert.dom('[data-test-contributor-name]').doesNotExist();
         assert.dom('[data-test-load-more-contribs]').doesNotExist();
         assert.dom().hasText('Anonymous contributors');
 
-        await render(hbs`<ContributorList @node={{this.node}} @shouldTruncate={{true}} />`);
+        await render(hbs`<ContributorList @model={{this.node}} @shouldTruncate={{true}} />`);
 
         assert.dom('[data-test-contributor-name]').doesNotExist();
         assert.dom('[data-test-load-more-contribs]').doesNotExist();
@@ -162,7 +162,7 @@ module('Integration | Component | contributor-list', hooks => {
         this.set('node', node);
 
         this.currentUser.setProperties({ user, currentUserId: user.id });
-        await render(hbs`<ContributorList @node={{this.node}}
+        await render(hbs`<ContributorList @model={{this.node}}
             @shouldTruncate={{false}} @shouldLinkUsers={{true}} @allowRemoveMe={{true}} />`);
 
         assert.dom('[data-test-contributor-name]').exists({ count: 1 }, 'One contributor is visible');
@@ -173,7 +173,7 @@ module('Integration | Component | contributor-list', hooks => {
         server.create('contributor', { node: mirageNode, bibliographic: true });
         this.set('node', await node.reload());
 
-        await render(hbs`<ContributorList @node={{this.node}}
+        await render(hbs`<ContributorList @model={{this.node}}
             @shouldTruncate={{false}} @shouldLinkUsers={{true}} @allowRemoveMe={{true}} />`);
 
         assert.dom('[data-test-contributor-name]').exists({ count: 2 }, 'two contributors are visible');

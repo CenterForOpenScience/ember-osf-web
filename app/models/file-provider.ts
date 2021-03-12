@@ -2,6 +2,7 @@ import DS from 'ember-data';
 import { Link } from 'jsonapi-typescript';
 
 import BaseFileItem, { BaseFileLinks } from './base-file-item';
+import DraftNodeModel from './draft-node';
 import FileModel from './file';
 import NodeModel from './node';
 
@@ -20,8 +21,9 @@ export default class FileProviderModel extends BaseFileItem {
     @belongsTo('file')
     rootFolder!: DS.PromiseObject<FileModel> & FileModel;
 
-    @belongsTo('node')
-    node!: DS.PromiseObject<NodeModel> & NodeModel;
+    @belongsTo('abstract-node', { polymorphic: true })
+    target!: DS.PromiseObject<NodeModel> & NodeModel |
+        DS.PromiseObject<DraftNodeModel> & DraftNodeModel;
 
     // BaseFileItem override
     isProvider = true;

@@ -13,7 +13,7 @@
                         @onClick={{action this.toggleNav}}
                     >
                         <span class='sr-only'>{{t 'node_navbar.toggle'}}</span>
-                        <span class='fa fa-bars fa-lg'></span>
+                        <FaIcon @icon='bars' class='fa-lg' />
                     </OsfButton>
 
                     <span class='navbar-brand visible-xs visible-sm'>
@@ -27,7 +27,7 @@
                     <ul data-test-node-navbar-links class='nav navbar-nav'>
                         {{#if this.fakeParent}}
                             {{#node-navbar/link node=this.fakeParent useLinkTo=false}}
-                                {{fa-icon 'level-down' rotate=180}}
+                                {{fa-icon 'level-down-alt' rotate=180}}
                             {{/node-navbar/link}}
                         {{/if}}
                         {{#node-navbar/link node=@node useLinkTo=false setActive=false extraClasses='project-title'}}
