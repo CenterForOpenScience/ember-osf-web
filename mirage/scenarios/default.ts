@@ -171,6 +171,7 @@ function registrationScenario(
         branchedFrom: draftNode,
         hasProject: false,
         license: licenseReqFields,
+        currentUserPermissions: Object.values(Permission),
     }, 'withSubjects', 'withAffiliatedInstitutions', 'withContributors');
 
     server.create('draft-registration', {

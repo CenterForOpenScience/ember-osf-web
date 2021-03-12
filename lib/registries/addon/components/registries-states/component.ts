@@ -33,7 +33,7 @@ export default class RegistriesStates extends Component {
         case RegistrationReviewStates.PendingWithdrawRequest:
         case RegistrationReviewStates.PendingEmbargoTermination:
         case RegistrationReviewStates.PendingWithdraw:
-            return 'clock-o';
+            return 'clock';
         case RegistrationReviewStates.Embargo:
             return 'lock';
         default:

@@ -9,10 +9,11 @@
             <button
                 data-test-active-filter-remove-button
                 type='button'
-                class='fa fa-times-circle'
                 local-class='removeActiveFilter'
                 {{on 'click' this.removeFilterItem}}
-            ></button>
+            >
+                <FaIcon @icon='times-circle' />
+            </button>
         </span>
     {{/unless}}
 </span>
