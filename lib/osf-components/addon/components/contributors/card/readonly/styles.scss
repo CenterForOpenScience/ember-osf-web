@@ -8,7 +8,7 @@
 
 .CardSection {
     composes: CardSection from '../styles.scss';
-    max-width: 34%;
+    width: 34%;
 }
 
 .CardSectionSmall {
