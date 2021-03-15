@@ -84,13 +84,13 @@ export default class PageLinkComponent extends Component {
     get pageIcon(): string {
         switch (this.pageState) {
         case PageState.Active:
-            return 'circle-o';
+            return 'dot-circle';
         case PageState.Unvisited:
             return 'circle';
         case PageState.Invalid:
             return 'exclamation-circle';
         case PageState.Valid:
-            return 'check-circle-o';
+            return 'check-circle';
         default:
             return '';
         }

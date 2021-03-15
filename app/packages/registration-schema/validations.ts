@@ -2,6 +2,7 @@ import { assert } from '@ember/debug';
 import { set } from '@ember/object';
 import { ValidationObject, ValidatorFunction } from 'ember-changeset-validations';
 import { validatePresence } from 'ember-changeset-validations/validators';
+import DraftNode from 'ember-osf-web/models/draft-node';
 
 import DraftRegistration, { DraftMetadataProperties } from 'ember-osf-web/models/draft-registration';
 import NodeModel, { NodeLicense } from 'ember-osf-web/models/node';
@@ -36,7 +37,7 @@ function getErrorType(groupType?: string) {
     return validationErrorType;
 }
 
-export function buildValidation(groups: SchemaBlockGroup[], node?: NodeModel) {
+export function buildValidation(groups: SchemaBlockGroup[], node?: NodeModel | DraftNode) {
     const ret: ValidationObject<RegistrationResponse> = {};
     groups.forEach((group: SchemaBlockGroup) => {
         // only validating groups with actual inputs and not groups that are headings/labels only

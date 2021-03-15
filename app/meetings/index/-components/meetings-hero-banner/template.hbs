@@ -16,12 +16,14 @@
             <div local-class='network-img'> </div>
             <div class='row'>
                 <div class='col-md-6 col-lg-5 col-xl-4 text-center m-b-lg'>
-                    <FaIcon
-                        data-test-fa-icon-users
-                        @icon='users'
-                        class='m-v-sm'
-                        local-class='user-icon icon-circle'
-                    />
+                    <div local-class='icon-circle'>
+                        <FaIcon
+                            data-test-fa-icon-users
+                            @icon='users'
+                            class='m-v-sm'
+                            local-class='user-icon'
+                        />
+                    </div>
                     <h3 class='f-w-xl'>
                         {{t 'meetings.index.meetings-hero-banner.conference_organizers_h3'}}
                     </h3>
@@ -48,12 +50,14 @@
                     </CpPanel>
                 </div>
                 <div class='col-md-6 col-lg-5 col-lg-offset-2 col-xl-4 col-xl-offset-4 text-center m-b-lg'>
-                    <FaIcon
-                        data-test-fa-icon-cloud-upload
-                        @icon='cloud-upload'
-                        class='m-v-sm'
-                        local-class='user-icon icon-circle'
-                    />
+                    <div local-class='icon-circle'>
+                        <FaIcon
+                            data-test-fa-icon-cloud-upload
+                            @icon='cloud-upload-alt'
+                            class='m-v-sm'
+                            local-class='user-icon'
+                        />
+                    </div>
                     <h3 class='f-w-xl'>
                         {{t 'meetings.index.meetings-hero-banner.conference_participants_h3'}}
                     </h3>

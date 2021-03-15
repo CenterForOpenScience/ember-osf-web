@@ -84,7 +84,7 @@ module('Registries | Integration | Component | page-link', hooks => {
 
         assert.dom('[data-test-link="1-valid"]').exists('Valid PageLink Component renders');
         assert.dom('[data-test-label]').containsText(pageManager.pageHeadingText, 'has proper label');
-        assert.dom('[data-test-icon].fa-check-circle-o').exists('icon uses proper symbol');
+        assert.dom('[data-test-icon].fa-check-circle').exists('icon uses proper symbol');
     });
 
     test('Renders an invalid page link', async function(this: TestContext, assert) {
@@ -134,7 +134,7 @@ module('Registries | Integration | Component | page-link', hooks => {
 
         assert.dom('[data-test-link="6-active"]').exists('Active PageLink Component renders');
         assert.dom('[data-test-label]').containsText(pageManager.pageHeadingText, 'has proper label');
-        assert.dom('[data-test-icon].fa-circle-o').exists('icon uses proper symbol');
+        assert.dom('[data-test-icon].fa-dot-circle').exists('icon uses proper symbol');
     });
 
     test('Renders an inactive named page link', async assert => {
@@ -168,7 +168,7 @@ module('Registries | Integration | Component | page-link', hooks => {
 
         assert.dom('[data-test-link="foo"]').exists('PageLink Component renders');
         assert.dom('[data-test-label]').containsText('Foo', 'has proper label');
-        assert.dom('[data-test-icon].fa-circle-o').exists('icon uses proper symbol');
+        assert.dom('[data-test-icon].fa-dot-circle').exists('icon uses proper symbol');
     });
 });
 /* eslint-enable max-classes-per-file */

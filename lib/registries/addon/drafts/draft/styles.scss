@@ -74,6 +74,10 @@
     display: flex;
     flex-direction: column;
     align-items: start;
+
+    & i {
+        color: $brand-warning;
+    }
 }
 
 .BackButton {

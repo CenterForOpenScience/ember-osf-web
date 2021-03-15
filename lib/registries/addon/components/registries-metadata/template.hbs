@@ -17,7 +17,7 @@
             {{/if}}
         </h4>
         <ContributorList
-            @node={{this.registration}}
+            @model={{this.registration}}
             @shouldEnableClaimUser={{true}}
             @shouldTruncate={{false}}
             @shouldLinkUsers={{true}}
@@ -76,6 +76,21 @@
             </OsfLink>
         </div>
     </div>
+
+    {{#if this.registration.iaUrl}}
+        <div local-class='Field'>
+            <h4>{{t 'registries.registration_metadata.internet_archive_link'}}</h4>
+            <div>
+                <OsfLink
+                    data-analytics-name='internet_archive_link'
+                    @href={{this.registration.iaUrl}}
+                    @target='_blank'
+                >
+                    {{this.registration.iaUrl}}
+                </OsfLink>
+            </div>
+        </div>
+    {{/if}}
 
     <div local-class='Field'>
         <EditableField::CategoryManager @node={{this.registration}} as |categoryManager|>

@@ -6,6 +6,10 @@
   ],
   "dependencies": {
     "@ember/render-modifiers": "*",
+    "@fortawesome/free-regular-svg-icons": "*",
+    "@fortawesome/free-solid-svg-icons": "*",
+    "@fortawesome/ember-fontawesome": "*",
+    "@fortawesome/free-brands-svg-icons": "*",
     "@glimmer/component": "*",
     "@glimmer/tracking": "*",
     "ember-angle-bracket-invocation-polyfill": "*",
@@ -32,7 +36,6 @@
     "ember-decorators": "*",
     "ember-element-helper": "*",
     "ember-flatpickr": "*",
-    "ember-font-awesome": "*",
     "ember-intl": "*",
     "ember-moment": "*",
     "ember-page-title": "*",
