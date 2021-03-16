@@ -43,7 +43,7 @@ export default class RegistriesNavbar extends AuthBase {
     @computed('provider.{allowSubmissions,id}')
     get showAddRegistrationButton() {
         if (!this.provider) {
-            return false;
+            return true;
         }
         if (this.provider.id === 'egap') {
             return this.features.isEnabled(camelize(egapAdmins));
