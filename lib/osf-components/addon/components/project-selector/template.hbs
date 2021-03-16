@@ -45,7 +45,8 @@
                                 @search={{perform this.findNodes}}
                                 @selected={{this.selected}}
                                 @searchField='title'
-                                @onchange={{action this.valueChanged}}
+                                @searchEnabled={{true}}
+                                @onChange={{action this.valueChanged}}
                                 as |project|
                             >
                                 {{get-ancestor-descriptor project}} <strong>{{project.title}}</strong>

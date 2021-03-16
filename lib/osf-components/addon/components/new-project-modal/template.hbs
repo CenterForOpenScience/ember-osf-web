@@ -79,9 +79,10 @@
                         <PowerSelect
                             @options={{this.regions}}
                             @renderInPlace={{true}}
+                            @searchEnabled={{true}}
                             @selected={{this.selectedRegion}}
                             @searchField='name'
-                            @onchange={{action this.selectRegion}}
+                            @onChange={{action this.selectRegion}}
                             @noMatchesMessage={{t 'new_project.no_matches'}}
                             as |region|
                         >
@@ -118,7 +119,7 @@
                         <PowerSelect
                             @search={{action this.searchNodes}}
                             @selected={{this.templateFrom}}
-                            @onchange={{action this.selectTemplateFrom}}
+                            @onChange={{action this.selectTemplateFrom}}
                             @renderInPlace={{true}}
                             @noMatchesMessage={{t 'new_project.no_matches'}}
                             @searchMessage={{t 'new_project.template_placeholder'}}
