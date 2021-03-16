@@ -20,7 +20,7 @@
                 {{t 'registries.new.provider_info' provider=this.model.name htmlSafe=true}}
             </p>
             <form data-test-new-registration-form local-class='registrationForm'>
-                <label local-class='selectLabel StepOneContainer'>
+                <div local-class='selectLabel StepOneContainer'>
                     <p local-class='stepLabel'>
                         {{t 'registries.new.step_one'}}
                     </p>
@@ -29,41 +29,45 @@
                             {{t 'registries.new.step_one_project_heading'}}
                         </legend>
                         <div local-class='RadioButtonAndLabelDiv'>
-                            <input
-                                data-test-has-project-button
-                                local-class='RadioElement RadioInput'
-                                type='radio'
-                                name='HasProject'
-                                value='yes'
-                                onclick={{fn (mut this.isBasedOnProject) true}}
-                                checked={{this.isBasedOnProject}}
-                            >
-                            <label
-                                local-class='RadioElement RadioLabel {{if this.isBasedOnProject 'IsChecked'}}'
-                                for='HasProject'
-                            >
-                                {{t 'registries.new.yes'}}
-                            </label>
+                            {{#let (unique-id) 'has-project' as |hasProjectId|}}
+                                <input
+                                    data-test-has-project-button
+                                    local-class='RadioElement RadioInput'
+                                    id={{hasProjectId}}
+                                    type='radio'
+                                    value='yes'
+                                    onclick={{fn (mut this.isBasedOnProject) true}}
+                                    checked={{this.isBasedOnProject}}
+                                >
+                                <label
+                                    local-class='RadioElement RadioLabel {{if this.isBasedOnProject 'IsChecked'}}'
+                                    for={{hasProjectId}}
+                                >
+                                    {{t 'registries.new.yes'}}
+                                </label>
+                            {{/let}}
                         </div>
                         <div local-class='RadioButtonAndLabelDiv'>
-                            <input
-                                data-test-no-project-button
-                                local-class='RadioElement RadioInput'
-                                type='radio'
-                                name='no-project'
-                                value='no'
-                                onclick={{fn (mut this.isBasedOnProject) false}}
-                                checked={{not this.isBasedOnProject}}
-                            >
-                            <label
-                                local-class='RadioElement RadioLabel {{unless this.isBasedOnProject 'IsChecked'}}'
-                                for='NoProject'
-                            >
-                                {{t 'registries.new.no'}}
-                            </label>
+                            {{#let (unique-id) 'no-project' as |noProjectId|}}
+                                <input
+                                    data-test-no-project-button
+                                    local-class='RadioElement RadioInput'
+                                    id={{noProjectId}}
+                                    type='radio'
+                                    value='no'
+                                    onclick={{fn (mut this.isBasedOnProject) false}}
+                                    checked={{not this.isBasedOnProject}}
+                                >
+                                <label
+                                    local-class='RadioElement RadioLabel {{unless this.isBasedOnProject 'IsChecked'}}'
+                                    for={{noProjectId}}
+                                >
+                                    {{t 'registries.new.no'}}
+                                </label>
+                            {{/let}}
                         </div>
                     </fieldset>
-                </label>
+                </div>
                 {{#if this.isBasedOnProject}}
                     <label data-test-project-select local-class='selectLabel'>
                         <p local-class='stepLabel'>
