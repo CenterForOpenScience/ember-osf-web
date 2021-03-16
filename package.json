@@ -106,7 +106,7 @@
     "ember-cli-htmlbars": "^5.2.0",
     "ember-cli-inject-live-reload": "^2.0.2",
     "ember-cli-inline-content": "0.4.1",
-    "ember-cli-meta-tags": "^5.0.0",
+    "ember-cli-meta-tags": "^6.1.2",
     "ember-cli-mirage": "^1.1.7",
     "ember-cli-moment-shim": "^3.5.0",
     "ember-cli-password-strength": "^2.0.0",
