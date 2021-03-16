@@ -112,7 +112,7 @@ maintenance:
     line2: 'Thank you for your patience.'
     title: 'Notice:'
 quickfiles:
-    title: '{user-name}''s Quick Files'
+    title: '{userName}''s Quick Files'
     description: 'Files uploaded here are <b>publicly accessible</b> and easy to share with others using the share link.'
     feedback_dialog_text: 'Tell us what you think of Quick Files'
     transition_auth: 'You must be logged in to view your Quick Files. Redirecting to the login page.'
@@ -129,7 +129,7 @@ feedback:
 file_detail:
     version:
         id: 'Version ID'
-        title: '(Version: {version-number})'
+        title: '(Version: {versionNumber})'
     embed:
         dynamic: 'Dynamically render iframe with JavaScript'
         direct: 'Direct iframe with fixed height and width'
@@ -137,7 +137,7 @@ file_detail:
     toggle: 'Toggle view:'
     delete_file:
         question: 'Delete file?'
-        confirm: 'Are you sure you want to delete <b>{file-name}</b>?'
+        confirm: 'Are you sure you want to delete <b>{fileName}</b>?'
     sha2_description: 'SHA-2 is a cryptographic hash function designed by the NSA used to verify data integrity.'
     md5_description: 'MD5 is an algorithm used to verify data integrity.'
     delete_success: 'File deleted'
@@ -1065,7 +1065,7 @@ registries:
         sidebar:
             refine_search: 'Refine Search'
             remove_filter_label: 'Remove {filterName} filter'
-            provider_count: '{count, shortNumber}'
+            provider_count: '{count, number, compact}'
         search_result:
             last_edited: 'Last edited: {date}'
             withdrawn: Withdrawn

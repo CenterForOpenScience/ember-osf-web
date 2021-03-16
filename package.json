@@ -151,7 +151,7 @@
     "ember-g-recaptcha": "^1.0.0",
     "ember-get-config": "^0.2.4",
     "ember-in-viewport": "^3.7.3",
-    "ember-intl": "^4.2.2",
+    "ember-intl": "^5.6.2",
     "ember-load-initializers": "^2.0.0",
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-metrics": "https://github.com/cos-forks/ember-metrics#v0.12.1+cos0",
