@@ -3,9 +3,7 @@ import { computed } from '@ember/object';
 import { and } from '@ember/object/computed';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
-import { camelize } from '@ember/string';
 import Features from 'ember-feature-flags/services/features';
-import config from 'ember-get-config';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
@@ -18,11 +16,6 @@ import registriesConfig from 'registries/config/environment';
 import template from './template';
 
 const { externalLinks } = registriesConfig;
-const {
-    featureFlagNames: {
-        egapAdmins,
-    },
-} = config;
 
 @tagName('')
 @layout(template)
@@ -43,10 +36,7 @@ export default class RegistriesNavbar extends AuthBase {
     @computed('provider.{allowSubmissions,id}')
     get showAddRegistrationButton() {
         if (!this.provider) {
-            return false;
-        }
-        if (this.provider.id === 'egap') {
-            return this.features.isEnabled(camelize(egapAdmins));
+            return true;
         }
         return this.provider.allowSubmissions;
     }

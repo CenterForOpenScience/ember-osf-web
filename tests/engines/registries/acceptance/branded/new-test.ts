@@ -1,7 +1,5 @@
 import { click, currentRouteName } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import Features from 'ember-feature-flags';
-import config from 'ember-get-config';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
@@ -32,31 +30,6 @@ module('Registries | Acceptance | branded.new', hooks => {
         const brandedProvider = server.create('registration-provider',
             'withBrand', 'submissionsNotAllowed');
         await visit(`/registries/${brandedProvider.id}/new`);
-        assert.equal(currentRouteName(), 'registries.page-not-found', 'At the correct route: page-not-found');
-    });
-
-    test('only serves EGAP brand.new if egapAdmins feature flag is enabled', async function(assert) {
-        const brandedProvider = server.create('registration-provider', {
-            id: 'egap',
-            assets: {
-                favicon: 'fakelink',
-            },
-        }, 'withBrand');
-        const { featureFlagNames: { egapAdmins } } = config;
-        const features = this.owner.lookup('service:features') as Features;
-
-        await visit(`/registries/${brandedProvider.id}/new`);
-        assert.equal(currentRouteName(), 'registries.page-not-found', 'At the correct route: page-not-found');
-
-        features.enable(egapAdmins);
-        await visit(`/registries/${brandedProvider.id}/new`);
-        assert.ok(features.isEnabled(egapAdmins), 'egapAdmins flag is enabled');
-        assert.equal(currentRouteName(), 'registries.branded.new', 'At the correct route: EGAP branded.new');
-        assert.ok(document.querySelector('link[rel="icon"][href="fakelink"]'));
-
-        features.disable(egapAdmins);
-        await visit(`/registries/${brandedProvider.id}/new`);
-        assert.notOk(features.isEnabled(egapAdmins), 'egapAdmins flag is disabled');
         assert.equal(currentRouteName(), 'registries.page-not-found', 'At the correct route: page-not-found');
     });
 
