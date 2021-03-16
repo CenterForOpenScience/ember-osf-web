@@ -8,8 +8,8 @@
         </div>
     {{else}}
         {{assert 'Registries::Overview - registration should not be null or undefined' this.registration}}
-        {{title this.registration.provider.name replace=true}}
-        {{title this.registration.title prepend=false}}
+        {{page-title this.registration.provider.name replace=true}}
+        {{page-title this.registration.title prepend=false}}
         {{#if this.showTombstone}}
             <OsfLayout @backgroundClass='{{local-class 'ContentBackground'}}' as |layout|>
                 <layout.heading>
