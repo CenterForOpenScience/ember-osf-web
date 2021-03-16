@@ -32,6 +32,7 @@ export default class RegistriesNavbar extends AuthBase {
     @service features!: Features;
 
     provider?: RegistrationProviderModel;
+    defaultProviderId: string = 'osf';
 
     @and('media.isMobile', 'searchDropdownOpen') showSearchDropdown!: boolean;
 
@@ -42,6 +43,7 @@ export default class RegistriesNavbar extends AuthBase {
 
     @computed('provider.{allowSubmissions,id}')
     get showAddRegistrationButton() {
+        // Check if this is OSF Registries
         if (!this.provider) {
             return true;
         }

@@ -75,7 +75,7 @@
                     data-analytics-name='Create new registration'
                     local-class='SecondaryNavLinkButton'
                     @route='registries.branded.new'
-                    @models={{if this.provider (array this.provider.id) (array 'osf')}}
+                    @models={{if this.provider (array this.provider.id) (array this.defaultProviderId)}}
                 >
                     {{t 'navbar.add_registration'}}
                 </nav.links.secondary>
