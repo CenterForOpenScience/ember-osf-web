@@ -42,6 +42,9 @@
         <Contributors::UserSearch::List
             @manager={{@manager}}
             @results={{this.results}}
+            @fetchUsers={{perform this.fetchUsers}}
+            @shouldShowLoadMoreUsers={{this.shouldShowLoadMoreUsers}}
+            @isLoadingUsers={{this.fetchUsers.isRunning}}
         />
     </div>
 </div>

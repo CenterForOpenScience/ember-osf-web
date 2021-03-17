@@ -1,42 +1,41 @@
-{{#if @manager.isLoadingUsers}}
-    <LoadingIndicator @dark={{true}} />
-{{else}}
-    {{#if @results}}
-        <div local-class='Heading'>
-            <span data-test-heading-name local-class='HeadingTitle'>
-                {{t 'osf-components.contributors.headings.name'}}
-            </span>
-            <span data-test-heading-permission local-class='HeadingTitle'>
-                {{t 'osf-components.contributors.headings.permission'}}
-            </span>
-            <span data-test-heading-citation local-class='HeadingTitle'>
-                {{t 'osf-components.contributors.headings.citation'}}
-            </span>
+{{#if @results}}
+    <div local-class='Heading'>
+        <span data-test-heading-name local-class='HeadingTitle'>
+            {{t 'osf-components.contributors.headings.name'}}
+        </span>
+        <span data-test-heading-permission local-class='HeadingTitle'>
+            {{t 'osf-components.contributors.headings.permission'}}
+        </span>
+        <span data-test-heading-citation local-class='HeadingTitle'>
+            {{t 'osf-components.contributors.headings.citation'}}
+        </span>
+    </div>
+    {{#each @results as |result|}}
+        <Contributors::UserSearch::Card
+            @user={{result}}
+            @manager={{@manager}}
+        />
+    {{/each}}
+    {{#if @shouldShowLoadMoreUsers}}
+        <div local-class='InfinityLoader'
+            {{in-viewport
+                onEnter=(fn @fetchUsers)
+            }}
+        >
+            {{t 'osf-components.contributors.loadMore'}}
         </div>
-        {{#each @results as |result|}}
-            <Contributors::UserSearch::Card
-                @user={{result}}
-                @manager={{@manager}}
-            />
-        {{/each}}
-        {{#if @manager.shouldShowLoadMoreUsers}}
-            <div local-class='InfinityLoader'
-                {{in-viewport
-                    onEnter=(fn @manager.fetchUsers)
-                }}
-            >
-                {{t 'osf-components.contributors.loadMore'}}
-            </div>
-        {{/if}}
-    {{else if @manager.fetchUsers.last.isError}}
-        <p>
-            {{t 'registries.registration_metadata.add_contributors.error_loading'}}
-        </p>
-    {{else if @manager.fetchUsers.last.isSuccessful}}
-        <p>
-            {{t 'registries.registration_metadata.add_contributors.no_results'}}
-        </p>
-    {{else}}
-        {{t 'registries.registration_metadata.add_contributors.help_text' htmlSafe=true}}
     {{/if}}
+    {{#if @isLoadingUsers}}
+        <LoadingIndicator @dark={{true}} />
+    {{/if}}
+{{else if @fetchUsers.last.isError}}
+    <p>
+        {{t 'registries.registration_metadata.add_contributors.error_loading'}}
+    </p>
+{{else if @fetchUsers.last.isSuccessful}}
+    <p>
+        {{t 'registries.registration_metadata.add_contributors.no_results'}}
+    </p>
+{{else}}
+    {{t 'registries.registration_metadata.add_contributors.help_text' htmlSafe=true}}
 {{/if}}

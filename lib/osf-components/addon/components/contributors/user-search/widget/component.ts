@@ -38,7 +38,7 @@ export default class UserSearchComponent extends Component<UserSearchComponentAr
         return this.currentUsersPage <= this.totalUsersPage;
     }
 
-    @task({ withTestWaiter: true, enqueue: true })
+    @task({ withTestWaiter: true, drop: true })
     fetchUsers = task(function *(this: UserSearchComponent) {
         yield timeout(500);
         const currentPageResult = yield this.store.query('user', {
@@ -47,7 +47,7 @@ export default class UserSearchComponent extends Component<UserSearchComponentAr
             },
             page: this.currentUsersPage,
         });
-        this.results = currentPageResult.toArray();
+        this.results = this.results.concat(currentPageResult.toArray());
         this.totalUsersPage = Math.ceil(currentPageResult.meta.total / currentPageResult.meta.per_page);
         this.currentUsersPage += 1;
     });
