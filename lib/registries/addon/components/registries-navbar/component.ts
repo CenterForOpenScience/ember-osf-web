@@ -17,7 +17,7 @@ import registriesConfig from 'registries/config/environment';
 
 import template from './template';
 
-const { externalLinks } = registriesConfig;
+const { externalLinks, defaultProviderId } = registriesConfig;
 const {
     featureFlagNames: {
         egapAdmins,
@@ -32,9 +32,13 @@ export default class RegistriesNavbar extends AuthBase {
     @service features!: Features;
 
     provider?: RegistrationProviderModel;
-    defaultProviderId: string = 'osf';
 
     @and('media.isMobile', 'searchDropdownOpen') showSearchDropdown!: boolean;
+
+    @computed('provider')
+    get providerId() {
+        return this.provider ? this.provider.id : defaultProviderId;
+    }
 
     @computed('media.isMobile', 'provider.brand')
     get shouldShowProviderName() {
