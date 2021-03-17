@@ -154,6 +154,19 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
         return faker.internet.url();
     },
 
+    providerSpecificMetadata() {
+        return [
+            {
+                field_name: 'EGAP Registration ID',
+                field_value: '',
+            },
+            {
+                field_name: 'Another Provider Field',
+                field_value: '',
+            },
+        ];
+    },
+
     registration: true,
     pendingRegistrationApproval: false,
     archiving: false,
