@@ -19,7 +19,7 @@
     {{#if @shouldShowLoadMoreUsers}}
         <div local-class='InfinityLoader'
             {{in-viewport
-                onEnter=(fn @fetchUsers)
+                onEnter=(perform @fetchUsers true)
             }}
         >
             {{t 'osf-components.contributors.loadMore'}}

@@ -6,14 +6,13 @@
             @type='text'
             @placeholder={{t 'registries.registration_metadata.add_contributors.search_placeholder'}}
             @value={{this.query}}
-            @enter={{queue this.resetPage (perform this.fetchUsers)}}
-            {{on 'input' this.resetPage}}
+            @enter={{perform this.fetchUsers false}}
         />
         <Button
             data-test-user-search-button
             local-class='ClearButton'
             @type='create'
-            {{on 'click' (queue this.resetPage (perform this.fetchUsers))}}
+            {{on 'click' (perform this.fetchUsers false)}}
         >
             {{t 'registries.registration_metadata.add_contributors.search'}}
         </Button>
@@ -42,7 +41,7 @@
         <Contributors::UserSearch::List
             @manager={{@manager}}
             @results={{this.results}}
-            @fetchUsers={{perform this.fetchUsers}}
+            @fetchUsers={{this.fetchUsers}}
             @shouldShowLoadMoreUsers={{this.shouldShowLoadMoreUsers}}
             @isLoadingUsers={{this.fetchUsers.isRunning}}
         />

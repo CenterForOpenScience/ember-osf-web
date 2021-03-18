@@ -1,4 +1,4 @@
-import { action, computed } from '@ember/object';
+import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
@@ -35,12 +35,18 @@ export default class UserSearchComponent extends Component<UserSearchComponentAr
     }
 
     get hasMoreUsers() {
-        return this.currentUsersPage <= this.totalUsersPage;
+        return this.currentUsersPage < this.totalUsersPage;
     }
 
-    @task({ withTestWaiter: true, drop: true })
-    fetchUsers = task(function *(this: UserSearchComponent) {
-        yield timeout(500);
+    @task({ withTestWaiter: true, keepLatest: true })
+    fetchUsers = task(function *(this: UserSearchComponent, isFetchingNextPage: boolean) {
+        if (isFetchingNextPage) {
+            this.currentUsersPage += 1;
+        } else {
+            yield timeout(500);
+            this.currentUsersPage = 1;
+            this.results = [];
+        }
         const currentPageResult = yield this.store.query('user', {
             filter: {
                 [nameFields]: this.query,
@@ -49,11 +55,5 @@ export default class UserSearchComponent extends Component<UserSearchComponentAr
         });
         this.results = this.results.concat(currentPageResult.toArray());
         this.totalUsersPage = Math.ceil(currentPageResult.meta.total / currentPageResult.meta.per_page);
-        this.currentUsersPage += 1;
     });
-
-    @action
-    resetPage() {
-        this.currentUsersPage = 1;
-    }
 }
