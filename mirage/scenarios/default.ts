@@ -108,6 +108,10 @@ function registrationScenario(
         reviewsState: RegistrationReviewStates.Pending,
         registeredBy: currentUser,
         currentUserPermissions: Object.values(Permission),
+        providerSpecificMetadata: [
+            { field_name: 'EGAP Registration ID', field_value: '' },
+            { field_name: 'Another Field', field_value: 'aloha' },
+        ],
     }, 'withContributors', 'withReviewActions');
 
     server.create('registration', {
