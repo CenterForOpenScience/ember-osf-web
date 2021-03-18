@@ -58,6 +58,13 @@ const Validations = buildValidations({
     ],
 });
 
+export interface ProviderMetadata {
+    // eslint-disable-next-line camelcase
+    field_name: string;
+    // eslint-disable-next-line camelcase
+    field_value: string;
+}
+
 export default class RegistrationModel extends NodeModel.extend(Validations) {
     @attr('date') dateRegistered!: Date;
     @attr('boolean') pendingRegistrationApproval!: boolean;
@@ -76,6 +83,7 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @attr('registration-responses') registrationResponses!: RegistrationResponse;
     @attr('fixstring') reviewsState!: RegistrationReviewStates;
     @attr('fixstring') iaUrl?: string;
+    @attr('array') providerSpecificMetadata!: ProviderMetadata[];
 
     // Write-only attributes
     @attr('array') includedNodeIds?: string[];

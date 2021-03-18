@@ -154,6 +154,10 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
         return faker.internet.url();
     },
 
+    providerSpecificMetadata() {
+        return [];
+    },
+
     registration: true,
     pendingRegistrationApproval: false,
     archiving: false,
