@@ -1169,10 +1169,12 @@ registries:
         no_doi: 'No DOI assigned'
         no_license: 'No license'
         no_matches: 'No matches found'
+        no_provider_metadata: 'No metadata'
         no_publication_doi: 'No publication DOI'
         no_subjects: 'No subjects'
         no_title: 'No title'
         no_year: 'No year'
+        provider_specific_metadata: 'Metadata'
         publication_doi: 'Publication DOI'
         registered_from: 'Registered from'
         registration_doi: 'Registration DOI'
@@ -1189,6 +1191,9 @@ registries:
         edit_category:
             success: 'Category successfully updated.'
             error: 'Unable to save category.'
+        edit_provider_metadata:
+            success: 'Provider metadata updated.'
+            error: 'Unable to save provider metadata.'
         mint_doi:
             header: 'Are you sure you want to create a DOI for this registration?'
             text: 'A DOI is persistent and will always resolve to this page.'

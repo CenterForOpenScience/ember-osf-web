@@ -1,0 +1,8 @@
+<div local-class='EditProviderMetadata' data-test-provider-metadata-input>
+    <span local-class='ProviderMetadataLabel'>{{@field.field_name}}</span>
+    {{input
+        class='form-control'
+        value=@field.field_value
+        disabled=@manager.save.isRunning
+    }}
+</div>

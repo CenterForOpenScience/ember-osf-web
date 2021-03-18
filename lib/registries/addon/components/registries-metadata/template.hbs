@@ -76,7 +76,30 @@
             </OsfLink>
         </div>
     </div>
-
+    {{#if this.registration.providerSpecificMetadata}}
+        <div local-class='Field'>
+            <EditableField::ProviderMetadataManager
+                @registration={{this.registration}} as |providerMetadataManager|
+            >
+                <EditableField
+                    data-analytics-scope='providerMetadata'
+                    @manager={{providerMetadataManager}}
+                    @title={{t 'registries.registration_metadata.provider_specific_metadata'}}
+                    @name='metadata'
+                    as |field|
+                >
+                    {{#each field.manager.providerMetadata as |metadataField|}}
+                        <field.edit>
+                            <ProviderMetadataEdit @field={{metadataField}} @manager={{providerMetadataManager}} />
+                        </field.edit>
+                        <field.display>
+                            <ProviderMetadataDisplay @field={{metadataField}} @manager={{providerMetadataManager}} />
+                        </field.display>
+                    {{/each}}
+                </EditableField>
+            </EditableField::ProviderMetadataManager>
+        </div>
+    {{/if}}
     {{#if this.registration.iaUrl}}
         <div local-class='Field'>
             <h4>{{t 'registries.registration_metadata.internet_archive_link'}}</h4>
