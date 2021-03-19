@@ -90,7 +90,7 @@
                 >
                     {{#each field.manager.providerMetadata as |metadataField|}}
                         <field.edit>
-                            <ProviderMetadataEdit @field={{metadataField}} @manager={{providerMetadataManager}} />
+                            <ProviderMetadataEditable @field={{metadataField}} @manager={{providerMetadataManager}} />
                         </field.edit>
                         <field.display>
                             <ProviderMetadataDisplay @field={{metadataField}} @manager={{providerMetadataManager}} />
