@@ -38,7 +38,6 @@ export default class ProviderMetadataManagerComponent extends Component {
     @task({ withTestWaiter: true })
     save = task(function *(this: ProviderMetadataManagerComponent) {
         if (this.registration) {
-            this.registration.set('providerSpecificMetadata', this.currentProviderMetadata);
             try {
                 yield this.registration.save();
             } catch (e) {
@@ -54,7 +53,7 @@ export default class ProviderMetadataManagerComponent extends Component {
     });
 
     requestedEditMode: boolean = false;
-    currentProviderMetadata: ProviderMetadata[] = [];
+    initialProviderMetadata: ProviderMetadata[] = [];
 
     @tracked currentModerator?: ModeratorModel;
 
@@ -80,12 +79,13 @@ export default class ProviderMetadataManagerComponent extends Component {
     startEditing() {
         this.setProperties({
             requestedEditMode: true,
-            currentProviderMetadata: [...this.registration.providerSpecificMetadata],
+            initialProviderMetadata: JSON.parse(JSON.stringify(this.registration.providerSpecificMetadata)),
         });
     }
 
     @action
     cancel() {
+        this.registration.set('providerSpecificMetadata', JSON.parse(JSON.stringify(this.initialProviderMetadata)));
         this.set('requestedEditMode', false);
     }
 }
