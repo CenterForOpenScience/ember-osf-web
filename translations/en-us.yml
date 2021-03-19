@@ -1174,7 +1174,7 @@ registries:
         no_subjects: 'No subjects'
         no_title: 'No title'
         no_year: 'No year'
-        provider_specific_metadata: 'Metadata'
+        provider_specific_metadata: 'Registry metadata'
         publication_doi: 'Publication DOI'
         registered_from: 'Registered from'
         registration_doi: 'Registration DOI'
