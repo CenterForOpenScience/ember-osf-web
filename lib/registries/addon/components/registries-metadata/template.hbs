@@ -88,7 +88,7 @@
                     @name='metadata'
                     as |field|
                 >
-                    {{#each field.manager.providerMetadata as |metadataField|}}
+                    {{#each field.manager.currentProviderMetadata as |metadataField|}}
                         <field.edit>
                             <ProviderMetadataEditable @field={{metadataField}} @manager={{providerMetadataManager}} />
                         </field.edit>

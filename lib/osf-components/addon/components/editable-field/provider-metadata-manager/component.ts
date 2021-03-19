@@ -39,6 +39,10 @@ export default class ProviderMetadataManagerComponent extends Component {
     save = task(function *(this: ProviderMetadataManagerComponent) {
         if (this.registration) {
             try {
+                this.registration.set(
+                    'providerSpecificMetadata',
+                    JSON.parse(JSON.stringify(this.currentProviderMetadata)),
+                );
                 yield this.registration.save();
             } catch (e) {
                 const errorMessage = this.intl.t('registries.registration_metadata.edit_provider_metadata.error');
@@ -53,7 +57,7 @@ export default class ProviderMetadataManagerComponent extends Component {
     });
 
     requestedEditMode: boolean = false;
-    initialProviderMetadata: ProviderMetadata[] = [];
+    currentProviderMetadata: ProviderMetadata[] = [];
 
     @tracked currentModerator?: ModeratorModel;
 
@@ -78,14 +82,23 @@ export default class ProviderMetadataManagerComponent extends Component {
     @action
     startEditing() {
         this.setProperties({
+            currentProviderMetadata: JSON.parse(JSON.stringify(this.registration.providerSpecificMetadata)),
             requestedEditMode: true,
-            initialProviderMetadata: JSON.parse(JSON.stringify(this.registration.providerSpecificMetadata)),
         });
     }
 
     @action
     cancel() {
-        this.registration.set('providerSpecificMetadata', JSON.parse(JSON.stringify(this.initialProviderMetadata)));
-        this.set('requestedEditMode', false);
+        this.setProperties({
+            currentProviderMetadata: JSON.parse(JSON.stringify(this.registration.providerSpecificMetadata)),
+            requestedEditMode: false,
+        });
+    }
+
+    didReceiveAttrs() {
+        this.set(
+            'currentProviderMetadata',
+            JSON.parse(JSON.stringify(this.registration.providerSpecificMetadata)),
+        );
     }
 }
