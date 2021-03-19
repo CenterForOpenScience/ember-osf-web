@@ -1192,8 +1192,8 @@ registries:
             success: 'Category successfully updated.'
             error: 'Unable to save category.'
         edit_provider_metadata:
-            success: 'Provider metadata updated.'
-            error: 'Unable to save provider metadata.'
+            success: 'Registry metadata updated.'
+            error: 'Unable to save registry metadata.'
         mint_doi:
             header: 'Are you sure you want to create a DOI for this registration?'
             text: 'A DOI is persistent and will always resolve to this page.'
