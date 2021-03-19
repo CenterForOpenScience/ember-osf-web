@@ -56,17 +56,12 @@ export default class ProviderMetadataManagerComponent extends Component {
     @task({ withTestWaiter: true })
     loadCurrentModerator =
     task(function *(this: ProviderMetadataManagerComponent) {
-        try {
-            this.currentModerator = yield this.store.findRecord('moderator', this.currentUser.currentUserId!,
-                {
-                    adapterOptions: {
-                        providerId: this.registration.provider.get('id'),
-                    },
-                });
-        } catch (e) {
-            captureException(e);
-            this.toast.error(this.intl.t('registries.overviewHeader.needModeratorPermission'));
-        }
+        this.currentModerator = yield this.store.findRecord('moderator', this.currentUser.currentUserId!,
+            {
+                adapterOptions: {
+                    providerId: this.registration.provider.get('id'),
+                },
+            });
     });
 
     requestedEditMode: boolean = false;
@@ -100,7 +95,7 @@ export default class ProviderMetadataManagerComponent extends Component {
     startEditing() {
         this.setProperties({
             requestedEditMode: true,
-            currentProviderMetadata: this.registration.providerSpecificMetadata,
+            currentProviderMetadata: [...this.registration.providerSpecificMetadata],
         });
     }
 
