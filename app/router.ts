@@ -11,7 +11,6 @@ import transitionTargetURL from 'ember-osf-web/utils/transition-target-url';
 const {
     engines: {
         collections,
-        handbook,
         registries,
     },
     featureFlagNames: {
@@ -127,10 +126,6 @@ Router.map(function() {
 
     if (collections.enabled) {
         this.mount('collections');
-    }
-
-    if (handbook.enabled) {
-        this.mount('handbook');
     }
 
     if (registries.enabled) {

@@ -94,8 +94,6 @@
     "ember-changeset": "^2.1.2",
     "ember-changeset-validations": "^2.1.0",
     "ember-cli": "~3.16.1",
-    "ember-cli-addon-docs": "https://github.com/cos-forks/ember-cli-addon-docs#docs-engine#37",
-    "ember-cli-addon-docs-typedoc": "https://github.com/typed-ember/ember-cli-addon-docs-typedoc#initial-implementation",
     "ember-cli-app-version": "^3.2.0",
     "ember-cli-autoprefixer": "^0.8.1",
     "ember-cli-babel": "^7.17.2",
@@ -233,7 +231,6 @@
       "lib/analytics-page",
       "lib/assets-prefix-middleware",
       "lib/collections",
-      "lib/handbook",
       "lib/osf-components",
       "lib/registries"
     ]
