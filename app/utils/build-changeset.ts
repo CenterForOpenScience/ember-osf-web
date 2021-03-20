@@ -1,9 +1,12 @@
-import Changeset from 'ember-changeset';
+import { Changeset } from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
-import { ChangesetDef, Config, ValidatorFunc } from 'ember-changeset/types';
+import { BufferedChangeset, ValidatorMap } from 'ember-changeset/types';
 
-interface ValidationMap { [s: string]: ValidatorFunc | ValidatorFunc[]; }
+export interface Config {
+  skipValidate?: boolean;
+  changesetKeys?: string[];
+}
 
-export default function buildChangeset(target: object, validationMap: ValidationMap, options?: Config) {
-    return new Changeset(target, lookupValidator(validationMap), validationMap, options) as ChangesetDef;
+export default function buildChangeset(target: object, validationMap: ValidatorMap, options?: Config) {
+    return Changeset(target, lookupValidator(validationMap), validationMap, options) as BufferedChangeset;
 }

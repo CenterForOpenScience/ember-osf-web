@@ -6,7 +6,7 @@ import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
-import { ChangesetDef } from 'ember-changeset/types';
+import { BufferedChangeset } from 'ember-changeset/types';
 import config from 'ember-get-config';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -28,7 +28,7 @@ export default class Files extends Component {
     @service analytics!: Analytics;
 
     // Required param
-    changeset!: ChangesetDef;
+    changeset!: BufferedChangeset;
     schemaBlock!: SchemaBlock;
     draftRegistration!: DraftRegistrationModel;
 

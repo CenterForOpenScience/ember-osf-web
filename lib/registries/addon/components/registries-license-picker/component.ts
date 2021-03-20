@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { action } from '@ember/object';
 
-import { ChangesetDef } from 'ember-changeset/types';
+import { BufferedChangeset } from 'ember-changeset/types';
 import { layout } from 'ember-osf-web/decorators/component';
 import License from 'ember-osf-web/models/license';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
@@ -22,8 +22,8 @@ export interface LicenseManager {
     inEditMode?: boolean;
     userCanEdit?: boolean;
     shouldShowField?: boolean;
-    registration?: Registration | ChangesetDef;
-    changeset?: ChangesetDef;
+    registration?: Registration | BufferedChangeset;
+    changeset?: BufferedChangeset;
     requiredFields: string[];
     selectedLicense: License;
     licensesAcceptable: QueryHasManyResult<License>;
@@ -37,7 +37,7 @@ export default class RegistriesLicensePicker extends Component {
     shouldShowButtons: boolean = false;
     showText: boolean = false;
     helpLink: string = 'https://help.osf.io/hc/en-us/articles/360019739014-Licensing';
-    registration!: ChangesetDef | Registration;
+    registration!: BufferedChangeset | Registration;
 
     @action
     onInput() {

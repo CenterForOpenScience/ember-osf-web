@@ -16,9 +16,9 @@ import Registration from 'ember-osf-web/models/registration';
 import Analytics from 'ember-osf-web/services/analytics';
 import { LicenseManager } from 'registries/components/registries-license-picker/component';
 
-import Changeset from 'ember-changeset';
+import { Changeset } from 'ember-changeset';
 import lookupValidator, { ValidationObject } from 'ember-changeset-validations';
-import { ChangesetDef } from 'ember-changeset/types';
+import { BufferedChangeset } from 'ember-changeset/types';
 import { validateNodeLicense } from 'ember-osf-web/packages/registration-schema/validations';
 import template from './template';
 
@@ -34,7 +34,7 @@ export default class LicenseManagerComponent extends Component implements Licens
     @service store!: DS.Store;
     @service toast!: Toast;
 
-    changeset!: ChangesetDef;
+    changeset!: BufferedChangeset;
     requestedEditMode: boolean = false;
 
     showText: boolean = false;
@@ -79,11 +79,11 @@ export default class LicenseManagerComponent extends Component implements Licens
     didReceiveAttrs() {
         if (!this.changeset) {
             const validatorObject: ValidationObject<Registration> = { nodeLicense: validateNodeLicense() };
-            this.changeset = new Changeset(
+            this.changeset = Changeset(
                 this.node,
                 lookupValidator(validatorObject),
                 validatorObject,
-            ) as ChangesetDef;
+            ) as BufferedChangeset;
         }
     }
 
@@ -99,10 +99,8 @@ export default class LicenseManagerComponent extends Component implements Licens
     }
 
     reset() {
-        this.changeset.setProperties({
-            license: this.currentLicense,
-            nodeLicense: { ...this.currentNodeLicense },
-        });
+        this.changeset.set('license', this.currentLicense);
+        this.changeset.set('nodeLicense', { ...this.currentNodeLicense });
     }
 
     @action

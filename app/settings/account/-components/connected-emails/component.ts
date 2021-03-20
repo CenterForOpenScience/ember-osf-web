@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validateFormat } from 'ember-changeset-validations/validators';
-import { ChangesetDef } from 'ember-changeset/types';
+import { BufferedChangeset } from 'ember-changeset/types';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
@@ -30,7 +30,7 @@ export default class ConnectedEmails extends Component {
     showMergeModal = false;
     didValidate = false;
     lastUserEmail = '';
-    changeset!: ChangesetDef;
+    changeset!: BufferedChangeset;
     reloadAlternateList!: (page?: number) => void; // bound by paginated-list
     reloadUnconfirmedList!: (page?: number) => void; // bound by paginated-list
     alternateQueryParams = { 'filter[primary]': false, 'filter[confirmed]': true };
@@ -141,7 +141,7 @@ export default class ConnectedEmails extends Component {
         let newEmail;
         try {
             this.changeset.validate();
-            if (this.changeset.get('isValid') && this.changeset.get('emailAddress')) {
+            if (this.changeset.isValid && this.changeset.get('emailAddress')) {
                 this.set('lastUserEmail', this.changeset.get('emailAddress'));
                 newEmail = this.store.createRecord('user-email', {
                     emailAddress: this.changeset.get('emailAddress'),

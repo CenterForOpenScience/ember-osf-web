@@ -4,7 +4,7 @@ import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validatePresence } from 'ember-changeset-validations/validators';
-import { ChangesetDef } from 'ember-changeset/types';
+import { BufferedChangeset } from 'ember-changeset/types';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import config from 'ember-get-config';
@@ -37,7 +37,7 @@ export default class DefaultRegionPane extends Component {
     @service store!: DS.Store;
     user?: User;
     regions?: RegionModel[];
-    changeset!: ChangesetDef;
+    changeset!: BufferedChangeset;
     @alias('loadDefaultRegionTask.isRunning') loadDefaultRunning!: boolean;
     @alias('loadRegionsTask.isRunning') loadRegionsRunning!: boolean;
 
@@ -62,7 +62,7 @@ export default class DefaultRegionPane extends Component {
     @task({ withTestWaiter: true })
     updateRegion = task(function *(this: DefaultRegionPane) {
         this.changeset.validate();
-        if (this.changeset.get('isValid') && this.user) {
+        if (this.changeset.isValid && this.user) {
             try {
                 yield this.changeset.save({});
                 this.toast.success(

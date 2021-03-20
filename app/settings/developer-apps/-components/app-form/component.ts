@@ -4,7 +4,7 @@ import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
-import { ChangesetDef } from 'ember-changeset/types';
+import { BufferedChangeset } from 'ember-changeset/types';
 import { TaskInstance } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 import Intl from 'ember-intl/services/intl';
@@ -25,8 +25,8 @@ export default class DeveloperAppForm extends Component {
     appTaskInstance?: TaskInstance<DeveloperApp>;
     createMode: boolean = false;
 
-    changeset!: ChangesetDef;
-    appInstance?: DeveloperApp;
+    changeset!: BufferedChangeset;
+    appInstance?: DeveloperApp | null;
 
     @task({ withTestWaiter: true })
     createChangeset = task(function *(this: DeveloperAppForm) {
@@ -60,7 +60,7 @@ export default class DeveloperAppForm extends Component {
     updateApp = task(function *(this: DeveloperAppForm) {
         this.changeset.validate();
         try {
-            if (this.changeset.get('isValid')) {
+            if (this.changeset.isValid) {
                 yield this.changeset.save({});
                 this.toast.success(this.intl.t('settings.developer-apps.saved'));
                 this.router.transitionTo('settings.developer-apps');

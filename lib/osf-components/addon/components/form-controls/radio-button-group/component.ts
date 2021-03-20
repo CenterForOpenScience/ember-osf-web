@@ -2,7 +2,7 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { action } from '@ember/object';
-import { ChangesetDef } from 'ember-changeset/types';
+import { BufferedChangeset } from 'ember-changeset/types';
 
 import { layout } from 'ember-osf-web/decorators/component';
 
@@ -15,7 +15,7 @@ export default class FormControlRadioButton extends Component {
     // Required params
     options!: string[];
     valuePath!: string;
-    changeset!: ChangesetDef;
+    changeset!: BufferedChangeset;
 
     // Optional params
     shouldShowMessages?: boolean;

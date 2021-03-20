@@ -3,11 +3,11 @@ import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import Component from '@glimmer/component';
 import { RawValidationResult } from 'ember-changeset-validations/utils/validation-errors';
-import { ChangesetDef } from 'ember-changeset/types';
+import { BufferedChangeset } from 'ember-changeset/types';
 import Intl from 'ember-intl/services/intl';
 
 interface Args {
-    changeset?: ChangesetDef;
+    changeset?: BufferedChangeset;
     key?: string;
     errors?: string | string[];
 }

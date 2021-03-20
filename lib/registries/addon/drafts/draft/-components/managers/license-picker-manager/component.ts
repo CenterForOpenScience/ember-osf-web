@@ -6,7 +6,7 @@ import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 
-import { ChangesetDef } from 'ember-changeset/types';
+import { BufferedChangeset } from 'ember-changeset/types';
 import { layout } from 'ember-osf-web/decorators/component';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import License from 'ember-osf-web/models/license';
@@ -29,7 +29,7 @@ export default class LicensePickerManager extends Component implements LicenseMa
 
     @alias('draftManager.metadataChangeset.license') selectedLicense!: License;
 
-    @alias('draftManager.metadataChangeset') registration!: ChangesetDef;
+    @alias('draftManager.metadataChangeset') registration!: BufferedChangeset;
     @alias('draftManager.draftRegistration') draftRegistration!: DraftRegistration;
 
     @sort('selectedLicense.requiredFields', (a: string, b: string) => +(a > b))

@@ -6,7 +6,7 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validateNumber, validatePresence } from 'ember-changeset-validations/validators';
-import { ChangesetDef } from 'ember-changeset/types';
+import { BufferedChangeset } from 'ember-changeset/types';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import config from 'ember-get-config';
@@ -33,7 +33,7 @@ export default class SecurityPane extends Component {
     @alias('currentUser.user') user!: User;
     settings?: UserSettingModel;
     primaryEmail?: UserEmail;
-    changeset!: ChangesetDef;
+    changeset!: BufferedChangeset;
     showEnableWarning = false;
     showDisableWarning = false;
 
@@ -108,7 +108,7 @@ export default class SecurityPane extends Component {
     verifySecret = task(function *(this: SecurityPane) {
         this.changeset.validate();
         try {
-            if (this.changeset.get('isValid')) {
+            if (this.changeset.isValid) {
                 yield this.changeset.save({});
                 this.showError = false;
             }

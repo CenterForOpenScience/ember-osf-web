@@ -10,10 +10,10 @@ import Registration from 'ember-osf-web/models/registration';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import randomScientist from 'ember-osf-web/utils/random-scientist';
 
-import Changeset from 'ember-changeset';
+import { Changeset } from 'ember-changeset';
 import lookupValidator, { ValidationObject } from 'ember-changeset-validations';
 import { validateLength } from 'ember-changeset-validations/validators';
-import { ChangesetDef } from 'ember-changeset/types';
+import { BufferedChangeset } from 'ember-changeset/types';
 import styles from './styles';
 import template from './template';
 
@@ -23,7 +23,7 @@ export default class RegistrationIsPublic extends Component {
     @service toast!: Toast;
 
     registration!: Registration;
-    changeset!: ChangesetDef;
+    changeset!: BufferedChangeset;
 
     scientistName?: string;
     scientistNameInput?: string = '';
@@ -48,11 +48,9 @@ export default class RegistrationIsPublic extends Component {
             return;
         }
 
-        this.changeset.setProperties({
-            pendingWithdrawal: true,
-        });
+        this.changeset.set('pendingWithdrawal', true);
         this.changeset.validate();
-        if (this.changeset.get('isValid')) {
+        if (this.changeset.isValid) {
             try {
                 yield this.changeset.save({});
             } catch (e) {
@@ -71,11 +69,11 @@ export default class RegistrationIsPublic extends Component {
     });
 
     didReceiveAttrs() {
-        this.changeset = new Changeset(
+        this.changeset = Changeset(
             this.registration,
             lookupValidator(this.changesetValidation),
             this.changesetValidation,
-        ) as ChangesetDef;
+        ) as BufferedChangeset;
         this.setProperties({
             scientistNameInput: '',
             scientistName: randomScientist(),
@@ -91,12 +89,12 @@ export default class RegistrationIsPublic extends Component {
     get submitDisabled(): boolean {
         return this.submitWithdrawal.isRunning
             || (this.scientistNameInput !== this.scientistName)
-            || this.changeset.get('isInvalid');
+            || this.changeset.isInvalid;
     }
 
     @action
     close() {
-        if (this.changeset.get('isDirty')) {
+        if (this.changeset.isDirty) {
             this.changeset.rollback();
         }
         this.closeDropdown();

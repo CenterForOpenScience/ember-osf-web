@@ -14,7 +14,7 @@ import OsfModel from 'ember-osf-web/models/osf-model';
 import ProviderModel from 'ember-osf-web/models/provider';
 import SubjectModel from 'ember-osf-web/models/subject';
 
-import { ChangesetDef } from 'ember-changeset/types';
+import { BufferedChangeset } from 'ember-changeset/types';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import { ResourceCollectionDocument } from 'osf-api';
 import template from './template';
@@ -53,7 +53,7 @@ export default class SubjectManagerComponent extends Component {
     doesAutosave!: boolean;
 
     // optional
-    metadataChangeset?: ChangesetDef;
+    metadataChangeset?: BufferedChangeset;
 
     // private
     @service intl!: Intl;

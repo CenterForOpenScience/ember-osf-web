@@ -5,7 +5,7 @@ import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validatePresence } from 'ember-changeset-validations/validators';
-import { ChangesetDef } from 'ember-changeset/types';
+import { BufferedChangeset } from 'ember-changeset/types';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
@@ -48,7 +48,7 @@ export default class FilesMenu extends Component {
     uploadButtonClass = uniqueId(['dz-upload-button']);
 
     newFolder!: NewFolder;
-    changeset!: ChangesetDef;
+    changeset!: BufferedChangeset;
 
     @alias('filesManager.canEdit') canEdit!: boolean;
 

@@ -2,7 +2,7 @@ import { action, computed, set } from '@ember/object';
 import { alias, filterBy, not, notEmpty, or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
-import { ChangesetDef } from 'ember-changeset/types';
+import { BufferedChangeset } from 'ember-changeset/types';
 import { TaskInstance, timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 import Intl from 'ember-intl/services/intl';
@@ -40,7 +40,7 @@ export default class DraftRegistrationManager {
     registrationResponses!: RegistrationResponse;
 
     pageManagers: PageManager[] = [];
-    metadataChangeset!: ChangesetDef;
+    metadataChangeset!: BufferedChangeset;
     schemaBlocks!: SchemaBlock[];
 
     @alias('draftRegistration.id') draftId!: string;
@@ -65,7 +65,7 @@ export default class DraftRegistrationManager {
 
     @computed('metadataChangeset.isValid')
     get metadataIsValid() {
-        return this.metadataChangeset.get('isValid');
+        return this.metadataChangeset.isValid;
     }
 
     @computed('onInput.lastComplete')

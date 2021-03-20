@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { ChangesetDef } from 'ember-changeset/types';
+import { BufferedChangeset } from 'ember-changeset/types';
 import Toast from 'ember-toastr/services/toast';
 
 import Node from 'ember-osf-web/models/node';
@@ -13,7 +13,7 @@ export default class FormController extends Controller {
 
     validation = nodeValidation;
     node = Node;
-    changeset!: ChangesetDef;
+    changeset!: BufferedChangeset;
 
     @action
     submit() {

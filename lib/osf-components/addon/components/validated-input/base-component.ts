@@ -5,7 +5,7 @@ import { computed, defineProperty } from '@ember/object';
 import { alias, bool, oneWay } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
-import { ChangesetDef } from 'ember-changeset/types';
+import { BufferedChangeset } from 'ember-changeset/types';
 import { ResultCollection } from 'ember-cp-validations';
 import DS, { AttributesFor, RelationshipsFor } from 'ember-data';
 import Intl from 'ember-intl/services/intl';
@@ -22,7 +22,7 @@ export default abstract class BaseValidatedInput<M extends DS.Model> extends Com
     valuePath!: AttributesFor<M> | RelationshipsFor<M>;
 
     // Optional arguments
-    changeset?: ChangesetDef & M;
+    changeset?: BufferedChangeset & M;
     label?: string;
     ariaLabel?: string;
     placeholder?: string;

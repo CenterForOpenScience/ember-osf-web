@@ -1,4 +1,4 @@
-import Changeset from 'ember-changeset';
+import { Changeset } from 'ember-changeset';
 
 import Controller from '@ember/controller';
 
@@ -190,7 +190,7 @@ export default class SchemaBlockGroupRendererController extends Controller {
         'page-one_single-select-two': '',
         'page-one_file-input': [],
     };
-    registrationResponseChangeset = new Changeset(this.registrationResponse);
+    registrationResponseChangeset = Changeset(this.registrationResponse);
 
     registrationResponses = {
         'page-one_single-select': 'tuna',

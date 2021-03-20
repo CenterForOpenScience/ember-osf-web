@@ -5,7 +5,7 @@ import { alias, and, not } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validateFormat } from 'ember-changeset-validations/validators';
-import { ChangesetDef } from 'ember-changeset/types';
+import { BufferedChangeset } from 'ember-changeset/types';
 import { task } from 'ember-concurrency-decorators';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
@@ -22,7 +22,7 @@ export interface PublicationDoiManager {
     publicationDoi: string;
     inEditMode: boolean;
     didValidate: boolean;
-    changeset: ChangesetDef;
+    changeset: BufferedChangeset;
 }
 
 const DoiValidations: ValidationObject<Registration> = {
@@ -47,7 +47,7 @@ export default class PublicationDoiManagerComponent extends Component {
 
     requestedEditMode: boolean = false;
     validationNode!: ValidationObject<Registration>;
-    changeset!: ChangesetDef;
+    changeset!: BufferedChangeset;
     didValidate = false;
 
     @not('didValidate') didNotValidate!: boolean;
@@ -71,7 +71,7 @@ export default class PublicationDoiManagerComponent extends Component {
 
         this.set('didValidate', true);
 
-        if (!this.changeset.get('isValid')) {
+        if (!this.changeset.isValid) {
             return;
         }
 

@@ -2,7 +2,7 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { ValidatorResult } from 'ember-changeset-validations';
-import { ChangesetDef } from 'ember-changeset/types';
+import { BufferedChangeset } from 'ember-changeset/types';
 
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
 import { transposeResults } from 'ember-osf-web/validators/list';
@@ -10,7 +10,7 @@ import { transposeResults } from 'ember-osf-web/validators/list';
 import { validation } from './validation';
 
 export default class ValidateListDemo extends Component {
-    changeset!: ChangesetDef & DemoObject;
+    changeset!: BufferedChangeset & DemoObject;
 
     @computed('changeset.error.list.validation')
     get listResults() {

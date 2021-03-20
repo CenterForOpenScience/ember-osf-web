@@ -1,5 +1,5 @@
 import { action, computed } from '@ember/object';
-import { ChangesetDef } from 'ember-changeset/types';
+import { BufferedChangeset } from 'ember-changeset/types';
 import DS, { AttributesFor, RelationshipsFor } from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -24,7 +24,7 @@ export default class ValidatedPowerSelect<M extends DS.Model> extends BaseValida
     renderInPlace?: boolean = false;
 
     @computed('model', 'changeset')
-    get modelOrChangeset(): M | ChangesetDef & M | undefined {
+    get modelOrChangeset(): M | BufferedChangeset & M | undefined {
         return this.model || this.changeset;
     }
 

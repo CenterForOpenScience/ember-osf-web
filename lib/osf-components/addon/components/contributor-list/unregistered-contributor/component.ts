@@ -6,7 +6,7 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validateFormat } from 'ember-changeset-validations/validators';
-import { ChangesetDef } from 'ember-changeset/types';
+import { BufferedChangeset } from 'ember-changeset/types';
 import { task } from 'ember-concurrency-decorators';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
@@ -54,7 +54,7 @@ export default class UnregisteredContributorComponent extends Component {
     @tracked currentUserEmail?: string;
 
     emailObj?: EmailValidation = undefined;
-    emailChangeset?: ChangesetDef = undefined;
+    emailChangeset?: BufferedChangeset = undefined;
     contributor!: Contributor;
     nodeId!: string;
 
@@ -78,7 +78,7 @@ export default class UnregisteredContributorComponent extends Component {
                     this.closeDialog();
                 } else {
                     this.emailChangeset!.validate();
-                    if (this.emailChangeset!.get('isValid')) {
+                    if (this.emailChangeset!.isValid) {
                         yield user.claimUnregisteredUser(this.nodeId, this.emailChangeset!.get('userEmail'));
                         this.closeDialog();
                     }

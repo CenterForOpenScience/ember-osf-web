@@ -4,8 +4,8 @@ import { action, set } from '@ember/object';
 import { alias, or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { typeOf } from '@ember/utils';
-import Changeset from 'ember-changeset';
-import { ChangesetDef, ValidatorFunc } from 'ember-changeset/types';
+import { Changeset } from 'ember-changeset';
+import { BufferedChangeset, ValidatorAction } from 'ember-changeset/types';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
@@ -21,15 +21,15 @@ import template from './template';
 @layout(template)
 export default class ValidatedModelForm<M extends ValidatedModelName> extends Component {
     // Required arguments
-    @requiredAction onSave!: (changeset: ChangesetDef) => void;
+    @requiredAction onSave!: (changeset: BufferedChangeset) => void;
 
     // Optional arguments
-    onError?: (e: object, changeset: ChangesetDef) => void;
-    onWillDestroy?: (model: ModelRegistry[M], changeset?: ChangesetDef) => void;
+    onError?: (e: object, changeset: BufferedChangeset) => void;
+    onWillDestroy?: (model: ModelRegistry[M], changeset?: BufferedChangeset) => void;
     model?: ModelRegistry[M];
     modelName?: M; // If provided, new model instance created in constructor
     disabled: boolean = false;
-    changeset!: ChangesetDef;
+    changeset!: BufferedChangeset;
     recreateModel: boolean = false;
     onDirtChange?: (dirt: boolean) => boolean;
 
@@ -51,7 +51,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     saveModelTask = task(function *(this: ValidatedModelForm<M>) {
         yield this.changeset.validate();
 
-        if (this.changeset.get('isValid')) {
+        if (this.changeset.isValid) {
             try {
                 yield this.changeset.save({});
                 this.onSave(this.changeset);
@@ -124,12 +124,12 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
             {},
         );
 
-        const validateFn: ValidatorFunc = async params => {
+        const validateFn: ValidatorAction = async params => {
             const { validations } = await model.validateAttribute(params.key, params.newValue);
             return validations.isValid ? true : validations.message;
         };
 
-        return new Changeset(model, validateFn, validationMap, useOptions) as ChangesetDef;
+        return Changeset(model, validateFn, validationMap, useOptions) as BufferedChangeset;
     }
 
     @action
