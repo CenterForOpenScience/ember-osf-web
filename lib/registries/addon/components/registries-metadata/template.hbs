@@ -82,6 +82,7 @@
                 @registration={{this.registration}} as |providerMetadataManager|
             >
                 <EditableField
+                    data-test-editable-field-provider-metadata
                     data-analytics-scope='providerMetadata'
                     @manager={{providerMetadataManager}}
                     @title={{t 'registries.registration_metadata.provider_specific_metadata'}}
