@@ -1,4 +1,4 @@
-declare module 'ember-in-viewport/services/in-viewport.js' {
+declare module 'ember-in-viewport/services/in-viewport' {
     import { A } from '@ember/array';
     import Computed from '@ember/object/computed';
     import Service from '@ember/service';

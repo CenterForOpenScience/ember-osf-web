@@ -1,22 +1,28 @@
 import { inject as service } from '@ember/service';
 
-import InViewport from 'ember-in-viewport/services/in-viewport.js';
+import InViewport from 'ember-in-viewport/services/in-viewport';
 import Analytics from 'ember-osf-web/services/analytics';
 
-import Modifier from 'ember-oo-modifiers';
+import Modifier from 'ember-modifier';
 
-class TrackScrollModifier extends Modifier {
+interface TrackScrollModifierArgs {
+    positional: [string];
+    named: {};
+}
+
+export default class TrackScrollModifier extends Modifier<TrackScrollModifierArgs> {
     @service analytics!: Analytics;
     @service inViewport!: InViewport;
 
     didShow = false;
 
-    didInsertElement([name]: [string]) {
-        const { onEnter } = this.inViewport.watchElement(this.element);
-        onEnter(() => { this.didEnterViewport(name); });
+    didInstall() {
+        const { onEnter } = this.inViewport.watchElement(this.element as HTMLElement);
+        onEnter(() => { this.didEnterViewport(); });
     }
 
-    didEnterViewport(name: string) {
+    didEnterViewport() {
+        const name = this.args.positional[0];
         if (!this.didShow) {
             // Run analytics when the component comes into view
             this.analytics.trackFromElement(
@@ -32,9 +38,7 @@ class TrackScrollModifier extends Modifier {
         }
     }
 
-    willDestroyElement() {
-        this.inViewport.stopWatching(this.element);
+    willRemove() {
+        this.inViewport.stopWatching(this.element as HTMLElement);
     }
 }
-
-export default Modifier.modifier(TrackScrollModifier);
