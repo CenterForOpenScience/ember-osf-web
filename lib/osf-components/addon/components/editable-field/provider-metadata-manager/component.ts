@@ -1,21 +1,22 @@
 import { tagName } from '@ember-decorators/component';
-import Component from '@ember/component';
 import { action } from '@ember/object';
 import { alias, and } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
-import { layout } from 'ember-osf-web/decorators/component';
 import ModeratorModel from 'ember-osf-web/models/moderator';
 import Registration, { ProviderMetadata } from 'ember-osf-web/models/registration';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
-import template from './template';
+export interface Args {
+    registration: Registration;
+}
 
 export interface ProviderMetadataManager {
     save: () => void;
@@ -26,10 +27,7 @@ export interface ProviderMetadataManager {
 }
 
 @tagName('')
-@layout(template)
-export default class ProviderMetadataManagerComponent extends Component {
-    registration!: Registration;
-
+export default class ProviderMetadataManagerComponent extends Component<Args> {
     @service currentUser!: CurrentUserService;
     @service intl!: Intl;
     @service store!: DS.Store;
@@ -37,14 +35,14 @@ export default class ProviderMetadataManagerComponent extends Component {
 
     @task({ withTestWaiter: true })
     save = task(function *(this: ProviderMetadataManagerComponent) {
-        if (this.registration) {
+        if (this.args.registration) {
             try {
                 this.providerSpecificMetadata = this.deepCopy(this.currentProviderMetadata);
-                yield this.registration.save();
+                yield this.args.registration.save();
             } catch (e) {
                 const errorMessage = this.intl.t('registries.registration_metadata.edit_provider_metadata.error');
                 captureException(e, { errorMessage });
-                this.registration.rollbackAttributes();
+                this.args.registration.rollbackAttributes();
                 this.toast.error(getApiErrorMessage(e), errorMessage);
                 throw e;
             }
@@ -57,12 +55,15 @@ export default class ProviderMetadataManagerComponent extends Component {
     @tracked currentProviderMetadata: ProviderMetadata[] = [];
     @tracked requestedEditMode: boolean = false;
 
-    @alias('registration.provider.currentUserCanReview') userCanEdit!: boolean;
+    @alias('args.registration.provider.currentUserCanReview') userCanEdit!: boolean;
     @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
-    @alias('registration.providerSpecificMetadata') providerSpecificMetadata!: ProviderMetadata[];
+    @alias('args.registration.providerSpecificMetadata') providerSpecificMetadata!: ProviderMetadata[];
 
     get fieldIsEmpty() {
-        return this.registration.providerSpecificMetadata.reduce(this.compareFieldValues, true);
+        if (this.args.registration && this.args.registration.providerSpecificMetadata) {
+            return this.args.registration.providerSpecificMetadata.reduce(this.compareFieldValues, true);
+        }
+        return true;
     }
 
     compareFieldValues(isEmpty: boolean, item: ProviderMetadata) {
@@ -75,18 +76,19 @@ export default class ProviderMetadataManagerComponent extends Component {
 
     @action
     startEditing() {
-        this.currentProviderMetadata = this.deepCopy(this.registration.providerSpecificMetadata);
+        this.currentProviderMetadata = this.deepCopy(this.args.registration.providerSpecificMetadata);
         this.requestedEditMode = true;
     }
 
     @action
     cancel() {
-        this.currentProviderMetadata = this.deepCopy(this.registration.providerSpecificMetadata);
+        this.currentProviderMetadata = this.deepCopy(this.args.registration.providerSpecificMetadata);
         this.requestedEditMode = false;
     }
 
-    didReceiveAttrs() {
-        this.currentProviderMetadata = this.deepCopy(this.registration.providerSpecificMetadata);
+    @action
+    setCurrentProviderMetadata() {
+        this.currentProviderMetadata = this.deepCopy(this.args.registration.providerSpecificMetadata);
     }
 
     deepCopy(providerMetadata: ProviderMetadata[]) {
