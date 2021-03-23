@@ -269,6 +269,7 @@ navbar:
     # add_a_preprint: 'Add a {preprintWords.preprint}'
     add_registration: 'Add New'
     moderation: 'Moderation'
+    my_registration: 'My Registration'
     browse: Browse
     cancel_search: 'Cancel search'
     donate: Donate
