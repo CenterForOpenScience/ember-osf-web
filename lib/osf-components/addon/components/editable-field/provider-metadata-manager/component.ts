@@ -8,7 +8,6 @@ import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
-import ModeratorModel from 'ember-osf-web/models/moderator';
 import Registration, { ProviderMetadata } from 'ember-osf-web/models/registration';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
@@ -49,7 +48,6 @@ export default class ProviderMetadataManagerComponent extends Component<Args> {
         }
     });
 
-    @tracked currentModerator?: ModeratorModel;
     @tracked currentProviderMetadata: ProviderMetadata[] = [];
     @tracked requestedEditMode: boolean = false;
 
