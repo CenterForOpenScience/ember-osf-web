@@ -89,7 +89,7 @@ export default class ProviderMetadataManagerComponent extends Component {
         this.currentProviderMetadata = this.deepCopy(this.registration.providerSpecificMetadata);
     }
 
-    deepCopy(jsonBlob: unknown) {
-        return JSON.parse(JSON.stringify(jsonBlob));
+    deepCopy(providerMetadata: ProviderMetadata[]) {
+        return JSON.parse(JSON.stringify(providerMetadata));
     }
 }
