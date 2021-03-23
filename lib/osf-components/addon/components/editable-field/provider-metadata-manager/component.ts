@@ -39,7 +39,7 @@ export default class ProviderMetadataManagerComponent extends Component {
     save = task(function *(this: ProviderMetadataManagerComponent) {
         if (this.registration) {
             try {
-                this.providerSpecificMetadata = JSON.parse(JSON.stringify(this.currentProviderMetadata));
+                this.providerSpecificMetadata = this.deepCopy(this.currentProviderMetadata);
                 yield this.registration.save();
             } catch (e) {
                 const errorMessage = this.intl.t('registries.registration_metadata.edit_provider_metadata.error');
@@ -75,17 +75,21 @@ export default class ProviderMetadataManagerComponent extends Component {
 
     @action
     startEditing() {
-        this.currentProviderMetadata = JSON.parse(JSON.stringify(this.registration.providerSpecificMetadata));
+        this.currentProviderMetadata = this.deepCopy(this.registration.providerSpecificMetadata);
         this.requestedEditMode = true;
     }
 
     @action
     cancel() {
-        this.currentProviderMetadata = JSON.parse(JSON.stringify(this.registration.providerSpecificMetadata));
+        this.currentProviderMetadata = this.deepCopy(this.registration.providerSpecificMetadata);
         this.requestedEditMode = false;
     }
 
     didReceiveAttrs() {
-        this.currentProviderMetadata = JSON.parse(JSON.stringify(this.registration.providerSpecificMetadata));
+        this.currentProviderMetadata = this.deepCopy(this.registration.providerSpecificMetadata);
+    }
+
+    deepCopy(jsonBlob: unknown) {
+        return JSON.parse(JSON.stringify(jsonBlob));
     }
 }
