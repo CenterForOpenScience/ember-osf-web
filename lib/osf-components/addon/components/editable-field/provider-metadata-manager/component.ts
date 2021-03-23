@@ -1,4 +1,3 @@
-import { tagName } from '@ember-decorators/component';
 import { action } from '@ember/object';
 import { alias, and } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
@@ -26,7 +25,6 @@ export interface ProviderMetadataManager {
     userCanEdit: boolean;
 }
 
-@tagName('')
 export default class ProviderMetadataManagerComponent extends Component<Args> {
     @service currentUser!: CurrentUserService;
     @service intl!: Intl;

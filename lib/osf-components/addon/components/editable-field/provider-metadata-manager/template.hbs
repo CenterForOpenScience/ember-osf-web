@@ -1,17 +1,18 @@
-{{yield (hash
-    save=(perform this.save)
-    cancel=(action this.cancel)
-    startEditing=(action this.startEditing)
-    inEditMode=this.inEditMode
-    userCanEdit=this.userCanEdit
-    shouldShowField=this.shouldShowField
-    currentProviderMetadata=this.currentProviderMetadata
-    providerMetadata=this.registration.providerSpecificMetadata
-    setCurrentProviderMetatdata=this.setCurrentProviderMetadata
-    isSaving=this.save.isRunning
-    fieldIsEmpty=this.fieldIsEmpty
-    emptyFieldText=(t 'registries.registration_metadata.no_provider_metadata')
-)}}
 <div
     {{did-insert this.setCurrentProviderMetadata this.registration}}
-></div>
+>
+    {{yield (hash
+        save=(perform this.save)
+        cancel=(action this.cancel)
+        startEditing=(action this.startEditing)
+        inEditMode=this.inEditMode
+        userCanEdit=this.userCanEdit
+        shouldShowField=this.shouldShowField
+        currentProviderMetadata=this.currentProviderMetadata
+        providerMetadata=@registration.providerSpecificMetadata
+        setCurrentProviderMetatdata=this.setCurrentProviderMetadata
+        isSaving=this.save.isRunning
+        fieldIsEmpty=this.fieldIsEmpty
+        emptyFieldText=(t 'registries.registration_metadata.no_provider_metadata')
+    )}}
+</div>
