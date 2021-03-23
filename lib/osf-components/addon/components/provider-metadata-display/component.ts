@@ -9,6 +9,6 @@ import template from './template';
 
 @tagName('')
 @layout(template, styles)
-export default class ProviderMetadata extends Component {
+export default class ProviderMetadataDisplay extends Component {
     manager!: ProviderMetadataManager;
 }
