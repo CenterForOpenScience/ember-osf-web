@@ -6,6 +6,6 @@ import styles from './styles';
 import template from './template';
 
 @layout(template, styles)
-export default class ProviderMetadataEditable extends Component {
+export default class NodeDescriptionEditable extends Component {
     manager!: ProviderMetadataManager;
 }

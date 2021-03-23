@@ -1,6 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
 import { alias, and } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
@@ -39,10 +39,7 @@ export default class ProviderMetadataManagerComponent extends Component {
     save = task(function *(this: ProviderMetadataManagerComponent) {
         if (this.registration) {
             try {
-                this.registration.set(
-                    'providerSpecificMetadata',
-                    JSON.parse(JSON.stringify(this.currentProviderMetadata)),
-                );
+                this.providerSpecificMetadata = JSON.parse(JSON.stringify(this.currentProviderMetadata));
                 yield this.registration.save();
             } catch (e) {
                 const errorMessage = this.intl.t('registries.registration_metadata.edit_provider_metadata.error');
@@ -51,21 +48,19 @@ export default class ProviderMetadataManagerComponent extends Component {
                 this.toast.error(getApiErrorMessage(e), errorMessage);
                 throw e;
             }
-            this.set('requestedEditMode', false);
+            this.requestedEditMode = false;
             this.toast.success(this.intl.t('registries.registration_metadata.edit_provider_metadata.success'));
         }
     });
 
-    requestedEditMode: boolean = false;
-    currentProviderMetadata: ProviderMetadata[] = [];
-
     @tracked currentModerator?: ModeratorModel;
+    @tracked currentProviderMetadata: ProviderMetadata[] = [];
+    @tracked requestedEditMode: boolean = false;
 
     @alias('registration.provider.currentUserCanReview') userCanEdit!: boolean;
     @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
     @alias('registration.providerSpecificMetadata') providerSpecificMetadata!: ProviderMetadata[];
 
-    @computed('registration.providerSpecificMetadata')
     get fieldIsEmpty() {
         return this.registration.providerSpecificMetadata.reduce(this.compareFieldValues, true);
     }
@@ -74,31 +69,23 @@ export default class ProviderMetadataManagerComponent extends Component {
         return isEmpty && !item.field_value;
     }
 
-    @computed('fieldIsEmpty', 'userCanEdit')
     get shouldShowField() {
         return this.userCanEdit || !this.fieldIsEmpty;
     }
 
     @action
     startEditing() {
-        this.setProperties({
-            currentProviderMetadata: JSON.parse(JSON.stringify(this.registration.providerSpecificMetadata)),
-            requestedEditMode: true,
-        });
+        this.currentProviderMetadata = JSON.parse(JSON.stringify(this.registration.providerSpecificMetadata));
+        this.requestedEditMode = true;
     }
 
     @action
     cancel() {
-        this.setProperties({
-            currentProviderMetadata: JSON.parse(JSON.stringify(this.registration.providerSpecificMetadata)),
-            requestedEditMode: false,
-        });
+        this.currentProviderMetadata = JSON.parse(JSON.stringify(this.registration.providerSpecificMetadata));
+        this.requestedEditMode = false;
     }
 
     didReceiveAttrs() {
-        this.set(
-            'currentProviderMetadata',
-            JSON.parse(JSON.stringify(this.registration.providerSpecificMetadata)),
-        );
+        this.currentProviderMetadata = JSON.parse(JSON.stringify(this.registration.providerSpecificMetadata));
     }
 }
