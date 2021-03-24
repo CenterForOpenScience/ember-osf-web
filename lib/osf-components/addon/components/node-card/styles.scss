@@ -74,7 +74,11 @@
 .NodeCard__tags {
     margin-top: 2px;
 
-    strong {
-        font-weight: 600;
+    div {
+        display: inline-block;
     }
+}
+
+.Labels {
+    font-weight: 600;
 }

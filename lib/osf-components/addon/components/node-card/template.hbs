@@ -105,27 +105,40 @@
                     </div>
                 {{/if}}
                 <div local-class='NodeCard__schema-name'>
+                    <strong local-class='Labels'>{{t 'node_card.schema'}}</strong>
                     {{@node.registrationSchema.name}}
                 </div>
             {{/if}}
             <div local-class='NodeCard__authors'>
+                <strong local-class='Labels'>{{t 'node_card.contributors'}}</strong>
                 <ContributorList
                     @model={{@node}}
                     @shouldLinkUsers={{true}}
                 />
             </div>
             <div local-class='NodeCard__description'>
+                <strong local-class='Labels'>{{t 'node_card.description'}}</strong>
                 {{@node.description}}
             </div>
             {{#if (and this.showTags @node.tags)}}
                 <div local-class='NodeCard__tags'>
-                    <strong>{{t 'node_card.tags'}}</strong>
+                    <strong local-class='Labels'>{{t 'node_card.tags'}}</strong>
                     <TagsWidget
                         @taggable={{@node}}
                         @inline={{true}}
                     />
                 </div>
             {{/if}}
+            <OsfLink
+                data-analytics-name='View registration'
+                data-test-node-title='{{@node.id}}'
+                @route='resolve-guid'
+                @models={{array @node.id}}
+            >
+                <Button>
+                    {{t 'node_card.view'}}
+                </Button>
+            </OsfLink>
         {{else}}
             <ContentPlaceholders as |placeholder|>
                 <placeholder.text @lines={{2}} />
