@@ -32,6 +32,7 @@
                             {{#let (unique-id) 'has-project' as |hasProjectId|}}
                                 <input
                                     data-test-has-project-button
+                                    data-analytics-name='Toggle to project based registration'
                                     local-class='RadioElement RadioInput'
                                     id={{hasProjectId}}
                                     type='radio'
@@ -51,6 +52,7 @@
                             {{#let (unique-id) 'no-project' as |noProjectId|}}
                                 <input
                                     data-test-no-project-button
+                                    data-analytics-name='Toggle to no project registration'
                                     local-class='RadioElement RadioInput'
                                     id={{noProjectId}}
                                     type='radio'
