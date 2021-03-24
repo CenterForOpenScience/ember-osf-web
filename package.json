@@ -179,7 +179,6 @@
     "ember-template-lint": "^2.9.1",
     "ember-toastr": "^1.7.2",
     "ember-wormhole": "^0.5.4",
-    "ember-youtube": "^0.9.0",
     "eslint": "^7.5.0",
     "eslint-config-airbnb-base": "14.0.0",
     "eslint-plugin-ember": "^8.9.1",
