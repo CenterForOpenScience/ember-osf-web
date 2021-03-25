@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "es2020",
     "allowJs": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
@@ -19,45 +19,21 @@
     "inlineSources": true,
     "baseUrl": ".",
     "module": "es6",
+    "experimentalDecorators": true,
     "paths": {
-      "collections/*": [
-        "lib/collections/addon/*"
-      ],
-      "collections/config/*": [
-        "lib/collections/config/*"
-      ],
-      "registries/*": [
-        "lib/registries/addon/*"
-      ],
-      "registries/config/*": [
-        "lib/registries/config/*"
-      ],
       "ember-osf-web/tests/*": [
         "tests/*"
-      ],
-      "ember-osf-web/*": [
-        "app/*"
       ],
       "ember-osf-web/mirage/*": [
         "mirage/*"
       ],
-      "app-components": [
-        "lib/app-components/addon"
-      ],
-      "app-components/*": [
-        "lib/app-components/addon/*"
-      ],
-      "osf-components": [
-        "lib/osf-components/addon"
-      ],
-      "osf-components/*": [
-        "lib/osf-components/addon/*"
-      ],
-      "handbook": [
-        "lib/handbook/addon"
-      ],
-      "handbook/*": [
-        "lib/handbook/addon/*"
+      "ember-osf-web/*": [
+        "app/*",
+        "lib/analytics-page/app/*",
+        "lib/assets-prefix-middleware/app/*",
+        "lib/collections/app/*",
+        "lib/osf-components/app/*",
+        "lib/registries/app/*"
       ],
       "analytics-page": [
         "lib/analytics-page/addon"
@@ -65,31 +41,74 @@
       "analytics-page/*": [
         "lib/analytics-page/addon/*"
       ],
-      "config/*": [
-        "config/*"
+      "analytics-page/test-support": [
+        "lib/analytics-page/addon-test-support"
       ],
-      "ember-bootstrap/components/*": [
-        "node_modules/ember-bootstrap/addon/components/bs3/*",
-        "node_modules/ember-bootstrap/addon/components/bs4/*"
+      "analytics-page/test-support/*": [
+        "lib/analytics-page/addon-test-support/*"
+      ],
+      "assets-prefix-middleware": [
+        "lib/assets-prefix-middleware/addon"
+      ],
+      "assets-prefix-middleware/*": [
+        "lib/assets-prefix-middleware/addon/*"
+      ],
+      "assets-prefix-middleware/test-support": [
+        "lib/assets-prefix-middleware/addon-test-support"
+      ],
+      "assets-prefix-middleware/test-support/*": [
+        "lib/assets-prefix-middleware/addon-test-support/*"
+      ],
+      "collections": [
+        "lib/collections/addon"
+      ],
+      "collections/*": [
+        "lib/collections/addon/*"
+      ],
+      "collections/test-support": [
+        "lib/collections/addon-test-support"
+      ],
+      "collections/test-support/*": [
+        "lib/collections/addon-test-support/*"
+      ],
+      "osf-components": [
+        "lib/osf-components/addon"
+      ],
+      "osf-components/*": [
+        "lib/osf-components/addon/*"
+      ],
+      "osf-components/test-support": [
+        "lib/osf-components/addon-test-support"
+      ],
+      "osf-components/test-support/*": [
+        "lib/osf-components/addon-test-support/*"
+      ],
+      "registries": [
+        "lib/registries/addon"
+      ],
+      "registries/*": [
+        "lib/registries/addon/*"
+      ],
+      "registries/test-support": [
+        "lib/registries/addon-test-support"
+      ],
+      "registries/test-support/*": [
+        "lib/registries/addon-test-support/*"
       ],
       "*": [
         "types/*"
       ]
-    },
-    "experimentalDecorators": true,
-    "skipLibCheck": true
+    }
   },
   "include": [
-    "app",
-    "config",
-    "tests",
-    "mirage",
-    "types",
-    "lib/analytics-page",
-    "lib/collections",
-    "lib/app-components",
-    "lib/handbook",
-    "lib/osf-components",
-    "lib/registries"
+    "app/**/*",
+    "tests/**/*",
+    "types/**/*",
+    "lib/analytics-page/**/*",
+    "lib/assets-prefix-middleware/**/*",
+    "lib/collections/**/*",
+    "lib/osf-components/**/*",
+    "lib/registries/**/*",
+    "mirage/**/*"
   ]
 }
