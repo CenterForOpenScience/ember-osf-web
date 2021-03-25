@@ -17,6 +17,7 @@
     "noEmit": true,
     "inlineSourceMap": true,
     "inlineSources": true,
+    "skipLibCheck": true,
     "baseUrl": ".",
     "module": "es6",
     "experimentalDecorators": true,
