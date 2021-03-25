@@ -14,7 +14,7 @@ import OsfModel, { OsfLinks } from 'ember-osf-web/models/osf-model';
 
 const { JSONAPISerializer } = DS;
 
-const API_TYPE_KEYS: Record<string, keyof ModelRegistry> = {
+const API_TYPE_KEYS: Record<string, string & keyof ModelRegistry> = {
     applications: 'developer-app',
 };
 

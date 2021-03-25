@@ -10,7 +10,6 @@ import { ResultCollection } from 'ember-cp-validations';
 import DS, { AttributesFor, RelationshipsFor } from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 
-
 export enum ValidationStatus {
     Hidden,
     Success,

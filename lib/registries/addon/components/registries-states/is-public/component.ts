@@ -52,7 +52,7 @@ export default class RegistrationIsPublic extends Component {
             pendingWithdrawal: true,
         });
         this.changeset.validate();
-        if (this.changeset.isValid) {
+        if (this.changeset.get('isValid')) {
             try {
                 yield this.changeset.save({});
             } catch (e) {
@@ -91,12 +91,12 @@ export default class RegistrationIsPublic extends Component {
     get submitDisabled(): boolean {
         return this.submitWithdrawal.isRunning
             || (this.scientistNameInput !== this.scientistName)
-            || this.changeset.isInvalid;
+            || this.changeset.get('isInvalid');
     }
 
     @action
     close() {
-        if (this.changeset.isDirty) {
+        if (this.changeset.get('isDirty')) {
             this.changeset.rollback();
         }
         this.closeDropdown();

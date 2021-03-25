@@ -6,6 +6,7 @@ import { inject as service } from '@ember/service';
 import { dasherize, underscore } from '@ember/string';
 import { Validations } from 'ember-cp-validations';
 import DS, { RelationshipsFor } from 'ember-data';
+import AdapterRegistry from 'ember-data/types/registries/adapter';
 import ModelRegistry from 'ember-data/types/registries/model';
 import { pluralize, singularize } from 'ember-inflector';
 import { Links, PaginationLinks } from 'jsonapi-typescript';
@@ -304,7 +305,7 @@ export default class OsfModel extends Model {
      * @returns {Promise} Promise that will resolve when count is loaded
      */
     async loadRelatedCount<T extends OsfModel>(this: T, relationshipName: RelationshipsFor<T> & string) {
-        const apiModelName = this.store.adapterFor(this.modelName).pathForType(this.modelName);
+        const apiModelName = this.store.adapterFor(this.modelName as keyof AdapterRegistry).pathForType(this.modelName);
         const apiRelationshipName = underscore(relationshipName);
         const errorContext = `while loading related counts for ${this.modelName}.${relationshipName}`;
 

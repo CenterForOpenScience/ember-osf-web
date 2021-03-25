@@ -78,7 +78,7 @@ export default class UnregisteredContributorComponent extends Component {
                     this.closeDialog();
                 } else {
                     this.emailChangeset!.validate();
-                    if (this.emailChangeset!.isValid) {
+                    if (this.emailChangeset!.get('isValid')) {
                         yield user.claimUnregisteredUser(this.nodeId, this.emailChangeset!.get('userEmail'));
                         this.closeDialog();
                     }

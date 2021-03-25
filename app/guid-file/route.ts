@@ -1,4 +1,5 @@
 import { action } from '@ember/object';
+import Transition from '@ember/routing/-private/transition';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import HeadTagsService from 'ember-cli-meta-tags/services/head-tags';
@@ -72,7 +73,7 @@ export default class GuidFile extends Route {
         this.setHeadTags.perform(model);
     }
 
-    resetController(controller: GuidFileController, isExiting: boolean, transition: { targetName: string }) {
+    resetController(controller: GuidFileController, isExiting: boolean, transition: Transition) {
         if (isExiting && transition.targetName !== 'error') {
             controller.set('revision', null);
         }

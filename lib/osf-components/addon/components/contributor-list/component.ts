@@ -104,7 +104,8 @@ export default class ContributorList extends Component {
         } catch (e) {
             const { supportEmail } = config.support;
             const errorMessage = this.intl
-                .t('contributor_list.remove_contributor.error', { supportEmail, htmlSafe: true });
+                .t('contributor_list.remove_contributor.error', { supportEmail, htmlSafe: true })
+                .toString();
             captureException(e, { errorMessage });
             this.toast.error(errorMessage);
         }

@@ -97,7 +97,7 @@ export default class UserQuickfiles extends Controller {
     @task({ withTestWaiter: true })
     moveFile = task(function *(this: UserQuickfiles, file: File, node: Node): IterableIterator<any> {
         try {
-            if (node.isNew) {
+            if (node.get('isNew')) {
                 yield this.createProject.perform(node);
 
                 this.setProperties({

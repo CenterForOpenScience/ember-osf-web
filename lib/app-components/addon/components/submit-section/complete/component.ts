@@ -9,6 +9,7 @@ import template from './template';
 @layout(template, styles)
 @tagName('')
 export default class SubmitSectionComplete extends Component {
+    // Required arguments
     showReopen!: boolean;
     editable!: boolean;
 

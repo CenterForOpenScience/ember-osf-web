@@ -1,4 +1,5 @@
 import { action } from '@ember/object';
+import Transition from '@ember/routing/-private/transition';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
@@ -15,8 +16,8 @@ export default class GuidNodeRegistrations extends Route {
         return this.modelFor('guid-node') as GuidRouteModel<Node>;
     }
 
-    setupController(controller: Controller, model: GuidRouteModel<Node>): void {
-        super.setupController(controller, model);
+    setupController(controller: Controller, model: GuidRouteModel<Node>, transition: Transition): void {
+        super.setupController(controller, model, transition);
         controller.get('getRegistrationSchemas').perform();
     }
 

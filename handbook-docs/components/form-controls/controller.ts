@@ -18,7 +18,7 @@ export default class FormController extends Controller {
     @action
     submit() {
         this.changeset.validate();
-        if (this.changeset.isValid) {
+        if (this.changeset.get('isValid')) {
             this.changeset.save({});
             this.toast.success('Saved!');
         }

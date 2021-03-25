@@ -78,11 +78,7 @@ module('Unit | Adapter | osf-adapter', hooks => {
         assert.equal(result.slice(-1), '/');
 
         // Restore
-        if (typeof origBuildUrl === 'function') {
-            DS.JSONAPIAdapter.prototype.buildURL = origBuildUrl;
-        } else {
-            delete DS.JSONAPIAdapter.prototype.buildURL;
-        }
+        DS.JSONAPIAdapter.prototype.buildURL = origBuildUrl;
     });
 
     test('#ajaxOptions adds bulk contentType if request is bulk', function(assert) {

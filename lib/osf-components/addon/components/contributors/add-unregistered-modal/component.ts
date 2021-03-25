@@ -47,7 +47,7 @@ export default class UserSearchComponent extends Component<AddUnregisteredModalA
     @action
     validate() {
         this.unregisteredFormChangeset.validate();
-        if (this.unregisteredFormChangeset.isInvalid) {
+        if (this.unregisteredFormChangeset.get('isInvalid')) {
             return Promise.reject();
         }
         return Promise.resolve();

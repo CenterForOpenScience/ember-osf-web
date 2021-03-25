@@ -8,7 +8,7 @@ module('Integration | Component | file-icon', hooks => {
     setupRenderingTest(hooks);
 
     test('default file icon', async function(assert) {
-        this.set('item', EmberObject.create({}));
+        this.set('item', EmberObject.create());
         await render(hbs`{{file-icon item=item}}`);
         assert.dom('svg').hasClass('fa-file');
     });

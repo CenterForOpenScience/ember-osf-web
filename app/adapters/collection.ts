@@ -6,15 +6,15 @@ const requestTypes = ['createRecord', 'updateRecord', 'deleteRecord'];
 
 export default class CollectionAdapter extends OsfAdapter {
     buildURL(
-        modelName: 'collection',
-        id: string,
-        snapshot: DS.Snapshot,
-        requestType: string,
+        modelName?: string | number,
+        id?: string,
+        snapshot?: DS.Snapshot | null,
+        requestType?: string,
     ) {
         // Embed linked_nodes
         const base = super.buildURL(modelName, id, snapshot, requestType);
 
-        if (requestTypes.includes(requestType)) {
+        if (requestType && requestTypes.includes(requestType)) {
             return base;
         }
 

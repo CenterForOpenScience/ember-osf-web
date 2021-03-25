@@ -15,8 +15,8 @@ export default class InstitutionUserModel extends OsfModel {
     @belongsTo('user', { async: true })
     user!: DS.PromiseObject<UserModel> & UserModel;
 
-    get userGuid(this: InstitutionUserModel) {
-        return this.belongsTo('user').id();
+    get userGuid() {
+        return (this as InstitutionUserModel).belongsTo('user').id();
     }
 }
 

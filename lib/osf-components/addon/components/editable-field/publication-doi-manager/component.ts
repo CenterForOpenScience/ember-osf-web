@@ -71,7 +71,7 @@ export default class PublicationDoiManagerComponent extends Component {
 
         this.set('didValidate', true);
 
-        if (!this.changeset.isValid) {
+        if (!this.changeset.get('isValid')) {
             return;
         }
 

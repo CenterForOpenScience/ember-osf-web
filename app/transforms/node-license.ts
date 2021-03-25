@@ -8,6 +8,11 @@ interface SerializedNodeLicense {
     year?: string;
 }
 
+interface DeserializedNodeLicense {
+    copyrightHolders?: string[];
+    year?: string;
+}
+
 export default class NodeLicenseTransform extends DS.Transform {
     deserialize(value: SerializedNodeLicense): NodeLicense {
         if (!value) {
@@ -17,10 +22,7 @@ export default class NodeLicenseTransform extends DS.Transform {
         const {
             copyrightHolders = [],
             year = '',
-        } = camelizeKeys(value) as {
-            copyrightHolders?: string | string[],
-            year?: string,
-        };
+        } = camelizeKeys(value as Record<'copyright_holders|year', unknown>) as DeserializedNodeLicense;
 
         return Object.freeze({
             copyrightHolders: typeof copyrightHolders === 'string' ? copyrightHolders : copyrightHolders.join(', '),

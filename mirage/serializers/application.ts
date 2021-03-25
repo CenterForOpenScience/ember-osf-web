@@ -59,6 +59,7 @@ export default class ApplicationSerializer<T extends DS.Model> extends JSONAPISe
         json.data.relationships = Object
             .entries(this.buildRelationships(model))
             .reduce((acc, [key, value]) => {
+                // @ts-ignore
                 acc[underscore(key)] = value;
                 return acc;
             }, {} as Record<string, Relationship>);

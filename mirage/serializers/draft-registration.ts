@@ -95,7 +95,7 @@ export default class DraftRegistrationSerializer extends ApplicationSerializer<M
             const pathName = pluralize(underscore(model.branchedFromId.type));
             relationships.branchedFrom = {
                 data: {
-                    id: model.branchedFromId.id,
+                    id: model.branchedFromId.id as string,
                     type: model.branchedFromId.type,
                 },
                 links: {

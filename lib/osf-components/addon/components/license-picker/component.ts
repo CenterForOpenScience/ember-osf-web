@@ -27,11 +27,12 @@ export default class LicensePicker extends Component {
     @service intl!: Intl;
 
     form?: ValidatedModelForm<'node'>;
-    showText: boolean = false;
     node!: Node;
+    placeholder: string = this.intl.t('registries.registration_metadata.select_license');
+
+    showText: boolean = false;
     licensesAcceptable!: QueryHasManyResult<License>;
     helpLink: string = 'https://openscience.zendesk.com/hc/en-us/articles/360019739014';
-    placeholder: string = this.intl.t('registries.registration_metadata.select_license');
 
     @alias('theme.provider') provider!: Provider;
     @alias('node.license') selected!: License;

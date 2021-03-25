@@ -9,10 +9,10 @@ export default class ContributorAdapter extends OsfAdapter {
     @service store!: DS.Store;
 
     buildURL(
-        modelName: 'contributor',
-        id: string,
-        snapshot: DS.Snapshot<'contributor'>,
-        requestType: string,
+        modelName?: string | number,
+        id?: string,
+        snapshot?: DS.Snapshot | null,
+        requestType?: string,
     ) {
         if (requestType === 'findRecord') {
             const [objectId, userId] = (id || '').split('-');
@@ -28,7 +28,7 @@ export default class ContributorAdapter extends OsfAdapter {
             return pathJoin(baseUrl, userId);
         }
 
-        if (requestType === 'createRecord') {
+        if (snapshot && requestType === 'createRecord') {
             const node = snapshot.belongsTo('node');
             const draftRegistration = snapshot.belongsTo('draftRegistration');
             const user = snapshot.belongsTo('users');

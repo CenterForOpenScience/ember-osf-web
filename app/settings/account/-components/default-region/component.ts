@@ -62,7 +62,7 @@ export default class DefaultRegionPane extends Component {
     @task({ withTestWaiter: true })
     updateRegion = task(function *(this: DefaultRegionPane) {
         this.changeset.validate();
-        if (this.changeset.isValid && this.user) {
+        if (this.changeset.get('isValid') && this.user) {
             try {
                 yield this.changeset.save({});
                 this.toast.success(

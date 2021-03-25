@@ -3,8 +3,8 @@ import DS from 'ember-data';
 import OsfAdapter from './osf-adapter';
 
 export default class NodeAdapter extends OsfAdapter {
-    buildURL(modelName: string, id: string, snapshot: DS.Snapshot, requestType: string): string {
-        if (requestType === 'createRecord') {
+    buildURL(modelName?: string | number, id?: string, snapshot?: DS.Snapshot | null, requestType?: string): string {
+        if (snapshot && requestType === 'createRecord') {
             const parent: any = snapshot.record.belongsTo('parent').belongsToRelationship.members.list[0];
 
             if (parent) {

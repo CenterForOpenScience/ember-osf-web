@@ -31,8 +31,8 @@ export default class ConnectedIdentities extends Component {
                 'settings.account.connected_identities.remove_fail',
                 { supportEmail, htmlSafe: true },
             );
-            captureException(e, { errorMessage });
-            this.toast.error(getApiErrorMessage(e), errorMessage);
+            captureException(e, { errorMessage: errorMessage.toString() });
+            this.toast.error(getApiErrorMessage(e), errorMessage as string);
             return false;
         }
         this.reloadIdentitiesList();

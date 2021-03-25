@@ -7,7 +7,7 @@ import { FacetContext } from '../../component';
 @tagName('span')
 export default class ActiveFilterBase extends Component {
     context!: FacetContext;
-    item: any;
+    item!: any;
     text!: string;
     ariaLabel!: string;
     extraClass: string = '';

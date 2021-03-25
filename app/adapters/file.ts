@@ -3,7 +3,7 @@ import DS from 'ember-data';
 import OsfAdapter from './osf-adapter';
 
 export default class FileAdapter extends OsfAdapter {
-    buildURL(modelName: string, id: string, snapshot: DS.Snapshot, requestType: string): string {
+    buildURL(modelName?: string | number, id?: string | null, snapshot?: DS.Snapshot | null, requestType?: string): string {
         const url = super.buildURL(modelName, id, snapshot, requestType);
 
         // Water Bulter API does not like trailing slashes.

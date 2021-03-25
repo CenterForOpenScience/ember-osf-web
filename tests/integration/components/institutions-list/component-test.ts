@@ -32,10 +32,10 @@ module('Integration | Component | institutions-list', hooks => {
         this.store = this.owner.lookup('service:store');
 
         const mirageUser = server.create('user', 'withInstitutions');
-        const user = this.store.findRecord('user', mirageUser.id);
+        const user = await this.store.findRecord('user', mirageUser.id);
 
         const mirageNode = server.create('node');
-        const node = this.store.findRecord('node', mirageNode.id);
+        const node = await this.store.findRecord('node', mirageNode.id);
 
         const managerStub = {
             toggleInstitution: noop,

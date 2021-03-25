@@ -108,7 +108,7 @@ export default class SecurityPane extends Component {
     verifySecret = task(function *(this: SecurityPane) {
         this.changeset.validate();
         try {
-            if (this.changeset.isValid) {
+            if (this.changeset.get('isValid')) {
                 yield this.changeset.save({});
                 this.showError = false;
             }

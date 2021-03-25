@@ -60,7 +60,7 @@ export default class DeveloperAppForm extends Component {
     updateApp = task(function *(this: DeveloperAppForm) {
         this.changeset.validate();
         try {
-            if (this.changeset.isValid) {
+            if (this.changeset.get('isValid')) {
                 yield this.changeset.save({});
                 this.toast.success(this.intl.t('settings.developer-apps.saved'));
                 this.router.transitionTo('settings.developer-apps');

@@ -11,7 +11,7 @@ import template from './template';
 @tagName('')
 export default class ActiveFiltersFilter extends Component {
     context!: FacetContext;
-    item: any;
+    item!: any;
     text!: string;
     ariaLabel!: string;
     hide: boolean = false;

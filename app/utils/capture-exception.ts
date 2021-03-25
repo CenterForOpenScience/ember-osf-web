@@ -1,6 +1,7 @@
 import { ErrorObject } from 'jsonapi-typescript';
 import { ErrorDocument } from 'osf-api';
 
+import { SafeString } from '@ember/template/-private/handlebars';
 import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
 
 // Raven is defined only in prod builds
@@ -51,7 +52,7 @@ export function getApiErrors(error: ErrorDocument): Record<string, ErrorObject> 
 /* eslint-disable consistent-return */
 export default function captureException(
     error: Error | ErrorDocument,
-    extras: { errorMessage?: string } = {},
+    extras: { errorMessage?: string | SafeString } = {},
 ) {
     let apiErrors = {};
     if (!(error instanceof Error)) {

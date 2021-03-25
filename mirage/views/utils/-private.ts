@@ -258,7 +258,7 @@ export function toOperator(operatorString: string): ComparisonOperators {
     if (!operatorString || operatorString === 'eq') {
         return ComparisonOperators.Eq;
     }
-    if (Object.values(ComparisonOperators).includes(operatorString)) {
+    if (Object.values(ComparisonOperators).includes(operatorString as ComparisonOperators)) {
         return operatorString as ComparisonOperators;
     }
     throw new Error(`The operator ${operatorString} is unknown.`);

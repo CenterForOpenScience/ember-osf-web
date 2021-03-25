@@ -57,9 +57,9 @@ export default class FileBrowser extends Component {
     @service toast!: Toast;
 
     @requiredAction openFile!: (file: File, show: string) => void;
-    @requiredAction moveFile!: (file: File, node: Node) => void;
+    @requiredAction moveFile!: (file: File, node: Node) => Promise<null>;
     @requiredAction renameFile!: (file: File, renameValue: string, conflict?: string, conflictingItem?: File) => void;
-    @requiredAction addFile!: (fileId: string) => void;
+    @requiredAction addFile!: (fileId: string) => Promise<null>;
     @requiredAction deleteFiles!: (files: File[]) => void;
 
     clickHandler?: JQuery.EventHandlerBase<HTMLElement, JQuery.Event>;
