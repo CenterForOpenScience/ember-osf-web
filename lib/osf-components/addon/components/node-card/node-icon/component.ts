@@ -3,7 +3,6 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import template from './template';
 
@@ -30,7 +29,7 @@ const iconMap: { [index: string]: string } = {
 @layout(template)
 @tagName('span')
 export default class NodeCardNodeIcon extends Component {
-    category: string = defaultTo(this.category, '');
+    category: string = '';
 
     @computed('category')
     get iconType(): string {

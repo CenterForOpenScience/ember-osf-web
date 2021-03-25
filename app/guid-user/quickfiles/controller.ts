@@ -23,10 +23,10 @@ export default class UserQuickfiles extends Controller {
 
     pageName = 'QuickFiles';
 
-    filter: string = this.filter || '';
+    filter: string = '';
     // Initialized in setupController.
     newProject!: Node;
-    sort: string = this.sort || 'name';
+    sort: string = 'name';
 
     @alias('model.taskInstance.value.user') user!: User;
     @alias('model.taskInstance.value.files') allFiles!: File[];

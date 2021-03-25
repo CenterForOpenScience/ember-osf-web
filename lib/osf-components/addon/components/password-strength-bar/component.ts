@@ -7,7 +7,6 @@ import { timeout } from 'ember-concurrency';
 import { task } from 'ember-concurrency-decorators';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import styles from './styles';
 import template from './template';
@@ -25,8 +24,8 @@ export default class PasswordStrengthBar extends Component {
     password!: string;
 
     // Optional parameters
-    shouldShowMessages: boolean = defaultTo(this.shouldShowMessages, true);
-    minStrength: number = defaultTo(this.minStrength, 2);
+    shouldShowMessages: boolean = true;
+    minStrength: number = 2;
 
     // Private properties
     @service passwordStrength!: PasswordStrength;

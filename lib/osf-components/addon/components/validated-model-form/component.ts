@@ -15,7 +15,6 @@ import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import { ValidatedModelName } from 'ember-osf-web/models/osf-model';
 import Analytics from 'ember-osf-web/services/analytics';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import template from './template';
 
@@ -29,9 +28,9 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     onWillDestroy?: (model: ModelRegistry[M], changeset?: ChangesetDef) => void;
     model?: ModelRegistry[M];
     modelName?: M; // If provided, new model instance created in constructor
-    disabled: boolean = defaultTo(this.disabled, false);
+    disabled: boolean = false;
     changeset!: ChangesetDef;
-    recreateModel: boolean = defaultTo(this.recreateModel, false);
+    recreateModel: boolean = false;
     onDirtChange?: (dirt: boolean) => boolean;
 
     // Private properties
@@ -40,7 +39,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     @service toast!: Toast;
 
     shouldShowMessages: boolean = false;
-    modelProperties: object = defaultTo(this.modelProperties, {});
+    modelProperties: object = {};
 
     @or('disabled', 'saveModelTask.isRunning')
     inputsDisabled!: boolean;

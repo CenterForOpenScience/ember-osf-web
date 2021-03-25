@@ -5,7 +5,6 @@ import { action } from '@ember/object';
 import { ChangesetDef } from 'ember-changeset/types';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import styles from './styles';
 import template from './template';
@@ -20,7 +19,7 @@ export default class FormControlRadioButton extends Component {
 
     // Optional params
     shouldShowMessages?: boolean;
-    disabled: boolean = defaultTo(this.disabled, false);
+    disabled: boolean = false;
     onchange?: (option: string) => void;
 
     didReceiveAttrs() {

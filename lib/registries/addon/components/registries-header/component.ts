@@ -6,7 +6,6 @@ import Intl from 'ember-intl/services/intl';
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import ProviderModel from 'ember-osf-web/models/provider';
 import Analytics from 'ember-osf-web/services/analytics';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import template from './template';
 
 @layout(template)
@@ -20,9 +19,9 @@ export default class RegistriesHeader extends Component {
     localClassNameBindings = ['notBranded:RegistriesHeader'];
     today = new Date();
     showingHelp = false;
-    value: string = defaultTo(this.value, '');
-    searchable: number = defaultTo(this.searchable, 0);
-    showHelp: boolean = defaultTo(this.showHelp, false);
+    value: string = '';
+    searchable: number = 0;
+    showHelp: boolean = false;
 
     @computed('providerModel')
     get headerAriaLabel() {

@@ -9,7 +9,6 @@ import moment from 'moment';
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import File from 'ember-osf-web/models/file';
 import Analytics from 'ember-osf-web/services/analytics';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import humanFileSize from 'ember-osf-web/utils/human-file-size';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
@@ -80,7 +79,7 @@ export default class FileBrowserItem extends Component {
             target,
         } = event;
 
-        const modifierKey = defaultTo(metaKey, ctrlKey);
+        const modifierKey = ctrlKey;
 
         if (modifierKey && (target as HTMLElement).tagName === 'A') {
             window.open(this.link);

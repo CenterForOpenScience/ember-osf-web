@@ -23,7 +23,7 @@ export default class UnregisteredContributor extends Component {
     @service toast!: Toast;
 
     model?: Contributor;
-    node: Node = this.node;
+    node!: Node;
     didValidate: boolean = false;
 
     @requiredAction closeForm!: () => void;

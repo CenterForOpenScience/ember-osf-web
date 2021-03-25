@@ -4,7 +4,6 @@ import { htmlSafe } from '@ember/string';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 
-import defaultTo from 'ember-osf-web/utils/default-to';
 import getRelatedHref from 'ember-osf-web/utils/get-related-href';
 
 import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
@@ -249,7 +248,7 @@ export default class NodeModel extends AbstractNodeModel.extend(Validations, Col
 
     // BaseFileItem override
     isNode = true;
-    collectable: boolean = defaultTo(this.collectable, false);
+    collectable: boolean = false;
 
     makeFork(): Promise<object> {
         const url = getRelatedHref(this.links.relationships!.forks);

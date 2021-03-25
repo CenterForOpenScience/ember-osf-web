@@ -8,7 +8,6 @@ import Toast from 'ember-toastr/services/toast';
 import { layout } from 'ember-osf-web/decorators/component';
 import Registration from 'ember-osf-web/models/registration';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import randomScientist from 'ember-osf-web/utils/random-scientist';
 
 import Changeset from 'ember-changeset';
@@ -29,7 +28,7 @@ export default class RegistrationIsPublic extends Component {
     scientistName?: string;
     scientistNameInput?: string = '';
     closeDropdown!: () => void;
-    showModal: boolean = defaultTo(this.showModal, false);
+    showModal: boolean = false;
 
     changesetValidation: ValidationObject<Registration> = {
         withdrawalJustification: validateLength({

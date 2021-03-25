@@ -9,7 +9,6 @@ import Toast from 'ember-toastr/services/toast';
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import randomScientist from 'ember-osf-web/utils/random-scientist';
 
 import styles from './styles';
@@ -26,37 +25,19 @@ export default class DeleteButton extends Component {
     @requiredAction delete!: () => unknown;
 
     // Optional arguments
-    small: boolean = defaultTo(this.small, false);
-    smallSecondary: boolean = defaultTo(this.smallSecondary, false);
-    noBackground: boolean = defaultTo(this.noBackground, false);
-    hardConfirm: boolean = defaultTo(this.hardConfirm, false);
-    disabled: boolean = defaultTo(this.disabled, false);
+    small: boolean = false;
+    smallSecondary: boolean = false;
+    noBackground: boolean = false;
+    hardConfirm: boolean = false;
+    disabled: boolean = false;
     shouldStopPropagation = false;
     icon: string = 'times';
-    buttonLabel: string = defaultTo(
-        this.buttonLabel,
-        this.intl.t('osf-components.delete-button.buttonLabel'),
-    );
-    modalTitle: string = defaultTo(
-        this.modalTitle,
-        this.intl.t('osf-components.delete-button.modalTitle'),
-    );
-    modalBody: string = defaultTo(
-        this.modalBody,
-        this.intl.t('osf-components.delete-button.modalBody'),
-    );
-    confirmButtonText: string = defaultTo(
-        this.confirmButtonText,
-        this.intl.t('osf-components.delete-button.confirmButtonText'),
-    );
-    cancelButtonText: string = defaultTo(
-        this.cancelButtonText,
-        this.intl.t('osf-components.delete-button.cancelButtonText'),
-    );
-    errorMessage: string = defaultTo(
-        this.errorMessage,
-        this.intl.t('osf-components.delete-button.error'),
-    );
+    buttonLabel: string = this.intl.t('osf-components.delete-button.buttonLabel');
+    modalTitle: string = this.intl.t('osf-components.delete-button.modalTitle');
+    modalBody: string = this.intl.t('osf-components.delete-button.modalBody');
+    confirmButtonText: string = this.intl.t('osf-components.delete-button.confirmButtonText');
+    cancelButtonText: string = this.intl.t('osf-components.delete-button.cancelButtonText');
+    errorMessage: string = this.intl.t('osf-components.delete-button.error');
 
     // Private properties
     modalShown: boolean = false;

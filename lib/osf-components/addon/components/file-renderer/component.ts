@@ -5,7 +5,6 @@ import config from 'ember-get-config';
 import $ from 'jquery';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import template from './template';
 
@@ -42,9 +41,9 @@ export default class FileRenderer extends Component {
 
     download?: string;
     lastDownload?: string;
-    width: string = defaultTo(this.width, '100%');
-    height: string = defaultTo(this.height, '100%');
-    allowfullscreen: boolean = defaultTo(this.allowfullscreen, true);
+    width: string = '100%';
+    height: string = '100%';
+    allowfullscreen: boolean = true;
     version?: number;
     isLoading: boolean = true;
 

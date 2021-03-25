@@ -13,7 +13,6 @@ import User from 'ember-osf-web/models/user';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import cleanURL from 'ember-osf-web/utils/clean-url';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
 import styles from './styles';
@@ -38,13 +37,13 @@ export class AuthBase extends Component {
     /**
      * The URL to redirect to after logout
      */
-    redirectUrl: string = defaultTo(this.redirectUrl, '/goodbye');
+    redirectUrl: string = '/goodbye';
 
     campaign?: string;
 
-    profileURL: string = defaultTo(this.profileURL, pathJoin(baseUrl, 'profile'));
-    settingsURL: string = defaultTo(this.settingsURL, pathJoin(baseUrl, 'settings'));
-    signUpURL: string = defaultTo(this.signUpURL, pathJoin(baseUrl, 'register'));
+    profileURL: string = 'profile';
+    settingsURL: string = 'settings';
+    signUpURL: string = 'register';
     onLinkClicked?: () => void;
 
     @computed('router.currentURL')

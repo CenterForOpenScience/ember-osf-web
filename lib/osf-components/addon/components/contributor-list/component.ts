@@ -16,7 +16,6 @@ import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
 import captureException from 'ember-osf-web/utils/capture-exception';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import styles from './styles';
 import template from './template';
@@ -28,8 +27,8 @@ export default class ContributorList extends Component {
     model!: ModelWithBibliographicContributors & { isAnonymous?: boolean };
 
     // Optional arguments
-    shouldTruncate: boolean = defaultTo(this.shouldTruncate, true);
-    shouldLinkUsers: boolean = defaultTo(this.shouldLinkUsers, false);
+    shouldTruncate: boolean = true;
+    shouldLinkUsers: boolean = false;
     shouldEnableClaimUser: boolean = false;
     allowRemoveMe: boolean = false;
 

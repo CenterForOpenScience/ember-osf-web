@@ -1,7 +1,6 @@
 import DS, { AttributesFor } from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import BaseValidatedComponent from '../base-component';
 import template from './template';
@@ -11,6 +10,6 @@ export default class ValidatedText<M extends DS.Model> extends BaseValidatedComp
     valuePath!: AttributesFor<M>;
 
     // Additional arguments
-    password: boolean = defaultTo(this.password, false);
+    password: boolean = false;
     onKeyUp?: () => void; // Action
 }

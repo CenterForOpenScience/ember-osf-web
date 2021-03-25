@@ -12,7 +12,6 @@ import Collection from 'ember-osf-web/models/collection';
 import Node from 'ember-osf-web/models/node';
 import { Permission, QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import CurrentUser from 'ember-osf-web/services/current-user';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import styles from './styles';
 import template from './template';
@@ -29,8 +28,8 @@ export default class CollectionItemPicker extends Component {
     @requiredAction projectSelected!: (value: Node) => void;
     @requiredAction validationChanged!: (isValid: boolean) => void;
 
-    collection: Collection = this.collection;
-    selected: Node | null = defaultTo(this.selected, null);
+    collection!: Collection;
+    selected: Node | null = null;
     filter: string = '';
     page: number = 1;
     hasMore: boolean = false;

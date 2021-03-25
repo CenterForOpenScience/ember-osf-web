@@ -14,7 +14,6 @@ import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Theme from 'ember-osf-web/services/theme';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import { encodeParams, getSplitParams, getUniqueList } from '../../utils/elastic-query';
 import styles from './styles';
 import template from './template';
@@ -91,7 +90,7 @@ export default class DiscoverPage extends Component {
     @service theme!: Theme;
 
     query!: (params: any) => Promise<any>;
-    searchResultComponent: string = this.searchResultComponent;
+    searchResultComponent!: string;
 
     firstLoad: boolean = true;
     results: SearchQuery = emptyResults();
@@ -100,29 +99,29 @@ export default class DiscoverPage extends Component {
      * Text header for top of discover page.
      * @property {String} discoverHeader
      */
-    discoverHeader: string = defaultTo(this.discoverHeader, '');
+    discoverHeader: string = '';
 
     /**
      * Query params
      */
-    contributors: string = defaultTo(this.contributors, '');
+    contributors: string = '';
     end = '';
-    funders: string = defaultTo(this.funders, '');
-    institutions: string = defaultTo(this.institutions, '');
-    language: string = defaultTo(this.language, '');
-    organizations: string = defaultTo(this.organizations, '');
-    page: number = defaultTo(+this.page, 1);
-    provider: string = defaultTo(this.provider, '');
+    funders: string = '';
+    institutions: string = '';
+    language: string = '';
+    organizations: string = '';
+    page: number = 1;
+    provider: string = '';
     publishers = '';
-    q: string = defaultTo(this.q, '');
-    size: number = defaultTo(this.size, 10);
-    sort: string = defaultTo(this.sort, '');
-    sources: string = defaultTo(this.sources, '');
-    start: string = defaultTo(this.start, '');
-    tags: string = defaultTo(this.tags, '');
-    type: string = defaultTo(this.type, '');
-    status: string = defaultTo(this.status, '');
-    collectedType: string = defaultTo(this.collectedType, '');
+    q: string = '';
+    size: number = 10;
+    sort: string = '';
+    sources: string = '';
+    start: string = '';
+    tags: string = '';
+    type: string = '';
+    status: string = '';
+    collectedType: string = '';
 
     /**
      * A list of the components to be used for the search facets.
@@ -151,15 +150,15 @@ export default class DiscoverPage extends Component {
      * For PREPRINTS and REGISTRIES. A mapping of filter names for front-end display. Ex. {OSF: 'OSF Preprints'}.
      * @property {Object} filterReplace
      */
-    filterReplace: object = defaultTo(this.filterReplace, {});
+    filterReplace: object = {};
 
-    loading: boolean = defaultTo(this.loading, true);
+    loading: boolean = true;
 
     /**
      * Locked portions of search query that user cannot change.  Example: {'sources': 'PubMed Central'} will make PMC a
      * locked source.
      */
-    lockedParams: object = defaultTo(this.lockedParams, {});
+    lockedParams: object = {};
 
     numberOfEvents = 0;
     numberOfResults = 0; // Number of search results returned
@@ -174,7 +173,7 @@ export default class DiscoverPage extends Component {
     /**
      * For PREPRINTS and REGISTRIES.  Displays activeFilters box above search facets.
      */
-    showActiveFilters: boolean = defaultTo(this.showActiveFilters, false);
+    showActiveFilters: boolean = false;
     showLuceneHelp: boolean = false; // Is Lucene Search help modal open?
 
     /**
@@ -182,13 +181,13 @@ export default class DiscoverPage extends Component {
      * @property {Array} sortOptions
      */
     // TODO: intl-ize
-    sortOptions: SortOption[] = defaultTo(this.sortOptions, [
+    sortOptions: SortOption[] = [
         ['Relevance', ''],
         ['Date Updated (Desc)', '-date_updated'],
         ['Date Updated (Asc)', 'date_updated'],
         ['Ingest Date (Asc)', 'date_created'],
         ['Ingest Date (Desc)', '-date_created'],
-    ].map(([display, sortBy]) => ({ display, sortBy })));
+    ].map(([display, sortBy]) => ({ display, sortBy }));
 
     @computed('sort', 'sortOptions')
     get sortDisplay(): string {
@@ -202,7 +201,7 @@ export default class DiscoverPage extends Component {
     displayQueryBody: { query?: string } = {};
     queryBody: {} = {};
     aggregations: any;
-    whiteListedProviders: string[] = defaultTo(this.whiteListedProviders, []);
+    whiteListedProviders: string[] = [];
     queryError: boolean = false;
     serverError: boolean = false;
 

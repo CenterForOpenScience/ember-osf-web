@@ -6,7 +6,6 @@ import { task } from 'ember-concurrency-decorators';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import OsfModel from 'ember-osf-web/models/osf-model';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import BaseDataComponent, { LoadItemsOptions } from '../base-data-component';
 import template from './template';
 
@@ -20,7 +19,7 @@ export default class PaginatedHasMany extends BaseDataComponent {
     modelTaskInstance?: TaskInstance<OsfModel>;
 
     // Optional arguments
-    usePlaceholders: boolean = defaultTo(this.usePlaceholders, true);
+    usePlaceholders: boolean = true;
 
     // Private properties
     @task({ withTestWaiter: true })

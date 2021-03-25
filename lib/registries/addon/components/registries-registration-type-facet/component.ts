@@ -14,7 +14,6 @@ import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import ProviderModel from 'ember-osf-web/models/provider';
 import Analytics from 'ember-osf-web/services/analytics';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import { SearchOptions } from 'registries/services/search';
 import { ShareTermsFilter } from 'registries/services/share-search';
@@ -38,7 +37,7 @@ export default class RegistriesRegistrationTypeFacet extends Component {
     provider?: ProviderModel;
     @requiredAction onSearchOptionsUpdated!: (options: SearchOptions) => void;
 
-    registrationTypes: EmberArray<string> = defaultTo(this.registrationTypes, A([]));
+    registrationTypes: EmberArray<string> = A([]);
 
     @task({ withTestWaiter: true, on: 'init' })
     fetchRegistrationTypes = task(function *(this: RegistriesRegistrationTypeFacet): any {

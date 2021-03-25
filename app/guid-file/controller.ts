@@ -52,7 +52,7 @@ export default class GuidFile extends Controller {
 
     deleteModalOpen: boolean = false;
     filter: string = '';
-    sort: string = this.sort || 'name';
+    sort: string = 'name';
     revision: null | number = null;
     show = 'view';
 

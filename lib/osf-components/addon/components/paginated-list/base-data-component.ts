@@ -7,7 +7,6 @@ import { task } from 'ember-concurrency-decorators';
 
 import Analytics from 'ember-osf-web/services/analytics';
 import Ready from 'ember-osf-web/services/ready';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 export interface LoadItemsOptions {
     reloading: boolean;
@@ -15,7 +14,7 @@ export interface LoadItemsOptions {
 
 export default abstract class BaseDataComponent extends Component {
     // Optional arguments
-    pageSize: number = defaultTo(this.pageSize, 10);
+    pageSize: number = 10;
     query?: any;
 
     // Exposes a reload action the the parent scope.

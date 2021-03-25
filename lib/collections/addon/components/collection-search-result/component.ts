@@ -16,7 +16,6 @@ import Preprint from 'ember-osf-web/models/preprint';
 import Registration from 'ember-osf-web/models/registration';
 import Analytics from 'ember-osf-web/services/analytics';
 import Theme from 'ember-osf-web/services/theme';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import { FacetContext } from '../discover-page/component';
 import styles from './styles';
@@ -33,13 +32,13 @@ export default class CollectionSearchResult extends Component {
     @service theme!: Theme;
 
     hostAppName = config.hostAppName;
-    maxTags: number = defaultTo(this.maxTags, 10);
-    maxCreators: number = defaultTo(this.maxCreators, 10);
-    maxDescription: number = defaultTo(this.maxDescription, 300);
-    showBody: boolean = defaultTo(this.showBody, false);
-    facetContexts: FacetContext[] = this.facetContexts;
-    queryParams: string[] | null = defaultTo(this.queryParams, null);
-    result: CollectedMetadatum = this.result;
+    maxTags: number = 10;
+    maxCreators: number = 10;
+    maxDescription: number = 300;
+    showBody: boolean = false;
+    facetContexts!: FacetContext[];
+    queryParams: string[] | null = null;
+    result!: CollectedMetadatum;
 
     @alias('result.guid.content') item!: Collectable;
     @alias('item.constructor.modelName') type!: CollectableType;

@@ -10,7 +10,6 @@ import { ResultCollection } from 'ember-cp-validations';
 import DS, { AttributesFor, RelationshipsFor } from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 export enum ValidationStatus {
     Hidden,
@@ -28,8 +27,8 @@ export default abstract class BaseValidatedInput<M extends DS.Model> extends Com
     label?: string;
     ariaLabel?: string;
     placeholder?: string;
-    disabled: boolean = defaultTo(this.disabled, false);
-    shouldShowMessages: boolean = defaultTo(this.shouldShowMessages, true);
+    disabled: boolean = false;
+    shouldShowMessages: boolean = true;
     model?: M;
 
     // Private properties

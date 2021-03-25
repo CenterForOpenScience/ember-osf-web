@@ -3,7 +3,6 @@ import Component from '@ember/component';
 import Changeset from 'ember-changeset';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import template from './template';
 
@@ -14,6 +13,6 @@ export default class FormControls extends Component {
     changeset!: Changeset;
 
     // Optional parameters
-    disabled: boolean = defaultTo(this.disabled, false);
-    shouldShowMessages: boolean = defaultTo(this.shouldShowMessages, true);
+    disabled: boolean = false;
+    shouldShowMessages: boolean = true;
 }

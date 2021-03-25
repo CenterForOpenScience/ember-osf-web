@@ -21,7 +21,7 @@ import template from './template';
 @layout(template, styles)
 export default class List extends Component {
     // Required parameters
-    node: Node = this.node;
+    node!: Node;
 
     // Optional parameters
     bindReload?: (action: () => void) => void;

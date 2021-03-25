@@ -11,7 +11,6 @@ import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Node from 'ember-osf-web/models/node';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import styles from './styles';
 import template from './template';
@@ -54,10 +53,10 @@ export default class ProjectSelector extends Component {
     @requiredAction moveToNewProject!: () => unknown;
 
     // Optional arguments
-    nodeTitle: string | null = defaultTo(this.nodeTitle, null);
-    projectSelectState: string = defaultTo(this.projectSelectState, ProjectSelectState.main);
-    selected: Node | null = defaultTo(this.selected, null);
-    showErrorMessage: boolean = defaultTo(this.showErrorMessage, false);
+    nodeTitle: string | null = null;
+    projectSelectState: string = ProjectSelectState.main;
+    selected: Node | null = null;
+    showErrorMessage: boolean = false;
 
     // Private properties
     didValidate = false;

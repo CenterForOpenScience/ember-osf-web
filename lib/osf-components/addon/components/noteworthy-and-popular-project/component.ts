@@ -3,7 +3,6 @@ import { computed } from '@ember/object';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Node from 'ember-osf-web/models/node';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import styles from './styles';
 import template from './template';
@@ -17,7 +16,7 @@ export default class NoteworthyAndPopularProject extends Component {
         if (!this.project) {
             return undefined;
         }
-        const desc = defaultTo(this.project.description, '');
+        const desc = '';
         return desc.length > 115 ? `${desc.slice(0, 111)}\u2026` : desc;
     }
 }

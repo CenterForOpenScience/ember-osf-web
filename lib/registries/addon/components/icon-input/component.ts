@@ -3,7 +3,6 @@ import Component from '@ember/component';
 import { action } from '@ember/object';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import template from './template';
 
@@ -11,7 +10,7 @@ import template from './template';
 @layout(template)
 export default class Content extends Component {
     icon!: string;
-    dark: boolean = defaultTo(this.dark, false);
+    dark: boolean = false;
 
     value: string = '';
 

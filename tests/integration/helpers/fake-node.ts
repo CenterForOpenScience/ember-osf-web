@@ -1,4 +1,3 @@
-import defaultTo from 'ember-osf-web/utils/default-to';
 import faker from 'faker';
 
 export default class FakeNode {
@@ -11,7 +10,7 @@ export default class FakeNode {
     userHasWritePermission: boolean = false;
     userHasReadPermission: boolean = false;
     parentId: string | null = null;
-    rootId: string = defaultTo(this.rootId, this.id);
+    rootId: string = this.id;
     links = {
         html: 'http://localhost:4200/fak3d',
     };

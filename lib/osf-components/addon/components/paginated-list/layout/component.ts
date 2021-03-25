@@ -2,7 +2,6 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import template from './template';
 
@@ -17,8 +16,8 @@ export default class PaginatedList extends Component {
     @requiredAction doReload!: () => void;
 
     // Optional arguments
-    loading: boolean = defaultTo(this.loading, false);
-    errorShown: boolean = defaultTo(this.errorShown, false);
+    loading: boolean = false;
+    errorShown: boolean = false;
     totalCount?: number;
 
     // Private properties

@@ -9,7 +9,6 @@ import $ from 'jquery';
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import File from 'ember-osf-web/models/file';
 import CurrentUser from 'ember-osf-web/services/current-user';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import template from './template';
 
@@ -72,12 +71,12 @@ export default class DropzoneWidget extends Component.extend({
     @service currentUser!: CurrentUser;
 
     @className
-    dropzone: boolean = defaultTo(this.dropzone, true);
-    enable: boolean = defaultTo(this.enable, true);
-    clickable: string[] = defaultTo(this.clickable, []);
-    dropzoneElement: any | null = defaultTo(this.dropzoneElement, null);
-    options: Dropzone.DropzoneOptions = defaultTo(this.options, {});
-    defaultMessage: string = defaultTo(this.defaultMessage, this.intl.t('dropzone_widget.drop_files'));
+    dropzone: boolean = true;
+    enable: boolean = true;
+    clickable: string[] = [];
+    dropzoneElement: any | null = null;
+    options: Dropzone.DropzoneOptions = {};
+    defaultMessage: string = this.intl.t('dropzone_widget.drop_files');
 
     @requiredAction buildUrl!: (files: File[]) => void;
     preUpload?: (context: any, drop: any, file: any) => Promise<any>;

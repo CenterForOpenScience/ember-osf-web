@@ -9,7 +9,6 @@ import { layout } from 'ember-osf-web/decorators/component';
 import File from 'ember-osf-web/models/file';
 import Node from 'ember-osf-web/models/node';
 import Analytics from 'ember-osf-web/services/analytics';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
 import styles from './styles';
@@ -25,12 +24,12 @@ export default class TagsWidget extends Component.extend({ styles }) {
     taggable!: Taggable;
 
     // optional arguments
-    readOnly: boolean = defaultTo(this.readOnly, true);
-    autoSave: boolean = defaultTo(this.autoSave, true);
+    readOnly: boolean = true;
+    autoSave: boolean = true;
     onChange?: (taggable: Taggable) => void;
 
     @attribute('data-analytics-scope')
-    analyticsScope: string = defaultTo(this.analyticsScope, 'Tags');
+    analyticsScope: string = 'Tags';
 
     // private properties
     @service analytics!: Analytics;

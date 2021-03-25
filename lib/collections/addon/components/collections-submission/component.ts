@@ -17,7 +17,6 @@ import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Theme from 'ember-osf-web/services/theme';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import getHref from 'ember-osf-web/utils/get-href';
 import styles from './styles';
 import template from './template';
@@ -39,12 +38,12 @@ export default class Submit extends Component {
     @service theme!: Theme;
     @service toast!: Toast;
 
-    readonly edit: boolean = defaultTo(this.edit, false);
-    readonly provider: CollectionProvider = this.provider;
-    readonly collection: Collection = this.collection;
-    readonly collectedMetadatum: CollectedMetadatum = this.collectedMetadatum;
+    readonly edit: boolean = false;
+    readonly provider!: CollectionProvider;
+    readonly collection!: Collection;
+    readonly collectedMetadatum!: CollectedMetadatum;
 
-    collectionItem: Node | null = defaultTo(this.collectionItem, null);
+    collectionItem: Node | null = null;
     isProjectSelectorValid: boolean = false;
     sections = Section;
     activeSection!: Section;

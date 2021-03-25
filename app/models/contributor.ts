@@ -2,7 +2,6 @@ import { not } from '@ember/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
 import DS from 'ember-data';
 
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import DraftRegistrationModel from './draft-registration';
 import NodeModel from './node';
@@ -60,7 +59,7 @@ export default class ContributorModel extends OsfModel.extend(Validations) {
     @belongsTo('draft-registration', { inverse: 'contributors' })
     draftRegistration!: DS.PromiseObject<DraftRegistrationModel> & DraftRegistrationModel;
 
-    isUnregistered: boolean = defaultTo(this.isUnregistered, false);
+    isUnregistered: boolean = false;
 }
 
 declare module 'ember-data/types/registries/model' {

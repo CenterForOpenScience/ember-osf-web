@@ -9,7 +9,6 @@ import DS from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import NodeModel from 'ember-osf-web/models/node';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import { HierarchicalListManager } from 'osf-components/components/registries/hierarchical-list';
 
 import template from './template';
@@ -21,8 +20,8 @@ export default class PartialRegistrationModalManagerComponent extends Component 
     rootNode!: NodeModel;
 
     // Private
-    nodesIncludingRoot: NodeModel[] = defaultTo(this.nodesIncludingRoot, []);
-    selectedNodes: NodeModel[] = defaultTo(this.selectedNodes, []);
+    nodesIncludingRoot: NodeModel[] = [];
+    selectedNodes: NodeModel[] = [];
 
     @task({ withTestWaiter: true })
     getChildren = task(function *(this: PartialRegistrationModalManagerComponent, node: NodeModel) {

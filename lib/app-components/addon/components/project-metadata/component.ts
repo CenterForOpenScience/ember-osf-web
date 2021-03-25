@@ -21,7 +21,7 @@ export default class ProjectMetadata extends Component {
     @service store!: DS.Store;
     @service toast!: Toast;
 
-    node: Node = this.node;
+    node!: Node;
 
     @requiredAction continue!: () => void;
 

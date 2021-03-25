@@ -5,7 +5,6 @@ import { or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import OsfModalState from 'osf-components/services/osf-modal-state';
 
 import styles from './styles';
@@ -19,11 +18,11 @@ export default class OsfDialog extends Component {
     // optional
     onClose?: () => void;
     onOpen?: () => void;
-    isOpen: boolean = defaultTo(this.isOpen, false);
-    isModal: boolean = defaultTo(this.isModal, true);
-    closeOnOutsideClick: boolean = defaultTo(this.closeOnOutsideClick, true);
-    renderInPlace: boolean = defaultTo(this.renderInPlace, false);
-    fixedWidth: boolean = defaultTo(this.fixedWidth, false);
+    isOpen: boolean = false;
+    isModal: boolean = true;
+    closeOnOutsideClick: boolean = true;
+    renderInPlace: boolean = false;
+    fixedWidth: boolean = false;
 
     // private
     hasTriggeredOpen: boolean = false;

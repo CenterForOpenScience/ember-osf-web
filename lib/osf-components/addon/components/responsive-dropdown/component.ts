@@ -8,7 +8,6 @@ import calculatePosition from 'ember-basic-dropdown/utils/calculate-position';
 import Media from 'ember-responsive';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import styles from './styles';
 import template from './template';
@@ -21,9 +20,9 @@ export default class ResponsiveDropdown extends Component {
 
     // eslint-disable-next-line ember/no-ember-testing-in-module-scope
     inTestMode: boolean = Ember.testing;
-    renderInPlace: boolean = defaultTo(this.renderInPlace, false);
-    horizontalPosition: string = defaultTo(this.horizontalPosition, 'right');
-    verticalPosition: string = defaultTo(this.verticalPosition, 'below');
+    renderInPlace: boolean = false;
+    horizontalPosition: string = 'right';
+    verticalPosition: string = 'below';
 
     @computed('inTestMode', 'useOverlay', 'renderInPlace')
     get shouldRenderInPlace() {

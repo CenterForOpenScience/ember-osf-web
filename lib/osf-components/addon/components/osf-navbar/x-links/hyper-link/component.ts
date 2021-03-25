@@ -5,7 +5,6 @@ import { inject as service } from '@ember/service';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import template from './template';
 
@@ -24,9 +23,9 @@ export default class HyperLink extends Component {
 
     text?: string;
     analyticsLabel?: string;
-    hidden: boolean = defaultTo(this.hidden, false);
+    hidden: boolean = false;
     queryParams?: { [k: string]: string };
-    params: any[] = defaultTo(this.params, []);
+    params: any[] = [];
     onClicked?: () => void;
 
     @computed('route', 'positionalRoute')

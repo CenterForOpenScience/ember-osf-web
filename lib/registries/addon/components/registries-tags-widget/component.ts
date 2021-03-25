@@ -5,7 +5,6 @@ import { inject as service } from '@ember/service';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import { TagsManager } from 'osf-components/components/editable-field/tags-manager/component';
 import { MetadataTagsManager } from 'registries/drafts/draft/-components/tags-manager/component';
 
@@ -18,13 +17,13 @@ export default class RegistriesTagsWidget extends Component.extend({ styles }) {
     manager!: TagsManager | MetadataTagsManager;
 
     // Optional
-    readOnly?: boolean = defaultTo(this.readOnly, false);
+    readOnly?: boolean = false;
 
     // Private
     @service analytics!: Analytics;
 
     @attribute('data-analytics-scope')
-    analyticsScope: string = defaultTo(this.analyticsScope, 'Tags');
+    analyticsScope: string = 'Tags';
 
     @action
     addTag(tag: string) {

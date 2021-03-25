@@ -18,7 +18,6 @@ import NodeStorageModel from 'ember-osf-web/models/node-storage';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import getHref from 'ember-osf-web/utils/get-href';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import { ProjectSelectState } from 'osf-components/components/project-selector/component';
@@ -65,7 +64,7 @@ export default class FileBrowser extends Component {
 
     clickHandler?: JQuery.EventHandlerBase<HTMLElement, JQuery.Event>;
     dismissPop?: () => void;
-    canEdit: boolean = defaultTo(this.canEdit, false);
+    canEdit: boolean = false;
     dropping: boolean = false;
     showRename: boolean = false;
     renameValue: string = '';
@@ -75,9 +74,9 @@ export default class FileBrowser extends Component {
     projectList = null;
     isLoadingProjects = null;
     selectedFile = null;
-    node: Node | null = defaultTo(this.node, null);
+    node: Node | null = null;
     nodeTitle = null;
-    newProject: Node = this.newProject;
+    newProject!: Node;
     projectSelectState: ProjectSelectState = ProjectSelectState.main;
     isMoving = false;
     loaded = true;
@@ -87,7 +86,7 @@ export default class FileBrowser extends Component {
     items: File[] | null = null;
     conflictingItem: File | null = null;
     showFilterClicked: boolean = false;
-    filter: string = defaultTo(this.filter, '');
+    filter: string = '';
     shiftAnchor: File | null = null;
     isNewProject?: boolean;
     isChildNode?: boolean;

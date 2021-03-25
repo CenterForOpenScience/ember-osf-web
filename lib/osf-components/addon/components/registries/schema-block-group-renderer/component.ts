@@ -6,7 +6,6 @@ import { alias } from '@ember/object/computed';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import { SchemaBlock, SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import uniqueId from 'ember-osf-web/utils/unique-id';
 
 import styles from './styles';
@@ -20,8 +19,8 @@ export default class SchemaBlockGroupRenderer extends Component {
     renderStrategy!: Component;
 
     // Optional params
-    disabled: boolean = defaultTo(this.disabled, false);
-    shouldShowMessages: boolean = defaultTo(this.shouldShowMessages, true);
+    disabled: boolean = false;
+    shouldShowMessages: boolean = true;
 
     @alias('schemaBlockGroup.optionBlocks')
     optionBlocks!: SchemaBlock[];

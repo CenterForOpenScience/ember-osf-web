@@ -29,10 +29,10 @@ export default class Search extends Component {
     @service store!: DS.Store;
     @service toast!: Toast;
 
+    node!: Node;
     query: string = '';
     page: number = 1;
     showUnregisteredForm: boolean = false;
-    node: Node = this.node;
     onAddContributor?: () => void;
 
     @alias('search.lastSuccessful.value') results?: DS.AdapterPopulatedRecordArray<User>;

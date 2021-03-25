@@ -8,7 +8,6 @@ import Intl from 'ember-intl/services/intl';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import NodeModel from 'ember-osf-web/models/node';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import styles from './styles';
 import template from './template';
@@ -22,8 +21,8 @@ export default class AncestryDisplay extends Component {
     node!: NodeModel;
 
     // Optional arguments
-    delimiter: string = defaultTo(this.delimiter, '/');
-    useLinks: boolean = defaultTo(this.useLinks, false);
+    delimiter: string = '/';
+    useLinks: boolean = false;
 
     @alias('getAncestors.lastComplete.value') ancestry?: string[];
 

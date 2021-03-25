@@ -6,7 +6,6 @@ import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import { NodeLike } from '../component';
 import template from './template';
@@ -18,8 +17,8 @@ export default class NodeNavbarLink extends Component {
     node!: NodeLike;
 
     // Optional arguments
-    useLinkTo: boolean = defaultTo(this.useLinkTo, true);
-    setActive: boolean = defaultTo(this.setActive, true);
+    useLinkTo: boolean = true;
+    setActive: boolean = true;
     destination?: string;
     extraClasses?: string;
 
