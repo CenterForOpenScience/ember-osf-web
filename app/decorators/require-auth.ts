@@ -28,8 +28,10 @@ export default function requireAuthFactory(
     redirectRoute?: string,
 ) {
     function requireAuthDecorator<T extends ConcreteSubclass<Route>>(RouteSubclass: T) {
-        class RequireAuthRoute extends RouteSubclass {
+        return class RequireAuthRoute extends RouteSubclass {
+            // @ts-ignore
             @service session!: SessionService;
+            // @ts-ignore
             @service currentUser!: CurrentUser;
 
             async beforeModel(transition: any) {
@@ -45,9 +47,7 @@ export default function requireAuthFactory(
 
                 return super.beforeModel(transition);
             }
-        }
-
-        return RequireAuthRoute;
+        };
     }
     return requireAuthDecorator;
 }
