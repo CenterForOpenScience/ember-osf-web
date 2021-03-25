@@ -31,10 +31,10 @@
       "ember-osf-web/*": [
         "app/*",
         "lib/analytics-page/app/*",
-        "lib/assets-prefix-middleware/app/*",
         "lib/collections/app/*",
         "lib/osf-components/app/*",
-        "lib/registries/app/*"
+        "lib/registries/app/*",
+        "lib/app-components/app/*"
       ],
       "analytics-page": [
         "lib/analytics-page/addon"
@@ -42,23 +42,11 @@
       "analytics-page/*": [
         "lib/analytics-page/addon/*"
       ],
-      "analytics-page/test-support": [
-        "lib/analytics-page/addon-test-support"
+      "app-components": [
+        "lib/app-components/addon"
       ],
-      "analytics-page/test-support/*": [
-        "lib/analytics-page/addon-test-support/*"
-      ],
-      "assets-prefix-middleware": [
-        "lib/assets-prefix-middleware/addon"
-      ],
-      "assets-prefix-middleware/*": [
-        "lib/assets-prefix-middleware/addon/*"
-      ],
-      "assets-prefix-middleware/test-support": [
-        "lib/assets-prefix-middleware/addon-test-support"
-      ],
-      "assets-prefix-middleware/test-support/*": [
-        "lib/assets-prefix-middleware/addon-test-support/*"
+      "app-components/*": [
+        "lib/app-components/addon/*"
       ],
       "collections": [
         "lib/collections/addon"
@@ -66,11 +54,8 @@
       "collections/*": [
         "lib/collections/addon/*"
       ],
-      "collections/test-support": [
-        "lib/collections/addon-test-support"
-      ],
-      "collections/test-support/*": [
-        "lib/collections/addon-test-support/*"
+      "collections/config/*": [
+        "lib/collections/config/*"
       ],
       "osf-components": [
         "lib/osf-components/addon"
@@ -78,23 +63,14 @@
       "osf-components/*": [
         "lib/osf-components/addon/*"
       ],
-      "osf-components/test-support": [
-        "lib/osf-components/addon-test-support"
-      ],
-      "osf-components/test-support/*": [
-        "lib/osf-components/addon-test-support/*"
-      ],
       "registries": [
         "lib/registries/addon"
       ],
       "registries/*": [
         "lib/registries/addon/*"
       ],
-      "registries/test-support": [
-        "lib/registries/addon-test-support"
-      ],
-      "registries/test-support/*": [
-        "lib/registries/addon-test-support/*"
+      "registries/config/*": [
+        "lib/registries/config/*"
       ],
       "*": [
         "types/*"
@@ -104,12 +80,16 @@
   "include": [
     "app/**/*",
     "tests/**/*",
+    "config/*",
     "types/**/*",
     "lib/analytics-page/**/*",
-    "lib/assets-prefix-middleware/**/*",
+    "lib/app-components/**/*",
     "lib/collections/**/*",
     "lib/osf-components/**/*",
     "lib/registries/**/*",
     "mirage/**/*"
+  ],
+  "exclude": [
+    "handbook-docs/**/*"
   ]
 }
