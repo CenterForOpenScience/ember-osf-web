@@ -3,7 +3,8 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import config from 'ember-get-config';
 import { percySnapshot } from 'ember-percy';
 import { selectChoose, selectSearch } from 'ember-power-select/test-support';
-import { module, skip, test } from 'qunit';
+import { TestContext } from 'ember-test-helpers';
+import { module, test } from 'qunit';
 
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
@@ -117,43 +118,43 @@ module('Acceptance | dashboard', hooks => {
     });
 
     // Skipping to avoid test timeouts -- reenable with ENG-311
-    skip('user has many projects', async function(assert) {
-        const currentUser = server.create('user', 'loggedIn');
-        const nodes = server.createList('node', 21, {}, 'withContributors');
-        server.create('node', {
-            id: noteworthyNode,
-            linkedNodes: nodes.slice(0, 5),
-            title: 'NNW',
-        });
-        server.create('node', {
-            id: popularNode,
-            linkedNodes: nodes.slice(5, 10),
-            title: 'Popular',
-        });
-        for (const node of nodes) {
-            server.create('contributor', { node, users: currentUser, index: 11 });
-        }
-        assert.ok(this.element === undefined, 'Should not have element before visit');
-        await visit('/dashboard');
-        assert.ok(this.element !== undefined, 'Should have element after visit');
+    // skip('user has many projects', async function(assert) {
+    //     const currentUser = server.create('user', 'loggedIn');
+    //     const nodes = server.createList('node', 21, {}, 'withContributors');
+    //     server.create('node', {
+    //         id: noteworthyNode,
+    //         linkedNodes: nodes.slice(0, 5),
+    //         title: 'NNW',
+    //     });
+    //     server.create('node', {
+    //         id: popularNode,
+    //         linkedNodes: nodes.slice(5, 10),
+    //         title: 'Popular',
+    //     });
+    //     for (const node of nodes) {
+    //         server.create('contributor', { node, users: currentUser, index: 11 });
+    //     }
+    //     assert.ok(this.element === undefined, 'Should not have element before visit');
+    //     await visit('/dashboard');
+    //     assert.ok(this.element !== undefined, 'Should have element after visit');
+    //
+    //     assert.dom('[data-analytics-name="load_nodes"]').exists('The control to load more projects exists');
+    //     let projects = this.element.querySelectorAll('div[class*="DashboardItem"] div[class="row"]');
+    //     assert.equal(projects.length, 10, 'Only the first page of projects loaded');
+    //     await click('[data-analytics-name="load_nodes"]');
+    //     projects = this.element.querySelectorAll('div[class*="DashboardItem"] div[class="row"]');
+    //     assert.equal(projects.length, 20, 'Only the first two pages of projects are loaded after clicking `more` once');
+    //     assert.dom('[data-analytics-name="load_nodes"]').exists('The control to load more projects still exists');
+    //     await click('[data-analytics-name="load_nodes"]');
+    //     projects = this.element.querySelectorAll('div[class*="DashboardItem"] div[class="row"]');
+    //     assert.equal(projects.length, 21, 'All 21 projects are loaded after clicking `more` twice');
+    //
+    //     assert.dom('[data-analytics-name="load_nodes"]')
+    //         .doesNotExist('The control to load more projects is gone after all projects are loaded');
+    //     await percySnapshot(assert);
+    // });
 
-        assert.dom('[data-analytics-name="load_nodes"]').exists('The control to load more projects exists');
-        let projects = this.element.querySelectorAll('div[class*="DashboardItem"] div[class="row"]');
-        assert.equal(projects.length, 10, 'Only the first page of projects loaded');
-        await click('[data-analytics-name="load_nodes"]');
-        projects = this.element.querySelectorAll('div[class*="DashboardItem"] div[class="row"]');
-        assert.equal(projects.length, 20, 'Only the first two pages of projects are loaded after clicking `more` once');
-        assert.dom('[data-analytics-name="load_nodes"]').exists('The control to load more projects still exists');
-        await click('[data-analytics-name="load_nodes"]');
-        projects = this.element.querySelectorAll('div[class*="DashboardItem"] div[class="row"]');
-        assert.equal(projects.length, 21, 'All 21 projects are loaded after clicking `more` twice');
-
-        assert.dom('[data-analytics-name="load_nodes"]')
-            .doesNotExist('The control to load more projects is gone after all projects are loaded');
-        await percySnapshot(assert);
-    });
-
-    test('sorting projects', async function(assert) {
+    test('sorting projects', async function(this: TestContext, assert) {
         const currentUser = server.create('user', 'loggedIn');
         const nodeOne = server.create(
             'node',
@@ -221,7 +222,7 @@ module('Acceptance | dashboard', hooks => {
         assert.dom(projectTitles[2]).hasText('a', 'Title desc sort item 2 is in proper position');
     });
 
-    test('filtering projects', async function(assert) {
+    test('filtering projects', async function(this: TestContext, assert) {
         const currentUser = server.create('user', 'loggedIn');
         const nodeOne = server.create(
             'node',
@@ -355,7 +356,7 @@ module('Acceptance | dashboard', hooks => {
             .includesText('You have no projects yet. Create a project with the button on the top right.');
     });
 
-    test('create project modal more toggle', async function(assert) {
+    test('create project modal more toggle', async function(this: TestContext, assert) {
         server.loadFixtures('regions');
         const currentUser = server.create('user', 'loggedIn', 'withUsRegion');
         const title = 'Giraffical Interchange Format';
