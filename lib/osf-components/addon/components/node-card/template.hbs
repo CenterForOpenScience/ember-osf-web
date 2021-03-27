@@ -138,7 +138,12 @@
                 data-test-description
                 local-class='NodeCard__description'
             >
-                <strong local-class='Labels'>{{t 'node_card.description'}}</strong>
+                <strong
+                    data-test-description-label
+                    local-class='Labels'
+                >
+                    {{t 'node_card.description'}}
+                </strong>
                 {{@node.description}}
             </div>
             {{#if (and this.showTags @node.tags)}}
@@ -146,7 +151,12 @@
                     data-test-tags
                     local-class='NodeCard__tags'
                 >
-                    <strong local-class='Labels'>{{t 'node_card.tags'}}</strong>
+                    <strong
+                        data-test-tags-label
+                        local-class='Labels'
+                    >
+                        {{t 'node_card.tags'}}
+                    </strong>
                     <TagsWidget
                         @taggable={{@node}}
                         @inline={{true}}

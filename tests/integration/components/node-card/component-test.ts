@@ -35,12 +35,42 @@ module('Integration | Component | node-card', hooks => {
                 @delete={{this.delete}}
             />
         `);
-        assert.dom('[data-test-node-title]').exists();
-        assert.dom('[data-test-node-title]').hasText(registrationModel.title);
-        assert.dom('[data-test-schema-label]').exists();
-        assert.dom('[data-test-schema-label]').hasText(this.intl.t('node_card.schema'));
-        assert.dom('[data-test-schema-name]').exists();
-        assert.dom('[data-test-schema-name]').hasTextContaining(registrationModel.registrationSchema.get('name'));
-        await this.pauseTest();
+        assert.dom('[data-test-node-title]').exists('Node title exists');
+        assert.dom('[data-test-node-title]').hasText(registrationModel.title, 'Node title is corrent');
+        assert.dom('[data-test-schema-label]').exists('Schema label exists');
+        assert.dom('[data-test-schema-label]').hasText(this.intl.t('node_card.schema'), 'Schema label is correct');
+        assert.dom('[data-test-schema-name]').exists('Schema name exists');
+        assert.dom('[data-test-schema-name]').hasTextContaining(
+            registration.registrationSchema.name,
+            'Schema name is correct',
+        );
+        assert.dom('[data-test-contributors-label]').exists('Contributors label exists');
+        assert.dom('[data-test-contributors-label]').hasText(
+            this.intl.t('node_card.contributors'),
+            'Contributors label is correct',
+        );
+        for (const contributor of registration.contributors.models) {
+            assert.dom(`[data-test-contributor-name='${contributor.users.id}']`).exists('Contributor name exists');
+            assert.dom(`[data-test-contributor-name='${contributor.users.id}']`).hasTextContaining(
+                contributor.users.familyName,
+                'Contributor name is correct',
+            );
+        }
+        assert.dom('[data-test-description-label]').exists('Description label exists');
+        assert.dom('[data-test-description-label]').hasText(
+            this.intl.t('node_card.description'),
+            'Description label is correct',
+        );
+        assert.dom('[data-test-description]').hasTextContaining(registration.description, 'Description is correct');
+        assert.dom('[data-test-tags-label]').exists('Tags label exists');
+        assert.dom('[data-test-tags-label]').hasText(
+            this.intl.t('node_card.tags'),
+            'Tags label is correct',
+        );
+        for (const tag of registration.tags) {
+            assert.dom(`[data-test-tags-widget-tag='${tag}']`).exists('Tag exists');
+            assert.dom(`[data-test-tags-widget-tag='${tag}']`).hasText(tag, 'Tag is correct');
+        }
+        assert.dom(`[data-test-view-button='${registration.id}']`).exists('View button exists');
     });
 });
