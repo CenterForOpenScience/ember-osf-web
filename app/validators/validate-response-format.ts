@@ -4,18 +4,16 @@ import buildMessage from 'ember-changeset-validations/utils/validation-errors';
 import DraftNode from 'ember-osf-web/models/draft-node';
 import File from 'ember-osf-web/models/file';
 import NodeModel from 'ember-osf-web/models/node';
-import { allSettled } from 'rsvp';
 
 export function validateFileList(responseKey: string, node?: NodeModel | DraftNode): ValidatorFunction {
     return async (_: string, newValue: File[]) => {
         if (newValue && node) {
-            const fileReloads: Array<() => Promise<File>> = [];
-            newValue.forEach(file => {
+            for (const file of newValue) {
                 if (file && !file.isError) {
-                    fileReloads.push(file.reload());
+                    // eslint-disable-next-line no-await-in-loop
+                    await file.reload();
                 }
-            });
-            await allSettled(fileReloads);
+            }
 
             const detachedFiles = [];
 
