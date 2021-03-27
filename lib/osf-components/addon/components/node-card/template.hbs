@@ -100,28 +100,52 @@
             </div>
             {{#if @node.isRegistration}}
                 {{#if this.registrationTitle}}
-                    <div local-class='NodeCard__registration-title'>
+                    <div
+                        data-test-registration-title 
+                        local-class='NodeCard__registration-title'
+                    >
                         {{this.registrationTitle}}
                     </div>
                 {{/if}}
-                <div local-class='NodeCard__schema-name'>
-                    <strong local-class='Labels'>{{t 'node_card.schema'}}</strong>
+                <div
+                    data-test-schema-name
+                    local-class='NodeCard__schema-name'
+                >
+                    <strong
+                        data-test-schema-label
+                        local-class='Labels'
+                    >
+                        {{t 'node_card.schema'}}
+                    </strong>
                     {{@node.registrationSchema.name}}
                 </div>
             {{/if}}
-            <div local-class='NodeCard__authors'>
-                <strong local-class='Labels'>{{t 'node_card.contributors'}}</strong>
+            <div data-test-contributors
+                local-class='NodeCard__authors'
+            >
+                <strong
+                    data-test-contributors-label
+                    local-class='Labels'
+                >
+                    {{t 'node_card.contributors'}}
+                </strong>
                 <ContributorList
                     @model={{@node}}
                     @shouldLinkUsers={{true}}
                 />
             </div>
-            <div local-class='NodeCard__description'>
+            <div
+                data-test-description
+                local-class='NodeCard__description'
+            >
                 <strong local-class='Labels'>{{t 'node_card.description'}}</strong>
                 {{@node.description}}
             </div>
             {{#if (and this.showTags @node.tags)}}
-                <div local-class='NodeCard__tags'>
+                <div
+                    data-test-tags
+                    local-class='NodeCard__tags'
+                >
                     <strong local-class='Labels'>{{t 'node_card.tags'}}</strong>
                     <TagsWidget
                         @taggable={{@node}}
@@ -131,7 +155,7 @@
             {{/if}}
             <OsfLink
                 data-analytics-name='View registration'
-                data-test-node-title='{{@node.id}}'
+                data-test-view-button='{{@node.id}}'
                 @route='resolve-guid'
                 @models={{array @node.id}}
             >
