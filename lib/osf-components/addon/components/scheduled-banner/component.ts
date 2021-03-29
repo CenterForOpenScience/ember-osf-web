@@ -3,7 +3,7 @@ import { computed } from '@ember/object';
 import { reads } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { htmlSafe } from '@ember/string';
-import { task } from 'ember-concurrency-decorators';
+import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';

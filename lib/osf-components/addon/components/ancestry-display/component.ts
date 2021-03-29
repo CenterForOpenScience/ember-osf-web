@@ -2,8 +2,7 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { allSettled } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { allSettled, task } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 
 import { layout } from 'ember-osf-web/decorators/component';

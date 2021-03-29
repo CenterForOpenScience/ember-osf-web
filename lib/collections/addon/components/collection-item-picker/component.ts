@@ -2,8 +2,7 @@ import Component from '@ember/component';
 import { action } from '@ember/object';
 import { bool } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 import { stripDiacritics } from 'ember-power-select/utils/group-utils';
 

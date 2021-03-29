@@ -1,7 +1,6 @@
 import HistoryLocation from '@ember/routing/history-location';
 import { inject as service } from '@ember/service';
-import { waitForQueue } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { task, waitForQueue } from 'ember-concurrency';
 
 import OsfRouterService from 'ember-osf-web/services/osf-router';
 import Ready from 'ember-osf-web/services/ready';

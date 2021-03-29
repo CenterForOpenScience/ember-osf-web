@@ -2,7 +2,7 @@ import EmberArray, { A } from '@ember/array';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
+import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
 import appConfig from 'ember-get-config';

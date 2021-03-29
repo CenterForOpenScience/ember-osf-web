@@ -1,8 +1,7 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
-import { timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { task, timeout } from 'ember-concurrency';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import SubjectModel from 'ember-osf-web/models/subject';

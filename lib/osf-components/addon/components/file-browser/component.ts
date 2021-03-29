@@ -5,7 +5,7 @@ import { action, computed } from '@ember/object';
 import { alias, filterBy, not, notEmpty, or } from '@ember/object/computed';
 import { next } from '@ember/runloop';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
+import { task } from 'ember-concurrency';
 import { localClassNames } from 'ember-css-modules';
 import DS from 'ember-data';
 import Toast from 'ember-toastr/services/toast';

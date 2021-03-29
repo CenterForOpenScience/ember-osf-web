@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validateFormat } from 'ember-changeset-validations/validators';
 import { BufferedChangeset } from 'ember-changeset/types';
-import { task } from 'ember-concurrency-decorators';
+import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';

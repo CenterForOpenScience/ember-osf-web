@@ -1,6 +1,6 @@
 import { computed, setProperties } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
+import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';

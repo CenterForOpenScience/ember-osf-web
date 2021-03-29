@@ -1,8 +1,7 @@
 import { assert } from '@ember/debug';
 import { defineProperty } from '@ember/object';
 import { or, reads } from '@ember/object/computed';
-import { TaskInstance } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { task, TaskInstance } from 'ember-concurrency';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import OsfModel from 'ember-osf-web/models/osf-model';

@@ -1,7 +1,6 @@
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import { timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { task, timeout } from 'ember-concurrency';
 
 import { layout } from 'ember-osf-web/decorators/component';
 

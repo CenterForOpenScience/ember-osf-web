@@ -5,8 +5,7 @@ import { action } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import { BufferedChangeset } from 'ember-changeset/types';
-import { TaskInstance } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { task, TaskInstance } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 

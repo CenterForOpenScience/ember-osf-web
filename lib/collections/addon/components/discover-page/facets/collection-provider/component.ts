@@ -2,7 +2,7 @@ import { computed, setProperties } from '@ember/object';
 import { run } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import config from 'collections/config/environment';
-import { task } from 'ember-concurrency-decorators';
+import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';

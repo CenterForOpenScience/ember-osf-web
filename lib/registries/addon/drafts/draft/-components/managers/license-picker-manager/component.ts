@@ -3,7 +3,7 @@ import Component from '@ember/component';
 import { action, set } from '@ember/object';
 import { alias, sort } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
+import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 
 import { BufferedChangeset } from 'ember-changeset/types';

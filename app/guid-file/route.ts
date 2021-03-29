@@ -3,7 +3,7 @@ import Transition from '@ember/routing/-private/transition';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import HeadTagsService from 'ember-cli-meta-tags/services/head-tags';
-import { task } from 'ember-concurrency-decorators';
+import { task } from 'ember-concurrency';
 import moment from 'moment';
 
 import GuidFileController from 'ember-osf-web/guid-file/controller';

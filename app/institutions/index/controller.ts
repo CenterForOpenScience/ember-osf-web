@@ -1,8 +1,7 @@
 import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 
 import Institution from 'ember-osf-web/models/institution';

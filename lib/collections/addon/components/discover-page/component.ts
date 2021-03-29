@@ -5,8 +5,7 @@ import { assert } from '@ember/debug';
 import EmberObject, { action, computed, setProperties } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
-import { timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 import config from 'ember-get-config';
 

@@ -2,7 +2,7 @@ import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
+import { task } from 'ember-concurrency';
 
 import InstitutionModel from 'ember-osf-web/models/institution';
 import InstitutionDepartmentModel from 'ember-osf-web/models/institution-department';

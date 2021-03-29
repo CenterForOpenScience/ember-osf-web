@@ -1,7 +1,6 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { TaskInstance } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { task, TaskInstance } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import KeenDataviz from 'keen-dataviz';
 import { Moment } from 'moment';

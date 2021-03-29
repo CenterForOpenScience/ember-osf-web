@@ -1,7 +1,6 @@
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
-import { timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { task, timeout } from 'ember-concurrency';
 
 export default class MeetingsList extends Component {
     // Private properties

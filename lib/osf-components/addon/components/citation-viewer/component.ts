@@ -1,7 +1,6 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { all, timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { all, task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';

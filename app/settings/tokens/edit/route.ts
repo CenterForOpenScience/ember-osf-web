@@ -2,7 +2,7 @@ import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
+import { task } from 'ember-concurrency';
 
 import Analytics from 'ember-osf-web/services/analytics';
 import { notFoundURL } from 'ember-osf-web/utils/clean-url';

@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
+import { task } from 'ember-concurrency';
 import Cookies from 'ember-cookies/services/cookies';
 import { localClassNames } from 'ember-css-modules';
 import config from 'ember-get-config';

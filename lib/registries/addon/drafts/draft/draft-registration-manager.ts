@@ -3,8 +3,7 @@ import { alias, filterBy, not, notEmpty, or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import { BufferedChangeset } from 'ember-changeset/types';
-import { TaskInstance, timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { task, TaskInstance, timeout } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 

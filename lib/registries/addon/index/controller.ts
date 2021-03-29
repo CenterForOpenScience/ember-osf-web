@@ -2,7 +2,7 @@ import EmberArray, { A } from '@ember/array';
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { inject as service, Registry as Services } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
+import { task } from 'ember-concurrency';
 import Store from 'ember-data/store';
 
 import Analytics from 'ember-osf-web/services/analytics';

@@ -3,8 +3,7 @@ import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { all, timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { all, task, timeout } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 

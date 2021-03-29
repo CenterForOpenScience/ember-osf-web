@@ -1,7 +1,7 @@
 import { computed } from '@ember/object';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
+import { task } from 'ember-concurrency';
 import { DS } from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import ConfirmationMixin from 'ember-onbeforeunload/mixins/confirmation';

@@ -3,8 +3,7 @@ import { action } from '@ember/object';
 import Transition from '@ember/routing/-private/transition';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-import { TaskInstance } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { task, TaskInstance } from 'ember-concurrency';
 import DS from 'ember-data';
 import { pluralize } from 'ember-inflector';
 

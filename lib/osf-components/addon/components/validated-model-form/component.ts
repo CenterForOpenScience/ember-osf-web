@@ -6,7 +6,7 @@ import { inject as service } from '@ember/service';
 import { typeOf } from '@ember/utils';
 import { Changeset } from 'ember-changeset';
 import { BufferedChangeset, ValidatorAction } from 'ember-changeset/types';
-import { task } from 'ember-concurrency-decorators';
+import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
 import Toast from 'ember-toastr/services/toast';

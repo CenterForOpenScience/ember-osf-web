@@ -1,6 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
-import { task } from 'ember-concurrency-decorators';
+import { task } from 'ember-concurrency';
 
 import { bool } from '@ember/object/computed';
 import { layout } from 'ember-osf-web/decorators/component';

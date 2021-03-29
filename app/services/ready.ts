@@ -2,9 +2,7 @@ import { A } from '@ember/array';
 import { get, set } from '@ember/object';
 import Evented from '@ember/object/evented';
 import Service from '@ember/service';
-
-import { waitForQueue } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { task, waitForQueue } from 'ember-concurrency';
 import RSVP from 'rsvp';
 
 export interface Blocker {

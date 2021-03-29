@@ -5,8 +5,7 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validateFormat, validatePresence } from 'ember-changeset-validations/validators';
-import { timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 import Toast from 'ember-toastr/services/toast';
 

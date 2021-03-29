@@ -1,8 +1,7 @@
 import { action } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
-import { all } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { all, task } from 'ember-concurrency';
 import config from 'ember-get-config';
 import moment from 'moment';
 
