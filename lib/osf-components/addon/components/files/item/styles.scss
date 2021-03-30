@@ -4,11 +4,6 @@
     width: 100%;
     padding: 20px 15px;
 
-    i,
-    .filename {
-        color: $color-text-blue-dark;
-    }
-
     &:hover {
         cursor: pointer;
         background-color: $color-bg-gray-light;
@@ -22,9 +17,15 @@
         display: flex;
         flex-grow: 1;
         align-items: center;
+        flex-basis: 50%;
 
         span {
             padding-right: 10px;
+        }
+
+        i,
+        .filename {
+            color: $color-text-blue-dark;
         }
     }
 
@@ -34,4 +35,14 @@
         justify-content: flex-end;
         width: 40%;
     }
+
+    .delete-button {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+}
+
+.destroy-red {
+    color: $brand-danger;
 }

@@ -1,25 +1,26 @@
-import { ModelInstance } from 'ember-cli-mirage';
+import { underscore } from '@ember/string';
+import { ID, ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
+import { pluralize } from 'ember-inflector';
+
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import ApplicationSerializer, { SerializedRelationships } from './application';
 
 const { OSF: { apiUrl } } = config;
 
-export default class DraftRegistrationSerializer extends ApplicationSerializer<DraftRegistration> {
-    buildRelationships(model: ModelInstance<DraftRegistration>) {
-        const returnValue: SerializedRelationships<DraftRegistration> = {
-            branchedFrom: {
-                data: {
-                    id: model.branchedFrom.id,
-                    type: 'nodes',
-                },
-                links: {
-                    related: {
-                        href: `${apiUrl}/v2/nodes/${model.branchedFrom.id}`,
-                        meta: {},
-                    },
-                },
-            },
+export interface BranchedFromId {
+    type: string;
+    id: ID;
+}
+interface DraftRegistrationAttrs {
+    branchedFromId: BranchedFromId;
+}
+
+type MirageDraftRegistration = DraftRegistration & DraftRegistrationAttrs;
+
+export default class DraftRegistrationSerializer extends ApplicationSerializer<MirageDraftRegistration> {
+    buildRelationships(model: ModelInstance<MirageDraftRegistration>) {
+        const relationships: SerializedRelationships<MirageDraftRegistration> = {
             initiator: {
                 data: {
                     id: model.initiator.id,
@@ -75,14 +76,39 @@ export default class DraftRegistrationSerializer extends ApplicationSerializer<D
             contributors: {
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/draft_registrations/${model.id}/contributors`,
+                        href: `${apiUrl}/v2/draft_registrations/${model.id}/contributors/`,
                         meta: this.buildRelatedLinkMeta(model, 'contributors'),
                     },
                 },
             },
+            bibliographicContributors: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/draft_registrations/${model.id}/bibliographic_contributors/`,
+                        meta: this.buildRelatedLinkMeta(model, 'bibliographicContributors'),
+                    },
+                },
+            },
         };
+
+        if (model.branchedFrom) {
+            const pathName = pluralize(underscore(model.branchedFromId.type));
+            relationships.branchedFrom = {
+                data: {
+                    id: model.branchedFromId.id,
+                    type: model.branchedFromId.type,
+                },
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/${pathName}/${model.branchedFromId.id}`,
+                        meta: {},
+                    },
+                },
+            };
+        }
+
         if (model.license) {
-            returnValue.license = {
+            relationships.license = {
                 data: {
                     id: model.license.id,
                     type: 'licenses',
@@ -95,10 +121,11 @@ export default class DraftRegistrationSerializer extends ApplicationSerializer<D
                 },
             };
         }
-        return returnValue;
+
+        return relationships;
     }
 
-    buildNormalLinks(model: ModelInstance<DraftRegistration>) {
+    buildNormalLinks(model: ModelInstance<MirageDraftRegistration>) {
         return {
             self: `${apiUrl}/v2/draft_registrations/${model.id}`,
         };

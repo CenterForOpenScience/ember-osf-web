@@ -35,6 +35,7 @@ general:
     view: View
     edit: Edit
     cancel: Cancel
+    add: Add
     ok: OK
     revisions: Revisions
     md5: MD5
@@ -64,6 +65,7 @@ general:
     save: Save
     ellipsis: …
     warning: Warning
+    caution: Caution
     sort_asc: 'Sort ascending'
     sort_desc: 'Sort descending'
     last_modified: 'Last modified'
@@ -528,6 +530,7 @@ validationErrors:
     mustSelect: 'You must select a value for this field.'
     mustSelectMinOne: 'You must select at least one value for this field.'
     mustSelectFileMinOne: 'You must select at least one file for this field.'
+    missingFileNoProject: 'The {numOfFiles, plural, =1 {file} other {files}} "{missingFilesList}" cannot be found.'
     onlyProjectOrComponentFiles: 'The {numOfFiles, plural, =1 {file} other {files}} "{missingFilesList}" cannot be found on this {projectOrComponent}.'
     new_folder_name: 'Folder name must not be blank.'
     year_format: 'Please specify a valid year.'
@@ -689,6 +692,16 @@ list:
 contributor_list:
     x_more: '{x} more'
     anonymous: 'Anonymous contributors'
+    more: 'Load more contributors'
+    remove_contributor:
+        confirm_remove:
+            title: 'Remove me'
+            body: 'Are you sure you want to remove yourself as a contributor on this draft registration?'
+            button: 'Remove me'
+        button_label: 'Remove me'
+        success: 'You have successfully removed yourself as a contributor.'
+        error: 'Could not remove you from this draft registration. Please refresh the page and try again. If the issue persists, please contact support at <a href="mailto:{supportEmail}">{supportEmail}</a>.'
+
     unregistered_contributor:
         tooltip_message: 'Is this you? Click to claim.'
         loggedInClaimHeader: 'Claim as {email}?'
@@ -967,6 +980,7 @@ registries:
         osf_registrations: 'OSF Registrations'
         registrations: 'Registrations'
         search_placeholder: 'Search registrations...'
+        search_button: 'Perform search'
         search_label: 'Search'
         search_help: 'Search help'
     facets:
@@ -1013,19 +1027,22 @@ registries:
         overview:
             title: 'Moderated Overview'
     new:
+        provider_info: 'You are submitting to {provider}. <a href="https://help.osf.io/hc/en-us/categories/360001550953-Registrations">Click here</a> to learn more about other hosted registries.'
         required: 'required'
         page_title: 'New Registration'
         page_header: 'Add New Registration'
         step_one: 'Step 1'
         step_two: 'Step 2'
-        select_schema: 'Select registration type'
-        select_project: 'Select project to register'
-        new_project_help: 'If you have not started the project yet, click below to go to your dashboard to create a new project'
-        new_project_help_fragment1: 'A project is required for registration. If you haven’t started the project yet, you can create a new project from'
-        new_project_help_fragment2: 'To learn more about registration, <a href="https://help.osf.io/hc/en-us/articles/360019930893">visit our help docs.</a>'
+        step_three: 'Step 3'
+        step_one_project_heading: 'Do you have content for registration in an existing OSF project?'
+        select_schema: 'Which type of registration would you like to create?'
+        select_project: 'Which project do you want to register?'
+        component_help_text: 'If your project includes components, you can select which components to include or exclude at the end of the registration.'
         go_to_dashboard: 'your dashboard.'
-        start_registration: 'Start registration draft'
+        start_registration: 'Create draft'
         select_project_placeholder: 'Select your project'
+        yes: 'Yes'
+        no: 'No'
     discover:
         page_title: Search
         SHARE: 'About SHARE'
@@ -1080,6 +1097,7 @@ registries:
                 last_saved: 'Auto-saved: '
                 save_failed: 'Save failed. Unsaved changes present.'
                 failed_auto_save: 'Failed to auto-save draft registration form'
+                collaborative_edit_warning: 'Only one person is able to edit a registration draft at a time. Be sure to coordinate with any other contributors.'
             review:
                 title: 'Review registration before submitting'
                 page_label: Review
@@ -1087,6 +1105,7 @@ registries:
                 invalid_warning: 'Please address invalid or missing entries to complete registration.'
                 toggle_dropdown: 'Toggle navigation dropdown'
             register: Register
+            unable_to_fetch_children_count: 'Unable to fetch project''s components'
             submit_error: 'Unable to create a registration.'
     index:
         lead: 'The <span class="f-w-lg">open</span> registries network'
@@ -1112,6 +1131,20 @@ registries:
             more: 'See more'
     registration_metadata:
         add_description: 'Add description'
+        add_contributors:
+            section_heading: 'Add Contributors'
+            add_new_button: 'Add new contributors'
+            done_add_new_button: 'Done adding new contributors'
+            results_heading: 'Results'
+            search_placeholder: 'Search by name or profile information'
+            help_text: '<p>Search results will appear here. Click the + icon in each row to set permissions for that contributor.</p><p>You can perform additional searches to add more contributors. Your selections will remain listed below until you click Save.</p>'
+            search: 'Search'
+            add_unregistered_contributor: 'Add unregistered contributor'
+            error_loading: 'Error, could not load contributors'
+            no_results: 'No results found'
+            add_contributor_aria: 'Add contributor'
+            save: 'Save'
+            clear_all: 'Clear all'
         add_license: 'Add license'
         license_help_text: 'A license tells others how they can use your work in the future and only applies to the information and files submitted with the registration. For more information, see this <a href=''https://help.osf.io/hc/en-us/articles/360019739014-Licensing''>article on licenses</a>.'
         affiliated_institutions: 'Affiliated institutions'
@@ -1235,6 +1268,7 @@ registries:
             no_justification: 'None given'
             state: Withdrawn
         withdraw:
+            withdrawal_justification: 'Withdrawal justification'
             withdraw: 'Withdraw registration'
             withdrawal_justification_label: 'Please provide your justification for withdrawing this registration.'
             random_scientist_x: 'Type <strong>{x}</strong> below and click Withdraw Registration if you are sure you want to continue.'
@@ -1243,7 +1277,8 @@ registries:
             warning: 'Withdrawing a registration will remove its content from the OSF, but leave basic metadata behind. The title of a withdrawn registration and its contributor list will remain, as will justification or explanation of the withdrawal, should you wish to provide it. Withdrawn registrations will be marked with a "withdrawn" tag. This action is irreversible.'
         archiving:
             currently_archiving: 'This registration is currently archiving, and no changes can be made at this time.'
-            email_support: 'If this registration has been archiving for more than 72 hours, please email <a data-analytics-name="Email support" href="mailto:{supportEmail}">{supportEmail}</a> for assistance.'
+            please_note: 'Please note:'
+            email_support: 'Changes to any files (1) in the projects or components being registered, (2) uploaded or selected as prompt responses, including those connected through add-ons during archiving will result in archiving failure and loss of your registration timestamp. Please do not modify your files until after you have received email confirmation of archiving completion. If this registration has been archiving for more than 72 hours, please email <a data-analytics-name="Email support" href="mailto:{supportEmail}">{supportEmail}</a> for assistance.'
         pendingRegistrationApproval:
             text: 'Pending registration'
             short_description: 'Pending registration approval'
@@ -1309,6 +1344,7 @@ registries:
         cancelButton: Cancel
         selectAll: 'Select All'
         clearAll: 'Clear All'
+        componentContributorWarning: 'Contributor changes for included components must be done on the component contributor page before submitting this registration.'
     registrationList:
         pending: 'No registrations pending approval have been found'
         accepted: 'No public registrations have been found'
@@ -1340,7 +1376,11 @@ registries:
             request_embargo_termination: 'embargo termination requested'
     finalizeRegistrationModal:
         title: 'Almost done...'
-        notice: "Please keep in mind that:\n                <ul>\n                    <li>\n                        Registrations cannot be modified or deleted once completed.\n                    </li>\n                    <li>\n                        The content and version history of Wiki and OSF Storage will be copied to the registration.\n                    </li>\n                    <li>\n                        This project contains links to other projects. These links will be copied into your registration, but the\n                        projects that they link to will not be registered. If you wish to register the linked projects, they must be\n                        registered separately. <a href='{learnMoreLink}' target='_blank' rel='noopener noreferrer'>Learn more about links</a>.\n                    </li>\n                </ul>"
+        notice:
+            noModerationFromProject: 'Remember:<ul><li>Registrations cannot be modified or deleted once submitted.</li><li>Changes to any files (1) in the projects or components being registered, (2) uploaded or selected as prompt responses, including those connected through add-ons during archiving will result in archiving failure and loss of your registration timestamp. Please do not modify your files until after you have received email confirmation of archiving completion. If this registration has been archiving for more than 72 hours, please email <a href="mailto:support@osf.io">support@osf.io</a> for assistance.</li><li>The content and version history of Wiki and OSF Storage will be copied to the registration.</li><li>This project may contain links to other projects. These links will be copied into your registration, but the projects that they link to will not be registered. If you wish to register the linked projects, they must be registered separately. <a href="{learnMoreLink}" target="_blank" rel="noopener noreferrer">Learn more about links</a>.</li></ul>'
+            withModerationFromProject: 'Remember:<ul><li>Registrations cannot be modified or deleted once submitted.</li><li>Changes to any files (1) in the projects or components being registered, (2) uploaded or selected as prompt responses, including those connected through add-ons during archiving will result in archiving failure and loss of your registration timestamp. Please do not modify your files until after you have received email confirmation of archiving completion. If this registration has been archiving for more than 72 hours, please email <a href="mailto:support@osf.io">support@osf.io</a> for assistance.</li><li>The content and version history of Wiki and OSF Storage will be copied to the registration.</li><li>This project may contain links to other projects. These links will be copied into your registration, but the projects that they link to will not be registered. If you wish to register the linked projects, they must be registered separately. <a href="{learnMoreLink}" target="_blank" rel="noopener noreferrer">Learn more about links</a>.</li><li>A moderator must review and approve your registration before it will be made public or embargoed.</li></ul>'
+            noModerationNoProject: 'Remember:<ul><li>Registrations cannot be modified or deleted once submitted.</li><li>Changes to any files uploaded or selected as prompt responses will result in archiving failure and loss of your registration timestamp. If this registration has been archiving for more than 72 hours, email <a href="mailto:support@osf.io">support@osf.io</a> for assistance.</li></ul>'
+            withModerationNoProject: 'Remember:<ul><li>Registrations cannot be modified or deleted once submitted.</li><li>Changes to any files uploaded or selected as prompt responses will result in archiving failure and loss of your registration timestamp. If this registration has been archiving for more than 72 hours, email <a href="mailto:support@osf.io">support@osf.io</a> for assistance.</li><li>A moderator must review and approve your registration before it will be made public or embargoed.</li></ul>'
         immediateOption: 'Make registration public immediately'
         embargoOption: 'Enter registration into embargo'
         createDoi: 'Create DOI'
@@ -1551,6 +1591,7 @@ osf-components:
             editButtonAriaLabel: 'Edit {questionLabel}'
         schema-block-renderer/editable/files:
             instructions: 'You may attach up to 5 file(s) to this question. You may attach files that you already have in OSF Storage in this <a href={nodeUrl}>{projectOrComponent}</a> or upload (drag and drop) a new file from your computer. Uploaded files will automatically be added to this <a href={nodeUrl}>{projectOrComponent}</a> so that they can be registered. To attach files from other components or an add-on, first add them to this <a href={nodeUrl}>{projectOrComponent}</a>.'
+            instructionsNoProject: 'You may attach up to 5 file(s) to this question. Files cannot total over 5GB in size.<br><br>Uploaded files will automatically be archived in this registration. They will also be added to a related project that will be created for this registration.'
         schema-block-renderer/read-only/response:
             noResponse: 'No response'
         schema-block-renderer/read-only/files:
@@ -1566,6 +1607,15 @@ osf-components:
         folder_name_placeholder: 'New folder name'
         create_folder_failed: 'Failed to create folder'
         insufficient_storage_error: 'This file cannot be uploaded to this project/component because it has exceeded the storage limit for OSF Storage.'
+        delete_failed: 'Failed to delete {filename}'
+        delete_success: 'Successfully deleted {filename}'
+        delete: Delete
+        confirm_delete:
+            title_file: 'Delete "{filename}"?'
+            title_folder: 'Delete "{filename}" and all its contents?'
+            body: 'This action is irreversible.'
+            button: Delete
+
     subjects:
         browse:
             browse_all: 'Browse all subjects'
@@ -1608,6 +1658,27 @@ osf-components:
             error: 'Error updating contributor bibliographic status.'
         reorderContributor:
             success: 'Contributor order updated.'
+        noEducation: 'No education history to show'
+        noEmployment: 'No employment history to show'
+        addContributor:
+            success: 'Contributor added'
+            errorHeading: 'Error adding contributor'
+        currentContributors: 'Current contributors'
+        email: 'Email'
+        fullName: 'Full name'
+        selectPermission: 'Select permission'
+        educationAndEmployment:
+            expand: 'Expand employment and education info'
+            collapse: 'Collapse employment and education info'
+        removeContributor:
+            confirmRemove:
+                title: 'Remove contributor'
+                body: 'Are you sure you want to remove {userName}?'
+                button: 'Remove contributor'
+            success: 'You have successfully removed {contributorName}.'
+            errorHeading: 'Could not remove contributor. '
+
+
     subscriptions:
         frequency:
             daily: 'Daily'
@@ -1705,6 +1776,7 @@ settings:
             disableButton: Disable
             saveError: 'Could not make this change. Try again in a few minutes. If the issue persists, please report it to <a href="mailto:{supportEmail}">{supportEmail}</a>.'
             submitVerification: Enable
+            verificationCode: 'Verification code'
         title: 'Account settings'
         connected_emails:
             add_email: 'Add email'
@@ -1737,6 +1809,7 @@ settings:
             unconfirmed_emails: 'Unconfirmed emails'
             update_fail: 'Unable to update email'
             update_success: 'Email updated'
+            email_address: 'Email address'
         changePassword:
             title: 'Change password'
             updateButton: 'Update password'

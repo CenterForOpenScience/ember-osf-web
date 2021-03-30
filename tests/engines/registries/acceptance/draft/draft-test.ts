@@ -4,18 +4,26 @@ import {
     currentRouteName,
     currentURL,
     fillIn,
+    find,
+    settled,
     triggerKeyEvent,
 } from '@ember/test-helpers';
+import { animationsSettled, TimeControl } from 'ember-animated/test-support';
+import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import config from 'ember-get-config';
 import { t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
 import { setBreakpoint } from 'ember-responsive/test-support';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
+import NodeModel from 'ember-osf-web/models/node';
+import { Permission } from 'ember-osf-web/models/osf-model';
 import { visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 import { deserializeResponseKey } from 'ember-osf-web/transforms/registration-response-key';
+import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
 
 const currentUserStub = Service.extend();
 const storeStub = Service.extend();
@@ -25,14 +33,19 @@ function getHrefAttribute(selector: string) {
     return document.querySelector(selector)!.getAttribute('href');
 }
 
+interface DraftFormTestContext extends TestContext {
+    branchedFrom: ModelInstance<NodeModel>;
+}
+
 module('Registries | Acceptance | draft form', hooks => {
     setupEngineApplicationTest(hooks, 'registries');
     setupMirage(hooks);
 
-    hooks.beforeEach(function(this: TestContext) {
+    hooks.beforeEach(function(this: DraftFormTestContext) {
         this.owner.register('service:currentUser', currentUserStub);
         this.owner.register('service:store', storeStub);
         this.owner.register('service:analytics', analyticsStub);
+        this.branchedFrom = server.create('node');
 
         server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
@@ -40,7 +53,7 @@ module('Registries | Acceptance | draft form', hooks => {
         server.loadFixtures('registration-providers');
     });
 
-    test('branded draft page', async () => {
+    test('branded draft page', async function(this: DraftFormTestContext) {
         const provider = server.create('registration-provider', 'withBrand');
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
@@ -48,12 +61,15 @@ module('Registries | Acceptance | draft form', hooks => {
             provider,
             registrationSchema,
             initiator,
+            branchedFrom: this.branchedFrom,
         });
         await visit(`registries/drafts/${draftRegistration.id}/`);
         await percySnapshot('Branded draft page');
     });
 
-    test('it redirects to metadata page of the draft form', async assert => {
+    test('it redirects to review page of the draft form for read-only users', async function(
+        this: DraftFormTestContext, assert,
+    ) {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
@@ -61,6 +77,52 @@ module('Registries | Acceptance | draft form', hooks => {
             {
                 registrationSchema,
                 initiator,
+                branchedFrom: this.branchedFrom,
+                currentUserPermissions: [Permission.Read],
+            },
+        );
+
+        await visit(`/registries/drafts/${registration.id}/`);
+
+        assert.equal(currentRouteName(), 'registries.drafts.draft.review', 'Read-only users redirected to review page');
+
+        // check leftnav
+        const reviewNav = find('[data-test-link="review"]');
+        assert.dom('[data-test-link="metadata"]').doesNotExist('Leftnav: Metadata label is not shown');
+        assert.dom('[data-test-link="review"]').exists('Leftnav: Review label shown');
+        assert.ok(reviewNav!.classList.toString().includes('Active'), 'LeftNav: Review is active page');
+
+        // check rightnav
+        assert.dom('[data-test-goto-register]').isDisabled('RightNav: Register button disabled');
+        assert.dom('[data-test-goto-previous-page]').doesNotExist('RightNav: Back button not shown');
+
+        // check metadata and form renderer
+        assert.dom('[data-test-edit-button]').doesNotExist('MetadataRenderer: Edit button not shown');
+
+        await percySnapshot('Read-only Review page: Desktop');
+
+        // check mobile view
+        setBreakpoint('mobile');
+        await visit(`/registries/drafts/${registration.id}/metadata`);
+        assert.equal(currentRouteName(), 'registries.drafts.draft.review',
+            'Read-only users redirected to review page after trying to go to the metadata page');
+
+        assert.dom('[data-test-sidenav-toggle]').doesNotExist('Mobile view: sidenav toggle not shown');
+        assert.dom('[data-test-goto-previous-page]').doesNotExist('Mobile view: previous page button not shown');
+        assert.dom('[data-test-goto-register]').isDisabled('Mobile view: Register button disabled');
+
+        await percySnapshot('Read-only Review page: Mobile');
+    });
+
+    test('it redirects to metadata page of the draft form', async function(this: DraftFormTestContext, assert) {
+        const initiator = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const registration = server.create(
+            'draft-registration',
+            {
+                registrationSchema,
+                initiator,
+                branchedFrom: this.branchedFrom,
             },
         );
 
@@ -69,13 +131,16 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.equal(currentRouteName(), 'registries.drafts.draft.metadata', 'At the expected route');
     });
 
-    test('it redirects page-not-found if the pageIndex route param is out of range', async assert => {
+    test('it redirects page-not-found if the pageIndex route param is out of range', async function(
+        this: DraftFormTestContext, assert,
+    ) {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
             'draft-registration', {
                 registrationSchema,
                 initiator,
+                branchedFrom: this.branchedFrom,
             },
         );
 
@@ -84,13 +149,14 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.equal(currentRouteName(), 'registries.page-not-found', 'At page not found');
     });
 
-    test('left nav controls', async assert => {
+    test('left nav controls', async function(this: DraftFormTestContext, assert) {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const draftRegistration = server.create(
             'draft-registration', {
                 registrationSchema,
                 initiator,
+                branchedFrom: this.branchedFrom,
             },
         );
 
@@ -180,7 +246,7 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-goto-register]').isVisible();
     });
 
-    test('right sidenav controls', async assert => {
+    test('right sidenav controls', async function(this: DraftFormTestContext, assert) {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
@@ -188,6 +254,7 @@ module('Registries | Acceptance | draft form', hooks => {
             {
                 registrationSchema,
                 initiator,
+                branchedFrom: this.branchedFrom,
             },
         );
 
@@ -248,11 +315,15 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/2-`), 'At second (last) page');
     });
 
-    test('mobile navigation works', async assert => {
+    test('mobile navigation works', async function(this: DraftFormTestContext, assert) {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
-            'draft-registration', { registrationSchema, initiator },
+            'draft-registration', {
+                registrationSchema,
+                initiator,
+                branchedFrom: this.branchedFrom,
+            },
         );
 
         await visit(`/registries/drafts/${registration.id}/`);
@@ -306,7 +377,7 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-page-label]').containsText('This is the second page');
     });
 
-    test('register button is disabled: invalid responses', async assert => {
+    test('register button is disabled: invalid responses', async function(this: DraftFormTestContext, assert) {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registrationResponses = {
@@ -323,6 +394,7 @@ module('Registries | Acceptance | draft form', hooks => {
                 registrationSchema,
                 initiator,
                 registrationResponses,
+                branchedFrom: this.branchedFrom,
             },
         );
 
@@ -333,7 +405,7 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-invalid-responses-text]').isVisible();
     });
 
-    test('validations: errors show on review page', async assert => {
+    test('validations: errors show on review page', async function(this: DraftFormTestContext, assert) {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registrationResponses = {
@@ -350,6 +422,7 @@ module('Registries | Acceptance | draft form', hooks => {
                 registrationSchema,
                 initiator,
                 registrationResponses,
+                branchedFrom: this.branchedFrom,
             },
         );
 
@@ -364,7 +437,158 @@ module('Registries | Acceptance | draft form', hooks => {
             .hasClass('fa-check-circle-o', 'page 2 is marked visited, valid');
     });
 
-    test('validations: cannot register with empty registrationResponses', async assert => {
+    test('review: contributor can remove herself', async assert => {
+        const currentUser = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const branchedFrom = server.create('node');
+        const draftRegistration = server.create('draft-registration',
+            { registrationSchema, initiator: currentUser, branchedFrom });
+        server.create('contributor', { users: currentUser, index: 0, draftRegistration });
+        server.createList('contributor', 11, { draftRegistration });
+
+        await visit(`/registries/drafts/${draftRegistration.id}/review`);
+
+        assert.dom('a[data-test-contributor-name]').exists({ count: 10 }, 'shows 1 page of contributors');
+        assert.dom('[data-test-load-more-contribs]').isVisible('x_more button is visible');
+        assert.dom('[data-test-contributor-remove-me] > button').isVisible('remove me button is visible');
+        await click('[data-test-contributor-remove-me] > button');
+
+        assert.dom('.modal-content').isVisible('removeMe hard-confirm modal is visible');
+        assert.dom('[data-test-confirm-delete]').isVisible('removeMe hard-confirm modal has confirm button');
+        await percySnapshot(assert);
+
+        await click('[data-test-confirm-delete]');
+        assert.dom('#toast-container', document as unknown as Element).hasTextContaining(
+            t('contributor_list.remove_contributor.success'),
+            'Toast success message shows; has the right text',
+        );
+
+        await settled();
+        assert.equal(currentURL(), '/dashboard', 'user is redirected to /dashboard');
+    });
+
+    test('metadata: read and write contributor can remove herself', async function(this: DraftFormTestContext, assert) {
+        const currentUser = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const draftRegistration = server.create('draft-registration',
+            {
+                registrationSchema,
+                initiator: currentUser,
+                branchedFrom: this.branchedFrom,
+            }, 'currentUserIsReadAndWrite');
+        const thisContributor = server.create('contributor', {
+            users: currentUser,
+            index: 0,
+            draftRegistration,
+            permission: Permission.Write,
+        });
+        server.createList('contributor', 1, { draftRegistration });
+
+        await visit(`/registries/drafts/${draftRegistration.id}/metadata`);
+        assert.dom(`[data-test-contributor-remove-self="${thisContributor.id}"] > button`)
+            .isVisible('remove me button is visible');
+        await click(`[data-test-contributor-remove-self="${thisContributor.id}"] > button`);
+
+        assert.dom('.modal-content').isVisible('removeMe hard-confirm modal is visible');
+        assert.dom('[data-test-confirm-delete]').isVisible('removeMe hard-confirm modal has confirm button');
+        await percySnapshot(assert);
+
+        await click('[data-test-confirm-delete]');
+        await settled();
+        assert.equal(currentURL(), '/dashboard', 'user is redirected to /dashboard');
+    });
+
+    test('metadata: removeMe fails', async function(this: DraftFormTestContext, assert) {
+        const currentUser = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const draftRegistration = server.create('draft-registration',
+            {
+                registrationSchema,
+                initiator: currentUser,
+                branchedFrom: this.branchedFrom,
+            }, 'currentUserIsReadAndWrite');
+        const thisContributor = server.create('contributor', {
+            users: currentUser,
+            index: 0,
+            draftRegistration,
+            permission: Permission.Write,
+        });
+        server.createList('contributor', 1, { draftRegistration });
+
+        await visit(`/registries/drafts/${draftRegistration.id}/metadata`);
+        assert.dom(`[data-test-contributor-remove-self="${thisContributor.id}"] > button`)
+            .isVisible('remove me button is visible');
+        await click(`[data-test-contributor-remove-self="${thisContributor.id}"] > button`);
+
+        assert.dom('.modal-content').isVisible('removeMe hard-confirm modal is visible');
+        assert.dom('[data-test-confirm-delete]').isVisible('removeMe hard-confirm modal has confirm button');
+
+        server.namespace = '/v2';
+        server.del('/draft_registrations/:parentID/contributors/:id', () => ({
+            errors: [{ detail: 'Error occured' }],
+        }), 400);
+
+        await click('[data-test-confirm-delete]');
+        const errorHeading = t('osf-components.contributors.removeContributor.errorHeading');
+        const errorMessage = `${errorHeading}Error occured`;
+        assert.dom('#toast-container', document as unknown as Element).hasTextContaining(
+            stripHtmlTags(errorMessage.toString()),
+            'Toast error message shows; has the right text',
+        );
+    });
+
+    test('review: removeMe fails', async function(this: DraftFormTestContext, assert) {
+        const currentUser = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const users = server.createList('user', 10);
+        const draftRegistration = server.create('draft-registration',
+            {
+                branchedFrom: this.branchedFrom,
+                registrationSchema,
+                initiator: currentUser,
+            });
+
+        users.forEach((user, index) => {
+            server.create('contributor', { users: user, index, draftRegistration });
+        });
+        const currentUserContrib = server.create('contributor',
+            { id: currentUser.id, users: currentUser, index: 10, draftRegistration });
+
+        await visit(`/registries/drafts/${draftRegistration.id}/review`);
+
+        assert.dom('a[data-test-contributor-name]').exists({ count: 10 }, 'shows 1 page of contributors');
+        assert.dom('[data-test-load-more-contribs]')
+            .hasText(t('contributor_list.x_more', { x: 1 }), '1 more contributor left to load.');
+        assert.dom(`[data-test-contributor-name=${currentUserContrib.users.id}]`).doesNotExist();
+        assert.dom('[data-test-contributor-remove-me] > button').isVisible('remove me button is visible');
+
+        server.namespace = '/v2';
+        server.del('/draft_registrations/:parentID/contributors/:id', () => ({
+            errors: [{ detail: 'Error occured' }],
+        }), 400);
+
+        await click('[data-test-contributor-remove-me] > button');
+
+        assert.dom('.modal-content').isVisible('removeMe hard-confirm modal is visible');
+        assert.dom('[data-test-confirm-delete]').isVisible('removeMe hard-confirm modal has confirm button');
+
+        await click('[data-test-confirm-delete]');
+        const { supportEmail } = config.support;
+        const errorMessage = t('contributor_list.remove_contributor.error', { supportEmail, htmlSafe: true });
+        assert.dom('#toast-container', document as unknown as Element).hasTextContaining(
+            stripHtmlTags(errorMessage.toString()),
+            'Toast error message shows; has the right text',
+        );
+
+        await settled();
+        assert.dom('[data-test-load-more-contribs]')
+            .isNotVisible('An additional contributor (currentUser) was loaded, none left');
+        assert.equal(currentRouteName(), 'registries.drafts.draft.review', 'no redirect on remove error');
+    });
+
+    test('validations: cannot register with empty registrationResponses', async function(
+        this: DraftFormTestContext, assert,
+    ) {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
@@ -372,6 +596,7 @@ module('Registries | Acceptance | draft form', hooks => {
             {
                 registrationSchema,
                 initiator,
+                branchedFrom: this.branchedFrom,
             },
         );
 
@@ -383,79 +608,135 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-invalid-responses-text]').isVisible();
     });
 
-    test('partial and finalize registration modal show, can register draft', async assert => {
+    test(
+        'Project-based registration: partial and finalize registration modal show, can register draft',
+        async assert => {
+            const initiator = server.create('user', 'loggedIn');
+            const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+            const rootNode = server.create('node');
+            const childNode = server.create('node', { parent: rootNode });
+            const grandChildNode = server.create('node', { parent: childNode });
+            const registrationResponses = {
+                'page-one_long-text': '',
+                'page-one_multi-select': [],
+                'page-one_multi-select-other': '',
+                'page-one_short-text': 'ditto',
+                'page-one_single-select': 'tuna',
+                'page-one_single-select-two': '',
+            };
+            const registration = server.create(
+                'draft-registration',
+                {
+                    registrationSchema,
+                    initiator,
+                    registrationResponses,
+                    branchedFrom: rootNode,
+                    currentUserPermissions: Object.values(Permission),
+                    license: server.schema.licenses.first(),
+                },
+            );
+            const subjects = [server.create('subject')];
+            registration.update({ subjects });
+            await visit(`/registries/drafts/${registration.id}/review`);
+
+            assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/review`), 'At review page');
+            assert.dom('[data-test-goto-register]').isNotDisabled();
+
+            await click('[data-test-goto-register]');
+
+            // PartialRegistrationModal
+            assert.dom('#osf-dialog-heading').hasText(t('registries.partialRegistrationModal.title').toString());
+            [
+                rootNode, childNode, grandChildNode,
+            ].mapBy('id').forEach(id => assert.dom(`[data-test-expand-child="${id}"]`));
+            await click('[data-test-cancel-registration-button]');
+
+            assert.dom('#osf-dialog-heading').isNotVisible('cancel closes the modal');
+
+            await click('[data-test-goto-register]');
+
+            assert.dom('[data-test-continue-registration-button]').isVisible();
+            await click('[data-test-continue-registration-button]');
+
+            // FinalizeRegistrationModal
+            assert.dom('#osf-dialog-heading').hasText(t('registries.finalizeRegistrationModal.title').toString());
+            assert.dom('[data-test-submit-registration-button]').isDisabled();
+
+            await click('[data-test-back-button]');
+            assert.dom('#osf-dialog-heading').hasText(
+                t('registries.partialRegistrationModal.title').toString(),
+                'back button switches to partialRegistrationModal',
+            );
+
+            await click('[data-test-continue-registration-button]');
+
+            await click('[data-test-immediate-button]');
+            assert.dom('[data-test-submit-registration-button]').isNotDisabled();
+
+            await click('[data-test-submit-registration-button]');
+
+            assert.equal(currentRouteName(), 'registries.overview.index', 'Redicted to new registration overview page');
+        },
+    );
+
+    test(
+        'No-project registration: only finalize registration modal show, can register draft',
+        async assert => {
+            const initiator = server.create('user', 'loggedIn');
+            const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+            const draftNode = server.create('draft-node');
+            const registrationResponses = {
+                'page-one_long-text': '',
+                'page-one_multi-select': [],
+                'page-one_multi-select-other': '',
+                'page-one_short-text': 'ditto',
+                'page-one_single-select': 'tuna',
+                'page-one_single-select-two': '',
+            };
+            const registration = server.create(
+                'draft-registration',
+                {
+                    registrationSchema,
+                    initiator,
+                    registrationResponses,
+                    branchedFrom: draftNode,
+                    currentUserPermissions: Object.values(Permission),
+                    license: server.schema.licenses.first(),
+                    hasProject: false,
+                },
+            );
+            const subjects = [server.create('subject')];
+            registration.update({ subjects });
+            await visit(`/registries/drafts/${registration.id}/review`);
+
+            assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/review`), 'At review page');
+            assert.dom('[data-test-goto-register]').isNotDisabled();
+
+            await click('[data-test-goto-register]');
+            // FinalizeRegistrationModal
+            assert.dom('#osf-dialog-heading').hasText(t('registries.finalizeRegistrationModal.title').toString());
+            assert.dom('[data-test-submit-registration-button]').isDisabled();
+
+            await click('[data-test-immediate-button]');
+            assert.dom('[data-test-submit-registration-button]').isNotDisabled();
+
+            await click('[data-test-submit-registration-button]');
+
+            assert.equal(currentRouteName(), 'registries.overview.index', 'Redicted to new registration overview page');
+        },
+    );
+
+    test('validations: marks all pages (visited or unvisited) as visited and validates all in review', async function(
+        this: DraftFormTestContext, assert,
+    ) {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
-        const rootNode = server.create('node');
-        const childNode = server.create('node', { parent: rootNode });
-        const grandChildNode = server.create('node', { parent: childNode });
-        const registrationResponses = {
-            'page-one_long-text': '',
-            'page-one_multi-select': [],
-            'page-one_multi-select-other': '',
-            'page-one_short-text': 'ditto',
-            'page-one_single-select': 'tuna',
-            'page-one_single-select-two': '',
-        };
         const registration = server.create(
             'draft-registration',
             {
                 registrationSchema,
                 initiator,
-                registrationResponses,
-                branchedFrom: rootNode,
-                license: server.schema.licenses.first(),
-            },
-        );
-        const subjects = [server.create('subject')];
-        registration.update({ subjects });
-        await visit(`/registries/drafts/${registration.id}/review`);
-
-        assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/review`), 'At review page');
-        assert.dom('[data-test-goto-register]').isNotDisabled();
-
-        await click('[data-test-goto-register]');
-
-        // PartialRegistrationModal
-        assert.dom('#osf-dialog-heading').hasText(t('registries.partialRegistrationModal.title').toString());
-        [rootNode, childNode, grandChildNode].mapBy('id').forEach(id => assert.dom(`[data-test-expand-child="${id}"]`));
-        await click('[data-test-cancel-registration-button]');
-
-        assert.dom('#osf-dialog-heading').isNotVisible('cancel closes the modal');
-
-        await click('[data-test-goto-register]');
-
-        assert.dom('[data-test-continue-registration-button]').isVisible();
-        await click('[data-test-continue-registration-button]');
-
-        // FinalizeRegistrationModal
-        assert.dom('#osf-dialog-heading').hasText(t('registries.finalizeRegistrationModal.title').toString());
-        assert.dom('[data-test-submit-registration-button]').isDisabled();
-
-        await click('[data-test-back-button]');
-        assert.dom('#osf-dialog-heading').hasText(
-            t('registries.partialRegistrationModal.title').toString(),
-            'back button switches to partialRegistrationModal',
-        );
-
-        await click('[data-test-continue-registration-button]');
-
-        await click('[data-test-immediate-button]');
-        assert.dom('[data-test-submit-registration-button]').isNotDisabled();
-
-        await click('[data-test-submit-registration-button]');
-
-        assert.equal(currentRouteName(), 'registries.overview.index', 'Redicted to new registration overview page');
-    });
-
-    test('validations: marks all pages (visited or unvisited) as visited and validates all in review', async assert => {
-        const initiator = server.create('user', 'loggedIn');
-        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
-        const registration = server.create(
-            'draft-registration',
-            {
-                registrationSchema,
-                initiator,
+                branchedFrom: this.branchedFrom,
             },
         );
 
@@ -474,7 +755,9 @@ module('Registries | Acceptance | draft form', hooks => {
             .hasClass('fa-exclamation-circle', 'page 1 is marked visited, invalid');
     });
 
-    test('validations: validates all visited pages upon current page load', async assert => {
+    test('validations: validates all visited pages upon current page load', async function(
+        this: DraftFormTestContext, assert,
+    ) {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
@@ -482,6 +765,7 @@ module('Registries | Acceptance | draft form', hooks => {
             {
                 registrationSchema,
                 initiator,
+                branchedFrom: this.branchedFrom,
             },
         );
 
@@ -498,7 +782,9 @@ module('Registries | Acceptance | draft form', hooks => {
             .hasClass('fa-exclamation-circle', 'page 1 is validated, invalid');
     });
 
-    test('validations: validations status updates properly on metadata page', async assert => {
+    test('validations: validations status updates properly on metadata page', async function(
+        this: DraftFormTestContext, assert,
+    ) {
         const provider = server.schema.registrationProviders.find('osf');
         provider.update({
             subjects: server.createList('subject', 10, 'withChildren'),
@@ -510,6 +796,7 @@ module('Registries | Acceptance | draft form', hooks => {
             {
                 registrationSchema,
                 initiator,
+                branchedFrom: this.branchedFrom,
             },
         );
 
@@ -637,7 +924,113 @@ module('Registries | Acceptance | draft form', hooks => {
             .doesNotExist('copyright holders field does not display on a license that does not require it');
     });
 
-    test('validations: validations status changes as user fixes/introduces errors', async assert => {
+    test('Contributor with write permissions can delete files/folder', async assert => {
+        const time = new TimeControl();
+        // Speed up ember-animated animations by 100x
+        time.runAtSpeed(100);
+
+        const initiator = server.create('user', 'loggedIn');
+        const openEndedReg = server.schema.registrationSchemas.find('open_ended_registration');
+        const branchedFrom = server
+            .create('node', { currentUserPermissions: [Permission.Read, Permission.Write] });
+        const fileOne = server.create('file', { target: branchedFrom });
+        const fileTwo = server.create('file', { target: branchedFrom });
+        const folderOne = server.create('file', { target: branchedFrom }, 'asFolder');
+        const [folderOneFileOne, folderOneFileTwo] = server
+            .createList('file', 2, { target: branchedFrom, parentFolder: folderOne });
+
+        const registrationResponses = {
+            summary: 'Test file links',
+            uploader: [fileOne.fileReference, folderOneFileOne.fileReference, folderOneFileTwo.fileReference],
+        };
+        const osfstorage = server.create('file-provider', { target: branchedFrom });
+        osfstorage.rootFolder.update({
+            files: [fileOne, fileTwo, folderOne],
+        });
+
+        const draftRegistration = server.create('draft-registration', {
+            registrationSchema: openEndedReg,
+            registrationResponses,
+            branchedFrom,
+            initiator,
+        });
+
+        await visit(`/registries/drafts/${draftRegistration.id}/`);
+        await click('[data-test-goto-next-page]');
+
+        assert.dom(`[data-test-delete-file="${fileOne.id}"] > button`)
+            .isVisible('fileOne row has a delete button');
+        assert.dom(`[data-test-delete-file="${fileTwo.id}"] > button`)
+            .isVisible('fileTwo has has a delete button');
+
+        assert.dom(`[data-test-selected-file="${fileOne.id}"]`)
+            .exists('fileOne is selected (attached as a registration response)');
+        await click(`[data-test-delete-file="${fileOne.id}"] > button`);
+
+        assert.dom('.modal-content').isVisible('file delete hard-confirm modal is visible');
+        assert.dom('[data-test-confirm-delete]')
+            .isVisible('file delete hard-confirm modal has a confirm button');
+        await click('[data-test-confirm-delete]');
+
+        assert.dom(`[data-test-file-name="${fileOne.itemName}"]`)
+            .doesNotExist('fileOne has been deleted from the draft');
+        assert.dom(`[data-test-selected-file="${fileOne.id}"]`)
+            .doesNotExist('fileOne is no longer selected');
+        assert.notOk(server.schema.files.findBy({ id: fileOne.id }), 'fileOne is deleted from the db');
+
+        // folder deletion
+        assert.dom(`[data-test-delete-file="${folderOne.id}"] > button`)
+            .doesNotExist('folderOne has no delete button');
+        await click(`[data-test-file-browser-item="${folderOne.id}"]`);
+        await animationsSettled();
+
+        assert.dom(`[data-test-delete-current-folder="${folderOne.id}"] > button`)
+            .isVisible('folderOne has a delete button');
+        assert.dom('[data-test-file-browser-item]')
+            .exists({ count: 3 }, 'folderOne contains two visible files');
+        assert.dom(`[data-test-selected-file="${folderOneFileOne.id}"]`)
+            .isVisible('folderOneFileOne is selected');
+        assert.dom(`[data-test-selected-file="${folderOneFileTwo.id}"]`)
+            .isVisible('folderOneFileTwo is selected');
+
+        await click(`[data-test-delete-current-folder="${folderOne.id}"] > button`);
+        assert.dom('[data-test-confirm-delete]')
+            .isVisible('folder delete hard-confirm modal has a confirm button');
+        await click('[data-test-confirm-delete]');
+
+        assert.dom('#toast-container', document as unknown as Element).hasTextContaining(
+            t('osf-components.files-widget.delete_success', { filename: folderOne.itemName }),
+            'Toast success message shows; folderOne succesfully deleted',
+        );
+
+        await settled();
+        assert.dom(`[data-test-file-browser-item="${folderOne.id}"]`)
+            .doesNotExist('folderOne no longer shows in the parent folder view');
+        assert.dom(`[data-test-selected-file="${folderOneFileOne.id}"]`)
+            .isVisible('folderOneFileOne is no longer selected.'
+            + 'Deleting a folder unselect any of its selected descendants');
+        assert.dom(`[data-test-selected-file="${folderOneFileTwo.id}"]`)
+            .isVisible('folderOneFileTwo is no longer selected.'
+            + 'Deleting a folder unselect any of its selected descendants');
+
+        // test file deletion fails
+        server.namespace = '/wb';
+        server.del('/files/:id/delete', () => ({
+            errors: [{ detail: 'Error occured' }],
+        }), 400);
+        assert.dom(`[data-test-file-browser-item="${fileTwo.id}"]`).isVisible('fileTwo is visible');
+        await click(`[data-test-delete-file="${fileTwo.id}"] > button`);
+        await click('[data-test-confirm-delete]');
+        assert.dom('#toast-container', document as unknown as Element).hasTextContaining(
+            t('osf-components.files-widget.delete_failed', { filename: fileTwo.itemName }),
+            'Toast error message shows; has the right text',
+        );
+        assert.dom(`[data-test-file-browser-item="${fileTwo.id}"]`).isVisible('fileTwo is still visible');
+    });
+
+    test('validations: validations status changes as user fixes/introduces errors', async function(
+        this: DraftFormTestContext, assert,
+    ) {
         const initiator = server.create('user', 'loggedIn');
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         const registration = server.create(
@@ -645,6 +1038,7 @@ module('Registries | Acceptance | draft form', hooks => {
             {
                 registrationSchema,
                 initiator,
+                branchedFrom: this.branchedFrom,
             },
         );
 

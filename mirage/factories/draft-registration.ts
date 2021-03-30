@@ -6,6 +6,7 @@ import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import { NodeCategory, NodeLicense } from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 
+import { BranchedFromId } from 'ember-osf-web/mirage/serializers/draft-registration';
 import { createRegistrationMetadata } from './utils';
 
 export interface DraftRegistrationTraits {
@@ -13,9 +14,16 @@ export interface DraftRegistrationTraits {
     withAffiliatedInstitutions: Trait;
     withSubjects: Trait;
     withContributors: Trait;
+    currentUserIsAdmin: Trait;
+    currentUserIsReadOnly: Trait;
+    currentUserIsReadAndWrite: Trait;
 }
 
-export default Factory.extend<DraftRegistration & DraftRegistrationTraits>({
+export interface MirageDraftRegistration extends DraftRegistration {
+    branchedFromId: BranchedFromId;
+}
+
+export default Factory.extend<MirageDraftRegistration & DraftRegistrationTraits>({
     afterCreate(newDraft, server) {
         const draftProvider = newDraft.provider;
         if (!draftProvider) {
@@ -53,11 +61,9 @@ export default Factory.extend<DraftRegistration & DraftRegistrationTraits>({
         return faker.date.past(2, new Date(2018, 0, 0));
     },
 
-    branchedFrom: association() as DraftRegistration['branchedFrom'],
+    initiator: association() as MirageDraftRegistration['initiator'],
 
-    initiator: association() as DraftRegistration['initiator'],
-
-    registrationSchema: association() as DraftRegistration['registrationSchema'],
+    registrationSchema: association() as MirageDraftRegistration['registrationSchema'],
 
     registrationMetadata: {},
 
@@ -65,7 +71,11 @@ export default Factory.extend<DraftRegistration & DraftRegistrationTraits>({
 
     category: NodeCategory.Uncategorized,
 
-    withRegistrationMetadata: trait<DraftRegistration>({
+    currentUserPermissions: Object.values(Permission),
+
+    hasProject: true,
+
+    withRegistrationMetadata: trait<MirageDraftRegistration>({
         afterCreate(draftRegistration) {
             draftRegistration.update({
                 registrationMetadata: createRegistrationMetadata(draftRegistration.registrationSchema),
@@ -73,21 +83,21 @@ export default Factory.extend<DraftRegistration & DraftRegistrationTraits>({
         },
     }),
 
-    withAffiliatedInstitutions: trait<DraftRegistration>({
+    withAffiliatedInstitutions: trait<MirageDraftRegistration>({
         afterCreate(draft, server) {
             const affiliatedInstitutions = server.createList('institution', 3);
             draft.update({ affiliatedInstitutions });
         },
     }),
 
-    withSubjects: trait<DraftRegistration>({
+    withSubjects: trait<MirageDraftRegistration>({
         afterCreate(draft, server) {
             const subjects = [server.create('subject', 'withChildren')];
             draft.update({ subjects });
         },
     }),
 
-    withContributors: trait<DraftRegistration>({
+    withContributors: trait<MirageDraftRegistration>({
         afterCreate(draftRegistration, server) {
             const contributorCount = faker.random.number({ min: 1, max: 5 });
             if (contributorCount === 1) {
@@ -118,10 +128,37 @@ export default Factory.extend<DraftRegistration & DraftRegistrationTraits>({
             }
         },
     }),
+
+    currentUserIsAdmin: trait<MirageDraftRegistration>({
+        afterCreate(draftRegistration) {
+            const currentUserPermissions = [Permission.Admin, Permission.Read, Permission.Write];
+            draftRegistration.update({ currentUserPermissions });
+        },
+    }),
+
+    currentUserIsReadOnly: trait<MirageDraftRegistration>({
+        afterCreate(draftRegistration) {
+            const currentUserPermissions = [Permission.Read];
+            draftRegistration.update({ currentUserPermissions });
+        },
+    }),
+
+    currentUserIsReadAndWrite: trait<MirageDraftRegistration>({
+        afterCreate(draftRegistration) {
+            const currentUserPermissions = [Permission.Read, Permission.Write];
+            draftRegistration.update({ currentUserPermissions });
+        },
+    }),
 });
+
+declare module 'ember-cli-mirage/types/registries/model' {
+    export default interface MirageModelRegistry {
+        draftRegistration: MirageDraftRegistration;
+    } // eslint-disable-line semi
+}
 
 declare module 'ember-cli-mirage/types/registries/schema' {
     export default interface MirageSchemaRegistry {
-        draftRegistrations: DraftRegistration;
+        draftRegistrations: MirageDraftRegistration;
     } // eslint-disable-line semi
 }

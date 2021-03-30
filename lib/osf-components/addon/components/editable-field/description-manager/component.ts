@@ -34,7 +34,7 @@ export default class DescriptionManagerComponent extends Component {
     requestedEditMode: boolean = false;
     currentDescription!: string;
 
-    @alias('node.userHasAdminPermission') userCanEdit!: boolean;
+    @alias('node.userHasWritePermission') userCanEdit!: boolean;
     @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
 
     @computed('node.description')

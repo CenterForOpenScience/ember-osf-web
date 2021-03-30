@@ -5,15 +5,17 @@ import { action, computed } from '@ember/object';
 import { alias, or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
-import { task } from 'ember-concurrency-decorators';
+import { enqueueTask, task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
+import DraftNode from 'ember-osf-web/models/draft-node';
 import File from 'ember-osf-web/models/file';
 import FileProvider from 'ember-osf-web/models/file-provider';
 import Node from 'ember-osf-web/models/node';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import { PaginatedMeta } from 'osf-api';
 
 import template from './template';
@@ -50,19 +52,20 @@ export default class FilesManagerComponent extends Component {
     @service store!: DS.Store;
     @service toast!: Toast;
 
-    node!: Node;
+    node!: Node | DraftNode;
 
     onAddFile?: (file: File) => void;
+    onDeleteFile?: (file: File, options?: { callback?: () => void }) => void;
 
     fileProvider!: FileProvider;
     currentFolder!: File;
     lastUploaded: File[] = []; // Files uploaded since last sort.
     rootFolder!: File;
+    canEdit!: boolean;
     pageSize = 10;
     sort: SortKey = 'date_modified';
     page = 1;
 
-    @alias('node.userHasAdminPermission') canEdit!: boolean;
     @alias('getRootItems.isRunning') loading!: boolean;
     @alias('loadMore.isRunning') loadingMore!: boolean;
     @or(
@@ -195,6 +198,28 @@ export default class FilesManagerComponent extends Component {
         this.toast.success(this.intl.t('file_browser.file_added_toast'));
         if (this.onAddFile) {
             this.onAddFile(file);
+        }
+    });
+
+    @enqueueTask({ withTestWaiter: true })
+    deleteFileTask = task(function *(this: FilesManagerComponent, file: File) {
+        try {
+            yield file.delete();
+
+            if (this.onDeleteFile) {
+                this.onDeleteFile(
+                    file,
+                    { callback: file.isFolder ? this.goToParentFolder.bind(this, file) : null },
+                );
+            }
+            this.currentFolder.files.removeObject(file);
+            file.unloadRecord();
+            this.toast.success(this.intl.t('osf-components.files-widget.delete_success', { filename: file.itemName }));
+        } catch (e) {
+            const errorMessage = this.intl
+                .t('osf-components.files-widget.delete_failed', { filename: file.itemName });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
+            captureException(e, { errorMessage });
         }
     });
 

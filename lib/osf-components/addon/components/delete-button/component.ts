@@ -27,9 +27,11 @@ export default class DeleteButton extends Component {
 
     // Optional arguments
     small: boolean = defaultTo(this.small, false);
+    smallSecondary: boolean = defaultTo(this.smallSecondary, false);
     noBackground: boolean = defaultTo(this.noBackground, false);
     hardConfirm: boolean = defaultTo(this.hardConfirm, false);
     disabled: boolean = defaultTo(this.disabled, false);
+    shouldStopPropagation = false;
     buttonLabel: string = defaultTo(
         this.buttonLabel,
         this.intl.t('osf-components.delete-button.buttonLabel'),
@@ -79,8 +81,11 @@ export default class DeleteButton extends Component {
     });
 
     @action
-    _show() {
+    _show(event: Event) {
         this.set('modalShown', true);
+        if (this.shouldStopPropagation) {
+            event.stopPropagation();
+        }
         if (this.hardConfirm) {
             this.setProperties({
                 scientistName: randomScientist(),

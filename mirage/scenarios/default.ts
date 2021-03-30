@@ -54,6 +54,14 @@ function registrationScenario(
 
     server.create('registration', { id: 'beefs' });
 
+    const currentUserWrite = server.create('registration', {
+        id: 'writr',
+        registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+        currentUserPermissions: [Permission.Read, Permission.Write],
+    });
+
+    server.create('contributor', { users: currentUser, node: currentUserWrite });
+
     const registrationResponses = {
         'page-one_long-text': '',
         'page-one_multi-select': ['Crocs'],
@@ -64,11 +72,17 @@ function registrationScenario(
 
     const rootNode = server.create('node', {
         public: false,
-        contributors: server.createList('contributor', 11),
+        contributors: server.createList('contributor', 10),
         currentUserPermissions: [Permission.Admin],
     }, 'withFiles', 'withStorage');
     rootNode.update({
         storage: server.create('node-storage', { storageLimitStatus: StorageStatus.OVER_PRIVATE }),
+    });
+    server.create('contributor', {
+        node: rootNode,
+        users: currentUser,
+        permission: Permission.Admin,
+        index: 0,
     });
 
     const childNodeA = server.create('node', { parent: rootNode });
@@ -149,13 +163,15 @@ function registrationScenario(
         provider,
     }, 'isArchiving');
 
+    const draftNode = server.create('draft-node', 'withFiles');
     server.create('draft-registration', {
         id: 'dcaf',
         registrationSchema: server.schema.registrationSchemas.find('open_ended_registration'),
         initiator: currentUser,
-        branchedFrom: rootNode,
+        branchedFrom: draftNode,
+        hasProject: false,
         license: licenseReqFields,
-    }, 'withSubjects', 'withAffiliatedInstitutions');
+    }, 'withSubjects', 'withAffiliatedInstitutions', 'withContributors');
 
     server.create('draft-registration', {
         id: 'brand',
@@ -164,8 +180,9 @@ function registrationScenario(
         registrationResponses,
         branchedFrom: rootNode,
         license: licenseReqFields,
+        currentUserPermissions: [Permission.Read, Permission.Write],
         provider,
-    });
+    }, 'withContributors');
 
     const clinicalTrials = server.create('external-provider', {
         shareSource: 'ClinicalTrials.gov',

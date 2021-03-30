@@ -1,27 +1,43 @@
 {{assert 'Registries::ReviewMetadataRenderer requires a draftRegistration' @draftRegistration}}
 <h2 id='MetadataPageLabel'>{{t 'registries.drafts.draft.metadata.page_label'}}</h2>
 
-<Registries::ReviewMetadataRenderer::LabelDisplay 
+<Registries::ReviewMetadataRenderer::LabelDisplay
     @draftRegistration={{@draftRegistration}}
     @changeset={{@metadataChangeset}}
+    @showEditButton={{@showEditButton}}
     @field='title'
     local-class='TextResponse {{unless @draftRegistration.title 'NoResponse'}}'
 >
     {{~if @draftRegistration.title @draftRegistration.title (t 'registries.registration_metadata.no_title')~}}
 </Registries::ReviewMetadataRenderer::LabelDisplay>
 
-<Registries::ReviewMetadataRenderer::LabelDisplay 
+<Registries::ReviewMetadataRenderer::LabelDisplay
     @draftRegistration={{@draftRegistration}}
     @changeset={{@metadataChangeset}}
+    @showEditButton={{@showEditButton}}
     @field='description'
     local-class='TextResponse {{unless @draftRegistration.description 'NoResponse'}}'
 >
     {{~if @draftRegistration.description @draftRegistration.description (t 'registries.registration_metadata.no_description')~}}
 </Registries::ReviewMetadataRenderer::LabelDisplay>
 
-<Registries::ReviewMetadataRenderer::LabelDisplay 
+<Registries::ReviewMetadataRenderer::LabelDisplay
     @draftRegistration={{@draftRegistration}}
     @changeset={{@metadataChangeset}}
+    @field='contributors'
+>
+    <ContributorList
+        @model={{@draftRegistration}}
+        @shouldLinkUsers={{true}}
+        @shouldTruncate={{false}}
+        @allowRemoveMe={{true}}
+    />
+</Registries::ReviewMetadataRenderer::LabelDisplay>
+
+<Registries::ReviewMetadataRenderer::LabelDisplay
+    @draftRegistration={{@draftRegistration}}
+    @changeset={{@metadataChangeset}}
+    @showEditButton={{@showEditButton}}
     @field='category'
     local-class='{{unless @draftRegistration.category 'NoResponse'}}'
 >
@@ -34,25 +50,27 @@
     {{/if}}
 </Registries::ReviewMetadataRenderer::LabelDisplay>
 
-<Registries::ReviewMetadataRenderer::LabelDisplay 
+<Registries::ReviewMetadataRenderer::LabelDisplay
     @draftRegistration={{@draftRegistration}}
     @changeset={{@metadataChangeset}}
+    @showEditButton={{@showEditButton}}
     @field='affiliated_institutions'
     @fieldText='affiliated institutions'
     local-class='{{unless @draftRegistration.affiliatedInstitutions 'NoResponse'}}'
 >
-    {{~if @draftRegistration.affiliatedInstitutions 
+    {{~if @draftRegistration.affiliatedInstitutions
         (join ', ' (map-by 'name' @draftRegistration.affiliatedInstitutions))
         (t 'registries.registration_metadata.no_affiliated_institutions')~}}
 </Registries::ReviewMetadataRenderer::LabelDisplay>
 
-<Registries::ReviewMetadataRenderer::LabelDisplay 
+<Registries::ReviewMetadataRenderer::LabelDisplay
     @draftRegistration={{@draftRegistration}}
     @changeset={{@metadataChangeset}}
+    @showEditButton={{@showEditButton}}
     @field='license'
     local-class='{{unless @draftRegistration.license.name 'NoResponse'}}'
 >
-    {{#if @draftRegistration.license.name}} 
+    {{#if @draftRegistration.license.name}}
         <LicenseViewer @registration={{@draftRegistration}} />
     {{else}}
         {{~t 'registries.form_view.none_selected'~}}
@@ -64,9 +82,10 @@
         <div local-class='NestedProperty'>
             {{#each fields as |field|}}
                 {{#let (get @draftRegistration.nodeLicense field) as |nodeLicenseField|}}
-                    <Registries::ReviewMetadataRenderer::LabelDisplay 
+                    <Registries::ReviewMetadataRenderer::LabelDisplay
                         @draftRegistration={{@draftRegistration}}
                         @changeset={{@metadataChangeset}}
+                        @showEditButton={{@showEditButton}}
                         @field='nodeLicense.{{field}}'
                         @hideError={{true}}
                         local-class='{{unless nodeLicenseField 'NoResponse'}}'
@@ -84,13 +103,14 @@
     {{/if}}
 {{/let}}
 
-<Registries::ReviewMetadataRenderer::LabelDisplay 
+<Registries::ReviewMetadataRenderer::LabelDisplay
     @draftRegistration={{@draftRegistration}}
     @changeset={{@metadataChangeset}}
+    @showEditButton={{@showEditButton}}
     @field='subjects'
     local-class='{{unless @draftRegistration.subjects 'NoResponse'}}'
 >
-    {{#if @draftRegistration.subjects}} 
+    {{#if @draftRegistration.subjects}}
         <Subjects::Display @subjects={{@draftRegistration.subjects}} />
     {{else}}
         {{~t 'registries.registration_metadata.no_subjects'~}}
@@ -98,9 +118,10 @@
 
 </Registries::ReviewMetadataRenderer::LabelDisplay>
 
-<Registries::ReviewMetadataRenderer::LabelDisplay 
+<Registries::ReviewMetadataRenderer::LabelDisplay
     @draftRegistration={{@draftRegistration}}
     @changeset={{@metadataChangeset}}
+    @showEditButton={{@showEditButton}}
     @field='tags'
     local-class='{{unless @draftRegistration.tags 'NoResponse'}}'
 >

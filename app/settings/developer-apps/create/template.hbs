@@ -9,43 +9,7 @@
     </OsfLink>
 </div>
 <h4>{{t 'settings.developer-apps.createApp'}}</h4>
-
-<ValidatedModelForm
-    data-analytics-scope='Create form'
-    @modelName='developer-app'
-    @onSave={{action this.onSave}}
-    as |form|
->
-    <form.text
-        data-test-developer-app-name
-        @valuePath='name'
-        @label={{t 'settings.developer-apps.appName'}}
-    />
-    <form.text
-        data-test-developer-app-homepage
-        @valuePath='homeUrl'
-        @label={{t 'settings.developer-apps.appHomepage'}}
-    />
-    <form.textarea 
-        data-test-developer-app-description
-        @valuePath='description'
-        @label={{t 'settings.developer-apps.appDescription'}}
-    />
-    <form.text
-        data-test-developer-app-callback-url
-        @valuePath='callbackUrl'
-        @label={{t 'settings.developer-apps.appCallbackUrl'}}
-    />
-
-    <div>
-        <OsfButton
-            data-test-create-developer-app-button
-            data-analytics-name='Create'
-            @type='primary'
-            @buttonType='submit'
-            @disabled={{form.submitting}}
-        >
-            {{t 'settings.developer-apps.createApp'}}
-        </OsfButton>
-    </div>
-</ValidatedModelForm>
+<Settings::DeveloperApps::-Components::AppForm
+    @developerApp={{this.developerApp}}
+    @createMode={{true}}
+/>

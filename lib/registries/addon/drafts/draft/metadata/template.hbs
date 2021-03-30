@@ -36,21 +36,52 @@
                         @uniqueID={{descriptionFieldId}} />
                 {{/let}}
                 {{#let (unique-id) 'contributors' as |contributorFieldId|}}
-                    <label local-class='label' for={{contributorFieldId}} id='contributors'>
-                        {{t 'registries.registration_metadata.contributors'}}
-                    </label>
-                    <p>
-                        <OsfLink
-                            data-test-to-contributors-page
-                            @href={{concat this.osfUrl this.draftManager.node.id '/contributors/'}}>
-                            {{t 'osf-components.registries.read-only-contributors-list.editContributorsOnYourProject'}}
-                        </OsfLink>
-                    </p>
-                    <Contributors::Widget
-                        @node={{this.draftManager.node}}
-                        @widgetMode={{'readonly'}}
-                        id={{contributorFieldId}}
-                    />
+                    {{#if this.draftManager.currentUserIsAdmin}}
+                        <div local-class='FlexContainer'>
+                            <label local-class='label' for={{contributorFieldId}} id='contributors'>
+                                {{#if this.showAddContributorWidget}}
+                                    {{t 'registries.registration_metadata.add_contributors.section_heading'}}
+                                {{else}}
+                                    {{t 'registries.registration_metadata.contributors'}}
+                                {{/if}}
+                            </label>
+                            {{#if this.showAddContributorWidget}}
+                                <OsfButton
+                                    aria-label={{t 'registries.registration_metadata.add_contributors.done_add_new_button'}}
+                                    local-class='ContributorButton'
+                                    @type='danger'
+                                    @onClick={{action this.toggleAddContributorWidget}}
+                                >
+                                    {{fa-icon 'times'}}
+                                </OsfButton>
+                            {{else}}
+                                <OsfButton
+                                    aria-label={{t 'registries.registration_metadata.add_contributors.add_new_button'}}
+                                    local-class='ContributorButton'
+                                    @type='primary'
+                                    @onClick={{action this.toggleAddContributorWidget}}
+                                >
+                                    {{fa-icon 'plus'}}
+                                </OsfButton>
+                            {{/if}}
+                        </div>
+                        <Contributors::Widget
+                            @draftRegistration={{this.draftManager.draftRegistration}}
+                            @shouldShowAdd={{this.showAddContributorWidget}}
+                            @toggleAddContributorWidget={{this.toggleAddContributorWidget}}
+                            @widgetMode={{'editable'}}
+                            id={{contributorFieldId}}
+                        />
+                    {{else}}
+                        <label local-class='label' for={{contributorFieldId}} id='contributors'>
+                            {{t 'registries.registration_metadata.contributors'}}
+                        </label>
+                        <Contributors::Widget
+                            @draftRegistration={{this.draftManager.draftRegistration}}
+                            @widgetMode={{'readonly'}}
+                            id={{contributorFieldId}}
+                        />
+                    {{/if}}
                 {{/let}}
                 <form.select data-test-metadata-category local-class='SchemaBlockDropdown' id='category'
                     @label={{t 'registries.registration_metadata.category'}} @valuePath='category'

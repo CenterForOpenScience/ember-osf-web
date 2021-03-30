@@ -47,7 +47,7 @@ export default Factory.extend<MirageNode & NodeTraits>({
     currentUserIsContributor: false,
     preprint: false,
     description() {
-        return faker.lorem.sentences(faker.random.number({ min: 0, max: 4 }));
+        return faker.lorem.paragraph();
     },
     currentUserPermissions: [],
     dateModified() {
@@ -156,9 +156,8 @@ export default Factory.extend<MirageNode & NodeTraits>({
     withFiles: trait<MirageNode>({
         afterCreate(node, server) {
             const count = faker.random.number({ min: 1, max: 5 });
-            const osfstorage = server.create('file-provider', { node });
+            const osfstorage = server.create('file-provider', { target: node });
             const files = server.createList('file', count, { target: node });
-
             osfstorage.rootFolder.update({ files });
         },
     }),

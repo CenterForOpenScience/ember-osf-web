@@ -1,20 +1,25 @@
 import { isEmpty } from '@ember/utils';
 import { ValidatorFunction } from 'ember-changeset-validations';
 import buildMessage from 'ember-changeset-validations/utils/validation-errors';
+import DraftNode from 'ember-osf-web/models/draft-node';
 import File from 'ember-osf-web/models/file';
 import NodeModel from 'ember-osf-web/models/node';
-import { allSettled } from 'rsvp';
+import captureException from 'ember-osf-web/utils/capture-exception';
 
-export function validateFileList(responseKey: string, node?: NodeModel): ValidatorFunction {
+export function validateFileList(responseKey: string, node?: NodeModel | DraftNode): ValidatorFunction {
     return async (_: string, newValue: File[]) => {
         if (newValue && node) {
-            const fileReloads: Array<() => Promise<File>> = [];
-            newValue.forEach(file => {
+            for (const file of newValue) {
                 if (file && !file.isError) {
-                    fileReloads.push(file.reload());
+                    try {
+                        // validating these in sequence to prevent the files-burst throttling of API
+                        // eslint-disable-next-line no-await-in-loop
+                        await file.reload();
+                    } catch (e) {
+                        captureException(e);
+                    }
                 }
-            });
-            await allSettled(fileReloads);
+            }
 
             const detachedFiles = [];
 
@@ -23,17 +28,24 @@ export function validateFileList(responseKey: string, node?: NodeModel): Validat
                     detachedFiles.push(file.name);
                 }
             }
-            const projectOrComponent = node.isRoot ? 'project' : 'component';
 
             if (!isEmpty(detachedFiles)) {
                 const missingFilesList = detachedFiles.join(', ');
                 const numOfFiles = detachedFiles.length;
+                let type = 'onlyProjectOrComponentFiles';
+                let translationArgs = { missingFilesList, numOfFiles };
+                if (node.modelName === 'node' && 'isRoot' in node) {
+                    const projectOrComponent = node.isRoot ? 'project' : 'component';
+                    translationArgs = { ...translationArgs, ...{ projectOrComponent } };
+                } else {
+                    type = 'missingFileNoProject';
+                }
 
                 return buildMessage(responseKey, {
                     type: 'presence',
                     context: {
-                        type: 'onlyProjectOrComponentFiles',
-                        translationArgs: { projectOrComponent, missingFilesList, numOfFiles },
+                        type,
+                        translationArgs,
                     },
                 });
             }

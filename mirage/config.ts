@@ -5,7 +5,7 @@ import { createReviewAction } from 'ember-osf-web/mirage/views/review-action';
 import { getCitation } from './views/citation';
 import { searchCollections } from './views/collection-search';
 import { reportDelete } from './views/comment';
-import { createBibliographicContributor } from './views/contributor';
+import { addContributor, createBibliographicContributor } from './views/contributor';
 import { createDeveloperApp, updateDeveloperApp } from './views/developer-app';
 import { createDraftRegistration } from './views/draft-registration';
 import {
@@ -33,7 +33,11 @@ import { rootDetail } from './views/root';
 import { shareSearch } from './views/share-search';
 import { createToken } from './views/token';
 import { createEmails, updateEmails } from './views/update-email';
-import { claimUnregisteredUser, userNodeList } from './views/user';
+import {
+    claimUnregisteredUser,
+    userNodeList,
+    userRegistrationList,
+} from './views/user';
 import { updatePassword } from './views/user-password';
 import * as userSettings from './views/user-setting';
 import * as wb from './views/wb';
@@ -116,6 +120,14 @@ export default function(this: Server) {
         path: '/nodes/:parentID/relationships/institutions',
     });
     this.get('/nodes/:id/storage', storageStatus);
+    osfResource(this, 'draft-node', { only: ['show', 'index', 'create'] });
+    osfNestedResource(this, 'draft-node', 'draftRegistrations', { only: ['index'] });
+    this.get('/draft_nodes/:parentID/files', nodeFileProviderList); // DraftNode file providers list
+    this.get('/draft_nodes/:parentID/files/:fileProviderId',
+        nodeFilesListForProvider); // DraftNode files list for file provider
+    this.get('/draft_nodes/:parentID/files/:fileProviderId/:folderId',
+        folderFilesList); // DraftNode folder detail view
+    this.put('/draft_nodes/:parentID/files/:fileProviderId/upload', uploadToRoot); // Upload to file provider
 
     osfToManyRelationship(this, 'node', 'subjects', {
         only: ['related', 'self'],
@@ -125,12 +137,25 @@ export default function(this: Server) {
         only: ['index', 'show', 'update'],
         path: '/draft_registrations',
     });
+    this.post('/draft_registrations', createDraftRegistration);
     osfToManyRelationship(this, 'draft-registration', 'subjects');
     osfToManyRelationship(this, 'draft-registration', 'affiliatedInstitutions', {
         only: ['related', 'update', 'add', 'remove'],
         path: '/draft_registrations/:parentID/relationships/institutions',
     });
     osfNestedResource(this, 'draft-registration', 'contributors', {
+        defaultSortKey: 'index',
+        except: ['create'],
+    });
+    osfNestedResource(this, 'draft-registration', 'bibliographicContributors', {
+        only: ['index'],
+        relatedModelName: 'contributor',
+        defaultSortKey: 'index',
+    });
+    this.post('/draft_registrations/:draftId/contributors/', addContributor);
+    osfNestedResource(this, 'draft-registration', 'bibliographicContributors', {
+        only: ['index'],
+        relatedModelName: 'contributor',
         defaultSortKey: 'index',
     });
 
@@ -225,6 +250,10 @@ export default function(this: Server) {
 
     this.get('/users/:id/nodes', userNodeList);
     this.get('/sparse/users/:id/nodes', userNodeList);
+    this.get('/users/:id/registrations', userRegistrationList);
+    osfNestedResource(this, 'user', 'draftRegistrations', {
+        only: ['index'],
+    });
 
     osfNestedResource(this, 'user', 'quickfiles', { only: ['index', 'show'] });
 

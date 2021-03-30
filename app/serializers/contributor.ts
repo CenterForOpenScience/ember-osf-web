@@ -1,23 +1,11 @@
 import DS from 'ember-data';
-
 import OsfSerializer from './osf-serializer';
 
 export default class ContributorSerializer extends OsfSerializer {
-    serialize(snapshot: DS.Snapshot, options = {}) {
-        // Restore relationships to serialized data
+    serialize(snapshot: DS.Snapshot, options: {}) {
         const serialized = super.serialize(snapshot, options);
-
-        // APIv2 expects contributor information to be nested under relationships.
-        if (snapshot.record.isNew) {
-            serialized.data.relationships = {
-                users: {
-                    data: {
-                        id: snapshot.record.userId,
-                        type: 'users',
-                    },
-                },
-            };
-        }
+        delete serialized!.data!.relationships!.node;
+        delete serialized!.data!.relationships!.draft_registration;
 
         return serialized;
     }

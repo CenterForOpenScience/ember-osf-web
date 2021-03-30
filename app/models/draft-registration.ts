@@ -2,11 +2,12 @@ import DS from 'ember-data';
 
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 
+import DraftNodeModel from 'ember-osf-web/models/draft-node';
 import ContributorModel from './contributor';
 import InstitutionModel from './institution';
 import LicenseModel from './license';
 import NodeModel, { NodeCategory, NodeLicense } from './node';
-import OsfModel from './osf-model';
+import OsfModel, { Permission } from './osf-model';
 import RegistrationProviderModel from './registration-provider';
 import RegistrationSchemaModel, { RegistrationMetadata } from './registration-schema';
 import SubjectModel from './subject';
@@ -35,11 +36,14 @@ export default class DraftRegistrationModel extends OsfModel {
     @attr('fixstring') title!: string;
     @attr('fixstring') description!: string;
     @attr('fixstringarray') tags!: string[];
+    @attr('array') currentUserPermissions!: Permission[];
     @attr('node-license') nodeLicense!: NodeLicense | null;
     @attr('node-category') category!: NodeCategory;
+    @attr('boolean') hasProject!: boolean;
 
-    @belongsTo('node', { inverse: 'draftRegistrations' })
-    branchedFrom!: DS.PromiseObject<NodeModel> & NodeModel;
+    @belongsTo('abstract-node', { inverse: 'draftRegistrations', polymorphic: true })
+    branchedFrom!: DS.PromiseObject<NodeModel> & NodeModel
+        | DS.PromiseObject<DraftNodeModel> & DraftNodeModel;
 
     @belongsTo('user', { inverse: null })
     initiator!: DS.PromiseObject<UserModel> & UserModel;
@@ -61,6 +65,18 @@ export default class DraftRegistrationModel extends OsfModel {
 
     @hasMany('contributor')
     contributors!: DS.PromiseManyArray<ContributorModel> & ContributorModel[];
+
+    @hasMany('contributor')
+    bibliographicContributors!: DS.PromiseManyArray<ContributorModel> & ContributorModel[];
+
+    get currentUserIsAdmin() {
+        return Array.isArray(this.currentUserPermissions) && this.currentUserPermissions.includes(Permission.Admin);
+    }
+
+    get currentUserIsReadOnly() {
+        return Array.isArray(this.currentUserPermissions) && this.currentUserPermissions.includes(Permission.Read)
+            && this.currentUserPermissions.length === 1;
+    }
 }
 
 declare module 'ember-data/types/registries/model' {

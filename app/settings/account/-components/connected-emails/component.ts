@@ -1,6 +1,9 @@
 import Component from '@ember/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { ValidationObject } from 'ember-changeset-validations';
+import { validateFormat } from 'ember-changeset-validations/validators';
+import { ChangesetDef } from 'ember-changeset/types';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
@@ -9,10 +12,13 @@ import Toast from 'ember-toastr/services/toast';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import UserEmail from 'ember-osf-web/models/user-email';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import buildChangeset from 'ember-osf-web/utils/build-changeset';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
-
-import { ChangesetDef } from 'ember-changeset/types';
 import getHref from 'ember-osf-web/utils/get-href';
+
+interface EmailValidation {
+    emailAddress: string;
+}
 
 export default class ConnectedEmails extends Component {
     // Private properties
@@ -20,16 +26,25 @@ export default class ConnectedEmails extends Component {
     @service store!: DS.Store;
     @service intl!: Intl;
     @service toast!: Toast;
-    userEmail!: UserEmail;
     showAddModal = false;
     showMergeModal = false;
     didValidate = false;
     lastUserEmail = '';
-    modelProperties = { user: this.currentUser.user };
+    changeset!: ChangesetDef;
     reloadAlternateList!: (page?: number) => void; // bound by paginated-list
     reloadUnconfirmedList!: (page?: number) => void; // bound by paginated-list
     alternateQueryParams = { 'filter[primary]': false, 'filter[confirmed]': true };
     unconfirmedQueryParams = { 'filter[primary]': false, 'filter[confirmed]': false };
+
+    emailValidations: ValidationObject<EmailValidation> = {
+        emailAddress: [
+            validateFormat({
+                allowBlank: false,
+                type: 'email',
+                translationArgs: { description: this.intl.t('settings.account.connected_emails.email_address') },
+            }),
+        ],
+    };
 
     @task({ withTestWaiter: true, restartable: true })
     loadPrimaryEmail = task(function *(this: ConnectedEmails) {
@@ -121,34 +136,36 @@ export default class ConnectedEmails extends Component {
         return this.toast.success(successMessage);
     });
 
+    @task({ withTestWaiter: true })
+    onSave = task(function *(this: ConnectedEmails) {
+        let newEmail;
+        try {
+            this.changeset.validate();
+            if (this.changeset.get('isValid') && this.changeset.get('emailAddress')) {
+                this.set('lastUserEmail', this.changeset.get('emailAddress'));
+                newEmail = this.store.createRecord('user-email', {
+                    emailAddress: this.changeset.get('emailAddress'),
+                    user: this.currentUser.user,
+                });
+                yield newEmail.save();
+                this.set('showAddModal', true);
+                this.reloadUnconfirmedList();
+                this.toast.success(this.intl.t('settings.account.connected_emails.save_success'));
+                this.changeset.set('emailAddress', '');
+            }
+        } catch (e) {
+            if (newEmail) {
+                newEmail.unloadRecord();
+            }
+            captureException(e);
+            this.toast.error(getApiErrorMessage(e), this.intl.t('settings.account.connected_emails.save_fail'));
+        }
+    });
+
     init() {
         super.init();
         this.loadPrimaryEmail.perform();
-    }
-
-    @action
-    onSave(changeset: ChangesetDef & UserEmail) {
-        if (changeset.get('emailAddress')) {
-            this.set('lastUserEmail', changeset.get('emailAddress'));
-            this.set('showAddModal', true);
-            this.reloadUnconfirmedList();
-
-            this.toast.success(this.intl.t('settings.account.connected_emails.save_success'));
-        }
-    }
-    @action
-    onError(e: DS.AdapterError | Error, changeset: ChangesetDef & UserEmail) {
-        if (e instanceof DS.ConflictError) {
-            const emailSet = changeset.get('existingEmails');
-            emailSet.add(changeset.get('emailAddress'));
-            changeset.validate();
-        } else if (e instanceof DS.AdapterError) {
-            const emailSet = changeset.get('invalidEmails');
-            emailSet.add(changeset.get('emailAddress'));
-            changeset.validate();
-        } else {
-            this.toast.error(e.message);
-        }
+        this.changeset = buildChangeset({ emailAddress: '' }, this.emailValidations, { skipValidate: true });
     }
 
     @action

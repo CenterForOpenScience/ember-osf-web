@@ -6,6 +6,7 @@ import { Link } from 'jsonapi-typescript';
 
 import SparseNodeModel from 'ember-osf-web/models/sparse-node';
 import ContributorModel from './contributor';
+import DraftRegistrationModel from './draft-registration';
 import FileModel from './file';
 import InstitutionModel from './institution';
 import NodeModel from './node';
@@ -59,14 +60,25 @@ export interface UserLinks extends OsfLinks {
 }
 
 export interface Employment {
-    title: string;
-    endYear: number;
-    ongoing: boolean;
-    endMonth: number;
-    startYear: number;
-    department: string;
-    startMonth: number;
-    institution: string;
+    title?: string;
+    endYear?: number;
+    ongoing?: boolean;
+    endMonth?: number;
+    startYear?: number;
+    department?: string;
+    startMonth?: number;
+    institution?: string;
+}
+
+export interface Education {
+    degree?: string;
+    endYear?: string;
+    startYear?: string;
+    endMonth?: number;
+    startMonth?: number;
+    ongoing?: boolean;
+    department?: string;
+    institution?: string;
 }
 
 export default class UserModel extends OsfModel.extend(Validations) {
@@ -84,6 +96,7 @@ export default class UserModel extends OsfModel.extend(Validations) {
     @attr('boolean') active!: boolean;
     @attr('object') social!: {};
     @attr('array') employment!: Employment[];
+    @attr('array') education!: Education[];
 
     @belongsTo('region', { async: false })
     defaultRegion!: DS.PromiseObject<RegionModel> & RegionModel;
@@ -99,6 +112,9 @@ export default class UserModel extends OsfModel.extend(Validations) {
 
     @hasMany('registration')
     registrations!: DS.PromiseManyArray<RegistrationModel>;
+
+    @hasMany('draft-registration')
+    draftRegistrations!: DS.PromiseManyArray<DraftRegistrationModel>;
 
     @hasMany('file')
     quickfiles!: DS.PromiseManyArray<FileModel>;

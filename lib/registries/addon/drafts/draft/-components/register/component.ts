@@ -7,45 +7,61 @@ import { run } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
+import Intl from 'ember-intl/services/intl';
+import Toast from 'ember-toastr/services/toast';
 
+import { tracked } from '@glimmer/tracking';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import NodeModel from 'ember-osf-web/models/node';
 import Registration from 'ember-osf-web/models/registration';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
 
 @tagName('')
 export default class Register extends Component {
     @service store!: DS.Store;
+    @service toast!: Toast;
+    @service intl!: Intl;
 
     // Required
     draftManager!: DraftRegistrationManager;
 
     // Private
-    registration!: Registration;
     onSubmitRedirect?: (registrationId: string) => void;
     @alias('draftManager.hasInvalidResponses') isInvalid?: boolean;
     @alias('draftManager.draftRegistration') draftRegistration!: DraftRegistration;
+    @alias('draftManager.hasProject') hasProject!: boolean;
     @alias('draftManager.node') node?: NodeModel;
+    @alias('draftManager.currentUserIsAdmin') currentUserIsAdmin!: boolean;
 
-    partialRegDialogIsOpen = false;
-    finalizeRegDialogIsOpen = false;
+    @tracked registration!: Registration;
+    @tracked partialRegDialogIsOpen = false;
+    @tracked finalizeRegDialogIsOpen = false;
 
     @task({ withTestWaiter: true })
     onClickRegister = task(function *(this: Register) {
         if (!this.registration) {
-            const registration = this.store.createRecord('registration', {
+            this.registration = this.store.createRecord('registration', {
                 draftRegistrationId: this.draftRegistration.id,
-                registeredFrom: this.draftRegistration.branchedFrom,
                 provider: this.draftRegistration.provider,
+                ...(this.hasProject ? { registeredFrom: this.draftRegistration.branchedFrom } : {}),
             });
+        }
 
-            this.setProperties({ registration });
-        }
-        if (this.node) {
-            yield this.node.loadRelatedCount('children');
-        }
-        if (this.node && this.node.relatedCounts.children > 0) {
-            this.showPartialRegDialog();
+        if (this.hasProject && this.node) {
+            try {
+                yield this.node.loadRelatedCount('children');
+            } catch (e) {
+                const errorMessage = this.intl.t('registries.drafts.draft.unable_to_fetch_children_count');
+                captureException(e, { errorMessage });
+                this.toast.error(getApiErrorMessage(e), errorMessage);
+                throw e;
+            }
+            if (this.node.relatedCounts.children > 0) {
+                this.showPartialRegDialog();
+            } else {
+                this.showFinalizeRegDialog();
+            }
         } else {
             this.showFinalizeRegDialog();
         }

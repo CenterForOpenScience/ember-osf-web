@@ -33,7 +33,7 @@ export default class CategoryManagerComponent extends Component {
     fieldIsEmpty = false;
     selectedCategory!: NodeCategory;
 
-    @alias('node.userHasAdminPermission') userCanEdit!: boolean;
+    @alias('node.userHasWritePermission') userCanEdit!: boolean;
     @alias('node.category') category!: NodeCategory;
 
     @computed('fieldIsEmpty', 'userCanEdit')
