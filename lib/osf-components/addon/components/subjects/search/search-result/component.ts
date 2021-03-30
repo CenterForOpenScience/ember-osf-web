@@ -22,8 +22,8 @@ export default class SearchResult extends Component {
     @alias('loadAncestry.lastSuccessful.value')
     subjectAncestry?: SubjectModel[];
 
-    @task({ withTestWaiter: true, on: 'didReceiveAttrs' })
-    loadAncestry = task(function *(this: SearchResult) {
+    @task({ on: 'didReceiveAttrs' })
+    async loadAncestry() {
         const { subject } = this.singleSubjectManager;
         if (!subject) {
             return undefined;
@@ -31,12 +31,12 @@ export default class SearchResult extends Component {
         const ancestors: SubjectModel[] = [];
         let nextParentRef = subject.belongsTo('parent');
         while (nextParentRef.id()) {
-            const nextParent: SubjectModel = yield nextParentRef.load();
+            const nextParent: SubjectModel = await nextParentRef.load();
             ancestors.push(nextParent);
             nextParentRef = nextParent.belongsTo('parent');
         }
         return ancestors.reverse();
-    });
+    }
 
     init() {
         super.init();

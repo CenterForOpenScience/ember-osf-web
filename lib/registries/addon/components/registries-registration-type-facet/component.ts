@@ -9,7 +9,6 @@ import appConfig from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
-import RegistrationSchema from 'ember-osf-web/adapters/registration-schema';
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import ProviderModel from 'ember-osf-web/models/provider';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -39,10 +38,10 @@ export default class RegistriesRegistrationTypeFacet extends Component {
 
     registrationTypes: EmberArray<string> = A([]);
 
-    @task({ withTestWaiter: true, on: 'init' })
-    fetchRegistrationTypes = task(function *(this: RegistriesRegistrationTypeFacet): any {
+    @task({ on: 'init' })
+    async fetchRegistrationTypes() {
         try {
-            const metaschemas: RegistrationSchema[] = yield this.store.query('registration-schema', {
+            const metaschemas = await this.store.query('registration-schema', {
                 'page[size]': 100,
             });
             const metaschemaNames = metaschemas.mapBy('name');
@@ -61,7 +60,7 @@ export default class RegistriesRegistrationTypeFacet extends Component {
             this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
         }
-    });
+    }
 
     get title() {
         return this.intl.t('registries.facets.registration_type.title');

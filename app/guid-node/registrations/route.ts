@@ -2,6 +2,7 @@ import { action } from '@ember/object';
 import Transition from '@ember/routing/-private/transition';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import { taskFor } from 'ember-concurrency-ts';
 
 import Node from 'ember-osf-web/models/node';
 import { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
@@ -18,7 +19,7 @@ export default class GuidNodeRegistrations extends Route {
 
     setupController(controller: Controller, model: GuidRouteModel<Node>, transition: Transition): void {
         super.setupController(controller, model, transition);
-        controller.get('getRegistrationSchemas').perform();
+        taskFor(controller.getRegistrationSchemas).perform();
     }
 
     @action

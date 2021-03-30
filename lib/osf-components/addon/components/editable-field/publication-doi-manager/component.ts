@@ -6,7 +6,7 @@ import { inject as service } from '@ember/service';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validateFormat } from 'ember-changeset-validations/validators';
 import { BufferedChangeset } from 'ember-changeset/types';
-import { task } from 'ember-concurrency';
+import { restartableTask } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -65,8 +65,8 @@ export default class PublicationDoiManagerComponent extends Component {
         return this.userCanEdit || !this.fieldIsEmpty;
     }
 
-    @task({ withTestWaiter: true, restartable: true })
-    save = task(function *(this: PublicationDoiManagerComponent) {
+    @restartableTask
+    async save() {
         this.changeset.validate();
 
         this.set('didValidate', true);
@@ -80,7 +80,7 @@ export default class PublicationDoiManagerComponent extends Component {
 
         this.node.set('articleDoi', doi);
         try {
-            yield this.node.save();
+            await this.node.save();
         } catch (e) {
             this.node.rollbackAttributes();
             const errorMessage = this.intl.t('registries.registration_metadata.edit_pub_doi.error');
@@ -90,7 +90,7 @@ export default class PublicationDoiManagerComponent extends Component {
         }
         this.set('requestedEditMode', false);
         this.toast.success(this.intl.t('registries.registration_metadata.edit_pub_doi.success'));
-    });
+    }
 
     didReceiveAttrs() {
         if (this.node) {

@@ -4,6 +4,7 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import HeadTagsService from 'ember-cli-meta-tags/services/head-tags';
 import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import moment from 'moment';
 
 import GuidFileController from 'ember-osf-web/guid-file/controller';
@@ -24,12 +25,12 @@ export default class GuidFile extends Route {
 
     headTags?: HeadTagDef[];
 
-    @task({ withTestWaiter: true })
-    setHeadTags = task(function *(this: GuidFile, model: any) {
+    @task
+    async setHeadTags(model: any) {
         const blocker = this.get('ready').getBlocker();
         const dateCreated = model.file.get('dateCreated');
         const dateModified = model.file.get('dateModified');
-        const institutions = yield model.file.get('user').get('institutions');
+        const institutions = await model.file.get('user').get('institutions');
         const metaTagsData = {
             title: model.file.get('name'),
             identifier: model.file.get('guid'),
@@ -40,7 +41,7 @@ export default class GuidFile extends Route {
         this.set('headTags', this.get('metaTags').getHeadTags(metaTagsData));
         this.get('headTagsService').collectHeadTags();
         blocker.done();
-    });
+    }
 
     async model(params: { guid: string }) {
         const { guid } = params;
@@ -70,7 +71,7 @@ export default class GuidFile extends Route {
     }
 
     afterModel(model: any) {
-        this.setHeadTags.perform(model);
+        taskFor(this.setHeadTags).perform(model);
     }
 
     resetController(controller: GuidFileController, isExiting: boolean, transition: Transition) {

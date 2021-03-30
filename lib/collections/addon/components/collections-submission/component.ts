@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { underscore } from '@ember/string';
-import { task, timeout } from 'ember-concurrency';
+import { dropTask, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
@@ -51,63 +51,6 @@ export default class Submit extends Component {
     intlKeyPrefix = 'collections.collections_submission.';
     showSubmitModal: boolean = false;
 
-    @task({ withTestWaiter: true, drop: true })
-    save = task(function *(this: Submit) {
-        if (!this.collectionItem) {
-            return;
-        }
-
-        const validatedModels: any[] = yield Promise.all([
-            this.get('collectionItem')!.validate(),
-            this.get('collectedMetadatum').validate(),
-        ]);
-
-        const invalid = validatedModels.some(({ validations: { isInvalid } }) => isInvalid);
-
-        if (invalid) {
-            return;
-        }
-
-        this.collectedMetadatum.set('guid', this.collectionItem);
-
-        const operation = this.edit ? 'update' : 'add';
-
-        try {
-            if (!this.collectionItem.public) {
-                this.collectionItem.set('public', true);
-                yield this.collectionItem.save();
-            }
-            yield this.collectedMetadatum.save();
-
-            this.collectionItem.set('collectable', false);
-
-            this.toast.success(this.intl.t(`${this.intlKeyPrefix}${operation}_save_success`, {
-                title: this.collectionItem.title,
-            }));
-
-            yield timeout(1000);
-            this.resetPageDirty();
-            // TODO: external-link-to / waffle for project main page
-            window.location.href = getHref(this.collectionItem.links.html!);
-        } catch (e) {
-            const errorMessage = this.intl.t(`${this.intlKeyPrefix}${operation}_save_error`, {
-                title: this.collectionItem.title,
-            });
-            captureException(e, { errorMessage });
-            this.toast.error(getApiErrorMessage(e), errorMessage);
-        }
-    });
-
-    @computed('collectedMetadatum.{displayChoiceFields,collectedType,issue,volume,programArea,status}')
-    get choiceFields(): Array<{ label: string; value: string | undefined; }> {
-        return this.collectedMetadatum.displayChoiceFields
-            .map(field => ({
-                name: field,
-                label: `collections.collection_metadata.${underscore(field)}_label`,
-                value: this.collectedMetadatum[field],
-            }));
-    }
-
     /**
      * Leaves the current route for the discover route (currently home for collections)
      */
@@ -125,6 +68,63 @@ export default class Submit extends Component {
      */
     @requiredAction
     resetPageDirty!: () => void;
+
+    @dropTask
+    async save() {
+        if (!this.collectionItem) {
+            return;
+        }
+
+        const validatedModels = await Promise.all([
+            this.get('collectionItem')!.validate(),
+            this.get('collectedMetadatum').validate(),
+        ]);
+
+        const invalid = validatedModels.some(({ validations: { isInvalid } }) => isInvalid);
+
+        if (invalid) {
+            return;
+        }
+
+        this.collectedMetadatum.set('guid', this.collectionItem);
+
+        const operation = this.edit ? 'update' : 'add';
+
+        try {
+            if (!this.collectionItem.public) {
+                this.collectionItem.set('public', true);
+                await this.collectionItem.save();
+            }
+            await this.collectedMetadatum.save();
+
+            this.collectionItem.set('collectable', false);
+
+            this.toast.success(this.intl.t(`${this.intlKeyPrefix}${operation}_save_success`, {
+                title: this.collectionItem.title,
+            }));
+
+            await timeout(1000);
+            this.resetPageDirty();
+            // TODO: external-link-to / waffle for project main page
+            window.location.href = getHref(this.collectionItem.links.html!);
+        } catch (e) {
+            const errorMessage = this.intl.t(`${this.intlKeyPrefix}${operation}_save_error`, {
+                title: this.collectionItem.title,
+            });
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
+        }
+    }
+
+    @computed('collectedMetadatum.{displayChoiceFields,collectedType,issue,volume,programArea,status}')
+    get choiceFields(): Array<{ label: string; value: string | undefined; }> {
+        return this.collectedMetadatum.displayChoiceFields
+            .map(field => ({
+                name: field,
+                label: `collections.collection_metadata.${underscore(field)}_label`,
+                value: this.collectedMetadatum[field],
+            }));
+    }
 
     init() {
         super.init();

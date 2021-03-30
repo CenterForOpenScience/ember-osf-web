@@ -1,7 +1,7 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
-import { task, timeout } from 'ember-concurrency';
+import { restartableTask, timeout } from 'ember-concurrency';
 
 import MeetingSubmissionModel from 'ember-osf-web/models/meeting-submission';
 
@@ -23,11 +23,11 @@ export default class MeetingSubmissionsList extends Component {
         return query;
     }
 
-    @task({ withTestWaiter: true, restartable: true })
-    searchSubmissions = task(function *(this: MeetingSubmissionsList, search: string) {
-        yield timeout(500); // debounce
+    @restartableTask
+    async searchSubmissions(search: string) {
+        await timeout(500); // debounce
         this.set('search', search);
-    });
+    }
 
     @action
     sortSubmissions(sort: string) {

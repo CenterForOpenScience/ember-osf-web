@@ -1,7 +1,8 @@
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { dropTask } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -42,8 +43,8 @@ export default class RegistrationIsPublic extends Component {
         }),
     };
 
-    @task({ withTestWaiter: true, drop: true })
-    submitWithdrawal = task(function *(this: RegistrationIsPublic) {
+    @dropTask
+    async submitWithdrawal() {
         if (!this.registration) {
             return;
         }
@@ -52,7 +53,7 @@ export default class RegistrationIsPublic extends Component {
         this.changeset.validate();
         if (this.changeset.isValid) {
             try {
-                yield this.changeset.save({});
+                await this.changeset.save({});
             } catch (e) {
                 const errorMessage = this.intl.t('registries.overview.withdraw.error');
                 captureException(e, { errorMessage });
@@ -66,7 +67,7 @@ export default class RegistrationIsPublic extends Component {
                 this.closeDropdown();
             }
         }
-    });
+    }
 
     didReceiveAttrs() {
         this.changeset = Changeset(
@@ -87,7 +88,7 @@ export default class RegistrationIsPublic extends Component {
         'changeset.isInvalid',
     )
     get submitDisabled(): boolean {
-        return this.submitWithdrawal.isRunning
+        return taskFor(this.submitWithdrawal).isRunning
             || (this.scientistNameInput !== this.scientistName)
             || this.changeset.isInvalid;
     }

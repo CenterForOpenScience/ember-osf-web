@@ -2,7 +2,8 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias, or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task, timeout } from 'ember-concurrency';
+import { dropTask, task, timeout } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
@@ -30,6 +31,7 @@ enum EmailActions {
 type MessageLevel = 'error' | 'info' | 'success' | 'warning';
 
 export default class VerifyEmailModal extends Component {
+
     @service currentUser!: CurrentUser;
     @service intl!: Intl;
     @service store!: DS.Store;
@@ -44,6 +46,10 @@ export default class VerifyEmailModal extends Component {
     @or('verifyTask.isRunning', 'denyTask.isRunning')
     disableButtons!: boolean;
 
+    constructor(...args: any[]) {
+        super(...args);
+        taskFor(this.loadEmailsTask).perform();
+    }
     @computed('userEmail.isMerge')
     get translationKeys(): TranslationKeys {
         if (!this.userEmail || !this.userEmail.isMerge) {
@@ -70,11 +76,11 @@ export default class VerifyEmailModal extends Component {
         };
     }
 
-    @task({ withTestWaiter: true })
-    loadEmailsTask = task(function *(this: VerifyEmailModal) {
+    @task
+    async loadEmailsTask() {
         const { user } = this.currentUser;
         if (user) {
-            const emails: UserEmail[] = yield user.queryHasMany('emails', {
+            const emails = await user.queryHasMany('emails', {
                 filter: {
                     confirmed: true,
                     verified: false,
@@ -82,10 +88,10 @@ export default class VerifyEmailModal extends Component {
             });
             this.set('unverifiedEmails', emails);
         }
-    });
+    }
 
-    @task({ withTestWaiter: true, drop: true })
-    verifyTask = task(function *(this: VerifyEmailModal, emailAction: EmailActions) {
+    @dropTask
+    async verifyTask(emailAction: EmailActions) {
         const { userEmail } = this;
         if (!userEmail) {
             return;
@@ -113,7 +119,7 @@ export default class VerifyEmailModal extends Component {
         }
 
         try {
-            yield userEmail.save();
+            await userEmail.save();
 
             if (this.unverifiedEmails) {
                 this.unverifiedEmails.shiftObject();
@@ -128,7 +134,7 @@ export default class VerifyEmailModal extends Component {
 
             // Close the modal and open another one (if needed) because it's confusing for the text to change in place
             this.set('shouldShowModal', false);
-            yield timeout(300);
+            await timeout(300);
             this.set('shouldShowModal', true);
         } catch (e) {
             const errorMessage = this.intl.t(
@@ -139,20 +145,15 @@ export default class VerifyEmailModal extends Component {
             this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
         }
-    });
-
-    constructor(...args: any[]) {
-        super(...args);
-        this.loadEmailsTask.perform();
     }
 
     @action
     verify() {
-        this.verifyTask.perform(EmailActions.Verify);
+        taskFor(this.verifyTask).perform(EmailActions.Verify);
     }
 
     @action
     deny() {
-        this.verifyTask.perform(EmailActions.Deny);
+        taskFor(this.verifyTask).perform(EmailActions.Deny);
     }
 }

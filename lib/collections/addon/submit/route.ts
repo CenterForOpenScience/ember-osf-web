@@ -2,6 +2,7 @@ import { computed } from '@ember/object';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import { DS } from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import ConfirmationMixin from 'ember-onbeforeunload/mixins/confirmation';
@@ -31,10 +32,10 @@ export default class Submit extends Route.extend(ConfirmationMixin) {
     // This tells ember-onbeforeunload what to use as the body for the warning before leaving the page.
     confirmationMessage = this.intl.t('collections.collections_submission.warning_body');
 
-    @task({ withTestWaiter: true })
-    loadModel = task(function *(this: Submit): IterableIterator<any> {
+    @task
+    async loadModel() {
         const provider = this.theme.provider as CollectionProvider;
-        const collection = yield provider.primaryCollection;
+        const collection = await provider.primaryCollection;
 
         const collectedMetadatum = this.store.createRecord('collected-metadatum', {
             collection,
@@ -46,11 +47,11 @@ export default class Submit extends Route.extend(ConfirmationMixin) {
             collection,
             collectedMetadatum,
         } as TaskInstanceResult;
-    });
+    }
 
     model() {
         return {
-            taskInstance: this.loadModel.perform() as Promise<TaskInstanceResult>,
+            taskInstance: taskFor(this.loadModel).perform() as Promise<TaskInstanceResult>,
         };
     }
 

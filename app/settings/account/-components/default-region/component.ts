@@ -6,6 +6,7 @@ import { ValidationObject } from 'ember-changeset-validations';
 import { validatePresence } from 'ember-changeset-validations/validators';
 import { BufferedChangeset } from 'ember-changeset/types';
 import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
@@ -29,6 +30,7 @@ const regionValidation: ValidationObject<RegionValidation> = {
         }),
     ],
 };
+
 @tagName('')
 export default class DefaultRegionPane extends Component {
     @service currentUser!: CurrentUser;
@@ -41,30 +43,30 @@ export default class DefaultRegionPane extends Component {
     @alias('loadDefaultRegionTask.isRunning') loadDefaultRunning!: boolean;
     @alias('loadRegionsTask.isRunning') loadRegionsRunning!: boolean;
 
-    @task({ withTestWaiter: true })
-    loadRegionsTask = task(function *(this: DefaultRegionPane) {
-        const regions = yield this.store.findAll('region');
+    @task
+    async loadRegionsTask() {
+        const regions = await this.store.findAll('region');
 
         this.set('regions', regions.toArray());
-    });
+    }
 
-    @task({ withTestWaiter: true })
-    loadDefaultRegionTask = task(function *(this: DefaultRegionPane) {
+    @task
+    async loadDefaultRegionTask() {
         const { user } = this.currentUser;
         if (!user) {
             return;
         }
         this.set('user', user);
         this.changeset = buildChangeset(user, regionValidation, { skipValidate: true });
-        yield user.belongsTo('defaultRegion').reload();
-    });
+        await user.belongsTo('defaultRegion').reload();
+    }
 
-    @task({ withTestWaiter: true })
-    updateRegion = task(function *(this: DefaultRegionPane) {
+    @task
+    async updateRegion() {
         this.changeset.validate();
         if (this.changeset.isValid && this.user) {
             try {
-                yield this.changeset.save({});
+                await this.changeset.save({});
                 this.toast.success(
                     this.intl.t(
                         'settings.account.defaultRegion.successToast',
@@ -82,11 +84,11 @@ export default class DefaultRegionPane extends Component {
                 this.toast.error(saveErrorMessage);
             }
         }
-    });
+    }
 
     init() {
         super.init();
-        this.loadRegionsTask.perform();
-        this.loadDefaultRegionTask.perform();
+        taskFor(this.loadRegionsTask).perform();
+        taskFor(this.loadDefaultRegionTask).perform();
     }
 }

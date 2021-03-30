@@ -8,13 +8,12 @@ import { ValidationObject } from 'ember-changeset-validations';
 import { validateFormat } from 'ember-changeset-validations/validators';
 import { BufferedChangeset } from 'ember-changeset/types';
 import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Contributor from 'ember-osf-web/models/contributor';
-import UserModel from 'ember-osf-web/models/user';
-import UserEmail from 'ember-osf-web/models/user-email';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
@@ -58,28 +57,28 @@ export default class UnregisteredContributorComponent extends Component {
     contributor!: Contributor;
     nodeId!: string;
 
-    @task({ withTestWaiter: true })
-    loadEmailsTask = task(function *(this: UnregisteredContributorComponent) {
-        const emails: UserEmail[] = yield this.currentUser.user!.queryHasMany('emails', {
+    @task
+    async loadEmailsTask() {
+        const emails = await this.currentUser.user!.queryHasMany('emails', {
             filter: {
                 primary: true,
             },
         });
         this.currentUserEmail = emails[0].emailAddress;
-    });
+    }
 
-    @task({ withTestWaiter: true })
-    claimContributor = task(function *(this: UnregisteredContributorComponent) {
+    @task
+    async claimContributor() {
         try {
-            const user: UserModel = yield this.contributor.users;
+            const user = await this.contributor.users;
             if (user) {
                 if (this.isLoggedIn) {
-                    yield user.claimUnregisteredUser(this.nodeId);
+                    await user.claimUnregisteredUser(this.nodeId);
                     this.closeDialog();
                 } else {
                     this.emailChangeset!.validate();
                     if (this.emailChangeset!.isValid) {
-                        yield user.claimUnregisteredUser(this.nodeId, this.emailChangeset!.get('userEmail'));
+                        await user.claimUnregisteredUser(this.nodeId, this.emailChangeset!.get('userEmail'));
                         this.closeDialog();
                     }
                 }
@@ -90,11 +89,11 @@ export default class UnregisteredContributorComponent extends Component {
             this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
         }
-    });
+    }
 
     didReceiveAttrs() {
         if (this.isLoggedIn) {
-            this.loadEmailsTask.perform();
+            taskFor(this.loadEmailsTask).perform();
         } else {
             this.emailObj = { userEmail: '' };
             this.emailChangeset = buildChangeset(this.emailObj, emailValidations);

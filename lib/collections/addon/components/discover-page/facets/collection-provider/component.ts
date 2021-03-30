@@ -3,10 +3,10 @@ import { run } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import config from 'collections/config/environment';
 import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import Provider from 'ember-osf-web/models/provider';
 
 import Base from '../base/component';
 import styles from './styles';
@@ -30,8 +30,8 @@ export default class SearchFacetProvider extends Base {
 
     allProviders!: ProviderHit[];
 
-    @task({ withTestWaiter: true })
-    initialize = task(function *(this: SearchFacetProvider): IterableIterator<any> {
+    @task
+    async initialize() {
         if (this.theme.isProvider) {
             const { name: key, id } = this.theme.provider!;
 
@@ -46,7 +46,7 @@ export default class SearchFacetProvider extends Base {
             this.context.lockedActiveFilter.pushObject(provider);
             run.schedule('actions', () => this.context.activeFilter.pushObject(provider));
         } else {
-            const providers: Provider[] = yield this.store.findAll('collection-provider');
+            const providers = await this.store.findAll('collection-provider');
 
             this.set('allProviders', providers.map(({ name, id }) => ({
                 key: name,
@@ -63,7 +63,7 @@ export default class SearchFacetProvider extends Base {
         this.context.updateFilters();
 
         this.filterChanged();
-    });
+    }
 
     @computed('osfUrl')
     get otherReposLink(): string {
@@ -111,6 +111,6 @@ export default class SearchFacetProvider extends Base {
             },
         });
 
-        this.initialize.perform();
+        taskFor(this.initialize).perform();
     }
 }

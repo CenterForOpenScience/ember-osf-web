@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
-import { task, timeout } from 'ember-concurrency';
+import { restartableTask, timeout } from 'ember-concurrency';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import SubjectModel from 'ember-osf-web/models/subject';
@@ -30,17 +30,17 @@ export default class SearchSubjects extends Component {
         return typeof searchResults === 'undefined' ? 10 : searchResults.length;
     }
 
-    @task({ withTestWaiter: true, restartable: true })
-    doSearch = task(function *(this: SearchSubjects) {
-        yield timeout(500); // debounce
+    @restartableTask
+    async doSearch() {
+        await timeout(500); // debounce
 
-        const provider = yield this.subjectsManager.provider;
+        const provider = this.subjectsManager.provider;
 
         const { userQuery } = this;
         if (!userQuery) {
             return undefined;
         }
-        return yield provider.queryHasMany('subjects', {
+        return await provider.queryHasMany('subjects', {
             filter: {
                 text: userQuery,
             },
@@ -50,5 +50,5 @@ export default class SearchSubjects extends Component {
             related_counts: 'children',
             embed: 'parent',
         });
-    });
+    }
 }

@@ -38,8 +38,8 @@ export default class Register extends Component {
     @tracked partialRegDialogIsOpen = false;
     @tracked finalizeRegDialogIsOpen = false;
 
-    @task({ withTestWaiter: true })
-    onClickRegister = task(function *(this: Register) {
+    @task
+    async onClickRegister() {
         if (!this.registration) {
             this.registration = this.store.createRecord('registration', {
                 draftRegistrationId: this.draftRegistration.id,
@@ -50,7 +50,7 @@ export default class Register extends Component {
 
         if (this.hasProject && this.node) {
             try {
-                yield this.node.loadRelatedCount('children');
+                await this.node.loadRelatedCount('children');
             } catch (e) {
                 const errorMessage = this.intl.t('registries.drafts.draft.unable_to_fetch_children_count');
                 captureException(e, { errorMessage });
@@ -65,7 +65,7 @@ export default class Register extends Component {
         } else {
             this.showFinalizeRegDialog();
         }
-    });
+    }
 
     didReceiveAttrs() {
         assert('@draftManager is required!', Boolean(this.draftManager));

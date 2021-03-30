@@ -3,7 +3,7 @@ import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task, timeout } from 'ember-concurrency';
+import { restartableTask, timeout } from 'ember-concurrency';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
@@ -96,12 +96,12 @@ export default class GuidFile extends Controller {
         return Boolean(this.file) && this.file.getContents();
     }
 
-    @task({ withTestWaiter: true, restartable: true })
-    updateFilter = task(function *(this: GuidFile, filter: string) {
-        yield timeout(250);
+    @restartableTask
+    async updateFilter(filter: string) {
+        await timeout(250);
         this.setProperties({ filter });
         this.analytics.track('list', 'filter', 'Quick Files - Filter file browser');
-    });
+    }
 
     @computed('allFiles.[]', 'filter', 'sort')
     get files() {

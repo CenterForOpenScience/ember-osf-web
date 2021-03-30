@@ -3,6 +3,7 @@ import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
 
 import requireAuth from 'ember-osf-web/decorators/require-auth';
@@ -24,28 +25,29 @@ export default class DraftRegistrationRoute extends Route {
     @service store!: DS.Store;
     @service router!: RouterService;
 
-    @task({ withTestWaiter: true })
-    loadDraftRegistration = task(function *(this: DraftRegistrationRoute, draftId: string) {
-        const draftRegistration: DraftRegistration = yield this.store.findRecord(
+    @task
+    async loadDraftRegistrationAndNode(draftId: string) {
+        const draftRegistration: DraftRegistration = await this.store.findRecord(
             'draft-registration',
             draftId,
             { adapterOptions: { include: 'branched_from' } },
         );
         const [subjects, provider]:
-            [SubjectModel[], ProviderModel] = yield Promise.all([
+            [SubjectModel[], ProviderModel] = await Promise.all([
                 draftRegistration.loadAll('subjects'),
                 draftRegistration.provider,
             ]);
+
         draftRegistration.setProperties({ subjects });
         if (draftRegistration.currentUserIsReadOnly) {
             this.replaceWith('drafts.draft.review', draftId);
         }
         return { draftRegistration, provider };
-    });
+    }
 
     model(params: { id: string }): DraftRouteModel {
         const { id: draftId } = params;
-        const draftRegistrationTask = this.loadDraftRegistration.perform(draftId);
+        const draftRegistrationTask = taskFor(this.loadDraftRegistrationAndNode).perform(draftId);
         const draftRegistrationManager = new DraftRegistrationManager(draftRegistrationTask);
         const navigationManager = new NavigationManager(draftRegistrationManager);
         return {

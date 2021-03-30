@@ -2,7 +2,8 @@ import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { task, timeout } from 'ember-concurrency';
+import { keepLatestTask, timeout } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
 import UserModel from 'ember-osf-web/models/user';
 import ContributorsManager from 'osf-components/components/contributors/manager/component';
@@ -28,8 +29,8 @@ export default class UserSearchComponent extends Component<UserSearchComponentAr
 
     @computed('fetchUsers.isRunning', 'hasMoreUsers')
     get shouldShowLoadMoreUsers() {
-        return !this.fetchUsers.isRunning
-            && this.fetchUsers.lastComplete
+        return !taskFor(this.fetchUsers).isRunning
+            && taskFor(this.fetchUsers).lastComplete
             && this.hasMoreUsers;
     }
 
@@ -37,16 +38,16 @@ export default class UserSearchComponent extends Component<UserSearchComponentAr
         return this.currentUsersPage < this.totalUsersPage;
     }
 
-    @task({ withTestWaiter: true, keepLatest: true })
-    fetchUsers = task(function *(this: UserSearchComponent, isFetchingNextPage: boolean) {
+    @keepLatestTask
+    async fetchUsers(isFetchingNextPage: boolean) {
         if (isFetchingNextPage) {
             this.currentUsersPage += 1;
         } else {
-            yield timeout(500);
+            await timeout(500);
             this.currentUsersPage = 1;
             this.results = [];
         }
-        const currentPageResult = yield this.store.query('user', {
+        const currentPageResult = await this.store.query('user', {
             filter: {
                 [nameFields]: this.query,
             },
@@ -54,5 +55,5 @@ export default class UserSearchComponent extends Component<UserSearchComponentAr
         });
         this.results = this.results.concat(currentPageResult.toArray());
         this.totalUsersPage = Math.ceil(currentPageResult.meta.total / currentPageResult.meta.per_page);
-    });
+    }
 }

@@ -1,5 +1,4 @@
 import Application from '@ember/application';
-import defineModifier from 'ember-concurrency-test-waiter/define-modifier';
 import config from 'ember-get-config';
 import loadInitializers from 'ember-load-initializers';
 import Resolver from './resolver';
@@ -88,6 +87,5 @@ const App = Application.extend({
 });
 
 loadInitializers(App, modulePrefix);
-defineModifier();
 
 export default App;

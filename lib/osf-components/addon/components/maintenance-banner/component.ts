@@ -1,7 +1,8 @@
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { restartableTask } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import Cookies from 'ember-cookies/services/cookies';
 import { localClassNames } from 'ember-css-modules';
 import config from 'ember-get-config';
@@ -39,12 +40,12 @@ export default class MaintenanceBanner extends Component {
 
     maintenance?: MaintenanceData | null;
 
-    @task({ withTestWaiter: true, restartable: true })
-    getMaintenanceStatus = task(function *(this: MaintenanceBanner): IterableIterator<any> {
-        const url: string = `${config.OSF.apiUrl}/v2/status/`;
-        const data = yield this.currentUser.authenticatedAJAX({ url });
+    @restartableTask
+    async getMaintenanceStatus() {
+        const url = `${config.OSF.apiUrl}/v2/status/`;
+        const data = await this.currentUser.authenticatedAJAX({ url });
         this.set('maintenance', data.maintenance);
-    });
+    }
 
     @computed('maintenance.start')
     get start(): string | undefined {
@@ -69,7 +70,7 @@ export default class MaintenanceBanner extends Component {
 
     didReceiveAttrs(): void {
         if (!this.cookies.exists(maintenanceCookie)) {
-            this.getMaintenanceStatus.perform();
+            taskFor(this.getMaintenanceStatus).perform();
         }
     }
 

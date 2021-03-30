@@ -4,6 +4,7 @@ import { action } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
@@ -23,21 +24,21 @@ export default class DeactivationPane extends Component {
     showRequestDialog = false;
     showUndoDialog = false;
 
-    @task({ withTestWaiter: true })
-    loadSettings = task(function *(this: DeactivationPane) {
+    @task
+    async loadSettings() {
         const { user } = this.currentUser;
 
         if (!user) {
             return;
         }
-        this.settings = yield user.belongsTo('settings').reload();
-    });
+        this.settings = await user.belongsTo('settings').reload();
+    }
 
-    @task({ withTestWaiter: true })
-    saveSettings = task(function *(this: DeactivationPane, successMessage: string) {
+    @task
+    async saveSettings(successMessage: string) {
         try {
             if (this.settings !== undefined) {
-                yield this.settings.save();
+                await this.settings.save();
                 return this.toast.success(successMessage);
             }
             throw Error('No settings to save.');
@@ -48,11 +49,11 @@ export default class DeactivationPane extends Component {
             captureException(e, { errorMessage });
             return this.toast.error(getApiErrorMessage(e), errorMessage);
         }
-    });
+    }
 
     init() {
         super.init();
-        this.loadSettings.perform();
+        taskFor(this.loadSettings).perform();
     }
 
     @action
@@ -60,7 +61,7 @@ export default class DeactivationPane extends Component {
         this.set('showRequestDialog', false);
         if (this.settings !== undefined) {
             this.settings.set('deactivationRequested', true);
-            this.saveSettings.perform(
+            taskFor(this.saveSettings).perform(
                 this.intl.t('settings.account.deactivation.confirmationToastMessage'),
             );
         }
@@ -71,7 +72,7 @@ export default class DeactivationPane extends Component {
         this.set('showUndoDialog', false);
         if (this.settings !== undefined) {
             this.settings.set('deactivationRequested', false);
-            this.saveSettings.perform(
+            taskFor(this.saveSettings).perform(
                 this.intl.t('settings.account.deactivation.undoRequestToastMessage'),
             );
         }

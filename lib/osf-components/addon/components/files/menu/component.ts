@@ -7,6 +7,7 @@ import { ValidationObject } from 'ember-changeset-validations';
 import { validatePresence } from 'ember-changeset-validations/validators';
 import { BufferedChangeset } from 'ember-changeset/types';
 import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
@@ -57,11 +58,11 @@ export default class FilesMenu extends Component {
         if (!this.changeset) {
             return false;
         }
-        return this.changeset.isInvalid || this.createFolder.isRunning;
+        return this.changeset.isInvalid || taskFor(this.createFolder).isRunning;
     }
 
-    @task({ withTestWaiter: true })
-    createFolder = task(function *(this: FilesMenu, options: { onSuccess?: () => void }) {
+    @task
+    async createFolder(options: { onSuccess?: () => void }) {
         const { inRootFolder, currentFolder, fileProvider } = this.filesManager;
         const parentFolder = inRootFolder ? fileProvider : currentFolder;
         const { onSuccess } = options;
@@ -70,7 +71,7 @@ export default class FilesMenu extends Component {
 
         let newFolderId;
         try {
-            ({ newFolderId } = yield parentFolder.createFolder(newFolderName));
+            ({ newFolderId } = await parentFolder.createFolder(newFolderName));
         } catch (error) {
             this.toast.error(
                 error.responseJSON.message,
@@ -78,7 +79,7 @@ export default class FilesMenu extends Component {
             );
             throw error;
         }
-        const newFolder = yield this.store.findRecord('file', newFolderId);
+        const newFolder = await this.store.findRecord('file', newFolderId);
         const folder = inRootFolder ? fileProvider.rootFolder : currentFolder;
 
         if (onSuccess) {
@@ -86,7 +87,7 @@ export default class FilesMenu extends Component {
         }
 
         folder.files.pushObject(newFolder);
-    });
+    }
 
     beforeOpenDialog() {
         this.set('newFolder', { name: null });

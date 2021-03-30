@@ -6,6 +6,7 @@ import { alias, filterBy, not, notEmpty, or } from '@ember/object/computed';
 import { next } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import { localClassNames } from 'ember-css-modules';
 import DS from 'ember-data';
 import Toast from 'ember-toastr/services/toast';
@@ -101,8 +102,19 @@ export default class FileBrowser extends Component {
         acceptDirectories: false,
     };
 
-    @task({ withTestWaiter: true })
-    moveToProject = task(function *(this: FileBrowser) {
+    @not('items') loading!: boolean;
+    @alias('user.links.relationships.quickfiles.links.upload.href') uploadUrl!: string;
+    @alias('user.links.relationships.quickfiles.links.download.href') downloadUrl!: string;
+    @alias('node.links.html') nodeLink!: string;
+    @alias('canEdit') dropzone!: boolean;
+    @notEmpty('uploading') isUploading!: boolean;
+    @filterBy('items', 'isSelected', true) selectedItems!: File[];
+    @notEmpty('filter') showFilterInput!: boolean;
+    @or('showFilterClicked', 'showFilterInput') showFilter!: boolean;
+    @or('items.length', 'filter', 'isUploading') showItems!: boolean;
+
+    @task
+    async moveToProject() {
         if (!this.node) {
             return;
         }
@@ -116,7 +128,7 @@ export default class FileBrowser extends Component {
         const isNewProject = !!this.node && !!this.node.isNew;
         const isChildNode = !!this.node && !!this.node.links && !!this.node.links.relationships!.parent;
 
-        const moveSuccess: boolean = yield this.moveFile(selectedItem as unknown as File, this.node);
+        const moveSuccess = await this.moveFile(selectedItem as unknown as File, this.node);
 
         let successPropertyUpdates = {};
 
@@ -136,18 +148,7 @@ export default class FileBrowser extends Component {
         };
 
         this.setProperties(propertyUpdates);
-    });
-
-    @not('items') loading!: boolean;
-    @alias('user.links.relationships.quickfiles.links.upload.href') uploadUrl!: string;
-    @alias('user.links.relationships.quickfiles.links.download.href') downloadUrl!: string;
-    @alias('node.links.html') nodeLink!: string;
-    @alias('canEdit') dropzone!: boolean;
-    @notEmpty('uploading') isUploading!: boolean;
-    @filterBy('items', 'isSelected', true) selectedItems!: File[];
-    @notEmpty('filter') showFilterInput!: boolean;
-    @or('showFilterClicked', 'showFilterInput') showFilter!: boolean;
-    @or('items.length', 'filter', 'isUploading') showItems!: boolean;
+    }
 
     @computed()
     get renderInPlace() {
@@ -479,6 +480,6 @@ export default class FileBrowser extends Component {
     @action
     projectCreated(this: FileBrowser, node: Node) {
         this.set('node', node);
-        this.get('moveToProject').perform();
+        taskFor(this.moveToProject).perform();
     }
 }

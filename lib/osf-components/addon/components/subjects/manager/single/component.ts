@@ -4,7 +4,8 @@ import { assert } from '@ember/debug';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { dropTask } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -93,11 +94,11 @@ export default class SingleSubjectManagerComponent extends Component {
         return Boolean(subject && subjectsManager.subjectIsSaved(subject));
     }
 
-    @task({ withTestWaiter: true, drop: true })
-    loadChildren = task(function *(this: SingleSubjectManagerComponent) {
+    @dropTask
+    async loadChildren() {
         const { subject } = this;
         if (subject) {
-            const children = yield subject.queryHasMany('children', {
+            const children = await subject.queryHasMany('children', {
                 page: {
                     size: 150, // TODO: import const
                 },
@@ -105,12 +106,12 @@ export default class SingleSubjectManagerComponent extends Component {
             });
             this.setProperties({ children });
         }
-    });
+    }
 
     @action
     ensureChildrenLoaded() {
         if (!this.children && !this.isLoading) {
-            this.loadChildren.perform();
+            taskFor(this.loadChildren).perform();
         }
     }
 

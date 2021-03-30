@@ -8,12 +8,12 @@ import { ValidationObject } from 'ember-changeset-validations';
 import { validateNumber, validatePresence } from 'ember-changeset-validations/validators';
 import { BufferedChangeset } from 'ember-changeset/types';
 import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
-import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 import UserEmail from 'ember-osf-web/models/user-email';
 import UserSettingModel from 'ember-osf-web/models/user-setting';
@@ -58,38 +58,58 @@ export default class SecurityPane extends Component {
         ],
     };
 
-    @task({ withTestWaiter: true })
-    loadSettings = task(function *(this: SecurityPane) {
+    @task
+    async verifySecret() {
+        this.changeset.validate();
+        try {
+            if (this.changeset.get('isValid')) {
+                await this.changeset.save({});
+                this.showError = false;
+            }
+        } catch (e) {
+            if (e instanceof DS.ForbiddenError) {
+                this.showError = true;
+            } else {
+                const { supportEmail } = config.support;
+                const saveErrorMessage = this.intl
+                    .t('settings.account.security.saveError', { supportEmail, htmlSafe: true });
+                this.toast.error(saveErrorMessage);
+            }
+        }
+    }
+
+    @task
+    async loadSettings() {
         const { user } = this.currentUser;
 
         if (!user) {
             return;
         }
-        const settings = yield user.belongsTo('settings').reload();
+        const settings = await user.belongsTo('settings').reload();
         this.set('settings', settings);
         this.changeset = buildChangeset(settings, this.securityValidations, { skipValidate: true });
-    });
+    }
 
-    @task({ withTestWaiter: true })
-    loadPrimaryEmail = task(function *(this: SecurityPane) {
+    @task
+    async loadPrimaryEmail() {
         const { user } = this.currentUser;
 
         if (!user) {
             return;
         }
 
-        const emails: QueryHasManyResult<UserEmail> = yield user.queryHasMany(
+        const emails = await user.queryHasMany(
             'emails',
             { 'filter[primary]': true },
         );
         this.set('primaryEmail', emails.length ? emails[0] : undefined);
-    });
+    }
 
-    @task({ withTestWaiter: true })
-    saveSettings = task(function *(this: SecurityPane) {
+    @task
+    async saveSettings() {
         try {
             if (this.settings !== undefined) {
-                yield this.settings.save();
+                await this.settings.save();
             } else {
                 throw Error('No settings to save.');
             }
@@ -102,32 +122,12 @@ export default class SecurityPane extends Component {
         } finally {
             this.hideDialogs();
         }
-    });
-
-    @task({ withTestWaiter: true })
-    verifySecret = task(function *(this: SecurityPane) {
-        this.changeset.validate();
-        try {
-            if (this.changeset.isValid) {
-                yield this.changeset.save({});
-                this.showError = false;
-            }
-        } catch (e) {
-            if (e instanceof DS.ForbiddenError) {
-                this.showError = true;
-            } else {
-                const { supportEmail } = config.support;
-                const saveErrorMessage: string = this.intl
-                    .t('settings.account.security.saveError', { supportEmail, htmlSafe: true });
-                this.toast.error(saveErrorMessage);
-            }
-        }
-    });
+    }
 
     init() {
         super.init();
-        this.loadSettings.perform();
-        this.loadPrimaryEmail.perform();
+        taskFor(this.loadSettings).perform();
+        taskFor(this.loadPrimaryEmail).perform();
     }
 
     hideDialogs() {
@@ -156,7 +156,7 @@ export default class SecurityPane extends Component {
     confirmEnableTwoFactor() {
         if (this.settings !== undefined) {
             this.settings.set('twoFactorEnabled', true);
-            this.saveSettings.perform();
+            taskFor(this.saveSettings).perform();
         }
     }
 
@@ -170,7 +170,7 @@ export default class SecurityPane extends Component {
         this.set('showError', false);
         if (this.settings !== undefined) {
             this.settings.set('twoFactorEnabled', false);
-            this.saveSettings.perform();
+            taskFor(this.saveSettings).perform();
         }
     }
 }

@@ -42,11 +42,11 @@ export default class FinalizeRegistrationModalManagerComponent extends Component
     // Private
     @alias('submitRegistration.isRunning') submittingRegistration!: boolean;
 
-    @task({ withTestWaiter: true })
-    submitRegistration = task(function *(this: FinalizeRegistrationModalManagerComponent) {
+    @task
+    async submitRegistration() {
         try {
             this.draftManager.validateAllVisitedPages();
-            yield this.registration.save();
+            await this.registration.save();
 
             if (this.onSubmitRegistration) {
                 this.onSubmitRegistration(this.registration.id);
@@ -57,7 +57,7 @@ export default class FinalizeRegistrationModalManagerComponent extends Component
             this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
         }
-    });
+    }
 
     @computed('registration.embargoEndDate')
     get hasEmbargoEndDate() {

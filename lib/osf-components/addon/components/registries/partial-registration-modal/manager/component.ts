@@ -5,6 +5,7 @@ import { action } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -23,28 +24,29 @@ export default class PartialRegistrationModalManagerComponent extends Component 
     nodesIncludingRoot: NodeModel[] = [];
     selectedNodes: NodeModel[] = [];
 
-    @task({ withTestWaiter: true })
-    getChildren = task(function *(this: PartialRegistrationModalManagerComponent, node: NodeModel) {
-        const children = yield node.queryHasMany('children');
+    @alias('loadAllChildNodes.isRunning') loadingChildNodes!: boolean;
+
+    @task
+    async getChildren(node: NodeModel) {
+        const children = await node.queryHasMany('children');
         if (children !== null) {
             let grandChildren: NodeModel[] = [];
             for (const child of children) {
-                grandChildren = grandChildren.concat(yield this.getChildren.perform(child));
+                const greatGrandChildren = await taskFor(this.getChildren).perform(child);
+                grandChildren = grandChildren.concat(greatGrandChildren || []);
             }
             return children.concat(grandChildren);
         }
         return null;
-    });
+    }
 
-    @alias('loadAllChildNodes.isRunning') loadingChildNodes!: boolean;
-
-    @task({ withTestWaiter: true, on: 'didReceiveAttrs' })
-    loadAllChildNodes = task(function *(this: PartialRegistrationModalManagerComponent) {
-        const allChildNodesIncludingRoot = yield this.getChildren.perform(this.rootNode);
+    @task({ on: 'didReceiveAttrs' })
+    async loadAllChildNodes() {
+        const allChildNodesIncludingRoot = await taskFor(this.getChildren).perform(this.rootNode) || [];
         allChildNodesIncludingRoot.push(this.rootNode);
         this.set('nodesIncludingRoot', allChildNodesIncludingRoot.slice());
         this.set('selectedNodes', allChildNodesIncludingRoot.slice());
-    });
+    }
 
     didReceiveAttrs() {
         assert('partial-registration-modal::manager requires @rootNode!', Boolean(this.rootNode));

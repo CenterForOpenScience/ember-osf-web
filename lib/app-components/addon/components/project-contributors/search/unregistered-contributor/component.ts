@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { dropTask } from 'ember-concurrency';
 import { DS } from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
@@ -28,9 +28,9 @@ export default class UnregisteredContributor extends Component {
 
     @requiredAction closeForm!: () => void;
 
-    @task({ withTestWaiter: true, drop: true })
-    add = task(function *(this: UnregisteredContributor) {
-        const { validations } = yield this.model!.validate();
+    @dropTask
+    async add() {
+        const { validations } = await this.model!.validate();
         this.set('didValidate', true);
 
         if (validations.get('isInvalid')) {
@@ -40,7 +40,7 @@ export default class UnregisteredContributor extends Component {
         this.analytics.track('form', 'submit', 'Collections - Contributors - Add Unregistered Contributor');
 
         try {
-            yield this.model!.save();
+            await this.model!.save();
             this.toast.success(
                 this.intl.t('app_components.project_contributors.search.unregistered_contributor.add_success'),
             );
@@ -53,7 +53,7 @@ export default class UnregisteredContributor extends Component {
 
         this.reset(false);
         this.closeForm();
-    });
+    }
 
     didReceiveAttrs() {
         this.reset();

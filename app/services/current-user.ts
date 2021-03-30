@@ -107,8 +107,8 @@ export default class CurrentUserService extends Service {
         return new RSVP.Promise(() => { /* never resolve, just wait for the redirect */ });
     }
 
-    async checkShowTosConsentBanner() {
-        const user = await this.user;
+    checkShowTosConsentBanner() {
+        const user = this.user;
         if (user && !user.acceptedTermsOfService) {
             // Unset to avoid premature validation.
             user.set('acceptedTermsOfService', undefined);

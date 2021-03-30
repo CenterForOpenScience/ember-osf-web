@@ -2,7 +2,7 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { allSettled, task } from 'ember-concurrency';
+import { allSettled, restartableTask } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -25,8 +25,8 @@ export default class AncestryDisplay extends Component {
 
     @alias('getAncestors.lastComplete.value') ancestry?: string[];
 
-    @task({ withTestWaiter: true, restartable: true, on: 'didReceiveAttrs' })
-    getAncestors = task(function *(this: AncestryDisplay) {
+    @restartableTask({ on: 'didReceiveAttrs' })
+    async getAncestors() {
         if (!this.node || this.node.isRoot) {
             return [];
         }
@@ -36,13 +36,13 @@ export default class AncestryDisplay extends Component {
 
         // One ancestor
         if (parentId === rootId) {
-            const parentNode = yield this.node.parent;
+            const parentNode = await this.node.parent;
             const { id, title }: {id: string, title: string } = parentNode;
             return [{ id, title }];
         }
 
         // At least two ancestors
-        const results = yield allSettled([
+        const results = await allSettled([
             this.node.root,
             this.node.parent,
         ]);
@@ -54,11 +54,11 @@ export default class AncestryDisplay extends Component {
 
         // Results might have undefined `value` if ancestors are private
         if (ancestors.length > 1) {
-            const parent = results[1].value;
+            const parent = (results[1] as { state: 'fulfilled', value: NodeModel }).value;
             if (parent && parent.belongsTo('parent').id() !== rootId) {
                 ancestors.insertAt(1, { id: '', title: this.intl.t('general.ellipsis') });
             }
         }
         return ancestors;
-    });
+    }
 }

@@ -2,7 +2,8 @@ import Component from '@ember/component';
 import { action } from '@ember/object';
 import { alias, sort } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task, timeout } from 'ember-concurrency';
+import { restartableTask, timeout } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 
@@ -39,26 +40,26 @@ export default class LicensePicker extends Component {
     @sort('selected.requiredFields', (a: string, b: string) => +(a > b))
     requiredFields!: string[];
 
-    @task({ withTestWaiter: true, restartable: true })
-    queryLicenses = task(function *(this: LicensePicker, name?: string) {
+    @restartableTask
+    async queryLicenses(name?: string) {
         if (name) {
-            yield timeout(500);
+            await timeout(500);
         }
 
-        const licensesAcceptable: QueryHasManyResult<License> = yield this.provider
+        const licensesAcceptable = await this.provider
             .queryHasMany('licensesAcceptable', {
                 page: { size: 20 },
                 filter: name ? { name } : undefined,
             });
 
-        yield this.node.license;
+        await this.node.license;
 
         this.setProperties({ licensesAcceptable });
 
         this.node.notifyPropertyChange('license');
 
         return licensesAcceptable;
-    });
+    }
 
     @action
     changeLicense(selected: License) {
@@ -77,6 +78,6 @@ export default class LicensePicker extends Component {
 
     didReceiveAttrs() {
         super.didReceiveAttrs();
-        this.queryLicenses.perform();
+        taskFor(this.queryLicenses).perform();
     }
 }

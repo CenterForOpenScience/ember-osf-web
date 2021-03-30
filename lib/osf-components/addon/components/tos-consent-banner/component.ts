@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { dropTask } from 'ember-concurrency';
 import { localClassNames } from 'ember-css-modules';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
@@ -28,10 +28,15 @@ export default class TosConsentBanner extends Component {
     didValidate = false;
     hasSubmitted = false;
 
-    @task({ withTestWaiter: true, drop: true })
-    saveUser = task(function *(this: TosConsentBanner) {
-        const user = yield this.currentUser.user;
-        const { validations } = yield user.validate();
+    constructor(properties: object) {
+        super(properties);
+        Object.assign(this, config.signUpPolicy);
+    }
+
+    @dropTask
+    async saveUser() {
+        const user = this.currentUser.user;
+        const { validations } = await user!.validate();
         this.set('didValidate', true);
 
         if (!validations.isValid) {
@@ -39,7 +44,7 @@ export default class TosConsentBanner extends Component {
         }
 
         try {
-            yield user.save();
+            await user!.save();
         } catch (e) {
             const errorMessage = this.intl.t('tos_consent.failed_save');
             captureException(e, { errorMessage });
@@ -47,11 +52,6 @@ export default class TosConsentBanner extends Component {
         }
 
         this.currentUser.set('showTosConsentBanner', false);
-    });
-
-    constructor(properties: object) {
-        super(properties);
-        Object.assign(this, config.signUpPolicy);
     }
 
     init() {

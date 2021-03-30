@@ -1,7 +1,9 @@
 import { assert } from '@ember/debug';
 import { defineProperty } from '@ember/object';
 import { or, reads } from '@ember/object/computed';
-import { task, TaskInstance } from 'ember-concurrency';
+import { restartableTask, task, TaskInstance } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
+import { RelationshipsFor } from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import OsfModel from 'ember-osf-web/models/osf-model';
@@ -11,27 +13,30 @@ import template from './template';
 @layout(template)
 export default class PaginatedHasMany extends BaseDataComponent {
     // Required arguments
-    relationshipName!: string;
+    relationshipName!: RelationshipsFor<OsfModel>;
 
     // Either model xor modelTaskInstance is required
     model?: OsfModel;
     modelTaskInstance?: TaskInstance<OsfModel>;
 
+    @or('model', 'modelTaskInstance.value')
+    modelInstance?: OsfModel;
+
     // Optional arguments
     usePlaceholders: boolean = true;
 
     // Private properties
-    @task({ withTestWaiter: true })
-    loadItemsTask = task(function *(this: PaginatedHasMany, { reloading }: LoadItemsOptions) {
-        const model = yield this.get('getModelTask').perform();
+    @task
+    async loadItemsTask({ reloading }: LoadItemsOptions) {
+        const model = await taskFor(this.getModelTask).perform();
         if (this.usePlaceholders) {
-            yield this.get('loadRelatedCountTask').perform(reloading);
+            await taskFor(this.loadRelatedCountTask).perform(reloading);
             // Don't bother querying if we already know there's nothing there.
             if (this.totalCount === 0) {
                 return;
             }
         }
-        const items = yield model.queryHasMany(
+        const items = await model.queryHasMany(
             this.relationshipName,
             {
                 page: this.page,
@@ -45,30 +50,27 @@ export default class PaginatedHasMany extends BaseDataComponent {
             totalCount: items.meta.total,
             errorShown: false,
         });
-    });
+    }
 
-    @task({ withTestWaiter: true })
-    getModelTask = task(function *(this: PaginatedHasMany) {
+    @task
+    async getModelTask() {
         let model = this.modelInstance;
         if (!model && this.modelTaskInstance) {
-            model = yield this.modelTaskInstance;
+            model = await this.modelTaskInstance;
         }
         if (!model) {
             throw new Error('Error loading model');
         }
         return model;
-    });
+    }
 
-    @task({ withTestWaiter: true, restartable: true })
-    loadRelatedCountTask = task(function *(this: PaginatedHasMany, reloading: boolean) {
-        const model = yield this.get('getModelTask').perform();
+    @restartableTask()
+    async loadRelatedCountTask(reloading: boolean) {
+        const model = await taskFor(this.getModelTask).perform();
         if (reloading || typeof this.totalCount === 'undefined') {
-            yield model.loadRelatedCount(this.relationshipName);
+            await model.loadRelatedCount(this.relationshipName);
         }
-    });
-
-    @or('model', 'modelTaskInstance.value')
-    modelInstance?: OsfModel;
+    }
 
     init() {
         super.init();

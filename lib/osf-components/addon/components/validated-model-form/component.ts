@@ -47,13 +47,13 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     @alias('changeset.isDirty')
     isDirty!: boolean;
 
-    @task({ withTestWaiter: true })
-    saveModelTask = task(function *(this: ValidatedModelForm<M>) {
-        yield this.changeset.validate();
+    @task
+    async saveModelTask() {
+        await this.changeset.validate();
 
         if (this.changeset.isValid) {
             try {
-                yield this.changeset.save({});
+                await this.changeset.save({});
                 this.onSave(this.changeset);
                 if (this.modelName && this.recreateModel) {
                     set(this, 'model', this.store.createRecord(this.modelName, this.modelProperties));
@@ -75,7 +75,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
         } else {
             this.set('shouldShowMessages', true);
         }
-    });
+    }
 
     init() {
         super.init();

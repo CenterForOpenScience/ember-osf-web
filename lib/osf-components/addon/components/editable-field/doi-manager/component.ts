@@ -10,7 +10,6 @@ import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import Identifier from 'ember-osf-web/models/identifier';
 import Registration, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
@@ -61,19 +60,19 @@ export default class DoiManagerComponent extends Component {
         return `${doiUrlPrefix}${this.nodeDoi}`;
     }
 
-    @task({ withTestWaiter: true, on: 'didReceiveAttrs' })
-    loadIdentifiers = task(function *(this: DoiManagerComponent) {
+    @task({ on: 'didReceiveAttrs' })
+    async loadIdentifiers() {
         if (this.node) {
-            const identifiers: Identifier[] = yield this.node.identifiers;
+            const identifiers = await this.node.identifiers;
             const doi = identifiers.find(i => i.category === 'doi');
             if (doi) {
                 this.set('nodeDoi', doi.value);
             }
         }
-    });
+    }
 
-    @task({ withTestWaiter: true })
-    requestDoi = task(function *(this: DoiManagerComponent) {
+    @task
+    async requestDoi() {
         if (this.node) {
             const identifier = this.store.createRecord('identifier', {
                 category: 'doi',
@@ -81,7 +80,7 @@ export default class DoiManagerComponent extends Component {
             });
 
             try {
-                const doi = yield identifier.save();
+                const doi = await identifier.save();
                 if (doi) {
                     this.set('nodeDoi', doi.value);
                 }
@@ -95,7 +94,7 @@ export default class DoiManagerComponent extends Component {
             this.set('requestedEditMode', false);
             this.toast.success(this.intl.t('registries.registration_metadata.mint_doi.success'));
         }
-    });
+    }
 
     @action
     startEditing() {

@@ -41,11 +41,11 @@ export default class CategoryManagerComponent extends Component {
         return this.userCanEdit || !this.fieldIsEmpty;
     }
 
-    @task({ withTestWaiter: true })
-    save = task(function *(this: CategoryManagerComponent) {
+    @task
+    async save() {
         this.node.set('category', this.selectedCategory);
         try {
-            yield this.node.save();
+            await this.node.save();
         } catch (e) {
             this.node.rollbackAttributes();
             const errorMessage = this.intl.t('registries.registration_metadata.edit_category.error');
@@ -55,7 +55,7 @@ export default class CategoryManagerComponent extends Component {
         }
         this.set('inEditMode', false);
         this.toast.success(this.intl.t('registries.registration_metadata.edit_category.success'));
-    });
+    }
 
     didReceiveAttrs() {
         if (this.node) {

@@ -3,7 +3,7 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias, and } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { dropTask } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -41,10 +41,10 @@ export default class SubjectFieldManagerComponent extends Component {
         return this.userCanEdit || !this.fieldIsEmpty;
     }
 
-    @task({ withTestWaiter: true, drop: true })
-    save = task(function *(this: SubjectFieldManagerComponent) {
+    @dropTask
+    async save() {
         try {
-            yield this.subjectsManager.saveChanges();
+            await this.subjectsManager.saveChanges();
         } catch (e) {
             // TODO
             const errorMessage = this.intl.t('registries.registration_metadata.save_subjects_error');
@@ -53,7 +53,7 @@ export default class SubjectFieldManagerComponent extends Component {
             throw e;
         }
         this.set('requestedEditMode', false);
-    });
+    }
 
     @action
     startEditing() {

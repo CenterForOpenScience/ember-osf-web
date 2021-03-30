@@ -3,10 +3,11 @@ import Component from '@ember/component';
 import { action, set } from '@ember/object';
 import { alias, sort } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { restartableTask } from 'ember-concurrency';
 import DS from 'ember-data';
 
 import { BufferedChangeset } from 'ember-changeset/types';
+import { taskFor } from 'ember-concurrency-ts';
 import { layout } from 'ember-osf-web/decorators/component';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import License from 'ember-osf-web/models/license';
@@ -35,15 +36,15 @@ export default class LicensePickerManager extends Component implements LicenseMa
     @sort('selectedLicense.requiredFields', (a: string, b: string) => +(a > b))
     requiredFields!: string[];
 
-    @task({ withTestWaiter: true, restartable: true, on: 'didReceiveAttrs' })
-    getAllProviderLicenses = task(function *(this: LicensePickerManager) {
-        const provider = yield this.draftManager.draftRegistration.provider;
+    @restartableTask({ on: 'didReceiveAttrs' })
+    async getAllProviderLicenses() {
+        const provider = await this.draftManager.draftRegistration.provider;
 
         if (!provider) {
             return;
         }
 
-        const providerLicenses: QueryHasManyResult<License> = yield provider
+        const providerLicenses = await provider
             .queryHasMany('licensesAcceptable', {
                 page: { size: 20 },
             });
@@ -51,7 +52,7 @@ export default class LicensePickerManager extends Component implements LicenseMa
         this.setProperties({
             licensesAcceptable: providerLicenses,
         });
-    });
+    }
 
     @action
     changeLicense(selected: License) {
@@ -69,12 +70,12 @@ export default class LicensePickerManager extends Component implements LicenseMa
         } else {
             this.draftManager.metadataChangeset.set('nodeLicense', null);
         }
-        this.draftManager.onMetadataInput.perform();
+        taskFor(this.draftManager.onMetadataInput).perform();
     }
 
     @action
     onInput() {
-        this.draftManager.onMetadataInput.perform();
+        taskFor(this.draftManager.onMetadataInput).perform();
     }
 
     @action

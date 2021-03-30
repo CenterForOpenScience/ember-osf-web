@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task, timeout } from 'ember-concurrency';
+import { restartableTask, task, timeout } from 'ember-concurrency';
 import { DS } from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 
@@ -37,31 +37,8 @@ export default class Search extends Component {
     @alias('search.lastSuccessful.value') results?: DS.AdapterPopulatedRecordArray<User>;
     @alias('results.meta.total_pages') totalPages?: number;
 
-    @task({ withTestWaiter: true, restartable: true })
-    search = task(function *(this: Search, page?: number) {
-        if (!this.query) {
-            return undefined;
-        }
-
-        if (page) {
-            this.setProperties({ page });
-        }
-
-        yield timeout(250);
-        this.analytics.track('list', 'filter', 'Collections - Contributors - Search');
-
-        const results = yield this.store.query('user', {
-            filter: {
-                [nameFields]: this.query,
-            },
-            page: this.page,
-        });
-
-        return results;
-    });
-
-    @task({ withTestWaiter: true })
-    addContributor = task(function *(this: Search, user: User) {
+    @task
+    async addContributor(user: User) {
         this.analytics.track('list', 'filter', 'Collections - Contributors - Add Contributor');
 
         const contributor = this.store.createRecord('contributor', {
@@ -72,7 +49,7 @@ export default class Search extends Component {
         });
 
         try {
-            yield contributor.save();
+            await contributor.save();
             if (this.onAddContributor) {
                 this.onAddContributor();
             }
@@ -83,5 +60,28 @@ export default class Search extends Component {
             this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
         }
-    });
+    }
+
+    @restartableTask
+    async search(page?: number) {
+        if (!this.query) {
+            return undefined;
+        }
+
+        if (page) {
+            this.setProperties({ page });
+        }
+
+        await timeout(250);
+        this.analytics.track('list', 'filter', 'Collections - Contributors - Search');
+
+        const results = await this.store.query('user', {
+            filter: {
+                [nameFields]: this.query,
+            },
+            page: this.page,
+        });
+
+        return results;
+    }
 }

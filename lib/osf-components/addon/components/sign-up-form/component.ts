@@ -3,7 +3,8 @@ import { action, computed } from '@ember/object';
 import { alias, and } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import PasswordStrength from 'ember-cli-password-strength/services/password-strength';
-import { task, timeout } from 'ember-concurrency';
+import { dropTask, restartableTask, timeout } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -29,9 +30,19 @@ export default class SignUpForm extends Component {
     @service analytics!: Analytics;
     @service store!: DS.Store;
 
-    @task({ withTestWaiter: true, drop: true })
-    submitTask = task(function *(this: SignUpForm) {
-        const { validations } = yield this.userRegistration.validate();
+    @alias('userRegistration.validations.attrs') a!: object;
+
+    @and(
+        'a.fullName.isValid',
+        'a.email1.isValid',
+        'a.email2.isValid',
+        'a.password.isValid',
+        'a.acceptedTermsOfService.isValid',
+    ) formIsValid!: boolean;
+
+    @dropTask
+    async submitTask() {
+        const { validations } = await this.userRegistration.validate();
         this.set('didValidate', true);
 
         if (!validations.isValid) {
@@ -39,39 +50,39 @@ export default class SignUpForm extends Component {
         }
 
         try {
-            yield this.userRegistration.save();
+            await this.userRegistration.save();
         } catch (e) {
             // Handle email already exists error
             if (+e.errors[0].status === 409) {
                 this.resetRecaptcha();
                 this.userRegistration.addExistingEmail();
-                yield this.userRegistration.validate();
+                await this.userRegistration.validate();
             } else if (+e.errors[0].status === 400) {
                 this.resetRecaptcha();
                 this.userRegistration.addInvalidEmail();
-                yield this.userRegistration.validate();
+                await this.userRegistration.validate();
             }
 
             return;
         }
 
         this.set('hasSubmitted', true);
-    });
+    }
 
-    @task({ withTestWaiter: true, restartable: true })
-    strength = task(function *(this: SignUpForm, value: string) {
+    @restartableTask
+    async strength(value: string) {
         if (!value) {
             return 0;
         }
 
-        yield timeout(250);
+        await timeout(250);
 
-        return yield this.passwordStrength.strength(value);
-    });
+        return await this.passwordStrength.strength(value);
+    }
 
     @computed('userRegistration.password', 'strength.lastSuccessful.value.score')
     get progress(): number {
-        const { lastSuccessful } = this.strength;
+        const { lastSuccessful } = taskFor(this.strength);
         return this.userRegistration.password && lastSuccessful ? 1 + lastSuccessful.value.score : 0;
     }
 
@@ -91,16 +102,6 @@ export default class SignUpForm extends Component {
         }
     }
 
-    @alias('userRegistration.validations.attrs') a!: object;
-
-    @and(
-        'a.fullName.isValid',
-        'a.email1.isValid',
-        'a.email2.isValid',
-        'a.password.isValid',
-        'a.acceptedTermsOfService.isValid',
-    ) formIsValid!: boolean;
-
     init() {
         this.set('userRegistration', this.store.createRecord('user-registration'));
         if (this.campaign) {
@@ -111,6 +112,6 @@ export default class SignUpForm extends Component {
 
     @action
     submit() {
-        this.submitTask.perform();
+        taskFor(this.submitTask).perform();
     }
 }

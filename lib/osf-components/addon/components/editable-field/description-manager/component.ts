@@ -47,12 +47,12 @@ export default class DescriptionManagerComponent extends Component {
         return this.userCanEdit || !this.fieldIsEmpty;
     }
 
-    @task({ withTestWaiter: true })
-    save = task(function *(this: DescriptionManagerComponent) {
+    @task
+    async save() {
         if (this.node) {
             this.node.set('description', this.currentDescription);
             try {
-                yield this.node.save();
+                await this.node.save();
             } catch (e) {
                 const errorMessage = this.intl.t('registries.registration_metadata.edit_description.error');
                 captureException(e, { errorMessage });
@@ -63,7 +63,7 @@ export default class DescriptionManagerComponent extends Component {
             this.set('requestedEditMode', false);
             this.toast.success(this.intl.t('registries.registration_metadata.edit_description.success'));
         }
-    });
+    }
 
     @action
     startEditing() {

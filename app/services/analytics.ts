@@ -3,7 +3,8 @@ import { assert, debug, runInDebug } from '@ember/debug';
 import { action } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
 import Service, { inject as service } from '@ember/service';
-import { task, waitForQueue } from 'ember-concurrency';
+import { restartableTask, waitForQueue } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import config from 'ember-get-config';
 import Metrics from 'ember-metrics/services/metrics';
 import Session from 'ember-simple-auth/services/session';
@@ -156,16 +157,15 @@ export default class Analytics extends Service {
 
     rootElement?: Element;
 
-    @task({ withTestWaiter: true, restartable: true })
-    trackPageTask = task(function *(
-        this: Analytics,
+    @restartableTask
+    async trackPageTask(
         pagePublic: boolean | undefined,
         resourceType: string,
         withdrawn: string,
         versionType: string,
     ) {
         // Wait until everything has settled
-        yield waitForQueue('destroy');
+        await waitForQueue('destroy');
 
         const eventParams = {
             page: this.router.currentURL,
@@ -217,7 +217,7 @@ export default class Analytics extends Service {
             pagePublic,
             ...eventParams,
         });
-    });
+    }
 
     @action
     click(category: string, label: string, extraInfo?: string | object) {
@@ -259,7 +259,7 @@ export default class Analytics extends Service {
         withdrawn: string = 'n/a',
         version: string = 'n/a',
     ) {
-        this.get('trackPageTask').perform(pagePublic, resourceType, withdrawn, version);
+        taskFor(this.trackPageTask).perform(pagePublic, resourceType, withdrawn, version);
     }
 
     trackFromElement(target: Element, initialInfo: InitialEventInfo) {

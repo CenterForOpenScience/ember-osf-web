@@ -2,7 +2,8 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { dropTask } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -46,21 +47,21 @@ export default class DeleteButton extends Component {
 
     @computed('_deleteTask.isRunning', 'hardConfirm', 'scientistName', 'scientistInput')
     get confirmDisabled() {
-        return this._deleteTask.isRunning || (
+        return taskFor(this._deleteTask).isRunning || (
             this.hardConfirm && (this.scientistName !== this.scientistInput)
         );
     }
 
-    @task({ withTestWaiter: true, drop: true })
-    _deleteTask = task(function *(this: DeleteButton) { // tslint:disable-line variable-name
+    @dropTask
+    async _deleteTask() { // tslint:disable-line variable-name
         try {
-            yield this.delete();
+            await this.delete();
             this.set('modalShown', false);
         } catch (e) {
             captureException(e, { errorMessage: this.errorMessage });
             this.toast.error(getApiErrorMessage(e), this.errorMessage);
         }
-    });
+    }
 
     @action
     _show(event: Event) {

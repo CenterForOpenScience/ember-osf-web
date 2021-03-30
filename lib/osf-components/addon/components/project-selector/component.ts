@@ -3,7 +3,8 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias, bool } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task, timeout } from 'ember-concurrency';
+import { restartableTask, task, timeout } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
@@ -78,19 +79,19 @@ export default class ProjectSelector extends Component {
         }
     }
 
-    @task({ withTestWaiter: true })
-    initialLoad = task(function *(this: ProjectSelector) {
+    @task
+    async initialLoad() {
         this.setProperties({
             didValidate: false,
             selected: null,
-            projectList: yield this.get('findNodes').perform(),
+            projectList: await taskFor(this.findNodes).perform(),
         });
-    });
+    }
 
-    @task({ withTestWaiter: true, restartable: true })
-    findNodes = task(function *(this: ProjectSelector, filter?: string) {
+    @restartableTask
+    async findNodes(filter?: string) {
         if (filter) {
-            yield timeout(250);
+            await timeout(250);
         }
 
         const { user } = this.currentUser;
@@ -98,17 +99,17 @@ export default class ProjectSelector extends Component {
             return [];
         }
 
-        const nodes = yield user.queryHasMany('nodes', {
+        const nodes = await user.queryHasMany('nodes', {
             embed: ['storage'],
             filter: filter ? { title: filter } : undefined,
         });
 
         return nodes;
-    });
+    }
 
     didReceiveAttrs(this: ProjectSelector) {
         if (this.projectSelectState === ProjectSelectState.main) {
-            this.get('initialLoad').perform();
+            taskFor(this.initialLoad).perform();
         }
     }
 

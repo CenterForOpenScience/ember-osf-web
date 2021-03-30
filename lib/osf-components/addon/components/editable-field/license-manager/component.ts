@@ -3,7 +3,7 @@ import Component from '@ember/component';
 import { action, computed, set } from '@ember/object';
 import { alias, and, not, sort } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency';
+import { restartableTask } from 'ember-concurrency';
 import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
@@ -56,25 +56,25 @@ export default class LicenseManagerComponent extends Component implements Licens
         return this.userCanEdit || !this.fieldIsEmpty;
     }
 
-    @task({ withTestWaiter: true, restartable: true, on: 'didReceiveAttrs' })
-    getAllProviderLicenses = task(function *(this: LicenseManagerComponent) {
-        const provider = yield this.node.provider;
+    @restartableTask({ on: 'didReceiveAttrs' })
+    async getAllProviderLicenses() {
+        const provider = await this.node.provider;
 
         if (!provider) {
             return;
         }
 
-        const providerLicenses: QueryHasManyResult<License> = yield provider
+        const providerLicenses = await provider
             .queryHasMany('licensesAcceptable', {
                 page: { size: 20 },
             });
 
         this.setProperties({
             licensesAcceptable: providerLicenses,
-            currentLicense: yield this.node.license,
+            currentLicense: await this.node.license,
             currentNodeLicense: { ...this.node.nodeLicense },
         });
-    });
+    }
 
     didReceiveAttrs() {
         if (!this.changeset) {

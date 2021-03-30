@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import { task, timeout } from 'ember-concurrency';
+import { restartableTask, Task, timeout } from 'ember-concurrency';
 
 import { layout } from 'ember-osf-web/decorators/component';
 
@@ -8,14 +8,14 @@ import template from './template';
 
 @layout(template)
 export default class Debouncer extends Component {
-    fn!: () => void;
+    fn!: Task<void, []>;
     timeoutInterval: number = 500;
 
-    @task({ withTestWaiter: true, restartable: true })
-    doFnDebounce = task(function *(this: Debouncer) {
-        yield timeout(this.timeoutInterval);
-        yield this.fn();
-    });
+    @restartableTask
+    async doFnDebounce() {
+        await timeout(this.timeoutInterval);
+        await this.fn.perform();
+    }
 
     didReceiveAttrs() {
         assert('Debouncer needs a function input', Boolean(this.fn));

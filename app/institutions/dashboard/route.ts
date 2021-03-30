@@ -3,6 +3,7 @@ import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 
 import InstitutionModel from 'ember-osf-web/models/institution';
 import InstitutionDepartmentModel from 'ember-osf-web/models/institution-department';
@@ -20,17 +21,17 @@ export default class InstitutionsDashboardRoute extends Route {
     @service analytics!: Analytics;
     @service router!: RouterService;
 
-    @task({ withTestWaiter: true })
-    modelTask = task(function *(this: InstitutionsDashboardRoute, institutionId: string) {
+    @task
+    async modelTask(institutionId: string) {
         try {
-            const institution = yield this.get('store').findRecord('institution', institutionId, {
+            const institution = await this.get('store').findRecord('institution', institutionId, {
                 adapterOptions: {
                     include: ['summary_metrics'],
                 },
             });
-            const departmentMetrics = yield institution.queryHasMany('departmentMetrics');
-            const summaryMetrics = yield institution.summaryMetrics;
-            const userMetricInfo: QueryHasManyResult<never> = yield institution.queryHasMany(
+            const departmentMetrics = await institution.queryHasMany('departmentMetrics');
+            const summaryMetrics = await institution.summaryMetrics;
+            const userMetricInfo: QueryHasManyResult<never> = await institution.queryHasMany(
                 'userMetrics',
                 { size: 0 },
             );
@@ -46,12 +47,12 @@ export default class InstitutionsDashboardRoute extends Route {
             this.transitionTo('not-found', this.get('router').get('currentURL').slice(1));
             return undefined;
         }
-    });
+    }
 
     // eslint-disable-next-line camelcase
     model(params: { institution_id: string }) {
         return {
-            taskInstance: this.modelTask.perform(params.institution_id),
+            taskInstance: taskFor(this.modelTask).perform(params.institution_id),
         };
     }
 

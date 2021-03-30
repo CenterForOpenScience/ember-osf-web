@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { all, task, timeout } from 'ember-concurrency';
+import { all, restartableTask, task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -51,9 +51,20 @@ export default class CitationViewer extends Component {
 
     selectedCitationStyle?: CitationStyle;
 
-    @task({ withTestWaiter: true, on: 'init' })
-    loadDefaultCitations = task(function *(this: CitationViewer) {
-        const responses: SingleResourceDocument[] = yield all(
+    @restartableTask
+    async renderCitation(citationStyle: CitationStyle) {
+        this.set('selectedCitationStyle', citationStyle);
+
+        const response: SingleResourceDocument = await this.currentUser.authenticatedAJAX({
+            url: citationUrl(this.citable, citationStyle.id),
+        });
+        const citationString = response.data.attributes!.citation;
+        return typeof citationString === 'string' ? fixSpecialChars(citationString) : citationString;
+    }
+
+    @task({ on: 'init' })
+    async loadDefaultCitations() {
+        const responses: SingleResourceDocument[] = await all(
             defaultCitations.map(
                 c => this.currentUser.authenticatedAJAX({ url: citationUrl(this.citable, c.id) }),
             ),
@@ -64,26 +75,15 @@ export default class CitationViewer extends Component {
                 ? fixSpecialChars(r.data.attributes!.citation)
                 : r.data.attributes!.citation,
         }));
-    });
+    }
 
-    @task({ withTestWaiter: true, restartable: true })
-    searchCitationStyles = task(function *(this: CitationViewer, query: string) {
-        yield timeout(1000); // debounce
+    @restartableTask
+    async searchCitationStyles(query: string) {
+        await timeout(1000); // debounce
 
-        return yield this.store.query('citation-style', {
+        return await this.store.query('citation-style', {
             'filter[title,short_title]': query,
             'page[size]': 100,
         });
-    });
-
-    @task({ withTestWaiter: true, restartable: true })
-    renderCitation = task(function *(this: CitationViewer, citationStyle: CitationStyle) {
-        this.set('selectedCitationStyle', citationStyle);
-
-        const response: SingleResourceDocument = yield this.currentUser.authenticatedAJAX({
-            url: citationUrl(this.citable, citationStyle.id),
-        });
-        const citationString = response.data.attributes!.citation;
-        return typeof citationString === 'string' ? fixSpecialChars(citationString) : citationString;
-    });
+    }
 }
