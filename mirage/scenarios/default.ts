@@ -193,8 +193,9 @@ function registrationScenario(
         registrationResponses,
         branchedFrom: rootNode,
         license: licenseReqFields,
+        currentUserPermissions: [Permission.Read, Permission.Write],
         provider,
-    });
+    }, 'withContributors');
 
     const clinicalTrials = server.create('external-provider', {
         shareSource: 'ClinicalTrials.gov',

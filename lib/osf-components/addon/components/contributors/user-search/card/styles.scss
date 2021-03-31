@@ -8,10 +8,6 @@
 
 .CardSection {
     composes: CardSection from '../../card/styles.scss';
-
-    :global(.ember-power-select-trigger) {
-        max-width: 150px;
-    }
 }
 
 .CardSectionSmall {

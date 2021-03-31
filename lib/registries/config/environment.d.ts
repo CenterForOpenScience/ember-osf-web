@@ -15,6 +15,7 @@ declare const config: {
         help: string;
         donate: string;
     };
+    defaultProviderId: string;
 };
 
 export default config;
