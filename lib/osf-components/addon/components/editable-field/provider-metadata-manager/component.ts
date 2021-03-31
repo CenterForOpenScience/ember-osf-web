@@ -1,5 +1,5 @@
 import { action } from '@ember/object';
-import { alias, and } from '@ember/object/computed';
+import { alias, and, reads } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
@@ -19,9 +19,14 @@ export interface Args {
 export interface ProviderMetadataManager {
     save: () => void;
     cancel: () => void;
+    startEditing: () => void;
     inEditMode: boolean;
-    currentProviderMetadata: ProviderMetadata[];
     userCanEdit: boolean;
+    shouldShowField: () => boolean;
+    currentProviderMetadata: ProviderMetadata[];
+    isSaving: () => boolean;
+    fieldIsEmpty: () => boolean;
+    emptyFieldText: string;
 }
 
 export default class ProviderMetadataManagerComponent extends Component<Args> {
@@ -51,9 +56,17 @@ export default class ProviderMetadataManagerComponent extends Component<Args> {
     @tracked currentProviderMetadata: ProviderMetadata[] = [];
     @tracked requestedEditMode: boolean = false;
 
-    @alias('args.registration.provider.currentUserCanReview') userCanEdit!: boolean;
+    @reads('args.registration.provider.currentUserCanReview') userCanEdit!: boolean;
     @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
     @alias('args.registration.providerSpecificMetadata') providerSpecificMetadata!: ProviderMetadata[];
+
+    compareFieldValues(isEmpty: boolean, item: ProviderMetadata) {
+        return isEmpty && !item.field_value;
+    }
+
+    deepCopy(providerMetadata: ProviderMetadata[]) {
+        return JSON.parse(JSON.stringify(providerMetadata));
+    }
 
     get fieldIsEmpty() {
         if (this.args.registration && this.args.registration.providerSpecificMetadata) {
@@ -62,32 +75,23 @@ export default class ProviderMetadataManagerComponent extends Component<Args> {
         return true;
     }
 
-    compareFieldValues(isEmpty: boolean, item: ProviderMetadata) {
-        return isEmpty && !item.field_value;
-    }
-
     get shouldShowField() {
         return this.userCanEdit || !this.fieldIsEmpty;
     }
 
     @action
     startEditing() {
-        this.currentProviderMetadata = this.deepCopy(this.args.registration.providerSpecificMetadata);
         this.requestedEditMode = true;
     }
 
     @action
     cancel() {
-        this.currentProviderMetadata = this.deepCopy(this.args.registration.providerSpecificMetadata);
+        this.setCurrentProviderMetadata();
         this.requestedEditMode = false;
     }
 
     @action
     setCurrentProviderMetadata() {
         this.currentProviderMetadata = this.deepCopy(this.args.registration.providerSpecificMetadata);
-    }
-
-    deepCopy(providerMetadata: ProviderMetadata[]) {
-        return JSON.parse(JSON.stringify(providerMetadata));
     }
 }
