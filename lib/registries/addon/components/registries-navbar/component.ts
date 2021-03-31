@@ -17,7 +17,7 @@ import registriesConfig from 'registries/config/environment';
 
 import template from './template';
 
-const { externalLinks } = registriesConfig;
+const { externalLinks, defaultProviderId } = registriesConfig;
 const {
     featureFlagNames: {
         egapAdmins,
@@ -35,6 +35,11 @@ export default class RegistriesNavbar extends AuthBase {
 
     @and('media.isMobile', 'searchDropdownOpen') showSearchDropdown!: boolean;
 
+    @computed('provider')
+    get providerId() {
+        return this.provider ? this.provider.id : defaultProviderId;
+    }
+
     @computed('media.isMobile', 'provider.brand')
     get shouldShowProviderName() {
         return !this.media.isMobile && this.provider && this.provider.brand;
@@ -42,8 +47,9 @@ export default class RegistriesNavbar extends AuthBase {
 
     @computed('provider.{allowSubmissions,id}')
     get showAddRegistrationButton() {
+        // Check if this is OSF Registries
         if (!this.provider) {
-            return false;
+            return true;
         }
         if (this.provider.id === 'egap') {
             return this.features.isEnabled(camelize(egapAdmins));
