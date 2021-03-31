@@ -48,7 +48,7 @@ export default class Register extends Component {
             });
         }
 
-        if (this.node && this.hasProject) {
+        if (this.hasProject && this.node) {
             try {
                 yield this.node.loadRelatedCount('children');
             } catch (e) {
@@ -59,6 +59,8 @@ export default class Register extends Component {
             }
             if (this.node.relatedCounts.children > 0) {
                 this.showPartialRegDialog();
+            } else {
+                this.showFinalizeRegDialog();
             }
         } else {
             this.showFinalizeRegDialog();

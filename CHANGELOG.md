@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [21.1.0] - 2021-03-30
+### Added
+- no-project registrations
+
 ## [20.13.0] - 2020-12-17
 ### Added
 - moderation tests
@@ -1688,7 +1692,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/20.13.0...develop
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/21.1.0...develop
+[21.1.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.1.0
 [20.13.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.13.0
 [20.12.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.12.1
 [20.12.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.12.0
