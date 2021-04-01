@@ -1,15 +1,14 @@
 <ContentPlaceholders as |placeholder|>
-    <PaginatedList::HasMany
-        @model={{@user}}
-        @relationshipName='registrations'
+    <PaginatedList::All
+        @modelName='draft-registration'
         @usePlaceholders={{false}}
         as |list|
     >
-        <list.item as |registration|>
-            {{#if registration}}
-                <NodeCard
-                    @node={{registration}}
-                    @showTags={{true}}
+        <list.item as |draftRegistration|>
+            {{#if draftRegistration}}
+                <DraftRegistrationCard
+                    @draftRegistration={{draftRegistration}}
+                    @onDelete={{action list.doReload 1}}
                 />
             {{else}}
                 {{placeholder.text lines=1}}
@@ -17,10 +16,10 @@
         </list.item>
         <list.empty>
             <p
-                data-test-registration-list-none
+                data-test-draft-list-none
             >
                 {{t 'registries.myRegistrationsList.noRegistrations'}}
             </p>
         </list.empty>
-    </PaginatedList::HasMany>
+    </PaginatedList::All>
 </ContentPlaceholders>

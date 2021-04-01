@@ -1420,6 +1420,7 @@ registries:
         noModeratorActions: 'No moderator decisions can be made at this time'
     myRegistrationsList:
         noRegistrations: "You don't have any registrations"
+        noDrafts: "You don't have any drafts"
 meetings:
     index:
         meetings-list:
