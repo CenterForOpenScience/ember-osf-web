@@ -29,6 +29,14 @@ export interface ProviderMetadataManager {
     emptyFieldText: string;
 }
 
+function compareFieldValues(isEmpty: boolean, item: ProviderMetadata) {
+    return isEmpty && !item.field_value;
+}
+
+function deepCopy(providerMetadata: ProviderMetadata[]) {
+    return JSON.parse(JSON.stringify(providerMetadata));
+}
+
 export default class ProviderMetadataManagerComponent extends Component<Args> {
     @service currentUser!: CurrentUserService;
     @service intl!: Intl;
@@ -39,7 +47,7 @@ export default class ProviderMetadataManagerComponent extends Component<Args> {
     save = task(function *(this: ProviderMetadataManagerComponent) {
         if (this.args.registration) {
             try {
-                this.providerSpecificMetadata = this.deepCopy(this.currentProviderMetadata);
+                this.providerSpecificMetadata = deepCopy(this.currentProviderMetadata);
                 yield this.args.registration.save();
             } catch (e) {
                 const errorMessage = this.intl.t('registries.registration_metadata.edit_provider_metadata.error');
@@ -60,17 +68,14 @@ export default class ProviderMetadataManagerComponent extends Component<Args> {
     @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
     @alias('args.registration.providerSpecificMetadata') providerSpecificMetadata!: ProviderMetadata[];
 
-    compareFieldValues(isEmpty: boolean, item: ProviderMetadata) {
-        return isEmpty && !item.field_value;
-    }
-
-    deepCopy(providerMetadata: ProviderMetadata[]) {
-        return JSON.parse(JSON.stringify(providerMetadata));
+    constructor(owner: unknown, args: Args) {
+        super(owner, args);
+        this.setCurrentProviderMetadata();
     }
 
     get fieldIsEmpty() {
         if (this.args.registration && this.args.registration.providerSpecificMetadata) {
-            return this.args.registration.providerSpecificMetadata.reduce(this.compareFieldValues, true);
+            return this.args.registration.providerSpecificMetadata.reduce(compareFieldValues, true);
         }
         return true;
     }
@@ -90,8 +95,7 @@ export default class ProviderMetadataManagerComponent extends Component<Args> {
         this.requestedEditMode = false;
     }
 
-    @action
     setCurrentProviderMetadata() {
-        this.currentProviderMetadata = this.deepCopy(this.args.registration.providerSpecificMetadata);
+        this.currentProviderMetadata = deepCopy(this.args.registration.providerSpecificMetadata);
     }
 }
