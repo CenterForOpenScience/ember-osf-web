@@ -598,7 +598,7 @@ node_card:
             withdrawn: Withdrawn
             archiving: Archiving
     tags: 'Tags:'
-    schema: 'Schema:'
+    registration_template: 'Registration template:'
     contributors: 'Contributors:'
     description: 'Description:'
     options: Options

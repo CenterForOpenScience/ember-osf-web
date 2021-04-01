@@ -37,10 +37,12 @@ module('Integration | Component | node-card', hooks => {
         `);
         assert.dom('[data-test-node-title]').exists('Node title exists');
         assert.dom('[data-test-node-title]').hasText(registrationModel.title, 'Node title is corrent');
-        assert.dom('[data-test-schema-label]').exists('Schema label exists');
-        assert.dom('[data-test-schema-label]').hasText(this.intl.t('node_card.schema'), 'Schema label is correct');
-        assert.dom('[data-test-schema-name]').exists('Schema name exists');
-        assert.dom('[data-test-schema-name]').hasTextContaining(
+        assert.dom('[data-test-registration-template-label]').exists('Schema label exists');
+        assert.dom('[data-test-registration-template-label]').hasText(
+            this.intl.t('node_card.schema'), 'Schema label is correct',
+        );
+        assert.dom('[data-test-registration-template-name]').exists('Schema name exists');
+        assert.dom('[data-test-registration-template-name]').hasTextContaining(
             registration.registrationSchema.name,
             'Schema name is correct',
         );
