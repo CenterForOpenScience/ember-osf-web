@@ -1,4 +1,13 @@
-{{#if this.currentUser.user}}
-    <Registries::MyRegistrationsList::Registrations @user={{this.currentUser.user}} />
-    <Registries::MyRegistrationsList::Drafts />
-{{/if}}
+<RegistriesWrapper>
+    {{#if this.currentUser.user}}
+        <Registries::MyRegistrationsList::Registrations @user={{this.currentUser.user}} />
+        <Registries::MyRegistrationsList::Drafts />
+    {{/if}}
+</RegistriesWrapper>
+{{!-- <OsfLayout @backgroundClass={{local-class 'ContentBackground'}} as |layout|>
+    <layout.heading>
+        My Registrations
+    </layout.heading>
+    <layout.main>
+    </layout.main>
+</OsfLayout> --}}
