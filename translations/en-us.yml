@@ -1418,6 +1418,8 @@ registries:
         justificationForWithdrawal: 'Justification for Withdrawal'
         justificationForWithdrawalPlaceholder: 'Provide justification for withdrawal'
         noModeratorActions: 'No moderator decisions can be made at this time'
+    myRegistrationsList:
+        noRegistrations: "You don't have any registrations"
 meetings:
     index:
         meetings-list:

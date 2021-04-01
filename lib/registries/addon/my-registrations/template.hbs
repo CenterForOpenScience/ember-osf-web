@@ -1,1 +1,3 @@
-{{ outlet }}
+{{#if this.currentUser.user}}
+    <Registries::MyRegistrationsList::Registrations @user={{this.currentUser.user}} />
+{{/if}}

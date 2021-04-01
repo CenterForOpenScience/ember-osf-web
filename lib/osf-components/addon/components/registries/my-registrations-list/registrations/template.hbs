@@ -1,0 +1,27 @@
+<ContentPlaceholders as |placeholder|>
+    <PaginatedList::HasMany
+        @model={{@user}}
+        @relationshipName='registrations'
+        @usePlaceholders={{false}}
+        as |list|
+    >
+        <list.item as |registration|>
+            {{#if registration}}
+                <NodeCard
+                    @node={{registration}}
+                    @showTags={{true}}
+                />
+            {{else}}
+                {{placeholder.text lines=1}}
+            {{/if}}
+        </list.item>
+        <list.empty>
+            <p
+                data-test-registration-list-none
+                local-class='noRegistrationMessage'
+            >
+                {{t 'registries.myRegistrationsList.noRegistrations'}}
+            </p>
+        </list.empty>
+    </PaginatedList::HasMany>
+</ContentPlaceholders>
