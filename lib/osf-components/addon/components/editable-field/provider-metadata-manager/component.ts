@@ -1,5 +1,5 @@
 import { action } from '@ember/object';
-import { alias, and, reads } from '@ember/object/computed';
+import { and, reads } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
@@ -24,6 +24,7 @@ export interface ProviderMetadataManager {
     userCanEdit: boolean;
     shouldShowField: () => boolean;
     currentProviderMetadata: ProviderMetadata[];
+    providerSpecificMetadata: ProviderMetadata[];
     isSaving: () => boolean;
     fieldIsEmpty: () => boolean;
     emptyFieldText: string;
@@ -47,7 +48,7 @@ export default class ProviderMetadataManagerComponent extends Component<Args> {
     save = task(function *(this: ProviderMetadataManagerComponent) {
         if (this.args.registration) {
             try {
-                this.providerSpecificMetadata = deepCopy(this.currentProviderMetadata);
+                this.args.registration.providerSpecificMetadata = deepCopy(this.currentProviderMetadata);
                 yield this.args.registration.save();
             } catch (e) {
                 const errorMessage = this.intl.t('registries.registration_metadata.edit_provider_metadata.error');
@@ -66,7 +67,6 @@ export default class ProviderMetadataManagerComponent extends Component<Args> {
 
     @reads('args.registration.provider.currentUserCanReview') userCanEdit!: boolean;
     @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
-    @alias('args.registration.providerSpecificMetadata') providerSpecificMetadata!: ProviderMetadata[];
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);

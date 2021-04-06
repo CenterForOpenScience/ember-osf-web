@@ -93,10 +93,13 @@
                         <field.edit>
                             <ProviderMetadataEditable @field={{metadataField}} @manager={{providerMetadataManager}} />
                         </field.edit>
+                    {{/each}}
+                    {{#each field.manager.providerSpecificMetadata as |metadataField|}}
                         <field.display>
                             <ProviderMetadataDisplay @field={{metadataField}} @manager={{providerMetadataManager}} />
                         </field.display>
                     {{/each}}
+                    
                 </EditableField>
             </EditableField::ProviderMetadataManager>
         </div>
