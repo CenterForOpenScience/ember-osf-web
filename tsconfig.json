@@ -72,6 +72,9 @@
       "registries/config/*": [
         "lib/registries/config/*"
       ],
+      "config/*": [
+        "config/*"
+      ],
       "*": [
         "types/*"
       ]
