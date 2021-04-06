@@ -54,7 +54,10 @@
     </div>
     {{#if @providerModel.htmlSafeDescription}}
         <div  local-class='ProviderDescription' class='row m-t-md m-b-lg'>
-            <div class='col-xs-12 col-sm-8 col-sm-offset-2'>
+            <div
+                data-test-provider-description
+                class='col-xs-12 col-sm-8 col-sm-offset-2'
+            >
                 {{@providerModel.htmlSafeDescription}}
             </div>
         </div>
