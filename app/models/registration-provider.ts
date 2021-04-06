@@ -1,3 +1,4 @@
+import { htmlSafe } from '@ember/string';
 import DS from 'ember-data';
 import ReviewActionModel from 'ember-osf-web/models/review-action';
 
@@ -41,6 +42,14 @@ export default class RegistrationProviderModel extends ProviderModel {
             return this.permissions.includes(ReviewPermissions.ViewSubmissions);
         }
         return false;
+    }
+
+    @computed('description')
+    get htmlSafeDescription() {
+        if (this.description) {
+            return htmlSafe(this.description);
+        }
+        return '';
     }
 }
 
