@@ -79,9 +79,14 @@ export default class DraftRegistrationManager {
 
     @task({ withTestWaiter: true })
     initializePageManagers = task(function *(this: DraftRegistrationManager) {
-        const { draftRegistration, node, provider } = yield this.draftRegistrationAndNodeTask;
+        const { draftRegistration, provider } = yield this.draftRegistrationAndNodeTask;
+        try {
+            const node = yield this.draftRegistration.branchedFrom;
+            set(this, 'node', node);
+        } catch {
+            set(this, 'node', undefined);
+        }
         set(this, 'draftRegistration', draftRegistration);
-        set(this, 'node', node);
         set(this, 'provider', provider);
         const registrationSchema = yield this.draftRegistration.registrationSchema;
         const schemaBlocks: SchemaBlock[] = yield registrationSchema.loadAll('schemaBlocks');

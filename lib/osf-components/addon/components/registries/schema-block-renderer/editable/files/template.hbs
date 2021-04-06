@@ -3,11 +3,15 @@
     local-class='FilesInstructions'
 >
     {{#if @draftRegistration.hasProject}}
-        {{t 'osf-components.registries.schema-block-renderer/editable/files.instructions'
-            projectOrComponent=(if this.node.isRoot 'project' 'component')
-            nodeUrl=this.nodeUrl
-            htmlSafe=true
-        }}
+        {{#if this.node}}
+            {{t 'osf-components.registries.schema-block-renderer/editable/files.instructions'
+                projectOrComponent=(if this.node.isRoot 'project' 'component')
+                nodeUrl=this.nodeUrl
+                htmlSafe=true
+            }}
+        {{else}}
+            You don't have permission to edit files on the project
+        {{/if}}
     {{else}}
         {{t 'osf-components.registries.schema-block-renderer/editable/files.instructionsNoProject'
             htmlSafe=true
@@ -33,5 +37,6 @@
     @onAddFile={{action this.onAddFile}}
     @onDeleteFile={{this.onDeleteFile}}
     @canEdit={{not this.currentUserIsReadOnly}}
+    disabled={{not this.node}}
     ...attributes
 />
