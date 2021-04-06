@@ -25,13 +25,12 @@ import buildChangeset from 'ember-osf-web/utils/build-changeset';
 
 type LoadDraftModelTask = TaskInstance<{
     draftRegistration: DraftRegistration,
-    node?: NodeModel,
     provider: ProviderModel,
 }>;
 
 export default class DraftRegistrationManager {
     // Required
-    draftRegistrationAndNodeTask!: LoadDraftModelTask;
+    draftRegistrationTask!: LoadDraftModelTask;
 
     // Private
     @service intl!: Intl;
@@ -79,15 +78,15 @@ export default class DraftRegistrationManager {
 
     @task({ withTestWaiter: true })
     initializePageManagers = task(function *(this: DraftRegistrationManager) {
-        const { draftRegistration, provider } = yield this.draftRegistrationAndNodeTask;
+        const { draftRegistration, provider } = yield this.draftRegistrationTask;
+        set(this, 'draftRegistration', draftRegistration);
+        set(this, 'provider', provider);
         try {
             const node = yield this.draftRegistration.branchedFrom;
             set(this, 'node', node);
         } catch {
             set(this, 'node', undefined);
         }
-        set(this, 'draftRegistration', draftRegistration);
-        set(this, 'provider', provider);
         const registrationSchema = yield this.draftRegistration.registrationSchema;
         const schemaBlocks: SchemaBlock[] = yield registrationSchema.loadAll('schemaBlocks');
         set(this, 'schemaBlocks', schemaBlocks);
@@ -109,7 +108,7 @@ export default class DraftRegistrationManager {
 
     @task({ withTestWaiter: true })
     initializeMetadataChangeset = task(function *(this: DraftRegistrationManager) {
-        const { draftRegistration } = yield this.draftRegistrationAndNodeTask;
+        const { draftRegistration } = yield this.draftRegistrationTask;
         const metadataValidations = buildMetadataValidations();
         const metadataChangeset = buildChangeset(draftRegistration, metadataValidations);
         set(this, 'metadataChangeset', metadataChangeset);
@@ -172,8 +171,8 @@ export default class DraftRegistrationManager {
         }
     });
 
-    constructor(draftRegistrationAndNodeTask: LoadDraftModelTask) {
-        set(this, 'draftRegistrationAndNodeTask', draftRegistrationAndNodeTask);
+    constructor(draftRegistrationTask: LoadDraftModelTask) {
+        set(this, 'draftRegistrationTask', draftRegistrationTask);
         this.initializePageManagers.perform();
         this.initializeMetadataChangeset.perform();
     }
