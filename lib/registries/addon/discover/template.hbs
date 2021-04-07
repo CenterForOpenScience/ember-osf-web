@@ -6,25 +6,13 @@
     data-analytics-scope='Registries Discover page'
 >
     <HeroOverlay local-class='DiscoverHero'>
-        {{#registries-header
+        {{registries-header
             providerModel=this.providerModel
             showHelp=true
             value=(mut this.query)
             onSearch=(action 'onSearch')
             searchable=this.searchable
-        as |header|}}
-            {{#header.lead}}
-                {{t 'registries.discover.powered_by' }}
-                <a
-                    data-test-share-logo
-                    href='https://share.osf.io/'
-                    local-class='ShareLogo'
-                    title={{t 'registries.discover.SHARE'}}
-                    aria-label={{t 'registries.discover.go_to_SHARE'}}
-                    data-analytics-name='SHARE Logo'
-                ></a>
-            {{/header.lead}}
-        {{/registries-header}}
+        }}
     </HeroOverlay>
     {{#registries-discover-search
         results=this.results
