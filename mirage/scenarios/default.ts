@@ -58,6 +58,10 @@ function registrationScenario(
         id: 'writr',
         registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
         currentUserPermissions: [Permission.Read, Permission.Write],
+        providerSpecificMetadata: [
+            { field_name: 'Metadata field 1', field_value: '' },
+            { field_name: 'Another Field', field_value: 'Value 2' },
+        ],
     });
 
     server.create('contributor', { users: currentUser, node: currentUserWrite });
@@ -143,8 +147,12 @@ function registrationScenario(
         id: 'accpt',
         title: 'Acceptember',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
-        provider: egap,
+        provider,
         reviewsState: RegistrationReviewStates.Accepted,
+        providerSpecificMetadata: [
+            { field_name: 'Metadata field 1', field_value: '' },
+            { field_name: 'Another Field', field_value: 'Value 2' },
+        ],
     }, 'withContributors');
 
     server.create('registration', {
