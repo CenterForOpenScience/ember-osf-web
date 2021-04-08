@@ -1,5 +1,6 @@
 import { click, fillIn, findAll, render, triggerKeyEvent } from '@ember/test-helpers';
 import a11yAudit from 'ember-a11y-testing/test-support/audit';
+import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupIntl, t } from 'ember-intl/test-support';
 import { Permission } from 'ember-osf-web/models/osf-model';
@@ -9,7 +10,6 @@ import { clickTrigger } from 'ember-power-select/test-support/helpers';
 import { setupRenderingTest } from 'ember-qunit';
 import { reorder } from 'ember-sortable/test-support/helpers';
 import { TestContext } from 'ember-test-helpers';
-import hbs from 'htmlbars-inline-precompile';
 import { module, skip, test } from 'qunit';
 import { OsfLinkRouterStub } from '../../helpers/osf-link-router-stub';
 
