@@ -18,6 +18,7 @@
     "ember-cli-template-lint": "*",
     "ember-cli-typescript": "*",
     "ember-component-attributes": "*",
+    "ember-concurrency-async": "*",
     "ember-cp-validations": "*",
     "ember-css-modules": "*",
     "ember-css-modules-sass": "*",
