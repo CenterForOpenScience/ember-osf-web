@@ -1,6 +1,7 @@
 import { assert } from '@ember/debug';
 import { defineProperty } from '@ember/object';
 import { or, reads } from '@ember/object/computed';
+import { waitFor } from '@ember/test-waiters';
 import { restartableTask, task, TaskInstance } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import { RelationshipsFor } from 'ember-data';
@@ -27,6 +28,7 @@ export default class PaginatedHasMany extends BaseDataComponent {
 
     // Private properties
     @task
+    @waitFor
     async loadItemsTask({ reloading }: LoadItemsOptions) {
         const model = await taskFor(this.getModelTask).perform();
         if (this.usePlaceholders) {
@@ -53,6 +55,7 @@ export default class PaginatedHasMany extends BaseDataComponent {
     }
 
     @task
+    @waitFor
     async getModelTask() {
         let model = this.modelInstance;
         if (!model && this.modelTaskInstance) {
@@ -64,7 +67,8 @@ export default class PaginatedHasMany extends BaseDataComponent {
         return model;
     }
 
-    @restartableTask()
+    @restartableTask
+    @waitFor
     async loadRelatedCountTask(reloading: boolean) {
         const model = await taskFor(this.getModelTask).perform();
         if (reloading || typeof this.totalCount === 'undefined') {

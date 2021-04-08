@@ -3,6 +3,7 @@ import Component from '@ember/component';
 import { action, computed, set } from '@ember/object';
 import { alias, and, not, sort } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { restartableTask } from 'ember-concurrency';
 import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
@@ -57,6 +58,7 @@ export default class LicenseManagerComponent extends Component implements Licens
     }
 
     @restartableTask({ on: 'didReceiveAttrs' })
+    @waitFor
     async getAllProviderLicenses() {
         const provider = await this.node.provider;
 

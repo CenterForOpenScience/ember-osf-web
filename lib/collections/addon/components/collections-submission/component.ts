@@ -2,6 +2,7 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { underscore } from '@ember/string';
+import { waitFor } from '@ember/test-waiters';
 import { dropTask, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
@@ -70,6 +71,7 @@ export default class Submit extends Component {
     resetPageDirty!: () => void;
 
     @dropTask
+    @waitFor
     async save() {
         if (!this.collectionItem) {
             return;

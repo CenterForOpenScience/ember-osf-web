@@ -3,6 +3,7 @@ import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
 import { alias, or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { all, restartableTask, task, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
@@ -57,6 +58,7 @@ export default class Dashboard extends Controller {
     }
 
     @restartableTask
+    @waitFor
     async setupTask() {
         this.set('filter', null);
 
@@ -73,6 +75,7 @@ export default class Dashboard extends Controller {
     }
 
     @restartableTask
+    @waitFor
     async filterNodes(filter: string) {
         await timeout(500);
         this.setProperties({ filter });
@@ -81,6 +84,7 @@ export default class Dashboard extends Controller {
     }
 
     @restartableTask
+    @waitFor
     async findNodes(more?: boolean) {
         const indicatorProperty = more ? 'loadingMore' : 'loading';
         this.set(indicatorProperty, true);
@@ -106,6 +110,7 @@ export default class Dashboard extends Controller {
     }
 
     @task
+    @waitFor
     async getPopularAndNoteworthy(id: string, dest: 'noteworthy' | 'popular') {
         try {
             const node = await this.store.findRecord('node', id);

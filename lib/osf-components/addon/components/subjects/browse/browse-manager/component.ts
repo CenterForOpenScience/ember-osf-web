@@ -2,6 +2,7 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
@@ -38,6 +39,7 @@ export default class SubjectBrowserManagerComponent extends Component {
     rootSubjects?: SubjectModel[];
 
     @task({ on: 'init' })
+    @waitFor
     async loadRootSubjects() {
         try {
             const provider = this.subjectsManager.provider;

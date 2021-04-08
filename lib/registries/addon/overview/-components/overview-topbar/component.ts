@@ -2,6 +2,7 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { dropTask, task } from 'ember-concurrency';
 import DS from 'ember-data';
 import config from 'ember-get-config';
@@ -43,6 +44,7 @@ export default class OverviewTopbar extends Component {
     }
 
     @task({ on: 'init' })
+    @waitFor
     async getBookmarksCollection() {
         const collections = await this.store.findAll('collection', {
             adapterOptions: { 'filter[bookmarks]': 'true' },
@@ -61,6 +63,7 @@ export default class OverviewTopbar extends Component {
     }
 
     @dropTask
+    @waitFor
     async forkRegistration(closeDropdown: () => void) {
         if (!this.registration) {
             return;
@@ -83,6 +86,7 @@ export default class OverviewTopbar extends Component {
     }
 
     @dropTask
+    @waitFor
     async bookmark() {
         if (!this.bookmarksCollection || !this.registration) {
             return;

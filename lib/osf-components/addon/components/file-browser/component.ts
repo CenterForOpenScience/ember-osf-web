@@ -5,6 +5,7 @@ import { action, computed } from '@ember/object';
 import { alias, filterBy, not, notEmpty, or } from '@ember/object/computed';
 import { next } from '@ember/runloop';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import { localClassNames } from 'ember-css-modules';
@@ -114,6 +115,7 @@ export default class FileBrowser extends Component {
     @or('items.length', 'filter', 'isUploading') showItems!: boolean;
 
     @task
+    @waitFor
     async moveToProject() {
         if (!this.node) {
             return;

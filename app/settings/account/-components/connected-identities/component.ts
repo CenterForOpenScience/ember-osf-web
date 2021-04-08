@@ -1,6 +1,7 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import config from 'ember-get-config';
@@ -20,6 +21,7 @@ export default class ConnectedIdentities extends Component {
     reloadIdentitiesList!: (page?: number) => void; // bound by paginated-list
 
     @task
+    @waitFor
     async removeIdentityTask(identity: ExternalIdentity) {
         if (!identity) {
             return undefined;

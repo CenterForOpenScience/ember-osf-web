@@ -2,6 +2,7 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias, not } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { restartableTask, task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
@@ -56,6 +57,7 @@ export default class CommentCard extends Component {
     @not('comment') loading!: boolean;
 
     @task
+    @waitFor
     async submitRetractReport() {
         const userReports = await this.comment.reports;
 
@@ -84,6 +86,7 @@ export default class CommentCard extends Component {
     }
 
     @restartableTask
+    @waitFor
     async loadReplies(more: boolean = false) {
         if (!more) {
             const replies = await this.comment.replies;

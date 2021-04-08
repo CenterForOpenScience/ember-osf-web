@@ -3,6 +3,7 @@ import { assert } from '@ember/debug';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 
@@ -38,6 +39,7 @@ export default class GuidNodeRegistrations extends Controller {
     @alias('model.taskInstance.value') node!: Node | null;
 
     @task
+    @waitFor
     async getRegistrationSchemas() {
         const activeSchemas = await this.store.query('registration-schema',
             {

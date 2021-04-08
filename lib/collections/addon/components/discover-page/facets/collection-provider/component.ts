@@ -1,6 +1,7 @@
 import { computed, setProperties } from '@ember/object';
 import { run } from '@ember/runloop';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import config from 'collections/config/environment';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
@@ -31,6 +32,7 @@ export default class SearchFacetProvider extends Base {
     allProviders!: ProviderHit[];
 
     @task
+    @waitFor
     async initialize() {
         if (this.theme.isProvider) {
             const { name: key, id } = this.theme.provider!;

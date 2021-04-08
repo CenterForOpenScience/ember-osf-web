@@ -2,7 +2,8 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { reads } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { htmlSafe } from '@ember/string';
+import { htmlSafe } from '@ember/template';
+import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 
@@ -30,6 +31,7 @@ export default class ScheduledBanners extends Component {
     }
 
     @task({ on: 'init' })
+    @waitFor
     async loadBanner() {
         const banner = await this.store.findRecord('banner', 'current');
         return banner.name ? banner : null;

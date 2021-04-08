@@ -5,6 +5,7 @@ import { assert } from '@ember/debug';
 import { action, computed } from '@ember/object';
 import { alias, notEmpty } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
@@ -80,6 +81,7 @@ export default class UploadZone extends Component {
     }
 
     @task
+    @waitFor
     async success(_: unknown, __: unknown, file: File, response: UploadResponse) {
         this.analytics.trackFromElement(this.element, {
             name: 'Upload file',
@@ -93,6 +95,7 @@ export default class UploadZone extends Component {
     }
 
     @task
+    @waitFor
     async preUpload(_: unknown, __: unknown, file: File) {
         let existingFile = this.filesManager.displayedItems.findBy('itemName', file.name);
         if (!existingFile) {

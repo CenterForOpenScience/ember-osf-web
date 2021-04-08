@@ -1,5 +1,6 @@
 import { computed, setProperties } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
@@ -28,6 +29,7 @@ export default abstract class SearchFacetChecklist extends Base {
     abstract get filterProperty(): string;
 
     @task
+    @waitFor
     async initialize() {
         const providers = this.theme.isProvider
             ? [this.theme.provider] as CollectionProvider[]

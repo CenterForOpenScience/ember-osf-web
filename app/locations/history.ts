@@ -1,5 +1,6 @@
 import HistoryLocation from '@ember/routing/history-location';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { restartableTask, waitForQueue } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 
@@ -20,6 +21,7 @@ export default class FragmentHistoryLocation extends HistoryLocation {
     @service osfRouter!: OsfRouterService;
 
     @restartableTask
+    @waitFor
     async scrollToElement(elementId: string) {
         await this.ready.ready();
 

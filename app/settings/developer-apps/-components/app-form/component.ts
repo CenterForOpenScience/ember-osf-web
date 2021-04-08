@@ -4,6 +4,7 @@ import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { BufferedChangeset } from 'ember-changeset/types';
 import { task, TaskInstance } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
@@ -29,6 +30,7 @@ export default class DeveloperAppForm extends Component {
     appInstance?: DeveloperApp | null;
 
     @task
+    @waitFor
     async createChangeset() {
         this.appInstance = this.developerApp;
         if (this.appTaskInstance) {
@@ -42,6 +44,7 @@ export default class DeveloperAppForm extends Component {
     }
 
     @task
+    @waitFor
     async createNewApp() {
         this.changeset.validate();
         try {
@@ -57,6 +60,7 @@ export default class DeveloperAppForm extends Component {
     }
 
     @task
+    @waitFor
     async updateApp() {
         this.changeset.validate();
         try {

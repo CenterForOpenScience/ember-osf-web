@@ -1,6 +1,7 @@
 import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 
@@ -27,6 +28,7 @@ export default class UserQuickfiles extends Route {
     @service router!: any;
 
     @task
+    @waitFor
     async loadModel(userModel: any) {
         const blocker = this.ready.getBlocker();
         try {

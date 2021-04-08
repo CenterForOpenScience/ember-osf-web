@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { dropTask } from 'ember-concurrency';
 import { DS } from 'ember-data';
 import Intl from 'ember-intl/services/intl';
@@ -29,6 +30,7 @@ export default class UnregisteredContributor extends Component {
     @requiredAction closeForm!: () => void;
 
     @dropTask
+    @waitFor
     async add() {
         const { validations } = await this.model!.validate();
         this.set('didValidate', true);

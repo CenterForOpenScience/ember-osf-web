@@ -3,6 +3,7 @@ import { assert, debug, runInDebug } from '@ember/debug';
 import { action } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
 import Service, { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { restartableTask, waitForQueue } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import config from 'ember-get-config';
@@ -158,6 +159,7 @@ export default class Analytics extends Service {
     rootElement?: Element;
 
     @restartableTask
+    @waitFor
     async trackPageTask(
         pagePublic: boolean | undefined,
         resourceType: string,

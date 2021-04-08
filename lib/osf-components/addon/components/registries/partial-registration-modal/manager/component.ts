@@ -4,6 +4,7 @@ import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
@@ -27,6 +28,7 @@ export default class PartialRegistrationModalManagerComponent extends Component 
     @alias('loadAllChildNodes.isRunning') loadingChildNodes!: boolean;
 
     @task
+    @waitFor
     async getChildren(node: NodeModel) {
         const children = await node.queryHasMany('children');
         if (children !== null) {
@@ -41,6 +43,7 @@ export default class PartialRegistrationModalManagerComponent extends Component 
     }
 
     @task({ on: 'didReceiveAttrs' })
+    @waitFor
     async loadAllChildNodes() {
         const allChildNodesIncludingRoot = await taskFor(this.getChildren).perform(this.rootNode) || [];
         allChildNodesIncludingRoot.push(this.rootNode);

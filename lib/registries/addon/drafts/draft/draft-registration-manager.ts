@@ -1,6 +1,7 @@
 import { action, computed, set } from '@ember/object';
 import { alias, filterBy, not, notEmpty, or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { isEmpty } from '@ember/utils';
 import { BufferedChangeset } from 'ember-changeset/types';
 import { restartableTask, task, TaskInstance, timeout } from 'ember-concurrency';
@@ -84,6 +85,7 @@ export default class DraftRegistrationManager {
     }
 
     @restartableTask
+    @waitFor
     async saveAllVisitedPages() {
         if (this.pageManagers && this.pageManagers.length) {
             this.pageManagers
@@ -106,6 +108,7 @@ export default class DraftRegistrationManager {
     }
 
     @restartableTask
+    @waitFor
     async onPageInput(currentPageManager: PageManager) {
         await timeout(5000); // debounce
 
@@ -127,6 +130,7 @@ export default class DraftRegistrationManager {
     }
 
     @task
+    @waitFor
     async initializePageManagers() {
         const { draftRegistration, provider } = await this.draftRegistrationTask;
         set(this, 'draftRegistration', draftRegistration);
@@ -158,6 +162,7 @@ export default class DraftRegistrationManager {
     }
 
     @task
+    @waitFor
     async initializeMetadataChangeset() {
         const { draftRegistration } = await this.draftRegistrationTask;
         const metadataValidations = buildMetadataValidations();
@@ -166,6 +171,7 @@ export default class DraftRegistrationManager {
     }
 
     @restartableTask
+    @waitFor
     async onMetadataInput() {
         await timeout(5000); // debounce
         this.updateMetadataChangeset();

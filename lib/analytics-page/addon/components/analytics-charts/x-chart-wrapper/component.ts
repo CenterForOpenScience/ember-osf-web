@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { restartableTask, TaskInstance } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
@@ -41,6 +42,7 @@ export default class ChartWrapper extends Component {
     loading: boolean = false;
 
     @restartableTask
+    @waitFor
     async loadKeen() {
         this.showOverlay(OverlayReason.Loading);
         const node = await this.nodeTaskInstance;

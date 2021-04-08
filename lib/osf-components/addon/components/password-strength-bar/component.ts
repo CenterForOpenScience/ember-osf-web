@@ -2,6 +2,7 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import PasswordStrength from 'ember-cli-password-strength/services/password-strength';
 import { restartableTask, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
@@ -33,6 +34,7 @@ export default class PasswordStrengthBar extends Component {
     @alias('checkStrength.lastSuccessful.value') strength?: Strength;
 
     @restartableTask
+    @waitFor
     async checkStrength(value: string) {
         if (!value) {
             return 0;

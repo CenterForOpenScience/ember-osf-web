@@ -5,6 +5,7 @@ import { action } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { run } from '@ember/runloop';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
@@ -39,6 +40,7 @@ export default class Register extends Component {
     @tracked finalizeRegDialogIsOpen = false;
 
     @task
+    @waitFor
     async onClickRegister() {
         if (!this.registration) {
             this.registration = this.store.createRecord('registration', {

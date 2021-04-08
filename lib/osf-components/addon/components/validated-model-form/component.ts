@@ -3,6 +3,7 @@ import { assert } from '@ember/debug';
 import { action, set } from '@ember/object';
 import { alias, or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { typeOf } from '@ember/utils';
 import { Changeset } from 'ember-changeset';
 import { BufferedChangeset, ValidatorAction } from 'ember-changeset/types';
@@ -48,6 +49,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     isDirty!: boolean;
 
     @task
+    @waitFor
     async saveModelTask() {
         await this.changeset.validate();
 

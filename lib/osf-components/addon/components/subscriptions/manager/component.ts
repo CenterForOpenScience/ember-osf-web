@@ -2,6 +2,7 @@ import { tagName } from '@ember-decorators/component';
 import ArrayProxy from '@ember/array/proxy';
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
 import { enqueueTask, restartableTask } from 'ember-concurrency';
 import DS from 'ember-data';
@@ -26,6 +27,7 @@ export default class SubscriptionsManager extends Component {
     @tracked subscriptions: ArrayProxy<SubscriptionModel> | SubscriptionModel[] | null = null;
 
     @enqueueTask({ on: 'didReceiveAttrs' })
+    @waitFor
     async fetchSubscriptions() {
         try {
             if (Array.isArray(this.subscriptionIds) && this.subscriptionIds.length) {
@@ -42,6 +44,7 @@ export default class SubscriptionsManager extends Component {
     }
 
     @restartableTask
+    @waitFor
     async updateSubscriptionFrequency(
         subscription: SubscriptionModel,
         newFrequency: SubscriptionFrequency,

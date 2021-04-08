@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
+import { waitFor } from '@ember/test-waiters';
 import { restartableTask, timeout } from 'ember-concurrency';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -31,6 +32,7 @@ export default class SearchSubjects extends Component {
     }
 
     @restartableTask
+    @waitFor
     async doSearch() {
         await timeout(500); // debounce
 

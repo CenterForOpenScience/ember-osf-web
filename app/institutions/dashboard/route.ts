@@ -2,6 +2,7 @@ import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 
@@ -22,6 +23,7 @@ export default class InstitutionsDashboardRoute extends Route {
     @service router!: RouterService;
 
     @task
+    @waitFor
     async modelTask(institutionId: string) {
         try {
             const institution = await this.get('store').findRecord('institution', institutionId, {

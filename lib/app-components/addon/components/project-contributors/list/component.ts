@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { dropTask, enqueueTask, task, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
@@ -67,6 +68,7 @@ export default class List extends Component {
      * Changes the contributor's bibliographic
      */
     @enqueueTask
+    @waitFor
     async toggleBibliographic(contributor: HighlightableContributor) {
         const actionName = `${contributor.toggleProperty('bibliographic') ? '' : 'de'}select`;
         this.analytics.track('checkbox', actionName, 'Collections - Submit - Update Bibliographic');
@@ -78,6 +80,7 @@ export default class List extends Component {
      * Changes the order of contributors for ember-sortable
      */
     @dropTask
+    @waitFor
     async reorderContributors(
         contributors: HighlightableContributor[],
         contributor: HighlightableContributor,
@@ -97,6 +100,7 @@ export default class List extends Component {
      * Saves the contributor and highlights the row with success/failure
      */
     @task
+    @waitFor
     async saveAndHighlight(contributor: HighlightableContributor) {
         let highlightClass: typeof contributor.highlightClass;
 
@@ -116,6 +120,7 @@ export default class List extends Component {
      * Removes a contributor
      */
     @task
+    @waitFor
     async removeContributor(contributor: Contributor) {
         this.analytics.track('button', 'click', 'Collections - Submit - Remove Contributor');
 
@@ -135,6 +140,7 @@ export default class List extends Component {
     }
 
     @task
+    @waitFor
     async loadContributors() {
         const contributors = await this.node.queryHasMany(
             'contributors',
@@ -148,6 +154,7 @@ export default class List extends Component {
      * Changes the contributor's permissions
      */
     @enqueueTask
+    @waitFor
     async updatePermissions(contributor: HighlightableContributor, permission: Permission) {
         this.analytics.track('option', 'select', 'Collections - Submit - Change Permission');
         contributor.setProperties({ permission });

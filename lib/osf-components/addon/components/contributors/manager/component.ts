@@ -3,6 +3,7 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
 import { enqueueTask } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
@@ -51,6 +52,7 @@ export default class ContributorsManager extends Component {
     }
 
     @enqueueTask({ on: 'init' })
+    @waitFor
     async fetchContributors() {
         const model = this.node || this.draftRegistration;
         if (model && this.hasMore) {
@@ -64,6 +66,7 @@ export default class ContributorsManager extends Component {
     }
 
     @enqueueTask
+    @waitFor
     async toggleContributorIsBibliographic(contributor: ContributorModel) {
         contributor.toggleProperty('bibliographic');
         try {
@@ -78,6 +81,7 @@ export default class ContributorsManager extends Component {
     }
 
     @enqueueTask
+    @waitFor
     async updateContributorPermission(contributor: ContributorModel, permission: Permission) {
         // eslint-disable-next-line no-param-reassign
         contributor.permission = permission;
@@ -93,6 +97,7 @@ export default class ContributorsManager extends Component {
     }
 
     @enqueueTask
+    @waitFor
     async reorderContributor(newOrder: ContributorModel[], contributor: ContributorModel) {
         const oldOrder = this.contributors;
         const newIndex = newOrder.indexOf(contributor);
@@ -110,6 +115,7 @@ export default class ContributorsManager extends Component {
     }
 
     @enqueueTask
+    @waitFor
     async removeContributor(contributor: ContributorModel) {
         const user = this.currentUser.get('user');
         try {
@@ -136,6 +142,7 @@ export default class ContributorsManager extends Component {
     }
 
     @enqueueTask
+    @waitFor
     async addContributor(user: UserModel, permission: Permission, bibliographic: boolean) {
         try {
             const newContributor = this.store.createRecord('contributor', {
@@ -156,6 +163,7 @@ export default class ContributorsManager extends Component {
     }
 
     @enqueueTask
+    @waitFor
     async addUnregisteredContributor(email: string, fullName: string, permission: Permission, bibliographic: boolean) {
         try {
             const newContributor = this.store.createRecord('contributor', {

@@ -3,6 +3,7 @@ import Component from '@ember/component';
 import { action, set } from '@ember/object';
 import { alias, sort } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { restartableTask } from 'ember-concurrency';
 import DS from 'ember-data';
 
@@ -37,6 +38,7 @@ export default class LicensePickerManager extends Component implements LicenseMa
     requiredFields!: string[];
 
     @restartableTask({ on: 'didReceiveAttrs' })
+    @waitFor
     async getAllProviderLicenses() {
         const provider = await this.draftManager.draftRegistration.provider;
 

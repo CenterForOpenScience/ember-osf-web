@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
+import { waitFor } from '@ember/test-waiters';
 import { restartableTask, timeout } from 'ember-concurrency';
 
 export default class MeetingsList extends Component {
@@ -20,6 +21,7 @@ export default class MeetingsList extends Component {
     }
 
     @restartableTask
+    @waitFor
     async searchMeetings(search: string) {
         await timeout(500); // debounce
         this.set('search', search);

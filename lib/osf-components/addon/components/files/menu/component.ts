@@ -3,6 +3,7 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validatePresence } from 'ember-changeset-validations/validators';
 import { BufferedChangeset } from 'ember-changeset/types';
@@ -62,6 +63,7 @@ export default class FilesMenu extends Component {
     }
 
     @task
+    @waitFor
     async createFolder(options: { onSuccess?: () => void }) {
         const { inRootFolder, currentFolder, fileProvider } = this.filesManager;
         const parentFolder = inRootFolder ? fileProvider : currentFolder;

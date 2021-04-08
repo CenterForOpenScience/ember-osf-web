@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validateFormat } from 'ember-changeset-validations/validators';
 import { BufferedChangeset } from 'ember-changeset/types';
@@ -47,29 +48,7 @@ export default class ConnectedEmails extends Component {
     };
 
     @task
-    async deleteEmail(email: UserEmail) {
-        const errorMessage = this.intl.t('settings.account.connected_emails.delete_fail');
-        const successMessage = this.intl.t('settings.account.connected_emails.delete_success');
-
-        if (!email) {
-            return undefined;
-        }
-
-        try {
-            await email.destroyRecord();
-        } catch (e) {
-            captureException(e, { errorMessage });
-            return this.toast.error(getApiErrorMessage(e), errorMessage);
-        }
-        if (email.isConfirmed) {
-            this.reloadAlternateList();
-        } else {
-            this.reloadUnconfirmedList();
-        }
-        return this.toast.success(successMessage);
-    }
-
-    @task
+    @waitFor
     async onSave() {
         let newEmail;
         try {
@@ -96,6 +75,7 @@ export default class ConnectedEmails extends Component {
     }
 
     @restartableTask
+    @waitFor
     async loadPrimaryEmail() {
         const { user } = this.currentUser;
 
@@ -114,6 +94,31 @@ export default class ConnectedEmails extends Component {
     }
 
     @task
+    @waitFor
+    async deleteEmail(email: UserEmail) {
+        const errorMessage = this.intl.t('settings.account.connected_emails.delete_fail');
+        const successMessage = this.intl.t('settings.account.connected_emails.delete_success');
+
+        if (!email) {
+            return undefined;
+        }
+
+        try {
+            await email.destroyRecord();
+        } catch (e) {
+            captureException(e, { errorMessage });
+            return this.toast.error(getApiErrorMessage(e), errorMessage);
+        }
+        if (email.isConfirmed) {
+            this.reloadAlternateList();
+        } else {
+            this.reloadUnconfirmedList();
+        }
+        return this.toast.success(successMessage);
+    }
+
+    @task
+    @waitFor
     async updatePrimaryEmail(email: UserEmail) {
         const errorMessage = this.intl.t('settings.account.connected_emails.update_fail');
         const successMessage = this.intl.t('settings.account.connected_emails.update_success');
@@ -139,6 +144,7 @@ export default class ConnectedEmails extends Component {
     }
 
     @task
+    @waitFor
     async resendEmail(email: UserEmail) {
         const errorMessage = this.intl.t('settings.account.connected_emails.resend_fail');
         const successMessage = this.intl.t('settings.account.connected_emails.resend_success');

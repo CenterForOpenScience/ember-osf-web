@@ -2,6 +2,7 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { alias } from '@ember/object/computed';
+import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -23,6 +24,7 @@ export default class SearchResult extends Component {
     subjectAncestry?: SubjectModel[];
 
     @task({ on: 'didReceiveAttrs' })
+    @waitFor
     async loadAncestry() {
         const { subject } = this.singleSubjectManager;
         if (!subject) {

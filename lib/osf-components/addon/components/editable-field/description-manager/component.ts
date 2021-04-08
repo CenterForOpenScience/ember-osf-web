@@ -3,6 +3,7 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias, and } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
@@ -48,6 +49,7 @@ export default class DescriptionManagerComponent extends Component {
     }
 
     @task
+    @waitFor
     async save() {
         if (this.node) {
             this.node.set('description', this.currentDescription);

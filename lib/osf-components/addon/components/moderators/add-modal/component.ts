@@ -2,6 +2,7 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validateFormat, validatePresence } from 'ember-changeset-validations/validators';
@@ -89,6 +90,7 @@ export default class AddModalComponent extends Component {
     }, UserFormValidations);
 
     @restartableTask
+    @waitFor
     async searchUser(name: string) {
         try {
             await timeout(500);

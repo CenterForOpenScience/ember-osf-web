@@ -3,6 +3,7 @@ import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { all, restartableTask, task, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
@@ -32,6 +33,7 @@ export default class UserQuickfiles extends Controller {
     @alias('model.taskInstance.value.files') allFiles!: File[];
 
     @restartableTask
+    @waitFor
     async updateFilter(filter: string) {
         await timeout(250);
         this.setProperties({ filter });
@@ -39,6 +41,7 @@ export default class UserQuickfiles extends Controller {
     }
 
     @task
+    @waitFor
     async createProject(node: Node) {
         try {
             return await node.save();
@@ -51,6 +54,7 @@ export default class UserQuickfiles extends Controller {
     }
 
     @task
+    @waitFor
     async flash(item: File, message: string, type: string = 'success', duration: number = 2000) {
         item.set('flash', { message, type });
         await timeout(duration);
@@ -58,6 +62,7 @@ export default class UserQuickfiles extends Controller {
     }
 
     @task
+    @waitFor
     async addFile(id: string) {
         const duplicate = this.allFiles.findBy('id', id);
 
@@ -79,6 +84,7 @@ export default class UserQuickfiles extends Controller {
     }
 
     @task
+    @waitFor
     async deleteFile(file: File) {
         try {
             await file.destroyRecord();
@@ -90,11 +96,13 @@ export default class UserQuickfiles extends Controller {
     }
 
     @task
+    @waitFor
     async deleteFiles(files: File[]) {
         await all(files.map(file => taskFor(this.deleteFile).perform(file)));
     }
 
     @task
+    @waitFor
     async moveFile(file: File, node: Node) {
         try {
             if (node.get('isNew')) {
@@ -124,6 +132,7 @@ export default class UserQuickfiles extends Controller {
     }
 
     @task
+    @waitFor
     async renameFile(
         file: File,
         name: string,

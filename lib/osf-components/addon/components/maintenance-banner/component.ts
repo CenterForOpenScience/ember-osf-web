@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { restartableTask } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Cookies from 'ember-cookies/services/cookies';
@@ -41,6 +42,7 @@ export default class MaintenanceBanner extends Component {
     maintenance?: MaintenanceData | null;
 
     @restartableTask
+    @waitFor
     async getMaintenanceStatus() {
         const url = `${config.OSF.apiUrl}/v2/status/`;
         const data = await this.currentUser.authenticatedAJAX({ url });

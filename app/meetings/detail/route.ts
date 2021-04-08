@@ -1,6 +1,7 @@
 import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 
@@ -11,6 +12,7 @@ export default class MeetingsDetail extends Route {
     @service router!: any;
 
     @task
+    @waitFor
     async loadMeetingDetail(meetingId: string) {
         try {
             const meeting = await this.store.findRecord('meeting', meetingId);

@@ -5,6 +5,7 @@ import { assert } from '@ember/debug';
 import EmberObject, { action, computed, setProperties } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
+import { waitFor } from '@ember/test-waiters';
 import { keepLatestTask, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
@@ -236,6 +237,7 @@ export default class DiscoverPage extends Component {
     }
 
     @keepLatestTask
+    @waitFor
     async loadPage() {
         this.set('loading', true);
 

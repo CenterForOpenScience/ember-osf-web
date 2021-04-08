@@ -2,6 +2,7 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { not } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
@@ -43,6 +44,7 @@ export default class OverviewHeader extends Component {
     }
 
     @task
+    @waitFor
     async loadCurrentModerator() {
         try {
             this.currentModerator = await this.store.findRecord('moderator', this.currentUser.currentUserId!,

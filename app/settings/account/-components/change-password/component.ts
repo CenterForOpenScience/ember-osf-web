@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import { alias, not, or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import PasswordStrength from 'ember-cli-password-strength/services/password-strength';
 import { task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
@@ -41,6 +42,7 @@ export default class ChangePasswordPane extends Component {
     }
 
     @task
+    @waitFor
     async submitTask() {
         const errorMessage = this.intl.t('settings.account.changePassword.updateFail');
         const successMessage = this.intl.t('settings.account.changePassword.updateSuccess');

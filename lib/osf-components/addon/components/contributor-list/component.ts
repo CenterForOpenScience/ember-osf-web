@@ -3,6 +3,7 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { dropTask, restartableTask } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
@@ -49,6 +50,7 @@ export default class ContributorList extends Component {
     isLoading!: boolean;
 
     @restartableTask({ on: 'didReceiveAttrs' })
+    @waitFor
     async loadContributors(more?: boolean) {
         if (!this.model || this.model.isAnonymous) {
             return;
@@ -81,6 +83,7 @@ export default class ContributorList extends Component {
     }
 
     @dropTask
+    @waitFor
     async removeMeTask() {
         if (!this.model || this.model.isAnonymous || !this.currentUser.currentUserId) {
             return;

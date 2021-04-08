@@ -2,6 +2,7 @@ import Component from '@ember/component';
 import { action } from '@ember/object';
 import { bool } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { restartableTask, task, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
@@ -39,6 +40,7 @@ export default class CollectionItemPicker extends Component {
     @bool('selected') isValid!: boolean;
 
     @task
+    @waitFor
     async initialLoad() {
         this.setProperties({
             selected: null,
@@ -50,6 +52,7 @@ export default class CollectionItemPicker extends Component {
     }
 
     @restartableTask
+    @waitFor
     async findNodes(filter: string = '') {
         if (filter) {
             await timeout(250);

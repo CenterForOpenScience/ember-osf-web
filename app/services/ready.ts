@@ -2,6 +2,7 @@ import { A } from '@ember/array';
 import { get, set } from '@ember/object';
 import Evented from '@ember/object/evented';
 import Service from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { restartableTask, waitForQueue } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import RSVP from 'rsvp';
@@ -25,6 +26,7 @@ export default class Ready extends Service.extend(Evented) {
     blockers = A();
 
     @restartableTask
+    @waitFor
     async tryReady() {
         // Waiting until `destroy` makes sure that everyone in `render` and `afterRender`
         // (e.g. components, jQuery plugins, etc.) has a chance to call `getBlocker`, and that

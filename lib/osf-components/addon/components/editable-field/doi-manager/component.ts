@@ -3,6 +3,7 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias, and, not } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import Store from 'ember-data/store';
 import config from 'ember-get-config';
@@ -61,6 +62,7 @@ export default class DoiManagerComponent extends Component {
     }
 
     @task({ on: 'didReceiveAttrs' })
+    @waitFor
     async loadIdentifiers() {
         if (this.node) {
             const identifiers = await this.node.identifiers;
@@ -72,6 +74,7 @@ export default class DoiManagerComponent extends Component {
     }
 
     @task
+    @waitFor
     async requestDoi() {
         if (this.node) {
             const identifier = this.store.createRecord('identifier', {

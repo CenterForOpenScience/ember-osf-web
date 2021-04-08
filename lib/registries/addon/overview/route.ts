@@ -1,6 +1,7 @@
 import { action } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { all, restartableTask } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import config from 'ember-get-config';
@@ -28,6 +29,7 @@ export default class Overview extends GuidRoute {
     headTags?: HeadTagDef[];
 
     @restartableTask({ cancelOn: 'deactivate' })
+    @waitFor
     async setHeadTags(model: GuidRouteModel<Registration>) {
         const blocker = this.ready.getBlocker();
 

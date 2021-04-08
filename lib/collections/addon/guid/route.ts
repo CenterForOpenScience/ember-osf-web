@@ -1,5 +1,6 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import { DS } from 'ember-data';
@@ -29,6 +30,7 @@ export default class Guid extends Route {
     @service theme!: Theme;
 
     @task
+    @waitFor
     async loadModel(guid: string) {
         const provider = this.theme.provider as CollectionProvider;
 

@@ -2,6 +2,7 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validatePresence } from 'ember-changeset-validations/validators';
 import { BufferedChangeset } from 'ember-changeset/types';
@@ -44,6 +45,7 @@ export default class DefaultRegionPane extends Component {
     @alias('loadRegionsTask.isRunning') loadRegionsRunning!: boolean;
 
     @task
+    @waitFor
     async loadRegionsTask() {
         const regions = await this.store.findAll('region');
 
@@ -51,6 +53,7 @@ export default class DefaultRegionPane extends Component {
     }
 
     @task
+    @waitFor
     async loadDefaultRegionTask() {
         const { user } = this.currentUser;
         if (!user) {
@@ -62,6 +65,7 @@ export default class DefaultRegionPane extends Component {
     }
 
     @task
+    @waitFor
     async updateRegion() {
         this.changeset.validate();
         if (this.changeset.isValid && this.user) {

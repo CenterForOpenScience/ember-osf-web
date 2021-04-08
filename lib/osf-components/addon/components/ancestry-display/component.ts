@@ -2,6 +2,7 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { allSettled, restartableTask } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 
@@ -26,6 +27,7 @@ export default class AncestryDisplay extends Component {
     @alias('getAncestors.lastComplete.value') ancestry?: string[];
 
     @restartableTask({ on: 'didReceiveAttrs' })
+    @waitFor
     async getAncestors() {
         if (!this.node || this.node.isRoot) {
             return [];

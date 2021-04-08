@@ -3,6 +3,7 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias, and, not } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validateFormat } from 'ember-changeset-validations/validators';
 import { BufferedChangeset } from 'ember-changeset/types';
@@ -66,6 +67,7 @@ export default class PublicationDoiManagerComponent extends Component {
     }
 
     @restartableTask
+    @waitFor
     async save() {
         this.changeset.validate();
 

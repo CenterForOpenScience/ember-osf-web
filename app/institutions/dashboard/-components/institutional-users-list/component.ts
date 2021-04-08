@@ -2,6 +2,7 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { reads } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { restartableTask, TaskInstance, timeout } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 
@@ -66,6 +67,7 @@ export default class InstitutionalUsersList extends Component {
     }
 
     @restartableTask
+    @waitFor
     async searchDepartment(name: string) {
         await timeout(500);
         if (this.institution) {

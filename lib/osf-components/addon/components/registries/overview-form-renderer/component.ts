@@ -1,5 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
+import { waitFor } from '@ember/test-waiters';
 import { restartableTask } from 'ember-concurrency';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -19,6 +20,7 @@ export default class RegistrationFormViewSchemaBlocks extends Component {
     schemaBlockGroups?: SchemaBlockGroup[];
 
     @restartableTask({ on: 'didReceiveAttrs' })
+    @waitFor
     async fetchSchemaBlocks() {
         if (this.registration) {
             const registrationSchema = await this.registration.registrationSchema;

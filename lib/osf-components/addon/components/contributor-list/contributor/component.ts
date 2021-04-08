@@ -1,5 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
+import { waitFor } from '@ember/test-waiters';
 import { restartableTask } from 'ember-concurrency';
 
 import { bool } from '@ember/object/computed';
@@ -20,6 +21,7 @@ export default class ContributorListContributor extends Component {
     @bool('contributor.unregisteredContributor') isUnregistered?: boolean;
 
     @restartableTask({ on: 'didReceiveAttrs' })
+    @waitFor
     async loadUser() {
         const user = await this.contributor.users;
 

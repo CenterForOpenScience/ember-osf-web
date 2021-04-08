@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { all, restartableTask, task, timeout } from 'ember-concurrency';
 import DS from 'ember-data';
 
@@ -52,6 +53,7 @@ export default class CitationViewer extends Component {
     selectedCitationStyle?: CitationStyle;
 
     @restartableTask
+    @waitFor
     async renderCitation(citationStyle: CitationStyle) {
         this.set('selectedCitationStyle', citationStyle);
 
@@ -63,6 +65,7 @@ export default class CitationViewer extends Component {
     }
 
     @task({ on: 'init' })
+    @waitFor
     async loadDefaultCitations() {
         const responses: SingleResourceDocument[] = await all(
             defaultCitations.map(
@@ -78,12 +81,14 @@ export default class CitationViewer extends Component {
     }
 
     @restartableTask
+    @waitFor
     async searchCitationStyles(query: string) {
         await timeout(1000); // debounce
 
-        return await this.store.query('citation-style', {
+        const citationSearchResults = await this.store.query('citation-style', {
             'filter[title,short_title]': query,
             'page[size]': 100,
         });
+        return citationSearchResults;
     }
 }

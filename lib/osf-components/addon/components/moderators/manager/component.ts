@@ -2,6 +2,7 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
 import { enqueueTask, task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
@@ -52,6 +53,7 @@ export default class ModeratorManagerComponent extends Component {
     }
 
     @enqueueTask
+    @waitFor
     async updateModeratorPermission(moderator: ModeratorModel, newPermission: string) {
         try {
             moderator.set('permissionGroup', newPermission);
@@ -72,6 +74,7 @@ export default class ModeratorManagerComponent extends Component {
     }
 
     @task
+    @waitFor
     async removeModeratorTask(moderator: ModeratorModel) {
         try {
             await moderator.destroyRecord();
@@ -95,6 +98,7 @@ export default class ModeratorManagerComponent extends Component {
     }
 
     @task({ on: 'init' })
+    @waitFor
     async loadCurrentModerator() {
         try {
             if (this.currentUser.currentUserId) {
@@ -112,6 +116,7 @@ export default class ModeratorManagerComponent extends Component {
     }
 
     @enqueueTask
+    @waitFor
     async addUserAsModerator(user: UserModel, permissionGroup: PermissionGroup) {
         let newModerator;
         try {
@@ -144,6 +149,7 @@ export default class ModeratorManagerComponent extends Component {
     }
 
     @enqueueTask
+    @waitFor
     async addEmailAsModerator(fullName: string, email: string, permissionGroup: PermissionGroup) {
         let newModerator;
         try {

@@ -3,6 +3,7 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validateNumber, validatePresence } from 'ember-changeset-validations/validators';
@@ -59,6 +60,7 @@ export default class SecurityPane extends Component {
     };
 
     @task
+    @waitFor
     async verifySecret() {
         this.changeset.validate();
         try {
@@ -79,6 +81,7 @@ export default class SecurityPane extends Component {
     }
 
     @task
+    @waitFor
     async loadSettings() {
         const { user } = this.currentUser;
 
@@ -91,6 +94,7 @@ export default class SecurityPane extends Component {
     }
 
     @task
+    @waitFor
     async loadPrimaryEmail() {
         const { user } = this.currentUser;
 
@@ -106,6 +110,7 @@ export default class SecurityPane extends Component {
     }
 
     @task
+    @waitFor
     async saveSettings() {
         try {
             if (this.settings !== undefined) {

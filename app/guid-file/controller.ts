@@ -3,6 +3,7 @@ import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { restartableTask, timeout } from 'ember-concurrency';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
@@ -97,6 +98,7 @@ export default class GuidFile extends Controller {
     }
 
     @restartableTask
+    @waitFor
     async updateFilter(filter: string) {
         await timeout(250);
         this.setProperties({ filter });

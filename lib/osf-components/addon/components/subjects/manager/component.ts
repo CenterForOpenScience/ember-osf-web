@@ -4,6 +4,7 @@ import { assert } from '@ember/debug';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { restartableTask, task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
@@ -103,6 +104,7 @@ export default class SubjectManagerComponent extends Component {
     }
 
     @task({ on: 'init' })
+    @waitFor
     async initializeSubjects() {
         const { model } = this;
         const savedSubjects: SubjectModel[] = model.get('isNew') ? model.subjects : (await model.loadAll('subjects'));
@@ -116,6 +118,7 @@ export default class SubjectManagerComponent extends Component {
     }
 
     @restartableTask
+    @waitFor
     async saveChanges() {
         const { selectedSubjects } = this;
 

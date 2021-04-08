@@ -4,6 +4,7 @@ import { assert } from '@ember/debug';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
@@ -43,6 +44,7 @@ export default class FinalizeRegistrationModalManagerComponent extends Component
     @alias('submitRegistration.isRunning') submittingRegistration!: boolean;
 
     @task
+    @waitFor
     async submitRegistration() {
         try {
             this.draftManager.validateAllVisitedPages();

@@ -2,6 +2,7 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias, or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { dropTask, task, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
@@ -77,6 +78,7 @@ export default class VerifyEmailModal extends Component {
     }
 
     @task
+    @waitFor
     async loadEmailsTask() {
         const { user } = this.currentUser;
         if (user) {
@@ -91,6 +93,7 @@ export default class VerifyEmailModal extends Component {
     }
 
     @dropTask
+    @waitFor
     async verifyTask(emailAction: EmailActions) {
         const { userEmail } = this;
         if (!userEmail) {

@@ -4,6 +4,7 @@ import { action, computed } from '@ember/object';
 import { alias, or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
+import { waitFor } from '@ember/test-waiters';
 import { enqueueTask, restartableTask, task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
@@ -129,6 +130,7 @@ export default class FilesManagerComponent extends Component {
     }
 
     @restartableTask({ on: 'didReceiveAttrs' })
+    @waitFor
     async getRootItems() {
         if (this.node) {
             const fileProviders = await this.node.files;
@@ -146,6 +148,7 @@ export default class FilesManagerComponent extends Component {
     }
 
     @task
+    @waitFor
     async loadMore() {
         await this.currentFolder.queryHasMany('files', {
             page: this.page + 1,
@@ -157,6 +160,7 @@ export default class FilesManagerComponent extends Component {
     }
 
     @task
+    @waitFor
     async getCurrentFolderItems(targetFolder: File) {
         this.set('currentFolder', targetFolder);
 
@@ -164,6 +168,7 @@ export default class FilesManagerComponent extends Component {
     }
 
     @task
+    @waitFor
     async sortFolderItems() {
         await this.currentFolder.queryHasMany('files', {
             pageSize: this.pageSize,
@@ -174,6 +179,7 @@ export default class FilesManagerComponent extends Component {
     }
 
     @task
+    @waitFor
     async addFile(id: string) {
         const duplicate = this.currentFolder.files.findBy('id', id);
         const file = await this.store
@@ -202,6 +208,7 @@ export default class FilesManagerComponent extends Component {
     }
 
     @enqueueTask
+    @waitFor
     async deleteFileTask(file: File) {
         try {
             await file.delete();

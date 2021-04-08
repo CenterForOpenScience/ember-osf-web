@@ -2,6 +2,7 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { dropTask } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
@@ -53,6 +54,7 @@ export default class DeleteButton extends Component {
     }
 
     @dropTask
+    @waitFor
     async _deleteTask() { // tslint:disable-line variable-name
         try {
             await this.delete();

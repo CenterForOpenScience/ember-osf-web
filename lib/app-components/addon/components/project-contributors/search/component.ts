@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { restartableTask, task, timeout } from 'ember-concurrency';
 import { DS } from 'ember-data';
 import Intl from 'ember-intl/services/intl';
@@ -38,6 +39,7 @@ export default class Search extends Component {
     @alias('results.meta.total_pages') totalPages?: number;
 
     @task
+    @waitFor
     async addContributor(user: User) {
         this.analytics.track('list', 'filter', 'Collections - Contributors - Add Contributor');
 
@@ -63,6 +65,7 @@ export default class Search extends Component {
     }
 
     @restartableTask
+    @waitFor
     async search(page?: number) {
         if (!this.query) {
             return undefined;

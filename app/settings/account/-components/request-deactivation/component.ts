@@ -3,6 +3,7 @@ import Component from '@ember/component';
 import { action } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import config from 'ember-get-config';
@@ -25,6 +26,7 @@ export default class DeactivationPane extends Component {
     showUndoDialog = false;
 
     @task
+    @waitFor
     async loadSettings() {
         const { user } = this.currentUser;
 
@@ -35,6 +37,7 @@ export default class DeactivationPane extends Component {
     }
 
     @task
+    @waitFor
     async saveSettings(successMessage: string) {
         try {
             if (this.settings !== undefined) {

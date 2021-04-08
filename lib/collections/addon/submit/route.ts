@@ -1,6 +1,7 @@
 import { computed } from '@ember/object';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import { DS } from 'ember-data';
@@ -33,6 +34,7 @@ export default class Submit extends Route.extend(ConfirmationMixin) {
     confirmationMessage = this.intl.t('collections.collections_submission.warning_body');
 
     @task
+    @waitFor
     async loadModel() {
         const provider = this.theme.provider as CollectionProvider;
         const collection = await provider.primaryCollection;

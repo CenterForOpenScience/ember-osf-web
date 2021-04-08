@@ -2,6 +2,7 @@ import { action } from '@ember/object';
 import Transition from '@ember/routing/-private/transition';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import HeadTagsService from 'ember-cli-meta-tags/services/head-tags';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
@@ -26,6 +27,7 @@ export default class GuidFile extends Route {
     headTags?: HeadTagDef[];
 
     @task
+    @waitFor
     async setHeadTags(model: any) {
         const blocker = this.get('ready').getBlocker();
         const dateCreated = model.file.get('dateCreated');

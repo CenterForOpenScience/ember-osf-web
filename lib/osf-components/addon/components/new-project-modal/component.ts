@@ -3,6 +3,7 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias, reads } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { dropTask, restartableTask, task, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
@@ -56,7 +57,23 @@ export default class NewProjectModal extends Component {
 
     @reads('institutions') selectedInstitutions!: Institution[];
 
+    @computed()
+    get storageI18nEnabled() {
+        return this.features.isEnabled(storageI18n);
+    }
+
+    @task({ on: 'init' })
+    @waitFor
+    async initTask() {
+        if (this.storageI18nEnabled) {
+            // not yielding so it runs in parallel
+            taskFor(this.getStorageRegionsTask).perform();
+        }
+        this.set('institutions', (await this.currentUser.user!.institutions));
+    }
+
     @task
+    @waitFor
     async getStorageRegionsTask() {
         const regions = await this.store.findAll('region');
 
@@ -67,6 +84,7 @@ export default class NewProjectModal extends Component {
     }
 
     @task
+    @waitFor
     async loadDefaultRegionTask() {
         const { user } = this.currentUser;
         if (!user) {
@@ -77,6 +95,7 @@ export default class NewProjectModal extends Component {
     }
 
     @restartableTask
+    @waitFor
     async searchUserNodesTask(title: string) {
         await timeout(500);
         const userNodes = await this.user.queryHasMany('nodes', { filter: { title } });
@@ -84,6 +103,7 @@ export default class NewProjectModal extends Component {
     }
 
     @dropTask
+    @waitFor
     async createNodeTask(
         title: string = '',
         description: string = '',
@@ -121,20 +141,6 @@ export default class NewProjectModal extends Component {
         }
 
         this.afterProjectCreated(node);
-    }
-
-    @task({ on: 'init' })
-    async initTask() {
-        if (this.storageI18nEnabled) {
-            // not yielding so it runs in parallel
-            taskFor(this.getStorageRegionsTask).perform();
-        }
-        this.set('institutions', (await this.currentUser.user!.institutions));
-    }
-
-    @computed()
-    get storageI18nEnabled() {
-        return this.features.isEnabled(storageI18n);
     }
 
     @action

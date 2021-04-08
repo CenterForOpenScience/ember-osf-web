@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
+import { waitFor } from '@ember/test-waiters';
 import Ember from 'ember';
 import { restartableTask, timeout } from 'ember-concurrency';
 
@@ -19,6 +20,7 @@ export default class TimeSince extends Component {
     displayTime?: string;
 
     @restartableTask({ on: 'didReceiveAttrs' })
+    @waitFor
     async calculateRelativeTime() {
         assert('RelativeTime @date is required', Boolean(this.date));
         if (Ember.testing) {

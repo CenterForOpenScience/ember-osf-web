@@ -3,6 +3,7 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias, and } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { restartableTask, task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
@@ -69,6 +70,7 @@ export default class InstitutionsManagerComponent extends Component {
     }
 
     @restartableTask({ on: 'didReceiveAttrs' })
+    @waitFor
     async loadNodeAffiliatedInstitutions() {
         if (this.node) {
             const affiliatedList = await this.node.queryHasMany(
@@ -83,6 +85,7 @@ export default class InstitutionsManagerComponent extends Component {
     }
 
     @task
+    @waitFor
     async save() {
         try {
             await this.node.updateM2MRelationship('affiliatedInstitutions', this.currentAffiliatedList);

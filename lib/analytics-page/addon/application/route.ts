@@ -3,6 +3,7 @@ import { action } from '@ember/object';
 import Transition from '@ember/routing/-private/transition';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { task, TaskInstance } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
@@ -19,6 +20,7 @@ export default class AnalyticsPageRoute extends Route {
     @service store!: DS.Store;
 
     @task
+    @waitFor
     async reloadNode(model: Node, blocker: Blocker) {
         const node = await model.reload({
             adapterOptions: {
@@ -34,6 +36,7 @@ export default class AnalyticsPageRoute extends Route {
     }
 
     @task
+    @waitFor
     async getNodeWithCounts(taskInstance: TaskInstance<Node>) {
         const blocker = this.ready.getBlocker();
 

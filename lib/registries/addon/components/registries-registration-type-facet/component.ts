@@ -2,6 +2,7 @@ import EmberArray, { A } from '@ember/array';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
@@ -39,6 +40,7 @@ export default class RegistriesRegistrationTypeFacet extends Component {
     registrationTypes: EmberArray<string> = A([]);
 
     @task({ on: 'init' })
+    @waitFor
     async fetchRegistrationTypes() {
         try {
             const metaschemas = await this.store.query('registration-schema', {

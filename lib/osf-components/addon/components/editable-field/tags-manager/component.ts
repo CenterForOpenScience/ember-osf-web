@@ -3,6 +3,7 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias, and } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
@@ -58,6 +59,7 @@ export default class TagsManagerComponent extends Component {
     }
 
     @task
+    @waitFor
     async save() {
         this.registration.set('tags', [...this.currentTags]);
         try {

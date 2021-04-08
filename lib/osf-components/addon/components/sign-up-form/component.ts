@@ -2,6 +2,7 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias, and } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import PasswordStrength from 'ember-cli-password-strength/services/password-strength';
 import { dropTask, restartableTask, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
@@ -41,6 +42,7 @@ export default class SignUpForm extends Component {
     ) formIsValid!: boolean;
 
     @dropTask
+    @waitFor
     async submitTask() {
         const { validations } = await this.userRegistration.validate();
         this.set('didValidate', true);
@@ -70,6 +72,7 @@ export default class SignUpForm extends Component {
     }
 
     @restartableTask
+    @waitFor
     async strength(value: string) {
         if (!value) {
             return 0;

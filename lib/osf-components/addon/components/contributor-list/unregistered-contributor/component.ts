@@ -3,6 +3,7 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { bool } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validateFormat } from 'ember-changeset-validations/validators';
@@ -58,6 +59,7 @@ export default class UnregisteredContributorComponent extends Component {
     nodeId!: string;
 
     @task
+    @waitFor
     async loadEmailsTask() {
         const emails = await this.currentUser.user!.queryHasMany('emails', {
             filter: {
@@ -68,6 +70,7 @@ export default class UnregisteredContributorComponent extends Component {
     }
 
     @task
+    @waitFor
     async claimContributor() {
         try {
             const user = await this.contributor.users;

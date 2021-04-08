@@ -1,6 +1,7 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
+import { waitFor } from '@ember/test-waiters';
 import { restartableTask, timeout } from 'ember-concurrency';
 
 import MeetingSubmissionModel from 'ember-osf-web/models/meeting-submission';
@@ -24,6 +25,7 @@ export default class MeetingSubmissionsList extends Component {
     }
 
     @restartableTask
+    @waitFor
     async searchSubmissions(search: string) {
         await timeout(500); // debounce
         this.set('search', search);

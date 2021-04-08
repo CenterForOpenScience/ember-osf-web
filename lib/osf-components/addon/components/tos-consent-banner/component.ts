@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { dropTask } from 'ember-concurrency';
 import { localClassNames } from 'ember-css-modules';
 import config from 'ember-get-config';
@@ -34,6 +35,7 @@ export default class TosConsentBanner extends Component {
     }
 
     @dropTask
+    @waitFor
     async saveUser() {
         const user = this.currentUser.user;
         const { validations } = await user!.validate();
