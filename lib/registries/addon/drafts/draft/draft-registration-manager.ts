@@ -84,7 +84,8 @@ export default class DraftRegistrationManager {
         try {
             const node = yield this.draftRegistration.branchedFrom;
             set(this, 'node', node);
-        } catch {
+        } catch (e) {
+            captureException(e);
             set(this, 'node', undefined);
         }
         const registrationSchema = yield this.draftRegistration.registrationSchema;

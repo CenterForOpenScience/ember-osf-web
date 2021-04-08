@@ -34,7 +34,7 @@ export default class DraftRegistrationRoute extends Route {
             { adapterOptions: { include: 'branched_from' } },
         );
         const [subjects, provider]:
-            [SubjectModel[], NodeModel | DraftNode, ProviderModel] = yield Promise.all([
+            [SubjectModel[], ProviderModel] = yield Promise.all([
                 draftRegistration.loadAll('subjects'),
                 draftRegistration.provider,
             ]);

@@ -39,7 +39,7 @@
     @onSelectFile={{action this.onSelectFile}}
     @onAddFile={{action this.onAddFile}}
     @onDeleteFile={{this.onDeleteFile}}
-    @canEdit={{not this.currentUserIsReadOnly}}
+    @canEdit={{and this.node (not this.currentUserIsReadOnly)}}
     disabled={{not this.node}}
     ...attributes
 />
