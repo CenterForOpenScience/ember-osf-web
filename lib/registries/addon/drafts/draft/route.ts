@@ -6,9 +6,7 @@ import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
 
 import requireAuth from 'ember-osf-web/decorators/require-auth';
-import DraftNode from 'ember-osf-web/models/draft-node';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
-import NodeModel from 'ember-osf-web/models/node';
 import ProviderModel from 'ember-osf-web/models/provider';
 import SubjectModel from 'ember-osf-web/models/subject';
 import Analytics from 'ember-osf-web/services/analytics';
