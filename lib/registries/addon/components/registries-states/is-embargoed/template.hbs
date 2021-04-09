@@ -25,7 +25,7 @@
 
     <modal.footer>
         <OsfButton
-            @disabled={{this.endEmbargo.isRunning}}
+            disabled={{this.endEmbargo.isRunning}}
             @onClick={{action modal.close}}
         >
             {{t 'general.cancel'}}

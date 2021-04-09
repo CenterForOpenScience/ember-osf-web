@@ -18,9 +18,9 @@
         <OsfButton
             data-test-create-token-button
             data-analytics-name='Submit button'
+            disabled={{form.disabled}}
+            type='submit'
             @type='primary'
-            @buttonType='submit'
-            @disabled={{form.disabled}}
         >
             {{t 'settings.tokens.createToken'}}
         </OsfButton>

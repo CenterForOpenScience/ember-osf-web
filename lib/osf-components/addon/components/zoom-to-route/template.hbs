@@ -16,14 +16,14 @@
         <hr>
         {{#each this.routeParams as |param|}}
             <form.element
+                placeholder={{param}}
                 @controlType='text'
                 @label={{param}}
-                @placeholder={{param}}
                 @property={{param}}
             />
         {{/each}}
         <hr>
-        <OsfButton @buttonType='submit'>
+        <OsfButton type='submit'>
             {{t 'dev_tools.zoom_to_route.zoom'}}
         </OsfButton>
     {{/if}}

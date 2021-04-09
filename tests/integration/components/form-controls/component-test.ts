@@ -79,7 +79,7 @@ module('Integration | Component | form-controls', hooks => {
                 <OsfButton
                     data-test-submit-button
                     data-analytics-name='submit'
-                    @buttonType='submit'
+                    type='submit'
                 >
                     Submit
                 </OsfButton>

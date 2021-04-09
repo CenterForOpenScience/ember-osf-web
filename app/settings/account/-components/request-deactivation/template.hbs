@@ -15,7 +15,7 @@
             {{t 'settings.account.deactivation.body' htmlSafe=true}}
         </p>
         {{#if (or this.loadSettings.isRunning this.saveSettings.isRunning)}}
-            <OsfButton @disabled={{true}}>
+            <OsfButton disabled={{true}}>
                 {{t 'general.loading'}}
             </OsfButton>
         {{else}}

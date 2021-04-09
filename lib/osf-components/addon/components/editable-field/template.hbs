@@ -56,7 +56,7 @@
                 <OsfButton
                     data-test-discard-edits
                     data-analytics-name='Discard'
-                    @disabled={{@manager.isSaving}}
+                    disabled={{@manager.isSaving}}
                     @onClick={{action @manager.cancel}}
                 >
                     {{t 'general.cancel'}}
@@ -66,8 +66,8 @@
                 <OsfButton
                     data-test-save-edits
                     data-analytics-name='Save'
+                    disabled={{@manager.isSaving}}
                     @type='primary'
-                    @disabled={{@manager.isSaving}}
                     @onClick={{action @manager.save}}
                 >
                     {{t 'general.save'}}

@@ -98,8 +98,8 @@
                 <OsfButton
                     data-test-new-fork-button
                     data-analytics-name='Create fork modal'
+                    disabled={{this.loadingNew}}
                     @type='success'
-                    @disabled={{this.loadingNew}}
                     @onClick={{action (mut this.newModal) true}}
                 >
                     {{#if this.loadingNew}}

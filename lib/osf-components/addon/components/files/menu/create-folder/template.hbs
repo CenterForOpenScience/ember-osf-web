@@ -25,9 +25,9 @@
             {{t 'general.cancel'}}
         </OsfButton>
         <OsfButton
+            disabled={{@shouldDisableButtons}}
             @type='primary'
             @onClick={{action @createFolder (hash onSuccess=dialog.close)}}
-            @disabled={{@shouldDisableButtons}}
         >
             {{t 'osf-components.files-widget.create'}}
         </OsfButton>

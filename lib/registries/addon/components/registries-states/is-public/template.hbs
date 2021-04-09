@@ -45,17 +45,17 @@
 
     <modal.footer>
         <OsfButton
-            @disabled={{this.submitWithdrawal.isRunning}}
+            disabled={{this.submitWithdrawal.isRunning}}
             @onClick={{action modal.close}}
         >
             {{t 'general.cancel'}}
         </OsfButton>
         <OsfButton
             data-analytics-name='Withdraw registration'
+            disabled={{or this.submitDisabled this.submitWithdrawal.isRunning}}
+            type='submit'
             @type='danger'
-            @disabled={{or this.submitDisabled this.submitWithdrawal.isRunning}}
             @onClick={{action modal.submit}}
-            @buttonType='submit'
         >
             {{t 'registries.overview.withdraw.withdraw'}}
         </OsfButton>

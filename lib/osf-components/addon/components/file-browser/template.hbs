@@ -59,9 +59,9 @@
                 <OsfButton
                     data-analytics-name='Upload'
                     local-class='action-button'
+                    disabled={{this.isUploading}}
                     @bubble={{true}}
                     @class='dz-upload-button'
-                    @disabled={{this.isUploading}}
                 >
                     {{fa-icon 'upload'}}
                     {{t 'general.upload'}}
@@ -378,7 +378,7 @@
         <OsfButton
             data-test-move-to-project-modal-close-button
             data-analytics-name='Close'
-            @disabled={{this.isMoving}}
+            disabled={{this.isMoving}}
             @onClick={{action this.closeMoveToProjectModal}}
             @type='default'
         >
@@ -388,7 +388,7 @@
             <OsfButton
                 data-test-move-to-project-modal-back-button
                 data-analytics-name='Back'
-                @disabled={{this.isMoving}}
+                disabled={{this.isMoving}}
                 @onClick={{action (mut this.projectSelectState) 'main'}}
                 @type='default'
             >
@@ -397,7 +397,7 @@
             <OsfButton
                 data-test-move-to-project-modal-perform-button
                 data-analytics-name='Move'
-                @disabled={{not this.isMoveButtonEnabled}}
+                disabled={{not this.isMoveButtonEnabled}}
                 @onClick={{action (perform this.moveToProject)}}
                 @type='primary'
             >

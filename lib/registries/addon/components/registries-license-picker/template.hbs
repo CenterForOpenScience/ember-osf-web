@@ -25,7 +25,7 @@
         {{else}}
             <LoadingIndicator @dark={{true}} />
         {{/if}}
-        
+
         <div local-class='small help-link'>
             <OsfLink
                 @target='_blank'
@@ -34,7 +34,7 @@
                 {{t 'app_components.license_picker.faq'}}
             </OsfLink>
         </div>
-        
+
         {{#if @manager.selectedLicense}}
             <form.custom
                 local-class='AdditionalFields'
@@ -58,7 +58,7 @@
                     </div>
                 {{/each}}
             </form.custom>
-        
+
             <OsfButton
                 @type='link'
                 @onClick={{action (mut this.showText) (not this.showText)}}
@@ -66,11 +66,11 @@
             >
                 {{t (concat 'app_components.license_picker.' (if this.showText 'hide' 'show'))}}
             </OsfButton>
-        
+
             {{#if this.showText}}
                 <LicenseText @node={{@manager.registration}} />
             {{/if}}
-        
+
             {{#if this.shouldShowButtons}}
                 <div local-class='Controls'>
                     <OsfButton @type='default' @onClick={{@manager.cancel}}>
@@ -79,8 +79,8 @@
                     <OsfButton
                         data-analytics-name='Save license'
                         data-test-save-license @type='primary'
-                        @buttonType='submit'
-                        @disabled={{@manager.changeset.isInvalid}}
+                        disabled={{@manager.changeset.isInvalid}}
+                        type='submit'
                         @onClick={{@manager.save}}>
                         {{t 'general.save'}}
                     </OsfButton>

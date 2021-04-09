@@ -4,8 +4,8 @@
             data-test-previous-page-button
             data-analytics-name='Pagination previous'
             aria-label={{t 'paginator.previous'}}
+            disabled={{not this.hasPrev}}
             local-class='SimplePaginator__previous'
-            @disabled={{not this.hasPrev}}
             @onClick={{action this._previous}}
         />
     </span>
@@ -19,8 +19,8 @@
             data-test-next-page-button
             data-analytics-name='Pagination next'
             aria-label={{t 'paginator.next'}}
+            disabled={{not this.hasNext}}
             local-class='SimplePaginator__next'
-            @disabled={{not this.hasNext}}
             @onClick={{action this._next}}
         />
     </span>

@@ -189,9 +189,9 @@
                 <OsfButton
                     data-test-add-email-button
                     data-analytics-name='add email'
-                    @buttonType='submit'
-                    @local-class='add-email-button'
-                    @disabled={{or this.changeset.isInvalid this.onSave.isRunning}}
+                    disabled={{or this.changeset.isInvalid this.onSave.isRunning}}
+                    local-class='add-email-button'
+                    type='submit'
                     {{on 'click' (perform this.onSave)}}
                 >
                     {{t 'settings.account.connected_emails.add_email'}}

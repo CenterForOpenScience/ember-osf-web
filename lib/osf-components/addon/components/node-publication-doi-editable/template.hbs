@@ -21,18 +21,18 @@
         <OsfButton
             data-analytics-name='Cancel'
             data-test-cancel-publication-doi
+            disabled={{@manager.save.isRunning}}
             @onClick={{action @manager.cancel}}
-            @disabled={{@manager.save.isRunning}}
         >
             {{t 'general.cancel'}}
         </OsfButton>
         <OsfButton
             data-analytics-name='Save'
             data-test-save-publication-doi
+            disabled={{@manager.save.isRunning}}
+            type='submit'
             @type='primary'
-            @buttonType='submit'
             @onClick={{action @manager.save}}
-            @disabled={{@manager.save.isRunning}}
         >
             {{t 'general.save'}}
         </OsfButton>

@@ -221,9 +221,9 @@
                                 <OsfButton
                                     data-test-prereg-challenge-modal-continue-button
                                     data-analytics-name='Continue'
+                                    disabled={{not this.preregConsented}}
                                     @onClick={{action modal.submit}}
                                     @type='info'
-                                    @disabled={{not this.preregConsented}}
                                 >
                                     {{t 'node.registrations.prereg_modal.continue'}}
                                 </OsfButton>

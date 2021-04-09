@@ -24,10 +24,10 @@
             <OsfButton
                 aria-label={{t 'osf-components.files-widget.upload_file'}}
                 local-class='menu-button'
+                disabled={{@isUploading}}
                 @type='link'
                 @bubble={{true}}
                 @class='{{this.uploadButtonClass}}'
-                @disabled={{@isUploading}}
             >
                 <FaIcon @icon='upload' @fixedWidth={{true}} />
                 {{t 'osf-components.files-widget.upload_file'}}

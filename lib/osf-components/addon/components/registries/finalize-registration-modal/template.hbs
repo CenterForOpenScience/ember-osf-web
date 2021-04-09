@@ -54,9 +54,9 @@
     <dialog.footer>
         <OsfButton
             data-test-submit-registration-button
+            disabled={{this.shouldDisableSubmitButton}}
             @type='primary'
             @onClick={{this.manager.submitRegistration}}
-            @disabled={{this.shouldDisableSubmitButton}}
         >
             {{#if this.manager.submittingRegistration}}
                 <LoadingIndicator @inline={{true}} />

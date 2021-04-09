@@ -27,7 +27,7 @@
         </OsfButton>
         <OsfButton
             data-analytics-name='Delete Fork'
-            @disabled={{not (eq this.scientistInput this.scientistName)}}
+            disabled={{not (eq this.scientistInput this.scientistName)}}
             @onClick={{action modal.submit}}
             @type='danger'
         >

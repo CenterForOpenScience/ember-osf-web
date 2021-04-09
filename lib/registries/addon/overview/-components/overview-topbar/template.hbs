@@ -40,8 +40,8 @@
                     <OsfButton
                         data-analytics-name='Fork registration'
                         data-test-fork-registration
+                        disabled={{this.forkRegistration.isRunning}}
                         @type='link'
-                        @disabled={{this.forkRegistration.isRunning}}
                         @onClick={{action (perform this.forkRegistration (action dd.close))}}
                         local-class='ForkButton'
                     >
@@ -55,9 +55,9 @@
             data-test-bookmarks-button
             data-analytics-name={{if this.isBookmarked 'Remove from bookmarks' 'Bookmark'}}
             data-analytics-extra='Registration ID: {{this.registration.id}}'
+            disabled={{or this.bookmark.isRunning @registration.isAnonymous}}
             @type='link'
             @onClick={{action (perform this.bookmark)}}
-            @disabled={{or this.bookmark.isRunning @registration.isAnonymous}}
             local-class='ActionButton'
         >
             <FaIcon

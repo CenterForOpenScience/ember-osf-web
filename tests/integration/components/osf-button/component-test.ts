@@ -10,7 +10,7 @@ module('Integration | Component | osf-button', hooks => {
         // Set any properties with this.set('myProperty', 'value');
         // Handle any actions with this.set('myAction', function(val) { ... });
 
-        await render(hbs`{{osf-button}}`);
+        await render(hbs`<OsfButton />`);
 
         assert.dom(this.element).hasText('');
 

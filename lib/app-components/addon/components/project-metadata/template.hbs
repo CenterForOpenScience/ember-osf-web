@@ -61,17 +61,17 @@
     <div class='col-xs-12 text-right'>
         <OsfButton
             data-test-project-metadata-discard-button
+            disabled={{form.submitting}}
             @type='default'
-            @disabled={{form.submitting}}
             @onClick={{perform this.reset}}
         >
             {{t 'app_components.submit_section.discard'}}
         </OsfButton>
         <OsfButton
             data-test-project-metadata-save-button
+            disabled={{form.submitting}}
+            type='submit'
             @type='primary'
-            @buttonType='submit'
-            @disabled={{form.submitting}}
         >
             {{t 'app_components.submit_section.save'}}
         </OsfButton>

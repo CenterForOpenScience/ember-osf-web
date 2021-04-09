@@ -144,9 +144,9 @@
         <OsfButton
             data-test-create-project-submit
             data-analytics-name='New project submit'
+            disabled={{unless this.nodeTitle.length true}}
             @onClick={{action this.create}}
             @type='success'
-            @disabled={{unless this.nodeTitle.length true}}
         >
             {{t 'general.create'}}
         </OsfButton>

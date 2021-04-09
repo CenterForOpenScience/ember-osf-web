@@ -27,8 +27,8 @@
             </div>
             <OsfButton
                 data-analytics-name='Continue'
+                type='submit'
                 @type='primary'
-                @buttonType='submit'
                 @onClick={{action (perform this.saveUser)}}
             >
                 {{t 'tos_consent.continue'}}

@@ -72,7 +72,7 @@
             <OsfButton
                 data-analytics-name='Hard confirm cancel'
                 data-test-cancel-delete
-                @disabled={{this._deleteTask.isRunning}}
+                disabled={{this._deleteTask.isRunning}}
                 @onClick={{modal.close}}
             >
                 {{this.cancelButtonText}}
@@ -80,8 +80,8 @@
             <OsfButton
                 data-analytics-name='Hard confirm submit'
                 data-test-confirm-delete
+                disabled={{this.confirmDisabled}}
                 @type='danger'
-                @disabled={{this.confirmDisabled}}
                 @onClick={{perform this._deleteTask}}
             >
                 {{this.confirmButtonText}}
