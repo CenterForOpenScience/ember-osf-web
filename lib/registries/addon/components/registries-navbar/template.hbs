@@ -64,7 +64,7 @@
                     data-analytics-name='Go to moderation view'
                     local-class='SecondaryNavLinkButton HideOnMobile'
                     @route='registries.branded.moderation'
-                    @models={{array this.provider.id}}
+                    @models={{array this.providerId}}
                 >
                     {{t 'navbar.moderation'}}
                 </nav.links.secondary>
@@ -74,7 +74,7 @@
                     local-class='SecondaryNavLinkButton OnlyOnMobile'
                     aria-label={{t 'navbar.moderation'}}
                     @route='registries.branded.moderation'
-                    @models={{array this.provider.id}}
+                    @models={{array this.providerId}}
                 >
                     <FaIcon @icon='clipboard-check' @size='2x' />
                 </nav.links.secondary>
@@ -95,7 +95,7 @@
                     local-class='SecondaryNavLinkButton OnlyOnMobile'
                     aria-label={{t 'navbar.add_registration'}}
                     @route='registries.branded.new'
-                    @models={{array this.provider.id}}
+                    @models={{array this.providerId}}
                 >
                     <FaIcon @icon='plus' @size='2x' />
                 </nav.links.secondary>
