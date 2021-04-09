@@ -1132,6 +1132,10 @@ registries:
         recent:
             title: 'Browse Registrations'
             more: 'See more'
+    my_registrations:
+        header: 'My Registration'
+        drafts: 'Drafts'
+        registrations: 'Registrations'
     registration_metadata:
         add_description: 'Add description'
         add_contributors:

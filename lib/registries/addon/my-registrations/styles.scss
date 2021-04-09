@@ -1,3 +1,7 @@
 .ContentBackground {
     composes: ContentBackground from '../overview/styles.scss';
 }
+
+.title {
+    composes: Title from '../drafts/draft/styles.scss';
+}
