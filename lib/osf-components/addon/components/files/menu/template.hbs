@@ -4,7 +4,7 @@
     as |dropdownMenu|
 >
     <div local-class='actions-menu-trigger'>
-        <OsfButton
+        <BsButton
             local-class='trigger-button {{if dropdownMenu.isOpen 'close-button'}}'
             aria-label={{t 'osf-components.files-widget.expand_files_menu'}}
             data-ebd-id='{{dropdownMenu.uniqueId}}-trigger'
@@ -12,7 +12,7 @@
             @type='success'
         >
             <FaIcon @icon='plus' @size='2x' @fixedWidth={{true}} />
-        </OsfButton>
+        </BsButton>
     </div>
     <dropdownMenu.content>
         <div
@@ -21,18 +21,18 @@
             {{did-insert (action @setButtonClass this.uploadButtonClass)}}
             {{will-destroy (action @setButtonClass '')}}
         >
-            <OsfButton
+            <BsButton
                 aria-label={{t 'osf-components.files-widget.upload_file'}}
                 local-class='menu-button'
                 disabled={{@isUploading}}
+                class='{{this.uploadButtonClass}}'
                 @type='link'
                 @bubble={{true}}
-                @class='{{this.uploadButtonClass}}'
             >
                 <FaIcon @icon='upload' @fixedWidth={{true}} />
                 {{t 'osf-components.files-widget.upload_file'}}
-            </OsfButton>
-            <OsfButton
+            </BsButton>
+            <BsButton
                 aria-label={{t 'osf-components.files-widget.create_folder'}}
                 local-class='menu-button'
                 @onClick={{action this.openDialog (hash onOpenDialog=dropdownMenu.close)}}
@@ -40,7 +40,7 @@
             >
                 <FaIcon @icon='folder' @fixedWidth={{true}} />
                 {{t 'osf-components.files-widget.create_folder'}}
-            </OsfButton>
+            </BsButton>
         </div>
     </dropdownMenu.content>
 

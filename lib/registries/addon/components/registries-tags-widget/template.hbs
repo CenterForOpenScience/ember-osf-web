@@ -20,7 +20,7 @@
         {{tag}}
     </span>
     {{#unless this.readOnly}}
-        <OsfButton
+        <BsButton
             local-class='RemoveButton'
             data-analytics-name='Remove Tag'
             data-analytics-extra={{tag}}
@@ -28,6 +28,6 @@
             @onClick={{action this.removeTag tag}}
         >
             <FaIcon @icon='times' @fixedWidth={{true}} />
-        </OsfButton>
+        </BsButton>
     {{/unless}}
 </TagInput>

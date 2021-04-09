@@ -19,19 +19,19 @@
         </label>
     </modal.body>
     <modal.footer data-analytics-scope='Delete node modal'>
-        <OsfButton
+        <BsButton
             data-analytics-name='Cancel'
             @onClick={{action modal.close}}
         >
             {{t 'general.cancel'}}
-        </OsfButton>
-        <OsfButton
+        </BsButton>
+        <BsButton
             data-analytics-name='Delete Fork'
             disabled={{not (eq this.scientistInput this.scientistName)}}
             @onClick={{action modal.submit}}
             @type='danger'
         >
             {{t 'general.delete'}}
-        </OsfButton>
+        </BsButton>
     </modal.footer>
 </BsModal>

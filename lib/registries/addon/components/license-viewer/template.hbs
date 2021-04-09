@@ -1,7 +1,6 @@
 <OsfDialog as |dialog|>
-    
     <dialog.trigger>
-        <OsfButton
+        <BsButton
             data-analytics-name='View license'
             local-class='LinkButton'
             @type='link'
@@ -10,7 +9,7 @@
             <div local-class='LicenseName'>
                 {{@registration.license.name}}
             </div>
-        </OsfButton>
+        </BsButton>
     </dialog.trigger>
 
     <dialog.heading>
@@ -30,5 +29,4 @@
         {{/if}}
         <LicenseText @node={{@registration}} />
     </dialog.main>
-    
 </OsfDialog>

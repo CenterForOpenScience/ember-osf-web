@@ -1,9 +1,9 @@
-<OsfButton
+<BsButton
     @type='primary'
     @onClick={{action (mut this.showModal) true}}
 >
     {{t 'registries.overview.embargo.action'}}
-</OsfButton>
+</BsButton>
 
 <BsModal
     @tagName='span'
@@ -24,18 +24,18 @@
     </modal.body>
 
     <modal.footer>
-        <OsfButton
+        <BsButton
             disabled={{this.endEmbargo.isRunning}}
             @onClick={{action modal.close}}
         >
             {{t 'general.cancel'}}
-        </OsfButton>
-        <OsfButton
+        </BsButton>
+        <BsButton
             data-analytics-name='Terminate embargo early'
             @type='danger'
             @onClick={{action modal.submit}}
         >
             {{t 'registries.overview.embargo.confirm_button_text'}}
-        </OsfButton>
+        </BsButton>
     </modal.footer>
 </BsModal>

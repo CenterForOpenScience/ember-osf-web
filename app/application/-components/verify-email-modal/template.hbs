@@ -12,15 +12,15 @@
             </p>
         </modal.body>
         <modal.footer data-analytics-scope='Verify email modal'>
-            <OsfButton
+            <BsButton
                 data-test-deny-email
                 data-analytics-name='Deny'
                 disabled={{this.disableButtons}}
                 @onClick={{action this.deny}}
             >
                 {{t this.translationKeys.denyButton}}
-            </OsfButton>
-            <OsfButton
+            </BsButton>
+            <BsButton
                 data-test-verify-email
                 data-analytics-name='Verify'
                 disabled={{this.disableButtons}}
@@ -28,7 +28,7 @@
                 @onClick={{action this.verify}}
             >
                 {{t this.translationKeys.verifyButton}}
-            </OsfButton>
+            </BsButton>
         </modal.footer>
     </BsModal>
 {{/if}}

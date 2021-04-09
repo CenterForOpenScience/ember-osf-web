@@ -1,4 +1,4 @@
-<OsfButton
+<BsButton
     data-test-goto-register
     data-analytics-name='Go to register'
     local-class='registerButton {{if @showMobileView 'mobileReviewButtonItem'}}'
@@ -11,7 +11,7 @@
     {{else}}
         {{t 'registries.drafts.draft.register'}}
     {{/if}}
-</OsfButton>
+</BsButton>
 {{#if (and this.isInvalid (not @showMobileView))}}
     <div data-test-invalid-responses-text class='text-danger'>
         {{t 'registries.drafts.draft.review.invalid_warning'}}

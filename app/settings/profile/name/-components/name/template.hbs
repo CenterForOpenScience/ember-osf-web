@@ -40,7 +40,7 @@
     </span>
     {{settings/profile/name/-components/citation-preview user=this.user}}
     <div local-class='FormButtons'>
-        <OsfButton
+        <BsButton
             data-test-discard-changes
             data-analytics-name='Discard changes'
             disabled={{not form.isDirty}}
@@ -48,8 +48,8 @@
             @onClick={{action form.rollback}}
         >
             {{t 'validated_input_form.discard_changes'}}
-        </OsfButton>
-        <OsfButton
+        </BsButton>
+        <BsButton
             data-test-save
             data-analytics-name='Save'
             disabled={{and (not form.isDirty) form.disabled}}
@@ -57,6 +57,6 @@
             @type='primary'
         >
             {{t 'general.save'}}
-        </OsfButton>
+        </BsButton>
     </div>
 </ValidatedModelForm>

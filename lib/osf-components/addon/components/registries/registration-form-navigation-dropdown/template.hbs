@@ -1,14 +1,14 @@
 {{assert 'Registries::RegistrationFormNavigationDropdown requires schemablocks' @schemaBlocks}}
 <ResponsiveDropdown local-class='Dropdown' @renderInPlace={{true}} as |dd|>
     {{#dd.trigger local-class='MenuTrigger'}}
-        <OsfButton
+        <BsButton
             data-analytics-name='Expand'
             data-test-toggle-anchor-nav-button @type='link'
             local-class='ToggleNav__button'
             aria-label={{t 'registries.drafts.draft.review.toggle_dropdown'}}
         >
             <FaIcon @icon='bars' />
-        </OsfButton>
+        </BsButton>
     {{/dd.trigger}}
     {{#dd.content}}
         <nav
@@ -22,7 +22,7 @@
                 data-test-anchor-nav-title
             >
                 <div local-class='HeaderText'>{{t 'registries.overview.contents'}}</div>
-                <OsfButton
+                <BsButton
                     data-analytics-name='Collapse'
                     data-test-toggle-anchor-nav-button
                     @onClick={{action dd.close}}
@@ -30,7 +30,7 @@
                     local-class= 'ToggleNav__button'
                 >
                     <FaIcon @icon='times' />
-                </OsfButton>
+                </BsButton>
             </h2>
             <ol local-class='Anchors' data-test-form-block-anchors>
                 {{#if this.showMetadata}}

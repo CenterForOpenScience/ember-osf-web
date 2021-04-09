@@ -62,13 +62,13 @@
                 </div>
                 <div data-test-submissions-list-item-download>
                     {{#if submission.links.download}}
-                        <OsfButton
+                        <BsButton
                             @type='success'
                             class='btn-xs'
                             @onClick={{action this.downloadFile submission}}
                         >
                             <FaIcon @icon='download' class='fa-inverse' />
-                        </OsfButton>
+                        </BsButton>
                         {{submission.downloadCount}}
                     {{/if}}
                 </div>

@@ -59,13 +59,13 @@
                 {{/each}}
             </form.custom>
 
-            <OsfButton
+            <BsButton
                 @type='link'
                 @onClick={{action (mut this.showText) (not this.showText)}}
                 local-class='LinkButton small'
             >
                 {{t (concat 'app_components.license_picker.' (if this.showText 'hide' 'show'))}}
-            </OsfButton>
+            </BsButton>
 
             {{#if this.showText}}
                 <LicenseText @node={{@manager.registration}} />
@@ -73,17 +73,17 @@
 
             {{#if this.shouldShowButtons}}
                 <div local-class='Controls'>
-                    <OsfButton @type='default' @onClick={{@manager.cancel}}>
+                    <BsButton @type='default' @onClick={{@manager.cancel}}>
                         {{t 'general.cancel'}}
-                    </OsfButton>
-                    <OsfButton
+                    </BsButton>
+                    <BsButton
                         data-analytics-name='Save license'
                         data-test-save-license @type='primary'
                         disabled={{@manager.changeset.isInvalid}}
                         type='submit'
                         @onClick={{@manager.save}}>
                         {{t 'general.save'}}
-                    </OsfButton>
+                    </BsButton>
                 </div>
             {{/if}}
         {{/if}}

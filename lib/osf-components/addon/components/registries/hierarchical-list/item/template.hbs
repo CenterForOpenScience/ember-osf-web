@@ -5,7 +5,7 @@
         @checked={{@manager.itemChecked}}
         @disabled={{@manager.isRoot}}
     />
-    <OsfButton
+    <BsButton
         local-class='expand-button'
         @type='link'
         @onClick={{action @manager.toggleShowChildren}}
@@ -18,7 +18,7 @@
                 @fixedWidth={{true}}
             />
         {{/if}}
-    </OsfButton>
+    </BsButton>
 </li>
 {{#if (and @manager.children @manager.shouldShowChildren)}}
     <ul ...attributes>

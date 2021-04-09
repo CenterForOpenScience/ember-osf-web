@@ -42,14 +42,14 @@
                     @ariaLabel={{t 'settings.account.changePassword.confirmPassword.placeholder'}}
                 />
             {{/let}}
-            <OsfButton
+            <BsButton
                 data-test-update-password-button
                 data-analytics-name='Submit'
                 type='submit'
                 @onClick={{perform this.submitTask}}
             >
                 {{t 'settings.account.changePassword.updateButton'}}
-            </OsfButton>
+            </BsButton>
         </form>
     </panel.body>
 </Panel>

@@ -3,15 +3,15 @@
         <div class='col-xs-12'>
             <h2 class='page-header'>
                 {{t 'general.settings'}}
-                <OsfButton
+                <BsButton
                    local-class='NavToggle'
                    aria-label={{t 'settings.toggleNav'}}
+                   class='hidden-md hidden-lg'
                    @type='link'
-                   @class='hidden-md hidden-lg'
                    @onClick={{action (mut this.navCollapsed) (not this.navCollapsed)}}
                 >
                     {{fa-icon 'bars'}}
-                </OsfButton>
+                </BsButton>
             </h2>
         </div>
     </div>
@@ -21,7 +21,7 @@
                 <div class='panel panel-default'>
                     <BsNav @type='pills' @stacked={{true}} as |nav|>
                         <nav.item>
-                            <nav.link-to 
+                            <nav.link-to
                                 data-analytics-name='Settings'
                                 @params={{array 'settings.profile'}}
                             >

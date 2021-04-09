@@ -2,26 +2,26 @@
     {{#if (eq this.projectSelectState 'main')}}
         <div class='row'>
             <div class='col-xs-6'>
-                <OsfButton
+                <BsButton
                     data-test-ps-new-project-button
                     data-analytics-name='Create new project'
                     local-class='btn-big'
-                    @class='btn-block'
+                    class='btn-block'
                     @onClick={{action this.moveToNew}}
                 >
                     {{t 'move_to_project.create_new_project'}}
-                </OsfButton>
+                </BsButton>
             </div>
             <div class='col-xs-6'>
-                <OsfButton
+                <BsButton
                     data-test-ps-existing-project-button
                     data-analytics-name='Select existing project'
-                    @class='btn-block'
+                    class='btn-block'
                     local-class='btn-big'
                     @onClick={{action this.changeState 'existingProject'}}
                 >
                     {{t 'move_to_project.connect_to_existing'}}
-                </OsfButton>
+                </BsButton>
             </div>
         </div>
     {{/if}}

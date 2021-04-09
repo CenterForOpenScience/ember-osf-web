@@ -18,18 +18,18 @@
         </FormControls>
     </dialog.main>
     <dialog.footer>
-        <OsfButton
+        <BsButton
             @type='default'
             @onClick={{dialog.close}}
         >
             {{t 'general.cancel'}}
-        </OsfButton>
-        <OsfButton
+        </BsButton>
+        <BsButton
             disabled={{@shouldDisableButtons}}
             @type='primary'
             @onClick={{action @createFolder (hash onSuccess=dialog.close)}}
         >
             {{t 'osf-components.files-widget.create'}}
-        </OsfButton>
+        </BsButton>
     </dialog.footer>
 </OsfDialog>

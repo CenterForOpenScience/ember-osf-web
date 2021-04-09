@@ -53,17 +53,17 @@
     {{#unless @hasCustomButtons}}
         <dialog.footer>
             {{#if @manager.cancel}}
-                <OsfButton
+                <BsButton
                     data-test-discard-edits
                     data-analytics-name='Discard'
                     disabled={{@manager.isSaving}}
                     @onClick={{action @manager.cancel}}
                 >
                     {{t 'general.cancel'}}
-                </OsfButton>
+                </BsButton>
             {{/if}}
             {{#if @manager.save}}
-                <OsfButton
+                <BsButton
                     data-test-save-edits
                     data-analytics-name='Save'
                     disabled={{@manager.isSaving}}
@@ -71,7 +71,7 @@
                     @onClick={{action @manager.save}}
                 >
                     {{t 'general.save'}}
-                </OsfButton>
+                </BsButton>
             {{/if}}
         </dialog.footer>
     {{/unless}}

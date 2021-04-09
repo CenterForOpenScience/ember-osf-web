@@ -73,7 +73,7 @@
                     {{#if @filesManager.loadingMore}}
                         <LoadingIndicator @inline={{true}} @dark={{true}} />
                     {{else}}
-                        <OsfButton
+                        <BsButton
                             data-test-load-more-items
                             local-class='load-more-button'
                             class='btn-block'
@@ -83,7 +83,7 @@
                             @onClick={{@filesManager.loadMore}}
                         >
                             <FaIcon @icon='chevron-down' @fixedWidth={{true}} />
-                        </OsfButton>
+                        </BsButton>
                     {{/if}}
                 </div>
             {{/if}}

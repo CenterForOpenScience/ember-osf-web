@@ -12,20 +12,20 @@
             />
         </div>
         <div class='col-xs-3'>
-            <OsfButton
+            <BsButton
                 data-test-close-filter-button
                 data-analytics-name='Hide filter'
                 local-class='action-button'
                 aria-label={{t 'general.close'}}
-                @class='pull-right'
+                class='pull-right'
                 @onClick={{action this.closeFilter}}
             >
                 {{fa-icon 'times'}}
-            </OsfButton>
+            </BsButton>
         </div>
     {{else}}
         <div class='pull-right'>
-            <OsfButton
+            <BsButton
                 data-test-filter-button
                 data-analytics-name='Show filter'
                 local-class='action-button'
@@ -33,7 +33,7 @@
             >
                 {{fa-icon 'search'}}
                 {{t 'general.filter'}}
-            </OsfButton>
+            </BsButton>
         </div>
     {{/if}}
 </div>

@@ -283,7 +283,7 @@
         {{#unless this.registration.isAnonymous}}
             <div local-class='Field'>
                 <h4>{{t 'registries.registration_metadata.citation'}}</h4>
-                <OsfButton
+                <BsButton
                     data-analytics-name='{{if this.expandCitations 'Collapse' 'Expand'}} citations'
                     local-class='LinkButton'
                     @type='link'
@@ -291,7 +291,7 @@
                 >
                     {{this.registrationDisplayUrl}}
                     <FaIcon @icon={{if this.expandCitations 'caret-up' 'caret-down'}} />
-                </OsfButton>
+                </BsButton>
                 {{#if this.expandCitations}}
                     <CitationViewer @citable={{this.registration}} />
                 {{/if}}

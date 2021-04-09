@@ -18,15 +18,15 @@
     </ValidatedInput::Custom>
 
     <div local-class='Controls'>
-        <OsfButton
+        <BsButton
             data-analytics-name='Cancel'
             data-test-cancel-publication-doi
             disabled={{@manager.save.isRunning}}
             @onClick={{action @manager.cancel}}
         >
             {{t 'general.cancel'}}
-        </OsfButton>
-        <OsfButton
+        </BsButton>
+        <BsButton
             data-analytics-name='Save'
             data-test-save-publication-doi
             disabled={{@manager.save.isRunning}}
@@ -35,6 +35,6 @@
             @onClick={{action @manager.save}}
         >
             {{t 'general.save'}}
-        </OsfButton>
+        </BsButton>
     </div>
 </form>

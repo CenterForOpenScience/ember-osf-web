@@ -27,26 +27,26 @@
             {{#if this.institutions.length}}
                 <div class='form-group m-v-sm' local-class='NewProject__institution-selector'>
                     <label class='f-w-lg text-bigger'>{{t 'new_project.affiliation'}}</label>
-                    <OsfButton
+                    <BsButton
                         data-analytics-name='Remove all institutions'
                         @type='link'
                         @onClick={{action this.removeAllInstitutions}}
                     >
                         {{t 'new_project.remove_all'}}
-                    </OsfButton>
-                    <OsfButton
+                    </BsButton>
+                    <BsButton
                         data-analytics-name='Select all institutions'
                         @type='link'
                         @onClick={{action this.selectAllInstitutions}}
                     >
                         {{t 'new_project.select_all'}}
-                    </OsfButton>
+                    </BsButton>
                     <table>
                         <tbody>
                             <tr data-test-institution-button-row >
                                 {{#each this.institutions as | institution |}}
                                     <td>
-                                        <OsfButton
+                                        <BsButton
                                             data-test-institution-selected='{{if (if-filter institution this.selectedInstitutions) 'selected' 'not-selected'}}'
                                             data-analytics-name='select_institution'
                                             local-class='NewProject__institution-button'
@@ -64,7 +64,7 @@
                                                     alt='{{institution.name}}'
                                                     title='{{institution.name}}'>
                                             </div>
-                                        </OsfButton>
+                                        </BsButton>
                                     </td>
                                 {{/each}}
                             </tr>
@@ -91,14 +91,14 @@
                     </label>
                 </div>
             {{/if}}
-            <OsfButton
+            <BsButton
                 data-analytics-name='Toggle more'
                 local-class='NewProject__more'
                 @type='link'
                 @onClick={{action 'toggleMore'}}
             >
                 {{fa-icon (concat 'caret-' (if this.more 'down' 'right'))}} {{t 'new_project.more'}}
-            </OsfButton>
+            </BsButton>
             {{#if this.more}}
                 <div class='form-group m-v-sm'>
                     <label for='projectDesc' class='f-w-lg text-bigger' local-class='NewProject__label'>
@@ -134,14 +134,14 @@
         </div>
     </modal.body>
     <modal.footer data-analytics-scope='New project modal footer'>
-        <OsfButton
+        <BsButton
             data-test-create-project-cancel
             data-analytics-name='cancel'
             @onClick={{action modal.close}}
         >
             {{t 'general.cancel'}}
-        </OsfButton>
-        <OsfButton
+        </BsButton>
+        <BsButton
             data-test-create-project-submit
             data-analytics-name='New project submit'
             disabled={{unless this.nodeTitle.length true}}
@@ -149,6 +149,6 @@
             @type='success'
         >
             {{t 'general.create'}}
-        </OsfButton>
+        </BsButton>
     </modal.footer>
 </BsModal>

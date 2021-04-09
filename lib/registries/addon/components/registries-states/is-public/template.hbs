@@ -1,10 +1,10 @@
-<OsfButton
+<BsButton
     data-analytics-name='Open withdraw form modal'
     @type='danger'
     @onClick={{action (mut this.showModal) true}}
 >
     {{t 'registries.overview.withdraw.withdraw'}}
-</OsfButton>
+</BsButton>
 
 <BsModal
     @tagName='span'
@@ -44,13 +44,13 @@
     </modal.body>
 
     <modal.footer>
-        <OsfButton
+        <BsButton
             disabled={{this.submitWithdrawal.isRunning}}
             @onClick={{action modal.close}}
         >
             {{t 'general.cancel'}}
-        </OsfButton>
-        <OsfButton
+        </BsButton>
+        <BsButton
             data-analytics-name='Withdraw registration'
             disabled={{or this.submitDisabled this.submitWithdrawal.isRunning}}
             type='submit'
@@ -58,6 +58,6 @@
             @onClick={{action modal.submit}}
         >
             {{t 'registries.overview.withdraw.withdraw'}}
-        </OsfButton>
+        </BsButton>
     </modal.footer>
 </BsModal>

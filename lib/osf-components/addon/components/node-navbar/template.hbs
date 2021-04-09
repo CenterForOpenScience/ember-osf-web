@@ -7,14 +7,14 @@
             <div class='container'>
                 <div class='navbar-header'>
 
-                    <OsfButton
+                    <BsButton
                         local-class='NodeNavbar__navbar-toggle'
-                        @class='navbar-toggle collapsed'
+                        class='navbar-toggle collapsed'
                         @onClick={{action this.toggleNav}}
                     >
                         <span class='sr-only'>{{t 'node_navbar.toggle'}}</span>
                         <FaIcon @icon='bars' class='fa-lg' />
-                    </OsfButton>
+                    </BsButton>
 
                     <span class='navbar-brand visible-xs visible-sm'>
                         {{t 'node_navbar.project_nav'}}

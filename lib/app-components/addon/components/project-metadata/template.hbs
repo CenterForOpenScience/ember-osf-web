@@ -59,21 +59,21 @@
         </label>
     </div>
     <div class='col-xs-12 text-right'>
-        <OsfButton
+        <BsButton
             data-test-project-metadata-discard-button
             disabled={{form.submitting}}
             @type='default'
             @onClick={{perform this.reset}}
         >
             {{t 'app_components.submit_section.discard'}}
-        </OsfButton>
-        <OsfButton
+        </BsButton>
+        <BsButton
             data-test-project-metadata-save-button
             disabled={{form.submitting}}
             type='submit'
             @type='primary'
         >
             {{t 'app_components.submit_section.save'}}
-        </OsfButton>
+        </BsButton>
     </div>
 </ValidatedModelForm>

@@ -52,7 +52,7 @@
         </div>
     </dialog.main>
     <dialog.footer>
-        <OsfButton
+        <BsButton
             data-test-submit-registration-button
             disabled={{this.shouldDisableSubmitButton}}
             @type='primary'
@@ -63,13 +63,13 @@
             {{else}}
                 {{t 'registries.finalizeRegistrationModal.submit'}}
             {{/if}}
-        </OsfButton>
-        <OsfButton
+        </BsButton>
+        <BsButton
             data-test-back-button
             @type='default'
             @onClick={{@onBack}}
         >
             {{t 'registries.finalizeRegistrationModal.back'}}
-        </OsfButton>
+        </BsButton>
     </dialog.footer>
 </OsfDialog>

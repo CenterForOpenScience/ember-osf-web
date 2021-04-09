@@ -56,7 +56,7 @@
                 </OsfLink>
             </ddm.item>
             <ddm.item role='menuitem'>
-                <OsfButton
+                <BsButton
                     data-test-ad-logout
                     data-analytics-name='Logout'
                     class='logoutLink'
@@ -65,7 +65,7 @@
                 >
                     <FaIcon @icon='sign-out-alt' class='fa-lg p-r-xs' />
                     {{t 'auth_dropdown.log_out'}}
-                </OsfButton>
+                </BsButton>
             </ddm.item>
         </dd.menu>
     </BsDropdown>
@@ -81,7 +81,7 @@
             >
                 {{t 'auth_dropdown.sign_up'}}
             </OsfLink>
-            <OsfButton
+            <BsButton
                 data-test-sign-in-button
                 data-analytics-name='SignIn'
                 class='btn-top-login'
@@ -90,7 +90,7 @@
                 @type='info'
             >
                 {{t 'auth_dropdown.sign_in'}}
-            </OsfButton>
+            </BsButton>
         </div>
     </li>
 {{/if}}

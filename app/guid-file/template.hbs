@@ -5,7 +5,7 @@
         <div data-analytics-scope='Title' local-class='TitleBar__title'>
             <h2 data-test-file-title-header>
                 {{this.model.file.name}}
-                <OsfButton
+                <BsButton
                     data-analytics-name='Version'
                     local-class='TitleBar__version-link'
                     @bubble={{true}}
@@ -13,7 +13,7 @@
                     @onClick={{action 'changeView' 'revision'}}
                 >
                     {{t 'file_detail.version.title' versionNumber=this.mfrVersion}}
-                </OsfButton>
+                </BsButton>
             </h2>
         </div>
         <div data-analytics-scope='buttons' local-class='TitleBar__buttons'>
@@ -21,7 +21,7 @@
                 <div class='btn-toolbar m-t-md'>
                     {{#if this.canDelete}}
                         <div class='btn-group m-l-xs m-t-xs'>
-                            <OsfButton
+                            <BsButton
                                 data-analytics-name='Delete'
                                 data-test-delete-button
                                 @bubble={{true}}
@@ -30,11 +30,11 @@
                                 @onClick={{action (mut this.deleteModalOpen) true}}
                             >
                                 {{t 'general.delete'}}
-                            </OsfButton>
+                            </BsButton>
                         </div>
                     {{/if}}
                     <div class='btn-group m-l-xs m-t-xs'>
-                        <OsfButton
+                        <BsButton
                             data-analytics-name={{unless this.canEdit 'Download'}}
                             data-test-download-button
                             @bubble={{true}}
@@ -43,7 +43,7 @@
                             @onClick={{action this.download this.model.file.currentVersion}}
                         >
                             {{t 'general.download'}}
-                        </OsfButton>
+                        </BsButton>
                     </div>
                     <div class='btn-group m-l-xs m-t-xs'>
                         <FileShareButton @file={{this.model.file}} />
@@ -51,44 +51,44 @@
                     {{#if this.isEditableFile}}
                         <div class='btn-group btn-group-sm m-t-xs'>
                             {{#if this.canEdit}}
-                                <OsfButton
+                                <BsButton
                                     data-analytics-name='Toggle'
                                     local-class='TitleBar__button-label'
                                     disabled={{true}}
                                     @bubble={{true}}
                                 >
                                     {{t 'file_detail.toggle'}}
-                                </OsfButton>
-                                <OsfButton
+                                </BsButton>
+                                <BsButton
                                     data-analytics-name='View'
                                     @bubble={{true}}
                                     @type='{{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'primary' 'default'}}'
                                     @onClick={{action this.changeView 'view'}}
                                 >
                                     {{t 'general.view'}}
-                                </OsfButton>
-                                <OsfButton
+                                </BsButton>
+                                <BsButton
                                     data-analytics-name='Edit'
                                     @bubble={{true}}
                                     @type='{{if (or (eq this.show 'edit') (eq this.show 'view_edit')) 'primary' 'default'}}'
                                     @onClick={{action this.changeView 'edit'}}
                                 >
                                     {{t 'general.edit'}}
-                                </OsfButton>
+                                </BsButton>
                             {{else}}
-                                <OsfButton
+                                <BsButton
                                     data-analytics-name='View'
                                     @bubble={{true}}
                                     @type='{{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'primary' 'default'}}'
                                     @onClick={{action this.changeView 'view'}}
                                 >
                                     {{t 'general.view'}}
-                                </OsfButton>
+                                </BsButton>
                             {{/if}}
                         </div>
                     {{else}}
                         <div class='btn-group m-l-xs m-t-xs'>
-                            <OsfButton
+                            <BsButton
                                 data-analytics-name='View'
                                 @bubble={{true}}
                                 @type='{{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'primary' 'default'}}'
@@ -96,11 +96,11 @@
                                 @onClick={{action this.changeView 'view'}}
                             >
                                 {{t 'general.view'}}
-                            </OsfButton>
+                            </BsButton>
                         </div>
                     {{/if}}
                     <div class='btn-group m-l-xs m-t-xs'>
-                        <OsfButton
+                        <BsButton
                             data-analytics-name='Revisions tab'
                             data-test-revisions-tab
                             @bubble={{true}}
@@ -109,7 +109,7 @@
                             @onClick={{action this.changeView 'revision'}}
                         >
                             {{t 'general.revisions'}}
-                        </OsfButton>
+                        </BsButton>
                     </div>
                 </div>
             </div>
@@ -128,22 +128,22 @@
             <p>{{t 'file_detail.delete_file.confirm' fileName=this.model.file.name htmlSafe=true}}</p>
         </modal.body>
         <modal.footer data-analytics-scope='File detail - Delete file modal'>
-            <OsfButton
+            <BsButton
                 data-test-delete-file-cancel
                 data-analytics-name='Close'
                 @onClick={{action modal.close}}
                 @type='default'
             >
                 {{t 'general.cancel'}}
-            </OsfButton>
-            <OsfButton
+            </BsButton>
+            <BsButton
                 data-test-delete-file-confirm
                 data-analytics-name='Delete file'
                 @onClick={{action modal.submit}}
                 @type='danger'
             >
                 {{t 'general.delete'}}
-            </OsfButton>
+            </BsButton>
         </modal.footer>
     </BsModal>
     <hr>
