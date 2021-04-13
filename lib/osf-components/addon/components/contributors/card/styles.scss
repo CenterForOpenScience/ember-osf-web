@@ -23,6 +23,10 @@
         flex: 2 0 auto;
         max-width: 40%;
     }
+
+    :global(.ember-power-select-trigger) {
+        width: 120px;
+    }
 }
 
 .DropdownSection {

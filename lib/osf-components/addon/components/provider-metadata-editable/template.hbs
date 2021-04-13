@@ -1,0 +1,17 @@
+<div 
+    local-class='EditProviderMetadata'
+    data-test-provider-metadata-edit-div={{@field.field_name}}
+>
+    <span
+        data-test-provider-metadata-edit-label={{@field.field_name}}
+        local-class='ProviderMetadataLabel'
+    >
+        {{@field.field_name}}
+    </span>
+    {{input
+        data-test-provider-metadata-edit-input=@field.field_name
+        class='form-control'
+        value=@field.field_value
+        disabled=@manager.save.isRunning
+    }}
+</div>

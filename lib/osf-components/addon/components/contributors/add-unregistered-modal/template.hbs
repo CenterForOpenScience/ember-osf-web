@@ -42,7 +42,7 @@
                 data-test-select-permission
                 as |permission|
             >
-                {{capitalize permission}}
+                {{t (concat 'osf-components.contributors.permissions.' permission)}}
             </form.select>
             {{#let (unique-id 'citation-checkbox') as |id|}}
                 <label for={{id}}>
