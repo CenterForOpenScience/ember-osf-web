@@ -33,6 +33,12 @@
     }
 }
 
+.DraftRegistrationCard__delete {
+    button {
+        padding: 6px 12px;
+    }
+}
+
 :global(.delete_draft_registration) {
     :global(.modal-header) {
         h4 {

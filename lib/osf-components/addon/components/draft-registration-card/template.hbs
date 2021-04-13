@@ -46,60 +46,7 @@
                 </p>
             </small>
             <div class='row'>
-                {{#unless this.draftRegistration.currentUserIsReadOnly}}
-                    <div class='col-md-10'>
-                        <OsfLink
-                            data-test-draft-card-edit
-                            data-analytics-name='Edit'
-                            class='btn btn-default'
-                            @route='registries.drafts.draft'
-                            @models={{array @draftRegistration.id}}
-                        >
-                            {{fa-icon 'pencil-alt'}} {{t 'general.edit'}}
-                        </OsfLink>
-                        {{#if this.draftRegistration.currentUserIsAdmin}}
-                            <OsfButton
-                                data-test-draft-card-delete
-                                data-analytics-name='Delete'
-                                @type='default'
-                                @onClick={{action this.delete}}
-                                disabled={{not this.draftRegistration}}
-                            >
-                                {{fa-icon 'times'}} {{t 'general.delete'}}
-                            </OsfButton>
-                            <BsModal
-                                @open={{this.deleteModalOpen}}
-                                @onHidden={{action this.cancelDelete}}
-                                class='delete_draft_registration'
-                                as |modal|
-                            >
-                                <modal.header>
-                                    <h4>{{t 'general.please_confirm'}}</h4>
-                                </modal.header>
-                                <modal.body>
-                                    {{t 'osf-components.draft-registration-card.delete_draft_confirm'}}
-                                </modal.body>
-                                <modal.footer data-analytics-scope='Draft registrations delete modal'>
-                                    <OsfButton
-                                        data-analytics-name='Cancel delete'
-                                        @onClick={{action modal.close}}
-                                        @type='default'
-                                    >
-                                        {{t 'general.cancel'}}
-                                    </OsfButton>
-                                    <OsfButton
-                                        data-analytics-name='Confirm delete'
-                                        @onClick={{action this.confirmDelete}}
-                                        @type='danger'
-                                    >
-                                        {{t 'general.delete'}}
-                                    </OsfButton>
-                                </modal.footer>
-                            </BsModal>
-                        {{/if}}
-                    </div>
-                {{/unless}}
-                <div class='col-md-1'>
+                <div class='col-md-10'>
                     <OsfLink
                         data-test-draft-card-review
                         data-analytics-name='Review'
@@ -109,6 +56,29 @@
                     >
                         {{t 'osf-components.draft-registration-card.review'}}
                     </OsfLink>
+                    {{#unless this.draftRegistration.currentUserIsReadOnly}}
+                        <OsfLink
+                            data-test-draft-card-edit
+                            data-analytics-name='Edit'
+                            class='btn btn-default'
+                            @route='registries.drafts.draft'
+                            @models={{array @draftRegistration.id}}
+                        >
+                            {{t 'general.edit'}}
+                        </OsfLink>
+                    {{/unless}}
+                </div>
+                <div class='col-md-1'>
+                    {{#if this.draftRegistration.currentUserIsAdmin}}
+                        <DeleteButton
+                            @smallSecondary={{true}}
+                            @icon='trash-alt'
+                            @delete={{action this.delete}}
+                            @modalTitle={{t 'general.please_confirm'}}
+                            @modalBody={{t 'osf-components.draft-registration-card.delete_draft_confirm'}}
+                            local-class='DraftRegistrationCard__delete'
+                        />
+                    {{/if}}
                 </div>
             </div>
         {{else}}
