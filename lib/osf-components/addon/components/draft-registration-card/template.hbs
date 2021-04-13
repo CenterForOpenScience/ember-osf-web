@@ -71,6 +71,7 @@
                 <div class='col-md-1'>
                     {{#if this.draftRegistration.currentUserIsAdmin}}
                         <DeleteButton
+                            data-test-draft-card-delete
                             @smallSecondary={{true}}
                             @icon='trash-alt'
                             @delete={{action this.delete}}
