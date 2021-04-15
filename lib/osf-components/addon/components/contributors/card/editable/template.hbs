@@ -35,6 +35,7 @@
                 @selected={{@contributor.permission}}
                 @options={{this.permissionOptions}}
                 @onchange={{fn @manager.updateContributorPermission @contributor}}
+                @searchEnabled={{false}}
                 as |option|
             >
                 <span data-test-contributor-permission-choice={{option}}>

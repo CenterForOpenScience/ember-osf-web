@@ -1053,7 +1053,6 @@ registries:
         go_to_SHARE: 'Go to SHARE'
         registration_count: '{count, plural, =1 {# Registration} other {# Registrations}}'
         sort_by: 'Sort by'
-        powered_by: 'powered by'
         no_results: 'No results found.'
         try_broadening: 'Try broadening your search terms'
         error_loading: 'There was an error loading registrations'
@@ -1173,10 +1172,12 @@ registries:
         no_doi: 'No DOI assigned'
         no_license: 'No license'
         no_matches: 'No matches found'
+        no_provider_metadata: 'No metadata'
         no_publication_doi: 'No publication DOI'
         no_subjects: 'No subjects'
         no_title: 'No title'
         no_year: 'No year'
+        provider_specific_metadata: 'Registry metadata'
         publication_doi: 'Publication DOI'
         registered_from: 'Registered from'
         registration_doi: 'Registration DOI'
@@ -1193,6 +1194,9 @@ registries:
         edit_category:
             success: 'Category successfully updated.'
             error: 'Unable to save category.'
+        edit_provider_metadata:
+            success: 'Registry metadata updated.'
+            error: 'Unable to save registry metadata.'
         mint_doi:
             header: 'Are you sure you want to create a DOI for this registration?'
             text: 'A DOI is persistent and will always resolve to this page.'

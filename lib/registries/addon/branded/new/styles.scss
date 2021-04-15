@@ -13,6 +13,7 @@
 .selectLabel {
     composes: SchemaBlockDropdown from '../../drafts/draft/metadata/styles.scss';
     display: block;
+    font-weight: 700;
 
     div {
         max-width: 361px;
