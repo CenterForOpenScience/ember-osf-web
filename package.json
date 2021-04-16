@@ -103,7 +103,7 @@
     "broccoli-asset-rev": "^3.0.0",
     "chai": "^4.1.2",
     "coveralls": "^3.0.3",
-    "dropzone": "^5.3.0",
+    "dropzone": "5.5.1",
     "ember-a11y-testing": "^1.0.0",
     "ember-ace": "^2.0.1",
     "ember-ajax": "^5.0.0",
