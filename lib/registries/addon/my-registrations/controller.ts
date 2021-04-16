@@ -9,7 +9,7 @@ export default class MyRegistrationsController extends Controller {
     @service currentUser!: CurrentUserService;
 
     queryParams = ['tab'];
-    @tracked tab = 'registrations';
+    @tracked tab = 'submitted';
 
     @action
     changeTab(newTabId: string) {

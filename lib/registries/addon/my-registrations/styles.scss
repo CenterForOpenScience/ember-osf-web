@@ -1,7 +1,56 @@
+// stylelint-disable declaration-property-value-blacklist
+// stylelint-disable selector-no-qualifying-type
 .ContentBackground {
     composes: ContentBackground from '../overview/styles.scss';
+    
+    :global(.list-group-item) {
+        margin-bottom: 10px;
+    }
+
+    :global(.media-desktop) {
+        margin-top: -38px;
+    }
+
+    :global(.media-tablet) {
+        margin-top: -38px;
+    }
+
+    :global(.media-mobile) {
+        margin-top: -38px;
+    }
 }
 
-.title {
+.Title {
     composes: Title from '../drafts/draft/styles.scss';
+
+    min-height: 150px;
+}
+
+.NavTabs {
+    ul {
+        margin-left: 15px;
+    }
+
+    :global(a.nav-link) {
+        border: none;
+        color: #fff;
+
+        &:hover {
+            border: none;
+            color: $color-text-gray;
+        }
+    }
+
+    :global(a.nav-link.active) {
+        border: none;
+        color: $color-text-gray;
+
+        &:focus {
+            border: none;
+        }
+
+        &:hover {
+            border: none;
+        }
+    }
 }

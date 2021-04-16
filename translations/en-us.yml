@@ -1135,7 +1135,7 @@ registries:
     my_registrations:
         header: 'My Registration'
         drafts: 'Drafts'
-        registrations: 'Registrations'
+        submitted: 'Submitted'
     registration_metadata:
         add_description: 'Add description'
         add_contributors:
