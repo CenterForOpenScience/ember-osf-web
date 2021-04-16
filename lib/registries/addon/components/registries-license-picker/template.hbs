@@ -17,6 +17,7 @@
                 @searchField={{'name'}}
                 @noMatchesMessage={{t 'registries.registration_metadata.no_matches'}}
                 @placeholder={{t 'registries.registration_metadata.add_license'}}
+                @searchEnabled={{true}}
                 ...attributes
                 as |license|
             >
@@ -80,7 +81,7 @@
                         data-analytics-name='Save license'
                         data-test-save-license @type='primary'
                         disabled={{@manager.changeset.isInvalid}}
-                        type='submit'
+                        @buttonType='submit'
                         @onClick={{@manager.save}}>
                         {{t 'general.save'}}
                     </BsButton>

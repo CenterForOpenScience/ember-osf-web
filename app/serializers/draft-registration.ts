@@ -1,5 +1,5 @@
 import { isEmpty } from '@ember/utils';
-import DS from 'ember-data';
+import DS from 'ember-data'; // eslint-disable-line ember/use-ember-data-rfc-395-imports
 
 import {
     FileReference,
@@ -59,8 +59,7 @@ export function normalizeRegistrationResponses(value: ResponseValue, store: DS.S
 }
 
 function serializeRegistrationResponses(value: NormalizedResponseValue) {
-    if (Array.isArray(value) && value.length && isObject(value[0])
-        && Object.prototype.hasOwnProperty.call(value[0], 'materializedPath')) {
+    if (Array.isArray(value) && value.length && isObject(value[0]) && 'materializedPath' in value[0]) {
         return value.map(file => file.toFileReference());
     }
     return value;

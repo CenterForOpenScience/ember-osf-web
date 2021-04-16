@@ -1,4 +1,10 @@
-<div data-analytics-scope='ToS consent banner' class='container'>
+<div
+    data-test-tos-consent-alert
+    local-class='TosConsentBanner'
+    data-analytics-scope='ToS consent banner'
+    class='container'
+    ...attributes
+>
     <BsAlert
         @type='default'
         @dismissible={{true}}
@@ -26,6 +32,7 @@
                 </h5>
             </div>
             <BsButton
+                data-test-tos-consent-alert-submit-button
                 data-analytics-name='Continue'
                 type='submit'
                 @type='primary'

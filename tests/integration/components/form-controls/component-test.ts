@@ -79,7 +79,7 @@ module('Integration | Component | form-controls', hooks => {
                 <BsButton
                     data-test-submit-button
                     data-analytics-name='submit'
-                    type='submit'
+                    @buttonType='submit'
                 >
                     Submit
                 </BsButton>

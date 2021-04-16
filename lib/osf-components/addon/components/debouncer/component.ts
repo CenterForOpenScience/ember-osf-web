@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { waitFor } from '@ember/test-waiters';
-import { restartableTask, Task, timeout } from 'ember-concurrency';
+import { restartableTask, timeout } from 'ember-concurrency';
 
 import { layout } from 'ember-osf-web/decorators/component';
 
@@ -9,14 +9,14 @@ import template from './template';
 
 @layout(template)
 export default class Debouncer extends Component {
-    fn!: Task<void, []>;
+    fn!: () => Promise<void>;
     timeoutInterval: number = 500;
 
     @restartableTask
     @waitFor
     async doFnDebounce() {
         await timeout(this.timeoutInterval);
-        await this.fn.perform();
+        await this.fn();
     }
 
     didReceiveAttrs() {

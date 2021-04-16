@@ -1,9 +1,9 @@
+import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { dropTask } from 'ember-concurrency';
-import { localClassNames } from 'ember-css-modules';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
@@ -16,8 +16,12 @@ import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/captur
 import styles from './styles';
 import template from './template';
 
+const {
+    signUpPolicy: { termsLink, privacyPolicyLink },
+} = config;
+
 @layout(template, styles)
-@localClassNames('TosConsentBanner')
+@tagName('')
 export default class TosConsentBanner extends Component {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
@@ -28,16 +32,13 @@ export default class TosConsentBanner extends Component {
     show = false;
     didValidate = false;
     hasSubmitted = false;
-
-    constructor(properties: object) {
-        super(properties);
-        Object.assign(this, config.signUpPolicy);
-    }
+    termsLink = termsLink;
+    privacyPolicyLink = privacyPolicyLink;
 
     @dropTask
     @waitFor
     async saveUser() {
-        const user = this.currentUser.user;
+        const { user } = this.currentUser;
         const { validations } = await user!.validate();
         this.set('didValidate', true);
 

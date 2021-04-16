@@ -1,5 +1,6 @@
 import { assert } from '@ember/debug';
-import { computed, set } from '@ember/object';
+import { set } from '@ember/object';
+import { dependentKeyCompat } from '@ember/object/compat';
 import { Changeset } from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
 import { BufferedChangeset } from 'ember-changeset/types';
@@ -47,18 +48,10 @@ export class PageManager {
         }
     }
 
-    @computed('changeset.isValid')
+    @dependentKeyCompat
     get pageIsValid() {
         if (this.changeset) {
             return this.changeset.isValid;
-        }
-        return false;
-    }
-
-    @computed('changeset.isInvalid')
-    get pageIsInvalid() {
-        if (this.changeset) {
-            return this.changeset.isInvalid;
         }
         return false;
     }

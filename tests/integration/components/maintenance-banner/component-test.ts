@@ -3,8 +3,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import config from 'ember-get-config';
 import { setupRenderingTest } from 'ember-qunit';
-import test from 'ember-sinon-qunit/test-support/test';
-import { module } from 'qunit';
+import { module, test } from 'qunit';
 
 const {
     OSF: { apiUrl },

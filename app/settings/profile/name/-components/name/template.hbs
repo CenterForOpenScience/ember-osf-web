@@ -53,7 +53,7 @@
             data-test-save
             data-analytics-name='Save'
             disabled={{and (not form.isDirty) form.disabled}}
-            type='submit'
+            @buttonType='submit'
             @type='primary'
         >
             {{t 'general.save'}}

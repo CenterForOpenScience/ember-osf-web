@@ -1,4 +1,5 @@
 import { action, computed, set } from '@ember/object';
+import { dependentKeyCompat } from '@ember/object/compat';
 import { alias, filterBy, not, notEmpty, or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
@@ -59,17 +60,17 @@ export default class DraftRegistrationManager {
     node?: NodeModel | DraftNode;
     provider!: ProviderModel;
 
-    @computed('pageManagers.{[],@each.pageIsValid}')
+    @computed('pageManagers.{[],@each.pageIsValid}', 'metadataIsValid')
     get registrationResponsesIsValid() {
         return this.pageManagers.every(pageManager => pageManager.pageIsValid) && this.metadataIsValid;
     }
 
-    @computed('metadataChangeset.isValid')
+    @dependentKeyCompat
     get metadataIsValid() {
         return this.metadataChangeset.isValid;
     }
 
-    @computed('onInput.lastComplete')
+    @computed('onPageInput.lastComplete')
     get lastSaveFailed() {
         const onPageInputLastComplete = taskFor(this.onPageInput).lastComplete;
         const pageInputFailed = onPageInputLastComplete ? onPageInputLastComplete.isError : false;

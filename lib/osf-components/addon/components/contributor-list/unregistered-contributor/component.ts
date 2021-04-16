@@ -1,6 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
 import { bool } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
@@ -43,13 +43,6 @@ export default class UnregisteredContributorComponent extends Component {
     @service toast!: Toast;
     @service intl!: Intl;
 
-    @bool('currentUser.currentUserId') isLoggedIn?: boolean;
-
-    @computed('isLoggedIn', 'emailChangeset.isInvalid')
-    get isClaimButtonDisabled(): boolean {
-        return Boolean(!this.isLoggedIn && this.emailChangeset!.isInvalid);
-    }
-
     @tracked shouldOpenClaimDialog: boolean = false;
     @tracked currentUserEmail?: string;
 
@@ -57,6 +50,8 @@ export default class UnregisteredContributorComponent extends Component {
     emailChangeset?: BufferedChangeset = undefined;
     contributor!: Contributor;
     nodeId!: string;
+
+    @bool('currentUser.currentUserId') isLoggedIn?: boolean;
 
     @task
     @waitFor

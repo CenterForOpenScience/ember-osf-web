@@ -1,16 +1,19 @@
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { action, set } from '@ember/object';
-import { alias, or } from '@ember/object/computed';
+import { or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { typeOf } from '@ember/utils';
 import { Changeset } from 'ember-changeset';
 import { BufferedChangeset, ValidatorAction } from 'ember-changeset/types';
 import { task } from 'ember-concurrency';
+import Toast from 'ember-toastr/services/toast';
+
+/* eslint-disable ember/use-ember-data-rfc-395-imports */
 import DS from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
-import Toast from 'ember-toastr/services/toast';
+/* eslint-enable ember/use-ember-data-rfc-395-imports */
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import { ValidatedModelName } from 'ember-osf-web/models/osf-model';
@@ -44,9 +47,6 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
 
     @or('disabled', 'saveModelTask.isRunning')
     inputsDisabled!: boolean;
-
-    @alias('changeset.isDirty')
-    isDirty!: boolean;
 
     @task
     @waitFor
@@ -105,7 +105,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
 
     _onDirtChange() {
         if (typeof (this.onDirtChange) !== 'undefined') {
-            this.onDirtChange(this.isDirty);
+            this.onDirtChange(this.changeset.isDirty);
         }
     }
 

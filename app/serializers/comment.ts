@@ -1,4 +1,4 @@
-import DS from 'ember-data';
+import DS from 'ember-data'; // eslint-disable-line ember/use-ember-data-rfc-395-imports
 
 import OsfSerializer from './osf-serializer';
 

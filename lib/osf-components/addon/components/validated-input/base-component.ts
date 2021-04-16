@@ -7,7 +7,8 @@ import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import { BufferedChangeset } from 'ember-changeset/types';
 import { ResultCollection } from 'ember-cp-validations';
-import DS, { AttributesFor, RelationshipsFor } from 'ember-data';
+import DS, // eslint-disable-line ember/use-ember-data-rfc-395-imports
+{ AttributesFor, RelationshipsFor } from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 
 export enum ValidationStatus {
@@ -72,11 +73,11 @@ export default abstract class BaseValidatedInput<M extends DS.Model> extends Com
             shouldShowMessages,
             value,
             validation,
-            isValidating,
+            _isValidating,
             isInvalid,
         } = this;
         switch (true) {
-        case !shouldShowMessages || isValidating:
+        case !shouldShowMessages || _isValidating:
             return ValidationStatus.Hidden;
         case isInvalid:
             return ValidationStatus.HasError;
@@ -89,13 +90,16 @@ export default abstract class BaseValidatedInput<M extends DS.Model> extends Com
         }
     }
 
+    get _isValidating() {
+        return this.changeset ? this.changeset.isValidating(this.valuePath as string) : this.isValidating;
+    }
+
     init() {
         super.init();
         if (this.changeset) {
             defineProperty(this, 'validation', oneWay(`changeset.data.validations.attrs.${this.valuePath}`));
             defineProperty(this, 'errors', oneWay(`changeset.error.${this.valuePath}.validation`));
             defineProperty(this, 'value', alias(`changeset.${this.valuePath}`));
-            defineProperty(this, 'isValidating', oneWay('changeset.isValidating'));
             defineProperty(this, 'isInvalid', bool(`changeset.error.${this.valuePath}`));
         } else if (this.model) {
             defineProperty(this, 'validation', oneWay(`model.validations.attrs.${this.valuePath}`));

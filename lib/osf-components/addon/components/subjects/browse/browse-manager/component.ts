@@ -4,7 +4,7 @@ import { assert } from '@ember/debug';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
-import DS from 'ember-data';
+import DS from 'ember-data'; // eslint-disable-line ember/use-ember-data-rfc-395-imports
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -42,7 +42,7 @@ export default class SubjectBrowserManagerComponent extends Component {
     @waitFor
     async loadRootSubjects() {
         try {
-            const provider = this.subjectsManager.provider;
+            const provider = await this.subjectsManager.provider;
             const rootSubjects = await provider.queryHasMany('subjects', {
                 filter: {
                     parent: 'null',
