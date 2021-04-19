@@ -12,7 +12,6 @@ import { task } from 'ember-concurrency';
 import Toast from 'ember-toastr/services/toast';
 
 import ModelRegistry from 'ember-data/types/registries/model';
-/* eslint-enable ember/use-ember-data-rfc-395-imports */
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import { ValidatedModelName } from 'ember-osf-web/models/osf-model';

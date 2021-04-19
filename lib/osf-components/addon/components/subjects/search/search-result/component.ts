@@ -33,6 +33,7 @@ export default class SearchResult extends Component {
         const ancestors: SubjectModel[] = [];
         let nextParentRef = subject.belongsTo('parent');
         while (nextParentRef.id()) {
+            // eslint-disable-next-line no-await-in-loop
             const nextParent: SubjectModel = await nextParentRef.load();
             ancestors.push(nextParent);
             nextParentRef = nextParent.belongsTo('parent');

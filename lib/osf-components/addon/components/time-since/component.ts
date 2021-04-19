@@ -26,8 +26,10 @@ export default class TimeSince extends Component {
         if (Ember.testing) {
             return;
         }
+        // eslint-disable-next-line no-constant-condition
         while (true) {
             this.set('displayTime', formattedTimeSince(this.date));
+            // eslint-disable-next-line no-await-in-loop
             await timeout(interval);
         }
     }

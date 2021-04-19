@@ -33,7 +33,7 @@ interface NavTestCase {
     links: NavLink[];
 }
 
-export class FakeNode {
+class FakeNode {
     id: string = faker.random.uuid();
     title: string = faker.lorem.sentence();
     public: boolean = false;

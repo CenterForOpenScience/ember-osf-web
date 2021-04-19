@@ -41,9 +41,13 @@ export default class RegistriesStates extends Component {
         }
     }
 
+    /* eslint-disable max-len */
     @computed(
-        'isModeratorMode', 'projectUrl', 'registration.{embargoEndDate,pendingEmbargoApproval,pendingRegistrationApproval,reviewsState,userHasAdminPermission}', 'stateIcon',
+        'isModeratorMode', 'projectUrl',
+        'registration.{embargoEndDate,pendingEmbargoApproval,pendingRegistrationApproval,reviewsState,userHasAdminPermission}',
+        'stateIcon',
     )
+    /* eslint-enable max-len */
     get stateText() {
         if (!this.registration) {
             return undefined;

@@ -102,7 +102,8 @@ export default class CollectionItemPicker extends Component {
 
         // Check if all of the nodes from the current list are in the collection
         if (!items.length && hasMore) {
-            return await this.loadMore();
+            const moreNodes = await this.loadMore();
+            return moreNodes;
         }
 
         this.setProperties({

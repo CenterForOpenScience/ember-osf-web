@@ -5,8 +5,8 @@ import { TestContext } from 'ember-test-helpers';
 
 import { module, test } from 'qunit';
 
+import FakeNode from '../../../helpers/fake-node';
 import { OsfLinkRouterStub } from '../../../helpers/osf-link-router-stub';
-import { FakeNode } from '../component-test';
 
 module('Integration | Component | node-navbar/link', hooks => {
     setupRenderingTest(hooks);

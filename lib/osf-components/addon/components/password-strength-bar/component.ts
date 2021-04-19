@@ -42,7 +42,8 @@ export default class PasswordStrengthBar extends Component {
 
         await timeout(250);
 
-        return await this.passwordStrength.strength(value);
+        const strength = await this.passwordStrength.strength(value);
+        return strength;
     }
 
     @computed('password', 'strength', 'strength.score')

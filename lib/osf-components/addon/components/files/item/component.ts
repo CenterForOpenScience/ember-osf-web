@@ -23,7 +23,7 @@ export default class FileBrowserItem extends Component {
         assert('Files::Item requires @filesManager!', Boolean(this.filesManager));
     }
 
-    @computed('filesManager.currentFolder.id', 'filesManager.inRootFolder', 'item.id')
+    @computed('filesManager.{currentFolder.id,inRootFolder}', 'item.id')
     get isCurrentFolder(): boolean {
         if (this.filesManager.inRootFolder) {
             return false;

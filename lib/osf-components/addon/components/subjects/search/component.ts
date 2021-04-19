@@ -42,7 +42,7 @@ export default class SearchSubjects extends Component {
         if (!userQuery) {
             return undefined;
         }
-        return await provider.queryHasMany('subjects', {
+        const filterResults = await provider.queryHasMany('subjects', {
             filter: {
                 text: userQuery,
             },
@@ -52,5 +52,7 @@ export default class SearchSubjects extends Component {
             related_counts: 'children',
             embed: 'parent',
         });
+
+        return filterResults;
     }
 }

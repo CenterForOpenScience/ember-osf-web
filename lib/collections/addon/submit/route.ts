@@ -6,6 +6,8 @@ import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
+
+// eslint-disable-next-line ember/no-mixins
 import ConfirmationMixin from 'ember-onbeforeunload/mixins/confirmation';
 
 import requireAuth from 'ember-osf-web/decorators/require-auth';

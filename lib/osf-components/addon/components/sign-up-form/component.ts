@@ -11,6 +11,7 @@ import { taskFor } from 'ember-concurrency-ts';
 import { layout } from 'ember-osf-web/decorators/component';
 import UserRegistration from 'ember-osf-web/models/user-registration';
 import Analytics from 'ember-osf-web/services/analytics';
+import captureException from 'ember-osf-web/utils/capture-exception';
 
 import styles from './styles';
 import template from './template';
@@ -80,7 +81,11 @@ export default class SignUpForm extends Component {
 
         await timeout(250);
 
-        return await this.passwordStrength.strength(value);
+        try {
+            return await this.passwordStrength.strength(value);
+        } catch (e) {
+            captureException(e);
+        }
     }
 
     @computed('userRegistration.password', 'strength.lastSuccessful.value.score')

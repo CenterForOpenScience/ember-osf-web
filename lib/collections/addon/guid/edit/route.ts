@@ -2,6 +2,8 @@ import { computed } from '@ember/object';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
+
+// eslint-disable-next-line ember/no-mixins
 import ConfirmationMixin from 'ember-onbeforeunload/mixins/confirmation';
 
 import requireAuth from 'ember-osf-web/decorators/require-auth';

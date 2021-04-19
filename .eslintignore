@@ -8,3 +8,4 @@
 /blueprints/*/files/**
 /blueprints/*/engine-files/**
 /config/local.js
+/handbook-docs/**

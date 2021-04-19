@@ -4,7 +4,9 @@ import { NodeCategory } from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 
 export function createDraftRegistration(this: HandlerContext, schema: Schema) {
-    const attrs = this.normalizedRequestAttrs('draft-registration') as unknown as Partial<NormalizedRequestAttrs<MirageDraftRegistration>>;
+    const attrs = this
+        .normalizedRequestAttrs('draft-registration') as
+        unknown as Partial<NormalizedRequestAttrs<MirageDraftRegistration>>;
     const now = (new Date()).toISOString();
     const userId = schema.roots.first().currentUserId;
     let currentUser;

@@ -287,7 +287,6 @@ module('Integration | Component | contributors', hooks => {
             'keydown',
             40,
         );
-        await this.pauseTest();
         await triggerKeyEvent(
             '[data-test-sortable-handle="first"]',
             'keydown',
