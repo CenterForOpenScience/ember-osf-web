@@ -29,7 +29,7 @@ export default Factory.extend<MirageRegistrationProvider & RegistrationProviderT
         return `provider-${i}`;
     },
     description() {
-        return faker.lorem.sentence();
+        return `${faker.lorem.paragraph()} Find out <a href="https://help.osf.io/">more</a>.`;
     },
     allowSubmissions: true,
     brandedDiscoveryPage: true,

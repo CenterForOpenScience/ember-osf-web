@@ -166,7 +166,7 @@ module('Registries | Acceptance | draft form', hooks => {
         // Metadata page
         assert.equal(currentRouteName(), 'registries.drafts.draft.metadata', 'Starts at metadata route');
         assert.dom('[data-test-link="metadata"] > [data-test-icon]')
-            .hasClass('fa-circle-o', 'metadata is marked current page');
+            .hasClass('fa-dot-circle', 'metadata is marked current page');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-circle', 'page 1 is marked unvisited');
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
@@ -188,7 +188,7 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-circle', 'page 1 is marked unvisited');
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
-            .hasClass('fa-circle-o', 'page 2 is marked as current page');
+            .hasClass('fa-dot-circle', 'page 2 is marked as current page');
         assert.dom('[data-test-link="review"] > [data-test-icon]')
             .hasClass('fa-circle', 'review is marked unvisited');
         assert.dom('[data-test-goto-metadata]').doesNotExist();
@@ -202,9 +202,9 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-link="metadata"] > [data-test-icon]')
             .hasClass('fa-exclamation-circle', 'metadata is marked visited, invalid');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
-            .hasClass('fa-circle-o', 'page 1 is marked current page');
+            .hasClass('fa-dot-circle', 'page 1 is marked current page');
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
-            .hasClass('fa-check-circle-o', 'page 2 is marked visited, valid');
+            .hasClass('fa-check-circle', 'page 2 is marked visited, valid');
         assert.dom('[data-test-link="review"] > [data-test-icon]')
             .hasClass('fa-circle', 'review is marked unvisited');
         assert.dom('[data-test-goto-metadata]').isVisible();
@@ -216,9 +216,9 @@ module('Registries | Acceptance | draft form', hooks => {
         // Navigate back to metadata
         await click('[data-test-link="metadata"]');
         assert.dom('[data-test-link="metadata"] > [data-test-icon]')
-            .hasClass('fa-circle-o', 'metadata is marked current again');
+            .hasClass('fa-dot-circle', 'metadata is marked current again');
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
-            .hasClass('fa-check-circle-o', 'page 2 is marked visited, valid');
+            .hasClass('fa-check-circle', 'page 2 is marked visited, valid');
         assert.dom('[data-test-link="review"] > [data-test-icon]')
             .hasClass('fa-circle', 'review is marked unvisited');
         assert.dom('[data-test-goto-metadata]').doesNotExist();
@@ -236,9 +236,9 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-exclamation-circle', 'page 1 is marked visited, invalid');
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
-            .hasClass('fa-check-circle-o', 'page 2 is marked visited, valid');
+            .hasClass('fa-check-circle', 'page 2 is marked visited, valid');
         assert.dom('[data-test-link="review"] > [data-test-icon]')
-            .hasClass('fa-circle-o', 'review is marked current');
+            .hasClass('fa-dot-circle', 'review is marked current');
         assert.dom('[data-test-goto-metadata]').doesNotExist();
         assert.dom('[data-test-goto-previous-page]').isVisible();
         assert.dom('[data-test-goto-next-page]').doesNotExist();
@@ -434,7 +434,7 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-exclamation-circle', 'page 1 is marked visited, invalid');
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
-            .hasClass('fa-check-circle-o', 'page 2 is marked visited, valid');
+            .hasClass('fa-check-circle', 'page 2 is marked visited, valid');
     });
 
     test('review: contributor can remove herself', async assert => {
@@ -743,14 +743,14 @@ module('Registries | Acceptance | draft form', hooks => {
         await visit(`/registries/drafts/${registration.id}/2`);
 
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
-            .hasClass('fa-circle-o', 'current page, not validated');
+            .hasClass('fa-dot-circle', 'current page, not validated');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-circle', 'page 1 is unvisited, not validated');
 
         await click('[data-test-goto-review]');
 
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
-            .hasClass('fa-check-circle-o', 'page 2 is marked visited, valid');
+            .hasClass('fa-check-circle', 'page 2 is marked visited, valid');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-exclamation-circle', 'page 1 is marked visited, invalid');
     });
@@ -772,12 +772,12 @@ module('Registries | Acceptance | draft form', hooks => {
         await visit(`/registries/drafts/${registration.id}/1`);
 
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
-            .hasClass('fa-circle-o', 'page 1 is current page');
+            .hasClass('fa-dot-circle', 'page 1 is current page');
 
         await click('[data-test-goto-next-page]');
 
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
-            .hasClass('fa-circle-o', 'page 2 is current page');
+            .hasClass('fa-dot-circle', 'page 2 is current page');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-exclamation-circle', 'page 1 is validated, invalid');
     });
@@ -1045,7 +1045,7 @@ module('Registries | Acceptance | draft form', hooks => {
         await visit(`/registries/drafts/${registration.id}/1`);
 
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
-            .hasClass('fa-circle-o', 'on page 1');
+            .hasClass('fa-dot-circle', 'on page 1');
 
         // should validate pages even without user input
         await click('[data-test-goto-next-page]');
@@ -1070,6 +1070,6 @@ module('Registries | Acceptance | draft form', hooks => {
         await click('[data-test-goto-metadata]');
 
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
-            .hasClass('fa-check-circle-o', 'page 1 is now valid');
+            .hasClass('fa-check-circle', 'page 1 is now valid');
     });
 });

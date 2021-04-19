@@ -331,8 +331,8 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             await visit(`/--user/${currentUser.id}/quickfiles`);
 
             assert.dom('[data-test-file-item-link]').exists({ count: 1 });
-            assert.dom('[data-test-file-icon-and-name]:first-child i')
-                .hasClass('fa-file-image-o');
+            assert.dom('[data-test-file-icon-and-name]:first-child svg')
+                .hasClass('fa-file-image');
             assert.dom(`[data-test-file-icon-and-name] a[href="/${file.guid}"]`)
                 .exists();
             assert.dom('[data-test-version-link]')

@@ -149,6 +149,15 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     dateRegistered() {
         return faker.date.past(1, new Date(2019, 0, 0));
     },
+
+    iaUrl() {
+        return faker.internet.url();
+    },
+
+    providerSpecificMetadata() {
+        return [];
+    },
+
     registration: true,
     pendingRegistrationApproval: false,
     archiving: false,

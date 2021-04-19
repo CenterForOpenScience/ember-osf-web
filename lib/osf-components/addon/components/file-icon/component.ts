@@ -80,7 +80,7 @@ const iconForType = {
         'xltm',
         'csv',
     ],
-    text: [
+    alt: [
         'txt',
         'md',
         'rtf',
@@ -99,7 +99,7 @@ function iconFromName(name: string): string {
     const type = match ? match[0] : '';
     const icon = typeIcons.get(type);
 
-    return `file${icon ? `-${icon}` : ''}-o`;
+    return `file${icon ? `-${icon}` : ''}`;
 }
 
 /**
@@ -126,13 +126,8 @@ export default class FileIcon extends Component {
     @computed('item', 'item.expanded')
     get iconName(): string {
         // TODO: More icons!
-
         if (this.item.isFolder) {
             return 'folder';
-        }
-
-        if (this.item.name) {
-            return iconFromName(this.item.name);
         }
 
         if (this.item.isNode) {
@@ -142,7 +137,11 @@ export default class FileIcon extends Component {
 
         if (this.item.isProvider) {
             // TODO provider-specific icons
-            return 'hdd-o';
+            return 'hdd';
+        }
+
+        if (this.item.name) {
+            return iconFromName(this.item.name);
         }
 
         return iconFromName(defaultTo(this.item.itemName, ''));

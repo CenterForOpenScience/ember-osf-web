@@ -173,7 +173,7 @@
                                 data-analytics-name='Support'
                                 @route='support'
                             >
-                                <FaIcon @icon='life-ring' @fixedWidth={{true}} />
+                                <FaIcon @icon='life-ring' @prefix='far' @fixedWidth={{true}} />
                                 {{t 'auth_dropdown.osf_support'}}
                             </OsfLink>
                         </menu.item>
@@ -206,7 +206,7 @@
                                 @type='link'
                                 @onClick={{action 'login'}}
                             >
-                                <FaIcon @icon='sign-in' @fixedWidth={{true}} />
+                                <FaIcon @icon='sign-in-alt' @fixedWidth={{true}} />
                                 {{t 'navbar.login'}}
                             </OsfButton>
                         </menu.item>
@@ -218,7 +218,7 @@
                             data-analytics-name='Donate'
                             @href={{this.donateRoute}}
                         >
-                            <FaIcon @icon='usd' @fixedWidth={{true}} />
+                            <FaIcon @icon='dollar-sign' @fixedWidth={{true}} />
                             {{t 'navbar.donate'}}
                         </OsfLink>
                     </menu.item>
@@ -241,7 +241,7 @@
                                 @type='link'
                                 @onClick={{action 'logout'}}
                             >
-                                <FaIcon @icon='sign-out' @fixedWidth={{true}} />
+                                <FaIcon @icon='sign-out-alt' @fixedWidth={{true}} />
                                 {{t 'auth_dropdown.log_out'}}
                             </OsfButton>
                         </menu.item>

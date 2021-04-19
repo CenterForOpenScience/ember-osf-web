@@ -24,31 +24,31 @@ const registrationStates: Record<string, {
         },
         pendingWithdraw: {
             trait: 'isPendingWithdraw',
-            icon: 'clock-o',
+            icon: 'clock',
             initiallyOpened: true,
             hasAdminActions: false,
         },
         pendingRegistrationApproval: {
             trait: 'isPendingRegistrationApproval',
-            icon: 'clock-o',
+            icon: 'clock',
             initiallyOpened: true,
             hasAdminActions: false,
         },
         pendingEmbargoApproval: {
             trait: 'isPendingEmbargoApproval',
-            icon: 'clock-o',
+            icon: 'clock',
             initiallyOpened: true,
             hasAdminActions: false,
         },
         pendingEmbargoTermination: {
             trait: 'isPendingEmbargoTermination',
-            icon: 'clock-o',
+            icon: 'clock',
             initiallyOpened: true,
             hasAdminActions: false,
         },
         pendingWithdrawRequest: {
             trait: 'isPendingWithdrawRequest',
-            icon: 'clock-o',
+            icon: 'clock',
             initiallyOpened: true,
             hasAdminActions: false,
         },
@@ -107,7 +107,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         await visit(`/${reg.id}/`);
 
         assert.dom('[data-test-bookmarks-button]').isVisible();
-        assert.dom('[data-test-bookmarks-button] i').hasClass('fa-bookmark-o');
+        assert.dom('[data-test-bookmarks-button] svg').hasClass('fa-bookmark');
 
         // Bookmark registration
         await triggerEvent('[data-test-bookmarks-button]', 'mouseenter');
@@ -116,7 +116,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         );
 
         await click('[data-test-bookmarks-button]');
-        assert.dom('[data-test-bookmarks-button] i').hasClass('fa-bookmark');
+        assert.dom('[data-test-bookmarks-button] svg').hasClass('fa-bookmark');
 
         bookmarksColl.reload();
         assert.ok(bookmarksColl.linkedRegistrationIds.includes(reg.id));
@@ -128,7 +128,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         );
 
         await click('[data-test-bookmarks-button]');
-        assert.dom('[data-test-bookmarks-button] i').hasClass('fa-bookmark-o');
+        assert.dom('[data-test-bookmarks-button] svg').hasClass('fa-bookmark');
 
         bookmarksColl.reload();
         assert.notOk(bookmarksColl.linkedRegistrationIds.includes(reg.id));

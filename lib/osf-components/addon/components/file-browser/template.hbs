@@ -50,7 +50,7 @@
                 @onClick={{action this.rename}}
                 @class='pull-right'
             >
-                {{fa-icon 'pencil'}}
+                {{fa-icon 'pencil-alt'}}
             </OsfButton>
         </div>
     {{else}}
@@ -114,7 +114,7 @@
                         @bubble={{true}}
                         @onClick={{action this.viewItem}}
                     >
-                        {{fa-icon 'file-o'}}
+                        {{fa-icon 'file'}}
                         {{t 'general.view'}}
                     </OsfButton>
                     {{#if this.canEdit}}
@@ -125,7 +125,7 @@
                             @bubble={{true}}
                             @onClick={{action (mut this.currentModal) 'move'}}
                         >
-                            {{fa-icon 'level-up'}}
+                            {{fa-icon 'level-up-alt'}}
                             {{t 'general.move'}}
                         </OsfButton>
                         <OsfButton
@@ -135,7 +135,7 @@
                             @bubble={{true}}
                             @onClick={{action (mut this.currentModal) 'delete'}}
                         >
-                            {{fa-icon 'trash'}}
+                            {{fa-icon 'trash-alt'}}
                             {{t 'general.delete'}}
                         </OsfButton>
                         <OsfButton
@@ -145,7 +145,7 @@
                             @bubble={{true}}
                             @onClick={{action (mut this.showRename) true}}
                         >
-                            {{fa-icon 'pencil'}}
+                            {{fa-icon 'pencil-alt'}}
                             {{t 'general.rename'}}
                         </OsfButton>
                     {{/if}}
@@ -158,7 +158,7 @@
                             @bubble={{true}}
                             @onClick={{action (mut this.currentModal) 'deleteMultiple'}}
                         >
-                            {{fa-icon 'trash'}}
+                            {{fa-icon 'trash-alt'}}
                             {{t 'file_browser.delete_multiple'}}
                         </OsfButton>
                     {{/if}}
@@ -441,7 +441,7 @@
     <div class='file-browser-list' local-class='file-browser-list'>
         <div local-class='shade {{unless this.dropping 'transparent'}}'>
             <div local-class='upload-drop'>
-                <div local-class='upload-text'>{{fa-icon 'upload' size=5}}</div>
+                <div local-class='upload-text'>{{fa-icon 'upload' size='5x'}}</div>
                 <div local-class='upload-text'>{{t 'file_browser.drop_reminder'}}</div>
             </div>
         </div>
@@ -480,7 +480,7 @@
             <div local-class='file-placeholder'>
                 {{#if this.canEdit}}
                     <div local-class='file-placeholder-content'>
-                        <div>{{fa-icon 'upload' size=5}}</div>
+                        <div>{{fa-icon 'upload' size='5x'}}</div>
                         <div local-class='file-placeholder-text'>{{t 'file_browser.drop_placeholder'}}</div>
                     </div>
                 {{else}}
