@@ -24,8 +24,7 @@
     <section local-class='DraftRegistrationCard__body' data-test-draft-registration-card-body>
         {{#if this.draftRegistration}}
             <dl>
-                <div data-test-initiated-by
-                local-class='DraftRegistrationCard__field'>
+                <div data-test-initiated-by>
                     <dt>
                         {{t 'osf-components.draft-registration-card.initiated_by'}}
                     </dt>
@@ -84,7 +83,7 @@
                             data-test-draft-card-edit
                             data-analytics-name='Edit'
                             @route='registries.drafts.draft'
-                            @models={{array @draftRegistration.id}}
+                            @models={{array this.draftRegistration.id}}
                         >
                             <Button>
                                 {{t 'general.edit'}}
