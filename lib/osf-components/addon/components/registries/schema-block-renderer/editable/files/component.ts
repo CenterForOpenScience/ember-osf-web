@@ -42,7 +42,7 @@ export default class Files extends Component {
 
     @computed('node')
     get nodeUrl() {
-        return this.node && pathJoin(baseURL, this.node.id);
+        return pathJoin(baseURL, this.draftRegistration.belongsTo('branchedFrom').id());
     }
 
     didReceiveAttrs() {

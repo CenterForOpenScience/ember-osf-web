@@ -3,11 +3,18 @@
     local-class='FilesInstructions'
 >
     {{#if @draftRegistration.hasProject}}
-        {{t 'osf-components.registries.schema-block-renderer/editable/files.instructions'
-            projectOrComponent=(if this.node.isRoot 'project' 'component')
-            nodeUrl=this.nodeUrl
-            htmlSafe=true
-        }}
+        {{#if this.node}}
+            {{t 'osf-components.registries.schema-block-renderer/editable/files.instructions'
+                projectOrComponent=(if this.node.isRoot 'project' 'component')
+                nodeUrl=this.nodeUrl
+                htmlSafe=true
+            }}
+        {{else}}
+            {{t 'osf-components.registries.schema-block-renderer/editable/files.instructionsNoPermissions'
+                nodeUrl=this.nodeUrl
+                htmlSafe=true
+            }}
+        {{/if}}
     {{else}}
         {{t 'osf-components.registries.schema-block-renderer/editable/files.instructionsNoProject'
             htmlSafe=true
@@ -32,6 +39,7 @@
     @onSelectFile={{action this.onSelectFile}}
     @onAddFile={{action this.onAddFile}}
     @onDeleteFile={{this.onDeleteFile}}
-    @canEdit={{not this.currentUserIsReadOnly}}
+    @canEdit={{and this.node (not this.currentUserIsReadOnly)}}
+    disabled={{not this.node}}
     ...attributes
 />
