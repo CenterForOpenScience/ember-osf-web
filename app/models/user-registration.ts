@@ -11,7 +11,7 @@ const Validations = buildValidations({
         validator('format', { type: 'email' }),
         validator('exclusion', {
             messageKey: 'validationErrors.email_registered',
-            in: computed(function(): string[] {
+            in: computed('model.existingEmails', function(): string[] {
                 return [...this.model.existingEmails];
             // eslint-disable-next-line ember/no-volatile-computed-properties
             }).volatile(),
@@ -19,7 +19,7 @@ const Validations = buildValidations({
         validator('exclusion', {
             messageKey: 'validationErrors.email_invalid',
             supportEmail,
-            in: computed(function(): string[] {
+            in: computed('model.invalidEmails', function(): string[] {
                 return [...this.model.invalidEmails];
             // eslint-disable-next-line ember/no-volatile-computed-properties
             }).volatile(),

@@ -142,7 +142,7 @@ export default class SecurityPane extends Component {
         });
     }
 
-    @computed('primaryEmail', 'settings')
+    @computed('primaryEmail.emailAddress', 'settings.secret')
     get keyUri() {
         if (this.primaryEmail && this.settings) {
             const keyUri = `otpauth://totp/OSF:${this.primaryEmail.emailAddress}?secret=${this.settings.secret}`;

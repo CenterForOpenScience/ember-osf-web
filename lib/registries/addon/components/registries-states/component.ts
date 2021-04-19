@@ -42,9 +42,7 @@ export default class RegistriesStates extends Component {
     }
 
     @computed(
-        'registration.{reviewsState,pendingRegistrationApproval,pendingEmbargoApproval,userHasAdminPermission}',
-        'stateIcon',
-        'isModeratorMode',
+        'isModeratorMode', 'projectUrl', 'registration.{embargoEndDate,pendingEmbargoApproval,pendingRegistrationApproval,reviewsState,userHasAdminPermission}', 'stateIcon',
     )
     get stateText() {
         if (!this.registration) {

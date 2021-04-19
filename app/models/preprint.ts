@@ -49,7 +49,7 @@ export default class PreprintModel extends OsfModel {
     @alias('links.doi') articleDoiUrl!: string | null;
     @alias('links.preprint_doi') preprintDoiUrl!: string;
 
-    @computed('license')
+    @computed('license', 'licenseRecord')
     get licenseText(): string {
         const text: string = this.license.get('text') || '';
         const { year = '', copyright_holders = [] } = this.licenseRecord; // eslint-disable-line camelcase

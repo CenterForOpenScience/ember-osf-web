@@ -30,7 +30,7 @@ module('Integration | Component | review-actions', hooks => {
 
     // Moderator actions
     test('Standard accept action', async function(assert) {
-        const reviewAction = this.get('reviewAction') as ReviewActionModel;
+        const reviewAction = this.reviewAction as ReviewActionModel;
         reviewAction.setProperties({
             actionTrigger: ReviewActionTrigger.AcceptSubmission,
             toState: RegistrationReviewStates.Accepted,
@@ -51,7 +51,7 @@ module('Integration | Component | review-actions', hooks => {
     });
 
     test('Embargo accept action', async function(this: TestContext, assert) {
-        const reviewAction = this.get('reviewAction') as ReviewActionModel;
+        const reviewAction = this.reviewAction as ReviewActionModel;
         const embargoEndDate = faker.date.future(1, new Date(2099, 0, 0));
         reviewAction.setProperties({
             actionTrigger: ReviewActionTrigger.AcceptSubmission,
@@ -82,7 +82,7 @@ module('Integration | Component | review-actions', hooks => {
     });
 
     test('Accept withdraw action', async function(assert) {
-        const reviewAction = this.get('reviewAction') as ReviewActionModel;
+        const reviewAction = this.reviewAction as ReviewActionModel;
         reviewAction.set('actionTrigger', ReviewActionTrigger.AcceptWithdrawal);
         const dateString = formattedTimeSince(reviewAction.dateModified);
         const pastTenseString = t('registries.reviewActions.triggerPastTense.accept_withdrawal');
@@ -101,7 +101,7 @@ module('Integration | Component | review-actions', hooks => {
     });
 
     test('Reject withdraw action', async function(assert) {
-        const reviewAction = this.get('reviewAction') as ReviewActionModel;
+        const reviewAction = this.reviewAction as ReviewActionModel;
         reviewAction.set('actionTrigger', ReviewActionTrigger.RejectWithdrawal);
         const dateString = formattedTimeSince(reviewAction.dateModified);
         const pastTenseString = t('registries.reviewActions.triggerPastTense.reject_withdrawal');
@@ -121,7 +121,7 @@ module('Integration | Component | review-actions', hooks => {
 
     // Registraton Admin actions
     test('Submit action without embargo end date', async function(assert) {
-        const reviewAction = this.get('reviewAction') as ReviewActionModel;
+        const reviewAction = this.reviewAction as ReviewActionModel;
         reviewAction.set('actionTrigger', ReviewActionTrigger.Submit);
         const dateString = formattedTimeSince(reviewAction.dateModified);
         this.set('embargoEndDate', null);
@@ -145,7 +145,7 @@ module('Integration | Component | review-actions', hooks => {
     });
 
     test('Submit action with embargo end date', async function(this: TestContext, assert) {
-        const reviewAction = this.get('reviewAction') as ReviewActionModel;
+        const reviewAction = this.reviewAction as ReviewActionModel;
         reviewAction.set('actionTrigger', ReviewActionTrigger.Submit);
         const dateString = formattedTimeSince(reviewAction.dateModified);
         const embargoEndDate = faker.date.future(1, new Date(2099, 0, 0));
@@ -172,7 +172,7 @@ module('Integration | Component | review-actions', hooks => {
     });
 
     test('Request withdraw action', async function(assert) {
-        const reviewAction = this.get('reviewAction') as ReviewActionModel;
+        const reviewAction = this.reviewAction as ReviewActionModel;
         reviewAction.setProperties({
             actionTrigger: ReviewActionTrigger.RequestWithdrawal,
             comment: 'I need my brother Luigi to help me',
@@ -194,7 +194,7 @@ module('Integration | Component | review-actions', hooks => {
     });
 
     test('Request embargo termination action', async function(assert) {
-        const reviewAction = this.get('reviewAction') as ReviewActionModel;
+        const reviewAction = this.reviewAction as ReviewActionModel;
         reviewAction.setProperties({
             actionTrigger: ReviewActionTrigger.RequestEmbargoTermination,
             comment: '',
@@ -215,7 +215,7 @@ module('Integration | Component | review-actions', hooks => {
     });
 
     test('Request embargo termination action', async function(assert) {
-        const reviewAction = this.get('reviewAction') as ReviewActionModel;
+        const reviewAction = this.reviewAction as ReviewActionModel;
         reviewAction.setProperties({
             actionTrigger: ReviewActionTrigger.RequestEmbargoTermination,
             comment: '',

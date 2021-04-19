@@ -33,7 +33,7 @@ export default class SchemaBlockGroupRenderer extends Component {
         assert('A renderStrategy is required to render schemaBlockGroupRenderer', Boolean(this.renderStrategy));
     }
 
-    @computed('schemaBlockGroup')
+    @computed('schemaBlockGroup.groupType')
     get uniqueID() {
         return uniqueId([this.schemaBlockGroup.groupType]);
     }

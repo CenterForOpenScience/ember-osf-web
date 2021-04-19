@@ -27,7 +27,7 @@ export default class NodeNavbarLink extends Component {
 
     @alias('node.id') nodeId!: string;
 
-    @computed('destination')
+    @computed('destination', 'node.isRegistration')
     get routeName(): string {
         const base = this.node && this.node.isRegistration ? 'guid-registration' : 'guid-node';
         return this.destination ? `${base}.${this.destination}` : base;
@@ -39,7 +39,7 @@ export default class NodeNavbarLink extends Component {
     }
 
     @className
-    @computed('setActive', 'routeName', 'router.currentRouteName', 'node')
+    @computed('node.id', 'routeName', 'router.currentRouteName', 'setActive')
     get active(): boolean {
         return this.setActive && this.router.isActive(this.routeName, this.node.id);
     }

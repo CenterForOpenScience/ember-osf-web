@@ -42,7 +42,7 @@ module('Integration | Component | file-browser-item', hooks => {
 
     // TEST FLASH message (at some point look at testing its dissapearnace)
     test('flash appears, replaces everything else', async function(assert) {
-        const item = this.get('item');
+        const { item } = this;
         item.flash = {
             message: 'Welp',
             type: 'danger',

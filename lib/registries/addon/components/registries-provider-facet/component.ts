@@ -25,7 +25,7 @@ export default class RegistriesSourcesFacet extends Component {
         filter: SearchFilter,
     }> = A([]);
 
-    @computed('options', 'searchOptions')
+    @computed('options', 'searchOptions.filters')
     get providers() {
         return this.options.map(option => ({
             ...option,

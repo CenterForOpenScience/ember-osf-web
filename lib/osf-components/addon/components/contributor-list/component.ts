@@ -124,7 +124,7 @@ export default class ContributorList extends Component {
         return this.allowRemoveMe && this.currentUser.currentUserId && this.totalContributors > 1;
     }
 
-    @computed('truncated')
+    @computed('shouldTruncate', 'truncated')
     get truncateCount() {
         return this.shouldTruncate ? 3 : undefined;
     }

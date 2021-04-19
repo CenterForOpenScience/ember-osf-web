@@ -43,7 +43,7 @@ export default class CollectionMetadata extends Component {
     @mapBy('displayFields', 'valuePath')
     filteredFields!: Array<keyof CollectedMetadatum>;
 
-    @computed(`collectedMetadatum.validations.attrs.{${choiceFields.join()}}.isInvalid`, 'filteredFields')
+    @computed(`collectedMetadatum.validations.attrs.{${choiceFields.join()}}.isInvalid`, 'collectedMetadatum.validations', 'filteredFields')
     get isInvalid(): boolean {
         const { attrs } = this.collectedMetadatum.validations;
 

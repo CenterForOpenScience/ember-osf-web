@@ -23,7 +23,7 @@ export default class FileBrowserItem extends Component {
         assert('Files::Item requires @filesManager!', Boolean(this.filesManager));
     }
 
-    @computed('item', 'filesManager.{currentFolder,inRootFolder}')
+    @computed('filesManager.currentFolder.id', 'filesManager.inRootFolder', 'item.id')
     get isCurrentFolder(): boolean {
         if (this.filesManager.inRootFolder) {
             return false;
@@ -32,7 +32,7 @@ export default class FileBrowserItem extends Component {
         return this.item.id === this.filesManager.currentFolder.id;
     }
 
-    @computed('isCurrentFolder', 'filesManager.currentFolder')
+    @computed('filesManager.{currentFolder,inRootFolder}', 'isCurrentFolder')
     get shouldIndent() {
         return !this.filesManager.inRootFolder && !this.isCurrentFolder;
     }

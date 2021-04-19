@@ -23,7 +23,7 @@ export default class RegistriesHeader extends Component {
     searchable: number = 0;
     showHelp: boolean = false;
 
-    @computed('providerModel')
+    @computed('providerModel.name')
     get headerAriaLabel() {
         return this.providerModel ? this.providerModel.name.concat(' ', this.intl.t('registries.header.registrations'))
             : this.intl.t('registries.header.osf_registrations');

@@ -32,7 +32,6 @@ enum EmailActions {
 type MessageLevel = 'error' | 'info' | 'success' | 'warning';
 
 export default class VerifyEmailModal extends Component {
-
     @service currentUser!: CurrentUser;
     @service intl!: Intl;
     @service store!: Store;

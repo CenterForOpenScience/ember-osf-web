@@ -47,7 +47,7 @@ export default class OsfNavbar extends Component {
     activeService: OSFService = OSFService.HOME;
     services: ServiceLink[] = OSF_SERVICES;
 
-    @computed('activeService', 'router.currentRouteName')
+    @computed('activeService', 'router.currentRouteName', 'services')
     get _activeService() {
         let { activeService } = this;
 

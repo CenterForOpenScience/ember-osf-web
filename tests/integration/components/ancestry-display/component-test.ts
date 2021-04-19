@@ -86,7 +86,7 @@ module('Integration | Component | ancestry-display', hooks => {
         const child = server.create('node', { parent });
         const grandChild = server.create('node', { parent: child });
         const greatGrandChild = server.create('node', { parent: grandChild });
-        const expected = `${parent.title} / ${this.get('intl').t('general.ellipsis')} /\
+        const expected = `${parent.title} / ${this.intl.t('general.ellipsis')} /\
             ${grandChild.title} /`;
 
         const greatGrandChildNode = await this.store.findRecord('node', greatGrandChild.id);

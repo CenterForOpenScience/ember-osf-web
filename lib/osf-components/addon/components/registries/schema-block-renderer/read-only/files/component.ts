@@ -41,7 +41,7 @@ export default class ReadOnlyFiles extends Component {
         return registrationResponseKey ? registrationResponses[registrationResponseKey] : null;
     }
 
-    @computed('responses')
+    @computed('responses.length')
     get hasResponses(): boolean {
         return Boolean(this.responses && this.responses.length > 0);
     }

@@ -33,7 +33,7 @@ export default class InstitutionalUsersList extends Component {
         return this.intl.t('institutions.dashboard.select_default');
     }
 
-    @computed('defaultDepartment', 'institution', 'departmentMetrics.[]')
+    @computed('defaultDepartment', 'department', 'departmentMetrics.[]', 'institution')
     get departments() {
         let departments = [this.defaultDepartment];
 

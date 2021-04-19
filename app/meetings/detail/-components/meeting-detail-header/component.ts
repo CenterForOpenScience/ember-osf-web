@@ -12,7 +12,7 @@ export default class MeetingDetailHeader extends Component {
     @service intl!: Intl;
     isPanelOpen = false;
 
-    @computed('meeting.{fieldNames,isAcceptingTypeOne,isAcceptingTypeTwo}')
+    @computed('meeting.fieldNames.{add_submission,submission1_plural,submission2_plural}', 'meeting.{isAcceptingTypeOne,isAcceptingTypeTwo}')
     get addSubmissionText() {
         const { isAcceptingTypeOne, isAcceptingTypeTwo } = this.meeting;
         const addSubmission = this.meeting.fieldNames.add_submission;

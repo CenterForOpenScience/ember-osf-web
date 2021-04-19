@@ -75,7 +75,7 @@ export default class FilesManagerComponent extends Component {
         'getCurrentFolderItems.isRunning',
     ) loadingFolderItems!: boolean;
 
-    @computed('currentFolder.files.[]', 'page')
+    @computed('currentFolder.files.[]', 'page', 'pageSize')
     get maxFilesDisplayed() {
         if (this.currentFolder) {
             return this.page * this.pageSize;

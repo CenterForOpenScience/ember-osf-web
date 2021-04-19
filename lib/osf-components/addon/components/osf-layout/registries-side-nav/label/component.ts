@@ -25,7 +25,7 @@ export default class Label extends Component {
         return typeof this.count === 'number';
     }
 
-    @computed('count', 'isCollapsed')
+    @computed('count', 'hasCount', 'isCollapsed')
     get showCount() {
         return this.hasCount && !this.isCollapsed;
     }

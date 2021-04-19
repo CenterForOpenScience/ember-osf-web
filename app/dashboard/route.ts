@@ -18,7 +18,7 @@ export default class Dashboard extends Route {
     @service session!: Session;
 
     async setupController(controller: DashboardController): Promise<void> {
-        const blocker = this.get('ready').getBlocker();
+        const blocker = this.ready.getBlocker();
 
         try {
             await taskFor(controller.setupTask).perform();

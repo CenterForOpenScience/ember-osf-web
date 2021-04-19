@@ -55,7 +55,7 @@ export default class Theme extends Service {
         return settings[this.providerType!];
     }
 
-    @computed('id', 'settings', 'isProvider')
+    @computed('id', 'isProvider', 'providerType', 'settings')
     get provider(): Provider | null {
         if (!this.providerType) {
             return null;
@@ -85,7 +85,7 @@ export default class Theme extends Service {
         return this.isProvider && !this.isDomain;
     }
 
-    @computed('isProvider', 'isDomain', 'id', 'settings')
+    @computed('id', 'isDomain', 'isProvider', 'settings.routePath')
     get pathPrefix(): string {
         let pathPrefix = '/';
 
@@ -100,7 +100,7 @@ export default class Theme extends Service {
         return pathPrefix;
     }
 
-    @computed('id', 'settings')
+    @computed('id', 'settings.assetPath')
     get assetsDir(): string {
         return `${assetsPrefix}assets/osf-assets/files/${this.settings.assetPath}/${this.id}`;
     }

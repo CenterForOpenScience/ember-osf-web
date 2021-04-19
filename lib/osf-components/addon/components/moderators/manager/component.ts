@@ -44,7 +44,7 @@ export default class ModeratorManagerComponent extends Component {
 
     @tracked currentModerator?: ModeratorModel;
 
-    @computed('currentUser.currentUserId', 'currentModerator')
+    @computed('currentModerator.permissionGroup', 'currentUser.currentUserId')
     get currentUserIsProviderAdmin(): boolean {
         if (this.currentUser && this.currentModerator) {
             return this.currentModerator.permissionGroup === PermissionGroup.Admin;

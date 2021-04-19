@@ -237,7 +237,7 @@ export default class NodeModel extends AbstractNodeModel.extend(Validations, Col
         return htmlSafe(this.title);
     }
 
-    @computed('root')
+    @computed('id', 'root')
     get isRoot() {
         const rootId = (this as NodeModel).belongsTo('root').id();
         return !rootId || rootId === this.id;

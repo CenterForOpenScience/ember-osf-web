@@ -68,7 +68,7 @@ export default class RegistriesRegistrationTypeFacet extends Component {
         return this.intl.t('registries.facets.registration_type.title');
     }
 
-    @computed('searchOptions')
+    @computed('searchOptions.filters')
     get onlyOSF() {
         const osfSelected = this.searchOptions.filters.find(
             item => item instanceof ShareTermsFilter
@@ -78,7 +78,7 @@ export default class RegistriesRegistrationTypeFacet extends Component {
         return this.searchOptions.filters.filter(filter => filter.key === 'sources').size === 1 && osfSelected;
     }
 
-    @computed('searchOptions', 'registrationTypes')
+    @computed('registrationTypes', 'searchOptions.filters')
     get types() {
         return this.registrationTypes.map(name => {
             const filter = new ShareTermsFilter('registration_type', name, name);

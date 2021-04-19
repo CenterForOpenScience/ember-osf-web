@@ -64,7 +64,7 @@ export default class GuidFile extends Controller {
     @alias('model.files') allFiles!: File[];
     @alias('model.user') user!: User;
 
-    @computed('currentUser', 'user.id')
+    @computed('currentUser.currentUserId', 'user.id')
     get canEdit(): boolean {
         const modelUserId = this.user.id;
 
@@ -77,7 +77,7 @@ export default class GuidFile extends Controller {
     }
 
     // TODO: get this from the model
-    @computed('file.currentVersion')
+    @computed('downloadLink', 'file.currentVersion')
     get fileVersions(): Promise<any> {
         return (async () => {
             const { data } = await $.getJSON(`${this.downloadLink}?revisions=&`);

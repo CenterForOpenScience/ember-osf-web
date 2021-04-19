@@ -257,7 +257,7 @@ export default class DiscoverPage extends Component {
                 queryError: false,
             });
 
-            if (this.get('totalPages') && this.get('totalPages') < this.get('page')) {
+            if (this.totalPages && this.totalPages < this.page) {
                 this.search();
             }
         } catch (errorResponse) {

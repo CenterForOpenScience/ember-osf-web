@@ -191,7 +191,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         );
     }
 
-    @computed('searchOptions', 'totalResults')
+    @computed('searchOptions.size', 'totalResults')
     get maxPage() {
         const max = Math.ceil(this.totalResults / this.searchOptions.size);
         if (max > (10000 / this.searchOptions.size)) {

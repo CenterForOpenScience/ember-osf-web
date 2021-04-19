@@ -6,7 +6,7 @@ import OsfModel from './osf-model';
 export type ReferentModelName = 'file' | 'node' | 'preprint' | 'registration' | 'user';
 
 export default class GuidModel extends OsfModel {
-    @computed('id')
+    @computed('id', 'links')
     get referentType() {
         const { relationships } = this.links;
         if (relationships

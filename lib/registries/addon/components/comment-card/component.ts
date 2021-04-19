@@ -104,7 +104,7 @@ export default class CommentCard extends Component {
         }
     }
 
-    @computed('node')
+    @computed('node.currentUserCanComment')
     get currentUserCanComment() {
         if (!this.node) {
             return undefined;
@@ -138,7 +138,7 @@ export default class CommentCard extends Component {
         return taskFor(this.loadReplies).isRunning && !this.loadingMoreReplies;
     }
 
-    @computed('currentUser', 'comment')
+    @computed('comment.{canEdit,user}', 'currentUser.currentUserId')
     get isAuthor() {
         if (!this.comment) {
             return undefined;

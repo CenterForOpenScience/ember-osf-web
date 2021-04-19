@@ -23,13 +23,13 @@ export default class ZoomToRoute extends Component {
 
     routeArgs: { [k: string]: string } = {};
 
-    @computed()
+    @computed('router._router._routerMicrolib')
     get routeNames() {
         const { recognizer } = this.router._router._routerMicrolib;
         return Object.keys(recognizer.names).sort().filter(name => !/(?:^|[_.])(?:error|loading|index)$/.test(name));
     }
 
-    @computed('targetRoute')
+    @computed('router._router._routerMicrolib', 'targetRoute')
     get routeParams() {
         const { recognizer } = this.router._router._routerMicrolib;
         const handlers = recognizer.handlersFor(this.targetRoute);

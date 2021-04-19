@@ -24,7 +24,7 @@ export default class XLinks extends Component {
     myRegistrationsURL: string = `${osfURL}myprojects/#registrations`;
     onLinkClicked: () => void = () => null;
 
-    @computed('router.currentRouteName')
+    @computed('onInstitutions', 'router.currentRouteName')
     get supportURL() {
         return this.onInstitutions ? 'https://openscience.zendesk.com/hc/en-us/categories/360001550913' : 'support';
     }

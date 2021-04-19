@@ -25,7 +25,7 @@ export default class SchemaBlockModel extends OsfModel implements SchemaBlock {
         return this.id;
     }
 
-    @computed('schema.schemaBlocks')
+    @computed('index', 'schema.schemaBlocks')
     get pageRouteParam(): string | null {
         if (this.schema && this.schema.schemaBlocks) {
             const thisBlockIndex = this.index!;

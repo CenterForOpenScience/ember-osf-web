@@ -31,7 +31,7 @@ export default class StatusMessages extends Service {
     }
 
     getCookieMessages(): StatusMessage[] {
-        const cookies = this.get('cookies');
+        const { cookies } = this;
         const readCookie: string = cookies.read(statusCookie);
 
         if (!readCookie) {
@@ -52,12 +52,12 @@ export default class StatusMessages extends Service {
     }
 
     addStatusMessage(message: StatusMessage): void {
-        this.get('nextMessages').push(message);
+        this.nextMessages.push(message);
     }
 
     updateMessages(): void {
         this.setProperties({
-            messages: this.get('nextMessages') || [],
+            messages: this.nextMessages || [],
             nextMessages: [],
         });
     }

@@ -25,7 +25,7 @@ export default class HierarchicalListItemManagerComponent extends Component {
     shouldShowChildren: boolean = true;
     isRoot: boolean = false;
 
-    @computed('listManager.selectedNodes.[]')
+    @computed('item', 'listManager.selectedNodes.[]')
     get itemChecked() {
         return this.listManager.isChecked(this.item);
     }

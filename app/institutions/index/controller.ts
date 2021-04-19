@@ -23,7 +23,7 @@ export default class Institutions extends Controller {
         this.analytics.track('list', 'filter', 'Institutions - Search');
     }
 
-    @computed('model', 'textValue')
+    @computed('model', 'textValue.length')
     get filtered(): Institution[] {
         if (!this.textValue.length) {
             return this.model;
@@ -40,7 +40,7 @@ export default class Institutions extends Controller {
         return sorted.slice(0, 10 * this.page);
     }
 
-    @computed('institutions', 'filtered', 'textValue')
+    @computed('filtered.length', 'institutions.length', 'textValue')
     get hasMore(): boolean {
         if (!this.institutions) {
             return false;

@@ -1,4 +1,3 @@
-
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
@@ -38,7 +37,7 @@ export default class SearchResultNode extends Component.extend({
         return this.item!.description.length > this.maxDescription;
     }
 
-    @computed('item.description')
+    @computed('item.description', 'maxDescription')
     get abbreviation(): string {
         return this.item!.description.slice(0, this.maxDescription);
     }

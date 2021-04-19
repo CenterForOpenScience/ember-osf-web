@@ -78,8 +78,8 @@ export default class Submit extends Component {
         }
 
         const validatedModels = await Promise.all([
-            this.get('collectionItem')!.validate(),
-            this.get('collectedMetadatum').validate(),
+            this.collectionItem!.validate(),
+            this.collectedMetadatum.validate(),
         ]);
 
         const invalid = validatedModels.some(({ validations: { isInvalid } }) => isInvalid);

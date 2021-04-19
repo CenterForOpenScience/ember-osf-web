@@ -32,14 +32,14 @@ export default class Ready extends Service.extend(Evented) {
         // (e.g. components, jQuery plugins, etc.) has a chance to call `getBlocker`, and that
         // all DOM manipulation has settled.
         await waitForQueue('destroy');
-        if (!get(this, 'blockers').length) {
+        if (!this.blockers.length) {
             set(this, 'isReady', true);
             this.trigger(Events.IsReady);
         }
     }
 
     getBlocker(): Blocker {
-        if (get(this, 'isReady')) {
+        if (this.isReady) {
             return {
                 done: () => null,
                 errored: () => null,
@@ -47,7 +47,7 @@ export default class Ready extends Service.extend(Evented) {
             };
         }
         const id = this.incrementProperty('lastId');
-        get(this, 'blockers').pushObject(id);
+        this.blockers.pushObject(id);
         return {
             done: this.doneCallback(id),
             errored: this.errorCallback(),
@@ -68,14 +68,14 @@ export default class Ready extends Service.extend(Evented) {
 
     reset(): void {
         // Invalidate all prior blockers
-        get(this, 'blockers').clear();
+        this.blockers.clear();
         set(this, 'isReady', false);
         this.trigger(Events.Reset);
     }
 
     private doneCallback(this: Ready, id: number) {
         return () => {
-            const blockers = get(this, 'blockers');
+            const { blockers } = this;
             blockers.removeObject(id);
             if (!blockers.length) {
                 taskFor(this.tryReady).perform();

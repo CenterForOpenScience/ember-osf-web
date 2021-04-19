@@ -5,7 +5,8 @@ export default class FileAdapter extends OsfAdapter {
         modelName?: string | number,
         id?: string | null,
         snapshot?: DS.Snapshot | null,
-        requestType?: string): string {
+        requestType?: string,
+    ): string {
         const url = super.buildURL(modelName, id, snapshot, requestType);
 
         // Water Bulter API does not like trailing slashes.

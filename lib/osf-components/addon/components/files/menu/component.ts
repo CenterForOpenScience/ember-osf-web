@@ -54,7 +54,7 @@ export default class FilesMenu extends Component {
 
     @alias('filesManager.canEdit') canEdit!: boolean;
 
-    @computed('changeset.{isInvalid}', 'createFolder.isRunning')
+    @computed('changeset.isInvalid', 'createFolder.isRunning')
     get shouldDisableButtons() {
         if (!this.changeset) {
             return false;

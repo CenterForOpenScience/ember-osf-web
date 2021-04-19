@@ -51,7 +51,7 @@ export class AuthBase extends Component {
         return pathJoin(baseUrl, cleanURL(this.router.currentURL));
     }
 
-    @computed('router.currentRouteName', 'signUpNext')
+    @computed('campaign', 'router.currentRouteName', 'signUpNext')
     get signUpQueryParams() {
         const params: Record<string, string> = {};
 

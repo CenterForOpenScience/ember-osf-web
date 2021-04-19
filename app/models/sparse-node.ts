@@ -37,7 +37,7 @@ export default class SparseNodeModel extends OsfModel {
     @belongsTo('node', { inverse: null })
     detail!: AsyncBelongsTo<NodeModel>;
 
-    @computed('root')
+    @computed('id', 'root')
     get isRoot() {
         const rootId = (this as SparseNodeModel).belongsTo('root').id();
         return !rootId || rootId === this.id;

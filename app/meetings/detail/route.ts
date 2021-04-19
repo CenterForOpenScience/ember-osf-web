@@ -18,7 +18,7 @@ export default class MeetingsDetail extends Route {
             const meeting = await this.store.findRecord('meeting', meetingId);
             return meeting;
         } catch (error) {
-            this.transitionTo('not-found', this.get('router').get('currentURL').slice(1));
+            this.transitionTo('not-found', this.router.get('currentURL').slice(1));
             return undefined;
         }
     }

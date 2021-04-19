@@ -29,7 +29,7 @@ export default class OsfDialog extends Component {
 
     @or('isOpen', 'hasTriggeredOpen') shouldBeOpen!: boolean;
 
-    @computed('renderInPlace')
+    @computed('osfModalState.dialogWormholeTarget', 'renderInPlace')
     get _renderInPlace() {
         return this.renderInPlace || !this.osfModalState.dialogWormholeTarget;
     }

@@ -26,7 +26,7 @@ export default class InstitutionsDashboardRoute extends Route {
     @waitFor
     async modelTask(institutionId: string) {
         try {
-            const institution = await this.get('store').findRecord('institution', institutionId, {
+            const institution = await this.store.findRecord('institution', institutionId, {
                 adapterOptions: {
                     include: ['summary_metrics'],
                 },
@@ -46,7 +46,7 @@ export default class InstitutionsDashboardRoute extends Route {
             };
         } catch (error) {
             captureException(error);
-            this.transitionTo('not-found', this.get('router').get('currentURL').slice(1));
+            this.transitionTo('not-found', this.router.get('currentURL').slice(1));
             return undefined;
         }
     }

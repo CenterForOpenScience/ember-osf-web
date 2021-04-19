@@ -29,7 +29,7 @@ export default class GuidFile extends Route {
     @task
     @waitFor
     async setHeadTags(model: any) {
-        const blocker = this.get('ready').getBlocker();
+        const blocker = this.ready.getBlocker();
         const dateCreated = model.file.get('dateCreated');
         const dateModified = model.file.get('dateModified');
         const institutions = await model.file.get('user').get('institutions');
@@ -40,8 +40,8 @@ export default class GuidFile extends Route {
             modifiedDate: dateModified ? moment(dateModified).format('YYYY-MM-DD') : undefined,
             institution: institutions.map((institution: Institution) => institution.get('name')),
         };
-        this.set('headTags', this.get('metaTags').getHeadTags(metaTagsData));
-        this.get('headTagsService').collectHeadTags();
+        this.set('headTags', this.metaTags.getHeadTags(metaTagsData));
+        this.headTagsService.collectHeadTags();
         blocker.done();
     }
 

@@ -31,7 +31,7 @@ export default class XLink extends Component {
         return (typeof this.count) === 'number';
     }
 
-    @computed('isCollapsed')
+    @computed('isButton', 'isCollapsed')
     get wrapperClasses() {
         return `Link ${this.isButton ? 'Toggle' : ''} ${this.isCollapsed ? 'Collapsed' : ''}`;
     }

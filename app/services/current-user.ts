@@ -108,7 +108,7 @@ export default class CurrentUserService extends Service {
     }
 
     checkShowTosConsentBanner() {
-        const user = this.user;
+        const { user } = this;
         if (user && !user.acceptedTermsOfService) {
             // Unset to avoid premature validation.
             user.set('acceptedTermsOfService', undefined);

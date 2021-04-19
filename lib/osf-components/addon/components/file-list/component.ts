@@ -37,7 +37,7 @@ export default class FileList extends Component {
 
     @notEmpty('filter') showFilterInput!: boolean;
 
-    @computed('user')
+    @computed('currentUser.currentUserId', 'user.id')
     get edit(): boolean {
         return !!this.user && this.user.id === this.currentUser.currentUserId;
     }

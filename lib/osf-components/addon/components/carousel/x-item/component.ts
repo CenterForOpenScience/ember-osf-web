@@ -25,7 +25,7 @@ export default class CarouselItem extends Component {
         this.set('slideIndex', this.allItems.indexOf(this) + 1);
     }
 
-    @computed('allItems.@each')
+    @computed('allItems.[]')
     get isActive() {
         return this === this.allItems[0];
     }

@@ -16,7 +16,7 @@ export default class NodeStorageModel extends OsfModel {
     @attr('string') storageLimitStatus!: StorageStatus;
     @attr('number') storageUsage!: number;
 
-    @computed('id', 'storageLimitStatus')
+    @computed('id', 'storageLimitStatus', 'store')
     get isOverStorageCap() {
         const node = this.store.peekRecord('node', this.id);
         if (node) {
@@ -33,7 +33,7 @@ export default class NodeStorageModel extends OsfModel {
         return false;
     }
 
-    @computed('id', 'storageLimitStatus')
+    @computed('id', 'storageLimitStatus', 'store')
     get isApproachingStorageCap() {
         const node = this.store.peekRecord('node', this.id);
         if (node) {

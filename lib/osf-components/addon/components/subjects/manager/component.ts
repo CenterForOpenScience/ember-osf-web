@@ -76,7 +76,7 @@ export default class SubjectManagerComponent extends Component {
     @alias('initializeSubjects.isRunning')
     loadingNodeSubjects!: boolean;
 
-    @computed('savedSubjectsChanges')
+    @computed('savedSubjectIds', 'savedSubjectsChanges')
     get savedSubjects() {
         return Array.from(this.savedSubjectIds).map(id => {
             const subject = this.store.peekRecord('subject', id);
@@ -85,7 +85,7 @@ export default class SubjectManagerComponent extends Component {
         });
     }
 
-    @computed('selectedSubjectsChanges')
+    @computed('selectedSubjectIds', 'selectedSubjectsChanges')
     get selectedSubjects() {
         return Array.from(this.selectedSubjectIds).map(id => {
             const subject = this.store.peekRecord('subject', id);

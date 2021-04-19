@@ -29,7 +29,7 @@ export default class SubmitSection extends Component {
         return this.savedSections.includes(this.section);
     }
 
-    @computed('isOpen', 'didSave')
+    @computed('didSave', 'isOpen', 'tooltip')
     get showTooltip(): boolean {
         return !!this.tooltip && !this.isOpen && !this.didSave;
     }
