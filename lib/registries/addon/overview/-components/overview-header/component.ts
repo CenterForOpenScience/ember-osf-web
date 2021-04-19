@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { not } from '@ember/object/computed';
@@ -6,7 +7,6 @@ import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import Media from 'ember-responsive';
 import Toast from 'ember-toastr/services/toast';
@@ -19,7 +19,7 @@ import captureException from 'ember-osf-web/utils/capture-exception';
 export default class OverviewHeader extends Component {
     @service media!: Media;
     @service currentUser!: CurrentUserService;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service intl!: Intl;
     @service toast!: Toast;
 

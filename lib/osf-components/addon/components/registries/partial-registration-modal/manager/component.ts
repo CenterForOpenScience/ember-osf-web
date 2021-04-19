@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
@@ -7,7 +8,6 @@ import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import DS from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import NodeModel from 'ember-osf-web/models/node';
@@ -18,7 +18,7 @@ import template from './template';
 @layout(template)
 @tagName('')
 export default class PartialRegistrationModalManagerComponent extends Component implements HierarchicalListManager {
-    @service store!: DS.Store;
+    @service store!: Store;
     rootNode!: NodeModel;
 
     // Private
@@ -45,7 +45,7 @@ export default class PartialRegistrationModalManagerComponent extends Component 
     @task({ on: 'didReceiveAttrs' })
     @waitFor
     async loadAllChildNodes() {
-        const allChildNodesIncludingRoot = await taskFor(this.getChildren).perform(this.rootNode) || [];
+        const allChildNodesIncludingRoot = (await taskFor(this.getChildren).perform(this.rootNode)) || [];
         allChildNodesIncludingRoot.push(this.rootNode);
         this.set('nodesIncludingRoot', allChildNodesIncludingRoot.slice());
         this.set('selectedNodes', allChildNodesIncludingRoot.slice());

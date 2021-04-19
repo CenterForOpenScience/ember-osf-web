@@ -186,7 +186,7 @@ export default class UserQuickfiles extends Controller {
 
     @action
     async openFile(file: File, show: string) {
-        const guid = file.guid || await file.getGuid();
+        const guid = file.guid || (await file.getGuid());
         this.transitionToRoute('guid-file', guid, { queryParams: { show } });
     }
 }

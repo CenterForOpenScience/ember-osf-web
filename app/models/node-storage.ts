@@ -1,9 +1,7 @@
+import { attr } from '@ember-data/model';
 import { computed } from '@ember/object';
-import DS from 'ember-data';
 
 import OsfModel from './osf-model';
-
-const { attr } = DS;
 
 export enum StorageStatus {
     DEFAULT = 'DEFAULT',

@@ -1,5 +1,3 @@
-import DS from 'ember-data';
-
 import { Resource } from 'osf-api';
 
 import isHybridGuid from 'ember-osf-web/utils/is-hybrid-guid';

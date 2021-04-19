@@ -1,10 +1,8 @@
-import DS from 'ember-data';
+import { belongsTo, attr } from '@ember-data/model';
 
 import UserModel from 'ember-osf-web/models/user';
 import OsfModel from './osf-model';
 import RegistrationProviderModel from './registration-provider';
-
-const { attr, belongsTo } = DS;
 
 export enum PermissionGroup {
     Admin = 'admin',

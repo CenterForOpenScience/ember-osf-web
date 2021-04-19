@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
@@ -7,7 +8,6 @@ import { run } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
-import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -20,7 +20,7 @@ import DraftRegistrationManager from 'registries/drafts/draft/draft-registration
 
 @tagName('')
 export default class Register extends Component {
-    @service store!: DS.Store;
+    @service store!: Store;
     @service toast!: Toast;
     @service intl!: Intl;
 

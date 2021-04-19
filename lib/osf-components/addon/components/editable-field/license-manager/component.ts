@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action, computed, set } from '@ember/object';
@@ -5,7 +6,6 @@ import { alias, and, not, sort } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { restartableTask } from 'ember-concurrency';
-import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -32,7 +32,7 @@ export default class LicenseManagerComponent extends Component implements Licens
     // private
     @service analytics!: Analytics;
     @service intl!: Intl;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service toast!: Toast;
 
     changeset!: BufferedChangeset;

@@ -1,9 +1,9 @@
+import Store from '@ember-data/store';
 import { classNames } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { localClassName, localClassNames } from 'ember-css-modules';
-import DS from 'ember-data';
 import moment from 'moment';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
@@ -41,7 +41,7 @@ import template from './template';
 @localClassNames('file-browser-item')
 export default class FileBrowserItem extends Component {
     @service analytics!: Analytics;
-    @service store!: DS.Store;
+    @service store!: Store;
 
     item?: File;
     @requiredAction openItem!: (item: File | undefined, show: string) => void;

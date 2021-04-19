@@ -1,9 +1,9 @@
+import Model from '@ember-data/model';
+import RESTSerializer from '@ember-data/serializer/rest';
+import Store from '@ember-data/store';
 import { merge } from '@ember/polyfills';
-import DS from 'ember-data';
 
 import OsfModel from 'ember-osf-web/models/osf-model';
-
-const { RESTSerializer } = DS;
 
 export default class UserRegistrationSerializer extends RESTSerializer {
     attrs = {
@@ -24,8 +24,8 @@ export default class UserRegistrationSerializer extends RESTSerializer {
     }
 
     normalizeSaveResponse(
-        store: DS.Store,
-        primaryModelClass: DS.Model,
+        store: Store,
+        primaryModelClass: Model,
         payload: {},
         id: string | number,
         requestType: string,

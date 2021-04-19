@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { action, set } from '@ember/object';
@@ -10,8 +11,6 @@ import { BufferedChangeset, ValidatorAction } from 'ember-changeset/types';
 import { task } from 'ember-concurrency';
 import Toast from 'ember-toastr/services/toast';
 
-/* eslint-disable ember/use-ember-data-rfc-395-imports */
-import DS from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
 /* eslint-enable ember/use-ember-data-rfc-395-imports */
 
@@ -38,7 +37,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     onDirtChange?: (dirt: boolean) => boolean;
 
     // Private properties
-    @service store!: DS.Store;
+    @service store!: Store;
     @service analytics!: Analytics;
     @service toast!: Toast;
 

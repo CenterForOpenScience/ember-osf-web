@@ -1,3 +1,4 @@
+import { ForbiddenError } from '@ember-data/adapter/error';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
@@ -10,7 +11,6 @@ import { validateNumber, validatePresence } from 'ember-changeset-validations/va
 import { BufferedChangeset } from 'ember-changeset/types';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import DS from 'ember-data';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
@@ -69,7 +69,7 @@ export default class SecurityPane extends Component {
                 this.showError = false;
             }
         } catch (e) {
-            if (e instanceof DS.ForbiddenError) {
+            if (e instanceof ForbiddenError) {
                 this.showError = true;
             } else {
                 const { supportEmail } = config.support;

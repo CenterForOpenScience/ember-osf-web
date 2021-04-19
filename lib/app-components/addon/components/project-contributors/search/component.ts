@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import Component from '@ember/component';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
@@ -26,7 +27,7 @@ const nameFields = [
 export default class Search extends Component {
     @service analytics!: Analytics;
     @service intl!: Intl;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service toast!: Toast;
 
     node!: Node;

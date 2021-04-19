@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import Component from '@ember/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
@@ -7,7 +8,6 @@ import { validateFormat } from 'ember-changeset-validations/validators';
 import { BufferedChangeset } from 'ember-changeset/types';
 import { restartableTask, task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -24,7 +24,7 @@ interface EmailValidation {
 export default class ConnectedEmails extends Component {
     // Private properties
     @service currentUser!: CurrentUser;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service intl!: Intl;
     @service toast!: Toast;
     showAddModal = false;

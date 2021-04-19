@@ -1,5 +1,3 @@
-import DS from 'ember-data';
-
 import OsfAdapter from './osf-adapter';
 
 const requestTypes = ['createRecord', 'updateRecord', 'deleteRecord'];

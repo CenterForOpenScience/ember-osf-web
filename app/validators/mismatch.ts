@@ -1,8 +1,8 @@
+import Model from '@ember-data/model';
 import { assert } from '@ember/debug';
 import { get } from '@ember/object';
 import { isEmpty, isEqual, isPresent } from '@ember/utils';
 import BaseValidator from 'ember-cp-validations/validators/base';
-import DS from 'ember-data';
 
 interface Options {
     allowBlank: boolean;
@@ -10,7 +10,7 @@ interface Options {
 }
 
 const Mismatch = BaseValidator.extend({
-    validate(value: string, options: Options, model: DS.Model, attribute: string): string | true {
+    validate(value: string, options: Options, model: Model, attribute: string): string | true {
         const on: any = get(options, 'on');
         const allowBlank: boolean = get(options, 'allowBlank');
 

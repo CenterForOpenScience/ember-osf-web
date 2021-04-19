@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
@@ -6,7 +7,6 @@ import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
 import { enqueueTask, task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -34,7 +34,7 @@ export interface ModeratorManager {
 @layout(template)
 export default class ModeratorManagerComponent extends Component {
     @service currentUser!: CurrentUserService;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service toast!: Toast;
     @service intl!: Intl;
 

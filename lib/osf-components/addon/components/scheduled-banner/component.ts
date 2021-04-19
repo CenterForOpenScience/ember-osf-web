@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { reads } from '@ember/object/computed';
@@ -5,7 +6,6 @@ import { inject as service } from '@ember/service';
 import { htmlSafe } from '@ember/template';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
-import DS from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Banner from 'ember-osf-web/models/banner';
@@ -16,7 +16,7 @@ import template from './template';
 
 @layout(template, styles)
 export default class ScheduledBanners extends Component {
-    @service store!: DS.Store;
+    @service store!: Store;
     @service analytics!: Analytics;
 
     @reads('loadBanner.last.value')

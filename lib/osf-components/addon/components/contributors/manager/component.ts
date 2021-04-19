@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
@@ -7,7 +8,6 @@ import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
 import { enqueueTask } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -27,7 +27,7 @@ export default class ContributorsManager extends Component {
     @service currentUser!: CurrentUser;
     @service toast!: Toast;
     @service intl!: Intl;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service router!: RouterService;
 
     node?: NodeModel;

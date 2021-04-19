@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import Component from '@ember/component';
 import { action } from '@ember/object';
 import { bool } from '@ember/object/computed';
@@ -5,7 +6,6 @@ import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { restartableTask, task, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import DS from 'ember-data';
 import { stripDiacritics } from 'ember-power-select/utils/group-utils';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
@@ -24,7 +24,7 @@ function stripAndLower(text: string): string {
 @layout(template, styles)
 export default class CollectionItemPicker extends Component {
     @service currentUser!: CurrentUser;
-    @service store!: DS.Store;
+    @service store!: Store;
 
     @requiredAction projectSelected!: (value: Node) => void;
     @requiredAction validationChanged!: (isValid: boolean) => void;

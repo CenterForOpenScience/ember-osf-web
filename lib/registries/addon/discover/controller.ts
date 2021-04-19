@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import EmberArray, { A } from '@ember/array';
 import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
@@ -5,7 +6,6 @@ import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { restartableTask, task, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import QueryParams from 'ember-parachute';
 import { is, OrderedSet } from 'immutable';
@@ -158,7 +158,7 @@ export const discoverQueryParams = new QueryParams<DiscoverQueryParams>(queryPar
 export default class Discover extends Controller.extend(discoverQueryParams.Mixin) {
     @service intl!: Intl;
     @service analytics!: Analytics;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service shareSearch!: ShareSearch;
 
     sortOptions = sortOptions;

@@ -1,3 +1,5 @@
+import { AbortError, ServerError, TimeoutError } from '@ember-data/adapter/error';
+import Store from '@ember-data/store';
 import { A } from '@ember/array';
 import ArrayProxy from '@ember/array/proxy';
 import Component from '@ember/component';
@@ -8,7 +10,6 @@ import { camelize } from '@ember/string';
 import { waitFor } from '@ember/test-waiters';
 import { keepLatestTask, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import DS from 'ember-data';
 import config from 'ember-get-config';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -87,7 +88,7 @@ function emptyResults(): SearchQuery {
 export default class DiscoverPage extends Component {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service theme!: Theme;
 
     query!: (params: any) => Promise<any>;
@@ -267,9 +268,9 @@ export default class DiscoverPage extends Component {
                 results: emptyResults(),
             });
             // If issue with search query, for example, invalid lucene search syntax
-            if (errorResponse instanceof DS.ServerError
-                || errorResponse instanceof DS.AbortError
-                || errorResponse instanceof DS.TimeoutError) {
+            if (errorResponse instanceof ServerError
+                || errorResponse instanceof AbortError
+                || errorResponse instanceof TimeoutError) {
                 this.set('serverError', true);
             } else {
                 this.set('queryError', true);

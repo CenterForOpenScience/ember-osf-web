@@ -1,7 +1,7 @@
+import Store from '@ember-data/store';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
-import DS from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -15,7 +15,7 @@ export default class PaginatedAll extends BaseDataComponent {
     modelName!: keyof ModelRegistry;
 
     // Private properties
-    @service store!: DS.Store;
+    @service store!: Store;
 
     @task
     @waitFor

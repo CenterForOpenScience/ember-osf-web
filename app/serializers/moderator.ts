@@ -1,4 +1,3 @@
-import DS from 'ember-data';
 import { Resource } from 'osf-api';
 import OsfSerializer from './osf-serializer';
 

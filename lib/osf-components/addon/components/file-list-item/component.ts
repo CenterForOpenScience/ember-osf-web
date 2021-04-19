@@ -1,8 +1,8 @@
+import Store from '@ember-data/store';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { localClassName, localClassNames } from 'ember-css-modules';
-import DS from 'ember-data';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import File from 'ember-osf-web/models/file';
@@ -32,7 +32,7 @@ import template from './template';
 @layout(template)
 @localClassNames('FileListItem')
 export default class FileListItem extends Component.extend({ styles }) {
-    @service store!: DS.Store;
+    @service store!: Store;
 
     item?: File;
     @requiredAction openItem!: (item: File | undefined) => void;

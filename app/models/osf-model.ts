@@ -1,3 +1,5 @@
+import Model, { attr } from '@ember-data/model';
+import Store from '@ember-data/store';
 import EmberArray, { A } from '@ember/array';
 import { assert } from '@ember/debug';
 import { set } from '@ember/object';
@@ -5,7 +7,6 @@ import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { dasherize, underscore } from '@ember/string';
 import { Validations } from 'ember-cp-validations';
-import DS, { RelationshipsFor } from 'ember-data';
 import AdapterRegistry from 'ember-data/types/registries/adapter';
 import ModelRegistry from 'ember-data/types/registries/model';
 import { pluralize, singularize } from 'ember-inflector';
@@ -32,8 +33,6 @@ import {
 } from 'osf-api';
 
 import captureException from 'ember-osf-web/utils/capture-exception';
-
-const { attr, Model } = DS;
 
 function getRelatedCountFromResponse(response: ApiResponseDocument, apiRelationshipName: string, errorContext: string) {
     if ('data' in response && !Array.isArray(response.data)) {
@@ -95,11 +94,11 @@ export interface OsfLinks extends NormalLinks {
 }
 
 export type ValidatedModelName = {
-    [K in keyof ModelRegistry]: ModelRegistry[K] extends (Validations & DS.Model) ? K : never
+    [K in keyof ModelRegistry]: ModelRegistry[K] extends (Validations & Model) ? K : never
 }[keyof ModelRegistry];
 
 export default class OsfModel extends Model {
-    @service store!: DS.Store;
+    @service store!: Store;
     @service currentUser!: CurrentUser;
 
     @attr() links!: OsfLinks;

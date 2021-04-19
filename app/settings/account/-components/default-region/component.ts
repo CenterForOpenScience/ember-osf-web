@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { alias } from '@ember/object/computed';
@@ -8,7 +9,6 @@ import { validatePresence } from 'ember-changeset-validations/validators';
 import { BufferedChangeset } from 'ember-changeset/types';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import DS from 'ember-data';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
@@ -37,7 +37,7 @@ export default class DefaultRegionPane extends Component {
     @service currentUser!: CurrentUser;
     @service intl!: Intl;
     @service toast!: Toast;
-    @service store!: DS.Store;
+    @service store!: Store;
     user?: User;
     regions?: RegionModel[];
     changeset!: BufferedChangeset;

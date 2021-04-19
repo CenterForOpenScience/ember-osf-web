@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 import Transition from '@ember/routing/-private/transition';
@@ -6,7 +7,6 @@ import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { task, TaskInstance } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import DS from 'ember-data';
 import { pluralize } from 'ember-inflector';
 
 import Node from 'ember-osf-web/models/node';
@@ -17,7 +17,7 @@ import Ready, { Blocker } from 'ember-osf-web/services/ready';
 export default class AnalyticsPageRoute extends Route {
     @service analytics!: AnalyticsService;
     @service ready!: Ready;
-    @service store!: DS.Store;
+    @service store!: Store;
 
     @task
     @waitFor

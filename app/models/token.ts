@@ -1,9 +1,7 @@
+import { hasMany, attr } from '@ember-data/model';
 import { buildValidations, validator } from 'ember-cp-validations';
-import DS from 'ember-data';
 
 import OsfModel from './osf-model';
-
-const { attr, hasMany } = DS;
 
 const Validations = buildValidations({
     name: [

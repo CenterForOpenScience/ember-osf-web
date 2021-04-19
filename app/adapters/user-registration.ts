@@ -1,8 +1,6 @@
-import DS from 'ember-data';
+import RESTAdapter from '@ember-data/adapter/rest';
 import ModelRegistry from 'ember-data/types/registries/model';
 import config from 'ember-get-config';
-
-const { RESTAdapter } = DS;
 
 export default class UserRegistrationAdapter extends RESTAdapter {
     host: string = config.OSF.url.replace(/\/$/, '');

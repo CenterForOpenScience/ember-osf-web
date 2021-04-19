@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import { A } from '@ember/array';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
@@ -6,7 +7,6 @@ import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { restartableTask, task, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import DS from 'ember-data';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Node from 'ember-osf-web/models/node';
@@ -44,7 +44,7 @@ export enum ProjectSelectState {
 @layout(template, styles)
 export default class ProjectSelector extends Component {
     @service currentUser!: CurrentUser;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service analytics!: Analytics;
 
     // Required arguments

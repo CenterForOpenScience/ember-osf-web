@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import { A } from '@ember/array';
 import MutableArray from '@ember/array/mutable';
 import Component from '@ember/component';
@@ -9,7 +10,6 @@ import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import { localClassNames } from 'ember-css-modules';
-import DS from 'ember-data';
 import Toast from 'ember-toastr/services/toast';
 import $ from 'jquery';
 
@@ -55,7 +55,7 @@ export default class FileBrowser extends Component {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service ready!: Ready;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service toast!: Toast;
 
     @requiredAction openFile!: (file: File, show: string) => void;

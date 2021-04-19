@@ -1,5 +1,5 @@
+import Store from '@ember-data/store';
 import { assert } from '@ember/debug';
-import DS from 'ember-data';
 import RSVP from 'rsvp';
 
 import OsfAdapter from 'ember-osf-web/adapters/osf-adapter';
@@ -32,7 +32,7 @@ export default class CollectedMetadatumAdapter extends OsfAdapter {
         return `${this.urlPrefix()}/search/collections/`;
     }
 
-    query(_: DS.Store, type: any, query: Record<string, string>): RSVP.Promise<any> {
+    query(_: Store, type: any, query: Record<string, string>): RSVP.Promise<any> {
         const url = this.buildURL(type.modelName, null, null, 'query', query);
         const { page, sort, ...restQuery } = query;
 

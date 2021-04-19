@@ -1,10 +1,10 @@
+import Store from '@ember-data/store';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { underscore } from '@ember/string';
 import { waitFor } from '@ember/test-waiters';
 import { dropTask, timeout } from 'ember-concurrency';
-import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -34,7 +34,7 @@ export default class Submit extends Component {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service intl!: Intl;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service theme!: Theme;
     @service toast!: Toast;
 

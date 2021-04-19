@@ -1,5 +1,6 @@
 // This component is derived from ember-cp-validations.
 // See https://github.com/offirgolan/ember-cp-validations for more information
+import Model from '@ember-data/model';
 import Component from '@ember/component';
 import { computed, defineProperty } from '@ember/object';
 import { alias, bool, oneWay } from '@ember/object/computed';
@@ -7,8 +8,6 @@ import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import { BufferedChangeset } from 'ember-changeset/types';
 import { ResultCollection } from 'ember-cp-validations';
-import DS, // eslint-disable-line ember/use-ember-data-rfc-395-imports
-{ AttributesFor, RelationshipsFor } from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 
 export enum ValidationStatus {
@@ -18,7 +17,7 @@ export enum ValidationStatus {
     HasWarning,
 }
 
-export default abstract class BaseValidatedInput<M extends DS.Model> extends Component {
+export default abstract class BaseValidatedInput<M extends Model> extends Component {
     // Required arguments
     valuePath!: AttributesFor<M> | RelationshipsFor<M>;
 

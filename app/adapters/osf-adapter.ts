@@ -1,7 +1,7 @@
+import JSONAPIAdapter from '@ember-data/adapter/json-api';
 import { assert } from '@ember/debug';
 import { inject as service } from '@ember/service';
 import { underscore } from '@ember/string';
-import DS from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
 import config from 'ember-get-config';
 import { pluralize } from 'ember-inflector';
@@ -9,7 +9,6 @@ import Session from 'ember-simple-auth/services/session';
 
 import CurrentUser from 'ember-osf-web/services/current-user';
 
-const { JSONAPIAdapter } = DS;
 const {
     OSF: {
         apiUrl: host,

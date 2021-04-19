@@ -1,10 +1,10 @@
+import Store from '@ember-data/store';
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
 import { restartableTask, task, timeout } from 'ember-concurrency';
-import DS from 'ember-data';
 
 import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
 import NodeModel from 'ember-osf-web/models/node';
@@ -18,7 +18,7 @@ import Toast from 'ember-toastr/services/toast';
 export default class BrandedRegistriesNewSubmissionController extends Controller {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUserService;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service toast!: Toast;
 
     @tracked selectedProject?: NodeModel;

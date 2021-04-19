@@ -1,9 +1,7 @@
-import DS from 'ember-data';
+import { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
 
 import OsfModel from './osf-model';
 import UserModel from './user';
-
-const { attr, belongsTo } = DS;
 
 export interface MeetingSubmissionLinks {
     download?: string;
@@ -20,7 +18,7 @@ export default class MeetingSubmissionModel extends OsfModel {
     @attr() links!: MeetingSubmissionLinks;
 
     @belongsTo('user', { inverse: null })
-    author!: DS.PromiseObject<UserModel> & UserModel;
+    author!: AsyncBelongsTo<UserModel>;
 }
 
 declare module 'ember-data/types/registries/model' {

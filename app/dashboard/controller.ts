@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import { A } from '@ember/array';
 import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
@@ -6,8 +7,8 @@ import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { all, restartableTask, task, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import DS from 'ember-data';
 import config from 'ember-get-config';
+import $ from 'jquery';
 
 import Institution from 'ember-osf-web/models/institution';
 import Node from 'ember-osf-web/models/node';
@@ -27,7 +28,7 @@ const {
 export default class Dashboard extends Controller {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
-    @service store!: DS.Store;
+    @service store!: Store;
 
     page: number = 1;
     loading: boolean = false;
@@ -93,7 +94,6 @@ export default class Dashboard extends Controller {
 
         const nodes: QueryHasManyResult<Node> = await user!.queryHasMany('sparseNodes', {
             embed: ['bibliographic_contributors', 'parent', 'root'],
-            // eslint-disable-next-line ember/no-global-jquery
             filter: this.filter ? { title: $('<div>').text(this.filter).html() } : undefined,
             page: more ? this.incrementProperty('page') : this.set('page', 1),
             sort: this.sort || undefined,

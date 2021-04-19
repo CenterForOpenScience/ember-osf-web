@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import Component from '@glimmer/component';
 
 import { action } from '@ember/object';
@@ -5,7 +6,6 @@ import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
-import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -21,7 +21,7 @@ interface Args {
 
 export default class MakeDecisionDropdown extends Component<Args> {
     @service intl!: Intl;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service toast!: Toast;
     @service router!: RouterService;
 

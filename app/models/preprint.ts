@@ -1,6 +1,6 @@
+import { AsyncBelongsTo, AsyncHasMany, attr, belongsTo, hasMany, SyncHasMany } from '@ember-data/model';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
-import DS from 'ember-data';
 
 import ContributorModel from './contributor';
 import FileModel from './file';
@@ -10,8 +10,6 @@ import OsfModel from './osf-model';
 import PreprintProviderModel from './preprint-provider';
 import ReviewActionModel from './review-action';
 import SubjectModel from './subject';
-
-const { attr, belongsTo, hasMany } = DS;
 
 export default class PreprintModel extends OsfModel {
     @attr('fixstring') title!: string;
@@ -28,25 +26,25 @@ export default class PreprintModel extends OsfModel {
     @attr('date') preprintDoiCreated!: Date;
 
     @belongsTo('node', { inverse: 'preprints' })
-    node!: DS.PromiseObject<NodeModel> & NodeModel;
+    node!: AsyncBelongsTo<NodeModel>;
 
     @belongsTo('license', { inverse: null })
-    license!: DS.PromiseObject<LicenseModel> & LicenseModel;
+    license!: AsyncBelongsTo<LicenseModel>;
 
     @belongsTo('file', { inverse: null })
-    primaryFile!: DS.PromiseObject<FileModel> & FileModel;
+    primaryFile!: AsyncBelongsTo<FileModel>;
 
     @belongsTo('preprint-provider', { inverse: 'preprints' })
-    provider!: DS.PromiseObject<PreprintProviderModel> & PreprintProviderModel;
+    provider!: AsyncBelongsTo<PreprintProviderModel>;
 
     @hasMany('review-action', { inverse: 'target' })
-    reviewActions!: DS.PromiseManyArray<ReviewActionModel>;
+    reviewActions!: AsyncHasMany<ReviewActionModel>;
 
     @hasMany('contributor')
-    contributors!: DS.PromiseManyArray<ContributorModel>;
+    contributors!: AsyncHasMany<ContributorModel>;
 
     @hasMany('subject', { inverse: null, async: false })
-    subjects!: DS.PromiseManyArray<SubjectModel>;
+    subjects!: SyncHasMany<SubjectModel>;
 
     @alias('links.doi') articleDoiUrl!: string | null;
     @alias('links.preprint_doi') preprintDoiUrl!: string;

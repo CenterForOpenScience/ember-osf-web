@@ -1,3 +1,5 @@
+import { AsyncHasMany } from '@ember-data/model';
+import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
@@ -7,7 +9,6 @@ import { camelize } from '@ember/string';
 import { waitFor } from '@ember/test-waiters';
 import { enqueueTask, restartableTask, task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -40,7 +41,7 @@ export interface FilesManager {
     sortItems: (sort: string) => void;
 }
 
-interface PromiseManyArrayWithMeta extends DS.PromiseManyArray<File> {
+interface PromiseManyArrayWithMeta extends AsyncHasMany<File> {
     meta: PaginatedMeta;
 }
 
@@ -50,7 +51,7 @@ type SortKey = 'date_modified' | '-date_modified' | 'name' | '-name';
 @layout(template)
 export default class FilesManagerComponent extends Component {
     @service intl!: Intl;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service toast!: Toast;
 
     node!: Node | DraftNode;

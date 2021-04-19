@@ -1,7 +1,7 @@
+import Store from '@ember-data/store';
 import { assert } from '@ember/debug';
 import { computed } from '@ember/object';
 import Service, { inject as service } from '@ember/service';
-import DS from 'ember-data';
 import config from 'ember-get-config';
 import Provider from 'ember-osf-web/models/provider';
 
@@ -34,7 +34,7 @@ const settings: { [P in ProviderType]: Setting } = {
 };
 
 export default class Theme extends Service {
-    @service store!: DS.Store;
+    @service store!: Store;
 
     id: string = defaultProvider;
     defaultProvider = defaultProvider;

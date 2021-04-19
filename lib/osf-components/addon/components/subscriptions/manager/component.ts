@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import ArrayProxy from '@ember/array/proxy';
 import Component from '@ember/component';
@@ -5,7 +6,6 @@ import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
 import { enqueueTask, restartableTask } from 'ember-concurrency';
-import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -17,7 +17,7 @@ import template from './template';
 @tagName('')
 @layout(template)
 export default class SubscriptionsManager extends Component {
-    @service store!: DS.Store;
+    @service store!: Store;
     @service toast!: Toast;
     @service intl!: Intl;
     // optional arguments

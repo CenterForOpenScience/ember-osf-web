@@ -1,5 +1,7 @@
+import Model from '@ember-data/model';
+import JSONAPISerializer from '@ember-data/serializer/json-api';
+import Store from '@ember-data/store';
 import { camelize, underscore } from '@ember/string';
-import DS from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
 import { AttributesObject } from 'jsonapi-typescript';
 
@@ -11,8 +13,6 @@ import {
 } from 'osf-api';
 
 import OsfModel, { OsfLinks } from 'ember-osf-web/models/osf-model';
-
-const { JSONAPISerializer } = DS;
 
 const API_TYPE_KEYS: Record<string, string & keyof ModelRegistry> = {
     applications: 'developer-app',
@@ -178,7 +178,7 @@ export default class OsfSerializer extends JSONAPISerializer {
     // `normalize` is used for all resources no matter where they came from,
     // unlike `normalizeSingleResponse` and `normalizeArrayResponse`, which
     // are not used by `store.pushPayload`
-    normalize(modelClass: DS.Model, resourceHash: Resource) {
+    normalize(modelClass: Model, resourceHash: Resource) {
         const normalizedHash = super.normalize(modelClass, resourceHash) as { data: Resource };
 
         if (normalizedHash.data && normalizedHash.data.relationships) {
@@ -206,7 +206,7 @@ export default class OsfSerializer extends JSONAPISerializer {
     }
 
     normalizeSingleResponse(
-        store: DS.Store,
+        store: Store,
         primaryModelClass: OsfModel,
         payload: SingleResourceDocument,
         id: string,
@@ -228,7 +228,7 @@ export default class OsfSerializer extends JSONAPISerializer {
     }
 
     normalizeArrayResponse(
-        store: DS.Store,
+        store: Store,
         primaryModelClass: OsfModel,
         payload: ResourceCollectionDocument,
         id: string,

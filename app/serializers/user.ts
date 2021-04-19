@@ -1,4 +1,4 @@
-import DS from 'ember-data';
+import Model from '@ember-data/model';
 import config from 'ember-get-config';
 import { Resource } from 'osf-api';
 import OsfSerializer from './osf-serializer';
@@ -11,7 +11,7 @@ const {
 } = config;
 
 export default class UserSerializer extends OsfSerializer {
-    normalize(modelClass: DS.Model, resourceHash: Resource) {
+    normalize(modelClass: Model, resourceHash: Resource) {
         const result = super.normalize(modelClass, resourceHash);
         // TODO: ENG-1486
         // Manually insert a `sparseNodes` relationship to the model because the API doesn't serialize this relationship

@@ -1,15 +1,15 @@
+import Store from '@ember-data/store';
 import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { restartableTask, timeout } from 'ember-concurrency';
-import DS from 'ember-data';
 
 import Institution from 'ember-osf-web/models/institution';
 import Analytics from 'ember-osf-web/services/analytics';
 
 export default class Institutions extends Controller {
-    @service store!: DS.Store;
+    @service store!: Store;
     @service analytics!: Analytics;
 
     sortOrder: 'title' | '-title' = 'title';

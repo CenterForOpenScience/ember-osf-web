@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias, not } from '@ember/object/computed';
@@ -5,7 +6,6 @@ import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { restartableTask, task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -30,7 +30,7 @@ enum AbuseCategories {
 
 @layout(template, styles)
 export default class CommentCard extends Component {
-    @service store!: DS.Store;
+    @service store!: Store;
     @service ready!: Ready;
     @service intl!: Intl;
     @service currentUser!: CurrentUser;

@@ -1,5 +1,5 @@
+import Model from '@ember-data/model';
 import { action } from '@ember/object';
-import DS, { RelationshipsFor } from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
 
@@ -8,7 +8,7 @@ import styles from './styles';
 import template from './template';
 
 @layout(template, styles)
-export default class ValidatedCheckboxes<M extends DS.Model> extends BaseValidatedComponent<M> {
+export default class ValidatedCheckboxes<M extends Model> extends BaseValidatedComponent<M> {
     valuePath!: RelationshipsFor<M>;
 
     // Additional required arguments

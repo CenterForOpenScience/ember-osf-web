@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action } from '@ember/object';
@@ -7,7 +8,6 @@ import { tracked } from '@glimmer/tracking';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validateFormat, validatePresence } from 'ember-changeset-validations/validators';
 import { restartableTask, timeout } from 'ember-concurrency';
-import DS from 'ember-data';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -68,7 +68,7 @@ const UserFormValidations: ValidationObject<UserFormFields> = {
 export default class AddModalComponent extends Component {
     @service currentUser!: CurrentUserService;
     @service toast!: Toast;
-    @service store!: DS.Store;
+    @service store!: Store;
 
     manager!: ModeratorManager;
     @tracked shouldOpenAddDialog = false;

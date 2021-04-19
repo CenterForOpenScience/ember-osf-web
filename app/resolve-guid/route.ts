@@ -1,10 +1,10 @@
+import Store from '@ember-data/store';
 import { action, computed } from '@ember/object';
 import Transition from '@ember/routing/-private/transition';
 import { EmberLocation } from '@ember/routing/api';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
-import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
 
@@ -26,7 +26,7 @@ const { featureFlagNames: { routes } } = config;
 
 export default class ResolveGuid extends Route {
     @service features!: Features;
-    @service store!: DS.Store;
+    @service store!: Store;
     _router!: PrivateRouter; // tslint:disable-line:variable-name
 
     @computed(`features.${camelize(routes['registries.overview'])}`)

@@ -1,6 +1,6 @@
+import Model from '@ember-data/model';
 import { action, computed } from '@ember/object';
 import Ember from 'ember';
-import DS, { AttributesFor } from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
 
@@ -12,7 +12,7 @@ export interface GRecaptcha {
 }
 
 @layout(template)
-export default class ValidatedRecaptcha<M extends DS.Model> extends BaseValidatedComponent<M> {
+export default class ValidatedRecaptcha<M extends Model> extends BaseValidatedComponent<M> {
     valuePath!: AttributesFor<M>;
 
     // Exposes a reset action the the parent scope.

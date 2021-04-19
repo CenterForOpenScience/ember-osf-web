@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import Component from '@ember/component';
 import { action } from '@ember/object';
 import { alias, sort } from '@ember/object/computed';
@@ -5,7 +6,6 @@ import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { restartableTask, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -23,7 +23,7 @@ import template from './template';
 @layout(template, styles)
 export default class LicensePicker extends Component {
     @service analytics!: Analytics;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service theme!: Theme;
     @service intl!: Intl;
 

@@ -1,9 +1,9 @@
+import Store from '@ember-data/store';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { Task, task, TaskInstance } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import DS from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
 
 import Ready from 'ember-osf-web/services/ready';
@@ -18,7 +18,7 @@ export interface GuidRouteModel<T> {
 // Don't use it if you're making something new.
 export default abstract class GuidRoute extends Route {
     @service ready!: Ready;
-    @service store!: DS.Store;
+    @service store!: Store;
 
     @task
     @waitFor

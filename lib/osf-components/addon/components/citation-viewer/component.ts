@@ -1,8 +1,8 @@
+import Store from '@ember-data/store';
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { all, restartableTask, task, timeout } from 'ember-concurrency';
-import DS from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import CitationStyle from 'ember-osf-web/models/citation-style';
@@ -47,7 +47,7 @@ export default class CitationViewer extends Component {
     citable!: Node | Preprint;
 
     // Private properties
-    @service store!: DS.Store;
+    @service store!: Store;
     @service currentUser!: CurrentUser;
 
     selectedCitationStyle?: CitationStyle;

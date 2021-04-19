@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
@@ -6,7 +7,6 @@ import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { dropTask, restartableTask } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import DS from 'ember-data';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
@@ -34,7 +34,7 @@ export default class ContributorList extends Component {
     allowRemoveMe: boolean = false;
 
     // Private properties
-    @service store!: DS.Store;
+    @service store!: Store;
     @service ready!: Ready;
     @service toast!: Toast;
     @service intl!: Intl;

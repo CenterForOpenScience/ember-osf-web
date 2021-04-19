@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import { computed, setProperties } from '@ember/object';
 import { run } from '@ember/runloop';
 import { inject as service } from '@ember/service';
@@ -5,7 +6,6 @@ import { waitFor } from '@ember/test-waiters';
 import config from 'collections/config/environment';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import DS from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
 
@@ -27,7 +27,7 @@ interface ProviderHit {
 
 @layout(template, styles)
 export default class SearchFacetProvider extends Base {
-    @service store!: DS.Store;
+    @service store!: Store;
 
     allProviders!: ProviderHit[];
 

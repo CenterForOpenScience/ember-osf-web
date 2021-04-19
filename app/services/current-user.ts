@@ -1,8 +1,8 @@
+import Store from '@ember-data/store';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import Service, { inject as service } from '@ember/service';
 import Cookies from 'ember-cookies/services/cookies';
-import DS from 'ember-data';
 import config from 'ember-get-config';
 import Session from 'ember-simple-auth/services/session';
 import RSVP from 'rsvp';
@@ -50,7 +50,7 @@ export interface OsfAjaxOptions {
  */
 
 export default class CurrentUserService extends Service {
-    @service store!: DS.Store;
+    @service store!: Store;
     @service session!: Session;
     @service cookies!: Cookies;
 

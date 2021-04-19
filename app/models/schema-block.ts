@@ -1,13 +1,11 @@
+import { belongsTo, attr } from '@ember-data/model';
 import { computed } from '@ember/object';
-import DS from 'ember-data';
 
 import RegistrationSchemaModel from 'ember-osf-web/models/registration-schema';
 import { SchemaBlock, SchemaBlockType } from 'ember-osf-web/packages/registration-schema';
 import { getPageParam } from 'ember-osf-web/utils/page-param';
 
 import OsfModel from './osf-model';
-
-const { attr, belongsTo } = DS;
 
 export default class SchemaBlockModel extends OsfModel implements SchemaBlock {
     @attr('string') blockType?: SchemaBlockType;

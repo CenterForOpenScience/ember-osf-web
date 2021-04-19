@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action, set } from '@ember/object';
@@ -5,7 +6,6 @@ import { alias, sort } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { restartableTask } from 'ember-concurrency';
-import DS from 'ember-data';
 
 import { BufferedChangeset } from 'ember-changeset/types';
 import { taskFor } from 'ember-concurrency-ts';
@@ -22,7 +22,7 @@ import template from './template';
 @tagName('')
 @layout(template)
 export default class LicensePickerManager extends Component implements LicenseManager {
-    @service store!: DS.Store;
+    @service store!: Store;
 
     // required
     draftManager!: DraftRegistrationManager;

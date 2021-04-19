@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias, and } from '@ember/object/computed';
@@ -6,7 +7,6 @@ import { waitFor } from '@ember/test-waiters';
 import PasswordStrength from 'ember-cli-password-strength/services/password-strength';
 import { dropTask, restartableTask, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import DS from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import UserRegistration from 'ember-osf-web/models/user-registration';
@@ -29,7 +29,7 @@ export default class SignUpForm extends Component {
 
     @service passwordStrength!: PasswordStrength;
     @service analytics!: Analytics;
-    @service store!: DS.Store;
+    @service store!: Store;
 
     @alias('userRegistration.validations.attrs') a!: object;
 

@@ -1904,6 +1904,15 @@
   dependencies:
     "@types/jquery" "*"
 
+"@types/ember-data@*":
+  version "3.16.13"
+  resolved "https://registry.yarnpkg.com/@types/ember-data/-/ember-data-3.16.13.tgz#df8727f6246b948ae1fb6dfaf21b29e6d1505367"
+  integrity sha512-kABRQygJ5ZRicIPgO0lA7ENnz8MRoHOpgKHrGRmAgiTJgk6cTPnTKWKPZ6KerJm08NYYu0ffNK5xWh3adozTvg==
+  dependencies:
+    "@types/ember" "*"
+    "@types/ember__object" "*"
+    "@types/rsvp" "*"
+
 "@types/ember-data@^3.16.12":
   version "3.16.12"
   resolved "https://registry.yarnpkg.com/@types/ember-data/-/ember-data-3.16.12.tgz#909100acfe0cf7922bfc923b23a94a4e19c1d408"
@@ -1912,6 +1921,34 @@
     "@types/ember" "*"
     "@types/ember__object" "*"
     "@types/rsvp" "*"
+
+"@types/ember-data__adapter@^3.16.1":
+  version "3.16.1"
+  resolved "https://registry.yarnpkg.com/@types/ember-data__adapter/-/ember-data__adapter-3.16.1.tgz#8f93c2efb6be2d9fd2e380d2af58fd517b88955f"
+  integrity sha512-8OcbVa3t8kCE2zJ9480zbLyntEQr6WZYNErwDxyaBIXGI+/J16BHfcXYdeUR7gNeVtKLJAjLSPX+k3shVNVGMQ==
+  dependencies:
+    "@types/ember-data" "*"
+
+"@types/ember-data__model@^3.16.2":
+  version "3.16.2"
+  resolved "https://registry.yarnpkg.com/@types/ember-data__model/-/ember-data__model-3.16.2.tgz#12b692835afa6cd7eeab99357e4b6c5a5ce8c2d4"
+  integrity sha512-M5q4I7qsTRPl4hIA0htVj+1jyVJRsScucPUlNuxi36MxXsRj4v1y1nxywt8PRxlsz5umL+yJSrBpL3z3jBPwbA==
+  dependencies:
+    "@types/ember-data" "*"
+
+"@types/ember-data__serializer@^3.16.1":
+  version "3.16.1"
+  resolved "https://registry.yarnpkg.com/@types/ember-data__serializer/-/ember-data__serializer-3.16.1.tgz#949b495f85294c0f825f85844d400c9642a99bff"
+  integrity sha512-IhXuh8MlhYXlDu/s3pnfVAx0eOgIfGJpeKfIwj5ZriJCfDNTBAIFTcBNHFj+EuET5LmzwUbMvrSmXlxDyLDxwQ==
+  dependencies:
+    "@types/ember-data" "*"
+
+"@types/ember-data__store@^3.16.1":
+  version "3.16.1"
+  resolved "https://registry.yarnpkg.com/@types/ember-data__store/-/ember-data__store-3.16.1.tgz#34c454a8e551099e6b4aa9de12088e4af9da2977"
+  integrity sha512-rH13Bz0HUr9hy/8SyRcVfRJ80iOaaTHec9ZEIDfL6A4IRHvZidw4MH7exitSqz1SDCgNP1qwn6qRswfrpG1drA==
+  dependencies:
+    "@types/ember-data" "*"
 
 "@types/ember-feature-flags@^4.0.5":
   version "4.0.9"

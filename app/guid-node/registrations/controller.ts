@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import Controller from '@ember/controller';
 import { assert } from '@ember/debug';
 import { action, computed } from '@ember/object';
@@ -5,7 +6,6 @@ import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
-import DS from 'ember-data';
 
 import Node from 'ember-osf-web/models/node';
 import RegistrationSchema from 'ember-osf-web/models/registration-schema';
@@ -13,7 +13,7 @@ import Analytics from 'ember-osf-web/services/analytics';
 
 export default class GuidNodeRegistrations extends Controller {
     @service analytics!: Analytics;
-    @service store!: DS.Store;
+    @service store!: Store;
 
     queryParams = ['tab'];
     tab?: string;

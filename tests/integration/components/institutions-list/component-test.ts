@@ -1,8 +1,8 @@
+import Store from '@ember-data/store';
 import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import DS from 'ember-data';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
@@ -12,7 +12,7 @@ import Node from 'ember-osf-web/models/node';
 import User from 'ember-osf-web/models/user';
 
 interface ThisTestContext extends TestContext {
-    store: DS.Store;
+    store: Store;
     manager: {
         node?: Node;
         user: User;

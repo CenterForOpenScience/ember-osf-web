@@ -1,10 +1,10 @@
+import Store from '@ember-data/store';
 import EmberArray, { A } from '@ember/array';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
-import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
 import appConfig from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
@@ -29,7 +29,7 @@ const {
 export default class RegistriesRegistrationTypeFacet extends Component {
     @service intl!: Intl;
     @service toast!: Toast;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service analytics!: Analytics;
     @service features!: Features;
 

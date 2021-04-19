@@ -1,4 +1,4 @@
-import DS from 'ember-data';
+import { AsyncBelongsTo, AsyncHasMany, attr, belongsTo, hasMany } from '@ember-data/model';
 
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 
@@ -12,8 +12,6 @@ import RegistrationProviderModel from './registration-provider';
 import RegistrationSchemaModel, { RegistrationMetadata } from './registration-schema';
 import SubjectModel from './subject';
 import UserModel from './user';
-
-const { attr, belongsTo, hasMany } = DS;
 
 export enum DraftMetadataProperties {
     Title = 'title',
@@ -42,32 +40,32 @@ export default class DraftRegistrationModel extends OsfModel {
     @attr('boolean') hasProject!: boolean;
 
     @belongsTo('abstract-node', { inverse: 'draftRegistrations', polymorphic: true })
-    branchedFrom!: DS.PromiseObject<NodeModel> & NodeModel
-        | DS.PromiseObject<DraftNodeModel> & DraftNodeModel;
+    branchedFrom!: AsyncBelongsTo<NodeModel>
+        | AsyncBelongsTo<DraftNodeModel>;
 
     @belongsTo('user', { inverse: null })
-    initiator!: DS.PromiseObject<UserModel> & UserModel;
+    initiator!: AsyncBelongsTo<UserModel>;
 
     @belongsTo('registration-schema', { inverse: null })
-    registrationSchema!: DS.PromiseObject<RegistrationSchemaModel> & RegistrationSchemaModel;
+    registrationSchema!: AsyncBelongsTo<RegistrationSchemaModel>;
 
     @belongsTo('registration-provider', { inverse: null })
-    provider!: DS.PromiseObject<RegistrationProviderModel> & RegistrationProviderModel;
+    provider!: AsyncBelongsTo<RegistrationProviderModel>;
 
     @hasMany('institution', { inverse: null, async: true })
-    affiliatedInstitutions!: DS.PromiseManyArray<InstitutionModel>;
+    affiliatedInstitutions!: AsyncHasMany<InstitutionModel>;
 
     @hasMany('subject', { inverse: null, async: true })
-    subjects!: DS.PromiseObject<SubjectModel[]> & SubjectModel[];
+    subjects!: AsyncHasMany<SubjectModel> & SubjectModel[];
 
     @belongsTo('license', { inverse: null, async: true })
-    license!: DS.PromiseObject<LicenseModel> & LicenseModel;
+    license!: AsyncBelongsTo<LicenseModel>;
 
     @hasMany('contributor')
-    contributors!: DS.PromiseManyArray<ContributorModel> & ContributorModel[];
+    contributors!: AsyncHasMany<ContributorModel> & ContributorModel[];
 
     @hasMany('contributor')
-    bibliographicContributors!: DS.PromiseManyArray<ContributorModel> & ContributorModel[];
+    bibliographicContributors!: AsyncHasMany<ContributorModel> & ContributorModel[];
 
     get currentUserIsAdmin() {
         return Array.isArray(this.currentUserPermissions) && this.currentUserPermissions.includes(Permission.Admin);

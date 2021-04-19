@@ -1,7 +1,7 @@
 /* eslint-disable max-classes-per-file */
+import Model, { AsyncBelongsTo, AsyncHasMany } from '@ember-data/model';
 import MirageModelRegistry from 'ember-cli-mirage/types/registries/model';
 import MirageSchemaRegistry from 'ember-cli-mirage/types/registries/schema';
-import DS from 'ember-data';
 import EmberDataModelRegistry from 'ember-data/types/registries/model';
 import { BelongsTo } from 'miragejs/-types';
 import { Document } from 'osf-api';
@@ -37,11 +37,11 @@ export interface Database {
 
 export type ModelInstanceAttrs<T> = {
     [P in keyof T]:
-        T[P] extends DS.Model & DS.PromiseObject<infer M> ? ModelInstance<M> :
-        T[P] extends DS.Model ? ModelInstance<T[P]> :
-        T[P] extends DS.PromiseManyArray<infer M> ? Collection<M> :
-        T[P] extends DS.Model[] & DS.PromiseManyArray<infer M> ? Collection<M> :
-        T[P] extends DS.Model[] ? Collection<T[P]> :
+        T[P] extends Model & AsyncBelongsTo<infer M> ? ModelInstance<M> :
+        T[P] extends Model ? ModelInstance<T[P]> :
+        T[P] extends AsyncHasMany<infer M> ? Collection<M> :
+        T[P] extends Model[] & AsyncHasMany<infer M> ? Collection<M> :
+        T[P] extends Model[] ? Collection<T[P]> :
         T[P] extends Date ? Date | string :
         T[P];
 };
@@ -120,11 +120,11 @@ export interface Request {
 
 export type NormalizedRequestAttrs<T> = {
     [P in keyof T]:
-        T[P] extends DS.Model & DS.PromiseObject<DS.Model> ? never :
-        T[P] extends DS.Model ? never :
-        T[P] extends DS.PromiseManyArray<DS.Model> ? never :
-        T[P] extends DS.Model[] & DS.PromiseManyArray<DS.Model> ? never :
-        T[P] extends DS.Model[] ? never :
+        T[P] extends Model & AsyncBelongsTo<Model> ? never :
+        T[P] extends Model ? never :
+        T[P] extends AsyncHasMany<Model> ? never :
+        T[P] extends Model[] & AsyncHasMany<Model> ? never :
+        T[P] extends Model[] ? never :
         T[P];
 };
 
@@ -178,11 +178,11 @@ export type resourceAction = 'index' | 'show' | 'create' | 'update' | 'delete';
 export type ModelAttrs<T> = {
     [P in keyof T]:
         P extends 'id' ? string | number :
-        T[P] extends DS.Model & DS.PromiseObject<infer M> ? ModelInstance<M> :
-        T[P] extends DS.Model ? ModelInstance<T[P]> :
-        T[P] extends DS.PromiseManyArray<infer M> ? Array<ModelInstance<M>> :
-        T[P] extends DS.Model[] & DS.PromiseManyArray<infer M> ? Array<ModelInstance<M>> :
-        T[P] extends DS.Model[] ? Array<ModelInstance<T[P]>> :
+        T[P] extends Model & AsyncBelongsTo<infer M> ? ModelInstance<M> :
+        T[P] extends Model ? ModelInstance<T[P]> :
+        T[P] extends AsyncHasMany<infer M> ? Array<ModelInstance<M>> :
+        T[P] extends Model[] & AsyncHasMany<infer M> ? Array<ModelInstance<M>> :
+        T[P] extends Model[] ? Array<ModelInstance<T[P]>> :
         T[P] extends Date ? Date | string :
         T[P];
 };

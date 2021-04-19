@@ -1,10 +1,10 @@
+import Store from '@ember-data/store';
 import { computed } from '@ember/object';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import { DS } from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import ConfirmationMixin from 'ember-onbeforeunload/mixins/confirmation';
 
@@ -26,7 +26,7 @@ interface TaskInstanceResult {
 @requireAuth()
 export default class Submit extends Route.extend(ConfirmationMixin) {
     @service currentUser!: CurrentUser;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service theme!: Theme;
     @service intl!: Intl;
 

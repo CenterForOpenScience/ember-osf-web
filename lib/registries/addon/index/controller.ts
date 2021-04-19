@@ -4,7 +4,7 @@ import { action } from '@ember/object';
 import { inject as service, Registry as Services } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
-import Store from 'ember-data/store';
+import Store from '@ember-data/store';
 
 import Analytics from 'ember-osf-web/services/analytics';
 import config from 'registries/config/environment';
