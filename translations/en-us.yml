@@ -598,7 +598,11 @@ node_card:
             withdrawn: Withdrawn
             archiving: Archiving
     tags: 'Tags:'
+    registration_template: 'Registration template:'
+    contributors: 'Contributors:'
+    description: 'Description:'
     options: Options
+    view: 'View'
 forks:
     fork: Fork
     title: Forks
@@ -1527,7 +1531,7 @@ routes:
 osf-components:
     draft-registration-card:
         initiated_by: 'Initiated by:'
-        form_type: 'Form:'
+        form_type: 'Registration template:'
         registry: 'Registry:'
         started: 'Started:'
         last_updated: 'Last updated:'

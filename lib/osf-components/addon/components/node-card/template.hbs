@@ -1,6 +1,7 @@
 <div
     data-test-node-card
     data-analytics-scope='Node Card'
+    local-class='NodeCard'
 >
     <h4 class='list-group-item-heading' local-class='NodeCard__heading' data-test-node-card-heading>
         <span class='f-w-lg'>
@@ -95,37 +96,81 @@
     </h4>
     <div data-test-node-card-body local-class='NodeCard__body'>
         {{#if @node}}
-            <div local-class='NodeCard__timestamp'>
-                {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}} {{moment-format @node.dateCreated 'YYYY-MM-DD h:mm A'}}
-            </div>
-            {{#if @node.isRegistration}}
-                {{#if this.registrationTitle}}
-                    <div local-class='NodeCard__registration-title'>
-                        {{this.registrationTitle}}
+            <dl>
+                <dt>
+                    {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}}        
+                </dt>
+                <dd>
+                    {{moment-format @node.dateCreated 'YYYY-MM-DD h:mm A'}}
+                </dd>
+                {{#if @node.isRegistration}}
+                    <div
+                        data-test-registration-template-name
+                    >
+                        <dt
+                            data-test-registration-template-label
+                        >
+                            {{t 'node_card.registration_template'}}
+                        </dt>
+                        <dd>
+                            {{@node.registrationSchema.name}}
+                        </dd>
                     </div>
                 {{/if}}
-                <div local-class='NodeCard__schema-name'>
-                    {{@node.registrationSchema.name}}
-                </div>
-            {{/if}}
-            <div local-class='NodeCard__authors'>
-                <ContributorList
-                    @model={{@node}}
-                    @shouldLinkUsers={{true}}
-                />
-            </div>
-            <div local-class='NodeCard__description'>
-                {{@node.description}}
-            </div>
-            {{#if (and this.showTags @node.tags)}}
-                <div local-class='NodeCard__tags'>
-                    <strong>{{t 'node_card.tags'}}</strong>
-                    <TagsWidget
-                        @taggable={{@node}}
-                        @inline={{true}}
+                <dt
+                    data-test-contributors-label
+                >
+                    {{t 'node_card.contributors'}}
+                </dt>
+                <dd>
+                    <ContributorList
+                        @model={{@node}}
+                        @shouldLinkUsers={{true}}
                     />
+                </dd>
+                <div
+                    data-test-description
+                    local-class='NodeCard__description'
+                >
+                    <dt
+                        data-test-description-label
+                    >
+                        {{t 'node_card.description'}}
+                    </dt>
+                    <dd>
+                        {{@node.description}}
+                    </dd>
                 </div>
-            {{/if}}
+                {{#if (and this.showTags @node.tags)}}
+                    <div
+                        data-test-tags
+                        local-class='NodeCard__tags'
+                    >
+                        <dt
+                            data-test-tags-label
+
+                        >
+                            {{t 'node_card.tags'}}
+                        </dt>
+                        <dd>
+                            <TagsWidget
+                                @taggable={{@node}}
+                                @inline={{true}}
+                            />
+                        </dd>
+                    </div>
+                {{/if}}
+            </dl>
+            <OsfLink
+                data-analytics-name='View registration'
+                data-test-view-button='{{@node.id}}'
+                @route='resolve-guid'
+                @models={{array @node.id}}
+            >
+                <Button>
+                    {{t 'node_card.view'}}
+                </Button>
+            </OsfLink>
         {{else}}
             <ContentPlaceholders as |placeholder|>
                 <placeholder.text @lines={{2}} />

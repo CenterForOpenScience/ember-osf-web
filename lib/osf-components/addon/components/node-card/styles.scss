@@ -1,3 +1,7 @@
+.NodeCard {
+    margin: 10px 0;
+}
+
 .NodeCard__heading {
     :global(.ember-content-placeholders-heading__title) {
         height: 1em;
@@ -27,6 +31,15 @@
         height: 1em;
         margin-bottom: 5px;
     }
+}
+
+.NodeCard__body dt,
+dd {
+    display: inline-block;
+}
+
+.NodeCard__body dl {
+    margin-bottom: 10px;
 }
 
 .NodeCard__dropdown {
@@ -59,10 +72,6 @@
     }
 }
 
-.NodeCard__authors {
-    font-weight: 500;
-}
-
 .NodeCard__description {
     font-weight: 300;
     text-overflow: ellipsis;
@@ -73,8 +82,4 @@
 
 .NodeCard__tags {
     margin-top: 2px;
-
-    strong {
-        font-weight: 600;
-    }
 }
