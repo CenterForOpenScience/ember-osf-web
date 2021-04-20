@@ -1531,7 +1531,7 @@ routes:
 osf-components:
     draft-registration-card:
         initiated_by: 'Initiated by:'
-        form_type: 'Form:'
+        form_type: 'Registration template:'
         registry: 'Registry:'
         started: 'Started:'
         last_updated: 'Last updated:'
