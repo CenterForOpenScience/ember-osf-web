@@ -1,6 +1,7 @@
 import Model from '@ember-data/model';
 import Store from '@ember-data/store';
 import { isEmpty } from '@ember/utils';
+import DS from 'ember-data';
 
 import {
     FileReference,

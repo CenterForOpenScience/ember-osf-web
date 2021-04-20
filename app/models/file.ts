@@ -38,7 +38,7 @@ export default class FileModel extends BaseFileItem {
     @attr('fixstring') checkout!: string;
 
     @belongsTo('file', { inverse: 'files' })
-    parentFolder!: AsyncBelongsTo<FileModel>;
+    parentFolder!: AsyncBelongsTo<FileModel> & FileModel;
 
     // Folder attributes
     @hasMany('file', { inverse: 'parentFolder' })
@@ -53,10 +53,10 @@ export default class FileModel extends BaseFileItem {
 
     // TODO: In the future apiv2 may also need to support this pointing at nodes OR registrations
     @belongsTo('abstract-node', { inverse: 'files', polymorphic: true })
-    target!: AsyncBelongsTo<NodeModel> | AsyncBelongsTo<DraftNode>;
+    target!: (AsyncBelongsTo<NodeModel> & NodeModel) | (AsyncBelongsTo<DraftNode> & DraftNode);
 
     @belongsTo('user')
-    user!: AsyncBelongsTo<UserModel>;
+    user!: AsyncBelongsTo<UserModel> & UserModel;
 
     // BaseFileItem override
     isFileModel = true;

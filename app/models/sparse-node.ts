@@ -29,13 +29,13 @@ export default class SparseNodeModel extends OsfModel {
     bibliographicContributors!: AsyncHasMany<ContributorModel>;
 
     @belongsTo('node', { inverse: 'children' })
-    parent!: AsyncBelongsTo<NodeModel>;
+    parent!: AsyncBelongsTo<NodeModel> & NodeModel;
 
     @belongsTo('node', { inverse: null })
-    root!: AsyncBelongsTo<NodeModel>;
+    root!: AsyncBelongsTo<NodeModel> & NodeModel;
 
     @belongsTo('node', { inverse: null })
-    detail!: AsyncBelongsTo<NodeModel>;
+    detail!: AsyncBelongsTo<NodeModel> & NodeModel;
 
     @computed('id', 'root')
     get isRoot() {

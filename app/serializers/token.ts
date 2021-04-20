@@ -1,3 +1,4 @@
+import DS from 'ember-data';
 import { Resource } from 'osf-api';
 
 import TokenModel from 'ember-osf-web/models/token';

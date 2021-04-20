@@ -1,3 +1,4 @@
+import DS from 'ember-data';
 import { pluralize } from 'ember-inflector';
 
 import InstitutionModel from 'ember-osf-web/models/institution';

@@ -1,6 +1,7 @@
 import Model from '@ember-data/model';
 import { action, computed } from '@ember/object';
 import Ember from 'ember';
+import { AttributesFor } from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
 

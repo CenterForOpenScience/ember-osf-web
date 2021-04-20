@@ -11,7 +11,7 @@ export default class InstitutionUserModel extends OsfModel {
     @attr('number') privateProjects!: number;
 
     @belongsTo('user', { async: true })
-    user!: AsyncBelongsTo<UserModel>;
+    user!: AsyncBelongsTo<UserModel> & UserModel;
 
     get userGuid() {
         return (this as InstitutionUserModel).belongsTo('user').id();

@@ -1,6 +1,7 @@
 import Model from '@ember-data/model';
 import { action, computed } from '@ember/object';
 import { BufferedChangeset } from 'ember-changeset/types';
+import { AttributesFor, RelationshipsFor } from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
 

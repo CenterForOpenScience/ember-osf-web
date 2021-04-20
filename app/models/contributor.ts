@@ -48,13 +48,13 @@ export default class ContributorModel extends OsfModel.extend(Validations) {
     @attr('fixstring') email!: string;
 
     @belongsTo('user', { inverse: 'contributors' })
-    users!: AsyncBelongsTo<UserModel>;
+    users!: AsyncBelongsTo<UserModel> & UserModel;
 
     @belongsTo('node', { inverse: 'contributors', polymorphic: true })
-    node!: AsyncBelongsTo<NodeModel>;
+    node!: AsyncBelongsTo<NodeModel> & NodeModel;
 
     @belongsTo('draft-registration', { inverse: 'contributors' })
-    draftRegistration!: AsyncBelongsTo<DraftRegistrationModel>;
+    draftRegistration!: AsyncBelongsTo<DraftRegistrationModel> & DraftRegistrationModel;
 
     isUnregistered: boolean = false;
 }

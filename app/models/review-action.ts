@@ -42,10 +42,10 @@ export default class ReviewActionModel extends OsfModel {
     @attr('boolean') visible!: boolean;
 
     @belongsTo('registration', { inverse: 'reviewActions', polymorphic: true })
-    target!: AsyncBelongsTo<RegistrationModel>;
+    target!: AsyncBelongsTo<RegistrationModel> & RegistrationModel;
 
     @belongsTo('user', { inverse: null })
-    creator!: AsyncBelongsTo<UserModel>;
+    creator!: AsyncBelongsTo<UserModel> & UserModel;
 
     @computed('actionTrigger')
     get triggerPastTense(): string {

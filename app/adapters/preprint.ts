@@ -1,4 +1,5 @@
 import Store from '@ember-data/store';
+import DS from 'ember-data';
 import RSVP from 'rsvp';
 
 import PreprintModel from 'ember-osf-web/models/preprint';

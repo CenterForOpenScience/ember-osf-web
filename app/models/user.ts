@@ -97,7 +97,7 @@ export default class UserModel extends OsfModel.extend(Validations) {
     @attr('array') education!: Education[];
 
     @belongsTo('region', { async: false })
-    defaultRegion!: AsyncBelongsTo<RegionModel>;
+    defaultRegion!: AsyncBelongsTo<RegionModel> & RegionModel;
 
     @belongsTo('user-setting', { inverse: 'user', async: false })
     settings?: UserSettingModel | null;

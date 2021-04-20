@@ -2,6 +2,8 @@ import Store from '@ember-data/store';
 import { assert } from '@ember/debug';
 import RSVP from 'rsvp';
 
+import DS from 'ember-data';
+
 import OsfAdapter from 'ember-osf-web/adapters/osf-adapter';
 import param from 'ember-osf-web/utils/param';
 

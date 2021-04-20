@@ -48,7 +48,7 @@ export default class InstitutionModel extends OsfModel {
     userMetrics!: AsyncHasMany<InstitutionUserModel>;
 
     @belongsTo('institution-summary-metric')
-    summaryMetrics!: AsyncBelongsTo<InstitutionSummaryMetricModel>;
+    summaryMetrics!: AsyncBelongsTo<InstitutionSummaryMetricModel> & InstitutionSummaryMetricModel;
 
     // This is for the title helper, which does its own encoding of unsafe characters
     @computed('name')

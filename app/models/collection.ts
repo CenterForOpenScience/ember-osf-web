@@ -30,7 +30,7 @@ export default class CollectionModel extends OsfModel {
     @attr('array') volumeChoices!: string[];
 
     @belongsTo('collection-provider')
-    provider!: AsyncBelongsTo<CollectionProviderModel>;
+    provider!: AsyncBelongsTo<CollectionProviderModel> & CollectionProviderModel;
 
     @hasMany('node', { inverse: null })
     linkedNodes!: AsyncHasMany<NodeModel>;

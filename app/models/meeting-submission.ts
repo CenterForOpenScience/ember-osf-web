@@ -18,7 +18,7 @@ export default class MeetingSubmissionModel extends OsfModel {
     @attr() links!: MeetingSubmissionLinks;
 
     @belongsTo('user', { inverse: null })
-    author!: AsyncBelongsTo<UserModel>;
+    author!: AsyncBelongsTo<UserModel> & UserModel;
 }
 
 declare module 'ember-data/types/registries/model' {

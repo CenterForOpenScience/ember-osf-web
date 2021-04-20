@@ -89,13 +89,13 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @attr('fixstring') draftRegistrationId?: string;
 
     @belongsTo('node', { inverse: 'registrations' })
-    registeredFrom!: AsyncBelongsTo<NodeModel>;
+    registeredFrom!: AsyncBelongsTo<NodeModel> & NodeModel;
 
     @belongsTo('user', { inverse: null })
-    registeredBy!: AsyncBelongsTo<UserModel>;
+    registeredBy!: AsyncBelongsTo<UserModel> & UserModel;
 
     @belongsTo('registration-provider', { inverse: 'registrations' })
-    provider!: AsyncBelongsTo<RegistrationProviderModel>;
+    provider!: AsyncBelongsTo<RegistrationProviderModel> & RegistrationProviderModel;
 
     @hasMany('contributor', { inverse: 'node' })
     contributors!: AsyncHasMany<ContributorModel>;
@@ -104,16 +104,16 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     comments!: AsyncHasMany<CommentModel>;
 
     @belongsTo('registration-schema', { inverse: null })
-    registrationSchema!: AsyncBelongsTo<RegistrationSchemaModel>;
+    registrationSchema!: AsyncBelongsTo<RegistrationSchemaModel> & RegistrationSchemaModel;
 
     @belongsTo('registration', { inverse: 'children' })
-    parent!: AsyncBelongsTo<RegistrationModel>;
+    parent!: AsyncBelongsTo<RegistrationModel> & RegistrationModel;
 
     @belongsTo('registration', { inverse: null })
-    root!: AsyncBelongsTo<RegistrationModel>;
+    root!: AsyncBelongsTo<RegistrationModel> & RegistrationModel;
 
     @hasMany('registration', { inverse: 'parent' })
-    children!: AsyncHasMany<RegistrationModel>;
+    children!: AsyncHasMany<RegistrationModel> & RegistrationModel;
 
     @hasMany('institution', { inverse: 'registrations' })
     affiliatedInstitutions!: AsyncHasMany<InstitutionModel> | InstitutionModel[];

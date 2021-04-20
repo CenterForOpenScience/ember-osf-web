@@ -1,8 +1,7 @@
-import DS from '@ember-data';
+import { attr, belongsTo, hasMany } from '@ember-data/model';
+import DS from 'ember-data';
 
 import OsfModel from './osf-model';
-
-const { attr, belongsTo, hasMany } = DS;
 
 export default class FooBarModel extends OsfModel {
 }

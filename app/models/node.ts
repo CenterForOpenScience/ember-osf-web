@@ -111,7 +111,7 @@ export default class NodeModel extends AbstractNodeModel.extend(Validations, Col
     bibliographicContributors!: AsyncHasMany<ContributorModel>;
 
     @belongsTo('node', { inverse: 'children' })
-    parent!: AsyncBelongsTo<NodeModel>;
+    parent!: AsyncBelongsTo<NodeModel> & NodeModel;
 
     @belongsTo('region')
     region!: RegionModel;
@@ -129,13 +129,13 @@ export default class NodeModel extends AbstractNodeModel.extend(Validations, Col
     comments!: AsyncHasMany<CommentModel>;
 
     @belongsTo('citation')
-    citation!: AsyncBelongsTo<CitationModel>;
+    citation!: AsyncBelongsTo<CitationModel> & CitationModel;
 
     @belongsTo('license', { inverse: null })
-    license!: AsyncBelongsTo<LicenseModel>;
+    license!: AsyncBelongsTo<LicenseModel> & LicenseModel;
 
     @hasMany('node', { inverse: null })
-    linkedNodes!: AsyncHasMany<NodeModel>;
+    linkedNodes!: AsyncHasMany<NodeModel> & NodeModel;
 
     @hasMany('registration', { inverse: null })
     linkedRegistrations!: AsyncHasMany<RegistrationModel>;
@@ -147,13 +147,13 @@ export default class NodeModel extends AbstractNodeModel.extend(Validations, Col
     forks!: AsyncHasMany<NodeModel>;
 
     @belongsTo('node', { inverse: 'forks', polymorphic: true })
-    forkedFrom!: AsyncBelongsTo<NodeModel> | AsyncBelongsTo<RegistrationModel>;
+    forkedFrom!: (AsyncBelongsTo<NodeModel> & NodeModel) | (AsyncBelongsTo<RegistrationModel> & RegistrationModel);
 
     @belongsTo('node', { inverse: null })
-    root!: AsyncBelongsTo<NodeModel>;
+    root!: AsyncBelongsTo<NodeModel> & NodeModel;
 
     @belongsTo('node-storage', { inverse: null })
-    storage!: AsyncBelongsTo<NodeStorageModel>;
+    storage!: AsyncBelongsTo<NodeStorageModel> & NodeStorageModel;
 
     @hasMany('node', { inverse: null })
     linkedByNodes!: AsyncHasMany<NodeModel>;

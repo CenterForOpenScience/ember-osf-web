@@ -8,7 +8,7 @@ export default class IdentifierModel extends OsfModel {
     @attr('fixstring') value!: string;
 
     @belongsTo('node', { inverse: 'identifiers', polymorphic: true })
-    referent!: AsyncBelongsTo<NodeModel>;
+    referent!: AsyncBelongsTo<NodeModel> & NodeModel;
 }
 
 declare module 'ember-data/types/registries/model' {

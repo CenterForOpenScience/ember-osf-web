@@ -6,6 +6,8 @@ import EmberDataModelRegistry from 'ember-data/types/registries/model';
 import { BelongsTo } from 'miragejs/-types';
 import { Document } from 'osf-api';
 
+import DS from 'ember-data';
+
 declare global {
     // eslint-disable-next-line no-redeclare
     const server: Server; // TODO: only in tests?
@@ -37,11 +39,11 @@ export interface Database {
 
 export type ModelInstanceAttrs<T> = {
     [P in keyof T]:
-        T[P] extends Model & AsyncBelongsTo<infer M> ? ModelInstance<M> :
-        T[P] extends Model ? ModelInstance<T[P]> :
+        T[P] extends DS.Model & AsyncBelongsTo<infer M> ? ModelInstance<M> :
+        T[P] extends DS.Model ? ModelInstance<T[P]> :
         T[P] extends AsyncHasMany<infer M> ? Collection<M> :
-        T[P] extends Model[] & AsyncHasMany<infer M> ? Collection<M> :
-        T[P] extends Model[] ? Collection<T[P]> :
+        T[P] extends DS.Model[] & AsyncHasMany<infer M> ? Collection<M> :
+        T[P] extends DS.Model[] ? Collection<T[P]> :
         T[P] extends Date ? Date | string :
         T[P];
 };
@@ -120,11 +122,11 @@ export interface Request {
 
 export type NormalizedRequestAttrs<T> = {
     [P in keyof T]:
-        T[P] extends Model & AsyncBelongsTo<Model> ? never :
-        T[P] extends Model ? never :
+        T[P] extends DS.Model & AsyncBelongsTo<DS.Model> ? never :
+        T[P] extends DS.Model ? never :
         T[P] extends AsyncHasMany<Model> ? never :
-        T[P] extends Model[] & AsyncHasMany<Model> ? never :
-        T[P] extends Model[] ? never :
+        T[P] extends DS.Model[] & AsyncHasMany<DS.Model> ? never :
+        T[P] extends DS.Model[] ? never :
         T[P];
 };
 
@@ -178,12 +180,12 @@ export type resourceAction = 'index' | 'show' | 'create' | 'update' | 'delete';
 export type ModelAttrs<T> = {
     [P in keyof T]:
         P extends 'id' ? string | number :
-        T[P] extends Model & AsyncBelongsTo<infer M> ? ModelInstance<M> :
-        T[P] extends Model ? ModelInstance<T[P]> :
+        T[P] extends DS.Model & AsyncBelongsTo<infer M> ? ModelInstance<M> :
+        T[P] extends DS.Model ? ModelInstance<T[P]> :
         T[P] extends AsyncHasMany<infer M> ? Array<ModelInstance<M>> :
-        T[P] extends Model[] & AsyncHasMany<infer M> ? Array<ModelInstance<M>> :
-        T[P] extends Model[] ? Array<ModelInstance<T[P]>> :
-        T[P] extends Date ? Date | string :
+        T[P] extends DS.Model[] & AsyncHasMany<infer M> ? Array<ModelInstance<M>> :
+        T[P] extends DS.Model[] ? Array<ModelInstance<T[P]>> :
+        T[P] extends DS.Model ? Date | string :
         T[P];
 };
 

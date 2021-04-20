@@ -21,7 +21,7 @@ export default class UserEmailModel extends OsfModel {
 
     @belongsTo('user', {
         inverse: 'emails',
-    }) user!: AsyncBelongsTo<UserModel>;
+    }) user!: AsyncBelongsTo<UserModel> & UserModel;
 
     existingEmails: Set<string> = new Set();
     invalidEmails: Set<string> = new Set();

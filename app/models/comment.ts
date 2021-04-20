@@ -25,10 +25,10 @@ export default class CommentModel extends OsfModel {
 
     // TODO dynamic belongsTo
     @belongsTo('user')
-    user!: AsyncBelongsTo<UserModel>;
+    user!: AsyncBelongsTo<UserModel> & UserModel;
 
     @belongsTo('node', { inverse: 'comments', polymorphic: true })
-    node!: AsyncBelongsTo<NodeModel>;
+    node!: AsyncBelongsTo<NodeModel> & NodeModel;
 
     @hasMany('comment', { inverse: null })
     replies!: AsyncHasMany<CommentModel>;

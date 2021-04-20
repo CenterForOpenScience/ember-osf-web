@@ -32,7 +32,7 @@ const Router = EmberRouter.extend({
 
     willTransition(oldInfo: any, newInfo: any, transition: { targetName: string }) {
         if (!this.readyBlocker || this.readyBlocker.isDone()) {
-            this.readyBlocker = this.ready.getBlocker();
+            this.readyBlocker = this.get('ready').getBlocker();
         }
 
         this._super(oldInfo, newInfo, transition);
@@ -41,8 +41,8 @@ const Router = EmberRouter.extend({
     didTransition(...args: any[]) {
         this._super(...args);
 
-        this.currentUser.checkShowTosConsentBanner();
-        this.statusMessages.updateMessages();
+        this.get('currentUser').checkShowTosConsentBanner();
+        this.get('statusMessages').updateMessages();
 
         if (this.shouldScrollTop) {
             const { application: { rootElement: rootElementSelector } } = getOwner(this);
@@ -75,7 +75,7 @@ const Router = EmberRouter.extend({
         const isInitialTransition = transition.sequence === 0;
         if (!isInitialTransition) {
             const flag = routeFlags[transition.targetName];
-            if (flag && !this.features.isEnabled(flag)) {
+            if (flag && !this.get('features').isEnabled(flag)) {
                 if (!Ember.testing) {
                     try {
                         window.location.assign(transitionTargetURL(transition));

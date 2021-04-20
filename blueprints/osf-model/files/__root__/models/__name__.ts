@@ -1,14 +1,12 @@
-import DS from '@ember-data';
+import { attr, belongsTo, hasMany } from '@ember-data/model';
 
 import OsfModel from './osf-model';
 
-const { attr, belongsTo, hasMany } = DS;
-
-export default class <%= classifiedModuleName %>Model extends OsfModel {
+export default class <%= classifiedModuleName % > Model; extends OsfModel; {
 }
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        '<%= dasherizedModuleName %>': <%= classifiedModuleName %>Model;
+        '<%= dasherizedModuleName %>': <%= classifiedModuleName;  % > Model;
     } // eslint-disable-line semi
 }

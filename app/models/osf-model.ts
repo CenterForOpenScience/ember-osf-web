@@ -7,6 +7,7 @@ import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { dasherize, underscore } from '@ember/string';
 import { Validations } from 'ember-cp-validations';
+import { RelationshipsFor } from 'ember-data';
 import AdapterRegistry from 'ember-data/types/registries/adapter';
 import ModelRegistry from 'ember-data/types/registries/model';
 import { pluralize, singularize } from 'ember-inflector';

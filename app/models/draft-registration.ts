@@ -40,17 +40,17 @@ export default class DraftRegistrationModel extends OsfModel {
     @attr('boolean') hasProject!: boolean;
 
     @belongsTo('abstract-node', { inverse: 'draftRegistrations', polymorphic: true })
-    branchedFrom!: AsyncBelongsTo<NodeModel>
-        | AsyncBelongsTo<DraftNodeModel>;
+    branchedFrom!: AsyncBelongsTo<NodeModel> & NodeModel
+        | (AsyncBelongsTo<DraftNodeModel> & DraftNodeModel);
 
     @belongsTo('user', { inverse: null })
-    initiator!: AsyncBelongsTo<UserModel>;
+    initiator!: AsyncBelongsTo<UserModel> & UserModel;
 
     @belongsTo('registration-schema', { inverse: null })
-    registrationSchema!: AsyncBelongsTo<RegistrationSchemaModel>;
+    registrationSchema!: AsyncBelongsTo<RegistrationSchemaModel> & RegistrationSchemaModel;
 
     @belongsTo('registration-provider', { inverse: null })
-    provider!: AsyncBelongsTo<RegistrationProviderModel>;
+    provider!: AsyncBelongsTo<RegistrationProviderModel> & RegistrationProviderModel;
 
     @hasMany('institution', { inverse: null, async: true })
     affiliatedInstitutions!: AsyncHasMany<InstitutionModel>;
@@ -59,7 +59,7 @@ export default class DraftRegistrationModel extends OsfModel {
     subjects!: AsyncHasMany<SubjectModel> & SubjectModel[];
 
     @belongsTo('license', { inverse: null, async: true })
-    license!: AsyncBelongsTo<LicenseModel>;
+    license!: AsyncBelongsTo<LicenseModel> & LicenseModel;
 
     @hasMany('contributor')
     contributors!: AsyncHasMany<ContributorModel> & ContributorModel[];

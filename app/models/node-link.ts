@@ -5,7 +5,7 @@ import OsfModel from './osf-model';
 
 export default class NodeLinkModel extends OsfModel {
     @belongsTo('node')
-    targetNode!: AsyncBelongsTo<NodeModel>;
+    targetNode!: AsyncBelongsTo<NodeModel> & NodeModel;
 }
 
 declare module 'ember-data/types/registries/model' {

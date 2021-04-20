@@ -2,6 +2,7 @@ import Model from '@ember-data/model';
 import JSONAPISerializer from '@ember-data/serializer/json-api';
 import Store from '@ember-data/store';
 import { camelize, underscore } from '@ember/string';
+import DS from 'ember-data';
 import ModelRegistry from 'ember-data/types/registries/model';
 import { AttributesObject } from 'jsonapi-typescript';
 

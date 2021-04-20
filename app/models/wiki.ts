@@ -16,7 +16,7 @@ export default class WikiModel extends OsfModel {
     @attr('number') size!: number;
 
     @belongsTo('node', { inverse: 'wikis' })
-    node!: AsyncBelongsTo<NodeModel>;
+    node!: AsyncBelongsTo<NodeModel> & NodeModel;
 }
 
 declare module 'ember-data/types/registries/model' {

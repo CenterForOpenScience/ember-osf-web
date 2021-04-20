@@ -26,16 +26,16 @@ export default class PreprintModel extends OsfModel {
     @attr('date') preprintDoiCreated!: Date;
 
     @belongsTo('node', { inverse: 'preprints' })
-    node!: AsyncBelongsTo<NodeModel>;
+    node!: AsyncBelongsTo<NodeModel> & NodeModel;
 
     @belongsTo('license', { inverse: null })
-    license!: AsyncBelongsTo<LicenseModel>;
+    license!: AsyncBelongsTo<LicenseModel> & LicenseModel;
 
     @belongsTo('file', { inverse: null })
-    primaryFile!: AsyncBelongsTo<FileModel>;
+    primaryFile!: AsyncBelongsTo<FileModel> & FileModel;
 
     @belongsTo('preprint-provider', { inverse: 'preprints' })
-    provider!: AsyncBelongsTo<PreprintProviderModel>;
+    provider!: AsyncBelongsTo<PreprintProviderModel> & PreprintProviderModel;
 
     @hasMany('review-action', { inverse: 'target' })
     reviewActions!: AsyncHasMany<ReviewActionModel>;

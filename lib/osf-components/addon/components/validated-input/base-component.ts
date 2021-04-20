@@ -8,6 +8,7 @@ import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import { BufferedChangeset } from 'ember-changeset/types';
 import { ResultCollection } from 'ember-cp-validations';
+import { AttributesFor, RelationshipsFor } from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 
 export enum ValidationStatus {

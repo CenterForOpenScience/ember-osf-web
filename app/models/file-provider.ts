@@ -17,10 +17,10 @@ export default class FileProviderModel extends BaseFileItem {
     @attr('fixstring') provider!: string;
 
     @belongsTo('file')
-    rootFolder!: AsyncBelongsTo<FileModel>;
+    rootFolder!: AsyncBelongsTo<FileModel> & FileModel;
 
     @belongsTo('abstract-node', { polymorphic: true })
-    target!: AsyncBelongsTo<NodeModel> | AsyncBelongsTo<DraftNodeModel>;
+    target!: (AsyncBelongsTo<NodeModel> & NodeModel) | (AsyncBelongsTo<DraftNodeModel> & DraftNodeModel);
 
     // BaseFileItem override
     isProvider = true;

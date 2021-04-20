@@ -1,4 +1,5 @@
 import Model from '@ember-data/model';
+import { AttributesFor } from 'ember-data';
 import { layout } from 'ember-osf-web/decorators/component';
 
 import BaseValidatedComponent from '../base-component';

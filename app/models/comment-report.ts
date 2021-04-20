@@ -24,7 +24,7 @@ export default class CommentReportModel extends OsfModel.extend(Validations) {
     @attr('fixstring') category!: string;
     @attr('fixstring') message!: string;
 
-    @belongsTo('comment') comment!: AsyncBelongsTo<CommentModel>;
+    @belongsTo('comment') comment!: AsyncBelongsTo<CommentModel> & CommentModel;
 }
 
 declare module 'ember-data/types/registries/model' {
