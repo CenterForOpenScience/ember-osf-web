@@ -1528,6 +1528,7 @@ osf-components:
     draft-registration-card:
         initiated_by: 'Initiated by:'
         form_type: 'Form:'
+        registry: 'Registry:'
         started: 'Started:'
         last_updated: 'Last updated:'
         review: Review

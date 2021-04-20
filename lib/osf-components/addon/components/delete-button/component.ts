@@ -32,6 +32,7 @@ export default class DeleteButton extends Component {
     hardConfirm: boolean = defaultTo(this.hardConfirm, false);
     disabled: boolean = defaultTo(this.disabled, false);
     shouldStopPropagation = false;
+    icon: string = 'times';
     buttonLabel: string = defaultTo(
         this.buttonLabel,
         this.intl.t('osf-components.delete-button.buttonLabel'),
