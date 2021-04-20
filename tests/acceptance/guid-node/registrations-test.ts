@@ -211,8 +211,6 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.dom('[data-test-node-card-body]').includesText(registrationSchemaName);
 
-        assert.dom('[data-test-node-card-body]').includesText(registrationTitle);
-
         await untrackedClick('[data-test-registrations-container] a[href="#drafts"]');
 
         assert.dom('[data-test-registrations-pane]').isNotVisible();
