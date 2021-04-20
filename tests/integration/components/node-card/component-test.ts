@@ -22,7 +22,10 @@ module('Integration | Component | node-card', hooks => {
         const registration = server.create('registration', {
             tags: ['a', 'b', 'c'],
             description: 'Through the night',
-        }, 'withContributors');
+        });
+        server.create('contributor', { node: registration, index: 0, bibliographic: true });
+        server.create('contributor', { node: registration, index: 1, bibliographic: true });
+        server.create('contributor', { node: registration, index: 2, bibliographic: true });
         const registrationModel = await this.store.findRecord(
             'registration', registration.id, { include: ['bibliographic_contributors'] },
         );
