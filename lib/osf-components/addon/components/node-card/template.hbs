@@ -96,18 +96,14 @@
     </h4>
     <div data-test-node-card-body local-class='NodeCard__body'>
         {{#if @node}}
-            <div local-class='NodeCard__timestamp'>
-                {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}} {{moment-format @node.dateCreated 'YYYY-MM-DD h:mm A'}}
-            </div>
             <dl>
+                <dt>
+                    {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}}        
+                </dt>
+                <dd>
+                    {{moment-format @node.dateCreated 'YYYY-MM-DD h:mm A'}}
+                </dd>
                 {{#if @node.isRegistration}}
-                    {{#if this.registrationTitle}}
-                        <div
-                            data-test-registration-title 
-                        >
-                            {{this.registrationTitle}}
-                        </div>
-                    {{/if}}
                     <div
                         data-test-registration-template-name
                     >
@@ -121,21 +117,17 @@
                         </dd>
                     </div>
                 {{/if}}
-                <div data-test-contributors
-                    local-class='NodeCard__authors'
+                <dt
+                    data-test-contributors-label
                 >
-                    <dt
-                        data-test-contributors-label
-                    >
-                        {{t 'node_card.contributors'}}
-                    </dt>
-                    <dd>
-                        <ContributorList
-                            @model={{@node}}
-                            @shouldLinkUsers={{true}}
-                        />
-                    </dd>
-                </div>
+                    {{t 'node_card.contributors'}}
+                </dt>
+                <dd>
+                    <ContributorList
+                        @model={{@node}}
+                        @shouldLinkUsers={{true}}
+                    />
+                </dd>
                 <div
                     data-test-description
                     local-class='NodeCard__description'
