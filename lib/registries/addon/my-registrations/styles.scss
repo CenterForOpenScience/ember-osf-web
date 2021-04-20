@@ -7,14 +7,8 @@
         margin-bottom: 20px;
     }
 
-    :global(.media-desktop) {
-        margin-top: -38px;
-    }
-
-    :global(.media-tablet) {
-        margin-top: -38px;
-    }
-
+    :global(.media-desktop),
+    :global(.media-tablet),
     :global(.media-mobile) {
         margin-top: -38px;
     }
