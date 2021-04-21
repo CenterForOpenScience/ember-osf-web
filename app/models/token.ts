@@ -1,4 +1,4 @@
-import { hasMany, attr } from '@ember-data/model';
+import { attr, hasMany } from '@ember-data/model';
 import { buildValidations, validator } from 'ember-cp-validations';
 
 import OsfModel from './osf-model';

@@ -1,5 +1,6 @@
-import { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
+import { attr, belongsTo } from '@ember-data/model';
 import { buildValidations, validator } from 'ember-cp-validations';
+import DS from 'ember-data';
 
 import CommentModel from './comment';
 import OsfModel from './osf-model';
@@ -24,7 +25,7 @@ export default class CommentReportModel extends OsfModel.extend(Validations) {
     @attr('fixstring') category!: string;
     @attr('fixstring') message!: string;
 
-    @belongsTo('comment') comment!: AsyncBelongsTo<CommentModel> & CommentModel;
+    @belongsTo('comment') comment!: DS.PromiseObject<CommentModel> & CommentModel;
 }
 
 declare module 'ember-data/types/registries/model' {

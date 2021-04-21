@@ -1,4 +1,5 @@
-import { AsyncBelongsTo, AsyncHasMany, attr, belongsTo, hasMany } from '@ember-data/model';
+import { attr, belongsTo, hasMany } from '@ember-data/model';
+import DS from 'ember-data';
 
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
@@ -20,22 +21,22 @@ export default class SparseNodeModel extends OsfModel {
     @attr('boolean') public!: boolean;
 
     @hasMany('node', { inverse: 'parent' })
-    children!: AsyncHasMany<NodeModel>;
+    children!: DS.PromiseManyArray<NodeModel>;
 
     @hasMany('contributor', { inverse: 'node' })
-    contributors!: AsyncHasMany<ContributorModel>;
+    contributors!: DS.PromiseManyArray<ContributorModel>;
 
     @hasMany('contributor', { inverse: null })
-    bibliographicContributors!: AsyncHasMany<ContributorModel>;
+    bibliographicContributors!: DS.PromiseManyArray<ContributorModel>;
 
     @belongsTo('node', { inverse: 'children' })
-    parent!: AsyncBelongsTo<NodeModel> & NodeModel;
+    parent!: DS.PromiseObject<NodeModel> & NodeModel;
 
     @belongsTo('node', { inverse: null })
-    root!: AsyncBelongsTo<NodeModel> & NodeModel;
+    root!: DS.PromiseObject<NodeModel> & NodeModel;
 
     @belongsTo('node', { inverse: null })
-    detail!: AsyncBelongsTo<NodeModel> & NodeModel;
+    detail!: DS.PromiseObject<NodeModel> & NodeModel;
 
     @computed('id', 'root')
     get isRoot() {

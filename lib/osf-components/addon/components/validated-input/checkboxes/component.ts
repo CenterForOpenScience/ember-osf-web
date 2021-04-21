@@ -1,5 +1,6 @@
 import Model from '@ember-data/model';
 import { action } from '@ember/object';
+import { RelationshipsFor } from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
 

@@ -1,4 +1,5 @@
-import { AsyncHasMany, attr, belongsTo, hasMany } from '@ember-data/model';
+import { attr, belongsTo, hasMany } from '@ember-data/model';
+import DS from 'ember-data';
 
 import OsfModel from './osf-model';
 
@@ -10,7 +11,7 @@ export default class SubjectModel extends OsfModel {
     parent?: SubjectModel;
 
     @hasMany('subject', { inverse: 'parent' })
-    children!: AsyncHasMany<SubjectModel>;
+    children!: DS.PromiseManyArray<SubjectModel>;
 }
 
 declare module 'ember-data/types/registries/model' {

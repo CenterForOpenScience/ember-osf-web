@@ -1,11 +1,12 @@
-import { AsyncBelongsTo, belongsTo } from '@ember-data/model';
+import { belongsTo } from '@ember-data/model';
+import DS from 'ember-data';
 
 import CollectionModel from './collection';
 import ProviderModel from './provider';
 
 export default class CollectionProviderModel extends ProviderModel {
     @belongsTo('collection')
-    primaryCollection!: AsyncBelongsTo<CollectionModel> & CollectionModel;
+    primaryCollection!: DS.PromiseObject<CollectionModel> & CollectionModel;
 }
 
 declare module 'ember-data/types/registries/model' {

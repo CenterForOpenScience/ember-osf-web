@@ -1,4 +1,5 @@
-import { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
+import { attr, belongsTo } from '@ember-data/model';
+import DS from 'ember-data';
 
 import NodeModel from './node';
 import OsfModel from './osf-model';
@@ -16,7 +17,7 @@ export default class WikiModel extends OsfModel {
     @attr('number') size!: number;
 
     @belongsTo('node', { inverse: 'wikis' })
-    node!: AsyncBelongsTo<NodeModel> & NodeModel;
+    node!: DS.PromiseObject<NodeModel> & NodeModel;
 }
 
 declare module 'ember-data/types/registries/model' {

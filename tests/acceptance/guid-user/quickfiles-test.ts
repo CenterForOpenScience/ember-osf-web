@@ -149,8 +149,8 @@ module('Acceptance | Guid User Quickfiles', hooks => {
                 'node',
                 {
                     title,
-                    lastLogged: '2017-10-19T12:05:10.571Z',
-                    dateModified: '2017-10-19T12:05:10.571Z',
+                    lastLogged: new Date('2017-10-19T12:05:10.571Z'),
+                    dateModified: new Date('2017-10-19T12:05:10.571Z'),
                     public: true,
                 },
                 'withStorage',
@@ -191,8 +191,8 @@ module('Acceptance | Guid User Quickfiles', hooks => {
                 'node',
                 {
                     title,
-                    lastLogged: '2017-10-19T12:05:10.571Z',
-                    dateModified: '2017-10-19T12:05:10.571Z',
+                    lastLogged: new Date('2017-10-19T12:05:10.571Z'),
+                    dateModified: new Date('2017-10-19T12:05:10.571Z'),
                     public: false,
                 },
                 'withStorage',
@@ -239,7 +239,11 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             const currentUser = server.create('user', 'loggedIn', 'withFiles');
             const node = server.create(
                 'node',
-                { title, lastLogged: '2017-10-19T12:05:10.571Z', dateModified: '2017-10-19T12:05:10.571Z' },
+                {
+                    title,
+                    lastLogged: new Date('2017-10-19T12:05:10.571Z'),
+                    dateModified: new Date('2017-10-19T12:05:10.571Z'),
+                },
                 'withStorage',
             );
             server.create(
@@ -276,7 +280,11 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             const currentUser = server.create('user', 'loggedIn', 'withFiles');
             const node = server.create(
                 'node',
-                { title, lastLogged: '2017-10-19T12:05:10.571Z', dateModified: '2017-10-19T12:05:10.571Z' },
+                {
+                    title,
+                    lastLogged: new Date('2017-10-19T12:05:10.571Z'),
+                    dateModified: new Date('2017-10-19T12:05:10.571Z'),
+                },
                 'withStorage',
             );
             server.create(
@@ -321,12 +329,12 @@ module('Acceptance | Guid User Quickfiles', hooks => {
             const currentUser = server.create('user', 'loggedIn');
             const file = server.create('file', {
                 name: 'Xyzzyplugh.gif',
-                dateModified: '2016-08-07T16:43:18.319Z',
+                dateModified: new Date('2016-08-07T16:43:18.319Z'),
                 guid: 'xyzzy',
                 currentVersion: 7,
                 user: currentUser,
             });
-            const date = moment('2016-08-07T16:43:18.319Z').format('YYYY-MM-DD h:mm A');
+            const date = moment(new Date('2016-08-07T16:43:18.319Z')).format('YYYY-MM-DD h:mm A');
 
             await visit(`/--user/${currentUser.id}/quickfiles`);
 
@@ -618,7 +626,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
                 'file',
                 {
                     name: 'aa.gif',
-                    dateModified: '2015-08-07T16:43:18.319Z',
+                    dateModified: new Date('2015-08-07T16:43:18.319Z'),
                     user: currentUser,
                 },
             );
@@ -626,7 +634,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
                 'file',
                 {
                     name: 'az.gif',
-                    dateModified: '2017-08-07T16:43:18.319Z',
+                    dateModified: new Date('2017-08-07T16:43:18.319Z'),
                     user: currentUser,
                 },
             );
@@ -634,7 +642,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
                 'file',
                 {
                     name: 'za.gif',
-                    dateModified: '2014-08-07T16:43:18.319Z',
+                    dateModified: new Date('2014-08-07T16:43:18.319Z'),
                     user: currentUser,
                 },
             );
@@ -642,7 +650,7 @@ module('Acceptance | Guid User Quickfiles', hooks => {
                 'file',
                 {
                     name: 'zz.gif',
-                    dateModified: '2016-08-07T16:43:18.319Z',
+                    dateModified: new Date('2016-08-07T16:43:18.319Z'),
                     user: currentUser,
                 },
             );

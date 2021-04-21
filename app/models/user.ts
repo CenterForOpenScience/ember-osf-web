@@ -1,6 +1,7 @@
-import { AsyncBelongsTo, AsyncHasMany, attr, belongsTo, hasMany } from '@ember-data/model';
+import { attr, belongsTo, hasMany } from '@ember-data/model';
 import { alias } from '@ember/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
+import DS from 'ember-data';
 import config from 'ember-get-config';
 import { Link } from 'jsonapi-typescript';
 
@@ -97,34 +98,34 @@ export default class UserModel extends OsfModel.extend(Validations) {
     @attr('array') education!: Education[];
 
     @belongsTo('region', { async: false })
-    defaultRegion!: AsyncBelongsTo<RegionModel> & RegionModel;
+    defaultRegion!: DS.PromiseObject<RegionModel> & RegionModel;
 
     @belongsTo('user-setting', { inverse: 'user', async: false })
     settings?: UserSettingModel | null;
 
     @hasMany('node')
-    nodes!: AsyncHasMany<NodeModel>;
+    nodes!: DS.PromiseManyArray<NodeModel>;
 
     @hasMany('contributor')
-    contributors!: AsyncHasMany<ContributorModel>;
+    contributors!: DS.PromiseManyArray<ContributorModel>;
 
     @hasMany('registration')
-    registrations!: AsyncHasMany<RegistrationModel>;
+    registrations!: DS.PromiseManyArray<RegistrationModel>;
 
     @hasMany('draft-registration')
-    draftRegistrations!: AsyncHasMany<DraftRegistrationModel>;
+    draftRegistrations!: DS.PromiseManyArray<DraftRegistrationModel>;
 
     @hasMany('file')
-    quickfiles!: AsyncHasMany<FileModel>;
+    quickfiles!: DS.PromiseManyArray<FileModel>;
 
     @hasMany('institution', { inverse: 'users' })
-    institutions!: AsyncHasMany<InstitutionModel>;
+    institutions!: DS.PromiseManyArray<InstitutionModel>;
 
     @hasMany('user-email', { inverse: 'user' })
-    emails!: AsyncHasMany<UserEmailModel>;
+    emails!: DS.PromiseManyArray<UserEmailModel>;
 
     @hasMany('sparse-node', { inverse: null })
-    sparseNodes!: AsyncHasMany<SparseNodeModel>;
+    sparseNodes!: DS.PromiseManyArray<SparseNodeModel>;
 
     // Calculated fields
     @alias('links.html') profileURL!: string;

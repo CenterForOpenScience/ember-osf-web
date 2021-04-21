@@ -1,7 +1,8 @@
-import { AsyncHasMany, attr, hasMany } from '@ember-data/model';
+import { attr, hasMany } from '@ember-data/model';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 
 import { RelatedLinkMeta } from 'osf-api';
@@ -26,7 +27,7 @@ export default class PreprintProviderModel extends ProviderModel {
 
     // Relationships
     @hasMany('preprint', { inverse: 'provider' })
-    preprints!: AsyncHasMany<PreprintModel>;
+    preprints!: DS.PromiseManyArray<PreprintModel>;
 
     @alias('links.relationships.preprints.links.related.meta')
     reviewableStatusCounts!: RelatedLinkMeta;

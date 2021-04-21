@@ -1,4 +1,5 @@
-import { AsyncHasMany, attr, hasMany } from '@ember-data/model';
+import { attr, hasMany } from '@ember-data/model';
+import DS from 'ember-data';
 
 import MeetingSubmissionModel from 'ember-osf-web/models/meeting-submission';
 import OsfModel from './osf-model';
@@ -32,7 +33,7 @@ export default class MeetingModel extends OsfModel {
     @attr('boolean') active!: boolean;
     @attr('fixstring') logoUrl!: string;
     @attr('object') fieldNames!: FieldNames;
-    @hasMany('meeting-submission') submissions!: AsyncHasMany<MeetingSubmissionModel>;
+    @hasMany('meeting-submission') submissions!: DS.PromiseManyArray<MeetingSubmissionModel>;
 }
 
 declare module 'ember-data/types/registries/model' {

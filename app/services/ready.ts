@@ -1,5 +1,5 @@
 import { A } from '@ember/array';
-import { get, set } from '@ember/object';
+import { set } from '@ember/object';
 import Evented from '@ember/object/evented';
 import Service from '@ember/service';
 import { waitFor } from '@ember/test-waiters';

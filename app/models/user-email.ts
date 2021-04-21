@@ -1,5 +1,6 @@
-import { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
+import { attr, belongsTo } from '@ember-data/model';
 import { alias } from '@ember/object/computed';
+import DS from 'ember-data';
 import { Link } from 'jsonapi-typescript';
 
 import OsfModel, { OsfLinks } from './osf-model';
@@ -21,7 +22,7 @@ export default class UserEmailModel extends OsfModel {
 
     @belongsTo('user', {
         inverse: 'emails',
-    }) user!: AsyncBelongsTo<UserModel> & UserModel;
+    }) user!: DS.PromiseObject<UserModel> & UserModel;
 
     existingEmails: Set<string> = new Set();
     invalidEmails: Set<string> = new Set();

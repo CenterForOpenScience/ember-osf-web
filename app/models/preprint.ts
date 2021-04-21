@@ -1,6 +1,7 @@
-import { AsyncBelongsTo, AsyncHasMany, attr, belongsTo, hasMany, SyncHasMany } from '@ember-data/model';
+import { attr, belongsTo, hasMany, SyncHasMany } from '@ember-data/model';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
+import DS from 'ember-data';
 
 import ContributorModel from './contributor';
 import FileModel from './file';
@@ -26,22 +27,22 @@ export default class PreprintModel extends OsfModel {
     @attr('date') preprintDoiCreated!: Date;
 
     @belongsTo('node', { inverse: 'preprints' })
-    node!: AsyncBelongsTo<NodeModel> & NodeModel;
+    node!: DS.PromiseObject<NodeModel> & NodeModel;
 
     @belongsTo('license', { inverse: null })
-    license!: AsyncBelongsTo<LicenseModel> & LicenseModel;
+    license!: DS.PromiseObject<LicenseModel> & LicenseModel;
 
     @belongsTo('file', { inverse: null })
-    primaryFile!: AsyncBelongsTo<FileModel> & FileModel;
+    primaryFile!: DS.PromiseObject<FileModel> & FileModel;
 
     @belongsTo('preprint-provider', { inverse: 'preprints' })
-    provider!: AsyncBelongsTo<PreprintProviderModel> & PreprintProviderModel;
+    provider!: DS.PromiseObject<PreprintProviderModel> & PreprintProviderModel;
 
     @hasMany('review-action', { inverse: 'target' })
-    reviewActions!: AsyncHasMany<ReviewActionModel>;
+    reviewActions!: DS.PromiseManyArray<ReviewActionModel>;
 
     @hasMany('contributor')
-    contributors!: AsyncHasMany<ContributorModel>;
+    contributors!: DS.PromiseManyArray<ContributorModel>;
 
     @hasMany('subject', { inverse: null, async: false })
     subjects!: SyncHasMany<SubjectModel>;

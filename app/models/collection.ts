@@ -1,5 +1,6 @@
-import { AsyncBelongsTo, AsyncHasMany, attr, belongsTo, hasMany } from '@ember-data/model';
+import { attr, belongsTo, hasMany } from '@ember-data/model';
 import { computed } from '@ember/object';
+import DS from 'ember-data';
 
 import CollectedMetadatumModel, { choiceFields } from './collected-metadatum';
 import CollectionProviderModel from './collection-provider';
@@ -30,16 +31,16 @@ export default class CollectionModel extends OsfModel {
     @attr('array') volumeChoices!: string[];
 
     @belongsTo('collection-provider')
-    provider!: AsyncBelongsTo<CollectionProviderModel> & CollectionProviderModel;
+    provider!: DS.PromiseObject<CollectionProviderModel> & CollectionProviderModel;
 
     @hasMany('node', { inverse: null })
-    linkedNodes!: AsyncHasMany<NodeModel>;
+    linkedNodes!: DS.PromiseManyArray<NodeModel>;
 
     @hasMany('registration', { inverse: null })
-    linkedRegistrations!: AsyncHasMany<RegistrationModel>;
+    linkedRegistrations!: DS.PromiseManyArray<RegistrationModel>;
 
     @hasMany('collected-metadatum', { inverse: 'collection' })
-    collectedMetadata!: AsyncHasMany<CollectedMetadatumModel>;
+    collectedMetadata!: DS.PromiseManyArray<CollectedMetadatumModel>;
 
     @computed(`{${choicesFields.join()}}.length`)
     get displayChoicesFields() {

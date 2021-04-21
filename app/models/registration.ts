@@ -1,5 +1,6 @@
-import { AsyncBelongsTo, AsyncHasMany, attr, belongsTo, hasMany } from '@ember-data/model';
+import { attr, belongsTo, hasMany } from '@ember-data/model';
 import { buildValidations, validator } from 'ember-cp-validations';
+import DS from 'ember-data';
 
 import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
 import ReviewActionModel, { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
@@ -89,37 +90,37 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @attr('fixstring') draftRegistrationId?: string;
 
     @belongsTo('node', { inverse: 'registrations' })
-    registeredFrom!: AsyncBelongsTo<NodeModel> & NodeModel;
+    registeredFrom!: DS.PromiseObject<NodeModel> & NodeModel;
 
     @belongsTo('user', { inverse: null })
-    registeredBy!: AsyncBelongsTo<UserModel> & UserModel;
+    registeredBy!: DS.PromiseObject<UserModel> & UserModel;
 
     @belongsTo('registration-provider', { inverse: 'registrations' })
-    provider!: AsyncBelongsTo<RegistrationProviderModel> & RegistrationProviderModel;
+    provider!: DS.PromiseObject<RegistrationProviderModel> & RegistrationProviderModel;
 
     @hasMany('contributor', { inverse: 'node' })
-    contributors!: AsyncHasMany<ContributorModel>;
+    contributors!: DS.PromiseManyArray<ContributorModel> & ContributorModel[];
 
     @hasMany('comment', { inverse: 'node' })
-    comments!: AsyncHasMany<CommentModel>;
+    comments!: DS.PromiseManyArray<CommentModel>;
 
     @belongsTo('registration-schema', { inverse: null })
-    registrationSchema!: AsyncBelongsTo<RegistrationSchemaModel> & RegistrationSchemaModel;
+    registrationSchema!: DS.PromiseObject<RegistrationSchemaModel> & RegistrationSchemaModel;
 
     @belongsTo('registration', { inverse: 'children' })
-    parent!: AsyncBelongsTo<RegistrationModel> & RegistrationModel;
+    parent!: DS.PromiseObject<RegistrationModel> & RegistrationModel;
 
     @belongsTo('registration', { inverse: null })
-    root!: AsyncBelongsTo<RegistrationModel> & RegistrationModel;
+    root!: DS.PromiseObject<RegistrationModel> & RegistrationModel;
 
     @hasMany('registration', { inverse: 'parent' })
-    children!: AsyncHasMany<RegistrationModel> & RegistrationModel;
+    children!: DS.PromiseManyArray<RegistrationModel>;
 
     @hasMany('institution', { inverse: 'registrations' })
-    affiliatedInstitutions!: AsyncHasMany<InstitutionModel> | InstitutionModel[];
+    affiliatedInstitutions!: DS.PromiseManyArray<InstitutionModel> | InstitutionModel[];
 
     @hasMany('review-action', { inverse: 'target' })
-    reviewActions!: AsyncHasMany<ReviewActionModel> | ReviewActionModel[];
+    reviewActions!: DS.PromiseManyArray<ReviewActionModel> | ReviewActionModel[];
 
     // Write-only relationships
     @belongsTo('draft-registration', { inverse: null })

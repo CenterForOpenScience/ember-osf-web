@@ -1,4 +1,5 @@
-import { AsyncHasMany, attr, hasMany, SyncHasMany } from '@ember-data/model';
+import { attr, hasMany, SyncHasMany } from '@ember-data/model';
+import DS from 'ember-data';
 
 import LicenseModel from './license';
 import OsfModel from './osf-model';
@@ -58,8 +59,8 @@ export default abstract class ProviderModel extends OsfModel {
     subjects!: SyncHasMany<SubjectModel>;
 
     @hasMany('subject')
-    highlightedSubjects!: AsyncHasMany<SubjectModel>;
+    highlightedSubjects!: DS.PromiseManyArray<SubjectModel>;
 
     @hasMany('license', { inverse: null })
-    licensesAcceptable!: AsyncHasMany<LicenseModel>;
+    licensesAcceptable!: DS.PromiseManyArray<LicenseModel>;
 }

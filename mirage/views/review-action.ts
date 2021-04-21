@@ -6,7 +6,6 @@ export function createReviewAction(this: HandlerContext, schema: Schema, request
     const attrs = this.normalizedRequestAttrs('review-action') as Partial<NormalizedRequestAttrs<ReviewActionModel>>;
     const registrationId = request.params.parentID;
     const userId = schema.roots.first().currentUserId;
-    const now = (new Date()).toISOString();
     let reviewAction;
     if (userId && registrationId) {
         const currentUser = schema.users.find(userId);
@@ -15,8 +14,8 @@ export function createReviewAction(this: HandlerContext, schema: Schema, request
         reviewAction = schema.reviewActions.create({
             creator: currentUser,
             target: registration,
-            dateCreated: now,
-            dateModified: now,
+            dateCreated: new Date(),
+            dateModified: new Date(),
             ...attrs,
         });
         switch (trigger) {

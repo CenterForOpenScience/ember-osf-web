@@ -1,4 +1,3 @@
-import { AsyncHasMany } from '@ember-data/model';
 import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
@@ -9,6 +8,7 @@ import { camelize } from '@ember/string';
 import { waitFor } from '@ember/test-waiters';
 import { enqueueTask, restartableTask, task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
+import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -41,7 +41,7 @@ export interface FilesManager {
     sortItems: (sort: string) => void;
 }
 
-interface PromiseManyArrayWithMeta extends AsyncHasMany<File> {
+interface PromiseManyArrayWithMeta extends DS.PromiseManyArray<File> {
     meta: PaginatedMeta;
 }
 

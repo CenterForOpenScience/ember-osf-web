@@ -1,4 +1,5 @@
-import { AsyncHasMany, hasMany } from '@ember-data/model';
+import { hasMany } from '@ember-data/model';
+import DS from 'ember-data';
 
 import BaseFileItem from 'ember-osf-web/models/base-file-item';
 import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
@@ -6,10 +7,10 @@ import FileProviderModel from 'ember-osf-web/models/file-provider';
 
 export default class AbstractNodeModel extends BaseFileItem {
     @hasMany('file-provider', { inverse: 'target' })
-    files!: AsyncHasMany<FileProviderModel> & FileProviderModel[];
+    files!: DS.PromiseManyArray<FileProviderModel> & FileProviderModel[];
 
     @hasMany('draft-registration', { inverse: 'branchedFrom' })
-    draftRegistrations!: AsyncHasMany<DraftRegistrationModel> & DraftRegistrationModel[];
+    draftRegistrations!: DS.PromiseManyArray<DraftRegistrationModel> & DraftRegistrationModel[];
 }
 
 declare module 'ember-data/types/registries/model' {

@@ -1,4 +1,6 @@
-import { AsyncBelongsTo, AsyncHasMany, attr, belongsTo, hasMany } from '@ember-data/model';
+import { attr, belongsTo, hasMany } from '@ember-data/model';
+import DS from 'ember-data';
+
 import { computed } from '@ember/object';
 import { alias, bool, equal, not } from '@ember/object/computed';
 import { htmlSafe } from '@ember/string';
@@ -105,70 +107,70 @@ export default class NodeModel extends AbstractNodeModel.extend(Validations, Col
     @attr('boolean') wikiEnabled!: boolean;
 
     @hasMany('contributor', { inverse: 'node' })
-    contributors!: AsyncHasMany<ContributorModel>;
+    contributors!: DS.PromiseManyArray<ContributorModel> & ContributorModel[];
 
     @hasMany('contributor', { inverse: null })
-    bibliographicContributors!: AsyncHasMany<ContributorModel>;
+    bibliographicContributors!: DS.PromiseManyArray<ContributorModel>;
 
     @belongsTo('node', { inverse: 'children' })
-    parent!: AsyncBelongsTo<NodeModel> & NodeModel;
+    parent!: DS.PromiseObject<NodeModel> & NodeModel;
 
     @belongsTo('region')
     region!: RegionModel;
 
     @hasMany('node', { inverse: 'parent' })
-    children!: AsyncHasMany<NodeModel>;
+    children!: DS.PromiseManyArray<NodeModel>;
 
     @hasMany('preprint', { inverse: 'node' })
-    preprints!: AsyncHasMany<PreprintModel>;
+    preprints!: DS.PromiseManyArray<PreprintModel>;
 
     @hasMany('institution', { inverse: 'nodes' })
-    affiliatedInstitutions!: AsyncHasMany<InstitutionModel> | InstitutionModel[];
+    affiliatedInstitutions!: DS.PromiseManyArray<InstitutionModel> | InstitutionModel[];
 
     @hasMany('comment', { inverse: 'node' })
-    comments!: AsyncHasMany<CommentModel>;
+    comments!: DS.PromiseManyArray<CommentModel>;
 
     @belongsTo('citation')
-    citation!: AsyncBelongsTo<CitationModel> & CitationModel;
+    citation!: DS.PromiseObject<CitationModel> & CitationModel;
 
     @belongsTo('license', { inverse: null })
-    license!: AsyncBelongsTo<LicenseModel> & LicenseModel;
+    license!: DS.PromiseObject<LicenseModel> & LicenseModel;
 
     @hasMany('node', { inverse: null })
-    linkedNodes!: AsyncHasMany<NodeModel> & NodeModel;
+    linkedNodes!: DS.PromiseManyArray<NodeModel> & NodeModel[];
 
     @hasMany('registration', { inverse: null })
-    linkedRegistrations!: AsyncHasMany<RegistrationModel>;
+    linkedRegistrations!: DS.PromiseManyArray<RegistrationModel>;
 
     @hasMany('registration', { inverse: 'registeredFrom' })
-    registrations!: AsyncHasMany<RegistrationModel>;
+    registrations!: DS.PromiseManyArray<RegistrationModel>;
 
     @hasMany('node', { inverse: 'forkedFrom' })
-    forks!: AsyncHasMany<NodeModel>;
+    forks!: DS.PromiseManyArray<NodeModel>;
 
     @belongsTo('node', { inverse: 'forks', polymorphic: true })
-    forkedFrom!: (AsyncBelongsTo<NodeModel> & NodeModel) | (AsyncBelongsTo<RegistrationModel> & RegistrationModel);
+    forkedFrom!: (DS.PromiseObject<NodeModel> & NodeModel) | (DS.PromiseObject<RegistrationModel> & RegistrationModel);
 
     @belongsTo('node', { inverse: null })
-    root!: AsyncBelongsTo<NodeModel> & NodeModel;
+    root!: DS.PromiseObject<NodeModel> & NodeModel;
 
     @belongsTo('node-storage', { inverse: null })
-    storage!: AsyncBelongsTo<NodeStorageModel> & NodeStorageModel;
+    storage!: DS.PromiseObject<NodeStorageModel> & NodeStorageModel;
 
     @hasMany('node', { inverse: null })
-    linkedByNodes!: AsyncHasMany<NodeModel>;
+    linkedByNodes!: DS.PromiseManyArray<NodeModel>;
 
     @hasMany('node', { inverse: null })
-    linkedByRegistrations!: AsyncHasMany<RegistrationModel>;
+    linkedByRegistrations!: DS.PromiseManyArray<RegistrationModel>;
 
     @hasMany('wiki', { inverse: 'node' })
-    wikis!: AsyncHasMany<WikiModel>;
+    wikis!: DS.PromiseManyArray<WikiModel>;
 
     @hasMany('log', { inverse: 'originalNode' })
-    logs!: AsyncHasMany<LogModel>;
+    logs!: DS.PromiseManyArray<LogModel>;
 
     @hasMany('identifier', { inverse: 'referent' })
-    identifiers!: AsyncHasMany<IdentifierModel>;
+    identifiers!: DS.PromiseManyArray<IdentifierModel>;
 
     @hasMany('subject', { inverse: null, async: false })
     subjects!: SubjectModel[];
