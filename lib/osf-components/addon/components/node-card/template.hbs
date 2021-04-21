@@ -97,16 +97,16 @@
     <div data-test-node-card-body local-class='NodeCard__body'>
         {{#if @node}}
             <dl>
-                <dt>
-                    {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}}        
-                </dt>
-                <dd>
-                    {{moment-format @node.dateCreated 'YYYY-MM-DD h:mm A'}}
-                </dd>
+                <div data-test-registration-timestamp>
+                    <dt>
+                        {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}}        
+                    </dt>
+                    <dd>
+                        {{moment-format @node.dateCreated 'YYYY-MM-DD h:mm A'}}
+                    </dd>
+                </div>
                 {{#if @node.isRegistration}}
-                    <div
-                        data-test-registration-template-name
-                    >
+                    <div data-test-registration-template-name>
                         <dt
                             data-test-registration-template-label
                         >
@@ -117,27 +117,26 @@
                         </dd>
                     </div>
                 {{/if}}
-                <dt
-                    data-test-contributors-label
-                >
-                    {{t 'node_card.contributors'}}
-                </dt>
-                <dd>
-                    <ContributorList
-                        @model={{@node}}
-                        @shouldLinkUsers={{true}}
-                    />
-                </dd>
-                <div
-                    data-test-description
-                    local-class='NodeCard__description'
-                >
+                <div data-test-registration-contributors>
+                    <dt
+                        data-test-contributors-label
+                    >
+                        {{t 'node_card.contributors'}}
+                    </dt>
+                    <dd>
+                        <ContributorList
+                            @model={{@node}}
+                            @shouldLinkUsers={{true}}
+                        />
+                    </dd>
+                </div>
+                <div data-test-registration-description>
                     <dt
                         data-test-description-label
                     >
                         {{t 'node_card.description'}}
                     </dt>
-                    <dd>
+                    <dd local-class='NodeCard__description'>
                         {{@node.description}}
                     </dd>
                 </div>

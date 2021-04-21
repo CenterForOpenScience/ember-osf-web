@@ -32,19 +32,23 @@
         &:hover {
             border: none;
             color: $color-text-gray;
+            background-color: #e4e4e4;    
         }
     }
 
     :global(a.nav-link.active) {
         border: none;
         color: $color-text-gray;
+        background-color: #e4e4e4;
 
         &:focus {
             border: none;
+            background-color: #e4e4e4;
         }
 
         &:hover {
             border: none;
+            background-color: #e4e4e4;
         }
     }
 }
