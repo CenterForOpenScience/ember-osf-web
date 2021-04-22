@@ -143,7 +143,7 @@ interface HandlerOptions {
 }
 export type HandlerFunction = (this: HandlerContext, schema: Schema, request: Request) => any;
 
-/* tslint:disable unified-signatures */
+/* eslint-disable  @typescript-eslint/unified-signatures */
 function handlerDefinition(path: string, options?: HandlerOptions): void;
 function handlerDefinition(
     path: string,
@@ -172,7 +172,7 @@ function handlerDefinition(
     responseCode: number,
     options?: HandlerOptions,
 ): void;
-/* tslint:enable unified-signatures */
+/* eslint-enable  @typescript-eslint/unified-signatures */
 
 export type resourceAction = 'index' | 'show' | 'create' | 'update' | 'delete';
 

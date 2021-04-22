@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-// tslint:disable import-spacing
+// eslint-disable  
 
 import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 

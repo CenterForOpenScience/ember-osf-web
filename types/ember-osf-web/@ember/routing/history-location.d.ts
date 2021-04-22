@@ -4,8 +4,8 @@ declare module '@ember/routing/history-location' {
     export default interface HistoryLocation extends EmberLocation {
         history: any;
         location: Location;
-        _previousURL: string; // tslint:disable-line:variable-name
-        _popstateHandler?: () => void; // tslint:disable-line:variable-name
-        _removeEventListener: () => void; // tslint:disable-line:variable-name
+        _previousURL: string; // eslint-disable-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
+        _popstateHandler?: () => void; // eslint-disable-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
+        _removeEventListener: () => void; // eslint-disable-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
     } // eslint-disable-line semi
 }

@@ -27,7 +27,7 @@ const { featureFlagNames: { routes } } = config;
 export default class ResolveGuid extends Route {
     @service features!: Features;
     @service store!: Store;
-    _router!: PrivateRouter; // tslint:disable-line:variable-name
+    _router!: PrivateRouter; // eslint-disable-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
 
     @computed(`features.${camelize(routes['registries.overview'])}`)
     get routeMap(): Record<string, string> {
@@ -106,4 +106,6 @@ export default class ResolveGuid extends Route {
 
         throw error;
     }
+}
+
 }

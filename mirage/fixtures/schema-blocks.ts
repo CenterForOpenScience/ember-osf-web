@@ -1,5 +1,5 @@
 /* eslint-disable camelcase,max-len */
-// tslint:disable import-spacing
+// eslint-disable  
 
 import SchemaBlock from 'ember-osf-web/models/schema-block';
 

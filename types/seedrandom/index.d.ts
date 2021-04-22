@@ -3,7 +3,7 @@ class SeedRandom {
 }
 
 interface SeedRandom {
-    (): number; // tslint:disable-line callable-types
+    (): number; // eslint-disable-line  @typescript-eslint/prefer-function-type
 }
 
 export default SeedRandom;

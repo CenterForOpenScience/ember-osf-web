@@ -25,7 +25,7 @@ const statusMessagesStub = Service.extend({
 
 const analyticsStub = Service.extend({
     actions: {
-        // tslint:disable-next-line:no-empty
+        // eslint-disable-next-line no-empty,@typescript-eslint/no-empty-function
         click() { },
     },
 });
@@ -60,7 +60,7 @@ function visibleText(selector: string) {
     return $(`${selector} *:not(:has(*)):visible`).text().replace(/\s+/g, ' ').trim();
 }
 
-/* tslint:disable:only-arrow-functions */
+/* eslint-disable prefer-arrow/prefer-arrow-functions */
 module('Registries | Integration | Component | registries-navbar', hooks => {
     setupEngineRenderingTest(hooks, 'registries');
     setupMirage(hooks);
@@ -295,3 +295,4 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         assert.dom('[data-test-brand-link]').doesNotExist('Branded provider name does not exists');
     });
 });
+

@@ -108,7 +108,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     }
 
     // Lifted wholesale from https://github.com/offirgolan/ember-changeset-cp-validations/blob/master/addon/index.js
-    // tslint:disable-next-line: no-shadowed-variable
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     buildChangeset<M extends ValidatedModelName>(model: ModelRegistry[M], options?: {}) {
         // @ts-ignore (types for typeOf don't handle 'instance')
         assert('Object does not contain any validations', typeOf(model.validations) === 'instance');

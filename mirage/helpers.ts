@@ -11,7 +11,7 @@ export function registerNode(
     server: Server,
     node: ModelInstance<MirageNode>,
     props: Partial<ModelAttrs<MirageRegistration>> = {},
-    ...traits: string[] // tslint:disable-line trailing-comma
+    ...traits: string[] // eslint-disable-line  comma-dangle
 ) {
     const registration = server.create('registration', {
         registeredFrom: node,
@@ -34,7 +34,7 @@ export function registerNodeMultiple(
     node: ModelInstance<MirageNode>,
     count: number,
     props: Partial<ModelAttrs<MirageRegistration>> = {},
-    ...traits: string[] // tslint:disable-line trailing-comma
+    ...traits: string[] // eslint-disable-line  comma-dangle
 ) {
     const registrations = [];
     for (let i = 0; i < count; i++) {
@@ -47,7 +47,7 @@ export function draftRegisterNode(
     server: Server,
     node: ModelInstance<MirageNode>,
     props: Partial<ModelAttrs<DraftRegistration>> = {},
-    ...traits: Array<keyof DraftRegistrationTraits> // tslint:disable-line trailing-comma
+    ...traits: Array<keyof DraftRegistrationTraits> // eslint-disable-line  comma-dangle
 ) {
     return server.create('draft-registration', {
         branchedFrom: node,
@@ -64,7 +64,7 @@ export function draftRegisterNodeMultiple(
     node: ModelInstance<MirageNode>,
     count: number,
     props: Partial<ModelAttrs<DraftRegistration>> = {},
-    ...traits: Array<keyof DraftRegistrationTraits> // tslint:disable-line trailing-comma
+    ...traits: Array<keyof DraftRegistrationTraits> // eslint-disable-line  comma-dangle
 ) {
     const draftRegistrations = [];
     for (let i = 0; i < count; i++) {
@@ -77,7 +77,7 @@ export function forkNode(
     server: Server,
     node: ModelInstance<MirageNode>,
     props: Partial<ModelAttrs<MirageNode>> = {},
-    ...traits: Array<keyof NodeTraits> // tslint:disable-line trailing-comma
+    ...traits: Array<keyof NodeTraits> // eslint-disable-line  comma-dangle
 ) {
     const nodeFork = server.create('node', {
         forkedFrom: node,
@@ -97,7 +97,7 @@ export function forkRegistration(
     server: Server,
     registration: ModelInstance<MirageRegistration>,
     props: Partial<ModelAttrs<MirageNode>> = {},
-    ...traits: Array<keyof RegistrationTraits> // tslint:disable-line trailing-comma
+    ...traits: Array<keyof RegistrationTraits> // eslint-disable-line  comma-dangle
 ) {
     const nodeFork = server.create(
         'node',
