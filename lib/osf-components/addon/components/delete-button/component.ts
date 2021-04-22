@@ -55,7 +55,7 @@ export default class DeleteButton extends Component {
 
     @dropTask
     @waitFor
-    async _deleteTask() { // eslint-disable-line  @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
+    async _deleteTask() { // eslint-disable-line  @typescript-eslint/naming-convention,no-underscore-dangle,id-denylist,id-match
         try {
             await this.delete();
             this.set('modalShown', false);
