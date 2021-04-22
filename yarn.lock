@@ -2414,14 +2414,6 @@
     "@types/unist" "*"
     "@types/vfile-message" "*"
 
-"@typescript-eslint/eslint-plugin-tslint@^4.22.0":
-  version "4.22.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin-tslint/-/eslint-plugin-tslint-4.22.0.tgz#f79b149f7bcc60090ea53147a2c00b812de09e83"
-  integrity sha512-r4lhAPmd69ohf5grgDALtekETv4WVCpvfXtT3Nf3UUO/88sn4HB4h8xN1afwL48BprQ4TxH7ZUv7Ou6xgRlkAA==
-  dependencies:
-    "@typescript-eslint/experimental-utils" "4.22.0"
-    lodash "^4.17.15"
-
 "@typescript-eslint/eslint-plugin@^4.22.0":
   version "4.22.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-4.22.0.tgz#3d5f29bb59e61a9dba1513d491b059e536e16dbc"

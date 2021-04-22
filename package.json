@@ -97,7 +97,6 @@
     "@types/sinon": "^7.0.11",
     "@types/toastr": "^2.1.37",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
-    "@typescript-eslint/eslint-plugin-tslint": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
     "babel-eslint": "^8.0.0",
     "bootstrap-sass": "^3.3.7",
