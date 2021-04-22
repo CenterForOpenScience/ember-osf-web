@@ -578,7 +578,7 @@ join_osf:
 node_card:
     generic:
         private_tooltip: 'This project is private'
-        timestamp_label: ""
+        timestamp_label: 'Created:'
     fork:
         private_tooltip: 'This fork is private'
         timestamp_label: 'Forked:'
@@ -601,6 +601,8 @@ node_card:
     registration_template: 'Registration template:'
     contributors: 'Contributors:'
     description: 'Description:'
+    last_updated: 'Last updated:'
+    registry: 'Registry:'
     options: Options
     view: 'View'
 forks:
@@ -1133,7 +1135,7 @@ registries:
             title: 'Browse Registrations'
             more: 'See more'
     my_registrations:
-        header: 'My Registration'
+        header: 'My Registrations'
         drafts: 'Drafts'
         submitted: 'Submitted'
     registration_metadata:

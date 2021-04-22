@@ -66,7 +66,7 @@ module('Integration | Component | node-card', hooks => {
             this.intl.t('node_card.description'),
             'Description label is correct',
         );
-        assert.dom('[data-test-registration-description]').hasTextContaining(
+        assert.dom('[data-test-description]').hasTextContaining(
             registration.description, 'Description is correct',
         );
         assert.dom('[data-test-tags-label]').exists('Tags label exists');

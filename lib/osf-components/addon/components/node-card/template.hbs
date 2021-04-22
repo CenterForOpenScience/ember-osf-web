@@ -97,14 +97,6 @@
     <div data-test-node-card-body local-class='NodeCard__body'>
         {{#if @node}}
             <dl>
-                <div data-test-registration-timestamp>
-                    <dt>
-                        {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}}        
-                    </dt>
-                    <dd>
-                        {{moment-format @node.dateCreated 'YYYY-MM-DD h:mm A'}}
-                    </dd>
-                </div>
                 {{#if @node.isRegistration}}
                     <div data-test-registration-template-name>
                         <dt
@@ -116,8 +108,34 @@
                             {{@node.registrationSchema.name}}
                         </dd>
                     </div>
+                    <div data-test-registration-registry>
+                        <dt
+                            data-test-registration-registry-label
+                        >
+                            {{t 'node_card.registry'}}
+                        </dt>
+                        <dd>
+                            {{@node.provider.name}}
+                        </dd>
+                    </div>
                 {{/if}}
-                <div data-test-registration-contributors>
+                <div data-test-created-timestamp>
+                    <dt>
+                        {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}}        
+                    </dt>
+                    <dd>
+                        {{moment @node.dateCreated}}
+                    </dd>
+                </div>
+                <div data-test-updated-timestamp>
+                    <dt>
+                        {{t 'node_card.last_updated'}}        
+                    </dt>
+                    <dd>
+                        {{moment @node.dateModified}}
+                    </dd>
+                </div>
+                <div data-test-contributors>
                     <dt
                         data-test-contributors-label
                     >
@@ -130,7 +148,7 @@
                         />
                     </dd>
                 </div>
-                <div data-test-registration-description>
+                <div data-test-description>
                     <dt
                         data-test-description-label
                     >
