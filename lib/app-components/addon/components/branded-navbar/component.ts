@@ -26,8 +26,8 @@ export default class BrandedNavbar extends Component {
     objectType!: ObjectType;
     signupUrl!: string;
     translateKey!: string;
-    showNavLinks: boolean = false;
-    campaign: string = `${this.theme.id}-collections`;
+    showNavLinks = false;
+    campaign = `${this.theme.id}-collections`;
 
     myProjectsUrl = serviceLinks.myProjects;
 

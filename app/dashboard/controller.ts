@@ -30,19 +30,19 @@ export default class Dashboard extends Controller {
     @service currentUser!: CurrentUser;
     @service store!: Store;
 
-    page: number = 1;
-    loading: boolean = false;
-    loadingSearch: boolean = false;
-    loadingMore: boolean = false;
-    initialLoad: boolean = true;
+    page = 1;
+    loading = false;
+    loadingSearch = false;
+    loadingMore = false;
+    initialLoad = true;
     // Initialized in setupController.
     filter!: string | null;
-    sort: string = '-last_logged';
-    modalOpen: boolean = false;
+    sort = '-last_logged';
+    modalOpen = false;
     newNode: Node | null = null;
-    showNewNodeNavigation: boolean = false;
-    'failedLoading-noteworthy': boolean = false;
-    'failedLoading-popular': boolean = false;
+    showNewNodeNavigation = false;
+    'failedLoading-noteworthy' = false;
+    'failedLoading-popular' = false;
 
     institutions: Institution[] = A([]);
     nodes?: QueryHasManyResult<Node>;

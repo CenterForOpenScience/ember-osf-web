@@ -19,9 +19,9 @@ export default class RegistriesHeader extends Component {
     localClassNameBindings = ['notBranded:RegistriesHeader'];
     today = new Date();
     showingHelp = false;
-    value: string = '';
-    searchable: number = 0;
-    showHelp: boolean = false;
+    value = '';
+    searchable = 0;
+    showHelp = false;
 
     @computed('providerModel.name')
     get headerAriaLabel() {

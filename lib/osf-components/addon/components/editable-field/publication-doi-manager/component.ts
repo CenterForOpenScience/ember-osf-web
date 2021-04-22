@@ -46,7 +46,7 @@ export default class PublicationDoiManagerComponent extends Component {
     @service intl!: Intl;
     @service toast!: Toast;
 
-    requestedEditMode: boolean = false;
+    requestedEditMode = false;
     validationNode!: ValidationObject<Registration>;
     changeset!: BufferedChangeset;
     didValidate = false;

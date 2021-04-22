@@ -23,7 +23,7 @@ export default class MetadataTagsManagerComponent extends Component {
     // required
     changeset!: BufferedChangeset;
     valuePath!: string;
-    readOnly: boolean = false;
+    readOnly = false;
 
     // optional
     registration?: DraftRegistrationModel;

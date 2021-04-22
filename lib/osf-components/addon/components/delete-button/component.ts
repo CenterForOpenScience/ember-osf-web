@@ -27,24 +27,24 @@ export default class DeleteButton extends Component {
     @requiredAction delete!: () => unknown;
 
     // Optional arguments
-    small: boolean = false;
-    smallSecondary: boolean = false;
-    noBackground: boolean = false;
-    hardConfirm: boolean = false;
-    disabled: boolean = false;
+    small = false;
+    smallSecondary = false;
+    noBackground = false;
+    hardConfirm = false;
+    disabled = false;
     shouldStopPropagation = false;
-    icon: string = 'times';
-    buttonLabel: string = this.intl.t('osf-components.delete-button.buttonLabel');
-    modalTitle: string = this.intl.t('osf-components.delete-button.modalTitle');
-    modalBody: string = this.intl.t('osf-components.delete-button.modalBody');
-    confirmButtonText: string = this.intl.t('osf-components.delete-button.confirmButtonText');
-    cancelButtonText: string = this.intl.t('osf-components.delete-button.cancelButtonText');
-    errorMessage: string = this.intl.t('osf-components.delete-button.error');
+    icon = 'times';
+    buttonLabel = this.intl.t('osf-components.delete-button.buttonLabel');
+    modalTitle = this.intl.t('osf-components.delete-button.modalTitle');
+    modalBody = this.intl.t('osf-components.delete-button.modalBody');
+    confirmButtonText = this.intl.t('osf-components.delete-button.confirmButtonText');
+    cancelButtonText = this.intl.t('osf-components.delete-button.cancelButtonText');
+    errorMessage = this.intl.t('osf-components.delete-button.error');
 
     // Private properties
-    modalShown: boolean = false;
-    scientistName: string = '';
-    scientistInput: string = '';
+    modalShown = false;
+    scientistName = '';
+    scientistInput = '';
 
     @computed('_deleteTask.isRunning', 'hardConfirm', 'scientistName', 'scientistInput')
     get confirmDisabled() {

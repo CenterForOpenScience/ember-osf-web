@@ -12,10 +12,10 @@ export type GutterMode = 'column' | 'drawer' | 'page';
 @tagName('')
 @layout(template)
 export default class Gutter extends Component {
-    leftClosed: boolean = false;
+    leftClosed = false;
     leftMode: GutterMode = 'drawer';
 
-    rightClosed: boolean = true;
+    rightClosed = true;
     rightMode: GutterMode = 'drawer';
 
     @computed('rightMode', 'rightClosed')

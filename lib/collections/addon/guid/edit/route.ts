@@ -15,7 +15,7 @@ export default class GuidEdit extends Route.extend(ConfirmationMixin, {}) {
     @service intl!: Intl;
 
     // This tells ember-onbeforeunload what to use as the body for the warning before leaving the page.
-    confirmationMessage: string = this.intl.t('collections.collections_submission.warning_body');
+    confirmationMessage = this.intl.t('collections.collections_submission.warning_body');
 
     model() {
         return this.modelFor(this.routeName.replace(/\.\w*$/, ''));

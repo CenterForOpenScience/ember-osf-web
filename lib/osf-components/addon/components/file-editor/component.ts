@@ -28,8 +28,8 @@ import template from './template';
 @layout(template, styles)
 @classNames('FileEditor')
 export default class FileEditor extends Component {
-    fileText: string = '';
-    unsavedText: string = '';
+    fileText = '';
+    unsavedText = '';
     @requiredAction save!: (text: string) => void;
 
     @computed('fileText')

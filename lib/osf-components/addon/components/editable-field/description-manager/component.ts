@@ -32,7 +32,7 @@ export default class DescriptionManagerComponent extends Component {
     @service intl!: Intl;
     @service toast!: Toast;
 
-    requestedEditMode: boolean = false;
+    requestedEditMode = false;
     currentDescription!: string;
 
     @alias('node.userHasWritePermission') userCanEdit!: boolean;

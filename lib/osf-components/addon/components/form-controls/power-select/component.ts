@@ -17,7 +17,7 @@ export default class FormControlPowerSelect extends Component {
 
     // Optional params
     shouldShowMessages?: boolean;
-    disabled: boolean = false;
+    disabled = false;
     onchange?: (option: unknown) => void;
 
     @action

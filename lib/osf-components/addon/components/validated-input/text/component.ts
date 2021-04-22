@@ -10,6 +10,6 @@ export default class ValidatedText<M extends Model> extends BaseValidatedCompone
     valuePath!: AttributesFor<M>;
 
     // Additional arguments
-    password: boolean = false;
+    password = false;
     onKeyUp?: () => void; // Action
 }

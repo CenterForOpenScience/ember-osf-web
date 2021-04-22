@@ -5,7 +5,7 @@ import Service from '@ember/service';
 export default class OsfModalState extends Service {
     dialogWormholeTarget?: HTMLElement;
 
-    inModalState: boolean = false;
+    inModalState = false;
 
     private priorActiveElement: HTMLElement | null = null;
 

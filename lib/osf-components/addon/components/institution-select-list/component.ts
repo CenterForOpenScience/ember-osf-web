@@ -11,6 +11,6 @@ export default class InstitutionSelectList extends Component {
     manager!: InstitutionsManager;
 
     // optional properties
-    usePlaceholders: boolean = false;
+    usePlaceholders = false;
     reloadList!: (page?: number) => void;
 }

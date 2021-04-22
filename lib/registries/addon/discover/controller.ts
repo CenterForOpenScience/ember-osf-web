@@ -165,7 +165,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
 
     results: EmberArray<ShareRegistration> = A([]);
     searchable!: number;
-    totalResults: number = 0;
+    totalResults = 0;
     searchOptions!: SearchOptions;
 
     filterableSources: Array<{

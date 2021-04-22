@@ -8,8 +8,8 @@ import template from './template';
 @layout(template, styles)
 @classNames('col-xs-12 text-right')
 export default class SubmitSectionButtons extends Component {
-    showDiscard: boolean = true;
-    continueDisabled: boolean = false;
+    showDiscard = true;
+    continueDisabled = false;
 
     @requiredAction discard!: () => void;
     @requiredAction continue!: () => void;

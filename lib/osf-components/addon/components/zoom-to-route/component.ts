@@ -18,7 +18,7 @@ import template from './template';
 export default class ZoomToRoute extends Component {
     @service router!: any;
 
-    showModal: boolean = false;
+    showModal = false;
     targetRoute?: string;
 
     routeArgs: { [k: string]: string } = {};

@@ -50,9 +50,9 @@ export default class GuidFile extends Controller {
 
     queryParams = ['show'];
 
-    deleteModalOpen: boolean = false;
-    filter: string = '';
-    sort: string = 'name';
+    deleteModalOpen = false;
+    filter = '';
+    sort = 'name';
     revision: null | number = null;
     show = 'view';
 
@@ -115,7 +115,7 @@ export default class GuidFile extends Controller {
         }
 
         if (this.sort) {
-            const reverse: boolean = this.sort.slice(0, 1) === '-';
+            const reverse = this.sort.slice(0, 1) === '-';
 
             results = A(results).sortBy(this.sort.slice(+reverse));
 
@@ -141,10 +141,10 @@ export default class GuidFile extends Controller {
         try {
             await this.file.destroyRecord();
             this.transitionToRoute('guid-user.quickfiles', this.user.id);
-            const message: string = this.intl.t('file_detail.delete_success');
+            const message = this.intl.t('file_detail.delete_success');
             return this.toast.success(message);
         } catch (e) {
-            const errorMessage: string = this.intl.t('file_detail.delete_fail');
+            const errorMessage = this.intl.t('file_detail.delete_fail');
             captureException(e, { errorMessage });
             return this.toast.error(getApiErrorMessage(e), errorMessage);
         }

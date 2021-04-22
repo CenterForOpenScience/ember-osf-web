@@ -18,9 +18,9 @@ interface Item {
 export default class SearchPaginator extends Component {
     @service intl!: Intl;
 
-    current: number = 1;
-    minimum: number = 1;
-    maximum: number = 100;
+    current = 1;
+    minimum = 1;
+    maximum = 100;
 
     @computed('current', 'minimum', 'maximum', 'intl.locale')
     get numbers(): Array<string|number> {

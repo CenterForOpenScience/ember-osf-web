@@ -23,10 +23,10 @@ const nameFields = [
 export default class UserSearchComponent extends Component<UserSearchComponentArgs> {
     @service store!: Store;
 
-    @tracked query: string = '';
+    @tracked query = '';
     @tracked results: UserModel[] = [];
-    @tracked totalUsersPage: number = 1;
-    @tracked currentUsersPage: number = 1;
+    @tracked totalUsersPage = 1;
+    @tracked currentUsersPage = 1;
 
     @computed('fetchUsers.isRunning', 'hasMoreUsers')
     get shouldShowLoadMoreUsers() {

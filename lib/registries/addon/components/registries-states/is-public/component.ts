@@ -27,9 +27,9 @@ export default class RegistrationIsPublic extends Component {
     changeset!: BufferedChangeset;
 
     scientistName?: string;
-    scientistNameInput?: string = '';
+    scientistNameInput? = '';
     closeDropdown!: () => void;
-    showModal: boolean = false;
+    showModal = false;
 
     changesetValidation: ValidationObject<Registration> = {
         withdrawalJustification: validateLength({

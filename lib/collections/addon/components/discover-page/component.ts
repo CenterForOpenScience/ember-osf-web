@@ -94,36 +94,36 @@ export default class DiscoverPage extends Component {
     query!: (params: any) => Promise<any>;
     searchResultComponent!: string;
 
-    firstLoad: boolean = true;
+    firstLoad = true;
     results: SearchQuery = emptyResults();
 
     /**
      * Text header for top of discover page.
      * @property {String} discoverHeader
      */
-    discoverHeader: string = '';
+    discoverHeader = '';
 
     /**
      * Query params
      */
-    contributors: string = '';
+    contributors = '';
     end = '';
-    funders: string = '';
-    institutions: string = '';
-    language: string = '';
-    organizations: string = '';
-    page: number = 1;
-    provider: string = '';
+    funders = '';
+    institutions = '';
+    language = '';
+    organizations = '';
+    page = 1;
+    provider = '';
     publishers = '';
-    q: string = '';
-    size: number = 10;
-    sort: string = '';
-    sources: string = '';
-    start: string = '';
-    tags: string = '';
-    type: string = '';
-    status: string = '';
-    collectedType: string = '';
+    q = '';
+    size = 10;
+    sort = '';
+    sources = '';
+    start = '';
+    tags = '';
+    type = '';
+    status = '';
+    collectedType = '';
 
     /**
      * A list of the components to be used for the search facets.
@@ -154,7 +154,7 @@ export default class DiscoverPage extends Component {
      */
     filterReplace: object = {};
 
-    loading: boolean = true;
+    loading = true;
 
     /**
      * Locked portions of search query that user cannot change.  Example: {'sources': 'PubMed Central'} will make PMC a
@@ -175,8 +175,8 @@ export default class DiscoverPage extends Component {
     /**
      * For PREPRINTS and REGISTRIES.  Displays activeFilters box above search facets.
      */
-    showActiveFilters: boolean = false;
-    showLuceneHelp: boolean = false; // Is Lucene Search help modal open?
+    showActiveFilters = false;
+    showLuceneHelp = false; // Is Lucene Search help modal open?
 
     /**
      * Sort dropdown options - Array of dictionaries.  Each dictionary should have display and sortBy keys.
@@ -204,8 +204,8 @@ export default class DiscoverPage extends Component {
     queryBody: {} = {};
     aggregations: any;
     whiteListedProviders: string[] = [];
-    queryError: boolean = false;
-    serverError: boolean = false;
+    queryError = false;
+    serverError = false;
 
     // ************************************************************
     // COMPUTED PROPERTIES and OBSERVERS
@@ -285,7 +285,7 @@ export default class DiscoverPage extends Component {
         super.init();
         this.set('facetContexts', this.facets && this.facets
             .map(({ component, options, key, title }) => {
-                const queryParam: string = this[camelize(component) as keyof DiscoverPage];
+                const queryParam = this[camelize(component) as keyof DiscoverPage];
                 const activeFilter = !queryParam ? [] : queryParam.split('OR').filter(str => !!str);
 
                 return EmberObject.create({
@@ -380,7 +380,7 @@ export default class DiscoverPage extends Component {
     }
 
     @action
-    setLoadPage(pageNumber: number, scrollUp: boolean = true) {
+    setLoadPage(pageNumber: number, scrollUp = true) {
         // Adapted from PREPRINTS for pagination. When paginating, sets page and scrolls to top of results.
         this.set('page', pageNumber);
 

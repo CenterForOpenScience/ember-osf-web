@@ -17,13 +17,13 @@ export default class RegistriesTagsWidget extends Component.extend({ styles }) {
     manager!: TagsManager | MetadataTagsManager;
 
     // Optional
-    readOnly?: boolean = false;
+    readOnly? = false;
 
     // Private
     @service analytics!: Analytics;
 
     @attribute('data-analytics-scope')
-    analyticsScope: string = 'Tags';
+    analyticsScope = 'Tags';
 
     @action
     addTag(tag: string) {

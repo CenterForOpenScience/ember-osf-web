@@ -57,6 +57,6 @@ export default class RegistriesNavbar extends AuthBase {
     }
 
     services = OSF_SERVICES;
-    helpRoute: string = externalLinks.help;
-    donateRoute: string = externalLinks.donate;
+    helpRoute = externalLinks.help;
+    donateRoute = externalLinks.donate;
 }

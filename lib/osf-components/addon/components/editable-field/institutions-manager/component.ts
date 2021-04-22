@@ -42,7 +42,7 @@ export default class InstitutionsManagerComponent extends Component {
     affiliatedList!: QueryHasManyResult<Institution>;
     currentAffiliatedList!: QueryHasManyResult<Institution>;
     reloadList!: (page?: number) => void;
-    requestedEditMode: boolean = false;
+    requestedEditMode = false;
 
     @alias('node.userHasWritePermission') userCanEdit!: boolean;
 

@@ -8,9 +8,9 @@ import template from './template';
 
 @layout(template, styles)
 export default class DeleteNodeModal extends Component {
-    nodeType: string = 'project';
-    scientistName: string = '';
-    scientistInput: string = '';
+    nodeType = 'project';
+    scientistName = '';
+    scientistInput = '';
 
     @computed('nodeType')
     get nodeTypeKey(): string {

@@ -12,11 +12,11 @@ export default class LoadingIndicator extends Component {
      * Whether to use a dark color for use on lighter backgrounds.
      * Default: false
      */
-    dark: boolean = false;
+    dark = false;
 
     /**
      * Whether to use the inline loading icon.
      * Default: false
      */
-    inline: boolean = false;
+    inline = false;
 }

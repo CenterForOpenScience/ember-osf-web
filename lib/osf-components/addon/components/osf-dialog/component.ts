@@ -18,14 +18,14 @@ export default class OsfDialog extends Component {
     // optional
     onClose?: () => void;
     onOpen?: () => void;
-    isOpen: boolean = false;
-    isModal: boolean = true;
-    closeOnOutsideClick: boolean = true;
-    renderInPlace: boolean = false;
-    fixedWidth: boolean = false;
+    isOpen = false;
+    isModal = true;
+    closeOnOutsideClick = true;
+    renderInPlace = false;
+    fixedWidth = false;
 
     // private
-    hasTriggeredOpen: boolean = false;
+    hasTriggeredOpen = false;
 
     @or('isOpen', 'hasTriggeredOpen') shouldBeOpen!: boolean;
 

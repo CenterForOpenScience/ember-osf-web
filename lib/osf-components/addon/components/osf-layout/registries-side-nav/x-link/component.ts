@@ -17,9 +17,9 @@ export default class XLink extends Component {
     href?: string;
     count?: number;
     guid?: string;
-    isCollapsed: boolean = false;
-    isCurrentPage: boolean = false;
-    isDrawer?: boolean = false;
+    isCollapsed = false;
+    isCurrentPage = false;
+    isDrawer? = false;
 
     onClick?: () => void;
 

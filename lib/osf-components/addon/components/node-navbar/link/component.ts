@@ -17,8 +17,8 @@ export default class NodeNavbarLink extends Component {
     node!: NodeLike;
 
     // Optional arguments
-    useLinkTo: boolean = true;
-    setActive: boolean = true;
+    useLinkTo = true;
+    setActive = true;
     destination?: string;
     extraClasses?: string;
 

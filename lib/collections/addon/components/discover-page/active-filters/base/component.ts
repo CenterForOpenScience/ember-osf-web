@@ -10,7 +10,7 @@ export default class ActiveFilterBase extends Component {
     item!: any;
     text!: string;
     ariaLabel!: string;
-    extraClass: string = '';
+    extraClass = '';
 
     @action
     removeFilterItem(item: any): void {

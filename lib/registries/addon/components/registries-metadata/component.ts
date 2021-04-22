@@ -23,7 +23,7 @@ export default class RegistriesMetadata extends Component {
     extendedFields?: boolean;
 
     // Private properties
-    expandCitations: boolean = false;
+    expandCitations = false;
 
     @computed('registration')
     get registeredFromId() {

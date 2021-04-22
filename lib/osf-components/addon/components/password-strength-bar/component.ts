@@ -25,8 +25,8 @@ export default class PasswordStrengthBar extends Component {
     password!: string;
 
     // Optional parameters
-    shouldShowMessages: boolean = true;
-    minStrength: number = 2;
+    shouldShowMessages = true;
+    minStrength = 2;
 
     // Private properties
     @service passwordStrength!: PasswordStrength;

@@ -31,10 +31,10 @@ export default class CollectionItemPicker extends Component {
 
     collection!: Collection;
     selected: Node | null = null;
-    filter: string = '';
-    page: number = 1;
-    hasMore: boolean = false;
-    loadingMore: boolean = false;
+    filter = '';
+    page = 1;
+    hasMore = false;
+    loadingMore = false;
     items: Node[] = [];
 
     @bool('selected') isValid!: boolean;
@@ -53,7 +53,7 @@ export default class CollectionItemPicker extends Component {
 
     @restartableTask
     @waitFor
-    async findNodes(filter: string = '') {
+    async findNodes(filter = '') {
         if (filter) {
             await timeout(250);
         }
@@ -123,7 +123,7 @@ export default class CollectionItemPicker extends Component {
     matcher(option: Node, searchTerm: string): -1 | 1 {
         const sanitizedTerm = stripAndLower(searchTerm);
 
-        const hasTerm: boolean = [
+        const hasTerm = [
             option.title,
             option.root && option.root.title,
             option.parent && option.parent.title,

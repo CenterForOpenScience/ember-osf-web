@@ -24,7 +24,7 @@ export default class DeveloperAppForm extends Component {
     // Required arguments
     developerApp?: DeveloperApp;
     appTaskInstance?: TaskInstance<DeveloperApp>;
-    createMode: boolean = false;
+    createMode = false;
 
     changeset!: BufferedChangeset;
     appInstance?: DeveloperApp | null;

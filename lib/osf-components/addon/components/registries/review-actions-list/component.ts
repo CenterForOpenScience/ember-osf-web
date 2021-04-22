@@ -21,7 +21,7 @@ export default class ReviewActionsList extends Component<Args> {
     @service toast!: Toast;
     @service intl!: Intl;
 
-    @tracked showFullActionList: boolean = false;
+    @tracked showFullActionList = false;
     @tracked reviewActions?: ReviewActionModel[];
 
     get showOrHide() {

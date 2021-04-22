@@ -17,7 +17,7 @@ export default class RegistrationIsEmbargoed extends Component {
 
     registration!: Registration;
     closeDropdown?: () => void;
-    showModal?: boolean = false;
+    showModal? = false;
 
     @dropTask
     async endEmbargo() {

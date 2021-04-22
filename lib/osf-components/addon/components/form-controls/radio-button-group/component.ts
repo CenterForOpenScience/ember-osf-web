@@ -19,7 +19,7 @@ export default class FormControlRadioButton extends Component {
 
     // Optional params
     shouldShowMessages?: boolean;
-    disabled: boolean = false;
+    disabled = false;
     onchange?: (option: string) => void;
 
     didReceiveAttrs() {

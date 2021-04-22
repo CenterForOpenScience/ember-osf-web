@@ -13,7 +13,7 @@ export default class GuidEdit extends Controller {
     @alias('model.taskInstance.value.collectedMetadatum') collectedMetadatum!: CollectedMetadatum;
     @alias('model.taskInstance.value.collectionItem') collectionItem!: Node;
 
-    isPageDirty: boolean = false;
+    isPageDirty = false;
 
     @computed('collectedMetadatum.hasDirtyAttributes', 'this.collectedMetadatum.hasDirtyAttributes')
     get isCollectedMetadatumDirty() {

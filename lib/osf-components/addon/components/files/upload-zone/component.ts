@@ -50,7 +50,7 @@ export default class UploadZone extends Component {
 
     filesManager!: FilesManager;
     uploading: MutableArray<File> = A([]);
-    dropping: boolean = false;
+    dropping = false;
     dropzoneOptions = {
         createImageThumbnails: false,
         method: 'PUT',
@@ -155,7 +155,7 @@ export default class UploadZone extends Component {
     }
 
     @action
-    setButtonClass(buttonClass: string = '') {
+    setButtonClass(buttonClass = '') {
         this.setProperties({ buttonClass });
     }
 }

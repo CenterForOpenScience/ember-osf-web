@@ -14,6 +14,6 @@ export default class ActiveFiltersFilter extends Component {
     item!: any;
     text!: string;
     ariaLabel!: string;
-    hide: boolean = false;
-    extraClass: string = '';
+    hide = false;
+    extraClass = '';
 }

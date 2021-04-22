@@ -43,7 +43,7 @@ export default class UnregisteredContributorComponent extends Component {
     @service toast!: Toast;
     @service intl!: Intl;
 
-    @tracked shouldOpenClaimDialog: boolean = false;
+    @tracked shouldOpenClaimDialog = false;
     @tracked currentUserEmail?: string;
 
     emailObj?: EmailValidation = undefined;

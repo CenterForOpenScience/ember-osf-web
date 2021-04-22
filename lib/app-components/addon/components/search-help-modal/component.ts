@@ -20,7 +20,7 @@ import template from './template';
 export default class SearchHelpModal extends Component {
     @service router!: RouterService;
 
-    isOpen: boolean = false;
+    isOpen = false;
 
     examples: Array<{ q: string, text: string }> = [
         {

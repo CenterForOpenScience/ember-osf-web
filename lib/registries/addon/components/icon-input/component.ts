@@ -10,9 +10,9 @@ import template from './template';
 @layout(template)
 export default class Content extends Component {
     icon!: string;
-    dark: boolean = false;
+    dark = false;
 
-    value: string = '';
+    value = '';
 
     enter?: (value: string) => void;
 

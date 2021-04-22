@@ -106,7 +106,7 @@ export function validateNodeLicense() {
 
 export function validateNodeLicenseYear() {
     return (_: unknown, __: unknown, ___: unknown, changes: any, content: DraftRegistration) => {
-        let validateYearTarget: string = '';
+        let validateYearTarget = '';
         if (content.nodeLicense && content.nodeLicense.year) {
             validateYearTarget = content.nodeLicense.year;
         }

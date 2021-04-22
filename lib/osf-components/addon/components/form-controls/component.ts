@@ -13,6 +13,6 @@ export default class FormControls extends Component {
     changeset!: BufferedChangeset;
 
     // Optional parameters
-    disabled: boolean = false;
-    shouldShowMessages: boolean = true;
+    disabled = false;
+    shouldShowMessages = true;
 }

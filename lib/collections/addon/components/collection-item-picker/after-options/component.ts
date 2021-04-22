@@ -8,7 +8,7 @@ import template from './template';
 @layout(template, styles)
 export default class CollectionItemPickerOptions extends Component {
     isLoading!: boolean;
-    hasMore: boolean = false;
+    hasMore = false;
 
     @requiredAction loadMore!: () => void;
 }

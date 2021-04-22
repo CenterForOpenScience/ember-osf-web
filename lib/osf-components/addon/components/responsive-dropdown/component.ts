@@ -19,10 +19,10 @@ export default class ResponsiveDropdown extends Component {
     @not('media.isDesktop') useOverlay!: boolean;
 
     // eslint-disable-next-line ember/no-ember-testing-in-module-scope
-    inTestMode: boolean = Ember.testing;
-    renderInPlace: boolean = false;
-    horizontalPosition: string = 'right';
-    verticalPosition: string = 'below';
+    inTestMode = Ember.testing;
+    renderInPlace = false;
+    horizontalPosition = 'right';
+    verticalPosition = 'below';
 
     @computed('inTestMode', 'useOverlay', 'renderInPlace')
     get shouldRenderInPlace() {

@@ -6,6 +6,6 @@ import template from './template';
 
 @layout(template, styles)
 export default class OsfLogo extends Component {
-    double: boolean = false;
-    animate: boolean = false;
+    double = false;
+    animate = false;
 }

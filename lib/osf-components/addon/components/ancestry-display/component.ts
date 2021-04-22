@@ -21,8 +21,8 @@ export default class AncestryDisplay extends Component {
     node!: NodeModel;
 
     // Optional arguments
-    delimiter: string = '/';
-    useLinks: boolean = false;
+    delimiter = '/';
+    useLinks = false;
 
     @alias('getAncestors.lastComplete.value') ancestry?: string[];
 

@@ -98,7 +98,7 @@ export default class OsfAdapter extends JSONAPIAdapter {
         requestType?: string,
         query?: {},
     ): string {
-        let url: string = super.buildURL(modelName, id, snapshot, requestType, query);
+        let url = super.buildURL(modelName, id, snapshot, requestType, query);
 
         if (snapshot) {
             const { adapterOptions }: { adapterOptions?: { url?: string } } = snapshot;
@@ -180,7 +180,7 @@ export default class OsfAdapter extends JSONAPIAdapter {
     }
 
     pathForType(modelName: keyof ModelRegistry): string {
-        const underscored: string = underscore(modelName as string);
+        const underscored = underscore(modelName as string);
         return pluralize(underscored);
     }
 

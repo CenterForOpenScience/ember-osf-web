@@ -57,7 +57,7 @@ export default class ContributorModel extends OsfModel.extend(Validations) {
     @belongsTo('draft-registration', { inverse: 'contributors' })
     draftRegistration!: DS.PromiseObject<DraftRegistrationModel> & DraftRegistrationModel;
 
-    isUnregistered: boolean = false;
+    isUnregistered = false;
 }
 
 declare module 'ember-data/types/registries/model' {

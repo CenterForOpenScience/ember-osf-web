@@ -25,12 +25,12 @@ export default class TagsWidget extends Component.extend({ styles }) {
     taggable!: Taggable;
 
     // optional arguments
-    readOnly: boolean = true;
-    autoSave: boolean = true;
+    readOnly = true;
+    autoSave = true;
     onChange?: (taggable: Taggable) => void;
 
     @attribute('data-analytics-scope')
-    analyticsScope: string = 'Tags';
+    analyticsScope = 'Tags';
 
     // private properties
     @service analytics!: Analytics;

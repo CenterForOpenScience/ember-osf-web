@@ -19,8 +19,8 @@ export default class SchemaBlockGroupRenderer extends Component {
     renderStrategy!: Component;
 
     // Optional params
-    disabled: boolean = false;
-    shouldShowMessages: boolean = true;
+    disabled = false;
+    shouldShowMessages = true;
 
     @alias('schemaBlockGroup.optionBlocks')
     optionBlocks!: SchemaBlock[];

@@ -27,8 +27,8 @@ export default abstract class BaseValidatedInput<M extends Model> extends Compon
     label?: string;
     ariaLabel?: string;
     placeholder?: string;
-    disabled: boolean = false;
-    shouldShowMessages: boolean = true;
+    disabled = false;
+    shouldShowMessages = true;
     model?: M;
 
     // Private properties

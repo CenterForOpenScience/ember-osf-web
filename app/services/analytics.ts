@@ -154,7 +154,7 @@ export default class Analytics extends Service {
     @service router!: RouterService;
     @service toast!: Toast;
 
-    shouldToastOnEvent: boolean = false;
+    shouldToastOnEvent = false;
 
     rootElement?: Element;
 
@@ -257,9 +257,9 @@ export default class Analytics extends Service {
     trackPage(
         this: Analytics,
         pagePublic?: boolean,
-        resourceType: string = 'n/a',
-        withdrawn: string = 'n/a',
-        version: string = 'n/a',
+        resourceType = 'n/a',
+        withdrawn = 'n/a',
+        version = 'n/a',
     ) {
         taskFor(this.trackPageTask).perform(pagePublic, resourceType, withdrawn, version);
     }

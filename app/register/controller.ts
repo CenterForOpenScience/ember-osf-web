@@ -32,11 +32,11 @@ export default class Register extends Controller.extend(registerQueryParams.Mixi
 
     signUpCampaign?: string;
 
-    hasProvider: boolean = false;
+    hasProvider = false;
     provider?: PreprintProvider;
 
-    isOsfPreprints: boolean = false;
-    isOsfRegistries: boolean = false;
+    isOsfPreprints = false;
+    isOsfRegistries = false;
 
     @computed('next')
     get orcidUrl() {

@@ -32,7 +32,7 @@ export default class StatusMessages extends Service {
 
     getCookieMessages(): StatusMessage[] {
         const { cookies } = this;
-        const readCookie: string = cookies.read(statusCookie);
+        const readCookie = cookies.read(statusCookie);
 
         if (!readCookie) {
             return [];

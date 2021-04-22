@@ -58,7 +58,7 @@ export function dynamicSort(property: string) {
 export function sort(request: Request, data: unknown[], options: ProcessOptions = {}): unknown[] {
     const { queryParams } = request;
     const { defaultSortKey = 'date_modified' } = options;
-    let sortKey: string = defaultSortKey;
+    let sortKey = defaultSortKey;
     if (typeof queryParams === 'object' && 'sort' in queryParams) {
         sortKey = queryParams.sort;
     }
@@ -91,7 +91,7 @@ export function paginate(
     const total = data.length;
     const { queryParams, url } = request;
     const { defaultPageSize = 10 } = options;
-    let start: number = 0;
+    let start = 0;
 
     const perPage = Number.parseInt(queryParams['page[size]'], 10) || defaultPageSize;
     let currentPage = 1;

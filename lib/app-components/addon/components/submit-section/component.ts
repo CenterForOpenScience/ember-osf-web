@@ -17,7 +17,7 @@ export default class SubmitSection extends Component {
     section!: number;
     activeSection!: number;
     savedSections!: number[];
-    editable: boolean = true;
+    editable = true;
 
     @computed('activeSection', 'section')
     get isOpen(): boolean {

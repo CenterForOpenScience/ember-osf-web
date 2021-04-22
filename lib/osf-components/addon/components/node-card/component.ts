@@ -23,8 +23,8 @@ export default class NodeCard extends Component {
     // Optional parameters
     node?: Node | Registration;
     delete?: (node: Node) => void;
-    showTags: boolean = false;
-    readOnly: boolean = false;
+    showTags = false;
+    readOnly = false;
 
     // Private properties
     searchUrl = pathJoin(baseURL, 'search');

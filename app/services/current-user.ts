@@ -54,8 +54,8 @@ export default class CurrentUserService extends Service {
     @service session!: Session;
     @service cookies!: Cookies;
 
-    viewOnlyToken: string = '';
-    anonymizedViewOnly: boolean = false;
+    viewOnlyToken = '';
+    anonymizedViewOnly = false;
 
     showTosConsentBanner = false;
 
@@ -148,7 +148,7 @@ export default class CurrentUserService extends Service {
     /**
      * Modify a given XMLHttpRequest to add the current user's authorization.
      */
-    authorizeXHR(xhr: XMLHttpRequest, addApiHeaders: boolean = true): void {
+    authorizeXHR(xhr: XMLHttpRequest, addApiHeaders = true): void {
         if (addApiHeaders) {
             Object.entries(this.ajaxHeaders()).forEach(([key, value]) => {
                 xhr.setRequestHeader(key, value);

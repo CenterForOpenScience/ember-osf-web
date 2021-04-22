@@ -12,8 +12,8 @@ import template from './template';
 @tagName('')
 export default class ContributorListContributor extends Component {
     contributor!: Contributor;
-    shouldLinkUser: boolean = false;
-    shouldShortenName: boolean = false;
+    shouldLinkUser = false;
+    shouldShortenName = false;
 
     contributorName?: string;
     contributorLink?: string;

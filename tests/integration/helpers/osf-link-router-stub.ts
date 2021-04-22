@@ -1,10 +1,10 @@
 import Service from '@ember/service';
 
 export class OsfLinkRouterStub extends Service {
-    urlForResponse: string = 'https://localhost:4200/route';
-    transitionToResponse: string = '';
-    isActiveResponse: boolean = false;
-    currentURL: string = '/current';
+    urlForResponse = 'https://localhost:4200/route';
+    transitionToResponse = '';
+    isActiveResponse = false;
+    currentURL = '/current';
 
     urlFor() {
         return this.urlForResponse;

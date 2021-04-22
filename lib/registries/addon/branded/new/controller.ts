@@ -25,7 +25,7 @@ export default class BrandedRegistriesNewSubmissionController extends Controller
     @tracked selectedSchema?: RegistrationSchemaModel;
     @tracked schemaOptions: RegistrationSchemaModel[] = [];
     @tracked projectOptions: NodeModel[] = [];
-    @tracked isBasedOnProject: boolean = false;
+    @tracked isBasedOnProject = false;
 
     get disableCreateDraft(): boolean {
         return this.isBasedOnProject ? !(this.selectedSchema && this.selectedProject) : !this.selectedSchema;

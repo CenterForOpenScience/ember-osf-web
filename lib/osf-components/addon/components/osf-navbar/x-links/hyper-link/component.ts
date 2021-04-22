@@ -23,7 +23,7 @@ export default class HyperLink extends Component {
 
     text?: string;
     analyticsLabel?: string;
-    hidden: boolean = false;
+    hidden = false;
     queryParams?: { [k: string]: string };
     params: any[] = [];
     onClicked?: () => void;

@@ -28,10 +28,10 @@ export default class ContributorList extends Component {
     model!: ModelWithBibliographicContributors & { isAnonymous?: boolean };
 
     // Optional arguments
-    shouldTruncate: boolean = true;
-    shouldLinkUsers: boolean = false;
-    shouldEnableClaimUser: boolean = false;
-    allowRemoveMe: boolean = false;
+    shouldTruncate = true;
+    shouldLinkUsers = false;
+    shouldEnableClaimUser = false;
+    allowRemoveMe = false;
 
     // Private properties
     @service store!: Store;
@@ -44,7 +44,7 @@ export default class ContributorList extends Component {
     page = 1;
     displayedContributors: Contributor[] = [];
     totalContributors = 0;
-    shouldLoadAll: boolean = navigator.userAgent.includes('Prerender');
+    shouldLoadAll = navigator.userAgent.includes('Prerender');
 
     @alias('loadContributors.isRunning')
     isLoading!: boolean;

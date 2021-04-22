@@ -14,7 +14,7 @@ export interface LoadItemsOptions {
 
 export default abstract class BaseDataComponent extends Component {
     // Optional arguments
-    pageSize: number = 10;
+    pageSize = 10;
     query?: any;
 
     // Exposes a reload action the the parent scope.
@@ -29,8 +29,8 @@ export default abstract class BaseDataComponent extends Component {
 
     totalCount?: number;
     items?: any[];
-    errorShown: boolean = false;
-    page: number = 1;
+    errorShown = false;
+    page = 1;
 
     async loadItemsTask(_: LoadItemsOptions) {
         throw new Error('Must implement loadItemsTask');
@@ -60,7 +60,7 @@ export default abstract class BaseDataComponent extends Component {
     }
 
     @action
-    _doReload(page: number = 1) {
+    _doReload(page = 1) {
         this.setProperties({ page });
         taskFor(this.loadItemsWrapperTask).perform({ reloading: true });
     }

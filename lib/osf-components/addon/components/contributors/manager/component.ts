@@ -34,8 +34,8 @@ export default class ContributorsManager extends Component {
     draftRegistration?: DraftRegistrationModel;
 
     @tracked contributors: ContributorModel[] = [];
-    @tracked totalPage: number = 1;
-    @tracked currentPage: number = 1;
+    @tracked totalPage = 1;
+    @tracked currentPage = 1;
     @tracked isDragging = false;
 
     @computed('currentPage', 'totalPage')

@@ -16,8 +16,8 @@ export default class PaginatedList extends Component {
     @requiredAction doReload!: () => void;
 
     // Optional arguments
-    loading: boolean = false;
-    errorShown: boolean = false;
+    loading = false;
+    errorShown = false;
     totalCount?: number;
 
     // Private properties

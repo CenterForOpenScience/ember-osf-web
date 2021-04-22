@@ -24,7 +24,7 @@ export default class SubjectFieldManagerComponent extends Component {
     node!: Node;
     subjectsManager!: SubjectManager;
 
-    requestedEditMode: boolean = false;
+    requestedEditMode = false;
 
     @alias('node.userHasAdminPermission')
     userCanEdit!: boolean;

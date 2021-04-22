@@ -6,7 +6,7 @@ import Analytics from 'ember-osf-web/services/analytics';
 export default class Support extends Controller {
     @service analytics!: Analytics;
 
-    helpUrl: string = config.OSF.helpUrl;
+    helpUrl = config.OSF.helpUrl;
 
     constructor(...args: any[]) {
         super(...args);

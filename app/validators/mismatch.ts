@@ -12,7 +12,7 @@ interface Options {
 const Mismatch = BaseValidator.extend({
     validate(value: string, options: Options, model: Model, attribute: string): string | true {
         const on: any = get(options, 'on');
-        const allowBlank: boolean = get(options, 'allowBlank');
+        const allowBlank = get(options, 'allowBlank');
 
         assert(`[validator:mismatch] [${attribute}] option 'on' is required`, isPresent(on));
 

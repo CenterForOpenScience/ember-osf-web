@@ -32,10 +32,10 @@ export default class CollectionSearchResult extends Component {
     @service theme!: Theme;
 
     hostAppName = config.hostAppName;
-    maxTags: number = 10;
-    maxCreators: number = 10;
-    maxDescription: number = 300;
-    showBody: boolean = false;
+    maxTags = 10;
+    maxCreators = 10;
+    maxDescription = 300;
+    showBody = false;
     facetContexts!: FacetContext[];
     queryParams: string[] | null = null;
     result!: CollectedMetadatum;

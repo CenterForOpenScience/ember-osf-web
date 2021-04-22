@@ -52,7 +52,7 @@ export class ShareTermsFilter extends ShareFilter {
 export class ShareTermsAggregation implements SearchModifier {
     private readonly valueImpl: TypedMap<ShareTermsAggregation>;
 
-    constructor(private name: string, private field: string, private size: number = 200) {
+    constructor(private name: string, private field: string, private size = 200) {
         this.valueImpl = Map(Object.entries(this)) as TypedMap<ShareTermsAggregation>;
     }
 

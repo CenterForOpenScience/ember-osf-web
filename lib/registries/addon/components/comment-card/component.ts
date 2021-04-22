@@ -45,10 +45,10 @@ export default class CommentCard extends Component {
     replies!: QueryHasManyResult<Comment>;
     abuseCategories: AbuseCategories[] = Object.values(AbuseCategories);
 
-    page: number = 1;
-    reporting?: boolean = false;
-    showReplies?: boolean = false;
-    loadingMoreReplies?: boolean = false;
+    page = 1;
+    reporting? = false;
+    showReplies? = false;
+    loadingMoreReplies? = false;
 
     @alias('comment.deleted') isDeleted!: boolean;
     @alias('comment.isAbuse') isAbuse!: boolean;
@@ -87,7 +87,7 @@ export default class CommentCard extends Component {
 
     @restartableTask
     @waitFor
-    async loadReplies(more: boolean = false) {
+    async loadReplies(more = false) {
         if (!more) {
             const replies = await this.comment.replies;
             if (!this.replies) {

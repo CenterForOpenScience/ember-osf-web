@@ -14,7 +14,7 @@ module('Integration | Component | new-project-navigation-modal', hooks => {
 
     hooks.beforeEach(function(this: TestContext, assert) {
         this.setProperties({
-            closeModal: (reload: boolean = false) => assert.ok(reload, 'Reload should have been true'),
+            closeModal: (reload = false) => assert.ok(reload, 'Reload should have been true'),
             theNode: {
                 links: {
                     html: '/linkValue/',

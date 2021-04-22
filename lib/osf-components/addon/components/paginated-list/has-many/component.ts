@@ -24,7 +24,7 @@ export default class PaginatedHasMany extends BaseDataComponent {
     modelInstance?: OsfModel;
 
     // Optional arguments
-    usePlaceholders: boolean = true;
+    usePlaceholders = true;
 
     // Private properties
     @task

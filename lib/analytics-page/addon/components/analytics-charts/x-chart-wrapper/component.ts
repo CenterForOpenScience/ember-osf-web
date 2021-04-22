@@ -37,9 +37,9 @@ export default class ChartWrapper extends Component {
 
     // Private properties
     chart!: KeenDataviz; // set in didInsertElement
-    overlayShown: boolean = true;
-    keenError: boolean = false;
-    loading: boolean = false;
+    overlayShown = true;
+    keenError = false;
+    loading = false;
 
     @restartableTask
     @waitFor

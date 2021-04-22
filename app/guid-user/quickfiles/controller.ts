@@ -24,10 +24,10 @@ export default class UserQuickfiles extends Controller {
 
     pageName = 'QuickFiles';
 
-    filter: string = '';
+    filter = '';
     // Initialized in setupController.
     newProject!: Node;
-    sort: string = 'name';
+    sort = 'name';
 
     @alias('model.taskInstance.value.user') user!: User;
     @alias('model.taskInstance.value.files') allFiles!: File[];
@@ -55,7 +55,7 @@ export default class UserQuickfiles extends Controller {
 
     @task
     @waitFor
-    async flash(item: File, message: string, type: string = 'success', duration: number = 2000) {
+    async flash(item: File, message: string, type = 'success', duration = 2000) {
         item.set('flash', { message, type });
         await timeout(duration);
         item.set('flash', null);

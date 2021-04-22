@@ -247,7 +247,7 @@ export default class NodeModel extends AbstractNodeModel.extend(Validations, Col
 
     // BaseFileItem override
     isNode = true;
-    collectable: boolean = false;
+    collectable = false;
 
     makeFork(): Promise<object> {
         const url = getRelatedHref(this.links.relationships!.forks);

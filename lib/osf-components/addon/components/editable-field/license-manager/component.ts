@@ -36,11 +36,11 @@ export default class LicenseManagerComponent extends Component implements Licens
     @service toast!: Toast;
 
     changeset!: BufferedChangeset;
-    requestedEditMode: boolean = false;
+    requestedEditMode = false;
 
-    showText: boolean = false;
+    showText = false;
     licensesAcceptable!: QueryHasManyResult<License>;
-    helpLink: string = 'https://help.osf.io/hc/en-us/articles/360019739014-Licensing';
+    helpLink = 'https://help.osf.io/hc/en-us/articles/360019739014-Licensing';
     currentLicense!: License;
     currentNodeLicense!: NodeLicense;
     selectedLicense!: License;

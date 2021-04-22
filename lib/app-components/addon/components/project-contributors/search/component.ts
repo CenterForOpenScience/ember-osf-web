@@ -31,9 +31,9 @@ export default class Search extends Component {
     @service toast!: Toast;
 
     node!: Node;
-    query: string = '';
-    page: number = 1;
-    showUnregisteredForm: boolean = false;
+    query = '';
+    page = 1;
+    showUnregisteredForm = false;
     onAddContributor?: () => void;
 
     @alias('search.lastSuccessful.value') results?: DS.AdapterPopulatedRecordArray<User>;

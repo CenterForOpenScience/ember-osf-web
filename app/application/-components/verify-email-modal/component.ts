@@ -37,7 +37,7 @@ export default class VerifyEmailModal extends Component {
     @service store!: Store;
     @service toast!: Toast;
 
-    shouldShowModal: boolean = true;
+    shouldShowModal = true;
     unverifiedEmails?: UserEmail[];
 
     @alias('unverifiedEmails.firstObject')

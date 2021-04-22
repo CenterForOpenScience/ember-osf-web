@@ -11,5 +11,5 @@ export default class NewProjectNavigationModalController extends Controller {
             html: '/handbook/docs',
         },
     };
-    shouldShowModal: boolean = false;
+    shouldShowModal = false;
 }

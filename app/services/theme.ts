@@ -36,7 +36,7 @@ const settings: { [P in ProviderType]: Setting } = {
 export default class Theme extends Service {
     @service store!: Store;
 
-    id: string = defaultProvider;
+    id = defaultProvider;
     defaultProvider = defaultProvider;
 
     providerType?: ProviderType;

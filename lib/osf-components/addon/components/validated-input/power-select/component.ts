@@ -18,11 +18,11 @@ export default class ValidatedPowerSelect<M extends Model> extends BaseValidated
     noMatchesMessage?: string;
     options!: any[];
     searchEnabled?: boolean;
-    placeholder?: string = this.placeholder;
+    placeholder? = this.placeholder;
 
     // Set renderInPlace to true when <powerselect> is rendered in <bsModal>
     // BsModal has z-index 1050 while power-select has 1000.
-    renderInPlace?: boolean = false;
+    renderInPlace? = false;
 
     @computed('model', 'changeset')
     get modelOrChangeset(): M | BufferedChangeset & M | undefined {

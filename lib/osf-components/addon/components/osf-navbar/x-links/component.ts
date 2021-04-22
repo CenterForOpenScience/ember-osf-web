@@ -19,9 +19,9 @@ export default class XLinks extends Component {
     @service session!: Session;
     @service currentUser!: CurrentUser;
 
-    searchURL: string = `${osfURL}search/`;
-    myProjectsURL: string = `${osfURL}myprojects/`;
-    myRegistrationsURL: string = `${osfURL}myprojects/#registrations`;
+    searchURL = `${osfURL}search/`;
+    myProjectsURL = `${osfURL}myprojects/`;
+    myRegistrationsURL = `${osfURL}myprojects/#registrations`;
     onLinkClicked: () => void = () => null;
 
     @computed('onInstitutions', 'router.currentRouteName')

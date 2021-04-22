@@ -30,9 +30,9 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     onWillDestroy?: (model: ModelRegistry[M], changeset?: BufferedChangeset) => void;
     model?: ModelRegistry[M];
     modelName?: M; // If provided, new model instance created in constructor
-    disabled: boolean = false;
+    disabled = false;
     changeset!: BufferedChangeset;
-    recreateModel: boolean = false;
+    recreateModel = false;
     onDirtChange?: (dirt: boolean) => boolean;
 
     // Private properties
@@ -40,7 +40,7 @@ export default class ValidatedModelForm<M extends ValidatedModelName> extends Co
     @service analytics!: Analytics;
     @service toast!: Toast;
 
-    shouldShowMessages: boolean = false;
+    shouldShowMessages = false;
     modelProperties: object = {};
 
     @or('disabled', 'saveModelTask.isRunning')

@@ -41,11 +41,11 @@ export default class FileRenderer extends Component {
 
     download?: string;
     lastDownload?: string;
-    width: string = '100%';
-    height: string = '100%';
-    allowfullscreen: boolean = true;
+    width = '100%';
+    height = '100%';
+    allowfullscreen = true;
     version?: number;
-    isLoading: boolean = true;
+    isLoading = true;
 
     @computed('download', 'params', 'version')
     get downloadUrl(): string {

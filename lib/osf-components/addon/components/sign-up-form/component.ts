@@ -24,7 +24,7 @@ export default class SignUpForm extends Component {
     // Private properties
     userRegistration!: UserRegistration;
 
-    hasSubmitted: boolean = false;
+    hasSubmitted = false;
     didValidate = false;
     resetRecaptcha!: () => void; // bound by validated-input/recaptcha
 

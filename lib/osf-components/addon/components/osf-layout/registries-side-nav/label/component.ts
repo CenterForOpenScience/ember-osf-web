@@ -18,7 +18,7 @@ export default class Label extends Component {
     count?: number;
 
     // Private properties
-    isCollapsed: boolean = false;
+    isCollapsed = false;
 
     @computed('count')
     get hasCount() {

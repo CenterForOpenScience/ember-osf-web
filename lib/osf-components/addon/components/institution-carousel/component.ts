@@ -22,7 +22,7 @@ export default class InstitutionCarousel extends Component {
     @service store!: Store;
     @service analytics!: Analytics;
 
-    itemsPerSlide: number = 5;
+    itemsPerSlide = 5;
     institutions: Institution[] = A([]);
 
     @computed('institutions.length', 'itemsPerSlide')

@@ -25,7 +25,7 @@ export default class UnregisteredContributor extends Component {
 
     model?: Contributor;
     node!: Node;
-    didValidate: boolean = false;
+    didValidate = false;
 
     @requiredAction closeForm!: () => void;
 
@@ -61,7 +61,7 @@ export default class UnregisteredContributor extends Component {
         this.reset();
     }
 
-    reset(rollback: boolean = true) {
+    reset(rollback = true) {
         if (this.model && rollback) {
             this.model.rollbackAttributes();
         }

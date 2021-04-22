@@ -1,16 +1,16 @@
 import faker from 'faker';
 
 export default class FakeNode {
-    id: string = faker.random.uuid();
-    title: string = faker.lorem.sentence();
-    public: boolean = false;
-    isRegistration: boolean = false;
-    wikiEnabled: boolean = false;
-    currentUserIsContributor: boolean = false;
-    userHasWritePermission: boolean = false;
-    userHasReadPermission: boolean = false;
+    id = faker.random.uuid();
+    title = faker.lorem.sentence();
+    public = false;
+    isRegistration = false;
+    wikiEnabled = false;
+    currentUserIsContributor = false;
+    userHasWritePermission = false;
+    userHasReadPermission = false;
     parentId: string | null = null;
-    rootId: string = this.id;
+    rootId = this.id;
     links = {
         html: 'http://localhost:4200/fak3d',
     };

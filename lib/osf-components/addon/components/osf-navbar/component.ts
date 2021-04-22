@@ -42,7 +42,7 @@ export default class OsfNavbar extends Component {
     @service router!: any;
     @service session!: Session;
 
-    showNavLinks: boolean = false;
+    showNavLinks = false;
 
     activeService: OSFService = OSFService.HOME;
     services: ServiceLink[] = OSF_SERVICES;

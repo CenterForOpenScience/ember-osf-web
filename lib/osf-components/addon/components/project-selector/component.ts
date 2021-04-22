@@ -55,9 +55,9 @@ export default class ProjectSelector extends Component {
 
     // Optional arguments
     nodeTitle: string | null = null;
-    projectSelectState: string = ProjectSelectState.main;
+    projectSelectState = ProjectSelectState.main;
     selected: Node | null = null;
-    showErrorMessage: boolean = false;
+    showErrorMessage = false;
 
     // Private properties
     didValidate = false;

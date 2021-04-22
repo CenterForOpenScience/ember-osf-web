@@ -7,5 +7,5 @@ import template from './template';
 @layout(template, styles)
 export default class InstitutionsList extends Component {
     // Optional
-    usePlaceholders: boolean = false;
+    usePlaceholders = false;
 }

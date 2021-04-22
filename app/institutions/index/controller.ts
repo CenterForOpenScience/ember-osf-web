@@ -14,7 +14,7 @@ export default class Institutions extends Controller {
 
     sortOrder: 'title' | '-title' = 'title';
     page = 1;
-    textValue: string = '';
+    textValue = '';
 
     @restartableTask
     @waitFor

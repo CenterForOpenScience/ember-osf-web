@@ -37,13 +37,13 @@ export class AuthBase extends Component {
     /**
      * The URL to redirect to after logout
      */
-    redirectUrl: string = '/goodbye';
+    redirectUrl = '/goodbye';
 
     campaign?: string;
 
-    profileURL: string = 'profile';
-    settingsURL: string = 'settings';
-    signUpURL: string = 'register';
+    profileURL = 'profile';
+    settingsURL = 'settings';
+    signUpURL = 'register';
     onLinkClicked?: () => void;
 
     @computed('router.currentURL')

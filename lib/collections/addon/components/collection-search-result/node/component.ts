@@ -22,11 +22,11 @@ export default class SearchResultNode extends Component.extend({
     @service theme!: Theme;
 
     hostAppName = config.hostAppName;
-    maxTags: number = 10;
-    maxCreators: number = 10;
-    maxDescription: number = 300;
-    showBody: boolean = false;
-    expandable: boolean = false;
+    maxTags = 10;
+    maxCreators = 10;
+    maxDescription = 300;
+    showBody = false;
+    expandable = false;
 
     item!: Node;
 

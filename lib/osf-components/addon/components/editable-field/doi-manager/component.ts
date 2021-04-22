@@ -40,7 +40,7 @@ export default class DoiManagerComponent extends Component {
     @service toast!: Toast;
     @service store!: Store;
 
-    requestedEditMode: boolean = false;
+    requestedEditMode = false;
 
     @alias('node.userHasAdminPermission') userCanEdit!: boolean;
     @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;

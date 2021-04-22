@@ -34,9 +34,9 @@ export interface LicenseManager {
 export default class RegistriesLicensePicker extends Component {
     manager!: LicenseManager;
 
-    shouldShowButtons: boolean = false;
-    showText: boolean = false;
-    helpLink: string = 'https://help.osf.io/hc/en-us/articles/360019739014-Licensing';
+    shouldShowButtons = false;
+    showText = false;
+    helpLink = 'https://help.osf.io/hc/en-us/articles/360019739014-Licensing';
     registration!: BufferedChangeset | Registration;
 
     @action

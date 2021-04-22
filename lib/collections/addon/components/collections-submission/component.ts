@@ -38,19 +38,19 @@ export default class Submit extends Component {
     @service theme!: Theme;
     @service toast!: Toast;
 
-    readonly edit: boolean = false;
+    readonly edit = false;
     readonly provider!: CollectionProvider;
     readonly collection!: Collection;
     readonly collectedMetadatum!: CollectedMetadatum;
 
     collectionItem: Node | null = null;
-    isProjectSelectorValid: boolean = false;
+    isProjectSelectorValid = false;
     sections = Section;
     activeSection!: Section;
     savedSections!: Section[];
-    showCancelDialog: boolean = false;
+    showCancelDialog = false;
     intlKeyPrefix = 'collections.collections_submission.';
-    showSubmitModal: boolean = false;
+    showSubmitModal = false;
 
     /**
      * Leaves the current route for the discover route (currently home for collections)

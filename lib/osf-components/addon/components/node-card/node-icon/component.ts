@@ -29,7 +29,7 @@ const iconMap: { [index: string]: string } = {
 @layout(template)
 @tagName('span')
 export default class NodeCardNodeIcon extends Component {
-    category: string = '';
+    category = '';
 
     @computed('category')
     get iconType(): string {

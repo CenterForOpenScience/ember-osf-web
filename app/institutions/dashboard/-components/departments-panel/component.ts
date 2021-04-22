@@ -12,7 +12,7 @@ export default class DepartmentsPanel extends Component {
     topDepartments!: InstitutionDepartmentsModel[];
     totalUsers!: number;
 
-    chartHoverIndex: number = 0;
+    chartHoverIndex = 0;
 
     get chartOptions(): ChartOptions {
         return {

@@ -67,8 +67,8 @@ export default class SubjectManagerComponent extends Component {
 
     // incremented whenever 'savedSubjectIds' and `selectedSubjectIds` are modified.
     // meant for computed properties to depend on, since they can't watch for changes to Sets.
-    savedSubjectsChanges: number = 0;
-    selectedSubjectsChanges: number = 0;
+    savedSubjectsChanges = 0;
+    selectedSubjectsChanges = 0;
 
     @alias('save.isRunning')
     isSaving!: boolean;

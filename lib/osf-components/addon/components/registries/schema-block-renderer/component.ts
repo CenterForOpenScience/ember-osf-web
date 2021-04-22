@@ -15,8 +15,8 @@ export default class SchemaBlockRenderer extends Component {
     renderStrategy!: Component;
 
     // Optional params
-    disabled: boolean = false;
-    shouldShowMessages: boolean = true;
+    disabled = false;
+    shouldShowMessages = true;
 
     didReceiveAttrs() {
         assert('schema-block-renderer requires a schemaBlock to render', Boolean(this.schemaBlock));

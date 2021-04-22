@@ -8,5 +8,5 @@ import template from './template';
 @tagName('')
 @layout(template)
 export default class NavBar extends Component {
-    dark: boolean = false;
+    dark = false;
 }

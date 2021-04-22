@@ -12,7 +12,7 @@ import template from './template';
 export default class SearchBar extends Component {
     @service analytics!: Analytics;
 
-    value: string = '';
+    value = '';
     @requiredAction onSearch!: (query: string) => void;
 
     @action

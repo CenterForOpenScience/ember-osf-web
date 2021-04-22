@@ -66,10 +66,10 @@ export default class FileBrowser extends Component {
 
     clickHandler?: JQuery.EventHandlerBase<HTMLElement, JQuery.Event>;
     dismissPop?: () => void;
-    canEdit: boolean = false;
-    dropping: boolean = false;
-    showRename: boolean = false;
-    renameValue: string = '';
+    canEdit = false;
+    dropping = false;
+    showRename = false;
+    renameValue = '';
     multiple = true;
     unselect = true;
     openOnSelect = false;
@@ -84,16 +84,16 @@ export default class FileBrowser extends Component {
     loaded = true;
     uploading: MutableArray<any> = A([]);
     currentModal = modals.None;
-    popupOpen: boolean = false;
+    popupOpen = false;
     items: File[] | null = null;
     conflictingItem: File | null = null;
-    showFilterClicked: boolean = false;
-    filter: string = '';
+    showFilterClicked = false;
+    filter = '';
     shiftAnchor: File | null = null;
     isNewProject?: boolean;
     isChildNode?: boolean;
-    isProjectSelectorValid: boolean = false;
-    sort: string = '';
+    isProjectSelectorValid = false;
+    sort = '';
 
     dropzoneOptions = {
         createImageThumbnails: false,
@@ -381,7 +381,7 @@ export default class FileBrowser extends Component {
     }
 
     @action
-    deleteItems(multiple: boolean = false) {
+    deleteItems(multiple = false) {
         this.analytics.track('file', 'delete', 'Quick Files - Delete files');
         this.deleteFiles(multiple ? this.selectedItems.slice() : this.selectedItems.slice(0, 1));
         this.set('currentModal', modals.None);

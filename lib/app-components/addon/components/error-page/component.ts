@@ -13,8 +13,8 @@ export default class ErrorPage extends Component {
     @service analytics!: Analytics;
     @service theme!: Theme;
 
-    label: string = '';
-    translateKey: string = '';
+    label = '';
+    translateKey = '';
 
     @computed('theme.{isProvider,provider}')
     get supportEmail(): string {

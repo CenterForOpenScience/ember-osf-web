@@ -30,7 +30,7 @@ export default class CategoryManagerComponent extends Component {
     @service intl!: Intl;
     @service toast!: Toast;
 
-    inEditMode: boolean = false;
+    inEditMode = false;
     fieldIsEmpty = false;
     selectedCategory!: NodeCategory;
 

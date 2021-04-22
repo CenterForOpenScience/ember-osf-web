@@ -19,12 +19,12 @@ export default class CopyableText extends Component {
     analyticsLabel?: string;
     success?: () => void;
     error?: () => void;
-    disabled: boolean = false;
+    disabled = false;
 
     // Private properties
     @service analytics!: Analytics;
 
-    showTooltip: boolean = false;
+    showTooltip = false;
 
     @action
     async _success() {

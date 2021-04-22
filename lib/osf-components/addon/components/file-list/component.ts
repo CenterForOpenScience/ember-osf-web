@@ -30,8 +30,8 @@ export default class FileList extends Component {
 
     node: Node | null = null;
     items: File[] = [];
-    showFilterClicked: boolean = false;
-    filter: string = '';
+    showFilterClicked = false;
+    filter = '';
     user?: User;
     @requiredAction openFile!: (item: File) => void;
 

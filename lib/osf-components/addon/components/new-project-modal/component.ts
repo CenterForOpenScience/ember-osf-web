@@ -47,7 +47,7 @@ export default class NewProjectModal extends Component {
     // Private fields
     nodeTitle?: string;
     description?: string;
-    more: boolean = false;
+    more = false;
     templateFrom?: Node;
     selectedRegion?: Region;
     institutions: Institution[] = [];
@@ -105,8 +105,8 @@ export default class NewProjectModal extends Component {
     @dropTask
     @waitFor
     async createNodeTask(
-        title: string = '',
-        description: string = '',
+        title = '',
+        description = '',
         institutions: Institution[],
         templateFrom?: Node,
         storageRegion?: Region,

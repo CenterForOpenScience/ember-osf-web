@@ -17,7 +17,7 @@ export default class RegistrationFormNavigationDropdown extends Component {
     schemaBlocks!: SchemaBlock[];
 
     // Optional paramaters
-    showMetadata: boolean = false;
+    showMetadata = false;
 
     // Private properties
     metadataFields: string[] = Object.values(DraftMetadataProperties)
