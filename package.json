@@ -14,8 +14,7 @@
     "build:test": "ember build --environment=test",
     "lint": "npm-run-all --aggregate-output --continue-on-error --parallel lint:*",
     "start": "ember server",
-    "lint:es": "eslint --ext js,ts --max-warnings=0 .",
-    "lint:ts": "tslint -p .",
+    "lint": "eslint --ext js,ts --max-warnings=0 .",
     "lint:style": "stylelint 'app/**/*.scss' 'lib/**/*.scss'",
     "lint:template": "ember-template-lint 'app/**/*.hbs' 'lib/**/*.hbs'",
     "test": "npm-run-all lint:* test:*",
@@ -33,11 +32,8 @@
   },
   "lint-staged": {
     "linters": {
-      "*.js": "eslint --max-warnings=0",
-      "*.ts": [
-        "eslint --max-warnings=0",
-        "tslint"
-      ],
+      "*.js": "eslint --ext .js --max-warnings=0",
+      "*.ts": "eslint --ext .ts --max-warnings=0",
       "*.scss": "stylelint",
       "*.hbs": "ember-template-lint",
       "config/environment.*": "node bin/run-node-test.js config"
@@ -213,6 +209,7 @@
     "eslint-plugin-es": "^4.1.0",
     "eslint-plugin-eslint-comments": "^3.1.1",
     "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
     "faker": "^4.1.0",
     "flat": "^4.0.0",
     "husky": "^2.1.0",
@@ -239,9 +236,6 @@
     "stylelint-config-css-modules": "^1.2.0",
     "stylelint-config-sass-guidelines": "^6.0.0",
     "toastr": "^2.1.4",
-    "tslint": "^5.16.0",
-    "tslint-consistent-codestyle": "^1.11.1",
-    "tslint-eslint-rules": "^5.0.0",
     "typescript": "^4.2.3",
     "wicg-inert": "^2.1.0"
   },
