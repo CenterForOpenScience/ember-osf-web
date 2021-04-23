@@ -99,9 +99,7 @@
             <dl>
                 {{#if @node.isRegistration}}
                     <div data-test-registration-template-name>
-                        <dt
-                            data-test-registration-template-label
-                        >
+                        <dt data-test-registration-template-label>
                             {{t 'node_card.registration_template'}}
                         </dt>
                         <dd>
@@ -109,29 +107,27 @@
                         </dd>
                     </div>
                     <div data-test-registration-registry>
-                        <dt
-                            data-test-registration-registry-label
-                        >
+                        <dt data-test-registration-registry-label>
                             {{t 'node_card.registry'}}
                         </dt>
-                        <dd>
+                        <dd data-test-registration-registry-name>
                             {{@node.provider.name}}
                         </dd>
                     </div>
                 {{/if}}
                 <div data-test-created-timestamp>
-                    <dt>
+                    <dt data-test-created-timestamp-label>
                         {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}}        
                     </dt>
-                    <dd>
+                    <dd data-test-created-timestamp-value>
                         {{moment @node.dateCreated}}
                     </dd>
                 </div>
                 <div data-test-updated-timestamp>
-                    <dt>
+                    <dt data-test-updated-timestamp-label>
                         {{t 'node_card.last_updated'}}        
                     </dt>
-                    <dd>
+                    <dd data-test-updated-timestamp-value>
                         {{moment @node.dateModified}}
                     </dd>
                 </div>

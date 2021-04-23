@@ -1426,8 +1426,8 @@ registries:
         noModeratorActions: 'No moderator decisions can be made at this time'
     myRegistrationsList:
         noGeneral: 'This page allows you to search and quickly access your registrations.'
-        noRegistrations: "You don't haver any submitted registrations. Create one with the button below."
-        noDrafts: "You don't haver any draft registrations. Create one with the button below."
+        noRegistrations: "You don't have any submitted registrations. Create one with the button below."
+        noDrafts: "You don't have any draft registrations. Create one with the button below."
         createRegistration: 'Create a registration'
 meetings:
     index:

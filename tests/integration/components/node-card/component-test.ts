@@ -3,6 +3,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupIntl, TestContext } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
+import moment from 'moment';
 import { module, test } from 'qunit';
 
 import { OsfLinkRouterStub } from '../../helpers/osf-link-router-stub';
@@ -48,6 +49,30 @@ module('Integration | Component | node-card', hooks => {
         assert.dom('[data-test-registration-template-name]').hasTextContaining(
             registration.registrationSchema.name,
             'Schema name is correct',
+        );
+        assert.dom('[data-test-registration-registry-label]').exists('Registry label exists');
+        assert.dom('[data-test-registration-registry-label]').hasText(
+            this.intl.t('node_card.registry'),
+            'Registry label is correct',
+        );
+        assert.dom('[data-test-registration-registry-name]').exists('Registry name exists');
+        assert.dom('[data-test-registration-registry-name]').hasText(
+            registration.provider.name,
+        );
+        assert.dom('[data-test-created-timestamp-label]').exists('Created timestamp label exists');
+        assert.dom('[data-test-created-timestamp-label]').hasText(
+            this.intl.t('node_card.registration.timestamp_label'),
+            'Created timestamp label is correct',
+        );
+        assert.dom('[data-test-created-timestamp-value]').exists('Created timestamp value exists');
+        assert.dom('[data-test-created-timestamp-value]').hasText(
+            `${moment(registration.dateCreated)}`,
+            'Created timestamp value is correct',
+        );
+        assert.dom('[data-test-updated-timestamp-value]').exists('Updated timestamp value exists');
+        assert.dom('[data-test-updated-timestamp-value]').hasText(
+            `${moment(registration.dateModified)}`,
+            'Updated timestamp value is correct',
         );
         assert.dom('[data-test-contributors-label]').exists('Contributors label exists');
         assert.dom('[data-test-contributors-label]').hasText(
