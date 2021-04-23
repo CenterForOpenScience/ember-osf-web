@@ -25,7 +25,7 @@ export default class Application extends Controller {
         viewOnlyToken: {
             as: 'view_only',
             // scope needs the literal type `'controller'`, not just `string`
-            scope: 'controller' as 'controller',
+            scope: 'controller' as const,
         },
     }];
     viewOnlyToken = '';

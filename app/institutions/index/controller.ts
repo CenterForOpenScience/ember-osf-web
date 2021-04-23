@@ -36,7 +36,9 @@ export default class Institutions extends Controller {
     @computed('filtered', 'sortOrder', 'page', 'textValue')
     get institutions(): Institution[] {
         const sorted = this.filtered.sortBy('name');
-        if (this.sortOrder === '-title') { sorted.reverse(); }
+        if (this.sortOrder === '-title') {
+            sorted.reverse();
+        }
         return sorted.slice(0, 10 * this.page);
     }
 

@@ -18,7 +18,9 @@ export default class TrackScrollModifier extends Modifier<TrackScrollModifierArg
 
     didInstall() {
         const { onEnter } = this.inViewport.watchElement(this.element as HTMLElement);
-        onEnter(() => { this.didEnterViewport(); });
+        onEnter(() => {
+            this.didEnterViewport();
+        });
     }
 
     didEnterViewport() {

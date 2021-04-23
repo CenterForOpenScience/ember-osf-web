@@ -60,7 +60,7 @@ export default class ApplicationSerializer<T extends Model> extends JSONAPISeria
         json.data.relationships = Object
             .entries(this.buildRelationships(model))
             .reduce((acc, [key, value]) => {
-                // @ts-ignore
+                // @ts-ignore: TODO: fix typechecking issue here
                 acc[underscore(key)] = value;
                 return acc;
             }, {} as Record<string, Relationship>);

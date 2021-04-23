@@ -6,13 +6,13 @@ import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
 
 // Raven is defined only in prod builds
 declare const Raven: undefined | {
-    captureException(e: ErrorDocument | Error, extra: object): void;
+    captureException(e: ErrorDocument | Error, extra: object): void,
 };
 
 // Errors from currentUser.authenticatedAJAX requests.
 interface AjaxRequestError {
     responseJSON: {
-        errors: ErrorObject[];
+        errors: ErrorObject[],
     };
 }
 

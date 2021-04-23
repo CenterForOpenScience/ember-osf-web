@@ -46,7 +46,7 @@ export default class TokenSerializer extends OsfSerializer {
                 // eslint-disable-next-line no-param-reassign
                 json.attributes = {
                     ...json.attributes,
-                    // @ts-ignore
+                    // @ts-ignore: TODO: fix types
                     scopes: scopes.mapBy('id').join(' '),
                 };
             }

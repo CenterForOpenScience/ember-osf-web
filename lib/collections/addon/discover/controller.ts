@@ -19,8 +19,8 @@ export default class Discover extends Controller {
     };
 
     model!: Array<{
-        id: string;
-        additionalProviders: string[];
+        id: string,
+        additionalProviders: string[],
     }>;
 
     // additionalProviders are using SHARE facets which do not work with Active Filters at this time

@@ -10,6 +10,8 @@ export function reportDelete(this: HandlerContext, schema: Schema, request: Requ
     });
 
     if (reports) {
-        reports.forEach(report => { report.destroy(); });
+        reports.forEach(report => {
+            report.destroy();
+        });
     }
 }

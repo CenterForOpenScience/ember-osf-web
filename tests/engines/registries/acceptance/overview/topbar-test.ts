@@ -14,51 +14,54 @@ import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines'
 import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
 
 const registrationStates: Record<string, {
-    trait: string, icon: string,
-    initiallyOpened: boolean, hasAdminActions: boolean }> = {
-        embargo: {
-            trait: 'isEmbargo',
-            icon: 'lock',
-            initiallyOpened: false,
-            hasAdminActions: true,
-        },
-        pendingWithdraw: {
-            trait: 'isPendingWithdraw',
-            icon: 'clock',
-            initiallyOpened: true,
-            hasAdminActions: false,
-        },
-        pendingRegistrationApproval: {
-            trait: 'isPendingRegistrationApproval',
-            icon: 'clock',
-            initiallyOpened: true,
-            hasAdminActions: false,
-        },
-        pendingEmbargoApproval: {
-            trait: 'isPendingEmbargoApproval',
-            icon: 'clock',
-            initiallyOpened: true,
-            hasAdminActions: false,
-        },
-        pendingEmbargoTermination: {
-            trait: 'isPendingEmbargoTermination',
-            icon: 'clock',
-            initiallyOpened: true,
-            hasAdminActions: false,
-        },
-        pendingWithdrawRequest: {
-            trait: 'isPendingWithdrawRequest',
-            icon: 'clock',
-            initiallyOpened: true,
-            hasAdminActions: false,
-        },
-        accepted: {
-            trait: 'isPublic',
-            icon: 'eye',
-            initiallyOpened: false,
-            hasAdminActions: true,
-        },
-    };
+    trait: string,
+    icon: string,
+    initiallyOpened: boolean,
+    hasAdminActions: boolean,
+}> = {
+    embargo: {
+        trait: 'isEmbargo',
+        icon: 'lock',
+        initiallyOpened: false,
+        hasAdminActions: true,
+    },
+    pendingWithdraw: {
+        trait: 'isPendingWithdraw',
+        icon: 'clock',
+        initiallyOpened: true,
+        hasAdminActions: false,
+    },
+    pendingRegistrationApproval: {
+        trait: 'isPendingRegistrationApproval',
+        icon: 'clock',
+        initiallyOpened: true,
+        hasAdminActions: false,
+    },
+    pendingEmbargoApproval: {
+        trait: 'isPendingEmbargoApproval',
+        icon: 'clock',
+        initiallyOpened: true,
+        hasAdminActions: false,
+    },
+    pendingEmbargoTermination: {
+        trait: 'isPendingEmbargoTermination',
+        icon: 'clock',
+        initiallyOpened: true,
+        hasAdminActions: false,
+    },
+    pendingWithdrawRequest: {
+        trait: 'isPendingWithdrawRequest',
+        icon: 'clock',
+        initiallyOpened: true,
+        hasAdminActions: false,
+    },
+    accepted: {
+        trait: 'isPublic',
+        icon: 'eye',
+        initiallyOpened: false,
+        hasAdminActions: true,
+    },
+};
 
 module('Registries | Acceptance | overview.topbar', hooks => {
     setupEngineApplicationTest(hooks, 'registries');

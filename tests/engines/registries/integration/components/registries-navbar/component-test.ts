@@ -60,7 +60,6 @@ function visibleText(selector: string) {
     return $(`${selector} *:not(:has(*)):visible`).text().replace(/\s+/g, ' ').trim();
 }
 
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
 module('Registries | Integration | Component | registries-navbar', hooks => {
     setupEngineRenderingTest(hooks, 'registries');
     setupMirage(hooks);

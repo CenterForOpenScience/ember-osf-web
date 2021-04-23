@@ -14,10 +14,10 @@ import User from 'ember-osf-web/models/user';
 interface ThisTestContext extends TestContext {
     store: Store;
     manager: {
-        node?: Node;
-        user: User;
-        toggleInstitution: () => void;
-        affiliatedList?: Institution[];
+        node?: Node,
+        user: User,
+        toggleInstitution: () => void,
+        affiliatedList?: Institution[],
     };
     mirageNode: ModelInstance<Node>;
 }

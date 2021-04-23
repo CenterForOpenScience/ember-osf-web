@@ -582,7 +582,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assert.equal(reg.license.name, 'No license');
         assert.equal(reg.nodeLicense!.year, new Date().getUTCFullYear().toString());
 
-        // @ts-ignore
+        // @ts-ignore: TODO: use copyrightHolders?
         assert.deepEqual(reg.nodeLicense!.copyright_holders, ['Jane Doe', 'John Doe']);
     });
 

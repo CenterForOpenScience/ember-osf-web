@@ -1,7 +1,7 @@
 import Model from '@ember-data/model';
 import RESTSerializer from '@ember-data/serializer/rest';
 import Store from '@ember-data/store';
-import Ember from 'ember';
+import { assign } from '@ember/polyfills';
 import DS from 'ember-data';
 
 import OsfModel from 'ember-osf-web/models/osf-model';
@@ -21,7 +21,7 @@ export default class UserRegistrationSerializer extends RESTSerializer {
     }
 
     serializeIntoHash(data: {}, _: OsfModel, snapshot: DS.Snapshot, options: {}) {
-        Ember.assign(data, this.serialize(snapshot, options));
+        assign(data, this.serialize(snapshot, options));
     }
 
     normalizeSaveResponse(

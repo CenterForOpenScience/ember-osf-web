@@ -36,9 +36,9 @@ const order = new SearchOrder({
 });
 
 const QueryParamTestCases: Array<{
-    name: string;
-    params: { [key: string]: any };
-    expected: { [key: string]: any };
+    name: string,
+    params: { [key: string]: any },
+    expected: { [key: string]: any },
     }> = [{
         name: 'Order by date_modified if no additional options are specified',
         params: {},

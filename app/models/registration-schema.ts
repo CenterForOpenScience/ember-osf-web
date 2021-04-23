@@ -37,7 +37,7 @@ export interface Schema {
     version: number;
     active: boolean;
     config: {
-        hasFiles: boolean;
+        hasFiles: boolean,
     };
     pages: Page[];
     description: string;

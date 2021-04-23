@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-// eslint-disable  
 
 import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 

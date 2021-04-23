@@ -4,7 +4,6 @@ import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
 module('Registries | Integration | Component | x-dummy', hooks => {
     setupEngineRenderingTest(hooks, 'registries');
 

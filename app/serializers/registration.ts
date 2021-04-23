@@ -12,7 +12,7 @@ export default class RegistrationSerializer extends OsfSerializer {
     normalize(modelClass: Model, resourceHash: Resource) {
         if (resourceHash.attributes) {
             const registrationResponses = resourceHash.attributes.registration_responses as RegistrationResponse;
-            // @ts-ignore
+            // @ts-ignore: TODO: fix types
             // eslint-disable-next-line no-param-reassign
             resourceHash.attributes.registration_responses = mapKeysAndValues(
                 registrationResponses || {},

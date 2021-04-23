@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { attr, belongsTo, hasMany } from '@ember-data/model';
-import DS from 'ember-data';
 
 import OsfModel from './osf-model';
 
@@ -11,3 +11,4 @@ declare module 'ember-data/types/registries/model' {
         'foo-bar': FooBarModel;
     } // eslint-disable-line semi
 }
+/* eslint-enable @typescript-eslint/no-unused-vars */

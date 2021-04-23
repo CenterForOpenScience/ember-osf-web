@@ -123,7 +123,7 @@ export default class FileIcon extends Component {
     // Required arguments
     item!: File;
 
-    @computed('item', 'item.expanded')
+    @computed('item.{expanded,isFolder,isNode,isProvider,name}')
     get iconName(): string {
         // TODO: More icons!
         if (this.item.isFolder) {

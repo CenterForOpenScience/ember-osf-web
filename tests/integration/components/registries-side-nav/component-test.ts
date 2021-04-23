@@ -23,7 +23,6 @@ class RouterStub extends Service {
 class CurrentUserStub extends Service {
 }
 
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
 module('Integration | Component | registries-side-nav', hooks => {
     setupRenderingTest(hooks);
 

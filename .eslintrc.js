@@ -96,16 +96,45 @@ module.exports = {
         '@typescript-eslint/member-delimiter-style': [
             'error',
             {
-                multiline: {
-                    delimiter: 'semi',
-                    requireLast: true,
-                },
-                singleline: {
-                    delimiter: 'comma',
-                    requireLast: false,
+                // multiline: {
+                //     delimiter: 'semi',
+                //     requireLast: true,
+                // },
+                // singleline: {
+                //     delimiter: 'comma',
+                //     requireLast: false,
+                // },
+                overrides: {
+                    interface: {
+                        multiline: {
+                            delimiter: 'semi',
+                            requireLast: true,
+                        },
+                        singleline: {
+                            delimiter: 'semi',
+                            requireLast: false,
+                        },
+                    },
+                    typeLiteral: {
+                        multiline: {
+                            delimiter: 'comma',
+                            requireLast: true,
+                        },
+                        singleline: {
+                            delimiter: 'comma',
+                            requireLast: false,
+                        },
+                    },
                 },
             },
         ],
+        '@typescript-eslint/ban-ts-comment': [
+            'error',
+            {
+                'ts-ignore': 'allow-with-description',
+            },
+        ],
+        '@typescript-eslint/no-non-null-assertion': 'off',
         '@typescript-eslint/member-ordering': 'off',
         '@typescript-eslint/naming-convention': 'off',
         '@typescript-eslint/no-empty-function': 'error',
@@ -147,13 +176,13 @@ module.exports = {
         '@typescript-eslint/explicit-module-boundary-types': 'off',
         '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
         // ember
+        'ember/new-module-imports': 'error',
+        'ember/no-attrs-in-components': 'error',
+        'ember/no-old-shims': 'error',
         'ember/use-ember-data-rfc-395-imports': 'off',
         'ember/no-test-support-import': 'off',
         'ember/no-jquery': 'off',
         'ember/named-functions-in-promises': 'off',
-        'ember/new-module-imports': 'error',
-        'ember/no-attrs-in-components': 'error',
-        'ember/no-old-shims': 'error',
         'ember/routes-segments-snake-case': 'off',
         // ember-concurrency
         'ember-concurrency/no-perform-without-catch': 'off',
@@ -283,10 +312,11 @@ module.exports = {
             rules: {
                 'no-useless-constructor': 'off',
                 'space-infix-ops': 'off',
-                'no-shadow': 'off',
+                'max-len': 'off',
                 '@typescript-eslint/no-unused-vars': 'off',
                 '@typescript-eslint/member-delimiter-style': 'off',
                 '@typescript-eslint/member-ordering': 'off',
+                '@typescript-eslint/no-shadow': 'off',
             },
         },
         {
@@ -354,6 +384,7 @@ module.exports = {
                 'node/no-unsupported-features/es-syntax': 'off',
                 'node/no-missing-import': 'off',
                 '@typescript-eslint/no-var-requires': 'off',
+                '@typescript-eslint/no-unused-vars': 'off',
             },
         },
     ],

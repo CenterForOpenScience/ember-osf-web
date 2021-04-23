@@ -74,7 +74,7 @@ interface SortOption {
 
 interface ArrayMeta {
     meta: {
-        total: number;
+        total: number,
     };
 }
 

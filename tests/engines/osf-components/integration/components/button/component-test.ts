@@ -5,7 +5,6 @@ import { module, test } from 'qunit';
 
 import styles from 'osf-components/components/button/styles';
 
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
 module('Osf Components | Integration | Component | Button', hooks => {
     setupRenderingTest(hooks);
 

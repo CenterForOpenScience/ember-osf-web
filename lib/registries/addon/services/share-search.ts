@@ -189,7 +189,7 @@ export default class ShareSearch extends Search {
                 .sort((a: ShareContributor, b: ShareContributor) => a.orderCited - b.orderCited);
 
             let mainLink: string | undefined;
-            const infoLinks: Array<{ type: string; uri: string; }> = [];
+            const infoLinks: Array<{ type: string, uri: string }> = [];
             const hyperLinks: string[] = [
                 `${config.shareBaseURL}/${r._source.type.replace(/ /g, '')}/${r._id}`,
             ];

@@ -15,7 +15,7 @@ import template from './template';
 interface Strength {
     score: number;
     feedback: {
-        warning: string;
+        warning: string,
     };
 }
 

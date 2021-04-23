@@ -3,7 +3,6 @@ import { hbs } from 'ember-cli-htmlbars';
 import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
 import { module, test } from 'qunit';
 
-/* eslint-disable prefer-arrow/prefer-arrow-functions */
 module('Registries | Integration | Component | Navbar', hooks => {
     setupEngineRenderingTest(hooks, 'registries');
 

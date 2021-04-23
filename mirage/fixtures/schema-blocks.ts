@@ -1,6 +1,4 @@
 /* eslint-disable camelcase,max-len */
-// eslint-disable  
-
 import SchemaBlock from 'ember-osf-web/models/schema-block';
 
 import open_ended_registration from

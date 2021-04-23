@@ -1,7 +1,7 @@
 import { click, render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-// @ts-ignore
+// @ts-ignore: add ember-flatpickr types
 import { setFlatpickrDate } from 'ember-flatpickr/test-support/helpers';
 import { t } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';

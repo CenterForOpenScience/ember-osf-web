@@ -75,7 +75,7 @@ export default class DropzoneWidget extends Component.extend({
     enable = true;
     clickable: string[] = [];
     dropzoneElement: any | null = null;
-    options: Dropzone.DropzoneOptions = {};
+    options: Dropzone.DropzoneOptions & { preventMultipleFiles?: boolean } = {};
     defaultMessage = this.intl.t('dropzone_widget.drop_files');
 
     @requiredAction buildUrl!: (files: File[]) => void;
@@ -91,7 +91,6 @@ export default class DropzoneWidget extends Component.extend({
         // Dropzone.js does not have an option for disabling selecting multiple files when clicking the "upload" button.
         // Therefore, we remove the "multiple" attribute for the hidden file input element, so that users cannot select
         // multiple files for upload in the first place.
-        // @ts-ignore - Custom dropzone
         if (this.options.preventMultipleFiles && this.clickable) {
             $('.dz-hidden-input').removeAttr('multiple');
         }
@@ -135,7 +134,7 @@ export default class DropzoneWidget extends Component.extend({
 
         const authorizeXHR = this.currentUser.authorizeXHR.bind(this.currentUser);
 
-        // @ts-ignore
+        // @ts-ignore: TODO: fix types
         const drop = new CustomDropzone(`#${this.elementId}`, {
             url: (file: any) => (typeof this.buildUrl === 'function'
                 ? this.buildUrl(file)

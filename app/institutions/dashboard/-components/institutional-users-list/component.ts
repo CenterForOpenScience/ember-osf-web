@@ -43,6 +43,7 @@ export default class InstitutionalUsersList extends Component {
         }
 
         if (!this.department) {
+            // eslint-disable-next-line ember/no-side-effects
             this.set('department', departments[0]);
         }
 

@@ -10,12 +10,20 @@ module('Unit | Service | ready', hooks => {
     // Set up ready/error listeners with assertions inside.
     // Adds 2 expected assertions for either success or failure.
     function setUpListeners(assert: any, ready: Ready, expectSuccess: boolean) {
-        ready.on('ready', () => { assert.ok(expectSuccess, '"ready" event triggered'); });
-        ready.on('error', () => { assert.ok(!expectSuccess, '"error" event triggered'); });
+        ready.on('ready', () => {
+            assert.ok(expectSuccess, '"ready" event triggered');
+        });
+        ready.on('error', () => {
+            assert.ok(!expectSuccess, '"error" event triggered');
+        });
 
         ready.ready().then(
-            () => { assert.ok(expectSuccess, 'ready.ready() resolves'); },
-            () => { assert.ok(!expectSuccess, 'ready.ready() rejects'); },
+            () => {
+                assert.ok(expectSuccess, 'ready.ready() resolves');
+            },
+            () => {
+                assert.ok(!expectSuccess, 'ready.ready() rejects');
+            },
         );
     }
 

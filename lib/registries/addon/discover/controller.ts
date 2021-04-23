@@ -169,8 +169,8 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
     searchOptions!: SearchOptions;
 
     filterableSources: Array<{
-        count: number;
-        filter: SearchFilter;
+        count: number,
+        filter: SearchFilter,
     }> = [];
 
     get providerModel(): ProviderModel | undefined {
