@@ -15,12 +15,23 @@
                 {{placeholder.text lines=1}}
             {{/if}}
         </list.item>
-        <list.empty>
-            <p
-                data-test-registration-list-none
-            >
-                {{t 'registries.myRegistrationsList.noRegistrations'}}
-            </p>
+        <list.empty local-class='FlexContainer'>
+            <div local-class='NoContentContainer'>
+                <p data-test-draft-list-no-general>
+                    {{t 'registries.myRegistrationsList.noGeneral'}}
+                </p>
+                <p data-test-draft-list-no-drafts>
+                    {{t 'registries.myRegistrationsList.noRegistrations'}}
+                </p>
+                <OsfLink
+                    @route='registries.branded.new'
+                    @models={{array 'osf'}}
+                >
+                    <Button @type='create'>
+                        {{t 'registries.myRegistrationsList.createRegistration'}}
+                    </Button>
+                </OsfLink>
+            </div>
         </list.empty>
     </PaginatedList::HasMany>
 </ContentPlaceholders>

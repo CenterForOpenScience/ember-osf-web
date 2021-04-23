@@ -1425,8 +1425,10 @@ registries:
         justificationForWithdrawalPlaceholder: 'Provide justification for withdrawal'
         noModeratorActions: 'No moderator decisions can be made at this time'
     myRegistrationsList:
-        noRegistrations: 'You do not have any registrations'
-        noDrafts: 'You do not have any drafts'
+        noGeneral: 'This page allows you to search and quickly access your registrations.'
+        noRegistrations: "You don't haver any submitted registrations. Create one with the button below."
+        noDrafts: "You don't haver any draft registrations. Create one with the button below."
+        createRegistration: 'Create a registration'
 meetings:
     index:
         meetings-list:
