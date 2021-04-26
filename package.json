@@ -63,7 +63,6 @@
     "@types/ace": "^0.0.42",
     "@types/dropzone": "^5.0.4",
     "@types/ember": "^3.1.1",
-    "@types/ember-data": "^3.16.12",
     "@types/ember-data__adapter": "^3.16.1",
     "@types/ember-data__model": "^3.16.2",
     "@types/ember-data__serializer": "^3.16.1",
