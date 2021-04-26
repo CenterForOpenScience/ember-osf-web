@@ -18,7 +18,7 @@ export default class ValidatedPowerSelect<M extends Model> extends BaseValidated
     noMatchesMessage?: string;
     options!: any[];
     searchEnabled?: boolean;
-    placeholder? = this.placeholder;
+    placeholder: string = this.placeholder;
 
     // Set renderInPlace to true when <powerselect> is rendered in <bsModal>
     // BsModal has z-index 1050 while power-select has 1000.

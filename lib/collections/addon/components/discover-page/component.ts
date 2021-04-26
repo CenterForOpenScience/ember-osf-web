@@ -286,7 +286,7 @@ export default class DiscoverPage extends Component {
         this.set('facetContexts', this.facets && this.facets
             .map(({ component, options, key, title }) => {
                 const queryParam = this[camelize(component) as keyof DiscoverPage];
-                const activeFilter = !queryParam ? [] : queryParam.split('OR').filter(str => !!str);
+                const activeFilter = !queryParam ? [] : (queryParam.split('OR') as string[]).filter(str => !!str);
 
                 return EmberObject.create({
                     title,
