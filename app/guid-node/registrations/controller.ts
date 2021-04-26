@@ -5,8 +5,10 @@ import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency-decorators';
 import DS from 'ember-data';
+import config from 'ember-get-config';
 
 import Node from 'ember-osf-web/models/node';
+import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 import RegistrationSchema from 'ember-osf-web/models/registration-schema';
 import Analytics from 'ember-osf-web/services/analytics';
 
@@ -37,11 +39,12 @@ export default class GuidNodeRegistrations extends Controller {
 
     @task({ withTestWaiter: true })
     getRegistrationSchemas = task(function *(this: GuidNodeRegistrations) {
-        let schemas = yield this.store.query('registration-schema',
-            {
-                'filter[active]': true,
-                'page[size]': 100,
-            });
+        const { defaultProvider } = config;
+        const provider: RegistrationProviderModel = yield this.store.findRecord(
+            'registration-provider',
+            defaultProvider,
+        );
+        let schemas: RegistrationSchema[] = yield provider.loadAll('schemas');
         schemas = schemas.toArray();
         schemas.sort((a: RegistrationSchema, b: RegistrationSchema) => a.name.length - b.name.length);
         this.set('defaultSchema', schemas.firstObject);

@@ -18,6 +18,7 @@ export interface MirageRegistrationProvider extends RegistrationProvider {
 
 export interface RegistrationProviderTraits {
     withBrand: Trait;
+    withAllSchemas: Trait;
     withSchemas: Trait;
     submissionsNotAllowed: Trait;
     withModerators: Trait;
@@ -64,6 +65,27 @@ export default Factory.extend<MirageRegistrationProvider & RegistrationProviderT
     withSchemas: trait<RegistrationProvider>({
         afterCreate(provider, server) {
             provider.update({ schemas: [server.schema.registrationSchemas.find('testSchema')] });
+        },
+    }),
+    withAllSchemas: trait<RegistrationProvider>({
+        afterCreate(provider, server) {
+            provider.update(
+                {
+                    schemas: [
+                        server.schema.registrationSchemas.find('testSchema'),
+                        server.schema.registrationSchemas.find('testSchemaTwo'),
+                        server.schema.registrationSchemas.find('testSchemaThree'),
+                        server.schema.registrationSchemas.find('prereg_challenge'),
+                        server.schema.registrationSchemas.find('open_ended_registration'),
+                        server.schema.registrationSchemas.find('as_predicted_preregsitration'),
+                        server.schema.registrationSchemas.find('registered_report_protocol_preregistration.'),
+                        server.schema.registrationSchemas.find('osf_standard_pre_data_collection_registration'),
+                        server.schema.registrationSchemas.find('replication_recipe_post_completion'),
+                        server.schema.registrationSchemas.find('replication_recipe_pre_registration'),
+                        server.schema.registrationSchemas.find('pre_registration_in_social_psychology'),
+                    ],
+                },
+            );
         },
     }),
     submissionsNotAllowed: trait<RegistrationProvider>({

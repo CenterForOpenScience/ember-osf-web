@@ -40,6 +40,30 @@ const testSchema = {
     },
 };
 
+const testSchemaTwo = {
+    id: 'testSchemaTwo',
+    active: true,
+    name: 'This is a second Test Schema',
+    schemaVersion: 801,
+    schemaBlockIds: ids,
+    schemaNoConflict: {
+        title: 'Fake title for testing',
+        pages: [],
+    },
+};
+
+const testSchemaThree = {
+    id: 'testSchemaThree',
+    active: true,
+    name: 'This is a third Test Schema',
+    schemaVersion: 801,
+    schemaBlockIds: ids,
+    schemaNoConflict: {
+        title: 'Fake title for testing',
+        pages: [],
+    },
+};
+
 export default [
     prereg_challenge,
     open_ended_registration,
@@ -50,6 +74,8 @@ export default [
     replication_recipe_pre_registration,
     pre_registration_in_social_psychology,
     testSchema,
+    testSchemaTwo,
+    testSchemaThree,
 ] as MirageRegistrationSchema[];
 
 /* eslint-enable camelcase */
