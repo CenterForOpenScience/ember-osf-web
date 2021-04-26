@@ -1,9 +1,6 @@
 # unconventional js
 /blueprints/*/files/
 /vendor/
-/config/local.js
-/handbook-docs/
-/docs/
 
 # compiled output
 /dist/

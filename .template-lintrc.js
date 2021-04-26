@@ -3,7 +3,7 @@
 'use strict';
 
 module.exports = {
-    extends: 'recommended',
+    extends: 'octane',
 
     rules: {
         'block-indentation': 4,
@@ -14,6 +14,6 @@ module.exports = {
     },
 
     ignore: [
-        '**/lib/handbook/**/*',
+        'handbook-docs/**/*',
     ],
 };
