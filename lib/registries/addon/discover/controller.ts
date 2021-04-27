@@ -212,8 +212,8 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
             ]),
         }));
 
-        const osfProviders: RegistrationProviderModel[] = yield this.store.findAll('registration-provider', {
-            adapterOptions: { queryParams: { 'page[size]': 100 } },
+        const osfProviders: RegistrationProviderModel[] = yield this.store.query('registration-provider', {
+            'page[size]': 100,
         });
 
         // Setting osfProviders on the share-search service

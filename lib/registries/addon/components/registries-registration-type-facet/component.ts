@@ -43,8 +43,9 @@ export default class RegistriesRegistrationTypeFacet extends Component {
     @task({ withTestWaiter: true, on: 'init' })
     fetchRegistrationTypes = task(function *(this: RegistriesRegistrationTypeFacet): any {
         try {
-            const metaschemas: RegistrationSchema[] = yield this.store.findAll('registration-schema');
-
+            const metaschemas: RegistrationSchema[] = yield this.store.query('registration-schema', {
+                'page[size]': 100,
+            });
             const metaschemaNames = metaschemas.mapBy('name');
             if (!this.features.isEnabled(enableInactiveSchemas)) {
                 metaschemaNames.push(

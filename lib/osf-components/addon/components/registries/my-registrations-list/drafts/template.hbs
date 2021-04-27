@@ -1,0 +1,37 @@
+<ContentPlaceholders as |placeholder|>
+    <PaginatedList::All
+        @modelName='draft-registration'
+        @usePlaceholders={{false}}
+        as |list|
+    >
+        <list.item as |draftRegistration|>
+            {{#if draftRegistration}}
+                <DraftRegistrationCard
+                    @draftRegistration={{draftRegistration}}
+                    @onDelete={{action list.doReload 1}}
+                />
+            {{else}}
+                {{placeholder.text lines=1}}
+            {{/if}}
+        </list.item>
+        <list.empty local-class='FlexContainer'>
+            <div local-class='NoContentContainer'>
+                <p data-test-draft-list-no-general>
+                    {{t 'registries.myRegistrationsList.noGeneral'}}
+                </p>
+                <p data-test-draft-list-no-drafts>
+                    {{t 'registries.myRegistrationsList.noDrafts'}}
+                </p>
+                <OsfLink
+                    @route='registries.branded.new'
+                    @models={{array 'osf'}}
+                    data-test-add-new-button
+                >
+                    <Button @type='create'>
+                        {{t 'registries.myRegistrationsList.createRegistration'}}
+                    </Button>
+                </OsfLink>
+            </div>
+        </list.empty>
+    </PaginatedList::All>
+</ContentPlaceholders>

@@ -40,6 +40,7 @@ export default class GuidNodeRegistrations extends Controller {
         let schemas = yield this.store.query('registration-schema',
             {
                 'filter[active]': true,
+                'page[size]': 100,
             });
         schemas = schemas.toArray();
         schemas.sort((a: RegistrationSchema, b: RegistrationSchema) => a.name.length - b.name.length);
