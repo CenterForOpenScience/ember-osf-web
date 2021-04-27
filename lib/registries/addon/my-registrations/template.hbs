@@ -1,1 +1,40 @@
-{{ outlet }}
+{{title (t 'registries.my_registrations.header')}}
+
+<RegistriesWrapper>
+    <OsfLayout @backgroundClass={{local-class 'ContentBackground'}} as |layout|>
+        <layout.heading>
+            <HeroOverlay @align='left'>
+                <div local-class='Title'>
+                    <h1>
+                        {{t 'registries.my_registrations.header'}}
+                    </h1>
+                </div>
+            </HeroOverlay>
+        </layout.heading>
+        <layout.main>
+            {{#if this.currentUser.user}}
+                <BsTab
+                    local-class='NavTabs'
+                    @onChange={{this.changeTab}} 
+                    @activeId={{this.tab}}
+                    as |tab|
+                >
+                    <tab.pane
+                        local-class='Tab'
+                        @title={{t 'registries.my_registrations.drafts'}}
+                        @id='drafts'
+                    >
+                        <Registries::MyRegistrationsList::Drafts />
+                    </tab.pane>
+                    <tab.pane
+                        local-class='Tab'
+                        @title={{t 'registries.my_registrations.submitted'}}
+                        @id='submitted'
+                    >
+                        <Registries::MyRegistrationsList::Registrations @user={{this.currentUser.user}} />
+                    </tab.pane>
+                </BsTab>
+            {{/if}}
+        </layout.main>
+    </OsfLayout>
+</RegistriesWrapper>

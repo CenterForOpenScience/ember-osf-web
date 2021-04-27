@@ -37,6 +37,8 @@ module('Registries | Acceptance | branded.discover', hooks => {
         assert.dom('[data-test-source-filter-id]').isChecked('Provider facet checkbox is checked');
         assert.dom('[data-test-source-filter-id]').isDisabled('Provider facet checkbox is disabled');
         assert.dom('[data-test-link-other-registries]').exists('Link to other registries is shown');
+        assert.dom('[data-test-provider-description]').containsText('Find out more', 'Provider description exists');
+        assert.dom('[data-test-provider-description] a').exists('There is a link in the provider description');
         assert.ok(document.querySelector('link[rel="icon"][href="fakelink"]'));
     });
 
