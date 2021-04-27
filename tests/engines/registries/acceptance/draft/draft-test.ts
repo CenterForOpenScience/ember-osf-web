@@ -494,7 +494,6 @@ module('Registries | Acceptance | draft form', hooks => {
         await percySnapshot(assert);
 
         await click('[data-test-confirm-delete]');
-        await settled();
         assert.equal(currentURL(), '/dashboard', 'user is redirected to /dashboard');
     });
 
@@ -982,7 +981,7 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom(`[data-test-delete-file="${folderOne.id}"] > button`)
             .doesNotExist('folderOne has no delete button');
         await click(`[data-test-file-browser-item="${folderOne.id}"]`);
-        await animationsSettled();
+        animationsSettled();
 
         assert.dom(`[data-test-delete-current-folder="${folderOne.id}"] > button`)
             .isVisible('folderOne has a delete button');

@@ -24,6 +24,7 @@ const statusMessagesStub = Service.extend({
 });
 
 const analyticsStub = Service.extend({
+    // eslint-disable-next-line ember/no-actions-hash
     actions: {
         // eslint-disable-next-line no-empty,@typescript-eslint/no-empty-function
         click() { },

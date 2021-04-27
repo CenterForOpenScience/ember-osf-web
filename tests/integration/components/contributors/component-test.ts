@@ -319,7 +319,7 @@ module('Integration | Component | contributors', hooks => {
         assert.dom('[data-test-user-search-input]').exists('User serach button renders');
         assert.dom('[data-test-add-unregistered-contributor-button]').exists('Add unregistered contrib button renders');
         assert.dom('[data-test-user-search-results]').exists('Search result continer renders');
-        assert.dom('[data-test-contributor-card').doesNotExist('No contributors are on the draft');
+        assert.dom('[data-test-contributor-card]').doesNotExist('No contributors are on the draft');
         await fillIn('[data-test-user-search-input]', 'Bae');
         await click('[data-test-user-search-button]');
         await selectChoose(`[data-test-user-permission="${suzy.id}"]`, 'Read');
@@ -328,7 +328,8 @@ module('Integration | Component | contributors', hooks => {
         assert.dom('[data-test-contributor-card]').exists({ count: 1 }, 'There is one contributor on the draft');
         assert.dom('[data-test-contributor-link]').hasText(suzy.fullName, 'Contributor name matches');
         assert.dom('[data-test-contributor-permission]').hasText('Read', 'Contributor permission matches');
-        assert.dom('[data-test-contributor-citation-checkbox').isNotChecked('Contributor bibliographic status matches');
+        assert.dom('[data-test-contributor-citation-checkbox]')
+            .isNotChecked('Contributor bibliographic status matches');
         assert.dom(`[data-test-add-contributor-button="${suzy.id}"`).doesNotExist('Add contributor button is gone');
     });
 
@@ -365,6 +366,7 @@ module('Integration | Component | contributors', hooks => {
         assert.dom('[data-test-contributor-card]').exists({ count: 1 }, 'There is one contributor on the draft');
         assert.dom('[data-test-contributor-link]').hasText('Shin Sekyung', 'Contributor name matches');
         assert.dom('[data-test-contributor-permission]').hasText('Read', 'Contributor permission matches');
-        assert.dom('[data-test-contributor-citation-checkbox').isNotChecked('Contributor bibliographic status matches');
+        assert.dom('[data-test-contributor-citation-checkbox]')
+            .isNotChecked('Contributor bibliographic status matches');
     });
 });
