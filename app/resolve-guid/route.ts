@@ -7,6 +7,7 @@ import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
+import RouterService from '@ember/routing/router-service';
 
 import { notFoundURL } from 'ember-osf-web/utils/clean-url';
 import param from 'ember-osf-web/utils/param';
@@ -27,7 +28,7 @@ const { featureFlagNames: { routes } } = config;
 export default class ResolveGuid extends Route {
     @service features!: Features;
     @service store!: Store;
-    _router!: PrivateRouter;
+    @service router!: RouterService & { _router: PrivateRouter };
 
     @computed(`features.${camelize(routes['registries.overview'])}`)
     get routeMap(): Record<string, string> {
@@ -43,13 +44,13 @@ export default class ResolveGuid extends Route {
     }
 
     isEngineRoute(route: string): boolean {
-        return Boolean(this._router._engineInfoByRoute && route in this._router._engineInfoByRoute);
+        return Boolean(this.router._router._engineInfoByRoute && route in this.router._router._engineInfoByRoute);
     }
 
     generateURL(route: string, ...args: any[]): string {
         // NOTE: The router's urlFor is skipped over here as it passes the result of generate into the location
         // implementation, which would rip out the "--PATH" which is used for routing here.
-        return this._router._routerMicrolib.generate(route, ...args);
+        return this.router._router._routerMicrolib.generate(route, ...args);
     }
 
     async beforeModel(transition: Transition) {
@@ -96,13 +97,12 @@ export default class ResolveGuid extends Route {
 
             url = `${url}?${param(transition[qpsKey])}`;
         }
-
-        return this.replaceWith(url);
+        return this.router.replaceWith(url);
     }
 
     @action
     error(error: Error, transition: Transition) {
-        this.replaceWith('not-found', notFoundURL(transitionTargetURL(transition)));
+        this.router.replaceWith('not-found', notFoundURL(transitionTargetURL(transition)));
 
         throw error;
     }
