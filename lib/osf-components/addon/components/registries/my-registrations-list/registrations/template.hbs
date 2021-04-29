@@ -3,6 +3,7 @@
         @model={{@user}}
         @relationshipName='registrations'
         @usePlaceholders={{false}}
+        @query={{this.filter}}
         as |list|
     >
         <list.item as |registration|>
