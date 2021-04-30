@@ -1,32 +1,34 @@
 <OsfDialog as |dialog|>
-    <div local-class='LicenseView'>
-        <dialog.trigger>
-            <OsfButton
+    
+    <dialog.trigger>
+        <OsfButton
             data-analytics-name='View license'
             local-class='LinkButton'
             @type='link'
             @onClick={{dialog.open}}
-            >
+        >
+            <div local-class='LicenseName'>
                 {{@registration.license.name}}
-            </OsfButton>
-        </dialog.trigger>
+            </div>
+        </OsfButton>
+    </dialog.trigger>
 
-        <dialog.heading>
-            {{t 'registries.registration_metadata.license'}}
-        </dialog.heading>
+    <dialog.heading>
+        {{t 'registries.registration_metadata.license'}}
+    </dialog.heading>
 
-        <dialog.main>
-            {{#if @registration.license.url}}
-                <p>
-                    <OsfLink
+    <dialog.main>
+        {{#if @registration.license.url}}
+            <p>
+                <OsfLink
                     data-analytics-name='License URL'
                     @href={{@registration.license.url}}
-                    >
-                        {{@registration.license.name}}
-                    </OsfLink>
-                </p>
-            {{/if}}
-            <LicenseText @node={{@registration}} />
-        </dialog.main>
-    </div>
+                >
+                    {{@registration.license.name}}
+                </OsfLink>
+            </p>
+        {{/if}}
+        <LicenseText @node={{@registration}} />
+    </dialog.main>
+    
 </OsfDialog>

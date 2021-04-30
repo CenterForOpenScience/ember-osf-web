@@ -3,9 +3,11 @@
     border: 0;
 }
 
-.LicenseView {
-    overflow: auto;
+.LicenseName {
+    text-overflow: ellipsis;
+    white-space: normal;
 
+    -ms-word-break: break-word;
     overflow-wrap: break-word;
     word-wrap: break-word;
     word-break: break-word;
