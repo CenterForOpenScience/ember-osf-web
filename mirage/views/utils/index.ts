@@ -43,6 +43,10 @@ export function filter(model: ModelInstance, request: Request) {
                     if (field === 'id') {
                         return compareIds(model.id, val, toOperator(operator));
                     }
+                    if (val === '') {
+                        const actualValue = model[`${field}Ids`] || model[`${field}Id`] || '';
+                        return compareIds(actualValue, val, toOperator(operator));
+                    }
                     if (model[`${field}Ids`] || model[`${field}Id`]) {
                         return compareIds(model[`${field}Ids`] || model[`${field}Id`], val, toOperator(operator));
                     }

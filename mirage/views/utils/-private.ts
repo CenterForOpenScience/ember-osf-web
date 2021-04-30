@@ -238,13 +238,10 @@ export function compareIds(
 }
 
 export function compare(
-    actualValue: string | boolean | string[] | null,
+    actualValue: string | boolean | string[],
     comparisonValue: string,
     operator: ComparisonOperators,
 ): boolean {
-    if (actualValue === null) {
-        return compareStrings('', comparisonValue, operator);
-    }
     if (typeof actualValue === 'string') {
         return compareStrings(actualValue, comparisonValue, operator);
     }
