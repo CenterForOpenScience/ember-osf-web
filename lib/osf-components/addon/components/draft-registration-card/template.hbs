@@ -67,17 +67,18 @@
             </dl>
             <div class='row'>
                 <div class='col-md-10'>
-                    <OsfLink
+                    <Button
                         data-test-draft-card-review
                         data-analytics-name='Review'
                         local-class='DraftRegistrationCard__review'
-                        @route='registries.drafts.draft.review'
-                        @models={{array this.draftRegistration.id}}
                     >
-                        <Button>
+                        <OsfLink
+                            @route='registries.drafts.draft.review'
+                            @models={{array this.draftRegistration.id}}
+                        >
                             {{t 'osf-components.draft-registration-card.review'}}
-                        </Button>
-                    </OsfLink>
+                        </OsfLink>
+                    </Button>
                     {{#unless this.draftRegistration.currentUserIsReadOnly}}
                         <OsfLink
                             data-test-draft-card-edit

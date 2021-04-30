@@ -40,6 +40,10 @@
 
 .DraftRegistrationCard__review {
     margin-right: 10px;
+
+    a:hover {
+        text-decoration: none;
+    }
 }
 
 .DraftRegistrationCard__delete {
