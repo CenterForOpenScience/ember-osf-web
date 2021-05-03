@@ -30,8 +30,8 @@
                     data-analytics-name='Toggle'
                     @classNames={{local-class 'Service Dropdown'}}
                 >
-                    <span>{{t 'general.OSF'}}</span>
-                    <strong>{{t 'general.services.registries'}}</strong>
+                    <span local-class='HideOnMobile'>{{t 'general.OSF'}}</span>
+                    <strong local-class='HideOnMobile'>{{t 'general.services.registries'}}</strong>
                     {{nav.icon (if dropdown.isOpen 'caret-up' 'caret-down')}}
                 </dropdown.toggle>
 
@@ -62,24 +62,61 @@
                 <nav.links.secondary
                     data-test-my-reviewing-button
                     data-analytics-name='Go to moderation view'
-                    local-class='SecondaryNavLinkButton'
+                    local-class='SecondaryNavLinkButton HideOnMobile'
                     @route='registries.branded.moderation'
-                    @models={{array this.provider.id}}
+                    @models={{array this.providerId}}
                 >
                     {{t 'navbar.moderation'}}
+                </nav.links.secondary>
+                <nav.links.secondary
+                    data-test-my-reviewing-button
+                    data-analytics-name='Go to moderation view'
+                    local-class='SecondaryNavLinkButton OnlyOnMobile'
+                    aria-label={{t 'navbar.moderation'}}
+                    @route='registries.branded.moderation'
+                    @models={{array this.providerId}}
+                >
+                    <FaIcon @icon='clipboard-check' @size='2x' />
                 </nav.links.secondary>
             {{/if}}
             {{#if this.showAddRegistrationButton}}
                 <nav.links.secondary
                     data-test-add-new-button
                     data-analytics-name='Create new registration'
-                    local-class='SecondaryNavLinkButton'
+                    local-class='SecondaryNavLinkButton HideOnMobile'
                     @route='registries.branded.new'
                     @models={{array this.providerId}}
                 >
                     {{t 'navbar.add_registration'}}
                 </nav.links.secondary>
+                <nav.links.secondary
+                    data-test-add-new-button
+                    data-analytics-name='Create new registration'
+                    local-class='SecondaryNavLinkButton OnlyOnMobile'
+                    aria-label={{t 'navbar.add_registration'}}
+                    @route='registries.branded.new'
+                    @models={{array this.providerId}}
+                >
+                    <FaIcon @icon='plus' @size='2x' />
+                </nav.links.secondary>
             {{/if}}
+            <nav.links.secondary
+                data-test-add-new-button
+                data-analytics-name='Go to my registrations'
+                local-class='SecondaryNavLinkButton HideOnMobile'
+                @route='registries.my-registrations'
+            >
+                {{t 'navbar.my_registrations'}}
+            </nav.links.secondary>
+            <nav.links.secondary
+                data-test-add-new-button
+                data-analytics-name='Go to my registrations'
+                aria-label={{t 'navbar.my_registrations'}}
+                local-class='SecondaryNavLinkButton OnlyOnMobile'
+                @route='registries.my-registrations'
+            >
+                <FaIcon @icon='file-alt' @size='2x' />
+            </nav.links.secondary>
 
             <nav.links.secondary
                 data-test-help='1'

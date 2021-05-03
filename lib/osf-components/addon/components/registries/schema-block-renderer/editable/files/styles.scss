@@ -14,4 +14,9 @@
 
 .FilesWidget {
     composes: Element from '../../styles';
+
+    &[disabled] {
+        opacity: 0.5;
+        pointer-events: none;
+    }
 }

@@ -45,7 +45,7 @@
                         </NodeList>
                     </div>
                 </tab.pane>
-                {{#if this.node.userHasAdminPermission}}
+                {{#if this.node.userHasReadPermission}}
                     <tab.pane
                         data-analytics-scope='Drafts tab'
                         @id='drafts'
@@ -69,7 +69,9 @@
 
                                 <list.empty>
                                     <p>{{t 'node.registrations.no_drafts'}}</p>
-                                    <p>{{t 'node.registrations.start_new'}}</p>
+                                    {{#if this.node.userHasAdminPermission}}
+                                        <p>{{t 'node.registrations.start_new'}}</p>
+                                    {{/if}}
                                     <p>
                                         {{t 'node.registrations.learn_more'
                                           learnMoreLink='https://openscience.zendesk.com/hc/en-us/articles/360019930893'
