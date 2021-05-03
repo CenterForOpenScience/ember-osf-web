@@ -4,7 +4,7 @@
     local-class='NodeCard'
 >
     <h4 class='list-group-item-heading' local-class='NodeCard__heading' data-test-node-card-heading>
-        <span class='f-w-lg'>
+        <span>
             {{#if @node}}
                 {{#unless @node.public}}
                     <span>
@@ -97,47 +97,60 @@
     <div data-test-node-card-body local-class='NodeCard__body'>
         {{#if @node}}
             <dl>
-                <dt>
-                    {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}}        
-                </dt>
-                <dd>
-                    {{moment-format @node.dateCreated 'YYYY-MM-DD h:mm A'}}
-                </dd>
                 {{#if @node.isRegistration}}
-                    <div
-                        data-test-registration-template-name
-                    >
-                        <dt
-                            data-test-registration-template-label
-                        >
+                    <div data-test-registration-template-name>
+                        <dt data-test-registration-template-label>
                             {{t 'node_card.registration_template'}}
                         </dt>
                         <dd>
                             {{@node.registrationSchema.name}}
                         </dd>
                     </div>
+                    <div data-test-registration-registry>
+                        <dt data-test-registration-registry-label>
+                            {{t 'node_card.registry'}}
+                        </dt>
+                        <dd data-test-registration-registry-name>
+                            {{@node.provider.name}}
+                        </dd>
+                    </div>
                 {{/if}}
-                <dt
-                    data-test-contributors-label
-                >
-                    {{t 'node_card.contributors'}}
-                </dt>
-                <dd>
-                    <ContributorList
-                        @model={{@node}}
-                        @shouldLinkUsers={{true}}
-                    />
-                </dd>
-                <div
-                    data-test-description
-                    local-class='NodeCard__description'
-                >
+                <div data-test-created-timestamp>
+                    <dt data-test-created-timestamp-label>
+                        {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}}        
+                    </dt>
+                    <dd data-test-created-timestamp-value>
+                        {{moment @node.dateCreated}}
+                    </dd>
+                </div>
+                <div data-test-updated-timestamp>
+                    <dt data-test-updated-timestamp-label>
+                        {{t 'node_card.last_updated'}}        
+                    </dt>
+                    <dd data-test-updated-timestamp-value>
+                        {{moment @node.dateModified}}
+                    </dd>
+                </div>
+                <div data-test-contributors>
+                    <dt
+                        data-test-contributors-label
+                    >
+                        {{t 'node_card.contributors'}}
+                    </dt>
+                    <dd>
+                        <ContributorList
+                            @model={{@node}}
+                            @shouldLinkUsers={{true}}
+                        />
+                    </dd>
+                </div>
+                <div data-test-description>
                     <dt
                         data-test-description-label
                     >
                         {{t 'node_card.description'}}
                     </dt>
-                    <dd>
+                    <dd local-class='NodeCard__description'>
                         {{@node.description}}
                     </dd>
                 </div>

@@ -578,7 +578,7 @@ join_osf:
 node_card:
     generic:
         private_tooltip: 'This project is private'
-        timestamp_label: ""
+        timestamp_label: 'Created:'
     fork:
         private_tooltip: 'This fork is private'
         timestamp_label: 'Forked:'
@@ -601,6 +601,8 @@ node_card:
     registration_template: 'Registration template:'
     contributors: 'Contributors:'
     description: 'Description:'
+    last_updated: 'Last updated:'
+    registry: 'Registry:'
     options: Options
     view: 'View'
 forks:
@@ -1132,6 +1134,10 @@ registries:
         recent:
             title: 'Browse Registrations'
             more: 'See more'
+    my_registrations:
+        header: 'My Registrations'
+        drafts: 'Drafts'
+        submitted: 'Submitted'
     registration_metadata:
         add_description: 'Add description'
         add_contributors:
@@ -1418,6 +1424,11 @@ registries:
         justificationForWithdrawal: 'Justification for Withdrawal'
         justificationForWithdrawalPlaceholder: 'Provide justification for withdrawal'
         noModeratorActions: 'No moderator decisions can be made at this time'
+    myRegistrationsList:
+        noGeneral: 'This page allows you to search and quickly access your registrations.'
+        noRegistrations: "You don't have any submitted registrations. Create one with the button below."
+        noDrafts: "You don't have any draft registrations. Create one with the button below."
+        createRegistration: 'Create a registration'
 meetings:
     index:
         meetings-list:

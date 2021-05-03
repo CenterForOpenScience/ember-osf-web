@@ -34,12 +34,18 @@
 }
 
 .NodeCard__body dt,
-dd {
+.NodeCard__body dd {
     display: inline-block;
+    max-width: 80%;
+    margin-right: 5px;
 }
 
 .NodeCard__body dl {
     margin-bottom: 10px;
+}
+
+.NodeCard__body > dl > div {
+    display: flex;
 }
 
 .NodeCard__dropdown {
@@ -72,14 +78,12 @@ dd {
     }
 }
 
-.NodeCard__description {
-    font-weight: 300;
-    text-overflow: ellipsis;
-    display: block;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
 .NodeCard__tags {
     margin-top: 2px;
+}
+
+.NodeCard__description {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
