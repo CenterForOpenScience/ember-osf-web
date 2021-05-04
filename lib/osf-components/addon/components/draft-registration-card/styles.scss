@@ -38,7 +38,8 @@
     }
 }
 
-.DraftRegistrationCard__review {
+// stylelint-disable selector-no-qualifying-type
+a.DraftRegistrationCard__review {
     margin-right: 10px;
 
     &:hover {
@@ -46,6 +47,7 @@
     }
 }
 
+// stylelint-enable selector-no-qualifying-type
 .DraftRegistrationCard__delete {
     button {
         padding: 6px 12px;
