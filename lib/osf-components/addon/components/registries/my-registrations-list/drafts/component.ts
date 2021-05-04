@@ -5,6 +5,7 @@ export default class MyRegistrationsDraftListComponent extends Component {
         embed: [
             'provider',
             'registration_schema',
+            'initiator',
         ],
     };
 }
