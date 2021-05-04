@@ -20,6 +20,7 @@ export interface DescriptionManager {
     inEditMode: boolean;
     currentDescription: string;
     description: string;
+    updateDescription: () => void;
 }
 
 @tagName('')
@@ -73,6 +74,11 @@ export default class DescriptionManagerComponent extends Component {
             requestedEditMode: true,
             currentDescription: this.node.description,
         });
+    }
+
+    @action
+    updateDescription(event: MouseEvent) {
+        this.set('currentDescription', (event.currentTarget as HTMLTextAreaElement).value);
     }
 
     @action

@@ -68,30 +68,29 @@ export default class PublicationDoiManagerComponent extends Component {
 
     @restartableTask
     @waitFor
-    async save() {
+    async save(e: Event) {
+        e.preventDefault();
         this.changeset.validate();
 
         this.set('didValidate', true);
 
-        if (!this.changeset.isValid) {
-            return;
-        }
+        if (this.changeset.isValid) {
+            this.changeset.execute();
+            const doi = extractDoi(this.validationNode.articleDoi);
 
-        this.changeset.execute();
-        const doi = extractDoi(this.validationNode.articleDoi);
-
-        this.node.set('articleDoi', doi);
-        try {
-            await this.node.save();
-        } catch (e) {
-            this.node.rollbackAttributes();
-            const errorMessage = this.intl.t('registries.registration_metadata.edit_pub_doi.error');
-            captureException(e, { errorMessage });
-            this.toast.error(getApiErrorMessage(e), errorMessage);
-            throw e;
+            this.node.set('articleDoi', doi);
+            try {
+                await this.node.save();
+            } catch (e) {
+                this.node.rollbackAttributes();
+                const errorMessage = this.intl.t('registries.registration_metadata.edit_pub_doi.error');
+                captureException(e, { errorMessage });
+                this.toast.error(getApiErrorMessage(e), errorMessage);
+                throw e;
+            }
+            this.set('requestedEditMode', false);
+            this.toast.success(this.intl.t('registries.registration_metadata.edit_pub_doi.success'));
         }
-        this.set('requestedEditMode', false);
-        this.toast.success(this.intl.t('registries.registration_metadata.edit_pub_doi.success'));
     }
 
     didReceiveAttrs() {

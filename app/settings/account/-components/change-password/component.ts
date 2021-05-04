@@ -43,28 +43,29 @@ export default class ChangePasswordPane extends Component {
 
     @task
     @waitFor
-    async submitTask() {
+    async submitTask(e: Event) {
+        e.preventDefault();
+
         const errorMessage = this.intl.t('settings.account.changePassword.updateFail');
         const successMessage = this.intl.t('settings.account.changePassword.updateSuccess');
         const { validations } = await this.userPassword.validate();
         this.set('didValidate', true);
 
-        if (!validations.isValid) {
-            return;
+        if (validations.isValid) {
+            try {
+                await this.userPassword.save();
+            } catch (e) {
+                captureException(e, { errorMessage });
+                this.toast.error(getApiErrorMessage(e), errorMessage);
+                return;
+            }
+            this.userPassword.unloadRecord();
+            this.toast.success(successMessage);
+            const { timeOut, hideDuration } = window.toastr.options;
+            if (typeof timeOut !== 'undefined' && typeof hideDuration !== 'undefined') {
+                await timeout(Number(timeOut) + Number(hideDuration));
+            }
+            this.currentUser.logout();
         }
-        try {
-            await this.userPassword.save();
-        } catch (e) {
-            captureException(e, { errorMessage });
-            this.toast.error(getApiErrorMessage(e), errorMessage);
-            return;
-        }
-        this.userPassword.unloadRecord();
-        this.toast.success(successMessage);
-        const { timeOut, hideDuration } = window.toastr.options;
-        if (typeof timeOut !== 'undefined' && typeof hideDuration !== 'undefined') {
-            await timeout(Number(timeOut) + Number(hideDuration));
-        }
-        this.currentUser.logout();
     }
 }

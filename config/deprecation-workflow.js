@@ -24,5 +24,6 @@ self.deprecationWorkflow.config = {
         { handler: 'silence', matchId: 'ember-engines.deprecation-camelized-engine-names' },
         { handler: 'silence', matchId: 'ember-data:legacy-test-helper-support' },
         { handler: 'silence', matchId: 'autotracking.mutation-after-consumption' },
+        { handler: 'silence', matchId: 'has-block-and-has-block-params' },
     ],
 };

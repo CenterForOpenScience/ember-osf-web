@@ -4,7 +4,7 @@
 >
     <panel.heading @title={{t 'settings.account.changePassword.title'}} />
     <panel.body data-analytics-scope='Change password panel'>
-        <form data-test-password-form>
+        <form {{on 'submit' (perform this.submitTask)}} data-test-password-form>
             {{#let (component 'validated-input/text') as |ValidatedTextInput| }}
                 <ValidatedTextInput
                     data-test-current-password
@@ -46,7 +46,6 @@
                 data-test-update-password-button
                 data-analytics-name='Submit'
                 type='submit'
-                @onClick={{perform this.submitTask}}
             >
                 {{t 'settings.account.changePassword.updateButton'}}
             </BsButton>

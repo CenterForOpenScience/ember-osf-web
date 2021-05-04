@@ -569,8 +569,6 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assert.dom('.ember-power-select-options').hasText('No license');
         await selectChoose('[data-test-power-select-dropdown]', 'No license');
 
-        await click('[data-test-save-license]');
-
         const missingFields = 'Copyright Holders';
         const validationErrorMsg = t('validationErrors.node_license_missing_fields',
             { missingFields, numOfFields: 1 }).toString();

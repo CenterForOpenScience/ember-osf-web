@@ -68,7 +68,7 @@
                     data-analytics-name='Save'
                     disabled={{@manager.isSaving}}
                     @type='primary'
-                    @onClick={{action @manager.save}}
+                    {{on 'click' @manager.save}}
                 >
                     {{t 'general.save'}}
                 </BsButton>
