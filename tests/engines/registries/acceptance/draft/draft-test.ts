@@ -7,6 +7,7 @@ import {
     find,
     settled,
     triggerKeyEvent,
+    blur,
 } from '@ember/test-helpers';
 import { animationsSettled, TimeControl } from 'ember-animated/test-support';
 import { ModelInstance } from 'ember-cli-mirage';
@@ -870,37 +871,34 @@ module('Registries | Acceptance | draft form', hooks => {
         await percySnapshot('Registries | Acceptance | draft form | metadata editing | metadata: licenses opened');
         assert.dom('[data-option-index="2"]').containsText('MIT License');
         await click('[data-option-index="2"]'); // This should be MIT License which requires Year and Copyright Holder
-        assert.dom('[data-test-required-field="year"]')
+        assert.dom('[data-test-required-field="nodeLicense.year"]')
             .hasValue(new Date().getUTCFullYear().toString(), 'License: Year autofills to current year');
-        assert.dom('[data-test-required-field="copyrightHolders"]')
+        assert.dom('[data-test-required-field="nodeLicense.copyrightHolders"]')
             .hasText('', 'License: CopyrightHolders does not autofill');
-        let missingFields = 'Copyright Holders';
-        let validationErrorMsg = t('validationErrors.node_license_missing_fields',
-            { missingFields, numOfFields: 1 }).toString();
-        assert.dom('[data-test-validation-errors="nodeLicense"]')
-            .containsText(validationErrorMsg, 'NodeLicense validation error when copyright holder is empty');
+        assert.dom('[data-test-validation-errors="nodeLicense.copyrightHolders"]').isVisible();
 
         // Input invalid Nodelicense fields
-        await fillIn('[data-test-required-field="year"]', '');
-        missingFields = 'Year, Copyright Holders';
-        validationErrorMsg = t('validationErrors.node_license_missing_fields',
-            { missingFields, numOfFields: 2 }).toString();
-        assert.dom('[data-test-validation-errors="nodeLicense"]')
-            .containsText(validationErrorMsg, 'NodeLicense validation error when year and copyrightholder are empty');
+        await fillIn('[data-test-required-field="nodeLicense.year"]', '');
+        await blur('[data-test-required-field="nodeLicense.year"]');
+        assert.dom('[data-test-validation-errors="nodeLicense.year"]').isVisible();
+        assert.dom('[data-test-validation-errors="nodeLicense.copyrightHolders"]').isVisible();
         await percySnapshot('Registries | Acceptance | draft form | metadata editing | metadata: invalid nodelicense');
 
         // validation errors for nodelicense should show on review page
         await click('[data-test-link="review"]');
 
-        assert.dom('[data-test-validation-errors="nodeLicense"]').exists('NodeLicense errors exist on Review page');
+        assert.dom('[data-test-validation-errors="nodeLicense.year"]')
+            .exists('NodeLicense.year errors exist on Review page');
+        assert.dom('[data-test-validation-errors="nodeLicense.copyrightHolders"]')
+            .exists('NodeLicense.copyrightHolders errors exist on Review page');
         await percySnapshot('Registries | Acceptance | draft form | metadata editing | review: invalid nodelicense');
 
         // Return to metadata page to address empty fields
         await click('[data-test-link="metadata"]');
 
-        await fillIn('[data-test-required-field="year"]', '2222');
-        await fillIn('[data-test-required-field="copyrightHolders"]', 'Twice and BlackPink');
-        assert.dom('[data-test-validation-errors="nodeLicense"]')
+        await fillIn('[data-test-required-field="nodeLicense.year"]', '2222');
+        await fillIn('[data-test-required-field="nodeLicense.copyrightHolders"]', 'Twice and BlackPink');
+        assert.dom('[data-test-validation-errors="nodeLicense.year"]')
             .doesNotExist('NodeLicense validation errrors gone when year and license holders are filled in');
 
         // NodeLicense fields appear on review page
@@ -917,9 +915,9 @@ module('Registries | Acceptance | draft form', hooks => {
         await click('[data-test-select-license] > .ember-basic-dropdown-trigger');
         assert.dom('[data-option-index="1"]').containsText('General Public License');
         await click('[data-option-index="1"]'); // This should be General Public which does not require any fields
-        assert.dom('[data-test-required-field="year"]')
+        assert.dom('[data-test-required-field="nodeLicense.year"]')
             .doesNotExist('year field does not display on a license that does not require it');
-        assert.dom('[data-test-required-field="copyrightHolders"]')
+        assert.dom('[data-test-required-field="nodeLicense.copyrightHolders"]')
             .doesNotExist('copyright holders field does not display on a license that does not require it');
     });
 

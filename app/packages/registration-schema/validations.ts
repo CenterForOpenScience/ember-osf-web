@@ -82,39 +82,31 @@ export function validateNodeLicense() {
         if (!validateLicenseTarget || validateLicenseTarget.get('requiredFields').length === 0) {
             return true;
         }
-        const missingFieldsList: Array<keyof NodeLicense> = [];
-        for (const item of validateLicenseTarget.get('requiredFields')) {
-            if (!validateNodeLicenseTarget || !validateNodeLicenseTarget[item]) {
-                missingFieldsList.push(item);
-            }
-        }
-        if (missingFieldsList.length === 0) {
-            return true;
-        }
-        const missingFields = missingFieldsList.map(field => NodeLicenseFields[field]).join(', ');
-        return {
-            context: {
-                type: 'node_license_missing_fields',
-                translationArgs: {
-                    missingFields,
-                    numOfFields: missingFieldsList.length,
+
+        if (!validateNodeLicenseTarget || !validateNodeLicenseTarget.copyrightHolders) {
+            return {
+                context: {
+                    type: 'invalid_copyright_holders',
                 },
-            },
-        };
+            };
+        }
+
+        return true;
     };
 }
 
 export function validateNodeLicenseYear() {
+    // (key, newValue, oldValue, changes, content)
     return (_: unknown, __: unknown, ___: unknown, changes: any, content: DraftRegistration) => {
-        let validateYearTarget = '';
-        if (content.nodeLicense && content.nodeLicense.year) {
+        let validateYearTarget;
+        if (content.nodeLicense && 'year' in content.nodeLicense) {
             validateYearTarget = content.nodeLicense.year;
         }
-        if (changes.nodeLicense && changes.nodeLicense.year) {
+        if (changes.nodeLicense && 'year' in changes.nodeLicense) {
             validateYearTarget = changes.nodeLicense.year;
         }
         const regex = /^((?!(0))[0-9]{4})$/;
-        if (validateYearTarget && !validateYearTarget.match(regex)) {
+        if (!regex.test(validateYearTarget)) {
             return {
                 context: {
                     type: 'year_format',
@@ -152,6 +144,9 @@ export function buildMetadataValidations() {
     set(validationObj, DraftMetadataProperties.Description, notBlank);
     set(validationObj, DraftMetadataProperties.License, notBlank);
     set(validationObj, DraftMetadataProperties.Subjects, validateSubjects());
-    set(validationObj, DraftMetadataProperties.NodeLicenseProperty, [validateNodeLicense(), validateNodeLicenseYear()]);
+    set(validationObj, DraftMetadataProperties.NodeLicenseProperty, {
+        copyrightHolders: validateNodeLicense(),
+        year: validateNodeLicenseYear(),
+    });
     return validationObj;
 }

@@ -1,7 +1,7 @@
 import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
-import { action, set } from '@ember/object';
+import { action } from '@ember/object';
 import { alias, sort } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
@@ -66,11 +66,14 @@ export default class LicensePickerManager extends Component implements LicenseMa
             };
             const props = selected.requiredFields.reduce(
                 (acc, val) => ({ ...acc, [val]: dummyNodeLicense[val] }),
-                {},
+                {} as Record<'year|copyrightHolders', string>,
             );
-            this.draftManager.metadataChangeset.set('nodeLicense', props);
+            Object.keys(props).forEach((key: 'year|copyrightHolders') => {
+                this.draftManager.metadataChangeset.set(`nodeLicense.${key}`, props[key]);
+            })
         } else {
-            this.draftManager.metadataChangeset.set('nodeLicense', null);
+            this.draftManager.metadataChangeset.set('nodeLicense.year', null);
+            this.draftManager.metadataChangeset.set('nodeLicense.copyrightHolders', null);
         }
         taskFor(this.draftManager.onMetadataInput).perform();
     }
@@ -83,9 +86,7 @@ export default class LicensePickerManager extends Component implements LicenseMa
     @action
     updateNodeLicense(key: string, event: Event) {
         const target = event.target as HTMLInputElement;
-        const newNodeLicense = { ...this.draftManager.metadataChangeset.get('nodeLicense') };
-        newNodeLicense[key] = target.value;
-        set(this.draftManager.metadataChangeset, 'nodeLicense', newNodeLicense);
+        this.draftManager.metadataChangeset.set(`nodeLicense.${key}`, target.value);
         this.onInput();
     }
 }

@@ -37,12 +37,12 @@
         </div>
 
         {{#if @manager.selectedLicense}}
-            <form.custom
-                local-class='AdditionalFields'
-                @changeset={{@manager.changeset}}
-                @valuePath='nodeLicense'
-            >
-                {{#each @manager.requiredFields as |key|}}
+            {{#each @manager.requiredFields as |key|}}
+                <form.custom
+                    local-class='AdditionalFields'
+                    @changeset={{@manager.changeset}}
+                    @valuePath='nodeLicense.{{key}}'
+                >
                     <div class='form-group'>
                         <label>
                             <p id='nodeLicense.{{key}}'>
@@ -50,15 +50,15 @@
                                 <span local-class='Required'>*</span>
                             </p>
                             <Input
-                                data-test-required-field={{key}}
+                                data-test-required-field='nodeLicense.{{key}}'
                                 @class='form-control'
                                 @value={{readonly (get @manager.changeset.nodeLicense key)}}
                                 @change={{fn @manager.updateNodeLicense key}}
                             />
                         </label>
                     </div>
-                {{/each}}
-            </form.custom>
+                </form.custom>
+            {{/each}}
 
             <BsButton
                 @type='link'
