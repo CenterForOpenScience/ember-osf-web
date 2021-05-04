@@ -1,5 +1,14 @@
 import Component from '@glimmer/component';
 
 export default class MyRegistrationsListRegistrationsComponent extends Component {
-    filter = { filter: { parent: null } };
+    queryParam = {
+        filter: {
+            parent: null,
+        },
+        embed: [
+            'bibliographic_contributors',
+            'provider',
+            'registration_schema',
+        ],
+    };
 }
