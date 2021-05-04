@@ -20,7 +20,7 @@
     "lint:fix": "npm-run-all --aggregate-output --continue-on-error --parallel lint:*:fix",
     "lint:hbs:fix": "ember-template-lint . --fix",
     "lint:style": "stylelint 'app/**/*.scss' 'lib/**/*.scss'",
-    "lint:template": "ember-template-lint 'app/**/*.hbs' 'lib/**/*.hbs'",
+    "lint:hbs": "ember-template-lint 'app/**/*.hbs' 'lib/**/*.hbs'",
     "test": "npm-run-all lint test:*",
     "test:ember": "ember test",
     "test:cover": "EMBER_ENV=test COVERAGE=true ember exam",
