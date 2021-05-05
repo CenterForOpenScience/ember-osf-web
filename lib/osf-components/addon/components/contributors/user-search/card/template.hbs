@@ -27,7 +27,7 @@
                 <PowerSelect
                     @selected={{this.permission}}
                     @options={{this.permissionOptions}}
-                    @onChange={{fn this.updatePermission}}
+                    @onChange={{this.updatePermission}}
                     @disabled={{this.isAdded}}
                     @searchEnabled={{false}}
                     as |option|
@@ -46,7 +46,7 @@
                     @disabled={{this.isAdded}}
                     data-test-user-citation-checkbox={{@user.id}}
                     data-analytics-name='Toogle isBibliographic'
-                    {{on 'click' (fn this.toggleIsBibliographic)}}
+                    {{on 'click' this.toggleIsBibliographic}}
                 />
             {{/unless}}
         </span>
