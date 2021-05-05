@@ -48,6 +48,10 @@ a.DraftRegistrationCard__review {
 }
 
 // stylelint-enable selector-no-qualifying-type
+.DraftRegistrationCard__edit {
+    vertical-align: bottom;
+}
+
 .DraftRegistrationCard__delete {
     button {
         padding: 6px 12px;
