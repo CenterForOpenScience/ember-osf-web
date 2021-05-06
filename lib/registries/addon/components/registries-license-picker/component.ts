@@ -17,7 +17,7 @@ export interface LicenseManager {
     onInput?: () => void;
     changeLicense: (selected: License) => void;
     startEditing?: () => void;
-    fieldIsEmpty?: License;
+    fieldIsEmpty?: boolean;
     emptyFieldText?: string;
     inEditMode?: boolean;
     userCanEdit?: boolean;

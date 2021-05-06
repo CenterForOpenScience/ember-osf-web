@@ -56,26 +56,22 @@ export default class LicensePickerManager extends Component implements LicenseMa
         });
     }
 
+    setNodeLicenseDefaults(requiredFields: Array<keyof NodeLicense>): void {
+        const nodeLicenseDefaults = {
+            copyrightHolders: '',
+            year: new Date().getUTCFullYear().toString(),
+        };
+
+        requiredFields.forEach(key => {
+            const changesetValue = this.draftManager.metadataChangeset.get('nodeLicense')[key];
+            this.draftManager.metadataChangeset.set(`nodeLicense.${key}`, changesetValue ?? nodeLicenseDefaults[key]);
+        });
+    }
+
     @action
     changeLicense(selected: License) {
         this.set('selectedLicense', selected);
-        if (selected.requiredFields.length) {
-            const dummyNodeLicense: NodeLicense = {
-                copyrightHolders: '',
-                year: new Date().getUTCFullYear().toString(),
-            };
-            const props = selected.requiredFields.reduce(
-                (acc, val) => ({ ...acc, [val]: dummyNodeLicense[val] }),
-                {} as Record<'year|copyrightHolders', string>,
-            );
-            Object.keys(props).forEach((key: 'year|copyrightHolders') => {
-                this.draftManager.metadataChangeset.set(`nodeLicense.${key}`, props[key]);
-            })
-        } else {
-            this.draftManager.metadataChangeset.set('nodeLicense.year', null);
-            this.draftManager.metadataChangeset.set('nodeLicense.copyrightHolders', null);
-        }
-        taskFor(this.draftManager.onMetadataInput).perform();
+        this.setNodeLicenseDefaults(selected.requiredFields);
     }
 
     @action

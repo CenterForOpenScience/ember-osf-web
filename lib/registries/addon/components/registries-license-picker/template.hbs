@@ -79,10 +79,12 @@
                     </BsButton>
                     <BsButton
                         data-analytics-name='Save license'
-                        data-test-save-license @type='primary'
+                        data-test-save-license
                         disabled={{@manager.changeset.isInvalid}}
-                        @buttonType='submit'
-                        @onClick={{@manager.save}}>
+                        @type='primary'
+                        {{on 'click' @manager.save}}
+                    >
+                        {{!-- type='submit' --}}
                         {{t 'general.save'}}
                     </BsButton>
                 </div>

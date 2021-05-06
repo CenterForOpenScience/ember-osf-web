@@ -8,10 +8,11 @@ import { waitFor } from '@ember/test-waiters';
 import { restartableTask } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
+import captureException from 'ember-osf-web/utils/capture-exception';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import License from 'ember-osf-web/models/license';
-import { NodeLicense } from 'ember-osf-web/models/node';
+import LicenseModel from 'ember-osf-web/models/license';
+import NodeModel, { NodeLicense } from 'ember-osf-web/models/node';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import Registration from 'ember-osf-web/models/registration';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -20,7 +21,7 @@ import { LicenseManager } from 'registries/components/registries-license-picker/
 import { Changeset } from 'ember-changeset';
 import lookupValidator, { ValidationObject } from 'ember-changeset-validations';
 import { BufferedChangeset } from 'ember-changeset/types';
-import { validateNodeLicense } from 'ember-osf-web/packages/registration-schema/validations';
+import { validateNodeLicense, validateNodeLicenseYear } from 'ember-osf-web/packages/registration-schema/validations';
 import template from './template';
 
 @tagName('')
@@ -39,15 +40,15 @@ export default class LicenseManagerComponent extends Component implements Licens
     requestedEditMode = false;
 
     showText = false;
-    licensesAcceptable!: QueryHasManyResult<License>;
+    licensesAcceptable!: QueryHasManyResult<LicenseModel>;
     helpLink = 'https://help.osf.io/hc/en-us/articles/360019739014-Licensing';
-    currentLicense!: License;
+    currentLicense!: LicenseModel;
     currentNodeLicense!: NodeLicense;
-    selectedLicense!: License;
+    selectedLicense!: NodeModel['license'];
 
     @alias('node.userHasAdminPermission') userCanEdit!: boolean;
     @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
-    @not('currentLicense') fieldIsEmpty!: License;
+    @not('currentLicense') fieldIsEmpty!: boolean;
 
     @sort('selectedLicense.requiredFields', (a: string, b: string) => +(a > b))
     requiredFields!: string[];
@@ -80,7 +81,11 @@ export default class LicenseManagerComponent extends Component implements Licens
 
     didReceiveAttrs() {
         if (!this.changeset) {
-            const validatorObject: ValidationObject<Registration> = { nodeLicense: validateNodeLicense() };
+            const validatorObject: ValidationObject<Registration> = {};
+            set(validatorObject, 'nodeLicense', {
+                copyrightHolders: validateNodeLicense(),
+                year: validateNodeLicenseYear(),
+            });
             this.changeset = Changeset(
                 this.node,
                 lookupValidator(validatorObject),
@@ -106,50 +111,50 @@ export default class LicenseManagerComponent extends Component implements Licens
     }
 
     @action
-    changeLicense(selected: License) {
+    changeLicense(selected: LicenseModel) {
         this.set('selectedLicense', selected);
         this.setNodeLicenseDefaults(selected.requiredFields);
     }
 
     setNodeLicenseDefaults(requiredFields: Array<keyof NodeLicense>): void {
-        const {
-            copyrightHolders = '',
-            year = new Date().getUTCFullYear().toString(),
-        } = (this.changeset.get('nodeLicense') || {});
-
-        const nodeLicenseDefaults: NodeLicense = {
-            copyrightHolders,
-            year,
+        const nodeLicenseDefaults = {
+            copyrightHolders: '',
+            year: new Date().getUTCFullYear().toString(),
         };
 
-        // Only set the required fields on nodeLicense
-        const props = requiredFields.reduce(
-            (acc, val) => ({ ...acc, [val]: nodeLicenseDefaults[val] }),
-            {},
-        );
-        set(this.changeset, 'nodeLicense', props);
+        requiredFields.forEach(key => {
+            const changesetValue = this.changeset.get('nodeLicense')[key];
+            this.changeset.set(`nodeLicense.${key}`, changesetValue ?? nodeLicenseDefaults[key]);
+        });
     }
 
     @action
     async save() {
-        try {
-            await this.changeset.save({});
-            this.setProperties({
-                currentLicense: this.selectedLicense,
-                currentNodeLicense: { ...this.node.nodeLicense },
-            });
-            this.set('requestedEditMode', false);
-        } catch (e) {
-            this.toast.error(this.intl.t('registries.registration_metadata.edit_license.error'));
+        if (this.changeset.isValid) {
+            try {
+                set(this.node, 'license', this.selectedLicense);
+                set(this.node, 'nodeLicense', {
+                    ...this.changeset.get('nodeLicense'),
+                });
+                await this.node.save();
+                this.setProperties({
+                    currentLicense: this.selectedLicense,
+                    currentNodeLicense: { ...this.node.nodeLicense },
+                });
+                this.set('requestedEditMode', false);
+                this.changeset.rollback();
+                this.toast.success(this.intl.t('registries.registration_metadata.edit_license.success'));
+            } catch (e) {
+                const errorMessage = this.intl.t('registries.registration_metadata.edit_license.error');
+                this.toast.error(errorMessage);
+                captureException(e, { errorMessage });
+            }
         }
-        this.toast.success(this.intl.t('registries.registration_metadata.edit_license.success'));
     }
 
     @action
     updateNodeLicense(key: string, event: Event) {
         const target = event.target as HTMLInputElement;
-        const newNodeLicense = { ...this.changeset.get('nodeLicense') };
-        newNodeLicense[key] = target.value;
-        set(this.changeset, 'nodeLicense', newNodeLicense);
+        this.changeset.set(`nodeLicense.${key}`, target.value);
     }
 }
