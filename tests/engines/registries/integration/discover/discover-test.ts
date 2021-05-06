@@ -177,10 +177,10 @@ module('Registries | Integration | discover', hooks => {
 
                 assert.ok(true, testCase.name);
                 assert.ok(stub.calledOnce, 'stub called once');
-                assert.ok(stub.calledWith(
-                    new SearchOptions(testCase.expected)),
+                assert.ok(
+                    stub.calledWith(new SearchOptions(testCase.expected)),
                     `stub called with the expected arguments for: url: ${url}, params: ${params}`,
-                )
+                );
             }
         }
     });

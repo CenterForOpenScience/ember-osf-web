@@ -8,8 +8,9 @@ import {
     settled,
     triggerKeyEvent,
     blur,
+    waitFor,
 } from '@ember/test-helpers';
-import { animationsSettled, TimeControl } from 'ember-animated/test-support';
+import { TimeControl } from 'ember-animated/test-support';
 import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import config from 'ember-get-config';
@@ -633,6 +634,7 @@ module('Registries | Acceptance | draft form', hooks => {
                     branchedFrom: rootNode,
                     currentUserPermissions: Object.values(Permission),
                     license: server.schema.licenses.first(),
+                    nodeLicense: { copyrightHolders: 'Jane Doe', year: '2021' },
                 },
             );
             const subjects = [server.create('subject')];
@@ -702,6 +704,7 @@ module('Registries | Acceptance | draft form', hooks => {
                     branchedFrom: draftNode,
                     currentUserPermissions: Object.values(Permission),
                     license: server.schema.licenses.first(),
+                    nodeLicense: { copyrightHolders: 'Jane Doe', year: '2021' },
                     hasProject: false,
                 },
             );
@@ -979,12 +982,12 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom(`[data-test-delete-file="${folderOne.id}"] > button`)
             .doesNotExist('folderOne has no delete button');
         await click(`[data-test-file-browser-item="${folderOne.id}"]`);
-        animationsSettled();
 
+        await waitFor(`[data-test-files-list-for="${folderOne.id}"]`, { timeout: 2000 });
         assert.dom(`[data-test-delete-current-folder="${folderOne.id}"] > button`)
             .isVisible('folderOne has a delete button');
-        assert.dom('[data-test-file-browser-item]')
-            .exists({ count: 3 }, 'folderOne contains two visible files');
+        assert.dom('[data-test-file-row]')
+            .exists({ count: 2 }, 'folderOne contains two visible files');
         assert.dom(`[data-test-selected-file="${folderOneFileOne.id}"]`)
             .isVisible('folderOneFileOne is selected');
         assert.dom(`[data-test-selected-file="${folderOneFileTwo.id}"]`)
@@ -1023,6 +1026,7 @@ module('Registries | Acceptance | draft form', hooks => {
             'Toast error message shows; has the right text',
         );
         assert.dom(`[data-test-file-browser-item="${fileTwo.id}"]`).isVisible('fileTwo is still visible');
+        time.finished();
     });
 
     test('validations: validations status changes as user fixes/introduces errors', async function(

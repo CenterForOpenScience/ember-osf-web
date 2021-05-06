@@ -18,6 +18,7 @@ interface RouterMicroLib {
 }
 
 interface PrivateRouter {
+    // eslint-disable-next-line ember/no-private-routing-service
     _routerMicrolib: RouterMicroLib;
     _engineInfoByRoute?: Record<string, any>;
     location: EmberLocation;
@@ -50,6 +51,7 @@ export default class ResolveGuid extends Route {
     generateURL(route: string, ...args: any[]): string {
         // NOTE: The router's urlFor is skipped over here as it passes the result of generate into the location
         // implementation, which would rip out the "--PATH" which is used for routing here.
+        // eslint-disable-next-line ember/no-private-routing-service
         return this.router._router._routerMicrolib.generate(route, ...args);
     }
 

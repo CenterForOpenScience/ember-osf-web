@@ -43,8 +43,8 @@ export default class ChangePasswordPane extends Component {
 
     @task
     @waitFor
-    async submitTask(e: Event) {
-        e.preventDefault();
+    async submitTask(event: Event) {
+        event.preventDefault();
 
         const errorMessage = this.intl.t('settings.account.changePassword.updateFail');
         const successMessage = this.intl.t('settings.account.changePassword.updateSuccess');

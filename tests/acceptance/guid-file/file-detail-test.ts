@@ -6,9 +6,6 @@ import {
     settled,
     triggerKeyEvent,
     visit,
-    blur,
-    find,
-    typeIn,
 } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import config from 'ember-get-config';
@@ -472,8 +469,8 @@ module('Acceptance | guid file', hooks => {
             assert.dom('[data-test-tags-widget-tag="plugh"]')
                 .doesNotExist();
 
-            await typeIn(find('.js-ember-tag-input-new') as Element, 'plugh');
-            await blur(find('.js-ember-tag-input-new') as Element);
+            await fillIn('[data-test-tags-widget-tag-input] input', 'plugh');
+            await triggerKeyEvent('[data-test-tags-widget-tag-input] input', 'keydown', 'Enter');
 
             assert.dom('[data-test-tags-widget-tag="plugh"]')
                 .exists();

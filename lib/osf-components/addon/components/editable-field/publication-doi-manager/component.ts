@@ -68,8 +68,8 @@ export default class PublicationDoiManagerComponent extends Component {
 
     @restartableTask
     @waitFor
-    async save(e: Event) {
-        e.preventDefault();
+    async save(event: Event) {
+        event.preventDefault();
         this.changeset.validate();
 
         this.set('didValidate', true);

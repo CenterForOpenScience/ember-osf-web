@@ -57,6 +57,7 @@ export async function click(target: Target) {
 // https://github.com/emberjs/ember-test-helpers/blob/47b094d516ec8c320879ea5d0eb1b4944cd136a4/addon-test-support/%40ember/test-helpers/setup-application-context.js#L52
 export function currentURL() {
     const { owner } = (getContext() as any);
+    // eslint-disable-next-line ember/no-private-routing-service
     const router = owner.lookup('router:main');
     return router.get('location').getURL();
 }

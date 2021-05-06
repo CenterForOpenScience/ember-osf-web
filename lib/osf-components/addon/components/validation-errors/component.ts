@@ -50,7 +50,7 @@ export default class ValidationErrors extends Component<Args> {
     get changesetValidationErrors() {
         const { changeset, key } = this.args;
         if (changeset && key && isEmpty(this.cpValidationErrors)) {
-            let errors = changeset.get(`error.${key}`);
+            const errors = changeset.get(`error.${key}`);
             let validatorErrors: RawValidationResult[] = errors ? errors.validation : [];
             if (errors && errors.validation && !Array.isArray(errors.validation)) {
                 validatorErrors = [errors.validation];

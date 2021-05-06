@@ -15,7 +15,6 @@ module('Registries | Integration | Component | Navbar', hooks => {
 
         assert.dom('nav').exists();
         assert.dom('nav').hasText('This is a test!');
-        assert.dom('nav').hasAttribute('role', 'navigation');
     });
 
     test('it yields components', async function(assert) {

@@ -174,6 +174,7 @@ Router.map(function() {
 
     // Error routes
     this.route('error-no-api', { path: '*no_api_path' });
+    // eslint-disable-next-line ember/no-shadow-route-definition
     this.route('not-found', { path: '*path' });
 });
 
