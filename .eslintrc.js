@@ -25,7 +25,8 @@ module.exports = {
         'plugin:ember/recommended',
         'plugin:@typescript-eslint/recommended',
         // '@centerforopenscience/eslint-config/ember', needs deps upgraded
-        // 'ember-concurrency', nice to have
+        // 'ember-concurrency', TODO: add ember-concurrency
+        // 'eslint-plugin-qunit', TODO: add eslint-plugin-qunit
     ],
     parser: '@typescript-eslint/parser',
     parserOptions: {
@@ -96,14 +97,6 @@ module.exports = {
         '@typescript-eslint/member-delimiter-style': [
             'error',
             {
-                // multiline: {
-                //     delimiter: 'semi',
-                //     requireLast: true,
-                // },
-                // singleline: {
-                //     delimiter: 'comma',
-                //     requireLast: false,
-                // },
                 overrides: {
                     interface: {
                         multiline: {
@@ -381,6 +374,7 @@ module.exports = {
             ],
             parserOptions: {
                 sourceType: 'script',
+                ecmaVersion: 2018,
             },
             env: {
                 browser: false,
