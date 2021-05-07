@@ -578,7 +578,7 @@ join_osf:
 node_card:
     generic:
         private_tooltip: 'This project is private'
-        timestamp_label: ""
+        timestamp_label: 'Created:'
     fork:
         private_tooltip: 'This fork is private'
         timestamp_label: 'Forked:'
@@ -598,7 +598,13 @@ node_card:
             withdrawn: Withdrawn
             archiving: Archiving
     tags: 'Tags:'
+    registration_template: 'Registration template:'
+    contributors: 'Contributors:'
+    description: 'Description:'
+    last_updated: 'Last updated:'
+    registry: 'Registry:'
     options: Options
+    view: 'View'
 forks:
     fork: Fork
     title: Forks
@@ -1128,6 +1134,10 @@ registries:
         recent:
             title: 'Browse Registrations'
             more: 'See more'
+    my_registrations:
+        header: 'My Registrations'
+        drafts: 'Drafts'
+        submitted: 'Submitted'
     registration_metadata:
         add_description: 'Add description'
         add_contributors:
@@ -1414,6 +1424,11 @@ registries:
         justificationForWithdrawal: 'Justification for Withdrawal'
         justificationForWithdrawalPlaceholder: 'Provide justification for withdrawal'
         noModeratorActions: 'No moderator decisions can be made at this time'
+    myRegistrationsList:
+        noGeneral: 'This page allows you to search and quickly access your registrations.'
+        noRegistrations: "You don't have any submitted registrations. Create one with the button below."
+        noDrafts: "You don't have any draft registrations. Create one with the button below."
+        createRegistration: 'Create a registration'
 meetings:
     index:
         meetings-list:
@@ -1527,7 +1542,8 @@ routes:
 osf-components:
     draft-registration-card:
         initiated_by: 'Initiated by:'
-        form_type: 'Form:'
+        form_type: 'Registration template:'
+        registry: 'Registry:'
         started: 'Started:'
         last_updated: 'Last updated:'
         review: Review
@@ -1597,6 +1613,7 @@ osf-components:
         schema-block-renderer/editable/files:
             instructions: 'You may attach up to 5 file(s) to this question. You may attach files that you already have in OSF Storage in this <a href={nodeUrl}>{projectOrComponent}</a> or upload (drag and drop) a new file from your computer. Uploaded files will automatically be added to this <a href={nodeUrl}>{projectOrComponent}</a> so that they can be registered. To attach files from other components or an add-on, first add them to this <a href={nodeUrl}>{projectOrComponent}</a>.'
             instructionsNoProject: 'You may attach up to 5 file(s) to this question. Files cannot total over 5GB in size.<br><br>Uploaded files will automatically be archived in this registration. They will also be added to a related project that will be created for this registration.'
+            instructionsNoPermissions: 'This registration is branched from <a href={nodeUrl}>an OSF Project</a>, and only contributors added to it can upload and edit files. Contact one of the registration''s administrative contributors to be added to the project. Learn more about OSF Projects by visiting our <a href="https://help.osf.io/hc/en-us/categories/360001495973-Creating-and-Managing-Projects">help guides</a>.'
         schema-block-renderer/read-only/response:
             noResponse: 'No response'
         schema-block-renderer/read-only/files:

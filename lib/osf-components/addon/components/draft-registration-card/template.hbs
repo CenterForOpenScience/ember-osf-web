@@ -23,81 +23,86 @@
     </h4>
     <section local-class='DraftRegistrationCard__body' data-test-draft-registration-card-body>
         {{#if this.draftRegistration}}
-            <small>
-                <p data-test-initiated-by>
-                    {{t 'osf-components.draft-registration-card.initiated_by'}}
-                    {{this.draftRegistration.initiator.fullName}}
-                </p>
-                <p data-test-form-type>
-                    {{t 'osf-components.draft-registration-card.form_type'}}
-                    {{this.draftRegistration.registrationSchema.name}}
-                </p>
-                <p data-test-time-initiated>
-                    {{t 'osf-components.draft-registration-card.started'}}
-                    {{moment this.draftRegistration.datetimeInitiated}}
-                </p>
-                <p data-test-time-updated>
-                    {{t 'osf-components.draft-registration-card.last_updated'}}
-                    {{moment this.draftRegistration.datetimeUpdated}}
-                </p>
-            </small>
+            <dl>
+                <div data-test-initiated-by>
+                    <dt>
+                        {{t 'osf-components.draft-registration-card.initiated_by'}}
+                    </dt>
+                    <dd>
+                        {{this.draftRegistration.initiator.fullName}}
+                    </dd>
+                </div>
+                <div data-test-form-type>
+                    <dt>
+                        {{t 'osf-components.draft-registration-card.form_type'}}
+                    </dt>
+                    <dd>
+                        {{this.draftRegistration.registrationSchema.name}}
+                    </dd>
+                </div>
+                <div data-test-provider-name>
+                    <dt data-test-provider-name>
+                        {{t 'osf-components.draft-registration-card.registry'}}
+                    </dt>
+                    <dd>
+                        {{this.draftRegistration.provider.name}}
+                    </dd>
+                </div>
+                <div data-test-time-initiated>
+                    <dt data-test-time-initiated>
+                        {{t 'osf-components.draft-registration-card.started'}}
+                    </dt>
+                    <dd>
+                        {{moment this.draftRegistration.datetimeInitiated}}
+                    </dd>
+                </div>
+                <div data-test-time-updated>
+                    <dt data-test-time-updated>
+                        {{t 'osf-components.draft-registration-card.last_updated'}}
+                    </dt>
+                    <dd>
+                        {{moment this.draftRegistration.datetimeUpdated}}
+                    </dd>
+                </div>
+            </dl>
             <div class='row'>
                 <div class='col-md-10'>
                     <OsfLink
-                        data-analytics-name='Edit'
-                        class='btn btn-default'
-                        @route='registries.drafts.draft'
-                        @models={{array @draftRegistration.id}}
-                    >
-                        {{fa-icon 'pencil-alt'}} {{t 'general.edit'}}
-                    </OsfLink>
-                    <OsfButton
-                        data-analytics-name='Delete'
-                        @type='default'
-                        @onClick={{action this.delete}}
-                        disabled={{not this.draftRegistration}}
-                    >
-                        {{fa-icon 'times'}} {{t 'general.delete'}}
-                    </OsfButton>
-                    <BsModal
-                        @open={{this.deleteModalOpen}}
-                        @onHidden={{action this.cancelDelete}}
-                        class='delete_draft_registration'
-                        as |modal|
-                    >
-                        <modal.header>
-                            <h4>{{t 'general.please_confirm'}}</h4>
-                        </modal.header>
-                        <modal.body>
-                            {{t 'osf-components.draft-registration-card.delete_draft_confirm'}}
-                        </modal.body>
-                        <modal.footer data-analytics-scope='Draft registrations delete modal'>
-                            <OsfButton
-                                data-analytics-name='Cancel delete'
-                                @onClick={{action modal.close}}
-                                @type='default'
-                            >
-                                {{t 'general.cancel'}}
-                            </OsfButton>
-                            <OsfButton
-                                data-analytics-name='Confirm delete'
-                                @onClick={{action this.confirmDelete}}
-                                @type='danger'
-                            >
-                                {{t 'general.delete'}}
-                            </OsfButton>
-                        </modal.footer>
-                    </BsModal>
-                </div>
-                <div class='col-md-1'>
-                    <OsfLink
+                        data-test-draft-card-review
                         data-analytics-name='Review'
-                        class='btn btn-default'
+                        local-class='DraftRegistrationCard__review'
                         @route='registries.drafts.draft.review'
                         @models={{array this.draftRegistration.id}}
                     >
-                        {{t 'osf-components.draft-registration-card.review'}}
+                        <Button>
+                            {{t 'osf-components.draft-registration-card.review'}}
+                        </Button>
                     </OsfLink>
+                    {{#unless this.draftRegistration.currentUserIsReadOnly}}
+                        <OsfLink
+                            data-test-draft-card-edit
+                            data-analytics-name='Edit'
+                            @route='registries.drafts.draft'
+                            @models={{array this.draftRegistration.id}}
+                        >
+                            <Button>
+                                {{t 'general.edit'}}
+                            </Button>
+                        </OsfLink>
+                    {{/unless}}
+                </div>
+                <div class='col-md-1'>
+                    {{#if this.draftRegistration.currentUserIsAdmin}}
+                        <DeleteButton
+                            data-test-draft-card-delete
+                            @smallSecondary={{true}}
+                            @icon='trash-alt'
+                            @delete={{action this.confirmDelete}}
+                            @modalTitle={{t 'general.please_confirm'}}
+                            @modalBody={{t 'osf-components.draft-registration-card.delete_draft_confirm'}}
+                            local-class='DraftRegistrationCard__delete'
+                        />
+                    {{/if}}
                 </div>
             </div>
         {{else}}

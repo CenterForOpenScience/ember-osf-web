@@ -1,0 +1,38 @@
+<ContentPlaceholders as |placeholder|>
+    <PaginatedList::HasMany
+        @model={{@user}}
+        @relationshipName='registrations'
+        @usePlaceholders={{false}}
+        as |list|
+    >
+        <list.item as |registration|>
+            {{#if registration}}
+                <NodeCard
+                    @node={{registration}}
+                    @showTags={{true}}
+                />
+            {{else}}
+                {{placeholder.text lines=1}}
+            {{/if}}
+        </list.item>
+        <list.empty local-class='FlexContainer'>
+            <div local-class='NoContentContainer'>
+                <p data-test-draft-list-no-general>
+                    {{t 'registries.myRegistrationsList.noGeneral'}}
+                </p>
+                <p data-test-draft-list-no-registrations>
+                    {{t 'registries.myRegistrationsList.noRegistrations'}}
+                </p>
+                <OsfLink
+                    @route='registries.branded.new'
+                    @models={{array 'osf'}}
+                    data-test-add-new-button
+                >
+                    <Button @type='create'>
+                        {{t 'registries.myRegistrationsList.createRegistration'}}
+                    </Button>
+                </OsfLink>
+            </div>
+        </list.empty>
+    </PaginatedList::HasMany>
+</ContentPlaceholders>

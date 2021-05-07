@@ -1,6 +1,5 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
-import { assert } from '@ember/debug';
 import { action, computed } from '@ember/object';
 import { alias, or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
@@ -130,19 +129,19 @@ export default class FilesManagerComponent extends Component {
 
     @task({ withTestWaiter: true, restartable: true, on: 'didReceiveAttrs' })
     getRootItems = task(function *(this: FilesManagerComponent) {
-        assert('@node is required', Boolean(this.node));
+        if (this.node) {
+            const fileProviders = yield this.node.files;
+            const fileProvider = fileProviders.findBy('name', 'osfstorage') as FileProvider;
+            const rootFolder = yield fileProvider.rootFolder;
 
-        const fileProviders = yield this.node.files;
-        const fileProvider = fileProviders.findBy('name', 'osfstorage') as FileProvider;
-        const rootFolder = yield fileProvider.rootFolder;
+            yield rootFolder.files;
 
-        yield rootFolder.files;
-
-        this.setProperties({
-            fileProvider,
-            rootFolder,
-            currentFolder: rootFolder,
-        });
+            this.setProperties({
+                fileProvider,
+                rootFolder,
+                currentFolder: rootFolder,
+            });
+        }
     });
 
     @task({ withTestWaiter: true })

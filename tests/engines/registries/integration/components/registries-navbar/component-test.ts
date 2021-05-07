@@ -207,8 +207,6 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         await click('[data-test-gravatar]');
         await percySnapshot(assert);
 
-        assert.equal(visibleText('[data-test-service]'), `${t('general.OSF')}${t('general.services.registries')}`);
-
         assert.dom('a[data-test-help-mobile]').isVisible();
         assert.dom('a[data-test-donate-mobile]').isVisible();
     });
