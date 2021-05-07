@@ -1,10 +1,10 @@
 import { action } from '@ember/object';
+import Store from '@ember-data/store';
 import { and, reads } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -41,15 +41,15 @@ function deepCopy(providerMetadata: ProviderMetadata[]) {
 export default class ProviderMetadataManagerComponent extends Component<Args> {
     @service currentUser!: CurrentUserService;
     @service intl!: Intl;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service toast!: Toast;
 
-    @task({ withTestWaiter: true })
-    save = task(function *(this: ProviderMetadataManagerComponent) {
+    @task
+    async save() {
         if (this.args.registration) {
             try {
                 this.args.registration.providerSpecificMetadata = deepCopy(this.currentProviderMetadata);
-                yield this.args.registration.save();
+                await this.args.registration.save();
             } catch (e) {
                 const errorMessage = this.intl.t('registries.registration_metadata.edit_provider_metadata.error');
                 captureException(e, { errorMessage });
@@ -60,7 +60,7 @@ export default class ProviderMetadataManagerComponent extends Component<Args> {
             this.requestedEditMode = false;
             this.toast.success(this.intl.t('registries.registration_metadata.edit_provider_metadata.success'));
         }
-    });
+    }
 
     @tracked currentProviderMetadata: ProviderMetadata[] = [];
     @tracked requestedEditMode: boolean = false;
