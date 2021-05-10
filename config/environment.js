@@ -7,7 +7,7 @@ function isTruthy(val) {
 let localConfig;
 
 try {
-    localConfig = require('./local'); // eslint-disable-line global-require
+    localConfig = require('./local'); // eslint-disable-line global-require,node/no-missing-require
 } catch (ex) {
     localConfig = {};
 }
