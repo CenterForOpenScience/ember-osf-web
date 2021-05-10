@@ -34,7 +34,7 @@ export default class RegistriesNavbar extends AuthBase {
 
     @and('media.isMobile', 'searchDropdownOpen') showSearchDropdown!: boolean;
 
-    @computed('provider')
+    @computed('provider.id')
     get providerId() {
         return this.provider ? this.provider.id : defaultProviderId;
     }

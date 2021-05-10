@@ -63,7 +63,7 @@ export default class ProviderMetadataManagerComponent extends Component<Args> {
     }
 
     @tracked currentProviderMetadata: ProviderMetadata[] = [];
-    @tracked requestedEditMode: boolean = false;
+    @tracked requestedEditMode = false;
 
     @reads('args.registration.provider.currentUserCanReview') userCanEdit!: boolean;
     @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;

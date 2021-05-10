@@ -40,7 +40,7 @@ export default class Files extends Component {
     @tracked node?: AbstractNodeModel;
     onInput!: () => void;
 
-    @computed('node.id')
+    @computed('draftRegistration', 'node.id')
     get nodeUrl() {
         return pathJoin(baseURL, this.draftRegistration.belongsTo('branchedFrom').id());
     }
