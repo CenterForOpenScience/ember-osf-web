@@ -9,6 +9,7 @@ on:
       - 'release/*'
       - 'hotfix/*'
 env:
+  CI: true
   PERCY_PARALLEL_NONCE: ${{ github.run_id }}-${{ github.run_number }}
   PERCY_PARALLEL_TOTAL: 4
 
