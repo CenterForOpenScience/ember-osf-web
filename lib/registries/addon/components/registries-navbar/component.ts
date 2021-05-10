@@ -42,7 +42,7 @@ export default class RegistriesNavbar extends AuthBase {
 
     @computed('media.isMobile', 'provider.brand')
     get shouldShowProviderName() {
-        return !this.media.isMobile && this.provider && this.provider.brand;
+        return !this.media.isMobile && !this.media.isTablet && this.provider && this.provider.brand;
     }
 
     @computed('provider.{allowSubmissions,id}')
