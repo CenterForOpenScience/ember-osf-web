@@ -1,4 +1,6 @@
 .DraftRegistrationCard {
+    margin-bottom: 10px;
+
     :global(.ember-content-placeholders-text__line) {
         height: 1em;
     }
@@ -19,17 +21,40 @@
 }
 
 .DraftRegistrationCard__body {
-    font-size: 18px;
     font-weight: 400;
     line-height: 1;
-    color: $color-text-gray-light;
 
-    small {
-        font-size: 75%;
+    dl {
+        margin-bottom: 10px;
+    }
+
+    dt,
+    dd {
+        display: inline-block;
     }
 
     :global(.ember-content-placeholders-text) {
         width: 33%;
+    }
+}
+
+// stylelint-disable selector-no-qualifying-type
+a.DraftRegistrationCard__review {
+    margin-right: 10px;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+// stylelint-enable selector-no-qualifying-type
+.DraftRegistrationCard__edit {
+    vertical-align: bottom;
+}
+
+.DraftRegistrationCard__delete {
+    button {
+        padding: 6px 12px;
     }
 }
 

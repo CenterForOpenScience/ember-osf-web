@@ -158,7 +158,9 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         await render(hbs`<RegistriesNavbar />`);
         await percySnapshot(assert);
 
-        assert.equal(visibleText('[data-test-service]'), `${t('general.OSF')}${t('general.services.registries')}`);
+        assert.dom('[data-test-service]').doesNotContainText(
+            `${t('general.OSF')}${t('general.services.registries')}`, 'Navbar text hidden on tablet view',
+        );
         assert.dom('[data-test-search-bar-mobile]').isNotVisible('Mobile search bar is not visible on tablet');
 
         assert.dom('a[data-test-help]').isVisible('Help button is visible');
@@ -206,8 +208,6 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
 
         await click('[data-test-gravatar]');
         await percySnapshot(assert);
-
-        assert.equal(visibleText('[data-test-service]'), `${t('general.OSF')}${t('general.services.registries')}`);
 
         assert.dom('a[data-test-help-mobile]').isVisible();
         assert.dom('a[data-test-donate-mobile]').isVisible();

@@ -1,3 +1,7 @@
+.NodeCard {
+    margin: 10px 0;
+}
+
 .NodeCard__heading {
     :global(.ember-content-placeholders-heading__title) {
         height: 1em;
@@ -27,6 +31,21 @@
         height: 1em;
         margin-bottom: 5px;
     }
+}
+
+.NodeCard__body dt,
+.NodeCard__body dd {
+    display: inline-block;
+    max-width: 80%;
+    margin-right: 5px;
+}
+
+.NodeCard__body dl {
+    margin-bottom: 10px;
+}
+
+.NodeCard__body > dl > div {
+    display: flex;
 }
 
 .NodeCard__dropdown {
@@ -59,22 +78,12 @@
     }
 }
 
-.NodeCard__authors {
-    font-weight: 500;
+.NodeCard__tags {
+    margin-top: 2px;
 }
 
 .NodeCard__description {
-    font-weight: 300;
     text-overflow: ellipsis;
-    display: block;
-    white-space: nowrap;
     overflow: hidden;
-}
-
-.NodeCard__tags {
-    margin-top: 2px;
-
-    strong {
-        font-weight: 600;
-    }
+    white-space: nowrap;
 }

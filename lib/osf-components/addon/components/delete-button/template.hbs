@@ -8,7 +8,7 @@
         {{on 'click' this._show}}
         @disabled={{this.disabled}}
     >
-        {{fa-icon 'times' size='lg'}}
+        <FaIcon @icon={{this.icon}} />
     </Button>
 {{else if this.smallSecondary}}
     <Button
@@ -20,6 +20,9 @@
         @layout='small'
         {{on 'click' this._show}}
     >
+        {{#if @icon}}
+            <FaIcon @icon={{this.icon}} />
+        {{/if}}
         {{this.buttonLabel}}
     </Button>
 {{else}}
