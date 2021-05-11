@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [21.4.0] - 2021-04-11
+### Added
+- user's `myRegistrations` page
+
 ## [21.3.0] - 2021-04-23
 ### Added
 - support for provider-specific (editable/read-only) registration metadata fields
@@ -1719,7 +1723,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/21.3.0...develop
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/21.4.0...develop
+[21.4.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.4.0
 [21.3.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.3.0
 [21.2.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.2.0
 [21.1.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.1.1
