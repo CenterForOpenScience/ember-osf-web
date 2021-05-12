@@ -153,7 +153,6 @@ module('Registries | Integration | discover', hooks => {
     });
 
     test('query parameters', async function(this: TestContext, assert: Assert) {
-        assert.expect(1 + (QueryParamTestCases.length * 2));
         const stub = sinon.stub(this.owner.lookup('service:share-search'), 'registrations').returns(emptyResults);
 
         // Initial load so we don't have to deal with the aggregations loading
