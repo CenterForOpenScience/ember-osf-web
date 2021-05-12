@@ -2,6 +2,7 @@
     <PaginatedList::All
         @modelName='draft-registration'
         @usePlaceholders={{false}}
+        @query={{this.queryParam}}
         as |list|
     >
         <list.item as |draftRegistration|>

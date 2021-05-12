@@ -52,6 +52,7 @@
 }
 
 :global(.media-mobile) .HideOnMobile,
+:global(.media-tablet) .HideOnTablet,
 :global(.media-desktop) .OnlyOnMobile,
 :global(.media-tablet) .OnlyOnMobile {
     display: none;
