@@ -50,7 +50,7 @@ export default class Guid extends Route {
         }
 
         try {
-            const collectedMetadatum: CollectedMetadatum = await this.store.findRecord('collected-metadatum', cgmId);
+            const collectedMetadatum = await this.store.findRecord('collected-metadatum', cgmId);
             const collectionItem = this.store.peekRecord('node', collectedItemId)!;
 
             if (!collectionItem.userHasAdminPermission) {

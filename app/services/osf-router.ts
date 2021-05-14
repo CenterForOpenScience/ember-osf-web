@@ -35,7 +35,7 @@ export default class OsfRouterService extends Service {
 
             this.set('currentTransitionTargetFragment', fragment);
         }
-        return this.router.transitionTo(routeName, ...args) as Transition;
+        return this.router.transitionTo(routeName, ...args);
     }
 }
 

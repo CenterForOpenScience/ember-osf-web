@@ -56,9 +56,11 @@ export default class AncestryDisplay extends Component {
 
         // Results might have undefined `value` if ancestors are private
         if (ancestors.length > 1) {
-            const parent = (results[1] as { state: 'fulfilled', value: NodeModel }).value;
-            if (parent && parent.belongsTo('parent').id() !== rootId) {
-                ancestors.insertAt(1, { id: '', title: this.intl.t('general.ellipsis') });
+            if ('value' in results[1]) {
+                const parent = results[1].value;
+                if (parent && parent.belongsTo('parent').id() !== rootId) {
+                    ancestors.insertAt(1, { id: '', title: this.intl.t('general.ellipsis') });
+                }
             }
         }
         return ancestors;

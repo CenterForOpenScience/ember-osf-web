@@ -15,7 +15,7 @@ export default class GuidEdit extends Controller {
 
     isPageDirty = false;
 
-    @computed('collectedMetadatum.hasDirtyAttributes', 'this.collectedMetadatum.hasDirtyAttributes')
+    @computed('collectedMetadatum.hasDirtyAttributes')
     get isCollectedMetadatumDirty() {
         return this.collectedMetadatum.hasDirtyAttributes;
     }

@@ -57,7 +57,7 @@
                     data-test-discard-edits
                     data-analytics-name='Discard'
                     disabled={{@manager.isSaving}}
-                    @onClick={{action @manager.cancel}}
+                    {{on 'click' @manager.cancel}}
                 >
                     {{t 'general.cancel'}}
                 </BsButton>

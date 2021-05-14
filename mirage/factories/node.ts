@@ -100,7 +100,9 @@ export default Factory.extend<MirageNode & NodeTraits>({
                         server.schema.registrationSchemas.all().models,
                     ),
                 });
-                reg.update({ contributors: node.contributors.models });
+                node.contributors.models.forEach(
+                    contributor => server.create('contributor', { node: reg, users: contributor.users }),
+                );
             }
         },
     }),

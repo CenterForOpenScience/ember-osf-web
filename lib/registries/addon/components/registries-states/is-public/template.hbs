@@ -53,9 +53,8 @@
         <BsButton
             data-analytics-name='Withdraw registration'
             disabled={{or this.submitDisabled this.submitWithdrawal.isRunning}}
-            @buttonType='submit'
             @type='danger'
-            @onClick={{action modal.submit}}
+            {{on 'click' modal.submit}}
         >
             {{t 'registries.overview.withdraw.withdraw'}}
         </BsButton>
