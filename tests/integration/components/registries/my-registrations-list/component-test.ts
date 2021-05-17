@@ -93,4 +93,33 @@ module('Integration | Component | my-registrations-list', hooks => {
         assert.dom('[data-test-node-card]').exists({ count: 1 }, 'Second page shows 1 results');
         assert.dom('[data-test-next-page-button]').isDisabled('There is no next page');
     });
+
+    test('registrations list filters out child ', async function(this: TestContext, assert) {
+        const currentUser = server.create('user', { id: 'gibby' });
+        const currentUserModel = await this.store.findRecord('user', currentUser.id);
+        this.set('user', currentUserModel);
+        this.owner.lookup('service:current-user').setProperties({
+            user: currentUserModel, currentUserId: currentUserModel.id,
+        });
+        const parent = server.create('registration', {
+            id: 'parnt',
+            title: 'this is the parent',
+            contributors: [
+                server.create('contributor', { users: currentUser }),
+            ],
+        });
+        server.create('registration', {
+            id: 'child',
+            title: 'this is the child',
+            parent,
+            contributors: [
+                server.create('contributor', { users: currentUser }),
+            ],
+        });
+        await render(
+            hbs`<Registries::MyRegistrationsList::Registrations @user={{this.user}} />`,
+        );
+        assert.dom('[data-test-node-card]').exists({ count: 1 }, 'Only one registration is shown');
+        assert.dom('[data-test-node-title]').containsText(parent.title, 'Only the parent registration is shown');
+    });
 });
