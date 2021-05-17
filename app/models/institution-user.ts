@@ -1,5 +1,4 @@
-import { attr, belongsTo } from '@ember-data/model';
-import DS from 'ember-data';
+import { attr, belongsTo, AsyncBelongsTo } from '@ember-data/model';
 
 import UserModel from 'ember-osf-web/models/user';
 
@@ -12,7 +11,7 @@ export default class InstitutionUserModel extends OsfModel {
     @attr('number') privateProjects!: number;
 
     @belongsTo('user', { async: true })
-    user!: DS.PromiseObject<UserModel> & UserModel;
+    user!: AsyncBelongsTo<UserModel> & UserModel;
 
     get userGuid() {
         return (this as InstitutionUserModel).belongsTo('user').id();

@@ -1,7 +1,6 @@
-import { attr, belongsTo, hasMany } from '@ember-data/model';
+import { attr, belongsTo, hasMany, AsyncBelongsTo, AsyncHasMany } from '@ember-data/model';
 import { computed } from '@ember/object';
 import { htmlSafe } from '@ember/string';
-import DS from 'ember-data';
 
 import InstitutionSummaryMetricModel from 'ember-osf-web/models/institution-summary-metric';
 import InstitutionDepartmentsModel from './institution-department';
@@ -34,22 +33,22 @@ export default class InstitutionModel extends OsfModel {
 
     // TODO Might want to replace calls to `users` with `institutionUsers.user`?
     @hasMany('user', { inverse: 'institutions' })
-    users!: DS.PromiseManyArray<UserModel>;
+    users!: AsyncHasMany<UserModel>;
 
     @hasMany('node', { inverse: 'affiliatedInstitutions' })
-    nodes!: DS.PromiseManyArray<NodeModel>;
+    nodes!: AsyncHasMany<NodeModel>;
 
     @hasMany('registration', { inverse: 'affiliatedInstitutions' })
-    registrations!: DS.PromiseManyArray<RegistrationModel>;
+    registrations!: AsyncHasMany<RegistrationModel>;
 
     @hasMany('institution-department')
-    departmentMetrics!: DS.PromiseManyArray<InstitutionDepartmentsModel>;
+    departmentMetrics!: AsyncHasMany<InstitutionDepartmentsModel>;
 
     @hasMany('institution-user')
-    userMetrics!: DS.PromiseManyArray<InstitutionUserModel>;
+    userMetrics!: AsyncHasMany<InstitutionUserModel>;
 
     @belongsTo('institution-summary-metric')
-    summaryMetrics!: DS.PromiseObject<InstitutionSummaryMetricModel> & InstitutionSummaryMetricModel;
+    summaryMetrics!: AsyncBelongsTo<InstitutionSummaryMetricModel> & InstitutionSummaryMetricModel;
 
     // This is for the title helper, which does its own encoding of unsafe characters
     @computed('name')

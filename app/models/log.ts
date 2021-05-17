@@ -1,5 +1,4 @@
-import { attr, belongsTo } from '@ember-data/model';
-import DS from 'ember-data';
+import { attr, belongsTo, AsyncBelongsTo } from '@ember-data/model';
 
 import NodeModel from './node';
 import OsfModel from './osf-model';
@@ -11,19 +10,19 @@ export default class LogModel extends OsfModel {
     @attr('object') params!: any;
 
     @belongsTo('node', { inverse: null })
-    node!: DS.PromiseObject<NodeModel> & NodeModel;
+    node!: AsyncBelongsTo<NodeModel> & NodeModel;
 
     @belongsTo('node', { inverse: 'logs' })
-    originalNode!: DS.PromiseObject<NodeModel> & NodeModel;
+    originalNode!: AsyncBelongsTo<NodeModel> & NodeModel;
 
     @belongsTo('user')
-    user!: DS.PromiseObject<UserModel> & UserModel;
+    user!: AsyncBelongsTo<UserModel> & UserModel;
 
     @belongsTo('node', { inverse: null })
-    linkedNode!: DS.PromiseObject<NodeModel> & NodeModel;
+    linkedNode!: AsyncBelongsTo<NodeModel> & NodeModel;
 
     @belongsTo('node', { inverse: null })
-    templateNode!: DS.PromiseObject<NodeModel> & NodeModel;
+    templateNode!: AsyncBelongsTo<NodeModel> & NodeModel;
 }
 
 declare module 'ember-data/types/registries/model' {

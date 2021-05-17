@@ -1,5 +1,4 @@
-import { attr, belongsTo } from '@ember-data/model';
-import DS from 'ember-data';
+import { attr, belongsTo, AsyncBelongsTo } from '@ember-data/model';
 import { Link } from 'jsonapi-typescript';
 
 import BaseFileItem, { BaseFileLinks } from './base-file-item';
@@ -18,10 +17,10 @@ export default class FileProviderModel extends BaseFileItem {
     @attr('fixstring') provider!: string;
 
     @belongsTo('file')
-    rootFolder!: DS.PromiseObject<FileModel> & FileModel;
+    rootFolder!: AsyncBelongsTo<FileModel> & FileModel;
 
     @belongsTo('abstract-node', { polymorphic: true })
-    target!: (DS.PromiseObject<NodeModel> & NodeModel) | (DS.PromiseObject<DraftNodeModel> & DraftNodeModel);
+    target!: (AsyncBelongsTo<NodeModel> & NodeModel) | (AsyncBelongsTo<DraftNodeModel> & DraftNodeModel);
 
     // BaseFileItem override
     isProvider = true;

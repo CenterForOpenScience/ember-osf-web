@@ -1,6 +1,5 @@
-import { attr, belongsTo, hasMany } from '@ember-data/model';
+import { attr, belongsTo, hasMany, AsyncBelongsTo, AsyncHasMany } from '@ember-data/model';
 import { assert } from '@ember/debug';
-import DS from 'ember-data';
 import { Link } from 'jsonapi-typescript';
 
 import { FileReference } from 'ember-osf-web/packages/registration-schema';
@@ -39,25 +38,25 @@ export default class FileModel extends BaseFileItem {
     @attr('fixstring') checkout!: string;
 
     @belongsTo('file', { inverse: 'files' })
-    parentFolder!: DS.PromiseObject<FileModel> & FileModel;
+    parentFolder!: AsyncBelongsTo<FileModel> & FileModel;
 
     // Folder attributes
     @hasMany('file', { inverse: 'parentFolder' })
-    files!: DS.PromiseManyArray<FileModel>;
+    files!: AsyncHasMany<FileModel>;
 
     // File attributes
     @hasMany('file-version')
-    versions!: DS.PromiseManyArray<FileVersionModel>;
+    versions!: AsyncHasMany<FileVersionModel>;
 
     @hasMany('comment', { inverse: null })
-    comments!: DS.PromiseManyArray<CommentModel>;
+    comments!: AsyncHasMany<CommentModel>;
 
     // TODO: In the future apiv2 may also need to support this pointing at nodes OR registrations
     @belongsTo('abstract-node', { inverse: 'files', polymorphic: true })
-    target!: (DS.PromiseObject<NodeModel> & NodeModel) | (DS.PromiseObject<DraftNode> & DraftNode);
+    target!: (AsyncBelongsTo<NodeModel> & NodeModel) | (AsyncBelongsTo<DraftNode> & DraftNode);
 
     @belongsTo('user')
-    user!: DS.PromiseObject<UserModel> & UserModel;
+    user!: AsyncBelongsTo<UserModel> & UserModel;
 
     // BaseFileItem override
     isFileModel = true;
