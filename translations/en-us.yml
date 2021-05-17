@@ -1548,6 +1548,7 @@ osf-components:
         started: 'Started:'
         last_updated: 'Last updated:'
         review: Review
+        untitled_placeholder: '(Untitled)'
         delete_draft_confirm: 'Are you sure you want to delete this draft registration?'
     copyable-text:
         copyToClipboard: 'Copy to clipboard'
