@@ -10,7 +10,11 @@
                 @route='registries.drafts.draft'
                 @models={{array this.draftRegistration.id}}
             >
-                {{this.draftRegistration.title}}
+                {{#if this.draftRegistration.title}}
+                    {{this.draftRegistration.title}}
+                {{else}}
+                    {{t 'osf-components.draft-registration-card.untitled_placeholder'}}
+                {{/if}}
             </OsfLink>
         {{else}}
             <ContentPlaceholders as |placeholder|>
@@ -85,7 +89,7 @@
                             @route='registries.drafts.draft'
                             @models={{array this.draftRegistration.id}}
                         >
-                            <Button>
+                            <Button local-class='DraftRegistrationCard__edit'>
                                 {{t 'general.edit'}}
                             </Button>
                         </OsfLink>
