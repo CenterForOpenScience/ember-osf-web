@@ -15,6 +15,8 @@ import User from 'ember-osf-web/models/user';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 
+import $ from 'jquery';
+
 // TODO pull these from the database
 const {
     dashboard: {
@@ -80,7 +82,6 @@ export default class Dashboard extends Controller {
 
         const nodes: QueryHasManyResult<Node> = yield user.queryHasMany('sparseNodes', {
             embed: ['bibliographic_contributors', 'parent', 'root'],
-            // eslint-disable-next-line ember/no-global-jquery
             filter: this.filter ? { title: $('<div>').text(this.filter).html() } : undefined,
             page: more ? this.incrementProperty('page') : this.set('page', 1),
             sort: this.sort || undefined,

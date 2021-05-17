@@ -38,8 +38,18 @@
     }
 }
 
-.DraftRegistrationCard__review {
+// stylelint-disable selector-no-qualifying-type
+a.DraftRegistrationCard__review {
     margin-right: 10px;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+// stylelint-enable selector-no-qualifying-type
+.DraftRegistrationCard__edit {
+    vertical-align: bottom;
 }
 
 .DraftRegistrationCard__delete {

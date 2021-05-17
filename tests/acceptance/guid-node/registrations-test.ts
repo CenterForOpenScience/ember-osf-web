@@ -1,5 +1,6 @@
 import { click as untrackedClick, currentRouteName } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import config from 'ember-get-config';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
@@ -13,11 +14,18 @@ import { click, currentURL, setupOSFApplicationTest, visit } from 'ember-osf-web
 
 import { Permission } from 'ember-osf-web/models/osf-model';
 
+const { defaultProvider } = config;
+
 module('Acceptance | guid-node/registrations', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
     test('logged out, no registrations', async assert => {
+        server.create('registration-provider', {
+            id: defaultProvider,
+            shareSource: 'OSF Registries',
+            name: 'OSF Registries',
+        });
         const node = server.create('node', { id: 'decaf', currentUserPermissions: [] });
 
         const url = `/${node.id}/registrations`;
@@ -148,7 +156,11 @@ module('Acceptance | guid-node/registrations', hooks => {
 
     test('logged in admin, no registrations', async assert => {
         server.create('user', 'loggedIn');
-
+        server.create('registration-provider', {
+            id: defaultProvider,
+            shareSource: 'OSF Registries',
+            name: 'OSF Registries',
+        });
         const node = server.create('node', { id: 'decaf' }, 'currentUserAdmin');
 
         const url = `/${node.id}/registrations`;
@@ -177,7 +189,11 @@ module('Acceptance | guid-node/registrations', hooks => {
 
     test('logged in admin, 1 registration', async assert => {
         const contributorUser = server.create('user', 'loggedIn');
-
+        server.create('registration-provider', {
+            id: defaultProvider,
+            shareSource: 'OSF Registries',
+            name: 'OSF Registries',
+        });
         const node = server.create('node', {
             id: 'decaf',
             title: 'Test Title',
@@ -362,6 +378,11 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
+        server.create('registration-provider', {
+            id: defaultProvider,
+            shareSource: 'OSF Registries',
+            name: 'OSF Registries',
+        }, 'withAllSchemas');
 
         const url = `/${node.id}/registrations`;
 
@@ -391,11 +412,15 @@ module('Acceptance | guid-node/registrations', hooks => {
 
     test('logged in admin, prereg challenge modal', async assert => {
         server.create('user', 'loggedIn');
-
         const node = server.create('node', { id: 'decaf' }, 'currentUserAdmin');
 
         server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
+        server.create('registration-provider', {
+            id: defaultProvider,
+            shareSource: 'OSF Registries',
+            name: 'OSF Registries',
+        }, 'withAllSchemas');
 
         const url = `/${node.id}/registrations`;
 
