@@ -1,4 +1,4 @@
-import { attr, belongsTo, hasMany, AsyncBelongsTo, AsyncHasMany } from '@ember-data/model';
+import { attr, belongsTo, hasMany, AsyncHasMany } from '@ember-data/model';
 import { alias } from '@ember/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
 import config from 'ember-get-config';
@@ -97,7 +97,7 @@ export default class UserModel extends OsfModel.extend(Validations) {
     @attr('array') education!: Education[];
 
     @belongsTo('region', { async: false })
-    defaultRegion!: AsyncBelongsTo<RegionModel> & RegionModel;
+    defaultRegion!: RegionModel;
 
     @belongsTo('user-setting', { inverse: 'user', async: false })
     settings?: UserSettingModel | null;

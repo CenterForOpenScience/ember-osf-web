@@ -83,7 +83,7 @@ export default class Guid extends Route {
         }
 
         return {
-            taskInstance: taskFor(this.loadModel).perform(guid) as Promise<TaskInstanceResult>,
+            taskInstance: taskFor(this.loadModel).perform(guid),
         };
     }
 }
