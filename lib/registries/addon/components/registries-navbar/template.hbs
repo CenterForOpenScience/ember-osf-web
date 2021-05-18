@@ -28,7 +28,7 @@
                 <dropdown.toggle
                     data-test-service
                     data-analytics-name='Toggle'
-                    @classNames={{local-class 'Service Dropdown'}}
+                    local-class='Service Dropdown'
                 >
                     <span local-class='HideOnMobile'>{{t 'general.OSF'}}</span>
                     <strong local-class='HideOnMobile'>{{t 'general.services.registries'}}</strong>
@@ -137,7 +137,7 @@
 
             {{#unless this.session.isAuthenticated}}
 
-                <nav.divider @classNames={{local-class 'HideOnMobile'}} />
+                <nav.divider local-class='HideOnMobile' />
 
                 <nav.links.secondary
                     data-test-join='1'
@@ -152,8 +152,8 @@
                 <nav.buttons.secondary
                     data-test-login='1'
                     data-analytics-name='Sign in'
+                    local-class='HideOnMobile'
                     @onclick={{action 'login'}}
-                    @classNames={{local-class 'HideOnMobile'}}
                 >
                     {{t 'navbar.login'}}
                 </nav.buttons.secondary>

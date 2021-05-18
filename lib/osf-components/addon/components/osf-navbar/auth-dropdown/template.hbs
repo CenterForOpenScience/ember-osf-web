@@ -2,11 +2,11 @@
     <BsDropdown
         data-test-auth-dropdown
         local-class='DropdownContainer'
+        class='dropdown secondary-nav-dropdown'
         @tagName='li'
-        @classNames='dropdown secondary-nav-dropdown'
         as |dd|
     >
-        <dd.toggle data-test-auth-dropdown-toggle @classNames='btn-link'>
+        <dd.toggle data-test-auth-dropdown-toggle class='btn-link'>
             <div class='osf-profile-image'>
                 <img src='{{this.user.profileImage}}&s=25' alt='{{t 'auth_dropdown.user_gravatar'}}'>
             </div>

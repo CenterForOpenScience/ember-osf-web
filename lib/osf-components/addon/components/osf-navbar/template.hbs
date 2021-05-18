@@ -35,7 +35,7 @@
                     <dd.toggle
                         data-test-service-dropdown
                         aria-label={{t 'navbar.other_views'}}
-                        @class={{concat 'btn-link ' (local-class 'PrimaryNav__toggle')}}
+                        class={{concat 'btn-link ' (local-class 'PrimaryNav__toggle')}}
                     >
                         {{fa-icon 'caret-down' size='2x'}}
                     </dd.toggle>
@@ -59,8 +59,8 @@
                     data-analytics-name='Toggle secondary nav xs'
                     aria-label={{t 'navbar.toggle_secondary'}}
                     local-class='NavbarToggleXS'
-                    @class='navbar-toggle collapsed'
-                    @onClick={{action 'toggleSecondaryNavigation'}}
+                    class='navbar-toggle collapsed'
+                    {{on 'click' this.toggleSecondaryNavigation}}
                 >
                     <span class='icon-bar'></span>
                     <span class='icon-bar'></span>
@@ -70,7 +70,7 @@
 
             {{! Secondary nav links }}
             <BsCollapse
-                @classNames='navbar-collapse navbar-right'
+                class='navbar-collapse navbar-right'
                 local-class='secondary-navigation'
                 @collapsed={{not this.showNavLinks}}
             >
@@ -87,7 +87,7 @@
                         {{/if}}
                     {{/let}}
 
-                    {{osf-navbar/auth-dropdown onLinkClicked=(action 'onLinkClicked') campaign=@campaign}}
+                    <OsfNavbar::AuthDropdown @onLinkClicked={{this.onLinkClicked}} @campaign={{@campaign}} />
                 </ul>
             </BsCollapse>
         </div>
