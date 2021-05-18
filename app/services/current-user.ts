@@ -10,6 +10,8 @@ import RSVP from 'rsvp';
 import User from 'ember-osf-web/models/user';
 import { addQueryParam } from 'ember-osf-web/utils/url-parts';
 
+import $ from 'jquery';
+
 const {
     OSF: {
         url: osfUrl,

@@ -175,14 +175,20 @@ module('Integration | Component | review-actions', hooks => {
         assert.dom('[data-test-review-action-comment]').doesNotExist('No comment to show');
     });
 
-    test('Request withdraw action', async function(this: ThisTestContext, assert) {
-        this.reviewAction.setProperties({
+    test('Request withdraw action', async function(assert) {
+        const mirageRegistration = server.create('registration');
+        const creator = server.create('user', { fullName: 'Superb Mario' });
+        server.create('review-action', {
+            target: mirageRegistration,
+            creator,
             actionTrigger: ReviewActionTrigger.RequestWithdrawal,
-            comment: 'I need my brother Luigi to help me',
+            comment: 'This is a job for Mario &amp; Luigi &gt;_&lt;',
         });
-        const dateString = formattedTimeSince(this.reviewAction.dateModified);
+        const registration = await this.store.findRecord('registration', mirageRegistration.id) as RegistrationModel;
+        const [action] = await registration.loadAll('reviewActions') as ReviewActionModel[];
+        this.set('reviewAction', action);
+        const dateString = formattedTimeSince(action.dateModified);
         const pastTenseString = t('registries.reviewActions.triggerPastTense.request_withdrawal');
-        this.set('reviewAction', this.reviewAction);
 
         await render(hbs`<Registries::ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
         assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
@@ -194,7 +200,7 @@ module('Integration | Component | review-actions', hooks => {
         assert.dom('[data-test-review-action-wrapper]')
             .doesNotContainText('moderator', 'Review action does not mention moderator');
         assert.dom('[data-test-review-action-comment]')
-            .containsText('I need my brother Luigi to help me', 'Comment shown');
+            .containsText('This is a job for Mario & Luigi >_<', 'Comment shown and characters encoded');
     });
 
     test('Request embargo termination action', async function(this: ThisTestContext, assert) {

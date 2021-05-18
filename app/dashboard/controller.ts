@@ -17,6 +17,8 @@ import User from 'ember-osf-web/models/user';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 
+import $ from 'jquery';
+
 // TODO pull these from the database
 const {
     dashboard: {

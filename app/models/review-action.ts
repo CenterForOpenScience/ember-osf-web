@@ -33,7 +33,7 @@ export default class ReviewActionModel extends OsfModel {
     @service intl!: Intl;
 
     @attr('string') actionTrigger!: ReviewActionTrigger;
-    @attr('string') comment!: string;
+    @attr('fixstring') comment!: string;
     @attr('string') fromState!: string;
     @attr('string') toState!: string;
     @attr('date') dateCreated!: Date;

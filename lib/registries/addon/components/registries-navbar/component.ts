@@ -39,9 +39,9 @@ export default class RegistriesNavbar extends AuthBase {
         return this.provider ? this.provider.id : defaultProviderId;
     }
 
-    @computed('media.isMobile', 'provider.brand')
+    @computed('media.{isMobile,isTablet}', 'provider.brand')
     get shouldShowProviderName() {
-        return !this.media.isMobile && this.provider && this.provider.brand;
+        return !this.media.isMobile && !this.media.isTablet && this.provider && this.provider.brand;
     }
 
     @computed('provider.{allowSubmissions,id}')

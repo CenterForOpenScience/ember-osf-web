@@ -6,6 +6,7 @@ import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
+import config from 'ember-get-config';
 
 import Node from 'ember-osf-web/models/node';
 import RegistrationSchema from 'ember-osf-web/models/registration-schema';
@@ -41,12 +42,13 @@ export default class GuidNodeRegistrations extends Controller {
     @task
     @waitFor
     async getRegistrationSchemas() {
-        const activeSchemas = await this.store.query('registration-schema',
-            {
-                'filter[active]': true,
-                'page[size]': 100,
-            });
-        const schemas = activeSchemas.toArray();
+        const { defaultProvider } = config;
+        const provider = await this.store.findRecord(
+            'registration-provider',
+            defaultProvider,
+        );
+        let schemas: RegistrationSchema[] = await provider.loadAll('schemas');
+        schemas = schemas.toArray();
         schemas.sort((a: RegistrationSchema, b: RegistrationSchema) => a.name.length - b.name.length);
         this.set('defaultSchema', schemas.firstObject);
         this.set('selectedSchema', this.defaultSchema);

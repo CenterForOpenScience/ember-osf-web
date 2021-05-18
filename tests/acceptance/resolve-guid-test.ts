@@ -3,6 +3,7 @@ import Service from '@ember/service';
 import { currentRouteName, currentURL, settled } from '@ember/test-helpers';
 import { getContext } from '@ember/test-helpers/setup-context';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import config from 'ember-get-config';
 import { setupApplicationTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
@@ -95,6 +96,13 @@ module('Acceptance | resolve-guid', hooks => {
         });
 
         test('Registrations', async assert => {
+            const { defaultProvider } = config;
+
+            server.create('registration-provider', {
+                id: defaultProvider,
+                shareSource: 'OSF Registries',
+                name: 'OSF Registries',
+            });
             const node = server.create('node');
 
             await visit(`/${node.id}/registrations`);

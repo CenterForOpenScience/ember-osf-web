@@ -461,7 +461,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
             provider: server.schema.registrationProviders.find('osf'),
             providerSpecificMetadata: [
                 { field_name: 'Field 1', field_value: '' },
-                { field_name: 'Field 2', field_value: 'Value 2' },
+                { field_name: 'Field 2', field_value: 'Value 2 &lt; &amp; &gt;' },
             ],
         });
         const regTwo = server.create('registration', {
@@ -496,7 +496,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assert.dom('[data-test-registration-provider-metadata-wrapper="Field 2"]')
             .isVisible('Non moderator can see the field 2 display component');
         assert.dom('[data-test-registration-provider-metadata-field-value="Field 2"]')
-            .containsText('Value 2', 'Non-moderator field two has the correct value');
+            .containsText('Value 2 < & >', 'Non-moderator field two has the correct value');
 
         await visit(`/${regTwo.id}/`);
         assert.dom('[data-test-edit-button="metadata"]').isVisible('Moderator can edit provider metadata');
