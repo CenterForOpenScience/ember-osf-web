@@ -1157,7 +1157,7 @@ registries:
             save: 'Save'
             clear_all: 'Clear all'
         add_license: 'Add license'
-        license_help_text: 'A license tells others how they can use your work in the future and only applies to the information and files submitted with the registration. For more information, see this <a href=''https://help.osf.io/hc/en-us/articles/360019739014-Licensing''>article on licenses</a>.'
+        license_help_text: 'A license tells others how they can use your work in the future and only applies to the information and files submitted with the registration. For more information, see this <a href="https://help.osf.io/hc/en-us/articles/360019739014-Licensing">article on licenses</a>.'
         affiliated_institutions: 'Affiliated institutions'
         category: Category
         choose_license: 'Choose a License'
@@ -1448,7 +1448,7 @@ meetings:
             conference_organizers_h3: 'For Conference Organizers'
             conference_organizers_help_text: 'Register your event to broaden its impact. Events get a dedicated page, an easy submission process, and persistent links.'
             conference_organizers_register_button: Register
-            conference_organizers_register_panel_texts: '<p>OSF Meetings is a product that we offer to academic conferences at no cost. To request poster and talk hosting for a conference:</p><p class=''text-center''><strong>Submit this <a href=''https://docs.google.com/forms/d/e/1FAIpQLSeBq4CfC5CjTBz49TP2dO9ZIsQc6QAAJFUoUbkS767Le9twLw/viewform''>set-up form </a></strong></p><p>We''ll review and add your conference within one business day.</p>'
+            conference_organizers_register_panel_texts: '<p>OSF Meetings is a product that we offer to academic conferences at no cost. To request poster and talk hosting for a conference:</p><p class="text-center"><strong>Submit this <a href="https://docs.google.com/forms/d/e/1FAIpQLSeBq4CfC5CjTBz49TP2dO9ZIsQc6QAAJFUoUbkS767Le9twLw/viewform">set-up form </a></strong></p><p>We''ll review and add your conference within one business day.</p>'
             conference_participants_h3: 'For Conference Participants'
             conference_participants_help_text: 'Share your posters and presentations along with any supporting data and materials. Get persistent links and usage analytics.'
             conference_participants_upload_button: Upload
