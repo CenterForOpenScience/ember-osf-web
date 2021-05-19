@@ -8,9 +8,9 @@ import {
     settled,
     triggerKeyEvent,
     blur,
-    waitFor,
+    waitUntil,
+    findAll,
 } from '@ember/test-helpers';
-import { TimeControl } from 'ember-animated/test-support';
 import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import config from 'ember-get-config';
@@ -924,11 +924,7 @@ module('Registries | Acceptance | draft form', hooks => {
             .doesNotExist('copyright holders field does not display on a license that does not require it');
     });
 
-    test('Contributor with write permissions can delete files/folder', async assert => {
-        const time = new TimeControl();
-        // Speed up ember-animated animations by 100x
-        time.runAtSpeed(100);
-
+    test('Contributor with write permissions can delete files/folder', async function(assert) {
         const initiator = server.create('user', 'loggedIn');
         const openEndedReg = server.schema.registrationSchemas.find('open_ended_registration');
         const branchedFrom = server
@@ -983,7 +979,9 @@ module('Registries | Acceptance | draft form', hooks => {
             .doesNotExist('folderOne has no delete button');
         await click(`[data-test-file-browser-item="${folderOne.id}"]`);
 
-        await waitFor(`[data-test-files-list-for="${folderOne.id}"]`, { timeout: 2000 });
+        // wait till the fileOne delete toast has disappeared and can see folderOne files
+        await waitUntil(() => findAll('[data-test-file-row]').length === 2, { timeout: 2000 });
+
         assert.dom(`[data-test-delete-current-folder="${folderOne.id}"] > button`)
             .isVisible('folderOne has a delete button');
         assert.dom('[data-test-file-row]')
@@ -1026,7 +1024,7 @@ module('Registries | Acceptance | draft form', hooks => {
             'Toast error message shows; has the right text',
         );
         assert.dom(`[data-test-file-browser-item="${fileTwo.id}"]`).isVisible('fileTwo is still visible');
-        time.finished();
+        // time.finished();
     });
 
     test('validations: validations status changes as user fixes/introduces errors', async function(
