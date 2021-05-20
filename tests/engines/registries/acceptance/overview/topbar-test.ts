@@ -77,7 +77,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         const anonymousReg = server.create('registration', {
             isAnonymous: true,
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-        }, 'isWithdrawn');
+        });
         anonymousReg.attrs.apiMeta = { version: '', anonymous: true };
 
         await visit(`/${anonymousReg.id}/`);
