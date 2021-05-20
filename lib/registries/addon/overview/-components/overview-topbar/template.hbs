@@ -6,7 +6,7 @@
         />
     </div>
 {{/unless}}
-{{#if @isModeratorMode}}
+{{#if (and @isModeratorMode (not @registration.isAnonymous))}}
     <MakeDecisionDropdown @registration={{@registration}} />
 {{else}}
     <div data-test-topbar-share-bookmark-fork
