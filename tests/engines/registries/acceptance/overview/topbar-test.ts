@@ -64,7 +64,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
     setupEngineApplicationTest(hooks, 'registries');
     setupMirage(hooks);
 
-    test('topbar is not visible for anonymous, archiving or withdrawn registrations', async assert => {
+    test('topbar is not visible for archiving or withdrawn registrations', async assert => {
         const reg = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
             provider: server.create('registration-provider'),
@@ -73,17 +73,6 @@ module('Registries | Acceptance | overview.topbar', hooks => {
 
         assert.dom('[data-test-topbar-share-bookmark-fork]').isVisible();
         assert.dom('[data-test-topbar-states]').isVisible();
-
-        const anonymousReg = server.create('registration', {
-            isAnonymous: true,
-            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-        });
-        anonymousReg.attrs.apiMeta = { version: '', anonymous: true };
-
-        await visit(`/${anonymousReg.id}/`);
-
-        assert.dom('[data-test-topbar-share-bookmark-fork]').doesNotExist();
-        assert.dom('[data-test-topbar-states]').doesNotExist();
 
         const withdrawnReg = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
@@ -101,6 +90,19 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         await visit(`/${archivingReg.id}/`);
 
         assert.dom('[data-test-topbar-share-bookmark-fork]').doesNotExist();
+        assert.dom('[data-test-topbar-states]').doesNotExist();
+    });
+
+    test('registration state is not visible in topbar when viewing registrations anonymously', async assert => {
+        const anonymousReg = server.create('registration', {
+            isAnonymous: true,
+            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+        });
+        anonymousReg.attrs.apiMeta = { version: '', anonymous: true };
+
+        await visit(`/${anonymousReg.id}/`);
+
+        assert.dom('[data-test-topbar-share-bookmark-fork]').exists();
         assert.dom('[data-test-topbar-states]').doesNotExist();
     });
 
