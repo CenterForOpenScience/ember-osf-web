@@ -123,7 +123,7 @@ export default class FileIcon extends Component {
     // Required arguments
     item!: File;
 
-    @computed('item.{expanded,isFolder,isNode,isProvider,name}')
+    @computed('item.{expanded,isFolder,isNode,isProvider,name,itemName}')
     get iconName(): string {
         // TODO: More icons!
         if (this.item.isFolder) {
@@ -144,6 +144,6 @@ export default class FileIcon extends Component {
             return iconFromName(this.item.name);
         }
 
-        return iconFromName('');
+        return iconFromName(this.item.itemName ?? '');
     }
 }

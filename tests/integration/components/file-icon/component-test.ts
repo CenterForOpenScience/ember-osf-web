@@ -14,21 +14,21 @@ module('Integration | Component | file-icon', hooks => {
     });
 
     test('file type not found uses default', async function(assert) {
-        const file = EmberObject.create({ name: 'file.notafiletype' });
+        const file = EmberObject.create({ itemName: 'file.notafiletype' });
         this.set('item', file);
         await render(hbs`<FileIcon @item={{this.item}} />`);
         assert.dom('svg').hasClass('fa-file');
     });
 
     test('file doesnt have a type, uses default', async function(assert) {
-        const file = EmberObject.create({ name: 'doesntevenhaveatypelikewow' });
+        const file = EmberObject.create({ itemName: 'doesntevenhaveatypelikewow' });
         this.set('item', file);
         await render(hbs`<FileIcon @item={{this.item}} />`);
         assert.dom('svg').hasClass('fa-file');
     });
 
     test('file gets the right icon for type - code', async function(assert) {
-        const file = EmberObject.create({ name: 'normalfilefornormalpeople.c' });
+        const file = EmberObject.create({ itemName: 'normalfilefornormalpeople.c' });
         this.set('item', file);
         await render(hbs`<FileIcon @item={{this.item}} />`);
         assert.dom('svg').hasClass('fa-file-code');
@@ -36,7 +36,7 @@ module('Integration | Component | file-icon', hooks => {
     });
 
     test('file gets the right icon for type - image', async function(assert) {
-        const file = EmberObject.create({ name: 'normalfilefornormalpeople.jpg' });
+        const file = EmberObject.create({ itemName: 'normalfilefornormalpeople.jpg' });
         this.set('item', file);
         await render(hbs`<FileIcon @item={{this.item}} />`);
         assert.dom('svg').hasClass('fa-file-image');
@@ -44,7 +44,7 @@ module('Integration | Component | file-icon', hooks => {
     });
 
     test('file gets the right icon for type - pdf', async function(assert) {
-        const file = EmberObject.create({ name: 'normalfilefornormalpeople.pdf' });
+        const file = EmberObject.create({ itemName: 'normalfilefornormalpeople.pdf' });
         this.set('item', file);
         await render(hbs`<FileIcon @item={{this.item}} />`);
         assert.dom('svg').hasClass('fa-file-pdf');
@@ -52,7 +52,7 @@ module('Integration | Component | file-icon', hooks => {
     });
 
     test('file gets the right icon for type - word', async function(assert) {
-        const file = EmberObject.create({ name: 'normalfilefornormalpeople.docx' });
+        const file = EmberObject.create({ itemName: 'normalfilefornormalpeople.docx' });
         this.set('item', file);
         await render(hbs`<FileIcon @item={{this.item}} />`);
         assert.dom('svg').hasClass('fa-file-word');
@@ -60,7 +60,7 @@ module('Integration | Component | file-icon', hooks => {
     });
 
     test('file gets the right icon for type - video', async function(assert) {
-        const file = EmberObject.create({ name: 'normalfilefornormalpeople.mp4' });
+        const file = EmberObject.create({ itemName: 'normalfilefornormalpeople.mp4' });
         this.set('item', file);
         await render(hbs`<FileIcon @item={{this.item}} />`);
         assert.dom('svg').hasClass('fa-file-video');
@@ -68,7 +68,7 @@ module('Integration | Component | file-icon', hooks => {
     });
 
     test('file gets the right icon for type - powerpoint', async function(assert) {
-        const file = EmberObject.create({ name: 'normalfilefornormalpeople.ppt' });
+        const file = EmberObject.create({ itemName: 'normalfilefornormalpeople.ppt' });
         this.set('item', file);
         await render(hbs`<FileIcon @item={{this.item}} />`);
         assert.dom('svg').hasClass('fa-file-powerpoint');
@@ -76,7 +76,7 @@ module('Integration | Component | file-icon', hooks => {
     });
 
     test('file gets the right icon for type - audio', async function(assert) {
-        const file = EmberObject.create({ name: 'normalfilefornormalpeople.mp3' });
+        const file = EmberObject.create({ itemName: 'normalfilefornormalpeople.mp3' });
         this.set('item', file);
         await render(hbs`<FileIcon @item={{this.item}} />`);
         assert.dom('svg').hasClass('fa-file-audio');
@@ -84,7 +84,7 @@ module('Integration | Component | file-icon', hooks => {
     });
 
     test('file gets the right icon for type - excel', async function(assert) {
-        const file = EmberObject.create({ name: 'normalfilefornormalpeople.xlsx' });
+        const file = EmberObject.create({ itemName: 'normalfilefornormalpeople.xlsx' });
         this.set('item', file);
         await render(hbs`<FileIcon @item={{this.item}} />`);
         assert.dom('svg').hasClass('fa-file-excel');
@@ -92,7 +92,7 @@ module('Integration | Component | file-icon', hooks => {
     });
 
     test('file gets the right icon for type - text', async function(assert) {
-        const file = EmberObject.create({ name: 'normalfilefornormalpeople.txt' });
+        const file = EmberObject.create({ itemName: 'normalfilefornormalpeople.txt' });
         this.set('item', file);
         await render(hbs`<FileIcon @item={{this.item}} />`);
         assert.dom('svg').hasClass('fa-file-alt');
@@ -101,7 +101,7 @@ module('Integration | Component | file-icon', hooks => {
 
     test('file gets the right icon for type - provider', async function(assert) {
         const file = EmberObject.create({
-            name: 'normalfilefornormalpeople',
+            itemName: 'normalfilefornormalpeople',
             isProvider: true,
         });
         this.set('item', file);
@@ -112,7 +112,7 @@ module('Integration | Component | file-icon', hooks => {
 
     test('file gets the right icon for type - folder', async function(assert) {
         const file = EmberObject.create({
-            name: 'normalfilefornormalpeople',
+            itemName: 'normalfilefornormalpeople',
             isFolder: true,
         });
         this.set('item', file);
@@ -123,7 +123,7 @@ module('Integration | Component | file-icon', hooks => {
 
     test('file gets the right icon for type - node', async function(assert) {
         const file = EmberObject.create({
-            name: 'normalfilefornormalpeople',
+            itemName: 'normalfilefornormalpeople',
             isNode: true,
         });
         this.set('item', file);

@@ -30,7 +30,6 @@ enum AuthRoute {
 function hashCode(str: string): number {
     return str
         .split('')
-        // eslint-disable-next-line no-bitwise
         .reduce((acc, _, i) => ((acc << 5) - acc) + str.charCodeAt(i), 0); // eslint-disable-line  no-bitwise
 }
 

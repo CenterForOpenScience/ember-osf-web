@@ -1024,7 +1024,6 @@ module('Registries | Acceptance | draft form', hooks => {
             'Toast error message shows; has the right text',
         );
         assert.dom(`[data-test-file-browser-item="${fileTwo.id}"]`).isVisible('fileTwo is still visible');
-        // time.finished();
     });
 
     test('validations: validations status changes as user fixes/introduces errors', async function(

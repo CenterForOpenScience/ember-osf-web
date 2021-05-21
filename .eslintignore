@@ -1,6 +1,7 @@
 # unconventional js
 /blueprints/*/files/
 /blueprints/*/engine-files/
+/node-tests/fixtures/blueprints/
 /vendor/
 /config/local.js
 /handbook-docs/

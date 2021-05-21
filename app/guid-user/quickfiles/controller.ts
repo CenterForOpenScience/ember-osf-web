@@ -142,7 +142,7 @@ export default class UserQuickfiles extends Controller {
         try {
             await file.rename(name, conflict);
 
-            // intentionally not yielded
+            // intentionally not awaited
             taskFor(this.flash).perform(file, 'Successfully renamed');
 
             if (conflictingFile) {

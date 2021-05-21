@@ -254,12 +254,16 @@ export function compare(
     throw new Error(`We haven't implemented comparisons with "${operator}" yet.`);
 }
 
+function isValidOperator(arg: any): arg is ComparisonOperators {
+    return Object.values(ComparisonOperators).includes(arg);
+}
+
 export function toOperator(operatorString: string): ComparisonOperators {
     if (!operatorString || operatorString === 'eq') {
         return ComparisonOperators.Eq;
     }
-    if (Object.values(ComparisonOperators).includes(operatorString as ComparisonOperators)) {
-        return operatorString as ComparisonOperators;
+    if (isValidOperator(operatorString)) {
+        return operatorString;
     }
     throw new Error(`The operator ${operatorString} is unknown.`);
 }

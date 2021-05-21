@@ -57,7 +57,7 @@ export default class StatusMessages extends Service {
 
     updateMessages(): void {
         this.setProperties({
-            messages: this.nextMessages || [],
+            messages: this.nextMessages ?? [],
             nextMessages: [],
         });
     }

@@ -3,7 +3,6 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import config from 'ember-get-config';
 import { percySnapshot } from 'ember-percy';
 import { selectChoose, selectSearch } from 'ember-power-select/test-support';
-import { TestContext } from 'ember-test-helpers';
 import { module, skip, test } from 'qunit';
 
 import { Permission } from 'ember-osf-web/models/osf-model';
@@ -154,7 +153,7 @@ module('Acceptance | dashboard', hooks => {
         await percySnapshot(assert);
     });
 
-    test('sorting projects', async function(this: TestContext, assert) {
+    test('sorting projects', async function(assert) {
         const currentUser = server.create('user', 'loggedIn');
         const nodeOne = server.create(
             'node',
@@ -234,7 +233,7 @@ module('Acceptance | dashboard', hooks => {
         assert.dom(projectTitles[2]).hasText('a', 'Title desc sort item 2 is in proper position');
     });
 
-    test('filtering projects', async function(this: TestContext, assert) {
+    test('filtering projects', async function(assert) {
         const currentUser = server.create('user', 'loggedIn');
         const nodeOne = server.create(
             'node',
@@ -380,7 +379,7 @@ module('Acceptance | dashboard', hooks => {
             .includesText('You have no projects yet. Create a project with the button on the top right.');
     });
 
-    test('create project modal more toggle', async function(this: TestContext, assert) {
+    test('create project modal more toggle', async function(assert) {
         server.loadFixtures('regions');
         const currentUser = server.create('user', 'loggedIn', 'withUsRegion');
         const title = 'Giraffical Interchange Format';

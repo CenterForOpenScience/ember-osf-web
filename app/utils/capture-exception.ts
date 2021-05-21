@@ -69,7 +69,6 @@ export default function captureException(
         return Raven.captureException(error, { extra });
     }
 
-    // eslint-disable-next-line no-console
     console.error(error); // eslint-disable-line  no-console
 }
 /* eslint-enable consistent-return */

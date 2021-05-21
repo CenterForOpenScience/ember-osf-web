@@ -22,7 +22,7 @@ export default class NodeLicenseTransform extends Transform {
         const {
             copyrightHolders = [],
             year = '',
-        } = camelizeKeys(value as Record<'copyright_holders|year', unknown>) as DeserializedNodeLicense;
+        } = camelizeKeys(value) as DeserializedNodeLicense;
 
         return Object.freeze({
             copyrightHolders: typeof copyrightHolders === 'string' ? copyrightHolders : copyrightHolders.join(', '),
