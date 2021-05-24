@@ -325,6 +325,7 @@ module.exports = {
                 'lib/**/index.js',
                 'blueprints/*/index.js',
                 'blueprints/**/*.js',
+                'node-tests/**/*.js',
                 'config/**/*.js',
             ],
             parserOptions: {
