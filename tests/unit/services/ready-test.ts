@@ -2,7 +2,7 @@ import { run } from '@ember/runloop';
 import { settled } from '@ember/test-helpers';
 import Ready from 'ember-osf-web/services/ready';
 import { setupTest } from 'ember-qunit';
-import { module, test, skip } from 'qunit';
+import { module, test } from 'qunit';
 
 module('Unit | Service | ready', hooks => {
     setupTest(hooks);
@@ -70,9 +70,7 @@ module('Unit | Service | ready', hooks => {
         assert.ok(ready.get('isReady'), 'ends ready');
     });
 
-    // skip: unable to catch triggered errors using @ember/test-helpers setupOnerror or trycatch
-    // TODO: Mock Evented.trigger
-    skip('one blocker errors', async function(assert) {
+    test('one blocker errors', async function(assert) {
         assert.expect(4);
 
         const ready = this.owner.lookup('service:ready');
@@ -82,14 +80,12 @@ module('Unit | Service | ready', hooks => {
 
         assert.notOk(ready.get('isReady'), 'starts unready');
 
-        blocker.errored();
+        blocker.errored(new Error('ready:blocker errored'));
         await settled();
         assert.notOk(ready.get('isReady'), 'never ready');
     });
 
-    // skip: unable to catch triggered errors using @ember/test-helpers setupOnerror or trycatch
-    // TODO: Mock Evented.trigger
-    skip('third blocker errors', async function(assert) {
+    test('third blocker errors', async function(assert) {
         assert.expect(5);
 
         const ready = this.owner.lookup('service:ready');
@@ -108,7 +104,7 @@ module('Unit | Service | ready', hooks => {
         await settled();
         assert.notOk(ready.get('isReady'), 'still waiting on one blocker');
 
-        blocker1.errored();
+        blocker1.errored(new Error('ready:blocker error'));
         await settled();
         assert.notOk(ready.get('isReady'), 'never ready');
     });

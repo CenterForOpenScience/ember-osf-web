@@ -1,9 +1,14 @@
 import ApplicationInstance from '@ember/application/instance';
+import captureException from 'ember-osf-web/utils/capture-exception';
 
 export async function initialize(appInstance: ApplicationInstance) {
     const ready = appInstance.lookup('service:ready');
-    await ready.ready();
-    window.prerenderReady = true;
+    try {
+        await ready.ready();
+        window.prerenderReady = true;
+    } catch (e) {
+        captureException(e);
+    }
 }
 
 export default {
