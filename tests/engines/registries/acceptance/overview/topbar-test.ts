@@ -95,10 +95,8 @@ module('Registries | Acceptance | overview.topbar', hooks => {
 
     test('registration state is not visible in topbar when viewing registrations anonymously', async assert => {
         const anonymousReg = server.create('registration', {
-            isAnonymous: true,
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-        });
-        anonymousReg.attrs.apiMeta = { version: '', anonymous: true };
+        }, 'anonymized');
 
         await visit(`/${anonymousReg.id}/`);
 
