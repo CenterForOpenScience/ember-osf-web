@@ -7,7 +7,7 @@ export async function initialize(appInstance: ApplicationInstance) {
         await ready.ready();
         window.prerenderReady = true;
     } catch (e) {
-        captureException(e);
+        captureException(e, { errorMessage: 'service:ready blocker errored' });
     }
 }
 
