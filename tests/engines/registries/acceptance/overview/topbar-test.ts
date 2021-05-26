@@ -93,6 +93,18 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         assert.dom('[data-test-topbar-states]').doesNotExist();
     });
 
+    test('registration state is not visible in topbar when viewing registrations anonymously', async assert => {
+        const anonymousReg = server.create('registration', {
+            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+        }, 'anonymized');
+
+        await visit(`/${anonymousReg.id}/`);
+        await percySnapshot(assert);
+
+        assert.dom('[data-test-topbar-share-bookmark-fork]').exists();
+        assert.dom('[data-test-topbar-states]').doesNotExist();
+    });
+
     test('bookmarks work', async assert => {
         const reg = server.create('registration', {
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),

@@ -32,10 +32,13 @@ export function registrationDetail(this: HandlerContext, schema: Schema, request
             errors: [{ detail: 'Not found.' }],
         });
     }
+    const serializedRegistration = this.serialize(registration);
+    const { data } = process(schema, request, this, [serializedRegistration.data]);
 
-    const { data } = process(schema, request, this, [this.serialize(registration).data]);
-
-    return { data: data[0] };
+    return {
+        data: data[0],
+        meta: serializedRegistration.meta,
+    };
 }
 
 export function createNodeFromDraftNode(
