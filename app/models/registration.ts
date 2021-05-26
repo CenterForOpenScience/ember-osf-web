@@ -81,7 +81,7 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @attr('fixstring') articleDoi!: string | null;
     @attr('object') registeredMeta!: RegistrationMetadata;
     @attr('registration-responses') registrationResponses!: RegistrationResponse;
-    @attr('fixstring') reviewsState!: RegistrationReviewStates;
+    @attr('fixstring') reviewsState?: RegistrationReviewStates;
     @attr('fixstring') iaUrl?: string;
     @attr('array') providerSpecificMetadata!: ProviderMetadata[];
 
