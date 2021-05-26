@@ -99,6 +99,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         }, 'anonymized');
 
         await visit(`/${anonymousReg.id}/`);
+        await percySnapshot(assert);
 
         assert.dom('[data-test-topbar-share-bookmark-fork]').exists();
         assert.dom('[data-test-topbar-states]').doesNotExist();
