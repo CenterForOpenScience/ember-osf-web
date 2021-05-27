@@ -1,22 +1,23 @@
 {{assert 'Registries::RegistrationFormNavigationDropdown requires schemablocks' @schemaBlocks}}
 <ResponsiveDropdown local-class='Dropdown' @renderInPlace={{true}} as |dd|>
-    {{#dd.trigger local-class='MenuTrigger'}}
+    <dd.trigger local-class='MenuTrigger'>
         <BsButton
             data-analytics-name='Expand'
-            data-test-toggle-anchor-nav-button @type='link'
+            data-test-toggle-anchor-nav-button
             local-class='ToggleNav__button'
             aria-label={{t 'registries.drafts.draft.review.toggle_dropdown'}}
+            @type='link'
         >
             <FaIcon @icon='bars' />
         </BsButton>
-    {{/dd.trigger}}
-    {{#dd.content}}
+    </dd.trigger>
+    <dd.content>
         <nav
             data-analytics-scope='Form navigation menu'
             local-class='NavigationMenu'
             aria-labelledby='form-navigation-menu'
         >
-            <h2 
+            <h2
                 local-class='Header'
                 id='form-navigation-menu'
                 data-test-anchor-nav-title
@@ -73,5 +74,5 @@
                 {{/each}}
             </ol>
         </nav>
-    {{/dd.content}}
+    </dd.content>
 </ResponsiveDropdown>
