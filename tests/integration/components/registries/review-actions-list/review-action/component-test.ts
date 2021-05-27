@@ -172,12 +172,18 @@ module('Integration | Component | review-actions', hooks => {
     });
 
     test('Request withdraw action', async function(assert) {
-        const reviewAction = this.get('reviewAction') as ReviewActionModel;
-        reviewAction.setProperties({
+        const mirageRegistration = server.create('registration');
+        const creator = server.create('user', { fullName: 'Superb Mario' });
+        server.create('review-action', {
+            target: mirageRegistration,
+            creator,
             actionTrigger: ReviewActionTrigger.RequestWithdrawal,
-            comment: 'I need my brother Luigi to help me',
+            comment: 'This is a job for Mario &amp; Luigi &gt;_&lt;',
         });
-        const dateString = formattedTimeSince(reviewAction.dateModified);
+        const registration = await this.store.findRecord('registration', mirageRegistration.id) as RegistrationModel;
+        const [action] = await registration.loadAll('reviewActions') as ReviewActionModel[];
+        this.set('reviewAction', action);
+        const dateString = formattedTimeSince(action.dateModified);
         const pastTenseString = t('registries.reviewActions.triggerPastTense.request_withdrawal');
 
         await render(hbs`<Registries::ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
@@ -190,7 +196,7 @@ module('Integration | Component | review-actions', hooks => {
         assert.dom('[data-test-review-action-wrapper]')
             .doesNotContainText('moderator', 'Review action does not mention moderator');
         assert.dom('[data-test-review-action-comment]')
-            .containsText('I need my brother Luigi to help me', 'Comment shown');
+            .containsText('This is a job for Mario & Luigi >_<', 'Comment shown and characters encoded');
     });
 
     test('Request embargo termination action', async function(assert) {

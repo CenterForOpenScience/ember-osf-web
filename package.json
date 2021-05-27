@@ -1,6 +1,6 @@
 {
   "name": "ember-osf-web",
-  "version": "21.4.1",
+  "version": "21.5.0",
   "description": "Ember front-end for the Open Science Framework",
   "license": "Apache-2.0",
   "author": "Center for Open Science <support@cos.io>",
@@ -155,7 +155,7 @@
     "ember-intl": "^4.2.2",
     "ember-load-initializers": "^2.0.0",
     "ember-maybe-import-regenerator": "^0.1.6",
-    "ember-metrics": "https://github.com/cos-forks/ember-metrics#v0.12.1+cos0",
+    "ember-metrics": "https://github.com/cos-forks/ember-metrics#1.0.0+cos0",
     "ember-mockdate-shim": "^0.1.0",
     "ember-moment": "^7.7.0",
     "ember-onbeforeunload": "^1.2.0",

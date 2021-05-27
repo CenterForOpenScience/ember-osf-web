@@ -1,4 +1,5 @@
 import { ModelInstance, Server } from 'ember-cli-mirage';
+import config from 'ember-get-config';
 
 import { StorageStatus } from 'ember-osf-web/models/node-storage';
 import { Permission } from 'ember-osf-web/models/osf-model';
@@ -41,7 +42,14 @@ export function registrationScenario(
     server: Server,
     currentUser: ModelInstance<User>,
 ) {
+    const { defaultProvider } = config;
     server.loadFixtures('citation-styles');
+
+    server.create('registration-provider', {
+        id: defaultProvider,
+        shareSource: 'OSF Registries',
+        name: 'OSF Registries',
+    }, 'withAllSchemas');
 
     server.create('registration', { id: 'beefs' });
 
@@ -66,6 +74,7 @@ export function registrationScenario(
     };
 
     const rootNode = server.create('node', {
+        id: 'anode',
         public: false,
         contributors: server.createList('contributor', 10),
         currentUserPermissions: [Permission.Admin],

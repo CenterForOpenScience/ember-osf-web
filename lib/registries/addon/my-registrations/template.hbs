@@ -19,6 +19,9 @@
                     @activeId={{this.tab}}
                     as |tab|
                 >
+                    <div local-class='SortDescription'>
+                        {{t 'registries.my_registrations.sorted'}}
+                    </div>
                     <tab.pane
                         local-class='Tab'
                         @title={{t 'registries.my_registrations.drafts'}}

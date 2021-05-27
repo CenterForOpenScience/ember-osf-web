@@ -1138,6 +1138,7 @@ registries:
         header: 'My Registrations'
         drafts: 'Drafts'
         submitted: 'Submitted'
+        sorted: 'Sorted by last updated'
     registration_metadata:
         add_description: 'Add description'
         add_contributors:
