@@ -16,7 +16,7 @@ export default class NoteworthyAndPopularProject extends Component {
         if (!this.project) {
             return undefined;
         }
-        const desc = '';
+        const desc = this.project.description;
         return desc.length > 115 ? `${desc.slice(0, 111)}\u2026` : desc;
     }
 }
