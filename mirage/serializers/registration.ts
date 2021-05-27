@@ -241,4 +241,11 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
         }
         return relationships;
     }
+
+    buildApiMeta(model: ModelInstance<MirageRegistration>) {
+        return {
+            ...super.buildApiMeta(model),
+            ...(model.attrs._anonymized ? { anonymous: true } : {}),
+        };
+    }
 }

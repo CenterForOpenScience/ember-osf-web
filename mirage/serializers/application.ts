@@ -53,9 +53,9 @@ export default class ApplicationSerializer<T extends Model> extends JSONAPISeria
     serialize(model: ModelInstance<T>, request: Request) {
         const json = super.serialize(model, request);
         json.data.links = this.buildNormalLinks(model);
-        json.data.meta = {
+        json.meta = {
             ...this.buildApiMeta(model),
-            ...(json.data.meta || {}),
+            ...(json.meta || {}),
         };
         json.data.relationships = Object
             .entries(this.buildRelationships(model))

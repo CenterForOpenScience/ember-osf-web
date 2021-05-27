@@ -50,22 +50,30 @@ export default class MakeDecisionDropdown extends Component<Args> {
     };
 
     get commentTextArea() {
-        if ([RegistrationReviewStates.Pending, RegistrationReviewStates.PendingWithdraw]
-            .includes(this.args.registration.reviewsState)) {
+        if (this.args.registration.reviewsState) {
+            if ([RegistrationReviewStates.Pending, RegistrationReviewStates.PendingWithdraw]
+                .includes(this.args.registration.reviewsState)) {
+                return {
+                    label: this.intl.t('registries.makeDecisionDropdown.additionalComment'),
+                    placeholder: this.intl.t('registries.makeDecisionDropdown.additionalCommentPlaceholder'),
+                };
+            }
+
             return {
-                label: this.intl.t('registries.makeDecisionDropdown.additionalComment'),
-                placeholder: this.intl.t('registries.makeDecisionDropdown.additionalCommentPlaceholder'),
+                label: this.intl.t('registries.makeDecisionDropdown.justificationForWithdrawal'),
+                placeholder: this.intl.t('registries.makeDecisionDropdown.justificationForWithdrawalPlaceholder'),
             };
         }
-
+        // registration is viewed anonymously and this component should not be visible
         return {
-            label: this.intl.t('registries.makeDecisionDropdown.justificationForWithdrawal'),
-            placeholder: this.intl.t('registries.makeDecisionDropdown.justificationForWithdrawalPlaceholder'),
+            label: '',
+            placeholder: '',
         };
     }
 
     get hasModeratorActions() {
-        return ![
+        return this.args.registration.reviewsState
+        && ![
             RegistrationReviewStates.Initial,
             RegistrationReviewStates.Withdrawn,
             RegistrationReviewStates.Rejected,

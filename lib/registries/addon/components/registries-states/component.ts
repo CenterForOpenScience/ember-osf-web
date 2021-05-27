@@ -49,7 +49,7 @@ export default class RegistriesStates extends Component {
     )
     /* eslint-enable max-len */
     get stateText() {
-        if (!this.registration) {
+        if (!this.registration || !this.registration.reviewsState) {
             return undefined;
         }
         let stateKey;
@@ -75,6 +75,7 @@ export default class RegistriesStates extends Component {
     @computed('registration.{userHasAdminPermission,reviewsState}')
     get shouldOpenDropdownOnLoad() {
         return this.registration.userHasAdminPermission
+        && this.registration.reviewsState
         && ![
             RegistrationReviewStates.Embargo,
             RegistrationReviewStates.Accepted,
@@ -96,6 +97,7 @@ export default class RegistriesStates extends Component {
             !this.registration.isRoot
             || !this.registration.userHasAdminPermission
             || this.isModeratorMode
+            || !this.registration.reviewsState
             || !(
                 [RegistrationReviewStates.Accepted, RegistrationReviewStates.Embargo].includes(
                     this.registration.reviewsState,

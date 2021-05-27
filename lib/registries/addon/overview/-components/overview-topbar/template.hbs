@@ -1,10 +1,12 @@
-<div data-test-topbar-states>
-    <RegistriesStates
-        @registration={{@registration}}
-        @isModeratorMode={{@isModeratorMode}}
-    />
-</div>
-{{#if @isModeratorMode}}
+{{#unless @registration.isAnonymous}}
+    <div data-test-topbar-states>
+        <RegistriesStates
+            @registration={{@registration}}
+            @isModeratorMode={{@isModeratorMode}}
+        />
+    </div>
+{{/unless}}
+{{#if (and @isModeratorMode (not @registration.isAnonymous))}}
     <MakeDecisionDropdown @registration={{@registration}} />
 {{else}}
     <div data-test-topbar-share-bookmark-fork
