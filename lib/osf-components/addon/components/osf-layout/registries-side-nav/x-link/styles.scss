@@ -27,7 +27,7 @@
         }
     }
 
-    :global(.fa)::before {
+    :global(.fa-fw) {
         border-radius: 50%;
         background-color: $color-bg-white;
         box-shadow: 0 0 0 3px $color-shadow-white;
@@ -40,7 +40,7 @@
         width: max-content;
         min-width: 205px;
 
-        :global(.fa)::before {
+        :global(.fa-fw) {
             background-color: initial;
             box-shadow: none;
         }
