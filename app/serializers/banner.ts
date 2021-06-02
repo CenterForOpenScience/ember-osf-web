@@ -1,5 +1,4 @@
-import DS from 'ember-data';
-
+import Store from '@ember-data/store';
 import { SingleResourceDocument } from 'osf-api';
 
 import BannerModel from 'ember-osf-web/models/banner';
@@ -8,7 +7,7 @@ import OsfSerializer from './osf-serializer';
 
 export default class BannerSerializer extends OsfSerializer {
     normalizeSingleResponse(
-        store: DS.Store,
+        store: Store,
         primaryModelClass: BannerModel,
         payload: SingleResourceDocument,
         id: string,

@@ -16,7 +16,7 @@ export default class SettingsProfileIndexRoute extends Route {
     @service features!: Features;
     beforeModel() {
         const flag = routeFlags['settings.profile'];
-        if (flag && !this.get('features').isEnabled(flag)) {
+        if (flag && !this.features.isEnabled(flag)) {
             try {
                 window.location.assign('/settings/');
             } catch (e) {

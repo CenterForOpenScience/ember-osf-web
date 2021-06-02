@@ -10,7 +10,6 @@ import config from 'ember-get-config';
 import { layout } from 'ember-osf-web/decorators/component';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import OsfRouterService from 'ember-osf-web/services/osf-router';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import { addQueryParam } from 'ember-osf-web/utils/url-parts';
 
 import template from './template';
@@ -37,8 +36,8 @@ export default class OsfLink extends Component {
     queryParams?: Record<string, unknown>;
     fragment?: string;
 
-    rel: AnchorRel = defaultTo(this.rel, 'noopener');
-    target: AnchorTarget = defaultTo(this.target, '_self');
+    rel: AnchorRel = 'noopener';
+    target: AnchorTarget = '_self';
 
     onClick?: () => void;
 

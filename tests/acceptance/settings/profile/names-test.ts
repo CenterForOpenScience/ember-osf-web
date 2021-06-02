@@ -27,7 +27,7 @@ module('Acceptance | settings | profile | name', hooks => {
         assert.dom('[data-test-middle-names-field] input[type=text]').hasValue(currentUser.middleNames);
         assert.dom('[data-test-family-name-field] input[type=text]').hasValue(currentUser.familyName);
         assert.dom('[data-test-suffix-field] input[type=text]').hasValue(currentUser.suffix);
-        assert.dom('[data-test-discard-changes')
+        assert.dom('[data-test-discard-changes]')
             .isDisabled('No changes means you cannot discard changes.');
         assert.dom('[data-test-citation-container]').exists();
     });
@@ -68,7 +68,7 @@ module('Acceptance | settings | profile | name', hooks => {
         assert.dom('[data-test-apa-citation]').containsText(apa);
         assert.dom('[data-test-mla-citation]').containsText(mla);
         await click('[data-test-discard-changes]');
-        assert.dom('[data-test-discard-changes')
+        assert.dom('[data-test-discard-changes]')
             .isDisabled('Already discarded changes means you cannot discard changes.');
         assert.dom('[data-test-citation-container]').exists();
         assert.dom('[data-test-apa-citation]').containsText(apa);
@@ -83,7 +83,7 @@ module('Acceptance | settings | profile | name', hooks => {
         await click('[data-test-save]');
         assert.dom('[data-test-apa-citation]').containsText('Doyle, M. H. G., DDS.');
         assert.dom('[data-test-mla-citation]').containsText('Doyle, Maggs H. G., DDS.');
-        assert.dom('[data-test-discard-changes')
+        assert.dom('[data-test-discard-changes]')
             .isDisabled('Just saved means you cannot discard changes.');
         assert.equal(user.givenName, 'Maggs');
     });
@@ -154,7 +154,7 @@ module('Acceptance | settings | profile | name', hooks => {
         assert.dom('[data-test-full-name-field]').doesNotContainText('This field is too long');
         await click('[data-test-save]');
         assert.equal(user.fullName, 'And Peggy!', 'Full name was successfully changed');
-        assert.dom('[data-test-discard-changes')
+        assert.dom('[data-test-discard-changes]')
             .isDisabled('Just saved means you cannot discard changes.');
     });
 });

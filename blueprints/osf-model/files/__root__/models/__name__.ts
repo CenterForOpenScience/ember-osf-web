@@ -1,8 +1,6 @@
-import DS from '@ember-data';
+import { attr, belongsTo, hasMany } from '@ember-data/model';
 
 import OsfModel from './osf-model';
-
-const { attr, belongsTo, hasMany } = DS;
 
 export default class <%= classifiedModuleName %>Model extends OsfModel {
 }

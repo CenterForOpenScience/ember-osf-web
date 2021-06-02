@@ -1,8 +1,9 @@
+import Store from '@ember-data/store';
 import Component from '@ember/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
-import { DS } from 'ember-data';
+import { waitFor } from '@ember/test-waiters';
+import { dropTask } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -19,18 +20,19 @@ import template from './template';
 export default class UnregisteredContributor extends Component {
     @service analytics!: Analytics;
     @service intl!: Intl;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service toast!: Toast;
 
     model?: Contributor;
-    node: Node = this.node;
-    didValidate: boolean = false;
+    node!: Node;
+    didValidate = false;
 
     @requiredAction closeForm!: () => void;
 
-    @task({ withTestWaiter: true, drop: true })
-    add = task(function *(this: UnregisteredContributor) {
-        const { validations } = yield this.model!.validate();
+    @dropTask
+    @waitFor
+    async add() {
+        const { validations } = await this.model!.validate();
         this.set('didValidate', true);
 
         if (validations.get('isInvalid')) {
@@ -40,7 +42,7 @@ export default class UnregisteredContributor extends Component {
         this.analytics.track('form', 'submit', 'Collections - Contributors - Add Unregistered Contributor');
 
         try {
-            yield this.model!.save();
+            await this.model!.save();
             this.toast.success(
                 this.intl.t('app_components.project_contributors.search.unregistered_contributor.add_success'),
             );
@@ -53,13 +55,13 @@ export default class UnregisteredContributor extends Component {
 
         this.reset(false);
         this.closeForm();
-    });
+    }
 
     didReceiveAttrs() {
         this.reset();
     }
 
-    reset(rollback: boolean = true) {
+    reset(rollback = true) {
         if (this.model && rollback) {
             this.model.rollbackAttributes();
         }

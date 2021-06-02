@@ -15,7 +15,7 @@
                     local-class='selected-item'
                 >
                     <span>{{file.itemName}}</span>
-                    <OsfButton
+                    <BsButton
                         data-test-unselect-file
                         data-analytics-name='Unselect file'
                         local-class='unselect'
@@ -25,7 +25,7 @@
                         @type='link'
                     >
                         <FaIcon @icon='times' @fixedWith={{true}} />
-                    </OsfButton>
+                    </BsButton>
                 </div>
             </AnimatedEach>
         </AnimatedContainer>

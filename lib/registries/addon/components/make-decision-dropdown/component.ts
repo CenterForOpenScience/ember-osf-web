@@ -1,10 +1,11 @@
+import Store from '@ember-data/store';
 import Component from '@glimmer/component';
 
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
-import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import { task } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -20,7 +21,7 @@ interface Args {
 
 export default class MakeDecisionDropdown extends Component<Args> {
     @service intl!: Intl;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service toast!: Toast;
     @service router!: RouterService;
 
@@ -79,8 +80,9 @@ export default class MakeDecisionDropdown extends Component<Args> {
         ].includes(this.args.registration.reviewsState);
     }
 
-    @task({ withTestWaiter: true })
-    submitDecision = task(function *(this: MakeDecisionDropdown) {
+    @task
+    @waitFor
+    async submitDecision() {
         if (this.decisionTrigger) {
             const newAction = this.store.createRecord('review-action', {
                 actionTrigger: this.decisionTrigger,
@@ -88,7 +90,7 @@ export default class MakeDecisionDropdown extends Component<Args> {
                 target: this.args.registration,
             });
             try {
-                yield newAction.save();
+                await newAction.save();
                 this.toast.success(this.intl.t('registries.makeDecisionDropdown.success'));
                 if (this.decisionTrigger === ReviewActionTrigger.RejectSubmission) {
                     this.router.transitionTo(
@@ -107,7 +109,7 @@ export default class MakeDecisionDropdown extends Component<Args> {
                 this.comment = undefined;
             }
         }
-    });
+    }
 
     @action
     updateDecisionTrigger(trigger: ReviewActionTrigger) {

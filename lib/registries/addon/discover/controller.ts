@@ -1,17 +1,17 @@
+import Store from '@ember-data/store';
 import EmberArray, { A } from '@ember/array';
 import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import { waitFor } from '@ember/test-waiters';
+import { restartableTask, task, timeout } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import QueryParams from 'ember-parachute';
 import { is, OrderedSet } from 'immutable';
 
 import config from 'ember-get-config';
 import ProviderModel from 'ember-osf-web/models/provider';
-import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 import Analytics from 'ember-osf-web/services/analytics';
 import discoverStyles from 'registries/components/registries-discover-search/styles';
 import { SearchFilter, SearchOptions, SearchOrder, SearchResults } from 'registries/services/search';
@@ -158,19 +158,19 @@ export const discoverQueryParams = new QueryParams<DiscoverQueryParams>(queryPar
 export default class Discover extends Controller.extend(discoverQueryParams.Mixin) {
     @service intl!: Intl;
     @service analytics!: Analytics;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service shareSearch!: ShareSearch;
 
     sortOptions = sortOptions;
 
     results: EmberArray<ShareRegistration> = A([]);
     searchable!: number;
-    totalResults: number = 0;
+    totalResults = 0;
     searchOptions!: SearchOptions;
 
     filterableSources: Array<{
-        count: number;
-        filter: SearchFilter;
+        count: number,
+        filter: SearchFilter,
     }> = [];
 
     get providerModel(): ProviderModel | undefined {
@@ -191,7 +191,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         );
     }
 
-    @computed('searchOptions', 'totalResults')
+    @computed('searchOptions.size', 'totalResults')
     get maxPage() {
         const max = Math.ceil(this.totalResults / this.searchOptions.size);
         if (max > (10000 / this.searchOptions.size)) {
@@ -200,9 +200,10 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         return max;
     }
 
-    @task({ withTestWaiter: true })
-    getCountsAndAggs = task(function *(this: Discover) {
-        const results: SearchResults<any> = yield this.shareSearch.registrations(new SearchOptions({
+    @task
+    @waitFor
+    async getCountsAndAggs() {
+        const results = await this.shareSearch.registrations(new SearchOptions({
             size: 0,
             modifiers: OrderedSet([
                 new ShareTermsAggregation('sources', 'sources'),
@@ -212,7 +213,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
             ]),
         }));
 
-        const osfProviders: RegistrationProviderModel[] = yield this.store.query('registration-provider', {
+        const osfProviders = await this.store.query('registration-provider', {
             'page[size]': 100,
         });
 
@@ -250,11 +251,12 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
 
         this.set('searchable', results.total);
         this.set('filterableSources', filterableSources);
-        this.doSearch.perform();
-    });
+        taskFor(this.doSearch).perform();
+    }
 
-    @task({ withTestWaiter: true, restartable: true })
-    doSearch = task(function *(this: Discover) {
+    @restartableTask
+    @waitFor
+    async doSearch() {
         // TODO-mob don't hard-code 'OSF'
 
         // Unless OSF is the only source, registration_type filters must be cleared
@@ -293,20 +295,20 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
 
         this.set('searchOptions', options);
 
-        yield timeout(250);
+        await timeout(250);
 
-        const results: SearchResults<ShareRegistration> = yield this.shareSearch.registrations(options);
+        const results: SearchResults<ShareRegistration> = await this.shareSearch.registrations(options);
 
         this.set('results', A(results.results));
         this.set('totalResults', results.total);
-    });
+    }
 
     setup() {
-        this.getCountsAndAggs.perform();
+        taskFor(this.getCountsAndAggs).perform();
     }
 
     queryParamsDidChange() {
-        this.doSearch.perform();
+        taskFor(this.doSearch).perform();
     }
 
     @action
@@ -370,7 +372,7 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
         this.setProperties({ page: 1, query: value });
         // If query or page don't actually change ember won't fire related events
         // So always kick off a doSearch task to allow forcing a "re-search"
-        this.doSearch.perform();
+        taskFor(this.doSearch).perform();
     }
 
     @action

@@ -23,9 +23,7 @@
             {{/group.item}}
         {{/each}}
         {{#if @contributorsManager.shouldShowLoadMore}}
-            <div local-class='InfinityLoader' {{in-viewport
-                        onEnter=(fn @contributorsManager.fetchContributors)
-                    }}>
+            <div local-class='InfinityLoader' {{in-viewport onEnter=@contributorsManager.fetchContributors}}>
                 {{t 'osf-components.contributors.loadMore'}}
             </div>
         {{/if}}

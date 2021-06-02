@@ -40,7 +40,7 @@ export default class FileShareButton extends Component {
         return `${this.elementId}__embed-pane`;
     }
 
-    @computed('file')
+    @computed('file.guid')
     get fileUrl() {
         return this.file ? pathJoin(config.OSF.url, this.file.guid) : '';
     }
@@ -97,7 +97,7 @@ export default class FileShareButton extends Component {
         return `mailto:?${$.param(params)}`;
     }
 
-    @computed('file')
+    @computed('file.guid')
     get mfrUrl() {
         if (!this.file) {
             return undefined;

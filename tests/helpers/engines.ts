@@ -31,6 +31,7 @@ export async function loadEngine(engine: string, mountPoint: string): Promise<En
     // Engine construction happens in/on the router of the application
     // Engines use the application registry as a fallback, which means
     // any mocked services, etc that are injected won't get picked up.
+    // eslint-disable-next-line ember/no-private-routing-service
     const router = owner.lookup('router:main');
 
     // Idempotent router setup, would otherwise be triggered by calling `visit()`

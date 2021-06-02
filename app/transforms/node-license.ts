@@ -1,4 +1,4 @@
-import DS from 'ember-data';
+import Transform from '@ember-data/serializer/transform';
 
 import { NodeLicense } from 'ember-osf-web/models/node';
 import { camelizeKeys, snakifyKeys } from 'ember-osf-web/utils/map-keys';
@@ -8,7 +8,12 @@ interface SerializedNodeLicense {
     year?: string;
 }
 
-export default class NodeLicenseTransform extends DS.Transform {
+interface DeserializedNodeLicense {
+    copyrightHolders?: string[];
+    year?: string;
+}
+
+export default class NodeLicenseTransform extends Transform {
     deserialize(value: SerializedNodeLicense): NodeLicense {
         if (!value) {
             return Object.freeze({});
@@ -17,10 +22,7 @@ export default class NodeLicenseTransform extends DS.Transform {
         const {
             copyrightHolders = [],
             year = '',
-        } = camelizeKeys(value) as {
-            copyrightHolders?: string | string[],
-            year?: string,
-        };
+        } = camelizeKeys(value) as DeserializedNodeLicense;
 
         return Object.freeze({
             copyrightHolders: typeof copyrightHolders === 'string' ? copyrightHolders : copyrightHolders.join(', '),

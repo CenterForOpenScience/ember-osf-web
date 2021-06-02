@@ -7,7 +7,6 @@ import Session from 'ember-simple-auth/services/session';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import styles from './styles';
 import template from './template';
@@ -43,12 +42,12 @@ export default class OsfNavbar extends Component {
     @service router!: any;
     @service session!: Session;
 
-    showNavLinks: boolean = false;
+    showNavLinks = false;
 
-    activeService: OSFService = defaultTo(this.activeService, OSFService.HOME);
-    services: ServiceLink[] = defaultTo(this.services, OSF_SERVICES);
+    activeService: OSFService = OSFService.HOME;
+    services: ServiceLink[] = OSF_SERVICES;
 
-    @computed('activeService', 'router.currentRouteName')
+    @computed('activeService', 'router.currentRouteName', 'services')
     get _activeService() {
         let { activeService } = this;
 

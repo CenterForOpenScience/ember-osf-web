@@ -232,8 +232,8 @@ export function shareSearch(schema: Schema, request: Request) {
     }
 
     // paginate
-    const fromIndex: number = requestBody.from;
-    const pageSize: number = requestBody.size;
+    const fromIndex = requestBody.from;
+    const pageSize = requestBody.size;
     const resultPage = allResults.slice(fromIndex, fromIndex + pageSize);
 
     const response: SearchResponse = {

@@ -1,9 +1,10 @@
 import DS from 'ember-data';
+import { default as EmberDataModel } from '@ember-data/model';
 
 declare module 'ember-data' {
-    export type ModelKeys<Model extends DS.Model> = Exclude<keyof Model, keyof DS.Model>;
-    export type AttributesFor<Model extends DS.Model> = ModelKeys<Model>;
-    export type RelationshipsFor<Model extends DS.Model> = ModelKeys<Model>;
+    export type ModelKeys<Model extends EmberDataModel> = Exclude<keyof Model, keyof EmberDataModel>;
+    export type AttributesFor<Model extends EmberDataModel> = ModelKeys<Model>;
+    export type RelationshipsFor<Model extends EmberDataModel> = ModelKeys<Model>;
     namespace DS {
         interface JSONAPIAdapter {
             buildQuery(snapshot: DS.Snapshot): object;

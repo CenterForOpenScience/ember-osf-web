@@ -1,4 +1,4 @@
-import DS from 'ember-data';
+import Store from '@ember-data/store';
 import getHref from 'ember-osf-web/utils/get-href';
 import { Resource, ResourceCollectionDocument, SingleResourceDocument } from 'osf-api';
 import OsfSerializer from './osf-serializer';
@@ -19,7 +19,7 @@ export default class CommentReportSerializer extends OsfSerializer {
     // Workaround: we normalize the ID into unique id. The backend api does not care about this new report ID.
 
     normalizeSingleResponse(
-        store: DS.Store,
+        store: Store,
         primaryModelClass: any,
         payload: SingleResourceDocument,
         id: string,
@@ -32,7 +32,7 @@ export default class CommentReportSerializer extends OsfSerializer {
     }
 
     normalizeArrayResponse(
-        store: DS.Store,
+        store: Store,
         primaryModelClass: any,
         payload: ResourceCollectionDocument,
         id: string,

@@ -9,7 +9,6 @@ import config from 'ember-get-config';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import Media from 'ember-responsive';
 import { AuthBase } from 'osf-components/components/osf-navbar/auth-dropdown/component';
 import { OSF_SERVICES } from 'osf-components/components/osf-navbar/component';
@@ -35,7 +34,7 @@ export default class RegistriesNavbar extends AuthBase {
 
     @and('media.isMobile', 'searchDropdownOpen') showSearchDropdown!: boolean;
 
-    @computed('provider')
+    @computed('provider.id')
     get providerId() {
         return this.provider ? this.provider.id : defaultProviderId;
     }
@@ -58,6 +57,6 @@ export default class RegistriesNavbar extends AuthBase {
     }
 
     services = OSF_SERVICES;
-    helpRoute: string = defaultTo(this.helpRoute, externalLinks.help);
-    donateRoute: string = defaultTo(this.donateRoute, externalLinks.donate);
+    helpRoute = externalLinks.help;
+    donateRoute = externalLinks.donate;
 }

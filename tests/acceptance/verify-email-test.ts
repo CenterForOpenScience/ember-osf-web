@@ -36,7 +36,7 @@ module('Acceptance | verify email', hooks => {
 
         await click('[data-test-verify-email]');
         user.reload();
-        assert.dom('[data-test-verify-email-prompt').doesNotExist();
+        assert.dom('[data-test-verify-email-prompt]').doesNotExist();
         assert.equal(user.emails.length, beforeCount, 'Correct number of user emails');
         assert.ok(user.emails.models.every(email => email.verified), 'All user emails verified');
     });
@@ -57,7 +57,7 @@ module('Acceptance | verify email', hooks => {
         }
 
         user.reload();
-        assert.dom('[data-test-verify-email-prompt').doesNotExist();
+        assert.dom('[data-test-verify-email-prompt]').doesNotExist();
         assert.equal(user.emails.length, beforeCount, 'Correct number of user emails');
         assert.ok(user.emails.models.every(email => email.verified), 'All user emails verified');
     });
@@ -72,7 +72,7 @@ module('Acceptance | verify email', hooks => {
         await click('[data-test-deny-email]');
 
         user.reload();
-        assert.dom('[data-test-verify-email-prompt').doesNotExist();
+        assert.dom('[data-test-verify-email-prompt]').doesNotExist();
         assert.equal(user.emails.length, beforeCount - 1, 'Correct number of user emails');
         assert.ok(user.emails.models.every(email => email.verified), 'All user emails verified');
     });
@@ -94,7 +94,7 @@ module('Acceptance | verify email', hooks => {
         }
 
         user.reload();
-        assert.dom('[data-test-verify-email-prompt').doesNotExist();
+        assert.dom('[data-test-verify-email-prompt]').doesNotExist();
         assert.equal(user.emails.length, beforeCount - 2, 'Correct number of user emails');
         assert.ok(user.emails.models.every(email => email.verified), 'All user emails verified');
     });

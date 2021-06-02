@@ -29,8 +29,7 @@
                 <PowerSelect
                     @selected={{@moderator.permissionGroup}}
                     @options={{capitalize this.permissionOptions}}
-                    @onchange={{fn @manager.updateModeratorPermission @moderator}}
-                    @searchEnabled={{false}}
+                    @onChange={{fn @manager.updateModeratorPermission @moderator}}
                     @disabled={{@manager.updateModeratorPermission.isRunning}}
                     as |option|
                 >

@@ -39,7 +39,7 @@ module('Integration | Component | registration-form-navigation-dropdown', hooks 
         assert.dom('[data-test-toggle-anchor-nav-button]').exists();
         await click('[data-test-toggle-anchor-nav-button]');
         assert.dom('[data-test-page-anchor="Metadata"]').doesNotExist();
-        assert.dom('[data-test-page-anchor="title"').doesNotExist();
+        assert.dom('[data-test-page-anchor="title"]').doesNotExist();
         assert.dom('[data-test-page-anchor="license"]').doesNotExist();
         assert.dom('[data-test-page-anchor="SB1"]').exists();
         assert.dom('[data-test-page-anchor="SB4"]').isVisible();

@@ -1,15 +1,16 @@
+import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import { waitFor } from '@ember/test-waiters';
+import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import NodeModel from 'ember-osf-web/models/node';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import { HierarchicalListManager } from 'osf-components/components/registries/hierarchical-list';
 
 import template from './template';
@@ -17,35 +18,38 @@ import template from './template';
 @layout(template)
 @tagName('')
 export default class PartialRegistrationModalManagerComponent extends Component implements HierarchicalListManager {
-    @service store!: DS.Store;
+    @service store!: Store;
     rootNode!: NodeModel;
 
     // Private
-    nodesIncludingRoot: NodeModel[] = defaultTo(this.nodesIncludingRoot, []);
-    selectedNodes: NodeModel[] = defaultTo(this.selectedNodes, []);
+    nodesIncludingRoot: NodeModel[] = [];
+    selectedNodes: NodeModel[] = [];
 
-    @task({ withTestWaiter: true })
-    getChildren = task(function *(this: PartialRegistrationModalManagerComponent, node: NodeModel) {
-        const children = yield node.queryHasMany('children');
+    @alias('loadAllChildNodes.isRunning') loadingChildNodes!: boolean;
+
+    @task
+    @waitFor
+    async getChildren(node: NodeModel) {
+        const children = await node.queryHasMany('children');
         if (children !== null) {
             let grandChildren: NodeModel[] = [];
             for (const child of children) {
-                grandChildren = grandChildren.concat(yield this.getChildren.perform(child));
+                const greatGrandChildren = await taskFor(this.getChildren).perform(child);
+                grandChildren = grandChildren.concat(greatGrandChildren || []);
             }
             return children.concat(grandChildren);
         }
         return null;
-    });
+    }
 
-    @alias('loadAllChildNodes.isRunning') loadingChildNodes!: boolean;
-
-    @task({ withTestWaiter: true, on: 'didReceiveAttrs' })
-    loadAllChildNodes = task(function *(this: PartialRegistrationModalManagerComponent) {
-        const allChildNodesIncludingRoot = yield this.getChildren.perform(this.rootNode);
+    @task({ on: 'didReceiveAttrs' })
+    @waitFor
+    async loadAllChildNodes() {
+        const allChildNodesIncludingRoot = (await taskFor(this.getChildren).perform(this.rootNode)) || [];
         allChildNodesIncludingRoot.push(this.rootNode);
         this.set('nodesIncludingRoot', allChildNodesIncludingRoot.slice());
         this.set('selectedNodes', allChildNodesIncludingRoot.slice());
-    });
+    }
 
     didReceiveAttrs() {
         assert('partial-registration-modal::manager requires @rootNode!', Boolean(this.rootNode));

@@ -19,7 +19,7 @@ export default class SideNav extends Component {
     onLinkClicked?: () => void;
 
     // Private properties
-    shouldCollapse: boolean = false;
+    shouldCollapse = false;
 
     @or('media.{isDesktop,isJumbo}')
     isCollapseAllowed!: boolean;

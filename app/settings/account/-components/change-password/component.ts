@@ -1,10 +1,10 @@
+import Store from '@ember-data/store';
 import Component from '@ember/component';
 import { alias, not, or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import PasswordStrength from 'ember-cli-password-strength/services/password-strength';
-import { timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import { task, timeout } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -19,7 +19,7 @@ export default class ChangePasswordPane extends Component {
     @service intl!: Intl;
     @service passwordStrength!: PasswordStrength;
     @service toast!: Toast;
-    @service store!: DS.Store;
+    @service store!: Store;
 
     userPassword: UserPassword;
     didValidate = false;
@@ -33,37 +33,39 @@ export default class ChangePasswordPane extends Component {
     )
     shouldHideStrengthBarMessage!: boolean;
 
-    @task({ withTestWaiter: true })
-    submitTask = task(function *(this: ChangePasswordPane) {
-        const errorMessage = this.intl.t('settings.account.changePassword.updateFail');
-        const successMessage = this.intl.t('settings.account.changePassword.updateSuccess');
-        const { validations } = yield this.userPassword.validate();
-        this.set('didValidate', true);
-
-        if (!validations.isValid) {
-            return;
-        }
-        try {
-            yield this.userPassword.save();
-        } catch (e) {
-            captureException(e, { errorMessage });
-            this.toast.error(getApiErrorMessage(e), errorMessage);
-            return;
-        }
-        this.userPassword.unloadRecord();
-        this.toast.success(successMessage);
-        const { timeOut, hideDuration } = window.toastr.options;
-        if (typeof timeOut !== 'undefined' && typeof hideDuration !== 'undefined') {
-            yield timeout(Number(timeOut) + Number(hideDuration));
-        }
-        this.currentUser.logout();
-    });
-
     constructor(...args: any[]) {
         super(...args);
 
         // creates a fake id because ember data expects one
         const id = Math.floor(Math.random() * 1000000);
         this.userPassword = this.store.createRecord('user-password', { id });
+    }
+
+    @task
+    @waitFor
+    async submitTask(event: Event) {
+        event.preventDefault();
+
+        const errorMessage = this.intl.t('settings.account.changePassword.updateFail');
+        const successMessage = this.intl.t('settings.account.changePassword.updateSuccess');
+        const { validations } = await this.userPassword.validate();
+        this.set('didValidate', true);
+
+        if (validations.isValid) {
+            try {
+                await this.userPassword.save();
+            } catch (e) {
+                captureException(e, { errorMessage });
+                this.toast.error(getApiErrorMessage(e), errorMessage);
+                return;
+            }
+            this.userPassword.unloadRecord();
+            this.toast.success(successMessage);
+            const { timeOut, hideDuration } = window.toastr.options;
+            if (typeof timeOut !== 'undefined' && typeof hideDuration !== 'undefined') {
+                await timeout(Number(timeOut) + Number(hideDuration));
+            }
+            this.currentUser.logout();
+        }
     }
 }

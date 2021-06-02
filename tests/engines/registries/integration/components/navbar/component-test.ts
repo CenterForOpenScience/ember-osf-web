@@ -3,7 +3,6 @@ import { hbs } from 'ember-cli-htmlbars';
 import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
 import { module, test } from 'qunit';
 
-/* tslint:disable:only-arrow-functions */
 module('Registries | Integration | Component | Navbar', hooks => {
     setupEngineRenderingTest(hooks, 'registries');
 
@@ -16,7 +15,6 @@ module('Registries | Integration | Component | Navbar', hooks => {
 
         assert.dom('nav').exists();
         assert.dom('nav').hasText('This is a test!');
-        assert.dom('nav').hasAttribute('role', 'navigation');
     });
 
     test('it yields components', async function(assert) {

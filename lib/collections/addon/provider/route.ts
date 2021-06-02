@@ -1,11 +1,11 @@
+import Store from '@ember-data/store';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-import DS from 'ember-data';
 
 import Theme from 'ember-osf-web/services/theme';
 
 export default class Provider extends Route {
-    @service store!: DS.Store;
+    @service store!: Store;
     @service theme!: Theme;
 
     async beforeModel() {

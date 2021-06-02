@@ -1,11 +1,7 @@
+import Model, { belongsTo, attr } from '@ember-data/model';
 import { buildValidations, validator } from 'ember-cp-validations';
-import DS from 'ember-data';
 
 import UserModel from './user';
-
-const { attr, belongsTo } = DS;
-
-const { Model } = DS;
 
 const Validations = buildValidations({
     existingPassword: [

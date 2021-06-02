@@ -27,7 +27,7 @@ export default class RegistriesSearchResult extends Component {
     //     return false;
     // }
 
-    @computed('result')
+    @computed('result.contributors')
     get contributors() {
         return this.result.contributors.filter(
             contrib => contrib.bibliographic,

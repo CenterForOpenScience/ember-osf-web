@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
@@ -5,8 +6,8 @@ import { action } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { run } from '@ember/runloop';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import { waitFor } from '@ember/test-waiters';
+import { task } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -19,7 +20,7 @@ import DraftRegistrationManager from 'registries/drafts/draft/draft-registration
 
 @tagName('')
 export default class Register extends Component {
-    @service store!: DS.Store;
+    @service store!: Store;
     @service toast!: Toast;
     @service intl!: Intl;
 
@@ -38,8 +39,9 @@ export default class Register extends Component {
     @tracked partialRegDialogIsOpen = false;
     @tracked finalizeRegDialogIsOpen = false;
 
-    @task({ withTestWaiter: true })
-    onClickRegister = task(function *(this: Register) {
+    @task
+    @waitFor
+    async onClickRegister() {
         if (!this.registration) {
             this.registration = this.store.createRecord('registration', {
                 draftRegistrationId: this.draftRegistration.id,
@@ -50,7 +52,7 @@ export default class Register extends Component {
 
         if (this.hasProject && this.node) {
             try {
-                yield this.node.loadRelatedCount('children');
+                await this.node.loadRelatedCount('children');
             } catch (e) {
                 const errorMessage = this.intl.t('registries.drafts.draft.unable_to_fetch_children_count');
                 captureException(e, { errorMessage });
@@ -65,7 +67,7 @@ export default class Register extends Component {
         } else {
             this.showFinalizeRegDialog();
         }
-    });
+    }
 
     didReceiveAttrs() {
         assert('@draftManager is required!', Boolean(this.draftManager));

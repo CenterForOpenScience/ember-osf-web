@@ -1,7 +1,9 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
+import { waitFor } from '@ember/test-waiters';
+import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import config from 'ember-get-config';
 import QueryParams from 'ember-parachute';
 
@@ -30,11 +32,11 @@ export default class Register extends Controller.extend(registerQueryParams.Mixi
 
     signUpCampaign?: string;
 
-    hasProvider: boolean = false;
+    hasProvider = false;
     provider?: PreprintProvider;
 
-    isOsfPreprints: boolean = false;
-    isOsfRegistries: boolean = false;
+    isOsfPreprints = false;
+    isOsfRegistries = false;
 
     @computed('next')
     get orcidUrl() {
@@ -64,13 +66,14 @@ export default class Register extends Controller.extend(registerQueryParams.Mixi
         return '';
     }
 
-    @task({ withTestWaiter: true })
-    getProvider = task(function *(this: Register, preprintProviderId: string) {
-        const provider: PreprintProvider = yield this.store.findRecord('preprint-provider', preprintProviderId);
+    @task
+    @waitFor
+    async getProvider(preprintProviderId: string) {
+        const provider: PreprintProvider = await this.store.findRecord('preprint-provider', preprintProviderId);
         if (provider) {
             this.set('provider', provider);
         }
-    });
+    }
 
     setup({ queryParams }: { queryParams: RegisterQueryParams }) {
         if (queryParams.campaign) {
@@ -90,7 +93,7 @@ export default class Register extends Controller.extend(registerQueryParams.Mixi
                     }
                 } else {
                     this.set('hasProvider', true);
-                    this.getProvider.perform(provider);
+                    taskFor(this.getProvider).perform(provider);
                 }
             }
         }

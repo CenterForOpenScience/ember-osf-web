@@ -20,6 +20,7 @@
     "ember-cp-validations": "*",
     "ember-css-modules": "*",
     "ember-css-modules-sass": "*",
+    "ember-concurrency-async": "*",
     "ember-intl": "*",
     "ember-moment": "*",
     "ember-page-title": "*",

@@ -1,3 +1,0 @@
-# Coding Conventions
-
-TODO

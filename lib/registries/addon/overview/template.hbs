@@ -8,8 +8,8 @@
         </div>
     {{else}}
         {{assert 'Registries::Overview - registration should not be null or undefined' this.registration}}
-        {{title this.registration.provider.name replace=true}}
-        {{title this.registration.title prepend=false}}
+        {{page-title this.registration.provider.name replace=true}}
+        {{page-title this.registration.title prepend=false}}
         {{#if this.showTombstone}}
             <OsfLayout @backgroundClass='{{local-class 'ContentBackground'}}' as |layout|>
                 <layout.heading>
@@ -87,10 +87,10 @@
                     {{#if (not-eq right.rightGutterMode 'column')}}
                         <h3 local-class='MetadataTitle'>
                             {{t 'registries.overview.metadata'}}
-                            <OsfButton data-analytics-name='Close metadata sidebar' aria-label={{t 'general.close'}}
+                            <BsButton data-analytics-name='Close metadata sidebar' aria-label={{t 'general.close'}}
                                 @type='link' @onClick={{right.toggleMetadata}}>
                                 <FaIcon @icon='times' />
-                            </OsfButton>
+                            </BsButton>
                         </h3>
                     {{/if}}
 

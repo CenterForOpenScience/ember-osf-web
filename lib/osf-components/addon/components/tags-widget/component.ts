@@ -6,10 +6,8 @@ import { inject as service } from '@ember/service';
 import config from 'ember-get-config';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import File from 'ember-osf-web/models/file';
-import Node from 'ember-osf-web/models/node';
+import OsfModel from 'ember-osf-web/models/osf-model';
 import Analytics from 'ember-osf-web/services/analytics';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
 import styles from './styles';
@@ -17,7 +15,9 @@ import template from './template';
 
 const { OSF: { url: baseUrl } } = config;
 
-type Taggable = Node | File;
+interface Taggable extends OsfModel {
+    tags: string[];
+}
 
 @layout(template, styles)
 export default class TagsWidget extends Component.extend({ styles }) {
@@ -25,12 +25,12 @@ export default class TagsWidget extends Component.extend({ styles }) {
     taggable!: Taggable;
 
     // optional arguments
-    readOnly: boolean = defaultTo(this.readOnly, true);
-    autoSave: boolean = defaultTo(this.autoSave, true);
+    readOnly = true;
+    autoSave = true;
     onChange?: (taggable: Taggable) => void;
 
     @attribute('data-analytics-scope')
-    analyticsScope: string = defaultTo(this.analyticsScope, 'Tags');
+    analyticsScope = 'Tags';
 
     // private properties
     @service analytics!: Analytics;

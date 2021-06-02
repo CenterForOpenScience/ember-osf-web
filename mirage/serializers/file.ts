@@ -36,7 +36,7 @@ export default class FileSerializer extends ApplicationSerializer<MirageFile> {
             returnValue.target = {
                 data: {
                     type: model.targetId.type,
-                    id: model.targetId.id,
+                    id: model.targetId.id as string,
                 },
                 links: {
                     related: {

@@ -1,25 +1,27 @@
+import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action, computed, set } from '@ember/object';
 import { alias, and, not, sort } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import { waitFor } from '@ember/test-waiters';
+import { restartableTask } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
+import captureException from 'ember-osf-web/utils/capture-exception';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import License from 'ember-osf-web/models/license';
-import { NodeLicense } from 'ember-osf-web/models/node';
+import LicenseModel from 'ember-osf-web/models/license';
+import NodeModel, { NodeLicense } from 'ember-osf-web/models/node';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import Registration from 'ember-osf-web/models/registration';
 import Analytics from 'ember-osf-web/services/analytics';
 import { LicenseManager } from 'registries/components/registries-license-picker/component';
 
-import Changeset from 'ember-changeset';
+import { Changeset } from 'ember-changeset';
 import lookupValidator, { ValidationObject } from 'ember-changeset-validations';
-import { ChangesetDef } from 'ember-changeset/types';
-import { validateNodeLicense } from 'ember-osf-web/packages/registration-schema/validations';
+import { BufferedChangeset } from 'ember-changeset/types';
+import { validateNodeLicense, validateNodeLicenseYear } from 'ember-osf-web/packages/registration-schema/validations';
 import template from './template';
 
 @tagName('')
@@ -31,22 +33,22 @@ export default class LicenseManagerComponent extends Component implements Licens
     // private
     @service analytics!: Analytics;
     @service intl!: Intl;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service toast!: Toast;
 
-    changeset!: ChangesetDef;
-    requestedEditMode: boolean = false;
+    changeset!: BufferedChangeset;
+    requestedEditMode = false;
 
-    showText: boolean = false;
-    licensesAcceptable!: QueryHasManyResult<License>;
-    helpLink: string = 'https://help.osf.io/hc/en-us/articles/360019739014-Licensing';
-    currentLicense!: License;
+    showText = false;
+    licensesAcceptable!: QueryHasManyResult<LicenseModel>;
+    helpLink = 'https://help.osf.io/hc/en-us/articles/360019739014-Licensing';
+    currentLicense!: LicenseModel;
     currentNodeLicense!: NodeLicense;
-    selectedLicense!: License;
+    selectedLicense!: NodeModel['license'];
 
     @alias('node.userHasAdminPermission') userCanEdit!: boolean;
     @and('userCanEdit', 'requestedEditMode') inEditMode!: boolean;
-    @not('currentLicense') fieldIsEmpty!: License;
+    @not('currentLicense') fieldIsEmpty!: boolean;
 
     @sort('selectedLicense.requiredFields', (a: string, b: string) => +(a > b))
     requiredFields!: string[];
@@ -56,34 +58,39 @@ export default class LicenseManagerComponent extends Component implements Licens
         return this.userCanEdit || !this.fieldIsEmpty;
     }
 
-    @task({ withTestWaiter: true, restartable: true, on: 'didReceiveAttrs' })
-    getAllProviderLicenses = task(function *(this: LicenseManagerComponent) {
-        const provider = yield this.node.provider;
+    @restartableTask({ on: 'didReceiveAttrs' })
+    @waitFor
+    async getAllProviderLicenses() {
+        const provider = await this.node.provider;
 
         if (!provider) {
             return;
         }
 
-        const providerLicenses: QueryHasManyResult<License> = yield provider
+        const providerLicenses = await provider
             .queryHasMany('licensesAcceptable', {
                 page: { size: 20 },
             });
 
         this.setProperties({
             licensesAcceptable: providerLicenses,
-            currentLicense: yield this.node.license,
+            currentLicense: await this.node.license,
             currentNodeLicense: { ...this.node.nodeLicense },
         });
-    });
+    }
 
     didReceiveAttrs() {
         if (!this.changeset) {
-            const validatorObject: ValidationObject<Registration> = { nodeLicense: validateNodeLicense() };
-            this.changeset = new Changeset(
+            const validatorObject: ValidationObject<Registration> = {};
+            set(validatorObject, 'nodeLicense', {
+                copyrightHolders: validateNodeLicense(),
+                year: validateNodeLicenseYear(),
+            });
+            this.changeset = Changeset(
                 this.node,
                 lookupValidator(validatorObject),
                 validatorObject,
-            ) as ChangesetDef;
+            ) as BufferedChangeset;
         }
     }
 
@@ -99,57 +106,55 @@ export default class LicenseManagerComponent extends Component implements Licens
     }
 
     reset() {
-        this.changeset.setProperties({
-            license: this.currentLicense,
-            nodeLicense: { ...this.currentNodeLicense },
-        });
+        this.changeset.set('license', this.currentLicense);
+        this.changeset.set('nodeLicense', { ...this.currentNodeLicense });
     }
 
     @action
-    changeLicense(selected: License) {
+    changeLicense(selected: LicenseModel) {
         this.set('selectedLicense', selected);
         this.setNodeLicenseDefaults(selected.requiredFields);
     }
 
     setNodeLicenseDefaults(requiredFields: Array<keyof NodeLicense>): void {
-        const {
-            copyrightHolders = '',
-            year = new Date().getUTCFullYear().toString(),
-        } = (this.changeset.get('nodeLicense') || {});
-
-        const nodeLicenseDefaults: NodeLicense = {
-            copyrightHolders,
-            year,
+        const nodeLicenseDefaults = {
+            copyrightHolders: '',
+            year: new Date().getUTCFullYear().toString(),
         };
 
-        // Only set the required fields on nodeLicense
-        const props = requiredFields.reduce(
-            (acc, val) => ({ ...acc, [val]: nodeLicenseDefaults[val] }),
-            {},
-        );
-        set(this.changeset, 'nodeLicense', props);
+        requiredFields.forEach(key => {
+            const changesetValue = this.changeset.get('nodeLicense')[key];
+            this.changeset.set(`nodeLicense.${key}`, changesetValue ?? nodeLicenseDefaults[key]);
+        });
     }
 
     @action
     async save() {
-        try {
-            await this.changeset.save({});
-            this.setProperties({
-                currentLicense: this.selectedLicense,
-                currentNodeLicense: { ...this.node.nodeLicense },
-            });
-            this.set('requestedEditMode', false);
-        } catch (e) {
-            this.toast.error(this.intl.t('registries.registration_metadata.edit_license.error'));
+        if (this.changeset.isValid) {
+            try {
+                set(this.node, 'license', this.selectedLicense);
+                set(this.node, 'nodeLicense', {
+                    ...this.changeset.get('nodeLicense'),
+                });
+                await this.node.save();
+                this.setProperties({
+                    currentLicense: this.selectedLicense,
+                    currentNodeLicense: { ...this.node.nodeLicense },
+                });
+                this.set('requestedEditMode', false);
+                this.changeset.rollback();
+                this.toast.success(this.intl.t('registries.registration_metadata.edit_license.success'));
+            } catch (e) {
+                const errorMessage = this.intl.t('registries.registration_metadata.edit_license.error');
+                this.toast.error(errorMessage);
+                captureException(e, { errorMessage });
+            }
         }
-        this.toast.success(this.intl.t('registries.registration_metadata.edit_license.success'));
     }
 
     @action
     updateNodeLicense(key: string, event: Event) {
         const target = event.target as HTMLInputElement;
-        const newNodeLicense = { ...this.changeset.get('nodeLicense') };
-        newNodeLicense[key] = target.value;
-        set(this.changeset, 'nodeLicense', newNodeLicense);
+        this.changeset.set(`nodeLicense.${key}`, target.value);
     }
 }

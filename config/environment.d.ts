@@ -192,10 +192,6 @@ declare const config: {
         registries: {
             enabled: boolean;
         };
-        handbook: {
-            enabled: boolean;
-            docGenerationEnabled: boolean;
-        };
     };
     'ember-cli-tailwind'?: {
         shouldIncludeStyleguide: boolean,

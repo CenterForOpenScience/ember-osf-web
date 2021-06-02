@@ -1,7 +1,7 @@
+import Store from '@ember-data/store';
 import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-import DS from 'ember-data';
 
 import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -9,7 +9,7 @@ import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 
 export default class BrandedRegistriesRoute extends Route {
     @service analytics!: Analytics;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service metaTags!: MetaTags;
     headTags?: HeadTagDef[];
 

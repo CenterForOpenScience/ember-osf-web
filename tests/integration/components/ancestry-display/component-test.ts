@@ -1,7 +1,7 @@
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { setupIntl } from 'ember-intl/test-support';
+import { setupIntl, TestContext as IntlTestContext } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
@@ -81,12 +81,12 @@ module('Integration | Component | ancestry-display', hooks => {
         assert.dom('[data-test-ancestor-title="1"]').hasAttribute('href', `/${child.id}`);
     });
 
-    test('three ancestors', async function(assert) {
+    test('three ancestors', async function(this: IntlTestContext, assert) {
         const parent = server.create('node');
         const child = server.create('node', { parent });
         const grandChild = server.create('node', { parent: child });
         const greatGrandChild = server.create('node', { parent: grandChild });
-        const expected = `${parent.title} / ${this.get('intl').t('general.ellipsis')} /\
+        const expected = `${parent.title} / ${this.intl.t('general.ellipsis')} /\
             ${grandChild.title} /`;
 
         const greatGrandChildNode = await this.store.findRecord('node', greatGrandChild.id);

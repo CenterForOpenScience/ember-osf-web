@@ -27,7 +27,6 @@ const headTagsStub = Service.extend({
     collectHeadTags: () => { /* noop */ },
 });
 
-/* tslint:disable:only-arrow-functions */
 module('Registries | Integration | Component | side-nav', hooks => {
     setupEngineRenderingTest(hooks, 'registries');
 

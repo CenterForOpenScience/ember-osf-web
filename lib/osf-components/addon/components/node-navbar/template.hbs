@@ -3,26 +3,24 @@
         @to={{this.secondaryNavbarId}}
         @renderInPlace={{this.renderInPlace}}
     >
-        <nav class='navbar osf-project-navbar' role='navigation'>
+        <nav class='navbar osf-project-navbar'>
             <div class='container'>
                 <div class='navbar-header'>
-
-                    <OsfButton
+                    <BsButton
                         local-class='NodeNavbar__navbar-toggle'
-                        @class='navbar-toggle collapsed'
-                        @onClick={{action this.toggleNav}}
+                        class='navbar-toggle collapsed'
+                        {{on 'click' this.toggleNav}}
                     >
                         <span class='sr-only'>{{t 'node_navbar.toggle'}}</span>
                         <FaIcon @icon='bars' class='fa-lg' />
-                    </OsfButton>
-
+                    </BsButton>
                     <span class='navbar-brand visible-xs visible-sm'>
                         {{t 'node_navbar.project_nav'}}
                     </span>
                 </div>
                 <BsCollapse
                     @collapsed={{this.collapsedNav}}
-                    @class='navbar-collapse'
+                    class='navbar-collapse'
                 >
                     <ul data-test-node-navbar-links class='nav navbar-nav'>
                         {{#if this.fakeParent}}

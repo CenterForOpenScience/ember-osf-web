@@ -1,4 +1,10 @@
-<div data-analytics-scope='ToS consent banner' class='container'>
+<div
+    data-test-tos-consent-alert
+    local-class='TosConsentBanner'
+    data-analytics-scope='ToS consent banner'
+    class='container'
+    ...attributes
+>
     <BsAlert
         @type='default'
         @dismissible={{true}}
@@ -25,14 +31,15 @@
                     {{/validated-input/checkbox}}
                 </h5>
             </div>
-            <OsfButton
+            <BsButton
+                data-test-tos-consent-alert-submit-button
                 data-analytics-name='Continue'
+                type='submit'
                 @type='primary'
-                @buttonType='submit'
                 @onClick={{action (perform this.saveUser)}}
             >
                 {{t 'tos_consent.continue'}}
-            </OsfButton>
+            </BsButton>
             <p></p>
         </div>
     </BsAlert>

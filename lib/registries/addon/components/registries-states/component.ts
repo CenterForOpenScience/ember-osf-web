@@ -19,7 +19,7 @@ const { OSF: { url: baseURL } } = config;
 export default class RegistriesStates extends Component {
     // Required
     registration!: RegistrationModel;
-    isModeratorMode: boolean = this.isModeratorMode;
+    isModeratorMode!: boolean;
 
     // Private
     @service intl!: Intl;
@@ -41,11 +41,13 @@ export default class RegistriesStates extends Component {
         }
     }
 
+    /* eslint-disable max-len */
     @computed(
-        'registration.{reviewsState,pendingRegistrationApproval,pendingEmbargoApproval,userHasAdminPermission}',
+        'isModeratorMode', 'projectUrl',
+        'registration.{embargoEndDate,pendingEmbargoApproval,pendingRegistrationApproval,reviewsState,userHasAdminPermission}',
         'stateIcon',
-        'isModeratorMode',
     )
+    /* eslint-enable max-len */
     get stateText() {
         if (!this.registration || !this.registration.reviewsState) {
             return undefined;

@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import { A } from '@ember/array';
 import MutableArray from '@ember/array/mutable';
 import Component from '@ember/component';
@@ -5,9 +6,10 @@ import { action, computed } from '@ember/object';
 import { alias, filterBy, not, notEmpty, or } from '@ember/object/computed';
 import { next } from '@ember/runloop';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
+import { waitFor } from '@ember/test-waiters';
+import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import { localClassNames } from 'ember-css-modules';
-import DS from 'ember-data';
 import Toast from 'ember-toastr/services/toast';
 import $ from 'jquery';
 
@@ -18,7 +20,6 @@ import NodeStorageModel from 'ember-osf-web/models/node-storage';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import getHref from 'ember-osf-web/utils/get-href';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import { ProjectSelectState } from 'osf-components/components/project-selector/component';
@@ -54,45 +55,45 @@ export default class FileBrowser extends Component {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service ready!: Ready;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service toast!: Toast;
 
     @requiredAction openFile!: (file: File, show: string) => void;
-    @requiredAction moveFile!: (file: File, node: Node) => void;
+    @requiredAction moveFile!: (file: File, node: Node) => Promise<null>;
     @requiredAction renameFile!: (file: File, renameValue: string, conflict?: string, conflictingItem?: File) => void;
-    @requiredAction addFile!: (fileId: string) => void;
+    @requiredAction addFile!: (fileId: string) => Promise<null>;
     @requiredAction deleteFiles!: (files: File[]) => void;
 
     clickHandler?: JQuery.EventHandlerBase<HTMLElement, JQuery.Event>;
     dismissPop?: () => void;
-    canEdit: boolean = defaultTo(this.canEdit, false);
-    dropping: boolean = false;
-    showRename: boolean = false;
-    renameValue: string = '';
+    canEdit = false;
+    dropping = false;
+    showRename = false;
+    renameValue = '';
     multiple = true;
     unselect = true;
     openOnSelect = false;
     projectList = null;
     isLoadingProjects = null;
     selectedFile = null;
-    node: Node | null = defaultTo(this.node, null);
+    node: Node | null = null;
     nodeTitle = null;
-    newProject: Node = this.newProject;
+    newProject!: Node;
     projectSelectState: ProjectSelectState = ProjectSelectState.main;
     isMoving = false;
     loaded = true;
     uploading: MutableArray<any> = A([]);
     currentModal = modals.None;
-    popupOpen: boolean = false;
+    popupOpen = false;
     items: File[] | null = null;
     conflictingItem: File | null = null;
-    showFilterClicked: boolean = false;
-    filter: string = defaultTo(this.filter, '');
+    showFilterClicked = false;
+    filter = '';
     shiftAnchor: File | null = null;
     isNewProject?: boolean;
     isChildNode?: boolean;
-    isProjectSelectorValid: boolean = false;
-    sort: string = '';
+    isProjectSelectorValid = false;
+    sort = '';
 
     dropzoneOptions = {
         createImageThumbnails: false,
@@ -102,8 +103,20 @@ export default class FileBrowser extends Component {
         acceptDirectories: false,
     };
 
-    @task({ withTestWaiter: true })
-    moveToProject = task(function *(this: FileBrowser) {
+    @not('items') loading!: boolean;
+    @alias('user.links.relationships.quickfiles.links.upload.href') uploadUrl!: string;
+    @alias('user.links.relationships.quickfiles.links.download.href') downloadUrl!: string;
+    @alias('node.links.html') nodeLink!: string;
+    @alias('canEdit') dropzone!: boolean;
+    @notEmpty('uploading') isUploading!: boolean;
+    @filterBy('items', 'isSelected', true) selectedItems!: File[];
+    @notEmpty('filter') showFilterInput!: boolean;
+    @or('showFilterClicked', 'showFilterInput') showFilter!: boolean;
+    @or('items.length', 'filter', 'isUploading') showItems!: boolean;
+
+    @task
+    @waitFor
+    async moveToProject() {
         if (!this.node) {
             return;
         }
@@ -117,7 +130,7 @@ export default class FileBrowser extends Component {
         const isNewProject = !!this.node && !!this.node.isNew;
         const isChildNode = !!this.node && !!this.node.links && !!this.node.links.relationships!.parent;
 
-        const moveSuccess: boolean = yield this.moveFile(selectedItem as unknown as File, this.node);
+        const moveSuccess = await this.moveFile(selectedItem as unknown as File, this.node);
 
         let successPropertyUpdates = {};
 
@@ -137,18 +150,7 @@ export default class FileBrowser extends Component {
         };
 
         this.setProperties(propertyUpdates);
-    });
-
-    @not('items') loading!: boolean;
-    @alias('user.links.relationships.quickfiles.links.upload.href') uploadUrl!: string;
-    @alias('user.links.relationships.quickfiles.links.download.href') downloadUrl!: string;
-    @alias('node.links.html') nodeLink!: string;
-    @alias('canEdit') dropzone!: boolean;
-    @notEmpty('uploading') isUploading!: boolean;
-    @filterBy('items', 'isSelected', true) selectedItems!: File[];
-    @notEmpty('filter') showFilterInput!: boolean;
-    @or('showFilterClicked', 'showFilterInput') showFilter!: boolean;
-    @or('items.length', 'filter', 'isUploading') showItems!: boolean;
+    }
 
     @computed()
     get renderInPlace() {
@@ -379,7 +381,7 @@ export default class FileBrowser extends Component {
     }
 
     @action
-    deleteItems(multiple: boolean = false) {
+    deleteItems(multiple = false) {
         this.analytics.track('file', 'delete', 'Quick Files - Delete files');
         this.deleteFiles(multiple ? this.selectedItems.slice() : this.selectedItems.slice(0, 1));
         this.set('currentModal', modals.None);
@@ -480,6 +482,6 @@ export default class FileBrowser extends Component {
     @action
     projectCreated(this: FileBrowser, node: Node) {
         this.set('node', node);
-        this.get('moveToProject').perform();
+        taskFor(this.moveToProject).perform();
     }
 }

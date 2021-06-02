@@ -1,5 +1,5 @@
+import JSONAPIAdapter from '@ember-data/adapter/json-api';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import DS from 'ember-data';
 import { setupTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
@@ -63,9 +63,9 @@ module('Unit | Adapter | osf-adapter', hooks => {
         const mirageUser = server.create('user');
         const user = await this.store.findRecord('user', mirageUser.id);
 
-        const { buildURL: origBuildUrl } = DS.JSONAPIAdapter.prototype;
+        const { buildURL: origBuildUrl } = JSONAPIAdapter.prototype;
         // Stub
-        DS.JSONAPIAdapter.prototype.buildURL = () => url;
+        JSONAPIAdapter.prototype.buildURL = () => url;
 
         const result = adapter.buildURL(
             'user',
@@ -78,11 +78,7 @@ module('Unit | Adapter | osf-adapter', hooks => {
         assert.equal(result.slice(-1), '/');
 
         // Restore
-        if (typeof origBuildUrl === 'function') {
-            DS.JSONAPIAdapter.prototype.buildURL = origBuildUrl;
-        } else {
-            delete DS.JSONAPIAdapter.prototype.buildURL;
-        }
+        JSONAPIAdapter.prototype.buildURL = origBuildUrl;
     });
 
     test('#ajaxOptions adds bulk contentType if request is bulk', function(assert) {

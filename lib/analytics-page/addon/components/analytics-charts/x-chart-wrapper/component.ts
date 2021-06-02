@@ -1,7 +1,8 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import { TaskInstance } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { waitFor } from '@ember/test-waiters';
+import { restartableTask, TaskInstance } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import KeenDataviz from 'keen-dataviz';
 import { Moment } from 'moment';
@@ -36,16 +37,17 @@ export default class ChartWrapper extends Component {
 
     // Private properties
     chart!: KeenDataviz; // set in didInsertElement
-    overlayShown: boolean = true;
-    keenError: boolean = false;
-    loading: boolean = false;
+    overlayShown = true;
+    keenError = false;
+    loading = false;
 
-    @task({ withTestWaiter: true, restartable: true })
-    loadKeen = task(function *(this: ChartWrapper) {
+    @restartableTask
+    @waitFor
+    async loadKeen() {
         this.showOverlay(OverlayReason.Loading);
-        const node = yield this.nodeTaskInstance;
+        const node = await this.nodeTaskInstance;
         try {
-            let data = yield this.keen.queryNode(
+            let data = await this.keen.queryNode(
                 node,
                 this.startDate,
                 this.endDate,
@@ -63,7 +65,7 @@ export default class ChartWrapper extends Component {
             this.showOverlay(OverlayReason.Error);
             throw e;
         }
-    });
+    }
 
     didInsertElement() {
         this.chart = new KeenDataviz()
@@ -72,13 +74,13 @@ export default class ChartWrapper extends Component {
 
         this.initSkeletonChart();
         if (this.chartEnabled) {
-            this.loadKeen.perform();
+            taskFor(this.loadKeen).perform();
         }
     }
 
     didUpdateAttrs() {
         if (this.chartEnabled) {
-            this.loadKeen.perform();
+            taskFor(this.loadKeen).perform();
         }
     }
 

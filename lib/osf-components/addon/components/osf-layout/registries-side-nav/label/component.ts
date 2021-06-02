@@ -4,7 +4,6 @@ import { assert } from '@ember/debug';
 import { computed } from '@ember/object';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import styles from './styles';
 import template from './template';
@@ -19,14 +18,14 @@ export default class Label extends Component {
     count?: number;
 
     // Private properties
-    isCollapsed: boolean = defaultTo(this.isCollapsed, false);
+    isCollapsed = false;
 
     @computed('count')
     get hasCount() {
         return typeof this.count === 'number';
     }
 
-    @computed('count', 'isCollapsed')
+    @computed('count', 'hasCount', 'isCollapsed')
     get showCount() {
         return this.hasCount && !this.isCollapsed;
     }
