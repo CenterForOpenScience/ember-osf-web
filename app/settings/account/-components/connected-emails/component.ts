@@ -16,6 +16,8 @@ import buildChangeset from 'ember-osf-web/utils/build-changeset';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import getHref from 'ember-osf-web/utils/get-href';
 
+import * as config from 'ember-get-config';
+
 interface EmailValidation {
     emailAddress: string;
 }
@@ -89,7 +91,8 @@ export default class ConnectedEmails extends Component {
 
     @task({ withTestWaiter: true })
     updatePrimaryEmail = task(function *(this: ConnectedEmails, email: UserEmail) {
-        const errorMessage = this.intl.t('settings.account.connected_emails.update_fail');
+        const errorMessage = this.intl.t('settings.account.connected_emails.update_fail',
+            { supportEmail: config.support.supportEmail });
         const successMessage = this.intl.t('settings.account.connected_emails.update_success');
 
         if (!email) {
@@ -104,7 +107,6 @@ export default class ConnectedEmails extends Component {
             captureException(e, { errorMessage });
             return this.toast.error(getApiErrorMessage(e), errorMessage);
         }
-
         this.get('loadPrimaryEmail').perform();
 
         this.reloadAlternateList();

@@ -1812,7 +1812,7 @@ settings:
             save_success: 'Email added'
             title: 'Connected emails'
             unconfirmed_emails: 'Unconfirmed emails'
-            update_fail: 'Unable to update email'
+            update_fail: 'This email has either been deactivated or marked as spam.<br><br>Please email <a href="mailto:{supportEmail}">{supportEmail}</a> for further assistance.'
             update_success: 'Email updated'
             email_address: 'Email address'
         changePassword:
