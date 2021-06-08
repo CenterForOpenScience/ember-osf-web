@@ -92,7 +92,7 @@ export default class ConnectedEmails extends Component {
     @task({ withTestWaiter: true })
     updatePrimaryEmail = task(function *(this: ConnectedEmails, email: UserEmail) {
         const errorMessage = this.intl.t('settings.account.connected_emails.update_fail',
-            { supportEmail: config.support.supportEmail, htmlSafe: true  });
+            { supportEmail: config.support.supportEmail, htmlSafe: true });
         const successMessage = this.intl.t('settings.account.connected_emails.update_success');
 
         if (!email) {
