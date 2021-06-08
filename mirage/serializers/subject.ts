@@ -31,7 +31,7 @@ export default class SubjectSerializer extends ApplicationSerializer<MirageSubje
             const { parentId } = model.attrs;
             relationships.parent = {
                 data: {
-                    id: parentId,
+                    id: parentId as string,
                     type: this.typeKeyForModel(model),
                 },
                 links: {

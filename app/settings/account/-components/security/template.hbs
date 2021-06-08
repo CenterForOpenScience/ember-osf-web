@@ -58,9 +58,9 @@
                         <BsButton
                             data-test-verify-button
                             data-analytics-name='Submit verification'
+                            type='submit'
+                            disabled={{or this.changeset.isInvalid this.verifySecret.isRunning}}
                             @type='primary'
-                            @buttonType='submit'
-                            @disabled={{or this.changeset.isInvalid this.verifySecret.isRunning}}
                             {{on 'click' (perform this.verifySecret)}}
                         >
                             {{t 'settings.account.security.submitVerification'}}

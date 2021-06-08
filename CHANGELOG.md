@@ -4,6 +4,55 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [21.5.0] - 2021-05-27
+### Fixed
+- registration Detail Page: longer license types spill out of bounds
+- unencode special characters in Registries Moderator Comments and Registries Custom Metadata
+- (deprecations) use jQuery in lieu of Ember.$()
+- (deprecations) use ember-copy in lieu of copy method and Copyable mixin
+
+### Changed
+- (project-based registration) ensure only templates associated with OSF Registries is shown
+
+### Added
+- (my-registrations page) text explaining how submitted/draft registrations are sorted
+
+## [21.4.1] - 2021-05-26
+### Changed
+- hide registration state for anonymous VOLs
+- `reviewsState` to optional on the `registration` model
+
+## [21.4.0] - 2021-04-11
+### Added
+- user's `myRegistrations` page
+
+## [21.3.0] - 2021-04-23
+### Added
+- support for provider-specific (editable/read-only) registration metadata fields
+
+### Changed
+- DX: clean-up mirage scenarios
+
+### Fixed
+- tablet view of metadata panel on the registry overview page
+
+## [21.2.0] - 2021-04-19
+### Added
+- field and relationship for custom metadata field and its schema to registration providers
+- a link to the registration metadata to the Internet Archive copy
+
+### Removed
+- "powered by Share" logo on discover pages
+
+### Changed
+- show provider description on provider's discover page
+    - allow branded provider descriptions to have color options
+
+## [21.1.1] - 2021-04-12
+### Fixed
+- `draftRegistration.branchedFrom` node permission errors
+    - Make it so the draft page doesn't break when a contributor on the draft doesn't have access to the `branched_from` node.
+
 ## [21.1.0] - 2021-03-30
 ### Added
 - no-project registrations
@@ -1692,7 +1741,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/21.1.0...develop
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/21.5.0...develop
+[21.5.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.5.0
+[21.4.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.4.1
+[21.4.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.4.0
+[21.3.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.3.0
+[21.2.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.2.0
+[21.1.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.1.1
 [21.1.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.1.0
 [20.13.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.13.0
 [20.12.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/20.12.1

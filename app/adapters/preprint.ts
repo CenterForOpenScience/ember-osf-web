@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import DS from 'ember-data';
 import RSVP from 'rsvp';
 
@@ -7,7 +8,7 @@ import OsfAdapter from './osf-adapter';
 
 export default class PreprintAdapter extends OsfAdapter {
     updateRecord(
-        store: DS.Store,
+        store: Store,
         type: PreprintModel,
         snapshot: DS.Snapshot,
     ): RSVP.Promise<any> {

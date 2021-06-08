@@ -1,7 +1,5 @@
+import Transform from '@ember-data/serializer/transform';
 import { assert } from '@ember/debug';
-import DS from 'ember-data';
-
-const { Transform } = DS;
 
 // these are used to solve two issues with ember objects and changesets:
 //   - replace `.` with `|`: keys with `.` are interpreted as nested lookups

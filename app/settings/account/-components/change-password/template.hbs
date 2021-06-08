@@ -4,7 +4,7 @@
 >
     <panel.heading @title={{t 'settings.account.changePassword.title'}} />
     <panel.body data-analytics-scope='Change password panel'>
-        <form data-test-password-form>
+        <form {{on 'submit' (perform this.submitTask)}} data-test-password-form>
             {{#let (component 'validated-input/text') as |ValidatedTextInput| }}
                 <ValidatedTextInput
                     data-test-current-password
@@ -42,14 +42,13 @@
                     @ariaLabel={{t 'settings.account.changePassword.confirmPassword.placeholder'}}
                 />
             {{/let}}
-            <OsfButton
+            <BsButton
                 data-test-update-password-button
                 data-analytics-name='Submit'
-                @buttonType='submit'
-                @onClick={{perform this.submitTask}}
+                type='submit'
             >
                 {{t 'settings.account.changePassword.updateButton'}}
-            </OsfButton>
+            </BsButton>
         </form>
     </panel.body>
 </Panel>

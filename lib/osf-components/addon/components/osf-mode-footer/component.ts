@@ -32,7 +32,7 @@ export default class OsfModeFooter extends Component {
 
     showDevBanner = config.showDevBanner;
     showUrlInput = false;
-    url: string = '/';
+    url = '/';
 
     get featureList() {
         return this.features.flags.map(flag => underscore(flag)).sort();

@@ -21,7 +21,7 @@ export default class NodeNavbar extends Component {
     secondaryNavbarId = config.secondaryNavbarId;
     collapsedNav = true;
 
-    @computed('node')
+    @computed('node.isRegistration')
     get fakeParent(): NodeLike | null {
         if (this.node) {
             const id = this.node.belongsTo('parent').id();

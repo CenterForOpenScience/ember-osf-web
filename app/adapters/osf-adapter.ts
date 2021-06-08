@@ -1,14 +1,15 @@
+import JSONAPIAdapter from '@ember-data/adapter/json-api';
 import { assert } from '@ember/debug';
 import { inject as service } from '@ember/service';
 import { underscore } from '@ember/string';
 import DS from 'ember-data';
+import ModelRegistry from 'ember-data/types/registries/model';
 import config from 'ember-get-config';
 import { pluralize } from 'ember-inflector';
 import Session from 'ember-simple-auth/services/session';
 
 import CurrentUser from 'ember-osf-web/services/current-user';
 
-const { JSONAPIAdapter } = DS;
 const {
     OSF: {
         apiUrl: host,
@@ -90,14 +91,14 @@ export default class OsfAdapter extends JSONAPIAdapter {
         };
     }
 
-    buildURL(
-        modelName: string | undefined,
-        id: string | null,
-        snapshot: DS.Snapshot | null,
-        requestType: string,
+    buildURL<K extends keyof ModelRegistry>(
+        modelName?: K,
+        id?: string | null,
+        snapshot?: DS.Snapshot<K> | null,
+        requestType?: string,
         query?: {},
     ): string {
-        let url: string = super.buildURL(modelName, id, snapshot, requestType, query);
+        let url = super.buildURL(modelName, id, snapshot, requestType, query);
 
         if (snapshot) {
             const { adapterOptions }: { adapterOptions?: { url?: string } } = snapshot;
@@ -115,14 +116,14 @@ export default class OsfAdapter extends JSONAPIAdapter {
         return url;
     }
 
-    urlForFindRecord(id: string, modelName: string, snapshot: DS.Snapshot): string {
+    urlForFindRecord<K extends keyof ModelRegistry>(id: string, modelName: K, snapshot: DS.Snapshot): string {
         if (snapshot && snapshot.record && snapshot.record.links && snapshot.record.links.self) {
             return snapshot.record.links.self;
         }
         return super.urlForFindRecord(id, modelName, snapshot);
     }
 
-    urlForCreateRecord(modelName: string, snapshot: DS.Snapshot): string {
+    urlForCreateRecord<K extends keyof ModelRegistry>(modelName: K, snapshot: DS.Snapshot<K>): string {
         const { parentRelationship } = this;
         if (!parentRelationship) {
             return super.urlForCreateRecord(modelName, snapshot);
@@ -140,7 +141,7 @@ export default class OsfAdapter extends JSONAPIAdapter {
         return url;
     }
 
-    urlForUpdateRecord(id: string, modelName: string, snapshot: DS.Snapshot): string {
+    urlForUpdateRecord<K extends keyof ModelRegistry>(id: string, modelName: K, snapshot: DS.Snapshot<K>): string {
         const { links } = snapshot.record;
         if (links && links.self) {
             return links.self;
@@ -148,7 +149,7 @@ export default class OsfAdapter extends JSONAPIAdapter {
         return super.urlForUpdateRecord(id, modelName, snapshot);
     }
 
-    urlForDeleteRecord(id: string, modelName: string, snapshot: DS.Snapshot): string {
+    urlForDeleteRecord<K extends keyof ModelRegistry>(id: string, modelName: K, snapshot: DS.Snapshot<K>): string {
         const { links } = snapshot.record;
         const url = links.delete || links.self;
         return url || super.urlForDeleteRecord(id, modelName, snapshot);
@@ -178,8 +179,8 @@ export default class OsfAdapter extends JSONAPIAdapter {
         return '';
     }
 
-    pathForType(modelName: string): string {
-        const underscored: string = underscore(modelName);
+    pathForType(modelName: keyof ModelRegistry): string {
+        const underscored = underscore(modelName as string);
         return pluralize(underscored);
     }
 

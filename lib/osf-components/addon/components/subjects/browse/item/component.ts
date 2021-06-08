@@ -16,7 +16,7 @@ export default class RenderItem extends Component {
     singleSubjectManager!: SingleSubjectManager;
 
     // private
-    shouldShowChildren: boolean = false;
+    shouldShowChildren = false;
 
     @not('singleSubjectManager.isLoaded')
     isPlaceholder!: boolean;

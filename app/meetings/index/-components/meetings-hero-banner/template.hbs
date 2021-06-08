@@ -33,13 +33,13 @@
                         </p>
                     </div>
                     <div class='p-v-md'>
-                        <OsfButton
+                        <BsButton
                             data-test-register-button
                             @type='success'
                             @onClick={{action this.toggleRegisterPanel}}
                         >
                             {{t 'meetings.index.meetings-hero-banner.conference_organizers_register_button'}}
-                        </OsfButton>
+                        </BsButton>
                     </div>
                     <CpPanel @open={{this.registerPanelOpen}} as |panel| >
                         <panel.body>
@@ -67,13 +67,13 @@
                         </p>
                     </div>
                     <div class='p-v-md'>
-                        <OsfButton
+                        <BsButton
                             data-test-upload-button
                             @type='success'
                             @onClick={{action this.toggleUploadPanel}}
                         >
                             {{t 'meetings.index.meetings-hero-banner.conference_participants_upload_button'}}
-                        </OsfButton>
+                        </BsButton>
                     </div>
                     <CpPanel @open={{this.uploadPanelOpen}} as |panel| >
                         <panel.body>

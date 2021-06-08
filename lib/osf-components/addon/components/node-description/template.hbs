@@ -17,7 +17,7 @@
 </div>
 
 {{#if this.shouldTruncate}}
-    <OsfButton
+    <BsButton
         data-test-node-description-button
         data-analytics-name='Show full description'
         aria-label={{t (if this.truncateDescription 'registries.registration_metadata.show_more' 'registries.registration_metadata.show_less')}}
@@ -26,5 +26,5 @@
     >
         {{t (if this.truncateDescription 'registries.registration_metadata.show_more' 'registries.registration_metadata.show_less')}}
         <FaIcon @icon='{{if this.truncateDescription 'caret-down' 'caret-up'}}'/>
-    </OsfButton>
+    </BsButton>
 {{/if}}

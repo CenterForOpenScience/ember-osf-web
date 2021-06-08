@@ -3,7 +3,8 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
+import { waitFor } from '@ember/test-waiters';
+import { task } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -29,7 +30,7 @@ export default class CategoryManagerComponent extends Component {
     @service intl!: Intl;
     @service toast!: Toast;
 
-    inEditMode: boolean = false;
+    inEditMode = false;
     fieldIsEmpty = false;
     selectedCategory!: NodeCategory;
 
@@ -41,11 +42,12 @@ export default class CategoryManagerComponent extends Component {
         return this.userCanEdit || !this.fieldIsEmpty;
     }
 
-    @task({ withTestWaiter: true })
-    save = task(function *(this: CategoryManagerComponent) {
+    @task
+    @waitFor
+    async save() {
         this.node.set('category', this.selectedCategory);
         try {
-            yield this.node.save();
+            await this.node.save();
         } catch (e) {
             this.node.rollbackAttributes();
             const errorMessage = this.intl.t('registries.registration_metadata.edit_category.error');
@@ -55,7 +57,7 @@ export default class CategoryManagerComponent extends Component {
         }
         this.set('inEditMode', false);
         this.toast.success(this.intl.t('registries.registration_metadata.edit_category.success'));
-    });
+    }
 
     didReceiveAttrs() {
         if (this.node) {

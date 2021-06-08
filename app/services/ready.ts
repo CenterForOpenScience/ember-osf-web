@@ -1,10 +1,10 @@
 import { A } from '@ember/array';
-import { get, set } from '@ember/object';
+import { set } from '@ember/object';
 import Evented from '@ember/object/evented';
 import Service from '@ember/service';
-
-import { waitForQueue } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { waitFor } from '@ember/test-waiters';
+import { restartableTask, waitForQueue } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import RSVP from 'rsvp';
 
 export interface Blocker {
@@ -25,20 +25,21 @@ export default class Ready extends Service.extend(Evented) {
     lastId = 0;
     blockers = A();
 
-    @task({ withTestWaiter: true, restartable: true })
-    tryReady = task(function *(this: Ready) {
+    @restartableTask
+    @waitFor
+    async tryReady() {
         // Waiting until `destroy` makes sure that everyone in `render` and `afterRender`
         // (e.g. components, jQuery plugins, etc.) has a chance to call `getBlocker`, and that
         // all DOM manipulation has settled.
-        yield waitForQueue('destroy');
-        if (!get(this, 'blockers').length) {
+        await waitForQueue('destroy');
+        if (!this.blockers.length) {
             set(this, 'isReady', true);
             this.trigger(Events.IsReady);
         }
-    });
+    }
 
     getBlocker(): Blocker {
-        if (get(this, 'isReady')) {
+        if (this.isReady) {
             return {
                 done: () => null,
                 errored: () => null,
@@ -46,7 +47,7 @@ export default class Ready extends Service.extend(Evented) {
             };
         }
         const id = this.incrementProperty('lastId');
-        get(this, 'blockers').pushObject(id);
+        this.blockers.pushObject(id);
         return {
             done: this.doneCallback(id),
             errored: this.errorCallback(),
@@ -67,17 +68,17 @@ export default class Ready extends Service.extend(Evented) {
 
     reset(): void {
         // Invalidate all prior blockers
-        get(this, 'blockers').clear();
+        this.blockers.clear();
         set(this, 'isReady', false);
         this.trigger(Events.Reset);
     }
 
     private doneCallback(this: Ready, id: number) {
         return () => {
-            const blockers = get(this, 'blockers');
+            const { blockers } = this;
             blockers.removeObject(id);
             if (!blockers.length) {
-                get(this, 'tryReady').perform();
+                taskFor(this.tryReady).perform();
             }
         };
     }

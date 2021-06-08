@@ -30,7 +30,7 @@ export default class GuidNodeForks extends Controller {
     @reads('model.taskInstance.value')
     node?: Node;
 
-    @computed('node')
+    @computed('node.parent')
     get nodeType() {
         if (!this.node) {
             return undefined;

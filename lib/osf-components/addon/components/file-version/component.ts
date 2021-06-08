@@ -19,8 +19,8 @@ export interface Version {
     attributes: {
         extra: {
             hashes: {
-                md5: string;
-                sha256: string;
+                md5: string,
+                sha256: string,
             },
         },
     };

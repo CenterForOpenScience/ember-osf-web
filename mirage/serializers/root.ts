@@ -1,5 +1,5 @@
+import Model from '@ember-data/model';
 import { ModelInstance } from 'ember-cli-mirage';
-import DS from 'ember-data';
 import { Links } from 'jsonapi-typescript';
 import { RootDocument } from 'osf-api'; // UserResource
 
@@ -7,7 +7,7 @@ import User from 'ember-osf-web/models/user';
 
 import ApplicationSerializer from './application';
 
-interface RootObject extends DS.Model {
+interface RootObject extends Model {
     activeFlags: string[];
     message: string;
     version: string;

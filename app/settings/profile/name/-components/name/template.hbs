@@ -10,7 +10,7 @@
         @label={{t 'settings.profile.name.fullName'}}
     />
     {{t 'settings.profile.name.instructions'}}
-    
+
     <h3>{{t 'settings.profile.name.citationName'}}</h3>
     <span local-class='NameParts'>
         <form.text
@@ -25,7 +25,7 @@
             @valuePath='middleNames'
             @label={{t 'settings.profile.name.middleNames'}}
         />
-        <form.text 
+        <form.text
             data-test-family-name-field
             local-class='LargeField'
             @valuePath='familyName'
@@ -40,23 +40,23 @@
     </span>
     {{settings/profile/name/-components/citation-preview user=this.user}}
     <div local-class='FormButtons'>
-        <OsfButton
+        <BsButton
             data-test-discard-changes
             data-analytics-name='Discard changes'
-            @buttonType='button'
-            @disabled={{not form.isDirty}}
+            disabled={{not form.isDirty}}
+            type='button'
             @onClick={{action form.rollback}}
         >
             {{t 'validated_input_form.discard_changes'}}
-        </OsfButton>
-        <OsfButton
+        </BsButton>
+        <BsButton
             data-test-save
             data-analytics-name='Save'
+            disabled={{and (not form.isDirty) form.disabled}}
             @buttonType='submit'
-            @disabled={{and (not form.isDirty) form.disabled}}
             @type='primary'
         >
             {{t 'general.save'}}
-        </OsfButton>
+        </BsButton>
     </div>
 </ValidatedModelForm>

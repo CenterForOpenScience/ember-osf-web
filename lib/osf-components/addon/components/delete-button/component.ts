@@ -2,14 +2,15 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
+import { waitFor } from '@ember/test-waiters';
+import { dropTask } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import randomScientist from 'ember-osf-web/utils/random-scientist';
 
 import styles from './styles';
@@ -26,59 +27,43 @@ export default class DeleteButton extends Component {
     @requiredAction delete!: () => unknown;
 
     // Optional arguments
-    small: boolean = defaultTo(this.small, false);
-    smallSecondary: boolean = defaultTo(this.smallSecondary, false);
-    noBackground: boolean = defaultTo(this.noBackground, false);
-    hardConfirm: boolean = defaultTo(this.hardConfirm, false);
-    disabled: boolean = defaultTo(this.disabled, false);
+    small = false;
+    smallSecondary = false;
+    noBackground = false;
+    hardConfirm = false;
+    disabled = false;
     shouldStopPropagation = false;
-    buttonLabel: string = defaultTo(
-        this.buttonLabel,
-        this.intl.t('osf-components.delete-button.buttonLabel'),
-    );
-    modalTitle: string = defaultTo(
-        this.modalTitle,
-        this.intl.t('osf-components.delete-button.modalTitle'),
-    );
-    modalBody: string = defaultTo(
-        this.modalBody,
-        this.intl.t('osf-components.delete-button.modalBody'),
-    );
-    confirmButtonText: string = defaultTo(
-        this.confirmButtonText,
-        this.intl.t('osf-components.delete-button.confirmButtonText'),
-    );
-    cancelButtonText: string = defaultTo(
-        this.cancelButtonText,
-        this.intl.t('osf-components.delete-button.cancelButtonText'),
-    );
-    errorMessage: string = defaultTo(
-        this.errorMessage,
-        this.intl.t('osf-components.delete-button.error'),
-    );
+    icon = 'times';
+    buttonLabel = this.intl.t('osf-components.delete-button.buttonLabel');
+    modalTitle = this.intl.t('osf-components.delete-button.modalTitle');
+    modalBody = this.intl.t('osf-components.delete-button.modalBody');
+    confirmButtonText = this.intl.t('osf-components.delete-button.confirmButtonText');
+    cancelButtonText = this.intl.t('osf-components.delete-button.cancelButtonText');
+    errorMessage = this.intl.t('osf-components.delete-button.error');
 
     // Private properties
-    modalShown: boolean = false;
-    scientistName: string = '';
-    scientistInput: string = '';
+    modalShown = false;
+    scientistName = '';
+    scientistInput = '';
 
     @computed('_deleteTask.isRunning', 'hardConfirm', 'scientistName', 'scientistInput')
     get confirmDisabled() {
-        return this._deleteTask.isRunning || (
+        return taskFor(this._deleteTask).isRunning || (
             this.hardConfirm && (this.scientistName !== this.scientistInput)
         );
     }
 
-    @task({ withTestWaiter: true, drop: true })
-    _deleteTask = task(function *(this: DeleteButton) { // tslint:disable-line variable-name
+    @dropTask
+    @waitFor
+    async _deleteTask() {
         try {
-            yield this.delete();
+            await this.delete();
             this.set('modalShown', false);
         } catch (e) {
             captureException(e, { errorMessage: this.errorMessage });
             this.toast.error(getApiErrorMessage(e), this.errorMessage);
         }
-    });
+    }
 
     @action
     _show(event: Event) {

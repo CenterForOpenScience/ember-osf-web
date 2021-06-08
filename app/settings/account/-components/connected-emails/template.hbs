@@ -40,13 +40,13 @@
                                     {{email.emailAddress}}
                                 </div>
                                 <div local-class='options'>
-                                    <OsfButton
+                                    <BsButton
                                         data-test-make-primary
                                         data-analytics-name='Make primary'
                                         @onClick={{action this.makePrimary email}}
                                     >
                                         {{t 'settings.account.connected_emails.make_primary'}}
-                                    </OsfButton>
+                                    </BsButton>
                                     <DeleteButton
                                         data-test-alternate-delete
                                         @small={{true}}
@@ -97,13 +97,13 @@
                                     {{email.emailAddress}}
                                 </div>
                                 <div local-class='options'>
-                                    <OsfButton
+                                    <BsButton
                                         data-test-resend-confirmation-button
                                         data-analytics-name='Resend confirmation'
                                         @onClick={{action this.toggleMergeModal}}
                                     >
                                         {{t 'settings.account.connected_emails.resend_confirmation'}}
-                                    </OsfButton>
+                                    </BsButton>
                                     <BsModal
                                         @open={{this.showMergeModal}}
                                         @tagName='span'
@@ -129,21 +129,21 @@
                                         <modal.footer
                                             data-analytics-scope='Merge modal'
                                         >
-                                            <OsfButton
+                                            <BsButton
                                                 data-test-close-modal
                                                 data-analytics-name='Close modal'
                                                 @onClick={{action this.toggleMergeModal}}
                                             >
                                                 {{t 'general.cancel'}}
-                                            </OsfButton>
-                                            <OsfButton
+                                            </BsButton>
+                                            <BsButton
                                                 data-test-resend-confirmation
                                                 data-analytics-name='Resend confirmation'
                                                 @type='primary'
                                                 @onClick={{action this.resendConfirmation email}}
                                             >
                                                 {{t 'settings.account.connected_emails.resend_confirmation_modal.resend_button'}}
-                                            </OsfButton>
+                                            </BsButton>
                                         </modal.footer>
                                     </BsModal>
                                     <DeleteButton
@@ -181,21 +181,21 @@
             as |form|>
                 <form.text
                     data-test-add-email
-                    @local-class='input-form'
+                    local-class='input-form'
                     @valuePath='emailAddress'
                     @placeholder={{t 'settings.account.connected_emails.placeholder_text'}}
                     @ariaLabel={{t 'settings.account.connected_emails.placeholder_text'}}
                 />
-                <OsfButton
+                <BsButton
                     data-test-add-email-button
                     data-analytics-name='add email'
-                    @buttonType='submit'
-                    @local-class='add-email-button'
-                    @disabled={{or this.changeset.isInvalid this.onSave.isRunning}}
+                    disabled={{or this.changeset.isInvalid this.onSave.isRunning}}
+                    local-class='add-email-button'
+                    type='submit'
                     {{on 'click' (perform this.onSave)}}
                 >
                     {{t 'settings.account.connected_emails.add_email'}}
-                </OsfButton>
+                </BsButton>
             </FormControls>
             <BsModal
                 @open={{this.showAddModal}}
@@ -218,13 +218,13 @@
                 <modal.footer
                     data-analytics-scope='Add email modal'
                 >
-                    <OsfButton
+                    <BsButton
                         data-test-close-modal
                         data-analytics-name='Close modal'
                         @onClick={{action this.toggleAddModal}}
                     >
                         {{t 'general.close'}}
-                    </OsfButton>
+                    </BsButton>
                 </modal.footer>
             </BsModal>
         </div>

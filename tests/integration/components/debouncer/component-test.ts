@@ -16,7 +16,7 @@ module('Integration | Component | debouncer', hooks => {
 
         await render(hbs`
             <Debouncer
-                @fn={{action this.dummyFunction}}
+                @fn={{this.dummyFunction}}
                 @timeoutInterval=777
                 as |debouncer|
             >

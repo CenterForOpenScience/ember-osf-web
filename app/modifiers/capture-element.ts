@@ -1,7 +1,11 @@
-import Modifier from 'ember-oo-modifiers';
+import Modifier from 'ember-modifier';
 
 type CaptureFn = (e: Element | null) => void;
 
+interface CaptureElementModifierArgs {
+    positional: [CaptureFn];
+    named: {};
+}
 /**
  * `capture-element` modifier
  *
@@ -15,14 +19,14 @@ type CaptureFn = (e: Element | null) => void;
  * {{will-destroy (action (mut this.myElement) null)}}
  * ```
  */
-class CaptureElementModifier extends Modifier {
-    didInsertElement([captureFn]: [CaptureFn]) {
+export default class CaptureElementModifier extends Modifier<CaptureElementModifierArgs> {
+    didInstall() {
+        const captureFn = this.args.positional[0];
         captureFn(this.element);
     }
 
-    willDestroyElement([captureFn]: [CaptureFn]) {
+    willRemove() {
+        const captureFn = this.args.positional[0];
         captureFn(null);
     }
 }
-
-export default Modifier.modifier(CaptureElementModifier);

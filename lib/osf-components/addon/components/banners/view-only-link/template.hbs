@@ -9,13 +9,13 @@
             {{t 'banners.view_only.warning'}}
         </p>
 
-        <OsfButton
+        <BsButton
             data-test-view-normally
             data-analytics-name='Stop view-only link'
             @type='default'
             @onClick={{action this.stopViewOnly}}
         >
             {{t 'banners.view_only.view_normally'}}
-        </OsfButton>
+        </BsButton>
     </div>
 </BsAlert>

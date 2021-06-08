@@ -1,14 +1,16 @@
+import Store from '@ember-data/store';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import Service, { inject as service } from '@ember/service';
 import Cookies from 'ember-cookies/services/cookies';
-import DS from 'ember-data';
 import config from 'ember-get-config';
 import Session from 'ember-simple-auth/services/session';
 import RSVP from 'rsvp';
 
 import User from 'ember-osf-web/models/user';
 import { addQueryParam } from 'ember-osf-web/utils/url-parts';
+
+import $ from 'jquery';
 
 const {
     OSF: {
@@ -28,8 +30,7 @@ enum AuthRoute {
 function hashCode(str: string): number {
     return str
         .split('')
-        // eslint-disable-next-line no-bitwise
-        .reduce((acc, _, i) => ((acc << 5) - acc) + str.charCodeAt(i), 0); // tslint:disable-line no-bitwise
+        .reduce((acc, _, i) => ((acc << 5) - acc) + str.charCodeAt(i), 0); // eslint-disable-line  no-bitwise
 }
 
 export interface OsfAjaxOptions {
@@ -50,12 +51,12 @@ export interface OsfAjaxOptions {
  */
 
 export default class CurrentUserService extends Service {
-    @service store!: DS.Store;
+    @service store!: Store;
     @service session!: Session;
     @service cookies!: Cookies;
 
-    viewOnlyToken: string = '';
-    anonymizedViewOnly: boolean = false;
+    viewOnlyToken = '';
+    anonymizedViewOnly = false;
 
     showTosConsentBanner = false;
 
@@ -107,8 +108,8 @@ export default class CurrentUserService extends Service {
         return new RSVP.Promise(() => { /* never resolve, just wait for the redirect */ });
     }
 
-    async checkShowTosConsentBanner() {
-        const user = await this.user;
+    checkShowTosConsentBanner() {
+        const { user } = this;
         if (user && !user.acceptedTermsOfService) {
             // Unset to avoid premature validation.
             user.set('acceptedTermsOfService', undefined);
@@ -148,7 +149,7 @@ export default class CurrentUserService extends Service {
     /**
      * Modify a given XMLHttpRequest to add the current user's authorization.
      */
-    authorizeXHR(xhr: XMLHttpRequest, addApiHeaders: boolean = true): void {
+    authorizeXHR(xhr: XMLHttpRequest, addApiHeaders = true): void {
         if (addApiHeaders) {
             Object.entries(this.ajaxHeaders()).forEach(([key, value]) => {
                 xhr.setRequestHeader(key, value);

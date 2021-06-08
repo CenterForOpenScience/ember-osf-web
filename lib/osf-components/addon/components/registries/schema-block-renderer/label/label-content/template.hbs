@@ -12,7 +12,7 @@
         {{~@schemaBlock.helpText~}}
     </p>
     {{#if @schemaBlock.exampleText}}
-        <OsfButton
+        <BsButton
             local-class='ExampleButton'
             @type='link'
             @onClick={{action this.toggleShouldShowExample}}
@@ -22,7 +22,7 @@
             {{else}}
                 {{t 'osf-components.registries.schema-block-renderer/label.showExample'}}
             {{/if}}
-        </OsfButton>
+        </BsButton>
         {{#if this.shouldShowExample}}
             <p local-class='ExampleText'>
                 {{~this.schemaBlock.exampleText~}}

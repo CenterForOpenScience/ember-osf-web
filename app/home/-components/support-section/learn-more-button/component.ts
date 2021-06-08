@@ -9,5 +9,5 @@ const {
 } = config;
 
 export default class LearnMoreButton extends Component {
-    learnMoreUrl: string = learnMoreUrl;
+    learnMoreUrl = learnMoreUrl;
 }

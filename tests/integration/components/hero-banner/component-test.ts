@@ -16,6 +16,7 @@ module('Integration | Component | Hero banner', hooks => {
 
     test('it renders', async function(assert) {
         // Setup router
+        // eslint-disable-next-line ember/no-private-routing-service
         const router = this.owner.lookup('router:main');
         router.setupRouter();
 
@@ -35,6 +36,7 @@ module('Integration | Component | Hero banner', hooks => {
     test('it renders version B', async function(assert) {
         const features = this.owner.lookup('service:features');
         // Setup router
+        // eslint-disable-next-line ember/no-private-routing-service
         const router = this.owner.lookup('router:main');
         router.setupRouter();
 

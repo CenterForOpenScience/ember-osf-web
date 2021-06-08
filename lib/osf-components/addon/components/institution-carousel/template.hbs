@@ -1,13 +1,12 @@
 {{#if this.slides}}
     <BsCarousel
         data-analytics-scope='Institution Carousel'
+        local-class='InstitutionCarousel__control'
         @interval={{0}}
         @tabindex={{0}}
         @showIndicators={{false}}
         @prevControlLabel={{t 'general.previous'}}
         @nextControlLabel={{t 'general.next'}}
-        @prevControlClassName={{local-class 'InstitutionCarousel__control left'}}
-        @nextControlClassName={{local-class 'InstitutionCarousel__control right'}}
         @showControls={{this.showControls}}
         as |carousel|
     >

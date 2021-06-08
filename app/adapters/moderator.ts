@@ -7,7 +7,7 @@ interface ModeratorAdapterOptions {
 
 export default class ModeratorAdapter extends OsfAdapter {
     parentRelationship = 'provider';
-    urlForFindRecord(id: string, _: string, snapshot: DS.Snapshot): string {
+    urlForFindRecord(id: string, _: string | number, snapshot: DS.Snapshot): string {
         const adapterOptions = snapshot.adapterOptions as ModeratorAdapterOptions;
         const { providerId } = adapterOptions;
         return `${this.urlPrefix()}/providers/registrations/${providerId}/moderators/${id}`;

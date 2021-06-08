@@ -40,33 +40,33 @@
     </modal.body>
     <modal.footer data-analytics-scope='Feedback modal footer'>
         {{#if this.isActive}}
-            <OsfButton
+            <BsButton
                 data-analytics-name='Cancel'
                 @onClick={{action modal.close}}
             >
                 {{t 'general.cancel'}}
-            </OsfButton>
-            <OsfButton
+            </BsButton>
+            <BsButton
                 data-analytics-name='Submit'
                 @type='success'
                 @onClick={{action modal.submit}}
             >
                 {{t 'feedback.confirm_button_text'}}
-            </OsfButton>
+            </BsButton>
         {{/if}}
         {{#if this.isSuccessful}}
-            <OsfButton
+            <BsButton
                 data-analytics-name='Dismiss'
                 @type='primary'
                 @onClick={{action modal.close}}
             >
                 {{t 'feedback.dismiss'}}
-            </OsfButton>
+            </BsButton>
         {{/if}}
     </modal.footer>
 </BsModal>
 
-<OsfButton
+<BsButton
     data-analytics-name='Open'
     local-class='FeedbackButton {{if this.isOpen 'FeedbackButton--open'}}'
     aria-label={{t 'feedback.title'}}
@@ -75,4 +75,4 @@
     @hidden={{not this.enabled}}
 >
     {{t 'feedback.button_text'}}
-</OsfButton>
+</BsButton>

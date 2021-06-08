@@ -70,7 +70,7 @@
             <Button
                 data-analytics-name='Claim unregistered user'
                 data-test-modal-claim-button
-                disabled={{this.isClaimButtonDisabled}}
+                disabled={{and (not this.isLoggedIn) this.emailChangeset.isInvalid}}
                 @type='primary'
                 {{on 'click' (perform this.claimContributor)}}
             >

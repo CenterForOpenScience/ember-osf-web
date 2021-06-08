@@ -1,15 +1,14 @@
+import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import { waitFor } from '@ember/test-waiters';
+import { task } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
-import ProviderModel from 'ember-osf-web/models/provider';
 import SubjectModel from 'ember-osf-web/models/subject';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import { SubjectManager } from 'osf-components/components/subjects/manager/component';
@@ -33,17 +32,18 @@ export default class SubjectBrowserManagerComponent extends Component {
     subjectsManager!: SubjectManager;
 
     // private
-    @service store!: DS.Store;
+    @service store!: Store;
     @service toast!: Toast;
     @service intl!: Intl;
 
     rootSubjects?: SubjectModel[];
 
-    @task({ withTestWaiter: true, on: 'init' })
-    loadRootSubjects = task(function *(this: SubjectBrowserManagerComponent) {
+    @task({ on: 'init' })
+    @waitFor
+    async loadRootSubjects() {
         try {
-            const provider: ProviderModel = yield this.subjectsManager.provider;
-            const rootSubjects: QueryHasManyResult<SubjectModel> = yield provider.queryHasMany('subjects', {
+            const provider = await this.subjectsManager.provider;
+            const rootSubjects = await provider.queryHasMany('subjects', {
                 filter: {
                     parent: 'null',
                 },
@@ -59,7 +59,7 @@ export default class SubjectBrowserManagerComponent extends Component {
             this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
         }
-    });
+    }
 
     init() {
         super.init();

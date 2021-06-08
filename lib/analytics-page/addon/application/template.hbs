@@ -1,5 +1,5 @@
 {{! using unsafeTitle here to avoid double encoding because the title helper does its own }}
-{{title (t 'analytics.pageTitle' nodeTitle=this.node.unsafeTitle)}}
+{{page-title (t 'analytics.pageTitle' nodeTitle=this.node.unsafeTitle)}}
 <div class='container'>
     <div local-class='Counts' class='row'>
         <div class='col-sm-4 panel panel-default' local-class='CountBox'>

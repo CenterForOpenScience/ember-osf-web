@@ -1,6 +1,6 @@
 <ResponsiveDropdown as |dd|>
     {{yield (hash trigger=dd.trigger isOpen=dd.isOpen)}}
-    {{#dd.content}}
+    <dd.content>
         <SharingIcons
             @title={{@title}}
             @description={{@description}}
@@ -8,7 +8,8 @@
             @resultId={{@resultId}}
             @parentId={{@parentId}}
             @showText={{@showText}}
-        as |links|>
+            as |links|
+        >
             <ul data-test-sharing-options local-class='Dropdown__list'>
                 <li local-class='Dropdown__option'>
                     {{links.email}}
@@ -24,5 +25,5 @@
                 </li>
             </ul>
         </SharingIcons>
-    {{/dd.content}}
+    </dd.content>
 </ResponsiveDropdown>

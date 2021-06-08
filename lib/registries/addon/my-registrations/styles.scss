@@ -1,0 +1,60 @@
+// stylelint-disable declaration-property-value-blacklist
+// stylelint-disable selector-no-qualifying-type
+.ContentBackground {
+    composes: ContentBackground from '../overview/styles.scss';
+    
+    :global(.list-group-item) {
+        margin-bottom: 20px;
+    }
+
+    :global(.media-desktop),
+    :global(.media-tablet),
+    :global(.media-mobile) {
+        margin-top: -38px;
+    }
+}
+
+.Title {
+    composes: Title from '../drafts/draft/styles.scss';
+
+    min-height: 150px;
+}
+
+.NavTabs {
+    ul {
+        margin-left: 15px;
+    }
+
+    :global(a.nav-link) {
+        border: none;
+        color: #fff;
+
+        &:hover {
+            border: none;
+            color: $color-text-gray;
+            background-color: #e4e4e4;    
+        }
+    }
+
+    :global(a.nav-link.active) {
+        border: none;
+        color: $color-text-gray;
+        background-color: #e4e4e4;
+
+        &:focus {
+            border: none;
+            background-color: #e4e4e4;
+        }
+
+        &:hover {
+            border: none;
+            background-color: #e4e4e4;
+        }
+    }
+}
+
+.SortDescription {
+    text-align: right;
+    margin-top: 10px;
+    margin-right: 15px;
+}

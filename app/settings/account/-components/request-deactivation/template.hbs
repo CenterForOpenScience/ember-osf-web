@@ -15,27 +15,27 @@
             {{t 'settings.account.deactivation.body' htmlSafe=true}}
         </p>
         {{#if (or this.loadSettings.isRunning this.saveSettings.isRunning)}}
-            <OsfButton @disabled={{true}}>
+            <BsButton disabled={{true}}>
                 {{t 'general.loading'}}
-            </OsfButton>
+            </BsButton>
         {{else}}
             {{#if this.user.settings.deactivationRequested}}
                 <p>
                     <strong>{{t 'settings.account.deactivation.pending'}}</strong>
                 </p>
-                <OsfButton
+                <BsButton
                     data-analytics-name='Undo deactivation request'
                     @onClick={{action (mut this.showUndoDialog) true}}
                 >
                     {{t 'settings.account.deactivation.undoRequestButton'}}
-                </OsfButton>
+                </BsButton>
             {{else}}
-                <OsfButton
+                <BsButton
                     data-analytics-name='Deactivation request'
                     @onClick={{action (mut this.showRequestDialog) true}}
                 >
                     {{t 'settings.account.deactivation.requestButton'}}
-                </OsfButton>
+                </BsButton>
             {{/if}}
         {{/if}}
     </panel.body>

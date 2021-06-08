@@ -44,7 +44,7 @@ export default class PageLinkComponent extends Component {
             : undefined;
     }
 
-    @computed('pageManager', 'pageManager.{isVisited,pageIsValid}', 'pageIsActive', 'metadataIsValid')
+    @computed('metadataIsValid', 'pageIsActive', 'pageManager.{isVisited,pageIsValid}', 'pageName')
     get pageState(): PageState {
         if (this.pageIsActive) {
             return PageState.Active;
@@ -120,7 +120,7 @@ export default class PageLinkComponent extends Component {
         return this.navMode === 'drawer';
     }
 
-    @computed('route')
+    @computed('draftId', 'page', 'route')
     get models() {
         if (this.route === 'registries.drafts.draft.page') {
             return [this.draftId, this.page];

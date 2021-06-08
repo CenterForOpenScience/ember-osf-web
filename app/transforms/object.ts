@@ -1,7 +1,5 @@
-import DS from 'ember-data';
+import Transform from '@ember-data/serializer/transform';
 import $ from 'jquery';
-
-const { Transform } = DS;
 
 export default class ObjectTransform extends Transform {
     deserialize(value: any) {

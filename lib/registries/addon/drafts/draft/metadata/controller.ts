@@ -17,7 +17,7 @@ export default class RegistriesDraftMetadata extends Controller {
     @alias('model.draftRegistrationManager.initializing') loading!: boolean;
 
     categoryOptions = Object.values(NodeCategory);
-    showAddContributorWidget: boolean = false;
+    showAddContributorWidget = false;
 
     @not('media.isDesktop') showMobileView!: boolean;
     osfUrl = config.OSF.url;

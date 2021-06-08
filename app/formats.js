@@ -1,3 +1,4 @@
+/* eslint-disable id-denylist */
 export default {
     time: {
         hhmmss: {
@@ -28,3 +29,4 @@ export default {
         },
     },
 };
+/* eslint-enable id-denylist */

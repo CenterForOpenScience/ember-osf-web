@@ -3,7 +3,7 @@ import { process } from './utils';
 
 export function createNode(this: HandlerContext, schema: Schema) {
     const attrs = this.normalizedRequestAttrs('node');
-    const now = (new Date()).toISOString();
+    const now = new Date();
     const node = schema.nodes.create({
         ...attrs,
         dateModified: now,

@@ -8,7 +8,7 @@
         {{on 'click' this._show}}
         @disabled={{this.disabled}}
     >
-        {{fa-icon 'times' size='lg'}}
+        <FaIcon @icon={{this.icon}} />
     </Button>
 {{else if this.smallSecondary}}
     <Button
@@ -20,6 +20,9 @@
         @layout='small'
         {{on 'click' this._show}}
     >
+        {{#if @icon}}
+            <FaIcon @icon={{this.icon}} />
+        {{/if}}
         {{this.buttonLabel}}
     </Button>
 {{else}}
@@ -66,23 +69,23 @@
         </modal.body>
 
         <modal.footer data-analytics-scope='Delete button modal footer'>
-            <OsfButton
+            <BsButton
                 data-analytics-name='Hard confirm cancel'
                 data-test-cancel-delete
-                @disabled={{this._deleteTask.isRunning}}
+                disabled={{this._deleteTask.isRunning}}
                 @onClick={{modal.close}}
             >
                 {{this.cancelButtonText}}
-            </OsfButton>
-            <OsfButton
+            </BsButton>
+            <BsButton
                 data-analytics-name='Hard confirm submit'
                 data-test-confirm-delete
+                disabled={{this.confirmDisabled}}
                 @type='danger'
-                @disabled={{this.confirmDisabled}}
                 @onClick={{perform this._deleteTask}}
             >
                 {{this.confirmButtonText}}
-            </OsfButton>
+            </BsButton>
         </modal.footer>
     </BsModal>
 {{/if}}

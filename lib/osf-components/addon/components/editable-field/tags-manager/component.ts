@@ -3,7 +3,8 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias, and } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
+import { waitFor } from '@ember/test-waiters';
+import { task } from 'ember-concurrency';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
@@ -40,7 +41,7 @@ export default class TagsManagerComponent extends Component {
     @service intl!: Intl;
     @service toast!: Toast;
 
-    requestedEditMode: boolean = false;
+    requestedEditMode = false;
     currentTags: string[] = [];
 
     @alias('registration.userHasWritePermission') userCanEdit!: boolean;
@@ -57,11 +58,12 @@ export default class TagsManagerComponent extends Component {
         return this.userCanEdit || !this.fieldIsEmpty;
     }
 
-    @task({ withTestWaiter: true })
-    save = task(function *(this: TagsManagerComponent) {
+    @task
+    @waitFor
+    async save() {
         this.registration.set('tags', [...this.currentTags]);
         try {
-            yield this.registration.save();
+            await this.registration.save();
         } catch (e) {
             this.registration.rollbackAttributes();
             const errorMessage = this.intl.t('registries.registration_metadata.edit_tags.error');
@@ -71,7 +73,7 @@ export default class TagsManagerComponent extends Component {
         }
         this.set('requestedEditMode', false);
         this.toast.success(this.intl.t('registries.registration_metadata.edit_tags.success'));
-    });
+    }
 
     @action
     startEditing() {

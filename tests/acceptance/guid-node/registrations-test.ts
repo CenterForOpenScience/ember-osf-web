@@ -1,5 +1,6 @@
 import { click as untrackedClick, currentRouteName } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import config from 'ember-get-config';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
@@ -13,11 +14,18 @@ import { click, currentURL, setupOSFApplicationTest, visit } from 'ember-osf-web
 
 import { Permission } from 'ember-osf-web/models/osf-model';
 
+const { defaultProvider } = config;
+
 module('Acceptance | guid-node/registrations', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
     test('logged out, no registrations', async assert => {
+        server.create('registration-provider', {
+            id: defaultProvider,
+            shareSource: 'OSF Registries',
+            name: 'OSF Registries',
+        });
         const node = server.create('node', { id: 'decaf', currentUserPermissions: [] });
 
         const url = `/${node.id}/registrations`;
@@ -32,6 +40,10 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.dom('[data-test-registrations-pane]').includesText(
             'There have been no completed registrations of this project.',
+        );
+
+        assert.dom('[data-test-registrations-container] a[href="#drafts"]').doesNotExist(
+            'Logged out users cannot access draft registrations tab',
         );
     });
 
@@ -57,10 +69,99 @@ module('Acceptance | guid-node/registrations', hooks => {
         assert.dom('[data-test-node-card-heading]').includesText(title);
     });
 
+    test('logged in read-permission, 1 registration, 1 draft', async assert => {
+        server.create('user', 'loggedIn');
+        const node = server.create('node', { id: 'decaf', currentUserPermissions: [Permission.Read] });
+        server.create('registration', {
+            registeredFrom: node,
+        });
+        server.create('draft-registration', {
+            branchedFrom: node,
+        }, 'currentUserIsReadOnly');
+
+        const url = `/${node.id}/registrations`;
+
+        await visit(url);
+
+        assert.equal(currentURL(), url, `We are on ${url}`);
+
+        assert.dom('[data-test-new-registration-button]').doesNotExist(
+            'read-permission contributors cannot start new registrations',
+        );
+
+        assert.dom('[data-test-node-card]').exists({ count: 1 }, 'One registration card shown');
+
+        assert.dom('[data-test-registrations-container] a[href="#drafts"]').exists(
+            'read-permission contributors can see drafts tab',
+        );
+
+        await untrackedClick('[data-test-registrations-container] a[href="#drafts"]');
+
+        assert.dom('[data-test-registrations-pane]').isNotVisible();
+
+        assert.dom('[data-test-draft-registrations-pane]').isVisible();
+
+        assert.dom('[data-test-draft-registration-card]').exists({ count: 1 },
+            'One draft registration exists for this project.');
+        assert.dom('[data-test-draft-card-edit]').doesNotExist('Read-only user cannot edit the draft');
+        assert.dom('[data-test-draft-card-delete]').doesNotExist('Read-only user cannot delete the draft');
+        assert.dom('[data-test-draft-card-review]').exists('Read-only user can review the draft');
+    });
+
+    test('logged in write-permission, 1 registration, 1 draft registration', async assert => {
+        server.create('user', 'loggedIn');
+        const node = server.create('node', {
+            id: 'decaf',
+            title: 'Test Title',
+            currentUserPermissions: [Permission.Write, Permission.Read],
+        });
+
+        server.create('registration', {
+            registeredFrom: node,
+        });
+        server.create('draft-registration', {
+            branchedFrom: node,
+        }, 'currentUserIsReadAndWrite');
+
+        const url = `/${node.id}/registrations`;
+
+        await visit(url);
+
+        assert.equal(currentURL(), url, `We are on ${url}`);
+
+        assert.dom('[data-test-new-registration-button]').doesNotExist(
+            'write contributors cannot start new draft registrations',
+        );
+
+        assert.dom('[data-test-registrations-pane]').doesNotIncludeText(
+            'There have been no completed registrations of this project.',
+        );
+
+        assert.dom('[data-test-node-card]').exists({ count: 1 });
+
+        await untrackedClick('[data-test-registrations-container] a[href="#drafts"]');
+
+        assert.dom('[data-test-registrations-pane]').isNotVisible();
+        assert.dom('[data-test-draft-registrations-pane]').isVisible();
+
+        assert.dom('[data-test-draft-registrations-pane]').doesNotIncludeText(
+            'There are no draft registrations of this project.',
+        );
+
+        assert.dom('[data-test-draft-registration-card]').exists({ count: 1 });
+        assert.dom('[data-test-draft-card-edit]').exists('Write user can edit the draft');
+        assert.dom('[data-test-draft-card-delete]').doesNotExist('Write user cannot delete the draft');
+        assert.dom('[data-test-draft-card-review]').exists('Write user can review the draft');
+    });
+
     test('logged in admin, no registrations', async assert => {
         server.create('user', 'loggedIn');
-
-        const node = server.create('node', { id: 'decaf', currentUserPermissions: [Permission.Admin] });
+        server.create('registration-provider', {
+            id: defaultProvider,
+            shareSource: 'OSF Registries',
+            name: 'OSF Registries',
+        });
+        const node = server.create('node', { id: 'decaf' }, 'currentUserAdmin');
 
         const url = `/${node.id}/registrations`;
 
@@ -88,12 +189,15 @@ module('Acceptance | guid-node/registrations', hooks => {
 
     test('logged in admin, 1 registration', async assert => {
         const contributorUser = server.create('user', 'loggedIn');
-
+        server.create('registration-provider', {
+            id: defaultProvider,
+            shareSource: 'OSF Registries',
+            name: 'OSF Registries',
+        });
         const node = server.create('node', {
             id: 'decaf',
             title: 'Test Title',
-            currentUserPermissions: [Permission.Admin],
-        });
+        }, 'currentUserAdmin');
 
         server.create('contributor', { node, users: contributorUser });
 
@@ -123,8 +227,6 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.dom('[data-test-node-card-body]').includesText(registrationSchemaName);
 
-        assert.dom('[data-test-node-card-body]').includesText(registrationTitle);
-
         await untrackedClick('[data-test-registrations-container] a[href="#drafts"]');
 
         assert.dom('[data-test-registrations-pane]').isNotVisible();
@@ -141,8 +243,7 @@ module('Acceptance | guid-node/registrations', hooks => {
         const node = server.create('node', {
             id: 'decaf',
             title: 'Test Title',
-            currentUserPermissions: [Permission.Admin],
-        });
+        }, 'currentUserAdmin');
 
         server.create('contributor', { node, users: contributorUser });
 
@@ -186,8 +287,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         const node = server.create('node', {
             id: 'decaf',
-            currentUserPermissions: [Permission.Admin],
-        });
+        }, 'currentUserAdmin');
 
         server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
@@ -238,8 +338,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         const node = server.create('node', {
             id: 'decaf',
-            currentUserPermissions: [Permission.Admin],
-        });
+        }, 'currentUserAdmin');
 
         server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
@@ -275,10 +374,15 @@ module('Acceptance | guid-node/registrations', hooks => {
     test('logged in admin, new registration', async assert => {
         server.create('user', 'loggedIn');
 
-        const node = server.create('node', { id: 'decaf', currentUserPermissions: [Permission.Admin] });
+        const node = server.create('node', { id: 'decaf' }, 'currentUserAdmin');
 
         server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
+        server.create('registration-provider', {
+            id: defaultProvider,
+            shareSource: 'OSF Registries',
+            name: 'OSF Registries',
+        }, 'withAllSchemas');
 
         const url = `/${node.id}/registrations`;
 
@@ -308,11 +412,15 @@ module('Acceptance | guid-node/registrations', hooks => {
 
     test('logged in admin, prereg challenge modal', async assert => {
         server.create('user', 'loggedIn');
-
-        const node = server.create('node', { id: 'decaf', currentUserPermissions: [Permission.Admin] });
+        const node = server.create('node', { id: 'decaf' }, 'currentUserAdmin');
 
         server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');
+        server.create('registration-provider', {
+            id: defaultProvider,
+            shareSource: 'OSF Registries',
+            name: 'OSF Registries',
+        }, 'withAllSchemas');
 
         const url = `/${node.id}/registrations`;
 

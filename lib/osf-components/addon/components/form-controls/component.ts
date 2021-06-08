@@ -1,9 +1,8 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
-import Changeset from 'ember-changeset';
+import { BufferedChangeset } from 'ember-changeset/types';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import template from './template';
 
@@ -11,9 +10,9 @@ import template from './template';
 @tagName('')
 export default class FormControls extends Component {
     // Required parameters
-    changeset!: Changeset;
+    changeset!: BufferedChangeset;
 
     // Optional parameters
-    disabled: boolean = defaultTo(this.disabled, false);
-    shouldShowMessages: boolean = defaultTo(this.shouldShowMessages, true);
+    disabled = false;
+    shouldShowMessages = true;
 }

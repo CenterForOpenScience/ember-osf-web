@@ -1,9 +1,11 @@
+import Store from '@ember-data/store';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias, not } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import { waitFor } from '@ember/test-waiters';
+import { restartableTask, task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -28,7 +30,7 @@ enum AbuseCategories {
 
 @layout(template, styles)
 export default class CommentCard extends Component {
-    @service store!: DS.Store;
+    @service store!: Store;
     @service ready!: Ready;
     @service intl!: Intl;
     @service currentUser!: CurrentUser;
@@ -43,10 +45,10 @@ export default class CommentCard extends Component {
     replies!: QueryHasManyResult<Comment>;
     abuseCategories: AbuseCategories[] = Object.values(AbuseCategories);
 
-    page: number = 1;
-    reporting?: boolean = false;
-    showReplies?: boolean = false;
-    loadingMoreReplies?: boolean = false;
+    page = 1;
+    reporting? = false;
+    showReplies? = false;
+    loadingMoreReplies? = false;
 
     @alias('comment.deleted') isDeleted!: boolean;
     @alias('comment.isAbuse') isAbuse!: boolean;
@@ -54,9 +56,10 @@ export default class CommentCard extends Component {
     @alias('comment.hasChildren') hasReplies!: boolean;
     @not('comment') loading!: boolean;
 
-    @task({ withTestWaiter: true })
-    submitRetractReport = task(function *(this: CommentCard) {
-        const userReports: CommentReport[] = yield this.comment.reports;
+    @task
+    @waitFor
+    async submitRetractReport() {
+        const userReports = await this.comment.reports;
 
         const userReport: CommentReport | undefined = userReports.find(
             (report: CommentReport) => (!report.isDeleted && (report.id !== null)),
@@ -69,7 +72,7 @@ export default class CommentCard extends Component {
 
         try {
             this.comment.set('isAbuse', false);
-            yield userReport.destroyRecord();
+            await userReport.destroyRecord();
         } catch (e) {
             const errorMessage = this.intl.t('registries.overview.comments.retract_report.error');
             captureException(e, { errorMessage });
@@ -80,17 +83,18 @@ export default class CommentCard extends Component {
         }
 
         this.toast.success(this.intl.t('registries.overview.comments.retract_report.success'));
-    });
+    }
 
-    @task({ withTestWaiter: true, restartable: true })
-    loadReplies = task(function *(this: CommentCard, more: boolean = false) {
+    @restartableTask
+    @waitFor
+    async loadReplies(more = false) {
         if (!more) {
-            const replies = yield this.comment.replies;
+            const replies = await this.comment.replies;
             if (!this.replies) {
                 this.set('replies', replies);
             }
         } else {
-            const moreReplies = yield this.comment.queryHasMany('replies', {
+            const moreReplies = await this.comment.queryHasMany('replies', {
                 page: this.incrementProperty('page'),
                 embed: ['user'],
             });
@@ -98,9 +102,9 @@ export default class CommentCard extends Component {
             this.replies.pushObjects(moreReplies);
             this.set('loadingMoreReplies', false);
         }
-    });
+    }
 
-    @computed('node')
+    @computed('node.currentUserCanComment')
     get currentUserCanComment() {
         if (!this.node) {
             return undefined;
@@ -131,10 +135,10 @@ export default class CommentCard extends Component {
 
     @computed('loadingMoreReplies', 'loadReplies.isRunning')
     get loadingReplies() {
-        return this.loadReplies.isRunning && !this.loadingMoreReplies;
+        return taskFor(this.loadReplies).isRunning && !this.loadingMoreReplies;
     }
 
-    @computed('currentUser', 'comment')
+    @computed('comment.{canEdit,user}', 'currentUser.currentUserId')
     get isAuthor() {
         if (!this.comment) {
             return undefined;
@@ -168,7 +172,7 @@ export default class CommentCard extends Component {
         this.toggleProperty('showReplies');
 
         if (this.showReplies) {
-            this.loadReplies.perform();
+            taskFor(this.loadReplies).perform();
         }
     }
 
@@ -181,6 +185,6 @@ export default class CommentCard extends Component {
     @action
     more() {
         this.set('loadingMoreReplies', true);
-        this.loadReplies.perform(true);
+        taskFor(this.loadReplies).perform(true);
     }
 }

@@ -3,7 +3,8 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias, and } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
+import { waitFor } from '@ember/test-waiters';
+import { task } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -19,6 +20,7 @@ export interface DescriptionManager {
     inEditMode: boolean;
     currentDescription: string;
     description: string;
+    updateDescription: () => void;
 }
 
 @tagName('')
@@ -31,7 +33,7 @@ export default class DescriptionManagerComponent extends Component {
     @service intl!: Intl;
     @service toast!: Toast;
 
-    requestedEditMode: boolean = false;
+    requestedEditMode = false;
     currentDescription!: string;
 
     @alias('node.userHasWritePermission') userCanEdit!: boolean;
@@ -47,12 +49,13 @@ export default class DescriptionManagerComponent extends Component {
         return this.userCanEdit || !this.fieldIsEmpty;
     }
 
-    @task({ withTestWaiter: true })
-    save = task(function *(this: DescriptionManagerComponent) {
+    @task
+    @waitFor
+    async save() {
         if (this.node) {
             this.node.set('description', this.currentDescription);
             try {
-                yield this.node.save();
+                await this.node.save();
             } catch (e) {
                 const errorMessage = this.intl.t('registries.registration_metadata.edit_description.error');
                 captureException(e, { errorMessage });
@@ -63,7 +66,7 @@ export default class DescriptionManagerComponent extends Component {
             this.set('requestedEditMode', false);
             this.toast.success(this.intl.t('registries.registration_metadata.edit_description.success'));
         }
-    });
+    }
 
     @action
     startEditing() {
@@ -71,6 +74,11 @@ export default class DescriptionManagerComponent extends Component {
             requestedEditMode: true,
             currentDescription: this.node.description,
         });
+    }
+
+    @action
+    updateDescription(event: MouseEvent) {
+        this.set('currentDescription', (event.currentTarget as HTMLTextAreaElement).value);
     }
 
     @action

@@ -1,4 +1,5 @@
 import DS from 'ember-data';
+import { Resource } from 'osf-api';
 import OsfSerializer from './osf-serializer';
 
 export default class ModeratorSerializer extends OsfSerializer {
@@ -6,7 +7,7 @@ export default class ModeratorSerializer extends OsfSerializer {
         const serialized = super.serialize(snapshot, options);
         if (serialized.data.id) {
             serialized.data.attributes!.id = serialized.data.id;
-            delete serialized.data.id;
+            delete (serialized.data as Partial<Resource>).id;
         }
         delete serialized.data.relationships;
         return serialized;

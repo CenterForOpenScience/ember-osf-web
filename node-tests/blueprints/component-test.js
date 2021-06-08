@@ -8,8 +8,8 @@ const {
     setupTestHooks,
 } = require('ember-cli-blueprint-test-helpers/helpers');
 const { expect } = require('ember-cli-blueprint-test-helpers/chai');
-const linkBlueprints = require('./helpers/link-blueprints');
 const fixture = require('../helpers/fixture');
+const linkBlueprints = require('./helpers/link-blueprints');
 
 function checkComponentFiles(file, root) {
     expect(file(`${root}/components/foo-bar/component.ts`))

@@ -1,8 +1,8 @@
+import Store from '@ember-data/store';
 import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
-import DS from 'ember-data';
 
 import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 import Analytics from 'ember-osf-web/services/analytics';
@@ -12,7 +12,7 @@ export default class BrandedModerationRoute extends Route {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUserService;
     @service router!: RouterService;
-    @service store!: DS.Store;
+    @service store!: Store;
 
     afterModel(model: RegistrationProviderModel) {
         const { user } = this.currentUser;

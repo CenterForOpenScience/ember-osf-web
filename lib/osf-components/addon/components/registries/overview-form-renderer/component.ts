@@ -1,6 +1,7 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
-import { task } from 'ember-concurrency-decorators';
+import { waitFor } from '@ember/test-waiters';
+import { restartableTask } from 'ember-concurrency';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Registration from 'ember-osf-web/models/registration';
@@ -18,16 +19,17 @@ export default class RegistrationFormViewSchemaBlocks extends Component {
     schemaBlocks?: SchemaBlock[];
     schemaBlockGroups?: SchemaBlockGroup[];
 
-    @task({ withTestWaiter: true, on: 'didReceiveAttrs', restartable: true })
-    fetchSchemaBlocks = task(function *(this: RegistrationFormViewSchemaBlocks) {
+    @restartableTask({ on: 'didReceiveAttrs' })
+    @waitFor
+    async fetchSchemaBlocks() {
         if (this.registration) {
-            const registrationSchema = yield this.registration.registrationSchema;
+            const registrationSchema = await this.registration.registrationSchema;
             const schemaBlocksRef = registrationSchema.hasMany('schemaBlocks');
             const schemaBlocks = schemaBlocksRef.ids().length
-                ? schemaBlocksRef.value() : (yield registrationSchema.loadAll('schemaBlocks'));
-            const schemaBlockGroups = getSchemaBlockGroups(schemaBlocks);
+                ? schemaBlocksRef.value() : (await registrationSchema.loadAll('schemaBlocks'));
+            const schemaBlockGroups = getSchemaBlockGroups(schemaBlocks as SchemaBlock[]);
             this.set('schemaBlocks', schemaBlocks);
             this.set('schemaBlockGroups', schemaBlockGroups);
         }
-    });
+    }
 }

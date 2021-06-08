@@ -1,5 +1,4 @@
 import Application from '@ember/application';
-import defineModifier from 'ember-concurrency-test-waiter/define-modifier';
 import config from 'ember-get-config';
 import loadInitializers from 'ember-load-initializers';
 import Resolver from './resolver';
@@ -32,24 +31,6 @@ const App = Application.extend({
                     'ready',
                     'osf-modal-state',
                     'osf-router',
-                ],
-            },
-        },
-        handbook: {
-            dependencies: {
-                services: [
-                    'analytics',
-                    'current-user',
-                    'features',
-                    'intl',
-                    'ready',
-                    'router',
-                    'session',
-                    'store',
-                    'toast',
-                    'osf-modal-state',
-                    'osf-router',
-                    'media',
                 ],
             },
         },
@@ -106,6 +87,5 @@ const App = Application.extend({
 });
 
 loadInitializers(App, modulePrefix);
-defineModifier();
 
 export default App;

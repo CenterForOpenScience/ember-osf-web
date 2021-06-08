@@ -1,11 +1,13 @@
+import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import { waitFor } from '@ember/test-waiters';
+import { restartableTask, task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -14,7 +16,7 @@ import OsfModel from 'ember-osf-web/models/osf-model';
 import ProviderModel from 'ember-osf-web/models/provider';
 import SubjectModel from 'ember-osf-web/models/subject';
 
-import { ChangesetDef } from 'ember-changeset/types';
+import { BufferedChangeset } from 'ember-changeset/types';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import { ResourceCollectionDocument } from 'osf-api';
 import template from './template';
@@ -53,20 +55,20 @@ export default class SubjectManagerComponent extends Component {
     doesAutosave!: boolean;
 
     // optional
-    metadataChangeset?: ChangesetDef;
+    metadataChangeset?: BufferedChangeset;
 
     // private
     @service intl!: Intl;
     @service toast!: Toast;
-    @service store!: DS.Store;
+    @service store!: Store;
 
     savedSubjectIds = new Set<string>();
     selectedSubjectIds = new Set<string>();
 
     // incremented whenever 'savedSubjectIds' and `selectedSubjectIds` are modified.
     // meant for computed properties to depend on, since they can't watch for changes to Sets.
-    savedSubjectsChanges: number = 0;
-    selectedSubjectsChanges: number = 0;
+    savedSubjectsChanges = 0;
+    selectedSubjectsChanges = 0;
 
     @alias('save.isRunning')
     isSaving!: boolean;
@@ -74,7 +76,7 @@ export default class SubjectManagerComponent extends Component {
     @alias('initializeSubjects.isRunning')
     loadingNodeSubjects!: boolean;
 
-    @computed('savedSubjectsChanges')
+    @computed('savedSubjectIds', 'savedSubjectsChanges')
     get savedSubjects() {
         return Array.from(this.savedSubjectIds).map(id => {
             const subject = this.store.peekRecord('subject', id);
@@ -83,7 +85,7 @@ export default class SubjectManagerComponent extends Component {
         });
     }
 
-    @computed('selectedSubjectsChanges')
+    @computed('selectedSubjectIds', 'selectedSubjectsChanges')
     get selectedSubjects() {
         return Array.from(this.selectedSubjectIds).map(id => {
             const subject = this.store.peekRecord('subject', id);
@@ -101,10 +103,11 @@ export default class SubjectManagerComponent extends Component {
         );
     }
 
-    @task({ withTestWaiter: true, on: 'init' })
-    initializeSubjects = task(function *(this: SubjectManagerComponent) {
+    @task({ on: 'init' })
+    @waitFor
+    async initializeSubjects() {
         const { model } = this;
-        const savedSubjects: SubjectModel[] = model.isNew ? model.subjects : (yield model.loadAll('subjects'));
+        const savedSubjects: SubjectModel[] = model.get('isNew') ? model.subjects : (await model.loadAll('subjects'));
         const savedSubjectIds = new Set(savedSubjects.map(s => s.id));
         this.setProperties({
             savedSubjectIds,
@@ -112,14 +115,15 @@ export default class SubjectManagerComponent extends Component {
         });
         this.incrementProperty('selectedSubjectsChanges');
         this.incrementProperty('savedSubjectsChanges');
-    });
+    }
 
-    @task({ withTestWaiter: true, restartable: true })
-    saveChanges = task(function *(this: SubjectManagerComponent) {
+    @restartableTask
+    @waitFor
+    async saveChanges() {
         const { selectedSubjects } = this;
 
         try {
-            const updateResult: ResourceCollectionDocument = yield this.model.updateM2MRelationship(
+            const updateResult: ResourceCollectionDocument = await this.model.updateM2MRelationship(
                 'subjects', selectedSubjects,
             );
             const updatedSubjects = updateResult.data.map(
@@ -146,7 +150,7 @@ export default class SubjectManagerComponent extends Component {
         });
         this.incrementProperty('selectedSubjectsChanges');
         this.incrementProperty('savedSubjectsChanges');
-    });
+    }
 
     init() {
         super.init();
@@ -188,7 +192,7 @@ export default class SubjectManagerComponent extends Component {
             }
         }
         if (this.doesAutosave) {
-            this.saveChanges.perform();
+            taskFor(this.saveChanges).perform();
         }
     }
 
@@ -205,7 +209,7 @@ export default class SubjectManagerComponent extends Component {
                 .forEach(s => this.unselectSubject(s));
         }
         if (this.doesAutosave) {
-            this.saveChanges.perform();
+            taskFor(this.saveChanges).perform();
         }
     }
 
