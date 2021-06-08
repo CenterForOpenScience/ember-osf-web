@@ -16,7 +16,7 @@ import buildChangeset from 'ember-osf-web/utils/build-changeset';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import getHref from 'ember-osf-web/utils/get-href';
 
-import * as config from 'ember-get-config';
+import config from 'ember-get';
 
 interface EmailValidation {
     emailAddress: string;
