@@ -19,8 +19,8 @@ export default class CollectedMetadatumAdapter extends OsfAdapter {
     }
 
     urlForCreateRecord(_: string | number, { record }: DS.Snapshot): string {
-        const collection = record.belongsTo('collection').value();
-        return `${this.urlPrefix()}/collections/${collection.id}/collected_metadata/`;
+        const collectionId = record.belongsTo('collection').id();
+        return `${this.urlPrefix()}/collections/${collectionId}/collected_metadata/`;
     }
 
     urlForFindRecord(id: string): string {
