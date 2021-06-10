@@ -151,16 +151,18 @@
                 />
             </section.active>
             <section.complete>
-                {{#each this.choiceFields as |field|}}
-                    <p data-test-collection-metadata-complete-field={{field.name}}>
-                        <em data-test-collection-metadata-complete-field-label>
-                            {{t field.label}}
-                        </em>
-                        <span data-test-collection-metadata-complete-field-value>
-                            {{field.value}}
-                        </span>
-                    </p>
-                {{/each}}
+                {{#if this.collection.displayChoicesFields}}
+                    {{#each this.choiceFields as |field|}}
+                        <p data-test-collection-metadata-complete-field={{field.name}}>
+                            <em data-test-collection-metadata-complete-field-label>
+                                {{t field.label}}
+                            </em>
+                            <span data-test-collection-metadata-complete-field-value>
+                                {{field.value}}
+                            </span>
+                        </p>
+                    {{/each}}
+                {{/if}}
             </section.complete>
         </sections.section>
 

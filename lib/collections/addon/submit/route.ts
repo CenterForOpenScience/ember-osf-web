@@ -42,7 +42,6 @@ export default class Submit extends Route.extend(ConfirmationMixin) {
         const collection = await provider.primaryCollection;
 
         const collectedMetadatum = this.store.createRecord('collected-metadatum', {
-            collection,
             creator: this.currentUser.user,
         });
 
