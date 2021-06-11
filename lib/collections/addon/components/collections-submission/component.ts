@@ -89,7 +89,6 @@ export default class Submit extends Component {
         }
 
         this.collectedMetadatum.set('guid', this.collectionItem);
-        this.collectedMetadatum.set('collection', this.collection);
 
         const operation = this.edit ? 'update' : 'add';
 
