@@ -14,7 +14,7 @@
                 @selected={{@manager.selectedLicense}}
                 @options={{@manager.licensesAcceptable}}
                 @onchange={{@manager.changeLicense}}
-                @searchField={{'name'}}
+                @searchField='name'
                 @noMatchesMessage={{t 'registries.registration_metadata.no_matches'}}
                 @placeholder={{t 'registries.registration_metadata.add_license'}}
                 @searchEnabled={{true}}
@@ -41,7 +41,7 @@
                 <form.custom
                     local-class='AdditionalFields'
                     @changeset={{@manager.changeset}}
-                    @valuePath='nodeLicense.{{key}}'
+                    @valuePath='nodeLicense'
                 >
                     <div class='form-group'>
                         <label>
@@ -50,7 +50,7 @@
                                 <span local-class='Required'>*</span>
                             </p>
                             <Input
-                                data-test-required-field='nodeLicense.{{key}}'
+                                data-test-required-field='nodeLicense'
                                 @class='form-control'
                                 @value={{readonly (get @manager.changeset.nodeLicense key)}}
                                 @change={{fn @manager.updateNodeLicense key}}
@@ -74,7 +74,7 @@
 
             {{#if this.shouldShowButtons}}
                 <div local-class='Controls'>
-                    <BsButton @type='default' @onClick={{@manager.cancel}}>
+                    <BsButton @type='default' {{on 'click' @manager.cancel}}>
                         {{t 'general.cancel'}}
                     </BsButton>
                     <BsButton

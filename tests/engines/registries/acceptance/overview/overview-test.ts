@@ -572,7 +572,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         const validationErrorMsg = t('validationErrors.invalid_copyright_holders').toString();
         assert.dom('.help-block').hasText(validationErrorMsg, 'validation works');
 
-        await fillIn('[data-test-required-field="nodeLicense.copyrightHolders"]', 'Jane Doe, John Doe');
+        await fillIn('[data-test-required-field="copyrightHolders"]', 'Jane Doe, John Doe');
         await click('[data-test-save-license]');
 
         assert.equal(reg.license.name, 'No license');
