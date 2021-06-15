@@ -53,10 +53,13 @@ export default class CollectedMetadatumModel extends OsfModel.extend(Validations
 
     @computed('collection.displayChoicesFields.[]')
     get displayChoiceFields() {
-        return choiceFields
-            .filter(field => this.collection
-                .get('displayChoicesFields')
-                .includes(`${field}Choices` as ChoicesFields));
+        if (this.collection.get('displayChoicesFields')) {
+            return choiceFields
+                .filter(field => this.collection
+                    .get('displayChoicesFields')
+                    .includes(`${field}Choices` as ChoicesFields));
+        }
+        return [];
     }
 }
 
