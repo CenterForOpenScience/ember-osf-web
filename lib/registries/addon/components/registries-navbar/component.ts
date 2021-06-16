@@ -54,7 +54,7 @@ export default class RegistriesNavbar extends AuthBase {
         if (this.provider.id === 'egap') {
             return this.features.isEnabled(camelize(egapAdmins));
         }
-        return this.provider.allowSubmissions;
+        return this.provider.allowSubmissions || this.provider.currentUserCanReview;
     }
 
     services = OSF_SERVICES;

@@ -28,7 +28,7 @@ export default class BrandedRegistriesNewSubmissionRoute extends Route {
         const { href, origin } = window.location;
         const currentUrl = href.replace(origin, '');
 
-        if (!provider.allowSubmissions) {
+        if (!provider.allowSubmissions && !provider.currentUserCanReview) {
             this.transitionTo('page-not-found', currentUrl.slice(1));
         }
 
