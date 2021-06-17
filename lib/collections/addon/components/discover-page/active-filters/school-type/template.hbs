@@ -1,0 +1,8 @@
+{{#each @context.activeFilter as |item|}}
+    <DiscoverPage::ActiveFilters::Filter
+        @item={{item}}
+        @text={{item}}
+        @ariaLabel={{t 'collections.discover_page.active_filters.remove_program_area'}}
+        @removeFilterItem={{action this.removeFilterItem item}}
+    />
+{{/each}}

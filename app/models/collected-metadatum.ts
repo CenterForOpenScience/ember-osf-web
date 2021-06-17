@@ -18,6 +18,8 @@ export const choiceFields = tuple(
     'programArea',
     'status',
     'volume',
+    'studyDesign',
+    'schoolType',
 );
 
 const Validations = buildValidations({
@@ -48,6 +50,8 @@ export default class CollectedMetadatumModel extends OsfModel.extend(Validations
     @attr('string') programArea?: string;
     @attr('string') status?: string;
     @attr('string') volume?: string;
+    @attr('string') studyDesign?: string; // custom field for Character Lab
+    @attr('string') schoolType?: string; // custom field for Character Lab
 
     @belongsTo('collection') collection!: Collection;
     @belongsTo('node') guid!: Node;
