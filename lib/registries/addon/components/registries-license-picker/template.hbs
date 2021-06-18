@@ -36,13 +36,13 @@
             </OsfLink>
         </div>
 
-        {{#if @manager.selectedLicense}}
-            {{#each @manager.requiredFields as |key|}}
-                <form.custom
-                    local-class='AdditionalFields'
-                    @changeset={{@manager.changeset}}
-                    @valuePath='nodeLicense'
-                >
+        {{#if (and @manager.selectedLicense @manager.selectedLicense.requiredFields)}}
+            <form.custom
+                local-class='AdditionalFields'
+                @changeset={{@manager.changeset}}
+                @valuePath='nodeLicense'
+            >
+                {{#each @manager.selectedLicense.requiredFields as |key|}}
                     <div class='form-group'>
                         <label>
                             <p id='nodeLicense.{{key}}'>
@@ -57,9 +57,8 @@
                             />
                         </label>
                     </div>
-                </form.custom>
-            {{/each}}
-
+                {{/each}}
+            </form.custom>
             <BsButton
                 @type='link'
                 @onClick={{action (mut this.showText) (not this.showText)}}

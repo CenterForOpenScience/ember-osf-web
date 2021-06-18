@@ -92,13 +92,13 @@
                     >
                         {{~or nodeLicenseField (t (concat 'registries.registration_metadata.no_' field))~}}
                     </Registries::ReviewMetadataRenderer::LabelDisplay>
-                    <ValidationErrors
-                        local-class='ValidationErrors'
-                        @changeset={{@metadataChangeset}}
-                        @key='nodeLicense'
-                    />
                 {{/let}}
             {{/each}}
+            <ValidationErrors
+                local-class='ValidationErrors'
+                @changeset={{@metadataChangeset}}
+                @key='nodeLicense'
+            />
         </div>
     {{/if}}
 {{/let}}

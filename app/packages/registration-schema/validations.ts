@@ -3,6 +3,7 @@ import { set } from '@ember/object';
 import { ValidationObject, ValidatorFunction } from 'ember-changeset-validations';
 import { validatePresence } from 'ember-changeset-validations/validators';
 import DraftNode from 'ember-osf-web/models/draft-node';
+import LicenseModel from 'ember-osf-web/models/license';
 
 import DraftRegistration, { DraftMetadataProperties } from 'ember-osf-web/models/draft-registration';
 import NodeModel, { NodeLicense } from 'ember-osf-web/models/node';
@@ -14,6 +15,12 @@ export const NodeLicenseFields: Record<keyof NodeLicense, string> = {
     copyrightHolders: 'Copyright Holders',
     year: 'Year',
 };
+
+// https://github.com/poteto/ember-changeset/issues/589
+const DenyKeys = ['willDestroy', '_oldWillDestroy', '_super'];
+function changesIsPoluted<T>(changesetKeyChanges: T) {
+    return changesetKeyChanges && Object.keys(changesetKeyChanges).some(changesKey => DenyKeys.includes(changesKey));
+}
 
 function getErrorType(groupType?: string) {
     let validationErrorType = 'blank';
@@ -73,17 +80,20 @@ export function validateNodeLicense() {
     return async (_: unknown, __: unknown, ___: unknown, changes: DraftRegistration, content: DraftRegistration) => {
         let validateLicenseTarget = await content.license;
         let validateNodeLicenseTarget = content.nodeLicense;
-        if (changes.license) {
+        if (changes?.license && Object.keys(changes.license).length
+            && !changesIsPoluted<LicenseModel>(changes.license)) {
             validateLicenseTarget = changes.license;
         }
+
         if (changes.nodeLicense) {
             validateNodeLicenseTarget = changes.nodeLicense;
         }
-        if (!validateLicenseTarget || validateLicenseTarget.get('requiredFields').length === 0) {
+
+        if (!validateLicenseTarget || validateLicenseTarget?.requiredFields?.length === 0) {
             return true;
         }
         const missingFieldsList: Array<keyof NodeLicense> = [];
-        for (const item of validateLicenseTarget.get('requiredFields')) {
+        for (const item of validateLicenseTarget.requiredFields) {
             if (!validateNodeLicenseTarget || !validateNodeLicenseTarget[item]) {
                 missingFieldsList.push(item);
             }
@@ -106,15 +116,15 @@ export function validateNodeLicense() {
 
 export function validateNodeLicenseYear() {
     return (_: unknown, __: unknown, ___: unknown, changes: any, content: DraftRegistration) => {
-        let validateYearTarget = '';
-        if (content.nodeLicense && content.nodeLicense.year) {
+        let validateYearTarget;
+        if (content.nodeLicense && 'year' in content.nodeLicense) {
             validateYearTarget = content.nodeLicense.year;
         }
-        if (changes.nodeLicense && changes.nodeLicense.year) {
+        if (changes?.nodeLicense && 'year' in changes.nodeLicense) {
             validateYearTarget = changes.nodeLicense.year;
         }
         const regex = /^((?!(0))[0-9]{4})$/;
-        if (validateYearTarget && !validateYearTarget.match(regex)) {
+        if (typeof validateYearTarget !== 'undefined' && !regex.test(validateYearTarget)) {
             return {
                 context: {
                     type: 'year_format',

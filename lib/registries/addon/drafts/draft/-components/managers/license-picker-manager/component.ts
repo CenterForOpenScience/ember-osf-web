@@ -59,6 +59,7 @@ export default class LicensePickerManager extends Component implements LicenseMa
     @action
     changeLicense(selected: License) {
         this.set('selectedLicense', selected);
+        this.draftManager.metadataChangeset.rollbackProperty('nodeLicense');
         if (selected.requiredFields.length) {
             const dummyNodeLicense: NodeLicense = {
                 copyrightHolders: '',
