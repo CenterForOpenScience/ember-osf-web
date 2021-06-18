@@ -1,3 +1,4 @@
+import { setOwner } from '@ember/application';
 import { action, computed, set } from '@ember/object';
 import { dependentKeyCompat } from '@ember/object/compat';
 import { alias, filterBy, not, notEmpty, or } from '@ember/object/computed';
@@ -79,7 +80,8 @@ export default class DraftRegistrationManager {
         return pageInputFailed || metadataInputFailed;
     }
 
-    constructor(draftRegistrationTask: LoadDraftModelTask) {
+    constructor(owner: any, draftRegistrationTask: LoadDraftModelTask) {
+        setOwner(this, owner);
         set(this, 'draftRegistrationTask', draftRegistrationTask);
         taskFor(this.initializePageManagers).perform();
         taskFor(this.initializeMetadataChangeset).perform();
