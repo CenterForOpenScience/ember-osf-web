@@ -73,9 +73,6 @@ export default class ChartWrapper extends Component {
             .title(' '); // Prevent keen-dataviz from adding a default title
 
         this.initSkeletonChart();
-        if (this.chartEnabled) {
-            taskFor(this.loadKeen).perform();
-        }
     }
 
     didUpdateAttrs() {
