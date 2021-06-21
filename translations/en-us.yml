@@ -907,6 +907,8 @@ collections:
             issue: Issue
             program_area: 'Program Area'
             volume: Volume
+            study_design: 'Study Design'
+            school_type: 'School Type'
     collections_submission:
         title: Submit
         add_header: 'Add to Collection'
@@ -945,6 +947,8 @@ collections:
         program_area_label: 'Program Area:'
         status_label: 'Status:'
         volume_label: 'Volume:'
+        study_design_label: 'Study Design:'
+        school_type_label: 'School Type:'
     collection_search_result:
         expand: 'Expand search result'
         collapse: 'Collapse search result'
@@ -957,6 +961,8 @@ collections:
             remove_status: 'Remove status'
             remove_issue: 'Remove issue'
             remove_program_area: 'Remove program area'
+            remove_school_type: 'Remove school type'
+            remove_study_design: 'Remove study design'
             remove_volume: 'Remove volume'
         asOf: 'as of'
         broadenSearch: 'Try broadening your search terms'

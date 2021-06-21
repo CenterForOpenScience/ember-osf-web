@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [21.5.1] - 2021-06-21
+### Added
+- Character Lab: Add new fields for Character Lab ( Study Design and School Type) on Collections Discover page and Collection Submission page. Users should be able to filter by these new fields and see them visible on Collection search cards on the discover page
+
+### Fixed
+- Keen analytics: Don't load keen twice on load
+
+### Changed
+- Character Lab: Allow moderators to add new registrations when `allowSubmissions` is `false`
+
 ## [21.5.0] - 2021-05-27
 ### Fixed
 - registration Detail Page: longer license types spill out of bounds
@@ -1741,7 +1751,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/21.5.0...develop
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/21.5.1...develop
+[21.5.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.5.1
 [21.5.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.5.0
 [21.4.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.4.1
 [21.4.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.4.0
