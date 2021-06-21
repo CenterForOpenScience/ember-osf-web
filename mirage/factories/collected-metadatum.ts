@@ -29,6 +29,14 @@ export default Factory.extend<CollectedMetadatum>({
             const volume = faker.random.arrayElement(collectedMetadatum.collection.volumeChoices);
             collectedMetadatum.update({ volume });
         }
+        if (!collectedMetadatum.studyDesign) {
+            const studyDesign = faker.random.arrayElement(collectedMetadatum.collection.studyDesignChoices);
+            collectedMetadatum.update({ studyDesign });
+        }
+        if (!collectedMetadatum.schoolType) {
+            const schoolType = faker.random.arrayElement(collectedMetadatum.collection.schoolTypeChoices);
+            collectedMetadatum.update({ schoolType });
+        }
     },
 });
 

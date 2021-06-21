@@ -71,6 +71,8 @@ export default class Discover extends Controller {
                     ['program-area', 'program-area'],
                     ['status', 'status'],
                     ['volume', 'volume'],
+                    ['study-design', 'study-design'],
+                    ['school-type', 'school-type'],
                 ]
         ).map(([key, component, options = {}]: [string, string, any]) => ({
             key,
@@ -101,6 +103,8 @@ export default class Discover extends Controller {
     programArea = '';
     status = '';
     volume = '';
+    studyDesign = '';
+    schoolType = '';
 
     // Pass in the list of queryParams for this component
     queryParams = [
