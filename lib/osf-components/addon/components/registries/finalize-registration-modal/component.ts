@@ -36,8 +36,6 @@ export default class FinalizeRegisrationModalComponent extends Component {
     onChoiceChange() {
         if (this.makePublicOption === 'immediate') {
             this.manager.setEmbargoEndDate(null);
-        } else {
-            this.manager.setCreateDoi(false);
         }
     }
 

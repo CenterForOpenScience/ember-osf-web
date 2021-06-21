@@ -40,20 +40,12 @@ module('Integration | Component | finalize-registration-modal', hooks => {
 
         // Check that the submit button is disabled
         assert.dom('[data-test-submit-registration-button]').isDisabled();
-        // Check that the `Create doi` checkbox is not visible
-        assert.dom('[data-test-create-doi-label]').doesNotExist();
         // Click immediate radio button
         await click('[data-test-immediate-button]');
         // Check that the submit button is enabled
         assert.dom('[data-test-submit-registration-button]').isNotDisabled();
-        // Check that the `create doi` label is now visible
-        assert.dom('[data-test-create-doi-label]').exists();
         // Check that `embargoEndDate` of the registration model is null
         assert.equal(registrationModel.embargoEndDate, null);
-        // Click `Creat doi` button
-        await click('[data-test-create-doi-label]');
-        // Check that `createDoi` of the registration model is true
-        assert.equal(registrationModel.createDoi, true);
         // Click embargo radio button
         await click('[data-test-embargo-button]');
         // Check that the submit button is disabled again
