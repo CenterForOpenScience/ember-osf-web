@@ -29,7 +29,7 @@ module('Integration | Component | my-registrations-list', hooks => {
             this.intl.t('registries.myRegistrationsList.noDrafts'),
             'Specifc no drafts message exists and correct',
         );
-        assert.dom('[data-test-add-new-button]').exists('Add new button exists');
+        assert.dom('[data-test-my-reg-drafts-add-new-button]').exists('Add new button exists');
     });
 
     test('registration list empty', async function(this: TestContext, assert) {
@@ -50,7 +50,7 @@ module('Integration | Component | my-registrations-list', hooks => {
             this.intl.t('registries.myRegistrationsList.noRegistrations'),
             'Specifc no registrations message exists and correct',
         );
-        assert.dom('[data-test-add-new-button]').exists('Add new button exists');
+        assert.dom('[data-test-my-reg-registrations-add-new-button]').exists('Add new button exists');
     });
 
     test('draft list renders and paginates', async function(this: TestContext, assert) {
