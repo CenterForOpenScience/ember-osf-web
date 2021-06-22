@@ -17,7 +17,7 @@ export const NodeLicenseFields: Record<keyof NodeLicense, string> = {
 };
 
 // https://github.com/poteto/ember-changeset/issues/589
-const DenyKeys = ['willDestroy', '_oldWillDestroy', '_super'];
+const DenyKeys = ['willDestroy', '_oldWillDestroy'];
 function changesIsPoluted<T>(changesetKeyChanges: T) {
     return changesetKeyChanges && Object.keys(changesetKeyChanges).some(changesKey => DenyKeys.includes(changesKey));
 }

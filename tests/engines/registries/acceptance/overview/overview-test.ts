@@ -569,7 +569,9 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assert.dom('.ember-power-select-options').hasText('No license');
         await selectChoose('[data-test-power-select-dropdown]', 'No license');
 
-        const validationErrorMsg = t('validationErrors.invalid_copyright_holders').toString();
+        const missingFields = 'Copyright Holders';
+        const validationErrorMsg = t('validationErrors.node_license_missing_fields',
+            { missingFields, numOfFields: 1 }).toString();
         assert.dom('.help-block').hasText(validationErrorMsg, 'validation works');
 
         await fillIn('[data-test-required-field="copyrightHolders"]', 'Jane Doe, John Doe');

@@ -50,7 +50,7 @@
                                 <span local-class='Required'>*</span>
                             </p>
                             <Input
-                                data-test-required-field='nodeLicense'
+                                data-test-required-field={{key}}
                                 @class='form-control'
                                 @value={{readonly (get @manager.changeset.nodeLicense key)}}
                                 @change={{fn @manager.updateNodeLicense key}}
