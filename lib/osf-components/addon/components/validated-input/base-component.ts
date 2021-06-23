@@ -3,10 +3,11 @@
 import Model from '@ember-data/model';
 import Component from '@ember/component';
 import { computed, defineProperty } from '@ember/object';
-import { alias, bool, oneWay } from '@ember/object/computed';
+import { alias, oneWay } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import { BufferedChangeset } from 'ember-changeset/types';
+
 import { ResultCollection } from 'ember-cp-validations';
 import { AttributesFor, RelationshipsFor } from 'ember-data';
 import Intl from 'ember-intl/services/intl';
@@ -74,12 +75,12 @@ export default abstract class BaseValidatedInput<M extends Model> extends Compon
             value,
             validation,
             _isValidating,
-            isInvalid,
+            _isInvalid,
         } = this;
         switch (true) {
         case !shouldShowMessages || _isValidating:
             return ValidationStatus.Hidden;
-        case isInvalid:
+        case _isInvalid:
             return ValidationStatus.HasError;
         case validation && !isEmpty(validation.warnings):
             return ValidationStatus.HasWarning;
@@ -94,13 +95,16 @@ export default abstract class BaseValidatedInput<M extends Model> extends Compon
         return this.changeset ? this.changeset.isValidating(this.valuePath as string) : this.isValidating;
     }
 
+    get _isInvalid() {
+        return this.changeset ? Boolean(this.changeset.error[this.valuePath as string]) : this.isInvalid;
+    }
+
     init() {
         super.init();
         if (this.changeset) {
             defineProperty(this, 'validation', oneWay(`changeset.data.validations.attrs.${this.valuePath}`));
             defineProperty(this, 'errors', oneWay(`changeset.error.${this.valuePath}.validation`));
             defineProperty(this, 'value', alias(`changeset.${this.valuePath}`));
-            defineProperty(this, 'isInvalid', bool(`changeset.error.${this.valuePath}`));
         } else if (this.model) {
             defineProperty(this, 'validation', oneWay(`model.validations.attrs.${this.valuePath}`));
             defineProperty(this, 'errors', oneWay(`model.validations.attrs.${this.valuePath}.errors`));
