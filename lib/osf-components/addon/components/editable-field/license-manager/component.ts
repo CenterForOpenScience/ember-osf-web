@@ -151,8 +151,11 @@ export default class LicenseManagerComponent extends Component implements Licens
     @action
     updateNodeLicense(key: string, event: Event) {
         const target = event.target as HTMLInputElement;
-        const newNodeLicense = { ...this.changeset.get('nodeLicense') };
-        newNodeLicense[key] = target.value;
+        let currentNodeLicense = { ...this.changeset.get('nodeLicense') };
+        if (this.changeset.isPristine) {
+            currentNodeLicense = (this.changeset.data as Registration).nodeLicense;
+        }
+        const newNodeLicense = { ...currentNodeLicense, [key]: target.value };
         this.changeset.set('nodeLicense', newNodeLicense);
     }
 }
