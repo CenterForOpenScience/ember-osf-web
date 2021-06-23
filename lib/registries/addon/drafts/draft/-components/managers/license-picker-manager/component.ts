@@ -82,10 +82,10 @@ export default class LicensePickerManager extends Component implements LicenseMa
     }
 
     @action
-    updateNodeLicense(key: string, event: Event) {
+    updateNodeLicense(key: keyof NodeLicense, event: Event) {
         const target = event.target as HTMLInputElement;
-        const newNodeLicense = { ...this.draftManager.metadataChangeset.get('nodeLicense') };
-        newNodeLicense[key] = target.value;
+        const { nodeLicense: currentNodeLicense } = this.draftManager.metadataChangeset.data as DraftRegistration;
+        const newNodeLicense = { ...currentNodeLicense, [key]: target.value };
         this.draftManager.metadataChangeset.set('nodeLicense', newNodeLicense);
         this.onMetadataInput();
     }
