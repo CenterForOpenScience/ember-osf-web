@@ -56,33 +56,37 @@ export default class LicensePickerManager extends Component implements LicenseMa
         });
     }
 
-    setNodeLicenseDefaults(requiredFields: Array<keyof NodeLicense>): void {
-        const nodeLicenseDefaults = {
-            copyrightHolders: '',
-            year: new Date().getUTCFullYear().toString(),
-        };
-
-        requiredFields.forEach(key => {
-            const changesetValue = this.draftManager.metadataChangeset.get('nodeLicense')[key];
-            this.draftManager.metadataChangeset.set(`nodeLicense.${key}`, changesetValue ?? nodeLicenseDefaults[key]);
-        });
-    }
-
     @action
     changeLicense(selected: License) {
         this.set('selectedLicense', selected);
-        this.setNodeLicenseDefaults(selected.requiredFields);
+        this.draftManager.metadataChangeset.rollbackProperty('nodeLicense');
+        if (selected.requiredFields.length) {
+            const dummyNodeLicense: NodeLicense = {
+                copyrightHolders: '',
+                year: new Date().getUTCFullYear().toString(),
+            };
+            const props = selected.requiredFields.reduce(
+                (acc, val) => ({ ...acc, [val]: dummyNodeLicense[val] }),
+                {},
+            );
+            this.draftManager.metadataChangeset.set('nodeLicense', props);
+        } else {
+            this.draftManager.metadataChangeset.set('nodeLicense', null);
+        }
+        this.onMetadataInput();
     }
 
     @action
-    onInput() {
+    onMetadataInput() {
         taskFor(this.draftManager.onMetadataInput).perform();
     }
 
     @action
-    updateNodeLicense(key: string, event: Event) {
+    updateNodeLicense(key: keyof NodeLicense, event: Event) {
         const target = event.target as HTMLInputElement;
-        this.draftManager.metadataChangeset.set(`nodeLicense.${key}`, target.value);
-        this.onInput();
+        const { nodeLicense: currentNodeLicense } = this.draftManager.metadataChangeset.data as DraftRegistration;
+        const newNodeLicense = { ...currentNodeLicense, [key]: target.value };
+        this.draftManager.metadataChangeset.set('nodeLicense', newNodeLicense);
+        this.onMetadataInput();
     }
 }
