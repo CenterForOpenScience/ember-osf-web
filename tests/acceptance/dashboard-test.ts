@@ -157,15 +157,27 @@ module('Acceptance | dashboard', hooks => {
         const currentUser = server.create('user', 'loggedIn');
         const nodeOne = server.create(
             'node',
-            { title: 'z', lastLogged: '2017-10-19T12:05:10.571Z', dateModified: '2017-10-19T12:05:10.571Z' },
+            {
+                title: 'z',
+                lastLogged: new Date('2017-10-19T12:05:10.571Z'),
+                dateModified: new Date('2017-10-19T12:05:10.571Z'),
+            },
         );
         const nodeTwo = server.create(
             'node',
-            { title: 'az', lastLogged: '2017-10-17T12:05:10.571Z', dateModified: '2017-10-17T12:05:10.571Z' },
+            {
+                title: 'az',
+                lastLogged: new Date('2017-10-17T12:05:10.571Z'),
+                dateModified: new Date('2017-10-17T12:05:10.571Z'),
+            },
         );
         const nodeThree = server.create(
             'node',
-            { title: 'a', lastLogged: '2017-10-18T12:05:10.571Z', dateModified: '2017-10-18T12:05:10.571Z' },
+            {
+                title: 'a',
+                lastLogged: new Date('2017-10-18T12:05:10.571Z'),
+                dateModified: new Date('2017-10-18T12:05:10.571Z'),
+            },
         );
         server.create(
             'contributor',
@@ -225,15 +237,27 @@ module('Acceptance | dashboard', hooks => {
         const currentUser = server.create('user', 'loggedIn');
         const nodeOne = server.create(
             'node',
-            { title: 'z', lastLogged: '2017-10-19T12:05:10.571Z', dateModified: '2017-10-19T12:05:10.571Z' },
+            {
+                title: 'z',
+                lastLogged: new Date('2017-10-19T12:05:10.571Z'),
+                dateModified: new Date('2017-10-19T12:05:10.571Z'),
+            },
         );
         const nodeTwo = server.create(
             'node',
-            { title: 'az', lastLogged: '2017-10-17T12:05:10.571Z', dateModified: '2017-10-17T12:05:10.571Z' },
+            {
+                title: 'az',
+                lastLogged: new Date('2017-10-17T12:05:10.571Z'),
+                dateModified: new Date('2017-10-17T12:05:10.571Z'),
+            },
         );
         const nodeThree = server.create(
             'node',
-            { title: 'a', lastLogged: '2017-10-18T12:05:10.571Z', dateModified: '2017-10-18T12:05:10.571Z' },
+            {
+                title: 'a',
+                lastLogged: new Date('2017-10-18T12:05:10.571Z'),
+                dateModified: new Date('2017-10-18T12:05:10.571Z'),
+            },
         );
         server.create(
             'contributor',
@@ -364,15 +388,27 @@ module('Acceptance | dashboard', hooks => {
         const templatedFrom = 'az';
         const nodeOne = server.create(
             'node',
-            { title: 'z', lastLogged: '2017-10-19T12:05:10.571Z', dateModified: '2017-10-19T12:05:10.571Z' },
+            {
+                title: 'z',
+                lastLogged: new Date('2017-10-19T12:05:10.571Z'),
+                dateModified: new Date('2017-10-19T12:05:10.571Z'),
+            },
         );
         const nodeTwo = server.create(
             'node',
-            { title: templatedFrom, lastLogged: '2017-10-17T12:05:10.571Z', dateModified: '2017-10-17T12:05:10.571Z' },
+            {
+                title: templatedFrom,
+                lastLogged: new Date('2017-10-17T12:05:10.571Z'),
+                dateModified: new Date('2017-10-17T12:05:10.571Z'),
+            },
         );
         const nodeThree = server.create(
             'node',
-            { title: 'a', lastLogged: '2017-10-18T12:05:10.571Z', dateModified: '2017-10-18T12:05:10.571Z' },
+            {
+                title: 'a',
+                lastLogged: new Date('2017-10-18T12:05:10.571Z'),
+                dateModified: new Date('2017-10-18T12:05:10.571Z'),
+            },
         );
         server.create(
             'contributor',

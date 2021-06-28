@@ -9,13 +9,13 @@
     as |dd|
 >
     {{yield (hash
-        trigger=(component dd.trigger class=(local-class 'Trigger'))
+        trigger=(component dd.Trigger defaultClass=(local-class 'Trigger'))
         isOpen=dd.isOpen
         uniqueId=dd.uniqueId
         open=(action dd.actions.open)
         close=(action dd.actions.close)
         toggle=(action dd.actions.toggle)
-        content=(component dd.content
+        content=(component dd.Content
             overlay=this.useOverlay
             defaultClass=(local-class (if this.useOverlay 'reg-modal-dialog'))
         )

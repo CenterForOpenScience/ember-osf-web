@@ -1,4 +1,3 @@
-
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
@@ -9,7 +8,6 @@ import { layout } from 'ember-osf-web/decorators/component';
 import Node from 'ember-osf-web/models/node';
 import Analytics from 'ember-osf-web/services/analytics';
 import Theme from 'ember-osf-web/services/theme';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import template from './template';
 
 @layout(template)
@@ -24,13 +22,13 @@ export default class SearchResultNode extends Component.extend({
     @service theme!: Theme;
 
     hostAppName = config.hostAppName;
-    maxTags: number = defaultTo(this.maxTags, 10);
-    maxCreators: number = defaultTo(this.maxCreators, 10);
-    maxDescription: number = defaultTo(this.maxDescription, 300);
-    showBody: boolean = defaultTo(this.showBody, false);
-    expandable: boolean = defaultTo(this.expandable, false);
+    maxTags = 10;
+    maxCreators = 10;
+    maxDescription = 300;
+    showBody = false;
+    expandable = false;
 
-    item: Node = this.item;
+    item!: Node;
 
     domainRedirectProviders = [];
 
@@ -39,7 +37,7 @@ export default class SearchResultNode extends Component.extend({
         return this.item!.description.length > this.maxDescription;
     }
 
-    @computed('item.description')
+    @computed('item.description', 'maxDescription')
     get abbreviation(): string {
         return this.item!.description.slice(0, this.maxDescription);
     }

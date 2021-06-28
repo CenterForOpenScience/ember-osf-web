@@ -1,3 +1,3 @@
-interface MirageModelRegistry {} // tslint:disable-line:no-empty-interface
+interface MirageModelRegistry {} // eslint-disable-line @typescript-eslint/no-empty-interface
 
 export default MirageModelRegistry;

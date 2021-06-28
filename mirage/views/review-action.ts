@@ -1,12 +1,11 @@
-import { HandlerContext, Request, Schema } from 'ember-cli-mirage';
+import { HandlerContext, NormalizedRequestAttrs, Request, Schema } from 'ember-cli-mirage';
 import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
-import { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
+import ReviewActionModel, { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
 
 export function createReviewAction(this: HandlerContext, schema: Schema, request: Request) {
-    const attrs = this.normalizedRequestAttrs('review-action');
+    const attrs = this.normalizedRequestAttrs('review-action') as Partial<NormalizedRequestAttrs<ReviewActionModel>>;
     const registrationId = request.params.parentID;
     const userId = schema.roots.first().currentUserId;
-    const now = (new Date()).toISOString();
     let reviewAction;
     if (userId && registrationId) {
         const currentUser = schema.users.find(userId);
@@ -15,8 +14,8 @@ export function createReviewAction(this: HandlerContext, schema: Schema, request
         reviewAction = schema.reviewActions.create({
             creator: currentUser,
             target: registration,
-            dateCreated: now,
-            dateModified: now,
+            dateCreated: new Date(),
+            dateModified: new Date(),
             ...attrs,
         });
         switch (trigger) {

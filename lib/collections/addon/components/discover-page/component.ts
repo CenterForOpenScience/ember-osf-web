@@ -1,3 +1,5 @@
+import { AbortError, ServerError, TimeoutError } from '@ember-data/adapter/error';
+import Store from '@ember-data/store';
 import { A } from '@ember/array';
 import ArrayProxy from '@ember/array/proxy';
 import Component from '@ember/component';
@@ -5,16 +7,15 @@ import { assert } from '@ember/debug';
 import EmberObject, { action, computed, setProperties } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
-import { timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import { waitFor } from '@ember/test-waiters';
+import { keepLatestTask, timeout } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import config from 'ember-get-config';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Theme from 'ember-osf-web/services/theme';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import { encodeParams, getSplitParams, getUniqueList } from '../../utils/elastic-query';
 import styles from './styles';
 import template from './template';
@@ -73,7 +74,7 @@ interface SortOption {
 
 interface ArrayMeta {
     meta: {
-        total: number;
+        total: number,
     };
 }
 
@@ -87,42 +88,42 @@ function emptyResults(): SearchQuery {
 export default class DiscoverPage extends Component {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service theme!: Theme;
 
     query!: (params: any) => Promise<any>;
-    searchResultComponent: string = this.searchResultComponent;
+    searchResultComponent!: string;
 
-    firstLoad: boolean = true;
+    firstLoad = true;
     results: SearchQuery = emptyResults();
 
     /**
      * Text header for top of discover page.
      * @property {String} discoverHeader
      */
-    discoverHeader: string = defaultTo(this.discoverHeader, '');
+    discoverHeader = '';
 
     /**
      * Query params
      */
-    contributors: string = defaultTo(this.contributors, '');
+    contributors = '';
     end = '';
-    funders: string = defaultTo(this.funders, '');
-    institutions: string = defaultTo(this.institutions, '');
-    language: string = defaultTo(this.language, '');
-    organizations: string = defaultTo(this.organizations, '');
-    page: number = defaultTo(+this.page, 1);
-    provider: string = defaultTo(this.provider, '');
+    funders = '';
+    institutions = '';
+    language = '';
+    organizations = '';
+    page = 1;
+    provider = '';
     publishers = '';
-    q: string = defaultTo(this.q, '');
-    size: number = defaultTo(this.size, 10);
-    sort: string = defaultTo(this.sort, '');
-    sources: string = defaultTo(this.sources, '');
-    start: string = defaultTo(this.start, '');
-    tags: string = defaultTo(this.tags, '');
-    type: string = defaultTo(this.type, '');
-    status: string = defaultTo(this.status, '');
-    collectedType: string = defaultTo(this.collectedType, '');
+    q = '';
+    size = 10;
+    sort = '';
+    sources = '';
+    start = '';
+    tags = '';
+    type = '';
+    status = '';
+    collectedType = '';
 
     /**
      * A list of the components to be used for the search facets.
@@ -151,15 +152,15 @@ export default class DiscoverPage extends Component {
      * For PREPRINTS and REGISTRIES. A mapping of filter names for front-end display. Ex. {OSF: 'OSF Preprints'}.
      * @property {Object} filterReplace
      */
-    filterReplace: object = defaultTo(this.filterReplace, {});
+    filterReplace: object = {};
 
-    loading: boolean = defaultTo(this.loading, true);
+    loading = true;
 
     /**
      * Locked portions of search query that user cannot change.  Example: {'sources': 'PubMed Central'} will make PMC a
      * locked source.
      */
-    lockedParams: object = defaultTo(this.lockedParams, {});
+    lockedParams: object = {};
 
     numberOfEvents = 0;
     numberOfResults = 0; // Number of search results returned
@@ -174,21 +175,21 @@ export default class DiscoverPage extends Component {
     /**
      * For PREPRINTS and REGISTRIES.  Displays activeFilters box above search facets.
      */
-    showActiveFilters: boolean = defaultTo(this.showActiveFilters, false);
-    showLuceneHelp: boolean = false; // Is Lucene Search help modal open?
+    showActiveFilters = false;
+    showLuceneHelp = false; // Is Lucene Search help modal open?
 
     /**
      * Sort dropdown options - Array of dictionaries.  Each dictionary should have display and sortBy keys.
      * @property {Array} sortOptions
      */
     // TODO: intl-ize
-    sortOptions: SortOption[] = defaultTo(this.sortOptions, [
+    sortOptions: SortOption[] = [
         ['Relevance', ''],
         ['Date Updated (Desc)', '-date_updated'],
         ['Date Updated (Asc)', 'date_updated'],
         ['Ingest Date (Asc)', 'date_created'],
         ['Ingest Date (Desc)', '-date_created'],
-    ].map(([display, sortBy]) => ({ display, sortBy })));
+    ].map(([display, sortBy]) => ({ display, sortBy }));
 
     @computed('sort', 'sortOptions')
     get sortDisplay(): string {
@@ -202,9 +203,9 @@ export default class DiscoverPage extends Component {
     displayQueryBody: { query?: string } = {};
     queryBody: {} = {};
     aggregations: any;
-    whiteListedProviders: string[] = defaultTo(this.whiteListedProviders, []);
-    queryError: boolean = false;
-    serverError: boolean = false;
+    whiteListedProviders: string[] = [];
+    queryError = false;
+    serverError = false;
 
     // ************************************************************
     // COMPUTED PROPERTIES and OBSERVERS
@@ -236,16 +237,17 @@ export default class DiscoverPage extends Component {
         return this.facetContexts && this.facetContexts.every(({ didInit }) => didInit);
     }
 
-    @task({ withTestWaiter: true, keepLatest: true })
-    loadPage = task(function *(this: DiscoverPage) {
+    @keepLatestTask
+    @waitFor
+    async loadPage() {
         this.set('loading', true);
 
         if (!this.firstLoad) {
-            yield timeout(500);
+            await timeout(500);
         }
 
         try {
-            const results = yield this.query(this.queryAttributes);
+            const results = await this.query(this.queryAttributes);
 
             this.setProperties({
                 numberOfResults: results.meta.total,
@@ -255,7 +257,7 @@ export default class DiscoverPage extends Component {
                 queryError: false,
             });
 
-            if (this.get('totalPages') && this.get('totalPages') < this.get('page')) {
+            if (this.totalPages && this.totalPages < this.page) {
                 this.search();
             }
         } catch (errorResponse) {
@@ -266,9 +268,9 @@ export default class DiscoverPage extends Component {
                 results: emptyResults(),
             });
             // If issue with search query, for example, invalid lucene search syntax
-            if (errorResponse instanceof DS.ServerError
-                || errorResponse instanceof DS.AbortError
-                || errorResponse instanceof DS.TimeoutError) {
+            if (errorResponse instanceof ServerError
+                || errorResponse instanceof AbortError
+                || errorResponse instanceof TimeoutError) {
                 this.set('serverError', true);
             } else {
                 this.set('queryError', true);
@@ -277,14 +279,14 @@ export default class DiscoverPage extends Component {
             // re-throw for error monitoring
             throw errorResponse;
         }
-    });
+    }
 
     init() {
         super.init();
         this.set('facetContexts', this.facets && this.facets
             .map(({ component, options, key, title }) => {
-                const queryParam: string = this[camelize(component) as keyof DiscoverPage];
-                const activeFilter = !queryParam ? [] : queryParam.split('OR').filter(str => !!str);
+                const queryParam = this[camelize(component) as keyof DiscoverPage];
+                const activeFilter = !queryParam ? [] : (queryParam.split('OR') as string[]).filter(str => !!str);
 
                 return EmberObject.create({
                     title,
@@ -292,7 +294,7 @@ export default class DiscoverPage extends Component {
                     component,
                     didInit: false,
                     queryParam,
-                    lockedActiveFilter: {},
+                    lockedActiveFilter: [],
                     activeFilter,
                     defaultQueryFilters: {},
                     currentQueryFilters: {},
@@ -314,7 +316,7 @@ export default class DiscoverPage extends Component {
             this.set('page', 1);
         }
 
-        this.loadPage.perform();
+        taskFor(this.loadPage).perform();
     }
 
     trackDebouncedSearch() {
@@ -378,7 +380,7 @@ export default class DiscoverPage extends Component {
     }
 
     @action
-    setLoadPage(pageNumber: number, scrollUp: boolean = true) {
+    setLoadPage(pageNumber: number, scrollUp = true) {
         // Adapted from PREPRINTS for pagination. When paginating, sets page and scrolls to top of results.
         this.set('page', pageNumber);
 
@@ -386,7 +388,7 @@ export default class DiscoverPage extends Component {
             this.scrollToResults();
         }
 
-        this.loadPage.perform();
+        taskFor(this.loadPage).perform();
     }
 
     @action

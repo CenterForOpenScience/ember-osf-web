@@ -1,9 +1,7 @@
+import { attr } from '@ember-data/model';
 import { computed } from '@ember/object';
-import DS from 'ember-data';
 
 import OsfModel from './osf-model';
-
-const { attr } = DS;
 
 export enum StorageStatus {
     DEFAULT = 'DEFAULT',
@@ -18,7 +16,7 @@ export default class NodeStorageModel extends OsfModel {
     @attr('string') storageLimitStatus!: StorageStatus;
     @attr('number') storageUsage!: number;
 
-    @computed('id', 'storageLimitStatus')
+    @computed('id', 'storageLimitStatus', 'store')
     get isOverStorageCap() {
         const node = this.store.peekRecord('node', this.id);
         if (node) {
@@ -35,7 +33,7 @@ export default class NodeStorageModel extends OsfModel {
         return false;
     }
 
-    @computed('id', 'storageLimitStatus')
+    @computed('id', 'storageLimitStatus', 'store')
     get isApproachingStorageCap() {
         const node = this.store.peekRecord('node', this.id);
         if (node) {

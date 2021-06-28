@@ -2,7 +2,7 @@
     <BsAlert
         @type={{stat.class}}
         @dismissible={{stat.dismiss}}
-        @classNames={{if stat.jumbo (local-class 'StatusBanner__jumbo')}}
+        class={{if stat.jumbo (local-class 'StatusBanner__jumbo')}}
     >
         <div class='{{if stat.jumbo 'jumbotron'}}'>
             <p data-test-status-message={{stat.id}}>{{t stat.id extra=stat.extra htmlSafe=true}}</p>

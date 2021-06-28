@@ -1,10 +1,10 @@
+import Store from '@ember-data/store';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { underscore } from '@ember/string';
-import { timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import { waitFor } from '@ember/test-waiters';
+import { dropTask, timeout } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -17,7 +17,6 @@ import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Theme from 'ember-osf-web/services/theme';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import getHref from 'ember-osf-web/utils/get-href';
 import styles from './styles';
 import template from './template';
@@ -35,80 +34,23 @@ export default class Submit extends Component {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service intl!: Intl;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service theme!: Theme;
     @service toast!: Toast;
 
-    readonly edit: boolean = defaultTo(this.edit, false);
-    readonly provider: CollectionProvider = this.provider;
-    readonly collection: Collection = this.collection;
-    readonly collectedMetadatum: CollectedMetadatum = this.collectedMetadatum;
+    readonly edit = false;
+    readonly provider!: CollectionProvider;
+    readonly collection!: Collection;
+    readonly collectedMetadatum!: CollectedMetadatum;
 
-    collectionItem: Node | null = defaultTo(this.collectionItem, null);
-    isProjectSelectorValid: boolean = false;
+    collectionItem: Node | null = null;
+    isProjectSelectorValid = false;
     sections = Section;
     activeSection!: Section;
     savedSections!: Section[];
-    showCancelDialog: boolean = false;
+    showCancelDialog = false;
     intlKeyPrefix = 'collections.collections_submission.';
-    showSubmitModal: boolean = false;
-
-    @task({ withTestWaiter: true, drop: true })
-    save = task(function *(this: Submit) {
-        if (!this.collectionItem) {
-            return;
-        }
-
-        const validatedModels: any[] = yield Promise.all([
-            this.get('collectionItem')!.validate(),
-            this.get('collectedMetadatum').validate(),
-        ]);
-
-        const invalid = validatedModels.some(({ validations: { isInvalid } }) => isInvalid);
-
-        if (invalid) {
-            return;
-        }
-
-        this.collectedMetadatum.set('guid', this.collectionItem);
-
-        const operation = this.edit ? 'update' : 'add';
-
-        try {
-            if (!this.collectionItem.public) {
-                this.collectionItem.set('public', true);
-                yield this.collectionItem.save();
-            }
-            yield this.collectedMetadatum.save();
-
-            this.collectionItem.set('collectable', false);
-
-            this.toast.success(this.intl.t(`${this.intlKeyPrefix}${operation}_save_success`, {
-                title: this.collectionItem.title,
-            }));
-
-            yield timeout(1000);
-            this.resetPageDirty();
-            // TODO: external-link-to / waffle for project main page
-            window.location.href = getHref(this.collectionItem.links.html!);
-        } catch (e) {
-            const errorMessage = this.intl.t(`${this.intlKeyPrefix}${operation}_save_error`, {
-                title: this.collectionItem.title,
-            });
-            captureException(e, { errorMessage });
-            this.toast.error(getApiErrorMessage(e), errorMessage);
-        }
-    });
-
-    @computed('collectedMetadatum.{displayChoiceFields,collectedType,issue,volume,programArea,status}')
-    get choiceFields(): Array<{ label: string; value: string | undefined; }> {
-        return this.collectedMetadatum.displayChoiceFields
-            .map(field => ({
-                name: field,
-                label: `collections.collection_metadata.${underscore(field)}_label`,
-                value: this.collectedMetadatum[field],
-            }));
-    }
+    showSubmitModal = false;
 
     /**
      * Leaves the current route for the discover route (currently home for collections)
@@ -127,6 +69,64 @@ export default class Submit extends Component {
      */
     @requiredAction
     resetPageDirty!: () => void;
+
+    @dropTask
+    @waitFor
+    async save() {
+        if (!this.collectionItem) {
+            return;
+        }
+
+        const validatedModels = await Promise.all([
+            this.collectionItem!.validate(),
+            this.collectedMetadatum.validate(),
+        ]);
+
+        const invalid = validatedModels.some(({ validations: { isInvalid } }) => isInvalid);
+
+        if (invalid) {
+            return;
+        }
+
+        this.collectedMetadatum.set('guid', this.collectionItem);
+
+        const operation = this.edit ? 'update' : 'add';
+
+        try {
+            if (!this.collectionItem.public) {
+                this.collectionItem.set('public', true);
+                await this.collectionItem.save();
+            }
+            await this.collectedMetadatum.save();
+
+            this.collectionItem.set('collectable', false);
+
+            this.toast.success(this.intl.t(`${this.intlKeyPrefix}${operation}_save_success`, {
+                title: this.collectionItem.title,
+            }));
+
+            await timeout(1000);
+            this.resetPageDirty();
+            // TODO: external-link-to / waffle for project main page
+            window.location.href = getHref(this.collectionItem.links.html!);
+        } catch (e) {
+            const errorMessage = this.intl.t(`${this.intlKeyPrefix}${operation}_save_error`, {
+                title: this.collectionItem.title,
+            });
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
+        }
+    }
+
+    @computed('collectedMetadatum.{displayChoiceFields,collectedType,issue,volume,programArea,status}')
+    get choiceFields(): Array<{ label: string, value: string | undefined }> {
+        return this.collectedMetadatum.displayChoiceFields
+            .map(field => ({
+                name: field,
+                label: `collections.collection_metadata.${underscore(field)}_label`,
+                value: this.collectedMetadatum[field],
+            }));
+    }
 
     init() {
         super.init();

@@ -1,15 +1,20 @@
-{{#if @isValidating}}
-    <LoadingIndicator @inline={{true}} @dark={{true}} />
-{{else}}
-    {{#if this.validatorErrors}}
-        <div
-            data-test-validation-errors={{@key}}
-            local-class='Errors'
-            ...attributes
-        >
-            {{#each this.validatorErrors as |error|}}
-                <p>{{~error~}}</p>
-            {{/each}}
-        </div>
+<div
+    {{did-insert this.setIsValidating}}
+    {{did-update this.setIsValidating @changeset.isValid}}
+>
+    {{#if this.isValidating}}
+        <LoadingIndicator @inline={{true}} @dark={{true}} />
+    {{else}}
+        {{#if this.validatorErrors}}
+            <div
+                data-test-validation-errors={{@key}}
+                local-class='Errors'
+                ...attributes
+            >
+                {{#each this.validatorErrors as |error|}}
+                    <p>{{~error~}}</p>
+                {{/each}}
+            </div>
+        {{/if}}
     {{/if}}
-{{/if}}
+</div>

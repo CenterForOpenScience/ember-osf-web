@@ -1,4 +1,4 @@
-/* tslint:disable */
+/* eslint-disable */
 import { EmberLocation } from '@ember/routing/api';
 
 declare module '@ember/routing/none-location' {

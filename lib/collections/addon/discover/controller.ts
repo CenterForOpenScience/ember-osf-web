@@ -1,10 +1,10 @@
+import Store from '@ember-data/store';
 import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
 import { not } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { underscore } from '@ember/string';
 import config from 'collections/config/environment';
-import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 import { choiceFields } from 'ember-osf-web/models/collected-metadatum';
 import Theme from 'ember-osf-web/services/theme';
@@ -12,15 +12,15 @@ import Theme from 'ember-osf-web/services/theme';
 export default class Discover extends Controller {
     @service theme!: Theme;
     @service intl!: Intl;
-    @service store!: DS.Store;
+    @service store!: Store;
 
     activeFilters = {
         providers: [],
     };
 
     model!: Array<{
-        id: string;
-        additionalProviders: string[];
+        id: string,
+        additionalProviders: string[],
     }>;
 
     // additionalProviders are using SHARE facets which do not work with Active Filters at this time

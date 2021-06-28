@@ -15,8 +15,8 @@ export default class CarouselItem extends Component {
     @requiredAction register!: (item: CarouselItem) => void;
 
     // Private properties
-    index: number = 0;
-    slideIndex: number = 0;
+    index = 0;
+    slideIndex = 0;
 
     didInsertElement() {
         super.didInsertElement();
@@ -25,7 +25,7 @@ export default class CarouselItem extends Component {
         this.set('slideIndex', this.allItems.indexOf(this) + 1);
     }
 
-    @computed('allItems.@each')
+    @computed('allItems.[]')
     get isActive() {
         return this === this.allItems[0];
     }

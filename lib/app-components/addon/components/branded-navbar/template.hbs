@@ -3,7 +3,6 @@
         local-class='branded-nav'
         class='navbar navbar-inverse navbar-fixed-top'
         id='navbarScope'
-        role='navigation'
     >
         <div class='container'>
             <div class='navbar-header'>
@@ -27,8 +26,8 @@
 
             {{! Secondary nav links }}
             <BsCollapse
+                class='navbar-collapse navbar-right'
                 local-class='secondary-navigation'
-                @classNames='navbar-collapse navbar-right'
                 @collapsed={{not this.showNavLinks}}
             >
                 <ul class='nav navbar-nav' local-class='links'>

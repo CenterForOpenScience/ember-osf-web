@@ -29,7 +29,7 @@ module('Integration | routes | settings | account | -components | connected-iden
                     .toString().replace(/(<([^>]+)>)/ig, ''),
                 'description is correct',
             );
-        assert.dom('[data-test-connected-identities-item').doesNotExist(
+        assert.dom('[data-test-connected-identities-item]').doesNotExist(
             'no identities in the list',
         );
         assert.dom('[data-test-connected-identities-list]')

@@ -14,9 +14,10 @@
                 @selected={{@manager.selectedLicense}}
                 @options={{@manager.licensesAcceptable}}
                 @onchange={{@manager.changeLicense}}
-                @searchField={{'name'}}
+                @searchField='name'
                 @noMatchesMessage={{t 'registries.registration_metadata.no_matches'}}
                 @placeholder={{t 'registries.registration_metadata.add_license'}}
+                @searchEnabled={{true}}
                 ...attributes
                 as |license|
             >
@@ -25,7 +26,7 @@
         {{else}}
             <LoadingIndicator @dark={{true}} />
         {{/if}}
-        
+
         <div local-class='small help-link'>
             <OsfLink
                 @target='_blank'
@@ -34,14 +35,14 @@
                 {{t 'app_components.license_picker.faq'}}
             </OsfLink>
         </div>
-        
-        {{#if @manager.selectedLicense}}
+
+        {{#if (and @manager.selectedLicense @manager.selectedLicense.requiredFields)}}
             <form.custom
                 local-class='AdditionalFields'
                 @changeset={{@manager.changeset}}
                 @valuePath='nodeLicense'
             >
-                {{#each @manager.requiredFields as |key|}}
+                {{#each @manager.selectedLicense.requiredFields as |key|}}
                     <div class='form-group'>
                         <label>
                             <p id='nodeLicense.{{key}}'>
@@ -58,32 +59,32 @@
                     </div>
                 {{/each}}
             </form.custom>
-        
-            <OsfButton
+            <BsButton
                 @type='link'
                 @onClick={{action (mut this.showText) (not this.showText)}}
                 local-class='LinkButton small'
             >
                 {{t (concat 'app_components.license_picker.' (if this.showText 'hide' 'show'))}}
-            </OsfButton>
-        
+            </BsButton>
+
             {{#if this.showText}}
                 <LicenseText @node={{@manager.registration}} />
             {{/if}}
-        
+
             {{#if this.shouldShowButtons}}
                 <div local-class='Controls'>
-                    <OsfButton @type='default' @onClick={{@manager.cancel}}>
+                    <BsButton @type='default' {{on 'click' @manager.cancel}}>
                         {{t 'general.cancel'}}
-                    </OsfButton>
-                    <OsfButton
+                    </BsButton>
+                    <BsButton
                         data-analytics-name='Save license'
-                        data-test-save-license @type='primary'
-                        @buttonType='submit'
-                        @disabled={{@manager.changeset.isInvalid}}
-                        @onClick={{@manager.save}}>
+                        data-test-save-license
+                        disabled={{@manager.changeset.isInvalid}}
+                        @type='primary'
+                        {{on 'click' @manager.save}}
+                    >
                         {{t 'general.save'}}
-                    </OsfButton>
+                    </BsButton>
                 </div>
             {{/if}}
         {{/if}}

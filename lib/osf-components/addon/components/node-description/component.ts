@@ -8,14 +8,14 @@ import { DescriptionManager } from 'osf-components/components/editable-field/des
 import styles from './styles';
 import template from './template';
 
-const heightLimit: number = 200; // height limit should be (.hide {max-height} - 1)
+const heightLimit = 200; // height limit should be (.hide {max-height} - 1)
 
 @tagName('')
 @layout(template, styles)
 export default class NodeDescription extends Component {
     manager!: DescriptionManager;
-    shouldTruncate: boolean = false;
-    truncateDescription: boolean = true;
+    shouldTruncate = false;
+    truncateDescription = true;
 
     setTruncate(element: Element) {
         const height = element.clientHeight;

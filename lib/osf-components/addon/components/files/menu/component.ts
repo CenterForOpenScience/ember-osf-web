@@ -1,13 +1,15 @@
+import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validatePresence } from 'ember-changeset-validations/validators';
-import { ChangesetDef } from 'ember-changeset/types';
-import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import { BufferedChangeset } from 'ember-changeset/types';
+import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -26,6 +28,7 @@ const folderValidations: ValidationObject<NewFolder> = {
             allowBlank: false,
             allowNone: false,
             message: 'Folder name cannot be blank',
+            type: 'blank',
         }),
     ],
 };
@@ -39,7 +42,7 @@ interface NewFolder {
 export default class FilesMenu extends Component {
     @service toast!: Toast;
     @service intl!: Intl;
-    @service store!: DS.Store;
+    @service store!: Store;
 
     filesManager!: FilesManager;
 
@@ -48,20 +51,21 @@ export default class FilesMenu extends Component {
     uploadButtonClass = uniqueId(['dz-upload-button']);
 
     newFolder!: NewFolder;
-    changeset!: ChangesetDef;
+    changeset!: BufferedChangeset;
 
     @alias('filesManager.canEdit') canEdit!: boolean;
 
-    @computed('changeset.{isInvalid}', 'createFolder.isRunning')
+    @computed('changeset.isInvalid', 'createFolder.isRunning')
     get shouldDisableButtons() {
         if (!this.changeset) {
             return false;
         }
-        return this.changeset.isInvalid || this.createFolder.isRunning;
+        return this.changeset.isInvalid || taskFor(this.createFolder).isRunning;
     }
 
-    @task({ withTestWaiter: true })
-    createFolder = task(function *(this: FilesMenu, options: { onSuccess?: () => void }) {
+    @task
+    @waitFor
+    async createFolder(options: { onSuccess?: () => void }) {
         const { inRootFolder, currentFolder, fileProvider } = this.filesManager;
         const parentFolder = inRootFolder ? fileProvider : currentFolder;
         const { onSuccess } = options;
@@ -70,7 +74,7 @@ export default class FilesMenu extends Component {
 
         let newFolderId;
         try {
-            ({ newFolderId } = yield parentFolder.createFolder(newFolderName));
+            ({ newFolderId } = await parentFolder.createFolder(newFolderName));
         } catch (error) {
             this.toast.error(
                 error.responseJSON.message,
@@ -78,7 +82,7 @@ export default class FilesMenu extends Component {
             );
             throw error;
         }
-        const newFolder = yield this.store.findRecord('file', newFolderId);
+        const newFolder = await this.store.findRecord('file', newFolderId);
         const folder = inRootFolder ? fileProvider.rootFolder : currentFolder;
 
         if (onSuccess) {
@@ -86,7 +90,7 @@ export default class FilesMenu extends Component {
         }
 
         folder.files.pushObject(newFolder);
-    });
+    }
 
     beforeOpenDialog() {
         this.set('newFolder', { name: null });

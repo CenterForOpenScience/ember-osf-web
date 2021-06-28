@@ -1,11 +1,9 @@
+import { attr } from '@ember-data/model';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validateFormat, validateLength, validatePresence } from 'ember-changeset-validations/validators';
-import DS from 'ember-data';
 import { Link } from 'jsonapi-typescript';
 
 import OsfModel, { OsfLinks } from './osf-model';
-
-const { attr } = DS;
 
 interface DeveloperAppValidations {
     name: string;

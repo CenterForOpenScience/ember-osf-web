@@ -15,7 +15,7 @@ export default class SettingsTokensEditController extends Controller {
     @service router!: RouterService;
     @service toast!: Toast;
 
-    deleteModalShown: boolean = false;
+    deleteModalShown = false;
 
     @reads('model.taskInstance.value')
     token?: Token;

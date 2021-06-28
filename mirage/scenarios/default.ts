@@ -4,7 +4,6 @@ import config from 'ember-get-config';
 import { collectionScenario } from './collections';
 import { dashboardScenario } from './dashboard';
 import { forksScenario } from './forks';
-import { handbookScenario } from './handbook';
 import { meetingsScenario } from './meetings';
 import { quickfilesScenario } from './quickfiles';
 import { manyProjectRegistrationsScenario, registrationScenario } from './registrations';
@@ -12,11 +11,6 @@ import { settingsScenario } from './settings';
 
 const {
     mirageScenarios,
-    engines: {
-        handbook: {
-            enabled: handbookEnabled,
-        },
-    },
 } = config;
 
 export default function(server: Server) {
@@ -61,8 +55,5 @@ export default function(server: Server) {
     }
     if (mirageScenarios.includes('manyProjectRegistrations')) {
         manyProjectRegistrationsScenario(server, currentUser);
-    }
-    if (handbookEnabled) {
-        handbookScenario(server, currentUser);
     }
 }

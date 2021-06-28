@@ -1,16 +1,16 @@
 // This component is derived from ember-cp-validations.
 // See https://github.com/offirgolan/ember-cp-validations for more information
+import Model from '@ember-data/model';
 import Component from '@ember/component';
 import { computed, defineProperty } from '@ember/object';
-import { alias, bool, oneWay } from '@ember/object/computed';
+import { alias, oneWay } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
-import { ChangesetDef } from 'ember-changeset/types';
-import { ResultCollection } from 'ember-cp-validations';
-import DS, { AttributesFor, RelationshipsFor } from 'ember-data';
-import Intl from 'ember-intl/services/intl';
+import { BufferedChangeset } from 'ember-changeset/types';
 
-import defaultTo from 'ember-osf-web/utils/default-to';
+import { ResultCollection } from 'ember-cp-validations';
+import { AttributesFor, RelationshipsFor } from 'ember-data';
+import Intl from 'ember-intl/services/intl';
 
 export enum ValidationStatus {
     Hidden,
@@ -19,17 +19,17 @@ export enum ValidationStatus {
     HasWarning,
 }
 
-export default abstract class BaseValidatedInput<M extends DS.Model> extends Component {
+export default abstract class BaseValidatedInput<M extends Model> extends Component {
     // Required arguments
     valuePath!: AttributesFor<M> | RelationshipsFor<M>;
 
     // Optional arguments
-    changeset?: ChangesetDef & M;
+    changeset?: BufferedChangeset & M;
     label?: string;
     ariaLabel?: string;
     placeholder?: string;
-    disabled: boolean = defaultTo(this.disabled, false);
-    shouldShowMessages: boolean = defaultTo(this.shouldShowMessages, true);
+    disabled = false;
+    shouldShowMessages = true;
     model?: M;
 
     // Private properties
@@ -74,13 +74,13 @@ export default abstract class BaseValidatedInput<M extends DS.Model> extends Com
             shouldShowMessages,
             value,
             validation,
-            isValidating,
-            isInvalid,
+            _isValidating,
+            _isInvalid,
         } = this;
         switch (true) {
-        case !shouldShowMessages || isValidating:
+        case !shouldShowMessages || _isValidating:
             return ValidationStatus.Hidden;
-        case isInvalid:
+        case _isInvalid:
             return ValidationStatus.HasError;
         case validation && !isEmpty(validation.warnings):
             return ValidationStatus.HasWarning;
@@ -91,14 +91,20 @@ export default abstract class BaseValidatedInput<M extends DS.Model> extends Com
         }
     }
 
+    get _isValidating() {
+        return this.changeset ? this.changeset.isValidating(this.valuePath as string) : this.isValidating;
+    }
+
+    get _isInvalid() {
+        return this.changeset ? Boolean(this.changeset.error[this.valuePath as string]) : this.isInvalid;
+    }
+
     init() {
         super.init();
         if (this.changeset) {
             defineProperty(this, 'validation', oneWay(`changeset.data.validations.attrs.${this.valuePath}`));
             defineProperty(this, 'errors', oneWay(`changeset.error.${this.valuePath}.validation`));
             defineProperty(this, 'value', alias(`changeset.${this.valuePath}`));
-            defineProperty(this, 'isValidating', oneWay('changeset.isValidating'));
-            defineProperty(this, 'isInvalid', bool(`changeset.error.${this.valuePath}`));
         } else if (this.model) {
             defineProperty(this, 'validation', oneWay(`model.validations.attrs.${this.valuePath}`));
             defineProperty(this, 'errors', oneWay(`model.validations.attrs.${this.valuePath}.errors`));

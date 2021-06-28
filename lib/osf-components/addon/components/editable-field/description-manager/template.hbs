@@ -1,6 +1,7 @@
 {{yield (hash
     save=(perform this.save)
     cancel=(action this.cancel)
+    updateDescription=this.updateDescription
     fieldIsEmpty=this.fieldIsEmpty
     emptyFieldText=(t 'registries.registration_metadata.no_description')
     startEditing=(action this.startEditing)

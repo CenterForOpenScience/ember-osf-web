@@ -1,9 +1,10 @@
+import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import { waitFor } from '@ember/test-waiters';
+import { task } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -18,18 +19,19 @@ import template from './template';
 export default class ProjectMetadata extends Component {
     @service analytics!: Analytics;
     @service intl!: Intl;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service toast!: Toast;
 
-    node: Node = this.node;
+    node!: Node;
 
     @requiredAction continue!: () => void;
 
-    @task({ withTestWaiter: true })
-    reset = task(function *(this: ProjectMetadata) {
+    @task
+    @waitFor
+    async reset() {
         this.node.rollbackAttributes();
-        yield this.node.reload();
-    });
+        await this.node.reload();
+    }
 
     @action
     addTag(tag: string) {

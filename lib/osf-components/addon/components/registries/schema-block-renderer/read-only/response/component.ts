@@ -27,7 +27,7 @@ export default class ReadOnlyResponse extends Component {
         );
     }
 
-    @computed('registrationResponses')
+    @computed('registrationResponses', 'schemaBlock.registrationResponseKey')
     get readOnlyValue() {
         const response = this.registrationResponses[this.schemaBlock.registrationResponseKey!];
         if (Array.isArray(response)) {

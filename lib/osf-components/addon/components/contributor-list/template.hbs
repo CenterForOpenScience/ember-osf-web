@@ -41,7 +41,7 @@
             {{else if this.shouldTruncate}}
                 {{t 'contributor_list.x_more' x=list.remainingCount}}
             {{else}}
-                <OsfButton
+                <BsButton
                     data-test-load-more-contribs
                     data-analytics-name='Load more contributors'
                     aria-label={{t 'contributor_list.more'}}
@@ -51,7 +51,7 @@
                 >
                     {{t 'contributor_list.x_more' x=list.remainingCount}}
                     <FaIcon @icon='caret-down' />
-                </OsfButton>
+                </BsButton>
             {{/if}}
         {{/if~}}
     </InlineList>

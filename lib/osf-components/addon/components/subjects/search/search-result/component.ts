@@ -2,7 +2,8 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { alias } from '@ember/object/computed';
-import { task } from 'ember-concurrency-decorators';
+import { waitFor } from '@ember/test-waiters';
+import { task } from 'ember-concurrency';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import SubjectModel from 'ember-osf-web/models/subject';
@@ -22,8 +23,9 @@ export default class SearchResult extends Component {
     @alias('loadAncestry.lastSuccessful.value')
     subjectAncestry?: SubjectModel[];
 
-    @task({ withTestWaiter: true, on: 'didReceiveAttrs' })
-    loadAncestry = task(function *(this: SearchResult) {
+    @task({ on: 'didReceiveAttrs' })
+    @waitFor
+    async loadAncestry() {
         const { subject } = this.singleSubjectManager;
         if (!subject) {
             return undefined;
@@ -31,12 +33,13 @@ export default class SearchResult extends Component {
         const ancestors: SubjectModel[] = [];
         let nextParentRef = subject.belongsTo('parent');
         while (nextParentRef.id()) {
-            const nextParent: SubjectModel = yield nextParentRef.load();
+            // eslint-disable-next-line no-await-in-loop
+            const nextParent: SubjectModel = await nextParentRef.load();
             ancestors.push(nextParent);
             nextParentRef = nextParent.belongsTo('parent');
         }
         return ancestors.reverse();
-    });
+    }
 
     init() {
         super.init();

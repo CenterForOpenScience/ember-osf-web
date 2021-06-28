@@ -1,10 +1,11 @@
+import Store from '@ember-data/store';
 import Component from '@ember/component';
 import { action } from '@ember/object';
 import { alias, sort } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import { waitFor } from '@ember/test-waiters';
+import { restartableTask, timeout } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -22,16 +23,17 @@ import template from './template';
 @layout(template, styles)
 export default class LicensePicker extends Component {
     @service analytics!: Analytics;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service theme!: Theme;
     @service intl!: Intl;
 
     form?: ValidatedModelForm<'node'>;
-    showText: boolean = false;
-    node: Node = this.node;
+    node!: Node;
+    placeholder = this.intl.t('registries.registration_metadata.select_license');
+
+    showText = false;
     licensesAcceptable!: QueryHasManyResult<License>;
-    helpLink: string = 'https://openscience.zendesk.com/hc/en-us/articles/360019739014';
-    placeholder: string = this.intl.t('registries.registration_metadata.select_license');
+    helpLink = 'https://openscience.zendesk.com/hc/en-us/articles/360019739014';
 
     @alias('theme.provider') provider!: Provider;
     @alias('node.license') selected!: License;
@@ -39,26 +41,27 @@ export default class LicensePicker extends Component {
     @sort('selected.requiredFields', (a: string, b: string) => +(a > b))
     requiredFields!: string[];
 
-    @task({ withTestWaiter: true, restartable: true })
-    queryLicenses = task(function *(this: LicensePicker, name?: string) {
+    @restartableTask
+    @waitFor
+    async queryLicenses(name?: string) {
         if (name) {
-            yield timeout(500);
+            await timeout(500);
         }
 
-        const licensesAcceptable: QueryHasManyResult<License> = yield this.provider
+        const licensesAcceptable = await this.provider
             .queryHasMany('licensesAcceptable', {
                 page: { size: 20 },
                 filter: name ? { name } : undefined,
             });
 
-        yield this.node.license;
+        await this.node.license;
 
         this.setProperties({ licensesAcceptable });
 
         this.node.notifyPropertyChange('license');
 
         return licensesAcceptable;
-    });
+    }
 
     @action
     changeLicense(selected: License) {
@@ -77,6 +80,6 @@ export default class LicensePicker extends Component {
 
     didReceiveAttrs() {
         super.didReceiveAttrs();
-        this.queryLicenses.perform();
+        taskFor(this.queryLicenses).perform();
     }
 }

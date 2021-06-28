@@ -3,8 +3,8 @@ import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { waitFor } from '@ember/test-waiters';
+import { restartableTask, timeout } from 'ember-concurrency';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
@@ -50,9 +50,9 @@ export default class GuidFile extends Controller {
 
     queryParams = ['show'];
 
-    deleteModalOpen: boolean = false;
-    filter: string = '';
-    sort: string = this.sort || 'name';
+    deleteModalOpen = false;
+    filter = '';
+    sort = 'name';
     revision: null | number = null;
     show = 'view';
 
@@ -64,7 +64,7 @@ export default class GuidFile extends Controller {
     @alias('model.files') allFiles!: File[];
     @alias('model.user') user!: User;
 
-    @computed('currentUser', 'user.id')
+    @computed('currentUser.currentUserId', 'user.id')
     get canEdit(): boolean {
         const modelUserId = this.user.id;
 
@@ -77,7 +77,7 @@ export default class GuidFile extends Controller {
     }
 
     // TODO: get this from the model
-    @computed('file.currentVersion')
+    @computed('downloadLink', 'file.currentVersion')
     get fileVersions(): Promise<any> {
         return (async () => {
             const { data } = await $.getJSON(`${this.downloadLink}?revisions=&`);
@@ -97,12 +97,13 @@ export default class GuidFile extends Controller {
         return Boolean(this.file) && this.file.getContents();
     }
 
-    @task({ withTestWaiter: true, restartable: true })
-    updateFilter = task(function *(this: GuidFile, filter: string) {
-        yield timeout(250);
+    @restartableTask
+    @waitFor
+    async updateFilter(filter: string) {
+        await timeout(250);
         this.setProperties({ filter });
         this.analytics.track('list', 'filter', 'Quick Files - Filter file browser');
-    });
+    }
 
     @computed('allFiles.[]', 'filter', 'sort')
     get files() {
@@ -114,7 +115,7 @@ export default class GuidFile extends Controller {
         }
 
         if (this.sort) {
-            const reverse: boolean = this.sort.slice(0, 1) === '-';
+            const reverse = this.sort.slice(0, 1) === '-';
 
             results = A(results).sortBy(this.sort.slice(+reverse));
 
@@ -140,10 +141,10 @@ export default class GuidFile extends Controller {
         try {
             await this.file.destroyRecord();
             this.transitionToRoute('guid-user.quickfiles', this.user.id);
-            const message: string = this.intl.t('file_detail.delete_success');
+            const message = this.intl.t('file_detail.delete_success');
             return this.toast.success(message);
         } catch (e) {
-            const errorMessage: string = this.intl.t('file_detail.delete_fail');
+            const errorMessage = this.intl.t('file_detail.delete_fail');
             captureException(e, { errorMessage });
             return this.toast.error(getApiErrorMessage(e), errorMessage);
         }

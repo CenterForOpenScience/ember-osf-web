@@ -1,6 +1,8 @@
+import Store from '@ember-data/store';
 import { assert } from '@ember/debug';
-import DS from 'ember-data';
 import RSVP from 'rsvp';
+
+import DS from 'ember-data';
 
 import OsfAdapter from 'ember-osf-web/adapters/osf-adapter';
 import param from 'ember-osf-web/utils/param';
@@ -16,8 +18,9 @@ export default class CollectedMetadatumAdapter extends OsfAdapter {
         return `${this.urlPrefix()}/collections/${collectionId}/collected_metadata/${collectedMetadatumId}`;
     }
 
-    urlForCreateRecord(_: 'collected-metadatum', { record }: DS.Snapshot): string {
-        return `${this.urlPrefix()}/collections/${record.get('collection.id')}/collected_metadata/`;
+    urlForCreateRecord(_: string | number, { record }: DS.Snapshot): string {
+        const collectionId = record.belongsTo('collection').id();
+        return `${this.urlPrefix()}/collections/${collectionId}/collected_metadata/`;
     }
 
     urlForFindRecord(id: string): string {
@@ -32,7 +35,7 @@ export default class CollectedMetadatumAdapter extends OsfAdapter {
         return `${this.urlPrefix()}/search/collections/`;
     }
 
-    query(_: DS.Store, type: any, query: Record<string, string>): RSVP.Promise<any> {
+    query(_: Store, type: any, query: Record<string, string>): RSVP.Promise<any> {
         const url = this.buildURL(type.modelName, null, null, 'query', query);
         const { page, sort, ...restQuery } = query;
 

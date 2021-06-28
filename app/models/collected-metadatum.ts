@@ -1,7 +1,7 @@
+import { belongsTo, attr } from '@ember-data/model';
 import { computed } from '@ember/object';
 import { alias as iAlias } from '@ember/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
-import DS from 'ember-data';
 
 import tuple from 'ember-osf-web/utils/tuple';
 
@@ -9,8 +9,6 @@ import Collection, { ChoicesFields } from './collection';
 import Node from './node';
 import OsfModel from './osf-model';
 import User from './user';
-
-const { attr, belongsTo } = DS;
 
 export const choiceFields = tuple(
     'collectedType',
@@ -59,10 +57,13 @@ export default class CollectedMetadatumModel extends OsfModel.extend(Validations
 
     @computed('collection.displayChoicesFields.[]')
     get displayChoiceFields() {
-        return choiceFields
-            .filter(field => this.collection
-                .get('displayChoicesFields')
-                .includes(`${field}Choices` as ChoicesFields));
+        if (this.collection.get('displayChoicesFields')) {
+            return choiceFields
+                .filter(field => this.collection
+                    .get('displayChoicesFields')
+                    .includes(`${field}Choices` as ChoicesFields));
+        }
+        return [];
     }
 }
 

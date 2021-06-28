@@ -1,10 +1,9 @@
+import Store from '@ember-data/store';
 import { assert } from '@ember/debug';
 import { computed } from '@ember/object';
 import Service, { inject as service } from '@ember/service';
-import DS from 'ember-data';
 import config from 'ember-get-config';
 import Provider from 'ember-osf-web/models/provider';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 const { defaultProvider, assetsPrefix } = config;
 
@@ -35,9 +34,9 @@ const settings: { [P in ProviderType]: Setting } = {
 };
 
 export default class Theme extends Service {
-    @service store!: DS.Store;
+    @service store!: Store;
 
-    id: string = defaultTo(this.id, defaultProvider);
+    id = defaultProvider;
     defaultProvider = defaultProvider;
 
     providerType?: ProviderType;
@@ -56,7 +55,7 @@ export default class Theme extends Service {
         return settings[this.providerType!];
     }
 
-    @computed('id', 'settings', 'isProvider')
+    @computed('id', 'isProvider', 'providerType', 'settings')
     get provider(): Provider | null {
         if (!this.providerType) {
             return null;
@@ -86,7 +85,7 @@ export default class Theme extends Service {
         return this.isProvider && !this.isDomain;
     }
 
-    @computed('isProvider', 'isDomain', 'id', 'settings')
+    @computed('id', 'isDomain', 'isProvider', 'settings.routePath')
     get pathPrefix(): string {
         let pathPrefix = '/';
 
@@ -101,7 +100,7 @@ export default class Theme extends Service {
         return pathPrefix;
     }
 
-    @computed('id', 'settings')
+    @computed('id', 'settings.assetPath')
     get assetsDir(): string {
         return `${assetsPrefix}assets/osf-assets/files/${this.settings.assetPath}/${this.id}`;
     }

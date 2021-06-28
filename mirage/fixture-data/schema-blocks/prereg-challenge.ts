@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-// tslint:disable:max-line-length
+/* eslint-disable max-len */
 
 import SchemaBlock from 'ember-osf-web/models/schema-block';
 

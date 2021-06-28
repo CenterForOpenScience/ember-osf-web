@@ -9,7 +9,6 @@ import File from 'ember-osf-web/models/file';
 import Node from 'ember-osf-web/models/node';
 import User from 'ember-osf-web/models/user';
 import CurrentUser from 'ember-osf-web/services/current-user';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
 import template from './template';
 
@@ -30,15 +29,15 @@ export default class FileList extends Component {
     @service currentUser!: CurrentUser;
 
     node: Node | null = null;
-    items: File[] = defaultTo(this.items, []);
-    showFilterClicked: boolean = false;
-    filter: string = defaultTo(this.filter, '');
+    items: File[] = [];
+    showFilterClicked = false;
+    filter = '';
     user?: User;
     @requiredAction openFile!: (item: File) => void;
 
     @notEmpty('filter') showFilterInput!: boolean;
 
-    @computed('user')
+    @computed('currentUser.currentUserId', 'user.id')
     get edit(): boolean {
         return !!this.user && this.user.id === this.currentUser.currentUserId;
     }

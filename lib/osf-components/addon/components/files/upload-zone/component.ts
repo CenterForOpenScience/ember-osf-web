@@ -1,3 +1,4 @@
+import Store from '@ember-data/store';
 import { A } from '@ember/array';
 import MutableArray from '@ember/array/mutable';
 import Component from '@ember/component';
@@ -5,8 +6,8 @@ import { assert } from '@ember/debug';
 import { action, computed } from '@ember/object';
 import { alias, notEmpty } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import { waitFor } from '@ember/test-waiters';
+import { task } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 import $ from 'jquery';
@@ -44,12 +45,12 @@ export default class UploadZone extends Component {
     @service toast!: Toast;
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service intl!: Intl;
 
     filesManager!: FilesManager;
     uploading: MutableArray<File> = A([]);
-    dropping: boolean = false;
+    dropping = false;
     dropzoneOptions = {
         createImageThumbnails: false,
         method: 'PUT',
@@ -79,29 +80,31 @@ export default class UploadZone extends Component {
         return folder ? folder.links.upload : undefined;
     }
 
-    @task({ withTestWaiter: true })
-    success = task(function *(this: UploadZone, _: unknown, __: unknown, file: File, response: UploadResponse) {
+    @task
+    @waitFor
+    async success(_: unknown, __: unknown, file: File, response: UploadResponse) {
         this.analytics.trackFromElement(this.element, {
             name: 'Upload file',
             category: 'upload',
             action: 'link',
         });
         const fileId = response.data.id;
-        yield this.filesManager.addFile(fileId.replace(/^.*\//, ''));
+        await this.filesManager.addFile(fileId.replace(/^.*\//, ''));
 
         this.uploading.removeObject(file);
-    });
+    }
 
-    @task({ withTestWaiter: true })
-    preUpload = task(function *(this: UploadZone, _: unknown, __: unknown, file: File) {
+    @task
+    @waitFor
+    async preUpload(_: unknown, __: unknown, file: File) {
         let existingFile = this.filesManager.displayedItems.findBy('itemName', file.name);
         if (!existingFile) {
-            [existingFile] = yield this.filesManager.currentFolder.queryHasMany('files', {
+            [existingFile] = await this.filesManager.currentFolder.queryHasMany('files', {
                 'filter[name][eq]': file.name,
             });
         }
         this.setProperties({ existingFile });
-    });
+    }
 
     didReceiveAttrs() {
         assert('Files::UploadZone requires @filesManager!', Boolean(this.filesManager));
@@ -152,7 +155,7 @@ export default class UploadZone extends Component {
     }
 
     @action
-    setButtonClass(buttonClass: string = '') {
+    setButtonClass(buttonClass = '') {
         this.setProperties({ buttonClass });
     }
 }

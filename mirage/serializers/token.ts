@@ -1,5 +1,5 @@
 import { ModelInstance, Request } from 'ember-cli-mirage';
-import { SingleResourceDocument } from 'osf-api';
+import { RelationshipLinks, SingleResourceDocument } from 'osf-api';
 
 import { MirageToken } from '../factories/token';
 import ApplicationSerializer from './application';
@@ -17,7 +17,7 @@ export default class TokenSerializer extends ApplicationSerializer<MirageToken> 
                     ...json.data.relationships,
                     scopes: {
                         data: scopes.split(' ').map(s => ({ id: s, type: 'scopes' })),
-                        links: {},
+                        links: {} as RelationshipLinks,
                     },
                 };
                 /* eslint-enable no-param-reassign */
@@ -29,6 +29,7 @@ export default class TokenSerializer extends ApplicationSerializer<MirageToken> 
     serialize(token: ModelInstance<MirageToken>, request: Request) {
         const scopeIds = token.attrs.scopeIds || [];
 
+        // @ts-ignore: // TODO: delete must be used on option attrs
         delete token.attrs.scopeIds; // eslint-disable-line no-param-reassign
 
         const json = super.serialize(token, request);

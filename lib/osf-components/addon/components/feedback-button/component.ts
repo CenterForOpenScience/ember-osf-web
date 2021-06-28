@@ -75,11 +75,11 @@ export default class FeedbackButton extends Component {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
 
-    enabled: boolean = enabled;
+    enabled = enabled;
 
-    body: string = '';
+    body = '';
 
-    followup: boolean = false;
+    followup = false;
 
     state: DialogState = DialogState.empty;
     dialogRows = 5;

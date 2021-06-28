@@ -6,7 +6,7 @@
     </div>
 </div>
 <div local-class='CreateButton'>
-    <OsfButton
+    <BsButton
         data-analytics-name='Create DOI'
         data-test-create-doi
         disabled={{@manager.requestDoi.isRunning}}
@@ -14,5 +14,5 @@
         @onClick={{action @manager.requestDoi}}
     >
         {{t 'registries.registration_metadata.create_doi'}}
-    </OsfButton>
+    </BsButton>
 </div>

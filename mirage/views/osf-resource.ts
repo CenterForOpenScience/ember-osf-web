@@ -13,7 +13,7 @@ interface ResourceOptions extends ActionOptions<resourceAction> {
 }
 
 interface NestedResourceOptions extends ResourceOptions {
-    relatedModelName: keyof ModelRegistry;
+    relatedModelName: string & keyof ModelRegistry;
     onCreate?: (parent: ModelInstance, child: ModelInstance) => void;
 }
 
@@ -54,7 +54,7 @@ function gatherRelationshipActions(opts: RelationshipOptions) {
 // For top-level resources, e.g. `/v2/nodes/`
 export function osfResource(
     server: Server,
-    modelName: keyof ModelRegistry,
+    modelName: string & keyof ModelRegistry,
     options?: Partial<ResourceOptions>,
 ) {
     const mirageModelName = pluralize(camelize(modelName));
@@ -104,13 +104,13 @@ export function osfResource(
 // e.g. `/v2/nodes/<node_id>/contributors/<contributor_id>` (there is no `/v2/contributors/<contributor_id>`)
 export function osfNestedResource<K extends keyof ModelRegistry>(
     server: Server,
-    parentModelName: K,
+    parentModelName: string & K,
     relationshipName: string & RelationshipsFor<ModelRegistry[K]>,
     options?: Partial<NestedResourceOptions>,
 ) {
     const opts: NestedResourceOptions = {
         path: `/${pluralize(underscore(parentModelName))}/:parentID/${underscore(relationshipName)}`,
-        relatedModelName: singularize(relationshipName) as keyof ModelRegistry,
+        relatedModelName: singularize(relationshipName) as string & keyof ModelRegistry,
         defaultSortKey: '-id',
         ...options,
     };
@@ -167,7 +167,7 @@ export function osfNestedResource<K extends keyof ModelRegistry>(
 // e.g. `/v2/nodes/<node_id>/affiliated_institutions/<id>` (but the institution lives at `/v2/institutions/<id>`)
 export function osfToManyRelationship<K extends keyof ModelRegistry>(
     server: Server,
-    parentModelName: K,
+    parentModelName: string & K,
     relationshipName: string & RelationshipsFor<ModelRegistry[K]>,
     options?: Partial<RelationshipOptions>,
 ) {

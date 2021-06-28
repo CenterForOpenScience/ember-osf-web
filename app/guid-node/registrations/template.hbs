@@ -1,5 +1,5 @@
 {{! using unsafeTitle here to avoid double encoding because the title helper does its own }}
-{{title (t 'node.registrations.page_title' nodeTitle=this.node.unsafeTitle)}}
+{{page-title (t 'node.registrations.page_title' nodeTitle=this.node.unsafeTitle)}}
 <div
     data-test-registrations-container
     data-analytics-scope='Registrations'
@@ -87,14 +87,14 @@
         </div>
         {{#if this.node.userHasAdminPermission}}
             <div class='col-xs-3 col-sm-4'>
-                <OsfButton
+                <BsButton
                     data-test-new-registration-button
                     data-analytics-name='Open new registration modal'
                     @type='success'
                     @onClick={{action (mut this.newModalOpen) true}}
                 >
                     {{t 'node.registrations.new'}}
-                </OsfButton>
+                </BsButton>
                 <BsModal
                     data-test-new-registration-modal
                     @size='lg'
@@ -142,21 +142,21 @@
                         data-test-new-registration-modal-footer
                         data-analytics-scope='Node - Registrations - New registration modal footer'
                     >
-                        <OsfButton
+                        <BsButton
                             data-test-new-registration-modal-cancel-button
                             data-analytics-name='Close new registration modal'
                             @onClick={{action modal.close}}
                         >
                             {{t 'general.cancel'}}
-                        </OsfButton>
-                        <OsfButton
+                        </BsButton>
+                        <BsButton
                             data-test-new-registration-modal-create-draft-button
                             data-analytics-name='Create draft'
                             @onClick={{action modal.submit}}
                             @type='info'
                         >
                             {{t 'node.registrations.new_registration_modal.create'}}
-                        </OsfButton>
+                        </BsButton>
                     </modal.footer>
                 </BsModal>
                 <BsModal
@@ -211,22 +211,22 @@
                     >
                         <div class='row'>
                             <div class='col-lg-10 col-lg-offset-1'>
-                                <OsfButton
+                                <BsButton
                                     data-test-prereg-challenge-modal-cancel-button
                                     data-analytics-name='Close Prereg Challenge modal'
                                     @onClick={{action modal.close}}
                                 >
                                     {{t 'general.cancel'}}
-                                </OsfButton>
-                                <OsfButton
+                                </BsButton>
+                                <BsButton
                                     data-test-prereg-challenge-modal-continue-button
                                     data-analytics-name='Continue'
+                                    disabled={{not this.preregConsented}}
                                     @onClick={{action modal.submit}}
                                     @type='info'
-                                    @disabled={{not this.preregConsented}}
                                 >
                                     {{t 'node.registrations.prereg_modal.continue'}}
-                                </OsfButton>
+                                </BsButton>
                             </div>
                         </div>
                     </modal.footer>

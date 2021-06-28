@@ -1,9 +1,10 @@
-import { HandlerContext, ModelInstance, Request, Response, Schema } from 'ember-cli-mirage';
+import { HandlerContext, ModelInstance, NormalizedRequestAttrs, Request, Response, Schema } from 'ember-cli-mirage';
 import faker from 'faker';
 
 import DraftNodeModel from 'ember-osf-web/models/draft-node';
 import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import { MirageNode } from '../factories/node';
+import { MirageRegistration } from '../factories/registration';
 
 import { guid } from '../factories/utils';
 import { process } from './utils';
@@ -48,11 +49,11 @@ export function createNodeFromDraftNode(
 }
 
 export function createRegistration(this: HandlerContext, schema: Schema) {
-    const attrs = this.normalizedRequestAttrs('registration');
+    const attrs = this.normalizedRequestAttrs('registration') as Partial<NormalizedRequestAttrs<MirageRegistration>>;
     const randomNum = faker.random.number();
     const registrationGuid = guid('registration');
     const id = registrationGuid(randomNum);
-    const draft = schema.draftRegistrations.find(attrs.draftRegistrationId);
+    const draft = schema.draftRegistrations.find(attrs.draftRegistrationId!);
 
     schema.guids.create({ id, referentType: 'registration' });
     let newReg;
@@ -62,7 +63,7 @@ export function createRegistration(this: HandlerContext, schema: Schema) {
             id,
             embargoed: Boolean(attrs.embargoEndDate),
             dateRegistered: new Date(),
-            registeredFrom: draft.branchedFrom,
+            registeredFrom: branchedFrom,
             registrationSchema: draft.registrationSchema,
             tags: branchedFrom.tags || [],
             category: branchedFrom.category,

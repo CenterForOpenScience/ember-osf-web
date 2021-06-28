@@ -52,7 +52,7 @@ export class ShareTermsFilter extends ShareFilter {
 export class ShareTermsAggregation implements SearchModifier {
     private readonly valueImpl: TypedMap<ShareTermsAggregation>;
 
-    constructor(private name: string, private field: string, private size: number = 200) {
+    constructor(private name: string, private field: string, private size = 200) {
         this.valueImpl = Map(Object.entries(this)) as TypedMap<ShareTermsAggregation>;
     }
 
@@ -189,7 +189,7 @@ export default class ShareSearch extends Search {
                 .sort((a: ShareContributor, b: ShareContributor) => a.orderCited - b.orderCited);
 
             let mainLink: string | undefined;
-            const infoLinks: Array<{ type: string; uri: string; }> = [];
+            const infoLinks: Array<{ type: string, uri: string }> = [];
             const hyperLinks: string[] = [
                 `${config.shareBaseURL}/${r._source.type.replace(/ /g, '')}/${r._id}`,
             ];

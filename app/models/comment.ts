@@ -1,11 +1,9 @@
-import DS from 'ember-data';
+import { attr, belongsTo, hasMany, AsyncBelongsTo, AsyncHasMany } from '@ember-data/model';
 
 import CommentReportModel from './comment-report';
 import NodeModel from './node';
 import OsfModel from './osf-model';
 import UserModel from './user';
-
-const { attr, belongsTo, hasMany } = DS;
 
 export default class CommentModel extends OsfModel {
     // TODO validation: maxLength
@@ -27,16 +25,16 @@ export default class CommentModel extends OsfModel {
 
     // TODO dynamic belongsTo
     @belongsTo('user')
-    user!: DS.PromiseObject<UserModel> & UserModel;
+    user!: AsyncBelongsTo<UserModel> & UserModel;
 
     @belongsTo('node', { inverse: 'comments', polymorphic: true })
-    node!: DS.PromiseObject<NodeModel> & NodeModel;
+    node!: AsyncBelongsTo<NodeModel> & NodeModel;
 
     @hasMany('comment', { inverse: null })
-    replies!: DS.PromiseManyArray<CommentModel>;
+    replies!: AsyncHasMany<CommentModel>;
 
     @hasMany('comment-report', { inverse: 'comment' })
-    reports!: DS.PromiseManyArray<CommentReportModel>;
+    reports!: AsyncHasMany<CommentReportModel>;
 }
 
 declare module 'ember-data/types/registries/model' {

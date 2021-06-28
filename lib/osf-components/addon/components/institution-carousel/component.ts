@@ -1,15 +1,14 @@
+import Store from '@ember-data/store';
 import { A } from '@ember/array';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { localClassNames } from 'ember-css-modules';
-import DS from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Institution from 'ember-osf-web/models/institution';
 import Analytics from 'ember-osf-web/services/analytics';
 import chunkArray from 'ember-osf-web/utils/chunk-array';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import styles from './styles';
 import template from './template';
@@ -20,11 +19,11 @@ import template from './template';
 @layout(template, styles)
 @localClassNames('InstitutionCarousel')
 export default class InstitutionCarousel extends Component {
-    @service store!: DS.Store;
+    @service store!: Store;
     @service analytics!: Analytics;
 
-    itemsPerSlide: number = defaultTo(this.itemsPerSlide, 5);
-    institutions: Institution[] = defaultTo(this.institutions, A([]));
+    itemsPerSlide = 5;
+    institutions: Institution[] = A([]);
 
     @computed('institutions.length', 'itemsPerSlide')
     get showControls() {

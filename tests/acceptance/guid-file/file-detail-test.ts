@@ -4,7 +4,6 @@ import {
     currentURL,
     fillIn,
     settled,
-    triggerEvent,
     triggerKeyEvent,
     visit,
 } from '@ember/test-helpers';
@@ -470,8 +469,9 @@ module('Acceptance | guid file', hooks => {
             assert.dom('[data-test-tags-widget-tag="plugh"]')
                 .doesNotExist();
 
-            await fillIn('input[class*="emberTagInput-input"]', 'plugh');
-            await triggerEvent('input[class*="emberTagInput-input"]', 'blur');
+            await fillIn('[data-test-tags-widget-tag-input] input', 'plugh');
+            await triggerKeyEvent('[data-test-tags-widget-tag-input] input', 'keydown', 'Enter');
+
             assert.dom('[data-test-tags-widget-tag="plugh"]')
                 .exists();
         });

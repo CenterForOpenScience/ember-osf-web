@@ -1,12 +1,14 @@
+import Store from '@ember-data/store';
 import { A } from '@ember/array';
 import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
 import { alias, or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { all, timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import { waitFor } from '@ember/test-waiters';
+import { all, restartableTask, task, timeout } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import config from 'ember-get-config';
+import $ from 'jquery';
 
 import Institution from 'ember-osf-web/models/institution';
 import Node from 'ember-osf-web/models/node';
@@ -14,8 +16,6 @@ import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
-
-import $ from 'jquery';
 
 // TODO pull these from the database
 const {
@@ -28,59 +28,71 @@ const {
 export default class Dashboard extends Controller {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
-    @service store!: DS.Store;
+    @service store!: Store;
 
-    page: number = 1;
-    loading: boolean = false;
-    loadingSearch: boolean = false;
-    loadingMore: boolean = false;
-    initialLoad: boolean = true;
+    page = 1;
+    loading = false;
+    loadingSearch = false;
+    loadingMore = false;
+    initialLoad = true;
     // Initialized in setupController.
     filter!: string | null;
-    sort: string = '-last_logged';
-    modalOpen: boolean = false;
+    sort = '-last_logged';
+    modalOpen = false;
     newNode: Node | null = null;
-    showNewNodeNavigation: boolean = false;
-    'failedLoading-noteworthy': boolean = false;
-    'failedLoading-popular': boolean = false;
+    showNewNodeNavigation = false;
+    'failedLoading-noteworthy' = false;
+    'failedLoading-popular' = false;
 
     institutions: Institution[] = A([]);
     nodes?: QueryHasManyResult<Node>;
     noteworthy!: QueryHasManyResult<Node>;
     popular!: QueryHasManyResult<Node>;
 
-    @task({ withTestWaiter: true, restartable: true })
-    setupTask = task(function *(this: Dashboard) {
+    @alias('currentUser.user') user!: User;
+
+    @or('nodes.length', 'filter', 'findNodes.isRunning') hasNodes!: boolean;
+
+    @computed('nodes.{length,meta.total}')
+    get hasMore(): boolean {
+        return !!this.nodes && this.nodes.length < this.nodes.meta.total;
+    }
+
+    @restartableTask
+    @waitFor
+    async setupTask() {
         this.set('filter', null);
 
         const institutions = this.store.findAll('institution');
 
-        yield all([
+        await all([
             institutions,
-            this.findNodes.perform(),
-            this.getPopularAndNoteworthy.perform(popularNode, 'popular'),
-            this.getPopularAndNoteworthy.perform(noteworthyNode, 'noteworthy'),
+            taskFor(this.findNodes).perform(),
+            taskFor(this.getPopularAndNoteworthy).perform(popularNode, 'popular'),
+            taskFor(this.getPopularAndNoteworthy).perform(noteworthyNode, 'noteworthy'),
         ]);
 
         this.set('institutions', institutions.toArray());
-    });
+    }
 
-    @task({ withTestWaiter: true, restartable: true })
-    filterNodes = task(function *(this: Dashboard, filter: string) {
-        yield timeout(500);
+    @restartableTask
+    @waitFor
+    async filterNodes(filter: string) {
+        await timeout(500);
         this.setProperties({ filter });
         this.analytics.track('list', 'filter', 'Dashboard - Search projects');
-        yield this.findNodes.perform();
-    });
+        await taskFor(this.findNodes).perform();
+    }
 
-    @task({ withTestWaiter: true, restartable: true })
-    findNodes = task(function *(this: Dashboard, more?: boolean) {
+    @restartableTask
+    @waitFor
+    async findNodes(more?: boolean) {
         const indicatorProperty = more ? 'loadingMore' : 'loading';
         this.set(indicatorProperty, true);
 
-        const user: User = yield this.currentUser.user;
+        const { user } = this.currentUser;
 
-        const nodes: QueryHasManyResult<Node> = yield user.queryHasMany('sparseNodes', {
+        const nodes: QueryHasManyResult<Node> = await user!.queryHasMany('sparseNodes', {
             embed: ['bibliographic_contributors', 'parent', 'root'],
             filter: this.filter ? { title: $('<div>').text(this.filter).html() } : undefined,
             page: more ? this.incrementProperty('page') : this.set('page', 1),
@@ -95,13 +107,14 @@ export default class Dashboard extends Controller {
 
         this.set(indicatorProperty, false);
         this.set('initialLoad', false);
-    });
+    }
 
-    @task({ withTestWaiter: true })
-    getPopularAndNoteworthy = task(function *(this: Dashboard, id: string, dest: 'noteworthy' | 'popular') {
+    @task
+    @waitFor
+    async getPopularAndNoteworthy(id: string, dest: 'noteworthy' | 'popular') {
         try {
-            const node: Node = yield this.store.findRecord('node', id);
-            const linkedNodes: QueryHasManyResult<Node> = yield node.queryHasMany('linkedNodes', {
+            const node = await this.store.findRecord('node', id);
+            const linkedNodes: QueryHasManyResult<Node> = await node.queryHasMany('linkedNodes', {
                 embed: 'bibliographic_contributors',
                 page: { size: 5 },
             });
@@ -110,26 +123,17 @@ export default class Dashboard extends Controller {
             const failedProperty = `failedLoading-${dest}` as 'failedLoading-noteworthy' | 'failedLoading-popular';
             this.set(failedProperty, true);
         }
-    });
-
-    @alias('currentUser.user') user!: User;
-
-    @or('nodes.length', 'filter', 'findNodes.isRunning') hasNodes!: boolean;
-
-    @computed('nodes.{length,meta.total}')
-    get hasMore(): boolean {
-        return !!this.nodes && this.nodes.length < this.nodes.meta.total;
     }
 
     @action
     more() {
-        this.findNodes.perform(true);
+        taskFor(this.findNodes).perform(true);
     }
 
     @action
     sortProjects(sort: string) {
         this.setProperties({ sort });
-        this.findNodes.perform();
+        taskFor(this.findNodes).perform();
     }
 
     @action
@@ -148,7 +152,7 @@ export default class Dashboard extends Controller {
 
     @action
     afterStay() {
-        this.findNodes.perform();
+        taskFor(this.findNodes).perform();
     }
 
     @action

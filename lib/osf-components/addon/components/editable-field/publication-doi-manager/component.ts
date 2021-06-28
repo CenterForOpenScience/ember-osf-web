@@ -3,10 +3,11 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias, and, not } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validateFormat } from 'ember-changeset-validations/validators';
-import { ChangesetDef } from 'ember-changeset/types';
-import { task } from 'ember-concurrency-decorators';
+import { BufferedChangeset } from 'ember-changeset/types';
+import { restartableTask } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -22,7 +23,7 @@ export interface PublicationDoiManager {
     publicationDoi: string;
     inEditMode: boolean;
     didValidate: boolean;
-    changeset: ChangesetDef;
+    changeset: BufferedChangeset;
 }
 
 const DoiValidations: ValidationObject<Registration> = {
@@ -45,9 +46,9 @@ export default class PublicationDoiManagerComponent extends Component {
     @service intl!: Intl;
     @service toast!: Toast;
 
-    requestedEditMode: boolean = false;
+    requestedEditMode = false;
     validationNode!: ValidationObject<Registration>;
-    changeset!: ChangesetDef;
+    changeset!: BufferedChangeset;
     didValidate = false;
 
     @not('didValidate') didNotValidate!: boolean;
@@ -65,32 +66,32 @@ export default class PublicationDoiManagerComponent extends Component {
         return this.userCanEdit || !this.fieldIsEmpty;
     }
 
-    @task({ withTestWaiter: true, restartable: true })
-    save = task(function *(this: PublicationDoiManagerComponent) {
+    @restartableTask
+    @waitFor
+    async save(event: Event) {
+        event.preventDefault();
         this.changeset.validate();
 
         this.set('didValidate', true);
 
-        if (!this.changeset.isValid) {
-            return;
-        }
+        if (this.changeset.isValid) {
+            this.changeset.execute();
+            const doi = extractDoi(this.validationNode.articleDoi);
 
-        this.changeset.execute();
-        const doi = extractDoi(this.validationNode.articleDoi);
-
-        this.node.set('articleDoi', doi);
-        try {
-            yield this.node.save();
-        } catch (e) {
-            this.node.rollbackAttributes();
-            const errorMessage = this.intl.t('registries.registration_metadata.edit_pub_doi.error');
-            captureException(e, { errorMessage });
-            this.toast.error(getApiErrorMessage(e), errorMessage);
-            throw e;
+            this.node.set('articleDoi', doi);
+            try {
+                await this.node.save();
+            } catch (e) {
+                this.node.rollbackAttributes();
+                const errorMessage = this.intl.t('registries.registration_metadata.edit_pub_doi.error');
+                captureException(e, { errorMessage });
+                this.toast.error(getApiErrorMessage(e), errorMessage);
+                throw e;
+            }
+            this.set('requestedEditMode', false);
+            this.toast.success(this.intl.t('registries.registration_metadata.edit_pub_doi.success'));
         }
-        this.set('requestedEditMode', false);
-        this.toast.success(this.intl.t('registries.registration_metadata.edit_pub_doi.success'));
-    });
+    }
 
     didReceiveAttrs() {
         if (this.node) {

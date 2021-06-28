@@ -1,16 +1,14 @@
-import DS from 'ember-data';
+import { attr, belongsTo, AsyncBelongsTo } from '@ember-data/model';
 
 import NodeModel from './node';
 import OsfModel from './osf-model';
-
-const { attr, belongsTo } = DS;
 
 export default class IdentifierModel extends OsfModel {
     @attr('fixstring') category!: string;
     @attr('fixstring') value!: string;
 
     @belongsTo('node', { inverse: 'identifiers', polymorphic: true })
-    referent!: DS.PromiseObject<NodeModel> & NodeModel;
+    referent!: AsyncBelongsTo<NodeModel> & NodeModel;
 }
 
 declare module 'ember-data/types/registries/model' {

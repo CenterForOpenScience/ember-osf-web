@@ -1,13 +1,13 @@
+import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validateFormat, validatePresence } from 'ember-changeset-validations/validators';
-import { timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import { restartableTask, timeout } from 'ember-concurrency';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -68,7 +68,7 @@ const UserFormValidations: ValidationObject<UserFormFields> = {
 export default class AddModalComponent extends Component {
     @service currentUser!: CurrentUserService;
     @service toast!: Toast;
-    @service store!: DS.Store;
+    @service store!: Store;
 
     manager!: ModeratorManager;
     @tracked shouldOpenAddDialog = false;
@@ -89,12 +89,12 @@ export default class AddModalComponent extends Component {
         permissionGroup: PermissionGroup.Moderator,
     }, UserFormValidations);
 
-    @task({ withTestWaiter: true, restartable: true })
-    searchUser =
-    task(function *(this: AddModalComponent, name: string) {
+    @restartableTask
+    @waitFor
+    async searchUser(name: string) {
         try {
-            yield timeout(500);
-            return yield this.store.query('user', {
+            await timeout(500);
+            return await this.store.query('user', {
                 'filter[full_name]': name,
             });
         } catch (e) {
@@ -102,20 +102,20 @@ export default class AddModalComponent extends Component {
             this.toast.error(getApiErrorMessage(e));
             return null;
         }
-    });
+    }
 
     @action
     addUser() {
         this.userChangeset.validate();
         this.inviteChangeset.validate();
-        if (this.userChangeset.get('isValid') && this.userChangeset.changes) {
+        if (this.userChangeset.isValid && this.userChangeset.changes) {
             this.manager.addUserAsModerator(
                 this.userChangeset.get('user'),
                 this.userChangeset.get('permissionGroup'),
             );
             this.closeAddModeratorDialog();
         }
-        if (this.inviteChangeset.get('isValid') && this.inviteChangeset.changes) {
+        if (this.inviteChangeset.isValid && this.inviteChangeset.changes) {
             this.manager.addEmailAsModerator(
                 this.inviteChangeset.get('fullName'),
                 this.inviteChangeset.get('email'),

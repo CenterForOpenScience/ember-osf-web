@@ -2,11 +2,11 @@
     <BsDropdown
         data-test-auth-dropdown
         local-class='DropdownContainer'
-        @tagName='li'
-        @classNames='dropdown secondary-nav-dropdown'
+        class='secondary-nav-dropdown'
+        @htmlTag='li'
         as |dd|
     >
-        <dd.toggle data-test-auth-dropdown-toggle @classNames='btn-link'>
+        <dd.toggle data-test-auth-dropdown-toggle class='btn-link'>
             <div class='osf-profile-image'>
                 <img src='{{this.user.profileImage}}&s=25' alt='{{t 'auth_dropdown.user_gravatar'}}'>
             </div>
@@ -56,7 +56,7 @@
                 </OsfLink>
             </ddm.item>
             <ddm.item role='menuitem'>
-                <OsfButton
+                <BsButton
                     data-test-ad-logout
                     data-analytics-name='Logout'
                     class='logoutLink'
@@ -65,7 +65,7 @@
                 >
                     <FaIcon @icon='sign-out-alt' class='fa-lg p-r-xs' />
                     {{t 'auth_dropdown.log_out'}}
-                </OsfButton>
+                </BsButton>
             </ddm.item>
         </dd.menu>
     </BsDropdown>
@@ -81,7 +81,7 @@
             >
                 {{t 'auth_dropdown.sign_up'}}
             </OsfLink>
-            <OsfButton
+            <BsButton
                 data-test-sign-in-button
                 data-analytics-name='SignIn'
                 class='btn-top-login'
@@ -90,7 +90,7 @@
                 @type='info'
             >
                 {{t 'auth_dropdown.sign_in'}}
-            </OsfButton>
+            </BsButton>
         </div>
     </li>
 {{/if}}
