@@ -70,23 +70,23 @@
             {{#if this.showText}}
                 <LicenseText @node={{@manager.registration}} />
             {{/if}}
+        {{/if}}
 
-            {{#if this.shouldShowButtons}}
-                <div local-class='Controls'>
-                    <BsButton @type='default' {{on 'click' @manager.cancel}}>
-                        {{t 'general.cancel'}}
-                    </BsButton>
-                    <BsButton
-                        data-analytics-name='Save license'
-                        data-test-save-license
-                        disabled={{@manager.changeset.isInvalid}}
-                        @type='primary'
-                        {{on 'click' @manager.save}}
-                    >
-                        {{t 'general.save'}}
-                    </BsButton>
-                </div>
-            {{/if}}
+        {{#if this.shouldShowButtons}}
+            <div local-class='Controls'>
+                <BsButton @type='default' {{on 'click' @manager.cancel}}>
+                    {{t 'general.cancel'}}
+                </BsButton>
+                <BsButton
+                    data-analytics-name='Save license'
+                    data-test-save-license
+                    disabled={{@manager.changeset.isInvalid}}
+                    @type='primary'
+                    {{on 'click' @manager.save}}
+                >
+                    {{t 'general.save'}}
+                </BsButton>
+            </div>
         {{/if}}
     </div>
 </FormControls>
