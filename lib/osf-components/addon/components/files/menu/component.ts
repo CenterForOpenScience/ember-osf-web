@@ -28,6 +28,7 @@ const folderValidations: ValidationObject<NewFolder> = {
             allowBlank: false,
             allowNone: false,
             message: 'Folder name cannot be blank',
+            type: 'blank',
         }),
     ],
 };
