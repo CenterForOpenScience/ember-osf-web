@@ -14,7 +14,7 @@
                 @selected={{@manager.selectedLicense}}
                 @options={{@manager.licensesAcceptable}}
                 @onchange={{@manager.changeLicense}}
-                @searchField={{'name'}}
+                @searchField='name'
                 @noMatchesMessage={{t 'registries.registration_metadata.no_matches'}}
                 @placeholder={{t 'registries.registration_metadata.add_license'}}
                 @searchEnabled={{true}}
@@ -36,13 +36,13 @@
             </OsfLink>
         </div>
 
-        {{#if @manager.selectedLicense}}
-            {{#each @manager.requiredFields as |key|}}
-                <form.custom
-                    local-class='AdditionalFields'
-                    @changeset={{@manager.changeset}}
-                    @valuePath='nodeLicense.{{key}}'
-                >
+        {{#if (and @manager.selectedLicense @manager.selectedLicense.requiredFields)}}
+            <form.custom
+                local-class='AdditionalFields'
+                @changeset={{@manager.changeset}}
+                @valuePath='nodeLicense'
+            >
+                {{#each @manager.selectedLicense.requiredFields as |key|}}
                     <div class='form-group'>
                         <label>
                             <p id='nodeLicense.{{key}}'>
@@ -50,16 +50,15 @@
                                 <span local-class='Required'>*</span>
                             </p>
                             <Input
-                                data-test-required-field='nodeLicense.{{key}}'
+                                data-test-required-field={{key}}
                                 @class='form-control'
                                 @value={{readonly (get @manager.changeset.nodeLicense key)}}
                                 @change={{fn @manager.updateNodeLicense key}}
                             />
                         </label>
                     </div>
-                </form.custom>
-            {{/each}}
-
+                {{/each}}
+            </form.custom>
             <BsButton
                 @type='link'
                 @onClick={{action (mut this.showText) (not this.showText)}}
@@ -71,23 +70,23 @@
             {{#if this.showText}}
                 <LicenseText @node={{@manager.registration}} />
             {{/if}}
+        {{/if}}
 
-            {{#if this.shouldShowButtons}}
-                <div local-class='Controls'>
-                    <BsButton @type='default' @onClick={{@manager.cancel}}>
-                        {{t 'general.cancel'}}
-                    </BsButton>
-                    <BsButton
-                        data-analytics-name='Save license'
-                        data-test-save-license
-                        disabled={{@manager.changeset.isInvalid}}
-                        @type='primary'
-                        {{on 'click' @manager.save}}
-                    >
-                        {{t 'general.save'}}
-                    </BsButton>
-                </div>
-            {{/if}}
+        {{#if this.shouldShowButtons}}
+            <div local-class='Controls'>
+                <BsButton @type='default' {{on 'click' @manager.cancel}}>
+                    {{t 'general.cancel'}}
+                </BsButton>
+                <BsButton
+                    data-analytics-name='Save license'
+                    data-test-save-license
+                    disabled={{@manager.changeset.isInvalid}}
+                    @type='primary'
+                    {{on 'click' @manager.save}}
+                >
+                    {{t 'general.save'}}
+                </BsButton>
+            </div>
         {{/if}}
     </div>
 </FormControls>

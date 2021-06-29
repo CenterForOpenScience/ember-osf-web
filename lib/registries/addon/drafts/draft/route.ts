@@ -1,4 +1,5 @@
 import Store from '@ember-data/store';
+import { getOwner } from '@ember/application';
 import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
@@ -50,7 +51,7 @@ export default class DraftRegistrationRoute extends Route {
     model(params: { id: string }): DraftRouteModel {
         const { id: draftId } = params;
         const draftRegistrationTask = taskFor(this.loadDraftRegistrationAndNode).perform(draftId);
-        const draftRegistrationManager = new DraftRegistrationManager(draftRegistrationTask);
+        const draftRegistrationManager = new DraftRegistrationManager(getOwner(this), draftRegistrationTask);
         const navigationManager = new NavigationManager(draftRegistrationManager);
         return {
             navigationManager,

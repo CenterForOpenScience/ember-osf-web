@@ -1,3 +1,4 @@
+import { setOwner } from '@ember/application';
 import { action, computed, set } from '@ember/object';
 import { dependentKeyCompat } from '@ember/object/compat';
 import { alias, filterBy, not, notEmpty, or } from '@ember/object/computed';
@@ -70,16 +71,18 @@ export default class DraftRegistrationManager {
         return this.metadataChangeset.isValid;
     }
 
-    @computed('onPageInput.lastComplete')
+    @computed('onPageInput.lastComplete', 'onMetadataInput.lastComplete')
     get lastSaveFailed() {
         const onPageInputLastComplete = taskFor(this.onPageInput).lastComplete;
+        const metadataInputLastComplete = taskFor(this.onMetadataInput).lastComplete;
         const pageInputFailed = onPageInputLastComplete ? onPageInputLastComplete.isError : false;
-        const metadataInputFailed = onPageInputLastComplete
-            ? onPageInputLastComplete.isError : false;
+        const metadataInputFailed = metadataInputLastComplete
+            ? metadataInputLastComplete.isError : false;
         return pageInputFailed || metadataInputFailed;
     }
 
-    constructor(draftRegistrationTask: LoadDraftModelTask) {
+    constructor(owner: any, draftRegistrationTask: LoadDraftModelTask) {
+        setOwner(this, owner);
         set(this, 'draftRegistrationTask', draftRegistrationTask);
         taskFor(this.initializePageManagers).perform();
         taskFor(this.initializeMetadataChangeset).perform();
