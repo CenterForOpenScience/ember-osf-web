@@ -13,8 +13,8 @@
             data-test-view-normally
             data-analytics-name='Stop view-only link'
             @type='default'
-            {{on "click" this.stopViewOnly event=click}}
-            {{on "click" @manager.cancel event=click}}
+            {{on 'click' this.stopViewOnly}}
+            {{on 'click' @manager.cancel}}
         >
             {{t 'banners.view_only.view_normally'}}
         </BsButton>
