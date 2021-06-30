@@ -294,7 +294,7 @@ export default class DiscoverPage extends Component {
                     component,
                     didInit: false,
                     queryParam,
-                    lockedActiveFilter: {},
+                    lockedActiveFilter: [],
                     activeFilter,
                     defaultQueryFilters: {},
                     currentQueryFilters: {},

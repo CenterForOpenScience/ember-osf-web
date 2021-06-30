@@ -16,6 +16,8 @@ export const choiceFields = tuple(
     'programArea',
     'status',
     'volume',
+    'studyDesign',
+    'schoolType',
 );
 
 const Validations = buildValidations({
@@ -46,6 +48,8 @@ export default class CollectedMetadatumModel extends OsfModel.extend(Validations
     @attr('string') programArea?: string;
     @attr('string') status?: string;
     @attr('string') volume?: string;
+    @attr('string') studyDesign?: string; // custom field for Character Lab
+    @attr('string') schoolType?: string; // custom field for Character Lab
 
     @belongsTo('collection') collection!: Collection;
     @belongsTo('node') guid!: Node;
@@ -53,10 +57,13 @@ export default class CollectedMetadatumModel extends OsfModel.extend(Validations
 
     @computed('collection.displayChoicesFields.[]')
     get displayChoiceFields() {
-        return choiceFields
-            .filter(field => this.collection
-                .get('displayChoicesFields')
-                .includes(`${field}Choices` as ChoicesFields));
+        if (this.collection.get('displayChoicesFields')) {
+            return choiceFields
+                .filter(field => this.collection
+                    .get('displayChoicesFields')
+                    .includes(`${field}Choices` as ChoicesFields));
+        }
+        return [];
     }
 }
 

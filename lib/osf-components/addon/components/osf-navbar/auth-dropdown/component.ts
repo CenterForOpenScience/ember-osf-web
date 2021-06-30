@@ -41,9 +41,9 @@ export class AuthBase extends Component {
 
     campaign?: string;
 
-    profileURL = 'profile';
-    settingsURL = 'settings';
-    signUpURL = 'register';
+    profileURL = pathJoin(baseUrl, 'profile');
+    settingsURL = pathJoin(baseUrl, 'settings');
+    signUpURL = pathJoin(baseUrl, 'register');
     onLinkClicked?: () => void;
 
     @computed('router.currentURL')
