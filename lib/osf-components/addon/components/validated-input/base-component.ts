@@ -3,6 +3,7 @@
 import Model from '@ember-data/model';
 import Component from '@ember/component';
 import { computed, defineProperty } from '@ember/object';
+import { dependentKeyCompat } from '@ember/object/compat';
 import { alias, oneWay } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
@@ -68,7 +69,12 @@ export default abstract class BaseValidatedInput<M extends Model> extends Compon
         return this.placeholder || this.intl.t(this.isRequired ? 'general.required' : 'general.optional');
     }
 
-    @computed('shouldShowMessages', 'value', 'isInvalid', 'isValidating')
+    @dependentKeyCompat
+    get _isInvalid() {
+        return this.changeset ? Boolean(this.changeset.error[this.valuePath as string]) : this.isInvalid;
+    }
+
+    @computed('shouldShowMessages', 'value', '_isInvalid', 'isInvalid', 'isValidating')
     get validationStatus(): ValidationStatus {
         const {
             shouldShowMessages,
@@ -93,10 +99,6 @@ export default abstract class BaseValidatedInput<M extends Model> extends Compon
 
     get _isValidating() {
         return this.changeset ? this.changeset.isValidating(this.valuePath as string) : this.isValidating;
-    }
-
-    get _isInvalid() {
-        return this.changeset ? Boolean(this.changeset.error[this.valuePath as string]) : this.isInvalid;
     }
 
     init() {

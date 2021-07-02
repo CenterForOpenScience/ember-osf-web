@@ -177,8 +177,14 @@ export default class DraftRegistrationManager {
     @restartableTask
     @waitFor
     async onMetadataInput() {
-        await timeout(5000); // debounce
-        this.updateMetadataChangeset();
+        await timeout(3000); // debounce
+        await taskFor(this.updateDraftRegistrationAndSave).perform();
+    }
+
+    @restartableTask
+    @waitFor
+    async updateDraftRegistrationAndSave() {
+        this.copyMetadataChangesToDraft();
         try {
             await this.draftRegistration.save();
         } catch (e) {
@@ -222,7 +228,7 @@ export default class DraftRegistrationManager {
             });
     }
 
-    updateMetadataChangeset() {
+    copyMetadataChangesToDraft() {
         const { metadataChangeset, draftRegistration } = this;
         Object.values(DraftMetadataProperties).forEach(metadataKey => {
             set(
