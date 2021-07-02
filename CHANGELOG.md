@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [21.6.2] - 2021-07-02
+### Fixed
+- [hotfix] draft-registration's node-license validations
+
+### Removed
+- node-license year validator (issues with multiple validator assigned to same value path)
+
 ## [21.6.1] - 2021-06-29
 ### Fixed
 - Fix missing save/cancel buttons on the registration's license/node-license editable field
@@ -1759,7 +1766,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/21.6.1...develop
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/21.6.2...develop
+[21.6.2]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.6.2
 [21.6.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.6.1
 [21.6.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.6.0
 [21.5.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.5.1
