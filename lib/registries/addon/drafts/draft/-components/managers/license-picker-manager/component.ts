@@ -73,7 +73,7 @@ export default class LicensePickerManager extends Component implements LicenseMa
         } else {
             this.draftManager.metadataChangeset.set('nodeLicense', null);
         }
-        this.onMetadataInput();
+        taskFor(this.draftManager.updateDraftRegistrationAndSave).perform();
     }
 
     @action
