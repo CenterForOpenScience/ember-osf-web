@@ -162,6 +162,7 @@ export function buildMetadataValidations() {
     set(validationObj, DraftMetadataProperties.Description, notBlank);
     set(validationObj, DraftMetadataProperties.License, notBlank);
     set(validationObj, DraftMetadataProperties.Subjects, validateSubjects());
-    set(validationObj, DraftMetadataProperties.NodeLicenseProperty, [validateNodeLicense(), validateNodeLicenseYear()]);
+    // TODO: unsure why array of validation functions breaks validations
+    set(validationObj, DraftMetadataProperties.NodeLicenseProperty, validateNodeLicense());
     return validationObj;
 }
