@@ -7,6 +7,7 @@ import {
     find,
     settled,
     triggerKeyEvent,
+    blur,
     waitUntil,
     findAll,
 } from '@ember/test-helpers';
@@ -877,33 +878,31 @@ module('Registries | Acceptance | draft form', hooks => {
             .hasValue(new Date().getUTCFullYear().toString(), 'License: Year autofills to current year');
         assert.dom('[data-test-required-field="copyrightHolders"]')
             .hasText('', 'License: CopyrightHolders does not autofill');
-        const missingFields = 'Copyright Holders';
-        const validationErrorMsg = t('validationErrors.node_license_missing_fields',
+        let missingFields = 'Copyright Holders';
+        let validationErrorMsg = t('validationErrors.node_license_missing_fields',
             { missingFields, numOfFields: 1 }).toString();
         assert.dom('[data-test-validation-errors="nodeLicense"]')
             .containsText(validationErrorMsg, 'NodeLicense validation error when copyright holder is empty');
 
-        // TODO: Fix node-license validation in test
         // Input invalid Nodelicense fields
-        // await fillIn('[data-test-required-field="year"]', '');
-        // await blur('[data-test-required-field="year"]');
-        // await this.pauseTest();
-        // missingFields = 'Year, Copyright Holders';
-        // validationErrorMsg = t('validationErrors.node_license_missing_fields',
-        //     { missingFields, numOfFields: 2 }).toString();
-        // assert.dom('[data-test-validation-errors="nodeLicense"]')
-        //     .containsText(
-        //           validationErrorMsg,
-        //          'NodeLicense validation error when year and copyrightholder are empty',
-        //      );
-        // await percySnapshot(
-        //      'Registries | Acceptance | draft form | metadata editing | metadata: invalid nodelicense');
+        await fillIn('[data-test-required-field="year"]', '');
+        await blur('[data-test-required-field="year"]');
+        missingFields = 'Year, Copyright Holders';
+        validationErrorMsg = t('validationErrors.node_license_missing_fields',
+            { missingFields, numOfFields: 2 }).toString();
+        assert.dom('[data-test-validation-errors="nodeLicense"]')
+            .containsText(
+                validationErrorMsg,
+                'NodeLicense validation error when year and copyrightholder are empty',
+            );
+        await percySnapshot(
+            'Registries | Acceptance | draft form | metadata editing | metadata: invalid nodelicense',
+        );
 
         // validation errors for nodelicense should show on review page
-        // await click('[data-test-link="review"]');
-        //
-        // assert.dom('[data-test-validation-errors="nodeLicense"]').exists('NodeLicense errors exist on Review page');
-        // await percySnapshot('Registries | Acceptance | draft form | metadata editing | review: invalid nodelicense');
+        await click('[data-test-link="review"]');
+        assert.dom('[data-test-validation-errors="nodeLicense"]').exists('NodeLicense errors exist on Review page');
+        await percySnapshot('Registries | Acceptance | draft form | metadata editing | review: invalid nodelicense');
 
         // Return to metadata page to address empty fields
         await click('[data-test-link="metadata"]');
