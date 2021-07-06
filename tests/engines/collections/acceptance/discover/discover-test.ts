@@ -43,6 +43,8 @@ module('Collections | Acceptance | discover', hooks => {
         assert.dom(`[data-test-collection-search-result-node=${nodeAdded.id}]
                     [data-test-contributor-name=${currentUser.id}]`)
             .hasText(currentUser.familyName, 'contributor listed in search result for node added');
+        assert.dom('[data-test-provider-description]').containsText('Find out more', 'Provider description exists');
+        assert.dom('[data-test-provider-description] a').exists('There is a link in the provider description');
         await percySnapshot(assert);
     });
 
