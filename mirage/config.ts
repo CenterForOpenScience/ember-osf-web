@@ -213,6 +213,11 @@ export default function(this: Server) {
         defaultPageSize: 1000,
     });
 
+    osfResource(this, 'schema-response');
+    osfNestedResource(this, 'registration', 'schemaResponses', {
+        path: '/registrations/:parentID/schema_responses',
+    });
+
     osfResource(this, 'brand', { only: ['show'] });
 
     osfResource(this, 'collection');
