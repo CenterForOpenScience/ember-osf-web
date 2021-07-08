@@ -30,9 +30,9 @@ export default class NodeLicenseTransform extends Transform {
         });
     }
 
-    serialize(value: NodeLicense): SerializedNodeLicense {
-        if (!value) {
-            return {};
+    serialize(value: NodeLicense): SerializedNodeLicense | undefined {
+        if (!value || Object.entries(value).length === 0) {
+            return undefined;
         }
 
         const {
