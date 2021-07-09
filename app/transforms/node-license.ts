@@ -30,9 +30,14 @@ export default class NodeLicenseTransform extends Transform {
         });
     }
 
-    serialize(value: NodeLicense): SerializedNodeLicense {
+    serialize(value: NodeLicense): SerializedNodeLicense | undefined {
         if (!value) {
             return {};
+        }
+        // Setting this to undefined will prevent nodelicense from being serialized
+        // in the draft registration metadata workflow if the user has not updated it.
+        if (Object.entries(value).length === 0) {
+            return undefined;
         }
 
         const {

@@ -2,7 +2,7 @@
 // stylelint-disable selector-no-qualifying-type
 .ContentBackground {
     composes: ContentBackground from '../overview/styles.scss';
-    
+
     :global(.list-group-item) {
         margin-bottom: 20px;
     }
@@ -25,18 +25,20 @@
         margin-left: 15px;
     }
 
-    :global(a.nav-link) {
+    .NavItem {
         border: none;
         color: #fff;
+        background: none;
+        padding: 10px 15px;
 
         &:hover {
             border: none;
             color: $color-text-gray;
-            background-color: #e4e4e4;    
+            background-color: #e4e4e4;
         }
     }
 
-    :global(a.nav-link.active) {
+    :global(.active) .NavItem {
         border: none;
         color: $color-text-gray;
         background-color: #e4e4e4;
@@ -49,6 +51,14 @@
         &:hover {
             border: none;
             background-color: #e4e4e4;
+        }
+    }
+
+    .TabPane {
+        display: none;
+
+        &:global(.active) {
+            display: block;
         }
     }
 }

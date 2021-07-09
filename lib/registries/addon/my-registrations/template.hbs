@@ -1,6 +1,8 @@
 {{page-title (t 'registries.my_registrations.header')}}
 
-<RegistriesWrapper>
+<RegistriesWrapper
+    data-analytics-scope='My Registrations page'
+>
     <OsfLayout @backgroundClass={{local-class 'ContentBackground'}} as |layout|>
         <layout.heading>
             <HeroOverlay @align='left'>
@@ -15,22 +17,61 @@
             {{#if this.currentUser.user}}
                 <BsTab
                     local-class='NavTabs'
+                    @customTabs={{true}}
                     @onChange={{this.changeTab}} 
                     @activeId={{this.tab}}
                     as |tab|
                 >
-                    <div local-class='SortDescription'>
+                    <BsNav
+                        @type='tabs'
+                        as |nav|
+                    >
+                        <nav.item
+                            data-test-my-registrations-nav='drafts'
+                            @active={{bs-eq tab.activeId 'drafts'}}
+                        >
+                            <button
+                                data-test-my-registrations-nav-button='drafts'
+                                local-class='NavItem'
+                                type='button'
+                                role='tab'
+                                {{on 'click' (fn this.changeTab 'drafts')}}
+                            >
+                                {{t 'registries.my_registrations.drafts'}}
+                            </button>
+                        </nav.item>
+                        <nav.item
+                            data-test-my-registrations-nav='submitted'
+                            @active={{bs-eq tab.activeId 'submitted'}}
+                        >
+                            <button
+                                data-test-my-registrations-nav-button='submitted'
+                                local-class='NavItem'
+                                type='button'
+                                role='tab'
+                                {{on 'click' (fn this.changeTab 'submitted')}}
+                            >
+                                {{t 'registries.my_registrations.submitted'}}
+                            </button>
+                        </nav.item>
+                    </BsNav>
+                    <div
+                        data-test-my-registrations-sort-description
+                        local-class='SortDescription'
+                    >
                         {{t 'registries.my_registrations.sorted'}}
                     </div>
                     <tab.pane
-                        local-class='Tab'
+                        data-test-my-registrations-pane='drafts'
+                        local-class='TabPane'
                         @title={{t 'registries.my_registrations.drafts'}}
                         @id='drafts'
                     >
                         <Registries::MyRegistrationsList::Drafts />
                     </tab.pane>
                     <tab.pane
-                        local-class='Tab'
+                        data-test-my-registrations-pane='submitted'
+                        local-class='TabPane'
                         @title={{t 'registries.my_registrations.submitted'}}
                         @id='submitted'
                     >
