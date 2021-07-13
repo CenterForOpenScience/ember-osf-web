@@ -22,5 +22,7 @@ export default Factory.extend<CollectionProvider>({
     allowSubmissions: true,
     example: '',
     domainRedirectEnabled: false,
-    description: faker.lorem.paragraph,
+    description() {
+        return `${faker.lorem.paragraph()} Find out <a href="https://help.osf.io/">more</a>.`;
+    },
 });
