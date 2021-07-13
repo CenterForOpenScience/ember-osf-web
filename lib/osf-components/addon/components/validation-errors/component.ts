@@ -1,6 +1,8 @@
 import { assert } from '@ember/debug';
 import { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 import { isEmpty } from '@ember/utils';
+import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { RawValidationResult } from 'ember-changeset-validations/utils/validation-errors';
 import { BufferedChangeset } from 'ember-changeset/types';
@@ -10,11 +12,12 @@ interface Args {
     changeset?: BufferedChangeset;
     key?: string;
     errors?: string | string[];
-    isValidating?: boolean;
 }
 
 export default class ValidationErrors extends Component<Args> {
     @service intl!: Intl;
+
+    @tracked isValidating?: boolean = false;
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
@@ -23,11 +26,6 @@ export default class ValidationErrors extends Component<Args> {
         assert('validation-errors - requires (@changeset and @key!) or @errors',
             Boolean(changeset && key) || !isEmpty(errors));
 
-    }
-
-    get isValidating() {
-        const { changeset, key, isValidating } = this.args;
-        return isValidating ?? changeset?.isValidating(key);
     }
 
     get cpValidationErrors() {
@@ -70,5 +68,11 @@ export default class ValidationErrors extends Component<Args> {
     get validatorErrors() {
         const { cpValidationErrors, changesetValidationErrors } = this;
         return isEmpty(cpValidationErrors) ? changesetValidationErrors : cpValidationErrors;
+    }
+
+    @action
+    setIsValidating() {
+        const { changeset, key } = this.args;
+        this.isValidating = changeset?.isValidating(key);
     }
 }

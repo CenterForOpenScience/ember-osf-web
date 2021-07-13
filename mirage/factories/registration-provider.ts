@@ -41,7 +41,10 @@ export default Factory.extend<MirageRegistrationProvider & RegistrationProviderT
     afterCreate(provider, server) {
         provider.update({
             licensesAcceptable: [
-                server.create('license', { name: 'MIT License' }),
+                server.create('license', {
+                    name: 'Mozilla Public License 2.0',
+                    requiredFields: [],
+                }),
                 server.create('license', {
                     name: 'No license',
                     requiredFields: [

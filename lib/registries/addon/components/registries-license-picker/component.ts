@@ -1,5 +1,4 @@
 import Component from '@ember/component';
-import { action } from '@ember/object';
 
 import { BufferedChangeset } from 'ember-changeset/types';
 import { layout } from 'ember-osf-web/decorators/component';
@@ -38,11 +37,4 @@ export default class RegistriesLicensePicker extends Component {
     showText = false;
     helpLink = 'https://help.osf.io/hc/en-us/articles/360019739014-Licensing';
     registration!: BufferedChangeset | Registration;
-
-    @action
-    onInput() {
-        if (this.manager.onInput) {
-            this.manager.onInput();
-        }
-    }
 }

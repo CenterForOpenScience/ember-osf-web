@@ -56,14 +56,6 @@ declare const config: {
         };
     }>;
     FB_APP_ID?: string;
-    microfeedback: {
-        enabled: boolean;
-        url: string | null;
-        pageParams: { [index: string]: {
-            componentID?: string;
-            priorityID?: string;
-        } | undefined };
-    };
     OSF: {
         clientId?: string;
         scope?: string;

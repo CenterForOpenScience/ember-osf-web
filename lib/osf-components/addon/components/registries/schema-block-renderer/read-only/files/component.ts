@@ -45,12 +45,4 @@ export default class ReadOnlyFiles extends Component {
     get hasResponses(): boolean {
         return Boolean(this.responses && this.responses.length > 0);
     }
-
-    @computed('changeset.isValid')
-    get isValidating() {
-        if (this.changeset) {
-            return this.changeset.isValidating();
-        }
-        return false;
-    }
 }
