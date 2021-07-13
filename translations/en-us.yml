@@ -114,18 +114,8 @@ maintenance:
 quickfiles:
     title: '{userName}''s Quick Files'
     description: 'Files uploaded here are <b>publicly accessible</b> and easy to share with others using the share link.'
-    feedback_dialog_text: 'Tell us what you think of Quick Files'
     transition_auth: 'You must be logged in to view your Quick Files. Redirecting to the login page.'
     share_by_email: 'Share by email'
-feedback:
-    button_text: Feedback
-    placeholder: 'Share your feedback'
-    follow_up_label: 'Contact me about further opportunities to improve OSF.'
-    title: 'Send feedback'
-    confirm_button_text: Send
-    thank_you: 'Thank you!'
-    success: 'Your feedback has been submitted.'
-    dismiss: 'Got it'
 file_detail:
     version:
         id: 'Version ID'
