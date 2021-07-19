@@ -126,21 +126,6 @@ module.exports = function(environment) {
             },
         ],
         FB_APP_ID,
-        microfeedback: {
-            enabled: true,
-            url: null,
-            pageParams: {
-                // Mapping of pageName to query params to add
-                // to the base MicroFeedback URL
-                // e.g. {
-                //    QuickFiles: {
-                //        componentID: '13836',
-                //        priorityID: '10100',
-                //    }
-                // }
-                QuickFiles: {},
-            },
-        },
         OSF: {
             clientId,
             scope,
