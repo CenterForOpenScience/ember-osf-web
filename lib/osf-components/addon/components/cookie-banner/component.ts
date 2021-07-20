@@ -24,9 +24,7 @@ export default class CookieBanner extends Component {
     @service cookies!: Cookies;
     @service session!: Session;
 
-    get showBanner() {
-        return !this.session.isAuthenticated && !this.cookies.exists(consentCookie);
-    }
+    showBanner = !this.session.isAuthenticated && !this.cookies.exists(consentCookie);
 
     @action
     accept() {
