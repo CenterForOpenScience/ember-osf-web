@@ -30,22 +30,27 @@ export default class DraftRegistrationRoute extends Route {
     @task
     @waitFor
     async loadDraftRegistrationAndNode(draftId: string) {
-        const draftRegistration: DraftRegistration = await this.store.findRecord(
-            'draft-registration',
-            draftId,
-            { adapterOptions: { include: 'branched_from' } },
-        );
-        const [subjects, provider]:
-            [SubjectModel[], ProviderModel] = await Promise.all([
-                draftRegistration.loadAll('subjects'),
-                draftRegistration.provider,
-            ]);
+        try {
+            const draftRegistration: DraftRegistration = await this.store.findRecord(
+                'draft-registration',
+                draftId,
+                { adapterOptions: { include: 'branched_from' } },
+            );
+            const [subjects, provider]:
+                [SubjectModel[], ProviderModel] = await Promise.all([
+                    draftRegistration.loadAll('subjects'),
+                    draftRegistration.provider,
+                ]);
 
-        draftRegistration.setProperties({ subjects });
-        if (draftRegistration.currentUserIsReadOnly) {
-            this.replaceWith('drafts.draft.review', draftId);
+            draftRegistration.setProperties({ subjects });
+            if (draftRegistration.currentUserIsReadOnly) {
+                this.replaceWith('drafts.draft.review', draftId);
+            }
+            return { draftRegistration, provider };
+        } catch (error) {
+            this.transitionTo('page-not-found', this.router.currentURL.slice(1));
+            return undefined;
         }
-        return { draftRegistration, provider };
     }
 
     model(params: { id: string }): DraftRouteModel {
