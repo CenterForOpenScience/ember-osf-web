@@ -1,13 +1,10 @@
 import { Request } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import config from 'ember-get-config';
-import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
-import sinon, { SinonStub } from 'sinon';
 
 import { click, currentURL, visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
-import WindowLocation from 'ember-osf-web/utils/window-location';
 
 const {
     OSF: {
@@ -16,21 +13,9 @@ const {
     },
 } = config;
 
-interface ViewOnlyTestContext extends TestContext {
-    assignLocationStub: SinonStub;
-}
-
 module('Acceptance | view-only-links', hooks => {
     setupEngineApplicationTest(hooks, 'registries');
     setupMirage(hooks);
-
-    hooks.beforeEach(function(this: ViewOnlyTestContext) {
-        this.assignLocationStub = sinon.stub(WindowLocation, 'assignLocation');
-    });
-
-    hooks.afterEach(function(this: ViewOnlyTestContext) {
-        this.assignLocationStub.restore();
-    });
 
     test('View-only links', async assert => {
         server.create('root', 'withAnonymizedVOL');
@@ -79,21 +64,20 @@ module('Acceptance | view-only-links', hooks => {
         });
     });
 
-    test('View-only banner (logged in, non-anonymized)', async function(this: ViewOnlyTestContext, assert: Assert) {
+    test('View-only banner (logged in, non-anonymized)', async function(assert: Assert) {
         server.create('root');
 
         const viewOnlyToken = 'thisisatoken';
         await visit(`/support?view_only=${viewOnlyToken}`);
-
         assert.equal(currentURL(), `/support?view_only=${viewOnlyToken}`);
         assert.dom('[data-test-view-normally]').exists({ count: 1 });
 
         await click('[data-test-view-normally]');
 
-        assert.ok(this.assignLocationStub.calledWith('/?view_only='));
+        assert.equal(currentURL(), '/dashboard');
     });
 
-    test('View-only banner (logged in, anonymized)', async function(this: ViewOnlyTestContext, assert: Assert) {
+    test('View-only banner (logged in, anonymized)', async function(assert: Assert) {
         server.create('root', 'withAnonymizedVOL');
 
         const viewOnlyToken = 'thisisatoken';
@@ -103,11 +87,11 @@ module('Acceptance | view-only-links', hooks => {
         assert.dom('[data-test-view-normally]').exists({ count: 1 });
 
         await click('[data-test-view-normally]');
+        assert.equal(currentURL(), '/dashboard');
 
-        assert.ok(this.assignLocationStub.calledWith('/?view_only='));
     });
 
-    test('View-only banner (logged out, non-anonymized)', async function(this: ViewOnlyTestContext, assert: Assert) {
+    test('View-only banner (logged out, non-anonymized)', async function(assert: Assert) {
         server.create('root', 'loggedOut');
 
         const viewOnlyToken = 'thisisatoken';
@@ -118,10 +102,10 @@ module('Acceptance | view-only-links', hooks => {
 
         await click('[data-test-view-normally]');
 
-        assert.ok(this.assignLocationStub.calledWith('/?view_only='));
+        assert.equal(currentURL(), '/?view_only=');
     });
 
-    test('View-only banner (logged out, anonymized)', async function(this: ViewOnlyTestContext, assert: Assert) {
+    test('View-only banner (logged out, anonymized)', async function(assert: Assert) {
         server.create('root', 'loggedOut', 'withAnonymizedVOL');
 
         const viewOnlyToken = 'thisisatoken';
@@ -132,7 +116,7 @@ module('Acceptance | view-only-links', hooks => {
 
         await click('[data-test-view-normally]');
 
-        assert.ok(this.assignLocationStub.calledWith('/?view_only='));
+        assert.equal(currentURL(), '/?view_only=');
     });
 
     test('Transition from project to registration does not add bad VOL', async assert => {
