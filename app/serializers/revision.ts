@@ -1,10 +1,10 @@
 import OsfSerializer from './osf-serializer';
 
-export default class SchemaResponseSerializer extends OsfSerializer {
+export default class RevisionSerializer extends OsfSerializer {
 }
 
 declare module 'ember-data/types/registries/serializer' {
     export default interface SerializerRegistry {
-        'schema-response': SchemaResponseSerializer;
+        'revision': RevisionSerializer;
     } // eslint-disable-line semi
 }
