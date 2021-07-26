@@ -213,9 +213,15 @@ export default function(this: Server) {
         defaultPageSize: 1000,
     });
 
-    osfResource(this, 'schema-response');
-    osfNestedResource(this, 'registration', 'schemaResponses', {
-        path: '/registrations/:parentID/schema_responses',
+    osfResource(this, 'revision', { only: ['index', 'delete', 'show', 'update']});
+    this.post('/revisions', createNewRevision);
+    osfNestedResource(this, 'registration', 'revisions', {
+        path: '/registrations/:parentID/revisions',
+        only: ['show', 'create'],
+    });
+    osfNestedResource(this, 'revision', 'actions', {
+        path: '/revisions/:parentID/actions',
+        only: ['show', 'create', 'index'],
     });
 
     osfResource(this, 'brand', { only: ['show'] });
