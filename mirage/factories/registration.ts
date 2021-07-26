@@ -143,13 +143,6 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
                     }),
             });
         }
-        if (!newReg.schemaResponses) {
-            newReg.update({
-                schemaResponses: [
-                    server.create('schema-response'),
-                ],
-            });
-        }
     },
 
     dateRegistered() {

@@ -2,18 +2,21 @@ import { Factory } from 'ember-cli-mirage';
 
 import RevisionModel from 'ember-osf-web/models/revision';
 
-export default Factory.extend<RevisionModel>({
+export interface MirageRevisionModel extends RevisionModel {
+    registrationId: string;
+}
 
+export default Factory.extend<MirageRevisionModel>({
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {
     export default interface MirageModelRegistry {
-        revision: RevisionModel;
+        revision: MirageRevisionModel;
     } // eslint-disable-line semi
 }
 
 declare module 'ember-cli-mirage/types/registries/schema' {
     export default interface MirageSchemaRegistry {
-        revisions: RevisionModel;
+        revisions: MirageRevisionModel;
     } // eslint-disable-line semi
 }

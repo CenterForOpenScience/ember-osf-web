@@ -29,6 +29,7 @@ import {
     getProviderRegistrations,
     registrationDetail,
 } from './views/registration';
+import { createNewRevision } from './views/revision';
 import { rootDetail } from './views/root';
 import { shareSearch } from './views/share-search';
 import { createToken } from './views/token';

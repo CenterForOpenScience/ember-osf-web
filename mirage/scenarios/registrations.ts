@@ -116,6 +116,10 @@ export function registrationScenario(
             { field_name: 'EGAP Registration ID', field_value: '' },
             { field_name: 'Another Field', field_value: 'aloha' },
         ],
+        registrationResponses: {
+            'page-one_long-text': 'aaaaa',
+            'page-one_multi-select': ['Crocs'],
+        },
     }, 'withContributors', 'withReviewActions');
 
     server.create('registration', {
