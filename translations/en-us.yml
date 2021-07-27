@@ -1575,6 +1575,7 @@ osf-components:
         tags: Tags
         add_tag: 'Add a tag to enhance discoverability'
         no_tags: 'No tags'
+        remove_tag: 'Remove tag'
     institutions-list:
         no_affiliated_institution:
             project: 'This project has no affiliated institutions'
@@ -1680,6 +1681,7 @@ osf-components:
             error: 'Error updating contributor bibliographic status.'
         reorderContributor:
             success: 'Contributor order updated.'
+            dragHandle: '⇕'
         noEducation: 'No education history to show'
         noEmployment: 'No employment history to show'
         addContributor:

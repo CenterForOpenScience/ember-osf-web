@@ -22,6 +22,7 @@
     {{#unless this.readOnly}}
         <BsButton
             local-class='RemoveButton'
+            aria-label={{t 'osf-components.tags-widget.remove_tag'}}
             data-analytics-name='Remove Tag'
             data-analytics-extra={{tag}}
             @type='link'
