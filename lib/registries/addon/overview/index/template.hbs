@@ -11,5 +11,8 @@
 {{/unless}}
 
 {{#if this.registration}}
-    <Registries::OverviewFormRenderer @registration={{this.registration}} />
+    <Registries::OverviewFormRenderer
+        @registration={{this.registration}}
+        @revisionId={{this.revisionId}}
+    />
 {{/if}}

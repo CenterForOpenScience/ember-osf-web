@@ -23,10 +23,11 @@ export default class Overview extends Controller {
     @service store!: Store;
     model!: GuidRouteModel<Registration>;
 
-    queryParams = ['mode'];
+    queryParams = ['mode', 'revisionId'];
     supportEmail = supportEmail;
 
     @tracked mode = '';
+    @tracked revisionId = '';
 
     @alias('model.taskInstance.value') registration?: Registration;
 

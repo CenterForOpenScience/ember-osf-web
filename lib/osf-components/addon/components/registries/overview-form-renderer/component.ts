@@ -1,3 +1,5 @@
+import Store from '@ember-data/store';
+import { inject as service } from '@ember/service';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { waitFor } from '@ember/test-waiters';
@@ -12,24 +14,33 @@ import template from './template';
 @tagName('')
 @layout(template)
 export default class RegistrationFormViewSchemaBlocks extends Component {
+    @service store!: Store;
     // Required parameter
     registration?: Registration;
+    revisionId?: string;
 
     // Private properties
     schemaBlocks?: SchemaBlock[];
     schemaBlockGroups?: SchemaBlockGroup[];
+    responses?: { [key: string]: string };
 
     @restartableTask({ on: 'didReceiveAttrs' })
     @waitFor
     async fetchSchemaBlocks() {
+        let revision;
+        if (this.revisionId) {
+            revision = await this.store.findRecord('revision', this.revisionId);
+        }
         if (this.registration) {
             const registrationSchema = await this.registration.registrationSchema;
+            const responses = revision ? revision.revisionResponses : this.registration.registrationResponses;
             const schemaBlocksRef = registrationSchema.hasMany('schemaBlocks');
             const schemaBlocks = schemaBlocksRef.ids().length
                 ? schemaBlocksRef.value() : (await registrationSchema.loadAll('schemaBlocks'));
             const schemaBlockGroups = getSchemaBlockGroups(schemaBlocks as SchemaBlock[]);
             this.set('schemaBlocks', schemaBlocks);
             this.set('schemaBlockGroups', schemaBlockGroups);
+            this.set('responses', responses);
         }
     }
 }
