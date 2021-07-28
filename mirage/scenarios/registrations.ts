@@ -122,6 +122,17 @@ export function registrationScenario(
         },
     }, 'withContributors', 'withReviewActions');
 
+    server.create('revision', {
+        id: 'recaf',
+        revisionJustification: 'I made a typo LOL',
+        revisionResponses: {
+            'page-one_long-text': 'bbbbb',
+            'page-one_multi-select': ['Crocs'],
+        },
+        initiatedBy: currentUser,
+        registration: decaf,
+    });
+
     server.create('registration', {
         id: 'cuban',
         title: 'embargoed',
