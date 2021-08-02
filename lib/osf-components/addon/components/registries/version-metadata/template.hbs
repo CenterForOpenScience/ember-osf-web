@@ -1,0 +1,19 @@
+<section
+    local-class='versionMetadata'
+>
+    <p
+        data-test-version-metadata-title
+        local-class='versionMetadata-title'
+    >
+        {{t 'registries.overview.versionMetadata.title'}}
+    </p>
+    {{!-- TODO: add description for what fields have changed --}}
+    <p data-test-version-metadata-date>
+        {{t 'registries.overview.versionMetadata.date' date=(moment-format @revision.date 'MMM DD, YYYY') author=@revision.initiatedBy.fullName}}
+    </p>
+    <p data-test-version-metadata-reason>
+        {{t 'registries.overview.versionMetadata.reason'}}
+        <br>
+        <i>{{@revision.revisionJustification}}</i>
+    </p>
+</section>
