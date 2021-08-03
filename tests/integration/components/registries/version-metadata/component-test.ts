@@ -33,7 +33,7 @@ module('Integration | Component | version-metadata', hooks => {
         );
         assert.dom('[data-test-version-metadata-date]').hasTextContaining(
             t('registries.overview.versionMetadata.date', {
-                date: moment(revision.dateModified).format('MMM D, YYYY'),
+                date: moment(revision.dateModified).format('MMM DD, YYYY'),
                 author: 'Lex Luthor',
             }), 'revision initiator is shown',
         );
