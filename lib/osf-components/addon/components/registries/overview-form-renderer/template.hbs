@@ -1,6 +1,9 @@
 {{#if this.fetchSchemaBlocks.isRunning}}
     <LoadingIndicator @dark={{true}}/>
 {{else}}
+    {{#if this.revision}}
+        <Registries::VersionMetadata @revision={{this.revision}} />
+    {{/if}}
     <Registries::RegistrationFormNavigationDropdown
         @showMetadata={{false}}
         @schemaBlocks={{this.schemaBlocks}}

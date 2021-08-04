@@ -7,6 +7,7 @@ import { restartableTask } from 'ember-concurrency';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Registration from 'ember-osf-web/models/registration';
+import RevisionModel from 'ember-osf-web/models/revision';
 import { getSchemaBlockGroups, SchemaBlock, SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema';
 
 import template from './template';
@@ -20,6 +21,7 @@ export default class RegistrationFormViewSchemaBlocks extends Component {
     revisionId?: string;
 
     // Private properties
+    revision?: RevisionModel;
     schemaBlocks?: SchemaBlock[];
     schemaBlockGroups?: SchemaBlockGroup[];
     responses?: { [key: string]: string };
@@ -30,6 +32,7 @@ export default class RegistrationFormViewSchemaBlocks extends Component {
         let revision;
         if (this.revisionId) {
             revision = await this.store.findRecord('revision', this.revisionId);
+            this.set('revision', revision);
         }
         if (this.registration) {
             const registrationSchema = await this.registration.registrationSchema;

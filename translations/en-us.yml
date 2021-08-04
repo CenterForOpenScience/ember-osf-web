@@ -1348,6 +1348,11 @@ registries:
             remove_bookmark: 'Remove bookmark'
             share: 'Share this registration'
             fork: 'Fork this registration'
+        versionMetadata:
+            title: 'This is an update to the original registration'
+            date: 'This update was made on {date} by {author}'
+            description: 'Updated responses are labeled'
+            reason: 'Reason for revision:'
     overviewHeader:
         needModeratorPermission: 'You do not have permission to moderate this registration.'
     partialRegistrationModal:
