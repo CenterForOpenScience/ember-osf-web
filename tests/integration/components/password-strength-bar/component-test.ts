@@ -1,19 +1,14 @@
 import { render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { Server } from 'ember-cli-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupRenderingTest } from 'ember-qunit';
-import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
-
-import { startMirage } from 'ember-osf-web/initializers/ember-cli-mirage';
-
-type Context = TestContext & { server: Server };
 
 module('Integration | Component | password-strength-bar', hooks => {
     setupRenderingTest(hooks);
+    setupMirage(hooks);
 
-    hooks.beforeEach(function(this: Context) {
-        this.server = startMirage();
+    hooks.beforeEach(function(this) {
         this.store = this.owner.lookup('service:store');
     });
 
