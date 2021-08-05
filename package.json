@@ -11,7 +11,7 @@
   "repository": "https://github.com/CenterForOpenScience/ember-osf-web",
   "scripts": {
     "build": "ember build --environment=production",
-    "build:test": "ember build --environment=test",
+    "build:test:cover": "COVERAGE=true ember build --environment=test",
     "lint": "npm-run-all --aggregate-output --continue-on-error --parallel 'lint:!(fix)'",
     "lint:fix": "npm-run-all --aggregate-output --continue-on-error --parallel lint:*:fix",
     "lint:js": "eslint . --ext .js --max-warnings=0 --cache",
@@ -23,7 +23,7 @@
     "lint:style": "stylelint 'app/**/*.scss' 'lib/**/*.scss'",
     "start": "ember server",
     "test": "npm-run-all lint test:*",
-    "test:ember": "EMBER_ENV=test ember exam --split=4 --parallel=1",
+    "test:ember:cover": "EMBER_ENV=test COVERAGE=true ember exam --split=4 --parallel=1",
     "test:cover": "EMBER_ENV=test COVERAGE=true ember exam",
     "test:config": "mocha node-tests/config-test.js",
     "test:blueprints": "mocha node-tests/blueprints",
