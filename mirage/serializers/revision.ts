@@ -7,6 +7,14 @@ const { OSF: { apiUrl } } = config;
 export default class RevisionSerializer extends ApplicationSerializer<MirageRevisionModel> {
     buildRelationships(model: ModelInstance<MirageRevisionModel>) {
         return {
+            registrationSchema: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/schemas/registrations/${model.registrationSchema.id}/`,
+                        meta: this.buildRelatedLinkMeta(model, 'registrationSchema'),
+                    },
+                },
+            },
             registration: {
                 links: {
                     related: {

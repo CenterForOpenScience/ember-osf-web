@@ -7,6 +7,12 @@ export interface MirageRevisionModel extends RevisionModel {
 }
 
 export default Factory.extend<MirageRevisionModel>({
+    afterCreate(revision) {
+        if (revision.registration) {
+            revision.registrationSchema = revision.registration.registrationSchema;
+            revision.save();
+        }
+    },
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {

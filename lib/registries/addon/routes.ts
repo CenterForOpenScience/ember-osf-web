@@ -28,6 +28,11 @@ export default buildRoutes(function() {
         });
     });
 
+    this.route('edit-revision', { path: '/registries/revisions/:revisionId' }, function() {
+        this.route('page', { path: '/:page' });
+        this.route('review');
+    });
+
     this.route('overview', { path: '/:guid' } as any, function() {
         this.route('analytics');
         this.route('children', { path: '/components' });
@@ -35,6 +40,7 @@ export default buildRoutes(function() {
         this.route('forks');
         this.route('links');
     });
+
 
     this.route('page-not-found', { path: '/*path' });
 });

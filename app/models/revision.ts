@@ -1,5 +1,6 @@
 import { AsyncBelongsTo, AsyncHasMany, attr, belongsTo, hasMany } from '@ember-data/model';
 import RegistrationModel from 'ember-osf-web/models/registration';
+import RegistrationSchemaModel from 'ember-osf-web/models/registration-schema';
 import RevisionActionModel from 'ember-osf-web/models/revision-action';
 import UserModel from 'ember-osf-web/models/user';
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
@@ -23,6 +24,8 @@ export default class RevisionModel extends OsfModel {
 
     @belongsTo('user') initiatedBy!: AsyncBelongsTo<UserModel> & UserModel;
     @belongsTo('registration') registration!: AsyncBelongsTo<RegistrationModel> & RegistrationModel;
+    @belongsTo('registration-schema')
+    registrationSchema!: AsyncBelongsTo<RegistrationSchemaModel> & RegistrationSchemaModel;
     @hasMany('revision-action') actions!: AsyncHasMany<RevisionActionModel> & RevisionActionModel;
 }
 

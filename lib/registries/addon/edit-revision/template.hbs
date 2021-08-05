@@ -1,0 +1,100 @@
+<RegistriesWrapper
+    @provider={{this.provider}}
+    {{with-branding (get-model this.brand)}}
+>
+    {{#if this.model.revisionManager.initializing}}
+        <div local-class='ContentBackground Loading'>
+            <LoadingIndicator @dark={{true}} />
+        </div>
+    {{else}}
+        {{#let
+            this.model.navigationManager
+            this.model.revisionManager
+            as |navManager revisionManager|
+        }}
+            <OsfLayout @backgroundClass={{local-class 'ContentBackground'}} as |layout|>
+                <layout.heading>
+                    <HeroOverlay @align='left' local-class='DraftHeroOverlay'>
+                        <div local-class='Title'>
+                            {{#if (and revisionManager.hasProject revisionManager.node)}}
+                                <OsfLink
+                                    data-test-link-back-to-project
+                                    data-analytics-name='Go to project'
+                                    local-class='BreadCrumb'
+                                    @route='guid-node'
+                                    @models={{array revisionManager.node.id}}
+                                >
+                                    {{revisionManager.node.title}} >
+                                </OsfLink>
+                            {{/if}}
+                            <h1>
+                                New revision
+                            </h1>
+                        </div>
+                    </HeroOverlay>
+                </layout.heading>
+                {{#if this.showMobileView}}
+                    <layout.top as |topLayout|>
+                        <Drafts::Draft::-Components::TopNav
+                            @layout={{topLayout}}
+                            @draftManager={{revisionManager}}
+                            @navManager={{navManager}}
+                            @onSubmitRedirect={{this.onSubmitRedirect}}
+                            @currentUserIsReadOnly={{revisionManager.currentUserIsReadOnly}}
+                        />
+                    </layout.top>
+                {{/if}}
+                <layout.leftNav as |leftNav|>
+                    {{#unless revisionManager.currentUserIsReadOnly}}
+                        {{#each revisionManager.pageManagers as |pageManager index|}}
+                            <PageLink
+                                @link={{component leftNav.link}}
+                                @draftId={{revisionManager.revisionId}}
+                                @pageManager={{pageManager}}
+                                @route='registries.edit-revision.page'
+                                @pageIndex={{index}}
+                                @currentPageIndex={{navManager.currentPage}}
+                                @navMode={{leftNav.leftGutterMode}}
+                            />
+                        {{/each}}
+                    {{/unless}}
+                    <PageLink
+                        @link={{component leftNav.link}}
+                        @draftId={{revisionManager.revisionId}}
+                        @pageName='review'
+                        @route='registries.edit-revision.review'
+                        @currentPageName={{navManager.currentRoute}}
+                        @label='{{t 'registries.drafts.draft.review.page_label'}}'
+                        @navMode={{leftNav.leftGutterMode}}
+                    />
+                </layout.leftNav>
+                <layout.main local-class='Main'>
+                    {{outlet}}
+                </layout.main>
+                {{#unless this.showMobileView}}
+                    <layout.right local-class='Right'>
+                        <div local-class='RightWrapper'>
+                            <div local-class='RightNavWrapper'>
+                                <h3>
+                                    placeholder for right nav...
+                                </h3>
+                            </div>
+                            <div local-class='EditWarning'>
+                                <strong>
+                                    <FaIcon
+                                        @icon='exclamation-circle'
+                                        @fixedWidth={{true}}
+                                    />
+                                    {{t 'general.caution'}}
+                                </strong>
+                                <span>
+                                    {{t 'registries.drafts.draft.form.collaborative_edit_warning'}}
+                                </span>
+                            </div>
+                        </div>
+                    </layout.right>
+                {{/unless}}
+            </OsfLayout>
+        {{/let}}
+    {{/if}}
+</RegistriesWrapper>
