@@ -1,13 +1,13 @@
 {{page-title (t 'registries.drafts.draft.review.title')}}
 
-{{#let this.draftRegistrationManager as |draftManager|}}
-    {{#if draftManager.initializing}}
+{{#let this.revisionManager as |revisionManager|}}
+    {{#if revisionManager.initializing}}
         <LoadingIndicator @dark={{true}} />
     {{else}}
         <main
             {{did-insert this.markAndValidatedPages}}
         >
-            {{#if (and (not draftManager.registrationResponsesIsValid) this.showMobileView)}}
+            {{#if (and (not revisionManager.registrationResponsesIsValid) this.showMobileView)}}
                 <div
                     data-test-invalid-responses-text
                     local-class='WarningMessage'
@@ -18,16 +18,12 @@
             {{/if}}
             <Registries::RegistrationFormNavigationDropdown
                 @showMetadata={{true}}
-                @schemaBlocks={{draftManager.schemaBlocks}}
-            />
-            <Registries::ReviewMetadataRenderer
-                @metadataChangeset={{draftManager.metadataChangeset}}
-                @draftRegistration={{draftManager.draftRegistration}}
-                @showEditButton={{not draftManager.currentUserIsReadOnly}}
+                @schemaBlocks={{revisionManager.schemaBlocks}}
             />
             <Registries::ReviewFormRenderer
-                @draftManager={{draftManager}}
-                @showEditButton={{not draftManager.currentUserIsReadOnly}}
+                @pageManagers={{revisionManager.pageManagers}}
+                @responses={{revisionManager.revision.revisionResponses}}
+                @showEditButton={{not revisionManager.currentUserIsReadOnly}}
             />
         </main>
     {{/if}}

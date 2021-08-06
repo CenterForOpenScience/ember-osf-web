@@ -4,28 +4,28 @@ import { alias, not } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { taskFor } from 'ember-concurrency-ts';
 
-import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import Media from 'ember-responsive';
 
 import { PageManager } from 'ember-osf-web/packages/registration-schema';
-import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
+import RevisionManager from 'registries/edit-revision/revision-manager';
+import RevisionModel from 'ember-osf-web/models/revision';
 
-export default class RegistriesDraftReview extends Controller {
+export default class EditRevisionReview extends Controller {
     @service media!: Media;
 
-    @alias('model.draftRegistrationManager') draftRegistrationManager?: DraftRegistrationManager;
-    @alias('draftRegistrationManager.pageManagers') pageManagers?: PageManager[];
-    @alias('draftRegistrationManager.draftRegistration') draftRegistration?: DraftRegistration;
+    @alias('model.revisionManager') revisionManager?: RevisionManager;
+    @alias('revisionManager.pageManagers') pageManagers?: PageManager[];
+    @alias('revisionManager.revision') revision?: RevisionModel;
 
-    @not('draftRegistration') loading!: boolean;
+    @not('revision') loading!: boolean;
     @not('media.isDesktop') showMobileView!: boolean;
 
     @action
     markAndValidatedPages() {
-        if (this.draftRegistrationManager) {
-            this.draftRegistrationManager.markAllPagesVisited();
-            this.draftRegistrationManager.validateAllVisitedPages();
-            taskFor(this.draftRegistrationManager.saveAllVisitedPages).perform();
+        if (this.revisionManager) {
+            this.revisionManager.markAllPagesVisited();
+            this.revisionManager.validateAllVisitedPages();
+            taskFor(this.revisionManager.saveAllVisitedPages).perform();
         }
     }
 }

@@ -3,20 +3,20 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
 import Analytics from 'ember-osf-web/services/analytics';
+import { RevisionRoute } from 'registries/edit-revision/nav-manager';
 
-import { DraftRoute } from 'registries/drafts/draft/navigation-manager';
-import { DraftRouteModel } from '../route';
+import { EditRevisionRouteModel } from '../route';
 
 export default class DraftRegistrationReview extends Route {
     @service analytics!: Analytics;
 
-    model(): DraftRouteModel {
-        const draftRouteModel = this.modelFor('drafts.draft') as DraftRouteModel;
-        const { navigationManager } = draftRouteModel;
+    model(): EditRevisionRouteModel {
+        const editRevisionRouteModel = this.modelFor('edit-revision') as EditRevisionRouteModel;
+        const { navigationManager } = editRevisionRouteModel;
 
-        navigationManager.setPageAndRoute(DraftRoute.Review);
+        navigationManager.setPageAndRoute(RevisionRoute.Review);
 
-        return this.modelFor('drafts.draft') as DraftRouteModel;
+        return this.modelFor('edit-revision') as EditRevisionRouteModel;
     }
 
     @action

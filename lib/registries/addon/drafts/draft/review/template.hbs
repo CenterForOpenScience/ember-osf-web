@@ -26,7 +26,8 @@
                 @showEditButton={{not draftManager.currentUserIsReadOnly}}
             />
             <Registries::ReviewFormRenderer
-                @draftManager={{draftManager}}
+                @pageManagers={{draftManager.pageManagers}}
+                @responses={{draftManager.draftRegistration.registrationResponses}}
                 @showEditButton={{not draftManager.currentUserIsReadOnly}}
             />
         </main>
