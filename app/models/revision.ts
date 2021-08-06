@@ -10,7 +10,7 @@ import OsfModel from './osf-model';
 export enum RevisionReviewStates {
     RevisionInProgress = 'revision_in_progress',
     RevisionPendingAdminApproval = 'revision_pending_admin_approval',
-    RevisionPendingModeration = 'revision_pendping_moderation',
+    RevisionPendingModeration = 'revision_pending_moderation',
     Approved = 'approved',
 }
 

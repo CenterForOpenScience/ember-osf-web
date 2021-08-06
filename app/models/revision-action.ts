@@ -1,9 +1,10 @@
 import { attr, belongsTo, AsyncBelongsTo } from '@ember-data/model';
+import { computed } from '@ember/object';
 import RevisionModel from 'ember-osf-web/models/revision';
 import UserModel from 'ember-osf-web/models/user';
 import OsfModel from './osf-model';
 
-export enum ReviewActionTrigger {
+export enum RevisionActionTrigger {
     SubmitRevision = 'submit_revision',
     AdminApproveRevision = 'admin_approve_revision',
     AdminRejectRevision = 'admin_reject_revision',
@@ -11,8 +12,16 @@ export enum ReviewActionTrigger {
     RejectRevision = 'reject_revision',
 }
 
+const TriggerToPastTenseTranslationKey: Record<RevisionActionTrigger, string> = {
+    submit_revision: 'submit',
+    admin_approve_revision: 'approve',
+    admin_reject_revision: 'reject',
+    accept_revision: 'accept',
+    reject_revision: 'reject',
+};
+
 export default class RevisionActionModel extends OsfModel {
-    @attr('string') actionTrigger!: ReviewActionTrigger;
+    @attr('string') actionTrigger!: RevisionActionTrigger;
     @attr('fixstring') comment!: string;
     @attr('string') fromState!: string;
     @attr('string') toState!: string;
@@ -26,6 +35,10 @@ export default class RevisionActionModel extends OsfModel {
     @belongsTo('revision', { inverse: null })
     target!: AsyncBelongsTo<RevisionModel> & RevisionModel;
 
+    @computed('actionTrigger')
+    get pastTenseActionTrigger(): string {
+        return TriggerToPastTenseTranslationKey[this.actionTrigger] || '';
+    }
 }
 
 declare module 'ember-data/types/registries/model' {
