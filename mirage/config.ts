@@ -30,6 +30,7 @@ import {
     registrationDetail,
 } from './views/registration';
 import { createNewRevision } from './views/revision';
+import { createRevisionAction } from './views/revision-action';
 import { rootDetail } from './views/root';
 import { shareSearch } from './views/share-search';
 import { createToken } from './views/token';
@@ -224,6 +225,7 @@ export default function(this: Server) {
         path: '/revisions/:parentID/actions',
         only: ['show', 'create', 'index'],
     });
+    this.post('/revision/:revisionID/actions', createRevisionAction);
 
     osfResource(this, 'brand', { only: ['show'] });
 

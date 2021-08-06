@@ -100,9 +100,17 @@ export function createRegistration(this: HandlerContext, schema: Schema) {
 }
 
 export function getProviderRegistrations(this: HandlerContext, schema: Schema, request: Request) {
+    let filterField: 'reviewsState' | 'revisionState';
+    let filterParams: string | string[];
     const { parentID: providerId } = request.params;
     const { 'filter[reviews_state]': params, pageSize } = request.queryParams;
-    const filterParams = params.split(',');
+    if (params) {
+        filterField = 'reviewsState';
+        filterParams = params.split(',');
+    } else {
+        filterField = 'revisionState';
+        filterParams = request.queryParams['filter[revision_state]'].split(',');
+    }
 
     const provider = schema.registrationProviders.find(providerId);
     const providerRegistrations = provider.registrations.models;
@@ -111,7 +119,7 @@ export function getProviderRegistrations(this: HandlerContext, schema: Schema, r
     for (const param of filterParams) {
         filteredRegistrations = filteredRegistrations.concat(
             providerRegistrations.filter(
-                (registration: ModelInstance<RegistrationModel>) => registration.reviewsState === param,
+                (registration: ModelInstance<RegistrationModel>) => registration[filterField] === param,
             ),
         );
     }

@@ -6,6 +6,7 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 
 import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
+import { RevisionReviewStates } from 'ember-osf-web/models/revision';
 import { draftRegisterNodeMultiple, registerNodeMultiple } from '../helpers';
 
 export function manyProjectRegistrationsScenario(
@@ -109,8 +110,9 @@ export function registrationScenario(
         title: 'Pending Penguins',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider: egap,
-        reviewsState: RegistrationReviewStates.Pending,
+        reviewsState: RegistrationReviewStates.Accepted,
         registeredBy: currentUser,
+        revisionState: RevisionReviewStates.RevisionPendingModeration,
         currentUserPermissions: Object.values(Permission),
         providerSpecificMetadata: [
             { field_name: 'EGAP Registration ID', field_value: '' },
