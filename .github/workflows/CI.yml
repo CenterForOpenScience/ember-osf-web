@@ -162,10 +162,17 @@ jobs:
       timeout-minutes: 10
 
   test-with-coverage:
+    needs: fetch-dependencies
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - uses: volta-cli/action@v1
+    - id: cache-node-modules
+      uses: actions/cache@v2
+      with:
+        path: ./node_modules
+        key: cached_node_modules_${{ secrets.CACHE_VERSION }}_${{ hashFiles('**/yarn.lock') }}
+        restore-keys: cached_node_modules_${{ secrets.CACHE_VERSION }}_
     - run: yarn test:ember:cover
     - name: Send coverage report to coveralls
       uses: coverallsapp/github-action@master
