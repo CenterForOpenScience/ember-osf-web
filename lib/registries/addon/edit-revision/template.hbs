@@ -16,7 +16,7 @@
                 <layout.heading>
                     <HeroOverlay @align='left' local-class='DraftHeroOverlay'>
                         <div local-class='Title'>
-                            {{#if (and revisionManager.hasProject revisionManager.node)}}
+                            {{#if revisionManager.node}}
                                 <OsfLink
                                     data-test-link-back-to-project
                                     data-analytics-name='Go to project'
@@ -76,7 +76,10 @@
                         <div local-class='RightWrapper'>
                             <div local-class='RightNavWrapper'>
                                 <h3>
-                                    placeholder for right nav...
+                                    <EditRevision::-Components::RightNav
+                                        @revisionManager={{revisionManager}}
+                                        @navManager={{navManager}}
+                                    />
                                 </h3>
                             </div>
                             <div local-class='EditWarning'>
