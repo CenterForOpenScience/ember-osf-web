@@ -5,6 +5,8 @@ import RevisionModel, { RevisionReviewStates } from 'ember-osf-web/models/revisi
 
 export interface MirageRevisionModel extends RevisionModel {
     registrationId: string;
+    versionNumber: number;
+    dateCreated: Date;
 }
 
 export default Factory.extend<MirageRevisionModel>({

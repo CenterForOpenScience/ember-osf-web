@@ -1,5 +1,6 @@
 import { HandlerContext, NormalizedRequestAttrs, Response, Schema } from 'ember-cli-mirage';
 import { MirageRevisionModel } from 'ember-osf-web/mirage/factories/revision';
+import { RevisionReviewStates } from 'ember-osf-web/models/revision';
 
 export function createNewRevision(this: HandlerContext, schema: Schema) {
     const attrs = this
@@ -20,6 +21,7 @@ export function createNewRevision(this: HandlerContext, schema: Schema) {
     const revisionResponses = registration.registrationResponses;
     const revision = schema.revisions.create({
         initiatedBy: currentUser,
+        reviewState: RevisionReviewStates.Approved,
         revisionResponses,
         registration,
     });

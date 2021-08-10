@@ -1,0 +1,13 @@
+<ResponsiveDropdown @horizontalPosition='right' as |dd|>
+    <dd.trigger>
+        <Button data-test-version-dropdown-button data-analytics-name='Show Version' @type='show'>
+            {{t 'registries.my_registrations.show_revisions'}}
+            <FaIcon @icon='caret-down' />
+        </Button>
+    </dd.trigger>
+    <dd.content>
+        {{#each this.revisions as |revision|}}
+            <p>{{revision.versionNumber}}</p>
+        {{/each}}
+    </dd.content>
+</ResponsiveDropdown>

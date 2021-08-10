@@ -1150,6 +1150,7 @@ registries:
         drafts: 'Drafts'
         submitted: 'Submitted'
         sorted: 'Sorted by last updated'
+        show_revisions: 'Show Registration Update History'
     registration_metadata:
         add_description: 'Add description'
         add_contributors:

@@ -126,6 +126,7 @@ export function registrationScenario(
 
     server.create('revision', {
         id: 'recaf',
+        versionNumber: 1,
         revisionJustification: 'I made a typo LOL',
         revisionResponses: {
             'page-one_long-text': 'bbbbb',
