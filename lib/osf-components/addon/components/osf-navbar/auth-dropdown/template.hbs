@@ -61,7 +61,7 @@
                     data-analytics-name='Logout'
                     class='logoutLink'
                     @type='link'
-                    @onClick={{action 'logout'}}
+                    @onClick={{action this.currentUser.logout}}
                 >
                     <FaIcon @icon='sign-out-alt' class='fa-lg p-r-xs' />
                     {{t 'auth_dropdown.log_out'}}
