@@ -19,7 +19,7 @@ import {
     RegistrationResponse,
 } from 'ember-osf-web/packages/registration-schema';
 import RegistrationModel from 'ember-osf-web/models/registration';
-import RevisionModel from 'ember-osf-web/models/revision';
+import RevisionModel, { RevisionReviewStates } from 'ember-osf-web/models/revision';
 import NodeModel from 'ember-osf-web/models/node';
 
 type LoadModelsTask = TaskInstance<{
@@ -68,6 +68,11 @@ export default class RevisionManager {
         const onPageInputLastComplete = taskFor(this.onPageInput).lastComplete;
         const pageInputFailed = onPageInputLastComplete ? onPageInputLastComplete.isError : false;
         return pageInputFailed;
+    }
+
+    @computed('revision.reviewState')
+    get isEditable() {
+        return this.revision.reviewState === RevisionReviewStates.RevisionInProgress;
     }
 
     constructor(loadModelsTask: LoadModelsTask, revisionId: string) {

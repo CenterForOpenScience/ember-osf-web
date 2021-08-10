@@ -1,0 +1,21 @@
+{{assert 'EditRevision::-Components::SubmitAndDecide requires a revisionManager' @revisionManager}}
+
+<BsButton
+    data-test-submit-revision
+    data-analytics-name='Submit revision'
+    local-class='registerButton {{if @showMobileView 'mobileReviewButtonItem'}}'
+    @type='success'
+    @onClick={{perform this.submitAction 'submit_revision' ''}}
+    disabled={{@revisionManager.hasInvalidResponses}}
+>
+    {{#if this.submicAction.isRunning}}
+        <LoadingIndicator @inline={{true}} />
+    {{else}}
+        {{t 'registries.edit_revision.review.submit_changes'}}
+    {{/if}}
+</BsButton>
+{{#if (and @revisionManager.hasInvalidResponses (not @showMobileView))}}
+    <div data-test-invalid-responses-text class='text-danger'>
+        {{t 'registries.drafts.draft.review.invalid_warning'}}
+    </div>
+{{/if}}

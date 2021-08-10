@@ -1,0 +1,66 @@
+{{assert 'EditRevision::-Components::TopNav requires a layout' @layout}}
+{{assert 'EditRevision::-Components::TopNav requires a revision-manager' @revisionManager}}
+{{assert 'EditRevision::-Components::TopNav requires a navigation-manager' @navManager}}
+
+<Navbar local-class='SideBarToggle' ...attributes as |nav|>
+    <nav.bordered-section>
+        {{#unless @currentUserIsReadOnly}}
+            <nav.buttons.default
+                data-test-sidenav-toggle
+                data-analytics-name='Show sidenav'
+                aria-label={{t 'osf-components.registries-top-nav.showRegistrationNavigation'}}
+                @onclick={{action @layout.toggleSidenav}}
+            >
+                <nav.icon @icon={{if @layout.sidenavGutterClosed 'bars' 'times'}} />
+            </nav.buttons.default>
+        {{/unless}}
+    </nav.bordered-section>
+    <nav.bordered-section local-class='MobileNavPageLabelSection'>
+        <div local-class='MobileNavPageLabel' data-test-page-label>
+            {{#if @navManager.inReview}}
+                {{t 'registries.drafts.draft.review.page_label'}}
+            {{else}}
+                {{@navManager.currentPageManager.pageHeadingText}}
+            {{/if}}
+        </div>
+    </nav.bordered-section>
+    <nav.bordered-section>
+        {{#if (and @navManager.prevPageParam (not @currentUserIsReadOnly))}}
+            <nav.links.default
+                data-test-goto-previous-page
+                data-analytics-name='Sidenav back'
+                aria-label={{t 'osf-components.registries-top-nav.previousPage'}}
+                @route='registries.edit-revision.page'
+                @models={{array @revisionManager.revisionId @navManager.prevPageParam}}
+            >
+                <nav.icon @icon='arrow-left' />
+            </nav.links.default>
+        {{/if}}
+        {{#if @navManager.nextPageParam}}
+            <nav.links.default
+                data-test-goto-next-page
+                data-analytics-name='Sidenav next'
+                aria-label={{t 'osf-components.registries-top-nav.nextPage'}}
+                @route='registries.edit-revision.page'
+                @models={{array @revisionManager.revisionId @navManager.nextPageParam}}
+                @onClick={{@navManager.currentPageManager.setPageIsVisited}}
+            >
+                <nav.icon @icon='arrow-right' />
+            </nav.links.default>
+        {{/if}}
+        {{#if @navManager.isLastPage}}
+            <nav.links.default
+                data-test-goto-review
+                data-analytics-name='Sidenav review'
+                aria-label={{t 'osf-components.registries-top-nav.reviewRegistration'}}
+                @route='registries.edit-revision.review'
+                @models={{array @revisionManager.revisionId}}
+            >
+                <nav.icon @icon='arrow-right' />
+            </nav.links.default>
+        {{/if}}
+        {{#if @navManager.inReview}}
+            <h3>Placeholder for submit buttons</h3>
+        {{/if}}
+    </nav.bordered-section>
+</Navbar>

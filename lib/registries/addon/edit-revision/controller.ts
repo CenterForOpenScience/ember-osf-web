@@ -1,5 +1,5 @@
 import Controller from '@ember/controller';
-import { alias } from '@ember/object/computed';
+import { alias, not } from '@ember/object/computed';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import BrandModel from 'ember-osf-web/models/brand';
@@ -11,6 +11,8 @@ import Media from 'ember-responsive';
 export default class EditRevisionController extends Controller {
     @service media!: Media;
     @service router!: RouterService;
+
+    @not('media.isDesktop') showMobileView!: boolean;
 
     @alias('model.revision') revision?: RevisionModel;
     @alias('model.registration') registration?: RegistrationModel;

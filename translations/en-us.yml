@@ -1108,6 +1108,12 @@ registries:
             register: Register
             unable_to_fetch_children_count: 'Unable to fetch project''s components'
             submit_error: 'Unable to create a registration.'
+    edit_revision:
+        page_title: 'Update registration'
+        review:
+            submit_changes: 'Submit changes'
+            accept_changes: 'Accept changes'
+            continue_editing: 'Continue editing'
     index:
         lead: 'The <span class="f-w-lg">open</span> registries network'
         see_example: 'See an example'

@@ -16,7 +16,7 @@
     </OsfLink>
 {{/if}}
 {{#if @navManager.inReview}}
-    <h3>Submit Button Placeholder</h3>
+    <EditRevision::-Components::SubmitAndDecide @revisionManager={{@revisionManager}} />
 {{/if}}
 {{#if @navManager.nextPageParam}}
     <OsfLink
@@ -33,7 +33,7 @@
         </Button>
     </OsfLink>
 {{/if}}
-{{#if (and @navManager.prevPageParam (not @currentUserIsReadOnly))}}
+{{#if (and @navManager.prevPageParam (not @currentUserIsReadOnly) @revisionManager.isEditable)}}
     <OsfLink
         data-test-goto-previous-page
         data-analytics-name='Go to previous page'

@@ -28,18 +28,17 @@
                                 </OsfLink>
                             {{/if}}
                             <h1>
-                                New revision
+                                {{t 'registries.edit_revision.page_title'}}
                             </h1>
                         </div>
                     </HeroOverlay>
                 </layout.heading>
                 {{#if this.showMobileView}}
                     <layout.top as |topLayout|>
-                        <Drafts::Draft::-Components::TopNav
+                        <EditRevision::-Components::TopNav
                             @layout={{topLayout}}
-                            @draftManager={{revisionManager}}
+                            @revisionManager={{revisionManager}}
                             @navManager={{navManager}}
-                            @onSubmitRedirect={{this.onSubmitRedirect}}
                             @currentUserIsReadOnly={{revisionManager.currentUserIsReadOnly}}
                         />
                     </layout.top>
@@ -75,12 +74,10 @@
                     <layout.right local-class='Right'>
                         <div local-class='RightWrapper'>
                             <div local-class='RightNavWrapper'>
-                                <h3>
-                                    <EditRevision::-Components::RightNav
-                                        @revisionManager={{revisionManager}}
-                                        @navManager={{navManager}}
-                                    />
-                                </h3>
+                                <EditRevision::-Components::RightNav
+                                    @revisionManager={{revisionManager}}
+                                    @navManager={{navManager}}
+                                />
                             </div>
                             <div local-class='EditWarning'>
                                 <strong>

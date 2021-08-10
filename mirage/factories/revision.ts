@@ -1,7 +1,7 @@
 import { Factory } from 'ember-cli-mirage';
 import faker from 'faker';
 
-import RevisionModel from 'ember-osf-web/models/revision';
+import RevisionModel, { RevisionReviewStates } from 'ember-osf-web/models/revision';
 
 export interface MirageRevisionModel extends RevisionModel {
     registrationId: string;
@@ -15,6 +15,11 @@ export default Factory.extend<MirageRevisionModel>({
     dateModified() {
         return faker.date.past(2, new Date(2018, 0, 0));
     },
+
+    reviewState() {
+        return RevisionReviewStates.RevisionInProgress;
+    },
+
     afterCreate(revision) {
         if (revision.registration) {
             revision.registrationSchema = revision.registration.registrationSchema;
