@@ -1680,6 +1680,7 @@ osf-components:
             success: 'Contributor bibliographic status updated.'
             error: 'Error updating contributor bibliographic status.'
         reorderContributor:
+            reorderContributor: 'Reorder contributor'
             success: 'Contributor order updated.'
             dragHandle: '⇕'
         noEducation: 'No education history to show'

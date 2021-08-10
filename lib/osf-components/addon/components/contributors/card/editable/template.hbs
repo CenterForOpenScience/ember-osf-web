@@ -3,7 +3,7 @@
     <div data-test-contributor-card-main local-class='MainSection'>
         <span local-class='CardSection'>
             <span local-class='Handle'>
-                {{#@item.handle aria-label='Sort contributor'}}
+                {{#@item.handle aria-label=(t 'osf-components.contributors.reorderContributor.reorderContributor')}}
                     <span data-test-sortable-handle={{@contributor.id}}>
                         {{t 'osf-components.contributors.reorderContributor.dragHandle'}}
                     </span>
