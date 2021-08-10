@@ -223,9 +223,10 @@ export default function(this: Server) {
     });
     osfNestedResource(this, 'revision', 'actions', {
         path: '/revisions/:parentID/actions',
-        only: ['show', 'create', 'index'],
+        only: ['show', 'index'],
+        relatedModelName: 'revision-action',
     });
-    this.post('/revision/:revisionID/actions', createRevisionAction);
+    this.post('/revisions/:revisionId/actions', createRevisionAction);
 
     osfResource(this, 'brand', { only: ['show'] });
 

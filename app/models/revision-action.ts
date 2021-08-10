@@ -32,7 +32,7 @@ export default class RevisionActionModel extends OsfModel {
     @belongsTo('user', { inverse: null })
     creator!: AsyncBelongsTo<UserModel> & UserModel;
 
-    @belongsTo('revision', { inverse: null })
+    @belongsTo('revision', { inverse: 'actions' })
     target!: AsyncBelongsTo<RevisionModel> & RevisionModel;
 
     @computed('actionTrigger')

@@ -5,7 +5,7 @@ import RevisionActionModel, { RevisionActionTrigger } from 'ember-osf-web/models
 export function createRevisionAction(this: HandlerContext, schema: Schema, request: Request) {
     const attrs = this.normalizedRequestAttrs('revision-action') as
         Partial<NormalizedRequestAttrs<RevisionActionModel>>;
-    const revisionId = request.params.parentID;
+    const revisionId = request.params.revisionId;
     const userId = schema.roots.first().currentUserId;
     let revisionAction;
     if (userId && revisionId) {
@@ -38,6 +38,8 @@ export function createRevisionAction(this: HandlerContext, schema: Schema, reque
             break;
         }
         registration.revisionState = revision.reviewState;
+        revision.save();
+        registration.save();
     }
     return revisionAction;
 }

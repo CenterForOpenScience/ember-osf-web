@@ -31,7 +31,7 @@ export default class RevisionSerializer extends ApplicationSerializer<MirageRevi
                     },
                 },
             },
-            revisionActions: {
+            actions: {
                 links: {
                     related: {
                         href: `${apiUrl}/v2/revisions/${model.id}/actions/`,
