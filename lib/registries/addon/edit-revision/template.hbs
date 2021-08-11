@@ -44,7 +44,7 @@
                     </layout.top>
                 {{/if}}
                 <layout.leftNav as |leftNav|>
-                    {{#unless revisionManager.currentUserIsReadOnly}}
+                    {{#if (not (or revisionManager.currentUserIsReadOnly (not revisionManager.isEditable)))}}
                         {{#each revisionManager.pageManagers as |pageManager index|}}
                             <PageLink
                                 @link={{component leftNav.link}}
@@ -56,7 +56,7 @@
                                 @navMode={{leftNav.leftGutterMode}}
                             />
                         {{/each}}
-                    {{/unless}}
+                    {{/if}}
                     <PageLink
                         @link={{component leftNav.link}}
                         @draftId={{revisionManager.revisionId}}

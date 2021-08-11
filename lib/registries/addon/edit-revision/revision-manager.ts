@@ -21,6 +21,7 @@ import {
 import RegistrationModel from 'ember-osf-web/models/registration';
 import RevisionModel, { RevisionReviewStates } from 'ember-osf-web/models/revision';
 import NodeModel from 'ember-osf-web/models/node';
+import { Permission } from 'ember-osf-web/models/osf-model';
 
 type LoadModelsTask = TaskInstance<{
     revision: RevisionModel,
@@ -44,7 +45,6 @@ export default class RevisionManager {
     schemaBlocks!: SchemaBlock[];
 
     @alias('registration.currentUserIsReadOnly') currentUserIsReadOnly!: boolean;
-    @alias('registration.currentUserIsAdmin') currentUserIsAdmin!: boolean;
     @alias('provider.reviewsWorkflow') reviewsWorkflow?: string;
     @or('onPageInput.isRunning', 'onMetadataInput.isRunning') autoSaving!: boolean;
     @or('initializePageManagers.isRunning', 'initializeMetadataChangeset.isRunning') initializing!: boolean;
@@ -73,6 +73,21 @@ export default class RevisionManager {
     @computed('revision.reviewState')
     get isEditable() {
         return this.revision.reviewState === RevisionReviewStates.RevisionInProgress;
+    }
+
+    @computed('revision.reviewState')
+    get isPendingAdminApproval() {
+        return this.revision.reviewState === RevisionReviewStates.RevisionPendingAdminApproval;
+    }
+
+    @computed('revision.reviewState')
+    get isPendingModeration() {
+        return this.revision.reviewState === RevisionReviewStates.RevisionPendingModeration;
+    }
+
+    @computed('registration.currentUserPermissions')
+    get currentUserIsAdmin() {
+        return this.registration.currentUserPermissions.includes(Permission.Admin);
     }
 
     constructor(loadModelsTask: LoadModelsTask, revisionId: string) {

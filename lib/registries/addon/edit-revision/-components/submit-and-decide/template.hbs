@@ -1,21 +1,51 @@
 {{assert 'EditRevision::-Components::SubmitAndDecide requires a revisionManager' @revisionManager}}
-
-<BsButton
-    data-test-submit-revision
-    data-analytics-name='Submit revision'
-    local-class='registerButton {{if @showMobileView 'mobileReviewButtonItem'}}'
-    @type='success'
-    @onClick={{perform this.submitAction 'submit_revision' ''}}
-    disabled={{@revisionManager.hasInvalidResponses}}
->
-    {{#if this.submicAction.isRunning}}
-        <LoadingIndicator @inline={{true}} />
-    {{else}}
-        {{t 'registries.edit_revision.review.submit_changes'}}
+{{#if @revisionManager.currentUserIsAdmin}}
+    {{#if @revisionManager.isEditable}}
+        <BsButton
+            data-test-submit-revision
+            data-analytics-name='Submit revision'
+            local-class='registerButton {{if @showMobileView 'mobileReviewButtonItem'}}'
+            @type='success'
+            @onClick={{perform this.submitAction 'submit_revision' ''}}
+            disabled={{@revisionManager.hasInvalidResponses}}
+        >
+            {{#if this.submicAction.isRunning}}
+                <LoadingIndicator @inline={{true}} />
+            {{else}}
+                {{t 'registries.edit_revision.review.submit_changes'}}
+            {{/if}}
+        </BsButton>
+        {{#if (and @revisionManager.hasInvalidResponses (not @showMobileView))}}
+            <div data-test-invalid-responses-text class='text-danger'>
+                {{t 'registries.drafts.draft.review.invalid_warning'}}
+            </div>
+        {{/if}}
     {{/if}}
-</BsButton>
-{{#if (and @revisionManager.hasInvalidResponses (not @showMobileView))}}
-    <div data-test-invalid-responses-text class='text-danger'>
-        {{t 'registries.drafts.draft.review.invalid_warning'}}
-    </div>
+    {{#if @revisionManager.isPendingAdminApproval}}
+        {{#if @revisionManager.revision.isPendingCurrentUserApproval}}
+            <BsButton
+                data-test-accept-changes
+                data-analytics-name='Admin approve revision'
+                local-class='registerButton {{if @showMobileView 'mobileReviewButtonItem'}}'
+                @type='success'
+                @onClick={{perform this.submitAction 'admin_approve_revision' ''}}
+            >
+                {{t 'registries.edit_revision.review.accept_changes'}}
+            </BsButton>
+            <BsButton
+                data-test-continue-editing
+                data-analytics-name='Admin reject revision'
+                local-class='registerButton {{if @showMobileView 'mobileReviewButtonItem'}}'
+                @type='primary'
+                @onClick={{perform this.submitAction 'admin_reject_revision' ''}}
+            >
+                {{t 'registries.edit_revision.review.continue_editing'}}
+            </BsButton>
+        {{else}}
+            <p>{{t 'registries.edit_revision.review.decision_recorded_notice'}}</p>
+        {{/if}}
+    {{/if}}
+    {{#if @revisionManager.isPendingModeration}}
+        <p>{{t 'registries.edit_revision.review.pending_moderation_notice'}}</p>
+    {{/if}}
 {{/if}}

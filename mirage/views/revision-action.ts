@@ -23,13 +23,16 @@ export function createRevisionAction(this: HandlerContext, schema: Schema, reque
         switch (trigger) {
         case RevisionActionTrigger.SubmitRevision:
             revision.reviewState = RevisionReviewStates.RevisionPendingAdminApproval;
+            revision.isPendingCurrentUserApproval = true;
             break;
         case RevisionActionTrigger.AdminRejectRevision:
         case RevisionActionTrigger.RejectRevision:
             revision.reviewState = RevisionReviewStates.RevisionInProgress;
+            revision.isPendingCurrentUserApproval = false;
             break;
         case RevisionActionTrigger.AdminApproveRevision:
             revision.reviewState = RevisionReviewStates.RevisionPendingModeration;
+            revision.isPendingCurrentUserApproval = false;
             break;
         case RevisionActionTrigger.AcceptRevision:
             revision.reviewState = RevisionReviewStates.Approved;

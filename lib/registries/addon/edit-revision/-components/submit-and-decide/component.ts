@@ -28,7 +28,7 @@ export default class SubmitAndDecide extends Component {
             comment,
             target: this.revisionManager.revision,
         });
-        revisionAction.save();
+        await revisionAction.save();
         await this.revisionManager.revision.reload();
     }
 

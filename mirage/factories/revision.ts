@@ -20,6 +20,10 @@ export default Factory.extend<MirageRevisionModel>({
         return RevisionReviewStates.RevisionInProgress;
     },
 
+    isPendingCurrentUserApproval() {
+        return false;
+    },
+
     afterCreate(revision) {
         if (revision.registration) {
             revision.registrationSchema = revision.registration.registrationSchema;
