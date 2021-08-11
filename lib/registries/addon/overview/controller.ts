@@ -21,7 +21,6 @@ const {
 
 const { OSF: { url: baseURL } } = config;
 
-
 export default class Overview extends Controller {
     @service store!: Store;
     @service intl!: Intl;
