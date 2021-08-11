@@ -60,7 +60,7 @@
             </nav.links.default>
         {{/if}}
         {{#if @navManager.inReview}}
-            <h3>Placeholder for submit buttons</h3>
+            <EditRevision::-Components::SubmitAndDecide @revisionManager={{@revisionManager}} @showMobileView={{true}} />
         {{/if}}
     </nav.bordered-section>
 </Navbar>

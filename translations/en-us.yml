@@ -1115,7 +1115,7 @@ registries:
             accept_changes: 'Accept changes'
             continue_editing: 'Continue editing'
             decision_recorded_notice: 'Decision recorded. Pending decisions from other Admin contributors.'
-            pending__moderation_notice: 'Pending decisions from moderators.'
+            pending_moderation_notice: 'Pending decisions from moderators.'
     index:
         lead: 'The <span class="f-w-lg">open</span> registries network'
         see_example: 'See an example'

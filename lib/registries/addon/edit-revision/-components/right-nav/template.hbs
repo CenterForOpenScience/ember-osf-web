@@ -16,7 +16,10 @@
     </OsfLink>
 {{/if}}
 {{#if @navManager.inReview}}
-    <EditRevision::-Components::SubmitAndDecide @revisionManager={{@revisionManager}} />
+    <EditRevision::-Components::SubmitAndDecide
+        @revisionManager={{@revisionManager}}
+        @showMobileView={{false}}
+    />
 {{/if}}
 {{#if @navManager.nextPageParam}}
     <OsfLink
