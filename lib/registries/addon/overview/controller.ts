@@ -68,14 +68,5 @@ export default class Overview extends Controller {
         });
         await newRevision.save();
     }
-
-    // for unapproved && discarded edits
-    @action
-    async deleteRevision() {
-        const deleteRevision: RevisionModel = this.store.createRecord('revision', {
-            registration: '',
-        });
-        return deleteRevision.save();
-    }
 }
 
