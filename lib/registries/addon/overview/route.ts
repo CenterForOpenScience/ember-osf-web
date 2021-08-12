@@ -1,8 +1,9 @@
 import { action } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
-import { all } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { waitFor } from '@ember/test-waiters';
+import { all, restartableTask } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import config from 'ember-get-config';
 import moment from 'moment';
 
@@ -27,11 +28,12 @@ export default class Overview extends GuidRoute {
 
     headTags?: HeadTagDef[];
 
-    @task({ withTestWaiter: true, restartable: true, cancelOn: 'deactivate' })
-    setHeadTags = task(function *(this: Overview, model: any) {
+    @restartableTask({ cancelOn: 'deactivate' })
+    @waitFor
+    async setHeadTags(model: GuidRouteModel<Registration>) {
         const blocker = this.ready.getBlocker();
 
-        const registration: Registration = yield model.taskInstance;
+        const registration = await model.taskInstance;
 
         if (registration) {
             const [
@@ -40,7 +42,7 @@ export default class Overview extends GuidRoute {
                 license = null,
                 identifiers = [],
                 provider = null,
-            ] = yield all([
+            ] = await all([
                 registration.sparseLoadAll(
                     'bibliographicContributors',
                     { contributor: ['users', 'index'], user: ['fullName'] },
@@ -75,7 +77,7 @@ export default class Overview extends GuidRoute {
                 institution: (institutions as SparseModel[]).map(institution => institution.name as string),
             };
             const headTags = [...this.metaTags.getHeadTags(metaTagsData)];
-            if (provider.assets && provider.assets.favicon) {
+            if (provider && provider.assets && provider.assets.favicon) {
                 headTags.push({
                     type: 'link',
                     attrs: {
@@ -89,7 +91,7 @@ export default class Overview extends GuidRoute {
         }
 
         blocker.done();
-    });
+    }
 
     modelName(): 'registration' {
         return 'registration';
@@ -111,7 +113,7 @@ export default class Overview extends GuidRoute {
         // Do not return model.taskInstance
         // as it would block rendering until model.taskInstance resolves and `setHeadTags` task terminates.
         if (!this.currentUser.viewOnlyToken) {
-            this.setHeadTags.perform(model);
+            taskFor(this.setHeadTags).perform(model);
         }
     }
 

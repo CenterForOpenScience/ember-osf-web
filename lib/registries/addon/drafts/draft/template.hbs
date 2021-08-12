@@ -84,24 +84,26 @@
                 {{#unless this.showMobileView}}
                     <layout.right local-class='Right'>
                         <div local-class='RightWrapper'>
-                            <Drafts::Draft::-Components::RightNav
-                                @navManager={{navManager}}
-                                @draftManager={{draftManager}}
-                                @onSubmitRedirect={{this.onSubmitRedirect}}
-                                @currentUserIsReadOnly={{draftManager.currentUserIsReadOnly}}
-                            />
-                        </div>
-                        <div local-class='EditWarning'>
-                            <strong>
-                                <FaIcon
-                                    @icon='exclamation-circle'
-                                    @fixedWidth={{true}}
+                            <div local-class='RightNavWrapper'>
+                                <Drafts::Draft::-Components::RightNav
+                                    @navManager={{navManager}}
+                                    @draftManager={{draftManager}}
+                                    @onSubmitRedirect={{this.onSubmitRedirect}}
+                                    @currentUserIsReadOnly={{draftManager.currentUserIsReadOnly}}
                                 />
-                                {{t 'general.caution'}}
-                            </strong>
-                            <span>
-                                {{t 'registries.drafts.draft.form.collaborative_edit_warning'}}
-                            </span>
+                            </div>
+                            <div local-class='EditWarning'>
+                                <strong>
+                                    <FaIcon
+                                        @icon='exclamation-circle'
+                                        @fixedWidth={{true}}
+                                    />
+                                    {{t 'general.caution'}}
+                                </strong>
+                                <span>
+                                    {{t 'registries.drafts.draft.form.collaborative_edit_warning'}}
+                                </span>
+                            </div>
                         </div>
                     </layout.right>
                 {{/unless}}

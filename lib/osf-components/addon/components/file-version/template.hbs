@@ -3,15 +3,15 @@
     class='col-md-4'
 >
     {{#if this.clickable}}
-        <OsfButton
+        <BsButton
             data-test-select-version={{this.version.id}}
             data-analytics-name='Change version'
             local-class='FileVersion__button'
-            @class='btn-link'
+            class='btn-link'
             @onClick={{action this.changeVersion this.version.id}}
         >
             {{this.version.id}}
-        </OsfButton>
+        </BsButton>
     {{else}}
         {{this.version.id}}
     {{/if}}
@@ -32,7 +32,7 @@
     data-test-download-version-cell={{this.version.id}}
     class='col-xs-1'
 >
-    <OsfButton
+    <BsButton
         data-analytics-name='Download version'
         aria-label={{t 'general.download'}}
         @type='primary'
@@ -40,7 +40,7 @@
         @onClick={{action this.downloadVersion this.version.id}}
     >
         {{fa-icon 'download'}}
-    </OsfButton>
+    </BsButton>
 </td>
 <td
     data-test-md5-hash-cell={{this.version.id}}

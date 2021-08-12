@@ -1,4 +1,4 @@
-{{title (t 'dashboard.page_title')}}
+{{page-title (t 'dashboard.page_title')}}
 <div data-analytics-scope='Dashboard'>
     {{#if this.modalOpen}}
         {{#if this.showNewNodeNavigation}}
@@ -25,15 +25,15 @@
                             <h2 class='col-xs-9'>{{t 'dashboard.title'}}</h2>
                             <div class='m-b-lg col-xs-3'>
                                 <div class='pull-right'>
-                                    <OsfButton
+                                    <BsButton
                                         data-test-create-project-modal-button
                                         data-analytics-name='create_new_project'
+                                        class='m-t-md f-w-xl'
                                         @onClick={{action this.openModal}}
                                         @type='success'
-                                        @class='m-t-md f-w-xl'
                                     >
                                         {{t 'dashboard.create_new_project_button'}}
-                                    </OsfButton>
+                                    </BsButton>
                                 </div>
                             </div>
                         </div>
@@ -126,12 +126,12 @@
                                                     <LoadingIndicator />
                                                 {{else}}
                                                     <div class='text-center'>
-                                                        <OsfButton
+                                                        <BsButton
                                                             data-test-load-more
                                                             data-analytics-name='load_nodes'
                                                             aria-label={{t 'new_project.more'}}
                                                             local-class='load-nodes-button'
-                                                            @class='col-sm-12'
+                                                            class='col-sm-12'
                                                             @onClick={{action this.more}}
                                                         >
                                                             <FaIcon
@@ -142,7 +142,7 @@
                                                                     ' text-muted m-b-xl'
                                                                 }}
                                                             />
-                                                        </OsfButton>
+                                                        </BsButton>
                                                     </div>
                                                 {{/if}}
                                             {{/if}}

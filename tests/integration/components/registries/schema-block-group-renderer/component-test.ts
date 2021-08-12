@@ -1,5 +1,5 @@
 import { render } from '@ember/test-helpers';
-import Changeset from 'ember-changeset';
+import { Changeset } from 'ember-changeset';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupRenderingTest } from 'ember-qunit';
@@ -163,7 +163,7 @@ module('Integration | Component | schema-block-group-renderer', hooks => {
             'page-one_multi-select': [],
             'page-one_file-input': [testFile],
         };
-        const registrationResponseChangeset = new Changeset(registrationResponse);
+        const registrationResponseChangeset = Changeset(registrationResponse);
         await this.store.findRecord(
             'node',
             mirageNode.id,

@@ -1,7 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
-import DS from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
 
@@ -11,7 +10,7 @@ import template from './template';
 @tagName('')
 export default class ValidatedInputCheckboxesXCheckbox<T> extends Component {
     // Required arguments
-    relationArray?: DS.PromiseArray<T> | T[];
+    relationArray?: T[] | { toArray: () => T[] };
     option!: T;
     checkboxName!: string;
     ariaLabel!: string;

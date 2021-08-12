@@ -3,7 +3,6 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import styles from './styles';
 import template from './template';
@@ -13,11 +12,11 @@ export type GutterMode = 'column' | 'drawer' | 'page';
 @tagName('')
 @layout(template)
 export default class Gutter extends Component {
-    leftClosed: boolean = defaultTo(this.leftClosed, false);
-    leftMode: GutterMode = defaultTo(this.leftMode, 'drawer');
+    leftClosed = false;
+    leftMode: GutterMode = 'drawer';
 
-    rightClosed: boolean = defaultTo(this.rightClosed, true);
-    rightMode: GutterMode = defaultTo(this.rightMode, 'drawer');
+    rightClosed = true;
+    rightMode: GutterMode = 'drawer';
 
     @computed('rightMode', 'rightClosed')
     get rightAnimationClass() {

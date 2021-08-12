@@ -33,15 +33,15 @@ interface NavTestCase {
     links: NavLink[];
 }
 
-export class FakeNode {
-    id: string = faker.random.uuid();
-    title: string = faker.lorem.sentence();
-    public: boolean = false;
-    isRegistration: boolean = false;
-    wikiEnabled: boolean = false;
-    currentUserIsContributor: boolean = false;
-    userHasWritePermission: boolean = false;
-    userHasReadPermission: boolean = false;
+class FakeNode {
+    id = faker.random.uuid();
+    title = faker.lorem.sentence();
+    public = false;
+    isRegistration = false;
+    wikiEnabled = false;
+    currentUserIsContributor = false;
+    userHasWritePermission = false;
+    userHasReadPermission = false;
     parentId: string | null = null;
     links = {
         html: 'http://localhost:4200/fak3d',

@@ -17,7 +17,8 @@
     <PowerSelect
         @search={{perform this.searchCitationStyles}}
         @selected={{this.selectedCitationStyle}}
-        @onchange={{perform this.renderCitation}}
+        @onChange={{perform this.renderCitation}}
+        @searchEnabled={{true}}
         @allowClear={{true}}
         @placeholder={{t 'osf-components.citation-viewer.placeholder'}}
         @searchMessage={{t 'osf-components.citation-viewer.type_to_search'}}

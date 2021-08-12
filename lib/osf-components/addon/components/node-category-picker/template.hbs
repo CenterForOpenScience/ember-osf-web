@@ -3,7 +3,8 @@
         <PowerSelect
             @options={{this.categories}}
             @selected={{@manager.selectedCategory}}
-            @onchange={{action @manager.onSelect}}
+            @searchEnabled={{true}}
+            @onChange={{action @manager.onSelect}}
             @disabled={{@manager.save.isRunning}}
             as |category|
         >

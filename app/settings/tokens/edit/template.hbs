@@ -31,11 +31,11 @@
         <p>
             {{t 'settings.tokens.createSuccess.instructions'}}
         </p>
-        <OsfButton
+        <BsButton
             @onClick={{action this.refresh}}
         >
             {{t 'settings.tokens.createSuccess.editScopes'}}
-        </OsfButton>
+        </BsButton>
     {{else}}
         <h4>{{t 'settings.tokens.editToken'}}</h4>
 
@@ -59,15 +59,15 @@
                     @modalBody={{t 'settings.tokens.confirmDelete.body'}}
                 />
 
-                <OsfButton
+                <BsButton
                     data-test-save-token-button
                     data-analytics-name='Save'
-                    @type='primary'
                     @buttonType='submit'
+                    @type='primary'
                     @disabled={{form.disabled}}
                 >
                     {{t 'general.save'}}
-                </OsfButton>
+                </BsButton>
             {{/settings/tokens/-components/token-form}}
         {{/if}}
     {{/if}}

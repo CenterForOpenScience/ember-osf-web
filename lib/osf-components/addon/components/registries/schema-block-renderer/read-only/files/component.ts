@@ -2,7 +2,7 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
 import { computed } from '@ember/object';
-import { ChangesetDef } from 'ember-changeset/types';
+import { BufferedChangeset } from 'ember-changeset/types';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import { RegistrationResponse, SchemaBlock } from 'ember-osf-web/packages/registration-schema';
@@ -18,7 +18,7 @@ export default class ReadOnlyFiles extends Component {
     registrationResponses!: RegistrationResponse;
 
     // Optional params
-    changeset?: ChangesetDef;
+    changeset?: BufferedChangeset;
 
     didReceiveAttrs() {
         assert(
@@ -41,16 +41,8 @@ export default class ReadOnlyFiles extends Component {
         return registrationResponseKey ? registrationResponses[registrationResponseKey] : null;
     }
 
-    @computed('responses')
+    @computed('responses.length')
     get hasResponses(): boolean {
         return Boolean(this.responses && this.responses.length > 0);
-    }
-
-    @computed('changeset.isValid')
-    get isValidating() {
-        if (this.changeset) {
-            return this.changeset.isValidating();
-        }
-        return false;
     }
 }

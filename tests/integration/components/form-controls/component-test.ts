@@ -76,13 +76,13 @@ module('Integration | Component | form-controls', hooks => {
                         @value={{this.descriptionValue}}
                     />
                 </FormControls>
-                <OsfButton
+                <BsButton
                     data-test-submit-button
                     data-analytics-name='submit'
                     @buttonType='submit'
                 >
                     Submit
-                </OsfButton>
+                </BsButton>
             </form>
         `);
         assert.dom('[data-test-form]').exists();

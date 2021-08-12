@@ -1,4 +1,4 @@
-{{title (t 'registries.drafts.draft.review.title')}}
+{{page-title (t 'registries.drafts.draft.review.title')}}
 
 {{#let this.draftRegistrationManager as |draftManager|}}
     {{#if draftManager.initializing}}
@@ -7,7 +7,7 @@
         <main
             {{did-insert this.markAndValidatedPages}}
         >
-            {{#if (and draftManager.hasInvalidResponses this.showMobileView)}}
+            {{#if (and (not draftManager.registrationResponsesIsValid) this.showMobileView)}}
                 <div
                     data-test-invalid-responses-text
                     local-class='WarningMessage'

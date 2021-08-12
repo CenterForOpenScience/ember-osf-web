@@ -9,6 +9,8 @@ import File from 'ember-osf-web/models/file';
 import Analytics from 'ember-osf-web/services/analytics';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
+import $ from 'jquery';
+
 import styles from './styles';
 import template from './template';
 
@@ -38,7 +40,7 @@ export default class FileShareButton extends Component {
         return `${this.elementId}__embed-pane`;
     }
 
-    @computed('file')
+    @computed('file.guid')
     get fileUrl() {
         return this.file ? pathJoin(config.OSF.url, this.file.guid) : '';
     }
@@ -95,7 +97,7 @@ export default class FileShareButton extends Component {
         return `mailto:?${$.param(params)}`;
     }
 
-    @computed('file')
+    @computed('file.guid')
     get mfrUrl() {
         if (!this.file) {
             return undefined;
@@ -130,7 +132,7 @@ export default class FileShareButton extends Component {
                 function renderMfr() {
                     var mfrRender = new mfr.Render("mfrIframe", "${this.mfrUrl}");
                 }
-                if (window.jQuery) {
+                if (window.$) {
                     renderMfr();
                 } else {
                     var jq = document.createElement('script');

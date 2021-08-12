@@ -2,12 +2,12 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import PasswordStrength from 'ember-cli-password-strength/services/password-strength';
-import { timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { restartableTask, timeout } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import styles from './styles';
 import template from './template';
@@ -15,7 +15,7 @@ import template from './template';
 interface Strength {
     score: number;
     feedback: {
-        warning: string;
+        warning: string,
     };
 }
 
@@ -25,24 +25,26 @@ export default class PasswordStrengthBar extends Component {
     password!: string;
 
     // Optional parameters
-    shouldShowMessages: boolean = defaultTo(this.shouldShowMessages, true);
-    minStrength: number = defaultTo(this.minStrength, 2);
+    shouldShowMessages = true;
+    minStrength = 2;
 
     // Private properties
     @service passwordStrength!: PasswordStrength;
 
     @alias('checkStrength.lastSuccessful.value') strength?: Strength;
 
-    @task({ withTestWaiter: true, restartable: true })
-    checkStrength = task(function *(this: PasswordStrengthBar, value: string) {
+    @restartableTask
+    @waitFor
+    async checkStrength(value: string) {
         if (!value) {
             return 0;
         }
 
-        yield timeout(250);
+        await timeout(250);
 
-        return yield this.passwordStrength.strength(value);
-    });
+        const strength = await this.passwordStrength.strength(value);
+        return strength;
+    }
 
     @computed('password', 'strength', 'strength.score')
     get progress() {
@@ -86,6 +88,6 @@ export default class PasswordStrengthBar extends Component {
     }
 
     didUpdateAttrs() {
-        this.checkStrength.perform(this.password);
+        taskFor(this.checkStrength).perform(this.password);
     }
 }

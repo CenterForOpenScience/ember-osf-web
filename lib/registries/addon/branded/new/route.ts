@@ -1,6 +1,8 @@
 import { action } from '@ember/object';
+import Transition from '@ember/routing/-private/transition';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import { taskFor } from 'ember-concurrency-ts';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
 
@@ -28,7 +30,7 @@ export default class BrandedRegistriesNewSubmissionRoute extends Route {
         const { href, origin } = window.location;
         const currentUrl = href.replace(origin, '');
 
-        if (!provider.allowSubmissions) {
+        if (!provider.allowSubmissions && !provider.currentUserCanReview) {
             this.transitionTo('page-not-found', currentUrl.slice(1));
         }
 
@@ -38,11 +40,15 @@ export default class BrandedRegistriesNewSubmissionRoute extends Route {
         }
     }
 
-    setupController(controller: BrandedRegistriesNewSubmissionController, model: RegistrationProviderModel) {
-        super.setupController(controller, model);
+    setupController(
+        controller: BrandedRegistriesNewSubmissionController,
+        model: RegistrationProviderModel,
+        transition: Transition,
+    ) {
+        super.setupController(controller, model, transition);
 
-        controller.projectSearch.perform();
-        controller.findAllSchemas.perform();
+        taskFor(controller.projectSearch).perform();
+        taskFor(controller.findAllSchemas).perform();
     }
 
     @action

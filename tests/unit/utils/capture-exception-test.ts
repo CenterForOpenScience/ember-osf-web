@@ -27,7 +27,7 @@ module('Unit | Utility | capture-exception', () => {
     });
 
     test('captureException works', assert => {
-        // @ts-ignore
+        // @ts-ignore: Mock Raven global. TODO: use sinon.
         window.Raven = {
             captureException: (_: ErrorDocument, { extra }: { extra: object }) => extra,
         };
@@ -55,7 +55,7 @@ module('Unit | Utility | capture-exception', () => {
             errorMessage: 'There was a problem merging foo@bar.ai into your account.',
         }, 'captureException cleans up translations passed in as extras.errorMessage');
 
-        // @ts-ignore
+        // @ts-ignore: Mock Raven global. TODO: use sinon.
         delete window.Raven;
     });
 });

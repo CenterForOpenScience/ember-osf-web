@@ -5,14 +5,14 @@
     <dd.trigger
         data-analytics-name='Expand state dropdown'
         data-test-state-button
-        @class={{local-class 'StateText'}}
+        local-class='StateText'
     >
         {{this.stateText.buttonText}}
         <FaIcon @icon={{if @isOpen 'caret-up' 'caret-down'}} @fixedWidth={{true}} />
     </dd.trigger>
     <dd.content
         data-test-state-description
-        @class={{local-class 'States'}}
+        local-class='States'
     >
         {{#if this.stateText}}
             <div local-class='DescriptionContainer'>

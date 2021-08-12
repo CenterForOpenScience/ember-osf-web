@@ -1,7 +1,5 @@
-import DS from 'ember-data';
+import { attr } from '@ember-data/model';
 import OsfModel from './osf-model';
-
-const { attr } = DS;
 
 export default class BrandModel extends OsfModel {
     @attr('string') primaryColor!: string;

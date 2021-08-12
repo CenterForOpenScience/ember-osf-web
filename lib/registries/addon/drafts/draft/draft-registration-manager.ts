@@ -1,10 +1,13 @@
+import { setOwner } from '@ember/application';
 import { action, computed, set } from '@ember/object';
+import { dependentKeyCompat } from '@ember/object/compat';
 import { alias, filterBy, not, notEmpty, or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { isEmpty } from '@ember/utils';
-import { ChangesetDef } from 'ember-changeset/types';
-import { TaskInstance, timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { BufferedChangeset } from 'ember-changeset/types';
+import { restartableTask, task, TaskInstance, timeout } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -40,7 +43,7 @@ export default class DraftRegistrationManager {
     registrationResponses!: RegistrationResponse;
 
     pageManagers: PageManager[] = [];
-    metadataChangeset!: ChangesetDef;
+    metadataChangeset!: BufferedChangeset;
     schemaBlocks!: SchemaBlock[];
 
     @alias('draftRegistration.id') draftId!: string;
@@ -58,38 +61,93 @@ export default class DraftRegistrationManager {
     node?: NodeModel | DraftNode;
     provider!: ProviderModel;
 
-    @computed('pageManagers.{[],@each.pageIsValid}')
+    @computed('pageManagers.{[],@each.pageIsValid}', 'metadataIsValid')
     get registrationResponsesIsValid() {
         return this.pageManagers.every(pageManager => pageManager.pageIsValid) && this.metadataIsValid;
     }
 
-    @computed('metadataChangeset.isValid')
+    @dependentKeyCompat
     get metadataIsValid() {
-        return this.metadataChangeset.get('isValid');
+        return this.metadataChangeset.isValid;
     }
 
-    @computed('onInput.lastComplete')
+    @computed('onPageInput.lastComplete', 'updateDraftRegistrationAndSave.lastComplete')
     get lastSaveFailed() {
-        const pageInputFailed = this.onPageInput.lastComplete ? this.onPageInput.lastComplete.isError : false;
-        const metadataInputFailed = this.onMetadataInput.lastComplete
-            ? this.onMetadataInput.lastComplete.isError : false;
-        return pageInputFailed || metadataInputFailed;
+        const onPageInputLastComplete = taskFor(this.onPageInput).lastComplete;
+        const updateDraftRegAndSaveLastComplete = taskFor(this.updateDraftRegistrationAndSave).lastComplete;
+        const pageInputFailed = onPageInputLastComplete ? onPageInputLastComplete.isError : false;
+        const updateDraftRegAndSaveFailed = updateDraftRegAndSaveLastComplete
+            ? updateDraftRegAndSaveLastComplete.isError : false;
+        return pageInputFailed || updateDraftRegAndSaveFailed;
     }
 
-    @task({ withTestWaiter: true })
-    initializePageManagers = task(function *(this: DraftRegistrationManager) {
-        const { draftRegistration, provider } = yield this.draftRegistrationTask;
+    constructor(owner: any, draftRegistrationTask: LoadDraftModelTask) {
+        setOwner(this, owner);
+        set(this, 'draftRegistrationTask', draftRegistrationTask);
+        taskFor(this.initializePageManagers).perform();
+        taskFor(this.initializeMetadataChangeset).perform();
+    }
+
+    @restartableTask
+    @waitFor
+    async saveAllVisitedPages() {
+        if (this.pageManagers && this.pageManagers.length) {
+            this.pageManagers
+                .filter(pageManager => pageManager.isVisited)
+                .forEach(this.updateRegistrationResponses.bind(this));
+
+            const { registrationResponses } = this;
+
+            this.draftRegistration.setProperties({
+                registrationResponses,
+            });
+
+            try {
+                await this.draftRegistration.save();
+            } catch (e) {
+                captureException(e);
+                throw e;
+            }
+        }
+    }
+
+    @restartableTask
+    @waitFor
+    async onPageInput(currentPageManager: PageManager) {
+        await timeout(5000); // debounce
+
+        if (currentPageManager && currentPageManager.schemaBlockGroups) {
+            this.updateRegistrationResponses(currentPageManager);
+
+            this.draftRegistration.setProperties({
+                registrationResponses: this.registrationResponses,
+            });
+            try {
+                await this.draftRegistration.save();
+            } catch (e) {
+                const errorMessage = this.intl.t('registries.drafts.draft.form.failed_auto_save');
+                captureException(e, { errorMessage });
+                this.toast.error(getApiErrorMessage(e), errorMessage);
+                throw e;
+            }
+        }
+    }
+
+    @task
+    @waitFor
+    async initializePageManagers() {
+        const { draftRegistration, provider } = await this.draftRegistrationTask;
         set(this, 'draftRegistration', draftRegistration);
         set(this, 'provider', provider);
         try {
-            const node = yield this.draftRegistration.branchedFrom;
+            const node = await this.draftRegistration.branchedFrom;
             set(this, 'node', node);
         } catch (e) {
             captureException(e);
             set(this, 'node', undefined);
         }
-        const registrationSchema = yield this.draftRegistration.registrationSchema;
-        const schemaBlocks: SchemaBlock[] = yield registrationSchema.loadAll('schemaBlocks');
+        const registrationSchema = await this.draftRegistration.registrationSchema;
+        const schemaBlocks = await registrationSchema.loadAll('schemaBlocks');
         set(this, 'schemaBlocks', schemaBlocks);
         const pages = getPages(schemaBlocks);
         const { registrationResponses } = this.draftRegistration;
@@ -105,84 +163,43 @@ export default class DraftRegistrationManager {
         );
 
         set(this, 'pageManagers', pageManagers);
-    });
+    }
 
-    @task({ withTestWaiter: true })
-    initializeMetadataChangeset = task(function *(this: DraftRegistrationManager) {
-        const { draftRegistration } = yield this.draftRegistrationTask;
+    @task
+    @waitFor
+    async initializeMetadataChangeset() {
+        const { draftRegistration } = await this.draftRegistrationTask;
         const metadataValidations = buildMetadataValidations();
         const metadataChangeset = buildChangeset(draftRegistration, metadataValidations);
         set(this, 'metadataChangeset', metadataChangeset);
-    });
+    }
 
-    @task({ withTestWaiter: true, restartable: true })
-    onMetadataInput = task(function *(this: DraftRegistrationManager) {
-        yield timeout(5000); // debounce
-        this.updateMetadataChangeset();
+    @restartableTask
+    @waitFor
+    async onMetadataInput() {
+        await timeout(3000); // debounce
+        await taskFor(this.updateDraftRegistrationAndSave).perform();
+    }
+
+    @restartableTask
+    @waitFor
+    async updateDraftRegistrationAndSave() {
+        this.copyMetadataChangesToDraft();
         try {
-            yield this.draftRegistration.save();
+            await this.draftRegistration.save();
         } catch (e) {
             const errorMessage = this.intl.t('registries.drafts.draft.metadata.failed_auto_save');
             captureException(e, { errorMessage });
             this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
         }
-    });
-
-    @task({ withTestWaiter: true, restartable: true })
-    onPageInput = task(function *(this: DraftRegistrationManager, currentPageManager: PageManager) {
-        yield timeout(5000); // debounce
-
-        if (currentPageManager && currentPageManager.schemaBlockGroups) {
-            this.updateRegistrationResponses(currentPageManager);
-
-            this.draftRegistration.setProperties({
-                registrationResponses: this.registrationResponses,
-            });
-            try {
-                yield this.draftRegistration.save();
-            } catch (e) {
-                const errorMessage = this.intl.t('registries.drafts.draft.form.failed_auto_save');
-                captureException(e, { errorMessage });
-                this.toast.error(getApiErrorMessage(e), errorMessage);
-                throw e;
-            }
-        }
-    });
-
-    @task({ withTestWaiter: true, restartable: true })
-    saveAllVisitedPages = task(function *(this: DraftRegistrationManager) {
-        if (this.pageManagers && this.pageManagers.length) {
-            this.pageManagers
-                .filter(pageManager => pageManager.isVisited)
-                .forEach(this.updateRegistrationResponses.bind(this));
-
-            const { registrationResponses } = this;
-
-            this.draftRegistration.setProperties({
-                registrationResponses,
-            });
-
-            try {
-                yield this.draftRegistration.save();
-            } catch (e) {
-                captureException(e);
-                throw e;
-            }
-        }
-    });
-
-    constructor(draftRegistrationTask: LoadDraftModelTask) {
-        set(this, 'draftRegistrationTask', draftRegistrationTask);
-        this.initializePageManagers.perform();
-        this.initializeMetadataChangeset.perform();
     }
 
     @action
     onPageChange(currentPage: number) {
         if (this.hasVisitedPages) {
             this.validateAllVisitedPages();
-            this.saveAllVisitedPages.perform();
+            taskFor(this.saveAllVisitedPages).perform();
         }
         this.markCurrentPageVisited(currentPage);
     }
@@ -211,7 +228,7 @@ export default class DraftRegistrationManager {
             });
     }
 
-    updateMetadataChangeset() {
+    copyMetadataChangesToDraft() {
         const { metadataChangeset, draftRegistration } = this;
         Object.values(DraftMetadataProperties).forEach(metadataKey => {
             set(

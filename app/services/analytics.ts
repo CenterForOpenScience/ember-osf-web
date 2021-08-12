@@ -3,8 +3,9 @@ import { assert, debug, runInDebug } from '@ember/debug';
 import { action } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
 import Service, { inject as service } from '@ember/service';
-import { waitForQueue } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { waitFor } from '@ember/test-waiters';
+import { restartableTask, waitForQueue } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import config from 'ember-get-config';
 import Metrics from 'ember-metrics/services/metrics';
 import Session from 'ember-simple-auth/services/session';
@@ -153,20 +154,20 @@ export default class Analytics extends Service {
     @service router!: RouterService;
     @service toast!: Toast;
 
-    shouldToastOnEvent: boolean = false;
+    shouldToastOnEvent = false;
 
     rootElement?: Element;
 
-    @task({ withTestWaiter: true, restartable: true })
-    trackPageTask = task(function *(
-        this: Analytics,
+    @restartableTask
+    @waitFor
+    async trackPageTask(
         pagePublic: boolean | undefined,
         resourceType: string,
         withdrawn: string,
         versionType: string,
     ) {
         // Wait until everything has settled
-        yield waitForQueue('destroy');
+        await waitForQueue('destroy');
 
         const eventParams = {
             page: this.router.currentURL,
@@ -218,7 +219,7 @@ export default class Analytics extends Service {
             pagePublic,
             ...eventParams,
         });
-    });
+    }
 
     @action
     click(category: string, label: string, extraInfo?: string | object) {
@@ -256,11 +257,11 @@ export default class Analytics extends Service {
     trackPage(
         this: Analytics,
         pagePublic?: boolean,
-        resourceType: string = 'n/a',
-        withdrawn: string = 'n/a',
-        version: string = 'n/a',
+        resourceType = 'n/a',
+        withdrawn = 'n/a',
+        version = 'n/a',
     ) {
-        this.get('trackPageTask').perform(pagePublic, resourceType, withdrawn, version);
+        taskFor(this.trackPageTask).perform(pagePublic, resourceType, withdrawn, version);
     }
 
     trackFromElement(target: Element, initialInfo: InitialEventInfo) {

@@ -1,28 +1,29 @@
+import Store from '@ember-data/store';
 import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import { waitFor } from '@ember/test-waiters';
+import { restartableTask, timeout } from 'ember-concurrency';
 
 import Institution from 'ember-osf-web/models/institution';
 import Analytics from 'ember-osf-web/services/analytics';
 
 export default class Institutions extends Controller {
-    @service store!: DS.Store;
+    @service store!: Store;
     @service analytics!: Analytics;
 
     sortOrder: 'title' | '-title' = 'title';
     page = 1;
-    textValue: string = '';
+    textValue = '';
 
-    @task({ withTestWaiter: true, restartable: true })
-    trackFilter = task(function *(this: Institutions) {
-        yield timeout(1000);
+    @restartableTask
+    @waitFor
+    async trackFilter() {
+        await timeout(1000);
         this.analytics.track('list', 'filter', 'Institutions - Search');
-    });
+    }
 
-    @computed('model', 'textValue')
+    @computed('model', 'textValue.length')
     get filtered(): Institution[] {
         if (!this.textValue.length) {
             return this.model;
@@ -35,11 +36,13 @@ export default class Institutions extends Controller {
     @computed('filtered', 'sortOrder', 'page', 'textValue')
     get institutions(): Institution[] {
         const sorted = this.filtered.sortBy('name');
-        if (this.sortOrder === '-title') { sorted.reverse(); }
+        if (this.sortOrder === '-title') {
+            sorted.reverse();
+        }
         return sorted.slice(0, 10 * this.page);
     }
 
-    @computed('institutions', 'filtered', 'textValue')
+    @computed('filtered.length', 'institutions.length', 'textValue')
     get hasMore(): boolean {
         if (!this.institutions) {
             return false;

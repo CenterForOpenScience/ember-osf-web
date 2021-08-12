@@ -20,7 +20,7 @@ export default class DeveloperAppClientSecret extends Component {
     @service router!: RouterService;
     @service toast!: Toast;
 
-    shouldShowSecret: boolean = false;
+    shouldShowSecret = false;
 
     @action
     toggleShowSecret() {

@@ -1,12 +1,13 @@
+import Store from '@ember-data/store';
 import { action, computed } from '@ember/object';
 import Transition from '@ember/routing/-private/transition';
 import { EmberLocation } from '@ember/routing/api';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
-import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
+import RouterService from '@ember/routing/router-service';
 
 import { notFoundURL } from 'ember-osf-web/utils/clean-url';
 import param from 'ember-osf-web/utils/param';
@@ -17,6 +18,7 @@ interface RouterMicroLib {
 }
 
 interface PrivateRouter {
+    // eslint-disable-next-line ember/no-private-routing-service
     _routerMicrolib: RouterMicroLib;
     _engineInfoByRoute?: Record<string, any>;
     location: EmberLocation;
@@ -26,8 +28,8 @@ const { featureFlagNames: { routes } } = config;
 
 export default class ResolveGuid extends Route {
     @service features!: Features;
-    @service store!: DS.Store;
-    _router!: PrivateRouter; // tslint:disable-line:variable-name
+    @service store!: Store;
+    @service router!: RouterService & { _router: PrivateRouter };
 
     @computed(`features.${camelize(routes['registries.overview'])}`)
     get routeMap(): Record<string, string> {
@@ -43,13 +45,14 @@ export default class ResolveGuid extends Route {
     }
 
     isEngineRoute(route: string): boolean {
-        return Boolean(this._router._engineInfoByRoute && route in this._router._engineInfoByRoute);
+        return Boolean(this.router._router._engineInfoByRoute && route in this.router._router._engineInfoByRoute);
     }
 
     generateURL(route: string, ...args: any[]): string {
         // NOTE: The router's urlFor is skipped over here as it passes the result of generate into the location
         // implementation, which would rip out the "--PATH" which is used for routing here.
-        return this._router._routerMicrolib.generate(route, ...args);
+        // eslint-disable-next-line ember/no-private-routing-service
+        return this.router._router._routerMicrolib.generate(route, ...args);
     }
 
     async beforeModel(transition: Transition) {
@@ -96,13 +99,12 @@ export default class ResolveGuid extends Route {
 
             url = `${url}?${param(transition[qpsKey])}`;
         }
-
-        return this.replaceWith(url);
+        return this.router.replaceWith(url);
     }
 
     @action
     error(error: Error, transition: Transition) {
-        this.replaceWith('not-found', notFoundURL(transitionTargetURL(transition)));
+        this.router.replaceWith('not-found', notFoundURL(transitionTargetURL(transition)));
 
         throw error;
     }

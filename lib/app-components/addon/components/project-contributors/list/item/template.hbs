@@ -40,9 +40,12 @@
             </em>
         </span>
         {{#if this.canChangePermissions}}
-            <PowerSelect data-test-project-contributors-list-item-permissions-select @searchEnabled={{false}}
-                @options={{this.permissions}} @onchange={{action @updatePermissions @contributor}}
-                @selected={{@contributor.permission}} as |option|>
+            <PowerSelect data-test-project-contributors-list-item-permissions-select
+                @options={{this.permissions}}
+                @onChange={{action @updatePermissions @contributor}}
+                @selected={{@contributor.permission}}
+                as |option|
+            >
                 {{t (concat 'app_components.project_contributors.list.item.permissions.' option)}}
             </PowerSelect>
         {{else}}

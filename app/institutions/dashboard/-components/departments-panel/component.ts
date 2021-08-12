@@ -12,7 +12,7 @@ export default class DepartmentsPanel extends Component {
     topDepartments!: InstitutionDepartmentsModel[];
     totalUsers!: number;
 
-    chartHoverIndex: number = 0;
+    chartHoverIndex = 0;
 
     get chartOptions(): ChartOptions {
         return {
@@ -32,7 +32,7 @@ export default class DepartmentsPanel extends Component {
         this.set('chartHoverIndex', shapes[0]._index);
     }
 
-    @computed('topDepartments')
+    @computed('topDepartments', 'totalUsers')
     get displayDepartments() {
         const departments = this.topDepartments.map(({ name, numberOfUsers }) => ({ name, numberOfUsers }));
         const departmentNumbers = this.topDepartments.map(x => x.numberOfUsers);
@@ -66,7 +66,7 @@ export default class DepartmentsPanel extends Component {
         return this.displayDepartments[this.chartHoverIndex];
     }
 
-    @computed('activeDepartment', 'displayDepartments')
+    @computed('activeDepartment.numberOfUsers', 'displayDepartments')
     get activeDepartmentPercentage(): string {
         const numUsersArray = this.displayDepartments.map(({ numberOfUsers }) => numberOfUsers);
         const count = numUsersArray.reduce((a, b) => a + b);

@@ -1,4 +1,5 @@
 import Route from '@ember/routing/route';
+// @ts-ignore: TODO fix
 import { inject as service } from '@ember/service';
 import SessionService from 'ember-simple-auth/services/session';
 
@@ -28,8 +29,10 @@ export default function requireAuthFactory(
     redirectRoute?: string,
 ) {
     function requireAuthDecorator<T extends ConcreteSubclass<Route>>(RouteSubclass: T) {
-        class RequireAuthRoute extends RouteSubclass {
+        return class RequireAuthRoute extends RouteSubclass {
+            // @ts-ignore: TODO fix
             @service session!: SessionService;
+            // @ts-ignore: TODO fix
             @service currentUser!: CurrentUser;
 
             async beforeModel(transition: any) {
@@ -45,9 +48,7 @@ export default function requireAuthFactory(
 
                 return super.beforeModel(transition);
             }
-        }
-
-        return RequireAuthRoute;
+        };
     }
     return requireAuthDecorator;
 }

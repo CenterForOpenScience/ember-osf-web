@@ -1,12 +1,12 @@
+import Store from '@ember-data/store';
 import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-import DS from 'ember-data';
 
 import Analytics from 'ember-osf-web/services/analytics';
 
 export default class Discover extends Route {
-    @service store!: DS.Store;
+    @service store!: Store;
     @service analytics!: Analytics;
 
     queryParams = {

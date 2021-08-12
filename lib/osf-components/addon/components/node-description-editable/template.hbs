@@ -1,9 +1,9 @@
 <div local-class='EditDescription' data-test-description-input>
-    {{textarea
+    <textarea
         class='form-control'
-        autofocus='true'
-        value=@manager.currentDescription
-        disabled=@manager.save.isRunning
         rows=5
-    }}
+        disabled={{@manager.save.isRunning}}
+        value={{@manager.currentDescription}}
+        {{on 'input' @manager.updateDescription}}
+    ></textarea>
 </div>

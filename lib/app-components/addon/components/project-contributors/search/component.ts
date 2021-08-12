@@ -1,8 +1,9 @@
+import Store from '@ember-data/store';
 import Component from '@ember/component';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { waitFor } from '@ember/test-waiters';
+import { restartableTask, task, timeout } from 'ember-concurrency';
 import { DS } from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 
@@ -26,43 +27,21 @@ const nameFields = [
 export default class Search extends Component {
     @service analytics!: Analytics;
     @service intl!: Intl;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service toast!: Toast;
 
-    query: string = '';
-    page: number = 1;
-    showUnregisteredForm: boolean = false;
-    node: Node = this.node;
+    node!: Node;
+    query = '';
+    page = 1;
+    showUnregisteredForm = false;
     onAddContributor?: () => void;
 
     @alias('search.lastSuccessful.value') results?: DS.AdapterPopulatedRecordArray<User>;
     @alias('results.meta.total_pages') totalPages?: number;
 
-    @task({ withTestWaiter: true, restartable: true })
-    search = task(function *(this: Search, page?: number) {
-        if (!this.query) {
-            return undefined;
-        }
-
-        if (page) {
-            this.setProperties({ page });
-        }
-
-        yield timeout(250);
-        this.analytics.track('list', 'filter', 'Collections - Contributors - Search');
-
-        const results = yield this.store.query('user', {
-            filter: {
-                [nameFields]: this.query,
-            },
-            page: this.page,
-        });
-
-        return results;
-    });
-
-    @task({ withTestWaiter: true })
-    addContributor = task(function *(this: Search, user: User) {
+    @task
+    @waitFor
+    async addContributor(user: User) {
         this.analytics.track('list', 'filter', 'Collections - Contributors - Add Contributor');
 
         const contributor = this.store.createRecord('contributor', {
@@ -73,7 +52,7 @@ export default class Search extends Component {
         });
 
         try {
-            yield contributor.save();
+            await contributor.save();
             if (this.onAddContributor) {
                 this.onAddContributor();
             }
@@ -84,5 +63,29 @@ export default class Search extends Component {
             this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
         }
-    });
+    }
+
+    @restartableTask
+    @waitFor
+    async search(page?: number) {
+        if (!this.query) {
+            return undefined;
+        }
+
+        if (page) {
+            this.setProperties({ page });
+        }
+
+        await timeout(250);
+        this.analytics.track('list', 'filter', 'Collections - Contributors - Search');
+
+        const results = await this.store.query('user', {
+            filter: {
+                [nameFields]: this.query,
+            },
+            page: this.page,
+        });
+
+        return results;
+    }
 }

@@ -4,7 +4,6 @@ import { action, computed } from '@ember/object';
 import { next } from '@ember/runloop';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import styles from './styles';
 import template from './template';
@@ -29,8 +28,8 @@ import template from './template';
 @layout(template, styles)
 @classNames('FileEditor')
 export default class FileEditor extends Component {
-    fileText: string = defaultTo(this.fileText, '');
-    unsavedText: string = defaultTo(this.unsavedText, '');
+    fileText = '';
+    unsavedText = '';
     @requiredAction save!: (text: string) => void;
 
     @computed('fileText')

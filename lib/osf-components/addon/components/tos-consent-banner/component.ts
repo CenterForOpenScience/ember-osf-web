@@ -1,8 +1,9 @@
+import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
-import { localClassNames } from 'ember-css-modules';
+import { waitFor } from '@ember/test-waiters';
+import { dropTask } from 'ember-concurrency';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
@@ -15,8 +16,12 @@ import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/captur
 import styles from './styles';
 import template from './template';
 
+const {
+    signUpPolicy: { termsLink, privacyPolicyLink },
+} = config;
+
 @layout(template, styles)
-@localClassNames('TosConsentBanner')
+@tagName('')
 export default class TosConsentBanner extends Component {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
@@ -27,11 +32,14 @@ export default class TosConsentBanner extends Component {
     show = false;
     didValidate = false;
     hasSubmitted = false;
+    termsLink = termsLink;
+    privacyPolicyLink = privacyPolicyLink;
 
-    @task({ withTestWaiter: true, drop: true })
-    saveUser = task(function *(this: TosConsentBanner) {
-        const user = yield this.currentUser.user;
-        const { validations } = yield user.validate();
+    @dropTask
+    @waitFor
+    async saveUser() {
+        const { user } = this.currentUser;
+        const { validations } = await user!.validate();
         this.set('didValidate', true);
 
         if (!validations.isValid) {
@@ -39,7 +47,7 @@ export default class TosConsentBanner extends Component {
         }
 
         try {
-            yield user.save();
+            await user!.save();
         } catch (e) {
             const errorMessage = this.intl.t('tos_consent.failed_save');
             captureException(e, { errorMessage });
@@ -47,11 +55,6 @@ export default class TosConsentBanner extends Component {
         }
 
         this.currentUser.set('showTosConsentBanner', false);
-    });
-
-    constructor(properties: object) {
-        super(properties);
-        Object.assign(this, config.signUpPolicy);
     }
 
     init() {

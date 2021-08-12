@@ -18,19 +18,23 @@ import template from './template';
 export default class ZoomToRoute extends Component {
     @service router!: any;
 
-    showModal: boolean = false;
+    showModal = false;
     targetRoute?: string;
 
     routeArgs: { [k: string]: string } = {};
 
-    @computed()
+    // eslint-disable-next-line ember/no-private-routing-service
+    @computed('router._router._routerMicrolib')
     get routeNames() {
+        // eslint-disable-next-line ember/no-private-routing-service
         const { recognizer } = this.router._router._routerMicrolib;
         return Object.keys(recognizer.names).sort().filter(name => !/(?:^|[_.])(?:error|loading|index)$/.test(name));
     }
 
-    @computed('targetRoute')
+    // eslint-disable-next-line ember/no-private-routing-service
+    @computed('router._router._routerMicrolib', 'targetRoute')
     get routeParams() {
+        // eslint-disable-next-line ember/no-private-routing-service
         const { recognizer } = this.router._router._routerMicrolib;
         const handlers = recognizer.handlersFor(this.targetRoute);
         return [].concat(...handlers.mapBy('names'));

@@ -1,4 +1,4 @@
-{{title (t 'registries.new.page_title') prepend=false}}
+{{page-title (t 'registries.new.page_title') prepend=false}}
 
 <RegistriesWrapper
     {{with-branding (get-model this.model.brand)}}
@@ -85,7 +85,8 @@
                             @options={{this.projectOptions}}
                             @search={{perform this.projectSearch}}
                             @selected={{this.selectedProject}}
-                            @onchange={{this.updateSelectedProject}}
+                            @searchEnabled={{true}}
+                            @onChange={{this.updateSelectedProject}}
                             as |option|
                         >
                             {{option.title}}
@@ -112,8 +113,7 @@
                         @ariaLabel={{this.selectedSchema.name}}
                         @options={{this.schemaOptions}}
                         @selected={{this.selectedSchema}}
-                        @searchEnabled={{false}}
-                        @onchange={{this.updateSelectedSchema}}
+                        @onChange={{this.updateSelectedSchema}}
                         as |option|
                     >
                         {{option.name}}

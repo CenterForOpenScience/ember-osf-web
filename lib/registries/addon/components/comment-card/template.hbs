@@ -9,13 +9,13 @@
             <div local-class='CommentRestore'>
                 <span>{{t 'registries.overview.comments.comment_abuse'}}</span>
                 {{#if this.currentUserHasReported}}
-                    <OsfButton
+                    <BsButton
                         data-analytics-name='Retract report'
                         @type='link'
                         @onClick={{perform this.submitRetractReport}}
                     >
                         {{t 'registries.overview.comments.comment_abuse_action'}}
-                    </OsfButton>
+                    </BsButton>
                 {{/if}}
             </div>
         {{else}}
@@ -73,24 +73,24 @@
                             @label={{t 'registries.overview.comments.report_placeholder'}}
                         />
                         <div local-class='formButtons'>
-                            <OsfButton
+                            <BsButton
                                 local-class='CommentReport__cancel'
                                 @type='default'
                                 @size='sm'
                                 @onClick={{action this.cancelReport}}
                             >
                                 {{t 'registries.overview.comments.cancel'}}
-                            </OsfButton>
-                            <OsfButton
+                            </BsButton>
+                            <BsButton
                                 data-analytics-name='Report comment'
                                 local-class='CommentReport__save'
-                                type='submit'
+                                disabled={{form.disabled}}
+                                @buttonType='submit'
                                 @type='default'
                                 @size='sm'
-                                @disabled={{form.disabled}}
                             >
                                 {{t 'registries.overview.comments.report'}}
-                            </OsfButton>
+                            </BsButton>
                         </div>
                     </ValidatedModelForm>
                 {{/if}}
@@ -99,24 +99,24 @@
                 <div local-class='CommentControls'>
                     <div>
                         {{#if this.canReport}}
-                            <OsfButton
+                            <BsButton
                                 @type='link'
                                 @onClick={{action this.report}}
                             >
                                 {{t 'registries.overview.comments.report'}}
-                            </OsfButton>
+                            </BsButton>
                         {{/if}}
                     </div>
                     <div local-class='repliesCount'>
                         {{#if this.hasReplies}}
-                            <OsfButton
+                            <BsButton
                                 data-analytics-name='View replies'
                                 @type='link'
                                 @onClick={{action this.toggleReplies}}
                             >
                                 {{t (concat 'registries.overview.comments' (if this.showReplies '.hide_replies' '.see_replies'))}}
                                 {{fa-icon (if this.showReplies 'caret-up' 'caret-down')}}
-                            </OsfButton>
+                            </BsButton>
                         {{/if}}
                     </div>
                 </div>
@@ -141,12 +141,12 @@
                             </ContentPlaceholders>
                         {{else}}
                             <div local-class='MoreReplies'>
-                                <OsfButton
+                                <BsButton
                                     @type='link'
                                     @onClick={{action this.more}}
                                 >
                                     {{t 'registries.overview.comments.load_more'}}
-                                </OsfButton>
+                                </BsButton>
                             </div>
                         {{/if}}
                     {{/if}}

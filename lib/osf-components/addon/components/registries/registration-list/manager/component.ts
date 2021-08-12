@@ -9,7 +9,7 @@ export default class RegistrationListManager extends Component {
     reloadRegistrationsList!: () => void;
     state!: RegistrationReviewStates | string;
 
-    sort: string = '-date_registered';
+    sort = '-date_registered';
 
     @computed('state', 'sort')
     get filterParams() {

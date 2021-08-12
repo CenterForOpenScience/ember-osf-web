@@ -8,7 +8,6 @@ import { layout } from 'ember-osf-web/decorators/component';
 import Node, { NodeType } from 'ember-osf-web/models/node';
 import Registration from 'ember-osf-web/models/registration';
 import Analytics from 'ember-osf-web/services/analytics';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
 import styles from './styles';
@@ -24,8 +23,8 @@ export default class NodeCard extends Component {
     // Optional parameters
     node?: Node | Registration;
     delete?: (node: Node) => void;
-    showTags: boolean = defaultTo(this.showTags, false);
-    readOnly: boolean = defaultTo(this.readOnly, false);
+    showTags = false;
+    readOnly = false;
 
     // Private properties
     searchUrl = pathJoin(baseURL, 'search');

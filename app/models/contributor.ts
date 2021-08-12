@@ -1,18 +1,14 @@
+import { attr, belongsTo, AsyncBelongsTo, AsyncHasMany } from '@ember-data/model';
 import { not } from '@ember/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
-import DS from 'ember-data';
-
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import DraftRegistrationModel from './draft-registration';
 import NodeModel from './node';
 import OsfModel, { Permission } from './osf-model';
 import UserModel from './user';
 
-const { attr, belongsTo } = DS;
-
 export interface ModelWithBibliographicContributors extends OsfModel {
-    bibliographicContributors: DS.PromiseManyArray<ContributorModel> & ContributorModel[];
+    bibliographicContributors: AsyncHasMany<ContributorModel> & ContributorModel[];
 }
 
 const Validations = buildValidations({
@@ -52,15 +48,15 @@ export default class ContributorModel extends OsfModel.extend(Validations) {
     @attr('fixstring') email!: string;
 
     @belongsTo('user', { inverse: 'contributors' })
-    users!: DS.PromiseObject<UserModel> & UserModel;
+    users!: AsyncBelongsTo<UserModel> & UserModel;
 
     @belongsTo('node', { inverse: 'contributors', polymorphic: true })
-    node!: DS.PromiseObject<NodeModel> & NodeModel;
+    node!: AsyncBelongsTo<NodeModel> & NodeModel;
 
     @belongsTo('draft-registration', { inverse: 'contributors' })
-    draftRegistration!: DS.PromiseObject<DraftRegistrationModel> & DraftRegistrationModel;
+    draftRegistration!: AsyncBelongsTo<DraftRegistrationModel> & DraftRegistrationModel;
 
-    isUnregistered: boolean = defaultTo(this.isUnregistered, false);
+    isUnregistered = false;
 }
 
 declare module 'ember-data/types/registries/model' {

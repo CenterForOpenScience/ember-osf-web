@@ -1,7 +1,6 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 
-// @ts-ignore
 import move from 'ember-animated/motions/move';
 
 import { layout } from 'ember-osf-web/decorators/component';

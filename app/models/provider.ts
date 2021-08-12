@@ -1,10 +1,8 @@
-import DS from 'ember-data';
+import { attr, hasMany, SyncHasMany, AsyncHasMany } from '@ember-data/model';
 
 import LicenseModel from './license';
 import OsfModel from './osf-model';
 import SubjectModel from './subject';
-
-const { attr, hasMany } = DS;
 
 /* eslint-disable camelcase */
 
@@ -57,11 +55,11 @@ export default abstract class ProviderModel extends OsfModel {
     @attr() assets?: Partial<Assets>; // TODO: camelize in transform
 
     @hasMany('subject', { inverse: null, async: false })
-    subjects!: DS.PromiseManyArray<SubjectModel>;
+    subjects!: SyncHasMany<SubjectModel>;
 
     @hasMany('subject')
-    highlightedSubjects!: DS.PromiseManyArray<SubjectModel>;
+    highlightedSubjects!: AsyncHasMany<SubjectModel>;
 
     @hasMany('license', { inverse: null })
-    licensesAcceptable!: DS.PromiseManyArray<LicenseModel>;
+    licensesAcceptable!: AsyncHasMany<LicenseModel>;
 }

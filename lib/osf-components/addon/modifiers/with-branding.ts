@@ -1,10 +1,16 @@
-import Modifier from 'ember-oo-modifiers';
+import Modifier from 'ember-modifier';
 import BrandModel from 'ember-osf-web/models/brand';
 
-class WithBrandingModifier extends Modifier {
-    didReceiveArguments([brand]: [BrandModel | null]) {
+interface WithBrandingModifierArgs {
+    positional: [BrandModel | null];
+    named: {};
+}
+
+export default class WithBrandingModifier extends Modifier<WithBrandingModifierArgs> {
+    didReceiveArguments() {
         const { element } = this;
-        const elementStyle = element.style;
+        const elementStyle = (element as HTMLElement).style;
+        const brand = this.args.positional[0];
 
         if (brand) {
             element.classList.add('with-custom-branding');
@@ -23,5 +29,3 @@ class WithBrandingModifier extends Modifier {
         }
     }
 }
-
-export default Modifier.modifier(WithBrandingModifier);

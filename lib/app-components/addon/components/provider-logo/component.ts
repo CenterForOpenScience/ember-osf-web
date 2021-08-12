@@ -14,7 +14,7 @@ import template from './template';
 export default class ProviderLogo extends Component {
     @service analytics!: Analytics;
 
-    provider: Provider = this.provider;
+    provider!: Provider;
 
     @and('provider.domain', 'provider.domainRedirectEnabled')
     useExternalLink!: boolean;

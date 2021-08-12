@@ -1,13 +1,18 @@
 {{#if this.helpText}}
-    <FaIcon
-        local-class='helper-text-icon'
-        tabindex='0'
-        @icon='question-circle'
-        @ariaHidden={{false}}
-        ...attributes
-    >
-        <BsPopover @triggerEvents={{array 'hover' 'focus'}}>
+    {{#let (unique-id 'helper-text-icon') as |id|}}
+        <FaIcon
+            local-class='helper-text-icon'
+            tabindex='0'
+            id={{id}}
+            @icon='question-circle'
+            @ariaHidden={{false}}
+            ...attributes
+        />
+        <BsPopover
+            @triggerEvents={{array 'hover' 'focus'}}
+            @triggerElement={{concat '#' id}}
+        >
             {{this.helpText}}
         </BsPopover>
-    </FaIcon>
+    {{/let}}
 {{/if}}

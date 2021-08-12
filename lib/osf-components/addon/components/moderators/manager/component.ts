@@ -1,10 +1,12 @@
+import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
-import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import { enqueueTask, task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -32,7 +34,7 @@ export interface ModeratorManager {
 @layout(template)
 export default class ModeratorManagerComponent extends Component {
     @service currentUser!: CurrentUserService;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service toast!: Toast;
     @service intl!: Intl;
 
@@ -42,7 +44,7 @@ export default class ModeratorManagerComponent extends Component {
 
     @tracked currentModerator?: ModeratorModel;
 
-    @computed('currentUser.currentUserId', 'currentModerator')
+    @computed('currentModerator.permissionGroup', 'currentUser.currentUserId')
     get currentUserIsProviderAdmin(): boolean {
         if (this.currentUser && this.currentModerator) {
             return this.currentModerator.permissionGroup === PermissionGroup.Admin;
@@ -50,12 +52,57 @@ export default class ModeratorManagerComponent extends Component {
         return false;
     }
 
-    @task({ withTestWaiter: true, on: 'init' })
-    loadCurrentModerator =
-    task(function *(this: ModeratorManagerComponent) {
+    @enqueueTask
+    @waitFor
+    async updateModeratorPermission(moderator: ModeratorModel, newPermission: string) {
+        try {
+            moderator.set('permissionGroup', newPermission);
+            await moderator.save();
+            this.toast.success(this.intl.t(
+                'registries.moderation.moderators.updatedModeratorPermissionSuccess',
+                { userName: moderator.fullName, permission: newPermission },
+            ));
+        } catch (e) {
+            const errorMessage = this.intl.t(
+                'registries.moderation.moderators.updatedModeratorPermissionError',
+                { permission: newPermission },
+            );
+            moderator.rollbackAttributes();
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
+        }
+    }
+
+    @task
+    @waitFor
+    async removeModeratorTask(moderator: ModeratorModel) {
+        try {
+            await moderator.destroyRecord();
+
+            this.toast.success(this.intl.t(
+                'registries.moderation.moderators.removedModeratorSuccess',
+                { userName: moderator.fullName },
+            ));
+        } catch (e) {
+            const errorMessage = this.intl.t(
+                'registries.moderation.moderators.removedModeratorError',
+                { permission: moderator.permissionGroup },
+            );
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
+        } finally {
+            if (this.reloadModeratorList) {
+                this.reloadModeratorList();
+            }
+        }
+    }
+
+    @task({ on: 'init' })
+    @waitFor
+    async loadCurrentModerator() {
         try {
             if (this.currentUser.currentUserId) {
-                this.currentModerator = yield this.store.findRecord('moderator', this.currentUser.currentUserId,
+                this.currentModerator = await this.store.findRecord('moderator', this.currentUser.currentUserId,
                     {
                         adapterOptions: {
                             providerId: this.provider.id,
@@ -66,11 +113,11 @@ export default class ModeratorManagerComponent extends Component {
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
         }
-    });
+    }
 
-    @task({ withTestWaiter: true, enqueue: true })
-    addUserAsModerator =
-    task(function *(this: ModeratorManagerComponent, user: UserModel, permissionGroup: PermissionGroup) {
+    @enqueueTask
+    @waitFor
+    async addUserAsModerator(user: UserModel, permissionGroup: PermissionGroup) {
         let newModerator;
         try {
             if (user && permissionGroup) {
@@ -79,7 +126,7 @@ export default class ModeratorManagerComponent extends Component {
                     provider: this.provider,
                     permissionGroup,
                 });
-                yield newModerator.save();
+                await newModerator.save();
                 if (this.reloadModeratorList) {
                     this.reloadModeratorList();
                 }
@@ -99,16 +146,11 @@ export default class ModeratorManagerComponent extends Component {
             captureException(e, { errorMessage });
             this.toast.error(getApiErrorMessage(e), errorMessage);
         }
-    });
+    }
 
-    @task({ withTestWaiter: true, enqueue: true })
-    addEmailAsModerator =
-    task(function *(
-        this: ModeratorManagerComponent,
-        fullName: string,
-        email: string,
-        permissionGroup: PermissionGroup,
-    ) {
+    @enqueueTask
+    @waitFor
+    async addEmailAsModerator(fullName: string, email: string, permissionGroup: PermissionGroup) {
         let newModerator;
         try {
             if (fullName && email && permissionGroup) {
@@ -118,7 +160,7 @@ export default class ModeratorManagerComponent extends Component {
                     email,
                     permissionGroup,
                 });
-                yield newModerator.save();
+                await newModerator.save();
                 if (this.reloadModeratorList) {
                     this.reloadModeratorList();
                 }
@@ -138,54 +180,10 @@ export default class ModeratorManagerComponent extends Component {
             captureException(e, { errorMessage });
             this.toast.error(getApiErrorMessage(e), errorMessage);
         }
-    });
-
-    @task({ withTestWaiter: true, enqueue: true })
-    updateModeratorPermission =
-    task(function *(this: ModeratorManagerComponent, moderator: ModeratorModel, newPermission: string) {
-        try {
-            moderator.set('permissionGroup', newPermission);
-            yield moderator.save();
-            this.toast.success(this.intl.t(
-                'registries.moderation.moderators.updatedModeratorPermissionSuccess',
-                { userName: moderator.fullName, permission: newPermission },
-            ));
-        } catch (e) {
-            const errorMessage = this.intl.t(
-                'registries.moderation.moderators.updatedModeratorPermissionError',
-                { permission: newPermission },
-            );
-            moderator.rollbackAttributes();
-            captureException(e, { errorMessage });
-            this.toast.error(getApiErrorMessage(e), errorMessage);
-        }
-    });
-
-    @task({ withTestWaiter: true })
-    removeModeratorTask = task(function *(this: ModeratorManagerComponent, moderator: ModeratorModel) {
-        try {
-            yield moderator.destroyRecord();
-
-            this.toast.success(this.intl.t(
-                'registries.moderation.moderators.removedModeratorSuccess',
-                { userName: moderator.fullName },
-            ));
-        } catch (e) {
-            const errorMessage = this.intl.t(
-                'registries.moderation.moderators.removedModeratorError',
-                { permission: moderator.permissionGroup },
-            );
-            captureException(e, { errorMessage });
-            this.toast.error(getApiErrorMessage(e), errorMessage);
-        } finally {
-            if (this.reloadModeratorList) {
-                this.reloadModeratorList();
-            }
-        }
-    });
+    }
 
     @action
     removeModerator(moderator: ModeratorModel) {
-        this.removeModeratorTask.perform(moderator);
+        taskFor(this.removeModeratorTask).perform(moderator);
     }
 }

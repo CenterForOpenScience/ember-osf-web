@@ -7,7 +7,7 @@
                 {{subject.text}}
 
                 {{#if @removeSubject}}
-                    <OsfButton
+                    <BsButton
                         local-class='RemoveButton'
                         data-analytics-name='Remove'
                         data-analytics-extra={{subject.text}}
@@ -17,7 +17,7 @@
                         @onClick={{action @removeSubject subject}}
                     >
                         <FaIcon @icon='times' @fixedWidth={{true}} />
-                    </OsfButton>
+                    </BsButton>
                 {{/if}}
             </li>
         {{else}}

@@ -14,31 +14,8 @@ function postProcess(content) {
 
 module.exports = function(defaults) {
     const config = defaults.project.config(EMBER_ENV);
-    const handbookEnabled = config.engines.handbook.enabled;
-
-    /*
-     * Options just used by child addons of the handbook engine. Some addons
-     * insist on looking to the root app config instead of their parent config.
-     */
-    let handbookOptions = {};
-    if (handbookEnabled) {
-        handbookOptions = {
-            // ember-code-snippets
-            includeHighlightJS: false,
-            includeFileExtensionInSnippetNames: false,
-            snippetSearchPaths: ['lib/handbook/addon'],
-            snippetRegexes: [{
-                begin: /{{#(?:docs-snippet|demo.example|demo.live-example)\sname=(?:"|')(\S+)(?:"|')/,
-                end: /{{\/(?:docs-snippet|demo.example|demo.live-example)}}/,
-            }, {
-                begin: /<(?:DocsSnippet|demo.example|demo.live-example)\s@name=(?:"|')(\S+)(?:"|')/,
-                end: /<\/(?:DocsSnippet|demo.example|demo.live-example)>/,
-            }],
-        };
-    }
 
     const app = new EmberApp(defaults, {
-        ...handbookOptions,
         hinting: config.lintOnBuild,
         tests: config.testsEnabled,
         ace: {
@@ -54,7 +31,6 @@ module.exports = function(defaults) {
         },
         addons: {
             blacklist: [
-                'ember-cli-addon-docs', // Only included in the handbook engine
                 ...Object.keys(config.engines).filter(
                     engineName => !config.engines[engineName].enabled,
                 ),

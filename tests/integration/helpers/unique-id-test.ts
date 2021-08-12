@@ -9,6 +9,7 @@ module('Integration | Helper | unique-id', hooks => {
     test('it captures ids', async function(assert) {
         const ids = new Set<string>();
 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         for (const _ of Array.from({ length: 100 })) {
             await render(hbs`{{unique-id}}`);
             const uniqueId = this.element.textContent!.trim();

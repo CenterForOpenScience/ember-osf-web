@@ -9,7 +9,7 @@
         />
     </p>
 
-    <OsfButton
+    <BsButton
         data-test-toggle-client-secret
         data-analytics-name='Toggle show secret'
         @onClick={{action this.toggleShowSecret}}
@@ -21,7 +21,7 @@
             {{fa-icon 'eye'}}
             {{t 'settings.developer-apps.showSecret'}}
         {{/if}}
-    </OsfButton>
+    </BsButton>
 
     <DeleteButton
         data-test-reset-client-secret

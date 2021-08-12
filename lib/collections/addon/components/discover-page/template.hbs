@@ -93,7 +93,13 @@
                 {{/unless}}
             </div>
         </div>
-
+        {{#if (and this.theme.isProvider this.theme.provider.htmlSafeDescription)}}
+            <div local-class='ProviderDescription' class='row m-t-md m-b-lg'>
+                <div data-test-provider-description class='col-xs-12 col-sm-8 col-sm-offset-2'>
+                    {{this.theme.provider.htmlSafeDescription}}
+                </div>
+            </div>
+        {{/if}}
         <div class='row p-v-sm'>
             <div class='col-sm-6 pull-right'>
                 <BsDropdown class='dropdown pull-right' as |dd|>

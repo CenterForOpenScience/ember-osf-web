@@ -1,20 +1,20 @@
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
+import { dropTask } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Registration from 'ember-osf-web/models/registration';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import randomScientist from 'ember-osf-web/utils/random-scientist';
 
-import Changeset from 'ember-changeset';
+import { Changeset } from 'ember-changeset';
 import lookupValidator, { ValidationObject } from 'ember-changeset-validations';
 import { validateLength } from 'ember-changeset-validations/validators';
-import { ChangesetDef } from 'ember-changeset/types';
+import { BufferedChangeset } from 'ember-changeset/types';
 import styles from './styles';
 import template from './template';
 
@@ -24,12 +24,12 @@ export default class RegistrationIsPublic extends Component {
     @service toast!: Toast;
 
     registration!: Registration;
-    changeset!: ChangesetDef;
+    changeset!: BufferedChangeset;
 
     scientistName?: string;
-    scientistNameInput?: string = '';
+    scientistNameInput? = '';
     closeDropdown!: () => void;
-    showModal: boolean = defaultTo(this.showModal, false);
+    showModal = false;
 
     changesetValidation: ValidationObject<Registration> = {
         withdrawalJustification: validateLength({
@@ -43,19 +43,17 @@ export default class RegistrationIsPublic extends Component {
         }),
     };
 
-    @task({ withTestWaiter: true, drop: true })
-    submitWithdrawal = task(function *(this: RegistrationIsPublic) {
+    @dropTask
+    async submitWithdrawal() {
         if (!this.registration) {
             return;
         }
 
-        this.changeset.setProperties({
-            pendingWithdrawal: true,
-        });
+        this.changeset.set('pendingWithdrawal', true);
         this.changeset.validate();
         if (this.changeset.isValid) {
             try {
-                yield this.changeset.save({});
+                await this.changeset.save({});
             } catch (e) {
                 const errorMessage = this.intl.t('registries.overview.withdraw.error');
                 captureException(e, { errorMessage });
@@ -69,14 +67,14 @@ export default class RegistrationIsPublic extends Component {
                 this.closeDropdown();
             }
         }
-    });
+    }
 
     didReceiveAttrs() {
-        this.changeset = new Changeset(
+        this.changeset = Changeset(
             this.registration,
             lookupValidator(this.changesetValidation),
             this.changesetValidation,
-        ) as ChangesetDef;
+        ) as BufferedChangeset;
         this.setProperties({
             scientistNameInput: '',
             scientistName: randomScientist(),
@@ -90,7 +88,7 @@ export default class RegistrationIsPublic extends Component {
         'changeset.isInvalid',
     )
     get submitDisabled(): boolean {
-        return this.submitWithdrawal.isRunning
+        return taskFor(this.submitWithdrawal).isRunning
             || (this.scientistNameInput !== this.scientistName)
             || this.changeset.isInvalid;
     }

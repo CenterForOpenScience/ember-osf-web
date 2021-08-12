@@ -9,6 +9,7 @@ on:
       - 'release/*'
       - 'hotfix/*'
 env:
+  CI: true
   PERCY_PARALLEL_NONCE: ${{ github.run_id }}-${{ github.run_number }}
   PERCY_PARALLEL_TOTAL: 4
 
@@ -23,10 +24,10 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ./node_modules
-        key: cached_node_modules_${{ hashFiles('**/yarn.lock') }}
-        restore-keys: cached_node_modules_
+        key: cached_node_modules_${{ secrets.CACHE_VERSION }}_${{ hashFiles('**/yarn.lock') }}
+        restore-keys: cached_node_modules_${{ secrets.CACHE_VERSION }}_
     - if: steps.cache-node-modules.outputs.cache-hit != 'true'
-      run: yarn --prefer-offline --frozen-lockfile --ignore-engines
+      run: yarn --frozen-lockfile --ignore-engines
 
   build:
     runs-on: ubuntu-latest
@@ -38,8 +39,8 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ./node_modules
-        key: cached_node_modules_${{ hashFiles('**/yarn.lock') }}
-        restore-keys: cached_node_modules_
+        key: cached_node_modules_${{ secrets.CACHE_VERSION }}_${{ hashFiles('**/yarn.lock') }}
+        restore-keys: cached_node_modules_${{ secrets.CACHE_VERSION }}_
     - run: yarn build:test
     - uses: actions/upload-artifact@v2
       with:
@@ -51,16 +52,14 @@ jobs:
     needs: fetch-dependencies
     steps:
     - uses: actions/checkout@v2
+    - uses: volta-cli/action@v1
     - id: cache-node-modules
       uses: actions/cache@v2
       with:
         path: ./node_modules
-        key: cached_node_modules_${{ hashFiles('**/yarn.lock') }}
-        restore-keys: cached_node_modules_
-    - run: yarn lint:es
-    - run: yarn lint:ts
-    - run: yarn lint:style
-    - run: yarn lint:template
+        key: cached_node_modules_${{ secrets.CACHE_VERSION }}_${{ hashFiles('**/yarn.lock') }}
+        restore-keys: cached_node_modules_${{ secrets.CACHE_VERSION }}_
+    - run: yarn lint
 
   test-partition-1:
     runs-on: ubuntu-latest
@@ -76,11 +75,11 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ./node_modules
-        key: cached_node_modules_${{ hashFiles('**/yarn.lock') }}
-        restore-keys: cached_node_modules_
+        key: cached_node_modules_${{ secrets.CACHE_VERSION }}_${{ hashFiles('**/yarn.lock') }}
+        restore-keys: cached_node_modules_${{ secrets.CACHE_VERSION }}_
     - uses: percy/exec-action@v0.3.1
       with:
-        custom-command: yarn test --path ./dist --partition 1
+        custom-command: yarn test:ember --path ./dist --partition 1
       env:
         PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
         PERCY_PARALLEL_TOTAL: ${{ env.PERCY_PARALLEL_TOTAL }}
@@ -101,11 +100,11 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ./node_modules
-        key: cached_node_modules_${{ hashFiles('**/yarn.lock') }}
-        restore-keys: cached_node_modules_
+        key: cached_node_modules_${{ secrets.CACHE_VERSION }}_${{ hashFiles('**/yarn.lock') }}
+        restore-keys: cached_node_modules_${{ secrets.CACHE_VERSION }}_
     - uses: percy/exec-action@v0.3.1
       with:
-        custom-command: yarn test --path ./dist --partition 2
+        custom-command: yarn test:ember --path ./dist --partition 2
       env:
         PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
         PERCY_PARALLEL_TOTAL: ${{ env.PERCY_PARALLEL_TOTAL }}
@@ -126,11 +125,11 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ./node_modules
-        key: cached_node_modules_${{ hashFiles('**/yarn.lock') }}
-        restore-keys: cached_node_modules_
+        key: cached_node_modules_${{ secrets.CACHE_VERSION }}_${{ hashFiles('**/yarn.lock') }}
+        restore-keys: cached_node_modules_${{ secrets.CACHE_VERSION }}_
     - uses: percy/exec-action@v0.3.1
       with:
-        custom-command: yarn test --path ./dist --partition 3
+        custom-command: yarn test:ember --path ./dist --partition 3
       env:
         PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
         PERCY_PARALLEL_TOTAL: ${{ env.PERCY_PARALLEL_TOTAL }}
@@ -151,11 +150,11 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ./node_modules
-        key: cached_node_modules_${{ hashFiles('**/yarn.lock') }}
-        restore-keys: cached_node_modules_
+        key: cached_node_modules_${{ secrets.CACHE_VERSION }}_${{ hashFiles('**/yarn.lock') }}
+        restore-keys: cached_node_modules_${{ secrets.CACHE_VERSION }}_
     - uses: percy/exec-action@v0.3.1
       with:
-        custom-command: yarn test --path ./dist --partition 4
+        custom-command: yarn test:ember --path ./dist --partition 4
       env:
         PERCY_PARALLEL_NONCE: ${{ env.PERCY_PARALLEL_NONCE }}
         PERCY_PARALLEL_TOTAL: ${{ env.PERCY_PARALLEL_TOTAL }}
@@ -180,8 +179,8 @@ jobs:
   #     uses: actions/cache@v2
   #     with:
   #       path: ./node_modules
-  #       key: cached_node_modules_${{ hashFiles('**/yarn.lock') }}
-  #       restore-keys: cached_node_modules_
+  #       key: cached_node_modules_${{ secrets.CACHE_VERSION }}_${{ hashFiles('**/yarn.lock') }}
+  #       restore-keys: cached_node_modules_${{ secrets.CACHE_VERSION }}_
   #   - run: yarn test:cover --path ./dist
   #   - name: Save code coverage artifact
   #     uses: actions/upload-artifact@v2
@@ -202,8 +201,8 @@ jobs:
   #   - uses: actions/cache@v2
   #     with:
   #       path: ./node_modules
-  #       key: cached_node_modules_${{ hashFiles('**/yarn.lock') }}
-  #       restore-keys: cached_node_modules_
+  #       key: cached_node_modules_${{ secrets.CACHE_VERSION }}_${{ hashFiles('**/yarn.lock') }}
+  #       restore-keys: cached_node_modules_${{ secrets.CACHE_VERSION }}_
   #   - name: Generate coverage report
   #     env:
   #       COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}

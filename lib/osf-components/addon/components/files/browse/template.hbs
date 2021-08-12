@@ -60,6 +60,7 @@
                             @duration={{500}}
                         >
                             <Files::List
+                                data-test-files-list-for={{@filesManager.currentFolder.id}}
                                 @items={{@filesManager.displayedItems}}
                                 @filesManager={{@filesManager}}
                             />
@@ -73,7 +74,7 @@
                     {{#if @filesManager.loadingMore}}
                         <LoadingIndicator @inline={{true}} @dark={{true}} />
                     {{else}}
-                        <OsfButton
+                        <BsButton
                             data-test-load-more-items
                             local-class='load-more-button'
                             class='btn-block'
@@ -83,7 +84,7 @@
                             @onClick={{@filesManager.loadMore}}
                         >
                             <FaIcon @icon='chevron-down' @fixedWidth={{true}} />
-                        </OsfButton>
+                        </BsButton>
                     {{/if}}
                 </div>
             {{/if}}

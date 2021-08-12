@@ -1,9 +1,9 @@
+import Store from '@ember-data/store';
 import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
 import { reads } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import Cookies from 'ember-cookies/services/cookies';
-import DS from 'ember-data';
 import config from 'ember-get-config';
 import moment, { Moment } from 'moment';
 
@@ -27,7 +27,7 @@ interface DateRange {
 export default class ApplicationController extends Controller {
     @service cookies!: Cookies;
     @service analytics!: AnalyticsService;
-    @service store!: DS.Store;
+    @service store!: Store;
 
     dateRanges: DateRange[] = [
         {
