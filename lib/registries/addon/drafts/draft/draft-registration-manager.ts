@@ -73,14 +73,14 @@ export default class DraftRegistrationManager {
         return this.metadataChangeset.isValid;
     }
 
-    @computed('onPageInput.lastComplete', 'onMetadataInput.lastComplete')
+    @computed('onPageInput.lastComplete', 'updateDraftRegistrationAndSave.lastComplete')
     get lastSaveFailed() {
         const onPageInputLastComplete = taskFor(this.onPageInput).lastComplete;
-        const metadataInputLastComplete = taskFor(this.onMetadataInput).lastComplete;
+        const updateDraftRegAndSaveLastComplete = taskFor(this.updateDraftRegistrationAndSave).lastComplete;
         const pageInputFailed = onPageInputLastComplete ? onPageInputLastComplete.isError : false;
-        const metadataInputFailed = metadataInputLastComplete
-            ? metadataInputLastComplete.isError : false;
-        return pageInputFailed || metadataInputFailed;
+        const updateDraftRegAndSaveFailed = updateDraftRegAndSaveLastComplete
+            ? updateDraftRegAndSaveLastComplete.isError : false;
+        return pageInputFailed || updateDraftRegAndSaveFailed;
     }
 
     constructor(owner: any, draftRegistrationTask: LoadDraftModelTask) {
