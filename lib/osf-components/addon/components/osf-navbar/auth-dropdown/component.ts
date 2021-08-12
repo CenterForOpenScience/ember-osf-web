@@ -34,11 +34,6 @@ export class AuthBase extends Component {
      */
     loginAction?: () => void;
 
-    /**
-     * The URL to redirect to after logout
-     */
-    redirectUrl = '/goodbye';
-
     campaign?: string;
 
     profileURL = pathJoin(baseUrl, 'profile');
@@ -71,11 +66,6 @@ export class AuthBase extends Component {
     @action
     login() {
         this.currentUser.login();
-    }
-
-    @action
-    logout() {
-        this.currentUser.logout(this.redirectUrl);
     }
 }
 

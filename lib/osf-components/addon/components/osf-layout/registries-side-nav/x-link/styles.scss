@@ -18,29 +18,25 @@
         background: $color-bg-white;
         width: $width-expanded + 1px;
 
-        :global(.fa) {
-            margin-left: 9px;
-        }
-
         .Count {
             color: inherit;
         }
     }
 
-    :global(.fa)::before {
+    :global(.fa-fw) {
         border-radius: 50%;
         background-color: $color-bg-white;
         box-shadow: 0 0 0 3px $color-shadow-white;
     }
 
     &:hover {
-        background: $color-link-lighter !important; // !important needed to override bootstrap .btn properties
+        background: $color-link-dark !important; // !important needed to override bootstrap .btn properties
         color: $color-text-white !important; // !important needed to override bootstrap .btn properties
         text-decoration: none !important; // !important needed to override bootstrap .btn properties
         width: max-content;
         min-width: 205px;
 
-        :global(.fa)::before {
+        :global(.fa-fw) {
             background-color: initial;
             box-shadow: none;
         }

@@ -13,7 +13,7 @@
     :global(.open) & {
         color: $slate-gray;
 
-        & svg:global(.fa) {
+        & svg:global(.fa-fw) {
             color: $secondary-blue;
         }
     }

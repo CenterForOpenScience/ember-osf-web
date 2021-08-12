@@ -41,6 +41,7 @@
                 </div>
                 <div data-test-submissions-list-header-download local-class='HeaderNarrow'>
                     {{t 'meetings.detail.meeting-submissions-list.downloads'}}
+                    <SortButton @sortBy='download_count' />
                 </div>
             {{/let}}
         </list.header>

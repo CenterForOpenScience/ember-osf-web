@@ -7,8 +7,8 @@
   Ticketd PRs should be prefixed with the ticket id, e.g. `[FOO-123] some really great stuff`
 -->
 
-- Ticket: []
-- Feature flag: n/a
+-   Ticket: []
+-   Feature flag: n/a
 
 ## Purpose
 
@@ -17,6 +17,10 @@
 ## Summary of Changes
 
 <!-- Briefly describe or list your changes. -->
+
+## Screenshot(s)
+
+<!-- Attach screenshots if applicable. -->
 
 ## Side Effects
 
