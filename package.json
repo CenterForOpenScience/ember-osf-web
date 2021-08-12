@@ -21,7 +21,7 @@
     "lint:hbs": "ember-template-lint 'app/**/*.hbs' 'lib/**/*.hbs'",
     "lint:hbs:fix": "ember-template-lint . --fix",
     "lint:style": "stylelint 'app/**/*.scss' 'lib/**/*.scss'",
-    "start": "ember server",
+    "start": "EMBER_ENGINES_ADDON_DEDUPE=true ember serve",
     "test": "npm-run-all lint test:*",
     "test:ember": "EMBER_ENV=test ember exam --split=4 --parallel=1",
     "test:cover": "EMBER_ENV=test COVERAGE=true ember exam",
