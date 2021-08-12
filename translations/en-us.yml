@@ -1116,6 +1116,13 @@ registries:
             continue_editing: 'Continue editing'
             decision_recorded_notice: 'Decision recorded. Pending decisions from other Admin contributors.'
             pending_moderation_notice: 'Pending decisions from moderators.'
+            action_submit_success: 'Your decision was recorded'
+            action_submit_failed: 'Your decision was not recorded'
+        continue_edit_modal:
+            heading: 'Are you sure this needs more edits?'
+            warning: 'This will cancel any approvals from other admin contributors and return the registration back to its draft form for additional changes.'
+            reason: 'What changes need to be made and why?'
+            submit: 'Submit'
     index:
         lead: 'The <span class="f-w-lg">open</span> registries network'
         see_example: 'See an example'

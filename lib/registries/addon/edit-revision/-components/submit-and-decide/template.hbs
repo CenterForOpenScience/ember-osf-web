@@ -37,10 +37,15 @@
                 data-analytics-name='Admin reject revision'
                 local-class='registerButton {{if @showMobileView 'mobileReviewButtonItem'}}'
                 @type='primary'
-                @onClick={{perform this.submitAction 'admin_reject_revision' ''}}
+                @onClick={{this.openContinueEditModal}}
             >
                 {{t 'registries.edit_revision.review.continue_editing'}}
             </BsButton>
+            <EditRevision::-Components::ContinueEditModal
+                @isOpen={{this.continueEditModalOpen}}
+                @onClose={{this.closeContinueEditModal}}
+                @onSubmit={{this.submitAction}}
+            />
         {{else}}
             <p>{{t 'registries.edit_revision.review.decision_recorded_notice'}}</p>
         {{/if}}

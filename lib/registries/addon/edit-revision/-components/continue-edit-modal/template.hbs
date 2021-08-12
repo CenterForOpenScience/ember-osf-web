@@ -1,0 +1,42 @@
+<OsfDialog
+    @isOpen={{@isOpen}}
+    @onClose={{@onClose}}
+    @closeOnOutsideClick={{false}}
+    as |dialog|
+>
+    <dialog.heading data-test-continue-edit-heading>
+        {{t 'registries.edit_revision.continue_edit_modal.heading'}}
+    </dialog.heading>
+    <dialog.main data-test-continue-edit-main>
+        {{t 'registries.edit_revision.continue_edit_modal.warning'}}
+        {{#let (unique-id) as |reasonInputId|}}
+            <div local-class='reasonWrapper'>
+                <label for={{reasonInputId}}>
+                    {{t 'registries.edit_revision.continue_edit_modal.reason'}}
+                </label>
+                <Textarea
+                    @id={{reasonInputId}}
+                    @type='textarea'
+                    @value={{this.reason}}
+                    local-class='textArea'
+                />
+            </div>
+        {{/let}}
+    </dialog.main>
+    <dialog.footer>
+        <BsButton
+            data-test-submit-continue-button
+            @type='primary'
+            @onClick={{queue (perform @onSubmit 'admin_reject_revision' this.reason) @onClose}}
+        >
+            {{t 'registries.edit_revision.continue_edit_modal.submit'}}
+        </BsButton>
+        <BsButton
+            data-test-cancel-continue-edit-button
+            @type='default'
+            @onClick={{@onClose}}
+        >
+            {{t 'general.cancel'}}
+        </BsButton>
+    </dialog.footer>
+</OsfDialog>

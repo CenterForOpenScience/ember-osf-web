@@ -2,11 +2,14 @@ import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
+import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import { RevisionActionTrigger } from 'ember-osf-web/models/revision-action';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import Toast from 'ember-toastr/services/toast';
 
 import RevisionManager from 'registries/edit-revision/revision-manager';
@@ -20,16 +23,35 @@ export default class SubmitAndDecide extends Component {
     // Required
     revisionManager!: RevisionManager;
 
+    @tracked continueEditModalOpen = false;
+
+    @action
+    openContinueEditModal() {
+        this.set('continueEditModalOpen', true);
+    }
+
+    @action
+    closeContinueEditModal() {
+        this.set('continueEditModalOpen', false);
+    }
+
     @task
     @waitFor
     async submitAction(actionTrigger: RevisionActionTrigger, comment: string) {
-        const revisionAction = this.store.createRecord('revision-action', {
-            actionTrigger,
-            comment,
-            target: this.revisionManager.revision,
-        });
-        await revisionAction.save();
-        await this.revisionManager.revision.reload();
+        try {
+            const revisionAction = this.store.createRecord('revision-action', {
+                actionTrigger,
+                comment,
+                target: this.revisionManager.revision,
+            });
+            await revisionAction.save();
+            await this.revisionManager.revision.reload();
+            this.toast.success(this.intl.t('registries.edit_revision.review.action_submit_success'));
+        } catch (e) {
+            const errorMessage = this.intl.t('registries.edit_revision.review.action_submit_failed');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
+        }
     }
 
     didReceiveAttrs() {
