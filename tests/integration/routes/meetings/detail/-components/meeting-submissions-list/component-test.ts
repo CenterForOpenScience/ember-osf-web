@@ -170,5 +170,13 @@ module('Integration | routes | meetings | detail | -components | meeting-submiss
         await click('[data-test-descending-sort="created"]');
         assert.dom('[data-test-submissions-list-item-date]')
             .containsText('2019', 'Sorts by date descending');
+
+        await click('[data-test-ascending-sort="download_count"]');
+        assert.dom('[data-test-submissions-list-item-download]')
+            .containsText('100', 'Sorts by download count ascending');
+
+        await click('[data-test-descending-sort="download_count"]');
+        assert.dom('[data-test-submissions-list-item-download]')
+            .containsText('300', 'Sorts by download count descending');
     });
 });
