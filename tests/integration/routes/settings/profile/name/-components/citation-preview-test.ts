@@ -1,13 +1,9 @@
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { Server } from 'ember-cli-mirage';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupRenderingTest } from 'ember-qunit';
-import { TestContext } from 'ember-test-helpers';
 
-import { startMirage } from 'ember-osf-web/initializers/ember-cli-mirage';
 import { module, test } from 'qunit';
-
-type Context = TestContext & { server: Server };
 
 interface TestResult {
     apa: string;
@@ -15,14 +11,7 @@ interface TestResult {
 }
 module('Integration | routes | settings | profile | name | -components | citation-preview', hooks => {
     setupRenderingTest(hooks);
-
-    hooks.beforeEach(function(this: Context) {
-        this.server = startMirage();
-    });
-
-    hooks.afterEach(function(this: Context) {
-        this.server.shutdown();
-    });
+    setupMirage(hooks);
 
     const citationAssertions = (context: any, assert: any, expected: TestResult) => {
         assert.dom('[data-test-citation-container]', context.element).exists();
@@ -30,7 +19,7 @@ module('Integration | routes | settings | profile | name | -components | citatio
         assert.dom('[data-test-mla-citation]', context.element).containsText(expected.mla);
     };
 
-    test('Everything, two middle names, no period after suffix', async function(this: Context, assert) {
+    test('Everything, two middle names, no period after suffix', async function(this, assert) {
         assert.expect(3);
         const user = server.create('user', {
             givenName: 'Peggy',
@@ -47,7 +36,7 @@ module('Integration | routes | settings | profile | name | -components | citatio
         citationAssertions(this, assert, expected);
     });
 
-    test('Everything, two middle names, period after suffix', async function(this: Context, assert) {
+    test('Everything, two middle names, period after suffix', async function(this, assert) {
         assert.expect(3);
         const user = server.create('user', {
             givenName: 'Peggy',
@@ -64,7 +53,7 @@ module('Integration | routes | settings | profile | name | -components | citatio
         citationAssertions(this, assert, expected);
     });
 
-    test('Everything, one middle name, period after suffix', async function(this: Context, assert) {
+    test('Everything, one middle name, period after suffix', async function(this, assert) {
         assert.expect(3);
         const user = server.create('user', {
             givenName: 'Peggy',
@@ -81,7 +70,7 @@ module('Integration | routes | settings | profile | name | -components | citatio
         citationAssertions(this, assert, expected);
     });
 
-    test('Everything but middle names, period after suffix', async function(this: Context, assert) {
+    test('Everything but middle names, period after suffix', async function(this, assert) {
         assert.expect(3);
         const user = server.create('user', {
             givenName: 'Peggy',
@@ -98,7 +87,7 @@ module('Integration | routes | settings | profile | name | -components | citatio
         citationAssertions(this, assert, expected);
     });
 
-    test('Everything but middle names and suffix', async function(this: Context, assert) {
+    test('Everything but middle names and suffix', async function(this, assert) {
         assert.expect(3);
         const user = server.create('user', {
             givenName: 'Peggy',
@@ -115,7 +104,7 @@ module('Integration | routes | settings | profile | name | -components | citatio
         citationAssertions(this, assert, expected);
     });
 
-    test('Everything but suffix, two middle names', async function(this: Context, assert) {
+    test('Everything but suffix, two middle names', async function(this, assert) {
         assert.expect(3);
         const user = server.create('user', {
             givenName: 'Peggy',
@@ -132,7 +121,7 @@ module('Integration | routes | settings | profile | name | -components | citatio
         citationAssertions(this, assert, expected);
     });
 
-    test('Everything but suffix, one middle name', async function(this: Context, assert) {
+    test('Everything but suffix, one middle name', async function(this, assert) {
         assert.expect(3);
         const user = server.create('user', {
             givenName: 'Peggy',
@@ -149,7 +138,7 @@ module('Integration | routes | settings | profile | name | -components | citatio
         citationAssertions(this, assert, expected);
     });
 
-    test('Everything but suffix, two given names', async function(this: Context, assert) {
+    test('Everything but suffix, two given names', async function(this, assert) {
         assert.expect(3);
         const user = server.create('user', {
             givenName: 'Peggy Sue',
@@ -166,7 +155,7 @@ module('Integration | routes | settings | profile | name | -components | citatio
         citationAssertions(this, assert, expected);
     });
 
-    test('Everything but suffix, two family and two given names', async function(this: Context, assert) {
+    test('Everything but suffix, two family and two given names', async function(this, assert) {
         assert.expect(3);
         const user = server.create('user', {
             givenName: 'Peggy Sue',
@@ -183,7 +172,7 @@ module('Integration | routes | settings | profile | name | -components | citatio
         citationAssertions(this, assert, expected);
     });
 
-    test('Everything, suffix no period, hyphenated family and two given names', async function(this: Context, assert) {
+    test('Everything, suffix no period, hyphenated family and two given names', async function(this, assert) {
         assert.expect(3);
         const user = server.create('user', {
             givenName: 'Peggy Sue',
