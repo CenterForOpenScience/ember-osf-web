@@ -83,7 +83,7 @@ module('Registries | Acceptance | overview.index', hooks => {
     });
 
     test('sidenav links: no wiki', async function(this: OverviewTestContext, assert: Assert) {
-        this.registration.set('wikiEnabled', false);
+        this.registration.wikiEnabled = false;
         await visit(`/${this.registration.id}/`);
         await percySnapshot(assert);
 
