@@ -72,22 +72,22 @@ export default class RevisionManager {
 
     @computed('revision.reviewState')
     get isEditable() {
-        return this.revision.reviewState === RevisionReviewStates.RevisionInProgress;
+        return this.revision && this.revision.reviewState === RevisionReviewStates.RevisionInProgress;
     }
 
     @computed('revision.reviewState')
     get isPendingAdminApproval() {
-        return this.revision.reviewState === RevisionReviewStates.RevisionPendingAdminApproval;
+        return this.revision && this.revision.reviewState === RevisionReviewStates.RevisionPendingAdminApproval;
     }
 
     @computed('revision.reviewState')
     get isPendingModeration() {
-        return this.revision.reviewState === RevisionReviewStates.RevisionPendingModeration;
+        return this.revision && this.revision.reviewState === RevisionReviewStates.RevisionPendingModeration;
     }
 
     @computed('registration.currentUserPermissions')
     get currentUserIsAdmin() {
-        return this.registration.currentUserPermissions.includes(Permission.Admin);
+        return this.registration && this.registration.currentUserPermissions.includes(Permission.Admin);
     }
 
     constructor(loadModelsTask: LoadModelsTask, revisionId: string) {

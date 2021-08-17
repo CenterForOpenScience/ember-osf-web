@@ -1,27 +1,37 @@
 {{assert 'EditRevision::-Components::SubmitAndDecide requires a revisionManager' @revisionManager}}
-{{#if @revisionManager.currentUserIsAdmin}}
-    {{#if @revisionManager.isEditable}}
+{{#if @revisionManager.isEditable}}
+    {{#if @revisionManager.currentUserIsAdmin}}
         <BsButton
             data-test-submit-revision
             data-analytics-name='Submit revision'
             local-class='registerButton {{if @showMobileView 'mobileReviewButtonItem'}}'
             @type='success'
             @onClick={{perform this.submitAction 'submit_revision' ''}}
-            disabled={{@revisionManager.hasInvalidResponses}}
+            disabled={{or @revisionManager.hasInvalidResponses this.submitAction.isRunning}}
         >
-            {{#if this.submicAction.isRunning}}
+            {{#if this.submitAction.isRunning}}
                 <LoadingIndicator @inline={{true}} />
             {{else}}
                 {{t 'registries.edit_revision.review.submit_changes'}}
             {{/if}}
         </BsButton>
-        {{#if (and @revisionManager.hasInvalidResponses (not @showMobileView))}}
-            <div data-test-invalid-responses-text class='text-danger'>
-                {{t 'registries.drafts.draft.review.invalid_warning'}}
-            </div>
-        {{/if}}
     {{/if}}
-    {{#if @revisionManager.isPendingAdminApproval}}
+    {{#if (and (not @revisionManager.currentUserIsAdmin) (not @showMobileView))}}
+        <div
+            data-test-nonadmin-warning-text
+            local-class='WarningMessage'
+        >
+            {{t 'registries.drafts.draft.review.non_admin_warning'}}
+        </div>
+    {{/if}}
+    {{#if (and @revisionManager.hasInvalidResponses (not @showMobileView))}}
+        <div data-test-invalid-responses-text class='text-danger'>
+            {{t 'registries.edit_revision.review.invalid_warning'}}
+        </div>
+    {{/if}}
+{{/if}}
+{{#if @revisionManager.isPendingAdminApproval}}
+    {{#if @revisionManager.currentUserIsAdmin}}
         {{#if @revisionManager.revision.isPendingCurrentUserApproval}}
             <BsButton
                 data-test-accept-changes
@@ -47,10 +57,12 @@
                 @onSubmit={{this.submitAction}}
             />
         {{else}}
-            <p>{{t 'registries.edit_revision.review.decision_recorded_notice'}}</p>
+            <div local-class={{if @showMobileView 'pendingLabel'}}>{{t 'registries.edit_revision.review.decision_recorded_notice'}}</div>
         {{/if}}
+    {{else}}
+        <div local-class={{if @showMobileView 'pendingLabel'}}>{{t 'registries.edit_revision.review.pending_admin_notice'}}</div>
     {{/if}}
-    {{#if @revisionManager.isPendingModeration}}
-        <p>{{t 'registries.edit_revision.review.pending_moderation_notice'}}</p>
-    {{/if}}
+{{/if}}
+{{#if @revisionManager.isPendingModeration}}
+    <div local-class={{if @showMobileView 'pendingLabel'}}>{{t 'registries.edit_revision.review.pending_moderation_notice'}}</div>
 {{/if}}

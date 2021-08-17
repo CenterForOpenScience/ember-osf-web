@@ -36,7 +36,7 @@
         </Button>
     </OsfLink>
 {{/if}}
-{{#if (and @navManager.prevPageParam (not @currentUserIsReadOnly) @revisionManager.isEditable)}}
+{{#if (and @navManager.prevPageParam (not @revisionManager.currentUserIsReadOnly) @revisionManager.isEditable)}}
     <OsfLink
         data-test-goto-previous-page
         data-analytics-name='Go to previous page'
