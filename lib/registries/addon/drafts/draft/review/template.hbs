@@ -7,6 +7,14 @@
         <main
             {{did-insert this.markAndValidatedPages}}
         >
+            {{#if (and (not draftManager.currentUserIsAdmin) this.showMobileView)}}
+                <div
+                    data-test-nonadmin-warning-text
+                    local-class='WarningMessage'
+                >
+                    {{t 'registries.drafts.draft.review.non_admin_warning'}}
+                </div>
+            {{/if}}
             {{#if (and (not draftManager.registrationResponsesIsValid) this.showMobileView)}}
                 <div
                     data-test-invalid-responses-text

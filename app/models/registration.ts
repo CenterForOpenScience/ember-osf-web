@@ -10,6 +10,7 @@ import CommentModel from './comment';
 import ContributorModel from './contributor';
 import InstitutionModel from './institution';
 import NodeModel from './node';
+import { Permission } from './osf-model';
 import RegistrationProviderModel from './registration-provider';
 import RegistrationSchemaModel, { RegistrationMetadata } from './registration-schema';
 import UserModel from './user';
@@ -129,6 +130,11 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     // Write-only relationships
     @belongsTo('draft-registration', { inverse: null })
     draftRegistration!: DraftRegistrationModel;
+
+    get currentUserIsReadOnly() {
+        return Array.isArray(this.currentUserPermissions) && this.currentUserPermissions.includes(Permission.Read)
+            && this.currentUserPermissions.length === 1;
+    }
 }
 
 declare module 'ember-data/types/registries/model' {

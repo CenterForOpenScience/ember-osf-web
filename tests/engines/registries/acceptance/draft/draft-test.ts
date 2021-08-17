@@ -95,7 +95,8 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.ok(reviewNav!.classList.toString().includes('Active'), 'LeftNav: Review is active page');
 
         // check rightnav
-        assert.dom('[data-test-goto-register]').isDisabled('RightNav: Register button disabled');
+        assert.dom('[data-test-goto-register]').doesNotExist('RightNav: Register button not shown');
+        assert.dom('[data-test-nonadmin-warning-text]').exists('RightNav: Warning non-admins cannot register shown');
         assert.dom('[data-test-goto-previous-page]').doesNotExist('RightNav: Back button not shown');
 
         // check metadata and form renderer
@@ -111,7 +112,8 @@ module('Registries | Acceptance | draft form', hooks => {
 
         assert.dom('[data-test-sidenav-toggle]').doesNotExist('Mobile view: sidenav toggle not shown');
         assert.dom('[data-test-goto-previous-page]').doesNotExist('Mobile view: previous page button not shown');
-        assert.dom('[data-test-goto-register]').isDisabled('Mobile view: Register button disabled');
+        assert.dom('[data-test-nonadmin-warning-text]').exists('Mobile view: Warning non-admins cannot register shown');
+        assert.dom('[data-test-goto-register]').doesNotExist('Mobile view: Register button does not exist');
 
         await percySnapshot('Read-only Review page: Mobile');
     });
@@ -309,6 +311,7 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-goto-review]').doesNotExist();
 
         assert.dom('[data-test-goto-register]').isVisible();
+        assert.dom('[data-test-nonadmin-warning-text]').doesNotExist('Warning for non-admins not shown to admins');
         assert.dom('[data-test-goto-previous-page]').isVisible();
 
         // Can navigate back to the last page from review page
@@ -367,6 +370,7 @@ module('Registries | Acceptance | draft form', hooks => {
         await percySnapshot('Registries | Acceptance | draft form | mobile navigation | review page');
         assert.dom('[data-test-page-label]').containsText('Review');
         assert.dom('[data-test-goto-next-page]').isNotVisible();
+        assert.dom('[data-test-nonadmin-warning-text]').doesNotExist('Warning for non-admins not shown to admins');
         assert.dom('[data-test-goto-register]').isVisible();
 
         // check that register button is disabled
@@ -404,6 +408,7 @@ module('Registries | Acceptance | draft form', hooks => {
 
         assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/review`), 'At review page');
         assert.dom('[data-test-goto-register]').isDisabled();
+        assert.dom('[data-test-nonadmin-warning-text]').doesNotExist('Warning for non-admins not shown to admins');
         assert.dom('[data-test-invalid-responses-text]').isVisible();
     });
 
