@@ -692,20 +692,4 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assert.dom('[data-test-modal-heading]')
             .doesNotExist('claim unregistered user modal gone after canceling claim');
     });
-
-    test('Link to wiki is not shown if wiki is not enabled', async assert => {
-        const openEndedReg = server.schema.registrationSchemas.find('open_ended_registration');
-        const registeredFrom = server.create('node', 'currentUserAdmin');
-
-        const reg = server.create('registration', {
-            registrationSchema: openEndedReg,
-            registeredFrom,
-            wikiEnabled: false,
-        });
-
-        await visit(`/${reg.id}/`);
-
-        assert.dom('[data-test-leftNav-wiki]').doesNotExist('wiki link is not shown');
-    });
-
 });

@@ -37,6 +37,7 @@ module('Registries | Acceptance | overview.index', hooks => {
             withdrawn: false,
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
             provider: server.create('registration-provider'),
+            wikiEnabled: true,
         }, 'withContributors', 'currentUserAdmin'));
     });
 
@@ -79,6 +80,15 @@ module('Registries | Acceptance | overview.index', hooks => {
 
             assert.equal(currentRouteName(), testCase.route, 'At the correct route');
         }
+    });
+
+    test('sidenav links: no wiki', async function(this: OverviewTestContext, assert: Assert) {
+        this.registration.set('wikiEnabled', false);
+        await visit(`/${this.registration.id}/`);
+        await percySnapshot(assert);
+
+        assert.equal(currentURL(), `/${this.registration.id}/`, 'At the guid URL');
+        assert.dom('[data-analytics-name="wiki"]').doesNotExist('Link to wiki does not exist');
     });
 
     test('sidenav hrefs', async function(this: OverviewTestContext, assert: Assert) {
