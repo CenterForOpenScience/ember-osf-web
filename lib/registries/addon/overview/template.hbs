@@ -62,8 +62,10 @@
                         @models={{array this.registration.id}} @icon='home' @label={{t 'registries.overview.title'}} />
                     <leftNav.link data-analytics-name='Files' @href='/{{this.registration.id}}/files/' @icon='file-alt'
                         @label={{t 'registries.overview.external_links.files'}} />
-                    <leftNav.link data-analytics-name='Wiki' @href='/{{this.registration.id}}/wiki/'
-                        @icon='window-maximize' @label={{t 'registries.overview.external_links.wiki'}} />
+                    {{#if this.registration.wikiEnabled}}
+                        <leftNav.link data-analytics-name='Wiki' data-test-leftNav-wiki @href='/{{this.registration.id}}/wiki/'
+                            @icon='window-maximize' @label={{t 'registries.overview.external_links.wiki'}} />
+                    {{/if}}
                     <leftNav.link data-analytics-name='Components' @route='registries.overview.children'
                         @models={{array this.registration.id}} @icon='puzzle-piece'
                         @label={{t 'registries.overview.components.title'}}
