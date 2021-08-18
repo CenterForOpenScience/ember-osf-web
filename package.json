@@ -238,7 +238,7 @@
     "qunit-dom": "^1.6.0",
     "sass": "^1.26.3",
     "seedrandom": "^3.0.1",
-    "sinon": "^9.0.0",
+    "sinon": "^11.1.2",
     "stylelint-config-css-modules": "^1.2.0",
     "stylelint-config-sass-guidelines": "^6.0.0",
     "toastr": "^2.1.4",
