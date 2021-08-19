@@ -13,6 +13,7 @@ import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import ProviderModel from 'ember-osf-web/models/provider';
 import SubjectModel from 'ember-osf-web/models/subject';
 import Analytics from 'ember-osf-web/services/analytics';
+import captureException from 'ember-osf-web/utils/capture-exception';
 import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
 import NavigationManager from 'registries/drafts/draft/navigation-manager';
 
@@ -30,22 +31,27 @@ export default class DraftRegistrationRoute extends Route {
     @task
     @waitFor
     async loadDraftRegistrationAndNode(draftId: string) {
-        const draftRegistration: DraftRegistration = await this.store.findRecord(
-            'draft-registration',
-            draftId,
-            { adapterOptions: { include: 'branched_from' } },
-        );
-        const [subjects, provider]:
-            [SubjectModel[], ProviderModel] = await Promise.all([
-                draftRegistration.loadAll('subjects'),
-                draftRegistration.provider,
-            ]);
+        try {
+            const draftRegistration: DraftRegistration = await this.store.findRecord(
+                'draft-registration',
+                draftId,
+                { adapterOptions: { include: 'branched_from' } },
+            );
+            const [subjects, provider]:
+                [SubjectModel[], ProviderModel] = await Promise.all([
+                    draftRegistration.loadAll('subjects'),
+                    draftRegistration.provider,
+                ]);
 
-        draftRegistration.setProperties({ subjects });
-        if (draftRegistration.currentUserIsReadOnly) {
-            this.replaceWith('drafts.draft.review', draftId);
+            draftRegistration.setProperties({ subjects });
+            if (draftRegistration.currentUserIsReadOnly) {
+                this.replaceWith('drafts.draft.review', draftId);
+            }
+            return { draftRegistration, provider };
+        } catch (error) {
+            captureException(error);
+            return this.transitionTo('page-not-found', window.location.href.slice(-1));
         }
-        return { draftRegistration, provider };
     }
 
     model(params: { id: string }): DraftRouteModel {
