@@ -34,4 +34,8 @@ module('Registries | Acceptance | overview.revision', hooks => {
             .exists('version metadata is shown when viewing a specific revision');
         await percySnapshot(assert);
     });
+
+    // TODO: Add tests to create a new revision
+    // TODO: Add tests to check user permissions to create a new revision
+    // TODO: Add tests to check non-contributor view
 });

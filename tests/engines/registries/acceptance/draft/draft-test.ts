@@ -22,7 +22,7 @@ import { module, test } from 'qunit';
 
 import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
-import { visit } from 'ember-osf-web/tests/helpers';
+import { getHrefAttribute, visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 import { deserializeResponseKey } from 'ember-osf-web/transforms/registration-response-key';
 import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
@@ -30,10 +30,6 @@ import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
 const currentUserStub = Service.extend();
 const storeStub = Service.extend();
 const analyticsStub = Service.extend();
-
-function getHrefAttribute(selector: string) {
-    return document.querySelector(selector)!.getAttribute('href');
-}
 
 interface DraftFormTestContext extends TestContext {
     branchedFrom: ModelInstance<NodeModel>;
