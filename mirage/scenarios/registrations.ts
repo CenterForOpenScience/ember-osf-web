@@ -124,13 +124,39 @@ export function registrationScenario(
         },
     }, 'withContributors', 'withReviewActions');
 
+    // server.createList('revision', 10, { registration: decaf});
+
     server.create('revision', {
-        id: 'recaf',
+        id: 'someCaff',
         versionNumber: 1,
-        revisionJustification: 'I made a typo LOL',
+        revisionJustification: 'Copy Edit',
         revisionResponses: {
             'page-one_long-text': 'bbbbb',
             'page-one_multi-select': ['Crocs'],
+        },
+        initiatedBy: currentUser,
+        registration: decaf,
+    });
+
+    server.create('revision', {
+        id: 'moarCaff',
+        versionNumber: 2,
+        revisionJustification: 'Typo - Self',
+        revisionResponses: {
+            'page-one_long-text': 'ccccc',
+            'page-one_multi-select': ['Red Bottoms'],
+        },
+        initiatedBy: currentUser,
+        registration: decaf,
+    });
+
+    server.create('revision', {
+        id: 'evenMoarCaff',
+        versionNumber: 3,
+        revisionJustification: 'Adding Registration',
+        revisionResponses: {
+            'page-one_long-text': 'dddd',
+            'page-one_multi-select': ['Gucci'],
         },
         initiatedBy: currentUser,
         registration: decaf,
