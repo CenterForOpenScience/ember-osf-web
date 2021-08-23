@@ -1022,10 +1022,12 @@ registries:
             removedModeratorError: 'Error removing {permission}'
             updatedModeratorPermissionSuccess: 'Successfully updated {userName} to {permission}'
             updatedModeratorPermissionError: 'Error updating permission to {permission}'
-        notifications:
-            title: 'Notifications'
+        settings:
+            title: 'Settings'
             heading: 'Configure reviews notification preferences'
             paragraph: 'To configure other notification preferences visit your <a href={link}>user settings</a>.'
+            bulkUpload: 'Bulk upload'
+            bulkUploadHelpText: 'Drag and drop the csv file that has the registration information to upload.'
         overview:
             title: 'Moderated Overview'
     new:

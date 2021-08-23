@@ -4,7 +4,7 @@ import { alias } from '@ember/object/computed';
 import config from 'ember-get-config';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
-export default class BrandedModerationNotificationsController extends Controller {
+export default class BrandedModerationSettingsController extends Controller {
     userSettingsLink = pathJoin(config.OSF.url, 'settings', 'notifications');
     @alias('model.id') providerId?: string;
 
