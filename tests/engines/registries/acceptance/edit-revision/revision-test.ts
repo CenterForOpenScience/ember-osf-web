@@ -5,15 +5,10 @@ import {
     currentURL,
     fillIn,
     find,
-    // settled,
-    // triggerKeyEvent,
-    // blur,
-    // waitUntil,
-    // findAll,
 } from '@ember/test-helpers';
 import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { TestContext } from 'ember-intl/test-support';
+import { TestContext, t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
 import { setBreakpoint } from 'ember-responsive/test-support';
 import { module, test } from 'qunit';
@@ -24,6 +19,7 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 import RegistrationModel from 'ember-osf-web/models/registration';
 import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 import RegistrationSchemaModel from 'ember-osf-web/models/registration-schema';
+import { RevisionReviewStates } from 'ember-osf-web/models/revision';
 import { deserializeResponseKey } from 'ember-osf-web/transforms/registration-response-key';
 
 const currentUserStub = Service.extend();
@@ -106,7 +102,7 @@ module('Registries | Acceptance | registries revision', hooks => {
         await percySnapshot('Read-only Revision Review page: Mobile');
     });
 
-    test('it redirects to the first page of the revision form 999', async function(this: RevisionTestContext, assert) {
+    test('it redirects to the first page of the revision form', async function(this: RevisionTestContext, assert) {
         const initiatedBy = server.create('user', 'loggedIn');
         const revision = server.create(
             'revision',
@@ -297,21 +293,14 @@ module('Registries | Acceptance | registries revision', hooks => {
         assert.dom('[data-test-page-label]').containsText('This is the second page');
     });
 
+    // TODO: investigate why validation status doesn't update when we have responses defined in the revision
+    // Seems to be an issue only when using mirage?
     test('correcting invalid responses', async function(this: RevisionTestContext, assert) {
         const initiatedBy = server.create('user', 'loggedIn');
-        const revisionResponses = {
-            'page-one_long-text': '',
-            'page-one_multi-select': [],
-            'page-one_multi-select-other': '',
-            'page-one_short-text': null, // Required
-            'page-one_single-select': 'tuna',
-            'page-one_single-select-two': '',
-        };
         const revision = server.create(
             'revision',
             {
                 initiatedBy,
-                revisionResponses,
                 registration: this.registration,
             },
         );
@@ -323,8 +312,12 @@ module('Registries | Acceptance | registries revision', hooks => {
             'At first page');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-dot-circle', 'on page 1');
+        // NOTE: the validation errors are shown if we enter the first page having done either the
+        // route.replaceWith from edit-revision.index (/revisions/:id),
+        // or the controller.replaceRoute from edit-revision.page (/revisions/:id/:page)
+        // Validation errors are not shown if entering with the pageslug appended (/revisions/:id/:page-page-slug)
         assert.dom(`[data-test-validation-errors="${deserializeResponseKey('page-one_short-text')}"]`)
-            .doesNotExist('No validation messages on initial load');
+            .exists('Validation message shown on initial load');
 
         await click('[data-test-link="review"]');
         assert.equal(currentRouteName(), 'registries.edit-revision.review', 'At review page');
@@ -353,8 +346,67 @@ module('Registries | Acceptance | registries revision', hooks => {
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-check-circle', 'first page now valid');
         assert.dom(`[data-test-validation-errors="${deserializeResponseKey('page-one_short-text')}"]`)
-            .exists('short text now valid');
+            .doesNotExist('short text now valid');
         assert.dom('[data-test-submit-revision]').isNotDisabled('Submit button no longer disabled');
     });
-    // TODO: add tests to submit changes, continue edits, resubmit and accept changes
+
+    test('Submit, continue edit, and resubmit', async function(this: RevisionTestContext, assert) {
+        const initiatedBy = server.create('user', 'loggedIn');
+        const revision = server.create(
+            'revision',
+            {
+                initiatedBy,
+                revisionResponses: {
+                    'page-one_short-text': 'Pekatyu',
+                },
+                registration: this.registration,
+            },
+        );
+
+        await visit(`/registries/revisions/${revision.id}/review`);
+        await click('[data-test-submit-revision]');
+        assert.dom('#toast-container', document as any).hasTextContaining(t(
+            'registries.edit_revision.review.action_submit_success',
+        ), 'Toast message shown after initial submit');
+        assert.dom('[data-test-submit-revision]').doesNotExist('Submit button no longer shown');
+        assert.dom('[data-test-goto-previous-page]').doesNotExist('There is no turning back from this');
+        assert.dom('[data-test-link="1-first-page-of-test-schema"]').doesNotExist('Other page nav no longer shown');
+        assert.dom('[data-test-link="review"]').exists('The review page is your only solace');
+        assert.dom('[data-test-accept-changes]').exists('You should accept your fate');
+        await click('[data-test-continue-editing]');
+
+        // go back to add new changes
+        await click('[data-test-submit-continue-button]');
+        assert.dom('[data-test-link="1-first-page-of-test-schema"]').exists('Users can navigate back to other pages');
+        assert.dom('[data-test-submit-revision]').exists('Submit button is back');
+    });
+
+    test('pending admin approval: Read/write users', async function(this: RevisionTestContext, assert) {
+        const initiatedBy = server.create('user', 'loggedIn');
+        this.registration.currentUserPermissions = [Permission.Read, Permission.Write];
+        const revision = server.create(
+            'revision',
+            {
+                reviewState: RevisionReviewStates.RevisionPendingAdminApproval,
+                initiatedBy,
+                revisionResponses: {
+                    'page-one_short-text': 'the lorax',
+                },
+                registration: this.registration,
+            },
+        );
+
+        await visit(`/registries/revisions/${revision.id}`);
+        assert.equal(currentRouteName(), 'registries.edit-revision.review', 'Routed to review page');
+        assert.dom('[data-test-submit-revision]').doesNotExist('Submit button not shown');
+        assert.dom('[data-test-goto-previous-page]').doesNotExist('Cannot navigate to other pages on rightnav');
+        assert.dom('[data-test-link="1-first-page-of-test-schema"]')
+            .doesNotExist('Cannot navigate to other pages on leftnav');
+        assert.dom('[data-test-link="review"]').exists('Locked in review page');
+        assert.dom('[data-test-accept-changes]').doesNotExist('R+Wusers cannot accept revision');
+        assert.dom('[data-test-pending-status]').containsText(
+            t('registries.edit_revision.review.pending_admin_notice'),
+            'R+W users notified that revision is pending admin approval',
+        );
+    });
 });
