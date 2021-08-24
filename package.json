@@ -166,7 +166,7 @@
     "ember-data": "~3.26.0",
     "ember-decorators": "^6.1.1",
     "ember-diff-attrs": "^0.2.1",
-    "ember-element-helper": "^0.2.0",
+    "ember-element-helper": "^0.5.5",
     "ember-engines": "^0.8.13",
     "ember-event-helpers": "^0.1.0",
     "ember-exam": "^6.0.1",
