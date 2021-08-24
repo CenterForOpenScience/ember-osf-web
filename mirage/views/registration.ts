@@ -5,7 +5,6 @@ import DraftNodeModel from 'ember-osf-web/models/draft-node';
 import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import { MirageNode } from '../factories/node';
 import { MirageRegistration } from '../factories/registration';
-
 import { guid } from '../factories/utils';
 import { process } from './utils';
 
@@ -100,30 +99,21 @@ export function createRegistration(this: HandlerContext, schema: Schema) {
 }
 
 export function getProviderRegistrations(this: HandlerContext, schema: Schema, request: Request) {
-    let filterField: 'reviewsState' | 'revisionState';
-    let filterParams: string | string[];
     const { parentID: providerId } = request.params;
-    const { 'filter[reviews_state]': params, pageSize } = request.queryParams;
-    if (params) {
-        filterField = 'reviewsState';
-        filterParams = params.split(',');
-    } else {
-        filterField = 'revisionState';
-        filterParams = request.queryParams['filter[revision_state]'].split(',');
-    }
-
+    const field = request.queryParams['filter[review_state]'] ? 'reviewsState' : 'revisionState';
+    const filterParams = request.queryParams['filter[review_state]'] || request.queryParams['filter[revision_state]'];
+    const params = filterParams.split(',');
+    const { pageSize } = request.queryParams;
     const provider = schema.registrationProviders.find(providerId);
     const providerRegistrations = provider.registrations.models;
     let filteredRegistrations: Array<ModelInstance<RegistrationModel>> = [];
-
-    for (const param of filterParams) {
+    for (const param of params) {
         filteredRegistrations = filteredRegistrations.concat(
             providerRegistrations.filter(
-                (registration: ModelInstance<RegistrationModel>) => registration[filterField] === param,
+                (registration: ModelInstance<RegistrationModel>) => registration[field] === param,
             ),
         );
     }
-
     return process(
         schema,
         request,

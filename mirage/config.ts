@@ -219,7 +219,7 @@ export default function(this: Server) {
     this.post('/revisions', createNewRevision);
     osfNestedResource(this, 'registration', 'revisions', {
         path: '/registrations/:parentID/revisions',
-        only: ['show', 'create'],
+        only: ['index', 'show', 'create'],
     });
     osfNestedResource(this, 'revision', 'actions', {
         path: '/revisions/:parentID/actions',

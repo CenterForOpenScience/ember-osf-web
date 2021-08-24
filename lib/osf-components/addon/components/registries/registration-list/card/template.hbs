@@ -1,32 +1,42 @@
-<div
-    data-test-registration-list-card
-    local-class='cardWrapper'
-    ...attributes
->
-    <FaIcon
-        data-test-registration-list-card-icon='{{@state}}'
-        @icon={{this.icon}}
-        @size='2x'
-        local-class='filterIcon {{@state}}'
-    />
-    <div local-class='cardInfo'>
-        <h3
-            data-test-registration-list-card-title
-            local-class='registrationTitle'
+<ContentPlaceholders as |placeholder|>
+    {{#if this.getLatestRevision.isRunning}}
+        {{placeholder.text lines=1}}
+    {{else}}
+        <div
+            data-test-registration-list-card
+            local-class='cardWrapper'
+            ...attributes
         >
-            {{#if (eq @state 'rejected')}}
-                {{@registration.title}}
-            {{else}}
-                <OsfLink
-                    data-test-registration-title-link
-                    @route='registries.overview'
-                    @models={{array @registration.id}}
-                    @queryParams={{hash mode='moderator'}}
+            <FaIcon
+                data-test-registration-list-card-icon='{{@state}}'
+                @icon={{this.icon}}
+                @size='2x'
+                local-class='filterIcon {{@state}}'
+            />
+            <div local-class='cardInfo'>
+                <h3
+                    data-test-registration-list-card-title
+                    local-class='registrationTitle'
                 >
-                    {{@registration.title}}
-                </OsfLink>
-            {{/if}}
-        </h3>
-        <Registries::ReviewActionsList @registration={{@registration}}/>
-    </div>
-</div>
+                    {{#if (eq @state 'rejected')}}
+                        {{@registration.title}}
+                    {{else}}
+                        <OsfLink
+                            data-test-registration-title-link
+                            @route='registries.overview'
+                            @models={{array @registration.id}}
+                            @queryParams={{this.queryParams}}
+                        >
+                            {{@registration.title}}
+                        </OsfLink>
+                    {{/if}}
+                </h3>
+                {{#if (eq @state 'revision_pending_moderation')}}
+                    <Registries::ReviewActionsList @revision={{this.latestRevision}} />
+                {{else}}
+                    <Registries::ReviewActionsList @registration={{@registration}}/>
+                {{/if}}
+            </div>
+        </div>
+    {{/if}}
+</ContentPlaceholders>
