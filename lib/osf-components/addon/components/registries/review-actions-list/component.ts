@@ -32,9 +32,6 @@ export default class ReviewActionsList extends Component<Args> {
             : this.intl.t('registries.reviewActionsList.show');
     }
 
-    get alwaysTrue() {
-        return true;
-    }
     get latestAction() {
         const { reviewActions } = this;
         return A(reviewActions || []).objectAt(0);
