@@ -1,8 +1,14 @@
+import config from 'ember-get-config';
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
-export default class UploadCsvComponent extends Component {
+const { OSF: { apiUrl } } = config;
+
+interface Args {
+    providerId: string;
+}
+export default class UploadCsvComponent extends Component<Args> {
     dropzoneOptions = {
         createImageThumbnails: false,
         method: 'PUT',
@@ -12,45 +18,34 @@ export default class UploadCsvComponent extends Component {
     };
 
     @tracked dropping = false;
+    @tracked uploading: any[] = [];
+    @tracked filename = '';
+    clickable = [];
 
     @action
-    buildUrl() {
-        return 'http://localhost:8000/v2/providers/registrations/osf/upload_csv/aloha.csv/';
+    buildUrl(files: any) {
+        return `${apiUrl}/_/registries/${this.args.providerId}/bulk_create/${files[0].name}/`;
     }
 
     @action
-    addedFile(_: unknown, __: unknown, ___: File) {
-        // this.uploading.pushObject(file);
+    addedFile(_: any, __: any, file: any) {
+        this.uploading.push(file);
     }
 
     @action
-    uploadProgress(_: unknown, __: unknown, _____: File, ______: number) {
-        // const uploadElement = $(`#uploading-${file.size}`);
-        // uploadElement.css('width', `${progress}%`);
+    uploadProgress(_: any, __: any, file: any, progress: number) {
+        $(`#uploading-${file.size}`).css('width', `${progress}%`);
     }
 
     @action
-    error(_: unknown, __: unknown, ____: File & DropzoneFileUpload, _____: ErrorDocument & UploadResponse | string) {
-        // this.uploading.removeObject(file);
-        // let toastMessage = '';
-        // let error;
-        // if (typeof response === 'string') {
-        //     toastMessage = response;
-        //     error = new Error(response);
-        // } else {
-        //     error = response;
-        //     if (response.code === 507) {
-        //         toastMessage = this.intl.t('osf-components.files-widget.insufficient_storage_error');
-        //     } else {
-        //         toastMessage = response.message_long || response.message;
-        //     }
-        // }
-        // captureException(error, { errorMessage: toastMessage });
-        // this.toast.error(toastMessage);
+    error(_: any, __: any, file: any, ___: any) {
+        this.uploading.removeObject(file);
+        // some error handling code here
     }
 
     @action
-    success() {
-        //
+    success(_: any, __: any, file: any, ___: any) {
+        this.uploading.removeObject(file);
+        // some success handling code here
     }
 }

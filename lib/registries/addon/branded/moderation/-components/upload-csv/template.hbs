@@ -1,19 +1,31 @@
-<DropzoneWidget
-    @buildUrl={{action this.buildUrl}}
-    @options={{this.dropzoneOptions}}
-    @addedfile={{action this.addedFile}}
-    @uploadprogress={{action this.uploadProgress}}
-    @success={{action this.success}}
-    @error={{action this.error}}
-    @dragenter={{action (mut this.dropping) true}}
-    @dragover={{action (mut this.dropping) true}}
-    @drop={{action (mut this.dropping) false}}
-    @dragleave={{action (mut this.dropping) false}}
-    @enable={{true}}
-    @id={{'this-is-unique'}}
-    @clickable={{true}}
->
-    <div local-class='icon' >
-        <FaIcon @icon='upload' @size='5x' />
-    </div>
-</DropzoneWidget>
+{{#let (unique-id 'upload-csv-dropzone') as |id|}}
+    <DropzoneWidget
+        @buildUrl={{action this.buildUrl}}
+        @options={{this.dropzoneOptions}}
+        @dropzone={{false}}
+        @addedfile={{action this.addedFile}}
+        @uploadprogress={{action this.uploadProgress}}
+        @success={{action this.success}}
+        @error={{action this.error}}
+        @dragenter={{action (mut this.dropping) true}}
+        @dragover={{action (mut this.dropping) true}}
+        @drop={{action (mut this.dropping) false}}
+        @dragleave={{action (mut this.dropping) false}}
+        @enable={{true}}
+        @id={{id}}
+        @clickable={{array 
+            (concat '.' (local-class 'upload-zone'))
+        }}
+    >
+        <div local-class='upload-zone'>
+            <div local-class='upload-zone-content'>
+                <FaIcon @icon='upload' @size='5x' />
+                <div 
+                    local-class='file-placeholder-text'
+                >
+                    {{t 'registries.moderation.settings.dropCsvHere'}}
+                </div>
+            </div>
+        </div>
+    </DropzoneWidget>
+{{/let}}

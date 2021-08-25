@@ -1028,6 +1028,7 @@ registries:
             paragraph: 'To configure other notification preferences visit your <a href={link}>user settings</a>.'
             bulkUpload: 'Bulk upload'
             bulkUploadHelpText: 'Drag and drop the csv file that has the registration information to upload.'
+            dropCsvHere: 'Drop csv file here to upload'
         overview:
             title: 'Moderated Overview'
     new:
