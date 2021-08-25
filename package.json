@@ -243,7 +243,7 @@
     "stylelint-config-sass-guidelines": "^6.0.0",
     "toastr": "^2.1.4",
     "typescript": "^4.2.3",
-    "wicg-inert": "^2.1.0"
+    "wicg-inert": "^3.1.1"
   },
   "resolutions": {
     "ember-cli-clipboard": "0.9.0"
