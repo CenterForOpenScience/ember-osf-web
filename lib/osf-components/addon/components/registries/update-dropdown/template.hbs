@@ -1,18 +1,27 @@
-<ResponsiveDropdown @horizontalPosition='right' as |dd|>
-    <dd.trigger>
+<ResponsiveDropdown 
+    @horizontalPosition='left' 
+    as |dd|
+    >
+    <dd.trigger
+        data-analytics-name='Expand update dropdown'
+        data-test-state-button
+        local-class='UpdateDropdownText'
+    >
         <Button data-test-version-dropdown-button data-analytics-name='Show Version' @type='show'>
             {{t 'registries.update_dropdown.dropdown_title'}}
             <FaIcon @icon='caret-down' />
         </Button>
     </dd.trigger>
     <div class='dropdown-content'>
-    <dd.content>
+    <dd.content
+        data-test-update-description
+        local-class='Versions'
+    >
         {{#each this.revisions as |revision|}}
-        <div class='dropdown-list'>
-            <span>
-            <p>Version {{revision.versionNumber}}</p>
-            <p>{{revision.dateCreated}}</p>
-            </span>
+        <div local-class='DropdownContainer'>
+            <div local-class='DropdownText'>
+            <p>Version {{revision.versionNumber}} {{revision.dateCreated}}</p>
+            </div>
             <br>
         </div>
         {{/each}} 

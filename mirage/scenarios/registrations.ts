@@ -125,7 +125,7 @@ export function registrationScenario(
     }, 'withContributors', 'withReviewActions');
 
     const silicon = server.create('registration', {
-        id: 'theValley',
+        id: 'silicon',
         title: 'Revision Model: Public View',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider: egap,
@@ -144,7 +144,7 @@ export function registrationScenario(
     }, 'withContributors', 'withReviewActions');
 
     const tungsten = server.create('registration', {
-        id: 'tongueSent',
+        id: 'tungsten',
         title: 'Revision Model: Contributor View (non-Admin/Mod)',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider: egap,
@@ -164,7 +164,7 @@ export function registrationScenario(
 
     const cobalt = server.create('registration', {
         id: 'cobalt',
-        title: 'Revision Model: Contributor View (non-Admin/Mod but pending moderation)',
+        title: 'Revision Model: Contributor View (pending moderation)',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider: egap,
         reviewsState: RegistrationReviewStates.Accepted,
