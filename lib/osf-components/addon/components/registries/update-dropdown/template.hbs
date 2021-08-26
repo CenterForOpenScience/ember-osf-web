@@ -1,30 +1,41 @@
 <ResponsiveDropdown 
     @horizontalPosition='left' 
     as |dd|
-    >
+>
     <dd.trigger
         data-analytics-name='Expand update dropdown'
         data-test-state-button
         local-class='UpdateDropdownText'
     >
-        <Button data-test-version-dropdown-button data-analytics-name='Show Version' @type='show'>
+        <Button data-test-version-dropdown-button data-analytics-name='Show Updates' @type='show'>
             {{t 'registries.update_dropdown.dropdown_title'}}
             <FaIcon @icon='caret-down' />
         </Button>
     </dd.trigger>
-    <div class='dropdown-content'>
+
     <dd.content
         data-test-update-description
-        local-class='Versions'
+        local-class='Updates'
     >
-        {{#each this.revisions as |revision|}}
-        <div local-class='DropdownContainer'>
+        {{#if this.revisions}}
             <div local-class='DropdownText'>
-            <p>Version {{revision.versionNumber}} {{revision.dateCreated}}</p>
+                {{#each this.revisions as |revision|}}
+                    <p>{{t 'registries.update_dropdown.updates_list_label'}} {{revision.versionNumber}} {{revision.dateCreated}}</p>
+                    {{#if (eq this.registration.currentUserPermissions.Admin)}}
+                        <div local-class='AdminResponse'>
+                            <h3>{{t 'registries.update_dropdown.revision_review_state'}} {{revision.reviewState}}</h3>
+                            <BsButton @onclick={{action this.revision.acceptUpdates}}>
+                                {{t 'registries.update_dropdown.accept_updates'}}
+                            </BsButton>
+                            <BsButton @onClick={{action this.needsMoreUpdates}}>
+                                {{t 'registries.update_dropdown.needs_more_updates'}}
+                            </BsButton>
+                        </div>
+                    {{/if}}
+                {{/each}}
             </div>
-            <br>
-        </div>
-        {{/each}} 
+        {{else}}
+            {{t 'registries.update_dropdown.no_revisions'}}
+        {{/if}}
     </dd.content>
-    </div>
 </ResponsiveDropdown>
