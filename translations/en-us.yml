@@ -1447,7 +1447,15 @@ registries:
         noDrafts: "You don't have any draft registrations. Create one with the button below."
         createRegistration: 'Create a registration'
     update_dropdown:
-        dropdown_title: 'Updates'
+        update_dropdown:
+        dropdown_title: 'Versions'
+        updates_list_label: 'Version'
+        revision_review_state: 'Revision Review State:'
+        accept_updates: 'Accept Updates'
+        needs_more_updates: 'Needs More Updates'
+        no_revisions: 'No revisions available at this time.'
+        error_message: 'Revisions were unable to be retrieved. \n\n\t Please contact <a href="mailto:{supportEmail}">{supportEmail}</a> for further assistance.'
+        other_error: 'Some error occured during revision retrieval. Please contact your adminstrator or moderator for further assistance.'
 meetings:
     index:
         meetings-list:

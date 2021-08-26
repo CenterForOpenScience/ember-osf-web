@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
@@ -6,11 +7,14 @@ import Intl from 'ember-intl/services/intl';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 
 import RegistrationModel from 'ember-osf-web/models/registration';
-import RevisionModel from 'ember-osf-web/models/revision';
+import RevisionModel, { RevisionReviewStates } from 'ember-osf-web/models/revision';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import Toast from 'ember-toastr/services/toast';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
+import Store from '@ember-data/store';
+import RouterService from '@ember/routing/router-service';
+import { taskFor } from 'ember-concurrency-ts';
 
 interface Args {
     registration: RegistrationModel;
@@ -36,20 +40,20 @@ export default class UpdateDropdown extends Component<Args> {
     @waitFor
     async getRevisionList() {
 
-        console.log("In the getRevisionFunction");
+        console.log('In the getRevisionFunction');
 
         if (this.args.registration.revisions === null || this.args.registration.revisions === undefined) {
             // ASK if checking the array length would be good
-            console.log("In the null case for getRevisionFunction");
+            console.log('In the null case for getRevisionFunction');
             console.log('No revisions present for this registration.');
             return {
                 placeholder: this.intl.t('registries.update_dropdown.no_revisions'),
             };
         }
         if (this.args.registration.revisions) {
-            console.log("In the revisions present for getRevisionFunction");
+            console.log('In the revisions present for getRevisionFunction');
             if (RevisionReviewStates.Approved) {
-                console.log("In the reivison approved case for getRevisionFunction");
+                console.log('In the reivison approved case for getRevisionFunction');
                 console.log('Revision approved');
                 try {
                     const { registration } = this.args;
@@ -89,9 +93,6 @@ export default class UpdateDropdown extends Component<Args> {
                     placeholder: this.intl.t('registries.update_dropdown.other_error'),
                 };
             }
-        } catch (e) {
-            // eslint-disable-next-line no-console
-            console.log('No revisions found. Something went wrong: ', e);
         }
     }
 
