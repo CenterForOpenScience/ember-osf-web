@@ -5,10 +5,17 @@
             <FaIcon @icon='caret-down' />
         </Button>
     </dd.trigger>
+    <div class='dropdown-content'>
     <dd.content>
         {{#each this.revisions as |revision|}}
+        <div class='dropdown-list'>
+            <span>
             <p>Version {{revision.versionNumber}}</p>
             <p>{{revision.dateCreated}}</p>
-        {{/each}}
+            </span>
+            <br>
+        </div>
+        {{/each}} 
     </dd.content>
+    </div>
 </ResponsiveDropdown>

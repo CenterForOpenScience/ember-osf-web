@@ -19,7 +19,9 @@ function getAllRevisionsTest(revision: ModelInstance<RevisionModel>){
         .sort((a,b) => parseInt(b.dateCreated) - parseInt(a.dateCreated)); // because only approved edits are created
 }
 
-module('Acceptance | update dropdown', hooks => {
+module('Acceptance | updateDropdown', hooks => {
+    setupEngineRenderingTest(hooks, 'registries');
+    setupIntl(hooks);
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 

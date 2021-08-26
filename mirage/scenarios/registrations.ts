@@ -124,43 +124,117 @@ export function registrationScenario(
         },
     }, 'withContributors', 'withReviewActions');
 
-    // server.createList('revision', 10, { registration: decaf});
+    const silicon = server.create('registration', {
+        id: 'theValley',
+        title: 'Revision Model: Public View',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        provider: egap,
+        reviewsState: RegistrationReviewStates.Accepted,
+        registeredBy: currentUser,
+        revisionState: RevisionReviewStates.Approved,
+        currentUserPermissions: [Permission.Read],
+        providerSpecificMetadata: [
+            { field_name: 'IP Address', field_value: '127.0.0.1' },
+            { field_name: 'Mac Address', field_value: 'b6:be:5a:05:ef:7a' },
+        ],
+        registrationResponses: {
+            q1: 'Hello',
+            q2: ['Array of greetings'],
+        },
+    }, 'withContributors', 'withReviewActions');
+
+    const tungsten = server.create('registration', {
+        id: 'tongueSent',
+        title: 'Revision Model: Contributor View (non-Admin/Mod)',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        provider: egap,
+        reviewsState: RegistrationReviewStates.Accepted,
+        registeredBy: currentUser,
+        revisionState: RevisionReviewStates.Approved,
+        currentUserPermissions: [Permission.Write],
+        providerSpecificMetadata: [
+            { field_name: 'IP Address', field_value: '127.0.0.1' },
+            { field_name: 'Mac Address', field_value: 'b6:be:5a:05:ef:7a' },
+        ],
+        registrationResponses: {
+            q1: 'Hello',
+            q2: ['Array of greetings'],
+        },
+    }, 'withContributors', 'withReviewActions');
+
+    const cobalt = server.create('registration', {
+        id: 'cobalt',
+        title: 'Revision Model: Contributor View (non-Admin/Mod but pending moderation)',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        provider: egap,
+        reviewsState: RegistrationReviewStates.Accepted,
+        registeredBy: currentUser,
+        revisionState: RevisionReviewStates.RevisionPendingModeration,
+        currentUserPermissions: [Permission.Write],
+        providerSpecificMetadata: [
+            { field_name: 'IP Address', field_value: '127.0.0.1' },
+            { field_name: 'Mac Address', field_value: 'b6:be:5a:05:ef:7a' },
+        ],
+        registrationResponses: {
+            q1: 'Hello',
+            q2: ['Array of greetings'],
+        },
+    }, 'withContributors', 'withReviewActions');
 
     server.create('revision', {
-        id: 'someCaff',
+        id: 'copyEdit',
         versionNumber: 1,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
-            'page-one_long-text': 'bbbbb',
-            'page-one_multi-select': ['Crocs'],
+            q1: 'Good Morning',
+            q2: ['List of greetings'],
         },
         initiatedBy: currentUser,
-        registration: decaf,
+        registration: cobalt,
     });
 
     server.create('revision', {
-        id: 'moarCaff',
+        id: 'typoSelf',
         versionNumber: 2,
         revisionJustification: 'Typo - Self',
         revisionResponses: {
-            'page-one_long-text': 'ccccc',
-            'page-one_multi-select': ['Red Bottoms'],
+            q1: 'Happy Morning',
+            q2: ['Litany of greetings'],
         },
         initiatedBy: currentUser,
-        registration: decaf,
+        registration: cobalt,
     });
 
     server.create('revision', {
-        id: 'evenMoarCaff',
+        id: 'addResults',
         versionNumber: 3,
-        revisionJustification: 'Adding Registration',
+        revisionJustification: 'Adding Results',
         revisionResponses: {
-            'page-one_long-text': 'dddd',
-            'page-one_multi-select': ['Gucci'],
+            q1: 'Good Morning',
+            q2: ['Rolodex of greetings'],
         },
         initiatedBy: currentUser,
-        registration: decaf,
+        registration: cobalt,
     });
+
+    const bismuth = server.create('registration', {
+        id: 'bismuth',
+        title: 'Revision Model: Admin or Moderator View',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        provider: egap,
+        reviewsState: RegistrationReviewStates.Accepted,
+        registeredBy: currentUser,
+        revisionState: RevisionReviewStates.RevisionPendingModeration,
+        currentUserPermissions: Object.values(Permission),
+        providerSpecificMetadata: [
+            { field_name: 'IP Address', field_value: '127.0.0.1' },
+            { field_name: 'Mac Address', field_value: 'b6:be:5a:05:ef:7a' },
+        ],
+        registrationResponses: {
+            q1: 'Hello',
+            q2: ['Array of greetings'],
+        },
+    }, 'withContributors', 'withReviewActions');
 
     server.create('registration', {
         id: 'cuban',
