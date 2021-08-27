@@ -7,10 +7,15 @@
         data-test-state-button
         local-class='UpdateDropdownText'
     >
-        <Button data-test-version-dropdown-button data-analytics-name='Show Updates' @type='show'>
+        <Button 
+            data-test-version-dropdown-button 
+            data-analytics-name='Show Updates' 
+            @type='create'
+        >
             {{t 'registries.update_dropdown.dropdown_title'}}
             <FaIcon @icon='caret-down' />
         </Button>
+            
     </dd.trigger>
 
     <dd.content
