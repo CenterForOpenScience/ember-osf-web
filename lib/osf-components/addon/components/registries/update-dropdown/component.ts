@@ -11,15 +11,21 @@ import RevisionModel, { RevisionReviewStates } from 'ember-osf-web/models/revisi
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import Toast from 'ember-toastr/services/toast';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
-import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
 import Store from '@ember-data/store';
 import RouterService from '@ember/routing/router-service';
 import { taskFor } from 'ember-concurrency-ts';
+import { computed } from '@ember/object';
 
 interface Args {
     registration: RegistrationModel;
-    draftRegistration: DraftRegistrationModel;
 }
+
+enum UpdateActions {
+    AcceptUpdates = 'Accept Updates',
+    NeedsMoreUpdates = 'Needs More Updates',
+}
+
+type RevisionJustification = 'Adding Results' | 'Typo - Self' | 'Typo - Other' | 'Copy Edit';
 
 export default class UpdateDropdown extends Component<Args> {
     @service currentUser!: CurrentUserService;
@@ -34,6 +40,32 @@ export default class UpdateDropdown extends Component<Args> {
     constructor(owner: unknown, args: Args) {
         super(owner, args);
         taskFor(this.getRevisionList).perform();
+    }
+
+    @computed('args.registration.{userHasAdminPermission,revisionState}')
+    get shouldDisplayApproveDenyButtons() {
+        return this.args.registration.userHasAdminPermission
+        && this.args.registration.revisionState
+        && ![
+            RevisionReviewStates.RevisionInProgress,
+            RevisionReviewStates.Approved,
+        ].includes(this.args.registration.revisionState);
+    }
+
+    // per Nici's request
+    @computed('args.registration.revisionState')
+    get updateNotificationIcon() {
+        switch (this.args.registration.revisionState) {
+        case RevisionReviewStates.Approved:
+            return 'lock';
+        case RevisionReviewStates.RevisionInProgress:
+            return 'eye';
+        case RevisionReviewStates.RevisionPendingAdminApproval:
+        case RevisionReviewStates.RevisionPendingModeration:
+            return 'clock';
+        default:
+            return '';
+        }
     }
 
     @task
@@ -56,8 +88,7 @@ export default class UpdateDropdown extends Component<Args> {
                 console.log('In the reivison approved case for getRevisionFunction');
                 console.log('Revision approved');
                 try {
-                    const { registration } = this.args;
-                    const revisions = await registration.queryHasMany('revisions');
+                    const revisions = await this.args.registration.queryHasMany('revisions');
                     this.revisions = revisions;
                     return revisions;
                 } catch (e) {
@@ -96,16 +127,29 @@ export default class UpdateDropdown extends Component<Args> {
         }
     }
 
+
     @task
     @waitFor
-    async needsMoreUpdates() {
+    async needsMoreUpdates(updateActions : UpdateActions) {
+        if (!this.revisions) {
+            throw new Error('Not a revision.');
+        }
+
+        switch(updateActions) {
+        case UpdateActions.AcceptUpdates:
+            this.args.registration.set('revisionState', RevisionReviewStates.Approved);
+            break;
+        case UpdateActions.NeedsMoreUpdates:
+            this.args.registration.set('revisionState', RevisionReviewStates.RevisionInProgress);
+            break;
+        default:
+            throw new Error('Action not permitted.');
+        }
         // try {
         //     place code here
         // } catch (e) {
         //     throw new Error("...something was caught and thrown.");
         // }
-        this.args.registration.revisionState = RevisionReviewStates.RevisionInProgress;
-        return this.args.registration;
     }
 
     @task
@@ -120,7 +164,7 @@ export default class UpdateDropdown extends Component<Args> {
         return this.args.registration;
     }
 
-    // loadVersionedRegistration() reloads the current view with the version the user clicks on
+    // loadVersionedRegistration() reloads the current view with clicked on version
     @task
     @waitFor
     async loadVersionedRegistration() {
@@ -131,7 +175,7 @@ export default class UpdateDropdown extends Component<Args> {
 
     @task
     @waitFor
-    async loadDiff() {
+    async loadDiff(revisionJustification: RevisionJustification) {
         // load the changes between this and previous SchemaResponse in git style diff
         // later, allow for potential edits in tabbed fashion on right hand side of the diff
         // eg each potential submitted (call for all edits) revision is tabbed and displayed on side
@@ -139,6 +183,7 @@ export default class UpdateDropdown extends Component<Args> {
         // as submissions are accepted for a particular registration, tabs scroll vertically up or
         // down by submission daten allowing for filterable edits where the user can easily tab through
         // and approve all critical or important changes.
+        console.log(revisionJustification);
         const diff = this.args.registration.reviewActions;
         return diff;
     }

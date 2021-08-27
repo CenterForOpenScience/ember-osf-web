@@ -21,13 +21,27 @@
             <div local-class='DropdownText'>
                 {{#each this.revisions as |revision|}}
                     <p>{{t 'registries.update_dropdown.updates_list_label'}} {{revision.versionNumber}} {{revision.dateCreated}}</p>
-                    {{#if (eq this.registration.currentUserPermissions.Admin)}}
+                    <p> {{revision.initia}}</p>
+                    {{#if (eq this.registration.userHasAdminPermission)}}
                         <div local-class='AdminResponse'>
-                            <h3>{{t 'registries.update_dropdown.revision_review_state'}} {{revision.reviewState}}</h3>
-                            <BsButton @onclick={{action this.revision.acceptUpdates}}>
+                            <p>{{t 'registries.update_dropdown.revision_review_state'}} {{revision.reviewState}}</p>
+                            <p>{{t 'registries.update_dropdown.initiated_by'}} {{revision.initiatedBy}} {{t 'registries.update_dropdown.date_modified'}} {{revision.dateModified}}</p>
+                            <BsButton 
+                                data-analytics-name='Accept updates'
+                                @type='create'
+                                disabled={{this.args}}
+                                local-class='AcceptUpdatesButton'
+                                {{on 'click' (queue (perform this.acceptUpdates) dd.close)}}
+                            >
                                 {{t 'registries.update_dropdown.accept_updates'}}
                             </BsButton>
-                            <BsButton @onClick={{action this.needsMoreUpdates}}>
+                            <BsButton 
+                            data-analytics-name='Needs more updates'
+                                @type='link'
+                                disabled={{this.args}}
+                                local-class='NeedsMoreUpdatesButton'
+                                {{ on 'click' (queue (perform this.needsMoreUpdates) dd.close)}}
+                            >
                                 {{t 'registries.update_dropdown.needs_more_updates'}}
                             </BsButton>
                         </div>

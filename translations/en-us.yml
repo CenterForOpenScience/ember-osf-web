@@ -1451,6 +1451,8 @@ registries:
         dropdown_title: 'Versions'
         updates_list_label: 'Version'
         revision_review_state: 'Revision Review State:'
+        initiated_by: 'Initiated by: '
+        date_modified: 'Date last modified: '
         accept_updates: 'Accept Updates'
         needs_more_updates: 'Needs More Updates'
         no_revisions: 'No revisions available at this time.'

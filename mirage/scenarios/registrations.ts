@@ -194,7 +194,7 @@ export function registrationScenario(
         reviewsState: RegistrationReviewStates.Accepted,
         registeredBy: currentUser,
         revisionState: RevisionReviewStates.RevisionPendingModeration,
-        currentUserPermissions: [Permission.Admin],
+        currentUserPermissions: [Permission.Read],
         providerSpecificMetadata: [
             { field_name: 'IP Address', field_value: '127.0.0.1' },
             { field_name: 'Mac Address', field_value: 'b6:be:5a:05:ef:7a' },
