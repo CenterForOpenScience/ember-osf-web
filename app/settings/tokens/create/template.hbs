@@ -15,14 +15,14 @@
         onSave=(action 'onSave')
         as |form|
     }}
-        <OsfButton
+        <BsButton
             data-test-create-token-button
             data-analytics-name='Submit button'
-            @type='primary'
+            disabled={{form.disabled}}
             @buttonType='submit'
-            @disabled={{form.disabled}}
+            @type='primary'
         >
             {{t 'settings.tokens.createToken'}}
-        </OsfButton>
+        </BsButton>
     {{/settings/tokens/-components/token-form}}
 </div>

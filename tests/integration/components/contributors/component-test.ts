@@ -1,5 +1,6 @@
 import { click, fillIn, findAll, render, triggerKeyEvent } from '@ember/test-helpers';
 import a11yAudit from 'ember-a11y-testing/test-support/audit';
+import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupIntl, t } from 'ember-intl/test-support';
 import { Permission } from 'ember-osf-web/models/osf-model';
@@ -9,7 +10,6 @@ import { clickTrigger } from 'ember-power-select/test-support/helpers';
 import { setupRenderingTest } from 'ember-qunit';
 import { reorder } from 'ember-sortable/test-support/helpers';
 import { TestContext } from 'ember-test-helpers';
-import hbs from 'htmlbars-inline-precompile';
 import { module, skip, test } from 'qunit';
 import { OsfLinkRouterStub } from '../../helpers/osf-link-router-stub';
 
@@ -287,7 +287,6 @@ module('Integration | Component | contributors', hooks => {
             'keydown',
             40,
         );
-        await this.pauseTest();
         await triggerKeyEvent(
             '[data-test-sortable-handle="first"]',
             'keydown',
@@ -320,7 +319,7 @@ module('Integration | Component | contributors', hooks => {
         assert.dom('[data-test-user-search-input]').exists('User serach button renders');
         assert.dom('[data-test-add-unregistered-contributor-button]').exists('Add unregistered contrib button renders');
         assert.dom('[data-test-user-search-results]').exists('Search result continer renders');
-        assert.dom('[data-test-contributor-card').doesNotExist('No contributors are on the draft');
+        assert.dom('[data-test-contributor-card]').doesNotExist('No contributors are on the draft');
         await fillIn('[data-test-user-search-input]', 'Bae');
         await click('[data-test-user-search-button]');
         await selectChoose(`[data-test-user-permission="${suzy.id}"]`, 'Read');
@@ -329,7 +328,8 @@ module('Integration | Component | contributors', hooks => {
         assert.dom('[data-test-contributor-card]').exists({ count: 1 }, 'There is one contributor on the draft');
         assert.dom('[data-test-contributor-link]').hasText(suzy.fullName, 'Contributor name matches');
         assert.dom('[data-test-contributor-permission]').hasText('Read', 'Contributor permission matches');
-        assert.dom('[data-test-contributor-citation-checkbox').isNotChecked('Contributor bibliographic status matches');
+        assert.dom('[data-test-contributor-citation-checkbox]')
+            .isNotChecked('Contributor bibliographic status matches');
         assert.dom(`[data-test-add-contributor-button="${suzy.id}"`).doesNotExist('Add contributor button is gone');
     });
 
@@ -366,6 +366,7 @@ module('Integration | Component | contributors', hooks => {
         assert.dom('[data-test-contributor-card]').exists({ count: 1 }, 'There is one contributor on the draft');
         assert.dom('[data-test-contributor-link]').hasText('Shin Sekyung', 'Contributor name matches');
         assert.dom('[data-test-contributor-permission]').hasText('Read', 'Contributor permission matches');
-        assert.dom('[data-test-contributor-citation-checkbox').isNotChecked('Contributor bibliographic status matches');
+        assert.dom('[data-test-contributor-citation-checkbox]')
+            .isNotChecked('Contributor bibliographic status matches');
     });
 });

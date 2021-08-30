@@ -33,7 +33,7 @@ export default class ValidatedXInputWrapper extends Component {
     @equal('validationStatus', ValidationStatus.Success)
     hasSuccess!: boolean;
 
-    @computed('elementId', 'valuePath')
+    @computed('elementId', 'id', 'valuePath')
     get inputElementId() {
         return this.id ? this.id : `${this.elementId}__${this.valuePath}`;
     }

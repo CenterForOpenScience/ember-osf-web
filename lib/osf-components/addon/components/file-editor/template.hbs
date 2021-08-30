@@ -20,7 +20,7 @@
             <div class='row'>
                 <div class='col-sm-12'>
                     <div class='pull-right'>
-                        <OsfButton
+                        <BsButton
                             data-test-button-revert
                             data-analytics-name='Revert text'
                             @type='danger'
@@ -28,8 +28,8 @@
                             @onClick={{action this.revertText}}
                         >
                             {{t 'general.revert'}}
-                        </OsfButton>
-                        <OsfButton
+                        </BsButton>
+                        <BsButton
                             data-test-button-save
                             data-analytics-name='Save text'
                             @type='success'
@@ -37,7 +37,7 @@
                             @onClick={{action this.saveText}}
                         >
                             {{t 'general.save'}}
-                        </OsfButton>
+                        </BsButton>
                     </div>
                 </div>
             </div>

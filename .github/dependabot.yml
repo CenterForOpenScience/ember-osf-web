@@ -1,0 +1,18 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  target-branch: dependency_upgrades
+  versioning-strategy: increase-if-necessary
+  ignore:
+  - dependency-name: ember-cli
+  - dependency-name: ember-source
+  - dependency-name: ember-data
+  - dependency-name: ember-cli-htmlbars
+  - dependency-name: ember-cli-typescript
+  - dependency-name: ember-cli-babel
+  - dependency-name: ember-auto-import
+  - dependency-name: ember-resolver

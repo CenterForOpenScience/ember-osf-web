@@ -1,8 +1,11 @@
 import { action } from '@ember/object';
+import Transition from '@ember/routing/-private/transition';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import HeadTagsService from 'ember-cli-meta-tags/services/head-tags';
-import { task } from 'ember-concurrency-decorators';
+import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import moment from 'moment';
 
 import GuidFileController from 'ember-osf-web/guid-file/controller';
@@ -23,12 +26,13 @@ export default class GuidFile extends Route {
 
     headTags?: HeadTagDef[];
 
-    @task({ withTestWaiter: true })
-    setHeadTags = task(function *(this: GuidFile, model: any) {
-        const blocker = this.get('ready').getBlocker();
+    @task
+    @waitFor
+    async setHeadTags(model: any) {
+        const blocker = this.ready.getBlocker();
         const dateCreated = model.file.get('dateCreated');
         const dateModified = model.file.get('dateModified');
-        const institutions = yield model.file.get('user').get('institutions');
+        const institutions = await model.file.get('user').get('institutions');
         const metaTagsData = {
             title: model.file.get('name'),
             identifier: model.file.get('guid'),
@@ -36,10 +40,10 @@ export default class GuidFile extends Route {
             modifiedDate: dateModified ? moment(dateModified).format('YYYY-MM-DD') : undefined,
             institution: institutions.map((institution: Institution) => institution.get('name')),
         };
-        this.set('headTags', this.get('metaTags').getHeadTags(metaTagsData));
-        this.get('headTagsService').collectHeadTags();
+        this.set('headTags', this.metaTags.getHeadTags(metaTagsData));
+        this.headTagsService.collectHeadTags();
         blocker.done();
-    });
+    }
 
     async model(params: { guid: string }) {
         const { guid } = params;
@@ -69,10 +73,10 @@ export default class GuidFile extends Route {
     }
 
     afterModel(model: any) {
-        this.setHeadTags.perform(model);
+        taskFor(this.setHeadTags).perform(model);
     }
 
-    resetController(controller: GuidFileController, isExiting: boolean, transition: { targetName: string }) {
+    resetController(controller: GuidFileController, isExiting: boolean, transition: Transition) {
         if (isExiting && transition.targetName !== 'error') {
             controller.set('revision', null);
         }

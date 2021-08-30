@@ -12,5 +12,5 @@ import template from './template';
 export default class Widget extends Component {
     // Required arguments
     node!: Node;
-    widgetMode: string = 'readonly';
+    widgetMode = 'readonly';
 }

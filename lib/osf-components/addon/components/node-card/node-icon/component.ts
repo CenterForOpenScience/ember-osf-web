@@ -3,7 +3,6 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import template from './template';
 
@@ -30,16 +29,16 @@ const iconMap: { [index: string]: string } = {
 @layout(template)
 @tagName('span')
 export default class NodeCardNodeIcon extends Component {
-    category: string = defaultTo(this.category, '');
+    category = '';
 
     @computed('category')
     get iconType(): string {
-        return iconMap[this.get('category')] || 'circle-notch';
+        return iconMap[this.category] || 'circle-notch';
     }
 
     @className('text-muted', '')
     @computed('category')
     get isMuted(): boolean {
-        return ['registration', 'registeredComponent'].includes(this.get('category'));
+        return ['registration', 'registeredComponent'].includes(this.category);
     }
 }

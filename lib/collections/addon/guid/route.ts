@@ -1,7 +1,9 @@
+import Store from '@ember-data/store';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
-import { DS } from 'ember-data';
+import { waitFor } from '@ember/test-waiters';
+import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 
 import CollectedMetadatum from 'ember-osf-web/models/collected-metadatum';
 import Collection from 'ember-osf-web/models/collection';
@@ -24,11 +26,12 @@ interface Params {
 
 export default class Guid extends Route {
     @service currentUser!: CurrentUser;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service theme!: Theme;
 
-    @task({ withTestWaiter: true })
-    loadModel = task(function *(this: Guid, guid: string): IterableIterator<any> {
+    @task
+    @waitFor
+    async loadModel(guid: string) {
         const provider = this.theme.provider as CollectionProvider;
 
         let collection: Collection;
@@ -39,15 +42,15 @@ export default class Guid extends Route {
             cgmId = guid;
             const [collectionId, itemGuid] = cgmId.split('-');
             collectedItemId = itemGuid;
-            collection = yield this.store.findRecord('collection', collectionId);
+            collection = await this.store.findRecord('collection', collectionId);
         } else {
             collectedItemId = guid;
-            collection = yield provider.primaryCollection;
+            collection = await provider.primaryCollection;
             cgmId = `${collection.id}-${guid}`;
         }
 
         try {
-            const collectedMetadatum: CollectedMetadatum = yield this.store.findRecord('collected-metadatum', cgmId);
+            const collectedMetadatum = await this.store.findRecord('collected-metadatum', cgmId);
             const collectionItem = this.store.peekRecord('node', collectedItemId)!;
 
             if (!collectionItem.userHasAdminPermission) {
@@ -57,7 +60,7 @@ export default class Guid extends Route {
 
             collectionItem.set('collectable', true);
 
-            yield collectionItem.license;
+            await collectionItem.license;
 
             return {
                 provider,
@@ -69,7 +72,7 @@ export default class Guid extends Route {
             this.intermediateTransitionTo(this.theme.prefixRoute('page-not-found'));
             return undefined;
         }
-    });
+    }
 
     model() {
         const { guid } = this.paramsFor(this.routeName) as Params;
@@ -80,7 +83,7 @@ export default class Guid extends Route {
         }
 
         return {
-            taskInstance: this.loadModel.perform(guid) as Promise<TaskInstanceResult>,
+            taskInstance: taskFor(this.loadModel).perform(guid),
         };
     }
 }

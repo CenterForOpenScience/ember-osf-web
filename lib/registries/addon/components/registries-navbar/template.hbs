@@ -28,10 +28,10 @@
                 <dropdown.toggle
                     data-test-service
                     data-analytics-name='Toggle'
-                    @classNames={{local-class 'Service Dropdown'}}
+                    local-class='Service Dropdown'
                 >
-                    <span local-class='HideOnMobile'>{{t 'general.OSF'}}</span>
-                    <strong local-class='HideOnMobile'>{{t 'general.services.registries'}}</strong>
+                    <span local-class='HideOnMobile HideOnTablet'>{{t 'general.OSF'}}</span>
+                    <strong local-class='HideOnMobile HideOnTablet'>{{t 'general.services.registries'}}</strong>
                     {{nav.icon (if dropdown.isOpen 'caret-up' 'caret-down')}}
                 </dropdown.toggle>
 
@@ -57,7 +57,6 @@
 
         {{! Right Side (Search, Buttons, Gravatar, Dropdown) }}
         <nav.section data-test-right>
-     
             {{#if this.provider.currentUserCanReview}}
                 <nav.links.secondary
                     data-test-my-reviewing-button
@@ -138,7 +137,7 @@
 
             {{#unless this.session.isAuthenticated}}
 
-                <nav.divider @classNames={{local-class 'HideOnMobile'}} />
+                <nav.divider local-class='HideOnMobile' />
 
                 <nav.links.secondary
                     data-test-join='1'
@@ -153,8 +152,8 @@
                 <nav.buttons.secondary
                     data-test-login='1'
                     data-analytics-name='Sign in'
+                    local-class='HideOnMobile'
                     @onclick={{action 'login'}}
-                    @classNames={{local-class 'HideOnMobile'}}
                 >
                     {{t 'navbar.login'}}
                 </nav.buttons.secondary>
@@ -179,12 +178,12 @@
                         >
                         {{nav.icon (if dropdown.isOpen 'caret-up' 'caret-down')}}
                     {{else}}
-                        <OsfButton
+                        <BsButton
                             data-test-toggle-navbar
-                            @class={{local-class 'OnlyOnMobile'}}
+                            local-class='OnlyOnMobile'
                         >
                             {{nav.icon (if dropdown.isOpen 'times' 'bars')}}
-                        </OsfButton>
+                        </BsButton>
                     {{/if}}
                 </dropdown.toggle>
 
@@ -237,7 +236,7 @@
                             </OsfLink>
                         </menu.item>
                         <menu.item role='menuitem' local-class='OnlyOnMobile'>
-                            <OsfButton
+                            <BsButton
                                 data-test-login-mobile
                                 data-analytics-name='Sign in'
                                 @type='link'
@@ -245,7 +244,7 @@
                             >
                                 <FaIcon @icon='sign-in-alt' @fixedWidth={{true}} />
                                 {{t 'navbar.login'}}
-                            </OsfButton>
+                            </BsButton>
                         </menu.item>
                     {{/if}}
 
@@ -272,15 +271,15 @@
 
                     {{#if this.session.isAuthenticated}}
                         <menu.item role='menuitem'>
-                            <OsfButton
+                            <BsButton
                                 data-test-ad-logout
                                 data-analytics-name='Logout'
                                 @type='link'
-                                @onClick={{action 'logout'}}
+                                @onClick={{action this.currentUser.logout}}
                             >
                                 <FaIcon @icon='sign-out-alt' @fixedWidth={{true}} />
                                 {{t 'auth_dropdown.log_out'}}
-                            </OsfButton>
+                            </BsButton>
                         </menu.item>
                     {{/if}}
                 </dropdown.menu>

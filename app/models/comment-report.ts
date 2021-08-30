@@ -1,10 +1,8 @@
+import { attr, belongsTo, AsyncBelongsTo } from '@ember-data/model';
 import { buildValidations, validator } from 'ember-cp-validations';
-import DS from 'ember-data';
 
 import CommentModel from './comment';
 import OsfModel from './osf-model';
-
-const { attr, belongsTo } = DS;
 
 /**
  * Model for OSF APIv2 comment reports. Primarily accessed via relationship fields.
@@ -26,7 +24,7 @@ export default class CommentReportModel extends OsfModel.extend(Validations) {
     @attr('fixstring') category!: string;
     @attr('fixstring') message!: string;
 
-    @belongsTo('comment') comment!: DS.PromiseObject<CommentModel> & CommentModel;
+    @belongsTo('comment') comment!: AsyncBelongsTo<CommentModel> & CommentModel;
 }
 
 declare module 'ember-data/types/registries/model' {

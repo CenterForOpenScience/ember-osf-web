@@ -30,6 +30,7 @@
     "ember-component-attributes": "*",
     "ember-composable-helpers": "*",
     "ember-content-placeholders": "*",
+    "ember-concurrency-async": "*",
     "ember-cookies": "*",
     "ember-css-modules": "*",
     "ember-css-modules-sass": "*",

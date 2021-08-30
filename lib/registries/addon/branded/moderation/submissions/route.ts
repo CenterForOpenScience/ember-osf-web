@@ -1,4 +1,5 @@
 import { action } from '@ember/object';
+import Transition from '@ember/routing/-private/transition';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
@@ -11,8 +12,12 @@ import RegistriesModerationSubmissionController from './controller';
 export default class BrandedModerationSubmissionsRoute extends Route {
     @service analytics!: Analytics;
 
-    setupController(controller: RegistriesModerationSubmissionController, model: RegistrationProviderModel) {
-        super.setupController(controller, model);
+    setupController(
+        controller: RegistriesModerationSubmissionController,
+        model: RegistrationProviderModel,
+        transition: Transition,
+    ) {
+        super.setupController(controller, model, transition);
         const { state } = controller;
         if (!state
             || ![

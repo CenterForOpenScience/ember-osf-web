@@ -2,6 +2,7 @@
     <PaginatedList::All
         @modelName='draft-registration'
         @usePlaceholders={{false}}
+        @query={{this.queryParam}}
         as |list|
     >
         <list.item as |draftRegistration|>
@@ -23,9 +24,9 @@
                     {{t 'registries.myRegistrationsList.noDrafts'}}
                 </p>
                 <OsfLink
+                    data-test-my-reg-drafts-add-new-button
                     @route='registries.branded.new'
                     @models={{array 'osf'}}
-                    data-test-add-new-button
                 >
                     <Button @type='create'>
                         {{t 'registries.myRegistrationsList.createRegistration'}}

@@ -178,7 +178,7 @@ export default class RegistrationFormView extends Component {
         return RegistrationForm.parse(this.schema, this.answers);
     }
 
-    @computed('form')
+    @computed('form.sections')
     get anchors() {
         return this.form.sections.map((section: Section) => ({
             title: section.title,

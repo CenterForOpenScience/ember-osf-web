@@ -7,7 +7,6 @@ import Session from 'ember-simple-auth/services/session';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import CurrentUser from 'ember-osf-web/services/current-user';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import template from './template';
 
@@ -20,12 +19,12 @@ export default class XLinks extends Component {
     @service session!: Session;
     @service currentUser!: CurrentUser;
 
-    searchURL: string = defaultTo(this.searchURL, `${osfURL}search/`);
-    myProjectsURL: string = defaultTo(this.myProjectsURL, `${osfURL}myprojects/`);
-    myRegistrationsURL: string = defaultTo(this.myRegistrationsURL, `${osfURL}myprojects/#registrations`);
-    onLinkClicked: () => void = defaultTo(this.onLinkClicked, () => null);
+    searchURL = `${osfURL}search/`;
+    myProjectsURL = `${osfURL}myprojects/`;
+    myRegistrationsURL = `${osfURL}myprojects/#registrations`;
+    onLinkClicked: () => void = () => null;
 
-    @computed('router.currentRouteName')
+    @computed('onInstitutions', 'router.currentRouteName')
     get supportURL() {
         return this.onInstitutions ? 'https://openscience.zendesk.com/hc/en-us/categories/360001550913' : 'support';
     }

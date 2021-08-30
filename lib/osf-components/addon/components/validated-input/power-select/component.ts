@@ -1,31 +1,31 @@
+import Model from '@ember-data/model';
 import { action, computed } from '@ember/object';
-import { ChangesetDef } from 'ember-changeset/types';
-import DS, { AttributesFor, RelationshipsFor } from 'ember-data';
+import { BufferedChangeset } from 'ember-changeset/types';
+import { AttributesFor, RelationshipsFor } from 'ember-data';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import BaseValidatedComponent from '../base-component';
 import template from './template';
 
 @layout(template)
-export default class ValidatedPowerSelect<M extends DS.Model> extends BaseValidatedComponent<M> {
+export default class ValidatedPowerSelect<M extends Model> extends BaseValidatedComponent<M> {
     valuePath!: AttributesFor<M> | RelationshipsFor<M>;
 
     onchange?: (value: string) => void;
 
-    search: () => any = this.search;
-    noMatchesMessage?: string = this.noMatchesMessage;
-    options: any[] = this.options;
-    searchEnabled?: boolean = this.searchEnabled;
-    placeholder?: string = this.placeholder;
+    search!: () => any;
+    noMatchesMessage?: string;
+    options!: any[];
+    searchEnabled?: boolean;
+    placeholder: string = this.placeholder;
 
     // Set renderInPlace to true when <powerselect> is rendered in <bsModal>
     // BsModal has z-index 1050 while power-select has 1000.
-    renderInPlace?: boolean = defaultTo(this.renderInPlace, false);
+    renderInPlace? = false;
 
     @computed('model', 'changeset')
-    get modelOrChangeset(): M | ChangesetDef & M | undefined {
+    get modelOrChangeset(): M | BufferedChangeset & M | undefined {
         return this.model || this.changeset;
     }
 

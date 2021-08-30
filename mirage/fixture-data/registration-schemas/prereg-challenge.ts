@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-// tslint:disable:max-line-length
+/* eslint-disable max-len */
 
 import { MirageRegistrationSchema } from '../../fixtures/registration-schemas';
 import { schemaBlockIds } from '../schema-blocks/prereg-challenge';

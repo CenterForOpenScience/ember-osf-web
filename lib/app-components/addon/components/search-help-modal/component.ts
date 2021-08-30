@@ -4,7 +4,6 @@ import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
 import template from './template';
 
@@ -21,7 +20,7 @@ import template from './template';
 export default class SearchHelpModal extends Component {
     @service router!: RouterService;
 
-    isOpen: boolean = defaultTo(this.isOpen, false);
+    isOpen = false;
 
     examples: Array<{ q: string, text: string }> = [
         {

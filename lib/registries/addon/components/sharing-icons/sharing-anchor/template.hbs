@@ -8,7 +8,11 @@
         rel='noopener noreferrer'
         ...attributes
     >
-        <FaIcon @icon={{@icon}} @fixedWidth={{true}} @prefix='fab' />
+        <FaIcon
+            @icon={{@icon}}
+            @fixedWidth={{true}}
+            @prefix={{if (eq @icon 'envelope') 'fas' 'fab'}}
+        />
         {{#if @showText}}
             {{@medium}}
         {{/if}}

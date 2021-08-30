@@ -3,7 +3,7 @@ import faker from 'faker';
 
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 
-import { NodeCategory, NodeLicense } from 'ember-osf-web/models/node';
+import { NodeCategory } from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 
 import { BranchedFromId } from 'ember-osf-web/mirage/serializers/draft-registration';
@@ -67,7 +67,7 @@ export default Factory.extend<MirageDraftRegistration & DraftRegistrationTraits>
 
     registrationMetadata: {},
 
-    nodeLicense: { copyrightHolders: 'Fergie', year: '3008' } as NodeLicense,
+    nodeLicense: {},
 
     category: NodeCategory.Uncategorized,
 

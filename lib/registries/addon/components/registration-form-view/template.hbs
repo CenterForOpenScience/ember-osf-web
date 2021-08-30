@@ -1,27 +1,27 @@
 <ResponsiveDropdown @renderInPlace={{true}} as |dd|>
-    {{#dd.trigger local-class='MenuTrigger'}}
-        <OsfButton
+    <dd.trigger local-class='MenuTrigger'>
+        <BsButton
             data-analytics-name='Expand'
             data-test-toggle-anchor-nav-button
+            local-class='ToggleNav__button'
             @type='link'
-            @class={{local-class 'ToggleNav__button'}}
         >
             <FaIcon @icon='bars' />
-        </OsfButton>
-    {{/dd.trigger}}
-    {{#dd.content}}
+        </BsButton>
+    </dd.trigger>
+    <dd.content>
         <div data-analytics-scope='Form navigation menu' local-class='NavigationMenu'>
             <div local-class='Header' data-test-anchor-nav-title>
                 <div local-class='HeaderText'>{{t 'registries.overview.contents'}}</div>
-                <OsfButton
+                <BsButton
                     data-analytics-name='Collapse'
                     data-test-toggle-anchor-nav-button
+                    local-class='ToggleNav__button'
                     @onClick={{action dd.close}}
                     @type='link'
-                    @class={{local-class 'ToggleNav__button'}}
                 >
                     <FaIcon @icon='times' />
-                </OsfButton>
+                </BsButton>
             </div>
             <div local-class='Anchors' data-test-form-block-anchors>
                 {{#each this.anchors as |section|}}
@@ -50,7 +50,7 @@
                 {{/each}}
             </div>
         </div>
-    {{/dd.content}}
+    </dd.content>
 </ResponsiveDropdown>
 
 {{#let (component 'registration-form-view/x-section') as |FormSection|}}

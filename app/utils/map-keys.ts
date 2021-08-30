@@ -20,7 +20,7 @@ export function mapKeysAndValues<Value, NewValue>(
     );
 }
 
-export function camelizeKeys(obj: Record<string, unknown>) {
+export function camelizeKeys<K extends string>(obj: Partial<Record<K, unknown>>) {
     return mapKeysAndValues(
         obj,
         key => camelize(key),

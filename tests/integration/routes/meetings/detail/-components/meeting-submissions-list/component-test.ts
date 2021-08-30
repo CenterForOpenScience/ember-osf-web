@@ -1,9 +1,9 @@
 import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { setupRenderingTest, skip } from 'ember-qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
-import { module, test } from 'qunit';
+import { module, skip, test } from 'qunit';
 
 module('Integration | routes | meetings | detail | -components | meeting-submissions-list', hooks => {
     setupRenderingTest(hooks);
@@ -170,5 +170,13 @@ module('Integration | routes | meetings | detail | -components | meeting-submiss
         await click('[data-test-descending-sort="created"]');
         assert.dom('[data-test-submissions-list-item-date]')
             .containsText('2019', 'Sorts by date descending');
+
+        await click('[data-test-ascending-sort="download_count"]');
+        assert.dom('[data-test-submissions-list-item-download]')
+            .containsText('100', 'Sorts by download count ascending');
+
+        await click('[data-test-descending-sort="download_count"]');
+        assert.dom('[data-test-submissions-list-item-download]')
+            .containsText('300', 'Sorts by download count descending');
     });
 });

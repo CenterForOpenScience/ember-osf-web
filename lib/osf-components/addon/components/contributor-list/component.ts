@@ -1,10 +1,12 @@
+import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { dropTask, task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import { waitFor } from '@ember/test-waiters';
+import { dropTask, restartableTask } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
@@ -12,11 +14,9 @@ import Toast from 'ember-toastr/services/toast';
 import RouterService from '@ember/routing/router-service';
 import { layout } from 'ember-osf-web/decorators/component';
 import Contributor, { ModelWithBibliographicContributors } from 'ember-osf-web/models/contributor';
-import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
 import captureException from 'ember-osf-web/utils/capture-exception';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import styles from './styles';
 import template from './template';
@@ -28,13 +28,13 @@ export default class ContributorList extends Component {
     model!: ModelWithBibliographicContributors & { isAnonymous?: boolean };
 
     // Optional arguments
-    shouldTruncate: boolean = defaultTo(this.shouldTruncate, true);
-    shouldLinkUsers: boolean = defaultTo(this.shouldLinkUsers, false);
-    shouldEnableClaimUser: boolean = false;
-    allowRemoveMe: boolean = false;
+    shouldTruncate = true;
+    shouldLinkUsers = false;
+    shouldEnableClaimUser = false;
+    allowRemoveMe = false;
 
     // Private properties
-    @service store!: DS.Store;
+    @service store!: Store;
     @service ready!: Ready;
     @service toast!: Toast;
     @service intl!: Intl;
@@ -44,26 +44,27 @@ export default class ContributorList extends Component {
     page = 1;
     displayedContributors: Contributor[] = [];
     totalContributors = 0;
-    shouldLoadAll: boolean = navigator.userAgent.includes('Prerender');
+    shouldLoadAll = navigator.userAgent.includes('Prerender');
 
     @alias('loadContributors.isRunning')
     isLoading!: boolean;
 
-    @task({ withTestWaiter: true, restartable: true, on: 'didReceiveAttrs' })
-    loadContributors = task(function *(this: ContributorList, more?: boolean) {
+    @restartableTask({ on: 'didReceiveAttrs' })
+    @waitFor
+    async loadContributors(more?: boolean) {
         if (!this.model || this.model.isAnonymous) {
             return;
         }
 
         const blocker = this.ready.getBlocker();
         if (this.shouldLoadAll && !this.shouldTruncate) {
-            const allContributors = yield this.model.loadAll('bibliographicContributors');
+            const allContributors = await this.model.loadAll('bibliographicContributors');
             this.setProperties({
                 displayedContributors: allContributors.toArray(),
                 totalContributors: allContributors.length,
             });
         } else if (more) {
-            const nextPage: QueryHasManyResult<Contributor> = yield this.model.queryHasMany(
+            const nextPage = await this.model.queryHasMany(
                 'bibliographicContributors',
                 { page: this.incrementProperty('page') },
             );
@@ -71,7 +72,7 @@ export default class ContributorList extends Component {
             this.set('totalContributors', nextPage.meta.total);
         } else {
             this.set('page', 1);
-            const firstPage = yield this.model.bibliographicContributors;
+            const firstPage = await this.model.bibliographicContributors;
             this.setProperties({
                 displayedContributors: firstPage.toArray(),
                 totalContributors: firstPage.meta.total,
@@ -79,10 +80,11 @@ export default class ContributorList extends Component {
         }
 
         blocker.done();
-    });
+    }
 
-    @dropTask({ withTestWaiter: true })
-    removeMeTask = task(function *(this: ContributorList) {
+    @dropTask
+    @waitFor
+    async removeMeTask() {
         if (!this.model || this.model.isAnonymous || !this.currentUser.currentUserId) {
             return;
         }
@@ -92,28 +94,29 @@ export default class ContributorList extends Component {
             .find(contrib => contrib.users.get('id') === this.currentUser.currentUserId);
 
         if (!contributor) {
-            contributor = yield this.store.findRecord('contributor', `${this.model.id}-${userID}`);
+            contributor = await this.store.findRecord('contributor', `${this.model.id}-${userID}`);
             this.setProperties({
                 displayedContributors: [...this.displayedContributors, contributor],
             });
         }
 
         try {
-            yield contributor!.destroyRecord();
+            await contributor!.destroyRecord();
             this.toast.success(this.intl.t('contributor_list.remove_contributor.success'));
             this.router.transitionTo('home');
         } catch (e) {
             const { supportEmail } = config.support;
             const errorMessage = this.intl
-                .t('contributor_list.remove_contributor.error', { supportEmail, htmlSafe: true });
+                .t('contributor_list.remove_contributor.error', { supportEmail, htmlSafe: true })
+                .toString();
             captureException(e, { errorMessage });
             this.toast.error(errorMessage);
         }
-    });
+    }
 
     @action
     removeMe() {
-        this.removeMeTask.perform();
+        taskFor(this.removeMeTask).perform();
     }
 
     @computed('allowRemoveMe', 'currentUser.currentUserId', 'totalContributors')
@@ -121,7 +124,7 @@ export default class ContributorList extends Component {
         return this.allowRemoveMe && this.currentUser.currentUserId && this.totalContributors > 1;
     }
 
-    @computed('truncated')
+    @computed('shouldTruncate', 'truncated')
     get truncateCount() {
         return this.shouldTruncate ? 3 : undefined;
     }

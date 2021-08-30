@@ -1,10 +1,11 @@
+import Store from '@ember-data/store';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import { keepLatestTask, timeout } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import UserModel from 'ember-osf-web/models/user';
 import ContributorsManager from 'osf-components/components/contributors/manager/component';
 
@@ -20,17 +21,17 @@ const nameFields = [
 ].join();
 
 export default class UserSearchComponent extends Component<UserSearchComponentArgs> {
-    @service store!: DS.Store;
+    @service store!: Store;
 
-    @tracked query: string = '';
+    @tracked query = '';
     @tracked results: UserModel[] = [];
-    @tracked totalUsersPage: number = 1;
-    @tracked currentUsersPage: number = 1;
+    @tracked totalUsersPage = 1;
+    @tracked currentUsersPage = 1;
 
     @computed('fetchUsers.isRunning', 'hasMoreUsers')
     get shouldShowLoadMoreUsers() {
-        return !this.fetchUsers.isRunning
-            && this.fetchUsers.lastComplete
+        return !taskFor(this.fetchUsers).isRunning
+            && taskFor(this.fetchUsers).lastComplete
             && this.hasMoreUsers;
     }
 
@@ -38,16 +39,17 @@ export default class UserSearchComponent extends Component<UserSearchComponentAr
         return this.currentUsersPage < this.totalUsersPage;
     }
 
-    @task({ withTestWaiter: true, keepLatest: true })
-    fetchUsers = task(function *(this: UserSearchComponent, isFetchingNextPage: boolean) {
+    @keepLatestTask
+    @waitFor
+    async fetchUsers(isFetchingNextPage: boolean) {
         if (isFetchingNextPage) {
             this.currentUsersPage += 1;
         } else {
-            yield timeout(500);
+            await timeout(500);
             this.currentUsersPage = 1;
             this.results = [];
         }
-        const currentPageResult = yield this.store.query('user', {
+        const currentPageResult = await this.store.query('user', {
             filter: {
                 [nameFields]: this.query,
             },
@@ -55,5 +57,5 @@ export default class UserSearchComponent extends Component<UserSearchComponentAr
         });
         this.results = this.results.concat(currentPageResult.toArray());
         this.totalUsersPage = Math.ceil(currentPageResult.meta.total / currentPageResult.meta.per_page);
-    });
+    }
 }

@@ -17,7 +17,7 @@ const { StringTransform } = DS;
  * ```
  */
 export default class FixStringTransform extends StringTransform {
-    deserialize(serialized: string, options: DS.AttrOptions) {
+    deserialize(serialized: string, options: DS.AttrOptions<string>) {
         return fixSpecialChars(super.deserialize(serialized, options) || '');
     }
 }

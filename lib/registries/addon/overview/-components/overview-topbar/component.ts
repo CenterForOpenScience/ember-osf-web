@@ -1,9 +1,10 @@
+import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import { waitFor } from '@ember/test-waiters';
+import { dropTask, task } from 'ember-concurrency';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
@@ -22,7 +23,7 @@ const { OSF: { url: baseURL } } = config;
 @tagName('')
 @layout(template, styles)
 export default class OverviewTopbar extends Component {
-    @service store!: DS.Store;
+    @service store!: Store;
     @service toast!: Toast;
     @service intl!: Intl;
 
@@ -30,16 +31,46 @@ export default class OverviewTopbar extends Component {
 
     bookmarksCollection!: CollectionModel;
     isBookmarked?: boolean;
-    showDropdown: boolean = false;
+    showDropdown = false;
 
-    @task({ withTestWaiter: true, drop: true })
-    forkRegistration = task(function *(this: OverviewTopbar, closeDropdown: () => void) {
+    @computed('registration.reviewsState')
+    get isWithdrawn() {
+        return this.registration.reviewsState === RegistrationReviewStates.Withdrawn;
+    }
+
+    @computed('registration.id')
+    get registrationURL() {
+        return this.registration && pathJoin(baseURL, `${this.registration.id}`);
+    }
+
+    @task({ on: 'init' })
+    @waitFor
+    async getBookmarksCollection() {
+        const collections = await this.store.findAll('collection', {
+            adapterOptions: { 'filter[bookmarks]': 'true' },
+        });
+
+        if (!collections.length) {
+            return;
+        }
+
+        this.set('bookmarksCollection', collections.firstObject);
+
+        const bookmarkedRegs = await this.bookmarksCollection.linkedRegistrations;
+        const isBookmarked = Boolean(bookmarkedRegs.find((reg: RegistrationModel) => reg.id === this.registration.id));
+
+        this.set('isBookmarked', isBookmarked);
+    }
+
+    @dropTask
+    @waitFor
+    async forkRegistration(closeDropdown: () => void) {
         if (!this.registration) {
             return;
         }
 
         try {
-            yield this.registration.makeFork();
+            await this.registration.makeFork();
             this.toast.success(
                 this.intl.t('registries.overview.fork.success'),
                 this.intl.t('registries.overview.fork.success_title'),
@@ -52,10 +83,11 @@ export default class OverviewTopbar extends Component {
         } finally {
             closeDropdown();
         }
-    });
+    }
 
-    @task({ withTestWaiter: true, drop: true })
-    bookmark = task(function *(this: OverviewTopbar) {
+    @dropTask
+    @waitFor
+    async bookmark() {
         if (!this.bookmarksCollection || !this.registration) {
             return;
         }
@@ -65,13 +97,13 @@ export default class OverviewTopbar extends Component {
         try {
             if (op === 'remove') {
                 this.bookmarksCollection.linkedRegistrations.removeObject(this.registration);
-                yield this.bookmarksCollection.deleteM2MRelationship(
+                await this.bookmarksCollection.deleteM2MRelationship(
                     'linkedRegistrations',
                     this.registration,
                 );
             } else {
                 this.bookmarksCollection.linkedRegistrations.pushObject(this.registration);
-                yield this.bookmarksCollection.createM2MRelationship(
+                await this.bookmarksCollection.createM2MRelationship(
                     'linkedRegistrations',
                     this.registration,
                 );
@@ -86,33 +118,5 @@ export default class OverviewTopbar extends Component {
         this.toast.success(this.intl.t(`registries.overview.bookmark.${op}.success`));
 
         this.toggleProperty('isBookmarked');
-    });
-
-    @task({ withTestWaiter: true, on: 'init' })
-    getBookmarksCollection = task(function *(this: OverviewTopbar) {
-        const collections = yield this.store.findAll('collection', {
-            adapterOptions: { 'filter[bookmarks]': 'true' },
-        });
-
-        if (!collections.length) {
-            return;
-        }
-
-        this.set('bookmarksCollection', collections.firstObject);
-
-        const bookmarkedRegs = yield this.bookmarksCollection.linkedRegistrations;
-        const isBookmarked = Boolean(bookmarkedRegs.find((reg: RegistrationModel) => reg.id === this.registration.id));
-
-        this.set('isBookmarked', isBookmarked);
-    });
-
-    @computed('registration.reviewsState')
-    get isWithdrawn() {
-        return this.registration.reviewsState === RegistrationReviewStates.Withdrawn;
-    }
-
-    @computed('registration.id')
-    get registrationURL() {
-        return this.registration && pathJoin(baseURL, `${this.registration.id}`);
     }
 }

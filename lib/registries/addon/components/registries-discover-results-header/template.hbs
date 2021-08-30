@@ -14,7 +14,7 @@
                 {{t 'registries.discover.sort_by'}}: {{t @searchOptions.order.display}}
                 <span aria-label='{{t 'registries.discover.sort_by'}}' class='caret'></span>
             </dd.trigger>
-            <dd.content @class={{local-class 'DropdownContent'}}>
+            <dd.content local-class='DropdownContent'>
                 {{#each @sortOptions as |option index|}}
                     <div>
                         <button

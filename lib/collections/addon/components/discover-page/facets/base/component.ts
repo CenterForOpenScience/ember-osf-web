@@ -12,8 +12,8 @@ export default class Base extends Component {
     @service analytics!: Analytics;
     @service theme!: Theme;
 
-    context: FacetContext = this.context;
-    filterReplace: object = this.filterReplace;
+    context!: FacetContext;
+    filterReplace!: object;
 
     @requiredAction filterChanged!: () => void;
 

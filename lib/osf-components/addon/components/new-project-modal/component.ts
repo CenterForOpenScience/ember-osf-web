@@ -1,11 +1,12 @@
+import Store from '@ember-data/store';
 import { A } from '@ember/array';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { alias, reads } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import { waitFor } from '@ember/test-waiters';
+import { dropTask, restartableTask, task, timeout } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
 
@@ -32,7 +33,7 @@ const {
 export default class NewProjectModal extends Component {
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service features!: Features;
     @service intl!: Intl;
     @service toast!: Toast;
@@ -46,7 +47,7 @@ export default class NewProjectModal extends Component {
     // Private fields
     nodeTitle?: string;
     description?: string;
-    more: boolean = false;
+    more = false;
     templateFrom?: Node;
     selectedRegion?: Region;
     institutions: Institution[] = [];
@@ -61,47 +62,51 @@ export default class NewProjectModal extends Component {
         return this.features.isEnabled(storageI18n);
     }
 
-    @task({ withTestWaiter: true, on: 'init' })
-    initTask = task(function *(this: NewProjectModal) {
+    @task({ on: 'init' })
+    @waitFor
+    async initTask() {
         if (this.storageI18nEnabled) {
             // not yielding so it runs in parallel
-            this.get('getStorageRegionsTask').perform();
+            taskFor(this.getStorageRegionsTask).perform();
         }
-        this.set('institutions', (yield this.currentUser.user!.institutions));
-    });
+        this.set('institutions', (await this.currentUser.user!.institutions));
+    }
 
-    @task({ withTestWaiter: true })
-    getStorageRegionsTask = task(function *(this: NewProjectModal) {
-        const regions = yield this.store.findAll('region');
+    @task
+    @waitFor
+    async getStorageRegionsTask() {
+        const regions = await this.store.findAll('region');
 
         this.setProperties({
             regions: regions.toArray(),
             selectedRegion: this.currentUser.user!.defaultRegion,
         });
-    });
+    }
 
-    @task({ withTestWaiter: true })
-    loadDefaultRegionTask = task(function *(this: NewProjectModal) {
+    @task
+    @waitFor
+    async loadDefaultRegionTask() {
         const { user } = this.currentUser;
         if (!user) {
             return;
         }
 
-        yield user.belongsTo('defaultRegion').reload();
-    });
+        await user.belongsTo('defaultRegion').reload();
+    }
 
-    @task({ withTestWaiter: true, restartable: true })
-    searchUserNodesTask = task(function *(this: NewProjectModal, title: string) {
-        yield timeout(500);
-        const user: User = yield this.user;
-        return yield user.queryHasMany('nodes', { filter: { title } });
-    });
+    @restartableTask
+    @waitFor
+    async searchUserNodesTask(title: string) {
+        await timeout(500);
+        const userNodes = await this.user.queryHasMany('nodes', { filter: { title } });
+        return userNodes;
+    }
 
-    @task({ withTestWaiter: true, drop: true })
-    createNodeTask = task(function *(
-        this: NewProjectModal,
-        title: string,
-        description: string,
+    @dropTask
+    @waitFor
+    async createNodeTask(
+        title = '',
+        description = '',
         institutions: Institution[],
         templateFrom?: Node,
         storageRegion?: Region,
@@ -128,7 +133,7 @@ export default class NewProjectModal extends Component {
         }
 
         try {
-            yield node.save();
+            await node.save();
         } catch (e) {
             const errorMessage = this.intl.t('new_project.could_not_create_project');
             captureException(e, { errorMessage });
@@ -136,7 +141,7 @@ export default class NewProjectModal extends Component {
         }
 
         this.afterProjectCreated(node);
-    });
+    }
 
     @action
     selectInstitution(institution: Institution) {
@@ -178,7 +183,7 @@ export default class NewProjectModal extends Component {
 
     @action
     create(this: NewProjectModal) {
-        this.get('createNodeTask').perform(
+        taskFor(this.createNodeTask).perform(
             this.nodeTitle,
             this.description,
             this.selectedInstitutions,
@@ -190,6 +195,6 @@ export default class NewProjectModal extends Component {
 
     @action
     searchNodes(this: NewProjectModal, searchTerm: string) {
-        return this.get('searchUserNodesTask').perform(searchTerm);
+        return taskFor(this.searchUserNodesTask).perform(searchTerm);
     }
 }

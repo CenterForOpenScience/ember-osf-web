@@ -1,5 +1,5 @@
 import { htmlSafe } from '@ember/string';
-import DS from 'ember-data';
+import { attr, belongsTo, hasMany, AsyncBelongsTo, AsyncHasMany } from '@ember-data/model';
 import ReviewActionModel from 'ember-osf-web/models/review-action';
 
 import { computed } from '@ember/object';
@@ -9,23 +9,21 @@ import ModeratorModel from './moderator';
 import ProviderModel, { ReviewPermissions } from './provider';
 import RegistrationModel from './registration';
 
-const { attr, hasMany, belongsTo } = DS;
-
 export default class RegistrationProviderModel extends ProviderModel {
     @hasMany('registration', { inverse: 'provider' })
-    registrations!: DS.PromiseManyArray<RegistrationModel>;
+    registrations!: AsyncHasMany<RegistrationModel>;
 
     @belongsTo('brand')
-    brand!: DS.PromiseObject<BrandModel> & BrandModel;
+    brand!: AsyncBelongsTo<BrandModel> & BrandModel;
 
     @hasMany('registration-schema', { inverse: null })
-    schemas!: DS.PromiseManyArray<RegistrationSchemaModel> | RegistrationSchemaModel[];
+    schemas!: AsyncHasMany<RegistrationSchemaModel> | RegistrationSchemaModel[];
 
     @hasMany('moderator', { inverse: 'provider' })
-    moderators!: DS.PromiseManyArray<ModeratorModel> | ModeratorModel[];
+    moderators!: AsyncHasMany<ModeratorModel> | ModeratorModel[];
 
     @hasMany('review-action', { inverse: null })
-    actions!: DS.PromiseManyArray<ReviewActionModel> | ReviewActionModel[];
+    actions!: AsyncHasMany<ReviewActionModel> | ReviewActionModel[];
 
     @attr('fixstring')
     shareSource?: string;

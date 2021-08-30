@@ -13,6 +13,7 @@ module('Integration | Component | Get Started button', hooks => {
 
     test('it renders', async function(assert) {
         // Setup router
+        // eslint-disable-next-line ember/no-private-routing-service
         const router = this.owner.lookup('router:main');
         router.setupRouter();
 

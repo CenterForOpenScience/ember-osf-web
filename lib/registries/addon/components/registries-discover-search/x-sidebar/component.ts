@@ -27,7 +27,7 @@ export default class SideBar extends Component {
     provider?: ProviderModel;
     @requiredAction onSearchOptionsUpdated!: (options: SearchOptions) => void;
 
-    @computed('searchOptions')
+    @computed('additionalFilters', 'searchOptions.filters')
     get filters() {
         const filters = A<any>([]);
         for (const filter of this.searchOptions.filters) {

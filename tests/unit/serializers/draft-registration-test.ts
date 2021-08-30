@@ -29,6 +29,7 @@ module('Unit | Serializer | draft-registration', hooks => {
             data: {
                 id: '5dcdb5ea12990200098ba5c7',
                 type: 'file',
+                materializedPath: 'fakePath',
                 attributes,
             },
         });

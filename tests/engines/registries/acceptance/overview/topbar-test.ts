@@ -14,51 +14,54 @@ import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines'
 import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
 
 const registrationStates: Record<string, {
-    trait: string, icon: string,
-    initiallyOpened: boolean, hasAdminActions: boolean }> = {
-        embargo: {
-            trait: 'isEmbargo',
-            icon: 'lock',
-            initiallyOpened: false,
-            hasAdminActions: true,
-        },
-        pendingWithdraw: {
-            trait: 'isPendingWithdraw',
-            icon: 'clock',
-            initiallyOpened: true,
-            hasAdminActions: false,
-        },
-        pendingRegistrationApproval: {
-            trait: 'isPendingRegistrationApproval',
-            icon: 'clock',
-            initiallyOpened: true,
-            hasAdminActions: false,
-        },
-        pendingEmbargoApproval: {
-            trait: 'isPendingEmbargoApproval',
-            icon: 'clock',
-            initiallyOpened: true,
-            hasAdminActions: false,
-        },
-        pendingEmbargoTermination: {
-            trait: 'isPendingEmbargoTermination',
-            icon: 'clock',
-            initiallyOpened: true,
-            hasAdminActions: false,
-        },
-        pendingWithdrawRequest: {
-            trait: 'isPendingWithdrawRequest',
-            icon: 'clock',
-            initiallyOpened: true,
-            hasAdminActions: false,
-        },
-        accepted: {
-            trait: 'isPublic',
-            icon: 'eye',
-            initiallyOpened: false,
-            hasAdminActions: true,
-        },
-    };
+    trait: string,
+    icon: string,
+    initiallyOpened: boolean,
+    hasAdminActions: boolean,
+}> = {
+    embargo: {
+        trait: 'isEmbargo',
+        icon: 'lock',
+        initiallyOpened: false,
+        hasAdminActions: true,
+    },
+    pendingWithdraw: {
+        trait: 'isPendingWithdraw',
+        icon: 'clock',
+        initiallyOpened: true,
+        hasAdminActions: false,
+    },
+    pendingRegistrationApproval: {
+        trait: 'isPendingRegistrationApproval',
+        icon: 'clock',
+        initiallyOpened: true,
+        hasAdminActions: false,
+    },
+    pendingEmbargoApproval: {
+        trait: 'isPendingEmbargoApproval',
+        icon: 'clock',
+        initiallyOpened: true,
+        hasAdminActions: false,
+    },
+    pendingEmbargoTermination: {
+        trait: 'isPendingEmbargoTermination',
+        icon: 'clock',
+        initiallyOpened: true,
+        hasAdminActions: false,
+    },
+    pendingWithdrawRequest: {
+        trait: 'isPendingWithdrawRequest',
+        icon: 'clock',
+        initiallyOpened: true,
+        hasAdminActions: false,
+    },
+    accepted: {
+        trait: 'isPublic',
+        icon: 'eye',
+        initiallyOpened: false,
+        hasAdminActions: true,
+    },
+};
 
 module('Registries | Acceptance | overview.topbar', hooks => {
     setupEngineApplicationTest(hooks, 'registries');
@@ -90,6 +93,18 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         await visit(`/${archivingReg.id}/`);
 
         assert.dom('[data-test-topbar-share-bookmark-fork]').doesNotExist();
+        assert.dom('[data-test-topbar-states]').doesNotExist();
+    });
+
+    test('registration state is not visible in topbar when viewing registrations anonymously', async assert => {
+        const anonymousReg = server.create('registration', {
+            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+        }, 'anonymized');
+
+        await visit(`/${anonymousReg.id}/`);
+        await percySnapshot(assert);
+
+        assert.dom('[data-test-topbar-share-bookmark-fork]').exists();
         assert.dom('[data-test-topbar-states]').doesNotExist();
     });
 

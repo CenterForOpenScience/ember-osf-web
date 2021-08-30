@@ -19,7 +19,7 @@ module('Integration | routes | institutions | dashboard | -components | institut
         server.create('institution', {
             id: 'testinstitution',
         }, 'withMetrics');
-        const institution = await this.get('store').findRecord('institution', 'testinstitution');
+        const institution = await this.store.findRecord('institution', 'testinstitution');
         const departmentMetrics = await institution.get('departmentMetrics');
         const { userMetrics } = institution;
         const model = {
@@ -89,7 +89,7 @@ module('Integration | routes | institutions | dashboard | -components | institut
             }),
         ];
         mirageInstitution.update({ userMetrics });
-        const institution = await this.get('store').findRecord('institution', 'testinstitution');
+        const institution = await this.store.findRecord('institution', 'testinstitution');
         const departmentMetrics = await institution.get('departmentMetrics');
         const model = {
             taskInstance: {

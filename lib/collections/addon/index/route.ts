@@ -1,9 +1,9 @@
+import Store from '@ember-data/store';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-import DS from 'ember-data';
 
 export default class Index extends Route {
-    @service store!: DS.Store;
+    @service store!: Store;
 
     model() {
         return this.store.findAll('collection-provider');

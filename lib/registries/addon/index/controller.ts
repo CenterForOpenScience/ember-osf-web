@@ -2,8 +2,9 @@ import EmberArray, { A } from '@ember/array';
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { inject as service, Registry as Services } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
-import Store from 'ember-data/store';
+import { waitFor } from '@ember/test-waiters';
+import { task } from 'ember-concurrency';
+import Store from '@ember-data/store';
 
 import Analytics from 'ember-osf-web/services/analytics';
 import config from 'registries/config/environment';
@@ -18,9 +19,10 @@ export default class Index extends Controller {
     recentRegistrations: EmberArray<ShareRegistration> = A([]);
     searchableRegistrations = 0;
 
-    @task({ withTestWaiter: true, on: 'init' })
-    getRecentRegistrations = task(function *(this: Index) {
-        const recentRegistrations = yield this.store.query('registration', {
+    @task({ on: 'init' })
+    @waitFor
+    async getRecentRegistrations() {
+        const recentRegistrations = await this.store.query('registration', {
             filter: {
                 id: config.indexPageRegistrationIds.join(','),
             },
@@ -28,7 +30,7 @@ export default class Index extends Controller {
             embed: 'bibliographic_contributors',
         });
         this.setProperties({ recentRegistrations });
-    });
+    }
 
     @action
     onSearch(query: string) {

@@ -4,7 +4,6 @@ import { action, computed } from '@ember/object';
 import { localClassNames } from 'ember-css-modules';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import styles from './styles';
 import template from './template';
 
@@ -12,13 +11,13 @@ import template from './template';
 @tagName('section')
 @localClassNames('Component')
 export default class SubmitSection extends Component {
-    tooltip: string = this.tooltip;
-    title: string = this.title;
-    description?: string = this.description;
-    section: number = this.section;
-    activeSection: number = this.activeSection;
-    savedSections: number[] = this.savedSections;
-    editable: boolean = defaultTo(this.editable, true);
+    tooltip!: string;
+    title!: string;
+    description?: string;
+    section!: number;
+    activeSection!: number;
+    savedSections!: number[];
+    editable = true;
 
     @computed('activeSection', 'section')
     get isOpen(): boolean {
@@ -30,7 +29,7 @@ export default class SubmitSection extends Component {
         return this.savedSections.includes(this.section);
     }
 
-    @computed('isOpen', 'didSave')
+    @computed('didSave', 'isOpen', 'tooltip')
     get showTooltip(): boolean {
         return !!this.tooltip && !this.isOpen && !this.didSave;
     }

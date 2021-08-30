@@ -1,10 +1,26 @@
-!.eslintrc.js
-!.template-lintrc.js
-/coverage/**
-/dist/**
-/docs/**
-/tmp/**
-/vendor/**
-/blueprints/*/files/**
-/blueprints/*/engine-files/**
+# unconventional js
+/blueprints/*/files/
+/blueprints/*/engine-files/
+/node-tests/fixtures/blueprints/
+/vendor/
 /config/local.js
+/handbook-docs/
+/docs/
+
+# compiled output
+/dist/
+/tmp/
+
+# dependencies
+/bower_components/
+/node_modules/
+
+# misc
+/coverage/
+!.*
+.eslintcache
+
+# ember-try
+/.node_modules.ember-try/
+/bower.json.ember-try
+/package.json.ember-try

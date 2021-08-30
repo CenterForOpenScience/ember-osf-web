@@ -43,6 +43,8 @@ module('Collections | Acceptance | discover', hooks => {
         assert.dom(`[data-test-collection-search-result-node=${nodeAdded.id}]
                     [data-test-contributor-name=${currentUser.id}]`)
             .hasText(currentUser.familyName, 'contributor listed in search result for node added');
+        assert.dom('[data-test-provider-description]').containsText('Find out more', 'Provider description exists');
+        assert.dom('[data-test-provider-description] a').exists('There is a link in the provider description');
         await percySnapshot(assert);
     });
 
@@ -52,7 +54,7 @@ module('Collections | Acceptance | discover', hooks => {
         const node1 = server.create('node', {
             title: 'This is node1',
             currentUserPermissions: Object.values(Permission),
-            dateModified: '2018-01-01',
+            dateModified: new Date('2018-01-01'),
         });
         server.create('collected-metadatum', {
             creator: currentUser,
@@ -63,7 +65,7 @@ module('Collections | Acceptance | discover', hooks => {
         const node2 = server.create('node', {
             title: 'This is node2',
             currentUserPermissions: Object.values(Permission),
-            dateModified: '2017-01-01',
+            dateModified: new Date('2017-01-01'),
         });
         server.create('collected-metadatum', {
             creator: currentUser,
@@ -74,7 +76,7 @@ module('Collections | Acceptance | discover', hooks => {
         const node3 = server.create('node', {
             title: 'This is node3',
             currentUserPermissions: Object.values(Permission),
-            dateModified: '2019-01-01',
+            dateModified: new Date('2019-01-01'),
         });
         server.create('collected-metadatum', {
             creator: currentUser,

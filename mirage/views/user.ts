@@ -8,7 +8,7 @@ export function userNodeList(this: HandlerContext, schema: Schema, request: Requ
     const { contributorIds } = user;
     for (const contributorId of contributorIds as string[]) {
         const { node } = schema.contributors.find(contributorId);
-        if (node.modelName === 'node' && filter(node, request)) {
+        if (node?.modelName === 'node' && filter(node, request)) {
             nodes.push(this.serialize(node).data);
         }
     }
@@ -22,7 +22,7 @@ export function userRegistrationList(this: HandlerContext, schema: Schema, reque
     const { contributorIds } = user;
     for (const contributorId of contributorIds as string[]) {
         const { node } = schema.contributors.find(contributorId);
-        if (node.modelName === 'registration' && filter(node, request)) {
+        if (node?.modelName === 'registration' && filter(node, request)) {
             nodes.push(this.serialize(node).data);
         }
     }

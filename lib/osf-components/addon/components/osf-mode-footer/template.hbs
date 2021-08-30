@@ -2,7 +2,7 @@
     <OsfDialog @isModal={{false}} as |dialog|>
         <dialog.trigger>
             <div local-class='DevBanner'>
-                <OsfButton
+                <BsButton
                     title={{t 'dev_tools.title'}}
                     @type='link'
                     @onClick={{dialog.open}}
@@ -12,7 +12,7 @@
                     {{else}}
                         <strong>{{t 'general.warning'}}</strong>: {{t 'osf_mode_footer.dev_mode'}}
                     {{/if}}
-                </OsfButton>
+                </BsButton>
                 {{#if this.showUrlInput}}
                     <Input
                         @type='text'

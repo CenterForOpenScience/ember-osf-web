@@ -4,7 +4,6 @@ import { action, computed } from '@ember/object';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import NodeModel from 'ember-osf-web/models/node';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import { HierarchicalListManager } from 'osf-components/components/registries/hierarchical-list';
 
 import template from './template';
@@ -23,10 +22,10 @@ export interface HierarchicalListItemManager {
 export default class HierarchicalListItemManagerComponent extends Component {
     listManager!: HierarchicalListManager;
     item!: NodeModel;
-    shouldShowChildren: boolean = true;
-    isRoot: boolean = defaultTo(this.isRoot, false);
+    shouldShowChildren = true;
+    isRoot = false;
 
-    @computed('listManager.selectedNodes.[]')
+    @computed('item', 'listManager.selectedNodes.[]')
     get itemChecked() {
         return this.listManager.isChecked(this.item);
     }

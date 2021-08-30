@@ -1,20 +1,19 @@
+import Store from '@ember-data/store';
 import EmberArray, { A } from '@ember/array';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import { waitFor } from '@ember/test-waiters';
+import { task } from 'ember-concurrency';
 import Features from 'ember-feature-flags/services/features';
 import appConfig from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
-import RegistrationSchema from 'ember-osf-web/adapters/registration-schema';
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import ProviderModel from 'ember-osf-web/models/provider';
 import Analytics from 'ember-osf-web/services/analytics';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import { SearchOptions } from 'registries/services/search';
 import { ShareTermsFilter } from 'registries/services/share-search';
@@ -30,7 +29,7 @@ const {
 export default class RegistriesRegistrationTypeFacet extends Component {
     @service intl!: Intl;
     @service toast!: Toast;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service analytics!: Analytics;
     @service features!: Features;
 
@@ -38,12 +37,13 @@ export default class RegistriesRegistrationTypeFacet extends Component {
     provider?: ProviderModel;
     @requiredAction onSearchOptionsUpdated!: (options: SearchOptions) => void;
 
-    registrationTypes: EmberArray<string> = defaultTo(this.registrationTypes, A([]));
+    registrationTypes: EmberArray<string> = A([]);
 
-    @task({ withTestWaiter: true, on: 'init' })
-    fetchRegistrationTypes = task(function *(this: RegistriesRegistrationTypeFacet): any {
+    @task({ on: 'init' })
+    @waitFor
+    async fetchRegistrationTypes() {
         try {
-            const metaschemas: RegistrationSchema[] = yield this.store.query('registration-schema', {
+            const metaschemas = await this.store.query('registration-schema', {
                 'page[size]': 100,
             });
             const metaschemaNames = metaschemas.mapBy('name');
@@ -62,13 +62,13 @@ export default class RegistriesRegistrationTypeFacet extends Component {
             this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
         }
-    });
+    }
 
     get title() {
         return this.intl.t('registries.facets.registration_type.title');
     }
 
-    @computed('searchOptions')
+    @computed('searchOptions.filters')
     get onlyOSF() {
         const osfSelected = this.searchOptions.filters.find(
             item => item instanceof ShareTermsFilter
@@ -78,7 +78,7 @@ export default class RegistriesRegistrationTypeFacet extends Component {
         return this.searchOptions.filters.filter(filter => filter.key === 'sources').size === 1 && osfSelected;
     }
 
-    @computed('searchOptions', 'registrationTypes')
+    @computed('registrationTypes', 'searchOptions.filters')
     get types() {
         return this.registrationTypes.map(name => {
             const filter = new ShareTermsFilter('registration_type', name, name);

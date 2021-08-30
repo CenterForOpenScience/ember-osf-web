@@ -1,4 +1,3 @@
-// import DS from 'ember-data';
 import OsfAdapter from './osf-adapter';
 
 export default class MeetingSubmissionAdapter extends OsfAdapter {

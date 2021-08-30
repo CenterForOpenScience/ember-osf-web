@@ -3,6 +3,7 @@
         @model={{@user}}
         @relationshipName='registrations'
         @usePlaceholders={{false}}
+        @query={{this.queryParam}}
         as |list|
     >
         <list.item as |registration|>
@@ -24,9 +25,9 @@
                     {{t 'registries.myRegistrationsList.noRegistrations'}}
                 </p>
                 <OsfLink
+                    data-test-my-reg-registrations-add-new-button
                     @route='registries.branded.new'
                     @models={{array 'osf'}}
-                    data-test-add-new-button
                 >
                     <Button @type='create'>
                         {{t 'registries.myRegistrationsList.createRegistration'}}

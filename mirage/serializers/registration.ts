@@ -152,7 +152,7 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
             const { providerId } = model.attrs;
             relationships.provider = {
                 data: {
-                    id: providerId,
+                    id: providerId as string,
                     type: 'registration-providers',
                 },
                 links: {
@@ -168,7 +168,7 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
             const { parentId } = model.attrs;
             relationships.parent = {
                 data: {
-                    id: parentId,
+                    id: parentId as string,
                     type: this.typeKeyForModel(model),
                 },
                 links: {
@@ -183,7 +183,7 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
             const { rootId } = model.attrs;
             relationships.root = {
                 data: {
-                    id: rootId,
+                    id: rootId as string,
                     type: this.typeKeyForModel(model),
                 },
                 links: {
@@ -198,7 +198,7 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
             const { registeredFromId } = model.attrs;
             relationships.registeredFrom = {
                 data: {
-                    id: registeredFromId,
+                    id: registeredFromId as string,
                     type: 'nodes',
                 },
                 links: {
@@ -213,7 +213,7 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
             const { registrationSchemaId } = model.attrs;
             relationships.registrationSchema = {
                 data: {
-                    id: registrationSchemaId,
+                    id: registrationSchemaId as string,
                     type: 'registration_schemas',
                 },
                 links: {
@@ -228,7 +228,7 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
             const { licenseId } = model.attrs;
             relationships.license = {
                 data: {
-                    id: licenseId,
+                    id: licenseId as string,
                     type: 'licenses',
                 },
                 links: {
@@ -240,5 +240,12 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
             };
         }
         return relationships;
+    }
+
+    buildApiMeta(model: ModelInstance<MirageRegistration>) {
+        return {
+            ...super.buildApiMeta(model),
+            ...(model.attrs._anonymized ? { anonymous: true } : {}),
+        };
     }
 }

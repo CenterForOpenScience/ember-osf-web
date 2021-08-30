@@ -13,7 +13,6 @@ import User from 'ember-osf-web/models/user';
 import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import cleanURL from 'ember-osf-web/utils/clean-url';
-import defaultTo from 'ember-osf-web/utils/default-to';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
 import styles from './styles';
@@ -35,16 +34,11 @@ export class AuthBase extends Component {
      */
     loginAction?: () => void;
 
-    /**
-     * The URL to redirect to after logout
-     */
-    redirectUrl: string = defaultTo(this.redirectUrl, '/goodbye');
-
     campaign?: string;
 
-    profileURL: string = defaultTo(this.profileURL, pathJoin(baseUrl, 'profile'));
-    settingsURL: string = defaultTo(this.settingsURL, pathJoin(baseUrl, 'settings'));
-    signUpURL: string = defaultTo(this.signUpURL, pathJoin(baseUrl, 'register'));
+    profileURL = pathJoin(baseUrl, 'profile');
+    settingsURL = pathJoin(baseUrl, 'settings');
+    signUpURL = pathJoin(baseUrl, 'register');
     onLinkClicked?: () => void;
 
     @computed('router.currentURL')
@@ -52,7 +46,7 @@ export class AuthBase extends Component {
         return pathJoin(baseUrl, cleanURL(this.router.currentURL));
     }
 
-    @computed('router.currentRouteName', 'signUpNext')
+    @computed('campaign', 'router.currentRouteName', 'signUpNext')
     get signUpQueryParams() {
         const params: Record<string, string> = {};
 
@@ -72,11 +66,6 @@ export class AuthBase extends Component {
     @action
     login() {
         this.currentUser.login();
-    }
-
-    @action
-    logout() {
-        this.currentUser.logout(this.redirectUrl);
     }
 }
 

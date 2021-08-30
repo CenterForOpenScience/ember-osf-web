@@ -1,5 +1,5 @@
+import { attr, belongsTo, hasMany, AsyncHasMany, AsyncBelongsTo } from '@ember-data/model';
 import { computed } from '@ember/object';
-import DS from 'ember-data';
 
 import CollectedMetadatumModel, { choiceFields } from './collected-metadatum';
 import CollectionProviderModel from './collection-provider';
@@ -7,14 +7,14 @@ import NodeModel from './node';
 import OsfModel from './osf-model';
 import RegistrationModel from './registration';
 
-const { attr, belongsTo, hasMany } = DS;
-
 export type ChoicesFields =
     'collectedTypeChoices' |
     'issueChoices' |
     'programAreaChoices' |
     'statusChoices' |
-    'volumeChoices';
+    'volumeChoices' |
+    'studyDesignChoices' |
+    'schoolTypeChoices';
 
 export const choicesFields = choiceFields.map(field => `${field}Choices`) as ChoicesFields[];
 
@@ -30,18 +30,20 @@ export default class CollectionModel extends OsfModel {
     @attr('array') programAreaChoices!: string[];
     @attr('array') statusChoices!: string[];
     @attr('array') volumeChoices!: string[];
+    @attr('array') studyDesignChoices!: string[]; // custom field for Character Lab
+    @attr('array') schoolTypeChoices!: string[]; // custom field for Character Lab
 
     @belongsTo('collection-provider')
-    provider!: DS.PromiseObject<CollectionProviderModel> & CollectionProviderModel;
+    provider!: AsyncBelongsTo<CollectionProviderModel> & CollectionProviderModel;
 
     @hasMany('node', { inverse: null })
-    linkedNodes!: DS.PromiseManyArray<NodeModel>;
+    linkedNodes!: AsyncHasMany<NodeModel>;
 
     @hasMany('registration', { inverse: null })
-    linkedRegistrations!: DS.PromiseManyArray<RegistrationModel>;
+    linkedRegistrations!: AsyncHasMany<RegistrationModel>;
 
     @hasMany('collected-metadatum', { inverse: 'collection' })
-    collectedMetadata!: DS.PromiseManyArray<CollectedMetadatumModel>;
+    collectedMetadata!: AsyncHasMany<CollectedMetadatumModel>;
 
     @computed(`{${choicesFields.join()}}.length`)
     get displayChoicesFields() {
