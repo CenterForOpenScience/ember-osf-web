@@ -52,5 +52,6 @@ module('Integration | Service | current-user', hooks => {
             url: fakeEndpointUrl,
             type: 'POST',
         });
+        server.shutdown();
     });
 });

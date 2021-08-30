@@ -92,7 +92,7 @@ export default Factory.extend<MirageNode & NodeTraits>({
         afterCreate(node, server) {
             const registrationCount = faker.random.number({ min: 5, max: 15 });
             for (let i = 0; i < registrationCount; i++) {
-                const registration = server.create('registration', {
+                const reg = server.create('registration', {
                     registeredFrom: node,
                     category: node.category,
                     title: node.title,
@@ -101,7 +101,7 @@ export default Factory.extend<MirageNode & NodeTraits>({
                     ),
                 });
                 node.contributors.models.forEach(
-                    contributor => server.create('contributor', { node: registration, users: contributor.users }),
+                    contributor => server.create('contributor', { node: reg, users: contributor.users }),
                 );
             }
         },

@@ -19,7 +19,7 @@ const { OSF: { url: baseURL } } = config;
 export default class RegistriesStates extends Component {
     // Required
     registration!: RegistrationModel;
-    isModeratorMode: boolean = this.isModeratorMode;
+    isModeratorMode!: boolean;
 
     // Private
     @service intl!: Intl;
@@ -41,13 +41,15 @@ export default class RegistriesStates extends Component {
         }
     }
 
+    /* eslint-disable max-len */
     @computed(
-        'registration.{reviewsState,pendingRegistrationApproval,pendingEmbargoApproval,userHasAdminPermission}',
+        'isModeratorMode', 'projectUrl',
+        'registration.{embargoEndDate,pendingEmbargoApproval,pendingRegistrationApproval,reviewsState,userHasAdminPermission}',
         'stateIcon',
-        'isModeratorMode',
     )
+    /* eslint-enable max-len */
     get stateText() {
-        if (!this.registration) {
+        if (!this.registration || !this.registration.reviewsState) {
             return undefined;
         }
         let stateKey;
@@ -55,8 +57,6 @@ export default class RegistriesStates extends Component {
             stateKey = 'pendingRegistrationApproval';
         } else if (this.registration.pendingEmbargoApproval) {
             stateKey = 'pendingEmbargoApproval';
-        } else if (!this.registration.userHasAdminPermission && !this.isModeratorMode) {
-            stateKey = RegistrationReviewStates.Accepted;
         } else {
             stateKey = camelize(this.registration.reviewsState);
         }
@@ -75,6 +75,7 @@ export default class RegistriesStates extends Component {
     @computed('registration.{userHasAdminPermission,reviewsState}')
     get shouldOpenDropdownOnLoad() {
         return this.registration.userHasAdminPermission
+        && this.registration.reviewsState
         && ![
             RegistrationReviewStates.Embargo,
             RegistrationReviewStates.Accepted,
@@ -96,6 +97,7 @@ export default class RegistriesStates extends Component {
             !this.registration.isRoot
             || !this.registration.userHasAdminPermission
             || this.isModeratorMode
+            || !this.registration.reviewsState
             || !(
                 [RegistrationReviewStates.Accepted, RegistrationReviewStates.Embargo].includes(
                     this.registration.reviewsState,

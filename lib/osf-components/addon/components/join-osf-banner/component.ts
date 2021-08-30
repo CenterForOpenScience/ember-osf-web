@@ -24,7 +24,7 @@ export default class JoinOsfBanner extends Component {
     @service analytics!: Analytics;
     @service session!: Session;
 
-    dismissed: boolean = false;
+    dismissed = false;
     storage = window.localStorage;
     previouslyDismissed = this.storage.getItem(dismissedKey) !== null;
 

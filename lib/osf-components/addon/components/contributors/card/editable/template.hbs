@@ -3,11 +3,10 @@
     <div data-test-contributor-card-main local-class='MainSection'>
         <span local-class='CardSection'>
             <span local-class='Handle'>
-                {{#@item.handle}}
-                    <FaIcon
-                        @icon='sort'
-                        data-test-sortable-handle={{@contributor.id}}
-                    />
+                {{#@item.handle aria-label=(t 'osf-components.contributors.reorderContributor.reorderContributor')}}
+                    <span data-test-sortable-handle={{@contributor.id}}>
+                        {{t 'osf-components.contributors.reorderContributor.dragHandle'}}
+                    </span>
                 {{/@item.handle}}
             </span>
             <img
@@ -34,7 +33,7 @@
             <PowerSelect
                 @selected={{@contributor.permission}}
                 @options={{this.permissionOptions}}
-                @onchange={{fn @manager.updateContributorPermission @contributor}}
+                @onChange={{fn @manager.updateContributorPermission @contributor}}
                 @searchEnabled={{false}}
                 as |option|
             >
@@ -47,6 +46,7 @@
             <Input
                 @type='checkbox'
                 @checked={{readonly @contributor.bibliographic}}
+                aria-label={{t 'app_components.project_contributors.list.citation'}}
                 data-test-contributor-citation-checkbox
                 data-analytics-name='Toogle isBibliographic'
                 {{on 'click' (fn @manager.toggleContributorIsBibliographic @contributor)}}
@@ -55,7 +55,7 @@
         <span
             data-test-contributor-caret={{@contributor.id}}
             data-analytics-name='{{if this.showDropdown 'Collapse' 'Expand'}} employment and education info'
-            aria-label={{if this.showDropdown  
+            aria-label={{if this.showDropdown
                 (t 'osf-components.contributors.educationAndEmployment.collapse')
                 (t 'osf-components.contributors.educationAndEmployment.expand')
             }}
@@ -74,8 +74,8 @@
                 @noBackground={{true}}
                 @delete={{fn @manager.removeContributor @contributor}}
                 @modalTitle={{t 'osf-components.contributors.removeContributor.confirmRemove.title'}}
-                @modalBody={{t 
-                    'osf-components.contributors.removeContributor.confirmRemove.body' 
+                @modalBody={{t
+                    'osf-components.contributors.removeContributor.confirmRemove.body'
                     userName=(if @contributor.unregisteredContributor
                         @contributor.unregisteredContributor
                         @contributor.users.fullName
@@ -100,7 +100,7 @@
                     {{/each}}
                 {{else}}
                     <li>
-                        {{t 'osf-components.contributors.noEmployment'}}    
+                        {{t 'osf-components.contributors.noEmployment'}}
                     </li>
                 {{/if}}
                 {{#if @contributor.users.education}}
@@ -114,7 +114,7 @@
                         </li>
                     {{/each}}
                 {{else}}
-                    <li>    
+                    <li>
                         {{t 'osf-components.contributors.noEducation'}}
                     </li>
                 {{/if}}

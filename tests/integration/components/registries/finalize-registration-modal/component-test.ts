@@ -1,6 +1,8 @@
-import { click, fillIn, render, settled } from '@ember/test-helpers';
+import { click, render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+// @ts-ignore: add ember-flatpickr types
+import { setFlatpickrDate } from 'ember-flatpickr/test-support/helpers';
 import { t } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import moment from 'moment';
@@ -20,7 +22,7 @@ module('Integration | Component | finalize-registration-modal', hooks => {
         const draftRegistration = server.create('draft-registration', { branchedFrom: node });
 
         const registrationModel = await this.store.findRecord('registration', registration.id);
-        this.set('draftManager', { provider, draftRegistration });
+        this.set('draftManager', { provider, draftRegistration, validateAllVisitedPages: () => { /* noop */ } });
         this.set('model', registrationModel);
         this.set('isOpen', false);
         await render(hbs`
@@ -86,7 +88,7 @@ module('Integration | Component | finalize-registration-modal', hooks => {
         // Check that `embargoEndDate` of the registration model is null
         assert.equal(registrationModel.embargoEndDate, null);
         // Enter an invalid date for embargo
-        await fillIn('[data-test-embargo-date-input] > div > input', moment().format('MM/DD/YYYY'));
+        await setFlatpickrDate('[data-test-embargo-date-input] > div > input', moment().format('MM/DD/YYYY'));
         // Check that`embargoEndDate` of the registration model is null
         // And that the submit button is disabled
         assert.equal(registrationModel.embargoEndDate, null);
@@ -119,7 +121,11 @@ module('Integration | Component | finalize-registration-modal', hooks => {
         const draftRegistration = server.create('draft-registration', { branchedFrom: node });
 
         const registrationModel = await this.store.findRecord('registration', noModRegistration.id);
-        this.set('draftManager', { provider: noModerationProvider, draftRegistration });
+        this.set('draftManager', {
+            provider: noModerationProvider,
+            draftRegistration,
+            validateAllVisitedPages: () => { /* noop */ },
+        });
         this.set('model', registrationModel);
         this.set('isOpen', true);
         await render(hbs`
@@ -163,6 +169,7 @@ module('Integration | Component | finalize-registration-modal', hooks => {
                 provider: withModerationProvider,
                 reviewsWorkflow: 'pre-moderation',
                 draftRegistration,
+                validateAllVisitedPages: () => { /* noop */ },
             },
         );
         this.set('model', registrationModel);
@@ -198,7 +205,11 @@ module('Integration | Component | finalize-registration-modal', hooks => {
         const draftRegistration = server.create('draft-registration', { hasProject: false });
 
         const registrationModel = await this.store.findRecord('registration', noModRegistration.id);
-        this.set('draftManager', { provider: noModerationProvider, draftRegistration });
+        this.set('draftManager', {
+            provider: noModerationProvider,
+            draftRegistration,
+            validateAllVisitedPages: () => { /* noop */ },
+        });
         this.set('model', registrationModel);
         this.set('isOpen', true);
         await render(hbs`
@@ -241,6 +252,7 @@ module('Integration | Component | finalize-registration-modal', hooks => {
                 provider: withModerationProvider,
                 reviewsWorkflow: 'pre-moderation',
                 draftRegistration,
+                validateAllVisitedPages: () => { /* noop */ },
             },
         );
         this.set('model', registrationModel);

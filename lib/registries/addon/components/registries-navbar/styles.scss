@@ -13,7 +13,7 @@
     :global(.open) & {
         color: $slate-gray;
 
-        & svg:global(.fa) {
+        & svg:global(.fa-fw) {
             color: $secondary-blue;
         }
     }
@@ -52,6 +52,7 @@
 }
 
 :global(.media-mobile) .HideOnMobile,
+:global(.media-tablet) .HideOnTablet,
 :global(.media-desktop) .OnlyOnMobile,
 :global(.media-tablet) .OnlyOnMobile {
     display: none;

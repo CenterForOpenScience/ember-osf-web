@@ -112,24 +112,14 @@ maintenance:
     line2: 'Thank you for your patience.'
     title: 'Notice:'
 quickfiles:
-    title: '{user-name}''s Quick Files'
+    title: '{userName}''s Quick Files'
     description: 'Files uploaded here are <b>publicly accessible</b> and easy to share with others using the share link.'
-    feedback_dialog_text: 'Tell us what you think of Quick Files'
     transition_auth: 'You must be logged in to view your Quick Files. Redirecting to the login page.'
     share_by_email: 'Share by email'
-feedback:
-    button_text: Feedback
-    placeholder: 'Share your feedback'
-    follow_up_label: 'Contact me about further opportunities to improve OSF.'
-    title: 'Send feedback'
-    confirm_button_text: Send
-    thank_you: 'Thank you!'
-    success: 'Your feedback has been submitted.'
-    dismiss: 'Got it'
 file_detail:
     version:
         id: 'Version ID'
-        title: '(Version: {version-number})'
+        title: '(Version: {versionNumber})'
     embed:
         dynamic: 'Dynamically render iframe with JavaScript'
         direct: 'Direct iframe with fixed height and width'
@@ -137,7 +127,7 @@ file_detail:
     toggle: 'Toggle view:'
     delete_file:
         question: 'Delete file?'
-        confirm: 'Are you sure you want to delete <b>{file-name}</b>?'
+        confirm: 'Are you sure you want to delete <b>{fileName}</b>?'
     sha2_description: 'SHA-2 is a cryptographic hash function designed by the NSA used to verify data integrity.'
     md5_description: 'MD5 is an algorithm used to verify data integrity.'
     delete_success: 'File deleted'
@@ -624,7 +614,7 @@ node:
     registrations:
         new_registration_modal:
             title: Register
-            info: 'Registration creates a frozen version of the project. Your original project remains editable and will have the registration linked. Things to know about registration:<ul><li><strong>Registrations cannot be edited or deleted.</strong></li><li>Withdrawing a registration removes its contents, but leaves behind basic metadata: title, contributors, date registered, date withdrawn, and justification (if provided).</li><li>Registrations can be public or embargoed for up to four years. Embargoed registrations will be made public automatically when the embargo expires.</li><li>Registrations are archived on Internet Archive and a link to the archived copy will be added to the registration metadata.</li></ul>Continue your registration by selecting a registration form:'
+            info: 'Registration creates a frozen version of the project. Your original project remains editable and will have the registration linked. Things to know about registration:<ul><li><strong>Registrations cannot be edited or deleted.</strong></li><li>Withdrawing a registration removes its contents, but leaves behind basic metadata: title, contributors, date registered, date withdrawn, and justification (if provided).</li><li>Registrations can be public or embargoed for up to four years. Embargoed registrations will be made public automatically when the embargo expires.</li></ul>Continue your registration by selecting a registration form:'
             create: 'Create draft'
         prereg_modal:
             title: 'Preregistration Challenge'
@@ -750,7 +740,7 @@ app_components:
             permissions: Permissions
             permissions_popover_title: 'Permission Information'
             permissions_popover: "\n                    <dl>\n                        <dt>Read</dt>\n                        <dd>\n                            <ul>\n                                <li>View project</li>\n                            </ul>\n                        </dd>\n                        <dt>Read + Write</dt>\n                        <dd>\n                            <ul>\n                                <li>Read privileges</li>\n                                <li>Add and configure project</li>\n                                <li>Add and edit content</li>\n                            </ul>\n                        </dd>\n                        <dt>Administrator</dt>\n                        <dd>\n                            <ul>\n                                <li>Read and write privileges</li>\n                                <li>Manage contributors</li>\n                                <li>Public-private settings</li>\n                            </ul>\n                        </dd>\n                    </dl>\n                "
-            citation: Citiation
+            citation: Citation
             citation_popover_title: 'Citation Information'
             citation_popover: 'Only checked contributors will be included in project citations. Contributors not in the citation can read and modify the project as normal.'
             remove_contributor_success: 'Project contributor removed!'
@@ -906,6 +896,8 @@ collections:
             issue: Issue
             program_area: 'Program Area'
             volume: Volume
+            study_design: 'Study Design'
+            school_type: 'School Type'
     collections_submission:
         title: Submit
         add_header: 'Add to Collection'
@@ -944,6 +936,8 @@ collections:
         program_area_label: 'Program Area:'
         status_label: 'Status:'
         volume_label: 'Volume:'
+        study_design_label: 'Study Design:'
+        school_type_label: 'School Type:'
     collection_search_result:
         expand: 'Expand search result'
         collapse: 'Collapse search result'
@@ -956,6 +950,8 @@ collections:
             remove_status: 'Remove status'
             remove_issue: 'Remove issue'
             remove_program_area: 'Remove program area'
+            remove_school_type: 'Remove school type'
+            remove_study_design: 'Remove study design'
             remove_volume: 'Remove volume'
         asOf: 'as of'
         broadenSearch: 'Try broadening your search terms'
@@ -1065,7 +1061,7 @@ registries:
         sidebar:
             refine_search: 'Refine Search'
             remove_filter_label: 'Remove {filterName} filter'
-            provider_count: '{count, shortNumber}'
+            provider_count: '{count, number, compact}'
         search_result:
             last_edited: 'Last edited: {date}'
             withdrawn: Withdrawn
@@ -1138,6 +1134,7 @@ registries:
         header: 'My Registrations'
         drafts: 'Drafts'
         submitted: 'Submitted'
+        sorted: 'Sorted by last updated'
     registration_metadata:
         add_description: 'Add description'
         add_contributors:
@@ -1155,7 +1152,7 @@ registries:
             save: 'Save'
             clear_all: 'Clear all'
         add_license: 'Add license'
-        license_help_text: 'A license tells others how they can use your work in the future and only applies to the information and files submitted with the registration. For more information, see this <a href=''https://help.osf.io/hc/en-us/articles/360019739014-Licensing''>article on licenses</a>.'
+        license_help_text: 'A license tells others how they can use your work in the future and only applies to the information and files submitted with the registration. For more information, see this <a href="https://help.osf.io/hc/en-us/articles/360019739014-Licensing">article on licenses</a>.'
         affiliated_institutions: 'Affiliated institutions'
         category: Category
         choose_license: 'Choose a License'
@@ -1438,13 +1435,15 @@ meetings:
             location: Location
             date: Date
             empty: 'No results found for this search term.'
+            search: 'Search'
+
         meetings-hero-banner:
             image_alt: 'Logo for OSF meeting'
             h3: 'A <strong>free poster and presentation sharing service</strong> for academic meetings and conferences'
             conference_organizers_h3: 'For Conference Organizers'
             conference_organizers_help_text: 'Register your event to broaden its impact. Events get a dedicated page, an easy submission process, and persistent links.'
             conference_organizers_register_button: Register
-            conference_organizers_register_panel_texts: '<p>OSF Meetings is a product that we offer to academic conferences at no cost. To request poster and talk hosting for a conference:</p><p class=''text-center''><strong>Submit this <a href=''https://docs.google.com/forms/d/e/1FAIpQLSeBq4CfC5CjTBz49TP2dO9ZIsQc6QAAJFUoUbkS767Le9twLw/viewform''>set-up form </a></strong></p><p>We''ll review and add your conference within one business day.</p>'
+            conference_organizers_register_panel_texts: '<p>OSF Meetings is a product that we offer to academic conferences at no cost. To request poster and talk hosting for a conference:</p><p class="text-center"><strong>Submit this <a href="https://docs.google.com/forms/d/e/1FAIpQLSeBq4CfC5CjTBz49TP2dO9ZIsQc6QAAJFUoUbkS767Le9twLw/viewform">set-up form </a></strong></p><p>We''ll review and add your conference within one business day.</p>'
             conference_participants_h3: 'For Conference Participants'
             conference_participants_help_text: 'Share your posters and presentations along with any supporting data and materials. Get persistent links and usage analytics.'
             conference_participants_upload_button: Upload
@@ -1547,6 +1546,7 @@ osf-components:
         started: 'Started:'
         last_updated: 'Last updated:'
         review: Review
+        untitled_placeholder: '(Untitled)'
         delete_draft_confirm: 'Are you sure you want to delete this draft registration?'
     copyable-text:
         copyToClipboard: 'Copy to clipboard'
@@ -1575,6 +1575,7 @@ osf-components:
         tags: Tags
         add_tag: 'Add a tag to enhance discoverability'
         no_tags: 'No tags'
+        remove_tag: 'Remove tag'
     institutions-list:
         no_affiliated_institution:
             project: 'This project has no affiliated institutions'
@@ -1679,7 +1680,9 @@ osf-components:
             success: 'Contributor bibliographic status updated.'
             error: 'Error updating contributor bibliographic status.'
         reorderContributor:
+            reorderContributor: 'Reorder contributor'
             success: 'Contributor order updated.'
+            dragHandle: '⇕'
         noEducation: 'No education history to show'
         noEmployment: 'No employment history to show'
         addContributor:

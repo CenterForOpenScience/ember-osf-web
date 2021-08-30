@@ -9,6 +9,7 @@ export default buildRoutes(function() {
         this.route('edit');
     });
 
+    // eslint-disable-next-line ember/no-shadow-route-definition
     this.route('provider', { path: '/:slug' }, function() {
         this.route('page-not-found');
         this.route('forbidden');

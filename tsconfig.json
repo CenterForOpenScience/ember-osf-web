@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "es2020",
     "allowJs": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
@@ -13,51 +13,28 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "noEmitOnError": true,
+    "noEmitOnError": false,
     "noEmit": true,
     "inlineSourceMap": true,
     "inlineSources": true,
+    "skipLibCheck": true,
     "baseUrl": ".",
     "module": "es6",
+    "experimentalDecorators": true,
     "paths": {
-      "collections/*": [
-        "lib/collections/addon/*"
-      ],
-      "collections/config/*": [
-        "lib/collections/config/*"
-      ],
-      "registries/*": [
-        "lib/registries/addon/*"
-      ],
-      "registries/config/*": [
-        "lib/registries/config/*"
-      ],
       "ember-osf-web/tests/*": [
         "tests/*"
-      ],
-      "ember-osf-web/*": [
-        "app/*"
       ],
       "ember-osf-web/mirage/*": [
         "mirage/*"
       ],
-      "app-components": [
-        "lib/app-components/addon"
-      ],
-      "app-components/*": [
-        "lib/app-components/addon/*"
-      ],
-      "osf-components": [
-        "lib/osf-components/addon"
-      ],
-      "osf-components/*": [
-        "lib/osf-components/addon/*"
-      ],
-      "handbook": [
-        "lib/handbook/addon"
-      ],
-      "handbook/*": [
-        "lib/handbook/addon/*"
+      "ember-osf-web/*": [
+        "app/*",
+        "lib/analytics-page/app/*",
+        "lib/collections/app/*",
+        "lib/osf-components/app/*",
+        "lib/registries/app/*",
+        "lib/app-components/app/*"
       ],
       "analytics-page": [
         "lib/analytics-page/addon"
@@ -65,31 +42,57 @@
       "analytics-page/*": [
         "lib/analytics-page/addon/*"
       ],
+      "app-components": [
+        "lib/app-components/addon"
+      ],
+      "app-components/*": [
+        "lib/app-components/addon/*"
+      ],
+      "collections": [
+        "lib/collections/addon"
+      ],
+      "collections/*": [
+        "lib/collections/addon/*"
+      ],
+      "collections/config/*": [
+        "lib/collections/config/*"
+      ],
+      "osf-components": [
+        "lib/osf-components/addon"
+      ],
+      "osf-components/*": [
+        "lib/osf-components/addon/*"
+      ],
+      "registries": [
+        "lib/registries/addon"
+      ],
+      "registries/*": [
+        "lib/registries/addon/*"
+      ],
+      "registries/config/*": [
+        "lib/registries/config/*"
+      ],
       "config/*": [
         "config/*"
-      ],
-      "ember-bootstrap/components/*": [
-        "node_modules/ember-bootstrap/addon/components/bs3/*",
-        "node_modules/ember-bootstrap/addon/components/bs4/*"
       ],
       "*": [
         "types/*"
       ]
-    },
-    "experimentalDecorators": true,
-    "skipLibCheck": true
+    }
   },
   "include": [
-    "app",
-    "config",
-    "tests",
-    "mirage",
-    "types",
-    "lib/analytics-page",
-    "lib/collections",
-    "lib/app-components",
-    "lib/handbook",
-    "lib/osf-components",
-    "lib/registries"
+    "app/**/*",
+    "tests/**/*",
+    "config/*",
+    "types/**/*",
+    "lib/analytics-page/**/*",
+    "lib/app-components/**/*",
+    "lib/collections/**/*",
+    "lib/osf-components/**/*",
+    "lib/registries/**/*",
+    "mirage/**/*"
+  ],
+  "exclude": [
+    "handbook-docs/**/*"
   ]
 }

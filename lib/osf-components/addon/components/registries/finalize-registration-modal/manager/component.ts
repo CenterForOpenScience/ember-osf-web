@@ -4,6 +4,7 @@ import { assert } from '@ember/debug';
 import { action, computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
@@ -18,7 +19,7 @@ import template from './template';
 export interface FinalizeRegistrationModalManager {
     registration: RegistrationModel;
     hasEmbargoEndDate: boolean;
-    submitRegistration: () => void;
+    submitRegistration: () => Promise<void>;
     setEmbargoEndDate: (embargoEndDate: Date | null) => void;
     submittingRegistration: boolean;
     draftManager: DraftRegistrationManager;
@@ -26,11 +27,27 @@ export interface FinalizeRegistrationModalManager {
 
 @layout(template)
 @tagName('')
-export default class FinalizeRegistrationModalManagerComponent extends Component.extend({
-    submitRegistration: task(function *(this: FinalizeRegistrationModalManagerComponent) {
+export default class FinalizeRegistrationModalManagerComponent extends Component
+    implements FinalizeRegistrationModalManager {
+    @service intl!: Intl;
+    @service toast!: Toast;
+
+    // Required arguments
+    registration!: RegistrationModel;
+    draftManager!: DraftRegistrationManager;
+
+    // Optional arguments
+    onSubmitRegistration?: (registrationId: string) => void;
+
+    // Private
+    @alias('submitRegistration.isRunning') submittingRegistration!: boolean;
+
+    @task
+    @waitFor
+    async submitRegistration() {
         try {
             this.draftManager.validateAllVisitedPages();
-            yield this.registration.save();
+            await this.registration.save();
 
             if (this.onSubmitRegistration) {
                 this.onSubmitRegistration(this.registration.id);
@@ -41,28 +58,15 @@ export default class FinalizeRegistrationModalManagerComponent extends Component
             this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
         }
-    }),
-})
-    implements FinalizeRegistrationModalManager {
-    @service intl!: Intl;
-    @service toast!: Toast;
-
-    // Required attrs
-    registration!: RegistrationModel;
-    draftManager!: DraftRegistrationManager;
-
-    // Optional parameters
-    onSubmitRegistration?: (registrationId: string) => void;
-
-    @alias('submitRegistration.isRunning') submittingRegistration!: boolean;
-
-    didReceiveAttrs() {
-        assert('finalize-registration-modal::manager must have a registration', Boolean(this.registration));
     }
 
     @computed('registration.embargoEndDate')
     get hasEmbargoEndDate() {
         return this.registration.embargoEndDate instanceof Date;
+    }
+
+    didReceiveAttrs() {
+        assert('finalize-registration-modal::manager must have a registration', Boolean(this.registration));
     }
 
     @action

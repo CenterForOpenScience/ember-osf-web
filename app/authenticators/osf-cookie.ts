@@ -1,7 +1,7 @@
+import Store from '@ember-data/store';
 import { warn } from '@ember/debug';
 import { inject as service } from '@ember/service';
 import { camelize } from '@ember/string';
-import DS from 'ember-data';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
 import Base from 'ember-simple-auth/authenticators/base';
@@ -25,7 +25,7 @@ const {
 export default class OsfCookie extends Base {
     @service features!: Features;
     @service session!: Session;
-    @service store!: DS.Store;
+    @service store!: Store;
     @service currentUser!: CurrentUser;
 
     lastVerifiedUserId?: string;

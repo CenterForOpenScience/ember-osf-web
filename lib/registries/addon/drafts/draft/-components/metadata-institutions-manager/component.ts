@@ -2,7 +2,9 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
+import { waitFor } from '@ember/test-waiters';
+import { restartableTask, task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -29,11 +31,29 @@ export default class MetadataInstitutionsManagerComponent extends Component {
     affiliatedList!: QueryHasManyResult<Institution>;
     currentAffiliatedList!: QueryHasManyResult<Institution>;
 
-    @task({ withTestWaiter: true, restartable: true, on: 'didReceiveAttrs' })
-    loadNodeAffiliatedInstitutions = task(function *(this: MetadataInstitutionsManagerComponent) {
+    @task
+    @waitFor
+    async save() {
+        try {
+            await this.node.updateM2MRelationship('affiliatedInstitutions', this.currentAffiliatedList);
+            await this.node.reload();
+        } catch (e) {
+            const errorMessage = this.intl.t('registries.drafts.draft.metadata.save_institutions_error');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
+            throw e;
+        }
+        this.setProperties({
+            affiliatedList: [...this.currentAffiliatedList],
+        });
+    }
+
+    @restartableTask({ on: 'didReceiveAttrs' })
+    @waitFor
+    async loadNodeAffiliatedInstitutions() {
         if (this.node) {
             try {
-                const affiliatedList: QueryHasManyResult<Institution> = yield this.node.queryHasMany(
+                const affiliatedList = await this.node.queryHasMany(
                     'affiliatedInstitutions', {
                         pageSize: 100,
                     },
@@ -49,23 +69,7 @@ export default class MetadataInstitutionsManagerComponent extends Component {
                 throw e;
             }
         }
-    });
-
-    @task({ withTestWaiter: true })
-    save = task(function *(this: MetadataInstitutionsManagerComponent) {
-        try {
-            yield this.node.updateM2MRelationship('affiliatedInstitutions', this.currentAffiliatedList);
-            yield this.node.reload();
-        } catch (e) {
-            const errorMessage = this.intl.t('registries.drafts.draft.metadata.save_institutions_error');
-            captureException(e, { errorMessage });
-            this.toast.error(getApiErrorMessage(e), errorMessage);
-            throw e;
-        }
-        this.setProperties({
-            affiliatedList: [...this.currentAffiliatedList],
-        });
-    });
+    }
 
     @action
     toggleInstitution(institution: Institution) {
@@ -74,6 +78,6 @@ export default class MetadataInstitutionsManagerComponent extends Component {
         } else {
             this.currentAffiliatedList.pushObject(institution);
         }
-        this.save.perform();
+        taskFor(this.save).perform();
     }
 }

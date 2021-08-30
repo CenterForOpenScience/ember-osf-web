@@ -53,7 +53,7 @@ module('Integration | Component | tos-consent-banner', hooks => {
                 'You must read and agree to the Terms of Use and Privacy Policy.',
                 'Does not display validation error message.',
             );
-        await click('[class*="TosConsentBanner"] button[type="submit"]');
+        await click('[data-test-tos-consent-alert-submit-button]');
         assert.dom(this.element)
             .includesText(
                 'You must read and agree to the Terms of Use and Privacy Policy.',

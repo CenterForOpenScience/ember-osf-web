@@ -1,13 +1,15 @@
 <OsfDialog as |dialog|>
     <dialog.trigger>
-        <OsfButton
+        <BsButton
             data-analytics-name='View license'
             local-class='LinkButton'
             @type='link'
             @onClick={{dialog.open}}
         >
-            {{@registration.license.name}}
-        </OsfButton>
+            <div local-class='LicenseName'>
+                {{@registration.license.name}}
+            </div>
+        </BsButton>
     </dialog.trigger>
 
     <dialog.heading>

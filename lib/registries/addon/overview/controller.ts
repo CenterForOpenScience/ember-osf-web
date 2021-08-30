@@ -22,7 +22,7 @@ export default class Overview extends Controller {
     queryParams = ['mode'];
     supportEmail = supportEmail;
 
-    @tracked mode: string = '';
+    @tracked mode = '';
 
     @alias('model.taskInstance.value') registration?: Registration;
 

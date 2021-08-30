@@ -3,6 +3,7 @@
         <div class='m-t-sm'>
             <PowerSelect
                 @renderInPlace={{false}}
+                @searchEnabled={{true}}
                 @placeholder={{t 'move_to_project.select_placeholder'}}
                 @options={{this.items}}
                 @matcher={{this.matcher}}
@@ -16,7 +17,7 @@
                 @oninput={{action 'oninput'}}
                 @selected={{this.selected}}
                 @searchField='title'
-                @onchange={{action 'valueChanged'}}
+                @onChange={{action 'valueChanged'}}
                 as |item|
             >
                 {{get-ancestor-descriptor item}} <strong data-test-collections-node-title={{item.title}}>{{item.title}}</strong>

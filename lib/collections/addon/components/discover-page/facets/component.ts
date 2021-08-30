@@ -8,7 +8,7 @@ import template from './template';
 
 @layout(template, styles)
 export default class FacetedSearch extends Component {
-    facetContexts: FacetContexts = this.facetContexts;
+    facetContexts!: FacetContexts;
 
     @requiredAction filterChanged!: () => void;
 }

@@ -1,10 +1,8 @@
-import DS from 'ember-data';
+import Transform from '@ember-data/serializer/transform';
 import { mapKeysAndValues } from 'ember-osf-web/utils/map-keys';
 
 import fixSpecialChars from 'ember-osf-web/utils/fix-special-char';
 import { deserializeResponseKey, serializeResponseKey } from './registration-response-key';
-
-const { Transform } = DS;
 
 function isResponse(obj: unknown): obj is Record<string, unknown> {
     return typeof obj === 'object' && obj !== null && Object.keys(obj).every(key => typeof key === 'string');

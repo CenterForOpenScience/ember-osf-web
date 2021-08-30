@@ -1,7 +1,9 @@
+import Store from '@ember-data/store';
 import { computed, setProperties } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import { waitFor } from '@ember/test-waiters';
+import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Collection from 'ember-osf-web/models/collection';
@@ -19,22 +21,23 @@ interface Item {
 @layout(template, styles)
 export default abstract class SearchFacetChecklist extends Base {
     @service analytics!: Analytics;
-    @service store!: DS.Store;
+    @service store!: Store;
 
     allItems: Item[] = [];
 
     abstract get modelAttribute(): keyof Collection;
     abstract get filterProperty(): string;
 
-    @task({ withTestWaiter: true })
-    initialize = task(function *(this: SearchFacetChecklist): IterableIterator<any> {
-        const providers: CollectionProvider[] = this.theme.isProvider
-            ? [this.theme.provider]
-            : (yield this.store.findAll('collection-provider', {
+    @task
+    @waitFor
+    async initialize() {
+        const providers = this.theme.isProvider
+            ? [this.theme.provider] as CollectionProvider[]
+            : (await this.store.findAll('collection-provider', {
                 include: 'primary_collection',
             }));
 
-        const primaryCollections: Collection[] = yield Promise.all(
+        const primaryCollections = await Promise.all(
             providers.map(({ primaryCollection }) => primaryCollection),
         );
 
@@ -58,7 +61,7 @@ export default abstract class SearchFacetChecklist extends Base {
         });
 
         this.context.updateFilters();
-    });
+    }
 
     @computed('allItems.[]', 'context.activeFilter.[]')
     get items() {
@@ -104,6 +107,6 @@ export default abstract class SearchFacetChecklist extends Base {
             },
         });
 
-        this.initialize.perform();
+        taskFor(this.initialize).perform();
     }
 }

@@ -1,13 +1,11 @@
+import { belongsTo, attr } from '@ember-data/model';
 import { buildValidations, validator } from 'ember-cp-validations';
-import DS from 'ember-data';
 import { Link } from 'jsonapi-typescript';
 
 import getHref from 'ember-osf-web/utils/get-href';
 
 import OsfModel, { OsfLinks } from './osf-model';
 import UserModel from './user';
-
-const { attr, belongsTo } = DS;
 
 const Validations = buildValidations({
     twoFactorVerification: [

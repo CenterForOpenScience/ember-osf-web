@@ -1,5 +1,5 @@
 {{! using unsafeTitle here to avoid double encoding because the title helper does its own }}
-{{title (t 'forks.page_title' nodeTitle=this.model.taskInstance.value.unsafeTitle)}}
+{{page-title (t 'forks.page_title' nodeTitle=this.model.taskInstance.value.unsafeTitle)}}
 <div
     data-analytics-scope='Registration Forks'
     class='container'
@@ -15,33 +15,33 @@
             data-test-new-fork-modal-body
             data-analytics-scope='Registation Forks - New forks modal'
         >
-            <OsfButton
+            <BsButton
                 data-test-close-create-forks-modal
                 data-analytics-name='Close'
                 aria-label={{t 'general.close'}}
-                @class='close'
+                class='close'
                 @onClick={{action this.closeNewModal}}
             >
                 {{fa-icon 'times' size='sm'}}
-            </OsfButton>
+            </BsButton>
             <h3>{{t 'forks.create_fork_modal'}}</h3>
         </modal.body>
         <modal.footer data-analytics-scope='Registation Forks - New forks modal footer'>
-            <OsfButton
+            <BsButton
                 data-test-cancel-create-fork
                 data-analytics-name='Close'
                 @onClick={{action (mut this.newModal) false}}
             >
                 {{t 'general.cancel'}}
-            </OsfButton>
-            <OsfButton
+            </BsButton>
+            <BsButton
                 data-test-confirm-create-fork
                 data-analytics-name='Create fork'
                 @onClick={{action modal.submit}}
                 @type='info'
             >
                 {{t 'forks.fork'}}
-            </OsfButton>
+            </BsButton>
         </modal.footer>
     </BsModal>
     {{! Analytics being called in the controller action }}
@@ -95,11 +95,11 @@
     <div local-class='Forks__new-fork'>
         <div class='m-md'>
             {{#if this.currentUser.user}}
-                <OsfButton
+                <BsButton
                     data-test-new-fork-button
                     data-analytics-name='Create fork modal'
+                    disabled={{this.loadingNew}}
                     @type='success'
-                    @disabled={{this.loadingNew}}
                     @onClick={{action (mut this.newModal) true}}
                 >
                     {{#if this.loadingNew}}
@@ -107,7 +107,7 @@
                     {{else}}
                         {{t 'forks.new'}}
                     {{/if}}
-                </OsfButton>
+                </BsButton>
             {{/if}}
         </div>
     </div>

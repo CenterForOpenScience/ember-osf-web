@@ -13,7 +13,7 @@
             <FaIcon @icon='caret-down' />
         </Button>
     </dd.trigger>
-    <dd.content @class={{local-class 'Dropdown'}}>
+    <dd.content local-class='Dropdown'>
         <Registries::ReviewActionsList data-test-review-actions-list  @registration={{@registration}} />
         {{#if this.hasModeratorActions}}
             {{#each (get this.reviewsStateToDecisionMap @registration.reviewsState) as |option|}}
@@ -25,7 +25,7 @@
                             @type='radio'
                             @id={{uniqueId}}
                             @value={{option}}
-                            checked={{if (eq this.decisionTrigger option) true false}}
+                            @checked={{if (eq this.decisionTrigger option) true false}}
                             {{on 'click' (fn this.updateDecisionTrigger option)}}
                         />
                         <label

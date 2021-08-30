@@ -10,8 +10,8 @@ import template from './template';
 
 @layout(template, styles)
 export default class ProjectContributors extends Component {
-    node: Node = this.node;
-    contributors: ArrayProxy<Contributor> = this.contributors;
+    node!: Node;
+    contributors!: ArrayProxy<Contributor>;
     reloadContributorsList?: () => void; // bound by project-contributors/list
 
     @requiredAction discard!: () => void;

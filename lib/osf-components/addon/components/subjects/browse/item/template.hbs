@@ -20,7 +20,7 @@
         {{/if}}
 
         {{#if @singleSubjectManager.numChildren}}
-            <OsfButton
+            <BsButton
                 data-test-expand-children={{@singleSubjectManager.subject.id}}
                 local-class='ExpandButton'
                 role='button'
@@ -32,7 +32,7 @@
                     @icon='chevron-{{if this.shouldShowChildren 'up' 'down'}}'
                     @fixedWidth={{true}}
                 />
-            </OsfButton>
+            </BsButton>
         {{/if}}
     </label>
 

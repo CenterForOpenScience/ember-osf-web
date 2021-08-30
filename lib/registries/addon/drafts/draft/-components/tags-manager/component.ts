@@ -1,7 +1,7 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action, set } from '@ember/object';
-import { ChangesetDef } from 'ember-changeset/types';
+import { BufferedChangeset } from 'ember-changeset/types';
 import config from 'ember-get-config';
 
 import { layout } from 'ember-osf-web/decorators/component';
@@ -21,9 +21,9 @@ export type MetadataTagsManager = Pick<TagsManager, 'addTag' | 'removeTag' | 'cl
 @layout(template)
 export default class MetadataTagsManagerComponent extends Component {
     // required
-    changeset!: ChangesetDef;
+    changeset!: BufferedChangeset;
     valuePath!: string;
-    readOnly: boolean = false;
+    readOnly = false;
 
     // optional
     registration?: DraftRegistrationModel;

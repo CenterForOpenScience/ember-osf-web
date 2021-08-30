@@ -7,8 +7,10 @@ import {
     find,
     settled,
     triggerKeyEvent,
+    blur,
+    waitUntil,
+    findAll,
 } from '@ember/test-helpers';
-import { animationsSettled, TimeControl } from 'ember-animated/test-support';
 import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import config from 'ember-get-config';
@@ -65,6 +67,27 @@ module('Registries | Acceptance | draft form', hooks => {
         });
         await visit(`registries/drafts/${draftRegistration.id}/`);
         await percySnapshot('Branded draft page');
+    });
+
+    test('it redirects page-not-found for non-contributors', async function(
+        this: DraftFormTestContext, assert,
+    ) {
+        server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const draft = server.create(
+            'draft-registration', {
+                registrationSchema,
+                branchedFrom: this.branchedFrom,
+            },
+        );
+
+        server.namespace = '/v2';
+        server.get('/draft_registrations/:draftId', () => ({
+            errors: [{ detail: 'Non-contributor denied access to draft' }],
+        }), 403);
+
+        await visit(`/registries/drafts/${draft.id}/`);
+        assert.equal(currentRouteName(), 'registries.page-not-found', 'At page not found');
     });
 
     test('it redirects to review page of the draft form for read-only users', async function(
@@ -494,7 +517,6 @@ module('Registries | Acceptance | draft form', hooks => {
         await percySnapshot(assert);
 
         await click('[data-test-confirm-delete]');
-        await settled();
         assert.equal(currentURL(), '/dashboard', 'user is redirected to /dashboard');
     });
 
@@ -633,6 +655,7 @@ module('Registries | Acceptance | draft form', hooks => {
                     branchedFrom: rootNode,
                     currentUserPermissions: Object.values(Permission),
                     license: server.schema.licenses.first(),
+                    nodeLicense: { copyrightHolders: 'Jane Doe', year: '2021' },
                 },
             );
             const subjects = [server.create('subject')];
@@ -702,6 +725,7 @@ module('Registries | Acceptance | draft form', hooks => {
                     branchedFrom: draftNode,
                     currentUserPermissions: Object.values(Permission),
                     license: server.schema.licenses.first(),
+                    nodeLicense: { copyrightHolders: 'Jane Doe', year: '2021' },
                     hasProject: false,
                 },
             );
@@ -883,16 +907,21 @@ module('Registries | Acceptance | draft form', hooks => {
 
         // Input invalid Nodelicense fields
         await fillIn('[data-test-required-field="year"]', '');
+        await blur('[data-test-required-field="year"]');
         missingFields = 'Year, Copyright Holders';
         validationErrorMsg = t('validationErrors.node_license_missing_fields',
             { missingFields, numOfFields: 2 }).toString();
         assert.dom('[data-test-validation-errors="nodeLicense"]')
-            .containsText(validationErrorMsg, 'NodeLicense validation error when year and copyrightholder are empty');
-        await percySnapshot('Registries | Acceptance | draft form | metadata editing | metadata: invalid nodelicense');
+            .containsText(
+                validationErrorMsg,
+                'NodeLicense validation error when year and copyrightholder are empty',
+            );
+        await percySnapshot(
+            'Registries | Acceptance | draft form | metadata editing | metadata: invalid nodelicense',
+        );
 
         // validation errors for nodelicense should show on review page
         await click('[data-test-link="review"]');
-
         assert.dom('[data-test-validation-errors="nodeLicense"]').exists('NodeLicense errors exist on Review page');
         await percySnapshot('Registries | Acceptance | draft form | metadata editing | review: invalid nodelicense');
 
@@ -901,7 +930,7 @@ module('Registries | Acceptance | draft form', hooks => {
 
         await fillIn('[data-test-required-field="year"]', '2222');
         await fillIn('[data-test-required-field="copyrightHolders"]', 'Twice and BlackPink');
-        assert.dom('[data-test-validation-errors="nodeLicense"]')
+        assert.dom('[data-test-validation-errors="year"]')
             .doesNotExist('NodeLicense validation errrors gone when year and license holders are filled in');
 
         // NodeLicense fields appear on review page
@@ -924,11 +953,7 @@ module('Registries | Acceptance | draft form', hooks => {
             .doesNotExist('copyright holders field does not display on a license that does not require it');
     });
 
-    test('Contributor with write permissions can delete files/folder', async assert => {
-        const time = new TimeControl();
-        // Speed up ember-animated animations by 100x
-        time.runAtSpeed(100);
-
+    test('Contributor with write permissions can delete files/folder', async function(assert) {
         const initiator = server.create('user', 'loggedIn');
         const openEndedReg = server.schema.registrationSchemas.find('open_ended_registration');
         const branchedFrom = server
@@ -982,12 +1007,14 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom(`[data-test-delete-file="${folderOne.id}"] > button`)
             .doesNotExist('folderOne has no delete button');
         await click(`[data-test-file-browser-item="${folderOne.id}"]`);
-        await animationsSettled();
+
+        // wait till the fileOne delete toast has disappeared and can see folderOne files
+        await waitUntil(() => findAll('[data-test-file-row]').length === 2, { timeout: 2000 });
 
         assert.dom(`[data-test-delete-current-folder="${folderOne.id}"] > button`)
             .isVisible('folderOne has a delete button');
-        assert.dom('[data-test-file-browser-item]')
-            .exists({ count: 3 }, 'folderOne contains two visible files');
+        assert.dom('[data-test-file-row]')
+            .exists({ count: 2 }, 'folderOne contains two visible files');
         assert.dom(`[data-test-selected-file="${folderOneFileOne.id}"]`)
             .isVisible('folderOneFileOne is selected');
         assert.dom(`[data-test-selected-file="${folderOneFileTwo.id}"]`)

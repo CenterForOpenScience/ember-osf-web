@@ -8,11 +8,11 @@ const { StringTransform } = DS;
  * ```
  */
 export default class NodeCategoryTransform extends StringTransform {
-    deserialize(serialized: unknown, options: DS.AttrOptions) {
+    deserialize(serialized: string, options: DS.AttrOptions<string>) {
         return super.deserialize(serialized || 'uncategorized', options);
     }
 
-    serialize(deserialized: unknown, options: DS.AttrOptions) {
+    serialize(deserialized: string, options: DS.AttrOptions<string>) {
         return super.serialize(deserialized === 'uncategorized' ? '' : deserialized, options);
     }
 }

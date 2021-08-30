@@ -52,9 +52,12 @@
 }
 
 .RightWrapper {
-    padding: 30px;
     position: sticky;
     top: 0;
+}
+
+.RightNavWrapper {
+    padding: 30px;
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -68,8 +71,6 @@
 }
 
 .EditWarning {
-    position: sticky;
-    top: 223px; // this is the height of .RightWrapper and its content
     padding: 30px;
     display: flex;
     flex-direction: column;
@@ -110,10 +111,6 @@
 
 .SaveMessage {
     display: inline-block;
-}
-
-.SaveFailed {
-    color: $primary-red;
 }
 
 .SideBarToggle {

@@ -1,4 +1,4 @@
-import Transform from 'ember-data/transform';
+import Transform from '@ember-data/serializer/transform';
 
 export default class LinksTransform extends Transform {
     deserialize(serialized: any) {

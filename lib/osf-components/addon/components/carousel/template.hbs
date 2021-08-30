@@ -32,7 +32,7 @@
     <ul data-test-carousel-list local-class='item-list'>
         {{yield (hash slide=(component 'carousel/x-item' register=(action this.register) allItems=this.carouselItems))}}
     </ul>
-    <OsfButton
+    <BsButton
         data-test-carousel-button-previous
         data-analytics-name='Previous slide'
         local-class='btn'
@@ -46,8 +46,8 @@
             src='/assets/images/dashboard/arrow.svg'
             alt={{t 'osf-components.carousel.previous_slide'}}
         >
-    </OsfButton>
-    <OsfButton
+    </BsButton>
+    <BsButton
         data-test-carousel-button-next
         data-analytics-name='Next slide'
         local-class='btn btn-next'
@@ -60,5 +60,5 @@
             src='/assets/images/dashboard/arrow.svg'
             alt={{t 'osf-components.carousel.next_slide'}}
         >
-    </OsfButton>
+    </BsButton>
 </section>

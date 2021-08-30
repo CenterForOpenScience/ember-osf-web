@@ -23,7 +23,7 @@ export default class FinalizeRegisrationModalComponent extends Component {
     manager!: FinalizeRegistrationModalManager;
 
     // Private properties
-    makePublicOption: string = '';
+    makePublicOption = '';
     embargoRangeStartDate: Date = moment().add(3, 'days').toDate();
     embargoRangeEndDate: Date = moment().add(1460, 'days').toDate();
     learnMoreLink = config.helpLinks.linkToAProject;
@@ -39,7 +39,7 @@ export default class FinalizeRegisrationModalComponent extends Component {
         }
     }
 
-    @computed('manager.draftManager.{reviewsWorkflow,draftRegistration.hasProject}')
+    @computed('learnMoreLink', 'manager.draftManager.{draftRegistration.hasProject,reviewsWorkflow}')
     get noticeText() {
         const translationOptions = { learnMoreLink: this.learnMoreLink, htmlSafe: true };
         let translationString = '';

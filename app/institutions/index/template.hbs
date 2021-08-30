@@ -1,4 +1,4 @@
-{{title (t 'institutions.title')}}
+{{page-title (t 'institutions.title')}}
 <ScheduledBanner />
 <div
     data-analytics-scope='Institutions'
@@ -95,7 +95,7 @@
                                     {{/each}}
                                 </div>
                                 {{#if this.hasMore}}
-                                    <OsfButton
+                                    <BsButton
                                         data-test-more-institutions
                                         data-analytics-name='Next page'
                                         local-class='Institutions__more'
@@ -103,7 +103,7 @@
                                         @onClick={{action 'next'}}
                                     >
                                         {{fa-icon 'chevron-down' class='Institutions__pagination'}}
-                                    </OsfButton>
+                                    </BsButton>
                                 {{/if}}
                             </div>
                         </div>

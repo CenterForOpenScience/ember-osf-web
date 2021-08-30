@@ -9,9 +9,9 @@ import { Resource } from 'osf-api';
 // Automatic type safety for attributes and relationships appears prohibitively expensive.
 // Instead, use `unknown` to force explicit types.
 export type SparseModel = {
-    id: string | number;
-    modelName: string;
-    links?: Links;
+    id: string | number,
+    modelName: string,
+    links?: Links,
 } & Record<string, unknown>;
 
 export type SparseFieldset = {

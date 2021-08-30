@@ -1,9 +1,11 @@
+import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
+import ArrayProxy from '@ember/array/proxy';
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
+import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
-import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import { enqueueTask, restartableTask } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -15,41 +17,42 @@ import template from './template';
 @tagName('')
 @layout(template)
 export default class SubscriptionsManager extends Component {
-    @service store!: DS.Store;
+    @service store!: Store;
     @service toast!: Toast;
     @service intl!: Intl;
     // optional arguments
     subscriptionIds?: string[];
 
     // tracked properties
-    @tracked subscriptions: SubscriptionModel[] | null = null;
+    @tracked subscriptions: ArrayProxy<SubscriptionModel> | SubscriptionModel[] | null = null;
 
-    @task({ withTestWaiter: true, enqueue: true, on: 'didReceiveAttrs' })
-    fetchSubscriptions = task(function *(this: SubscriptionsManager) {
+    @enqueueTask({ on: 'didReceiveAttrs' })
+    @waitFor
+    async fetchSubscriptions() {
         try {
             if (Array.isArray(this.subscriptionIds) && this.subscriptionIds.length) {
-                this.subscriptions = yield this.store.query('subscription', {
+                this.subscriptions = await this.store.query('subscription', {
                     'filter[id]': this.subscriptionIds.join(','),
                 });
             } else {
-                this.subscriptions = yield this.store.findAll('subscription');
+                this.subscriptions = await this.store.findAll('subscription');
             }
         } catch (e) {
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
         }
-    });
+    }
 
-    @task({ withTestWaiter: true, restartable: true })
-    updateSubscriptionFrequency = task(function *(
-        this: SubscriptionsManager,
+    @restartableTask
+    @waitFor
+    async updateSubscriptionFrequency(
         subscription: SubscriptionModel,
         newFrequency: SubscriptionFrequency,
     ) {
         // eslint-disable-next-line no-param-reassign
         subscription.frequency = newFrequency;
         try {
-            yield subscription.save();
+            await subscription.save();
             this.toast.success(this.intl.t('osf-components.subscriptions.success'));
         } catch (e) {
             const errorMessage = this.intl.t('osf-components.subscriptions.error');
@@ -57,5 +60,5 @@ export default class SubscriptionsManager extends Component {
             this.toast.error(getApiErrorMessage(e), errorMessage);
             subscription.rollbackAttributes();
         }
-    });
+    }
 }

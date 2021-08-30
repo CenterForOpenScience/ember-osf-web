@@ -13,9 +13,9 @@ export default class GuidEdit extends Controller {
     @alias('model.taskInstance.value.collectedMetadatum') collectedMetadatum!: CollectedMetadatum;
     @alias('model.taskInstance.value.collectionItem') collectionItem!: Node;
 
-    isPageDirty: boolean = false;
+    isPageDirty = false;
 
-    @computed('this.collectedMetadatum.hasDirtyAttributes')
+    @computed('collectedMetadatum.hasDirtyAttributes')
     get isCollectedMetadatumDirty() {
         return this.collectedMetadatum.hasDirtyAttributes;
     }

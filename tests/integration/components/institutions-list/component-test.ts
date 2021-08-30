@@ -1,8 +1,8 @@
+import Store from '@ember-data/store';
 import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import DS from 'ember-data';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
@@ -12,12 +12,12 @@ import Node from 'ember-osf-web/models/node';
 import User from 'ember-osf-web/models/user';
 
 interface ThisTestContext extends TestContext {
-    store: DS.Store;
+    store: Store;
     manager: {
-        node?: Node;
-        user: User;
-        toggleInstitution: () => void;
-        affiliatedList?: Institution[];
+        node?: Node,
+        user: User,
+        toggleInstitution: () => void,
+        affiliatedList?: Institution[],
     };
     mirageNode: ModelInstance<Node>;
 }
@@ -32,10 +32,10 @@ module('Integration | Component | institutions-list', hooks => {
         this.store = this.owner.lookup('service:store');
 
         const mirageUser = server.create('user', 'withInstitutions');
-        const user = this.store.findRecord('user', mirageUser.id);
+        const user = await this.store.findRecord('user', mirageUser.id);
 
         const mirageNode = server.create('node');
-        const node = this.store.findRecord('node', mirageNode.id);
+        const node = await this.store.findRecord('node', mirageNode.id);
 
         const managerStub = {
             toggleInstitution: noop,

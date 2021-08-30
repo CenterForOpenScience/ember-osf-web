@@ -7,7 +7,7 @@ function isTruthy(val) {
 let localConfig;
 
 try {
-    localConfig = require('./local'); // eslint-disable-line global-require
+    localConfig = require('./local'); // eslint-disable-line global-require,node/no-missing-require
 } catch (ex) {
     localConfig = {};
 }
@@ -20,8 +20,6 @@ const {
     CLIENT_ID: clientId,
     COLLECTIONS_ENABLED = false,
     REGISTRIES_ENABLED = true,
-    HANDBOOK_ENABLED = false,
-    HANDBOOK_DOC_GENERATION_ENABLED = false,
     TESTS_ENABLED = false,
     FB_APP_ID,
     GIT_COMMIT: release,
@@ -128,21 +126,6 @@ module.exports = function(environment) {
             },
         ],
         FB_APP_ID,
-        microfeedback: {
-            enabled: true,
-            url: null,
-            pageParams: {
-                // Mapping of pageName to query params to add
-                // to the base MicroFeedback URL
-                // e.g. {
-                //    QuickFiles: {
-                //        componentID: '13836',
-                //        priorityID: '10100',
-                //    }
-                // }
-                QuickFiles: {},
-            },
-        },
         OSF: {
             clientId,
             scope,
@@ -298,10 +281,6 @@ module.exports = function(environment) {
             },
             registries: {
                 enabled: !devMode || isTruthy(REGISTRIES_ENABLED),
-            },
-            handbook: {
-                enabled: isTruthy(HANDBOOK_ENABLED),
-                docGenerationEnabled: HANDBOOK_DOC_GENERATION_ENABLED,
             },
         },
         'ember-cli-tailwind': {

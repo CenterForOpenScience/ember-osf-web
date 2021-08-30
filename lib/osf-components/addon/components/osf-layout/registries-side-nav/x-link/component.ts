@@ -3,7 +3,6 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 
 import { layout } from 'ember-osf-web/decorators/component';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import styles from './styles';
 import template from './template';
@@ -18,9 +17,9 @@ export default class XLink extends Component {
     href?: string;
     count?: number;
     guid?: string;
-    isCollapsed: boolean = defaultTo(this.isCollapsed, false);
-    isCurrentPage: boolean = defaultTo(this.isCurrentPage, false);
-    isDrawer?: boolean = defaultTo(this.isDrawer, false);
+    isCollapsed = false;
+    isCurrentPage = false;
+    isDrawer? = false;
 
     onClick?: () => void;
 

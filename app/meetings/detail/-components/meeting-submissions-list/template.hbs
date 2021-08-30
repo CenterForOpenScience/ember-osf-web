@@ -2,7 +2,7 @@
     <div class='col-xs-12 col-sm-6 col-sm-offset-6'>
         <Input
             @type='text'
-            @placeholder='Search'
+            @placeholder={{t 'meetings.index.meetings-list.search'}}
             @key-up={{perform this.searchSubmissions}}
         />
     </div>
@@ -41,6 +41,7 @@
                 </div>
                 <div data-test-submissions-list-header-download local-class='HeaderNarrow'>
                     {{t 'meetings.detail.meeting-submissions-list.downloads'}}
+                    <SortButton @sortBy='download_count' />
                 </div>
             {{/let}}
         </list.header>
@@ -62,13 +63,13 @@
                 </div>
                 <div data-test-submissions-list-item-download>
                     {{#if submission.links.download}}
-                        <OsfButton
+                        <BsButton
                             @type='success'
                             class='btn-xs'
                             @onClick={{action this.downloadFile submission}}
                         >
                             <FaIcon @icon='download' class='fa-inverse' />
-                        </OsfButton>
+                        </BsButton>
                         {{submission.downloadCount}}
                     {{/if}}
                 </div>

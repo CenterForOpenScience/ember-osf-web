@@ -1,13 +1,11 @@
+import { attr, belongsTo, AsyncBelongsTo } from '@ember-data/model';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
-import DS from 'ember-data';
 import Intl from 'ember-intl/services/intl';
 
 import OsfModel from './osf-model';
 import RegistrationModel from './registration';
 import UserModel from './user';
-
-const { attr, belongsTo } = DS;
 
 export enum ReviewActionTrigger {
     Submit = 'submit', // registration submitted by admins
@@ -35,7 +33,7 @@ export default class ReviewActionModel extends OsfModel {
     @service intl!: Intl;
 
     @attr('string') actionTrigger!: ReviewActionTrigger;
-    @attr('string') comment!: string;
+    @attr('fixstring') comment!: string;
     @attr('string') fromState!: string;
     @attr('string') toState!: string;
     @attr('date') dateCreated!: Date;
@@ -44,10 +42,10 @@ export default class ReviewActionModel extends OsfModel {
     @attr('boolean') visible!: boolean;
 
     @belongsTo('registration', { inverse: 'reviewActions', polymorphic: true })
-    target!: DS.PromiseObject<RegistrationModel> & RegistrationModel;
+    target!: AsyncBelongsTo<RegistrationModel> & RegistrationModel;
 
     @belongsTo('user', { inverse: null })
-    creator!: DS.PromiseObject<UserModel> & UserModel;
+    creator!: AsyncBelongsTo<UserModel> & UserModel;
 
     @computed('actionTrigger')
     get triggerPastTense(): string {

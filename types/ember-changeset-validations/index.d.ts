@@ -1,4 +1,4 @@
-import { ValidatorFunc } from 'ember-changeset/types';
+import { ValidatorAction, ValidatorMap } from 'ember-changeset/types';
 import { validator } from 'ember-validations';
 
 export type ValidatorResult = string | string[] | true | Promise<unknown>;
@@ -11,7 +11,7 @@ export type ValidatorFunction = (
     content: Record<string, unknown>,
 ) => ValidatorResult;
 
-export default function lookupValidator(validator: validatorObject): ValidatorFunc;
+export default function lookupValidator(validator: ValidatorMap): ValidatorAction;
 
 // FIXME: Below doesn't actually work, but setting it aside for now to get actual
 // functionality implemented. James is upgrading types a bit, and the following

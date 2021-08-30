@@ -1,17 +1,18 @@
 import { ErrorObject } from 'jsonapi-typescript';
 import { ErrorDocument } from 'osf-api';
 
+import { SafeString } from '@ember/template/-private/handlebars';
 import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
 
 // Raven is defined only in prod builds
 declare const Raven: undefined | {
-    captureException(e: ErrorDocument | Error, extra: object): void;
+    captureException(e: ErrorDocument | Error, extra: object): void,
 };
 
 // Errors from currentUser.authenticatedAJAX requests.
 interface AjaxRequestError {
     responseJSON: {
-        errors: ErrorObject[];
+        errors: ErrorObject[],
     };
 }
 
@@ -51,7 +52,7 @@ export function getApiErrors(error: ErrorDocument): Record<string, ErrorObject> 
 /* eslint-disable consistent-return */
 export default function captureException(
     error: Error | ErrorDocument,
-    extras: { errorMessage?: string } = {},
+    extras: { errorMessage?: string | SafeString } = {},
 ) {
     let apiErrors = {};
     if (!(error instanceof Error)) {
@@ -68,7 +69,6 @@ export default function captureException(
         return Raven.captureException(error, { extra });
     }
 
-    // eslint-disable-next-line no-console
-    console.error(error); // tslint:disable-line no-console
+    console.error(error); // eslint-disable-line  no-console
 }
 /* eslint-enable consistent-return */

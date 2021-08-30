@@ -11,7 +11,6 @@ import transitionTargetURL from 'ember-osf-web/utils/transition-target-url';
 const {
     engines: {
         collections,
-        handbook,
         registries,
     },
     featureFlagNames: {
@@ -19,6 +18,7 @@ const {
     },
 } = config;
 
+/* eslint-disable ember/no-get */
 const Router = EmberRouter.extend({
     currentUser: service('current-user'),
     features: service('features'),
@@ -90,6 +90,7 @@ const Router = EmberRouter.extend({
         return transition;
     },
 });
+/* eslint-enable ember/no-get */
 
 /* eslint-disable array-callback-return */
 
@@ -127,10 +128,6 @@ Router.map(function() {
 
     if (collections.enabled) {
         this.mount('collections');
-    }
-
-    if (handbook.enabled) {
-        this.mount('handbook');
     }
 
     if (registries.enabled) {
@@ -177,6 +174,7 @@ Router.map(function() {
 
     // Error routes
     this.route('error-no-api', { path: '*no_api_path' });
+    // eslint-disable-next-line ember/no-shadow-route-definition
     this.route('not-found', { path: '*path' });
 });
 

@@ -24,8 +24,9 @@ const statusMessagesStub = Service.extend({
 });
 
 const analyticsStub = Service.extend({
+    // eslint-disable-next-line ember/no-actions-hash
     actions: {
-        // tslint:disable-next-line:no-empty
+        // eslint-disable-next-line no-empty,@typescript-eslint/no-empty-function
         click() { },
     },
 });
@@ -41,6 +42,7 @@ const currentUserStub = Service.extend({
     },
 
     async checkShowTosConsentBanner() { /* stub */ },
+    async logout() { /* stub */ },
 });
 
 const featuresStub = Service.extend({
@@ -60,7 +62,6 @@ function visibleText(selector: string) {
     return $(`${selector} *:not(:has(*)):visible`).text().replace(/\s+/g, ' ').trim();
 }
 
-/* tslint:disable:only-arrow-functions */
 module('Registries | Integration | Component | registries-navbar', hooks => {
     setupEngineRenderingTest(hooks, 'registries');
     setupMirage(hooks);
@@ -158,7 +159,9 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         await render(hbs`<RegistriesNavbar />`);
         await percySnapshot(assert);
 
-        assert.equal(visibleText('[data-test-service]'), `${t('general.OSF')}${t('general.services.registries')}`);
+        assert.dom('[data-test-service]').doesNotContainText(
+            `${t('general.OSF')}${t('general.services.registries')}`, 'Navbar text hidden on tablet view',
+        );
         assert.dom('[data-test-search-bar-mobile]').isNotVisible('Mobile search bar is not visible on tablet');
 
         assert.dom('a[data-test-help]').isVisible('Help button is visible');
@@ -295,3 +298,4 @@ module('Registries | Integration | Component | registries-navbar', hooks => {
         assert.dom('[data-test-brand-link]').doesNotExist('Branded provider name does not exists');
     });
 });
+

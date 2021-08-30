@@ -1,10 +1,12 @@
-import { HandlerContext, Schema } from 'ember-cli-mirage';
+import { HandlerContext, ModelInstance, NormalizedRequestAttrs, Schema } from 'ember-cli-mirage';
+import { MirageNode } from '../factories/node';
+import { MirageRegistration } from '../factories/registration';
 
 export function createFork(this: HandlerContext, schema: Schema) {
-    const attrs = this.normalizedRequestAttrs('node');
+    const attrs = this.normalizedRequestAttrs('node') as Partial<NormalizedRequestAttrs<MirageNode>>;
     const nodeId = attrs.id;
     delete attrs.id;
-    const node = schema.nodes.find(nodeId);
+    const node = schema.nodes.find(nodeId!) as ModelInstance<MirageNode>;
     const fork = schema.nodes.create({
         forkedFrom: node,
         category: node.category,
@@ -25,10 +27,10 @@ export function createFork(this: HandlerContext, schema: Schema) {
 }
 
 export function createRegistrationFork(this: HandlerContext, schema: Schema) {
-    const attrs = this.normalizedRequestAttrs('node');
+    const attrs = this.normalizedRequestAttrs('node') as Partial<NormalizedRequestAttrs<MirageNode>>;
     const registrationId = attrs.id;
     delete attrs.id;
-    const registration = schema.registrations.find(registrationId);
+    const registration = schema.registrations.find(registrationId!) as ModelInstance<MirageRegistration>;
     const fork = schema.nodes.create({
         forkedFrom: registration,
         category: registration.category,

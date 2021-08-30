@@ -42,7 +42,8 @@
                     @removeTagAtIndex={{action this.removeTagAtIndex}}
                     @allowSpacesInTags={{true}}
                     @placeholder={{t 'osf-components.tags-widget.add_tag'}}
-                    @aria_label={{t 'file_detail.tags'}}
+                    @ariaLabel={{t 'osf-components.tags-widget.add_tag'}}
+                    aria-label={{t 'file_detail.tags'}}
                     @readOnly={{false}}
                     local-class='tagInput'
                     as |tag|
@@ -59,21 +60,21 @@
         </label>
     </div>
     <div class='col-xs-12 text-right'>
-        <OsfButton
+        <BsButton
             data-test-project-metadata-discard-button
+            disabled={{form.submitting}}
             @type='default'
-            @disabled={{form.submitting}}
             @onClick={{perform this.reset}}
         >
             {{t 'app_components.submit_section.discard'}}
-        </OsfButton>
-        <OsfButton
+        </BsButton>
+        <BsButton
             data-test-project-metadata-save-button
-            @type='primary'
+            disabled={{form.submitting}}
             @buttonType='submit'
-            @disabled={{form.submitting}}
+            @type='primary'
         >
             {{t 'app_components.submit_section.save'}}
-        </OsfButton>
+        </BsButton>
     </div>
 </ValidatedModelForm>

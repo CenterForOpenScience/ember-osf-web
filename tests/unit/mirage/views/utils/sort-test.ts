@@ -90,16 +90,16 @@ module('Unit | Mirage | Views | Utils | sort', hooks => {
     setupTest(hooks);
 
     test('it can sort', assert => {
-        const request = fakeRequest({ sort: 'string' });
+        const request = fakeRequest({ sort: 'str' });
         const unsorted = [
-            { attributes: { string: 'a', num: 3 } },
-            { attributes: { string: 'c', num: 2 } },
-            { attributes: { string: 'b', num: 1 } },
+            { attributes: { str: 'a', num: 3 } },
+            { attributes: { str: 'c', num: 2 } },
+            { attributes: { str: 'b', num: 1 } },
         ];
         const expected = [
-            { attributes: { string: 'a', num: 3 } },
-            { attributes: { string: 'b', num: 1 } },
-            { attributes: { string: 'c', num: 2 } },
+            { attributes: { str: 'a', num: 3 } },
+            { attributes: { str: 'b', num: 1 } },
+            { attributes: { str: 'c', num: 2 } },
         ];
         const sorted = sort(request, unsorted, {});
         assert.deepEqual(sorted, expected);
@@ -108,14 +108,14 @@ module('Unit | Mirage | Views | Utils | sort', hooks => {
     test('it can use a different key', assert => {
         const request = fakeRequest({ sort: 'num' });
         const unsorted = [
-            { attributes: { string: 'a', num: 3 } },
-            { attributes: { string: 'c', num: 2 } },
-            { attributes: { string: 'b', num: 1 } },
+            { attributes: { str: 'a', num: 3 } },
+            { attributes: { str: 'c', num: 2 } },
+            { attributes: { str: 'b', num: 1 } },
         ];
         const expected = [
-            { attributes: { string: 'b', num: 1 } },
-            { attributes: { string: 'c', num: 2 } },
-            { attributes: { string: 'a', num: 3 } },
+            { attributes: { str: 'b', num: 1 } },
+            { attributes: { str: 'c', num: 2 } },
+            { attributes: { str: 'a', num: 3 } },
         ];
         const sorted = sort(request, unsorted, {});
         assert.deepEqual(sorted, expected);
@@ -124,14 +124,14 @@ module('Unit | Mirage | Views | Utils | sort', hooks => {
     test('it can reverse sort', assert => {
         const request = fakeRequest({ sort: '-num' });
         const unsorted = [
-            { attributes: { string: 'a', num: 3 } },
-            { attributes: { string: 'c', num: 1 } },
-            { attributes: { string: 'b', num: 2 } },
+            { attributes: { str: 'a', num: 3 } },
+            { attributes: { str: 'c', num: 1 } },
+            { attributes: { str: 'b', num: 2 } },
         ];
         const expected = [
-            { attributes: { string: 'a', num: 3 } },
-            { attributes: { string: 'b', num: 2 } },
-            { attributes: { string: 'c', num: 1 } },
+            { attributes: { str: 'a', num: 3 } },
+            { attributes: { str: 'b', num: 2 } },
+            { attributes: { str: 'c', num: 1 } },
         ];
         const sorted = sort(request, unsorted, {});
         assert.deepEqual(sorted, expected);
@@ -141,14 +141,14 @@ module('Unit | Mirage | Views | Utils | sort', hooks => {
         const request = fakeRequest({ });
         const options: ProcessOptions = { defaultSortKey: 'num' };
         const unsorted = [
-            { attributes: { string: 'a', num: 3 } },
-            { attributes: { string: 'c', num: 2 } },
-            { attributes: { string: 'b', num: 1 } },
+            { attributes: { str: 'a', num: 3 } },
+            { attributes: { str: 'c', num: 2 } },
+            { attributes: { str: 'b', num: 1 } },
         ];
         const expected = [
-            { attributes: { string: 'b', num: 1 } },
-            { attributes: { string: 'c', num: 2 } },
-            { attributes: { string: 'a', num: 3 } },
+            { attributes: { str: 'b', num: 1 } },
+            { attributes: { str: 'c', num: 2 } },
+            { attributes: { str: 'a', num: 3 } },
         ];
         const sorted = sort(request, unsorted, options);
         assert.deepEqual(sorted, expected);
@@ -157,14 +157,14 @@ module('Unit | Mirage | Views | Utils | sort', hooks => {
     test('it can sort by id', assert => {
         const request = fakeRequest({ sort: 'id' });
         const unsorted = [
-            { id: 2, attributes: { string: 'a', num: 3 } },
-            { id: 1, attributes: { string: 'c', num: 2 } },
-            { id: 3, attributes: { string: 'b', num: 1 } },
+            { id: 2, attributes: { str: 'a', num: 3 } },
+            { id: 1, attributes: { str: 'c', num: 2 } },
+            { id: 3, attributes: { str: 'b', num: 1 } },
         ];
         const expected = [
-            { id: 1, attributes: { string: 'c', num: 2 } },
-            { id: 2, attributes: { string: 'a', num: 3 } },
-            { id: 3, attributes: { string: 'b', num: 1 } },
+            { id: 1, attributes: { str: 'c', num: 2 } },
+            { id: 2, attributes: { str: 'a', num: 3 } },
+            { id: 3, attributes: { str: 'b', num: 1 } },
         ];
         const sorted = sort(request, unsorted, {});
         assert.deepEqual(sorted, expected);
@@ -173,14 +173,14 @@ module('Unit | Mirage | Views | Utils | sort', hooks => {
     test('it can reverse sort by id', assert => {
         const request = fakeRequest({ sort: '-id' });
         const unsorted = [
-            { id: 2, attributes: { string: 'a', num: 3 } },
-            { id: 1, attributes: { string: 'c', num: 2 } },
-            { id: 3, attributes: { string: 'b', num: 1 } },
+            { id: 2, attributes: { str: 'a', num: 3 } },
+            { id: 1, attributes: { str: 'c', num: 2 } },
+            { id: 3, attributes: { str: 'b', num: 1 } },
         ];
         const expected = [
-            { id: 3, attributes: { string: 'b', num: 1 } },
-            { id: 2, attributes: { string: 'a', num: 3 } },
-            { id: 1, attributes: { string: 'c', num: 2 } },
+            { id: 3, attributes: { str: 'b', num: 1 } },
+            { id: 2, attributes: { str: 'a', num: 3 } },
+            { id: 1, attributes: { str: 'c', num: 2 } },
         ];
         const sorted = sort(request, unsorted, {});
         assert.deepEqual(sorted, expected);

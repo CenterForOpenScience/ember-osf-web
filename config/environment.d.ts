@@ -56,14 +56,6 @@ declare const config: {
         };
     }>;
     FB_APP_ID?: string;
-    microfeedback: {
-        enabled: boolean;
-        url: string | null;
-        pageParams: { [index: string]: {
-            componentID?: string;
-            priorityID?: string;
-        } | undefined };
-    };
     OSF: {
         clientId?: string;
         scope?: string;
@@ -191,10 +183,6 @@ declare const config: {
         };
         registries: {
             enabled: boolean;
-        };
-        handbook: {
-            enabled: boolean;
-            docGenerationEnabled: boolean;
         };
     };
     'ember-cli-tailwind'?: {

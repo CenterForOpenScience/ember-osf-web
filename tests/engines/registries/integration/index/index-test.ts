@@ -27,10 +27,10 @@ module('Registries | Integration | index', hooks => {
 
     skip('analytics', async function(this: TestContext, assert: Assert) {
         const testCases: Array<{
-            name: string;
+            name: string,
             action: () => Promise<void>,
             // category, label, extra
-            expected: Array<string | sinon.SinonMatcher>
+            expected: Array<string | sinon.SinonMatcher>,
             }> = [
                 {
                     name: 'Search Button (Clicked)',

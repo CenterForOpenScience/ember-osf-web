@@ -6,6 +6,7 @@
     @addTag={{action this.addTag}}
     @allowSpacesInTags={{true}}
     @placeholder={{t 'osf-components.tags-widget.add_tag'}}
+    @ariaLabel={{t 'osf-components.tags-widget.add_tag'}}
     @readOnly={{this.readOnly}}
     @maxlength={{1024}}
     @showRemoveButtons={{false}}
@@ -20,14 +21,15 @@
         {{tag}}
     </span>
     {{#unless this.readOnly}}
-        <OsfButton
+        <BsButton
             local-class='RemoveButton'
+            aria-label={{t 'osf-components.tags-widget.remove_tag'}}
             data-analytics-name='Remove Tag'
             data-analytics-extra={{tag}}
             @type='link'
             @onClick={{action this.removeTag tag}}
         >
             <FaIcon @icon='times' @fixedWidth={{true}} />
-        </OsfButton>
+        </BsButton>
     {{/unless}}
 </TagInput>

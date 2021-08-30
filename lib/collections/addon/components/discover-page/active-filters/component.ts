@@ -7,5 +7,5 @@ import template from './template';
 
 @layout(template, styles)
 export default class ActiveFilters extends Component {
-    facetContexts: FacetContexts = this.facetContexts;
+    facetContexts!: FacetContexts;
 }

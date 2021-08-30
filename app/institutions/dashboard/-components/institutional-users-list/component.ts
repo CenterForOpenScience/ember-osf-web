@@ -2,8 +2,8 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { reads } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { TaskInstance, timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
+import { waitFor } from '@ember/test-waiters';
+import { restartableTask, TaskInstance, timeout } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 
 import { InstitutionsDashboardModel } from 'ember-osf-web/institutions/dashboard/route';
@@ -33,7 +33,7 @@ export default class InstitutionalUsersList extends Component {
         return this.intl.t('institutions.dashboard.select_default');
     }
 
-    @computed('defaultDepartment', 'institution', 'departmentMetrics.[]')
+    @computed('defaultDepartment', 'department', 'departmentMetrics.[]', 'institution')
     get departments() {
         let departments = [this.defaultDepartment];
 
@@ -43,6 +43,7 @@ export default class InstitutionalUsersList extends Component {
         }
 
         if (!this.department) {
+            // eslint-disable-next-line ember/no-side-effects
             this.set('department', departments[0]);
         }
 
@@ -66,11 +67,12 @@ export default class InstitutionalUsersList extends Component {
         return query;
     }
 
-    @task({ withTestWaiter: true, restartable: true })
-    searchDepartment = task(function *(this: InstitutionalUsersList, name: string) {
-        yield timeout(500);
+    @restartableTask
+    @waitFor
+    async searchDepartment(name: string) {
+        await timeout(500);
         if (this.institution) {
-            const depts: InstitutionDepartmentsModel[] = yield this.institution.queryHasMany('departmentMetrics', {
+            const depts: InstitutionDepartmentsModel[] = await this.institution.queryHasMany('departmentMetrics', {
                 filter: {
                     name,
                 },
@@ -78,7 +80,7 @@ export default class InstitutionalUsersList extends Component {
             return depts.map(dept => dept.name);
         }
         return [];
-    });
+    }
 
     @action
     onSelectChange(department: string) {

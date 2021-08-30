@@ -58,7 +58,7 @@ export function dynamicSort(property: string) {
 export function sort(request: Request, data: unknown[], options: ProcessOptions = {}): unknown[] {
     const { queryParams } = request;
     const { defaultSortKey = 'date_modified' } = options;
-    let sortKey: string = defaultSortKey;
+    let sortKey = defaultSortKey;
     if (typeof queryParams === 'object' && 'sort' in queryParams) {
         sortKey = queryParams.sort;
     }
@@ -91,7 +91,7 @@ export function paginate(
     const total = data.length;
     const { queryParams, url } = request;
     const { defaultPageSize = 10 } = options;
-    let start: number = 0;
+    let start = 0;
 
     const perPage = Number.parseInt(queryParams['page[size]'], 10) || defaultPageSize;
     let currentPage = 1;
@@ -254,12 +254,16 @@ export function compare(
     throw new Error(`We haven't implemented comparisons with "${operator}" yet.`);
 }
 
+function isValidOperator(arg: any): arg is ComparisonOperators {
+    return Object.values(ComparisonOperators).includes(arg);
+}
+
 export function toOperator(operatorString: string): ComparisonOperators {
     if (!operatorString || operatorString === 'eq') {
         return ComparisonOperators.Eq;
     }
-    if (Object.values(ComparisonOperators).includes(operatorString)) {
-        return operatorString as ComparisonOperators;
+    if (isValidOperator(operatorString)) {
+        return operatorString;
     }
     throw new Error(`The operator ${operatorString} is unknown.`);
 }

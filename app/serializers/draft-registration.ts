@@ -1,3 +1,5 @@
+import Model from '@ember-data/model';
+import Store from '@ember-data/store';
 import { isEmpty } from '@ember/utils';
 import DS from 'ember-data';
 
@@ -20,9 +22,9 @@ function isObject(value: unknown) {
     return typeof value === 'object' && !isEmpty(value);
 }
 
-export function normalizeRegistrationResponses(value: ResponseValue, store: DS.Store) {
-    if (Array.isArray(value) && !isEmpty(value) && isObject(value.firstObject)
-        && ('file_id' in value.firstObject)) {
+export function normalizeRegistrationResponses(value: ResponseValue, store: Store) {
+    if (Array.isArray(value) && value.length && isObject(value[0])
+        && Object.prototype.hasOwnProperty.call(value[0], 'file_id')) {
         return (value as FileReference[]).map((fileRef: FileReference) => {
             const {
                 file_name: name, file_id: id,
@@ -59,18 +61,17 @@ export function normalizeRegistrationResponses(value: ResponseValue, store: DS.S
 }
 
 function serializeRegistrationResponses(value: NormalizedResponseValue) {
-    if (Array.isArray(value) && !isEmpty(value) && isObject(value.firstObject)
-        && ('materializedPath' in value.firstObject)) {
+    if (Array.isArray(value) && value.length && isObject(value[0]) && 'materializedPath' in value[0]) {
         return value.map(file => file.toFileReference());
     }
     return value;
 }
 
 export default class DraftRegistrationSerializer extends OsfSerializer {
-    normalize(modelClass: DS.Model, resourceHash: Resource) {
+    normalize(modelClass: Model, resourceHash: Resource) {
         if (resourceHash.attributes) {
             const registrationResponses = resourceHash.attributes.registration_responses as RegistrationResponse;
-            // @ts-ignore
+            // @ts-ignore: TODO: fix types
             // eslint-disable-next-line no-param-reassign
             resourceHash.attributes.registration_responses = mapKeysAndValues(
                 registrationResponses || {},

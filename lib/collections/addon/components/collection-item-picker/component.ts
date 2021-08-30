@@ -1,18 +1,18 @@
+import Store from '@ember-data/store';
 import Component from '@ember/component';
 import { action } from '@ember/object';
 import { bool } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import { timeout } from 'ember-concurrency';
-import { task } from 'ember-concurrency-decorators';
-import DS from 'ember-data';
+import { waitFor } from '@ember/test-waiters';
+import { restartableTask, task, timeout } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import { stripDiacritics } from 'ember-power-select/utils/group-utils';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
 import Collection from 'ember-osf-web/models/collection';
 import Node from 'ember-osf-web/models/node';
-import { Permission, QueryHasManyResult } from 'ember-osf-web/models/osf-model';
+import { Permission } from 'ember-osf-web/models/osf-model';
 import CurrentUser from 'ember-osf-web/services/current-user';
-import defaultTo from 'ember-osf-web/utils/default-to';
 
 import styles from './styles';
 import template from './template';
@@ -24,36 +24,38 @@ function stripAndLower(text: string): string {
 @layout(template, styles)
 export default class CollectionItemPicker extends Component {
     @service currentUser!: CurrentUser;
-    @service store!: DS.Store;
+    @service store!: Store;
 
     @requiredAction projectSelected!: (value: Node) => void;
     @requiredAction validationChanged!: (isValid: boolean) => void;
 
-    collection: Collection = this.collection;
-    selected: Node | null = defaultTo(this.selected, null);
-    filter: string = '';
-    page: number = 1;
-    hasMore: boolean = false;
-    loadingMore: boolean = false;
+    collection!: Collection;
+    selected: Node | null = null;
+    filter = '';
+    page = 1;
+    hasMore = false;
+    loadingMore = false;
     items: Node[] = [];
 
     @bool('selected') isValid!: boolean;
 
-    @task({ withTestWaiter: true })
-    initialLoad = task(function *(this: CollectionItemPicker) {
+    @task
+    @waitFor
+    async initialLoad() {
         this.setProperties({
             selected: null,
             filter: '',
             page: 1,
         });
 
-        yield this.get('findNodes').perform();
-    });
+        await taskFor(this.findNodes).perform();
+    }
 
-    @task({ withTestWaiter: true, restartable: true })
-    findNodes = task(function *(this: CollectionItemPicker, filter: string = '') {
+    @restartableTask
+    @waitFor
+    async findNodes(filter = '') {
         if (filter) {
-            yield timeout(250);
+            await timeout(250);
         }
 
         const { user } = this.currentUser;
@@ -76,7 +78,7 @@ export default class CollectionItemPicker extends Component {
             this.set('loadingMore', true);
         }
 
-        const nodes: QueryHasManyResult<Node> = yield user.queryHasMany('nodes', {
+        const nodes = await user.queryHasMany('nodes', {
             filter: {
                 current_user_permissions: Permission.Admin,
                 title: this.filter ? this.filter : undefined,
@@ -86,7 +88,7 @@ export default class CollectionItemPicker extends Component {
 
         // Filter out nodes that are already in the current collection
         const nodeIds = nodes.mapBy('id').join();
-        const cgm = yield this.collection.queryHasMany('collectedMetadata', {
+        const cgm = await this.collection.queryHasMany('collectedMetadata', {
             'filter[id]': nodeIds,
         });
 
@@ -100,7 +102,8 @@ export default class CollectionItemPicker extends Component {
 
         // Check if all of the nodes from the current list are in the collection
         if (!items.length && hasMore) {
-            return yield this.loadMore();
+            const moreNodes = await this.loadMore();
+            return moreNodes;
         }
 
         this.setProperties({
@@ -110,7 +113,7 @@ export default class CollectionItemPicker extends Component {
         });
 
         return items;
-    });
+    }
 
     /**
      * Passed into power-select component for customized searching.
@@ -120,7 +123,7 @@ export default class CollectionItemPicker extends Component {
     matcher(option: Node, searchTerm: string): -1 | 1 {
         const sanitizedTerm = stripAndLower(searchTerm);
 
-        const hasTerm: boolean = [
+        const hasTerm = [
             option.title,
             option.root && option.root.title,
             option.parent && option.parent.title,
@@ -143,17 +146,17 @@ export default class CollectionItemPicker extends Component {
     loadMore(this: CollectionItemPicker): Promise<Node[]> {
         this.incrementProperty('page');
 
-        return this.get('findNodes').perform();
+        return taskFor(this.findNodes).perform();
     }
 
     @action
     oninput(this: CollectionItemPicker, term: string): true | Promise<Node[]> {
-        return !!term || this.get('findNodes').perform();
+        return !!term || taskFor(this.findNodes).perform();
     }
 
     didReceiveAttrs() {
-        if (!this.initialLoad.hasStarted && this.collection) {
-            this.initialLoad.perform();
+        if (!taskFor(this.initialLoad).isRunning && this.collection) {
+            taskFor(this.initialLoad).perform();
         }
     }
 }
