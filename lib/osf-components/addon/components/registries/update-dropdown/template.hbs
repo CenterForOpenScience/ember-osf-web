@@ -5,28 +5,28 @@
     <dd.trigger
         data-analytics-name='Expand update dropdown'
         data-test-state-button
-        local-class='UpdateDropdownText'
+        local-class='TriggerDiv'
     >
         <Button 
             data-test-version-dropdown-button 
-            data-analytics-name='Show Updates' 
+            data-analytics-name='Show Updates'
+            local-class='TriggerButton'
             @type='create'
         >
             {{t 'registries.update_dropdown.dropdown_title'}}
             <FaIcon @icon='caret-down' />
         </Button>
-            
     </dd.trigger>
-
     <dd.content
         data-test-update-description
         local-class='Updates'
     >
+        
         {{#if this.revisions}}
             <div local-class='DropdownText'>
                 {{#each this.revisions as |revision|}}
                     <p>{{t 'registries.update_dropdown.updates_list_label'}} {{revision.versionNumber}} {{revision.dateCreated}}</p>
-                    <p> {{revision.initia}}</p>
+                    <p> {{revision.initiatedBy}}</p>
                     {{#if (eq this.registration.userHasAdminPermission)}}
                         <div local-class='AdminResponse'>
                             <p>{{t 'registries.update_dropdown.revision_review_state'}} {{revision.reviewState}}</p>
