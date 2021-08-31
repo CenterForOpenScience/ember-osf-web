@@ -15,14 +15,10 @@ import Store from '@ember-data/store';
 import RouterService from '@ember/routing/router-service';
 import { taskFor } from 'ember-concurrency-ts';
 import { computed } from '@ember/object';
+import registration from 'ember-osf-web/mirage/factories/registration';
 
 interface Args {
     registration: RegistrationModel;
-}
-
-enum UpdateActions {
-    AcceptUpdates = 'Accept Updates',
-    NeedsMoreUpdates = 'Needs More Updates',
 }
 
 type RevisionJustification = 'Adding Results' | 'Typo - Self' | 'Typo - Other' | 'Copy Edit';
@@ -53,6 +49,7 @@ export default class UpdateDropdown extends Component<Args> {
     }
 
     // per Nici's request
+    // TODO implement it, apply inline to rvision list
     @computed('args.registration.revisionState')
     get updateNotificationIcon() {
         switch (this.args.registration.revisionState) {
@@ -72,52 +69,43 @@ export default class UpdateDropdown extends Component<Args> {
     @waitFor
     async getRevisionList() {
 
-        console.log('In the getRevisionFunction');
-
+        if (!registration){
+            throw new Error('Not a registration.');
+        }
         if (this.args.registration.revisions === null || this.args.registration.revisions === undefined) {
-            // ASK if checking the array length would be good
-            console.log('In the null case for getRevisionFunction');
-            console.log('No revisions present for this registration.');
             return {
                 placeholder: this.intl.t('registries.update_dropdown.no_revisions'),
             };
         }
         if (this.args.registration.revisions) {
-            console.log('In the revisions present for getRevisionFunction');
-            if (RevisionReviewStates.Approved) {
-                console.log('In the reivison approved case for getRevisionFunction');
-                console.log('Revision approved');
-                try {
-                    const revisions = await this.args.registration.queryHasMany('revisions');
-                    this.revisions = revisions;
-                    return revisions;
-                } catch (e) {
-                    const errorMessage = this.intl.t('registries.update_dropdown.error_message');
-                    captureException(e, { errorMessage });
-                    this.toast.error(getApiErrorMessage(e), errorMessage);
-                    console.log('No revisions found. Something went wrong: ', e);
-                }
-            } else if (RevisionReviewStates.RevisionPendingAdminApproval ||
-                RevisionReviewStates.RevisionPendingModeration) {
-                // if waiting admin or moderation approval, associated revision list will display in list but
-                // background color of element will be yellow indicating a blocked status
-                // change backgroud color to yellow and grey out click
-                // eslint-disable-next-line no-console
+            console.log('In the revisions exist for getRevisionFunction');
+            try {
+                const revisions = await this.args.registration.queryHasMany('revisions');
+                this.revisions = revisions;
+                return revisions;
+            } catch (e) {
+                const errorMessage = this.intl.t('registries.update_dropdown.error_message');
+                captureException(e, { errorMessage });
+                this.toast.error(getApiErrorMessage(e), errorMessage);
+                console.log('No revisions found. Something went wrong: ', e);
+            }
+            if (RevisionReviewStates.RevisionPendingAdminApproval || RevisionReviewStates.RevisionPendingModeration) {
                 console.log('Revision pending administrative or moderative approval.');
+                // if super, display diff and have an 'Approve Results' or 'Needs more edits' button that scrolls
+                // length of edit.
+                // NOTE the button displays a dropdown directly below the edit's presently displayed edits
+                // set & check isPendingUserApproval is 'True' after a submit
+
+                // if initiatedBy usr, display a read-only list, change bkg color to gold and French grey out click
+                // alert user that their changes are pending their further edits, bkg color for super and usr is now red
+
             } else if (RevisionReviewStates.RevisionInProgress) {
-            // if in progress and that user initiated the edit or it falls in their moderation/approval
-            // chain of command, the list displays but the backgound color changes to transparent red
-            // to indicate that the document is currently uneditable.
                 console.log('Revision in progress');
+                // TODO if initiatedBy usr, add translation string for usr their changes are pending their further edits
+                // backgound color is red to indicate it is awaiting re-edits
 
-                // make element unclickable in list if not the user and greyed out with black italicized text
-
-                // make element clickable and load revised Registration if user who made edits or in their mod chain
-
-                // if a admin or mod, include a button to display diff of the individual edits pending review
-                // this button initiates a nested dropdown for that edit.
-
-                // at the top of the displayed diff have an approve or deny button that scrolls with its length
+                // if not the usr, make element unclickable in list and Fench greyed out with black italicized text
+                // add translation string to indicate an edit by another user is in progress
 
             } else {
                 return {
@@ -127,64 +115,56 @@ export default class UpdateDropdown extends Component<Args> {
         }
     }
 
-
     @task
     @waitFor
-    async needsMoreUpdates(updateActions : UpdateActions) {
+    async needsMoreUpdates() {
         if (!this.revisions) {
             throw new Error('Not a revision.');
         }
-
-        switch(updateActions) {
-        case UpdateActions.AcceptUpdates:
-            this.args.registration.set('revisionState', RevisionReviewStates.Approved);
-            break;
-        case UpdateActions.NeedsMoreUpdates:
+        // add error for button unclickable
+        try {
             this.args.registration.set('revisionState', RevisionReviewStates.RevisionInProgress);
-            break;
-        default:
-            throw new Error('Action not permitted.');
+        } catch (e) {
+            throw new Error('...something was caught and thrown.');
         }
-        // try {
-        //     place code here
-        // } catch (e) {
-        //     throw new Error("...something was caught and thrown.");
-        // }
+        return this.args.registration;
     }
 
     @task
     @waitFor
     async acceptUpdates() {
-        // try {
-        //     place code here
-        // } catch (e) {
-        //     throw new Error("...something was caught and thrown.");
-        // }
-        this.args.registration.revisionState = RevisionReviewStates.Approved;
+        if (!this.revisions) {
+            throw new Error('Not a revision.');
+        }
+        // add error for button unclickable
+        try {
+            this.args.registration.set('revisionState', RevisionReviewStates.Approved);
+        } catch (e) {
+            throw new Error('...something was caught and thrown.');
+        }
         return this.args.registration;
     }
 
     // loadVersionedRegistration() reloads the current view with clicked on version
     @task
     @waitFor
-    async loadVersionedRegistration() {
+    async loadRegistrationVersionNumber() {
         // replace current view with clicked on version number from dropdown list
-        // TODO look at differences between transistionTo() and replaceRoute()
+        // TODO NOTE look at differences between transistionTo() and replaceRoute()
         return this.args.registration;
     }
 
+    // load the changes between this and previous SchemaResponse in git style diff
     @task
     @waitFor
     async loadDiff(revisionJustification: RevisionJustification) {
-        // load the changes between this and previous SchemaResponse in git style diff
-        // later, allow for potential edits in tabbed fashion on right hand side of the diff
+        // allow for potential edits in tabbed fashion to the right hand side of the diff
         // eg each potential submitted (call for all edits) revision is tabbed and displayed on side
-        // if only one, no tabs or tab that says no further edits displays
-        // as submissions are accepted for a particular registration, tabs scroll vertically up or
-        // down by submission daten allowing for filterable edits where the user can easily tab through
-        // and approve all critical or important changes.
-        console.log(revisionJustification);
-        const diff = this.args.registration.reviewActions;
+        // if only one, no tabs or tab that says no further edits displays as submissions are accepted
+        // for a particular registration, tabs scroll vertically up or down by submission daten allowing
+        // for filterable edits where the user can easily tab through and make a decision by type of edit.
+        console.log('The reason for a revision: ', revisionJustification);
+        const diff = this.args.registration.reviewActions; // NOTE waiting for endpoint
         return diff;
     }
 }
