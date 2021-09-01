@@ -87,6 +87,13 @@
                                 >
                                     {{t 'general.delete'}}
                                 </BsButton>
+                                <BsButton
+                                    data-analytics-scope='Delete'
+                                    local-class='NodeCard__update-link'
+                                    @onClick={{action @delete @node}}
+                                >
+                                    {{t 'general.delete'}}
+                                </BsButton>
                             </menu.item>
                         </dd.menu>
                     </BsDropdown>
@@ -182,6 +189,12 @@
             >
                 <Button>
                     {{t 'node_card.view'}}
+                </Button>
+                <Button
+                    data-analytics-name='Update registration'
+                    local-class='UpdateButton'
+                >
+                    {{t 'node_card.update'}}
                 </Button>
             </OsfLink>
         {{else}}
