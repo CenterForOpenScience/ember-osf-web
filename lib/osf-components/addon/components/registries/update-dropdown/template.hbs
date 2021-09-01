@@ -4,7 +4,7 @@
 >
     <dd.trigger
         data-analytics-name='Expand update dropdown'
-        data-test-state-button
+        data-test-trigger-div
         local-class='TriggerDiv'
     >
         <Button 
@@ -18,39 +18,14 @@
         </Button>
     </dd.trigger>
     <dd.content
-        data-test-update-description
+        data-test-update-content
         local-class='Updates'
     >
         
         {{#if this.revisions}}
             <div local-class='DropdownText'>
                 {{#each this.revisions as |revision|}}
-                    <p>{{t 'registries.update_dropdown.updates_list_label'}} {{revision.versionNumber}} {{revision.dateCreated}}</p>
-                    <p> {{revision.initiatedBy}}</p>
-                    {{#if (eq this.registration.userHasAdminPermission)}}
-                        <div local-class='AdminResponse'>
-                            <p>{{t 'registries.update_dropdown.revision_review_state'}} {{revision.reviewState}}</p>
-                            <p>{{t 'registries.update_dropdown.initiated_by'}} {{revision.initiatedBy}} {{t 'registries.update_dropdown.date_modified'}} {{revision.dateModified}}</p>
-                            <BsButton 
-                                data-analytics-name='Accept updates'
-                                @type='create'
-                                disabled={{this.args}}
-                                local-class='AcceptUpdatesButton'
-                                {{on 'click' (queue (perform this.acceptUpdates) dd.close)}}
-                            >
-                                {{t 'registries.update_dropdown.accept_updates'}}
-                            </BsButton>
-                            <BsButton 
-                            data-analytics-name='Needs more updates'
-                                @type='link'
-                                disabled={{this.args}}
-                                local-class='NeedsMoreUpdatesButton'
-                                {{ on 'click' (queue (perform this.needsMoreUpdates) dd.close)}}
-                            >
-                                {{t 'registries.update_dropdown.needs_more_updates'}}
-                            </BsButton>
-                        </div>
-                    {{/if}}
+                    <p>{{t 'registries.update_dropdown.updates_list_label'}} {{revision.versionNumber}}</p>
                 {{/each}}
             </div>
         {{else}}

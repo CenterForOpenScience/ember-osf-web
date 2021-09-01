@@ -81,7 +81,7 @@ export default class UpdateDropdown extends Component<Args> {
             console.log('In the revisions exist for getRevisionFunction');
             try {
                 const revisions = await this.args.registration.queryHasMany('revisions');
-                this.revisions = revisions;
+                this.revisions = revisions.sort();
                 return revisions;
             } catch (e) {
                 const errorMessage = this.intl.t('registries.update_dropdown.error_message');
