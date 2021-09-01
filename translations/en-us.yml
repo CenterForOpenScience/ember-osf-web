@@ -600,6 +600,7 @@ node_card:
     registry: 'Registry:'
     options: Options
     view: 'View'
+    update: 'Update'
 forks:
     fork: Fork
     title: Forks
