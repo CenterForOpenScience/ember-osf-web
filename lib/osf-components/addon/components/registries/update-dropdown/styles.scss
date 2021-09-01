@@ -1,3 +1,7 @@
+.TriggerDiv {
+    height: 100%;
+}
+
 .Updates {
     padding: 15px;
     border: 1px solid #ddd;
@@ -8,7 +12,7 @@
     max-width: 450px;
 }
 
-.UpdateDropdownText {
+.UpdateText {
     color: $color-text-white;
     font-weight: 600;
     padding-left: 10px;

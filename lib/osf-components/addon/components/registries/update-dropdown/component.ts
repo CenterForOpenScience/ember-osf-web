@@ -164,7 +164,7 @@ export default class UpdateDropdown extends Component<Args> {
         // for a particular registration, tabs scroll vertically up or down by submission daten allowing
         // for filterable edits where the user can easily tab through and make a decision by type of edit.
         console.log('The reason for a revision: ', revisionJustification);
-        const diff = this.args.registration.reviewActions; // NOTE waiting for endpoint
+        const diff = this.args.registration.reviewActions;
         return diff;
     }
 }

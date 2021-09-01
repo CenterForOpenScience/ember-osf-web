@@ -4,32 +4,24 @@
 >
     <dd.trigger
         data-analytics-name='Expand update dropdown'
-        data-test-trigger-div
-        local-class='TriggerDiv'
+        data-test-update-button
+        local-class='UpdateText'
     >
-        <Button 
-            data-test-version-dropdown-button 
-            data-analytics-name='Show Updates'
-            local-class='TriggerButton'
-            @type='create'
-        >
-            {{t 'registries.update_dropdown.dropdown_title'}}
-            <FaIcon @icon='caret-down' />
-        </Button>
+        {{t 'registries.update_dropdown.dropdown_title'}}
+        <FaIcon @icon='caret-down' @fixedWidth={{true}} />
     </dd.trigger>
     <dd.content
         data-test-update-content
         local-class='Updates'
     >
-        
-        {{#if this.revisions}}
-            <div local-class='DropdownText'>
+        <div local-class='UpdatesList'>
+            {{#if this.revisions}}
                 {{#each this.revisions as |revision|}}
                     <p>{{t 'registries.update_dropdown.updates_list_label'}} {{revision.versionNumber}}</p>
                 {{/each}}
-            </div>
-        {{else}}
-            {{t 'registries.update_dropdown.no_revisions'}}
-        {{/if}}
+            {{else}}
+                {{t 'registries.update_dropdown.no_revisions'}}
+            {{/if}}
+        </div>
     </dd.content>
 </ResponsiveDropdown>
