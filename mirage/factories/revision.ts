@@ -1,4 +1,4 @@
-import { Factory, Trait, trait } from 'ember-cli-mirage';
+import { association, Factory, Trait, trait } from 'ember-cli-mirage';
 import faker from 'faker';
 
 import RevisionModel, { RevisionReviewStates } from 'ember-osf-web/models/revision';
@@ -26,6 +26,7 @@ export default Factory.extend<MirageRevisionModel & RevisionTraits>({
     isPendingCurrentUserApproval() {
         return false;
     },
+    initiatedBy: association(),
 
     afterCreate(revision) {
         if (revision.registration) {

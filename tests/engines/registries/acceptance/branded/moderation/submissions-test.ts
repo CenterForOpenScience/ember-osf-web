@@ -262,4 +262,6 @@ module('Registries | Acceptance | branded.moderation | submissions', hooks => {
         assert.ok(currentURL().includes('state=pending'), 'Invalid query param replaced with pending');
         assert.dom('[data-test-is-selected="true"]').hasText('Pending', 'Pending tab selected');
     });
+
+    // TODO: Update with new tabs
 });

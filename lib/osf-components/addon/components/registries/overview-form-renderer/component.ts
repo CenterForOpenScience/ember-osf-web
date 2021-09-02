@@ -4,11 +4,13 @@ import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { waitFor } from '@ember/test-waiters';
 import { restartableTask } from 'ember-concurrency';
+import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Registration from 'ember-osf-web/models/registration';
 import RevisionModel from 'ember-osf-web/models/revision';
 import { getSchemaBlockGroups, SchemaBlock, SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 import template from './template';
 
@@ -16,6 +18,7 @@ import template from './template';
 @layout(template)
 export default class RegistrationFormViewSchemaBlocks extends Component {
     @service store!: Store;
+    @service toast!: Toast;
     // Required parameter
     registration?: Registration;
     revisionId?: string;
@@ -29,21 +32,26 @@ export default class RegistrationFormViewSchemaBlocks extends Component {
     @restartableTask({ on: 'didReceiveAttrs' })
     @waitFor
     async fetchSchemaBlocks() {
-        let revision;
-        if (this.revisionId) {
-            revision = await this.store.findRecord('revision', this.revisionId);
+        try {
+            let revision;
+            if (this.revisionId) {
+                revision = await this.store.findRecord('revision', this.revisionId);
+            }
             this.set('revision', revision);
-        }
-        if (this.registration) {
-            const registrationSchema = await this.registration.registrationSchema;
-            const responses = revision ? revision.revisionResponses : this.registration.registrationResponses;
-            const schemaBlocksRef = registrationSchema.hasMany('schemaBlocks');
-            const schemaBlocks = schemaBlocksRef.ids().length
-                ? schemaBlocksRef.value() : (await registrationSchema.loadAll('schemaBlocks'));
-            const schemaBlockGroups = getSchemaBlockGroups(schemaBlocks as SchemaBlock[]);
-            this.set('schemaBlocks', schemaBlocks);
-            this.set('schemaBlockGroups', schemaBlockGroups);
-            this.set('responses', responses);
+            if (this.registration) {
+                const registrationSchema = await this.registration.registrationSchema;
+                const responses = revision ? revision.revisionResponses : this.registration.registrationResponses;
+                const schemaBlocksRef = registrationSchema.hasMany('schemaBlocks');
+                const schemaBlocks = schemaBlocksRef.ids().length
+                    ? schemaBlocksRef.value() : (await registrationSchema.loadAll('schemaBlocks'));
+                const schemaBlockGroups = getSchemaBlockGroups(schemaBlocks as SchemaBlock[]);
+                this.set('schemaBlocks', schemaBlocks);
+                this.set('schemaBlockGroups', schemaBlockGroups);
+                this.set('responses', responses);
+            }
+        } catch (e) {
+            captureException(e);
+            this.toast.error(getApiErrorMessage(e));
         }
     }
 }

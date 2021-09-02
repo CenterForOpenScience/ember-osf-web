@@ -103,11 +103,11 @@ export default class MakeDecisionDropdown extends Component<Args> {
     }
 
     get moderatorActions() {
-        const { reviewsState } = this.args.registration as ReviewsStateToDecisionMap;
+        const { reviewsState } = this.args.registration;
         const { revisionState } = this.args.registration;
-        let actions = reviewsState ? reviewsStateToDecisionMap[reviewsState] : [] as ReviewsStateToDecisionMap[];
+        let actions: ReviewsStateToDecisionMap[] = reviewsState ? reviewsStateToDecisionMap[reviewsState] : [];
         if (revisionState === RevisionReviewStates.RevisionPendingModeration && this.args.isViewingLatestRevision) {
-            actions = this.reviewsStateToDecisionMap[revisionState];
+            actions = reviewsStateToDecisionMap[revisionState];
         }
         return actions;
     }
@@ -116,9 +116,9 @@ export default class MakeDecisionDropdown extends Component<Args> {
     @waitFor
     async submitDecision() {
         if (this.decisionTrigger) {
-            const isRevisionAction = [
+            const isRevisionAction = ([
                 RevisionActionTrigger.RejectRevision, RevisionActionTrigger.AcceptRevision,
-            ].includes(this.decisionTrigger);
+            ] as  Array<RevisionActionTrigger | ReviewActionTrigger>).includes(this.decisionTrigger);
             const actionType = isRevisionAction ? 'revision-action' : 'review-action';
             const target = isRevisionAction ? this.args.registration.revisions.lastObject : this.args.registration;
             const newAction = this.store.createRecord(actionType, {
@@ -134,6 +134,12 @@ export default class MakeDecisionDropdown extends Component<Args> {
                         'registries.branded.moderation.submissions',
                         this.args.registration.provider.get('id'),
                         { queryParams: { state: RegistrationReviewStates.Rejected } },
+                    );
+                } else if (this.decisionTrigger === RevisionActionTrigger.RejectRevision) {
+                    this.router.transitionTo(
+                        'registries.overview',
+                        this.args.registration.get('id'),
+                        { queryParams: { mode: 'moderator', revisionId: '' } },
                     );
                 }
                 this.args.registration.reload();

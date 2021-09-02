@@ -31,8 +31,10 @@ type NonActionableStates = RegistrationReviewStates.Initial
     | RegistrationReviewStates.Withdrawn | RegistrationReviewStates.Rejected;
 
 export type ReviewsStateToDecisionMap =
-    Exclude<RegistrationReviewStates, NonActionableStates> & RevisionReviewStates;
-export const reviewsStateToDecisionMap: { [index in ReviewsStateToDecisionMap]: ReviewActionTrigger[] } = {
+    Exclude<RegistrationReviewStates, NonActionableStates> | RevisionReviewStates.RevisionPendingModeration;
+export const reviewsStateToDecisionMap: {
+    [index in ReviewsStateToDecisionMap]: Array<ReviewActionTrigger | RevisionActionTrigger>
+} = {
     [RegistrationReviewStates.Accepted]: [ReviewActionTrigger.ForceWithdraw],
     [RegistrationReviewStates.Embargo]: [ReviewActionTrigger.ForceWithdraw],
     [RegistrationReviewStates.Pending]:
