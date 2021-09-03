@@ -219,19 +219,6 @@ export function registrationScenario(
     });
 
     server.create('revision', {
-        id: 'addResultsRPACobalt',
-        versionNumber: 3,
-        reviewState: RevisionReviewStates.RevisionPendingAdminApproval,
-        revisionJustification: 'Adding Results',
-        revisionResponses: {
-            q1: 'Good Morning',
-            q2: ['Rolodex of greetings'],
-        },
-        initiatedBy: currentUser,
-        registration: cobalt,
-    });
-
-    server.create('revision', {
         id: 'typoSelfRPMCobalt',
         versionNumber: 2,
         reviewState: RevisionReviewStates.RevisionPendingModeration,
