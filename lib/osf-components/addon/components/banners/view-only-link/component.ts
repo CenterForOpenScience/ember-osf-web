@@ -19,6 +19,7 @@ export default class BannersViewOnlyLink extends Component {
 
     @action
     stopViewOnly() {
+        this.currentUser.set('viewOnlyToken', '');
         this.router.transitionTo('home', { queryParams: { view_only: ''}});
     }
 }
