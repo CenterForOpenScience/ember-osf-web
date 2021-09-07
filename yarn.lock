@@ -9486,13 +9486,13 @@ ember-style-modifier@^0.6.0:
     ember-cli-babel "^7.21.0"
     ember-modifier "^2.1.0"
 
-ember-tag-input@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/ember-tag-input/-/ember-tag-input-1.2.2.tgz#a730065b08cbcc472c73d19790d9abda21f654ae"
-  integrity sha512-pmlRRVEQfEfJrMDBofXzGoLkMSi+xSFuCxZwvN1yDl3BlPONsdLBpqfFhm50Ml5sNj/6pXin+oX+/3SXXQ5Q4A==
+ember-tag-input@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/ember-tag-input/-/ember-tag-input-2.0.3.tgz#6e22bb340b6f3e413e56421bf86409954f68e740"
+  integrity sha512-4JbUOID9b8EOEhtudywEsAoOUmiwuAE5WtKCO3jwRrZUi+HcNNn4vCx5tlHffGnGExa/iM+TwhZr1WEvarOOqQ==
   dependencies:
-    ember-cli-babel "^6.7.1"
-    ember-cli-htmlbars "^2.0.3"
+    ember-cli-babel "^7.13.2"
+    ember-cli-htmlbars "^4.2.0"
 
 ember-template-compiler@^1.9.0-alpha:
   version "1.9.0-alpha"
