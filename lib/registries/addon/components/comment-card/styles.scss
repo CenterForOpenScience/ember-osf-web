@@ -142,7 +142,6 @@
     &[disabled]:hover {
         background-color: $primary-green;
     }
-
 }
 
 .CommentReport__cancel:global(.btn) {
@@ -174,7 +173,6 @@
         padding: 0;
         font-size: 13px;
 
-
         &:hover,
         &:focus {
             color: $secondary-blue;
@@ -188,7 +186,7 @@
 }
 
 .dateModified {
-    :global(.fa) {
+    :global(.fa-asterisk) {
         font-size: 8px;
         color: $primary-blue;
     }

@@ -2,10 +2,15 @@
     <div data-test-topbar-states>
         <RegistriesStates
             @registration={{@registration}}
-            @isModeratorMode={{@isModeratorMode}}
+             @isModeratorMode={{@isModeratorMode}}
         />
     </div>
 {{/unless}}
+
+<Registries::UpdateDropdown 
+    @registration={{@registration}}
+/>
+
 {{#if (and @isModeratorMode (not @registration.isAnonymous))}}
     <MakeDecisionDropdown
         @registration={{@registration}}

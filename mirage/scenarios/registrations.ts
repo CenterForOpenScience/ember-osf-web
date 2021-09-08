@@ -124,15 +124,195 @@ export function registrationScenario(
         },
     }, 'withContributors', 'withReviewActions');
 
+    const silicon = server.create('registration', {
+        id: 'silicon',
+        title: 'Revision Model: Public View',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        provider: egap,
+        reviewsState: RegistrationReviewStates.Accepted,
+        registeredBy: currentUser,
+        revisionState: RevisionReviewStates.Approved,
+        currentUserPermissions: [Permission.Read],
+        providerSpecificMetadata: [
+            { field_name: 'IP Address', field_value: '127.0.0.1' },
+            { field_name: 'Mac Address', field_value: 'b6:be:5a:05:ef:7a' },
+        ],
+        registrationResponses: {
+            q1: 'Hello',
+            q2: ['Array of greetings'],
+        },
+    }, 'withContributors', 'withReviewActions');
+
     server.create('revision', {
-        id: 'recaf',
-        revisionJustification: 'I made a typo LOL',
+        id: 'copyEdit',
+        versionNumber: 1,
+        revisionJustification: 'Copy Edit',
         revisionResponses: {
-            'page-one_long-text': 'bbbbb',
-            'page-one_multi-select': ['Crocs'],
+            q1: 'Good Morning',
+            q2: ['List of greetings'],
         },
         initiatedBy: currentUser,
-        registration: decaf,
+        registration: silicon,
+    });
+
+    const tungsten = server.create('registration', {
+        id: 'tungsten',
+        title: 'Revision Model: Contributor View (non-Admin/Mod)',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        provider: egap,
+        reviewsState: RegistrationReviewStates.Accepted,
+        registeredBy: currentUser,
+        revisionState: RevisionReviewStates.Approved,
+        currentUserPermissions: [Permission.Write],
+        providerSpecificMetadata: [
+            { field_name: 'IP Address', field_value: '127.0.0.1' },
+            { field_name: 'Mac Address', field_value: 'b6:be:5a:05:ef:7a' },
+        ],
+        registrationResponses: {
+            q1: 'Hello',
+            q2: ['Array of greetings'],
+        },
+    }, 'withContributors', 'withReviewActions');
+
+    server.create('revision', {
+        id: 'copyEdit',
+        versionNumber: 1,
+        revisionJustification: 'Copy Edit',
+        revisionResponses: {
+            q1: 'Good Morning',
+            q2: ['List of greetings'],
+        },
+        initiatedBy: currentUser,
+        registration: tungsten,
+    });
+
+    const cobalt = server.create('registration', {
+        id: 'cobalt',
+        title: 'Revision Model: Contributor View (pending moderation)',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        provider: egap,
+        reviewsState: RegistrationReviewStates.Accepted,
+        registeredBy: currentUser,
+        revisionState: RevisionReviewStates.RevisionPendingModeration,
+        currentUserPermissions: [Permission.Read],
+        providerSpecificMetadata: [
+            { field_name: 'IP Address', field_value: '127.0.0.1' },
+            { field_name: 'Mac Address', field_value: 'b6:be:5a:05:ef:7a' },
+        ],
+        registrationResponses: {
+            q1: 'Hello',
+            q2: ['Array of greetings'],
+        },
+    }, 'withContributors', 'withReviewActions');
+
+    server.create('revision', {
+        id: 'copyEditRPMCobalt',
+        versionNumber: 1,
+        revisionJustification: 'Copy Edit',
+        reviewState: RevisionReviewStates.RevisionPendingModeration,
+        revisionResponses: {
+            q1: 'Good Morning',
+            q2: ['List of greetings'],
+        },
+        initiatedBy: currentUser,
+        registration: cobalt,
+    });
+
+    server.create('revision', {
+        id: 'typoSelfRPMCobalt',
+        versionNumber: 2,
+        reviewState: RevisionReviewStates.RevisionPendingModeration,
+        revisionJustification: 'Typo - Self',
+        revisionResponses: {
+            q1: 'Happy Morning',
+            q2: ['Litany of greetings'],
+        },
+        initiatedBy: currentUser,
+        registration: cobalt,
+    });
+
+    server.create('revision', {
+        id: 'addResultsApprovedCobalt',
+        versionNumber: 3,
+        reviewState: RevisionReviewStates.Approved,
+        revisionJustification: 'Adding Results',
+        revisionResponses: {
+            q1: 'Good Morning',
+            q2: ['Rolodex of greetings'],
+        },
+        initiatedBy: currentUser,
+        registration: cobalt,
+    });
+
+    const bismuth = server.create('registration', {
+        id: 'bismuth',
+        title: 'Revision Model: Admin or Moderator View',
+        registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+        provider: egap,
+        reviewsState: RegistrationReviewStates.Accepted,
+        registeredBy: currentUser,
+        revisionState: RevisionReviewStates.RevisionPendingModeration,
+        currentUserPermissions: [Permission.Admin],
+        providerSpecificMetadata: [
+            { field_name: 'IP Address', field_value: '127.0.0.1' },
+            { field_name: 'Mac Address', field_value: 'b6:be:5a:05:ef:7a' },
+        ],
+        registrationResponses: {
+            q1: 'Hello',
+            q2: ['Array of greetings'],
+        },
+    }, 'withContributors', 'withReviewActions');
+
+    server.create('revision', {
+        id: 'copyEditRPA',
+        versionNumber: 2,
+        reviewState: RevisionReviewStates.RevisionPendingAdminApproval,
+        revisionJustification: 'Copy Edit',
+        revisionResponses: {
+            q1: 'Good Morning',
+            q2: ['List of greetings'],
+        },
+        initiatedBy: currentUser,
+        registration: bismuth,
+    });
+
+    server.create('revision', {
+        id: 'copyEditRPM',
+        versionNumber: 2,
+        reviewState: RevisionReviewStates.RevisionPendingModeration,
+        revisionJustification: 'Copy Edit',
+        revisionResponses: {
+            q1: 'Good Morning',
+            q2: ['List of greetings'],
+        },
+        initiatedBy: currentUser,
+        registration: bismuth,
+    });
+
+    server.create('revision', {
+        id: 'copyEditRIP',
+        versionNumber: 2,
+        reviewState: RevisionReviewStates.RevisionInProgress,
+        revisionJustification: 'Copy Edit',
+        revisionResponses: {
+            q1: 'Good Morning',
+            q2: ['List of greetings'],
+        },
+        initiatedBy: currentUser,
+        registration: bismuth,
+    });
+
+    server.create('revision', {
+        id: 'copyEditApproved',
+        versionNumber: 2,
+        reviewState: RevisionReviewStates.Approved,
+        revisionJustification: 'Copy Edit',
+        revisionResponses: {
+            q1: 'Good Morning',
+            q2: ['List of greetings'],
+        },
+        initiatedBy: currentUser, // should be the user associated with the edit, not the mod/admin
+        registration: bismuth,
     });
 
     server.create('registration', {

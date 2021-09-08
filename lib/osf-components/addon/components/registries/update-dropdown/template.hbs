@@ -1,0 +1,28 @@
+<ResponsiveDropdown 
+    @horizontalPosition='left' 
+    as |dd|
+>
+    <dd.trigger
+        data-analytics-name='Expand update dropdown'
+        data-test-update-button
+        local-class='UpdateText'
+    >
+        {{t 'registries.update_dropdown.dropdown_title'}}
+        <FaIcon @icon='caret-down' @fixedWidth={{true}} />
+    </dd.trigger>
+    <dd.content
+        data-test-update-content
+        local-class='Updates'
+    >
+        <div local-class='UpdatesList'
+        data-test-list-view>
+            {{#if this.revisions}}
+                {{#each this.revisions as |revision|}}
+                    <p>{{t 'registries.update_dropdown.updates_list_label'}} {{revision.versionNumber}}</p>
+                {{/each}}
+            {{else}}
+                {{t 'registries.update_dropdown.no_revisions'}}
+            {{/if}}
+        </div>
+    </dd.content>
+</ResponsiveDropdown>

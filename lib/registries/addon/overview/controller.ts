@@ -11,6 +11,8 @@ import RevisionModel from 'ember-osf-web/models/revision';
 import { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
+import Intl from 'ember-intl/services/intl';
+
 const {
     support: {
         supportEmail,
@@ -21,7 +23,9 @@ const { OSF: { url: baseURL } } = config;
 
 export default class Overview extends Controller {
     @service store!: Store;
+    @service intl!: Intl;
     model!: GuidRouteModel<Registration>;
+    revisionModel!: GuidRouteModel<RevisionModel>;
 
     queryParams = ['mode', 'revisionId'];
     supportEmail = supportEmail;
@@ -61,6 +65,7 @@ export default class Overview extends Controller {
         + (this.registration.relatedCounts.linkedRegistrations || 0);
     }
 
+    // Versioning
     get isViewingLatestRevision() {
         return this.revisionId === this.latestRevisionId;
     }
@@ -73,3 +78,4 @@ export default class Overview extends Controller {
         await newRevision.save();
     }
 }
+
