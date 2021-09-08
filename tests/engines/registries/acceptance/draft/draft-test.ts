@@ -69,6 +69,27 @@ module('Registries | Acceptance | draft form', hooks => {
         await percySnapshot('Branded draft page');
     });
 
+    test('it redirects page-not-found for non-contributors', async function(
+        this: DraftFormTestContext, assert,
+    ) {
+        server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const draft = server.create(
+            'draft-registration', {
+                registrationSchema,
+                branchedFrom: this.branchedFrom,
+            },
+        );
+
+        server.namespace = '/v2';
+        server.get('/draft_registrations/:draftId', () => ({
+            errors: [{ detail: 'Non-contributor denied access to draft' }],
+        }), 403);
+
+        await visit(`/registries/drafts/${draft.id}/`);
+        assert.equal(currentRouteName(), 'registries.page-not-found', 'At page not found');
+    });
+
     test('it redirects to review page of the draft form for read-only users', async function(
         this: DraftFormTestContext, assert,
     ) {

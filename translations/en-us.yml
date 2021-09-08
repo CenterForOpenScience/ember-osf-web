@@ -740,7 +740,7 @@ app_components:
             permissions: Permissions
             permissions_popover_title: 'Permission Information'
             permissions_popover: "\n                    <dl>\n                        <dt>Read</dt>\n                        <dd>\n                            <ul>\n                                <li>View project</li>\n                            </ul>\n                        </dd>\n                        <dt>Read + Write</dt>\n                        <dd>\n                            <ul>\n                                <li>Read privileges</li>\n                                <li>Add and configure project</li>\n                                <li>Add and edit content</li>\n                            </ul>\n                        </dd>\n                        <dt>Administrator</dt>\n                        <dd>\n                            <ul>\n                                <li>Read and write privileges</li>\n                                <li>Manage contributors</li>\n                                <li>Public-private settings</li>\n                            </ul>\n                        </dd>\n                    </dl>\n                "
-            citation: Citiation
+            citation: Citation
             citation_popover_title: 'Citation Information'
             citation_popover: 'Only checked contributors will be included in project citations. Contributors not in the citation can read and modify the project as normal.'
             remove_contributor_success: 'Project contributor removed!'
@@ -1612,6 +1612,7 @@ osf-components:
         tags: Tags
         add_tag: 'Add a tag to enhance discoverability'
         no_tags: 'No tags'
+        remove_tag: 'Remove tag'
     institutions-list:
         no_affiliated_institution:
             project: 'This project has no affiliated institutions'
@@ -1716,7 +1717,9 @@ osf-components:
             success: 'Contributor bibliographic status updated.'
             error: 'Error updating contributor bibliographic status.'
         reorderContributor:
+            reorderContributor: 'Reorder contributor'
             success: 'Contributor order updated.'
+            dragHandle: '⇕'
         noEducation: 'No education history to show'
         noEmployment: 'No employment history to show'
         addContributor:
