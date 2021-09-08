@@ -5,7 +5,11 @@
         </div>
         {{#if this.showTopbar}}
             <div local-class='ActionBar'>
-                <Overview::-Components::OverviewTopbar @isModeratorMode={{this.canViewAsModerator}} @registration={{@registration}} />
+                <Overview::-Components::OverviewTopbar
+                    @isModeratorMode={{this.canViewAsModerator}}
+                    @registration={{@registration}}
+                    @isViewingLatestRevision={{@isViewingLatestRevision}}
+                />
             </div>
             {{#if this.showMobileView}}
                 <Navbar local-class='SideBarToggle' as |nav|>

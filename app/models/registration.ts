@@ -12,6 +12,7 @@ import InstitutionModel from './institution';
 import NodeModel from './node';
 import RegistrationProviderModel from './registration-provider';
 import RegistrationSchemaModel, { RegistrationMetadata } from './registration-schema';
+import { RevisionActionTrigger } from './revision-action';
 import UserModel from './user';
 
 export enum RegistrationReviewStates {
@@ -29,8 +30,11 @@ export enum RegistrationReviewStates {
 type NonActionableStates = RegistrationReviewStates.Initial
     | RegistrationReviewStates.Withdrawn | RegistrationReviewStates.Rejected;
 
-export type ReviewsStateToDecisionMap = Exclude<RegistrationReviewStates, NonActionableStates>;
-export const reviewsStateToDecisionMap: { [index in ReviewsStateToDecisionMap]: ReviewActionTrigger[] } = {
+export type ReviewsStateToDecisionMap =
+    Exclude<RegistrationReviewStates, NonActionableStates> | RevisionReviewStates.RevisionPendingModeration;
+export const reviewsStateToDecisionMap: {
+    [index in ReviewsStateToDecisionMap]: Array<ReviewActionTrigger | RevisionActionTrigger>
+} = {
     [RegistrationReviewStates.Accepted]: [ReviewActionTrigger.ForceWithdraw],
     [RegistrationReviewStates.Embargo]: [ReviewActionTrigger.ForceWithdraw],
     [RegistrationReviewStates.Pending]:
@@ -39,6 +43,8 @@ export const reviewsStateToDecisionMap: { [index in ReviewsStateToDecisionMap]: 
         [ReviewActionTrigger.AcceptWithdrawal, ReviewActionTrigger.RejectWithdrawal],
     [RegistrationReviewStates.PendingWithdrawRequest]: [ReviewActionTrigger.ForceWithdraw],
     [RegistrationReviewStates.PendingEmbargoTermination]: [ReviewActionTrigger.ForceWithdraw],
+    [RevisionReviewStates.RevisionPendingModeration]:
+        [RevisionActionTrigger.AcceptRevision, RevisionActionTrigger.RejectRevision],
 };
 
 const Validations = buildValidations({

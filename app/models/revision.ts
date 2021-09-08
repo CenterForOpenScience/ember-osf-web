@@ -30,7 +30,8 @@ export default class RevisionModel extends OsfModel {
     @belongsTo('registration') registration!: AsyncBelongsTo<RegistrationModel> & RegistrationModel;
     @belongsTo('registration-schema')
     registrationSchema!: AsyncBelongsTo<RegistrationSchemaModel> & RegistrationSchemaModel;
-    @hasMany('revision-action') actions!: AsyncHasMany<RevisionActionModel> & RevisionActionModel;
+    @hasMany('revision-action', { inverse: 'target' })
+    actions!: AsyncHasMany<RevisionActionModel> | RevisionActionModel[];
 }
 
 declare module 'ember-data/types/registries/model' {

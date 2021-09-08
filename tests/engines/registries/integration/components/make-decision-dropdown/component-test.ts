@@ -107,4 +107,6 @@ module('Registries | Integration | Component | make-decision-dropdown', hooks =>
             }
         });
     }
+
+    // TODO: add tests for revisions workflow
 });

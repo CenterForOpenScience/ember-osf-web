@@ -4,6 +4,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { TestContext } from 'ember-intl/test-support';
 import RegistrationModel from 'ember-osf-web/models/registration';
+import { RevisionReviewStates } from 'ember-osf-web/models/revision';
 import { OsfLinkRouterStub } from 'ember-osf-web/tests/integration/helpers/osf-link-router-stub';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -25,6 +26,9 @@ module('Registries | Integration | Component | registration-list-card', hooks =>
             title: 'Test title',
             provider,
         }, 'withReviewActions');
+        server.create('revision', {
+            registration,
+        }, 'withRevisionActions');
         this.setProperties({ registration });
     });
 
@@ -116,6 +120,22 @@ module('Registries | Integration | Component | registration-list-card', hooks =>
         assert.dom('[data-test-registration-list-card]').isVisible();
         assert.dom('[data-test-registration-list-card-icon="rejected"]').exists();
         assert.dom('[data-test-registration-title-link]').doesNotExist();
+        assert.dom('[data-test-registration-list-card-title]').hasText(this.registration.title);
+    });
+
+    test('it renders pending revision', async function(this: ThisTestContext, assert) {
+        const mirageRegistration = await this.store.findRecord('registration', this.registration.id);
+        mirageRegistration.revisionState = RevisionReviewStates.RevisionPendingModeration;
+        this.set('mirageRegistration', mirageRegistration);
+        await render(hbs`
+            <Registries::RegistrationList::Card
+            @registration={{this.mirageRegistration}}
+            @state='revision_pending_moderation'
+        />`);
+        await a11yAudit(this.element);
+        assert.dom('[data-test-registration-list-card]').isVisible();
+        assert.dom('[data-test-registration-list-card-icon="revision_pending_moderation"]').exists();
+        assert.dom('[data-test-registration-title-link]').exists();
         assert.dom('[data-test-registration-list-card-title]').hasText(this.registration.title);
     });
 });

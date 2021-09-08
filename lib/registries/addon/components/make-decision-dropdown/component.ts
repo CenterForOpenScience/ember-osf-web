@@ -11,12 +11,19 @@ import Toast from 'ember-toastr/services/toast';
 
 import RouterService from '@ember/routing/router-service';
 import RegistrationModel,
-{ RegistrationReviewStates, reviewsStateToDecisionMap } from 'ember-osf-web/models/registration';
+{
+    RegistrationReviewStates,
+    ReviewsStateToDecisionMap,
+    reviewsStateToDecisionMap,
+} from 'ember-osf-web/models/registration';
 import { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
+import { RevisionReviewStates } from 'ember-osf-web/models/revision';
+import { RevisionActionTrigger } from 'ember-osf-web/models/revision-action';
 
 interface Args {
     registration: RegistrationModel;
+    isViewingLatestRevision: boolean;
 }
 
 export default class MakeDecisionDropdown extends Component<Args> {
@@ -25,7 +32,7 @@ export default class MakeDecisionDropdown extends Component<Args> {
     @service toast!: Toast;
     @service router!: RouterService;
 
-    @tracked decisionTrigger?: ReviewActionTrigger;
+    @tracked decisionTrigger?: ReviewActionTrigger | RevisionActionTrigger;
     @tracked comment?: string;
 
     reviewsStateToDecisionMap = reviewsStateToDecisionMap;
@@ -39,6 +46,10 @@ export default class MakeDecisionDropdown extends Component<Args> {
             this.intl.t('registries.makeDecisionDropdown.acceptWithdrawalDescription'),
         [ReviewActionTrigger.RejectWithdrawal]:
             this.intl.t('registries.makeDecisionDropdown.rejectWithdrawalDescription'),
+        [RevisionActionTrigger.AcceptRevision]:
+            this.intl.t('registries.makeDecisionDropdown.acceptRevisionDescription'),
+        [RevisionActionTrigger.RejectRevision]:
+            this.intl.t('registries.makeDecisionDropdown.rejectRevisionDescription'),
     };
 
     actionTriggerToTextMap = {
@@ -47,7 +58,15 @@ export default class MakeDecisionDropdown extends Component<Args> {
         [ReviewActionTrigger.RejectSubmission]: this.intl.t('registries.makeDecisionDropdown.rejectSubmission'),
         [ReviewActionTrigger.AcceptWithdrawal]: this.intl.t('registries.makeDecisionDropdown.acceptWithdrawal'),
         [ReviewActionTrigger.RejectWithdrawal]: this.intl.t('registries.makeDecisionDropdown.rejectWithdrawal'),
+        [RevisionActionTrigger.AcceptRevision]:
+            this.intl.t('registries.makeDecisionDropdown.acceptRevision'),
+        [RevisionActionTrigger.RejectRevision]:
+            this.intl.t('registries.makeDecisionDropdown.rejectRevision'),
     };
+
+    get latestRevision() {
+        return this.args.registration.revisions.lastObject;
+    }
 
     get commentTextArea() {
         if (this.args.registration.reviewsState) {
@@ -72,6 +91,9 @@ export default class MakeDecisionDropdown extends Component<Args> {
     }
 
     get hasModeratorActions() {
+        if (this.args.isViewingLatestRevision) {
+            return this.latestRevision?.reviewState === RevisionReviewStates.RevisionPendingModeration;
+        }
         return this.args.registration.reviewsState
         && ![
             RegistrationReviewStates.Initial,
@@ -80,14 +102,29 @@ export default class MakeDecisionDropdown extends Component<Args> {
         ].includes(this.args.registration.reviewsState);
     }
 
+    get moderatorActions() {
+        const { reviewsState } = this.args.registration;
+        const { revisionState } = this.args.registration;
+        let actions: ReviewsStateToDecisionMap[] = reviewsState ? reviewsStateToDecisionMap[reviewsState] : [];
+        if (revisionState === RevisionReviewStates.RevisionPendingModeration && this.args.isViewingLatestRevision) {
+            actions = reviewsStateToDecisionMap[revisionState];
+        }
+        return actions;
+    }
+
     @task
     @waitFor
     async submitDecision() {
         if (this.decisionTrigger) {
-            const newAction = this.store.createRecord('review-action', {
+            const isRevisionAction = ([
+                RevisionActionTrigger.RejectRevision, RevisionActionTrigger.AcceptRevision,
+            ] as  Array<RevisionActionTrigger | ReviewActionTrigger>).includes(this.decisionTrigger);
+            const actionType = isRevisionAction ? 'revision-action' : 'review-action';
+            const target = isRevisionAction ? this.args.registration.revisions.lastObject : this.args.registration;
+            const newAction = this.store.createRecord(actionType, {
                 actionTrigger: this.decisionTrigger,
                 comment: (this.comment ? this.comment : undefined),
-                target: this.args.registration,
+                target,
             });
             try {
                 await newAction.save();
@@ -97,6 +134,12 @@ export default class MakeDecisionDropdown extends Component<Args> {
                         'registries.branded.moderation.submissions',
                         this.args.registration.provider.get('id'),
                         { queryParams: { state: RegistrationReviewStates.Rejected } },
+                    );
+                } else if (this.decisionTrigger === RevisionActionTrigger.RejectRevision) {
+                    this.router.transitionTo(
+                        'registries.overview',
+                        this.args.registration.get('id'),
+                        { queryParams: { mode: 'moderator', revisionId: '' } },
                     );
                 }
                 this.args.registration.reload();

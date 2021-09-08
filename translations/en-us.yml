@@ -1008,6 +1008,7 @@ registries:
             pending: Pending
             withdrawn: Withdrawn
             pendingWithdraw: 'Pending Withdrawal'
+            revisionPending: 'Pending Updates'
         submissions:
             title: Submissions
         withdrawals:
@@ -1388,6 +1389,7 @@ registries:
         rejected: 'No rejected registrations have been found'
         withdrawn: 'No withdrawn registrations have been found'
         pending_withdraw: 'No registrations found pending withdrawal'
+        revision_pending_moderation: 'No registrations found with updates pending'
     reviewActionsList:
         failedToLoadActions: 'Failed to load registration moderation history'
         noActionsFound: 'No moderation history found for this registration'
@@ -1400,6 +1402,8 @@ registries:
         contributorAction: 'Registration {action} {date} by contributor {contributor}'
         submitActionWithoutEmbargo: 'Registration submitted {date} by contributor {contributor}'
         submitActionWithEmbargo: 'Registration submitted {date} by contributor {contributor} with embargo ending {embargoEndDate}'
+        revisionContributorAction: 'Update {action} {date} by contributor {contributor}'
+        revisionModeratorAction: 'Update {action} {date} by moderator {moderator}'
     reviewActions:
         triggerPastTense:
             submit: 'submitted'
@@ -1410,6 +1414,13 @@ registries:
             accept_withdrawal: 'withdrawal request accepted'
             reject_withdrawal: 'withdrawal request rejected'
             request_embargo_termination: 'embargo termination requested'
+    revisionActions:
+        triggerPastTense:
+            submit_revision: 'submitted'
+            admin_approve_revision: 'approved'
+            admin_reject_revision: 'requested further edits'
+            accept_revision: 'accepted'
+            reject_revision: 'rejected'
     finalizeRegistrationModal:
         title: 'Almost done...'
         notice:
@@ -1437,6 +1448,10 @@ registries:
         acceptWithdrawalDescription: 'Registration will be withdrawn but still have a tombstone page with a justification for withdrawal and subset of the metadata available'
         rejectWithdrawal: 'Reject withdrawal'
         rejectWithdrawalDescription: 'Registration will remain fully public'
+        acceptRevision: 'Accept update'
+        acceptRevisionDescription: 'Update will be accepted and registration will be updated'
+        rejectRevision: 'Reject update'
+        rejectRevisionDescription: 'Update will be rejected and registration will remain unchanged'
         submit: 'Submit'
         success: 'Successfully submitted moderator decision.'
         failure: 'Failed to submit moderator decision.'

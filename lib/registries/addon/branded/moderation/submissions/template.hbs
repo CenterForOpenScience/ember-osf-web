@@ -19,6 +19,16 @@
                 {{t 'registries.moderation.states.pending'}}
             </button>
             <button
+                data-test-submissions-type='revision-pending'
+                data-test-is-selected={{if (eq this.state 'revision_pending_moderation') 'true' 'false'}}
+                type='button'
+                {{on 'click' (fn this.changeTab 'revision_pending_moderation')}}
+                local-class='tab {{if (eq this.state 'revision_pending_moderation') 'selected'}}'
+            >
+                <FaIcon @icon='hourglass' />
+                {{t 'registries.moderation.states.revisionPending'}}
+            </button>
+            <button
                 data-test-submissions-type='accepted'
                 data-test-is-selected={{if (eq this.state 'accepted') 'true' 'false'}}
                 type='button'

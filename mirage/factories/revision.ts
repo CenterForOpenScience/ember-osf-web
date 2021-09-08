@@ -1,4 +1,4 @@
-import { Factory } from 'ember-cli-mirage';
+import { association, Factory, Trait, trait } from 'ember-cli-mirage';
 import faker from 'faker';
 
 import RevisionModel, { RevisionReviewStates } from 'ember-osf-web/models/revision';
@@ -6,8 +6,11 @@ import RevisionModel, { RevisionReviewStates } from 'ember-osf-web/models/revisi
 export interface MirageRevisionModel extends RevisionModel {
     registrationId: string;
 }
+export interface RevisionTraits {
+    withRevisionActions: Trait;
+}
 
-export default Factory.extend<MirageRevisionModel>({
+export default Factory.extend<MirageRevisionModel & RevisionTraits>({
     dateCreated() {
         return faker.date.past(1, new Date(2015, 0, 0));
     },
@@ -23,6 +26,7 @@ export default Factory.extend<MirageRevisionModel>({
     isPendingCurrentUserApproval() {
         return false;
     },
+    initiatedBy: association(),
 
     afterCreate(revision) {
         if (revision.registration) {
@@ -30,6 +34,13 @@ export default Factory.extend<MirageRevisionModel>({
             revision.save();
         }
     },
+
+    withRevisionActions: trait<MirageRevisionModel>({
+        afterCreate(revision, server) {
+            const revisionActions = server.createList('revision-action', 3, { target: revision });
+            revision.update({ actions: revisionActions });
+        },
+    }),
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {

@@ -3,10 +3,13 @@ import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupIntl, t, TestContext } from 'ember-intl/test-support';
 import { Permission } from 'ember-osf-web/models/osf-model';
+import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
+import { RevisionReviewStates } from 'ember-osf-web/models/revision';
 import { click, visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
+import { deserializeResponseKey } from 'ember-osf-web/transforms/registration-response-key';
 import { percySnapshot } from 'ember-percy';
 import moment from 'moment';
 import { module, test } from 'qunit';
@@ -321,5 +324,93 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         await click('[data-test-moderation-dropdown-decision-checkbox="force_withdraw"]');
         await click('[data-test-moderation-dropdown-submit]');
         assert.dom('[data-test-tombstone-title]').exists('Tombstone page shows');
+    });
+
+    test('Updates: pending -> accepted', async function(this: ModeratorModeTestContext, assert) {
+        const registration = server.create('registration', {
+            reviewsState: RegistrationReviewStates.Accepted,
+            revisionState: RevisionReviewStates.RevisionPendingModeration,
+            registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+            provider: this.provider,
+            id: 'zip',
+            registrationResponses: {
+                'page-one_short-text': 'alpaca',
+                'page-one_multi-select': ['Crocs'],
+            },
+        });
+
+        const revision = server.create('revision', {
+            reviewState: RevisionReviewStates.RevisionPendingModeration,
+            registration,
+            id: 'zap',
+            revisionResponses: {
+                'page-one_short-text': 'llama',
+                'page-one_multi-select': ['Crocs'],
+            },
+        }, 'withRevisionActions');
+        await visit(`/${registration.id}?mode=moderator&revisionId=${revision.id}`);
+        assert.dom('[data-test-version-metadata-title]').hasText(
+            t('registries.overview.versionMetadata.title'),
+            'Notification box showing update metadata shown',
+        );
+        assert.dom(`[data-test-read-only-response=${deserializeResponseKey('page-one_short-text')}]`).hasText(
+            'llama', 'Revised response is shown',
+        );
+        await click('[data-test-moderation-dropdown-button]');
+        assert.dom('[data-test-moderation-dropdown-decision-label]').exists(
+            { count: 2 },
+            'Two moderator actions available',
+        );
+        assert.dom('[data-test-moderation-dropdown-decision-label="accept_revision"]').hasText(
+            t('registries.makeDecisionDropdown.acceptRevision'),
+            'Accept update option has correct text',
+        );
+        assert.dom('[data-test-moderation-dropdown-decision-label="reject_revision"]').hasText(
+            t('registries.makeDecisionDropdown.rejectRevision'),
+            'Reject update option has correct text',
+        );
+        await percySnapshot(assert);
+        await click('[data-test-moderation-dropdown-decision-checkbox="accept_revision"]');
+        await click('[data-test-moderation-dropdown-submit]');
+        assert.dom(`[data-test-read-only-response=${deserializeResponseKey('page-one_short-text')}]`).hasText(
+            'llama', 'Response from the accepted update still shown',
+        );
+    });
+
+    test('Updates: pending -> rejected', async function(this: ModeratorModeTestContext, assert) {
+        const registration = server.create('registration', {
+            currentUserPermissions: Object.values(Permission),
+            reviewsState: RegistrationReviewStates.Accepted,
+            revisionState: RevisionReviewStates.RevisionPendingModeration,
+            registrationSchema: server.schema.registrationSchemas.find('testSchema'),
+            provider: this.provider,
+            id: 'zip',
+            registrationResponses: {
+                'page-one_short-text': 'Krobus',
+                'page-one_multi-select': ['Crocs'],
+            },
+        });
+        const revision = server.create('revision', {
+            id: 'zap',
+            registration,
+            reviewState: RevisionReviewStates.RevisionPendingModeration,
+            revisionResponses: {
+                'page-one_short-text': 'junimo',
+                'page-one_multi-select': ['Crocs'],
+            },
+        });
+        await visit(`/${registration.id}?mode=moderator&revisionId=${revision.id}`);
+        assert.dom(`[data-test-read-only-response=${deserializeResponseKey('page-one_short-text')}]`).hasText(
+            'junimo', 'Response from the pending update shown',
+        );
+        await click('[data-test-moderation-dropdown-button]');
+        await click('[data-test-moderation-dropdown-decision-checkbox="reject_revision"]');
+        await click('[data-test-moderation-dropdown-submit]');
+        assert.dom('[data-test-version-metadata-title]').doesNotExist(
+            'Notification box for update metadata no longer shown',
+        );
+        assert.dom(`[data-test-read-only-response=${deserializeResponseKey('page-one_short-text')}]`).hasText(
+            'Krobus', 'Response from the registration shown',
+        );
     });
 });
