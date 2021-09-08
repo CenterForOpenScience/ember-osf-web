@@ -9,7 +9,6 @@ import Registration, { RegistrationReviewStates } from 'ember-osf-web/models/reg
 import { RevisionReviewStates } from 'ember-osf-web/models/revision';
 import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 
-import user from 'ember-osf-web/mirage/factories/user';
 import { Permission } from 'ember-osf-web/models/osf-model';
 
 function allRevisions(registration: ModelInstance<Registration>){
@@ -22,7 +21,7 @@ module('Acceptance | update dropdown', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('update dropdown component', async assert => {
+    test('update dropdown - all revisions', async assert => {
         const userServer = server.create('user', 'loggedIn');
 
         const node = server.create('node', {
@@ -48,7 +47,7 @@ module('Acceptance | update dropdown', hooks => {
         });
 
         // const revisions = server.createList('revision', 10, 'withChildren');
-        const beforeCount = user.registration.revisions.length;
+        const beforeCount = allRevisions(registration);
         const url = `/${node.id}/registrations`;
         // TODO update to proper route name once on test
         await visit(url);

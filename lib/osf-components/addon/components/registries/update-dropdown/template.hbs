@@ -14,7 +14,8 @@
         data-test-update-content
         local-class='Updates'
     >
-        <div local-class='UpdatesList'>
+        <div local-class='UpdatesList'
+        data-test-list-view>
             {{#if this.revisions}}
                 {{#each this.revisions as |revision|}}
                     <p>{{t 'registries.update_dropdown.updates_list_label'}} {{revision.versionNumber}}</p>
