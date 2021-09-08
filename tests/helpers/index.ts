@@ -62,6 +62,10 @@ export function currentURL() {
     return router.get('location').getURL();
 }
 
+export function getHrefAttribute(selector: string) {
+    return document.querySelector(selector)!.getAttribute('href');
+}
+
 export function setupOSFApplicationTest(hooks: any) {
     setupApplicationTest(hooks);
     hooks.beforeEach(async () => {

@@ -2,7 +2,7 @@ import Store from '@ember-data/store';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { assert } from '@ember/debug';
-import { action } from '@ember/object';
+import { action, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
@@ -24,6 +24,18 @@ export default class SubmitAndDecide extends Component {
     revisionManager!: RevisionManager;
 
     @tracked continueEditModalOpen = false;
+
+    @computed('revisionManager.{isPendingAdminApproval,currentUserIsAdmin,isPendingModeration}')
+    get pendingStatusString(): string {
+        if (this.revisionManager.isPendingAdminApproval) {
+            return 'registries.edit_revision.review.pending_admin_notice';
+        }
+        if (this.revisionManager.isPendingModeration) {
+            return 'registries.edit_revision.review.pending_moderation_notice';
+        }
+        return 'registries.edit_revision.review.decision_recorded_notice';
+    }
+
 
     @action
     openContinueEditModal() {

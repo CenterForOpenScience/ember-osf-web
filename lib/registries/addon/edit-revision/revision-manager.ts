@@ -1,9 +1,8 @@
 import { action, computed, set } from '@ember/object';
-import { alias, filterBy, not, notEmpty, or } from '@ember/object/computed';
+import { alias, filterBy, not, notEmpty } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { isEmpty } from '@ember/utils';
-import { BufferedChangeset } from 'ember-changeset/types';
 import { restartableTask, task, TaskInstance, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
@@ -41,13 +40,12 @@ export default class RevisionManager {
     revisionResponses!: RegistrationResponse;
 
     pageManagers: PageManager[] = [];
-    metadataChangeset!: BufferedChangeset;
     schemaBlocks!: SchemaBlock[];
 
     @alias('registration.currentUserIsReadOnly') currentUserIsReadOnly!: boolean;
     @alias('provider.reviewsWorkflow') reviewsWorkflow?: string;
-    @or('onPageInput.isRunning', 'onMetadataInput.isRunning') autoSaving!: boolean;
-    @or('initializePageManagers.isRunning', 'initializeMetadataChangeset.isRunning') initializing!: boolean;
+    @alias('onPageInput.isRunning') autoSaving!: boolean;
+    @alias('initializePageManagers.isRunning') initializing!: boolean;
     @not('registrationResponsesIsValid') hasInvalidResponses!: boolean;
     @filterBy('pageManagers', 'isVisited', true) visitedPages!: PageManager[];
     @notEmpty('visitedPages') hasVisitedPages!: boolean;
@@ -58,12 +56,12 @@ export default class RevisionManager {
     node?: NodeModel;
     revisionId!: string;
 
-    @computed('pageManagers.{[],@each.pageIsValid}', 'metadataIsValid')
+    @computed('pageManagers.{[],@each.pageIsValid}')
     get registrationResponsesIsValid() {
         return this.pageManagers.every(pageManager => pageManager.pageIsValid);
     }
 
-    @computed('onPageInput.lastComplete', 'onMetadataInput.lastComplete')
+    @computed('onPageInput.lastComplete')
     get lastSaveFailed() {
         const onPageInputLastComplete = taskFor(this.onPageInput).lastComplete;
         const pageInputFailed = onPageInputLastComplete ? onPageInputLastComplete.isError : false;
@@ -72,7 +70,7 @@ export default class RevisionManager {
 
     @computed('revision.reviewState')
     get isEditable() {
-        return this.revision.reviewState === RevisionReviewStates.RevisionInProgress;
+        return this.revision?.reviewState === RevisionReviewStates.RevisionInProgress;
     }
 
     @computed('revision.reviewState')

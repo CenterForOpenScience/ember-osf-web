@@ -8,6 +8,7 @@ import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 
 import requireAuth from 'ember-osf-web/decorators/require-auth';
+import { RevisionReviewStates } from 'ember-osf-web/models/revision';
 import Analytics from 'ember-osf-web/services/analytics';
 import RevisionNavigationManager from 'registries/edit-revision/nav-manager';
 import RevisionManager from 'registries/edit-revision/revision-manager';
@@ -29,6 +30,10 @@ export default class EditRevisionRoute extends Route {
         const revision = await this.store.findRecord('revision', revisionId);
         const registration = await revision.registration;
         const provider = await registration.provider;
+        if ((registration.currentUserIsReadOnly && revision.reviewState !== RevisionReviewStates.Approved) ||
+            (revision.reviewState !== RevisionReviewStates.RevisionInProgress)) {
+            this.replaceWith('edit-revision.review', revisionId);
+        }
         return {
             revision,
             registration,

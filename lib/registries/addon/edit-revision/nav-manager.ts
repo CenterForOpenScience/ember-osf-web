@@ -48,7 +48,7 @@ export default class RevisionNavigationManager {
         return pageManagers.length - 1;
     }
 
-    @computed('currentPage', 'pageManagers.[]', 'inMetadata', 'lastPage')
+    @computed('currentPage', 'pageManagers.[]', 'lastPage')
     get nextPageParam() {
         const {
             pageManagers,

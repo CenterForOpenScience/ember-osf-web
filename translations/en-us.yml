@@ -1104,6 +1104,7 @@ registries:
                 page_label: Review
                 start_review: Review
                 invalid_warning: 'Please address invalid or missing entries to complete registration.'
+                non_admin_warning: 'Only admins can submit a registration.'
                 toggle_dropdown: 'Toggle navigation dropdown'
             register: Register
             unable_to_fetch_children_count: 'Unable to fetch project''s components'
@@ -1115,9 +1116,12 @@ registries:
             accept_changes: 'Accept changes'
             continue_editing: 'Continue editing'
             decision_recorded_notice: 'Decision recorded. Pending decisions from other Admin contributors.'
+            pending_admin_notice: 'Pending decisions from admin(s).'
             pending_moderation_notice: 'Pending decisions from moderators.'
             action_submit_success: 'Your decision was recorded'
             action_submit_failed: 'Your decision was not recorded'
+            non_admin_warning: 'Only admins can submit an update.'
+            invalid_warning: 'Please address invalid or missing entries to complete update.'
         continue_edit_modal:
             heading: 'Are you sure this needs more edits?'
             warning: 'This will cancel any approvals from other admin contributors and return the registration back to its draft form for additional changes.'

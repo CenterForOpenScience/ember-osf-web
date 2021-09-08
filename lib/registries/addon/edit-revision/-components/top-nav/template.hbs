@@ -4,7 +4,7 @@
 
 <Navbar local-class='SideBarToggle' ...attributes as |nav|>
     <nav.bordered-section>
-        {{#unless @currentUserIsReadOnly}}
+        {{#if (and (not @revisionManager.currentUserIsReadOnly) @revisionManager.isEditable)}}
             <nav.buttons.default
                 data-test-sidenav-toggle
                 data-analytics-name='Show sidenav'
@@ -13,10 +13,10 @@
             >
                 <nav.icon @icon={{if @layout.sidenavGutterClosed 'bars' 'times'}} />
             </nav.buttons.default>
-        {{/unless}}
+        {{/if}}
     </nav.bordered-section>
-    <nav.bordered-section local-class='MobileNavPageLabelSection'>
-        <div local-class='MobileNavPageLabel' data-test-page-label>
+    <nav.bordered-section>
+        <div data-test-page-label>
             {{#if @navManager.inReview}}
                 {{t 'registries.drafts.draft.review.page_label'}}
             {{else}}
@@ -25,10 +25,10 @@
         </div>
     </nav.bordered-section>
     <nav.bordered-section>
-        {{#if (and @navManager.prevPageParam (not @currentUserIsReadOnly))}}
+        {{#if (and @navManager.prevPageParam (not @revisionManager.currentUserIsReadOnly) @revisionManager.isEditable)}}
             <nav.links.default
                 data-test-goto-previous-page
-                data-analytics-name='Sidenav back'
+                data-analytics-name='Topnav back'
                 aria-label={{t 'osf-components.registries-top-nav.previousPage'}}
                 @route='registries.edit-revision.page'
                 @models={{array @revisionManager.revisionId @navManager.prevPageParam}}
@@ -39,7 +39,7 @@
         {{#if @navManager.nextPageParam}}
             <nav.links.default
                 data-test-goto-next-page
-                data-analytics-name='Sidenav next'
+                data-analytics-name='Topnav next'
                 aria-label={{t 'osf-components.registries-top-nav.nextPage'}}
                 @route='registries.edit-revision.page'
                 @models={{array @revisionManager.revisionId @navManager.nextPageParam}}
@@ -51,7 +51,7 @@
         {{#if @navManager.isLastPage}}
             <nav.links.default
                 data-test-goto-review
-                data-analytics-name='Sidenav review'
+                data-analytics-name='Topnav review'
                 aria-label={{t 'osf-components.registries-top-nav.reviewRegistration'}}
                 @route='registries.edit-revision.review'
                 @models={{array @revisionManager.revisionId}}
