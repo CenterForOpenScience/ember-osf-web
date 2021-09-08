@@ -11,6 +11,8 @@ import RevisionModel from 'ember-osf-web/models/revision';
 import { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
+import Intl from 'ember-intl/services/intl';
+
 const {
     support: {
         supportEmail,
@@ -21,7 +23,9 @@ const { OSF: { url: baseURL } } = config;
 
 export default class Overview extends Controller {
     @service store!: Store;
+    @service intl!: Intl;
     model!: GuidRouteModel<Registration>;
+    revisionModel!: GuidRouteModel<RevisionModel>;
 
     queryParams = ['mode', 'revisionId'];
     supportEmail = supportEmail;
@@ -30,7 +34,7 @@ export default class Overview extends Controller {
     @tracked revisionId = '';
 
     @alias('model.taskInstance.value') registration?: Registration;
-
+    @alias('model.taskInstance.value') revision?: RevisionModel;
     @computed('registration.{reviewsState,archiving}')
     get showTombstone() {
         return this.registration && (this.registration.reviewsState === 'withdrawn' || this.registration.archiving);
@@ -55,6 +59,7 @@ export default class Overview extends Controller {
         + (this.registration.relatedCounts.linkedRegistrations || 0);
     }
 
+    // Versioning
     @action
     async createNewRevision() {
         const newRevision: RevisionModel = this.store.createRecord('revision', {
@@ -63,3 +68,4 @@ export default class Overview extends Controller {
         await newRevision.save();
     }
 }
+
