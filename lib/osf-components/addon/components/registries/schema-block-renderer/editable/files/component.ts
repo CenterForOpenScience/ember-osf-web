@@ -44,8 +44,8 @@ export default class Files extends Component {
 
     @computed('draftRegistration', 'node.id')
     get nodeUrl() {
-        if (this.draftRegistration) {
-            return pathJoin(baseURL, this.draftRegistration.belongsTo('branchedFrom').id());
+        if (this.node) {
+            return pathJoin(baseURL, this.node.id);
         }
         return '';
     }
