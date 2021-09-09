@@ -64,10 +64,14 @@ module('Integration | Component | files-widget', hooks => {
         const mirageRegistration = server.create('registration', 'withFiles');
         const registration = await this.store.findRecord('registration', mirageRegistration.id);
         this.set('registration', registration);
+        const [osfstorage] = mirageRegistration.files.models;
+        const count = osfstorage.rootFolder.files.models.length;
         await render(hbs`<Files::Widget @node={{this.registration}} @canEdit={{false}} />`);
         assert.dom('[data-test-delete-current-folder]').doesNotExist();
         assert.dom('[data-test-delete-file]').doesNotExist();
         assert.dom('[data-test-files-menu-trigger]').doesNotExist();
+        assert.dom('[data-test-file-browser-list]').isVisible();
+        assert.dom('[data-test-file-row]').exists({ count});
     });
 
     test('can sort files by name and date', async function(this: ThisTestContext, assert) {
