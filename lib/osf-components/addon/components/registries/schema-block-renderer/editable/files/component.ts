@@ -17,6 +17,7 @@ import pathJoin from 'ember-osf-web/utils/path-join';
 
 import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
 import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
+import RevisionModel from 'ember-osf-web/models/revision';
 import styles from './styles';
 import template from './template';
 
@@ -30,7 +31,8 @@ export default class Files extends Component {
     // Required param
     changeset!: BufferedChangeset;
     schemaBlock!: SchemaBlock;
-    draftRegistration!: DraftRegistrationModel;
+    draftRegistration?: DraftRegistrationModel;
+    revision?: RevisionModel;
 
     @alias('schemaBlock.registrationResponseKey')
     valuePath!: string;
@@ -42,7 +44,10 @@ export default class Files extends Component {
 
     @computed('draftRegistration', 'node.id')
     get nodeUrl() {
-        return pathJoin(baseURL, this.draftRegistration.belongsTo('branchedFrom').id());
+        if (this.draftRegistration) {
+            return pathJoin(baseURL, this.draftRegistration.belongsTo('branchedFrom').id());
+        }
+        return '';
     }
 
     didReceiveAttrs() {
@@ -51,8 +56,8 @@ export default class Files extends Component {
             Boolean(this.changeset),
         );
         assert(
-            'Registries::SchemaBlockRenderer::Editable::Files requires a draft-registration to render',
-            Boolean(this.draftRegistration),
+            'Registries::SchemaBlockRenderer::Editable::Files requires a draft-registration xor to render',
+            Boolean(this.draftRegistration) !== Boolean(this.revision),
         );
         assert(
             'Registries::SchemaBlockRenderer::Editable::Files requires a valuePath to render',
@@ -63,7 +68,11 @@ export default class Files extends Component {
             Boolean(this.schemaBlock),
         );
 
-        this.node = this.draftRegistration.belongsTo('branchedFrom').value() as AbstractNodeModel;
+        if (this.draftRegistration) {
+            this.node = this.draftRegistration.belongsTo('branchedFrom').value() as AbstractNodeModel;
+        } else {
+            this.node = this.revision!.belongsTo('registration').value() as AbstractNodeModel;
+        }
         this.set('selectedFiles', this.changeset.get(this.valuePath) || []);
     }
 

@@ -199,6 +199,12 @@ export default function(this: Server) {
     osfToManyRelationship(this, 'registration', 'subjects', {
         only: ['related', 'self'],
     });
+
+    this.get('/registrations/:parentID/files', nodeFileProviderList); // registration file providers list
+    this.get('/registrations/:parentID/files/:fileProviderId',
+        nodeFilesListForProvider); // registration files list for file provider
+    this.get('/registrations/:parentID/files/:fileProviderId/:folderId',
+        folderFilesList); // registration folder detail view
     osfResource(this, 'subject', { only: ['show'] });
 
     osfNestedResource(this, 'comment', 'reports', {

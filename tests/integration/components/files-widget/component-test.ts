@@ -60,6 +60,16 @@ module('Integration | Component | files-widget', hooks => {
         assert.dom('[data-test-file-row]').exists({ count });
     });
 
+    test('it renders non-editable view for revision', async function(this: ThisTestContext, assert) {
+        const mirageRegistration = server.create('registration', 'withFiles');
+        const registration = await this.store.findRecord('registration', mirageRegistration.id);
+        this.set('registration', registration);
+        await render(hbs`<Files::Widget @node={{this.registration}} @canEdit={{false}} />`);
+        assert.dom('[data-test-delete-current-folder]').doesNotExist();
+        assert.dom('[data-test-delete-file]').doesNotExist();
+        assert.dom('[data-test-files-menu-trigger]').doesNotExist();
+    });
+
     test('can sort files by name and date', async function(this: ThisTestContext, assert) {
         const mirageNode = server.create('node', { currentUserPermissions: Object.values(Permission) });
 
