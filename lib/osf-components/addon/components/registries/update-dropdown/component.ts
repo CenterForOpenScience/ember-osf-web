@@ -33,7 +33,7 @@ export default class UpdateDropdown extends Component<Args> {
         taskFor(this.getRevisionList).perform();
     }
 
-    get shouldDisplayApproveDenyButtons() {
+    get shouldShowApproveDenyButtons() {
         return this.args.registration.userHasAdminPermission
         && this.args.registration.revisionState
         && ![
@@ -52,7 +52,7 @@ export default class UpdateDropdown extends Component<Args> {
         }
         try {
             const revisions = await this.args.registration.queryHasMany('revisions');
-            this.revisions = revisions;
+            this.revisions = revisions.sort();
         } catch (e) {
             const errorMessage = this.intl.t('registries.update_dropdown.revision_error_message');
             captureException(e, { errorMessage });

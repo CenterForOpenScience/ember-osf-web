@@ -20,7 +20,7 @@
                 {{#each this.revisions as |revision|}}
                     <div local-class='Update'>
                         <LinkTo @route='overview.index' @query={{hash revisionId=revision.id}} local-class='UpdateLink'>
-                            {{#if revision.revisionNumber}}
+                            {{#if revision.revisionNumber }}
                                 {{t 'registries.update_dropdown.updates_list_label'}} {{revision.revisionNumber}}
                             {{else}}
                                 {{t 'registries.update_dropdown.updates_list_label_original'}}
