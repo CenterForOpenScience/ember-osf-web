@@ -21,10 +21,13 @@ export function createNewRevision(this: HandlerContext, schema: Schema) {
     const revisionResponses = registration.registrationResponses;
     const revision = schema.revisions.create({
         initiatedBy: currentUser,
-        reviewState: RevisionReviewStates.Approved,
+        reviewState: RevisionReviewStates.RevisionInProgress,
         revisionResponses,
         registration,
+        registrationSchema: registration.registrationSchema,
+        dateCreated: new Date(),
+        dateModified: new Date(),
+        isPendingCurrentUserApproval: true,
     });
-
     return revision;
 }

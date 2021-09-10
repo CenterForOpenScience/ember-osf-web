@@ -71,7 +71,8 @@ export default class MakeDecisionDropdown extends Component<Args> {
     get commentTextArea() {
         if (this.args.registration.reviewsState) {
             if ([RegistrationReviewStates.Pending, RegistrationReviewStates.PendingWithdraw]
-                .includes(this.args.registration.reviewsState)) {
+                .includes(this.args.registration.reviewsState) ||
+                this.args.registration.revisionState === RevisionReviewStates.RevisionPendingModeration) {
                 return {
                     label: this.intl.t('registries.makeDecisionDropdown.additionalComment'),
                     placeholder: this.intl.t('registries.makeDecisionDropdown.additionalCommentPlaceholder'),
