@@ -145,7 +145,7 @@ export function registrationScenario(
 
     server.create('revision', {
         id: 'copyEdit',
-        versionNumber: 1,
+        revisionNumber: 1,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
             q1: 'Good Morning',
@@ -176,7 +176,7 @@ export function registrationScenario(
 
     server.create('revision', {
         id: 'copyEdit',
-        versionNumber: 1,
+        revisionNumber: 1,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
             q1: 'Good Morning',
@@ -207,7 +207,7 @@ export function registrationScenario(
 
     server.create('revision', {
         id: 'copyEditRPMCobalt',
-        versionNumber: 1,
+        revisionNumber: 1,
         revisionJustification: 'Copy Edit',
         reviewState: RevisionReviewStates.RevisionPendingModeration,
         revisionResponses: {
@@ -220,7 +220,7 @@ export function registrationScenario(
 
     server.create('revision', {
         id: 'typoSelfRPMCobalt',
-        versionNumber: 2,
+        revisionNumber: 2,
         reviewState: RevisionReviewStates.RevisionPendingModeration,
         revisionJustification: 'Typo - Self',
         revisionResponses: {
@@ -233,7 +233,7 @@ export function registrationScenario(
 
     server.create('revision', {
         id: 'addResultsApprovedCobalt',
-        versionNumber: 3,
+        revisionNumber: 3,
         reviewState: RevisionReviewStates.Approved,
         revisionJustification: 'Adding Results',
         revisionResponses: {
@@ -265,7 +265,7 @@ export function registrationScenario(
 
     server.create('revision', {
         id: 'copyEditRPA',
-        versionNumber: 2,
+        revisionNumber: 2,
         reviewState: RevisionReviewStates.RevisionPendingAdminApproval,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
@@ -278,7 +278,7 @@ export function registrationScenario(
 
     server.create('revision', {
         id: 'copyEditRPM',
-        versionNumber: 2,
+        revisionNumber: 2,
         reviewState: RevisionReviewStates.RevisionPendingModeration,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
@@ -291,7 +291,7 @@ export function registrationScenario(
 
     server.create('revision', {
         id: 'copyEditRIP',
-        versionNumber: 2,
+        revisionNumber: 2,
         reviewState: RevisionReviewStates.RevisionInProgress,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
@@ -304,7 +304,7 @@ export function registrationScenario(
 
     server.create('revision', {
         id: 'copyEditApproved',
-        versionNumber: 2,
+        revisionNumber: 2,
         reviewState: RevisionReviewStates.Approved,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
