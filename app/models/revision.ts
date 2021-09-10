@@ -24,7 +24,7 @@ export default class RevisionModel extends OsfModel {
     @attr('boolean') isPendingCurrentUserApproval!: boolean;
 
     // Versioning
-    @attr('number') versionNumber?: number;
+    @attr('number') revisionNumber?: number;
 
     @belongsTo('user') initiatedBy!: AsyncBelongsTo<UserModel> & UserModel;
     @belongsTo('registration') registration!: AsyncBelongsTo<RegistrationModel> & RegistrationModel;

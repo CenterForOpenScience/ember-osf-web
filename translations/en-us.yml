@@ -1372,7 +1372,7 @@ registries:
             title: 'This is an update to the original registration'
             date: 'This update was made on {date} by {author}'
             description: 'Updated responses are labeled'
-            reason: 'Reason for revision:'
+            reason: 'Reason for update:'
     overviewHeader:
         needModeratorPermission: 'You do not have permission to moderate this registration.'
     partialRegistrationModal:
@@ -1469,6 +1469,7 @@ registries:
         update_dropdown:
         dropdown_title: 'Versions'
         updates_list_label: 'Version'
+        updates_list_label_original: 'Original'
         revision_review_state: 'Revision Review State:'
         initiated_by: 'Initiated by: '
         date_modified: 'Date last modified: '

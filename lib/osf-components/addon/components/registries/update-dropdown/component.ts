@@ -11,7 +11,6 @@ import RevisionModel, { RevisionReviewStates } from 'ember-osf-web/models/revisi
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import Toast from 'ember-toastr/services/toast';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
-import Store from '@ember-data/store';
 import RouterService from '@ember/routing/router-service';
 import { taskFor } from 'ember-concurrency-ts';
 import { tracked } from '@glimmer/tracking';
@@ -23,7 +22,6 @@ interface Args {
 export default class UpdateDropdown extends Component<Args> {
     @service currentUser!: CurrentUserService;
     @service intl!: Intl;
-    @service store!: Store;
     @service toast!: Toast;
     @service router!: RouterService;
     @tracked revisions?: QueryHasManyResult<RevisionModel> | RevisionModel[];
