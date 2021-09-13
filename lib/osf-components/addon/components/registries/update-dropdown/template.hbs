@@ -1,5 +1,7 @@
 <ResponsiveDropdown 
-    @horizontalPosition='left' 
+    @horizontalPosition='left'
+    @verticalPosition='below'
+    local-class='ResponsiveDropdown'
     as |dd|
 >
     <dd.trigger
@@ -8,17 +10,16 @@
         local-class='UpdateText'
     >
         {{t 'registries.update_dropdown.dropdown_title'}}
-        <FaIcon @icon='caret-down' @fixedWidth={{true}} />
+        {{fa-icon 'caret-down'}}
     </dd.trigger>
     <dd.content
         data-test-update-content
         local-class='Updates'
     >
-        <div local-class='UpdatesList'
-        data-test-list-view>
+        <div data-test-list-view local-class='UpdatesList'>
             {{#if this.revisions}}
                 {{#each this.revisions as |revision|}}
-                    <div local-class='Update'>
+                    <div local-class='UpdateContainer'>
                         <LinkTo @route='overview.index' @query={{hash revisionId=revision.id}} local-class='UpdateLink'>
                             {{#if revision.revisionNumber }}
                                 {{t 'registries.update_dropdown.updates_list_label'}} {{revision.revisionNumber}}
