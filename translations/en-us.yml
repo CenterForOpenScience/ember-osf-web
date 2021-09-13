@@ -1127,7 +1127,7 @@ registries:
         continue_edit_modal:
             heading: 'Are you sure this needs more edits?'
             warning: 'This will cancel any approvals from other admin contributors and return the registration back to its draft form for additional changes.'
-            reason: 'What changes need to be made and why?'
+            reason: 'What additional changes need to be made and why?'
             submit: 'Submit'
     index:
         lead: 'The <span class="f-w-lg">open</span> registries network'
@@ -1471,8 +1471,8 @@ registries:
         createRegistration: 'Create a registration'
     update_dropdown:
         update_dropdown:
-        dropdown_title: 'Versions'
-        updates_list_label: 'Version'
+        dropdown_title: 'Updates'
+        updates_list_label: 'Update'
         updates_list_label_original: 'Original'
         revision_review_state: 'Revision Review State:'
         initiated_by: 'Initiated by: '
