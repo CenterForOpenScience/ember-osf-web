@@ -12,8 +12,6 @@ import { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
 import Intl from 'ember-intl/services/intl';
-import { task } from 'ember-concurrency';
-import { waitFor } from '@ember/test-waiters';
 
 const {
     support: {
@@ -70,16 +68,6 @@ export default class Overview extends Controller {
     // Versioning
     get isViewingLatestRevision() {
         return this.revisionId === this.latestRevisionId;
-    }
-
-    @task
-    @waitFor
-    async createNewRevision() {
-        const newRevision: RevisionModel = this.store.createRecord('revision', {
-            registration: this.registration,
-        });
-        await newRevision.save();
-        this.transitionToRoute('edit-revision', newRevision.id);
     }
 }
 

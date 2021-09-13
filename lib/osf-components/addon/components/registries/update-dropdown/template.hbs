@@ -21,7 +21,7 @@
                 {{#each this.revisions as |revision|}}
                     <div local-class='UpdateContainer'>
                         <LinkTo @route='overview.index' @query={{hash revisionId=revision.id}} local-class='UpdateLink'>
-                            {{#if revision.revisionNumber }}
+                            {{#if revision.revisionNumber}}
                                 {{t 'registries.update_dropdown.updates_list_label'}} {{revision.revisionNumber}}
                             {{else}}
                                 {{t 'registries.update_dropdown.updates_list_label_original'}}
@@ -31,6 +31,14 @@
                 {{/each}}
             {{else}}
                 {{t 'registries.update_dropdown.no_revisions_error'}}
+            {{/if}}
+            {{#if @registration.userHasAdminPermission}}
+                <Button
+                    @type='create'
+                    {{on 'click' (perform this.createNewRevision)}}
+                >
+                    {{t 'general.update'}}
+                </Button>
             {{/if}}
         </div>
     </dd.content>

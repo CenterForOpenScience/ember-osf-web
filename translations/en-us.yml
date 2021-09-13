@@ -89,6 +89,7 @@ general:
     options: Options
     optional: Optional
     optional_paren: (optional)
+    update: Update
     services:
         collections: Collections
         institutions: Institutions
@@ -1369,10 +1370,13 @@ registries:
             share: 'Share this registration'
             fork: 'Fork this registration'
         versionMetadata:
-            title: 'This is an update to the original registration'
-            date: 'This update was made on {date} by {author}'
+            updateTitle: 'This is an update to the original registration'
+            originalTitle: 'This is the original version of the registration'
+            date: 'This update was made on {date}'
+            originalDate: 'This registration was submitted on {date}'
             description: 'Updated responses are labeled'
             reason: 'Reason for update:'
+            noReason: 'No reason provided'
     overviewHeader:
         needModeratorPermission: 'You do not have permission to moderate this registration.'
     partialRegistrationModal:

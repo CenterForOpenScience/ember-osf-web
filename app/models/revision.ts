@@ -22,9 +22,7 @@ export default class RevisionModel extends OsfModel {
     @attr('array') revisedResponses!: string[];
     @attr('registration-responses') revisionResponses!: RegistrationResponse;
     @attr('boolean') isPendingCurrentUserApproval!: boolean;
-
-    // Versioning
-    @attr('number') revisionNumber?: number;
+    @attr('number') revisionNumber!: number;
 
     @belongsTo('user') initiatedBy!: AsyncBelongsTo<UserModel> & UserModel;
     @belongsTo('registration') registration!: AsyncBelongsTo<RegistrationModel> & RegistrationModel;

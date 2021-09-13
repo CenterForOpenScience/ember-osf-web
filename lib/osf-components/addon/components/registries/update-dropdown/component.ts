@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
+import Store from '@ember-data/store';
 import Component from '@glimmer/component';
 import { task } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
@@ -23,6 +24,7 @@ export default class UpdateDropdown extends Component<Args> {
     @service currentUser!: CurrentUserService;
     @service intl!: Intl;
     @service toast!: Toast;
+    @service store!: Store;
     @service router!: RouterService;
     @tracked revisions?: QueryHasManyResult<RevisionModel> | RevisionModel[];
 
@@ -52,12 +54,23 @@ export default class UpdateDropdown extends Component<Args> {
         }
         try {
             const revisions = await this.args.registration.queryHasMany('revisions');
-            this.revisions = revisions.sort();
+            revisions.sort( (a, b) => b.revisionNumber - a.revisionNumber ); // TODO: remove after demo
+            this.revisions = revisions;
         } catch (e) {
             const errorMessage = this.intl.t('registries.update_dropdown.revision_error_message');
             captureException(e, { errorMessage });
             this.toast.error(getApiErrorMessage(e), errorMessage);
         }
+    }
+
+    @task
+    @waitFor
+    async createNewRevision() {
+        const newRevision: RevisionModel = this.store.createRecord('revision', {
+            registration: this.args.registration,
+        });
+        await newRevision.save();
+        this.router.transitionTo('registries.edit-revision', newRevision.id);
     }
 }
 
