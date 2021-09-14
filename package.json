@@ -1,6 +1,6 @@
 {
   "name": "ember-osf-web",
-  "version": "21.6.3",
+  "version": "21.7.0",
   "description": "Ember front-end for the Open Science Framework",
   "license": "Apache-2.0",
   "author": "Center for Open Science <support@cos.io>",
@@ -21,14 +21,13 @@
     "lint:hbs": "ember-template-lint 'app/**/*.hbs' 'lib/**/*.hbs'",
     "lint:hbs:fix": "ember-template-lint . --fix",
     "lint:style": "stylelint 'app/**/*.scss' 'lib/**/*.scss'",
-    "start": "ember server",
+    "start": "EMBER_ENGINES_ADDON_DEDUPE=true ember serve",
     "test": "npm-run-all lint test:*",
     "test:ember": "EMBER_ENV=test ember exam --split=4 --parallel=1",
-    "test:cover": "EMBER_ENV=test COVERAGE=true ember exam",
+    "test:ember:cover": "EMBER_ENV=test COVERAGE=true ember test",
     "test:config": "mocha node-tests/config-test.js",
     "test:blueprints": "mocha node-tests/blueprints",
-    "test:node-tests": "mocha 'node-tests/**/*-test.js'",
-    "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+    "test:node-tests": "mocha 'node-tests/**/*-test.js'"
   },
   "husky": {
     "hooks": {
@@ -199,7 +198,7 @@
     "ember-sinon-qunit": "^5.0.0",
     "ember-sortable": "2.2",
     "ember-source": "~3.26.1",
-    "ember-tag-input": "^1.2.2",
+    "ember-tag-input": "^2.0.3",
     "ember-template-compiler": "^1.9.0-alpha",
     "ember-template-lint": "^3.2.0",
     "ember-toastr": "^1.7.2",

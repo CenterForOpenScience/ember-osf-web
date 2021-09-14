@@ -25,6 +25,7 @@ import {
     RegistrationResponse,
 } from 'ember-osf-web/packages/registration-schema';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
+import RouterService from '@ember/routing/router-service';
 
 type LoadDraftModelTask = TaskInstance<{
     draftRegistration: DraftRegistration,
@@ -38,6 +39,7 @@ export default class DraftRegistrationManager {
     // Private
     @service intl!: Intl;
     @service toast!: Toast;
+    @service router!: RouterService;
 
     currentPage!: number;
     registrationResponses!: RegistrationResponse;
@@ -71,14 +73,14 @@ export default class DraftRegistrationManager {
         return this.metadataChangeset.isValid;
     }
 
-    @computed('onPageInput.lastComplete', 'onMetadataInput.lastComplete')
+    @computed('onPageInput.lastComplete', 'updateDraftRegistrationAndSave.lastComplete')
     get lastSaveFailed() {
         const onPageInputLastComplete = taskFor(this.onPageInput).lastComplete;
-        const metadataInputLastComplete = taskFor(this.onMetadataInput).lastComplete;
+        const updateDraftRegAndSaveLastComplete = taskFor(this.updateDraftRegistrationAndSave).lastComplete;
         const pageInputFailed = onPageInputLastComplete ? onPageInputLastComplete.isError : false;
-        const metadataInputFailed = metadataInputLastComplete
-            ? metadataInputLastComplete.isError : false;
-        return pageInputFailed || metadataInputFailed;
+        const updateDraftRegAndSaveFailed = updateDraftRegAndSaveLastComplete
+            ? updateDraftRegAndSaveLastComplete.isError : false;
+        return pageInputFailed || updateDraftRegAndSaveFailed;
     }
 
     constructor(owner: any, draftRegistrationTask: LoadDraftModelTask) {
@@ -139,6 +141,9 @@ export default class DraftRegistrationManager {
         const { draftRegistration, provider } = await this.draftRegistrationTask;
         set(this, 'draftRegistration', draftRegistration);
         set(this, 'provider', provider);
+        if (!draftRegistration || !provider) {
+            return this.router.transitionTo('registries.page-not-found', window.location.href.slice(-1));
+        }
         try {
             const node = await this.draftRegistration.branchedFrom;
             set(this, 'node', node);
@@ -169,6 +174,9 @@ export default class DraftRegistrationManager {
     @waitFor
     async initializeMetadataChangeset() {
         const { draftRegistration } = await this.draftRegistrationTask;
+        if (!draftRegistration) {
+            return this.router.transitionTo('registries.page-not-found', window.location.href.slice(-1));
+        }
         const metadataValidations = buildMetadataValidations();
         const metadataChangeset = buildChangeset(draftRegistration, metadataValidations);
         set(this, 'metadataChangeset', metadataChangeset);

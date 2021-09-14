@@ -42,6 +42,7 @@ const currentUserStub = Service.extend({
     },
 
     async checkShowTosConsentBanner() { /* stub */ },
+    async logout() { /* stub */ },
 });
 
 const featuresStub = Service.extend({

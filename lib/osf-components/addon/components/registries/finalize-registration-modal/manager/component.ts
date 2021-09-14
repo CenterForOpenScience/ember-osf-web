@@ -21,7 +21,6 @@ export interface FinalizeRegistrationModalManager {
     hasEmbargoEndDate: boolean;
     submitRegistration: () => Promise<void>;
     setEmbargoEndDate: (embargoEndDate: Date | null) => void;
-    setCreateDoi: (createDoi: boolean) => void;
     submittingRegistration: boolean;
     draftManager: DraftRegistrationManager;
 }
@@ -73,10 +72,5 @@ export default class FinalizeRegistrationModalManagerComponent extends Component
     @action
     setEmbargoEndDate(embargoEndDate: Date | null) {
         this.registration.set('embargoEndDate', embargoEndDate);
-    }
-
-    @action
-    setCreateDoi(createDoi: boolean) {
-        this.registration.set('createDoi', createDoi);
     }
 }
