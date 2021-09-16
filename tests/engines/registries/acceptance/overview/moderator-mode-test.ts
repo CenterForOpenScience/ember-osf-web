@@ -349,10 +349,6 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             },
         }, 'withRevisionActions');
         await visit(`/${registration.id}?mode=moderator&revisionId=${revision.id}`);
-        assert.dom('[data-test-version-metadata-title]').hasText(
-            t('registries.overview.versionMetadata.title'),
-            'Notification box showing update metadata shown',
-        );
         assert.dom(`[data-test-read-only-response=${deserializeResponseKey('page-one_short-text')}]`).hasText(
             'llama', 'Revised response is shown',
         );
@@ -406,9 +402,6 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         await click('[data-test-moderation-dropdown-button]');
         await click('[data-test-moderation-dropdown-decision-checkbox="reject_revision"]');
         await click('[data-test-moderation-dropdown-submit]');
-        assert.dom('[data-test-version-metadata-title]').doesNotExist(
-            'Notification box for update metadata no longer shown',
-        );
         assert.dom(`[data-test-read-only-response=${deserializeResponseKey('page-one_short-text')}]`).hasText(
             'Krobus', 'Response from the registration shown',
         );

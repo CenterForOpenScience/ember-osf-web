@@ -18,17 +18,22 @@
     >
         <div data-test-list-view local-class='UpdatesList'>
             {{#if this.revisions}}
-                {{#each this.revisions as |revision|}}
+                {{#each this.revisions as |revision index|}}
                     <div local-class='UpdateContainer'>
                         <LinkTo @route='overview.index' @query={{hash revisionId=revision.id}} local-class='UpdateLink'>
                             {{#if revision.revisionNumber}}
-                                {{t 'registries.update_dropdown.updates_list_label'}} {{revision.revisionNumber}}
+                                {{if index (t 'registries.update_dropdown.updates_list_label' number=revision.revisionNumber) (t 'registries.update_dropdown.latest')}}
                             {{else}}
                                 {{t 'registries.update_dropdown.updates_list_label_original'}}
                             {{/if}}
                         </LinkTo>
                     </div>
                 {{/each}}
+                {{#if this.shouldShowLoadMore}}
+                    <div local-class='InfinityLoader' {{in-viewport onEnter=(perform this.getRevisionList)}}>
+                        {{t 'registries.update_dropdown.load_more'}}
+                    </div>
+                {{/if}}
             {{else}}
                 {{t 'registries.update_dropdown.no_revisions_error'}}
             {{/if}}

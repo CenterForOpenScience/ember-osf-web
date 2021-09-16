@@ -23,7 +23,6 @@ import { RevisionActionTrigger } from 'ember-osf-web/models/revision-action';
 
 interface Args {
     registration: RegistrationModel;
-    isViewingLatestRevision: boolean;
 }
 
 export default class MakeDecisionDropdown extends Component<Args> {
@@ -65,14 +64,18 @@ export default class MakeDecisionDropdown extends Component<Args> {
     };
 
     get latestRevision() {
-        return this.args.registration.revisions.lastObject;
+        return this.args.registration.revisions.firstObject;
+    }
+
+    get revisionIsPending() {
+        return this.args.registration.revisionState === RevisionReviewStates.RevisionPendingModeration;
     }
 
     get commentTextArea() {
         if (this.args.registration.reviewsState) {
             if ([RegistrationReviewStates.Pending, RegistrationReviewStates.PendingWithdraw]
                 .includes(this.args.registration.reviewsState) ||
-                this.args.registration.revisionState === RevisionReviewStates.RevisionPendingModeration) {
+                this.revisionIsPending) {
                 return {
                     label: this.intl.t('registries.makeDecisionDropdown.additionalComment'),
                     placeholder: this.intl.t('registries.makeDecisionDropdown.additionalCommentPlaceholder'),
@@ -92,22 +95,20 @@ export default class MakeDecisionDropdown extends Component<Args> {
     }
 
     get hasModeratorActions() {
-        if (this.args.isViewingLatestRevision) {
-            return this.latestRevision?.reviewState === RevisionReviewStates.RevisionPendingModeration;
-        }
-        return this.args.registration.reviewsState
+        return (this.args.registration.reviewsState
         && ![
             RegistrationReviewStates.Initial,
             RegistrationReviewStates.Withdrawn,
             RegistrationReviewStates.Rejected,
-        ].includes(this.args.registration.reviewsState);
+        ].includes(this.args.registration.reviewsState))
+        || this.revisionIsPending;
     }
 
     get moderatorActions() {
         const { reviewsState } = this.args.registration;
         const { revisionState } = this.args.registration;
         let actions: ReviewsStateToDecisionMap[] = reviewsState ? reviewsStateToDecisionMap[reviewsState] : [];
-        if (revisionState === RevisionReviewStates.RevisionPendingModeration && this.args.isViewingLatestRevision) {
+        if (this.revisionIsPending) {
             actions = reviewsStateToDecisionMap[revisionState];
         }
         return actions;

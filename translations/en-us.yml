@@ -1472,8 +1472,10 @@ registries:
     update_dropdown:
         update_dropdown:
         dropdown_title: 'Updates'
-        updates_list_label: 'Update'
+        latest: 'Latest'
+        updates_list_label: 'Update {number}'
         updates_list_label_original: 'Original'
+        load_more: 'Load more'
         revision_review_state: 'Revision Review State:'
         initiated_by: 'Initiated by: '
         date_modified: 'Date last modified: '

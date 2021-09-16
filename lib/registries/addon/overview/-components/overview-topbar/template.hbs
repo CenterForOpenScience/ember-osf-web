@@ -15,7 +15,6 @@
 {{#if (and @isModeratorMode (not @registration.isAnonymous))}}
     <MakeDecisionDropdown
         @registration={{@registration}}
-        @isViewingLatestRevision={{@isViewingLatestRevision}}
     />
 {{else}}
     <div data-test-topbar-share-bookmark-fork

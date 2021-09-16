@@ -36,11 +36,6 @@ export default class Overview extends Controller {
     @alias('model.taskInstance.value') registration?: Registration;
     @alias('registration.revisions') revisions?: RevisionModel[];
 
-    @computed('revisions.lastObject.id')
-    get latestRevisionId() {
-        return this.revisions?.lastObject?.id;
-    }
-
     @computed('registration.{reviewsState,archiving}')
     get showTombstone() {
         return this.registration && (this.registration.reviewsState === 'withdrawn' || this.registration.archiving);
@@ -63,11 +58,6 @@ export default class Overview extends Controller {
         }
         return (this.registration.relatedCounts.linkedNodes || 0)
         + (this.registration.relatedCounts.linkedRegistrations || 0);
-    }
-
-    // Versioning
-    get isViewingLatestRevision() {
-        return this.revisionId === this.latestRevisionId;
     }
 }
 

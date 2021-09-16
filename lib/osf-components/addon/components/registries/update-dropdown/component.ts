@@ -26,7 +26,11 @@ export default class UpdateDropdown extends Component<Args> {
     @service toast!: Toast;
     @service store!: Store;
     @service router!: RouterService;
-    @tracked revisions?: QueryHasManyResult<RevisionModel> | RevisionModel[];
+
+    @tracked currentPage = 1;
+    @tracked totalPage = 1;
+    @tracked totalRevisions = 0;
+    @tracked revisions: QueryHasManyResult<RevisionModel> | RevisionModel[] = [];
 
     isPendingCurrentUserApproval?: boolean;
 
@@ -44,6 +48,16 @@ export default class UpdateDropdown extends Component<Args> {
         ].includes(this.args.registration.revisionState);
     }
 
+    get hasMore() {
+        return this.currentPage <= this.totalPage;
+    }
+
+    get shouldShowLoadMore() {
+        return !taskFor(this.getRevisionList).isRunning
+            && taskFor(this.getRevisionList).lastComplete
+            && this.hasMore;
+    }
+
     @task
     @waitFor
     async getRevisionList() {
@@ -53,9 +67,16 @@ export default class UpdateDropdown extends Component<Args> {
             return this.toast.error(notReistrationError);
         }
         try {
-            const revisions = await this.args.registration.queryHasMany('revisions');
-            revisions.sort( (a, b) => b.revisionNumber - a.revisionNumber ); // TODO: remove after demo
-            this.revisions = revisions;
+            if (this.hasMore) {
+                const currentPageResult = await this.args.registration.queryHasMany('revisions', {
+                    page: this.currentPage,
+                });
+                this.totalPage = Math.ceil(currentPageResult.meta.total / currentPageResult.meta.per_page);
+                this.totalRevisions = currentPageResult.meta.total;
+                this.revisions.pushObjects(currentPageResult);
+                this.currentPage += 1;
+            }
+            this.revisions.sort( (a, b) => b.revisionNumber - a.revisionNumber ); // TODO: remove after demo
         } catch (e) {
             const errorMessage = this.intl.t('registries.update_dropdown.revision_error_message');
             captureException(e, { errorMessage });

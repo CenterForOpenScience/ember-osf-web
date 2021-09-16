@@ -10,6 +10,9 @@
     background-size: cover;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
     max-width: 450px;
+    overflow-y: auto;
+    height: auto;
+    max-height: 400px;
 }
 
 .Update {
@@ -30,7 +33,6 @@
 }
 
 .UpdateContainer {
-    display: flex;
     padding-right: 10px;
     padding-left: 10px;
     padding-top: 10px;
@@ -52,14 +54,13 @@
 
 .UpdateLink { 
     display: flex;
-    justify-content: flex-end;
     text-decoration: none;
 
-    &:global(.active) { 
+    &:global(.active) {
         font-weight: bold;
     }
 
-    &:hover { 
+    &:hover {
         text-decoration: none;
     }
 }
