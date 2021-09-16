@@ -2,7 +2,7 @@ import { visit } from '@ember/test-helpers';
 
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { percySnapshot } from 'ember-percy';
-import { module, test } from 'qunit';
+import { module, skip } from 'qunit';
 
 import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import { RevisionReviewStates } from 'ember-osf-web/models/revision';
@@ -14,7 +14,7 @@ module('Acceptance | update dropdown', hooks => {
     setupOSFApplicationTest(hooks);
     setupMirage(hooks);
 
-    test('update dropdown - all revisions', async assert => {
+    skip('update dropdown - all revisions', async assert => {
         const userServer = server.create('user', 'loggedIn');
 
         const node = server.create('node', {

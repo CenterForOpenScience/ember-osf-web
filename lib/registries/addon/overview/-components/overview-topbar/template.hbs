@@ -1,17 +1,18 @@
-{{#unless @registration.isAnonymous}}
-    <div data-test-topbar-states>
-        <RegistriesStates
-            @registration={{@registration}}
-            @isModeratorMode={{@isModeratorMode}}
-        />
-    </div>
-{{/unless}}
+<div local-class='LeftWrapper'>
+    {{#unless @registration.isAnonymous}}
+        <div data-test-topbar-states>
+            <RegistriesStates
+                @registration={{@registration}}
+                @isModeratorMode={{@isModeratorMode}}
+            />
+        </div>
+    {{/unless}}
 
-<Registries::UpdateDropdown 
-    @registration={{@registration}}
-    local-class='UpdateDropdown'
-/>
-
+    <Registries::UpdateDropdown 
+        @registration={{@registration}}
+        local-class='UpdateDropdown'
+    />
+</div>
 {{#if (and @isModeratorMode (not @registration.isAnonymous))}}
     <MakeDecisionDropdown
         @registration={{@registration}}

@@ -16,7 +16,7 @@
         {{if @revision.revisionNumber (t 'registries.overview.versionMetadata.date' date=(moment-format @revision.date 'MMM DD, YYYY'))
             (t 'registries.overview.versionMetadata.originalDate' date=(moment-format @revision.date 'MMM DD, YYYY'))}}
     </p>
-    {{#if @revision.revisionNumber}}
+    {{#if @revision}}
         <p data-test-version-metadata-reason>
             {{t 'registries.overview.versionMetadata.reason'}}
             <br>
