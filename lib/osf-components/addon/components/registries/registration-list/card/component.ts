@@ -68,7 +68,6 @@ export default class RegistrationListCard extends Component<Args> {
         } catch (e) {
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
-            throw e;
         }
     }
 }
