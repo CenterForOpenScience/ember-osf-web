@@ -29,3 +29,38 @@
         </div>
     </DropzoneWidget>
 {{/let}}
+
+{{#let (unique-id 'main-content') as |id|}}
+    <OsfDialog
+        @isOpen={{this.shouldShowErrorModal}}
+        @onClose={{this.closeErrorModal}}
+        as |dialog|
+    >
+        <dialog.heading>
+            {{t 'registries.moderation.settings.uploadError'}}
+        </dialog.heading>
+        <dialog.main id={{id}}>
+            <div>
+                <p>{{t 'registries.moderation.settings.generalErrorMessage' htmlSafe=true}}</p>
+            </div>
+
+            <dl>
+                {{#each this.errorMessages as |msg|}}
+                    <p>
+                        <dt>{{msg.cell}}</dt>
+                        <dt>{{msg.title}}</dt>
+                        <dd>{{msg.detail}}</dd>
+                    </p>
+                {{/each}}
+            </dl>
+        </dialog.main>
+        <dialog.footer>
+            <BsButton
+                @type='primary'
+                {{on 'click' (fn this.copyToClipboard id)}}
+            >
+                {{t 'registries.moderation.settings.copyToClipboard'}}
+            </BsButton>
+        </dialog.footer>
+    </OsfDialog>
+{{/let}}
