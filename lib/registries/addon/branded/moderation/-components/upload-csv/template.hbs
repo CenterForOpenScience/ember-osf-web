@@ -47,7 +47,9 @@
             <dl>
                 {{#each this.errorMessages as |msg|}}
                     <p>
-                        <dt>{{msg.cell}}</dt>
+                        {{#if msg.cell}}
+                            <dt>{{t 'registries.moderation.settings.cell'}} {{msg.cell}}</dt>
+                        {{/if}}
                         <dt>{{msg.title}}</dt>
                         <dd>{{msg.detail}}</dd>
                     </p>
