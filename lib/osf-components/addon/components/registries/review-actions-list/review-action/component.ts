@@ -4,13 +4,13 @@ import Intl from 'ember-intl/services/intl';
 
 import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import ReviewActionModel, { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
-import RevisionActionModel, { RevisionActionTrigger } from 'ember-osf-web/models/revision-action';
+import SchemaResponseActionModel, { SchemaResponseActionTrigger } from 'ember-osf-web/models/schema-response-action';
 import formattedTimeSince from 'ember-osf-web/utils/formatted-time-since';
 
-type AllTriggerActions = RevisionActionTrigger | ReviewActionTrigger;
+type AllTriggerActions = SchemaResponseActionTrigger | ReviewActionTrigger;
 
 interface Args {
-    reviewAction: ReviewActionModel | RevisionActionModel;
+    reviewAction: ReviewActionModel | SchemaResponseActionModel;
     embargoEndDate: Date;
 }
 
@@ -30,14 +30,14 @@ export default class ReviewAction extends Component<Args> {
             ] as AllTriggerActions[];
         const revisionContributorActions =
             [
-                RevisionActionTrigger.SubmitRevision,
-                RevisionActionTrigger.AdminApproveRevision,
-                RevisionActionTrigger.AdminRejectRevision,
+                SchemaResponseActionTrigger.SubmitRevision,
+                SchemaResponseActionTrigger.AdminApproveRevision,
+                SchemaResponseActionTrigger.AdminRejectRevision,
             ] as AllTriggerActions[];
         const revisionModeratorActions =
             [
-                RevisionActionTrigger.AcceptRevision,
-                RevisionActionTrigger.RejectRevision,
+                SchemaResponseActionTrigger.AcceptRevision,
+                SchemaResponseActionTrigger.RejectRevision,
             ] as AllTriggerActions[];
         if (reviewAction.actionTrigger === ReviewActionTrigger.AcceptSubmission) {
             if (reviewAction.toState === RegistrationReviewStates.Embargo) {

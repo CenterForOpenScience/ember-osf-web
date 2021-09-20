@@ -7,7 +7,7 @@ export interface MirageSchemaResponseModel extends SchemaResponseModel {
     registrationId: string;
 }
 export interface SchemaResponseTraits {
-    withRevisionActions: Trait;
+    withSchemaResponseActions: Trait;
 }
 
 export default Factory.extend<MirageSchemaResponseModel & SchemaResponseTraits>({
@@ -35,10 +35,10 @@ export default Factory.extend<MirageSchemaResponseModel & SchemaResponseTraits>(
         }
     },
 
-    withRevisionActions: trait<MirageSchemaResponseModel>({
+    withSchemaResponseActions: trait<MirageSchemaResponseModel>({
         afterCreate(schemaResponse, server) {
-            const revisionActions = server.createList('revision-action', 3, { target: schemaResponse });
-            schemaResponse.update({ actions: revisionActions });
+            const schemaResponseActions = server.createList('schema-response-action', 3, { target: schemaResponse });
+            schemaResponse.update({ actions: schemaResponseActions });
         },
     }),
 });

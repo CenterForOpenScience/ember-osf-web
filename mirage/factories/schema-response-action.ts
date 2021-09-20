@@ -1,12 +1,12 @@
 import { association, Factory } from 'ember-cli-mirage';
 import faker from 'faker';
 import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
-import RevisionActionModel, { RevisionActionTrigger } from 'ember-osf-web/models/revision-action';
+import SchemaResponseActionModel, { SchemaResponseActionTrigger } from 'ember-osf-web/models/schema-response-action';
 
-export default Factory.extend<RevisionActionModel>({
+export default Factory.extend<SchemaResponseActionModel>({
     fromState: RevisionReviewStates.RevisionInProgress,
     toState: RevisionReviewStates.RevisionPendingAdminApproval,
-    actionTrigger: faker.random.objectElement(Object.values(RevisionActionTrigger)),
+    actionTrigger: faker.random.objectElement(Object.values(SchemaResponseActionTrigger)),
 
     comment() {
         return faker.lorem.sentence();
@@ -20,17 +20,17 @@ export default Factory.extend<RevisionActionModel>({
         return faker.date.recent(5);
     },
 
-    creator: association() as RevisionActionModel['creator'],
+    creator: association() as SchemaResponseActionModel['creator'],
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {
     export default interface MirageModelRegistry {
-        'revision-action': RevisionActionModel;
+        'schema-response-action': SchemaResponseActionModel;
     } // eslint-disable-line semi
 }
 
 declare module 'ember-cli-mirage/types/registries/schema' {
     export default interface MirageSchemaRegistry {
-        revisionActions: RevisionActionModel;
+        schemaResponseActions: SchemaResponseActionModel;
     } // eslint-disable-line semi
 }

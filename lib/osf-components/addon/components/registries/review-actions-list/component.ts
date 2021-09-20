@@ -13,7 +13,7 @@ import RegistrationModel from 'ember-osf-web/models/registration';
 import ReviewActionModel from 'ember-osf-web/models/review-action';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import SchemaResponseModel from 'ember-osf-web/models/schema-response';
-import RevisionActionModel from 'ember-osf-web/models/revision-action';
+import SchemaResponseActionModel from 'ember-osf-web/models/schema-response-action';
 
 interface Args {
     registration: RegistrationModel;
@@ -25,7 +25,7 @@ export default class ReviewActionsList extends Component<Args> {
     @service intl!: Intl;
 
     @tracked showFullActionList = false;
-    @tracked reviewActions?: Array<ReviewActionModel | RevisionActionModel>;
+    @tracked reviewActions?: Array<ReviewActionModel | SchemaResponseActionModel>;
 
     get showOrHide() {
         return this.showFullActionList ? this.intl.t('registries.reviewActionsList.hide')
@@ -50,7 +50,7 @@ export default class ReviewActionsList extends Component<Args> {
                 this.reviewActions = await this.args.registration.reviewActions as ReviewActionModel[];
             }
             if (this.args.revision) {
-                this.reviewActions = await this.args.revision.actions as RevisionActionModel[];
+                this.reviewActions = await this.args.revision.actions as SchemaResponseActionModel[];
             }
         } catch (e) {
             captureException(e);

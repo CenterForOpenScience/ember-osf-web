@@ -1,19 +1,19 @@
 import { HandlerContext, NormalizedRequestAttrs, Request, Schema } from 'ember-cli-mirage';
 import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
-import RevisionActionModel, { RevisionActionTrigger } from 'ember-osf-web/models/revision-action';
+import SchemaResponseActionModel, { SchemaResponseActionTrigger } from 'ember-osf-web/models/schema-response-action';
 
-export function createRevisionAction(this: HandlerContext, schema: Schema, request: Request) {
-    const attrs = this.normalizedRequestAttrs('revision-action') as
-        Partial<NormalizedRequestAttrs<RevisionActionModel>>;
+export function createSchemaResponseAction(this: HandlerContext, schema: Schema, request: Request) {
+    const attrs = this.normalizedRequestAttrs('schema-response-action') as
+        Partial<NormalizedRequestAttrs<SchemaResponseActionModel>>;
     const revisionId = request.params.revisionId;
     const userId = schema.roots.first().currentUserId;
-    let revisionAction;
+    let schemaResponseAction;
     if (userId && revisionId) {
         const currentUser = schema.users.find(userId);
         const revision = schema.schemaResponses.find(revisionId);
         const registration = revision.registration;
         const { trigger } = attrs as any; // have to cast attrs to any because `actionTrigger` does not exist on type
-        revisionAction = schema.revisionActions.create({
+        schemaResponseAction = schema.schemaResponseActions.create({
             creator: currentUser,
             target: revision,
             dateCreated: new Date(),
@@ -21,20 +21,20 @@ export function createRevisionAction(this: HandlerContext, schema: Schema, reque
             ...attrs,
         });
         switch (trigger) {
-        case RevisionActionTrigger.SubmitRevision:
+        case SchemaResponseActionTrigger.SubmitRevision:
             revision.reviewState = RevisionReviewStates.RevisionPendingAdminApproval;
             revision.isPendingCurrentUserApproval = true;
             break;
-        case RevisionActionTrigger.AdminRejectRevision:
-        case RevisionActionTrigger.RejectRevision:
+        case SchemaResponseActionTrigger.AdminRejectRevision:
+        case SchemaResponseActionTrigger.RejectRevision:
             revision.reviewState = RevisionReviewStates.RevisionInProgress;
             revision.isPendingCurrentUserApproval = false;
             break;
-        case RevisionActionTrigger.AdminApproveRevision:
+        case SchemaResponseActionTrigger.AdminApproveRevision:
             revision.reviewState = RevisionReviewStates.RevisionPendingModeration;
             revision.isPendingCurrentUserApproval = false;
             break;
-        case RevisionActionTrigger.AcceptRevision:
+        case SchemaResponseActionTrigger.AcceptRevision:
             revision.reviewState = RevisionReviewStates.Approved;
             break;
         default:
@@ -44,5 +44,5 @@ export function createRevisionAction(this: HandlerContext, schema: Schema, reque
         revision.save();
         registration.save();
     }
-    return revisionAction;
+    return schemaResponseAction;
 }

@@ -28,7 +28,7 @@ module('Registries | Integration | Component | registration-list-card', hooks =>
         }, 'withReviewActions');
         server.create('schema-response', {
             registration,
-        }, 'withRevisionActions');
+        }, 'withSchemaResponseActions');
         this.setProperties({ registration });
     });
 

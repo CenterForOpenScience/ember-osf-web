@@ -6,7 +6,7 @@ import SchemaResponseModel, { RevisionReviewStates } from 'ember-osf-web/models/
 import UserModel from 'ember-osf-web/models/user';
 import OsfModel from './osf-model';
 
-export enum RevisionActionTrigger {
+export enum SchemaResponseActionTrigger {
     SubmitRevision = 'submit_revision',
     AdminApproveRevision = 'admin_approve_revision',
     AdminRejectRevision = 'admin_reject_revision',
@@ -14,18 +14,18 @@ export enum RevisionActionTrigger {
     RejectRevision = 'reject_revision',
 }
 
-const TriggerToPastTenseTranslationKey: Record<RevisionActionTrigger, string> = {
-    submit_revision: 'registries.revisionActions.triggerPastTense.submit_revision',
-    admin_approve_revision: 'registries.revisionActions.triggerPastTense.admin_approve_revision',
-    admin_reject_revision: 'registries.revisionActions.triggerPastTense.admin_reject_revision',
-    accept_revision: 'registries.revisionActions.triggerPastTense.accept_revision',
-    reject_revision: 'registries.revisionActions.triggerPastTense.reject_revision',
+const TriggerToPastTenseTranslationKey: Record<SchemaResponseActionTrigger, string> = {
+    submit_revision: 'registries.schemaResponseActions.triggerPastTense.submit_revision',
+    admin_approve_revision: 'registries.schemaResponseActions.triggerPastTense.admin_approve_revision',
+    admin_reject_revision: 'registries.schemaResponseActions.triggerPastTense.admin_reject_revision',
+    accept_revision: 'registries.schemaResponseActions.triggerPastTense.accept_revision',
+    reject_revision: 'registries.schemaResponseActions.triggerPastTense.reject_revision',
 };
 
-export default class RevisionActionModel extends OsfModel {
+export default class SchemaResponseActionModel extends OsfModel {
     @service intl!: Intl;
 
-    @attr('string') actionTrigger!: RevisionActionTrigger;
+    @attr('string') actionTrigger!: SchemaResponseActionTrigger;
     @attr('fixstring') comment!: string;
     @attr('string') fromState!: RevisionReviewStates;
     @attr('string') toState!: RevisionReviewStates;
@@ -48,6 +48,6 @@ export default class RevisionActionModel extends OsfModel {
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        'revision-action': RevisionActionModel;
+        'schema-response-action': SchemaResponseActionModel;
     } // eslint-disable-line semi
 }

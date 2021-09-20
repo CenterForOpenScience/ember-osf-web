@@ -1418,7 +1418,7 @@ registries:
             accept_withdrawal: 'withdrawal request accepted'
             reject_withdrawal: 'withdrawal request rejected'
             request_embargo_termination: 'embargo termination requested'
-    revisionActions:
+    schemaResponseActions:
         triggerPastTense:
             submit_revision: 'submitted'
             admin_approve_revision: 'approved'

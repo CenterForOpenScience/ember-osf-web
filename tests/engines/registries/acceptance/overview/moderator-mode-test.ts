@@ -347,7 +347,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
                 'page-one_short-text': 'llama',
                 'page-one_multi-select': ['Crocs'],
             },
-        }, 'withRevisionActions');
+        }, 'withSchemaResponseActions');
         await visit(`/${registration.id}?mode=moderator&revisionId=${revision.id}`);
         assert.dom(`[data-test-read-only-response=${deserializeResponseKey('page-one_short-text')}]`).hasText(
             'llama', 'Revised response is shown',

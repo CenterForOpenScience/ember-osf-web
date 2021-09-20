@@ -8,7 +8,7 @@ import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
-import { RevisionActionTrigger } from 'ember-osf-web/models/revision-action';
+import { SchemaResponseActionTrigger } from 'ember-osf-web/models/schema-response-action';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import Toast from 'ember-toastr/services/toast';
 
@@ -49,14 +49,14 @@ export default class SubmitAndDecide extends Component {
 
     @task
     @waitFor
-    async submitAction(actionTrigger: RevisionActionTrigger, comment: string) {
+    async submitAction(actionTrigger: SchemaResponseActionTrigger, comment: string) {
         try {
-            const revisionAction = this.store.createRecord('revision-action', {
+            const schemaResponseAction = this.store.createRecord('schema-response-action', {
                 actionTrigger,
                 comment,
                 target: this.revisionManager.revision,
             });
-            await revisionAction.save();
+            await schemaResponseAction.save();
             await this.revisionManager.revision.reload();
             this.toast.success(this.intl.t('registries.edit_revision.review.action_submit_success'));
         } catch (e) {

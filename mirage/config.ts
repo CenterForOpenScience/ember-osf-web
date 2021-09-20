@@ -30,7 +30,7 @@ import {
     registrationDetail,
 } from './views/registration';
 import { createNewSchemaResponse } from './views/schema-response';
-import { createRevisionAction } from './views/revision-action';
+import { createSchemaResponseAction } from './views/schema-response-action';
 import { rootDetail } from './views/root';
 import { shareSearch } from './views/share-search';
 import { createToken } from './views/token';
@@ -227,9 +227,9 @@ export default function(this: Server) {
     osfNestedResource(this, 'schema-response', 'actions', {
         path: '/schema_responses/:parentID/actions',
         only: ['show', 'index'],
-        relatedModelName: 'revision-action',
+        relatedModelName: 'schema-response-action',
     });
-    this.post('/schema_responses/:revisionId/actions', createRevisionAction);
+    this.post('/schema_responses/:revisionId/actions', createSchemaResponseAction);
 
     osfResource(this, 'brand', { only: ['show'] });
 
