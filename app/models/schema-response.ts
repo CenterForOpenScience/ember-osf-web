@@ -14,7 +14,7 @@ export enum RevisionReviewStates {
     Approved = 'approved',
 }
 
-export default class RevisionModel extends OsfModel {
+export default class SchemaResponseModel extends OsfModel {
     @attr('fixstring') reviewState!: RevisionReviewStates;
     @attr('date') dateCreated!: Date;
     @attr('date') dateModified!: Date;
@@ -34,6 +34,6 @@ export default class RevisionModel extends OsfModel {
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        'revision': RevisionModel;
+        'schema-response': SchemaResponseModel;
     } // eslint-disable-line semi
 }

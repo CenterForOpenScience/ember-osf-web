@@ -18,7 +18,7 @@ import RegistrationModel,
 } from 'ember-osf-web/models/registration';
 import { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
-import { RevisionReviewStates } from 'ember-osf-web/models/revision';
+import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import { RevisionActionTrigger } from 'ember-osf-web/models/revision-action';
 
 interface Args {
@@ -64,7 +64,7 @@ export default class MakeDecisionDropdown extends Component<Args> {
     };
 
     get latestRevision() {
-        return this.args.registration.revisions.firstObject;
+        return this.args.registration.schemaResponses.firstObject;
     }
 
     get revisionIsPending() {
@@ -122,7 +122,8 @@ export default class MakeDecisionDropdown extends Component<Args> {
                 RevisionActionTrigger.RejectRevision, RevisionActionTrigger.AcceptRevision,
             ] as  Array<RevisionActionTrigger | ReviewActionTrigger>).includes(this.decisionTrigger);
             const actionType = isRevisionAction ? 'revision-action' : 'review-action';
-            const target = isRevisionAction ? this.args.registration.revisions.lastObject : this.args.registration;
+            const target = isRevisionAction ? this.args.registration.schemaResponses.lastObject
+                : this.args.registration;
             const newAction = this.store.createRecord(actionType, {
                 actionTrigger: this.decisionTrigger,
                 comment: (this.comment ? this.comment : undefined),

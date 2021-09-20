@@ -3,7 +3,7 @@ import { buildValidations, validator } from 'ember-cp-validations';
 
 import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
 import ReviewActionModel, { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
-import RevisionModel, { RevisionReviewStates } from 'ember-osf-web/models/revision';
+import SchemaResponseModel, { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 
 import CommentModel from './comment';
@@ -129,8 +129,8 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @hasMany('review-action', { inverse: 'target' })
     reviewActions!: AsyncHasMany<ReviewActionModel> | ReviewActionModel[];
 
-    @hasMany('revision', { inverse: 'registration' })
-    revisions!: AsyncHasMany<RevisionModel> | RevisionModel[];
+    @hasMany('schema-response', { inverse: 'registration' })
+    schemaResponses!: AsyncHasMany<SchemaResponseModel> | SchemaResponseModel[];
 
     // Write-only relationships
     @belongsTo('draft-registration', { inverse: null })

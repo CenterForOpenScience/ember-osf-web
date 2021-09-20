@@ -1,6 +1,6 @@
 import { association, Factory } from 'ember-cli-mirage';
 import faker from 'faker';
-import { RevisionReviewStates } from 'ember-osf-web/models/revision';
+import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import RevisionActionModel, { RevisionActionTrigger } from 'ember-osf-web/models/revision-action';
 
 export default Factory.extend<RevisionActionModel>({

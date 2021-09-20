@@ -21,7 +21,7 @@ module('Registries | Acceptance | overview.revision', hooks => {
         const registration = server.create('registration', {
             id: 'kovacs',
         });
-        server.create('revision', {
+        server.create('schema-response', {
             id: 'colman',
             initiatedBy: user,
             dateModified: new Date(),
@@ -29,7 +29,7 @@ module('Registries | Acceptance | overview.revision', hooks => {
             revisionResponses: { q1: 'Super Man' },
             registration,
         });
-        const revision = server.create('revision', {
+        const revision = server.create('schema-response', {
             id: 'cassina',
             initiatedBy: user,
             dateModified: new Date(),

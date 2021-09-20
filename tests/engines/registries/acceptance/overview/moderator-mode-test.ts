@@ -5,7 +5,7 @@ import { setupIntl, t, TestContext } from 'ember-intl/test-support';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
-import { RevisionReviewStates } from 'ember-osf-web/models/revision';
+import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import { click, visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
@@ -339,7 +339,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             },
         });
 
-        const revision = server.create('revision', {
+        const revision = server.create('schema-response', {
             reviewState: RevisionReviewStates.RevisionPendingModeration,
             registration,
             id: 'zap',
@@ -386,7 +386,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
                 'page-one_multi-select': ['Crocs'],
             },
         });
-        const revision = server.create('revision', {
+        const revision = server.create('schema-response', {
             id: 'zap',
             registration,
             reviewState: RevisionReviewStates.RevisionPendingModeration,

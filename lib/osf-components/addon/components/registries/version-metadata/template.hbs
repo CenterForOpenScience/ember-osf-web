@@ -8,7 +8,7 @@
         {{#if @revision}}
             {{if (gt @revision.revisionNumber 0) (t 'registries.overview.versionMetadata.updateTitle') (t 'registries.overview.versionMetadata.originalTitle')}}
         {{else}}
-            {{if (gt @registration.revisions.length 1) (t 'registries.overview.versionMetadata.updateTitle') (t 'registries.overview.versionMetadata.originalTitle')}}
+            {{if (gt @registration.schemaResponses.length 1) (t 'registries.overview.versionMetadata.updateTitle') (t 'registries.overview.versionMetadata.originalTitle')}}
         {{/if}}
     </p>
     {{!-- TODO: add description for what fields have changed --}}

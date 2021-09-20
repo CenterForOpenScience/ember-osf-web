@@ -20,7 +20,7 @@ module('Integration | Component | version-metadata', hooks => {
             title: 'The Effect of Glasses and Spandex on an Individuals Recognizability',
             registrationResponses: { q1: 'Clark Kent' },
         });
-        const revision = server.create('revision', {
+        const revision = server.create('schema-response', {
             initiatedBy: currentUser,
             dateModified: new Date(),
             revisionJustification: 'This registration went into a phone booth',

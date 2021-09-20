@@ -4,7 +4,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { TestContext } from 'ember-intl/test-support';
 import RegistrationModel from 'ember-osf-web/models/registration';
-import { RevisionReviewStates } from 'ember-osf-web/models/revision';
+import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import { OsfLinkRouterStub } from 'ember-osf-web/tests/integration/helpers/osf-link-router-stub';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
@@ -26,7 +26,7 @@ module('Registries | Integration | Component | registration-list-card', hooks =>
             title: 'Test title',
             provider,
         }, 'withReviewActions');
-        server.create('revision', {
+        server.create('schema-response', {
             registration,
         }, 'withRevisionActions');
         this.setProperties({ registration });

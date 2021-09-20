@@ -2,7 +2,7 @@ import { attr, belongsTo, AsyncBelongsTo } from '@ember-data/model';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
-import RevisionModel, {RevisionReviewStates} from 'ember-osf-web/models/revision';
+import SchemaResponseModel, { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import UserModel from 'ember-osf-web/models/user';
 import OsfModel from './osf-model';
 
@@ -36,8 +36,8 @@ export default class RevisionActionModel extends OsfModel {
     @belongsTo('user', { inverse: null })
     creator!: AsyncBelongsTo<UserModel> & UserModel;
 
-    @belongsTo('revision', { inverse: 'actions' })
-    target!: AsyncBelongsTo<RevisionModel> & RevisionModel;
+    @belongsTo('schema-response', { inverse: 'actions' })
+    target!: AsyncBelongsTo<SchemaResponseModel> & SchemaResponseModel;
 
     @computed('actionTrigger')
     get triggerPastTense(): string {

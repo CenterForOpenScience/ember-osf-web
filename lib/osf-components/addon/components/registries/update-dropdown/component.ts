@@ -8,7 +8,7 @@ import Intl from 'ember-intl/services/intl';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 
 import RegistrationModel from 'ember-osf-web/models/registration';
-import RevisionModel, { RevisionReviewStates } from 'ember-osf-web/models/revision';
+import SchemaResponseModel, { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import Toast from 'ember-toastr/services/toast';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
@@ -30,7 +30,7 @@ export default class UpdateDropdown extends Component<Args> {
     @tracked currentPage = 1;
     @tracked totalPage = 1;
     @tracked totalRevisions = 0;
-    @tracked revisions: QueryHasManyResult<RevisionModel> | RevisionModel[] = [];
+    @tracked revisions: QueryHasManyResult<SchemaResponseModel> | SchemaResponseModel[] = [];
 
     isPendingCurrentUserApproval?: boolean;
 
@@ -68,7 +68,7 @@ export default class UpdateDropdown extends Component<Args> {
         }
         try {
             if (this.hasMore) {
-                const currentPageResult = await this.args.registration.queryHasMany('revisions', {
+                const currentPageResult = await this.args.registration.queryHasMany('schemaResponses', {
                     page: this.currentPage,
                 });
                 this.totalPage = Math.ceil(currentPageResult.meta.total / currentPageResult.meta.per_page);
@@ -86,8 +86,8 @@ export default class UpdateDropdown extends Component<Args> {
 
     @task
     @waitFor
-    async createNewRevision() {
-        const newRevision: RevisionModel = this.store.createRecord('revision', {
+    async createNewSchemaResponse() {
+        const newRevision: SchemaResponseModel = this.store.createRecord('schema-response', {
             registration: this.args.registration,
         });
         await newRevision.save();

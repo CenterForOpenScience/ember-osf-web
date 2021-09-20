@@ -7,7 +7,7 @@ import { tracked } from '@glimmer/tracking';
 import config from 'ember-get-config';
 
 import Registration from 'ember-osf-web/models/registration';
-import RevisionModel from 'ember-osf-web/models/revision';
+import SchemaResponseModel from 'ember-osf-web/models/schema-response';
 import { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
@@ -25,7 +25,7 @@ export default class Overview extends Controller {
     @service store!: Store;
     @service intl!: Intl;
     model!: GuidRouteModel<Registration>;
-    revisionModel!: GuidRouteModel<RevisionModel>;
+    revisionModel!: GuidRouteModel<SchemaResponseModel>;
 
     queryParams = ['mode', 'revisionId'];
     supportEmail = supportEmail;
@@ -34,7 +34,7 @@ export default class Overview extends Controller {
     @tracked revisionId = '';
 
     @alias('model.taskInstance.value') registration?: Registration;
-    @alias('registration.revisions') revisions?: RevisionModel[];
+    @alias('registration.schemaResponses') revisions?: SchemaResponseModel[];
 
     @computed('registration.{reviewsState,archiving}')
     get showTombstone() {

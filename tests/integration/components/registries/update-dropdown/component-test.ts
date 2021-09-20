@@ -5,7 +5,7 @@ import { percySnapshot } from 'ember-percy';
 import { module, skip } from 'qunit';
 
 import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
-import { RevisionReviewStates } from 'ember-osf-web/models/revision';
+import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
 
 import { Permission } from 'ember-osf-web/models/osf-model';
@@ -33,15 +33,15 @@ module('Acceptance | update dropdown', hooks => {
         server.create('draft-registration', {
             branchedFrom: node,
         }, 'currentUserIsReadAndWrite');
-        server.create('revision', {
+        server.create('schema-response', {
             reviewState: RevisionReviewStates.Approved,
             revisionNumber: 1,
         });
-        server.create('revision', {
+        server.create('schema-response', {
             reviewState: RevisionReviewStates.Approved,
             revisionNumber: 2,
         });
-        server.create('revision', {
+        server.create('schema-response', {
             reviewState: RevisionReviewStates.Approved,
             revisionNumber: 3,
         });

@@ -12,12 +12,12 @@ import Toast from 'ember-toastr/services/toast';
 import RegistrationModel from 'ember-osf-web/models/registration';
 import ReviewActionModel from 'ember-osf-web/models/review-action';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
-import RevisionModel from 'ember-osf-web/models/revision';
+import SchemaResponseModel from 'ember-osf-web/models/schema-response';
 import RevisionActionModel from 'ember-osf-web/models/revision-action';
 
 interface Args {
     registration: RegistrationModel;
-    revision: RevisionModel;
+    revision: SchemaResponseModel;
 }
 
 export default class ReviewActionsList extends Component<Args> {

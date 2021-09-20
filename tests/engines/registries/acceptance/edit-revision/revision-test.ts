@@ -19,7 +19,7 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 import RegistrationModel from 'ember-osf-web/models/registration';
 import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 import RegistrationSchemaModel from 'ember-osf-web/models/registration-schema';
-import { RevisionReviewStates } from 'ember-osf-web/models/revision';
+import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import { deserializeResponseKey } from 'ember-osf-web/transforms/registration-response-key';
 
 const currentUserStub = Service.extend();
@@ -60,7 +60,7 @@ module('Registries | Acceptance | registries revision', hooks => {
         const registrationSchema = server.schema.registrationSchemas.find('testSchema');
         this.registration.currentUserPermissions = [Permission.Read];
         const revision = server.create(
-            'revision',
+            'schema-response',
             {
                 registrationSchema,
                 initiatedBy,
@@ -105,7 +105,7 @@ module('Registries | Acceptance | registries revision', hooks => {
     test('it redirects to the first page of the revision form', async function(this: RevisionTestContext, assert) {
         const initiatedBy = server.create('user', 'loggedIn');
         const revision = server.create(
-            'revision',
+            'schema-response',
             {
                 initiatedBy,
                 revisionResponses: {},
@@ -119,7 +119,7 @@ module('Registries | Acceptance | registries revision', hooks => {
     test('left nav controls', async function(this: RevisionTestContext, assert) {
         const initiatedBy = server.create('user', 'loggedIn');
         const revision = server.create(
-            'revision', {
+            'schema-response', {
                 initiatedBy,
                 revisionResponses: {},
                 registration: this.registration,
@@ -189,7 +189,7 @@ module('Registries | Acceptance | registries revision', hooks => {
     test('right sidenav controls', async function(this: RevisionTestContext, assert) {
         const initiatedBy = server.create('user', 'loggedIn');
         const revision = server.create(
-            'revision',
+            'schema-response',
             {
                 initiatedBy,
                 revisionResponses: {},
@@ -246,7 +246,7 @@ module('Registries | Acceptance | registries revision', hooks => {
     test('mobile navigation works', async function(this: RevisionTestContext, assert) {
         const initiatedBy = server.create('user', 'loggedIn');
         const revision = server.create(
-            'revision', {
+            'schema-response', {
                 initiatedBy,
                 revisionResponses: {},
                 registration: this.registration,
@@ -298,7 +298,7 @@ module('Registries | Acceptance | registries revision', hooks => {
     test('correcting invalid responses', async function(this: RevisionTestContext, assert) {
         const initiatedBy = server.create('user', 'loggedIn');
         const revision = server.create(
-            'revision',
+            'schema-response',
             {
                 initiatedBy,
                 registration: this.registration,
@@ -353,7 +353,7 @@ module('Registries | Acceptance | registries revision', hooks => {
     test('Submit, continue edit, and resubmit', async function(this: RevisionTestContext, assert) {
         const initiatedBy = server.create('user', 'loggedIn');
         const revision = server.create(
-            'revision',
+            'schema-response',
             {
                 initiatedBy,
                 revisionResponses: {
@@ -385,7 +385,7 @@ module('Registries | Acceptance | registries revision', hooks => {
         const initiatedBy = server.create('user', 'loggedIn');
         this.registration.currentUserPermissions = [Permission.Read, Permission.Write];
         const revision = server.create(
-            'revision',
+            'schema-response',
             {
                 reviewState: RevisionReviewStates.RevisionPendingAdminApproval,
                 initiatedBy,

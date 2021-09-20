@@ -40,7 +40,7 @@
             {{#if @registration.userHasAdminPermission}}
                 <Button
                     @type='create'
-                    {{on 'click' (perform this.createNewRevision)}}
+                    {{on 'click' (perform this.createNewSchemaResponse)}}
                 >
                     {{t 'general.update'}}
                 </Button>

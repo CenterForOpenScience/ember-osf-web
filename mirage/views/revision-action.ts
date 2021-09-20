@@ -1,5 +1,5 @@
 import { HandlerContext, NormalizedRequestAttrs, Request, Schema } from 'ember-cli-mirage';
-import { RevisionReviewStates } from 'ember-osf-web/models/revision';
+import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import RevisionActionModel, { RevisionActionTrigger } from 'ember-osf-web/models/revision-action';
 
 export function createRevisionAction(this: HandlerContext, schema: Schema, request: Request) {
@@ -10,7 +10,7 @@ export function createRevisionAction(this: HandlerContext, schema: Schema, reque
     let revisionAction;
     if (userId && revisionId) {
         const currentUser = schema.users.find(userId);
-        const revision = schema.revisions.find(revisionId);
+        const revision = schema.schemaResponses.find(revisionId);
         const registration = revision.registration;
         const { trigger } = attrs as any; // have to cast attrs to any because `actionTrigger` does not exist on type
         revisionAction = schema.revisionActions.create({

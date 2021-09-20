@@ -29,7 +29,7 @@ import {
     getProviderRegistrations,
     registrationDetail,
 } from './views/registration';
-import { createNewRevision } from './views/revision';
+import { createNewSchemaResponse } from './views/schema-response';
 import { createRevisionAction } from './views/revision-action';
 import { rootDetail } from './views/root';
 import { shareSearch } from './views/share-search';
@@ -215,18 +215,21 @@ export default function(this: Server) {
         defaultPageSize: 1000,
     });
 
-    osfResource(this, 'revision', { only: ['index', 'delete', 'show', 'update']});
-    this.post('/revisions', createNewRevision);
-    osfNestedResource(this, 'registration', 'revisions', {
-        path: '/registrations/:parentID/revisions',
+    osfResource(this, 'schema-response', {
+        path: '/schema_responses',
+        only: ['index', 'delete', 'show', 'update'],
+    });
+    this.post('/schema_responses', createNewSchemaResponse);
+    osfNestedResource(this, 'registration', 'schemaResponses', {
+        path: '/registrations/:parentID/schema_responses',
         only: ['show', 'create', 'index'],
     });
-    osfNestedResource(this, 'revision', 'actions', {
-        path: '/revisions/:parentID/actions',
+    osfNestedResource(this, 'schema-response', 'actions', {
+        path: '/schema_responses/:parentID/actions',
         only: ['show', 'index'],
         relatedModelName: 'revision-action',
     });
-    this.post('/revisions/:revisionId/actions', createRevisionAction);
+    this.post('/schema_responses/:revisionId/actions', createRevisionAction);
 
     osfResource(this, 'brand', { only: ['show'] });
 
