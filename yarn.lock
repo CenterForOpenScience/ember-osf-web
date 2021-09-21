@@ -7921,10 +7921,10 @@ ember-cli-babel@^6.0.0-beta.4, ember-cli-babel@^6.10.0, ember-cli-babel@^6.12.0,
     ember-cli-version-checker "^2.1.2"
     semver "^5.5.0"
 
-ember-cli-babel@^7.0.0, ember-cli-babel@^7.1.0, ember-cli-babel@^7.1.2, ember-cli-babel@^7.1.3, ember-cli-babel@^7.10.0, ember-cli-babel@^7.11.0, ember-cli-babel@^7.11.1, ember-cli-babel@^7.13.0, ember-cli-babel@^7.13.2, ember-cli-babel@^7.17.2, ember-cli-babel@^7.18.0, ember-cli-babel@^7.19.0, ember-cli-babel@^7.20.5, ember-cli-babel@^7.21.0, ember-cli-babel@^7.22.1, ember-cli-babel@^7.23.0, ember-cli-babel@^7.23.1, ember-cli-babel@^7.26.2, ember-cli-babel@^7.26.3, ember-cli-babel@^7.26.4, ember-cli-babel@^7.26.5, ember-cli-babel@^7.4.0, ember-cli-babel@^7.5.0, ember-cli-babel@^7.7.3, ember-cli-babel@^7.8.0:
-  version "7.26.5"
-  resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-7.26.5.tgz#59904d1d73b5c816167238024d18b85c8b51debc"
-  integrity sha512-XLMk59yNJneItn/hkJn+kHjnnszdfXWo1sP95C0kouSfPtIsUC3a/f/FW6c59D8koPANJOIHiHP3zUpTpKsnTA==
+ember-cli-babel@^7.0.0, ember-cli-babel@^7.1.0, ember-cli-babel@^7.1.2, ember-cli-babel@^7.1.3, ember-cli-babel@^7.10.0, ember-cli-babel@^7.11.0, ember-cli-babel@^7.11.1, ember-cli-babel@^7.12.0, ember-cli-babel@^7.13.0, ember-cli-babel@^7.13.2, ember-cli-babel@^7.17.2, ember-cli-babel@^7.18.0, ember-cli-babel@^7.19.0, ember-cli-babel@^7.20.5, ember-cli-babel@^7.21.0, ember-cli-babel@^7.22.1, ember-cli-babel@^7.23.0, ember-cli-babel@^7.23.1, ember-cli-babel@^7.26.2, ember-cli-babel@^7.26.3, ember-cli-babel@^7.26.4, ember-cli-babel@^7.26.5, ember-cli-babel@^7.4.0, ember-cli-babel@^7.5.0, ember-cli-babel@^7.7.3, ember-cli-babel@^7.8.0:
+  version "7.26.6"
+  resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-7.26.6.tgz#322fbbd3baad9dd99e3276ff05bc6faef5e54b39"
+  integrity sha512-040svtfj2RC35j/WMwdWJFusZaXmNoytLAMyBDGLMSlRvznudTxZjGlPV6UupmtTBApy58cEF8Fq4a+COWoEmQ==
   dependencies:
     "@babel/core" "^7.12.0"
     "@babel/helper-compilation-targets" "^7.12.0"
@@ -8120,7 +8120,7 @@ ember-cli-htmlbars@^3.0.0, ember-cli-htmlbars@^3.0.1:
     json-stable-stringify "^1.0.1"
     strip-bom "^3.0.0"
 
-ember-cli-htmlbars@^4.0.2, ember-cli-htmlbars@^4.0.5, ember-cli-htmlbars@^4.2.0, ember-cli-htmlbars@^4.2.2, ember-cli-htmlbars@^4.3.1:
+ember-cli-htmlbars@^4.0.2, ember-cli-htmlbars@^4.0.5, ember-cli-htmlbars@^4.0.8, ember-cli-htmlbars@^4.2.0, ember-cli-htmlbars@^4.2.2, ember-cli-htmlbars@^4.3.1:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/ember-cli-htmlbars/-/ember-cli-htmlbars-4.5.0.tgz#d299e4f7eba6f30dc723ee086906cc550beb252e"
   integrity sha512-bYJpK1pqFu9AadDAGTw05g2LMNzY8xTCIqQm7dMJmKEoUpLRFbPf4SfHXrktzDh7Q5iggl6Skzf1M0bPlIxARw==
@@ -9221,12 +9221,13 @@ ember-on-helper@^0.1.0:
   dependencies:
     ember-cli-babel "^7.7.3"
 
-ember-onbeforeunload@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/ember-onbeforeunload/-/ember-onbeforeunload-1.2.0.tgz#96736d7532d5add9830466082d02300e84a872c0"
-  integrity sha512-b/vAqD17TBOB5oUqEqN7JpIwIxJ9Ei+D8lhXifsfFjCSs60iIDEEE6zJiajlnmKetJl0YqVlh666grIEo7qS6Q==
+ember-onbeforeunload@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/ember-onbeforeunload/-/ember-onbeforeunload-2.0.0.tgz#f2c1ad1a63d3847190e01046e8381f2d05346de4"
+  integrity sha512-oSVvlFw9lZIWoInNGH1pQMXOiB9uCDWRjLuwxscjvqHW/7ZNVlz+r1wdZs8/VCAITrWj07sF4ZoNyRhVXL546g==
   dependencies:
-    ember-cli-babel "^6.6.0"
+    ember-cli-babel "^7.12.0"
+    ember-cli-htmlbars "^4.0.8"
 
 ember-page-title@^6.2.1:
   version "6.2.1"

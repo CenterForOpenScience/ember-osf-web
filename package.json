@@ -184,7 +184,7 @@
     "ember-mockdate-shim": "^0.1.0",
     "ember-modifier": "^2.1.1",
     "ember-moment": "^7.7.0",
-    "ember-onbeforeunload": "^1.2.0",
+    "ember-onbeforeunload": "^2.0.0",
     "ember-page-title": "^6.2.1",
     "ember-parachute": "^1.0.2",
     "ember-percy": "^1.5.0",
