@@ -74,7 +74,7 @@ export default class UploadCsvComponent extends Component<Args> {
     @action
     success(_: any, __: any, file: any, ___: any) {
         this.uploading.removeObject(file);
-        // some success handling code here
+        this.toast.success(this.intl.t('registries.moderation.settings.uploadSuccess'));
     }
 
     @action

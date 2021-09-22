@@ -1070,6 +1070,7 @@ registries:
             invalidFileType:
                 title: 'Invalid file type'
                 detail: 'Only csv files can be uploaded in the system. Convert the file into the csv format and reupload the document. Contact the Help Desk at <a href="mailto:support@osf.io">support@osf.io</a> if you have any questions.'
+            uploadSuccess: 'Successfully uploaded csv file.'
         overview:
             title: 'Moderated Overview'
     new:
