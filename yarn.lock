@@ -8975,12 +8975,12 @@ ember-faker@^2.0.0:
     ember-cli-node-assets "^0.2.2"
     faker "^5.5.3"
 
-ember-feature-flags@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/ember-feature-flags/-/ember-feature-flags-5.0.0.tgz#630d2876f5341b456db89996f35c0b109a0e27ec"
-  integrity sha1-Yw0odvU0G0VtuJmW81wLEJoOJ+w=
+ember-feature-flags@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/ember-feature-flags/-/ember-feature-flags-6.0.0.tgz#3509984b575798dda337c3f18d309a8d5aca0ad8"
+  integrity sha512-CcKpQ0NI/AMkYcP/4obqfDrzFlLqFngabFUfmAlQNnCic5cz51nlLY9MzYRtbop0+1iyegM4XHJFE4Awlji/1g==
   dependencies:
-    ember-cli-babel "^6.6.0"
+    ember-cli-babel "^7.11.1"
 
 "ember-fetch@^2.1.0 || ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0":
   version "6.7.2"
