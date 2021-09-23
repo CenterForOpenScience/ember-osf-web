@@ -7,7 +7,7 @@ import { SubscriptionFrequency } from 'ember-osf-web/models/subscription';
 import { visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 
-module('Registries | Acceptance | branded.moderation | notifications', hooks => {
+module('Registries | Acceptance | branded.moderation | settings', hooks => {
     setupEngineApplicationTest(hooks, 'registries');
     setupMirage(hooks);
 
@@ -31,13 +31,13 @@ module('Registries | Acceptance | branded.moderation | notifications', hooks => 
     });
 
     test('logged out users are rerouted', async assert => {
-        await visit('/registries/mdr8n/moderation/notifications');
+        await visit('/registries/mdr8n/moderation/settings');
         assert.equal(currentRouteName(), 'registries.page-not-found', 'Non-moderators are rerouted');
     });
 
     test('logged in, non-moderators are rerouted', async assert => {
         server.create('user', 'loggedIn');
-        await visit('/registries/mdr8n/moderation/notifications');
+        await visit('/registries/mdr8n/moderation/settings');
         assert.equal(currentRouteName(), 'registries.page-not-found', 'Non-moderators are rerouted');
     });
 
@@ -46,10 +46,10 @@ module('Registries | Acceptance | branded.moderation | notifications', hooks => 
         const currentUser = server.create('user', 'loggedIn');
         server.create('moderator', { id: currentUser.id, user: currentUser, provider: regProvider }, 'asModerator');
         regProvider.update({ permissions: ['view_submissions'] });
-        await visit('/registries/mdr8n/moderation/notifications');
-        await percySnapshot('moderation notifications page');
-        assert.equal(currentRouteName(), 'registries.branded.moderation.notifications',
-            'On the notifications page of registries reviews');
+        await visit('/registries/mdr8n/moderation/settings');
+        await percySnapshot('moderation settings page');
+        assert.equal(currentRouteName(), 'registries.branded.moderation.settings',
+            'On the settings page of registries reviews');
         assert.dom('[data-test-subscription-list]').exists('Subscription list shown');
         assert.dom('[data-test-subscription-list-row="mdr8n_new_pending_submissions"]')
             .exists('Pending submissions notification shown');

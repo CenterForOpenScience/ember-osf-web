@@ -1,0 +1,68 @@
+{{#let (unique-id 'upload-csv-dropzone') as |id|}}
+    <DropzoneWidget
+        @buildUrl={{action this.buildUrl}}
+        @options={{this.dropzoneOptions}}
+        @dropzone={{false}}
+        @addedfile={{action this.addedFile}}
+        @uploadprogress={{action this.uploadProgress}}
+        @success={{action this.success}}
+        @error={{action this.error}}
+        @dragenter={{action (mut this.dropping) true}}
+        @dragover={{action (mut this.dropping) true}}
+        @drop={{action (mut this.dropping) false}}
+        @dragleave={{action (mut this.dropping) false}}
+        @enable={{true}}
+        @id={{id}}
+        @clickable={{array 
+            (concat '.' (local-class 'upload-zone'))
+        }}
+    >
+        <div local-class='upload-zone'>
+            <div local-class='upload-zone-content'>
+                <FaIcon @icon='upload' @size='5x' />
+                <div 
+                    local-class='file-placeholder-text'
+                >
+                    {{t 'registries.moderation.settings.dropCsvHere'}}
+                </div>
+            </div>
+        </div>
+    </DropzoneWidget>
+{{/let}}
+
+{{#let (unique-id 'main-content') as |id|}}
+    <OsfDialog
+        @isOpen={{this.shouldShowErrorModal}}
+        @onClose={{this.closeErrorModal}}
+        as |dialog|
+    >
+        <dialog.heading>
+            {{t 'registries.moderation.settings.uploadError'}}
+        </dialog.heading>
+        <dialog.main id={{id}}>
+            <div>
+                <p>{{t 'registries.moderation.settings.generalErrorMessage' htmlSafe=true}}</p>
+            </div>
+
+            <dl>
+                {{#each this.errorMessages as |msg|}}
+                    <p>
+                        {{#if msg.cell}}
+                            <dt>{{t 'registries.moderation.settings.cell'}} {{msg.cell}}</dt>
+                        {{/if}}
+                        <dt>{{msg.title}}</dt>
+                        <dd>{{msg.detail}}</dd>
+                    </p>
+                {{/each}}
+            </dl>
+        </dialog.main>
+        <dialog.footer>
+            <BsButton
+                @type='primary'
+                {{on 'click' (fn this.copyToClipboard id)}}
+            >
+                {{t 'registries.moderation.settings.copyToClipboard'}}
+            </BsButton>
+        </dialog.footer>
+    </OsfDialog>
+{{/let}}

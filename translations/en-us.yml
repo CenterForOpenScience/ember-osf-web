@@ -1022,10 +1022,55 @@ registries:
             removedModeratorError: 'Error removing {permission}'
             updatedModeratorPermissionSuccess: 'Successfully updated {userName} to {permission}'
             updatedModeratorPermissionError: 'Error updating permission to {permission}'
-        notifications:
-            title: 'Notifications'
+        settings:
+            title: 'Settings'
             heading: 'Configure reviews notification preferences'
             paragraph: 'To configure other notification preferences visit your <a href={link}>user settings</a>.'
+            bulkUpload: 'Bulk upload'
+            bulkUploadHelpText: 'Drag and drop the csv file that has the registration information to upload.'
+            dropCsvHere: 'Drop csv file here to upload'
+            uploadError: 'Upload error'
+            copyToClipboard: 'Copy to clipboard'
+            cell: 'Cell'
+            copyToClipboardSuccess: 'Successfully copied to clipboard.'
+            generalErrorMessage: 'Your file was not uploaded due to the errors listed below. Please correct the errors and try again. If you have any questions, please contact the help desk at <a href="mailto:support@osf.io">support@osf.io</a>.'
+            invalidSchemaId:
+                title: 'Invalid schema ID'
+                detail: 'The schema ID in this cell does not match with a registration template in our system. It’s likely this ID was manually edited after it was downloaded or the registration template is outdated. Download a new csv template to get the most updated version and try to upload again.'
+            invalidColumnId:
+                title: 'Invalid column ID'
+                detail: 'This Column ID does not match with the ones used by this registration template. It’s likely it was manually edited after it was downloaded or the registration template is outdated. Download a new csv template to get the most updated version and try to upload again.'
+            invalidProjectId:
+                title: 'Invalid project ID'
+                detail: 'This Project GUID does not exist. Check that each project’s GUID is accurate. Registrations that do not have a project should have a blank cell.'
+            invalidInstitutionName:
+                title: 'Invalid institution name'
+                detail: 'This affiliated institution name does not match our system. Check that the institution’s name is spelled correctly. <a href="https://osf.io/institutions?view_only=">Click here</a> to view a list of currently active affiliated institutions.'        
+            invalidLicenseName:
+                title: 'Invalid license name'
+                detail: 'This license does not match our system. It’s likely that the license is either spelled incorrectly, is not an option in our system, or formatted incorrectly. <a href="https://help.osf.io/hc/en-us/articles/360019739014-Licensing">Click here</a> to view a list of available licenses. See section “CSV Templates” in our Moderator’s Guide for more information on formatting specific licenses.'
+            invalidSubjectName:
+                title: 'Invalid subject name'
+                detail: 'This subject does not match our system. It’s likely it is spelled incorrectly. OSF uses the <a href="https://www.bepress.com/wp-content/uploads/2016/12/Disciplines_taxonomy_2018-01.pdf">bepress taxonomy</a>. Only the word or phase after the last colon needs to be entered.'
+            invalidCategoryName:
+                title: 'Invalid category name'
+                detail: 'TThis category does not match our system. It’s likely that the category either spelled incorrectly or is not an option in our system.  See section “CSV Templates” in our Moderator’s Guide for more information.'
+            invalidResponse:
+                title: 'Invalid response'
+                detail: 'This response is not acceptable by the system. It’s likely that this is due to misspelling or having multiple answers for a single response question. See section “CSV Templates”.'
+            invalidContributors:
+                title: 'Invalid format for contributors'
+                detail: 'This contributors list does not match the system’s formatting requirements. Review the required formatting in the Moderator’s Manual. Contact the help desk at <a href="mailto:support@osf.io">support@osf.io</a> this is not the issue.'
+            sizeExceedsLimit:
+                title: 'File size exceeds limit'
+                detail: 'The csv file exceeds the 1MB limit. Break the file into multiple files and reupload them. Contact the Help Desk at <a href="mailto:support@osf.io">support@osf.io</a> if you have any questions.'
+            bulkUploadJobExists:
+                title: 'Bulk upload job already exists'
+                detail: 'This csv file was already uploaded into the system and cannot be re-uploaded.'
+            invalidFileType:
+                title: 'Invalid file type'
+                detail: 'Only csv files can be uploaded in the system. Convert the file into the csv format and reupload the document. Contact the Help Desk at <a href="mailto:support@osf.io">support@osf.io</a> if you have any questions.'
+            uploadSuccess: 'Successfully uploaded csv file.'
         overview:
             title: 'Moderated Overview'
     new:
