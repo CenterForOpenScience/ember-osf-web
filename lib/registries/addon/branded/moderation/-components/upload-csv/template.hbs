@@ -16,6 +16,7 @@
         @clickable={{array 
             (concat '.' (local-class 'upload-zone'))
         }}
+        data-test-bulk-upload-widget
     >
         <div local-class='upload-zone'>
             <div local-class='upload-zone-content'>
@@ -36,22 +37,22 @@
         @onClose={{this.closeErrorModal}}
         as |dialog|
     >
-        <dialog.heading>
+        <dialog.heading data-test-error-modal-heading>
             {{t 'registries.moderation.settings.uploadError'}}
         </dialog.heading>
-        <dialog.main id={{id}}>
-            <div>
+        <dialog.main id={{id}} data-test-error-modal-main>
+            <div data-test-error-modal-general-message>
                 <p>{{t 'registries.moderation.settings.generalErrorMessage' htmlSafe=true}}</p>
             </div>
 
-            <dl>
+            <dl data-test-error-modal-message-list>
                 {{#each this.errorMessages as |msg|}}
                     <p>
                         {{#if msg.cell}}
-                            <dt>{{t 'registries.moderation.settings.cell'}} {{msg.cell}}</dt>
+                            <dt data-test-error-modal-cell-identifier>{{t 'registries.moderation.settings.cell'}} {{msg.cell}}</dt>
                         {{/if}}
-                        <dt>{{msg.title}}</dt>
-                        <dd>{{msg.detail}}</dd>
+                        <dt data-test-error-modal-message-title>{{msg.title}}</dt>
+                        <dd data-test-error-modal-message-detail>{{msg.detail}}</dd>
                     </p>
                 {{/each}}
             </dl>
