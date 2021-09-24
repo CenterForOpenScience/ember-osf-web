@@ -599,8 +599,8 @@ node_card:
     last_updated: 'Last updated:'
     registry: 'Registry:'
     options: Options
-    view: 'View'
-    update: 'Update'
+    view_button: 'View'
+    update_button: 'Update'
 forks:
     fork: Fork
     title: Forks
