@@ -16,10 +16,12 @@
     />
 </Subscriptions::Manager>
 
-<h2>
-    {{t 'registries.moderation.settings.bulkUpload'}}
-</h2>
-<p>
-    {{t 'registries.moderation.settings.bulkUploadHelpText'}}
-</p>
-<Branded::Moderation::-Components::UploadCsv @providerId={{this.model.id}} />
+{{#if this.shouldShowBulkUploadWidget}}
+    <h2>
+        {{t 'registries.moderation.settings.bulkUpload'}}
+    </h2>
+    <p>
+        {{t 'registries.moderation.settings.bulkUploadHelpText'}}
+    </p>
+    <Branded::Moderation::-Components::UploadCsv @providerId={{this.model.id}} />
+{{/if}}
