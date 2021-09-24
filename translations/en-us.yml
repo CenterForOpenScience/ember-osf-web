@@ -593,7 +593,7 @@ node_card:
     description: 'Description:'
     last_updated: 'Last updated:'
     registry: 'Registry:'
-    options: Options
+    options: 'Options'
     view_button: 'View'
     update_button: 'Update'
 forks:
