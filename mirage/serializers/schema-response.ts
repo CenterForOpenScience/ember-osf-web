@@ -1,11 +1,17 @@
 import { ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
-import { MirageRevisionModel } from '../factories/revision';
+import { MirageSchemaResponseModel } from '../factories/schema-response';
 import ApplicationSerializer from './application';
 const { OSF: { apiUrl } } = config;
 
-export default class RevisionSerializer extends ApplicationSerializer<MirageRevisionModel> {
-    buildRelationships(model: ModelInstance<MirageRevisionModel>) {
+export default class SchemaResponseSerializer extends ApplicationSerializer<MirageSchemaResponseModel> {
+    buildNormalLinks(model: ModelInstance<MirageSchemaResponseModel>) {
+        return {
+            self: `${apiUrl}/v2/schema_responses/${model.id}`,
+        };
+    }
+
+    buildRelationships(model: ModelInstance<MirageSchemaResponseModel>) {
         return {
             registrationSchema: {
                 links: {
@@ -34,7 +40,7 @@ export default class RevisionSerializer extends ApplicationSerializer<MirageRevi
             actions: {
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/revisions/${model.id}/actions/`,
+                        href: `${apiUrl}/v2/schema_responses/${model.id}/actions/`,
                     },
                 },
             },

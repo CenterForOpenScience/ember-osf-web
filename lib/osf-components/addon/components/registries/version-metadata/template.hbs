@@ -1,19 +1,26 @@
 <section
     local-class='versionMetadata'
->
+> 
     <p
         data-test-version-metadata-title
         local-class='versionMetadata-title'
     >
-        {{t 'registries.overview.versionMetadata.title'}}
+        {{#if @revision}}
+            {{if (gt @revision.revisionNumber 0) (t 'registries.overview.versionMetadata.updateTitle') (t 'registries.overview.versionMetadata.originalTitle')}}
+        {{else}}
+            {{if (gt @registration.schemaResponses.length 1) (t 'registries.overview.versionMetadata.updateTitle') (t 'registries.overview.versionMetadata.originalTitle')}}
+        {{/if}}
     </p>
     {{!-- TODO: add description for what fields have changed --}}
     <p data-test-version-metadata-date>
-        {{t 'registries.overview.versionMetadata.date' date=(moment-format @revision.date 'MMM DD, YYYY') author=@revision.initiatedBy.fullName}}
+        {{if @revision.revisionNumber (t 'registries.overview.versionMetadata.date' date=(moment-format @revision.date 'MMM DD, YYYY'))
+            (t 'registries.overview.versionMetadata.originalDate' date=(moment-format @revision.date 'MMM DD, YYYY'))}}
     </p>
-    <p data-test-version-metadata-reason>
-        {{t 'registries.overview.versionMetadata.reason'}}
-        <br>
-        <i>{{@revision.revisionJustification}}</i>
-    </p>
+    {{#if @revision}}
+        <p data-test-version-metadata-reason>
+            {{t 'registries.overview.versionMetadata.reason'}}
+            <br>
+            <i>{{if @revision.revisionJustification @revision.revisionJustification (t 'registries.overview.versionMetadata.noReason')}}</i>
+        </p>
+    {{/if}}
 </section>

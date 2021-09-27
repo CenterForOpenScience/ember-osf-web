@@ -54,7 +54,6 @@
                         @toggleSidenav={{layout.toggleSidenav}}
                         @metadataGutterClosed={{layout.metadataGutterClosed}}
                         @toggleMetadata={{layout.toggleMetadata}}
-                        @isViewingLatestRevision={{this.isViewingLatestRevision}}
                     />
                 </layout.heading>
 
@@ -94,12 +93,6 @@
                             </BsButton>
                         </h3>
                     {{/if}}
-                    <Button
-                        {{on 'click' (perform this.createNewRevision)}}
-                    >
-                        {{t 'general.add'}}
-                    </Button>
-
                     <RegistriesMetadata @registration={{this.registration}} @extendedFields={{true}} />
                 </layout.right>
             </OsfLayout>

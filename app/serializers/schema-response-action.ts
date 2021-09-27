@@ -1,6 +1,6 @@
 import OsfSerializer from './osf-serializer';
 
-export default class RevisionActionSerializer extends OsfSerializer {
+export default class SchemaResponseActionSerializer extends OsfSerializer {
     // Because `trigger` is a private method on DS.Model
     attrs: any = {
         ...this.attrs, // from OsfSerializer
@@ -10,6 +10,6 @@ export default class RevisionActionSerializer extends OsfSerializer {
 
 declare module 'ember-data/types/registries/serializer' {
     export default interface SerializerRegistry {
-        'revision-action': RevisionActionSerializer;
+        'schema-response-action': SchemaResponseActionSerializer;
     } // eslint-disable-line semi
 }

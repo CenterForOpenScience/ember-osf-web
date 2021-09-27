@@ -18,12 +18,12 @@ import {
     RegistrationResponse,
 } from 'ember-osf-web/packages/registration-schema';
 import RegistrationModel from 'ember-osf-web/models/registration';
-import RevisionModel, { RevisionReviewStates } from 'ember-osf-web/models/revision';
+import SchemaResponseModel, { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 
 type LoadModelsTask = TaskInstance<{
-    revision: RevisionModel,
+    revision: SchemaResponseModel,
     registration: RegistrationModel,
     provider: ProviderModel,
 }>;
@@ -50,7 +50,7 @@ export default class RevisionManager {
     @filterBy('pageManagers', 'isVisited', true) visitedPages!: PageManager[];
     @notEmpty('visitedPages') hasVisitedPages!: boolean;
 
-    revision!: RevisionModel;
+    revision!: SchemaResponseModel;
     registration!: RegistrationModel;
     provider!: ProviderModel;
     node?: NodeModel;

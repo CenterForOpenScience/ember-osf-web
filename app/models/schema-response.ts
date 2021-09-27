@@ -1,7 +1,7 @@
 import { AsyncBelongsTo, AsyncHasMany, attr, belongsTo, hasMany } from '@ember-data/model';
 import RegistrationModel from 'ember-osf-web/models/registration';
 import RegistrationSchemaModel from 'ember-osf-web/models/registration-schema';
-import RevisionActionModel from 'ember-osf-web/models/revision-action';
+import SchemaResponseActionModel from 'ember-osf-web/models/schema-response-action';
 import UserModel from 'ember-osf-web/models/user';
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 
@@ -14,7 +14,7 @@ export enum RevisionReviewStates {
     Approved = 'approved',
 }
 
-export default class RevisionModel extends OsfModel {
+export default class SchemaResponseModel extends OsfModel {
     @attr('fixstring') reviewState!: RevisionReviewStates;
     @attr('date') dateCreated!: Date;
     @attr('date') dateModified!: Date;
@@ -22,20 +22,18 @@ export default class RevisionModel extends OsfModel {
     @attr('array') revisedResponses!: string[];
     @attr('registration-responses') revisionResponses!: RegistrationResponse;
     @attr('boolean') isPendingCurrentUserApproval!: boolean;
-
-    // Versioning
-    @attr('number') revisionNumber?: number;
+    @attr('number') revisionNumber!: number;
 
     @belongsTo('user') initiatedBy!: AsyncBelongsTo<UserModel> & UserModel;
     @belongsTo('registration') registration!: AsyncBelongsTo<RegistrationModel> & RegistrationModel;
     @belongsTo('registration-schema')
     registrationSchema!: AsyncBelongsTo<RegistrationSchemaModel> & RegistrationSchemaModel;
-    @hasMany('revision-action', { inverse: 'target' })
-    actions!: AsyncHasMany<RevisionActionModel> | RevisionActionModel[];
+    @hasMany('schema-response-action', { inverse: 'target' })
+    actions!: AsyncHasMany<SchemaResponseActionModel> | SchemaResponseActionModel[];
 }
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        'revision': RevisionModel;
+        'schema-response': SchemaResponseModel;
     } // eslint-disable-line semi
 }

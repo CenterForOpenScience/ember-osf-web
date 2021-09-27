@@ -1,13 +1,13 @@
 import { ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
-import RevisionActionModel from 'ember-osf-web/models/revision-action';
+import SchemaResponseActionModel from 'ember-osf-web/models/schema-response-action';
 import ApplicationSerializer, { SerializedRelationships } from './application';
 
 const { OSF: { apiUrl } } = config;
 
-export default class RevisionActionSerializer extends ApplicationSerializer<RevisionActionModel> {
-    buildRelationships(model: ModelInstance<RevisionActionModel>) {
-        const relationships: SerializedRelationships<RevisionActionModel> = {
+export default class SchemaResponseActionSerializer extends ApplicationSerializer<SchemaResponseActionModel> {
+    buildRelationships(model: ModelInstance<SchemaResponseActionModel>) {
+        const relationships: SerializedRelationships<SchemaResponseActionModel> = {
             target: {
                 links: {
                     related: {

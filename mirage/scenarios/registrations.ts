@@ -6,7 +6,7 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 
 import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
-import { RevisionReviewStates } from 'ember-osf-web/models/revision';
+import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import { draftRegisterNodeMultiple, registerNodeMultiple } from '../helpers';
 
 export function manyProjectRegistrationsScenario(
@@ -143,7 +143,7 @@ export function registrationScenario(
         },
     }, 'withContributors', 'withReviewActions');
 
-    server.create('revision', {
+    server.create('schema-response', {
         id: 'copyEdit',
         revisionNumber: 1,
         revisionJustification: 'Copy Edit',
@@ -174,7 +174,7 @@ export function registrationScenario(
         },
     }, 'withContributors', 'withReviewActions');
 
-    server.create('revision', {
+    server.create('schema-response', {
         id: 'copyEdit',
         revisionNumber: 1,
         revisionJustification: 'Copy Edit',
@@ -205,7 +205,7 @@ export function registrationScenario(
         },
     }, 'withContributors', 'withReviewActions');
 
-    server.create('revision', {
+    server.create('schema-response', {
         id: 'copyEditRPMCobalt',
         revisionNumber: 1,
         revisionJustification: 'Copy Edit',
@@ -218,7 +218,7 @@ export function registrationScenario(
         registration: cobalt,
     });
 
-    server.create('revision', {
+    server.create('schema-response', {
         id: 'typoSelfRPMCobalt',
         revisionNumber: 2,
         reviewState: RevisionReviewStates.RevisionPendingModeration,
@@ -231,7 +231,7 @@ export function registrationScenario(
         registration: cobalt,
     });
 
-    server.create('revision', {
+    server.create('schema-response', {
         id: 'addResultsApprovedCobalt',
         revisionNumber: 3,
         reviewState: RevisionReviewStates.Approved,
@@ -263,7 +263,7 @@ export function registrationScenario(
         },
     }, 'withContributors', 'withReviewActions');
 
-    server.create('revision', {
+    server.create('schema-response', {
         id: 'copyEditRPA',
         revisionNumber: 2,
         reviewState: RevisionReviewStates.RevisionPendingAdminApproval,
@@ -276,7 +276,7 @@ export function registrationScenario(
         registration: bismuth,
     });
 
-    server.create('revision', {
+    server.create('schema-response', {
         id: 'copyEditRPM',
         revisionNumber: 2,
         reviewState: RevisionReviewStates.RevisionPendingModeration,
@@ -289,7 +289,7 @@ export function registrationScenario(
         registration: bismuth,
     });
 
-    server.create('revision', {
+    server.create('schema-response', {
         id: 'copyEditRIP',
         revisionNumber: 2,
         reviewState: RevisionReviewStates.RevisionInProgress,
@@ -302,7 +302,7 @@ export function registrationScenario(
         registration: bismuth,
     });
 
-    server.create('revision', {
+    server.create('schema-response', {
         id: 'copyEditApproved',
         revisionNumber: 2,
         reviewState: RevisionReviewStates.Approved,

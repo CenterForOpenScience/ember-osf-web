@@ -7,7 +7,7 @@ import { taskFor } from 'ember-concurrency-ts';
 import Toast from 'ember-toastr/services/toast';
 
 import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
-import RevisionModel, { RevisionReviewStates } from 'ember-osf-web/models/revision';
+import SchemaResponseModel, { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 const iconMap: Partial<Record<RegistrationReviewStates | RevisionReviewStates.RevisionPendingModeration, string>> = {
@@ -27,7 +27,7 @@ interface Args {
 
 export default class RegistrationListCard extends Component<Args> {
     @service toast!: Toast;
-    latestRevision?: RevisionModel;
+    latestRevision?: SchemaResponseModel;
 
     get revisionIsPending() {
         return this.args.registration.revisionState === RevisionReviewStates.RevisionPendingModeration;
@@ -63,12 +63,11 @@ export default class RegistrationListCard extends Component<Args> {
     @waitFor
     async getLatestRevision() {
         try {
-            const revisions = await this.args.registration.queryHasMany('revisions');
+            const revisions = await this.args.registration.queryHasMany('schemaResponses');
             this.latestRevision = A(revisions || []).objectAt(0);
         } catch (e) {
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
-            throw e;
         }
     }
 }
