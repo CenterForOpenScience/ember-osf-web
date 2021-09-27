@@ -215,5 +215,11 @@ module('Registries | Acceptance | branded.moderation | settings', hooks => {
         msgDetailElements.forEach((element, index) => assert.equal(
             element.textContent, stripHtmlTags(t(`registries.moderation.settings.${errors[index].type}.detail`)),
         ));
+        await click('[data-test-copy-to-clipboard]');
+        await settled();
+        assert.dom('#toast-container', document as unknown as Element).hasTextContaining(
+            t('registries.moderation.settings.copyToClipboardSuccess'),
+            'Toast message shows and contains success msg',
+        );
     });
 });
