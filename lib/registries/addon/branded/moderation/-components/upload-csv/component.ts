@@ -38,7 +38,6 @@ export default class UploadCsvComponent extends Component<Args> {
 
     @tracked errorMessages: ErrorMessage[] = [];
     @tracked shouldShowErrorModal = false;
-    @tracked dropping = false;
     @tracked uploading: any[] = [];
 
     @action
@@ -49,11 +48,6 @@ export default class UploadCsvComponent extends Component<Args> {
     @action
     addedFile(_: any, __: any, file: any) {
         this.uploading.push(file);
-    }
-
-    @action
-    uploadProgress(_: any, __: any, file: any, progress: number) {
-        $(`#uploading-${file.size}`).css('width', `${progress}%`);
     }
 
     @action

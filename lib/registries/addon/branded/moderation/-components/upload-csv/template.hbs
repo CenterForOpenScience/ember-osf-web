@@ -1,16 +1,15 @@
 {{#let (unique-id 'upload-csv-dropzone') as |id|}}
     <DropzoneWidget
-        @buildUrl={{action this.buildUrl}}
+        @buildUrl={{this.buildUrl}}
         @options={{this.dropzoneOptions}}
         @dropzone={{false}}
-        @addedfile={{action this.addedFile}}
-        @uploadprogress={{action this.uploadProgress}}
-        @success={{action this.success}}
-        @error={{action this.error}}
-        @dragenter={{action (mut this.dropping) true}}
-        @dragover={{action (mut this.dropping) true}}
-        @drop={{action (mut this.dropping) false}}
-        @dragleave={{action (mut this.dropping) false}}
+        @addedfile={{this.addedFile}}
+        @success={{this.success}}
+        @error={{this.error}}
+        @dragenter={{fn (mut this.dropping) true}}
+        @dragover={{fn (mut this.dropping) true}}
+        @drop={{fn (mut this.dropping) false}}
+        @dragleave={{fn (mut this.dropping) false}}
         @enable={{true}}
         @id={{id}}
         @clickable={{array 
@@ -59,6 +58,8 @@
         </dialog.main>
         <dialog.footer>
             <BsButton
+                data-test-copy-to-clipboard
+                data-analytics-name='Copy error messages to clipboard'
                 @type='primary'
                 {{on 'click' (fn this.copyToClipboard id)}}
             >
