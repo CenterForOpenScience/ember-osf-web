@@ -195,10 +195,13 @@
                 <OsfLink
                     data-analytics-name='Update registration'
                     data-test-update-button='{{@node.id}}'
-                    @route='resolve-guid'
+                    @route='registries.edit-revision.index'
                     @models={{array @node.id}}
                 >
-                    <Button>
+                    <Button
+                        @type='create'
+                        {{on 'click' (peform this.createNewSchemaResponse)}}
+                    >
                         {{t 'node_card.update_button'}}
                     </Button>
                 </OsfLink>
