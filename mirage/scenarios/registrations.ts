@@ -206,7 +206,7 @@ export function registrationScenario(
     server.create('schema-response', {
         id: 'copyEditRPMCobalt',
         revisionJustification: 'Copy Edit',
-        reviewState: RevisionReviewStates.RevisionPendingModeration,
+        reviewsState: RevisionReviewStates.RevisionPendingModeration,
         revisionResponses: {
             q1: 'Good Morning',
             q2: ['List of greetings'],
@@ -217,7 +217,7 @@ export function registrationScenario(
 
     server.create('schema-response', {
         id: 'typoSelfRPMCobalt',
-        reviewState: RevisionReviewStates.RevisionPendingModeration,
+        reviewsState: RevisionReviewStates.RevisionPendingModeration,
         revisionJustification: 'Typo - Self',
         revisionResponses: {
             q1: 'Happy Morning',
@@ -229,7 +229,7 @@ export function registrationScenario(
 
     server.create('schema-response', {
         id: 'addResultsApprovedCobalt',
-        reviewState: RevisionReviewStates.Approved,
+        reviewsState: RevisionReviewStates.Approved,
         revisionJustification: 'Adding Results',
         revisionResponses: {
             q1: 'Good Morning',
@@ -260,7 +260,7 @@ export function registrationScenario(
 
     server.create('schema-response', {
         id: 'copyEditRPA',
-        reviewState: RevisionReviewStates.RevisionPendingAdminApproval,
+        reviewsState: RevisionReviewStates.RevisionPendingAdminApproval,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
             q1: 'Good Morning',
@@ -272,7 +272,7 @@ export function registrationScenario(
 
     server.create('schema-response', {
         id: 'copyEditRPM',
-        reviewState: RevisionReviewStates.RevisionPendingModeration,
+        reviewsState: RevisionReviewStates.RevisionPendingModeration,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
             q1: 'Good Morning',
@@ -284,7 +284,7 @@ export function registrationScenario(
 
     server.create('schema-response', {
         id: 'copyEditRIP',
-        reviewState: RevisionReviewStates.RevisionInProgress,
+        reviewsState: RevisionReviewStates.RevisionInProgress,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
             q1: 'Good Morning',
@@ -296,7 +296,7 @@ export function registrationScenario(
 
     server.create('schema-response', {
         id: 'copyEditApproved',
-        reviewState: RevisionReviewStates.Approved,
+        reviewsState: RevisionReviewStates.Approved,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
             q1: 'Good Morning',

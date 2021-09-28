@@ -19,7 +19,7 @@ export default Factory.extend<MirageSchemaResponseModel & SchemaResponseTraits>(
         return faker.date.past(2, new Date(2018, 0, 0));
     },
 
-    reviewState() {
+    reviewsState() {
         return RevisionReviewStates.RevisionInProgress;
     },
 

@@ -68,19 +68,19 @@ export default class RevisionManager {
         return pageInputFailed;
     }
 
-    @computed('revision.reviewState')
+    @computed('revision.reviewsState')
     get isEditable() {
-        return this.revision?.reviewState === RevisionReviewStates.RevisionInProgress;
+        return this.revision?.reviewsState === RevisionReviewStates.RevisionInProgress;
     }
 
-    @computed('revision.reviewState')
+    @computed('revision.reviewsState')
     get isPendingAdminApproval() {
-        return this.revision.reviewState === RevisionReviewStates.RevisionPendingAdminApproval;
+        return this.revision.reviewsState === RevisionReviewStates.RevisionPendingAdminApproval;
     }
 
-    @computed('revision.reviewState')
+    @computed('revision.reviewsState')
     get isPendingModeration() {
-        return this.revision.reviewState === RevisionReviewStates.RevisionPendingModeration;
+        return this.revision.reviewsState === RevisionReviewStates.RevisionPendingModeration;
     }
 
     @computed('registration.currentUserPermissions')

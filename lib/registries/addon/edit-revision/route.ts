@@ -30,8 +30,8 @@ export default class EditRevisionRoute extends Route {
         const revision = await this.store.findRecord('schema-response', revisionId);
         const registration = await revision.registration;
         const provider = await registration.provider;
-        if ((registration.currentUserIsReadOnly && revision.reviewState !== RevisionReviewStates.Approved) ||
-            (revision.reviewState !== RevisionReviewStates.RevisionInProgress)) {
+        if ((registration.currentUserIsReadOnly && revision.reviewsState !== RevisionReviewStates.Approved) ||
+            (revision.reviewsState !== RevisionReviewStates.RevisionInProgress)) {
             this.replaceWith('edit-revision.review', revisionId);
         }
         return {

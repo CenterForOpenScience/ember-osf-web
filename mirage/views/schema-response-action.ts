@@ -22,25 +22,25 @@ export function createSchemaResponseAction(this: HandlerContext, schema: Schema,
         });
         switch (trigger) {
         case SchemaResponseActionTrigger.SubmitRevision:
-            revision.reviewState = RevisionReviewStates.RevisionPendingAdminApproval;
+            revision.reviewsState = RevisionReviewStates.RevisionPendingAdminApproval;
             revision.isPendingCurrentUserApproval = true;
             break;
         case SchemaResponseActionTrigger.AdminRejectRevision:
         case SchemaResponseActionTrigger.RejectRevision:
-            revision.reviewState = RevisionReviewStates.RevisionInProgress;
+            revision.reviewsState = RevisionReviewStates.RevisionInProgress;
             revision.isPendingCurrentUserApproval = false;
             break;
         case SchemaResponseActionTrigger.AdminApproveRevision:
-            revision.reviewState = RevisionReviewStates.RevisionPendingModeration;
+            revision.reviewsState = RevisionReviewStates.RevisionPendingModeration;
             revision.isPendingCurrentUserApproval = false;
             break;
         case SchemaResponseActionTrigger.AcceptRevision:
-            revision.reviewState = RevisionReviewStates.Approved;
+            revision.reviewsState = RevisionReviewStates.Approved;
             break;
         default:
             break;
         }
-        registration.revisionState = revision.reviewState;
+        registration.revisionState = revision.reviewsState;
         revision.save();
         registration.save();
     }
