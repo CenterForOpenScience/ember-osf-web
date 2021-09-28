@@ -1472,7 +1472,7 @@ registries:
     update_dropdown:
         dropdown_title: 'Updates'
         latest: 'Latest'
-        updates_list_label: 'Update {number}'
+        updates_list_label: 'Update {revisionNumber}'
         updates_list_label_original: 'Original'
         load_more: 'Load more'
         revision_review_state: 'Revision Review State:'
@@ -1488,6 +1488,14 @@ registries:
         not_a_revision_error: 'That was not a revision.'
         revision_state_not_set_error: 'Revision state not set.'
         other_error: 'Some error occured. Please contact your adminstrator or moderator for further assistance.'
+    newUpdateModal:
+        modalHeader: 'Update your Registration'
+        modalHeaderNoUpdates: 'Updates not allowed'
+        modalBodyFirst: 'Updates to registration responses can be updated by clicking “Next”.<br>Edits to metadata including Description, Category, License, Publication DOI, and Tags are done on the registration by clicking the '
+        modalBodySecond: ' icon.'
+        modalBodyNoUpdates: 'The {registryName} does not allow updates for this registration template.<br>Contact their registy if you have any questions.'
+        learnMore: 'Read NEEDS LINK  to learn more'
+        next: Next
 meetings:
     index:
         meetings-list:

@@ -35,15 +35,12 @@ module('Acceptance | update dropdown', hooks => {
         }, 'currentUserIsReadAndWrite');
         server.create('schema-response', {
             reviewState: RevisionReviewStates.Approved,
-            revisionNumber: 1,
         });
         server.create('schema-response', {
             reviewState: RevisionReviewStates.Approved,
-            revisionNumber: 2,
         });
         server.create('schema-response', {
             reviewState: RevisionReviewStates.Approved,
-            revisionNumber: 3,
         });
 
         const url = `/${node.id}/registrations`;

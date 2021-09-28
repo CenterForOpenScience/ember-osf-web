@@ -145,7 +145,6 @@ export function registrationScenario(
 
     server.create('schema-response', {
         id: 'copyEdit',
-        revisionNumber: 1,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
             q1: 'Good Morning',
@@ -176,7 +175,6 @@ export function registrationScenario(
 
     server.create('schema-response', {
         id: 'copyEdit',
-        revisionNumber: 1,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
             q1: 'Good Morning',
@@ -207,7 +205,6 @@ export function registrationScenario(
 
     server.create('schema-response', {
         id: 'copyEditRPMCobalt',
-        revisionNumber: 1,
         revisionJustification: 'Copy Edit',
         reviewState: RevisionReviewStates.RevisionPendingModeration,
         revisionResponses: {
@@ -220,7 +217,6 @@ export function registrationScenario(
 
     server.create('schema-response', {
         id: 'typoSelfRPMCobalt',
-        revisionNumber: 2,
         reviewState: RevisionReviewStates.RevisionPendingModeration,
         revisionJustification: 'Typo - Self',
         revisionResponses: {
@@ -233,7 +229,6 @@ export function registrationScenario(
 
     server.create('schema-response', {
         id: 'addResultsApprovedCobalt',
-        revisionNumber: 3,
         reviewState: RevisionReviewStates.Approved,
         revisionJustification: 'Adding Results',
         revisionResponses: {
@@ -251,8 +246,8 @@ export function registrationScenario(
         provider: egap,
         reviewsState: RegistrationReviewStates.Accepted,
         registeredBy: currentUser,
-        revisionState: RevisionReviewStates.RevisionPendingModeration,
-        currentUserPermissions: [Permission.Admin],
+        revisionState: RevisionReviewStates.Approved,
+        currentUserPermissions: Object.values(Permission),
         providerSpecificMetadata: [
             { field_name: 'IP Address', field_value: '127.0.0.1' },
             { field_name: 'Mac Address', field_value: 'b6:be:5a:05:ef:7a' },
@@ -265,7 +260,6 @@ export function registrationScenario(
 
     server.create('schema-response', {
         id: 'copyEditRPA',
-        revisionNumber: 2,
         reviewState: RevisionReviewStates.RevisionPendingAdminApproval,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
@@ -278,7 +272,6 @@ export function registrationScenario(
 
     server.create('schema-response', {
         id: 'copyEditRPM',
-        revisionNumber: 2,
         reviewState: RevisionReviewStates.RevisionPendingModeration,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
@@ -291,7 +284,6 @@ export function registrationScenario(
 
     server.create('schema-response', {
         id: 'copyEditRIP',
-        revisionNumber: 2,
         reviewState: RevisionReviewStates.RevisionInProgress,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
@@ -304,7 +296,6 @@ export function registrationScenario(
 
     server.create('schema-response', {
         id: 'copyEditApproved',
-        revisionNumber: 2,
         reviewState: RevisionReviewStates.Approved,
         revisionJustification: 'Copy Edit',
         revisionResponses: {

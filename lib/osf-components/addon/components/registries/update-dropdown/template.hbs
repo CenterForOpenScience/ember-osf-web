@@ -9,7 +9,14 @@
         data-test-update-button
         local-class='UpdateText'
     >
-        {{t 'registries.update_dropdown.dropdown_title'}}
+        {{#if (gt this.selectedRevisionIndex -1)}}
+            <Registries::UpdateDropdown::UpdateItem
+                @totalRevisions={{this.totalRevisions}}
+                @index={{this.selectedRevisionIndex}}
+            />
+        {{else}}
+            {{t 'registries.update_dropdown.dropdown_title'}}
+        {{/if}}
         {{fa-icon 'caret-down'}}
     </dd.trigger>
     <dd.content
@@ -21,11 +28,10 @@
                 {{#each this.revisions as |revision index|}}
                     <div local-class='UpdateContainer'>
                         <LinkTo @route='overview.index' @query={{hash revisionId=revision.id}} local-class='UpdateLink'>
-                            {{#if revision.revisionNumber}}
-                                {{if index (t 'registries.update_dropdown.updates_list_label' number=revision.revisionNumber) (t 'registries.update_dropdown.latest')}}
-                            {{else}}
-                                {{t 'registries.update_dropdown.updates_list_label_original'}}
-                            {{/if}}
+                            <Registries::UpdateDropdown::UpdateItem
+                                @totalRevisions={{this.totalRevisions}}
+                                @index={{index}}
+                            />
                         </LinkTo>
                     </div>
                 {{/each}}
@@ -37,14 +43,29 @@
             {{else}}
                 {{t 'registries.update_dropdown.no_revisions_error'}}
             {{/if}}
-            {{#if @registration.userHasAdminPermission}}
+            {{#if this.shouldShowCreateButton}}
                 <Button
                     @type='create'
-                    {{on 'click' (perform this.createNewSchemaResponse)}}
+                    {{on 'click' (queue dd.close this.showCreateModal)}}
                 >
                     {{t 'general.update'}}
                 </Button>
+            {{else if this.shouldShowUpdateLink}}
+                <LinkTo
+                    @route='edit-revision'
+                    @model={{@latestRevision.id}}
+                >
+                    <Button>
+                        {{t 'general.update'}}
+                    </Button>
+                </LinkTo>
             {{/if}}
         </div>
     </dd.content>
 </ResponsiveDropdown>
+
+<Registries::NewUpdateModal
+    @isOpen={{this.showModal}}
+    @onClose={{this.closeCreateModal}}
+    @registration={{@registration}}
+/>
