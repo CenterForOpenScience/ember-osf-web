@@ -1039,7 +1039,7 @@ registries:
                 detail: 'The schema ID in this cell does not match with a registration template in our system. It’s likely this ID was manually edited after it was downloaded or the registration template is outdated. Download a new csv template to get the most updated version and try to upload again.'
             invalidColumnId:
                 title: 'Invalid column ID'
-                detail: 'This Column ID does not match with the ones used by this registration template. It’s likely it was manually edited after it was downloaded or the registration template is outdated. Download a new csv template to get the most updated version and try to upload again.'
+                detail: 'This Column ID does not match with the ones used by this registration template. It’s likely it was manually edited after it was downloaded or the registration template is outdated. Download a new csv template to get the most updated version and try to upload again. <br>Invalid IDs: {invalidIds}. <br>Missing IDs: {missingIds}.'
             invalidProjectId:
                 title: 'Invalid project ID'
                 detail: 'This Project GUID does not exist. Check that each project’s GUID is accurate. Registrations that do not have a project should have a blank cell.'

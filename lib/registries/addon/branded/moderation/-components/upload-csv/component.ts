@@ -23,6 +23,8 @@ interface ApiErrorDetail {
     column_index: string;
     row_index: string;
     type: string;
+    invalidHeaders?: string[];
+    missingHeaders?: string[];
 }
 export default class UploadCsvComponent extends Component<Args> {
     dropzoneOptions = {
@@ -59,7 +61,11 @@ export default class UploadCsvComponent extends Component<Args> {
                 {
                     cell: error.column_index + error.row_index,
                     title: this.intl.t(`registries.moderation.settings.${error.type}.title`),
-                    detail: this.intl.t(`registries.moderation.settings.${error.type}.detail`, { htmlSafe: true }),
+                    detail: this.intl.t(`registries.moderation.settings.${error.type}.detail`, {
+                        htmlSafe: true,
+                        invalidIds: error.invalidHeaders ? error.invalidHeaders.join(', ') : null,
+                        missingIds: error.missingHeaders ? error.missingHeaders.join(', ') : null,
+                    }),
                 },
             );
         }
