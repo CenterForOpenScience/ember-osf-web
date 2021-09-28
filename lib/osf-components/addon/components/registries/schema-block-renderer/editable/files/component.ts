@@ -17,7 +17,7 @@ import pathJoin from 'ember-osf-web/utils/path-join';
 
 import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
 import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
-import RevisionModel from 'ember-osf-web/models/revision';
+import SchemaResponseModel from 'ember-osf-web/models/schema-response';
 import styles from './styles';
 import template from './template';
 
@@ -32,7 +32,7 @@ export default class Files extends Component {
     changeset!: BufferedChangeset;
     schemaBlock!: SchemaBlock;
     draftRegistration?: DraftRegistrationModel;
-    revision?: RevisionModel;
+    revision?: SchemaResponseModel;
 
     @alias('schemaBlock.registrationResponseKey')
     valuePath!: string;
@@ -50,13 +50,18 @@ export default class Files extends Component {
         return '';
     }
 
+    @computed('revision', 'node', 'currentUserIsReadOnly')
+    get canEdit() {
+        return !this.revision && (this.node && this.currentUserIsReadOnly);
+    }
+
     didReceiveAttrs() {
         assert(
             'Registries::SchemaBlockRenderer::Editable::Files requires a changeset to render',
             Boolean(this.changeset),
         );
         assert(
-            'Registries::SchemaBlockRenderer::Editable::Files requires a draft-registration xor to render',
+            'Registries::SchemaBlockRenderer::Editable::Files requires a draft-registration xor a revision to render',
             Boolean(this.draftRegistration) !== Boolean(this.revision),
         );
         assert(
