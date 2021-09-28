@@ -132,8 +132,10 @@ module('Registries | Acceptance | branded.moderation | settings', hooks => {
         await click('[data-test-close-dialog]');
 
         // invalid column id
+        const invalidHeaders = ['q1', 'q2'];
+        const missingHeaders = ['q3', 'q4'];
         server.put(`/registries/mdr8n/bulk_create/${filename}`, () => ({
-            errors: [{ type: 'invalidColumnId'}],
+            errors: [{ type: 'invalidColumnId', invalidHeaders, missingHeaders }],
         }), 400);
         await triggerFileUpload();
         await settled();
@@ -142,7 +144,13 @@ module('Registries | Acceptance | branded.moderation | settings', hooks => {
             .hasText(t('registries.moderation.settings.invalidColumnId.title'));
         assert.dom('[data-test-error-modal-message-detail]').exists({ count: 1 });
         assert.dom('[data-test-error-modal-message-detail]')
-            .hasText(t('registries.moderation.settings.invalidColumnId.detail'));
+            .hasText(stripHtmlTags(t(
+                'registries.moderation.settings.invalidColumnId.detail',
+                {
+                    invalidIds: invalidHeaders.join(', '),
+                    missingIds: missingHeaders.join(', '),
+                },
+            )));
         await click('[data-test-close-dialog]');
 
         // size exceeds limit
