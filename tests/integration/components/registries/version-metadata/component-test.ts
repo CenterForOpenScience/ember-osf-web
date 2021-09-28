@@ -26,7 +26,6 @@ module('Integration | Component | version-metadata', hooks => {
             revisionJustification: 'This registration went into a phone booth',
             revisionResponses: { q1: 'Super Man' },
             registration,
-            revisionNumber: 0,
         });
         this.set('revision', revision);
         await render(hbs`<Registries::VersionMetadata @revision={{this.revision}} />`);

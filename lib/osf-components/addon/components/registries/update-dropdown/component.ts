@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import Store from '@ember-data/store';
@@ -7,7 +8,7 @@ import { task } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 
-import RegistrationModel from 'ember-osf-web/models/registration';
+import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import SchemaResponseModel, { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import Toast from 'ember-toastr/services/toast';
@@ -18,6 +19,7 @@ import { tracked } from '@glimmer/tracking';
 
 interface Args {
     registration: RegistrationModel;
+    selectedRevisionId: string;
 }
 
 export default class UpdateDropdown extends Component<Args> {
@@ -27,6 +29,7 @@ export default class UpdateDropdown extends Component<Args> {
     @service store!: Store;
     @service router!: RouterService;
 
+    @tracked showModal = false;
     @tracked currentPage = 1;
     @tracked totalPage = 1;
     @tracked totalRevisions = 0;
@@ -39,15 +42,6 @@ export default class UpdateDropdown extends Component<Args> {
         taskFor(this.getRevisionList).perform();
     }
 
-    get shouldShowApproveDenyButtons() {
-        return this.args.registration.userHasAdminPermission
-        && this.args.registration.revisionState
-        && ![
-            RevisionReviewStates.RevisionInProgress,
-            RevisionReviewStates.Approved,
-        ].includes(this.args.registration.revisionState);
-    }
-
     get hasMore() {
         return this.currentPage <= this.totalPage;
     }
@@ -58,10 +52,37 @@ export default class UpdateDropdown extends Component<Args> {
             && this.hasMore;
     }
 
+    get shouldShowCreateButton(): boolean {
+        return this.args.registration.userHasAdminPermission
+            && [
+                RegistrationReviewStates.Accepted,
+                RegistrationReviewStates.Embargo,
+            ].includes(this.args.registration.reviewsState!)
+            && this.args.registration.revisionState === RevisionReviewStates.Approved;
+    }
+
+    get shouldShowUpdateLink(): boolean {
+        return this.args.registration.revisionState !== RevisionReviewStates.Approved
+            && this.args.registration.currentUserIsContributor;
+    }
+
+    get selectedRevisionIndex(): number {
+        return this.revisions.findIndex(revision => revision.id === this.args.selectedRevisionId);
+    }
+
+    @action
+    showCreateModal() {
+        this.showModal = true;
+    }
+
+    @action
+    closeCreateModal() {
+        this.showModal = false;
+    }
+
     @task
     @waitFor
     async getRevisionList() {
-
         if (!this.args.registration){
             const notReistrationError = this.intl.t('registries.update_dropdown.not_a_registration_error');
             return this.toast.error(notReistrationError);
@@ -72,11 +93,10 @@ export default class UpdateDropdown extends Component<Args> {
                     page: this.currentPage,
                 });
                 this.totalPage = Math.ceil(currentPageResult.meta.total / currentPageResult.meta.per_page);
-                this.totalRevisions = currentPageResult.meta.total;
+                this.totalRevisions = currentPageResult.meta.total - 1; // -1 because the first revision is 0
                 this.revisions.pushObjects(currentPageResult);
                 this.currentPage += 1;
             }
-            this.revisions.sort( (a, b) => b.revisionNumber - a.revisionNumber ); // TODO: remove after demo
         } catch (e) {
             const errorMessage = this.intl.t('registries.update_dropdown.revision_error_message');
             captureException(e, { errorMessage });
@@ -94,5 +114,3 @@ export default class UpdateDropdown extends Component<Args> {
         this.router.transitionTo('registries.edit-revision', newRevision.id);
     }
 }
-
-

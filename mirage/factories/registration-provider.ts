@@ -33,6 +33,7 @@ export default Factory.extend<MirageRegistrationProvider & RegistrationProviderT
         return `${faker.lorem.paragraph()} Find out <a href="https://help.osf.io/">more</a>.`;
     },
     allowSubmissions: true,
+    allowUpdates: true,
     brandedDiscoveryPage: true,
     assets: randomAssets(),
     reviewsWorkflow: 'pre-moderation',

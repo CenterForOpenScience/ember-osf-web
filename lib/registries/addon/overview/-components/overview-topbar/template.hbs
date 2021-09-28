@@ -8,9 +8,9 @@
         </div>
     {{/unless}}
 
-    <Registries::UpdateDropdown 
+    <Registries::UpdateDropdown
         @registration={{@registration}}
-        local-class='UpdateDropdown'
+        @selectedRevisionId={{@selectedRevisionId}}
     />
 </div>
 {{#if (and @isModeratorMode (not @registration.isAnonymous))}}
