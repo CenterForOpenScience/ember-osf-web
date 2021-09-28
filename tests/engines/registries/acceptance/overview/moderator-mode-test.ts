@@ -340,7 +340,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         });
 
         const revision = server.create('schema-response', {
-            reviewState: RevisionReviewStates.RevisionPendingModeration,
+            reviewsState: RevisionReviewStates.RevisionPendingModeration,
             registration,
             id: 'zap',
             revisionResponses: {
@@ -389,7 +389,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         const revision = server.create('schema-response', {
             id: 'zap',
             registration,
-            reviewState: RevisionReviewStates.RevisionPendingModeration,
+            reviewsState: RevisionReviewStates.RevisionPendingModeration,
             revisionResponses: {
                 'page-one_short-text': 'junimo',
                 'page-one_multi-select': ['Crocs'],

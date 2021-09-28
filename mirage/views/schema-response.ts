@@ -22,7 +22,7 @@ export function createNewSchemaResponse(this: HandlerContext, schema: Schema) {
     const revisionResponses = registration.registrationResponses;
     const revision = schema.schemaResponses.create({
         initiatedBy: currentUser,
-        reviewState: RevisionReviewStates.RevisionInProgress,
+        reviewsState: RevisionReviewStates.RevisionInProgress,
         revisionResponses,
         registration,
         registrationSchema: registration.registrationSchema,

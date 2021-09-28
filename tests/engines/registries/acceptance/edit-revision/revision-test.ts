@@ -387,7 +387,7 @@ module('Registries | Acceptance | registries revision', hooks => {
         const revision = server.create(
             'schema-response',
             {
-                reviewState: RevisionReviewStates.RevisionPendingAdminApproval,
+                reviewsState: RevisionReviewStates.RevisionPendingAdminApproval,
                 initiatedBy,
                 revisionResponses: {
                     'page-one_short-text': 'the lorax',

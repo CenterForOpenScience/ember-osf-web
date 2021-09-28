@@ -15,7 +15,7 @@ export enum RevisionReviewStates {
 }
 
 export default class SchemaResponseModel extends OsfModel {
-    @attr('fixstring') reviewState!: RevisionReviewStates;
+    @attr('fixstring') reviewsState!: RevisionReviewStates;
     @attr('date') dateCreated!: Date;
     @attr('date') dateModified!: Date;
     @attr('fixstring') revisionJustification!: string;

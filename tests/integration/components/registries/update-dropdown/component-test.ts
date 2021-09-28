@@ -34,13 +34,13 @@ module('Acceptance | update dropdown', hooks => {
             branchedFrom: node,
         }, 'currentUserIsReadAndWrite');
         server.create('schema-response', {
-            reviewState: RevisionReviewStates.Approved,
+            reviewsState: RevisionReviewStates.Approved,
         });
         server.create('schema-response', {
-            reviewState: RevisionReviewStates.Approved,
+            reviewsState: RevisionReviewStates.Approved,
         });
         server.create('schema-response', {
-            reviewState: RevisionReviewStates.Approved,
+            reviewsState: RevisionReviewStates.Approved,
         });
 
         const url = `/${node.id}/registrations`;
