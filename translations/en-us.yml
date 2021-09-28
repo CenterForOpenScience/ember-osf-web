@@ -89,6 +89,7 @@ general:
     options: Options
     optional: Optional
     optional_paren: (optional)
+    update: Update
     services:
         collections: Collections
         institutions: Institutions
@@ -1126,7 +1127,7 @@ registries:
         continue_edit_modal:
             heading: 'Are you sure this needs more edits?'
             warning: 'This will cancel any approvals from other admin contributors and return the registration back to its draft form for additional changes.'
-            reason: 'What changes need to be made and why?'
+            reason: 'What additional changes need to be made and why?'
             submit: 'Submit'
     index:
         lead: 'The <span class="f-w-lg">open</span> registries network'
@@ -1369,10 +1370,13 @@ registries:
             share: 'Share this registration'
             fork: 'Fork this registration'
         versionMetadata:
-            title: 'This is an update to the original registration'
-            date: 'This update was made on {date} by {author}'
+            updateTitle: 'This is an update to the original registration'
+            originalTitle: 'This is the original version of the registration'
+            date: 'This update was made on {date}'
+            originalDate: 'This registration was submitted on {date}'
             description: 'Updated responses are labeled'
-            reason: 'Reason for revision:'
+            reason: 'Reason for update:'
+            noReason: 'No reason provided'
     overviewHeader:
         needModeratorPermission: 'You do not have permission to moderate this registration.'
     partialRegistrationModal:
@@ -1414,7 +1418,7 @@ registries:
             accept_withdrawal: 'withdrawal request accepted'
             reject_withdrawal: 'withdrawal request rejected'
             request_embargo_termination: 'embargo termination requested'
-    revisionActions:
+    schemaResponseActions:
         triggerPastTense:
             submit_revision: 'submitted'
             admin_approve_revision: 'approved'
@@ -1466,22 +1470,32 @@ registries:
         noDrafts: "You don't have any draft registrations. Create one with the button below."
         createRegistration: 'Create a registration'
     update_dropdown:
-        update_dropdown:
-        dropdown_title: 'Versions'
-        updates_list_label: 'Version'
+        dropdown_title: 'Updates'
+        latest: 'Latest'
+        updates_list_label: 'Update {revisionNumber}'
+        updates_list_label_original: 'Original'
+        load_more: 'Load more'
         revision_review_state: 'Revision Review State:'
         initiated_by: 'Initiated by: '
         date_modified: 'Date last modified: '
         accept_updates: 'Accept Updates'
         needs_more_updates: 'Needs More Updates'
-        revision_more_updates_success: 'Revision sent back to the user for further updates.'
-        revision_approved_success: 'Revision successfully approved.'
-        no_revisions_error: 'No revisions currently available for this Registration.'
-        revision_error_message: 'Revisions were unable to be retrieved. \n\n\t Please contact <a href="mailto:{supportEmail}">{supportEmail}</a> for further assistance.'
+        revision_more_updates_success: 'Further updates requested of user.'
+        revision_approved_success: 'Updates successfully approved.'
+        no_revisions_error: 'Updates unavailable.'
+        revision_error_message: 'Updates unretrievable. \n\n\t Please contact <a href="mailto:{supportEmail}">{supportEmail}</a> for further assistance.'
         not_a_registration_error: 'That was not a registration.'
         not_a_revision_error: 'That was not a revision.'
-        revision_state_not_set_error: 'Revision state was not set.'
-        other_error: 'Some error occured during revision retrieval. Please contact your adminstrator or moderator for further assistance.'
+        revision_state_not_set_error: 'Revision state not set.'
+        other_error: 'Some error occured. Please contact your adminstrator or moderator for further assistance.'
+    newUpdateModal:
+        modalHeader: 'Update your Registration'
+        modalHeaderNoUpdates: 'Updates not allowed'
+        modalBodyFirst: 'Updates to registration responses can be updated by clicking “Next”.<br>Edits to metadata including Description, Category, License, Publication DOI, and Tags are done on the registration by clicking the '
+        modalBodySecond: ' icon.'
+        modalBodyNoUpdates: 'The {registryName} does not allow updates for this registration template.<br>Contact their registy if you have any questions.'
+        learnMore: 'Read NEEDS LINK  to learn more'
+        next: Next
 meetings:
     index:
         meetings-list:

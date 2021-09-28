@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { layout } from 'ember-osf-web/decorators/component';
 import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
-import { RevisionReviewStates } from 'ember-osf-web/models/revision';
+import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import template from './template';
 
 @layout(template)

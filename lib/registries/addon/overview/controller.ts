@@ -1,13 +1,12 @@
 import Store from '@ember-data/store';
 import Controller from '@ember/controller';
-import { action, computed } from '@ember/object';
+import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import config from 'ember-get-config';
 
 import Registration from 'ember-osf-web/models/registration';
-import RevisionModel from 'ember-osf-web/models/revision';
 import { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
@@ -25,7 +24,6 @@ export default class Overview extends Controller {
     @service store!: Store;
     @service intl!: Intl;
     model!: GuidRouteModel<Registration>;
-    revisionModel!: GuidRouteModel<RevisionModel>;
 
     queryParams = ['mode', 'revisionId'];
     supportEmail = supportEmail;
@@ -34,12 +32,6 @@ export default class Overview extends Controller {
     @tracked revisionId = '';
 
     @alias('model.taskInstance.value') registration?: Registration;
-    @alias('registration.revisions') revisions?: RevisionModel[];
-
-    @computed('revisions.lastObject.id')
-    get latestRevisionId() {
-        return this.revisions?.lastObject?.id;
-    }
 
     @computed('registration.{reviewsState,archiving}')
     get showTombstone() {
@@ -63,19 +55,6 @@ export default class Overview extends Controller {
         }
         return (this.registration.relatedCounts.linkedNodes || 0)
         + (this.registration.relatedCounts.linkedRegistrations || 0);
-    }
-
-    // Versioning
-    get isViewingLatestRevision() {
-        return this.revisionId === this.latestRevisionId;
-    }
-
-    @action
-    async createNewRevision() {
-        const newRevision: RevisionModel = this.store.createRecord('revision', {
-            registration: this.registration,
-        });
-        await newRevision.save();
     }
 }
 

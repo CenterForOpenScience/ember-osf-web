@@ -1,10 +1,11 @@
 import OsfAdapter from './osf-adapter';
 
-export default class RevisionAdapter extends OsfAdapter {
+export default class SchemaResponseActionAdapter extends OsfAdapter {
+    parentRelationship = 'target';
 }
 
 declare module 'ember-data/types/registries/adapter' {
     export default interface AdapterRegistry {
-        'revision': RevisionAdapter;
+        'schema-response-action': SchemaResponseActionAdapter;
     } // eslint-disable-line semi
 }

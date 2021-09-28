@@ -3,7 +3,7 @@ import { buildValidations, validator } from 'ember-cp-validations';
 
 import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
 import ReviewActionModel, { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
-import RevisionModel, { RevisionReviewStates } from 'ember-osf-web/models/revision';
+import SchemaResponseModel, { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 
 import CommentModel from './comment';
@@ -12,7 +12,7 @@ import InstitutionModel from './institution';
 import NodeModel from './node';
 import RegistrationProviderModel from './registration-provider';
 import RegistrationSchemaModel, { RegistrationMetadata } from './registration-schema';
-import { RevisionActionTrigger } from './revision-action';
+import { SchemaResponseActionTrigger } from './schema-response-action';
 import UserModel from './user';
 
 export enum RegistrationReviewStates {
@@ -33,7 +33,7 @@ type NonActionableStates = RegistrationReviewStates.Initial
 export type ReviewsStateToDecisionMap =
     Exclude<RegistrationReviewStates, NonActionableStates> | RevisionReviewStates.RevisionPendingModeration;
 export const reviewsStateToDecisionMap: {
-    [index in ReviewsStateToDecisionMap]: Array<ReviewActionTrigger | RevisionActionTrigger>
+    [index in ReviewsStateToDecisionMap]: Array<ReviewActionTrigger | SchemaResponseActionTrigger>
 } = {
     [RegistrationReviewStates.Accepted]: [ReviewActionTrigger.ForceWithdraw],
     [RegistrationReviewStates.Embargo]: [ReviewActionTrigger.ForceWithdraw],
@@ -44,7 +44,7 @@ export const reviewsStateToDecisionMap: {
     [RegistrationReviewStates.PendingWithdrawRequest]: [ReviewActionTrigger.ForceWithdraw],
     [RegistrationReviewStates.PendingEmbargoTermination]: [ReviewActionTrigger.ForceWithdraw],
     [RevisionReviewStates.RevisionPendingModeration]:
-        [RevisionActionTrigger.AcceptRevision, RevisionActionTrigger.RejectRevision],
+        [SchemaResponseActionTrigger.AcceptRevision, SchemaResponseActionTrigger.RejectRevision],
 };
 
 const Validations = buildValidations({
@@ -129,8 +129,8 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @hasMany('review-action', { inverse: 'target' })
     reviewActions!: AsyncHasMany<ReviewActionModel> | ReviewActionModel[];
 
-    @hasMany('revision', { inverse: 'registration' })
-    revisions!: AsyncHasMany<RevisionModel> | RevisionModel[];
+    @hasMany('schema-response', { inverse: 'registration' })
+    schemaResponses!: AsyncHasMany<SchemaResponseModel> | SchemaResponseModel[];
 
     // Write-only relationships
     @belongsTo('draft-registration', { inverse: null })

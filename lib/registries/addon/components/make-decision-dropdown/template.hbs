@@ -14,7 +14,7 @@
         </Button>
     </dd.trigger>
     <dd.content local-class='Dropdown'>
-        {{#if @isViewingLatestRevision}}
+        {{#if this.revisionIsPending}}
             <Registries::ReviewActionsList @revision={{this.latestRevision}} />
         {{else}}
             <Registries::ReviewActionsList data-test-review-actions-list  @registration={{@registration}} />

@@ -1,131 +1,116 @@
 /* eslint-disable no-console */
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
+import Store from '@ember-data/store';
 import Component from '@glimmer/component';
 import { task } from 'ember-concurrency';
 import Intl from 'ember-intl/services/intl';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 
-import RegistrationModel from 'ember-osf-web/models/registration';
-import RevisionModel, { RevisionReviewStates } from 'ember-osf-web/models/revision';
+import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
+import SchemaResponseModel, { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import Toast from 'ember-toastr/services/toast';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
-import Store from '@ember-data/store';
 import RouterService from '@ember/routing/router-service';
 import { taskFor } from 'ember-concurrency-ts';
-import { computed } from '@ember/object';
-import registration from 'ember-osf-web/mirage/factories/registration';
+import { tracked } from '@glimmer/tracking';
 
 interface Args {
     registration: RegistrationModel;
+    selectedRevisionId: string;
 }
-
-type RevisionJustification = 'Adding Results' | 'Typo - Self' | 'Typo - Other' | 'Copy Edit';
 
 export default class UpdateDropdown extends Component<Args> {
     @service currentUser!: CurrentUserService;
     @service intl!: Intl;
-    @service store!: Store;
     @service toast!: Toast;
+    @service store!: Store;
     @service router!: RouterService;
 
-    revisions?: QueryHasManyResult<RevisionModel>;
+    @tracked showModal = false;
+    @tracked currentPage = 1;
+    @tracked totalPage = 1;
+    @tracked totalRevisions = 0;
+    @tracked revisions: QueryHasManyResult<SchemaResponseModel> | SchemaResponseModel[] = [];
+
     isPendingCurrentUserApproval?: boolean;
-    revisionJustification?: RevisionJustification;
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
         taskFor(this.getRevisionList).perform();
     }
 
-    @computed('args.registration.{userHasAdminPermission,revisionState}')
-    get shouldDisplayApproveDenyButtons() {
-        return this.args.registration.userHasAdminPermission
-        && this.args.registration.revisionState
-        && ![
-            RevisionReviewStates.RevisionInProgress,
-            RevisionReviewStates.Approved,
-        ].includes(this.args.registration.revisionState);
+    get hasMore() {
+        return this.currentPage <= this.totalPage;
     }
 
-    @computed('args.registration.revisionState')
-    get updateNotificationIcon() {
-        switch (this.args.registration.revisionState) {
-        case RevisionReviewStates.Approved:
-            return 'lock';
-        case RevisionReviewStates.RevisionInProgress:
-            return 'eye';
-        case RevisionReviewStates.RevisionPendingAdminApproval:
-        case RevisionReviewStates.RevisionPendingModeration:
-            return 'clock';
-        default:
-            return '';
-        }
+    get shouldShowLoadMore() {
+        return !taskFor(this.getRevisionList).isRunning
+            && taskFor(this.getRevisionList).lastComplete
+            && this.hasMore;
+    }
+
+    get shouldShowCreateButton(): boolean {
+        return this.args.registration.userHasAdminPermission
+            && [
+                RegistrationReviewStates.Accepted,
+                RegistrationReviewStates.Embargo,
+            ].includes(this.args.registration.reviewsState!)
+            && this.args.registration.revisionState === RevisionReviewStates.Approved;
+    }
+
+    get shouldShowUpdateLink(): boolean {
+        return this.args.registration.revisionState !== RevisionReviewStates.Approved
+            && this.args.registration.currentUserIsContributor;
+    }
+
+    get selectedRevisionIndex(): number {
+        return this.revisions.findIndex(revision => revision.id === this.args.selectedRevisionId);
+    }
+
+    @action
+    showCreateModal() {
+        this.showModal = true;
+    }
+
+    @action
+    closeCreateModal() {
+        this.showModal = false;
     }
 
     @task
     @waitFor
     async getRevisionList() {
-
-        if (!registration){
-            const notRegistrationError = this.intl.t('registries.update_dropdown.not_a_registration_error');
-            return this.toast.error(notRegistrationError);
+        if (!this.args.registration){
+            const notReistrationError = this.intl.t('registries.update_dropdown.not_a_registration_error');
+            return this.toast.error(notReistrationError);
         }
-        if (this.args.registration.revisions === null || this.args.registration.revisions === undefined) {
-            return {
-                placeholder: this.intl.t('registries.update_dropdown.no_revisions_error'),
-            };
-        }
-        if (this.args.registration.revisions) {
-            try {
-                const revisions = await this.args.registration.queryHasMany('revisions');
-                this.revisions = revisions.sort();
-                return revisions;
-            } catch (e) {
-                const errorMessage = this.intl.t('registries.update_dropdown.revision_error_message');
-                captureException(e, { errorMessage });
-                this.toast.error(getApiErrorMessage(e), errorMessage);
+        try {
+            if (this.hasMore) {
+                const currentPageResult = await this.args.registration.queryHasMany('schemaResponses', {
+                    page: this.currentPage,
+                });
+                this.totalPage = Math.ceil(currentPageResult.meta.total / currentPageResult.meta.per_page);
+                this.totalRevisions = currentPageResult.meta.total - 1; // -1 because the first revision is 0
+                this.revisions.pushObjects(currentPageResult);
+                this.currentPage += 1;
             }
+        } catch (e) {
+            const errorMessage = this.intl.t('registries.update_dropdown.revision_error_message');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
         }
     }
 
     @task
     @waitFor
-    async needsMoreUpdates() {
-        if (!this.revisions) {
-            const errorMessage = this.intl.t('registries.update_dropdown.not_a_revision_error');
-            return this.toast.error(errorMessage);
-        }
-        try {
-            this.args.registration.set('revisionState', RevisionReviewStates.RevisionInProgress);
-            const message = this.intl.t('registries.update_dropdown.revision_more_updates_success');
-            this.toast.success(message);
-        } catch (e) {
-            const errorMessage = this.intl.t('registries.update_dropdown.revision_state_not_set_error');
-            captureException(e, { errorMessage });
-            return this.toast.error(getApiErrorMessage(e), errorMessage);
-        }
-        return this.args.registration;
-    }
-
-    @task
-    @waitFor
-    async approveUpdates() {
-        if (!this.revisions) {
-            const errorMessage = this.intl.t('registries.update_dropdown.not_a_revision_error');
-            return this.toast.error(errorMessage);
-        }
-        try {
-            this.args.registration.set('revisionState', RevisionReviewStates.Approved);
-            const message =  this.intl.t('registries.update_dropdown.revision_approved_success');
-            this.toast.success(message);
-        } catch (e) {
-            const errorMessage = this.intl.t('registries.update_dropdown.revision_state_not_set_error');
-            captureException(e, { errorMessage });
-            return this.toast.error(getApiErrorMessage(e), errorMessage);
-        }
-        return this.args.registration;
+    async createNewSchemaResponse() {
+        const newRevision: SchemaResponseModel = this.store.createRecord('schema-response', {
+            registration: this.args.registration,
+        });
+        await newRevision.save();
+        this.router.transitionTo('registries.edit-revision', newRevision.id);
     }
 }
-

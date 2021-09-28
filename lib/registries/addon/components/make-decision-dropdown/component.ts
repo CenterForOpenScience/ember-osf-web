@@ -18,12 +18,11 @@ import RegistrationModel,
 } from 'ember-osf-web/models/registration';
 import { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
-import { RevisionReviewStates } from 'ember-osf-web/models/revision';
-import { RevisionActionTrigger } from 'ember-osf-web/models/revision-action';
+import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
+import { SchemaResponseActionTrigger } from 'ember-osf-web/models/schema-response-action';
 
 interface Args {
     registration: RegistrationModel;
-    isViewingLatestRevision: boolean;
 }
 
 export default class MakeDecisionDropdown extends Component<Args> {
@@ -32,7 +31,7 @@ export default class MakeDecisionDropdown extends Component<Args> {
     @service toast!: Toast;
     @service router!: RouterService;
 
-    @tracked decisionTrigger?: ReviewActionTrigger | RevisionActionTrigger;
+    @tracked decisionTrigger?: ReviewActionTrigger | SchemaResponseActionTrigger;
     @tracked comment?: string;
 
     reviewsStateToDecisionMap = reviewsStateToDecisionMap;
@@ -46,9 +45,9 @@ export default class MakeDecisionDropdown extends Component<Args> {
             this.intl.t('registries.makeDecisionDropdown.acceptWithdrawalDescription'),
         [ReviewActionTrigger.RejectWithdrawal]:
             this.intl.t('registries.makeDecisionDropdown.rejectWithdrawalDescription'),
-        [RevisionActionTrigger.AcceptRevision]:
+        [SchemaResponseActionTrigger.AcceptRevision]:
             this.intl.t('registries.makeDecisionDropdown.acceptRevisionDescription'),
-        [RevisionActionTrigger.RejectRevision]:
+        [SchemaResponseActionTrigger.RejectRevision]:
             this.intl.t('registries.makeDecisionDropdown.rejectRevisionDescription'),
     };
 
@@ -58,20 +57,25 @@ export default class MakeDecisionDropdown extends Component<Args> {
         [ReviewActionTrigger.RejectSubmission]: this.intl.t('registries.makeDecisionDropdown.rejectSubmission'),
         [ReviewActionTrigger.AcceptWithdrawal]: this.intl.t('registries.makeDecisionDropdown.acceptWithdrawal'),
         [ReviewActionTrigger.RejectWithdrawal]: this.intl.t('registries.makeDecisionDropdown.rejectWithdrawal'),
-        [RevisionActionTrigger.AcceptRevision]:
+        [SchemaResponseActionTrigger.AcceptRevision]:
             this.intl.t('registries.makeDecisionDropdown.acceptRevision'),
-        [RevisionActionTrigger.RejectRevision]:
+        [SchemaResponseActionTrigger.RejectRevision]:
             this.intl.t('registries.makeDecisionDropdown.rejectRevision'),
     };
 
     get latestRevision() {
-        return this.args.registration.revisions.lastObject;
+        return this.args.registration.schemaResponses.firstObject;
+    }
+
+    get revisionIsPending() {
+        return this.args.registration.revisionState === RevisionReviewStates.RevisionPendingModeration;
     }
 
     get commentTextArea() {
         if (this.args.registration.reviewsState) {
             if ([RegistrationReviewStates.Pending, RegistrationReviewStates.PendingWithdraw]
-                .includes(this.args.registration.reviewsState)) {
+                .includes(this.args.registration.reviewsState) ||
+                this.revisionIsPending) {
                 return {
                     label: this.intl.t('registries.makeDecisionDropdown.additionalComment'),
                     placeholder: this.intl.t('registries.makeDecisionDropdown.additionalCommentPlaceholder'),
@@ -91,22 +95,20 @@ export default class MakeDecisionDropdown extends Component<Args> {
     }
 
     get hasModeratorActions() {
-        if (this.args.isViewingLatestRevision) {
-            return this.latestRevision?.reviewState === RevisionReviewStates.RevisionPendingModeration;
-        }
-        return this.args.registration.reviewsState
+        return (this.args.registration.reviewsState
         && ![
             RegistrationReviewStates.Initial,
             RegistrationReviewStates.Withdrawn,
             RegistrationReviewStates.Rejected,
-        ].includes(this.args.registration.reviewsState);
+        ].includes(this.args.registration.reviewsState))
+        || this.revisionIsPending;
     }
 
     get moderatorActions() {
         const { reviewsState } = this.args.registration;
         const { revisionState } = this.args.registration;
         let actions: ReviewsStateToDecisionMap[] = reviewsState ? reviewsStateToDecisionMap[reviewsState] : [];
-        if (revisionState === RevisionReviewStates.RevisionPendingModeration && this.args.isViewingLatestRevision) {
+        if (this.revisionIsPending) {
             actions = reviewsStateToDecisionMap[revisionState];
         }
         return actions;
@@ -116,11 +118,12 @@ export default class MakeDecisionDropdown extends Component<Args> {
     @waitFor
     async submitDecision() {
         if (this.decisionTrigger) {
-            const isRevisionAction = ([
-                RevisionActionTrigger.RejectRevision, RevisionActionTrigger.AcceptRevision,
-            ] as  Array<RevisionActionTrigger | ReviewActionTrigger>).includes(this.decisionTrigger);
-            const actionType = isRevisionAction ? 'revision-action' : 'review-action';
-            const target = isRevisionAction ? this.args.registration.revisions.lastObject : this.args.registration;
+            const isSchemaResponseAction = ([
+                SchemaResponseActionTrigger.RejectRevision, SchemaResponseActionTrigger.AcceptRevision,
+            ] as  Array<SchemaResponseActionTrigger | ReviewActionTrigger>).includes(this.decisionTrigger);
+            const actionType = isSchemaResponseAction ? 'schema-response-action' : 'review-action';
+            const target = isSchemaResponseAction ? this.args.registration.schemaResponses.lastObject
+                : this.args.registration;
             const newAction = this.store.createRecord(actionType, {
                 actionTrigger: this.decisionTrigger,
                 comment: (this.comment ? this.comment : undefined),
@@ -135,7 +138,7 @@ export default class MakeDecisionDropdown extends Component<Args> {
                         this.args.registration.provider.get('id'),
                         { queryParams: { state: RegistrationReviewStates.Rejected } },
                     );
-                } else if (this.decisionTrigger === RevisionActionTrigger.RejectRevision) {
+                } else if (this.decisionTrigger === SchemaResponseActionTrigger.RejectRevision) {
                     this.router.transitionTo(
                         'registries.overview',
                         this.args.registration.get('id'),

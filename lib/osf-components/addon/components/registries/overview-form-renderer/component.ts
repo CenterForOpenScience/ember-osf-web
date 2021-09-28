@@ -8,7 +8,7 @@ import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import Registration from 'ember-osf-web/models/registration';
-import RevisionModel from 'ember-osf-web/models/revision';
+import SchemaResponseModel from 'ember-osf-web/models/schema-response';
 import { getSchemaBlockGroups, SchemaBlock, SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
@@ -24,7 +24,7 @@ export default class RegistrationFormViewSchemaBlocks extends Component {
     revisionId?: string;
 
     // Private properties
-    revision?: RevisionModel;
+    revision?: SchemaResponseModel;
     schemaBlocks?: SchemaBlock[];
     schemaBlockGroups?: SchemaBlockGroup[];
     responses?: { [key: string]: string };
@@ -35,7 +35,7 @@ export default class RegistrationFormViewSchemaBlocks extends Component {
         try {
             let revision;
             if (this.revisionId) {
-                revision = await this.store.findRecord('revision', this.revisionId);
+                revision = await this.store.findRecord('schema-response', this.revisionId);
             }
             this.set('revision', revision);
             if (this.registration) {

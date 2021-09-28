@@ -5,7 +5,7 @@ import { inject as service } from '@ember/service';
 import BrandModel from 'ember-osf-web/models/brand';
 import RegistrationModel from 'ember-osf-web/models/registration';
 import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
-import RevisionModel from 'ember-osf-web/models/revision';
+import SchemaResponseModel from 'ember-osf-web/models/schema-response';
 import Media from 'ember-responsive';
 
 export default class EditRevisionController extends Controller {
@@ -14,7 +14,7 @@ export default class EditRevisionController extends Controller {
 
     @not('media.isDesktop') showMobileView!: boolean;
 
-    @alias('model.revision') revision?: RevisionModel;
+    @alias('model.revision') revision?: SchemaResponseModel;
     @alias('model.registration') registration?: RegistrationModel;
     @alias('model.provider') provider?: RegistrationProviderModel;
     @alias('model.provider.brand') brand?: BrandModel;

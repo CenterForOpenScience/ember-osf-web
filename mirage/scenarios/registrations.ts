@@ -6,7 +6,7 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 
 import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
-import { RevisionReviewStates } from 'ember-osf-web/models/revision';
+import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import { draftRegisterNodeMultiple, registerNodeMultiple } from '../helpers';
 
 export function manyProjectRegistrationsScenario(
@@ -143,9 +143,8 @@ export function registrationScenario(
         },
     }, 'withContributors', 'withReviewActions');
 
-    server.create('revision', {
+    server.create('schema-response', {
         id: 'copyEdit',
-        versionNumber: 1,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
             q1: 'Good Morning',
@@ -174,9 +173,8 @@ export function registrationScenario(
         },
     }, 'withContributors', 'withReviewActions');
 
-    server.create('revision', {
+    server.create('schema-response', {
         id: 'copyEdit',
-        versionNumber: 1,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
             q1: 'Good Morning',
@@ -205,9 +203,8 @@ export function registrationScenario(
         },
     }, 'withContributors', 'withReviewActions');
 
-    server.create('revision', {
+    server.create('schema-response', {
         id: 'copyEditRPMCobalt',
-        versionNumber: 1,
         revisionJustification: 'Copy Edit',
         reviewState: RevisionReviewStates.RevisionPendingModeration,
         revisionResponses: {
@@ -218,9 +215,8 @@ export function registrationScenario(
         registration: cobalt,
     });
 
-    server.create('revision', {
+    server.create('schema-response', {
         id: 'typoSelfRPMCobalt',
-        versionNumber: 2,
         reviewState: RevisionReviewStates.RevisionPendingModeration,
         revisionJustification: 'Typo - Self',
         revisionResponses: {
@@ -231,9 +227,8 @@ export function registrationScenario(
         registration: cobalt,
     });
 
-    server.create('revision', {
+    server.create('schema-response', {
         id: 'addResultsApprovedCobalt',
-        versionNumber: 3,
         reviewState: RevisionReviewStates.Approved,
         revisionJustification: 'Adding Results',
         revisionResponses: {
@@ -251,8 +246,8 @@ export function registrationScenario(
         provider: egap,
         reviewsState: RegistrationReviewStates.Accepted,
         registeredBy: currentUser,
-        revisionState: RevisionReviewStates.RevisionPendingModeration,
-        currentUserPermissions: [Permission.Admin],
+        revisionState: RevisionReviewStates.Approved,
+        currentUserPermissions: Object.values(Permission),
         providerSpecificMetadata: [
             { field_name: 'IP Address', field_value: '127.0.0.1' },
             { field_name: 'Mac Address', field_value: 'b6:be:5a:05:ef:7a' },
@@ -263,9 +258,8 @@ export function registrationScenario(
         },
     }, 'withContributors', 'withReviewActions');
 
-    server.create('revision', {
+    server.create('schema-response', {
         id: 'copyEditRPA',
-        versionNumber: 2,
         reviewState: RevisionReviewStates.RevisionPendingAdminApproval,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
@@ -276,9 +270,8 @@ export function registrationScenario(
         registration: bismuth,
     });
 
-    server.create('revision', {
+    server.create('schema-response', {
         id: 'copyEditRPM',
-        versionNumber: 2,
         reviewState: RevisionReviewStates.RevisionPendingModeration,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
@@ -289,9 +282,8 @@ export function registrationScenario(
         registration: bismuth,
     });
 
-    server.create('revision', {
+    server.create('schema-response', {
         id: 'copyEditRIP',
-        versionNumber: 2,
         reviewState: RevisionReviewStates.RevisionInProgress,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
@@ -302,9 +294,8 @@ export function registrationScenario(
         registration: bismuth,
     });
 
-    server.create('revision', {
+    server.create('schema-response', {
         id: 'copyEditApproved',
-        versionNumber: 2,
         reviewState: RevisionReviewStates.Approved,
         revisionJustification: 'Copy Edit',
         revisionResponses: {

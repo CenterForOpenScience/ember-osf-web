@@ -1,20 +1,21 @@
-{{#unless @registration.isAnonymous}}
-    <div data-test-topbar-states>
-        <RegistriesStates
-            @registration={{@registration}}
-             @isModeratorMode={{@isModeratorMode}}
-        />
-    </div>
-{{/unless}}
+<div local-class='LeftWrapper'>
+    {{#unless @registration.isAnonymous}}
+        <div data-test-topbar-states>
+            <RegistriesStates
+                @registration={{@registration}}
+                @isModeratorMode={{@isModeratorMode}}
+            />
+        </div>
+    {{/unless}}
 
-<Registries::UpdateDropdown 
-    @registration={{@registration}}
-/>
-
+    <Registries::UpdateDropdown
+        @registration={{@registration}}
+        @selectedRevisionId={{@selectedRevisionId}}
+    />
+</div>
 {{#if (and @isModeratorMode (not @registration.isAnonymous))}}
     <MakeDecisionDropdown
         @registration={{@registration}}
-        @isViewingLatestRevision={{@isViewingLatestRevision}}
     />
 {{else}}
     <div data-test-topbar-share-bookmark-fork

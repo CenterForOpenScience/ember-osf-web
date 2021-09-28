@@ -1,5 +1,7 @@
 <ResponsiveDropdown 
-    @horizontalPosition='left' 
+    @horizontalPosition='left'
+    @verticalPosition='below'
+    local-class='ResponsiveDropdown'
     as |dd|
 >
     <dd.trigger
@@ -7,22 +9,63 @@
         data-test-update-button
         local-class='UpdateText'
     >
-        {{t 'registries.update_dropdown.dropdown_title'}}
-        <FaIcon @icon='caret-down' @fixedWidth={{true}} />
+        {{#if (gt this.selectedRevisionIndex -1)}}
+            <Registries::UpdateDropdown::UpdateItem
+                @totalRevisions={{this.totalRevisions}}
+                @index={{this.selectedRevisionIndex}}
+            />
+        {{else}}
+            {{t 'registries.update_dropdown.dropdown_title'}}
+        {{/if}}
+        {{fa-icon 'caret-down'}}
     </dd.trigger>
     <dd.content
         data-test-update-content
         local-class='Updates'
     >
-        <div local-class='UpdatesList'
-        data-test-list-view>
+        <div data-test-list-view local-class='UpdatesList'>
             {{#if this.revisions}}
-                {{#each this.revisions as |revision|}}
-                    <p>{{t 'registries.update_dropdown.updates_list_label'}} {{revision.versionNumber}}</p>
+                {{#each this.revisions as |revision index|}}
+                    <div local-class='UpdateContainer'>
+                        <LinkTo @route='overview.index' @query={{hash revisionId=revision.id}} local-class='UpdateLink'>
+                            <Registries::UpdateDropdown::UpdateItem
+                                @totalRevisions={{this.totalRevisions}}
+                                @index={{index}}
+                            />
+                        </LinkTo>
+                    </div>
                 {{/each}}
+                {{#if this.shouldShowLoadMore}}
+                    <div local-class='InfinityLoader' {{in-viewport onEnter=(perform this.getRevisionList)}}>
+                        {{t 'registries.update_dropdown.load_more'}}
+                    </div>
+                {{/if}}
             {{else}}
-                {{t 'registries.update_dropdown.no_revisions'}}
+                {{t 'registries.update_dropdown.no_revisions_error'}}
+            {{/if}}
+            {{#if this.shouldShowCreateButton}}
+                <Button
+                    @type='create'
+                    {{on 'click' (queue dd.close this.showCreateModal)}}
+                >
+                    {{t 'general.update'}}
+                </Button>
+            {{else if this.shouldShowUpdateLink}}
+                <LinkTo
+                    @route='edit-revision'
+                    @model={{@latestRevision.id}}
+                >
+                    <Button>
+                        {{t 'general.update'}}
+                    </Button>
+                </LinkTo>
             {{/if}}
         </div>
     </dd.content>
 </ResponsiveDropdown>
+
+<Registries::NewUpdateModal
+    @isOpen={{this.showModal}}
+    @onClose={{this.closeCreateModal}}
+    @registration={{@registration}}
+/>
