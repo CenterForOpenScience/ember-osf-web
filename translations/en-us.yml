@@ -1471,7 +1471,6 @@ registries:
         noDrafts: "You don't have any draft registrations. Create one with the button below."
         createRegistration: 'Create a registration'
     update_dropdown:
-        update_dropdown:
         dropdown_title: 'Updates'
         latest: 'Latest'
         updates_list_label: 'Update {number}'
@@ -1482,14 +1481,14 @@ registries:
         date_modified: 'Date last modified: '
         accept_updates: 'Accept Updates'
         needs_more_updates: 'Needs More Updates'
-        revision_more_updates_success: 'Revision sent back to the user for further updates.'
-        revision_approved_success: 'Revision successfully approved.'
-        no_revisions_error: 'No revisions currently available for this Registration.'
-        revision_error_message: 'Revisions were unable to be retrieved. \n\n\t Please contact <a href="mailto:{supportEmail}">{supportEmail}</a> for further assistance.'
+        revision_more_updates_success: 'Further updates requested of user.'
+        revision_approved_success: 'Updates successfully approved.'
+        no_revisions_error: 'Updates unavailable.'
+        revision_error_message: 'Updates unretrievable. \n\n\t Please contact <a href="mailto:{supportEmail}">{supportEmail}</a> for further assistance.'
         not_a_registration_error: 'That was not a registration.'
         not_a_revision_error: 'That was not a revision.'
-        revision_state_not_set_error: 'Revision state was not set.'
-        other_error: 'Some error occured during revision retrieval. Please contact your adminstrator or moderator for further assistance.'
+        revision_state_not_set_error: 'Revision state not set.'
+        other_error: 'Some error occured. Please contact your adminstrator or moderator for further assistance.'
 meetings:
     index:
         meetings-list:
