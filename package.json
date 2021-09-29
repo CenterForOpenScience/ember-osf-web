@@ -91,7 +91,7 @@
     "@types/ember__test": "^3.16.1",
     "@types/ember__test-helpers": "^1.7.3",
     "@types/ember__utils": "^3.16.2",
-    "@types/faker": "^4.1.12",
+    "@types/faker": "^5.5.8",
     "@types/htmlbars-inline-precompile": "^1.0.1",
     "@types/jquery": "^3.5.5",
     "@types/js-md5": "^0.4.2",
