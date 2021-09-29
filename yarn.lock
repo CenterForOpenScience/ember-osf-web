@@ -5558,12 +5558,12 @@ bytes@3.1.0:
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-3.1.0.tgz#f6cf7933a360e0588fa9fde85651cdc7f805d1f6"
   integrity sha512-zauLjrfCG+xvoyaqLoV8bLVXXNGC4JqlxFCutSDWA6fJrTo2ZuvLYTqZ7aHBLZSMOopbzwv8f+wZcVzfVTI2Dg==
 
-c3@^0.6.2:
-  version "0.6.14"
-  resolved "https://registry.yarnpkg.com/c3/-/c3-0.6.14.tgz#1969c0ff35749fd97f0ab70cdab8c7c7c267ba6a"
-  integrity sha512-ShbGpm2kGVOGaupEif2j+47GXXuv/D4USHpuFYLKp5VyywHGitnT8r7XIsU4n+U2foN/CUQT4nTdkePW89be1g==
+c3@^0.7.2:
+  version "0.7.20"
+  resolved "https://registry.yarnpkg.com/c3/-/c3-0.7.20.tgz#48cb3dbeeb0a5253aee6c3d795aaaf350e9f1147"
+  integrity sha512-QZg4q5M32x2TEgoiQPgc+G+rAuDErTjtG2AeLxS8s0ZLxHBoqsaRcraVvLBG8Zbmj8hOefz2DCWSlX3gaV/11g==
   dependencies:
-    d3 "^5.0.0"
+    d3 "^5.8.0"
 
 cacache@^12.0.2:
   version "12.0.4"
@@ -6830,7 +6830,7 @@ d3-zoom@1:
     d3-selection "1"
     d3-transition "1"
 
-d3@^5.0.0, d3@^5.4.0:
+d3@^5.11.0, d3@^5.8.0:
   version "5.16.0"
   resolved "https://registry.yarnpkg.com/d3/-/d3-5.16.0.tgz#9c5e8d3b56403c79d4ed42fbd62f6113f199c877"
   integrity sha512-4PL5hHaHwX4m7Zr1UapXW23apo6pexCgdetdJ5kTmADpG/7T9Gkxw0M0tf/pjoB63ezCCm0u5UaFYy2aMt0Mcw==
@@ -7191,6 +7191,11 @@ dom-serializer@^1.0.1:
     domelementtype "^2.0.1"
     domhandler "^4.0.0"
     entities "^2.0.0"
+
+dom-to-image@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/dom-to-image/-/dom-to-image-2.6.0.tgz#8a503608088c87b1c22f9034ae032e1898955867"
+  integrity sha1-ilA2CAiMh7HCL5A0rgMuGJiVWGc=
 
 domain-browser@^1.1.1:
   version "1.2.0"
@@ -10324,6 +10329,11 @@ file-entry-cache@^6.0.1:
   dependencies:
     flat-cache "^3.0.4"
 
+file-saver@^2.0.1:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/file-saver/-/file-saver-2.0.5.tgz#d61cfe2ce059f414d899e9dd6d4107ee25670c38"
+  integrity sha512-P9bmyZ3h/PRG+Nzga+rbdI4OEpNDzAVyy74uVO9ATgzLK6VtAsYybF/+TOCvrc0MO793d6+42lLyZTw7/ArVzA==
+
 file-uri-to-path@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/file-uri-to-path/-/file-uri-to-path-1.0.0.tgz#553a7b8446ff6f684359c445f1e37a05dacc33dd"
@@ -12888,13 +12898,17 @@ keen-core@^0.2.0:
   dependencies:
     component-emitter "^1.2.0"
 
-keen-dataviz@^2.0.4:
-  version "2.0.10"
-  resolved "https://registry.yarnpkg.com/keen-dataviz/-/keen-dataviz-2.0.10.tgz#590c244d593c588a35e3eb4fab02fa1d21fd8ad2"
-  integrity sha512-7P+bTI2MzkzI5/cn/HAVo1WVZIt/WUyHnV1CWuJVeIM00fk7xhGw2PJfcS7BfKsJeLApr3YEoAVoNt0PKfIyDA==
+keen-dataviz@^3.15.5:
+  version "3.15.5"
+  resolved "https://registry.yarnpkg.com/keen-dataviz/-/keen-dataviz-3.15.5.tgz#d6ffb8eb41ca42581bf89401b93793c539ab8f2c"
+  integrity sha512-jTVAbsdx++7uWagD6kM/HJQOfzxM3MIPqps4/HU+AMKtYLH66j5+2Y03+40X7LTD33jbmgIt/Mp6iMzyn7tplQ==
   dependencies:
-    c3 "^0.6.2"
-    d3 "^5.4.0"
+    c3 "^0.7.2"
+    d3 "^5.11.0"
+    dom-to-image "^2.6.0"
+    file-saver "^2.0.1"
+    promise-polyfill "^8.0.0"
+    rangeable "^0.1.6"
 
 keen-tracking@^2.0.9:
   version "2.0.10"
@@ -16194,6 +16208,11 @@ range-parser@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.1.tgz#3cf37023d199e1c24d1a55b84800c2f3e6468031"
   integrity sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==
+
+rangeable@^0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/rangeable/-/rangeable-0.1.6.tgz#40ba684f452cc7aa3d16177d118fc3df4b186454"
+  integrity sha512-d56TXvDkWLck6azp4dXTRcBbi2KTwBuWkVZmn3fbN1ZWPBbo8OBUJVZ+sY8NiYANP6EurLWxFTFAHh4LoMHBgA==
 
 raw-body@2.4.0:
   version "2.4.0"
