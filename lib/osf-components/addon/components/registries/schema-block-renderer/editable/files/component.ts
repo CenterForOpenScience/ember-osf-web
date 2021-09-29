@@ -52,7 +52,7 @@ export default class Files extends Component {
 
     @computed('revision', 'node', 'currentUserIsReadOnly')
     get canEdit() {
-        return !this.revision && (this.node && this.currentUserIsReadOnly);
+        return !this.revision && (this.node && !this.currentUserIsReadOnly);
     }
 
     didReceiveAttrs() {
