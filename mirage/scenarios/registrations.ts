@@ -57,11 +57,24 @@ export function registrationScenario(
     const currentUserWrite = server.create('registration', {
         id: 'writr',
         registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+        reviewsState: RegistrationReviewStates.Accepted,
+        revisionState: RevisionReviewStates.Approved,
         currentUserPermissions: [Permission.Read, Permission.Write],
         providerSpecificMetadata: [
             { field_name: 'Metadata field 1', field_value: '' },
             { field_name: 'Another Field', field_value: 'Value 2' },
         ],
+    });
+
+    server.create('schema-response', {
+        id: 'copyEdit',
+        revisionJustification: 'Copy Edit',
+        revisionResponses: {
+            q1: 'Good Morning',
+            q2: ['List of greetings'],
+        },
+        initiatedBy: currentUser,
+        registration: currentUserWrite,
     });
 
     server.create('contributor', { users: currentUser, node: currentUserWrite });
