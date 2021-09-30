@@ -128,7 +128,7 @@ module('Registries | Acceptance | branded.moderation | settings', hooks => {
             .hasText(t('registries.moderation.settings.invalidSchemaId.title'));
         assert.dom('[data-test-error-modal-message-detail]').exists({ count: 1 });
         assert.dom('[data-test-error-modal-message-detail]')
-            .hasText(t('registries.moderation.settings.invalidSchemaId.detail'));
+            .hasText(stripHtmlTags(t('registries.moderation.settings.invalidSchemaId.detail')));
         await click('[data-test-close-dialog]');
 
         // invalid column id
