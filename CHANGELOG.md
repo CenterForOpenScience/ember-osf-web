@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [21.7.0] - 2021-09-14
+### Fixed
+- A11y: Draft Registration Metadata Page - Critical WCAG 2A Rule Violations - Third Party Libraries
+- A11y: Draft Registration Metadata Page - Serious WCAG 2AA Rule Violation
+- autosave failed message for draft registrations page
+- ensure users are properly logged out when using Log Out link from User Dropdown menu
+- clicking "Leave this view" on the VOL of Registration doesn't clear VOL hash from url
+
+### Added
+- collection provider description on provider's discover page
+- sorting meeting submissions by download count
+- add data test locators to elements on My Registrations Page
+
+### Removed
+- Feedback button on quickfiles page
+
+### Changed
+- (IA/IMLS) update registration creation modal language
+- (IA/IMLS) update registration completion modal language
+
 ## [21.6.3] - 2021-07-09
 ### Fixed
 - [hotfix] Do not serialize empty node-license
@@ -1770,7 +1790,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/21.6.3...develop
+[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/21.7.0...develop
+[21.7.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.7.0
 [21.6.3]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.6.3
 [21.6.2]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.6.2
 [21.6.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.6.1
