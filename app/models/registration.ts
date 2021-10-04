@@ -85,7 +85,6 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
 
     // Write-only attributes
     @attr('array') includedNodeIds?: string[];
-    @attr('boolean') createDoi?: boolean;
     @attr('fixstring') draftRegistrationId?: string;
 
     @belongsTo('node', { inverse: 'registrations' })
