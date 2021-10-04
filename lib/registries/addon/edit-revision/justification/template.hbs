@@ -1,0 +1,46 @@
+{{page-title (t 'registries.drafts.draft.metadata.title')}}
+
+{{#if this.loading}}
+    <LoadingIndicator @dark={{true}} />
+{{else}}
+    <main>
+        <h2 local-class='PageHeading'>
+            {{t 'registries.edit_revision.justification.title'}}
+        </h2>
+        <p local-class='HeadingParagraph'>
+            {{t 'registries.edit_revision.justification.justification_description'}}
+        </p>
+        <hr>
+        <form local-class='Metadata'>
+            <FormControls @changeset={{this.revisionManager.revisionChangeset}} ...attributes as |form|>
+                {{#let (unique-id 'reason') as |reasonFieldId|}}
+                    <label for={{reasonFieldId}} id='justification'>
+                        <p local-class='DisplayText'>
+                            {{t 'registries.edit_revision.justification.justification_label'}}
+                            <span local-class='Required'>*</span>
+                        </p>
+                    </label>
+                    <form.textarea data-test-metadata-description local-class='SchemaBlockLongText'
+                        @valuePath='revisionJustification'
+                        @onKeyUp={{perform this.revisionManager.onJustificationInput}}
+                        @placeholder=' '
+                        @uniqueID={{reasonFieldId}}
+                    />
+                {{/let}}
+                {{#let (unique-id 'questions') as |questionsFieldId|}}
+                    <label for={{questionsFieldId}} id='questions'>
+                        <p local-class='DisplayText'>
+                            {{t 'registries.edit_revision.revisedResponses'}}
+                            <span local-class='Required'>*</span>
+                        </p>
+                    </label>
+                    <Registries::RevisedResponsesList
+                        @revision={{this.revisionManager.revision}}
+                        @schemaBlocks={{this.revisionManager.schemaBlocks}}
+                        local-class='RevisedResponses'
+                    />
+                {{/let}}
+            </FormControls>
+        </form>
+    </main>
+{{/if}}

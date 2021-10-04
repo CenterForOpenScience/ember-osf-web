@@ -75,6 +75,8 @@ module('Registries | Acceptance | registries revision', hooks => {
 
         // check leftnav
         const reviewNav = find('[data-test-link="review"]');
+        assert.dom('[data-test-link="justification"]')
+            .doesNotExist('Leftnav: Label for justification page is not shown');
         assert.dom('[data-test-link="1-first-page-of-test-schema"]')
             .doesNotExist('Leftnav: Label for first page is not shown');
         assert.dom('[data-test-link="review"]').exists('Leftnav: Review label shown');
@@ -102,7 +104,7 @@ module('Registries | Acceptance | registries revision', hooks => {
         await percySnapshot('Read-only Revision Review page: Mobile');
     });
 
-    test('it redirects to the first page of the revision form', async function(this: RevisionTestContext, assert) {
+    test('it redirects to the justification page of revision form', async function(this: RevisionTestContext, assert) {
         const initiatedBy = server.create('user', 'loggedIn');
         const revision = server.create(
             'schema-response',
@@ -113,7 +115,7 @@ module('Registries | Acceptance | registries revision', hooks => {
             },
         );
         await visit(`/registries/revisions/${revision.id}/`);
-        assert.equal(currentRouteName(), 'registries.edit-revision.page', 'At the expected route');
+        assert.equal(currentRouteName(), 'registries.edit-revision.justification', 'At the expected route');
     });
 
     test('left nav controls', async function(this: RevisionTestContext, assert) {
@@ -127,10 +129,27 @@ module('Registries | Acceptance | registries revision', hooks => {
         );
 
         await visit(`/registries/revisions/${revision.id}/`);
-        await percySnapshot('Registries | Acceptance | registries revision | left nav controls | first page');
+        await percySnapshot('Registries | Acceptance | registries revision | left nav controls | justification page');
+
+        // justification page
+        assert.equal(currentRouteName(), 'registries.edit-revision.justification', 'Starts at justification page');
+        assert.dom('[data-test-link="justification"] > [data-test-icon]')
+            .hasClass('fa-dot-circle', 'justification page is current page');
+        assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
+            .hasClass('fa-circle', 'page 1 is marked unvisited');
+        assert.dom('[data-test-link="review"] > [data-test-icon]')
+            .hasClass('fa-circle', 'review is marked unvisited');
+        assert.dom('[data-test-goto-previous-page]').doesNotExist();
+        assert.dom('[data-test-goto-next-page]').isVisible();
+        assert.dom('[data-test-goto-review]').doesNotExist();
+        assert.dom('[data-test-submit-revision]').doesNotExist();
 
         // first page
+        await click('[data-test-link="1-first-page-of-test-schema"]');
+        await percySnapshot('Registries | Acceptance | registries revision | left nav controls | first page');
         assert.equal(currentRouteName(), 'registries.edit-revision.page', 'Starts at first page');
+        assert.dom('[data-test-link="justification"] > [data-test-icon]')
+            .hasClass('fa-exclamation-circle', 'justification page is marked visited, invalid');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-dot-circle', 'page 1 is current page');
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
@@ -142,10 +161,11 @@ module('Registries | Acceptance | registries revision', hooks => {
         assert.dom('[data-test-goto-review]').doesNotExist();
         assert.dom('[data-test-submit-revision]').doesNotExist();
 
-        // Navigate to second page
         await click('[data-test-link="2-this-is-the-second-page"]');
         await percySnapshot('Registries | Acceptance | registries revision | left nav controls | second page');
         assert.equal(currentRouteName(), 'registries.edit-revision.page', 'Goes to second page');
+        assert.dom('[data-test-link="justification"] > [data-test-icon]')
+            .hasClass('fa-exclamation-circle', 'justification page is marked visited, invalid');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-exclamation-circle', 'page 1 is marked visited, invalid');
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
@@ -174,6 +194,8 @@ module('Registries | Acceptance | registries revision', hooks => {
         await click('[data-test-link="review"]');
         await percySnapshot('Registries | Acceptance | registries revision | left nav controls | review page');
         assert.equal(currentRouteName(), 'registries.edit-revision.review', 'Goes to review route');
+        assert.dom('[data-test-link="justification"] > [data-test-icon]')
+            .hasClass('fa-exclamation-circle', 'justification page is marked visited, invalid');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-exclamation-circle', 'page 1 is marked visited, invalid');
         assert.dom('[data-test-link="2-this-is-the-second-page"] > [data-test-icon]')
@@ -199,12 +221,26 @@ module('Registries | Acceptance | registries revision', hooks => {
 
         await visit(`/registries/revisions/${revision.id}/`);
 
+
+        // Justification page
+        assert.equal(currentRouteName(), 'registries.edit-revision.justification', 'At justification page');
+        assert.dom('[data-test-submit-revision]').doesNotExist();
+        assert.dom('[data-test-goto-previous-page]').doesNotExist();
+        assert.dom('[data-test-goto-justification]').doesNotExist();
+
+        assert.dom('[data-test-goto-next-page]').exists();
+        assert.ok(getHrefAttribute('[data-test-goto-next-page]')!
+            .includes(`/registries/revisions/${revision.id}/1-`));
+
+        await click('[data-test-goto-next-page]');
+
         // First page of form
         assert.ok(currentURL().includes(`/registries/revisions/${revision.id}/1-`),
             'At first schema page');
         assert.dom('[data-test-submit-revision]').doesNotExist();
         assert.dom('[data-test-goto-previous-page]').doesNotExist();
 
+        assert.dom('[data-test-goto-justification]').exists();
         assert.dom('[data-test-goto-next-page]').exists();
         assert.ok(getHrefAttribute('[data-test-goto-next-page]')!
             .includes(`/registries/revisions/${revision.id}/2-`));
@@ -219,6 +255,7 @@ module('Registries | Acceptance | registries revision', hooks => {
 
         assert.dom('[data-test-submit-revision]').doesNotExist();
         assert.dom('[data-test-goto-next-page]').doesNotExist();
+        assert.dom('[data-test-goto-justification]').doesNotExist();
 
         assert.dom('[data-test-goto-review]').isVisible();
         assert.ok(getHrefAttribute('[data-test-goto-review]')!
@@ -232,6 +269,7 @@ module('Registries | Acceptance | registries revision', hooks => {
 
         assert.dom('data-test-goto-next-page').doesNotExist();
         assert.dom('[data-test-goto-review]').doesNotExist();
+        assert.dom('[data-test-goto-justification]').doesNotExist();
 
         assert.dom('[data-test-submit-revision]').isVisible();
         assert.dom('[data-test-nonadmin-warning-text]').doesNotExist('Warning for non-admins not shown to admins');
@@ -257,21 +295,34 @@ module('Registries | Acceptance | registries revision', hooks => {
 
         setBreakpoint('mobile');
 
-        assert.ok(currentURL().includes(`/registries/revisions/${revision.id}/1-`), 'At first page');
-        await percySnapshot('Registries | Acceptance | registries revisions | mobile navigation | first page');
 
-        // First page
-        assert.dom('[data-test-page-label]').containsText('First page');
+        // Justification page
+        assert.equal(currentRouteName(), 'registries.edit-revision.justification', 'At justification page');
+        await percySnapshot('Registries | Acceptance | registries revision | mobile nav controls | justification page');
+        assert.dom('[data-test-page-label]').containsText('Justification');
         assert.dom('[data-test-goto-previous-page]').isNotVisible();
         assert.dom('[data-test-goto-next-page]').isVisible();
         assert.dom('[data-test-submit-revision]').doesNotExist();
+        assert.dom('[data-test-goto-justification]').doesNotExist();
         await click('[data-test-goto-next-page]');
 
+        // First page
+        assert.ok(currentURL().includes(`/registries/revisions/${revision.id}/1-`), 'At first page');
+        await percySnapshot('Registries | Acceptance | registries revisions | mobile navigation | first page');
+        assert.dom('[data-test-page-label]').containsText('First page');
+        assert.dom('[data-test-goto-previous-page]').isNotVisible();
+        assert.dom('[data-test-goto-next-page]').isVisible();
+        assert.dom('[data-test-goto-justification]').exists();
+        assert.dom('[data-test-submit-revision]').doesNotExist();
+        await click('[data-test-goto-next-page]');
+
+        // Second page
         await percySnapshot('Registries | Acceptance | registries revisions | mobile navigation | second page');
         assert.dom('[data-test-page-label]').containsText('This is the second page');
         assert.dom('[data-test-goto-previous-page]').isVisible();
         assert.dom('[data-test-goto-next-page]').isNotVisible();
         assert.dom('[data-test-goto-review]').isVisible();
+        assert.dom('[data-test-goto-justification]').doesNotExist();
         assert.dom('[data-test-submit-revision]').doesNotExist();
 
         // Review page
@@ -307,9 +358,16 @@ module('Registries | Acceptance | registries revision', hooks => {
 
         await visit(`/registries/revisions/${revision.id}`);
 
+        assert.equal(currentRouteName(), 'registries.edit-revision.justification', 'At justification page');
+        assert.dom('[data-test-validation-errors="revisionJustification"]')
+            .doesNotExist('No validation errors on first load');
+        await click('[data-test-goto-next-page]');
+
         // check first page is not invalid
         assert.ok(currentURL().includes(`/registries/revisions/${revision.id}/1-`),
             'At first page');
+        assert.dom('[data-test-link="justification"] > [data-test-icon]')
+            .hasClass('fa-exclamation-circle', 'justification page is marked visited, invalid');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-dot-circle', 'on page 1');
         // NOTE: the validation errors are shown if we enter the first page having done either the
@@ -324,6 +382,9 @@ module('Registries | Acceptance | registries revision', hooks => {
         assert.dom('[data-test-submit-revision]').isDisabled('Submit button disabled');
         assert.dom('[data-test-nonadmin-warning-text]').doesNotExist('Warning for non-admins not shown to admins');
         assert.dom('[data-test-invalid-responses-text]').isVisible('Invalid response text shown');
+
+        assert.dom('[data-test-validation-errors="revisionJustification"]').exists('justification invalid');
+        assert.dom('[data-test-validation-errors="revisedResponses"]').exists('revised responses invalid');
         assert.dom(`[data-test-validation-errors="${deserializeResponseKey('page-one_short-text')}"]`)
             .exists('short text invalid');
         assert.dom(`[data-test-validation-errors="${deserializeResponseKey('page-one_long-text')}"]`)
@@ -340,11 +401,23 @@ module('Registries | Acceptance | registries revision', hooks => {
         await fillIn(`input[name="${deserializeResponseKey('page-one_short-text')}"]`, 'ditto');
         assert.dom(`[data-test-validation-errors="${deserializeResponseKey('page-one_short-text')}"]`)
             .doesNotExist('short text valid after being filled');
+        // hack since we don't actually track which fields have been updated in mirage
+        revision.revisedResponses = ['page-one_short-text'];
+
+        // check justification page and fix invalid answer
+        await click('[data-test-link="justification"]');
+        await fillIn('input[name="revisionJustification"]', 'Tell the world that ditto is the best');
+        assert.dom('[data-test-validation-errors="revisionJustification"]').doesNotExist('justification valid');
+        assert.dom('[data-test-revised-responses-list]').exists({ count: 1 }, 'revised responses list shown');
 
         // check the review page to see if text is valid again
         await click('[data-test-link="review"]');
+        assert.dom('[data-test-link="justification"] > [data-test-icon]')
+            .hasClass('fa-check-circle', 'justification page is now valid');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-check-circle', 'first page now valid');
+        assert.dom('[data-test-validation-errors="revisionJustification"]').doesNotExist('justification valid');
+        assert.dom('[data-test-validation-errors="revisedResponses"]').doesNotExist('revised responses valid');
         assert.dom(`[data-test-validation-errors="${deserializeResponseKey('page-one_short-text')}"]`)
             .doesNotExist('short text now valid');
         assert.dom('[data-test-submit-revision]').isNotDisabled('Submit button no longer disabled');

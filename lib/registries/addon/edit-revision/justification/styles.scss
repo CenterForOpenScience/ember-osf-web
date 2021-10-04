@@ -1,0 +1,27 @@
+.Metadata {
+    composes: Metadata from '../../drafts/draft/metadata/styles.scss';
+}
+
+.PageHeading {
+    composes: PageHeading from '../../drafts/draft/metadata/styles.scss';
+}
+
+.HeadingParagraph {
+    composes: HeadingParagraph from '../../drafts/draft/metadata/styles.scss';
+}
+
+.Required {
+    composes: Required from '../../drafts/draft/metadata/styles.scss';
+}
+
+.SchemaBlockInput {
+    composes: SchemaBlockInput from '../../drafts/draft/metadata/styles.scss';
+}
+
+.SchemaBlockLongText {
+    composes: SchemaBlockLongText from '../../drafts/draft/metadata/styles.scss';
+}
+
+.RevisedResponses {
+    font-style: italic;
+}

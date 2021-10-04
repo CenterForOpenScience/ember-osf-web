@@ -29,6 +29,7 @@ export default buildRoutes(function() {
     });
 
     this.route('edit-revision', { path: '/registries/revisions/:revisionId' }, function() {
+        this.route('justification');
         this.route('page', { path: '/:page' });
         this.route('review');
     });

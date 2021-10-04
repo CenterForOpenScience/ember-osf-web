@@ -1,5 +1,7 @@
 import { action, computed, set } from '@ember/object';
-import { alias, filterBy, not, notEmpty } from '@ember/object/computed';
+import { dependentKeyCompat } from '@ember/object/compat';
+import { alias, filterBy, not, notEmpty, or } from '@ember/object/computed';
+import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { isEmpty } from '@ember/utils';
@@ -7,12 +9,14 @@ import { restartableTask, task, TaskInstance, timeout } from 'ember-concurrency'
 import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
+import { BufferedChangeset } from 'validated-changeset';
 
 import ProviderModel from 'ember-osf-web/models/provider';
 import SchemaBlock from 'ember-osf-web/models/schema-block';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 import {
+    buildSchemaResponseValidations,
     getPages,
     PageManager,
     RegistrationResponse,
@@ -21,6 +25,7 @@ import RegistrationModel from 'ember-osf-web/models/registration';
 import SchemaResponseModel, { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
+import buildChangeset from 'ember-osf-web/utils/build-changeset';
 
 type LoadModelsTask = TaskInstance<{
     revision: SchemaResponseModel,
@@ -35,17 +40,19 @@ export default class RevisionManager {
     // Private
     @service intl!: Intl;
     @service toast!: Toast;
+    @service router!: RouterService;
 
     currentPage!: number;
     revisionResponses!: RegistrationResponse;
 
     pageManagers: PageManager[] = [];
+    revisionChangeset!: BufferedChangeset;
     schemaBlocks!: SchemaBlock[];
 
     @alias('registration.currentUserIsReadOnly') currentUserIsReadOnly!: boolean;
     @alias('provider.reviewsWorkflow') reviewsWorkflow?: string;
-    @alias('onPageInput.isRunning') autoSaving!: boolean;
-    @alias('initializePageManagers.isRunning') initializing!: boolean;
+    @or('onPageInput.isRunning', 'onJustificationInput.isRunning') autoSaving!: boolean;
+    @or('initializePageManagers.isRunning', 'initializeRevisionChangeset.isRunning') initializing!: boolean;
     @not('registrationResponsesIsValid') hasInvalidResponses!: boolean;
     @filterBy('pageManagers', 'isVisited', true) visitedPages!: PageManager[];
     @notEmpty('visitedPages') hasVisitedPages!: boolean;
@@ -61,11 +68,19 @@ export default class RevisionManager {
         return this.pageManagers.every(pageManager => pageManager.pageIsValid);
     }
 
-    @computed('onPageInput.lastComplete')
+    @dependentKeyCompat
+    get revisionIsValid() {
+        return this.revisionChangeset.isValid;
+    }
+
+    @computed('onPageInput.lastComplete', 'updateRevisionAndSave.lastComplete')
     get lastSaveFailed() {
         const onPageInputLastComplete = taskFor(this.onPageInput).lastComplete;
+        const updateRevisionAndSaveLastComplete = taskFor(this.updateRevisionAndSave).lastComplete;
         const pageInputFailed = onPageInputLastComplete ? onPageInputLastComplete.isError : false;
-        return pageInputFailed;
+        const updateRevisionAndSaveFailed = updateRevisionAndSaveLastComplete
+            ? updateRevisionAndSaveLastComplete.isError : false;
+        return pageInputFailed || updateRevisionAndSaveFailed;
     }
 
     @computed('revision.reviewsState')
@@ -92,6 +107,7 @@ export default class RevisionManager {
         set(this, 'loadModelsTask', loadModelsTask);
         set(this, 'revisionId', revisionId);
         taskFor(this.initializePageManagers).perform();
+        taskFor(this.initializeRevisionChangeset).perform();
     }
 
     @restartableTask
@@ -165,9 +181,30 @@ export default class RevisionManager {
         set(this, 'pageManagers', pageManagers);
     }
 
+    @task
+    @waitFor
+    async initializeRevisionChangeset() {
+        const { revision } = await this.loadModelsTask;
+        if (!revision) {
+            return this.router.transitionTo('registries.page-not-found', window.location.href.slice(-1));
+        }
+        const revisionValidations = buildSchemaResponseValidations();
+        const revisionChangeset = buildChangeset(revision, revisionValidations);
+        set(this, 'revisionChangeset', revisionChangeset);
+    }
+
     @restartableTask
     @waitFor
-    async updateDraftRegistrationAndSave() {
+    async onJustificationInput() {
+        await timeout(5000); // debounce
+        await taskFor(this.updateRevisionAndSave).perform();
+    }
+
+    @restartableTask
+    @waitFor
+    async updateRevisionAndSave() {
+        const { revisionChangeset, revision } = this;
+        set(revision, 'revisionJustification', revisionChangeset.get('revisionJustification'));
         try {
             await this.revision.save();
         } catch (e) {

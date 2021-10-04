@@ -45,6 +45,16 @@
                 {{/if}}
                 <layout.leftNav as |leftNav|>
                     {{#if (not (or revisionManager.currentUserIsReadOnly (not revisionManager.isEditable)))}}
+                        <PageLink
+                            @link={{component leftNav.link}}
+                            @draftId={{revisionManager.revisionId}}
+                            @pageName='justification'
+                            @route='registries.edit-revision.justification'
+                            @currentPageName={{navManager.currentRoute}}
+                            @label='{{t 'registries.edit_revision.justification.page_label'}}'
+                            @navMode={{leftNav.leftGutterMode}}
+                            @metadataIsValid={{revisionManager.revisionIsValid}}
+                        />
                         {{#each revisionManager.pageManagers as |pageManager index|}}
                             <PageLink
                                 @link={{component leftNav.link}}

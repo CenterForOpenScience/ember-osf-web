@@ -4,7 +4,7 @@
 
 <Navbar local-class='SideBarToggle' ...attributes as |nav|>
     <nav.bordered-section>
-        {{#if (and (not @revisionManager.currentUserIsReadOnly) @revisionManager.isEditable)}}
+        {{#if @navManager.showSidenav}}
             <nav.buttons.default
                 data-test-sidenav-toggle
                 data-analytics-name='Show sidenav'
@@ -19,13 +19,27 @@
         <div data-test-page-label>
             {{#if @navManager.inReview}}
                 {{t 'registries.drafts.draft.review.page_label'}}
+            {{else if @navManager.inJustification}}
+                {{t 'registries.edit_revision.justification.page_label'}}
             {{else}}
                 {{@navManager.currentPageManager.pageHeadingText}}
             {{/if}}
         </div>
     </nav.bordered-section>
     <nav.bordered-section>
-        {{#if (and @navManager.prevPageParam (not @revisionManager.currentUserIsReadOnly) @revisionManager.isEditable)}}
+        {{#if @navManager.isFirstPage}}
+            <nav.links.default
+                data-test-goto-justification
+                data-analytics-name='Topnav back to justification'
+                aria-label={{t 'osf-components.registries-top-nav.justification'}}
+                local-class='MetadataButton'
+                @route='registries.edit-revision.justification'
+                @models={{array @revisionManager.revisionId }}
+            >
+                {{t 'registries.edit_revision.justification.page_label'}}
+            </nav.links.default>
+        {{/if}}
+        {{#if @navManager.showPreviousButton}}
             <nav.links.default
                 data-test-goto-previous-page
                 data-analytics-name='Topnav back'

@@ -55,7 +55,7 @@ export default class PageLinkComponent extends Component {
             }
             return PageState.Invalid;
         }
-        if (this.pageName === 'metadata') {
+        if (this.pageName === 'metadata' || this.pageName === 'justification') {
             if (this.metadataIsValid) {
                 return PageState.Valid;
             }

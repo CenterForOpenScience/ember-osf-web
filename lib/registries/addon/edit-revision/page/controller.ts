@@ -10,7 +10,7 @@ import NavigationManager from 'registries/drafts/draft/navigation-manager';
 import RevisionManager from 'registries/edit-revision/revision-manager';
 import { RevisionPageRouteModel } from './route';
 
-export default class RegistriesDraftPage extends Controller {
+export default class EditRevisionPage extends Controller {
     @service router!: RouterService;
 
     model!: RevisionPageRouteModel;
@@ -29,6 +29,7 @@ export default class RegistriesDraftPage extends Controller {
             this.replaceRoute('edit-revision.page', draftId, pageSlug);
         }
         this.revisionManager.onPageChange(pageIndex);
+        this.revisionManager.revisionChangeset.validate();
     }
 
     @action

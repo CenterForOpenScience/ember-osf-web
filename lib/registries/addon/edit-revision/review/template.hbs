@@ -28,6 +28,12 @@
                 @showMetadata={{true}}
                 @schemaBlocks={{revisionManager.schemaBlocks}}
             />
+            <Registries::RevisionJustificationRenderer
+                @revisionChangeset={{revisionManager.revisionChangeset}}
+                @revision={{revisionManager.revision}}
+                @schemaBlocks={{revisionManager.schemaBlocks}}
+                @showEditButton={{not revisionManager.currentUserIsReadOnly}}
+            />
             <Registries::ReviewFormRenderer
                 @pageManagers={{revisionManager.pageManagers}}
                 @responses={{revisionManager.revision.revisionResponses}}

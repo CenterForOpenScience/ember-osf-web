@@ -51,6 +51,21 @@
         </Button>
     </OsfLink>
 {{/if}}
+{{#if @navManager.isFirstPage}}
+    <OsfLink
+        data-test-goto-justification
+        data-analytics-name='Back to justification'
+        local-class='BackButton'
+        @type='button'
+        @route='registries.edit-revision.justification'
+        @models={{array @revisionManager.revisionId}}
+    >
+        <Button @type='secondary'>
+            <FaIcon @icon='arrow-left' @fixedWidth={{true}} />
+            {{t 'registries.edit_revision.justification.page_label'}}
+        </Button>
+    </OsfLink>
+{{/if}}
 
 {{#if @revisionManager.lastSaveFailed}}
     <span local-class='SaveFailed'>
