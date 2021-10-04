@@ -87,14 +87,6 @@ export function createRegistration(this: HandlerContext, schema: Schema) {
         });
     }
 
-    if (attrs.createDoi) {
-        schema.identifiers.create({
-            category: 'doi',
-            value: faker.fake('10.4444/{{company.bsNoun}}'),
-            referent: newReg,
-        });
-    }
-
     return newReg;
 }
 
