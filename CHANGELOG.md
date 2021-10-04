@@ -4,7 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [21.6.3] - 2021-09-14
+## [21.8.0] - 2021-10-04
+### Added
+- bulk upload component `Branded::Moderation::-Components::UploadCsv`
+- `registries.branded.moderation.settings` route
+
+### Changed
+- bump ember-template-lint
+
+### Remove
+- `registries.branded.moderation.notifications` route (now under `registries.branded.moderation.settings`)
+
+## [21.7.0] - 2021-09-14
 ### Fixed
 - A11y: Draft Registration Metadata Page - Critical WCAG 2A Rule Violations - Third Party Libraries
 - A11y: Draft Registration Metadata Page - Serious WCAG 2AA Rule Violation

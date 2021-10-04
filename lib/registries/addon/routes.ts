@@ -9,7 +9,7 @@ export default buildRoutes(function() {
         this.route('moderation', function() {
             this.route('submissions');
             this.route('moderators');
-            this.route('notifications');
+            this.route('settings');
         });
     });
 
