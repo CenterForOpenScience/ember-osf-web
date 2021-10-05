@@ -353,6 +353,7 @@ module('Registries | Acceptance | registries revision', hooks => {
             {
                 initiatedBy,
                 registration: this.registration,
+                revisionResponses: {},
             },
         );
 
@@ -375,7 +376,7 @@ module('Registries | Acceptance | registries revision', hooks => {
         // or the controller.replaceRoute from edit-revision.page (/revisions/:id/:page)
         // Validation errors are not shown if entering with the pageslug appended (/revisions/:id/:page-page-slug)
         assert.dom(`[data-test-validation-errors="${deserializeResponseKey('page-one_short-text')}"]`)
-            .exists('Validation message shown on initial load');
+            .doesNotExist('Validation message not shown on initial load');
 
         await click('[data-test-link="review"]');
         assert.equal(currentRouteName(), 'registries.edit-revision.review', 'At review page');
@@ -392,6 +393,8 @@ module('Registries | Acceptance | registries revision', hooks => {
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-exclamation-circle', 'first page invalid');
 
+        // hack since we don't actually track which fields have been updated in mirage
+        revision.update({ revisedResponses: ['page-one_short-text'] });
         // check the first page and correct invalid answer
         await click('[data-test-link="1-first-page-of-test-schema"]');
         assert.ok(currentURL().includes(`/registries/revisions/${revision.id}/1-`),
@@ -401,12 +404,10 @@ module('Registries | Acceptance | registries revision', hooks => {
         await fillIn(`input[name="${deserializeResponseKey('page-one_short-text')}"]`, 'ditto');
         assert.dom(`[data-test-validation-errors="${deserializeResponseKey('page-one_short-text')}"]`)
             .doesNotExist('short text valid after being filled');
-        // hack since we don't actually track which fields have been updated in mirage
-        revision.revisedResponses = ['page-one_short-text'];
 
         // check justification page and fix invalid answer
         await click('[data-test-link="justification"]');
-        await fillIn('input[name="revisionJustification"]', 'Tell the world that ditto is the best');
+        await fillIn('textarea[name="revisionJustification"]', 'Tell the world that ditto is the best');
         assert.dom('[data-test-validation-errors="revisionJustification"]').doesNotExist('justification valid');
         assert.dom('[data-test-revised-responses-list]').exists({ count: 1 }, 'revised responses list shown');
 

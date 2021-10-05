@@ -63,9 +63,10 @@ export default class RevisionManager {
     node?: NodeModel;
     revisionId!: string;
 
-    @computed('pageManagers.{[],@each.pageIsValid}')
+    @computed('pageManagers.{[],@each.pageIsValid}', 'revisionIsValid')
     get registrationResponsesIsValid() {
-        return this.pageManagers.every(pageManager => pageManager.pageIsValid);
+        return this.pageManagers.every(pageManager => pageManager.pageIsValid)
+            && this.revisionIsValid;
     }
 
     @dependentKeyCompat
@@ -241,6 +242,7 @@ export default class RevisionManager {
 
     @action
     validateAllVisitedPages() {
+        this.revisionChangeset.validate();
         this.visitedPages
             .forEach(pageManager => {
                 pageManager.changeset!.validate();
