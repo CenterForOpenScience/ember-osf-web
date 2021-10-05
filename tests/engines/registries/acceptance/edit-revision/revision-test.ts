@@ -434,6 +434,8 @@ module('Registries | Acceptance | registries revision', hooks => {
                     'page-one_short-text': 'Pekatyu',
                 },
                 registration: this.registration,
+                revisedResponses: ['page-one_short-text'],
+                revisionJustification: 'If pikachu were russian',
             },
         );
 
