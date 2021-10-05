@@ -32,6 +32,7 @@ export interface RegistrationTraits {
     withSubjects: Trait;
     withReviewActions: Trait;
     withSingleReviewAction: Trait;
+    withFiles: Trait;
 }
 
 const stateAttrs = {
@@ -257,6 +258,14 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
         afterCreate(registration, server) {
             const reviewActions = server.createList('review-action', 1, { target: registration });
             registration.update({ reviewActions });
+        },
+    }),
+    withFiles: trait<MirageRegistration>({
+        afterCreate(registration, server) {
+            const count = faker.random.number({ min: 1, max: 5 });
+            const osfstorage = server.create('file-provider', { target: registration });
+            const files = server.createList('file', count, { target: registration });
+            osfstorage.rootFolder.update({ files });
         },
     }),
 });

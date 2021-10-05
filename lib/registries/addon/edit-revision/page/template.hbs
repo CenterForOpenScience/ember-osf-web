@@ -14,7 +14,7 @@
         >
             {{#if navManager.currentPageManager}}
                 <Registries::PageRenderer
-                    @draftRegistration={{revisionManager.revision}}
+                    @revision={{revisionManager.revision}}
                     @pageManager={{navManager.currentPageManager}}
                     @onInput={{perform revisionManager.onPageInput navManager.currentPageManager}}
                     @node={{this.revisionManager.registration}}
