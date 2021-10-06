@@ -10,6 +10,7 @@ import { taskFor } from 'ember-concurrency-ts';
 import requireAuth from 'ember-osf-web/decorators/require-auth';
 import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import Analytics from 'ember-osf-web/services/analytics';
+import captureException from 'ember-osf-web/utils/capture-exception';
 import RevisionNavigationManager from 'registries/edit-revision/nav-manager';
 import RevisionManager from 'registries/edit-revision/revision-manager';
 
@@ -27,18 +28,23 @@ export default class EditRevisionRoute extends Route {
     @task
     @waitFor
     async loadModels(revisionId: string) {
-        const revision = await this.store.findRecord('schema-response', revisionId);
-        const registration = await revision.registration;
-        const provider = await registration.provider;
-        if ((registration.currentUserIsReadOnly && revision.reviewsState !== RevisionReviewStates.Approved) ||
-            (revision.reviewsState !== RevisionReviewStates.RevisionInProgress)) {
-            this.replaceWith('edit-revision.review', revisionId);
+        try {
+            const revision = await this.store.findRecord('schema-response', revisionId);
+            const registration = await revision.registration;
+            const provider = await registration.provider;
+            if ((registration.currentUserIsReadOnly && revision.reviewsState !== RevisionReviewStates.Approved) ||
+                (revision.reviewsState !== RevisionReviewStates.RevisionInProgress)) {
+                this.replaceWith('edit-revision.review', revisionId);
+            }
+            return {
+                revision,
+                registration,
+                provider,
+            };
+        } catch (error) {
+            captureException(error);
+            return this.transitionTo('page-not-found', window.location.href.slice(-1));
         }
-        return {
-            revision,
-            registration,
-            provider,
-        };
     }
 
     model(params: { revisionId: string }) {

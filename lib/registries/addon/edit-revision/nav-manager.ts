@@ -7,6 +7,7 @@ import { getNextPageParam, getPageSlug, getPrevPageParam } from 'ember-osf-web/u
 import RevisionManager from 'registries/edit-revision/revision-manager';
 
 export enum RevisionRoute {
+    Justification = 'justification',
     Page = 'page',
     Review = 'review',
 }
@@ -18,6 +19,9 @@ export default class RevisionNavigationManager {
 
     @alias('revisionManager.pageManagers')
     pageManagers!: PageManager[];
+
+    @equal('currentRoute', RevisionRoute.Justification)
+    inJustification!: boolean;
 
     @equal('currentRoute', RevisionRoute.Review)
     inReview!: boolean;
@@ -37,6 +41,17 @@ export default class RevisionNavigationManager {
         setProperties(this, { currentRoute, currentPage });
     }
 
+    @computed('revisionManager.{currentUserIsReadOnly,isEditable}')
+    get showSidenav() {
+        return this.revisionManager.isEditable && !this.revisionManager.currentUserIsReadOnly;
+    }
+
+    @computed('prevPageParam', 'revisionManager.{currentUserIsReadOnly,isEditable}')
+    get showPreviousButton() {
+        const { prevPageParam, revisionManager } = this;
+        return prevPageParam && revisionManager.isEditable && !revisionManager.currentUserIsReadOnly;
+    }
+
     @computed('currentPage', 'lastPage')
     get isLastPage() {
         return this.currentPage === this.lastPage;
@@ -48,16 +63,22 @@ export default class RevisionNavigationManager {
         return pageManagers.length - 1;
     }
 
-    @computed('currentPage', 'pageManagers.[]', 'lastPage')
+    @computed('currentPage', 'pageManagers.[]', 'inJustification', 'lastPage')
     get nextPageParam() {
         const {
             pageManagers,
             currentPage,
             lastPage,
+            inJustification,
         } = this;
 
         if (!isEmpty(pageManagers)) {
             let pageHeadingText;
+            if (inJustification) {
+                [{ pageHeadingText }] = pageManagers;
+                return getPageSlug(1, pageHeadingText);
+            }
+
             if (typeof currentPage !== 'undefined' && (currentPage < lastPage)) {
                 ({ pageHeadingText } = pageManagers[currentPage + 1]);
                 return getNextPageParam(currentPage, pageHeadingText);

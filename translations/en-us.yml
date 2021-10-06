@@ -525,6 +525,7 @@ validationErrors:
     onlyProjectOrComponentFiles: 'The {numOfFiles, plural, =1 {file} other {files}} "{missingFilesList}" cannot be found on this {projectOrComponent}.'
     new_folder_name: 'Folder name must not be blank.'
     year_format: 'Please specify a valid year.'
+    no_updated_responses: 'No changes have been made in this update.'
 validated_input_form:
     discard_changes: 'Discard changes'
 node_navbar:
@@ -1112,8 +1113,17 @@ registries:
             unable_to_fetch_children_count: 'Unable to fetch project''s components'
             submit_error: 'Unable to create a registration.'
     edit_revision:
+        revisionJustification: 'Justification for update'
+        revisedResponses: 'List of updated registration questions'
+        justification:
+            page_label: Justification
+            title: 'Justification for Update'
+            justification_label: 'Explain the updates made to this registration and why the changes were necessary. Be thorough in your response.'
+            justification_description: 'Justification will be provided to admins and moderators upon review. Once approved, it will be displayed at the top of the registration.'
         page_title: 'Update registration'
         review:
+            justification_page_label: 'Justification'
+            no_justification: 'No justification provided.'
             submit_changes: 'Submit changes'
             accept_changes: 'Accept changes'
             continue_editing: 'Continue editing'
@@ -1438,6 +1448,8 @@ registries:
         submit: Submit
         back: Back
         datePlaceholder: 'Choose embargo end date'
+    revisedResponsesList:
+        noResponses: 'No responses updated'
     sharingIcons:
         label: 'Share this registration via {mediaType}'
     makeDecisionDropdown:
@@ -1726,6 +1738,7 @@ osf-components:
         collapseSideNav: 'Collapse registration form navigation'
     registries-top-nav:
         showRegistrationNavigation: 'Show registration form navigation'
+        justification: 'Return to justification'
         metadata: 'Return to metadata'
         previousPage: 'Previous page'
         nextPage: 'Next page'

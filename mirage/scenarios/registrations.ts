@@ -292,6 +292,7 @@ export function registrationScenario(
         },
         initiatedBy: currentUser,
         registration: bismuth,
+        revisedResponses: ['page-one_short-text', 'page-two_short-text'],
     });
 
     server.create('schema-response', {
