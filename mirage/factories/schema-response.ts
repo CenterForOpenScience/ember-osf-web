@@ -26,6 +26,9 @@ export default Factory.extend<MirageSchemaResponseModel & SchemaResponseTraits>(
     isPendingCurrentUserApproval() {
         return false;
     },
+
+    isOriginalResponse: false,
+
     initiatedBy: association(),
 
     afterCreate(schemaResponse) {

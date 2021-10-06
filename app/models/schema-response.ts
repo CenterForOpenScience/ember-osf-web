@@ -21,6 +21,7 @@ export default class SchemaResponseModel extends OsfModel {
     @attr('fixstring') revisionJustification!: string;
     @attr('registration-response-key-array') revisedResponses!: string[];
     @attr('registration-responses') revisionResponses!: RegistrationResponse;
+    @attr('boolean') isOriginalResponse!: boolean;
     @attr('boolean') isPendingCurrentUserApproval!: boolean;
 
     @belongsTo('user') initiatedBy!: AsyncBelongsTo<UserModel> & UserModel;
