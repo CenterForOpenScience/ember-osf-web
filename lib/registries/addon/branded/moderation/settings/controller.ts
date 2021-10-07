@@ -10,7 +10,7 @@ export default class BrandedModerationSettingsController extends Controller {
     @alias('model.id') providerId?: string;
 
     get shouldShowBulkUploadWidget() {
-        return this.model.permissions.includes(ReviewPermissions.AddModerator);
+        return this.model.permissions.includes(ReviewPermissions.AddModerator) && this.model.allowBulkUploads;
     }
 
     @computed('providerId')
