@@ -1500,6 +1500,8 @@ registries:
         not_a_revision_error: 'That was not a revision.'
         revision_state_not_set_error: 'Revision state not set.'
         other_error: 'Some error occured. Please contact your adminstrator or moderator for further assistance.'
+        continue_update: 'Continue update'
+        review_update: 'Review update'
     newUpdateModal:
         modalHeader: 'Update your Registration'
         modalHeaderNoUpdates: 'Updates not allowed'

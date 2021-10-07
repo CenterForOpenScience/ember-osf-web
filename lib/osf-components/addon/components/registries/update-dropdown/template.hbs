@@ -26,14 +26,17 @@
         <div data-test-list-view local-class='UpdatesList'>
             {{#if this.revisions}}
                 {{#each this.revisions as |revision index|}}
-                    <div local-class='UpdateContainer'>
-                        <LinkTo @route='overview.index' @query={{hash revisionId=revision.id}} local-class='UpdateLink'>
-                            <Registries::UpdateDropdown::UpdateItem
-                                @totalRevisions={{this.totalRevisions}}
-                                @index={{index}}
-                            />
-                        </LinkTo>
-                    </div>
+                    {{#if (eq revision.reviewsState 'approved')}}
+                        <div local-class='UpdateContainer'>
+                            {{!-- Using LinkTo instead of OsfLink due to how queryParams are buggy for setting active state --}}
+                            <LinkTo @route='overview.index' @query={{hash revisionId=revision.id}} local-class='UpdateLink'>
+                                <Registries::UpdateDropdown::UpdateItem
+                                    @totalRevisions={{this.totalRevisions}}
+                                    @index={{index}}
+                                />
+                            </LinkTo>
+                        </div>
+                    {{/if}}
                 {{/each}}
                 {{#if this.shouldShowLoadMore}}
                     <div local-class='InfinityLoader' {{in-viewport onEnter=(perform this.getRevisionList)}}>
@@ -51,14 +54,14 @@
                     {{t 'general.update'}}
                 </Button>
             {{else if this.shouldShowUpdateLink}}
-                <LinkTo
-                    @route='edit-revision'
-                    @model={{@latestRevision.id}}
+                <OsfLink
+                    @route='registries.edit-revision'
+                    @models={{array this.latestRevision.id}}
                 >
                     <Button>
-                        {{t 'general.update'}}
+                        {{if (eq @registration.revisionState 'in_progress' (t 'registries.update_dropdown.continue_update')) (t 'registries.update_dropdown.review_update')}}
                     </Button>
-                </LinkTo>
+                </OsfLink>
             {{/if}}
         </div>
     </dd.content>

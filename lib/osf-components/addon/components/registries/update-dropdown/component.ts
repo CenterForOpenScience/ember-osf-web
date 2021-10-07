@@ -33,6 +33,7 @@ export default class UpdateDropdown extends Component<Args> {
     @tracked totalPage = 1;
     @tracked totalRevisions = 0;
     @tracked revisions: QueryHasManyResult<SchemaResponseModel> | SchemaResponseModel[] = [];
+    @tracked latestRevision!: SchemaResponseModel;
 
     isPendingCurrentUserApproval?: boolean;
 
@@ -94,6 +95,7 @@ export default class UpdateDropdown extends Component<Args> {
                 this.totalPage = Math.ceil(currentPageResult.meta.total / currentPageResult.meta.per_page);
                 this.totalRevisions = currentPageResult.meta.total - 1; // -1 because the first revision is 0
                 this.revisions.pushObjects(currentPageResult);
+                this.latestRevision = this.revisions[0];
                 this.currentPage += 1;
             }
         } catch (e) {
