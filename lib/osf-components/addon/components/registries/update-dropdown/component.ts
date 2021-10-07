@@ -63,7 +63,7 @@ export default class UpdateDropdown extends Component<Args> {
 
     get shouldShowUpdateLink(): boolean {
         return this.args.registration.revisionState !== RevisionReviewStates.Approved
-            && this.args.registration.currentUserIsContributor;
+            && this.args.registration.userHasReadPermission;
     }
 
     get selectedRevisionIndex(): number {

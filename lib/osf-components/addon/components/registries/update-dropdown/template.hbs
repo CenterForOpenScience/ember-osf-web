@@ -59,7 +59,7 @@
                     @models={{array this.latestRevision.id}}
                 >
                     <Button>
-                        {{if (eq @registration.revisionState 'in_progress' (t 'registries.update_dropdown.continue_update')) (t 'registries.update_dropdown.review_update')}}
+                        {{if (eq @registration.revisionState 'in_progress') (t 'registries.update_dropdown.continue_update') (t 'registries.update_dropdown.review_update')}}
                     </Button>
                 </OsfLink>
             {{/if}}
