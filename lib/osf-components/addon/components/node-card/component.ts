@@ -12,6 +12,7 @@ import Analytics from 'ember-osf-web/services/analytics';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import Toast from 'ember-toastr/services/toast';
 
+import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 import RouterService from '@ember/routing/router-service';
@@ -22,6 +23,8 @@ import { taskFor } from 'ember-concurrency-ts';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import template from './template';
 import styles from './styles';
+
+
 const { OSF: { url: baseURL } } = config;
 
 @layout(template, styles)
@@ -40,6 +43,8 @@ export default class NodeCard extends Component {
 
     // Private properties
     searchUrl = pathJoin(baseURL, 'search');
+    @tracked
+    latestSchemaResponse?: SchemaResponseModel;
 
     @computed('readOnly', 'node', 'node.{nodeType,userHasWritePermission}')
     get showDropdown() {
@@ -49,27 +54,24 @@ export default class NodeCard extends Component {
     @task
     @waitFor
     async getLatestRevision(registration: RegistrationModel) {
-        const schemaResponseDates: Date[] = [];
-        if (!registration){
+        if (!registration) {
             const notReistrationError = this.intl.t('registries.update_dropdown.not_a_registration_error');
             return this.toast.error(notReistrationError);
         }
-        try {
-            const revisionList : SchemaResponseModel[] = await registration.queryHasMany('schemaResponses');
-            revisionList.forEach(revision => {
-                const date: Date = revision.dateModified;
-                schemaResponseDates.push(date);
-            });
-            const latestDate = schemaResponseDates.sort((a: any, b: any) =>
-                new Date(b).valueOf() - new Date(a).valueOf())[0];
 
-            const latestSchemaResponse = revisionList.filter(revision => revision.dateModified === latestDate);
-            registration.set('latestSchemaResponse', latestSchemaResponse);
-
-        } catch (e) {
-            const errorMessage = this.intl.t('node.schema_response_error');
-            captureException(e, {errorMessage});
-            this.toast.error(getApiErrorMessage(e), errorMessage);
+        if (registration.reviewsState !== 'accepted') {
+            return;
+        } else {
+            try {
+                const revisions = await registration.queryHasMany('schemaResponses');
+                if (revisions) {
+                    this.latestSchemaResponse = revisions[0];
+                }
+            } catch (e) {
+                const errorMessage = this.intl.t('node_card.schema_response_error');
+                captureException(e, {errorMessage});
+                this.toast.error(getApiErrorMessage(e), errorMessage);
+            }
         }
     }
 
@@ -79,7 +81,6 @@ export default class NodeCard extends Component {
         }
     }
 
-    // TODO add to button for Update when clicked, add route
     @task
     @waitFor
     async createNewSchemaResponse() {
@@ -90,3 +91,4 @@ export default class NodeCard extends Component {
         this.router.transitionTo('registries.edit-revision', newRevision.id);
     }
 }
+
