@@ -36,13 +36,13 @@
                         </OsfLink>
                     </nav.item>
                 {{/let}}
-                {{#let 'registries.branded.moderation.notifications' as |notificationsRoute|}}
-                    <nav.item @active={{eq this.target.currentRouteName notificationsRoute}}>
+                {{#let 'registries.branded.moderation.settings' as |settingsRoute|}}
+                    <nav.item @active={{eq this.target.currentRouteName settingsRoute}}>
                         <OsfLink
-                            @route={{notificationsRoute}}
+                            @route={{settingsRoute}}
                             @models={{array this.model.id}}
                         >
-                            {{t 'registries.moderation.notifications.title'}}
+                            {{t 'registries.moderation.settings.title'}}
                         </OsfLink>
                     </nav.item>
                 {{/let}}
