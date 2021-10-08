@@ -27,7 +27,7 @@
             {{#if this.revisions}}
                 {{#each this.revisions as |revision index|}}
                     {{#if (eq revision.reviewsState 'approved')}}
-                        <div local-class='UpdateContainer'>
+                        <div data-test-revision-link={{index}} local-class='UpdateContainer'>
                             {{!-- Using LinkTo instead of OsfLink due to how queryParams are buggy for setting active state --}}
                             <LinkTo @route='overview.index' @query={{hash revisionId=revision.id}} local-class='UpdateLink'>
                                 <Registries::UpdateDropdown::UpdateItem
@@ -39,7 +39,7 @@
                     {{/if}}
                 {{/each}}
                 {{#if this.shouldShowLoadMore}}
-                    <div local-class='InfinityLoader' {{in-viewport onEnter=(perform this.getRevisionList)}}>
+                    <div data-test-update-dropdown-show-more local-class='InfinityLoader' {{in-viewport onEnter=(perform this.getRevisionList)}}>
                         {{t 'registries.update_dropdown.load_more'}}
                     </div>
                 {{/if}}
@@ -48,6 +48,7 @@
             {{/if}}
             {{#if this.shouldShowCreateButton}}
                 <Button
+                    data-test-update-dropdown-create-new-revision
                     @type='create'
                     {{on 'click' (queue dd.close this.showCreateModal)}}
                 >
@@ -55,6 +56,7 @@
                 </Button>
             {{else if this.shouldShowUpdateLink}}
                 <OsfLink
+                    data-test-update-dropdown-update-link
                     @route='registries.edit-revision'
                     @models={{array this.latestRevision.id}}
                 >

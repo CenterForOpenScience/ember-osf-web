@@ -1,61 +1,148 @@
-import { visit } from '@ember/test-helpers';
-
+import { render } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { percySnapshot } from 'ember-percy';
-import { module, skip } from 'qunit';
+import { setupIntl, t, TestContext} from 'ember-intl/test-support';
+import { setupRenderingTest } from 'ember-qunit';
+import { module, test } from 'qunit';
 
-import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
+import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
-import { click, setupOSFApplicationTest } from 'ember-osf-web/tests/helpers';
+import { click } from 'ember-osf-web/tests/helpers';
 
-import { Permission } from 'ember-osf-web/models/osf-model';
+interface ComponentTestContext extends TestContext{
+    registration: RegistrationModel;
+}
 
-module('Acceptance | update dropdown', hooks => {
-    setupOSFApplicationTest(hooks);
+module('Integration | Component  | update-dropdown', hooks => {
+    setupRenderingTest(hooks);
+    setupIntl(hooks);
     setupMirage(hooks);
 
-    skip('update dropdown - all revisions', async assert => {
-        const userServer = server.create('user', 'loggedIn');
+    hooks.beforeEach(function(this: ComponentTestContext) {
+        this.store = this.owner.lookup('service:store');
+    });
 
-        const node = server.create('node', {
+    test('update dropdown - no revisions', async function(this: ComponentTestContext, assert) {
+        const mirageRegistration = server.create('registration', {
             id: 'cobalt',
             title: 'Outcome Reporting Testing',
-            currentUserPermissions: [Permission.Read],
-            currentUserIsContributor: true,
-            registration: true,
-            public: true,
-        });
-        server.create('registration', {
-            registeredFrom: node,
             reviewsState: RegistrationReviewStates.Accepted,
             revisionState: RevisionReviewStates.Approved,
         });
-        server.create('draft-registration', {
-            branchedFrom: node,
-        }, 'currentUserIsReadAndWrite');
-        server.create('schema-response', {
-            reviewsState: RevisionReviewStates.Approved,
+        this.registration = await this.store.findRecord('registration', mirageRegistration.id);
+        await render(hbs`
+            <Registries::UpdateDropdown @registration={{this.registration}}/>
+        `);
+        assert.dom('[data-test-update-button]').containsText(t('registries.update_dropdown.dropdown_title'));
+        await click('[data-test-update-button]');
+        assert.dom('[data-test-list-view]')
+            .containsText(t('registries.update_dropdown.no_revisions_error'), 'No revisions mesage shown');
+        assert.dom('[data-test-revision-link]').doesNotExist('No revisions shown');
+        assert.dom('[data-test-update-dropdown-show-more]').doesNotExist('Show more element not shown');
+        assert.dom('[data-test-update-dropdown-update-link]').doesNotExist('New update button not shown');
+        assert.dom('[data-test-update-dropdown-create-new-revision]')
+            .doesNotExist('Link to revision in progress not shown');
+    });
+
+    test('update dropdown - all revisions, non-contrib', async function(this: ComponentTestContext, assert) {
+        const mirageRegistration = server.create('registration', {
+            id: 'cobalt',
+            title: 'Outcome Reporting Testing',
+            reviewsState: RegistrationReviewStates.Accepted,
+            revisionState: RevisionReviewStates.Approved,
         });
         server.create('schema-response', {
+            dateModified: new Date('1999-10-19T12:05:10.571Z'),
             reviewsState: RevisionReviewStates.Approved,
+            registration: mirageRegistration,
         });
         server.create('schema-response', {
+            dateModified: new Date('2000-10-19T12:05:10.571Z'),
             reviewsState: RevisionReviewStates.Approved,
+            registration: mirageRegistration,
+        });
+        server.create('schema-response', {
+            id: 'selected',
+            dateModified: new Date('2001-10-19T12:05:10.571Z'),
+            reviewsState: RevisionReviewStates.Approved,
+            registration: mirageRegistration,
         });
 
-        const url = `/${node.id}/registrations`;
-        await visit(url);
+        this.registration = await this.store.findRecord('registration', mirageRegistration.id);
+        await render(hbs`
+            <Registries::UpdateDropdown @registration={{this.registration}} @selectedRevisionId='selected'/>
+        `);
+        assert.dom('[data-test-update-button]').containsText(t('registries.update_dropdown.latest'), 'Latest selected');
+        await click('[data-test-update-button]');
+        assert.dom('[data-test-revision-link]').exists({ count: 3 }, '3 revisions shown');
 
-        // for the component itself
-        assert.dom('[data-test-update-button]').exists();
-        await percySnapshot(assert);
+        assert.dom('[data-test-update-dropdown-show-more]').doesNotExist('Show more element not shown');
+        assert.dom('[data-test-update-dropdown-create-new-revision]').doesNotExist('New update button not shown');
+        assert.dom('[data-test-update-dropdown-update-link]')
+            .doesNotExist('Link to revision in progress not shown');
+    });
 
-        // for the list of revisions
-        assert.dom('[data-test-update-list]').doesNotExist();
-        await percySnapshot(assert);
-        await click('[data-test-update-list]');
-        assert.dom('[data-test-list-view]').exists();
-        userServer.reload();
-        assert.dom('[data-test-list-view]').doesNotExist();
+    test('update dropdown - one revision, admin view', async function(this: ComponentTestContext, assert) {
+        const mirageRegistration = server.create('registration', {
+            id: 'cobalt',
+            title: 'Outcome Reporting Testing',
+            reviewsState: RegistrationReviewStates.Accepted,
+            revisionState: RevisionReviewStates.Approved,
+        }, 'currentUserAdmin');
+        server.create('schema-response', {
+            dateModified: new Date('1999-10-19T12:05:10.571Z'),
+            reviewsState: RevisionReviewStates.Approved,
+            registration: mirageRegistration,
+        });
+
+        this.registration = await this.store.findRecord('registration', mirageRegistration.id);
+        await render(hbs`
+            <Registries::UpdateDropdown @registration={{this.registration}}/>
+        `);
+        await click('[data-test-update-button]');
+        assert.dom('[data-test-revision-link]').exists({ count: 1 }, '1 revision shown');
+        assert.dom('[data-test-revision-link]')
+            .containsText(t('registries.update_dropdown.updates_list_label_original'), 'Only original responses shown');
+
+        assert.dom('[data-test-update-dropdown-show-more]').doesNotExist('Show more element not shown');
+        assert.dom('[data-test-update-dropdown-create-new-revision]').exists('New update button shown');
+        assert.dom('[data-test-update-dropdown-update-link]')
+            .doesNotExist('Link to revision in progress not shown');
+    });
+
+    test('update dropdown - 3 revisions, one in progress', async function(this: ComponentTestContext, assert) {
+        const mirageRegistration = server.create('registration', {
+            id: 'cobalt',
+            title: 'Outcome Reporting Testing',
+            reviewsState: RegistrationReviewStates.Accepted,
+            revisionState: RevisionReviewStates.RevisionInProgress,
+        }, 'currentUserAdmin');
+        server.create('schema-response', {
+            dateModified: new Date('1999-10-19T12:05:10.571Z'),
+            reviewsState: RevisionReviewStates.Approved,
+            registration: mirageRegistration,
+        });
+        server.create('schema-response', {
+            dateModified: new Date('2000-10-19T12:05:10.571Z'),
+            reviewsState: RevisionReviewStates.Approved,
+            registration: mirageRegistration,
+        });
+        server.create('schema-response', {
+            dateModified: new Date('2001-10-19T12:05:10.571Z'),
+            reviewsState: RevisionReviewStates.RevisionInProgress,
+            registration: mirageRegistration,
+        });
+
+        this.registration = await this.store.findRecord('registration', mirageRegistration.id);
+        await render(hbs`
+            <Registries::UpdateDropdown @registration={{this.registration}}/>
+        `);
+        await click('[data-test-update-button]');
+        assert.dom('[data-test-revision-link]').exists({ count: 2 }, 'revision in progress not listed');
+
+        assert.dom('[data-test-update-dropdown-show-more]').doesNotExist('Show more element not shown');
+        assert.dom('[data-test-update-dropdown-create-new-revision]').doesNotExist('New update button not shown');
+        assert.dom('[data-test-update-dropdown-update-link]')
+            .containsText(t('registries.update_dropdown.continue_update'), 'Link to revision in progress shown');
     });
 });

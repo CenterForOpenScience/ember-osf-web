@@ -1495,7 +1495,7 @@ registries:
         revision_more_updates_success: 'Further updates requested of user.'
         revision_approved_success: 'Updates successfully approved.'
         no_revisions_error: 'Updates unavailable.'
-        revision_error_message: 'Updates unretrievable. \n\n\t Please contact <a href="mailto:{supportEmail}">{supportEmail}</a> for further assistance.'
+        revision_error_message: 'Unable to load updates.'
         not_a_registration_error: 'That was not a registration.'
         not_a_revision_error: 'That was not a revision.'
         revision_state_not_set_error: 'Revision state not set.'
