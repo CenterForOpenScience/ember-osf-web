@@ -1025,10 +1025,73 @@ registries:
             removedModeratorError: 'Error removing {permission}'
             updatedModeratorPermissionSuccess: 'Successfully updated {userName} to {permission}'
             updatedModeratorPermissionError: 'Error updating permission to {permission}'
-        notifications:
-            title: 'Notifications'
+        settings:
+            title: 'Settings'
             heading: 'Configure reviews notification preferences'
             paragraph: 'To configure other notification preferences visit your <a href={link}>user settings</a>.'
+            bulkUpload: 'Bulk upload'
+            bulkUploadHelpText: 'Drag and drop the csv file that has the registration information to upload.'
+            dropCsvHere: 'Drop csv file here to upload'
+            uploadError: 'Upload error'
+            copyToClipboard: 'Copy to clipboard'
+            cell: 'Cell'
+            copyToClipboardSuccess: 'Successfully copied to clipboard.'
+            generalErrorMessage: 'Your file was not uploaded due to the errors listed below. Please correct the errors and try again. If you have any questions, please contact the help desk at <a href="mailto:support@osf.io">support@osf.io</a>.'
+            invalidSchemaId:
+                title: 'Invalid schema ID'
+                detail: 'The schema ID in this cell does not match with a registration template in our system. It’s likely this ID was manually edited after it was downloaded or the registration template is outdated. Contact the help desk at <a href="mailto:support@osf.io">support@osf.io</a> for the current ID or a new csv file.'
+            invalidColumnId:
+                title: 'Invalid column ID'
+                detail: 'This Column ID does not match with the ones used by this registration template. It’s likely it was manually edited after it was downloaded or the registration template is outdated. Contact the help desk at <a href="mailto:support@osf.io">support@osf.io</a> for the current ID or a new csv file. <br>Invalid IDs: {invalidIds}. <br>Missing IDs: {missingIds}.'
+            invalidProjectId:
+                title: 'Invalid project ID'
+                detail: 'This Project GUID does not exist. Check that each project’s GUID is accurate. Registrations that do not have a project should have a blank cell.'
+            invalidInstitutionName:
+                title: 'Invalid institution name'
+                detail: 'This affiliated institution name does not match our system. Check that the institution’s name is spelled correctly. <a href="https://osf.io/institutions?view_only=">Click here</a> to view a list of currently active affiliated institutions.'        
+            invalidLicenseName:
+                title: 'Invalid license name'
+                detail: 'This license does not match our system. It’s likely that the license is either spelled incorrectly, is not an option in our system, or formatted incorrectly. <a href="https://help.osf.io/hc/en-us/articles/360019739014-Licensing">Click here</a> to view a list of available licenses. See section “CSV Templates” in our Moderator’s Guide for more information on formatting specific licenses.'
+            invalidSubjectName:
+                title: 'Invalid subject name'
+                detail: 'This subject does not match our system. It’s likely it is spelled incorrectly. OSF uses the <a href="https://www.bepress.com/wp-content/uploads/2016/12/Disciplines_taxonomy_2018-01.pdf">bepress taxonomy</a>. Only the word or phase after the last colon needs to be entered.'
+            invalidCategoryName:
+                title: 'Invalid category name'
+                detail: 'This category does not exist. Check that the category is spelled currently. See section “Field Formatting” in the <a href="https://drive.google.com/file/d/1FJT6Jl8kPJM95oWy5Dkueee-Sg81pz2m/view?usp=sharing">Moderator Guide</a> for a list of categories. Categories can be edited after the registration is submitted.'
+            invalidResponse:
+                title: 'Invalid response'
+                detail: 'This response is not acceptable by the system. It’s likely that this is due to misspelling or having multiple answers for a single response question. See section “Field Formatting” in the <a href="https://drive.google.com/file/d/1FJT6Jl8kPJM95oWy5Dkueee-Sg81pz2m/view?usp=sharing">Moderator Guide</a> for more information.'
+            invalidContributors:
+                title: 'Invalid format for contributors'
+                detail: 'This contributors list does not match the system’s formatting requirements. Review the required formatting in the Moderator’s Manual. Contact the help desk at <a href="mailto:support@osf.io">support@osf.io</a> if this is not the issue.'
+            missingTitle:
+                title: 'Missing title'
+                detail: 'This title is missing. Check that each registration has a title.'
+            missingDescription:
+                title: 'Missing description'
+                detail: 'This description is missing. Enter a high level summary of the registration. This summary can be edited after the registration is submitted.'
+            missingAdminContributor:
+                title: 'Missing admin contributor'
+                detail: 'This registration doesn’t include an admin contributor. A registration requires at least one admin contributor to be submitted. See section “Field Formatting” in the <a href="https://drive.google.com/file/d/1FJT6Jl8kPJM95oWy5Dkueee-Sg81pz2m/view?usp=sharing">Moderator Guide</a> for more information on formatting contributors.'
+            missingBibliographicContributor:
+                title: 'Missing bibliographic contributor'
+                detail: 'This registration doesn’t have any bibliographic contributors. Registration must have at least one bibliographic contributors. See section “Field Formatting” in the <a href="https://drive.google.com/file/d/1FJT6Jl8kPJM95oWy5Dkueee-Sg81pz2m/view?usp=sharing">Moderator Guide</a> for information on formatting contributors.'
+            missingLicenseName:
+                title: 'Missing license name'
+                detail: 'This license is missing. Check that each registration has a license.'
+            missingSubjectName:
+                title: 'Missing subject name'
+                detail: 'This subject is missing. Check that each registration has a subject.'
+            sizeExceedsLimit:
+                title: 'File size exceeds limit'
+                detail: 'The csv file exceeds the 1MB limit. Break the file into multiple files and reupload them. Contact the Help Desk at <a href="mailto:support@osf.io">support@osf.io</a> if you have any questions.'
+            bulkUploadJobExists:
+                title: 'Bulk upload job already exists'
+                detail: 'This csv file was already uploaded into the system and cannot be re-uploaded.'
+            invalidFileType:
+                title: 'Invalid file type'
+                detail: 'Only csv files can be uploaded in the system. Convert the file into the csv format and reupload the document. Contact the Help Desk at <a href="mailto:support@osf.io">support@osf.io</a> if you have any questions.'
+            uploadSuccess: 'Successfully uploaded csv file.'
         overview:
             title: 'Moderated Overview'
     new:
