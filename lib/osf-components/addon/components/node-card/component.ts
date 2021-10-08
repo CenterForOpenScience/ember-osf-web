@@ -91,4 +91,3 @@ export default class NodeCard extends Component {
         this.router.transitionTo('registries.edit-revision', newRevision.id);
     }
 }
-
