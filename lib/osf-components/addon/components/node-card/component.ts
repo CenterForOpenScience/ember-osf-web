@@ -90,4 +90,20 @@ export default class NodeCard extends Component {
         await newRevision.save();
         this.router.transitionTo('registries.edit-revision', newRevision.id);
     }
+
+    @computed('node.isRegistration')
+    get shouldShowUpdateButton(): boolean {
+        let showUpdateButton = false;
+        if (this.node && this.node.isRegistration) {
+            const registration = this.node as Registration;
+            if (registration.reviewsState === 'accepted' || registration.reviewsState === 'embargo') {
+                showUpdateButton = true;
+            } else {
+                showUpdateButton = false;
+            }
+        }
+        return showUpdateButton;
+    }
 }
+
+
