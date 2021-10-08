@@ -91,7 +91,7 @@ export default class RevisionManager {
 
     @computed('revision.reviewsState')
     get isPendingAdminApproval() {
-        return this.revision.reviewsState === RevisionReviewStates.RevisionPendingAdminApproval;
+        return this.revision.reviewsState === RevisionReviewStates.Unapproved;
     }
 
     @computed('revision.reviewsState')

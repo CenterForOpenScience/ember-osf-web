@@ -14,14 +14,14 @@ export default class RegistrationListManager extends Component {
 
     @computed('state', 'sort')
     get filterParams() {
-        const filter: Record<string, string | undefined> = { review_state: this.state, revision_state: undefined };
+        const filter: Record<string, string | undefined> = { reviews_state: this.state, revision_state: undefined };
         if (this.state === RegistrationReviewStates.Embargo) {
-            filter.review_state =
+            filter.reviews_state =
                 [RegistrationReviewStates.Embargo, RegistrationReviewStates.PendingEmbargoTermination].toString();
         }
         if (this.state === RevisionReviewStates.RevisionPendingModeration) {
             filter.revision_state = [RevisionReviewStates.RevisionPendingModeration].toString();
-            filter.review_state = undefined;
+            filter.reviews_state = undefined;
         }
         const query: Record<string, string | Record<string, string | undefined>> = {
             filter,

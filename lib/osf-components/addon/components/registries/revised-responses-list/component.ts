@@ -20,8 +20,8 @@ export default class RevisedResponsesList extends Component<Args> {
 
     get revisedResponses(): string[] {
         const { revision } = this.args;
-        if (revision.revisedResponses) {
-            const allRevisedLabels = revision.revisedResponses
+        if (revision.updatedResponseKeys) {
+            const allRevisedLabels = revision.updatedResponseKeys
                 .reduce((labels: string[], revisedResponse: string) => {
                     const revisedGroup = this.groups?.filter(
                         (group: SchemaBlockGroup) => group.registrationResponseKey?.includes(revisedResponse),
