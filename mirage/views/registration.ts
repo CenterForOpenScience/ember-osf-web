@@ -92,8 +92,8 @@ export function createRegistration(this: HandlerContext, schema: Schema) {
 
 export function getProviderRegistrations(this: HandlerContext, schema: Schema, request: Request) {
     const { parentID: providerId } = request.params;
-    const field = request.queryParams['filter[review_state]'] ? 'reviewsState' : 'revisionState';
-    const filterParams = request.queryParams['filter[review_state]'] || request.queryParams['filter[revision_state]'];
+    const field = request.queryParams['filter[reviews_state]'] ? 'reviewsState' : 'revisionState';
+    const filterParams = request.queryParams['filter[reviews_state]'] || request.queryParams['filter[revision_state]'];
     const params = filterParams.split(',');
     const { pageSize } = request.queryParams;
     const provider = schema.registrationProviders.find(providerId);

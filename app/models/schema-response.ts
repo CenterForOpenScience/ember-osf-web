@@ -8,8 +8,8 @@ import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema
 import OsfModel from './osf-model';
 
 export enum RevisionReviewStates {
+    Unapproved = 'unapproved',
     RevisionInProgress = 'in_progress',
-    RevisionPendingAdminApproval = 'pending_admin_approval',
     RevisionPendingModeration = 'pending_moderation',
     Approved = 'approved',
 }

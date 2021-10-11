@@ -260,7 +260,7 @@ export function registrationScenario(
 
     server.create('schema-response', {
         id: 'copyEditRPA',
-        reviewsState: RevisionReviewStates.RevisionPendingAdminApproval,
+        reviewsState: RevisionReviewStates.Unapproved,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
             q1: 'Good Morning',
