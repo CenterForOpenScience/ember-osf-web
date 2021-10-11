@@ -19,7 +19,7 @@ export default class SchemaResponseModel extends OsfModel {
     @attr('date') dateCreated!: Date;
     @attr('date') dateModified!: Date;
     @attr('fixstring') revisionJustification!: string;
-    @attr('registration-response-key-array') revisedResponses!: string[];
+    @attr('registration-response-key-array') updatedResponseKeys!: string[];
     @attr('registration-responses') revisionResponses!: RegistrationResponse;
     @attr('boolean') isOriginalResponse!: boolean;
     @attr('boolean') isPendingCurrentUserApproval!: boolean;

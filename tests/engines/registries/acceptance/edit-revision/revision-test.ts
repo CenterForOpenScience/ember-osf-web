@@ -385,7 +385,7 @@ module('Registries | Acceptance | registries revision', hooks => {
         assert.dom('[data-test-invalid-responses-text]').isVisible('Invalid response text shown');
 
         assert.dom('[data-test-validation-errors="revisionJustification"]').exists('justification invalid');
-        assert.dom('[data-test-validation-errors="revisedResponses"]').exists('revised responses invalid');
+        assert.dom('[data-test-validation-errors="updatedResponseKeys"]').exists('revised responses invalid');
         assert.dom(`[data-test-validation-errors="${deserializeResponseKey('page-one_short-text')}"]`)
             .exists('short text invalid');
         assert.dom(`[data-test-validation-errors="${deserializeResponseKey('page-one_long-text')}"]`)
@@ -394,7 +394,7 @@ module('Registries | Acceptance | registries revision', hooks => {
             .hasClass('fa-exclamation-circle', 'first page invalid');
 
         // hack since we don't actually track which fields have been updated in mirage
-        revision.update({ revisedResponses: ['page-one_short-text'] });
+        revision.update({ updatedResponseKeys: ['page-one_short-text'] });
         // check the first page and correct invalid answer
         await click('[data-test-link="1-first-page-of-test-schema"]');
         assert.ok(currentURL().includes(`/registries/revisions/${revision.id}/1-`),
@@ -418,7 +418,7 @@ module('Registries | Acceptance | registries revision', hooks => {
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-check-circle', 'first page now valid');
         assert.dom('[data-test-validation-errors="revisionJustification"]').doesNotExist('justification valid');
-        assert.dom('[data-test-validation-errors="revisedResponses"]').doesNotExist('revised responses valid');
+        assert.dom('[data-test-validation-errors="updatedResponseKeys"]').doesNotExist('revised responses valid');
         assert.dom(`[data-test-validation-errors="${deserializeResponseKey('page-one_short-text')}"]`)
             .doesNotExist('short text now valid');
         assert.dom('[data-test-submit-revision]').isNotDisabled('Submit button no longer disabled');
@@ -434,7 +434,7 @@ module('Registries | Acceptance | registries revision', hooks => {
                     'page-one_short-text': 'Pekatyu',
                 },
                 registration: this.registration,
-                revisedResponses: ['page-one_short-text'],
+                updatedResponseKeys: ['page-one_short-text'],
                 revisionJustification: 'If pikachu were russian',
             },
         );

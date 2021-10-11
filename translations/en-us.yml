@@ -1114,7 +1114,7 @@ registries:
             submit_error: 'Unable to create a registration.'
     edit_revision:
         revisionJustification: 'Justification for update'
-        revisedResponses: 'List of updated registration questions'
+        updatedResponseKeys: 'List of updated registration questions'
         justification:
             page_label: Justification
             title: 'Justification for Update'
