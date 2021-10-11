@@ -188,24 +188,26 @@
                         {{t 'node_card.update_button'}}
                     </Button>
                 </OsfLink>
-                {{#unless (not-eq this.node.reviewsState 'accepted')}}
-                    {{#if this.latestSchemaResponse}}
-                        <OsfLink
-                            data-analytics-name='Update registration'
-                            data-test-update-button='{{@node.id}}'
-                            @route='registries.edit-revision.index'
-                            @models={{array this.latestSchemaResponse.id}}
-                            >
-                            <Button
-                                local-class='UpdateButton'
-                                @type='create'
-                                
-                            >
-                                {{t 'node_card.update_button'}}
-                            </Button>
-                        </OsfLink>
-                    {{/if}}
-                {{/unless}}
+                {{#if this.shouldShowUpdateButton}}
+                    {{#unless (not-eq this.node.reviewsState 'accepted')}}
+                        {{#if this.latestSchemaResponse}}
+                            <OsfLink
+                                data-analytics-name='Update registration'
+                                data-test-update-button='{{@node.id}}'
+                                @route='registries.edit-revision.index'
+                                @models={{array this.latestSchemaResponse.id}}
+                                >
+                                <Button
+                                    local-class='UpdateButton'
+                                    @type='create'
+                                    
+                                >
+                                    {{t 'node_card.update_button'}}
+                                </Button>
+                            </OsfLink>
+                        {{/if}}
+                    {{/unless}}
+                {{/if}}
             </div>
         {{else}}
             <ContentPlaceholders as |placeholder|>

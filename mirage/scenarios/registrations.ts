@@ -57,8 +57,8 @@ export function registrationScenario(
     const currentUserWrite = server.create('registration', {
         id: 'writr',
         registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-        reviewsState: RegistrationReviewStates.Accepted,
-        revisionState: RevisionReviewStates.Approved,
+        reviewsState: RegistrationReviewStates.Withdrawn,
+        revisionState: RevisionReviewStates.RevisionInProgress,
         currentUserPermissions: [Permission.Read, Permission.Write],
         providerSpecificMetadata: [
             { field_name: 'Metadata field 1', field_value: '' },
@@ -172,9 +172,9 @@ export function registrationScenario(
         title: 'Revision Model: Contributor View (non-Admin/Mod)',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider: egap,
-        reviewsState: RegistrationReviewStates.Accepted,
+        reviewsState: RegistrationReviewStates.Withdrawn,
         registeredBy: currentUser,
-        revisionState: RevisionReviewStates.Approved,
+        revisionState: RevisionReviewStates.RevisionInProgress,
         currentUserPermissions: [Permission.Write],
         providerSpecificMetadata: [
             { field_name: 'IP Address', field_value: '127.0.0.1' },
