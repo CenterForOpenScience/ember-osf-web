@@ -385,7 +385,7 @@ module('Registries | Acceptance | registries revision', hooks => {
         assert.dom('[data-test-invalid-responses-text]').isVisible('Invalid response text shown');
 
         assert.dom('[data-test-validation-errors="revisionJustification"]').exists('justification invalid');
-        assert.dom('[data-test-validation-errors="revisedResponses"]').exists('revised responses invalid');
+        assert.dom('[data-test-validation-errors="updatedResponseKeys"]').exists('revised responses invalid');
         assert.dom(`[data-test-validation-errors="${deserializeResponseKey('page-one_short-text')}"]`)
             .exists('short text invalid');
         assert.dom(`[data-test-validation-errors="${deserializeResponseKey('page-one_long-text')}"]`)
@@ -418,7 +418,7 @@ module('Registries | Acceptance | registries revision', hooks => {
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
             .hasClass('fa-check-circle', 'first page now valid');
         assert.dom('[data-test-validation-errors="revisionJustification"]').doesNotExist('justification valid');
-        assert.dom('[data-test-validation-errors="revisedResponses"]').doesNotExist('revised responses valid');
+        assert.dom('[data-test-validation-errors="updatedResponseKeys"]').doesNotExist('revised responses valid');
         assert.dom(`[data-test-validation-errors="${deserializeResponseKey('page-one_short-text')}"]`)
             .doesNotExist('short text now valid');
         assert.dom('[data-test-submit-revision]').isNotDisabled('Submit button no longer disabled');

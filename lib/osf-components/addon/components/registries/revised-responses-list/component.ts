@@ -18,7 +18,7 @@ export default class RevisedResponsesList extends Component<Args> {
         this.groups = getSchemaBlockGroups(this.args.schemaBlocks);
     }
 
-    get revisedResponses(): string[] {
+    get updatedResponseLabels(): string[] {
         const { revision } = this.args;
         if (revision.updatedResponseKeys) {
             const allRevisedLabels = revision.updatedResponseKeys
