@@ -11,7 +11,7 @@ export enum SchemaResponseActionTrigger {
     AdminApproveRevision = 'admin_approve',
     AdminRejectRevision = 'admin_reject',
     AcceptRevision = 'accept',
-    RejectRevision = 'reject',
+    RejectRevision = 'moderator_reject',
 }
 
 const TriggerToPastTenseTranslationKey: Record<SchemaResponseActionTrigger, string> = {
@@ -19,7 +19,7 @@ const TriggerToPastTenseTranslationKey: Record<SchemaResponseActionTrigger, stri
     admin_approve: 'registries.schemaResponseActions.triggerPastTense.admin_approve',
     admin_reject: 'registries.schemaResponseActions.triggerPastTense.admin_reject',
     accept: 'registries.schemaResponseActions.triggerPastTense.accept',
-    reject: 'registries.schemaResponseActions.triggerPastTense.reject',
+    moderator_reject: 'registries.schemaResponseActions.triggerPastTense.moderator_reject',
 };
 
 export default class SchemaResponseActionModel extends OsfModel {

@@ -1497,7 +1497,7 @@ registries:
             admin_approve: 'approved'
             admin_reject: 'requested further edits'
             accept: 'accepted'
-            reject: 'rejected'
+            moderator_reject: 'rejected'
     finalizeRegistrationModal:
         title: 'Almost done...'
         notice:

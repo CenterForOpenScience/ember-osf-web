@@ -361,7 +361,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             t('registries.makeDecisionDropdown.acceptRevision'),
             'Accept update option has correct text',
         );
-        assert.dom('[data-test-moderation-dropdown-decision-label="reject"]').hasText(
+        assert.dom('[data-test-moderation-dropdown-decision-label="moderator_reject"]').hasText(
             t('registries.makeDecisionDropdown.rejectRevision'),
             'Reject update option has correct text',
         );
@@ -400,7 +400,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             'junimo', 'Response from the pending update shown',
         );
         await click('[data-test-moderation-dropdown-button]');
-        await click('[data-test-moderation-dropdown-decision-checkbox="reject"]');
+        await click('[data-test-moderation-dropdown-decision-checkbox="moderator_reject"]');
         await click('[data-test-moderation-dropdown-submit]');
         assert.dom(`[data-test-read-only-response=${deserializeResponseKey('page-one_short-text')}]`).hasText(
             'Krobus', 'Response from the registration shown',
