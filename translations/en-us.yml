@@ -587,8 +587,11 @@ node_card:
             pending_embargo_termination: 'Pending embargo termination'
             pending_withdraw_request: 'Pending withdrawal'
             pending_withdraw: 'Pending withdrawal moderation'
-            withdrawn: Withdrawn
-            archiving: Archiving
+            withdrawn: 'Withdrawn'
+            archiving: 'Archiving'
+            revision_in_progress: 'A revision is currently in progress'
+            revision_pending_admin_approval: 'Revision is currently pending admin approval'
+            revision_pending_edit_moderation: 'Revision is currently pending moderator approval'
     tags: 'Tags:'
     registration_template: 'Registration template:'
     contributors: 'Contributors:'
