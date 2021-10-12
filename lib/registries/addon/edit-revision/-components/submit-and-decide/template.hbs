@@ -36,7 +36,7 @@
             data-analytics-name='Admin approve revision'
             local-class='registerButton {{if @showMobileView 'mobileReviewButtonItem'}}'
             @type='success'
-            @onClick={{perform this.submitAction 'admin_approve' ''}}
+            @onClick={{perform this.submitAction 'approve' ''}}
         >
             {{t 'registries.edit_revision.review.accept_changes'}}
         </BsButton>
