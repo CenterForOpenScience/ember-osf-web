@@ -6,17 +6,19 @@
         local-class='versionMetadata-title'
     >
         {{#if @revision}}
-            {{if (gt @revision.revisionNumber 0) (t 'registries.overview.versionMetadata.updateTitle') (t 'registries.overview.versionMetadata.originalTitle')}}
+            {{if @revision.isOriginalResponse (t 'registries.overview.versionMetadata.originalTitle') (t 'registries.overview.versionMetadata.updateTitle')}}
         {{else}}
             {{if (gt @registration.schemaResponses.length 1) (t 'registries.overview.versionMetadata.updateTitle') (t 'registries.overview.versionMetadata.originalTitle')}}
         {{/if}}
     </p>
     {{!-- TODO: add description for what fields have changed --}}
     <p data-test-version-metadata-date>
-        {{if @revision.revisionNumber (t 'registries.overview.versionMetadata.date' date=(moment-format @revision.date 'MMM DD, YYYY'))
-            (t 'registries.overview.versionMetadata.originalDate' date=(moment-format @revision.date 'MMM DD, YYYY'))}}
+        {{if @revision.isOriginalResponse 
+            (t 'registries.overview.versionMetadata.originalDate' date=(moment-format @revision.date 'MMM DD, YYYY'))
+            (t 'registries.overview.versionMetadata.date' date=(moment-format @revision.date 'MMM DD, YYYY'))
+        }}
     </p>
-    {{#if @revision}}
+    {{#if (and @revision (not @revision.isOriginalResponse))}}
         <p data-test-version-metadata-reason>
             {{t 'registries.overview.versionMetadata.reason'}}
             <br>
