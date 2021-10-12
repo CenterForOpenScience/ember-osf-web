@@ -1493,11 +1493,11 @@ registries:
             request_embargo_termination: 'embargo termination requested'
     schemaResponseActions:
         triggerPastTense:
-            submit_revision: 'submitted'
-            admin_approve_revision: 'approved'
-            admin_reject_revision: 'requested further edits'
-            accept_revision: 'accepted'
-            reject_revision: 'rejected'
+            submit: 'submitted'
+            admin_approve: 'approved'
+            admin_reject: 'requested further edits'
+            accept: 'accepted'
+            reject: 'rejected'
     finalizeRegistrationModal:
         title: 'Almost done...'
         notice:
