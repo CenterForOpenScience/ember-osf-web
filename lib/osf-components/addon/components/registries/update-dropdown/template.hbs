@@ -10,7 +10,7 @@
         local-class='UpdateText'
     >
         {{#if (gt this.selectedRevisionIndex -1)}}
-            <Registries::UpdateDropdown::UpdateItem
+            <Registries::UpdateDropdown::UpdateLabel
                 @totalRevisions={{this.totalRevisions}}
                 @index={{this.selectedRevisionIndex}}
             />
@@ -26,17 +26,13 @@
         <div data-test-list-view local-class='UpdatesList'>
             {{#if this.revisions}}
                 {{#each this.revisions as |revision index|}}
-                    {{#if (eq revision.reviewsState 'approved')}}
-                        <div data-test-revision-link={{index}} local-class='UpdateContainer'>
-                            {{!-- Using LinkTo instead of OsfLink due to how queryParams are buggy for setting active state --}}
-                            <LinkTo @route='overview.index' @query={{hash revisionId=revision.id}} local-class='UpdateLink'>
-                                <Registries::UpdateDropdown::UpdateItem
-                                    @totalRevisions={{this.totalRevisions}}
-                                    @index={{index}}
-                                />
-                            </LinkTo>
-                        </div>
-                    {{/if}}
+                    <Registries::UpdateDropdown::ListItem
+                        @registration={{@registration}}
+                        @revision={{revision}}
+                        @isModeratorMode={{@isModeratorMode}}
+                        @totalRevisions={{this.totalRevisions}}
+                        @index={{index}}
+                    />
                 {{/each}}
                 {{#if this.shouldShowLoadMore}}
                     <div data-test-update-dropdown-show-more local-class='InfinityLoader' {{in-viewport onEnter=(perform this.getRevisionList)}}>

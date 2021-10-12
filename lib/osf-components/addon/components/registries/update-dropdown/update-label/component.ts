@@ -7,7 +7,7 @@ interface Args {
     index: number;
 }
 
-export default class UpdateItem extends Component<Args> {
+export default class UpdateLabel extends Component<Args> {
     @service intl!: Intl;
 
     get label() {
