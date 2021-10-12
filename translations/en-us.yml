@@ -1494,7 +1494,7 @@ registries:
     schemaResponseActions:
         triggerPastTense:
             submit: 'submitted'
-            admin_approve: 'approved'
+            approve: 'approved'
             admin_reject: 'requested further edits'
             accept: 'accepted'
             moderator_reject: 'rejected'

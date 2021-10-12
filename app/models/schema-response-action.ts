@@ -8,7 +8,7 @@ import OsfModel from './osf-model';
 
 export enum SchemaResponseActionTrigger {
     SubmitRevision = 'submit',
-    AdminApproveRevision = 'admin_approve',
+    AdminApproveRevision = 'approve',
     AdminRejectRevision = 'admin_reject',
     AcceptRevision = 'accept',
     RejectRevision = 'moderator_reject',
@@ -16,7 +16,7 @@ export enum SchemaResponseActionTrigger {
 
 const TriggerToPastTenseTranslationKey: Record<SchemaResponseActionTrigger, string> = {
     submit: 'registries.schemaResponseActions.triggerPastTense.submit',
-    admin_approve: 'registries.schemaResponseActions.triggerPastTense.admin_approve',
+    approve: 'registries.schemaResponseActions.triggerPastTense.approve',
     admin_reject: 'registries.schemaResponseActions.triggerPastTense.admin_reject',
     accept: 'registries.schemaResponseActions.triggerPastTense.accept',
     moderator_reject: 'registries.schemaResponseActions.triggerPastTense.moderator_reject',
