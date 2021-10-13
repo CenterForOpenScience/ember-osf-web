@@ -53,14 +53,12 @@ export default class EditRevisionRoute extends Route {
     model(params: { revisionId: string }) {
         const { revisionId } = params;
         const loadModelsTask = taskFor(this.loadModels).perform(revisionId) as LoadModelsTask;
-        // if (loadModelsTask) {
         const revisionManager = new RevisionManager(loadModelsTask, revisionId);
         const navigationManager = new RevisionNavigationManager(revisionManager);
         return {
             navigationManager,
             revisionManager,
         };
-        // }
     }
 
     @action
