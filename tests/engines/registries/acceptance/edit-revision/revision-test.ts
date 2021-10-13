@@ -68,7 +68,6 @@ module('Registries | Acceptance | registries revision', hooks => {
                 registration: this.registration,
             },
         );
-        // await this.pauseTest();
         await visit(`/registries/revisions/${revision.id}/`);
         assert.equal(currentRouteName(), 'registries.overview.index',
             'Providers not allowing updates redirects to overview');
