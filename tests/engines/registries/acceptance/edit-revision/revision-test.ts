@@ -53,6 +53,47 @@ module('Registries | Acceptance | registries revision', hooks => {
         });
     });
 
+    test('it redirects to overview page is the provider does not allow updates', async function(
+        this: RevisionTestContext, assert,
+    ) {
+        const initiatedBy = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        this.provider.allowUpdates = false;
+        const revision = server.create(
+            'schema-response',
+            {
+                registrationSchema,
+                initiatedBy,
+                revisionResponses: {},
+                registration: this.registration,
+            },
+        );
+        // await this.pauseTest();
+        await visit(`/registries/revisions/${revision.id}/`);
+        assert.equal(currentRouteName(), 'registries.overview.index',
+            'Providers not allowing updates redirects to overview');
+    });
+
+    test('it redirects to overview page if the revision is already public', async function(
+        this: RevisionTestContext, assert,
+    ) {
+        const initiatedBy = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const revision = server.create(
+            'schema-response',
+            {
+                registrationSchema,
+                initiatedBy,
+                revisionResponses: {},
+                reviewsState: RevisionReviewStates.Approved,
+                registration: this.registration,
+            },
+        );
+
+        await visit(`/registries/revisions/${revision.id}/`);
+        assert.equal(currentRouteName(), 'registries.overview.index', 'Approved revisions cannot be edited');
+    });
+
     test('it redirects to review page of the update form for read-only users', async function(
         this: RevisionTestContext, assert,
     ) {
