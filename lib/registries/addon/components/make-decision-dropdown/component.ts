@@ -24,6 +24,7 @@ import { SchemaResponseActionTrigger } from 'ember-osf-web/models/schema-respons
 
 interface Args {
     registration: RegistrationModel;
+    selectedRevisionId: string;
 }
 
 export default class MakeDecisionDropdown extends Component<Args> {
@@ -126,7 +127,7 @@ export default class MakeDecisionDropdown extends Component<Args> {
                 SchemaResponseActionTrigger.RejectRevision, SchemaResponseActionTrigger.AcceptRevision,
             ] as  Array<SchemaResponseActionTrigger | ReviewActionTrigger>).includes(this.decisionTrigger);
             const actionType = isSchemaResponseAction ? 'schema-response-action' : 'review-action';
-            const target = isSchemaResponseAction ? this.args.registration.schemaResponses.lastObject
+            const target = isSchemaResponseAction ? this.args.registration.schemaResponses.firstObject
                 : this.args.registration;
             const newAction = this.store.createRecord(actionType, {
                 actionTrigger: this.decisionTrigger,
