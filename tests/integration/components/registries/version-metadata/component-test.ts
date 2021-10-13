@@ -21,6 +21,7 @@ module('Integration | Component | version-metadata', hooks => {
             registrationResponses: { q1: 'Clark Kent' },
         });
         const revision = server.create('schema-response', {
+            isOriginalResponse: true,
             initiatedBy: currentUser,
             dateModified: new Date(),
             revisionJustification: 'This registration went into a phone booth',
@@ -38,6 +39,6 @@ module('Integration | Component | version-metadata', hooks => {
             }), 'revision initiator is shown',
         );
         assert.dom('[data-test-version-metadata-reason]')
-            .hasTextContaining(revision.revisionJustification, 'revision justification is shown');
+            .doesNotExist();
     });
 });
