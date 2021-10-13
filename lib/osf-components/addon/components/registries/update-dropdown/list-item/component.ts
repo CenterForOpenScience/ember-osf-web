@@ -15,10 +15,10 @@ export default class ListItem extends Component<Args> {
 
     get shouldShow() {
         const { revision, isModeratorMode } = this.args;
+        const visibleStates = [RevisionReviewStates.Approved];
         if (isModeratorMode) {
-            return [RevisionReviewStates.RevisionPendingModeration,
-                RevisionReviewStates.Approved].includes(revision.reviewsState);
+            visibleStates.push(RevisionReviewStates.RevisionPendingModeration);
         }
-        return revision.isOriginalResponse || revision.reviewsState === RevisionReviewStates.Approved;
+        return revision.isOriginalResponse || visibleStates.includes(revision.reviewsState);
     }
 }
