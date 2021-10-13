@@ -27,7 +27,6 @@
             {{#if this.revisions}}
                 {{#each this.revisions as |revision index|}}
                     <Registries::UpdateDropdown::ListItem
-                        @registration={{@registration}}
                         @revision={{revision}}
                         @isModeratorMode={{@isModeratorMode}}
                         @totalRevisions={{this.totalRevisions}}
