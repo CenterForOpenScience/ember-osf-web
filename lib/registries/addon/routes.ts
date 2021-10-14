@@ -7,7 +7,8 @@ export default buildRoutes(function() {
         this.route('discover');
         this.route('new');
         this.route('moderation', function() {
-            this.route('submissions');
+            this.route('submitted');
+            this.route('pending');
             this.route('moderators');
             this.route('settings');
         });

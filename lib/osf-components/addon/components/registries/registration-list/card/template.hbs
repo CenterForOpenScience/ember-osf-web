@@ -32,7 +32,7 @@
                     </OsfLink>
                 {{/if}}
             </h3>
-            {{#if (eq @state 'revision_pending_moderation')}}
+            {{#if (eq @state 'pending_moderation')}}
                 <Registries::ReviewActionsList @revision={{this.latestRevision}} />
             {{else}}
                 <Registries::ReviewActionsList @registration={{@registration}}/>

@@ -130,11 +130,11 @@ module('Registries | Integration | Component | registration-list-card', hooks =>
         await render(hbs`
             <Registries::RegistrationList::Card
             @registration={{this.mirageRegistration}}
-            @state='revision_pending_moderation'
+            @state='pending_moderation'
         />`);
         await a11yAudit(this.element);
         assert.dom('[data-test-registration-list-card]').isVisible();
-        assert.dom('[data-test-registration-list-card-icon="revision_pending_moderation"]').exists();
+        assert.dom('[data-test-registration-list-card-icon="pending_moderation"]').exists();
         assert.dom('[data-test-registration-title-link]').exists();
         assert.dom('[data-test-registration-list-card-title]').hasText(this.registration.title);
     });

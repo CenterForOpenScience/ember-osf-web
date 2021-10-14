@@ -1,0 +1,52 @@
+{{page-title (t 'registries.moderation.submissions.title') prepend=false}}
+{{!-- TODO: Add number of registrations in each state in tab --}}
+<Registries::RegistrationList::Manager
+    local-class='registrationListContainer'
+    @provider={{this.model}}
+    @state={{this.state}}
+    as |manager|
+>
+    <div local-class='tabSortingWrapper'>
+        <div local-class='tabs'>
+            <button
+                data-test-submissions-type='pending'
+                data-test-is-selected={{if (eq this.state 'pending') 'true' 'false'}}
+                type='button'
+                {{on 'click' (fn this.changeTab 'pending')}}
+                local-class='tab {{if (eq this.state 'pending') 'selected'}}'
+            >
+                <FaIcon @icon='hourglass' />
+                {{t 'registries.moderation.states.pending'}}
+            </button>
+            {{#if this.model.allowUpdates}}
+                <button
+                    data-test-submissions-type='revision-pending'
+                    data-test-is-selected={{if (eq this.state 'pending_moderation') 'true' 'false'}}
+                    type='button'
+                    {{on 'click' (fn this.changeTab 'pending_moderation')}}
+                    local-class='tab {{if (eq this.state 'pending_moderation') 'selected'}}'
+                >
+                    <FaIcon @icon='hourglass' />
+                    {{t 'registries.moderation.states.revisionPending'}}
+                </button>
+            {{/if}}
+            <button
+                data-test-submissions-type='pending-withdraw'
+                data-test-is-selected={{if (eq this.state 'pending_withdraw') 'true' 'false'}}
+                type='button'
+                {{on 'click' (fn this.changeTab 'pending_withdraw')}}
+                local-class='tab {{if (eq this.state 'pending_withdraw') 'selected'}}'
+            >
+                <FaIcon @icon='clock' />
+                {{t 'registries.moderation.states.pendingWithdraw'}}
+            </button>
+        </div>
+        <SortButton
+            local-class='sortButton'
+            @sortAction={{manager.sortRegistrationsBy}}
+            @sort={{manager.sort}}
+            @sortBy='date_registered'
+        />
+    </div>
+    <Registries::RegistrationList::List @manager={{manager}} />
+</Registries::RegistrationList::Manager>

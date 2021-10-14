@@ -16,13 +16,23 @@
         <layout.main local-class='main'>
             {{!-- TODO: add pending count in Submissions and Withdrawals tab --}}
             <BsNav local-class='mainNav' @type='tabs' as |nav|>
-                {{#let 'registries.branded.moderation.submissions' as |submissionsRoute|}}
-                    <nav.item @active={{eq this.target.currentRouteName submissionsRoute}}>
+                {{#let 'registries.branded.moderation.submitted' as |submittedRoute|}}
+                    <nav.item @active={{eq this.target.currentRouteName submittedRoute}}>
                         <OsfLink
-                            @route={{submissionsRoute}}
+                            @route={{submittedRoute}}
                             @models={{array this.model.id}}
                         >
-                            {{t 'registries.moderation.submissions.title'}}
+                            {{t 'registries.moderation.submitted.title'}}
+                        </OsfLink>
+                    </nav.item>
+                {{/let}}
+                {{#let 'registries.branded.moderation.pending' as |pendingRoute|}}
+                    <nav.item @active={{eq this.target.currentRouteName pendingRoute}}>
+                        <OsfLink
+                            @route={{pendingRoute}}
+                            @models={{array this.model.id}}
+                        >
+                            {{t 'registries.moderation.pending.title'}}
                         </OsfLink>
                     </nav.item>
                 {{/let}}
