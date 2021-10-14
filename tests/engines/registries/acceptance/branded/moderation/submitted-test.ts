@@ -119,7 +119,7 @@ module('Registries | Acceptance | branded.moderation | submitted', hooks => {
         await visit('/registries/sbmit/moderation/submitted');
         await percySnapshot('moderation submitted page: many registrations');
         assert.equal(currentRouteName(), 'registries.branded.moderation.submitted',
-            'On the submissions page of registries reviews');
+            'On the submitted page of registries reviews');
 
         // Accepted tab
         assert.ok(currentURL().includes('state=accepted'), 'Default state is accepted');
@@ -183,7 +183,7 @@ module('Registries | Acceptance | branded.moderation | submitted', hooks => {
         }, 'asModerator');
         await visit('/registries/sbmit/moderation/submitted?state=embargo');
         assert.equal(currentRouteName(), 'registries.branded.moderation.submitted',
-            'On the submissions page of registries reviews');
+            'On the submitted page of registries reviews');
         assert.ok(currentURL().includes('state=embargo'), 'current URL contains the state query param set');
         assert.dom('[data-test-is-selected="true"]').hasText('Embargo', 'embargo tab selected');
     });
@@ -198,7 +198,7 @@ module('Registries | Acceptance | branded.moderation | submitted', hooks => {
         }, 'asModerator');
         await visit('/registries/sbmit/moderation/submitted?state=embargooooo');
         assert.equal(currentRouteName(), 'registries.branded.moderation.submitted',
-            'On the submissions page of registries reviews');
+            'On the submitted page of registries reviews');
         assert.notOk(currentURL().includes('state=embargooooo'), 'Invalid query param is gone');
         assert.ok(currentURL().includes('state=accepted'), 'Invalid query param replaced with accepted');
         assert.dom('[data-test-is-selected="true"]').hasText('Public', 'Accepted tab selected');

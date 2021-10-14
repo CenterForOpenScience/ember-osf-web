@@ -69,9 +69,9 @@ module('Registries | Acceptance | branded.moderation | pending', hooks => {
         // Pending tab
         assert.ok(currentURL().includes('state=pending'), 'Default state is pending');
         assert.dom('[data-test-submissions-type="pending"][data-test-is-selected="true"]')
-            .exists('Pending is selected by default for submissions page');
+            .exists('Pending is selected by default for pending page');
         assert.dom('[data-test-registration-list-card]')
-            .doesNotExist('No cards shown for pending submissions');
+            .doesNotExist('No cards shown for pending registrations');
         assert.dom('[data-test-registration-list-none]').containsText(
             'No registrations pending approval have been found',
             'Proper message is shown when no pending registrations found',
@@ -80,8 +80,8 @@ module('Registries | Acceptance | branded.moderation | pending', hooks => {
         // Pending revision tab
         await click('[data-test-submissions-type="revision-pending"]');
         assert.ok(currentURL().includes('state=pending_moderation'), 'query param set to pending revision');
-        assert.dom('[data-test-submissions-type="pending_moderation"][data-test-is-selected="true"]')
-            .exists('Pending is selected by default for submissions page');
+        assert.dom('[data-test-submissions-type="revision-pending"][data-test-is-selected="true"]')
+            .exists('Pending revisions has been selected');
         assert.dom('[data-test-registration-list-card]')
             .doesNotExist('No cards shown for pending revisions');
         assert.dom('[data-test-registration-list-none]').containsText(
@@ -95,7 +95,7 @@ module('Registries | Acceptance | branded.moderation | pending', hooks => {
         assert.dom('[data-test-submissions-type="pending-withdraw"][data-test-is-selected="true"]')
             .exists('Pending withdraw tab has been selected');
         assert.dom('[data-test-registration-list-card]')
-            .doesNotExist('No cards shown for pending withdrawal submissions');
+            .doesNotExist('No cards shown for pending withdrawals');
         assert.dom('[data-test-registration-list-none]').containsText('No registrations found pending withdrawal',
             'Proper message is shown when no registrations pending withdrawal found');
     });
@@ -106,13 +106,14 @@ module('Registries | Acceptance | branded.moderation | pending', hooks => {
                 reviewsState: RegistrationReviewStates.Pending, provider: this.registrationProvider,
             }, 'withReviewActions',
         );
-        server.createList(
-            'registration', 2, {
+        const acceptedReg = server.create(
+            'registration', {
                 reviewsState: RegistrationReviewStates.Accepted,
                 revisionState: RevisionReviewStates.RevisionPendingModeration,
                 provider: this.registrationProvider,
-            }, 'withSingleReviewAction',
+            },
         );
+        server.create('schemaResponse', { registration: acceptedReg }, 'withSchemaResponseActions');
         server.createList(
             'registration', 2, {
                 reviewsState: RegistrationReviewStates.PendingWithdraw, provider: this.registrationProvider,
@@ -137,7 +138,7 @@ module('Registries | Acceptance | branded.moderation | pending', hooks => {
         assert.dom('[data-test-registration-list-card]').exists({ count: 10 }, '10 pending registrations shown');
         assert.dom('[data-test-registration-list-card-icon="pending"]').exists({ count: 10 }, 'Proper icons shown');
         assert.dom('[data-test-registration-list-card-title]').exists({ count: 10 }, 'Title shown');
-        assert.dom('[data-test-registration-list-card-latest-action]').exists({ count: 10 }, 'Latest action shown');
+        assert.dom('[data-test-registration-list-card-latest-action]').exists({ count: 10 }, 'Latest actions shown');
         assert.dom('[data-test-next-page-button]').exists('Pagination shown');
         await click('[data-test-next-page-button]');
         assert.dom('[data-test-next-page-button]').hasAttribute('disabled');
@@ -153,13 +154,14 @@ module('Registries | Acceptance | branded.moderation | pending', hooks => {
         await click('[data-test-submissions-type="revision-pending"]');
         assert.dom('[data-test-ascending-sort]').exists({ count: 1 }, 'Ascending sort button exists');
         assert.dom('[data-test-descending-sort]').exists({ count: 1 }, 'Descending sort button exists');
-        assert.dom('[data-test-registration-list-card]').exists({ count: 2 }, '2 pending revision registrations shown');
+        assert.dom('[data-test-registration-list-card]').exists({ count: 1 }, '1 pending revision registrations shown');
         assert.dom('[data-test-registration-list-card-icon="pending_moderation"]')
-            .exists({ count: 2 }, 'Proper icons shown');
-        assert.dom('[data-test-registration-list-card-title]').exists({ count: 2 }, 'Title shown');
-        assert.dom('[data-test-registration-list-card-latest-action]').exists({ count: 2 }, 'Latest action shown');
+            .exists({ count: 1 }, 'Proper icons shown');
+        assert.dom('[data-test-registration-list-card-title]').exists({ count: 1 }, 'Title shown');
+        assert.dom('[data-test-registration-list-card-latest-action]')
+            .exists({ count: 1 }, 'Latest schema response action shown');
         assert.dom('[data-test-registration-card-toggle-actions]')
-            .doesNotExist('No toggle to show more review actions');
+            .exists({ count: 1}, 'Toggle to show more revision actions');
         assert.dom('[data-test-next-page-button]').doesNotExist('No pagination shown');
 
         // Pending Withdrawal tab
@@ -189,7 +191,7 @@ module('Registries | Acceptance | branded.moderation | pending', hooks => {
         }, 'asModerator');
         await visit('/registries/sbmit/moderation/pending?state=pending_moderation');
         assert.equal(currentRouteName(), 'registries.branded.moderation.pending',
-            'On the submissions page of registries reviews');
+            'On the pending page of registries reviews');
         assert.ok(currentURL()
             .includes('state=pending_moderation'), 'current URL contains the state query param set');
         assert.dom('[data-test-is-selected="true"]').hasText('Pending Updates', 'Updates tab selected');
@@ -205,7 +207,7 @@ module('Registries | Acceptance | branded.moderation | pending', hooks => {
         }, 'asModerator');
         await visit('/registries/sbmit/moderation/pending?state=donkey_kong');
         assert.equal(currentRouteName(), 'registries.branded.moderation.pending',
-            'On the submissions page of registries reviews');
+            'On the pending page of registries reviews');
         assert.notOk(currentURL().includes('state=donkey_kong'), 'Invalid query param is gone');
         assert.ok(currentURL().includes('state=pending'), 'Invalid query param replaced with pending');
         assert.dom('[data-test-is-selected="true"]').hasText('Pending', 'Pending tab selected');
