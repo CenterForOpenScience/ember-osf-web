@@ -27,7 +27,7 @@ import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
 
-type LoadModelsTask = TaskInstance<{
+export type LoadModelsTask = TaskInstance<{
     revision: SchemaResponseModel,
     registration: RegistrationModel,
     provider: ProviderModel,
@@ -50,7 +50,6 @@ export default class RevisionManager {
     schemaBlocks!: SchemaBlock[];
 
     @alias('registration.currentUserIsReadOnly') currentUserIsReadOnly!: boolean;
-    @alias('provider.reviewsWorkflow') reviewsWorkflow?: string;
     @or('onPageInput.isRunning', 'onJustificationInput.isRunning') autoSaving!: boolean;
     @or('initializePageManagers.isRunning', 'initializeRevisionChangeset.isRunning') initializing!: boolean;
     @not('registrationResponsesIsValid') hasInvalidResponses!: boolean;
