@@ -1,11 +1,13 @@
 import Model from '@ember-data/model';
+import DS from 'ember-data';
 import {
     NormalizedRegistrationResponse,
     RegistrationResponse,
 } from 'ember-osf-web/packages/registration-schema';
-import { normalizeRegistrationResponses } from 'ember-osf-web/serializers/draft-registration';
 import { mapKeysAndValues } from 'ember-osf-web/utils/map-keys';
 import { Resource } from 'osf-api';
+
+import { JsonPayload, normalizeRegistrationResponses, serializeRegistrationResponses } from './draft-registration';
 import OsfSerializer from './osf-serializer';
 
 export default class SchemaResponseSerializer extends OsfSerializer {
@@ -22,8 +24,23 @@ export default class SchemaResponseSerializer extends OsfSerializer {
         }
         return super.normalize(modelClass, resourceHash) as { data: Resource };
     }
-}
 
+    serializeAttribute(snapshot: DS.Snapshot, json: JsonPayload, key: string, attribute: object): void {
+        super.serializeAttribute(snapshot, json, key, attribute);
+
+        if (key === 'revisionResponses' && json.attributes) {
+            const underscoreKey = this.keyForAttribute(key);
+            const revisionResponses = json.attributes[underscoreKey] as NormalizedRegistrationResponse;
+
+            // eslint-disable-next-line no-param-reassign
+            json.attributes[underscoreKey] = mapKeysAndValues(
+                revisionResponses || {},
+                k => k,
+                value => serializeRegistrationResponses(value),
+            );
+        }
+    }
+}
 declare module 'ember-data/types/registries/serializer' {
     export default interface SerializerRegistry {
         'schema-response': SchemaResponseSerializer;
