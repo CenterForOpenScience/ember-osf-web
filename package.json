@@ -108,7 +108,7 @@
     "chai": "^4.1.2",
     "coveralls": "^3.0.3",
     "dropzone": "5.5.1",
-    "ember-a11y-testing": "^1.0.0",
+    "ember-a11y-testing": "^4.2.1",
     "ember-ace": "^2.0.1",
     "ember-ajax": "^5.0.0",
     "ember-angle-bracket-invocation-polyfill": "^2.0.2",
