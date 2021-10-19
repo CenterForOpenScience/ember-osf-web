@@ -55,8 +55,8 @@ export default class NodeCard extends Component {
     @waitFor
     async getLatestRevision(registration: RegistrationModel) {
         if (!registration) {
-            const notReistrationError = this.intl.t('registries.update_dropdown.not_a_registration_error');
-            return this.toast.error(notReistrationError);
+            const notARegistrationError = this.intl.t('registries.update_dropdown.not_a_registration_error');
+            return this.toast.error(notARegistrationError);
         }
 
         if (registration.reviewsState !== 'accepted') {
