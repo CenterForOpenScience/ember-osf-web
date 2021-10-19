@@ -166,6 +166,40 @@ module('Registries | Acceptance | branded.moderation | settings', hooks => {
             )));
         await click('[data-test-close-dialog]');
 
+        // duplicate column ids
+        const duplicateHeaders = ['Title', 'q1', 'q2'];
+        server.put(`/registries/mdr8n/bulk_create/${filename}`, () => ({
+            errors: [{ type: 'duplicateColumnId', duplicateHeaders }],
+        }), 400);
+        await triggerFileUpload();
+        await settled();
+        assert.dom('[data-test-error-modal-message-title]').exists({ count: 1 });
+        assert.dom('[data-test-error-modal-message-title]')
+            .hasText(t('registries.moderation.settings.duplicateColumnId.title'));
+        assert.dom('[data-test-error-modal-message-detail]').exists({ count: 1 });
+        assert.dom('[data-test-error-modal-message-detail]')
+            .hasText(stripHtmlTags(t(
+                'registries.moderation.settings.duplicateColumnId.detail',
+                {
+                    duplicateIds: duplicateHeaders.join(', '),
+                },
+            )));
+        await click('[data-test-close-dialog]');
+
+        // File upload not supported
+        server.put(`/registries/mdr8n/bulk_create/${filename}`, () => ({
+            errors: [{ type: 'fileUploadNotSupported'}],
+        }), 400);
+        await triggerFileUpload();
+        await settled();
+        assert.dom('[data-test-error-modal-message-title]').exists({ count: 1 });
+        assert.dom('[data-test-error-modal-message-title]')
+            .hasText(t('registries.moderation.settings.fileUploadNotSupported.title'));
+        assert.dom('[data-test-error-modal-message-detail]').exists({ count: 1 });
+        assert.dom('[data-test-error-modal-message-detail]')
+            .hasText(stripHtmlTags(t('registries.moderation.settings.fileUploadNotSupported.detail')));
+        await click('[data-test-close-dialog]');
+
         // size exceeds limit
         server.put(`/registries/mdr8n/bulk_create/${filename}`, () => ({
             errors: [{ type: 'sizeExceedsLimit'}],
