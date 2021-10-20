@@ -42,7 +42,7 @@ module('Acceptance | guid-node/registrations', hooks => {
             'There have been no completed registrations of this project.',
         );
 
-        assert.dom('[data-test-registrations-container] a[href="#drafts"]').doesNotExist(
+        assert.dom('[data-test-drafts-tab]').doesNotExist(
             'Logged out users cannot access draft registrations tab',
         );
     });
@@ -91,11 +91,11 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.dom('[data-test-node-card]').exists({ count: 1 }, 'One registration card shown');
 
-        assert.dom('[data-test-registrations-container] a[href="#drafts"]').exists(
+        assert.dom('[data-test-drafts-tab]').exists(
             'read-permission contributors can see drafts tab',
         );
 
-        await untrackedClick('[data-test-registrations-container] a[href="#drafts"]');
+        await untrackedClick('[data-test-drafts-tab]');
 
         assert.dom('[data-test-registrations-pane]').isNotVisible();
 
@@ -139,7 +139,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.dom('[data-test-node-card]').exists({ count: 1 });
 
-        await untrackedClick('[data-test-registrations-container] a[href="#drafts"]');
+        await untrackedClick('[data-test-drafts-tab]');
 
         assert.dom('[data-test-registrations-pane]').isNotVisible();
         assert.dom('[data-test-draft-registrations-pane]').isVisible();
@@ -177,7 +177,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.dom('[data-test-new-registration-button]').exists();
 
-        await untrackedClick('[data-test-registrations-container] a[href="#drafts"]');
+        await untrackedClick('[data-test-drafts-tab]');
 
         assert.dom('[data-test-registrations-pane]').isNotVisible();
         assert.dom('[data-test-draft-registrations-pane]').isVisible();
@@ -227,7 +227,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.dom('[data-test-node-card-body]').includesText(registrationSchemaName);
 
-        await untrackedClick('[data-test-registrations-container] a[href="#drafts"]');
+        await untrackedClick('[data-test-drafts-tab]');
 
         assert.dom('[data-test-registrations-pane]').isNotVisible();
         assert.dom('[data-test-draft-registrations-pane]').isVisible();
@@ -272,7 +272,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.dom('[data-test-node-card]').includesText(node.title);
 
-        await untrackedClick('[data-test-registrations-container] a[href="#drafts"]');
+        await untrackedClick('[data-test-drafts-tab]');
 
         assert.dom('[data-test-registrations-pane]').isNotVisible();
         assert.dom('[data-test-draft-registrations-pane]').isVisible();
@@ -320,7 +320,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.dom('[data-test-new-registration-button]').exists({ count: 1 });
 
-        await untrackedClick('[data-test-registrations-container] a[href="#drafts"]');
+        await untrackedClick('[data-test-drafts-tab]');
 
         assert.dom('[data-test-draft-registrations-pane]').isVisible();
 
@@ -355,7 +355,7 @@ module('Acceptance | guid-node/registrations', hooks => {
 
         assert.dom('[data-test-new-registration-button]').exists({ count: 1 });
 
-        await untrackedClick('[data-test-registrations-container] a[href="#drafts"]');
+        await untrackedClick('[data-test-drafts-tab]');
 
         assert.dom('[data-test-draft-registrations-pane]').isVisible();
 

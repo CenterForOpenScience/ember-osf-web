@@ -98,80 +98,63 @@
         {{#if @node}}
             <dl>
                 {{#if @node.isRegistration}}
-                    <div data-test-registration-template-name>
-                        <dt data-test-registration-template-label>
-                            {{t 'node_card.registration_template'}}
-                        </dt>
-                        <dd>
-                            {{@node.registrationSchema.name}}
-                        </dd>
-                    </div>
-                    <div data-test-registration-registry>
-                        <dt data-test-registration-registry-label>
-                            {{t 'node_card.registry'}}
-                        </dt>
-                        <dd data-test-registration-registry-name>
-                            {{@node.provider.name}}
-                        </dd>
-                    </div>
+                    <dt data-test-registration-template-label>
+                        {{t 'node_card.registration_template'}}
+                    </dt>
+                    <dd data-test-registration-template-name>
+                        {{@node.registrationSchema.name}}
+                    </dd><br />
+                    <dt data-test-registration-registry-label>
+                        {{t 'node_card.registry'}}
+                    </dt>
+                    <dd data-test-registration-registry-name>
+                        {{@node.provider.name}}
+                    </dd><br />
                 {{/if}}
-                <div data-test-created-timestamp>
-                    <dt data-test-created-timestamp-label>
-                        {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}}        
-                    </dt>
-                    <dd data-test-created-timestamp-value>
-                        {{moment @node.dateCreated}}
-                    </dd>
-                </div>
-                <div data-test-updated-timestamp>
-                    <dt data-test-updated-timestamp-label>
-                        {{t 'node_card.last_updated'}}        
-                    </dt>
-                    <dd data-test-updated-timestamp-value>
-                        {{moment @node.dateModified}}
-                    </dd>
-                </div>
-                <div data-test-contributors>
-                    <dt
-                        data-test-contributors-label
+                <dt data-test-created-timestamp-label>
+                    {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}}        
+                </dt>
+                <dd data-test-created-timestamp-value>
+                    {{moment @node.dateCreated}}
+                </dd><br />
+                <dt data-test-updated-timestamp-label>
+                    {{t 'node_card.last_updated'}}        
+                </dt>
+                <dd data-test-updated-timestamp-value>
+                    {{moment @node.dateModified}}
+                </dd><br />
+                <dt
+                    data-test-contributors-label
+                >
+                    {{t 'node_card.contributors'}}
+                </dt>
+                <dd>
+                    <ContributorList
+                        @model={{@node}}
+                        @shouldLinkUsers={{true}}
+                    />
+                </dd><br />
+                <dt
+                    data-test-description-label
+                >
+                    {{t 'node_card.description'}}
+                </dt>
+                <dd data-test-description local-class='NodeCard__description'>
+                    {{@node.description}}
+                </dd><br />
+                {{#if (and this.showTags @node.tags)}}
+                    <dt local-class='NodeCard__tags'
+                        data-test-tags-label
+
                     >
-                        {{t 'node_card.contributors'}}
+                        {{t 'node_card.tags'}}
                     </dt>
                     <dd>
-                        <ContributorList
-                            @model={{@node}}
-                            @shouldLinkUsers={{true}}
+                        <TagsWidget
+                            @taggable={{@node}}
+                            @inline={{true}}
                         />
                     </dd>
-                </div>
-                <div data-test-description>
-                    <dt
-                        data-test-description-label
-                    >
-                        {{t 'node_card.description'}}
-                    </dt>
-                    <dd local-class='NodeCard__description'>
-                        {{@node.description}}
-                    </dd>
-                </div>
-                {{#if (and this.showTags @node.tags)}}
-                    <div
-                        data-test-tags
-                        local-class='NodeCard__tags'
-                    >
-                        <dt
-                            data-test-tags-label
-
-                        >
-                            {{t 'node_card.tags'}}
-                        </dt>
-                        <dd>
-                            <TagsWidget
-                                @taggable={{@node}}
-                                @inline={{true}}
-                            />
-                        </dd>
-                    </div>
                 {{/if}}
             </dl>
             <OsfLink
