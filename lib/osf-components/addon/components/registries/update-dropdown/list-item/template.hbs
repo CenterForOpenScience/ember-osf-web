@@ -1,0 +1,11 @@
+{{#if this.shouldShow}}
+    <div data-test-revision-link={{@index}} local-class='UpdateContainer'>
+        {{!-- Using LinkTo instead of OsfLink due to how queryParams are buggy for setting active state --}}
+        <LinkTo @route='overview.index' @query={{hash revisionId=@revision.id}} local-class='UpdateLink'>
+            <Registries::UpdateDropdown::UpdateLabel
+                @totalRevisions={{@totalRevisions}}
+                @index={{@index}}
+            />
+        </LinkTo>
+    </div>
+{{/if}}

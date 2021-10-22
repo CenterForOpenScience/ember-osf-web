@@ -12,8 +12,7 @@ import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import Analytics from 'ember-osf-web/services/analytics';
 import captureException from 'ember-osf-web/utils/capture-exception';
 import RevisionNavigationManager from 'registries/edit-revision/nav-manager';
-import RevisionManager from 'registries/edit-revision/revision-manager';
-
+import RevisionManager, { LoadModelsTask } from 'registries/edit-revision/revision-manager';
 export interface EditRevisionRouteModel {
     navigationManager: RevisionNavigationManager;
     revisionManager: RevisionManager;
@@ -32,9 +31,13 @@ export default class EditRevisionRoute extends Route {
             const revision = await this.store.findRecord('schema-response', revisionId);
             const registration = await revision.registration;
             const provider = await registration.provider;
-            if ((registration.currentUserIsReadOnly && revision.reviewsState !== RevisionReviewStates.Approved) ||
+            if ((registration.currentUserIsReadOnly) ||
                 (revision.reviewsState !== RevisionReviewStates.RevisionInProgress)) {
                 this.replaceWith('edit-revision.review', revisionId);
+            }
+            if (revision.reviewsState === RevisionReviewStates.Approved || !provider.allowUpdates) {
+                this.transitionTo('overview', registration.id,
+                    { queryParams: { revisionId } });
             }
             return {
                 revision,
@@ -49,7 +52,7 @@ export default class EditRevisionRoute extends Route {
 
     model(params: { revisionId: string }) {
         const { revisionId } = params;
-        const loadModelsTask = taskFor(this.loadModels).perform(revisionId);
+        const loadModelsTask = taskFor(this.loadModels).perform(revisionId) as LoadModelsTask;
         const revisionManager = new RevisionManager(loadModelsTask, revisionId);
         const navigationManager = new RevisionNavigationManager(revisionManager);
         return {

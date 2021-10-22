@@ -7,19 +7,19 @@ import UserModel from 'ember-osf-web/models/user';
 import OsfModel from './osf-model';
 
 export enum SchemaResponseActionTrigger {
-    SubmitRevision = 'submit_revision',
-    AdminApproveRevision = 'admin_approve_revision',
-    AdminRejectRevision = 'admin_reject_revision',
-    AcceptRevision = 'accept_revision',
-    RejectRevision = 'reject_revision',
+    SubmitRevision = 'submit',
+    AdminApproveRevision = 'approve',
+    AdminRejectRevision = 'admin_reject',
+    AcceptRevision = 'accept',
+    RejectRevision = 'moderator_reject',
 }
 
 const TriggerToPastTenseTranslationKey: Record<SchemaResponseActionTrigger, string> = {
-    submit_revision: 'registries.schemaResponseActions.triggerPastTense.submit_revision',
-    admin_approve_revision: 'registries.schemaResponseActions.triggerPastTense.admin_approve_revision',
-    admin_reject_revision: 'registries.schemaResponseActions.triggerPastTense.admin_reject_revision',
-    accept_revision: 'registries.schemaResponseActions.triggerPastTense.accept_revision',
-    reject_revision: 'registries.schemaResponseActions.triggerPastTense.reject_revision',
+    submit: 'registries.schemaResponseActions.triggerPastTense.submit',
+    approve: 'registries.schemaResponseActions.triggerPastTense.approve',
+    admin_reject: 'registries.schemaResponseActions.triggerPastTense.admin_reject',
+    accept: 'registries.schemaResponseActions.triggerPastTense.accept',
+    moderator_reject: 'registries.schemaResponseActions.triggerPastTense.moderator_reject',
 };
 
 export default class SchemaResponseActionModel extends OsfModel {

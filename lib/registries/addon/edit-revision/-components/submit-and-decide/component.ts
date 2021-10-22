@@ -53,7 +53,7 @@ export default class SubmitAndDecide extends Component {
         try {
             const schemaResponseAction = this.store.createRecord('schema-response-action', {
                 actionTrigger,
-                comment,
+                comment: comment ? comment : undefined,
                 target: this.revisionManager.revision,
             });
             await schemaResponseAction.save();

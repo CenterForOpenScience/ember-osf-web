@@ -357,16 +357,16 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             { count: 2 },
             'Two moderator actions available',
         );
-        assert.dom('[data-test-moderation-dropdown-decision-label="accept_revision"]').hasText(
+        assert.dom('[data-test-moderation-dropdown-decision-label="accept"]').hasText(
             t('registries.makeDecisionDropdown.acceptRevision'),
             'Accept update option has correct text',
         );
-        assert.dom('[data-test-moderation-dropdown-decision-label="reject_revision"]').hasText(
+        assert.dom('[data-test-moderation-dropdown-decision-label="moderator_reject"]').hasText(
             t('registries.makeDecisionDropdown.rejectRevision'),
             'Reject update option has correct text',
         );
         await percySnapshot(assert);
-        await click('[data-test-moderation-dropdown-decision-checkbox="accept_revision"]');
+        await click('[data-test-moderation-dropdown-decision-checkbox="accept"]');
         await click('[data-test-moderation-dropdown-submit]');
         assert.dom(`[data-test-read-only-response=${deserializeResponseKey('page-one_short-text')}]`).hasText(
             'llama', 'Response from the accepted update still shown',
@@ -400,7 +400,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             'junimo', 'Response from the pending update shown',
         );
         await click('[data-test-moderation-dropdown-button]');
-        await click('[data-test-moderation-dropdown-decision-checkbox="reject_revision"]');
+        await click('[data-test-moderation-dropdown-decision-checkbox="moderator_reject"]');
         await click('[data-test-moderation-dropdown-submit]');
         assert.dom(`[data-test-read-only-response=${deserializeResponseKey('page-one_short-text')}]`).hasText(
             'Krobus', 'Response from the registration shown',

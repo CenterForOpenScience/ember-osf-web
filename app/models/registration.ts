@@ -27,13 +27,28 @@ export enum RegistrationReviewStates {
     PendingWithdraw = 'pending_withdraw',
 }
 
-type NonActionableStates = RegistrationReviewStates.Initial
+export type NonActionableRegistrationStates = RegistrationReviewStates.Initial
     | RegistrationReviewStates.Withdrawn | RegistrationReviewStates.Rejected;
 
+export type ActionableRevisionStates = RevisionReviewStates.RevisionPendingModeration;
+
 export type ReviewsStateToDecisionMap =
-    Exclude<RegistrationReviewStates, NonActionableStates> | RevisionReviewStates.RevisionPendingModeration;
+    Exclude<RegistrationReviewStates, NonActionableRegistrationStates> | RevisionReviewStates.RevisionPendingModeration;
 export const reviewsStateToDecisionMap: {
-    [index in ReviewsStateToDecisionMap]: Array<ReviewActionTrigger | SchemaResponseActionTrigger>
+    [index in ReviewsStateToDecisionMap]: Array<
+        Exclude<
+            ReviewActionTrigger,
+            ReviewActionTrigger.Submit
+            | ReviewActionTrigger.RequestWithdrawal
+            | ReviewActionTrigger.RequestEmbargoTermination>
+        |
+        Exclude<
+            SchemaResponseActionTrigger,
+            SchemaResponseActionTrigger.SubmitRevision
+            | SchemaResponseActionTrigger.AdminApproveRevision
+            | SchemaResponseActionTrigger.AdminRejectRevision
+        >
+    >
 } = {
     [RegistrationReviewStates.Accepted]: [ReviewActionTrigger.ForceWithdraw],
     [RegistrationReviewStates.Embargo]: [ReviewActionTrigger.ForceWithdraw],
@@ -86,7 +101,7 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @attr('fixstring') articleDoi!: string | null;
     @attr('object') registeredMeta!: RegistrationMetadata;
     @attr('registration-responses') registrationResponses!: RegistrationResponse;
-    @attr('fixstring') reviewsState?: RegistrationReviewStates;
+    @attr('fixstring') reviewsState!: RegistrationReviewStates;
     @attr('fixstring') iaUrl?: string;
     @attr('array') providerSpecificMetadata!: ProviderMetadata[];
     @attr('fixstring') revisionState?: RevisionReviewStates;

@@ -273,7 +273,7 @@ export function registrationScenario(
 
     server.create('schema-response', {
         id: 'copyEditRPA',
-        reviewsState: RevisionReviewStates.RevisionPendingAdminApproval,
+        reviewsState: RevisionReviewStates.Unapproved,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
             q1: 'Good Morning',
@@ -305,7 +305,7 @@ export function registrationScenario(
         },
         initiatedBy: currentUser,
         registration: bismuth,
-        revisedResponses: ['page-one_short-text', 'page-two_short-text'],
+        updatedResponseKeys: ['page-one_short-text', 'page-two_short-text'],
     });
 
     server.create('schema-response', {

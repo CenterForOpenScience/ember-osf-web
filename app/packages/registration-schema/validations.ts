@@ -178,7 +178,7 @@ export function buildSchemaResponseValidations() {
         type: 'blank',
     })];
     set(validationObj, 'revisionJustification', notBlank);
-    set(validationObj, 'revisedResponses', [validateLength({
+    set(validationObj, 'updatedResponseKeys', [validateLength({
         min: 1,
         allowBlank: false,
         allowNone: false,

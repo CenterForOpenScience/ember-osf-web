@@ -5,7 +5,7 @@ import SchemaResponseActionModel, { SchemaResponseActionTrigger } from 'ember-os
 
 export default Factory.extend<SchemaResponseActionModel>({
     fromState: RevisionReviewStates.RevisionInProgress,
-    toState: RevisionReviewStates.RevisionPendingAdminApproval,
+    toState: RevisionReviewStates.Unapproved,
     actionTrigger: faker.random.objectElement(Object.values(SchemaResponseActionTrigger)),
 
     comment() {

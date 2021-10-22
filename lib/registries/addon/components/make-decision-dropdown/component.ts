@@ -13,8 +13,8 @@ import RouterService from '@ember/routing/router-service';
 import RegistrationModel,
 {
     RegistrationReviewStates,
-    ReviewsStateToDecisionMap,
     reviewsStateToDecisionMap,
+    NonActionableRegistrationStates,
 } from 'ember-osf-web/models/registration';
 import { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
@@ -23,6 +23,7 @@ import { SchemaResponseActionTrigger } from 'ember-osf-web/models/schema-respons
 
 interface Args {
     registration: RegistrationModel;
+    selectedRevisionId: string;
 }
 
 export default class MakeDecisionDropdown extends Component<Args> {
@@ -68,7 +69,9 @@ export default class MakeDecisionDropdown extends Component<Args> {
     }
 
     get revisionIsPending() {
-        return this.args.registration.revisionState === RevisionReviewStates.RevisionPendingModeration;
+        return (this.args.registration.reviewsState === RegistrationReviewStates.Accepted
+        || this.args.registration.reviewsState === RegistrationReviewStates.Embargo)
+        && this.args.registration.revisionState === RevisionReviewStates.RevisionPendingModeration;
     }
 
     get commentTextArea() {
@@ -105,9 +108,9 @@ export default class MakeDecisionDropdown extends Component<Args> {
     }
 
     get moderatorActions() {
-        const { reviewsState } = this.args.registration;
-        let actions: ReviewsStateToDecisionMap[] = reviewsState ?
-            reviewsStateToDecisionMap[RegistrationReviewStates.Accepted] : [];
+        const reviewsState =
+            this.args.registration.reviewsState as Exclude<RegistrationReviewStates, NonActionableRegistrationStates>;
+        let actions = reviewsState ? reviewsStateToDecisionMap[reviewsState] : [];
         if (this.revisionIsPending) {
             actions = reviewsStateToDecisionMap[RegistrationReviewStates.Pending];
         }
@@ -122,7 +125,7 @@ export default class MakeDecisionDropdown extends Component<Args> {
                 SchemaResponseActionTrigger.RejectRevision, SchemaResponseActionTrigger.AcceptRevision,
             ] as  Array<SchemaResponseActionTrigger | ReviewActionTrigger>).includes(this.decisionTrigger);
             const actionType = isSchemaResponseAction ? 'schema-response-action' : 'review-action';
-            const target = isSchemaResponseAction ? this.args.registration.schemaResponses.lastObject
+            const target = isSchemaResponseAction ? this.args.registration.schemaResponses.firstObject
                 : this.args.registration;
             const newAction = this.store.createRecord(actionType, {
                 actionTrigger: this.decisionTrigger,
