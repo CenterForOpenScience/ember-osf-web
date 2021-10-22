@@ -1039,13 +1039,19 @@ registries:
                 detail: 'The schema ID in this cell does not match with a registration template in our system. It’s likely this ID was manually edited after it was downloaded or the registration template is outdated. Contact the help desk at <a href="mailto:support@osf.io">support@osf.io</a> for the current ID or a new csv file.'
             invalidColumnId:
                 title: 'Invalid column ID'
-                detail: 'This Column ID does not match with the ones used by this registration template. It’s likely it was manually edited after it was downloaded or the registration template is outdated. Contact the help desk at <a href="mailto:support@osf.io">support@osf.io</a> for the current ID or a new csv file. <br>Invalid IDs: {invalidIds}. <br>Missing IDs: {missingIds}.'
+                detail: 'This Column ID does not match with the ones used by this registration template. It’s likely it was manually edited after it was downloaded or the registration template is outdated. Contact the help desk at <a href="mailto:support@osf.io">support@osf.io</a> for the current ID or a new csv file. <br><strong>Invalid IDs</strong>: {invalidIds}. <br><strong>Missing IDs</strong>: {missingIds}.'
+            duplicateColumnId:
+                title: 'Duplicate column ID'
+                detail: 'The following column IDs appeared more than once. Please remove duplicate columns and re-upload. <br><strong>Duplicate column IDs</strong>: {duplicateIds}'
+            fileUploadNotSupported:
+                title: 'File uploads not supported'
+                detail: 'The schema ID specified in Cell A2 corresponds to a registration template with required file uploads. File uploads are not currently supported as part of the bulk upload workflow.'
             invalidProjectId:
                 title: 'Invalid project ID'
                 detail: 'This Project GUID does not exist. Check that each project’s GUID is accurate. Registrations that do not have a project should have a blank cell.'
             invalidInstitutionName:
                 title: 'Invalid institution name'
-                detail: 'This affiliated institution name does not match our system. Check that the institution’s name is spelled correctly. <a href="https://osf.io/institutions?view_only=">Click here</a> to view a list of currently active affiliated institutions.'        
+                detail: 'This affiliated institution name does not match our system. Check that the institution’s name is spelled correctly. <a href="https://osf.io/institutions?view_only=">Click here</a> to view a list of currently active affiliated institutions.'
             invalidLicenseName:
                 title: 'Invalid license name'
                 detail: 'This license does not match our system. It’s likely that the license is either spelled incorrectly, is not an option in our system, or formatted incorrectly. <a href="https://help.osf.io/hc/en-us/articles/360019739014-Licensing">Click here</a> to view a list of available licenses. See section “CSV Templates” in our Moderator’s Guide for more information on formatting specific licenses.'
@@ -1461,7 +1467,7 @@ registries:
             withModerationNoProject: 'Remember:<ul><li>Registrations cannot be modified or deleted once submitted.</li><li>Changes to any files uploaded or selected as prompt responses will result in archiving failure and loss of your registration timestamp. If this registration has been archiving for more than 72 hours, email <a href="mailto:support@osf.io">support@osf.io</a> for assistance.</li><li>A moderator must review and approve your registration before it will be made public or embargoed.</li><li>Registrations are archived on Internet Archive and a link to the archived copy will be added to the registration metadata.</li></ul>'
         immediateOption: 'Make registration public immediately'
         embargoOption: 'Enter registration into embargo'
-        
+
         submit: Submit
         back: Back
         datePlaceholder: 'Choose embargo end date'
