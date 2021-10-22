@@ -1133,6 +1133,8 @@ registries:
             action_submit_failed: 'Your decision was not recorded'
             non_admin_warning: 'Only admins can submit an update.'
             invalid_warning: 'Please address invalid or missing entries to complete update.'
+        revised_responses_list: 
+                no_responses: 'No previous responses available.'
         continue_edit_modal:
             heading: 'Are you sure this needs more edits?'
             warning: 'This will cancel any approvals from other admin contributors and return the registration back to its draft form for additional changes.'
