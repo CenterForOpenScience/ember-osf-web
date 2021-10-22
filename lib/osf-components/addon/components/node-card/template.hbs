@@ -164,36 +164,40 @@
                     </dd>
                 {{/if}}
             </dl>
-            <div local-class='MyRegistrationsButtons'>
-                <OsfLink
-                    data-analytics-name='View registration'
-                    data-test-view-button='{{@node.id}}'
-                    @route='resolve-guid'
-                    @models={{array @node.id}}
-                >
-                    <Button>
-                        {{t 'node_card.view_button'}}
-                    </Button>
-                </OsfLink>
-                {{#if this.shouldShowUpdateButton}}
-                    {{#unless (not-eq this.node.reviewsState 'accepted')}}
-                        {{#if this.latestSchemaResponse}}
-                            <OsfLink
-                                data-analytics-name='Update registration'
-                                data-test-update-button='{{@node.id}}'
-                                @route='registries.edit-revision.index'
-                                @models={{array this.latestSchemaResponse.id}}
-                                >
+            <div class='row'>
+                <div class='col-md-10'>
+                    <div local-class='MyRegistrationsButtons'>
+                        <OsfLink
+                            data-analytics-name='View registration'
+                            data-test-view-button='{{@node.id}}'
+                            @route='resolve-guid'
+                            @models={{array @node.id}}
+                        >
+                            <Button>
+                                {{t 'node_card.view_button'}}
+                            </Button>
+                        </OsfLink>
+                        {{#if this.shouldShowUpdateButton}}
+                            {{#unless (not-eq this.node.reviewsState 'accepted')}}
+                                {{#if this.latestSchemaResponse}}
+                                    <OsfLink
+                                        data-analytics-name='Update registration'
+                                        data-test-update-button='{{@node.id}}'
+                                        @route='registries.edit-revision.index'
+                                        @models={{array this.latestSchemaResponse.id}}
+                                        >
 
-                                <Button
-                                    local-class='UpdateButton'
-                                >
-                                    {{t 'node_card.update_button'}}
-                                </Button>
-                            </OsfLink>
+                                        <Button
+                                            local-class='UpdateButton'
+                                        >
+                                            {{t 'node_card.update_button'}}
+                                        </Button>
+                                    </OsfLink>
+                                {{/if}}
+                            {{/unless}}
                         {{/if}}
-                    {{/unless}}
-                {{/if}}
+                    </div>
+                </div>
             </div>
         {{else}}
             <ContentPlaceholders as |placeholder|>
