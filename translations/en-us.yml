@@ -588,6 +588,7 @@ node_card:
             pending_withdraw: 'Pending withdrawal moderation'
             withdrawn: Withdrawn
             archiving: Archiving
+            revision_pending_moderation: 'Revision is pending moderation.'
     tags: 'Tags:'
     registration_template: 'Registration template:'
     contributors: 'Contributors:'
