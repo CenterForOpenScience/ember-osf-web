@@ -57,8 +57,8 @@ export function registrationScenario(
     const currentUserWrite = server.create('registration', {
         id: 'writr',
         registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
-        reviewsState: RegistrationReviewStates.Withdrawn,
-        revisionState: RevisionReviewStates.RevisionInProgress,
+        reviewsState: RegistrationReviewStates.Accepted,
+        revisionState: RevisionReviewStates.Approved,
         currentUserPermissions: [Permission.Read, Permission.Write],
         providerSpecificMetadata: [
             { field_name: 'Metadata field 1', field_value: '' },

@@ -175,19 +175,6 @@
                         {{t 'node_card.view_button'}}
                     </Button>
                 </OsfLink>
-                <OsfLink
-                    data-analytics-name='Update registration'
-                    data-test-update-button='{{@node.id}}'
-                    @route='registries.edit-revision.index'
-                    @models={{array @node.id}}
-                >
-                    <Button
-                        @type='create'
-                        {{on 'click' (perform this.getLatestRevision)}}
-                    >
-                        {{t 'node_card.update_button'}}
-                    </Button>
-                </OsfLink>
                 {{#if this.shouldShowUpdateButton}}
                     {{#unless (not-eq this.node.reviewsState 'accepted')}}
                         {{#if this.latestSchemaResponse}}
@@ -197,10 +184,9 @@
                                 @route='registries.edit-revision.index'
                                 @models={{array this.latestSchemaResponse.id}}
                                 >
+
                                 <Button
                                     local-class='UpdateButton'
-                                    @type='create'
-                                    
                                 >
                                     {{t 'node_card.update_button'}}
                                 </Button>
