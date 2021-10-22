@@ -173,6 +173,7 @@ module('Registries | Acceptance | registries revision', hooks => {
 
         // justification page
         assert.equal(currentRouteName(), 'registries.edit-revision.justification', 'Starts at justification page');
+        assert.dom('[data-test-link-back-to-registration]').exists('Link back to registration is shown');
         assert.dom('[data-test-link="justification"] > [data-test-icon]')
             .hasClass('fa-dot-circle', 'justification page is current page');
         assert.dom('[data-test-link="1-first-page-of-test-schema"] > [data-test-icon]')
