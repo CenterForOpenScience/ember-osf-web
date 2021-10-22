@@ -1392,7 +1392,7 @@ registries:
         pendingEmbargoApproval:
             text: 'Pending approval'
             short_description: 'Pending embargo approval'
-            long_description: 'This registration is waiting for approval from its contributors. Once approved, the embargo will keep the registration private until  {embargoEndDate}.'
+            long_description: 'This registration is waiting for approval from its contributors. Once approved, the registration will remain private until the embargo ends.'
         pending:
             text: 'Pending moderation'
             short_description: 'Pending moderator approval'
