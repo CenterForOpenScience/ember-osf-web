@@ -1180,7 +1180,7 @@ registries:
             submit_error: 'Unable to create a registration.'
     edit_revision:
         revisionJustification: 'Justification for update'
-        revisedResponses: 'List of updated registration questions'
+        updatedResponseKeys: 'List of updated registration questions'
         justification:
             page_label: Justification
             title: 'Justification for Update'
@@ -1496,11 +1496,11 @@ registries:
             request_embargo_termination: 'embargo termination requested'
     schemaResponseActions:
         triggerPastTense:
-            submit_revision: 'submitted'
-            admin_approve_revision: 'approved'
-            admin_reject_revision: 'requested further edits'
-            accept_revision: 'accepted'
-            reject_revision: 'rejected'
+            submit: 'submitted'
+            approve: 'approved'
+            admin_reject: 'requested further edits'
+            accept: 'accepted'
+            moderator_reject: 'rejected'
     finalizeRegistrationModal:
         title: 'Almost done...'
         notice:
@@ -1561,11 +1561,13 @@ registries:
         revision_more_updates_success: 'Further updates requested of user.'
         revision_approved_success: 'Updates successfully approved.'
         no_revisions_error: 'Updates unavailable.'
-        revision_error_message: 'Updates unretrievable. \n\n\t Please contact <a href="mailto:{supportEmail}">{supportEmail}</a> for further assistance.'
+        revision_error_message: 'Unable to load updates.'
         not_a_registration_error: 'That was not a registration.'
         not_a_revision_error: 'That was not a revision.'
         revision_state_not_set_error: 'Revision state not set.'
         other_error: 'Some error occured. Please contact your adminstrator or moderator for further assistance.'
+        continue_update: 'Continue update'
+        review_update: 'Review update'
     newUpdateModal:
         modalHeader: 'Update your Registration'
         modalHeaderNoUpdates: 'Updates not allowed'

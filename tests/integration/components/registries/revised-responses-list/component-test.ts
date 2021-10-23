@@ -45,7 +45,7 @@ module('Integration | Component | revised-responses-list', hooks => {
     });
 
     test('multiple revised responses', async function(this: ThisTestContext, assert) {
-        this.revision.revisedResponses = ['page-one_single-select', 'page-one_short-text'];
+        this.revision.updatedResponseKeys = ['page-one_single-select', 'page-one_short-text'];
         await render(hbs`<Registries::RevisedResponsesList
             @revision={{this.revision}} @schemaBlocks={{this.blocks}}
         />`);

@@ -22,7 +22,7 @@ export function createSchemaResponseAction(this: HandlerContext, schema: Schema,
         });
         switch (trigger) {
         case SchemaResponseActionTrigger.SubmitRevision:
-            revision.reviewsState = RevisionReviewStates.RevisionPendingAdminApproval;
+            revision.reviewsState = RevisionReviewStates.Unapproved;
             revision.isPendingCurrentUserApproval = true;
             break;
         case SchemaResponseActionTrigger.AdminRejectRevision:

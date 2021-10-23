@@ -11,6 +11,7 @@
     <Registries::UpdateDropdown
         @registration={{@registration}}
         @selectedRevisionId={{@selectedRevisionId}}
+        @isModeratorMode={{@isModeratorMode}}
     />
 </div>
 {{#if (and @isModeratorMode (not @registration.isAnonymous))}}

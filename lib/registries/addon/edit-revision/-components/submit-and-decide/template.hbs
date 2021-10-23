@@ -6,7 +6,7 @@
             data-analytics-name='Submit revision'
             local-class='registerButton {{if @showMobileView 'mobileReviewButtonItem'}}'
             @type='success'
-            @onClick={{perform this.submitAction 'submit_revision' ''}}
+            @onClick={{perform this.submitAction 'submit' ''}}
             disabled={{or @revisionManager.hasInvalidResponses this.submitAction.isRunning}}
         >
             {{#if this.submitAction.isRunning}}
@@ -36,7 +36,7 @@
             data-analytics-name='Admin approve revision'
             local-class='registerButton {{if @showMobileView 'mobileReviewButtonItem'}}'
             @type='success'
-            @onClick={{perform this.submitAction 'admin_approve_revision' ''}}
+            @onClick={{perform this.submitAction 'approve' ''}}
         >
             {{t 'registries.edit_revision.review.accept_changes'}}
         </BsButton>
