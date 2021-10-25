@@ -50,7 +50,7 @@ export default class RegistriesStates extends Component {
     )
     /* eslint-enable max-len */
     get stateText() {
-        if (!this.registration || !this.registration.reviewsState) {
+        if (!this.registration || !this.registration.reviewsState || !this.registration.revisionState) {
             return undefined;
         }
         let stateKey;
