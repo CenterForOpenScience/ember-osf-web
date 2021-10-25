@@ -525,6 +525,7 @@ validationErrors:
     onlyProjectOrComponentFiles: 'The {numOfFiles, plural, =1 {file} other {files}} "{missingFilesList}" cannot be found on this {projectOrComponent}.'
     new_folder_name: 'Folder name must not be blank.'
     year_format: 'Please specify a valid year.'
+    no_updated_responses: 'No changes have been made in this update.'
 validated_input_form:
     discard_changes: 'Discard changes'
 node_navbar:
@@ -588,17 +589,17 @@ node_card:
             pending_withdraw: 'Pending withdrawal moderation'
             withdrawn: Withdrawn
             archiving: Archiving
-            revision_pending_moderation: 'Revision is pending moderation.'
     tags: 'Tags:'
     registration_template: 'Registration template:'
     contributors: 'Contributors:'
     description: 'Description:'
     last_updated: 'Last updated:'
     registry: 'Registry:'
-    options: 'Options'
+    options: Options
     view_button: 'View'
     update_button: 'Update'
     schema_response_error: 'Updates irretreivable.'
+    
 forks:
     fork: Fork
     title: Forks
@@ -618,7 +619,7 @@ node:
     registrations:
         new_registration_modal:
             title: Register
-            info: 'Registration creates a frozen version of the project. Your original project remains editable and will have the registration linked. Things to know about registration:<ul><li><strong>Registrations cannot be edited or deleted.</strong></li><li>Withdrawing a registration removes its contents, but leaves behind basic metadata: title, contributors, date registered, date withdrawn, and justification (if provided).</li><li>Registrations can be public or embargoed for up to four years. Embargoed registrations will be made public automatically when the embargo expires.</li></ul>Continue your registration by selecting a registration form:'
+            info: 'Registration creates a frozen version of the project. Your original project remains editable and will have the registration linked. Things to know about registration:<ul><li><strong>Registrations cannot be edited or deleted.</strong></li><li>Withdrawing a registration removes its contents, but leaves behind basic metadata: title, contributors, date registered, date withdrawn, and justification (if provided).</li><li>Registrations can be public or embargoed for up to four years. Embargoed registrations will be made public automatically when the embargo expires.</li><li>Registrations are archived on Internet Archive and a link to the archived copy will be added to the registration metadata.</li></ul>Continue your registration by selecting a registration form:'
             create: 'Create draft'
         prereg_modal:
             title: 'Preregistration Challenge'
@@ -918,9 +919,9 @@ collections:
         project_contributors_title: 'Project contributors'
         project_contributors_description: 'Updates made to this section will update the project.'
         collection_metadata_title: 'Collection metadata'
-        cancel: 'Cancel'
+        cancel: Cancel
         add_button: 'Add to collection'
-        update_button: 'Update'
+        update_button: Update
         add_save_success: '{title} has been added to the collection.'
         update_save_success: '{title} has been updated in the collection.'
         add_save_error: 'Error adding {title} to the collection.'
@@ -1027,10 +1028,73 @@ registries:
             removedModeratorError: 'Error removing {permission}'
             updatedModeratorPermissionSuccess: 'Successfully updated {userName} to {permission}'
             updatedModeratorPermissionError: 'Error updating permission to {permission}'
-        notifications:
-            title: 'Notifications'
+        settings:
+            title: 'Settings'
             heading: 'Configure reviews notification preferences'
             paragraph: 'To configure other notification preferences visit your <a href={link}>user settings</a>.'
+            bulkUpload: 'Bulk upload'
+            bulkUploadHelpText: 'Drag and drop the csv file that has the registration information to upload.'
+            dropCsvHere: 'Drop csv file here to upload'
+            uploadError: 'Upload error'
+            copyToClipboard: 'Copy to clipboard'
+            cell: 'Cell'
+            copyToClipboardSuccess: 'Successfully copied to clipboard.'
+            generalErrorMessage: 'Your file was not uploaded due to the errors listed below. Please correct the errors and try again. If you have any questions, please contact the help desk at <a href="mailto:support@osf.io">support@osf.io</a>.'
+            invalidSchemaId:
+                title: 'Invalid schema ID'
+                detail: 'The schema ID in this cell does not match with a registration template in our system. It’s likely this ID was manually edited after it was downloaded or the registration template is outdated. Contact the help desk at <a href="mailto:support@osf.io">support@osf.io</a> for the current ID or a new csv file.'
+            invalidColumnId:
+                title: 'Invalid column ID'
+                detail: 'This Column ID does not match with the ones used by this registration template. It’s likely it was manually edited after it was downloaded or the registration template is outdated. Contact the help desk at <a href="mailto:support@osf.io">support@osf.io</a> for the current ID or a new csv file. <br>Invalid IDs: {invalidIds}. <br>Missing IDs: {missingIds}.'
+            invalidProjectId:
+                title: 'Invalid project ID'
+                detail: 'This Project GUID does not exist. Check that each project’s GUID is accurate. Registrations that do not have a project should have a blank cell.'
+            invalidInstitutionName:
+                title: 'Invalid institution name'
+                detail: 'This affiliated institution name does not match our system. Check that the institution’s name is spelled correctly. <a href="https://osf.io/institutions?view_only=">Click here</a> to view a list of currently active affiliated institutions.'        
+            invalidLicenseName:
+                title: 'Invalid license name'
+                detail: 'This license does not match our system. It’s likely that the license is either spelled incorrectly, is not an option in our system, or formatted incorrectly. <a href="https://help.osf.io/hc/en-us/articles/360019739014-Licensing">Click here</a> to view a list of available licenses. See section “CSV Templates” in our Moderator’s Guide for more information on formatting specific licenses.'
+            invalidSubjectName:
+                title: 'Invalid subject name'
+                detail: 'This subject does not match our system. It’s likely it is spelled incorrectly. OSF uses the <a href="https://www.bepress.com/wp-content/uploads/2016/12/Disciplines_taxonomy_2018-01.pdf">bepress taxonomy</a>. Only the word or phase after the last colon needs to be entered.'
+            invalidCategoryName:
+                title: 'Invalid category name'
+                detail: 'This category does not exist. Check that the category is spelled currently. See section “Field Formatting” in the <a href="https://drive.google.com/file/d/1FJT6Jl8kPJM95oWy5Dkueee-Sg81pz2m/view?usp=sharing">Moderator Guide</a> for a list of categories. Categories can be edited after the registration is submitted.'
+            invalidResponse:
+                title: 'Invalid response'
+                detail: 'This response is not acceptable by the system. It’s likely that this is due to misspelling or having multiple answers for a single response question. See section “Field Formatting” in the <a href="https://drive.google.com/file/d/1FJT6Jl8kPJM95oWy5Dkueee-Sg81pz2m/view?usp=sharing">Moderator Guide</a> for more information.'
+            invalidContributors:
+                title: 'Invalid format for contributors'
+                detail: 'This contributors list does not match the system’s formatting requirements. Review the required formatting in the Moderator’s Manual. Contact the help desk at <a href="mailto:support@osf.io">support@osf.io</a> if this is not the issue.'
+            missingTitle:
+                title: 'Missing title'
+                detail: 'This title is missing. Check that each registration has a title.'
+            missingDescription:
+                title: 'Missing description'
+                detail: 'This description is missing. Enter a high level summary of the registration. This summary can be edited after the registration is submitted.'
+            missingAdminContributor:
+                title: 'Missing admin contributor'
+                detail: 'This registration doesn’t include an admin contributor. A registration requires at least one admin contributor to be submitted. See section “Field Formatting” in the <a href="https://drive.google.com/file/d/1FJT6Jl8kPJM95oWy5Dkueee-Sg81pz2m/view?usp=sharing">Moderator Guide</a> for more information on formatting contributors.'
+            missingBibliographicContributor:
+                title: 'Missing bibliographic contributor'
+                detail: 'This registration doesn’t have any bibliographic contributors. Registration must have at least one bibliographic contributors. See section “Field Formatting” in the <a href="https://drive.google.com/file/d/1FJT6Jl8kPJM95oWy5Dkueee-Sg81pz2m/view?usp=sharing">Moderator Guide</a> for information on formatting contributors.'
+            missingLicenseName:
+                title: 'Missing license name'
+                detail: 'This license is missing. Check that each registration has a license.'
+            missingSubjectName:
+                title: 'Missing subject name'
+                detail: 'This subject is missing. Check that each registration has a subject.'
+            sizeExceedsLimit:
+                title: 'File size exceeds limit'
+                detail: 'The csv file exceeds the 1MB limit. Break the file into multiple files and reupload them. Contact the Help Desk at <a href="mailto:support@osf.io">support@osf.io</a> if you have any questions.'
+            bulkUploadJobExists:
+                title: 'Bulk upload job already exists'
+                detail: 'This csv file was already uploaded into the system and cannot be re-uploaded.'
+            invalidFileType:
+                title: 'Invalid file type'
+                detail: 'Only csv files can be uploaded in the system. Convert the file into the csv format and reupload the document. Contact the Help Desk at <a href="mailto:support@osf.io">support@osf.io</a> if you have any questions.'
+            uploadSuccess: 'Successfully uploaded csv file.'
         overview:
             title: 'Moderated Overview'
     new:
@@ -1124,6 +1188,8 @@ registries:
             justification_description: 'Justification will be provided to admins and moderators upon review. Once approved, it will be displayed at the top of the registration.'
         page_title: 'Update registration'
         review:
+            justification_page_label: 'Justification'
+            no_justification: 'No justification provided.'
             submit_changes: 'Submit changes'
             accept_changes: 'Accept changes'
             continue_editing: 'Continue editing'
@@ -1134,13 +1200,13 @@ registries:
             action_submit_failed: 'Your decision was not recorded'
             non_admin_warning: 'Only admins can submit an update.'
             invalid_warning: 'Please address invalid or missing entries to complete update.'
-        revised_responses_list: 
-                no_responses: 'No previous responses available.'
         continue_edit_modal:
             heading: 'Are you sure this needs more edits?'
             warning: 'This will cancel any approvals from other admin contributors and return the registration back to its draft form for additional changes.'
             reason: 'What additional changes need to be made and why?'
             submit: 'Submit'
+
+        
     index:
         lead: 'The <span class="f-w-lg">open</span> registries network'
         see_example: 'See an example'
@@ -1440,16 +1506,18 @@ registries:
     finalizeRegistrationModal:
         title: 'Almost done...'
         notice:
-            noModerationFromProject: 'Remember:<ul><li>Registrations cannot be modified or deleted once submitted.</li><li>Changes to any files (1) in the projects or components being registered, (2) uploaded or selected as prompt responses, including those connected through add-ons during archiving will result in archiving failure and loss of your registration timestamp. Please do not modify your files until after you have received email confirmation of archiving completion. If this registration has been archiving for more than 72 hours, please email <a href="mailto:support@osf.io">support@osf.io</a> for assistance.</li><li>The content and version history of Wiki and OSF Storage will be copied to the registration.</li><li>This project may contain links to other projects. These links will be copied into your registration, but the projects that they link to will not be registered. If you wish to register the linked projects, they must be registered separately. <a href="{learnMoreLink}" target="_blank" rel="noopener noreferrer">Learn more about links</a>.</li></ul>'
-            withModerationFromProject: 'Remember:<ul><li>Registrations cannot be modified or deleted once submitted.</li><li>Changes to any files (1) in the projects or components being registered, (2) uploaded or selected as prompt responses, including those connected through add-ons during archiving will result in archiving failure and loss of your registration timestamp. Please do not modify your files until after you have received email confirmation of archiving completion. If this registration has been archiving for more than 72 hours, please email <a href="mailto:support@osf.io">support@osf.io</a> for assistance.</li><li>The content and version history of Wiki and OSF Storage will be copied to the registration.</li><li>This project may contain links to other projects. These links will be copied into your registration, but the projects that they link to will not be registered. If you wish to register the linked projects, they must be registered separately. <a href="{learnMoreLink}" target="_blank" rel="noopener noreferrer">Learn more about links</a>.</li><li>A moderator must review and approve your registration before it will be made public or embargoed.</li></ul>'
-            noModerationNoProject: 'Remember:<ul><li>Registrations cannot be modified or deleted once submitted.</li><li>Changes to any files uploaded or selected as prompt responses will result in archiving failure and loss of your registration timestamp. If this registration has been archiving for more than 72 hours, email <a href="mailto:support@osf.io">support@osf.io</a> for assistance.</li></ul>'
-            withModerationNoProject: 'Remember:<ul><li>Registrations cannot be modified or deleted once submitted.</li><li>Changes to any files uploaded or selected as prompt responses will result in archiving failure and loss of your registration timestamp. If this registration has been archiving for more than 72 hours, email <a href="mailto:support@osf.io">support@osf.io</a> for assistance.</li><li>A moderator must review and approve your registration before it will be made public or embargoed.</li></ul>'
+            noModerationFromProject: 'Remember:<ul><li>Registrations cannot be modified or deleted once submitted.</li><li>Changes to any files (1) in the projects or components being registered, (2) uploaded or selected as prompt responses, including those connected through add-ons during archiving will result in archiving failure and loss of your registration timestamp. Please do not modify your files until after you have received email confirmation of archiving completion. If this registration has been archiving for more than 72 hours, please email <a href="mailto:support@osf.io">support@osf.io</a> for assistance.</li><li>The content and version history of Wiki and OSF Storage will be copied to the registration.</li><li>This project may contain links to other projects. These links will be copied into your registration, but the projects that they link to will not be registered. If you wish to register the linked projects, they must be registered separately. <a href="{learnMoreLink}" target="_blank" rel="noopener noreferrer">Learn more about links</a>.</li><li>Registrations are archived on Internet Archive and a link to the archived copy will be added to the registration metadata.</li></ul>'
+            withModerationFromProject: 'Remember:<ul><li>Registrations cannot be modified or deleted once submitted.</li><li>Changes to any files (1) in the projects or components being registered, (2) uploaded or selected as prompt responses, including those connected through add-ons during archiving will result in archiving failure and loss of your registration timestamp. Please do not modify your files until after you have received email confirmation of archiving completion. If this registration has been archiving for more than 72 hours, please email <a href="mailto:support@osf.io">support@osf.io</a> for assistance.</li><li>The content and version history of Wiki and OSF Storage will be copied to the registration.</li><li>This project may contain links to other projects. These links will be copied into your registration, but the projects that they link to will not be registered. If you wish to register the linked projects, they must be registered separately. <a href="{learnMoreLink}" target="_blank" rel="noopener noreferrer">Learn more about links</a>.</li><li>A moderator must review and approve your registration before it will be made public or embargoed.</li><li>Registrations are archived on Internet Archive and a link to the archived copy will be added to the registration metadata.</li></ul>'
+            noModerationNoProject: 'Remember:<ul><li>Registrations cannot be modified or deleted once submitted.</li><li>Changes to any files uploaded or selected as prompt responses will result in archiving failure and loss of your registration timestamp. If this registration has been archiving for more than 72 hours, email <a href="mailto:support@osf.io">support@osf.io</a> for assistance.</li><li>Registrations are archived on Internet Archive and a link to the archived copy will be added to the registration metadata.</li></ul>'
+            withModerationNoProject: 'Remember:<ul><li>Registrations cannot be modified or deleted once submitted.</li><li>Changes to any files uploaded or selected as prompt responses will result in archiving failure and loss of your registration timestamp. If this registration has been archiving for more than 72 hours, email <a href="mailto:support@osf.io">support@osf.io</a> for assistance.</li><li>A moderator must review and approve your registration before it will be made public or embargoed.</li><li>Registrations are archived on Internet Archive and a link to the archived copy will be added to the registration metadata.</li></ul>'
         immediateOption: 'Make registration public immediately'
         embargoOption: 'Enter registration into embargo'
-        createDoi: 'Create DOI'
+        
         submit: Submit
         back: Back
         datePlaceholder: 'Choose embargo end date'
+    revisedResponsesList:
+        noResponses: 'No responses updated'
     sharingIcons:
         label: 'Share this registration via {mediaType}'
     makeDecisionDropdown:
@@ -1740,6 +1808,7 @@ osf-components:
         collapseSideNav: 'Collapse registration form navigation'
     registries-top-nav:
         showRegistrationNavigation: 'Show registration form navigation'
+        justification: 'Return to justification'
         metadata: 'Return to metadata'
         previousPage: 'Previous page'
         nextPage: 'Next page'
