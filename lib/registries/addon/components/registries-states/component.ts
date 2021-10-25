@@ -58,8 +58,17 @@ export default class RegistriesStates extends Component {
             stateKey = 'pendingRegistrationApproval';
         } else if (this.registration.pendingEmbargoApproval) {
             stateKey = 'pendingEmbargoApproval';
-        } else if (this.registration.revisionState !== RevisionReviewStates.Approved) {
-            stateKey = camelize(this.registration.revisionState);
+        } else if (
+            [
+                RegistrationReviewStates.Embargo,
+                RegistrationReviewStates.Accepted,
+            ].includes(this.registration.reviewsState)
+        ) {
+            if (this.registration.revisionState !== RevisionReviewStates.Approved) {
+                stateKey = camelize(this.registration.revisionState);
+            } else {
+                stateKey = camelize(this.registration.reviewsState);
+            }
         } else {
             stateKey = camelize(this.registration.reviewsState);
         }
