@@ -1,3 +1,4 @@
+import { assert } from '@ember/debug';
 import Store from '@ember-data/store';
 import { inject as service } from '@ember/service';
 import { tagName } from '@ember-decorators/component';
@@ -53,5 +54,10 @@ export default class RegistrationFormViewSchemaBlocks extends Component {
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
         }
+    }
+
+    didReceiveAttrs() {
+        assert('OverviewFormRenderer needs a registration or revisionId',
+            Boolean(this.registration || this.revisionId));
     }
 }
