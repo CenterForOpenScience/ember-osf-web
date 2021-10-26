@@ -13,13 +13,12 @@ export default class UpdateLabel extends Component<Args> {
     get label() {
         const { totalRevisions, index } = this.args;
         const revisionNumber = totalRevisions - index;
-        let labelString = this.intl.t('registries.update_dropdown.updates_list_label', { revisionNumber });
         if (index === totalRevisions) {
-            labelString = this.intl.t('registries.update_dropdown.updates_list_label_original');
+            return this.intl.t('registries.update_dropdown.updates_list_label_original');
         }
         if (index === 0) {
-            labelString = this.intl.t('registries.update_dropdown.latest');
+            return this.intl.t('registries.update_dropdown.latest');
         }
-        return labelString;
+        return this.intl.t('registries.update_dropdown.updates_list_label', { revisionNumber });
     }
 }
