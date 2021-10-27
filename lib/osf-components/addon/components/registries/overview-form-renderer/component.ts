@@ -24,6 +24,9 @@ export default class RegistrationFormViewSchemaBlocks extends Component {
     registration?: Registration;
     revisionId?: string;
 
+    // Optional parameters
+    updateResponseIds?: string[];
+
     // Private properties
     revision?: SchemaResponseModel;
     schemaBlocks?: SchemaBlock[];

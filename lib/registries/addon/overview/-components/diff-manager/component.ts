@@ -66,9 +66,6 @@ export default class DiffManager extends Component<Args> {
         } else {
             this.headRevision = await registration.schemaResponses.lastObject;
         }
-        console.log('Base revision is:', this.baseRevision);
-        console.log('Head revision is:', this.headRevision);
-        console.log('Registration is:', registration);
         this.getDiff();
     }
 
@@ -76,15 +73,13 @@ export default class DiffManager extends Component<Args> {
         assert('getDiff() requires a registration, headRevision, and baseRevision',
             this.args.registration && this.headRevision && this.baseRevision);
 
-        if (this.registration && this.headRevision && this.baseRevision) {
-            const newChanges = this.headRevision.revisionResponses;
-            const previousChanges = this.baseRevision.revisionResponses;
-            this.updatedKeys = Object.entries(newChanges).reduce((updatedKeys: string[], [key, value]) => {
-                if (value !== previousChanges[key]) {
-                    updatedKeys.push(key);
-                }
-                return updatedKeys;
-            }, []);
-        }
+        const newChanges = this.headRevision.revisionResponses;
+        const previousChanges = this.baseRevision.revisionResponses;
+        this.updatedKeys = Object.entries(newChanges).reduce((updatedKeys: string[], [key, value]) => {
+            if (value !== previousChanges[key]) {
+                updatedKeys.push(key);
+            }
+            return updatedKeys;
+        }, []);
     }
 }
