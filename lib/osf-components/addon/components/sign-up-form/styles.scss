@@ -31,6 +31,10 @@
             background-color: $color;
         }
     }
+
+    a {
+        color: $color-link-dark;
+    }
 }
 
 .CreatePassword:global(.progress) {
