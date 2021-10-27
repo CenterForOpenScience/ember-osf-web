@@ -79,7 +79,7 @@ export default class CurrentUserService extends Service {
 
     constructor(...args: any[]) {
         super(...args);
-        this.session.on('invalidationSucceeded', this, this._authRedirect.bind(this, AuthRoute.Logout));
+        this.session.on('invalidationSucceeded', this, this._authRedirect.bind(this, AuthRoute.Logout, '/'));
     }
 
     /**

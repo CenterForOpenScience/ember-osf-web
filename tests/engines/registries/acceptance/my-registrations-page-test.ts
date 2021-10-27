@@ -26,18 +26,21 @@ module('Registries | Acceptance | my-registrations page', hooks => {
         await visit('/registries/my-registrations');
         assert.dom('[data-test-my-registrations-sort-description]').exists('Sort description shown');
         assert.notOk(currentURL().includes('tab'), 'Tab query param not visible on submitted');
-        assert.dom('[data-test-my-registrations-nav="submitted"]').hasClass('active', 'Submitted tab is active');
-        assert.dom('[data-test-my-registrations-nav="drafts"]').doesNotHaveClass('active', 'Draft tab is not active');
+        assert.dom('[data-test-my-registrations-nav="submitted"]')
+            .hasClass('ember-tabs__tab--selected', 'Submitted tab is active');
+        assert.dom('[data-test-my-registrations-nav="drafts"]')
+            .doesNotHaveClass('ember-tabs__tab--selected', 'Draft tab is not active');
         assert.dom('[data-test-my-registrations-pane="submitted"]').isVisible('Submitted pane is shown');
         assert.dom('[data-test-my-registrations-pane="drafts"]').isNotVisible('Drafts pane is not shown');
         assert.dom('[data-test-node-card]').exists({ count: 3 }, 'All submitted registrations shown');
         await percySnapshot(assert);
 
-        await click('[data-test-my-registrations-nav-button="drafts"]');
+        await click('[data-test-my-registrations-nav="drafts"]');
         assert.ok(currentURL().includes('tab=drafts'), 'Tab query param visible on drafts');
-        assert.dom('[data-test-my-registrations-nav="drafts"]').hasClass('active', 'Drafts tab is active');
-        assert.dom('[data-test-my-registrations-nav="submitted"]').doesNotHaveClass('active',
-            'Submitted tab is not active');
+        assert.dom('[data-test-my-registrations-nav="drafts"]')
+            .hasClass('ember-tabs__tab--selected', 'Drafts tab is active');
+        assert.dom('[data-test-my-registrations-nav="submitted"]')
+            .doesNotHaveClass('ember-tabs__tab--selected', 'Submitted tab is not active');
         assert.dom('[data-test-my-registrations-pane="drafts"]').isVisible('Drafts pane is shown');
         assert.dom('[data-test-my-registrations-pane="submitted"]').isNotVisible('Submitted pane is not shown');
         assert.dom('[data-test-draft-registration-card]').exists({ count: 2 }, 'All drafts shown');
