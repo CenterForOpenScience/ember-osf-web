@@ -86,7 +86,7 @@ module('Registries | Acceptance | overview.index', hooks => {
             selector: '[data-analytics-name="Files"]',
             href: `/${this.registration.id}/files/`,
         }, {
-            selector: '[data-analytics-name="Wiki"]',
+            selector: '[data-test-wiki-link]',
             href: `/${this.registration.id}/wiki/`,
         }];
 
@@ -95,6 +95,20 @@ module('Registries | Acceptance | overview.index', hooks => {
 
             assert.dom(testCase.selector).hasAttribute('href', testCase.href, 'Non-ember routes have the correct href');
         }
+    });
+
+    test('wiki link hidden if wiki not enabled', async function(this: OverviewTestContext, assert: Assert){
+        this.set('registration', server.create('registration', {
+            archiving: false,
+            withdrawn: false,
+            wikiEnabled: false,
+            registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            provider: server.create('registration-provider'),
+        }, 'withContributors', 'currentUserAdmin'));
+
+        await visit(`/${this.registration.id}`);
+
+        assert.dom('[data-test-wiki-link]').doesNotExist('Wiki link hidden because wiki disabled');
     });
 
     test('withdrawn tombstone', async function(this: OverviewTestContext, assert: Assert) {
