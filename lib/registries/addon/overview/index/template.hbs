@@ -11,12 +11,14 @@
 {{/unless}}
 
 {{#if this.registration}}
-    <DiffManager
+    <Overview::-Components::DiffManager
+        @registration={{this.registration}}
+        @headRevisionId={{this.overview.revisionId}}
     as |diffManager|>
         <Registries::OverviewFormRenderer
             @registration={{this.registration}}
             @revisionId={{this.overview.revisionId}}
             @updatedResponseIds={{this.diffManager.updatedResponseIds}}
         />
-    </DiffManager>
+    </Overview::-Components::DiffManager>
 {{/if}}

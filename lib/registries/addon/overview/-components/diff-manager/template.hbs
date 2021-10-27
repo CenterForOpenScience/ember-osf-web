@@ -1,6 +1,5 @@
-{{did-update this.updateArgs}}
+{{did-update this.recalculateDiff}}
 
 {{yield (hash
-    baseRevisionId=this.baseRevisionId,
-    headRevisionId=this.headRevisionId,
+    updatedKeys=this.updatedKeys
 )}}
