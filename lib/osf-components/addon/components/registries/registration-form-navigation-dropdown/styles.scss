@@ -42,7 +42,7 @@
     line-height: 2.8;
 }
 
-.ToggleNav__button:global(.btn.btn-link) {
+.ToggleNav__button {
     float: right;
     color: $color-text-blue-dark;
     padding: 3px 8px;

@@ -249,7 +249,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         ) && displayText);
         await visit(`/${reg.id}/`);
 
-        assert.dom('[data-test-toggle-anchor-nav-button]').isVisible();
+        assert.dom('[data-test-toggle-anchor-nav-button] div').isVisible();
         assert.dom('[data-test-page-anchor]').isNotVisible();
 
         await click('[data-test-toggle-anchor-nav-button]');
