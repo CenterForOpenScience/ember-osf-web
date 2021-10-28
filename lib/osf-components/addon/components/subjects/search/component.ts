@@ -36,7 +36,7 @@ export default class SearchSubjects extends Component {
     async doSearch() {
         await timeout(500); // debounce
 
-        const { provider } = this.subjectsManager;
+        const provider = await this.subjectsManager.provider;
 
         const { userQuery } = this;
         if (!userQuery) {

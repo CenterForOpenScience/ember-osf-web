@@ -34,7 +34,7 @@ export interface SubjectManager {
     savedSubjects: SubjectModel[];
     isSaving: boolean;
     hasChanged: boolean;
-    provider: ProviderModel;
+    provider: Promise<ProviderModel>;
 
     selectSubject(subject: SubjectModel): void;
     unselectSubject(subject: SubjectModel): void;
@@ -51,7 +51,7 @@ export interface SubjectManager {
 export default class SubjectManagerComponent extends Component {
     // required
     model!: ModelWithSubjects;
-    provider!: ProviderModel;
+    provider!: Promise<ProviderModel>;
     doesAutosave!: boolean;
 
     // optional
