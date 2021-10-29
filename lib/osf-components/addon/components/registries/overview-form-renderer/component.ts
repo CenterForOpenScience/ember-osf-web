@@ -21,11 +21,11 @@ export default class RegistrationFormViewSchemaBlocks extends Component {
     @service store!: Store;
     @service toast!: Toast;
     // Required parameter
-    registration?: Registration;
-    revisionId?: string;
+    registration!: Registration;
 
     // Optional parameters
-    updateResponseIds?: string[];
+    revisionId?: string;
+    updatedResponseIds?: string[];
 
     // Private properties
     revision?: SchemaResponseModel;
@@ -45,10 +45,8 @@ export default class RegistrationFormViewSchemaBlocks extends Component {
             if (this.registration) {
                 const registrationSchema = await this.registration.registrationSchema;
                 const responses = revision ? revision.revisionResponses : this.registration.registrationResponses;
-                const schemaBlocksRef = registrationSchema.hasMany('schemaBlocks');
-                const schemaBlocks = schemaBlocksRef.ids().length
-                    ? schemaBlocksRef.value() : (await registrationSchema.loadAll('schemaBlocks'));
-                const schemaBlockGroups = getSchemaBlockGroups(schemaBlocks as SchemaBlock[]);
+                const schemaBlocks: SchemaBlock[] = await registrationSchema.loadAll('schemaBlocks');
+                const schemaBlockGroups = getSchemaBlockGroups(schemaBlocks, this.updatedResponseIds);
                 this.set('schemaBlocks', schemaBlocks);
                 this.set('schemaBlockGroups', schemaBlockGroups);
                 this.set('responses', responses);
@@ -60,7 +58,6 @@ export default class RegistrationFormViewSchemaBlocks extends Component {
     }
 
     didReceiveAttrs() {
-        assert('OverviewFormRenderer needs a registration or revisionId',
-            Boolean(this.registration || this.revisionId));
+        assert('OverviewFormRenderer needs a registration',Boolean(this.registration));
     }
 }

@@ -253,8 +253,8 @@ export function registrationScenario(
             { field_name: 'Mac Address', field_value: 'b6:be:5a:05:ef:7a' },
         ],
         registrationResponses: {
-            q1: 'Hello',
-            q2: ['Array of greetings'],
+            'page-one_long-text': 'eeeee',
+            'page-one_multi-select': ['Crocs'],
         },
     }, 'withContributors', 'withReviewActions');
 
@@ -263,8 +263,8 @@ export function registrationScenario(
         reviewsState: RevisionReviewStates.Unapproved,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
-            q1: 'Good Morning',
-            q2: ['List of greetings'],
+            'page-one_long-text': 'dddd',
+            'page-one_multi-select': ['Crocs'],
         },
         initiatedBy: currentUser,
         registration: bismuth,
@@ -272,11 +272,11 @@ export function registrationScenario(
 
     server.create('schema-response', {
         id: 'copyEditRPM',
-        reviewsState: RevisionReviewStates.RevisionPendingModeration,
+        reviewsState: RevisionReviewStates.Approved,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
-            q1: 'Good Morning',
-            q2: ['List of greetings'],
+            'page-one_long-text': 'aaaaa',
+            'page-one_multi-select': ['Crocs'],
         },
         initiatedBy: currentUser,
         registration: bismuth,
@@ -284,11 +284,11 @@ export function registrationScenario(
 
     server.create('schema-response', {
         id: 'copyEditRIP',
-        reviewsState: RevisionReviewStates.RevisionInProgress,
+        reviewsState: RevisionReviewStates.Approved,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
-            q1: 'Good Morning',
-            q2: ['List of greetings'],
+            'page-one_long-text': 'bbbbbb',
+            'page-one_multi-select': ['Crocs'],
         },
         initiatedBy: currentUser,
         registration: bismuth,
@@ -300,8 +300,8 @@ export function registrationScenario(
         reviewsState: RevisionReviewStates.Approved,
         revisionJustification: 'Copy Edit',
         revisionResponses: {
-            q1: 'Good Morning',
-            q2: ['List of greetings'],
+            'page-one_long-text': 'ccccc',
+            'page-one_multi-select': ['Crocs'],
         },
         initiatedBy: currentUser, // should be the user associated with the edit, not the mod/admin
         registration: bismuth,

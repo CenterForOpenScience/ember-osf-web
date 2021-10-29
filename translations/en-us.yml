@@ -1755,6 +1755,7 @@ osf-components:
         read-only-contributors-list:
             editContributorsOnYourProject: 'Edit contributors on your project'
         schema-block-renderer/label:
+            updated: 'Updated'
             showExample: 'Show example'
             hideExample: 'Hide example'
             editButtonAriaLabel: 'Edit {questionLabel}'

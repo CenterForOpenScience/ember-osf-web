@@ -1,22 +1,16 @@
-// take in 1 revision and compare it to the original version (future work to support any base version)
-// if there is no selected revisionId, then compare to the latest version
-// if there is a selected revisionId, then compare to the selected version
-
 import { inject as service } from '@ember/service';
 import Store from '@ember-data/store';
+import { assert } from '@ember/debug';
+import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import RegistrationModel from 'ember-osf-web/models/registration';
-import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
-import SchemaResponseModel from 'ember-osf-web/models/schema-response';
-import { assert } from '@ember/debug';
 
-// takes in a revisionId (and a base version)
-// outputs a list of changed response Ids
+import RegistrationModel from 'ember-osf-web/models/registration';
+import SchemaResponseModel from 'ember-osf-web/models/schema-response';
 
 interface Args {
     registration: RegistrationModel;
@@ -25,10 +19,6 @@ interface Args {
 }
 
 export default class DiffManager extends Component<Args> {
-    // fetch registration
-    registration!: RegistrationModel;
-    revision?: SchemaResponseModel;
-
     @service store!: Store;
     @service intl!: Intl;
     @service toast!: Toast;
@@ -56,7 +46,7 @@ export default class DiffManager extends Component<Args> {
                 this.baseRevision = await this.store.findRecord('schema-response', baseRevisionId);
             }
         } else {
-            this.baseRevision = await registration.schemaResponses.firstObject;
+            this.baseRevision = registration.schemaResponses.firstObject;
         }
         if (headRevisionId) {
             const headRevision = this.store.peekRecord('schema-response', headRevisionId);
@@ -64,7 +54,7 @@ export default class DiffManager extends Component<Args> {
                 this.headRevision = await this.store.findRecord('schema-response', headRevisionId);
             }
         } else {
-            this.headRevision = await registration.schemaResponses.lastObject;
+            this.headRevision = registration.schemaResponses.lastObject;
         }
         this.getDiff();
     }
