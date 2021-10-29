@@ -7,13 +7,13 @@ import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 import Analytics from 'ember-osf-web/services/analytics';
 
-import RegistriesModerationSubmissionController from './controller';
+import RegistriesModerationSubmittedController from './controller';
 
-export default class BrandedModerationSubmissionsRoute extends Route {
+export default class BrandedModerationSubmittedRoute extends Route {
     @service analytics!: Analytics;
 
     setupController(
-        controller: RegistriesModerationSubmissionController,
+        controller: RegistriesModerationSubmittedController,
         model: RegistrationProviderModel,
         transition: Transition,
     ) {
@@ -21,15 +21,13 @@ export default class BrandedModerationSubmissionsRoute extends Route {
         const { state } = controller;
         if (!state
             || ![
-                RegistrationReviewStates.Pending,
                 RegistrationReviewStates.Accepted,
                 RegistrationReviewStates.Embargo,
                 RegistrationReviewStates.Rejected,
                 RegistrationReviewStates.Withdrawn,
-                RegistrationReviewStates.PendingWithdraw,
             ].includes(state!)) {
-            controller.set('state', 'pending');
-            this.replaceWith('branded.moderation.submissions');
+            controller.set('state', RegistrationReviewStates.Accepted);
+            this.replaceWith('branded.moderation.submitted');
         }
     }
 

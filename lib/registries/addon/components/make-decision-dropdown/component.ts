@@ -139,7 +139,7 @@ export default class MakeDecisionDropdown extends Component<Args> {
                 this.toast.success(this.intl.t('registries.makeDecisionDropdown.success'));
                 if (this.decisionTrigger === ReviewActionTrigger.RejectSubmission) {
                     this.router.transitionTo(
-                        'registries.branded.moderation.submissions',
+                        'registries.branded.moderation.submitted',
                         this.args.registration.provider.get('id'),
                         { queryParams: { state: RegistrationReviewStates.Rejected } },
                     );

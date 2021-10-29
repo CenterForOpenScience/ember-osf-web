@@ -95,8 +95,8 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         await click('[data-test-moderation-dropdown-submit]');
         assert.equal(
             currentRouteName(),
-            'registries.branded.moderation.submissions',
-            'Redirected to the submissions page',
+            'registries.branded.moderation.submitted',
+            'Redirected to the submitted page',
         );
         assert.dom(
             '[data-test-submissions-type="rejected"][data-test-is-selected="true"]',

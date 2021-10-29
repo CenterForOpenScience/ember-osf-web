@@ -1011,8 +1011,10 @@ registries:
             withdrawn: Withdrawn
             pendingWithdraw: 'Pending Withdrawal'
             revisionPending: 'Pending Updates'
-        submissions:
-            title: Submissions
+        submitted:
+            title: Submitted
+        pending:
+            title: Pending
         withdrawals:
             title: 'Withdrawal Requests'
         moderators:
@@ -1466,7 +1468,7 @@ registries:
         rejected: 'No rejected registrations have been found'
         withdrawn: 'No withdrawn registrations have been found'
         pending_withdraw: 'No registrations found pending withdrawal'
-        revision_pending_moderation: 'No registrations found with updates pending'
+        pending_moderation: 'No registrations found with updates pending'
     reviewActionsList:
         failedToLoadActions: 'Failed to load registration moderation history'
         noActionsFound: 'No moderation history found for this registration'
