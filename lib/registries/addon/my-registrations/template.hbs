@@ -15,69 +15,47 @@
         </layout.heading>
         <layout.main>
             {{#if this.currentUser.user}}
-                <BsTab
+                <AriaTabs
                     local-class='NavTabs'
-                    @customTabs={{true}}
-                    @onChange={{this.changeTab}} 
-                    @activeId={{this.tab}}
+                    @onSelect={{this.changeTab}} 
+                    @defaultIndex={{if (eq this.tab 'submitted') 1 0}}
                     as |tab|
                 >
-                    <BsNav
-                        @type='tabs'
+                    <tab.tabList
                         as |nav|
                     >
-                        <nav.item
+                        <nav.tab
                             data-test-my-registrations-nav='drafts'
-                            @active={{bs-eq tab.activeId 'drafts'}}
+                            local-class='NavItem'
                         >
-                            <button
-                                data-test-my-registrations-nav-button='drafts'
-                                local-class='NavItem'
-                                type='button'
-                                role='tab'
-                                {{on 'click' (fn this.changeTab 'drafts')}}
-                            >
-                                {{t 'registries.my_registrations.drafts'}}
-                            </button>
-                        </nav.item>
-                        <nav.item
+                            {{t 'registries.my_registrations.drafts'}}
+                        </nav.tab>
+                        <nav.tab
                             data-test-my-registrations-nav='submitted'
-                            @active={{bs-eq tab.activeId 'submitted'}}
+                            local-class='NavItem'
                         >
-                            <button
-                                data-test-my-registrations-nav-button='submitted'
-                                local-class='NavItem'
-                                type='button'
-                                role='tab'
-                                {{on 'click' (fn this.changeTab 'submitted')}}
-                            >
-                                {{t 'registries.my_registrations.submitted'}}
-                            </button>
-                        </nav.item>
-                    </BsNav>
+                            {{t 'registries.my_registrations.submitted'}}
+                        </nav.tab>
+                    </tab.tabList>
                     <div
                         data-test-my-registrations-sort-description
                         local-class='SortDescription'
                     >
                         {{t 'registries.my_registrations.sorted'}}
                     </div>
-                    <tab.pane
+                    <tab.tabPanel
                         data-test-my-registrations-pane='drafts'
                         local-class='TabPane'
-                        @title={{t 'registries.my_registrations.drafts'}}
-                        @id='drafts'
                     >
                         <Registries::MyRegistrationsList::Drafts />
-                    </tab.pane>
-                    <tab.pane
+                    </tab.tabPanel>
+                    <tab.tabPanel
                         data-test-my-registrations-pane='submitted'
                         local-class='TabPane'
-                        @title={{t 'registries.my_registrations.submitted'}}
-                        @id='submitted'
                     >
                         <Registries::MyRegistrationsList::Registrations @user={{this.currentUser.user}} />
-                    </tab.pane>
-                </BsTab>
+                    </tab.tabPanel>
+                </AriaTabs>
             {{/if}}
         </layout.main>
     </OsfLayout>

@@ -5,6 +5,7 @@
 <div data-test-meetings-list-search local-class='search'>
     <div class='col-xs-12 col-sm-6 col-sm-offset-6'>
         <Input
+            aria-label={{t 'meetings.index.meetings-list.search'}}
             @type='text'
             @placeholder={{t 'meetings.index.meetings-list.search'}}
             @key-up={{perform this.searchMeetings}}
