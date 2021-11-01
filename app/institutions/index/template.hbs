@@ -3,6 +3,7 @@
 <div
     data-analytics-scope='Institutions'
     local-class='Institutions__page'
+    role='main'
 >
     <div
         data-test-insitutions-header
@@ -97,6 +98,7 @@
                                 {{#if this.hasMore}}
                                     <BsButton
                                         data-test-more-institutions
+                                        aria-label={{t 'institutions.load_more'}}
                                         data-analytics-name='Next page'
                                         local-class='Institutions__more'
                                         @type='link'

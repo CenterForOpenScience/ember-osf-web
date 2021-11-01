@@ -12,7 +12,7 @@ export default class MyRegistrationsController extends Controller {
     @tracked tab = 'submitted';
 
     @action
-    changeTab(newTabId: string) {
-        this.tab = newTabId;
+    changeTab(newTabId: number) {
+        this.tab = newTabId === 1 ? 'submitted' : 'drafts';
     }
 }
