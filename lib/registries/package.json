@@ -13,6 +13,7 @@
     "@glimmer/component": "*",
     "@glimmer/tracking": "*",
     "ember-angle-bracket-invocation-polyfill": "*",
+    "ember-aria-tabs": "*",
     "ember-basic-dropdown": "*",
     "ember-bootstrap": "*",
     "ember-changeset": "*",
