@@ -1388,15 +1388,15 @@ registries:
             please_note: 'Please note:'
             email_support: 'Changes to any files (1) in the projects or components being registered, (2) uploaded or selected as prompt responses, including those connected through add-ons during archiving will result in archiving failure and loss of your registration timestamp. Please do not modify your files until after you have received email confirmation of archiving completion. If this registration has been archiving for more than 72 hours, please email <a data-analytics-name="Email support" href="mailto:{supportEmail}">{supportEmail}</a> for assistance.'
         pendingRegistrationApproval:
-            text: 'Pending registration'
+            text: 'Pending approval'
             short_description: 'Pending registration approval'
-            long_description: 'This is a pending registration of this <strong><a href={projectUrl}>project</a></strong>, awaiting approval from project administrators. This registration will be final when all project administrators approve the registration or 48 hours pass, whichever comes first.'
+            long_description: 'This registration is waiting for approval from its contributors.'
         pendingEmbargoApproval:
-            text: 'Pending registration'
+            text: 'Pending approval'
             short_description: 'Pending embargo approval'
-            long_description: 'This registration is pending approval. It will be final and enter an embargo period when all project administrators approve the registration or 48 hours pass, whichever comes first. The embargo will keep the registration private until the embargo period ends.'
+            long_description: 'This registration is waiting for approval from its contributors. Once approved, the registration will remain private until the embargo ends.'
         pending:
-            text: 'Pending registration'
+            text: 'Pending moderation'
             short_description: 'Pending moderator approval'
             long_description: 'This registration is awaiting a decision by the registry moderators. An email will notify all registration contributors of the decision.'
         accepted:
@@ -1415,15 +1415,27 @@ registries:
         pendingEmbargoTermination:
             text: 'Embargoed registration'
             short_description: 'Pending embargo termination'
-            long_description: 'This registration is embargoed. It will remain private until {embargoEndDate}. A request to make this registration public is pending.'
+            long_description: 'This registration is waiting for approval from its contributors to terminate its embargo and be made public.'
         pendingWithdrawRequest:
-            text: 'Public registration'
+            text: 'Pending withdrawal'
             short_description: 'Pending withdraw request'
-            long_description: 'This registration will be withdrawn when all project administrators approve the withdrawal.'
+            long_description: 'This registration is waiting for approval to be withdrawn by its contributors.'
         pendingWithdraw:
-            text: 'Public registration'
+            text: 'Pending withdrawal'
             short_description: 'Pending withdrawal moderation'
-            long_description: 'This registration is awaiting a withdrawal decision by the registry moderators. An email will notify all registration contributors of the decision.'
+            long_description: 'This registration is waiting for approval to be withdrawn by registry moderators.'
+        unapproved:
+            text: 'Update pending'
+            short_description: 'Update pending approval'
+            long_description: 'This registration has an update that is waiting for approval from its contributors. Updates will be made available once approved.'
+        inProgress:
+            text: 'Update in progress'
+            short_description: 'Updates being made'
+            long_description: 'This registration is currently being updated by its contributors. Updates will be made available once approved.'
+        pendingModeration:
+            text: 'Update pending review'
+            short_description: 'Update pending moderator approval'
+            long_description: 'This registration has an update that is waiting for moderation. Updates will be made available once approved.'
         bookmark:
             add:
                 text: Bookmark

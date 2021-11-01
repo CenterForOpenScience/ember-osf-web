@@ -1,6 +1,7 @@
 import { HandlerContext, NormalizedRequestAttrs, Request, Schema } from 'ember-cli-mirage';
 import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import ReviewActionModel, { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
+import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 
 export function createReviewAction(this: HandlerContext, schema: Schema, request: Request) {
     const attrs = this.normalizedRequestAttrs('review-action') as Partial<NormalizedRequestAttrs<ReviewActionModel>>;
@@ -22,6 +23,7 @@ export function createReviewAction(this: HandlerContext, schema: Schema, request
         case ReviewActionTrigger.AcceptSubmission:
         case ReviewActionTrigger.RejectWithdrawal:
             registration.reviewsState = RegistrationReviewStates.Accepted;
+            registration.revisionState = RevisionReviewStates.Approved;
             break;
         case ReviewActionTrigger.RejectSubmission:
             registration.reviewsState = RegistrationReviewStates.Rejected;

@@ -1,7 +1,7 @@
 <ResponsiveDropdown 
     @horizontalPosition='left'
     @verticalPosition='below'
-    local-class='ResponsiveDropdown'
+    local-class={{if this.isDesktop 'ResponsiveDropdown'}}
     as |dd|
 >
     <dd.trigger
