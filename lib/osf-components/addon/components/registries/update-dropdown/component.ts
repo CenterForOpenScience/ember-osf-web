@@ -1,29 +1,32 @@
 import { action } from '@ember/object';
+import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import Store from '@ember-data/store';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
-import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
+import Media from 'ember-responsive';
+import Toast from 'ember-toastr/services/toast';
 
+import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import SchemaResponseModel, { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import CurrentUserService from 'ember-osf-web/services/current-user';
-import Toast from 'ember-toastr/services/toast';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
-import RouterService from '@ember/routing/router-service';
-import { taskFor } from 'ember-concurrency-ts';
-import { tracked } from '@glimmer/tracking';
 
 interface Args {
     registration: RegistrationModel;
     selectedRevisionId: string;
+    isModeratorMode: boolean;
 }
 
 export default class UpdateDropdown extends Component<Args> {
     @service currentUser!: CurrentUserService;
     @service intl!: Intl;
+    @service media!: Media;
     @service toast!: Toast;
     @service store!: Store;
     @service router!: RouterService;
@@ -42,6 +45,10 @@ export default class UpdateDropdown extends Component<Args> {
         taskFor(this.getRevisionList).perform();
     }
 
+    get isDesktop(): boolean {
+        return this.media.isDesktop || this.media.isJumbo;
+    }
+
     get hasMore() {
         return this.currentPage <= this.totalPage;
     }
@@ -53,7 +60,8 @@ export default class UpdateDropdown extends Component<Args> {
     }
 
     get shouldShowCreateButton(): boolean {
-        return this.args.registration.userHasAdminPermission
+        return Boolean(this.revisions.length) && !this.args.isModeratorMode
+            && this.args.registration.userHasAdminPermission
             && [
                 RegistrationReviewStates.Accepted,
                 RegistrationReviewStates.Embargo,
@@ -62,7 +70,8 @@ export default class UpdateDropdown extends Component<Args> {
     }
 
     get shouldShowUpdateLink(): boolean {
-        return this.args.registration.userHasReadPermission
+        return Boolean(this.revisions.length) && !this.args.isModeratorMode
+            && this.args.registration.userHasReadPermission
             && [
                 RegistrationReviewStates.Accepted,
                 RegistrationReviewStates.Embargo,
