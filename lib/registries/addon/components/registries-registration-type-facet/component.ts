@@ -14,6 +14,7 @@ import RegistrationProviderModel from 'ember-osf-web/models/registration-provide
 import Analytics from 'ember-osf-web/services/analytics';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
+import registriesConfig from 'registries/config/environment';
 import { SearchOptions } from 'registries/services/search';
 import { ShareTermsFilter } from 'registries/services/share-search';
 import template from './template';
@@ -35,15 +36,17 @@ export default class RegistriesRegistrationTypeFacet extends Component {
     @task({ on: 'init' })
     @waitFor
     async fetchRegistrationTypes() {
+        const { defaultProviderId } = registriesConfig;
+
         try {
             if (!this.provider){
-                this.provider = await this.store.findRecord('registration-provider', 'osf');
+                this.provider = await this.store.findRecord('registration-provider', defaultProviderId);
             }
             const metaschemas = await this.provider.queryHasMany('schemas', {
                 'page[size]': 100,
             });
             const metaschemaNames = metaschemas.mapBy('name');
-            if (this.provider.id === 'osf') {
+            if (this.provider.id === defaultProviderId) {
                 metaschemaNames.push(
                     // Manually add 'Election Research Preacceptance Competition' to the list of possible
                     // facets. Metaschema was removed from the API as a possible registration type
