@@ -64,6 +64,7 @@
                 <div data-test-submissions-list-item-download>
                     {{#if submission.links.download}}
                         <BsButton
+                            aria-label={{t 'general.download'}}
                             @type='success'
                             class='btn-xs'
                             @onClick={{action this.downloadFile submission}}
