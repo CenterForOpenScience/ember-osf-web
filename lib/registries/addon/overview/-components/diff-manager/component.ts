@@ -1,4 +1,5 @@
 import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
 import Store from '@ember-data/store';
 import { assert } from '@ember/debug';
 import { waitFor } from '@ember/test-waiters';
@@ -34,6 +35,7 @@ export default class DiffManager extends Component<Args> {
         taskFor(this.loadRevision).perform(args.registration, args.headRevisionId, args.baseRevisionId);
     }
 
+    @action
     recalculateDiff() {
         const { registration, headRevisionId, baseRevisionId } = this.args;
         taskFor(this.loadRevision).perform(registration, headRevisionId, baseRevisionId);
@@ -48,23 +50,22 @@ export default class DiffManager extends Component<Args> {
             },
         });
         if (baseRevisionId) {
-            const baseRevision = this.store.peekRecord('schema-response', baseRevisionId);
+            let baseRevision = this.store.peekRecord('schema-response', baseRevisionId);
             if (!baseRevision) {
-                this.baseRevision = await this.store.findRecord('schema-response', baseRevisionId);
+                baseRevision = await this.store.findRecord('schema-response', baseRevisionId);
             }
+            this.baseRevision = baseRevision;
         } else {
             this.baseRevision = revisions.firstObject;
         }
         if (headRevisionId) {
-            const headRevision = this.store.peekRecord('schema-response', headRevisionId);
+            let headRevision = this.store.peekRecord('schema-response', headRevisionId);
             if (!headRevision) {
-                this.headRevision = await this.store.findRecord('schema-response', headRevisionId);
+                headRevision = await this.store.findRecord('schema-response', headRevisionId);
             }
+            this.headRevision = headRevision;
         } else {
             this.headRevision = revisions.lastObject;
-        }
-        if (this.headRevision && this.headRevision.reviewsState !== RevisionReviewStates.Approved) {
-            this.router.transitionTo('page-not-found');
         }
         this.getDiff();
     }
@@ -73,6 +74,7 @@ export default class DiffManager extends Component<Args> {
         assert('getDiff() requires a registration, headRevision, and baseRevision',
             this.args.registration && this.headRevision && this.baseRevision);
         if (this.headRevision === this.baseRevision) {
+            this.updatedKeys = [];
             return;
         }
 
