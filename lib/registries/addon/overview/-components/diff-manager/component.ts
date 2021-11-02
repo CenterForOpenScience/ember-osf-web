@@ -56,7 +56,7 @@ export default class DiffManager extends Component<Args> {
             }
             this.baseRevision = baseRevision;
         } else {
-            this.baseRevision = revisions.firstObject;
+            this.baseRevision = revisions.lastObject;
         }
         if (headRevisionId) {
             let headRevision = this.store.peekRecord('schema-response', headRevisionId);
@@ -65,7 +65,7 @@ export default class DiffManager extends Component<Args> {
             }
             this.headRevision = headRevision;
         } else {
-            this.headRevision = revisions.lastObject;
+            this.headRevision = revisions.firstObject;
         }
         this.getDiff();
     }
@@ -73,6 +73,7 @@ export default class DiffManager extends Component<Args> {
     getDiff() {
         assert('getDiff() requires a registration, headRevision, and baseRevision',
             this.args.registration && this.headRevision && this.baseRevision);
+
         if (this.headRevision === this.baseRevision) {
             this.updatedKeys = [];
             return;
