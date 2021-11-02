@@ -15,10 +15,12 @@
         @registration={{this.registration}}
         @headRevisionId={{this.overview.revisionId}}
     as |diffManager|>
-        <Registries::OverviewFormRenderer
-            @registration={{this.registration}}
-            @revision={{diffManager.headRevision}}
-            @updatedResponseIds={{diffManager.updatedKeys}}
-        />
+        {{#if diffManager.headRevision}}
+            <Registries::OverviewFormRenderer
+                @registration={{this.registration}}
+                @revision={{diffManager.headRevision}}
+                @updatedResponseIds={{diffManager.updatedKeys}}
+            />
+        {{/if}}
     </Overview::-Components::DiffManager>
 {{/if}}

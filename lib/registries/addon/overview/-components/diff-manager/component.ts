@@ -42,7 +42,11 @@ export default class DiffManager extends Component<Args> {
     @task
     @waitFor
     async loadRevision(registration: RegistrationModel, headRevisionId?: string, baseRevisionId?: string) {
-        const revisions = await registration.schemaResponses;
+        const revisions = await registration.queryHasMany('schemaResponses', {
+            filter: {
+                reviews_state: RevisionReviewStates.Approved,
+            },
+        });
         if (baseRevisionId) {
             const baseRevision = this.store.peekRecord('schema-response', baseRevisionId);
             if (!baseRevision) {
@@ -68,6 +72,9 @@ export default class DiffManager extends Component<Args> {
     getDiff() {
         assert('getDiff() requires a registration, headRevision, and baseRevision',
             this.args.registration && this.headRevision && this.baseRevision);
+        if (this.headRevision === this.baseRevision) {
+            return;
+        }
 
         const newChanges = this.headRevision.revisionResponses;
         const previousChanges = this.baseRevision.revisionResponses;
