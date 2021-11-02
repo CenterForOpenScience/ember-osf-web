@@ -22,13 +22,12 @@ export default class RegistrationFormViewSchemaBlocks extends Component {
     @service toast!: Toast;
     // Required parameter
     registration!: Registration;
+    revision!: SchemaResponseModel;
 
     // Optional parameters
-    revisionId?: string;
     updatedResponseIds?: string[];
 
     // Private properties
-    revision?: SchemaResponseModel;
     schemaBlocks?: SchemaBlock[];
     schemaBlockGroups?: SchemaBlockGroup[];
     responses?: { [key: string]: string };
@@ -37,14 +36,9 @@ export default class RegistrationFormViewSchemaBlocks extends Component {
     @waitFor
     async fetchSchemaBlocks() {
         try {
-            let revision;
-            if (this.revisionId) {
-                revision = await this.store.findRecord('schema-response', this.revisionId);
-            }
-            this.set('revision', revision);
-            if (this.registration) {
+            if (this.revision && this.registration) {
                 const registrationSchema = await this.registration.registrationSchema;
-                const responses = revision ? revision.revisionResponses : this.registration.registrationResponses;
+                const responses = this.revision.revisionResponses;
                 const schemaBlocks: SchemaBlock[] = await registrationSchema.loadAll('schemaBlocks');
                 const schemaBlockGroups = getSchemaBlockGroups(schemaBlocks, this.updatedResponseIds);
                 this.set('schemaBlocks', schemaBlocks);

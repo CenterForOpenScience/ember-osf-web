@@ -17,7 +17,7 @@
     as |diffManager|>
         <Registries::OverviewFormRenderer
             @registration={{this.registration}}
-            @revisionId={{this.overview.revisionId}}
+            @revision={{diffManager.headRevision}}
             @updatedResponseIds={{diffManager.updatedKeys}}
         />
     </Overview::-Components::DiffManager>

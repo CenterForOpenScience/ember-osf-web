@@ -8,9 +8,10 @@ import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
+import RouterService from '@ember/routing/router-service';
 
 import RegistrationModel from 'ember-osf-web/models/registration';
-import SchemaResponseModel from 'ember-osf-web/models/schema-response';
+import SchemaResponseModel, { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 
 interface Args {
     registration: RegistrationModel;
@@ -22,6 +23,7 @@ export default class DiffManager extends Component<Args> {
     @service store!: Store;
     @service intl!: Intl;
     @service toast!: Toast;
+    @service router!: RouterService;
 
     @tracked baseRevision: SchemaResponseModel | undefined;
     @tracked headRevision: SchemaResponseModel | undefined;
@@ -40,13 +42,14 @@ export default class DiffManager extends Component<Args> {
     @task
     @waitFor
     async loadRevision(registration: RegistrationModel, headRevisionId?: string, baseRevisionId?: string) {
+        const revisions = await registration.schemaResponses;
         if (baseRevisionId) {
             const baseRevision = this.store.peekRecord('schema-response', baseRevisionId);
             if (!baseRevision) {
                 this.baseRevision = await this.store.findRecord('schema-response', baseRevisionId);
             }
         } else {
-            this.baseRevision = registration.schemaResponses.firstObject;
+            this.baseRevision = revisions.firstObject;
         }
         if (headRevisionId) {
             const headRevision = this.store.peekRecord('schema-response', headRevisionId);
@@ -54,7 +57,10 @@ export default class DiffManager extends Component<Args> {
                 this.headRevision = await this.store.findRecord('schema-response', headRevisionId);
             }
         } else {
-            this.headRevision = registration.schemaResponses.lastObject;
+            this.headRevision = revisions.lastObject;
+        }
+        if (this.headRevision && this.headRevision.reviewsState !== RevisionReviewStates.Approved) {
+            this.router.transitionTo('page-not-found');
         }
         this.getDiff();
     }

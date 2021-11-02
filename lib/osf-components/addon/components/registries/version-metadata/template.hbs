@@ -1,3 +1,4 @@
+{{assert 'Registries::VersionMetadata requires @revision' @revision}}
 <section
     local-class='versionMetadata'
 > 
@@ -5,24 +6,28 @@
         data-test-version-metadata-title
         local-class='versionMetadata-title'
     >
-        {{#if @revision}}
-            {{if @revision.isOriginalResponse (t 'registries.overview.versionMetadata.originalTitle') (t 'registries.overview.versionMetadata.updateTitle')}}
-        {{else}}
-            {{if (gt @registration.schemaResponses.length 1) (t 'registries.overview.versionMetadata.updateTitle') (t 'registries.overview.versionMetadata.originalTitle')}}
-        {{/if}}
+        {{if @revision.isOriginalResponse 
+            (t 'registries.overview.versionMetadata.originalTitle')
+            (t 'registries.overview.versionMetadata.updateTitle')
+        }}
     </p>
     {{!-- TODO: add description for what fields have changed --}}
     <p data-test-version-metadata-date>
         {{if @revision.isOriginalResponse 
-            (t 'registries.overview.versionMetadata.originalDate' date=(moment-format @revision.date 'MMM DD, YYYY'))
-            (t 'registries.overview.versionMetadata.date' date=(moment-format @revision.date 'MMM DD, YYYY'))
+            (t 'registries.overview.versionMetadata.originalDate' date=(moment-format @revision.dateCreated 'MMM DD, YYYY'))
+            (t 'registries.overview.versionMetadata.date' date=(moment-format @revision.dateCreated 'MMM DD, YYYY'))
         }}
     </p>
     {{#if (and @revision (not @revision.isOriginalResponse))}}
         <p data-test-version-metadata-reason>
             {{t 'registries.overview.versionMetadata.reason'}}
             <br>
-            <i>{{if @revision.revisionJustification @revision.revisionJustification (t 'registries.overview.versionMetadata.noReason')}}</i>
+            <i>
+                {{if @revision.revisionJustification
+                    @revision.revisionJustification
+                    (t 'registries.overview.versionMetadata.noReason')
+                }}
+            </i>
         </p>
     {{/if}}
 </section>
