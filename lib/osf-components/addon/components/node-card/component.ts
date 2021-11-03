@@ -59,8 +59,10 @@ export default class NodeCard extends Component {
             return this.toast.error(notARegistrationError);
         }
 
-        if (registration.reviewsState !== 'accepted') {
-            return;
+        if (registration.reviewsState !== 'accepted' && registration.reviewsState !== 'embargo') {
+            if (registration.revisionState !== 'approved') {
+                return;
+            }
         } else {
             try {
                 const revisions = await registration.queryHasMany('schemaResponses');

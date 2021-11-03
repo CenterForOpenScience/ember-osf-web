@@ -109,7 +109,6 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
 
     // Write-only attributes
     @attr('array') includedNodeIds?: string[];
-    @attr('boolean') createDoi?: boolean;
     @attr('fixstring') draftRegistrationId?: string;
 
     @belongsTo('node', { inverse: 'registrations' })
@@ -151,7 +150,6 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     // Write-only relationships
     @belongsTo('draft-registration', { inverse: null })
     draftRegistration!: DraftRegistrationModel;
-    static reviewsState: string;
 }
 
 declare module 'ember-data/types/registries/model' {
