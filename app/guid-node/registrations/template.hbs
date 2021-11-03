@@ -8,16 +8,25 @@
 >
     <div class='row'>
         <div class='col-xs-9 col-sm-8'>
-            <BsTab
+            <AriaTabs
                 data-analytics-scope='Registrations Tab'
-                @activeId={{this.activeTab}}
-                @onChange={{action this.changeTab}}
+                @defaultIndex={{0}}
+                @onSelect={{action this.changeTab}}
+                local-class='Tabs'
                 as |tab|
             >
-                <tab.pane
-                    @id='registrations'
-                    @title={{t 'node.registrations.registrations'}}
+                <tab.tabList
+                    local-class='TabList'
+                    as |tablist|
                 >
+                    <tablist.tab>{{t 'node.registrations.registrations'}}</tablist.tab>
+                    {{#if this.node.userHasReadPermission}}
+                        <tablist.tab data-test-drafts-tab>
+                            {{t 'node.registrations.draft_registrations'}}
+                        </tablist.tab>
+                    {{/if}}
+                </tab.tabList>
+                <tab.tabPanel>
                     <div class='row' local-class='RegistrationsPane' data-test-registrations-pane>
                         <NodeList
                             @modelTaskInstance={{this.model.taskInstance}}
@@ -37,20 +46,16 @@
                                 {{/if}}
                                 <p>
                                     {{t 'node.registrations.learn_more'
-                                        learnMoreLink='https://openscience.zendesk.com/hc/en-us/articles/360019930893'
+                                        learnMoreLink='https://help.osf.io/hc/en-us/categories/360001550953-Registrations'
                                         htmlSafe=true
                                     }}
                                 </p>
                             </nl.empty>
                         </NodeList>
                     </div>
-                </tab.pane>
+                </tab.tabPanel>
                 {{#if this.node.userHasReadPermission}}
-                    <tab.pane
-                        data-analytics-scope='Drafts tab'
-                        @id='drafts'
-                        @title={{t 'node.registrations.draft_registrations'}}
-                    >
+                    <tab.tabPanel data-analytics-scope='Drafts tab'>
                         <div class='row' local-class='RegistrationsPane' data-test-draft-registrations-pane>
                             <PaginatedList::HasMany
                                 data-analytics-scope='Project Draft Registrations'
@@ -74,16 +79,16 @@
                                     {{/if}}
                                     <p>
                                         {{t 'node.registrations.learn_more'
-                                          learnMoreLink='https://openscience.zendesk.com/hc/en-us/articles/360019930893'
+                                          learnMoreLink='https://help.osf.io/hc/en-us/categories/360001550953-Registrations'
                                           htmlSafe=true
                                         }}
                                     </p>
                                 </list.empty>
                             </PaginatedList::HasMany>
                         </div>
-                    </tab.pane>
+                    </tab.tabPanel>
                 {{/if}}
-            </BsTab>
+            </AriaTabs>
         </div>
         {{#if this.node.userHasAdminPermission}}
             <div class='col-xs-3 col-sm-4'>
