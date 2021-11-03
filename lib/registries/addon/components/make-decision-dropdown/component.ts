@@ -15,6 +15,7 @@ import RegistrationModel,
     RegistrationReviewStates,
     reviewsStateToDecisionMap,
     NonActionableRegistrationStates,
+    ActionableRevisionStates,
 } from 'ember-osf-web/models/registration';
 import { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
