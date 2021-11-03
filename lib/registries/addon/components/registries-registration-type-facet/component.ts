@@ -33,7 +33,7 @@ export default class RegistriesRegistrationTypeFacet extends Component {
 
     registrationTypes: EmberArray<string> = A([]);
 
-    @task({ on: 'init' })
+    @task({ on: 'didReceiveAttrs' })
     @waitFor
     async fetchRegistrationTypes() {
         const { defaultProviderId } = registriesConfig;
@@ -42,13 +42,11 @@ export default class RegistriesRegistrationTypeFacet extends Component {
             if (!this.provider){
                 this.provider = await this.store.findRecord('registration-provider', defaultProviderId);
             }
-            const providerIsDefault = this.provider.id === defaultProviderId;
-
             const metaschemas = await this.provider.queryHasMany('schemas', {
                 'page[size]': 100,
             });
             const metaschemaNames = metaschemas.mapBy('name');
-            if (providerIsDefault) {
+            if (this.provider.id === defaultProviderId) {
                 metaschemaNames.push(
                     // Manually add 'Election Research Preacceptance Competition' to the list of possible
                     // facets. Metaschema was removed from the API as a possible registration type
