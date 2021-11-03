@@ -33,7 +33,7 @@ export default class RegistriesRegistrationTypeFacet extends Component {
 
     registrationTypes: EmberArray<string> = A([]);
 
-    @task({ on: 'init' })
+    @task({ on: 'didReceiveAttrs' })
     @waitFor
     async fetchRegistrationTypes() {
         const { defaultProviderId } = registriesConfig;
