@@ -579,7 +579,11 @@ node_card:
         private_tooltip: 'This registration is private'
         timestamp_label: 'Registered:'
         statuses:
-            pending_registration_approval: 'Pending registration'
+            pending_registration_approval: 'Pending registration approval'
+            revision_pending_moderation: 'Pending moderation'
+            revision_in_progress: 'Revision in progress'
+            revision_unapproved: 'Revision unapproved'
+            revision_approved: 'Latest Update'
             pending_embargo_approval: 'Pending embargo'
             pending: 'Pending moderation'
             embargo: Embargoed

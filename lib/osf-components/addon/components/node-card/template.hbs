@@ -36,15 +36,14 @@
                 {{/if}}
            
                 {{#if @node.revisionState.id}}
-                    <span class='label label-danger'>{{t 'node_card.registration.statuses.revision_in_progress'}}</span> |
                 {{else if (eq @node.revisionState 'unapproved')}}
-                    <span class='label label-danger'>{{t 'node_card.registration.statuses.revision_pending_admin_approval'}}</span> |
+                    <span class='label label-danger'>{{t 'node_card.registration.statuses.revision_unapproved'}}</span> |
                 {{else if (eq @node.revisionState 'in_progress')}}
-                    <span class='label label-danger'>{{t 'node_card.registration.statuses.revision_pending_moderation'}}</span> |
+                    <span class='label label-danger'>{{t 'node_card.registration.statuses.revision_in_progress'}}</span> |
                 {{else if (eq @node.revisionState 'pending_moderation')}}
-                    <span class='label label-danger'>{{t 'node_card.registration.statuses.revision_pending_admin_approval'}}</span> |
-                {{else if (eq @node.revisionState 'approved')}}
                     <span class='label label-danger'>{{t 'node_card.registration.statuses.revision_pending_moderation'}}</span> |
+                {{else if (eq @node.revisionState 'approved')}}
+                    <span class='label label-danger'>{{t 'node_card.registration.statuses.revision_approved'}}</span> |
                 {{/if}}
 
                 {{node-card/node-icon category=@node.category}}

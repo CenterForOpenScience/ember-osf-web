@@ -67,10 +67,11 @@ export function registrationScenario(
     });
 
     server.create('schema-response', {
-        id: 'copyEdit',
+        id: 'copyEditWritr1',
         revisionJustification: 'Copy Edit',
+        reviewsState: RevisionReviewStates.Approved,
         revisionResponses: {
-            q1: 'Good Morning',
+            q1: 'Hello',
             q2: ['List of greetings'],
         },
         initiatedBy: currentUser,
@@ -157,7 +158,7 @@ export function registrationScenario(
     }, 'withContributors', 'withReviewActions');
 
     server.create('schema-response', {
-        id: 'copyEdit',
+        id: 'copyEditSilicon',
         revisionJustification: 'Copy Edit',
         revisionResponses: {
             q1: 'Good Morning',
@@ -187,7 +188,7 @@ export function registrationScenario(
     }, 'withContributors', 'withReviewActions');
 
     server.create('schema-response', {
-        id: 'copyEdit',
+        id: 'copyEditTungsten',
         revisionJustification: 'Copy Edit',
         revisionResponses: {
             q1: 'Good Morning',
