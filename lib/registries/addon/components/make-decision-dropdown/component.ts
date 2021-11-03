@@ -110,9 +110,10 @@ export default class MakeDecisionDropdown extends Component<Args> {
     get moderatorActions() {
         const reviewsState =
             this.args.registration.reviewsState as Exclude<RegistrationReviewStates, NonActionableRegistrationStates>;
+        const revisionState = this.args.registration.revisionState as ActionableRevisionStates;
         let actions = reviewsState ? reviewsStateToDecisionMap[reviewsState] : [];
         if (this.revisionIsPending) {
-            actions = reviewsStateToDecisionMap[RegistrationReviewStates.Pending];
+            actions = reviewsStateToDecisionMap[revisionState];
         }
         return actions;
     }
