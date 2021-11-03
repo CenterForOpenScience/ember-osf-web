@@ -3,24 +3,28 @@
     @removeSubject={{@subjectsManager.unselectSubject}}
 />
 
-<BsTab
+<AriaTabs
+    @defaultIndex={{0}} 
     local-class='Tabs'
     as |tab|
 >
-    <tab.pane
-        @title= {{t 'osf-components.subjects.browse.browse_all'}}
+    <tab.tabList
+        local-class='TabList'
+        as |tablist|
     >
+        <tablist.tab>{{t 'osf-components.subjects.browse.browse_all'}}</tablist.tab>
+        <tablist.tab>{{t 'osf-components.subjects.search.search_all'}}</tablist.tab>
+    </tab.tabList>
+    <tab.tabPanel>
         <Subjects::Browse
             data-analytics-scope='Browse'
             @subjectsManager={{@subjectsManager}}
         />
-    </tab.pane>
-    <tab.pane
-        @title={{t 'osf-components.subjects.search.search_all'}}
-    >
+    </tab.tabPanel>
+    <tab.tabPanel>
         <Subjects::Search
             data-analytics-scope='Search'
             @subjectsManager={{@subjectsManager}}
         />
-    </tab.pane>
-</BsTab>
+    </tab.tabPanel>
+</AriaTabs>
