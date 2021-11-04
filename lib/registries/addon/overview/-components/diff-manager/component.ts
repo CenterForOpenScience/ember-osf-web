@@ -46,7 +46,11 @@ export default class DiffManager extends Component<Args> {
     async loadRevision(registration: RegistrationModel, headRevisionId?: string, baseRevisionId?: string) {
         const revisions = await registration.queryHasMany('schemaResponses', {
             filter: {
-                reviews_state: RevisionReviewStates.Approved,
+                reviews_state: [
+                    RevisionReviewStates.Approved,
+                    RevisionReviewStates.Unapproved,
+                    RevisionReviewStates.RevisionPendingModeration,
+                ],
             },
         });
         if (baseRevisionId) {
@@ -71,8 +75,9 @@ export default class DiffManager extends Component<Args> {
     }
 
     getDiff() {
-        assert('getDiff() requires a registration, headRevision, and baseRevision',
-            this.args.registration && this.headRevision && this.baseRevision);
+        assert('getDiff() requires a registration', this.args.registration);
+        assert('getDiff() requires a headRevision', this.headRevision);
+        assert('getDiff() requires a baseRevision', this.baseRevision);
 
         if (this.headRevision === this.baseRevision) {
             this.updatedKeys = [];
