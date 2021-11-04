@@ -466,6 +466,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         await visit(`/${reg.id}/`);
 
         await click('[data-test-edit-button="subjects"]');
+        assert.dom('[data-test-subject-widget-browse-tab]').hasAttribute('aria-selected', 'true');
         assert.dom('[data-test-selected-subject]').doesNotExist('No subjects selected');
         assert.dom('[data-test-selected-subject-placeholder]')
             .hasText(t('osf-components.subjects.display.placeholder'), 'Placeholder text shown');
@@ -475,7 +476,8 @@ module('Registries | Acceptance | overview.overview', hooks => {
         assert.dom('[data-test-selected-subject="Candy and confection studies"]')
             .containsText('Candy and confection studies', 'One subject selected');
 
-        await untrackedClick('[data-test-subject-widget-tabs] ul.nav li:nth-child(2) a'); // click search tab
+        await untrackedClick('[data-test-subject-widget-search-tab]');
+        assert.dom('[data-test-subject-widget-search-tab]').hasAttribute('aria-selected', 'true');
         assert.dom('[data-test-subject-search-result-label]').doesNotExist('No search results');
 
         await fillIn('[data-test-subject-searchbox]', 'Soda');

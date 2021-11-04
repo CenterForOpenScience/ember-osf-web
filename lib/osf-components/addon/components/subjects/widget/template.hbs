@@ -4,7 +4,6 @@
 />
 
 <AriaTabs
-    data-test-subject-widget-tabs
     @defaultIndex={{0}} 
     local-class='Tabs'
     as |tab|
@@ -13,8 +12,16 @@
         local-class='TabList'
         as |tablist|
     >
-        <tablist.tab>{{t 'osf-components.subjects.browse.browse_all'}}</tablist.tab>
-        <tablist.tab>{{t 'osf-components.subjects.search.search_all'}}</tablist.tab>
+        <tablist.tab
+            data-test-subject-widget-browse-tab
+        >
+            {{t 'osf-components.subjects.browse.browse_all'}}
+        </tablist.tab>
+        <tablist.tab
+            data-test-subject-widget-search-tab
+        >
+            {{t 'osf-components.subjects.search.search_all'}}
+        </tablist.tab>
     </tab.tabList>
     <tab.tabPanel>
         <Subjects::Browse
