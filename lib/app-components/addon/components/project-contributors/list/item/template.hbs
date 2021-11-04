@@ -60,7 +60,6 @@
         class='col-xs-10 col-sm-2 col-sm-offset-0 bib-padding'>
         <Input
             aria-label={{t 'app_components.project_contributors.list.item.in_citation_label'}}
-            @id={{concat @contributor.id '-citation'}}
             @type='checkbox'
             @disabled={{not this.canChangeBibliographic}}
             @checked={{@contributor.bibliographic}}
