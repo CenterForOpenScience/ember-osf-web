@@ -5,6 +5,7 @@
         class='input-group'
     >
         <Input
+            aria-label={{t 'app_components.project_contributors.search.placeholder'}}
             @class='form-control'
             @value={{this.query}}
             @placeholder={{t 'app_components.project_contributors.search.placeholder'}}
@@ -12,6 +13,7 @@
         <span class='input-group-btn'>
             <button
                 data-test-project-contributors-search-button
+                aria-label={{t 'app_components.project_contributors.search.perform_search'}}
                 local-class='authors-search-button'
                 class='btn btn-default'
                 type='submit'
