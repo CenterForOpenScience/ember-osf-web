@@ -112,6 +112,7 @@
     "ember-ajax": "^5.0.0",
     "ember-angle-bracket-invocation-polyfill": "^2.0.2",
     "ember-animated": "^0.9.0",
+    "ember-aria-tabs": "^4.0.0",
     "ember-auto-import": "^1.11.2",
     "ember-bootstrap": "^4.6.3",
     "ember-bootstrap-datepicker": "^2.0.9",

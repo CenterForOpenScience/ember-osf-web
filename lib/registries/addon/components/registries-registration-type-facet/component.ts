@@ -6,24 +6,18 @@ import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import Features from 'ember-feature-flags/services/features';
-import appConfig from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
-import ProviderModel from 'ember-osf-web/models/provider';
+import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 import Analytics from 'ember-osf-web/services/analytics';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
+import registriesConfig from 'registries/config/environment';
 import { SearchOptions } from 'registries/services/search';
 import { ShareTermsFilter } from 'registries/services/share-search';
 import template from './template';
-
-const {
-    featureFlagNames: {
-        enableInactiveSchemas,
-    },
-} = appConfig;
 
 @layout(template)
 export default class RegistriesRegistrationTypeFacet extends Component {
@@ -34,20 +28,25 @@ export default class RegistriesRegistrationTypeFacet extends Component {
     @service features!: Features;
 
     searchOptions!: SearchOptions;
-    provider?: ProviderModel;
+    provider?: RegistrationProviderModel;
     @requiredAction onSearchOptionsUpdated!: (options: SearchOptions) => void;
 
     registrationTypes: EmberArray<string> = A([]);
 
-    @task({ on: 'init' })
+    @task({ on: 'didReceiveAttrs' })
     @waitFor
     async fetchRegistrationTypes() {
+        const { defaultProviderId } = registriesConfig;
+
         try {
-            const metaschemas = await this.store.query('registration-schema', {
+            if (!this.provider){
+                this.provider = await this.store.findRecord('registration-provider', defaultProviderId);
+            }
+            const metaschemas = await this.provider.queryHasMany('schemas', {
                 'page[size]': 100,
             });
             const metaschemaNames = metaschemas.mapBy('name');
-            if (!this.features.isEnabled(enableInactiveSchemas)) {
+            if (this.provider.id === defaultProviderId) {
                 metaschemaNames.push(
                     // Manually add 'Election Research Preacceptance Competition' to the list of possible
                     // facets. Metaschema was removed from the API as a possible registration type
