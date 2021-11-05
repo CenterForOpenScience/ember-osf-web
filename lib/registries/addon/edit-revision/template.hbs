@@ -16,15 +16,15 @@
                 <layout.heading>
                     <HeroOverlay @align='left' local-class='DraftHeroOverlay'>
                         <div local-class='Title'>
-                            {{#if revisionManager.node}}
+                            {{#if revisionManager.registration}}
                                 <OsfLink
-                                    data-test-link-back-to-project
-                                    data-analytics-name='Go to project'
+                                    data-test-link-back-to-registration
+                                    data-analytics-name='Go to registration'
                                     local-class='BreadCrumb'
-                                    @route='guid-node'
-                                    @models={{array revisionManager.node.id}}
+                                    @route='registries.overview'
+                                    @models={{array revisionManager.registration.id}}
                                 >
-                                    {{revisionManager.node.title}} >
+                                    {{revisionManager.registration.title}} >
                                 </OsfLink>
                             {{/if}}
                             <h1>

@@ -10,6 +10,7 @@ import pathJoin from 'ember-osf-web/utils/path-join';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
+import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import styles from './styles';
 import template from './template';
 
@@ -41,15 +42,8 @@ export default class RegistriesStates extends Component {
         }
     }
 
-    /* eslint-disable max-len */
-    @computed(
-        'isModeratorMode', 'projectUrl',
-        'registration.{embargoEndDate,pendingEmbargoApproval,pendingRegistrationApproval,reviewsState,userHasAdminPermission}',
-        'stateIcon',
-    )
-    /* eslint-enable max-len */
     get stateText() {
-        if (!this.registration || !this.registration.reviewsState) {
+        if (!this.registration || !this.registration.reviewsState || !this.registration.revisionState) {
             return undefined;
         }
         let stateKey;
@@ -57,6 +51,17 @@ export default class RegistriesStates extends Component {
             stateKey = 'pendingRegistrationApproval';
         } else if (this.registration.pendingEmbargoApproval) {
             stateKey = 'pendingEmbargoApproval';
+        } else if (
+            [
+                RegistrationReviewStates.Embargo,
+                RegistrationReviewStates.Accepted,
+            ].includes(this.registration.reviewsState)
+        ) {
+            if (this.registration.revisionState !== RevisionReviewStates.Approved) {
+                stateKey = camelize(this.registration.revisionState);
+            } else {
+                stateKey = camelize(this.registration.reviewsState);
+            }
         } else {
             stateKey = camelize(this.registration.reviewsState);
         }
