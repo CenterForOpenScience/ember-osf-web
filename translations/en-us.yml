@@ -1099,6 +1099,8 @@ registries:
             uploadSuccess: 'Successfully uploaded csv file.'
         overview:
             title: 'Moderated Overview'
+            delete_update: 'Delete update'
+            confirm_delete: 'Please confirm deletion of update.'
     new:
         provider_info: 'You are submitting to {provider}. <a href="https://help.osf.io/hc/en-us/categories/360001550953-Registrations">Click here</a> to learn more about other hosted registries.'
         required: 'required'
@@ -1590,6 +1592,8 @@ registries:
         modalBodyNoUpdates: 'The {registryName} does not allow updates for this registration template.<br>Contact their registy if you have any questions.'
         learnMore: 'Read NEEDS LINK  to learn more'
         next: Next
+        cancel_update: 'Cancel update'
+
 meetings:
     index:
         meetings-list:
