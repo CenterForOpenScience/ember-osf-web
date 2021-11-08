@@ -34,6 +34,7 @@ export default Factory.extend<MirageSchemaResponseModel & SchemaResponseTraits>(
     afterCreate(schemaResponse) {
         if (schemaResponse.registration) {
             schemaResponse.registrationSchema = schemaResponse.registration.registrationSchema;
+            schemaResponse.revisionResponses = schemaResponse.registration.registrationResponses;
             schemaResponse.save();
         }
     },
