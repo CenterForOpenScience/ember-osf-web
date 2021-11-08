@@ -55,20 +55,15 @@ export default class GuidNodeRegistrations extends Controller {
         this.set('schemas', schemas);
     }
 
-    @computed('tab')
-    get activeTab() {
-        return this.tab ? this.tab : 'registrations';
-    }
-
     @computed('node.{id,root.id,root.userHasAdminPermission}')
     get isComponentRootAdmin() {
         return this.node && this.node.id !== this.node.root.get('id') && this.node.root.get('userHasAdminPermission');
     }
 
     @action
-    changeTab(activeId: string) {
-        this.set('tab', activeId === 'registrations' ? undefined : activeId);
-        this.analytics.click('tab', `Registrations tab - Change tab to: ${activeId}`);
+    changeTab(activeId: number) {
+        const tabName = activeId === 0 ? 'registrations' : 'drafts';
+        this.analytics.click('tab', `Registrations tab - Change tab to: ${tabName}`);
     }
 
     @action

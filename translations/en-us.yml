@@ -657,6 +657,7 @@ institutions:
     contact_us: 'Contact us'
     title: Institutions
     search_placeholder: 'Search institutions'
+    load_more: 'Load more institutions'
     dashboard:
         title: '{institutionName} Dashboard'
         last_update: 'Updated every 24 hours'
@@ -776,6 +777,7 @@ app_components:
                 add: Add
             add_contributor_success: 'Project contributor added!'
             add_contributor_error: 'Could not add contributor.'
+            perform_search: 'Perform search'
     project_metadata:
         field_title_label: 'Title:'
         field_title_placeholder: ""
@@ -1187,6 +1189,8 @@ registries:
                     linkText2: 'requirements and road map'
                     line3: '. Input welcome!'
                 contact: 'Contact us'
+            egap: 'EGAP'
+            prereg: 'Preregistration Challenge'
         advisory:
             heading: 'Advisory Group'
             paragraph: 'Our advisory group includes leaders in registrations across disciplines'
