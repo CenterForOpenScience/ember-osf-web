@@ -1,4 +1,5 @@
 import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
 import Store from '@ember-data/store';
 import { assert } from '@ember/debug';
 import { waitFor } from '@ember/test-waiters';
@@ -8,9 +9,10 @@ import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
+import RouterService from '@ember/routing/router-service';
 
 import RegistrationModel from 'ember-osf-web/models/registration';
-import SchemaResponseModel from 'ember-osf-web/models/schema-response';
+import SchemaResponseModel, { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 
 interface Args {
     registration: RegistrationModel;
@@ -22,6 +24,7 @@ export default class DiffManager extends Component<Args> {
     @service store!: Store;
     @service intl!: Intl;
     @service toast!: Toast;
+    @service router!: RouterService;
 
     @tracked baseRevision: SchemaResponseModel | undefined;
     @tracked headRevision: SchemaResponseModel | undefined;
@@ -32,6 +35,7 @@ export default class DiffManager extends Component<Args> {
         taskFor(this.loadRevision).perform(args.registration, args.headRevisionId, args.baseRevisionId);
     }
 
+    @action
     recalculateDiff() {
         const { registration, headRevisionId, baseRevisionId } = this.args;
         taskFor(this.loadRevision).perform(registration, headRevisionId, baseRevisionId);
@@ -40,28 +44,45 @@ export default class DiffManager extends Component<Args> {
     @task
     @waitFor
     async loadRevision(registration: RegistrationModel, headRevisionId?: string, baseRevisionId?: string) {
+        const revisions = await registration.queryHasMany('schemaResponses', {
+            filter: {
+                reviews_state: [
+                    RevisionReviewStates.Approved,
+                    RevisionReviewStates.Unapproved,
+                    RevisionReviewStates.RevisionPendingModeration,
+                ],
+            },
+        });
         if (baseRevisionId) {
-            const baseRevision = this.store.peekRecord('schema-response', baseRevisionId);
+            let baseRevision = this.store.peekRecord('schema-response', baseRevisionId);
             if (!baseRevision) {
-                this.baseRevision = await this.store.findRecord('schema-response', baseRevisionId);
+                baseRevision = await this.store.findRecord('schema-response', baseRevisionId);
             }
+            this.baseRevision = baseRevision;
         } else {
-            this.baseRevision = registration.schemaResponses.firstObject;
+            this.baseRevision = revisions.lastObject;
         }
         if (headRevisionId) {
-            const headRevision = this.store.peekRecord('schema-response', headRevisionId);
+            let headRevision = this.store.peekRecord('schema-response', headRevisionId);
             if (!headRevision) {
-                this.headRevision = await this.store.findRecord('schema-response', headRevisionId);
+                headRevision = await this.store.findRecord('schema-response', headRevisionId);
             }
+            this.headRevision = headRevision;
         } else {
-            this.headRevision = registration.schemaResponses.lastObject;
+            this.headRevision = revisions.firstObject;
         }
         this.getDiff();
     }
 
     getDiff() {
-        assert('getDiff() requires a registration, headRevision, and baseRevision',
-            this.args.registration && this.headRevision && this.baseRevision);
+        assert('getDiff() requires a registration', this.args.registration);
+        assert('getDiff() requires a headRevision', this.headRevision);
+        assert('getDiff() requires a baseRevision', this.baseRevision);
+
+        if (this.headRevision === this.baseRevision) {
+            this.updatedKeys = [];
+            return;
+        }
 
         const newChanges = this.headRevision.revisionResponses;
         const previousChanges = this.baseRevision.revisionResponses;

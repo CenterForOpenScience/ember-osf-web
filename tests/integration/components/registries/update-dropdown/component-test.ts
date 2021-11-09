@@ -22,28 +22,6 @@ module('Integration | Component  | update-dropdown', hooks => {
         this.store = this.owner.lookup('service:store');
     });
 
-    test('update dropdown - no revisions', async function(this: ComponentTestContext, assert) {
-        const mirageRegistration = server.create('registration', {
-            id: 'cobalt',
-            title: 'Outcome Reporting Testing',
-            reviewsState: RegistrationReviewStates.Accepted,
-            revisionState: RevisionReviewStates.Approved,
-        });
-        this.registration = await this.store.findRecord('registration', mirageRegistration.id);
-        await render(hbs`
-            <Registries::UpdateDropdown @registration={{this.registration}}/>
-        `);
-        assert.dom('[data-test-update-button]').containsText(t('registries.update_dropdown.dropdown_title'));
-        await click('[data-test-update-button]');
-        assert.dom('[data-test-list-view]')
-            .containsText(t('registries.update_dropdown.no_revisions_error'), 'No revisions mesage shown');
-        assert.dom('[data-test-revision-link]').doesNotExist('No revisions shown');
-        assert.dom('[data-test-update-dropdown-show-more]').doesNotExist('Show more element not shown');
-        assert.dom('[data-test-update-dropdown-update-link]').doesNotExist('New update button not shown');
-        assert.dom('[data-test-update-dropdown-create-new-revision]')
-            .doesNotExist('Link to revision in progress not shown');
-    });
-
     test('update dropdown - all revisions, non-contrib', async function(this: ComponentTestContext, assert) {
         const mirageRegistration = server.create('registration', {
             id: 'cobalt',
@@ -89,10 +67,8 @@ module('Integration | Component  | update-dropdown', hooks => {
             reviewsState: RegistrationReviewStates.Accepted,
             revisionState: RevisionReviewStates.Approved,
         }, 'currentUserAdmin');
-        server.create('schema-response', {
-            dateModified: new Date('1999-10-19T12:05:10.571Z'),
+        server.schema.schemaResponses.first().update({
             reviewsState: RevisionReviewStates.Approved,
-            registration: mirageRegistration,
         });
 
         this.registration = await this.store.findRecord('registration', mirageRegistration.id);
