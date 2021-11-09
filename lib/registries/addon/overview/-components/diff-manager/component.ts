@@ -87,6 +87,18 @@ export default class DiffManager extends Component<Args> {
         const newChanges = this.headRevision.revisionResponses;
         const previousChanges = this.baseRevision.revisionResponses;
         this.updatedKeys = Object.entries(newChanges).reduce((updatedKeys: string[], [key, value]) => {
+            if (Array.isArray(value)) {
+                if (value.length !== previousChanges[key]?.length) {
+                    updatedKeys.push(key);
+                } else {
+                    for (let i = 0; i < value.length; i++) {
+                        if (value[i] !== previousChanges[key]![i]) {
+                            updatedKeys.push(key);
+                        }
+                    }
+                }
+                return updatedKeys;
+            }
             if (value !== previousChanges[key]) {
                 updatedKeys.push(key);
             }
