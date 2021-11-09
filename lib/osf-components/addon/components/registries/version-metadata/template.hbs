@@ -14,8 +14,8 @@
     {{!-- TODO: add description for what fields have changed --}}
     <p data-test-version-metadata-date>
         {{if @revision.isOriginalResponse 
-            (t 'registries.overview.versionMetadata.originalDate' date=(moment-format @revision.dateCreated 'MMM DD, YYYY'))
-            (t 'registries.overview.versionMetadata.date' date=(moment-format @revision.dateCreated 'MMM DD, YYYY'))
+            (t 'registries.overview.versionMetadata.originalDate' date=(moment-format @revision.dateModified 'MMM DD, YYYY'))
+            (t 'registries.overview.versionMetadata.date' date=(moment-format @revision.dateModified 'MMM DD, YYYY'))
         }}
     </p>
     {{#if (and @revision (not @revision.isOriginalResponse))}}
