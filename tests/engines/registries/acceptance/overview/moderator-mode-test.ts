@@ -38,6 +38,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         const registration = server.create('registration', {
             currentUserPermissions: Object.values(Permission),
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            revisionState: RevisionReviewStates.RevisionPendingModeration,
             provider: this.provider,
             id: 'stayc',
         }, 'isPending', 'withReviewActions');
@@ -86,6 +87,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         const registration = server.create('registration', {
             currentUserPermissions: Object.values(Permission),
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            revisionState: RevisionReviewStates.RevisionPendingModeration,
             provider: this.provider,
             id: 'stayc',
         }, 'isPending', 'withReviewActions');
@@ -95,8 +97,8 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         await click('[data-test-moderation-dropdown-submit]');
         assert.equal(
             currentRouteName(),
-            'registries.branded.moderation.submissions',
-            'Redirected to the submissions page',
+            'registries.branded.moderation.submitted',
+            'Redirected to the submitted page',
         );
         assert.dom(
             '[data-test-submissions-type="rejected"][data-test-is-selected="true"]',
@@ -107,6 +109,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         const registration = server.create('registration', {
             currentUserPermissions: Object.values(Permission),
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            revisionState: RevisionReviewStates.Approved,
             provider: this.provider,
             id: 'stayc',
         }, 'isPendingWithdrawRequest', 'withReviewActions');
@@ -144,6 +147,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         const registration = server.create('registration', {
             currentUserPermissions: Object.values(Permission),
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            revisionState: RevisionReviewStates.Approved,
             provider: this.provider,
             id: 'stayc',
         }, 'isPendingWithdraw', 'withReviewActions');
@@ -185,6 +189,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         const registration = server.create('registration', {
             currentUserPermissions: Object.values(Permission),
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            revisionState: RevisionReviewStates.Approved,
             provider: this.provider,
             id: 'stayc',
         }, 'isPendingWithdraw', 'withReviewActions');
@@ -209,6 +214,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         const registration = server.create('registration', {
             currentUserPermissions: Object.values(Permission),
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            revisionState: RevisionReviewStates.Approved,
             provider: this.provider,
             id: 'stayc',
         }, 'isPublic', 'withReviewActions');
@@ -247,6 +253,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         const registration = server.create('registration', {
             currentUserPermissions: Object.values(Permission),
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            revisionState: RevisionReviewStates.Approved,
             provider: this.provider,
             id: 'stayc',
         }, 'isEmbargo', 'withReviewActions');
@@ -289,6 +296,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         const registration = server.create('registration', {
             currentUserPermissions: Object.values(Permission),
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+            revisionState: RevisionReviewStates.Approved,
             provider: this.provider,
             id: 'stayc',
         }, 'isPendingEmbargoTermination', 'withReviewActions');
