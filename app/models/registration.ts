@@ -105,6 +105,7 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @attr('fixstring') iaUrl?: string;
     @attr('array') providerSpecificMetadata!: ProviderMetadata[];
     @attr('fixstring') revisionState!: RevisionReviewStates;
+    @attr('boolean') wikiEnabled!: boolean;
 
     // Write-only attributes
     @attr('array') includedNodeIds?: string[];

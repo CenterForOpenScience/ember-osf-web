@@ -25,6 +25,7 @@
         <ResponsiveDropdown as |dd|>
             <dd.trigger
                 data-test-forks-dropdown-button
+                aria-label={{t 'registries.overview.tooltips.fork'}}
                 data-analytics-name='Expand fork dropdown'
                 local-class='Action'
             >
@@ -71,6 +72,11 @@
             @type='link'
             @onClick={{action (perform this.bookmark)}}
             local-class='ActionButton'
+            aria-label={{if
+                this.isBookmarked
+                (t 'registries.overview.tooltips.remove_bookmark')
+                (t 'registries.overview.tooltips.bookmark')
+            }}
         >
             <FaIcon
                 local-class='Icon'
@@ -101,6 +107,7 @@
                 data-test-social-sharing-button
                 data-analytics-name='Expand sharing menu'
                 local-class='Action'
+                aria-label={{t 'registries.overview.tooltips.share'}}
             >
                 <FaIcon
                     local-class='Icon'
