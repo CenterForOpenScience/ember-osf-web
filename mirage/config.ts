@@ -197,7 +197,7 @@ export default function(this: Server) {
     osfNestedResource(this, 'registration', 'comments', { only: ['index'] });
     this.get('/registrations/:guid/citation/:citationStyleID', getCitation);
     osfToManyRelationship(this, 'registration', 'subjects', {
-        only: ['related', 'self'],
+        only: ['related', 'self', 'update'],
     });
 
     this.get('/registrations/:parentID/files', nodeFileProviderList); // registration file providers list

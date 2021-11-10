@@ -1,6 +1,7 @@
 <li local-class='SearchResult' ...attributes>
     {{#let (unique-id 'search-result') as |inputId|}}
         <Input
+            data-test-subject-search-result-checkbox='{{this.subject.text}}'
             @id={{inputId}}
             @type='checkbox'
             @change={{@singleSubjectManager.toggleSelected}}
@@ -16,7 +17,11 @@
             {{/each}}
         </span>
 
-        <label local-class='Subject' for={{inputId}}>
+        <label
+            data-test-subject-search-result-label
+            local-class='Subject'
+            for={{inputId}}
+        >
             {{#if this.subject}}
                 {{this.subject.text}}
             {{else}}

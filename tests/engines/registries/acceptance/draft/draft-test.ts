@@ -887,7 +887,7 @@ module('Registries | Acceptance | draft form', hooks => {
             .exists('error appears for unedited, required fields after returning to metadata page: license');
 
         // Choose a subject
-        await click('[data-test-subject="1"] > input');
+        await click('[data-test-subject-browse-label="1"] > input');
         assert.dom('[data-test-validation-errors="subjects"]')
             .doesNotExist('validation error for subjects gone when user makes a selection');
 
