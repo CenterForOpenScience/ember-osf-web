@@ -59,7 +59,7 @@ export function registrationScenario(
         registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
         reviewsState: RegistrationReviewStates.Accepted,
         revisionState: RevisionReviewStates.Approved,
-        currentUserPermissions: [Permission.Read, Permission.Write],
+        currentUserPermissions: [Permission.Admin],
         providerSpecificMetadata: [
             { field_name: 'Metadata field 1', field_value: '' },
             { field_name: 'Another Field', field_value: 'Value 2' },
@@ -69,7 +69,7 @@ export function registrationScenario(
     server.create('schema-response', {
         id: 'copyEditWritr1',
         revisionJustification: 'Copy Edit',
-        reviewsState: RevisionReviewStates.Approved,
+        reviewsState: RevisionReviewStates.RevisionInProgress,
         revisionResponses: {
             q1: 'Hello',
             q2: ['List of greetings'],

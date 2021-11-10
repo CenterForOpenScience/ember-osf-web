@@ -44,7 +44,7 @@ export default class NodeCard extends Component {
     // Private properties
     searchUrl = pathJoin(baseURL, 'search');
     @tracked
-    latestSchemaResponse?: SchemaResponseModel;
+    latestSchemaResponse!: SchemaResponseModel;
 
     @computed('readOnly', 'node', 'node.{nodeType,userHasWritePermission}')
     get showDropdown() {

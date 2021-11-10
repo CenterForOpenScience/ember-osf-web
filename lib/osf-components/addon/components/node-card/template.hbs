@@ -34,7 +34,7 @@
                 {{#if @node.archiving}}
                     <span class='label label-primary'>{{t 'node_card.registration.statuses.archiving'}}</span> |
                 {{/if}}
-           
+
                 {{#if @node.revisionState.id}}
                 {{else if (eq @node.revisionState 'unapproved')}}
                     <span class='label label-danger'>{{t 'node_card.registration.statuses.revision_unapproved'}}</span> |
@@ -47,16 +47,13 @@
                 {{/if}}
 
                 {{node-card/node-icon category=@node.category}}
-                
-                {{@node.title}}
-                   
                 <OsfLink
                     data-analytics-name='Title'
                     data-test-node-title='{{@node.id}}'
                     @route='resolve-guid'
                     @models={{array @node.id}}
                 >
-                 
+                    {{@node.title}}
                 </OsfLink>
             {{else}}
                 <ContentPlaceholders as |placeholder|>
@@ -100,7 +97,6 @@
             {{/if}}
         {{/if}}
     </h4>
-    
     <div data-test-node-card-body local-class='NodeCard__body'>
         {{#if @node}}
             <dl>
@@ -168,26 +164,22 @@
                 <div class='col-md-10'>
                     <div local-class='MyRegistrationsButtons'>
                         <OsfLink
-                            data-analytics-name='View'
+                            data-analytics-name='View registration'
                             data-test-view-button='{{@node.id}}'
-                            local-class='RegistrationCard_view'
                             @route='resolve-guid'
                             @models={{array @node.id}}
                         >
-                            <Button>
+                            <Button
+                                local-class='RegistrationCard_view'
+                            >
                                 {{t 'node_card.view_button'}}
                             </Button>
                         </OsfLink>
                         {{#if this.shouldShowUpdateButton}}
-                            <Button
-                              {{on 'click' (perform this.createNewSchemaResponse)}}
-                              disabled={{this.createNewSchemaResponse.isRunning}}
-                            />
-                          {{else if this.shouldShowLinkToUpdate}}
-                            <OsfLink
-                             ......
+                            {{#unless (not-eq this.node.reviewsState 'accepted')}}
+                                {{#if this.latestSchemaResponse}}
                                     <OsfLink
-                                        data-analytics-name='Update'
+                                        data-analytics-name='Update registration'
                                         data-test-update-button='{{@node.id}}'
                                         @route='registries.edit-revision.index'
                                         @models={{array this.latestSchemaResponse.id}}
