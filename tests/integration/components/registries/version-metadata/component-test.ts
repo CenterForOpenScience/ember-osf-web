@@ -16,17 +16,12 @@ module('Integration | Component | version-metadata', hooks => {
     // TODO: Test registrations with 2 revisions, registration with 2 revisions with one selected
     test('it renders', async function(this: TestContext, assert) {
         const currentUser = server.create('user', { fullName: 'Lex Luthor' }, 'loggedIn');
-        const registration = server.create('registration', {
-            title: 'The Effect of Glasses and Spandex on an Individuals Recognizability',
-            registrationResponses: { q1: 'Clark Kent' },
-        });
         const revision = server.create('schema-response', {
             isOriginalResponse: true,
             initiatedBy: currentUser,
             dateModified: new Date(),
             revisionJustification: 'This registration went into a phone booth',
             revisionResponses: { q1: 'Super Man' },
-            registration,
         });
         this.set('revision', revision);
         await render(hbs`<Registries::VersionMetadata @revision={{this.revision}} />`);

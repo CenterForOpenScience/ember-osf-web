@@ -9,4 +9,5 @@ export interface SchemaBlockGroup {
     registrationResponseKey?: string | null;
     groupType?: string;
     blocks?: SchemaBlock[];
+    updated?: boolean;
   }
