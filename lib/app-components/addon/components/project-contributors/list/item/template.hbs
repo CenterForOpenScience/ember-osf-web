@@ -58,13 +58,12 @@
     {{! Bibliographic (Citation) }}
     <div data-test-project-contributors-list-item-citation-checkbox local-class='text-sm-center'
         class='col-xs-10 col-sm-2 col-sm-offset-0 bib-padding'>
-        <label local-class='checkbox-label' class='visible-xs-inline' for='{{@contributor.id}}-citation'>
-            <em>
-                {{t 'app_components.project_contributors.list.item.in_citation_label'}}
-            </em>
-        </label>
-        <Input @id={{concat @contributor.id '-citation'}} @type='checkbox' @disabled={{not this.canChangeBibliographic}}
-            @checked={{@contributor.bibliographic}} @change={{action @toggleBibliographic @contributor}} />
+        <Input
+            aria-label={{t 'app_components.project_contributors.list.item.in_citation_label'}}
+            @type='checkbox'
+            @disabled={{not this.canChangeBibliographic}}
+            @checked={{@contributor.bibliographic}}
+            @change={{action @toggleBibliographic @contributor}} />
     </div>
 
     {{! Remove }}

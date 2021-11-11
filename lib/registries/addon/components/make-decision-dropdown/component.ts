@@ -145,9 +145,9 @@ export default class MakeDecisionDropdown extends Component<Args> {
                     );
                 } else if (this.decisionTrigger === SchemaResponseActionTrigger.RejectRevision) {
                     this.router.transitionTo(
-                        'registries.overview',
-                        this.args.registration.get('id'),
-                        { queryParams: { mode: 'moderator', revisionId: '' } },
+                        'registries.branded.moderation.submitted',
+                        this.args.registration.provider.get('id'),
+                        { queryParams: { state: RevisionReviewStates.RevisionPendingModeration } },
                     );
                 }
                 this.args.registration.reload();

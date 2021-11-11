@@ -6,6 +6,9 @@
     {{~#if (and @isRequired (not @readonly))~}}
         <span local-class='Required'>*</span>
     {{~/if~}}
+    {{#if @updated}}
+        <span local-class='Updated'>{{t 'osf-components.registries.schema-block-renderer/label.updated'}}</span>
+    {{/if}}
 </p>
 {{#if @isEditableForm}}
     <p local-class='HelpText'>

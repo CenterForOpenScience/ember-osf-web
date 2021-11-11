@@ -34,6 +34,17 @@
                 {{#if @node.archiving}}
                     <span class='label label-primary'>{{t 'node_card.registration.statuses.archiving'}}</span> |
                 {{/if}}
+
+                {{#if (eq @node.revisionState 'unapproved')}}
+                    <span class='label label-danger'>{{t 'node_card.registration.statuses.revision_unapproved'}}</span> |
+                {{else if (eq @node.revisionState 'in_progress')}}
+                    <span class='label label-danger'>{{t 'node_card.registration.statuses.revision_in_progress'}}</span> |
+                {{else if (eq @node.revisionState 'pending_moderation')}}
+                    <span class='label label-danger'>{{t 'node_card.registration.statuses.revision_pending_moderation'}}</span> |
+                {{else if (eq @node.revisionState 'approved')}}
+                    <span class='label label-danger'>{{t 'node_card.registration.statuses.revision_approved'}}</span> |
+                {{/if}}
+
                 {{node-card/node-icon category=@node.category}}
                 <OsfLink
                     data-analytics-name='Title'
@@ -78,15 +89,6 @@
                                 >
                                     {{t 'general.settings'}}
                                 </OsfLink>
-                            </menu.item>
-                            <menu.item role='menuitem'>
-                                <BsButton
-                                    data-analytics-scope='Delete'
-                                    local-class='NodeCard__dropdown-link'
-                                    @onClick={{action @delete @node}}
-                                >
-                                    {{t 'general.delete'}}
-                                </BsButton>
                             </menu.item>
                         </dd.menu>
                     </BsDropdown>
@@ -157,16 +159,44 @@
                     </dd>
                 {{/if}}
             </dl>
-            <OsfLink
-                data-analytics-name='View registration'
-                data-test-view-button='{{@node.id}}'
-                @route='resolve-guid'
-                @models={{array @node.id}}
-            >
-                <Button>
-                    {{t 'node_card.view'}}
-                </Button>
-            </OsfLink>
+            <div local-class='MyRegistrationsButtons'>
+                <OsfLink
+                    data-analytics-name='View registration'
+                    data-test-view-button='{{@node.id}}'
+                    @route='resolve-guid'
+                    @models={{array @node.id}}
+                >
+                    <Button
+                        local-class='RegistrationCard_view'
+                    >
+                        {{t 'node_card.view_button'}}
+                    </Button>
+                </OsfLink>
+                {{#if this.latestSchemaResponse}}
+                    {{#if this.shouldShowViewChangesButton}}
+                        <OsfLink
+                            data-analytics-name='View changes'
+                            data-test-view-changes-button={{@node.id}}
+                            @route='registries.edit-revision.review'
+                            @models={{array this.latestSchemaResponse.id}}
+                        >
+                            <Button
+                                {{!-- local-class='RegistrationCard_update' --}}
+                            >
+                                {{t 'node_card.view_changes_button'}}
+                            </Button>
+                        </OsfLink>
+                    {{/if}}
+                {{/if}}
+                {{#if this.shouldShowUpdateButton}}
+                    <Button
+                        data-test-update-button={{@node.id}}
+                        {{on 'click' (fn (mut this.showNewUpdateModal) true)}}
+                    >
+                        {{t 'node_card.update_button'}}
+                    </Button>
+                {{/if}}
+            </div>
         {{else}}
             <ContentPlaceholders as |placeholder|>
                 <placeholder.text @lines={{2}} />
@@ -174,3 +204,10 @@
         {{/if}}
     </div>
 </div>
+{{#if @node.isRegistration}}
+    <Registries::NewUpdateModal
+        @isOpen={{this.showNewUpdateModal}}
+        @onClose={{fn (mut this.showNewUpdateModal) false}}
+        @registration={{@node}}
+    />
+{{/if}}

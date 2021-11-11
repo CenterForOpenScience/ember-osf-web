@@ -5,8 +5,9 @@
 >
     {{@text}}
     {{#unless @hide}}
-        <span aria-label={{@ariaLabel}}>
+        <span>
             <button
+                aria-label={{@ariaLabel}}
                 data-test-active-filter-remove-button
                 type='button'
                 local-class='removeActiveFilter'
