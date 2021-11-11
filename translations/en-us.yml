@@ -579,7 +579,11 @@ node_card:
         private_tooltip: 'This registration is private'
         timestamp_label: 'Registered:'
         statuses:
-            pending_registration_approval: 'Pending registration'
+            pending_registration_approval: 'Pending registration approval'
+            revision_pending_moderation: 'Pending moderation'
+            revision_in_progress: 'Revision in progress'
+            revision_unapproved: 'Revision unapproved'
+            revision_approved: 'Latest Update'
             pending_embargo_approval: 'Pending embargo'
             pending: 'Pending moderation'
             embargo: Embargoed
@@ -596,7 +600,11 @@ node_card:
     last_updated: 'Last updated:'
     registry: 'Registry:'
     options: Options
-    view: 'View'
+    view_button: 'View'
+    update_button: 'Update'
+    view_changes_button: 'View changes'
+    schema_response_error: 'Updates irretreivable.'
+    
 forks:
     fork: Fork
     title: Forks
@@ -1206,6 +1214,8 @@ registries:
             warning: 'This will cancel any approvals from other admin contributors and return the registration back to its draft form for additional changes.'
             reason: 'What additional changes need to be made and why?'
             submit: 'Submit'
+
+        
     index:
         lead: 'The <span class="f-w-lg">open</span> registries network'
         see_example: 'See an example'
@@ -1589,7 +1599,7 @@ registries:
         modalBodyFirst: 'Updates to registration responses can be updated by clicking “Next”.<br>Edits to metadata including Description, Category, License, Publication DOI, and Tags are done on the registration by clicking the '
         modalBodySecond: ' icon.'
         modalBodyNoUpdates: 'The {registryName} does not allow updates for this registration template.<br>Contact their registy if you have any questions.'
-        learnMore: 'Read NEEDS LINK  to learn more'
+        learnMore: 'Click <a href="https://help.osf.io/hc/en-us/articles/360035806634-Edit-Registration-Metadata" target="_blank">here</a>  to learn more'
         next: Next
 meetings:
     index:
