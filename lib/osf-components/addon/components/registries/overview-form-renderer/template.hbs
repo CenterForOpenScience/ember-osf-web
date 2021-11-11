@@ -2,7 +2,7 @@
     <LoadingIndicator @dark={{true}}/>
 {{else}}
     {{#if (gt this.registration.schemaResponses.length 1)}}
-        <Registries::VersionMetadata @registration={{this.registration}} @revision={{this.revision}} />
+        <Registries::VersionMetadata @revision={{@revision}} />
     {{/if}}
     <Registries::RegistrationFormNavigationDropdown
         @showMetadata={{false}}

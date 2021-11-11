@@ -1,3 +1,4 @@
+import { assert } from '@ember/debug';
 import Store from '@ember-data/store';
 import { inject as service } from '@ember/service';
 import { tagName } from '@ember-decorators/component';
@@ -20,11 +21,13 @@ export default class RegistrationFormViewSchemaBlocks extends Component {
     @service store!: Store;
     @service toast!: Toast;
     // Required parameter
-    registration?: Registration;
-    revisionId?: string;
+    registration!: Registration;
+    revision!: SchemaResponseModel;
+
+    // Optional parameters
+    updatedResponseIds?: string[];
 
     // Private properties
-    revision?: SchemaResponseModel;
     schemaBlocks?: SchemaBlock[];
     schemaBlockGroups?: SchemaBlockGroup[];
     responses?: { [key: string]: string };
@@ -33,18 +36,11 @@ export default class RegistrationFormViewSchemaBlocks extends Component {
     @waitFor
     async fetchSchemaBlocks() {
         try {
-            let revision;
-            if (this.revisionId) {
-                revision = await this.store.findRecord('schema-response', this.revisionId);
-            }
-            this.set('revision', revision);
-            if (this.registration) {
+            if (this.revision && this.registration) {
                 const registrationSchema = await this.registration.registrationSchema;
-                const responses = revision ? revision.revisionResponses : this.registration.registrationResponses;
-                const schemaBlocksRef = registrationSchema.hasMany('schemaBlocks');
-                const schemaBlocks = schemaBlocksRef.ids().length
-                    ? schemaBlocksRef.value() : (await registrationSchema.loadAll('schemaBlocks'));
-                const schemaBlockGroups = getSchemaBlockGroups(schemaBlocks as SchemaBlock[]);
+                const responses = this.revision.revisionResponses;
+                const schemaBlocks: SchemaBlock[] = await registrationSchema.loadAll('schemaBlocks');
+                const schemaBlockGroups = getSchemaBlockGroups(schemaBlocks, this.updatedResponseIds);
                 this.set('schemaBlocks', schemaBlocks);
                 this.set('schemaBlockGroups', schemaBlockGroups);
                 this.set('responses', responses);
@@ -53,5 +49,9 @@ export default class RegistrationFormViewSchemaBlocks extends Component {
             captureException(e);
             this.toast.error(getApiErrorMessage(e));
         }
+    }
+
+    didReceiveAttrs() {
+        assert('OverviewFormRenderer needs a registration',Boolean(this.registration));
     }
 }

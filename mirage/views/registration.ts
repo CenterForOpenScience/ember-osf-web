@@ -3,6 +3,7 @@ import faker from 'faker';
 
 import DraftNodeModel from 'ember-osf-web/models/draft-node';
 import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
+import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import { MirageNode } from '../factories/node';
 import { MirageRegistration } from '../factories/registration';
 import { guid } from '../factories/utils';
@@ -86,7 +87,11 @@ export function createRegistration(this: HandlerContext, schema: Schema) {
             ...attrs,
         });
     }
-
+    // Need to create a base schema-response for the registrations
+    // beacuse `schema.registration.create` bypass the factory's afterCreate hook
+    server.create('schema-response', {
+        registration: newReg, reviewsState: RevisionReviewStates.Unapproved,
+    });
     return newReg;
 }
 
