@@ -78,16 +78,6 @@ export default class NodeCard extends Component {
         }
     }
 
-    // @task
-    // @waitFor
-    // async createNewSchemaResponse() {
-    //     const newRevision: SchemaResponseModel = this.store.createRecord('schema-response', {
-    //         registration: this.node,
-    //     });
-    //     await newRevision.save();
-    //     this.router.transitionTo('registries.edit-revision', newRevision.id);
-    // }
-
     get shouldShowViewChangesButton() {
         if (this.node instanceof RegistrationModel) {
             return this.node.revisionState === RevisionReviewStates.RevisionInProgress ||
