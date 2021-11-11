@@ -35,8 +35,7 @@
                     <span class='label label-primary'>{{t 'node_card.registration.statuses.archiving'}}</span> |
                 {{/if}}
 
-                {{#if @node.revisionState.id}}
-                {{else if (eq @node.revisionState 'unapproved')}}
+                {{#if (eq @node.revisionState 'unapproved')}}
                     <span class='label label-danger'>{{t 'node_card.registration.statuses.revision_unapproved'}}</span> |
                 {{else if (eq @node.revisionState 'in_progress')}}
                     <span class='label label-danger'>{{t 'node_card.registration.statuses.revision_in_progress'}}</span> |
@@ -160,42 +159,42 @@
                     </dd>
                 {{/if}}
             </dl>
-            <div class='row'>
-                <div class='col-md-10'>
-                    <div local-class='MyRegistrationsButtons'>
+            <div local-class='MyRegistrationsButtons'>
+                <OsfLink
+                    data-analytics-name='View registration'
+                    data-test-view-button='{{@node.id}}'
+                    @route='resolve-guid'
+                    @models={{array @node.id}}
+                >
+                    <Button
+                        local-class='RegistrationCard_view'
+                    >
+                        {{t 'node_card.view_button'}}
+                    </Button>
+                </OsfLink>
+                {{#if this.latestSchemaResponse}}
+                    {{#if this.shouldShowViewChangesButton}}
                         <OsfLink
-                            data-analytics-name='View registration'
-                            data-test-view-button='{{@node.id}}'
-                            @route='resolve-guid'
-                            @models={{array @node.id}}
+                            data-analytics-name='View changes'
+                            data-test-update-button='{{@node.id}}'
+                            @route='registries.edit-revision.review'
+                            @models={{array this.latestSchemaResponse.id}}
                         >
                             <Button
-                                local-class='RegistrationCard_view'
+                                {{!-- local-class='RegistrationCard_update' --}}
                             >
-                                {{t 'node_card.view_button'}}
+                                {{t 'node_card.view_changes_button'}}
                             </Button>
                         </OsfLink>
-                        {{#if this.shouldShowUpdateButton}}
-                            {{#unless (not-eq this.node.reviewsState 'accepted')}}
-                                {{#if this.latestSchemaResponse}}
-                                    <OsfLink
-                                        data-analytics-name='Update registration'
-                                        data-test-update-button='{{@node.id}}'
-                                        @route='registries.edit-revision.index'
-                                        @models={{array this.latestSchemaResponse.id}}
-                                        >
-
-                                        <Button
-                                            local-class='RegistrationCard_update'
-                                        >
-                                            {{t 'node_card.update_button'}}
-                                        </Button>
-                                    </OsfLink>
-                                {{/if}}
-                            {{/unless}}
-                        {{/if}}
-                    </div>
-                </div>
+                    {{/if}}
+                {{/if}}
+                {{#if this.shouldShowUpdateButton}}
+                    <Button
+                        {{on 'click' (fn (mut this.showNewUpdateModal) true)}}
+                    >
+                        {{t 'node_card.update_button'}}
+                    </Button>
+                {{/if}}
             </div>
         {{else}}
             <ContentPlaceholders as |placeholder|>
@@ -204,3 +203,10 @@
         {{/if}}
     </div>
 </div>
+{{#if @node.isRegistration}}
+    <Registries::NewUpdateModal
+        @isOpen={{this.showNewUpdateModal}}
+        @onClose={{fn (mut this.showNewUpdateModal) false}}
+        @registration={{@node}}
+    />
+{{/if}}
