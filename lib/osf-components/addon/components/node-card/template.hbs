@@ -176,7 +176,7 @@
                     {{#if this.shouldShowViewChangesButton}}
                         <OsfLink
                             data-analytics-name='View changes'
-                            data-test-update-button='{{@node.id}}'
+                            data-test-view-changes-button={{@node.id}}
                             @route='registries.edit-revision.review'
                             @models={{array this.latestSchemaResponse.id}}
                         >
@@ -190,6 +190,7 @@
                 {{/if}}
                 {{#if this.shouldShowUpdateButton}}
                     <Button
+                        data-test-update-button={{@node.id}}
                         {{on 'click' (fn (mut this.showNewUpdateModal) true)}}
                     >
                         {{t 'node_card.update_button'}}

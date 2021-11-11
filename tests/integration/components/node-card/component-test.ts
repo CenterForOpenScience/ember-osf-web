@@ -2,7 +2,7 @@ import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupIntl, t, TestContext } from 'ember-intl/test-support';
-import { RevisionReviewStates } from 'ember-osf-web/models/revision';
+import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import { setupRenderingTest } from 'ember-qunit';
 import moment from 'moment';
 import { module, test } from 'qunit';

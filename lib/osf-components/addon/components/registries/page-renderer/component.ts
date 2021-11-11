@@ -5,8 +5,8 @@ import { layout } from 'ember-osf-web/decorators/component';
 
 import { assert } from '@ember/debug';
 import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
-import RevisionModel from 'ember-osf-web/models/revision';
 import { PageManager } from 'ember-osf-web/packages/registration-schema/page-manager';
+import SchemaResponseModel from 'ember-osf-web/models/schema-response';
 import styles from './styles';
 import template from './template';
 
@@ -16,7 +16,7 @@ export default class PageRenderer extends Component {
     // Required param
     pageManager!: PageManager;
     draftRegistration?: DraftRegistrationModel;
-    revision?: RevisionModel;
+    revision?: SchemaResponseModel;
 
     init() {
         super.init();
