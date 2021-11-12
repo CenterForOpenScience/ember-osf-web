@@ -4,8 +4,6 @@ import { action } from '@ember/object';
 import { and, or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import Media from 'ember-responsive';
-import Toast from 'ember-toastr/services/toast';
-import Intl from 'ember-intl/services/intl';
 
 import { layout } from 'ember-osf-web/decorators/component';
 
@@ -17,8 +15,6 @@ import template from './template';
 @layout(template, styles)
 export default class RegistriesSideNav extends Component {
     @service media!: Media;
-    @service toast!: Toast;
-    @service intl!: Intl;
 
     // Optional params
     onLinkClicked?: () => void;
