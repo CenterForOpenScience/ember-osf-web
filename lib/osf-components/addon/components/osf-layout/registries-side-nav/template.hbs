@@ -45,6 +45,7 @@
         @delete={{action this.delete}}
         @type='default'
         @size='2x'
+        @icon={{if this.isCollapsed 'trash-alt'}}
     >
         {{t 'registries.newUpdateModal.cancel_update'}}
     </BsButton>

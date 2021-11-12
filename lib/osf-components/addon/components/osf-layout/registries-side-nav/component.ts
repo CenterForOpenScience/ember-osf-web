@@ -5,29 +5,43 @@ import { and, or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import Media from 'ember-responsive';
 import Toast from 'ember-toastr/services/toast';
-import SchemaResponseModel from 'ember-osf-web/models/schema-response';
+import SchemaResponseModel, { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import Intl from 'ember-intl/services/intl';
+import RouterService from '@ember/routing/router-service';
+import { tracked } from '@glimmer/tracking';
+import NodeModel from 'ember-osf-web/models/node';
+import RegistrationModel from 'ember-osf-web/models/registration';
 
 import { layout } from 'ember-osf-web/decorators/component';
 
 import styles from './styles';
 import template from './template';
 
+// interface Args {
+//     registration: RegistrationModel;
+//     selectedRevisionId: string;
+// }
 
 @tagName('')
 @layout(template, styles)
-export default class RegistriesSideNav extends Component {
+export default class RegistriesSideNav extends Component { // <Args> {
     @service media!: Media;
     @service toast!: Toast;
     @service intl!: Intl;
+    @service router!: RouterService;
 
-    toDelete: SchemaResponseModel | null;
+    @tracked selectedSchema!: SchemaResponseModel;
+    @tracked registration!: RegistrationModel;
+    @tracked node!: NodeModel;
+
+    toDelete: SchemaResponseModel | null = null;
     deleteEdit = false;
 
     reloadList?: (page?: number) => void; // bound by paginated-list
 
     // Optional params
     onLinkClicked?: () => void;
+    // latestSchemaResponseId = this.selectedSchema.id;
 
     // Private properties
     shouldCollapse = false;
@@ -46,20 +60,20 @@ export default class RegistriesSideNav extends Component {
     @action
     delete() {
         this.set('deleteEdit', false);
-        const node = this.toDelete;
-        if (!node) {
+        const edit = this.toDelete;
+        if (!edit) {
             return;
         }
         this.set('toDelete', null);
-        // node.deleteRecord();
-        node.destroyRecord();
-        // node.save().then(() => {
-        //     this.toast.success(this.intl.t('status.project_deleted'));
-        //     if (this.reloadList) {
-        //         this.reloadList();
-        //     }
-        // }).catch(() => {
-        //     this.toast.error(this.intl.t('forks.delete_fork_failed'));
-        // });
+        // edit.deleteRecord();
+        edit.destroyRecord();
+        this.router.transitionTo(
+            'registries.overview.index',
+            this.selectedSchema.get('id'),
+            { queryParams: { state: RevisionReviewStates.RevisionInProgress } },
+        // this.latestSchemaResponseId);
+        );
+        this.registration.reload();
+
     }
 }
