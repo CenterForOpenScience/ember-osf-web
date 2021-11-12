@@ -579,11 +579,11 @@ node_card:
         private_tooltip: 'This registration is private'
         timestamp_label: 'Registered:'
         statuses:
-            pending_registration_approval: 'Pending registration approval'
             revision_pending_moderation: 'Pending moderation'
             revision_in_progress: 'Revision in progress'
             revision_unapproved: 'Revision unapproved'
             revision_approved: 'Latest Update'
+            pending_registration_approval: 'Pending registration approval'
             pending_embargo_approval: 'Pending embargo'
             pending: 'Pending moderation'
             embargo: Embargoed
@@ -591,8 +591,8 @@ node_card:
             pending_embargo_termination: 'Pending embargo termination'
             pending_withdraw_request: 'Pending withdrawal'
             pending_withdraw: 'Pending withdrawal moderation'
-            withdrawn: Withdrawn
-            archiving: Archiving
+            withdrawn: 'Withdrawn'
+            archiving: 'Archiving'
     tags: 'Tags:'
     registration_template: 'Registration template:'
     contributors: 'Contributors:'
@@ -1106,6 +1106,8 @@ registries:
             uploadSuccess: 'Successfully uploaded csv file.'
         overview:
             title: 'Moderated Overview'
+            delete_update: 'Delete update'
+            confirm_delete: 'Please confirm deletion of update.'
     new:
         provider_info: 'You are submitting to {provider}. <a href="https://help.osf.io/hc/en-us/categories/360001550953-Registrations">Click here</a> to learn more about other hosted registries.'
         required: 'required'
@@ -1214,6 +1216,10 @@ registries:
             warning: 'This will cancel any approvals from other admin contributors and return the registration back to its draft form for additional changes.'
             reason: 'What additional changes need to be made and why?'
             submit: 'Submit'
+        delete_modal:
+            title: 'Delete this update'
+            body: 'Are you sure to delete this update?'
+            button: 'Cancel update'
 
         
     index:
@@ -1601,6 +1607,7 @@ registries:
         modalBodyNoUpdates: 'The {registryName} does not allow updates for this registration template.<br>Contact their registy if you have any questions.'
         learnMore: 'Click <a href="https://help.osf.io/hc/en-us/articles/360035806634-Edit-Registration-Metadata" target="_blank">here</a>  to learn more'
         next: Next
+        cancel_update: 'Cancel update'
 meetings:
     index:
         meetings-list:
