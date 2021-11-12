@@ -582,7 +582,6 @@ node_card:
             revision_pending_moderation: 'Pending moderation'
             revision_in_progress: 'Revision in progress'
             revision_unapproved: 'Revision unapproved'
-            revision_approved: 'Latest Update'
             pending_registration_approval: 'Pending registration approval'
             pending_embargo_approval: 'Pending embargo'
             pending: 'Pending moderation'
