@@ -1,21 +1,39 @@
 import Controller from '@ember/controller';
+import { assert } from '@ember/debug';
 import { alias, not } from '@ember/object/computed';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
-import BrandModel from 'ember-osf-web/models/brand';
+import { waitFor } from '@ember/test-waiters';
+import { task } from 'ember-concurrency';
+import IntlService from 'ember-intl/services/intl';
 import RegistrationModel from 'ember-osf-web/models/registration';
-import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 import SchemaResponseModel from 'ember-osf-web/models/schema-response';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import Media from 'ember-responsive';
 
 export default class EditRevisionController extends Controller {
     @service media!: Media;
     @service router!: RouterService;
+    @service intl!: IntlService;
+    @service toast!: Toastr;
 
     @not('media.isDesktop') showMobileView!: boolean;
 
-    @alias('model.revision') revision?: SchemaResponseModel;
-    @alias('model.registration') registration?: RegistrationModel;
-    @alias('model.provider') provider?: RegistrationProviderModel;
-    @alias('model.provider.brand') brand?: BrandModel;
+    @alias('model.revisionManager.revision') revision?: SchemaResponseModel;
+    @alias('model.revisionManager.registration') registration?: RegistrationModel;
+
+    @task
+    @waitFor
+    async deleteRevision() {
+        assert('this.revision is required to delete a revision', this.revision);
+        assert('this.registration is required to redirect after deleting a revision', this.registration);
+        try {
+            await this.revision.destroyRecord();
+            this.router.transitionTo('registries.overview.index', this.registration.id);
+        } catch (e) {
+            const errorMessage = this.intl.t('move_to_project.could_not_create_project');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
+        }
+    }
 }

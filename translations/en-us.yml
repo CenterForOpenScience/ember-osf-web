@@ -579,11 +579,11 @@ node_card:
         private_tooltip: 'This registration is private'
         timestamp_label: 'Registered:'
         statuses:
-            pending_registration_approval: 'Pending registration approval'
             revision_pending_moderation: 'Pending moderation'
             revision_in_progress: 'Revision in progress'
             revision_unapproved: 'Revision unapproved'
             revision_approved: 'Latest Update'
+            pending_registration_approval: 'Pending registration approval'
             pending_embargo_approval: 'Pending embargo'
             pending: 'Pending moderation'
             embargo: Embargoed
@@ -593,9 +593,6 @@ node_card:
             pending_withdraw: 'Pending withdrawal moderation'
             withdrawn: 'Withdrawn'
             archiving: 'Archiving'
-            revision_in_progress: 'A revision is currently in progress'
-            revision_pending_admin_approval: 'Revision is currently pending admin approval'
-            revision_pending_edit_moderation: 'Revision is currently pending moderator approval'
     tags: 'Tags:'
     registration_template: 'Registration template:'
     contributors: 'Contributors:'
@@ -1219,6 +1216,10 @@ registries:
             warning: 'This will cancel any approvals from other admin contributors and return the registration back to its draft form for additional changes.'
             reason: 'What additional changes need to be made and why?'
             submit: 'Submit'
+        delete_modal:
+            title: 'Delete this update'
+            body: 'Are you sure to delete this update?'
+            button: 'Cancel update'
 
         
     index:
