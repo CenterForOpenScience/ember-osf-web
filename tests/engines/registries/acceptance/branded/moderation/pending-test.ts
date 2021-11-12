@@ -113,7 +113,7 @@ module('Registries | Acceptance | branded.moderation | pending', hooks => {
                 provider: this.registrationProvider,
             },
         );
-        server.create('schemaResponse', { registration: acceptedReg }, 'withSchemaResponseActions');
+        server.create('schema-response', { registration: acceptedReg }, 'withSchemaResponseActions');
         server.createList(
             'registration', 2, {
                 reviewsState: RegistrationReviewStates.PendingWithdraw, provider: this.registrationProvider,

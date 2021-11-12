@@ -6,7 +6,7 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
 import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
-import { click, visit } from 'ember-osf-web/tests/helpers';
+import { click, currentURL, visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
 import { deserializeResponseKey } from 'ember-osf-web/transforms/registration-response-key';
@@ -346,7 +346,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
                 'page-one_multi-select': ['Crocs'],
             },
         });
-
+        server.schema.schemaResponses.first().update({ reviewsState: RevisionReviewStates.Approved });
         const revision = server.create('schema-response', {
             reviewsState: RevisionReviewStates.RevisionPendingModeration,
             registration,
@@ -394,6 +394,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
                 'page-one_multi-select': ['Crocs'],
             },
         });
+        server.schema.schemaResponses.first().update({ reviewsState: RevisionReviewStates.Approved });
         const revision = server.create('schema-response', {
             id: 'zap',
             registration,
@@ -410,8 +411,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
         await click('[data-test-moderation-dropdown-button]');
         await click('[data-test-moderation-dropdown-decision-checkbox="moderator_reject"]');
         await click('[data-test-moderation-dropdown-submit]');
-        assert.dom(`[data-test-read-only-response=${deserializeResponseKey('page-one_short-text')}]`).hasText(
-            'Krobus', 'Response from the registration shown',
-        );
+        assert.equal(currentRouteName(), 'registries.branded.moderation.submitted');
+        assert.ok(currentURL().includes('?state=pending_moderation'));
     });
 });

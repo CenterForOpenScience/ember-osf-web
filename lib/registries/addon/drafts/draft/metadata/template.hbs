@@ -116,7 +116,7 @@
                         </p>
                     </legend>
                     <Subjects::Manager @model={{this.draftManager.draftRegistration}}
-                        @provider={{this.draftManager.draftRegistration.provider}} @doesAutosave={{true}}
+                        @provider={{this.draftManager.provider}} @doesAutosave={{true}}
                         @metadataChangeset={{this.draftManager.metadataChangeset}} as |subjectsManager|>
                         <Subjects::Widget local-class='SubjectsField' @subjectsManager={{subjectsManager}} />
                         <ValidationErrors @changeset={{this.draftManager.metadataChangeset}} @key='subjects'
