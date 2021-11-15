@@ -117,14 +117,17 @@ export function registrationScenario(
             { field_name: 'Another Field', field_value: 'aloha' },
         ],
     }, 'withContributors', 'withReviewActions');
+    server.create('contributor', { users: currentUser, node: decaf });
 
-    server.create('registration', {
+    const cuban = server.create('registration', {
         id: 'cuban',
         title: 'embargoed',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider: egap,
         registeredBy: currentUser,
     }, 'withContributors', 'withReviewActions', 'isEmbargo');
+
+    server.create('contributor', { users: currentUser, node: cuban });
 
     server.createList('registration', 12,
         {
@@ -133,13 +136,14 @@ export function registrationScenario(
         });
     server.create('contributor', { node: decaf }, 'unregistered');
 
-    server.create('registration', {
+    const wdrwn = server.create('registration', {
         id: 'wdrwn',
         title: 'Withdrawn Hermit',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider: egap,
         reviewsState: RegistrationReviewStates.Withdrawn,
     }, 'withContributors', 'withReviewActions');
+    server.create('contributor', { users: currentUser, node: wdrwn });
 
     server.create('subscription');
 
@@ -162,18 +166,20 @@ export function registrationScenario(
         provider: egap,
     }, 'withContributors', 'isEmbargo');
 
-    server.create('registration', {
+    const pndwd = server.create('registration', {
         id: 'pndwd',
         title: 'Cold Turkey',
         provider: egap,
         reviewsState: RegistrationReviewStates.PendingWithdraw,
     }, 'withSingleReviewAction');
+    server.create('contributor', { users: currentUser, node: pndwd });
 
-    server.create('registration', {
+    const aerchive = server.create('registration', {
         id: 'aerchive',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider,
     }, 'isArchiving');
+    server.create('contributor', { users: currentUser, node: aerchive });
 
     const draftNode = server.create('draft-node', 'withFiles');
     server.create('draft-registration', {
