@@ -1,0 +1,137 @@
+// .Main and .Title is being composed in registries/branded/new and registries/branded/moderation
+
+.ContentBackground {
+    composes: ContentBackground from '../overview/styles.scss';
+}
+
+.DraftHeroOverlay {
+    padding: 20px 0;
+}
+
+.Left {
+    padding: 20px;
+}
+
+.Main {
+    background: $white;
+    padding: 30px;
+}
+
+.Right {
+    min-width: 216px;
+    width: 216px;
+}
+
+.Title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 90px;
+    width: 100%;
+    max-width: 1140px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1em 2em;
+
+    & > h1,
+    & > a {
+        color: $white;
+        width: fit-content;
+    }
+
+    & > h1 {
+        margin-top: 5px;
+    }
+}
+
+.Loading {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.RightWrapper {
+    position: sticky;
+    top: 0;
+}
+
+.RightNavWrapper {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    z-index: 1;
+    background: $color-bg-white;
+    border-bottom: 1px solid $color-border-gray;
+
+    & > * {
+        margin-bottom: 15px;
+    }
+}
+
+.EditWarning {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+
+    & i {
+        color: $brand-warning;
+    }
+}
+
+.BackButton {
+    border: 1px solid $alto;
+    border-radius: 2px;
+    font-weight: 600;
+
+    &:hover,
+    &:active,
+    &:active:focus,
+    &:focus {
+        box-shadow: none;
+    }
+}
+
+.ReviewButton,
+.NextButton {
+    border-radius: 2px;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 12px 0;
+
+    &:hover,
+    &:active,
+    &:active:focus,
+    &:focus {
+        box-shadow: none;
+    }
+}
+
+.SaveMessage {
+    display: inline-block;
+}
+
+.SideBarToggle {
+    width: 100%;
+}
+
+.MobileNavPageLabelSection {
+    min-width: 0;
+    width: 100%;
+}
+
+.MobileNavPageLabel {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 600;
+    color: $color-text-black;
+}
+
+@media screen and (min-width: 992px) {
+    .ContentBackground {
+        display: flex;
+    }
+}

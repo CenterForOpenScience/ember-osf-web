@@ -1,0 +1,12 @@
+.NoResponse,
+.RevisedResponses {
+    font-style: italic;
+}
+
+.TextResponse {
+    white-space: pre-wrap;
+}
+
+.ValidationErrors {
+    composes: Element from '../schema-block-renderer/styles.scss';
+}

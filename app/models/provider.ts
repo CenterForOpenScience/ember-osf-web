@@ -50,6 +50,7 @@ export default abstract class ProviderModel extends OsfModel {
     @attr('string') facebookAppId!: string;
     @attr('boolean') allowSubmissions!: boolean;
     @attr('boolean') allowCommenting!: boolean;
+    @attr('boolean') allowUpdates!: boolean;
     @attr('fixstring') reviewsWorkflow!: string | null;
     @attr('boolean') reviewsCommentsAnonymous!: boolean | null;
     @attr() assets?: Partial<Assets>; // TODO: camelize in transform

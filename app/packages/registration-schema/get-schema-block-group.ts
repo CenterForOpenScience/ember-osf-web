@@ -8,7 +8,7 @@ function isEmpty(input?: string | null) {
     return false;
 }
 
-export function getSchemaBlockGroups(blocks: SchemaBlock[] | undefined) {
+export function getSchemaBlockGroups(blocks: SchemaBlock[], updatedGroupKeys?: string[]) {
     if (!blocks) {
         assert('getSchemaBlockGroups() requires blocks');
         return undefined;
@@ -52,6 +52,9 @@ export function getSchemaBlockGroups(blocks: SchemaBlock[] | undefined) {
                 schemaBlockGroup.inputBlock = block;
                 schemaBlockGroup.registrationResponseKey = block.registrationResponseKey;
                 schemaBlockGroup.groupType = block.blockType;
+                if (updatedGroupKeys && updatedGroupKeys.includes(schemaBlockGroup.registrationResponseKey!)) {
+                    schemaBlockGroup.updated = true;
+                }
                 break;
             case 'select-input-option':
                 if (schemaBlockGroup.inputBlock) {

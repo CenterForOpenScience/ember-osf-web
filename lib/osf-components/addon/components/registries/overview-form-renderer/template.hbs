@@ -1,6 +1,9 @@
 {{#if this.fetchSchemaBlocks.isRunning}}
     <LoadingIndicator @dark={{true}}/>
 {{else}}
+    {{#if (gt this.registration.schemaResponses.length 1)}}
+        <Registries::VersionMetadata @revision={{@revision}} />
+    {{/if}}
     <Registries::RegistrationFormNavigationDropdown
         @showMetadata={{false}}
         @schemaBlocks={{this.schemaBlocks}}
@@ -11,7 +14,7 @@
             @renderStrategy={{
                 component
                 'registries/schema-block-renderer/read-only/mapper'
-                registrationResponses=@registration.registrationResponses
+                registrationResponses=this.responses
             }}
         />
     {{/each}}

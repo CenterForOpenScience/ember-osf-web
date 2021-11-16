@@ -1,0 +1,122 @@
+<RegistriesWrapper
+    @provider={{this.provider}}
+    {{with-branding (get-model this.brand)}}
+>
+    {{#if this.model.revisionManager.initializing}}
+        <div local-class='ContentBackground Loading'>
+            <LoadingIndicator @dark={{true}} />
+        </div>
+    {{else}}
+        {{#let
+            this.model.navigationManager
+            this.model.revisionManager
+            as |navManager revisionManager|
+        }}
+            <OsfLayout @backgroundClass={{local-class 'ContentBackground'}} as |layout|>
+                <layout.heading>
+                    <HeroOverlay @align='left' local-class='DraftHeroOverlay'>
+                        <div local-class='Title'>
+                            {{#if revisionManager.registration}}
+                                <OsfLink
+                                    data-test-link-back-to-registration
+                                    data-analytics-name='Go to registration'
+                                    local-class='BreadCrumb'
+                                    @route='registries.overview'
+                                    @models={{array revisionManager.registration.id}}
+                                >
+                                    {{revisionManager.registration.title}} >
+                                </OsfLink>
+                            {{/if}}
+                            <h1>
+                                {{t 'registries.edit_revision.page_title'}}
+                            </h1>
+                        </div>
+                    </HeroOverlay>
+                </layout.heading>
+                {{#if this.showMobileView}}
+                    <layout.top as |topLayout|>
+                        <EditRevision::-Components::TopNav
+                            @layout={{topLayout}}
+                            @revisionManager={{revisionManager}}
+                            @navManager={{navManager}}
+                            @currentUserIsReadOnly={{revisionManager.currentUserIsReadOnly}}
+                        />
+                    </layout.top>
+                {{/if}}
+                <layout.leftNav as |leftNav|>
+                    {{#if (not (or revisionManager.currentUserIsReadOnly (not revisionManager.isEditable)))}}
+                        <PageLink
+                            @link={{component leftNav.link}}
+                            @draftId={{revisionManager.revisionId}}
+                            @pageName='justification'
+                            @route='registries.edit-revision.justification'
+                            @currentPageName={{navManager.currentRoute}}
+                            @label='{{t 'registries.edit_revision.justification.page_label'}}'
+                            @navMode={{leftNav.leftGutterMode}}
+                            @metadataIsValid={{revisionManager.revisionIsValid}}
+                        />
+                        {{#each revisionManager.pageManagers as |pageManager index|}}
+                            <PageLink
+                                @link={{component leftNav.link}}
+                                @draftId={{revisionManager.revisionId}}
+                                @pageManager={{pageManager}}
+                                @route='registries.edit-revision.page'
+                                @pageIndex={{index}}
+                                @currentPageIndex={{navManager.currentPage}}
+                                @navMode={{leftNav.leftGutterMode}}
+                            />
+                        {{/each}}
+                    {{/if}}
+                    <PageLink
+                        @link={{component leftNav.link}}
+                        @draftId={{revisionManager.revisionId}}
+                        @pageName='review'
+                        @route='registries.edit-revision.review'
+                        @currentPageName={{navManager.currentRoute}}
+                        @label='{{t 'registries.drafts.draft.review.page_label'}}'
+                        @navMode={{leftNav.leftGutterMode}}
+                    />
+                    <leftNav.link
+                        @icon='trash-alt'
+                        as |link|
+                    >
+                        <link.icon />
+                        <DeleteButton
+                            @delete={{perform this.deleteRevision}}
+                            @modalTitle={{t 'registries.edit_revision.delete_modal.title'}}
+                            @modalBody={{t 'registries.edit_revision.delete_modal.body'}}
+                            @buttonLabel={{t 'registries.edit_revision.delete_modal.button'}}
+                        />
+                    </leftNav.link>
+                </layout.leftNav>
+                <layout.main local-class='Main'>
+                    {{outlet}}
+                </layout.main>
+                {{#unless this.showMobileView}}
+                    <layout.right local-class='Right'>
+                        <div local-class='RightWrapper'>
+                            <div local-class='RightNavWrapper'>
+                                <EditRevision::-Components::RightNav
+                                    @revisionManager={{revisionManager}}
+                                    @navManager={{navManager}}
+                                />
+                            </div>
+                            <div local-class='EditWarning'>
+                                <strong>
+                                    <FaIcon
+                                        @icon='exclamation-circle'
+                                        @fixedWidth={{true}}
+                                    />
+                                    {{t 'general.caution'}}
+                                </strong>
+                                <span>
+                                    {{t 'registries.drafts.draft.form.collaborative_edit_warning'}}
+                                </span>
+                            </div>
+                        </div>
+                    </layout.right>
+                {{/unless}}
+            </OsfLayout>
+        {{/let}}
+    {{/if}}
+</RegistriesWrapper>

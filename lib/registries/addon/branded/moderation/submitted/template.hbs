@@ -1,4 +1,4 @@
-{{page-title (t 'registries.moderation.submissions.title') prepend=false}}
+{{page-title (t 'registries.moderation.submitted.title') prepend=false}}
 {{!-- TODO: Add number of registrations in each state in tab --}}
 <Registries::RegistrationList::Manager
     local-class='registrationListContainer'
@@ -8,16 +8,6 @@
 >
     <div local-class='tabSortingWrapper'>
         <div local-class='tabs'>
-            <button
-                data-test-submissions-type='pending'
-                data-test-is-selected={{if (eq this.state 'pending') 'true' 'false'}}
-                type='button'
-                {{on 'click' (fn this.changeTab 'pending')}}
-                local-class='tab {{if (eq this.state 'pending') 'selected'}}'
-            >
-                <FaIcon @icon='hourglass' />
-                {{t 'registries.moderation.states.pending'}}
-            </button>
             <button
                 data-test-submissions-type='accepted'
                 data-test-is-selected={{if (eq this.state 'accepted') 'true' 'false'}}
@@ -57,16 +47,6 @@
             >
                 <FaIcon @icon='ban' />
                 {{t 'registries.moderation.states.withdrawn'}}
-            </button>
-            <button
-                data-test-submissions-type='pending-withdraw'
-                data-test-is-selected={{if (eq this.state 'pending_withdraw') 'true' 'false'}}
-                type='button'
-                {{on 'click' (fn this.changeTab 'pending_withdraw')}}
-                local-class='tab {{if (eq this.state 'pending_withdraw') 'selected'}}'
-            >
-                <FaIcon @icon='clock' />
-                {{t 'registries.moderation.states.pendingWithdraw'}}
             </button>
         </div>
         <SortButton

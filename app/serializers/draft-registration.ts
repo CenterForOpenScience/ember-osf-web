@@ -14,7 +14,7 @@ import { mapKeysAndValues } from 'ember-osf-web/utils/map-keys';
 import { Resource } from 'osf-api';
 import OsfSerializer from './osf-serializer';
 
-interface JsonPayload {
+export interface JsonPayload {
     attributes: Record<string, {}>;
 }
 
@@ -60,7 +60,7 @@ export function normalizeRegistrationResponses(value: ResponseValue, store: Stor
     return value;
 }
 
-function serializeRegistrationResponses(value: NormalizedResponseValue) {
+export function serializeRegistrationResponses(value: NormalizedResponseValue) {
     if (Array.isArray(value) && value.length && isObject(value[0]) && 'materializedPath' in value[0]) {
         return value.map(file => file.toFileReference());
     }

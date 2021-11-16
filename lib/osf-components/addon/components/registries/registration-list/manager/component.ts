@@ -2,6 +2,7 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { layout } from 'ember-osf-web/decorators/component';
 import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
+import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import template from './template';
 
 @layout(template)
@@ -13,12 +14,17 @@ export default class RegistrationListManager extends Component {
 
     @computed('state', 'sort')
     get filterParams() {
-        let filter = this.state;
+        const filter: Record<string, string | undefined> = { reviews_state: this.state, revision_state: undefined };
         if (this.state === RegistrationReviewStates.Embargo) {
-            filter = [RegistrationReviewStates.Embargo, RegistrationReviewStates.PendingEmbargoTermination].toString();
+            filter.reviews_state =
+                [RegistrationReviewStates.Embargo, RegistrationReviewStates.PendingEmbargoTermination].toString();
         }
-        const query: Record<string, string | Record<string, string>> = {
-            filter: { reviews_state: filter || 'pending' },
+        if (this.state === RevisionReviewStates.RevisionPendingModeration) {
+            filter.revision_state = [RevisionReviewStates.RevisionPendingModeration].toString();
+            filter.reviews_state = undefined;
+        }
+        const query: Record<string, string | Record<string, string | undefined>> = {
+            filter,
             sort: this.sort,
         };
 

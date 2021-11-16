@@ -1,0 +1,80 @@
+{{assert 'EditRevision::-Components::RightNav requires a revision-manager' @revisionManager}}
+{{assert 'EditRevision::-Components::RightNav requires a navigation-manager' @navManager}}
+
+{{#if @navManager.isLastPage}}
+    <OsfLink
+        data-test-goto-review
+        data-analytics-name='Go to review'
+        local-class='ReviewButton'
+        @type='button'
+        @route='registries.edit-revision.review'
+        @models={{array @revisionManager.revisionId}}
+    >
+        <Button @type='primary' @layout='large'>
+            {{t 'registries.drafts.draft.review.start_review'}}
+        </Button>
+    </OsfLink>
+{{/if}}
+{{#if @navManager.inReview}}
+    <EditRevision::-Components::SubmitAndDecide
+        @revisionManager={{@revisionManager}}
+        @showMobileView={{false}}
+    />
+{{/if}}
+{{#if @navManager.nextPageParam}}
+    <OsfLink
+        data-test-goto-next-page
+        data-analytics-name='Go to next page'
+        local-class='NextButton'
+        @type='button'
+        @route='registries.edit-revision.page'
+        @models={{array @revisionManager.revisionId @navManager.nextPageParam}}
+    >
+        <Button @type='primary' @layout='large'>
+            {{t 'registries.drafts.draft.form.next'}}
+            <FaIcon @icon='arrow-right' @fixedWidth={{true}} />
+        </Button>
+    </OsfLink>
+{{/if}}
+{{#if (and @navManager.prevPageParam (not @revisionManager.currentUserIsReadOnly) @revisionManager.isEditable)}}
+    <OsfLink
+        data-test-goto-previous-page
+        data-analytics-name='Go to previous page'
+        local-class='BackButton'
+        @type='button'
+        @route='registries.edit-revision.page'
+        @models={{array @revisionManager.revisionId @navManager.prevPageParam}}
+    >
+        <Button @type='secondary'>
+            <FaIcon @icon='arrow-left' @fixedWidth={{true}} />
+            {{t 'registries.drafts.draft.form.back'}}
+        </Button>
+    </OsfLink>
+{{/if}}
+{{#if @navManager.isFirstPage}}
+    <OsfLink
+        data-test-goto-justification
+        data-analytics-name='Back to justification'
+        local-class='BackButton'
+        @type='button'
+        @route='registries.edit-revision.justification'
+        @models={{array @revisionManager.revisionId}}
+    >
+        <Button @type='secondary'>
+            <FaIcon @icon='arrow-left' @fixedWidth={{true}} />
+            {{t 'registries.edit_revision.justification.page_label'}}
+        </Button>
+    </OsfLink>
+{{/if}}
+
+{{#if @revisionManager.lastSaveFailed}}
+    <span local-class='SaveFailed'>
+        {{t 'registries.drafts.draft.form.save_failed'}}
+    </span>
+{{/if}}
+<span local-class='SaveMessage'>
+    {{t 'registries.drafts.draft.form.last_saved'}}
+    <TimeSince
+        @date={{@revisionManager.revision.dateModified}}
+    />
+</span>

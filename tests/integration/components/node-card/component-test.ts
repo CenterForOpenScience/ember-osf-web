@@ -1,7 +1,8 @@
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { setupIntl, TestContext } from 'ember-intl/test-support';
+import { setupIntl, t, TestContext } from 'ember-intl/test-support';
+import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import { setupRenderingTest } from 'ember-qunit';
 import moment from 'moment';
 import { module, test } from 'qunit';
@@ -23,6 +24,7 @@ module('Integration | Component | node-card', hooks => {
         const registration = server.create('registration', {
             tags: ['a', 'b', 'c'],
             description: 'Through the night',
+            revisionState: RevisionReviewStates.Approved,
         });
         server.create('contributor', { node: registration, index: 0, bibliographic: true });
         server.create('contributor', { node: registration, index: 1, bibliographic: true });
@@ -104,5 +106,8 @@ module('Integration | Component | node-card', hooks => {
             assert.dom(`[data-test-tags-widget-tag='${tag}']`).hasText(tag, 'Tag is correct');
         }
         assert.dom(`[data-test-view-button='${registration.id}']`).exists('View button exists');
+
+        assert.dom('[data-test-update-button]').exists('Update button exists.');
+        assert.dom('[data-test-update-button]').hasText(t('node_card.update_button').toString());
     });
 });
