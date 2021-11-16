@@ -88,6 +88,15 @@
                                     {{t 'general.settings'}}
                                 </OsfLink>
                             </menu.item>
+                            <menu.item role='menuitem'>
+                                <BsButton
+                                    data-analytics-scope='Delete'
+                                    local-class='NodeCard__dropdown-link'
+                                    @onClick={{action @delete @node}}
+                                >
+                                    {{t 'general.delete'}}
+                                </BsButton>
+                            </menu.item>
                         </dd.menu>
                     </BsDropdown>
                 </div>
