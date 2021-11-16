@@ -253,7 +253,7 @@ export function registrationScenario(
         registration: cobalt,
     });
 
-    const bismuth = server.create('registration', {
+    server.create('registration', {
         id: 'bismuth',
         title: 'Revision Model: Admin or Moderator View',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
@@ -271,63 +271,17 @@ export function registrationScenario(
             'page-one_multi-select': ['Crocs'],
         },
     }, 'withContributors', 'withReviewActions');
+    server.create('contributor', { users: currentUser, node: decaf });
 
-    server.create('schema-response', {
-        id: 'copyEditRPA',
-        reviewsState: RevisionReviewStates.Unapproved,
-        revisionJustification: 'Copy Edit',
-        revisionResponses: {
-            'page-one_long-text': 'dddd',
-            'page-one_multi-select': ['Crocs'],
-        },
-        initiatedBy: currentUser,
-        registration: bismuth,
-    });
-
-    server.create('schema-response', {
-        id: 'copyEditRPM',
-        reviewsState: RevisionReviewStates.Approved,
-        revisionJustification: 'Copy Edit',
-        revisionResponses: {
-            'page-one_long-text': 'aaaaa',
-            'page-one_multi-select': ['Crocs'],
-        },
-        initiatedBy: currentUser,
-        registration: bismuth,
-    });
-
-    server.create('schema-response', {
-        id: 'copyEditRIP',
-        reviewsState: RevisionReviewStates.Approved,
-        revisionJustification: 'Copy Edit',
-        revisionResponses: {
-            'page-one_long-text': 'bbbbbb',
-            'page-one_multi-select': ['Crocs'],
-        },
-        initiatedBy: currentUser,
-        registration: bismuth,
-        updatedResponseKeys: ['page-one_short-text', 'page-two_short-text'],
-    });
-
-    server.create('schema-response', {
-        id: 'copyEditApproved',
-        reviewsState: RevisionReviewStates.Approved,
-        revisionJustification: 'Copy Edit',
-        revisionResponses: {
-            'page-one_long-text': 'ccccc',
-            'page-one_multi-select': ['Crocs'],
-        },
-        initiatedBy: currentUser, // should be the user associated with the edit, not the mod/admin
-        registration: bismuth,
-    });
-
-    server.create('registration', {
+    const cuban = server.create('registration', {
         id: 'cuban',
         title: 'embargoed',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider: egap,
         registeredBy: currentUser,
     }, 'withContributors', 'withReviewActions', 'isEmbargo');
+
+    server.create('contributor', { users: currentUser, node: cuban });
 
     server.createList('registration', 12,
         {
@@ -336,13 +290,14 @@ export function registrationScenario(
         });
     server.create('contributor', { node: decaf }, 'unregistered');
 
-    server.create('registration', {
+    const wdrwn = server.create('registration', {
         id: 'wdrwn',
         title: 'Withdrawn Hermit',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider: egap,
         reviewsState: RegistrationReviewStates.Withdrawn,
     }, 'withContributors', 'withReviewActions');
+    server.create('contributor', { users: currentUser, node: wdrwn });
 
     server.create('subscription');
 
@@ -365,18 +320,20 @@ export function registrationScenario(
         provider: egap,
     }, 'withContributors', 'isEmbargo');
 
-    server.create('registration', {
+    const pndwd = server.create('registration', {
         id: 'pndwd',
         title: 'Cold Turkey',
         provider: egap,
         reviewsState: RegistrationReviewStates.PendingWithdraw,
     }, 'withSingleReviewAction');
+    server.create('contributor', { users: currentUser, node: pndwd });
 
-    server.create('registration', {
+    const aerchive = server.create('registration', {
         id: 'aerchive',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider,
     }, 'isArchiving');
+    server.create('contributor', { users: currentUser, node: aerchive });
 
     const draftNode = server.create('draft-node', 'withFiles');
     server.create('draft-registration', {
