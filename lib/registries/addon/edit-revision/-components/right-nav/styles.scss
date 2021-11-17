@@ -1,0 +1,11 @@
+.NextButton,
+.ReviewButton,
+.BackButton {
+    button {
+        width: 100%;
+    }
+}
+
+.SaveFailed {
+    color: $brand-danger;
+}

@@ -3,9 +3,9 @@ import faker from 'faker';
 
 import DraftNodeModel from 'ember-osf-web/models/draft-node';
 import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
+import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import { MirageNode } from '../factories/node';
 import { MirageRegistration } from '../factories/registration';
-
 import { guid } from '../factories/utils';
 import { process } from './utils';
 
@@ -87,27 +87,30 @@ export function createRegistration(this: HandlerContext, schema: Schema) {
             ...attrs,
         });
     }
-
+    // Need to create a base schema-response for the registrations
+    // beacuse `schema.registration.create` bypass the factory's afterCreate hook
+    server.create('schema-response', {
+        registration: newReg, reviewsState: RevisionReviewStates.Unapproved,
+    });
     return newReg;
 }
 
 export function getProviderRegistrations(this: HandlerContext, schema: Schema, request: Request) {
     const { parentID: providerId } = request.params;
-    const { 'filter[reviews_state]': params, pageSize } = request.queryParams;
-    const filterParams = params.split(',');
-
+    const field = request.queryParams['filter[reviews_state]'] ? 'reviewsState' : 'revisionState';
+    const filterParams = request.queryParams['filter[reviews_state]'] || request.queryParams['filter[revision_state]'];
+    const params = filterParams.split(',');
+    const { pageSize } = request.queryParams;
     const provider = schema.registrationProviders.find(providerId);
     const providerRegistrations = provider.registrations.models;
     let filteredRegistrations: Array<ModelInstance<RegistrationModel>> = [];
-
-    for (const param of filterParams) {
+    for (const param of params) {
         filteredRegistrations = filteredRegistrations.concat(
             providerRegistrations.filter(
-                (registration: ModelInstance<RegistrationModel>) => registration.reviewsState === param,
+                (registration: ModelInstance<RegistrationModel>) => registration[field] === param,
             ),
         );
     }
-
     return process(
         schema,
         request,

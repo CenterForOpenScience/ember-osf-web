@@ -192,16 +192,27 @@ export function embed(
 
 export function compareStrings(
     actualValue: string,
-    comparisonValue: string,
+    comparisonValue: any,
     operator: ComparisonOperators,
 ): boolean {
-    switch (operator) {
-    case ComparisonOperators.Eq:
-        return actualValue.includes(comparisonValue);
-    case ComparisonOperators.Ne:
-        return !actualValue.includes(comparisonValue);
-    default:
-        throw new Error(`Strings can't be compared with "${operator}".`);
+    if (comparisonValue instanceof Array) {
+        switch (operator) {
+        case ComparisonOperators.Eq:
+            return comparisonValue.some(element => actualValue.includes(element));
+        case ComparisonOperators.Ne:
+            return comparisonValue.every(element => !actualValue.includes(element));
+        default:
+            throw new Error(`String arrays can't be compared with "${operator}".`);
+        }
+    } else {
+        switch (operator) {
+        case ComparisonOperators.Eq:
+            return actualValue.includes(comparisonValue);
+        case ComparisonOperators.Ne:
+            return !actualValue.includes(comparisonValue);
+        default:
+            throw new Error(`Strings can't be compared with "${operator}".`);
+        }
     }
 }
 

@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [21.9.0] - 2021-11-08
+### Changed
+- Misc a11y fixes
+- Removed RIDIE from registries dashboard
+- Replace help guide link on project registrations tab
+- Hide link to wiki on Registration overview page if registration has wiki disabled
+- Remove registration templates that are only for community oriented registries from the Registries Discover page registration-type facet
+- Fix registration overview page subjects search
+
 ## [21.8.0] - 2021-10-04
 ### Added
 - bulk upload component `Branded::Moderation::-Components::UploadCsv`
@@ -1801,7 +1810,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/21.7.0...develop
+[21.8.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.9.0
+[21.8.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.8.0
 [21.7.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.7.0
 [21.6.3]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.6.3
 [21.6.2]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.6.2
