@@ -40,7 +40,9 @@
                 {{else if (eq @node.revisionState 'in_progress')}}
                     <span class='label label-danger'>{{t 'node_card.registration.statuses.revision_in_progress'}}</span> |
                 {{else if (eq @node.revisionState 'pending_moderation')}}
-                    <span class='label label-danger'>{{t 'node_card.registration.statuses.revision_pending_moderation'}}</span> |
+                    {{#if (not-eq @node.reviewsState 'pending_moderation')}}
+                        <span class='label label-danger'>{{t 'node_card.registration.statuses.revision_pending_moderation'}}</span> |
+                    {{/if}}
                 {{/if}}
 
                 {{node-card/node-icon category=@node.category}}
