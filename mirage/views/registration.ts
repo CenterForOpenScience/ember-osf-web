@@ -89,9 +89,10 @@ export function createRegistration(this: HandlerContext, schema: Schema) {
     }
     // Need to create a base schema-response for the registrations
     // beacuse `schema.registration.create` bypass the factory's afterCreate hook
-    server.create('schema-response', {
+    const baseResponse = server.create('schema-response', {
         registration: newReg, reviewsState: RevisionReviewStates.Unapproved,
     });
+    newReg.update({ originalResponse: baseResponse });
     return newReg;
 }
 

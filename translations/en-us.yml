@@ -579,9 +579,9 @@ node_card:
         private_tooltip: 'This registration is private'
         timestamp_label: 'Registered:'
         statuses:
-            revision_pending_moderation: 'Revision pending moderation'
-            revision_in_progress: 'Revision in progress'
-            revision_unapproved: 'Revision unapproved'
+            revision_pending_moderation: 'Update pending moderation'
+            revision_in_progress: 'Update in progress'
+            revision_unapproved: 'Update pending unapproved'
             pending_registration_approval: 'Pending registration approval'
             pending_embargo_approval: 'Pending embargo'
             pending: 'Pending moderation'
@@ -1220,8 +1220,6 @@ registries:
             body: 'Are you sure to delete this update?'
             button: 'Cancel update'
             delete_error: 'Unable to delete update'
-
-        
     index:
         lead: 'The <span class="f-w-lg">open</span> registries network'
         see_example: 'See an example'
