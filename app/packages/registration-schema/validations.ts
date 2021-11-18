@@ -1,7 +1,7 @@
 import { assert } from '@ember/debug';
 import { set } from '@ember/object';
 import { ValidationObject, ValidatorFunction } from 'ember-changeset-validations';
-import { validateLength, validatePresence } from 'ember-changeset-validations/validators';
+import { validatePresence } from 'ember-changeset-validations/validators';
 import DraftNode from 'ember-osf-web/models/draft-node';
 import LicenseModel from 'ember-osf-web/models/license';
 
@@ -178,11 +178,5 @@ export function buildSchemaResponseValidations() {
         type: 'blank',
     })];
     set(validationObj, 'revisionJustification', notBlank);
-    set(validationObj, 'updatedResponseKeys', [validateLength({
-        min: 1,
-        allowBlank: false,
-        allowNone: false,
-        type: 'no_updated_responses',
-    })]);
     return validationObj;
 }
