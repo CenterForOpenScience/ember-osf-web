@@ -172,30 +172,24 @@
             </dl>
             <div local-class='MyRegistrationsButtons'>
                 <OsfLink
+                    local-class='NodeCard__link'
                     data-analytics-name='View registration'
                     data-test-view-button='{{@node.id}}'
                     @route='resolve-guid'
                     @models={{array @node.id}}
                 >
-                    <Button
-                        local-class='RegistrationCard_view'
-                    >
-                        {{t 'node_card.view_button'}}
-                    </Button>
+                    {{t 'node_card.view_button'}}
                 </OsfLink>
                 {{#if this.latestSchemaResponse}}
                     {{#if this.shouldShowViewChangesButton}}
                         <OsfLink
+                            local-class='NodeCard__link'
                             data-analytics-name='View changes'
                             data-test-view-changes-button={{@node.id}}
                             @route='registries.edit-revision.review'
                             @models={{array this.latestSchemaResponse.id}}
                         >
-                            <Button
-                                {{!-- local-class='RegistrationCard_update' --}}
-                            >
-                                {{t 'node_card.view_changes_button'}}
-                            </Button>
+                            {{t 'node_card.view_changes_button'}}
                         </OsfLink>
                     {{/if}}
                 {{/if}}
