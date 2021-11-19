@@ -37,13 +37,13 @@
 
                 {{#if (eq @node.revisionState 'unapproved')}}
                     {{#unless @node.pendingRegistrationApproval}}
-                        <span class='label label-danger'>{{t 'node_card.registration.statuses.revision_unapproved'}}</span> |
+                        <span class='label label-info'>{{t 'node_card.registration.statuses.revision_unapproved'}}</span> |
                     {{/unless}}
                 {{else if (eq @node.revisionState 'in_progress')}}
-                    <span class='label label-danger'>{{t 'node_card.registration.statuses.revision_in_progress'}}</span> |
+                    <span class='label label-info'>{{t 'node_card.registration.statuses.revision_in_progress'}}</span> |
                 {{else if (eq @node.revisionState 'pending_moderation')}}
                     {{#if (not-eq @node.reviewsState 'pending_moderation')}}
-                        <span class='label label-danger'>{{t 'node_card.registration.statuses.revision_pending_moderation'}}</span> |
+                        <span class='label label-info'>{{t 'node_card.registration.statuses.revision_pending_moderation'}}</span> |
                     {{/if}}
                 {{/if}}
 
