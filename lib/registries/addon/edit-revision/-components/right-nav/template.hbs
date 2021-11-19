@@ -82,7 +82,7 @@
 {{#if @revisionManager.showDeleteButton}}
     <DeleteButton
         local-class='DeleteButton'
-        @delete={{perform @onDelete}}
+        @delete={{perform @revisionManager.deleteRevision}}
         @modalTitle={{t 'registries.edit_revision.delete_modal.title'}}
         @modalBody={{t 'registries.edit_revision.delete_modal.body'}}
         @buttonLabel={{t 'registries.edit_revision.delete_modal.button'}}

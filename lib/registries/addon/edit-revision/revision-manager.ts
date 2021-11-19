@@ -1,3 +1,4 @@
+import { setOwner } from '@ember/application';
 import { action, computed, set } from '@ember/object';
 import { dependentKeyCompat } from '@ember/object/compat';
 import { alias, filterBy, not, notEmpty, or } from '@ember/object/computed';
@@ -108,7 +109,8 @@ export default class RevisionManager {
         return this.registration.currentUserPermissions.includes(Permission.Admin);
     }
 
-    constructor(loadModelsTask: LoadModelsTask, revisionId: string) {
+    constructor(owner: any, loadModelsTask: LoadModelsTask, revisionId: string) {
+        setOwner(this, owner);
         set(this, 'loadModelsTask', loadModelsTask);
         set(this, 'revisionId', revisionId);
         taskFor(this.initializePageManagers).perform();
@@ -217,6 +219,19 @@ export default class RevisionManager {
             captureException(e, { errorMessage });
             this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
+        }
+    }
+
+    @task
+    @waitFor
+    async deleteRevision() {
+        try {
+            await this.revision.destroyRecord();
+            this.router.transitionTo('registries.overview.index', this.registration.id);
+        } catch (e) {
+            const errorMessage = this.intl.t('registries.edit_revision.delete_modal.delete_error');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
         }
     }
 
