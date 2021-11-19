@@ -31,7 +31,7 @@ export default class EditRevisionController extends Controller {
             await this.revision.destroyRecord();
             this.router.transitionTo('registries.overview.index', this.registration.id);
         } catch (e) {
-            const errorMessage = this.intl.t('move_to_project.could_not_create_project');
+            const errorMessage = this.intl.t('registries.edit_revision.delete_modal.delete_error');
             captureException(e, { errorMessage });
             this.toast.error(getApiErrorMessage(e), errorMessage);
         }

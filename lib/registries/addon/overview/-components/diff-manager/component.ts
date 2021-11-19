@@ -12,7 +12,7 @@ import Toast from 'ember-toastr/services/toast';
 import RouterService from '@ember/routing/router-service';
 
 import RegistrationModel from 'ember-osf-web/models/registration';
-import SchemaResponseModel, { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
+import SchemaResponseModel from 'ember-osf-web/models/schema-response';
 
 interface Args {
     registration: RegistrationModel;
@@ -44,15 +44,6 @@ export default class DiffManager extends Component<Args> {
     @task
     @waitFor
     async loadRevision(registration: RegistrationModel, headRevisionId?: string, baseRevisionId?: string) {
-        const revisions = await registration.queryHasMany('schemaResponses', {
-            filter: {
-                reviews_state: [
-                    RevisionReviewStates.Approved,
-                    RevisionReviewStates.Unapproved,
-                    RevisionReviewStates.RevisionPendingModeration,
-                ],
-            },
-        });
         if (baseRevisionId) {
             let baseRevision = this.store.peekRecord('schema-response', baseRevisionId);
             if (!baseRevision) {
@@ -60,8 +51,9 @@ export default class DiffManager extends Component<Args> {
             }
             this.baseRevision = baseRevision;
         } else {
-            this.baseRevision = revisions.lastObject;
+            this.baseRevision = await registration.originalResponse;
         }
+        const revisions = await registration.queryHasMany('schemaResponses');
         if (headRevisionId) {
             let headRevision = this.store.peekRecord('schema-response', headRevisionId);
             if (!headRevision) {
