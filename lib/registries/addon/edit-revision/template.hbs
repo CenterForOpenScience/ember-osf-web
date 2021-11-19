@@ -76,18 +76,6 @@
                         @label='{{t 'registries.drafts.draft.review.page_label'}}'
                         @navMode={{leftNav.leftGutterMode}}
                     />
-                    <leftNav.link
-                        @icon='trash-alt'
-                        as |link|
-                    >
-                        <link.icon />
-                        <DeleteButton
-                            @delete={{perform this.deleteRevision}}
-                            @modalTitle={{t 'registries.edit_revision.delete_modal.title'}}
-                            @modalBody={{t 'registries.edit_revision.delete_modal.body'}}
-                            @buttonLabel={{t 'registries.edit_revision.delete_modal.button'}}
-                        />
-                    </leftNav.link>
                 </layout.leftNav>
                 <layout.main local-class='Main'>
                     {{outlet}}
@@ -97,6 +85,7 @@
                         <div local-class='RightWrapper'>
                             <div local-class='RightNavWrapper'>
                                 <EditRevision::-Components::RightNav
+                                    @onDelete={{this.deleteRevision}}
                                     @revisionManager={{revisionManager}}
                                     @navManager={{navManager}}
                                 />

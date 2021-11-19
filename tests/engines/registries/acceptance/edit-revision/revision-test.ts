@@ -126,6 +126,7 @@ module('Registries | Acceptance | registries revision', hooks => {
         assert.dom('[data-test-submit-revision]').doesNotExist('RightNav: Register button not shown');
         assert.dom('[data-test-nonadmin-warning-text]').exists('RightNav: Warning non-admins cannot register shown');
         assert.dom('[data-test-goto-previous-page]').doesNotExist('RightNav: Back button not shown');
+        assert.dom('[data-test-delete-button]').doesNotExist('RightNav: Delete button not shown');
 
         // check form renderer
         await percySnapshot('Read-only Revision Review page: Desktop');
@@ -156,6 +157,22 @@ module('Registries | Acceptance | registries revision', hooks => {
         );
         await visit(`/registries/revisions/${revision.id}/`);
         assert.equal(currentRouteName(), 'registries.edit-revision.justification', 'At the expected route');
+    });
+
+    test('delete revision in progress', async function(this: RevisionTestContext, assert) {
+        const initiatedBy = server.create('user', 'loggedIn');
+        const revision = server.create(
+            'schema-response',
+            {
+                initiatedBy,
+                revisionResponses: {},
+                registration: this.registration,
+            },
+        );
+        await visit(`/registries/revisions/${revision.id}/`);
+        assert.equal(currentRouteName(), 'registries.edit-revision.justification', 'At the expected route');
+        await click('[data-test-delete-button]');
+        assert.equal(currentRouteName(), 'registries.overview.index', 'At the expected route');
     });
 
     test('left nav controls', async function(this: RevisionTestContext, assert) {

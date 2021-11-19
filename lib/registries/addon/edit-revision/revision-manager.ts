@@ -88,6 +88,11 @@ export default class RevisionManager {
         return this.revision?.reviewsState === RevisionReviewStates.RevisionInProgress;
     }
 
+    @computed('currentUserIsAdmin', 'isEditable')
+    get showDeleteButton() {
+        return this.currentUserIsAdmin && this.isEditable;
+    }
+
     @computed('revision.reviewsState')
     get isPendingAdminApproval() {
         return this.revision.reviewsState === RevisionReviewStates.Unapproved;

@@ -1216,9 +1216,9 @@ registries:
             reason: 'What additional changes need to be made and why?'
             submit: 'Submit'
         delete_modal:
-            title: 'Delete this update'
-            body: 'Are you sure to delete this update?'
-            button: 'Cancel update'
+            title: 'Delete this draft update'
+            body: 'Are you sure you want to delete this draft update?'
+            button: 'Delete Draft Update'
             delete_error: 'Unable to delete update'
     index:
         lead: 'The <span class="f-w-lg">open</span> registries network'
