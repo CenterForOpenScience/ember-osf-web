@@ -27,19 +27,6 @@
                         @uniqueID={{reasonFieldId}}
                     />
                 {{/let}}
-                {{#let (unique-id 'questions') as |questionsFieldId|}}
-                    <label for={{questionsFieldId}} id='questions'>
-                        <p local-class='DisplayText'>
-                            {{t 'registries.edit_revision.updatedResponseKeys'}}
-                            <span local-class='Required'>*</span>
-                        </p>
-                    </label>
-                    <Registries::RevisedResponsesList
-                        @revision={{this.revisionManager.revision}}
-                        @schemaBlocks={{this.revisionManager.schemaBlocks}}
-                        local-class='RevisedResponses'
-                    />
-                {{/let}}
             </FormControls>
         </form>
     </main>
