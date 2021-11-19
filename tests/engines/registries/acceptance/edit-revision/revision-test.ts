@@ -172,6 +172,7 @@ module('Registries | Acceptance | registries revision', hooks => {
         await visit(`/registries/revisions/${revision.id}/`);
         assert.equal(currentRouteName(), 'registries.edit-revision.justification', 'At the expected route');
         await click('[data-test-delete-button]');
+        await click('[data-test-confirm-delete]');
         assert.equal(currentRouteName(), 'registries.overview.index', 'At the expected route');
     });
 
@@ -443,7 +444,6 @@ module('Registries | Acceptance | registries revision', hooks => {
         assert.dom('[data-test-invalid-responses-text]').isVisible('Invalid response text shown');
 
         assert.dom('[data-test-validation-errors="revisionJustification"]').exists('justification invalid');
-        assert.dom('[data-test-validation-errors="updatedResponseKeys"]').exists('revised responses invalid');
         assert.dom(`[data-test-validation-errors="${deserializeResponseKey('page-one_short-text')}"]`)
             .exists('short text invalid');
         assert.dom(`[data-test-validation-errors="${deserializeResponseKey('page-one_long-text')}"]`)
@@ -467,7 +467,6 @@ module('Registries | Acceptance | registries revision', hooks => {
         await click('[data-test-link="justification"]');
         await fillIn('textarea[name="revisionJustification"]', 'Tell the world that ditto is the best');
         assert.dom('[data-test-validation-errors="revisionJustification"]').doesNotExist('justification valid');
-        assert.dom('[data-test-revised-responses-list]').exists({ count: 1 }, 'revised responses list shown');
 
         // check the review page to see if text is valid again
         await click('[data-test-link="review"]');

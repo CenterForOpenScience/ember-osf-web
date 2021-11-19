@@ -184,11 +184,12 @@ module('Registries | Acceptance | draft form', hooks => {
             },
         );
 
-        await visit(`/registries/drafts/${registration.id}/99/`);
+        await visit(`/registries/drafts/${registration.id}/`);
 
-        assert.equal(currentRouteName(), 'registries.page-not-found', 'At page not found');
+        assert.equal(currentRouteName(), 'registries.drafts.draft.metadata', 'On metadata page');
         await click('[data-test-delete-button]');
-        assert.equal(currentRouteName(), 'registries.my-registrations', 'At the expected route');
+        await click('[data-test-confirm-delete]');
+        assert.equal(currentRouteName(), 'registries.my-registrations', 'Reroutes to my-registrations');
     });
 
     test('left nav controls', async function(this: DraftFormTestContext, assert) {
