@@ -73,7 +73,7 @@
 
             {{#unless this.totalResults}}
                 <div class='col-sm-8 col-xs-12'>
-                    <div class='text-center text-muted'>
+                    <div class='text-center'>
                         <p data-test-no-results-placeholder class='lead'>
                             {{t 'registries.discover.no_results'}}
                         </p>
@@ -93,7 +93,7 @@
             {{/if}}
         {{else if this.doSearch.isError}}
             <div class='col-sm-8 col-xs-12'>
-                <div class='text-center text-muted'>
+                <div class='text-center'>
                     <p class='lead'>
                         {{t 'registries.discover.error_loading'}}
                     </p>
