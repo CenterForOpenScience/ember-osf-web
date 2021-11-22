@@ -877,7 +877,7 @@ app_components:
         click_to_edit: 'Click to edit'
 collections:
     general:
-        brand: '{name} Collection'
+        brand: '{name}'
     navbar:
         add: 'Add to Collection'
     index:
