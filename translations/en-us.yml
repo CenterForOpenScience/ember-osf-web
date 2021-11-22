@@ -581,7 +581,7 @@ node_card:
         statuses:
             revision_pending_moderation: 'Update pending moderation'
             revision_in_progress: 'Update in progress'
-            revision_unapproved: 'Update pending unapproved'
+            revision_unapproved: 'Update pending approval'
             pending_registration_approval: 'Pending registration approval'
             pending_embargo_approval: 'Pending embargo'
             pending: 'Pending moderation'
