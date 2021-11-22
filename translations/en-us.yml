@@ -601,7 +601,7 @@ node_card:
     options: Options
     view_button: 'View'
     update_button: 'Update'
-    view_changes_button: 'View changes'
+    view_changes_button: 'Continue update'
     schema_response_error: 'Updates irretreivable.'
     
 forks:
@@ -1608,7 +1608,7 @@ registries:
         modalBodyFirst: 'Updates to registration responses can be updated by clicking “Next”.<br>Edits to metadata including Description, Category, License, Publication DOI, and Tags are done on the registration by clicking the '
         modalBodySecond: ' icon.'
         modalBodyNoUpdates: 'The {registryName} does not allow updates for this registration template.<br>Contact their registy if you have any questions.'
-        learnMore: 'Click <a href="https://help.osf.io/hc/en-us/articles/360035806634-Edit-Registration-Metadata" target="_blank">here</a>  to learn more'
+        learnMore: 'Click <a href="https://help.osf.io/hc/en-us/articles/360035806634-Edit-Registration-Metadata" target="_blank">here</a>  to learn more.'
         next: Next
         cancel_update: 'Cancel update'
 meetings:
