@@ -31,7 +31,7 @@ $brand-warning: #f0ad4e !default;
 $brand-danger: #d9534f;
 
 /* overrides with darkened colors for a11y contrast */
-$brand-success: darken($brand-success, 20%);
+$brand-success: darken($brand-success, 10%);
 $brand-info: darken($brand-info, 15%);
 // no override needed for brand-warning (will use dark text instead)
 $brand-danger: darken($brand-danger, 15%);
