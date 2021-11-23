@@ -43,11 +43,11 @@
         @onHide={{action this._cancel}}
         as |modal|
     >
-        <modal.header>
+        <modal.header data-test-delete-modal-header>
             <h3 local-class='Modal__title'>{{this.modalTitle}}</h3>
         </modal.header>
 
-        <modal.body data-analytics-scope='Delete button modal'>
+        <modal.body data-test-delete-modal-body data-analytics-scope='Delete button modal'>
             {{#if (has-block)}}
                 {{yield}}
             {{else}}
@@ -68,7 +68,7 @@
             {{/if}}
         </modal.body>
 
-        <modal.footer data-analytics-scope='Delete button modal footer'>
+        <modal.footer data-test-delete-modal-footer data-analytics-scope='Delete button modal footer'>
             <BsButton
                 data-analytics-name='Hard confirm cancel'
                 data-test-cancel-delete

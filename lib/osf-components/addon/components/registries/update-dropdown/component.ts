@@ -93,6 +93,13 @@ export default class UpdateDropdown extends Component<Args> {
         this.showModal = false;
     }
 
+    @action
+    onRevisionSelect(callback: () => void) {
+        this.router.on('routeDidChange', () => {
+            callback();
+        });
+    }
+
     @task
     @waitFor
     async getRevisionList() {
