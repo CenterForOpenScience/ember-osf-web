@@ -499,7 +499,7 @@ module('Registries | Acceptance | registries revision', hooks => {
         await visit(`/registries/revisions/${revision.id}/review`);
         await click('[data-test-submit-revision]');
         assert.dom('#toast-container', document as any).hasTextContaining(t(
-            'registries.edit_revision.review.action_submit_success',
+            'registries.edit_revision.review.submit_success',
         ), 'Toast message shown after initial submit');
         assert.dom('[data-test-submit-revision]').doesNotExist('Submit button no longer shown');
         assert.dom('[data-test-goto-previous-page]').doesNotExist('There is no turning back from this');
