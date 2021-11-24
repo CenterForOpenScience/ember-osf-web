@@ -53,7 +53,6 @@ export default class DiffManager extends Component<Args> {
         } else {
             this.baseRevision = await registration.originalResponse;
         }
-        const revisions = await registration.queryHasMany('schemaResponses');
         if (headRevisionId) {
             let headRevision = this.store.peekRecord('schema-response', headRevisionId);
             if (!headRevision) {
@@ -61,7 +60,7 @@ export default class DiffManager extends Component<Args> {
             }
             this.headRevision = headRevision;
         } else {
-            this.headRevision = revisions.firstObject;
+            this.headRevision = await registration.latestResponse;
         }
         this.getDiff();
     }
