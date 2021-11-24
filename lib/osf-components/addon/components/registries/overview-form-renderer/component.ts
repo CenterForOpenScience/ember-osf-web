@@ -1,5 +1,6 @@
 import { assert } from '@ember/debug';
 import Store from '@ember-data/store';
+import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
@@ -31,6 +32,11 @@ export default class RegistrationFormViewSchemaBlocks extends Component {
     schemaBlocks?: SchemaBlock[];
     schemaBlockGroups?: SchemaBlockGroup[];
     responses?: { [key: string]: string };
+
+    @computed('registration.latestResponse.isOriginal')
+    get showMetadata() {
+        return !this.registration.latestResponse.get('isOriginalResponse');
+    }
 
     @restartableTask({ on: 'didReceiveAttrs' })
     @waitFor
