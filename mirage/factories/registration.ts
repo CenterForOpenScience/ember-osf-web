@@ -153,6 +153,7 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
             revisionResponses: newReg.registrationResponses,
         });
         newReg.update({ originalResponse: baseResponse });
+        newReg.update({ latestResponse: baseResponse });
     },
 
     dateRegistered() {
