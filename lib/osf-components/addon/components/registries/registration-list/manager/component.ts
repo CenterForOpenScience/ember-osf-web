@@ -21,7 +21,7 @@ export default class RegistrationListManager extends Component {
         }
         if (this.state === RevisionReviewStates.RevisionPendingModeration) {
             filter.revision_state = [RevisionReviewStates.RevisionPendingModeration].toString();
-            filter.reviews_state = undefined;
+            filter.reviews_state = [RegistrationReviewStates.Embargo, RegistrationReviewStates.Accepted].toString();
         }
         const query: Record<string, string | Record<string, string | undefined>> = {
             filter,
