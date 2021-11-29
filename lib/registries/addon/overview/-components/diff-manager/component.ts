@@ -61,6 +61,9 @@ export default class DiffManager extends Component<Args> {
             this.headRevision = headRevision;
         } else {
             this.headRevision = await registration.latestResponse;
+            if (!this.headRevision) {
+                this.headRevision = await registration.originalResponse;
+            }
         }
         this.getDiff();
     }
