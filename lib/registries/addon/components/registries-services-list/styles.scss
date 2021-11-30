@@ -20,6 +20,11 @@
     text-decoration: underline;
 }
 
+.ServicesList__ExternalLink:hover {
+    color: $color-text-blue-light;
+    text-decoration: underline;
+}
+
 .ServicesList__ProviderLogo {
     height: 120px;
     background-size: contain;
