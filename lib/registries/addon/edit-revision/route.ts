@@ -1,3 +1,4 @@
+import { getOwner } from '@ember/application';
 import Store from '@ember-data/store';
 import { action } from '@ember/object';
 import Route from '@ember/routing/route';
@@ -53,7 +54,7 @@ export default class EditRevisionRoute extends Route {
     model(params: { revisionId: string }) {
         const { revisionId } = params;
         const loadModelsTask = taskFor(this.loadModels).perform(revisionId) as LoadModelsTask;
-        const revisionManager = new RevisionManager(loadModelsTask, revisionId);
+        const revisionManager = new RevisionManager(getOwner(this), loadModelsTask, revisionId);
         const navigationManager = new RevisionNavigationManager(revisionManager);
         return {
             navigationManager,

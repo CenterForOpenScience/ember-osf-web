@@ -136,7 +136,7 @@ export default function(this: Server) {
     });
 
     osfResource(this, 'draft-registration', {
-        only: ['index', 'show', 'update'],
+        only: ['index', 'show', 'update', 'delete'],
         path: '/draft_registrations',
     });
     this.post('/draft_registrations', createDraftRegistration);
