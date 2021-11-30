@@ -32,6 +32,10 @@ export default class RegistrationFormViewSchemaBlocks extends Component {
     schemaBlockGroups?: SchemaBlockGroup[];
     responses?: { [key: string]: string };
 
+    get showMetadata() {
+        return this.registration.latestResponse.content && !this.registration.latestResponse.get('isOriginalResponse');
+    }
+
     @restartableTask({ on: 'didReceiveAttrs' })
     @waitFor
     async fetchSchemaBlocks() {

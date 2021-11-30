@@ -93,6 +93,7 @@ export function createRegistration(this: HandlerContext, schema: Schema) {
         registration: newReg, reviewsState: RevisionReviewStates.Unapproved,
     });
     newReg.update({ originalResponse: baseResponse });
+    newReg.update({ latestResponse: baseResponse });
     return newReg;
 }
 

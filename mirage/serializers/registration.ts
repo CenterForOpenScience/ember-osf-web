@@ -274,7 +274,7 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
         }
         if (model.attrs.latestResponseId !== null) {
             const { latestResponseId } = model.attrs;
-            relationships.originalResponse = {
+            relationships.latestResponse = {
                 data: {
                     id: latestResponseId as string,
                     type: 'schema-responses',
