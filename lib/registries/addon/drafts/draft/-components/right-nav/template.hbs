@@ -79,3 +79,13 @@
         @date={{@draftManager.draftRegistration.datetimeUpdated}}
     />
 </span>
+
+{{#if @draftManager.currentUserIsAdmin}}
+    <DeleteButton
+        local-class='DeleteButton'
+        @delete={{perform @draftManager.deleteDraft}}
+        @modalTitle={{t 'registries.drafts.draft.delete_modal.title'}}
+        @modalBody={{t 'registries.drafts.draft.delete_modal.body'}}
+        @buttonLabel={{t 'registries.drafts.draft.delete_modal.button'}}
+    />
+{{/if}}

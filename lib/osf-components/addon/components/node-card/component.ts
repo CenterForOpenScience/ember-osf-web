@@ -87,7 +87,7 @@ export default class NodeCard extends Component {
     }
 
     get shouldShowUpdateButton() {
-        if (this.node instanceof RegistrationModel) {
+        if (this.node instanceof RegistrationModel && this.node.userHasAdminPermission) {
             return this.node.revisionState === RevisionReviewStates.Approved &&
                 (
                     this.node.reviewsState === RegistrationReviewStates.Accepted ||

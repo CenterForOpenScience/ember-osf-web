@@ -58,7 +58,11 @@ export default class SubmitAndDecide extends Component {
             });
             await schemaResponseAction.save();
             await this.revisionManager.revision.reload();
-            this.toast.success(this.intl.t('registries.edit_revision.review.action_submit_success'));
+            let successMessage = this.intl.t('registries.edit_revision.review.action_submit_success');
+            if (actionTrigger === SchemaResponseActionTrigger.SubmitRevision) {
+                successMessage = this.intl.t('registries.edit_revision.review.submit_success');
+            }
+            this.toast.success(successMessage);
         } catch (e) {
             const errorMessage = this.intl.t('registries.edit_revision.review.action_submit_failed');
             captureException(e, { errorMessage });

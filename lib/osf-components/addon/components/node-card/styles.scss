@@ -87,3 +87,13 @@
     overflow: hidden;
     white-space: nowrap;
 }
+
+.NodeCard__link {
+    composes: Button from '../button/styles.scss';
+    composes: SecondaryButton from '../button/styles.scss';
+    composes: MediumButton from '../button/styles.scss';
+
+    &:hover {
+        text-decoration: none !important; /* override OsfLink hover style */
+    }
+}
