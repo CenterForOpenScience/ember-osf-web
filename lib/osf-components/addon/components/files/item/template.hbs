@@ -11,20 +11,22 @@
             <FaIcon @icon='angle-left' @fixedWidth={{true}} />
             <span local-class='filename'>{{this.item.itemName}}</span>
         </div>
-        <span local-class='delete-button'>
-            <DeleteButton
-                data-test-delete-current-folder='{{this.item.id}}'
-                @buttonLabel={{t 'osf-components.files-widget.delete'}}
-                @delete={{fn @filesManager.deleteFileTask this.item}}
-                @small={{true}}
-                @noBackground={{true}}
-                @modalTitle={{t 'osf-components.files-widget.confirm_delete.title_folder' filename=this.item.itemName}}
-                @confirmButtonText={{t 'osf-components.files-widget.delete'}}
-                @shouldStopPropagation={{true}}
-            >
-                <div local-class='destroy-red'>{{t 'osf-components.files-widget.confirm_delete.body'}}</div>
-            </DeleteButton>
-        </span>
+        {{#if @filesManager.canEdit}}
+            <span local-class='delete-button'>
+                <DeleteButton
+                    data-test-delete-current-folder='{{this.item.id}}'
+                    @buttonLabel={{t 'osf-components.files-widget.delete'}}
+                    @delete={{fn @filesManager.deleteFileTask this.item}}
+                    @small={{true}}
+                    @noBackground={{true}}
+                    @modalTitle={{t 'osf-components.files-widget.confirm_delete.title_folder' filename=this.item.itemName}}
+                    @confirmButtonText={{t 'osf-components.files-widget.delete'}}
+                    @shouldStopPropagation={{true}}
+                >
+                    <div local-class='destroy-red'>{{t 'osf-components.files-widget.confirm_delete.body'}}</div>
+                </DeleteButton>
+            </span>
+        {{/if}}
     {{else}}
         <div local-class='name-container'>
             <FileIcon @item={{this.item}} />
@@ -34,20 +36,22 @@
             <time local-class='date-modified' data-test-file-date-modified>
                 {{this.date}}
             </time>
-            <span local-class='delete-button'>
-                <DeleteButton
-                    data-test-delete-file='{{this.item.id}}'
-                    @buttonLabel={{t 'osf-components.files-widget.delete'}}
-                    @delete={{fn @filesManager.deleteFileTask this.item}}
-                    @small={{true}}
-                    @noBackground={{true}}
-                    @modalTitle={{t 'osf-components.files-widget.confirm_delete.title_file' filename=this.item.itemName}}
-                    @confirmButtonText={{t 'osf-components.files-widget.delete'}}
-                    @shouldStopPropagation={{true}}
-                >
-                    <div local-class='destroy-red'>{{t 'osf-components.files-widget.confirm_delete.body'}}</div>
-                </DeleteButton>
-            </span>
+            {{#if @filesManager.canEdit}}
+                <span local-class='delete-button'>
+                    <DeleteButton
+                        data-test-delete-file='{{this.item.id}}'
+                        @buttonLabel={{t 'osf-components.files-widget.delete'}}
+                        @delete={{fn @filesManager.deleteFileTask this.item}}
+                        @small={{true}}
+                        @noBackground={{true}}
+                        @modalTitle={{t 'osf-components.files-widget.confirm_delete.title_file' filename=this.item.itemName}}
+                        @confirmButtonText={{t 'osf-components.files-widget.delete'}}
+                        @shouldStopPropagation={{true}}
+                    >
+                        <div local-class='destroy-red'>{{t 'osf-components.files-widget.confirm_delete.body'}}</div>
+                    </DeleteButton>
+                </span>
+            {{/if}}
         {{/unless}}
     {{/if}}
 </div>

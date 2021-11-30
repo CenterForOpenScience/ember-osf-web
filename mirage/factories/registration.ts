@@ -2,7 +2,7 @@ import { association, trait, Trait } from 'ember-cli-mirage';
 import faker from 'faker';
 
 import Registration, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
-
+import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import NodeFactory from './node';
 import { createRegistrationMetadata, guid, guidAfterCreate } from './utils';
 
@@ -33,6 +33,7 @@ export interface RegistrationTraits {
     withSubjects: Trait;
     withReviewActions: Trait;
     withSingleReviewAction: Trait;
+    withFiles: Trait;
 }
 
 const stateAttrs = {
@@ -133,7 +134,6 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
                 registeredMeta: createRegistrationMetadata(registrationSchema, true),
             });
         }
-
         if (!newReg.provider) {
             newReg.update({
                 provider: server.schema.registrationProviders.find('osf')
@@ -144,6 +144,16 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
                     }),
             });
         }
+        // Create the base schema-response
+        const baseResponse = server.create('schema-response', {
+            registration: newReg,
+            initiatedBy: newReg.registeredBy,
+            registrationSchema: newReg.registrationSchema,
+            reviewsState: RevisionReviewStates.Unapproved,
+            revisionResponses: newReg.registrationResponses,
+        });
+        newReg.update({ originalResponse: baseResponse });
+        newReg.update({ latestResponse: baseResponse });
     },
 
     dateRegistered() {
@@ -259,6 +269,14 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
         afterCreate(registration, server) {
             const reviewActions = server.createList('review-action', 1, { target: registration });
             registration.update({ reviewActions });
+        },
+    }),
+    withFiles: trait<MirageRegistration>({
+        afterCreate(registration, server) {
+            const count = faker.random.number({ min: 1, max: 5 });
+            const osfstorage = server.create('file-provider', { target: registration });
+            const files = server.createList('file', count, { target: registration });
+            osfstorage.rootFolder.update({ files });
         },
     }),
 });

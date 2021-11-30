@@ -1,0 +1,9 @@
+{{~#each this.updatedResponseLabels as |response|~}}
+    <p data-test-revised-responses-list='{{response}}' ...attributes>
+        {{~response~}}
+    </p>
+{{~else}}
+    <p data-test-revised-responses-list-no-update ...attributes>
+        {{~t 'registries.revisedResponsesList.noResponses'~}}
+    </p>
+{{/each}}

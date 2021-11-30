@@ -38,18 +38,14 @@
     }
 }
 
-// stylelint-disable selector-no-qualifying-type
-a.DraftRegistrationCard__review {
-    margin-right: 10px;
+.DraftRegistrationCard__review {
+    composes: Button from '../button/styles.scss';
+    composes: SecondaryButton from '../button/styles.scss';
+    composes: MediumButton from '../button/styles.scss';
 
     &:hover {
-        text-decoration: none;
+        text-decoration: none !important; /* override OsfLink hover style */
     }
-}
-
-// stylelint-enable selector-no-qualifying-type
-.DraftRegistrationCard__edit {
-    vertical-align: bottom;
 }
 
 .DraftRegistrationCard__delete {

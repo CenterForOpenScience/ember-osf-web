@@ -1,3 +1,7 @@
+.LeftWrapper {
+    display: flex;
+}
+
 .Action {
     color: $slate-gray;
 }
@@ -37,7 +41,9 @@
             color: $secondary-blue;
             outline: 0;
         }
+
     }
+
 }
 
 .ForkButton {
@@ -57,6 +63,7 @@
 }
 
 
+
 .Icon {
     font-size: 16px;
     font-weight: 600;
@@ -69,3 +76,4 @@
     justify-content: flex-end;
     align-items: baseline;
 }
+

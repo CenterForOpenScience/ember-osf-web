@@ -8,6 +8,7 @@
                 @renderStrategy={{@renderStrategy}}
                 @isRequired={{this.isRequired}}
                 @isFieldsetGroup={{true}}
+                @updated={{@schemaBlockGroup.updated}}
             />
         {{/each}}
     </fieldset>
@@ -20,6 +21,7 @@
             @renderStrategy={{@renderStrategy}}
             @isRequired={{this.isRequired}}
             @isFieldsetGroup={{false}}
+            @updated={{@schemaBlockGroup.updated}}
         />
     {{/each}}
 {{/if}}

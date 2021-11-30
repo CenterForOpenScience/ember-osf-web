@@ -14,14 +14,19 @@
         </Button>
     </dd.trigger>
     <dd.content local-class='Dropdown'>
-        <Registries::ReviewActionsList data-test-review-actions-list  @registration={{@registration}} />
+        {{#if this.revisionIsPending}}
+            <Registries::ReviewActionsList @revision={{this.latestRevision}} />
+        {{else}}
+            <Registries::ReviewActionsList data-test-review-actions-list  @registration={{@registration}} />
+        {{/if}}
         {{#if this.hasModeratorActions}}
-            {{#each (get this.reviewsStateToDecisionMap @registration.reviewsState) as |option|}}
+            {{#each this.moderatorActions as |option|}}
                 <div>
                     {{#let (unique-id 'radio' option) as |uniqueId|}}
                         <Input
                             data-test-moderation-dropdown-decision-checkbox={{option}}
                             data-analytics-name='Select checkbox for {{option}}'
+                            name='moderatorAction'
                             @type='radio'
                             @id={{uniqueId}}
                             @value={{option}}

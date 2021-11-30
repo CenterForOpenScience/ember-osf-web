@@ -1,12 +1,16 @@
+import Store from '@ember-data/store';
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import config from 'ember-get-config';
 
 import Registration from 'ember-osf-web/models/registration';
 import { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
 import pathJoin from 'ember-osf-web/utils/path-join';
+
+import Intl from 'ember-intl/services/intl';
 
 const {
     support: {
@@ -17,12 +21,15 @@ const {
 const { OSF: { url: baseURL } } = config;
 
 export default class Overview extends Controller {
+    @service store!: Store;
+    @service intl!: Intl;
     model!: GuidRouteModel<Registration>;
 
-    queryParams = ['mode'];
+    queryParams = ['mode', 'revisionId'];
     supportEmail = supportEmail;
 
     @tracked mode = '';
+    @tracked revisionId = '';
 
     @alias('model.taskInstance.value') registration?: Registration;
 
@@ -50,3 +57,4 @@ export default class Overview extends Controller {
         + (this.registration.relatedCounts.linkedRegistrations || 0);
     }
 }
+

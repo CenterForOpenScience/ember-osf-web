@@ -10,6 +10,7 @@ import NodeModel, { NodeLicense } from 'ember-osf-web/models/node';
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
 import { SchemaBlockGroup } from 'ember-osf-web/packages/registration-schema/schema-block-group';
 import { validateFileList } from 'ember-osf-web/validators/validate-response-format';
+import SchemaResponseModel from 'ember-osf-web/models/schema-response';
 
 export const NodeLicenseFields: Record<keyof NodeLicense, string> = {
     copyrightHolders: 'Copyright Holders',
@@ -164,5 +165,18 @@ export function buildMetadataValidations() {
     set(validationObj, DraftMetadataProperties.Subjects, validateSubjects());
     // TODO: unsure why array of validation functions breaks validations
     set(validationObj, DraftMetadataProperties.NodeLicenseProperty, validateNodeLicense());
+    return validationObj;
+}
+
+export function buildSchemaResponseValidations() {
+    const validationObj: ValidationObject<SchemaResponseModel> = {};
+    const notBlank: ValidatorFunction[] = [validatePresence({
+        presence: true,
+        ignoreBlank: true,
+        allowBlank: false,
+        allowNone: false,
+        type: 'blank',
+    })];
+    set(validationObj, 'revisionJustification', notBlank);
     return validationObj;
 }

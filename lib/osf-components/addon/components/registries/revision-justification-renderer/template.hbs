@@ -1,0 +1,25 @@
+{{assert 'Registries::RevisionJustificationRenderer requires a revision' @revision}}
+<h2 id='JustificationPageLabel'>{{t 'registries.edit_revision.justification.page_label'}}</h2>
+
+<Registries::RevisionJustificationRenderer::LabelDisplay
+    @revision={{@revision}}
+    @changeset={{@revisionChangeset}}
+    @showEditButton={{@showEditButton}}
+    @field='revisionJustification'
+    local-class='TextResponse {{unless @revision.revisionJustification 'NoResponse'}}'
+>
+    {{~if @revision.revisionJustification @revision.revisionJustification (t 'registries.edit_revision.review.no_justification')~}}
+</Registries::RevisionJustificationRenderer::LabelDisplay>
+
+<Registries::RevisionJustificationRenderer::LabelDisplay
+    @revision={{@revision}}
+    @changeset={{@revisionChangeset}}
+    @showEditButton={{false}}
+    @field='updatedResponseKeys'
+    local-class='RevisedResponses'
+>
+    <Registries::RevisedResponsesList
+        @revision={{@revision}}
+        @schemaBlocks={{@schemaBlocks}}
+    />
+</Registries::RevisionJustificationRenderer::LabelDisplay>
