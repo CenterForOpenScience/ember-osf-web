@@ -147,6 +147,12 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @hasMany('schema-response', { inverse: 'registration' })
     schemaResponses!: AsyncHasMany<SchemaResponseModel> | SchemaResponseModel[];
 
+    @belongsTo('schema-response', { inverse: null })
+    originalResponse!: AsyncBelongsTo<SchemaResponseModel> | SchemaResponseModel;
+
+    @belongsTo('schema-response', { inverse: null })
+    latestResponse!: AsyncBelongsTo<SchemaResponseModel> | SchemaResponseModel; // Latest accepted response
+
     // Write-only relationships
     @belongsTo('draft-registration', { inverse: null })
     draftRegistration!: DraftRegistrationModel;
