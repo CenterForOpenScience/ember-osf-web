@@ -3,17 +3,20 @@
     @onClose={{fn this.onCloseMenu @isUploading}}
     as |dropdownMenu|
 >
-    <div local-class='actions-menu-trigger'>
-        <BsButton
-            local-class='trigger-button {{if dropdownMenu.isOpen 'close-button'}}'
-            aria-label={{t 'osf-components.files-widget.expand_files_menu'}}
-            data-ebd-id='{{dropdownMenu.uniqueId}}-trigger'
-            @type='success'
-            {{on 'click' dropdownMenu.toggle}}
-        >
-            <FaIcon @icon='plus' @size='2x' @fixedWidth={{true}} />
-        </BsButton>
-    </div>
+    {{#if this.canEdit}}
+        <div local-class='actions-menu-trigger'>
+            <BsButton
+                data-test-files-menu-trigger
+                local-class='trigger-button {{if dropdownMenu.isOpen 'close-button'}}'
+                aria-label={{t 'osf-components.files-widget.expand_files_menu'}}
+                data-ebd-id='{{dropdownMenu.uniqueId}}-trigger'
+                @type='success'
+                {{on 'click' dropdownMenu.toggle}}
+            >
+                <FaIcon @icon='plus' @size='2x' @fixedWidth={{true}} />
+            </BsButton>
+        </div>
+    {{/if}}
     <dropdownMenu.content
         role='menu'
         local-class='actions-menu-content'

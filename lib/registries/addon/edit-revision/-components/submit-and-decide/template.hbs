@@ -1,0 +1,60 @@
+{{assert 'EditRevision::-Components::SubmitAndDecide requires a revisionManager' @revisionManager}}
+{{#if @revisionManager.isEditable}}
+    {{#if @revisionManager.currentUserIsAdmin}}
+        <BsButton
+            data-test-submit-revision
+            data-analytics-name='Submit revision'
+            local-class='registerButton {{if @showMobileView 'mobileReviewButtonItem'}}'
+            @type='success'
+            @onClick={{perform this.submitAction 'submit' ''}}
+            disabled={{or @revisionManager.hasInvalidResponses this.submitAction.isRunning}}
+        >
+            {{#if this.submitAction.isRunning}}
+                <LoadingIndicator @inline={{true}} />
+            {{else}}
+                {{t 'registries.edit_revision.review.submit_changes'}}
+            {{/if}}
+        </BsButton>
+    {{/if}}
+    {{#if (and (not @revisionManager.currentUserIsAdmin) (not @showMobileView))}}
+        <div
+            data-test-nonadmin-warning-text
+            local-class='WarningMessage'
+        >
+            {{t 'registries.drafts.draft.review.non_admin_warning'}}
+        </div>
+    {{/if}}
+    {{#if (and @revisionManager.hasInvalidResponses (not @showMobileView))}}
+        <div data-test-invalid-responses-text class='text-danger'>
+            {{t 'registries.edit_revision.review.invalid_warning'}}
+        </div>
+    {{/if}}
+{{else}}
+    {{#if @revisionManager.revision.isPendingCurrentUserApproval}}
+        <BsButton
+            data-test-accept-changes
+            data-analytics-name='Admin approve revision'
+            local-class='registerButton {{if @showMobileView 'mobileReviewButtonItem'}}'
+            @type='success'
+            @onClick={{perform this.submitAction 'approve' ''}}
+        >
+            {{t 'registries.edit_revision.review.accept_changes'}}
+        </BsButton>
+        <BsButton
+            data-test-continue-editing
+            data-analytics-name='Admin reject revision'
+            local-class='registerButton {{if @showMobileView 'mobileReviewButtonItem'}}'
+            @type='primary'
+            @onClick={{this.openContinueEditModal}}
+        >
+            {{t 'registries.edit_revision.review.continue_editing'}}
+        </BsButton>
+        <EditRevision::-Components::ContinueEditModal
+            @isOpen={{this.continueEditModalOpen}}
+            @onClose={{this.closeContinueEditModal}}
+            @onSubmit={{this.submitAction}}
+        />
+    {{else}}
+        <div data-test-pending-status local-class={{if @showMobileView 'pendingLabel'}}>{{t this.pendingStatusString}}</div>
+    {{/if}}
+{{/if}}

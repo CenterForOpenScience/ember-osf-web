@@ -1,0 +1,27 @@
+.UpdateContainer {
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    &:hover { 
+        background-color: rgba(#337ab7, 0.2);
+    }
+
+    svg {
+        margin-right: 15px;
+    }
+}
+
+.UpdateLink { 
+    display: flex;
+    text-decoration: none;
+
+    &:global(.active) {
+        font-weight: bold;
+    }
+
+    &:hover {
+        text-decoration: none;
+    }
+}
