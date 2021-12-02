@@ -4,7 +4,6 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { click } from 'ember-osf-web/tests/helpers';
 import { setupRenderingTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
-import moment from 'moment';
 import { module, test } from 'qunit';
 
 module('Integration | routes | meetings | detail | -components | meeting-detail-header', hooks => {
@@ -131,7 +130,7 @@ module('Integration | routes | meetings | detail | -components | meeting-detail-
                 'Only location displayed when only location is defined',
             );
         const startDate = new Date('2000-01-02');
-        const formattedStartDate = moment(startDate).format('MMM DD, YYYY');
+        const formattedStartDate = 'Jan 02, 2000';
         meeting.set('startDate', startDate);
         await settled();
         assert.dom('[data-test-meeting-location-and-date]')
@@ -140,7 +139,7 @@ module('Integration | routes | meetings | detail | -components | meeting-detail-
                 'Only location and start date displayed when only location and start date are defined',
             );
         const endDate = new Date('2000-01-03');
-        const formattedEndDate = moment(endDate).format('MMM DD, YYYY');
+        const formattedEndDate = 'Jan 03, 2000';
         meeting.set('endDate', endDate);
         meeting.set('startDate', undefined);
         await settled();
