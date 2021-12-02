@@ -55,7 +55,7 @@ export default class PageLinkComponent extends Component {
             }
             return PageState.Invalid;
         }
-        if (this.pageName === 'metadata') {
+        if (this.pageName === 'metadata' || this.pageName === 'justification') {
             if (this.metadataIsValid) {
                 return PageState.Valid;
             }
@@ -122,7 +122,8 @@ export default class PageLinkComponent extends Component {
 
     @computed('draftId', 'page', 'route')
     get models() {
-        if (this.route === 'registries.drafts.draft.page') {
+        if (this.route === 'registries.drafts.draft.page' ||
+            this.route === 'registries.edit-revision.page') {
             return [this.draftId, this.page];
         }
         return [this.draftId];

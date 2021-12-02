@@ -1,0 +1,7 @@
+{{did-update this.recalculateDiff @headRevisionId}}
+
+{{yield (hash
+    updatedKeys=this.updatedKeys
+    headRevision=this.headRevision
+    registration=this.registration
+)}}

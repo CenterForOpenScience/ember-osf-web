@@ -91,6 +91,8 @@ export function nodeFilesListForProvider(this: HandlerContext, schema: Schema) {
     let node;
     if (this.request.url.includes('draft_nodes')) {
         node = schema.draftNodes.find(parentID);
+    } else if (this.request.url.includes('registrations')) {
+        node = schema.registrations.find(parentID);
     } else {
         node = schema.nodes.find(parentID);
     }
@@ -104,6 +106,8 @@ export function nodeFileProviderList(this: HandlerContext, schema: Schema) {
     let node: ModelInstance<DraftNode> | ModelInstance<MirageNode>;
     if (this.request.url.includes('draft_nodes')) {
         node = schema.draftNodes.find(parentID);
+    } else if (this.request.url.includes('registrations')) {
+        node = schema.registrations.find(parentID);
     } else {
         node = schema.nodes.find(parentID);
     }
