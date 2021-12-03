@@ -27,6 +27,7 @@
             {{#if this.revisions}}
                 {{#each this.revisions as |revision index|}}
                     <Registries::UpdateDropdown::ListItem
+                        @onRevisionSelect={{action this.onRevisionSelect dd.close}}
                         @revision={{revision}}
                         @isModeratorMode={{@isModeratorMode}}
                         @totalRevisions={{this.totalRevisions}}
