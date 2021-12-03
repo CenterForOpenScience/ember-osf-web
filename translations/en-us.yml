@@ -579,9 +579,9 @@ node_card:
         private_tooltip: 'This registration is private'
         timestamp_label: 'Registered:'
         statuses:
-            revision_pending_moderation: 'Pending moderation'
-            revision_in_progress: 'Revision in progress'
-            revision_unapproved: 'Revision unapproved'
+            revision_pending_moderation: 'Update pending moderation'
+            revision_in_progress: 'Update in progress'
+            revision_unapproved: 'Update pending approval'
             pending_registration_approval: 'Pending registration approval'
             pending_embargo_approval: 'Pending embargo'
             pending: 'Pending moderation'
@@ -601,7 +601,7 @@ node_card:
     options: Options
     view_button: 'View'
     update_button: 'Update'
-    view_changes_button: 'View changes'
+    view_changes_button: 'Continue update'
     schema_response_error: 'Updates irretreivable.'
     
 forks:
@@ -877,7 +877,7 @@ app_components:
         click_to_edit: 'Click to edit'
 collections:
     general:
-        brand: '{name} Collection'
+        brand: '{name}'
     navbar:
         add: 'Add to Collection'
     index:
@@ -1188,6 +1188,11 @@ registries:
             register: Register
             unable_to_fetch_children_count: 'Unable to fetch project''s components'
             submit_error: 'Unable to create a registration.'
+            delete_modal:
+                title: 'Delete this draft registration'
+                body: 'Are you sure you want to delete this draft registration?'
+                button: 'Delete Draft'
+                delete_error: 'Unable to delete draft registration'
     edit_revision:
         revisionJustification: 'Justification for update'
         updatedResponseKeys: 'List of updated registration questions'
@@ -1206,6 +1211,7 @@ registries:
             decision_recorded_notice: 'Decision recorded. Pending decisions from other Admin contributors.'
             pending_admin_notice: 'Pending decisions from admin(s).'
             pending_moderation_notice: 'Pending decisions from moderators.'
+            submit_success: 'Submitted for Admin approval'
             action_submit_success: 'Your decision was recorded'
             action_submit_failed: 'Your decision was not recorded'
             non_admin_warning: 'Only admins can submit an update.'
@@ -1216,11 +1222,10 @@ registries:
             reason: 'What additional changes need to be made and why?'
             submit: 'Submit'
         delete_modal:
-            title: 'Delete this update'
-            body: 'Are you sure to delete this update?'
-            button: 'Cancel update'
-
-        
+            title: 'Delete this draft update'
+            body: 'Are you sure you want to delete this draft update?'
+            button: 'Delete Draft Update'
+            delete_error: 'Unable to delete update'
     index:
         lead: 'The <span class="f-w-lg">open</span> registries network'
         see_example: 'See an example'
@@ -1603,8 +1608,8 @@ registries:
         modalHeaderNoUpdates: 'Updates not allowed'
         modalBodyFirst: 'Updates to registration responses can be updated by clicking “Next”.<br>Edits to metadata including Description, Category, License, Publication DOI, and Tags are done on the registration by clicking the '
         modalBodySecond: ' icon.'
-        modalBodyNoUpdates: 'The {registryName} does not allow updates for this registration template.<br>Contact their registy if you have any questions.'
-        learnMore: 'Click <a href="https://help.osf.io/hc/en-us/articles/360035806634-Edit-Registration-Metadata" target="_blank">here</a>  to learn more'
+        modalBodyNoUpdates: '{registryName} does not allow updates.<br>Contact their registry if you have any questions.'
+        learnMore: 'Click <a href="https://help.osf.io/hc/en-us/articles/360035806634-Edit-Registration-Metadata" target="_blank">here</a>  to learn more.'
         next: Next
         cancel_update: 'Cancel update'
 meetings:

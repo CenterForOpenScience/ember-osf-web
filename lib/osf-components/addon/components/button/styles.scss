@@ -59,11 +59,11 @@
 }
 
 .CreateButton {
-    background-color: $brand-success;
+    background-color: darken($brand-success, 10%);
     color: $color-text-white;
 
     &:hover:not([disabled]) {
-        background-color: darken($brand-success, 15%);
+        background-color: darken($brand-success, 25%);
     }
 }
 

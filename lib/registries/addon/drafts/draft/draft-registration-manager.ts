@@ -203,6 +203,19 @@ export default class DraftRegistrationManager {
         }
     }
 
+    @task
+    @waitFor
+    async deleteDraft() {
+        try {
+            await this.draftRegistration.destroyRecord();
+            this.router.transitionTo('registries.my-registrations');
+        } catch (e) {
+            const errorMessage = this.intl.t('registries.drafts.draft.delete_modal.delete_error');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
+        }
+    }
+
     @action
     onPageChange(currentPage: number) {
         if (this.hasVisitedPages) {
