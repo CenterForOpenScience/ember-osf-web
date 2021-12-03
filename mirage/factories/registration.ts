@@ -145,13 +145,15 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
             });
         }
         // Create the base schema-response
-        server.create('schema-response', {
+        const baseResponse = server.create('schema-response', {
             registration: newReg,
             initiatedBy: newReg.registeredBy,
             registrationSchema: newReg.registrationSchema,
             reviewsState: RevisionReviewStates.Unapproved,
             revisionResponses: newReg.registrationResponses,
         });
+        newReg.update({ originalResponse: baseResponse });
+        newReg.update({ latestResponse: baseResponse });
     },
 
     dateRegistered() {

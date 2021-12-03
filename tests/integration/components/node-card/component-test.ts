@@ -25,7 +25,7 @@ module('Integration | Component | node-card', hooks => {
             tags: ['a', 'b', 'c'],
             description: 'Through the night',
             revisionState: RevisionReviewStates.Approved,
-        });
+        }, 'currentUserAdmin');
         server.create('contributor', { node: registration, index: 0, bibliographic: true });
         server.create('contributor', { node: registration, index: 1, bibliographic: true });
         server.create('contributor', { node: registration, index: 2, bibliographic: true });

@@ -78,20 +78,17 @@
                         @route='registries.drafts.draft.review'
                         @models={{array this.draftRegistration.id}}
                     >
-                        <Button>
-                            {{t 'osf-components.draft-registration-card.review'}}
-                        </Button>
+                        {{t 'osf-components.draft-registration-card.review'}}
                     </OsfLink>
                     {{#unless this.draftRegistration.currentUserIsReadOnly}}
                         <OsfLink
                             data-test-draft-card-edit
+                            local-class='DraftRegistrationCard__review'
                             data-analytics-name='Edit'
                             @route='registries.drafts.draft'
                             @models={{array this.draftRegistration.id}}
                         >
-                            <Button local-class='DraftRegistrationCard__edit'>
-                                {{t 'general.edit'}}
-                            </Button>
+                            {{t 'general.edit'}}
                         </OsfLink>
                     {{/unless}}
                 </div>
