@@ -78,21 +78,32 @@ export default class NodeCard extends Component {
         }
     }
 
+    get shouldAllowUpdate() {
+        if (this.node instanceof RegistrationModel) {
+            return (
+                this.node.reviewsState === RegistrationReviewStates.Accepted ||
+                this.node.reviewsState === RegistrationReviewStates.Embargo
+            );
+        }
+        return false;
+    }
+
     get shouldShowViewChangesButton() {
         if (this.node instanceof RegistrationModel) {
-            return this.node.revisionState === RevisionReviewStates.RevisionInProgress ||
-                this.node.revisionState === RevisionReviewStates.RevisionPendingModeration;
+            return this.shouldAllowUpdate &&
+                (
+                    this.node.revisionState === RevisionReviewStates.RevisionInProgress ||
+                    this.node.revisionState === RevisionReviewStates.RevisionPendingModeration ||
+                    this.node.revisionState === RevisionReviewStates.Unapproved
+                );
         }
         return false;
     }
 
     get shouldShowUpdateButton() {
-        if (this.node instanceof RegistrationModel) {
+        if (this.node instanceof RegistrationModel && this.node.userHasAdminPermission) {
             return this.node.revisionState === RevisionReviewStates.Approved &&
-                (
-                    this.node.reviewsState === RegistrationReviewStates.Accepted ||
-                    this.node.reviewsState === RegistrationReviewStates.Embargo
-                );
+                this.shouldAllowUpdate;
         }
         return false;
     }

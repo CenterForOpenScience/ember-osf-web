@@ -115,6 +115,7 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-goto-register]').doesNotExist('RightNav: Register button not shown');
         assert.dom('[data-test-nonadmin-warning-text]').exists('RightNav: Warning non-admins cannot register shown');
         assert.dom('[data-test-goto-previous-page]').doesNotExist('RightNav: Back button not shown');
+        assert.dom('[data-test-delete-button]').doesNotExist('RightNav: Delete button not shown');
 
         // check metadata and form renderer
         assert.dom('[data-test-edit-button]').doesNotExist('MetadataRenderer: Edit button not shown');
@@ -168,6 +169,27 @@ module('Registries | Acceptance | draft form', hooks => {
         await visit(`/registries/drafts/${registration.id}/99/`);
 
         assert.equal(currentRouteName(), 'registries.page-not-found', 'At page not found');
+    });
+
+    test('delete draft', async function(
+        this: DraftFormTestContext, assert,
+    ) {
+        const initiator = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const registration = server.create(
+            'draft-registration', {
+                registrationSchema,
+                initiator,
+                branchedFrom: this.branchedFrom,
+            },
+        );
+
+        await visit(`/registries/drafts/${registration.id}/`);
+
+        assert.equal(currentRouteName(), 'registries.drafts.draft.metadata', 'On metadata page');
+        await click('[data-test-delete-button]');
+        await click('[data-test-confirm-delete]');
+        assert.equal(currentRouteName(), 'registries.my-registrations', 'Reroutes to my-registrations');
     });
 
     test('left nav controls', async function(this: DraftFormTestContext, assert) {
