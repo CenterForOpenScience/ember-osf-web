@@ -293,6 +293,7 @@ export function registrationScenario(
     const wdrwn = server.create('registration', {
         id: 'wdrwn',
         title: 'Withdrawn Hermit',
+        withdrawn: true,
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider: egap,
         reviewsState: RegistrationReviewStates.Withdrawn,

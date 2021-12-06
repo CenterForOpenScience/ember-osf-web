@@ -19,7 +19,7 @@
             <OsfLink
                 data-test-result-title-id={{@result.id}}
                 @href={{@result.mainLink}}
-                data-analytics-name='Result Title{{if @provider concat ' @provider.name'}}'
+                data-analytics-name='Result Title{{if @provider (concat ' ' @provider.name)}}'
             >
                 {{math @result.title}}
             </OsfLink>
