@@ -7,8 +7,6 @@ import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import Intl from 'ember-intl/services/intl';
-import Toast from 'ember-toastr/services/toast';
 
 import requireAuth from 'ember-osf-web/decorators/require-auth';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
@@ -27,10 +25,8 @@ export interface DraftRouteModel {
 @requireAuth()
 export default class DraftRegistrationRoute extends Route {
     @service analytics!: Analytics;
-    @service intl!: Intl;
     @service store!: Store;
     @service router!: RouterService;
-    @service toast!: Toast;
 
     @task
     @waitFor
@@ -42,7 +38,6 @@ export default class DraftRegistrationRoute extends Route {
                 { adapterOptions: { include: 'branched_from' } },
             );
             if (draftRegistration.modelName === 'registration') {
-                this.toast.success(this.intl.t('registries.drafts.draft.already_submitted'));
                 this.transitionTo('overview', draftRegistration.id);
             }
             const [subjects, provider]:
