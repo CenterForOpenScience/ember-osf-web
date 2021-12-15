@@ -1188,6 +1188,7 @@ registries:
             register: Register
             unable_to_fetch_children_count: 'Unable to fetch project''s components'
             submit_error: 'Unable to create a registration.'
+            already_submitted: 'This draft has already been submitted.'
             delete_modal:
                 title: 'Delete this draft registration'
                 body: 'Are you sure you want to delete this draft registration?'
