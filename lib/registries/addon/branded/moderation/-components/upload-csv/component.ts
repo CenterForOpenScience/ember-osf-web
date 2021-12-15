@@ -25,6 +25,7 @@ interface ApiErrorDetail {
     type: string;
     invalidHeaders?: string[];
     missingHeaders?: string[];
+    duplicateHeaders?: string[];
 }
 export default class UploadCsvComponent extends Component<Args> {
     dropzoneOptions = {
@@ -65,6 +66,7 @@ export default class UploadCsvComponent extends Component<Args> {
                         htmlSafe: true,
                         invalidIds: error.invalidHeaders ? error.invalidHeaders.join(', ') : null,
                         missingIds: error.missingHeaders ? error.missingHeaders.join(', ') : null,
+                        duplicateIds: error.duplicateHeaders ? error.duplicateHeaders.join(', ') : null,
                     }),
                 },
             );
