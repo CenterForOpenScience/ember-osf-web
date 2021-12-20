@@ -151,6 +151,7 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
             registrationSchema: newReg.registrationSchema,
             reviewsState: RevisionReviewStates.Unapproved,
             revisionResponses: newReg.registrationResponses,
+            isOriginalResponse: true,
         });
         newReg.update({ originalResponse: baseResponse });
         newReg.update({ latestResponse: baseResponse });

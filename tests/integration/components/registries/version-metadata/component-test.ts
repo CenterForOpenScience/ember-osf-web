@@ -13,27 +13,47 @@ module('Integration | Component | version-metadata', hooks => {
     setupMirage(hooks);
     setupIntl(hooks);
 
-    // TODO: Test registrations with 2 revisions, registration with 2 revisions with one selected
-    test('it renders', async function(this: TestContext, assert) {
-        const currentUser = server.create('user', { fullName: 'Lex Luthor' }, 'loggedIn');
-        const revision = server.create('schema-response', {
-            isOriginalResponse: true,
-            initiatedBy: currentUser,
-            dateModified: new Date(),
-            revisionJustification: 'This registration went into a phone booth',
-            revisionResponses: { q1: 'Super Man' },
-        });
-        this.set('revision', revision);
-        await render(hbs`<Registries::VersionMetadata @revision={{this.revision}} />`);
+    test('it renders original', async function(this: TestContext, assert) {
+        const registration = server.create('registration');
+        this.set('registration', registration);
+        this.set('revision', registration.originalResponse);
+        await render(hbs`
+        <Registries::VersionMetadata
+            @registration={{this.registration}} @revision={{this.revision}}
+        />`);
         assert.dom('[data-test-version-metadata-title]').hasText(
-            t('registries.overview.versionMetadata.originalTitle'), 'revision title is shown',
+            t('registries.overview.versionMetadata.originalTitle'), 'title indicates original version',
         );
         assert.dom('[data-test-version-metadata-date]').hasTextContaining(
             t('registries.overview.versionMetadata.originalDate', {
-                date: moment(revision.dateModified).format('MMM DD, YYYY'),
-            }), 'revision initiator is shown',
+                date: moment(registration.dateRegistered).format('MMM DD, YYYY'),
+            }), 'Registration submission date is shown',
         );
         assert.dom('[data-test-version-metadata-reason]')
             .doesNotExist();
+    });
+
+    test('it renders subsequent revision', async function(this: TestContext, assert) {
+        const registration = server.create('registration');
+        const justification = 'this is why';
+        const revision = server.create('schema-response', {
+            registration,
+            revisionJustification: justification,
+        });
+        this.set('registration', registration);
+        this.set('revision', revision);
+        await render(hbs`
+        <Registries::VersionMetadata
+            @registration={{this.registration}} @revision={{this.revision}}
+        />`);
+        assert.dom('[data-test-version-metadata-title]').hasText(
+            t('registries.overview.versionMetadata.updateTitle'), 'title indicates updated version',
+        );
+        assert.dom('[data-test-version-metadata-date]').hasTextContaining(
+            t('registries.overview.versionMetadata.date', {
+                date: moment(revision.dateModified).format('MMM DD, YYYY'),
+            }), 'revision modification date is shown',
+        );
+        assert.dom('[data-test-version-metadata-reason]').hasTextContaining(justification);
     });
 });
