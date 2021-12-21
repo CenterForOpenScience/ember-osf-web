@@ -37,6 +37,9 @@ export default class DraftRegistrationRoute extends Route {
                 draftId,
                 { adapterOptions: { include: 'branched_from' } },
             );
+            if (draftRegistration.modelName === 'registration') {
+                this.transitionTo('overview', draftRegistration.id);
+            }
             const [subjects, provider]:
                 [SubjectModel[], ProviderModel] = await Promise.all([
                     draftRegistration.loadAll('subjects'),
