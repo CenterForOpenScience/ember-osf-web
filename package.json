@@ -194,7 +194,7 @@
     "ember-radio-button": "^2.0.0",
     "ember-resolver": "^8.0.2",
     "ember-responsive": "^3.0.0",
-    "ember-simple-auth": "^1.6.0",
+    "ember-simple-auth": "^2.1.1",
     "ember-sinon": "^5.0.0",
     "ember-sinon-qunit": "^5.0.0",
     "ember-sortable": "2.2",
