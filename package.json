@@ -238,7 +238,7 @@
     "sass": "^1.26.3",
     "seedrandom": "^3.0.1",
     "sinon": "^12.0.1",
-    "stylelint-config-css-modules": "^1.2.0",
+    "stylelint-config-css-modules": "^2.3.0",
     "stylelint-config-sass-guidelines": "^6.0.0",
     "toastr": "^2.1.4",
     "typescript": "^4.2.3",
