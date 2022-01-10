@@ -12,6 +12,8 @@ interface RegistrationAttrs extends NodeAttrs {
     registeredFromId: ID | null;
     registrationSchemaId: ID | null;
     providerId: ID | null;
+    originalResponseId: ID | null;
+    latestResponseId: ID | null;
 }
 
 type MirageRegistration = Registration & { attrs: RegistrationAttrs };
@@ -131,6 +133,22 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
                     },
                 },
             },
+            schemaResponses: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/registrations/${model.id}/schema_responses/`,
+                        meta: this.buildRelatedLinkMeta(model, 'schemaResponses'),
+                    },
+                },
+            },
+            files: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/registrations/${model.id}/files/`,
+                        meta: this.buildRelatedLinkMeta(model, 'files'),
+                    },
+                },
+            },
         };
 
         if (model.registeredBy) {
@@ -234,6 +252,36 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
                 links: {
                     related: {
                         href: `${apiUrl}/v2/licenses/${licenseId}`,
+                        meta: {},
+                    },
+                },
+            };
+        }
+        if (model.attrs.originalResponseId !== null) {
+            const { originalResponseId } = model.attrs;
+            relationships.originalResponse = {
+                data: {
+                    id: originalResponseId as string,
+                    type: 'schema-responses',
+                },
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/registrations/${model.id}/schema_responses/${originalResponseId}`,
+                        meta: {},
+                    },
+                },
+            };
+        }
+        if (model.attrs.latestResponseId !== null) {
+            const { latestResponseId } = model.attrs;
+            relationships.latestResponse = {
+                data: {
+                    id: latestResponseId as string,
+                    type: 'schema-responses',
+                },
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/registrations/${model.id}/schema_responses/${latestResponseId}`,
                         meta: {},
                     },
                 },

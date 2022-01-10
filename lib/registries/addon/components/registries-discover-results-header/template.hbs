@@ -8,11 +8,11 @@
         <ResponsiveDropdown as |dd|>
             <dd.trigger
                 data-test-sort-dropdown
-                data-analytics-name='Sort Registries Button{{if @provider ' @provider.name'}}'
+                data-analytics-name='Sort Registries Button{{if @provider (concat ' ' @provider.name)}}'
                 local-class='DropdownTrigger'
             >
                 {{t 'registries.discover.sort_by'}}: {{t @searchOptions.order.display}}
-                <span aria-label='{{t 'registries.discover.sort_by'}}' class='caret'></span>
+                <span role='button' aria-label='{{t 'registries.discover.sort_by'}}' class='caret'></span>
             </dd.trigger>
             <dd.content local-class='DropdownContent'>
                 {{#each @sortOptions as |option index|}}

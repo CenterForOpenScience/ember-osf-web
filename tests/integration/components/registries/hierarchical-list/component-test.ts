@@ -43,7 +43,7 @@ module('Integration | Component | hierarchical-list', hooks => {
             </Registries::HierarchicalList::ItemManager>
         `);
 
-        // Check and see if onChange hook is invoked; each should trigger one assert in the listManger stub
+        // Check and see if onChange hook is invoked; each should trigger one assert in the listManager stub
         await click(`[data-test-item="${root.id}"] input`);
         await click(`[data-test-item="${child.id}"] input`);
         await click(`[data-test-item="${grandChild.id}"] input`);

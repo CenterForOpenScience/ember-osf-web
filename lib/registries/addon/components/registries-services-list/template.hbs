@@ -8,18 +8,13 @@
         </div>
     </div>
     <div class='row p-v-md'>
-        <div class='col-sm-4 text-center'>
-            <a href='http://ridie.3ieimpact.org/'>
-                <div local-class='ServicesList__ProviderLogo provider-ridie'></div>
-            </a>
-        </div>
-        <div class='col-sm-4 text-center'>
-            <a href='http://egap.org/content/registration'>
+        <div class='col-sm-6 text-center'>
+            <a href='http://egap.org/content/registration' aria-label={{t 'registries.index.services.egap'}}>
                 <div local-class='ServicesList__ProviderLogo provider-egap'></div>
             </a>
         </div>
-        <div class='col-sm-4 text-center'>
-            <a href='https://cos.io/prereg/'>
+        <div class='col-sm-6 text-center'>
+            <a href='https://cos.io/prereg/' aria-label={{t 'registries.index.services.prereg'}}>
                 <div local-class='ServicesList__ProviderLogo provider-prereg'></div>
             </a>
         </div>
@@ -33,7 +28,7 @@
                     <a
                         local-class='ServicesList__ExternalLink'
                         href='https://github.com/CenterForOpenScience/ember-osf-registries'
-                        onclick={{action 'click' 'link' 'Index - GitHub Repo' 'https://github.com/CenterForOpenScience/ember-osf-registries'
+                        onclick={{action 'click' 'link' 'Index - GitHub Repo' 'https://github.com/CenterForOpenScience/ember-osf-web'
                             target=this.analytics}}
                     >
                         {{~t 'registries.index.services.bottom.div.linkText1'~}}

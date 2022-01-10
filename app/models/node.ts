@@ -218,6 +218,12 @@ export default class NodeModel extends AbstractNodeModel.extend(Validations, Col
         return Array.isArray(this.currentUserPermissions) && this.currentUserPermissions.includes(Permission.Read);
     }
 
+    @computed('currentUserPermissions.length')
+    get currentUserIsReadOnly() {
+        return Array.isArray(this.currentUserPermissions) && this.currentUserPermissions.includes(Permission.Read)
+            && this.currentUserPermissions.length === 1;
+    }
+
     /**
      * The type of this node.
      */

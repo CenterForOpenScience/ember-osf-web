@@ -89,6 +89,7 @@ general:
     options: Options
     optional: Optional
     optional_paren: (optional)
+    update: Update
     services:
         collections: Collections
         institutions: Institutions
@@ -114,18 +115,8 @@ maintenance:
 quickfiles:
     title: '{userName}''s Quick Files'
     description: 'Files uploaded here are <b>publicly accessible</b> and easy to share with others using the share link.'
-    feedback_dialog_text: 'Tell us what you think of Quick Files'
     transition_auth: 'You must be logged in to view your Quick Files. Redirecting to the login page.'
     share_by_email: 'Share by email'
-feedback:
-    button_text: Feedback
-    placeholder: 'Share your feedback'
-    follow_up_label: 'Contact me about further opportunities to improve OSF.'
-    title: 'Send feedback'
-    confirm_button_text: Send
-    thank_you: 'Thank you!'
-    success: 'Your feedback has been submitted.'
-    dismiss: 'Got it'
 file_detail:
     version:
         id: 'Version ID'
@@ -534,7 +525,7 @@ validationErrors:
     onlyProjectOrComponentFiles: 'The {numOfFiles, plural, =1 {file} other {files}} "{missingFilesList}" cannot be found on this {projectOrComponent}.'
     new_folder_name: 'Folder name must not be blank.'
     year_format: 'Please specify a valid year.'
-    invalid_copyright_holders: 'Please specify at least one copyright holder.'
+    no_updated_responses: 'No changes have been made in this update.'
 validated_input_form:
     discard_changes: 'Discard changes'
 node_navbar:
@@ -588,7 +579,10 @@ node_card:
         private_tooltip: 'This registration is private'
         timestamp_label: 'Registered:'
         statuses:
-            pending_registration_approval: 'Pending registration'
+            revision_pending_moderation: 'Update pending moderation'
+            revision_in_progress: 'Update in progress'
+            revision_unapproved: 'Update pending approval'
+            pending_registration_approval: 'Pending registration approval'
             pending_embargo_approval: 'Pending embargo'
             pending: 'Pending moderation'
             embargo: Embargoed
@@ -596,8 +590,8 @@ node_card:
             pending_embargo_termination: 'Pending embargo termination'
             pending_withdraw_request: 'Pending withdrawal'
             pending_withdraw: 'Pending withdrawal moderation'
-            withdrawn: Withdrawn
-            archiving: Archiving
+            withdrawn: 'Withdrawn'
+            archiving: 'Archiving'
     tags: 'Tags:'
     registration_template: 'Registration template:'
     contributors: 'Contributors:'
@@ -605,7 +599,11 @@ node_card:
     last_updated: 'Last updated:'
     registry: 'Registry:'
     options: Options
-    view: 'View'
+    view_button: 'View'
+    update_button: 'Update'
+    view_changes_button: 'Continue update'
+    schema_response_error: 'Updates irretreivable.'
+    
 forks:
     fork: Fork
     title: Forks
@@ -625,7 +623,7 @@ node:
     registrations:
         new_registration_modal:
             title: Register
-            info: 'Registration creates a frozen version of the project. Your original project remains editable and will have the registration linked. Things to know about registration:<ul><li><strong>Registrations cannot be edited or deleted.</strong></li><li>Withdrawing a registration removes its contents, but leaves behind basic metadata: title, contributors, date registered, date withdrawn, and justification (if provided).</li><li>Registrations can be public or embargoed for up to four years. Embargoed registrations will be made public automatically when the embargo expires.</li></ul>Continue your registration by selecting a registration form:'
+            info: 'Registration creates a frozen version of the project. Your original project remains editable and will have the registration linked. Things to know about registration:<ul><li><strong>Registrations cannot be edited or deleted.</strong></li><li>Withdrawing a registration removes its contents, but leaves behind basic metadata: title, contributors, date registered, date withdrawn, and justification (if provided).</li><li>Registrations can be public or embargoed for up to four years. Embargoed registrations will be made public automatically when the embargo expires.</li><li>Registrations are archived on Internet Archive and a link to the archived copy will be added to the registration metadata.</li></ul>Continue your registration by selecting a registration form:'
             create: 'Create draft'
         prereg_modal:
             title: 'Preregistration Challenge'
@@ -668,6 +666,7 @@ institutions:
     contact_us: 'Contact us'
     title: Institutions
     search_placeholder: 'Search institutions'
+    load_more: 'Load more institutions'
     dashboard:
         title: '{institutionName} Dashboard'
         last_update: 'Updated every 24 hours'
@@ -751,7 +750,7 @@ app_components:
             permissions: Permissions
             permissions_popover_title: 'Permission Information'
             permissions_popover: "\n                    <dl>\n                        <dt>Read</dt>\n                        <dd>\n                            <ul>\n                                <li>View project</li>\n                            </ul>\n                        </dd>\n                        <dt>Read + Write</dt>\n                        <dd>\n                            <ul>\n                                <li>Read privileges</li>\n                                <li>Add and configure project</li>\n                                <li>Add and edit content</li>\n                            </ul>\n                        </dd>\n                        <dt>Administrator</dt>\n                        <dd>\n                            <ul>\n                                <li>Read and write privileges</li>\n                                <li>Manage contributors</li>\n                                <li>Public-private settings</li>\n                            </ul>\n                        </dd>\n                    </dl>\n                "
-            citation: Citiation
+            citation: Citation
             citation_popover_title: 'Citation Information'
             citation_popover: 'Only checked contributors will be included in project citations. Contributors not in the citation can read and modify the project as normal.'
             remove_contributor_success: 'Project contributor removed!'
@@ -787,6 +786,7 @@ app_components:
                 add: Add
             add_contributor_success: 'Project contributor added!'
             add_contributor_error: 'Could not add contributor.'
+            perform_search: 'Perform search'
     project_metadata:
         field_title_label: 'Title:'
         field_title_placeholder: ""
@@ -877,7 +877,7 @@ app_components:
         click_to_edit: 'Click to edit'
 collections:
     general:
-        brand: '{name} Collection'
+        brand: '{name}'
     navbar:
         add: 'Add to Collection'
     index:
@@ -907,6 +907,8 @@ collections:
             issue: Issue
             program_area: 'Program Area'
             volume: Volume
+            study_design: 'Study Design'
+            school_type: 'School Type'
     collections_submission:
         title: Submit
         add_header: 'Add to Collection'
@@ -928,8 +930,8 @@ collections:
         update_button: Update
         add_save_success: '{title} has been added to the collection.'
         update_save_success: '{title} has been updated in the collection.'
-        add_save_error: "Error adding {title} to the collection."
-        update_save_error: "Error updating {title} in the collection."
+        add_save_error: 'Error adding {title} to the collection.'
+        update_save_error: 'Error updating {title} in the collection.'
         warning_body: 'Are you sure you want to discard changes to the submission? Changes saved to the project will persist.'
     collection_submission_confirmation_modal:
         header: 'Submit project'
@@ -945,6 +947,8 @@ collections:
         program_area_label: 'Program Area:'
         status_label: 'Status:'
         volume_label: 'Volume:'
+        study_design_label: 'Study Design:'
+        school_type_label: 'School Type:'
     collection_search_result:
         expand: 'Expand search result'
         collapse: 'Collapse search result'
@@ -957,6 +961,8 @@ collections:
             remove_status: 'Remove status'
             remove_issue: 'Remove issue'
             remove_program_area: 'Remove program area'
+            remove_school_type: 'Remove school type'
+            remove_study_design: 'Remove study design'
             remove_volume: 'Remove volume'
         asOf: 'as of'
         broadenSearch: 'Try broadening your search terms'
@@ -1013,8 +1019,11 @@ registries:
             pending: Pending
             withdrawn: Withdrawn
             pendingWithdraw: 'Pending Withdrawal'
-        submissions:
-            title: Submissions
+            revisionPending: 'Pending Updates'
+        submitted:
+            title: Submitted
+        pending:
+            title: Pending
         withdrawals:
             title: 'Withdrawal Requests'
         moderators:
@@ -1027,12 +1036,86 @@ registries:
             removedModeratorError: 'Error removing {permission}'
             updatedModeratorPermissionSuccess: 'Successfully updated {userName} to {permission}'
             updatedModeratorPermissionError: 'Error updating permission to {permission}'
-        notifications:
-            title: 'Notifications'
+        settings:
+            title: 'Settings'
             heading: 'Configure reviews notification preferences'
             paragraph: 'To configure other notification preferences visit your <a href={link}>user settings</a>.'
+            bulkUpload: 'Bulk upload'
+            bulkUploadHelpText: 'Drag and drop the csv file that has the registration information to upload.'
+            dropCsvHere: 'Drop csv file here to upload'
+            uploadError: 'Upload error'
+            copyToClipboard: 'Copy to clipboard'
+            cell: 'Cell'
+            copyToClipboardSuccess: 'Successfully copied to clipboard.'
+            generalErrorMessage: 'Your file was not uploaded due to the errors listed below. Please correct the errors and try again. If you have any questions, please contact the help desk at <a href="mailto:support@osf.io">support@osf.io</a>.'
+            invalidSchemaId:
+                title: 'Invalid schema ID'
+                detail: 'The schema ID in this cell does not match with a registration template in our system. It’s likely this ID was manually edited after it was downloaded or the registration template is outdated. Contact the help desk at <a href="mailto:support@osf.io">support@osf.io</a> for the current ID or a new csv file.'
+            invalidColumnId:
+                title: 'Invalid column ID'
+                detail: 'This Column ID does not match with the ones used by this registration template. It’s likely it was manually edited after it was downloaded or the registration template is outdated. Contact the help desk at <a href="mailto:support@osf.io">support@osf.io</a> for the current ID or a new csv file. <br><strong>Invalid IDs</strong>: {invalidIds}. <br><strong>Missing IDs</strong>: {missingIds}.'
+            duplicateColumnId:
+                title: 'Duplicate column ID'
+                detail: 'The following column IDs appeared more than once. Please remove duplicate columns and re-upload. <br><strong>Duplicate column IDs</strong>: {duplicateIds}'
+            fileUploadNotSupported:
+                title: 'File uploads not supported'
+                detail: 'The schema ID specified in Cell A2 corresponds to a registration template with required file uploads. File uploads are not currently supported as part of the bulk upload workflow.'
+            invalidProjectId:
+                title: 'Invalid project ID'
+                detail: 'This Project GUID does not exist. Check that each project’s GUID is accurate. Registrations that do not have a project should have a blank cell.'
+            invalidInstitutionName:
+                title: 'Invalid institution name'
+                detail: 'This affiliated institution name does not match our system. Check that the institution’s name is spelled correctly. <a href="https://osf.io/institutions?view_only=">Click here</a> to view a list of currently active affiliated institutions.'
+            invalidLicenseName:
+                title: 'Invalid license name'
+                detail: 'This license does not match our system. It’s likely that the license is either spelled incorrectly, is not an option in our system, or formatted incorrectly. <a href="https://help.osf.io/hc/en-us/articles/360019739014-Licensing">Click here</a> to view a list of available licenses. See section “CSV Templates” in our Moderator’s Guide for more information on formatting specific licenses.'
+            invalidSubjectName:
+                title: 'Invalid subject name'
+                detail: 'This subject does not match our system. It’s likely it is spelled incorrectly. OSF uses the <a href="https://www.bepress.com/wp-content/uploads/2016/12/Disciplines_taxonomy_2018-01.pdf">bepress taxonomy</a>. Only the word or phase after the last colon needs to be entered.'
+            invalidCategoryName:
+                title: 'Invalid category name'
+                detail: 'This category does not exist. Check that the category is spelled currently. See section “Field Formatting” in the <a href="https://drive.google.com/file/d/1FJT6Jl8kPJM95oWy5Dkueee-Sg81pz2m/view?usp=sharing">Moderator Guide</a> for a list of categories. Categories can be edited after the registration is submitted.'
+            invalidResponse:
+                title: 'Invalid response'
+                detail: 'This response is not acceptable by the system. It’s likely that this is due to misspelling or having multiple answers for a single response question. See section “Field Formatting” in the <a href="https://drive.google.com/file/d/1FJT6Jl8kPJM95oWy5Dkueee-Sg81pz2m/view?usp=sharing">Moderator Guide</a> for more information.'
+            invalidContributors:
+                title: 'Invalid format for contributors'
+                detail: 'This contributors list does not match the system’s formatting requirements. Review the required formatting in the Moderator’s Manual. Contact the help desk at <a href="mailto:support@osf.io">support@osf.io</a> if this is not the issue.'
+            missingTitle:
+                title: 'Missing title'
+                detail: 'This title is missing. Check that each registration has a title.'
+            missingDescription:
+                title: 'Missing description'
+                detail: 'This description is missing. Enter a high level summary of the registration. This summary can be edited after the registration is submitted.'
+            missingAdminContributor:
+                title: 'Missing admin contributor'
+                detail: 'This registration doesn’t include an admin contributor. A registration requires at least one admin contributor to be submitted. See section “Field Formatting” in the <a href="https://drive.google.com/file/d/1FJT6Jl8kPJM95oWy5Dkueee-Sg81pz2m/view?usp=sharing">Moderator Guide</a> for more information on formatting contributors.'
+            missingBibliographicContributor:
+                title: 'Missing bibliographic contributor'
+                detail: 'This registration doesn’t have any bibliographic contributors. Registration must have at least one bibliographic contributors. See section “Field Formatting” in the <a href="https://drive.google.com/file/d/1FJT6Jl8kPJM95oWy5Dkueee-Sg81pz2m/view?usp=sharing">Moderator Guide</a> for information on formatting contributors.'
+            missingLicenseName:
+                title: 'Missing license name'
+                detail: 'This license is missing. Check that each registration has a license.'
+            missingSubjectName:
+                title: 'Missing subject name'
+                detail: 'This subject is missing. Check that each registration has a subject.'
+            sizeExceedsLimit:
+                title: 'File size exceeds limit'
+                detail: 'The csv file exceeds the 1MB limit. Break the file into multiple files and reupload them. Contact the Help Desk at <a href="mailto:support@osf.io">support@osf.io</a> if you have any questions.'
+            bulkUploadJobExists:
+                title: 'Bulk upload job already exists'
+                detail: 'This csv file was already uploaded into the system and cannot be re-uploaded.'
+            invalidFileType:
+                title: 'Invalid file type'
+                detail: 'Only csv files can be uploaded in the system. Convert the file into the csv format and reupload the document. Contact the Help Desk at <a href="mailto:support@osf.io">support@osf.io</a> if you have any questions.'
+            bulkUploadNotAllowed:
+                title: 'Bulk upload not allowed'
+                detail: 'Bulk upload is not enabled for this provider.'
+            uploadSuccess: 'Successfully uploaded csv file.'
         overview:
             title: 'Moderated Overview'
+            delete_update: 'Delete update'
+            confirm_delete: 'Please confirm deletion of update.'
     new:
         provider_info: 'You are submitting to {provider}. <a href="https://help.osf.io/hc/en-us/categories/360001550953-Registrations">Click here</a> to learn more about other hosted registries.'
         required: 'required'
@@ -1109,10 +1192,49 @@ registries:
                 page_label: Review
                 start_review: Review
                 invalid_warning: 'Please address invalid or missing entries to complete registration.'
+                non_admin_warning: 'Only admins can submit a registration.'
                 toggle_dropdown: 'Toggle navigation dropdown'
             register: Register
             unable_to_fetch_children_count: 'Unable to fetch project''s components'
             submit_error: 'Unable to create a registration.'
+            delete_modal:
+                title: 'Delete this draft registration'
+                body: 'Are you sure you want to delete this draft registration?'
+                button: 'Delete Draft'
+                delete_error: 'Unable to delete draft registration'
+    edit_revision:
+        revisionJustification: 'Justification for update'
+        updatedResponseKeys: 'List of updated registration questions'
+        justification:
+            page_label: Justification
+            title: 'Justification for Update'
+            justification_label: 'Explain the updates made to this registration and why the changes were necessary. Be thorough in your response.'
+            justification_description: 'Justification will be provided to admins and moderators upon review. Once approved, it will be displayed at the top of the registration.'
+        page_title: 'Update registration'
+        review:
+            justification_page_label: 'Justification'
+            no_justification: 'No justification provided.'
+            submit_changes: 'Submit changes'
+            accept_changes: 'Accept changes'
+            continue_editing: 'Continue editing'
+            decision_recorded_notice: 'Decision recorded. Pending decisions from other Admin contributors.'
+            pending_admin_notice: 'Pending decisions from admin(s).'
+            pending_moderation_notice: 'Pending decisions from moderators.'
+            submit_success: 'Submitted for Admin approval'
+            action_submit_success: 'Your decision was recorded'
+            action_submit_failed: 'Your decision was not recorded'
+            non_admin_warning: 'Only admins can submit an update.'
+            invalid_warning: 'Please address invalid or missing entries to complete update.'
+        continue_edit_modal:
+            heading: 'Are you sure this needs more edits?'
+            warning: 'This will cancel any approvals from other admin contributors and return the registration back to its draft form for additional changes.'
+            reason: 'What additional changes need to be made and why?'
+            submit: 'Submit'
+        delete_modal:
+            title: 'Delete this draft update'
+            body: 'Are you sure you want to delete this draft update?'
+            button: 'Delete Draft Update'
+            delete_error: 'Unable to delete update'
     index:
         lead: 'The <span class="f-w-lg">open</span> registries network'
         see_example: 'See an example'
@@ -1129,6 +1251,8 @@ registries:
                     linkText2: 'requirements and road map'
                     line3: '. Input welcome!'
                 contact: 'Contact us'
+            egap: 'EGAP'
+            prereg: 'Preregistration Challenge'
         advisory:
             heading: 'Advisory Group'
             paragraph: 'Our advisory group includes leaders in registrations across disciplines'
@@ -1297,15 +1421,15 @@ registries:
             please_note: 'Please note:'
             email_support: 'Changes to any files (1) in the projects or components being registered, (2) uploaded or selected as prompt responses, including those connected through add-ons during archiving will result in archiving failure and loss of your registration timestamp. Please do not modify your files until after you have received email confirmation of archiving completion. If this registration has been archiving for more than 72 hours, please email <a data-analytics-name="Email support" href="mailto:{supportEmail}">{supportEmail}</a> for assistance.'
         pendingRegistrationApproval:
-            text: 'Pending registration'
+            text: 'Pending approval'
             short_description: 'Pending registration approval'
-            long_description: 'This is a pending registration of this <strong><a href={projectUrl}>project</a></strong>, awaiting approval from project administrators. This registration will be final when all project administrators approve the registration or 48 hours pass, whichever comes first.'
+            long_description: 'This registration is waiting for approval from its contributors.'
         pendingEmbargoApproval:
-            text: 'Pending registration'
+            text: 'Pending approval'
             short_description: 'Pending embargo approval'
-            long_description: 'This registration is pending approval. It will be final and enter an embargo period when all project administrators approve the registration or 48 hours pass, whichever comes first. The embargo will keep the registration private until the embargo period ends.'
+            long_description: 'This registration is waiting for approval from its contributors. Once approved, the registration will remain private until the embargo ends.'
         pending:
-            text: 'Pending registration'
+            text: 'Pending moderation'
             short_description: 'Pending moderator approval'
             long_description: 'This registration is awaiting a decision by the registry moderators. An email will notify all registration contributors of the decision.'
         accepted:
@@ -1324,15 +1448,27 @@ registries:
         pendingEmbargoTermination:
             text: 'Embargoed registration'
             short_description: 'Pending embargo termination'
-            long_description: 'This registration is embargoed. It will remain private until {embargoEndDate}. A request to make this registration public is pending.'
+            long_description: 'This registration is waiting for approval from its contributors to terminate its embargo and be made public.'
         pendingWithdrawRequest:
-            text: 'Public registration'
+            text: 'Pending withdrawal'
             short_description: 'Pending withdraw request'
-            long_description: 'This registration will be withdrawn when all project administrators approve the withdrawal.'
+            long_description: 'This registration is waiting for approval to be withdrawn by its contributors.'
         pendingWithdraw:
-            text: 'Public registration'
+            text: 'Pending withdrawal'
             short_description: 'Pending withdrawal moderation'
-            long_description: 'This registration is awaiting a withdrawal decision by the registry moderators. An email will notify all registration contributors of the decision.'
+            long_description: 'This registration is waiting for approval to be withdrawn by registry moderators.'
+        unapproved:
+            text: 'Update pending'
+            short_description: 'Update pending approval'
+            long_description: 'This registration has an update that is waiting for approval from its contributors. Updates will be made available once approved.'
+        inProgress:
+            text: 'Update in progress'
+            short_description: 'Updates being made'
+            long_description: 'This registration is currently being updated by its contributors. Updates will be made available once approved.'
+        pendingModeration:
+            text: 'Update pending review'
+            short_description: 'Update pending moderator approval'
+            long_description: 'This registration has an update that is waiting for moderation. Updates will be made available once approved.'
         bookmark:
             add:
                 text: Bookmark
@@ -1353,6 +1489,14 @@ registries:
             remove_bookmark: 'Remove bookmark'
             share: 'Share this registration'
             fork: 'Fork this registration'
+        versionMetadata:
+            updateTitle: 'This is an update to the original registration'
+            originalTitle: 'This is the original version of the registration'
+            date: 'This update was made on {date}'
+            originalDate: 'This registration was submitted on {date}'
+            description: 'Updated responses are labeled'
+            reason: 'Reason for update:'
+            noReason: 'No reason provided'
     overviewHeader:
         needModeratorPermission: 'You do not have permission to moderate this registration.'
     partialRegistrationModal:
@@ -1369,6 +1513,7 @@ registries:
         rejected: 'No rejected registrations have been found'
         withdrawn: 'No withdrawn registrations have been found'
         pending_withdraw: 'No registrations found pending withdrawal'
+        pending_moderation: 'No registrations found with updates pending'
     reviewActionsList:
         failedToLoadActions: 'Failed to load registration moderation history'
         noActionsFound: 'No moderation history found for this registration'
@@ -1381,6 +1526,8 @@ registries:
         contributorAction: 'Registration {action} {date} by contributor {contributor}'
         submitActionWithoutEmbargo: 'Registration submitted {date} by contributor {contributor}'
         submitActionWithEmbargo: 'Registration submitted {date} by contributor {contributor} with embargo ending {embargoEndDate}'
+        revisionContributorAction: 'Update {action} {date} by contributor {contributor}'
+        revisionModeratorAction: 'Update {action} {date} by moderator {moderator}'
     reviewActions:
         triggerPastTense:
             submit: 'submitted'
@@ -1391,19 +1538,28 @@ registries:
             accept_withdrawal: 'withdrawal request accepted'
             reject_withdrawal: 'withdrawal request rejected'
             request_embargo_termination: 'embargo termination requested'
+    schemaResponseActions:
+        triggerPastTense:
+            submit: 'submitted'
+            approve: 'approved'
+            admin_reject: 'requested further edits'
+            accept: 'accepted'
+            moderator_reject: 'rejected'
     finalizeRegistrationModal:
         title: 'Almost done...'
         notice:
-            noModerationFromProject: 'Remember:<ul><li>Registrations cannot be modified or deleted once submitted.</li><li>Changes to any files (1) in the projects or components being registered, (2) uploaded or selected as prompt responses, including those connected through add-ons during archiving will result in archiving failure and loss of your registration timestamp. Please do not modify your files until after you have received email confirmation of archiving completion. If this registration has been archiving for more than 72 hours, please email <a href="mailto:support@osf.io">support@osf.io</a> for assistance.</li><li>The content and version history of Wiki and OSF Storage will be copied to the registration.</li><li>This project may contain links to other projects. These links will be copied into your registration, but the projects that they link to will not be registered. If you wish to register the linked projects, they must be registered separately. <a href="{learnMoreLink}" target="_blank" rel="noopener noreferrer">Learn more about links</a>.</li></ul>'
-            withModerationFromProject: 'Remember:<ul><li>Registrations cannot be modified or deleted once submitted.</li><li>Changes to any files (1) in the projects or components being registered, (2) uploaded or selected as prompt responses, including those connected through add-ons during archiving will result in archiving failure and loss of your registration timestamp. Please do not modify your files until after you have received email confirmation of archiving completion. If this registration has been archiving for more than 72 hours, please email <a href="mailto:support@osf.io">support@osf.io</a> for assistance.</li><li>The content and version history of Wiki and OSF Storage will be copied to the registration.</li><li>This project may contain links to other projects. These links will be copied into your registration, but the projects that they link to will not be registered. If you wish to register the linked projects, they must be registered separately. <a href="{learnMoreLink}" target="_blank" rel="noopener noreferrer">Learn more about links</a>.</li><li>A moderator must review and approve your registration before it will be made public or embargoed.</li></ul>'
-            noModerationNoProject: 'Remember:<ul><li>Registrations cannot be modified or deleted once submitted.</li><li>Changes to any files uploaded or selected as prompt responses will result in archiving failure and loss of your registration timestamp. If this registration has been archiving for more than 72 hours, email <a href="mailto:support@osf.io">support@osf.io</a> for assistance.</li></ul>'
-            withModerationNoProject: 'Remember:<ul><li>Registrations cannot be modified or deleted once submitted.</li><li>Changes to any files uploaded or selected as prompt responses will result in archiving failure and loss of your registration timestamp. If this registration has been archiving for more than 72 hours, email <a href="mailto:support@osf.io">support@osf.io</a> for assistance.</li><li>A moderator must review and approve your registration before it will be made public or embargoed.</li></ul>'
+            noModerationFromProject: 'Remember:<ul><li>Registrations cannot be modified or deleted once submitted.</li><li>Changes to any files (1) in the projects or components being registered, (2) uploaded or selected as prompt responses, including those connected through add-ons during archiving will result in archiving failure and loss of your registration timestamp. Please do not modify your files until after you have received email confirmation of archiving completion. If this registration has been archiving for more than 72 hours, please email <a href="mailto:support@osf.io">support@osf.io</a> for assistance.</li><li>The content and version history of Wiki and OSF Storage will be copied to the registration.</li><li>This project may contain links to other projects. These links will be copied into your registration, but the projects that they link to will not be registered. If you wish to register the linked projects, they must be registered separately. <a href="{learnMoreLink}" target="_blank" rel="noopener noreferrer">Learn more about links</a>.</li><li>Registrations are archived on Internet Archive and a link to the archived copy will be added to the registration metadata.</li></ul>'
+            withModerationFromProject: 'Remember:<ul><li>Registrations cannot be modified or deleted once submitted.</li><li>Changes to any files (1) in the projects or components being registered, (2) uploaded or selected as prompt responses, including those connected through add-ons during archiving will result in archiving failure and loss of your registration timestamp. Please do not modify your files until after you have received email confirmation of archiving completion. If this registration has been archiving for more than 72 hours, please email <a href="mailto:support@osf.io">support@osf.io</a> for assistance.</li><li>The content and version history of Wiki and OSF Storage will be copied to the registration.</li><li>This project may contain links to other projects. These links will be copied into your registration, but the projects that they link to will not be registered. If you wish to register the linked projects, they must be registered separately. <a href="{learnMoreLink}" target="_blank" rel="noopener noreferrer">Learn more about links</a>.</li><li>A moderator must review and approve your registration before it will be made public or embargoed.</li><li>Registrations are archived on Internet Archive and a link to the archived copy will be added to the registration metadata.</li></ul>'
+            noModerationNoProject: 'Remember:<ul><li>Registrations cannot be modified or deleted once submitted.</li><li>Changes to any files uploaded or selected as prompt responses will result in archiving failure and loss of your registration timestamp. If this registration has been archiving for more than 72 hours, email <a href="mailto:support@osf.io">support@osf.io</a> for assistance.</li><li>Registrations are archived on Internet Archive and a link to the archived copy will be added to the registration metadata.</li></ul>'
+            withModerationNoProject: 'Remember:<ul><li>Registrations cannot be modified or deleted once submitted.</li><li>Changes to any files uploaded or selected as prompt responses will result in archiving failure and loss of your registration timestamp. If this registration has been archiving for more than 72 hours, email <a href="mailto:support@osf.io">support@osf.io</a> for assistance.</li><li>A moderator must review and approve your registration before it will be made public or embargoed.</li><li>Registrations are archived on Internet Archive and a link to the archived copy will be added to the registration metadata.</li></ul>'
         immediateOption: 'Make registration public immediately'
         embargoOption: 'Enter registration into embargo'
-        createDoi: 'Create DOI'
+
         submit: Submit
         back: Back
         datePlaceholder: 'Choose embargo end date'
+    revisedResponsesList:
+        noResponses: 'No responses updated'
     sharingIcons:
         label: 'Share this registration via {mediaType}'
     makeDecisionDropdown:
@@ -1418,6 +1574,10 @@ registries:
         acceptWithdrawalDescription: 'Registration will be withdrawn but still have a tombstone page with a justification for withdrawal and subset of the metadata available'
         rejectWithdrawal: 'Reject withdrawal'
         rejectWithdrawalDescription: 'Registration will remain fully public'
+        acceptRevision: 'Accept update'
+        acceptRevisionDescription: 'Update will be accepted and registration will be updated'
+        rejectRevision: 'Reject update'
+        rejectRevisionDescription: 'Update will be rejected and registration will remain unchanged'
         submit: 'Submit'
         success: 'Successfully submitted moderator decision.'
         failure: 'Failed to submit moderator decision.'
@@ -1431,6 +1591,36 @@ registries:
         noRegistrations: "You don't have any submitted registrations. Create one with the button below."
         noDrafts: "You don't have any draft registrations. Create one with the button below."
         createRegistration: 'Create a registration'
+    update_dropdown:
+        dropdown_title: 'Updates'
+        latest: 'Latest'
+        updates_list_label: 'Update {revisionNumber}'
+        updates_list_label_original: 'Original'
+        load_more: 'Load more'
+        revision_review_state: 'Revision Review State:'
+        initiated_by: 'Initiated by: '
+        date_modified: 'Date last modified: '
+        accept_updates: 'Accept Updates'
+        needs_more_updates: 'Needs More Updates'
+        revision_more_updates_success: 'Further updates requested of user.'
+        revision_approved_success: 'Updates successfully approved.'
+        no_revisions_error: 'Updates unavailable.'
+        revision_error_message: 'Unable to load updates.'
+        not_a_registration_error: 'That was not a registration.'
+        not_a_revision_error: 'That was not a revision.'
+        revision_state_not_set_error: 'Revision state not set.'
+        other_error: 'Some error occured. Please contact your adminstrator or moderator for further assistance.'
+        continue_update: 'Continue update'
+        review_update: 'Review update'
+    newUpdateModal:
+        modalHeader: 'Update your Registration'
+        modalHeaderNoUpdates: 'Updates not allowed'
+        modalBodyFirst: 'Updates to registration responses can be updated by clicking “Next”.<br>Edits to metadata including Description, Category, License, Publication DOI, and Tags are done on the registration by clicking the '
+        modalBodySecond: ' icon.'
+        modalBodyNoUpdates: '{registryName} does not allow updates.<br>Contact their registry if you have any questions.'
+        learnMore: 'Click <a href="https://help.osf.io/hc/en-us/articles/360035806634-Edit-Registration-Metadata" target="_blank">here</a>  to learn more.'
+        next: Next
+        cancel_update: 'Cancel update'
 meetings:
     index:
         meetings-list:
@@ -1580,6 +1770,7 @@ osf-components:
         tags: Tags
         add_tag: 'Add a tag to enhance discoverability'
         no_tags: 'No tags'
+        remove_tag: 'Remove tag'
     institutions-list:
         no_affiliated_institution:
             project: 'This project has no affiliated institutions'
@@ -1612,6 +1803,7 @@ osf-components:
         read-only-contributors-list:
             editContributorsOnYourProject: 'Edit contributors on your project'
         schema-block-renderer/label:
+            updated: 'Updated'
             showExample: 'Show example'
             hideExample: 'Hide example'
             editButtonAriaLabel: 'Edit {questionLabel}'
@@ -1660,6 +1852,7 @@ osf-components:
         collapseSideNav: 'Collapse registration form navigation'
     registries-top-nav:
         showRegistrationNavigation: 'Show registration form navigation'
+        justification: 'Return to justification'
         metadata: 'Return to metadata'
         previousPage: 'Previous page'
         nextPage: 'Next page'
@@ -1684,7 +1877,9 @@ osf-components:
             success: 'Contributor bibliographic status updated.'
             error: 'Error updating contributor bibliographic status.'
         reorderContributor:
+            reorderContributor: 'Reorder contributor'
             success: 'Contributor order updated.'
+            dragHandle: '⇕'
         noEducation: 'No education history to show'
         noEmployment: 'No employment history to show'
         addContributor:

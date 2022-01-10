@@ -34,6 +34,19 @@
                 {{#if @node.archiving}}
                     <span class='label label-primary'>{{t 'node_card.registration.statuses.archiving'}}</span> |
                 {{/if}}
+
+                {{#if (eq @node.revisionState 'unapproved')}}
+                    {{#unless @node.pendingRegistrationApproval}}
+                        <span class='label label-info'>{{t 'node_card.registration.statuses.revision_unapproved'}}</span> |
+                    {{/unless}}
+                {{else if (eq @node.revisionState 'in_progress')}}
+                    <span class='label label-info'>{{t 'node_card.registration.statuses.revision_in_progress'}}</span> |
+                {{else if (eq @node.revisionState 'pending_moderation')}}
+                    {{#if (not-eq @node.reviewsState 'pending')}}
+                        <span class='label label-info'>{{t 'node_card.registration.statuses.revision_pending_moderation'}}</span> |
+                    {{/if}}
+                {{/if}}
+
                 {{node-card/node-icon category=@node.category}}
                 <OsfLink
                     data-analytics-name='Title'
@@ -98,92 +111,97 @@
         {{#if @node}}
             <dl>
                 {{#if @node.isRegistration}}
-                    <div data-test-registration-template-name>
-                        <dt data-test-registration-template-label>
-                            {{t 'node_card.registration_template'}}
-                        </dt>
-                        <dd>
-                            {{@node.registrationSchema.name}}
-                        </dd>
-                    </div>
-                    <div data-test-registration-registry>
-                        <dt data-test-registration-registry-label>
-                            {{t 'node_card.registry'}}
-                        </dt>
-                        <dd data-test-registration-registry-name>
-                            {{@node.provider.name}}
-                        </dd>
-                    </div>
+                    <dt data-test-registration-template-label>
+                        {{t 'node_card.registration_template'}}
+                    </dt>
+                    <dd data-test-registration-template-name>
+                        {{@node.registrationSchema.name}}
+                    </dd><br />
+                    <dt data-test-registration-registry-label>
+                        {{t 'node_card.registry'}}
+                    </dt>
+                    <dd data-test-registration-registry-name>
+                        {{@node.provider.name}}
+                    </dd><br />
                 {{/if}}
-                <div data-test-created-timestamp>
-                    <dt data-test-created-timestamp-label>
-                        {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}}        
-                    </dt>
-                    <dd data-test-created-timestamp-value>
-                        {{moment @node.dateCreated}}
-                    </dd>
-                </div>
-                <div data-test-updated-timestamp>
-                    <dt data-test-updated-timestamp-label>
-                        {{t 'node_card.last_updated'}}        
-                    </dt>
-                    <dd data-test-updated-timestamp-value>
-                        {{moment @node.dateModified}}
-                    </dd>
-                </div>
-                <div data-test-contributors>
-                    <dt
-                        data-test-contributors-label
+                <dt data-test-created-timestamp-label>
+                    {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}}        
+                </dt>
+                <dd data-test-created-timestamp-value>
+                    {{moment @node.dateCreated}}
+                </dd><br />
+                <dt data-test-updated-timestamp-label>
+                    {{t 'node_card.last_updated'}}        
+                </dt>
+                <dd data-test-updated-timestamp-value>
+                    {{moment @node.dateModified}}
+                </dd><br />
+                <dt
+                    data-test-contributors-label
+                >
+                    {{t 'node_card.contributors'}}
+                </dt>
+                <dd>
+                    <ContributorList
+                        @model={{@node}}
+                        @shouldLinkUsers={{true}}
+                    />
+                </dd><br />
+                <dt
+                    data-test-description-label
+                >
+                    {{t 'node_card.description'}}
+                </dt>
+                <dd data-test-description local-class='NodeCard__description'>
+                    {{@node.description}}
+                </dd><br />
+                {{#if (and this.showTags @node.tags)}}
+                    <dt local-class='NodeCard__tags'
+                        data-test-tags-label
+
                     >
-                        {{t 'node_card.contributors'}}
+                        {{t 'node_card.tags'}}
                     </dt>
                     <dd>
-                        <ContributorList
-                            @model={{@node}}
-                            @shouldLinkUsers={{true}}
+                        <TagsWidget
+                            @taggable={{@node}}
+                            @inline={{true}}
                         />
                     </dd>
-                </div>
-                <div data-test-description>
-                    <dt
-                        data-test-description-label
-                    >
-                        {{t 'node_card.description'}}
-                    </dt>
-                    <dd local-class='NodeCard__description'>
-                        {{@node.description}}
-                    </dd>
-                </div>
-                {{#if (and this.showTags @node.tags)}}
-                    <div
-                        data-test-tags
-                        local-class='NodeCard__tags'
-                    >
-                        <dt
-                            data-test-tags-label
-
-                        >
-                            {{t 'node_card.tags'}}
-                        </dt>
-                        <dd>
-                            <TagsWidget
-                                @taggable={{@node}}
-                                @inline={{true}}
-                            />
-                        </dd>
-                    </div>
                 {{/if}}
             </dl>
-            <OsfLink
-                data-analytics-name='View registration'
-                data-test-view-button='{{@node.id}}'
-                @route='resolve-guid'
-                @models={{array @node.id}}
-            >
-                <Button>
-                    {{t 'node_card.view'}}
-                </Button>
-            </OsfLink>
+            <div local-class='MyRegistrationsButtons'>
+                <OsfLink
+                    local-class='NodeCard__link'
+                    data-analytics-name='View registration'
+                    data-test-view-button='{{@node.id}}'
+                    @route='resolve-guid'
+                    @models={{array @node.id}}
+                >
+                    {{t 'node_card.view_button'}}
+                </OsfLink>
+                {{#if this.latestSchemaResponse}}
+                    {{#if this.shouldShowViewChangesButton}}
+                        <OsfLink
+                            local-class='NodeCard__link'
+                            data-analytics-name='View changes'
+                            data-test-view-changes-button={{@node.id}}
+                            @route='registries.edit-revision.review'
+                            @models={{array this.latestSchemaResponse.id}}
+                        >
+                            {{t 'node_card.view_changes_button'}}
+                        </OsfLink>
+                    {{/if}}
+                {{/if}}
+                {{#if this.shouldShowUpdateButton}}
+                    <Button
+                        data-test-update-button={{@node.id}}
+                        {{on 'click' (fn (mut this.showNewUpdateModal) true)}}
+                    >
+                        {{t 'node_card.update_button'}}
+                    </Button>
+                {{/if}}
+            </div>
         {{else}}
             <ContentPlaceholders as |placeholder|>
                 <placeholder.text @lines={{2}} />
@@ -191,3 +209,10 @@
         {{/if}}
     </div>
 </div>
+{{#if @node.isRegistration}}
+    <Registries::NewUpdateModal
+        @isOpen={{this.showNewUpdateModal}}
+        @onClose={{fn (mut this.showNewUpdateModal) false}}
+        @registration={{@node}}
+    />
+{{/if}}

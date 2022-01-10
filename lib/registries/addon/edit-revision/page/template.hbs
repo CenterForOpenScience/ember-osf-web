@@ -1,0 +1,25 @@
+{{page-title (t 'registries.drafts.draft.form.title')}}
+
+{{#let
+    this.revisionManager
+    this.navigationManager
+    as |revisionManager navManager|
+}}
+    {{#if revisionManager.initializing}}
+        <LoadingIndicator @dark={{true}} />
+    {{else}}
+        <main
+            {{did-insert this.checkRouteParams this.page}}
+            {{did-update this.checkRouteParams this.page}}
+        >
+            {{#if navManager.currentPageManager}}
+                <Registries::PageRenderer
+                    @revision={{revisionManager.revision}}
+                    @pageManager={{navManager.currentPageManager}}
+                    @onInput={{perform revisionManager.onPageInput navManager.currentPageManager}}
+                    @node={{this.revisionManager.registration}}
+                />
+            {{/if}}
+        </main>
+    {{/if}}
+{{/let}}

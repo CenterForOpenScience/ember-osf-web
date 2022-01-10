@@ -33,6 +33,7 @@ export default Factory.extend<MirageRegistrationProvider & RegistrationProviderT
         return `${faker.lorem.paragraph()} Find out <a href="https://help.osf.io/">more</a>.`;
     },
     allowSubmissions: true,
+    allowUpdates: true,
     brandedDiscoveryPage: true,
     assets: randomAssets(),
     reviewsWorkflow: 'pre-moderation',
@@ -41,7 +42,10 @@ export default Factory.extend<MirageRegistrationProvider & RegistrationProviderT
     afterCreate(provider, server) {
         provider.update({
             licensesAcceptable: [
-                server.create('license', { name: 'MIT License' }),
+                server.create('license', {
+                    name: 'Mozilla Public License 2.0',
+                    requiredFields: [],
+                }),
                 server.create('license', {
                     name: 'No license',
                     requiredFields: [

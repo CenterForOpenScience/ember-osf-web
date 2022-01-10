@@ -4,6 +4,84 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [21.11.0] - 2021-12-21
+### Changed
+- Misc a11y and bug fixes
+- Added new error types for registration bulk upload
+
+## [21.10.0] - 2021-11-30
+### Added
+- Registration versioning
+
+## [21.9.0] - 2021-11-08
+### Changed
+- Misc a11y fixes
+- Removed RIDIE from registries dashboard
+- Replace help guide link on project registrations tab
+- Hide link to wiki on Registration overview page if registration has wiki disabled
+- Remove registration templates that are only for community oriented registries from the Registries Discover page registration-type facet
+- Fix registration overview page subjects search
+
+## [21.8.0] - 2021-10-04
+### Added
+- bulk upload component `Branded::Moderation::-Components::UploadCsv`
+- `registries.branded.moderation.settings` route
+
+### Changed
+- bump ember-template-lint
+
+### Remove
+- `registries.branded.moderation.notifications` route (now under `registries.branded.moderation.settings`)
+
+## [21.7.0] - 2021-09-14
+### Fixed
+- A11y: Draft Registration Metadata Page - Critical WCAG 2A Rule Violations - Third Party Libraries
+- A11y: Draft Registration Metadata Page - Serious WCAG 2AA Rule Violation
+- autosave failed message for draft registrations page
+- ensure users are properly logged out when using Log Out link from User Dropdown menu
+- clicking "Leave this view" on the VOL of Registration doesn't clear VOL hash from url
+
+### Added
+- collection provider description on provider's discover page
+- sorting meeting submissions by download count
+- add data test locators to elements on My Registrations Page
+
+### Removed
+- Feedback button on quickfiles page
+
+### Changed
+- (IA/IMLS) update registration creation modal language
+- (IA/IMLS) update registration completion modal language
+
+## [21.6.3] - 2021-07-09
+### Fixed
+- [hotfix] Do not serialize empty node-license
+
+## [21.6.2] - 2021-07-02
+### Fixed
+- [hotfix] draft-registration's node-license validations
+
+### Removed
+- node-license year validator (issues with multiple validator assigned to same value path)
+
+## [21.6.1] - 2021-06-29
+### Fixed
+- Fix missing save/cancel buttons on the registration's license/node-license editable field
+
+## [21.6.0] - 2021-06-28
+### Changed
+- Upgraded ember-* to v3.26 (https://github.com/CenterForOpenScience/ember-osf-web/pull/1203)
+
+## [21.5.1] - 2021-06-21
+### Added
+- Character Lab: Add new fields for Character Lab ( Study Design and School Type) on Collections Discover page and Collection Submission page. Users should be able to filter by these new fields and see them visible on Collection search cards on the discover page
+
+### Fixed
+- Keen analytics: Don't load keen twice on load
+
+### Changed
+- Character Lab: Allow moderators to add new registrations when `allowSubmissions` is `false`
+
 ## [21.5.0] - 2021-05-27
 ### Fixed
 - registration Detail Page: longer license types spill out of bounds
@@ -1741,7 +1819,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
-[Unreleased]: https://github.com/CenterForOpenScience/ember-osf-web/compare/21.5.0...develop
+[21.11.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.11.0
+[21.10.2]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.10.2
+[21.10.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.10.1
+[21.10.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.10.0
+[21.9.2]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.9.2
+[21.9.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.9.1
+[21.9.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.9.0
+[21.8.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.8.0
+[21.7.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.7.0
+[21.6.3]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.6.3
+[21.6.2]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.6.2
+[21.6.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.6.1
+[21.6.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.6.0
+[21.5.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.5.1
 [21.5.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.5.0
 [21.4.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.4.1
 [21.4.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.4.0

@@ -168,6 +168,7 @@
                 <dropdown.toggle
                     data-analytics-name='Toggle'
                     local-class='Dropdown'
+                    aria-label={{t 'auth_dropdown.toggle_auth_dropdown'}}
                 >
                     {{#if this.session.isAuthenticated}}
                         <img
@@ -275,7 +276,7 @@
                                 data-test-ad-logout
                                 data-analytics-name='Logout'
                                 @type='link'
-                                @onClick={{action 'logout'}}
+                                @onClick={{action this.currentUser.logout}}
                             >
                                 <FaIcon @icon='sign-out-alt' @fixedWidth={{true}} />
                                 {{t 'auth_dropdown.log_out'}}

@@ -1,6 +1,8 @@
-{{title (t 'registries.my_registrations.header')}}
+{{page-title (t 'registries.my_registrations.header')}}
 
-<RegistriesWrapper>
+<RegistriesWrapper
+    data-analytics-scope='My Registrations page'
+>
     <OsfLayout @backgroundClass={{local-class 'ContentBackground'}} as |layout|>
         <layout.heading>
             <HeroOverlay @align='left'>
@@ -13,30 +15,47 @@
         </layout.heading>
         <layout.main>
             {{#if this.currentUser.user}}
-                <BsTab
+                <AriaTabs
                     local-class='NavTabs'
-                    @onChange={{this.changeTab}} 
-                    @activeId={{this.tab}}
+                    @onSelect={{this.changeTab}} 
+                    @defaultIndex={{if (eq this.tab 'submitted') 1 0}}
                     as |tab|
                 >
-                    <div local-class='SortDescription'>
+                    <tab.tabList
+                        as |nav|
+                    >
+                        <nav.tab
+                            data-test-my-registrations-nav='drafts'
+                            local-class='NavItem'
+                        >
+                            {{t 'registries.my_registrations.drafts'}}
+                        </nav.tab>
+                        <nav.tab
+                            data-test-my-registrations-nav='submitted'
+                            local-class='NavItem'
+                        >
+                            {{t 'registries.my_registrations.submitted'}}
+                        </nav.tab>
+                    </tab.tabList>
+                    <div
+                        data-test-my-registrations-sort-description
+                        local-class='SortDescription'
+                    >
                         {{t 'registries.my_registrations.sorted'}}
                     </div>
-                    <tab.pane
-                        local-class='Tab'
-                        @title={{t 'registries.my_registrations.drafts'}}
-                        @id='drafts'
+                    <tab.tabPanel
+                        data-test-my-registrations-pane='drafts'
+                        local-class='TabPane'
                     >
                         <Registries::MyRegistrationsList::Drafts />
-                    </tab.pane>
-                    <tab.pane
-                        local-class='Tab'
-                        @title={{t 'registries.my_registrations.submitted'}}
-                        @id='submitted'
+                    </tab.tabPanel>
+                    <tab.tabPanel
+                        data-test-my-registrations-pane='submitted'
+                        local-class='TabPane'
                     >
                         <Registries::MyRegistrationsList::Registrations @user={{this.currentUser.user}} />
-                    </tab.pane>
-                </BsTab>
+                    </tab.tabPanel>
+                </AriaTabs>
             {{/if}}
         </layout.main>
     </OsfLayout>

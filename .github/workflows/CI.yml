@@ -161,54 +161,20 @@ jobs:
         PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
       timeout-minutes: 10
 
-  # Coverage disabled while these are worked out:
-  # https://github.com/babel/ember-cli-babel/issues/350
-  # https://github.com/ember-cli/babel-plugin-ember-modules-api-polyfill/issues/112
-  # test-with-coverage:
-  #   runs-on: ubuntu-latest
-  #   timeout-minutes: 10
-  #   needs: build
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #   - uses: volta-cli/action@v1
-  #   - uses: actions/download-artifact@v2
-  #     with:
-  #       name: dist
-  #       path: ./dist
-  #   - id: cache-node-modules
-  #     uses: actions/cache@v2
-  #     with:
-  #       path: ./node_modules
-  #       key: cached_node_modules_${{ secrets.CACHE_VERSION }}_${{ hashFiles('**/yarn.lock') }}
-  #       restore-keys: cached_node_modules_${{ secrets.CACHE_VERSION }}_
-  #   - run: yarn test:cover --path ./dist
-  #   - name: Save code coverage artifact
-  #     uses: actions/upload-artifact@v2
-  #     with:
-  #       name: coverage-info
-  #       path: ./coverage/lcov.info
-  #
-  # send-coverage:
-  #   runs-on: ubuntu-latest
-  #   timeout-minutes: 10
-  #   needs: test
-  #   steps:
-  #   - uses: volta-cli/action@v1
-  #   - uses: actions/download-artifact@v2
-  #     with:
-  #       name: coverage-info
-  #       path: ./lcov.info
-  #   - uses: actions/cache@v2
-  #     with:
-  #       path: ./node_modules
-  #       key: cached_node_modules_${{ secrets.CACHE_VERSION }}_${{ hashFiles('**/yarn.lock') }}
-  #       restore-keys: cached_node_modules_${{ secrets.CACHE_VERSION }}_
-  #   - name: Generate coverage report
-  #     env:
-  #       COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-  #     run: yarn coveralls
-  #
-  #   - name: Send coverage report to coveralls
-  #     uses: coverallsapp/github-action@master
-  #     with:
-  #       github-token: ${{ secrets.GITHUB_TOKEN }}
+  test-with-coverage:
+    needs: fetch-dependencies
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: volta-cli/action@v1
+    - id: cache-node-modules
+      uses: actions/cache@v2
+      with:
+        path: ./node_modules
+        key: cached_node_modules_${{ secrets.CACHE_VERSION }}_${{ hashFiles('**/yarn.lock') }}
+        restore-keys: cached_node_modules_${{ secrets.CACHE_VERSION }}_
+    - run: yarn test:ember:cover
+    - name: Send coverage report to coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}

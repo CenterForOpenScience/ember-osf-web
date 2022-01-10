@@ -20,18 +20,19 @@
     text-decoration: underline;
 }
 
+.ServicesList__ExternalLink:hover {
+    color: $color-text-blue-light;
+    text-decoration: underline;
+}
+
 .ServicesList__ProviderLogo {
     height: 120px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
 
-    &.provider-ridie {
-        background-image: url('img/provider_logos/RIDIE.png');
-    }
-
     &.provider-egap {
-        background-image: url('img/provider_logos/EGAP_evidence_logo_white_0.jpg');
+        background-image: url('img/provider_logos/EGAP_evidence_logo_white_0.png');
     }
 
     &.provider-prereg {

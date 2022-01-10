@@ -5,6 +5,7 @@
 <div data-test-meetings-list-search local-class='search'>
     <div class='col-xs-12 col-sm-6 col-sm-offset-6'>
         <Input
+            aria-label={{t 'meetings.index.meetings-list.search'}}
             @type='text'
             @placeholder={{t 'meetings.index.meetings-list.search'}}
             @key-up={{perform this.searchMeetings}}
@@ -58,9 +59,9 @@
                     {{meeting.location}}
                 </div>
                 <div data-test-meetings-list-item-date>
-                    {{if meeting.startDate (moment-format meeting.startDate 'MMM DD, YYYY')}}
+                    {{if meeting.startDate (moment-format meeting.startDate 'MMM DD, YYYY' timeZone='Europe/London')}}
                     {{if (or meeting.startDate meeting.endDate) ' - '}}
-                    {{if meeting.endDate (moment-format meeting.endDate 'MMM DD, YYYY')}}
+                    {{if meeting.endDate (moment-format meeting.endDate 'MMM DD, YYYY' timeZone='Europe/London')}}
                 </div>
             {{else}}
                 <div data-test-meetings-list-placeholder-name>

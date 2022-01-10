@@ -3,7 +3,7 @@
 {{else}}
     <ul local-class='Subjects' data-analytics-scope='Display'>
         {{#each @subjects as |subject|}}
-            <li local-class='Subject'>
+            <li data-test-selected-subject={{subject.text}} local-class='Subject'>
                 {{subject.text}}
 
                 {{#if @removeSubject}}
@@ -21,9 +21,9 @@
                 {{/if}}
             </li>
         {{else}}
-            <span local-class='Placeholder'>
+            <li data-test-selected-subject-placeholder local-class='Placeholder'>
                 {{t 'osf-components.subjects.display.placeholder'}}
-            </span>
+            </li>
         {{/each}}
     </ul>
 {{/if}}

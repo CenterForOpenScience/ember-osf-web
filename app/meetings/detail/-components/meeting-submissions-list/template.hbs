@@ -4,6 +4,7 @@
             @type='text'
             @placeholder={{t 'meetings.index.meetings-list.search'}}
             @key-up={{perform this.searchSubmissions}}
+            aria-label={{t 'meetings.index.meetings-list.search'}}
         />
     </div>
 </div>
@@ -41,6 +42,7 @@
                 </div>
                 <div data-test-submissions-list-header-download local-class='HeaderNarrow'>
                     {{t 'meetings.detail.meeting-submissions-list.downloads'}}
+                    <SortButton @sortBy='download_count' />
                 </div>
             {{/let}}
         </list.header>
@@ -63,6 +65,7 @@
                 <div data-test-submissions-list-item-download>
                     {{#if submission.links.download}}
                         <BsButton
+                            aria-label={{t 'general.download'}}
                             @type='success'
                             class='btn-xs'
                             @onClick={{action this.downloadFile submission}}

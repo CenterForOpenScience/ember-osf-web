@@ -1,0 +1,32 @@
+{{assert 'Registries::RevisionJustificationRenderer::LabelDisplay requires a revision' @revision}}
+{{assert 'Registries::RevisionJustificationRenderer::LabelDisplay requires a field' @field}}
+{{assert 'Registries::RevisionJustificationRenderer::LabelDisplay requires a changeset' @changeset}}
+<p local-class='DisplayText' data-test-review-label={{@field}} id={{@field}}>
+    {{t (concat 'registries.edit_revision.' @field)}}
+    {{#if @showEditButton}}
+        <OsfLink
+            data-test-edit-button
+            aria-label={{t 'registries.registration_metadata.edit_field' field=(if @fieldText @fieldText @field)}}
+            @route='registries.edit-revision.justification'
+            @models={{array @revision.id }}
+            @fragment={{@field}}
+        >
+            <FaIcon @icon='edit' />
+        </OsfLink>
+    {{/if}}
+</p>
+<p
+    data-test-review-response={{@field}}
+    local-class='ResponseValue'
+    ...attributes
+>
+    {{~yield~}}
+</p>
+{{#unless @hideError}}
+    <ValidationErrors
+        local-class='ValidationErrors'
+        @changeset={{@changeset}}
+        @key={{@field}}
+        @errors={{@errors}}
+    />
+{{/unless}}

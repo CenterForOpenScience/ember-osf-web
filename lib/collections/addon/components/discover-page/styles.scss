@@ -82,3 +82,104 @@
     height: 140px;
     background-position-x: right;
 }
+
+.ProviderDescription {
+    position: relative;
+    margin: 0 65px;
+    padding-top: 10px;
+
+    :global(.ColorBlack) {
+        color: $color-text-black;
+    }
+
+    :global(.ColorPureBlack) {
+        color: $color-black;
+    }
+
+    :global(.ColorBlue) {
+        color: $color-blue;
+    }
+
+    :global(.ColorPureBlue) {
+        color: $color-pure-blue;
+    }
+
+    :global(.ColorGrey) {
+        color: $color-text-gray;
+    }
+
+    :global(.ColorRed) {
+        color: $color-red;
+    }
+
+    :global(.ColorGreen) {
+        color: $color-green;
+    }
+
+    :global(.ColorYellow) {
+        color: $color-yellow;
+    }
+
+    :global(.ColorTurquoise) {
+        color: $color-turquoise;
+    }
+
+    :global(.ColorPurple) {
+        color: $color-purple;
+    }
+
+    :global(.LinkColorBlack) {
+        a {
+            color: $color-link-black;
+        }
+    }
+
+    :global(.LinkColorBlue) {
+        a {
+            color: $color-link-blue;
+        }
+    }
+
+    :global(.LinkColorPureBlue) {
+        a {
+            color: $color-pure-blue;
+        }
+    }
+
+    :global(.LinkColorGrey) {
+        a {
+            color: $color-grey;
+        }
+    }
+
+    :global(.LinkColorRed) {
+        a {
+            color: $color-red;
+        }
+    }
+
+    :global(.LinkColorGreen) {
+        a {
+            color: $color-green;
+        }
+    }
+
+    :global(.LinkColorYellow) {
+        a {
+            color: $color-yellow;
+        }
+    }
+
+    :global(.LinkColorTurquoise) {
+        a {
+            color: $color-turquoise;
+        }
+    }
+
+    :global(.LinkColorPurple) {
+        a {
+            color: $color-purple;
+        }
+    }
+
+}

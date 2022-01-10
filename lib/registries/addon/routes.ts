@@ -7,9 +7,10 @@ export default buildRoutes(function() {
         this.route('discover');
         this.route('new');
         this.route('moderation', function() {
-            this.route('submissions');
+            this.route('submitted');
+            this.route('pending');
             this.route('moderators');
-            this.route('notifications');
+            this.route('settings');
         });
     });
 
@@ -28,6 +29,12 @@ export default buildRoutes(function() {
         });
     });
 
+    this.route('edit-revision', { path: '/registries/revisions/:revisionId' }, function() {
+        this.route('justification');
+        this.route('page', { path: '/:page' });
+        this.route('review');
+    });
+
     this.route('overview', { path: '/:guid' } as any, function() {
         this.route('analytics');
         this.route('children', { path: '/components' });
@@ -35,6 +42,7 @@ export default buildRoutes(function() {
         this.route('forks');
         this.route('links');
     });
+
 
     this.route('page-not-found', { path: '/*path' });
 });

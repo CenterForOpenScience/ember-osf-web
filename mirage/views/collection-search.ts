@@ -16,6 +16,8 @@ export function searchCollections(this: HandlerContext, schema: Schema, request:
                 programArea,
                 status,
                 volume,
+                schoolType,
+                studyDesign,
             },
         },
     } = JSON.parse(request.requestBody);
@@ -49,6 +51,20 @@ export function searchCollections(this: HandlerContext, schema: Schema, request:
     if (volume) {
         collectedMetadata = collectedMetadata.filter(
             (item: ModelInstance<CollectedMetadatum>) => volume.any((value: string) => item.attrs.volume === value),
+        );
+    }
+    if (schoolType) {
+        collectedMetadata = collectedMetadata.filter(
+            (item: ModelInstance<CollectedMetadatum>) => schoolType.any(
+                (value: string) => item.attrs.schoolType === value,
+            ),
+        );
+    }
+    if (studyDesign) {
+        collectedMetadata = collectedMetadata.filter(
+            (item: ModelInstance<CollectedMetadatum>) => studyDesign.any(
+                (value: string) => item.attrs.studyDesign === value,
+            ),
         );
     }
     if (request.queryParams.sort) {

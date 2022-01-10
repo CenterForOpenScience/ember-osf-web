@@ -52,6 +52,10 @@
                     class='input-group input-group-lg'
                 >
                     <Input
+                        aria-label={{t
+                            (or this.searchPlaceholder 'collections.discover_page.searchPlaceholder')
+                            documentType=this.themeProvider.documentType
+                        }}
                         @id='searchBox'
                         @value={{this.q}}
                         @class='form-control'
@@ -93,7 +97,13 @@
                 {{/unless}}
             </div>
         </div>
-
+        {{#if (and this.theme.isProvider this.theme.provider.htmlSafeDescription)}}
+            <div local-class='ProviderDescription' class='row m-t-md m-b-lg'>
+                <div data-test-provider-description class='col-xs-12 col-sm-8 col-sm-offset-2'>
+                    {{this.theme.provider.htmlSafeDescription}}
+                </div>
+            </div>
+        {{/if}}
         <div class='row p-v-sm'>
             <div class='col-sm-6 pull-right'>
                 <BsDropdown class='dropdown pull-right' as |dd|>
@@ -105,7 +115,6 @@
                         {{this.sortDisplay}}
                         <span
                             class='caret'
-                            aria-label={{t 'collections.discover_page.sortSearchResults'}}
                             >
                         </span>
                     </dd.button>
@@ -196,14 +205,14 @@
                         {{!PROBLEM WITH SEARCH QUERY}}
                         <QuerySyntax @message={{this.queryError}} />
                     {{else if this.serverError}}
-                        <div class='text-muted text-center'>
+                        <div class='text-center'>
                             <p class='lead'>
                                 {{t 'collections.discover_page.searchUnavailable'}}
                             </p>
                         </div>
                     {{else}}
                         {{!NO RESULTS FOUND}}
-                        <div class='text-muted text-center'>
+                        <div class='text-center'>
                             <p class='lead'>
                                 {{t 'collections.discover_page.noResultsFound'}}
                             </p>

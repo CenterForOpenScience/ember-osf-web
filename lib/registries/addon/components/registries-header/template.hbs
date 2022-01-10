@@ -33,6 +33,7 @@
                 <label local-class='SearchForm__HiddenLabel' for='search'>{{t 'registries.header.search_label'}}</label>
                 <Input
                     data-test-search-box={{true}}
+                    aria-label={{t 'registries.header.search_label'}}
                     id='search'
                     @value={{this.value}}
                     @class='form-control'

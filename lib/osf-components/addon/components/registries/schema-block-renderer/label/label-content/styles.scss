@@ -9,6 +9,10 @@
     margin-left: 0.25em;
 }
 
+.Updated {
+    background-color: $brand-warning;
+    padding: 2px 10px;
+}
 
 .HelpText {
     composes: Element from '../../styles';

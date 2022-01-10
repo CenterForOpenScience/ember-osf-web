@@ -79,7 +79,7 @@ export default class CurrentUserService extends Service {
 
     constructor(...args: any[]) {
         super(...args);
-        this.session.on('invalidationSucceeded', this, this.logout);
+        this.session.on('invalidationSucceeded', this, this._authRedirect.bind(this, AuthRoute.Logout, '/'));
     }
 
     /**
@@ -92,14 +92,12 @@ export default class CurrentUserService extends Service {
     }
 
     /**
-     * Invalidate the current session and cookie, then redirect to the given URL (or back to the current page).
-     * Returns a promise that never resolves.
+     * Invalidate the current session and cookie
      */
-    async logout(nextUrl?: string) {
+    async logout() {
         if (this.session.isAuthenticated) {
             await this.session.invalidate();
         }
-        return this._authRedirect(AuthRoute.Logout, nextUrl);
     }
 
     _authRedirect(authRoute: AuthRoute, nextUrl?: string) {

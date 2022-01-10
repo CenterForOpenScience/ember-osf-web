@@ -1,0 +1,50 @@
+<OsfDialog
+    @isOpen={{@isOpen}}
+    @onClose={{@onClose}}
+    @closeOnOutsideClick={{true}}
+    as |dialog|
+>
+    <dialog.heading data-test-new-update-dialog-heading>
+        {{#if this.updatesAllowed}}
+            {{t 'registries.newUpdateModal.modalHeader'}}
+        {{else}}
+            {{t 'registries.newUpdateModal.modalHeaderNoUpdates'}}
+        {{/if}}
+    </dialog.heading>
+    <dialog.main data-test-new-update-dialog-main>
+        {{#if this.updatesAllowed}}
+            {{t 'registries.newUpdateModal.modalBodyFirst' htmlSafe=true}}
+            <FaIcon data-test-new-update-dialog-main-icon aria-hidden='false' aria-label={{t 'general.edit'}} @icon='pencil-alt' />
+            {{t 'registries.newUpdateModal.modalBodySecond' htmlSafe=true}}
+            {{t 'registries.newUpdateModal.learnMore' htmlSafe=true}}
+        {{else}}
+            {{t 'registries.newUpdateModal.modalBodyNoUpdates' registryName=this.providerName htmlSafe=true}}
+        {{/if}}
+    </dialog.main>
+    <dialog.footer>
+        {{#if this.updatesAllowed}}
+            <Button
+                data-test-new-update-dialog-footer-cancel
+                @type='secondary'
+                {{on 'click' @onClose}}
+            >
+                {{t 'general.cancel'}}
+            </Button>
+            <Button
+                data-test-new-update-dialog-footer-next
+                @type='primary'
+                {{on 'click' (perform this.createNewSchemaResponse)}}
+            >
+                {{t 'registries.newUpdateModal.next'}}
+            </Button>
+        {{else}}
+            <Button
+                data-test-new-update-dialog-footer-ok
+                @type='primary'
+                {{on 'click' @onClose}}
+            >
+                {{t 'general.ok'}}
+            </Button>
+        {{/if}}
+    </dialog.footer>
+</OsfDialog>

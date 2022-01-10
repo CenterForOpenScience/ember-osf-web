@@ -1,0 +1,70 @@
+{{#let (unique-id 'upload-csv-dropzone') as |id|}}
+    <DropzoneWidget
+        @buildUrl={{this.buildUrl}}
+        @options={{this.dropzoneOptions}}
+        @dropzone={{false}}
+        @addedfile={{this.addedFile}}
+        @success={{this.success}}
+        @error={{this.error}}
+        @dragenter={{fn (mut this.dropping) true}}
+        @dragover={{fn (mut this.dropping) true}}
+        @drop={{fn (mut this.dropping) false}}
+        @dragleave={{fn (mut this.dropping) false}}
+        @enable={{true}}
+        @id={{id}}
+        @clickable={{array 
+            (concat '.' (local-class 'upload-zone'))
+        }}
+        data-test-bulk-upload-widget
+    >
+        <div local-class='upload-zone'>
+            <div local-class='upload-zone-content'>
+                <FaIcon @icon='upload' @size='5x' />
+                <div 
+                    local-class='file-placeholder-text'
+                >
+                    {{t 'registries.moderation.settings.dropCsvHere'}}
+                </div>
+            </div>
+        </div>
+    </DropzoneWidget>
+{{/let}}
+
+{{#let (unique-id 'main-content') as |id|}}
+    <OsfDialog
+        @isOpen={{this.shouldShowErrorModal}}
+        @onClose={{this.closeErrorModal}}
+        as |dialog|
+    >
+        <dialog.heading data-test-error-modal-heading>
+            {{t 'registries.moderation.settings.uploadError'}}
+        </dialog.heading>
+        <dialog.main id={{id}} data-test-error-modal-main>
+            <div data-test-error-modal-general-message>
+                <p>{{t 'registries.moderation.settings.generalErrorMessage' htmlSafe=true}}</p>
+            </div>
+
+            <dl data-test-error-modal-message-list>
+                {{#each this.errorMessages as |msg|}}
+                    <p>
+                        {{#if msg.cell}}
+                            <dt data-test-error-modal-cell-identifier>{{t 'registries.moderation.settings.cell'}} {{msg.cell}}</dt>
+                        {{/if}}
+                        <dt data-test-error-modal-message-title>{{msg.title}}</dt>
+                        <dd data-test-error-modal-message-detail>{{msg.detail}}</dd>
+                    </p>
+                {{/each}}
+            </dl>
+        </dialog.main>
+        <dialog.footer>
+            <BsButton
+                data-test-copy-to-clipboard
+                data-analytics-name='Copy error messages to clipboard'
+                @type='primary'
+                {{on 'click' (fn this.copyToClipboard id)}}
+            >
+                {{t 'registries.moderation.settings.copyToClipboard'}}
+            </BsButton>
+        </dialog.footer>
+    </OsfDialog>
+{{/let}}

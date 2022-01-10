@@ -1,3 +1,4 @@
+import { setOwner } from '@ember/application';
 import { action, computed, set } from '@ember/object';
 import { dependentKeyCompat } from '@ember/object/compat';
 import { alias, filterBy, not, notEmpty, or } from '@ember/object/computed';
@@ -24,6 +25,7 @@ import {
     RegistrationResponse,
 } from 'ember-osf-web/packages/registration-schema';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
+import RouterService from '@ember/routing/router-service';
 
 type LoadDraftModelTask = TaskInstance<{
     draftRegistration: DraftRegistration,
@@ -37,6 +39,7 @@ export default class DraftRegistrationManager {
     // Private
     @service intl!: Intl;
     @service toast!: Toast;
+    @service router!: RouterService;
 
     currentPage!: number;
     registrationResponses!: RegistrationResponse;
@@ -70,16 +73,18 @@ export default class DraftRegistrationManager {
         return this.metadataChangeset.isValid;
     }
 
-    @computed('onPageInput.lastComplete')
+    @computed('onPageInput.lastComplete', 'updateDraftRegistrationAndSave.lastComplete')
     get lastSaveFailed() {
         const onPageInputLastComplete = taskFor(this.onPageInput).lastComplete;
+        const updateDraftRegAndSaveLastComplete = taskFor(this.updateDraftRegistrationAndSave).lastComplete;
         const pageInputFailed = onPageInputLastComplete ? onPageInputLastComplete.isError : false;
-        const metadataInputFailed = onPageInputLastComplete
-            ? onPageInputLastComplete.isError : false;
-        return pageInputFailed || metadataInputFailed;
+        const updateDraftRegAndSaveFailed = updateDraftRegAndSaveLastComplete
+            ? updateDraftRegAndSaveLastComplete.isError : false;
+        return pageInputFailed || updateDraftRegAndSaveFailed;
     }
 
-    constructor(draftRegistrationTask: LoadDraftModelTask) {
+    constructor(owner: any, draftRegistrationTask: LoadDraftModelTask) {
+        setOwner(this, owner);
         set(this, 'draftRegistrationTask', draftRegistrationTask);
         taskFor(this.initializePageManagers).perform();
         taskFor(this.initializeMetadataChangeset).perform();
@@ -136,6 +141,9 @@ export default class DraftRegistrationManager {
         const { draftRegistration, provider } = await this.draftRegistrationTask;
         set(this, 'draftRegistration', draftRegistration);
         set(this, 'provider', provider);
+        if (!draftRegistration || !provider) {
+            return this.router.transitionTo('registries.page-not-found', window.location.href.slice(-1));
+        }
         try {
             const node = await this.draftRegistration.branchedFrom;
             set(this, 'node', node);
@@ -166,6 +174,9 @@ export default class DraftRegistrationManager {
     @waitFor
     async initializeMetadataChangeset() {
         const { draftRegistration } = await this.draftRegistrationTask;
+        if (!draftRegistration) {
+            return this.router.transitionTo('registries.page-not-found', window.location.href.slice(-1));
+        }
         const metadataValidations = buildMetadataValidations();
         const metadataChangeset = buildChangeset(draftRegistration, metadataValidations);
         set(this, 'metadataChangeset', metadataChangeset);
@@ -174,8 +185,14 @@ export default class DraftRegistrationManager {
     @restartableTask
     @waitFor
     async onMetadataInput() {
-        await timeout(5000); // debounce
-        this.updateMetadataChangeset();
+        await timeout(3000); // debounce
+        await taskFor(this.updateDraftRegistrationAndSave).perform();
+    }
+
+    @restartableTask
+    @waitFor
+    async updateDraftRegistrationAndSave() {
+        this.copyMetadataChangesToDraft();
         try {
             await this.draftRegistration.save();
         } catch (e) {
@@ -183,6 +200,19 @@ export default class DraftRegistrationManager {
             captureException(e, { errorMessage });
             this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
+        }
+    }
+
+    @task
+    @waitFor
+    async deleteDraft() {
+        try {
+            await this.draftRegistration.destroyRecord();
+            this.router.transitionTo('registries.my-registrations');
+        } catch (e) {
+            const errorMessage = this.intl.t('registries.drafts.draft.delete_modal.delete_error');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
         }
     }
 
@@ -219,7 +249,7 @@ export default class DraftRegistrationManager {
             });
     }
 
-    updateMetadataChangeset() {
+    copyMetadataChangesToDraft() {
         const { metadataChangeset, draftRegistration } = this;
         Object.values(DraftMetadataProperties).forEach(metadataKey => {
             set(

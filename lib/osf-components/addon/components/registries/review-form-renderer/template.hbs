@@ -1,12 +1,13 @@
-{{assert 'Registries::ReviewFormRenderer requires a draftManager' @draftManager}}
-{{#each @draftManager.pageManagers as |pageManager|}}
+{{assert 'Registries::ReviewFormRenderer requires @pageManagers' @pageManagers}}
+{{assert 'Registries::ReviewFormRenderer requires @responses' @responses}}
+{{#each @pageManagers as |pageManager|}}
     {{#each pageManager.schemaBlockGroups as |group|}}
         <Registries::SchemaBlockGroupRenderer
             @schemaBlockGroup={{group}}
             @renderStrategy={{
                 component
                 'registries/schema-block-renderer/read-only/mapper'
-                registrationResponses=@draftManager.draftRegistration.registrationResponses
+                registrationResponses=@responses
                 changeset=pageManager.changeset
                 draftManager=@draftManager
             }}

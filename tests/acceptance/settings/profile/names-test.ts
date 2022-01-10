@@ -88,6 +88,7 @@ module('Acceptance | settings | profile | name', hooks => {
         assert.equal(user.givenName, 'Maggs');
     });
 
+    // skip: unskip after reworking validated-input after
     test('validation works', async assert => {
         const givenName = 'Peggy';
         const middleNames = 'Herbert Gavin';

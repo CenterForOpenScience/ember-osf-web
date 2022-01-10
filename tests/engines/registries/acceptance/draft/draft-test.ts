@@ -22,7 +22,7 @@ import { module, test } from 'qunit';
 
 import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
-import { visit } from 'ember-osf-web/tests/helpers';
+import { getHrefAttribute, visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 import { deserializeResponseKey } from 'ember-osf-web/transforms/registration-response-key';
 import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
@@ -30,10 +30,6 @@ import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
 const currentUserStub = Service.extend();
 const storeStub = Service.extend();
 const analyticsStub = Service.extend();
-
-function getHrefAttribute(selector: string) {
-    return document.querySelector(selector)!.getAttribute('href');
-}
 
 interface DraftFormTestContext extends TestContext {
     branchedFrom: ModelInstance<NodeModel>;
@@ -69,6 +65,27 @@ module('Registries | Acceptance | draft form', hooks => {
         await percySnapshot('Branded draft page');
     });
 
+    test('it redirects page-not-found for non-contributors', async function(
+        this: DraftFormTestContext, assert,
+    ) {
+        server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const draft = server.create(
+            'draft-registration', {
+                registrationSchema,
+                branchedFrom: this.branchedFrom,
+            },
+        );
+
+        server.namespace = '/v2';
+        server.get('/draft_registrations/:draftId', () => ({
+            errors: [{ detail: 'Non-contributor denied access to draft' }],
+        }), 403);
+
+        await visit(`/registries/drafts/${draft.id}/`);
+        assert.equal(currentRouteName(), 'registries.page-not-found', 'At page not found');
+    });
+
     test('it redirects to review page of the draft form for read-only users', async function(
         this: DraftFormTestContext, assert,
     ) {
@@ -95,8 +112,10 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.ok(reviewNav!.classList.toString().includes('Active'), 'LeftNav: Review is active page');
 
         // check rightnav
-        assert.dom('[data-test-goto-register]').isDisabled('RightNav: Register button disabled');
+        assert.dom('[data-test-goto-register]').doesNotExist('RightNav: Register button not shown');
+        assert.dom('[data-test-nonadmin-warning-text]').exists('RightNav: Warning non-admins cannot register shown');
         assert.dom('[data-test-goto-previous-page]').doesNotExist('RightNav: Back button not shown');
+        assert.dom('[data-test-delete-button]').doesNotExist('RightNav: Delete button not shown');
 
         // check metadata and form renderer
         assert.dom('[data-test-edit-button]').doesNotExist('MetadataRenderer: Edit button not shown');
@@ -111,7 +130,8 @@ module('Registries | Acceptance | draft form', hooks => {
 
         assert.dom('[data-test-sidenav-toggle]').doesNotExist('Mobile view: sidenav toggle not shown');
         assert.dom('[data-test-goto-previous-page]').doesNotExist('Mobile view: previous page button not shown');
-        assert.dom('[data-test-goto-register]').isDisabled('Mobile view: Register button disabled');
+        assert.dom('[data-test-nonadmin-warning-text]').exists('Mobile view: Warning non-admins cannot register shown');
+        assert.dom('[data-test-goto-register]').doesNotExist('Mobile view: Register button does not exist');
 
         await percySnapshot('Read-only Review page: Mobile');
     });
@@ -149,6 +169,27 @@ module('Registries | Acceptance | draft form', hooks => {
         await visit(`/registries/drafts/${registration.id}/99/`);
 
         assert.equal(currentRouteName(), 'registries.page-not-found', 'At page not found');
+    });
+
+    test('delete draft', async function(
+        this: DraftFormTestContext, assert,
+    ) {
+        const initiator = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const registration = server.create(
+            'draft-registration', {
+                registrationSchema,
+                initiator,
+                branchedFrom: this.branchedFrom,
+            },
+        );
+
+        await visit(`/registries/drafts/${registration.id}/`);
+
+        assert.equal(currentRouteName(), 'registries.drafts.draft.metadata', 'On metadata page');
+        await click('[data-test-delete-button]');
+        await click('[data-test-confirm-delete]');
+        assert.equal(currentRouteName(), 'registries.my-registrations', 'Reroutes to my-registrations');
     });
 
     test('left nav controls', async function(this: DraftFormTestContext, assert) {
@@ -309,6 +350,7 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-goto-review]').doesNotExist();
 
         assert.dom('[data-test-goto-register]').isVisible();
+        assert.dom('[data-test-nonadmin-warning-text]').doesNotExist('Warning for non-admins not shown to admins');
         assert.dom('[data-test-goto-previous-page]').isVisible();
 
         // Can navigate back to the last page from review page
@@ -367,6 +409,7 @@ module('Registries | Acceptance | draft form', hooks => {
         await percySnapshot('Registries | Acceptance | draft form | mobile navigation | review page');
         assert.dom('[data-test-page-label]').containsText('Review');
         assert.dom('[data-test-goto-next-page]').isNotVisible();
+        assert.dom('[data-test-nonadmin-warning-text]').doesNotExist('Warning for non-admins not shown to admins');
         assert.dom('[data-test-goto-register]').isVisible();
 
         // check that register button is disabled
@@ -404,6 +447,7 @@ module('Registries | Acceptance | draft form', hooks => {
 
         assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/review`), 'At review page');
         assert.dom('[data-test-goto-register]').isDisabled();
+        assert.dom('[data-test-nonadmin-warning-text]').doesNotExist('Warning for non-admins not shown to admins');
         assert.dom('[data-test-invalid-responses-text]').isVisible();
     });
 
@@ -865,7 +909,7 @@ module('Registries | Acceptance | draft form', hooks => {
             .exists('error appears for unedited, required fields after returning to metadata page: license');
 
         // Choose a subject
-        await click('[data-test-subject="1"] > input');
+        await click('[data-test-subject-browse-label="1"] > input');
         assert.dom('[data-test-validation-errors="subjects"]')
             .doesNotExist('validation error for subjects gone when user makes a selection');
 
@@ -874,34 +918,42 @@ module('Registries | Acceptance | draft form', hooks => {
         await percySnapshot('Registries | Acceptance | draft form | metadata editing | metadata: licenses opened');
         assert.dom('[data-option-index="2"]').containsText('MIT License');
         await click('[data-option-index="2"]'); // This should be MIT License which requires Year and Copyright Holder
-        assert.dom('[data-test-required-field="nodeLicense.year"]')
+        assert.dom('[data-test-required-field="year"]')
             .hasValue(new Date().getUTCFullYear().toString(), 'License: Year autofills to current year');
-        assert.dom('[data-test-required-field="nodeLicense.copyrightHolders"]')
+        assert.dom('[data-test-required-field="copyrightHolders"]')
             .hasText('', 'License: CopyrightHolders does not autofill');
-        assert.dom('[data-test-validation-errors="nodeLicense.copyrightHolders"]').isVisible();
+        let missingFields = 'Copyright Holders';
+        let validationErrorMsg = t('validationErrors.node_license_missing_fields',
+            { missingFields, numOfFields: 1 }).toString();
+        assert.dom('[data-test-validation-errors="nodeLicense"]')
+            .containsText(validationErrorMsg, 'NodeLicense validation error when copyright holder is empty');
 
         // Input invalid Nodelicense fields
-        await fillIn('[data-test-required-field="nodeLicense.year"]', '');
-        await blur('[data-test-required-field="nodeLicense.year"]');
-        assert.dom('[data-test-validation-errors="nodeLicense.year"]').isVisible();
-        assert.dom('[data-test-validation-errors="nodeLicense.copyrightHolders"]').isVisible();
-        await percySnapshot('Registries | Acceptance | draft form | metadata editing | metadata: invalid nodelicense');
+        await fillIn('[data-test-required-field="year"]', '');
+        await blur('[data-test-required-field="year"]');
+        missingFields = 'Year, Copyright Holders';
+        validationErrorMsg = t('validationErrors.node_license_missing_fields',
+            { missingFields, numOfFields: 2 }).toString();
+        assert.dom('[data-test-validation-errors="nodeLicense"]')
+            .containsText(
+                validationErrorMsg,
+                'NodeLicense validation error when year and copyrightholder are empty',
+            );
+        await percySnapshot(
+            'Registries | Acceptance | draft form | metadata editing | metadata: invalid nodelicense',
+        );
 
         // validation errors for nodelicense should show on review page
         await click('[data-test-link="review"]');
-
-        assert.dom('[data-test-validation-errors="nodeLicense.year"]')
-            .exists('NodeLicense.year errors exist on Review page');
-        assert.dom('[data-test-validation-errors="nodeLicense.copyrightHolders"]')
-            .exists('NodeLicense.copyrightHolders errors exist on Review page');
+        assert.dom('[data-test-validation-errors="nodeLicense"]').exists('NodeLicense errors exist on Review page');
         await percySnapshot('Registries | Acceptance | draft form | metadata editing | review: invalid nodelicense');
 
         // Return to metadata page to address empty fields
         await click('[data-test-link="metadata"]');
 
-        await fillIn('[data-test-required-field="nodeLicense.year"]', '2222');
-        await fillIn('[data-test-required-field="nodeLicense.copyrightHolders"]', 'Twice and BlackPink');
-        assert.dom('[data-test-validation-errors="nodeLicense.year"]')
+        await fillIn('[data-test-required-field="year"]', '2222');
+        await fillIn('[data-test-required-field="copyrightHolders"]', 'Twice and BlackPink');
+        assert.dom('[data-test-validation-errors="year"]')
             .doesNotExist('NodeLicense validation errrors gone when year and license holders are filled in');
 
         // NodeLicense fields appear on review page
@@ -918,9 +970,9 @@ module('Registries | Acceptance | draft form', hooks => {
         await click('[data-test-select-license] > .ember-basic-dropdown-trigger');
         assert.dom('[data-option-index="1"]').containsText('General Public License');
         await click('[data-option-index="1"]'); // This should be General Public which does not require any fields
-        assert.dom('[data-test-required-field="nodeLicense.year"]')
+        assert.dom('[data-test-required-field="year"]')
             .doesNotExist('year field does not display on a license that does not require it');
-        assert.dom('[data-test-required-field="nodeLicense.copyrightHolders"]')
+        assert.dom('[data-test-required-field="copyrightHolders"]')
             .doesNotExist('copyright holders field does not display on a license that does not require it');
     });
 

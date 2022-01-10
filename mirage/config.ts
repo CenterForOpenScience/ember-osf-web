@@ -29,6 +29,8 @@ import {
     getProviderRegistrations,
     registrationDetail,
 } from './views/registration';
+import { createNewSchemaResponse } from './views/schema-response';
+import { createSchemaResponseAction } from './views/schema-response-action';
 import { rootDetail } from './views/root';
 import { shareSearch } from './views/share-search';
 import { createToken } from './views/token';
@@ -134,7 +136,7 @@ export default function(this: Server) {
     });
 
     osfResource(this, 'draft-registration', {
-        only: ['index', 'show', 'update'],
+        only: ['index', 'show', 'update', 'delete'],
         path: '/draft_registrations',
     });
     this.post('/draft_registrations', createDraftRegistration);
@@ -195,8 +197,14 @@ export default function(this: Server) {
     osfNestedResource(this, 'registration', 'comments', { only: ['index'] });
     this.get('/registrations/:guid/citation/:citationStyleID', getCitation);
     osfToManyRelationship(this, 'registration', 'subjects', {
-        only: ['related', 'self'],
+        only: ['related', 'self', 'update'],
     });
+
+    this.get('/registrations/:parentID/files', nodeFileProviderList); // registration file providers list
+    this.get('/registrations/:parentID/files/:fileProviderId',
+        nodeFilesListForProvider); // registration files list for file provider
+    this.get('/registrations/:parentID/files/:fileProviderId/:folderId',
+        folderFilesList); // registration folder detail view
     osfResource(this, 'subject', { only: ['show'] });
 
     osfNestedResource(this, 'comment', 'reports', {
@@ -212,6 +220,22 @@ export default function(this: Server) {
         defaultSortKey: 'index',
         defaultPageSize: 1000,
     });
+
+    osfResource(this, 'schema-response', {
+        path: '/schema_responses',
+        only: ['index', 'delete', 'show', 'update'],
+    });
+    this.post('/schema_responses', createNewSchemaResponse);
+    osfNestedResource(this, 'registration', 'schemaResponses', {
+        path: '/registrations/:parentID/schema_responses',
+        only: ['show', 'create', 'index'],
+    });
+    osfNestedResource(this, 'schema-response', 'actions', {
+        path: '/schema_responses/:parentID/actions',
+        only: ['show', 'index'],
+        relatedModelName: 'schema-response-action',
+    });
+    this.post('/schema_responses/:revisionId/actions', createSchemaResponseAction);
 
     osfResource(this, 'brand', { only: ['show'] });
 

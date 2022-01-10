@@ -2,6 +2,10 @@
 h3.RegistriesSearchResult__Title {
     line-height: inherit;
     margin-top: 10px;
+
+    :global(.label-default) {
+        background-color: $color-bg-gray-darker;
+    }
 }
 
 .RegistriesSearchResult__Sources {
@@ -38,7 +42,7 @@ h3.RegistriesSearchResult__Title {
         padding-right: 5px;
 
         &::after {
-            content: ', ';
+            content: ',';
         }
     }
 
