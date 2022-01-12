@@ -155,7 +155,7 @@
     "ember-concurrency": "^2.0.3",
     "ember-concurrency-async": "^1.0.0",
     "ember-concurrency-ts": "^0.2.2",
-    "ember-content-placeholders": "https://github.com/cos-forks/ember-content-placeholders#master#2018-07-19",
+    "ember-content-placeholders": "^1.0.0",
     "ember-cookies": "^0.4.0",
     "ember-cp-validations": "https://github.com/GavinJoyce/ember-cp-validations#gj/ember-3.13",
     "ember-css-modules": "^1.0.3",

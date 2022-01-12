@@ -8981,9 +8981,10 @@ ember-concurrency-ts@^0.2.2:
     ember-compatibility-helpers "^1.2.0"
     ember-destroyable-polyfill "^2.0.2"
 
-"ember-content-placeholders@https://github.com/cos-forks/ember-content-placeholders#master#2018-07-19":
+ember-content-placeholders@^1.0.0:
   version "1.0.0"
-  resolved "https://github.com/cos-forks/ember-content-placeholders#640cef7dfb89956c5de1333bf5272ea8edd18211"
+  resolved "https://registry.yarnpkg.com/ember-content-placeholders/-/ember-content-placeholders-1.0.0.tgz#21c3ce60b1d7b4c9e8d80303124d3300cca03bc7"
+  integrity sha512-AbCTrADdxvbgtYSJzym+FsyJF3a8HnfIIKeafI1+LYBaT7+OO9ccd3y7PnqEmXqzvKQzWRd69Dt4cfCkZJRpfQ==
   dependencies:
     ember-cli-babel "^6.6.0"
     ember-cli-htmlbars "^2.0.1"
