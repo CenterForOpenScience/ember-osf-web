@@ -96,7 +96,7 @@ module('Registries | Integration | index', hooks => {
                     expected: [
                         'link',
                         'Index - GitHub Repo',
-                        'https://github.com/CenterForOpenScience/ember-osf-registries',
+                        'https://github.com/CenterForOpenScience/ember-osf-web',
                         sinon.match.any,
                     ],
                 },
