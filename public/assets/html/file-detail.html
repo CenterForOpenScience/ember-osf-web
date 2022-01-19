@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>OSF</title>
+        <meta charset="utf-8"/>
+        <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+        <meta content="" name="description"/>
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+        
+        <title>OSF</title>
+    </head>
+    <body>
+    
+    <-- Navigation --> 
+    <HeadLayout>
+        <HeadContent>
+            <HeadTags>
+                Inside Head Tag
+            </HeadTags>
+        </HeadContent>
+    </HeadLayout>
+
+    <OsfHeader>
+        <OsfNavbar>
+            <!-- left nav --> 
+            <OsfLink 
+                @route="home"
+            />
+            <OsfLink 
+                @route="home"
+            />
+            <BsDropdown>
+                
+            </BsDropdown>
+
+            <!-- clean up-->
+            <BsButton>
+                Left Nav Button
+            </BsButton>
+
+            <BsCollapse>
+                <OsfNavBar::XLinks::HyperLink>
+                    <OsfNavbar::XLinks::GlobalLinkTo>
+                        
+                    </OsfNavbar::XLinks::GlobalLinkTo>
+                </OsfNavBar::XLinks::HyperLink>
+            </BsCollapse>
+                
+            <!-- right nav --> 
+                <!-- search bar-->
+                <!-- help button -->
+                <!-- donate button -->
+                <!-- profile icon -->
+                <!-- profile dropdown -->
+                <OsfNavbar::AuthDropdown>
+                    <BsDropdown @htmlTag="li">
+                        My Profile
+                        Settings
+                        Logout
+                    </BsDropdown>
+                </OsfNavbar::AuthDropdown>
+        </OsfNavbar>
+    </OsfHeader>
+
+<MaintenanceBanner />
+<StatusBanner />
+<TosConsentBanner />
+
+<!-- underbar -->
+<div class="osf_underbar">
+
+    <!-- left underbar -->
+        <!-- registration states -->
+        <div class="registration_states">
+            
+        </div>
+    
+    
+    <!-- right underbar -->
+        <!-- fork button -->
+        <div class="fork_button">
+
+        </div>
+        <!-- bookmark button -->
+        <div class="bookmark_button">
+
+        </div>
+        <!-- share button -->
+
+        <div class="share_button">
+
+        </div>
+</div>
+
+<!-- side nav -->
+<div class="osf_sidenav"></div>
+
+<!-- list of files -->
+<div class="osf_file_list"></div>
+
+<!--osf file renderer-->
+<div class="osf_file_renderer">
+
+    <!-- file title -->
+
+    <!--file render inner view-->
+    <div class="file_renderer_inner_view">
+
+    </div>
+</div>
+
+
+<OsfFooter>
+    <OsfLink @href="https://cos.io" />
+</OsfFooter>
+
+
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700" rel="stylesheet" type="text/css"/>
+<link class="notranslate" href="/ember_osf_web/assets/vendor-a097d8e946f246d20a80668d0bbb87bd.css" rel="stylesheet"/>
+<link class="notranslate" href="/ember_osf_web/assets/ember-osf-web-0d0b35cb9b22d6ea2be541dd1bcfeab8.css" rel="stylesheet"/>
+<script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], processEscapes: true},
+          skipStartupTypeset: true
+      });
+    </script>
+<script async="" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+</script>
+</head>
+</body>
+<script> window.prerenderReady = false; </script>
+<script src="/ember_osf_web/assets/vendor-581780954ffc54d582cf39e12d61e2b8.js"></script>
+<script src="/ember_osf_web/assets/ember-osf-web-d8cfb7d85f9fe5d56b0c7b9ad4ebffdd.js"></script>
+<script src="https://cdn.ravenjs.com/3.22.1/ember/raven.min.js"></script>
+<script>
+    var encodedConfig = document.head.querySelector("meta[name$='/config/environment']").content;
+    var config = JSON.parse(unescape(encodedConfig));
+    if (config.sentryDSN) {
+        Raven.config(config.sentryDSN, config.sentryOptions || {}).install();
+    }
+</script>
+<script crossorigin="anonymous" integrity="sha256-Znf8FdJF85f1LV0JmPOob5qudSrns8pLPZ6qkd/+F0o=
+               sha384-jhGcGHNZytnBnH1wbEM3KxJYyRDy9Q0QLKjE65xk+aMqXFCdvFuYIjzMWAAWBBtR
+               sha512-TZlMGFY9xKj38t/5m2FzJ+RM/aD5alMHDe26p0mYUMoCF5G7ibfHUQILq0qQPV3wlsnCwL+TPRNK4vIWGLOkUQ==" src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js">
+</script>
+<div id="ember-bootstrap-wormhole"></div>
+<div id="ember-basic-dropdown-wormhole"></div>
+</body>
+</html>
