@@ -49,22 +49,6 @@ module('Acceptance | resolve-guid', hooks => {
         sinon.stub(router, '_beforeTransition').returnsArg(0);
     });
 
-    test('User | Index', async assert => {
-        const user = server.create('user');
-
-        await visit(`/${user.id}`);
-
-        routingAssertions(assert, '--user', `/${user.id}`, 'guid-user.index');
-    });
-
-    test('File | Index', async assert => {
-        const file = server.create('file', { user: server.create('user') });
-
-        await visit(`/${file.id}`);
-
-        routingAssertions(assert, '--file', `/${file.id}`, 'guid-file');
-    });
-
     module('Node', mhooks => {
         mhooks.beforeEach(async () => {
             const analyticsEngine = await loadEngine('analytics-page', 'guid-node.analytics');
@@ -180,7 +164,6 @@ module('Acceptance | resolve-guid', hooks => {
     test('Not found', async assert => {
         const testCases = [
             { url: '/decaf', test: 'Nonexistent GUID' },
-            { url: '/decaf/files', test: 'Nonexistent GUID with existent sub route' },
             { url: '/decaf/blah/blah/blah', test: 'Nonexistent GUID with nonexistent sub route' },
         ];
 

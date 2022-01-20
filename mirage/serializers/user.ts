@@ -58,14 +58,6 @@ export default class UserSerializer extends ApplicationSerializer<User> {
                     },
                 },
             },
-            quickfiles: {
-                links: {
-                    related: {
-                        href: `${apiUrl}/v2/users/${model.id}/quickfiles/`,
-                        meta: this.buildRelatedLinkMeta(model, 'quickfiles'),
-                    },
-                },
-            },
         };
         if (model.defaultRegion) {
             serializedRelationships.defaultRegion = {

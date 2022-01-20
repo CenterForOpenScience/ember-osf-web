@@ -7,7 +7,6 @@ import { Link } from 'jsonapi-typescript';
 import SparseNodeModel from 'ember-osf-web/models/sparse-node';
 import ContributorModel from './contributor';
 import DraftRegistrationModel from './draft-registration';
-import FileModel from './file';
 import InstitutionModel from './institution';
 import NodeModel from './node';
 import OsfModel, { OsfLinks } from './osf-model';
@@ -113,9 +112,6 @@ export default class UserModel extends OsfModel.extend(Validations) {
 
     @hasMany('draft-registration')
     draftRegistrations!: AsyncHasMany<DraftRegistrationModel>;
-
-    @hasMany('file')
-    quickfiles!: AsyncHasMany<FileModel>;
 
     @hasMany('institution', { inverse: 'users' })
     institutions!: AsyncHasMany<InstitutionModel>;

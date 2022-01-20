@@ -7,8 +7,7 @@
             <OsfLink
                 data-test-moderator-link={{@moderator.id}}
                 data-analytics-name='View moderator profile'
-                @route='guid-user'
-                @models={{array @moderator.id}}
+                @href={{concat '/' @moderator.id '/'}}
             >
                 <img
                     data-test-moderator-gravatar={{@moderator.fullName}}

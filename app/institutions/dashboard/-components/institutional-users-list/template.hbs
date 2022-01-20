@@ -58,10 +58,7 @@
             <list.item local-class='item' as |institutionalUser|>
                 {{#if institutionalUser}}
                     <td data-test-item-name>
-                        <OsfLink
-                            @route='guid-user'
-                            @models={{array institutionalUser.userGuid}}
-                        >
+                        <OsfLink @href={{concat '/' institutionalUser.userGuid '/'}}>
                             {{institutionalUser.userName}} ({{institutionalUser.userGuid}})
                         </OsfLink>
                     </td>
