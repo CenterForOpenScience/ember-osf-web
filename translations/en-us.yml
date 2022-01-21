@@ -95,6 +95,13 @@ general:
         preprints: Preprints
         registries: Registries
     other: Other
+    checkout: Checkout
+    metadata: Metadata
+    file_description: Description
+    type: Type
+    funding_agency: Funding Agency
+    type_select: File Type Select
+    example_funder: Funder One
 node_categories:
     analysis: Analysis
     communication: Communication
