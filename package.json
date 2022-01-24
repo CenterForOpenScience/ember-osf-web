@@ -70,7 +70,7 @@
     "@types/ember-data__model": "^3.16.2",
     "@types/ember-data__serializer": "^3.16.1",
     "@types/ember-data__store": "^3.16.1",
-    "@types/ember-feature-flags": "^4.0.5",
+    "@types/ember-feature-flags": "^6.0.1",
     "@types/ember-qunit": "^3.4.13",
     "@types/ember-resolver": "^5.0.10",
     "@types/ember__application": "^3.16.2",

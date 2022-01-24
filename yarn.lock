@@ -2685,12 +2685,12 @@
   dependencies:
     "@types/ember-data" "*"
 
-"@types/ember-feature-flags@^4.0.5":
-  version "4.0.9"
-  resolved "https://registry.yarnpkg.com/@types/ember-feature-flags/-/ember-feature-flags-4.0.9.tgz#06decda6349e49b2cd1489067fdd9c0a23ef789b"
-  integrity sha512-tu+lmsSwUOSMYC4Ol5BbH6NvNYH3vAlVIUaWI8buy9FC/uEKDV8V4IVYeALqdN7nORH1PIPUfqKliuENgYU1og==
+"@types/ember-feature-flags@^6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@types/ember-feature-flags/-/ember-feature-flags-6.0.1.tgz#6155f73404bc81b5e2c0d53f7b25dbda8fb03394"
+  integrity sha512-absD860Db+yr2LMHAhSbtAqLph00sQXpA/Tlvkt3JFdvbEhM3KJ4BoxeOR4ONCFlx60PJxYa0H5NMBxRiM5j5Q==
   dependencies:
-    "@types/ember" "*"
+    "@types/ember__service" "*"
 
 "@types/ember-qunit@^3.4.13":
   version "3.4.13"
