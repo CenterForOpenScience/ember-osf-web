@@ -13,8 +13,7 @@
             <OsfLink
                 data-test-user-link={{@user.id}}
                 data-analytics-name='View user'
-                @route='guid-user'
-                @models={{array @user.id}}
+                @href={{concat '/' @user.id '/'}}
             >
                 {{@user.fullName}}
             </OsfLink>

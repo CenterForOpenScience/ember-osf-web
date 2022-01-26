@@ -112,6 +112,9 @@ module('Integration | routes | institutions | dashboard | -components | institut
         assert.dom('[data-test-item-name]')
             .containsText('Hulk Hogan', 'Sorts by name ascendening');
 
+        assert.dom('[data-test-item-name] a:first-of-type')
+            .hasAttribute('href');
+
         await click('[data-test-descending-sort="user_name"]');
         assert.dom('[data-test-item-name]')
             .containsText('John Doe', 'Sorts by name descendening');

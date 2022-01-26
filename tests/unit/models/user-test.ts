@@ -71,15 +71,6 @@ module('Unit | Model | user', hooks => {
         assert.equal(relationship.kind, 'hasMany');
     });
 
-    test('files relationship', function(assert) {
-        const model = this.owner.lookup('service:store').modelFor('user');
-        const relationship = get(model, 'relationshipsByName').get('quickfiles');
-
-        assert.equal(relationship.key, 'quickfiles');
-        assert.equal(relationship.type, 'file');
-        assert.equal(relationship.kind, 'hasMany');
-    });
-
     test('institutions relationship', function(assert) {
         const model = this.owner.lookup('service:store').modelFor('user');
         const relationship = get(model, 'relationshipsByName').get('institutions');

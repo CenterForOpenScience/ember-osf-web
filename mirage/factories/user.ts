@@ -11,7 +11,6 @@ export interface MirageUser extends User {
 }
 
 export interface UserTraits {
-    withFiles: Trait;
     loggedIn: Trait;
     withInstitutions: Trait;
     withSettings: Trait;
@@ -92,12 +91,6 @@ export default Factory.extend<MirageUser & UserTraits>({
     dateRegistered() {
         return faker.date.past(2, new Date(2018, 0, 0));
     },
-
-    withFiles: trait<MirageUser>({
-        afterCreate(user, server) {
-            server.createList('file', 5, { user });
-        },
-    }),
 
     withInstitutions: trait<MirageUser>({
         afterCreate(user, server) {

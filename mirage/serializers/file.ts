@@ -61,20 +61,6 @@ export default class FileSerializer extends ApplicationSerializer<MirageFile> {
             };
         }
 
-        if (model.user !== null) {
-            returnValue.user = {
-                data: {
-                    type: 'users',
-                    id: model.user.id,
-                },
-                links: {
-                    related: {
-                        href: `${apiUrl}/v2/users/${model.user.id}/`,
-                        meta: this.buildRelatedLinkMeta(model, 'user'),
-                    },
-                },
-            };
-        }
         return returnValue;
     }
 
