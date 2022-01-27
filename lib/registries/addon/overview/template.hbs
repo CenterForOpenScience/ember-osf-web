@@ -52,6 +52,7 @@
                         @registration={{this.registration}}
                         @sidenavGutterClosed={{layout.sidenavGutterClosed}}
                         @toggleSidenav={{layout.toggleSidenav}}
+                        @showMetadata={{this.showMetadata}}
                         @metadataGutterClosed={{layout.metadataGutterClosed}}
                         @toggleMetadata={{layout.toggleMetadata}}
                         @selectedRevisionId={{this.revisionId}}
@@ -91,18 +92,20 @@
                     {{outlet}}
                 </layout.main>
 
-                <layout.right local-class='SideMetadata' as |right|>
-                    {{#if (not-eq right.rightGutterMode 'column')}}
-                        <h3 local-class='MetadataTitle'>
-                            {{t 'registries.overview.metadata'}}
-                            <BsButton data-analytics-name='Close metadata sidebar' aria-label={{t 'general.close'}}
-                                @type='link' @onClick={{right.toggleMetadata}}>
-                                <FaIcon @icon='times' />
-                            </BsButton>
-                        </h3>
-                    {{/if}}
-                    <RegistriesMetadata @registration={{this.registration}} @extendedFields={{true}} />
-                </layout.right>
+                {{#if this.showMetadata}}
+                    <layout.right local-class='SideMetadata' as |right|>
+                        {{#if (not-eq right.rightGutterMode 'column')}}
+                            <h3 local-class='MetadataTitle'>
+                                {{t 'registries.overview.metadata'}}
+                                <BsButton data-analytics-name='Close metadata sidebar' aria-label={{t 'general.close'}}
+                                    @type='link' @onClick={{right.toggleMetadata}}>
+                                    <FaIcon @icon='times' />
+                                </BsButton>
+                            </h3>
+                        {{/if}}
+                        <RegistriesMetadata @registration={{this.registration}} @extendedFields={{true}} />
+                    </layout.right>
+                {{/if}}
             </OsfLayout>
         {{/if}}
     {{/if}}
