@@ -27,7 +27,7 @@ import {
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
 import RouterService from '@ember/routing/router-service';
 
-type LoadDraftModelTask = TaskInstance<{
+export type LoadDraftModelTask = TaskInstance<{
     draftRegistration: DraftRegistration,
     provider: ProviderModel,
 }>;

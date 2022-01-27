@@ -37,6 +37,7 @@ module('Registries | Acceptance | overview.revision', hooks => {
             revisionResponses: { q1: 'Super Man' },
             registration,
         });
+        registration.update({ latestResponse: revision });
         await visit(`/${registration.id}?revisionId=${revision.id}`);
         assert.dom('[data-test-version-metadata-title]')
             .exists('version metadata is shown when viewing a specific revision');

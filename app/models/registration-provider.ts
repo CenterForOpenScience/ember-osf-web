@@ -34,6 +34,9 @@ export default class RegistrationProviderModel extends ProviderModel {
     @attr('array')
     permissions!: ReviewPermissions[];
 
+    @attr('boolean')
+    allowBulkUploads!: boolean;
+
     @computed('permissions')
     get currentUserCanReview() {
         if (this.permissions) {

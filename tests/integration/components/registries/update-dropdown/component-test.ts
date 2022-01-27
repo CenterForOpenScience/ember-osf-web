@@ -52,7 +52,7 @@ module('Integration | Component  | update-dropdown', hooks => {
         `);
         assert.dom('[data-test-update-button]').containsText(t('registries.update_dropdown.latest'), 'Latest selected');
         await click('[data-test-update-button]');
-        assert.dom('[data-test-revision-link]').exists({ count: 3 }, '3 revisions shown');
+        assert.dom('[data-test-revision-link]').exists({ count: 4 }, '4 revisions shown');
 
         assert.dom('[data-test-update-dropdown-show-more]').doesNotExist('Show more element not shown');
         assert.dom('[data-test-update-dropdown-create-new-revision]').doesNotExist('New update button not shown');
@@ -86,7 +86,7 @@ module('Integration | Component  | update-dropdown', hooks => {
             .doesNotExist('Link to revision in progress not shown');
     });
 
-    test('update dropdown - 3 revisions, one in progress', async function(this: ComponentTestContext, assert) {
+    test('update dropdown - 3 extra revisions, one in progress', async function(this: ComponentTestContext, assert) {
         const mirageRegistration = server.create('registration', {
             id: 'cobalt',
             title: 'Outcome Reporting Testing',
@@ -114,7 +114,7 @@ module('Integration | Component  | update-dropdown', hooks => {
             <Registries::UpdateDropdown @registration={{this.registration}}/>
         `);
         await click('[data-test-update-button]');
-        assert.dom('[data-test-revision-link]').exists({ count: 2 }, 'revision in progress not listed');
+        assert.dom('[data-test-revision-link]').exists({ count: 3 }, 'revision in progress not listed');
 
         assert.dom('[data-test-update-dropdown-show-more]').doesNotExist('Show more element not shown');
         assert.dom('[data-test-update-dropdown-create-new-revision]').doesNotExist('New update button not shown');

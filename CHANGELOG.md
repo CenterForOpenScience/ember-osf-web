@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [22.1.0] - 2022-1-19
+### Changed
+- Upgraded dependencies
+
+## [21.11.0] - 2021-12-21
+### Changed
+- Misc a11y and bug fixes
+- Added new error types for registration bulk upload
+
 ## [21.10.0] - 2021-11-30
 ### Added
 - Registration versioning
@@ -1814,6 +1823,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
+[22.1.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/22.1.0
+[21.11.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.11.0
+[21.10.2]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.10.2
+[21.10.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.10.1
 [21.10.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.10.0
 [21.9.2]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.9.2
 [21.9.1]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/21.9.1
