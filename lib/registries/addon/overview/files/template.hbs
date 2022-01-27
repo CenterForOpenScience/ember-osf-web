@@ -67,10 +67,12 @@
             {{!-- <FaIcon
                 @prefix='far' @icon='file-alt' @fixedWidth={{true}}
             /> --}}
-            folder
+            {{!-- file name here --}}
+            {{t 'general.name'}}
         </Button>
         <div local-class='FileList__item__options'>
-            10 Oct 2010 10:10 AM
+            {{t 'general.date'}}
+            {{!-- date here --}}
             <ResponsiveDropdown
                 local-class='DownloadShareDropdown'
                 @horizontalPosition='right'
