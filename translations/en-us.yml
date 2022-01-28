@@ -1311,7 +1311,7 @@ registries:
         no_year: 'No year'
         provider_specific_metadata: 'Registry metadata'
         publication_doi: 'Publication DOI'
-        registered_from: 'Registered from'
+        associated_project: 'Associated project'
         registration_doi: 'Registration DOI'
         registration_type: 'Registration type'
         select_license: 'Select license'
