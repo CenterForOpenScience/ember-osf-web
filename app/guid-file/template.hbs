@@ -3,21 +3,19 @@
     <div class='col-md-9'>
         <div data-analytics-scope='Title bar' local-class='TitleBar'>
             <div data-analytics-scope='Title' local-class='TitleBar__title'>
-                <h2 data-test-file-title-header>
-                    {{this.model.file.name}}
-                    <BsButton
-                        data-analytics-name='Version'
-                        local-class='TitleBar__version-link'
-                        @bubble={{true}}
-                        @type='link'
-                        @onClick={{action 'changeView' 'revision'}}
-                    >
-                        {{t 'file_detail.version.title' versionNumber=this.mfrVersion}}
-                    </BsButton>
-                </h2>
+                <h2>{{this.model.file.name}}</h2>
+                <BsButton
+                    data-analytics-name='Version'
+                    local-class='TitleBar__version-link'
+                    @bubble={{true}}
+                    @type='link'
+                    @onClick={{action 'changeView' 'revision'}}
+                >
+                    {{t 'file_detail.version.title' versionNumber=this.mfrVersion}}
+                </BsButton>
             </div>
             <div data-analytics-scope='buttons' local-class='TitleBar__buttons'>
-                <div class='pull-right'>
+                <div class='pull-left'>
                     <div class='btn-toolbar m-t-md'>
                         <div class='btn-group btn-group-sm m-t-xs'>
                             {{!-- checkout button --}}
@@ -72,29 +70,62 @@
             />
         </div>
     </div>
-    <div class='col-md-3 pull-left'>
+    <div class='col-md-3 pull-right'>
         <div class='file_metadata_view'>
-            <div class='metadata_div'></div>
-            <div class='metadata_title'><h3>{{t 'general.metadata'}}</h3></div>
-            <div class='download_file_button'></div>
-        </div>
-        <div class='description_div'>
-            <div class='file_description_title'><h3>{{t 'general.file_description'}}</h3></div>
-            <div class='file_description'></div>
-        </div>
-        <div class='file_type_div'>
-            <div class='file_type_title'><h3>{{t 'general.type'}}</h3></div>
-            <div class='file_type_power_select'>
-                <PowerSelect>
-                    {{t 'general.type_select'}}
-                </PowerSelect>
+            <div local-class='Field' class='metadata_div'>
+                <span>
+                    <h4>{{t 'general.metadata'}}</h4>
+                    <BsButton
+                        @size='sm'
+                    >
+                        <FaIcon @icon='download' @fixedWidth={{true}} />
+                    </BsButton>
+                </span>
             </div>
-        </div>
-        <div class='funding_div'>
-            <div class='funding_agency_title'><h3>{{t 'general.funding_agency'}}</h3></div>
-            <div class='funding_agency_edit_button'></div>
-            <div class='funding_agency_id'>
-                {{t 'general.example_funder'}}
+            <div class='description_div'>
+                <div class='file_description_title'>
+                    <span>
+                        <h4>{{t 'general.file_description'}}</h4>
+                        <Button
+                        data-test-edit-button={{@name}}
+                        aria-label={{t 'general.edit'}}
+                        data-analytics-name='Edit'
+                        local-class='EditButton'
+                        @layout='fake-link'
+                        {{on 'click' @manager.startEditing}}
+                        >
+                            <FaIcon @icon='pencil-alt' @fixedWidth={{true}} />
+                        </Button>
+                    </span>
+                </div>
+                <div class='file_description'>
+                    {{t 'general.description'}} 
+                </div>
+            </div>
+            <div class='file_type_div'>
+                <div class='file_type_title'>
+                    <h4>
+                        {{t 'general.type'}}
+                    </h4>
+                </div>
+                <div class='file_type_power_select'>
+                    <PowerSelect
+                    @options={{this.fileTypeList}}
+                    @onChange={{this.foo}} as |option|>
+                        {{yield option}}
+                    </PowerSelect>
+                </div>
+            </div>
+            <div class='funding_div'>
+                <div class='funding_agency_title'>
+                    <h4>
+                        {{t 'general.funding_agency'}}
+                    </h4>
+                </div>
+                <div class='funding_agency_edit_button'></div>
+                <div class='funding_agency_id'>
+                    {{t 'general.example_funder'}}
+                </div>
             </div>
         </div>
     </div>
