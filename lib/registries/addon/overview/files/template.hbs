@@ -6,7 +6,12 @@
 
 <div local-class='OptionBar'>
     <div local-class='OptionBar__left'>
-        <input type='text' class='form-control' placeholder='{{t 'general.filter'}}' />
+        <input
+            data-test-file-search
+            type='text'
+            class='form-control'
+            placeholder='{{t 'general.filter'}}'
+        />
 
         <ResponsiveDropdown
             local-class='SortDropdown'
@@ -14,6 +19,7 @@
             as |dropdown|
         >
             <dropdown.trigger
+                data-test-file-sort-trigger
                 data-analytics-name='Sort files'
             >
                 <Button>
@@ -44,19 +50,33 @@
     </div>
     <div local-class='OptionBar__right'>
         {{!-- Add storage provider name to data-analytics-name --}}
-        <Button @layout='fake-link' data-analytics-name='Download all files'>
+        <Button
+            data-test-download-all
+            data-analytics-name='Download all files'
+            @layout='fake-link'
+        >
             <FaIcon @icon='download' />
             {{t 'registries.overview.files.download_all'}}
         </Button>
-        <Button @layout='fake-link' data-analytics-name='Help' aria-label={{t 'general.help'}}>
+        <Button
+            data-test-file-help
+            data-analytics-name='Help'
+            aria-label={{t 'general.help'}}
+            @layout='fake-link'
+        >
             <FaIcon @icon='question-circle' />
         </Button>
     </div>
 </div>
 
 <ul local-class='FileList'>
-    <li local-class='FileList__item'>
+    <li
+        data-test-file-list-item
+        local-class='FileList__item'
+    >
+        {{!-- Analytics/test-selector should know if it is a file or folder --}}
         <Button
+            data-test-file-list-link
             data-analytics-name='View folder'
             @layout='fake-link'
             @route='registries.overview'
@@ -70,7 +90,10 @@
             {{!-- file name here --}}
             {{t 'general.name'}}
         </Button>
-        <div local-class='FileList__item__options'>
+        <div
+            data-test-file-list-date
+            local-class='FileList__item__options'
+        >
             {{t 'general.date'}}
             {{!-- date here --}}
             <ResponsiveDropdown
@@ -79,6 +102,7 @@
                 as |dropdown|
             >
                 <dropdown.trigger
+                    data-test-file-download-share-trigger
                     data-analytics-name='File options'
                 >
                     <Button
