@@ -39,6 +39,7 @@ export default buildRoutes(function() {
         this.route('analytics');
         this.route('children', { path: '/components' });
         this.route('comments');
+        this.route('files');
         this.route('forks');
         this.route('links');
     });

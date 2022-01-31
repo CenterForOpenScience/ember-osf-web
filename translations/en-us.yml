@@ -591,6 +591,7 @@ paginator:
     previous: 'Previous page'
     page: 'Page {page} of {max}'
 social:
+    email: Email
     twitter: Twitter
     facebook: Facebook
     google_group: 'Google Group'
@@ -1294,6 +1295,7 @@ registries:
         title: Overview
         collapse: Collapse
         expand: Expand
+        toggle_navbar: Toggle navigation
         contents: Contents
         see_more: 'See more'
         metadata: Metadata
@@ -1321,6 +1323,15 @@ registries:
             abuse_violence: 'Violence or harmful behavior'
             cannot_retract_report: 'Only the reporter can retract report'
             no_comments: 'No comments.'
+        files:
+            title: Files
+            sort: 'Sort by: '
+            sort_by:
+                name_ascending: 'Name: A-Z'
+                name_descending: 'Name: Z-A'
+                date_ascending: 'Last modified: newest to oldest'
+                date_descending: 'Last modified: oldest to newest'
+            download_all: 'Download all files'
         links:
             title: Links
             linked_nodes: 'Linked projects and components'

@@ -1,0 +1,62 @@
+.OptionBar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.OptionBar__left {
+    display: flex;
+}
+
+.OptionBar__right {
+    display: flex;
+}
+
+.SortDropdown {
+    padding-left: 20px;
+}
+
+.SortedBy {
+    padding-right: 58px;
+    font-weight: bold;
+}
+
+.DropdownList {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 1px solid $color-border-gray;
+
+    button {
+        padding: 8px;
+    }
+}
+
+.FileList {
+    list-style-type: none;
+    padding: 0;
+
+    li:last-of-type {
+        border-bottom: solid 1px $color-border-gray;
+    }
+}
+
+.FileList__item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-top: solid 1px $color-border-gray;
+
+    span {
+        margin: 0 6px;
+    }
+}
+
+.FileList__item__options {
+    display: flex;
+    align-items: center;
+}
+
+.DownloadShareDropdown {
+    padding-left: 20px;
+}
