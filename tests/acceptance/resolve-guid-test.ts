@@ -138,7 +138,6 @@ module('Acceptance | resolve-guid', hooks => {
 
                 routingAssertions(assert, '--registration', url, 'guid-registration.analytics.index');
             });
-
         });
 
         module('With ember_registries_detail_page', __ => {
