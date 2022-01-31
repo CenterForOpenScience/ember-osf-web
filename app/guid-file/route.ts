@@ -9,13 +9,11 @@ import moment from 'moment';
 
 import Institution from 'ember-osf-web/models/institution';
 import Analytics from 'ember-osf-web/services/analytics';
-import CurrentUser from 'ember-osf-web/services/current-user';
 import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 import Ready from 'ember-osf-web/services/ready';
 
 export default class GuidFile extends Route {
     @service analytics!: Analytics;
-    @service currentUser!: CurrentUser;
     @service('head-tags') headTagsService!: HeadTagsService;
     @service metaTags!: MetaTags;
     @service ready!: Ready;
