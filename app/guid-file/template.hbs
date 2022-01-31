@@ -5,6 +5,7 @@
             <div data-analytics-scope='Title' local-class='TitleBar__title'>
                 <h2>{{this.model.file.name}}</h2>
                 <BsButton
+                    data-test-version-link
                     data-analytics-name='Version'
                     local-class='TitleBar__version-link'
                     @bubble={{true}}
@@ -20,6 +21,7 @@
                         <div class='btn-group btn-group-sm m-t-xs'>
                             {{!-- checkout button --}}
                             <BsButton
+                                data-test-checkout-button
                                 data-analytics-name='Checkout'
                                 @bubble={{true}}
                                 @type='{{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'primary' 'default'}}'
@@ -30,6 +32,7 @@
 
                             {{!-- view button --}}
                             <BsButton
+                                data-test-view-button
                                 data-analytics-name='View'
                                 @bubble={{true}}
                                 @type='{{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'primary' 'default'}}'
@@ -40,6 +43,7 @@
 
                             {{!-- edit button --}}
                             <BsButton
+                                    data-test-edit-button
                                     data-analytics-name='Edit'
                                     @bubble={{true}}
                                     @type='{{if (or (eq this.show 'edit') (eq this.show 'view_edit')) 'primary' 'default'}}'
@@ -48,8 +52,8 @@
                                 {{t 'general.edit'}}
                             </BsButton>
                             <BsButton
+                                data-test-more-button
                                 data-analytics-name='More tab'
-                                data-test-more-tab
                                 @bubble={{true}}
                                 @size='sm'
                                 {{!--@onClick={{#}}--}}
@@ -63,6 +67,7 @@
         </div>
         <div id='mfrIframeParent' class='{{if (and (eq this.show 'view_edit') this.canEdit) 'col-sm-6'}}'>
             <FileRenderer
+                data-test-file-renderer
                 @download={{this.model.file.links.download}}
                 @version={{this.mfrVersion}}
                 @height='700'
@@ -76,6 +81,7 @@
                 <span>
                     <h4>{{t 'general.metadata'}}</h4>
                     <BsButton
+                        data-test-metadata-download-button
                         @size='sm'
                     >
                         <FaIcon @icon='download' @fixedWidth={{true}} />
@@ -87,6 +93,7 @@
                     <span>
                         <h4>{{t 'general.file_description'}}</h4>
                         <Button
+                        data-test-edit-description
                         data-test-edit-button={{@name}}
                         aria-label={{t 'general.edit'}}
                         data-analytics-name='Edit'
@@ -110,6 +117,7 @@
                 </div>
                 <div class='file_type_power_select'>
                     <PowerSelect
+                    data-test-file-type-select
                     @options={{this.fileTypeList}}
                     @onChange={{this.foo}} as |option|>
                         {{yield option}}
