@@ -49,6 +49,14 @@ module('Acceptance | resolve-guid', hooks => {
         sinon.stub(router, '_beforeTransition').returnsArg(0);
     });
 
+    test('File | Index', async assert => {
+        const file = server.create('file', { target: server.create('registration') });
+
+        await visit(`/${file.id}`);
+
+        routingAssertions(assert, '--file', `/${file.id}`, 'guid-file');
+    });
+
     module('Node', mhooks => {
         mhooks.beforeEach(async () => {
             const analyticsEngine = await loadEngine('analytics-page', 'guid-node.analytics');
@@ -130,6 +138,7 @@ module('Acceptance | resolve-guid', hooks => {
 
                 routingAssertions(assert, '--registration', url, 'guid-registration.analytics.index');
             });
+
         });
 
         module('With ember_registries_detail_page', __ => {
