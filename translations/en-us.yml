@@ -99,16 +99,25 @@ general:
     metadata: Metadata
     file_description: Description
     type: Type
-    funding_agency: Funding Agency
-    type_select: File Type Select
-    example_funder: Funder One
+    funding_agency: 'Funding Agency'
+    type_select: 'File Type Select'
+    example_funder: 'Funder One'
+    journal_article: 'Journal Article'
+    audio_video: 'Audio/Video'
+    dataset: 'Dataset'
+    image: 'Image'
+    model: 'Model'
+    software: 'Software'
+    book: 'Book'
+    poster: 'Poster'
+    presentation: 'Presentation'
 node_categories:
     analysis: Analysis
     communication: Communication
     data: Data
     hypothesis: Hypothesis
     instrumentation: Instrumentation
-    'methods and measures': 'Methods and measures'
+    methods_and_measures: 'Methods and measures'
     procedure: Procedure
     project: Project
     software: Software
