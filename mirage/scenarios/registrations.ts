@@ -66,6 +66,8 @@ export function registrationScenario(
         ],
     });
 
+    server.create('file', {id: 'afile', target: currentUserWrite});
+
     server.create('schema-response', {
         id: 'copyEditWritr1',
         revisionJustification: 'Copy Edit',
