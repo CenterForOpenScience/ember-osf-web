@@ -51,6 +51,11 @@
     pointer-events: none;
 }
 
+.TitleBar_project-name {
+    display: flex;
+    flex-flow: row wrap;
+}
+
 .Main {
     margin-bottom: 5px;
 }
@@ -86,4 +91,61 @@
 
 .RevisionsPanel__table {
     margin-bottom: 0;
+}
+
+.FilesContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.FileDetail_project {
+    display: block;
+}
+
+.FileDetail_secondRow {
+    display: flex;
+    flex-direction: row;
+}
+
+.FileDetail_file-name {
+    display: inline-block;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-content: flex-start;
+}
+
+.FileDetail__buttons {
+    display: inline-block;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-content: flex-end;
+}
+
+.FileDetail_iframe {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.FilesDetail_SideNavbar {
+    display: flex;
+    flex-direction: column;
+}
+
+.FilesDetail_versions-button {
+    display: flex;
+    flex-direction: column;
+    order: 1;
+}
+
+.FilesDetail_tags-button {
+    display: flex;
+    flex-direction: column;
+    order: 2;
+}
+
+.RightPanel {
+    display: flex;
+    flex-direction: column;
+
 }

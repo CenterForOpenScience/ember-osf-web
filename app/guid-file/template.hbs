@@ -1,138 +1,81 @@
 {{page-title this.model.file.name}}
-<div data-analytics-scope='File detail' class='container row'>
-    <div class='col-md-9'>
-        <div data-analytics-scope='Title bar' local-class='TitleBar'>
-            <div data-analytics-scope='Title' local-class='TitleBar__title'>
-                <h2>{{this.model.file.name}}</h2>
-                <BsButton
-                    data-test-version-link
-                    data-analytics-name='Version'
-                    local-class='TitleBar__version-link'
-                    @bubble={{true}}
-                    @type='link'
-                    @onClick={{action 'changeView' 'revision'}}
-                >
-                    {{t 'file_detail.version.title' versionNumber=this.mfrVersion}}
-                </BsButton>
-            </div>
-            <div data-analytics-scope='buttons' local-class='TitleBar__buttons'>
-                <div class='pull-left'>
-                    <div class='btn-toolbar m-t-md'>
-                        <div class='btn-group btn-group-sm m-t-xs'>
-                            {{!-- checkout button --}}
-                            <BsButton
-                                data-test-checkout-button
-                                data-analytics-name='Checkout'
-                                @bubble={{true}}
-                                @type='{{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'primary' 'default'}}'
-                                @onClick={{action this.changeView 'view'}}
-                            >
-                                {{t 'general.checkout'}}
-                            </BsButton>
-
-                            {{!-- view button --}}
-                            <BsButton
-                                data-test-view-button
-                                data-analytics-name='View'
-                                @bubble={{true}}
-                                @type='{{if (or (eq this.show 'view') (eq this.show 'view_edit')) 'primary' 'default'}}'
-                                @onClick={{action this.changeView 'view'}}
-                            >
-                                {{t 'general.view'}}
-                            </BsButton>
-
-                            {{!-- edit button --}}
-                            <BsButton
-                                    data-test-edit-button
-                                    data-analytics-name='Edit'
-                                    @bubble={{true}}
-                                    @type='{{if (or (eq this.show 'edit') (eq this.show 'view_edit')) 'primary' 'default'}}'
-                                    @onClick={{action this.changeView 'edit'}}
-                            >
-                                {{t 'general.edit'}}
-                            </BsButton>
-                            <BsButton
-                                data-test-more-button
-                                data-analytics-name='More tab'
-                                @bubble={{true}}
-                                @size='sm'
-                                {{!--@onClick={{#}}--}}
-                            >
-                                <FaIcon @icon='ellipsis-v' @fixedWidth={{true}} />
-                            </BsButton>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id='mfrIframeParent' class='{{if (and (eq this.show 'view_edit') this.canEdit) 'col-sm-6'}}'>
-            <FileRenderer
-                data-test-file-renderer
-                @download={{this.model.file.links.download}}
-                @version={{this.mfrVersion}}
-                @height='700'
-                @width='99%'
-            />
-        </div>
-    </div>
-    <div class='col-md-3 pull-right'>
-        <div class='file_metadata_view'>
-            <div local-class='Field' class='metadata_div'>
-                <span>
-                    <h4>{{t 'general.metadata'}}</h4>
+<div
+    data-test-files-container
+    data-analytics-scope='Files'
+    class='container-fluid'
+    local-class='FilesContainer'
+>
+    <div class='row'>
+        <div local-class='LeftPanel' class='col-md-10'>
+            <div class='row'>
+                {{!-- {{#if this.hasProject}} --}}
+                <div local-class='FileDetail_project'>
                     <BsButton
-                        data-test-metadata-download-button
-                        @size='sm'
+                        data-test-version-link
+                        data-analytics-name='Project'
+                        local-class='FileDetail__project-link'
+                        @bubble={{true}}
+                        @type='link'
+                        @onClick={{action 'changeView' 'revision'}}
                     >
-                        <FaIcon @icon='download' @fixedWidth={{true}} />
+                        <h5>
+                            {{this.model.project.name}}
+                        </h5>
                     </BsButton>
-                </span>
-            </div>
-            <div class='description_div'>
-                <div class='file_description_title'>
-                    <span>
-                        <h4>{{t 'general.file_description'}}</h4>
-                        <Button
-                        data-test-edit-description
-                        data-test-edit-button={{@name}}
-                        aria-label={{t 'general.edit'}}
-                        data-analytics-name='Edit'
-                        local-class='EditButton'
-                        @layout='fake-link'
-                        {{on 'click' @manager.startEditing}}
-                        >
-                            <FaIcon @icon='pencil-alt' @fixedWidth={{true}} />
-                        </Button>
-                    </span>
                 </div>
-                <div class='file_description'>
-                    {{t 'general.description'}} 
-                </div>
+                {{!-- {{/if}} --}}
             </div>
-            <div class='file_type_div'>
-                <div class='file_type_title'>
+            <div class='row' local-class='FileDetail_secondRow'>
+                <div local-class='FileDetail_file-name'>
                     <h4>
-                        {{t 'general.type'}}
+                        <strong>
+                            {{this.model.file.name}}
+                        </strong>
                     </h4>
                 </div>
-                <div class='file_type_power_select'>
-                    <PowerSelect
-                    data-test-file-type-select
-                    @options={{this.fileTypeList}}
-                    @onChange={{this.foo}} as |option|>
-                        {{yield option}}
-                    </PowerSelect>
+                <div data-analytics-scope='buttons' local-class='FileDetail__buttons'>
+                    <BsButton
+                        data-test-more-button
+                        data-analytics-name='More tab'
+                        @bubble={{true}}
+                        @size='sm'
+                        @onClick={{this.showMoreButtons}}
+                    >
+                        <FaIcon @icon='ellipsis-v' @fixedWidth={{true}} />
+                    </BsButton>
                 </div>
             </div>
-            <div class='funding_div'>
-                <div class='funding_agency_title'>
-                    <h4>
-                        {{t 'general.funding_agency'}}
-                    </h4>
+            <div class='row' local-class='FileDetail_iframe'>
+                <div id='mfrIframeParent' class='{{if (and (eq this.show 'view_edit') this.canEdit) 'col-sm-6'}}'>
+                    <FileRenderer
+                        data-test-file-renderer
+                        @download={{this.model.file.links.download}}
+                        @version={{this.mfrVersion}}
+                        @height='50%'
+                        @width='100%'
+                    />
                 </div>
-                <div class='funding_agency_edit_button'></div>
-                <div class='funding_agency_id'>
-                    {{t 'general.example_funder'}}
+            </div>
+        </div>
+        <div local-class='RightPanel' class='col-md-2'>
+            <div local-class='FilesDetail_SideNavbar' class='pull-right'>
+                <div class='btn btn-group-sm m-t-xs'>
+                    <BsButton
+                        data-test-versions-button
+                        local-class='FilesDetail_versions-button'
+                        @size='sm'
+                        @onClick={{this.viewVersions}}
+                    >
+                        <FaIcon @icon='pen-square' @fixedWidth={{true}} />
+                    </BsButton>
+                    <BsButton
+                        data-test-tags-button
+                        local-class='FilesDetail_tags-button'
+                        @size='sm'
+                        @onClick={{this.viewTags}}
+                    >
+                        <FaIcon @icon='tags' @fixedWidth={{true}} />
+                    </BsButton>
                 </div>
             </div>
         </div>
