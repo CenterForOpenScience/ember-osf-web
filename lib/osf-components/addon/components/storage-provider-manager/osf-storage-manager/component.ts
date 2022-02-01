@@ -5,23 +5,22 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { restartableTask, task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import FileModel from 'ember-osf-web/models/file';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 import NodeModel from 'ember-osf-web/models/node';
+import { FileSortKey } from 'ember-osf-web/packages/files/file';
+import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
 
 interface Args {
     node: NodeModel;
 }
 
-type SortKey = 'date_modified' | '-date_modified' | 'name' | '-name';
-
 export default class OsfStorageManager extends Component<Args> {
     @tracked osfStorageProvider?: FileProviderModel;
-    @tracked rootFolder?: FileModel;
-    @tracked currentFolder?: FileModel;
-    @tracked currentFolderItems: FileModel[] = [];
-    @tracked filter?: string;
-    @tracked sort?: SortKey;
+    @tracked rootFolder?: OsfStorageFile;
+    @tracked currentFolder?: OsfStorageFile;
+    @tracked displayItems: OsfStorageFile[] = [];
+    @tracked filter = '';
+    @tracked sort = FileSortKey.AscDateModified;
     @tracked currentPage = 1;
 
     constructor(owner: unknown, args: Args) {
@@ -43,7 +42,7 @@ export default class OsfStorageManager extends Component<Args> {
         if (this.args.node) {
             const fileProviders = await this.args.node.files;
             this.osfStorageProvider = fileProviders.findBy('name', 'osfstorage') as FileProviderModel;
-            this.rootFolder = await this.osfStorageProvider.rootFolder;
+            this.rootFolder = new OsfStorageFile(await this.osfStorageProvider.rootFolder);
             this.currentFolder = this.rootFolder;
         }
     }
@@ -52,32 +51,14 @@ export default class OsfStorageManager extends Component<Args> {
     @waitFor
     async getCurrentFolderItems() {
         if (this.currentFolder) {
-            const queryResult = await this.currentFolder.queryHasMany('files',
-                {
-                    page: this.currentPage,
-                    sort: this.sort,
-                    filter: this.filter,
-                });
-            this.currentFolderItems.push(...queryResult);
+            this.currentFolder.getFolderItems(this.currentPage, this.sort, this.filter);
         }
     }
 
     @task
     @waitFor
-    async addFile() {
-        //
-    }
-
-    @task
-    @waitFor
-    async deleteFile(file: FileModel) {
-        await file.destroyRecord();
-    }
-
-    @task
-    @waitFor
-    async goToFolder(folder: FileModel) {
-        this.currentFolderItems = [];
+    async goToFolder(folder: OsfStorageFile) {
+        this.displayItems = [];
         this.currentFolder = folder;
         await taskFor(this.getCurrentFolderItems).perform();
     }
@@ -97,7 +78,7 @@ export default class OsfStorageManager extends Component<Args> {
     }
 
     @action
-    changeSort(sort: string) {
+    changeSort(sort: FileSortKey) {
         this.sort = sort;
         this.currentPage = 1;
     }
