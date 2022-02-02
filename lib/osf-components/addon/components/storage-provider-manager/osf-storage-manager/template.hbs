@@ -1,0 +1,10 @@
+{{yield (hash
+    rootFolder=this.rootFolder
+    currentFolder=this.currentFolder
+    displayItems=this.displayItems
+    changeFilter=this.changeFilter
+    changeSort=this.changeSort
+    loadMore=this.loadMore
+    goToFolder=this.goToFolder)
+}}
+{{did-update this.onPageChange this.currentPage}}
