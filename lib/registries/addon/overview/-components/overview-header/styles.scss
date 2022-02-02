@@ -39,12 +39,6 @@
     line-height: 37px;
 }
 
-@media(min-width: 992px) {
-    .HeaderContainer {
-        max-width: 1140px;
-    }
-}
-
 @media(max-width: 768px) {
     .Header {
         margin: 20px 15px;
