@@ -37,7 +37,7 @@ module('Registries | Acceptance | overview.index', hooks => {
             withdrawn: false,
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
             provider: server.create('registration-provider'),
-        }, 'withContributors', 'currentUserAdmin'));
+        }, 'withContributors', 'withFiles', 'currentUserAdmin'));
     });
 
     test('it renders', async function(this: OverviewTestContext, assert: Assert) {

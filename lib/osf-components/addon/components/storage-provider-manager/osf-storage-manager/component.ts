@@ -1,5 +1,5 @@
 import { assert } from '@ember/debug';
-import { action } from '@ember/object';
+import { action, notifyPropertyChange } from '@ember/object';
 import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
@@ -52,9 +52,8 @@ export default class OsfStorageManager extends Component<Args> {
     async getCurrentFolderItems() {
         if (this.currentFolder) {
             const items = await this.currentFolder.getFolderItems(this.currentPage, this.sort, this.filter);
-            const newArray = [...this.displayItems];
-            newArray.push(...items);
-            this.displayItems = newArray;
+            this.displayItems.push(...items);
+            notifyPropertyChange(this, 'displayItems');
         }
     }
 
