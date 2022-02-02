@@ -62,8 +62,33 @@
                 <layout.leftNavOld as |leftNav|>
                     <leftNav.link data-analytics-name='Overview' @route='registries.overview.index'
                         @models={{array this.registration.id}} @icon='home' @label={{t 'registries.overview.title'}} />
-                    <leftNav.link data-analytics-name='Files' @route='registries.overview.files' @icon='file-alt'
-                        @label={{t 'registries.overview.external_links.files'}} />
+                    <leftNav.link data-analytics-name='Files' @route='registries.overview.files'
+                        @models={{array this.registration.id}} @icon='file-alt'
+                        @label={{t 'registries.overview.files.title'}} />
+                    {{#if this.onFilesRoute}}
+                        <div local-class='FileProvidersList'>
+                            {{#each this.registration.files as |provider|}}
+                                <div local-class='FileProvider'>
+                                    {{provider.name}}
+                                    {{#if (eq provider.name 'osfstorage')}}
+                                        <span>
+                                            <FaIcon
+                                                @icon='globe'
+                                            >
+                                            </FaIcon>
+                                            <BsTooltip
+                                                @placement='right'
+                                                @triggerEvents='hover'
+                                            >
+                                                {{t 'registries.overview.files.storage_location'}}
+                                                {{!-- region here --}}
+                                            </BsTooltip>
+                                        </span>
+                                    {{/if}}
+                                </div>
+                            {{/each}}
+                        </div>
+                    {{/if}}
                     {{#if this.registration.wikiEnabled}}
                         <leftNav.link
                             data-test-wiki-link

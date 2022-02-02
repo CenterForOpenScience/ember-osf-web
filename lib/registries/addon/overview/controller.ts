@@ -43,6 +43,11 @@ export default class Overview extends Controller {
         return true;
     }
 
+    @computed('router.currentRouteName')
+    get onFilesRoute() {
+        return this.router.currentRouteName === 'registries.overview.files';
+    }
+
     @computed('registration.{reviewsState,archiving}')
     get showTombstone() {
         return this.registration && (this.registration.reviewsState === 'withdrawn' || this.registration.archiving);

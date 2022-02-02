@@ -1332,6 +1332,7 @@ registries:
                 date_ascending: 'Last modified: newest to oldest'
                 date_descending: 'Last modified: oldest to newest'
             download_all: 'Download all files'
+            storage_location: 'Storage location: '
         links:
             title: Links
             linked_nodes: 'Linked projects and components'
@@ -1345,7 +1346,6 @@ registries:
             title: Components
             no_components: 'This registration has no components.'
         external_links:
-            files: Files
             wiki: Wiki
             analytics: Analytics
         form_view:
