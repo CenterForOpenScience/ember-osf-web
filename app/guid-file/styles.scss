@@ -14,48 +14,6 @@
     text-align: left;
 }
 
-.TitleBar {
-    display: flex;
-    justify-content: space-between;
-    flex-flow: row wrap;
-
-    @media(min-width:992px) {
-        flex-wrap: nowrap;
-    }
-}
-
-.TitleBar__title {
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    min-width: 10%;
-}
-
-.TitleBar__buttons {
-    margin-left: auto;
-    flex-shrink: 0;
-    max-width: 100%;
-    padding-left: 10px;
-}
-
-.TitleBar__version-link {
-    cursor: pointer;
-    white-space: nowrap;
-    font-size: 1em;
-    font-weight: 300;
-    line-height: 1em;
-    padding: 0;
-    vertical-align: top;
-}
-
-.TitleBar__button-label {
-    pointer-events: none;
-}
-
-.TitleBar_project-name {
-    display: flex;
-    flex-flow: row wrap;
-}
-
 .Main {
     margin-bottom: 5px;
 }
@@ -133,13 +91,13 @@
 }
 
 .FilesDetail_versions-button {
-    display: flex;
+    display: inline-block;
     flex-direction: column;
     order: 1;
 }
 
 .FilesDetail_tags-button {
-    display: flex;
+    display: inline-block;
     flex-direction: column;
     order: 2;
 }

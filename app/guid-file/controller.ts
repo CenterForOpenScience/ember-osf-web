@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { A } from '@ember/array';
 import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
@@ -8,6 +9,7 @@ import { restartableTask, timeout } from 'ember-concurrency';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
+import Registration from 'ember-osf-web/models/registration';
 
 import mimeTypes from 'ember-osf-web/const/mime-types';
 import File from 'ember-osf-web/models/file';
@@ -48,6 +50,8 @@ export default class GuidFile extends Controller {
     @service intl!: Intl;
     @service toast!: Toast;
 
+    registration?: Registration;
+
     queryParams = ['show'];
 
     deleteModalOpen = false;
@@ -55,9 +59,15 @@ export default class GuidFile extends Controller {
     sort = 'name';
     revision: null | number = null;
     show = 'view';
+    revisionClicked = false;
+    tagsClicked = false;
 
     searchUrl = pathJoin(config.OSF.url, 'search');
 
+    fileTypeList = ['JournalArticle', 'AudioVideo', 'Dataset', 'Image',
+        'Model', 'Software', 'Book', 'Poster', 'Presentation'];
+
+    // Private properties
     @alias('canEdit') canDelete!: boolean;
     @alias('model.file') file!: File;
     @alias('model.file.links.download') downloadLink!: string;
@@ -181,6 +191,28 @@ export default class GuidFile extends Controller {
     @action
     versionChange(version: number) {
         this.set('revision', +version);
+    }
+
+    @action
+    async toggleVersions() {
+        this.toggleProperty('revisionClicked');
+        console.log('Is revision clicked?', this.revisionClicked);
+    }
+
+    @action
+    async toggleTags() {
+        this.toggleProperty('tagsClicked');
+        console.log('Are tags clicked?', this.tagsClicked);
+    }
+
+    @action
+    async showMoreButtons() {
+        console.log('Open more button clicked');
+    }
+
+    @action
+    async share() {
+        console.log('File shared with service:');
     }
 }
 
