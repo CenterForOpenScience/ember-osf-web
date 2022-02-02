@@ -11,11 +11,11 @@ import { FileSortKey } from 'ember-osf-web/packages/files/file';
 import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
 
 interface Args {
-    node: NodeModel;
+    target: NodeModel;
 }
 
 export default class OsfStorageManager extends Component<Args> {
-    @tracked osfStorageProvider?: FileProviderModel;
+    @tracked storageProvider?: FileProviderModel;
     @tracked rootFolder?: OsfStorageFile;
     @tracked currentFolder?: OsfStorageFile;
     @tracked displayItems: OsfStorageFile[] = [];
@@ -25,7 +25,7 @@ export default class OsfStorageManager extends Component<Args> {
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
-        assert('@node must be provided', this.args.node);
+        assert('@target must be provided', this.args.target);
         taskFor(this.getRootFolderItems).perform();
     }
 
@@ -39,10 +39,10 @@ export default class OsfStorageManager extends Component<Args> {
     @restartableTask
     @waitFor
     async getRootFolder() {
-        if (this.args.node) {
-            const fileProviders = await this.args.node.files;
-            this.osfStorageProvider = fileProviders.findBy('name', 'osfstorage') as FileProviderModel;
-            this.rootFolder = new OsfStorageFile(await this.osfStorageProvider.rootFolder);
+        if (this.args.target) {
+            const fileProviders = await this.args.target.files;
+            this.storageProvider = fileProviders.findBy('name', 'osfstorage') as FileProviderModel;
+            this.rootFolder = new OsfStorageFile(await this.storageProvider.rootFolder);
             this.currentFolder = this.rootFolder;
         }
     }
@@ -51,7 +51,10 @@ export default class OsfStorageManager extends Component<Args> {
     @waitFor
     async getCurrentFolderItems() {
         if (this.currentFolder) {
-            this.currentFolder.getFolderItems(this.currentPage, this.sort, this.filter);
+            const items = await this.currentFolder.getFolderItems(this.currentPage, this.sort, this.filter);
+            const newArray = [...this.displayItems];
+            newArray.push(...items);
+            this.displayItems = newArray;
         }
     }
 
@@ -60,14 +63,15 @@ export default class OsfStorageManager extends Component<Args> {
     async goToFolder(folder: OsfStorageFile) {
         this.displayItems = [];
         this.currentFolder = folder;
-        await taskFor(this.getCurrentFolderItems).perform();
+        this.currentPage = 1;
     }
 
     @task
     @waitFor
     async goToParentFolder() {
         if (this.currentFolder) {
-            await taskFor(this.goToFolder).perform(this.currentFolder?.parentFolder);
+            const parentFolder = new OsfStorageFile(await this.currentFolder.fileModel.parentFolder);
+            await taskFor(this.goToFolder).perform(parentFolder);
         }
     }
 

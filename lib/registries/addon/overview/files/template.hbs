@@ -6,8 +6,9 @@
 
 {{#unless this.model.taskInstance.isRunning}}
     <StorageProviderManager::OsfStorageManager
-        @node={{this.model.taskInstance.value}}
+        @target={{this.model.taskInstance.value}}
+        as |manager|
     >
-        <FileBrowser />
+        <FileBrowser @manager={{manager}} />
     </StorageProviderManager::OsfStorageManager>
 {{/unless}}

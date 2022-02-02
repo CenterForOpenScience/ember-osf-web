@@ -1,3 +1,4 @@
+import { tracked } from '@glimmer/tracking';
 import FileModel from 'ember-osf-web/models/file';
 import NodeModel from 'ember-osf-web/models/node';
 
@@ -9,7 +10,7 @@ export enum FileSortKey {
 }
 
 export default abstract class File {
-    fileModel: FileModel;
+    @tracked fileModel: FileModel;
 
     constructor(fileModel: FileModel) {
         this.fileModel = fileModel;
@@ -21,6 +22,18 @@ export default abstract class File {
 
     get isFolder() {
         return this.fileModel.isFolder;
+    }
+
+    get currentUserPermission() {
+        return 'read';
+    }
+
+    get name() {
+        return this.fileModel.name;
+    }
+
+    get links() {
+        return this.fileModel.links;
     }
 
     async createFolder(newFolderName: string) {
