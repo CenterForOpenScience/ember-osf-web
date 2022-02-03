@@ -64,104 +64,22 @@
 </div>
 
 <ul local-class='FileList'>
-    {{#each @manager.displayItems as |item|}}
-        <li
-            data-test-file-list-item
-            local-class='FileList__item'
-        >
-            {{!-- Analytics/test-selector should know if it is a file or folder --}}
+    {{#if @manager.parentFolder}}
+        <li local-class='GoToParentButton'>
             <Button
                 data-test-file-list-link
-                data-analytics-name='View folder'
+                data-analytics-name='Go to parent folder'
                 @layout='fake-link'
-                @route='registries.overview'
-                {{on 'click' (perform @manager.goToFolder item)}}
+                {{on 'click' (perform @manager.goToFolder @manager.parentFolder)}}
             >
                 <FaIcon
-                    @icon='folder' @fixedWidth={{true}}
+                    @icon='angle-left' @fixedWidth={{true}}
                 />
-                {{!-- <FaIcon
-                    @prefix='far' @icon='file-alt' @fixedWidth={{true}}
-                /> --}}
-                {{item.name}}
+                {{@manager.currentFolder.name}}
             </Button>
-            <div
-                data-test-file-list-date
-                local-class='FileList__item__options'
-            >
-                {{t 'general.date'}}
-                {{!-- date here --}}
-                <ResponsiveDropdown
-                    local-class='DownloadShareDropdown'
-                    @horizontalPosition='right'
-                    as |dropdown|
-                >
-                    <dropdown.trigger
-                        data-test-file-download-share-trigger
-                        data-analytics-name='File options'
-                    >
-                        <Button
-                            {{!-- use folder/file name for aria-label --}}
-                            aria-label={{t 'general.options'}} 
-                        >
-                            <FaIcon @icon='ellipsis-v' />
-                        </Button>
-                    </dropdown.trigger>
-                    <dropdown.content local-class='DropdownList'>
-                        <Button
-                            local-class='FileOptionsDropdown__option'
-                            @layout='fake-link'
-                        >
-                            <FaIcon @icon='download' />
-                            {{t 'general.download'}}
-                        </Button>
-
-                        <ResponsiveDropdown
-                            local-class='FileOptionsDropdown__option'
-                            @horizontalPosition='right'
-                            as |dd|
-                        >
-                            <dd.trigger
-                                data-analytics-name='File sharing options'
-                            >
-                                <Button
-                                    local-class='FileOptionsDropdown__option'
-                                    @layout='fake-link'
-                                >
-                                    <FaIcon @icon='share-alt' />
-                                    {{t 'general.share'}}
-                                </Button>
-                            </dd.trigger>
-                            <dd.content local-class='DropdownList'>
-                                <Button
-                                    @layout='fake-link'
-                                >
-                                    <FaIcon @icon='envelope' />
-                                    {{t 'social.email'}}
-                                </Button>
-                                <Button
-                                    @layout='fake-link'
-                                >
-                                    <FaIcon @prefix='fab' @icon='twitter-square' />
-                                    {{t 'social.twitter'}}
-                                </Button>
-                                <Button
-                                    @layout='fake-link'
-                                >
-                                    <FaIcon @prefix='fab' @icon='facebook-square' />
-                                    {{t 'social.facebook'}}
-                                </Button>
-                                <Button
-                                    @layout='fake-link'
-                                >
-                                    <FaIcon @prefix='fab' @icon='linkedin' />
-                                    {{t 'social.linkedin'}}
-                                </Button>
-                            </dd.content>
-                        </ResponsiveDropdown>
-                    </dropdown.content>
-                </ResponsiveDropdown>
-            </div>
         </li>
+    {{/if}}
+    {{#each @manager.displayItems as |item|}}
+        <FileBrowser::Item @item={{item}} @manager={{@manager}} />
     {{/each}}
 </ul>

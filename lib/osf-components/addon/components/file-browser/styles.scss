@@ -21,14 +21,14 @@
     font-weight: bold;
 }
 
-.DropdownList {
+.GoToParentButton {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    border: 1px solid $color-border-gray;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-top: solid 1px $color-border-gray;
 
-    button {
-        padding: 8px;
+    span {
+        margin: 0 6px;
     }
 }
 
@@ -41,22 +41,13 @@
     }
 }
 
-.FileList__item {
+.DropdownList {
     display: flex;
-    justify-content: space-between;
-    padding: 12px 0;
-    border-top: solid 1px $color-border-gray;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 1px solid $color-border-gray;
 
-    span {
-        margin: 0 6px;
+    button {
+        padding: 8px;
     }
-}
-
-.FileList__item__options {
-    display: flex;
-    align-items: center;
-}
-
-.DownloadShareDropdown {
-    padding-left: 20px;
 }

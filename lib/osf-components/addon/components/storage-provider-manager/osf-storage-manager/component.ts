@@ -17,6 +17,7 @@ interface Args {
 export default class OsfStorageManager extends Component<Args> {
     @tracked storageProvider?: FileProviderModel;
     @tracked rootFolder?: OsfStorageFile;
+    @tracked parentFolder?: OsfStorageFile | null;
     @tracked currentFolder?: OsfStorageFile;
     @tracked displayItems: OsfStorageFile[] = [];
     @tracked filter = '';
@@ -60,19 +61,25 @@ export default class OsfStorageManager extends Component<Args> {
     @task
     @waitFor
     async goToFolder(folder: OsfStorageFile) {
+        const parentFolder = await folder.fileModel.parentFolder;
+        if (parentFolder) {
+            this.parentFolder = new OsfStorageFile(await folder.fileModel.parentFolder);
+        } else {
+            this.parentFolder = null;
+        }
         this.displayItems = [];
         this.currentFolder = folder;
         this.currentPage = 1;
     }
 
-    @task
-    @waitFor
-    async goToParentFolder() {
-        if (this.currentFolder) {
-            const parentFolder = new OsfStorageFile(await this.currentFolder.fileModel.parentFolder);
-            await taskFor(this.goToFolder).perform(parentFolder);
-        }
-    }
+    // @task
+    // @waitFor
+    // async goToParentFolder() {
+    //     if (this.currentFolder) {
+    //         const parentFolder = new OsfStorageFile(await this.currentFolder.fileModel.parentFolder);
+    //         await taskFor(this.goToFolder).perform(parentFolder);
+    //     }
+    // }
 
     @action
     changeFilter(filter: string) {
