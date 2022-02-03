@@ -2,6 +2,7 @@ import { currentRouteName } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
+import { t } from 'ember-intl/test-support';
 
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { currentURL, visit } from 'ember-osf-web/tests/helpers';
@@ -29,6 +30,9 @@ module('Registries | Acceptance | overview.files', hooks => {
         assert.dom('[data-test-download-all]').exists('Download all button exists');
         assert.dom('[data-test-file-help]').exists('File help button exists');
 
+        assert.dom('[data-test-file-providers-list]').containsText(
+            t('registries.overview.files.storage_providers.osfstorage'),'File providers list contains OSF Storage',
+        );
         // assert.dom('[data-test-file-list-item]').exists({ count: files.length }, 'Files displayed');
         // assert.dom('[data-test-file-list-link]').containsText('Name', 'File name displayed');
         // assert.dom('[data-test-file-list-date]').containsText('Date', 'File date displayed');
