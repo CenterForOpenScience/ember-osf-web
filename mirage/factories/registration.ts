@@ -184,6 +184,7 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     registeredBy: association(),
     reviewsState: RegistrationReviewStates.Accepted,
     wikiEnabled: true,
+    region: association(),
 
     index(i: number) {
         return i;
