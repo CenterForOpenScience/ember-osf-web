@@ -17,6 +17,7 @@
     as |diffManager|>
         {{#if diffManager.headRevision}}
             <Registries::OverviewFormRenderer
+                @mode={{this.overview.mode}}
                 @registration={{this.registration}}
                 @revision={{diffManager.headRevision}}
                 @updatedResponseIds={{diffManager.updatedKeys}}
