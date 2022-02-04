@@ -82,6 +82,10 @@
         </li>
     {{/if}}
     {{#each @manager.displayItems as |item|}}
-        <FileBrowser::Item @item={{item}} @manager={{@manager}} />
+        {{#if item.isFile}}
+            <FileBrowser::FileItem @item={{item}} @manager={{@manager}} />
+        {{else}}
+            <FileBrowser::FolderItem @item={{item}} @manager={{@manager}} />            
+        {{/if}}
     {{/each}}
 </ul>

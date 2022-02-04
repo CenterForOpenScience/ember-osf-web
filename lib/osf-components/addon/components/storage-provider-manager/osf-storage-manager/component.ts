@@ -16,9 +16,7 @@ interface Args {
 
 export default class OsfStorageManager extends Component<Args> {
     @tracked storageProvider?: FileProviderModel;
-    @tracked rootFolder?: OsfStorageFile;
-    @tracked parentFolder?: OsfStorageFile | null;
-    @tracked currentFolder?: OsfStorageFile;
+    @tracked folderLineage: OsfStorageFile[] = [];
     @tracked displayItems: OsfStorageFile[] = [];
     @tracked filter = '';
     @tracked sort = FileSortKey.AscDateModified;
@@ -28,6 +26,18 @@ export default class OsfStorageManager extends Component<Args> {
         super(owner, args);
         assert('@target must be provided', this.args.target);
         taskFor(this.getRootFolderItems).perform();
+    }
+
+    get rootFolder() {
+        return this.folderLineage[0];
+    }
+
+    get currentFolder() {
+        return this.folderLineage[this.folderLineage.length - 1];
+    }
+
+    get parentFolder() {
+        return this.folderLineage[this.folderLineage.length - 2];
     }
 
     @restartableTask
@@ -43,8 +53,8 @@ export default class OsfStorageManager extends Component<Args> {
         if (this.args.target) {
             const fileProviders = await this.args.target.files;
             this.storageProvider = fileProviders.findBy('name', 'osfstorage') as FileProviderModel;
-            this.rootFolder = new OsfStorageFile(await this.storageProvider.rootFolder);
-            this.currentFolder = this.rootFolder;
+            this.folderLineage.push(new OsfStorageFile(await this.storageProvider.rootFolder));
+            notifyPropertyChange(this, 'folderLineage');
         }
     }
 
@@ -61,25 +71,16 @@ export default class OsfStorageManager extends Component<Args> {
     @task
     @waitFor
     async goToFolder(folder: OsfStorageFile) {
-        const parentFolder = await folder.fileModel.parentFolder;
-        if (parentFolder) {
-            this.parentFolder = new OsfStorageFile(await folder.fileModel.parentFolder);
+        const index = this.folderLineage.indexOf(folder);
+        if (index >= 0) {
+            this.folderLineage.splice(index + 1);
         } else {
-            this.parentFolder = null;
+            this.folderLineage.push(folder);
         }
+        notifyPropertyChange(this, 'folderLineage');
         this.displayItems = [];
-        this.currentFolder = folder;
         this.currentPage = 1;
     }
-
-    // @task
-    // @waitFor
-    // async goToParentFolder() {
-    //     if (this.currentFolder) {
-    //         const parentFolder = new OsfStorageFile(await this.currentFolder.fileModel.parentFolder);
-    //         await taskFor(this.goToFolder).perform(parentFolder);
-    //     }
-    // }
 
     @action
     changeFilter(filter: string) {
