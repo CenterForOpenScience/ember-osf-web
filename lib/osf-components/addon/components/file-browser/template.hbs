@@ -43,15 +43,17 @@
         </ResponsiveDropdown>
     </div>
     <div local-class='OptionBar__right'>
-        {{!-- Add storage provider name to data-analytics-name --}}
-        <Button
-            data-test-download-all
-            data-analytics-name='Download all files'
-            @layout='fake-link'
-        >
-            <FaIcon @icon='download' />
-            {{t 'registries.overview.files.download_all'}}
-        </Button>
+        {{#if @manager.currentFolder}}
+            <OsfLink
+                data-test-download-all
+                data-analytics-name='Download all files from current folder'
+                @href={{@manager.currentFolder.links.download}}
+                local-class='DownloadAllFromCurrent'
+            >
+                <FaIcon @icon='download' />
+                {{t 'registries.overview.files.download_all'}}
+            </OsfLink>
+        {{/if}}
         <Button
             data-test-file-help
             data-analytics-name='Help'
