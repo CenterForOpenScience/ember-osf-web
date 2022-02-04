@@ -51,50 +51,29 @@
                     <FaIcon @icon='download' />
                     {{t 'general.download'}}
                 </Button>
-
-                <ResponsiveDropdown
-                    local-class='FileOptionsDropdown__option'
-                    @horizontalPosition='right'
-                    as |dd|
-                >
-                    <dd.trigger
-                        data-analytics-name='File sharing options'
+                {{#if @item.isFile}}
+                    <SharingIcons::Dropdown
+                        @title={{@item.name}}
+                        @description={{@item.name}}
+                        @hyperlink={{@item.links.html}}
+                        @showText={{true}}
+                        as |dd|
                     >
-                        <Button
-                            local-class='FileOptionsDropdown__option'
-                            @layout='fake-link'
+                        <dd.trigger
+                            data-test-social-sharing-button
+                            data-analytics-name='Expand sharing menu'
+                            aria-label={{t 'general.share'}}
                         >
-                            <FaIcon @icon='share-alt' />
-                            {{t 'general.share'}}
-                        </Button>
-                    </dd.trigger>
-                    <dd.content local-class='DropdownList'>
-                        <Button
-                            @layout='fake-link'
-                        >
-                            <FaIcon @icon='envelope' />
-                            {{t 'social.email'}}
-                        </Button>
-                        <Button
-                            @layout='fake-link'
-                        >
-                            <FaIcon @prefix='fab' @icon='twitter-square' />
-                            {{t 'social.twitter'}}
-                        </Button>
-                        <Button
-                            @layout='fake-link'
-                        >
-                            <FaIcon @prefix='fab' @icon='facebook-square' />
-                            {{t 'social.facebook'}}
-                        </Button>
-                        <Button
-                            @layout='fake-link'
-                        >
-                            <FaIcon @prefix='fab' @icon='linkedin' />
-                            {{t 'social.linkedin'}}
-                        </Button>
-                    </dd.content>
-                </ResponsiveDropdown>
+                            <Button
+                                local-class='FileOptionsDropdown__option'
+                                @layout='fake-link'
+                            >
+                                <FaIcon @icon='download' />
+                                {{t 'general.share'}}
+                            </Button>
+                        </dd.trigger>
+                    </SharingIcons::Dropdown>
+                {{/if}}
             </dropdown.content>
         </ResponsiveDropdown>
     </div>
