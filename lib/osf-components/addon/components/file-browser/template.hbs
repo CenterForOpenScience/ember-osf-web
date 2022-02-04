@@ -5,6 +5,7 @@
             type='text'
             class='form-control'
             placeholder='{{t 'general.filter'}}'
+            oninput={{perform @manager.changeFilter value='target.value'}}
         />
 
         <ResponsiveDropdown

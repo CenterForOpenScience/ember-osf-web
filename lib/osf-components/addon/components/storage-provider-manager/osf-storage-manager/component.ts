@@ -3,7 +3,7 @@ import { action, notifyPropertyChange } from '@ember/object';
 import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { restartableTask, task } from 'ember-concurrency';
+import { restartableTask, task, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 import NodeModel from 'ember-osf-web/models/node';
@@ -51,6 +51,9 @@ export default class OsfStorageManager extends Component<Args> {
     @waitFor
     async getCurrentFolderItems() {
         if (this.currentFolder) {
+            if(this.currentPage === 1){
+                this.displayItems = [];
+            }
             const items = await this.currentFolder.getFolderItems(this.currentPage, this.sort, this.filter);
             this.displayItems.push(...items);
             notifyPropertyChange(this, 'displayItems');
@@ -74,8 +77,10 @@ export default class OsfStorageManager extends Component<Args> {
         }
     }
 
-    @action
-    changeFilter(filter: string) {
+    @restartableTask
+    @waitFor
+    async changeFilter(filter: string) {
+        await timeout(500);
         this.filter = filter;
         this.currentPage = 1;
     }

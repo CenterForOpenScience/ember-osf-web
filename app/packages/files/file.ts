@@ -48,7 +48,7 @@ export default abstract class File {
                 {
                     page,
                     sort,
-                    filter,
+                    'filter[name]': filter,
                 });
             return queryResult.map(fileModel => Reflect.construct(this.constructor, [fileModel]));
         }
