@@ -67,7 +67,7 @@
     {{#if @manager.parentFolder}}
         <li local-class='GoToParentButton'>
             <Button
-                data-test-file-list-link
+                data-test-go-to-parent
                 data-analytics-name='Go to parent folder'
                 @layout='fake-link'
                 {{on 'click' (perform @manager.goToFolder @manager.parentFolder)}}

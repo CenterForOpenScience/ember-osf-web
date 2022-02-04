@@ -44,13 +44,15 @@
                 </Button>
             </dropdown.trigger>
             <dropdown.content local-class='DropdownList'>
-                <Button
-                    local-class='FileOptionsDropdown__option'
-                    @layout='fake-link'
-                >
-                    <FaIcon @icon='download' />
-                    {{t 'general.download'}}
-                </Button>
+                <OsfLink @href={{@item.links.download}}>
+                    <Button
+                        local-class='FileOptionsDropdown__option'
+                        @layout='fake-link'
+                    >
+                        <FaIcon @icon='download' />
+                        {{t 'general.download'}}
+                    </Button>
+                </OsfLink>
                 {{#if @item.isFile}}
                     <SharingIcons::Dropdown
                         @title={{@item.name}}
