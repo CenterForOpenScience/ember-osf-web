@@ -1,11 +1,12 @@
 <div local-class='OptionBar'>
     <div local-class='OptionBar__left'>
-        <input
+        <Input
             data-test-file-search
-            type='text'
+            @type='text'
             class='form-control'
             placeholder='{{t 'general.filter'}}'
-            oninput={{perform @manager.changeFilter value='target.value'}}
+            @value={{this.filter}}
+            {{on 'keyup' (perform @manager.changeFilter this.filter)}}
         />
 
         <ResponsiveDropdown

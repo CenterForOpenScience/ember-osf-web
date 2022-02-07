@@ -1,5 +1,5 @@
-import { action } from '@ember/object';
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 import OsfStorageManager from 'osf-components/components/storage-provider-manager/osf-storage-manager/component';
 
 interface Args {
@@ -7,8 +7,6 @@ interface Args {
 }
 
 export default class FileBrowser extends Component<Args> {
-    @action
-    noop() {
-        // Nothing to see here.
-    }
+
+    @tracked filter = '';
 }
