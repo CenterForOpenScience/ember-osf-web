@@ -40,6 +40,10 @@ export default abstract class File {
         return links;
     }
 
+    get dateModified() {
+        return this.fileModel.dateModified;
+    }
+
     async createFolder(newFolderName: string) {
         if (this.fileModel.isFolder) {
             await this.fileModel.createFolder(newFolderName);
