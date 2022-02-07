@@ -33,7 +33,15 @@ export default abstract class File {
     }
 
     get links() {
-        return this.fileModel.links;
+        const links = this.fileModel.links;
+        if (this.isFolder) {
+            links.download = `${links.upload}?zip=`;
+        }
+        return links;
+    }
+
+    get dateModified() {
+        return this.fileModel.dateModified;
     }
 
     async createFolder(newFolderName: string) {
