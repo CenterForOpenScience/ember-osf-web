@@ -9,6 +9,7 @@ import { Answer, Question, RegistrationMetadata, Subquestion } from 'ember-osf-w
 import {
     FileReference, getSchemaBlockGroups, RegistrationResponse, SchemaBlockGroup,
 } from 'ember-osf-web/packages/registration-schema';
+import SchemaBlockModel from 'ember-osf-web/models/schema-block';
 import { MirageRegistrationSchema } from './registration-schema';
 
 export function guid(referentType: string) {
@@ -58,7 +59,6 @@ function fakeAnswer(question: Question | Subquestion, answerIfRequired: boolean)
             answer.extra = Array.from({ length: numFiles }).map(() => ({
                 selectedFileName: faker.system.commonFileName(
                     faker.system.commonFileExt(),
-                    faker.system.commonFileType(),
                 ),
                 viewUrl: '/',
             }));
@@ -163,7 +163,10 @@ export function createRegistrationResponses(
     registrationSchema: ModelInstance<MirageRegistrationSchema>,
 ) {
     const { schemaBlocks } = registrationSchema;
-    const schemaBlockGroups = getSchemaBlockGroups(schemaBlocks);
+    // The strange type casting here is to silence TS linting errors
+    // `getSchemaBlockGroups` was supposed take in the FE `SchemaBlockModel` as argument
+    // Here it takes in a Mirage BE model, hence the type mismatch
+    const schemaBlockGroups = getSchemaBlockGroups(schemaBlocks as unknown as SchemaBlockModel[]);
     const registrationResponses = {} as RegistrationResponse;
     if (schemaBlockGroups) {
         for (const group of schemaBlockGroups) {
