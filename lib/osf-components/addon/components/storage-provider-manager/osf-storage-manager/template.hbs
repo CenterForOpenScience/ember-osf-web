@@ -1,4 +1,7 @@
 {{yield (hash
+    loading=this.loading
+    filter=this.filter
+    sort=this.sort
     rootFolder=this.rootFolder
     currentFolder=this.currentFolder
     parentFolder=this.parentFolder
@@ -9,3 +12,6 @@
     goToFolder=this.goToFolder)
 }}
 {{did-update this.onPageChange this.currentPage}}
+{{#if this.getCurrentFolderItems.isRunning}}
+    <LoadingIndicator @dark={{true}} />
+{{/if}}

@@ -19,8 +19,9 @@ export default class OsfStorageManager extends Component<Args> {
     @tracked folderLineage: OsfStorageFile[] = [];
     @tracked displayItems: OsfStorageFile[] = [];
     @tracked filter = '';
-    @tracked sort = FileSortKey.AscDateModified;
+    @tracked sort = FileSortKey.AscName;
     @tracked currentPage = 1;
+    @tracked hasMore = false;
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
@@ -74,6 +75,7 @@ export default class OsfStorageManager extends Component<Args> {
     @task
     @waitFor
     async goToFolder(folder: OsfStorageFile) {
+        this.filter = '';
         const index = this.folderLineage.indexOf(folder);
         if (index >= 0) {
             this.folderLineage.splice(index + 1);
@@ -83,15 +85,6 @@ export default class OsfStorageManager extends Component<Args> {
         notifyPropertyChange(this, 'folderLineage');
         this.displayItems = [];
         this.currentPage = 1;
-    }
-
-    @task
-    @waitFor
-    async goToParentFolder() {
-        if (this.currentFolder) {
-            const parentFolder = new OsfStorageFile(await this.currentFolder.fileModel.parentFolder);
-            await taskFor(this.goToFolder).perform(parentFolder);
-        }
     }
 
     @restartableTask

@@ -5,8 +5,8 @@
             @type='text'
             class='form-control'
             placeholder='{{t 'general.filter'}}'
-            @value={{this.filter}}
-            {{on 'keyup' (perform @manager.changeFilter this.filter)}}
+            @value={{readonly @manager.filter}}
+            {{on 'keyup' this.handleInput}}
         />
 
         <ResponsiveDropdown
@@ -21,7 +21,7 @@
                 <Button>
                     {{t 'registries.overview.files.sort'}}
                     <span local-class='SortedBy'>
-                        {{t 'registries.overview.files.sort_by.name_ascending'}}
+                        {{t (concat 'registries.overview.files.sort_by.' @manager.sort)}}
                     </span>
                     <FaIcon @icon='caret-down' />
                 </Button>
@@ -29,17 +29,29 @@
             <dropdown.content
                 local-class='DropdownList'
             >
-                <Button @layout='fake-link'>
-                    {{t 'registries.overview.files.sort_by.name_ascending'}}
+                <Button
+                    @layout='fake-link'
+                    {{on 'click' (fn @manager.changeSort 'name')}}
+                >
+                    {{t 'registries.overview.files.sort_by.name'}}
                 </Button>
-                <Button @layout='fake-link'>
-                    {{t 'registries.overview.files.sort_by.name_descending'}}
+                <Button
+                    @layout='fake-link'
+                    {{on 'click' (fn  @manager.changeSort '-name')}}
+                >
+                    {{t 'registries.overview.files.sort_by.-name'}}
                 </Button>
-                <Button @layout='fake-link'>
-                    {{t 'registries.overview.files.sort_by.date_ascending'}}
+                <Button
+                    @layout='fake-link'
+                    {{on 'click' (fn  @manager.changeSort 'modified')}}
+                >
+                    {{t 'registries.overview.files.sort_by.modified'}}
                 </Button>
-                <Button @layout='fake-link'>
-                    {{t 'registries.overview.files.sort_by.date_descending'}}
+                <Button
+                    @layout='fake-link'
+                    {{on 'click' (fn  @manager.changeSort '-modified')}}
+                >
+                    {{t 'registries.overview.files.sort_by.-modified'}}
                 </Button>
             </dropdown.content>
         </ResponsiveDropdown>

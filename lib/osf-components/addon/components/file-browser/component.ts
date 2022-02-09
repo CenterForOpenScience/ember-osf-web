@@ -1,5 +1,6 @@
+import { action } from '@ember/object';
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
+import { taskFor } from 'ember-concurrency-ts';
 import OsfStorageManager from 'osf-components/components/storage-provider-manager/osf-storage-manager/component';
 
 interface Args {
@@ -7,6 +8,8 @@ interface Args {
 }
 
 export default class FileBrowser extends Component<Args> {
-
-    @tracked filter = '';
+    @action
+    handleInput(event: any) {
+        taskFor(this.args.manager.changeFilter).perform(event.target.value);
+    }
 }
