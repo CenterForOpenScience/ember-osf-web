@@ -1,4 +1,7 @@
 {{yield (hash
+    isLoading=this.getCurrentFolderItems.isRunning
+    filter=this.filter
+    sort=this.sort
     rootFolder=this.rootFolder
     currentFolder=this.currentFolder
     parentFolder=this.parentFolder
@@ -8,4 +11,3 @@
     loadMore=this.loadMore
     goToFolder=this.goToFolder)
 }}
-{{did-update this.onPageChange this.currentPage}}
