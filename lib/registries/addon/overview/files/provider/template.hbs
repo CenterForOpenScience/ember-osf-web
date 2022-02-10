@@ -1,1 +1,15 @@
-{{!-- placeholder --}}
+<h3>
+    {{t (concat 'registries.overview.files.storage_providers.' this.model.providerName)}}
+</h3>
+<StorageProviderManager::ProviderMapper
+    as |mapper|
+>
+    {{#let (get mapper this.model.providerName) as |ProviderManager|}}
+        <ProviderManager
+            @target={{this.model.overview.taskInstance.value}}
+            as |manager|
+        >
+            <FileBrowser @manager={{manager}} />
+        </ProviderManager>
+    {{/let}}
+</StorageProviderManager::ProviderMapper>
