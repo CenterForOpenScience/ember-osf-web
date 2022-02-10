@@ -68,7 +68,7 @@ module('Integration | Component | node-card', hooks => {
         );
         assert.dom('[data-test-created-timestamp-value]').exists('Created timestamp value exists');
         assert.dom('[data-test-created-timestamp-value]').hasText(
-            `${moment(registration.dateCreated)}`,
+            `${moment(registration.dateRegistered)}`,
             'Created timestamp value is correct',
         );
         assert.dom('[data-test-updated-timestamp-value]').exists('Updated timestamp value exists');
