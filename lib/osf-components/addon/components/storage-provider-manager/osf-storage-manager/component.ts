@@ -22,7 +22,6 @@ export default class OsfStorageManager extends Component<Args> {
     @tracked sort = FileSortKey.AscName;
     @tracked currentPage = 1;
     @tracked hasMore = false;
-    @tracked isLoading = false;
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
