@@ -35,12 +35,15 @@ export default class Overview extends Controller {
 
     @alias('model.taskInstance.value') registration?: Registration;
 
-    @computed('router.currentRouteName')
     get showMetadata() {
         if (this.router.currentRouteName === 'registries.overview.files') {
             return false;
         }
         return true;
+    }
+
+    get onFilesRoute() {
+        return this.router.currentRouteName === 'registries.overview.files';
     }
 
     @computed('registration.{reviewsState,archiving}')

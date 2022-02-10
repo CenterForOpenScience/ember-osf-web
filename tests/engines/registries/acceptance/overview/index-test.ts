@@ -86,6 +86,7 @@ module('Registries | Acceptance | overview.index', hooks => {
         await visit(`/${this.registration.id}/`);
         assert.dom('[data-test-wiki-link]')
             .hasAttribute('href', `/${this.registration.id}/wiki/`, 'Wiki has the correct href');
+        assert.dom('[data-test-file-providers-list]').doesNotExist('File providers list not shown');
     });
 
     test('wiki link hidden if wiki not enabled', async function(this: OverviewTestContext, assert: Assert){

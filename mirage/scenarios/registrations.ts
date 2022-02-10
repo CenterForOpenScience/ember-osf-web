@@ -138,7 +138,7 @@ export function registrationScenario(
             'page-one_long-text': 'aaaaa',
             'page-one_multi-select': ['Crocs'],
         },
-    }, 'withContributors', 'withReviewActions');
+    }, 'withContributors', 'withReviewActions', 'withFiles');
 
     const silicon = server.create('registration', {
         id: 'silicon',

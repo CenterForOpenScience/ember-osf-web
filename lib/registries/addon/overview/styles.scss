@@ -32,6 +32,20 @@
     }
 }
 
+.FileProviders {
+    display: flex;
+    flex-direction: column;
+}
+
+.FileProvider {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-left: 2px solid $color-border-gray-darker;
+    padding-left: 17px;
+    margin: 0 18px;
+}
+
 .Loading {
     height: 100vh;
     display: flex;

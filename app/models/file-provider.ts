@@ -1,10 +1,10 @@
 import { attr, belongsTo, AsyncBelongsTo } from '@ember-data/model';
 import { Link } from 'jsonapi-typescript';
 
+import AbstractNodeModel from './abstract-node';
 import BaseFileItem, { BaseFileLinks } from './base-file-item';
 import DraftNodeModel from './draft-node';
 import FileModel from './file';
-import NodeModel from './node';
 
 export interface FileProviderLinks extends BaseFileLinks {
     storage_addons: Link; // eslint-disable-line camelcase
@@ -19,8 +19,9 @@ export default class FileProviderModel extends BaseFileItem {
     @belongsTo('file')
     rootFolder!: AsyncBelongsTo<FileModel> & FileModel;
 
-    @belongsTo('abstract-node', { polymorphic: true })
-    target!: (AsyncBelongsTo<NodeModel> & NodeModel) | (AsyncBelongsTo<DraftNodeModel> & DraftNodeModel);
+    @belongsTo('abstract-node', { inverse: 'files', polymorphic: true })
+    target!: (AsyncBelongsTo<AbstractNodeModel> & AbstractNodeModel) |
+        (AsyncBelongsTo<DraftNodeModel> & DraftNodeModel);
 
     // BaseFileItem override
     isProvider = true;
