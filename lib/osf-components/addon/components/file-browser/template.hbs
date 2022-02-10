@@ -28,6 +28,7 @@
             </dropdown.trigger>
             <dropdown.content
                 local-class='DropdownList'
+                {{on 'click' dropdown.close}}
             >
                 <Button
                     @layout='fake-link'
