@@ -95,6 +95,9 @@
             </Button>
         </li>
     {{/if}}
+    {{#if @manager.isLoading}}
+        <LoadingIndicator @dark={{true}} />
+    {{/if}}
     {{#each @manager.displayItems as |item|}}
         {{#if item.isFile}}
             <FileBrowser::FileItem @item={{item}} @manager={{@manager}} />

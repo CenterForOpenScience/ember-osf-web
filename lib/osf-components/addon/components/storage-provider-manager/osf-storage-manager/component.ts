@@ -22,6 +22,7 @@ export default class OsfStorageManager extends Component<Args> {
     @tracked sort = FileSortKey.AscName;
     @tracked currentPage = 1;
     @tracked hasMore = false;
+    @tracked isLoading = false;
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
@@ -85,6 +86,7 @@ export default class OsfStorageManager extends Component<Args> {
         notifyPropertyChange(this, 'folderLineage');
         this.displayItems = [];
         this.currentPage = 1;
+        taskFor(this.getCurrentFolderItems).perform();
     }
 
     @restartableTask
@@ -93,22 +95,19 @@ export default class OsfStorageManager extends Component<Args> {
         await timeout(500);
         this.filter = filter;
         this.currentPage = 1;
+        taskFor(this.getCurrentFolderItems).perform();
     }
 
     @action
     changeSort(sort: FileSortKey) {
         this.sort = sort;
         this.currentPage = 1;
-    }
-
-    @action
-    onPageChange() {
         taskFor(this.getCurrentFolderItems).perform();
     }
 
     @action
     loadMore() {
         this.currentPage += 1;
+        taskFor(this.getCurrentFolderItems).perform();
     }
-
 }
