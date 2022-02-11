@@ -62,6 +62,7 @@ export default class GuidFile extends Controller {
     revisionClicked = false;
     tagsClicked = false;
 
+
     searchUrl = pathJoin(config.OSF.url, 'search');
 
     fileTypeList = ['JournalArticle', 'AudioVideo', 'Dataset', 'Image',
@@ -73,6 +74,7 @@ export default class GuidFile extends Controller {
     @alias('model.file.links.download') downloadLink!: string;
     @alias('model.files') allFiles!: File[];
     @alias('model.user') user!: User;
+
 
     @computed('currentUser.currentUserId', 'user.id')
     get canEdit(): boolean {
@@ -106,6 +108,7 @@ export default class GuidFile extends Controller {
     get fileText() {
         return Boolean(this.file) && this.file.getContents();
     }
+
 
     @restartableTask
     @waitFor
@@ -190,19 +193,39 @@ export default class GuidFile extends Controller {
 
     @action
     versionChange(version: number) {
-        this.set('revision', +version);
+        this.set('revision', version);
     }
 
     @action
     async toggleVersions() {
         this.toggleProperty('revisionClicked');
-        console.log('Is revision clicked?', this.revisionClicked);
+
+        if (this.revisionClicked === true) {
+            this.openVersions();
+        }
+
+        if (this.tagsClicked === true) {
+            this.closeTags();
+        }
+
+        if (this.revisionClicked === false) {
+            this.closeVersions();
+        }
     }
 
     @action
     async toggleTags() {
         this.toggleProperty('tagsClicked');
-        console.log('Are tags clicked?', this.tagsClicked);
+
+        if (this.tagsClicked === true) {
+            this.openTags();
+        }
+        if (this.revisionClicked === true) {
+            this.closeVersions();
+        }
+        if (this.tagsClicked === false) {
+            this.closeTags();
+        }
     }
 
     @action
@@ -213,6 +236,73 @@ export default class GuidFile extends Controller {
     @action
     async share() {
         console.log('File shared with service:');
+    }
+
+    openVersions() {
+        const rightPanel = document.getElementById('rightPanel');
+        if (rightPanel) {
+            rightPanel.style.marginLeft = '-400px';
+            rightPanel.classList.replace('col-sm-1', 'col-sm-5');
+        }
+        const versionSlide = document.getElementById('versions');
+        if (versionSlide) {
+            // versionSlide.removeAttribute('hidden');
+            versionSlide.style.width = '400px';
+        }
+    }
+
+    closeVersions() {
+        const versionSlide = document.getElementById('versions');
+        if (versionSlide) {
+            versionSlide.style.width = '0px';
+            // versionSlide.addAttribute('hidden');
+        }
+        const rightPanel = document.getElementById('rightPanel');
+
+        if (rightPanel) {
+            rightPanel.style.marginLeft = '0px';
+            rightPanel.classList.replace('col-sm-5', 'col-sm-1');
+        }
+    }
+
+    openTags() {
+        const rightPanel = document.getElementById('rightPanel');
+
+        if (rightPanel) {
+            rightPanel.style.marginLeft = '-400px';
+            // rightPanel.classList.replace('col-sm-10', 'col-sm-6');
+        }
+        const tagsSlide = document.getElementById('tags');
+        if (tagsSlide) {
+            // tagsSlide.removeAttribute('hidden');
+            // rightPanel.classList.replace('col-sm-10', 'col-sm-6');
+            tagsSlide.style.width = '400px';
+        }
+
+
+    }
+
+    closeTags() {
+        const tagsSlide = document.getElementById('tags');
+        if (tagsSlide) {
+            tagsSlide.style.width = '0px';
+        }
+
+        const rightPanel = document.getElementById('rightPanel');
+
+        if (rightPanel) {
+            rightPanel.style.marginLeft = '0px';
+            // rightPanel.classList.replace('col-sm-5', 'col-sm-1');
+        }
+    }
+
+    async getVersions() {
+        const versions = await this.store.findAll('file-version');
+
+        versions.forEach(version => {
+            console.log(version.id); // TODO update to array
+            console.log(version.dateCreated);
+        });
     }
 }
 

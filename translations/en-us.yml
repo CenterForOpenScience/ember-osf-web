@@ -111,6 +111,10 @@ general:
     book: 'Book'
     poster: 'Poster'
     presentation: 'Presentation'
+    tags: 'Tags'
+    science: 'science'
+    engineering: 'engineering'
+
 node_categories:
     analysis: Analysis
     communication: Communication
@@ -136,6 +140,11 @@ file_detail:
     version:
         id: 'Version ID'
         title: '(Version: {versionNumber})'
+        user: 'User: '
+        date_created: '17 Oct 2021 5:52 AM'
+        version_number: '#'
+        copy_md5: 'Copy MD5'
+        copy_sha2: 'Copy SHA-2'
     embed:
         dynamic: 'Dynamically render iframe with JavaScript'
         direct: 'Direct iframe with fixed height and width'
@@ -153,6 +162,7 @@ file_detail:
     mfr_iframe_title: 'Rendering of document'
     embed_js_label: 'Embeddable javascript'
     embed_iframe_label: 'Embeddable iframe'
+
 file_browser:
     loading: Loading...
     delete_multiple: 'Delete multiple'
