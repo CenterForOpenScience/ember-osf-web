@@ -71,7 +71,7 @@ module('Registries | Acceptance | overview.index', hooks => {
             url: `/--registries/${this.registration.id}/links`,
         }, {
             name: 'Files',
-            route: 'registries.overview.files',
+            route: 'registries.overview.files.provider',
             url: `/--registries/${this.registration.id}/files`,
         }];
 
