@@ -3,14 +3,15 @@ import FileModel from 'ember-osf-web/models/file';
 import NodeModel from 'ember-osf-web/models/node';
 
 export enum FileSortKey {
-    AscDateModified = 'date_modified',
-    DescDateModified = '-date_modified',
+    AscDateModified = 'modified',
+    DescDateModified = '-modified',
     AscName = 'name',
-    DescName = 'name',
+    DescName = '-name',
 }
 
 export default abstract class File {
     @tracked fileModel: FileModel;
+    @tracked totalFileCount = 0;
 
     constructor(fileModel: FileModel) {
         this.fileModel = fileModel;
@@ -58,6 +59,7 @@ export default abstract class File {
                     sort,
                     'filter[name]': filter,
                 });
+            this.totalFileCount = queryResult.meta.total;
             return queryResult.map(fileModel => Reflect.construct(this.constructor, [fileModel]));
         }
         return [];
