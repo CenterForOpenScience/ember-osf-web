@@ -6,6 +6,7 @@ import { PolymorphicTargetRelationship } from '../factories/file';
 export interface MirageFileProvider extends FileProviderModel {
     providerId: string;
     targetId: PolymorphicTargetRelationship;
+    files: FileProviderModel[];
 }
 
 export default Factory.extend<MirageFileProvider>({
