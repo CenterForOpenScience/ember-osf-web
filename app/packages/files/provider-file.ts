@@ -3,6 +3,7 @@ import FileProviderModel from 'ember-osf-web/models/file-provider';
 
 export default abstract class File {
     @tracked fileModel: FileProviderModel;
+    @tracked totalFileCount = 0;
 
     constructor(fileModel: FileProviderModel) {
         this.fileModel = fileModel;

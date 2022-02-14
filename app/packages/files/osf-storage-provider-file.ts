@@ -21,6 +21,7 @@ export default class OsfStorageProviderFile extends ProviderFile {
                 sort,
                 'filter[name]': filter,
             });
+        this.totalFileCount = queryResult.meta.total;
         return queryResult.map(fileModel => new OsfStorageFile(fileModel));
     }
 }
