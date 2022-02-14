@@ -85,7 +85,7 @@
         </div>
     </layout.main>
     <layout.right id='rightPanel' class='col-sm-1' as |right|>
-        <div id='versions' class='' local-class='FilesDetail_Version-slide'>
+        <div hidden id='versions' class='' local-class='FilesDetail_Version-slide'>
             <BsButton data-analytics-name='Close revision sidebar' aria-label={{t 'general.close'}}
                 @type='link' @onClick={{right.toggleMetadata}}>
                 <FaIcon @icon='times' />
@@ -212,7 +212,7 @@
             <hr>
         </div>
 
-        <div id='tags' class='' local-class='FilesDetail_Tags-slide'>
+        <div hidden id='tags' class='' local-class='FilesDetail_Tags-slide'>
             <BsButton data-analytics-name='Close metadata sidebar' aria-label={{t 'general.close'}}
                 @type='link' @onClick={{right.toggleMetadata}}>
                 <FaIcon @icon='times' />
