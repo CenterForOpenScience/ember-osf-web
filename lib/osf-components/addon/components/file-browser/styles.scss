@@ -1,20 +1,45 @@
 .OptionBar {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 24px;
+
+    &.Mobile {
+        flex-direction: column;
+    }
 }
 
 .OptionBar__left {
     display: flex;
+    margin-bottom: 24px;
+
+    &.Mobile {
+        flex-direction: column;
+    }
 }
 
 .OptionBar__right {
     display: flex;
+    justify-content: space-between;
+    margin-bottom: 24px;
 }
 
 .SortDropdown {
     padding-left: 20px;
+
+    &.Mobile {
+        padding-left: 0;
+        padding-top: 18px;
+    }
 }
+
+.SortDropdown__button {
+    display: flex;
+
+    &.Mobile {
+        justify-content: space-between;
+        width: 100%;
+    }
+}
+
 
 .SortedBy {
     padding-right: 58px;

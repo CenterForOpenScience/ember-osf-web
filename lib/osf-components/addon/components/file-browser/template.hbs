@@ -1,5 +1,5 @@
-<div local-class='OptionBar'>
-    <div local-class='OptionBar__left'>
+<div local-class='OptionBar {{if this.isMobile 'Mobile'}}'>
+    <div local-class='OptionBar__left {{if this.isMobile 'Mobile'}}'>
         <Input
             data-test-file-search
             @type='text'
@@ -10,7 +10,7 @@
         />
 
         <ResponsiveDropdown
-            local-class='SortDropdown'
+            local-class='SortDropdown {{if this.isMobile 'Mobile'}}'
             @horizontalPosition='left'
             as |dropdown|
         >
@@ -18,11 +18,13 @@
                 data-test-file-sort-trigger
                 data-analytics-name='Sort files'
             >
-                <Button>
-                    {{t 'registries.overview.files.sort'}}
-                    <span local-class='SortedBy'>
-                        {{t (concat 'registries.overview.files.sort_by.' @manager.sort)}}
-                    </span>
+                <Button local-class='SortDropdown__button {{if this.isMobile 'Mobile'}}'>
+                    <div>
+                        {{t 'registries.overview.files.sort'}}
+                        <span local-class='SortedBy'>
+                            {{t (concat 'registries.overview.files.sort_by.' @manager.sort)}}
+                        </span>
+                    </div>
                     <FaIcon @icon='caret-down' />
                 </Button>
             </dropdown.trigger>
