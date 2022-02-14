@@ -239,15 +239,22 @@ export default class GuidFile extends Controller {
     }
 
     openVersions() {
+
+        if (this.tagsClicked === true) {
+            this.closeTags();
+            this.tagsClicked = false;
+        }
+
         const rightPanel = document.getElementById('rightPanel');
         if (rightPanel) {
             rightPanel.style.marginLeft = '-400px';
-            rightPanel.classList.add('col-sm-4');
+            rightPanel.classList.replace('col-sm-1', 'col-sm-5');
         }
 
         const versionSlide = document.getElementById('versions');
         if (versionSlide) {
             // versionSlide.removeAttribute('hidden');
+            versionSlide.hidden = false;
             versionSlide.style.width = '400px';
         }
     }
@@ -255,6 +262,7 @@ export default class GuidFile extends Controller {
     closeVersions() {
         const versionSlide = document.getElementById('versions');
         if (versionSlide) {
+            versionSlide.hidden = true;
             versionSlide.style.width = '0px';
             // versionSlide.addAttribute('hidden');
         }
@@ -267,6 +275,12 @@ export default class GuidFile extends Controller {
     }
 
     openTags() {
+
+        if (this.revisionClicked === true) {
+            this.closeVersions();
+            this.revisionClicked = false;
+        }
+
         const rightPanel = document.getElementById('rightPanel');
 
         if (rightPanel) {
@@ -276,7 +290,9 @@ export default class GuidFile extends Controller {
         const tagsSlide = document.getElementById('tags');
         if (tagsSlide) {
             // tagsSlide.removeAttribute('hidden');
-            tagsSlide.classList.add('col-sm-4');
+            // tagsSlide.classList.add('col-sm-4');
+            // versionSlide.hidden = true;  <-- check here
+            tagsSlide.hidden = false;
             tagsSlide.style.width = '400px';
         }
     }
@@ -284,14 +300,14 @@ export default class GuidFile extends Controller {
     closeTags() {
         const tagsSlide = document.getElementById('tags');
         if (tagsSlide) {
+            tagsSlide.hidden = true;
             tagsSlide.style.width = '0px';
         }
 
         const rightPanel = document.getElementById('rightPanel');
-
         if (rightPanel) {
             rightPanel.style.marginLeft = '0px';
-            // rightPanel.classList.replace('col-sm-5', 'col-sm-1');
+            rightPanel.classList.replace('col-sm-5', 'col-sm-1');
         }
     }
 
