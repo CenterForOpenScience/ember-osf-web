@@ -1,0 +1,13 @@
+{{#each @itemList as |item|}}
+    {{yield item}}
+{{/each}}
+{{#if @isLoading}}
+    <LoadingIndicator @dark={{true}} />
+{{/if}}
+{{#if (and @hasMore (not @isLoading))}}
+    <li
+        {{in-viewport onEnter=@loadMore}}
+    >
+        {{t 'osf-components.infinite-list.load_more'}}
+    </li>
+{{/if}}

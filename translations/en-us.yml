@@ -1684,6 +1684,8 @@ routes:
         institution: Institution
         email: Email
 osf-components:
+    infinite-list:
+        load_more: 'Load more'
     draft-registration-card:
         initiated_by: 'Initiated by:'
         form_type: 'Registration template:'

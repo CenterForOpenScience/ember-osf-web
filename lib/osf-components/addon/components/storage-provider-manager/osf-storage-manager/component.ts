@@ -22,7 +22,6 @@ export default class OsfStorageManager extends Component<Args> {
     @tracked filter = '';
     @tracked sort = FileSortKey.AscName;
     @tracked currentPage = 1;
-    @tracked hasMore = false;
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
@@ -40,6 +39,13 @@ export default class OsfStorageManager extends Component<Args> {
 
     get parentFolder() {
         return this.folderLineage[this.folderLineage.length - 2];
+    }
+
+    get hasMore() {
+        if (this.currentFolder && this.currentFolder.totalFileCount) {
+            return this.currentFolder.totalFileCount > this.displayItems.length;
+        }
+        return undefined;
     }
 
     @restartableTask

@@ -96,14 +96,16 @@
             </Button>
         </li>
     {{/if}}
-    {{#if @manager.isLoading}}
-        <LoadingIndicator @dark={{true}} />
-    {{/if}}
-    {{#each @manager.displayItems as |item|}}
+    <InfiniteList
+        @itemList={{@manager.displayItems}}
+        @hasMore={{@manager.hasMore}}
+        @loadMore={{@manager.loadMore}}
+        @isLoading={{@manager.isLoading}} 
+    as |item|>
         {{#if item.isFile}}
             <FileBrowser::FileItem @item={{item}} @manager={{@manager}} />
         {{else}}
             <FileBrowser::FolderItem @item={{item}} @manager={{@manager}} />            
         {{/if}}
-    {{/each}}
+    </InfiniteList>
 </ul>

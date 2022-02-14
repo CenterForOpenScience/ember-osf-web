@@ -17,7 +17,7 @@
         data-test-file-list-date
         local-class='FileList__item__options'
     >
-        {{#if @item.dataModified}}
+        {{#if @item.dateModified}}
             {{moment @item.dateModified}}
         {{/if}}
         <ResponsiveDropdown
