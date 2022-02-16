@@ -1,7 +1,7 @@
 import { tracked } from '@glimmer/tracking';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 
-export default abstract class File {
+export default abstract class ProviderFile {
     @tracked fileModel: FileProviderModel;
     @tracked totalFileCount = 0;
 
