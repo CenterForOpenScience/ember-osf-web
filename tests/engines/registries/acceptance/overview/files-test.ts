@@ -21,7 +21,6 @@ module('Registries | Acceptance | overview.files', hooks => {
 
         await visit(`/${registration.id}/files`);
         await percySnapshot(assert);
-        const rootFolder = registration.files.models[0].rootFolder;
         assert.equal(currentURL(), `/${registration.id}/files`, 'At registration files list URL');
         assert.equal(currentRouteName(), 'registries.overview.files', 'At the expected route');
 
@@ -35,7 +34,7 @@ module('Registries | Acceptance | overview.files', hooks => {
 
         assert.dom('[data-test-download-all]').hasAttribute(
             'href',
-            `http://localhost:8000/wb/files/${rootFolder.id}/upload/?zip=`,
+            `http://localhost:8000/v2/registrations/${registration.id}/files/osfstorage/upload?zip=`,
             'Download all from here button has the right download link',
         );
 
