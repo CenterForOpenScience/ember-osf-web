@@ -1,13 +1,7 @@
+import { FileSortKey } from 'ember-osf-web/packages/files/file';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
 import ProviderFile from 'ember-osf-web/packages/files/provider-file';
-
-export enum FileSortKey {
-    AscDateModified = 'date_modified',
-    DescDateModified = '-date_modified',
-    AscName = 'name',
-    DescName = 'name',
-}
 
 export default class OsfStorageProviderFile extends ProviderFile {
     constructor(providerFileModel: FileProviderModel) {

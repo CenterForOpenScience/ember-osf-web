@@ -8,7 +8,6 @@ import FileModel from './file';
 
 export interface FileProviderLinks extends BaseFileLinks {
     storage_addons: Link; // eslint-disable-line camelcase
-    download?: Link;
 }
 
 export default class FileProviderModel extends BaseFileItem {
