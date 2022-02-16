@@ -3,16 +3,17 @@
     local-class={{if @manager.parentFolder 'FileList__item Indent' 'FileList__item'}}
 >
     {{!-- Analytics/test-selector should know if it is a file or folder --}}
-    <Button
-        data-test-file-list-link
-        data-analytics-name='View file'
-        @layout='fake-link'
+    <OsfLink
+        data-analytics-name='Open file'
+        @href={{@item.links.html}}
+        @target='_blank'
+        local-class='FileList__item__options'
     >
         <FaIcon
             @prefix='far' @icon='file-alt' @fixedWidth={{true}}
         />
         {{@item.name}}
-    </Button>
+    </OsfLink>
     <div
         data-test-file-list-date
         local-class='FileList__item__options'
