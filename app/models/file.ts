@@ -15,6 +15,7 @@ export interface FileLinks extends BaseFileLinks {
     info: Link;
     move: Link;
     delete: Link;
+    html: Link;
 
     // only for files
     download?: Link;
