@@ -1,14 +1,3 @@
 {{page-title (t 'registries.overview.files.title')}}
-<h3>
-    {{!-- swap with file provider name --}}
-    {{t 'registries.overview.files.title'}}
-</h3>
 
-{{#unless this.model.taskInstance.isRunning}}
-    <StorageProviderManager::OsfStorageManager
-        @target={{this.model.taskInstance.value}}
-        as |manager|
-    >
-        <FileBrowser @manager={{manager}} />
-    </StorageProviderManager::OsfStorageManager>
-{{/unless}}
+{{outlet}}

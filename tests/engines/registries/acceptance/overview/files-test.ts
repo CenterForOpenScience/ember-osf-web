@@ -22,7 +22,7 @@ module('Registries | Acceptance | overview.files', hooks => {
         await visit(`/${registration.id}/files`);
         await percySnapshot(assert);
         assert.equal(currentURL(), `/${registration.id}/files`, 'At registration files list URL');
-        assert.equal(currentRouteName(), 'registries.overview.files', 'At the expected route');
+        assert.equal(currentRouteName(), 'registries.overview.files.provider', 'At the expected route');
 
         assert.dom('[data-test-file-search]').exists('File search input exists');
         assert.dom('[data-test-file-sort-trigger]').exists('File sort trigger exists');
