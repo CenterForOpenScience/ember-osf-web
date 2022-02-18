@@ -81,33 +81,40 @@
         </Button>
     </div>
 </div>
-
-<ul local-class='FileList'>
-    {{#if @manager.parentFolder}}
-        <li local-class='GoToParentButton'>
-            <Button
-                data-test-go-to-parent
-                data-analytics-name='Go to parent folder'
-                @layout='fake-link'
-                {{on 'click' (perform @manager.goToFolder @manager.parentFolder)}}
-            >
-                <FaIcon
-                    @icon='angle-left' @fixedWidth={{true}}
-                />
-                {{@manager.currentFolder.name}}
-            </Button>
-        </li>
-    {{/if}}
-    <InfiniteList
-        @itemList={{@manager.displayItems}}
-        @hasMore={{@manager.hasMore}}
-        @loadMore={{@manager.loadMore}}
-        @isLoading={{@manager.isLoading}} 
-    as |item|>
+<InfiniteList
+    @itemList={{@manager.displayItems}}
+    @hasMore={{@manager.hasMore}}
+    @loadMore={{@manager.loadMore}}
+    @isLoading={{@manager.isLoading}}
+    local-class='FileList'
+>
+    <:header>
+        {{#if @manager.parentFolder}}
+            <li local-class='GoToParentButton'>
+                <Button
+                    data-test-go-to-parent
+                    data-analytics-name='Go to parent folder'
+                    @layout='fake-link'
+                    {{on 'click' (perform @manager.goToFolder @manager.parentFolder)}}
+                >
+                    <FaIcon
+                        @icon='angle-left' @fixedWidth={{true}}
+                    />
+                    {{@manager.currentFolder.name}}
+                </Button>
+            </li>
+        {{/if}}
+    </:header>
+    <:item as |item|>
         {{#if item.isFile}}
             <FileBrowser::FileItem @item={{item}} @manager={{@manager}} />
         {{else}}
             <FileBrowser::FolderItem @item={{item}} @manager={{@manager}} />            
         {{/if}}
-    </InfiniteList>
-</ul>
+    </:item>
+    <:empty>
+        <div local-class='EmptyText'>
+            {{t 'registries.overview.files.empty_folder'}}
+        </div>
+    </:empty>
+</InfiniteList>
