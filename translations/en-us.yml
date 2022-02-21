@@ -1335,6 +1335,7 @@ registries:
             storage_location: 'Storage location: '
             storage_providers:
                 osfstorage: 'OSF Storage'
+            empty_folder: 'This folder is empty.'
         links:
             title: Links
             linked_nodes: 'Linked projects and components'

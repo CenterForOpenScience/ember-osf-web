@@ -19,7 +19,7 @@
         local-class='FileList__item__options'
     >
         {{#if @item.dateModified}}
-            {{moment @item.dateModified}}
+            {{moment-format @item.dateModified 'YYYY-MM-DD hh:mm A'}}
         {{/if}}
         <ResponsiveDropdown
             local-class='DownloadShareDropdown'
