@@ -4,9 +4,9 @@
             <div class='row'>
                 <div local-class='FileDetail-project-link' class='col-lg-12'>
                     <BsButton
-                        data-test-registration-link
-                        data-analytics-name='Registration'
-                        local-class='FileDetail__registration-link'
+                        data-test-project-link
+                        data-analytics-name='Linked project'
+                        local-class='FileDetail__registra tion-link'
                         @bubble={{true}}
                         @type='link'
                         @onClick={{'#'}}
@@ -95,6 +95,7 @@
             <div hidden id='versions' class='' local-class='FilesDetail_Version-slide'>
                 <BsButton
                     data-analytics-name='Close revision sidebar'
+                    data-test-close-versions
                     aria-label={{t 'general.close'}}
                     @type='link'
                     @onClick={{this.close}}
@@ -122,11 +123,13 @@
                                     as |dd|
                                 >
                                     <dd.trigger
-                                        data-test-file-detail
+                                        data-test-detail-trigger
                                         data-analytics-name='Toggle more button options'
                                         local-class='FileDetail_dropdown-trigger'
                                     >
                                         <Button
+                                            data-analytics-name='File detail trigger'
+                                            data-test-detail-trigger-button
                                             local-class='FileDetail_dropdown-trigger-button'
                                             @layout='fake-link'
                                         >
@@ -134,6 +137,8 @@
                                         </Button>
                                     </dd.trigger>
                                     <dd.content
+                                        data-test-detail-content
+                                        data-analytics-name='File detail dropdown'
                                         local-class='FileDetail_dropdown-content'
                                     >
                                         <table>
@@ -148,8 +153,8 @@
                                                 <tr>
                                                     <td>
                                                         <BsButton
-                                                            data-test-download-button
-                                                            data-analytics-name='Copy button'
+                                                            data-test-copy-md5
+                                                            data-analytics-name='Copy md5 button'
                                                             @bubble={{true}}
                                                             @onClick={{this.copy}}
                                                         >
@@ -172,8 +177,8 @@
                                                 <tr>
                                                     <td>
                                                         <BsButton
-                                                            data-test-download-button
-                                                            data-analytics-name='Copy button'
+                                                            data-test-copy-sha2
+                                                            data-analytics-name='Copy sha-2 button'
                                                             @bubble={{true}}
                                                             @onClick={{this.copy}}
                                                         >
@@ -208,7 +213,7 @@
                                                         </BsButton>
                                                     </td>
                                                     <td>
-                                                        <div class='col-lg-1 hidden-md hidden-sm hidden-xs' data-test-download-count=''>
+                                                        <div class='col-lg-1'>
                                                             {{t 'file_detail.version.download_count'}}
                                                         </div>
                                                     </td>
@@ -228,6 +233,7 @@
             <div hidden id='tags' class='' local-class='FilesDetail_Tags-slide'>
                 <BsButton
                     data-analytics-name='Close tags slide'
+                    data-test-close-tags
                     aria-label={{t 'general.close'}}
                     @type='link'
                     @onClick={{this.close}}
@@ -255,6 +261,7 @@
             <div local-class='FilesDetail_versions-button'>
                 <BsButton
                     data-test-versions-button
+                    data-analytics-name='Versions slide button'
                     class='button btn'
                     @size='lg'
                     @onClick={{this.toggleVersions}}
@@ -265,6 +272,7 @@
             <div local-class='FilesDetail_tags-button'>
                 <BsButton
                     data-test-tags-button
+                    data-analytics-name='Tags slide button'
                     class='button btn'
                     local-class='FilesDetail_tags-button'
                     @size='lg'
