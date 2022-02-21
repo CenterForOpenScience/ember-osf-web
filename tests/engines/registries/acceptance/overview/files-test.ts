@@ -12,6 +12,17 @@ module('Registries | Acceptance | overview.files', hooks => {
     setupEngineApplicationTest(hooks, 'registries');
     setupMirage(hooks);
 
+    test('Redirects to page not found', async assert => {
+        const registration = server.create(
+            'registration',
+            { currentUserPermissions: [Permission.Admin] },
+            'withFiles',
+        );
+
+        await visit(`/${registration.id}/files/osfstowage`);
+        assert.equal(currentRouteName(), 'registries.page-not-found', 'At page not found');
+    });
+
     test('Files list view', async assert => {
         const registration = server.create(
             'registration',

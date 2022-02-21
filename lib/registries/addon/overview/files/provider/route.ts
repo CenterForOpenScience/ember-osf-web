@@ -1,7 +1,5 @@
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
-import Store from '@ember-data/store';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 
@@ -10,8 +8,6 @@ import Registration from 'ember-osf-web/models/registration';
 import { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
 
 export default class RegistrationFilesProviderRoute extends Route.extend({}) {
-    @service store!: Store;
-
     @task
     @waitFor
     async fileProviderTask(overview: GuidRouteModel<Registration>, fileProviderId: string) {
