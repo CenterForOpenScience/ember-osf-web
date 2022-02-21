@@ -2,13 +2,13 @@
     {{t (concat 'registries.overview.files.storage_providers.' this.model.providerName)}}
 </h3>
 
-{{#unless this.model.overview.taskInstance.isRunning}}
+{{#unless this.model.providerTask.isRunning}}
     <StorageProviderManager::ProviderMapper
         as |mapper|
     >
         {{#let (get mapper this.model.providerName) as |ProviderManager|}}
             <ProviderManager
-                @target={{this.model.overview.taskInstance.value}}
+                @provider={{this.model.providerTask.value}}
                 as |manager|
             >
                 <FileBrowser @manager={{manager}} />

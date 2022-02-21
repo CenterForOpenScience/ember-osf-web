@@ -6,13 +6,12 @@ import { tracked } from '@glimmer/tracking';
 import { restartableTask, task, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
-import NodeModel from 'ember-osf-web/models/node';
 import { FileSortKey } from 'ember-osf-web/packages/files/file';
 import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
 import OsfStorageProviderFile from 'ember-osf-web/packages/files/osf-storage-provider-file';
 
 interface Args {
-    target: NodeModel;
+    provider: FileProviderModel;
 }
 
 export default class OsfStorageManager extends Component<Args> {
@@ -25,7 +24,7 @@ export default class OsfStorageManager extends Component<Args> {
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
-        assert('@target must be provided', this.args.target);
+        assert('@provider must be provided', this.args.provider);
         taskFor(this.getRootFolderItems).perform();
     }
 
@@ -58,9 +57,8 @@ export default class OsfStorageManager extends Component<Args> {
     @restartableTask
     @waitFor
     async getRootFolder() {
-        if (this.args.target) {
-            const fileProviders = await this.args.target.files;
-            this.storageProvider = fileProviders.findBy('name', 'osfstorage') as FileProviderModel;
+        if (this.args.provider) {
+            this.storageProvider = this.args.provider;
             this.folderLineage.push(new OsfStorageProviderFile(this.storageProvider));
             notifyPropertyChange(this, 'folderLineage');
         }
