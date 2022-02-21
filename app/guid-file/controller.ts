@@ -20,6 +20,7 @@ import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/captur
 import pathJoin from 'ember-osf-web/utils/path-join';
 import $ from 'jquery';
 import mime from 'mime-types';
+import Media from 'ember-responsive';
 
 Object.assign(mime.types, mimeTypes);
 
@@ -49,6 +50,7 @@ export default class GuidFile extends Controller {
     @service currentUser!: CurrentUser;
     @service intl!: Intl;
     @service toast!: Toast;
+    @service media!: Media;
 
     registration?: Registration;
 
@@ -75,6 +77,13 @@ export default class GuidFile extends Controller {
     @alias('model.files') allFiles!: File[];
     @alias('model.user') user!: User;
 
+    get isMobile() {
+        return this.media.isMobile;
+    }
+
+    get isTablet() {
+        return this.media.isTablet;
+    }
 
     @computed('currentUser.currentUserId', 'user.id')
     get canEdit(): boolean {
@@ -200,14 +209,12 @@ export default class GuidFile extends Controller {
     async toggleVersions() {
         this.toggleProperty('revisionClicked');
 
-        if (this.revisionClicked === true) {
-            this.openVersions();
-        }
-
         if (this.tagsClicked === true) {
             this.closeTags();
         }
-
+        if (this.revisionClicked === true) {
+            this.openVersions();
+        }
         if (this.revisionClicked === false) {
             this.closeVersions();
         }
@@ -217,11 +224,11 @@ export default class GuidFile extends Controller {
     async toggleTags() {
         this.toggleProperty('tagsClicked');
 
-        if (this.tagsClicked === true) {
-            this.openTags();
-        }
         if (this.revisionClicked === true) {
             this.closeVersions();
+        }
+        if (this.tagsClicked === true) {
+            this.openTags();
         }
         if (this.tagsClicked === false) {
             this.closeTags();
@@ -239,75 +246,68 @@ export default class GuidFile extends Controller {
     }
 
     openVersions() {
-
         if (this.tagsClicked === true) {
             this.closeTags();
             this.tagsClicked = false;
         }
-
-        const rightPanel = document.getElementById('rightPanel');
-        if (rightPanel) {
-            rightPanel.style.marginLeft = '-400px';
-            rightPanel.classList.replace('col-sm-1', 'col-sm-5');
+        const mainPanel = document.getElementById('mainPanel');
+        if (mainPanel) {
+            mainPanel.classList.replace('col-lg-12', 'col-lg-8');
+            mainPanel.style.marginLeft = '450px';
         }
-
         const versionSlide = document.getElementById('versions');
         if (versionSlide) {
-            // versionSlide.removeAttribute('hidden');
             versionSlide.hidden = false;
-            versionSlide.style.width = '400px';
+            versionSlide.classList.add('col-lg-4');
+            versionSlide.style.width = '450px';
         }
     }
 
     closeVersions() {
         const versionSlide = document.getElementById('versions');
+        console.log('versions div found');
         if (versionSlide) {
             versionSlide.hidden = true;
+            versionSlide.classList.remove('col-lg-4');
             versionSlide.style.width = '0px';
-            // versionSlide.addAttribute('hidden');
         }
-
-        const rightPanel = document.getElementById('rightPanel');
-        if (rightPanel) {
-            rightPanel.style.marginLeft = '0px';
-            rightPanel.classList.replace('col-sm-5', 'col-sm-1');
+        const mainPanel = document.getElementById('mainPanel');
+        if (mainPanel) {
+            mainPanel.classList.replace('col-lg-8', 'col-lg-12');
+            mainPanel.style.marginLeft = '0px';
         }
     }
 
     openTags() {
-
         if (this.revisionClicked === true) {
             this.closeVersions();
             this.revisionClicked = false;
         }
-
-        const rightPanel = document.getElementById('rightPanel');
-
-        if (rightPanel) {
-            rightPanel.style.marginLeft = '-400px';
-            rightPanel.classList.replace('col-sm-1', 'col-sm-5');
+        const mainPanel = document.getElementById('mainPanel');
+        if (mainPanel) {
+            mainPanel.classList.replace('col-lg-12', 'col-lg-8');
+            mainPanel.style.marginRight = '450px';
         }
         const tagsSlide = document.getElementById('tags');
         if (tagsSlide) {
-            // tagsSlide.removeAttribute('hidden');
-            // tagsSlide.classList.add('col-sm-4');
-            // versionSlide.hidden = true;  <-- check here
             tagsSlide.hidden = false;
-            tagsSlide.style.width = '400px';
+            tagsSlide.classList.add('col-lg-4');
+            tagsSlide.style.width = '450px';
         }
     }
 
     closeTags() {
         const tagsSlide = document.getElementById('tags');
+        console.log('tags div found');
         if (tagsSlide) {
             tagsSlide.hidden = true;
+            tagsSlide.classList.remove('col-lg-4');
             tagsSlide.style.width = '0px';
         }
-
-        const rightPanel = document.getElementById('rightPanel');
-        if (rightPanel) {
-            rightPanel.style.marginLeft = '0px';
-            rightPanel.classList.replace('col-sm-5', 'col-sm-1');
+        const mainPanel = document.getElementById('mainPanel');
+        if (mainPanel) {
+            mainPanel.classList.replace('col-lg-8', 'col-lg-12');
+            mainPanel.style.marginRight = '0px';
         }
     }
 
