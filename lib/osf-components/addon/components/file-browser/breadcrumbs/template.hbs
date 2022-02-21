@@ -1,22 +1,25 @@
-<h3 local-class='Breadcrumbs' data-test-breadcrumbs>
-    {{#each @manager.breadcrumbs as |breadcrumb index| }}
-        {{#if (eq index 0)}}
-            <OsfLink
-                data-test-go-to-folder-{{breadcrumb.name}}
-                @href='#'
-                {{on 'click' (perform @manager.goToFolder breadcrumb)}}
-            >
-                {{t (concat 'registries.overview.files.storage_providers.' breadcrumb.name)}}
-            </OsfLink>
-        {{else}}
-            >
-            <OsfLink
-                data-test-go-to-folder-{{breadcrumb.name}}
-                @href='#'
-                {{on 'click' (perform @manager.goToFolder breadcrumb)}}
-            >
-                {{breadcrumb.name}}
-            </OsfLink>
-        {{/if}}
-    {{/each}}
-</h3>
+<nav aria-label={{t 'registries.overview.files.breadcrumbs'}} local-class='Breadcrumbs'>
+    <ol data-test-breadcrumbs>
+        {{#each @manager.breadcrumbs as |breadcrumb index| }}
+            <li>
+                {{#if (eq index 0)}}
+                    <OsfLink
+                        data-test-go-to-folder={{breadcrumb.name}}
+                        @href='#'
+                        {{on 'click' (perform @manager.goToFolder breadcrumb)}}
+                    >
+                        {{t (concat 'registries.overview.files.storage_providers.' breadcrumb.name)}}
+                    </OsfLink>
+                {{else}}
+                    <OsfLink
+                        data-test-go-to-folder={{breadcrumb.name}}
+                        @href='#'
+                        {{on 'click' (perform @manager.goToFolder breadcrumb)}}
+                    >
+                        {{breadcrumb.name}}
+                    </OsfLink>
+                {{/if}}
+            </li>
+        {{/each}}
+    </ol>
+</nav>
