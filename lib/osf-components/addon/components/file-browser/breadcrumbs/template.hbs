@@ -1,9 +1,22 @@
 <h3 local-class='Breadcrumbs' data-test-breadcrumbs>
-    {{#each @breadcrumbs as |breadcrumb index| }}
+    {{#each @manager.breadcrumbs as |breadcrumb index| }}
         {{#if (eq index 0)}}
-            {{t (concat 'registries.overview.files.storage_providers.' breadcrumb.name)}}
+            <OsfLink
+                data-test-go-to-folder-{{breadcrumb.name}}
+                @href='#'
+                {{on 'click' (perform @manager.goToFolder breadcrumb)}}
+            >
+                {{t (concat 'registries.overview.files.storage_providers.' breadcrumb.name)}}
+            </OsfLink>
         {{else}}
-            <span local-class='Divider'>></span> {{breadcrumb.name}}
+            >
+            <OsfLink
+                data-test-go-to-folder-{{breadcrumb.name}}
+                @href='#'
+                {{on 'click' (perform @manager.goToFolder breadcrumb)}}
+            >
+                {{breadcrumb.name}}
+            </OsfLink>
         {{/if}}
     {{/each}}
 </h3>
