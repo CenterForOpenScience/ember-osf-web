@@ -106,7 +106,7 @@ node_categories:
     data: Data
     hypothesis: Hypothesis
     instrumentation: Instrumentation
-    methods_and_measures: 'Methods and measures'
+    'methods and measures': 'Methods and measures'
     procedure: Procedure
     project: Project
     software: Software
@@ -144,6 +144,7 @@ file_detail:
     embed_iframe_label: 'Embeddable iFrame'
     file_name_placeholder: 'Adjustment of 50 studies to 37 studies.docx'
     file_project_placeholder: 'Decision-making in breast cancer prevention: The ENGAGE study'
+    file_renderer_placeholder: 'File Renderer'
 file_browser:
     loading: 'Loading...'
     delete_multiple: 'Delete multiple'
