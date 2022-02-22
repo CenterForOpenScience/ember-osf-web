@@ -15,6 +15,7 @@ enum FileItemKinds {
 
 export interface BaseFileLinks extends OsfLinks {
     upload: Link;
+    download?: Link;
     // only for folders
     new_folder?: Link; // eslint-disable-line camelcase
 }

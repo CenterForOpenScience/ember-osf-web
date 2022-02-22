@@ -1,0 +1,74 @@
+<li
+    data-test-file-list-item
+    local-class={{if @manager.parentFolder 'FileList__item Indent' 'FileList__item'}}
+>
+    {{!-- Analytics/test-selector should know if it is a file or folder --}}
+    <OsfLink
+        data-analytics-name='Open file'
+        @href={{@item.links.html}}
+        @target='_blank'
+        local-class='FileList__item__options'
+    >
+        <FaIcon
+            @prefix='far' @icon='file-alt' @fixedWidth={{true}}
+        />
+        {{@item.name}}
+    </OsfLink>
+    <div
+        data-test-file-list-date
+        local-class='FileList__item__options'
+    >
+        {{#if @item.dateModified}}
+            {{moment-format @item.dateModified 'YYYY-MM-DD hh:mm A'}}
+        {{/if}}
+        <ResponsiveDropdown
+            local-class='DownloadShareDropdown'
+            @horizontalPosition='right'
+            as |dropdown|
+        >
+            <dropdown.trigger
+                data-test-file-download-share-trigger
+                data-analytics-name='File options'
+            >
+                <Button
+                    {{!-- use folder/file name for aria-label --}}
+                    aria-label={{t 'general.options'}} 
+                >
+                    <FaIcon @icon='ellipsis-v' />
+                </Button>
+            </dropdown.trigger>
+            <dropdown.content local-class='DropdownList'>
+                <OsfLink @href={{@item.links.download}}>
+                    <Button
+                        local-class='FileOptionsDropdown__option'
+                        @layout='fake-link'
+                    >
+                        <FaIcon @icon='download' />
+                        {{t 'general.download'}}
+                    </Button>
+                </OsfLink>
+                <SharingIcons::Dropdown
+                    @title={{@item.name}}
+                    @description={{@item.name}}
+                    @hyperlink={{@item.links.html}}
+                    @showText={{true}}
+                    as |dd|
+                >
+                    <dd.trigger
+                        data-test-social-sharing-button
+                        data-analytics-name='Expand sharing menu'
+                        aria-label={{t 'general.share'}}
+                    >
+                        <Button
+                            local-class='FileOptionsDropdown__option'
+                            @layout='fake-link'
+                        >
+                            <FaIcon @icon='share-alt' />
+                            {{t 'general.share'}}
+                        </Button>
+                    </dd.trigger>
+                </SharingIcons::Dropdown>
+            </dropdown.content>
+        </ResponsiveDropdown>
+    </div>
+</li>

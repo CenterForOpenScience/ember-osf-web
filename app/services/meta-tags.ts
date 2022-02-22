@@ -74,10 +74,11 @@ export default class MetaTags extends Service {
      */
     getMetaTags(metaTagsOverrides: MetaTagsData): MetaTagsDefs {
         // Default values.
+        const currentUrl = window.location.href;
         const metaTagsData: MetaTagsData = {
             type: 'article',
             description: this.intl.t('general.hosted_on_the_osf'),
-            url: pathJoin(config.OSF.url, this.router.get('currentURL')),
+            url: pathJoin(config.OSF.url, currentUrl),
             language: this.intl.get('locale'),
             image: pathJoin(config.OSF.url, 'static/img/preprints_assets/osf/sharing.png'),
             imageType: 'image/png',
@@ -153,7 +154,6 @@ export default class MetaTags extends Service {
      */
     getHeadTags(metaTagsData: MetaTagsData): HeadTagDef[] {
         const metaTagsDefs = this.getMetaTags(metaTagsData);
-
         // Morph MetaTagsDefs into an array of MetaTagAttrs.
         const headTagsAttrs: MetaTagAttrs[] = Object.entries(metaTagsDefs)
             .reduce(

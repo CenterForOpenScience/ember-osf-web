@@ -12,7 +12,8 @@
                         @onClick={{'#'}}
                     >
                         <h5>
-                            {{this.model.file.provider}}
+                            {{t 'file_detail.file_project_placeholder'}}
+                            {{this.file.parentFolder}}
                         </h5>
                     </BsButton>
                 </div>
@@ -21,7 +22,8 @@
                 <div class='col-lg-10'>
                     <h3>
                         <em>
-                            {{this.model.file.name}}
+                            {{t 'file_detail.file_name_placeholder'}}
+                            {{this.file.name}}
                         </em>
                     </h3>
                 </div>
@@ -81,13 +83,7 @@
             </div>
             <div class='row'>
                 <div id='mfrIframeParent' local-class='FileDetail-file-render' class='col-lg-12'>
-                    <FileRenderer
-                        data-test-file-renderer
-                        @download={{this.model.file.links.download}}
-                        @version={{this.mfrVersion}}
-                        @height={{850}}
-                        @width={{650}}
-                    />
+                    <p>{{t 'file_detail.file_renderer'}}</p>
                 </div>
             </div>
         </div>
@@ -100,11 +96,12 @@
                     @type='link'
                     @onClick={{this.close}}
                     class='pull-right'
+                    local-class='FilesDetail_Version-slide-close'
                 >
                     <FaIcon @icon='times' />
                 </BsButton>
                 <div local-class='FileDetail_version-header'>
-                    <h2><em>{{t 'general.revisions'}}</em></h2>
+                    <h2>{{t 'general.revisions'}}</h2>
                 </div>
                 <hr>
                 <table local-class='FileDetail_Version-table'>
@@ -169,7 +166,7 @@
                                                         <span>
                                                             {{fa-icon 'info-circle'}}
                                                             <BsTooltip>
-                                                                {{this.schema.schema.description}}
+                                                                {{t 'file_detail.md5_description'}}
                                                             </BsTooltip>
                                                         </span>
                                                     </td>
@@ -193,7 +190,7 @@
                                                         <span>
                                                             {{fa-icon 'info-circle'}}
                                                             <BsTooltip>
-                                                                {{this.schema.schema.description}}
+                                                                {{t 'file_detail.sha2_description'}}
                                                             </BsTooltip>
                                                         </span>
                                                     </td>
@@ -238,6 +235,7 @@
                     @type='link'
                     @onClick={{this.close}}
                     class='pull-right'
+                    local-class='FilesDetail_Tags-slide-close'
                 >
                     <FaIcon @icon='times' />
                 </BsButton>

@@ -155,6 +155,8 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
         });
         newReg.update({ originalResponse: baseResponse });
         newReg.update({ latestResponse: baseResponse });
+        const osfstorage = server.create('file-provider', { target: newReg });
+        newReg.update({ files: [osfstorage] });
     },
 
     dateRegistered() {
@@ -184,6 +186,7 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     registeredBy: association(),
     reviewsState: RegistrationReviewStates.Accepted,
     wikiEnabled: true,
+    region: association(),
 
     index(i: number) {
         return i;
@@ -275,8 +278,11 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     withFiles: trait<MirageRegistration>({
         afterCreate(registration, server) {
             const count = faker.random.number({ min: 1, max: 5 });
-            const osfstorage = server.create('file-provider', { target: registration });
-            const files = server.createList('file', count, { target: registration });
+            const osfstorage = registration.files.filter(file => file.name === 'osfstorage').models[0];
+            const files = server.createList('file', count, {
+                target: registration,
+                parentFolder: osfstorage.rootFolder,
+            });
             osfstorage.rootFolder.update({ files });
         },
     }),

@@ -9,7 +9,6 @@ import { restartableTask, timeout } from 'ember-concurrency';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
-import Registration from 'ember-osf-web/models/registration';
 
 import mimeTypes from 'ember-osf-web/const/mime-types';
 import File from 'ember-osf-web/models/file';
@@ -52,8 +51,6 @@ export default class GuidFile extends Controller {
     @service toast!: Toast;
     @service media!: Media;
 
-    registration?: Registration;
-
     queryParams = ['show'];
 
     deleteModalOpen = false;
@@ -64,11 +61,7 @@ export default class GuidFile extends Controller {
     revisionClicked = false;
     tagsClicked = false;
 
-
     searchUrl = pathJoin(config.OSF.url, 'search');
-
-    fileTypeList = ['JournalArticle', 'AudioVideo', 'Dataset', 'Image',
-        'Model', 'Software', 'Book', 'Poster', 'Presentation'];
 
     // Private properties
     @alias('canEdit') canDelete!: boolean;
@@ -157,22 +150,6 @@ export default class GuidFile extends Controller {
     }
 
     @action
-    async delete() {
-        this.set('deleteModalOpen', false);
-
-        try {
-            await this.file.destroyRecord();
-            this.transitionToRoute('guid-user.quickfiles', this.user.id);
-            const message = this.intl.t('file_detail.delete_success');
-            return this.toast.success(message);
-        } catch (e) {
-            const errorMessage = this.intl.t('file_detail.delete_fail');
-            captureException(e, { errorMessage });
-            return this.toast.error(getApiErrorMessage(e), errorMessage);
-        }
-    }
-
-    @action
     changeView(button: string) {
         const show = lookupTable[this.show][button];
 
@@ -206,7 +183,7 @@ export default class GuidFile extends Controller {
     }
 
     @action
-    async toggleVersions() {
+    toggleVersions() {
         this.toggleProperty('revisionClicked');
 
         if (this.tagsClicked === true) {
@@ -221,7 +198,7 @@ export default class GuidFile extends Controller {
     }
 
     @action
-    async toggleTags() {
+    toggleTags() {
         this.toggleProperty('tagsClicked');
 
         if (this.revisionClicked === true) {
@@ -233,16 +210,6 @@ export default class GuidFile extends Controller {
         if (this.tagsClicked === false) {
             this.closeTags();
         }
-    }
-
-    @action
-    async showMoreButtons() {
-        console.log('Open more button clicked');
-    }
-
-    @action
-    async share() {
-        console.log('File shared with service:');
     }
 
     openVersions() {
@@ -265,7 +232,6 @@ export default class GuidFile extends Controller {
 
     closeVersions() {
         const versionSlide = document.getElementById('versions');
-        console.log('versions div found');
         if (versionSlide) {
             versionSlide.hidden = true;
             versionSlide.classList.remove('col-lg-4');
@@ -286,7 +252,7 @@ export default class GuidFile extends Controller {
         const mainPanel = document.getElementById('mainPanel');
         if (mainPanel) {
             mainPanel.classList.replace('col-lg-12', 'col-lg-8');
-            mainPanel.style.marginRight = '450px';
+            mainPanel.style.marginLeft = '450px';
         }
         const tagsSlide = document.getElementById('tags');
         if (tagsSlide) {
@@ -298,7 +264,6 @@ export default class GuidFile extends Controller {
 
     closeTags() {
         const tagsSlide = document.getElementById('tags');
-        console.log('tags div found');
         if (tagsSlide) {
             tagsSlide.hidden = true;
             tagsSlide.classList.remove('col-lg-4');
@@ -307,22 +272,7 @@ export default class GuidFile extends Controller {
         const mainPanel = document.getElementById('mainPanel');
         if (mainPanel) {
             mainPanel.classList.replace('col-lg-8', 'col-lg-12');
-            mainPanel.style.marginRight = '0px';
+            mainPanel.style.marginLeft = '0px';
         }
-    }
-
-    async getVersions() {
-        const versions = await this.store.findAll('file-version');
-
-        versions.forEach(version => {
-            console.log(version.id); // TODO update to array
-            console.log(version.dateCreated);
-        });
-    }
-}
-
-declare module '@ember/controller' {
-    interface Registry {
-        'guid-file': GuidFile;
     }
 }

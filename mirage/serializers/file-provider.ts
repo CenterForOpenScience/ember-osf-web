@@ -11,6 +11,15 @@ const { OSF: { apiUrl } } = config;
 export default class FileSerializer extends ApplicationSerializer<MirageFileProvider> {
     buildRelationships(model: ModelInstance<MirageFileProvider>) {
         const relationships: SerializedRelationships<MirageFileProvider> = {};
+        const pathName = pluralize(underscore(model.targetId.type));
+        relationships.files = {
+            links: {
+                related: {
+                    href:`${apiUrl}/v2/${pathName}/${model.targetId.id}/files/${model.name}/`,
+                    meta:{},
+                },
+            },
+        };
         if (model.rootFolder) {
             relationships.rootFolder = {
                 data: {

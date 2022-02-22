@@ -1,0 +1,38 @@
+.FileList__item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-top: solid 1px $color-border-gray;
+
+    span {
+        margin: 0 6px;
+    }
+
+    .FolderButton {
+        padding: 0;
+    }
+}
+
+.Indent {
+    padding-left: 30px;
+}
+
+.FileList__item__options {
+    display: flex;
+    align-items: center;
+}
+
+.DownloadShareDropdown {
+    padding-left: 20px;
+}
+
+.DropdownList {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 1px solid $color-border-gray;
+
+    button {
+        padding: 8px;
+    }
+}

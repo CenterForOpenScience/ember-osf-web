@@ -37,7 +37,7 @@ module('Registries | Acceptance | overview.index', hooks => {
             withdrawn: false,
             registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
             provider: server.create('registration-provider'),
-        }, 'withContributors', 'currentUserAdmin'));
+        }, 'withContributors', 'withFiles', 'currentUserAdmin'));
     });
 
     test('it renders', async function(this: OverviewTestContext, assert: Assert) {
@@ -69,6 +69,10 @@ module('Registries | Acceptance | overview.index', hooks => {
             name: 'Links',
             route: 'registries.overview.links',
             url: `/--registries/${this.registration.id}/links`,
+        }, {
+            name: 'Files',
+            route: 'registries.overview.files.provider',
+            url: `/--registries/${this.registration.id}/files`,
         }];
 
         for (const testCase of testCases) {
@@ -79,22 +83,10 @@ module('Registries | Acceptance | overview.index', hooks => {
 
             assert.equal(currentRouteName(), testCase.route, 'At the correct route');
         }
-    });
-
-    test('sidenav hrefs', async function(this: OverviewTestContext, assert: Assert) {
-        const testCases = [{
-            selector: '[data-analytics-name="Files"]',
-            href: `/${this.registration.id}/files/`,
-        }, {
-            selector: '[data-test-wiki-link]',
-            href: `/${this.registration.id}/wiki/`,
-        }];
-
-        for (const testCase of testCases) {
-            await visit(`/${this.registration.id}/`);
-
-            assert.dom(testCase.selector).hasAttribute('href', testCase.href, 'Non-ember routes have the correct href');
-        }
+        await visit(`/${this.registration.id}/`);
+        assert.dom('[data-test-wiki-link]')
+            .hasAttribute('href', `/${this.registration.id}/wiki/`, 'Wiki has the correct href');
+        assert.dom('[data-test-file-providers-list]').doesNotExist('File providers list not shown');
     });
 
     test('wiki link hidden if wiki not enabled', async function(this: OverviewTestContext, assert: Assert){

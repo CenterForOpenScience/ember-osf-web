@@ -11,6 +11,7 @@ import { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
 import Intl from 'ember-intl/services/intl';
+import RouterService from '@ember/routing/router-service';
 
 const {
     support: {
@@ -23,6 +24,7 @@ const { OSF: { url: baseURL } } = config;
 export default class Overview extends Controller {
     @service store!: Store;
     @service intl!: Intl;
+    @service router!: RouterService;
     model!: GuidRouteModel<Registration>;
 
     queryParams = ['mode', 'revisionId'];
@@ -32,6 +34,17 @@ export default class Overview extends Controller {
     @tracked revisionId = '';
 
     @alias('model.taskInstance.value') registration?: Registration;
+
+    get showMetadata() {
+        if (this.router.currentRouteName.includes('registries.overview.files')) {
+            return false;
+        }
+        return true;
+    }
+
+    get onFilesRoute() {
+        return this.router.currentRouteName.includes('registries.overview.files');
+    }
 
     @computed('registration.{reviewsState,archiving}')
     get showTombstone() {

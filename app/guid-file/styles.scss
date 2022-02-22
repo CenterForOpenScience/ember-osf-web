@@ -8,7 +8,6 @@
     display: inline-flex;
     flex-direction: row;
     align-content: flex-start;
-    background-color: rgb(255, 0, 0);
 }
 
 .FileDetail_leftPanel {
@@ -23,13 +22,13 @@
     display: flex;
     flex-direction: column;
     align-content: right;
-    background-color: rgb(0, 0, 255);
 }
 
 .FileDetail-project-link {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
+    font-weight: bold;
 }
 
 .FileDetail_filename-buttons {
@@ -99,7 +98,6 @@
 .FilesDetail_Tags-slide {
     display: flex;
     flex-direction: column;
-    background-color: #111;
     overflow-x: hidden;
     transition: 0.6s;
     height: 100%;
@@ -109,6 +107,7 @@
 .FilesDetail_Tags-slide:focus-visible {
     border-left: 1px solid rgb(102, 102, 102);
 }
+
 
 .FilesDetail_Tags-slide-close {
     display: flex;
@@ -122,13 +121,12 @@
     width: 0;
     display: flex;
     flex-direction: column;
-    background-color: #111;
     overflow-x: hidden;
     transition: 0.6s;
     border-left: 1px solid rgb(102, 102, 102);
 }
 
-.FilesDetail_Version-slide {
+.FilesDetail_Version-slide:focus-visible {
     border-left: 1px solid rgb(102, 102, 102);
 }
 
@@ -139,7 +137,6 @@
 }
 
 .FileDetail-navbar-right {
-    background-color: rgb(98, 0, 128);
     display: fixed;
     top: 26px;
     right: -15px;
@@ -177,4 +174,8 @@
 .FilesDetail_tags-button button:hover {
     color: #000;
     background-color: #337ab7;
+}
+
+h2 h5 {
+    font-weight: bold;
 }

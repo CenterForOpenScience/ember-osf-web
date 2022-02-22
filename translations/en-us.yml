@@ -96,22 +96,6 @@ general:
         preprints: Preprints
         registries: Registries
     other: Other
-    checkout: Checkout
-    metadata: Metadata
-    file_description: Description
-    type: Type
-    funding_agency: 'Funding Agency'
-    type_select: 'File Type Select'
-    example_funder: 'Funder One'
-    journal_article: 'Journal Article'
-    audio_video: 'Audio/Video'
-    dataset: 'Dataset'
-    image: 'Image'
-    model: 'Model'
-    software: 'Software'
-    book: 'Book'
-    poster: 'Poster'
-    presentation: 'Presentation'
     tags: 'Tags'
     science: 'science'
     engineering: 'engineering'
@@ -132,17 +116,12 @@ maintenance:
     line1: 'The site will undergo maintenance between <strong>{start} and {end}</strong> ({utc} UTC).'
     line2: 'Thank you for your patience.'
     title: 'Notice:'
-quickfiles:
-    title: '{userName}''s Quick Files'
-    description: 'Files uploaded here are <b>publicly accessible</b> and easy to share with others using the share link.'
-    transition_auth: 'You must be logged in to view your Quick Files. Redirecting to the login page.'
-    share_by_email: 'Share by email'
 file_detail:
     version:
         id: 'Version ID'
         title: '(Version: {versionNumber})'
         user: 'User: '
-        date_created: '17 Oct 2021 5:52 AM'
+        date_created: '17 Oct 2021 5:52 AM' # TODO update to actual value
         version_number: '#'
         copy_md5: 'Copy MD5'
         copy_sha2: 'Copy SHA-2'
@@ -161,11 +140,12 @@ file_detail:
     save_success: 'File saved'
     save_fail: 'Unable to save file'
     mfr_iframe_title: 'Rendering of document'
-    embed_js_label: 'Embeddable javascript'
-    embed_iframe_label: 'Embeddable iframe'
-
+    embed_js_label: 'Embeddable JavaScript'
+    embed_iframe_label: 'Embeddable iFrame'
+    file_name_placeholder: 'Adjustment of 50 studies to 37 studies.docx'
+    file_project_placeholder: 'Decision-making in breast cancer prevention: The ENGAGE study'
 file_browser:
-    loading: Loading...
+    loading: 'Loading...'
     delete_multiple: 'Delete multiple'
     download_zip: 'Download as zip'
     drop_placeholder: 'Drop files here to upload'
@@ -680,6 +660,7 @@ paginator:
     previous: 'Previous page'
     page: 'Page {page} of {max}'
 social:
+    email: Email
     twitter: Twitter
     facebook: Facebook
     google_group: 'Google Group'
@@ -1383,6 +1364,7 @@ registries:
         title: Overview
         collapse: Collapse
         expand: Expand
+        toggle_navbar: Toggle navigation
         contents: Contents
         see_more: 'See more'
         metadata: Metadata
@@ -1410,6 +1392,19 @@ registries:
             abuse_violence: 'Violence or harmful behavior'
             cannot_retract_report: 'Only the reporter can retract report'
             no_comments: 'No comments.'
+        files:
+            title: Files
+            sort: 'Sort by: '
+            sort_by:
+                name: 'Name: A-Z'
+                -name: 'Name: Z-A'
+                modified: 'Last modified: newest to oldest'
+                -modified: 'Last modified: oldest to newest'
+            download_all: 'Download all files'
+            storage_location: 'Storage location: '
+            storage_providers:
+                osfstorage: 'OSF Storage'
+            empty_folder: 'This folder is empty.'
         links:
             title: Links
             linked_nodes: 'Linked projects and components'
@@ -1423,7 +1418,6 @@ registries:
             title: Components
             no_components: 'This registration has no components.'
         external_links:
-            files: Files
             wiki: Wiki
             analytics: Analytics
         form_view:
@@ -1760,6 +1754,8 @@ routes:
         institution: Institution
         email: Email
 osf-components:
+    infinite-list:
+        load_more: 'Load more'
     draft-registration-card:
         initiated_by: 'Initiated by:'
         form_type: 'Registration template:'

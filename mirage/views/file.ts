@@ -4,7 +4,7 @@ import DraftNode from 'ember-osf-web/models/draft-node';
 import faker from 'faker';
 
 import { guid } from '../factories/utils';
-import { process } from './utils';
+import { filter, process } from './utils';
 
 export function uploadToFolder(this: HandlerContext, schema: Schema) {
     const uploadAttrs = this.request.requestBody;
@@ -83,7 +83,14 @@ export function uploadToRoot(this: HandlerContext, schema: Schema) {
 export function folderFilesList(this: HandlerContext, schema: Schema) {
     const { folderId } = this.request.params;
     const folder = schema.files.find(folderId);
-    return process(schema, this.request, this, folder.files.models.map(file => this.serialize(file).data));
+    const files = folder.files.models;
+    const filteredFiles = [];
+    for (const file of files) {
+        if (filter(file, this.request)){
+            filteredFiles.push(file);
+        }
+    }
+    return process(schema, this.request, this, filteredFiles.map(file => this.serialize(file).data));
 }
 
 export function nodeFilesListForProvider(this: HandlerContext, schema: Schema) {

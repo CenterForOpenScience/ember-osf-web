@@ -37,7 +37,6 @@ export default class ResolveGuid extends Route {
             file: 'guid-file',
             node: 'guid-node',
             preprint: 'guid-preprint',
-            user: 'guid-user',
             registration: this.features.isEnabled(routes['registries.overview'])
                 ? 'registries.overview'
                 : 'guid-registration',

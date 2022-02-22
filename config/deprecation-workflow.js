@@ -18,7 +18,6 @@ self.deprecationWorkflow.config = {
         { handler: 'silence', matchId: 'ember-bootstrap.subclassing#Alert' },
         { handler: 'silence', matchId: 'routing.transition-methods' },
         { handler: 'silence', matchId: 'autotracking.mutation-after-consumption' },
-        { handler: 'silence', matchId: 'ember-click-outside.action-prop' },
         { handler: 'silence', matchId: 'computed-property.override' },
         { handler: 'silence', matchId: 'ember-utils.try-invoke' },
         { handler: 'silence', matchId: 'ember-engines.deprecation-camelized-engine-names' },

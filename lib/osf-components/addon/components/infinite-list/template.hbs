@@ -1,0 +1,19 @@
+<ul ...attributes>
+    {{yield to='header'}}
+    {{#each @itemList as |item|}}
+        {{yield item to='item'}}
+    {{/each}}
+    {{#if @isLoading}}
+        <LoadingIndicator @dark={{true}} />
+    {{/if}}
+    {{#if (and @hasMore (not @isLoading))}}
+        <li
+            {{in-viewport onEnter=@loadMore}}
+        >
+            {{t 'osf-components.infinite-list.load_more'}}
+        </li>
+    {{/if}}
+    {{#if (and (not @isLoading) (eq @itemList.length 0))}}
+        {{yield to='empty'}}
+    {{/if}}
+</ul>
