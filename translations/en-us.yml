@@ -203,7 +203,6 @@ navbar:
     go_home: 'Go home'
     my_projects: 'My Projects'
     my_registrations: 'My Registrations'
-    my_quick_files: 'My Quick Files'
     reviews: 'My Reviewing'
     search: Search
     search_help: 'Search help'
@@ -1249,7 +1248,7 @@ registries:
         no_year: 'No year'
         provider_specific_metadata: 'Registry metadata'
         publication_doi: 'Publication DOI'
-        registered_from: 'Registered from'
+        associated_project: 'Associated project'
         registration_doi: 'Registration DOI'
         registration_type: 'Registration type'
         select_license: 'Select license'
@@ -1336,6 +1335,7 @@ registries:
             storage_providers:
                 osfstorage: 'OSF Storage'
             empty_folder: 'This folder is empty.'
+            breadcrumbs: 'Breadcrumb'
         links:
             title: Links
             linked_nodes: 'Linked projects and components'

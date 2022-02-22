@@ -123,15 +123,22 @@
                     <dd data-test-registration-registry-name>
                         {{@node.provider.name}}
                     </dd><br />
+                    <dt data-test-created-timestamp-label>
+                        {{t (concat 'node_card.registration.timestamp_label')}}
+                    </dt>
+                    <dd data-test-created-timestamp-value>
+                        {{moment @node.dateRegistered}}
+                    </dd><br />
+                {{else}}
+                    <dt data-test-created-timestamp-label>
+                        {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}}
+                    </dt>
+                    <dd data-test-created-timestamp-value>
+                        {{moment @node.dateCreated}}
+                    </dd><br />
                 {{/if}}
-                <dt data-test-created-timestamp-label>
-                    {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}}        
-                </dt>
-                <dd data-test-created-timestamp-value>
-                    {{moment @node.dateCreated}}
-                </dd><br />
                 <dt data-test-updated-timestamp-label>
-                    {{t 'node_card.last_updated'}}        
+                    {{t 'node_card.last_updated'}}
                 </dt>
                 <dd data-test-updated-timestamp-value>
                     {{moment @node.dateModified}}
