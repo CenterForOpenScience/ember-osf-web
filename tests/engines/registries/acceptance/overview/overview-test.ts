@@ -1,5 +1,5 @@
 import { capitalize } from '@ember/string';
-import { click as untrackedClick, fillIn } from '@ember/test-helpers';
+import { click as untrackedClick, fillIn, settled, triggerKeyEvent } from '@ember/test-helpers';
 import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import config from 'ember-get-config';
@@ -249,7 +249,7 @@ module('Registries | Acceptance | overview.overview', hooks => {
         ) && displayText);
         await visit(`/${reg.id}/`);
 
-        assert.dom('[data-test-toggle-anchor-nav-button]').isVisible();
+        assert.dom('[data-test-toggle-anchor-nav-button] div').isVisible();
         assert.dom('[data-test-page-anchor]').isNotVisible();
 
         await click('[data-test-toggle-anchor-nav-button]');
@@ -451,6 +451,44 @@ module('Registries | Acceptance | overview.overview', hooks => {
 
         await visit(`/${nonPublicReg.id}/`);
         assert.dom('[data-test-editable-field="doi"]').doesNotExist('DOIs are only available for public registrations');
+    });
+
+    test('Editable subjects', async assert => {
+        const subjects = [server.create('subject', { text: 'Candy and confection studies' }),
+            server.create('subject', { text: 'Soda and soft drink studies' })];
+        const provider = server.create('registration-provider');
+        provider.update({ subjects });
+        const reg = server.create('registration', {
+            currentUserPermissions: Object.values(Permission),
+            provider,
+        });
+
+        await visit(`/${reg.id}/`);
+
+        await click('[data-test-edit-button="subjects"]');
+        assert.dom('[data-test-subject-widget-browse-tab]').hasAttribute('aria-selected', 'true');
+        assert.dom('[data-test-selected-subject]').doesNotExist('No subjects selected');
+        assert.dom('[data-test-selected-subject-placeholder]')
+            .hasText(t('osf-components.subjects.display.placeholder'), 'Placeholder text shown');
+        assert.dom('[data-test-subject-browse-label]').exists({ count: 2 }, 'All toplevel subjects are listed');
+
+        await untrackedClick('[data-test-subject-browse-label="1"]');
+        assert.dom('[data-test-selected-subject="Candy and confection studies"]')
+            .containsText('Candy and confection studies', 'One subject selected');
+
+        await untrackedClick('[data-test-subject-widget-search-tab]');
+        assert.dom('[data-test-subject-widget-search-tab]').hasAttribute('aria-selected', 'true');
+        assert.dom('[data-test-subject-search-result-label]').doesNotExist('No search results');
+
+        await fillIn('[data-test-subject-searchbox]', 'Soda');
+        triggerKeyEvent('[data-test-subject-searchbox]', 'keyup', 'Shift');
+        await settled();
+        assert.dom('[data-test-subject-search-result-label]').exists('Search finds subjects');
+
+        await untrackedClick('[data-test-subject-search-result-checkbox="Soda and soft drink studies"]');
+        assert.dom('[data-test-selected-subject="Soda and soft drink studies"]').exists('Proper subject selected');
+        await click('[data-test-save-edits]');
+        assert.dom('[data-test-selected-subject]').exists({ count: 2 }, 'Subjects saved');
     });
 
     test('Editable provider metadata', async assert => {

@@ -26,7 +26,7 @@ export default Factory.extend<MirageFile & FileTraits>({
     afterCreate: guidAfterCreate,
 
     name() {
-        return faker.system.commonFileName(faker.system.commonFileExt(), faker.system.commonFileType());
+        return faker.system.commonFileName(faker.system.commonFileExt());
     },
     extra: {
         hashes: {
@@ -39,7 +39,7 @@ export default Factory.extend<MirageFile & FileTraits>({
         return faker.date.past(2, new Date(2018, 0, 0));
     },
     materializedPath(): string {
-        return `/${faker.system.commonFileName(faker.system.commonFileExt(), faker.system.commonFileType())}`;
+        return `/${faker.system.commonFileName(faker.system.commonFileExt())}`;
     },
     dateModified() {
         return faker.date.past(2, new Date(2018, 0, 0));

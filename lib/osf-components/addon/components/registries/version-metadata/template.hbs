@@ -1,0 +1,34 @@
+{{assert 'Registries::VersionMetadata requires @revision' @revision}}
+{{assert 'Registries::VersionMetadata requires @registration' @registration}}
+<section
+    local-class='versionMetadata'
+> 
+    <p
+        data-test-version-metadata-title
+        local-class='versionMetadata-title'
+    >
+        {{if @revision.isOriginalResponse 
+            (t 'registries.overview.versionMetadata.originalTitle')
+            (t 'registries.overview.versionMetadata.updateTitle')
+        }}
+    </p>
+    {{!-- TODO: add description for what fields have changed --}}
+    <p data-test-version-metadata-date>
+        {{if @revision.isOriginalResponse 
+            (t 'registries.overview.versionMetadata.originalDate' date=(moment-format @registration.dateRegistered 'MMM DD, YYYY'))
+            (t 'registries.overview.versionMetadata.date' date=(moment-format @revision.dateModified 'MMM DD, YYYY'))
+        }}
+    </p>
+    {{#if (and @revision (not @revision.isOriginalResponse))}}
+        <p data-test-version-metadata-reason>
+            {{t 'registries.overview.versionMetadata.reason'}}
+            <br>
+            <i>
+                {{if @revision.revisionJustification
+                    @revision.revisionJustification
+                    (t 'registries.overview.versionMetadata.noReason')
+                }}
+            </i>
+        </p>
+    {{/if}}
+</section>

@@ -22,7 +22,7 @@ import { module, test } from 'qunit';
 
 import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
-import { visit } from 'ember-osf-web/tests/helpers';
+import { getHrefAttribute, visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 import { deserializeResponseKey } from 'ember-osf-web/transforms/registration-response-key';
 import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
@@ -30,10 +30,6 @@ import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
 const currentUserStub = Service.extend();
 const storeStub = Service.extend();
 const analyticsStub = Service.extend();
-
-function getHrefAttribute(selector: string) {
-    return document.querySelector(selector)!.getAttribute('href');
-}
 
 interface DraftFormTestContext extends TestContext {
     branchedFrom: ModelInstance<NodeModel>;
@@ -116,8 +112,10 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.ok(reviewNav!.classList.toString().includes('Active'), 'LeftNav: Review is active page');
 
         // check rightnav
-        assert.dom('[data-test-goto-register]').isDisabled('RightNav: Register button disabled');
+        assert.dom('[data-test-goto-register]').doesNotExist('RightNav: Register button not shown');
+        assert.dom('[data-test-nonadmin-warning-text]').exists('RightNav: Warning non-admins cannot register shown');
         assert.dom('[data-test-goto-previous-page]').doesNotExist('RightNav: Back button not shown');
+        assert.dom('[data-test-delete-button]').doesNotExist('RightNav: Delete button not shown');
 
         // check metadata and form renderer
         assert.dom('[data-test-edit-button]').doesNotExist('MetadataRenderer: Edit button not shown');
@@ -132,7 +130,8 @@ module('Registries | Acceptance | draft form', hooks => {
 
         assert.dom('[data-test-sidenav-toggle]').doesNotExist('Mobile view: sidenav toggle not shown');
         assert.dom('[data-test-goto-previous-page]').doesNotExist('Mobile view: previous page button not shown');
-        assert.dom('[data-test-goto-register]').isDisabled('Mobile view: Register button disabled');
+        assert.dom('[data-test-nonadmin-warning-text]').exists('Mobile view: Warning non-admins cannot register shown');
+        assert.dom('[data-test-goto-register]').doesNotExist('Mobile view: Register button does not exist');
 
         await percySnapshot('Read-only Review page: Mobile');
     });
@@ -170,6 +169,27 @@ module('Registries | Acceptance | draft form', hooks => {
         await visit(`/registries/drafts/${registration.id}/99/`);
 
         assert.equal(currentRouteName(), 'registries.page-not-found', 'At page not found');
+    });
+
+    test('delete draft', async function(
+        this: DraftFormTestContext, assert,
+    ) {
+        const initiator = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const registration = server.create(
+            'draft-registration', {
+                registrationSchema,
+                initiator,
+                branchedFrom: this.branchedFrom,
+            },
+        );
+
+        await visit(`/registries/drafts/${registration.id}/`);
+
+        assert.equal(currentRouteName(), 'registries.drafts.draft.metadata', 'On metadata page');
+        await click('[data-test-delete-button]');
+        await click('[data-test-confirm-delete]');
+        assert.equal(currentRouteName(), 'registries.my-registrations', 'Reroutes to my-registrations');
     });
 
     test('left nav controls', async function(this: DraftFormTestContext, assert) {
@@ -330,6 +350,7 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-goto-review]').doesNotExist();
 
         assert.dom('[data-test-goto-register]').isVisible();
+        assert.dom('[data-test-nonadmin-warning-text]').doesNotExist('Warning for non-admins not shown to admins');
         assert.dom('[data-test-goto-previous-page]').isVisible();
 
         // Can navigate back to the last page from review page
@@ -388,6 +409,7 @@ module('Registries | Acceptance | draft form', hooks => {
         await percySnapshot('Registries | Acceptance | draft form | mobile navigation | review page');
         assert.dom('[data-test-page-label]').containsText('Review');
         assert.dom('[data-test-goto-next-page]').isNotVisible();
+        assert.dom('[data-test-nonadmin-warning-text]').doesNotExist('Warning for non-admins not shown to admins');
         assert.dom('[data-test-goto-register]').isVisible();
 
         // check that register button is disabled
@@ -425,6 +447,7 @@ module('Registries | Acceptance | draft form', hooks => {
 
         assert.ok(currentURL().includes(`/registries/drafts/${registration.id}/review`), 'At review page');
         assert.dom('[data-test-goto-register]').isDisabled();
+        assert.dom('[data-test-nonadmin-warning-text]').doesNotExist('Warning for non-admins not shown to admins');
         assert.dom('[data-test-invalid-responses-text]').isVisible();
     });
 
@@ -886,7 +909,7 @@ module('Registries | Acceptance | draft form', hooks => {
             .exists('error appears for unedited, required fields after returning to metadata page: license');
 
         // Choose a subject
-        await click('[data-test-subject="1"] > input');
+        await click('[data-test-subject-browse-label="1"] > input');
         assert.dom('[data-test-validation-errors="subjects"]')
             .doesNotExist('validation error for subjects gone when user makes a selection');
 

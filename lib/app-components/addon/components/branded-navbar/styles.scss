@@ -10,6 +10,19 @@
     :global(.navbar-collapse) {
         border-top-color: transparent;
     }
+    /* stylelint-disable */
+    #navbarScope {
+        :global(.secondary-nav-dropdown) {
+            a {
+                color: $color-text-white;
+            }
+        }
+
+        :global(.btn-success) {
+            color: $color-text-white;
+        }
+    }
+    /* stylelint-enable */
 }
 
 .navbar-image {

@@ -65,7 +65,7 @@
     </div>
 
     <div local-class='Field'>
-        <h4>{{t 'registries.registration_metadata.registered_from'}}</h4>
+        <h4>{{t 'registries.registration_metadata.associated_project'}}</h4>
         <div>
             <OsfLink
                 data-analytics-name='Registered from'
@@ -181,34 +181,36 @@
         </div>
 
         <div local-class='Field'>
-            <Subjects::Manager
-                @model={{this.registration}}
-                @provider={{this.registration.provider}}
-                @doesAutosave={{false}}
-                as |subjectsManager|
-            >
-                <EditableField::SubjectFieldManager
-                    @subjectsManager={{subjectsManager}}
-                    @node={{this.registration}}
-                    as |subjectFieldManager|
+            {{#if this.provider}}
+                <Subjects::Manager
+                    @model={{this.registration}}
+                    @provider={{this.provider}}
+                    @doesAutosave={{false}}
+                    as |subjectsManager|
                 >
-                    <EditableField
-                        data-analytics-scope='Subjects'
-                        @manager={{subjectFieldManager}}
-                        @title={{t 'registries.registration_metadata.subjects'}}
-                        @name='subjects'
-                        @fixedWidth={{true}}
-                        as |field|
+                    <EditableField::SubjectFieldManager
+                        @subjectsManager={{subjectsManager}}
+                        @node={{this.registration}}
+                        as |subjectFieldManager|
                     >
-                        <field.edit>
-                            <Subjects::Widget @subjectsManager={{subjectsManager}} />
-                        </field.edit>
-                        <field.display>
-                            <Subjects::Display @subjects={{subjectsManager.savedSubjects}} />
-                        </field.display>
-                    </EditableField>
-                </EditableField::SubjectFieldManager>
-            </Subjects::Manager>
+                        <EditableField
+                            data-analytics-scope='Subjects'
+                            @manager={{subjectFieldManager}}
+                            @title={{t 'registries.registration_metadata.subjects'}}
+                            @name='subjects'
+                            @fixedWidth={{true}}
+                            as |field|
+                        >
+                            <field.edit>
+                                <Subjects::Widget @subjectsManager={{subjectsManager}} />
+                            </field.edit>
+                            <field.display>
+                                <Subjects::Display @subjects={{subjectsManager.savedSubjects}} />
+                            </field.display>
+                        </EditableField>
+                    </EditableField::SubjectFieldManager>
+                </Subjects::Manager>
+            {{/if}}
         </div>
 
         <div local-class='Field'>

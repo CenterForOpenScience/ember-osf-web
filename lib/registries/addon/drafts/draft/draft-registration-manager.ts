@@ -27,7 +27,7 @@ import {
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
 import RouterService from '@ember/routing/router-service';
 
-type LoadDraftModelTask = TaskInstance<{
+export type LoadDraftModelTask = TaskInstance<{
     draftRegistration: DraftRegistration,
     provider: ProviderModel,
 }>;
@@ -200,6 +200,19 @@ export default class DraftRegistrationManager {
             captureException(e, { errorMessage });
             this.toast.error(getApiErrorMessage(e), errorMessage);
             throw e;
+        }
+    }
+
+    @task
+    @waitFor
+    async deleteDraft() {
+        try {
+            await this.draftRegistration.destroyRecord();
+            this.router.transitionTo('registries.my-registrations');
+        } catch (e) {
+            const errorMessage = this.intl.t('registries.drafts.draft.delete_modal.delete_error');
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
         }
     }
 

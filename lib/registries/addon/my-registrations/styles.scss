@@ -23,6 +23,13 @@
 .NavTabs {
     ul {
         margin-left: 15px;
+        margin-bottom: 10px;
+        line-height: 20px;
+        list-style-image: none;
+        list-style-position: outside;
+        list-style-type: none;
+        padding: 0 0 41px;
+        box-sizing: border-box;
     }
 
     .NavItem {
@@ -30,6 +37,7 @@
         color: #fff;
         background: none;
         padding: 10px 15px;
+        float: left;
 
         &:hover {
             border: none;
@@ -38,7 +46,7 @@
         }
     }
 
-    :global(.active) .NavItem {
+    :global(.ember-tabs__tab--selected) {
         border: none;
         color: $color-text-gray;
         background-color: #e4e4e4;
@@ -55,8 +63,6 @@
     }
 
     .TabPane {
-        display: none;
-
         &:global(.active) {
             display: block;
         }

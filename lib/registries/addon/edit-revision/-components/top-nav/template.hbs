@@ -1,0 +1,80 @@
+{{assert 'EditRevision::-Components::TopNav requires a layout' @layout}}
+{{assert 'EditRevision::-Components::TopNav requires a revision-manager' @revisionManager}}
+{{assert 'EditRevision::-Components::TopNav requires a navigation-manager' @navManager}}
+
+<Navbar local-class='SideBarToggle' ...attributes as |nav|>
+    <nav.bordered-section>
+        {{#if @navManager.showSidenav}}
+            <nav.buttons.default
+                data-test-sidenav-toggle
+                data-analytics-name='Show sidenav'
+                aria-label={{t 'osf-components.registries-top-nav.showRegistrationNavigation'}}
+                @onclick={{action @layout.toggleSidenav}}
+            >
+                <nav.icon @icon={{if @layout.sidenavGutterClosed 'bars' 'times'}} />
+            </nav.buttons.default>
+        {{/if}}
+    </nav.bordered-section>
+    <nav.bordered-section>
+        <div data-test-page-label>
+            {{#if @navManager.inReview}}
+                {{t 'registries.drafts.draft.review.page_label'}}
+            {{else if @navManager.inJustification}}
+                {{t 'registries.edit_revision.justification.page_label'}}
+            {{else}}
+                {{@navManager.currentPageManager.pageHeadingText}}
+            {{/if}}
+        </div>
+    </nav.bordered-section>
+    <nav.bordered-section>
+        {{#if @navManager.isFirstPage}}
+            <nav.links.default
+                data-test-goto-justification
+                data-analytics-name='Topnav back to justification'
+                aria-label={{t 'osf-components.registries-top-nav.justification'}}
+                local-class='MetadataButton'
+                @route='registries.edit-revision.justification'
+                @models={{array @revisionManager.revisionId }}
+            >
+                {{t 'registries.edit_revision.justification.page_label'}}
+            </nav.links.default>
+        {{/if}}
+        {{#if @navManager.showPreviousButton}}
+            <nav.links.default
+                data-test-goto-previous-page
+                data-analytics-name='Topnav back'
+                aria-label={{t 'osf-components.registries-top-nav.previousPage'}}
+                @route='registries.edit-revision.page'
+                @models={{array @revisionManager.revisionId @navManager.prevPageParam}}
+            >
+                <nav.icon @icon='arrow-left' />
+            </nav.links.default>
+        {{/if}}
+        {{#if @navManager.nextPageParam}}
+            <nav.links.default
+                data-test-goto-next-page
+                data-analytics-name='Topnav next'
+                aria-label={{t 'osf-components.registries-top-nav.nextPage'}}
+                @route='registries.edit-revision.page'
+                @models={{array @revisionManager.revisionId @navManager.nextPageParam}}
+                @onClick={{@navManager.currentPageManager.setPageIsVisited}}
+            >
+                <nav.icon @icon='arrow-right' />
+            </nav.links.default>
+        {{/if}}
+        {{#if @navManager.isLastPage}}
+            <nav.links.default
+                data-test-goto-review
+                data-analytics-name='Topnav review'
+                aria-label={{t 'osf-components.registries-top-nav.reviewRegistration'}}
+                @route='registries.edit-revision.review'
+                @models={{array @revisionManager.revisionId}}
+            >
+                <nav.icon @icon='arrow-right' />
+            </nav.links.default>
+        {{/if}}
+        {{#if @navManager.inReview}}
+            <EditRevision::-Components::SubmitAndDecide @revisionManager={{@revisionManager}} @showMobileView={{true}} />
+        {{/if}}
+    </nav.bordered-section>
+</Navbar>

@@ -14,7 +14,7 @@ import ProviderModel from 'ember-osf-web/models/provider';
 import SubjectModel from 'ember-osf-web/models/subject';
 import Analytics from 'ember-osf-web/services/analytics';
 import captureException from 'ember-osf-web/utils/capture-exception';
-import DraftRegistrationManager from 'registries/drafts/draft/draft-registration-manager';
+import DraftRegistrationManager, { LoadDraftModelTask } from 'registries/drafts/draft/draft-registration-manager';
 import NavigationManager from 'registries/drafts/draft/navigation-manager';
 
 export interface DraftRouteModel {
@@ -37,6 +37,9 @@ export default class DraftRegistrationRoute extends Route {
                 draftId,
                 { adapterOptions: { include: 'branched_from' } },
             );
+            if (draftRegistration.modelName === 'registration') {
+                this.transitionTo('overview', draftRegistration.id);
+            }
             const [subjects, provider]:
                 [SubjectModel[], ProviderModel] = await Promise.all([
                     draftRegistration.loadAll('subjects'),
@@ -56,7 +59,7 @@ export default class DraftRegistrationRoute extends Route {
 
     model(params: { id: string }): DraftRouteModel {
         const { id: draftId } = params;
-        const draftRegistrationTask = taskFor(this.loadDraftRegistrationAndNode).perform(draftId);
+        const draftRegistrationTask = taskFor(this.loadDraftRegistrationAndNode).perform(draftId) as LoadDraftModelTask;
         const draftRegistrationManager = new DraftRegistrationManager(getOwner(this), draftRegistrationTask);
         const navigationManager = new NavigationManager(draftRegistrationManager);
         return {

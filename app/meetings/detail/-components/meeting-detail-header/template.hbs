@@ -3,9 +3,9 @@
 <div data-test-meeting-location-and-date local-class='location-and-date-text'>
     {{if this.meeting.location this.meeting.location}}
     {{if (and this.meeting.location (or this.meeting.startDate this.meeting.endDate)) ' | '}}
-    {{if this.meeting.startDate (moment-format this.meeting.startDate 'MMM DD, YYYY')}}
+    {{if this.meeting.startDate (moment-format this.meeting.startDate 'MMM DD, YYYY' timeZone='Europe/London')}}
     {{if (or this.meeting.startDate this.meeting.endDate) ' - '}}
-    {{if this.meeting.endDate (moment-format this.meeting.endDate 'MMM DD, YYYY')}}
+    {{if this.meeting.endDate (moment-format this.meeting.endDate 'MMM DD, YYYY' timeZone='Europe/London')}}
 </div>
 
 {{#if this.meeting.logoUrl}}

@@ -1,3 +1,4 @@
+import { camelize } from '@ember/string';
 import { triggerEvent } from '@ember/test-helpers';
 import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -12,6 +13,7 @@ import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import { click, visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
+import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 
 const registrationStates: Record<string, {
     trait: string,
@@ -60,6 +62,28 @@ const registrationStates: Record<string, {
         icon: 'eye',
         initiallyOpened: false,
         hasAdminActions: true,
+    },
+};
+
+const revisionStates: Record<string, {
+    revisionState: RevisionReviewStates,
+    translationKey: string,
+}> = {
+    approved: {
+        revisionState: RevisionReviewStates.Approved,
+        translationKey: RegistrationReviewStates.Accepted,
+    },
+    unapproved: {
+        revisionState: RevisionReviewStates.Unapproved,
+        translationKey: RevisionReviewStates.Unapproved,
+    },
+    inProgress: {
+        revisionState: RevisionReviewStates.RevisionInProgress,
+        translationKey: camelize(RevisionReviewStates.RevisionInProgress),
+    },
+    revisionPendingModeration: {
+        revisionState: RevisionReviewStates.RevisionPendingModeration,
+        translationKey: camelize(RevisionReviewStates.RevisionPendingModeration),
     },
 };
 
@@ -199,10 +223,11 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         assert.ok(Boolean(reg.forkIds.length));
     });
 
-    test('state description has correct text', async assert => {
+    test('reviews state description has correct text', async assert => {
         for (const [state, stateInfo] of Object.entries(registrationStates)) {
             const reg = server.create('registration', {
                 registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+                revisionState: RevisionReviewStates.Approved,
                 currentUserPermissions: Object.values(Permission),
             }, stateInfo.trait);
             await visit(`/${reg.id}/`);
@@ -232,6 +257,36 @@ module('Registries | Acceptance | overview.topbar', hooks => {
                 );
             }
             assert.dom('[data-test-state-icon]').hasClass(`fa-${stateInfo.icon}`);
+        }
+    });
+
+    test('revision state description has correct text', async assert => {
+        for (const stateInfo of Object.values(revisionStates)) {
+            const reg = server.create('registration', {
+                registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
+                currentUserPermissions: Object.values(Permission),
+                revisionState: stateInfo.revisionState,
+            }, 'isPublic');
+            await visit(`/${reg.id}/`);
+            assert.dom('[data-test-state-button]').hasText(
+                t(`registries.overview.${stateInfo.translationKey}.text`).toString(),
+            );
+
+            await click('[data-test-state-button]');
+            assert.dom('[data-test-state-admin-actions]').isVisible();
+            assert.dom('[data-test-state-description-short]').exists();
+            assert.dom('[data-test-state-description-short]').hasText(
+                t(`registries.overview.${stateInfo.translationKey}.short_description`).toString(),
+            );
+
+            assert.dom('[data-test-state-description-long]').hasText(
+                stripHtmlTags(
+                    t(`registries.overview.${stateInfo.translationKey}.long_description`, {
+                        projectUrl: 'fake.url',
+                    }).toString(),
+                ),
+            );
+            assert.dom('[data-test-state-icon]').hasClass('fa-eye');
         }
     });
 
