@@ -96,6 +96,9 @@ general:
         preprints: Preprints
         registries: Registries
     other: Other
+    tags: 'Tags'
+    science: 'science'
+    engineering: 'engineering'
 node_categories:
     analysis: Analysis
     communication: Communication
@@ -112,6 +115,22 @@ maintenance:
     line1: 'The site will undergo maintenance between <strong>{start} and {end}</strong> ({utc} UTC).'
     line2: 'Thank you for your patience.'
     title: 'Notice:'
+file_detail:
+    version:
+        id: 'Version ID'
+        title: '(Version: {versionNumber})'
+        user: 'User: '
+        date_created: '17 Oct 2021 5:52 AM' # TODO update to actual value
+        version_number: '#'
+        copy_md5: 'Copy MD5'
+        copy_sha2: 'Copy SHA-2'
+        download_count: '87'
+    tags: 'Tags:'
+    sha2_description: 'SHA-2 is a cryptographic hash function designed by the NSA used to verify data integrity.'
+    md5_description: 'MD5 is an algorithm used to verify data integrity.'
+    file_name_placeholder: 'Adjustment of 50 studies to 37 studies.docx'
+    file_project_placeholder: 'Decision-making in breast cancer prevention: The ENGAGE study'
+    file_viewer_placeholder: 'File Viewer'
 dashboard:
     page_title: Home
     title: Dashboard
