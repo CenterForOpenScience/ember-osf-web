@@ -124,6 +124,7 @@ file_detail:
         version_number: '#'
         copy_md5: 'Copy MD5'
         copy_sha2: 'Copy SHA-2'
+        download_count: '87'
     tags: 'Tags:'
     sha2_description: 'SHA-2 is a cryptographic hash function designed by the NSA used to verify data integrity.'
     md5_description: 'MD5 is an algorithm used to verify data integrity.'

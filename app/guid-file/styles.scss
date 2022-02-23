@@ -41,7 +41,6 @@
     display: flex;
     flex-direction: row;
     align-content: flex-start;
-    // padding-left: 100px;
 }
 
 .FileDetail_dropdown-list {
@@ -156,6 +155,7 @@
     height: 40px;
     width: 50px;
     border: solid 2px transparent;
+    vertical-align: center;
     border-radius: 2px;
     padding-bottom: 25px;
 }

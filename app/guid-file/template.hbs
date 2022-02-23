@@ -54,7 +54,7 @@
                                         data-test-download-button
                                         @type='link'
                                         @bubble={{true}}
-                                        @onClick={{this.download}}
+                                        @onClick={{'#'}}
                                     >
                                         <span>
                                             <FaIcon @icon='download' @fixedWidth={{true}} />
@@ -68,7 +68,7 @@
                                         data-test-share-button
                                         @type='link'
                                         @bubble={{true}}
-                                        @onClick={{this.share}}
+                                        @onClick={{'#'}}
                                     >
                                         <span>
                                             <FaIcon @icon='share-alt' @fixedWidth={{true}} />
@@ -88,7 +88,7 @@
             </div>
         </div>
         <div class='row'>
-            <div hidden id='versions' class='' local-class='FilesDetail_Version-slide'>
+            <div hidden id='versions' class='pull-right' local-class='FilesDetail_Version-slide'>
                 <BsButton
                     data-analytics-name='Close revision sidebar'
                     data-test-close-versions
@@ -227,7 +227,7 @@
             </div>
         </div>
         <div class='row'>
-            <div hidden id='tags' class='' local-class='FilesDetail_Tags-slide'>
+            <div hidden id='tags' class='pull-right' local-class='FilesDetail_Tags-slide'>
                 <BsButton
                     data-analytics-name='Close tags slide'
                     data-test-close-tags
@@ -254,7 +254,7 @@
             </div>
         </div>
     </div>
-    <div local-class='FileDetail-navbar-right' class='col-lg-1'>
+    <div local-class='FileDetail-navbar-right' class='col-lg-1 pull-right'>
         <div class='col-lg-12' local-class='FileDetail_navbar-buttons'>
             <div local-class='FilesDetail_versions-button'>
                 <BsButton
