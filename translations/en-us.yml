@@ -99,7 +99,6 @@ general:
     tags: 'Tags'
     science: 'science'
     engineering: 'engineering'
-
 node_categories:
     analysis: Analysis
     communication: Communication
