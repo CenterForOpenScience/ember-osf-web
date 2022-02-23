@@ -145,43 +145,6 @@ file_detail:
     file_name_placeholder: 'Adjustment of 50 studies to 37 studies.docx'
     file_project_placeholder: 'Decision-making in breast cancer prevention: The ENGAGE study'
     file_viewer_placeholder: 'File Viewer'
-file_browser:
-    loading: 'Loading...'
-    delete_multiple: 'Delete multiple'
-    download_zip: 'Download as zip'
-    drop_placeholder: 'Drop files here to upload'
-    drop_reminder: 'Drop file to upload'
-    no_files: 'This user has not uploaded any Quick Files'
-    share_title: Share
-    clipboard_copy: 'Copy to clipboard'
-    info:
-        title: 'How to use the file browser'
-        upload: '<b>Upload:</b> Upload single files via drag and drop or by clicking the upload button.'
-        select: '<b>Select rows:</b> Click on a row to show further actions in the toolbar. Use Command or Shift keys to select multiple files.'
-        folders: '<b>Folders:</b> Not supported; consider an OSF project for uploading and managing many files.'
-        open1: '<b>Open files:</b> Click a file name to view the file on OSF.'
-        open2: '<b>Open files in new tab:</b> Press Command (Ctrl in Windows) and click a file name to open it in a new tab.'
-        download: '<b>Download as zip:</b> Click the "Download as zip" button in the toolbar to download all files as a .zip.'
-    delete_modal:
-        title: 'Delete "{filename}"?'
-        title_multiple: 'Delete multiple?'
-        body: 'This action is irreversible.'
-    conflict_modal:
-        title: 'An item named {textValue} already exists in this location.'
-        keep_info: '"Keep both" will retain both files (and their version histories) in this location.'
-        replace_info: '"Replace" will overwrite the existing file in this location. You will lose previous versions of the overwritten file. You will keep previous versions of the moved file.'
-        keep_button: 'Keep both'
-        replace_button: Replace
-    move_modal:
-        title: 'Move file to project'
-        move_button: 'Move file'
-    filtering: Filtering
-    file_added: 'This file has been added.'
-    file_added_toast: 'File added'
-    file_replaced: 'This file has been replaced.'
-    file_deleted: 'This file has been deleted.'
-    delete_failed: 'Unable to delete file'
-    successfully_moved: 'This file has been successfully moved.'
 dashboard:
     page_title: Home
     title: Dashboard
