@@ -11,21 +11,21 @@
                         @type='link'
                         @onClick={{'#'}}
                     >
-                        <h5>
+                        <h3>
                             {{t 'file_detail.file_project_placeholder'}}
                             {{this.file.parentFolder}}
-                        </h5>
+                        </h3>
                     </BsButton>
                 </div>
             </div>
             <div class='row' local-class='FileDetail_filename-buttons'>
                 <div class='col-lg-10'>
-                    <h3>
-                        <em>
+                    <div local-class='FileDetail_file-name'>
+                        <h2>
                             {{t 'file_detail.file_name_placeholder'}}
                             {{this.file.name}}
-                        </em>
-                    </h3>
+                        </h2>
+                    </div>
                 </div>
                 <div class='col-lg-2'>
                     <div class='btn btn-group'>
@@ -83,7 +83,7 @@
             </div>
             <div class='row'>
                 <div id='mfrIframeParent' local-class='FileDetail-file-render' class='col-lg-12'>
-                    <p>{{t 'file_detail.file_renderer_placeholder'}}</p>
+                    <p>{{t 'file_detail.file_viewer_placeholder'}}</p>
                 </div>
             </div>
         </div>
@@ -240,7 +240,7 @@
                     <FaIcon @icon='times' />
                 </BsButton>
                 <h2>
-                    <em>{{t 'general.tags'}}</em>
+                    {{t 'general.tags'}}
                 </h2>
                 <hr>
                 <div local-class='container-fluid FileDetail_tags-container'>

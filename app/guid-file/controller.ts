@@ -20,6 +20,7 @@ import pathJoin from 'ember-osf-web/utils/path-join';
 import $ from 'jquery';
 import mime from 'mime-types';
 import Media from 'ember-responsive';
+import OsfStorageManager from 'osf-components/components/storage-provider-manager/osf-storage-manager/component';
 
 Object.assign(mime.types, mimeTypes);
 
@@ -44,7 +45,7 @@ const lookupTable: { [k: string]: { [s: string]: string} } = {
     },
 };
 
-export default class GuidFile extends Controller {
+export default class GuidFile extends Controller{
     @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service intl!: Intl;
@@ -63,6 +64,7 @@ export default class GuidFile extends Controller {
 
     searchUrl = pathJoin(config.OSF.url, 'search');
 
+    manager!: OsfStorageManager;
     // Private properties
     @alias('canEdit') canDelete!: boolean;
     @alias('model.file') file!: File;

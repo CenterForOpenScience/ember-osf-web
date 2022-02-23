@@ -144,7 +144,7 @@ file_detail:
     embed_iframe_label: 'Embeddable iFrame'
     file_name_placeholder: 'Adjustment of 50 studies to 37 studies.docx'
     file_project_placeholder: 'Decision-making in breast cancer prevention: The ENGAGE study'
-    file_renderer_placeholder: 'File Renderer'
+    file_viewer_placeholder: 'File Viewer'
 file_browser:
     loading: 'Loading...'
     delete_multiple: 'Delete multiple'

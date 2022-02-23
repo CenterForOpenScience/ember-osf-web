@@ -31,10 +31,17 @@
     font-weight: bold;
 }
 
+
+.FileDetail_file-name {
+    padding-left: 14px;
+    font-weight: 900;
+}
+
 .FileDetail_filename-buttons {
     display: flex;
     flex-direction: row;
     align-content: flex-start;
+    // padding-left: 100px;
 }
 
 .FileDetail_dropdown-list {
@@ -92,16 +99,17 @@
     flex-direction: column;
     background-color: rgb(0, 255, 255);
     border-left: 1px solid rgb(102, 102, 102);
-    transition: 0.6s;
+    transition: 0.4s;
+    z-index: 1;
 }
 
 .FilesDetail_Tags-slide {
+    height: 100%;
+    width: 0;
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
-    transition: 0.6s;
-    height: 100%;
-    width: 0;
+    transition: 0.4s;
 }
 
 .FilesDetail_Tags-slide:focus-visible {
@@ -117,13 +125,11 @@
 
 .FilesDetail_Version-slide {
     height: 100%;
-    border-left: 1px solid rgb(102, 102, 102);
     width: 0;
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
     transition: 0.6s;
-    border-left: 1px solid rgb(102, 102, 102);
 }
 
 .FilesDetail_Version-slide:focus-visible {
@@ -138,9 +144,7 @@
 
 .FileDetail-navbar-right {
     display: fixed;
-    top: 26px;
-    right: -15px;
-    height: 100%;
+    top: 32px;
 }
 
 .FileDetail-navbar-buttons button {
@@ -176,6 +180,6 @@
     background-color: #337ab7;
 }
 
-h2 h5 {
-    font-weight: bold;
-}
+// h1 h2 h3 {
+//     font-weight: 900;
+// }
