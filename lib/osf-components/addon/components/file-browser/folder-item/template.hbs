@@ -29,11 +29,10 @@
         >
             <dropdown.trigger
                 data-test-file-download-share-trigger
-                data-analytics-name='File options'
+                data-analytics-name='Folder actions'
             >
                 <Button
-                    {{!-- use folder/file name for aria-label --}}
-                    aria-label={{t 'general.options'}} 
+                    aria-label={{t 'file_actions_menu.actions' filename=@item.name}}
                 >
                     <FaIcon @icon='ellipsis-v' />
                 </Button>
