@@ -22,8 +22,7 @@
                 <div class='col-lg-10'>
                     <div local-class='FileDetail_file-name'>
                         <h2>
-                            {{t 'file_detail.file_name_placeholder'}}
-                            {{this.file.name}}
+                            {{this.model.name}}
                         </h2>
                     </div>
                 </div>
@@ -83,7 +82,7 @@
             </div>
             <div class='row'>
                 <div id='mfrIframeParent' local-class='FileDetail-file-render' class='col-lg-12'>
-                    <p>{{t 'file_detail.file_viewer_placeholder'}}</p>
+                    <FileRenderer @download={{this.model.links.download}} />
                 </div>
             </div>
         </div>
