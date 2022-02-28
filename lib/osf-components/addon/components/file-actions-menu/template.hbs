@@ -8,8 +8,7 @@
         data-analytics-name='File options'
     >
         <Button
-            {{!-- use folder/file name for aria-label --}}
-            aria-label={{t 'general.options'}} 
+            aria-label={{t 'file_actions_menu.actions' filename=@item.name}} 
         >
             <FaIcon @icon='ellipsis-v' />
         </Button>
@@ -17,7 +16,6 @@
     <dropdown.content local-class='DropdownList'>
         <OsfLink @href={{@item.links.download}}>
             <Button
-                local-class='FileOptionsDropdown__option'
                 @layout='fake-link'
             >
                 <FaIcon @icon='download' />
@@ -37,7 +35,6 @@
                 aria-label={{t 'general.share'}}
             >
                 <Button
-                    local-class='FileOptionsDropdown__option'
                     @layout='fake-link'
                 >
                     <FaIcon @icon='share-alt' />
