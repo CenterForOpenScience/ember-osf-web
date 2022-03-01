@@ -3,19 +3,14 @@
         <div id='mainPanel' class='col-lg-12' local-class='FileDetail_main'>
             <div class='row'>
                 <div local-class='FileDetail-project-link' class='col-lg-12'>
-                    <BsButton
+                    <OsfLink
                         data-test-project-link
                         data-analytics-name='Linked project'
                         local-class='FileDetail__registration-link'
-                        @bubble={{true}}
-                        @type='link'
-                        @onClick={{'#'}}
+                        @href={{this.model.target.links.html}}
                     >
-                        <h3>
-                            {{t 'file_detail.file_project_placeholder'}}
-                            {{this.file.parentFolder}}
-                        </h3>
-                    </BsButton>
+                        {{this.model.target.title}}
+                    </OsfLink>
                 </div>
             </div>
             <div class='row' local-class='FileDetail_filename-buttons'>

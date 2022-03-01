@@ -42,7 +42,7 @@ export default class GuidFile extends Route {
     async model(params: { guid: string }) {
         const { guid } = params;
         try {
-            const file = await this.store.findRecord('file', guid);
+            const file = await this.store.findRecord('file', guid, { include: 'target' });
 
             return file;
         } catch (error) {
