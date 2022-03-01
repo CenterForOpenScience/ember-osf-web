@@ -7,7 +7,8 @@
                         data-test-project-link
                         data-analytics-name='Linked project'
                         local-class='FileDetail__registration-link'
-                        @href={{this.model.target.links.html}}
+                        @route={{if (eq this.model.target.type 'registrations') 'guid-registration' 'guid-node'}}
+                        @models={{array this.model.target.id}}
                     >
                         {{this.model.target.title}}
                     </OsfLink>
