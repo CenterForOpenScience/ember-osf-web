@@ -1,0 +1,14 @@
+.DownloadShareDropdown {
+    padding-left: 20px;
+}
+
+.DropdownList {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 1px solid $color-border-gray;
+
+    button {
+        padding: 8px;
+    }
+}

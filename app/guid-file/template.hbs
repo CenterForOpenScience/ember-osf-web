@@ -28,55 +28,7 @@
                 </div>
                 <div class='col-lg-2'>
                     <div class='btn btn-group'>
-                        <ResponsiveDropdown
-                            data-test-more-button
-                            data-analytics-scope='Files'
-                            as |dd|
-                        >
-                            <dd.trigger
-                                data-test-more-button-trigger
-                                data-analytics-name='Toggle more buttons'
-                                local-class='FileDetail_dropdown-trigger'
-                            >
-                                <Button
-                                    local-class='FileDetail_dropdown-trigger-button'
-                                >
-                                    <FaIcon @icon='ellipsis-v' @fixedWidth={{true}} />
-                                </Button>
-                            </dd.trigger>
-                            <dd.content
-                                local-class='FileDetail_dropdown-list'
-                            >
-                                <div local-class='FileDetail_main-download-button'>
-                                    <BsButton
-                                        data-analytics-name='Download button'
-                                        data-test-download-button
-                                        @type='link'
-                                        @bubble={{true}}
-                                        @onClick={{'#'}}
-                                    >
-                                        <span>
-                                            <FaIcon @icon='download' @fixedWidth={{true}} />
-                                            {{t 'general.download'}}
-                                        </span>
-                                    </BsButton>
-                                </div>
-                                <div local-class='FileDetail_main-share-button'>
-                                    <BsButton
-                                        data-analytics-name='Share button'
-                                        data-test-share-button
-                                        @type='link'
-                                        @bubble={{true}}
-                                        @onClick={{'#'}}
-                                    >
-                                        <span>
-                                            <FaIcon @icon='share-alt' @fixedWidth={{true}} />
-                                            {{t 'general.share'}}
-                                        </span>
-                                    </BsButton>
-                                </div>
-                            </dd.content>
-                        </ResponsiveDropdown>
+                        <FileActionsMenu @item={{this.model}} />
                     </div>
                 </div>
             </div>
