@@ -5,7 +5,6 @@ const serviceLinks = {
     exploreActivity: `${osfUrl}explore/activity/`,
     meetingsHome: `${osfUrl}meetings/`,
     myProjects: `${osfUrl}myprojects/`,
-    myQuickFiles: `${osfUrl}quickfiles/`,
     osfHome: osfUrl,
     osfSupport: `${osfUrl}support/`,
     preprintsDiscover: `${osfUrl}preprints/discover/`,

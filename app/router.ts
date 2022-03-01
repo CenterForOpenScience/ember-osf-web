@@ -102,7 +102,6 @@ Router.map(function() {
     this.route('institutions', function() {
         this.route('dashboard', { path: '/:institution_id/dashboard' });
     });
-    this.route('quickfiles');
     this.route('register');
     this.route('settings', function() {
         this.route('profile', function() {
@@ -152,9 +151,6 @@ Router.map(function() {
         this.route('forks');
     });
 
-    this.route('guid-user', { path: '--user/:guid' }, function() {
-        this.route('quickfiles');
-    });
 
     /*
      * Guid Routing

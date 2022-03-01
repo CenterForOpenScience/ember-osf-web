@@ -10,7 +10,6 @@ import CommentModel from './comment';
 import DraftNode from './draft-node';
 import FileVersionModel from './file-version';
 import NodeModel from './node';
-import UserModel from './user';
 
 export interface FileLinks extends BaseFileLinks {
     info: Link;
@@ -54,9 +53,6 @@ export default class FileModel extends BaseFileItem {
     // TODO: In the future apiv2 may also need to support this pointing at nodes OR registrations
     @belongsTo('abstract-node', { inverse: 'files', polymorphic: true })
     target!: (AsyncBelongsTo<NodeModel> & NodeModel) | (AsyncBelongsTo<DraftNode> & DraftNode);
-
-    @belongsTo('user')
-    user!: AsyncBelongsTo<UserModel> & UserModel;
 
     // BaseFileItem override
     isFileModel = true;
