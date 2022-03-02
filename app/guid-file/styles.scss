@@ -180,6 +180,10 @@
     background-color: #337ab7;
 }
 
-// h1 h2 h3 {
-//     font-weight: 900;
-// }
+.ContentBackground {
+    display: flex;
+    flex-grow: 1;
+    z-index: 1;
+    justify-content: center;
+    position: relative;
+}
