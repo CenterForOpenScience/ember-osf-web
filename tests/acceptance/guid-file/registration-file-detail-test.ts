@@ -20,6 +20,8 @@ module('Acceptance | guid file | registration files', hooks => {
         assert.dom('[data-test-filename]')
             .hasText('Test File', 'The correct filename is on the page');
         assert.dom('[data-test-file-renderer] iframe').exists('File renderer is rendering');
+        assert.dom('[data-test-project-link]')
+            .hasText(registration.title, 'Link to registration has the title of the registration' );
         await percySnapshot(assert);
     });
 });
