@@ -19,6 +19,7 @@ export interface FileLinks extends BaseFileLinks {
 
     // only for files
     download?: Link;
+    render?: Link;
 }
 
 export default class FileModel extends BaseFileItem {

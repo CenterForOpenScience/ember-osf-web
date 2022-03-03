@@ -22,6 +22,20 @@
                 {{t 'general.download'}}
             </Button>
         </OsfLink>
+        <FileEmbedMenu @file={{@item}} as |dd|>
+            <dd.trigger
+                data-test-embed-button
+                data-analytics-name='Expand embed menu'
+                aria-label={{t 'general.embed'}}
+            >
+                <Button
+                    @layout='fake-link'
+                >
+                    <FaIcon @icon='file-import' />
+                    {{t 'general.embed'}}
+                </Button>
+            </dd.trigger>
+        </FileEmbedMenu>
         <SharingIcons::Dropdown
             @title={{@item.name}}
             @description={{@item.name}}
