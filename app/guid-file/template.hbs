@@ -1,30 +1,24 @@
-<GuidFile::-Components::FileDetailLayout @rightColumnClosed={{this.rightColumnClosed}}>
-    <:main>
-        <BsButton
-            data-test-project-link
-            data-analytics-name='Linked project'
-            local-class='FileDetail__registration-link'
-            @bubble={{true}}
-            @type='link'
-            @onClick={{'#'}}
-        >
-            <h3>
-                {{t 'file_detail.file_project_placeholder'}}
-                {{this.file.parentFolder}}
-            </h3>
-        </BsButton>
-        <div local-class='FileDetail_file-name'>
+<GuidFile::-Components::FileDetailLayout
+    @rightColumnClosed={{this.rightColumnClosed}}
+    @isMobile={{this.media.isMobile}}
+>
+    <:header>
+        <h3 local-class='ProjectLink'>
+            {{t 'file_detail.file_project_placeholder'}}
+            {{this.file.parentFolder}}
+        </h3>
+        <div local-class='FlexContainerRow'>
             <h2 data-test-filename>
                 {{this.model.name}}
             </h2>
-        </div>
-        <div class='btn btn-group'>
             <FileActionsMenu @item={{this.model}} />
         </div>
-        <div data-test-file-renderer id='mfrIframeParent' local-class='FileDetail-file-render'>
+    </:header>
+    <:body>
+        <div data-test-file-renderer id='mfrIframeParent' local-class='FileRenderer'>
             <FileRenderer @download={{this.model.links.download}} />
         </div>
-    </:main>
+    </:body>
     <:right>
         {{#if this.revisionsOpened}}
             <h2>{{t 'general.revisions'}}</h2>
@@ -161,10 +155,21 @@
         {{/if}}
     </:right>
     <:rightButtons>
+        {{#if this.media.isMobile}}
+            <BsButton
+                data-test-versions-button
+                data-analytics-name='Versions button'
+                local-class='SlideButtons {{if this.rightColumnClosed 'Active'}}'
+                @size='lg'
+                @onClick={{this.toggleFileRenderer}}
+            >
+                <FaIcon @icon='file-alt' @fixedWidth={{true}}/>
+            </BsButton>
+        {{/if}}
         <BsButton
             data-test-versions-button
-            data-analytics-name='Versions slide button'
-            class='button btn'
+            data-analytics-name='Versions button'
+            local-class='SlideButtons {{if this.revisionsOpened 'Active'}}'
             @size='lg'
             @onClick={{this.toggleRevisions}}
         >
@@ -172,9 +177,8 @@
         </BsButton>
         <BsButton
             data-test-tags-button
-            data-analytics-name='Tags slide button'
-            class='button btn'
-            local-class='FilesDetail_tags-button'
+            data-analytics-name='Tags button'
+            local-class='SlideButtons {{if this.tagsOpened 'Active'}}'
             @size='lg'
             @onClick={{this.toggleTags}}
         >

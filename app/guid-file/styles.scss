@@ -1,184 +1,184 @@
-@media screen and (max-height: 450px) {
-    .right {padding-top: 15px;}
-    .right a {font-size: 18px;}
-    // TODO complete
-}
+// @media screen and (max-height: 450px) {
+//     .right {padding-top: 15px;}
+//     .right a {font-size: 18px;}
+//     // TODO complete
+// }
     
-.FileDetail_container {
-    display: inline-flex;
-    flex-direction: row;
-    align-content: flex-start;
-}
+// .FileDetail_container {
+//     display: inline-flex;
+//     flex-direction: row;
+//     align-content: flex-start;
+// }
 
-.FileDetail_leftPanel {
-    height: 100%;
-    display: inline-flex;
-    flex-direction: row;
-    justify-content: flex-end; //was flex-start
-}
+// .FileDetail_leftPanel {
+//     height: 100%;
+//     display: inline-flex;
+//     flex-direction: row;
+//     justify-content: flex-end; //was flex-start
+// }
 
-.FileDetail_main {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-content: right;
-}
+// .FileDetail_main {
+//     height: 100%;
+//     display: flex;
+//     flex-direction: column;
+//     align-content: right;
+// }
 
-.FileDetail-project-link {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    font-weight: bold;
-}
-
-
-.FileDetail_file-name {
-    padding-left: 14px;
-    font-weight: 900;
-}
-
-.FileDetail_filename-buttons {
-    display: flex;
-    flex-direction: row;
-    align-content: flex-start;
-}
-
-.FileDetail_dropdown-list {
-    display: inline-block;
-    flex-direction: column;
-}
-
-.FileDetail_main-download-button button {
-    padding: 0;
-    margin: 0;
-    color: #337ab7;
-    background-color: #fff;
-    border-radius: 0;
-    height: 20px;
-    width: 90px;
-    font-size: 14px;
-    text-align: left;
-}
-
-.FileDetail_main-download-button button:hover {
-    color: #000;
-    background-color: #fff;
-    text-decoration: none;
-}
-
-.FileDetail_main-share-button button {
-    padding: 0;
-    margin: 0;
-    color: #337ab7;
-    background-color: #fff;
-    border-radius: 0;
-    height: 20px;
-    width: 90px;
-    font-size: 14px;
-    text-align: left;
-}
-
-.FileDetail_main-share-button button:hover {
-    color: #000;
-    background-color: #fff;
-    text-decoration: none;
-}
-
-.FileDetail-file-render {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    text-align: center;
-}
-
-// right navbar
-.FileDetail_right {
-    height: 100%;
-    display: inline-flex;
-    flex-direction: column;
-    background-color: rgb(0, 255, 255);
-    border-left: 1px solid rgb(102, 102, 102);
-    transition: 0.4s;
-    z-index: 1;
-}
-
-.FilesDetail_Tags-slide {
-    height: 100%;
-    width: 0;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
-    transition: 0.4s;
-}
-
-.FilesDetail_Tags-slide:focus-visible {
-    border-left: 1px solid rgb(102, 102, 102);
-}
+// .FileDetail-project-link {
+//     display: flex;
+//     flex-direction: row;
+//     align-items: flex-start;
+//     font-weight: bold;
+// }
 
 
-.FilesDetail_Tags-slide-close {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-}
+// .FileDetail_file-name {
+//     padding-left: 14px;
+//     font-weight: 900;
+// }
 
-.FilesDetail_Version-slide {
-    height: 100%;
-    width: 0;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
-    transition: 0.6s;
-}
+// .FileDetail_filename-buttons {
+//     display: flex;
+//     flex-direction: row;
+//     align-content: flex-start;
+// }
 
-.FilesDetail_Version-slide:focus-visible {
-    border-left: 1px solid rgb(102, 102, 102);
-}
+// .FileDetail_dropdown-list {
+//     display: inline-block;
+//     flex-direction: column;
+// }
 
-.FilesDetail_Version-slide-close {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-}
+// .FileDetail_main-download-button button {
+//     padding: 0;
+//     margin: 0;
+//     color: #337ab7;
+//     background-color: #fff;
+//     border-radius: 0;
+//     height: 20px;
+//     width: 90px;
+//     font-size: 14px;
+//     text-align: left;
+// }
 
-.FileDetail-navbar-right {
-    display: fixed;
-    top: 32px;
-}
+// .FileDetail_main-download-button button:hover {
+//     color: #000;
+//     background-color: #fff;
+//     text-decoration: none;
+// }
 
-.FileDetail-navbar-buttons button {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    align-content: space-between;
-    text-align: center;
-    height: 40px;
-    width: 50px;
-    border: solid 2px transparent;
-    vertical-align: center;
-    border-radius: 2px;
-    padding-bottom: 25px;
-}
+// .FileDetail_main-share-button button {
+//     padding: 0;
+//     margin: 0;
+//     color: #337ab7;
+//     background-color: #fff;
+//     border-radius: 0;
+//     height: 20px;
+//     width: 90px;
+//     font-size: 14px;
+//     text-align: left;
+// }
 
-.FilesDetail_versions-button button {
-    color: #337ab7;
-    background-color: #fff;
-}
+// .FileDetail_main-share-button button:hover {
+//     color: #000;
+//     background-color: #fff;
+//     text-decoration: none;
+// }
 
-.FilesDetail_versions-button button:hover {
-    color: #000;
-    background-color: #337ab7;
-}
+// .FileDetail-file-render {
+//     display: flex;
+//     flex-direction: row;
+//     justify-content: center;
+//     text-align: center;
+// }
 
-.FilesDetail_tags-button button {
-    color: #337ab7;
-    background-color: #fff;
-}
+// // right navbar
+// .FileDetail_right {
+//     height: 100%;
+//     display: inline-flex;
+//     flex-direction: column;
+//     background-color: rgb(0, 255, 255);
+//     border-left: 1px solid rgb(102, 102, 102);
+//     transition: 0.4s;
+//     z-index: 1;
+// }
 
-.FilesDetail_tags-button button:hover {
-    color: #000;
-    background-color: #337ab7;
-}
+// .FilesDetail_Tags-slide {
+//     height: 100%;
+//     width: 0;
+//     display: flex;
+//     flex-direction: column;
+//     overflow-x: hidden;
+//     transition: 0.4s;
+// }
+
+// .FilesDetail_Tags-slide:focus-visible {
+//     border-left: 1px solid rgb(102, 102, 102);
+// }
+
+
+// .FilesDetail_Tags-slide-close {
+//     display: flex;
+//     flex-direction: row;
+//     justify-content: flex-end;
+// }
+
+// .FilesDetail_Version-slide {
+//     height: 100%;
+//     width: 0;
+//     display: flex;
+//     flex-direction: column;
+//     overflow-x: hidden;
+//     transition: 0.6s;
+// }
+
+// .FilesDetail_Version-slide:focus-visible {
+//     border-left: 1px solid rgb(102, 102, 102);
+// }
+
+// .FilesDetail_Version-slide-close {
+//     display: flex;
+//     flex-direction: row;
+//     justify-content: flex-end;
+// }
+
+// .FileDetail-navbar-right {
+//     display: fixed;
+//     top: 32px;
+// }
+
+// .FileDetail-navbar-buttons button {
+//     display: flex;
+//     flex-direction: column;
+//     align-items: flex-start;
+//     align-content: space-between;
+//     text-align: center;
+//     height: 40px;
+//     width: 50px;
+//     border: solid 2px transparent;
+//     vertical-align: center;
+//     border-radius: 2px;
+//     padding-bottom: 25px;
+// }
+
+// .FilesDetail_versions-button button {
+//     color: #337ab7;
+//     background-color: #fff;
+// }
+
+// .FilesDetail_versions-button button:hover {
+//     color: #000;
+//     background-color: #337ab7;
+// }
+
+// .FilesDetail_tags-button button {
+//     color: #337ab7;
+//     background-color: #fff;
+// }
+
+// .FilesDetail_tags-button button:hover {
+//     color: #000;
+//     background-color: #337ab7;
+// }
 
 .ContentBackground {
     display: flex;
@@ -186,4 +186,44 @@
     z-index: 1;
     justify-content: center;
     position: relative;
+}
+
+.MainColumn {
+    display: flex;
+    flex-direction: column;
+}
+
+.FlexContainerRow {
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+    justify-content: space-between;
+    padding: 0 20px 20px;
+}
+
+.ProjectLink {
+    padding: 0 20px 20px;
+}
+
+.FileRenderer {
+    padding: 0 20px 20px;
+
+    @media (max-width: 768px) {
+        padding: 0;
+    }
+}
+
+.SlideButtons {
+    margin: 20px 20px 0;
+    border: 0;
+    color: $color-link-dark;
+    background-color: #fff;
+
+    @media (max-width: 768px) {
+        margin: 0;
+    }
+
+    &.Active {
+        background-color: $color-bg-gray-light;
+    }
 }

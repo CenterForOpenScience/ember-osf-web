@@ -48,4 +48,16 @@ export default class GuidFile extends Controller {
             this.rightColumnClosed = false;
         }
     }
+
+    @action
+    toggleFileRenderer() {
+        this.toggleProperty('rightColumnClosed');
+        if (this.rightColumnClosed) {
+            this.revisionsOpened = false;
+            this.tagsOpened = false;
+        } else {
+            this.revisionsOpened = true;
+            this.tagsOpened = false;
+        }
+    }
 }
