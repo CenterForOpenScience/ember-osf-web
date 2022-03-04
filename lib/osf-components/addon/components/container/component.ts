@@ -15,4 +15,5 @@ export default class RegistriesContainer extends Component {
     @service media!: Media;
 
     @className @alias('media.classNames') mediaClasses!: string;
+    @className clampWidth = true;
 }

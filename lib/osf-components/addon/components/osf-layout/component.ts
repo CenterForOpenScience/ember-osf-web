@@ -6,6 +6,7 @@ import { inject as service } from '@ember/service';
 import Media from 'ember-responsive';
 
 import { layout } from 'ember-osf-web/decorators/component';
+import { GutterMode } from 'ember-osf-web/components/gutters/component';
 
 import template from './template';
 
@@ -16,14 +17,17 @@ export default class OsfLayout extends Component {
 
     sidenavGutterClosed = true;
     metadataGutterClosed = true;
+
+    clampWidth = true;
     backgroundClass?: string;
+    desktopMetadataMode?: GutterMode;
 
     init() {
         super.init();
         assert('@backgroundClass is required!', Boolean(this.backgroundClass));
     }
 
-    @computed('media.{isMobile,isTablet,isDesktop}')
+    @computed('media.{isMobile,isTablet,isDesktop}', 'desktopMetadataMode')
     get metadataGutterMode() {
         if (this.media.isMobile) {
             return 'page';
@@ -31,7 +35,7 @@ export default class OsfLayout extends Component {
         if (this.media.isTablet) {
             return 'drawer';
         }
-        return 'column';
+        return this.desktopMetadataMode || 'column';
     }
 
     @computed('media.{isMobile,isTablet,isDesktop}')

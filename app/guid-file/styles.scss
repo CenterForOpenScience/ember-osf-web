@@ -1,20 +1,6 @@
-@media screen and (max-height: 450px) {
-    .right {padding-top: 15px;}
-    .right a {font-size: 18px;}
-    // TODO complete
-}
-    
-.FileDetail_container {
-    display: inline-flex;
-    flex-direction: row;
-    align-content: flex-start;
-}
-
-.FileDetail_leftPanel {
-    height: 100%;
-    display: inline-flex;
-    flex-direction: row;
-    justify-content: flex-end; //was flex-start
+.ContentBackground {
+    overflow-x: hidden;
+    border-top: solid 1px $color-border-gray;
 }
 
 .FileDetail_main {
@@ -25,63 +11,40 @@
 }
 
 .FileDetail-project-link {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    font-weight: bold;
-}
-
-
-.FileDetail_file-name {
-    padding-left: 14px;
-    font-weight: 900;
+    margin: 18px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .FileDetail_filename-buttons {
     display: flex;
     flex-direction: row;
-    align-content: flex-start;
+    justify-content: space-between;
+    margin: 0 18px 18px;
+    align-items: flex-start;
 }
 
-.FileDetail_dropdown-list {
-    display: inline-block;
-    flex-direction: column;
+.FileDetail_file-options-wrapper {
+    display: flex;
+    align-items: center;
 }
 
-.FileDetail_main-download-button button {
-    padding: 0;
-    margin: 0;
-    color: #337ab7;
-    background-color: #fff;
-    border-radius: 0;
-    height: 20px;
-    width: 90px;
-    font-size: 14px;
-    text-align: left;
+.FileDetail__mobile-navbar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 50px;
+    border-top: solid 1px $color-border-gray;
 }
 
-.FileDetail_main-download-button button:hover {
-    color: #000;
-    background-color: #fff;
-    text-decoration: none;
+.selectedMode {
+    color: $color-text-gray;
 }
 
-.FileDetail_main-share-button button {
-    padding: 0;
-    margin: 0;
-    color: #337ab7;
-    background-color: #fff;
-    border-radius: 0;
-    height: 20px;
-    width: 90px;
-    font-size: 14px;
-    text-align: left;
-}
-
-.FileDetail_main-share-button button:hover {
-    color: #000;
-    background-color: #fff;
-    text-decoration: none;
+.FileDetail__mobile-navbar-icon {
+    font-size: 24px;
+    margin-right: 10px;
 }
 
 .FileDetail-file-render {
@@ -90,96 +53,3 @@
     justify-content: center;
     text-align: center;
 }
-
-// right navbar
-.FileDetail_right {
-    height: 100%;
-    display: inline-flex;
-    flex-direction: column;
-    background-color: rgb(0, 255, 255);
-    border-left: 1px solid rgb(102, 102, 102);
-    transition: 0.4s;
-    z-index: 1;
-}
-
-.FilesDetail_Tags-slide {
-    height: 100%;
-    width: 0;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
-    transition: 0.4s;
-}
-
-.FilesDetail_Tags-slide:focus-visible {
-    border-left: 1px solid rgb(102, 102, 102);
-}
-
-
-.FilesDetail_Tags-slide-close {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-}
-
-.FilesDetail_Version-slide {
-    height: 100%;
-    width: 0;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
-    transition: 0.6s;
-}
-
-.FilesDetail_Version-slide:focus-visible {
-    border-left: 1px solid rgb(102, 102, 102);
-}
-
-.FilesDetail_Version-slide-close {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-}
-
-.FileDetail-navbar-right {
-    display: fixed;
-    top: 32px;
-}
-
-.FileDetail-navbar-buttons button {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    align-content: space-between;
-    text-align: center;
-    height: 40px;
-    width: 50px;
-    border: solid 2px transparent;
-    vertical-align: center;
-    border-radius: 2px;
-    padding-bottom: 25px;
-}
-
-.FilesDetail_versions-button button {
-    color: #337ab7;
-    background-color: #fff;
-}
-
-.FilesDetail_versions-button button:hover {
-    color: #000;
-    background-color: #337ab7;
-}
-
-.FilesDetail_tags-button button {
-    color: #337ab7;
-    background-color: #fff;
-}
-
-.FilesDetail_tags-button button:hover {
-    color: #000;
-    background-color: #337ab7;
-}
-
-// h1 h2 h3 {
-//     font-weight: 900;
-// }

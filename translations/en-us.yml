@@ -131,6 +131,9 @@ file_detail:
     sha2_description: 'SHA-2 is a cryptographic hash function designed by the NSA used to verify data integrity.'
     md5_description: 'MD5 is an algorithm used to verify data integrity.'
     file_project_placeholder: 'Decision-making in breast cancer prevention: The ENGAGE study'
+    show_file: 'Show file'
+    show_revisions: 'Show revisions for this file'
+    show_tags: 'Show tags for this file'
 dashboard:
     page_title: Home
     title: Dashboard

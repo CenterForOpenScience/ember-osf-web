@@ -6,7 +6,7 @@
     margin-right: auto;
     padding: 0 15px;
 
-    &:global(.media-desktop) {
+    &:global(.media-desktop.clamp-width) {
         max-width: 1140px;
     }
 

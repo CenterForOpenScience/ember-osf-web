@@ -18,6 +18,8 @@ export default class Gutter extends Component {
     rightClosed = true;
     rightMode: GutterMode = 'drawer';
 
+    clampWidth = true;
+
     @computed('rightMode', 'rightClosed')
     get rightAnimationClass() {
         return (this.rightMode === 'page' && !this.rightClosed) ? 'SlideLeft' : '';

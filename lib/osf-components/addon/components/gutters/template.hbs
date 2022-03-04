@@ -1,4 +1,4 @@
-<Container local-class='GutterContainer' ...attributes>
+<Container @clampWidth={{this.clampWidth}} local-class='GutterContainer' ...attributes>
     {{yield (hash
         body=(component 'x-dummy'
             class=(local-class this.bodyClasses)
