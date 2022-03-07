@@ -1,11 +1,13 @@
 import { render } from '@ember/test-helpers';
 import click from '@ember/test-helpers/dom/click';
 import { hbs } from 'ember-cli-htmlbars';
+import { setupIntl, t } from 'ember-intl/test-support';
 import { setupRenderingTest } from 'ember-qunit';
 import { module, test } from 'qunit';
 
 module('Integration | Component | file-embed-menu', hooks => {
     setupRenderingTest(hooks);
+    setupIntl(hooks);
 
     test('it renders', async function(assert) {
         // Set any properties with this.set('myProperty', 'value');
@@ -31,7 +33,8 @@ module('Integration | Component | file-embed-menu', hooks => {
             </dd.trigger>
         </FileEmbedMenu>`);
         await click('[data-test-embed-button]');
-        assert.dom('[data-test-copy-js]').hasText('Copy dynamic JS iFrame');
+        assert.dom('[data-test-copy-js]').hasText(t('file_actions_menu.copy_js'));
+        assert.dom('[data-test-copy-html]').hasText(t('file_actions_menu.copy_html'));
 
     });
 });

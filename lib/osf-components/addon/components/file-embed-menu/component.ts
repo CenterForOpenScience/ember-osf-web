@@ -47,19 +47,19 @@ export default class FileEmbedMenuComponent extends Component<Args>{
         }
         jq.src = 'http://code.jquery.com/jquery-1.11.2.min.js';
     }
-</script>`.trim().replace(/^\s{12}/mg, ''));
+</script>`);
     }
 
     get shareiFrameDirect() {
         return htmlSafe(`<iframe src="${this.args.file.links.render}"
-        width="100%"
-        scrolling="yes"
-        height="677px"
-        marginheight="0"
-        frameborder="0"
-        allowfullscreen
-        webkitallowfullscreen
->`.trim().replace(/^\s{12}/mg, ''));
+    width="100%"
+    scrolling="yes"
+    height="677px"
+    marginheight="0"
+    frameborder="0"
+    allowfullscreen
+    webkitallowfullscreen
+>`);
     }
 
     @action successMessage(){
