@@ -190,14 +190,11 @@
                     {{t 'general.tags'}}
                 </h2>
                 <hr>
-                <div local-class='container-fluid FileDetail_tags-container'>
-                    <p>
-                        <a href='#'>{{t 'general.science'}}</a>
-                    </p>
-                    <p>
-                        <a href='#'>{{t 'general.engineering'}}</a>
-                    </p>
-                </div>
+                <TagsWidget
+                    @taggable={{this.model}}
+                    @readOnly={{false}}
+                    @inline={{true}}
+                />
             </div>
         </div>
     </div>
