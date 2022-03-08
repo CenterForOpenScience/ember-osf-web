@@ -43,7 +43,6 @@ export default class GuidFile extends Route {
         const { guid } = params;
         try {
             const file = await this.store.findRecord('file', guid);
-
             return file;
         } catch (error) {
             this.transitionTo('not-found', guid);

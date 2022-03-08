@@ -3,9 +3,16 @@
     @isMobile={{this.media.isMobile}}
 >
     <:header>
-        <h3 local-class='ProjectLink'>
-            {{t 'file_detail.file_project_placeholder'}}
-            {{this.file.parentFolder}}
+        <h3>
+            <OsfLink
+                data-test-project-link
+                data-analytics-name='Linked project'
+                local-class='ProjectLink'
+                @route={{if (eq this.model.target.type 'registrations') 'guid-registration' 'guid-node'}}
+                @models={{array this.model.target.id}}
+            >
+                {{this.model.target.title}}
+            </OsfLink>
         </h3>
         <div local-class='FlexContainerRow'>
             <h2 data-test-filename>

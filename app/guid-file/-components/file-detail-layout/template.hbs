@@ -6,12 +6,11 @@
                 {{yield to='rightButtons'}}
             </div>
             <div>
-                <div local-class='Slider {{if @rightColumnClosed 'slide-in' 'slide-out'}}'>
+                {{#if @rightColumnClosed}}
                     {{yield to='body'}}
-                </div>
-                <div local-class='Slider {{if @rightColumnClosed 'slide-out' 'slide-in'}}'>
+                {{else}}
                     {{yield to='right'}}
-                </div>
+                {{/if}}
             </div>
         </div>
     {{else}}
