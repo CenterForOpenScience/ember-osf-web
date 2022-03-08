@@ -11,6 +11,7 @@
 .RightColumn {
     flex-grow: 1;
     border-left: 1px solid #ddd;
+    min-width: 300px;
 
     &.is-closed {
         display: none;
