@@ -37,12 +37,12 @@
     color: $color-link-dark;
     background-color: $color-bg-white;
 
-    @media (max-width: 768px) {
+    @media (max-width: 767px) {
         margin: 0;
     }
 
     &.Active {
-        @media (max-width: 768px) {
+        @media (max-width: 767px) {
             background-color: $color-bg-white;
             color: $color-bg-black;
         }

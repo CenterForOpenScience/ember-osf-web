@@ -23,39 +23,57 @@ export default class GuidFile extends Controller {
 
     @action
     toggleRevisions() {
-        if (this.tagsOpened) {
+        if (this.isMobile) {
+            this.revisionsOpened = true;
             this.tagsOpened = false;
-        }
-        this.toggleProperty('revisionsOpened');
-        if (!this.revisionsOpened && !this.tagsOpened) {
-            this.rightColumnClosed = true;
-        } else {
             this.rightColumnClosed = false;
+        } else {
+            if (this.tagsOpened) {
+                this.tagsOpened = false;
+            }
+            this.toggleProperty('revisionsOpened');
+            if (!this.revisionsOpened && !this.tagsOpened) {
+                this.rightColumnClosed = true;
+            } else {
+                this.rightColumnClosed = false;
+            }
         }
     }
 
     @action
     toggleTags() {
-        if (this.revisionsOpened) {
+        if (this.isMobile) {
+            this.tagsOpened = true;
             this.revisionsOpened = false;
-        }
-        this.toggleProperty('tagsOpened');
-        if (!this.revisionsOpened && !this.tagsOpened) {
-            this.rightColumnClosed = true;
-        } else {
             this.rightColumnClosed = false;
+        } else {
+            if (this.revisionsOpened) {
+                this.revisionsOpened = false;
+            }
+            this.toggleProperty('tagsOpened');
+            if (!this.revisionsOpened && !this.tagsOpened) {
+                this.rightColumnClosed = true;
+            } else {
+                this.rightColumnClosed = false;
+            }
         }
     }
 
     @action
     toggleFileRenderer() {
-        this.toggleProperty('rightColumnClosed');
-        if (this.rightColumnClosed) {
+        if (this.isMobile) {
+            this.tagsOpened = false;
             this.revisionsOpened = false;
-            this.tagsOpened = false;
+            this.rightColumnClosed = true;
         } else {
-            this.revisionsOpened = true;
-            this.tagsOpened = false;
+            this.toggleProperty('rightColumnClosed');
+            if (this.rightColumnClosed) {
+                this.revisionsOpened = false;
+                this.tagsOpened = false;
+            } else {
+                this.revisionsOpened = true;
+                this.tagsOpened = false;
+            }
         }
     }
 }
