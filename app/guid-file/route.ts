@@ -42,8 +42,7 @@ export default class GuidFile extends Route {
     async model(params: { guid: string }) {
         const { guid } = params;
         try {
-            const file = await this.store.findRecord('file', guid, { include: 'target' });
-
+            const file = await this.store.findRecord('file', guid);
             return file;
         } catch (error) {
             this.transitionTo('not-found', guid);
