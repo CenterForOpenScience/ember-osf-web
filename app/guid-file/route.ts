@@ -12,6 +12,8 @@ import Analytics from 'ember-osf-web/services/analytics';
 import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 import Ready from 'ember-osf-web/services/ready';
 
+import Controller from './controller';
+
 export default class GuidFile extends Route {
     @service analytics!: Analytics;
     @service('head-tags') headTagsService!: HeadTagsService;
@@ -52,6 +54,11 @@ export default class GuidFile extends Route {
 
     afterModel(model: any) {
         taskFor(this.setHeadTags).perform(model);
+    }
+
+    setupController(controller: Controller, model: any, transition: any) {
+        super.setupController(controller, model, transition);
+        taskFor(controller.loadRevisions).perform();
     }
 
     @action
