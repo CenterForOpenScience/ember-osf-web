@@ -1,16 +1,4 @@
 {{#let (hash
-    quickfiles=(component 'osf-navbar/x-links/hyper-link'
-        'guid-user.quickfiles'
-        this.currentUser.currentUserId
-        analyticsLabel='My_quick_files'
-        hidden=(or
-            this.onInstitutions
-            (not this.session.isAuthenticated)
-        )
-        tagName='li'
-        text=(t 'navbar.my_quick_files')
-        onClicked=this.onLinkClicked
-    )
     myprojects=(component 'osf-navbar/x-links/hyper-link'
         this.myProjectsURL
         analyticsLabel='My_projects'
@@ -53,7 +41,6 @@
     {{#if (has-block)}}
         {{yield links}}
     {{else}}
-        <links.quickfiles data-test-nav-quickfiles-link />
         <links.myprojects data-test-nav-my-projects-link />
         <links.search data-test-nav-search-link />
         <links.support data-test-nav-support-link />
