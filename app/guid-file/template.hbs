@@ -23,7 +23,10 @@
     </:header>
     <:body>
         <div data-test-file-renderer id='mfrIframeParent' local-class='FileRenderer'>
-            <FileRenderer @download={{this.model.links.download}} />
+            <FileRenderer
+                @download={{this.model.links.download}}
+                @height={{600}}
+            />
         </div>
     </:body>
     <:right>
