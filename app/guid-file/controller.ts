@@ -4,7 +4,6 @@ import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
-import $ from 'jquery';
 import Media from 'ember-responsive';
 import Toast from 'ember-toastr/services/toast';
 
@@ -36,18 +35,16 @@ export default class GuidFile extends Controller {
     @task
     @waitFor
     async loadRevisions() {
-        let response;
+        let responseObject;
         try {
-            response = await $.ajax({
-                type: 'GET',
-                url: `${this.model.links.download}?revisions=&`,
-            });
+            responseObject = await fetch(`${this.model.links.download}?revisions=&`);
         } catch (error) {
             captureException(error);
             this.toast.error(getApiErrorMessage(error));
             throw error;
         }
-        this.revisions = response.data;
+        const parsedResponse = await responseObject.json();
+        this.revisions = parsedResponse.data;
     }
 
     @action
