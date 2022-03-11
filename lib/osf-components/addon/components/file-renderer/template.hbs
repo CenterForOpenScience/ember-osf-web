@@ -2,6 +2,7 @@
     {{#if this.isLoading}}
         <LoadingIndicator @dark={{true}}/>
     {{/if}}
+    <p>{{t 'file_detail.mfr_iframe_title'}}</p>
     <iframe
         src={{this.mfrUrl}}
         width={{this.width}}
