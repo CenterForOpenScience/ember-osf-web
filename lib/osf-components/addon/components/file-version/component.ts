@@ -5,28 +5,10 @@ import { tracked } from '@glimmer/tracking';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
-// Waterbutler file version
-interface Version {
-    id: string;
-    attributes: {
-        extra: {
-            downloads: number,
-            hashes: {
-                md5: string,
-                sha256: string,
-            },
-            users: {
-                name: string,
-                url: string,
-            },
-        },
-        modified: string,
-        version: number,
-    };
-}
+import { WaterButlerRevision } from 'ember-osf-web/packages/files/file';
 
 interface Args {
-    version: Version;
+    version: WaterButlerRevision;
     downloadUrl: string;
     changeVersion: (version: number) => void;
 }

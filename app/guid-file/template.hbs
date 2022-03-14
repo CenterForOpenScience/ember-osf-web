@@ -8,17 +8,18 @@
                 data-test-project-link
                 data-analytics-name='Linked project'
                 local-class='ProjectLink'
-                @route={{if (eq this.model.target.type 'registrations') 'guid-registration' 'guid-node'}}
-                @models={{array this.model.target.id}}
+                @route={{if (eq this.model.fileModel.target.type 'registrations') 'guid-registration' 'guid-node'}}
+                @models={{array this.model.fileModel.target.id}}
             >
-                {{this.model.target.title}}
+                {{this.model.fileModel.target.title}}
             </OsfLink>
         </h3>
         <div local-class='FlexContainerRow'>
             <h2 data-test-filename>
                 {{this.model.name}}
+                ({{t 'general.version'}}: {{this.viewedVersion}})
             </h2>
-            <FileActionsMenu @item={{this.model}} />
+            <FileActionsMenu @item={{this.model.fileModel}} />
         </div>
     </:header>
     <:body>
@@ -35,7 +36,7 @@
                 <h2 local-class='FileDetail__right-section-heading'>{{t 'general.revisions'}}</h2>
                 <ol local-class='FileDetail__revision-list' reversed>
                     <hr>
-                    {{#each this.revisions as |version|}}
+                    {{#each this.model.waterButlerRevisions as |version|}}
                         <FileVersion
                             @version={{version}}
                             @downloadUrl={{this.model.links.download}}

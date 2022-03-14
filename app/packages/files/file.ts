@@ -9,9 +9,33 @@ export enum FileSortKey {
     DescName = '-name',
 }
 
+// Waterbutler file version
+export interface WaterButlerRevision {
+    id: string;
+    type: 'file_versions';
+    attributes: {
+        extra: {
+            downloads: number,
+            hashes: {
+                md5: string,
+                sha256: string,
+            },
+            user: {
+                name: string,
+                url: string,
+            },
+        },
+        version: number,
+        modified: Date,
+        modified_utc: Date,
+        versionIdentifier: 'version',
+    };
+}
+
 export default abstract class File {
     @tracked fileModel: FileModel;
     @tracked totalFileCount = 0;
+    @tracked waterButlerRevisions?: WaterButlerRevision[];
 
     constructor(fileModel: FileModel) {
         this.fileModel = fileModel;
@@ -63,6 +87,13 @@ export default abstract class File {
             return queryResult.map(fileModel => Reflect.construct(this.constructor, [fileModel]));
         }
         return [];
+    }
+
+    async getRevisions() {
+        const responseObject = await fetch(`${this.links.download}?revisions=&`);
+        const parsedResponse = await responseObject.json();
+        this.waterButlerRevisions = parsedResponse.data;
+        return this.waterButlerRevisions;
     }
 
 

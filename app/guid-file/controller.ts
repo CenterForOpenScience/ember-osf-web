@@ -1,13 +1,9 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
-import { task } from 'ember-concurrency';
 import Media from 'ember-responsive';
 import Toast from 'ember-toastr/services/toast';
-
-import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 export default class GuidFile extends Controller {
     @service media!: Media;
@@ -16,8 +12,7 @@ export default class GuidFile extends Controller {
     @tracked revisionsOpened = false;
     @tracked tagsOpened = false;
 
-    @tracked revisions: any[] = [];
-    @tracked viewedVersion?: number = this.model.currentVersion;
+    @tracked viewedVersion?: number = this.model.fileModel.currentVersion;
 
     get rightColumnClosed() {
         return !(this.revisionsOpened || this.tagsOpened);
@@ -31,22 +26,6 @@ export default class GuidFile extends Controller {
         return this.media.isTablet;
     }
 
-    // get versions from Waterbutler
-    @task
-    @waitFor
-    async loadRevisions() {
-        let responseObject;
-        try {
-            responseObject = await fetch(`${this.model.links.download}?revisions=&`);
-        } catch (error) {
-            captureException(error);
-            this.toast.error(getApiErrorMessage(error));
-            throw error;
-        }
-        const parsedResponse = await responseObject.json();
-        this.revisions = parsedResponse.data;
-    }
-
     @action
     changeVersion(version: number) {
         this.viewedVersion = version;
@@ -54,6 +33,9 @@ export default class GuidFile extends Controller {
 
     @action
     toggleRevisions() {
+        if (!this.model.waterButlerRevisions) {
+            this.model.getRevisions();
+        }
         if (this.isMobile) {
             this.revisionsOpened = true;
             this.tagsOpened = false;
