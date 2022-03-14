@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import { taskFor } from 'ember-concurrency-ts';
 import Media from 'ember-responsive';
 import Toast from 'ember-toastr/services/toast';
 
@@ -12,7 +13,7 @@ export default class GuidFile extends Controller {
     @tracked revisionsOpened = false;
     @tracked tagsOpened = false;
 
-    @tracked viewedVersion?: number = this.model.fileModel.currentVersion;
+    @tracked viewedVersion?: number;
 
     get rightColumnClosed() {
         return !(this.revisionsOpened || this.tagsOpened);
@@ -34,7 +35,7 @@ export default class GuidFile extends Controller {
     @action
     toggleRevisions() {
         if (!this.model.waterButlerRevisions) {
-            this.model.getRevisions();
+            taskFor(this.model.getRevisions).perform();
         }
         if (this.isMobile) {
             this.revisionsOpened = true;

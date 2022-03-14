@@ -1,4 +1,7 @@
 import { tracked } from '@glimmer/tracking';
+import { waitFor } from '@ember/test-waiters';
+import { task } from 'ember-concurrency';
+
 import FileModel from 'ember-osf-web/models/file';
 import NodeModel from 'ember-osf-web/models/node';
 
@@ -89,14 +92,6 @@ export default abstract class File {
         return [];
     }
 
-    async getRevisions() {
-        const responseObject = await fetch(`${this.links.download}?revisions=&`);
-        const parsedResponse = await responseObject.json();
-        this.waterButlerRevisions = parsedResponse.data;
-        return this.waterButlerRevisions;
-    }
-
-
     async updateContents(data: string) {
         await this.fileModel.updateContents(data);
     }
@@ -111,5 +106,14 @@ export default abstract class File {
 
     async delete() {
         await this.fileModel.delete();
+    }
+
+    @task
+    @waitFor
+    async getRevisions() {
+        const responseObject = await fetch(`${this.links.download}?revisions=&`);
+        const parsedResponse = await responseObject.json();
+        this.waterButlerRevisions = parsedResponse.data;
+        return this.waterButlerRevisions;
     }
 }

@@ -17,7 +17,9 @@
         <div local-class='FlexContainerRow'>
             <h2 data-test-filename>
                 {{this.model.name}}
-                ({{t 'general.version'}}: {{this.viewedVersion}})
+                {{#if this.viewedVersion}}
+                    ({{t 'general.version'}}: {{this.viewedVersion}})
+                {{/if}}
             </h2>
             <FileActionsMenu @item={{this.model.fileModel}} />
         </div>
@@ -36,16 +38,20 @@
                 <h2 local-class='FileDetail__right-section-heading'>{{t 'general.revisions'}}</h2>
                 <ol local-class='FileDetail__revision-list' reversed>
                     <hr>
-                    {{#each this.model.waterButlerRevisions as |version|}}
-                        <FileVersion
-                            @version={{version}}
-                            @downloadUrl={{this.model.links.download}}
-                            @changeVersion={{this.changeVersion}}
-                        />
-                        <hr>
+                    {{#if this.model.getRevisions.isRunning}}
+                        <LoadingIndicator data-test-loading-indicator @dark={{true}} />
                     {{else}}
-                        {{t 'file_detail.no_revisions'}}
-                    {{/each}}
+                        {{#each this.model.waterButlerRevisions as |version|}}
+                            <FileVersion
+                                @version={{version}}
+                                @downloadUrl={{this.model.links.download}}
+                                @changeVersion={{this.changeVersion}}
+                            />
+                            <hr>
+                        {{else}}
+                            {{t 'file_detail.no_revisions'}}
+                        {{/each}}
+                    {{/if}}
                 </ol>
             </section>
         {{/if}}
