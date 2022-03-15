@@ -8,146 +8,52 @@
                 data-test-project-link
                 data-analytics-name='Linked project'
                 local-class='ProjectLink'
-                @route={{if (eq this.model.target.type 'registrations') 'guid-registration' 'guid-node'}}
-                @models={{array this.model.target.id}}
+                @route={{if (eq this.model.fileModel.target.type 'registrations') 'guid-registration' 'guid-node'}}
+                @models={{array this.model.fileModel.target.id}}
             >
-                {{this.model.target.title}}
+                {{this.model.fileModel.target.title}}
             </OsfLink>
         </h3>
         <div local-class='FlexContainerRow'>
             <h2 data-test-filename>
                 {{this.model.name}}
+                {{#if this.viewedVersion}}
+                    ({{t 'general.version'}}: {{this.viewedVersion}})
+                {{/if}}
             </h2>
-            <FileActionsMenu @item={{this.model}} />
+            <FileActionsMenu @item={{this.model.fileModel}} />
         </div>
     </:header>
     <:body>
         <div data-test-file-renderer id='mfrIframeParent' local-class='FileRenderer'>
-            <FileRenderer @download={{this.model.links.download}} />
+            <FileRenderer
+                @download={{this.model.links.download}}
+                @version={{this.viewedVersion}}
+            />
         </div>
     </:body>
     <:right>
         {{#if this.revisionsOpened}}
-            <h2>{{t 'general.revisions'}}</h2>
-            <table local-class='FileDetail_Version-table'>
-                <tbody>
-                    <tr>
-                        <td local-class='FileDetaiil_revisions-tableVersionNumber'>
-                            {{t 'file_detail.version.version_number'}}
-                        </td>
-                        <td local-class='FileDetaiil_revisions-tableDateCreated'>
-                            {{t 'file_detail.version.date_created'}}
-                        </td>
-                        <td>
-                            <ResponsiveDropdown
-                                data-test-more-buttons
-                                data-analytics-scope='Files'
-                                as |dd|
-                            >
-                                <dd.trigger
-                                    data-test-detail-trigger
-                                    data-analytics-name='Toggle more button options'
-                                    local-class='FileDetail_dropdown-trigger'
-                                >
-                                    <Button
-                                        data-analytics-name='File detail trigger'
-                                        data-test-detail-trigger-button
-                                        local-class='FileDetail_dropdown-trigger-button'
-                                        @layout='fake-link'
-                                    >
-                                        <FaIcon @icon='caret-down' @fixedWidth={{true}} />
-                                    </Button>
-                                </dd.trigger>
-                                <dd.content
-                                    data-test-detail-content
-                                    data-analytics-name='File detail dropdown'
-                                    local-class='FileDetail_dropdown-content'
-                                >
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th>
-                                                    {{t 'file_detail.version.user'}} {{this.model.file.user}}
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <BsButton
-                                                        data-test-copy-md5
-                                                        data-analytics-name='Copy md5 button'
-                                                        @bubble={{true}}
-                                                        @onClick={{this.copy}}
-                                                    >
-                                                        <span>
-                                                            <FaIcon @icon='copy' @fixedWidth={{true}} />
-                                                            {{t 'file_detail.version.copy_md5'}}
-                                                        </span>
-                                                    </BsButton>
-                                                </td>
-                                                <td>
-                                                    <i class='fa fa-info-circle'></i>
-                                                    <span>
-                                                        {{fa-icon 'info-circle'}}
-                                                        <BsTooltip>
-                                                            {{t 'file_detail.md5_description'}}
-                                                        </BsTooltip>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <BsButton
-                                                        data-test-copy-sha2
-                                                        data-analytics-name='Copy sha-2 button'
-                                                        @bubble={{true}}
-                                                        @onClick={{this.copy}}
-                                                    >
-                                                        <span>
-                                                            <FaIcon @icon='copy' @fixedWidth={{true}} />
-                                                            {{t 'file_detail.version.copy_sha2'}}
-                                                        </span>
-                                                    </BsButton>
-                                                </td>
-                                                <td>
-                                                    <i class='fa fa-info-circle'></i>
-                                                    <span>
-                                                        {{fa-icon 'info-circle'}}
-                                                        <BsTooltip>
-                                                            {{t 'file_detail.sha2_description'}}
-                                                        </BsTooltip>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <BsButton
-                                                        data-test-download-button
-                                                        data-analytics-name='Download button'
-                                                        @bubble={{true}}
-                                                        @onClick={{this.download}}
-                                                    >
-                                                        <span>
-                                                            <FaIcon @icon='download' @fixedWidth={{true}} />
-                                                        </span>
-                                                        {{t 'general.download'}}
-                                                    </BsButton>
-                                                </td>
-                                                <td>
-                                                    <div class='col-lg-1'>
-                                                        {{t 'file_detail.version.download_count'}}
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </dd.content>
-                            </ResponsiveDropdown>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <section data-test-revisions-tab local-class='FileDetail__revisions'>
+                <h2 local-class='FileDetail__right-section-heading'>{{t 'general.revisions'}}</h2>
+                <ol local-class='FileDetail__revision-list' reversed>
+                    <hr>
+                    {{#if this.model.getRevisions.isRunning}}
+                        <LoadingIndicator @dark={{true}} />
+                    {{else}}
+                        {{#each this.model.waterButlerRevisions as |version|}}
+                            <FileVersion
+                                @version={{version}}
+                                @downloadUrl={{this.model.links.download}}
+                                @changeVersion={{this.changeVersion}}
+                            />
+                            <hr>
+                        {{else}}
+                            {{t 'file_detail.no_revisions'}}
+                        {{/each}}
+                    {{/if}}
+                </ol>
+            </section>
         {{/if}}
         {{#if this.tagsOpened}}
             <h2>{{t 'general.tags'}}</h2>
@@ -174,6 +80,7 @@
             </BsButton>
         {{/if}}
         <BsButton
+            aria-label={{if this.revisionsOpened (t 'file_detail.close_revisions') (t 'file_detail.view_revisions')}}
             data-test-versions-button
             data-analytics-name='Versions button'
             local-class='SlideButtons {{if this.revisionsOpened 'Active'}}'
@@ -183,6 +90,7 @@
             <FaIcon @icon='history' @fixedWidth={{true}}/>
         </BsButton>
         <BsButton
+            aria-label={{if this.tagsOpened (t 'file_detail.close_tags') (t 'file_detail.view_tags')}}
             data-test-tags-button
             data-analytics-name='Tags button'
             local-class='SlideButtons {{if this.tagsOpened 'Active'}}'
