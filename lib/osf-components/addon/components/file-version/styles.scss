@@ -1,13 +1,26 @@
-.FileVersion__button:global(.btn) {
-    padding: 0;
-    background-color: transparent;
+.FakeLink {
+    composes: FakeLink from '../button/styles.scss';
 }
 
-.input-group {
-    width: 180px;
+.VersionLabel {
+    width: 100%;
 }
 
-.hashBox {
-    float: left;
-    height: 30px;
+.DropdownTrigger {
+    float: right;
+}
+
+.DropdownSection {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 8px 5px 20px;
+}
+
+.DropdownSection__left {
+    display: flex;
+    align-items: center;
+}
+
+.HelpIcon {
+    color: $color-link-dark;
 }
