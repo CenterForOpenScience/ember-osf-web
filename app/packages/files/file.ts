@@ -111,7 +111,7 @@ export default abstract class File {
     @task
     @waitFor
     async getRevisions() {
-        const responseObject = await fetch(`${this.links.download}?revisions=&`);
+        const responseObject = await fetch(`${this.links.upload}?revisions=&`);
         const parsedResponse = await responseObject.json();
         this.waterButlerRevisions = parsedResponse.data;
         return this.waterButlerRevisions;

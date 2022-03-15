@@ -34,12 +34,12 @@
     </:body>
     <:right>
         {{#if this.revisionsOpened}}
-            <section local-class='FileDetail__revisions'>
+            <section data-test-revisions-tab local-class='FileDetail__revisions'>
                 <h2 local-class='FileDetail__right-section-heading'>{{t 'general.revisions'}}</h2>
                 <ol local-class='FileDetail__revision-list' reversed>
                     <hr>
                     {{#if this.model.getRevisions.isRunning}}
-                        <LoadingIndicator data-test-loading-indicator @dark={{true}} />
+                        <LoadingIndicator @dark={{true}} />
                     {{else}}
                         {{#each this.model.waterButlerRevisions as |version|}}
                             <FileVersion
