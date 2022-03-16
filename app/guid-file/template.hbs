@@ -59,8 +59,8 @@
             <div local-class='RightContainer'>
                 <h2>{{t 'general.tags'}}</h2>
                 <TagsWidget
-                    @taggable={{this.model}}
-                    @readOnly={{false}}
+                    @taggable={{this.model.fileModel}}
+                    @readOnly={{not this.model.userCanEditMetadata}}
                     @inline={{true}}
                 />
             </div>

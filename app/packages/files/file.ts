@@ -4,6 +4,7 @@ import { task } from 'ember-concurrency';
 
 import FileModel from 'ember-osf-web/models/file';
 import NodeModel from 'ember-osf-web/models/node';
+import { Permission } from 'ember-osf-web/models/osf-model';
 
 export enum FileSortKey {
     AscDateModified = 'modified',
@@ -66,6 +67,10 @@ export default abstract class File {
             links.download = `${links.upload}?zip=`;
         }
         return links;
+    }
+
+    get userCanEditMetadata() {
+        return this.fileModel.target.get('currentUserPermissions').includes(Permission.Write);
     }
 
     get dateModified() {
