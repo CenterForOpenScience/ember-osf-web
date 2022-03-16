@@ -2,17 +2,19 @@
     {{#if this.isLoading}}
         <LoadingIndicator @dark={{true}}/>
     {{/if}}
-    <p>{{t 'file_detail.mfr_iframe_title'}}</p>
+
     <iframe
         src={{this.mfrUrl}}
         width={{this.width}}
-        name={{this.file.name}}
         height={{this.height}}
+        name={{@item.name}}
         scrolling='yes'
         marginheight='0'
         frameborder='0'
         allowfullscreen={{this.allowfullscreen}}
         hidden={{this.isLoading}}
         onload={{action this.loaded}}
-    ></iframe>
+    >
+        <p>{{t 'file_detail.mfr_iframe_title'}} {{this.name}}</p>
+    </iframe>
 {{/if}}

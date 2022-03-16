@@ -1,8 +1,11 @@
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import { next } from '@ember/runloop';
 import config from 'ember-get-config';
 import $ from 'jquery';
+import Media from 'ember-responsive';
+import File from 'ember-osf-web/models/file';
 
 import { layout } from 'ember-osf-web/decorators/component';
 
@@ -34,6 +37,12 @@ interface Params {
  */
 @layout(template)
 export default class FileRenderer extends Component {
+    @service media!: Media;
+
+    get isMobile() {
+        return this.media.isMobile;
+    }
+
     params: Params = {
         direct: '',
         mode: 'render',
@@ -46,6 +55,11 @@ export default class FileRenderer extends Component {
     allowfullscreen = true;
     version?: number;
     isLoading = true;
+    file?: File;
+
+    getFileName(): string {
+        return this.file!.name;
+    }
 
     @computed('download', 'params', 'version')
     get downloadUrl(): string {
