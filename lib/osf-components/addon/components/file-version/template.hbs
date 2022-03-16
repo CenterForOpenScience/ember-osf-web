@@ -1,6 +1,8 @@
-<li>
+<li data-test-file-version-item={{@version.id}} >
     <span local-class='VersionLabel'>
         <Button
+            data-test-file-version-date
+            data-analytics-name='View file version'
             aria-label={{t 'osf-components.file-version.view_version' date=(moment-format @version.attributes.modified 'YYYY-MM-DD hh:mm A')}}
             @layout='fake-link'
             {{on 'click' (action @changeVersion @version.id)}}
@@ -8,8 +10,9 @@
             {{moment-format @version.attributes.modified 'YYYY-MM-DD hh:mm A'}}
         </Button>
         <Button
+            data-test-file-version-toggle-button
+            data-analytics-name='Toggle file version info'
             aria-label={{if this.dropdownOpen (t 'osf-components.file-version.hide_info') (t 'osf-components.file-version.show_info')}}
-            data-test-detail-trigger-button
             local-class='DropdownTrigger'
             {{on 'click' this.toggleDropdown}}
             @layout='fake-link'
@@ -19,17 +22,24 @@
     </span>
 
     {{#if this.dropdownOpen}}
-        <div local-class='DropdownSection'>
+        <div
+            data-test-file-version-section='user'
+            local-class='DropdownSection'
+        >
             <span>
                 {{t 'general.user'}}:
                 <OsfLink
+                    data-test-file-version-user-link
                     @href={{@version.attributes.extra.user.url}}
                 >
                     {{@version.attributes.extra.user.name}}
                 </OsfLink>
             </span>
         </div>
-        <div local-class='DropdownSection'>
+        <div
+            data-test-file-version-section='md5'
+            local-class='DropdownSection'
+        >
             <CopyButton
                 @clipboardText={{@version.attributes.extra.hashes.md5}}
                 @success={{this.copySuccess}}
@@ -50,7 +60,10 @@
                 </BsTooltip>
             </div>
         </div>
-        <div local-class='DropdownSection'>
+        <div
+            data-test-file-version-section='sha2'
+            local-class='DropdownSection'
+        >
             <CopyButton
                 @clipboardText={{@version.attributes.extra.hashes.sha256}}
                 @success={{this.copySuccess}}
@@ -71,8 +84,12 @@
                 </BsTooltip>
             </div>
         </div>
-        <div local-class='DropdownSection'>
+        <div
+            data-test-file-version-section='download'
+            local-class='DropdownSection'
+        >
             <Button
+                data-analytics-name='Download file version'
                 @layout='fake-link'
                 {{on 'click' (action this.downloadVersion @version.id)}}
             >
