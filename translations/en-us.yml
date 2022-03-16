@@ -102,6 +102,10 @@ general:
     engineering: 'engineering'
 file_actions_menu:
     actions: '{filename} actions'
+    copy_js: 'Copy dynamic JS iFrame'
+    copy_html: 'Copy static HTML iFrame'
+    success_message: 'Copied to clipboard'
+    error_message: 'Could not copy to clipboard'
 node_categories:
     analysis: Analysis
     communication: Communication
