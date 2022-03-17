@@ -44,7 +44,6 @@ export default class FileRenderer extends Component {
     download?: string;
     lastDownload?: string;
     width = '100%';
-    height = '100%';
     allowfullscreen = true;
     version?: number;
     isLoading = true;

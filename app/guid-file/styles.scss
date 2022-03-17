@@ -27,7 +27,16 @@
     padding: 0 20px 20px;
 
     @media (max-width: 768px) {
-        padding: 0;
+        height: 90vh;
+    }
+}
+
+.FileRenderer iframe {
+    padding: 0;
+    height: 90vh;
+
+    @media (max-width: 768px) {
+        height: 90vh;
     }
 }
 
