@@ -325,7 +325,6 @@ export default function(this: Server) {
     this.put('/files/:id/upload', uploadToFolder);
     this.get('/files/:id/upload/', wb.fileVersions);
     this.del('/files/:id/delete', wb.deleteFile);
-    this.get('/files/:id/download', wb.fileVersions);
 
     // Private namespace
     this.namespace = '/_';
