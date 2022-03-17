@@ -11,6 +11,7 @@ import Institution from 'ember-osf-web/models/institution';
 import Analytics from 'ember-osf-web/services/analytics';
 import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 import Ready from 'ember-osf-web/services/ready';
+import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
 
 export default class GuidFile extends Route {
     @service analytics!: Analytics;
@@ -42,12 +43,9 @@ export default class GuidFile extends Route {
     async model(params: { guid: string }) {
         const { guid } = params;
         try {
-            let file = this.store.peekAll('file').findBy('guid', guid);
-            if (!file) {
-                file = await this.store.findRecord('file', guid);
-            }
-
-            return file;
+            const file = await this.store.findRecord('file', guid);
+            const osfStorageFile = new OsfStorageFile(file);
+            return osfStorageFile;
         } catch (error) {
             this.transitionTo('not-found', guid);
             throw error;
@@ -55,7 +53,7 @@ export default class GuidFile extends Route {
     }
 
     afterModel(model: any) {
-        taskFor(this.setHeadTags).perform(model);
+        taskFor(this.setHeadTags).perform(model.fileModel);
     }
 
     @action
