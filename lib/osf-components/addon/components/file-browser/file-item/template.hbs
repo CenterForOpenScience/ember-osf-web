@@ -12,14 +12,18 @@
         <FaIcon
             @prefix='far' @icon='file-alt' @fixedWidth={{true}}
         />
-        {{@item.name}}
+        <span local-class='FileNameAndDate'>
+            {{@item.name}}
+        </span>
     </OsfLink>
     <div
         data-test-file-list-date
-        local-class='FileList__item__options'
+        local-class='FileList__item__options NoShrink'
     >
         {{#if @item.dateModified}}
-            {{moment-format @item.dateModified 'YYYY-MM-DD hh:mm A'}}
+            <span>
+                {{moment-format @item.dateModified 'YYYY-MM-DD hh:mm A'}}
+            </span>
         {{/if}}
         <FileActionsMenu @item={{@item}} />
     </div>

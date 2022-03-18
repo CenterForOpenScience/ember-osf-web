@@ -22,6 +22,10 @@
     align-items: center;
 }
 
+.NoShrink {
+    flex-shrink: 0;
+}
+
 .DownloadShareDropdown {
     padding-left: 20px;
 }
