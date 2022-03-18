@@ -14,11 +14,6 @@ export default class RegistrationFilesProviderRoute extends Route.extend({}) {
         const registration = await overview.taskInstance;
         const fileProviders = await registration!.files;
         const provider = fileProviders.findBy('id', fileProviderId) as FileProviderModel;
-        if (!provider) {
-            const { href, origin } = window.location;
-            const currentUrl = href.replace(origin, '');
-            this.transitionTo('page-not-found', currentUrl.slice(1));
-        }
         return provider;
     }
 

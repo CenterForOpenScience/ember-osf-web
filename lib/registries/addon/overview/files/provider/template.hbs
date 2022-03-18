@@ -1,18 +1,25 @@
-<h3>
-    {{t (concat 'registries.overview.files.storage_providers.' this.model.providerName)}}
-</h3>
-
 {{#unless this.model.providerTask.isRunning}}
     <StorageProviderManager::ProviderMapper
         as |mapper|
     >
         {{#let (get mapper this.model.providerName) as |ProviderManager|}}
-            <ProviderManager
-                @provider={{this.model.providerTask.value}}
-                as |manager|
-            >
-                <FileBrowser @manager={{manager}} />
-            </ProviderManager>
+            {{#if ProviderManager}}
+                <ProviderManager
+                    @provider={{this.model.providerTask.value}}
+                    as |manager|
+                >
+                    <FileBrowser @manager={{manager}} />
+                </ProviderManager>
+            {{else}}
+                <span data-test-file-provider-invalid-provider>
+                    {{t 'registries.overview.files.storage_providers.invalidProviderDetails'}}
+                    <OsfLink
+                        @route='registries.overview.files'
+                    >
+                        {{t 'registries.overview.files.storage_providers.invalidProviderLink'}}
+                    </OsfLink>
+                </span>
+            {{/if}}
         {{/let}}
     </StorageProviderManager::ProviderMapper>
 {{/unless}}

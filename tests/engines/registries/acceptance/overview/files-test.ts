@@ -20,7 +20,10 @@ module('Registries | Acceptance | overview.files', hooks => {
         );
 
         await visit(`/${registration.id}/files/osfstowage`);
-        assert.equal(currentRouteName(), 'registries.page-not-found', 'At page not found');
+        assert.equal(currentRouteName(), 'registries.overview.files.provider', 'At file provider route');
+        assert.dom('[data-test-file-provider-invalid-provider]')
+            .hasText(t('registries.overview.files.storage_providers.invalidProvider'));
+        assert.dom('[data-test-file-list-item]').doesNotExist('No file items');
     });
 
     test('Files list view', async assert => {
