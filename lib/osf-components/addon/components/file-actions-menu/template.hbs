@@ -1,17 +1,15 @@
 <ResponsiveDropdown
     local-class='DownloadShareDropdown'
+    @buttonStyling={{true}}
     @horizontalPosition='right'
     as |dropdown|
 >
     <dropdown.trigger
+        aria-label={{t 'file_actions_menu.actions' filename=@item.name}} 
         data-test-file-download-share-trigger
         data-analytics-name='File actions'
     >
-        <Button
-            aria-label={{t 'file_actions_menu.actions' filename=@item.name}} 
-        >
-            <FaIcon @icon='ellipsis-v' />
-        </Button>
+        <FaIcon @icon='ellipsis-v' />
     </dropdown.trigger>
     <dropdown.content local-class='DropdownList'>
         <OsfLink @href={{@item.links.download}}>

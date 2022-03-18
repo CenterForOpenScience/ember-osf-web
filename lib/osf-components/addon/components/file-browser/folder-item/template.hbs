@@ -2,7 +2,6 @@
     data-test-file-list-item
     local-class={{if @manager.parentFolder 'FileList__item Indent' 'FileList__item'}}
 >
-    {{!-- Analytics/test-selector should know if it is a file or folder --}}
     <Button
         data-test-file-list-link
         data-analytics-name='View folder'
@@ -24,18 +23,16 @@
         {{/if}}
         <ResponsiveDropdown
             local-class='DownloadShareDropdown'
+            @buttonStyling={{true}}
             @horizontalPosition='right'
             as |dropdown|
         >
             <dropdown.trigger
+                aria-label={{t 'file_actions_menu.actions' filename=@item.name}}
                 data-test-file-download-share-trigger
                 data-analytics-name='Folder actions'
             >
-                <Button
-                    aria-label={{t 'file_actions_menu.actions' filename=@item.name}}
-                >
-                    <FaIcon @icon='ellipsis-v' />
-                </Button>
+                <FaIcon @icon='ellipsis-v' />
             </dropdown.trigger>
             <dropdown.content local-class='DropdownList'>
                 <OsfLink @href={{@item.links.download}}>
