@@ -1351,6 +1351,8 @@ registries:
             download_all: 'Download this folder'
             storage_location: 'Storage location: '
             storage_providers:
+                invalidProviderDetails: 'Could not find the requested file provider.'
+                invalidProviderLink: 'See all files in this registration.'
                 osfstorage: 'OSF Storage'
             empty_folder: 'This folder is empty.'
             breadcrumbs: 'Breadcrumb'

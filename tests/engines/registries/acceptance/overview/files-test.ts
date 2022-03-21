@@ -12,6 +12,21 @@ module('Registries | Acceptance | overview.files', hooks => {
     setupEngineApplicationTest(hooks, 'registries');
     setupMirage(hooks);
 
+    test('Redirects to page not found', async assert => {
+        const registration = server.create(
+            'registration',
+            { currentUserPermissions: [Permission.Admin] },
+            'withFiles',
+        );
+
+        await visit(`/${registration.id}/files/osfstowage`);
+        assert.equal(currentRouteName(), 'registries.overview.files.provider', 'At file provider route');
+        assert.dom('[data-test-file-provider-invalid-provider]')
+            .containsText(t('registries.overview.files.storage_providers.invalidProviderDetails'));
+        assert.dom('[data-test-file-provider-invalid-provider-link]').exists('Links to proper provider');
+        assert.dom('[data-test-file-list-item]').doesNotExist('No file items');
+    });
+
     test('Files list view', async assert => {
         const registration = server.create(
             'registration',

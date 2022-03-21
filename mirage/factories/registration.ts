@@ -155,7 +155,7 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
         });
         newReg.update({ originalResponse: baseResponse });
         newReg.update({ latestResponse: baseResponse });
-        const osfstorage = server.create('file-provider', { target: newReg });
+        const osfstorage = server.create('file-provider', { id: newReg.id + ':' + 'osfstorage', target: newReg });
         newReg.update({ files: [osfstorage] });
     },
 
