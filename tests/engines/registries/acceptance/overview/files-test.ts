@@ -22,7 +22,8 @@ module('Registries | Acceptance | overview.files', hooks => {
         await visit(`/${registration.id}/files/osfstowage`);
         assert.equal(currentRouteName(), 'registries.overview.files.provider', 'At file provider route');
         assert.dom('[data-test-file-provider-invalid-provider]')
-            .hasText(t('registries.overview.files.storage_providers.invalidProvider'));
+            .containsText(t('registries.overview.files.storage_providers.invalidProviderDetails'));
+        assert.dom('[data-test-file-provider-invalid-provider-link]').exists('Links to proper provider');
         assert.dom('[data-test-file-list-item]').doesNotExist('No file items');
     });
 
