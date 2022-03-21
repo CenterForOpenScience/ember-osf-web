@@ -13,25 +13,18 @@
     </dropdown.trigger>
     <dropdown.content local-class='DropdownList'>
         <OsfLink @href={{@item.links.download}}>
-            <Button
-                @layout='fake-link'
-            >
-                <FaIcon @icon='download' />
-                {{t 'general.download'}}
-            </Button>
+            <FaIcon @icon='download' />
+            {{t 'general.download'}}
         </OsfLink>
         <FileEmbedMenu @file={{@item}} as |dd|>
             <dd.trigger
                 data-test-embed-button
                 data-analytics-name='Expand embed menu'
                 aria-label={{t 'general.embed'}}
+                local-class='DropdownItem'
             >
-                <Button
-                    @layout='fake-link'
-                >
-                    <FaIcon @icon='file-import' />
-                    {{t 'general.embed'}}
-                </Button>
+                <FaIcon @icon='file-import' />
+                {{t 'general.embed'}}
             </dd.trigger>
         </FileEmbedMenu>
         <SharingIcons::Dropdown
@@ -45,13 +38,10 @@
                 data-test-social-sharing-button
                 data-analytics-name='Expand sharing menu'
                 aria-label={{t 'general.share'}}
+                local-class='DropdownItem'
             >
-                <Button
-                    @layout='fake-link'
-                >
-                    <FaIcon @icon='share-alt' />
-                    {{t 'general.share'}}
-                </Button>
+                <FaIcon @icon='share-alt' />
+                {{t 'general.share'}}
             </dd.trigger>
         </SharingIcons::Dropdown>
     </dropdown.content>
