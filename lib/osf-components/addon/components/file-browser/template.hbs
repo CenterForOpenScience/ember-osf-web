@@ -3,12 +3,13 @@
 <div local-class='OptionBar {{if this.isMobile 'Mobile'}}'>
     <div local-class='OptionBar__left {{if this.isMobile 'Mobile'}}'>
         <Input
+            aria-label={{t 'registries.overview.files.filter_label'}}
             data-test-file-search
             @type='text'
             class='form-control'
             placeholder='{{t 'general.filter'}}'
             @value={{readonly @manager.filter}}
-            {{on 'keyup' this.handleInput}}
+            {{on 'input' this.handleInput}}
         />
 
         <ResponsiveDropdown
@@ -20,16 +21,15 @@
             <dropdown.trigger
                 data-test-file-sort-trigger
                 data-analytics-name='Sort files'
+                local-class='SortDropdown__button {{if this.isMobile 'Mobile'}}'
             >
-                <Button local-class='SortDropdown__button {{if this.isMobile 'Mobile'}}'>
-                    <div>
-                        {{t 'registries.overview.files.sort'}}
-                        <span local-class='SortedBy'>
-                            {{t (concat 'registries.overview.files.sort_by.' @manager.sort)}}
-                        </span>
-                    </div>
-                    <FaIcon @icon='caret-down' />
-                </Button>
+                <div>
+                    {{t 'registries.overview.files.sort'}}
+                    <span local-class='SortedBy'>
+                        {{t (concat 'registries.overview.files.sort_by.' @manager.sort)}}
+                    </span>
+                </div>
+                <FaIcon @icon='caret-down' />
             </dropdown.trigger>
             <dropdown.content
                 local-class='DropdownList'
