@@ -10,6 +10,9 @@
 
     .FolderButton {
         padding: 0;
+        overflow: hidden;
+        white-space: normal;
+        text-align: left;
     }
 }
 
@@ -20,6 +23,10 @@
 .FileList__item__options {
     display: flex;
     align-items: center;
+}
+
+.NoShrink {
+    flex-shrink: 0;
 }
 
 .DownloadShareDropdown {
