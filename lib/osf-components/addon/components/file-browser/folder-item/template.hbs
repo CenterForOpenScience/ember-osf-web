@@ -1,8 +1,8 @@
 <li
     data-test-file-list-item
+    data-test-indented={{if @manager.parentFolder 'true' 'false'}}
     local-class={{if @manager.parentFolder 'FileList__item Indent' 'FileList__item'}}
 >
-    {{!-- Analytics/test-selector should know if it is a file or folder --}}
     <Button
         data-test-file-list-link
         data-analytics-name='View folder'
@@ -13,7 +13,7 @@
         <FaIcon
             @icon='folder' @fixedWidth={{true}}
         />
-        <span>
+        <span data-test-folder-name>
             {{@item.name}}
         </span>
     </Button>
@@ -39,6 +39,7 @@
             <dropdown.content local-class='DropdownList'>
                 <OsfLink @href={{@item.links.download}}>
                     <Button
+                        data-test-download-button
                         local-class='FileOptionsDropdown__option'
                         @layout='fake-link'
                     >
