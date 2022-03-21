@@ -12,7 +12,10 @@
         <FaIcon @icon='ellipsis-v' />
     </dropdown.trigger>
     <dropdown.content local-class='DropdownList'>
-        <OsfLink @href={{@item.links.download}}>
+        <OsfLink
+            data-test-download-button
+            @href={{@item.links.download}}
+        >
             <FaIcon @icon='download' />
             {{t 'general.download'}}
         </OsfLink>

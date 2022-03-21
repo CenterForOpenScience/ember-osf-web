@@ -56,14 +56,13 @@
             </section>
         {{/if}}
         {{#if this.tagsOpened}}
-            <h2>{{t 'general.tags'}}</h2>
-            <div local-class='container-fluid FileDetail_tags-container'>
-                <p>
-                    <a href='#'>{{t 'general.science'}}</a>
-                </p>
-                <p>
-                    <a href='#'>{{t 'general.engineering'}}</a>
-                </p>
+            <div local-class='RightContainer'>
+                <h2>{{t 'general.tags'}}</h2>
+                <TagsWidget
+                    @taggable={{this.model.fileModel}}
+                    @readOnly={{not this.model.userCanEditMetadata}}
+                    @inline={{true}}
+                />
             </div>
         {{/if}}
     </:right>
