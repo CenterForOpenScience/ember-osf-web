@@ -7,8 +7,14 @@
     flex-direction: column;
     align-items: flex-start;
     border: 1px solid $color-border-gray;
+    padding: 8px;
 
-    button {
-        padding: 8px;
+    div {
+        padding-top: 8px;
     }
+}
+
+.DropdownItem {
+    composes: FakeLink from '../button/styles.scss';
+    margin: 6px 0;
 }

@@ -4,8 +4,8 @@
     margin: 0.5rem;
 }
 
-.Trigger {
-    &:focus {
-        outline: 0;
-    }
+.Button {
+    composes: Button from '../button/styles.scss';
+    composes: MediumButton from '../button/styles.scss';
+    composes: SecondaryButton from '../button/styles.scss';
 }

@@ -1,40 +1,33 @@
 <ResponsiveDropdown
     local-class='DownloadShareDropdown'
+    @buttonStyling={{true}}
     @horizontalPosition='right'
     as |dropdown|
 >
     <dropdown.trigger
+        aria-label={{t 'file_actions_menu.actions' filename=@item.name}} 
         data-test-file-download-share-trigger
         data-analytics-name='File actions'
     >
-        <Button
-            aria-label={{t 'file_actions_menu.actions' filename=@item.name}} 
-        >
-            <FaIcon @icon='ellipsis-v' />
-        </Button>
+        <FaIcon @icon='ellipsis-v' />
     </dropdown.trigger>
     <dropdown.content local-class='DropdownList'>
-        <OsfLink @href={{@item.links.download}}>
-            <Button
-                data-test-download-button
-                @layout='fake-link'
-            >
-                <FaIcon @icon='download' />
-                {{t 'general.download'}}
-            </Button>
+        <OsfLink
+            data-test-download-button
+            @href={{@item.links.download}}
+        >
+            <FaIcon @icon='download' />
+            {{t 'general.download'}}
         </OsfLink>
         <FileEmbedMenu @file={{@item}} as |dd|>
             <dd.trigger
                 data-test-embed-button
                 data-analytics-name='Expand embed menu'
                 aria-label={{t 'general.embed'}}
+                local-class='DropdownItem'
             >
-                <Button
-                    @layout='fake-link'
-                >
-                    <FaIcon @icon='file-import' />
-                    {{t 'general.embed'}}
-                </Button>
+                <FaIcon @icon='file-import' />
+                {{t 'general.embed'}}
             </dd.trigger>
         </FileEmbedMenu>
         <SharingIcons::Dropdown
@@ -48,13 +41,10 @@
                 data-test-social-sharing-button
                 data-analytics-name='Expand sharing menu'
                 aria-label={{t 'general.share'}}
+                local-class='DropdownItem'
             >
-                <Button
-                    @layout='fake-link'
-                >
-                    <FaIcon @icon='share-alt' />
-                    {{t 'general.share'}}
-                </Button>
+                <FaIcon @icon='share-alt' />
+                {{t 'general.share'}}
             </dd.trigger>
         </SharingIcons::Dropdown>
     </dropdown.content>
