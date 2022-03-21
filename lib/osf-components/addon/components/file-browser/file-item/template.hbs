@@ -1,5 +1,6 @@
 <li
     data-test-file-list-item
+    data-test-indented={{if @manager.parentFolder 'true' 'false'}}
     local-class={{if @manager.parentFolder 'FileList__item Indent' 'FileList__item'}}
 >
     {{!-- Analytics/test-selector should know if it is a file or folder --}}
@@ -12,7 +13,7 @@
         <FaIcon
             @prefix='far' @icon='file-alt' @fixedWidth={{true}}
         />
-        <span>
+        <span data-test-file-name>
             {{@item.name}}
         </span>
     </OsfLink>
@@ -21,7 +22,7 @@
         local-class='FileList__item__options NoShrink'
     >
         {{#if @item.dateModified}}
-            <span>
+            <span data-test-file-modified-date>
                 {{moment-format @item.dateModified 'YYYY-MM-DD hh:mm A'}}
             </span>
         {{/if}}
