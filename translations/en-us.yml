@@ -1348,7 +1348,7 @@ registries:
                 -name: 'Name: Z-A'
                 modified: 'Last modified: newest to oldest'
                 -modified: 'Last modified: oldest to newest'
-            download_all: 'Download all files'
+            download_all: 'Download this folder'
             storage_location: 'Storage location: '
             storage_providers:
                 osfstorage: 'OSF Storage'
