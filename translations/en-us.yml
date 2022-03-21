@@ -90,6 +90,7 @@ general:
     optional: Optional
     optional_paren: (optional)
     update: Update
+    user: User
     services:
         collections: Collections
         institutions: Institutions
@@ -101,6 +102,10 @@ general:
     engineering: 'engineering'
 file_actions_menu:
     actions: '{filename} actions'
+    copy_js: 'Copy dynamic JS iFrame'
+    copy_html: 'Copy static HTML iFrame'
+    success_message: 'Copied to clipboard'
+    error_message: 'Could not copy to clipboard'
 node_categories:
     analysis: Analysis
     communication: Communication
@@ -128,10 +133,12 @@ file_detail:
         copy_md5: 'Copy MD5'
         copy_sha2: 'Copy SHA-2'
         download_count: '87'
+    view_revisions: 'View revisions'
+    close_revisions: 'Close revisions'
+    no_revisions: 'Revisions not available'
+    view_tags: 'View tags'
+    close_tags: 'Close tags'
     tags: 'Tags:'
-    sha2_description: 'SHA-2 is a cryptographic hash function designed by the NSA used to verify data integrity.'
-    md5_description: 'MD5 is an algorithm used to verify data integrity.'
-    file_project_placeholder: 'Decision-making in breast cancer prevention: The ENGAGE study'
 dashboard:
     page_title: Home
     title: Dashboard
@@ -1807,7 +1814,16 @@ osf-components:
             title_folder: 'Delete "{filename}" and all its contents?'
             body: 'This action is irreversible.'
             button: Delete
-
+    file-version:
+        view_version: 'View version created {date}'
+        show_info: 'Show revision information'
+        hide_info: 'Hide revision information'
+        copy_md5: 'Copy MD5'
+        copy_sha2: 'Copy SHA-2'
+        sha2_description: 'SHA-2 is a cryptographic hash function designed by the NSA used to verify data integrity.'
+        md5_description: 'MD5 is an algorithm used to verify data integrity.'
+        copy_success: 'Successfully copied to clipboard'
+        copy_failed: 'Failed to copy to clipboard'
     subjects:
         browse:
             browse_all: 'Browse all subjects'
