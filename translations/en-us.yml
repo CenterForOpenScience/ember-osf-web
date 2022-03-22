@@ -129,6 +129,7 @@ file_detail:
     view_tags: 'View tags'
     close_tags: 'Close tags'
     tags: 'Tags:'
+    mfr_iframe_title: 'Rendering of document'
 dashboard:
     page_title: Home
     title: Dashboard
