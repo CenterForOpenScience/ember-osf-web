@@ -118,7 +118,7 @@ maintenance:
     line2: 'Thank you for your patience.'
     title: 'Notice:'
 file_detail:
-    mfr_iframe_title: 'File Detail View: '
+    mfr_iframe_title: 'Rendering of document'
     version:
         id: 'Version ID'
         title: '(Version: {versionNumber})'
