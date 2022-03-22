@@ -15,6 +15,7 @@ interface FileItem {
     name: string;
     links: Links;
     dateModified: string;
+    id: string;
 }
 
 interface Manager {
@@ -30,6 +31,7 @@ module('Integration | Component | file-browser :: file-tiem', hooks => {
     setupRenderingTest(hooks);
     hooks.beforeEach(function(this: FileItemTestContext) {
         this.item = {
+            id: 'fakeId',
             name: 'Push&Pull',
             links: {
                 html: 'thisisafakelink',

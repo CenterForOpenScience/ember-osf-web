@@ -61,6 +61,10 @@ export default abstract class File {
         return this.fileModel.name;
     }
 
+    get id() {
+        return this.fileModel.id;
+    }
+
     get links() {
         const links = this.fileModel.links;
         if (this.isFolder) {

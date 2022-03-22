@@ -9,6 +9,7 @@
                 {{else}}
                     <OsfLink
                         data-test-breadcrumb={{breadcrumb.name}}
+                        data-analytics-name='Breadcrumb navigation click'
                         @href='#'
                         {{on 'click' (perform @manager.goToFolder breadcrumb)}}
                     >

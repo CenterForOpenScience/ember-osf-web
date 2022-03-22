@@ -1,5 +1,5 @@
 <li
-    data-test-file-list-item
+    data-test-file-list-item={{@item.id}}
     data-test-indented={{if @manager.parentFolder 'true' 'false'}}
     local-class={{if @manager.parentFolder 'FileList__item Indent' 'FileList__item'}}
 >
