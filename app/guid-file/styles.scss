@@ -25,10 +25,8 @@
 
 .FileRenderer {
     padding: 0 20px 20px;
-
-    @media (max-width: 768px) {
-        padding: 0;
-    }
+    height: 90vh;
+    margin-bottom: 15px;
 }
 
 .SlideButtons {

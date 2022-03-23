@@ -1,3 +1,4 @@
+import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { next } from '@ember/runloop';
@@ -32,6 +33,7 @@ interface Params {
  * ```
  * @class FileRenderer
  */
+@tagName('')
 @layout(template)
 export default class FileRenderer extends Component {
     params: Params = {
