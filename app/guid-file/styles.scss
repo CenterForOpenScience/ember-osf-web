@@ -25,10 +25,8 @@
 
 .FileRenderer {
     padding: 0 20px 20px;
-
-    @media (max-width: 768px) {
-        height: 90vh;
-    }
+    height: 90vh;
+    margin-bottom: 15px;
 }
 
 .FileRenderer iframe {
