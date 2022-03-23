@@ -1,6 +1,10 @@
 import { tracked } from '@glimmer/tracking';
+import { waitFor } from '@ember/test-waiters';
+import { task } from 'ember-concurrency';
+
 import FileModel from 'ember-osf-web/models/file';
 import NodeModel from 'ember-osf-web/models/node';
+import { Permission } from 'ember-osf-web/models/osf-model';
 
 export enum FileSortKey {
     AscDateModified = 'modified',
@@ -9,9 +13,33 @@ export enum FileSortKey {
     DescName = '-name',
 }
 
+// Waterbutler file version
+export interface WaterButlerRevision {
+    id: string;
+    type: 'file_versions';
+    attributes: {
+        extra: {
+            downloads: number,
+            hashes: {
+                md5: string,
+                sha256: string,
+            },
+            user: {
+                name: string,
+                url: string,
+            },
+        },
+        version: number,
+        modified: Date,
+        modified_utc: Date,
+        versionIdentifier: 'version',
+    };
+}
+
 export default abstract class File {
     @tracked fileModel: FileModel;
     @tracked totalFileCount = 0;
+    @tracked waterButlerRevisions?: WaterButlerRevision[];
 
     constructor(fileModel: FileModel) {
         this.fileModel = fileModel;
@@ -41,6 +69,10 @@ export default abstract class File {
         return links;
     }
 
+    get userCanEditMetadata() {
+        return this.fileModel.target.get('currentUserPermissions').includes(Permission.Write);
+    }
+
     get dateModified() {
         return this.fileModel.dateModified;
     }
@@ -65,7 +97,6 @@ export default abstract class File {
         return [];
     }
 
-
     async updateContents(data: string) {
         await this.fileModel.updateContents(data);
     }
@@ -80,5 +111,14 @@ export default abstract class File {
 
     async delete() {
         await this.fileModel.delete();
+    }
+
+    @task
+    @waitFor
+    async getRevisions() {
+        const responseObject = await fetch(`${this.links.upload}?revisions=&`);
+        const parsedResponse = await responseObject.json();
+        this.waterButlerRevisions = parsedResponse.data;
+        return this.waterButlerRevisions;
     }
 }

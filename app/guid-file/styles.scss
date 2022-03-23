@@ -56,3 +56,30 @@
         background-color: $color-bg-gray-light;
     }
 }
+
+.FileDetail__revisions {
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+.FileDetail__right-section-heading {
+    margin-left: 40px;
+}
+
+.FileDetail__revision-list {
+    list-style-position: inside;
+    padding-inline-end: 40px;
+}
+
+.FileDetail__no-revisions {
+    padding: 20px;
+    text-align: center;
+}
+
+.RightContainer {
+    margin: 0 20px;
+    
+    h2 {
+        margin-bottom: 20px;
+    }
+}

@@ -1,64 +1,102 @@
-<td
-    data-test-version-cell={{this.version.id}}
-    class='col-md-4'
->
-    {{#if this.clickable}}
-        <BsButton
-            data-test-select-version={{this.version.id}}
-            data-analytics-name='Change version'
-            local-class='FileVersion__button'
-            class='btn-link'
-            @onClick={{action this.changeVersion this.version.id}}
+<li data-test-file-version-item={{@version.id}} >
+    <span local-class='VersionLabel'>
+        <Button
+            data-test-file-version-date
+            data-analytics-name='View file version'
+            aria-label={{t 'osf-components.file-version.view_version' date=(moment-format @version.attributes.modified 'YYYY-MM-DD hh:mm A')}}
+            @layout='fake-link'
+            {{on 'click' (action @changeVersion @version.id)}}
         >
-            {{this.version.id}}
-        </BsButton>
-    {{else}}
-        {{this.version.id}}
+            {{moment-format @version.attributes.modified 'YYYY-MM-DD hh:mm A'}}
+        </Button>
+        <Button
+            data-test-file-version-toggle-button
+            data-analytics-name='Toggle file version info'
+            aria-label={{if this.dropdownOpen (t 'osf-components.file-version.hide_info') (t 'osf-components.file-version.show_info')}}
+            local-class='DropdownTrigger'
+            {{on 'click' this.toggleDropdown}}
+            @layout='fake-link'
+        >
+            <FaIcon @icon={{if this.dropdownOpen 'caret-up' 'caret-down'}} @fixedWidth={{true}} />
+        </Button>
+    </span>
+
+    {{#if this.dropdownOpen}}
+        <div
+            data-test-file-version-section='user'
+            local-class='DropdownSection'
+        >
+            <span>
+                {{t 'general.user'}}:
+                <OsfLink
+                    data-test-file-version-user-link
+                    @href={{@version.attributes.extra.user.url}}
+                >
+                    {{@version.attributes.extra.user.name}}
+                </OsfLink>
+            </span>
+        </div>
+        <div
+            data-test-file-version-section='md5'
+            local-class='DropdownSection'
+        >
+            <CopyButton
+                @clipboardText={{@version.attributes.extra.hashes.md5}}
+                @success={{this.copySuccess}}
+                @error={{this.copyError}}
+                local-class='FakeLink'
+            >
+                <FaIcon @icon='copy' />
+                {{t 'osf-components.file-version.copy_md5'}}
+            </CopyButton>
+            <div>
+                <FaIcon local-class='HelpIcon' @icon='question-circle' />
+                <BsTooltip
+                    data-test-md5-tooltip
+                    @placement='left'
+                    @triggerEvents='hover focus'
+                >
+                    {{t 'osf-components.file-version.md5_description'}}
+                </BsTooltip>
+            </div>
+        </div>
+        <div
+            data-test-file-version-section='sha2'
+            local-class='DropdownSection'
+        >
+            <CopyButton
+                @clipboardText={{@version.attributes.extra.hashes.sha256}}
+                @success={{this.copySuccess}}
+                @error={{this.copyError}}
+                local-class='FakeLink'
+            >
+                <FaIcon @icon='copy' />
+                {{t 'osf-components.file-version.copy_sha2'}}
+            </CopyButton>
+            <div>
+                <FaIcon local-class='HelpIcon' @icon='question-circle' />
+                <BsTooltip
+                    data-test-sha2-tooltip
+                    @placement='left'
+                    @triggerEvents='hover focus'
+                >
+                    {{t 'osf-components.file-version.sha2_description'}}
+                </BsTooltip>
+            </div>
+        </div>
+        <div
+            data-test-file-version-section='download'
+            local-class='DropdownSection'
+        >
+            <Button
+                data-analytics-name='Download file version'
+                @layout='fake-link'
+                {{on 'click' (action this.downloadVersion @version.id)}}
+            >
+                <FaIcon @icon='download' />
+                {{t 'general.download'}}
+            </Button>
+            {{@version.attributes.extra.downloads}}
+        </div>
     {{/if}}
-</td>
-<td
-    data-test-modified-date-cell={{this.version.id}}
-    class='col-md-6'
->
-    {{moment-format this.version.attributes.modified_utc}}
-</td>
-<td
-    data-test-download-count-cell={{this.version.id}}
-    class='col-xs-1'
->
-    <div class='badge'>{{this.version.attributes.extra.downloads}}</div>
-</td>
-<td
-    data-test-download-version-cell={{this.version.id}}
-    class='col-xs-1'
->
-    <BsButton
-        data-analytics-name='Download version'
-        aria-label={{t 'general.download'}}
-        @type='primary'
-        @size='sm'
-        @onClick={{action this.downloadVersion this.version.id}}
-    >
-        {{fa-icon 'download'}}
-    </BsButton>
-</td>
-<td
-    data-test-md5-hash-cell={{this.version.id}}
-    class='hidden-md hidden-sm hidden-xs'
->
-    <CopyableText
-        local-class='input-group'
-        @text={{this.version.attributes.extra.hashes.md5}}
-        @analyticsLabel='File version - Copy md5'
-    />
-</td>
-<td
-    data-test-sha2-hash-cell={{this.version.id}}
-    class='hidden-md hidden-sm hidden-xs'
->
-    <CopyableText
-        local-class='input-group'
-        @text={{this.version.attributes.extra.hashes.sha256}}
-        @analyticsLabel='File version - Copy sha256'
-    />
-</td>
+</li>
