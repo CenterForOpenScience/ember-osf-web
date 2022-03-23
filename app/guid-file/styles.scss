@@ -29,15 +29,6 @@
     margin-bottom: 15px;
 }
 
-.FileRenderer iframe {
-    padding: 0;
-    height: 90vh;
-
-    @media (max-width: 768px) {
-        height: 90vh;
-    }
-}
-
 .SlideButtons {
     margin: 20px 20px 0;
     border: 0;
