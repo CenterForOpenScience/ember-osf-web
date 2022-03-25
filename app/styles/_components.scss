@@ -327,6 +327,10 @@
 
 .form-control {
     border-radius: $radius;
+
+    &::placeholder {
+        color: $color-text-gray;
+    }
 }
 
 /* FLAT PANELS */
