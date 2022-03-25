@@ -197,7 +197,7 @@ module.exports = function(environment) {
         support: {
             preregUrl: 'https://cos.io/prereg/',
             statusPageUrl: 'https://status.cos.io',
-            faqPageUrl: 'https://osf-support.helpscoutdocs.com/',
+            faqPageUrl: 'https://help.osf.io',
             supportEmail: 'support@osf.io',
             contactEmail: 'contact@osf.io',
             consultationUrl: 'https://cos.io/stats_consulting/',
