@@ -1342,7 +1342,7 @@ registries:
             no_comments: 'No comments.'
         files:
             title: Files
-            filter_label: 'Filter files'
+            filter_placeholder: 'Filter current list'
             sort: 'Sort by: '
             sort_by:
                 name: 'Name: A-Z'

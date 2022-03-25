@@ -2,15 +2,17 @@
 
 <div local-class='OptionBar {{if this.isMobile 'Mobile'}}'>
     <div local-class='OptionBar__left {{if this.isMobile 'Mobile'}}'>
-        <Input
-            aria-label={{t 'registries.overview.files.filter_label'}}
-            data-test-file-search
-            @type='text'
-            class='form-control'
-            placeholder='{{t 'general.filter'}}'
-            @value={{readonly @manager.filter}}
-            {{on 'input' this.handleInput}}
-        />
+        <label>
+            {{t 'general.filter'}}:
+            <Input
+                data-test-file-search
+                @type='text'
+                class='form-control'
+                placeholder='{{t 'registries.overview.files.filter_placeholder'}}'
+                @value={{readonly @manager.filter}}
+                {{on 'input' this.handleInput}}
+            />
+        </label>
 
         <ResponsiveDropdown
             local-class='SortDropdown {{if this.isMobile 'Mobile'}}'
@@ -18,19 +20,19 @@
             @horizontalPosition='left'
             as |dropdown|
         >
-            <dropdown.trigger
-                data-test-file-sort-trigger
-                data-analytics-name='Sort files'
-                local-class='SortDropdown__button {{if this.isMobile 'Mobile'}}'
-            >
-                <div>
-                    {{t 'registries.overview.files.sort'}}
+            <label>
+                {{t 'registries.overview.files.sort'}}
+                <dropdown.trigger
+                    data-test-file-sort-trigger
+                    data-analytics-name='Sort files'
+                    local-class='SortDropdown__button {{if this.isMobile 'Mobile'}}'
+                >
                     <span local-class='SortedBy'>
                         {{t (concat 'registries.overview.files.sort_by.' @manager.sort)}}
                     </span>
-                </div>
-                <FaIcon @icon='caret-down' />
-            </dropdown.trigger>
+                    <FaIcon @icon='caret-down' />
+                </dropdown.trigger>
+            </label>
             <dropdown.content
                 local-class='DropdownList'
                 {{on 'click' dropdown.close}}
