@@ -103,7 +103,9 @@
                     <FaIcon
                         @icon='angle-left' @fixedWidth={{true}}
                     />
-                    {{@manager.currentFolder.name}}
+                    <span>
+                        {{@manager.currentFolder.name}}
+                    </span>
                 </Button>
             </li>
         {{/if}}
