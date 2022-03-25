@@ -12,6 +12,7 @@ import pathJoin from 'ember-osf-web/utils/path-join';
 
 import Intl from 'ember-intl/services/intl';
 import RouterService from '@ember/routing/router-service';
+import Features from 'ember-feature-flags';
 
 const {
     support: {
@@ -25,6 +26,7 @@ export default class Overview extends Controller {
     @service store!: Store;
     @service intl!: Intl;
     @service router!: RouterService;
+    @service features!: Features;
     model!: GuidRouteModel<Registration>;
 
     queryParams = ['mode', 'revisionId'];
