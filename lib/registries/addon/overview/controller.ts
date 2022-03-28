@@ -18,6 +18,9 @@ const {
     support: {
         supportEmail,
     },
+    featureFlagNames: {
+        registrationFilesPage,
+    },
 } = config;
 
 const { OSF: { url: baseURL } } = config;
@@ -36,6 +39,10 @@ export default class Overview extends Controller {
     @tracked revisionId = '';
 
     @alias('model.taskInstance.value') registration?: Registration;
+
+    get registrationFilesPageEnabled() {
+        return this.features.isEnabled(registrationFilesPage);
+    }
 
     get showMetadata() {
         if (this.router.currentRouteName.includes('registries.overview.files')) {

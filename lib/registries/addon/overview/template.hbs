@@ -62,7 +62,7 @@
                 <layout.leftNavOld as |leftNav|>
                     <leftNav.link data-analytics-name='Overview' @route='registries.overview.index'
                         @models={{array this.registration.id}} @icon='home' @label={{t 'registries.overview.title'}} />
-                    {{#if this.features.registrationFilesPage}}
+                    {{#if this.registrationFilesPageEnabled}}
                         <leftNav.link data-analytics-name='Files' 
                             @route='registries.overview.files'
                             @models={{array this.registration.id}}
