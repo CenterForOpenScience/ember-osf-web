@@ -264,7 +264,6 @@ module.exports = function(environment) {
             ABTesting: {
                 homePageHeroTextVersionB: 'ab_testing_home_page_hero_text_version_b',
             },
-            registrationFilesPage: 'ember_registration_files_page',
             egapAdmins: 'egap_admins',
         },
         gReCaptcha: {
