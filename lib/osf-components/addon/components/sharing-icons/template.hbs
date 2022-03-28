@@ -6,13 +6,6 @@
         icon='twitter-square'
         showText=@showText
     )
-    linkedin=(component 'sharing-icons/sharing-anchor'
-        href=this.linkedinHref
-        medium='Linkedin'
-        analyticsName='Share - linkedin'
-        icon='linkedin'
-        showText=@showText
-    )
     facebook=(component 'sharing-icons/sharing-anchor'
         href=this.facebookHref
         medium='Facebook'
@@ -31,7 +24,6 @@
         {{yield links}}
     {{else}}
         {{links.twitter}}
-        {{links.linkedin}}
         {{links.facebook}}
         {{links.email}}
     {{/if}}

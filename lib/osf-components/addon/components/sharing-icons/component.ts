@@ -41,14 +41,6 @@ export default class SharingIcons extends Component {
         return `https://www.facebook.com/dialog/share?${param(queryParams)}`;
     }
 
-    // https://developer.linkedin.com/docs/share-on-linkedin
-    @computed('hyperlink', 'description')
-    get linkedinHref(): string {
-        const url = encodeURIComponent(this.hyperlink || '').slice(0, 1024);
-        // Linkedin uses the head meta tags regardless of the share url params
-        return `https://www.linkedin.com/shareArticle?url=${url}`;
-    }
-
     @computed('hyperlink', 'title')
     get emailHref(): string {
         const queryParams = {
