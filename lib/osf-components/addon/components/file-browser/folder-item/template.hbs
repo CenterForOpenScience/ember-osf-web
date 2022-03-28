@@ -35,15 +35,12 @@
                 <FaIcon @icon='ellipsis-v' />
             </dropdown.trigger>
             <dropdown.content local-class='DropdownList'>
-                <OsfLink @href={{@item.links.download}}>
-                    <Button
-                        data-test-download-button
-                        local-class='FileOptionsDropdown__option'
-                        @layout='fake-link'
-                    >
-                        <FaIcon @icon='download' />
-                        {{t 'general.download'}}
-                    </Button>
+                <OsfLink
+                    @href={{@item.links.download}}
+                    data-test-download-button
+                >
+                    <FaIcon @icon='download' />
+                    {{t 'general.download'}}
                 </OsfLink>
             </dropdown.content>
         </ResponsiveDropdown>
