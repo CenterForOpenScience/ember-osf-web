@@ -12,10 +12,14 @@ import pathJoin from 'ember-osf-web/utils/path-join';
 
 import Intl from 'ember-intl/services/intl';
 import RouterService from '@ember/routing/router-service';
+import Features from 'ember-feature-flags';
 
 const {
     support: {
         supportEmail,
+    },
+    featureFlagNames: {
+        registrationFilesPage,
     },
 } = config;
 
@@ -25,6 +29,7 @@ export default class Overview extends Controller {
     @service store!: Store;
     @service intl!: Intl;
     @service router!: RouterService;
+    @service features!: Features;
     model!: GuidRouteModel<Registration>;
 
     queryParams = ['mode', 'revisionId'];
@@ -34,6 +39,10 @@ export default class Overview extends Controller {
     @tracked revisionId = '';
 
     @alias('model.taskInstance.value') registration?: Registration;
+
+    get registrationFilesPageEnabled() {
+        return this.features.isEnabled(registrationFilesPage);
+    }
 
     get showMetadata() {
         if (this.router.currentRouteName.includes('registries.overview.files')) {
