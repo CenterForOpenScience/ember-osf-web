@@ -121,9 +121,7 @@ export default abstract class File {
     @waitFor
     async getRevisions() {
         const revisionsLink = new URL(this.links.upload as string);
-        const params = revisionsLink.searchParams;
-        params.set('revisions', '');
-        revisionsLink.search = params.toString();
+        revisionsLink.searchParams.set('revisions', '');
 
         const responseObject = await fetch(revisionsLink.toString());
         const parsedResponse = await responseObject.json();
