@@ -28,9 +28,7 @@ export default abstract class ProviderFile {
     get links() {
         const links = this.fileModel.links;
         const uploadLink = new URL(links.upload as string);
-        const params = uploadLink.searchParams;
-        params.set('zip', '');
-        uploadLink.search = params.toString();
+        uploadLink.searchParams.set('zip', '');
 
         links.download = uploadLink.toString();
         return links;

@@ -69,9 +69,7 @@ export default abstract class File {
         const links = this.fileModel.links;
         if (this.isFolder) {
             const uploadLink = new URL(links.upload as string);
-            const params = uploadLink.searchParams;
-            params.set('zip', '');
-            uploadLink.search = params.toString();
+            uploadLink.searchParams.set('zip', '');
 
             links.download = uploadLink.toString();
         }
@@ -125,7 +123,10 @@ export default abstract class File {
     @task
     @waitFor
     async getRevisions() {
-        const responseObject = await fetch(`${this.links.upload}?revisions=&`);
+        const revisionsLink = new URL(this.links.upload as string);
+        revisionsLink.searchParams.set('revisions', '');
+
+        const responseObject = await fetch(revisionsLink.toString());
         const parsedResponse = await responseObject.json();
         this.waterButlerRevisions = parsedResponse.data;
         return this.waterButlerRevisions;
