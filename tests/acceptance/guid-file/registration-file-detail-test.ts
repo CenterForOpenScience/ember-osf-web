@@ -86,7 +86,7 @@ module('Acceptance | guid file | registration files', hooks => {
             .hasAria('label', t('file_detail.close_revisions'), 'Versions button has correct label when open');
         assert.dom('[data-test-file-version-item]').exists({ count: 2 }, 'Two file versions are shown');
         await click('[data-test-file-version-toggle-button]');
-        assert.dom('[data-test-file-version-section]').exists({ count: 4 }, 'File version info is shown');
+        assert.dom('[data-test-file-version-section]').exists({ count: 3 }, 'File version info is shown');
         await click('[data-test-file-version-date]');
         assert.dom('[data-test-filename]')
             .containsText(t('general.version'), 'Viewed version specified after selecting version');

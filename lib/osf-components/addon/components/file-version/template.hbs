@@ -23,20 +23,6 @@
 
     {{#if this.dropdownOpen}}
         <div
-            data-test-file-version-section='user'
-            local-class='DropdownSection'
-        >
-            <span>
-                {{t 'general.user'}}:
-                <OsfLink
-                    data-test-file-version-user-link
-                    @href={{@version.attributes.extra.user.url}}
-                >
-                    {{@version.attributes.extra.user.name}}
-                </OsfLink>
-            </span>
-        </div>
-        <div
             data-test-file-version-section='md5'
             local-class='DropdownSection'
         >
