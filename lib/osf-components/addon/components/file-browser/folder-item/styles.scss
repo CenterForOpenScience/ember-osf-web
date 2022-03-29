@@ -39,6 +39,7 @@
     align-items: flex-start;
     padding: 8px;
     border: 1px solid $color-border-gray;
+    width: max-content !important; // override width: auto from ember-basic-dropdown
 
     button {
         padding: 8px;

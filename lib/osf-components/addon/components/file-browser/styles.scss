@@ -71,7 +71,7 @@
     list-style-type: none;
     padding: 0;
 
-    li:last-of-type {
+    > li:last-of-type {
         border-bottom: solid 1px $color-border-gray;
     }
 }
