@@ -68,7 +68,12 @@ export default abstract class File {
     get links() {
         const links = this.fileModel.links;
         if (this.isFolder) {
-            links.download = `${links.upload}?zip=`;
+            const uploadLink = new URL(links.upload as string);
+            const params = uploadLink.searchParams;
+            params.set('zip', '');
+            uploadLink.search = params.toString();
+
+            links.download = uploadLink.toString();
         }
         return links;
     }
