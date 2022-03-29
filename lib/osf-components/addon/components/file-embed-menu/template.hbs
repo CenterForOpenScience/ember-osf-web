@@ -1,4 +1,4 @@
-<ResponsiveDropdown as |dd|>
+<ResponsiveDropdown @renderInPlace={{true}} as |dd|>
     {{yield (hash trigger=dd.trigger isOpen=dd.isOpen)}}
     <dd.content>
         <ul data-test-sharing-options local-class='Dropdown__list'>
