@@ -9,7 +9,11 @@
     border: 1px solid $color-border-gray;
     padding: 8px;
 
-    div {
+    &.DropdownList {
+        width: max-content; // override width: auto from ember-basic-dropdown
+    }
+
+    > div {
         padding-top: 8px;
     }
 }
