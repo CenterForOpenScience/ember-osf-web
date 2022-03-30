@@ -54,8 +54,6 @@ module('Integration | Component | file-version', hooks => {
 
         await click('[data-test-file-version-toggle-button]');
         assert.dom('[data-test-file-version-toggle-button] .fa-caret-up').exists('toggle button points up');
-        assert.dom('[data-test-file-version-section="user"]').hasText(t('general.user')+': Larry');
-        assert.dom('[data-test-file-version-section="user"] a').hasAttribute('href', '/larry', 'user link is correct');
         assert.dom('[data-test-file-version-section="md5"]')
             .hasText(t('osf-components.file-version.copy_md5'));
         assert.dom('[data-test-file-version-section="sha2"]')
