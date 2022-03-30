@@ -3,6 +3,7 @@
 }
 
 .Dropdown__list {
+    width: max-content;
     composes: Dropdown__list from '../sharing-icons/dropdown/styles.scss';
 }
 

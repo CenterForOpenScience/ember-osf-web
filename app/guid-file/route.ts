@@ -12,6 +12,7 @@ import Analytics from 'ember-osf-web/services/analytics';
 import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 import Ready from 'ember-osf-web/services/ready';
 import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
+import CurrentUserService from 'ember-osf-web/services/current-user';
 import RegistrationModel from 'ember-osf-web/models/registration';
 
 export default class GuidFile extends Route {
@@ -19,6 +20,7 @@ export default class GuidFile extends Route {
     @service('head-tags') headTagsService!: HeadTagsService;
     @service metaTags!: MetaTags;
     @service ready!: Ready;
+    @service currentUser!: CurrentUserService;
 
     headTags?: HeadTagDef[];
 
@@ -49,7 +51,7 @@ export default class GuidFile extends Route {
             if (target.get('withdrawn') === true) {
                 this.transitionTo('guid-registration', target.get('id'));
             }
-            const osfStorageFile = new OsfStorageFile(file);
+            const osfStorageFile = new OsfStorageFile(this.currentUser, file);
             return osfStorageFile;
         } catch (error) {
             this.transitionTo('not-found', guid);

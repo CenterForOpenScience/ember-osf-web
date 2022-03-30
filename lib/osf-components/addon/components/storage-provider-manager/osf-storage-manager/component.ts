@@ -9,6 +9,9 @@ import FileProviderModel from 'ember-osf-web/models/file-provider';
 import { FileSortKey } from 'ember-osf-web/packages/files/file';
 import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
 import OsfStorageProviderFile from 'ember-osf-web/packages/files/osf-storage-provider-file';
+import { inject as service } from '@ember/service';
+import CurrentUserService from 'ember-osf-web/services/current-user';
+
 
 interface Args {
     provider: FileProviderModel;
@@ -21,6 +24,7 @@ export default class OsfStorageManager extends Component<Args> {
     @tracked filter = '';
     @tracked sort = FileSortKey.AscName;
     @tracked currentPage = 1;
+    @service currentUser!: CurrentUserService;
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
@@ -59,7 +63,7 @@ export default class OsfStorageManager extends Component<Args> {
     async getRootFolder() {
         if (this.args.provider) {
             this.storageProvider = this.args.provider;
-            this.folderLineage.push(new OsfStorageProviderFile(this.storageProvider));
+            this.folderLineage.push(new OsfStorageProviderFile(this.currentUser, this.storageProvider));
             notifyPropertyChange(this, 'folderLineage');
         }
     }

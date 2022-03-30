@@ -1,10 +1,10 @@
 import { tracked } from '@glimmer/tracking';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
-
 import FileModel from 'ember-osf-web/models/file';
 import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
+import CurrentUserService from 'ember-osf-web/services/current-user';
 
 export enum FileSortKey {
     AscDateModified = 'modified',
@@ -41,7 +41,10 @@ export default abstract class File {
     @tracked totalFileCount = 0;
     @tracked waterButlerRevisions?: WaterButlerRevision[];
 
-    constructor(fileModel: FileModel) {
+    currentUser: CurrentUserService;
+
+    constructor(currentUser: CurrentUserService, fileModel: FileModel) {
+        this.currentUser = currentUser;
         this.fileModel = fileModel;
     }
 
@@ -99,7 +102,7 @@ export default abstract class File {
                     'filter[name]': filter,
                 });
             this.totalFileCount = queryResult.meta.total;
-            return queryResult.map(fileModel => Reflect.construct(this.constructor, [fileModel]));
+            return queryResult.map(fileModel => Reflect.construct(this.constructor, [this.currentUser, fileModel]));
         }
         return [];
     }
@@ -126,9 +129,8 @@ export default abstract class File {
         const revisionsLink = new URL(this.links.upload as string);
         revisionsLink.searchParams.set('revisions', '');
 
-        const responseObject = await fetch(revisionsLink.toString());
-        const parsedResponse = await responseObject.json();
-        this.waterButlerRevisions = parsedResponse.data;
+        const responseObject = await this.currentUser.authenticatedAJAX({ url: revisionsLink.toString() });
+        this.waterButlerRevisions = responseObject.data;
         return this.waterButlerRevisions;
     }
 }

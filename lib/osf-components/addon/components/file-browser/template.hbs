@@ -16,6 +16,7 @@
 
         <ResponsiveDropdown
             local-class='SortDropdown {{if this.isMobile 'Mobile'}}'
+            @renderInPlace={{true}}
             @buttonStyling={{true}}
             @horizontalPosition='left'
             as |dropdown|
@@ -27,7 +28,7 @@
                     data-analytics-name='Sort files'
                     local-class='SortDropdown__button {{if this.isMobile 'Mobile'}}'
                 >
-                    <span local-class='SortedBy'>
+                    <span local-class='SortedBy {{if this.isMobile 'Mobile'}}'>
                         {{t (concat 'registries.overview.files.sort_by.' @manager.sort)}}
                     </span>
                     <FaIcon @icon='caret-down' />
