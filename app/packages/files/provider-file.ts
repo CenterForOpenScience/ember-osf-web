@@ -1,11 +1,15 @@
 import { tracked } from '@glimmer/tracking';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
+import CurrentUserService from 'ember-osf-web/services/current-user';
 
 export default abstract class ProviderFile {
     @tracked fileModel: FileProviderModel;
     @tracked totalFileCount = 0;
 
-    constructor(fileModel: FileProviderModel) {
+    currentUser: CurrentUserService;
+
+    constructor(currentUser: CurrentUserService, fileModel: FileProviderModel) {
+        this.currentUser = currentUser;
         this.fileModel = fileModel;
     }
 

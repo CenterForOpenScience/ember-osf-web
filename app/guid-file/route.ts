@@ -12,12 +12,14 @@ import Analytics from 'ember-osf-web/services/analytics';
 import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 import Ready from 'ember-osf-web/services/ready';
 import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
+import CurrentUserService from 'ember-osf-web/services/current-user';
 
 export default class GuidFile extends Route {
     @service analytics!: Analytics;
     @service('head-tags') headTagsService!: HeadTagsService;
     @service metaTags!: MetaTags;
     @service ready!: Ready;
+    @service currentUser!: CurrentUserService;
 
     headTags?: HeadTagDef[];
 
@@ -44,7 +46,7 @@ export default class GuidFile extends Route {
         const { guid } = params;
         try {
             const file = await this.store.findRecord('file', guid);
-            const osfStorageFile = new OsfStorageFile(file);
+            const osfStorageFile = new OsfStorageFile(this.currentUser, file);
             return osfStorageFile;
         } catch (error) {
             this.transitionTo('not-found', guid);
