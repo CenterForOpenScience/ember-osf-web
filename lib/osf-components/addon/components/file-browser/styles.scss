@@ -49,6 +49,10 @@
 .SortedBy {
     padding-right: 58px;
     font-weight: bold;
+
+    &.Mobile {
+        padding-right: 0;
+    }
 }
 
 .DownloadAllFromCurrent {
