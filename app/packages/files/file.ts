@@ -7,8 +7,8 @@ import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 
 export enum FileSortKey {
-    AscDateModified = 'modified',
-    DescDateModified = '-modified',
+    AscDateModified = 'date_modified',
+    DescDateModified = '-date_modified',
     AscName = 'name',
     DescName = '-name',
 }
