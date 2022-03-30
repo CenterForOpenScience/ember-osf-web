@@ -47,9 +47,9 @@ export default class GuidFile extends Route {
         const { guid } = params;
         try {
             const file = await this.store.findRecord('file', guid, {include: 'target'});
-            const target = file.target as unknown as RegistrationModel;
-            if (target.get('withdrawn') === true) {
-                this.transitionTo('guid-registration', target.get('id'));
+            const target = await file.target as unknown as RegistrationModel;
+            if (target.withdrawn === true) {
+                this.transitionTo('guid-registration', target.id);
             }
             const osfStorageFile = new OsfStorageFile(this.currentUser, file);
             return osfStorageFile;
