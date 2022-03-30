@@ -8,7 +8,10 @@
     align-items: flex-start;
     border: 1px solid $color-border-gray;
     padding: 8px;
-    width: max-content !important; // override width: auto from ember-basic-dropdown
+
+    &.DropdownList {
+        width: max-content; // override width: auto from ember-basic-dropdown
+    }
 
     > div {
         padding-top: 8px;
