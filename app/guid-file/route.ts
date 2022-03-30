@@ -12,6 +12,7 @@ import Analytics from 'ember-osf-web/services/analytics';
 import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 import Ready from 'ember-osf-web/services/ready';
 import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
+import RegistrationModel from 'ember-osf-web/models/registration';
 
 export default class GuidFile extends Route {
     @service analytics!: Analytics;
@@ -43,7 +44,11 @@ export default class GuidFile extends Route {
     async model(params: { guid: string }) {
         const { guid } = params;
         try {
-            const file = await this.store.findRecord('file', guid);
+            const file = await this.store.findRecord('file', guid, {include: 'target'});
+            const target = file.target as unknown as RegistrationModel;
+            if (target.get('withdrawn') === true) {
+                this.transitionTo('guid-registration', target.get('id'));
+            }
             const osfStorageFile = new OsfStorageFile(file);
             return osfStorageFile;
         } catch (error) {
