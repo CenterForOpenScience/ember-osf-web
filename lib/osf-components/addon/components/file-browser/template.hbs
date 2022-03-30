@@ -82,9 +82,14 @@
             data-analytics-name='Help'
             aria-label={{t 'general.help'}}
             @layout='fake-link'
+            {{on 'click' this.toggleHelpModal}}
         >
             <FaIcon @icon='question-circle' />
         </Button>
+        <FileBrowser::HelpModal
+            @isOpen={{this.helpModalOpen}}
+            @onClose={{this.toggleHelpModal}}
+        />
     </div>
 </div>
 <InfiniteList

@@ -1356,6 +1356,20 @@ registries:
                 osfstorage: 'OSF Storage'
             empty_folder: 'This folder is empty.'
             breadcrumbs: 'Breadcrumb'
+            help_modal:
+                heading: 'Using the OSF Files Browser'
+                download_all: 'Download All Files As a Zip'
+                download_all_detail: 'Navigate to the “Files” tab in the registration navigation on the left, and then click “Download this folder”.'
+                download_folder: 'Download a Folder as Zip'
+                download_folder_detail_first: 'To download a specific folder as a zip, click the vertical ellipses'
+                download_folder_detail_second: 'to open the dropdown. Click “Download”. Alternatively, open the folder and then click “Download this folder”.'
+                view_files: 'View Files'
+                view_files_detail: 'Click a file name to go to view the file in the OSF. Opens file in a new tab.'
+                download_file: 'Download a File'
+                download_file_detail_first: 'With the file open: Click the vertical ellipses'
+                download_file_detail_second: 'to open the dropdown. Click “Download”. From the file list: Click the vertical ellipses'
+                download_file_detail_third: 'of the file to open the dropdown. Click “Download”.'
+                file_actions: 'File actions icon'
         links:
             title: Links
             linked_nodes: 'Linked projects and components'
