@@ -5,19 +5,21 @@ import { Link } from 'jsonapi-typescript';
 import { FileReference } from 'ember-osf-web/packages/registration-schema';
 import getHref from 'ember-osf-web/utils/get-href';
 
+import AbstractNodeModel from './abstract-node';
 import BaseFileItem, { BaseFileLinks } from './base-file-item';
 import CommentModel from './comment';
 import DraftNode from './draft-node';
 import FileVersionModel from './file-version';
-import NodeModel from './node';
 
 export interface FileLinks extends BaseFileLinks {
     info: Link;
     move: Link;
     delete: Link;
+    html: Link;
 
     // only for files
     download?: Link;
+    render?: Link;
 }
 
 export default class FileModel extends BaseFileItem {
@@ -50,9 +52,8 @@ export default class FileModel extends BaseFileItem {
     @hasMany('comment', { inverse: null })
     comments!: AsyncHasMany<CommentModel>;
 
-    // TODO: In the future apiv2 may also need to support this pointing at nodes OR registrations
-    @belongsTo('abstract-node', { inverse: 'files', polymorphic: true })
-    target!: (AsyncBelongsTo<NodeModel> & NodeModel) | (AsyncBelongsTo<DraftNode> & DraftNode);
+    @belongsTo('abstract-node', { polymorphic: true })
+    target!: (AsyncBelongsTo<AbstractNodeModel> & AbstractNodeModel) | (AsyncBelongsTo<DraftNode> & DraftNode);
 
     // BaseFileItem override
     isFileModel = true;
@@ -133,7 +134,7 @@ export default class FileModel extends BaseFileItem {
         }).then(() => this.reload());
     }
 
-    move(node: NodeModel): Promise<null> {
+    move(node: AbstractNodeModel): Promise<null> {
         return this.currentUser.authenticatedAJAX({
             url: getHref(this.links.move),
             type: 'POST',

@@ -87,8 +87,7 @@ export default class NodeModel extends AbstractNodeModel.extend(Validations, Col
     @attr('fixstring') title!: string;
     @attr('fixstring') description!: string;
     @attr('node-category') category!: NodeCategory;
-    @attr('array') currentUserPermissions!: Permission[];
-    @attr('boolean') currentUserIsContributor!: boolean;
+     @attr('boolean') currentUserIsContributor!: boolean;
     @attr('boolean') fork!: boolean;
     @alias('fork') isFork!: boolean;
     @attr('boolean') collection!: boolean;

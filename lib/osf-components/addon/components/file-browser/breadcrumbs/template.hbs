@@ -1,0 +1,22 @@
+<nav aria-label={{t 'registries.overview.files.breadcrumbs'}} local-class='Breadcrumbs'>
+    <ol data-test-breadcrumbs>
+        {{#each @manager.breadcrumbs as |breadcrumb index| }}
+            <li>
+                {{#if (eq breadcrumb @manager.currentFolder)}}
+                    <span data-test-breadcrumb={{breadcrumb.name}}>
+                        <FileBrowser::Breadcrumbs::Crumb @name={{breadcrumb.name}} @isProvider={{eq index 0}} />
+                    </span>
+                {{else}}
+                    <OsfLink
+                        data-test-breadcrumb={{breadcrumb.name}}
+                        data-analytics-name='Breadcrumb navigation click'
+                        @href='#'
+                        {{on 'click' (perform @manager.goToFolder breadcrumb)}}
+                    >
+                        <FileBrowser::Breadcrumbs::Crumb @name={{breadcrumb.name}} @isProvider={{eq index 0}} />
+                    </OsfLink>
+                {{/if}}
+            </li>
+        {{/each}}
+    </ol>
+</nav>

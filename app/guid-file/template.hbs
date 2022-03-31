@@ -1,0 +1,102 @@
+<GuidFile::-Components::FileDetailLayout
+    @rightColumnClosed={{this.rightColumnClosed}}
+    @isMobile={{this.media.isMobile}}
+>
+    <:header>
+        <h3>
+            <OsfLink
+                data-test-project-link
+                data-analytics-name='Linked project'
+                local-class='ProjectLink'
+                @route={{if (eq this.model.fileModel.target.type 'registrations') 'guid-registration' 'guid-node'}}
+                @models={{array this.model.fileModel.target.id}}
+            >
+                {{this.model.fileModel.target.title}}
+            </OsfLink>
+        </h3>
+        <div local-class='FlexContainerRow'>
+            <h2 data-test-filename>
+                {{this.model.name}}
+                {{#if this.viewedVersion}}
+                    ({{t 'general.version'}}: {{this.viewedVersion}})
+                {{/if}}
+            </h2>
+            <FileActionsMenu @item={{this.model.fileModel}} />
+        </div>
+    </:header>
+    <:body>
+        <div data-test-file-renderer id='mfrIframeParent' local-class='FileRenderer'>
+            <FileRenderer
+                @download={{this.model.links.download}}
+                @version={{this.viewedVersion}}
+            />
+        </div>
+    </:body>
+    <:right>
+        {{#if this.revisionsOpened}}
+            <section data-test-revisions-tab local-class='FileDetail__revisions'>
+                <h2 local-class='FileDetail__right-section-heading'>{{t 'general.revisions'}}</h2>
+                <ol local-class='FileDetail__revision-list' reversed>
+                    <hr>
+                    {{#if this.model.getRevisions.isRunning}}
+                        <LoadingIndicator @dark={{true}} />
+                    {{else}}
+                        {{#each this.model.waterButlerRevisions as |version|}}
+                            <FileVersion
+                                @version={{version}}
+                                @downloadUrl={{this.model.links.download}}
+                                @changeVersion={{this.changeVersion}}
+                            />
+                            <hr>
+                        {{else}}
+                            {{t 'file_detail.no_revisions'}}
+                        {{/each}}
+                    {{/if}}
+                </ol>
+            </section>
+        {{/if}}
+        {{#if this.tagsOpened}}
+            <div local-class='RightContainer'>
+                <h2>{{t 'general.tags'}}</h2>
+                <TagsWidget
+                    @taggable={{this.model.fileModel}}
+                    @readOnly={{not this.model.userCanEditMetadata}}
+                    @inline={{true}}
+                />
+            </div>
+        {{/if}}
+    </:right>
+    <:rightButtons>
+        {{#if this.media.isMobile}}
+            <BsButton
+                data-test-file-renderer-button
+                data-analytics-name='File renderer button'
+                local-class='SlideButtons {{if this.rightColumnClosed 'Active'}}'
+                @size='lg'
+                @onClick={{this.toggleFileRenderer}}
+            >
+                <FaIcon @icon='file-alt' @fixedWidth={{true}}/>
+            </BsButton>
+        {{/if}}
+        <BsButton
+            aria-label={{if this.revisionsOpened (t 'file_detail.close_revisions') (t 'file_detail.view_revisions')}}
+            data-test-versions-button
+            data-analytics-name='Versions button'
+            local-class='SlideButtons {{if this.revisionsOpened 'Active'}}'
+            @size='lg'
+            @onClick={{this.toggleRevisions}}
+        >
+            <FaIcon @icon='history' @fixedWidth={{true}}/>
+        </BsButton>
+        <BsButton
+            aria-label={{if this.tagsOpened (t 'file_detail.close_tags') (t 'file_detail.view_tags')}}
+            data-test-tags-button
+            data-analytics-name='Tags button'
+            local-class='SlideButtons {{if this.tagsOpened 'Active'}}'
+            @size='lg'
+            @onClick={{this.toggleTags}}
+        >
+            <FaIcon @icon='tags' @fixedWidth={{true}}/>
+        </BsButton>
+    </:rightButtons>
+</GuidFile::-Components::FileDetailLayout>

@@ -9,7 +9,7 @@
     as |dd|
 >
     {{yield (hash
-        trigger=(component dd.Trigger defaultClass=(local-class 'Trigger'))
+        trigger=(component dd.Trigger defaultClass=(local-class (if @buttonStyling 'Button')))
         isOpen=dd.isOpen
         uniqueId=dd.uniqueId
         open=(action dd.actions.open)

@@ -1,0 +1,76 @@
+.ContentBackground {
+    display: flex;
+    flex-grow: 1;
+    z-index: 1;
+    justify-content: center;
+    position: relative;
+}
+
+.MainColumn {
+    display: flex;
+    flex-direction: column;
+}
+
+.FlexContainerRow {
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+    justify-content: space-between;
+    padding: 0 20px 20px;
+}
+
+.ProjectLink {
+    margin: 20px;
+}
+
+.FileRenderer {
+    padding: 0 20px 20px;
+    height: 90vh;
+    margin-bottom: 15px;
+}
+
+.SlideButtons {
+    margin: 20px 20px 0;
+    border: 0;
+    color: $color-link-dark;
+    background-color: $color-bg-white;
+
+    @media (max-width: 767px) {
+        margin: 0;
+    }
+
+    &.Active {
+        @media (max-width: 767px) {
+            background-color: $color-bg-white;
+            color: $color-bg-black;
+        }
+        background-color: $color-bg-gray-light;
+    }
+}
+
+.FileDetail__revisions {
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+.FileDetail__right-section-heading {
+    margin-left: 20px;
+}
+
+.FileDetail__revision-list {
+    list-style-position: inside;
+    padding-inline: 20px;
+}
+
+.FileDetail__no-revisions {
+    padding: 20px;
+    text-align: center;
+}
+
+.RightContainer {
+    margin: 0 20px;
+    
+    h2 {
+        margin-bottom: 20px;
+    }
+}

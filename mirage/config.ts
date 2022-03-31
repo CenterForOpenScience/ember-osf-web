@@ -323,8 +323,8 @@ export default function(this: Server) {
     this.post('/files/:id/move', wb.moveFile);
     this.post('/files/:id/upload', wb.renameFile);
     this.put('/files/:id/upload', uploadToFolder);
+    this.get('/files/:id/upload/', wb.fileVersions);
     this.del('/files/:id/delete', wb.deleteFile);
-    this.get('/files/:id/download', wb.fileVersions);
 
     // Private namespace
     this.namespace = '/_';

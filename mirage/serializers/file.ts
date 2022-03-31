@@ -6,7 +6,7 @@ import { MirageFile } from '../factories/file';
 
 import ApplicationSerializer, { SerializedRelationships } from './application';
 
-const { OSF: { apiUrl, url } } = config;
+const { OSF: { apiUrl} } = config;
 
 export default class FileSerializer extends ApplicationSerializer<MirageFile> {
     buildRelationships(model: ModelInstance<MirageFile>) {
@@ -73,7 +73,7 @@ export default class FileSerializer extends ApplicationSerializer<MirageFile> {
             move: `${apiUrl}/wb/files/${id}/move/`,
             delete: `${apiUrl}/wb/files/${id}/delete/`,
             info: `${apiUrl}/v2/files/${id}/`,
-            html: `${url}files/osfstorage/${id}/`,
+            html: `/${id}/`,
         };
     }
 }

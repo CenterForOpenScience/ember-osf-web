@@ -1,0 +1,26 @@
+{{#unless this.model.providerTask.isRunning}}
+    <StorageProviderManager::ProviderMapper
+        as |mapper|
+    >
+        {{#let (get mapper this.model.providerName) as |ProviderManager|}}
+            {{#if ProviderManager}}
+                <ProviderManager
+                    @provider={{this.model.providerTask.value}}
+                    as |manager|
+                >
+                    <FileBrowser @manager={{manager}} />
+                </ProviderManager>
+            {{else}}
+                <span data-test-file-provider-invalid-provider>
+                    {{t 'registries.overview.files.storage_providers.invalidProviderDetails'}}
+                    <OsfLink
+                        data-test-file-provider-invalid-provider-link
+                        @route='registries.overview.files'
+                    >
+                        {{t 'registries.overview.files.storage_providers.invalidProviderLink'}}
+                    </OsfLink>
+                </span>
+            {{/if}}
+        {{/let}}
+    </StorageProviderManager::ProviderMapper>
+{{/unless}}

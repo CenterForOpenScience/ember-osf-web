@@ -36,6 +36,7 @@ export class AuthBase extends Component {
 
     campaign?: string;
 
+    supportURL = config.support.faqPageUrl;
     profileURL = pathJoin(baseUrl, 'profile');
     settingsURL = pathJoin(baseUrl, 'settings');
     signUpURL = pathJoin(baseUrl, 'register');

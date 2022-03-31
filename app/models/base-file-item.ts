@@ -8,13 +8,14 @@ import getHref from 'ember-osf-web/utils/get-href';
 import { addQueryParam } from 'ember-osf-web/utils/url-parts';
 import OsfModel, { OsfLinks } from './osf-model';
 
-enum FileItemKinds {
+export enum FileItemKinds {
     File = 'file',
     Folder = 'folder',
 }
 
 export interface BaseFileLinks extends OsfLinks {
     upload: Link;
+    download?: Link;
     // only for folders
     new_folder?: Link; // eslint-disable-line camelcase
 }
