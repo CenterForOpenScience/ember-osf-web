@@ -191,7 +191,7 @@ module('Registries | Acceptance | overview.topbar', hooks => {
         await click('[data-test-social-sharing-button]');
         assert.dom('[data-test-sharing-options]').isVisible();
 
-        ['Email', 'Linkedin', 'Twitter', 'Facebook'].forEach(
+        ['Email', 'Twitter', 'Facebook'].forEach(
             medium => assert.dom(`[data-test-share-registration="${medium}"]`).isVisible(),
         );
     });

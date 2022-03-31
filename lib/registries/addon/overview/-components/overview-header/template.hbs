@@ -16,21 +16,24 @@
                     <nav.bordered-section>
                         <nav.buttons.default
                             @onclick={{@toggleSidenav}}
+                            aria-label={{t 'registries.overview.toggle_navbar'}}
                             data-analytics-name='Show sidenav'
                         >
                             {{nav.icon (if @sidenavGutterClosed 'bars' 'times')}}
                         </nav.buttons.default>
                     </nav.bordered-section>
 
-                    <nav.bordered-section>
-                        <nav.buttons.default
-                            data-analytics-name='Show metadata'
-                            @onclick={{@toggleMetadata}}
-                            local-class={{if @metadataGutterClosed 'NonActive'}}
-                        >
-                            <h4>{{t 'registries.overview.metadata'}}</h4>
-                        </nav.buttons.default>
-                    </nav.bordered-section>
+                    {{#if @showMetadata}}
+                        <nav.bordered-section>
+                            <nav.buttons.default
+                                data-analytics-name='Show metadata'
+                                @onclick={{@toggleMetadata}}
+                                local-class={{if @metadataGutterClosed 'NonActive'}}
+                            >
+                                <h4>{{t 'registries.overview.metadata'}}</h4>
+                            </nav.buttons.default>
+                        </nav.bordered-section>
+                    {{/if}}
                 </Navbar>
             {{/if}}
         {{/if}}

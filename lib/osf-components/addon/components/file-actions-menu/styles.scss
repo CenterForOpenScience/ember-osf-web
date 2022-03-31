@@ -1,0 +1,24 @@
+.DownloadShareDropdown {
+    padding-left: 20px;
+}
+
+.DropdownList {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 1px solid $color-border-gray;
+    padding: 8px;
+
+    &.DropdownList {
+        width: max-content; // override width: auto from ember-basic-dropdown
+    }
+
+    > div {
+        padding-top: 8px;
+    }
+}
+
+.DropdownItem {
+    composes: FakeLink from '../button/styles.scss';
+    margin: 6px 0;
+}

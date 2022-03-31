@@ -1,67 +1,37 @@
-import { classNames, tagName } from '@ember-decorators/component';
-import Component from '@ember/component';
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import Intl from 'ember-intl/services/intl';
+import Toast from 'ember-toastr/services/toast';
 
-import { layout, requiredAction } from 'ember-osf-web/decorators/component';
-import Analytics from 'ember-osf-web/services/analytics';
+import { WaterButlerRevision } from 'ember-osf-web/packages/files/file';
 
-import styles from './styles';
-import template from './template';
-
-/**
- * @module ember-osf
- * @submodule components
- */
-
-export interface Version {
-    id: string;
-    attributes: {
-        extra: {
-            hashes: {
-                md5: string,
-                sha256: string,
-            },
-        },
-    };
+interface Args {
+    version: WaterButlerRevision;
+    downloadUrl: string;
+    changeVersion: (version: number) => void;
 }
 
-/**
- * Display information about one revision of a file
- *
- * Sample usage:
- * ```handlebars
- * {{file-version
- * version=version
- * download='download'
- * currentVersion=currentVersion}}
- * ```
- * @class FileVersion
- */
-@layout(template, styles)
-@tagName('tr')
-@classNames('file-version')
-export default class FileVersion extends Component {
-    @service analytics!: Analytics;
+export default class FileVersionComponent extends Component<Args> {
+    @service intl!: Intl;
+    @service toast!: Toast;
 
-    currentVersion!: number;
-    version!: Version;
+    @tracked dropdownOpen = false;
 
-    @computed('version.id', 'currentVersion')
-    get clickable(): boolean {
-        return +this.version.id !== this.currentVersion;
+    @action toggleDropdown() {
+        this.dropdownOpen = !this.dropdownOpen;
     }
 
-    @requiredAction download!: (version: Version) => void;
-    @requiredAction versionChange!: (version: Version) => void;
-
-    @action
-    downloadVersion(version: Version): void {
-        this.download(version);
+    @action downloadVersion(version: number) {
+        window.location.href = `${this.args.downloadUrl}?revision=${version}`;
     }
 
-    @action
-    changeVersion(version: Version): void {
-        this.versionChange(version);
+    @action copySuccess() {
+        this.toast.success(this.intl.t('osf-components.file-version.copy_success'));
+    }
+
+    @action copyError() {
+        this.toast.error(this.intl.t('osf-components.file-version.copy_error'));
     }
 }

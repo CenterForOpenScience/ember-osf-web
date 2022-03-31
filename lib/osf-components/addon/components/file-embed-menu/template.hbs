@@ -1,0 +1,29 @@
+<ResponsiveDropdown @renderInPlace={{true}} as |dd|>
+    {{yield (hash trigger=dd.trigger isOpen=dd.isOpen)}}
+    <dd.content>
+        <ul data-test-sharing-options local-class='Dropdown__list'>
+            <li>
+                <CopyButton
+                    data-test-copy-js
+                    @clipboardText={{this.shareiFrameDynamic}}
+                    @success={{action this.successMessage}}
+                    @error={{action this.errorMessage}}
+                    local-class='FakeLink Dropdown__option'
+                >
+                    {{t 'file_actions_menu.copy_js'}}
+                </CopyButton>
+            </li>
+            <li>
+                <CopyButton
+                    data-test-copy-html
+                    @clipboardText={{this.shareiFrameDirect}}
+                    @success={{action this.successMessage}}
+                    @error={{action this.errorMessage}}
+                    local-class='FakeLink Dropdown__option'
+                >
+                    {{t 'file_actions_menu.copy_html'}}
+                </CopyButton>
+            </li>
+        </ul>
+    </dd.content>
+</ResponsiveDropdown>

@@ -61,6 +61,7 @@ export default Factory.extend<MirageFile & FileTraits>({
     size() {
         return faker.random.number(1000000000);
     },
+    kind: 'file',
 
     asFolder: trait<File>({
         afterCreate(file) {

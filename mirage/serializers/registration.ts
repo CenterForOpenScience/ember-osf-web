@@ -14,6 +14,7 @@ interface RegistrationAttrs extends NodeAttrs {
     providerId: ID | null;
     originalResponseId: ID | null;
     latestResponseId: ID | null;
+    regionId: ID | null;
 }
 
 type MirageRegistration = Registration & { attrs: RegistrationAttrs };
@@ -282,6 +283,21 @@ export default class RegistrationSerializer extends ApplicationSerializer<Mirage
                 links: {
                     related: {
                         href: `${apiUrl}/v2/registrations/${model.id}/schema_responses/${latestResponseId}`,
+                        meta: {},
+                    },
+                },
+            };
+        }
+        if (model.attrs.regionId !== null) {
+            const { regionId } = model.attrs;
+            relationships.region = {
+                data: {
+                    id: regionId as string,
+                    type: 'regions',
+                },
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/registrations/${model.id}/regions/${regionId}`,
                         meta: {},
                     },
                 },

@@ -1,0 +1,98 @@
+.OptionBar {
+    display: flex;
+    justify-content: space-between;
+
+    &.Mobile {
+        flex-direction: column;
+    }
+}
+
+.OptionBar__left {
+    display: flex;
+    margin-bottom: 24px;
+
+    &.Mobile {
+        flex-direction: column;
+    }
+}
+
+.OptionBar__right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.SortDropdown {
+    padding-left: 20px;
+
+    label {
+        width: 100%;
+    }
+
+    &.Mobile {
+        padding-left: 0;
+        padding-top: 18px;
+    }
+}
+
+.SortDropdown__button {
+    display: flex;
+
+    &.Mobile {
+        justify-content: space-between;
+        width: 100%;
+    }
+}
+
+
+.SortedBy {
+    padding-right: 58px;
+    font-weight: bold;
+
+    &.Mobile {
+        padding-right: 0;
+    }
+}
+
+.DownloadAllFromCurrent {
+    margin: 7px;
+}
+
+.GoToParentButton {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-top: solid 1px $color-border-gray;
+
+    button {
+        white-space: normal;
+        text-align: left;
+    }
+}
+
+.FileList {
+    list-style-type: none;
+    padding: 0;
+
+    > li:last-of-type {
+        border-bottom: solid 1px $color-border-gray;
+    }
+}
+
+.DropdownList {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 1px solid $color-border-gray;
+
+    button {
+        padding: 8px;
+    }
+}
+
+.EmptyText {
+    text-align: center;
+    font-size: 24px;
+    padding-top: 50px;
+}

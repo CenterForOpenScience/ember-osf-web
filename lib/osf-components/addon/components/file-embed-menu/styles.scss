@@ -1,0 +1,12 @@
+.FakeLink {
+    composes: FakeLink from '../button/styles.scss';
+}
+
+.Dropdown__list {
+    width: max-content;
+    composes: Dropdown__list from '../sharing-icons/dropdown/styles.scss';
+}
+
+.Dropdown__option {
+    composes: Dropdown__option from '../sharing-icons/dropdown/styles.scss';
+}

@@ -1,0 +1,31 @@
+<li
+    data-test-file-list-item={{@item.id}}
+    data-test-indented={{if @manager.parentFolder 'true' 'false'}}
+    local-class={{if @manager.parentFolder 'FileList__item Indent' 'FileList__item'}}
+>
+    {{!-- Analytics/test-selector should know if it is a file or folder --}}
+    <OsfLink
+        data-analytics-name='Open file'
+        @href={{@item.links.html}}
+        @target='_blank'
+        local-class='FileList__item__options'
+    >
+        <FaIcon
+            @prefix='far' @icon='file-alt' @fixedWidth={{true}}
+        />
+        <span data-test-file-name>
+            {{@item.name}}
+        </span>
+    </OsfLink>
+    <div
+        data-test-file-list-date
+        local-class='FileList__item__options NoShrink'
+    >
+        {{#if @item.dateModified}}
+            <span data-test-file-modified-date>
+                {{moment-format @item.dateModified 'YYYY-MM-DD hh:mm A'}}
+            </span>
+        {{/if}}
+        <FileActionsMenu @item={{@item}} />
+    </div>
+</li>

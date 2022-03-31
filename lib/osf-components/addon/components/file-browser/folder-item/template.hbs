@@ -1,0 +1,49 @@
+<li
+    data-test-file-list-item={{@item.id}}
+    data-test-indented={{if @manager.parentFolder 'true' 'false'}}
+    local-class={{if @manager.parentFolder 'FileList__item Indent' 'FileList__item'}}
+>
+    <Button
+        data-test-file-list-link
+        data-analytics-name='View folder'
+        @layout='fake-link'
+        local-class='FileList__item__options FolderButton'
+        {{on 'click' (perform @manager.goToFolder @item)}}
+    >
+        <FaIcon
+            @icon='folder' @fixedWidth={{true}}
+        />
+        <span data-test-folder-name>
+            {{@item.name}}
+        </span>
+    </Button>
+    <div
+        data-test-file-list-date
+        local-class='FileList__item__options NoShrink'
+    >
+        <ResponsiveDropdown
+            local-class='DownloadShareDropdown'
+            @renderInPlace={{true}}
+            @buttonStyling={{true}}
+            @horizontalPosition='right'
+            as |dropdown|
+        >
+            <dropdown.trigger
+                aria-label={{t 'file_actions_menu.actions' filename=@item.name}}
+                data-test-file-download-share-trigger
+                data-analytics-name='Folder actions'
+            >
+                <FaIcon @icon='ellipsis-v' />
+            </dropdown.trigger>
+            <dropdown.content local-class='DropdownList'>
+                <OsfLink
+                    @href={{@item.links.download}}
+                    data-test-download-button
+                >
+                    <FaIcon @icon='download' />
+                    {{t 'general.download'}}
+                </OsfLink>
+            </dropdown.content>
+        </ResponsiveDropdown>
+    </div>
+</li>
