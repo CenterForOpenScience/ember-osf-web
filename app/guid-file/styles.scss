@@ -20,7 +20,16 @@
 }
 
 .ProjectLink {
+    width: 97%;
+    // width: 1338px;
     margin: 20px;
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    text-align: left;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .FileRenderer {
