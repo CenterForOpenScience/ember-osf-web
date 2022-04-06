@@ -14,6 +14,7 @@ import ProviderModel from 'ember-osf-web/models/provider';
 import SubjectModel from 'ember-osf-web/models/subject';
 import Analytics from 'ember-osf-web/services/analytics';
 import captureException from 'ember-osf-web/utils/capture-exception';
+import { notFoundURL } from 'ember-osf-web/utils/clean-url';
 import DraftRegistrationManager, { LoadDraftModelTask } from 'registries/drafts/draft/draft-registration-manager';
 import NavigationManager from 'registries/drafts/draft/navigation-manager';
 
@@ -53,7 +54,7 @@ export default class DraftRegistrationRoute extends Route {
             return { draftRegistration, provider };
         } catch (error) {
             captureException(error);
-            return this.transitionTo('page-not-found', window.location.href.slice(-1));
+            return this.transitionTo('page-not-found', notFoundURL(this.router.currentURL));
         }
     }
 
