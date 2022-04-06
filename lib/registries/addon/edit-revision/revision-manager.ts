@@ -27,6 +27,7 @@ import SchemaResponseModel, { RevisionReviewStates } from 'ember-osf-web/models/
 import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
+import { notFoundURL } from 'ember-osf-web/utils/clean-url';
 
 export type LoadModelsTask = TaskInstance<{
     revision: SchemaResponseModel,
@@ -193,7 +194,7 @@ export default class RevisionManager {
     async initializeRevisionChangeset() {
         const { revision } = await this.loadModelsTask;
         if (!revision) {
-            return this.router.transitionTo('registries.page-not-found', window.location.href.slice(-1));
+            return this.router.transitionTo('registries.page-not-found', notFoundURL(this.router.currentURL));
         }
         const revisionValidations = buildSchemaResponseValidations();
         const revisionChangeset = buildChangeset(revision, revisionValidations);
