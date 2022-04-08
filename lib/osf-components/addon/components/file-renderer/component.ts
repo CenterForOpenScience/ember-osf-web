@@ -66,7 +66,7 @@ export default class FileRenderer extends Component {
         // Waiting until the iframe is loaded then changing the URL avoids a race condition in the MFR iframe
         // This is most apparent in 3D files
         const urlWithParams = new URL(renderUrl);
-        urlWithParams.searchParams.set('url', encodeURIComponent(this.downloadUrl));
+        urlWithParams.searchParams.set('url', this.downloadUrl);
         return this.isLoading ? '' : urlWithParams.toString();
     }
 

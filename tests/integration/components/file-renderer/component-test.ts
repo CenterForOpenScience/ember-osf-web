@@ -10,7 +10,7 @@ module('Integration | Component | file-renderer', hooks => {
     setupRenderingTest(hooks);
 
     test('file rendering defaults', async function(assert) {
-        const download = this.set('download', 'someTruthyValue');
+        const download = this.set('download', 'http://cos.io/');
 
         await render(hbs`
             {{file-renderer download=download}}
@@ -26,7 +26,7 @@ module('Integration | Component | file-renderer', hooks => {
         assert.equal(iframe.getAttribute('width'), '100%');
         assert.equal(
             iframe.getAttribute('src'),
-            `${renderUrl}?url=${encodeURIComponent(`${download}?direct=&mode=render`)}`,
+            `${renderUrl}?url=${encodeURIComponent(`${download}?direct=&mode=render&version=`)}`,
         );
     });
 
@@ -51,7 +51,7 @@ module('Integration | Component | file-renderer', hooks => {
         assert.equal(iframe.getAttribute('width'), '500');
         assert.equal(
             iframe.getAttribute('src'),
-            `${renderUrl}?url=${encodeURIComponent('http://cos.io/?direct=&mode=render')}`,
+            `${renderUrl}?url=${encodeURIComponent('http://cos.io/?direct=&mode=render&version=')}`,
         );
     });
 });
