@@ -57,7 +57,9 @@ export default class FileRenderer extends Component {
         const downloadLink = new URL(download);
         downloadLink.searchParams.set('direct', params.direct || '');
         downloadLink.searchParams.set('mode', params.mode);
-        downloadLink.searchParams.set('version', version?.toString() || '');
+        if (version) {
+            downloadLink.searchParams.set('version', version.toString());
+        }
         return downloadLink.toString();
     }
 
