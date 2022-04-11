@@ -143,6 +143,7 @@ export default class DropzoneWidget extends Component.extend({
             autoQueue: false,
             clickable: this.clickable.length ? this.clickable : '',
             dictDefaultMessage: this.defaultMessage,
+            previewsContainer: false,
             sending(file: any, xhr: XMLHttpRequest) {
                 authorizeXHR(xhr);
 
