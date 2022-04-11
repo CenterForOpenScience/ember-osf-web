@@ -1813,6 +1813,7 @@ osf-components:
         folder_name_placeholder: 'New folder name'
         create_folder_failed: 'Failed to create folder'
         insufficient_storage_error: 'This file cannot be uploaded to this project/component because it has exceeded the storage limit for OSF Storage.'
+        file_add_success: 'File added successfully'
         delete_failed: 'Failed to delete {filename}'
         delete_success: 'Successfully deleted {filename}'
         delete: Delete
