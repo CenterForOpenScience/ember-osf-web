@@ -12,17 +12,7 @@
 }
 
 .FlexContainerRow {
-    display: flex;
-    flex-direction: row;
-    align-items: end;
-    justify-content: space-between;
-    padding: 0 20px 20px;
-}
-
-.ProjectLink {
-    width: 97%;
-    // width: 1338px;
-    margin: 20px;
+    padding: 0 20px 10px;
     overflow: hidden;
     position: relative;
     display: inline-block;
@@ -30,6 +20,25 @@
     text-decoration: none;
     text-overflow: ellipsis;
     white-space: nowrap;
+    width: 100%;
+    max-width: 1333px;
+}
+
+.FlexContainerRow > h3,
+h2 {
+    max-width: 1300px;
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    text-align: left;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.FilesActionMenu {
+    display: flex;
+    justify-content: flex-end;
 }
 
 .FileRenderer {
@@ -60,6 +69,9 @@
 .FileDetail__revisions {
     max-height: 100vh;
     overflow-y: auto;
+    width: 450px;
+    max-width: 450px;
+    z-index: 10;
 }
 
 .FileDetail__right-section-heading {
@@ -78,6 +90,9 @@
 
 .RightContainer {
     margin: 0 20px;
+    width: 450px;
+    max-width: 450px;
+    z-index: 10;
     
     h2 {
         margin-bottom: 20px;

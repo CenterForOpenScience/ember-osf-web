@@ -3,17 +3,19 @@
     @isMobile={{this.media.isMobile}}
 >
     <:header>
-        <h3>
-            <OsfLink
+        <div local-class='FlexContainerRow'>
+            <h3>
+                <OsfLink
                 data-test-project-link
                 data-analytics-name='Linked project'
                 local-class='ProjectLink'
                 @route={{if (eq this.model.fileModel.target.type 'registrations') 'guid-registration' 'guid-node'}}
                 @models={{array this.model.fileModel.target.id}}
-            >
-                {{this.model.fileModel.target.title}}
-            </OsfLink>
-        </h3>
+                >
+                    {{this.model.fileModel.target.title}}
+                </OsfLink>
+            </h3>
+        </div>
         <div local-class='FlexContainerRow'>
             <h2 data-test-filename>
                 {{this.model.name}}
@@ -21,7 +23,10 @@
                     ({{t 'general.version'}}: {{this.viewedVersion}})
                 {{/if}}
             </h2>
-            <FileActionsMenu @item={{this.model.fileModel}} />
+            <FileActionsMenu
+                @item={{this.model.fileModel}}
+                local-class='FilesActionMenu'
+            />
         </div>
     </:header>
     <:body>
