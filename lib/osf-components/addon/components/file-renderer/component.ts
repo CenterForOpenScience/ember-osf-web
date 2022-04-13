@@ -3,7 +3,6 @@ import Component from '@ember/component';
 import { action, computed } from '@ember/object';
 import { next } from '@ember/runloop';
 import config from 'ember-get-config';
-import $ from 'jquery';
 
 import { layout } from 'ember-osf-web/decorators/component';
 
@@ -52,15 +51,25 @@ export default class FileRenderer extends Component {
     @computed('download', 'params', 'version')
     get downloadUrl(): string {
         const { download, params, version } = this;
-
-        return `${download}?${$.param({ ...params, ...(version ? { version } : {}) })}`;
+        if (!download) {
+            return '';
+        }
+        const downloadLink = new URL(download);
+        downloadLink.searchParams.set('direct', params.direct || '');
+        downloadLink.searchParams.set('mode', params.mode);
+        if (version) {
+            downloadLink.searchParams.set('version', version.toString());
+        }
+        return downloadLink.toString();
     }
 
     @computed('downloadUrl', 'isLoading')
     get mfrUrl(): string {
         // Waiting until the iframe is loaded then changing the URL avoids a race condition in the MFR iframe
         // This is most apparent in 3D files
-        return this.isLoading ? '' : `${renderUrl}?url=${encodeURIComponent(this.downloadUrl)}`;
+        const urlWithParams = new URL(renderUrl);
+        urlWithParams.searchParams.set('url', this.downloadUrl);
+        return this.isLoading ? '' : urlWithParams.toString();
     }
 
     didReceiveAttrs(): void {
