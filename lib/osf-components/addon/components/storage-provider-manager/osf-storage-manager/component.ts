@@ -18,13 +18,16 @@ interface Args {
 }
 
 export default class OsfStorageManager extends Component<Args> {
+    @service currentUser!: CurrentUserService;
     @tracked storageProvider?: FileProviderModel;
     @tracked folderLineage: Array<OsfStorageFile | OsfStorageProviderFile> = [];
     @tracked displayItems: OsfStorageFile[] = [];
     @tracked filter = '';
     @tracked sort = FileSortKey.AscName;
     @tracked currentPage = 1;
-    @service currentUser!: CurrentUserService;
+
+    @tracked baseSelectedFile?: OsfStorageFile;
+    @tracked selectedFiles: OsfStorageFile[] = [];
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
@@ -117,5 +120,23 @@ export default class OsfStorageManager extends Component<Args> {
     loadMore() {
         this.currentPage += 1;
         taskFor(this.getCurrentFolderItems).perform();
+    }
+
+    @action
+    selectFile(file: OsfStorageFile, event: PointerEvent) {
+        if (event.shiftKey && this.baseSelectedFile) {
+            const fileIndex = this.displayItems.indexOf(file);
+            const baseIndex = this.displayItems.indexOf(this.baseSelectedFile);
+            const from = Math.min(fileIndex, baseIndex);
+            const to = Math.max(fileIndex, baseIndex) + 1;
+            this.selectedFiles = this.displayItems.slice(from, to);
+        } else {
+            this.baseSelectedFile = file;
+            if (this.selectedFiles.includes(file)) {
+                this.selectedFiles.removeObject(file);
+            } else {
+                this.selectedFiles.pushObject(file);
+            }
+        }
     }
 }

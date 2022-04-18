@@ -1822,6 +1822,9 @@ osf-components:
             title_folder: 'Delete "{filename}" and all its contents?'
             body: 'This action is irreversible.'
             button: Delete
+    file-browser:
+        select_file: 'Select file {fileName}'
+        select_folder: 'Select folder {folderName}'
     file-version:
         view_version: 'View version created {date}'
         show_info: 'Show revision information'
