@@ -116,7 +116,7 @@
     "ember-auto-import": "^1.11.2",
     "ember-bootstrap": "^4.6.3",
     "ember-bootstrap-datepicker": "^2.0.9",
-    "ember-changeset": "^3.13.2",
+    "ember-changeset": "^4.1.0",
     "ember-changeset-validations": "^3.14.2",
     "ember-cli": "~3.26.1",
     "ember-cli-app-version": "^5.0.0",
