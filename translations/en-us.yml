@@ -52,6 +52,7 @@ general:
     more: more
     upload: Upload
     rename: Rename
+    copy: Copy
     move: Move
     name: Name
     size: Size
@@ -1825,6 +1826,7 @@ osf-components:
     file-browser:
         select_file: 'Select file {fileName}'
         select_folder: 'Select folder {folderName}'
+        number_selected: '{number} item(s) selected'
     file-version:
         view_version: 'View version created {date}'
         show_info: 'Show revision information'
