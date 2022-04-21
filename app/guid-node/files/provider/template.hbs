@@ -1,0 +1,31 @@
+{{#if this.model.providerTask.isRunning}}
+    <div>
+        <LoadingIndicator @dark={{true}} />
+    </div>
+{{else}}
+    <OsfLayout
+        @backgroundClass='{{local-class 'ContentBackground'}}'
+        as |layout|
+    >
+        <layout.heading>
+            {{!-- Placeholder for header --}}
+        </layout.heading>
+        <layout.leftNavOld as |leftNav|>
+            {{!-- Placeholder for leftnav links --}}
+        </layout.leftNavOld>
+        <layout.main local-class='OverviewBody'>
+            <StorageProviderManager::ProviderMapper
+                as |mapper|
+            >
+                {{#let (get mapper this.model.providerName) as |ProviderManager|}}
+                    <ProviderManager
+                        @provider={{this.model.providerTask.value}}
+                        as |manager|
+                    >
+                        <FileBrowser @manager={{manager}} />
+                    </ProviderManager>
+                {{/let}}
+            </StorageProviderManager::ProviderMapper>
+        </layout.main>
+    </OsfLayout>
+{{/if}}
