@@ -494,7 +494,7 @@ node_navbar:
     settings: Settings
     comments: Comments
 status:
-    welcome_message: '<h1>Welcome to OSF!</h1><p>Visit our <a href="https://openscience.zendesk.com/hc/en-us" target="_blank" rel="noreferrer">Guides</a> to learn about creating a project, or get inspiration from <a href="https://osf.io/explore/activity/#popularPublicProjects">popular public projects</a>.</p>'
+    welcome_message: '<h1>Welcome to OSF!</h1><p>Visit our <a href="https://help.osf.io/" target="_blank" rel="noreferrer">Guides</a> to learn about creating a project, or get inspiration from <a href="https://osf.io/explore/activity/#popularPublicProjects">popular public projects</a>.</p>'
     alternate_email_error: 'The email address has <b>NOT</b> been added to your account. Please log out and revisit the link in your email. Thank you.'
     # remove_addon: 'Because the GitHub add-on for {extra.category} "{extra.title}" was authenticated by {extra.user}, authentication information has been deleted.'
     project_deleted: 'Project has been successfully deleted.'
@@ -1948,7 +1948,7 @@ settings:
     account:
         deactivation:
             title: 'Deactivate account'
-            body: 'Deactivating your account will remove you from all public projects to which you are a contributor. Your account will no longer be associated with OSF projects, and your work on the OSF will be inaccessible. If this is a secondary account that you want to close, consider <a href="https://openscience.zendesk.com/hc/en-us/articles/360019738014">merging your accounts</a>.'
+            body: 'Deactivating your account will remove you from all public projects to which you are a contributor. Your account will no longer be associated with OSF projects, and your work on the OSF will be inaccessible. If this is a secondary account that you want to close, consider <a href="https://help.osf.io/">merging your accounts</a>.'
             warning: 'Warning:'
             warningText: 'Once your deactivation has been approved the effects are irreversible.'
             pending: 'Your account is currently pending deactivation.'
