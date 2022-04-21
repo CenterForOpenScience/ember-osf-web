@@ -95,6 +95,7 @@ export default class OsfStorageManager extends Component<Args> {
             this.folderLineage.push(folder);
         }
         notifyPropertyChange(this, 'folderLineage');
+        this.removeSelectedFiles();
         this.displayItems = [];
         this.currentPage = 1;
         taskFor(this.getCurrentFolderItems).perform();
@@ -138,5 +139,11 @@ export default class OsfStorageManager extends Component<Args> {
                 this.selectedFiles.pushObject(file);
             }
         }
+    }
+
+    @action
+    removeSelectedFiles() {
+        this.selectedFiles = [];
+        this.baseSelectedFile = undefined;
     }
 }
