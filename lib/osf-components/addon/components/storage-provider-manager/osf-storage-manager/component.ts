@@ -19,6 +19,7 @@ interface Args {
 
 export default class OsfStorageManager extends Component<Args> {
     @service currentUser!: CurrentUserService;
+
     @tracked storageProvider?: FileProviderModel;
     @tracked folderLineage: Array<OsfStorageFile | OsfStorageProviderFile> = [];
     @tracked displayItems: OsfStorageFile[] = [];

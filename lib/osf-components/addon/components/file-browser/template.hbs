@@ -3,10 +3,16 @@
 <div local-class='OptionBar {{if this.isMobile 'Mobile'}}'>
     <div local-class='OptionBar__left {{if this.isMobile 'Mobile'}}'>
         {{#if (gt @manager.selectedFiles.length 0)}}
-            <span>
-                {{t 'osf-components.file-browser.number_selected' number=@manager.selectedFiles.length}}
-                {{!-- TODO: have this remove selected files and give it an aria label --}}
-                <FaIcon @icon='times' />
+            <span data-test-file-selected-count>
+                {{t 'osf-components.file-browser.number_selected' numSelected=@manager.selectedFiles.length}}
+                <Button
+                    data-test-clear-file-selection
+                    data-analytics-name='Clear file selection'
+                    aria-label={{t 'osf-components.file-browser.clear_selection'}}
+                    {{on 'click' @manager.removeSelectedFiles}}
+                >
+                    <FaIcon @icon='times' />
+                </Button>
             </span>
         {{else}}
             <label>
