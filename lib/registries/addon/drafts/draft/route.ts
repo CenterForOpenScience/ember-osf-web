@@ -40,6 +40,8 @@ export default class DraftRegistrationRoute extends Route {
             );
             if (draftRegistration.modelName === 'registration') {
                 this.transitionTo('overview', draftRegistration.id);
+            } else if (draftRegistration.currentUserIsReadOnly) {
+                this.replaceWith('drafts.draft.review', draftId);
             }
             const [subjects, provider]:
                 [SubjectModel[], ProviderModel] = await Promise.all([
@@ -48,9 +50,6 @@ export default class DraftRegistrationRoute extends Route {
                 ]);
 
             draftRegistration.setProperties({ subjects });
-            if (draftRegistration.currentUserIsReadOnly) {
-                this.replaceWith('drafts.draft.review', draftId);
-            }
             return { draftRegistration, provider };
         } catch (error) {
             captureException(error);
