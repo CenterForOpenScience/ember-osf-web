@@ -19,6 +19,13 @@
     padding: 0 20px 20px;
 }
 
+.FlexContainerRow > h2 {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 70vw;
+}
+
 .ProjectLink {
     margin: 20px;
 }
