@@ -575,6 +575,15 @@ forks:
     new_fork_failed: 'Failed to create a new fork.'
     delete_fork_failed: 'Failed to delete the project.'
 node:
+    left_nav:
+        overview: Overview
+        files: Files
+        wiki: Wiki
+        analytics: Analytics
+        registrations: Registrations
+        contributors: Contributors
+        add-ons: Add-ons
+        settings: Settings
     registrations:
         new_registration_modal:
             title: Register
