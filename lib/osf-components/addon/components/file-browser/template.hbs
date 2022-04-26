@@ -1,5 +1,4 @@
 <FileBrowser::Breadcrumbs @manager={{@manager}} />
-
 <div local-class='OptionBar {{if this.isMobile 'Mobile'}}'>
     <div local-class='OptionBar__left {{if this.isMobile 'Mobile'}}'>
         <label>
@@ -8,7 +7,7 @@
                 data-test-file-search
                 @type='text'
                 class='form-control'
-                placeholder='{{t 'registries.overview.files.filter_placeholder'}}'
+                placeholder='{{t 'osf-components.file-browser.filter_placeholder'}}'
                 @value={{readonly @manager.filter}}
                 {{on 'input' this.handleInput}}
             />
@@ -22,14 +21,14 @@
             as |dropdown|
         >
             <label>
-                {{t 'registries.overview.files.sort'}}
+                {{t 'osf-components.file-browser.sort'}}
                 <dropdown.trigger
                     data-test-file-sort-trigger
                     data-analytics-name='Sort files'
                     local-class='SortDropdown__button {{if this.isMobile 'Mobile'}}'
                 >
                     <span local-class='SortedBy {{if this.isMobile 'Mobile'}}'>
-                        {{t (concat 'registries.overview.files.sort_by.' @manager.sort)}}
+                        {{t (concat 'osf-components.file-browser.sort_by.' @manager.sort)}}
                     </span>
                     <FaIcon @icon='caret-down' />
                 </dropdown.trigger>
@@ -42,25 +41,25 @@
                     @layout='fake-link'
                     {{on 'click' (fn @manager.changeSort 'name')}}
                 >
-                    {{t 'registries.overview.files.sort_by.name'}}
+                    {{t 'osf-components.file-browser.sort_by.name'}}
                 </Button>
                 <Button
                     @layout='fake-link'
                     {{on 'click' (fn  @manager.changeSort '-name')}}
                 >
-                    {{t 'registries.overview.files.sort_by.-name'}}
+                    {{t 'osf-components.file-browser.sort_by.-name'}}
                 </Button>
                 <Button
                     @layout='fake-link'
                     {{on 'click' (fn  @manager.changeSort 'modified')}}
                 >
-                    {{t 'registries.overview.files.sort_by.modified'}}
+                    {{t 'osf-components.file-browser.sort_by.modified'}}
                 </Button>
                 <Button
                     @layout='fake-link'
                     {{on 'click' (fn  @manager.changeSort '-modified')}}
                 >
-                    {{t 'registries.overview.files.sort_by.-modified'}}
+                    {{t 'osf-components.file-browser.sort_by.-modified'}}
                 </Button>
             </dropdown.content>
         </ResponsiveDropdown>
@@ -74,7 +73,7 @@
                 local-class='DownloadAllFromCurrent'
             >
                 <FaIcon @icon='download' />
-                {{t 'registries.overview.files.download_all'}}
+                {{t 'osf-components.file-browser.download_all'}}
             </OsfLink>
         {{/if}}
         <Button
@@ -90,6 +89,7 @@
             @isOpen={{this.helpModalOpen}}
             @onClose={{this.toggleHelpModal}}
         />
+        <FileBrowser::AddNew @manager={{@manager}} />
     </div>
 </div>
 <InfiniteList
@@ -127,7 +127,7 @@
     </:item>
     <:empty>
         <div local-class='EmptyText'>
-            {{t 'registries.overview.files.empty_folder'}}
+            {{t 'osf-components.file-browser.empty_folder'}}
         </div>
     </:empty>
 </InfiniteList>

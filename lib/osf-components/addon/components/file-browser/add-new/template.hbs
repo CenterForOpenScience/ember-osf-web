@@ -1,0 +1,33 @@
+<ResponsiveDropdown
+    @renderInPlace={{true}}
+    @buttonStyling={{true}}
+    @horizontalPosition='left'
+    as |dropdown|
+>
+    <BsButton
+        local-class='TriggerButton {{if dropdown.isOpen 'CloseButton'}}'
+        @type='success'
+        {{on 'click' dropdown.toggle}}
+    >
+        <FaIcon @icon='plus' @size='2x' @fixedWidth={{true}} />
+    </BsButton>
+    <dropdown.content
+        local-class='DropdownList'
+        {{on 'click' dropdown.close}}
+    >
+        <Button
+            @layout='fake-link'
+            {{on 'click' (fn (mut this.createFolderModalOpen) true)}}
+        >
+            {{t 'osf-components.file-browser.create_folder'}}
+        </Button>
+        <Button
+            @layout='fake-link'
+            {{on 'click' (fn (mut this.uploadModalOpen) true)}}
+        >
+            {{t 'osf-components.file-browser.upload_file'}}
+        </Button>
+    </dropdown.content>
+</ResponsiveDropdown>
+<FileBrowser::AddNew::CreateFolderModal @isOpen={{this.createFolderModalOpen}} @manager={{@manager}} />
+<FileBrowser::AddNew::UploadModal @isOpen={{this.uploadModalOpen}} @manager={{@manager}} />

@@ -1,0 +1,44 @@
+/* stylelint-disable selector-no-qualifying-type */
+.TriggerButton.TriggerButton {
+    padding: 3px;
+    border-radius: 50%;
+    outline: none;
+    color: $color-text-white;
+
+    &:focus,
+    &:active:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px #4d90fe;
+    }
+
+    svg {
+        height: 28px;
+        width: 28px;
+        transform: translate(0, 1px);
+        transition: all 250ms linear;
+    }
+}
+
+.CloseButton,
+.CloseButton:focus {
+    background-color: $color-bg-blue-dark;
+
+    &:hover {
+        background-color: darken($color-bg-blue-dark, 10%);
+    }
+
+    svg {
+        transform: translate(0, 1px) rotate(45deg);
+    }
+}
+
+.DropdownList {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 1px solid $color-border-gray;
+
+    button {
+        padding: 8px;
+    }
+}

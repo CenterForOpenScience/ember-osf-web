@@ -106,6 +106,15 @@ export default class OsfStorageManager extends Component<Args> {
         taskFor(this.getCurrentFolderItems).perform();
     }
 
+    @task
+    @waitFor
+    async createNewFolder(newFolderName: string) {
+        await this.currentFolder.createFolder(newFolderName);
+        this.displayItems = [];
+        this.currentPage = 1;
+        taskFor(this.getCurrentFolderItems).perform();
+    }
+
     @action
     changeSort(sort: FileSortKey) {
         this.sort = sort;
