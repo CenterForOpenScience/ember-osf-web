@@ -9,7 +9,7 @@
                     data-test-clear-file-selection
                     data-analytics-name='Clear file selection'
                     aria-label={{t 'osf-components.file-browser.clear_selection'}}
-                    {{on 'click' @manager.removeSelectedFiles}}
+                    {{on 'click' @manager.deselectFiles}}
                 >
                     <FaIcon @icon='times' />
                 </Button>
