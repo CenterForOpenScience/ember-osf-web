@@ -126,6 +126,9 @@ export default class OsfStorageManager extends Component<Args> {
 
     @action
     selectFile(file: OsfStorageFile, event: PointerEvent) {
+        if (document.getSelection()) {
+            document.getSelection()!.removeAllRanges();
+        }
         if (event.shiftKey && this.baseSelectedFile) {
             const fileIndex = this.displayItems.indexOf(file);
             const baseIndex = this.displayItems.indexOf(this.baseSelectedFile);
