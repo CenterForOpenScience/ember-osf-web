@@ -150,9 +150,9 @@
     </:header>
     <:item as |item|>
         {{#if item.isFile}}
-            <FileBrowser::FileItem @item={{item}} @manager={{@manager}} />
+            <FileBrowser::FileItem @item={{item}} @manager={{@manager}} @selectable={{@selectable}} />
         {{else}}
-            <FileBrowser::FolderItem @item={{item}} @manager={{@manager}} />
+            <FileBrowser::FolderItem @item={{item}} @manager={{@manager}} @selectable={{@selectable}} />
         {{/if}}
     </:item>
     <:empty>

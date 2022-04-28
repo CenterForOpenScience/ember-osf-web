@@ -80,7 +80,7 @@
                         @provider={{this.model.providerTask.value}}
                         as |manager|
                     >
-                        <FileBrowser @manager={{manager}} />
+                        <FileBrowser @manager={{manager}} @selectable={{true}} />
                     </ProviderManager>
                 {{/let}}
             </StorageProviderManager::ProviderMapper>
