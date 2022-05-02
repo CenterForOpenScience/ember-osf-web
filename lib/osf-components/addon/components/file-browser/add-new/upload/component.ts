@@ -6,6 +6,7 @@ import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import OsfStorageManager from 'osf-components/components/storage-provider-manager/osf-storage-manager/component';
+import { taskFor } from 'ember-concurrency-ts';
 
 interface Args {
     manager: OsfStorageManager;
@@ -107,5 +108,6 @@ export default class Upload extends Component<Args> {
         this.uploadErrored = [];
         notifyPropertyChange(this, 'uploadCompleted');
         notifyPropertyChange(this, 'uploadErrored');
+        taskFor(this.args.manager.reload).perform();
     }
 }
