@@ -1,133 +1,135 @@
-<FileBrowser::Breadcrumbs @manager={{@manager}} />
-<div local-class='OptionBar {{if this.isMobile 'Mobile'}}'>
-    <div local-class='OptionBar__left {{if this.isMobile 'Mobile'}}'>
-        <label>
-            {{t 'general.filter'}}:
-            <Input
-                data-test-file-search
-                @type='text'
-                class='form-control'
-                placeholder='{{t 'osf-components.file-browser.filter_placeholder'}}'
-                @value={{readonly @manager.filter}}
-                {{on 'input' this.handleInput}}
-            />
-        </label>
-
-        <ResponsiveDropdown
-            local-class='SortDropdown {{if this.isMobile 'Mobile'}}'
-            @renderInPlace={{true}}
-            @buttonStyling={{true}}
-            @horizontalPosition='left'
-            as |dropdown|
-        >
+<FileBrowser::AddNew::Upload @manager={{@manager}} as |uploadWidget|>
+    <FileBrowser::Breadcrumbs @manager={{@manager}} />
+    <div local-class='OptionBar {{if this.isMobile 'Mobile'}}'>
+        <div local-class='OptionBar__left {{if this.isMobile 'Mobile'}}'>
             <label>
-                {{t 'osf-components.file-browser.sort'}}
-                <dropdown.trigger
-                    data-test-file-sort-trigger
-                    data-analytics-name='Sort files'
-                    local-class='SortDropdown__button {{if this.isMobile 'Mobile'}}'
-                >
-                    <span local-class='SortedBy {{if this.isMobile 'Mobile'}}'>
-                        {{t (concat 'osf-components.file-browser.sort_by.' @manager.sort)}}
-                    </span>
-                    <FaIcon @icon='caret-down' />
-                </dropdown.trigger>
+                {{t 'general.filter'}}:
+                <Input
+                    data-test-file-search
+                    @type='text'
+                    class='form-control'
+                    placeholder='{{t 'osf-components.file-browser.filter_placeholder'}}'
+                    @value={{readonly @manager.filter}}
+                    {{on 'input' this.handleInput}}
+                />
             </label>
-            <dropdown.content
-                local-class='DropdownList'
-                {{on 'click' dropdown.close}}
+
+            <ResponsiveDropdown
+                local-class='SortDropdown {{if this.isMobile 'Mobile'}}'
+                @renderInPlace={{true}}
+                @buttonStyling={{true}}
+                @horizontalPosition='left'
+                as |dropdown|
             >
-                <Button
-                    @layout='fake-link'
-                    {{on 'click' (fn @manager.changeSort 'name')}}
+                <label>
+                    {{t 'osf-components.file-browser.sort'}}
+                    <dropdown.trigger
+                        data-test-file-sort-trigger
+                        data-analytics-name='Sort files'
+                        local-class='SortDropdown__button {{if this.isMobile 'Mobile'}}'
+                    >
+                        <span local-class='SortedBy {{if this.isMobile 'Mobile'}}'>
+                            {{t (concat 'osf-components.file-browser.sort_by.' @manager.sort)}}
+                        </span>
+                        <FaIcon @icon='caret-down' />
+                    </dropdown.trigger>
+                </label>
+                <dropdown.content
+                    local-class='DropdownList'
+                    {{on 'click' dropdown.close}}
                 >
-                    {{t 'osf-components.file-browser.sort_by.name'}}
-                </Button>
-                <Button
-                    @layout='fake-link'
-                    {{on 'click' (fn  @manager.changeSort '-name')}}
-                >
-                    {{t 'osf-components.file-browser.sort_by.-name'}}
-                </Button>
-                <Button
-                    @layout='fake-link'
-                    {{on 'click' (fn  @manager.changeSort 'modified')}}
-                >
-                    {{t 'osf-components.file-browser.sort_by.modified'}}
-                </Button>
-                <Button
-                    @layout='fake-link'
-                    {{on 'click' (fn  @manager.changeSort '-modified')}}
-                >
-                    {{t 'osf-components.file-browser.sort_by.-modified'}}
-                </Button>
-            </dropdown.content>
-        </ResponsiveDropdown>
-    </div>
-    <div local-class='OptionBar__right'>
-        {{#if @manager.currentFolder}}
-            <OsfLink
-                data-test-download-all
-                data-analytics-name='Download all files from current folder'
-                @href={{@manager.currentFolder.links.download}}
-                local-class='DownloadAllFromCurrent'
-            >
-                <FaIcon @icon='download' />
-                {{t 'osf-components.file-browser.download_all'}}
-            </OsfLink>
-        {{/if}}
-        <Button
-            data-test-file-help
-            data-analytics-name='Help'
-            aria-label={{t 'general.help'}}
-            @layout='fake-link'
-            {{on 'click' this.toggleHelpModal}}
-        >
-            <FaIcon @icon='question-circle' />
-        </Button>
-        <FileBrowser::HelpModal
-            @isOpen={{this.helpModalOpen}}
-            @onClose={{this.toggleHelpModal}}
-        />
-        <FileBrowser::AddNew @manager={{@manager}} />
-    </div>
-</div>
-<InfiniteList
-    @itemList={{@manager.displayItems}}
-    @hasMore={{@manager.hasMore}}
-    @loadMore={{@manager.loadMore}}
-    @isLoading={{@manager.isLoading}}
-    local-class='FileList'
->
-    <:header>
-        {{#if @manager.parentFolder}}
-            <li local-class='GoToParentButton'>
-                <Button
-                    data-test-go-to-parent
-                    data-analytics-name='Go to parent folder'
-                    @layout='fake-link'
-                    {{on 'click' (perform @manager.goToFolder @manager.parentFolder)}}
-                >
-                    <FaIcon
-                        @icon='angle-left' @fixedWidth={{true}}
-                    />
-                    <span>
-                        {{@manager.currentFolder.name}}
-                    </span>
-                </Button>
-            </li>
-        {{/if}}
-    </:header>
-    <:item as |item|>
-        {{#if item.isFile}}
-            <FileBrowser::FileItem @item={{item}} @manager={{@manager}} />
-        {{else}}
-            <FileBrowser::FolderItem @item={{item}} @manager={{@manager}} />            
-        {{/if}}
-    </:item>
-    <:empty>
-        <div local-class='EmptyText'>
-            {{t 'osf-components.file-browser.empty_folder'}}
+                    <Button
+                        @layout='fake-link'
+                        {{on 'click' (fn @manager.changeSort 'name')}}
+                    >
+                        {{t 'osf-components.file-browser.sort_by.name'}}
+                    </Button>
+                    <Button
+                        @layout='fake-link'
+                        {{on 'click' (fn  @manager.changeSort '-name')}}
+                    >
+                        {{t 'osf-components.file-browser.sort_by.-name'}}
+                    </Button>
+                    <Button
+                        @layout='fake-link'
+                        {{on 'click' (fn  @manager.changeSort 'modified')}}
+                    >
+                        {{t 'osf-components.file-browser.sort_by.modified'}}
+                    </Button>
+                    <Button
+                        @layout='fake-link'
+                        {{on 'click' (fn  @manager.changeSort '-modified')}}
+                    >
+                        {{t 'osf-components.file-browser.sort_by.-modified'}}
+                    </Button>
+                </dropdown.content>
+            </ResponsiveDropdown>
         </div>
-    </:empty>
-</InfiniteList>
+        <div local-class='OptionBar__right'>
+            {{#if @manager.currentFolder}}
+                <OsfLink
+                    data-test-download-all
+                    data-analytics-name='Download all files from current folder'
+                    @href={{@manager.currentFolder.links.download}}
+                    local-class='DownloadAllFromCurrent'
+                >
+                    <FaIcon @icon='download' />
+                    {{t 'osf-components.file-browser.download_all'}}
+                </OsfLink>
+            {{/if}}
+            <Button
+                data-test-file-help
+                data-analytics-name='Help'
+                aria-label={{t 'general.help'}}
+                @layout='fake-link'
+                {{on 'click' this.toggleHelpModal}}
+            >
+                <FaIcon @icon='question-circle' />
+            </Button>
+            <FileBrowser::HelpModal
+                @isOpen={{this.helpModalOpen}}
+                @onClose={{this.toggleHelpModal}}
+            />
+            <FileBrowser::AddNew @manager={{@manager}} @setClickableElementId={{uploadWidget.setClickableElementId}} />
+        </div>
+    </div>
+    <InfiniteList
+        @itemList={{@manager.displayItems}}
+        @hasMore={{@manager.hasMore}}
+        @loadMore={{@manager.loadMore}}
+        @isLoading={{@manager.isLoading}}
+        local-class='FileList'
+    >
+        <:header>
+            {{#if @manager.parentFolder}}
+                <li local-class='GoToParentButton'>
+                    <Button
+                        data-test-go-to-parent
+                        data-analytics-name='Go to parent folder'
+                        @layout='fake-link'
+                        {{on 'click' (perform @manager.goToFolder @manager.parentFolder)}}
+                    >
+                        <FaIcon
+                            @icon='angle-left' @fixedWidth={{true}}
+                        />
+                        <span>
+                            {{@manager.currentFolder.name}}
+                        </span>
+                    </Button>
+                </li>
+            {{/if}}
+        </:header>
+        <:item as |item|>
+            {{#if item.isFile}}
+                <FileBrowser::FileItem @item={{item}} @manager={{@manager}} />
+            {{else}}
+                <FileBrowser::FolderItem @item={{item}} @manager={{@manager}} />            
+            {{/if}}
+        </:item>
+        <:empty>
+            <div local-class='EmptyText'>
+                {{t 'osf-components.file-browser.empty_folder'}}
+            </div>
+        </:empty>
+    </InfiniteList>
+</FileBrowser::AddNew::Upload>

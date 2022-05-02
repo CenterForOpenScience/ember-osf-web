@@ -1,0 +1,85 @@
+
+{{#let (unique-id 'upload-files-dropzone') as |id|}}
+    <DropzoneWidget
+        @buildUrl={{this.buildUrl}}
+        @options={{this.dropzoneOptions}}
+        @dropzone={{false}}
+        @addedfile={{action this.addedFile}}
+        @success={{action this.success}}
+        @error={{action this.error}}
+        @enable={{true}}
+        @id={{id}}
+        @clickable={{this.clickableElementSelectors}}
+        as |dropzone|
+    >
+        {{yield (hash
+            setClickableElementId=this.setClickableElementId
+        )}}
+        <OsfDialog
+            @isOpen={{this.shouldShowModal}}
+            @onClose={{this.closeModal}}
+        as |dialog|>
+            <dialog.heading>
+                {{#if this.shouldShowUploadingModal}}
+                    {{t 'osf-components.file-browser.uploading_file' fileCount=this.uploading.length}}
+                {{/if}}
+                {{#if this.shouldShowFailureModal}}
+                    {{t 'osf-components.file-browser.upload_failed' fileCount=this.uploadErrored.length}}
+                {{/if}}
+                {{#if this.shouldShowSuccessModal}}
+                    {{t 'osf-components.file-browser.upload_success' fileCount=this.uploadCompleted.length}}
+                {{/if}}
+            </dialog.heading>
+            <dialog.main>
+                {{#if this.shouldShowUploadingModal}}
+                    <ul local-class='FileList'>
+                        {{#each this.uploading as |item|}}
+                            <li local-class='FileListItem'>
+                                <div>
+                                    <FaIcon @icon='file-alt' />
+                                    <span local-class='Filename'>{{item.name}}</span>
+                                </div>
+                                <FaIcon @icon='spinner' @pulse={{true}}/>
+                            </li>
+                        {{/each}}
+                    </ul>
+                {{/if}}
+                {{#if this.shouldShowFailureModal}}
+                    <ul local-class='FileList'>
+                        {{#each this.uploadErrored as |item|}}
+                            <li
+                                local-class='FileListItem'
+                            >
+                                <div>
+                                    <FaIcon @icon='file-alt' />
+                                    <span local-class='Filename'>{{item.name}}</span>
+                                </div>
+                                <Button
+                                    @layout='fake-link'
+                                    {{on 'click' (fn this.retryUpload dropzone.dropzoneInstance item)}}
+                                >
+                                    <FaIcon @icon='undo' />
+                                </Button>
+                            </li>
+                        {{/each}}
+                    </ul>
+                {{/if}}
+                {{#if this.shouldShowSuccessModal}}
+                    <ul local-class='FileList'>
+                        {{#each this.uploadCompleted as |item|}}
+                            <li
+                                local-class='FileListItem'
+                            >
+                                <div>
+                                    <FaIcon @icon='file-alt' />
+                                    <span local-class='Filename'>{{item.name}}</span>
+                                </div>
+                                <FaIcon local-class='CheckIcon' @icon='check' />
+                            </li>
+                        {{/each}}
+                    </ul>
+                {{/if}}
+            </dialog.main>
+        </OsfDialog>
+    </DropzoneWidget>
+{{/let}}

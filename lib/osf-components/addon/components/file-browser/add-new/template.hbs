@@ -1,33 +1,37 @@
-<ResponsiveDropdown
-    @renderInPlace={{true}}
-    @buttonStyling={{true}}
-    @horizontalPosition='left'
-    as |dropdown|
->
-    <BsButton
-        local-class='TriggerButton {{if dropdown.isOpen 'CloseButton'}}'
-        @type='success'
-        {{on 'click' dropdown.toggle}}
+{{#let (unique-id 'upload-button-id') as |uploadButtonId|}}
+    <ResponsiveDropdown
+        @renderInPlace={{true}}
+        @buttonStyling={{true}}
+        @horizontalPosition='left'
+        as |dropdown|
     >
-        <FaIcon @icon='plus' @size='2x' @fixedWidth={{true}} />
-    </BsButton>
-    <dropdown.content
-        local-class='DropdownList'
-        {{on 'click' dropdown.close}}
-    >
-        <Button
-            @layout='fake-link'
-            {{on 'click' (fn (mut this.createFolderModalOpen) true)}}
+        <BsButton
+            local-class='TriggerButton {{if dropdown.isOpen 'CloseButton'}}'
+            @type='success'
+            {{on 'click' dropdown.toggle}}
         >
-            {{t 'osf-components.file-browser.create_folder'}}
-        </Button>
-        <Button
-            @layout='fake-link'
-            {{on 'click' (fn (mut this.uploadModalOpen) true)}}
+            <FaIcon @icon='plus' @size='2x' @fixedWidth={{true}} />
+        </BsButton>
+        <dropdown.content
+            local-class='DropdownList'
+            @rootEventType='mousedown'
+            {{did-insert (fn @setClickableElementId uploadButtonId)}}
+            {{will-destroy (fn @setClickableElementId '')}}
         >
-            {{t 'osf-components.file-browser.upload_file'}}
-        </Button>
-    </dropdown.content>
-</ResponsiveDropdown>
-<FileBrowser::AddNew::CreateFolderModal @isOpen={{this.createFolderModalOpen}} @manager={{@manager}} />
-<FileBrowser::AddNew::UploadModal @isOpen={{this.uploadModalOpen}} @manager={{@manager}} />
+            <Button
+                @layout='fake-link'
+                {{on 'click' (fn (mut this.createFolderModalOpen) true)}}
+            >
+                {{t 'osf-components.file-browser.create_folder'}}
+            </Button>
+            <Button
+                @layout='fake-link'
+                @bubble={{true}}
+                id={{uploadButtonId}}
+            >
+                {{t 'osf-components.file-browser.upload_file'}}
+            </Button>
+        </dropdown.content>
+    </ResponsiveDropdown>
+    <FileBrowser::AddNew::CreateFolderModal @isOpen={{this.createFolderModalOpen}} @manager={{@manager}} />
+{{/let}}

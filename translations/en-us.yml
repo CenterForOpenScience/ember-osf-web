@@ -1822,6 +1822,9 @@ osf-components:
         create_folder: 'Create folder'
         upload_file: 'Upload file'
         new_folder_name: 'New folder name'
+        uploading_file: 'Uploading {fileCount, plural, one {# file} other {# files}}'
+        upload_failed: '{fileCount, plural, one {# file} other {# files}} failed, click to try again'
+        upload_success: '{fileCount, plural, one {# file} other {# files}} uploaded successfully'
         help_modal:
             heading: 'Using the OSF Files Browser'
             download_all: 'Download All Files As a Zip'
