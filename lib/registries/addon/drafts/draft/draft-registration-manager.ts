@@ -2,6 +2,7 @@ import { setOwner } from '@ember/application';
 import { action, computed, set } from '@ember/object';
 import { dependentKeyCompat } from '@ember/object/compat';
 import { alias, filterBy, not, notEmpty, or } from '@ember/object/computed';
+import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { isEmpty } from '@ember/utils';
@@ -25,7 +26,7 @@ import {
     RegistrationResponse,
 } from 'ember-osf-web/packages/registration-schema';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
-import RouterService from '@ember/routing/router-service';
+import { notFoundURL } from 'ember-osf-web/utils/clean-url';
 
 export type LoadDraftModelTask = TaskInstance<{
     draftRegistration: DraftRegistration,
@@ -142,7 +143,7 @@ export default class DraftRegistrationManager {
         set(this, 'draftRegistration', draftRegistration);
         set(this, 'provider', provider);
         if (!draftRegistration || !provider) {
-            return this.router.transitionTo('registries.page-not-found', window.location.href.slice(-1));
+            return this.router.transitionTo('registries.page-not-found', notFoundURL(this.router.currentURL));
         }
         try {
             const node = await this.draftRegistration.branchedFrom;
@@ -175,7 +176,7 @@ export default class DraftRegistrationManager {
     async initializeMetadataChangeset() {
         const { draftRegistration } = await this.draftRegistrationTask;
         if (!draftRegistration) {
-            return this.router.transitionTo('registries.page-not-found', window.location.href.slice(-1));
+            return this.router.transitionTo('registries.page-not-found', notFoundURL(this.router.currentURL));
         }
         const metadataValidations = buildMetadataValidations();
         const metadataChangeset = buildChangeset(draftRegistration, metadataValidations);

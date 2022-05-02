@@ -33,7 +33,7 @@ export default class LicensePicker extends Component {
 
     showText = false;
     licensesAcceptable!: QueryHasManyResult<License>;
-    helpLink = 'https://openscience.zendesk.com/hc/en-us/articles/360019739014';
+    helpLink = 'https://help.osf.io/';
 
     @alias('theme.provider') provider!: Provider;
     @alias('node.license') selected!: License;

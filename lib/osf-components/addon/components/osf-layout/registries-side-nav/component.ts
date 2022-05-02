@@ -1,7 +1,7 @@
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action } from '@ember/object';
-import { and, or } from '@ember/object/computed';
+import { and } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import Media from 'ember-responsive';
 
@@ -21,8 +21,8 @@ export default class RegistriesSideNav extends Component {
     // Private properties
     shouldCollapse = false;
 
-    @or('media.{isDesktop,isJumbo}')
-    isCollapseAllowed!: boolean;
+    // remove collapse capability for now
+    isCollapseAllowed!: false;
 
     @and('isCollapseAllowed', 'shouldCollapse')
     isCollapsed!: boolean;

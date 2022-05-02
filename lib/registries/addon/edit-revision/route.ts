@@ -12,6 +12,7 @@ import requireAuth from 'ember-osf-web/decorators/require-auth';
 import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import Analytics from 'ember-osf-web/services/analytics';
 import captureException from 'ember-osf-web/utils/capture-exception';
+import { notFoundURL } from 'ember-osf-web/utils/clean-url';
 import RevisionNavigationManager from 'registries/edit-revision/nav-manager';
 import RevisionManager, { LoadModelsTask } from 'registries/edit-revision/revision-manager';
 export interface EditRevisionRouteModel {
@@ -47,7 +48,7 @@ export default class EditRevisionRoute extends Route {
             };
         } catch (error) {
             captureException(error);
-            return this.transitionTo('page-not-found', window.location.href.slice(-1));
+            return this.transitionTo('page-not-found', notFoundURL(this.router.currentURL));
         }
     }
 

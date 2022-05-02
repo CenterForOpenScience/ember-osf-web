@@ -14,6 +14,7 @@ import ProviderModel from 'ember-osf-web/models/provider';
 import SubjectModel from 'ember-osf-web/models/subject';
 import Analytics from 'ember-osf-web/services/analytics';
 import captureException from 'ember-osf-web/utils/capture-exception';
+import { notFoundURL } from 'ember-osf-web/utils/clean-url';
 import DraftRegistrationManager, { LoadDraftModelTask } from 'registries/drafts/draft/draft-registration-manager';
 import NavigationManager from 'registries/drafts/draft/navigation-manager';
 
@@ -39,6 +40,8 @@ export default class DraftRegistrationRoute extends Route {
             );
             if (draftRegistration.modelName === 'registration') {
                 this.transitionTo('overview', draftRegistration.id);
+            } else if (draftRegistration.currentUserIsReadOnly) {
+                this.replaceWith('drafts.draft.review', draftId);
             }
             const [subjects, provider]:
                 [SubjectModel[], ProviderModel] = await Promise.all([
@@ -47,13 +50,10 @@ export default class DraftRegistrationRoute extends Route {
                 ]);
 
             draftRegistration.setProperties({ subjects });
-            if (draftRegistration.currentUserIsReadOnly) {
-                this.replaceWith('drafts.draft.review', draftId);
-            }
             return { draftRegistration, provider };
         } catch (error) {
             captureException(error);
-            return this.transitionTo('page-not-found', window.location.href.slice(-1));
+            return this.transitionTo('page-not-found', notFoundURL(this.router.currentURL));
         }
     }
 
