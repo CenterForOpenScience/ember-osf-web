@@ -21,6 +21,7 @@ export default class GuidNodeFilesProviderRoute extends Route.extend({}) {
         const node = this.modelFor('guid-node');
         const fileProviderId = node.guid + ':' + params.providerId;
         return {
+            node,
             providerName: params.providerId,
             providerTask: taskFor(this.fileProviderTask).perform(node, fileProviderId),
         };

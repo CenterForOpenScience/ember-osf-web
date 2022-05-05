@@ -11,7 +11,65 @@
             {{!-- Placeholder for header --}}
         </layout.heading>
         <layout.leftNavOld as |leftNav|>
-            {{!-- Placeholder for leftnav links --}}
+            <leftNav.link
+                data-test-overview-link
+                data-analytics-name='Overview'
+                @href='/{{this.model.node.guid}}/'
+                @icon='home'
+                @label={{t 'node.left_nav.overview'}}
+            />
+            <leftNav.link
+                data-test-files-link
+                data-analytics-name='Files' 
+                @route='guid-node.files'
+                @models={{array this.model.node.guid}}
+                @icon='file-alt'
+                @label={{t 'node.left_nav.files'}}
+            />
+            <leftNav.link
+                data-test-wiki-link
+                data-analytics-name='Wiki'
+                @href='/{{this.model.node.guid}}/wiki/'
+                @icon='window-maximize'
+                @label={{t 'node.left_nav.wiki'}}
+            />
+            <leftNav.link
+                data-test-analytics-link
+                data-analytics-name='Analytics' 
+                @route='guid-node.analytics'
+                @models={{array this.model.node.guid}}
+                @icon='chart-bar'
+                @label={{t 'node.left_nav.analytics'}}
+            />
+            <leftNav.link
+                data-test-registrations-link
+                data-analytics-name='Registrations'
+                @route='guid-node.registrations'
+                @models={{array this.model.node.guid}}
+                @icon='file-alt'
+                @label={{t 'node.left_nav.registrations'}}
+            />
+            <leftNav.link
+                data-test-contributors-link
+                data-analytics-name='Contributors'
+                @href='/{{this.model.node.guid}}/contributors/'
+                @icon='users'
+                @label={{t 'node.left_nav.contributors'}}
+            />
+            <leftNav.link
+                data-test-addons-link
+                data-analytics-name='Add-ons'
+                @href='/{{this.model.node.guid}}/addons/'
+                @icon='database'
+                @label={{t 'node.left_nav.add-ons'}}
+            />
+            <leftNav.link
+                data-test-settings-link
+                data-analytics-name='Settings'
+                @href='/{{this.model.node.guid}}/settings/'
+                @icon='cogs'
+                @label={{t 'node.left_nav.settings'}}
+            />
         </layout.leftNavOld>
         <layout.main local-class='OverviewBody'>
             <StorageProviderManager::ProviderMapper
@@ -22,7 +80,7 @@
                         @provider={{this.model.providerTask.value}}
                         as |manager|
                     >
-                        <FileBrowser @manager={{manager}} />
+                        <FileBrowser @manager={{manager}} @selectable={{true}} />
                     </ProviderManager>
                 {{/let}}
             </StorageProviderManager::ProviderMapper>

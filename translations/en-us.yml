@@ -52,6 +52,7 @@ general:
     more: more
     upload: Upload
     rename: Rename
+    copy: Copy
     move: Move
     name: Name
     size: Size
@@ -574,6 +575,15 @@ forks:
     new_fork_failed: 'Failed to create a new fork.'
     delete_fork_failed: 'Failed to delete the project.'
 node:
+    left_nav:
+        overview: Overview
+        files: Files
+        wiki: Wiki
+        analytics: Analytics
+        registrations: Registrations
+        contributors: Contributors
+        add-ons: Add-ons
+        settings: Settings
     registrations:
         new_registration_modal:
             title: Register
@@ -1808,6 +1818,12 @@ osf-components:
         copy_success: 'Successfully copied to clipboard'
         copy_failed: 'Failed to copy to clipboard'
     file-browser:
+        select_file: 'Select file {fileName}'
+        select_folder: 'Select folder {folderName}'
+        number_selected: '{numberOfFilesSelected} item(s) selected'
+        clear_selection: 'Clear selection'
+        view_file: 'View file in a new window: {fileName}'
+        view_folder: 'View contents of folder: {folderName}'
         filter_placeholder: 'Filter current list'
         sort: 'Sort by: '
         sort_by:
