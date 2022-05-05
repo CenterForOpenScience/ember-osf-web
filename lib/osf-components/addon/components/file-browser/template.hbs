@@ -2,94 +2,124 @@
 
 <div local-class='OptionBar {{if this.isMobile 'Mobile'}}'>
     <div local-class='OptionBar__left {{if this.isMobile 'Mobile'}}'>
-        <label>
-            {{t 'general.filter'}}:
-            <Input
-                data-test-file-search
-                @type='text'
-                class='form-control'
-                placeholder='{{t 'registries.overview.files.filter_placeholder'}}'
-                @value={{readonly @manager.filter}}
-                {{on 'input' this.handleInput}}
-            />
-        </label>
-
-        <ResponsiveDropdown
-            local-class='SortDropdown {{if this.isMobile 'Mobile'}}'
-            @renderInPlace={{true}}
-            @buttonStyling={{true}}
-            @horizontalPosition='left'
-            as |dropdown|
-        >
+        {{#if (gt @manager.selectedFiles.length 0)}}
+            <span data-test-file-selected-count>
+                {{t 'osf-components.file-browser.number_selected' numberOfFilesSelected=@manager.selectedFiles.length}}
+                <Button
+                    data-test-clear-file-selection
+                    data-analytics-name='Clear file selection'
+                    aria-label={{t 'osf-components.file-browser.clear_selection'}}
+                    {{on 'click' @manager.deselectFiles}}
+                >
+                    <FaIcon @icon='times' />
+                </Button>
+            </span>
+        {{else}}
             <label>
-                {{t 'registries.overview.files.sort'}}
-                <dropdown.trigger
-                    data-test-file-sort-trigger
-                    data-analytics-name='Sort files'
-                    local-class='SortDropdown__button {{if this.isMobile 'Mobile'}}'
-                >
-                    <span local-class='SortedBy {{if this.isMobile 'Mobile'}}'>
-                        {{t (concat 'registries.overview.files.sort_by.' @manager.sort)}}
-                    </span>
-                    <FaIcon @icon='caret-down' />
-                </dropdown.trigger>
+                {{t 'general.filter'}}:
+                <Input
+                    data-test-file-search
+                    @type='text'
+                    class='form-control'
+                    placeholder='{{t 'registries.overview.files.filter_placeholder'}}'
+                    @value={{readonly @manager.filter}}
+                    {{on 'input' this.handleInput}}
+                />
             </label>
-            <dropdown.content
-                local-class='DropdownList'
-                {{on 'click' dropdown.close}}
+
+            <ResponsiveDropdown
+                local-class='SortDropdown {{if this.isMobile 'Mobile'}}'
+                @renderInPlace={{true}}
+                @buttonStyling={{true}}
+                @horizontalPosition='left'
+                as |dropdown|
             >
-                <Button
-                    @layout='fake-link'
-                    {{on 'click' (fn @manager.changeSort 'name')}}
+                <label>
+                    {{t 'registries.overview.files.sort'}}
+                    <dropdown.trigger
+                        data-test-file-sort-trigger
+                        data-analytics-name='Sort files'
+                        local-class='SortDropdown__button {{if this.isMobile 'Mobile'}}'
+                    >
+                        <span local-class='SortedBy {{if this.isMobile 'Mobile'}}'>
+                            {{t (concat 'registries.overview.files.sort_by.' @manager.sort)}}
+                        </span>
+                        <FaIcon @icon='caret-down' />
+                    </dropdown.trigger>
+                </label>
+                <dropdown.content
+                    local-class='DropdownList'
+                    {{on 'click' dropdown.close}}
                 >
-                    {{t 'registries.overview.files.sort_by.name'}}
-                </Button>
-                <Button
-                    @layout='fake-link'
-                    {{on 'click' (fn  @manager.changeSort '-name')}}
-                >
-                    {{t 'registries.overview.files.sort_by.-name'}}
-                </Button>
-                <Button
-                    @layout='fake-link'
-                    {{on 'click' (fn  @manager.changeSort 'modified')}}
-                >
-                    {{t 'registries.overview.files.sort_by.modified'}}
-                </Button>
-                <Button
-                    @layout='fake-link'
-                    {{on 'click' (fn  @manager.changeSort '-modified')}}
-                >
-                    {{t 'registries.overview.files.sort_by.-modified'}}
-                </Button>
-            </dropdown.content>
-        </ResponsiveDropdown>
+                    <Button
+                        @layout='fake-link'
+                        {{on 'click' (fn @manager.changeSort 'name')}}
+                    >
+                        {{t 'registries.overview.files.sort_by.name'}}
+                    </Button>
+                    <Button
+                        @layout='fake-link'
+                        {{on 'click' (fn  @manager.changeSort '-name')}}
+                    >
+                        {{t 'registries.overview.files.sort_by.-name'}}
+                    </Button>
+                    <Button
+                        @layout='fake-link'
+                        {{on 'click' (fn  @manager.changeSort 'modified')}}
+                    >
+                        {{t 'registries.overview.files.sort_by.modified'}}
+                    </Button>
+                    <Button
+                        @layout='fake-link'
+                        {{on 'click' (fn  @manager.changeSort '-modified')}}
+                    >
+                        {{t 'registries.overview.files.sort_by.-modified'}}
+                    </Button>
+                </dropdown.content>
+            </ResponsiveDropdown>
+        {{/if}}
     </div>
     <div local-class='OptionBar__right'>
-        {{#if @manager.currentFolder}}
-            <OsfLink
-                data-test-download-all
-                data-analytics-name='Download all files from current folder'
-                @href={{@manager.currentFolder.links.download}}
-                local-class='DownloadAllFromCurrent'
+        {{#if (gt @manager.selectedFiles.length 0)}}
+            {{!-- TODO: actually make these do things --}}
+            <FaIcon
+                @icon='check'
+            />
+            {{t 'general.move'}}
+            <FaIcon
+                @icon='check'
+            />
+            {{t 'general.copy'}}
+            <FaIcon
+                @icon='check'
+            />
+            {{t 'general.delete'}}
+        {{else}}
+            {{#if @manager.currentFolder}}
+                <OsfLink
+                    data-test-download-all
+                    data-analytics-name='Download all files from current folder'
+                    @href={{@manager.currentFolder.links.download}}
+                    local-class='DownloadAllFromCurrent'
+                >
+                    <FaIcon @icon='download' />
+                    {{t 'registries.overview.files.download_all'}}
+                </OsfLink>
+            {{/if}}
+            <Button
+                data-test-file-help
+                data-analytics-name='Help'
+                aria-label={{t 'general.help'}}
+                @layout='fake-link'
+                {{on 'click' this.toggleHelpModal}}
             >
-                <FaIcon @icon='download' />
-                {{t 'registries.overview.files.download_all'}}
-            </OsfLink>
+                <FaIcon @icon='question-circle' />
+            </Button>
+            <FileBrowser::HelpModal
+                @isOpen={{this.helpModalOpen}}
+                @onClose={{this.toggleHelpModal}}
+            />
         {{/if}}
-        <Button
-            data-test-file-help
-            data-analytics-name='Help'
-            aria-label={{t 'general.help'}}
-            @layout='fake-link'
-            {{on 'click' this.toggleHelpModal}}
-        >
-            <FaIcon @icon='question-circle' />
-        </Button>
-        <FileBrowser::HelpModal
-            @isOpen={{this.helpModalOpen}}
-            @onClose={{this.toggleHelpModal}}
-        />
     </div>
 </div>
 <InfiniteList
@@ -120,9 +150,9 @@
     </:header>
     <:item as |item|>
         {{#if item.isFile}}
-            <FileBrowser::FileItem @item={{item}} @manager={{@manager}} />
+            <FileBrowser::FileItem @item={{item}} @manager={{@manager}} @selectable={{@selectable}} />
         {{else}}
-            <FileBrowser::FolderItem @item={{item}} @manager={{@manager}} />            
+            <FileBrowser::FolderItem @item={{item}} @manager={{@manager}} @selectable={{@selectable}} />
         {{/if}}
     </:item>
     <:empty>

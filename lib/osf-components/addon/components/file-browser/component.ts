@@ -9,12 +9,14 @@ import OsfStorageManager from 'osf-components/components/storage-provider-manage
 
 interface Args {
     manager: OsfStorageManager;
+    selectable?: boolean;
 }
 
 export default class FileBrowser extends Component<Args> {
     @service media!: Media;
 
     @tracked helpModalOpen = false;
+    @tracked selectable = this.args.selectable || false;
 
     get isMobile() {
         return this.media.isMobile;
