@@ -4,7 +4,7 @@
     <div local-class='OptionBar__left {{if this.isMobile 'Mobile'}}'>
         {{#if (gt @manager.selectedFiles.length 0)}}
             <span data-test-file-selected-count>
-                {{t 'osf-components.file-browser.number_selected' numSelected=@manager.selectedFiles.length}}
+                {{t 'osf-components.file-browser.number_selected' numberOfFilesSelected=@manager.selectedFiles.length}}
                 <Button
                     data-test-clear-file-selection
                     data-analytics-name='Clear file selection'

@@ -22,6 +22,7 @@
         {{/if}}
         <OsfLink
             data-analytics-name='Open file'
+            aria-label={{t 'osf-components.file-browser.view_file' fileName=@item.name}}
             @href={{@item.links.html}}
             @target='_blank'
             local-class='FileList__item__options'

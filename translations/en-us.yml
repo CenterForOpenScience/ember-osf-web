@@ -1835,8 +1835,10 @@ osf-components:
     file-browser:
         select_file: 'Select file {fileName}'
         select_folder: 'Select folder {folderName}'
-        number_selected: '{numSelected} item(s) selected'
+        number_selected: '{numberOfFilesSelected} item(s) selected'
         clear_selection: 'Clear selection'
+        view_file: 'View file in a new window: {fileName}'
+        view_folder: 'View contents of folder: {folderName}'
     file-version:
         view_version: 'View version created {date}'
         show_info: 'Show revision information'
