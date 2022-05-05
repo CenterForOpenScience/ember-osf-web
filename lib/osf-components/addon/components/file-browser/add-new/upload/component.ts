@@ -28,8 +28,6 @@ export default class Upload extends Component<Args> {
     @tracked uploading: any[] = [];
     @tracked uploadCompleted: any[] = [];
     @tracked uploadErrored: any[] = [];
-    // @tracked shouldShowResultsModal = false;
-    // @tracked shouldShowUploadingModal = false;
     @tracked clickableElementId = '';
 
     get clickableElementSelectors() {
@@ -62,7 +60,10 @@ export default class Upload extends Component<Args> {
 
     @action
     buildUrl(files: any[]) {
-        const { name } = files[0];
+        const { name, newUploadLink } = files[0];
+        if (newUploadLink) {
+            return newUploadLink;
+        }
         return `${this.args.manager.currentFolder.links.upload}?${$.param({ kind: 'file', name })}`;
     }
 
@@ -73,13 +74,20 @@ export default class Upload extends Component<Args> {
     }
 
     @action
-    error(_: any, __: any, file: any) {
-        this.uploading.removeObject(file);
-        if (!this.uploadErrored.includes(file)) {
-            this.uploadErrored.pushObject(file);
+    error(_: any, dropzoneInstance: any, file: any) {
+        const { xhr: { status, responseText } } = file;
+        if (status === 409) {
+            const { data: { links: { upload } } } = JSON.parse(responseText);
+            file.newUploadLink = upload;
+            dropzoneInstance.processFile(file);
+        } else {
+            this.uploading.removeObject(file);
+            if (!this.uploadErrored.includes(file)) {
+                this.uploadErrored.pushObject(file);
+            }
+            notifyPropertyChange(this, 'uploading');
+            notifyPropertyChange(this, 'uploadErrored');
         }
-        notifyPropertyChange(this, 'uploading');
-        notifyPropertyChange(this, 'uploadErrored');
     }
 
     @action
