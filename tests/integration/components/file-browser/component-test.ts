@@ -96,11 +96,11 @@ module('Integration | Component | file-browser', hooks => {
             await click(`[data-test-select-folder="${this.topLevelFolder.id}"]`);
             await click(`[data-test-select-file="${this.topLevelFiles[0].id}"]`);
             assert.dom('[data-test-file-selected-count]').containsText(
-                t('osf-components.file-browser.number_selected', {numSelected: 2} ), '2 files selected',
+                t('osf-components.file-browser.number_selected', {numberOfFilesSelected: 2} ), '2 files selected',
             );
             await click(`[data-test-select-file="${this.topLevelFiles[0].id}"]`);
             assert.dom('[data-test-file-selected-count]').containsText(
-                t('osf-components.file-browser.number_selected', {numSelected: 1} ), '1 file selected',
+                t('osf-components.file-browser.number_selected', {numberOfFilesSelected: 1} ), '1 file selected',
             );
             await click('[data-test-clear-file-selection]');
             assert.dom('[data-test-file-selected-count]').doesNotExist('No files selected');
