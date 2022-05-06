@@ -19,6 +19,7 @@ interface FileItem {
 
 interface Manager {
     parentFolder: any;
+    selectFile: () => void;
 }
 
 interface FolderItemTestContext extends TestContext {
@@ -40,6 +41,7 @@ module('Integration | Component | file-browser :: folder-tiem', hooks => {
         };
         this.manager = {
             parentFolder: null,
+            selectFile: () => { /* noop */ },
         };
     });
 
