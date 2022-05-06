@@ -95,7 +95,7 @@
             />
             {{t 'general.delete'}}
         {{else}}
-            {{#if @manager.currentFolder}}
+            {{#if (and @manager.currentFolder @manager.currentFolder.userCanDownloadAsZip)}}
                 <OsfLink
                     data-test-download-all
                     data-analytics-name='Download all files from current folder'
