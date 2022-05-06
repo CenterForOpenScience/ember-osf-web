@@ -1,7 +1,7 @@
 <nav aria-label={{t 'registries.overview.files.breadcrumbs'}} local-class='Breadcrumbs'>
     <ol data-test-breadcrumbs>
         {{#each @breadcrumbs as |breadcrumb index| }}
-            <li>
+            <li ...attributes>
                 {{#if (eq breadcrumb @currentFolder)}}
                     <span data-test-breadcrumb={{breadcrumb.name}}>
                         <FileBrowser::Breadcrumbs::Crumb @name={{breadcrumb.name}} @isProvider={{eq index 0}} />

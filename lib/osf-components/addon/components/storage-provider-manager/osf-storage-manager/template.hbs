@@ -1,4 +1,5 @@
 {{yield (hash
+    provider=@provider
     hasMore=this.hasMore
     isLoading=this.getCurrentFolderItems.isRunning
     filter=this.filter
@@ -11,8 +12,9 @@
     changeSort=this.changeSort
     loadMore=this.loadMore
     goToFolder=this.goToFolder
-    breadcrumbs=this.folderLineage
+    folderLineage=this.folderLineage
     selectedFiles=this.selectedFiles
     selectFile=this.selectFile
     deselectFiles=this.deselectFiles
+    targetNode=this.targetNode
 )}}

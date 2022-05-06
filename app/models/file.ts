@@ -134,7 +134,7 @@ export default class FileModel extends BaseFileItem {
         }).then(() => this.reload());
     }
 
-    move(node: AbstractNodeModel): Promise<null> {
+    move(node: AbstractNodeModel, path: string, provider: string): Promise<null> {
         return this.currentUser.authenticatedAJAX({
             url: getHref(this.links.move),
             type: 'POST',
@@ -144,7 +144,8 @@ export default class FileModel extends BaseFileItem {
             },
             data: JSON.stringify({
                 action: 'move',
-                path: '/',
+                path,
+                provider,
                 resource: node.id,
             }),
         }).then(() => this.reload());

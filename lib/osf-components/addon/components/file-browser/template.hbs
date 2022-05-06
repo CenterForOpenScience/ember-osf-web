@@ -1,4 +1,8 @@
-<FileBrowser::Breadcrumbs @manager={{@manager}} />
+<FileBrowser::Breadcrumbs
+    @breadcrumbs={{@manager.folderLineage}}
+    @currentFolder={{@manager.currentFolder}}
+    @goToFolder={{@manager.goToFolder}}
+/>
 
 <div local-class='OptionBar {{if this.isMobile 'Mobile'}}'>
     <div local-class='OptionBar__left {{if this.isMobile 'Mobile'}}'>
@@ -82,18 +86,31 @@
     <div local-class='OptionBar__right'>
         {{#if (gt @manager.selectedFiles.length 0)}}
             {{!-- TODO: actually make these do things --}}
-            <FaIcon
-                @icon='check'
-            />
-            {{t 'general.move'}}
-            <FaIcon
-                @icon='check'
-            />
-            {{t 'general.copy'}}
-            <FaIcon
-                @icon='check'
-            />
-            {{t 'general.delete'}}
+            <Button
+                @layout='fake-link'
+                {{on 'click' this.toggleMoveModal}}
+            >
+                <FaIcon
+                    @icon='arrow-right'
+                />
+                {{t 'general.move'}}
+            </Button>
+            <Button
+                @layout='fake-link'
+            >
+                <FaIcon
+                    @icon='copy'
+                />
+                {{t 'general.copy'}}
+            </Button>
+            <Button
+                @layout='fake-link'
+            >
+                <FaIcon
+                    @icon='trash'
+                />
+                {{t 'general.delete'}}
+            </Button>
         {{else}}
             {{#if @manager.currentFolder}}
                 <OsfLink

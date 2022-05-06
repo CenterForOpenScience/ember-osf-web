@@ -11,6 +11,8 @@ import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
 import OsfStorageProviderFile from 'ember-osf-web/packages/files/osf-storage-provider-file';
 import { inject as service } from '@ember/service';
 import CurrentUserService from 'ember-osf-web/services/current-user';
+import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
+import DraftNode from 'ember-osf-web/models/draft-node';
 
 
 interface Args {
@@ -20,6 +22,7 @@ interface Args {
 export default class OsfStorageManager extends Component<Args> {
     @service currentUser!: CurrentUserService;
 
+    @tracked targetNode?: AbstractNodeModel | DraftNode;
     @tracked storageProvider?: FileProviderModel;
     @tracked folderLineage: Array<OsfStorageFile | OsfStorageProviderFile> = [];
     @tracked displayItems: OsfStorageFile[] = [];
@@ -33,6 +36,7 @@ export default class OsfStorageManager extends Component<Args> {
     constructor(owner: unknown, args: Args) {
         super(owner, args);
         assert('@provider must be provided', this.args.provider);
+        this.targetNode = this.args.provider.target.content;
         taskFor(this.getRootFolderItems).perform();
     }
 
@@ -87,7 +91,7 @@ export default class OsfStorageManager extends Component<Args> {
 
     @task
     @waitFor
-    async goToFolder(folder: OsfStorageFile) {
+    async goToFolder(folder: OsfStorageProviderFile | OsfStorageFile) {
         this.filter = '';
         const index = this.folderLineage.indexOf(folder);
         if (index >= 0) {

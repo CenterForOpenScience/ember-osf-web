@@ -29,6 +29,10 @@ export default abstract class ProviderFile {
         return this.fileModel.name;
     }
 
+    get path() {
+        return this.fileModel.path;
+    }
+
     get links() {
         const links = this.fileModel.links;
         const uploadLink = new URL(links.upload as string);
