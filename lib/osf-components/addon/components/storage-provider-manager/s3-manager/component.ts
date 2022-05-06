@@ -26,6 +26,9 @@ export default class S3Manager extends Component<Args> {
     @tracked currentPage = 1;
     @service currentUser!: CurrentUserService;
 
+    @tracked baseSelectedFile?: S3File;
+    @tracked selectedFiles: S3File[] = [];
+
     constructor(owner: unknown, args: Args) {
         super(owner, args);
         assert('@provider must be provided', this.args.provider);
@@ -117,5 +120,32 @@ export default class S3Manager extends Component<Args> {
     loadMore() {
         this.currentPage += 1;
         taskFor(this.getCurrentFolderItems).perform();
+    }
+
+    @action
+    selectFile(file: S3File, event: PointerEvent) {
+        if (document.getSelection()) {
+            document.getSelection()!.removeAllRanges();
+        }
+        if (event.shiftKey && this.baseSelectedFile) {
+            const fileIndex = this.displayItems.indexOf(file);
+            const baseIndex = this.displayItems.indexOf(this.baseSelectedFile);
+            const from = Math.min(fileIndex, baseIndex);
+            const to = Math.max(fileIndex, baseIndex) + 1;
+            this.selectedFiles = this.displayItems.slice(from, to);
+        } else {
+            this.baseSelectedFile = file;
+            if (this.selectedFiles.includes(file)) {
+                this.selectedFiles.removeObject(file);
+            } else {
+                this.selectedFiles.pushObject(file);
+            }
+        }
+    }
+
+    @action
+    deselectFiles() {
+        this.selectedFiles = [];
+        this.baseSelectedFile = undefined;
     }
 }
