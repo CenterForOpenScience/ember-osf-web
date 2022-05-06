@@ -8,7 +8,7 @@
                     @provider={{this.model.providerTask.value}}
                     as |manager|
                 >
-                    <FileBrowser @manager={{manager}} />
+                    <FileBrowser @manager={{manager}} @enableUpload={{false}} />
                 </ProviderManager>
             {{else}}
                 <span data-test-file-provider-invalid-provider>

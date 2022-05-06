@@ -1,4 +1,4 @@
-<FileBrowser::AddNew::Upload @manager={{@manager}} as |uploadWidget|>
+<FileBrowser::AddNew::Upload @manager={{@manager}} @enable={{@enableUpload}} as |uploadWidget|>
     <FileBrowser::Breadcrumbs @manager={{@manager}} />
     <div local-class='OptionBar {{if this.isMobile 'Mobile'}}'>
         <div local-class='OptionBar__left {{if this.isMobile 'Mobile'}}'>
@@ -119,7 +119,9 @@
                     @isOpen={{this.helpModalOpen}}
                     @onClose={{this.toggleHelpModal}}
                 />
-                <FileBrowser::AddNew @manager={{@manager}} @setClickableElementId={{uploadWidget.setClickableElementId}} />
+                {{#if @enableUpload}}
+                    <FileBrowser::AddNew @manager={{@manager}} @setClickableElementId={{uploadWidget.setClickableElementId}} />
+                {{/if}}
             {{/if}}
         </div>
     </div>
