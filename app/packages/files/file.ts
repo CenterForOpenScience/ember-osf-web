@@ -40,6 +40,9 @@ export default abstract class File {
     @tracked fileModel: FileModel;
     @tracked totalFileCount = 0;
     @tracked waterButlerRevisions?: WaterButlerRevision[];
+    userCanDownloadAsZip = true;
+    shouldShowTags = false;
+    shouldShowRevisions = true;
 
     currentUser: CurrentUserService;
 
@@ -56,7 +59,10 @@ export default abstract class File {
         return this.fileModel.isFolder;
     }
 
-    get currentUserPermission() {
+    get currentUserPermission(): string {
+        if (this.fileModel.target.get('currentUserPermissions').includes(Permission.Write)) {
+            return 'write';
+        }
         return 'read';
     }
 

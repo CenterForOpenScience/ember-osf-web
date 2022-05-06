@@ -12,7 +12,12 @@ export default class GuidNodeFilesProviderRoute extends Route.extend({}) {
     @waitFor
     async fileProviderTask(guidRouteModel: GuidRouteModel<NodeModel>, fileProviderId: string) {
         const node = await guidRouteModel.taskInstance;
-        const fileProviders = await node.files;
+        const fileProviders = await node.queryHasMany(
+            'files',
+            {
+                'page[size]': 20,
+            },
+        );
         const provider = fileProviders.findBy('id', fileProviderId) as FileProviderModel;
         return provider;
     }

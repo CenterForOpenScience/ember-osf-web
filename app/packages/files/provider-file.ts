@@ -1,10 +1,12 @@
 import { tracked } from '@glimmer/tracking';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
+import { Permission } from 'ember-osf-web/models/osf-model';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 
 export default abstract class ProviderFile {
     @tracked fileModel: FileProviderModel;
     @tracked totalFileCount = 0;
+    userCanDownloadAsZip = true;
 
     currentUser: CurrentUserService;
 
@@ -21,8 +23,15 @@ export default abstract class ProviderFile {
         return true;
     }
 
-    get currentUserPermission() {
+    get currentUserPermission(): string {
+        if (this.fileModel.target.get('currentUserPermissions').includes(Permission.Write)) {
+            return 'write';
+        }
         return 'read';
+    }
+
+    get userCanMoveToHere() {
+        return this.currentUserPermission === 'write';
     }
 
     get name() {
