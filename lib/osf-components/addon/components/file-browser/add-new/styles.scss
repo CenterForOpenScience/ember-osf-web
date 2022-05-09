@@ -8,7 +8,7 @@
     &:focus,
     &:active:focus {
         outline: none;
-        box-shadow: 0 0 0 2px #4d90fe;
+        box-shadow: 0 0 0 2px $color-select;
     }
 
     svg {

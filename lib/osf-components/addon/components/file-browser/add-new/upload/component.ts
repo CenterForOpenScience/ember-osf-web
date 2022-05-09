@@ -6,7 +6,6 @@ import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import OsfStorageManager from 'osf-components/components/storage-provider-manager/osf-storage-manager/component';
-import { taskFor } from 'ember-concurrency-ts';
 
 interface Args {
     manager: OsfStorageManager;
@@ -64,7 +63,10 @@ export default class Upload extends Component<Args> {
         if (newUploadLink) {
             return newUploadLink;
         }
-        return `${this.args.manager.currentFolder.links.upload}?${$.param({ kind: 'file', name })}`;
+        const url = new URL(this.args.manager.currentFolder.links.upload as string);
+        url.searchParams.append('kind', 'file');
+        url.searchParams.append('name', name);
+        return url.toString();
     }
 
     @action
@@ -114,8 +116,6 @@ export default class Upload extends Component<Args> {
     closeModal() {
         this.uploadCompleted = [];
         this.uploadErrored = [];
-        notifyPropertyChange(this, 'uploadCompleted');
-        notifyPropertyChange(this, 'uploadErrored');
-        taskFor(this.args.manager.reload).perform();
+        this.args.manager.reload();
     }
 }

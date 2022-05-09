@@ -114,14 +114,11 @@ export default class OsfStorageManager extends Component<Args> {
     @waitFor
     async createNewFolder(newFolderName: string) {
         await this.currentFolder.createFolder(newFolderName);
-        this.displayItems = [];
-        this.currentPage = 1;
-        taskFor(this.reload).perform();
+        this.reload();
     }
 
-    @task
-    @waitFor
-    async reload() {
+    @action
+    reload() {
         this.displayItems = [];
         this.currentPage = 1;
         taskFor(this.getCurrentFolderItems).perform();

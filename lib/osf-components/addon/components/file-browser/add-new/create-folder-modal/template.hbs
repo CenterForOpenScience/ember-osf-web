@@ -13,8 +13,8 @@
         </label>
     </dialog.main>
     <dialog.footer>
-        <BsButton
-            @type='success'
+        <Button
+            @type='create'
             {{on 'click' 
                 (queue
                     (perform @manager.createNewFolder this.newFolderName)
@@ -24,6 +24,6 @@
             }}
         >
             {{t 'osf-components.file-browser.create_folder'}}
-        </BsButton>
+        </Button>
     </dialog.footer>
 </OsfDialog>

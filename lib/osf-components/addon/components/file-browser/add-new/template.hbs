@@ -1,17 +1,16 @@
 {{#let (unique-id 'upload-button-id') as |uploadButtonId|}}
     <ResponsiveDropdown
         @renderInPlace={{true}}
-        @buttonStyling={{true}}
         @horizontalPosition='left'
         as |dropdown|
     >
-        <BsButton
+        <Button
             local-class='TriggerButton {{if dropdown.isOpen 'CloseButton'}}'
-            @type='success'
+            @type='create'
             {{on 'click' dropdown.toggle}}
         >
             <FaIcon @icon='plus' @size='2x' @fixedWidth={{true}} />
-        </BsButton>
+        </Button>
         <dropdown.content
             local-class='DropdownList'
             @rootEventType='mousedown'
@@ -26,7 +25,6 @@
             </Button>
             <Button
                 @layout='fake-link'
-                @bubble={{true}}
                 id={{uploadButtonId}}
             >
                 {{t 'osf-components.file-browser.upload_file'}}
