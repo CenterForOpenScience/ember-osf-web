@@ -3,7 +3,7 @@ import { action, notifyPropertyChange } from '@ember/object';
 import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { restartableTask, task, timeout } from 'ember-concurrency';
+import { restartableTask, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 import { FileSortKey } from 'ember-osf-web/packages/files/file';
@@ -89,9 +89,17 @@ export default class OsfStorageManager extends Component<Args> {
         }
     }
 
-    @task
+    @restartableTask
     @waitFor
-    async goToFolder(folder: OsfStorageProviderFile | OsfStorageFile) {
+    async changeFilter(filter: string) {
+        await timeout(500);
+        this.filter = filter;
+        this.currentPage = 1;
+        taskFor(this.getCurrentFolderItems).perform();
+    }
+
+    @action
+    goToFolder(folder: OsfStorageProviderFile | OsfStorageFile) {
         this.filter = '';
         const index = this.folderLineage.indexOf(folder);
         if (index >= 0) {
@@ -102,15 +110,6 @@ export default class OsfStorageManager extends Component<Args> {
         notifyPropertyChange(this, 'folderLineage');
         this.deselectFiles();
         this.displayItems = [];
-        this.currentPage = 1;
-        taskFor(this.getCurrentFolderItems).perform();
-    }
-
-    @restartableTask
-    @waitFor
-    async changeFilter(filter: string) {
-        await timeout(500);
-        this.filter = filter;
         this.currentPage = 1;
         taskFor(this.getCurrentFolderItems).perform();
     }

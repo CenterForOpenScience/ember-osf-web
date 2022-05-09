@@ -11,7 +11,7 @@
                         data-test-breadcrumb={{breadcrumb.name}}
                         data-analytics-name='Breadcrumb navigation click'
                         @href='#'
-                        {{on 'click' (perform @goToFolder breadcrumb)}}
+                        {{on 'click' (fn @goToFolder breadcrumb)}}
                     >
                         <FileBrowser::Breadcrumbs::Crumb @name={{breadcrumb.name}} @isProvider={{eq index 0}} />
                     </OsfLink>

@@ -27,7 +27,7 @@
             aria-label={{t 'osf-components.file-browser.view_folder' folderName=@item.name}}
             @layout='fake-link'
             local-class='FileList__item__options FolderButton'
-            {{on 'click' (perform @manager.goToFolder @item)}}
+            {{on 'click' (fn @manager.goToFolder @item)}}
         >
             <FaIcon
                 @icon='folder' @fixedWidth={{true}}
