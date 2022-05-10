@@ -1318,6 +1318,12 @@ registries:
     form_view:
         none_selected: 'None selected'
     overview:
+        files:
+            title: Files
+            storage_providers:
+                invalidProviderDetails: 'Could not find the requested file provider.'
+                invalidProviderLink: 'See all files in this registration.'
+                osfstorage: 'OSF Storage'
         title: Overview
         collapse: Collapse
         expand: Expand
@@ -1349,37 +1355,6 @@ registries:
             abuse_violence: 'Violence or harmful behavior'
             cannot_retract_report: 'Only the reporter can retract report'
             no_comments: 'No comments.'
-        files:
-            title: Files
-            filter_placeholder: 'Filter current list'
-            sort: 'Sort by: '
-            sort_by:
-                name: 'Name: A-Z'
-                -name: 'Name: Z-A'
-                modified: 'Last modified: newest to oldest'
-                -modified: 'Last modified: oldest to newest'
-            download_all: 'Download this folder'
-            storage_location: 'Storage location: '
-            storage_providers:
-                invalidProviderDetails: 'Could not find the requested file provider.'
-                invalidProviderLink: 'See all files in this registration.'
-                osfstorage: 'OSF Storage'
-            empty_folder: 'This folder is empty.'
-            breadcrumbs: 'Breadcrumb'
-            help_modal:
-                heading: 'Using the OSF Files Browser'
-                download_all: 'Download All Files As a Zip'
-                download_all_detail: 'Navigate to the “Files” tab in the registration navigation on the left, and then click “Download this folder”.'
-                download_folder: 'Download a Folder as Zip'
-                download_folder_detail_first: 'To download a specific folder as a zip, click the vertical ellipses'
-                download_folder_detail_second: 'to open the dropdown. Click “Download”.<br>Alternatively, open the folder and then click “Download this folder”.'
-                view_files: 'View Files'
-                view_files_detail: 'Click a file name to go to view the file in the OSF. Opens file in a new tab.'
-                download_file: 'Download a File'
-                download_file_detail_first: 'With the file open: Click the vertical ellipses'
-                download_file_detail_second: 'to open the dropdown. Click “Download”. From the file list: Click the vertical ellipses'
-                download_file_detail_third: 'of the file to open the dropdown. Click “Download”.'
-                file_actions: 'File actions icon'
         links:
             title: Links
             linked_nodes: 'Linked projects and components'
@@ -1832,13 +1807,6 @@ osf-components:
             title_folder: 'Delete "{filename}" and all its contents?'
             body: 'This action is irreversible.'
             button: Delete
-    file-browser:
-        select_file: 'Select file {fileName}'
-        select_folder: 'Select folder {folderName}'
-        number_selected: '{numberOfFilesSelected} item(s) selected'
-        clear_selection: 'Clear selection'
-        view_file: 'View file in a new window: {fileName}'
-        view_folder: 'View contents of folder: {folderName}'
     file-version:
         view_version: 'View version created {date}'
         show_info: 'Show revision information'
@@ -1849,6 +1817,45 @@ osf-components:
         md5_description: 'MD5 is an algorithm used to verify data integrity.'
         copy_success: 'Successfully copied to clipboard'
         copy_failed: 'Failed to copy to clipboard'
+    file-browser:
+        select_file: 'Select file {fileName}'
+        select_folder: 'Select folder {folderName}'
+        number_selected: '{numberOfFilesSelected} item(s) selected'
+        clear_selection: 'Clear selection'
+        view_file: 'View file in a new window: {fileName}'
+        view_folder: 'View contents of folder: {folderName}'
+        filter_placeholder: 'Filter current list'
+        sort: 'Sort by: '
+        sort_by:
+            name: 'Name: A-Z'
+            -name: 'Name: Z-A'
+            modified: 'Last modified: newest to oldest'
+            -modified: 'Last modified: oldest to newest'
+        download_all: 'Download this folder'
+        storage_location: 'Storage location: '
+        empty_folder: 'This folder is empty.'
+        breadcrumbs: 'Breadcrumb'
+        create_folder: 'Create folder'
+        upload_file: 'Upload file'
+        new_folder_name: 'New folder name'
+        uploading_file: 'Uploading {fileCount, plural, one {# file} other {# files}}'
+        upload_failed: '{fileCount, plural, one {# file} other {# files}} failed, click to try again'
+        upload_success: '{fileCount, plural, one {# file} other {# files}} uploaded successfully'
+        help_modal:
+            heading: 'Using the OSF Files Browser'
+            download_all: 'Download All Files As a Zip'
+            download_all_detail: 'Navigate to the “Files” tab in the registration navigation on the left, and then click “Download this folder”.'
+            download_folder: 'Download a Folder as Zip'
+            download_folder_detail_first: 'To download a specific folder as a zip, click the vertical ellipses'
+            download_folder_detail_second: 'to open the dropdown. Click “Download”.<br>Alternatively, open the folder and then click “Download this folder”.'
+            view_files: 'View Files'
+            view_files_detail: 'Click a file name to go to view the file in the OSF. Opens file in a new tab.'
+            download_file: 'Download a File'
+            download_file_detail_first: 'With the file open: Click the vertical ellipses'
+            download_file_detail_second: 'to open the dropdown. Click “Download”. From the file list: Click the vertical ellipses'
+            download_file_detail_third: 'of the file to open the dropdown. Click “Download”.'
+            file_actions: 'File actions icon'
+
     subjects:
         browse:
             browse_all: 'Browse all subjects'

@@ -1,0 +1,29 @@
+<OsfDialog
+    @isOpen={{@isOpen}}
+    @onClose={{queue (action (mut @isOpen) false) (action (mut this.newFolderName) '')}}
+    as |dialog|
+>
+    <dialog.heading>
+        {{t 'osf-components.file-browser.create_folder'}}
+    </dialog.heading>
+    <dialog.main>
+        <label>
+            <p>{{t 'osf-components.file-browser.new_folder_name'}}</p>
+            <Input @value={{this.newFolderName}} />
+        </label>
+    </dialog.main>
+    <dialog.footer>
+        <Button
+            @type='create'
+            {{on 'click' 
+                (queue
+                    (perform @manager.createNewFolder this.newFolderName)
+                    (action (mut @isOpen) false)
+                    (action (mut this.newFolderName) '')
+                )
+            }}
+        >
+            {{t 'osf-components.file-browser.create_folder'}}
+        </Button>
+    </dialog.footer>
+</OsfDialog>

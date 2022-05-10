@@ -12,7 +12,6 @@ import OsfStorageProviderFile from 'ember-osf-web/packages/files/osf-storage-pro
 import { inject as service } from '@ember/service';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 
-
 interface Args {
     provider: FileProviderModel;
 }
@@ -107,6 +106,20 @@ export default class OsfStorageManager extends Component<Args> {
     async changeFilter(filter: string) {
         await timeout(500);
         this.filter = filter;
+        this.currentPage = 1;
+        taskFor(this.getCurrentFolderItems).perform();
+    }
+
+    @task
+    @waitFor
+    async createNewFolder(newFolderName: string) {
+        await this.currentFolder.createFolder(newFolderName);
+        this.reload();
+    }
+
+    @action
+    reload() {
+        this.displayItems = [];
         this.currentPage = 1;
         taskFor(this.getCurrentFolderItems).perform();
     }
