@@ -49,9 +49,9 @@ module('Integration | Component | file-browser', hooks => {
             const storageProviders = await registration.files;
             this.osfStorageProvider = storageProviders.toArray()[0];
             await render(hbs`
-                <StorageProviderManager::OsfStorageManager @provider={{this.osfStorageProvider}} as |manager|>
+                <StorageProviderManager::StorageManager @provider={{this.osfStorageProvider}} as |manager|>
                     <FileBrowser @manager={{manager}} />
-                </StorageProviderManager::OsfStorageManager>
+                </StorageProviderManager::StorageManager>
             `);
             for (const item of this.topLevelFiles) {
                 assert.dom(`[data-test-file-list-item='${item.id}'][data-test-indented='false']`)
@@ -88,9 +88,9 @@ module('Integration | Component | file-browser', hooks => {
             const storageProviders = await registration.files;
             this.osfStorageProvider = storageProviders.toArray()[0];
             await render(hbs`
-                <StorageProviderManager::OsfStorageManager @provider={{this.osfStorageProvider}} as |manager|>
+                <StorageProviderManager::StorageManager @provider={{this.osfStorageProvider}} as |manager|>
                     <FileBrowser @manager={{manager}} @selectable={{true}} />
-                </StorageProviderManager::OsfStorageManager>
+                </StorageProviderManager::StorageManager>
             `);
             assert.dom('[data-test-file-selected-count]').doesNotExist('No files selected');
             await click(`[data-test-select-folder="${this.topLevelFolder.id}"]`);
