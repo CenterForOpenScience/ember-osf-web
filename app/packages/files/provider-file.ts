@@ -1,6 +1,7 @@
 import { tracked } from '@glimmer/tracking';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 import { Permission } from 'ember-osf-web/models/osf-model';
+import { FileSortKey } from 'ember-osf-web/packages/files/file';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 
 export default abstract class ProviderFile {
@@ -49,5 +50,20 @@ export default abstract class ProviderFile {
 
     async createFolder(newFolderName: string) {
         await this.fileModel.createFolder(newFolderName);
+    }
+
+    async getFolderItems(page: number, sort: FileSortKey, filter: string ) {
+        // This is in here just so the manager thinks it's here. It should always be overridden.
+        if (this.fileModel.isFolder) {
+            const queryResult = await this.fileModel.queryHasMany('files',
+                {
+                    page,
+                    sort,
+                    'filter[name]': filter,
+                });
+            this.totalFileCount = queryResult.meta.total;
+            return queryResult.map(fileModel => Reflect.construct(this.constructor, [this.currentUser, fileModel]));
+        }
+        return [];
     }
 }

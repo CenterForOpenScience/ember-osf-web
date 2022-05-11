@@ -19,4 +19,8 @@ export default class GitlabProviderFile extends ProviderFile {
         this.totalFileCount = queryResult.meta.total;
         return queryResult.map(fileModel => new GitlabFile(this.currentUser, fileModel));
     }
+
+    get currentUserPermission(): string {
+        return 'read';
+    }
 }

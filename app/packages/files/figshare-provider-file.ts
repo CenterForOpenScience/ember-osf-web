@@ -19,4 +19,8 @@ export default class FigshareProviderFile extends ProviderFile {
         this.totalFileCount = queryResult.meta.total;
         return queryResult.map(fileModel => new FigshareFile(this.currentUser, fileModel));
     }
+
+    get currentUserPermission(): string {
+        return 'read';
+    }
 }

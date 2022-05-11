@@ -19,4 +19,8 @@ export default class DataverseProviderFile extends ProviderFile {
         this.totalFileCount = queryResult.meta.total;
         return queryResult.map(fileModel => new DataverseFile(this.currentUser, fileModel));
     }
+
+    get currentUserPermission(): string {
+        return 'read';
+    }
 }

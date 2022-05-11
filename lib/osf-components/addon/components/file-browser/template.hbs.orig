@@ -1,9 +1,4 @@
-{{!-- TODO: @manager.currentFolder.currentUserPermission --}}
-<FileBrowser::AddNew::Upload
-    @manager={{@manager}}
-    @enable={{and (eq 'write' 'write') @enableUpload}}
-    as |uploadWidget|
->
+<FileBrowser::AddNew::Upload @manager={{@manager}} @enable={{@enableUpload}} as |uploadWidget|>
     <FileBrowser::Breadcrumbs @manager={{@manager}} />
     <div local-class='OptionBar {{if this.isMobile 'Mobile'}}'>
         <div local-class='OptionBar__left {{if this.isMobile 'Mobile'}}'>
@@ -18,6 +13,34 @@
                     >
                         <FaIcon @icon='times' />
                     </Button>
+<<<<<<< HEAD
+                </dropdown.content>
+            </ResponsiveDropdown>
+        {{/if}}
+    </div>
+    <div local-class='OptionBar__right'>
+        {{#if (gt @manager.selectedFiles.length 0)}}
+            {{!-- TODO: actually make these do things --}}
+            <FaIcon
+                @icon='check'
+            />
+            {{t 'general.move'}}
+            <FaIcon
+                @icon='check'
+            />
+            {{t 'general.copy'}}
+            <FaIcon
+                @icon='check'
+            />
+            {{t 'general.delete'}}
+        {{else}}
+            {{#if (and @manager.currentFolder @manager.currentFolder.userCanDownloadAsZip)}}
+                <OsfLink
+                    data-test-download-all
+                    data-analytics-name='Download all files from current folder'
+                    @href={{@manager.currentFolder.links.download}}
+                    local-class='DownloadAllFromCurrent'
+=======
                 </span>
             {{else}}
                 <label>
@@ -26,7 +49,7 @@
                         data-test-file-search
                         @type='text'
                         class='form-control'
-                            placeholder='{{t 'osf-components.file-browser.filter_placeholder'}}'
+                        placeholder='{{t 'osf-components.file-browser.filter_placeholder'}}'
                         @value={{readonly @manager.filter}}
                         {{on 'input' this.handleInput}}
                     />
@@ -38,6 +61,7 @@
                     @buttonStyling={{true}}
                     @horizontalPosition='left'
                     as |dropdown|
+>>>>>>> upstream/files-page-redesign
                 >
                     <label>
                         {{t 'osf-components.file-browser.sort'}}
@@ -100,7 +124,7 @@
                 />
                 {{t 'general.delete'}}
             {{else}}
-                {{#if (and @manager.currentFolder @manager.currentFolder.userCanDownloadAsZip)}}
+                {{#if @manager.currentFolder}}
                     <OsfLink
                         data-test-download-all
                         data-analytics-name='Download all files from current folder'
@@ -124,8 +148,7 @@
                     @isOpen={{this.helpModalOpen}}
                     @onClose={{this.toggleHelpModal}}
                 />
-                {{!-- TODO: @manager.currentFolder.currentUserPermission --}}
-                {{#if (and (eq 'write' 'write') @enableUpload)}}
+                {{#if @enableUpload}}
                     <FileBrowser::AddNew @manager={{@manager}} @setClickableElementId={{uploadWidget.setClickableElementId}} />
                 {{/if}}
             {{/if}}

@@ -1,0 +1,35 @@
+{{#let (unique-id 'upload-button-id') as |uploadButtonId|}}
+    <ResponsiveDropdown
+        @renderInPlace={{true}}
+        @horizontalPosition='left'
+        as |dropdown|
+    >
+        <Button
+            local-class='TriggerButton {{if dropdown.isOpen 'CloseButton'}}'
+            @type='create'
+            {{on 'click' dropdown.toggle}}
+        >
+            <FaIcon @icon='plus' @size='2x' @fixedWidth={{true}} />
+        </Button>
+        <dropdown.content
+            local-class='DropdownList'
+            @rootEventType='mousedown'
+            {{did-insert (fn @setClickableElementId uploadButtonId)}}
+            {{will-destroy (fn @setClickableElementId '')}}
+        >
+            <Button
+                @layout='fake-link'
+                {{on 'click' (fn (mut this.createFolderModalOpen) true)}}
+            >
+                {{t 'osf-components.file-browser.create_folder'}}
+            </Button>
+            <Button
+                @layout='fake-link'
+                id={{uploadButtonId}}
+            >
+                {{t 'osf-components.file-browser.upload_file'}}
+            </Button>
+        </dropdown.content>
+    </ResponsiveDropdown>
+    <FileBrowser::AddNew::CreateFolderModal @isOpen={{this.createFolderModalOpen}} @manager={{@manager}} />
+{{/let}}

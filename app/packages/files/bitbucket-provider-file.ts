@@ -19,4 +19,8 @@ export default class BitbucketProviderFile extends ProviderFile {
         this.totalFileCount = queryResult.meta.total;
         return queryResult.map(fileModel => new BitbucketFile(this.currentUser, fileModel));
     }
+
+    get currentUserPermission(): string {
+        return 'read';
+    }
 }
