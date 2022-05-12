@@ -43,7 +43,7 @@
                     {{moment-format @item.dateModified 'YYYY-MM-DD hh:mm A'}}
                 </span>
             {{/if}}
-            <FileActionsMenu @item={{@item}} />
+            <FileActionsMenu @item={{@item}} @onDelete={{@manager.reload}} />
         </div>
     </li>
 {{/let}}

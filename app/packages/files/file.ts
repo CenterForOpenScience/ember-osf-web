@@ -119,6 +119,8 @@ export default abstract class File {
         await this.fileModel.move(node);
     }
 
+    @task
+    @waitFor
     async delete() {
         await this.fileModel.delete();
     }

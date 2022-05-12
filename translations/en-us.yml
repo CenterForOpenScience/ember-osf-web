@@ -1818,6 +1818,9 @@ osf-components:
         copy_success: 'Successfully copied to clipboard'
         copy_failed: 'Failed to copy to clipboard'
     file-browser:
+        delete: 'Delete'
+        confirm_delete: 'Are you sure you want to delete "{fileName}"?'
+        delete_file: 'Delete file'
         select_file: 'Select file {fileName}'
         select_folder: 'Select folder {folderName}'
         number_selected: '{numberOfFilesSelected} item(s) selected'

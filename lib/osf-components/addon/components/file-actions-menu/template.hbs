@@ -20,6 +20,12 @@
             <FaIcon @icon='download' />
             {{t 'general.download'}}
         </OsfLink>
+        <Button @layout='fake-link' local-class='DropdownItem'
+            {{on 'click' (fn (mut this.isDeleteModalOpen) true)}}
+        >
+            <FaIcon @icon='file-import' />
+            {{t 'osf-components.file-browser.delete'}}
+        </Button>
         <FileEmbedMenu @file={{@item}} as |dd|>
             <dd.trigger
                 data-test-embed-button
@@ -50,3 +56,4 @@
         </SharingIcons::Dropdown>
     </dropdown.content>
 </ResponsiveDropdown>
+<FileActionsMenu::DeleteModal @file={{@item}} @isOpen={{this.isDeleteModalOpen}} @onDelete={{@onDelete}} />
