@@ -143,7 +143,7 @@ export default class FileModel extends BaseFileItem {
                 'Content-Type': 'application/json',
             },
             data: JSON.stringify({
-                action: this.isFolder ? 'copy' : 'move',
+                action: 'move',
                 path,
                 provider,
                 resource: node.id,
