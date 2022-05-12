@@ -3,7 +3,7 @@ import { action, notifyPropertyChange } from '@ember/object';
 import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { restartableTask, timeout } from 'ember-concurrency';
+import { restartableTask, task, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 import { FileSortKey } from 'ember-osf-web/packages/files/file';
@@ -13,7 +13,6 @@ import { inject as service } from '@ember/service';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
 import DraftNode from 'ember-osf-web/models/draft-node';
-
 
 interface Args {
     provider: FileProviderModel;
@@ -109,6 +108,20 @@ export default class OsfStorageManager extends Component<Args> {
         }
         notifyPropertyChange(this, 'folderLineage');
         this.deselectFiles();
+        this.displayItems = [];
+        this.currentPage = 1;
+        taskFor(this.getCurrentFolderItems).perform();
+    }
+
+    @task
+    @waitFor
+    async createNewFolder(newFolderName: string) {
+        await this.currentFolder.createFolder(newFolderName);
+        this.reload();
+    }
+
+    @action
+    reload() {
         this.displayItems = [];
         this.currentPage = 1;
         taskFor(this.getCurrentFolderItems).perform();
