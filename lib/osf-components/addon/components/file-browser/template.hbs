@@ -86,15 +86,10 @@
     <div local-class='OptionBar__right'>
         {{#if (gt @manager.selectedFiles.length 0)}}
             {{!-- TODO: actually make these do things --}}
-            <Button
-                @layout='fake-link'
-                {{on 'click' this.toggleMoveModal}}
-            >
-                <FaIcon
-                    @icon='arrow-right'
-                />
-                {{t 'general.move'}}
-            </Button>
+            <MoveFileModal
+                @filesToMove={{@manager.selectedFiles}}
+                @manager={{@manager}}
+            />
             <Button
                 @layout='fake-link'
             >

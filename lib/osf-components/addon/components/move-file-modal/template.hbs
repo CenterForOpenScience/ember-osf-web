@@ -1,0 +1,155 @@
+<OsfDialog
+    @onOpen={{this.onOpen}}
+    @onClose={{this.onClose}}
+    @fixedWidth={{true}}
+    as |dialog|
+>
+    <dialog.trigger>
+        <Button
+            @layout='fake-link'
+            {{on 'click' dialog.open}}
+        >
+            <FaIcon
+                @icon='arrow-right'
+            />
+            {{t 'general.move'}}
+        </Button>
+    </dialog.trigger>
+    <dialog.heading>
+        {{t 'osf-components.move_file_modal.header'}}
+    </dialog.heading>
+    <dialog.main>
+        {{#if this.isMoving}}
+            <h3>{{t 'osf-components.move_file_modal.moving_files'}}</h3>
+            {{#each this.fileMoveTasks as |task| }}
+                {{#let (get task.args 0) as |file| }}
+                    {{#if task.isRunning}}
+                        <p>
+                            {{t 'osf-components.move_file_modal.moving_file' fileName=file.name}}
+                            <FaIcon @icon='spinner' @pulse={{true}} />
+                        </p>
+                    {{else if task.isSuccessful}}
+                        {{t 'osf-components.move_file_modal.success' fileName=file.name}}
+                        <FaIcon @icon='check' />
+                    {{else if task.isError}}
+                        {{!-- TODO: add retry logic --}}
+                        {{t 'osf-components.move_file_modal.error' fileName=file.name}}
+                        {{task.error.responseText}}
+                        <Button>
+                            {{t 'osf-components.move_file_modal.retry'}}
+                        </Button>
+                        <Button>
+                            {{t 'osf-components.move_file_modal.replace'}}
+                        </Button>
+                    {{/if}}
+                {{/let}}
+            {{/each}}
+        {{!-- {{else if this.moveDone}}
+            need something if it works and something if it doesn't
+            <h3>{{t 'osf-components.move_file_modal.done'}}</h3> --}}
+        {{else}}
+            <h3>{{t 'osf-components.move_file_modal.select_destination'}}</h3>
+            <div>
+                Files to move:
+                {{#each @filesToMove as |file|}}
+                    {{file.name}}
+                {{/each}}
+            </div>
+            <div local-class='AncestryWrapper'>
+                <AncestryDisplay
+                    @node={{this.currentNode}}
+                    @onAncestorSelect={{this.updateNode}}
+                    local-class='AncestryOverride'
+                />
+                {{#if this.currentFolder}}
+                    <Button
+                        data-test-go-to-current-node-file-providers
+                        @layout='fake-link'
+                        {{on 'click' (fn this.updateNode this.currentNode)}}
+                    >
+                        <NodeCard::NodeIcon @category={{this.currentNode.category}} />
+                        {{this.currentNode.title}}
+                    </Button>
+                {{else}}
+                    <span>
+                        <NodeCard::NodeIcon @category={{this.currentNode.category}} />
+                        {{this.currentNode.title}}
+                    </span>
+                {{/if}}
+                <FileBrowser::Breadcrumbs
+                    @breadcrumbs={{this.breadcrumbs}}
+                    @currentFolder={{this.currentFolder}}
+                    @goToFolder={{this.updateFolder}}
+                    local-class='BreadcrumbsOverride'
+                />
+            </div>
+            <InfiniteList
+                @itemList={{this.itemList}}
+                @hasMore={{this.hasMore}}
+                @loadMore={{this.loadMore}}
+                @isLoading={{this.isLoading}}
+                local-class='ChildList'
+            >
+                <:item as |item|>
+                    <li local-class='ChildItem'>
+                        {{#if item.isNode}}
+                            <Button
+                                @layout='fake-link'
+                                {{on 'click' (fn this.updateNode item)}}
+                            >
+                                <span>
+                                    <NodeCard::NodeIcon @category={{item.category}} />
+                                    {{item.title}}
+                                </span>
+                                <FaIcon @icon='chevron-right' />
+                            </Button>
+                        {{else if item.isFolder}}
+                            {{#let (find-by 'name' item.name @filesToMove) as |fileToBeMoved|}}
+                                <Button
+                                    @layout='fake-link'
+                                    disabled={{fileToBeMoved}}
+                                    {{on 'click' (fn this.updateFolder item)}}
+                                >
+                                    <span>
+                                        <FaIcon @icon='folder-open' />
+                                        {{item.name}}
+                                    </span>
+                                    <FaIcon @icon='chevron-right' />
+                                </Button>
+                            {{/let}}
+                        {{else}}
+                            <p>{{item.name}}</p>
+                        {{/if}}
+                    </li>
+                </:item>
+                <:empty>
+                    {{t 'osf-components.move_file_modal.no_children'}}
+                </:empty>
+            </InfiniteList>
+        {{/if}}
+    </dialog.main>
+    <dialog.footer>
+        <Button
+            @type='secondary'
+            {{on 'click' (queue this.cancelMoves dialog.close)}}
+        >
+            {{t 'general.cancel'}}
+        </Button>
+        {{#if this.moveDone}}
+            <Button
+                @type='primary'
+                {{on 'click' dialog.close}}
+            >
+                OK
+            </Button>
+        {{else}}
+            <Button
+                @type='primary'
+                disabled={{this.isDisabled}}
+                {{on 'click' (perform this.move)}}
+            >
+                {{t 'general.move'}}
+            </Button>
+        {{/if}}
+    </dialog.footer>
+</OsfDialog>

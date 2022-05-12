@@ -1,0 +1,48 @@
+
+.AncestryWrapper {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 20px;
+    // justify-content: ;
+    // color: red;
+    &>span { // ancestry override
+        width: inherit;
+    }
+}
+
+.AncestryOverride {
+    display: inline;
+}
+
+.BreadcrumbsOverride {
+    margin-bottom: 0;
+    padding-right: 24px;
+
+    li {
+        font-size: inherit;
+        font-weight: inherit;
+    }
+}
+
+.ChildList {
+    list-style-type: none;
+    padding-inline-start: 0;
+    padding: 0 20px;
+
+    > li:last-of-type {
+        border-bottom: solid 1px $color-border-gray;
+    }
+}
+
+.ChildItem {
+    border-top: solid 1px $color-border-gray;
+    padding: 12px 10px;
+
+    button {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+}

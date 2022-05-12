@@ -1849,6 +1849,17 @@ osf-components:
         md5_description: 'MD5 is an algorithm used to verify data integrity.'
         copy_success: 'Successfully copied to clipboard'
         copy_failed: 'Failed to copy to clipboard'
+    move_file_modal:
+        header: 'Move file'
+        select_destination: 'Select destination'
+        no_children: 'No children'
+        no_folders: 'No files or folders'
+        moving_files: 'Moving file(s)'
+        moving_file: 'Moving {fileName}'
+        success: 'Successfully moved {fileName}'
+        error: 'Failed to move {fileName}'
+        retry: 'Retry'
+        replace: 'Replace'
     subjects:
         browse:
             browse_all: 'Browse all subjects'
