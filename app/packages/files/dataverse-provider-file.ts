@@ -5,6 +5,8 @@ import ProviderFile from 'ember-osf-web/packages/files/provider-file';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 
 export default class DataverseProviderFile extends ProviderFile {
+    providerHandlesVersioning = false;
+
     constructor(currentUser: CurrentUserService,providerFileModel: FileProviderModel) {
         super(currentUser, providerFileModel);
     }

@@ -8,6 +8,7 @@ export default abstract class ProviderFile {
     @tracked fileModel: FileProviderModel;
     @tracked totalFileCount = 0;
     userCanDownloadAsZip = true;
+    providerHandlesVersioning = true;
 
     currentUser: CurrentUserService;
 

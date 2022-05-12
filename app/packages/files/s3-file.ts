@@ -4,6 +4,7 @@ import CurrentUserService from 'ember-osf-web/services/current-user';
 
 export default class S3File extends File {
     shouldShowRevisions = false;
+    providerHandlesVersioning = false;
 
     constructor(currentUser: CurrentUserService,fileModel: FileModel) {
         super(currentUser, fileModel);

@@ -43,6 +43,7 @@ export default abstract class File {
     userCanDownloadAsZip = true;
     shouldShowTags = false;
     shouldShowRevisions = true;
+    providerHandlesVersioning = true;
 
     currentUser: CurrentUserService;
 
