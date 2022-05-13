@@ -42,7 +42,9 @@ export default class FileSerializer extends ApplicationSerializer<MirageFileProv
             links: {
                 related: {
                     href: `${apiUrl}/v2/${pathName}/${model.targetId.id}/`,
-                    meta: this.buildRelatedLinkMeta(model, 'target'),
+                    meta: {
+                        type: pluralize(model.targetId.type),
+                    },
                 },
             },
         };
