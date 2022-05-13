@@ -34,6 +34,19 @@ export default class FileSerializer extends ApplicationSerializer<MirageFileProv
                 },
             };
         }
+        relationships.target = {
+            data: {
+                type: model.targetId.type,
+                id: model.targetId.id as string,
+            },
+            links: {
+                related: {
+                    href: `${apiUrl}/v2/${pathName}/${model.targetId.id}/`,
+                    meta: this.buildRelatedLinkMeta(model, 'target'),
+                },
+            },
+        };
+
         return relationships;
     }
 

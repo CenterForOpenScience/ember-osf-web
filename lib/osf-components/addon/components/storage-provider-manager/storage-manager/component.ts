@@ -31,7 +31,7 @@ interface Args {
     provider: FileProviderModel;
 }
 
-export default class OsfStorageManager extends Component<Args> {
+export default class StorageManager extends Component<Args> {
     @service currentUser!: CurrentUserService;
     @service router!: RouterService;
 
