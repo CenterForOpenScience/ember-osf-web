@@ -1,0 +1,21 @@
+<OsfDialog @isOpen={{@isOpen}} @onClose={{@closeModal}} as |dialog|>
+    <dialog.heading>
+        {{t 'osf-components.file-browser.delete_file'}}
+    </dialog.heading>
+    <dialog.main>
+        {{t 'osf-components.file-browser.confirm_delete' fileName=@file.name}}
+    </dialog.main>
+    <dialog.footer>
+        <Button
+            {{on 'click' (fn (mut @isOpen) false)}}
+        >
+            {{t 'general.cancel'}}
+        </Button>
+        <Button
+            @type='destroy'
+            {{on 'click' (perform this.confirmDelete)}}
+        >
+            {{t 'osf-components.file-browser.delete'}}
+        </Button>
+    </dialog.footer>
+</OsfDialog>

@@ -1,5 +1,6 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
+import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { taskFor } from 'ember-concurrency-ts';
@@ -9,6 +10,7 @@ import Toast from 'ember-toastr/services/toast';
 export default class GuidFile extends Controller {
     @service media!: Media;
     @service toast!: Toast;
+    @service router!: RouterService;
 
     @tracked revisionsOpened = false;
     @tracked tagsOpened = false;
@@ -75,5 +77,10 @@ export default class GuidFile extends Controller {
                 this.tagsOpened = false;
             }
         }
+    }
+
+    @action
+    onDelete() {
+        this.router.transitionTo('guid-node.files', this.model.fileModel.target.get('id'));
     }
 }
