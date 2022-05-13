@@ -21,32 +21,37 @@
     <dialog.main>
         {{#if this.isMoving}}
             <h3>{{t 'osf-components.move_file_modal.moving_files'}}</h3>
-            {{#each this.fileMoveTasks as |task| }}
-                {{#let (get task.args 0) as |file| }}
-                    {{#if task.isRunning}}
-                        <p>
-                            {{t 'osf-components.move_file_modal.moving_file' fileName=file.name}}
-                            <FaIcon @icon='spinner' @pulse={{true}} />
-                        </p>
-                    {{else if task.isSuccessful}}
-                        {{t 'osf-components.move_file_modal.success' fileName=file.name}}
-                        <FaIcon @icon='check' />
-                    {{else if task.isError}}
-                        {{!-- TODO: add retry logic --}}
-                        {{t 'osf-components.move_file_modal.error' fileName=file.name}}
-                        {{task.error.responseText}}
-                        <Button>
-                            {{t 'osf-components.move_file_modal.retry'}}
-                        </Button>
-                        <Button>
-                            {{t 'osf-components.move_file_modal.replace'}}
-                        </Button>
-                    {{/if}}
-                {{/let}}
-            {{/each}}
-        {{!-- {{else if this.moveDone}}
-            need something if it works and something if it doesn't
-            <h3>{{t 'osf-components.move_file_modal.done'}}</h3> --}}
+            <ul local-class='ChildList'>
+                {{#each this.fileMoveTasks as |taskInstance index| }}
+                    {{#let (get @filesToMove index) as |file| }}
+                        <li local-class='ChildItem MoveItem'>
+                            {{#if taskInstance.isRunning}}
+                                {{t 'osf-components.move_file_modal.moving_file' fileName=file.name}}
+                                <FaIcon @icon='spinner' @pulse={{true}} />
+                            {{else if taskInstance.isSuccessful}}
+                                {{t 'osf-components.move_file_modal.success' fileName=file.name}}
+                                <FaIcon @icon='check' local-class='success'/>
+                            {{else if taskInstance.isError}}
+                                {{t 'osf-components.move_file_modal.error' fileName=file.name}}
+                                <span>
+                                    <Button
+                                        {{on 'click' (fn this.retry file index)}}
+                                    >
+                                        {{t 'osf-components.move_file_modal.retry'}}
+                                    </Button>
+                                    {{#if (eq taskInstance.error.status 409)}}
+                                        <Button
+                                            {{on 'click' (fn this.replace file index)}}
+                                        >
+                                            {{t 'osf-components.move_file_modal.replace'}}
+                                        </Button>
+                                    {{/if}}
+                                </span>
+                            {{/if}}
+                        </li>
+                    {{/let}}
+                {{/each}}
+            </ul>
         {{else}}
             <h3>{{t 'osf-components.move_file_modal.select_destination'}}</h3>
             <div>
@@ -95,6 +100,7 @@
                         {{#if item.isNode}}
                             <Button
                                 @layout='fake-link'
+                                local-class='NavButton'
                                 {{on 'click' (fn this.updateNode item)}}
                             >
                                 <span>
@@ -107,6 +113,7 @@
                             {{#let (find-by 'name' item.name @filesToMove) as |fileToBeMoved|}}
                                 <Button
                                     @layout='fake-link'
+                                    local-class='NavButton'
                                     disabled={{fileToBeMoved}}
                                     {{on 'click' (fn this.updateFolder item)}}
                                 >
@@ -140,7 +147,7 @@
                 @type='primary'
                 {{on 'click' dialog.close}}
             >
-                OK
+                {{t 'general.done'}}
             </Button>
         {{else}}
             <Button

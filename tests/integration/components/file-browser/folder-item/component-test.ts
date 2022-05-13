@@ -20,6 +20,7 @@ interface FileItem {
 interface Manager {
     parentFolder: any;
     selectFile: () => void;
+    goToFolder: () => void;
 }
 
 interface FolderItemTestContext extends TestContext {
@@ -27,7 +28,7 @@ interface FolderItemTestContext extends TestContext {
     manager: Manager;
 }
 
-module('Integration | Component | file-browser :: folder-tiem', hooks => {
+module('Integration | Component | file-browser :: folder-item', hooks => {
     setupRenderingTest(hooks);
     hooks.beforeEach(function(this: FolderItemTestContext) {
         this.item = {
@@ -42,6 +43,7 @@ module('Integration | Component | file-browser :: folder-tiem', hooks => {
         this.manager = {
             parentFolder: null,
             selectFile: () => { /* noop */ },
+            goToFolder: () => { /* noop */ },
         };
     });
 

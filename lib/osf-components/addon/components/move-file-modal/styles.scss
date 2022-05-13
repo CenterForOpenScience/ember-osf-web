@@ -1,14 +1,8 @@
-
 .AncestryWrapper {
     display: inline-flex;
     flex-wrap: wrap;
     align-items: center;
     margin-bottom: 20px;
-    // justify-content: ;
-    // color: red;
-    &>span { // ancestry override
-        width: inherit;
-    }
 }
 
 .AncestryOverride {
@@ -39,10 +33,22 @@
     border-top: solid 1px $color-border-gray;
     padding: 12px 10px;
 
-    button {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-    }
+}
+
+.MoveItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 10px;
+}
+
+.NavButton {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.success {
+    color: $brand-success;
 }

@@ -119,8 +119,10 @@ export default abstract class File {
         await this.fileModel.rename(newName, conflict);
     }
 
-    async move(node: NodeModel, path: string, provider: string) {
-        await this.fileModel.move(node, path, provider);
+    @task
+    @waitFor
+    async move(node: NodeModel, path: string, provider: string, options?: { conflict: string }) {
+        return await this.fileModel.move(node, path, provider, options);
     }
 
     async delete() {

@@ -10,14 +10,12 @@ import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
-// import FileModel from 'ember-osf-web/models/file';
 import NodeModel from 'ember-osf-web/models/node';
 import { FileSortKey } from 'ember-osf-web/packages/files/file';
 import OsfStorageManager from 'osf-components/components/storage-provider-manager/osf-storage-manager/component';
 import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
 import OsfStorageProviderFile from 'ember-osf-web/packages/files/osf-storage-provider-file';
 import CurrentUserService from 'ember-osf-web/services/current-user';
-// import RSVP from 'rsvp';
 
 interface MoveFileModalArgs {
     filesToMove: OsfStorageFile[]; // TODO: type
@@ -42,7 +40,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
     @tracked totalFiles? = 0;
     @tracked breadcrumbs: Array<OsfStorageProviderFile | OsfStorageFile> = []; // TODO: types for other providers
 
-    @tracked fileMoveTasks: Array<TaskInstance<void>> = [];
+    @tracked fileMoveTasks: Array<TaskInstance<null>> = [];
 
     get itemList() {
         return [...this.childNodeList, ...this.filesList];
@@ -82,9 +80,9 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
         return this.fileMoveTasks.length > 0;
     }
 
-    // get moveDone() {
-    //     return this.isMoving && this.fileMoveTasks.every(moveTask => moveTask.isFinished);
-    // }
+    get moveDone() {
+        return this.isMoving && this.fileMoveTasks.every(moveTask => moveTask.isFinished);
+    }
 
     @task
     @waitFor
@@ -196,13 +194,9 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
 
     @task
     @waitFor
-    async moveFile(file: OsfStorageFile, destinationNode: NodeModel, path: string, provider: string) {
-        try {
-            await file.move(destinationNode, path, provider);
-        } catch(e) {
-            console.log(e);
-            debugger
-        }
+    async moveFile(file: OsfStorageFile, destinationNode: NodeModel, path: string, provider: string,
+        options?: { conflict: string }) {
+        await file.move(destinationNode, path, provider, options);
     }
 
     @task
@@ -215,13 +209,33 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
         const provider = breadcrumbs[0];
         try {
             const moveTasks = this.args.filesToMove.map(file =>
-                taskFor(this.moveFile).perform(file, currentNode, currentFolder.path, provider.name));
+                taskFor(file.move).perform(currentNode, currentFolder.path, provider.name));
             this.fileMoveTasks = moveTasks;
             await allSettled(moveTasks);
         } catch (e) {
             console.log(e);
             debugger
         }
+    }
+
+    @action
+    retry(file: OsfStorageFile, index: number) {
+        const { currentFolder, currentNode, breadcrumbs } = this;
+        const newTaskInstance = taskFor(file.move).perform(
+            currentNode, currentFolder!.path, breadcrumbs[0].name,
+        );
+        this.fileMoveTasks[index] = newTaskInstance;
+        notifyPropertyChange(this, 'fileMoveTasks');
+    }
+
+    @action
+    replace(file: OsfStorageFile, index: number) {
+        const { currentFolder, currentNode, breadcrumbs } = this;
+        const newTaskInstance = taskFor(file.move).perform(
+            currentNode, currentFolder!.path, breadcrumbs[0].name, { conflict: 'replace' },
+        );
+        this.fileMoveTasks[index] = newTaskInstance;
+        notifyPropertyChange(this, 'fileMoveTasks');
     }
 
     @action
@@ -244,6 +258,6 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
 
     @action
     cancelMoves() {
-        this.moveFile.cancelAll();
+        this.fileMoveTasks.forEach(moveTask => moveTask.cancel());
     }
 }
