@@ -1,4 +1,4 @@
-<OsfDialog @isOpen={{@isOpen}} @onClose={{fn (mut @isOpen) false}} as |dialog|>
+<OsfDialog @isOpen={{@isOpen}} @onClose={{@closeModal}} as |dialog|>
     <dialog.heading>
         {{t 'osf-components.file-browser.delete_file'}}
     </dialog.heading>
@@ -13,13 +13,7 @@
         </Button>
         <Button
             @type='destroy'
-            {{on 'click'
-                (queue
-                    (perform @file.delete)
-                    (fn (mut @isOpen) false)
-                    @onDelete
-                )
-            }}
+            {{on 'click' (perform this.confirmDelete)}}
         >
             {{t 'osf-components.file-browser.delete'}}
         </Button>
