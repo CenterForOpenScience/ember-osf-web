@@ -102,10 +102,11 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
     @task
     @waitFor
     async changeNode(id: string) {
+        taskFor(this.loadChildNodes).cancelAll();
+        this.resetFolder();
         this.currentNode = await this.store.findRecord('node', id);
         this.childNodeList = [];
         this.childNodePage = 1;
-        this.resetFolder();
         taskFor(this.loadChildNodes).perform();
         taskFor(this.loadFiles).perform();
     }
@@ -167,6 +168,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
     @action
     updateFolder(file: OsfStorageProviderFile | OsfStorageFile) {
         this.resetNode();
+        taskFor(this.loadFiles).cancelAll();
         this.currentFolder = file;
         this.filesList = [];
         this.folderPage = 1;
@@ -188,6 +190,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
 
     @action
     resetFolder() {
+        taskFor(this.loadFiles).cancelAll();
         this.currentFolder = undefined;
         this.filesList = [];
         this.breadcrumbs = [];
@@ -253,9 +256,10 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
 
     @action
     onClose() {
-        if (this.startingFolder) {
-            this.args.manager.goToFolder(this.startingFolder);
+        if (this.startingFolder && this.fileMoveTasks.length > 0) {
+            this.args.manager.reload();
         }
+        this.args.close();
     }
 
     @action

@@ -1,6 +1,5 @@
 <OsfDialog
     @isOpen={{@isOpen}}
-    @onOpen={{this.onOpen}}
     @onClose={{this.onClose}}
     @fixedWidth={{true}}
     as |dialog|
@@ -102,7 +101,7 @@
                                 <FaIcon @icon='chevron-right' />
                             </Button>
                         {{else if item.isFolder}}
-                            {{#let (find-by 'name' item.name @filesToMove) as |fileToBeMoved|}}
+                            {{#let (find-by 'id' item.id @filesToMove) as |fileToBeMoved|}}
                                 <Button
                                     @layout='fake-link'
                                     local-class='NavButton'
@@ -130,14 +129,14 @@
     <dialog.footer>
         <Button
             @type='secondary'
-            {{on 'click' (queue this.cancelMoves @close)}}
+            {{on 'click' (queue this.cancelMoves this.onClose)}}
         >
             {{t 'general.cancel'}}
         </Button>
         {{#if this.moveDone}}
             <Button
                 @type='primary'
-                {{on 'click' @close}}
+                {{on 'click' this.onClose}}
             >
                 {{t 'general.done'}}
             </Button>
