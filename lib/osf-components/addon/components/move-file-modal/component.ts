@@ -16,6 +16,7 @@ import OsfStorageManager from 'osf-components/components/storage-provider-manage
 import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
 import OsfStorageProviderFile from 'ember-osf-web/packages/files/osf-storage-provider-file';
 import CurrentUserService from 'ember-osf-web/services/current-user';
+import captureException from 'ember-osf-web/utils/capture-exception';
 
 interface MoveFileModalArgs {
     filesToMove: OsfStorageFile[]; // TODO: type
@@ -213,8 +214,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
             this.fileMoveTasks = moveTasks;
             await allSettled(moveTasks);
         } catch (e) {
-            console.log(e);
-            debugger
+            captureException(e);
         }
     }
 
