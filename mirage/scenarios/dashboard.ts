@@ -44,7 +44,7 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
     }
 
     server.create('node', {
-        id: 'files',
+        id: 'file5',
         title: 'With some files',
         currentUserPermissions: [Permission.Read, Permission.Write],
     }, 'withFiles');

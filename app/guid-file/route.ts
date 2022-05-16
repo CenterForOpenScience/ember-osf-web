@@ -64,31 +64,45 @@ export default class GuidFile extends Route {
             }
             const provider = file.provider;
             let storageFile;
-            if (provider === 'osfstorage') {
+
+            switch(provider){
+            case 'osfstorage':
                 storageFile = new OsfStorageFile(this.currentUser, file);
-            } else if (provider === 'bitbucket') {
+                break;
+            case 'bitbucket':
                 storageFile = new BitbucketFile(this.currentUser, file);
-            } else if (provider === 'box') {
+                break;
+            case 'box':
                 storageFile = new BoxFile(this.currentUser, file);
-            } else if (provider === 'dataverse') {
+                break;
+            case 'dataverse':
                 storageFile = new DataverseFile(this.currentUser, file);
-            } else if (provider === 'dropbox') {
+                break;
+            case 'dropbox':
                 storageFile = new DropboxFile(this.currentUser, file);
-            } else if (provider === 'figshare') {
+                break;
+            case 'figshare':
                 storageFile = new FigshareFile(this.currentUser, file);
-            } else if (provider === 'github') {
+                break;
+            case 'github':
                 storageFile = new GithubFile(this.currentUser, file);
-            } else if (provider === 'gitlab') {
+                break;
+            case 'gitlab':
                 storageFile = new GitlabFile(this.currentUser, file);
-            } else if (provider === 'googledrive') {
+                break;
+            case 'googledrive':
                 storageFile = new GoogleDriveFile(this.currentUser, file);
-            } else if (provider === 'onedrive') {
+                break;
+            case 'onedrive':
                 storageFile = new OneDriveFile(this.currentUser, file);
-            } else if (provider === 'owncloud') {
+                break;
+            case 'owncloud':
                 storageFile = new OwnCloudFile(this.currentUser, file);
-            } else if (provider === 's3') {
+                break;
+            case 's3':
                 storageFile = new S3File(this.currentUser, file);
-            } else {
+                break;
+            default:
                 this.transitionTo('not-found', guid);
             }
             return storageFile;

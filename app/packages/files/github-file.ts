@@ -9,4 +9,7 @@ export default class GithubFile extends File {
         super(currentUser, fileModel);
     }
 
+    get userCanMoveToHere(): boolean {
+        return false;
+    }
 }

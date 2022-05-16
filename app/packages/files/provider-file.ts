@@ -33,11 +33,17 @@ export default abstract class ProviderFile {
     }
 
     get userCanUploadToHere() {
-        return this.currentUserPermission === 'write';
+        return (
+            this.currentUserPermission === 'write' &&
+            this.fileModel.target.get('modelName') !== 'registration'
+        );
     }
 
     get userCanMoveToHere() {
-        return this.currentUserPermission === 'write';
+        return (
+            this.currentUserPermission === 'write' &&
+            this.fileModel.target.get('modelName') !== 'registration'
+        );
     }
 
     get name() {

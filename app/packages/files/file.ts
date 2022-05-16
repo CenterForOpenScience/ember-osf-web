@@ -98,21 +98,20 @@ export default abstract class File {
         return this.fileModel.dateModified;
     }
 
-    get isUnderStorageLimit() {
-        const target = this.fileModel.target as unknown as NodeModel;
-        const storageLimitStatus = target.storage.storageLimitStatus;
-        const isPublic = target.public;
-        if (storageLimitStatus === 'OVER_PUBLIC') {
-            return false;
-        }
-        if (isPublic === false && storageLimitStatus === 'OVER_PRIVATE') {
-            return false;
-        }
-        return true;
+    get userCanMoveToHere() {
+        return (
+            this.currentUserPermission === 'write' &&
+            this.fileModel.target.get('modelName') !== 'registration' &&
+            this.isFolder
+        );
     }
 
     get userCanUploadToHere() {
-        return this.currentUserPermission === 'write';
+        return (
+            this.currentUserPermission === 'write' &&
+            this.fileModel.target.get('modelName') !== 'registration' &&
+            this.isFolder
+        );
     }
 
     async createFolder(newFolderName: string) {

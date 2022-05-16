@@ -1,4 +1,5 @@
-import isUnderStorageLimit, { FileSortKey } from 'ember-osf-web/packages/files/file';
+import { FileSortKey } from 'ember-osf-web/packages/files/file';
+import isUnderStorageLimit from 'ember-osf-web/packages/files/osf-storage-file';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
 import ProviderFile from 'ember-osf-web/packages/files/provider-file';

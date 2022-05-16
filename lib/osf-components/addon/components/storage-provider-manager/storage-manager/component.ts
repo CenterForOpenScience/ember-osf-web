@@ -83,31 +83,44 @@ export default class StorageManager extends Component<Args> {
         if (this.args.provider) {
             this.storageProvider = this.args.provider;
             const providerName = this.storageProvider.provider;
-            if (providerName === 'bitbucket') {
+            switch (providerName) {
+            case 'bitbucket':
                 this.folderLineage.push(new BitbucketProviderFile(this.currentUser, this.storageProvider));
-            } else if (providerName === 'box') {
+                break;
+            case 'box':
                 this.folderLineage.push(new BoxProviderFile(this.currentUser, this.storageProvider));
-            } else if (providerName === 'dataverse') {
+                break;
+            case 'dataverse':
                 this.folderLineage.push(new DataverseProviderFile(this.currentUser, this.storageProvider));
-            } else if (providerName === 'dropbox') {
+                break;
+            case 'dropbox':
                 this.folderLineage.push(new DropboxProviderFile(this.currentUser, this.storageProvider));
-            } else if (providerName === 'figshare') {
+                break;
+            case 'figshare':
                 this.folderLineage.push(new FigshareProviderFile(this.currentUser, this.storageProvider));
-            } else if (providerName === 'github') {
+                break;
+            case 'github':
                 this.folderLineage.push(new GithubProviderFile(this.currentUser, this.storageProvider));
-            } else if (providerName === 'gitlab') {
+                break;
+            case 'gitlab':
                 this.folderLineage.push(new GitlabProviderFile(this.currentUser, this.storageProvider));
-            } else if (providerName === 'googledrive') {
+                break;
+            case 'googledrive':
                 this.folderLineage.push(new GoogleDriveProviderFile(this.currentUser, this.storageProvider));
-            } else if (providerName === 'onedrive') {
+                break;
+            case 'onedrive':
                 this.folderLineage.push(new OneDriveProviderFile(this.currentUser, this.storageProvider));
-            } else if (providerName === 'osfstorage') {
+                break;
+            case 'osfstorage':
                 this.folderLineage.push(new OsfStorageProviderFile(this.currentUser, this.storageProvider));
-            } else if (providerName === 'owncloud') {
+                break;
+            case 'owncloud':
                 this.folderLineage.push(new OwnCloudProviderFile(this.currentUser, this.storageProvider));
-            } else if (providerName === 's3') {
+                break;
+            case 's3':
                 this.folderLineage.push(new S3ProviderFile(this.currentUser, this.storageProvider));
-            } else {
+                break;
+            default:
                 // This should only be hit in development when we haven't set up a provider properly.
                 this.router.transitionTo('not-found');
             }
