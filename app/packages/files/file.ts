@@ -60,6 +60,10 @@ export default abstract class File {
         return 'read';
     }
 
+    get currentUserCanDelete() {
+        return this.fileModel.target.get('modelName') !== 'registration';
+    }
+
     get name() {
         return this.fileModel.name;
     }
@@ -125,8 +129,10 @@ export default abstract class File {
         return await this.fileModel.move(node, path, provider, options);
     }
 
+    @task
+    @waitFor
     async delete() {
-        await this.fileModel.delete();
+        return await this.fileModel.delete();
     }
 
     @task
