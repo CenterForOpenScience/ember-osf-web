@@ -1,6 +1,5 @@
-import { FileSortKey } from 'ember-osf-web/packages/files/file';
+import isUnderStorageLimit, { FileSortKey } from 'ember-osf-web/packages/files/file';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
-import NodeModel from 'ember-osf-web/models/node';
 import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
 import ProviderFile from 'ember-osf-web/packages/files/provider-file';
 import CurrentUserService from 'ember-osf-web/services/current-user';
@@ -22,19 +21,13 @@ export default class OsfStorageProviderFile extends ProviderFile {
     }
 
     get userCanMoveToHere() {
-        const basePermission =  this.currentUserPermission === 'write';
-        if (!basePermission) {
-            return false;
+        if (this.currentUserPermission === 'write' && isUnderStorageLimit) {
+            return true;
         }
-        const target = this.fileModel.target as unknown as NodeModel;
-        const storageLimitStatus = target.storage.storageLimitStatus;
-        const isPublic = target.public;
-        if (storageLimitStatus === 'OVER_PUBLIC') {
-            return false;
-        }
-        if (isPublic === false && storageLimitStatus === 'OVER_PRIVATE') {
-            return false;
-        }
-        return true;
+        return false;
+    }
+
+    get userCanUploadToHere() {
+        return this.userCanMoveToHere;
     }
 }

@@ -1,6 +1,6 @@
 <FileBrowser::AddNew::Upload
     @manager={{@manager}}
-    @enable={{and (eq @manager.currentFolder.currentUserPermission 'write') @enableUpload}}
+    @enable={{and @manager.currentFolder.userCanUploadToHere @enableUpload}}
     as |uploadWidget|
 >
     <FileBrowser::Breadcrumbs @manager={{@manager}} />
@@ -123,7 +123,7 @@
                     @isOpen={{this.helpModalOpen}}
                     @onClose={{this.toggleHelpModal}}
                 />
-                {{#if (and (eq @manager.currentFolder.currentUserPermission 'write') @enableUpload)}}
+                {{#if (and @manager.currentFolder.userCanUploadToHere @enableUpload)}}
                     <FileBrowser::AddNew @manager={{@manager}} @setClickableElementId={{uploadWidget.setClickableElementId}} />
                 {{/if}}
             {{/if}}

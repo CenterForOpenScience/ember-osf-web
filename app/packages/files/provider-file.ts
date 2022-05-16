@@ -32,6 +32,10 @@ export default abstract class ProviderFile {
         return 'read';
     }
 
+    get userCanUploadToHere() {
+        return this.currentUserPermission === 'write';
+    }
+
     get userCanMoveToHere() {
         return this.currentUserPermission === 'write';
     }
