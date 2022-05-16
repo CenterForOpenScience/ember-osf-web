@@ -62,8 +62,24 @@
                         <FaIcon @icon='download' />
                         {{t 'general.download'}}
                     </OsfLink>
+                    {{!-- TODO: check permission --}}
+                    <Button
+                        @layout='fake-link'
+                        {{on 'click' this.toggleMoveModal}}
+                    >
+                        <FaIcon
+                            @icon='arrow-right'
+                        />
+                        {{t 'general.move'}}
+                    </Button>
                 </dropdown.content>
             </ResponsiveDropdown>
         </div>
     </li>
+    <MoveFileModal
+        @isOpen={{this.moveModalOpen}}
+        @close={{this.toggleMoveModal}}
+        @manager={{@manager}}
+        @filesToMove={{array @item}}
+    />
 {{/let}}

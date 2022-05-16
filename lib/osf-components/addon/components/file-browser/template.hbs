@@ -86,7 +86,15 @@
         <div local-class='OptionBar__right'>
             {{#if (gt @manager.selectedFiles.length 0)}}
                 {{!-- TODO: actually make these do things --}}
+                <Button
+                    {{on 'click' this.toggleMoveModal}}
+                >
+                    <FaIcon @icon='arrow-right' />
+                    {{t 'general.move'}}
+                </Button>
                 <MoveFileModal
+                    @isOpen={{this.moveModalOpen}}
+                    @close={{this.toggleMoveModal}}
                     @filesToMove={{@manager.selectedFiles}}
                     @manager={{@manager}}
                 />

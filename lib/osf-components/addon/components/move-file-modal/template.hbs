@@ -1,24 +1,16 @@
 <OsfDialog
+    @isOpen={{@isOpen}}
     @onOpen={{this.onOpen}}
     @onClose={{this.onClose}}
     @fixedWidth={{true}}
     as |dialog|
 >
-    <dialog.trigger>
-        <Button
-            @layout='fake-link'
-            {{on 'click' dialog.open}}
-        >
-            <FaIcon
-                @icon='arrow-right'
-            />
-            {{t 'general.move'}}
-        </Button>
-    </dialog.trigger>
     <dialog.heading>
         {{t 'osf-components.move_file_modal.header'}}
     </dialog.heading>
-    <dialog.main>
+    <dialog.main
+        {{did-insert this.onOpen}}
+    >
         {{#if this.isMoving}}
             <h3>{{t 'osf-components.move_file_modal.moving_files'}}</h3>
             <ul local-class='ChildList'>
@@ -138,14 +130,14 @@
     <dialog.footer>
         <Button
             @type='secondary'
-            {{on 'click' (queue this.cancelMoves dialog.close)}}
+            {{on 'click' (queue this.cancelMoves @close)}}
         >
             {{t 'general.cancel'}}
         </Button>
         {{#if this.moveDone}}
             <Button
                 @type='primary'
-                {{on 'click' dialog.close}}
+                {{on 'click' @close}}
             >
                 {{t 'general.done'}}
             </Button>

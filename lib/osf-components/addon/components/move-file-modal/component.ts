@@ -19,6 +19,8 @@ import CurrentUserService from 'ember-osf-web/services/current-user';
 import captureException from 'ember-osf-web/utils/capture-exception';
 
 interface MoveFileModalArgs {
+    isOpen: boolean;
+    close: () => void;
     filesToMove: OsfStorageFile[]; // TODO: type
     manager: OsfStorageManager;
 }
