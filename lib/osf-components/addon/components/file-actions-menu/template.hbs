@@ -48,5 +48,17 @@
                 {{t 'general.share'}}
             </dd.trigger>
         </SharingIcons::Dropdown>
+        <OsfLink
+            data-test-rename-button
+            data-analytics-name='Rename file'
+            aria-label={{t 'file_actions_menu.rename'}}
+            local-class='RenameLink'
+            value={{t 'file_actions_menu.rename'}}
+            @href='#userInput'
+            {{on 'click' @toggleRenameModal}}
+        >
+            <FaIcon @icon='pencil-alt' />
+            {{t 'file_actions_menu.rename'}}
+        </OsfLink>
     </dropdown.content>
 </ResponsiveDropdown>

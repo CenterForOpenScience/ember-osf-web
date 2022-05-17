@@ -1,0 +1,71 @@
+<OsfDialog
+    @isOpen={{@isOpen}}
+    @onClose={{@onClose}}
+    @closeOnOutsideClick={{true}}
+    @manger={{@manager}}
+    @buttonStyling={{true}}
+    aria-label={{t 'registries.overview.files.file_rename_modal.dialog_aria'}}
+    local-class='RenameModal'
+    as |dialog|
+>
+    <dialog.heading>
+        {{t 'registries.overview.files.file_rename_modal.heading'}}
+    </dialog.heading>
+    <dialog.main>
+        <div local-class='RenameInput'>
+            <Input
+                aria-label={{t 'registries.overview.files.file_rename_modal.input_aria'}}
+                @value={{this.newFileName}}
+                @type='text'
+                class='form-control'
+                onchange={{perform this.validateFileName}}
+            ></Input>
+        </div>
+    </dialog.main>
+    <dialog.footer>
+        <Button
+            data-test-cancel-rename-button
+            local-class='CancelButton'
+            @type='secondary'
+            aria-label={{t 'registries.overview.files.file_rename_modal.cancel_aria'}}
+            {{on 'click' dialog.close}}
+        >
+            {{t 'registries.overview.files.file_rename_modal.cancel'}}
+        </Button>
+        {{#if this.disabled}}
+            <Button
+                data-test-rename-button-diasabled
+                local-class='RenameButton'
+                id='renameButton'
+                @type='create'
+                disabled={{true}}
+                aria-label={{t 'registries.overview.files.file_rename_modal.save_aria'}}
+                {{on 'click' (
+                    queue
+                    this.updateFileName
+                    dialog.close
+                )
+                }}
+            >
+                {{t 'registries.overview.files.file_rename_modal.save'}}
+            </Button>
+        {{else}}
+            <Button
+                data-test-rename-button-enabled
+                local-class='RenameButton'
+                id='renameButton'
+                @type='create'
+                disabled={{false}}
+                aria-label={{t 'registries.overview.files.file_rename_modal.save_aria'}}
+                {{on 'click' (
+                    queue
+                    this.updateFileName
+                    dialog.close
+                )
+                }}
+            >
+                {{t 'registries.overview.files.file_rename_modal.save'}}
+            </Button>
+        {{/if}}
+    </dialog.footer>
+</OsfDialog>

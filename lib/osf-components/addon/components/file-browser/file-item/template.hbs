@@ -13,7 +13,10 @@
         <FaIcon
             @prefix='far' @icon='file-alt' @fixedWidth={{true}}
         />
-        <span data-test-file-name>
+        <span
+            data-test-file-name
+            id='userInput'
+        >
             {{@item.name}}
         </span>
     </OsfLink>
@@ -26,6 +29,17 @@
                 {{moment-format @item.dateModified 'YYYY-MM-DD hh:mm A'}}
             </span>
         {{/if}}
-        <FileActionsMenu @item={{@item}} />
+        <FileActionsMenu
+            @item={{@item}}
+            @toggleRenameModal={{this.openRenameModal}}
+            local-class='FileActionsButton'
+        />
+        <FileBrowser::FileRenameModal
+            @isOpen={{this.renameModalOpen}}
+            @onClose={{action this.closeRenameModal}}
+            @item={{@item}}
+            @manager={{@manager}}
+            @disabled={{this.disabled}}
+        />
     </div>
 </li>

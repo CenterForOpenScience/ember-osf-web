@@ -106,6 +106,8 @@ file_actions_menu:
     copy_html: 'Copy static HTML iFrame'
     success_message: 'Copied to clipboard'
     error_message: 'Could not copy to clipboard'
+    rename: 'Rename'
+    rename_aria: 'Open rename link'
 node_categories:
     analysis: Analysis
     communication: Communication
@@ -1370,6 +1372,20 @@ registries:
                 download_file_detail_second: 'to open the dropdown. Click “Download”. From the file list: Click the vertical ellipses'
                 download_file_detail_third: 'of the file to open the dropdown. Click “Download”.'
                 file_actions: 'File actions icon'
+            file_rename_modal:
+                heading: 'Rename file'
+                name_input: 'Please enter a new file name:'
+                cancel: 'Cancel'
+                save: 'Save'
+                rename: 'Rename'
+                label: 'Please enter a new name for the file:'
+                no_input: 'Please enter a name.'
+                dialog_aria: 'Files Rename modal'
+                input_aria: 'User input field for renaming file'
+                cancel_aria: 'Cancel renaming file'
+                save_aria: 'Save renaming file'
+                success_toast: 'File successfully renamed.'
+                error_toast: 'Please rename the file.'
         links:
             title: Links
             linked_nodes: 'Linked projects and components'
