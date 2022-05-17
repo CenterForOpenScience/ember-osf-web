@@ -26,15 +26,17 @@ export default class OsfStorageFile extends File {
     }
 
     get isUnderStorageLimit() {
-        const target = this.fileModel.target as unknown as NodeModel;
-        const storageLimitStatus = target.storage.storageLimitStatus;
-        const isPublic = target.public;
-        if (storageLimitStatus === 'OVER_PUBLIC') {
-            return false;
-        }
-        if (isPublic === false && storageLimitStatus === 'OVER_PRIVATE') {
-            return false;
-        }
-        return true;
+        return underStorageLimit(this.fileModel.target as unknown as NodeModel);
     }
+}
+export function underStorageLimit(target: NodeModel) {
+    const storageLimitStatus = target.get('storage').storageLimitStatus;
+    const isPublic = target.get('public');
+    if (storageLimitStatus === 'OVER_PUBLIC') {
+        return false;
+    }
+    if (isPublic === false && storageLimitStatus === 'OVER_PRIVATE') {
+        return false;
+    }
+    return true;
 }

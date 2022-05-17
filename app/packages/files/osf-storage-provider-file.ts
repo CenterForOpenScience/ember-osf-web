@@ -1,9 +1,10 @@
 import { FileSortKey } from 'ember-osf-web/packages/files/file';
-import isUnderStorageLimit from 'ember-osf-web/packages/files/osf-storage-file';
+import { underStorageLimit } from 'ember-osf-web/packages/files/osf-storage-file';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
 import ProviderFile from 'ember-osf-web/packages/files/provider-file';
 import CurrentUserService from 'ember-osf-web/services/current-user';
+import NodeModel from 'ember-osf-web/models/node';
 
 export default class OsfStorageProviderFile extends ProviderFile {
     constructor(currentUser: CurrentUserService,providerFileModel: FileProviderModel) {
@@ -25,7 +26,7 @@ export default class OsfStorageProviderFile extends ProviderFile {
         if (this.currentUserPermission === 'write' &&
             this.fileModel.target.get('modelName') !== 'registration' &&
             this.isFolder &&
-            isUnderStorageLimit
+            underStorageLimit(this.fileModel.target as unknown as NodeModel)
         ) {
             return true;
         }
