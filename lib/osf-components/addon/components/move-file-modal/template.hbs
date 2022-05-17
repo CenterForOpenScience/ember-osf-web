@@ -8,6 +8,7 @@
         {{t 'osf-components.move_file_modal.header'}}
     </dialog.heading>
     <dialog.main
+        data-analytics-scope='Move file modal'
         {{did-insert this.onOpen}}
     >
         {{#if this.isMoving}}
@@ -15,7 +16,10 @@
             <ul local-class='ChildList'>
                 {{#each this.fileMoveTasks as |taskInstance index| }}
                     {{#let (get @filesToMove index) as |file| }}
-                        <li local-class='ChildItem MoveItem'>
+                        <li
+                            data-test-moving-file-item={{file.id}}
+                            local-class='ChildItem MoveItem'
+                        >
                             {{#if taskInstance.isRunning}}
                                 {{t 'osf-components.move_file_modal.moving_file' fileName=file.name}}
                                 <FaIcon @icon='spinner' @pulse={{true}} />
@@ -90,6 +94,8 @@
                     <li local-class='ChildItem'>
                         {{#if item.isNode}}
                             <Button
+                                data-analytics-name='Go to child node'
+                                data-test-move-to-node={{item.id}}
                                 @layout='fake-link'
                                 local-class='NavButton'
                                 {{on 'click' (fn this.updateNode item)}}
@@ -103,6 +109,8 @@
                         {{else if item.isFolder}}
                             {{#let (find-by 'id' item.id @filesToMove) as |fileToBeMoved|}}
                                 <Button
+                                    data-analytics-name='Go to nested folder'
+                                    data-test-move-to-folder={{item.name}}
                                     @layout='fake-link'
                                     local-class='NavButton'
                                     disabled={{fileToBeMoved}}
@@ -121,7 +129,9 @@
                     </li>
                 </:item>
                 <:empty>
-                    {{t 'osf-components.move_file_modal.no_children'}}
+                    <p data-test-empty-node-or-child>
+                        {{t 'osf-components.move_file_modal.no_children'}}
+                    </p>
                 </:empty>
             </InfiniteList>
         {{/if}}
@@ -135,6 +145,8 @@
         </Button>
         {{#if this.moveDone}}
             <Button
+                data-analytics-name='Finish moving files'
+                data-test-move-done-button
                 @type='primary'
                 {{on 'click' this.onClose}}
             >
@@ -142,6 +154,8 @@
             </Button>
         {{else}}
             <Button
+                data-analytics-name='Move file(s)'
+                data-test-move-files-button
                 @type='primary'
                 disabled={{this.isDisabled}}
                 {{on 'click' (perform this.move)}}
