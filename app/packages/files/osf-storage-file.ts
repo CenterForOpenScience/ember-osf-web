@@ -1,7 +1,6 @@
 import FileModel from 'ember-osf-web/models/file';
 import NodeModel from 'ember-osf-web/models/node';
 import File from 'ember-osf-web/packages/files/file';
-import isUnderStorageLimit from 'ember-osf-web/packages/files/file';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 
 export default class OsfStorageFile extends File {
@@ -11,11 +10,19 @@ export default class OsfStorageFile extends File {
         super(currentUser, fileModel);
     }
 
-    get userCanUploadToHere() {
-        if (this.currentUserPermission === 'write' && isUnderStorageLimit) {
+    get userCanMoveToHere(): boolean {
+        if (this.currentUserPermission === 'write' &&
+            this.fileModel.target.get('modelName') !== 'registration' &&
+            this.isFolder &&
+            this.isUnderStorageLimit
+        ) {
             return true;
         }
         return false;
+    }
+
+    get userCanUploadToHere() {
+        return this.userCanMoveToHere;
     }
 
     get isUnderStorageLimit() {

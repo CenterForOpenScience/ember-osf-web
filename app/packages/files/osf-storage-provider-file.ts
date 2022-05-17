@@ -21,8 +21,12 @@ export default class OsfStorageProviderFile extends ProviderFile {
         return queryResult.map(fileModel => new OsfStorageFile(this.currentUser, fileModel));
     }
 
-    get userCanMoveToHere() {
-        if (this.currentUserPermission === 'write' && isUnderStorageLimit) {
+    get userCanMoveToHere(): boolean {
+        if (this.currentUserPermission === 'write' &&
+            this.fileModel.target.get('modelName') !== 'registration' &&
+            this.isFolder &&
+            isUnderStorageLimit
+        ) {
             return true;
         }
         return false;
