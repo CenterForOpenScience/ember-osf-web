@@ -7,27 +7,43 @@ import { restartableTask, task, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 import { FileSortKey } from 'ember-osf-web/packages/files/file';
-import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
-import OsfStorageProviderFile from 'ember-osf-web/packages/files/osf-storage-provider-file';
+import File from 'ember-osf-web/packages/files/file';
+import ProviderFile from 'ember-osf-web/packages/files/provider-file';
+import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import CurrentUserService from 'ember-osf-web/services/current-user';
+
+import BitbucketProviderFile from 'ember-osf-web/packages/files/bitbucket-provider-file';
+import BoxProviderFile from 'ember-osf-web/packages/files/box-provider-file';
+import DataverseProviderFile from 'ember-osf-web/packages/files/dataverse-provider-file';
+import DropboxProviderFile from 'ember-osf-web/packages/files/dropbox-provider-file';
+import FigshareProviderFile from 'ember-osf-web/packages/files/figshare-provider-file';
+import GithubProviderFile from 'ember-osf-web/packages/files/github-provider-file';
+import GitlabProviderFile from 'ember-osf-web/packages/files/gitlab-provider-file';
+import GoogleDriveProviderFile from 'ember-osf-web/packages/files/google-drive-provider-file';
+import OneDriveProviderFile from 'ember-osf-web/packages/files/one-drive-provider-file';
+import OsfStorageProviderFile from 'ember-osf-web/packages/files/osf-storage-provider-file';
+import OwnCloudProviderFile from 'ember-osf-web/packages/files/own-cloud-provider-file';
+import S3ProviderFile from 'ember-osf-web/packages/files/s3-provider-file';
+
 
 interface Args {
     provider: FileProviderModel;
 }
 
-export default class OsfStorageManager extends Component<Args> {
+export default class StorageManager extends Component<Args> {
     @service currentUser!: CurrentUserService;
+    @service router!: RouterService;
 
     @tracked storageProvider?: FileProviderModel;
-    @tracked folderLineage: Array<OsfStorageFile | OsfStorageProviderFile> = [];
-    @tracked displayItems: OsfStorageFile[] = [];
+    @tracked folderLineage: Array<File | ProviderFile> = [];
+    @tracked displayItems: File[] = [];
     @tracked filter = '';
     @tracked sort = FileSortKey.AscName;
     @tracked currentPage = 1;
 
-    @tracked baseSelectedFile?: OsfStorageFile;
-    @tracked selectedFiles: OsfStorageFile[] = [];
+    @tracked baseSelectedFile?: File;
+    @tracked selectedFiles: File[] = [];
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
@@ -66,7 +82,48 @@ export default class OsfStorageManager extends Component<Args> {
     async getRootFolder() {
         if (this.args.provider) {
             this.storageProvider = this.args.provider;
-            this.folderLineage.push(new OsfStorageProviderFile(this.currentUser, this.storageProvider));
+            const providerName = this.storageProvider.provider;
+            switch (providerName) {
+            case 'bitbucket':
+                this.folderLineage.push(new BitbucketProviderFile(this.currentUser, this.storageProvider));
+                break;
+            case 'box':
+                this.folderLineage.push(new BoxProviderFile(this.currentUser, this.storageProvider));
+                break;
+            case 'dataverse':
+                this.folderLineage.push(new DataverseProviderFile(this.currentUser, this.storageProvider));
+                break;
+            case 'dropbox':
+                this.folderLineage.push(new DropboxProviderFile(this.currentUser, this.storageProvider));
+                break;
+            case 'figshare':
+                this.folderLineage.push(new FigshareProviderFile(this.currentUser, this.storageProvider));
+                break;
+            case 'github':
+                this.folderLineage.push(new GithubProviderFile(this.currentUser, this.storageProvider));
+                break;
+            case 'gitlab':
+                this.folderLineage.push(new GitlabProviderFile(this.currentUser, this.storageProvider));
+                break;
+            case 'googledrive':
+                this.folderLineage.push(new GoogleDriveProviderFile(this.currentUser, this.storageProvider));
+                break;
+            case 'onedrive':
+                this.folderLineage.push(new OneDriveProviderFile(this.currentUser, this.storageProvider));
+                break;
+            case 'osfstorage':
+                this.folderLineage.push(new OsfStorageProviderFile(this.currentUser, this.storageProvider));
+                break;
+            case 'owncloud':
+                this.folderLineage.push(new OwnCloudProviderFile(this.currentUser, this.storageProvider));
+                break;
+            case 's3':
+                this.folderLineage.push(new S3ProviderFile(this.currentUser, this.storageProvider));
+                break;
+            default:
+                // This should only be hit in development when we haven't set up a provider properly.
+                this.router.transitionTo('not-found');
+            }
             notifyPropertyChange(this, 'folderLineage');
         }
     }
@@ -86,7 +143,7 @@ export default class OsfStorageManager extends Component<Args> {
 
     @task
     @waitFor
-    async goToFolder(folder: OsfStorageFile) {
+    async goToFolder(folder: File) {
         this.filter = '';
         const index = this.folderLineage.indexOf(folder);
         if (index >= 0) {
@@ -138,7 +195,7 @@ export default class OsfStorageManager extends Component<Args> {
     }
 
     @action
-    selectFile(file: OsfStorageFile, event: PointerEvent) {
+    selectFile(file: File, event: PointerEvent) {
         if (document.getSelection()) {
             document.getSelection()!.removeAllRanges();
         }

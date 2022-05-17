@@ -5,10 +5,10 @@ import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
-import OsfStorageManager from 'osf-components/components/storage-provider-manager/osf-storage-manager/component';
+import StorageManager from 'osf-components/components/storage-provider-manager/storage-manager/component';
 
 interface Args {
-    manager: OsfStorageManager;
+    manager: StorageManager;
     isOpen: boolean;
 }
 

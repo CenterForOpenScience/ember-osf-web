@@ -84,7 +84,7 @@
                         >
                             {{#each this.registration.files as |provider|}}
                                 <div local-class='FileProvider'>
-                                    {{t (concat 'registries.overview.files.storage_providers.' provider.name)}}
+                                    {{t (concat 'osf-components.file-browser.storage_providers.' provider.name)}}
                                     {{#if (eq provider.name 'osfstorage')}}
                                         <span>
                                             <FaIcon

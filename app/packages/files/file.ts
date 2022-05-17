@@ -40,6 +40,10 @@ export default abstract class File {
     @tracked fileModel: FileModel;
     @tracked totalFileCount = 0;
     @tracked waterButlerRevisions?: WaterButlerRevision[];
+    userCanDownloadAsZip = true;
+    shouldShowTags = false;
+    shouldShowRevisions = true;
+    providerHandlesVersioning = true;
 
     currentUser: CurrentUserService;
 
@@ -56,12 +60,15 @@ export default abstract class File {
         return this.fileModel.isFolder;
     }
 
-    get currentUserPermission() {
+    get currentUserPermission(): string {
+        if (this.fileModel.target.get('currentUserPermissions').includes(Permission.Write)) {
+            return 'write';
+        }
         return 'read';
     }
 
     get currentUserCanDelete() {
-        return this.fileModel.target.get('modelName') !== 'registration';
+        return (this.fileModel.target.get('modelName') !== 'registration' && this.currentUserPermission === 'write');
     }
 
     get name() {
@@ -89,6 +96,22 @@ export default abstract class File {
 
     get dateModified() {
         return this.fileModel.dateModified;
+    }
+
+    get userCanMoveToHere() {
+        return (
+            this.currentUserPermission === 'write' &&
+            this.fileModel.target.get('modelName') !== 'registration' &&
+            this.isFolder
+        );
+    }
+
+    get userCanUploadToHere() {
+        return (
+            this.currentUserPermission === 'write' &&
+            this.fileModel.target.get('modelName') !== 'registration' &&
+            this.isFolder
+        );
     }
 
     async createFolder(newFolderName: string) {

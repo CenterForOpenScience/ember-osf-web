@@ -1,10 +1,10 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
-import OsfStorageManager from 'osf-components/components/storage-provider-manager/osf-storage-manager/component';
+import StorageManager from 'osf-components/components/storage-provider-manager/storage-manager/component';
 
 interface Args {
-    manager: OsfStorageManager;
+    manager: StorageManager;
     isOpen: boolean;
 }
 

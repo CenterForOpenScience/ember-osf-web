@@ -22,7 +22,7 @@ module('Registries | Acceptance | overview.files', hooks => {
         await visit(`/${registration.id}/files/osfstowage`);
         assert.equal(currentRouteName(), 'registries.overview.files.provider', 'At file provider route');
         assert.dom('[data-test-file-provider-invalid-provider]')
-            .containsText(t('registries.overview.files.storage_providers.invalidProviderDetails'));
+            .containsText(t('osf-components.file-browser.storage_providers.invalidProviderDetails'));
         assert.dom('[data-test-file-provider-invalid-provider-link]').exists('Links to proper provider');
         assert.dom('[data-test-file-list-item]').doesNotExist('No file items');
     });
@@ -44,7 +44,7 @@ module('Registries | Acceptance | overview.files', hooks => {
         assert.dom('[data-test-file-help]').exists('File help button exists');
 
         assert.dom('[data-test-file-providers-list]').containsText(
-            t('registries.overview.files.storage_providers.osfstorage'),'File providers list contains OSF Storage',
+            t('osf-components.file-browser.storage_providers.osfstorage'),'File providers list contains OSF Storage',
         );
 
         assert.dom('[data-test-download-all]').hasAttribute(
