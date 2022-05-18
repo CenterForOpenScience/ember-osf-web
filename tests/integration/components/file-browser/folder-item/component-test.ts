@@ -15,6 +15,7 @@ interface FileItem {
     links: Links;
     dateModified: string;
     id: string;
+    userCanDownloadAsZip: boolean;
 }
 
 interface Manager {
@@ -39,6 +40,7 @@ module('Integration | Component | file-browser :: folder-item', hooks => {
                 download: 'thisisafakedownloadlink',
             },
             dateModified: Date(),
+            userCanDownloadAsZip: true,
         };
         this.manager = {
             parentFolder: null,

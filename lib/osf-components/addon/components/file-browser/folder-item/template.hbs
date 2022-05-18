@@ -36,45 +36,47 @@
                 {{@item.name}}
             </span>
         </Button>
-        <div
-            data-test-file-list-date
-            local-class='FileList__item__options NoShrink'
-        >
-            <ResponsiveDropdown
-                local-class='DownloadShareDropdown'
-                @renderInPlace={{true}}
-                @buttonStyling={{true}}
-                @horizontalPosition='right'
-                as |dropdown|
+        {{#if @item.userCanDownloadAsZip}}
+            <div
+                data-test-file-list-date
+                local-class='FileList__item__options NoShrink'
             >
-                <dropdown.trigger
-                    aria-label={{t 'file_actions_menu.actions' filename=@item.name}}
-                    data-test-file-download-share-trigger
-                    data-analytics-name='Folder actions'
+                <ResponsiveDropdown
+                    local-class='DownloadShareDropdown'
+                    @renderInPlace={{true}}
+                    @buttonStyling={{true}}
+                    @horizontalPosition='right'
+                    as |dropdown|
                 >
-                    <FaIcon @icon='ellipsis-v' />
-                </dropdown.trigger>
-                <dropdown.content local-class='DropdownList'>
-                    <OsfLink
-                        @href={{@item.links.download}}
-                        data-test-download-button
+                    <dropdown.trigger
+                        aria-label={{t 'file_actions_menu.actions' filename=@item.name}}
+                        data-test-file-download-share-trigger
+                        data-analytics-name='Folder actions'
                     >
-                        <FaIcon @icon='download' />
-                        {{t 'general.download'}}
-                    </OsfLink>
-                    {{!-- TODO: check permission --}}
-                    <Button
-                        @layout='fake-link'
-                        {{on 'click' this.toggleMoveModal}}
-                    >
-                        <FaIcon
-                            @icon='arrow-right'
-                        />
-                        {{t 'general.move'}}
-                    </Button>
-                </dropdown.content>
-            </ResponsiveDropdown>
-        </div>
+                        <FaIcon @icon='ellipsis-v' />
+                    </dropdown.trigger>
+                    <dropdown.content local-class='DropdownList'>
+                        <OsfLink
+                            @href={{@item.links.download}}
+                            data-test-download-button
+                        >
+                            <FaIcon @icon='download' />
+                            {{t 'general.download'}}
+                        </OsfLink>
+                        {{!-- TODO: check permission --}}
+                        <Button
+                            @layout='fake-link'
+                            {{on 'click' this.toggleMoveModal}}
+                        >
+                            <FaIcon
+                                @icon='arrow-right'
+                            />
+                            {{t 'general.move'}}
+                        </Button>
+                    </dropdown.content>
+                </ResponsiveDropdown>
+            </div>
+        {{/if}}
     </li>
     <MoveFileModal
         @isOpen={{this.moveModalOpen}}

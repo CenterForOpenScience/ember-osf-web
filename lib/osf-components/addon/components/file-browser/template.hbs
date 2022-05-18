@@ -1,4 +1,8 @@
-<FileBrowser::AddNew::Upload @manager={{@manager}} @enable={{@enableUpload}} as |uploadWidget|>
+<FileBrowser::AddNew::Upload
+    @manager={{@manager}}
+    @enable={{and @manager.currentFolder.userCanUploadToHere @enableUpload}}
+    as |uploadWidget|
+>
     <FileBrowser::Breadcrumbs
         @breadcrumbs={{@manager.folderLineage}}
         @currentFolder={{@manager.currentFolder}}
@@ -115,7 +119,7 @@
                     {{t 'general.delete'}}
                 </Button>
             {{else}}
-                {{#if @manager.currentFolder}}
+                {{#if (and @manager.currentFolder @manager.currentFolder.userCanDownloadAsZip)}}
                     <OsfLink
                         data-test-download-all
                         data-analytics-name='Download all files from current folder'
@@ -139,7 +143,7 @@
                     @isOpen={{this.helpModalOpen}}
                     @onClose={{this.toggleHelpModal}}
                 />
-                {{#if @enableUpload}}
+                {{#if (and @manager.currentFolder.userCanUploadToHere @enableUpload)}}
                     <FileBrowser::AddNew @manager={{@manager}} @setClickableElementId={{uploadWidget.setClickableElementId}} />
                 {{/if}}
             {{/if}}

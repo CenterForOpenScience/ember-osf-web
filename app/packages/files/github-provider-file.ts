@@ -1,12 +1,10 @@
 import { FileSortKey } from 'ember-osf-web/packages/files/file';
-import { underStorageLimit } from 'ember-osf-web/packages/files/osf-storage-file';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
-import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
+import GithubFile from 'ember-osf-web/packages/files/github-file';
 import ProviderFile from 'ember-osf-web/packages/files/provider-file';
 import CurrentUserService from 'ember-osf-web/services/current-user';
-import NodeModel from 'ember-osf-web/models/node';
 
-export default class OsfStorageProviderFile extends ProviderFile {
+export default class GithubProviderFile extends ProviderFile {
     constructor(currentUser: CurrentUserService,providerFileModel: FileProviderModel) {
         super(currentUser, providerFileModel);
     }
@@ -19,21 +17,10 @@ export default class OsfStorageProviderFile extends ProviderFile {
                 'filter[name]': filter,
             });
         this.totalFileCount = queryResult.meta.total;
-        return queryResult.map(fileModel => new OsfStorageFile(this.currentUser, fileModel));
+        return queryResult.map(fileModel => new GithubFile(this.currentUser, fileModel));
     }
 
-    get userCanMoveToHere(): boolean {
-        if (this.currentUserPermission === 'write' &&
-            this.fileModel.target.get('modelName') !== 'registration' &&
-            this.isFolder &&
-            underStorageLimit(this.fileModel.target as unknown as NodeModel)
-        ) {
-            return true;
-        }
+    get userCanMoveToHere() {
         return false;
-    }
-
-    get userCanUploadToHere() {
-        return this.userCanMoveToHere;
     }
 }
