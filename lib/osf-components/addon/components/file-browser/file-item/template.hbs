@@ -43,7 +43,9 @@
                     {{moment-format @item.dateModified 'YYYY-MM-DD hh:mm A'}}
                 </span>
             {{/if}}
-            <FileActionsMenu @item={{@item}} @manager={{@manager}} />
+            {{#if (eq @manager.selectedFiles.length 0)}}
+                <FileActionsMenu @item={{@item}} @manager={{@manager}} />
+            {{/if}}
         </div>
     </li>
 {{/let}}

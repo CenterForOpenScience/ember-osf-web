@@ -36,7 +36,7 @@
                 {{@item.name}}
             </span>
         </Button>
-        {{#if @item.userCanDownloadAsZip}}
+        {{#if this.showActionsDropdown}}
             <div
                 data-test-file-list-date
                 local-class='FileList__item__options NoShrink'
@@ -56,23 +56,26 @@
                         <FaIcon @icon='ellipsis-v' />
                     </dropdown.trigger>
                     <dropdown.content local-class='DropdownList'>
-                        <OsfLink
-                            @href={{@item.links.download}}
-                            data-test-download-button
-                        >
-                            <FaIcon @icon='download' />
-                            {{t 'general.download'}}
-                        </OsfLink>
-                        {{!-- TODO: check permission --}}
-                        <Button
-                            @layout='fake-link'
-                            {{on 'click' this.toggleMoveModal}}
-                        >
-                            <FaIcon
-                                @icon='arrow-right'
-                            />
-                            {{t 'general.move'}}
-                        </Button>
+                        {{#if @item.userCanDownloadAsZip}}
+                            <OsfLink
+                                @href={{@item.links.download}}
+                                data-test-download-button
+                            >
+                                <FaIcon @icon='download' />
+                                {{t 'general.download'}}
+                            </OsfLink>
+                        {{/if}}
+                        {{#if @item.currentUserCanDelete}}
+                            <Button
+                                @layout='fake-link'
+                                {{on 'click' this.toggleMoveModal}}
+                            >
+                                <FaIcon
+                                    @icon='arrow-right'
+                                />
+                                {{t 'general.move'}}
+                            </Button>
+                        {{/if}}
                     </dropdown.content>
                 </ResponsiveDropdown>
             </div>
