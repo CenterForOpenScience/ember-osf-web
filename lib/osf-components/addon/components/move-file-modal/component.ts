@@ -12,17 +12,18 @@ import Toast from 'ember-toastr/services/toast';
 
 import NodeModel from 'ember-osf-web/models/node';
 import { FileSortKey } from 'ember-osf-web/packages/files/file';
-import OsfStorageManager from 'osf-components/components/storage-provider-manager/osf-storage-manager/component';
-import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
-import OsfStorageProviderFile from 'ember-osf-web/packages/files/osf-storage-provider-file';
+import StorageManager, { getStorageProviderFile }
+    from 'osf-components/components/storage-provider-manager/storage-manager/component';
+import File from 'ember-osf-web/packages/files/file';
+import ProviderFile from 'ember-osf-web/packages/files/provider-file';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import captureException from 'ember-osf-web/utils/capture-exception';
 
 interface MoveFileModalArgs {
     isOpen: boolean;
     close: () => void;
-    filesToMove: OsfStorageFile[]; // TODO: type
-    manager: OsfStorageManager;
+    filesToMove: File[];
+    manager: StorageManager;
 }
 
 export default class MoveFileModalComponent extends Component<MoveFileModalArgs> {
@@ -36,17 +37,17 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
     @tracked childNodePage = 1;
     @tracked totalChildNodes = 0;
 
-    @tracked startingFolder?: OsfStorageProviderFile | OsfStorageFile;
-    @tracked currentFolder?: OsfStorageProviderFile | OsfStorageFile; // TODO: types for other providers
-    @tracked filesList: Array<OsfStorageProviderFile | OsfStorageFile> = [];// TODO: types for other providers
+    @tracked startingFolder?: ProviderFile | File;
+    @tracked currentFolder?: ProviderFile | File;
+    @tracked filesList: Array<ProviderFile | File> = [];
     @tracked folderPage = 1;
     @tracked totalFiles? = 0;
-    @tracked breadcrumbs: Array<OsfStorageProviderFile | OsfStorageFile> = []; // TODO: types for other providers
+    @tracked breadcrumbs: Array<ProviderFile | File> = [];
 
     @tracked fileMoveTasks: Array<TaskInstance<null>> = [];
 
     get itemList() {
-        return [...this.childNodeList, ...this.filesList];
+        return [...this.filesList, ...this.childNodeList];
     }
 
     get hasMore() {
@@ -120,8 +121,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
                 page: this.folderPage,
             });
             fileList = fileList.map(
-                // TODO: generalize for other providers
-                fileProviderModel => new OsfStorageProviderFile(this.currentUser, fileProviderModel),
+                fileProviderModel => getStorageProviderFile(this.currentUser, fileProviderModel),
             );
         } else {
             fileList = await this.currentFolder.getFolderItems(this.folderPage, FileSortKey.AscName, '');
@@ -166,7 +166,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
     }
 
     @action
-    updateFolder(file: OsfStorageProviderFile | OsfStorageFile) {
+    updateFolder(file: ProviderFile | File) {
         this.resetNode();
         taskFor(this.loadFiles).cancelAll();
         this.currentFolder = file;
@@ -200,7 +200,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
 
     @task
     @waitFor
-    async moveFile(file: OsfStorageFile, destinationNode: NodeModel, path: string, provider: string,
+    async moveFile(file: File, destinationNode: NodeModel, path: string, provider: string,
         options?: { conflict: string }) {
         await file.move(destinationNode, path, provider, options);
     }
@@ -224,7 +224,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
     }
 
     @action
-    retry(file: OsfStorageFile, index: number) {
+    retry(file: File, index: number) {
         const { currentFolder, currentNode, breadcrumbs } = this;
         const newTaskInstance = taskFor(file.move).perform(
             currentNode, currentFolder!.path, breadcrumbs[0].name,
@@ -234,7 +234,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
     }
 
     @action
-    replace(file: OsfStorageFile, index: number) {
+    replace(file: File, index: number) {
         const { currentFolder, currentNode, breadcrumbs } = this;
         const newTaskInstance = taskFor(file.move).perform(
             currentNode, currentFolder!.path, breadcrumbs[0].name, { conflict: 'replace' },
