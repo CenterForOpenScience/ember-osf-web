@@ -15,9 +15,4 @@ export default class FileActionsMenu extends Component<Args> {
     closeDeleteModal() {
         this.isDeleteModalOpen = false;
     }
-
-    @action
-    toggleMoveModal() {
-        this.moveModalOpen = !this.moveModalOpen;
-    }
 }

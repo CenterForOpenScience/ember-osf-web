@@ -1,4 +1,3 @@
-import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import File from 'ember-osf-web/packages/files/file';
@@ -15,10 +14,5 @@ export default class FolderItem extends Component<Args> {
     get showActionsDropdown() {
         const { item, manager } = this.args;
         return item.userCanDownloadAsZip && manager.selectedFiles.length === 0;
-    }
-
-    @action
-    toggleMoveModal() {
-        this.moveModalOpen = !this.moveModalOpen;
     }
 }

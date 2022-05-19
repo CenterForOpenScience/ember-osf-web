@@ -68,7 +68,7 @@
                         {{#if @item.currentUserCanDelete}}
                             <Button
                                 @layout='fake-link'
-                                {{on 'click' this.toggleMoveModal}}
+                                {{on 'click' (action (mut this.moveModalOpen) true)}}
                             >
                                 <FaIcon
                                     @icon='arrow-right'
@@ -83,7 +83,7 @@
     </li>
     <MoveFileModal
         @isOpen={{this.moveModalOpen}}
-        @close={{this.toggleMoveModal}}
+        @close={{action (mut this.moveModalOpen) false}}
         @manager={{@manager}}
         @filesToMove={{array @item}}
     />

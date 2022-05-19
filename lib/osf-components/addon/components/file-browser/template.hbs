@@ -91,14 +91,14 @@
             {{#if (gt @manager.selectedFiles.length 0)}}
                 {{#if @manager.currentFolder.userCanUploadToHere}}
                     <Button
-                        {{on 'click' this.toggleMoveModal}}
+                        {{on 'click' (action (mut this.moveModalOpen) true)}}
                     >
                         <FaIcon @icon='arrow-right' />
                         {{t 'general.move'}}
                     </Button>
                     <MoveFileModal
                         @isOpen={{this.moveModalOpen}}
-                        @close={{this.toggleMoveModal}}
+                        @close={{action (mut this.moveModalOpen) false}}
                         @filesToMove={{@manager.selectedFiles}}
                         @manager={{@manager}}
                     />

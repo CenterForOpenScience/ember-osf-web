@@ -32,9 +32,4 @@ export default class FileBrowser extends Component<Args> {
     toggleHelpModal() {
         this.helpModalOpen = !this.helpModalOpen;
     }
-
-    @action
-    toggleMoveModal() {
-        this.moveModalOpen = !this.moveModalOpen;
-    }
 }
