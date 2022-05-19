@@ -113,7 +113,9 @@
                         @provider={{this.model.providerTask.value.provider}}
                         as |manager|
                     >
-                        <FileBrowser @manager={{manager}} @selectable={{true}} @enableUpload={{true}} />
+                        <div local-class='FileBrowser'>
+                            <FileBrowser @manager={{manager}} @selectable={{true}} @enableUpload={{true}} />
+                        </div>
                     </ProviderManager>
                 {{/let}}
             </StorageProviderManager::ProviderMapper>
