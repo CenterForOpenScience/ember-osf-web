@@ -5,14 +5,14 @@
     as |dialog|
 >
     <dialog.heading>
-        {{t 'osf-components.move_file_modal.header'}}
+        {{t 'osf-components.move_file_modal.header' itemCount=@filesToMove.length}}
     </dialog.heading>
     <dialog.main
         data-analytics-scope='Move file modal'
         {{did-insert this.onOpen}}
     >
         {{#if this.isMoving}}
-            <h3>{{t 'osf-components.move_file_modal.moving_files'}}</h3>
+            <h3 local-class='ActionHeading'>{{t 'osf-components.move_file_modal.moving_files'}}</h3>
             <ul local-class='ChildList'>
                 {{#each this.fileMoveTasks as |taskInstance index| }}
                     {{#let (get @filesToMove index) as |file| }}
@@ -48,41 +48,25 @@
                 {{/each}}
             </ul>
         {{else}}
-            <h3>{{t 'osf-components.move_file_modal.select_destination'}}</h3>
-            <div>
-                Files to move:
-                {{#each @filesToMove as |file|}}
-                    {{file.name}}
-                {{/each}}
-            </div>
+            <h3 local-class='ActionHeading'>{{t 'osf-components.move_file_modal.select_destination'}}</h3>
             <div local-class='AncestryWrapper'>
                 <AncestryDisplay
                     @node={{this.currentNode}}
                     @onAncestorSelect={{this.updateNode}}
                     local-class='AncestryOverride'
                 />
-                {{#if this.currentFolder}}
-                    <Button
-                        data-test-go-to-current-node-file-providers
-                        @layout='fake-link'
-                        {{on 'click' (fn this.updateNode this.currentNode)}}
-                    >
-                        <NodeCard::NodeIcon @category={{this.currentNode.category}} />
-                        {{this.currentNode.title}}
-                    </Button>
-                {{else}}
-                    <span>
-                        <NodeCard::NodeIcon @category={{this.currentNode.category}} />
-                        {{this.currentNode.title}}
-                    </span>
-                {{/if}}
-                <FileBrowser::Breadcrumbs
-                    @breadcrumbs={{this.breadcrumbs}}
+                <MoveFileModal::CurrentNodeItem
+                    @node={{this.currentNode}}
                     @currentFolder={{this.currentFolder}}
-                    @goToFolder={{this.updateFolder}}
-                    local-class='BreadcrumbsOverride'
+                    @onNodeSelect={{this.updateNode}}
                 />
             </div>
+            <FileBrowser::Breadcrumbs
+                @breadcrumbs={{this.breadcrumbs}}
+                @currentFolder={{this.currentFolder}}
+                @goToFolder={{this.updateFolder}}
+                local-class='BreadcrumbsOverride'
+            />
             <InfiniteList
                 @itemList={{this.itemList}}
                 @hasMore={{this.hasMore}}
@@ -91,42 +75,13 @@
                 local-class='ChildList'
             >
                 <:item as |item|>
-                    <li local-class='ChildItem'>
-                        {{#if item.isNode}}
-                            <Button
-                                data-analytics-name='Go to child node'
-                                data-test-move-to-node={{item.id}}
-                                @layout='fake-link'
-                                local-class='NavButton'
-                                {{on 'click' (fn this.updateNode item)}}
-                            >
-                                <span>
-                                    <NodeCard::NodeIcon @category={{item.category}} />
-                                    {{item.title}}
-                                </span>
-                                <FaIcon @icon='chevron-right' />
-                            </Button>
-                        {{else if item.isFolder}}
-                            {{#let (find-by 'id' item.id @filesToMove) as |fileToBeMoved|}}
-                                <Button
-                                    data-analytics-name='Go to nested folder'
-                                    data-test-move-to-folder={{item.name}}
-                                    @layout='fake-link'
-                                    local-class='NavButton'
-                                    disabled={{fileToBeMoved}}
-                                    {{on 'click' (fn this.updateFolder item)}}
-                                >
-                                    <span>
-                                        <FaIcon @icon='folder-open' />
-                                        {{item.name}}
-                                    </span>
-                                    <FaIcon @icon='chevron-right' />
-                                </Button>
-                            {{/let}}
-                        {{else}}
-                            <p>{{item.name}}</p>
-                        {{/if}}
-                    </li>
+                    <MoveFileModal::ListItem
+                        @item={{item}}
+                        @filesToMove={{@filesToMove}}
+                        @onNodeSelect={{this.updateNode}}
+                        @onFolderSelect={{this.updateFolder}}
+                        @isProvider={{eq this.breadcrumbs.length 0}}
+                    />
                 </:item>
                 <:empty>
                     <p data-test-empty-node-or-child>

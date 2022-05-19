@@ -59,6 +59,7 @@
         {{#if @item.currentUserCanDelete}}
             <Button
                 @layout='fake-link'
+                local-class='DropdownItem'
                 {{on 'click' (action (mut this.moveModalOpen) true)}}
             >
                 <FaIcon

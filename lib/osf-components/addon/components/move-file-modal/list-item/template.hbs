@@ -1,0 +1,43 @@
+<li local-class='ChildItem'>
+    {{#if @item.isNode}}
+        <Button
+            data-analytics-name='Go to child node'
+            data-test-move-to-node={{@item.id}}
+            @layout='fake-link'
+            local-class='NavButton'
+            {{on 'click' (fn @onNodeSelect @item)}}
+        >
+            <span>
+                <NodeCard::NodeIcon @category={{@item.category}} />
+                {{@item.title}}
+            </span>
+            <FaIcon @icon='chevron-right' />
+        </Button>
+    {{else if @item.isFolder}}
+        {{#let (find-by 'id' @item.id @filesToMove) as |fileToBeMoved|}}
+            <Button
+                data-analytics-name='Go to nested folder'
+                data-test-move-to-folder={{@item.name}}
+                @layout='fake-link'
+                local-class='NavButton'
+                disabled={{fileToBeMoved}}
+                {{on 'click' (fn @onFolderSelect @item)}}
+            >
+                <span>
+                    {{!-- {{#if @isProvider}}
+                        TODO: Add logo here
+                    {{else}} --}}
+                    <FaIcon @icon='folder-open' />
+                    {{!-- {{/if}} --}}
+                    {{@item.name}}
+                </span>
+                <FaIcon @icon='chevron-right' />
+            </Button>
+        {{/let}}
+    {{else}}
+        <span local-class='FileItem'>
+            <FaIcon @icon='file' />
+            {{@item.name}}
+        </span>
+    {{/if}}
+</li>

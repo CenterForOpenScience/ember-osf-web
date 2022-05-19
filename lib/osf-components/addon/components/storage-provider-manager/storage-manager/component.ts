@@ -12,8 +12,6 @@ import ProviderFile from 'ember-osf-web/packages/files/provider-file';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import CurrentUserService from 'ember-osf-web/services/current-user';
-import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
-import DraftNode from 'ember-osf-web/models/draft-node';
 
 import BitbucketProviderFile from 'ember-osf-web/packages/files/bitbucket-provider-file';
 import BoxProviderFile from 'ember-osf-web/packages/files/box-provider-file';
@@ -83,7 +81,6 @@ export default class StorageManager extends Component<Args> {
     @service currentUser!: CurrentUserService;
     @service router!: RouterService;
 
-    @tracked targetNode?: AbstractNodeModel | DraftNode;
     @tracked storageProvider?: FileProviderModel;
     @tracked folderLineage: Array<File | ProviderFile> = [];
     @tracked displayItems: File[] = [];
@@ -97,10 +94,12 @@ export default class StorageManager extends Component<Args> {
     constructor(owner: unknown, args: Args) {
         super(owner, args);
         assert('@provider must be provided', this.args.provider);
-        this.targetNode = this.args.provider.target.content;
         taskFor(this.getRootFolderItems).perform();
     }
 
+    get targetNode() {
+        return this.args.provider.target.content;
+    }
     get rootFolder() {
         return this.folderLineage[0];
     }

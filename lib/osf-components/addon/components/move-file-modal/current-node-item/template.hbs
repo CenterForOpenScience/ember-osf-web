@@ -1,0 +1,16 @@
+{{#if @currentFolder}}
+    <Button
+        data-test-go-to-current-node-file-providers
+        @layout='fake-link'
+        {{on 'click' (fn @onNodeSelect @node)}}
+    >
+        <NodeCard::NodeIcon @category={{@node.category}} />
+        {{@node.title}}
+    </Button>
+{{else}}
+    <NodeCard::NodeIcon @category={{@node.category}} />
+    {{@node.title}}
+    <p>
+        {{this.destinationSelectHelpText}}
+    </p>
+{{/if}}
