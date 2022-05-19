@@ -55,6 +55,7 @@
     border-left: 2px solid $color-border-gray-darker;
     padding-left: 17px;
     margin: 0 18px;
+    padding-top: 2px;
 
     :global(.active) {
         border-left: 4px solid $color-black;
