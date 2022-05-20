@@ -19,7 +19,7 @@ export default class GuidNodeFilesProviderRoute extends Route.extend({}) {
             },
         );
         const provider = fileProviders.findBy('id', fileProviderId) as FileProviderModel;
-        return provider;
+        return {provider, fileProviders, node};
     }
 
     model(params: { providerId: string }) {
