@@ -73,10 +73,13 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
     }
 
     get isDisabled() {
-        const {currentFolder, currentNode } = this;
-        const providerIsReadOnly = false; // this.args.manager.provider.isReadOnly;
-        const invalidDestination = this.currentFolder === this.startingFolder;
-        return !currentFolder || providerIsReadOnly || invalidDestination
+        const { currentFolder, currentNode, breadcrumbs } = this;
+        if (!currentFolder || !currentNode || breadcrumbs.length === 0) {
+            return true;
+        }
+        const providerIsReadOnly = !breadcrumbs[0].userCanMoveToHere;
+        const invalidDestination = currentFolder.id === this.startingFolder!.id;
+        return providerIsReadOnly || invalidDestination
             || !currentNode.userHasWritePermission || this.isMoving;
     }
 

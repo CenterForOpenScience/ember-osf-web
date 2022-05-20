@@ -14,28 +14,33 @@
             <FaIcon @icon='chevron-right' />
         </Button>
     {{else if @item.isFolder}}
-        {{#let (find-by 'id' @item.id @filesToMove) as |fileToBeMoved|}}
-            <Button
-                data-analytics-name='Go to nested folder'
-                data-test-move-to-folder={{@item.name}}
-                @layout='fake-link'
-                local-class='NavButton'
-                disabled={{fileToBeMoved}}
-                {{on 'click' (fn @onFolderSelect @item)}}
-            >
-                <span>
-                    {{!-- {{#if @isProvider}}
-                        TODO: Add logo here
-                    {{else}} --}}
+        <Button
+            data-analytics-name='Go to nested folder'
+            data-test-move-to-folder={{@item.name}}
+            @layout='fake-link'
+            local-class='NavButton {{if this.isReadOnlyProvider 'InvalidDestination'}}'
+            disabled={{this.shouldDisable}}
+            {{on 'click' (fn @onFolderSelect @item)}}
+        >
+            <span>
+                {{#if @isProvider}}
+                    {{!-- TODO: Add logo here --}}
+                    <FaIcon @icon='folder' />
+                    {{t (concat 'osf-components.file-browser.storage_providers.' @item.name)}}
+                    {{#if this.isReadOnlyProvider}}
+                        <span local-class='ReadOnlyProvider'>
+                            {{t 'osf-components.move_file_modal.read_only_provider'}}
+                        </span>
+                    {{/if}}
+                {{else}}
                     <FaIcon @icon='folder-open' />
-                    {{!-- {{/if}} --}}
                     {{@item.name}}
-                </span>
-                <FaIcon @icon='chevron-right' />
-            </Button>
-        {{/let}}
+                {{/if}}
+            </span>
+            <FaIcon @icon='chevron-right' />
+        </Button>
     {{else}}
-        <span local-class='FileItem'>
+        <span local-class='InvalidDestination'>
             <FaIcon @icon='file' />
             {{@item.name}}
         </span>

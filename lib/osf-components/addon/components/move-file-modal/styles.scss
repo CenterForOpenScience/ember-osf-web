@@ -3,7 +3,7 @@
 }
 
 .AncestryWrapper {
-    margin-bottom: 20px;
+    margin-bottom: 8px;
 }
 
 .AncestryOverride {
@@ -19,7 +19,8 @@
 }
 
 .BreadcrumbsOverride {
-    padding-right: 24px;
+    margin-bottom: 0;
+    padding: 0 1em;
 
     li {
         font-size: inherit;
@@ -30,11 +31,16 @@
 .ChildList {
     list-style-type: none;
     padding-inline-start: 0;
-    padding: 0 20px;
+    padding: 20px 20px 0;
 
     > li:last-of-type {
         border-bottom: solid 1px $color-border-gray;
     }
+}
+
+.ChildItem {
+    border-top: solid 1px $color-border-gray;
+    padding: 12px 10px;
 }
 
 .MoveItem {

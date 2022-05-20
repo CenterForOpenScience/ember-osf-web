@@ -77,6 +77,7 @@
                 <:item as |item|>
                     <MoveFileModal::ListItem
                         @item={{item}}
+                        @currentNode={{this.currentNode}}
                         @filesToMove={{@filesToMove}}
                         @onNodeSelect={{this.updateNode}}
                         @onFolderSelect={{this.updateFolder}}

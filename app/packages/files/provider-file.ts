@@ -17,6 +17,10 @@ export default abstract class ProviderFile {
         this.fileModel = fileModel;
     }
 
+    get id() {
+        return this.fileModel.id;
+    }
+
     get isFile() {
         return false;
     }

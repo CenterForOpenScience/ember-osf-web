@@ -1824,6 +1824,7 @@ osf-components:
         select_provider: 'Please select a file provider'
         no_children: 'No children'
         no_folders: 'No files or folders'
+        read_only_provider: 'Cannot move to this file provider'
         moving_files: 'Moving...'
         moving_file: 'Moving {fileName}'
         success: 'Successfully moved {fileName}'
