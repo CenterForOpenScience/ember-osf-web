@@ -8,6 +8,7 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { TestContext } from 'ember-test-helpers';
 
+import { Permission } from 'ember-osf-web/models/osf-model';
 import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
 import OsfStorageProviderFile from 'ember-osf-web/packages/files/osf-storage-provider-file';
 import { click } from 'ember-osf-web/tests/helpers';
@@ -30,23 +31,38 @@ module('Integration | Component | move-file-modal', hooks => {
 
     test('move file from one node to another', async function(this: MoveTestContext, assert) {
         // Project with 1 child, and 2 grandchildren
-        const project = server.create('node', { title: 'Horizontal bar' }, 'withFiles');
-        const child = server.create('node', { title: 'Releases skills', parent: project }, 'withFiles');
-        const grandchild = server.create('node', {
+        const project = server.create('node', {
+            title: 'Horizontal bar', currentUserPermissions: [Permission.Read],
+        }, 'withFiles', 'withStorage');
+        const child = server.create('node', {
+            title: 'Releases skills', parent: project, currentUserPermissions: [Permission.Read],
+        }, 'withFiles', 'withStorage');
+        const grandchildModel = server.create('node', {
             title: 'kovacs', parent: child,
-        }, 'withFiles' , 'currentUserAdmin');
+        }, 'withFiles' , 'currentUserAdmin', 'withStorage');
         const otherGrandchild = server.create('node', {
             title: 'gienger', parent: child,
-        }, 'withFiles', 'currentUserAdmin');
-        const gcOsfStorage = grandchild.files.models[0];
+        }, 'withFiles', 'currentUserAdmin', 'withStorage');
+
+        const gcOsfStorageModel = grandchildModel.files.models[0];
         const folderModel = server.create('file', {
-            target: grandchild,
-            parentFolder: gcOsfStorage.rootFolder,
+            target: grandchildModel,
+            parentFolder: gcOsfStorageModel.rootFolder,
         }, 'asFolder');
         const folder = await this.store.findRecord('file', folderModel.id);
 
-        const provider = await this.store.findRecord('file', gcOsfStorage.rootFolder.id);
-        const parentFolder = new OsfStorageProviderFile(this.currentUser, provider);
+        const grandchild = await this.store.findRecord('node', grandchildModel.id);
+        const providers = await grandchild.queryHasMany('files');
+        const gcOsfStorage = providers.findBy('id', gcOsfStorageModel.id);
+
+        const fileModel = server.create('file', {
+            name: 'Gaylord2',
+            target: grandchildModel,
+            parentFolder: gcOsfStorageModel.rootFolder,
+        });
+        const file = new OsfStorageFile(this.currentUser, await this.store.findRecord('file', fileModel.id));
+
+        const parentFolder = new OsfStorageProviderFile(this.currentUser, gcOsfStorage!);
         const currentFolder = new OsfStorageFile(this.currentUser, folder);
         const manager = {
             targetNode: await this.store.findRecord('node', grandchild.id),
@@ -56,14 +72,6 @@ module('Integration | Component | move-file-modal', hooks => {
         };
         this.manager = manager;
         this.close = sinon.fake();
-
-        const fileModel = server.create('file', {
-            name: 'Gaylord2',
-            target: grandchild,
-            parentFolder: gcOsfStorage.rootFolder,
-        });
-        const file = new OsfStorageFile(this.currentUser, await this.store.findRecord('file', fileModel.id));
-
         this.filesToMove = [file];
 
         await render(hbs`
@@ -90,9 +98,13 @@ module('Integration | Component | move-file-modal', hooks => {
         assert.dom('[data-test-move-to-node]').exists({count: 2}, 'two possible nodes to move to');
         assert.dom('[data-test-move-to-folder]').exists({count: 1}, 'one possible folder to move to');
         assert.dom('[data-test-move-files-button]').isDisabled('Move files button is disabled');
+        assert.dom('[data-test-current-node-item-help-text]')
+            .containsText(t('osf-components.move_file_modal.no_write_permission'), 'No write permission');
+        assert.dom('[data-test-move-to-folder="osfstorage"]').isDisabled('osfstorage folder is disabled');
 
         await click(`[data-test-move-to-node="${otherGrandchild.id}"]`); // click node (gienger)
-
+        assert.dom('[data-test-current-node-item-help-text]')
+            .containsText(t('osf-components.move_file_modal.select_provider'), 'prompt to select provider');
         await click('[data-test-move-to-folder="osfstorage"]'); // click folder (osfstorage)
         assert.dom('[data-test-move-files-button]').isEnabled('Move files button is now enabled');
 

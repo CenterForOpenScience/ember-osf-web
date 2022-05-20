@@ -10,7 +10,10 @@
 {{else}}
     <NodeCard::NodeIcon @category={{@node.category}} />
     {{@node.title}}
-    <p local-class='DestinationSelectHelpText'>
+    <p
+        data-test-current-node-item-help-text
+        local-class='DestinationSelectHelpText'
+    >
         {{this.destinationSelectHelpText}}
     </p>
 {{/if}}

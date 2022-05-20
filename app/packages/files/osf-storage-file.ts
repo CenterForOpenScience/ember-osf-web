@@ -30,7 +30,8 @@ export default class OsfStorageFile extends File {
     }
 }
 export function underStorageLimit(target: NodeModel) {
-    const storageLimitStatus = target.get('storage').storageLimitStatus;
+    const storage = target.get('storage');
+    const storageLimitStatus = storage.get('storageLimitStatus');
     const isPublic = target.get('public');
     if (storageLimitStatus === 'OVER_PUBLIC') {
         return false;
