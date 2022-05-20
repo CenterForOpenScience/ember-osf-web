@@ -56,7 +56,7 @@
                 {{t 'general.share'}}
             </dd.trigger>
         </SharingIcons::Dropdown>
-        {{#if @item.currentUserCanDelete}}
+        {{#if (and @item.currentUserCanDelete @manager)}}
             <Button
                 @layout='fake-link'
                 local-class='DropdownItem'
@@ -70,10 +70,12 @@
         {{/if}}
     </dropdown.content>
 </ResponsiveDropdown>
-<FileActionsMenu::DeleteModal @file={{@item}} @isOpen={{this.isDeleteModalOpen}} @closeModal={{this.closeDeleteModal}} @onDelete={{@manager.reload}} />
-<MoveFileModal
-    @isOpen={{this.moveModalOpen}}
-    @close={{action (mut this.moveModalOpen) false}}
-    @manager={{@manager}}
-    @filesToMove={{array @item}}
-/>
+<FileActionsMenu::DeleteModal @file={{@item}} @isOpen={{this.isDeleteModalOpen}} @closeModal={{this.closeDeleteModal}} @onDelete={{@onDelete}} />
+{{#if (and @item.currentUserCanDelete @manager)}}
+    <MoveFileModal
+        @isOpen={{this.moveModalOpen}}
+        @close={{action (mut this.moveModalOpen) false}}
+        @manager={{@manager}}
+        @filesToMove={{array @item}}
+    />
+{{/if}}

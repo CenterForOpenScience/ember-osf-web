@@ -44,7 +44,7 @@
                 </span>
             {{/if}}
             {{#unless @manager.selectedFiles}}
-                <FileActionsMenu @item={{@item}} @manager={{@manager}} />
+                <FileActionsMenu @item={{@item}} @onDelete={{@manager.reload}} @manager={{@manager}} />
             {{/unless}}
         </div>
     </li>
