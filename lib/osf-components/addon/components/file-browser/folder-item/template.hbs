@@ -36,7 +36,7 @@
                 {{@item.name}}
             </span>
         </Button>
-        {{#if @item.userCanDownloadAsZip}}
+        {{#if (or @item.userCanDownloadAsZip @item.currentUserCanDelete)}}
             <div
                 data-test-file-list-date
                 local-class='FileList__item__options NoShrink'
@@ -67,7 +67,7 @@
                             <Button @layout='fake-link' local-class='DropdownItem'
                                 {{on 'click' (fn (mut this.isDeleteModalOpen) true)}}
                             >
-                                <FaIcon @icon='file-import' />
+                                <FaIcon @icon='trash-alt' />
                                 {{t 'osf-components.file-browser.delete'}}
                             </Button>
                         {{/if}}
