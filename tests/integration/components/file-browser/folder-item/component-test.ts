@@ -22,6 +22,8 @@ interface Manager {
     parentFolder: any;
     selectFile: () => void;
     goToFolder: () => void;
+    selectedFiles: any[];
+    targetNode: any;
 }
 
 interface FolderItemTestContext extends TestContext {
@@ -46,6 +48,8 @@ module('Integration | Component | file-browser :: folder-item', hooks => {
             parentFolder: null,
             selectFile: () => { /* noop */ },
             goToFolder: () => { /* noop */ },
+            selectedFiles: [],
+            targetNode: 'fakeNode',
         };
     });
 
