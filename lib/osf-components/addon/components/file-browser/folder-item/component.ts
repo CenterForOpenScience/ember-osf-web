@@ -9,10 +9,11 @@ interface Args {
 }
 
 export default class FolderItem extends Component<Args> {
+    @tracked isDeleteModalOpen = false;
     @tracked moveModalOpen = false;
 
     get showActionsDropdown() {
         const { item, manager } = this.args;
-        return item.userCanDownloadAsZip && manager.selectedFiles.length === 0;
+        return (item.userCanDownloadAsZip || item.currentUserCanDelete) && manager.selectedFiles.length === 0;
     }
 }
