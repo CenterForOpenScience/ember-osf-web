@@ -26,7 +26,7 @@
             data-analytics-name='View folder'
             aria-label={{t 'osf-components.file-browser.view_folder' folderName=@item.name}}
             @layout='fake-link'
-            local-class='FileList__item__options FolderButton'
+            local-class='FileList__item__name FolderButton'
             {{on 'click' (perform @manager.goToFolder @item)}}
         >
             <FaIcon
@@ -63,9 +63,23 @@
                             <FaIcon @icon='download' />
                             {{t 'general.download'}}
                         </OsfLink>
+                        {{#if @item.currentUserCanDelete}}
+                            <Button @layout='fake-link' local-class='DropdownItem'
+                                {{on 'click' (fn (mut this.isDeleteModalOpen) true)}}
+                            >
+                                <FaIcon @icon='file-import' />
+                                {{t 'osf-components.file-browser.delete'}}
+                            </Button>
+                        {{/if}}
                     </dropdown.content>
                 </ResponsiveDropdown>
             </div>
         {{/if}}
     </li>
 {{/let}}
+<FileActionsMenu::DeleteModal
+    @file={{@item}}
+    @isOpen={{this.isDeleteModalOpen}}
+    @closeModal={{fn (mut this.isDeleteModalOpen) false}}
+    @onDelete={{@manager.reload}}
+/>

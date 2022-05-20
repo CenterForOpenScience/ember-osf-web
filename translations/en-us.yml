@@ -1821,6 +1821,7 @@ osf-components:
         delete: 'Delete'
         confirm_delete: 'Are you sure you want to delete "{fileName}"?'
         delete_file: 'Delete file'
+        delete_folder: 'Delete folder'
         delete_fail: 'Failed to delete "{fileName}"'
         select_file: 'Select file {fileName}'
         select_folder: 'Select folder {folderName}'
