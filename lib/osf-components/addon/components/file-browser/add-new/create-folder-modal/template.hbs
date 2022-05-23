@@ -4,18 +4,19 @@
     as |dialog|
 >
     <dialog.heading>
-        {{t 'osf-components.file-browser.create_folder'}}
+        {{t 'osf-components.file-browser.create_folder.title'}}
     </dialog.heading>
     <dialog.main>
         <label>
-            <p>{{t 'osf-components.file-browser.new_folder_name'}}</p>
+            <p>{{t 'osf-components.file-browser.create_folder.new_folder_name'}}</p>
             <Input @value={{this.newFolderName}} />
         </label>
     </dialog.main>
     <dialog.footer>
         <Button
             @type='create'
-            {{on 'click' 
+            disabled={{@manager.createNewFolder.isRunning}}
+            {{on 'click'
                 (queue
                     (perform @manager.createNewFolder this.newFolderName)
                     (action (mut @isOpen) false)
@@ -23,7 +24,7 @@
                 )
             }}
         >
-            {{t 'osf-components.file-browser.create_folder'}}
+            {{t 'osf-components.file-browser.create_folder.title'}}
         </Button>
     </dialog.footer>
 </OsfDialog>

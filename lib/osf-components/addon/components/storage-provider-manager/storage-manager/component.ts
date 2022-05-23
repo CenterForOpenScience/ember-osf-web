@@ -11,6 +11,8 @@ import File from 'ember-osf-web/packages/files/file';
 import ProviderFile from 'ember-osf-web/packages/files/provider-file';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
+import Intl from 'ember-intl/services/intl';
+import Toast from 'ember-toastr/services/toast';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 
 import BitbucketProviderFile from 'ember-osf-web/packages/files/bitbucket-provider-file';
@@ -26,7 +28,6 @@ import OsfStorageProviderFile from 'ember-osf-web/packages/files/osf-storage-pro
 import OwnCloudProviderFile from 'ember-osf-web/packages/files/own-cloud-provider-file';
 import S3ProviderFile from 'ember-osf-web/packages/files/s3-provider-file';
 
-
 interface Args {
     provider: FileProviderModel;
 }
@@ -34,6 +35,8 @@ interface Args {
 export default class StorageManager extends Component<Args> {
     @service currentUser!: CurrentUserService;
     @service router!: RouterService;
+    @service intl!: Intl;
+    @service toast!: Toast;
 
     @tracked storageProvider?: FileProviderModel;
     @tracked folderLineage: Array<File | ProviderFile> = [];
@@ -170,8 +173,16 @@ export default class StorageManager extends Component<Args> {
     @task
     @waitFor
     async createNewFolder(newFolderName: string) {
-        await this.currentFolder.createFolder(newFolderName);
-        this.reload();
+        try {
+            await this.currentFolder.createFolder(newFolderName);
+            this.reload();
+        } catch (e) {
+            const errorTitle = this.intl.t('osf-components.file-browser.create_folder.error_title');
+            const errorDetail = e.status === 409 ? this.intl.t('osf-components.file-browser.create_folder.error_409')
+                : this.intl.t('osf-components.file-browser.create_folder.error_generic');
+            this.toast.error(errorDetail, errorTitle);
+            throw e;
+        }
     }
 
     @action
