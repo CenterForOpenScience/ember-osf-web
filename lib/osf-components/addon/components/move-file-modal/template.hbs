@@ -30,12 +30,19 @@
                                 {{t 'osf-components.move_file_modal.error' fileName=file.name}}
                                 <span>
                                     <Button
+                                        @type='destroy'
+                                        {{on 'click' (fn this.skip index)}}
+                                    >
+                                        {{t 'osf-components.move_file_modal.skip'}}
+                                    </Button>
+                                    <Button
                                         {{on 'click' (fn this.retry file index)}}
                                     >
                                         {{t 'osf-components.move_file_modal.retry'}}
                                     </Button>
                                     {{#if (eq taskInstance.error.status 409)}}
                                         <Button
+                                            @type='primary'
                                             {{on 'click' (fn this.replace file index)}}
                                         >
                                             {{t 'osf-components.move_file_modal.replace'}}
@@ -93,12 +100,6 @@
         {{/if}}
     </dialog.main>
     <dialog.footer>
-        <Button
-            @type='secondary'
-            {{on 'click' (queue this.cancelMoves this.onClose)}}
-        >
-            {{t 'general.cancel'}}
-        </Button>
         {{#if this.moveDone}}
             <Button
                 data-analytics-name='Finish moving files'
@@ -109,6 +110,12 @@
                 {{t 'general.done'}}
             </Button>
         {{else}}
+            <Button
+                @type='secondary'
+                {{on 'click' (queue this.cancelMoves this.onClose)}}
+            >
+                {{t 'general.cancel'}}
+            </Button>
             <Button
                 data-analytics-name='Move file(s)'
                 data-test-move-files-button

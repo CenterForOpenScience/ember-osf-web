@@ -1829,6 +1829,7 @@ osf-components:
         moving_file: 'Moving {fileName}'
         success: 'Successfully moved {fileName}'
         error: 'Failed to move {fileName}'
+        skip: 'Skip'
         retry: 'Retry'
         replace: 'Replace'
     file-browser:

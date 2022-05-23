@@ -227,6 +227,12 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
     }
 
     @action
+    skip(index: number) {
+        this.fileMoveTasks.splice(index, 1);
+        notifyPropertyChange(this, 'fileMoveTasks');
+    }
+
+    @action
     retry(file: File, index: number) {
         const { currentFolder, currentNode, breadcrumbs } = this;
         const newTaskInstance = taskFor(file.move).perform(
