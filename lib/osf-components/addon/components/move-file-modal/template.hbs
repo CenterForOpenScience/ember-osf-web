@@ -4,7 +4,7 @@
     @fixedWidth={{true}}
     as |dialog|
 >
-    <dialog.heading>
+    <dialog.heading data-test-move-modal-heading>
         {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'copy_header' 'move_header')) itemCount=@filesToMove.length}}
     </dialog.heading>
     <dialog.main
@@ -78,7 +78,7 @@
             />
             {{#if (and this.currentFolder this.providerIsReadOnly)}}
                 <div local-class='ReadOnlyWarning'>
-                    {{#if this.currentNode.userHasWritePermission}}
+                    {{#if (and this.currentNode.userHasWritePermission this.providerIsReadOnly)}}
                         {{t 'osf-components.move_file_modal.read_only_warning'}}
                     {{else}}
                         {{t 'osf-components.move_file_modal.no_write_permission'}}

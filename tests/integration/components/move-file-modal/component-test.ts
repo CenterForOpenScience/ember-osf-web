@@ -82,6 +82,10 @@ module('Integration | Component | move-file-modal', hooks => {
             @manager={{this.manager}}
         />
         `);
+        assert.dom('[data-test-move-modal-heading]').hasText(
+            t('osf-components.move_file_modal.move_header', { itemCount: 1 }), 'correct modal header',
+        );
+        assert.dom('[data-test-move-files-button]').hasText(t('general.move'), 'move button text');
         assert.dom('[data-test-ancestor-button]').exists({count: 2}, 'two ancestors');
         assert.dom('[data-test-breadcrumb').exists({count: 2}, 'two breadcrumbs');
         assert.dom('[data-test-empty-node-or-child]').hasText(
@@ -111,11 +115,60 @@ module('Integration | Component | move-file-modal', hooks => {
         await click('[data-test-move-files-button]'); // click move files button
         assert.dom('[data-test-moving-file-item]').exists({count: 1}, 'One moving file item');
         assert.dom('[data-test-moving-file-item]').hasText(
-            t('osf-components.move_file_modal.success', { fileName: file.name }), 'Success message',
+            t('osf-components.move_file_modal.success_move', { fileName: file.name }), 'Success message',
         );
         assert.dom('[data-test-move-files-button]').doesNotExist('move files button is no longer visible');
         assert.dom('[data-test-move-done-button]').exists('done button now exists');
 
         await percySnapshot('Integration | Component | move-file-modal | move finished');
+    });
+
+    test('copy file modal', async function(this: MoveTestContext, assert) {
+        const projectModel = server.create('node', 'withFiles', 'withStorage');
+
+        const osfStorageModel = projectModel.files.models[0];
+        const folderModel = server.create('file', {
+            target: projectModel,
+            parentFolder: osfStorageModel.rootFolder,
+        }, 'asFolder');
+        const folder = await this.store.findRecord('file', folderModel.id);
+
+        const project = await this.store.findRecord('node', projectModel.id);
+        const providers = await project.queryHasMany('files');
+        const osfStorage = providers.findBy('id', osfStorageModel.id);
+
+        const fileModel = server.create('file', {
+            target: projectModel,
+            parentFolder: osfStorageModel.rootFolder,
+        });
+        const file = new OsfStorageFile(this.currentUser, await this.store.findRecord('file', fileModel.id));
+
+        const parentFolder = new OsfStorageProviderFile(this.currentUser, osfStorage!);
+        const currentFolder = new OsfStorageFile(this.currentUser, folder);
+        const manager = {
+            targetNode: await this.store.findRecord('node', project.id),
+            currentFolder,
+            folderLineage: [parentFolder, currentFolder],
+            goToFolder: sinon.fake(),
+        };
+        this.manager = manager;
+        this.close = sinon.fake();
+        this.filesToMove = [file];
+
+        await render(hbs`
+        <MoveFileModal
+            @isOpen={{true}}
+            @close={{this.close}}
+            @preserveOriginal={{true}}
+            @filesToMove={{this.filesToMove}}
+            @manager={{this.manager}}
+        />
+        `);
+        assert.dom('[data-test-move-modal-heading]').hasText(
+            t('osf-components.move_file_modal.copy_header', { itemCount: 1 }), 'correct modal header',
+        );
+        assert.dom('[data-test-move-files-button]').hasText(t('general.copy'), 'copy button text');
+
+        await percySnapshot(assert);
     });
 });
