@@ -27,7 +27,7 @@
             aria-label={{t 'osf-components.file-browser.view_folder' folderName=@item.name}}
             @layout='fake-link'
             local-class='FileList__item__name FolderButton'
-            {{on 'click' (perform @manager.goToFolder @item)}}
+            {{on 'click' (fn @manager.goToFolder @item)}}
         >
             <FaIcon
                 @icon='folder' @fixedWidth={{true}}
@@ -36,7 +36,7 @@
                 {{@item.name}}
             </span>
         </Button>
-        {{#if (or @item.userCanDownloadAsZip @item.currentUserCanDelete)}}
+        {{#if this.showActionsDropdown}}
             <div
                 data-test-file-list-date
                 local-class='FileList__item__options NoShrink'
@@ -56,14 +56,25 @@
                         <FaIcon @icon='ellipsis-v' />
                     </dropdown.trigger>
                     <dropdown.content local-class='DropdownList'>
-                        <OsfLink
-                            @href={{@item.links.download}}
-                            data-test-download-button
-                        >
-                            <FaIcon @icon='download' />
-                            {{t 'general.download'}}
-                        </OsfLink>
+                        {{#if @item.userCanDownloadAsZip}}
+                            <OsfLink
+                                @href={{@item.links.download}}
+                                data-test-download-button
+                            >
+                                <FaIcon @icon='download' />
+                                {{t 'general.download'}}
+                            </OsfLink>
+                        {{/if}}
                         {{#if @item.currentUserCanDelete}}
+                            <Button
+                                @layout='fake-link'
+                                {{on 'click' (action (mut this.moveModalOpen) true)}}
+                            >
+                                <FaIcon
+                                    @icon='arrow-right'
+                                />
+                                {{t 'general.move'}}
+                            </Button>
                             <Button @layout='fake-link' local-class='DropdownItem'
                                 {{on 'click' (fn (mut this.isDeleteModalOpen) true)}}
                             >
@@ -77,6 +88,12 @@
         {{/if}}
     </li>
 {{/let}}
+<MoveFileModal
+    @isOpen={{this.moveModalOpen}}
+    @close={{action (mut this.moveModalOpen) false}}
+    @manager={{@manager}}
+    @filesToMove={{array @item}}
+/>
 <FileActionsMenu::DeleteModal
     @file={{@item}}
     @isOpen={{this.isDeleteModalOpen}}

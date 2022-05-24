@@ -3,7 +3,11 @@
     @enable={{and @manager.currentFolder.userCanUploadToHere @enableUpload}}
     as |uploadWidget|
 >
-    <FileBrowser::Breadcrumbs @manager={{@manager}} />
+    <FileBrowser::Breadcrumbs
+        @breadcrumbs={{@manager.folderLineage}}
+        @currentFolder={{@manager.currentFolder}}
+        @goToFolder={{@manager.goToFolder}}
+    />
     <div local-class='OptionBar {{if this.isMobile 'Mobile'}}'>
         <div local-class='OptionBar__left {{if this.isMobile 'Mobile'}}'>
             {{#if (gt @manager.selectedFiles.length 0)}}
@@ -85,19 +89,36 @@
         </div>
         <div local-class='OptionBar__right'>
             {{#if (gt @manager.selectedFiles.length 0)}}
-                {{!-- TODO: actually make these do things --}}
-                <FaIcon
-                    @icon='check'
-                />
-                {{t 'general.move'}}
-                <FaIcon
-                    @icon='check'
-                />
-                {{t 'general.copy'}}
-                <FaIcon
-                    @icon='check'
-                />
-                {{t 'general.delete'}}
+                {{#if @manager.currentFolder.userCanUploadToHere}}
+                    <Button
+                        {{on 'click' (action (mut this.moveModalOpen) true)}}
+                    >
+                        <FaIcon @icon='arrow-right' />
+                        {{t 'general.move'}}
+                    </Button>
+                    <MoveFileModal
+                        @isOpen={{this.moveModalOpen}}
+                        @close={{action (mut this.moveModalOpen) false}}
+                        @filesToMove={{@manager.selectedFiles}}
+                        @manager={{@manager}}
+                    />
+                {{/if}}
+                <Button
+                    @layout='fake-link'
+                >
+                    <FaIcon
+                        @icon='copy'
+                    />
+                    {{t 'general.copy'}}
+                </Button>
+                <Button
+                    @layout='fake-link'
+                >
+                    <FaIcon
+                        @icon='trash'
+                    />
+                    {{t 'general.delete'}}
+                </Button>
             {{else}}
                 {{#if (and @manager.currentFolder @manager.currentFolder.userCanDownloadAsZip)}}
                     <OsfLink
@@ -143,7 +164,7 @@
                         data-test-go-to-parent
                         data-analytics-name='Go to parent folder'
                         @layout='fake-link'
-                        {{on 'click' (perform @manager.goToFolder @manager.parentFolder)}}
+                        {{on 'click' (fn @manager.goToFolder @manager.parentFolder)}}
                     >
                         <FaIcon
                             @icon='angle-left' @fixedWidth={{true}}

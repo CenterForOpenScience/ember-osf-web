@@ -13,6 +13,7 @@ interface BreadcrumbTestContext extends TestContext {
     provider: FakeBreadcrumb;
     folderOne: FakeBreadcrumb;
     folderTwo: FakeBreadcrumb;
+    goToFolder: () => void;
 }
 
 module('Integration | Component | file-browser / breadcrumbs', hooks => {
@@ -22,6 +23,7 @@ module('Integration | Component | file-browser / breadcrumbs', hooks => {
         this.provider = {name: 'osfstorage'};
         this.folderOne = {name: 'folder_one'};
         this.folderTwo = {name: 'folder_two'};
+        this.goToFolder = () => { /* stub */ };
     });
 
     test('it renders with one item', async function(this: BreadcrumbTestContext, assert) {
@@ -29,8 +31,15 @@ module('Integration | Component | file-browser / breadcrumbs', hooks => {
             this.provider,
         ];
 
-        this.set('manager', {breadcrumbs, currentFolder: this.provider});
-        await render(hbs`<FileBrowser::Breadcrumbs @manager={{this.manager}} />`);
+        this.set('breadcrumbs', breadcrumbs);
+        this.set('currentFolder', this.provider);
+        await render(hbs`
+        <FileBrowser::Breadcrumbs
+            @breadcrumbs={{this.breadcrumbs}}
+            @currentFolder={{this.currentFolder}}
+            @goToFolder={{this.goToFolder}}
+        />
+        `);
         assert.dom('[data-test-breadcrumb="osfstorage"]')
             .exists();
         assert.dom('[data-test-breadcrumb="osfstorage"]')
@@ -47,8 +56,15 @@ module('Integration | Component | file-browser / breadcrumbs', hooks => {
             this.folderOne,
         ];
 
-        this.set('manager', {breadcrumbs, currentFolder: this.folderOne});
-        await render(hbs`<FileBrowser::Breadcrumbs @manager={{this.manager}} />`);
+        this.set('breadcrumbs', breadcrumbs);
+        this.set('currentFolder', this.folderOne);
+        await render(hbs`
+        <FileBrowser::Breadcrumbs
+            @breadcrumbs={{this.breadcrumbs}}
+            @currentFolder={{this.currentFolder}}
+            @goToFolder={{this.goToFolder}}
+        />
+        `);
         assert.dom('[data-test-breadcrumb="osfstorage"]')
             .exists();
         assert.dom('[data-test-breadcrumb="osfstorage"]')
@@ -69,8 +85,15 @@ module('Integration | Component | file-browser / breadcrumbs', hooks => {
             this.folderTwo,
         ];
 
-        this.set('manager', {breadcrumbs, currentFolder: this.folderTwo});
-        await render(hbs`<FileBrowser::Breadcrumbs @manager={{this.manager}} />`);
+        this.set('breadcrumbs', breadcrumbs);
+        this.set('currentFolder', this.folderTwo);
+        await render(hbs`
+        <FileBrowser::Breadcrumbs
+            @breadcrumbs={{this.breadcrumbs}}
+            @currentFolder={{this.currentFolder}}
+            @goToFolder={{this.goToFolder}}
+        />
+        `);
         assert.dom('[data-test-breadcrumb="osfstorage"]')
             .exists();
         assert.dom('[data-test-breadcrumb="osfstorage"]')

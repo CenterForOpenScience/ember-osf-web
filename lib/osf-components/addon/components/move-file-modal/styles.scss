@@ -1,0 +1,55 @@
+.ActionHeading {
+    font-weight: 600;
+}
+
+.AncestryWrapper {
+    margin-bottom: 8px;
+}
+
+.AncestryOverride {
+    display: inline;
+
+    button {
+        display: inline-block;
+        max-width: 40%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+.BreadcrumbsOverride {
+    margin-bottom: 0;
+    padding: 0 1em;
+
+    li {
+        font-size: inherit;
+        font-weight: inherit;
+    }
+}
+
+.ChildList {
+    list-style-type: none;
+    padding-inline-start: 0;
+    padding: 20px 20px 0;
+
+    > li:last-of-type {
+        border-bottom: solid 1px $color-border-gray;
+    }
+}
+
+.ChildItem {
+    border-top: solid 1px $color-border-gray;
+    padding: 12px 10px;
+}
+
+.MoveItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 10px;
+}
+
+.success {
+    color: $brand-success;
+}

@@ -17,6 +17,7 @@ export default class FileBrowser extends Component<Args> {
 
     @tracked helpModalOpen = false;
     @tracked selectable = this.args.selectable || false;
+    @tracked moveModalOpen = false;
 
     get isMobile() {
         return this.media.isMobile;
