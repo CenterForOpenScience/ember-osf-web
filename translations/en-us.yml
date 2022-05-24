@@ -1855,6 +1855,7 @@ osf-components:
             s3: 'Amazon S3'
         empty_folder: 'This folder is empty.'
         breadcrumbs: 'Breadcrumb'
+        add_button_aria: 'Add files or folders here'
         create_folder: 'Create folder'
         upload_file: 'Upload file'
         new_folder_name: 'New folder name'
