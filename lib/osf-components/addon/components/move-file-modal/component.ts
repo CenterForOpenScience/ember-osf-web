@@ -1,0 +1,278 @@
+import Store from '@ember-data/store';
+import { assert } from '@ember/debug';
+import { inject as service } from '@ember/service';
+import { action, notifyPropertyChange } from '@ember/object';
+import { waitFor } from '@ember/test-waiters';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { allSettled, task, TaskInstance } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
+import Intl from 'ember-intl/services/intl';
+import Toast from 'ember-toastr/services/toast';
+
+import NodeModel from 'ember-osf-web/models/node';
+import { FileSortKey } from 'ember-osf-web/packages/files/file';
+import StorageManager, { getStorageProviderFile }
+    from 'osf-components/components/storage-provider-manager/storage-manager/component';
+import File from 'ember-osf-web/packages/files/file';
+import ProviderFile from 'ember-osf-web/packages/files/provider-file';
+import CurrentUserService from 'ember-osf-web/services/current-user';
+import captureException from 'ember-osf-web/utils/capture-exception';
+
+interface MoveFileModalArgs {
+    isOpen: boolean;
+    close: () => void;
+    filesToMove: File[];
+    manager: StorageManager;
+}
+
+export default class MoveFileModalComponent extends Component<MoveFileModalArgs> {
+    @service store!: Store;
+    @service currentUser!: CurrentUserService;
+    @service intl!: Intl;
+    @service toast!: Toast;
+
+    @tracked currentNode!: NodeModel;
+    @tracked childNodeList: NodeModel[] = [];
+    @tracked childNodePage = 1;
+    @tracked totalChildNodes = 0;
+
+    @tracked startingFolder?: ProviderFile | File;
+    @tracked currentFolder?: ProviderFile | File;
+    @tracked filesList: Array<ProviderFile | File> = [];
+    @tracked folderPage = 1;
+    @tracked totalFiles? = 0;
+    @tracked breadcrumbs: Array<ProviderFile | File> = [];
+
+    @tracked fileMoveTasks: Array<TaskInstance<null>> = [];
+
+    get itemList() {
+        return [...this.filesList, ...this.childNodeList];
+    }
+
+    get hasMore() {
+        return this.hasMoreNodes || this.hasMoreFiles;
+    }
+
+    get hasMoreNodes() {
+        if (this.currentNode && this.totalChildNodes) {
+            return this.totalChildNodes > this.childNodeList.length;
+        }
+        return false;
+    }
+
+    get hasMoreFiles() {
+        if (this.currentFolder && this.totalFiles) {
+            return this.totalFiles > this.filesList.length;
+        }
+        return false;
+    }
+
+    get isLoading() {
+        return taskFor(this.loadChildNodes).isRunning || taskFor(this.loadFiles).isRunning;
+    }
+
+    get isDisabled() {
+        const { currentFolder, currentNode, breadcrumbs } = this;
+        if (!currentFolder || !currentNode || breadcrumbs.length === 0) {
+            return true;
+        }
+        const providerIsReadOnly = !breadcrumbs[0].userCanMoveToHere;
+        const invalidDestination = currentFolder.id === this.startingFolder!.id;
+        return providerIsReadOnly || invalidDestination
+            || !currentNode.userHasWritePermission || this.isMoving;
+    }
+
+    get isMoving() {
+        return this.fileMoveTasks.length > 0;
+    }
+
+    get moveDone() {
+        return this.isMoving && this.fileMoveTasks.every(moveTask => moveTask.isFinished);
+    }
+
+    @task
+    @waitFor
+    async loadChildNodes() {
+        const childrenList = await this.currentNode!.queryHasMany('children',
+            {
+                page: this.childNodePage,
+            });
+        this.totalChildNodes = childrenList.meta.total;
+        this.childNodeList.push(...childrenList);
+        notifyPropertyChange(this, 'childNodeList');
+    }
+
+    @task
+    @waitFor
+    async changeNode(id: string) {
+        taskFor(this.loadChildNodes).cancelAll();
+        this.resetFolder();
+        this.currentNode = await this.store.findRecord('node', id);
+        this.childNodeList = [];
+        this.childNodePage = 1;
+        taskFor(this.loadChildNodes).perform();
+        taskFor(this.loadFiles).perform();
+    }
+
+    @task
+    @waitFor
+    async loadFiles() {
+        let fileList;
+        if (!this.currentFolder) {
+            fileList = await this.currentNode!.queryHasMany('files', {
+                page: this.folderPage,
+            });
+            fileList = fileList.map(
+                fileProviderModel => getStorageProviderFile(this.currentUser, fileProviderModel),
+            );
+        } else {
+            fileList = await this.currentFolder.getFolderItems(this.folderPage, FileSortKey.AscName, '');
+        }
+        this.totalFiles = this.currentFolder?.totalFileCount;
+        this.filesList.push(...fileList);
+        notifyPropertyChange(this, 'filesList');
+    }
+
+    constructor(owner: unknown, args: MoveFileModalArgs) {
+        super(owner, args);
+        assert('MoveFileModalComponent needs a targetNode', this.args.manager.targetNode);
+    }
+
+
+    @action
+    loadMore() {
+        if (this.hasMoreNodes) {
+            this.loadMoreChildNodes();
+        }
+        if (this.hasMoreFiles) {
+            this.loadMoreFiles();
+        }
+    }
+
+    @action
+    updateNode(node: { id: string, title: string }) {
+        taskFor(this.changeNode).perform(node.id);
+    }
+
+    @action
+    loadMoreChildNodes() {
+        this.childNodePage += 1;
+        taskFor(this.loadChildNodes).perform();
+    }
+
+    @action
+    resetNode() {
+        this.childNodeList = [];
+        this.childNodePage = 1;
+        this.totalChildNodes = 0;
+    }
+
+    @action
+    updateFolder(file: ProviderFile | File) {
+        this.resetNode();
+        taskFor(this.loadFiles).cancelAll();
+        this.currentFolder = file;
+        this.filesList = [];
+        this.folderPage = 1;
+        const index = this.breadcrumbs.indexOf(file);
+        if (index >= 0) {
+            this.breadcrumbs.splice(index + 1);
+        } else {
+            this.breadcrumbs.push(file);
+        }
+        notifyPropertyChange(this, 'breadcrumbs');
+        taskFor(this.loadFiles).perform();
+    }
+
+    @action
+    loadMoreFiles() {
+        this.folderPage += 1;
+        taskFor(this.loadFiles).perform();
+    }
+
+    @action
+    resetFolder() {
+        taskFor(this.loadFiles).cancelAll();
+        this.currentFolder = undefined;
+        this.filesList = [];
+        this.breadcrumbs = [];
+        this.folderPage = 1;
+        this.totalFiles = 0;
+    }
+
+    @task
+    @waitFor
+    async moveFile(file: File, destinationNode: NodeModel, path: string, provider: string,
+        options?: { conflict: string }) {
+        await file.move(destinationNode, path, provider, options);
+    }
+
+    @task
+    @waitFor
+    async move() {
+        const { currentFolder, currentNode, breadcrumbs } = this;
+        if (!currentFolder || !currentNode || breadcrumbs.length === 0) {
+            return;
+        }
+        const provider = breadcrumbs[0];
+        try {
+            const moveTasks = this.args.filesToMove.map(file =>
+                taskFor(file.move).perform(currentNode, currentFolder.path, provider.name));
+            this.fileMoveTasks = moveTasks;
+            await allSettled(moveTasks);
+        } catch (e) {
+            captureException(e);
+        }
+    }
+
+    @action
+    skip(index: number) {
+        this.fileMoveTasks.splice(index, 1);
+        notifyPropertyChange(this, 'fileMoveTasks');
+    }
+
+    @action
+    retry(file: File, index: number) {
+        const { currentFolder, currentNode, breadcrumbs } = this;
+        const newTaskInstance = taskFor(file.move).perform(
+            currentNode, currentFolder!.path, breadcrumbs[0].name,
+        );
+        this.fileMoveTasks[index] = newTaskInstance;
+        notifyPropertyChange(this, 'fileMoveTasks');
+    }
+
+    @action
+    replace(file: File, index: number) {
+        const { currentFolder, currentNode, breadcrumbs } = this;
+        const newTaskInstance = taskFor(file.move).perform(
+            currentNode, currentFolder!.path, breadcrumbs[0].name, { conflict: 'replace' },
+        );
+        this.fileMoveTasks[index] = newTaskInstance;
+        notifyPropertyChange(this, 'fileMoveTasks');
+    }
+
+    @action
+    onOpen() {
+        this.fileMoveTasks = [];
+        this.resetFolder();
+        this.currentNode = this.args.manager.targetNode! as NodeModel;
+        this.currentFolder = this.args.manager.currentFolder;
+        this.startingFolder = this.args.manager.currentFolder;
+        this.breadcrumbs = [...this.args.manager.folderLineage];
+        taskFor(this.loadFiles).perform();
+    }
+
+    @action
+    onClose() {
+        if (this.startingFolder && this.fileMoveTasks.length > 0) {
+            this.args.manager.reload();
+        }
+        this.args.close();
+    }
+
+    @action
+    cancelMoves() {
+        this.fileMoveTasks.forEach(moveTask => moveTask.cancel());
+    }
+}

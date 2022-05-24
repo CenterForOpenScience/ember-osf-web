@@ -17,6 +17,10 @@ export default abstract class ProviderFile {
         this.fileModel = fileModel;
     }
 
+    get id() {
+        return this.fileModel.id;
+    }
+
     get isFile() {
         return false;
     }
@@ -48,6 +52,10 @@ export default abstract class ProviderFile {
 
     get name() {
         return this.fileModel.name;
+    }
+
+    get path() {
+        return this.fileModel.path;
     }
 
     get links() {

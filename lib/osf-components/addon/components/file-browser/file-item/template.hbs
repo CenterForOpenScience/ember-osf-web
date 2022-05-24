@@ -43,7 +43,9 @@
                     {{moment-format @item.dateModified 'YYYY-MM-DD hh:mm A'}}
                 </span>
             {{/if}}
-            <FileActionsMenu @item={{@item}} @onDelete={{@manager.reload}} />
+            {{#unless @manager.selectedFiles}}
+                <FileActionsMenu @item={{@item}} @onDelete={{@manager.reload}} @manager={{@manager}} />
+            {{/unless}}
         </div>
     </li>
 {{/let}}

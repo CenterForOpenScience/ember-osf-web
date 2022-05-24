@@ -32,6 +32,52 @@ interface Args {
     provider: FileProviderModel;
 }
 
+export function getStorageProviderFile(currentUser: CurrentUserService, providerFileModel: FileProviderModel) {
+    const providerName = providerFileModel.provider;
+    let providerFile;
+    switch (providerName) {
+    case 'bitbucket':
+        providerFile = new BitbucketProviderFile(currentUser, providerFileModel);
+        break;
+    case 'box':
+        providerFile = new BoxProviderFile(currentUser, providerFileModel);
+        break;
+    case 'dataverse':
+        providerFile = new DataverseProviderFile(currentUser, providerFileModel);
+        break;
+    case 'dropbox':
+        providerFile = new DropboxProviderFile(currentUser, providerFileModel);
+        break;
+    case 'figshare':
+        providerFile = new FigshareProviderFile(currentUser, providerFileModel);
+        break;
+    case 'github':
+        providerFile = new GithubProviderFile(currentUser, providerFileModel);
+        break;
+    case 'gitlab':
+        providerFile = new GitlabProviderFile(currentUser, providerFileModel);
+        break;
+    case 'googledrive':
+        providerFile = new GoogleDriveProviderFile(currentUser, providerFileModel);
+        break;
+    case 'onedrive':
+        providerFile = new OneDriveProviderFile(currentUser, providerFileModel);
+        break;
+    case 'osfstorage':
+        providerFile = new OsfStorageProviderFile(currentUser, providerFileModel);
+        break;
+    case 'owncloud':
+        providerFile = new OwnCloudProviderFile(currentUser, providerFileModel);
+        break;
+    case 's3':
+        providerFile = new S3ProviderFile(currentUser, providerFileModel);
+        break;
+    default:
+        // This should only be hit in development when we haven't set up a provider properly.
+    }
+    return providerFile as ProviderFile;
+}
+
 export default class StorageManager extends Component<Args> {
     @service currentUser!: CurrentUserService;
     @service router!: RouterService;
@@ -54,6 +100,9 @@ export default class StorageManager extends Component<Args> {
         taskFor(this.getRootFolderItems).perform();
     }
 
+    get targetNode() {
+        return this.args.provider.target.content;
+    }
     get rootFolder() {
         return this.folderLineage[0];
     }
@@ -85,48 +134,12 @@ export default class StorageManager extends Component<Args> {
     async getRootFolder() {
         if (this.args.provider) {
             this.storageProvider = this.args.provider;
-            const providerName = this.storageProvider.provider;
-            switch (providerName) {
-            case 'bitbucket':
-                this.folderLineage.push(new BitbucketProviderFile(this.currentUser, this.storageProvider));
-                break;
-            case 'box':
-                this.folderLineage.push(new BoxProviderFile(this.currentUser, this.storageProvider));
-                break;
-            case 'dataverse':
-                this.folderLineage.push(new DataverseProviderFile(this.currentUser, this.storageProvider));
-                break;
-            case 'dropbox':
-                this.folderLineage.push(new DropboxProviderFile(this.currentUser, this.storageProvider));
-                break;
-            case 'figshare':
-                this.folderLineage.push(new FigshareProviderFile(this.currentUser, this.storageProvider));
-                break;
-            case 'github':
-                this.folderLineage.push(new GithubProviderFile(this.currentUser, this.storageProvider));
-                break;
-            case 'gitlab':
-                this.folderLineage.push(new GitlabProviderFile(this.currentUser, this.storageProvider));
-                break;
-            case 'googledrive':
-                this.folderLineage.push(new GoogleDriveProviderFile(this.currentUser, this.storageProvider));
-                break;
-            case 'onedrive':
-                this.folderLineage.push(new OneDriveProviderFile(this.currentUser, this.storageProvider));
-                break;
-            case 'osfstorage':
-                this.folderLineage.push(new OsfStorageProviderFile(this.currentUser, this.storageProvider));
-                break;
-            case 'owncloud':
-                this.folderLineage.push(new OwnCloudProviderFile(this.currentUser, this.storageProvider));
-                break;
-            case 's3':
-                this.folderLineage.push(new S3ProviderFile(this.currentUser, this.storageProvider));
-                break;
-            default:
+            const providerFile = getStorageProviderFile(this.currentUser, this.storageProvider);
+            if (!providerFile) {
                 // This should only be hit in development when we haven't set up a provider properly.
                 this.router.transitionTo('not-found');
             }
+            this.folderLineage.push(providerFile);
             notifyPropertyChange(this, 'folderLineage');
         }
     }
@@ -144,9 +157,17 @@ export default class StorageManager extends Component<Args> {
         }
     }
 
-    @task
+    @restartableTask
     @waitFor
-    async goToFolder(folder: File) {
+    async changeFilter(filter: string) {
+        await timeout(500);
+        this.filter = filter;
+        this.currentPage = 1;
+        taskFor(this.getCurrentFolderItems).perform();
+    }
+
+    @action
+    goToFolder(folder: File) {
         this.filter = '';
         const index = this.folderLineage.indexOf(folder);
         if (index >= 0) {
@@ -157,15 +178,6 @@ export default class StorageManager extends Component<Args> {
         notifyPropertyChange(this, 'folderLineage');
         this.deselectFiles();
         this.displayItems = [];
-        this.currentPage = 1;
-        taskFor(this.getCurrentFolderItems).perform();
-    }
-
-    @restartableTask
-    @waitFor
-    async changeFilter(filter: string) {
-        await timeout(500);
-        this.filter = filter;
         this.currentPage = 1;
         taskFor(this.getCurrentFolderItems).perform();
     }
@@ -187,6 +199,7 @@ export default class StorageManager extends Component<Args> {
 
     @action
     reload() {
+        this.deselectFiles();
         this.displayItems = [];
         this.currentPage = 1;
         taskFor(this.getCurrentFolderItems).perform();

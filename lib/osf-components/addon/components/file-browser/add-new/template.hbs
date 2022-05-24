@@ -5,6 +5,7 @@
         as |dropdown|
     >
         <Button
+            aria-label={{t 'osf-components.file-browser.add_button_aria'}}
             local-class='TriggerButton {{if dropdown.isOpen 'CloseButton'}}'
             @type='create'
             {{on 'click' dropdown.toggle}}

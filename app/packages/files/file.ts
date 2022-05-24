@@ -79,6 +79,10 @@ export default abstract class File {
         return this.fileModel.id;
     }
 
+    get path() {
+        return this.fileModel.path;
+    }
+
     get links() {
         const links = this.fileModel.links;
         if (this.isFolder) {
@@ -142,8 +146,10 @@ export default abstract class File {
         await this.fileModel.rename(newName, conflict);
     }
 
-    async move(node: NodeModel) {
-        await this.fileModel.move(node);
+    @task
+    @waitFor
+    async move(node: NodeModel, path: string, provider: string, options?: { conflict: string }) {
+        return await this.fileModel.move(node, path, provider, options);
     }
 
     @task
