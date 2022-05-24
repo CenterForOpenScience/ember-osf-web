@@ -13,6 +13,7 @@ interface Args {
 export default class FileActionsMenu extends Component<Args> {
     @tracked isDeleteModalOpen = false;
     @tracked moveModalOpen = false;
+    @tracked useCopyModal = false;
 
     @action
     closeDeleteModal() {

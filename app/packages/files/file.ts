@@ -154,6 +154,12 @@ export default abstract class File {
 
     @task
     @waitFor
+    async copy(node: NodeModel, path: string, provider: string, options?: { conflict: string }) {
+        return await this.fileModel.copy(node, path, provider, options);
+    }
+
+    @task
+    @waitFor
     async delete() {
         return await this.fileModel.delete();
     }

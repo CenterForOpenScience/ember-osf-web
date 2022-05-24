@@ -152,6 +152,24 @@ export default class FileModel extends BaseFileItem {
         }).then(() => this.reload());
     }
 
+    copy(node: AbstractNodeModel, path: string, provider: string, options?: { conflict: string }): Promise<null> {
+        return this.currentUser.authenticatedAJAX({
+            url: getHref(this.links.move),
+            type: 'POST',
+            xhrFields: { withCredentials: true },
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: JSON.stringify({
+                action: 'copy',
+                path,
+                provider,
+                resource: node.id,
+                ...options,
+            }),
+        }).then(() => this.reload());
+    }
+
     delete(): Promise<null> {
         assert('links.delete is required to remove a file or folder', Boolean(this.links.delete));
         return this.currentUser.authenticatedAJAX({

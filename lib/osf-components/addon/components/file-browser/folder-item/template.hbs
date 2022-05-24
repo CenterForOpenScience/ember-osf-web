@@ -68,13 +68,25 @@
                         {{#if @item.currentUserCanDelete}}
                             <Button
                                 @layout='fake-link'
-                                {{on 'click' (action (mut this.moveModalOpen) true)}}
+                                {{on 'click' (queue (action (mut this.useCopyModal) false) (action (mut this.moveModalOpen) true))}}
                             >
                                 <FaIcon
                                     @icon='arrow-right'
                                 />
                                 {{t 'general.move'}}
                             </Button>
+                        {{/if}}
+                        <Button
+                            @layout='fake-link'
+                            local-class='DropdownItem'
+                            {{on 'click' (queue (action (mut this.useCopyModal) true) (action (mut this.moveModalOpen) true))}}
+                        >
+                            <FaIcon
+                                @icon='copy'
+                            />
+                            {{t 'general.copy'}}
+                        </Button>
+                        {{#if @item.currentUserCanDelete}}
                             <Button @layout='fake-link' local-class='DropdownItem'
                                 {{on 'click' (fn (mut this.isDeleteModalOpen) true)}}
                             >
@@ -91,6 +103,7 @@
 <MoveFileModal
     @isOpen={{this.moveModalOpen}}
     @close={{action (mut this.moveModalOpen) false}}
+    @preserveOriginal={{this.useCopyModal}}
     @manager={{@manager}}
     @filesToMove={{array @item}}
 />

@@ -5,29 +5,31 @@
     as |dialog|
 >
     <dialog.heading>
-        {{t 'osf-components.move_file_modal.header' itemCount=@filesToMove.length}}
+        {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'copy_header' 'move_header')) itemCount=@filesToMove.length}}
     </dialog.heading>
     <dialog.main
         data-analytics-scope='Move file modal'
         {{did-insert this.onOpen}}
     >
-        {{#if this.isMoving}}
-            <h3 local-class='ActionHeading'>{{t 'osf-components.move_file_modal.moving_files'}}</h3>
+        {{#if this.isMovingOrCopying}}
+            <h3 local-class='ActionHeading'>
+                {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'copying_files' 'moving_files'))}}
+            </h3>
             <ul local-class='ChildList'>
-                {{#each this.fileMoveTasks as |taskInstance index| }}
+                {{#each this.fileActionTasks as |taskInstance index| }}
                     {{#let (get @filesToMove index) as |file| }}
                         <li
                             data-test-moving-file-item={{file.id}}
                             local-class='ChildItem MoveItem'
                         >
                             {{#if taskInstance.isRunning}}
-                                {{t 'osf-components.move_file_modal.moving_file' fileName=file.name}}
+                                {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'copying_file' 'moving_file')) fileName=file.name}}
                                 <FaIcon @icon='spinner' @pulse={{true}} />
                             {{else if taskInstance.isSuccessful}}
-                                {{t 'osf-components.move_file_modal.success' fileName=file.name}}
+                                {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'success_copy' 'success_move')) fileName=file.name}}
                                 <FaIcon @icon='check' local-class='success'/>
                             {{else if taskInstance.isError}}
-                                {{t 'osf-components.move_file_modal.error' fileName=file.name}}
+                                {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'error_copy' 'error_move')) fileName=file.name}}
                                 <span>
                                     <Button
                                         @type='destroy'
@@ -74,6 +76,15 @@
                 @goToFolder={{this.updateFolder}}
                 local-class='BreadcrumbsOverride'
             />
+            {{#if (and this.currentFolder this.providerIsReadOnly)}}
+                <div local-class='ReadOnlyWarning'>
+                    {{#if this.currentNode.userHasWritePermission}}
+                        {{t 'osf-components.move_file_modal.read_only_warning'}}
+                    {{else}}
+                        {{t 'osf-components.move_file_modal.no_write_permission'}}
+                    {{/if}}
+                </div>
+            {{/if}}
             <InfiniteList
                 @itemList={{this.itemList}}
                 @hasMore={{this.hasMore}}
@@ -100,7 +111,7 @@
         {{/if}}
     </dialog.main>
     <dialog.footer>
-        {{#if this.moveDone}}
+        {{#if this.moveOrCopyDone}}
             <Button
                 data-analytics-name='Finish moving files'
                 data-test-move-done-button
@@ -121,9 +132,9 @@
                 data-test-move-files-button
                 @type='primary'
                 disabled={{this.isDisabled}}
-                {{on 'click' (perform this.move)}}
+                {{on 'click' (if @preserveOriginal (perform this.copy) (perform this.move))}}
             >
-                {{t 'general.move'}}
+                {{t (concat 'general.'(if @preserveOriginal 'copy' 'move'))}}
             </Button>
         {{/if}}
     </dialog.footer>

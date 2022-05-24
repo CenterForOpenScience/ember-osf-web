@@ -91,26 +91,29 @@
             {{#if (gt @manager.selectedFiles.length 0)}}
                 {{#if @manager.currentFolder.userCanUploadToHere}}
                     <Button
-                        {{on 'click' (action (mut this.moveModalOpen) true)}}
+                        @layout='fake-link'
+                        {{on 'click' (queue (action (mut this.useCopyModal) false) (action (mut this.moveModalOpen) true))}}
                     >
                         <FaIcon @icon='arrow-right' />
                         {{t 'general.move'}}
                     </Button>
-                    <MoveFileModal
-                        @isOpen={{this.moveModalOpen}}
-                        @close={{action (mut this.moveModalOpen) false}}
-                        @filesToMove={{@manager.selectedFiles}}
-                        @manager={{@manager}}
-                    />
                 {{/if}}
                 <Button
                     @layout='fake-link'
+                    {{on 'click' (queue (action (mut this.useCopyModal) true) (action (mut this.moveModalOpen) true))}}
                 >
                     <FaIcon
                         @icon='copy'
                     />
                     {{t 'general.copy'}}
                 </Button>
+                <MoveFileModal
+                    @isOpen={{this.moveModalOpen}}
+                    @close={{action (mut this.moveModalOpen) false}}
+                    @preserveOriginal={{this.useCopyModal}}
+                    @filesToMove={{@manager.selectedFiles}}
+                    @manager={{@manager}}
+                />
                 <Button
                     @layout='fake-link'
                 >
