@@ -15,7 +15,7 @@
     <dialog.footer>
         <Button
             @type='create'
-            disabled={{@manager.createNewFolder.isRunning}}
+            disabled={{this.shouldDisable}}
             {{on 'click'
                 (queue
                     (perform @manager.createNewFolder this.newFolderName)
