@@ -111,14 +111,7 @@
                     />
                     {{t 'general.copy'}}
                 </Button>
-                <Button
-                    @layout='fake-link'
-                >
-                    <FaIcon
-                        @icon='trash'
-                    />
-                    {{t 'general.delete'}}
-                </Button>
+                <FileBrowser::DeleteFileModal @items={{@manager.selectedFiles}} @reload={{@manager.reload}} />
             {{else}}
                 {{#if (and @manager.currentFolder @manager.currentFolder.userCanDownloadAsZip)}}
                     <OsfLink

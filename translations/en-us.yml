@@ -1881,6 +1881,10 @@ osf-components:
         uploading_file: 'Uploading {fileCount, plural, one {# file} other {# files}}'
         upload_failed: '{fileCount, plural, one {# file} other {# files}} failed, click to try again'
         upload_success: '{fileCount, plural, one {# file} other {# files}} uploaded successfully'
+        delete_file_modal:
+            heading: 'Delete {itemCount, plural, one {# item} other {# items}}'
+            delete_failed: '{itemCount, plural, one {# item} other {# items}} failed to delete, click to try again'
+            delete_success: '{itemCount, plural, one {# item} other {# items}} deleted successfully'
         help_modal:
             heading: 'Using the OSF Files Browser'
             download_all: 'Download All Files As a Zip'
