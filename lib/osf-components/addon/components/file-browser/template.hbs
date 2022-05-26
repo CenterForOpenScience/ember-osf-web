@@ -111,7 +111,7 @@
                     />
                     {{t 'general.copy'}}
                 </Button>
-                {{#if (or @manager.currentFolder.userCanDeleteFromHere)}}
+                {{#if @manager.currentFolder.userCanDeleteFromHere}}
                     <FileBrowser::DeleteFileModal @items={{@manager.selectedFiles}} @reload={{@manager.reload}} />
                 {{/if}}
             {{else}}
