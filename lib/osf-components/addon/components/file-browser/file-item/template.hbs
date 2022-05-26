@@ -20,20 +20,32 @@
                 />
             </label>
         {{/if}}
-        <OsfLink
-            data-analytics-name='Open file'
-            aria-label={{t 'osf-components.file-browser.view_file' fileName=@item.name}}
-            @href={{@item.links.html}}
-            @target='_blank'
-            local-class='FileList__item__name'
-        >
-            <FaIcon
-                @prefix='far' @icon='file-alt' @fixedWidth={{true}}
-            />
-            <span data-test-file-name>
-                {{@item.name}}
-            </span>
-        </OsfLink>
+        <div local-class='FileList__item__name'>
+            {{#if @item.isCheckedOut}}
+                <span>
+                    <FaIcon local-class='CheckoutIcon' @icon='lock' />
+                    <BsTooltip
+                        @placement='right'
+                        @triggerEvents='hover'
+                    >
+                        {{t 'osf-components.file-browser.checked_out_file'}}
+                    </BsTooltip>
+                </span>
+            {{/if}}
+            <OsfLink
+                data-analytics-name='Open file'
+                aria-label={{t 'osf-components.file-browser.view_file' fileName=@item.name}}
+                @href={{@item.links.html}}
+                @target='_blank'
+            >
+                <FaIcon
+                    @prefix='far' @icon='file-alt' @fixedWidth={{true}}
+                />
+                <span data-test-file-name>
+                    {{@item.name}}
+                </span>
+            </OsfLink>
+        </div>
         <div
             data-test-file-list-date
             local-class='FileList__item__options NoShrink'

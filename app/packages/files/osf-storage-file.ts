@@ -21,6 +21,11 @@ export default class OsfStorageFile extends File {
         return false;
     }
 
+    get currentUserCanDelete() {
+        return (this.fileModel.target.get('modelName') !== 'registration'
+            && this.currentUserPermission === 'write' && !this.isCheckedOut);
+    }
+
     get userCanUploadToHere() {
         return this.userCanMoveToHere;
     }
@@ -28,7 +33,12 @@ export default class OsfStorageFile extends File {
     get isUnderStorageLimit() {
         return underStorageLimit(this.fileModel.target as unknown as NodeModel);
     }
+
+    get isCheckedOut() {
+        return this.fileModel.checkout;
+    }
 }
+
 export function underStorageLimit(target: NodeModel) {
     const storage = target.get('storage');
     const storageLimitStatus = storage.get('storageLimitStatus');
