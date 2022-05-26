@@ -42,6 +42,7 @@
 .FileList__item__options {
     display: flex;
     align-items: center;
+    z-index: 1;
 }
 
 .FileList__item__name {
