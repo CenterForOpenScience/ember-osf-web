@@ -60,6 +60,10 @@ export default abstract class File {
         return this.fileModel.isFolder;
     }
 
+    get showAsUnviewed() {
+        return !this.fileModel.currentUserHasViewed;
+    }
+
     get currentUserPermission(): string {
         if (this.fileModel.target.get('currentUserPermissions').includes(Permission.Write)) {
             return 'write';
