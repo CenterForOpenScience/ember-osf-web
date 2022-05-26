@@ -30,12 +30,17 @@
                             {{/if}}
                             <span local-class='ItemName'>{{item.name}}</span>
                         </div>
-                        <Button
-                            @layout='fake-link'
-                            {{on 'click' (perform this.retryDelete item)}}
-                        >
-                            <FaIcon @icon='undo' />
-                        </Button>
+                        {{#if item.delete.isRunning}}
+                            <FaIcon @icon='spinner' @pulse={{true}} />
+                        {{else}}
+                            <Button
+                                @layout='fake-link'
+                                aria-label={{t 'osf-components.file-browser.delete_file_modal.retry'}}
+                                {{on 'click' (perform this.retryDelete item)}}
+                            >
+                                <FaIcon @icon='undo' />
+                            </Button>
+                        {{/if}}
                     </li>
                 {{/each}}    
             {{else if this.shouldShowSuccessModal}}

@@ -12,7 +12,7 @@ interface Args {
     reload: () => {};
 }
 
-export default class FileBrowser extends Component<Args> {
+export default class DeleteFileModal extends Component<Args> {
     @tracked deleteItemTasks: Array<TaskInstance<any>> = [];
     @tracked deletedFiles: File[] = [];
     @tracked failedFiles: File[] = [];

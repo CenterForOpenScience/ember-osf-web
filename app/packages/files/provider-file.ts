@@ -50,6 +50,14 @@ export default abstract class ProviderFile {
         );
     }
 
+    get userCanDeleteFromHere() {
+        return (
+            this.isFolder &&
+            this.currentUserPermission === 'write' &&
+            this.fileModel.target.get('modelName') !== 'registration'
+        );
+    }
+
     get name() {
         return this.fileModel.name;
     }
