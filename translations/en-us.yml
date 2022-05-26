@@ -1842,7 +1842,7 @@ osf-components:
         select_folder: 'Select folder {folderName}'
         number_selected: '{numberOfFilesSelected} item(s) selected'
         clear_selection: 'Clear selection'
-        checked_out_file: 'This file is checked out by another user'
+        checked_out_file: 'This file is checked out. Functionality is limited until it is checked in.'
         view_file: 'View file in a new window: {fileName}'
         view_folder: 'View contents of folder: {folderName}'
         filter_placeholder: 'Filter current list'
