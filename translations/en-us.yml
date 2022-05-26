@@ -1849,8 +1849,8 @@ osf-components:
         sort_by:
             name: 'Name: A-Z'
             -name: 'Name: Z-A'
-            modified: 'Last modified: newest to oldest'
-            -modified: 'Last modified: oldest to newest'
+            -date_modified: 'Last modified: newest to oldest'
+            date_modified: 'Last modified: oldest to newest'
         download_all: 'Download this folder'
         storage_location: 'Storage location: '
         storage_providers:

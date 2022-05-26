@@ -73,15 +73,15 @@
                         </Button>
                         <Button
                             @layout='fake-link'
-                            {{on 'click' (fn  @manager.changeSort 'modified')}}
+                            {{on 'click' (fn  @manager.changeSort 'date_modified')}}
                         >
-                            {{t 'osf-components.file-browser.sort_by.modified'}}
+                            {{t 'osf-components.file-browser.sort_by.date_modified'}}
                         </Button>
                         <Button
                             @layout='fake-link'
-                            {{on 'click' (fn  @manager.changeSort '-modified')}}
+                            {{on 'click' (fn  @manager.changeSort '-date_modified')}}
                         >
-                            {{t 'osf-components.file-browser.sort_by.-modified'}}
+                            {{t 'osf-components.file-browser.sort_by.-date_modified'}}
                         </Button>
                     </dropdown.content>
                 </ResponsiveDropdown>
