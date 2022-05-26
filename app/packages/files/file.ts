@@ -122,6 +122,14 @@ export default abstract class File {
         );
     }
 
+    get userCanDeleteFromHere() {
+        return (
+            this.isFolder &&
+            this.currentUserPermission === 'write' &&
+            this.fileModel.target.get('modelName') !== 'registration'
+        );
+    }
+
     async createFolder(newFolderName: string) {
         if (this.fileModel.isFolder) {
             await this.fileModel.createFolder(newFolderName);
