@@ -7,8 +7,8 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 
 export enum FileSortKey {
-    AscDateModified = 'modified',
-    DescDateModified = '-modified',
+    AscDateModified = 'date_modified',
+    DescDateModified = '-date_modified',
     AscName = 'name',
     DescName = '-name',
 }
@@ -58,6 +58,10 @@ export default abstract class File {
 
     get isFolder() {
         return this.fileModel.isFolder;
+    }
+
+    get showAsUnviewed() {
+        return !this.fileModel.currentUserHasViewed;
     }
 
     get currentUserPermission(): string {
@@ -115,6 +119,14 @@ export default abstract class File {
             this.currentUserPermission === 'write' &&
             this.fileModel.target.get('modelName') !== 'registration' &&
             this.isFolder
+        );
+    }
+
+    get userCanDeleteFromHere() {
+        return (
+            this.isFolder &&
+            this.currentUserPermission === 'write' &&
+            this.fileModel.target.get('modelName') !== 'registration'
         );
     }
 
