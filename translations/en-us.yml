@@ -1384,8 +1384,10 @@ registries:
                 input_aria: 'User input field for renaming file'
                 cancel_aria: 'Cancel renaming file'
                 save_aria: 'Save renaming file'
-                success_toast: 'File successfully renamed.'
-                error_toast: 'Please rename the file.'
+                clear_aria: 'Clear input field'
+                success_message: 'File successfully renamed.'
+                error_message: 'Please rename the file.'
+                retry_message: 'Rename failed.'
         links:
             title: Links
             linked_nodes: 'Linked projects and components'

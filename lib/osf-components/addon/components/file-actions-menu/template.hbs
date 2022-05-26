@@ -54,7 +54,7 @@
             aria-label={{t 'file_actions_menu.rename'}}
             local-class='RenameLink'
             value={{t 'file_actions_menu.rename'}}
-            @href='#userInput'
+            @route='registries.overview.files.provider'
             {{on 'click' @toggleRenameModal}}
         >
             <FaIcon @icon='pencil-alt' />
