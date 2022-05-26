@@ -5,6 +5,7 @@
         as |dropdown|
     >
         <Button
+            aria-label={{t 'osf-components.file-browser.add_button_aria'}}
             local-class='TriggerButton {{if dropdown.isOpen 'CloseButton'}}'
             @type='create'
             {{on 'click' dropdown.toggle}}
@@ -21,7 +22,7 @@
                 @layout='fake-link'
                 {{on 'click' (fn (mut this.createFolderModalOpen) true)}}
             >
-                {{t 'osf-components.file-browser.create_folder'}}
+                {{t 'osf-components.file-browser.create_folder.title'}}
             </Button>
             <Button
                 @layout='fake-link'

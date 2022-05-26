@@ -1855,8 +1855,8 @@ osf-components:
         sort_by:
             name: 'Name: A-Z'
             -name: 'Name: Z-A'
-            modified: 'Last modified: newest to oldest'
-            -modified: 'Last modified: oldest to newest'
+            -date_modified: 'Last modified: newest to oldest'
+            date_modified: 'Last modified: oldest to newest'
         download_all: 'Download this folder'
         storage_location: 'Storage location: '
         storage_providers:
@@ -1876,12 +1876,22 @@ osf-components:
             s3: 'Amazon S3'
         empty_folder: 'This folder is empty.'
         breadcrumbs: 'Breadcrumb'
-        create_folder: 'Create folder'
+        create_folder:
+            title: 'Create folder'
+            new_folder_name: 'New folder name'
+            error_title: 'Failed to create folder'
+            error_409: 'A folder with that name already exists'
+            error_generic: 'Something went wrong. Please try again.'
+        add_button_aria: 'Add files or folders here'
         upload_file: 'Upload file'
-        new_folder_name: 'New folder name'
         uploading_file: 'Uploading {fileCount, plural, one {# file} other {# files}}'
         upload_failed: '{fileCount, plural, one {# file} other {# files}} failed, click to try again'
         upload_success: '{fileCount, plural, one {# file} other {# files}} uploaded successfully'
+        delete_file_modal:
+            heading: 'Delete {itemCount, plural, one {# item} other {# items}}'
+            delete_failed: '{itemCount, plural, one {# item} other {# items}} failed to delete, click to try again'
+            delete_success: '{itemCount, plural, one {# item} other {# items}} deleted successfully'
+            retry: 'retry delete'
         help_modal:
             heading: 'Using the OSF Files Browser'
             download_all: 'Download All Files As a Zip'

@@ -37,6 +37,7 @@ export default class FileModel extends BaseFileItem {
     @attr('object') extra!: any;
     @attr('fixstringarray') tags!: string[];
     @attr('fixstring') checkout!: string;
+    @attr('boolean') currentUserHasViewed!: boolean;
 
     @belongsTo('file', { inverse: 'files' })
     parentFolder!: AsyncBelongsTo<FileModel> & FileModel;
