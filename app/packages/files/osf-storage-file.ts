@@ -22,8 +22,7 @@ export default class OsfStorageFile extends File {
     }
 
     get currentUserCanDelete() {
-        return (this.fileModel.target.get('modelName') !== 'registration'
-            && this.currentUserPermission === 'write' && !this.isCheckedOut);
+        return super.currentUserCanDelete && !this.isCheckedOut;
     }
 
     get userCanUploadToHere() {
