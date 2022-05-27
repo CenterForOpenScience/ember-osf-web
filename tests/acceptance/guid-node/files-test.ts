@@ -17,7 +17,6 @@ module('Acceptance | guid-node/files', hooks => {
         assert.dom('[data-test-overview-link]').exists('Overview link exists');
         assert.dom('[data-test-files-link]').exists('Files link exists');
         // check active tab + file providers
-        assert.dom('[data-test-wiki-link]').exists('Wiki link exists');
         assert.dom('[data-test-analytics-link]').exists('Analytics link exists');
         assert.dom('[data-test-registrations-link]').exists('Registrations link exists');
         assert.dom('[data-test-contributors-link]').exists('Contributors link exists');
@@ -27,5 +26,5 @@ module('Acceptance | guid-node/files', hooks => {
     // test no files
     // test selecting files + file actions
     // test switching providers
-    // test links for different user permissions and VOL status
+    // test links for different user permissions and VOL status and wiki enabled
 });
