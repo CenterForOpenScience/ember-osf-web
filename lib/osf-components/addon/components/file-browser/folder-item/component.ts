@@ -11,6 +11,7 @@ interface Args {
 export default class FolderItem extends Component<Args> {
     @tracked isDeleteModalOpen = false;
     @tracked moveModalOpen = false;
+    @tracked useCopyModal = false;
 
     get showActionsDropdown() {
         const { item, manager } = this.args;

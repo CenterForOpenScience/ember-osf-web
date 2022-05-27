@@ -56,25 +56,38 @@
                 {{t 'general.share'}}
             </dd.trigger>
         </SharingIcons::Dropdown>
-        {{#if (and @item.currentUserCanDelete @manager)}}
+        {{#if @manager}}
+            {{#if @item.currentUserCanDelete}}
+                <Button
+                    @layout='fake-link'
+                    local-class='DropdownItem'
+                    {{on 'click' (queue (action (mut this.useCopyModal) false) (action (mut this.moveModalOpen) true))}}
+                >
+                    <FaIcon
+                        @icon='arrow-right'
+                    />
+                    {{t 'general.move'}}
+                </Button>
+            {{/if}}
             <Button
                 @layout='fake-link'
                 local-class='DropdownItem'
-                {{on 'click' (action (mut this.moveModalOpen) true)}}
+                {{on 'click' (queue (action (mut this.useCopyModal) true) (action (mut this.moveModalOpen) true))}}
             >
                 <FaIcon
-                    @icon='arrow-right'
+                    @icon='copy'
                 />
-                {{t 'general.move'}}
+                {{t 'general.copy'}}
             </Button>
         {{/if}}
     </dropdown.content>
 </ResponsiveDropdown>
 <FileActionsMenu::DeleteModal @file={{@item}} @isOpen={{this.isDeleteModalOpen}} @closeModal={{this.closeDeleteModal}} @onDelete={{@onDelete}} />
-{{#if (and @item.currentUserCanDelete @manager)}}
+{{#if @manager}}
     <MoveFileModal
         @isOpen={{this.moveModalOpen}}
         @close={{action (mut this.moveModalOpen) false}}
+        @preserveOriginal={{this.useCopyModal}}
         @manager={{@manager}}
         @filesToMove={{array @item}}
     />

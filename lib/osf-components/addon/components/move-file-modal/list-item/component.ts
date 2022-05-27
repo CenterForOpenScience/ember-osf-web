@@ -30,8 +30,8 @@ export default class ListItemComponent extends Component<ListItemArgs> {
 
     get isReadOnlyProvider() {
         let readOnlyProvider = false;
-        if (this.args.isProvider && this.args.item.isFolder) {
-            const provider = this.args.item as ProviderFile;
+        if (this.args.item.isFolder) {
+            const provider = this.args.item as ProviderFile | File;
             readOnlyProvider = !provider.userCanMoveToHere;
         }
         return readOnlyProvider;
