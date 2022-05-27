@@ -53,13 +53,16 @@
     align-items: center;
 }
 
+.MobileDropdownTrigger {
+    z-index: 1;
+}
+
 .NoShrink {
     flex-shrink: 0;
 }
 
 .DownloadShareDropdown {
     padding-left: 20px;
-    z-index: 1;
 }
 
 .DropdownList {

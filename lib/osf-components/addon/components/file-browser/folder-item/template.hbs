@@ -39,14 +39,13 @@
         {{#if this.showActionsDropdown}}
             <div
                 data-test-file-list-date
-                local-class='FileList__item__options NoShrink'
+                local-class='FileList__item__options NoShrink {{if (or this.media.isTablet this.media.isMobile) 'MobileDropdownTrigger'}}'
             >
                 <ResponsiveDropdown
                     local-class='DownloadShareDropdown'
                     @renderInPlace={{true}}
                     @buttonStyling={{true}}
                     @horizontalPosition='right'
-                    @verticalPosition='above'
                     as |dropdown|
                 >
                     <dropdown.trigger
