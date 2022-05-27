@@ -96,6 +96,7 @@ module('Integration | Component | move-file-modal', hooks => {
         assert.dom('[data-test-ancestor-button]').exists({count: 1}, 'one ancestors');
         assert.dom('[data-test-breadcrumb').doesNotExist('no breadcrumbs');
         assert.dom('[data-test-move-to-node]').exists({count: 2}, 'two possible nodes to move to');
+        assert.dom('[data-test-provider-icon]').exists({count: 1}, 'provider icon shown');
         assert.dom('[data-test-move-to-folder]').exists({count: 1}, 'one possible folder to move to');
         assert.dom('[data-test-move-files-button]').isDisabled('Move files button is disabled');
         assert.dom('[data-test-current-node-item-help-text]')
