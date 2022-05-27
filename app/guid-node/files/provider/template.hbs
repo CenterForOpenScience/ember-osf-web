@@ -59,13 +59,15 @@
                     </div>
                 {{/each}}
             </div>
-            <leftNav.link
-                data-test-wiki-link
-                data-analytics-name='Wiki'
-                @href='/{{this.model.node.guid}}/wiki/'
-                @icon='window-maximize'
-                @label={{t 'node.left_nav.wiki'}}
-            />
+            {{#if this.model.providerTask.value.node.wikiEnabled }}
+                <leftNav.link
+                    data-test-wiki-link
+                    data-analytics-name='Wiki'
+                    @href='/{{this.model.node.guid}}/wiki/'
+                    @icon='window-maximize'
+                    @label={{t 'node.left_nav.wiki'}}
+                />
+            {{/if}}
             {{#unless this.model.providerTask.value.isViewOnly}}
                 <leftNav.link
                     data-test-analytics-link
