@@ -1,13 +1,18 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 import NodeModel from 'ember-osf-web/models/node';
+import { Permission } from 'ember-osf-web/models/osf-model';
 import { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
+import CurrentUser from 'ember-osf-web/services/current-user';
 
 export default class GuidNodeFilesProviderRoute extends Route.extend({}) {
+    @service currentUser!: CurrentUser;
+
     @task
     @waitFor
     async fileProviderTask(guidRouteModel: GuidRouteModel<NodeModel>, fileProviderId: string) {
@@ -19,7 +24,9 @@ export default class GuidNodeFilesProviderRoute extends Route.extend({}) {
             },
         );
         const provider = fileProviders.findBy('id', fileProviderId) as FileProviderModel;
-        return {provider, fileProviders, node};
+        const hasWritePermission = node.currentUserPermissions.includes(Permission.Write);
+        const isViewOnly = Boolean(this.currentUser.viewOnlyToken);
+        return {provider, fileProviders, node, hasWritePermission, isViewOnly};
     }
 
     model(params: { providerId: string }) {
