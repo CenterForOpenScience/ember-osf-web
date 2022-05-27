@@ -34,7 +34,7 @@ export default class OsfStorageFile extends File {
     }
 
     get isCheckedOut() {
-        return this.fileModel.checkout;
+        return Boolean(this.fileModel.checkout);
     }
 }
 
