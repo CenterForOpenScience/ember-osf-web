@@ -155,12 +155,13 @@ export default abstract class File {
                     });
                 this.totalFileCount = queryResult.meta.total;
                 return queryResult.map(fileModel => Reflect.construct(this.constructor, [this.currentUser, fileModel]));
-            } catch (e){
+            } catch (e) {
                 const errorMessage = this.intl.t(
                     'osf-components.file-browser.errors.load_file_list',
                 );
                 captureException(e, { errorMessage });
                 this.toast.error(getApiErrorMessage(e), errorMessage);
+                return [];
             }
         }
         return [];
