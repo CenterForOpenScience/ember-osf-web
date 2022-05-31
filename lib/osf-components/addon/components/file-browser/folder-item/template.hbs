@@ -68,6 +68,7 @@
                         {{#if @item.currentUserCanDelete}}
                             <Button
                                 @layout='fake-link'
+                                data-test-delete-button
                                 {{on 'click' (queue (action (mut this.useCopyModal) false) (action (mut this.moveModalOpen) true))}}
                             >
                                 <FaIcon
@@ -79,6 +80,7 @@
                         <Button
                             @layout='fake-link'
                             local-class='DropdownItem'
+                            data-test-copy-button
                             {{on 'click' (queue (action (mut this.useCopyModal) true) (action (mut this.moveModalOpen) true))}}
                         >
                             <FaIcon
@@ -87,7 +89,7 @@
                             {{t 'general.copy'}}
                         </Button>
                         {{#if @item.currentUserCanDelete}}
-                            <Button @layout='fake-link' local-class='DropdownItem'
+                            <Button @layout='fake-link' local-class='DropdownItem' data-test-move-button
                                 {{on 'click' (fn (mut this.isDeleteModalOpen) true)}}
                             >
                                 <FaIcon @icon='trash-alt' />
