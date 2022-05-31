@@ -26,7 +26,7 @@
                 {{#if @isProvider}}
                     <img
                         data-test-provider-icon
-                        src={{concat '/assets/images/addons/icons/' @item.name '.png'}}
+                        src={{concat this.assetPrefix 'assets/images/addons/icons/' @item.name '.png'}}
                         alt={{t 'osf-components.move_file_modal.icon_alt' provider=(t (concat 'osf-components.file-browser.storage_providers.' @item.name))}}
                     >
                     {{t (concat 'osf-components.file-browser.storage_providers.' @item.name)}}
