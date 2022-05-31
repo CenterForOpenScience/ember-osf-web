@@ -24,8 +24,11 @@
         >
             <span>
                 {{#if @isProvider}}
-                    {{!-- TODO: Add logo here --}}
-                    <FaIcon @icon='folder' />
+                    <img
+                        data-test-provider-icon
+                        src={{concat '/assets/images/addons/icons/' @item.name '.png'}}
+                        alt={{t 'osf-components.move_file_modal.icon_alt' provider=(t (concat 'osf-components.file-browser.storage_providers.' @item.name))}}
+                    >
                     {{t (concat 'osf-components.file-browser.storage_providers.' @item.name)}}
                     {{#if this.isReadOnlyProvider}}
                         <span local-class='ReadOnlyProvider'>

@@ -22,7 +22,8 @@ import captureException from 'ember-osf-web/utils/capture-exception';
 interface MoveFileModalArgs {
     isOpen: boolean;
     close: () => void;
-    filesToMove: File[];
+    preserveOriginal?: boolean;
+    filesToMove: File[]; // or copy
     manager: StorageManager;
 }
 
@@ -44,7 +45,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
     @tracked totalFiles? = 0;
     @tracked breadcrumbs: Array<ProviderFile | File> = [];
 
-    @tracked fileMoveTasks: Array<TaskInstance<null>> = [];
+    @tracked fileActionTasks: Array<TaskInstance<null>> = [];
 
     get itemList() {
         return [...this.filesList, ...this.childNodeList];
@@ -72,23 +73,26 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
         return taskFor(this.loadChildNodes).isRunning || taskFor(this.loadFiles).isRunning;
     }
 
+    get providerIsReadOnly() {
+        return this.currentFolder ? !this.currentFolder.userCanMoveToHere : true;
+    }
+
     get isDisabled() {
         const { currentFolder, currentNode, breadcrumbs } = this;
         if (!currentFolder || !currentNode || breadcrumbs.length === 0) {
             return true;
         }
-        const providerIsReadOnly = !breadcrumbs[0].userCanMoveToHere;
         const invalidDestination = currentFolder.id === this.startingFolder!.id;
-        return providerIsReadOnly || invalidDestination
-            || !currentNode.userHasWritePermission || this.isMoving;
+        return this.providerIsReadOnly || invalidDestination
+            || !currentNode.userHasWritePermission || this.isMovingOrCopying;
     }
 
-    get isMoving() {
-        return this.fileMoveTasks.length > 0;
+    get isMovingOrCopying() {
+        return this.fileActionTasks.length > 0;
     }
 
-    get moveDone() {
-        return this.isMoving && this.fileMoveTasks.every(moveTask => moveTask.isFinished);
+    get moveOrCopyDone() {
+        return this.isMovingOrCopying && this.fileActionTasks.every(moveOrCopyTask => moveOrCopyTask.isFinished);
     }
 
     @task
@@ -219,8 +223,26 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
         try {
             const moveTasks = this.args.filesToMove.map(file =>
                 taskFor(file.move).perform(currentNode, currentFolder.path, provider.name));
-            this.fileMoveTasks = moveTasks;
+            this.fileActionTasks = moveTasks;
             await allSettled(moveTasks);
+        } catch (e) {
+            captureException(e);
+        }
+    }
+
+    @task
+    @waitFor
+    async copy() {
+        const { currentFolder, currentNode, breadcrumbs } = this;
+        if (!currentFolder || !currentNode || breadcrumbs.length === 0) {
+            return;
+        }
+        const provider = breadcrumbs[0];
+        try {
+            const copyTasks = this.args.filesToMove.map(file =>
+                taskFor(file.copy).perform(currentNode, currentFolder.path, provider.name));
+            this.fileActionTasks = copyTasks;
+            await allSettled(copyTasks);
         } catch (e) {
             captureException(e);
         }
@@ -228,33 +250,35 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
 
     @action
     skip(index: number) {
-        this.fileMoveTasks.splice(index, 1);
-        notifyPropertyChange(this, 'fileMoveTasks');
+        this.fileActionTasks.splice(index, 1);
+        notifyPropertyChange(this, 'fileActionTasks');
     }
 
     @action
     retry(file: File, index: number) {
         const { currentFolder, currentNode, breadcrumbs } = this;
-        const newTaskInstance = taskFor(file.move).perform(
+        const fileActionTask = this.args.preserveOriginal ? file.copy : file.move;
+        const newTaskInstance = taskFor(fileActionTask).perform(
             currentNode, currentFolder!.path, breadcrumbs[0].name,
         );
-        this.fileMoveTasks[index] = newTaskInstance;
-        notifyPropertyChange(this, 'fileMoveTasks');
+        this.fileActionTasks[index] = newTaskInstance;
+        notifyPropertyChange(this, 'fileActionTasks');
     }
 
     @action
     replace(file: File, index: number) {
         const { currentFolder, currentNode, breadcrumbs } = this;
-        const newTaskInstance = taskFor(file.move).perform(
+        const fileActionTask = this.args.preserveOriginal ? file.copy : file.move;
+        const newTaskInstance = taskFor(fileActionTask).perform(
             currentNode, currentFolder!.path, breadcrumbs[0].name, { conflict: 'replace' },
         );
-        this.fileMoveTasks[index] = newTaskInstance;
-        notifyPropertyChange(this, 'fileMoveTasks');
+        this.fileActionTasks[index] = newTaskInstance;
+        notifyPropertyChange(this, 'fileActionTasks');
     }
 
     @action
     onOpen() {
-        this.fileMoveTasks = [];
+        this.fileActionTasks = [];
         this.resetFolder();
         this.currentNode = this.args.manager.targetNode! as NodeModel;
         this.currentFolder = this.args.manager.currentFolder;
@@ -265,7 +289,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
 
     @action
     onClose() {
-        if (this.startingFolder && this.fileMoveTasks.length > 0) {
+        if (this.startingFolder && this.fileActionTasks.length > 0) {
             this.args.manager.reload();
         }
         this.args.close();
@@ -273,6 +297,6 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
 
     @action
     cancelMoves() {
-        this.fileMoveTasks.forEach(moveTask => moveTask.cancel());
+        this.fileActionTasks.forEach(moveOrCopyTask => moveOrCopyTask.cancel());
     }
 }
