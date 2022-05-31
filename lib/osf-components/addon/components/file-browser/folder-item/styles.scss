@@ -53,6 +53,10 @@
     align-items: center;
 }
 
+.MobileDropdownTrigger {
+    z-index: 1;
+}
+
 .NoShrink {
     flex-shrink: 0;
 }
