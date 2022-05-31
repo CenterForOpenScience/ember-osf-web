@@ -126,6 +126,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
         if (!this.currentFolder) {
             fileList = await this.currentNode!.queryHasMany('files', {
                 page: this.folderPage,
+                'page[size]': 20,
             });
             fileList = fileList.map(
                 fileProviderModel => getStorageProviderFile(this.currentUser, fileProviderModel),
