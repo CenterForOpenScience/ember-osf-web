@@ -2,6 +2,7 @@
     @isOpen={{@isOpen}}
     @onClose={{this.onClose}}
     @fixedWidth={{true}}
+    @closeOnOutsideClick={{false}}
     as |dialog|
 >
     <dialog.heading data-test-move-modal-heading>
@@ -25,6 +26,8 @@
                             {{#if taskInstance.isRunning}}
                                 {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'copying_file' 'moving_file')) fileName=file.name}}
                                 <FaIcon @icon='spinner' @pulse={{true}} />
+                            {{else if (not taskInstance.hasStarted)}}
+                                {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'awaiting_copy' 'awaiting_move')) fileName=file.name}}
                             {{else if taskInstance.isSuccessful}}
                                 {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'success_copy' 'success_move')) fileName=file.name}}
                                 <FaIcon @icon='check' local-class='success'/>
@@ -123,7 +126,7 @@
         {{else}}
             <Button
                 @type='secondary'
-                {{on 'click' (queue this.cancelMoves this.onClose)}}
+                {{on 'click' this.onClose}}
             >
                 {{t 'general.cancel'}}
             </Button>

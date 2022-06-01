@@ -1830,6 +1830,8 @@ osf-components:
         icon_alt: 'Icon for {provider}'
         moving_files: 'Moving...'
         copying_files: 'Copying...'
+        awaiting_move: 'Waiting to move {fileName}'
+        awaiting_copy: 'Waiting to copy {fileName}'
         moving_file: 'Moving {fileName}'
         copying_file: 'Copying {fileName}'
         success_move: 'Successfully moved {fileName}'
