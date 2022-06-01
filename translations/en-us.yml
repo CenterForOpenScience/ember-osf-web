@@ -1840,6 +1840,9 @@ osf-components:
         retry: 'Retry'
         replace: 'Replace'
     file-browser:
+        retry: 'Retry'
+        replace: 'Replace'
+        skip: 'Skip'
         delete: 'Delete'
         confirm_delete: 'Are you sure you want to delete "{fileName}"?'
         delete_file: 'Delete file'

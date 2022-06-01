@@ -27,7 +27,7 @@
                         {{t 'osf-components.file-browser.uploading_file' fileCount=this.uploading.length}}
                     {{/if}}
                     {{#if this.shouldShowFailureModal}}
-                        {{t 'osf-components.file-browser.upload_failed' fileCount=this.uploadErrored.length}}
+                        {{t 'osf-components.file-browser.upload_failed' fileCount=this.failedFilesNumber}}
                     {{/if}}
                     {{#if this.shouldShowSuccessModal}}
                         {{t 'osf-components.file-browser.upload_success' fileCount=this.uploadCompleted.length}}
@@ -57,16 +57,54 @@
                                         <FaIcon @icon='file-alt' />
                                         <span local-class='Filename'>{{item.name}}</span>
                                     </div>
-                                    <Button
-                                        @layout='fake-link'
-                                        {{on 'click' (fn this.retryUpload dropzone.dropzoneInstance item)}}
-                                    >
-                                        {{#if (or (eq item.status 'uploading') (eq item.status 'queued'))}}
-                                            <FaIcon @icon='spinner' @pulse={{true}} />
-                                        {{else}}
-                                            <FaIcon @icon='undo' />
-                                        {{/if}}
-                                    </Button>
+                                    <div>
+                                        <Button
+                                            {{on 'click' (fn this.skip item)}}
+                                            disabled={{or (eq item.status 'uploading') (eq item.status 'queued')}}
+                                        >
+                                            {{t 'osf-components.file-browser.skip'}}
+                                        </Button>
+                                        <Button
+                                            @type='destroy'
+                                            {{on 'click' (fn this.retryUpload dropzone.dropzoneInstance item)}}
+                                            disabled={{or (eq item.status 'uploading') (eq item.status 'queued')}}
+                                        >
+                                            {{#if (or (eq item.status 'uploading') (eq item.status 'queued'))}}
+                                                <FaIcon @icon='spinner' @pulse={{true}} />
+                                            {{else}}
+                                                {{t 'osf-components.file-browser.retry'}}
+                                            {{/if}}
+                                        </Button>
+                                    </div>
+                                </li>
+                            {{/each}}
+                            {{#each this.uploadConflicted as |item|}}
+                                <li
+                                    local-class='FileListItem'
+                                >
+                                    <div>
+                                        <FaIcon @icon='file-alt' />
+                                        <span local-class='Filename'>{{item.name}}</span>
+                                    </div>
+                                    <div>
+                                        <Button
+                                            {{on 'click' (fn this.skip item)}}
+                                            disabled={{or (eq item.status 'uploading') (eq item.status 'queued')}}
+                                        >
+                                            {{t 'osf-components.file-browser.skip'}}
+                                        </Button>
+                                        <Button
+                                            @type='destroy'
+                                            {{on 'click' (fn this.retryUpload dropzone.dropzoneInstance item)}}
+                                            disabled={{or (eq item.status 'uploading') (eq item.status 'queued')}}
+                                        >
+                                            {{#if (or (eq item.status 'uploading') (eq item.status 'queued'))}}
+                                                <FaIcon @icon='spinner' @pulse={{true}} />
+                                            {{else}}
+                                                {{t 'osf-components.file-browser.replace'}}
+                                            {{/if}}
+                                        </Button>
+                                    </div>
                                 </li>
                             {{/each}}
                         </ul>
