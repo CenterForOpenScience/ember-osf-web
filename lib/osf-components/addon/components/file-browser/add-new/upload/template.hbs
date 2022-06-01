@@ -58,7 +58,11 @@
                                     @layout='fake-link'
                                     {{on 'click' (fn this.retryUpload dropzone.dropzoneInstance item)}}
                                 >
-                                    <FaIcon @icon='undo' />
+                                    {{#if (or (eq item.status 'uploading') (eq item.status 'queued'))}}
+                                        <FaIcon @icon='spinner' @pulse={{true}} />
+                                    {{else}}
+                                        <FaIcon @icon='undo' />
+                                    {{/if}}
                                 </Button>
                             </li>
                         {{/each}}

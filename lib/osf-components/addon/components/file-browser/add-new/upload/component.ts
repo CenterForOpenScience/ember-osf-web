@@ -6,11 +6,14 @@ import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import StorageManager from 'osf-components/components/storage-provider-manager/storage-manager/component';
+import { TrackedWeakMap } from 'tracked-built-ins';
+// import Dropzone from 'dropzone';
 
 interface Args {
     manager: StorageManager;
     isOpen: boolean;
 }
+
 
 export default class Upload extends Component<Args> {
     dropzoneOptions = {
@@ -20,6 +23,7 @@ export default class Upload extends Component<Args> {
         preventMultipleFiles: false,
         acceptDirectories: false,
         autoProcessQueue: true,
+        autoQueue:true,
     };
 
     @service intl!: Intl;
@@ -71,7 +75,24 @@ export default class Upload extends Component<Args> {
 
     @action
     addedFile(_: any, __: any, file: any) {
-        this.uploading.pushObject(file);
+        const cache = new TrackedWeakMap();
+        const initialValue = file.status;
+        Object.defineProperty(file, 'status', {
+            get() {
+                let existingValue = cache.get(file);
+                if (!existingValue) {
+                    existingValue = initialValue;
+                    cache.set(file, existingValue);
+                }
+                return existingValue;
+            },
+            set(value) {
+                cache.set(file, value);
+            },
+        });
+        if (!this.uploadErrored.includes(file) && !this.uploading.includes(file)) {
+            this.uploading.pushObject(file);
+        }
         notifyPropertyChange(this, 'uploading');
     }
 
@@ -104,7 +125,7 @@ export default class Upload extends Component<Args> {
     }
 
     retryUpload(dropzoneInstance: any, file: any) {
-        dropzoneInstance.processFile(file);
+        dropzoneInstance.addFile(file);
     }
 
     @action
