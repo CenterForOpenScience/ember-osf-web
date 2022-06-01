@@ -12,6 +12,9 @@ import { TrackedWeakMap } from 'tracked-built-ins';
 interface Args {
     manager: StorageManager;
     isOpen: boolean;
+    dragEnter: () => {};
+    dragLeave: () => {};
+    dragOver: () => {};
 }
 
 
