@@ -3,6 +3,7 @@ import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
+import config from 'ember-get-config';
 
 import NodeModel from 'ember-osf-web/models/node';
 import File from 'ember-osf-web/packages/files/file';
@@ -48,5 +49,9 @@ export default class ListItemComponent extends Component<ListItemArgs> {
             return this.intl.t('osf-components.move_file_modal.no_write_permission');
         }
         return this.intl.t('osf-components.move_file_modal.select_provider');
+    }
+
+    get assetPrefix() {
+        return config.assetsPrefix;
     }
 }
