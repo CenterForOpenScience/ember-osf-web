@@ -15,10 +15,15 @@ interface FileItem {
     links: Links;
     dateModified: string;
     id: string;
+    userCanDownloadAsZip: boolean;
 }
 
 interface Manager {
     parentFolder: any;
+    selectFile: () => void;
+    goToFolder: () => void;
+    selectedFiles: any[];
+    targetNode: any;
 }
 
 interface FolderItemTestContext extends TestContext {
@@ -26,7 +31,7 @@ interface FolderItemTestContext extends TestContext {
     manager: Manager;
 }
 
-module('Integration | Component | file-browser :: folder-tiem', hooks => {
+module('Integration | Component | file-browser :: folder-item', hooks => {
     setupRenderingTest(hooks);
     hooks.beforeEach(function(this: FolderItemTestContext) {
         this.item = {
@@ -37,9 +42,14 @@ module('Integration | Component | file-browser :: folder-tiem', hooks => {
                 download: 'thisisafakedownloadlink',
             },
             dateModified: Date(),
+            userCanDownloadAsZip: true,
         };
         this.manager = {
             parentFolder: null,
+            selectFile: () => { /* noop */ },
+            goToFolder: () => { /* noop */ },
+            selectedFiles: [],
+            targetNode: 'fakeNode',
         };
     });
 
