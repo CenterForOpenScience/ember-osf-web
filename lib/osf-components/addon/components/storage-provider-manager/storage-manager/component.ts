@@ -1,3 +1,4 @@
+import { assert } from '@ember/debug';
 import { action, notifyPropertyChange } from '@ember/object';
 import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
@@ -95,13 +96,8 @@ export default class StorageManager extends Component<Args> {
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
-        if(this.args.provider) {
-            taskFor(this.getRootFolderItems).perform();
-        } else {
-            const errorMessage = this.intl.t('osf-components.file-browser.errors.load_file_provider');
-            const errorTitle = this.intl.t('osf-components.file-browser.errors.load_file_provider_title');
-            this.toast.error(errorMessage, errorTitle);
-        }
+        assert('@provider must be provided', this.args.provider);
+        taskFor(this.getRootFolderItems).perform();
     }
 
     get targetNode() {
