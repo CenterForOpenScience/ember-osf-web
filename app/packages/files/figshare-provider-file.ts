@@ -12,18 +12,14 @@ export default class FigshareProviderFile extends ProviderFile {
     }
 
     async getFolderItems(page: number, sort: FileSortKey, filter: string ) {
-        try {
-            const queryResult = await this.fileModel.queryHasMany('files',
-                {
-                    page,
-                    sort,
-                    'filter[name]': filter,
-                });
-            this.totalFileCount = queryResult.meta.total;
-            return queryResult.map(fileModel => new FigshareFile(this.currentUser, fileModel));
-        } catch (e) {
-            return this.handleFetchError(e);
-        }
+        const queryResult = await this.fileModel.queryHasMany('files',
+            {
+                page,
+                sort,
+                'filter[name]': filter,
+            });
+        this.totalFileCount = queryResult.meta.total;
+        return queryResult.map(fileModel => new FigshareFile(this.currentUser, fileModel));
     }
 
     get currentUserPermission(): string {
