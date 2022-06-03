@@ -21,7 +21,7 @@ export function createNode(this: HandlerContext, schema: Schema) {
 }
 
 export function storageStatus(this: HandlerContext, schema: Schema, request: Request) {
-    const model = this.serialize(schema.storage.find(request.params.id)).data;
+    const model = this.serialize(schema.nodeStorages.find(request.params.id)).data;
     const data = process(schema, request, this, [model]).data[0];
     return { data };
 }

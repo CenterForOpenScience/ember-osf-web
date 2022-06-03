@@ -1,21 +1,58 @@
 .FileList__item {
+    position: relative;
     display: flex;
     justify-content: space-between;
     padding: 12px 0;
     border-top: solid 1px $color-border-gray;
+    height: 60px;
 
     span {
         margin: 0 6px;
     }
 }
 
+.Unviewed {
+    font-weight: 600;
+}
+
 .Indent {
-    padding-left: 30px;
+    margin-left: 30px;
+}
+
+.Label {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 0;
+
+    &:focus-within {
+        outline: auto;
+    }
+}
+
+.Checkbox {
+    opacity: 0;
+}
+
+.CheckoutIcon {
+    margin-right: 6px;
+    color: $color-text-gray;
+}
+
+.Selected {
+    background-image: linear-gradient(90deg, rgba(236, 240, 241, 0) 0%, #ecf0f1 12%, #ecf0f1 89%, rgba(236, 240, 241, 0) 100%);
 }
 
 .FileList__item__options {
     display: flex;
     align-items: center;
+}
+
+.FileList__item__name {
+    display: flex;
+    align-items: center;
+    z-index: 9;
 }
 
 .NoShrink {

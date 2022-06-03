@@ -1,0 +1,17 @@
+.ChildItem {
+    border-top: solid 1px $color-border-gray;
+    padding: 12px 10px;
+}
+
+.NavButton {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.InvalidDestination {
+    color: $color-text-gray;
+    font-style: italic;
+    padding-left: 6px;
+}

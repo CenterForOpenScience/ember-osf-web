@@ -22,54 +22,59 @@
     </span>
 
     {{#if this.dropdownOpen}}
-        <div
-            data-test-file-version-section='md5'
-            local-class='DropdownSection'
-        >
-            <CopyButton
-                @clipboardText={{@version.attributes.extra.hashes.md5}}
-                @success={{this.copySuccess}}
-                @error={{this.copyError}}
-                local-class='FakeLink'
+        {{#if @version.attributes.extra.hashes.md5}}
+            <div
+                data-test-file-version-section='md5'
+                local-class='DropdownSection'
             >
-                <FaIcon @icon='copy' />
-                {{t 'osf-components.file-version.copy_md5'}}
-            </CopyButton>
-            <div>
-                <FaIcon local-class='HelpIcon' @icon='question-circle' />
-                <BsTooltip
-                    data-test-md5-tooltip
-                    @placement='left'
-                    @triggerEvents='hover focus'
+                <CopyButton
+                    @clipboardText={{@version.attributes.extra.hashes.md5}}
+                    @success={{this.copySuccess}}
+                    @error={{this.copyError}}
+                    local-class='FakeLink'
                 >
-                    {{t 'osf-components.file-version.md5_description'}}
-                </BsTooltip>
+                    <FaIcon @icon='copy' />
+                    {{t 'osf-components.file-version.copy_md5'}}
+                </CopyButton>
+                <div>
+                    <FaIcon local-class='HelpIcon' @icon='question-circle' />
+                    <BsTooltip
+                        data-test-md5-tooltip
+                        @placement='left'
+                        @triggerEvents='hover focus'
+                    >
+                        {{t 'osf-components.file-version.md5_description'}}
+                    </BsTooltip>
+                </div>
             </div>
-        </div>
-        <div
+        {{/if}}
+        {{#if @version.attributes.extra.hashes.sha256}}
+            <div
             data-test-file-version-section='sha2'
             local-class='DropdownSection'
-        >
-            <CopyButton
-                @clipboardText={{@version.attributes.extra.hashes.sha256}}
-                @success={{this.copySuccess}}
-                @error={{this.copyError}}
-                local-class='FakeLink'
             >
-                <FaIcon @icon='copy' />
-                {{t 'osf-components.file-version.copy_sha2'}}
-            </CopyButton>
-            <div>
-                <FaIcon local-class='HelpIcon' @icon='question-circle' />
-                <BsTooltip
-                    data-test-sha2-tooltip
-                    @placement='left'
-                    @triggerEvents='hover focus'
+                <CopyButton
+                    @clipboardText={{@version.attributes.extra.hashes.sha256}}
+                    @success={{this.copySuccess}}
+                    @error={{this.copyError}}
+                    local-class='FakeLink'
                 >
-                    {{t 'osf-components.file-version.sha2_description'}}
-                </BsTooltip>
+                    <FaIcon @icon='copy' />
+                    {{t 'osf-components.file-version.copy_sha2'}}
+                </CopyButton>
+                <div>
+                    <FaIcon local-class='HelpIcon' @icon='question-circle' />
+                    <BsTooltip
+                        data-test-sha2-tooltip
+                        @placement='left'
+                        @triggerEvents='hover focus'
+                    >
+                        {{t 'osf-components.file-version.sha2_description'}}
+                    </BsTooltip>
+                </div>
             </div>
-        </div>
+        {{/if}}
+        
         <div
             data-test-file-version-section='download'
             local-class='DropdownSection'

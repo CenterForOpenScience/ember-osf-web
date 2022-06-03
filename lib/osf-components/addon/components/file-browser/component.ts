@@ -5,16 +5,20 @@ import { tracked } from '@glimmer/tracking';
 import { taskFor } from 'ember-concurrency-ts';
 import Media from 'ember-responsive';
 
-import OsfStorageManager from 'osf-components/components/storage-provider-manager/osf-storage-manager/component';
+import StorageManager from 'osf-components/components/storage-provider-manager/storage-manager/component';
 
 interface Args {
-    manager: OsfStorageManager;
+    manager: StorageManager;
+    selectable?: boolean;
 }
 
 export default class FileBrowser extends Component<Args> {
     @service media!: Media;
 
     @tracked helpModalOpen = false;
+    @tracked selectable = this.args.selectable || false;
+    @tracked moveModalOpen = false;
+    @tracked useCopyModal = false;
 
     get isMobile() {
         return this.media.isMobile;

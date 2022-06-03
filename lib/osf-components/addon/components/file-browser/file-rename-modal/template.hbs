@@ -5,18 +5,18 @@
     @manger={{@manager}}
     @buttonStyling={{true}}
     data-test-file-rename-modal
-    aria-label={{t 'registries.overview.files.file_rename_modal.dialog_aria'}}
+    aria-label={{t 'osf-components.file-browser.file_rename_modal.dialog_aria'}}
     local-class='RenameModal'
     as |dialog|
 >
     <dialog.heading data-test-rename-heading>
-        {{t 'registries.overview.files.file_rename_modal.heading'}}
+        {{t 'osf-components.file-browser.file_rename_modal.heading'}}
     </dialog.heading>
     <dialog.main>
         <div local-class='RenameInput'>
             <Input
                 data-test-user-input
-                aria-label={{t 'registries.overview.files.file_rename_modal.input_aria'}}
+                aria-label={{t 'osf-components.file-browser.file_rename_modal.input_aria'}}
                 @value={{this.newFileName}}
                 @type='text'
                 class='form-control'
@@ -30,7 +30,7 @@
             data-analytics-name='Rename Cancel'
             local-class='CancelButton'
             @type='secondary'
-            aria-label={{t 'registries.overview.files.file_rename_modal.cancel_aria'}}
+            aria-label={{t 'osf-components.file-browser.file_rename_modal.cancel_aria'}}
             {{on 'click' (
                 queue
                 this.resetFileNameValue
@@ -38,7 +38,7 @@
             )
             }}
         >
-            {{t 'registries.overview.files.file_rename_modal.cancel'}}
+            {{t 'osf-components.file-browser.file_rename_modal.cancel'}}
         </Button>
         {{#if this.disabled}}
             <Button
@@ -47,7 +47,7 @@
                 id='renameButton'
                 @type='create'
                 disabled={{true}}
-                aria-label={{t 'registries.overview.files.file_rename_modal.save_aria'}}
+                aria-label={{t 'osf-components.file-browser.file_rename_modal.save_aria'}}
                 {{on 'click' (
                     queue
                     this.updateFileName
@@ -55,7 +55,7 @@
                 )
                 }}
             >
-                {{t 'registries.overview.files.file_rename_modal.save'}}
+                {{t 'osf-components.file-browser.file_rename_modal.save'}}
             </Button>
         {{else}}
             <Button
@@ -64,7 +64,7 @@
                 id='renameButton'
                 @type='create'
                 disabled={{false}}
-                aria-label={{t 'registries.overview.files.file_rename_modal.save_aria'}}
+                aria-label={{t 'osf-components.file-browser.file_rename_modal.save_aria'}}
                 {{on 'click' (
                     queue
                     this.updateFileName
@@ -72,7 +72,7 @@
                 )
                 }}
             >
-                {{t 'registries.overview.files.file_rename_modal.save'}}
+                {{t 'osf-components.file-browser.file_rename_modal.save'}}
             </Button>
         {{/if}}
     </dialog.footer>

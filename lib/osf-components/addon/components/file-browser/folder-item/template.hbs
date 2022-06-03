@@ -1,49 +1,117 @@
-<li
-    data-test-file-list-item={{@item.id}}
-    data-test-indented={{if @manager.parentFolder 'true' 'false'}}
-    local-class={{if @manager.parentFolder 'FileList__item Indent' 'FileList__item'}}
->
-    <Button
-        data-test-file-list-link
-        data-analytics-name='View folder'
-        @layout='fake-link'
-        local-class='FileList__item__options FolderButton'
-        {{on 'click' (perform @manager.goToFolder @item)}}
+{{#let (contains @item @manager.selectedFiles) as |isSelected|}}
+    <li
+        data-test-file-list-item={{@item.id}}
+        data-test-indented={{if @manager.parentFolder 'true' 'false'}}
+        local-class='FileList__item {{if @manager.parentFolder 'Indent'}} {{if isSelected 'Selected'}}'
     >
-        <FaIcon
-            @icon='folder' @fixedWidth={{true}}
-        />
-        <span data-test-folder-name>
-            {{@item.name}}
-        </span>
-    </Button>
-    <div
-        data-test-file-list-date
-        local-class='FileList__item__options NoShrink'
-    >
-        <ResponsiveDropdown
-            local-class='DownloadShareDropdown'
-            @renderInPlace={{true}}
-            @buttonStyling={{true}}
-            @horizontalPosition='right'
-            as |dropdown|
-        >
-            <dropdown.trigger
-                aria-label={{t 'file_actions_menu.actions' filename=@item.name}}
-                data-test-file-download-share-trigger
-                data-analytics-name='Folder actions'
+        {{#if @selectable}}
+            <label
+                data-analytics-name='Select folder'
+                data-analytics-category='checkbox'
+                data-test-select-folder={{@item.id}}
+                aria-label={{t 'osf-components.file-browser.select_folder' folderName=@item.name}}
+                local-class='Label'
             >
-                <FaIcon @icon='ellipsis-v' />
-            </dropdown.trigger>
-            <dropdown.content local-class='DropdownList'>
-                <OsfLink
-                    @href={{@item.links.download}}
-                    data-test-download-button
+                <Input
+                    local-class='Checkbox'
+                    @type='checkbox'
+                    @checked={{isSelected}}
+                    {{on 'click' (action @manager.selectFile @item)}}
+                />
+            </label>
+        {{/if}}
+
+        <Button
+            data-test-file-list-link
+            data-analytics-name='View folder'
+            aria-label={{t 'osf-components.file-browser.view_folder' folderName=@item.name}}
+            @layout='fake-link'
+            local-class='FileList__item__name FolderButton'
+            {{on 'click' (fn @manager.goToFolder @item)}}
+        >
+            <FaIcon
+                @icon='folder' @fixedWidth={{true}}
+            />
+            <span data-test-folder-name>
+                {{@item.name}}
+            </span>
+        </Button>
+        {{#if this.showActionsDropdown}}
+            <div
+                data-test-file-list-date
+                local-class='FileList__item__options NoShrink {{if (or this.media.isTablet this.media.isMobile) 'MobileDropdownTrigger'}}'
+            >
+                <ResponsiveDropdown
+                    local-class='DownloadShareDropdown'
+                    @renderInPlace={{true}}
+                    @buttonStyling={{true}}
+                    @horizontalPosition='right'
+                    as |dropdown|
                 >
-                    <FaIcon @icon='download' />
-                    {{t 'general.download'}}
-                </OsfLink>
-            </dropdown.content>
-        </ResponsiveDropdown>
-    </div>
-</li>
+                    <dropdown.trigger
+                        aria-label={{t 'file_actions_menu.actions' filename=@item.name}}
+                        data-test-file-download-share-trigger
+                        data-analytics-name='Folder actions'
+                    >
+                        <FaIcon @icon='ellipsis-v' />
+                    </dropdown.trigger>
+                    <dropdown.content local-class='DropdownList'>
+                        {{#if @item.userCanDownloadAsZip}}
+                            <OsfLink
+                                @href={{@item.links.download}}
+                                data-test-download-button
+                            >
+                                <FaIcon @icon='download' />
+                                {{t 'general.download'}}
+                            </OsfLink>
+                        {{/if}}
+                        {{#if @item.currentUserCanDelete}}
+                            <Button
+                                @layout='fake-link'
+                                data-test-delete-button
+                                {{on 'click' (queue (action (mut this.useCopyModal) false) (action (mut this.moveModalOpen) true))}}
+                            >
+                                <FaIcon
+                                    @icon='arrow-right'
+                                />
+                                {{t 'general.move'}}
+                            </Button>
+                        {{/if}}
+                        <Button
+                            @layout='fake-link'
+                            local-class='DropdownItem'
+                            data-test-copy-button
+                            {{on 'click' (queue (action (mut this.useCopyModal) true) (action (mut this.moveModalOpen) true))}}
+                        >
+                            <FaIcon
+                                @icon='copy'
+                            />
+                            {{t 'general.copy'}}
+                        </Button>
+                        {{#if @item.currentUserCanDelete}}
+                            <Button @layout='fake-link' local-class='DropdownItem' data-test-move-button
+                                {{on 'click' (fn (mut this.isDeleteModalOpen) true)}}
+                            >
+                                <FaIcon @icon='trash-alt' />
+                                {{t 'osf-components.file-browser.delete'}}
+                            </Button>
+                        {{/if}}
+                    </dropdown.content>
+                </ResponsiveDropdown>
+            </div>
+        {{/if}}
+    </li>
+{{/let}}
+<MoveFileModal
+    @isOpen={{this.moveModalOpen}}
+    @close={{action (mut this.moveModalOpen) false}}
+    @preserveOriginal={{this.useCopyModal}}
+    @manager={{@manager}}
+    @filesToMove={{array @item}}
+/>
+<FileActionsMenu::DeleteModal
+    @file={{@item}}
+    @isOpen={{this.isDeleteModalOpen}}
+    @closeModal={{fn (mut this.isDeleteModalOpen) false}}
+    @onDelete={{@manager.reload}}
+/>

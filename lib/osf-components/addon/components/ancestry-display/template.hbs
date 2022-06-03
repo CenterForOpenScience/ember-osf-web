@@ -3,12 +3,21 @@
         <span local-class='AncestorTitle'>
             {{#if (and this.useLinks ancestor.id)}}
                 <OsfLink
-                    data-test-ancestor-title={{index}}
+                    data-test-ancestor-link={{index}}
                     @route='resolve-guid'
                     @models={{array ancestor.id}}
                 >
                     {{ancestor.title}}
                 </OsfLink>
+            {{else if (and this.onAncestorSelect ancestor.id)}}
+                <Button
+                    data-analytics-name='Ancestry click'
+                    data-test-ancestor-button={{index}}
+                    @layout='fake-link'
+                    {{on 'click' (fn this.onAncestorSelect ancestor)}}
+                >
+                    {{ancestor.title}}
+                </Button>
             {{else}}
                 {{ancestor.title}}
             {{/if}}

@@ -37,6 +37,7 @@ export default class FileModel extends BaseFileItem {
     @attr('object') extra!: any;
     @attr('fixstringarray') tags!: string[];
     @attr('fixstring') checkout!: string;
+    @attr('boolean') currentUserHasViewed!: boolean;
 
     @belongsTo('file', { inverse: 'files' })
     parentFolder!: AsyncBelongsTo<FileModel> & FileModel;
@@ -134,7 +135,7 @@ export default class FileModel extends BaseFileItem {
         }).then(() => this.reload());
     }
 
-    move(node: AbstractNodeModel): Promise<null> {
+    move(node: AbstractNodeModel, path: string, provider: string, options?: { conflict: string }): Promise<null> {
         return this.currentUser.authenticatedAJAX({
             url: getHref(this.links.move),
             type: 'POST',
@@ -144,8 +145,28 @@ export default class FileModel extends BaseFileItem {
             },
             data: JSON.stringify({
                 action: 'move',
-                path: '/',
+                path,
+                provider,
                 resource: node.id,
+                ...options,
+            }),
+        }).then(() => this.reload());
+    }
+
+    copy(node: AbstractNodeModel, path: string, provider: string, options?: { conflict: string }): Promise<null> {
+        return this.currentUser.authenticatedAJAX({
+            url: getHref(this.links.move),
+            type: 'POST',
+            xhrFields: { withCredentials: true },
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: JSON.stringify({
+                action: 'copy',
+                path,
+                provider,
+                resource: node.id,
+                ...options,
             }),
         }).then(() => this.reload());
     }

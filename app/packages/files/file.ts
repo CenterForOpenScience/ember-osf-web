@@ -7,8 +7,8 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 
 export enum FileSortKey {
-    AscDateModified = 'modified',
-    DescDateModified = '-modified',
+    AscDateModified = 'date_modified',
+    DescDateModified = '-date_modified',
     AscName = 'name',
     DescName = '-name',
 }
@@ -40,6 +40,10 @@ export default abstract class File {
     @tracked fileModel: FileModel;
     @tracked totalFileCount = 0;
     @tracked waterButlerRevisions?: WaterButlerRevision[];
+    userCanDownloadAsZip = true;
+    shouldShowTags = false;
+    shouldShowRevisions = true;
+    providerHandlesVersioning = true;
 
     currentUser: CurrentUserService;
 
@@ -56,8 +60,19 @@ export default abstract class File {
         return this.fileModel.isFolder;
     }
 
-    get currentUserPermission() {
+    get showAsUnviewed() {
+        return !this.fileModel.currentUserHasViewed;
+    }
+
+    get currentUserPermission(): string {
+        if (this.fileModel.target.get('currentUserPermissions').includes(Permission.Write)) {
+            return 'write';
+        }
         return 'read';
+    }
+
+    get currentUserCanDelete() {
+        return (this.fileModel.target.get('modelName') !== 'registration' && this.currentUserPermission === 'write');
     }
 
     get name() {
@@ -66,6 +81,10 @@ export default abstract class File {
 
     get id() {
         return this.fileModel.id;
+    }
+
+    get path() {
+        return this.fileModel.path;
     }
 
     get links() {
@@ -85,6 +104,30 @@ export default abstract class File {
 
     get dateModified() {
         return this.fileModel.dateModified;
+    }
+
+    get userCanMoveToHere() {
+        return (
+            this.currentUserPermission === 'write' &&
+            this.fileModel.target.get('modelName') !== 'registration' &&
+            this.isFolder
+        );
+    }
+
+    get userCanUploadToHere() {
+        return (
+            this.currentUserPermission === 'write' &&
+            this.fileModel.target.get('modelName') !== 'registration' &&
+            this.isFolder
+        );
+    }
+
+    get userCanDeleteFromHere() {
+        return (
+            this.isFolder &&
+            this.currentUserPermission === 'write' &&
+            this.fileModel.target.get('modelName') !== 'registration'
+        );
     }
 
     async createFolder(newFolderName: string) {
@@ -115,12 +158,22 @@ export default abstract class File {
         await this.fileModel.rename(newName, conflict);
     }
 
-    async move(node: NodeModel) {
-        await this.fileModel.move(node);
+    @task
+    @waitFor
+    async move(node: NodeModel, path: string, provider: string, options?: { conflict: string }) {
+        return await this.fileModel.move(node, path, provider, options);
     }
 
+    @task
+    @waitFor
+    async copy(node: NodeModel, path: string, provider: string, options?: { conflict: string }) {
+        return await this.fileModel.copy(node, path, provider, options);
+    }
+
+    @task
+    @waitFor
     async delete() {
-        await this.fileModel.delete();
+        return await this.fileModel.delete();
     }
 
     @task

@@ -156,9 +156,11 @@ export default Factory.extend<MirageNode & NodeTraits>({
     withFiles: trait<MirageNode>({
         afterCreate(node, server) {
             const count = faker.random.number({ min: 1, max: 5 });
-            const osfstorage = server.create('file-provider', { target: node });
+            const providerId = node.id + ':osfstorage';
+            const osfstorage = server.create('file-provider', { id: providerId, target: node });
             const files = server.createList('file', count, { target: node });
             osfstorage.rootFolder.update({ files });
+            node.update({ files: [osfstorage]});
         },
     }),
 
