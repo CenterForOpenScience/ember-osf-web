@@ -1845,6 +1845,11 @@ osf-components:
         delete_file: 'Delete file'
         delete_folder: 'Delete folder'
         delete_fail: 'Failed to delete "{fileName}"'
+        errors:
+            load_file_list: 'Failed to load files'
+            load_file_provider: 'Failed to load the file provider'
+            load_file_provider_title: 'Provider error'
+            load_file_providers: 'Failed to load list of addon providers'
         select_file: 'Select file {fileName}'
         select_folder: 'Select folder {folderName}'
         number_selected: '{numberOfFilesSelected} item(s) selected'
