@@ -5,8 +5,8 @@ import CurrentUserService from 'ember-osf-web/services/current-user';
 export default class GithubFile extends File {
     userCanDownloadAsZip = false;
 
-    constructor(currentUser: CurrentUserService,fileModel: FileModel) {
-        super(currentUser, fileModel);
+    constructor(owner: unknown, currentUser: CurrentUserService,fileModel: FileModel) {
+        super(owner, currentUser, fileModel);
     }
 
     get userCanMoveToHere(): boolean {

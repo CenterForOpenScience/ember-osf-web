@@ -5,8 +5,8 @@ import ProviderFile from 'ember-osf-web/packages/files/provider-file';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 
 export default class GithubProviderFile extends ProviderFile {
-    constructor(currentUser: CurrentUserService,providerFileModel: FileProviderModel) {
-        super(currentUser, providerFileModel);
+    constructor(owner: unknown, currentUser: CurrentUserService,providerFileModel: FileProviderModel) {
+        super(owner, currentUser, providerFileModel);
     }
 
     async getFolderItems(page: number, sort: FileSortKey, filter: string ) {
@@ -18,7 +18,7 @@ export default class GithubProviderFile extends ProviderFile {
                     'filter[name]': filter,
                 });
             this.totalFileCount = queryResult.meta.total;
-            return queryResult.map(fileModel => new GithubFile(this.currentUser, fileModel));
+            return queryResult.map(fileModel => new GithubFile(this.owner, this.currentUser, fileModel));
         } catch (e) {
             return this.handleFetchError(e);
         }

@@ -1,3 +1,4 @@
+import { setOwner } from '@ember/application';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
@@ -49,13 +50,16 @@ export default abstract class File {
     shouldShowTags = false;
     shouldShowRevisions = true;
     providerHandlesVersioning = true;
+    owner: unknown;
 
     currentUser: CurrentUserService;
     @service intl!: Intl;
     @service toast!: Toast;
 
 
-    constructor(currentUser: CurrentUserService, fileModel: FileModel) {
+    constructor(owner: unknown, currentUser: CurrentUserService, fileModel: FileModel) {
+        setOwner(this, owner);
+        this.owner = owner;
         this.currentUser = currentUser;
         this.fileModel = fileModel;
     }
@@ -154,7 +158,11 @@ export default abstract class File {
                         'filter[name]': filter,
                     });
                 this.totalFileCount = queryResult.meta.total;
-                return queryResult.map(fileModel => Reflect.construct(this.constructor, [this.currentUser, fileModel]));
+                return queryResult.map(fileModel => Reflect.construct(this.constructor, [
+                    this.owner,
+                    this.currentUser,
+                    fileModel,
+                ]));
             } catch (e) {
                 const errorMessage = this.intl.t(
                     'osf-components.file-browser.errors.load_file_list',

@@ -31,45 +31,49 @@ interface Args {
     provider: FileProviderModel;
 }
 
-export function getStorageProviderFile(currentUser: CurrentUserService, providerFileModel: FileProviderModel) {
+export function getStorageProviderFile(
+    currentUser: CurrentUserService,
+    providerFileModel: FileProviderModel,
+    owner: unknown,
+) {
     const providerName = providerFileModel.provider;
     let providerFile;
     switch (providerName) {
     case 'bitbucket':
-        providerFile = new BitbucketProviderFile(currentUser, providerFileModel);
+        providerFile = new BitbucketProviderFile(owner, currentUser, providerFileModel);
         break;
     case 'box':
-        providerFile = new BoxProviderFile(currentUser, providerFileModel);
+        providerFile = new BoxProviderFile(owner, currentUser, providerFileModel);
         break;
     case 'dataverse':
-        providerFile = new DataverseProviderFile(currentUser, providerFileModel);
+        providerFile = new DataverseProviderFile(owner, currentUser, providerFileModel);
         break;
     case 'dropbox':
-        providerFile = new DropboxProviderFile(currentUser, providerFileModel);
+        providerFile = new DropboxProviderFile(owner, currentUser, providerFileModel);
         break;
     case 'figshare':
-        providerFile = new FigshareProviderFile(currentUser, providerFileModel);
+        providerFile = new FigshareProviderFile(owner, currentUser, providerFileModel);
         break;
     case 'github':
-        providerFile = new GithubProviderFile(currentUser, providerFileModel);
+        providerFile = new GithubProviderFile(owner, currentUser, providerFileModel);
         break;
     case 'gitlab':
-        providerFile = new GitlabProviderFile(currentUser, providerFileModel);
+        providerFile = new GitlabProviderFile(owner, currentUser, providerFileModel);
         break;
     case 'googledrive':
-        providerFile = new GoogleDriveProviderFile(currentUser, providerFileModel);
+        providerFile = new GoogleDriveProviderFile(owner, currentUser, providerFileModel);
         break;
     case 'onedrive':
-        providerFile = new OneDriveProviderFile(currentUser, providerFileModel);
+        providerFile = new OneDriveProviderFile(owner, currentUser, providerFileModel);
         break;
     case 'osfstorage':
-        providerFile = new OsfStorageProviderFile(currentUser, providerFileModel);
+        providerFile = new OsfStorageProviderFile(owner, currentUser, providerFileModel);
         break;
     case 'owncloud':
-        providerFile = new OwnCloudProviderFile(currentUser, providerFileModel);
+        providerFile = new OwnCloudProviderFile(owner, currentUser, providerFileModel);
         break;
     case 's3':
-        providerFile = new S3ProviderFile(currentUser, providerFileModel);
+        providerFile = new S3ProviderFile(owner, currentUser, providerFileModel);
         break;
     default:
         // This should only be hit in development when we haven't set up a provider properly.
@@ -92,9 +96,11 @@ export default class StorageManager extends Component<Args> {
 
     @tracked baseSelectedFile?: File;
     @tracked selectedFiles: File[] = [];
+    owner!: unknown;
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
+        this.owner = owner;
         if(this.args.provider) {
             taskFor(this.getRootFolderItems).perform();
         } else {
@@ -138,7 +144,7 @@ export default class StorageManager extends Component<Args> {
     async getRootFolder() {
         if (this.args.provider) {
             this.storageProvider = this.args.provider;
-            const providerFile = getStorageProviderFile(this.currentUser, this.storageProvider);
+            const providerFile = getStorageProviderFile(this.currentUser, this.storageProvider, this.owner);
             if (!providerFile) {
                 // This should only be hit in development when we haven't set up a provider properly.
                 this.router.transitionTo('not-found');

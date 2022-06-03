@@ -1,3 +1,4 @@
+import { getOwner } from '@ember/application';
 import Store from '@ember-data/store';
 import { assert } from '@ember/debug';
 import { inject as service } from '@ember/service';
@@ -128,7 +129,11 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
                 page: this.folderPage,
             });
             fileList = fileList.map(
-                fileProviderModel => getStorageProviderFile(this.currentUser, fileProviderModel),
+                fileProviderModel => getStorageProviderFile(
+                    this.currentUser,
+                    fileProviderModel,
+                    getOwner(this),
+                ),
             );
         } else {
             fileList = await this.currentFolder.getFolderItems(this.folderPage, FileSortKey.AscName, '');

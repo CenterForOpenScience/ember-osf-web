@@ -1,3 +1,4 @@
+import { getOwner } from '@ember/application';
 import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
@@ -56,6 +57,7 @@ export default class GuidFile extends Route {
 
     async model(params: { guid: string }) {
         const { guid } = params;
+        const owner = getOwner(this);
         try {
             const file = await this.store.findRecord('file', guid, {include: 'target'});
             const target = await file.target as unknown as RegistrationModel;
@@ -67,40 +69,40 @@ export default class GuidFile extends Route {
 
             switch(provider){
             case 'osfstorage':
-                storageFile = new OsfStorageFile(this.currentUser, file);
+                storageFile = new OsfStorageFile(owner, this.currentUser, file);
                 break;
             case 'bitbucket':
-                storageFile = new BitbucketFile(this.currentUser, file);
+                storageFile = new BitbucketFile(owner, this.currentUser, file);
                 break;
             case 'box':
-                storageFile = new BoxFile(this.currentUser, file);
+                storageFile = new BoxFile(owner, this.currentUser, file);
                 break;
             case 'dataverse':
-                storageFile = new DataverseFile(this.currentUser, file);
+                storageFile = new DataverseFile(owner, this.currentUser, file);
                 break;
             case 'dropbox':
-                storageFile = new DropboxFile(this.currentUser, file);
+                storageFile = new DropboxFile(owner, this.currentUser, file);
                 break;
             case 'figshare':
-                storageFile = new FigshareFile(this.currentUser, file);
+                storageFile = new FigshareFile(owner, this.currentUser, file);
                 break;
             case 'github':
-                storageFile = new GithubFile(this.currentUser, file);
+                storageFile = new GithubFile(owner, this.currentUser, file);
                 break;
             case 'gitlab':
-                storageFile = new GitlabFile(this.currentUser, file);
+                storageFile = new GitlabFile(owner, this.currentUser, file);
                 break;
             case 'googledrive':
-                storageFile = new GoogleDriveFile(this.currentUser, file);
+                storageFile = new GoogleDriveFile(owner, this.currentUser, file);
                 break;
             case 'onedrive':
-                storageFile = new OneDriveFile(this.currentUser, file);
+                storageFile = new OneDriveFile(owner, this.currentUser, file);
                 break;
             case 'owncloud':
-                storageFile = new OwnCloudFile(this.currentUser, file);
+                storageFile = new OwnCloudFile(owner, this.currentUser, file);
                 break;
             case 's3':
-                storageFile = new S3File(this.currentUser, file);
+                storageFile = new S3File(owner, this.currentUser, file);
                 break;
             default:
                 this.transitionTo('not-found', guid);

@@ -6,8 +6,8 @@ export default class FigshareFile extends File {
     shouldShowRevisions = false;
     providerHandlesVersioning = false;
 
-    constructor(currentUser: CurrentUserService,fileModel: FileModel) {
-        super(currentUser, fileModel);
+    constructor(owner: unknown, currentUser: CurrentUserService,fileModel: FileModel) {
+        super(owner, currentUser, fileModel);
     }
 
     get currentUserPermission() {

@@ -1,3 +1,4 @@
+import { setOwner } from '@ember/application';
 import { inject as service } from '@ember/service';
 
 import Intl from 'ember-intl/services/intl';
@@ -16,12 +17,15 @@ export default abstract class ProviderFile {
     @tracked totalFileCount = 0;
     userCanDownloadAsZip = true;
     providerHandlesVersioning = true;
+    owner: unknown;
 
     currentUser: CurrentUserService;
     @service intl!: Intl;
     @service toast!: Toast;
 
-    constructor(currentUser: CurrentUserService, fileModel: FileProviderModel) {
+    constructor(owner: unknown, currentUser: CurrentUserService, fileModel: FileProviderModel) {
+        setOwner(this, owner);
+        this.owner = owner;
         this.currentUser = currentUser;
         this.fileModel = fileModel;
     }
@@ -98,7 +102,11 @@ export default abstract class ProviderFile {
                     'filter[name]': filter,
                 });
             this.totalFileCount = queryResult.meta.total;
-            return queryResult.map(fileModel => Reflect.construct(this.constructor, [this.currentUser, fileModel]));
+            return queryResult.map(fileModel => Reflect.construct(this.constructor, [
+                this.owner,
+                this.currentUser,
+                fileModel,
+            ]));
         }
         return [];
     }

@@ -60,10 +60,14 @@ module('Integration | Component | move-file-modal', hooks => {
             target: grandchildModel,
             parentFolder: gcOsfStorageModel.rootFolder,
         });
-        const file = new OsfStorageFile(this.currentUser, await this.store.findRecord('file', fileModel.id));
+        const file = new OsfStorageFile(
+            this.owner,
+            this.currentUser,
+            await this.store.findRecord('file', fileModel.id),
+        );
 
-        const parentFolder = new OsfStorageProviderFile(this.currentUser, gcOsfStorage!);
-        const currentFolder = new OsfStorageFile(this.currentUser, folder);
+        const parentFolder = new OsfStorageProviderFile(this.owner, this.currentUser, gcOsfStorage!);
+        const currentFolder = new OsfStorageFile(this.owner, this.currentUser, folder);
         const manager = {
             targetNode: await this.store.findRecord('node', grandchild.id),
             currentFolder,
@@ -142,10 +146,14 @@ module('Integration | Component | move-file-modal', hooks => {
             target: projectModel,
             parentFolder: osfStorageModel.rootFolder,
         });
-        const file = new OsfStorageFile(this.currentUser, await this.store.findRecord('file', fileModel.id));
+        const file = new OsfStorageFile(
+            this.owner,
+            this.currentUser,
+            await this.store.findRecord('file', fileModel.id),
+        );
 
-        const parentFolder = new OsfStorageProviderFile(this.currentUser, osfStorage!);
-        const currentFolder = new OsfStorageFile(this.currentUser, folder);
+        const parentFolder = new OsfStorageProviderFile(this.owner, this.currentUser, osfStorage!);
+        const currentFolder = new OsfStorageFile(this.owner, this.currentUser, folder);
         const manager = {
             targetNode: await this.store.findRecord('node', project.id),
             currentFolder,

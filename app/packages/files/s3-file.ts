@@ -6,7 +6,7 @@ export default class S3File extends File {
     shouldShowRevisions = false;
     providerHandlesVersioning = false;
 
-    constructor(currentUser: CurrentUserService,fileModel: FileModel) {
-        super(currentUser, fileModel);
+    constructor(owner: unknown, currentUser: CurrentUserService, fileModel: FileModel) {
+        super(owner, currentUser, fileModel);
     }
 }

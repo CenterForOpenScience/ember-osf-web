@@ -7,8 +7,8 @@ import CurrentUserService from 'ember-osf-web/services/current-user';
 export default class FigshareProviderFile extends ProviderFile {
     providerHandlesVersioning = false;
 
-    constructor(currentUser: CurrentUserService,providerFileModel: FileProviderModel) {
-        super(currentUser, providerFileModel);
+    constructor(owner: unknown, currentUser: CurrentUserService,providerFileModel: FileProviderModel) {
+        super(owner, currentUser, providerFileModel);
     }
 
     async getFolderItems(page: number, sort: FileSortKey, filter: string ) {
@@ -20,7 +20,7 @@ export default class FigshareProviderFile extends ProviderFile {
                     'filter[name]': filter,
                 });
             this.totalFileCount = queryResult.meta.total;
-            return queryResult.map(fileModel => new FigshareFile(this.currentUser, fileModel));
+            return queryResult.map(fileModel => new FigshareFile(this.owner, this.currentUser, fileModel));
         } catch (e) {
             return this.handleFetchError(e);
         }
