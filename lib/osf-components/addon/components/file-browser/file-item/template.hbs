@@ -1,45 +1,71 @@
-<li
-    data-test-file-list-item={{@item.id}}
-    data-test-indented={{if @manager.parentFolder 'true' 'false'}}
-    local-class={{if @manager.parentFolder 'FileList__item Indent' 'FileList__item'}}
->
-    {{!-- Analytics/test-selector should know if it is a file or folder --}}
-    <OsfLink
-        data-analytics-name='Open file'
-        @href={{@item.links.html}}
-        @target='_blank'
-        local-class='FileList__item__options'
+{{#let (contains @item @manager.selectedFiles) as |isSelected|}}
+    <li
+        data-test-file-list-item={{@item.id}}
+        data-test-indented={{if @manager.parentFolder 'true' 'false'}}
+        local-class='FileList__item {{if @manager.parentFolder 'Indent'}} {{if isSelected 'Selected'}}'
     >
-        <FaIcon
-            @prefix='far' @icon='file-alt' @fixedWidth={{true}}
-        />
-        <span
-            data-test-file-name
-            id='userInput'
-        >
-            {{@item.name}}
-        </span>
-    </OsfLink>
-    <div
-        data-test-file-list-date
-        local-class='FileList__item__options NoShrink'
-    >
-        {{#if @item.dateModified}}
-            <span data-test-file-modified-date>
-                {{moment-format @item.dateModified 'YYYY-MM-DD hh:mm A'}}
-            </span>
+        {{#if @selectable}}
+            <label
+                data-analytics-name='Select file'
+                data-analytics-category='checkbox'
+                data-test-select-file={{@item.id}}
+                aria-label={{t 'osf-components.file-browser.select_file' fileName=@item.name}}
+                local-class='Label'
+            >
+                <Input
+                    local-class='Checkbox'
+                    @type='checkbox'
+                    @checked={{isSelected}}
+                    {{on 'click' (action @manager.selectFile @item)}}
+                />
+            </label>
         {{/if}}
-        <FileActionsMenu
-            @item={{@item}}
-            @toggleRenameModal={{this.openRenameModal}}
-            local-class='FileActionsButton'
-        />
-        <FileBrowser::FileRenameModal
-            @isOpen={{this.renameModalOpen}}
-            @onClose={{action this.closeRenameModal}}
-            @item={{@item}}
-            @manager={{@manager}}
-            @disabled={{this.disabled}}
-        />
-    </div>
-</li>
+        <div local-class='FileList__item__name'>
+            {{#if @item.isCheckedOut}}
+                <span>
+                    <FaIcon local-class='CheckoutIcon' @icon='lock' />
+                    <BsTooltip
+                        @placement='right'
+                        @triggerEvents='hover'
+                    >
+                        {{t 'osf-components.file-browser.checked_out_file'}}
+                    </BsTooltip>
+                </span>
+            {{/if}}
+            <OsfLink
+                data-analytics-name='Open file'
+                aria-label={{t 'osf-components.file-browser.view_file' fileName=@item.name}}
+                @href={{@item.links.html}}
+                @target='_blank'
+                local-class={{if @item.showAsUnviewed 'Unviewed'}}
+            >
+                <FaIcon
+                    @prefix='far' @icon='file-alt' @fixedWidth={{true}}
+                />
+                <span data-test-file-name>
+                    {{@item.name}}
+                </span>
+            </OsfLink>
+        </div>
+        <div
+            data-test-file-list-date
+            local-class='FileList__item__options NoShrink'
+        >
+            {{#if @item.dateModified}}
+                <span data-test-file-modified-date>
+                    {{moment-format @item.dateModified 'YYYY-MM-DD hh:mm A'}}
+                </span>
+            {{/if}}
+            {{#unless @manager.selectedFiles}}
+                <FileActionsMenu @item={{@item}} @onDelete={{@manager.reload}} @manager={{@manager}} @toggleRenameModal={{this.openRenameModal}} local-class='FileActionsButton'/>
+                <FileBrowser::FileRenameModal
+                    @isOpen={{this.renameModalOpen}}
+                    @onClose={{action this.closeRenameModal}}
+                    @item={{@item}}
+                    @manager={{@manager}}
+                    @disabled={{this.disabled}}
+                />
+            {{/unless}}
+        </div>
+    </li>
+{{/let}}

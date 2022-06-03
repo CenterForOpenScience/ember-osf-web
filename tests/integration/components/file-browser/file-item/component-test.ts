@@ -29,6 +29,10 @@ interface FileItem {
 
 interface Manager {
     parentFolder: any;
+    selectFile: () => void;
+    goToFolder: () => void;
+    selectedFiles: any[];
+    targetNode: any;
 }
 
 interface FileItemTestContext extends TestContext {
@@ -58,7 +62,7 @@ const storeStub = Service.extend();
 const themeStub = Service.extend();
 const headTagsStub = Service.extend();
 
-module('Integration | Component | file-browser :: file-tiem', hooks => {
+module('Integration | Component | file-browser :: file-item', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
     hooks.beforeEach(function(this: FileItemTestContext) {
@@ -100,6 +104,10 @@ module('Integration | Component | file-browser :: file-tiem', hooks => {
         };
         this.manager = {
             parentFolder: null,
+            selectFile: () => { /* noop */ },
+            goToFolder: () => { /* noop */ },
+            selectedFiles: [],
+            targetNode: 'fakeNode',
         };
     });
 
