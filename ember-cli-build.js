@@ -53,6 +53,7 @@ module.exports = function(defaults) {
             exclude: [
                 'zxcvbn.js',
                 'assets/osf-assets',
+                'assets/images/addons/icons',
                 // Exclude <engine-name>/config/environment.js from fingerprinting so it matches
                 // the engines exclude regex.
                 // https://github.com/ember-engines/ember-engines/blob/master/index.js#L10
