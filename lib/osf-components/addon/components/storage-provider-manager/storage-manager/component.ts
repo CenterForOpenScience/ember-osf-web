@@ -31,10 +31,7 @@ interface Args {
     provider: FileProviderModel;
 }
 
-export function getStorageProviderFile(
-    currentUser: CurrentUserService,
-    providerFileModel: FileProviderModel,
-) {
+export function getStorageProviderFile(currentUser: CurrentUserService, providerFileModel: FileProviderModel) {
     const providerName = providerFileModel.provider;
     let providerFile;
     switch (providerName) {
@@ -95,11 +92,9 @@ export default class StorageManager extends Component<Args> {
 
     @tracked baseSelectedFile?: File;
     @tracked selectedFiles: File[] = [];
-    owner!: unknown;
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
-        this.owner = owner;
         if(this.args.provider) {
             taskFor(this.getRootFolderItems).perform();
         } else {

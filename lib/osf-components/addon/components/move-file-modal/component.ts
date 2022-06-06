@@ -128,10 +128,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
                 page: this.folderPage,
             });
             fileList = fileList.map(
-                fileProviderModel => getStorageProviderFile(
-                    this.currentUser,
-                    fileProviderModel,
-                ),
+                fileProviderModel => getStorageProviderFile(this.currentUser, fileProviderModel),
             );
         } else {
             fileList = await this.currentFolder.getFolderItems(this.folderPage, FileSortKey.AscName, '');
