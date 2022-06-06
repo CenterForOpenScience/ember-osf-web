@@ -42,7 +42,7 @@ module.exports = function(defaults) {
             importBootstrapCSS: false,
         },
         'ember-composable-helpers': {
-            only: ['compose', 'contains', 'flatten', 'range', 'queue', 'map-by', 'without'],
+            only: ['compose', 'contains', 'flatten', 'includes', 'range', 'queue', 'map-by', 'without', 'find-by'],
         },
         'ember-cli-password-strength': {
             bundleZxcvbn: !IS_PROD,
@@ -53,6 +53,7 @@ module.exports = function(defaults) {
             exclude: [
                 'zxcvbn.js',
                 'assets/osf-assets',
+                'assets/images/addons/icons',
                 // Exclude <engine-name>/config/environment.js from fingerprinting so it matches
                 // the engines exclude regex.
                 // https://github.com/ember-engines/ember-engines/blob/master/index.js#L10
