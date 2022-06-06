@@ -7,7 +7,6 @@ import Toast from 'ember-toastr/services/toast';
 
 import StorageManager from 'osf-components/components/storage-provider-manager/storage-manager/component';
 import { TrackedWeakMap } from 'tracked-built-ins';
-// import Dropzone from 'dropzone';
 
 interface Args {
     manager: StorageManager;
