@@ -2,10 +2,11 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { taskFor } from 'ember-concurrency-ts';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
+import StorageManager from 'osf-components/components/storage-provider-manager/storage-manager/component';
 
 import { Route } from '@ember/routing';
+import { taskFor } from 'ember-concurrency-ts';
 
 interface Args {
     manager: StorageManager;
