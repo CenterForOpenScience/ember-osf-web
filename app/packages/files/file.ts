@@ -1,4 +1,4 @@
-import { setOwner } from '@ember/application';
+import { getOwner, setOwner } from '@ember/application';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
@@ -50,16 +50,14 @@ export default abstract class File {
     shouldShowTags = false;
     shouldShowRevisions = true;
     providerHandlesVersioning = true;
-    owner: unknown;
 
     currentUser: CurrentUserService;
     @service intl!: Intl;
     @service toast!: Toast;
 
 
-    constructor(owner: unknown, currentUser: CurrentUserService, fileModel: FileModel) {
-        setOwner(this, owner);
-        this.owner = owner;
+    constructor(currentUser: CurrentUserService, fileModel: FileModel) {
+        setOwner(this, getOwner(fileModel));
         this.currentUser = currentUser;
         this.fileModel = fileModel;
     }
@@ -159,7 +157,6 @@ export default abstract class File {
                     });
                 this.totalFileCount = queryResult.meta.total;
                 return queryResult.map(fileModel => Reflect.construct(this.constructor, [
-                    this.owner,
                     this.currentUser,
                     fileModel,
                 ]));

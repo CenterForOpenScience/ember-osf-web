@@ -7,8 +7,8 @@ import CurrentUserService from 'ember-osf-web/services/current-user';
 export default class BitbucketProviderFile extends ProviderFile {
     providerHandlesVersioning = false;
 
-    constructor(owner: unknown, currentUser: CurrentUserService,providerFileModel: FileProviderModel) {
-        super(owner, currentUser, providerFileModel);
+    constructor(currentUser: CurrentUserService, providerFileModel: FileProviderModel) {
+        super(currentUser, providerFileModel);
     }
 
     async getFolderItems(page: number, sort: FileSortKey, filter: string ) {
@@ -20,7 +20,7 @@ export default class BitbucketProviderFile extends ProviderFile {
                     'filter[name]': filter,
                 });
             this.totalFileCount = queryResult.meta.total;
-            return queryResult.map(fileModel => new BitbucketFile(this.owner, this.currentUser, fileModel));
+            return queryResult.map(fileModel => new BitbucketFile(this.currentUser, fileModel));
         } catch (e) {
             return this.handleFetchError(e);
         }

@@ -6,8 +6,8 @@ import CurrentUserService from 'ember-osf-web/services/current-user';
 export default class OsfStorageFile extends File {
     shouldShowTags = true;
 
-    constructor(owner: unknown, currentUser: CurrentUserService,fileModel: FileModel) {
-        super(owner, currentUser, fileModel);
+    constructor(currentUser: CurrentUserService,fileModel: FileModel) {
+        super(currentUser, fileModel);
     }
 
     get userCanMoveToHere(): boolean {

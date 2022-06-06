@@ -6,7 +6,7 @@ export default class BoxFile extends File {
     shouldShowRevisions = false;
     providerHandlesVersioning = false;
 
-    constructor(owner: unknown, currentUser: CurrentUserService,fileModel: FileModel) {
-        super(owner, currentUser, fileModel);
+    constructor(currentUser: CurrentUserService,fileModel: FileModel) {
+        super(currentUser, fileModel);
     }
 }
