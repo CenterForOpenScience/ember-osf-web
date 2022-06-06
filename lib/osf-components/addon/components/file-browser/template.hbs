@@ -4,6 +4,7 @@
     @dragEnter={{fn (mut this.dragging) true}}
     @dragOver={{fn (mut this.dragging) true}}
     @dragLeave={{fn (mut this.dragging) false}}
+    @drop={{fn (mut this.dragging) false}}
     @allowVersioning={{@manager.currentFolder.providerHandlesVersioning}}
     local-class='{{if this.dragging 'DraggingHighlight'}}'
     as |uploadWidget|
