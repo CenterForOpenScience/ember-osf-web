@@ -5,11 +5,10 @@ import { tracked } from '@glimmer/tracking';
 import { taskFor } from 'ember-concurrency-ts';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 
-import OsfStorageManager from 'osf-components/components/storage-provider-manager/osf-storage-manager/component';
 import { Route } from '@ember/routing';
 
 interface Args {
-    manager: OsfStorageManager;
+    manager: StorageManager;
     provider: FileProviderModel;
 }
 

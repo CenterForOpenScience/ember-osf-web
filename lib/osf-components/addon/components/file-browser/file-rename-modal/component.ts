@@ -5,17 +5,16 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 
 
-import OsfStorageManager from 'osf-components/components/storage-provider-manager/osf-storage-manager/component';
 import Toast from 'ember-toastr/services/toast';
 import Store from '@ember-data/store';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import { restartableTask } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
-import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
 import Intl from 'ember-intl/services/intl';
+import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
 
 interface Args {
-    manager: OsfStorageManager;
+    manager: StorageManager;
     item: OsfStorageFile;
 }
 
@@ -42,7 +41,7 @@ export default class FileRenameModal extends Component<Args> {
     @waitFor
     async validateFileName() {
         const input: HTMLInputElement = (document.getElementById('userInput') as HTMLInputElement);
-        const errorMessage = this.intl.t('registries.overview.files.file_rename_modal.error_message');
+        const errorMessage = this.intl.t('osf-components.file-browser.file_rename_modal.error_message');
         if (input) {
             const inputValue = this.newFileName;
             const currentFileName = this.args.item.name;
@@ -67,7 +66,7 @@ export default class FileRenameModal extends Component<Args> {
     @action
     async updateFileName() {
         const newName = this.newFileName;
-        const successMessage = this.intl.t('registries.overview.files.file_rename_modal.success_message');
+        const successMessage = this.intl.t('osf-components.file-browser.file_rename_modal.success_message');
         if (!newName) {
             return;
         }
@@ -78,7 +77,7 @@ export default class FileRenameModal extends Component<Args> {
             this.toast.success(successMessage);
             this.disabled = true;
         } catch(e) {
-            this.toast.error(this.intl.t('registries.overview.files.file_rename_modal.retry_message'));
+            this.toast.error(this.intl.t('osf-components.file-browser.file_rename_modal.retry_message'));
         }
         return newName;
     }

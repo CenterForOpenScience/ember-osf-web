@@ -12,7 +12,6 @@ import { setupRenderingTest } from 'ember-qunit';
 import moment from 'moment';
 import { module, test } from 'qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import Service from '@ember/service';
 
 interface Links {
     html: string;
@@ -27,7 +26,7 @@ interface FileItem {
     disabled: false;
 }
 
-interface Manager {
+interface StorageManager {
     parentFolder: any;
     selectFile: () => void;
     goToFolder: () => void;
@@ -37,7 +36,7 @@ interface Manager {
 
 interface FileItemTestContext extends TestContext {
     item: FileItem;
-    manager: Manager;
+    manager: StorageManager;
     provider: FileProviderModel;
     mirageRegistration: ModelInstance<MirageRegistration>;
     osfStorageProvider: FileProviderModel;
@@ -54,23 +53,23 @@ interface FileItemTestContext extends TestContext {
     ) => void;
 }
 
-const currentUserStub = Service.extend();
-const sessionStub = Service.extend({
-    isAuthenticated: true,
-});
-const storeStub = Service.extend();
-const themeStub = Service.extend();
-const headTagsStub = Service.extend();
+// const currentUserStub = Service.extend();
+// const sessionStub = Service.extend({
+//     isAuthenticated: true,
+// });
+// const storeStub = Service.extend();
+// const themeStub = Service.extend();
+// const headTagsStub = Service.extend();
 
 module('Integration | Component | file-browser :: file-item', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
     hooks.beforeEach(function(this: FileItemTestContext) {
-        this.owner.register('service:currentUser', currentUserStub);
-        this.owner.register('service:session', sessionStub);
-        this.owner.register('service:store', storeStub);
-        this.owner.register('service:theme', themeStub);
-        this.owner.register('service:head-tags', headTagsStub);
+        // this.owner.register('service:currentUser', currentUserStub);
+        // this.owner.register('service:session', sessionStub);
+        // this.owner.register('service:store', storeStub);
+        // this.owner.register('service:theme', themeStub);
+        // this.owner.register('service:head-tags', headTagsStub);
         this.set('renameModalOpen', () => true);
         this.set('isOpen', () => true);
         this.set('disabled', () => true);
@@ -84,7 +83,7 @@ module('Integration | Component | file-browser :: file-item', hooks => {
             target: this.mirageRegistration,
             parentFolder: osfStorage.rootFolder,
             kind: FileItemKinds.Folder,
-            name: 'TestName',
+            name: 'Push&Pull',
         });
         osfStorage.rootFolder.update({ files: [...this.topLevelFiles, this.topLevelFolder] });
         this.secondaryLevelFiles = server.createList('file', 2, {
@@ -121,7 +120,7 @@ module('Integration | Component | file-browser :: file-item', hooks => {
             await render(hbs`<FileBrowser::FileItem @manager={{this.manager}} @item={{this.item}} />`);
             assert.dom('[data-test-indented="false"][data-test-file-list-item]').exists('File item exists');
             assert.dom('[data-test-file-name]').exists('File name exists');
-            assert.dom('[data-test-file-name]').hasText('TestName', 'File name is correct');
+            assert.dom('[data-test-file-name]').hasText('Push&Pull', 'File name is correct');
             assert.dom('[data-test-file-modified-date]').exists('Modified date exists');
             assert.dom('[data-test-file-modified-date]').hasText(
                 moment(this.item.dateModified).format('YYYY-MM-DD hh:mm A'),
@@ -139,7 +138,7 @@ module('Integration | Component | file-browser :: file-item', hooks => {
             await render(hbs`<FileBrowser::FileItem @manager={{this.manager}} @item={{this.item}} />`);
             assert.dom('[data-test-indented="true"][data-test-file-list-item]').exists('File item exists');
             assert.dom('[data-test-file-name]').exists('File name exists');
-            assert.dom('[data-test-file-name]').hasText('TestName', 'File name is correct');
+            assert.dom('[data-test-file-name]').hasText('Push&Pull', 'File name is correct');
             assert.dom('[data-test-file-modified-date]').exists('Modified date exists');
             assert.dom('[data-test-file-modified-date]').hasText(
                 moment(this.item.dateModified).format('YYYY-MM-DD hh:mm A'),
@@ -154,29 +153,29 @@ module('Integration | Component | file-browser :: file-item', hooks => {
     test('it renders with disabled Save button when name is same',
         async function(this: FileItemTestContext, assert) {
             this.set('disabled', () => true);
-            this.set('currentFileName', 'TestName');
-            this.set('newFileName', 'TestName');
+            this.set('currentFileName', 'Push&Pull');
+            this.set('newFileName', 'Push&Pull');
             await render(hbs`<FileBrowser::FileRenameModal
-            @isOpen={{this.renameModalOpen}}
-            @onClose={{this.closeRenameModal}}
-            @item={{this.item}}
-            @manager={{this.manager}}
-            @disabled={{true}}
+                @isOpen={{this.renameModalOpen}}
+                @onClose={{this.closeRenameModal}}
+                @item={{this.item}}
+                @manager={{this.manager}}
+                @disabled={{true}}
         />`);
             assert.dom('[data-test-file-rename-modal]').exists('File rename modal exists');
             assert.dom('[data-test-rename-heading]').exists('File rename heading present');
             assert.dom('[data-test-rename-heading]').hasText(stripHtmlTags(
-                t('registries.overview.files.file_rename_modal.heading'),
+                t('osf-components.file-browser.file_rename_modal.heading'),
             ));
 
             assert.dom('[data-test-cancel-button]').exists('Cancel button exists');
             assert.dom('[data-test-cancel-button]').hasText(stripHtmlTags(t(
-                'registries.overview.files.file_rename_modal.cancel',
+                'osf-components.file-browser.file_rename_modal.cancel',
             )));
             assert.dom('[data-test-disabled-rename]').hasAttribute('disabled');
             assert.dom('[data-test-disabled-rename]').exists('Disabled save button exists');
             assert.dom('[data-test-disabled-rename]').hasText(stripHtmlTags(
-                t('registries.overview.files.file_rename_modal.save'),
+                t('osf-components.file-browser.file_rename_modal.save'),
             ));
             await click('[data-test-cancel-button]');
         });
@@ -187,26 +186,26 @@ module('Integration | Component | file-browser :: file-item', hooks => {
             this.set('newFileName', 'NewNameTwo');
             this.item.name = this.newFileName;
             await render(hbs`<FileBrowser::FileRenameModal
-            @isOpen={{this.renameModalOpen}}
-            @onClose={{this.closeRenameModal}}
-            @item={{this.item}}
-            @manager={{this.manager}}
-            @disabled={{false}}
+                @isOpen={{this.renameModalOpen}}
+                @onClose={{this.closeRenameModal}}
+                @item={{this.item}}
+                @manager={{this.manager}}
+                @disabled={{false}}
             />`);
             this.set('disabled', () => false);
             assert.dom('[data-test-file-rename-modal]').exists('File rename modal exists');
             assert.dom('[data-test-rename-heading]').exists('File rename heading present');
             assert.dom('[data-test-rename-heading]').hasText(stripHtmlTags(
-                t('registries.overview.files.file_rename_modal.heading'),
+                t('osf-components.file-browser.file_rename_modal.heading'),
             ));
             assert.dom('[data-test-cancel-button]').exists('Cancel button exists');
             assert.dom('[data-test-cancel-button]').hasText(stripHtmlTags(t(
-                'registries.overview.files.file_rename_modal.cancel',
+                'osf-components.file-browser.file_rename_modal.cancel',
             )));
             assert.dom('[data-test-enabled-rename]').hasAttribute('enabled');
             // assert.dom('[data-test-enabled-rename]').exists('Disabled save button exists');
             assert.dom('[data-test-enabled-rename]').hasText(stripHtmlTags(
-                t('registries.overview.files.file_rename_modal.save'),
+                t('osf-components.file-browser.file_rename_modal.save'),
             ));
             await click('[data-test-cancel-button]');
         });
