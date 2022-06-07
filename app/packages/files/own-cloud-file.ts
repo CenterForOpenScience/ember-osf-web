@@ -6,7 +6,7 @@ export default class OwnCloudFile extends File {
     shouldShowRevisions = false;
     providerHandlesVersioning = false;
 
-    constructor(currentUser: CurrentUserService,fileModel: FileModel) {
+    constructor(currentUser: CurrentUserService, fileModel: FileModel) {
         super(currentUser, fileModel);
     }
 }

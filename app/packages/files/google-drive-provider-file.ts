@@ -10,13 +10,17 @@ export default class GoogleDriveProviderFile extends ProviderFile {
     }
 
     async getFolderItems(page: number, sort: FileSortKey, filter: string ) {
-        const queryResult = await this.fileModel.queryHasMany('files',
-            {
-                page,
-                sort,
-                'filter[name]': filter,
-            });
-        this.totalFileCount = queryResult.meta.total;
-        return queryResult.map(fileModel => new GoogleDriveFile(this.currentUser, fileModel));
+        try {
+            const queryResult = await this.fileModel.queryHasMany('files',
+                {
+                    page,
+                    sort,
+                    'filter[name]': filter,
+                });
+            this.totalFileCount = queryResult.meta.total;
+            return queryResult.map(fileModel => new GoogleDriveFile(this.currentUser, fileModel));
+        } catch (e) {
+            return this.handleFetchError(e);
+        }
     }
 }

@@ -1,8 +1,16 @@
+import { getOwner, setOwner } from '@ember/application';
+import { inject as service } from '@ember/service';
+
+import Intl from 'ember-intl/services/intl';
+import Toast from 'ember-toastr/services/toast';
+
 import { tracked } from '@glimmer/tracking';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { FileSortKey } from 'ember-osf-web/packages/files/file';
 import CurrentUserService from 'ember-osf-web/services/current-user';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
+import { ErrorDocument } from 'osf-api';
 
 export default abstract class ProviderFile {
     @tracked fileModel: FileProviderModel;
@@ -11,8 +19,11 @@ export default abstract class ProviderFile {
     providerHandlesVersioning = true;
 
     currentUser: CurrentUserService;
+    @service intl!: Intl;
+    @service toast!: Toast;
 
     constructor(currentUser: CurrentUserService, fileModel: FileProviderModel) {
+        setOwner(this, getOwner(fileModel));
         this.currentUser = currentUser;
         this.fileModel = fileModel;
     }
@@ -89,8 +100,20 @@ export default abstract class ProviderFile {
                     'filter[name]': filter,
                 });
             this.totalFileCount = queryResult.meta.total;
-            return queryResult.map(fileModel => Reflect.construct(this.constructor, [this.currentUser, fileModel]));
+            return queryResult.map(fileModel => Reflect.construct(this.constructor, [
+                this.currentUser,
+                fileModel,
+            ]));
         }
+        return [];
+    }
+
+    handleFetchError(e: ErrorDocument) {
+        const errorMessage = this.intl.t(
+            'osf-components.file-browser.errors.load_file_list',
+        );
+        captureException(e, { errorMessage });
+        this.toast.error(getApiErrorMessage(e), errorMessage);
         return [];
     }
 }
