@@ -9,6 +9,16 @@
     >
         <layout.heading local-class='Hero'>
             <h1>{{this.model.providerTask.value.node.title}}</h1>
+            {{#unless this.isDesktop}}
+                <nav>
+                    <Button
+                        aria-label={{t 'node.left_nav.toggle'}}
+                        {{on 'click' layout.toggleSidenav}}
+                    >
+                        <FaIcon @icon='bars' />
+                    </Button>
+                </nav>
+            {{/unless}}
         </layout.heading>
         <layout.leftNavOld as |leftNav|>
             <leftNav.link
