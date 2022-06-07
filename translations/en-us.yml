@@ -576,6 +576,7 @@ forks:
     delete_fork_failed: 'Failed to delete the project.'
 node:
     left_nav:
+        toggle: 'Toggle sidenav'
         overview: Overview
         files: Files
         wiki: Wiki

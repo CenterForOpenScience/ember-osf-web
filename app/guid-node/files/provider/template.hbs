@@ -12,6 +12,7 @@
             {{#unless this.isDesktop}}
                 <nav>
                     <Button
+                        aria-label={{t 'node.left_nav.toggle'}}
                         {{on 'click' layout.toggleSidenav}}
                     >
                         <FaIcon @icon='bars' />
