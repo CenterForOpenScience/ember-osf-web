@@ -51,7 +51,7 @@
             data-test-file-list-date
             local-class='FileList__item__options NoShrink'
         >
-            {{#if @item.dateModified}}
+            {{#if (and @isDesktop @item.dateModified)}}
                 <span data-test-file-modified-date>
                     {{moment-format @item.dateModified 'YYYY-MM-DD hh:mm A'}}
                 </span>
