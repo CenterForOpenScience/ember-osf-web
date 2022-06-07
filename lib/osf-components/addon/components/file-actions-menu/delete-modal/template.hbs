@@ -17,6 +17,7 @@
         </Button>
         <Button
             @type='destroy'
+            disabled={{this.confirmDelete.isRunning}}
             {{on 'click' (perform this.confirmDelete)}}
         >
             {{t 'osf-components.file-browser.delete'}}

@@ -21,8 +21,11 @@
             <leftNav.link
                 data-test-files-link
                 data-analytics-name='Files' 
-                @route='guid-node.files'
-                @models={{array this.model.node.guid}}
+                @route='guid-node.files.provider'
+                @models={{array 
+                    this.model.node.guid
+                    (if this.model.providerTask.value.provider this.model.providerTask.value.provider.name 'osfstorage')
+                }}
                 @icon='file-alt'
                 @label={{t 'node.left_nav.files'}}
             />

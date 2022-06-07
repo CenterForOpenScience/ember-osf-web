@@ -38,7 +38,7 @@
                 <section data-test-revisions-tab local-class='FileDetail__revisions'>
                     <h2 local-class='FileDetail__right-section-heading'>{{t 'general.revisions'}}</h2>
                     <ol local-class='FileDetail__revision-list' reversed>
-                        <hr>
+                        <hr aria-hidden='true'>
                         {{#if this.model.getRevisions.isRunning}}
                             <LoadingIndicator @dark={{true}} />
                         {{else}}
@@ -48,7 +48,7 @@
                                     @downloadUrl={{this.model.links.download}}
                                     @changeVersion={{this.changeVersion}}
                                 />
-                                <hr>
+                                <hr aria-hidden='true'>
                             {{else}}
                                 {{t 'file_detail.no_revisions'}}
                             {{/each}}
