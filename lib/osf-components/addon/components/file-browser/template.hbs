@@ -1,6 +1,12 @@
 <FileBrowser::AddNew::Upload
     @manager={{@manager}}
     @enable={{and @manager.currentFolder.userCanUploadToHere @enableUpload}}
+    @dragEnter={{fn (mut this.dragging) true}}
+    @dragOver={{fn (mut this.dragging) true}}
+    @dragLeave={{fn (mut this.dragging) false}}
+    @drop={{fn (mut this.dragging) false}}
+    @allowVersioning={{@manager.currentFolder.providerHandlesVersioning}}
+    local-class='{{if this.dragging 'DraggingHighlight'}}'
     as |uploadWidget|
 >
     <FileBrowser::Breadcrumbs
@@ -176,7 +182,7 @@
         </:header>
         <:item as |item|>
             {{#if item.isFile}}
-                <FileBrowser::FileItem @item={{item}} @manager={{@manager}} @selectable={{@selectable}} />
+                <FileBrowser::FileItem @item={{item}} @manager={{@manager}} @selectable={{@selectable}} @isDesktop={{not this.isMobile}} />
             {{else}}
                 <FileBrowser::FolderItem @item={{item}} @manager={{@manager}} @selectable={{@selectable}} />
             {{/if}}

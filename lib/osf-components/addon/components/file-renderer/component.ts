@@ -74,6 +74,7 @@ export default class FileRenderer extends Component {
 
     didReceiveAttrs(): void {
         if (this.download !== this.lastDownload) {
+            this.isLoading = true;
             this.set('lastDownload', this.download);
         }
     }

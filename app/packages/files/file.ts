@@ -1,10 +1,16 @@
+import { getOwner, setOwner } from '@ember/application';
 import { tracked } from '@glimmer/tracking';
+import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
+import Intl from 'ember-intl/services/intl';
+import Toast from 'ember-toastr/services/toast';
 import FileModel from 'ember-osf-web/models/file';
 import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import CurrentUserService from 'ember-osf-web/services/current-user';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
+
 
 export enum FileSortKey {
     AscDateModified = 'date_modified',
@@ -46,8 +52,12 @@ export default abstract class File {
     providerHandlesVersioning = true;
 
     currentUser: CurrentUserService;
+    @service intl!: Intl;
+    @service toast!: Toast;
+
 
     constructor(currentUser: CurrentUserService, fileModel: FileModel) {
+        setOwner(this, getOwner(fileModel));
         this.currentUser = currentUser;
         this.fileModel = fileModel;
     }
@@ -138,14 +148,26 @@ export default abstract class File {
 
     async getFolderItems(page: number, sort: FileSortKey, filter: string ) {
         if (this.fileModel.isFolder) {
-            const queryResult = await this.fileModel.queryHasMany('files',
-                {
-                    page,
-                    sort,
-                    'filter[name]': filter,
-                });
-            this.totalFileCount = queryResult.meta.total;
-            return queryResult.map(fileModel => Reflect.construct(this.constructor, [this.currentUser, fileModel]));
+            try {
+                const queryResult = await this.fileModel.queryHasMany('files',
+                    {
+                        page,
+                        sort,
+                        'filter[name]': filter,
+                    });
+                this.totalFileCount = queryResult.meta.total;
+                return queryResult.map(fileModel => Reflect.construct(this.constructor, [
+                    this.currentUser,
+                    fileModel,
+                ]));
+            } catch (e) {
+                const errorMessage = this.intl.t(
+                    'osf-components.file-browser.errors.load_file_list',
+                );
+                captureException(e, { errorMessage });
+                this.toast.error(getApiErrorMessage(e), errorMessage);
+                return [];
+            }
         }
         return [];
     }

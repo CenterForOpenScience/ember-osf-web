@@ -578,6 +578,7 @@ forks:
     delete_fork_failed: 'Failed to delete the project.'
 node:
     left_nav:
+        toggle: 'Toggle project navigation menu'
         overview: Overview
         files: Files
         wiki: Wiki
@@ -1832,6 +1833,8 @@ osf-components:
         icon_alt: 'Icon for {provider}'
         moving_files: 'Moving...'
         copying_files: 'Copying...'
+        awaiting_move: 'Waiting to move {fileName}'
+        awaiting_copy: 'Waiting to copy {fileName}'
         moving_file: 'Moving {fileName}'
         copying_file: 'Copying {fileName}'
         success_move: 'Successfully moved {fileName}'
@@ -1842,11 +1845,19 @@ osf-components:
         retry: 'Retry'
         replace: 'Replace'
     file-browser:
+        retry: 'Retry'
+        replace: 'Replace'
+        skip: 'Skip'
         delete: 'Delete'
         confirm_delete: 'Are you sure you want to delete "{fileName}"?'
         delete_file: 'Delete file'
         delete_folder: 'Delete folder'
         delete_fail: 'Failed to delete "{fileName}"'
+        errors:
+            load_file_list: 'Failed to load files'
+            load_file_provider: 'Failed to load the file provider'
+            load_file_provider_title: 'Provider error'
+            load_file_providers: 'Failed to load list of addon providers'
         select_file: 'Select file {fileName}'
         select_folder: 'Select folder {folderName}'
         number_selected: '{numberOfFilesSelected} item(s) selected'

@@ -6,11 +6,17 @@ import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import StorageManager from 'osf-components/components/storage-provider-manager/storage-manager/component';
+import { TrackedWeakMap } from 'tracked-built-ins';
 
 interface Args {
     manager: StorageManager;
     isOpen: boolean;
+    allowVersioning: boolean;
+    dragEnter: () => {};
+    dragLeave: () => {};
+    dragOver: () => {};
 }
+
 
 export default class Upload extends Component<Args> {
     dropzoneOptions = {
@@ -20,6 +26,7 @@ export default class Upload extends Component<Args> {
         preventMultipleFiles: false,
         acceptDirectories: false,
         autoProcessQueue: true,
+        autoQueue:true,
     };
 
     @service intl!: Intl;
@@ -27,6 +34,7 @@ export default class Upload extends Component<Args> {
     @tracked uploading: any[] = [];
     @tracked uploadCompleted: any[] = [];
     @tracked uploadErrored: any[] = [];
+    @tracked uploadConflicted: any[] = [];
     @tracked clickableElementId = '';
 
     get clickableElementSelectors() {
@@ -41,12 +49,13 @@ export default class Upload extends Component<Args> {
     }
 
     get shouldShowFailureModal() {
-        return this.uploadErrored.length !== 0 &&
+        return this.failedFilesNumber > 0 &&
             this.uploading.length === 0;
     }
 
     get shouldShowSuccessModal() {
         return this.uploadCompleted.length !== 0 &&
+            this.uploadConflicted.length === 0 &&
             this.uploadErrored.length === 0 &&
             this.uploading.length === 0;
     }
@@ -57,6 +66,9 @@ export default class Upload extends Component<Args> {
             this.shouldShowSuccessModal;
     }
 
+    get failedFilesNumber() {
+        return this.uploadErrored.length + this.uploadConflicted.length;
+    }
     @action
     buildUrl(files: any[]) {
         const { name, newUploadLink } = files[0];
@@ -71,7 +83,27 @@ export default class Upload extends Component<Args> {
 
     @action
     addedFile(_: any, __: any, file: any) {
-        this.uploading.pushObject(file);
+        const cache = new TrackedWeakMap();
+        const initialValue = file.status;
+        Object.defineProperty(file, 'status', {
+            get() {
+                let existingValue = cache.get(file);
+                if (!existingValue) {
+                    existingValue = initialValue;
+                    cache.set(file, existingValue);
+                }
+                return existingValue;
+            },
+            set(value) {
+                cache.set(file, value);
+            },
+        });
+        if (!this.uploadErrored.includes(file)
+            && !this.uploading.includes(file)
+            && !this.uploadConflicted.includes(file)
+        ) {
+            this.uploading.pushObject(file);
+        }
         notifyPropertyChange(this, 'uploading');
     }
 
@@ -81,15 +113,20 @@ export default class Upload extends Component<Args> {
         if (status === 409) {
             const { data: { links: { upload } } } = JSON.parse(responseText);
             file.newUploadLink = upload;
-            dropzoneInstance.processFile(file);
+            if (this.args.allowVersioning) {
+                dropzoneInstance.processFile(file);
+                return;
+            }
+            this.uploading.removeObject(file);
+            this.uploadConflicted.pushObject(file);
         } else {
             this.uploading.removeObject(file);
             if (!this.uploadErrored.includes(file)) {
                 this.uploadErrored.pushObject(file);
             }
-            notifyPropertyChange(this, 'uploading');
-            notifyPropertyChange(this, 'uploadErrored');
         }
+        notifyPropertyChange(this, 'uploading');
+        notifyPropertyChange(this, 'uploadErrored');
     }
 
     @action
@@ -98,13 +135,22 @@ export default class Upload extends Component<Args> {
         if (this.uploadErrored.includes(file)) {
             this.uploadErrored.removeObject(file);
         }
+        if (this.uploadConflicted.includes(file)) {
+            this.uploadConflicted.removeObject(file);
+        }
         this.uploadCompleted.pushObject(file);
         notifyPropertyChange(this, 'uploading');
         notifyPropertyChange(this, 'uploadCompleted');
+        notifyPropertyChange(this, 'uploadConflicted');
     }
 
     retryUpload(dropzoneInstance: any, file: any) {
-        dropzoneInstance.processFile(file);
+        dropzoneInstance.addFile(file);
+    }
+
+    skip(file: any) {
+        this.uploadErrored.removeObject(file);
+        this.uploadConflicted.removeObject(file);
     }
 
     @action

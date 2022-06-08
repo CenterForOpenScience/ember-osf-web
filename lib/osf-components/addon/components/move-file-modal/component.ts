@@ -45,7 +45,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
     @tracked totalFiles? = 0;
     @tracked breadcrumbs: Array<ProviderFile | File> = [];
 
-    @tracked fileActionTasks: Array<TaskInstance<null>> = [];
+    @tracked fileActionTasks: Array<TaskInstance<void>> = [];
 
     get itemList() {
         return [...this.filesList, ...this.childNodeList];
@@ -206,11 +206,11 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
         this.totalFiles = 0;
     }
 
-    @task
+    @task({ maxConcurrency: 3, enqueue: true })
     @waitFor
     async moveFile(file: File, destinationNode: NodeModel, path: string, provider: string,
         options?: { conflict: string }) {
-        await file.move(destinationNode, path, provider, options);
+        await taskFor(file.move).perform(destinationNode, path, provider, options);
     }
 
     @task
@@ -223,12 +223,19 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
         const provider = breadcrumbs[0];
         try {
             const moveTasks = this.args.filesToMove.map(file =>
-                taskFor(file.move).perform(currentNode, currentFolder.path, provider.name));
+                taskFor(this.moveFile).perform(file, currentNode, currentFolder.path, provider.name));
             this.fileActionTasks = moveTasks;
             await allSettled(moveTasks);
         } catch (e) {
             captureException(e);
         }
+    }
+
+    @task({ maxConcurrency: 3, enqueue: true })
+    @waitFor
+    async copyFile(file: File, destinationNode: NodeModel, path: string, provider: string,
+        options?: { conflict: string }) {
+        await taskFor(file.copy).perform(destinationNode, path, provider, options);
     }
 
     @task
@@ -241,7 +248,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
         const provider = breadcrumbs[0];
         try {
             const copyTasks = this.args.filesToMove.map(file =>
-                taskFor(file.copy).perform(currentNode, currentFolder.path, provider.name));
+                taskFor(this.copyFile).perform(file, currentNode, currentFolder.path, provider.name));
             this.fileActionTasks = copyTasks;
             await allSettled(copyTasks);
         } catch (e) {
@@ -258,9 +265,9 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
     @action
     retry(file: File, index: number) {
         const { currentFolder, currentNode, breadcrumbs } = this;
-        const fileActionTask = this.args.preserveOriginal ? file.copy : file.move;
+        const fileActionTask = this.args.preserveOriginal ? this.copyFile : this.moveFile;
         const newTaskInstance = taskFor(fileActionTask).perform(
-            currentNode, currentFolder!.path, breadcrumbs[0].name,
+            file, currentNode, currentFolder!.path, breadcrumbs[0].name,
         );
         this.fileActionTasks[index] = newTaskInstance;
         notifyPropertyChange(this, 'fileActionTasks');
@@ -269,9 +276,9 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
     @action
     replace(file: File, index: number) {
         const { currentFolder, currentNode, breadcrumbs } = this;
-        const fileActionTask = this.args.preserveOriginal ? file.copy : file.move;
+        const fileActionTask = this.args.preserveOriginal ? this.copyFile : this.moveFile;
         const newTaskInstance = taskFor(fileActionTask).perform(
-            currentNode, currentFolder!.path, breadcrumbs[0].name, { conflict: 'replace' },
+            file, currentNode, currentFolder!.path, breadcrumbs[0].name, { conflict: 'replace' },
         );
         this.fileActionTasks[index] = newTaskInstance;
         notifyPropertyChange(this, 'fileActionTasks');
@@ -291,6 +298,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
     @action
     onClose() {
         if (this.startingFolder && this.fileActionTasks.length > 0) {
+            this.cancelMoves();
             this.args.manager.reload();
         }
         this.args.close();
@@ -298,6 +306,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
 
     @action
     cancelMoves() {
-        this.fileActionTasks.forEach(moveOrCopyTask => moveOrCopyTask.cancel());
+        taskFor(this.moveFile).cancelAll();
+        taskFor(this.copyFile).cancelAll();
     }
 }
