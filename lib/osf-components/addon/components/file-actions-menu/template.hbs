@@ -56,18 +56,16 @@
                 {{t 'general.share'}}
             </dd.trigger>
         </SharingIcons::Dropdown>
-        <OsfLink
+        <Button
+            @layout='fake-link'
             data-test-rename-link
             data-analytics-name='Rename file'
-            aria-label={{t 'file_actions_menu.rename'}}
-            local-class='RenameLink'
-            value={{t 'file_actions_menu.rename'}}
-            @route='registries.overview.files.provider'
+            local-class='DropdownItem'
             {{on 'click' @toggleRenameModal}}
         >
             <FaIcon @icon='pencil-alt' />
             {{t 'file_actions_menu.rename'}}
-        </OsfLink>
+        </Button>
         {{#if @manager}}
             {{#if @item.currentUserCanDelete}}
                 <Button

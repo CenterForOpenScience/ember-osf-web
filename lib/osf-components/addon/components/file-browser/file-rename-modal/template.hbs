@@ -20,8 +20,6 @@
                 aria-label={{t 'osf-components.file-browser.file_rename_modal.input_aria'}}
                 @value={{this.newFileName}}
                 @type='text'
-                class='form-control'
-                onblur={{perform this.validateFileName}}
             ></Input>
         </div>
     </dialog.main>
@@ -41,40 +39,20 @@
         >
             {{t 'osf-components.file-browser.file_rename_modal.cancel'}}
         </Button>
-        {{#if this.disabled}}
-            <Button
-                data-test-disabled-rename
-                local-class='RenameButton'
-                id='renameButton'
-                @type='create'
-                disabled={{true}}
-                aria-label={{t 'osf-components.file-browser.file_rename_modal.save_aria'}}
-                {{on 'click' (
-                    queue
-                    this.updateFileName
-                    dialog.close
-                )
-                }}
-            >
-                {{t 'osf-components.file-browser.file_rename_modal.save'}}
-            </Button>
-        {{else}}
-            <Button
-                data-test-enabled-rename
-                local-class='RenameButton'
-                id='renameButton'
-                @type='create'
-                disabled={{false}}
-                aria-label={{t 'osf-components.file-browser.file_rename_modal.save_aria'}}
-                {{on 'click' (
-                    queue
-                    this.updateFileName
-                    dialog.close
-                )
-                }}
-            >
-                {{t 'osf-components.file-browser.file_rename_modal.save'}}
-            </Button>
-        {{/if}}
+        <Button
+            data-test-disabled-rename
+            local-class='RenameButton'
+            @type='create'
+            disabled={{not this.isValid}}
+            aria-label={{t 'osf-components.file-browser.file_rename_modal.save_aria'}}
+            {{on 'click' (
+                queue
+                (perform this.updateFileName)
+                dialog.close
+            )
+            }}
+        >
+            {{t 'osf-components.file-browser.file_rename_modal.save'}}
+        </Button>
     </dialog.footer>
 </OsfDialog>

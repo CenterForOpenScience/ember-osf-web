@@ -6,7 +6,6 @@ import { action } from '@ember/object';
 
 
 import Toast from 'ember-toastr/services/toast';
-import Store from '@ember-data/store';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import { restartableTask } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
@@ -20,15 +19,10 @@ interface Args {
 
 export default class FileRenameModal extends Component<Args> {
     @service toast!: Toast;
-    @service store!: Store;
     @service currentUser!: CurrentUser;
     @service intl!: Intl;
 
-    @tracked renameModalOpen = false;
-    @tracked disableButtons = false;
-    @tracked currentFileName?: string;
     @tracked newFileName?: string;
-    @tracked disabled = true;
     @tracked originalFileName?: string;
 
     constructor(owner: unknown, args: Args) {
@@ -37,33 +31,17 @@ export default class FileRenameModal extends Component<Args> {
         this.originalFileName = this.args.item.name;
     }
 
-    @restartableTask
-    @waitFor
-    async validateFileName() {
-        const input: HTMLInputElement = (document.getElementById('userInput') as HTMLInputElement);
-        const errorMessage = this.intl.t('osf-components.file-browser.file_rename_modal.error_message');
-        if (input) {
-            const inputValue = this.newFileName;
-            const currentFileName = this.args.item.name;
-
-            if (inputValue) {
-                const noTrailingSpaceInput = inputValue.trim();
-                if (inputValue === currentFileName || noTrailingSpaceInput === currentFileName) {
-                    this.disabled = true;
-                    this.toast.error(errorMessage);
-                } else {
-                    this.disabled = false;
-                }
-            }
-        }
+    get isValid() {
+        return this.newFileName !== this.originalFileName;
     }
 
     @action
     resetFileNameValue() {
-        this.currentFileName =  this.originalFileName;
+        this.newFileName =  this.originalFileName;
     }
 
-    @action
+    @restartableTask
+    @waitFor
     async updateFileName() {
         const newName = this.newFileName;
         const successMessage = this.intl.t('osf-components.file-browser.file_rename_modal.success_message');
@@ -75,7 +53,6 @@ export default class FileRenameModal extends Component<Args> {
             newName.trim();
             this.args.item.rename(newName, 'replace');
             this.toast.success(successMessage);
-            this.disabled = true;
         } catch(e) {
             this.toast.error(this.intl.t('osf-components.file-browser.file_rename_modal.retry_message'));
         }
