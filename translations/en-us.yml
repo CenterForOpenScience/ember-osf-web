@@ -1904,6 +1904,7 @@ osf-components:
             heading: 'Delete {itemCount, plural, one {# item} other {# items}}'
             delete_failed: '{itemCount, plural, one {# item} other {# items}} failed to delete, click to try again'
             delete_success: '{itemCount, plural, one {# item} other {# items}} deleted successfully'
+            deleting: 'Deleting {itemCount, plural, one {# item} other {# items}}'
             retry: 'retry delete'
         help_modal:
             heading: 'Using the OSF Files Browser'
