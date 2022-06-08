@@ -8,6 +8,31 @@
         {{t 'osf-components.file-browser.help_modal.heading'}}
     </dialog.heading>
     <dialog.main local-class='FileHelpModal__main' tabindex='0'>
+        <h3>{{t 'osf-components.file-browser.help_modal.providers'}}</h3>
+        <p>{{t 'osf-components.file-browser.help_modal.providers_detail'}}</p>
+        {{#if @selectable}}
+            <h3>{{t 'osf-components.file-browser.help_modal.select'}}</h3>
+            <p>{{t 'osf-components.file-browser.help_modal.select_detail'}}</p>
+            <h3>{{t 'osf-components.file-browser.help_modal.move'}}</h3>
+            <p>{{t 'osf-components.file-browser.help_modal.move_detail'}}</p>
+            <h3>{{t 'osf-components.file-browser.help_modal.copy'}}</h3>
+            <p>{{t 'osf-components.file-browser.help_modal.copy_detail'}}</p>
+        {{/if}}
+        {{#if @enableUpload}}
+            <h3>{{t 'osf-components.file-browser.help_modal.upload'}}</h3>
+            <p>
+                {{t 'osf-components.file-browser.help_modal.upload_detail_first'}}
+                <FaIcon
+                    aria-hidden='false'
+                    aria-label={{t 'osf-components.file-browser.help_modal.upload_icon'}}
+                    local-class='FileHelpModal__upload-icon'
+                    @size='2x'
+                    @fixedWidth={{true}}
+                    @icon='plus'
+                />
+                {{t 'osf-components.file-browser.help_modal.upload_detail_second'}}
+            </p>
+        {{/if}}
         <h3>{{t 'osf-components.file-browser.help_modal.download_all'}}</h3>
         <p>{{t 'osf-components.file-browser.help_modal.download_all_detail'}}</p>
         <h3>{{t 'osf-components.file-browser.help_modal.download_folder'}}</h3>
@@ -15,7 +40,7 @@
             {{t 'osf-components.file-browser.help_modal.download_folder_detail_first'}}
             <FaIcon
                 aria-hidden='false'
-                aria-label={{t 'osf-components.file-browser.help_modal.file_actions'}}
+                aria-label={{t 'osf-components.file-browser.help_modal.file_actions_icon'}}
                 local-class='FileHelpModal__actions-icon'
                 @icon='ellipsis-v'
             />
@@ -28,14 +53,14 @@
             {{t 'osf-components.file-browser.help_modal.download_file_detail_first'}}
             <FaIcon
                 aria-hidden='false'
-                aria-label={{t 'osf-components.file-browser.help_modal.file_actions'}}
+                aria-label={{t 'osf-components.file-browser.help_modal.file_actions_icon'}}
                 local-class='FileHelpModal__actions-icon'
                 @icon='ellipsis-v'
             />
             {{t 'osf-components.file-browser.help_modal.download_file_detail_second'}}
             <FaIcon
                 aria-hidden='false'
-                aria-label={{t 'osf-components.file-browser.help_modal.file_actions'}}
+                aria-label={{t 'osf-components.file-browser.help_modal.file_actions_icon'}}
                 local-class='FileHelpModal__actions-icon'
                 @icon='ellipsis-v'
             />

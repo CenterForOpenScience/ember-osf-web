@@ -1907,18 +1907,30 @@ osf-components:
             retry: 'retry delete'
         help_modal:
             heading: 'Using the OSF Files Browser'
+            providers: 'See All Files in a Provider'
+            providers_detail: 'All connected storage providers are displayed in the left navbar. Choose one provider to view contents.'
+            select: 'Select Files/Folders'
+            select_detail: 'Click on a row (outside of the file or folder name) to show further actions in the top toolbar. Use Command or Shift keys to select multiple files.'
+            move: Move
+            move_detail: 'You can move your files from one part of your project or component to another. Select the files that you want to move, and then click the “Move” button in the top toolbar. Choose a component, provider, or folder and then click “Move”.'
+            copy: Copy
+            copy_detail: 'You can copy your files from one part of your project or component to another. Select the files that you want to copy, and then click the “Copy” button in the top toolbar. Choose a component, provider, or folder and then click “Copy”. Your files will now appear in both the original and chosen locations.'
+            upload: Upload
+            upload_detail_first: 'There are two ways to upload files. Open the provider or folder where you intend to upload files; you can then drag files from your desktop into files list area OR click the green upload icon' 
+            upload_detail_second: 'and select your files.'
             download_all: 'Download All Files As a Zip'
             download_all_detail: 'Navigate to the “Files” tab in the registration navigation on the left, and then click “Download this folder”.'
             download_folder: 'Download a Folder as Zip'
             download_folder_detail_first: 'To download a specific folder as a zip, click the vertical ellipses'
             download_folder_detail_second: 'to open the dropdown. Click “Download”.<br>Alternatively, open the folder and then click “Download this folder”.'
-            view_files: 'View Files'
+            view_files: 'Open/View Files'
             view_files_detail: 'Click a file name to go to view the file in the OSF. Opens file in a new tab.'
             download_file: 'Download a File'
             download_file_detail_first: 'With the file open: Click the vertical ellipses'
             download_file_detail_second: 'to open the dropdown. Click “Download”. From the file list: Click the vertical ellipses'
             download_file_detail_third: 'of the file to open the dropdown. Click “Download”.'
-            file_actions: 'File actions icon'
+            file_actions_icon: 'File actions icon'
+            upload_icon: 'File upload icon'
 
     subjects:
         browse:
