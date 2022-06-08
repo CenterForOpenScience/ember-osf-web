@@ -1,4 +1,6 @@
-<OsfDialog as |dialog|>
+<OsfDialog
+    @onClose={{this.reset}}
+as |dialog|>
     <dialog.trigger>
         <Button
             @type='destroy'
@@ -74,7 +76,7 @@
                             {{/if}}
                             <span local-class='ItemName'>{{item.name}}</span>
                         </div>
-                        <FaIcon @icon='check' />
+                        <FaIcon @icon='check' local-class='CheckIcon' />
                     </li>
                 {{/each}}
             {{else}}

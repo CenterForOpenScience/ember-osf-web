@@ -13,6 +13,7 @@ interface Args {
 }
 
 export default class DeleteFileModal extends Component<Args> {
+    @tracked files = this.args.items;
     @tracked deletingFiles: File[] = [];
     @tracked deletedFiles: File[] = [];
     @tracked failedFiles: File[] = [];
@@ -20,8 +21,8 @@ export default class DeleteFileModal extends Component<Args> {
     @task
     @waitFor
     async confirmDelete() {
-        this.deletingFiles = [...this.args.items];
-        for (const item of this.deletingFiles) {
+        this.deletingFiles = [...this.files];
+        for (const item of this.files) {
             try {
                 await taskFor(item.delete).perform();
                 this.deletedFiles.pushObject(item);
@@ -58,6 +59,7 @@ export default class DeleteFileModal extends Component<Args> {
 
     @action
     reset() {
+        this.files = [];
         this.deletingFiles = [];
         this.deletedFiles = [];
         this.failedFiles = [];
