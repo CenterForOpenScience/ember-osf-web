@@ -10,13 +10,13 @@
                 data-analytics-category='checkbox'
                 data-test-select-folder={{@item.id}}
                 aria-label={{t 'osf-components.file-browser.select_folder' folderName=@item.name}}
+                {{on 'click' (action @manager.selectFile @item)}}
                 local-class='Label'
             >
                 <Input
                     local-class='Checkbox'
                     @type='checkbox'
                     @checked={{isSelected}}
-                    {{on 'click' (action @manager.selectFile @item)}}
                 />
             </label>
         {{/if}}

@@ -224,6 +224,11 @@ export default class StorageManager extends Component<Args> {
 
     @action
     selectFile(file: File, event: PointerEvent) {
+        const target = event.target as HTMLElement;
+        // prevent click event from being forwarded to associated <input>
+        if (target?.tagName.toLowerCase() === 'label') {
+            event.preventDefault();
+        }
         if (document.getSelection()) {
             document.getSelection()!.removeAllRanges();
         }
