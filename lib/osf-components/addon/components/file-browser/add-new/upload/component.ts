@@ -7,7 +7,6 @@ import Toast from 'ember-toastr/services/toast';
 
 import StorageManager from 'osf-components/components/storage-provider-manager/storage-manager/component';
 import { TrackedWeakMap } from 'tracked-built-ins';
-import GithubProviderFile from 'ember-osf-web/packages/files/github-provider-file';
 
 interface Args {
     manager: StorageManager;
@@ -28,7 +27,7 @@ export default class Upload extends Component<Args> {
         acceptDirectories: false,
         autoProcessQueue: true,
         autoQueue: true,
-        parallelUploads: this.args.manager.rootFolder instanceof GithubProviderFile ? 1 : 2,
+        parallelUploads: this.args.manager.currentFolder.parallelUploadsLimit,
     };
 
     @service intl!: Intl;
