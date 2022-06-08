@@ -27,7 +27,7 @@ interface FileItemTestContext extends TestContext {
     manager: Manager;
 }
 
-module('Integration | Component | file-browser :: file-tiem', hooks => {
+module('Integration | Component | file-browser :: file-item', hooks => {
     setupRenderingTest(hooks);
     hooks.beforeEach(function(this: FileItemTestContext) {
         this.item = {
@@ -46,7 +46,9 @@ module('Integration | Component | file-browser :: file-tiem', hooks => {
 
     test('it renders as non-indented when the manager has no parentFolder',
         async function(this: FileItemTestContext, assert) {
-            await render(hbs`<FileBrowser::FileItem @manager={{this.manager}} @item={{this.item}} />`);
+            await render(
+                hbs`<FileBrowser::FileItem @manager={{this.manager}} @item={{this.item}} @isDesktop={{true}} />`,
+            );
             assert.dom('[data-test-indented="false"][data-test-file-list-item]').exists('File item exists');
             assert.dom('[data-test-file-name]').exists('File name exists');
             assert.dom('[data-test-file-name]').hasText(this.item.name, 'File name is correct');
@@ -64,7 +66,9 @@ module('Integration | Component | file-browser :: file-tiem', hooks => {
     test('it renders as indented when the manager has parentFolder',
         async function(this: FileItemTestContext, assert) {
             this.manager.parentFolder = 'fakeParentFolder';
-            await render(hbs`<FileBrowser::FileItem @manager={{this.manager}} @item={{this.item}} />`);
+            await render(
+                hbs`<FileBrowser::FileItem @manager={{this.manager}} @item={{this.item}} @isDesktop={{true}} />`,
+            );
             assert.dom('[data-test-indented="true"][data-test-file-list-item]').exists('File item exists');
             assert.dom('[data-test-file-name]').exists('File name exists');
             assert.dom('[data-test-file-name]').hasText(this.item.name, 'File name is correct');
