@@ -1,12 +1,8 @@
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
-
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-
-
 import Toast from 'ember-toastr/services/toast';
-import CurrentUser from 'ember-osf-web/services/current-user';
 import { restartableTask } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 import Intl from 'ember-intl/services/intl';
@@ -19,7 +15,6 @@ interface Args {
 
 export default class FileRenameModal extends Component<Args> {
     @service toast!: Toast;
-    @service currentUser!: CurrentUser;
     @service intl!: Intl;
 
     @tracked newFileName?: string;

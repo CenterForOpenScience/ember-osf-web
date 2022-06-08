@@ -3,9 +3,6 @@
     @onClose={{@onClose}}
     @closeOnOutsideClick={{true}}
     data-test-file-rename-modal
-    class='modal-dialog modal-dialog-centered'
-    aria-label={{t 'osf-components.file-browser.file_rename_modal.dialog_aria'}}
-    local-class='RenameModal'
     as |dialog|
 >
     <dialog.heading data-test-rename-heading>
@@ -18,16 +15,14 @@
                 aria-label={{t 'osf-components.file-browser.file_rename_modal.input_aria'}}
                 @value={{this.newFileName}}
                 @type='text'
-            ></Input>
+            />
         </div>
     </dialog.main>
     <dialog.footer>
         <Button
             data-test-cancel-button
             data-analytics-name='Rename Cancel'
-            local-class='CancelButton'
             @type='secondary'
-            aria-label={{t 'osf-components.file-browser.file_rename_modal.cancel_aria'}}
             {{on 'click' (
                 queue
                 this.resetFileNameValue
@@ -39,10 +34,9 @@
         </Button>
         <Button
             data-test-disabled-rename
-            local-class='RenameButton'
+            data-analytics-name='Rename Save'
             @type='create'
             disabled={{not this.isValid}}
-            aria-label={{t 'osf-components.file-browser.file_rename_modal.save_aria'}}
             {{on 'click' (
                 queue
                 (perform this.updateFileName)

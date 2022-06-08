@@ -56,18 +56,18 @@
                 {{t 'general.share'}}
             </dd.trigger>
         </SharingIcons::Dropdown>
-        <Button
-            @layout='fake-link'
-            data-test-rename-link
-            data-analytics-name='Rename file'
-            local-class='DropdownItem'
-            {{on 'click' this.openRenameModal}}
-        >
-            <FaIcon @icon='pencil-alt' />
-            {{t 'file_actions_menu.rename'}}
-        </Button>
         {{#if @manager}}
             {{#if @item.currentUserCanDelete}}
+                <Button
+                    @layout='fake-link'
+                    data-test-rename-link
+                    data-analytics-name='Rename file'
+                    local-class='DropdownItem'
+                    {{on 'click' this.openRenameModal}}
+                >
+                    <FaIcon @icon='pencil-alt' />
+                    {{t 'file_actions_menu.rename'}}
+                </Button>
                 <Button
                     @layout='fake-link'
                     local-class='DropdownItem'

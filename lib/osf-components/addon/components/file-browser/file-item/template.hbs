@@ -57,7 +57,7 @@
                 </span>
             {{/if}}
             {{#unless @manager.selectedFiles}}
-                <FileActionsMenu @item={{@item}} @onDelete={{@manager.reload}} @manager={{@manager}} @toggleRenameModal={{this.openRenameModal}} local-class='FileActionsButton'/>
+                <FileActionsMenu @item={{@item}} @onDelete={{@manager.reload}} @manager={{@manager}} />
             {{/unless}}
         </div>
     </li>
