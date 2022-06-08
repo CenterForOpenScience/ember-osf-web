@@ -61,7 +61,7 @@
             data-test-rename-link
             data-analytics-name='Rename file'
             local-class='DropdownItem'
-            {{on 'click' @toggleRenameModal}}
+            {{on 'click' this.openRenameModal}}
         >
             <FaIcon @icon='pencil-alt' />
             {{t 'file_actions_menu.rename'}}
@@ -104,3 +104,8 @@
         @filesToMove={{array @item}}
     />
 {{/if}}
+<FileBrowser::FileRenameModal
+    @isOpen={{this.renameModalOpen}}
+    @onClose={{this.closeRenameModal}}
+    @item={{@item}}
+/>

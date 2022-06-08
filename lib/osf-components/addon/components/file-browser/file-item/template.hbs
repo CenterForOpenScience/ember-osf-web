@@ -42,7 +42,7 @@
                 <FaIcon
                     @prefix='far' @icon='file-alt' @fixedWidth={{true}}
                 />
-                <span data-test-file-name id='userInput'>
+                <span data-test-file-name>
                     {{@item.name}}
                 </span>
             </OsfLink>
@@ -58,13 +58,6 @@
             {{/if}}
             {{#unless @manager.selectedFiles}}
                 <FileActionsMenu @item={{@item}} @onDelete={{@manager.reload}} @manager={{@manager}} @toggleRenameModal={{this.openRenameModal}} local-class='FileActionsButton'/>
-                <FileBrowser::FileRenameModal
-                    @isOpen={{this.renameModalOpen}}
-                    @onClose={{action this.closeRenameModal}}
-                    @item={{@item}}
-                    @manager={{@manager}}
-                    @disabled={{this.disabled}}
-                />
             {{/unless}}
         </div>
     </li>
