@@ -60,6 +60,16 @@
             {{#if @item.currentUserCanDelete}}
                 <Button
                     @layout='fake-link'
+                    data-test-rename-link
+                    data-analytics-name='Rename file'
+                    local-class='DropdownItem'
+                    {{on 'click' this.openRenameModal}}
+                >
+                    <FaIcon @icon='pencil-alt' />
+                    {{t 'file_actions_menu.rename'}}
+                </Button>
+                <Button
+                    @layout='fake-link'
                     local-class='DropdownItem'
                     data-test-move-button
                     {{on 'click' (queue (action (mut this.useCopyModal) false) (action (mut this.moveModalOpen) true))}}
@@ -94,3 +104,8 @@
         @filesToMove={{array @item}}
     />
 {{/if}}
+<FileBrowser::FileRenameModal
+    @isOpen={{this.renameModalOpen}}
+    @onClose={{this.closeRenameModal}}
+    @item={{@item}}
+/>
