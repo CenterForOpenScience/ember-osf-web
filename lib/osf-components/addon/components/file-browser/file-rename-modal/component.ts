@@ -6,11 +6,11 @@ import Toast from 'ember-toastr/services/toast';
 import { restartableTask } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 import Intl from 'ember-intl/services/intl';
-import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
+import File from 'ember-osf-web/packages/files/file';
 
 interface Args {
     manager: StorageManager;
-    item: OsfStorageFile;
+    item: File;
 }
 
 export default class FileRenameModal extends Component<Args> {
@@ -45,8 +45,8 @@ export default class FileRenameModal extends Component<Args> {
         }
 
         try {
-            newName.trim();
-            await this.args.item.rename(newName, 'replace');
+            const trimmedName = newName.trim();
+            await this.args.item.rename(trimmedName, 'replace');
             this.toast.success(successMessage);
         } catch(e) {
             this.toast.error(this.intl.t('osf-components.file-browser.file_rename_modal.retry_message'));

@@ -36,7 +36,7 @@
             data-test-disabled-rename
             data-analytics-name='Rename Save'
             @type='create'
-            disabled={{not this.isValid}}
+            disabled={{or (not this.isValid) this.updateFileName.isRunning}}
             {{on 'click' (
                 queue
                 (perform this.updateFileName)
