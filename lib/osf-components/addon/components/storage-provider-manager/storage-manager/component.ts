@@ -225,7 +225,8 @@ export default class StorageManager extends Component<Args> {
     @action
     selectFile(file: File, event: PointerEvent) {
         const target = event.target as HTMLElement;
-        // prevent click event from being forwarded to associated <input>
+        // prevent browser from programatically triggering another click event on the <label>'s associated <input>,
+        // while still allowing for keyboard users to toggle checkbox
         if (target?.tagName.toLowerCase() === 'label') {
             event.preventDefault();
         }
