@@ -26,7 +26,8 @@ export default class Upload extends Component<Args> {
         preventMultipleFiles: false,
         acceptDirectories: false,
         autoProcessQueue: true,
-        autoQueue:true,
+        autoQueue: true,
+        parallelUploads: this.args.manager.currentFolder.parallelUploadsLimit,
     };
 
     @service intl!: Intl;

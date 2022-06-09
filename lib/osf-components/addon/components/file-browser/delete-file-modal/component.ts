@@ -2,7 +2,7 @@ import { action } from '@ember/object';
 import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { allSettled, enqueueTask, task, TaskInstance } from 'ember-concurrency';
+import { enqueueTask, task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import File from 'ember-osf-web/packages/files/file';
 import captureException from 'ember-osf-web/utils/capture-exception';
@@ -13,27 +13,36 @@ interface Args {
 }
 
 export default class DeleteFileModal extends Component<Args> {
-    @tracked deleteItemTasks: Array<TaskInstance<any>> = [];
+    @tracked files = this.args.items;
+    @tracked deletingFiles: File[] = [];
     @tracked deletedFiles: File[] = [];
     @tracked failedFiles: File[] = [];
 
     @task
     @waitFor
     async confirmDelete() {
-        this.deleteItemTasks = this.args.items.map(item => taskFor(item.delete).perform());
-        await allSettled(this.deleteItemTasks);
-        this.deletedFiles = this.args.items.filter((_, index) => this.deleteItemTasks[index].isSuccessful);
-        this.failedFiles = this.args.items.filter( (_, index) => this.deleteItemTasks[index].isError);
+        this.deletingFiles = [...this.files];
+        for (const item of this.files) {
+            try {
+                await taskFor(item.delete).perform();
+                this.deletedFiles.pushObject(item);
+            } catch {
+                this.failedFiles.pushObject(item);
+            }
+            this.deletingFiles.removeObject(item);
+        }
+    }
+
+    get shouldShowDeletingModal() {
+        return this.deletingFiles.length > 0;
     }
 
     get shouldShowSuccessModal() {
-        return this.deleteItemTasks.length === this.deletedFiles.length
-            && this.deleteItemTasks.length !== 0
-            && this.deletedFiles.length !== 0;
+        return this.deletedFiles.length === this.args.items.length;
     }
 
     get shouldShowFailureModal() {
-        return this.failedFiles.length > 0;
+        return this.failedFiles.length > 0 && this.deletingFiles.length === 0;
     }
 
     @enqueueTask
@@ -42,7 +51,7 @@ export default class DeleteFileModal extends Component<Args> {
         try {
             await taskFor(item.delete).perform();
             this.failedFiles.removeObject(item);
-            this.deletedFiles.push(item);
+            this.deletedFiles.pushObject(item);
         } catch (e) {
             captureException(e);
         }
@@ -50,7 +59,8 @@ export default class DeleteFileModal extends Component<Args> {
 
     @action
     reset() {
-        this.deleteItemTasks = [];
+        this.files = [];
+        this.deletingFiles = [];
         this.deletedFiles = [];
         this.failedFiles = [];
         this.args.reload();
