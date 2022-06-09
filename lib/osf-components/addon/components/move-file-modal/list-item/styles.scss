@@ -10,8 +10,17 @@
     width: 100%;
 }
 
+.DestinationName {
+    white-space: normal;
+    text-align: left;
+    padding-right: 12px;
+}
+
 .InvalidDestination {
     color: $color-text-gray;
     font-style: italic;
+}
+
+.FileName {
     padding-left: 6px;
 }
