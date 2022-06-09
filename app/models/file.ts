@@ -150,7 +150,7 @@ export default class FileModel extends BaseFileItem {
                 resource: node.id,
                 ...options,
             }),
-        }).then(() => this.reload());
+        });
     }
 
     copy(node: AbstractNodeModel, path: string, provider: string, options?: { conflict: string }): Promise<null> {
