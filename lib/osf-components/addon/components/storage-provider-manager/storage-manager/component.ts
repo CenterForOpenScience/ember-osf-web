@@ -224,6 +224,8 @@ export default class StorageManager extends Component<Args> {
 
     @action
     selectFile(file: File, event: PointerEvent) {
+        // prevent browser from programatically triggering another click event on the <label>'s associated <input>,
+        event.preventDefault();
         if (document.getSelection()) {
             document.getSelection()!.removeAllRanges();
         }
