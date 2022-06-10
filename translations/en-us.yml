@@ -1864,6 +1864,7 @@ osf-components:
         clear_selection: 'Clear selection'
         checked_out_file: 'This file is checked out. Functionality is limited until it is checked in.'
         view_file: 'View file in a new window: {fileName}'
+        view_unseen_file: 'View unseen version of file in a new window: {fileName}'
         view_folder: 'View contents of folder: {folderName}'
         filter_placeholder: 'Filter current list'
         sort: 'Sort by: '
