@@ -12,6 +12,7 @@
             @success={{action this.success}}
             @error={{action this.error}}
             @enable={{@enable}}
+            @uploadprogress={{this.updateUploadProgress}}
             @id={{id}}
             @clickable={{this.clickableElementSelectors}}
             as |dropzone|
@@ -43,7 +44,10 @@
                                         <FaIcon @icon='file-alt' />
                                         <span local-class='Filename'>{{item.name}}</span>
                                     </div>
-                                    <FaIcon @icon='spinner' @pulse={{true}}/>
+                                    <div>
+                                        {{concat (floor (get-anything this.uploadProgress item)) '%'}}
+                                        <FaIcon @icon='spinner' @pulse={{true}}/>
+                                    </div>
                                 </li>
                             {{/each}}
                         </ul>
@@ -58,7 +62,7 @@
                                         <FaIcon @icon='file-alt' />
                                         <span local-class='Filename'>{{item.name}}</span>
                                     </div>
-                                    <div>
+                                    <div local-class='Flex'>
                                         <Button
                                             {{on 'click' (fn this.skip item)}}
                                             disabled={{or (eq item.status 'uploading') (eq item.status 'queued')}}
@@ -71,6 +75,7 @@
                                             disabled={{or (eq item.status 'uploading') (eq item.status 'queued')}}
                                         >
                                             {{#if (or (eq item.status 'uploading') (eq item.status 'queued'))}}
+                                                {{concat (floor (get-anything this.uploadProgress item)) '%'}}
                                                 <FaIcon @icon='spinner' @pulse={{true}} />
                                             {{else}}
                                                 {{t 'osf-components.file-browser.retry'}}
@@ -87,7 +92,7 @@
                                         <FaIcon @icon='file-alt' />
                                         <span local-class='Filename'>{{item.name}}</span>
                                     </div>
-                                    <div>
+                                    <div local-class='Flex'>
                                         <Button
                                             {{on 'click' (fn this.skip item)}}
                                             disabled={{or (eq item.status 'uploading') (eq item.status 'queued')}}
@@ -100,6 +105,7 @@
                                             disabled={{or (eq item.status 'uploading') (eq item.status 'queued')}}
                                         >
                                             {{#if (or (eq item.status 'uploading') (eq item.status 'queued'))}}
+                                                {{concat (floor (get-anything this.uploadProgress item)) '%'}}
                                                 <FaIcon @icon='spinner' @pulse={{true}} />
                                             {{else}}
                                                 {{t 'osf-components.file-browser.replace'}}
@@ -137,7 +143,7 @@
                     {{/if}}
                     {{#if (or this.shouldShowFailureModal this.shouldShowSuccessModal)}}
                         <Button
-                            {{on 'click' this.closeModal}}
+                            {{on 'click' (fn this.closeModal dropzone.dropzoneInstance)}} 
                         >
                             {{t 'general.done'}}
                         </Button>
