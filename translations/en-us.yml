@@ -1837,6 +1837,8 @@ osf-components:
         awaiting_copy: 'Waiting to copy {fileName}'
         moving_file: 'Moving {fileName}'
         copying_file: 'Copying {fileName}'
+        move_queued: '{fileName] queued for move. Email will be sent when the move is complete.'
+        copy_queued: '{fileName} queued for copy. Email will be sent when the copy is complete.'
         success_move: 'Successfully moved {fileName}'
         success_copy: 'Successfully copied {fileName}'
         error_move: 'Failed to move {fileName}'

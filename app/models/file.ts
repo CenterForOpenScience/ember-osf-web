@@ -135,9 +135,8 @@ export default class FileModel extends BaseFileItem {
         }).then(() => this.reload());
     }
 
-    async move(node: AbstractNodeModel, path: string, provider: string, options?: { conflict: string }): any {// tODO: fix this
-        let xhrStatus = null;
-        const data = await this.currentUser.authenticatedAJAX({
+    async move(node: AbstractNodeModel, path: string, provider: string, options?: { conflict: string }): Promise<null> {
+        const req = await this.currentUser.authenticatedAJAX({
             url: getHref(this.links.move),
             type: 'POST',
             xhrFields: { withCredentials: true },
@@ -151,9 +150,11 @@ export default class FileModel extends BaseFileItem {
                 resource: node.id,
                 ...options,
             }),
-            complete: xhr => xhrStatus = xhr.status,
+            success: (data, _, xhr) => {
+                data.status = xhr.status;
+            },
         });
-        return { data, xhrStatus };
+        return req;
     }
 
     copy(node: AbstractNodeModel, path: string, provider: string, options?: { conflict: string }): Promise<null> {

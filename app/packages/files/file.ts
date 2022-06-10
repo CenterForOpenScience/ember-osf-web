@@ -184,8 +184,7 @@ export default abstract class File {
     @task
     @waitFor
     async move(node: NodeModel, path: string, provider: string, options?: { conflict: string }) {
-        const { data, xhrStatus } = await this.fileModel.move(node, path, provider, options);
-        return { data, xhrStatus };
+        return await this.fileModel.move(node, path, provider, options);
     }
 
     @task
