@@ -22,7 +22,7 @@
             )}}
             <OsfDialog
                 @isOpen={{this.shouldShowModal}}
-                @onClose={{this.closeModal}}
+                @onClose={{fn this.closeModal dropzone.dropzoneInstance}}
             as |dialog|>
                 <dialog.heading>
                     {{#if this.shouldShowUploadingModal}}
@@ -143,7 +143,7 @@
                     {{/if}}
                     {{#if (or this.shouldShowFailureModal this.shouldShowSuccessModal)}}
                         <Button
-                            {{on 'click' (fn this.closeModal dropzone.dropzoneInstance)}} 
+                            {{on 'click' (fn this.closeModal dropzone.dropzoneInstance)}}
                         >
                             {{t 'general.done'}}
                         </Button>
