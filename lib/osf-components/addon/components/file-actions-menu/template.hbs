@@ -58,16 +58,18 @@
         </SharingIcons::Dropdown>
         {{#if @manager}}
             {{#if @item.currentUserCanDelete}}
-                <Button
-                    @layout='fake-link'
-                    data-test-rename-link
-                    data-analytics-name='Rename file'
-                    local-class='DropdownItem'
-                    {{on 'click' this.openRenameModal}}
-                >
-                    <FaIcon @icon='pencil-alt' />
-                    {{t 'file_actions_menu.rename'}}
-                </Button>
+                {{#if @allowRename}}
+                    <Button
+                        @layout='fake-link'
+                        data-test-rename-link
+                        data-analytics-name='Rename file'
+                        local-class='DropdownItem'
+                        {{on 'click' this.openRenameModal}}
+                    >
+                        <FaIcon @icon='pencil-alt' />
+                        {{t 'file_actions_menu.rename'}}
+                    </Button>
+                {{/if}}
                 <Button
                     @layout='fake-link'
                     local-class='DropdownItem'
@@ -104,8 +106,10 @@
         @filesToMove={{array @item}}
     />
 {{/if}}
-<FileBrowser::FileRenameModal
-    @isOpen={{this.renameModalOpen}}
-    @onClose={{this.closeRenameModal}}
-    @item={{@item}}
-/>
+{{#if @allowRename}}
+    <FileBrowser::FileRenameModal
+        @isOpen={{this.renameModalOpen}}
+        @onClose={{this.closeRenameModal}}
+        @item={{@item}}
+    />    
+{{/if}}
