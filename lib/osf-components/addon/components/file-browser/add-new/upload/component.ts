@@ -171,6 +171,11 @@ export default class Upload extends Component<Args> {
     }
 
     @action
+    cancelAllUploads(dropzoneInstance: any) {
+        dropzoneInstance.removeAllFiles(true);
+    }
+
+    @action
     closeModal(dropzoneInstance: any) {
         dropzoneInstance.removeAllFiles(true);
         this.uploadCompleted = [];

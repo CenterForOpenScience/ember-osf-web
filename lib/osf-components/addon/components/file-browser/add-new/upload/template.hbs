@@ -135,7 +135,7 @@
                 <dialog.footer>
                     {{#if this.shouldShowUploadingModal}}
                         <Button
-                            {{on 'click' dropzone.dropzoneInstance.removeAllFiles}}
+                            {{on 'click' (fn this.cancelAllUploads dropzone.dropzoneInstance)}}
                             @type='destroy'
                         >
                             {{t 'general.cancel'}}
