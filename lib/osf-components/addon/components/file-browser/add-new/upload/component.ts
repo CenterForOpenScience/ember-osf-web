@@ -29,6 +29,7 @@ export default class Upload extends Component<Args> {
         autoQueue: true,
         parallelUploads: this.args.manager.currentFolder.parallelUploadsLimit,
         maxFilesize: 10000000,
+        timeout: null,
     };
 
     @service intl!: Intl;
