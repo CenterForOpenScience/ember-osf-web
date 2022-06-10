@@ -28,6 +28,7 @@ export default class Upload extends Component<Args> {
         autoProcessQueue: true,
         autoQueue: true,
         parallelUploads: this.args.manager.currentFolder.parallelUploadsLimit,
+        maxFilesize: 10000000,
     };
 
     @service intl!: Intl;
@@ -37,6 +38,7 @@ export default class Upload extends Component<Args> {
     @tracked uploadErrored: any[] = [];
     @tracked uploadConflicted: any[] = [];
     @tracked clickableElementId = '';
+    uploadProgress = new TrackedWeakMap();
 
     get clickableElementSelectors() {
         if (this.clickableElementId) {
@@ -70,6 +72,12 @@ export default class Upload extends Component<Args> {
     get failedFilesNumber() {
         return this.uploadErrored.length + this.uploadConflicted.length;
     }
+
+    @action
+    updateUploadProgress(_: any, __: any, file: any, progress: any) {
+        this.uploadProgress.set(file, progress);
+    }
+
     @action
     buildUrl(files: any[]) {
         const { name, newUploadLink } = files[0];
@@ -99,6 +107,7 @@ export default class Upload extends Component<Args> {
                 cache.set(file, value);
             },
         });
+        this.uploadProgress.set(file, 0);
         if (!this.uploadErrored.includes(file)
             && !this.uploading.includes(file)
             && !this.uploadConflicted.includes(file)
@@ -126,6 +135,7 @@ export default class Upload extends Component<Args> {
                 this.uploadErrored.pushObject(file);
             }
         }
+        this.uploadProgress.set(file, 0);
         notifyPropertyChange(this, 'uploading');
         notifyPropertyChange(this, 'uploadErrored');
     }
@@ -149,6 +159,7 @@ export default class Upload extends Component<Args> {
         dropzoneInstance.addFile(file);
     }
 
+    @action
     skip(file: any) {
         this.uploadErrored.removeObject(file);
         this.uploadConflicted.removeObject(file);
@@ -160,9 +171,16 @@ export default class Upload extends Component<Args> {
     }
 
     @action
-    closeModal() {
+    cancelAllUploads(dropzoneInstance: any) {
+        dropzoneInstance.removeAllFiles(true);
+    }
+
+    @action
+    closeModal(dropzoneInstance: any) {
+        dropzoneInstance.removeAllFiles(true);
         this.uploadCompleted = [];
         this.uploadErrored = [];
+        this.uploadConflicted = [];
         this.args.manager.reload();
     }
 }
