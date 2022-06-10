@@ -89,7 +89,20 @@
                             {{t 'general.copy'}}
                         </Button>
                         {{#if @item.currentUserCanDelete}}
-                            <Button @layout='fake-link' local-class='DropdownItem' data-test-move-button
+                            <Button
+                                @layout='fake-link'
+                                data-test-rename-link
+                                data-analytics-name='Rename folder'
+                                local-class='DropdownItem'
+                                {{on 'click' (fn (mut this.renameModalOpen) true)}}
+                            >
+                                <FaIcon @icon='pencil-alt' />
+                                {{t 'file_actions_menu.rename'}}
+                            </Button>
+                            <Button
+                                @layout='fake-link'
+                                local-class='DropdownItem'
+                                data-test-move-button
                                 {{on 'click' (fn (mut this.isDeleteModalOpen) true)}}
                             >
                                 <FaIcon @icon='trash-alt' />
@@ -115,3 +128,8 @@
     @closeModal={{fn (mut this.isDeleteModalOpen) false}}
     @onDelete={{@manager.reload}}
 />
+<FileBrowser::FileRenameModal
+    @isOpen={{this.renameModalOpen}}
+    @onClose={{fn (mut this.renameModalOpen) false}}
+    @item={{@item}}
+/>    
