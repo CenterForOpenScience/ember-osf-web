@@ -306,7 +306,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
 
     @action
     cancelMoves() {
-        taskFor(this.moveFile).cancelAll();
-        taskFor(this.copyFile).cancelAll();
+        taskFor(this.move).cancelAll();
+        taskFor(this.copy).cancelAll();
     }
 }
