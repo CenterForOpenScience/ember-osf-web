@@ -34,7 +34,11 @@
             {{/if}}
             <OsfLink
                 data-analytics-name='Open file'
-                aria-label={{t 'osf-components.file-browser.view_file' fileName=@item.name}}
+                aria-label={{if
+                    @item.showAsUnviewed
+                    (t 'osf-components.file-browser.view_unseen_file' fileName=@item.name)
+                    (t 'osf-components.file-browser.view_file' fileName=@item.name)
+                }}
                 @href={{@item.links.html}}
                 @target='_blank'
                 local-class={{if @item.showAsUnviewed 'Unviewed'}}
