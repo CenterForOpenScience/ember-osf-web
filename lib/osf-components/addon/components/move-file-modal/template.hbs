@@ -29,6 +29,7 @@
                             {{else if (not taskInstance.hasStarted)}}
                                 {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'awaiting_copy' 'awaiting_move')) fileName=file.name}}
                             {{else if taskInstance.isSuccessful}}
+                                {{taskInstance.value.status}}
                                 {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'success_copy' 'success_move')) fileName=file.name}}
                                 <FaIcon @icon='check' local-class='success'/>
                             {{else if taskInstance.isError}}

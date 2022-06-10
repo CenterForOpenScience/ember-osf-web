@@ -210,7 +210,9 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
     @waitFor
     async moveFile(file: File, destinationNode: NodeModel, path: string, provider: string,
         options?: { conflict: string }) {
-        await taskFor(file.move).perform(destinationNode, path, provider, options);
+        const { data, xhrStatus } = await taskFor(file.move).perform(destinationNode, path, provider, options);
+        data.status = xhrStatus;
+        return data;
     }
 
     @task
