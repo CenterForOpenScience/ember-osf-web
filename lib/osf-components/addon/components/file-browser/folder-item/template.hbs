@@ -77,17 +77,19 @@
                                 {{t 'general.move'}}
                             </Button>
                         {{/if}}
-                        <Button
-                            @layout='fake-link'
-                            local-class='DropdownItem'
-                            data-test-copy-button
-                            {{on 'click' (queue (action (mut this.useCopyModal) true) (action (mut this.moveModalOpen) true))}}
-                        >
-                            <FaIcon
-                                @icon='copy'
-                            />
-                            {{t 'general.copy'}}
-                        </Button>
+                        {{#unless @manager.isViewOnly}}
+                            <Button
+                                @layout='fake-link'
+                                local-class='DropdownItem'
+                                data-test-copy-button
+                                {{on 'click' (queue (action (mut this.useCopyModal) true) (action (mut this.moveModalOpen) true))}}
+                            >
+                                <FaIcon
+                                    @icon='copy'
+                                />
+                                {{t 'general.copy'}}
+                            </Button>
+                        {{/unless}}
                         {{#if @item.currentUserCanDelete}}
                             <Button
                                 @layout='fake-link'
