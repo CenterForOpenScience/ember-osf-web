@@ -35,7 +35,7 @@
                         {{t 'osf-components.file-browser.upload_success' fileCount=this.uploadCompleted.length}}
                     {{/if}}
                 </dialog.heading>
-                <dialog.main local-class='UploadModal'>
+                <dialog.main>
                     {{#if this.shouldShowUploadingModal}}
                         <ul local-class='FileList'>
                             {{#each this.uploading as |item|}}

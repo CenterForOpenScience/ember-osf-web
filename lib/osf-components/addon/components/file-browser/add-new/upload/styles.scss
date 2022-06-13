@@ -9,6 +9,7 @@
     align-items: center;
     padding-bottom: 5px;
     justify-content: space-between;
+    column-gap: 20px;
 }
 
 .Filename {
@@ -18,10 +19,6 @@
 
 .CheckIcon {
     color: $brand-success;
-}
-
-.UploadModal {
-    width: 25vw;
 }
 
 .Flex {
