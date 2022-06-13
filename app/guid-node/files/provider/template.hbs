@@ -134,10 +134,15 @@
                 {{#let (get mapper this.model.providerName) as |ProviderManager|}}
                     <ProviderManager
                         @provider={{this.model.providerTask.value.provider}}
+                        @isViewOnly={{this.model.providerTask.value.isViewOnly}}
                         as |manager|
                     >
                         <div local-class='FileBrowser'>
-                            <FileBrowser @manager={{manager}} @selectable={{true}} @enableUpload={{true}} />
+                            <FileBrowser
+                                @manager={{manager}}
+                                @selectable={{not this.model.providerTask.value.isViewOnly}}
+                                @enableUpload={{true}}
+                            />
                         </div>
                     </ProviderManager>
                 {{/let}}
