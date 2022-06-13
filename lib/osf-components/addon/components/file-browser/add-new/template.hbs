@@ -5,14 +5,8 @@
         @horizontalPosition='left'
         as |dropdown|
     >
-        <dropdown.trigger>
-            <Button
-                local-class='TriggerButton {{if dropdown.isOpen 'CloseButton'}}'
-                aria-label={{t 'osf-components.file-browser.add_button_aria'}}
-                @type='create'
-            >
-                <FaIcon @icon='plus' @size='2x' @fixedWidth={{true}} />
-            </Button>
+        <dropdown.trigger local-class='TriggerButton {{if dropdown.isOpen 'CloseButton'}}'>
+            <FaIcon @icon='plus' @size='2x' @fixedWidth={{true}} />
         </dropdown.trigger>
         <dropdown.content
             local-class='DropdownList'

@@ -3,6 +3,9 @@
     padding: 3px;
     border-radius: 50%;
     outline: none;
+    background-color: darken($brand-success, 10%);
+    color: $color-bg-white;
+
 
     &:focus,
     &:active:focus {
