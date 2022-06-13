@@ -1,17 +1,19 @@
 {{#let (unique-id 'upload-button-id') as |uploadButtonId|}}
     <ResponsiveDropdown
         @renderInPlace={{true}}
+        @buttonStyling={{false}}
         @horizontalPosition='left'
         as |dropdown|
     >
-        <Button
-            aria-label={{t 'osf-components.file-browser.add_button_aria'}}
-            local-class='TriggerButton {{if dropdown.isOpen 'CloseButton'}}'
-            @type='create'
-            {{on 'click' dropdown.toggle}}
-        >
-            <FaIcon @icon='plus' @size='2x' @fixedWidth={{true}} />
-        </Button>
+        <dropdown.trigger>
+            <Button
+                local-class='TriggerButton {{if dropdown.isOpen 'CloseButton'}}'
+                aria-label={{t 'osf-components.file-browser.add_button_aria'}}
+                @type='create'
+            >
+                <FaIcon @icon='plus' @size='2x' @fixedWidth={{true}} />
+            </Button>
+        </dropdown.trigger>
         <dropdown.content
             local-class='DropdownList'
             @rootEventType='mousedown'
