@@ -135,8 +135,8 @@ export default class FileModel extends BaseFileItem {
         }).then(() => this.reload());
     }
 
-    move(node: AbstractNodeModel, path: string, provider: string, options?: { conflict: string }): Promise<null> {
-        return this.currentUser.authenticatedAJAX({
+    async move(node: AbstractNodeModel, path: string, provider: string, options?: { conflict: string }): Promise<null> {
+        const req = await this.currentUser.authenticatedAJAX({
             url: getHref(this.links.move),
             type: 'POST',
             xhrFields: { withCredentials: true },
@@ -150,11 +150,15 @@ export default class FileModel extends BaseFileItem {
                 resource: node.id,
                 ...options,
             }),
+            success: (data, _, xhr) => {
+                data.status = xhr.status;
+            },
         });
+        return req;
     }
 
-    copy(node: AbstractNodeModel, path: string, provider: string, options?: { conflict: string }): Promise<null> {
-        return this.currentUser.authenticatedAJAX({
+    async copy(node: AbstractNodeModel, path: string, provider: string, options?: { conflict: string }): Promise<null> {
+        const req = await this.currentUser.authenticatedAJAX({
             url: getHref(this.links.move),
             type: 'POST',
             xhrFields: { withCredentials: true },
@@ -168,7 +172,11 @@ export default class FileModel extends BaseFileItem {
                 resource: node.id,
                 ...options,
             }),
+            success: (data, _, xhr) => {
+                data.status = xhr.status;
+            },
         }).then(() => this.reload());
+        return req;
     }
 
     delete(): Promise<null> {

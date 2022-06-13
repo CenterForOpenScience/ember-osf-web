@@ -45,7 +45,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
     @tracked totalFiles? = 0;
     @tracked breadcrumbs: Array<ProviderFile | File> = [];
 
-    @tracked fileActionTasks: Array<TaskInstance<void>> = [];
+    @tracked fileActionTasks: Array<TaskInstance<null>> = [];
 
     get itemList() {
         return [...this.filesList, ...this.childNodeList];
@@ -210,7 +210,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
     @waitFor
     async moveFile(file: File, destinationNode: NodeModel, path: string, provider: string,
         options?: { conflict: string }) {
-        await taskFor(file.move).perform(destinationNode, path, provider, options);
+        return await taskFor(file.move).perform(destinationNode, path, provider, options);
     }
 
     @task
@@ -235,7 +235,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
     @waitFor
     async copyFile(file: File, destinationNode: NodeModel, path: string, provider: string,
         options?: { conflict: string }) {
-        await taskFor(file.copy).perform(destinationNode, path, provider, options);
+        return await taskFor(file.copy).perform(destinationNode, path, provider, options);
     }
 
     @task
