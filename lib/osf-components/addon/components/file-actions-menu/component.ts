@@ -18,9 +18,20 @@ export default class FileActionsMenu extends Component<Args> {
     @tracked isDeleteModalOpen = false;
     @tracked moveModalOpen = false;
     @tracked useCopyModal = false;
+    @tracked renameModalOpen = false;
 
     @action
     closeDeleteModal() {
         this.isDeleteModalOpen = false;
+    }
+
+    @action
+    closeRenameModal() {
+        this.renameModalOpen = false;
+    }
+
+    @action
+    openRenameModal() {
+        this.renameModalOpen = true;
     }
 }

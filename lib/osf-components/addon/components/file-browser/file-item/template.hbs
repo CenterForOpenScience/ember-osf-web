@@ -10,13 +10,13 @@
                 data-analytics-category='checkbox'
                 data-test-select-file={{@item.id}}
                 aria-label={{t 'osf-components.file-browser.select_file' fileName=@item.name}}
+                {{on 'click' (action @manager.selectFile @item)}}
                 local-class='Label'
             >
                 <Input
                     local-class='Checkbox'
                     @type='checkbox'
                     @checked={{isSelected}}
-                    {{on 'click' (action @manager.selectFile @item)}}
                 />
             </label>
         {{/if}}
@@ -34,7 +34,11 @@
             {{/if}}
             <OsfLink
                 data-analytics-name='Open file'
-                aria-label={{t 'osf-components.file-browser.view_file' fileName=@item.name}}
+                aria-label={{if
+                    @item.showAsUnviewed
+                    (t 'osf-components.file-browser.view_unseen_file' fileName=@item.name)
+                    (t 'osf-components.file-browser.view_file' fileName=@item.name)
+                }}
                 @href={{@item.links.html}}
                 @target='_blank'
                 local-class={{if @item.showAsUnviewed 'Unviewed'}}
@@ -57,7 +61,7 @@
                 </span>
             {{/if}}
             {{#unless @manager.selectedFiles}}
-                <FileActionsMenu @item={{@item}} @onDelete={{@manager.reload}} @manager={{@manager}} />
+                <FileActionsMenu @item={{@item}} @onDelete={{@manager.reload}} @manager={{@manager}} @allowRename={{true}} />
             {{/unless}}
         </div>
     </li>

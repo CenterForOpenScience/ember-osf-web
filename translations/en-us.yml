@@ -107,6 +107,8 @@ file_actions_menu:
     copy_html: 'Copy static HTML iFrame'
     success_message: 'Copied to clipboard'
     error_message: 'Could not copy to clipboard'
+    rename: 'Rename'
+    rename_aria: 'Open rename link'
 node_categories:
     analysis: Analysis
     communication: Communication
@@ -1835,6 +1837,8 @@ osf-components:
         awaiting_copy: 'Waiting to copy {fileName}'
         moving_file: 'Moving {fileName}'
         copying_file: 'Copying {fileName}'
+        move_queued: '{fileName} queued for move. Email will be sent when the move is complete.'
+        copy_queued: '{fileName} queued for copy. Email will be sent when the copy is complete.'
         success_move: 'Successfully moved {fileName}'
         success_copy: 'Successfully copied {fileName}'
         error_move: 'Failed to move {fileName}'
@@ -1862,6 +1866,7 @@ osf-components:
         clear_selection: 'Clear selection'
         checked_out_file: 'This file is checked out. Functionality is limited until it is checked in.'
         view_file: 'View file in a new window: {fileName}'
+        view_unseen_file: 'View unseen version of file in a new window: {fileName}'
         view_folder: 'View contents of folder: {folderName}'
         filter_placeholder: 'Filter current list'
         sort: 'Sort by: '
@@ -1904,6 +1909,7 @@ osf-components:
             heading: 'Delete {itemCount, plural, one {# item} other {# items}}'
             delete_failed: '{itemCount, plural, one {# item} other {# items}} failed to delete, click to try again'
             delete_success: '{itemCount, plural, one {# item} other {# items}} deleted successfully'
+            deleting: 'Deleting {itemCount, plural, one {# item} other {# items}}'
             retry: 'retry delete'
         help_modal:
             heading: 'Using the OSF Files Browser'
@@ -1939,6 +1945,22 @@ osf-components:
             more_info: 'For more information please see our <a href="https://help.osf.io/article/387-project-files">help guides on project files</a>.'
             file_actions_icon: 'File actions icon'
             upload_icon: 'File upload icon'
+        file_rename_modal:
+            heading: 'Rename file'
+            name_input: 'Please enter a new file name:'
+            cancel: 'Cancel'
+            save: 'Save'
+            rename: 'Rename'
+            label: 'Please enter a new name for the file:'
+            no_input: 'Please enter a name.'
+            dialog_aria: 'Files Rename modal'
+            input_aria: 'User input field for renaming file'
+            cancel_aria: 'Cancel renaming file'
+            save_aria: 'Save renaming file'
+            clear_aria: 'Clear input field'
+            success_message: 'File successfully renamed.'
+            error_message: 'Please rename the file.'
+            retry_message: 'Rename failed.'
 
     subjects:
         browse:

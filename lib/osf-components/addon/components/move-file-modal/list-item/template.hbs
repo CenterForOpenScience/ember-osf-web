@@ -7,7 +7,7 @@
             local-class='NavButton'
             {{on 'click' (fn @onNodeSelect @item)}}
         >
-            <span>
+            <span local-class='DestinationName'>
                 <NodeCard::NodeIcon @category={{@item.category}} />
                 {{@item.title}}
             </span>
@@ -22,7 +22,7 @@
             disabled={{this.shouldDisable}}
             {{on 'click' (fn @onFolderSelect @item)}}
         >
-            <span>
+            <span local-class='DestinationName'>
                 {{#if @isProvider}}
                     <img
                         data-test-provider-icon
@@ -43,7 +43,7 @@
             <FaIcon @icon='chevron-right' />
         </Button>
     {{else}}
-        <span local-class='InvalidDestination'>
+        <span local-class='InvalidDestination DestinationName FileName'>
             <FaIcon @icon='file' />
             {{@item.name}}
         </span>

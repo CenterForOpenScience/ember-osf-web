@@ -58,6 +58,18 @@
         </SharingIcons::Dropdown>
         {{#if @manager}}
             {{#if @item.currentUserCanDelete}}
+                {{#if @allowRename}}
+                    <Button
+                        @layout='fake-link'
+                        data-test-rename-link
+                        data-analytics-name='Rename file'
+                        local-class='DropdownItem'
+                        {{on 'click' this.openRenameModal}}
+                    >
+                        <FaIcon @icon='pencil-alt' />
+                        {{t 'file_actions_menu.rename'}}
+                    </Button>
+                {{/if}}
                 <Button
                     @layout='fake-link'
                     local-class='DropdownItem'
@@ -70,17 +82,19 @@
                     {{t 'general.move'}}
                 </Button>
             {{/if}}
-            <Button
-                @layout='fake-link'
-                local-class='DropdownItem'
-                data-test-copy-button
-                {{on 'click' (queue (action (mut this.useCopyModal) true) (action (mut this.moveModalOpen) true))}}
-            >
-                <FaIcon
-                    @icon='copy'
-                />
-                {{t 'general.copy'}}
-            </Button>
+            {{#unless @manager.isViewOnly}}
+                <Button
+                    @layout='fake-link'
+                    local-class='DropdownItem'
+                    data-test-copy-button
+                    {{on 'click' (queue (action (mut this.useCopyModal) true) (action (mut this.moveModalOpen) true))}}
+                >
+                    <FaIcon
+                        @icon='copy'
+                    />
+                    {{t 'general.copy'}}
+                </Button>
+            {{/unless}}
         {{/if}}
     </dropdown.content>
 </ResponsiveDropdown>
@@ -93,4 +107,11 @@
         @manager={{@manager}}
         @filesToMove={{array @item}}
     />
+{{/if}}
+{{#if @allowRename}}
+    <FileBrowser::FileRenameModal
+        @isOpen={{this.renameModalOpen}}
+        @onClose={{this.closeRenameModal}}
+        @item={{@item}}
+    />    
 {{/if}}

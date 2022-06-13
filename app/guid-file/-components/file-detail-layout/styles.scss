@@ -6,6 +6,7 @@
 
 .MainColumn {
     flex-grow: 3;
+    z-index: 1;
 
     h3 {
         text-overflow: ellipsis;
