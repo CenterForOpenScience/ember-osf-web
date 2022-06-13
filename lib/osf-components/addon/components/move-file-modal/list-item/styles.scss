@@ -1,0 +1,26 @@
+.ChildItem {
+    border-top: solid 1px $color-border-gray;
+    padding: 12px 10px;
+}
+
+.NavButton {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.DestinationName {
+    white-space: normal;
+    text-align: left;
+    padding-right: 12px;
+}
+
+.InvalidDestination {
+    color: $color-text-gray;
+    font-style: italic;
+}
+
+.FileName {
+    padding-left: 6px;
+}

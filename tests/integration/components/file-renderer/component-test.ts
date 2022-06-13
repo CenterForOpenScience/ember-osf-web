@@ -10,7 +10,7 @@ module('Integration | Component | file-renderer', hooks => {
     setupRenderingTest(hooks);
 
     test('file rendering defaults', async function(assert) {
-        const download = this.set('download', 'someTruthyValue');
+        const download = this.set('download', 'http://cos.io/');
 
         await render(hbs`
             {{file-renderer download=download}}

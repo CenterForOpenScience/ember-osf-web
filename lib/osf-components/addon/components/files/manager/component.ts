@@ -202,7 +202,7 @@ export default class FilesManagerComponent extends Component {
 
         this.lastUploaded.pushObject(file);
 
-        this.toast.success(this.intl.t('file_browser.file_added_toast'));
+        this.toast.success(this.intl.t('osf-components.files-widget.file_add_success'));
         if (this.onAddFile) {
             this.onAddFile(file);
         }

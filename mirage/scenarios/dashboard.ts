@@ -43,6 +43,12 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
         server.create('contributor', { node, users: currentUser, index: 11 });
     }
 
+    server.create('node', {
+        id: 'file5',
+        title: 'With some files',
+        currentUserPermissions: [Permission.Read, Permission.Write],
+    }, 'withFiles');
+
     // NOTE: Some institutions are already created by this point
     server.createList('institution', 20);
     // Create a specific institution to test institutional dashboard with; should be ID 29 at this point

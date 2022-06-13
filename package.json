@@ -1,6 +1,6 @@
 {
   "name": "ember-osf-web",
-  "version": "22.3.0",
+  "version": "22.5.0",
   "description": "Ember front-end for the Open Science Framework",
   "license": "Apache-2.0",
   "author": "Center for Open Science <support@cos.io>",
@@ -240,6 +240,7 @@
     "stylelint-config-css-modules": "^1.2.0",
     "stylelint-config-sass-guidelines": "^6.0.0",
     "toastr": "^2.1.4",
+    "tracked-built-ins": "^3.1.0",
     "typescript": "^4.2.3",
     "wicg-inert": "^3.1.1"
   },

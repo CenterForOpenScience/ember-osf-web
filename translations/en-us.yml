@@ -52,6 +52,7 @@ general:
     more: more
     upload: Upload
     rename: Rename
+    copy: Copy
     move: Move
     name: Name
     size: Size
@@ -106,6 +107,8 @@ file_actions_menu:
     copy_html: 'Copy static HTML iFrame'
     success_message: 'Copied to clipboard'
     error_message: 'Could not copy to clipboard'
+    rename: 'Rename'
+    rename_aria: 'Open rename link'
 node_categories:
     analysis: Analysis
     communication: Communication
@@ -494,7 +497,7 @@ node_navbar:
     settings: Settings
     comments: Comments
 status:
-    welcome_message: '<h1>Welcome to OSF!</h1><p>Visit our <a href="https://openscience.zendesk.com/hc/en-us" target="_blank" rel="noreferrer">Guides</a> to learn about creating a project, or get inspiration from <a href="https://osf.io/explore/activity/#popularPublicProjects">popular public projects</a>.</p>'
+    welcome_message: '<h1>Welcome to OSF!</h1><p>Visit our <a href="https://help.osf.io/" target="_blank" rel="noreferrer">Guides</a> to learn about creating a project, or get inspiration from <a href="https://osf.io/explore/activity/#popularPublicProjects">popular public projects</a>.</p>'
     alternate_email_error: 'The email address has <b>NOT</b> been added to your account. Please log out and revisit the link in your email. Thank you.'
     # remove_addon: 'Because the GitHub add-on for {extra.category} "{extra.title}" was authenticated by {extra.user}, authentication information has been deleted.'
     project_deleted: 'Project has been successfully deleted.'
@@ -574,6 +577,16 @@ forks:
     new_fork_failed: 'Failed to create a new fork.'
     delete_fork_failed: 'Failed to delete the project.'
 node:
+    left_nav:
+        toggle: 'Toggle project navigation menu'
+        overview: Overview
+        files: Files
+        wiki: Wiki
+        analytics: Analytics
+        registrations: Registrations
+        contributors: Contributors
+        add-ons: Add-ons
+        settings: Settings
     registrations:
         new_registration_modal:
             title: Register
@@ -1071,7 +1084,7 @@ registries:
             delete_update: 'Delete update'
             confirm_delete: 'Please confirm deletion of update.'
     new:
-        provider_info: 'You are submitting to {provider}. <a href="https://help.osf.io/hc/en-us/categories/360001550953-Registrations">Click here</a> to learn more about other hosted registries.'
+        provider_info: 'You are submitting to {provider}. <a href="https://help.osf.io/">Click here</a> to learn more about other hosted registries.'
         required: 'required'
         page_title: 'New Registration'
         page_header: 'Add New Registration'
@@ -1308,6 +1321,12 @@ registries:
     form_view:
         none_selected: 'None selected'
     overview:
+        files:
+            title: Files
+            storage_providers:
+                invalidProviderDetails: 'Could not find the requested file provider.'
+                invalidProviderLink: 'See all files in this registration.'
+                osfstorage: 'OSF Storage'
         title: Overview
         collapse: Collapse
         expand: Expand
@@ -1797,7 +1816,7 @@ osf-components:
         schema-block-renderer/editable/files:
             instructions: 'You may attach up to 5 file(s) to this question. You may attach files that you already have in OSF Storage in this <a href={nodeUrl}>{projectOrComponent}</a> or upload (drag and drop) a new file from your computer. Uploaded files will automatically be added to this <a href={nodeUrl}>{projectOrComponent}</a> so that they can be registered. To attach files from other components or an add-on, first add them to this <a href={nodeUrl}>{projectOrComponent}</a>.'
             instructionsNoProject: 'You may attach up to 5 file(s) to this question. Files cannot total over 5GB in size.<br><br>Uploaded files will automatically be archived in this registration. They will also be added to a related project that will be created for this registration.'
-            instructionsNoPermissions: 'This registration is branched from <a href={nodeUrl}>an OSF Project</a>, and only contributors added to it can upload and edit files. Contact one of the registration''s administrative contributors to be added to the project. Learn more about OSF Projects by visiting our <a href="https://help.osf.io/hc/en-us/categories/360001495973-Creating-and-Managing-Projects">help guides</a>.'
+            instructionsNoPermissions: 'This registration is branched from <a href={nodeUrl}>an OSF Project</a>, and only contributors added to it can upload and edit files. Contact one of the registration''s administrative contributors to be added to the project. Learn more about OSF Projects by visiting our <a href="https://help.osf.io/">help guides</a>.'
         schema-block-renderer/read-only/response:
             noResponse: 'No response'
         schema-block-renderer/read-only/files:
@@ -1813,6 +1832,7 @@ osf-components:
         folder_name_placeholder: 'New folder name'
         create_folder_failed: 'Failed to create folder'
         insufficient_storage_error: 'This file cannot be uploaded to this project/component because it has exceeded the storage limit for OSF Storage.'
+        file_add_success: 'File added successfully'
         delete_failed: 'Failed to delete {filename}'
         delete_success: 'Successfully deleted {filename}'
         delete: Delete
@@ -1831,6 +1851,126 @@ osf-components:
         md5_description: 'MD5 is an algorithm used to verify data integrity.'
         copy_success: 'Successfully copied to clipboard'
         copy_failed: 'Failed to copy to clipboard'
+    move_file_modal:
+        move_header: 'Move {itemCount, plural, one {# item} other {# items}}'
+        copy_header: 'Copy {itemCount, plural, one {# item} other {# items}}'
+        select_destination: 'Select destination'
+        no_write_permission: 'You do not have write permission to this node. Please select a node that you have write or admin access.'
+        select_provider: 'Please select a file provider'
+        no_children: 'No children'
+        no_folders: 'No files or folders'
+        read_only_provider: '- Cannot move or copy to this file provider'
+        read_only_warning: 'Moving or copying files to this file provider is not supported. Please select a different provider.'
+        icon_alt: 'Icon for {provider}'
+        moving_files: 'Moving...'
+        copying_files: 'Copying...'
+        awaiting_move: 'Waiting to move {fileName}'
+        awaiting_copy: 'Waiting to copy {fileName}'
+        moving_file: 'Moving {fileName}'
+        copying_file: 'Copying {fileName}'
+        success_move: 'Successfully moved {fileName}'
+        success_copy: 'Successfully copied {fileName}'
+        error_move: 'Failed to move {fileName}'
+        error_copy: 'Failed to copy {fileName}'
+        skip: 'Skip'
+        retry: 'Retry'
+        replace: 'Replace'
+    file-browser:
+        retry: 'Retry'
+        replace: 'Replace'
+        skip: 'Skip'
+        delete: 'Delete'
+        confirm_delete: 'Are you sure you want to delete "{fileName}"?'
+        delete_file: 'Delete file'
+        delete_folder: 'Delete folder'
+        delete_fail: 'Failed to delete "{fileName}"'
+        errors:
+            load_file_list: 'Failed to load files'
+            load_file_provider: 'Failed to load the file provider'
+            load_file_provider_title: 'Provider error'
+            load_file_providers: 'Failed to load list of addon providers'
+        select_file: 'Select file {fileName}'
+        select_folder: 'Select folder {folderName}'
+        number_selected: '{numberOfFilesSelected} item(s) selected'
+        clear_selection: 'Clear selection'
+        checked_out_file: 'This file is checked out. Functionality is limited until it is checked in.'
+        view_file: 'View file in a new window: {fileName}'
+        view_unseen_file: 'View unseen version of file in a new window: {fileName}'
+        view_folder: 'View contents of folder: {folderName}'
+        filter_placeholder: 'Filter current list'
+        sort: 'Sort by: '
+        sort_by:
+            name: 'Name: A-Z'
+            -name: 'Name: Z-A'
+            -date_modified: 'Last modified: newest to oldest'
+            date_modified: 'Last modified: oldest to newest'
+        download_all: 'Download this folder'
+        storage_location: 'Storage location: '
+        storage_providers:
+            invalidProviderDetails: 'Could not find the requested file provider.'
+            invalidProviderLink: 'See all files in this registration.'
+            osfstorage: 'OSF Storage'
+            bitbucket: 'Bitbucket'
+            box: 'Box'
+            dataverse: 'Dataverse'
+            dropbox: 'Dropbox'
+            figshare: 'figshare'
+            github: 'GitHub'
+            gitlab: 'GitLab'
+            googledrive: 'Google Drive'
+            onedrive: 'OneDrive'
+            owncloud: 'ownCloud'
+            s3: 'Amazon S3'
+        empty_folder: 'This folder is empty.'
+        breadcrumbs: 'Breadcrumb'
+        create_folder:
+            title: 'Create folder'
+            new_folder_name: 'New folder name'
+            error_title: 'Failed to create folder'
+            error_409: 'A folder with that name already exists'
+            error_generic: 'Something went wrong. Please try again.'
+        add_button_aria: 'Add files or folders here'
+        upload_file: 'Upload file'
+        uploading_file: 'Uploading {fileCount, plural, one {# file} other {# files}}'
+        upload_failed: '{fileCount, plural, one {# file} other {# files}} failed, click to try again'
+        upload_success: '{fileCount, plural, one {# file} other {# files}} uploaded successfully'
+        delete_file_modal:
+            heading: 'Delete {itemCount, plural, one {# item} other {# items}}'
+            delete_failed: '{itemCount, plural, one {# item} other {# items}} failed to delete, click to try again'
+            delete_success: '{itemCount, plural, one {# item} other {# items}} deleted successfully'
+            deleting: 'Deleting {itemCount, plural, one {# item} other {# items}}'
+            retry: 'retry delete'
+        help_modal:
+            heading: 'Using the OSF Files Browser'
+            download_all: 'Download All Files As a Zip'
+            download_all_detail: 'Navigate to the “Files” tab in the registration navigation on the left, and then click “Download this folder”.'
+            download_folder: 'Download a Folder as Zip'
+            download_folder_detail_first: 'To download a specific folder as a zip, click the vertical ellipses'
+            download_folder_detail_second: 'to open the dropdown. Click “Download”.<br>Alternatively, open the folder and then click “Download this folder”.'
+            view_files: 'View Files'
+            view_files_detail: 'Click a file name to go to view the file in the OSF. Opens file in a new tab.'
+            download_file: 'Download a File'
+            download_file_detail_first: 'With the file open: Click the vertical ellipses'
+            download_file_detail_second: 'to open the dropdown. Click “Download”. From the file list: Click the vertical ellipses'
+            download_file_detail_third: 'of the file to open the dropdown. Click “Download”.'
+            file_actions: 'File actions icon'
+        file_rename_modal:
+            heading: 'Rename file'
+            name_input: 'Please enter a new file name:'
+            cancel: 'Cancel'
+            save: 'Save'
+            rename: 'Rename'
+            label: 'Please enter a new name for the file:'
+            no_input: 'Please enter a name.'
+            dialog_aria: 'Files Rename modal'
+            input_aria: 'User input field for renaming file'
+            cancel_aria: 'Cancel renaming file'
+            save_aria: 'Save renaming file'
+            clear_aria: 'Clear input field'
+            success_message: 'File successfully renamed.'
+            error_message: 'Please rename the file.'
+            retry_message: 'Rename failed.'
+
     subjects:
         browse:
             browse_all: 'Browse all subjects'
@@ -1947,7 +2087,7 @@ settings:
     account:
         deactivation:
             title: 'Deactivate account'
-            body: 'Deactivating your account will remove you from all public projects to which you are a contributor. Your account will no longer be associated with OSF projects, and your work on the OSF will be inaccessible. If this is a secondary account that you want to close, consider <a href="https://openscience.zendesk.com/hc/en-us/articles/360019738014">merging your accounts</a>.'
+            body: 'Deactivating your account will remove you from all public projects to which you are a contributor. Your account will no longer be associated with OSF projects, and your work on the OSF will be inaccessible. If this is a secondary account that you want to close, consider <a href="https://help.osf.io/">merging your accounts</a>.'
             warning: 'Warning:'
             warningText: 'Once your deactivation has been approved the effects are irreversible.'
             pending: 'Your account is currently pending deactivation.'
