@@ -46,7 +46,7 @@ export default class FileRenameModal extends Component<Args> {
 
         try {
             const trimmedName = newName.trim();
-            await this.args.item.rename(trimmedName, 'replace');
+            await this.args.item.rename(trimmedName, '');
             this.toast.success(successMessage);
         } catch(e) {
             this.toast.error(this.intl.t('osf-components.file-browser.file_rename_modal.retry_message'));
