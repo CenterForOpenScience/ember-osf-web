@@ -58,6 +58,7 @@ export default class FileSerializer extends ApplicationSerializer<MirageFileProv
 
     buildNormalLinks(model: ModelInstance<MirageFileProvider>) {
         const pathName = pluralize(underscore(model.targetId.type));
+        
         return {
             ...super.buildNormalLinks(model),
             upload: `${apiUrl}/v2/${pathName}/${model.targetId.id}/files/${model.name}/upload`,
