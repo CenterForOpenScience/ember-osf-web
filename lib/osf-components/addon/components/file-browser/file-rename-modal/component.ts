@@ -32,7 +32,12 @@ export default class FileRenameModal extends Component<Args> {
 
     @action
     resetFileNameValue() {
-        this.newFileName =  this.originalFileName;
+        return this.newFileName =  this.originalFileName;
+    }
+
+    @action
+    updateOriginalName(newName: string) {
+        return this.originalFileName =  newName;
     }
 
     @restartableTask
@@ -51,6 +56,7 @@ export default class FileRenameModal extends Component<Args> {
         } catch(e) {
             this.toast.error(this.intl.t('osf-components.file-browser.file_rename_modal.retry_message'));
         }
+        this.updateOriginalName(newName);
         return newName;
     }
 }
