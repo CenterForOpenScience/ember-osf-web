@@ -42,7 +42,6 @@ export default class FileRenderer extends Component {
     };
 
     download?: string;
-    lastDownload?: string;
     width = '100%';
     height = '100%';
     allowfullscreen = true;
@@ -75,18 +74,13 @@ export default class FileRenderer extends Component {
 
     didReceiveAttrs(): void {
         this.isLoading = true;
-        if (this.download !== this.lastDownload) {
-            this.set('lastDownload', this.download);
-        }
     }
 
     @action
     loaded(): void {
         if (this.isLoading) {
             // Run in next runloop to avoid double rendering
-            next(this, () => {
-                this.set('isLoading', false);
-            });
+            next(this, () => this.set('isLoading', false));
         }
     }
 }
