@@ -210,13 +210,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
     @waitFor
     async moveFile(file: File, destinationNode: NodeModel, path: string, provider: string,
         options?: { conflict: string }) {
-        const { requestData, status } = await taskFor(file.move).perform(destinationNode, path, provider, options);
-        let returnValue = requestData;
-        if (!requestData) {
-            returnValue = {};
-        }
-        returnValue.status = status;
-        return returnValue;
+        return await taskFor(file.move).perform(destinationNode, path, provider, options);
     }
 
     @task
@@ -241,13 +235,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
     @waitFor
     async copyFile(file: File, destinationNode: NodeModel, path: string, provider: string,
         options?: { conflict: string }) {
-        const { requestData, status } = await taskFor(file.copy).perform(destinationNode, path, provider, options);
-        let returnValue = requestData;
-        if (!requestData) {
-            returnValue = {};
-        }
-        returnValue.status = status;
-        return returnValue;
+        return await taskFor(file.copy).perform(destinationNode, path, provider, options);
     }
 
     @task

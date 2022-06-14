@@ -155,7 +155,12 @@ export default class FileModel extends BaseFileItem {
                 status = xhr.status;
             },
         });
-        return { requestData, status };
+        let returnObject = requestData;
+        if (typeof requestData !== 'object') {
+            returnObject = { data: requestData };
+        }
+        returnObject.status = status;
+        return returnObject;
     }
 
     async copy(node: AbstractNodeModel, path: string, provider: string, options?: { conflict: string }): Promise<any> {
@@ -178,7 +183,12 @@ export default class FileModel extends BaseFileItem {
                 status = xhr.status;
             },
         }).then(() => this.reload());
-        return { requestData, status };
+        let returnObject = requestData;
+        if (typeof requestData !== 'object') {
+            returnObject = { data: requestData };
+        }
+        returnObject.status = status;
+        return returnObject;
     }
 
     delete(): Promise<null> {
