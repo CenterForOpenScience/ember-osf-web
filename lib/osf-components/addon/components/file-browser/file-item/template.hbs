@@ -56,7 +56,9 @@
                 data-test-file-list-size
                 local-class='FileList__item__size'
             >
-                {{@item.size}}
+                {{#if @item.fileModel.size}}
+                    {{@item.size}}
+                {{/if}}
             </div>
             <div
                 data-test-file-list-date
