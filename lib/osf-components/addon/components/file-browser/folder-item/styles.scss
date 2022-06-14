@@ -47,11 +47,13 @@
     display: flex;
     align-items: center;
     z-index: 9;
+    flex: 7;
 }
 
 .FileList__item__options {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
+    flex: 1;
 }
 
 .MobileDropdownTrigger {

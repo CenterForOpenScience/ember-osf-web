@@ -20,7 +20,7 @@
                 />
             </label>
         {{/if}}
-        <div local-class='FileList__item__name'>
+        <div local-class='FileList__item__name {{unless @isDesktop 'name__mobile'}}'>
             {{#if @item.isCheckedOut}}
                 <span>
                     <FaIcon local-class='CheckoutIcon' @icon='lock' />
@@ -51,15 +51,27 @@
                 </span>
             </OsfLink>
         </div>
-        <div
-            data-test-file-list-date
-            local-class='FileList__item__options NoShrink'
-        >
-            {{#if (and @isDesktop @item.dateModified)}}
-                <span data-test-file-modified-date>
-                    {{moment-format @item.dateModified 'YYYY-MM-DD hh:mm A'}}
-                </span>
-            {{/if}}
+        {{#if @isDesktop}}
+            <div
+                data-test-file-list-size
+                local-class='FileList__item__size'
+            >
+                {{#if @item.fileModel.size}}
+                    {{@item.size}}
+                {{/if}}
+            </div>
+            <div
+                data-test-file-list-date
+                local-class='FileList__item__date NoShrink'
+            >
+                {{#if @item.dateModified}}
+                    <span data-test-file-modified-date>
+                        {{moment-format @item.dateModified 'YYYY-MM-DD hh:mm A'}}
+                    </span>
+                {{/if}}
+            </div>
+        {{/if}}
+        <div data-test-file-list-options local-class='FileList__item__options'>
             {{#unless @manager.selectedFiles}}
                 <FileActionsMenu @item={{@item}} @onDelete={{@manager.reload}} @manager={{@manager}} @allowRename={{true}} />
             {{/unless}}

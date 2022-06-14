@@ -10,6 +10,7 @@ import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
+import humanFileSize from 'ember-osf-web/utils/human-file-size';
 
 
 export enum FileSortKey {
@@ -73,6 +74,10 @@ export default abstract class File {
 
     get showAsUnviewed() {
         return !this.fileModel.currentUserHasViewed;
+    }
+
+    get size() {
+        return humanFileSize(this.fileModel.size);
     }
 
     get currentUserPermission(): string {
