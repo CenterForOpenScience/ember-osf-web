@@ -147,6 +147,8 @@
                 <FileBrowser::HelpModal
                     @isOpen={{this.helpModalOpen}}
                     @onClose={{this.toggleHelpModal}}
+                    @selectable={{@selectable}}
+                    @enableUpload={{@enableUpload}}
                 />
                 {{#if (and @manager.currentFolder.userCanUploadToHere @enableUpload)}}
                     <FileBrowser::AddNew @manager={{@manager}} @setClickableElementId={{uploadWidget.setClickableElementId}} />

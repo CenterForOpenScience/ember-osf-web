@@ -4,6 +4,15 @@
     }
 }
 
+.FileHelpModal__upload-icon.FileHelpModal__upload-icon {
+    background-color: darken($brand-success, 10%);
+    padding: 3px;
+    border-radius: 50%;
+    outline: none;
+    color: $color-text-white;
+    width: 1em;
+}
+
 .FileHelpModal__actions-icon {
     color: var(--primary-color);
 }
