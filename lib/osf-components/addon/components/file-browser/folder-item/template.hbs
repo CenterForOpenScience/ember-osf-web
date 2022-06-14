@@ -77,7 +77,7 @@
                                 {{t 'general.move'}}
                             </Button>
                         {{/if}}
-                        {{#unless @manager.isViewOnly}}
+                        {{#if (not (or @manager.isViewOnly @item.targetIsRegistration))}}
                             <Button
                                 @layout='fake-link'
                                 local-class='DropdownItem'
@@ -89,7 +89,7 @@
                                 />
                                 {{t 'general.copy'}}
                             </Button>
-                        {{/unless}}
+                        {{/if}}
                         {{#if @item.currentUserCanDelete}}
                             <Button
                                 @layout='fake-link'

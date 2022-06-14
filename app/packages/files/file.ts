@@ -87,6 +87,10 @@ export default abstract class File {
         return 'read';
     }
 
+    get targetIsRegistration(){
+        return this.fileModel.target.get('modelName') === 'registration';
+    }
+
     get currentUserCanDelete() {
         return (this.fileModel.target.get('modelName') !== 'registration' && this.currentUserPermission === 'write');
     }
