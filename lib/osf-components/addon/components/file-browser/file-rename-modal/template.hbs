@@ -15,6 +15,10 @@
                 aria-label={{t 'osf-components.file-browser.file_rename_modal.input_aria'}}
                 @value={{this.newFileName}}
                 @type='text'
+                @enter={{queue
+                    (perform this.updateFileName)
+                    dialog.close
+                }}
             />
         </div>
     </dialog.main>
