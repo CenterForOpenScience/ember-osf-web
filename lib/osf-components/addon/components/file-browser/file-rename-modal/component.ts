@@ -35,7 +35,6 @@ export default class FileRenameModal extends Component<Args> {
         return this.newFileName =  this.originalFileName;
     }
 
-    @action
     updateOriginalName(newName: string) {
         return this.originalFileName =  newName;
     }
