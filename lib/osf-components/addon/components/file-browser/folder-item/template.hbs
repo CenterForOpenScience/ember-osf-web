@@ -22,7 +22,7 @@
         {{/if}}
         <div local-class='FileList__item__name'>
             <Button
-                data-test-file-list-link
+                data-test-file-list-link={{@item.id}}
                 data-analytics-name='View folder'
                 aria-label={{t 'osf-components.file-browser.view_folder' folderName=@item.name}}
                 @layout='fake-link'

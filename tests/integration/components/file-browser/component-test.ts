@@ -59,7 +59,7 @@ module('Integration | Component | file-browser', hooks => {
             }
             assert.dom(`[data-test-file-list-item="${this.topLevelFolder.id}"]`).exists('Top level folder exists');
             // Go to nested folder
-            await click(`[data-test-file-list-item="${this.topLevelFolder.id}"] > button`);
+            await click(`[data-test-file-list-link="${this.topLevelFolder.id}"]`);
             for (const item of this.secondaryLevelFiles) {
                 assert.dom(`[data-test-file-list-item='${item.id}'][data-test-indented='true']`)
                     .exists('Secondary level file exists');
@@ -72,7 +72,7 @@ module('Integration | Component | file-browser', hooks => {
             }
             assert.dom(`[data-test-file-list-item="${this.topLevelFolder.id}"]`).exists('Top level folder exists');
             // Go to nested folder again
-            await click(`[data-test-file-list-item="${this.topLevelFolder.id}"] > button`);
+            await click(`[data-test-file-list-link="${this.topLevelFolder.id}"]`);
             // Back to parent using breadcrumb navigation
             await click('[data-test-breadcrumb="osfstorage"]');
             for (const item of this.topLevelFiles) {
