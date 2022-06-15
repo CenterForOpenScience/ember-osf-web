@@ -7,6 +7,7 @@ import { restartableTask } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 import Intl from 'ember-intl/services/intl';
 import File from 'ember-osf-web/packages/files/file';
+import { NotUpdatedError } from 'ember-osf-web/errors';
 
 interface Args {
     manager: StorageManager;
@@ -32,7 +33,21 @@ export default class FileRenameModal extends Component<Args> {
 
     @action
     resetFileNameValue() {
-        this.newFileName =  this.originalFileName;
+        try {
+            return this.newFileName = this.originalFileName;
+
+        } catch (e) {
+            throw new NotUpdatedError('New file name not updated.');
+        }
+    }
+
+    updateOriginalName(newName: string) {
+        try {
+            return this.originalFileName = newName;
+
+        } catch (e) {
+            throw new NotUpdatedError('Original file name not updated.');
+        }
     }
 
     @restartableTask
@@ -51,6 +66,7 @@ export default class FileRenameModal extends Component<Args> {
         } catch(e) {
             this.toast.error(this.intl.t('osf-components.file-browser.file_rename_modal.retry_message'));
         }
+        this.updateOriginalName(newName);
         return newName;
     }
 }
