@@ -95,7 +95,7 @@
         </div>
         <div local-class='OptionBar__right'>
             {{#if (gt @manager.selectedFiles.length 0)}}
-                {{#if @manager.currentFolder.userCanUploadToHere}}
+                {{#if @manager.currentFolder.userCanDeleteFromHere}}
                     <Button
                         @layout='fake-link'
                         {{on 'click' (queue (action (mut this.useCopyModal) false) (action (mut this.moveModalOpen) true))}}

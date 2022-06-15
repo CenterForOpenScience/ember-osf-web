@@ -11,10 +11,12 @@ export default class OsfStorageFile extends File {
     }
 
     get userCanMoveToHere(): boolean {
+        const target = this.fileModel.target as unknown as NodeModel;
+        const storage = target.get('storage');
         if (this.currentUserPermission === 'write' &&
             this.fileModel.target.get('modelName') !== 'registration' &&
             this.isFolder &&
-            this.isUnderStorageLimit
+            !storage.get('isOverStorageCap')
         ) {
             return true;
         }
@@ -29,16 +31,7 @@ export default class OsfStorageFile extends File {
         return this.userCanMoveToHere;
     }
 
-    get isUnderStorageLimit() {
-        return underStorageLimit(this.fileModel.target as unknown as NodeModel);
-    }
-
     get isCheckedOut() {
         return Boolean(this.fileModel.checkout);
     }
-}
-
-export async function underStorageLimit(target: NodeModel) {
-    const storage = await target.get('storage');
-    return !storage.isOverStorageCap;
 }

@@ -47,7 +47,7 @@ export function dashboardScenario(server: Server, currentUser: ModelInstance<Use
         id: 'file5',
         title: 'With some files',
         currentUserPermissions: [Permission.Read, Permission.Write],
-    }, 'withFiles');
+    }, 'withFiles', 'withStorage');
 
     // NOTE: Some institutions are already created by this point
     server.createList('institution', 20);
