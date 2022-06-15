@@ -12,9 +12,11 @@ export default class OsfStorageFile extends File {
 
     get userCanMoveToHere(): boolean {
         const target = this.fileModel.target as unknown as NodeModel;
+        if (target.get('modelName') === 'registration') {
+            return false;
+        }
         const storage = target.get('storage');
         if (this.currentUserPermission === 'write' &&
-            this.fileModel.target.get('modelName') !== 'registration' &&
             this.isFolder &&
             !storage.get('isOverStorageCap')
         ) {
