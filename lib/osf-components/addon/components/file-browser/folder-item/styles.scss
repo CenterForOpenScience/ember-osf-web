@@ -15,6 +15,7 @@
         overflow: hidden;
         white-space: normal;
         text-align: left;
+        z-index: 9;
     }
 }
 
@@ -46,7 +47,6 @@
 .FileList__item__name {
     display: flex;
     align-items: center;
-    z-index: 9;
     flex: 7;
 }
 

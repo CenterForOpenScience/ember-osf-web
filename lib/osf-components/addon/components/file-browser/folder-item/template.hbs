@@ -20,22 +20,23 @@
                 />
             </label>
         {{/if}}
-
-        <Button
-            data-test-file-list-link
-            data-analytics-name='View folder'
-            aria-label={{t 'osf-components.file-browser.view_folder' folderName=@item.name}}
-            @layout='fake-link'
-            local-class='FileList__item__name FolderButton'
-            {{on 'click' (fn @manager.goToFolder @item)}}
-        >
-            <FaIcon
-                @icon='folder' @fixedWidth={{true}}
-            />
-            <span data-test-folder-name>
-                {{@item.name}}
-            </span>
-        </Button>
+        <div local-class='FileList__item__name'>
+            <Button
+                data-test-file-list-link
+                data-analytics-name='View folder'
+                aria-label={{t 'osf-components.file-browser.view_folder' folderName=@item.name}}
+                @layout='fake-link'
+                local-class='FolderButton'
+                {{on 'click' (fn @manager.goToFolder @item)}}
+            >
+                <FaIcon
+                    @icon='folder' @fixedWidth={{true}}
+                />
+                <span data-test-folder-name>
+                    {{@item.name}}
+                </span>
+            </Button>
+        </div>
         {{#if this.showActionsDropdown}}
             <div
                 data-test-file-list-date
