@@ -9,7 +9,14 @@
     <dialog.main>
         <label>
             <p>{{t 'osf-components.file-browser.create_folder.new_folder_name'}}</p>
-            <Input @value={{this.newFolderName}} />
+            <Input
+                @enter={{queue
+                    (perform @manager.createNewFolder this.newFolderName)
+                    (action (mut @isOpen) false)
+                    (action (mut this.newFolderName) '')
+                }}
+                @value={{this.newFolderName}}
+            />
         </label>
     </dialog.main>
     <dialog.footer>

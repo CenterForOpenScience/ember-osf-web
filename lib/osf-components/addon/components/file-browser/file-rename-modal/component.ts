@@ -7,6 +7,7 @@ import { restartableTask } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 import Intl from 'ember-intl/services/intl';
 import File from 'ember-osf-web/packages/files/file';
+import StorageManager from 'osf-components/components/storage-provider-manager/storage-manager/component';
 
 interface Args {
     manager: StorageManager;
@@ -48,6 +49,7 @@ export default class FileRenameModal extends Component<Args> {
             const trimmedName = newName.trim();
             await this.args.item.rename(trimmedName, '');
             this.toast.success(successMessage);
+            this.args.manager.reload();
         } catch(e) {
             this.toast.error(this.intl.t('osf-components.file-browser.file_rename_modal.retry_message'));
         }
