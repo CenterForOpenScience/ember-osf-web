@@ -135,8 +135,9 @@ export default class FileModel extends BaseFileItem {
         }).then(() => this.reload());
     }
 
-    async move(node: AbstractNodeModel, path: string, provider: string, options?: { conflict: string }): Promise<null> {
-        const req = await this.currentUser.authenticatedAJAX({
+    async move(node: AbstractNodeModel, path: string, provider: string, options?: { conflict: string }): Promise<any> {
+        let status = null;
+        const requestData = await this.currentUser.authenticatedAJAX({
             url: getHref(this.links.move),
             type: 'POST',
             xhrFields: { withCredentials: true },
@@ -150,15 +151,21 @@ export default class FileModel extends BaseFileItem {
                 resource: node.id,
                 ...options,
             }),
-            success: (data, _, xhr) => {
-                data.status = xhr.status;
+            success: (_, __, xhr) => {
+                status = xhr.status;
             },
         });
-        return req;
+        let returnObject = requestData;
+        if (typeof requestData !== 'object') {
+            returnObject = { data: requestData };
+        }
+        returnObject.status = status;
+        return returnObject;
     }
 
-    async copy(node: AbstractNodeModel, path: string, provider: string, options?: { conflict: string }): Promise<null> {
-        const req = await this.currentUser.authenticatedAJAX({
+    async copy(node: AbstractNodeModel, path: string, provider: string, options?: { conflict: string }): Promise<any> {
+        let status = null;
+        const requestData = await this.currentUser.authenticatedAJAX({
             url: getHref(this.links.move),
             type: 'POST',
             xhrFields: { withCredentials: true },
@@ -172,11 +179,16 @@ export default class FileModel extends BaseFileItem {
                 resource: node.id,
                 ...options,
             }),
-            success: (data, _, xhr) => {
-                data.status = xhr.status;
+            success: (_, __, xhr) => {
+                status = xhr.status;
             },
         }).then(() => this.reload());
-        return req;
+        let returnObject = requestData;
+        if (typeof requestData !== 'object') {
+            returnObject = { data: requestData };
+        }
+        returnObject.status = status;
+        return returnObject;
     }
 
     delete(): Promise<null> {
