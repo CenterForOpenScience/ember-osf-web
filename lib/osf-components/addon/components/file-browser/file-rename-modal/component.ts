@@ -32,11 +32,11 @@ export default class FileRenameModal extends Component<Args> {
 
     @action
     resetFileNameValue() {
-        return this.newFileName =  this.originalFileName;
+        return this.newFileName = this.originalFileName;
     }
 
     updateOriginalName(newName: string) {
-        return this.originalFileName =  newName;
+        return this.originalFileName = newName;
     }
 
     @restartableTask
