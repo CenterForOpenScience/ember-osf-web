@@ -10,7 +10,7 @@ module('Acceptance | guid-node/files', hooks => {
     setupMirage(hooks);
 
     test('leftnav for read user', async function(assert) {
-        const node = server.create('node', 'withFiles');
+        const node = server.create('node', 'withFiles', 'withStorage');
         await visit(`/${node.id}/files`);
 
         assert.equal(currentRouteName(), 'guid-node.files.provider', 'Current route is files');
