@@ -248,7 +248,7 @@ module('Integration | Component | move-file-modal', hooks => {
         assert.dom(`[data-test-moving-file-item=${storageCapFile.id}]`).containsText(
             t('osf-components.move_file_modal.error_storage'),
         );
-        assert.dom(`[data-test-moving-file-item=${nameConflictFile.id}]`).containsText(
+        assert.dom(`[data-test-moving-file-item="${nameConflictFile.id}"]`).containsText(
             t('osf-components.move_file_modal.error_duplicate', {name: nameConflictFile.name}),
         );
 
