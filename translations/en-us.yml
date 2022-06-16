@@ -1926,7 +1926,7 @@ osf-components:
             create_folder_detail: 'To create a folder to help organize your files, click the green plus symbol, then click “Create a Folder” (note: You can also organize your project content by creating Components).'
             rename: 'Rename a folder or file'
             rename_detail_first: 'In the files list, select the file that you want to rename and click the vertical ellipses'
-            rename_detail_second: 'to open the dropdown. Select “Rename”.'
+            rename_detail_second: 'to open the dropdown. Select “Rename”. (Note: Some special characters, like <code>&</code>, <code>%</code>, and <code>/</code> may cause unexpected behavior).'
             move: Move
             move_detail_first: 'You can move your files from one part of your project or component to another. Select the files that you want to move, and click the vertical ellipses'
             move_detail_second: 'to open the dropdown, then click “move”. Choose a component, provider, or folder and then click “Move”.'
