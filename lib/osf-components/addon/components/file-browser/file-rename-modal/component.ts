@@ -55,7 +55,7 @@ export default class FileRenameModal extends Component<Args> {
         } catch(e) {
             this.toast.error(this.intl.t('osf-components.file-browser.file_rename_modal.retry_message'));
         }
-        this.updateOriginalName(newName);
+        this.originalFileName = newName;
         return newName;
     }
 }
