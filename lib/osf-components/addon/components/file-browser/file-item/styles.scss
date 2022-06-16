@@ -60,8 +60,11 @@
 .FileList__item__name {
     display: flex;
     align-items: center;
-    z-index: 9;
     flex: 4;
+    
+    a {
+        z-index: 9;
+    }
 }
 
 .name__mobile {
