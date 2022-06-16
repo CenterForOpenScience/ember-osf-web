@@ -42,7 +42,17 @@
 }
 
 .Selected {
-    background-image: linear-gradient(90deg, rgba(236, 240, 241, 0) 0%, #ecf0f1 12%, #ecf0f1 89%, rgba(236, 240, 241, 0) 100%);
+    background-color: $color-link-light;
+    color: $color-text-white;
+
+    a {
+        font-weight: 600;
+        color: $color-text-white;
+    }
+
+    a:hover {
+        color: $color-text-gray-cool;
+    }
 }
 
 .FileList__item__date {
