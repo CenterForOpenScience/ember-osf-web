@@ -6,7 +6,11 @@
     as |dialog|
 >
     <dialog.heading data-test-move-modal-heading>
-        {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'copy_header' 'move_header')) itemCount=@filesToMove.length}}
+        {{#if this.moveOrCopyDone}}
+            {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'copy_done_header' 'move_done_header'))}}
+        {{else}}
+            {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'copy_header' 'move_header')) itemCount=@filesToMove.length}}
+        {{/if}}
     </dialog.heading>
     <dialog.main
         data-analytics-scope='Move file modal'
@@ -36,7 +40,14 @@
                                 {{/if}}
                                 <FaIcon @icon='check' local-class='success'/>
                             {{else if taskInstance.isError}}
-                                {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'error_copy' 'error_move')) fileName=file.name}}
+                                <span>
+                                    {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'error_copy' 'error_move')) fileName=file.name}}
+                                    {{#if (eq taskInstance.error.status 507)}}
+                                        <span local-class='InvalidDestination'>{{t 'osf-components.move_file_modal.error_storage'}}</span>
+                                    {{else if (eq taskInstance.error.status 409)}}
+                                        <span local-class='InvalidDestination'>{{t 'osf-components.move_file_modal.error_duplicate' name=file.name}}</span>
+                                    {{/if}}
+                                </span>
                                 <span>
                                     <Button
                                         @type='destroy'

@@ -114,6 +114,9 @@ module('Integration | Component | move-file-modal', hooks => {
         assert.dom('[data-test-move-files-button]').isEnabled('Move files button is now enabled');
 
         await click('[data-test-move-files-button]'); // click move files button
+        assert.dom('[data-test-move-modal-heading]').hasText(
+            t('osf-components.move_file_modal.move_done_header'), 'modal header updated',
+        );
         assert.dom('[data-test-moving-file-item]').exists({count: 1}, 'One moving file item');
         assert.dom('[data-test-moving-file-item]').hasText(
             t('osf-components.move_file_modal.success_move', { fileName: file.name }), 'Success message',
@@ -169,6 +172,85 @@ module('Integration | Component | move-file-modal', hooks => {
             t('osf-components.move_file_modal.copy_header', { itemCount: 1 }), 'correct modal header',
         );
         assert.dom('[data-test-move-files-button]').hasText(t('general.copy'), 'copy button text');
+
+        await percySnapshot(assert);
+    });
+
+    test('failed or queued move messages', async function(this: MoveTestContext, assert) {
+        const projectModel = server.create('node', 'withFiles', 'withStorage', 'currentUserAdmin');
+
+        const osfStorageModel = projectModel.files.models[0];
+        const folderModel = server.create('file', {
+            target: projectModel,
+            parentFolder: osfStorageModel.rootFolder,
+        }, 'asFolder');
+        const folder = await this.store.findRecord('file', folderModel.id);
+
+        const project = await this.store.findRecord('node', projectModel.id);
+        const providers = await project.queryHasMany('files');
+        const osfStorage = providers.findBy('id', osfStorageModel.id);
+
+        const queueFileModel = server.create('file', {
+            target: projectModel,
+            parentFolder: osfStorageModel.rootFolder,
+        });
+        const queueFile = new OsfStorageFile(this.currentUser, await this.store.findRecord('file', queueFileModel.id));
+        const storageCapFileModel = server.create('file', {
+            target: projectModel,
+            parentFolder: osfStorageModel.rootFolder,
+        });
+        const storageCapFile = new OsfStorageFile(
+            this.currentUser, await this.store.findRecord('file', storageCapFileModel.id),
+        );
+        const nameConflictFileModel = server.create('file', {
+            target: projectModel,
+            parentFolder: osfStorageModel.rootFolder,
+        });
+        const nameConflictFile = new OsfStorageFile(
+            this.currentUser, await this.store.findRecord('file', nameConflictFileModel.id),
+        );
+
+        server.namespace = '/wb';
+        server.post(`/files/${queueFile.id}/move`, () => ({
+            data: 'queued', status: 202,
+        }), 202);
+        server.post(`/files/${storageCapFileModel.id}/move`, () => ({ message: 'over storage'}), 507);
+        server.post(`/files/${nameConflictFileModel.id}/move`, () => ({ message: 'name conflict'}), 409);
+
+        const parentFolder = new OsfStorageProviderFile(this.currentUser, osfStorage!);
+        const currentFolder = new OsfStorageFile(this.currentUser, folder);
+        const manager = {
+            targetNode: await this.store.findRecord('node', project.id),
+            currentFolder,
+            folderLineage: [parentFolder, currentFolder],
+            goToFolder: sinon.fake(),
+        };
+        this.manager = manager;
+        this.close = sinon.fake();
+        this.filesToMove = [queueFile, storageCapFile, nameConflictFile];
+
+        await render(hbs`
+        <MoveFileModal
+            @isOpen={{true}}
+            @close={{this.close}}
+            @preserveOriginal={{false}}
+            @filesToMove={{this.filesToMove}}
+            @manager={{this.manager}}
+        />
+        `);
+
+        await click('[data-test-breadcrumb="osfstorage"]');
+        await click('[data-test-move-files-button]');
+
+        assert.dom(`[data-test-moving-file-item=${queueFile.id}]`).hasText(
+            t('osf-components.move_file_modal.move_queued', {fileName: queueFile.name}),
+        );
+        assert.dom(`[data-test-moving-file-item=${storageCapFile.id}]`).containsText(
+            t('osf-components.move_file_modal.error_storage'),
+        );
+        assert.dom(`[data-test-moving-file-item=${nameConflictFile.id}]`).containsText(
+            t('osf-components.move_file_modal.error_duplicate', {name: nameConflictFile.name}),
+        );
 
         await percySnapshot(assert);
     });
