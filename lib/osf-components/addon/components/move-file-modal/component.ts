@@ -91,6 +91,10 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
         return this.fileActionTasks.length > 0;
     }
 
+    get successCount() {
+        return this.fileActionTasks.filterBy('isSuccessful').length;
+    }
+
     get moveOrCopyDone() {
         return this.isMovingOrCopying && this.fileActionTasks.every(moveOrCopyTask => moveOrCopyTask.isFinished);
     }

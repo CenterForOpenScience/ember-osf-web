@@ -7,7 +7,7 @@
 >
     <dialog.heading data-test-move-modal-heading>
         {{#if this.moveOrCopyDone}}
-            {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'copy_done_header' 'move_done_header'))}}
+            {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'copy_done_header' 'move_done_header')) itemCount=this.successCount}}
         {{else}}
             {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'copy_header' 'move_header')) itemCount=@filesToMove.length}}
         {{/if}}

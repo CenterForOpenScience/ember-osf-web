@@ -115,7 +115,7 @@ module('Integration | Component | move-file-modal', hooks => {
 
         await click('[data-test-move-files-button]'); // click move files button
         assert.dom('[data-test-move-modal-heading]').hasText(
-            t('osf-components.move_file_modal.move_done_header'), 'modal header updated',
+            t('osf-components.move_file_modal.move_done_header', { itemCount: 1}), 'modal header updated',
         );
         assert.dom('[data-test-moving-file-item]').exists({count: 1}, 'One moving file item');
         assert.dom('[data-test-moving-file-item]').hasText(
@@ -242,14 +242,18 @@ module('Integration | Component | move-file-modal', hooks => {
         await click('[data-test-breadcrumb="osfstorage"]');
         await click('[data-test-move-files-button]');
 
-        assert.dom(`[data-test-moving-file-item=${queueFile.id}]`).hasText(
+        assert.dom(`[data-test-moving-file-item="${queueFile.id}"]`).hasText(
             t('osf-components.move_file_modal.move_queued', {fileName: queueFile.name}),
         );
-        assert.dom(`[data-test-moving-file-item=${storageCapFile.id}]`).containsText(
+        assert.dom(`[data-test-moving-file-item="${storageCapFile.id}"]`).containsText(
             t('osf-components.move_file_modal.error_storage'),
         );
         assert.dom(`[data-test-moving-file-item="${nameConflictFile.id}"]`).containsText(
             t('osf-components.move_file_modal.error_duplicate', {name: nameConflictFile.name}),
+        );
+
+        assert.dom('[data-test-move-modal-heading]').hasText(
+            t('osf-components.move_file_modal.move_done_header', { itemCount: 1}), 'modal header updated',
         );
 
         await percySnapshot(assert);
