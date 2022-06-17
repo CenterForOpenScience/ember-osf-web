@@ -1823,6 +1823,8 @@ osf-components:
     move_file_modal:
         move_header: 'Move {itemCount, plural, one {# item} other {# items}}'
         copy_header: 'Copy {itemCount, plural, one {# item} other {# items}}'
+        move_done_header: 'Finished moving {itemCount, plural, one {# item} other {# items}}'
+        copy_done_header: 'Finished copying {itemCount, plural, one {# item} other {# items}}'
         select_destination: 'Select destination'
         no_write_permission: 'You do not have write permission to this node. Please select a node that you have write or admin access.'
         select_provider: 'Please select a file provider'
@@ -1843,6 +1845,8 @@ osf-components:
         success_copy: 'Successfully copied {fileName}'
         error_move: 'Failed to move {fileName}'
         error_copy: 'Failed to copy {fileName}'
+        error_storage: '- Insufficient storage at target location'
+        error_duplicate: '- File {name} already exists in destination'
         skip: 'Skip'
         retry: 'Retry'
         replace: 'Replace'
@@ -1905,7 +1909,7 @@ osf-components:
         uploading_file: 'Uploading {fileCount, plural, one {# file} other {# files}}'
         upload_failed: '{fileCount, plural, one {# file} other {# files}} failed, click to try again'
         upload_success: '{fileCount, plural, one {# file} other {# files}} uploaded successfully'
-        exceeds_storage_limit: '- Exceeds storage limit'
+        exceeds_storage_limit: '- Insufficient storage at target location'
         delete_file_modal:
             heading: 'Delete {itemCount, plural, one {# item} other {# items}}'
             delete_failed: '{itemCount, plural, one {# item} other {# items}} failed to delete, click to try again'
