@@ -1947,7 +1947,8 @@ osf-components:
             download_file_detail_first: 'With the file open: Click the vertical ellipses'
             download_file_detail_second: 'to open the dropdown. Click “Download”. From the file list: Click the vertical ellipses'
             download_file_detail_third: 'of the file to open the dropdown. Click “Download”.'
-            more_info: 'For more information please see our <a href="https://help.osf.io/article/387-project-files">help guides on project files</a>.'
+            more_info_projects: 'For more information please see our <a href="https://help.osf.io/article/387-project-files">help guides on project files</a>.'
+            more_info_registrations: 'For more information please see our <a href="https://help.osf.io/article/410-registration-files">help guides on registration files</a>.'
             file_actions_icon: 'File actions icon'
             upload_icon: 'File upload icon'
         file_rename_modal:
