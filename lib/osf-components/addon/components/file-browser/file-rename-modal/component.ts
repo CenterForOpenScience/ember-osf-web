@@ -27,7 +27,7 @@ export default class FileRenameModal extends Component<Args> {
     }
 
     get isValid() {
-        return this.newFileName !== this.originalFileName && this.newFileName !== '' && this.newFileName !== null;
+        return Boolean(this.newFileName) && this.newFileName.trim() !== this.originalFileName && this.newFileName.trim() !== '';
     }
 
     @action
