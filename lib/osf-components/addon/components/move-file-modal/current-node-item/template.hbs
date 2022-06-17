@@ -2,6 +2,7 @@
     <Button
         data-test-go-to-current-node-file-providers
         @layout='fake-link'
+        local-class='CurrentNodeButton'
         {{on 'click' (fn @onNodeSelect @node)}}
     >
         <NodeCard::NodeIcon @category={{@node.category}} />

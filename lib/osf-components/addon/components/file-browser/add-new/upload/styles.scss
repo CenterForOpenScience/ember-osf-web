@@ -17,6 +17,11 @@
     margin-bottom: 0;
 }
 
+.ErrorMessage {
+    color: $color-text-gray;
+    font-style: italic;
+}
+
 .CheckIcon {
     color: $brand-success;
 }

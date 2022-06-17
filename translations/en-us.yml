@@ -1909,6 +1909,7 @@ osf-components:
         uploading_file: 'Uploading {fileCount, plural, one {# file} other {# files}}'
         upload_failed: '{fileCount, plural, one {# file} other {# files}} failed, click to try again'
         upload_success: '{fileCount, plural, one {# file} other {# files}} uploaded successfully'
+        exceeds_storage_limit: '- Exceeds storage limit'
         delete_file_modal:
             heading: 'Delete {itemCount, plural, one {# item} other {# items}}'
             delete_failed: '{itemCount, plural, one {# item} other {# items}} failed to delete, click to try again'

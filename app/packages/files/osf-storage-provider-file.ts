@@ -1,5 +1,4 @@
 import { FileSortKey } from 'ember-osf-web/packages/files/file';
-import { underStorageLimit } from 'ember-osf-web/packages/files/osf-storage-file';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
 import ProviderFile from 'ember-osf-web/packages/files/provider-file';
@@ -27,10 +26,14 @@ export default class OsfStorageProviderFile extends ProviderFile {
     }
 
     get userCanMoveToHere(): boolean {
+        const target = this.fileModel.target as unknown as NodeModel;
+        if (target.get('modelName') === 'registration') {
+            return false;
+        }
+        const storage = target.get('storage');
         if (this.currentUserPermission === 'write' &&
-            this.fileModel.target.get('modelName') !== 'registration' &&
             this.isFolder &&
-            underStorageLimit(this.fileModel.target as unknown as NodeModel)
+            !storage.get('isOverStorageCap')
         ) {
             return true;
         }
