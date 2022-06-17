@@ -18,6 +18,7 @@ export default abstract class ProviderFile {
     userCanDownloadAsZip = true;
     providerHandlesVersioning = true;
     parallelUploadsLimit = 2;
+    parallelMovesLimit = 3;
 
     currentUser: CurrentUserService;
     @service intl!: Intl;

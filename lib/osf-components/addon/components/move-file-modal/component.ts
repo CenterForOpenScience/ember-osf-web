@@ -95,6 +95,10 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
         return this.isMovingOrCopying && this.fileActionTasks.every(moveOrCopyTask => moveOrCopyTask.isFinished);
     }
 
+    get parallelLimit() {
+        return Math.min(this.currentFolder!.parallelMovesLimit, this.startingFolder!.parallelMovesLimit);
+    }
+
     @task
     @waitFor
     async loadChildNodes() {
@@ -206,7 +210,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
         this.totalFiles = 0;
     }
 
-    @task({ maxConcurrency: 3, enqueue: true })
+    @task
     @waitFor
     async moveFile(file: File, destinationNode: NodeModel, path: string, provider: string,
         options?: { conflict: string }) {
@@ -221,17 +225,20 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
             return;
         }
         const provider = breadcrumbs[0];
+        const maxConcurrency = this.parallelLimit;
         try {
-            const moveTasks = this.args.filesToMove.map(file =>
-                taskFor(this.moveFile).perform(file, currentNode, currentFolder.path, provider.name));
-            this.fileActionTasks = moveTasks;
-            await allSettled(moveTasks);
+            for (let i = 0; i < this.args.filesToMove.length; i = i + maxConcurrency) {
+                const moveTasks = this.args.filesToMove.slice(i, i + maxConcurrency).map(file =>
+                    taskFor(this.moveFile).perform(file, currentNode, currentFolder.path, provider.name));
+                this.fileActionTasks.pushObjects(moveTasks);
+                await allSettled(moveTasks);
+            }
         } catch (e) {
             captureException(e);
         }
     }
 
-    @task({ maxConcurrency: 3, enqueue: true })
+    @task
     @waitFor
     async copyFile(file: File, destinationNode: NodeModel, path: string, provider: string,
         options?: { conflict: string }) {
@@ -246,11 +253,14 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
             return;
         }
         const provider = breadcrumbs[0];
+        const maxConcurrency = this.parallelLimit;
         try {
-            const copyTasks = this.args.filesToMove.map(file =>
-                taskFor(this.copyFile).perform(file, currentNode, currentFolder.path, provider.name));
-            this.fileActionTasks = copyTasks;
-            await allSettled(copyTasks);
+            for (let i = 0; i < this.args.filesToMove.length; i = i + maxConcurrency) {
+                const copyTasks = this.args.filesToMove.slice(i, i + maxConcurrency).map(file =>
+                    taskFor(this.copyFile).perform(file, currentNode, currentFolder.path, provider.name));
+                this.fileActionTasks.pushObjects(copyTasks);
+                await allSettled(copyTasks);
+            }
         } catch (e) {
             captureException(e);
         }

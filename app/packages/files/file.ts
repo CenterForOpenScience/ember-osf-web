@@ -52,6 +52,7 @@ export default abstract class File {
     shouldShowRevisions = true;
     providerHandlesVersioning = true;
     parallelUploadsLimit = 2;
+    parallelMovesLimit = 3;
 
     currentUser: CurrentUserService;
     @service intl!: Intl;

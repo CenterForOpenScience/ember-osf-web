@@ -6,6 +6,7 @@ import CurrentUserService from 'ember-osf-web/services/current-user';
 
 export default class GithubProviderFile extends ProviderFile {
     parallelUploadsLimit = 1;
+    parallelMovesLimit = 1;
 
     constructor(currentUser: CurrentUserService,providerFileModel: FileProviderModel) {
         super(currentUser, providerFileModel);
