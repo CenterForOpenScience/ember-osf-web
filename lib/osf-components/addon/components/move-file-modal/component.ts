@@ -210,7 +210,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
         this.totalFiles = 0;
     }
 
-    @task({ maxConcurrency: 3, enqueue: true })
+    @task({ maxConcurrency: 1, enqueue: true })
     @waitFor
     async moveFile(file: File, destinationNode: NodeModel, path: string, provider: string,
         options?: { conflict: string }) {
@@ -235,7 +235,7 @@ export default class MoveFileModalComponent extends Component<MoveFileModalArgs>
         }
     }
 
-    @task({ maxConcurrency: 3, enqueue: true })
+    @task({ maxConcurrency: 1, enqueue: true })
     @waitFor
     async copyFile(file: File, destinationNode: NodeModel, path: string, provider: string,
         options?: { conflict: string }) {
