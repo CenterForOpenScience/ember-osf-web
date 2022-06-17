@@ -60,7 +60,14 @@
                                 >
                                     <div>
                                         <FaIcon @icon='file-alt' />
-                                        <span local-class='Filename'>{{item.name}}</span>
+                                        <span local-class='Filename'>
+                                            {{item.name}}
+                                        </span>
+                                        {{#if (eq item.xhr.status 507)}}
+                                            <span local-class='ErrorMessage'>
+                                                {{t 'osf-components.file-browser.exceeds_storage_limit'}}
+                                            </span>
+                                        {{/if}}
                                     </div>
                                     <div local-class='Flex'>
                                         <Button
