@@ -73,7 +73,7 @@ export default abstract class File {
     }
 
     get showAsUnviewed() {
-        return !this.fileModel.currentUserHasViewed;
+        return this.fileModel.showAsUnviewed;
     }
 
     get size() {
