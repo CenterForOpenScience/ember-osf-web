@@ -36,6 +36,10 @@
     opacity: 0;
 }
 
+.CheckoutSpan {
+    z-index: 9;
+}
+
 .CheckoutIcon {
     margin-right: 6px;
     color: $color-text-gray;

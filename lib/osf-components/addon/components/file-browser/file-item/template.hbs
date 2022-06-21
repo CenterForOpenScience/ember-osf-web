@@ -22,7 +22,7 @@
         {{/if}}
         <div local-class='FileList__item__name {{unless @isDesktop 'name__mobile'}}'>
             {{#if @item.isCheckedOut}}
-                <span>
+                <span local-class='CheckoutSpan'>
                     <FaIcon local-class='CheckoutIcon' @icon='lock' />
                     <BsTooltip
                         @placement='right'
