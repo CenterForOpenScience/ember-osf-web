@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [22.6.0] - 2022-6-22
+### Added
+- Files page redesign phase 2
+
 ## [22.5.0] - 2022-5-02
 ### Changed
 - Misc bug fixes
@@ -1846,6 +1850,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
+[22.6.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/22.6.0
 [22.5.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/22.5.0
 [22.4.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/22.4.0
 [22.3.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/22.3.0
