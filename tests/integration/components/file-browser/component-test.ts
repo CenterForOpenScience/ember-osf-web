@@ -1,11 +1,10 @@
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { ModelInstance } from 'ember-cli-mirage';
-import { TestContext } from 'ember-intl/test-support';
+import { TestContext, t } from 'ember-intl/test-support';
 import { MirageRegistration } from 'ember-osf-web/mirage/factories/registration';
 import { click } from 'ember-osf-web/tests/helpers';
 import { setupRenderingTest } from 'ember-qunit';
-// import moment from 'moment';
 import { module, test } from 'qunit';
 import { FileItemKinds } from 'ember-osf-web/models/base-file-item';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
@@ -50,9 +49,9 @@ module('Integration | Component | file-browser', hooks => {
             const storageProviders = await registration.files;
             this.osfStorageProvider = storageProviders.toArray()[0];
             await render(hbs`
-                <StorageProviderManager::OsfStorageManager @provider={{this.osfStorageProvider}} as |manager|>
+                <StorageProviderManager::StorageManager @provider={{this.osfStorageProvider}} as |manager|>
                     <FileBrowser @manager={{manager}} />
-                </StorageProviderManager::OsfStorageManager>
+                </StorageProviderManager::StorageManager>
             `);
             for (const item of this.topLevelFiles) {
                 assert.dom(`[data-test-file-list-item='${item.id}'][data-test-indented='false']`)
@@ -60,7 +59,7 @@ module('Integration | Component | file-browser', hooks => {
             }
             assert.dom(`[data-test-file-list-item="${this.topLevelFolder.id}"]`).exists('Top level folder exists');
             // Go to nested folder
-            await click(`[data-test-file-list-item="${this.topLevelFolder.id}"] > button`);
+            await click(`[data-test-file-list-link="${this.topLevelFolder.id}"]`);
             for (const item of this.secondaryLevelFiles) {
                 assert.dom(`[data-test-file-list-item='${item.id}'][data-test-indented='true']`)
                     .exists('Secondary level file exists');
@@ -73,7 +72,7 @@ module('Integration | Component | file-browser', hooks => {
             }
             assert.dom(`[data-test-file-list-item="${this.topLevelFolder.id}"]`).exists('Top level folder exists');
             // Go to nested folder again
-            await click(`[data-test-file-list-item="${this.topLevelFolder.id}"] > button`);
+            await click(`[data-test-file-list-link="${this.topLevelFolder.id}"]`);
             // Back to parent using breadcrumb navigation
             await click('[data-test-breadcrumb="osfstorage"]');
             for (const item of this.topLevelFiles) {
@@ -81,5 +80,29 @@ module('Integration | Component | file-browser', hooks => {
                     .exists('Top level file exists');
             }
             assert.dom(`[data-test-file-list-item="${this.topLevelFolder.id}"]`).exists('Top level folder exists');
+        });
+
+    test('it renders and select files/folders',
+        async function(this: FileBrowserTestContext, assert) {
+            const registration = await this.store.findRecord('registration', this.mirageRegistration.id);
+            const storageProviders = await registration.files;
+            this.osfStorageProvider = storageProviders.toArray()[0];
+            await render(hbs`
+                <StorageProviderManager::StorageManager @provider={{this.osfStorageProvider}} as |manager|>
+                    <FileBrowser @manager={{manager}} @selectable={{true}} />
+                </StorageProviderManager::StorageManager>
+            `);
+            assert.dom('[data-test-file-selected-count]').doesNotExist('No files selected');
+            await click(`[data-test-select-folder="${this.topLevelFolder.id}"]`);
+            await click(`[data-test-select-file="${this.topLevelFiles[0].id}"]`);
+            assert.dom('[data-test-file-selected-count]').containsText(
+                t('osf-components.file-browser.number_selected', {numberOfFilesSelected: 2} ), '2 files selected',
+            );
+            await click(`[data-test-select-file="${this.topLevelFiles[0].id}"]`);
+            assert.dom('[data-test-file-selected-count]').containsText(
+                t('osf-components.file-browser.number_selected', {numberOfFilesSelected: 1} ), '1 file selected',
+            );
+            await click('[data-test-clear-file-selection]');
+            assert.dom('[data-test-file-selected-count]').doesNotExist('No files selected');
         });
 });

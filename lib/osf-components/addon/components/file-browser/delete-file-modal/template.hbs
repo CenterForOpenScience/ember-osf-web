@@ -1,0 +1,134 @@
+<OsfDialog
+    @onClose={{this.reset}}
+as |dialog|>
+    <dialog.trigger>
+        <Button
+            @type='destroy'
+            {{on 'click' dialog.open}}
+        >
+            <FaIcon @icon='trash'/>
+            {{t 'general.delete'}}
+        </Button>
+    </dialog.trigger>
+    <dialog.heading>
+        {{#if this.shouldShowFailureModal}}
+            {{t 'osf-components.file-browser.delete_file_modal.delete_failed' itemCount=this.failedFiles.length}}
+        {{else if this.shouldShowSuccessModal}}
+            {{t 'osf-components.file-browser.delete_file_modal.delete_success' itemCount=this.deletedFiles.length}}
+        {{else if this.shouldShowDeletingModal}}
+            {{t 'osf-components.file-browser.delete_file_modal.deleting' itemCount=this.deletingFiles.length}}
+        {{else}}
+            {{t 'osf-components.file-browser.delete_file_modal.heading' itemCount=@items.length}}
+        {{/if}}
+    </dialog.heading>
+    <dialog.main local-class='DeleteModal'>
+        <ul local-class='ItemList'>
+            {{#if this.shouldShowDeletingModal}}
+                {{#each this.deletingFiles as |item|}}
+                    <li local-class='ListItem'>
+                        <div>
+                            {{#if item.isFile}}
+                                <FaIcon @icon='file-alt' />
+                            {{else}}
+                                <FaIcon @icon='folder' />
+                            {{/if}}
+                            <span local-class='ItemName'>{{item.name}}</span>
+                        </div>
+                        <div>
+                            <FaIcon @icon='spinner' @pulse={{true}} />
+                        </div>
+                    </li>
+                {{/each}}
+            {{else if this.shouldShowFailureModal}}
+                {{#each this.failedFiles as |item|}}
+                    <li local-class='ListItem'>
+                        <div>
+                            {{#if item.isFile}}
+                                <FaIcon @icon='file-alt' />
+                            {{else}}
+                                <FaIcon @icon='folder' />
+                            {{/if}}
+                            <span local-class='ItemName'>{{item.name}}</span>
+                        </div>
+                        {{#if item.delete.isRunning}}
+                            <div>
+                                <FaIcon @icon='spinner' @pulse={{true}} />
+                            </div>
+                        {{else}}
+                            <Button
+                                @layout='fake-link'
+                                aria-label={{t 'osf-components.file-browser.delete_file_modal.retry'}}
+                                {{on 'click' (perform this.retryDelete item)}}
+                            >
+                                <FaIcon @icon='undo' />
+                            </Button>
+                        {{/if}}
+                    </li>
+                {{/each}}    
+            {{else if this.shouldShowSuccessModal}}
+                {{#each this.deletedFiles as |item|}}
+                    <li local-class='ListItem'>
+                        <div>
+                            {{#if item.isFile}}
+                                <FaIcon @icon='file-alt' />
+                            {{else}}
+                                <FaIcon @icon='folder' />
+                            {{/if}}
+                            <span local-class='ItemName'>{{item.name}}</span>
+                        </div>
+                        <FaIcon @icon='check' local-class='CheckIcon' />
+                    </li>
+                {{/each}}
+            {{else}}
+                {{#each @items as |item|}}
+                    <li local-class='ListItem'>
+                        <div>
+                            {{#if item.isFile}}
+                                <FaIcon @icon='file-alt' />
+                            {{else}}
+                                <FaIcon @icon='folder' />
+                            {{/if}}
+                            <span local-class='ItemName'>{{item.name}}</span>
+                        </div>
+                    </li>
+                {{/each}}
+            {{/if}}
+        </ul>
+    </dialog.main>
+    <dialog.footer>
+        {{#if (or this.shouldShowFailureModal this.shouldShowSuccessModal)}}
+            <Button
+                @type='secondary'
+                {{on 'click' (
+                    queue
+                    this.reset
+                    dialog.close
+                )}}
+            >
+                {{t 'general.done'}}
+            </Button>
+        {{else}}
+            <Button
+            @type='secondary'
+            {{on 'click' (
+                queue
+                this.reset
+                dialog.close
+            )}}
+            >
+                {{t 'general.cancel'}}
+            </Button>
+            <Button
+                @type='destroy'
+                disabled={{this.confirmDelete.isRunning}}
+                {{on 'click' (perform this.confirmDelete)}}
+            >
+                {{#if this.confirmDelete.isRunning}}
+                    <FaIcon @icon='spinner' @pulse={{true}} />
+                {{else}}
+                    {{t 'general.delete'}}
+                {{/if}}
+            </Button>
+        {{/if}}
+    </dialog.footer>
+</OsfDialog>

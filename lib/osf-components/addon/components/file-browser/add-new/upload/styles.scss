@@ -1,0 +1,31 @@
+.FileList {
+    list-style: none;
+    padding-left: 0;
+}
+
+.FileListItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-bottom: 5px;
+    justify-content: space-between;
+    column-gap: 20px;
+}
+
+.Filename {
+    padding-left: 10px;
+    margin-bottom: 0;
+}
+
+.ErrorMessage {
+    color: $color-text-gray;
+    font-style: italic;
+}
+
+.CheckIcon {
+    color: $brand-success;
+}
+
+.Flex {
+    display: flex;
+}

@@ -160,7 +160,7 @@ export default class DropzoneWidget extends Component.extend({
         drop.on('addedfile', (file: any) => {
             if (this.preUpload) {
                 this.preUpload(this, drop, file).then(() => drop.processFile(file));
-            } else {
+            } else if (!this.options.autoQueue) {
                 drop.processFile(file);
             }
         });

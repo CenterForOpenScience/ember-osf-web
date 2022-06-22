@@ -1,5 +1,10 @@
 {{#if @isProvider}}
-    {{t (concat 'registries.overview.files.storage_providers.' @name)}}
+    <img
+        data-test-provider-icon
+        src={{concat this.assetPrefix 'assets/images/addons/icons/' @name '.png'}}
+        alt={{t 'osf-components.move_file_modal.icon_alt' provider=(t (concat 'osf-components.file-browser.storage_providers.' @name))}}
+    >
+    {{t (concat 'osf-components.file-browser.storage_providers.' @name)}}
 {{else}}
     {{@name}}
 {{/if}}

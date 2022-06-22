@@ -1,0 +1,51 @@
+<li local-class='ChildItem'>
+    {{#if @item.isNode}}
+        <Button
+            data-analytics-name='Go to child node'
+            data-test-move-to-node={{@item.id}}
+            @layout='fake-link'
+            local-class='NavButton'
+            {{on 'click' (fn @onNodeSelect @item)}}
+        >
+            <span local-class='DestinationName'>
+                <NodeCard::NodeIcon @category={{@item.category}} />
+                {{@item.title}}
+            </span>
+            <FaIcon @icon='chevron-right' />
+        </Button>
+    {{else if @item.isFolder}}
+        <Button
+            data-analytics-name='Go to nested folder'
+            data-test-move-to-folder={{@item.name}}
+            @layout='fake-link'
+            local-class='NavButton {{if this.isReadOnlyProvider 'InvalidDestination'}}'
+            disabled={{this.shouldDisable}}
+            {{on 'click' (fn @onFolderSelect @item)}}
+        >
+            <span local-class='DestinationName'>
+                {{#if @isProvider}}
+                    <img
+                        data-test-provider-icon
+                        src={{concat this.assetPrefix 'assets/images/addons/icons/' @item.name '.png'}}
+                        alt={{t 'osf-components.move_file_modal.icon_alt' provider=(t (concat 'osf-components.file-browser.storage_providers.' @item.name))}}
+                    >
+                    {{t (concat 'osf-components.file-browser.storage_providers.' @item.name)}}
+                    {{#if this.isReadOnlyProvider}}
+                        <span local-class='ReadOnlyProvider'>
+                            {{t 'osf-components.move_file_modal.read_only_provider'}}
+                        </span>
+                    {{/if}}
+                {{else}}
+                    <FaIcon @icon='folder-open' />
+                    {{@item.name}}
+                {{/if}}
+            </span>
+            <FaIcon @icon='chevron-right' />
+        </Button>
+    {{else}}
+        <span local-class='InvalidDestination DestinationName FileName'>
+            <FaIcon @icon='file' />
+            {{@item.name}}
+        </span>
+    {{/if}}
+</li>

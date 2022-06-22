@@ -1,0 +1,25 @@
+.ItemList {
+    list-style: none;
+    padding-left: 0;
+}
+
+.ListItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-bottom: 5px;
+    justify-content: space-between;
+}
+
+.ItemName {
+    padding-left: 10px;
+    margin-bottom: 0;
+}
+
+.DeleteModal {
+    min-width: 25vw;
+}
+
+.CheckIcon {
+    color: $brand-success;
+}

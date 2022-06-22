@@ -23,6 +23,7 @@ export default class AncestryDisplay extends Component {
     // Optional arguments
     delimiter = '/';
     useLinks = false;
+    onAncestorSelect?: (ancestor: NodeModel) => void;
 
     @alias('getAncestors.lastComplete.value') ancestry?: string[];
 

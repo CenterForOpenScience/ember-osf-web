@@ -1,8 +1,8 @@
-{{#unless this.model.taskInstance.isRunning}}
+{{#if (not (or this.model.taskInstance.isRunning this.shouldHideNodeNavbar))}}
     <NodeNavbar
         @node={{this.model.taskInstance.value}}
     />
-{{/unless}}
+{{/if}}
 <div data-analytics-scope='Node' role='main'>
     {{outlet}}
 </div>
