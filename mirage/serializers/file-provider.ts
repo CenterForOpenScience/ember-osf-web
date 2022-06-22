@@ -9,9 +9,14 @@ import ApplicationSerializer, { SerializedRelationships } from './application';
 const { OSF: { apiUrl } } = config;
 
 export default class FileSerializer extends ApplicationSerializer<MirageFileProvider> {
+    typeKeyForModel(_: any) {
+        return 'files';
+    }
+
     buildRelationships(model: ModelInstance<MirageFileProvider>) {
         const relationships: SerializedRelationships<MirageFileProvider> = {};
         const pathName = pluralize(underscore(model.targetId.type));
+
         relationships.files = {
             links: {
                 related: {
@@ -34,6 +39,21 @@ export default class FileSerializer extends ApplicationSerializer<MirageFileProv
                 },
             };
         }
+        relationships.target = {
+            data: {
+                type: pluralize(model.targetId.type),
+                id: model.targetId.id as string,
+            },
+            links: {
+                related: {
+                    href: `${apiUrl}/v2/${pathName}/${model.targetId.id}/`,
+                    meta: {
+                        type: pluralize(model.targetId.type),
+                    },
+                },
+            },
+        };
+
         return relationships;
     }
 

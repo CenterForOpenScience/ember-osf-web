@@ -1,14 +1,21 @@
+import { getOwner, setOwner } from '@ember/application';
 import { tracked } from '@glimmer/tracking';
+import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
+import Intl from 'ember-intl/services/intl';
+import Toast from 'ember-toastr/services/toast';
 import FileModel from 'ember-osf-web/models/file';
 import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import CurrentUserService from 'ember-osf-web/services/current-user';
+import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
+import humanFileSize from 'ember-osf-web/utils/human-file-size';
+
 
 export enum FileSortKey {
-    AscDateModified = 'modified',
-    DescDateModified = '-modified',
+    AscDateModified = 'date_modified',
+    DescDateModified = '-date_modified',
     AscName = 'name',
     DescName = '-name',
 }
@@ -40,10 +47,19 @@ export default abstract class File {
     @tracked fileModel: FileModel;
     @tracked totalFileCount = 0;
     @tracked waterButlerRevisions?: WaterButlerRevision[];
+    userCanDownloadAsZip = true;
+    shouldShowTags = false;
+    shouldShowRevisions = true;
+    providerHandlesVersioning = true;
+    parallelUploadsLimit = 2;
 
     currentUser: CurrentUserService;
+    @service intl!: Intl;
+    @service toast!: Toast;
+
 
     constructor(currentUser: CurrentUserService, fileModel: FileModel) {
+        setOwner(this, getOwner(fileModel));
         this.currentUser = currentUser;
         this.fileModel = fileModel;
     }
@@ -56,8 +72,27 @@ export default abstract class File {
         return this.fileModel.isFolder;
     }
 
-    get currentUserPermission() {
+    get showAsUnviewed() {
+        return this.fileModel.showAsUnviewed;
+    }
+
+    get size() {
+        return humanFileSize(this.fileModel.size);
+    }
+
+    get currentUserPermission(): string {
+        if (this.fileModel.target.get('currentUserPermissions').includes(Permission.Write)) {
+            return 'write';
+        }
         return 'read';
+    }
+
+    get targetIsRegistration(){
+        return this.fileModel.target.get('modelName') === 'registration';
+    }
+
+    get currentUserCanDelete() {
+        return (this.fileModel.target.get('modelName') !== 'registration' && this.currentUserPermission === 'write');
     }
 
     get name() {
@@ -66,6 +101,10 @@ export default abstract class File {
 
     get id() {
         return this.fileModel.id;
+    }
+
+    get path() {
+        return this.fileModel.path;
     }
 
     get links() {
@@ -87,6 +126,30 @@ export default abstract class File {
         return this.fileModel.dateModified;
     }
 
+    get userCanMoveToHere() {
+        return (
+            this.currentUserPermission === 'write' &&
+            this.fileModel.target.get('modelName') !== 'registration' &&
+            this.isFolder
+        );
+    }
+
+    get userCanUploadToHere() {
+        return (
+            this.currentUserPermission === 'write' &&
+            this.fileModel.target.get('modelName') !== 'registration' &&
+            this.isFolder
+        );
+    }
+
+    get userCanDeleteFromHere() {
+        return (
+            this.isFolder &&
+            this.currentUserPermission === 'write' &&
+            this.fileModel.target.get('modelName') !== 'registration'
+        );
+    }
+
     async createFolder(newFolderName: string) {
         if (this.fileModel.isFolder) {
             await this.fileModel.createFolder(newFolderName);
@@ -95,14 +158,26 @@ export default abstract class File {
 
     async getFolderItems(page: number, sort: FileSortKey, filter: string ) {
         if (this.fileModel.isFolder) {
-            const queryResult = await this.fileModel.queryHasMany('files',
-                {
-                    page,
-                    sort,
-                    'filter[name]': filter,
-                });
-            this.totalFileCount = queryResult.meta.total;
-            return queryResult.map(fileModel => Reflect.construct(this.constructor, [this.currentUser, fileModel]));
+            try {
+                const queryResult = await this.fileModel.queryHasMany('files',
+                    {
+                        page,
+                        sort,
+                        'filter[name]': filter,
+                    });
+                this.totalFileCount = queryResult.meta.total;
+                return queryResult.map(fileModel => Reflect.construct(this.constructor, [
+                    this.currentUser,
+                    fileModel,
+                ]));
+            } catch (e) {
+                const errorMessage = this.intl.t(
+                    'osf-components.file-browser.errors.load_file_list',
+                );
+                captureException(e, { errorMessage });
+                this.toast.error(getApiErrorMessage(e), errorMessage);
+                return [];
+            }
         }
         return [];
     }
@@ -115,12 +190,22 @@ export default abstract class File {
         await this.fileModel.rename(newName, conflict);
     }
 
-    async move(node: NodeModel) {
-        await this.fileModel.move(node);
+    @task
+    @waitFor
+    async move(node: NodeModel, path: string, provider: string, options?: { conflict: string }) {
+        return await this.fileModel.move(node, path, provider, options);
     }
 
+    @task
+    @waitFor
+    async copy(node: NodeModel, path: string, provider: string, options?: { conflict: string }) {
+        return await this.fileModel.copy(node, path, provider, options);
+    }
+
+    @task
+    @waitFor
     async delete() {
-        await this.fileModel.delete();
+        return await this.fileModel.delete();
     }
 
     @task

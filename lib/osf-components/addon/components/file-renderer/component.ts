@@ -5,6 +5,7 @@ import { next } from '@ember/runloop';
 import config from 'ember-get-config';
 
 import { layout } from 'ember-osf-web/decorators/component';
+import { tracked } from 'tracked-built-ins';
 
 import template from './template';
 
@@ -41,12 +42,11 @@ export default class FileRenderer extends Component {
     };
 
     download?: string;
-    lastDownload?: string;
     width = '100%';
     height = '100%';
     allowfullscreen = true;
     version?: number;
-    isLoading = true;
+    @tracked isLoading = true;
 
     @computed('download', 'params', 'version')
     get downloadUrl(): string {
@@ -73,9 +73,7 @@ export default class FileRenderer extends Component {
     }
 
     didReceiveAttrs(): void {
-        if (this.download !== this.lastDownload) {
-            this.set('lastDownload', this.download);
-        }
+        this.isLoading = true;
     }
 
     @action

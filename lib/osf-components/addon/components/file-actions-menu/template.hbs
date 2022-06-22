@@ -1,5 +1,5 @@
 <ResponsiveDropdown
-    local-class='DownloadShareDropdown'
+    local-class='DownloadShareDropdown {{if (or this.media.isTablet this.media.isMobile) 'MobileDropdownTrigger'}}'
     @renderInPlace={{true}}
     @buttonStyling={{true}}
     @horizontalPosition='right'
@@ -20,6 +20,14 @@
             <FaIcon @icon='download' />
             {{t 'general.download'}}
         </OsfLink>
+        {{#if @item.currentUserCanDelete}}
+            <Button @layout='fake-link' local-class='DropdownItem' data-test-delete-button
+                {{on 'click' (fn (mut this.isDeleteModalOpen) true)}}
+            >
+                <FaIcon @icon='trash-alt' />
+                {{t 'osf-components.file-browser.delete'}}
+            </Button>
+        {{/if}}
         <FileEmbedMenu @file={{@item}} as |dd|>
             <dd.trigger
                 data-test-embed-button
@@ -48,5 +56,63 @@
                 {{t 'general.share'}}
             </dd.trigger>
         </SharingIcons::Dropdown>
+        {{#if @manager}}
+            {{#if @item.currentUserCanDelete}}
+                {{#if @allowRename}}
+                    <Button
+                        @layout='fake-link'
+                        data-test-rename-link
+                        data-analytics-name='Rename file'
+                        local-class='DropdownItem'
+                        {{on 'click' this.openRenameModal}}
+                    >
+                        <FaIcon @icon='pencil-alt' />
+                        {{t 'file_actions_menu.rename'}}
+                    </Button>
+                {{/if}}
+                <Button
+                    @layout='fake-link'
+                    local-class='DropdownItem'
+                    data-test-move-button
+                    {{on 'click' (queue (action (mut this.useCopyModal) false) (action (mut this.moveModalOpen) true))}}
+                >
+                    <FaIcon
+                        @icon='arrow-right'
+                    />
+                    {{t 'general.move'}}
+                </Button>
+            {{/if}}
+            {{#if (not (or @manager.isViewOnly @item.targetIsRegistration))}}
+                <Button
+                    @layout='fake-link'
+                    local-class='DropdownItem'
+                    data-test-copy-button
+                    {{on 'click' (queue (action (mut this.useCopyModal) true) (action (mut this.moveModalOpen) true))}}
+                >
+                    <FaIcon
+                        @icon='copy'
+                    />
+                    {{t 'general.copy'}}
+                </Button>
+            {{/if}}
+        {{/if}}
     </dropdown.content>
 </ResponsiveDropdown>
+<FileActionsMenu::DeleteModal @file={{@item}} @isOpen={{this.isDeleteModalOpen}} @closeModal={{this.closeDeleteModal}} @onDelete={{@onDelete}} />
+{{#if @manager}}
+    <MoveFileModal
+        @isOpen={{this.moveModalOpen}}
+        @close={{action (mut this.moveModalOpen) false}}
+        @preserveOriginal={{this.useCopyModal}}
+        @manager={{@manager}}
+        @filesToMove={{array @item}}
+    />
+{{/if}}
+{{#if @allowRename}}
+    <FileBrowser::FileRenameModal
+        @isOpen={{this.renameModalOpen}}
+        @onClose={{this.closeRenameModal}}
+        @item={{@item}}
+        @manager={{@manager}}
+    />    
+{{/if}}

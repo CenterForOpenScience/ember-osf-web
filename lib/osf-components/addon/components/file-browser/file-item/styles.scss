@@ -1,20 +1,93 @@
 .FileList__item {
+    position: relative;
     display: flex;
     justify-content: space-between;
     padding: 12px 0;
     border-top: solid 1px $color-border-gray;
+    height: 60px;
 
     span {
         margin: 0 6px;
     }
 }
 
+.Unviewed {
+    font-weight: 800;
+}
+
 .Indent {
-    padding-left: 30px;
+    margin-left: 30px;
+}
+
+.Label {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 0;
+
+    &:focus-within {
+        outline: auto;
+        outline-offset: 5px;
+    }
+}
+
+.Checkbox {
+    opacity: 0;
+}
+
+.CheckoutSpan {
+    z-index: 9;
+}
+
+.CheckoutIcon {
+    margin-right: 6px;
+    color: $color-text-gray;
+}
+
+.Selected {
+    background-color: $color-text-blue-dark;
+    color: $color-text-white;
+
+    a {
+        font-weight: 600;
+        color: $color-text-white;
+    }
+
+    a:hover {
+        color: $color-text-gray-cool;
+    }
+}
+
+.FileList__item__date {
+    display: flex;
+    align-items: center;
+    flex: 2;
 }
 
 .FileList__item__options {
     display: flex;
+    align-items: flex-end;
+    flex: 1;
+}
+
+.FileList__item__name {
+    display: flex;
+    align-items: center;
+    flex: 4;
+    
+    a {
+        z-index: 9;
+    }
+}
+
+.name__mobile {
+    flex: 7;
+}
+
+.FileList__item__size {
+    display: flex;
+    flex: 1;
     align-items: center;
 }
 

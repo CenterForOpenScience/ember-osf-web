@@ -1,0 +1,54 @@
+<OsfDialog
+    @isOpen={{@isOpen}}
+    @onClose={{@onClose}}
+    @closeOnOutsideClick={{true}}
+    data-test-file-rename-modal
+    as |dialog|
+>
+    <dialog.heading data-test-rename-heading>
+        {{t 'osf-components.file-browser.file_rename_modal.heading'}}
+    </dialog.heading>
+    <dialog.main>
+        <div local-class='RenameInput'>
+            <Input
+                data-test-user-input
+                aria-label={{t 'osf-components.file-browser.file_rename_modal.input_aria'}}
+                @value={{this.newFileName}}
+                @type='text'
+                @enter={{queue
+                    (perform this.updateFileName)
+                    dialog.close
+                }}
+            />
+        </div>
+    </dialog.main>
+    <dialog.footer>
+        <Button
+            data-test-cancel-button
+            data-analytics-name='Rename Cancel'
+            @type='secondary'
+            {{on 'click' (
+                queue
+                this.resetFileNameValue
+                dialog.close
+            )
+            }}
+        >
+            {{t 'osf-components.file-browser.file_rename_modal.cancel'}}
+        </Button>
+        <Button
+            data-test-disabled-rename
+            data-analytics-name='Rename Save'
+            @type='create'
+            disabled={{or (not this.isValid) this.updateFileName.isRunning}}
+            {{on 'click' (
+                queue
+                (perform this.updateFileName)
+                dialog.close
+            )
+            }}
+        >
+            {{t 'osf-components.file-browser.file_rename_modal.save'}}
+        </Button>
+    </dialog.footer>
+</OsfDialog>

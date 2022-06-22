@@ -37,6 +37,7 @@ export default class FileModel extends BaseFileItem {
     @attr('object') extra!: any;
     @attr('fixstringarray') tags!: string[];
     @attr('fixstring') checkout!: string;
+    @attr('boolean') showAsUnviewed!: boolean;
 
     @belongsTo('file', { inverse: 'files' })
     parentFolder!: AsyncBelongsTo<FileModel> & FileModel;
@@ -134,8 +135,9 @@ export default class FileModel extends BaseFileItem {
         }).then(() => this.reload());
     }
 
-    move(node: AbstractNodeModel): Promise<null> {
-        return this.currentUser.authenticatedAJAX({
+    async move(node: AbstractNodeModel, path: string, provider: string, options?: { conflict: string }): Promise<any> {
+        let status = null;
+        const requestData = await this.currentUser.authenticatedAJAX({
             url: getHref(this.links.move),
             type: 'POST',
             xhrFields: { withCredentials: true },
@@ -144,10 +146,49 @@ export default class FileModel extends BaseFileItem {
             },
             data: JSON.stringify({
                 action: 'move',
-                path: '/',
+                path,
+                provider,
                 resource: node.id,
+                ...options,
             }),
+            success: (_, __, xhr) => {
+                status = xhr.status;
+            },
+        });
+        let returnObject = requestData;
+        if (typeof requestData !== 'object') {
+            returnObject = { data: requestData };
+        }
+        returnObject.status = status;
+        return returnObject;
+    }
+
+    async copy(node: AbstractNodeModel, path: string, provider: string, options?: { conflict: string }): Promise<any> {
+        let status = null;
+        const requestData = await this.currentUser.authenticatedAJAX({
+            url: getHref(this.links.move),
+            type: 'POST',
+            xhrFields: { withCredentials: true },
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: JSON.stringify({
+                action: 'copy',
+                path,
+                provider,
+                resource: node.id,
+                ...options,
+            }),
+            success: (_, __, xhr) => {
+                status = xhr.status;
+            },
         }).then(() => this.reload());
+        let returnObject = requestData;
+        if (typeof requestData !== 'object') {
+            returnObject = { data: requestData };
+        }
+        returnObject.status = status;
+        return returnObject;
     }
 
     delete(): Promise<null> {

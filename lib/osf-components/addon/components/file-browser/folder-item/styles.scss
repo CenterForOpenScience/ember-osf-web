@@ -1,8 +1,10 @@
 .FileList__item {
+    position: relative;
     display: flex;
     justify-content: space-between;
     padding: 12px 0;
     border-top: solid 1px $color-border-gray;
+    height: 60px;
 
     span {
         margin: 0 6px;
@@ -13,16 +15,58 @@
         overflow: hidden;
         white-space: normal;
         text-align: left;
+        z-index: 9;
     }
 }
 
 .Indent {
-    padding-left: 30px;
+    margin-left: 30px;
+}
+
+.Label {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 0;
+
+    &:focus-within {
+        outline: auto;
+        outline-offset: 5px;
+    }
+}
+
+.Checkbox {
+    opacity: 0;
+}
+
+.Selected {
+    background-color: $color-text-blue-dark;
+
+    button {
+        font-weight: 600;
+        color: $color-text-white;
+    }
+
+    button:hover {
+        color: $color-text-gray-cool;
+    }
+}
+
+.FileList__item__name {
+    display: flex;
+    align-items: center;
+    flex: 7;
 }
 
 .FileList__item__options {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
+    flex: 1;
+}
+
+.MobileDropdownTrigger {
+    z-index: 1;
 }
 
 .NoShrink {
@@ -45,6 +89,6 @@
     }
 
     button {
-        padding: 8px;
+        padding: 8px 0 0;
     }
 }

@@ -1,0 +1,159 @@
+<OsfDialog
+    @isOpen={{@isOpen}}
+    @onClose={{this.onClose}}
+    @fixedWidth={{true}}
+    @closeOnOutsideClick={{false}}
+    as |dialog|
+>
+    <dialog.heading data-test-move-modal-heading>
+        {{#if this.moveOrCopyDone}}
+            {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'copy_done_header' 'move_done_header')) itemCount=this.successCount}}
+        {{else}}
+            {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'copy_header' 'move_header')) itemCount=@filesToMove.length}}
+        {{/if}}
+    </dialog.heading>
+    <dialog.main
+        data-analytics-scope='Move file modal'
+        {{did-insert this.onOpen}}
+    >
+        {{#if this.isMovingOrCopying}}
+            <h3 local-class='ActionHeading'>
+                {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'copying_files' 'moving_files'))}}
+            </h3>
+            <ul local-class='ChildList'>
+                {{#each this.fileActionTasks as |taskInstance index| }}
+                    {{#let (get @filesToMove index) as |file| }}
+                        <li
+                            data-test-moving-file-item={{file.id}}
+                            local-class='ChildItem MoveItem'
+                        >
+                            {{#if taskInstance.isRunning}}
+                                {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'copying_file' 'moving_file')) fileName=file.name}}
+                                <FaIcon @icon='spinner' @pulse={{true}} />
+                            {{else if (not taskInstance.hasStarted)}}
+                                {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'awaiting_copy' 'awaiting_move')) fileName=file.name}}
+                            {{else if taskInstance.isSuccessful}}
+                                {{#if (eq taskInstance.value.status 202)}}
+                                    {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'copy_queued' 'move_queued')) fileName=file.name}}
+                                {{else}}
+                                    {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'success_copy' 'success_move')) fileName=file.name}}
+                                {{/if}}
+                                <FaIcon @icon='check' local-class='success'/>
+                            {{else if taskInstance.isError}}
+                                <span>
+                                    {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'error_copy' 'error_move')) fileName=file.name}}
+                                    {{#if (eq taskInstance.error.status 507)}}
+                                        <span local-class='InvalidDestination'>{{t 'osf-components.move_file_modal.error_storage'}}</span>
+                                    {{else if (eq taskInstance.error.status 409)}}
+                                        <span local-class='InvalidDestination'>{{t 'osf-components.move_file_modal.error_duplicate' name=file.name}}</span>
+                                    {{/if}}
+                                </span>
+                                <span>
+                                    <Button
+                                        @type='destroy'
+                                        {{on 'click' (fn this.skip index)}}
+                                    >
+                                        {{t 'osf-components.move_file_modal.skip'}}
+                                    </Button>
+                                    <Button
+                                        {{on 'click' (fn this.retry file index)}}
+                                    >
+                                        {{t 'osf-components.move_file_modal.retry'}}
+                                    </Button>
+                                    {{#if (eq taskInstance.error.status 409)}}
+                                        <Button
+                                            @type='primary'
+                                            {{on 'click' (fn this.replace file index)}}
+                                        >
+                                            {{t 'osf-components.move_file_modal.replace'}}
+                                        </Button>
+                                    {{/if}}
+                                </span>
+                            {{/if}}
+                        </li>
+                    {{/let}}
+                {{/each}}
+            </ul>
+        {{else}}
+            <h3 local-class='ActionHeading'>{{t 'osf-components.move_file_modal.select_destination'}}</h3>
+            <div local-class='AncestryWrapper'>
+                <AncestryDisplay
+                    @node={{this.currentNode}}
+                    @onAncestorSelect={{this.updateNode}}
+                    local-class='AncestryOverride'
+                />
+                <MoveFileModal::CurrentNodeItem
+                    @node={{this.currentNode}}
+                    @currentFolder={{this.currentFolder}}
+                    @onNodeSelect={{this.updateNode}}
+                />
+            </div>
+            <FileBrowser::Breadcrumbs
+                @breadcrumbs={{this.breadcrumbs}}
+                @currentFolder={{this.currentFolder}}
+                @goToFolder={{this.updateFolder}}
+                local-class='BreadcrumbsOverride'
+            />
+            {{#if (and this.currentFolder this.providerIsReadOnly)}}
+                <div local-class='ReadOnlyWarning'>
+                    {{#if (and this.currentNode.userHasWritePermission this.providerIsReadOnly)}}
+                        {{t 'osf-components.move_file_modal.read_only_warning'}}
+                    {{else}}
+                        {{t 'osf-components.move_file_modal.no_write_permission'}}
+                    {{/if}}
+                </div>
+            {{/if}}
+            <InfiniteList
+                @itemList={{this.itemList}}
+                @hasMore={{this.hasMore}}
+                @loadMore={{this.loadMore}}
+                @isLoading={{this.isLoading}}
+                local-class='ChildList'
+            >
+                <:item as |item|>
+                    <MoveFileModal::ListItem
+                        @item={{item}}
+                        @currentNode={{this.currentNode}}
+                        @filesToMove={{@filesToMove}}
+                        @onNodeSelect={{this.updateNode}}
+                        @onFolderSelect={{this.updateFolder}}
+                        @isProvider={{eq this.breadcrumbs.length 0}}
+                    />
+                </:item>
+                <:empty>
+                    <p data-test-empty-node-or-child>
+                        {{t 'osf-components.move_file_modal.no_children'}}
+                    </p>
+                </:empty>
+            </InfiniteList>
+        {{/if}}
+    </dialog.main>
+    <dialog.footer>
+        {{#if this.moveOrCopyDone}}
+            <Button
+                data-analytics-name='Finish moving files'
+                data-test-move-done-button
+                @type='primary'
+                {{on 'click' this.onClose}}
+            >
+                {{t 'general.done'}}
+            </Button>
+        {{else}}
+            <Button
+                @type='secondary'
+                {{on 'click' this.onClose}}
+            >
+                {{t 'general.cancel'}}
+            </Button>
+            <Button
+                data-analytics-name='Move file(s)'
+                data-test-move-files-button
+                @type='primary'
+                disabled={{this.isDisabled}}
+                {{on 'click' (if @preserveOriginal (perform this.copy) (perform this.move))}}
+            >
+                {{t (concat 'general.'(if @preserveOriginal 'copy' 'move'))}}
+            </Button>
+        {{/if}}
+    </dialog.footer>
+</OsfDialog>
