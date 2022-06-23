@@ -45,13 +45,6 @@ export default class ListItemComponent extends Component<ListItemArgs> {
         return this.isBeingMoved || this.isReadOnlyProvider || currentUserIsReadOnly;
     }
 
-    get destinationSelectHelpText() {
-        if (this.args.currentNode && !this.args.currentNode.userHasWritePermission) {
-            return this.intl.t('osf-components.move_file_modal.no_write_permission');
-        }
-        return this.intl.t('osf-components.move_file_modal.select_provider');
-    }
-
     get assetPrefix() {
         return config.assetsPrefix;
     }

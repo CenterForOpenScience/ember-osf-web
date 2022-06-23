@@ -18,7 +18,7 @@
             data-analytics-name='Go to nested folder'
             data-test-move-to-folder={{@item.name}}
             @layout='fake-link'
-            local-class='NavButton {{if this.isReadOnlyProvider 'InvalidDestination'}}'
+            local-class='NavButton {{if this.shouldDisable 'InvalidDestination'}}'
             disabled={{this.shouldDisable}}
             {{on 'click' (fn @onFolderSelect @item)}}
         >
