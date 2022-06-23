@@ -28,8 +28,10 @@ export default class FileRenameModal extends Component<Args> {
     }
 
     get isValid() {
-        return (Boolean(this.newFileName) && this.newFileName.trim() !== this.originalFileName &&
-            this.newFileName.trim() !== '');
+        if(this.newFileName) {
+            return (this.newFileName.trim() !== this.originalFileName && this.newFileName.trim() !== '');
+        }
+        return false;
     }
 
     @action
