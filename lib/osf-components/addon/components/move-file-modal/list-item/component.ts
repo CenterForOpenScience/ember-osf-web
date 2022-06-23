@@ -26,7 +26,8 @@ export default class ListItemComponent extends Component<ListItemArgs> {
     @service toast!: Toast;
 
     get isBeingMoved() {
-        return this.args.filesToMove.includes(this.args.item as File);
+        const { item, filesToMove } = this.args;
+        return filesToMove.findBy('id', item.id);
     }
 
     get isReadOnlyProvider() {
@@ -42,13 +43,6 @@ export default class ListItemComponent extends Component<ListItemArgs> {
     get shouldDisable() {
         const { currentUserIsReadOnly } = this.args.currentNode;
         return this.isBeingMoved || this.isReadOnlyProvider || currentUserIsReadOnly;
-    }
-
-    get destinationSelectHelpText() {
-        if (this.args.currentNode && !this.args.currentNode.userHasWritePermission) {
-            return this.intl.t('osf-components.move_file_modal.no_write_permission');
-        }
-        return this.intl.t('osf-components.move_file_modal.select_provider');
     }
 
     get assetPrefix() {
