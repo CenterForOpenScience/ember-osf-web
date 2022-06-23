@@ -31,10 +31,16 @@
                     >
                     {{t (concat 'osf-components.file-browser.storage_providers.' @item.name)}}
                     {{#if this.isReadOnlyProvider}}
-                        <span local-class='ReadOnlyProvider'>
+                        <span>
                             {{t 'osf-components.move_file_modal.read_only_provider'}}
                         </span>
                     {{/if}}
+                {{else if this.isBeingMoved}}
+                    <FaIcon @icon='folder-open' />
+                    {{@item.name}}
+                    <span>
+                        {{t (concat 'osf-components.move_file_modal.'(if @preserveOriginal 'is_being_copied' 'is_being_moved'))}}
+                    </span>
                 {{else}}
                     <FaIcon @icon='folder-open' />
                     {{@item.name}}

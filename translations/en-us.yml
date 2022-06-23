@@ -1831,6 +1831,8 @@ osf-components:
         no_children: 'No children'
         no_folders: 'No files or folders'
         read_only_provider: '- Cannot move or copy to this file provider'
+        is_being_moved: '- This folder is being moved'
+        is_being_copied: '- This folder is being copied'
         read_only_warning: 'Moving or copying files to this file provider is not supported. Please select a different provider.'
         icon_alt: 'Icon for {provider}'
         moving_files: 'Moving...'

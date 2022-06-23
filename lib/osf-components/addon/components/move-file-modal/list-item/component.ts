@@ -26,7 +26,8 @@ export default class ListItemComponent extends Component<ListItemArgs> {
     @service toast!: Toast;
 
     get isBeingMoved() {
-        return this.args.filesToMove.includes(this.args.item as File);
+        const { item, filesToMove } = this.args;
+        return filesToMove.findBy('id', item.id);
     }
 
     get isReadOnlyProvider() {
