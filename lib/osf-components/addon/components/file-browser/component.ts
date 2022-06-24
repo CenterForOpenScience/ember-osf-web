@@ -10,6 +10,7 @@ import StorageManager from 'osf-components/components/storage-provider-manager/s
 interface Args {
     manager: StorageManager;
     selectable?: boolean;
+    enableUpload?: boolean;
 }
 
 export default class FileBrowser extends Component<Args> {
