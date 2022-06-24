@@ -4,7 +4,7 @@
     justify-content: space-between;
     padding: 12px 0;
     border-top: solid 1px $color-border-gray;
-    height: 60px;
+    min-height: 60px;
 
     span {
         margin: 0 6px;
@@ -67,7 +67,7 @@
 
 .FileList__item__options {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     flex: 1;
 }
 

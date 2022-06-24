@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [22.6.2] - 2022-6-24
+### Hotfix
+- Fix long file name display issue
+
 ## [22.6.1] - 2022-6-23
 ### Hotfix
 - Fix bug where users can initiate moving a folder to within itself
