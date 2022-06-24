@@ -97,6 +97,7 @@
             {{#if (gt @manager.selectedFiles.length 0)}}
                 {{#if @manager.currentFolder.userCanDeleteFromHere}}
                     <Button
+                        data-test-bulk-move-trigger
                         @layout='fake-link'
                         {{on 'click' (queue (action (mut this.useCopyModal) false) (action (mut this.moveModalOpen) true))}}
                     >
@@ -105,6 +106,7 @@
                     </Button>
                 {{/if}}
                 <Button
+                    data-test-bulk-copy-trigger
                     @layout='fake-link'
                     {{on 'click' (queue (action (mut this.useCopyModal) true) (action (mut this.moveModalOpen) true))}}
                 >
@@ -191,7 +193,7 @@
             {{/if}}
         </:item>
         <:empty>
-            <div local-class='EmptyText'>
+            <div data-test-empty-folder local-class='EmptyText'>
                 {{t 'osf-components.file-browser.empty_folder'}}
             </div>
         </:empty>

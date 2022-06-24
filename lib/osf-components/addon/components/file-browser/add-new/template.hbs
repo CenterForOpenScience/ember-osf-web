@@ -6,6 +6,7 @@
         as |dropdown|
     >
         <dropdown.trigger
+            data-test-add-new-trigger
             aria-label={{t 'osf-components.file-browser.add_button_aria'}}
             local-class='TriggerButton {{if dropdown.isOpen 'CloseButton'}}'>
             <FaIcon @icon='plus' @size='2x' @fixedWidth={{true}} />
