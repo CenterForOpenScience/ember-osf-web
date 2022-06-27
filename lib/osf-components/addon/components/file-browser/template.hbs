@@ -98,6 +98,7 @@
                 {{#if @manager.currentFolder.userCanDeleteFromHere}}
                     <Button
                         data-test-bulk-move-trigger
+                        data-analytics-name='Bulk move files'
                         @layout='fake-link'
                         {{on 'click' (queue (action (mut this.useCopyModal) false) (action (mut this.moveModalOpen) true))}}
                     >
@@ -107,6 +108,7 @@
                 {{/if}}
                 <Button
                     data-test-bulk-copy-trigger
+                    data-analytics-name='Bulk copy files'
                     @layout='fake-link'
                     {{on 'click' (queue (action (mut this.useCopyModal) true) (action (mut this.moveModalOpen) true))}}
                 >
