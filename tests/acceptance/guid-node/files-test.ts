@@ -3,7 +3,7 @@ import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { t } from 'ember-intl/test-support';
 import { TestContext } from 'ember-test-helpers';
-// import { percySnapshot } from 'ember-percy';
+import { percySnapshot } from 'ember-percy';
 import { module, test } from 'qunit';
 
 import { click, setupOSFApplicationTest, visit } from 'ember-osf-web/tests/helpers';
@@ -48,6 +48,7 @@ module('Acceptance | guid-node/files', hooks => {
 
         // Check file actions
         await click(`[data-test-file-list-item="${this.file.id}"] [data-test-file-download-share-trigger]`);
+        await percySnapshot(assert);
         assert.dom('[data-test-copy-button]').exists('Single file copy available');
         assert.dom('[data-test-move-button]').doesNotExist('Single file move not available');
         assert.dom('[data-test-delete-button]').doesNotExist('Single file delete not available');
@@ -71,6 +72,7 @@ module('Acceptance | guid-node/files', hooks => {
         this.osfStorage!.rootFolder.update({files: []});
 
         await visit(`/${this.node.id}/files`);
+        await percySnapshot(assert);
         assert.dom('[data-test-file-list-item]').doesNotExist('No file or folder items');
         assert.dom('[data-test-empty-folder]')
             .containsText(t('osf-components.file-browser.empty_folder'), 'Empty folder');
@@ -80,6 +82,7 @@ module('Acceptance | guid-node/files', hooks => {
         this.node.update({ currentUserPermissions: ['admin', 'write', 'read'] });
         await visit(`/${this.node.id}/files`);
         await click(`[data-test-select-file="${this.file.id}"]`);
+        await percySnapshot(assert);
         assert.dom('[data-test-bulk-move-trigger]').exists('Bulk move available');
         assert.dom('[data-test-bulk-copy-trigger]').exists('Bulk copy available');
         assert.dom('[data-test-bulk-delete-trigger]').exists('Bulk delete available');

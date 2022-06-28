@@ -14,7 +14,7 @@ import stripHtmlTags from 'ember-osf-web/utils/strip-html-tags';
 
 interface FileBrowserTestContext extends TestContext {
     mirageNode: ModelInstance<NodeModel>;
-    osfStorageProvider: FileProviderModel;
+    osfStorageProvider: ModelInstance<FileProviderModel>;
     topLevelFiles: Array<ModelInstance<FileModel>>;
     topLevelFolder: ModelInstance<FileModel>;
     secondaryLevelFiles: Array<ModelInstance<FileModel>>;
@@ -26,17 +26,17 @@ module('Integration | Component | file-browser', hooks => {
     hooks.beforeEach(function(this: FileBrowserTestContext) {
         this.store = this.owner.lookup('service:store');
         this.mirageNode = server.create('node', 'withFiles', 'withStorage', 'currentUserAdmin');
-        const osfStorage = this.mirageNode.files.models[0];
+        this.osfStorageProvider = this.mirageNode.files.models[0];
         this.topLevelFiles = server.createList('file', 2, {
             target: this.mirageNode,
-            parentFolder: osfStorage.rootFolder,
+            parentFolder: this.osfStorageProvider.rootFolder,
         });
         this.topLevelFolder = server.create('file', {
             target: this.mirageNode,
-            parentFolder: osfStorage.rootFolder,
+            parentFolder: this.osfStorageProvider.rootFolder,
             kind: FileItemKinds.Folder,
         });
-        osfStorage.rootFolder.update({ files: [...this.topLevelFiles, this.topLevelFolder] });
+        this.osfStorageProvider.rootFolder.update({ files: [...this.topLevelFiles, this.topLevelFolder] });
         this.secondaryLevelFiles = server.createList('file', 2, {
             target: this.mirageNode,
             parentFolder: this.topLevelFolder,
@@ -46,9 +46,6 @@ module('Integration | Component | file-browser', hooks => {
 
     test('it renders and navigates through folders',
         async function(this: FileBrowserTestContext, assert) {
-            const node = await this.store.findRecord('node', this.mirageNode.id);
-            const storageProviders = await node.files;
-            this.osfStorageProvider = storageProviders.toArray()[0];
             await render(hbs`
                 <StorageProviderManager::StorageManager @provider={{this.osfStorageProvider}} as |manager|>
                     <FileBrowser @manager={{manager}} @enableUpload={{true}} />
@@ -86,9 +83,6 @@ module('Integration | Component | file-browser', hooks => {
 
     test('it renders and select files/folders',
         async function(this: FileBrowserTestContext, assert) {
-            const node = await this.store.findRecord('node', this.mirageNode.id);
-            const storageProviders = await node.files;
-            this.osfStorageProvider = storageProviders.toArray()[0];
             await render(hbs`
                 <StorageProviderManager::StorageManager @provider={{this.osfStorageProvider}} as |manager|>
                     <FileBrowser @manager={{manager}} @selectable={{true}} />
@@ -120,9 +114,7 @@ module('Integration | Component | file-browser', hooks => {
     test('it renders non-selectable lists for registrations',
         async function(this: FileBrowserTestContext, assert) {
             const mirageRegistration = server.create('registration', 'withFiles');
-            const registration = await this.store.findRecord('registration', mirageRegistration.id);
-            const storageProviders = await registration.files;
-            this.osfStorageProvider = storageProviders.toArray()[0];
+            this.osfStorageProvider = mirageRegistration.files.models[0];
             await render(hbs`
                 <StorageProviderManager::StorageManager @provider={{this.osfStorageProvider}} as |manager|>
                     <FileBrowser @manager={{manager}} @selectable={{false}} />
@@ -135,9 +127,6 @@ module('Integration | Component | file-browser', hooks => {
 
     test('it renders help text for nodes',
         async function(this: FileBrowserTestContext, assert) {
-            const node = await this.store.findRecord('node', this.mirageNode.id);
-            const storageProviders = await node.files;
-            this.osfStorageProvider = storageProviders.toArray()[0];
             await render(hbs`
                 <StorageProviderManager::StorageManager @provider={{this.osfStorageProvider}} as |manager|>
                     <FileBrowser @manager={{manager}} @enableUpload={{true}} @selectable={{true}} />
@@ -165,9 +154,7 @@ module('Integration | Component | file-browser', hooks => {
     test('it renders help text for registrations',
         async function(this: FileBrowserTestContext, assert) {
             const mirageRegistration = server.create('registration', 'withFiles');
-            const registration = await this.store.findRecord('registration', mirageRegistration.id);
-            const storageProviders = await registration.files;
-            this.osfStorageProvider = storageProviders.toArray()[0];
+            this.osfStorageProvider = mirageRegistration.files.models[0];
             await render(hbs`
                 <StorageProviderManager::StorageManager @provider={{this.osfStorageProvider}} as |manager|>
                     <FileBrowser @manager={{manager}} @selectable={{false}} />
