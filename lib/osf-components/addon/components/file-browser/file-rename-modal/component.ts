@@ -30,7 +30,7 @@ export default class FileRenameModal extends Component<Args> {
     }
 
     get isValid() {
-        if(this.newFileName && !this.containsForbiddenChars) {
+        if(this.newFileName && !this.containsForbiddenChars && !this.endsWithDot) {
             return (this.newFileName.trim() !== this.originalFileName && this.newFileName.trim() !== '');
         }
         return false;
@@ -40,10 +40,16 @@ export default class FileRenameModal extends Component<Args> {
         return this.newFileName && forbiddenFileNameCharacters.test(this.newFileName);
     }
 
+    get endsWithDot() {
+        return this.newFileName && this.newFileName.endsWith('.');
+    }
+
     get errorText() {
         let errorTextKey = 'osf-components.file-browser.file_rename_modal.error_';
         if (!this.newFileName) {
             errorTextKey += 'empty_name';
+        } else if (this.endsWithDot) {
+            errorTextKey += 'ends_with_dot';
         } else if (this.containsForbiddenChars) {
             errorTextKey += 'forbidden_chars';
         } else {

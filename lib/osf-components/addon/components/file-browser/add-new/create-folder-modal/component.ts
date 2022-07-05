@@ -17,17 +17,23 @@ export default class CreateFolderModal extends Component<Args> {
 
     get isInvalid() {
         const trimmedName = this.newFolderName.trim();
-        return !trimmedName || this.containsForbiddenChars;
+        return !trimmedName || this.containsForbiddenChars || this.endsWithDot;
     }
 
     get containsForbiddenChars() {
         return this.newFolderName && forbiddenFileNameCharacters.test(this.newFolderName);
     }
 
+    get endsWithDot() {
+        return this.newFolderName && this.newFolderName.endsWith('.');
+    }
+
     get errorText() {
         let errorTextKey = 'osf-components.file-browser.create_folder.error_';
         if (this.containsForbiddenChars) {
             errorTextKey += 'forbidden_chars';
+        } else if (this.endsWithDot) {
+            errorTextKey += 'ends_with_dot';
         } else {
             errorTextKey += 'message';
         }
