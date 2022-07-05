@@ -16,13 +16,17 @@
                     (action (mut this.newFolderName) '')
                 }}
                 @value={{this.newFolderName}}
+                local-class='RenameInput'
             />
+            {{#if this.isInvalid}}
+                <p local-class='ErrorText'>{{this.errorText}}</p>
+            {{/if}}
         </label>
     </dialog.main>
     <dialog.footer>
         <Button
             @type='create'
-            disabled={{this.shouldDisable}}
+            disabled={{or @manager.createNewFolder.isRunning this.isInvalid}}
             {{on 'click'
                 (queue
                     (perform @manager.createNewFolder this.newFolderName)

@@ -6,6 +6,8 @@ import Toast from 'ember-toastr/services/toast';
 import { restartableTask } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 import Intl from 'ember-intl/services/intl';
+
+import { forbiddenFileNameCharacters } from 'ember-osf-web/models/file';
 import File from 'ember-osf-web/packages/files/file';
 import StorageManager from 'osf-components/components/storage-provider-manager/storage-manager/component';
 
@@ -28,10 +30,26 @@ export default class FileRenameModal extends Component<Args> {
     }
 
     get isValid() {
-        if(this.newFileName) {
+        if(this.newFileName && !this.containsForbiddenChars) {
             return (this.newFileName.trim() !== this.originalFileName && this.newFileName.trim() !== '');
         }
         return false;
+    }
+
+    get containsForbiddenChars() {
+        return this.newFileName && forbiddenFileNameCharacters.test(this.newFileName);
+    }
+
+    get errorText() {
+        let errorTextKey = 'osf-components.file-browser.file_rename_modal.error_';
+        if (!this.newFileName) {
+            errorTextKey += 'empty_name';
+        } else if (this.containsForbiddenChars) {
+            errorTextKey += 'forbidden_chars';
+        } else {
+            errorTextKey += 'message';
+        }
+        return this.intl.t(errorTextKey);
     }
 
     @action

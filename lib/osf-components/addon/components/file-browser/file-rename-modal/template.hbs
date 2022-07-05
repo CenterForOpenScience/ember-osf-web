@@ -20,6 +20,11 @@
                     dialog.close
                 }}
             />
+            {{#unless this.isValid}}
+                <p local-class='ErrorText'>
+                    {{this.errorText}}
+                </p>
+            {{/unless}}
         </div>
     </dialog.main>
     <dialog.footer>

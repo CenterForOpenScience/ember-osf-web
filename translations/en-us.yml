@@ -1906,6 +1906,8 @@ osf-components:
             error_title: 'Failed to create folder'
             error_409: 'A folder with that name already exists'
             error_generic: 'Something went wrong. Please try again.'
+            error_message: 'Please enter a folder name.'
+            error_forbidden_chars: 'Please remove special characters from the folder name.'
         add_button_aria: 'Add files or folders here'
         upload_file: 'Upload file'
         uploading_file: 'Uploading {fileCount, plural, one {# file} other {# files}}'
@@ -1968,6 +1970,8 @@ osf-components:
             clear_aria: 'Clear input field'
             success_message: 'File successfully renamed.'
             error_message: 'Please rename the file.'
+            error_empty_name: 'Please enter a new file name.'
+            error_forbidden_chars: 'Please remove special characters from the file name.'
             retry_message: 'Rename failed.'
 
     subjects:
