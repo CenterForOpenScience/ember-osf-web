@@ -234,9 +234,8 @@ module('Integration | Component | file-browser', hooks => {
             await click('[data-test-create-folder-button]');
 
             assert.dom('[data-test-create-folder-heading]').doesNotExist('Create folder modal autocloses');
-            assert.dom(`
-                [data-test-file-list-link][aria-label="
-                    ${t('osf-components.file-browser.view_folder', {folderName: 'Shiny New Folder'})}
-                "]`).exists('Shiny new folder exists');
+            const newFolderAria = t('osf-components.file-browser.view_folder', {folderName: 'Shiny New Folder'});
+            assert.dom(`[data-test-file-list-link][aria-label="${newFolderAria}"]`)
+                .exists('Shiny new folder exists');
         });
 });
