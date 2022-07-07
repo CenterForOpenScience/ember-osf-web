@@ -217,15 +217,22 @@ module('Integration | Component | file-browser', hooks => {
 
             await fillIn('[data-test-create-folder-main] input', '     ');
             assert.dom('[data-test-new-folder-error]').containsText(
-                t('osf-components.file-browser.create_folder.error_message'), 'Folder cant be empty',
+                t('osf-components.file-browser.create_folder.error_message'), 'Folder cannot be empty',
             );
             assert.dom('[data-test-create-folder-button]').isDisabled('Create folder button is still still disabled');
 
             await fillIn('[data-test-create-folder-main] input', 'new fo/der?');
             assert.dom('[data-test-new-folder-error]').containsText(
-                t('osf-components.file-browser.create_folder.error_forbidden_chars'), 'Folder cant have special chars',
+                t('osf-components.file-browser.create_folder.error_forbidden_chars'),
+                'Folder cannot have special chars',
             );
-            assert.dom('[data-test-create-folder-button]').isDisabled('Create folder button is still still disabled');
+            assert.dom('[data-test-create-folder-button]').isDisabled('Create folder button is still x3 disabled');
+
+            await fillIn('[data-test-create-folder-main] input', 'new folder.');
+            assert.dom('[data-test-new-folder-error]').containsText(
+                t('osf-components.file-browser.create_folder.error_ends_with_dot'), 'Folder name cannot end with a dot',
+            );
+            assert.dom('[data-test-create-folder-button]').isDisabled('Create folder button is still x4 disabled');
 
             await fillIn('[data-test-create-folder-main] input', 'Shiny New Folder');
             assert.dom('[data-test-new-folder-error]').doesNotExist('No error message shown');
