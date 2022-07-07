@@ -54,7 +54,7 @@ export default Factory.extend<MirageFile & FileTraits>({
     path(i: number) {
         return `/${i}`;
     },
-    checkout: 'null',
+    checkout: null,
     tags() {
         return faker.lorem.words(5).split(' ');
     },
