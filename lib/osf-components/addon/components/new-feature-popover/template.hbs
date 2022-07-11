@@ -1,0 +1,29 @@
+<BsPopover
+    @triggerElement={{@triggerElement}}
+    @triggerEvents={{''}}
+    @visible={{true}}
+    @onClose={{this.onAccept}}
+    as |popover|
+>
+    <h3>
+        {{yield to='header'}}
+    </h3>
+
+    <section>
+        {{yield to='body'}} 
+    </section>
+
+    <footer local-class='FlexFooter'>
+        {{yield to='footer'}}
+        <label>
+            {{t 'osf-components.new-feature-popover.doNotShowAgain'}}
+            <Input @type='checkbox' @checked={{this.notAgain}} />
+        </label>
+        <Button
+            @type='primary'
+            {{on 'click' popover.close}}
+        >
+            {{t 'osf-components.new-feature-popover.acknowledge'}}
+        </Button>
+    </footer>
+</BsPopover>

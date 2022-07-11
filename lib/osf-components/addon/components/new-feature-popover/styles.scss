@@ -1,0 +1,16 @@
+:global(.popover) {
+    background-color: $color-bg-blue-darker !important;
+    color: $color-text-white;
+    border-radius: 0 !important;
+
+    :global(.arrow::after) {
+        border-right-color: $color-bg-blue-darker !important;
+    }
+}
+
+.FlexFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+}
