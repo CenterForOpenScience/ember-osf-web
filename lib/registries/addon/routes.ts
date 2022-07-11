@@ -41,6 +41,7 @@ export default buildRoutes(function() {
         this.route('comments');
         this.route('files', function() {
             this.route('provider', { path: '/:providerId' });
+            this.route('outputs');
         });
         this.route('forks');
         this.route('links');

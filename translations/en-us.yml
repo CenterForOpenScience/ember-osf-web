@@ -1594,6 +1594,11 @@ registries:
         learnMore: 'Click <a href="https://help.osf.io/hc/en-us/articles/360035806634-Edit-Registration-Metadata" target="_blank">here</a>  to learn more.'
         next: Next
         cancel_update: 'Cancel update'
+    files:
+        tabs:
+            files: 'Files'
+            outputs: 'Outputs'
+
 meetings:
     index:
         meetings-list:

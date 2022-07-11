@@ -1,3 +1,28 @@
 {{page-title (t 'registries.overview.files.title')}}
+<div local-class='NavTabs'>
+    <ul>
+        <li local-class='NavItem {{if (not (eq this.model.currentRoute 'overview.files.outputs')) 'Selected'}}'>
+            <OsfLink
+                data-test-files-tab-link
+                data-analytics-name='Files tab'
+                @route='registries.overview.files.provider'
+                @models={{array this.model.guid 'osfstorage'}}
+            >
+                {{t 'registries.files.tabs.files'}}
+            </OsfLink>
+        </li>
+        <li local-class='NavItem {{if (eq this.model.currentRoute 'overview.files.outputs') 'Selected'}}'>
+            <OsfLink
+                data-test-outputs-tab-link
+                data-analytics-name='Outputs tab'
+                @route='registries.overview.files.outputs'
+                @models={{array this.model.guid}}
+            >
+                {{t 'registries.files.tabs.outputs'}}
+            </OsfLink>
+            
+        </li>
+    </ul>
+</div>
 
 {{outlet}}

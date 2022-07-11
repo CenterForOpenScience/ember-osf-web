@@ -1,0 +1,45 @@
+.NavTabs {
+    border-bottom-color: #d0d0d0;
+    border-bottom-width: 1px;
+    width: 100%;
+    border-bottom-style: solid;
+
+    ul {
+
+        list-style-image: none;
+        list-style-position: outside;
+        list-style-type: none;
+        margin-left: 0;
+        margin-bottom: 0;
+        line-height: 20px;
+        padding: 0 0 41px;
+
+        a {
+            box-sizing: border-box;
+            border: 0;
+            color: $color-text-black;
+            background: none;
+            padding: 10px 15px;
+            float: left;
+    
+            
+        }
+
+        a:hover {
+            border: 0;
+            color: $color-text-gray;
+            background-color: #e4e4e4;
+            border-bottom-color: $color-text-gray;
+            border-bottom-width: 2px;
+            border-bottom-style: solid;
+        }
+
+        a:global(.active) {
+            color: $color-text-gray;
+            background-color: #e4e4e4;
+            border-bottom-color: $color-text-gray;
+            border-bottom-width: 2px;
+            border-bottom-style: solid;
+        }
+    }
+}
