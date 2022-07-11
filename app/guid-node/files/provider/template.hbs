@@ -81,16 +81,14 @@
                     @label={{t 'node.left_nav.wiki'}}
                 />
             {{/if}}
-            {{#unless this.model.providerTask.value.isViewOnly}}
-                <leftNav.link
-                    data-test-analytics-link
-                    data-analytics-name='Analytics' 
-                    @route='guid-node.analytics'
-                    @models={{array this.model.node.guid}}
-                    @icon='chart-bar'
-                    @label={{t 'node.left_nav.analytics'}}
-                />
-            {{/unless}}
+            <leftNav.link
+                data-test-analytics-link
+                data-analytics-name='Analytics' 
+                @route='guid-node.analytics'
+                @models={{array this.model.node.guid}}
+                @icon='chart-bar'
+                @label={{t 'node.left_nav.analytics'}}
+            />
             {{#unless this.model.providerTask.value.node.isAnonymous}}
                 <leftNav.link
                     data-test-registrations-link
@@ -101,15 +99,17 @@
                     @label={{t 'node.left_nav.registrations'}}
                 />
             {{/unless}}
-            {{#unless this.model.providerTask.value.isViewOnly}}
-                <leftNav.link
-                    data-test-contributors-link
-                    data-analytics-name='Contributors'
-                    @href='/{{this.model.node.guid}}/contributors/'
-                    @icon='users'
-                    @label={{t 'node.left_nav.contributors'}}
-                />
-                {{#if this.model.providerTask.value.hasWritePermission}}
+            {{#unless this.currentUser.viewOnlyToken}}
+                {{#if this.this.model.providerTask.value.node.userHasReadPermission}}
+                    <leftNav.link
+                        data-test-contributors-link
+                        data-analytics-name='Contributors'
+                        @href='/{{this.model.node.guid}}/contributors/'
+                        @icon='users'
+                        @label={{t 'node.left_nav.contributors'}}
+                    />
+                {{/if}}
+                {{#if this.model.providerTask.value.node.userHasWritePermission}}
                     <leftNav.link
                         data-test-addons-link
                         data-analytics-name='Add-ons'
@@ -118,13 +118,15 @@
                         @label={{t 'node.left_nav.add-ons'}}
                     />
                 {{/if}}
-                <leftNav.link
-                    data-test-settings-link
-                    data-analytics-name='Settings'
-                    @href='/{{this.model.node.guid}}/settings/'
-                    @icon='cogs'
-                    @label={{t 'node.left_nav.settings'}}
-                />
+                {{#if this.this.model.providerTask.value.node.userHasReadPermission}}
+                    <leftNav.link
+                        data-test-settings-link
+                        data-analytics-name='Settings'
+                        @href='/{{this.model.node.guid}}/settings/'
+                        @icon='cogs'
+                        @label={{t 'node.left_nav.settings'}}
+                    />
+                {{/if}}
             {{/unless}}
         </layout.leftNavOld>
         <layout.main local-class='OverviewBody'>
@@ -134,13 +136,13 @@
                 {{#let (get mapper this.model.providerName) as |ProviderManager|}}
                     <ProviderManager
                         @provider={{this.model.providerTask.value.provider}}
-                        @isViewOnly={{this.model.providerTask.value.isViewOnly}}
+                        @isViewOnly={{this.model.providerTask.value.currentUser.viewOnlyToken}}
                         as |manager|
                     >
                         <div local-class='FileBrowser'>
                             <FileBrowser
                                 @manager={{manager}}
-                                @selectable={{not this.model.providerTask.value.isViewOnly}}
+                                @selectable={{not this.model.providerTask.value.currentUser.viewOnlyToken}}
                                 @enableUpload={{true}}
                             />
                         </div>
