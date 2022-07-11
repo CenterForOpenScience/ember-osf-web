@@ -17,6 +17,9 @@
         <div local-class='FlexContainerRow'>
             <h2 data-test-filename>
                 {{this.model.name}}
+                {{#if this.model.providerSpecificData.titleSuffix}}
+                    {{this.model.providerSpecificData.titleSuffix}}
+                {{/if}}
                 {{#if this.viewedVersion}}
                     ({{t 'general.version'}}: {{this.viewedVersion}})
                 {{/if}}
