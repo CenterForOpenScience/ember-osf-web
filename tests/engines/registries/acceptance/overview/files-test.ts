@@ -69,6 +69,40 @@ module('Registries | Acceptance | overview.files', hooks => {
 
     });
 
+    test('Files tabs', async assert => {
+        const registration = server.create(
+            'registration',
+            { currentUserPermissions: [Permission.Admin] },
+            'withFiles',
+        );
+
+        await visit(`/${registration.id}/files`);
+        assert.equal(currentURL(), `/${registration.id}/files`, 'At registration files list URL');
+        assert.equal(currentRouteName(), 'registries.overview.files.provider', 'At the files provider route');
+
+        assert.dom('[data-test-files-tab-link]').exists('Files tab exists');
+        assert.dom('[data-test-files-tab-link]').hasClass('active', 'Files tab is highlighted');
+        assert.dom('[data-test-outputs-tab-link]').exists('Outputs tab exists');
+
+        await click('[data-test-outputs-tab-link]');
+        assert.equal(
+            currentURL(),
+            `/--registries/${registration.id}/files/outputs?mode=&revisionId=&view_only=`,
+            'At registration outputs list URL',
+        );
+        assert.equal(currentRouteName(), 'registries.overview.files.outputs', 'At the outputs route');
+        assert.dom('[data-test-outputs-tab-link]').hasClass('active', 'Outputs tab is highlighted');
+
+        await click('[data-test-files-tab-link]');
+        assert.equal(
+            currentURL(),
+            `/--registries/${registration.id}/files/osfstorage?mode=&revisionId=&view_only=`,
+            'At registration files list URL again',
+        );
+        assert.equal(currentRouteName(), 'registries.overview.files.provider', 'At the files provider route again');
+
+    });
+
     test('No files', async assert => {
         const registration = server.create('registration');
 
