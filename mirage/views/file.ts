@@ -1,6 +1,7 @@
 import { HandlerContext, ModelInstance, Response, Schema } from 'ember-cli-mirage';
 import { MirageNode } from 'ember-osf-web/mirage/factories/node';
 import DraftNode from 'ember-osf-web/models/draft-node';
+import { FileItemKinds } from 'ember-osf-web/models/base-file-item';
 import faker from 'faker';
 
 import { guid } from '../factories/utils';
@@ -9,7 +10,7 @@ import { filter, process } from './utils';
 export function uploadToFolder(this: HandlerContext, schema: Schema) {
     const uploadAttrs = this.request.requestBody;
     const { id: folderId } = this.request.params;
-    const { name } = this.request.queryParams;
+    const { name, kind } = this.request.queryParams;
     const folder = schema.files.find(folderId);
 
     const randomNum = faker.random.number();
@@ -23,13 +24,17 @@ export function uploadToFolder(this: HandlerContext, schema: Schema) {
     const uploadedFile = schema.files.create({
         guid: id,
         id,
-        size: uploadAttrs.size,
-        dateModified: uploadAttrs.lastModified,
-        lastTouched: uploadAttrs.lastModifiedDate,
+        path: id,
         target: folder.target,
         name,
+        kind: kind as FileItemKinds,
         provider: 'osfstorage',
     });
+    if (kind === FileItemKinds.File) {
+        uploadedFile.dateModified = uploadAttrs.lastModified;
+        uploadedFile.lastTouched = uploadAttrs.lastModifiedDate;
+        uploadedFile.size = uploadAttrs.size;
+    }
 
     folder.files.models.pushObject(uploadedFile);
     folder.save();
@@ -40,7 +45,7 @@ export function uploadToFolder(this: HandlerContext, schema: Schema) {
 export function uploadToRoot(this: HandlerContext, schema: Schema) {
     const uploadAttrs = this.request.requestBody;
     const { parentID, fileProviderId } = this.request.params;
-    const { name } = this.request.queryParams;
+    const { name, kind } = this.request.queryParams;
     let node;
     if (this.request.url.includes('draft_nodes')) {
         node = schema.draftNodes.find(parentID);
@@ -66,13 +71,17 @@ export function uploadToRoot(this: HandlerContext, schema: Schema) {
     const uploadedFile = schema.files.create({
         guid: id,
         id,
-        size: uploadAttrs.size,
-        dateModified: uploadAttrs.lastModified,
-        lastTouched: uploadAttrs.lastModifiedDate,
+        path: id,
         target: node,
         name,
+        kind: kind as FileItemKinds,
         provider: 'osfstorage',
     });
+    if (kind === FileItemKinds.File) {
+        uploadedFile.dateModified = uploadAttrs.lastModified;
+        uploadedFile.lastTouched = uploadAttrs.lastModifiedDate;
+        uploadedFile.size = uploadAttrs.size;
+    }
 
     rootFolder.files.models.pushObject(uploadedFile);
     rootFolder.save();
