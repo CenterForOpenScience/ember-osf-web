@@ -62,6 +62,7 @@ export default class FileSerializer extends ApplicationSerializer<MirageFileProv
         return {
             ...super.buildNormalLinks(model),
             upload: `${apiUrl}/v2/${pathName}/${model.targetId.id}/files/${model.name}/upload`,
+            new_folder: `${apiUrl}/v2/${pathName}/${model.targetId.id}/files/${model.name}/upload/?kind=folder`,
         };
     }
 }

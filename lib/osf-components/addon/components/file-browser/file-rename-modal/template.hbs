@@ -9,7 +9,7 @@
         {{t 'osf-components.file-browser.file_rename_modal.heading'}}
     </dialog.heading>
     <dialog.main>
-        <div local-class='RenameInput'>
+        <div data-test-rename-main local-class='RenameInput'>
             <Input
                 data-test-user-input
                 aria-label={{t 'osf-components.file-browser.file_rename_modal.input_aria'}}
@@ -20,6 +20,11 @@
                     dialog.close
                 }}
             />
+            {{#unless this.isValid}}
+                <p local-class='ErrorText'>
+                    {{this.errorText}}
+                </p>
+            {{/unless}}
         </div>
     </dialog.main>
     <dialog.footer>
