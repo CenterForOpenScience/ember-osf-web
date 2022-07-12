@@ -64,7 +64,7 @@ export function registrationScenario(
             { field_name: 'Metadata field 1', field_value: '' },
             { field_name: 'Another Field', field_value: 'Value 2' },
         ],
-    });
+    }, 'withOutputs');
 
     server.create('file', {id: 'afile', target: currentUserWrite});
 

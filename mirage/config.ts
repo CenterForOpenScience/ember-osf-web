@@ -316,6 +316,12 @@ export default function(this: Server) {
     });
     this.post('/search/collections/', searchCollections);
 
+    osfResource(this, 'output', { path: '/outputs' , only: ['create', 'show', 'update']});
+    osfNestedResource(this, 'registration', 'outputs', {
+        only: ['index'],
+        path: '/registrations/:parentID/outputs',
+    });
+
     osfResource(this, 'subscription', { only: ['index', 'show', 'update'] });
 
     // Waterbutler namespace
