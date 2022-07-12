@@ -81,14 +81,16 @@
                     @label={{t 'node.left_nav.wiki'}}
                 />
             {{/if}}
-            <leftNav.link
-                data-test-analytics-link
-                data-analytics-name='Analytics' 
-                @route='guid-node.analytics'
-                @models={{array this.model.node.guid}}
-                @icon='chart-bar'
-                @label={{t 'node.left_nav.analytics'}}
-            />
+            {{#if (or this.model.providerTask.value.node.public this.model.providerTask.value.node.userHasReadPermission)}}
+                <leftNav.link
+                    data-test-analytics-link
+                    data-analytics-name='Analytics' 
+                    @route='guid-node.analytics'
+                    @models={{array this.model.node.guid}}
+                    @icon='chart-bar'
+                    @label={{t 'node.left_nav.analytics'}}
+                />
+            {{/if}}
             {{#unless this.model.providerTask.value.node.isAnonymous}}
                 <leftNav.link
                     data-test-registrations-link
@@ -100,7 +102,7 @@
                 />
             {{/unless}}
             {{#unless this.currentUser.viewOnlyToken}}
-                {{#if this.this.model.providerTask.value.node.userHasReadPermission}}
+                {{#if this.model.providerTask.value.node.userHasReadPermission}}
                     <leftNav.link
                         data-test-contributors-link
                         data-analytics-name='Contributors'
