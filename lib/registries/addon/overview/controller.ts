@@ -21,6 +21,11 @@ const {
     featureFlagNames: {
         registrationFilesPage,
     },
+    OSF: {
+        cookies: {
+            outputFeaturePopover,
+        },
+    },
 } = config;
 
 const { OSF: { url: baseURL } } = config;
@@ -34,6 +39,7 @@ export default class Overview extends Controller {
 
     queryParams = ['mode', 'revisionId'];
     supportEmail = supportEmail;
+    outputFeaturePopoverCookie = outputFeaturePopover;
 
     @tracked mode = '';
     @tracked revisionId = '';

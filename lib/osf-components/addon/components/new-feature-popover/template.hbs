@@ -1,8 +1,9 @@
 <BsPopover
     @triggerElement={{@triggerElement}}
     @triggerEvents={{''}}
-    @visible={{true}}
-    @onClose={{this.onAccept}}
+    @visible={{this.shouldShow}}
+    @onHide={{this.onAccept}}
+    local-class='NewFeatureModal'
     as |popover|
 >
     <h3>

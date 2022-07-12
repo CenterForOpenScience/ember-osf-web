@@ -1,4 +1,4 @@
-:global(.popover) {
+.NewFeatureModal {
     background-color: $color-bg-blue-darker !important;
     color: $color-text-white;
     border-radius: 0 !important;
@@ -13,4 +13,5 @@
     justify-content: space-between;
     align-items: center;
     flex-direction: row;
+    gap: 10px;
 }

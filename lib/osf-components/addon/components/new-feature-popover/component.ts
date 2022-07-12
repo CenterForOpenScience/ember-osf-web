@@ -3,7 +3,7 @@ import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import Cookies from 'ember-cookies/services/cookies';
 import moment from 'moment';
-import { tracked } from 'tracked-built-ins';
+import { tracked } from '@glimmer/tracking';
 
 interface Args {
     triggerElement: string;
@@ -13,6 +13,10 @@ interface Args {
 export default class NewFeaturePopover extends Component<Args> {
     @service cookies!: Cookies;
     @tracked notAgain = false;
+
+    get shouldShow() {
+        return !this.cookies.exists(this.args.featureCookie);
+    }
 
     @action
     onAccept() {
