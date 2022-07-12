@@ -22,6 +22,9 @@ export interface FileLinks extends BaseFileLinks {
     render?: Link;
 }
 
+// Character that need to be excluded: ()<>~!@$&*:;,'"\|/?
+export const forbiddenFileNameCharacters = /[()<>~!@$&*:;,"\\|/?]/;
+
 export default class FileModel extends BaseFileItem {
     @attr() links!: FileLinks;
     @attr('fixstring') name!: string;

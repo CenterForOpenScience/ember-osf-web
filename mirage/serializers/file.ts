@@ -68,6 +68,7 @@ export default class FileSerializer extends ApplicationSerializer<MirageFile> {
         const { id } = model;
         return {
             ...super.buildNormalLinks(model),
+            new_folder: model.kind === 'folder' ? `${apiUrl}/wb/files/${id}/upload/?kind=folder` : undefined,
             upload: `${apiUrl}/wb/files/${id}/upload/`,
             download: `${apiUrl}/wb/files/${id}/download/`,
             move: `${apiUrl}/wb/files/${id}/move/`,
