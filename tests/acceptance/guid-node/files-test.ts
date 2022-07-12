@@ -32,6 +32,17 @@ module('Acceptance | guid-node/files', hooks => {
         });
     });
 
+    test('left-nav: logged out', async function(this: GuidNodeTestContext, assert) {
+        await visit(`/${this.node.id}/files`);
+        assert.equal(currentRouteName(), 'guid-node.files.provider', 'logged out: Current route is files');
+        assert.dom('[data-test-overview-link]').exists('logged out: Overview link exists');
+        assert.dom('[data-test-files-link]').exists('logged out: Files link exists');
+        assert.dom('[data-test-analytics-link]').exists('logged out: Analytics link exists');
+        assert.dom('[data-test-registrations-link]').exists('logged out: Registrations link exists');
+        assert.dom('[data-test-contributors-link]').doesNotExist('logged out: Contributors link does not exist');
+        assert.dom('[data-test-settings-link]').doesNotExist('logged out: Settings link does not exist');
+    });
+
     test('left-nav: VOL', async function(this: GuidNodeTestContext, assert) {
         const currentUser = this.owner.lookup('service:current-user');
         currentUser.viewOnlyToken = 'SomeVolToken';
