@@ -3,10 +3,10 @@
     @onClose={{queue (action (mut @isOpen) false) (action (mut this.newFolderName) '')}}
     as |dialog|
 >
-    <dialog.heading>
+    <dialog.heading data-test-create-folder-heading>
         {{t 'osf-components.file-browser.create_folder.title'}}
     </dialog.heading>
-    <dialog.main>
+    <dialog.main data-test-create-folder-main>
         <label>
             <p>{{t 'osf-components.file-browser.create_folder.new_folder_name'}}</p>
             <Input
@@ -16,13 +16,19 @@
                     (action (mut this.newFolderName) '')
                 }}
                 @value={{this.newFolderName}}
+                local-class='RenameInput'
             />
+            {{#if this.isInvalid}}
+                <p local-class='ErrorText' data-test-new-folder-error>{{this.errorText}}</p>
+            {{/if}}
         </label>
     </dialog.main>
     <dialog.footer>
         <Button
+            data-test-create-folder-button
+            data-analytics-name='Create folder'
             @type='create'
-            disabled={{this.shouldDisable}}
+            disabled={{or @manager.createNewFolder.isRunning this.isInvalid}}
             {{on 'click'
                 (queue
                     (perform @manager.createNewFolder this.newFolderName)

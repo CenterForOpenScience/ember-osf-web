@@ -64,8 +64,26 @@ module('Integration | Component | file-browser :: file-rename-modal', hooks => {
             assert.dom('[data-test-disabled-rename]').hasText(stripHtmlTags(
                 t('osf-components.file-browser.file_rename_modal.save'),
             ));
+            assert.dom('[data-test-rename-main]').containsText(
+                t('osf-components.file-browser.file_rename_modal.error_message'),
+            );
 
             await fillIn('[data-test-user-input]', 'What is the great globe itself but a Loose-Fish?');
+            assert.dom('[data-test-rename-main]').containsText(
+                t('osf-components.file-browser.file_rename_modal.error_forbidden_chars'),
+            );
+
+            await fillIn('[data-test-user-input]', '      ');
+            assert.dom('[data-test-rename-main]').containsText(
+                t('osf-components.file-browser.file_rename_modal.error_message'),
+            );
+
+            await fillIn('[data-test-user-input]', 'This will error.');
+            assert.dom('[data-test-rename-main]').containsText(
+                t('osf-components.file-browser.file_rename_modal.error_ends_with_dot'),
+            );
+
+            await fillIn('[data-test-user-input]', 'Save this file');
             assert.dom('[data-test-disabled-rename]').isEnabled('Save button is enabled');
         });
 });
