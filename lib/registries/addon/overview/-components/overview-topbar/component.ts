@@ -37,7 +37,6 @@ export default class OverviewTopbar extends Component {
     bookmarksCollection!: CollectionModel;
     isBookmarked?: boolean;
     showDropdown = false;
-    isEarned = false;
 
     @computed('registration.reviewsState')
     get isWithdrawn() {
