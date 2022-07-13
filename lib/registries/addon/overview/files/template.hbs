@@ -1,7 +1,7 @@
 {{page-title (t 'registries.overview.files.title')}}
 <div local-class='NavTabs'>
     <ul>
-        <li local-class='NavItem {{if (not (eq this.model.currentRoute 'overview.files.outputs')) 'Selected'}}'>
+        <li local-class='NavItem'>
             <OsfLink
                 data-test-files-tab-link
                 data-analytics-name='Files tab'
@@ -11,7 +11,7 @@
                 {{t 'registries.files.tabs.files'}}
             </OsfLink>
         </li>
-        <li local-class='NavItem {{if (eq this.model.currentRoute 'overview.files.outputs') 'Selected'}}'>
+        <li local-class='NavItem'>
             <OsfLink
                 data-test-outputs-tab-link
                 data-analytics-name='Outputs tab'
