@@ -1,5 +1,5 @@
 import FileModel from 'ember-osf-web/models/file';
-import File, { ProviderSpecificData } from 'ember-osf-web/packages/files/file';
+import File from 'ember-osf-web/packages/files/file';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 
 interface DataverseExtraInfo {
@@ -23,11 +23,10 @@ export default class DataverseFile extends File {
         return 'read';
     }
 
-    get providerSpecificData(): ProviderSpecificData {
+    get displayName() {
         const fileExtra = this.fileModel.extra as DataverseExtraInfo;
-        const translationPrefix = 'osf-components.file-browser.provider-specific-data.dataverse.';
-        return {
-            titleSuffix: this.intl.t(translationPrefix + fileExtra.datasetVersion),
-        };
+        const translationKeyPrefix = 'osf-components.file-browser.provider-specific-data.dataverse.';
+        const fileNameSuffix = ' ' + this.intl.t(translationKeyPrefix + fileExtra.datasetVersion);
+        return this.fileModel.name + fileNameSuffix;
     }
 }

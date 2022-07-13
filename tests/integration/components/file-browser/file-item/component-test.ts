@@ -15,6 +15,7 @@ interface Links {
 
 interface FileItem {
     name: string;
+    displayName: string;
     links: Links;
     dateModified: string;
     id: string;
@@ -42,6 +43,7 @@ module('Integration | Component | file-browser :: file-item', hooks => {
         this.item = {
             id: 'fakeId',
             name: 'Push&Pull',
+            displayName: 'Push&Pull',
             links: {
                 html: 'thisisafakelink',
                 download: 'thisisafakedownloadlink',
@@ -64,7 +66,7 @@ module('Integration | Component | file-browser :: file-item', hooks => {
             );
             assert.dom('[data-test-indented="false"][data-test-file-list-item]').exists('File item exists');
             assert.dom('[data-test-file-name]').exists('File name exists');
-            assert.dom('[data-test-file-name]').hasText(this.item.name, 'File name is correct');
+            assert.dom('[data-test-file-name]').hasText(this.item.displayName, 'File name is correct');
             assert.dom('[data-test-file-modified-date]').exists('Modified date exists');
             assert.dom('[data-test-file-modified-date]').hasText(
                 moment(this.item.dateModified).format('YYYY-MM-DD hh:mm A'),
@@ -84,7 +86,7 @@ module('Integration | Component | file-browser :: file-item', hooks => {
             );
             assert.dom('[data-test-indented="true"][data-test-file-list-item]').exists('File item exists');
             assert.dom('[data-test-file-name]').exists('File name exists');
-            assert.dom('[data-test-file-name]').hasText(this.item.name, 'File name is correct');
+            assert.dom('[data-test-file-name]').hasText(this.item.displayName, 'File name is correct');
             assert.dom('[data-test-file-modified-date]').exists('Modified date exists');
             assert.dom('[data-test-file-modified-date]').hasText(
                 moment(this.item.dateModified).format('YYYY-MM-DD hh:mm A'),
@@ -104,9 +106,9 @@ module('Integration | Component | file-browser :: file-item', hooks => {
         );
         assert.dom('[data-test-file-list-checkout]').exists('Checkout icon exists');
         assert.dom('[data-test-file-list-link]').hasAria('label',
-            t('osf-components.file-browser.view_file', { fileName: this.item.name }), 'Correct aria-label');
+            t('osf-components.file-browser.view_file', { fileName: this.item.displayName }), 'Correct aria-label');
         assert.dom('[data-test-file-list-link]').doesNotHaveClass(styles.Unviewed, 'Link is not styled as unviewed');
-        assert.dom('[data-test-file-list-link]').hasText(this.item.name, 'Link has correct text');
+        assert.dom('[data-test-file-list-link]').hasText(this.item.displayName, 'Link has correct text');
     });
 
     test('it renders unviewed file', async function(this: FileItemTestContext, assert) {
@@ -117,24 +119,9 @@ module('Integration | Component | file-browser :: file-item', hooks => {
         );
         assert.dom('[data-test-file-list-checkout]').doesNotExist('Checkout icon does not exist');
         assert.dom('[data-test-file-list-link]').hasAria('label',
-            t('osf-components.file-browser.view_unseen_file', { fileName: this.item.name }), 'Correct aria-label');
+            t('osf-components.file-browser.view_unseen_file', { fileName: this.item.displayName }),
+            'Correct aria-label');
         assert.dom('[data-test-file-list-link]').hasClass(styles.Unviewed, 'Link is styled as unviewed');
-        assert.dom('[data-test-file-list-link]').hasText(this.item.name, 'Link has correct text');
-    });
-
-    test('it renders provider-specific data', async function(this: FileItemTestContext, assert) {
-        this.manager.parentFolder = 'fakeParentFolder';
-        this.item.providerSpecificData = {
-            titleSuffix: 'fakeTitleSuffix',
-        };
-        await render(
-            hbs`<FileBrowser::FileItem @manager={{this.manager}} @item={{this.item}} @isDesktop={{true}} />`,
-        );
-        assert.dom('[data-test-file-list-checkout]').doesNotExist('Checkout icon does not exist');
-        assert.dom('[data-test-file-list-link]').hasAria('label',
-            t('osf-components.file-browser.view_file', { fileName: this.item.name }), 'Correct aria-label');
-        assert.dom('[data-test-file-list-link]').doesNotHaveClass(styles.Unviewed, 'Link is not styled as unviewed');
-        assert.dom('[data-test-file-list-link]')
-            .hasText(this.item.name + ' ' + this.item.providerSpecificData.titleSuffix, 'Link has correct text');
+        assert.dom('[data-test-file-list-link]').hasText(this.item.displayName, 'Link has correct text');
     });
 });

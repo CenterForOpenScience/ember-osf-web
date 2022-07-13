@@ -43,10 +43,6 @@ export interface WaterButlerRevision {
     };
 }
 
-export interface ProviderSpecificData {
-    titleSuffix?: string;
-}
-
 export default abstract class File {
     @tracked fileModel: FileModel;
     @tracked totalFileCount = 0;
@@ -100,6 +96,10 @@ export default abstract class File {
     }
 
     get name() {
+        return this.fileModel.name;
+    }
+
+    get displayName() {
         return this.fileModel.name;
     }
 
