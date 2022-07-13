@@ -10,6 +10,7 @@ import { click, setupOSFApplicationTest, visit } from 'ember-osf-web/tests/helpe
 import NodeModel from 'ember-osf-web/models/node';
 import FileModel from 'ember-osf-web/models/file';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
+import { Permission } from 'ember-osf-web/models/osf-model';
 
 interface GuidNodeTestContext extends TestContext {
     node: ModelInstance<NodeModel>;
@@ -31,7 +32,45 @@ module('Acceptance | guid-node/files', hooks => {
         });
     });
 
+    test('left-nav: logged out', async function(this: GuidNodeTestContext, assert) {
+        await visit(`/${this.node.id}/files`);
+        assert.equal(currentRouteName(), 'guid-node.files.provider', 'logged out: Current route is files');
+        assert.dom('[data-test-overview-link]').exists('logged out: Overview link exists');
+        assert.dom('[data-test-files-link]').exists('logged out: Files link exists');
+        assert.dom('[data-test-analytics-link]').exists('logged out: Analytics link exists');
+        assert.dom('[data-test-registrations-link]').exists('logged out: Registrations link exists');
+        assert.dom('[data-test-contributors-link]').doesNotExist('logged out: Contributors link does not exist');
+        assert.dom('[data-test-settings-link]').doesNotExist('logged out: Settings link does not exist');
+    });
+
+    test('left-nav: VOL', async function(this: GuidNodeTestContext, assert) {
+        const currentUser = this.owner.lookup('service:current-user');
+        currentUser.viewOnlyToken = 'SomeVolToken';
+        await visit(`/${this.node.id}/files`);
+        assert.equal(currentRouteName(), 'guid-node.files.provider', 'VOL: Current route is files');
+        assert.dom('[data-test-overview-link]').exists('VOL: Overview link exists');
+        assert.dom('[data-test-files-link]').exists('VOL: Files link exists');
+        assert.dom('[data-test-analytics-link]').exists('VOL: Analytics link exists');
+        assert.dom('[data-test-registrations-link]').exists('VOL: Registrations link exists');
+        assert.dom('[data-test-contributors-link]').doesNotExist('VOL: Contributors link does not exist');
+        assert.dom('[data-test-settings-link]').doesNotExist('VOL: Settings link does not exist');
+    });
+
+    test('left-nav: AVOL', async function(this: GuidNodeTestContext, assert) {
+        const node = await this.owner.lookup('service:store').findRecord('node', this.node.id);
+        node.apiMeta = { version: '2', anonymous: true };
+        await visit(`/${this.node.id}/files`);
+        assert.equal(currentRouteName(), 'guid-node.files.provider', 'AVOL: Current route is files');
+        assert.dom('[data-test-overview-link]').exists('AVOL: Overview link exists');
+        assert.dom('[data-test-files-link]').exists('AVOL: Files link exists');
+        assert.dom('[data-test-analytics-link]').exists('AVOL: Analytics link exists');
+        assert.dom('[data-test-registrations-link]').doesNotExist('AVOL: Registrations link does not exist');
+        assert.dom('[data-test-contributors-link]').doesNotExist('AVOL: Contributors link does not exist');
+        assert.dom('[data-test-settings-link]').doesNotExist('AVOL: Settings link does not exist');
+    });
+
     test('read user', async function(this: GuidNodeTestContext, assert) {
+        this.node.currentUserPermissions = [Permission.Read];
         await visit(`/${this.node.id}/files`);
 
         assert.equal(currentRouteName(), 'guid-node.files.provider', 'Current route is files');
