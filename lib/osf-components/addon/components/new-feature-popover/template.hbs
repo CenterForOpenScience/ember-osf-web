@@ -6,21 +6,22 @@
     local-class='NewFeatureModal'
     as |popover|
 >
-    <h3>
+    <h3 data-test-popover-header>
         {{yield to='header'}}
     </h3>
 
-    <section>
+    <section data-test-popover-body>
         {{yield to='body'}} 
     </section>
 
-    <footer local-class='FlexFooter'>
+    <footer data-test-popover-footer local-class='FlexFooter'>
         {{yield to='footer'}}
-        <label>
+        <label data-test-not-again-checkbox>
             {{t 'osf-components.new-feature-popover.doNotShowAgain'}}
             <Input @type='checkbox' @checked={{this.notAgain}} />
         </label>
         <Button
+            data-test-got-it-button
             @type='primary'
             {{on 'click' popover.close}}
         >
