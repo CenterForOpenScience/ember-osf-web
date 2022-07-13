@@ -8,12 +8,15 @@ import { dropTask, task } from 'ember-concurrency';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
+import OutputModel from 'ember-osf-web/models/output';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import CollectionModel from 'ember-osf-web/models/collection';
 import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import pathJoin from 'ember-osf-web/utils/path-join';
+import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
+import { tracked } from '@glimmer/tracking';
 
 import styles from './styles';
 import template from './template';
@@ -27,11 +30,14 @@ export default class OverviewTopbar extends Component {
     @service toast!: Toast;
     @service intl!: Intl;
 
+    @tracked outputs?: OutputModel;
+
     registration!: RegistrationModel;
 
     bookmarksCollection!: CollectionModel;
     isBookmarked?: boolean;
     showDropdown = false;
+    isEarned = false;
 
     @computed('registration.reviewsState')
     get isWithdrawn() {
@@ -118,5 +124,14 @@ export default class OverviewTopbar extends Component {
         this.toast.success(this.intl.t(`registries.overview.bookmark.${op}.success`));
 
         this.toggleProperty('isBookmarked');
+    }
+
+    @dropTask
+    @waitFor
+    async getOutputs() {
+        const outputs: QueryHasManyResult<OutputModel> = await this.registration.queryHasMany('outputs');
+        if (outputs) {
+            this.set('outputs', outputs);
+        }
     }
 }

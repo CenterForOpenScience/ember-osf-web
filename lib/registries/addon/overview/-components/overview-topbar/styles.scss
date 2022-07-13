@@ -62,8 +62,6 @@
 
 }
 
-
-
 .Icon {
     font-size: 16px;
     font-weight: 600;
@@ -75,5 +73,15 @@
     flex: 1;
     justify-content: flex-end;
     align-items: baseline;
+}
+
+.Output {
+    list-style: none;
+    background-color: #fff;
+}
+
+.OutputIcon {
+    list-style: none;
+    background-color: #fff;
 }
 

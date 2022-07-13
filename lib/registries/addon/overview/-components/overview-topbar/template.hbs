@@ -23,37 +23,37 @@
         local-class='RightActionsContainer'
     >
         <ul>
-            {{!-- {{#each badges as |badge|}} --}}
-            {{!-- {{#let (component badge in badges}} --}}
-            <li>
-                <BsButton
-                    data-test-badge-icon
-                    data-analytics-name={{if this.isEarned 'Badge earned' 'Badge not yet earned'}}
-                    data-analytics-extra='Badge ID: {{this.badge.id}}'
-                    disabled={{or this.badge.isEarned @node.earnedBadges}}
-                    @type='link'
-                    local-class='Badges'
-                    aria-label={{if
-                        this.isEarned
-                        this.badge.name
-                        (t 'registries.overview.tooltips.badge_not_yet_earned')
-                    }}
-                >
-                    <FaIcon
-                        local-class='BadgeIcon'
-                        @icon={{this.badge.icon}}
-                        @prefix={{if this.isEarned 'fas' 'fal'}}
-                    />
-                    <BsTooltip
-                        @placement='bottom'
-                        @triggerEvents='hover'
-                    >
-                        {{this.badge.name}}
-                    </BsTooltip>
-                </BsButton>
-            </li>
-            {{!-- {{/let}} --}}
-            {{!-- {{/each}} --}}
+            {{#each this.outputs as |output|}}
+                {{!-- {{#let (component output in outputs}} --}}
+                <li>
+                    {{#if this.outputs}}
+                        <BsButton
+                            data-test-badge-icon
+                            data-analytics-name={{this.output.name}}
+                            data-analytics-extra='Badge ID: {{this.output.id}}'
+                            disabled={{and (not this.output.finalized)}}
+                            @type='link'
+                            local-class='Output'
+                            aria-label={{this.output.name}}
+                        >
+                            <FaIcon
+                                local-class='OutputIcon'
+                                {{!-- icons below to be replaced by Product badges --}}
+                                @icon={{if this.output.finalized 'fa-solid fa-chart-simple' 'fa-thin fa-chart-simple'}}
+                            />
+                            <BsTooltip
+                                @placement='bottom'
+                                @triggerEvents='hover'
+                            >
+                                {{this.output.name}}
+                            </BsTooltip>
+                        </BsButton>
+                    {{else}}
+                        {{t 'registries.overview.no_outputs'}}
+                    {{/if}}
+                </li>
+                {{!-- {{/let}} --}}
+            {{/each}}
         </ul>
         <ResponsiveDropdown as |dd|>
             <dd.trigger

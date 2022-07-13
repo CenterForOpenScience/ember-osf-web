@@ -1470,6 +1470,8 @@ registries:
             description: 'Updated responses are labeled'
             reason: 'Reason for update:'
             noReason: 'No reason provided'
+        outputs:
+            no_outputs: 'No badges to display'
     overviewHeader:
         needModeratorPermission: 'You do not have permission to moderate this registration.'
     partialRegistrationModal:
