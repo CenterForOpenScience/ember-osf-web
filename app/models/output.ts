@@ -5,7 +5,7 @@ import OsfModel from './osf-model';
 
 export enum outputTypes {
     DATA = 1,
-    MATERIALS = 2,
+    MATERIALS = 11,
 }
 
 export default class OutputModel extends OsfModel {

@@ -14,7 +14,7 @@ export default Factory.extend<OutputModel>({
         return faker.lorem.paragraph();
     },
     outputType() {
-        return faker.random.arrayElement([1, 2]);
+        return faker.random.arrayElement([1, 11]);
     },
     finalized: true,
 });
