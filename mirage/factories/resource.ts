@@ -1,9 +1,9 @@
 import { Factory } from 'ember-cli-mirage';
 import faker from 'faker';
 
-import OutputModel from 'ember-osf-web/models/output';
+import ResourceModel from 'ember-osf-web/models/resource';
 
-export default Factory.extend<OutputModel>({
+export default Factory.extend<ResourceModel>({
     pid() {
         return faker.internet.url();
     },
@@ -13,7 +13,7 @@ export default Factory.extend<OutputModel>({
     description() {
         return faker.lorem.paragraph();
     },
-    outputType() {
+    resourceType() {
         return faker.random.arrayElement([1, 11]);
     },
     finalized: true,
@@ -21,6 +21,6 @@ export default Factory.extend<OutputModel>({
 
 declare module 'ember-cli-mirage/types/registries/schema' {
     export default interface MirageSchemaRegistry {
-        outputs: OutputModel;
+        resources: ResourceModel;
     } // eslint-disable-line semi
 }

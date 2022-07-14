@@ -1,12 +1,12 @@
 import { ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
-import OutputModel from 'ember-osf-web/models/output';
+import ResourceModel from 'ember-osf-web/models/resource';
 import ApplicationSerializer from './application';
 
 const { OSF: { apiUrl } } = config;
 
-export default class OutputSerializer extends ApplicationSerializer<OutputModel> {
-    buildRelationships(model: ModelInstance<OutputModel>) {
+export default class ResourceSerializer extends ApplicationSerializer<ResourceModel> {
+    buildRelationships(model: ModelInstance<ResourceModel>) {
         return {
             registration: {
                 links: {
@@ -18,9 +18,9 @@ export default class OutputSerializer extends ApplicationSerializer<OutputModel>
             },
         };
     }
-    buildNormalLinks(model: ModelInstance<OutputModel>) {
+    buildNormalLinks(model: ModelInstance<ResourceModel>) {
         return {
-            self: `${apiUrl}/outputs/${model.id}`,
+            self: `${apiUrl}/resources/${model.id}`,
         };
     }
 }

@@ -34,7 +34,7 @@ export interface RegistrationTraits {
     withReviewActions: Trait;
     withSingleReviewAction: Trait;
     withFiles: Trait;
-    withOutputs: Trait;
+    withResources: Trait;
 }
 
 const stateAttrs = {
@@ -289,11 +289,11 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
             osfstorage.rootFolder.update({ files });
         },
     }),
-    withOutputs: trait<MirageRegistration>({
+    withResources: trait<MirageRegistration>({
         afterCreate(registration, server) {
             const count = faker.random.number({ min: 1, max: 5});
-            const outputs = server.createList('output', count, { registration });
-            registration.update({ outputs });
+            const resources = server.createList('resource', count, { registration });
+            registration.update({ resources });
         },
     }),
 });
