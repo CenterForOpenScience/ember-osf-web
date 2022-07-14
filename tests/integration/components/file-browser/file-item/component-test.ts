@@ -19,7 +19,6 @@ interface FileItem {
     links: Links;
     dateModified: string;
     id: string;
-    providerSpecificData?: any;
     isCheckedOut?: boolean;
     showAsUnviewed?: boolean;
 }
