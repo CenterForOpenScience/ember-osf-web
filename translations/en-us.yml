@@ -1898,6 +1898,10 @@ osf-components:
             onedrive: 'OneDrive'
             owncloud: 'ownCloud'
             s3: 'Amazon S3'
+        provider-specific-data:
+            dataverse:
+                latest-published: '(Published)'
+                latest: '(Draft)'
         empty_folder: 'This folder is empty.'
         breadcrumbs: 'Breadcrumb'
         create_folder:
