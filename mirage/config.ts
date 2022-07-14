@@ -316,7 +316,7 @@ export default function(this: Server) {
     });
     this.post('/search/collections/', searchCollections);
 
-    osfResource(this, 'resource', { path: '/resources' , only: ['create', 'show', 'update']});
+    osfResource(this, 'resource', { path: '/resources' , except: ['index']});
     osfNestedResource(this, 'registration', 'resources', {
         only: ['index'],
         path: '/registrations/:parentID/resources',
