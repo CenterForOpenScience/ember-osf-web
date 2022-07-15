@@ -1210,13 +1210,6 @@ registries:
                 heading: 'Registry Services'
                 paragraph: 'Leading registry service providers use this open source infrastructure to support their communities.'
             bottom:
-                p1: 'Create your own branded registry backed by the OSF.'
-                div:
-                    line1: 'Check out the'
-                    linkText1: 'open source code'
-                    line2: 'and the'
-                    linkText2: 'requirements and road map'
-                    line3: '. Input welcome!'
                 contact: 'Contact us'
             asist: 'DARPA ASIST Registry'
             characterlab: 'Character Lab Registry'
