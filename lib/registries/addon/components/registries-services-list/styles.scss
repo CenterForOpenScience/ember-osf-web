@@ -27,31 +27,6 @@
 
 .ServicesList__ProviderLogo {
     height: 120px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-
-    &.provider-asist {
-        background-image: url('img/provider_logos/ASIST_logo.png');
-    }
-
-    &.provider-characterlab {
-        background-image: url('img/provider_logos/CharacterLab_logo.png');
-    }
-
-    &.provider-egap {
-        background-image: url('img/provider_logos/EGAP_white_logo.png');
-    }
-
-    &.provider-metascience {
-        background-image: url('img/provider_logos/Metascience_logo.png');
-    }
-
-    &.provider-rwe {
-        background-image: url('img/provider_logos/RWE_logo.png');
-    }
-
-    &.provider-youth {
-        background-image: url('img/provider_logos/YOUth_logo.png');
-    }
+    width: 100%;
+    object-fit: contain;
 }

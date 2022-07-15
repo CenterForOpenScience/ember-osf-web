@@ -1218,6 +1218,7 @@ registries:
             rwe: 'Real World Evidence Registry'
             youth: 'YOUth Study Registry'
             prereg: 'Preregistration Challenge'
+            logo: logo
         advisory:
             heading: 'Advisory Group'
             paragraph: 'Our advisory group includes leaders in registrations across disciplines'
