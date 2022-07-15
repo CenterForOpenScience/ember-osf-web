@@ -31,11 +31,27 @@
     background-repeat: no-repeat;
     background-position: center;
 
-    &.provider-egap {
-        background-image: url('img/provider_logos/EGAP_evidence_logo_white_0.png');
+    &.provider-asist {
+        background-image: url('img/provider_logos/ASIST_logo.png');
     }
 
-    &.provider-prereg {
-        background-image: url('img/provider_logos/prereg.png');
+    &.provider-characterlab {
+        background-image: url('img/provider_logos/CharacterLab_logo.png');
+    }
+
+    &.provider-egap {
+        background-image: url('img/provider_logos/EGAP_white_logo.png');
+    }
+
+    &.provider-metascience {
+        background-image: url('img/provider_logos/Metascience_logo.png');
+    }
+
+    &.provider-rwe {
+        background-image: url('img/provider_logos/RWE_logo.png');
+    }
+
+    &.provider-youth {
+        background-image: url('img/provider_logos/YOUth_logo.png');
     }
 }

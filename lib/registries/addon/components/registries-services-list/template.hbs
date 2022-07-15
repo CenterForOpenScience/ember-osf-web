@@ -7,44 +7,44 @@
             </div>
         </div>
     </div>
-    <div class='row p-v-md'>
-        <div class='col-sm-6 text-center'>
-            <a href='http://egap.org/content/registration' aria-label={{t 'registries.index.services.egap'}}>
-                <div local-class='ServicesList__ProviderLogo provider-egap'></div>
-            </a>
+    <div class='container'>
+        <div class='row p-v-md'>
+            <div class='col-sm-3 text-center'>
+                <a href='https://osf.io/registries/darpaasist' aria-label={{t 'registries.index.services.asist'}}>
+                    <div local-class='ServicesList__ProviderLogo provider-asist'></div>
+                </a>
+            </div>
+            <div class='col-sm-3 text-center'>
+                <a href='https://osf.io/registries/characterlabregistry' aria-label={{t 'registries.index.services.characterlab'}}>
+                    <div local-class='ServicesList__ProviderLogo provider-characterlab'></div>
+                </a>
+            </div>
+            <div class='col-sm-3 text-center'>
+                <a href='https://osf.io/registries/egap' aria-label={{t 'registries.index.services.egap'}}>
+                    <div local-class='ServicesList__ProviderLogo provider-egap'></div>
+                </a>
+            </div>
+            <div class='col-sm-3 text-center'>
+                <a href='https://osf.io/registries/metascience' aria-label={{t 'registries.index.services.metascience'}}>
+                    <div local-class='ServicesList__ProviderLogo provider-metascience'></div>
+                </a>
+            </div>
         </div>
-        <div class='col-sm-6 text-center'>
-            <a href='https://cos.io/prereg/' aria-label={{t 'registries.index.services.prereg'}}>
-                <div local-class='ServicesList__ProviderLogo provider-prereg'></div>
-            </a>
+        <div class='row p-v-md'>
+            <div class='col-sm-6 text-center'>
+                <a href='https://osf.io/registries/rwe' aria-label={{t 'registries.index.services.rwe'}}>
+                    <div local-class='ServicesList__ProviderLogo provider-rwe'></div>
+                </a>
+            </div>
+            <div class='col-sm-6 text-center'>
+                <a href='https://osf.io/registries/youthstudy' aria-label={{t 'registries.index.services.youth'}}>
+                    <div local-class='ServicesList__ProviderLogo provider-youth'></div>
+                </a>
+            </div>
         </div>
     </div>
     <div class='row p-v-md'>
         <div class='col-md-12 text-center'>
-            <p class='lead'>
-                {{t 'registries.index.services.bottom.p1'}}
-                <div class='p-t-sm'>
-                    {{t 'registries.index.services.bottom.div.line1'}}
-                    <a
-                        local-class='ServicesList__ExternalLink'
-                        href='https://github.com/CenterForOpenScience/ember-osf-web'
-                        onclick={{action 'click' 'link' 'Index - GitHub Repo' 'https://github.com/CenterForOpenScience/ember-osf-web'
-                            target=this.analytics}}
-                    >
-                        {{~t 'registries.index.services.bottom.div.linkText1'~}}
-                    </a>
-                    {{t 'registries.index.services.bottom.div.line2'}}
-                    <a
-                        local-class='ServicesList__ExternalLink'
-                        href='https://cos.io/our-products/product-roadmap/'
-                        onclick={{action 'click' 'link' 'Index - public roadmap' 'https://cos.io/our-products/product-roadmap/'
-                            target=this.analytics}}
-                    >
-                        {{~t 'registries.index.services.bottom.div.linkText2'~}}
-                    </a>
-                    {{t 'registries.index.services.bottom.div.line3'}}
-                </div>
-            </p>
             <a
                 href='mailto:contact@osf.io'
                 class='btn btn-info btn-lg'

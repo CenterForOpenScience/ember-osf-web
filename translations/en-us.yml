@@ -1218,7 +1218,12 @@ registries:
                     linkText2: 'requirements and road map'
                     line3: '. Input welcome!'
                 contact: 'Contact us'
-            egap: 'EGAP'
+            asist: 'DARPA ASIST Registry'
+            characterlab: 'Character Lab Registry'
+            egap: 'egap Registry'
+            metascience: 'Metascience Registry'
+            rwe: 'Real World Evidence Registry'
+            youth: 'YOUth Study Registry'
             prereg: 'Preregistration Challenge'
         advisory:
             heading: 'Advisory Group'
