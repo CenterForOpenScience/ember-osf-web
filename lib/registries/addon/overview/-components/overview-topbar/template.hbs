@@ -1,3 +1,6 @@
+{{log outputs}}
+{{log user}}
+{{log registration}}
 <div local-class='LeftWrapper'>
     {{#unless @registration.isAnonymous}}
         <div data-test-topbar-states>
@@ -22,39 +25,42 @@
     <div data-test-topbar-share-bookmark-fork
         local-class='RightActionsContainer'
     >
-        <ul>
-            {{#each this.outputs as |output|}}
-                {{!-- {{#let (component output in outputs}} --}}
-                <li>
-                    {{#if this.outputs}}
-                        <BsButton
-                            data-test-badge-icon
-                            data-analytics-name={{this.output.name}}
-                            data-analytics-extra='Badge ID: {{this.output.id}}'
-                            disabled={{and (not this.output.finalized)}}
-                            @type='link'
-                            local-class='Output'
-                            aria-label={{this.output.name}}
-                        >
-                            <FaIcon
-                                local-class='OutputIcon'
-                                {{!-- icons below to be replaced by Product badges --}}
-                                @icon={{if this.output.finalized 'fa-solid fa-chart-simple' 'fa-thin fa-chart-simple'}}
-                            />
+        <div class='RightActionsContainer_output-list'>
+            <ul>
+                {{!-- {{#each this.outputs as |output|}} --}}
+                    {{!-- {{#let (component output in outputs}} --}}
+                    <li>
+                        {{!-- {{#if this.outputs}} --}}
+                            {{!-- <BsButton
+                                data-test-badge-icon
+                                data-analytics-name={{this.output.name}}
+                                data-analytics-extra='Badge ID: {{this.output.id}}'
+                                disabled={{and (not this.output.finalized)}}
+                                @type='link'
+                                local-class='Output'
+                                aria-label={{this.output.name}}
+                            >
+                            </BsButton> --}}
+                            <img
+                                data-test-badge-icon
+                                local-class='DataBadgeIcon'
+                                src='/assets/images/outputs/data-badge.png' alt='Data Badge'
+                            >
                             <BsTooltip
                                 @placement='bottom'
                                 @triggerEvents='hover'
                             >
-                                {{this.output.name}}
+                                {{!-- {{this.output.description}} --}}
+                                <p>Data</p>
                             </BsTooltip>
-                        </BsButton>
-                    {{else}}
-                        {{t 'registries.overview.no_outputs'}}
-                    {{/if}}
-                </li>
-                {{!-- {{/let}} --}}
-            {{/each}}
-        </ul>
+                        {{!-- {{else}}
+                            {{t 'registries.overview.no_outputs'}}
+                        {{/if}} --}}
+                    </li>
+                    {{!-- {{/let}} --}}
+                {{!-- {{/each}} --}}
+            </ul>
+        </div>
         <ResponsiveDropdown as |dd|>
             <dd.trigger
                 data-test-forks-dropdown-button

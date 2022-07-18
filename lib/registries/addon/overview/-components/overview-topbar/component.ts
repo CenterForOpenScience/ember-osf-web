@@ -1,5 +1,4 @@
 import Store from '@ember-data/store';
-import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
@@ -10,33 +9,38 @@ import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 import OutputModel from 'ember-osf-web/models/output';
 
+import { taskFor } from 'ember-concurrency-ts';
 import { layout } from 'ember-osf-web/decorators/component';
 import CollectionModel from 'ember-osf-web/models/collection';
 import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import pathJoin from 'ember-osf-web/utils/path-join';
 import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
-import { tracked } from '@glimmer/tracking';
 
+import { tagName } from '@ember-decorators/component';
 import styles from './styles';
 import template from './template';
 
 const { OSF: { url: baseURL } } = config;
 
-@tagName('')
 @layout(template, styles)
+@tagName('')
 export default class OverviewTopbar extends Component {
     @service store!: Store;
     @service toast!: Toast;
     @service intl!: Intl;
 
-    @tracked outputs?: OutputModel;
-
     registration!: RegistrationModel;
+    outputs?: QueryHasManyResult<OutputModel>;
 
     bookmarksCollection!: CollectionModel;
     isBookmarked?: boolean;
     showDropdown = false;
+
+    constructor(...args: any[]) {
+        super(...args);
+        taskFor(this.getOutputs).perform();
+    }
 
     @computed('registration.reviewsState')
     get isWithdrawn() {
@@ -125,12 +129,14 @@ export default class OverviewTopbar extends Component {
         this.toggleProperty('isBookmarked');
     }
 
-    @dropTask
+    @task
     @waitFor
     async getOutputs() {
         const outputs: QueryHasManyResult<OutputModel> = await this.registration.queryHasMany('outputs');
         if (outputs) {
             this.set('outputs', outputs);
         }
+        console.log('outputs from registration are:', outputs);
+        console.log('this.outputs:', this.outputs);
     }
 }

@@ -54,6 +54,14 @@ export function registrationScenario(
 
     server.create('registration', { id: 'beefs' });
 
+    server.create('output', {
+        id: '1',
+        name: 'Data',
+        outputType: 1,
+        description: 'Data',
+        finalized: true,
+    });
+
     const currentUserWrite = server.create('registration', {
         id: 'writr',
         registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
@@ -138,7 +146,7 @@ export function registrationScenario(
             'page-one_long-text': 'aaaaa',
             'page-one_multi-select': ['Crocs'],
         },
-    }, 'withContributors', 'withReviewActions', 'withFiles');
+    }, 'withContributors', 'withReviewActions', 'withFiles', 'withOutputs');
 
     const silicon = server.create('registration', {
         id: 'silicon',

@@ -133,6 +133,8 @@ Router.map(function() {
         this.mount('registries', { path: '--registries' });
     }
 
+    this.route('outputs', { path: '/:parentID/outputs'});
+
     this.route('guid-file', { path: '--file/:guid' });
 
     this.route('guid-node', { path: '--node/:guid' }, function() {
