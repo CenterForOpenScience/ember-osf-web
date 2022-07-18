@@ -1974,6 +1974,7 @@ osf-components:
             clear_aria: 'Clear input field'
             success_message: 'File successfully renamed.'
             error_message: 'Please rename the file.'
+            error_empty_name: 'Please enter a file name.'
             error_ends_with_dot: 'File name cannot end with a period.'
             error_forbidden_chars: 'Please remove special characters from the file name.'
             retry_message: 'Rename failed.'
