@@ -3,7 +3,7 @@ import RegistrationModel from 'ember-osf-web/models/registration';
 
 import OsfModel from './osf-model';
 
-export enum resourceTypes {
+export enum ResourceTypes {
     Data = 'data',
     Materials = 'materials',
 }
@@ -11,7 +11,7 @@ export enum resourceTypes {
 export default class ResourceModel extends OsfModel {
     @attr('fixstring') pid!: string;
     @attr('fixstring') name!: string;
-    @attr('fixstring') resourceType!: resourceTypes;
+    @attr('fixstring') resourceType!: ResourceTypes;
     @attr('fixstring') description!: string;
     @attr('date') dateCreated!: Date;
     @attr('date') dateModified!: Date;

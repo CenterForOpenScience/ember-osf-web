@@ -1,7 +1,7 @@
 import { Factory } from 'ember-cli-mirage';
 import faker from 'faker';
 
-import ResourceModel from 'ember-osf-web/models/resource';
+import ResourceModel, { ResourceTypes }  from 'ember-osf-web/models/resource';
 
 export default Factory.extend<ResourceModel>({
     pid() {
@@ -14,7 +14,7 @@ export default Factory.extend<ResourceModel>({
         return faker.lorem.paragraph();
     },
     resourceType() {
-        return faker.random.arrayElement(['data','materials']);
+        return faker.random.arrayElement(Object.values(ResourceTypes));
     },
     finalized: true,
 });
