@@ -69,6 +69,14 @@ module('Registries | Acceptance | overview.index', hooks => {
             name: 'Links',
             route: 'registries.overview.links',
             url: `/--registries/${this.registration.id}/links`,
+        }, {
+            name: 'Files',
+            route: 'registries.overview.files.provider',
+            url: `/--registries/${this.registration.id}/files/osfstorage`,
+        }, {
+            name: 'Resources',
+            route: 'registries.overview.resources',
+            url: `/--registries/${this.registration.id}/resources`,
         }];
 
         for (const testCase of testCases) {
@@ -83,9 +91,6 @@ module('Registries | Acceptance | overview.index', hooks => {
 
     test('sidenav hrefs', async function(this: OverviewTestContext, assert: Assert) {
         const testCases = [{
-            selector: '[data-analytics-name="Files"]',
-            href: `/${this.registration.id}/files/`,
-        }, {
             selector: '[data-test-wiki-link]',
             href: `/${this.registration.id}/wiki/`,
         }];
