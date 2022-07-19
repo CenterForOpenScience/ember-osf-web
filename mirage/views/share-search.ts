@@ -32,6 +32,11 @@ interface SerializedContributor {
     order_cited: number;
 }
 
+interface OpenBadges {
+    data: boolean;
+    materials: boolean;
+}
+
 interface SerializedRegistration {
     id: string;
     description: string;
@@ -55,6 +60,7 @@ interface SerializedRegistration {
     title: string;
     type: string;
     withdrawn: boolean;
+    open_badges?: OpenBadges;
 }
 
 interface SearchHit {
@@ -176,6 +182,7 @@ function serializeRegistration(reg: ModelInstance<RegistrationModel>): Serialize
         tags: ['project'],
         withdrawn: reg.withdrawn,
         identifiers: [`${osfUrl}${reg.id}/`],
+        open_badges: {data: reg.hasData, materials: reg.hasMaterials},
     };
 }
 

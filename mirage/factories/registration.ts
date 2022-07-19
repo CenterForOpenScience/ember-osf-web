@@ -34,6 +34,7 @@ export interface RegistrationTraits {
     withReviewActions: Trait;
     withSingleReviewAction: Trait;
     withFiles: Trait;
+    withResources: Trait;
 }
 
 const stateAttrs = {
@@ -187,6 +188,8 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     reviewsState: RegistrationReviewStates.Accepted,
     wikiEnabled: true,
     region: association(),
+    hasData: faker.random.arrayElement([true, false]),
+    hasMaterials: faker.random.arrayElement([true, false]),
 
     index(i: number) {
         return i;
@@ -284,6 +287,13 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
                 parentFolder: osfstorage.rootFolder,
             });
             osfstorage.rootFolder.update({ files });
+        },
+    }),
+    withResources: trait<MirageRegistration>({
+        afterCreate(registration, server) {
+            const count = faker.random.number({ min: 1, max: 5});
+            const resources = server.createList('resource', count, { registration });
+            registration.update({ resources });
         },
     }),
 });
