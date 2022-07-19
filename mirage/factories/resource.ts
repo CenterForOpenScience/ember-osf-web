@@ -14,7 +14,7 @@ export default Factory.extend<ResourceModel>({
         return faker.lorem.paragraph();
     },
     resourceType() {
-        return faker.random.arrayElement([1, 11]);
+        return faker.random.arrayElement(['data','materials']);
     },
     finalized: true,
 });
