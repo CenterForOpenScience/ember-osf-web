@@ -1,4 +1,4 @@
-{{log outputs}}
+{{log resources}}
 {{log user}}
 {{log registration}}
 <div local-class='LeftWrapper'>
@@ -25,36 +25,36 @@
     <div data-test-topbar-share-bookmark-fork
         local-class='RightActionsContainer'
     >
-        <div class='RightActionsContainer_output-list'>
+        <div class='RightActionsContainer_resource-list'>
             <ul>
-                {{!-- {{#each this.outputs as |output|}} --}}
-                    {{!-- {{#let (component output in outputs}} --}}
+                {{!-- {{#each this.resources as |resource|}} --}}
+                    {{!-- {{#let (component resource in resources}} --}}
                     <li>
-                        {{!-- {{#if this.outputs}} --}}
+                        {{!-- {{#if this.resources}} --}}
                             {{!-- <BsButton
                                 data-test-badge-icon
-                                data-analytics-name={{this.output.name}}
-                                data-analytics-extra='Badge ID: {{this.output.id}}'
-                                disabled={{and (not this.output.finalized)}}
+                                data-analytics-name={{this.resource.name}}
+                                data-analytics-extra='Badge ID: {{this.resource.id}}'
+                                disabled={{and (not this.resource.finalized)}}
                                 @type='link'
-                                local-class='Output'
-                                aria-label={{this.output.name}}
+                                local-class='ResourceButton'
+                                aria-label={{this.resource.name}}
                             >
                             </BsButton> --}}
                             <img
-                                data-test-badge-icon
-                                local-class='DataBadgeIcon'
-                                src='/assets/images/outputs/data-badge.png' alt='Data Badge'
+                                data-test-resource-icon
+                                local-class='ResourceIcon'
+                                src='/assets/images/resources/data-resource.png' alt='Data Resource'
                             >
                             <BsTooltip
                                 @placement='bottom'
                                 @triggerEvents='hover'
                             >
-                                {{!-- {{this.output.description}} --}}
+                                {{!-- {{this.resource.description}} --}}
                                 <p>Data</p>
                             </BsTooltip>
                         {{!-- {{else}}
-                            {{t 'registries.overview.no_outputs'}}
+                            {{t 'registries.overview.no_resources'}}
                         {{/if}} --}}
                     </li>
                     {{!-- {{/let}} --}}

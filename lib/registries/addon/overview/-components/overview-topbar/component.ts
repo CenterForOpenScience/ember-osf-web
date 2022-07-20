@@ -7,7 +7,7 @@ import { dropTask, task } from 'ember-concurrency';
 import config from 'ember-get-config';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
-import OutputModel from 'ember-osf-web/models/output';
+import ResourceModel from 'ember-osf-web/models/resource';
 
 import { taskFor } from 'ember-concurrency-ts';
 import { layout } from 'ember-osf-web/decorators/component';
@@ -31,7 +31,7 @@ export default class OverviewTopbar extends Component {
     @service intl!: Intl;
 
     registration!: RegistrationModel;
-    outputs?: QueryHasManyResult<OutputModel>;
+    resources?: QueryHasManyResult<ResourceModel>;
 
     bookmarksCollection!: CollectionModel;
     isBookmarked?: boolean;
@@ -39,7 +39,7 @@ export default class OverviewTopbar extends Component {
 
     constructor(...args: any[]) {
         super(...args);
-        taskFor(this.getOutputs).perform();
+        taskFor(this.getResources).perform();
     }
 
     @computed('registration.reviewsState')
@@ -131,12 +131,12 @@ export default class OverviewTopbar extends Component {
 
     @task
     @waitFor
-    async getOutputs() {
-        const outputs: QueryHasManyResult<OutputModel> = await this.registration.queryHasMany('outputs');
-        if (outputs) {
-            this.set('outputs', outputs);
+    async getResources() {
+        const resources: QueryHasManyResult<ResourceModel> = await this.registration.queryHasMany('resources');
+        if (resources) {
+            this.set('resources', resources);
         }
-        console.log('outputs from registration are:', outputs);
-        console.log('this.outputs:', this.outputs);
+        console.log('resources from registration are:', resources);
+        console.log('this.resources:', this.resources);
     }
 }

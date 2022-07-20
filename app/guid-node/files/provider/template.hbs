@@ -30,7 +30,7 @@
             />
             <leftNav.link
                 data-test-files-link
-                data-analytics-name='Files' 
+                data-analytics-name='Files'
                 @route='guid-node.files.provider'
                 @models={{array 
                     this.model.node.guid
@@ -84,7 +84,7 @@
             {{#unless this.model.providerTask.value.isViewOnly}}
                 <leftNav.link
                     data-test-analytics-link
-                    data-analytics-name='Analytics' 
+                    data-analytics-name='Analytics'
                     @route='guid-node.analytics'
                     @models={{array this.model.node.guid}}
                     @icon='chart-bar'

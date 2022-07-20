@@ -1327,6 +1327,8 @@ registries:
                 invalidProviderDetails: 'Could not find the requested file provider.'
                 invalidProviderLink: 'See all files in this registration.'
                 osfstorage: 'OSF Storage'
+        resources:
+            title: Resources
         title: Overview
         collapse: Collapse
         expand: Expand
@@ -1471,7 +1473,7 @@ registries:
             reason: 'Reason for update:'
             noReason: 'No reason provided'
         outputs:
-            no_outputs: 'No badges to display'
+            no_resources: 'No resources to display'
     overviewHeader:
         needModeratorPermission: 'You do not have permission to moderate this registration.'
     partialRegistrationModal:

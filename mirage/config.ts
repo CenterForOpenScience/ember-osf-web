@@ -316,10 +316,10 @@ export default function(this: Server) {
     });
     this.post('/search/collections/', searchCollections);
 
-    osfResource(this, 'output', { path: '/outputs' , only: ['create', 'show', 'update']});
-    osfNestedResource(this, 'registration', 'outputs', {
+    osfResource(this, 'resource', { except: ['index'] });
+    osfNestedResource(this, 'registration', 'resources', {
         only: ['index'],
-        path: '/registrations/:parentID/outputs',
+        path: '/registrations/:parentID/resources',
     });
 
     osfResource(this, 'subscription', { only: ['index', 'show', 'update'] });
