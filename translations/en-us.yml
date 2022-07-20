@@ -1210,19 +1210,15 @@ registries:
                 heading: 'Registry Services'
                 paragraph: 'Leading registry service providers use this open source infrastructure to support their communities.'
             bottom:
-                p1: 'Create your own branded registry backed by the OSF.'
-                div:
-                    line1: 'Check out the'
-                    linkText1: 'open source code'
-                    line2: 'and the'
-                    linkText2: 'requirements and road map'
-                    line3: '. Input welcome!'
                 contact: 'Contact us'
-            egap: 'EGAP'
+            asist: 'DARPA ASIST Registry'
+            characterlab: 'Character Lab Registry'
+            egap: 'egap Registry'
+            metascience: 'Metascience Registry'
+            rwe: 'Real World Evidence Registry'
+            youth: 'YOUth Study Registry'
             prereg: 'Preregistration Challenge'
-        advisory:
-            heading: 'Advisory Group'
-            paragraph: 'Our advisory group includes leaders in registrations across disciplines'
+            logo: logo
         recent:
             title: 'Browse Registrations'
             more: 'See more'
@@ -1898,6 +1894,10 @@ osf-components:
             onedrive: 'OneDrive'
             owncloud: 'ownCloud'
             s3: 'Amazon S3'
+        provider-specific-data:
+            dataverse:
+                latest-published: '(Published)'
+                latest: '(Draft)'
         empty_folder: 'This folder is empty.'
         breadcrumbs: 'Breadcrumb'
         create_folder:
@@ -1906,6 +1906,9 @@ osf-components:
             error_title: 'Failed to create folder'
             error_409: 'A folder with that name already exists'
             error_generic: 'Something went wrong. Please try again.'
+            error_message: 'Please enter a folder name.'
+            error_ends_with_dot: 'File name cannot end with period'
+            error_forbidden_chars: 'Please remove special characters from the folder name.'
         add_button_aria: 'Add files or folders here'
         upload_file: 'Upload file'
         uploading_file: 'Uploading {fileCount, plural, one {# file} other {# files}}'
@@ -1968,6 +1971,9 @@ osf-components:
             clear_aria: 'Clear input field'
             success_message: 'File successfully renamed.'
             error_message: 'Please rename the file.'
+            error_empty_name: 'Please enter a file name.'
+            error_ends_with_dot: 'File name cannot end with a period.'
+            error_forbidden_chars: 'Please remove special characters from the file name.'
             retry_message: 'Rename failed.'
 
     subjects:

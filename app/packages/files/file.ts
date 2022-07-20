@@ -99,6 +99,10 @@ export default abstract class File {
         return this.fileModel.name;
     }
 
+    get displayName() {
+        return this.fileModel.name;
+    }
+
     get id() {
         return this.fileModel.id;
     }

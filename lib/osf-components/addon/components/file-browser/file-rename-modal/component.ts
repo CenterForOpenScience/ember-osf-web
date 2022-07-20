@@ -6,6 +6,8 @@ import Toast from 'ember-toastr/services/toast';
 import { restartableTask } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 import Intl from 'ember-intl/services/intl';
+
+import { forbiddenFileNameCharacters } from 'ember-osf-web/models/file';
 import File from 'ember-osf-web/packages/files/file';
 import StorageManager from 'osf-components/components/storage-provider-manager/storage-manager/component';
 
@@ -28,8 +30,32 @@ export default class FileRenameModal extends Component<Args> {
     }
 
     get isValid() {
-        return (Boolean(this.newFileName) && this.newFileName.trim() !== this.originalFileName &&
-            this.newFileName.trim() !== '');
+        if(this.newFileName && !this.containsForbiddenChars && !this.endsWithDot) {
+            return (this.newFileName.trim() !== this.originalFileName && this.newFileName.trim() !== '');
+        }
+        return false;
+    }
+
+    get containsForbiddenChars() {
+        return this.newFileName && forbiddenFileNameCharacters.test(this.newFileName);
+    }
+
+    get endsWithDot() {
+        return this.newFileName && this.newFileName.endsWith('.');
+    }
+
+    get errorText() {
+        let errorTextKey = 'osf-components.file-browser.file_rename_modal.error_';
+        if (!this.newFileName) {
+            errorTextKey += 'empty_name';
+        } else if (this.endsWithDot) {
+            errorTextKey += 'ends_with_dot';
+        } else if (this.containsForbiddenChars) {
+            errorTextKey += 'forbidden_chars';
+        } else {
+            errorTextKey += 'message';
+        }
+        return this.intl.t(errorTextKey);
     }
 
     @action
@@ -42,12 +68,12 @@ export default class FileRenameModal extends Component<Args> {
     async updateFileName() {
         const newName = this.newFileName;
         const successMessage = this.intl.t('osf-components.file-browser.file_rename_modal.success_message');
-        if (!newName) {
+        if (!this.isValid) {
             return;
         }
 
         try {
-            const trimmedName = newName.trim();
+            const trimmedName = newName!.trim();
             await this.args.item.rename(trimmedName, '');
             this.toast.success(successMessage);
             this.args.manager.reload();

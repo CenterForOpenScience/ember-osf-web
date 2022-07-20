@@ -3,6 +3,8 @@
 as |dialog|>
     <dialog.trigger>
         <Button
+            data-test-bulk-delete-trigger
+            data-analytics-name='Bulk file delete'
             @type='destroy'
             {{on 'click' dialog.open}}
         >

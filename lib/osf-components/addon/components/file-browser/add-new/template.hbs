@@ -6,6 +6,8 @@
         as |dropdown|
     >
         <dropdown.trigger
+            data-analytics-name='Add file or folder omnibutton'
+            data-test-add-new-trigger
             aria-label={{t 'osf-components.file-browser.add_button_aria'}}
             local-class='TriggerButton {{if dropdown.isOpen 'CloseButton'}}'>
             <FaIcon @icon='plus' @size='2x' @fixedWidth={{true}} />
@@ -17,12 +19,16 @@
             {{will-destroy (fn @setClickableElementId '')}}
         >
             <Button
+                data-analytics-name='Open create folder modal'
+                data-test-create-folder
                 @layout='fake-link'
                 {{on 'click' (fn (mut this.createFolderModalOpen) true)}}
             >
                 {{t 'osf-components.file-browser.create_folder.title'}}
             </Button>
             <Button
+                data-analytics-name='Upload file'
+                data-test-upload-file
                 @layout='fake-link'
                 id={{uploadButtonId}}
             >
