@@ -1,0 +1,14 @@
+<InfiniteList
+        @itemList={{this.resourcesList}}
+        @hasMore={{this.hasMore}}
+        @loadMore={{this.loadResources}}
+        @isLoading={{this.isLoading}}
+        local-class='FileList'
+>
+    <:item as |resource|>
+        <ResourcesList::ResourceCard @resource={{resource}} />
+    </:item>
+    <:empty>
+        {{t 'osf-components.resources-list.no-resources'}}
+    </:empty>
+</InfiniteList>

@@ -1709,6 +1709,10 @@ routes:
         institution: Institution
         email: Email
 osf-components:
+    resources-list:
+        data: Data
+        materials: Materials
+        no-resources: 'No resources found.'
     infinite-list:
         load_more: 'Load more'
     draft-registration-card:

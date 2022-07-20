@@ -1,0 +1,16 @@
+<li local-class='resourceItem'>
+    <p local-class='resourceType'>
+        <span local-class='icon {{this.resourceIconClass}}' />
+        {{this.resourceTypeName}}
+    </p>
+    <p>
+        <OsfLink
+            @href={{@resource.pid}}
+        >
+            {{@resource.pid}}
+        </OsfLink>
+    </p>
+    <p>
+        {{@resource.description}}
+    </p>
+</li>
