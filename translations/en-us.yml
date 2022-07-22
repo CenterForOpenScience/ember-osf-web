@@ -1713,6 +1713,9 @@ osf-components:
         data: Data
         materials: Materials
         no-resources: 'No resources found.'
+    expandable-preview:
+        show_more: Show more
+        show_less: Show less
     infinite-list:
         load_more: 'Load more'
     draft-registration-card:
