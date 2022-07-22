@@ -1,16 +1,22 @@
 <li local-class='resourceItem'>
-    <p local-class='resourceType'>
-        <span local-class='icon {{this.resourceIconClass}}' />
+    <p data-test-resource-card-type local-class='resourceType'>
+        <span
+            data-test-resource-card-icon
+            local-class='icon {{this.resourceIconClass}}'
+        />
         {{this.resourceTypeName}}
     </p>
-    <p>
-        <OsfLink
-            @href={{@resource.pid}}
-        >
-            {{@resource.pid}}
-        </OsfLink>
-    </p>
-    <p>
+    {{#unless @resource.apiMeta.anonymous}}
+        <p>
+            <OsfLink
+                data-test-resource-card-pid-link
+                @href={{@resource.pid}}
+            >
+                {{@resource.pid}}
+            </OsfLink>
+        </p>
+    {{/unless}}
+    <ExpandablePreview data-test-resource-card-description>
         {{@resource.description}}
-    </p>
+    </ExpandablePreview>
 </li>
