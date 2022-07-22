@@ -124,6 +124,24 @@
                     <leftNav.link data-analytics-name='Comments' @route='registries.overview.comments'
                         @models={{array this.registration.id}} @icon='comments'
                         @label={{t 'registries.overview.comments.title'}} @count={{this.commentsCount}} />
+
+                    <div data-test-resources-wrapper local-class='ResourcesWrapper'>
+                        <leftNav.link data-analytics-name='Data' @route='registries.overview.index'
+                        @models={{array this.registration.id}} @icon='data'
+                        @label={{t 'registries.overview.resources.data_badge.title'}} @count={{this.resourceBadges}} />
+                        <leftNav.link data-analytics-name='Code' @route='registries.overview.index'
+                        @models={{array this.registration.id}} @icon='code'
+                        @label={{t 'registries.overview.resources.code_badge.title'}} @count={{this.resourceBadges}} />
+                        <leftNav.link data-analytics-name='Materials' @route='registries.overview.index'
+                        @models={{array this.registration.id}} @icon='materials'
+                        @label={{t 'registries.overview.resources.materials_badge.title'}} @count={{this.resourceBadges}} />
+                        <leftNav.link data-analytics-name='Papers' @route='registries.overview.index'
+                        @models={{array this.registration.id}} @icon='papers'
+                        @label={{t 'registries.overview.resources.papers_badge.title'}} @count={{this.resourceBadges}} />
+                        <leftNav.link data-analytics-name='Supplements' @route='registries.overview.index'
+                        @models={{array this.registration.id}} @icon='supplements'
+                        @label={{t 'registries.overview.resources.supplements_badge.title'}} @count={{this.resourceBadges}} />
+                    </div>
                 </layout.leftNavOld>
 
                 <layout.main local-class='OverviewBody'>

@@ -13,6 +13,8 @@ import pathJoin from 'ember-osf-web/utils/path-join';
 import Intl from 'ember-intl/services/intl';
 import RouterService from '@ember/routing/router-service';
 import Features from 'ember-feature-flags';
+import ResourceModel from 'ember-osf-web/models/resource';
+import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 
 const {
     support: {
@@ -39,6 +41,8 @@ export default class Overview extends Controller {
     @tracked revisionId = '';
 
     @alias('model.taskInstance.value') registration?: Registration;
+
+    resources?: QueryHasManyResult<ResourceModel>;
 
     get registrationFilesPageEnabled() {
         return this.features.isEnabled(registrationFilesPage);
@@ -77,6 +81,14 @@ export default class Overview extends Controller {
         }
         return (this.registration.relatedCounts.linkedNodes || 0)
         + (this.registration.relatedCounts.linkedRegistrations || 0);
+    }
+
+    @computed('registration.resources')
+    get resourceBadges() {
+        if (!this.registration) {
+            return 0;
+        }
+        return (this.registration && this.registration.resources) || 0;
     }
 }
 

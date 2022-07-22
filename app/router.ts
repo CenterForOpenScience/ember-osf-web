@@ -152,6 +152,7 @@ Router.map(function() {
     this.route('guid-registration', { path: '--registration/:guid' }, function() {
         this.mount('analytics-page', { as: 'analytics' });
         this.route('forks');
+        this.route('outputs');
     });
 
 

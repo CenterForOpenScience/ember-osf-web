@@ -1329,6 +1329,16 @@ registries:
                 osfstorage: 'OSF Storage'
         resources:
             title: Resources
+            data_badge:
+                title: 'Data'
+            code_badge:
+                title: 'Code'
+            materials_badge:
+                title: 'Materials'
+            papers_badge:
+                title: 'Papers'
+            supplements_badge:
+                title: 'Supplements'
         title: Overview
         collapse: Collapse
         expand: Expand
