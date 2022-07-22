@@ -59,6 +59,6 @@ export default class ExpandablePreview extends Component<Args> {
     constructor(owner: unknown, args: Args) {
         super(owner, args);
         this.thresholdHeight = this.args.height || 200;
-        this.collapsed = this.args.open ? false : true;
+        this.collapsed = !this.args.open;
     }
 }
