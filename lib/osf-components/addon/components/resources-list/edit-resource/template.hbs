@@ -1,0 +1,54 @@
+<OsfDialog
+    @onOpen={{perform this.onOpen}}
+    as |dialog|
+>
+    <dialog.trigger
+    >
+        {{yield dialog}}
+    </dialog.trigger>
+    <dialog.heading>
+        {{t 'osf-components.resources-list.edit_resource.heading'}}
+    </dialog.heading>
+    <dialog.main>
+        {{#unless this.shouldShowPreview}}
+            <FormControls
+                @changeset={{this.changeset}} 
+                as |form|
+            >
+                <form.text
+                    @isRequired={{true}}
+                    @valuePath={{'pid'}}
+                    @label={{t 'osf-components.resources-list.edit_resource.doi'}}
+                />
+                <form.select
+                    @isRequired={{true}}
+                    @valuePath={{'resourceType'}}
+                    @label={{t 'osf-components.resources-list.edit_resource.output_type'}}
+                    @options={{this.availableTypes}}
+                    @searchEnabled={{false}}
+                    @renderInPlace={{true}}
+                    as |type|
+                >
+                    {{t (concat 'osf-components.resources-list.edit_resource.' type)}}
+                </form.select>
+                <form.textarea
+                    @isRequired={{true}}
+                    @valuePath={{'description'}}
+                    @label={{t 'osf-components.resources-list.edit_resource.description'}}
+                />
+            </FormControls>
+        {{/unless}}
+    </dialog.main>
+    <dialog.footer>
+        <Button
+            {{on 'click' dialog.close}}
+        >
+            {{t 'general.cancel'}}
+        </Button>
+        <Button
+            @type={{'primary'}}
+        >
+            {{t 'osf-components.resources-list.edit_resource.preview'}}
+        </Button>
+    </dialog.footer>
+</OsfDialog>

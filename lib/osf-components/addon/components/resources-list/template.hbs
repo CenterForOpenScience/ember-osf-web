@@ -2,7 +2,13 @@
     <div data-test-add-resource-section>
         {{t 'osf-components.resources-list.add_instructions'}}
         {{!-- help icon --}}
-        {{!-- add button --}}
+        <ResourcesList::EditResource @registration={{this.model.taskInstance.value}} as |modal|>
+            <Button
+                {{on 'click' modal.open}}
+            >
+                Open
+            </Button>
+        </ResourcesList::EditResource>
     </div>
 {{/if}}
 

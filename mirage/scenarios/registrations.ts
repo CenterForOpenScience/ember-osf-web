@@ -59,7 +59,7 @@ export function registrationScenario(
         registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
         reviewsState: RegistrationReviewStates.Accepted,
         revisionState: RevisionReviewStates.Approved,
-        currentUserPermissions: [Permission.Admin],
+        currentUserPermissions: [Permission.Admin, Permission.Write],
         providerSpecificMetadata: [
             { field_name: 'Metadata field 1', field_value: '' },
             { field_name: 'Another Field', field_value: 'Value 2' },

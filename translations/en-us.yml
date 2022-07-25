@@ -1715,6 +1715,14 @@ osf-components:
         papers: 'Papers'
         supplements: 'Supplements'
         no-resources: 'No resources found.'
+        edit_resource:
+            preview: 'Preview'
+            heading: 'Add new output'
+            doi: 'DOI'
+            output_type: 'Output type'
+            description: 'Description'
+            data: 'Data'
+            materials: 'Materials'
     expandable-preview:
         show_more: Show more
         show_less: Show less
