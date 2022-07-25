@@ -1712,7 +1712,7 @@ routes:
         email: Email
 osf-components:
     resources-list:
-        add_instructions: 'Link a DOI from an external repository to your registration by clicking the green “+” button on the right.'
+        add_instructions: 'Link a DOI from a repository to your registration by clicking the green “+” button. Contributors affirmed to adhere to the criteria for each badge.'
         data: Data
         materials: Materials
         no-resources: 'No resources found.'
