@@ -1323,7 +1323,7 @@ registries:
     overview:
         files:
             outputFeaturePopoverHeading: 'New feature!'
-            outputFeaturePopoverBody: 'You can now add DOIs for external outputs (ex. data, code, papers, etc.) to your registration.'
+            outputFeaturePopoverBody: 'You can now add DOIs for resources (ex. data, code, papers, etc.) to your registration.'
             title: Files
             storage_providers:
                 invalidProviderDetails: 'Could not find the requested file provider.'
