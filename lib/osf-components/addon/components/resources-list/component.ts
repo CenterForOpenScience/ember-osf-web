@@ -1,5 +1,6 @@
 import { A } from '@ember/array';
 import { assert } from '@ember/debug';
+import { action } from '@ember/object';
 import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
@@ -24,6 +25,13 @@ export default class ResourcesListComponent extends Component<ResourcesListArgs>
 
     get isLoading() {
         return taskFor(this.loadResources).isRunning;
+    }
+
+    @action
+    reload() {
+        this.resourcesList = A([]);
+        this.resourcesPage = 1;
+        taskFor(this.loadResources).perform();
     }
 
     @task

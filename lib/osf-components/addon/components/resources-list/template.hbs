@@ -1,3 +1,11 @@
+{{#if @registration.userHasWritePermission}}
+    <div data-test-add-resource-section>
+        {{t 'osf-components.resources-list.add_instructions'}}
+        {{!-- help icon --}}
+        {{!-- add button --}}
+    </div>
+{{/if}}
+
 <InfiniteList
         @itemList={{this.resourcesList}}
         @hasMore={{this.hasMore}}
