@@ -1,8 +1,10 @@
 <li local-class='resourceItem'>
     <p data-test-resource-card-type local-class='resourceType'>
-        <span
+        <img
+            src={{this.resourceIcon}}
+            alt={{this.resourceTypeName}}
             data-test-resource-card-icon
-            local-class='icon {{this.resourceIconClass}}'
+            local-class='icon'
         />
         {{this.resourceTypeName}}
     </p>
