@@ -1322,6 +1322,8 @@ registries:
         none_selected: 'None selected'
     overview:
         files:
+            outputFeaturePopoverHeading: 'New feature!'
+            outputFeaturePopoverBody: 'You can now add DOIs for resources (ex. data, code, papers, etc.) to your registration.'
             title: Files
             storage_providers:
                 invalidProviderDetails: 'Could not find the requested file provider.'
@@ -1709,6 +1711,9 @@ routes:
         institution: Institution
         email: Email
 osf-components:
+    new-feature-popover:
+        acknowledge: 'Got it'
+        doNotShowAgain: 'Don''t show again'
     infinite-list:
         load_more: 'Load more'
     draft-registration-card:
