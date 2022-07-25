@@ -1,0 +1,29 @@
+<div
+    data-test-preview-wrapper
+    local-class='Wrapper  {{if this.collapsed 'Wrapper__Collapsed'}}'
+    {{did-insert this.didInsert}}
+    {{did-update this.checkThreshold}}
+    ...attributes
+>
+    {{#if this.collapsible}}
+        <div
+            data-test-collapse-overlay
+            local-class='Wrapper__Overlay {{if this.collapsed 'Wrapper__Collapsed'}}'
+        >
+        </div>
+    {{/if}}
+    {{yield}}
+</div>
+
+{{#if this.collapsible}}
+    <Button
+        data-test-collapse-button
+        local-class='ToggleButton'
+        @layout='fake-link'
+        {{on 'click' this.toggleCollapse}}
+    >
+        {{if this.collapsed (t 'osf-components.expandable-preview.show_more') (t 'osf-components.expandable-preview.show_less')}}
+        <FaIcon @icon='{{if this.collapsed 'caret-down' 'caret-up'}}'/>
+    </Button>
+{{/if}}
+
