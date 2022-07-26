@@ -50,13 +50,13 @@ module('Integration | Component | open-badges-list', hooks => {
         );
         await triggerEvent('[data-test-badge-icon="data"]', 'mouseenter');
         assert.dom('.ember-bootstrap-tooltip .tooltip-inner').hasText(
-            t('osf-components.open-badges-list.open-data-mobile'),
+            t('osf-components.open-badges-list.open-data'),
             'Correct tooltip in mobile view for data',
         );
         await triggerEvent('[data-test-badge-icon="data"]', 'mouseleave');
         await triggerEvent('[data-test-badge-icon="materials"]', 'mouseenter');
         assert.dom('.ember-bootstrap-tooltip .tooltip-inner').hasText(
-            t('osf-components.open-badges-list.open-materials-mobile'),
+            t('osf-components.open-badges-list.open-materials'),
             'Correct tooltip in mobile view for materials',
         );
     });
@@ -105,7 +105,7 @@ module('Integration | Component | open-badges-list | open-badge-card', hooks => 
         );
         await triggerEvent('[data-test-badge-icon="materials"]', 'mouseenter');
         assert.dom('.ember-bootstrap-tooltip .tooltip-inner').hasText(
-            t('osf-components.open-badges-list.no-open-materials-mobile'),
+            t('osf-components.open-badges-list.open-materials'),
             'Correct tooltip in mobile view for materials',
         );
     });
@@ -123,7 +123,7 @@ module('Integration | Component | open-badges-list | open-badge-card', hooks => 
         );
         await triggerEvent('[data-test-badge-icon="materials"]', 'mouseenter');
         assert.dom('.ember-bootstrap-tooltip .tooltip-inner').hasText(
-            t('osf-components.open-badges-list.open-materials-mobile'),
+            t('osf-components.open-badges-list.open-materials'),
             'Correct tooltip in mobile view for materials',
         );
     });

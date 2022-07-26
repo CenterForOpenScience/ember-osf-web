@@ -1793,14 +1793,14 @@ osf-components:
     open-badges-list:
         title: 'Open practice resources'
         open-data: 'Data'
-        open-data-mobile: 'This has open data'
-        no-open-data-mobile: 'The does not have open data'
+        open-data-alt: 'This has open data'
+        no-open-data-alt: 'This does not have open data'
         open-materials: 'Materials'
-        open-materials-mobile: 'This has open materials'
-        no-open-materials-mobile: 'This does not have open materials'
+        open-materials-alt: 'This has open materials'
+        no-open-materials-alt: 'This does not have open materials'
         open-analytic_code: 'Analytic code'
-        open-analytic_code-mobile: 'This has open analytic code'
-        no-open-analytic_code-mobile: 'The does not have open analytic code'
+        open-analytic_code-alt: 'This has open analytic code'
+        no-open-analytic_code-alt: 'This does not have open analytic code'
     registries:
         read-only-contributors-list:
             editContributorsOnYourProject: 'Edit contributors on your project'

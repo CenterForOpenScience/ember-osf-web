@@ -86,6 +86,12 @@ export interface ShareContributor {
     orderCited: number;
 }
 
+export interface OpenBadges {
+    data: boolean;
+    materials: boolean;
+    analytic_code: boolean;
+}
+
 export interface ShareRegistration {
     id: string;
     description: string;
@@ -102,6 +108,7 @@ export interface ShareRegistration {
     tags: string[];
     title: string;
     withdrawn: boolean;
+    openBadges: OpenBadges;
 }
 
 export interface SourceDescriptor {
@@ -233,6 +240,7 @@ export default class ShareSearch extends Search {
                 datePublished: r._source.date_published ? new Date(r._source.date_published) : undefined,
                 tags: r._source.tags.map(unescapeXMLEntities),
                 withdrawn: r._source.withdrawn,
+                openBadges: r._source.open_badges,
             };
         });
     }
