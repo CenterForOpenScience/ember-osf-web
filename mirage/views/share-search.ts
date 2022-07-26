@@ -35,6 +35,7 @@ interface SerializedContributor {
 interface OpenBadges {
     data: boolean;
     materials: boolean;
+    analytic_code: boolean;
 }
 
 interface SerializedRegistration {
@@ -182,7 +183,11 @@ function serializeRegistration(reg: ModelInstance<RegistrationModel>): Serialize
         tags: ['project'],
         withdrawn: reg.withdrawn,
         identifiers: [`${osfUrl}${reg.id}/`],
-        open_badges: {data: reg.hasData, materials: reg.hasMaterials},
+        open_badges: {
+            data: reg.hasData,
+            materials: reg.hasMaterials,
+            analytic_code: reg.hasAnalyticCode,
+        },
     };
 }
 
