@@ -17,6 +17,7 @@ import { tracked } from 'tracked-built-ins';
 interface Args {
     resource?: ResourceModel;
     registration?: RegistrationModel;
+    reload?: () => {};
 }
 
 interface ResourceValidations {
@@ -62,6 +63,13 @@ export default class EditResourceModal extends Component<Args> {
         this.changeset = buildChangeset(this.resource, this.resourceValidations);
     }
 
+    @action
+    onClose() {
+        this.resource = undefined;
+        this.changeset = undefined;
+        this.shouldShowPreview = false;
+    }
+
     @task
     async goToPreview() {
         this.changeset.validate();
@@ -74,5 +82,13 @@ export default class EditResourceModal extends Component<Args> {
     @action
     goToEdit() {
         this.shouldShowPreview = false;
+    }
+
+    @task
+    async finalize() {
+        if (this.resource) {
+            this.resource.finalized = true;
+            await this.resource.save();
+        }
     }
 }

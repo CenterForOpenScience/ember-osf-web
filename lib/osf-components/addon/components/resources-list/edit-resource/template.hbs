@@ -1,5 +1,6 @@
 <OsfDialog
     @onOpen={{perform this.onOpen}}
+    @onClose={{this.onClose}}
     as |dialog|
 >
     <dialog.trigger
@@ -48,11 +49,18 @@
     </dialog.main>
     <dialog.footer>
         {{#if this.shouldShowPreview}}
-            <Button>
+            <Button
+                {{on 'click' this.goToEdit}}
+            >
                 {{t 'general.edit'}}
             </Button>
             <Button
                 @type='create'
+                {{on 'click' (queue
+                    (perform this.finalize)
+                    dialog.close
+                    @reload
+                )}}
             >
                 {{t 'general.add'}}
             </Button>
