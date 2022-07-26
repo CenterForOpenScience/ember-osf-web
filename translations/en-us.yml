@@ -1715,6 +1715,7 @@ osf-components:
         add_instructions: 'Link a DOI from a repository to your registration by clicking the green “+” button. Contributors affirmed to adhere to the criteria for each badge.'
         data: Data
         materials: Materials
+        analytic_code: 'Analytic Code'
         no-resources: 'No resources found.'
     expandable-preview:
         show_more: Show more
