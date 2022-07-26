@@ -97,3 +97,20 @@
         text-decoration: none !important; /* override OsfLink hover style */
     }
 }
+
+.CardContents {
+    display: flex;
+    flex-direction: row;
+}
+
+.CardBody {
+    width: 85%;
+}
+
+.OpenBadges {
+    width: 15%;
+    border-left-width: thin;
+    border-left-color: #efefef;
+    border-left-style: solid;
+    padding-left: 10px;
+}

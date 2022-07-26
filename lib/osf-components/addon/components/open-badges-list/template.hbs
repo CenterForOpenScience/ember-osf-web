@@ -1,0 +1,79 @@
+<div data-test-badge-list local-class='badgeList'>
+    {{#unless this.isMobile}}
+        <h5 data-test-badge-list-title local-class='title'>
+            {{t 'osf-components.open-badges-list.title'}}
+        </h5>
+    {{/unless}}
+    <p data-test-badge-item='data' local-class='badgeItem'>
+        <span
+            data-test-badge-icon='data'
+            local-class='badge'
+        >
+            <img data-test-badge-image='data'
+                src={{if
+                    @hasData
+                    '/assets/images/badges/data_small_color.png'
+                    '/assets/images/badges/data_small_gray.png'
+                }}
+                width='26px'
+                height='26px'
+                alt={{if
+                    @hasData
+                    (t 'osf-components.open-badges-list.open-data-mobile')
+                    (t 'osf-components.open-badges-list.no-open-data-mobile')
+                }}
+            >
+            {{#if this.isMobile}}
+                <BsTooltip
+                    @placement='left'
+                    @triggerEvents='hover'
+                >
+                    {{#if @hasData}}
+                        {{t 'osf-components.open-badges-list.open-data-mobile'}}
+                    {{else}}
+                        {{t 'osf-components.open-badges-list.no-open-data-mobile'}}
+                    {{/if}}
+                </BsTooltip>
+            {{/if}}
+        </span>
+        {{#unless this.isMobile}}
+            {{t 'osf-components.open-badges-list.open-data'}}
+        {{/unless}}
+    </p>
+    <p data-test-badge-item='materials' local-class='badgeItem'>
+        <span
+            data-test-badge-icon='materials'
+            local-class='badge'
+        >
+            <img data-test-badge-image='materials'
+                src={{if
+                    @hasMaterials
+                    '/assets/images/badges/materials_small_color.png'
+                    '/assets/images/badges/materials_small_gray.png'
+                }}
+                width='26px'
+                height='26px'
+                alt={{if
+                    @hasMaterials
+                    (t 'osf-components.open-badges-list.open-materials-mobile')
+                    (t 'osf-components.open-badges-list.no-open-materials-mobile')
+                }}
+            >
+            {{#if this.isMobile}}
+                <BsTooltip
+                    @placement='left'
+                    @triggerEvents='hover'
+                >
+                    {{#if @hasMaterials}}
+                        {{t 'osf-components.open-badges-list.open-materials-mobile'}}
+                    {{else}}
+                        {{t 'osf-components.open-badges-list.no-open-materials-mobile'}}
+                    {{/if}}
+                </BsTooltip>
+            {{/if}}
+        </span>
+        {{#unless this.isMobile}}
+            {{t 'osf-components.open-badges-list.open-materials'}}
+        {{/unless}}
+    </p>
+</div>

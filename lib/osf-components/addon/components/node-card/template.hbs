@@ -3,217 +3,224 @@
     data-analytics-scope='Node Card'
     local-class='NodeCard'
 >
-    <h4 class='list-group-item-heading' local-class='NodeCard__heading' data-test-node-card-heading>
-        <span>
-            {{#if @node}}
-                {{#unless @node.public}}
-                    <span>
-                        {{fa-icon 'lock'}}
-                        <BsTooltip>{{t (concat 'node_card.' @node.nodeType '.private_tooltip')}}</BsTooltip>
-                    </span> |
-                {{/unless}}
-                {{#if @node.pendingRegistrationApproval}}
-                    <span class='label label-info'>{{t 'node_card.registration.statuses.pending_registration_approval'}}</span> |
-                {{else if @node.pendingEmbargoApproval}}
-                    <span class='label label-info'>{{t 'node_card.registration.statuses.pending_embargo_approval'}}</span> |
-                {{else if (eq @node.reviewsState 'pending')}}
-                    <span class='label label-info'>{{t 'node_card.registration.statuses.pending'}}</span> |
-                {{else if (eq @node.reviewsState 'embargo')}}
-                    <span class='label label-info'>{{t 'node_card.registration.statuses.embargo'}}</span> |
-                {{else if (eq @node.reviewsState 'rejected')}}
-                    <span class='label label-info'>{{t 'node_card.registration.statuses.rejected'}}</span> |
-                {{else if (eq @node.reviewsState 'pending_embargo_termination')}}
-                    <span class='label label-info'>{{t 'node_card.registration.statuses.pending_embargo_termination'}}</span> |
-                {{else if (eq @node.reviewsState 'pending_withdraw_request')}}
-                    <span class='label label-info'>{{t 'node_card.registration.statuses.pending_withdraw_request'}}</span> |
-                {{else if (eq @node.reviewsState 'pending_withdraw')}}
-                    <span class='label label-info'>{{t 'node_card.registration.statuses.pending_withdraw'}}</span> |
-                {{else if @node.withdrawn}}
-                    <span class='label label-danger'>{{t 'node_card.registration.statuses.withdrawn'}}</span> |
-                {{/if}}
-                {{#if @node.archiving}}
-                    <span class='label label-primary'>{{t 'node_card.registration.statuses.archiving'}}</span> |
-                {{/if}}
+    <div local-class='CardContents'>
+        <span local-class='CardBody'>
+            <h4 class='list-group-item-heading' local-class='NodeCard__heading' data-test-node-card-heading>
+                <span>
+                    {{#if @node}}
+                        {{#unless @node.public}}
+                            <span>
+                                {{fa-icon 'lock'}}
+                                <BsTooltip>{{t (concat 'node_card.' @node.nodeType '.private_tooltip')}}</BsTooltip>
+                            </span> |
+                        {{/unless}}
+                        {{#if @node.pendingRegistrationApproval}}
+                            <span class='label label-info'>{{t 'node_card.registration.statuses.pending_registration_approval'}}</span> |
+                        {{else if @node.pendingEmbargoApproval}}
+                            <span class='label label-info'>{{t 'node_card.registration.statuses.pending_embargo_approval'}}</span> |
+                        {{else if (eq @node.reviewsState 'pending')}}
+                            <span class='label label-info'>{{t 'node_card.registration.statuses.pending'}}</span> |
+                        {{else if (eq @node.reviewsState 'embargo')}}
+                            <span class='label label-info'>{{t 'node_card.registration.statuses.embargo'}}</span> |
+                        {{else if (eq @node.reviewsState 'rejected')}}
+                            <span class='label label-info'>{{t 'node_card.registration.statuses.rejected'}}</span> |
+                        {{else if (eq @node.reviewsState 'pending_embargo_termination')}}
+                            <span class='label label-info'>{{t 'node_card.registration.statuses.pending_embargo_termination'}}</span> |
+                        {{else if (eq @node.reviewsState 'pending_withdraw_request')}}
+                            <span class='label label-info'>{{t 'node_card.registration.statuses.pending_withdraw_request'}}</span> |
+                        {{else if (eq @node.reviewsState 'pending_withdraw')}}
+                            <span class='label label-info'>{{t 'node_card.registration.statuses.pending_withdraw'}}</span> |
+                        {{else if @node.withdrawn}}
+                            <span class='label label-danger'>{{t 'node_card.registration.statuses.withdrawn'}}</span> |
+                        {{/if}}
+                        {{#if @node.archiving}}
+                            <span class='label label-primary'>{{t 'node_card.registration.statuses.archiving'}}</span> |
+                        {{/if}}
 
-                {{#if (eq @node.revisionState 'unapproved')}}
-                    {{#unless @node.pendingRegistrationApproval}}
-                        <span class='label label-info'>{{t 'node_card.registration.statuses.revision_unapproved'}}</span> |
-                    {{/unless}}
-                {{else if (eq @node.revisionState 'in_progress')}}
-                    <span class='label label-info'>{{t 'node_card.registration.statuses.revision_in_progress'}}</span> |
-                {{else if (eq @node.revisionState 'pending_moderation')}}
-                    {{#if (not-eq @node.reviewsState 'pending')}}
-                        <span class='label label-info'>{{t 'node_card.registration.statuses.revision_pending_moderation'}}</span> |
+                        {{#if (eq @node.revisionState 'unapproved')}}
+                            {{#unless @node.pendingRegistrationApproval}}
+                                <span class='label label-info'>{{t 'node_card.registration.statuses.revision_unapproved'}}</span> |
+                            {{/unless}}
+                        {{else if (eq @node.revisionState 'in_progress')}}
+                            <span class='label label-info'>{{t 'node_card.registration.statuses.revision_in_progress'}}</span> |
+                        {{else if (eq @node.revisionState 'pending_moderation')}}
+                            {{#if (not-eq @node.reviewsState 'pending')}}
+                                <span class='label label-info'>{{t 'node_card.registration.statuses.revision_pending_moderation'}}</span> |
+                            {{/if}}
+                        {{/if}}
+
+                        {{node-card/node-icon category=@node.category}}
+                        <OsfLink
+                            data-analytics-name='Title'
+                            data-test-node-title='{{@node.id}}'
+                            @route='resolve-guid'
+                            @models={{array @node.id}}
+                        >
+                            {{@node.title}}
+                        </OsfLink>
+                    {{else}}
+                        <ContentPlaceholders as |placeholder|>
+                            <placeholder.heading @subtitle={{false}} />
+                        </ContentPlaceholders>
+                    {{/if}}
+                </span>
+                {{#if @node}}
+                    {{#if this.showDropdown}}
+                        <div
+                            data-test-node-menu
+                            class='pull-right generic-dropdown'
+                            local-class='NodeCard__dropdown'
+                        >
+                            <BsDropdown as |dd|>
+                                <dd.button local-class='NodeCard__dropdown-button'>
+                                    <span aria-label={{t 'node_card.options'}} class='glyphicon glyphicon-option-horizontal'></span>
+                                </dd.button>
+                                <dd.menu @align='right' local-class='NodeCard__dropdown-list' as |menu|>
+                                    <menu.item role='menuitem'>
+                                        <OsfLink
+                                            data-analytics-name='Manage Contributors'
+                                            local-class='NodeCard__dropdown-link'
+                                            @href='/{{@node.id}}/contributors/'
+                                        >
+                                            {{t 'node_card.fork.manage_contributors'}}
+                                        </OsfLink>
+                                    </menu.item>
+                                    <menu.item role='menuitem'>
+                                        <OsfLink
+                                            data-analytics-name='Settings'
+                                            local-class='NodeCard__dropdown-link'
+                                            @href='/{{@node.id}}/settings/'
+                                        >
+                                            {{t 'general.settings'}}
+                                        </OsfLink>
+                                    </menu.item>
+                                    <menu.item role='menuitem'>
+                                        <BsButton
+                                            data-analytics-scope='Delete'
+                                            local-class='NodeCard__dropdown-link'
+                                            @onClick={{action @delete @node}}
+                                        >
+                                            {{t 'general.delete'}}
+                                        </BsButton>
+                                    </menu.item>
+                                </dd.menu>
+                            </BsDropdown>
+                        </div>
                     {{/if}}
                 {{/if}}
+            </h4>
+            <div data-test-node-card-body local-class='NodeCard__body'>
+                {{#if @node}}
+                    <dl>
+                        {{#if @node.isRegistration}}
+                            <dt data-test-registration-template-label>
+                                {{t 'node_card.registration_template'}}
+                            </dt>
+                            <dd data-test-registration-template-name>
+                                {{@node.registrationSchema.name}}
+                            </dd><br />
+                            <dt data-test-registration-registry-label>
+                                {{t 'node_card.registry'}}
+                            </dt>
+                            <dd data-test-registration-registry-name>
+                                {{@node.provider.name}}
+                            </dd><br />
+                            <dt data-test-created-timestamp-label>
+                                {{t (concat 'node_card.registration.timestamp_label')}}
+                            </dt>
+                            <dd data-test-created-timestamp-value>
+                                {{moment @node.dateRegistered}}
+                            </dd><br />
+                        {{else}}
+                            <dt data-test-created-timestamp-label>
+                                {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}}
+                            </dt>
+                            <dd data-test-created-timestamp-value>
+                                {{moment @node.dateCreated}}
+                            </dd><br />
+                        {{/if}}
+                        <dt data-test-updated-timestamp-label>
+                            {{t 'node_card.last_updated'}}
+                        </dt>
+                        <dd data-test-updated-timestamp-value>
+                            {{moment @node.dateModified}}
+                        </dd><br />
+                        <dt
+                            data-test-contributors-label
+                        >
+                            {{t 'node_card.contributors'}}
+                        </dt>
+                        <dd>
+                            <ContributorList
+                                @model={{@node}}
+                                @shouldLinkUsers={{true}}
+                            />
+                        </dd><br />
+                        <dt
+                            data-test-description-label
+                        >
+                            {{t 'node_card.description'}}
+                        </dt>
+                        <dd data-test-description local-class='NodeCard__description'>
+                            {{@node.description}}
+                        </dd><br />
+                        {{#if (and this.showTags @node.tags)}}
+                            <dt local-class='NodeCard__tags'
+                                data-test-tags-label
 
-                {{node-card/node-icon category=@node.category}}
-                <OsfLink
-                    data-analytics-name='Title'
-                    data-test-node-title='{{@node.id}}'
-                    @route='resolve-guid'
-                    @models={{array @node.id}}
-                >
-                    {{@node.title}}
-                </OsfLink>
-            {{else}}
-                <ContentPlaceholders as |placeholder|>
-                    <placeholder.heading @subtitle={{false}} />
-                </ContentPlaceholders>
-            {{/if}}
-        </span>
-        {{#if @node}}
-            {{#if this.showDropdown}}
-                <div
-                    data-test-node-menu
-                    class='pull-right generic-dropdown'
-                    local-class='NodeCard__dropdown'
-                >
-                    <BsDropdown as |dd|>
-                        <dd.button local-class='NodeCard__dropdown-button'>
-                            <span aria-label={{t 'node_card.options'}} class='glyphicon glyphicon-option-horizontal'></span>
-                        </dd.button>
-                        <dd.menu @align='right' local-class='NodeCard__dropdown-list' as |menu|>
-                            <menu.item role='menuitem'>
-                                <OsfLink
-                                    data-analytics-name='Manage Contributors'
-                                    local-class='NodeCard__dropdown-link'
-                                    @href='/{{@node.id}}/contributors/'
-                                >
-                                    {{t 'node_card.fork.manage_contributors'}}
-                                </OsfLink>
-                            </menu.item>
-                            <menu.item role='menuitem'>
-                                <OsfLink
-                                    data-analytics-name='Settings'
-                                    local-class='NodeCard__dropdown-link'
-                                    @href='/{{@node.id}}/settings/'
-                                >
-                                    {{t 'general.settings'}}
-                                </OsfLink>
-                            </menu.item>
-                            <menu.item role='menuitem'>
-                                <BsButton
-                                    data-analytics-scope='Delete'
-                                    local-class='NodeCard__dropdown-link'
-                                    @onClick={{action @delete @node}}
-                                >
-                                    {{t 'general.delete'}}
-                                </BsButton>
-                            </menu.item>
-                        </dd.menu>
-                    </BsDropdown>
-                </div>
-            {{/if}}
-        {{/if}}
-    </h4>
-    <div data-test-node-card-body local-class='NodeCard__body'>
-        {{#if @node}}
-            <dl>
-                {{#if @node.isRegistration}}
-                    <dt data-test-registration-template-label>
-                        {{t 'node_card.registration_template'}}
-                    </dt>
-                    <dd data-test-registration-template-name>
-                        {{@node.registrationSchema.name}}
-                    </dd><br />
-                    <dt data-test-registration-registry-label>
-                        {{t 'node_card.registry'}}
-                    </dt>
-                    <dd data-test-registration-registry-name>
-                        {{@node.provider.name}}
-                    </dd><br />
-                    <dt data-test-created-timestamp-label>
-                        {{t (concat 'node_card.registration.timestamp_label')}}
-                    </dt>
-                    <dd data-test-created-timestamp-value>
-                        {{moment @node.dateRegistered}}
-                    </dd><br />
-                {{else}}
-                    <dt data-test-created-timestamp-label>
-                        {{t (concat 'node_card.' @node.nodeType '.timestamp_label')}}
-                    </dt>
-                    <dd data-test-created-timestamp-value>
-                        {{moment @node.dateCreated}}
-                    </dd><br />
-                {{/if}}
-                <dt data-test-updated-timestamp-label>
-                    {{t 'node_card.last_updated'}}
-                </dt>
-                <dd data-test-updated-timestamp-value>
-                    {{moment @node.dateModified}}
-                </dd><br />
-                <dt
-                    data-test-contributors-label
-                >
-                    {{t 'node_card.contributors'}}
-                </dt>
-                <dd>
-                    <ContributorList
-                        @model={{@node}}
-                        @shouldLinkUsers={{true}}
-                    />
-                </dd><br />
-                <dt
-                    data-test-description-label
-                >
-                    {{t 'node_card.description'}}
-                </dt>
-                <dd data-test-description local-class='NodeCard__description'>
-                    {{@node.description}}
-                </dd><br />
-                {{#if (and this.showTags @node.tags)}}
-                    <dt local-class='NodeCard__tags'
-                        data-test-tags-label
-
-                    >
-                        {{t 'node_card.tags'}}
-                    </dt>
-                    <dd>
-                        <TagsWidget
-                            @taggable={{@node}}
-                            @inline={{true}}
-                        />
-                    </dd>
-                {{/if}}
-            </dl>
-            <div local-class='MyRegistrationsButtons'>
-                <OsfLink
-                    local-class='NodeCard__link'
-                    data-analytics-name='View registration'
-                    data-test-view-button='{{@node.id}}'
-                    @route='resolve-guid'
-                    @models={{array @node.id}}
-                >
-                    {{t 'node_card.view_button'}}
-                </OsfLink>
-                {{#if this.latestSchemaResponse}}
-                    {{#if this.shouldShowViewChangesButton}}
+                            >
+                                {{t 'node_card.tags'}}
+                            </dt>
+                            <dd>
+                                <TagsWidget
+                                    @taggable={{@node}}
+                                    @inline={{true}}
+                                />
+                            </dd>
+                        {{/if}}
+                    </dl>
+                    <div local-class='MyRegistrationsButtons'>
                         <OsfLink
                             local-class='NodeCard__link'
-                            data-analytics-name='View changes'
-                            data-test-view-changes-button={{@node.id}}
-                            @route='registries.edit-revision.review'
-                            @models={{array this.latestSchemaResponse.id}}
+                            data-analytics-name='View registration'
+                            data-test-view-button='{{@node.id}}'
+                            @route='resolve-guid'
+                            @models={{array @node.id}}
                         >
-                            {{t 'node_card.view_changes_button'}}
+                            {{t 'node_card.view_button'}}
                         </OsfLink>
-                    {{/if}}
-                {{/if}}
-                {{#if this.shouldShowUpdateButton}}
-                    <Button
-                        data-test-update-button={{@node.id}}
-                        {{on 'click' (fn (mut this.showNewUpdateModal) true)}}
-                    >
-                        {{t 'node_card.update_button'}}
-                    </Button>
+                        {{#if this.latestSchemaResponse}}
+                            {{#if this.shouldShowViewChangesButton}}
+                                <OsfLink
+                                    local-class='NodeCard__link'
+                                    data-analytics-name='View changes'
+                                    data-test-view-changes-button={{@node.id}}
+                                    @route='registries.edit-revision.review'
+                                    @models={{array this.latestSchemaResponse.id}}
+                                >
+                                    {{t 'node_card.view_changes_button'}}
+                                </OsfLink>
+                            {{/if}}
+                        {{/if}}
+                        {{#if this.shouldShowUpdateButton}}
+                            <Button
+                                data-test-update-button={{@node.id}}
+                                {{on 'click' (fn (mut this.showNewUpdateModal) true)}}
+                            >
+                                {{t 'node_card.update_button'}}
+                            </Button>
+                        {{/if}}
+                    </div>
+                {{else}}
+                    <ContentPlaceholders as |placeholder|>
+                        <placeholder.text @lines={{2}} />
+                    </ContentPlaceholders>
                 {{/if}}
             </div>
-        {{else}}
-            <ContentPlaceholders as |placeholder|>
-                <placeholder.text @lines={{2}} />
-            </ContentPlaceholders>
-        {{/if}}
+        </span>
+        <span local-class='OpenBadges'>
+            <OpenBadgesList @hasData={{@node.hasData}} @hasMaterials={{@node.hasMaterials}} />
+        </span>
     </div>
 </div>
 {{#if @node.isRegistration}}

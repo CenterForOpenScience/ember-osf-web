@@ -64,6 +64,8 @@ export function registrationScenario(
             { field_name: 'Metadata field 1', field_value: '' },
             { field_name: 'Another Field', field_value: 'Value 2' },
         ],
+        hasData: true,
+        hasMaterials: false,
     }, 'withResources');
 
     server.create('file', {id: 'afile', target: currentUserWrite});
@@ -138,6 +140,8 @@ export function registrationScenario(
             'page-one_long-text': 'aaaaa',
             'page-one_multi-select': ['Crocs'],
         },
+        hasData: false,
+        hasMaterials: true,
     }, 'withContributors', 'withReviewActions', 'withFiles');
 
     const silicon = server.create('registration', {
@@ -281,6 +285,8 @@ export function registrationScenario(
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider: egap,
         registeredBy: currentUser,
+        hasData: true,
+        hasMaterials: true,
     }, 'withContributors', 'withReviewActions', 'isEmbargo');
 
     server.create('contributor', { users: currentUser, node: cuban });

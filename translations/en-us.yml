@@ -1776,6 +1776,14 @@ osf-components:
         previous_slide: 'Previous slide'
         next_slide: 'Next slide'
         go_to_slide: 'Go to slide {slideIndex}'
+    open-badges-list:
+        title: 'Open practice resources'
+        open-data: 'Data'
+        open-data-mobile: 'This has open data'
+        no-open-data-mobile: 'The does not have open data'
+        open-materials: 'Materials'
+        open-materials-mobile: 'This has open materials'
+        no-open-materials-mobile: 'This does not have open materials'
     registries:
         read-only-contributors-list:
             editContributorsOnYourProject: 'Edit contributors on your project'
