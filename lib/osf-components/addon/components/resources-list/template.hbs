@@ -1,13 +1,22 @@
 {{#if @registration.userHasWritePermission}}
-    <div data-test-add-resource-section>
-        {{t 'osf-components.resources-list.add_instructions'}}
+    <div
+        local-class='Flexbox'
+        data-test-add-resource-section
+    >
+        <span>{{t 'osf-components.resources-list.add_instructions'}}</span>
         {{!-- help icon --}}
-        <ResourcesList::EditResource @registration={{this.model.taskInstance.value}} as |modal|>
-            <Button
-                {{on 'click' modal.open}}
-            >
-                Open
-            </Button>
+        <ResourcesList::EditResource
+            @registration={{@registration}}
+            as |modal|
+        >
+            <div>
+                <Button
+                    local-class='TriggerButton'
+                    {{on 'click' modal.open}}
+                >
+                    <FaIcon @icon='plus' @size='2x' @fixedWidth={{true}}/>
+                </Button>
+            </div>
         </ResourcesList::EditResource>
     </div>
 {{/if}}

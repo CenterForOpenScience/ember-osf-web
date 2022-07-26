@@ -3,6 +3,7 @@
     as |dialog|
 >
     <dialog.trigger
+        ...attributes
     >
         {{yield dialog}}
     </dialog.trigger>
@@ -38,17 +39,36 @@
                 />
             </FormControls>
         {{/unless}}
+        {{#if this.shouldShowPreview}}
+            <p>
+                {{t 'osf-components.resources-list.edit_resource.check_your_doi'}}
+            </p>
+            <ResourcesList::ResourceCard @resource={{this.resource}} />
+        {{/if}}
     </dialog.main>
     <dialog.footer>
-        <Button
-            {{on 'click' dialog.close}}
-        >
-            {{t 'general.cancel'}}
-        </Button>
-        <Button
-            @type={{'primary'}}
-        >
-            {{t 'osf-components.resources-list.edit_resource.preview'}}
-        </Button>
+        {{#if this.shouldShowPreview}}
+            <Button>
+                {{t 'general.edit'}}
+            </Button>
+            <Button
+                @type='create'
+            >
+                {{t 'general.add'}}
+            </Button>
+
+        {{else}}
+            <Button
+                {{on 'click' dialog.close}}
+            >
+                {{t 'general.cancel'}}
+            </Button>
+            <Button
+                @type={{'primary'}}
+                {{on 'click' (perform this.goToPreview)}}
+            >
+                {{t 'osf-components.resources-list.edit_resource.preview'}}
+            </Button>
+        {{/if}}
     </dialog.footer>
 </OsfDialog>

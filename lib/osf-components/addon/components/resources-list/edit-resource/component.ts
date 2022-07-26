@@ -1,3 +1,4 @@
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 // import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
@@ -31,23 +32,26 @@ export default class EditResourceModal extends Component<Args> {
 
     availableTypes = Object.values(ResourceTypes);
     resourceValidations: ValidationObject<ResourceValidations> = {
-        pid: [validatePresence],
-        resourceType: [validatePresence],
-        description: [validatePresence],
+        pid: [validatePresence({
+            type: 'invalid',
+            presence: true,
+            translationArgs: { description: this.intl.t('osf-components.resources-list.edit_resource.doi') },
+        })],
+        resourceType: [validatePresence({
+            type: 'blank',
+            presence: true,
+            translationArgs: { description: this.intl.t('osf-components.resources-list.edit_resource.output_type') },
+        })],
+        description: [validatePresence({
+            type: 'blank',
+            presence: true,
+            translationArgs: { description: this.intl.t('osf-components.resources-list.edit_resource.description') },
+        })],
     };
 
     @tracked changeset: any;
     @tracked resource?: ResourceModel = this.args.resource;
     @tracked shouldShowPreview = false;
-
-    // constructor(owner: unknown, args: Args) {
-    //     super(owner, args);
-    //     // if (args.resource) {
-    //     //     this.resource = args.resource;
-    //     // } else {
-    //     //     taskFor(this.onOpen)
-    //     // }
-    // }
 
     @task
     async onOpen() {
@@ -56,5 +60,19 @@ export default class EditResourceModal extends Component<Args> {
             this.resource.save();
         }
         this.changeset = buildChangeset(this.resource, this.resourceValidations);
+    }
+
+    @task
+    async goToPreview() {
+        this.changeset.validate();
+        if (this.changeset.get('isValid')) {
+            await this.changeset.save();
+            this.shouldShowPreview = true;
+        }
+    }
+
+    @action
+    goToEdit() {
+        this.shouldShowPreview = false;
     }
 }

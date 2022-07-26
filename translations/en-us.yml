@@ -1723,6 +1723,7 @@ osf-components:
             description: 'Description'
             data: 'Data'
             materials: 'Materials'
+            check_your_doi: 'Check your DOI for accuracy.'
     expandable-preview:
         show_more: Show more
         show_less: Show less
