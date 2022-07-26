@@ -15,6 +15,11 @@ module('Unit | Helper | open-badges-icon-map', () => {
             '/assets/images/badges/materials_small_color.png',
             'Materials icon matches',
         );
+        assert.equal(
+            getBadgeIcon(ResourceTypes.AnalyticCode),
+            '/assets/images/badges/analytic_code_small_color.png',
+            'Analytic code icon matches',
+        );
     });
 
     test('it maps disabled icons', assert => {
@@ -27,6 +32,11 @@ module('Unit | Helper | open-badges-icon-map', () => {
             getBadgeIconDisabled(ResourceTypes.Materials),
             '/assets/images/badges/materials_small_gray.png',
             'Materials icon matches',
+        );
+        assert.equal(
+            getBadgeIconDisabled(ResourceTypes.AnalyticCode),
+            '/assets/images/badges/analytic_code_small_gray.png',
+            'Analytic code icon matches',
         );
     });
 });

@@ -66,6 +66,7 @@ export function registrationScenario(
         ],
         hasData: true,
         hasMaterials: false,
+        hasAnalyticCode: true,
     }, 'withResources');
 
     server.create('file', {id: 'afile', target: currentUserWrite});
@@ -142,6 +143,7 @@ export function registrationScenario(
         },
         hasData: false,
         hasMaterials: true,
+        hasAnalyticCode: false,
     }, 'withContributors', 'withReviewActions', 'withFiles');
 
     const silicon = server.create('registration', {
@@ -287,6 +289,7 @@ export function registrationScenario(
         registeredBy: currentUser,
         hasData: true,
         hasMaterials: true,
+        hasAnalyticCode: true,
     }, 'withContributors', 'withReviewActions', 'isEmbargo');
 
     server.create('contributor', { users: currentUser, node: cuban });

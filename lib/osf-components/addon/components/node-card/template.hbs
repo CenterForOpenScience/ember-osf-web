@@ -219,7 +219,11 @@
             </div>
         </span>
         <span local-class='OpenBadges {{if this.isMobile 'OpenBadges__mobile'}}'>
-            <OpenBadgesList @hasData={{@node.hasData}} @hasMaterials={{@node.hasMaterials}} />
+            <OpenBadgesList
+                @hasData={{@node.hasData}}
+                @hasMaterials={{@node.hasMaterials}}
+                @hasAnalyticCode={{@node.hasAnalyticCode}}
+            />
         </span>
     </div>
 </div>

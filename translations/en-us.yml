@@ -1798,6 +1798,9 @@ osf-components:
         open-materials: 'Materials'
         open-materials-mobile: 'This has open materials'
         no-open-materials-mobile: 'This does not have open materials'
+        open-analytic_code: 'Analytic code'
+        open-analytic_code-mobile: 'This has open analytic code'
+        no-open-analytic_code-mobile: 'The does not have open analytic code'
     registries:
         read-only-contributors-list:
             editContributorsOnYourProject: 'Edit contributors on your project'
