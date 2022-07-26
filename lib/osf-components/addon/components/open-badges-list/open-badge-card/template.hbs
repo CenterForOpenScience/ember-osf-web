@@ -1,0 +1,36 @@
+<p data-test-badge-item={{@resourceType}} local-class='badgeItem'>
+    <span
+        data-test-badge-icon={{@resourceType}}
+        local-class='badge'
+    >
+        <img data-test-badge-image={{@resourceType}}
+            src={{if
+                @hasResource
+                this.resourceIcon
+                this.resourceIconDisabled
+            }}
+            width='26px'
+            height='26px'
+            alt={{if
+                @hasResource
+                (t (concat 'osf-components.open-badges-list.open-' @resourceType '-mobile'))
+                (t (concat 'osf-components.open-badges-list.no-open-' @resourceType '-mobile'))
+            }}
+        >
+        {{#if @isMobile}}
+            <BsTooltip
+                @placement='left'
+                @triggerEvents='hover'
+            >
+                {{#if @hasResource}}
+                    {{t (concat 'osf-components.open-badges-list.open-' @resourceType '-mobile')}}
+                {{else}}
+                    {{t (concat 'osf-components.open-badges-list.no-open-' @resourceType '-mobile')}}
+                {{/if}}
+            </BsTooltip>
+        {{/if}}
+    </span>
+    {{#unless @isMobile}}
+        {{t (concat 'osf-components.open-badges-list.open-' @resourceType)}}
+    {{/unless}}
+</p>
