@@ -82,6 +82,7 @@ declare const config: {
             keenSessionId: string;
             analyticsDismissAdblock: string;
             cookieConsent: string;
+            outputFeaturePopover: string;
             maintenance: string;
             csrf: string;
             authSession: string;

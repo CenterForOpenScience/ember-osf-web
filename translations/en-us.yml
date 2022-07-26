@@ -1322,6 +1322,8 @@ registries:
         none_selected: 'None selected'
     overview:
         files:
+            outputFeaturePopoverHeading: 'New feature!'
+            outputFeaturePopoverBody: 'You can now add DOIs for resources (ex. data, code, papers, etc.) to your registration.'
             title: Files
             storage_providers:
                 invalidProviderDetails: 'Could not find the requested file provider.'
@@ -1709,6 +1711,17 @@ routes:
         institution: Institution
         email: Email
 osf-components:
+    resources-list:
+        add_instructions: 'Link a DOI from a repository to your registration by clicking the green “+” button. Contributors affirmed to adhere to the criteria for each badge.'
+        data: Data
+        materials: Materials
+        no-resources: 'No resources found.'
+    expandable-preview:
+        show_more: Show more
+        show_less: Show less
+    new-feature-popover:
+        acknowledge: 'Got it'
+        doNotShowAgain: 'Don''t show again'
     infinite-list:
         load_more: 'Load more'
     draft-registration-card:
