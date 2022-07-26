@@ -4,7 +4,7 @@
     local-class='NodeCard'
 >
     <div local-class='CardContents'>
-        <span local-class='CardBody'>
+        <span local-class='CardBody {{if this.isMobile 'CardBody__mobile'}}'>
             <h4 class='list-group-item-heading' local-class='NodeCard__heading' data-test-node-card-heading>
                 <span>
                     {{#if @node}}
@@ -218,7 +218,7 @@
                 {{/if}}
             </div>
         </span>
-        <span local-class='OpenBadges'>
+        <span local-class='OpenBadges {{if this.isMobile 'OpenBadges__mobile'}}'>
             <OpenBadgesList @hasData={{@node.hasData}} @hasMaterials={{@node.hasMaterials}} />
         </span>
     </div>

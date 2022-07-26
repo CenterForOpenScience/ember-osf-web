@@ -104,13 +104,21 @@
 }
 
 .CardBody {
-    width: 85%;
+    width: 80%;
+}
+
+.CardBody__mobile {
+    width: 90%;
 }
 
 .OpenBadges {
-    width: 15%;
+    width: 20%;
     border-left-width: thin;
     border-left-color: #efefef;
     border-left-style: solid;
     padding-left: 10px;
+}
+
+.OpenBadges__mobile {
+    width: 10%;
 }
