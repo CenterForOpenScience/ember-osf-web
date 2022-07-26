@@ -30,7 +30,7 @@
         local-class='ResourceList'
 >
     <:item as |resource|>
-        <ResourcesList::ResourceCard @resource={{resource}} />
+        <ResourcesList::ResourceCard @resource={{resource}} @editable={{true}} />
     </:item>
     <:empty>
         {{t 'osf-components.resources-list.no-resources'}}

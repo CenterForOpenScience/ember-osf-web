@@ -44,7 +44,7 @@
             <p>
                 {{t 'osf-components.resources-list.edit_resource.check_your_doi'}}
             </p>
-            <ResourcesList::ResourceCard @resource={{this.resource}} />
+            <ResourcesList::ResourceCard @resource={{this.resource}} @eidtable={{false}} />
         {{/if}}
     </dialog.main>
     <dialog.footer>
