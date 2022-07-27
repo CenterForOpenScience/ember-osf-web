@@ -14,6 +14,7 @@ module('Integration | Component | open-badges-list', hooks => {
         setBreakpoint('desktop');
         await render(hbs`<OpenBadgesList
             @hasData={{true}}
+            @hasAnalyticCode={{true}}
             @hasMaterials={{true}}
         />`);
         assert.dom('[data-test-badge-list-title]')
@@ -25,6 +26,7 @@ module('Integration | Component | open-badges-list', hooks => {
         setBreakpoint('mobile');
         await render(hbs`<OpenBadgesList
             @hasData={{false}}
+            @hasAnalyticCode={{false}}
             @hasMaterials={{false}}
         />`);
         assert.dom('[data-test-badge-list-title]')
@@ -36,6 +38,7 @@ module('Integration | Component | open-badges-list', hooks => {
         setBreakpoint('mobile');
         await render(hbs`<OpenBadgesList
             @hasData={{true}}
+            @hasAnalyticCode={{true}}
             @hasMaterials={{true}}
         />`);
         assert.dom('[data-test-badge-image="data"]').hasAttribute(
