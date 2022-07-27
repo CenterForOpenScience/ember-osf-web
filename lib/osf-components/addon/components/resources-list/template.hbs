@@ -1,0 +1,22 @@
+{{#if @registration.userHasWritePermission}}
+    <div data-test-add-resource-section>
+        {{t 'osf-components.resources-list.add_instructions'}}
+        {{!-- help icon --}}
+        {{!-- add button --}}
+    </div>
+{{/if}}
+
+<InfiniteList
+        @itemList={{this.resourcesList}}
+        @hasMore={{this.hasMore}}
+        @loadMore={{this.loadResources}}
+        @isLoading={{this.isLoading}}
+        local-class='ResourceList'
+>
+    <:item as |resource|>
+        <ResourcesList::ResourceCard @resource={{resource}} />
+    </:item>
+    <:empty>
+        {{t 'osf-components.resources-list.no-resources'}}
+    </:empty>
+</InfiniteList>

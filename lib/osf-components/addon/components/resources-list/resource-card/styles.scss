@@ -1,0 +1,17 @@
+.resourceItem {
+    padding: 12px 0;
+    border-top: solid 1px $color-border-gray;
+    min-height: 60px;
+}
+
+.resourceType {
+    display: inline-flex;
+    font-weight: bold;
+}
+
+.icon {
+    width: 18px;
+    height: 20px;
+    background-size: contain;
+    margin: 0 6px;
+}

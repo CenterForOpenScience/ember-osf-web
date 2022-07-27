@@ -80,16 +80,34 @@
 }
 
 .ResourcesWrapper {
+    display: inline-flex;
+    flex-direction: column;
     background-color: #fff;
     color: $primary-blue;
     border-top: 1px solid #999;
-    padding-top: 6px;
+    padding-left: 8px;
+    width: 100%;
+}
+
+.ResourcesWrapper h3 {
+    font-weight: 700;
+    color: #333;
+}
+
+.ResourcesWrapper img {
+    height: 22.5px;
+    width: 22px;
+}
+
+.ResourcesWrapper label {
+    font-weight: 300;
+    font-size: 15px;
+    padding-left: 15px;
 }
 
 .ResourcesWrapper * {
     background-color: #fff;
     color: $primary-blue;
-    font-weight: 300;
 }
 
 .Registration_LeftNav {

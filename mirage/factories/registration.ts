@@ -190,6 +190,7 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     region: association(),
     hasData: faker.random.arrayElement([true, false]),
     hasMaterials: faker.random.arrayElement([true, false]),
+    hasAnalyticCode: faker.random.arrayElement([true, false]),
 
     index(i: number) {
         return i;

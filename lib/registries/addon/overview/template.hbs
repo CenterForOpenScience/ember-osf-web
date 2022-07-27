@@ -96,12 +96,26 @@
                             {{/each}}
                         </div>
                     {{/if}}
-                    <leftNav.link data-analytics-name='Resources' 
-                        @route='registries.overview.resources'
-                        @models={{array this.registration.id}}
-                        @icon='archive'
-                        @label={{t 'registries.overview.resources.title'}}
-                    />
+                    {{#let (unique-id 'resource-link') as |id|}}
+                        <leftNav.link data-analytics-name='Resources'
+                            @route='registries.overview.resources'
+                            @models={{array this.registration.id}}
+                            @icon='archive'
+                            @label={{t 'registries.overview.resources.title'}}
+                            id={{id}}
+                        />
+                        <NewFeaturePopover
+                            @triggerElement={{concat '#' id}}
+                            @featureCookie={{this.outputFeaturePopoverCookie}}
+                        >
+                            <:header>
+                                {{t 'registries.overview.files.outputFeaturePopoverHeading'}}
+                            </:header>
+                            <:body>
+                                {{t 'registries.overview.files.outputFeaturePopoverBody'}}
+                            </:body>
+                        </NewFeaturePopover>
+                    {{/let}}
                     {{#if this.registration.wikiEnabled}}
                         <leftNav.link
                             data-test-wiki-link
@@ -126,22 +140,27 @@
                         @label={{t 'registries.overview.comments.title'}} @count={{this.commentsCount}} />
 
                     <div data-test-resources-wrapper local-class='ResourcesWrapper'>
-                        
-                        <leftNav.link data-analytics-name='Data' @route='registries.overview.index'
-                        @models={{array this.registration.id}} @icon='home'
-                        @label={{t 'registries.overview.resources.data_badge.title'}} @count={{this.resourceBadges}} />
-                        <leftNav.link data-analytics-name='Code' @route='registries.overview.index'
-                        @models={{array this.registration.id}} @icon='home'
-                        @label={{t 'registries.overview.resources.code_badge.title'}} @count={{this.resourceBadges}} />
-                        <leftNav.link data-analytics-name='Materials' @route='registries.overview.index'
-                        @models={{array this.registration.id}} @icon='home'
-                        @label={{t 'registries.overview.resources.materials_badge.title'}} @count={{this.resourceBadges}} />
-                        <leftNav.link data-analytics-name='Papers' @route='registries.overview.index'
-                        @models={{array this.registration.id}} @icon='home'
-                        @label={{t 'registries.overview.resources.papers_badge.title'}} @count={{this.resourceBadges}} />
-                        <leftNav.link data-analytics-name='Supplements' @route='registries.overview.index'
-                        @models={{array this.registration.id}} @icon='home'
-                        @label={{t 'registries.overview.resources.supplements_badge.title'}} @count={{this.resourceBadges}} />
+                        <h3>{{t 'registries.overview.resources.title'}}</h3>
+                        <label data-test-data-badge class='OutputResource__data'>
+                            <img data-analytics-name='Data' alt={{t 'registries.overview.resources.data_badge.alt_text'}} src='/assets/images/badges/data_small_color.png' />
+                            {{t 'registries.overview.resources.data_badge.title'}}
+                        </label>
+                        <label data-test-code-badge class='OutputResource__data'>
+                            <img data-analytics-name='Code' alt={{t 'registries.overview.resources.code_badge.alt_text'}} src='/assets/images/badges/analytic_code_small_color.png' />
+                            {{t 'registries.overview.resources.code_badge.title'}}
+                        </label>
+                        <label data-test-materials-badge class='OutputResource__data'>
+                            <img data-analytics-name='Materials' alt={{t 'registries.overview.resources.materials_badge.alt_text'}} src='/assets/images/badges/materials_small_color.png' />
+                            {{t 'registries.overview.resources.materials_badge.title'}}
+                        </label>
+                        <label data-test-papers-badge class='OutputResource__data'>
+                            <img data-analytics-name='Papers' alt={{t 'registries.overview.resources.papers_badge.alt_text'}} src='/assets/images/badges/data_small_color.png' />
+                            {{t 'registries.overview.resources.papers_badge.title'}}
+                        </label>
+                        <label data-test-supplements-badge class='OutputResource__data'>
+                            <img data-analytics-name='Supplements' alt={{t 'registries.overview.resources.supplements_badge.alt_text'}} src='/assets/images/badges/data_small_color.png' />
+                            {{t 'registries.overview.resources.supplements_badge.title'}}
+                        </label>
                     </div>
                 </layout.leftNavOld>
 
