@@ -27,7 +27,9 @@ module('Integration | Component | ResourcesList::ResourceCard', hooks => {
         await render(hbs`<ResourcesList::ResourceCard @resource={{this.resource}} />`);
         assert.dom('[data-test-resource-card-type]').containsText(t('osf-components.resources-list.data'));
         assert.ok(document.getElementsByTagName('img')[0].src.includes('data_small_color'), 'data icon shown');
-        assert.dom('[data-test-resource-card-icon]').hasAttribute('alt', t('osf-components.resources-list.data'));
+        assert.dom('[data-test-resource-card-icon]').hasAttribute(
+            'alt', t('osf-components.resources-list.data') + ' ' + t('osf-components.resources-list.badge'),
+        );
         assert.dom('[data-test-resource-card-pid-link]').hasAttribute('href', this.resource.pid, 'Links to pid');
         assert.dom('[data-test-resource-card-description]').hasText(this.resource.description, 'Description shown');
     });
@@ -38,7 +40,9 @@ module('Integration | Component | ResourcesList::ResourceCard', hooks => {
         await render(hbs`<ResourcesList::ResourceCard @resource={{this.resource}} />`);
         assert.dom('[data-test-resource-card-type]').containsText(t('osf-components.resources-list.materials'));
         assert.ok(document.getElementsByTagName('img')[0].src.includes('materials_small_color'), 'material icon shown');
-        assert.dom('[data-test-resource-card-icon]').hasAttribute('alt', t('osf-components.resources-list.materials'));
+        assert.dom('[data-test-resource-card-icon]').hasAttribute(
+            'alt', t('osf-components.resources-list.materials') + ' ' + t('osf-components.resources-list.badge'),
+        );
     });
 
     test('it renders anonymized view', async function(assert) {
@@ -50,6 +54,8 @@ module('Integration | Component | ResourcesList::ResourceCard', hooks => {
         await render(hbs`<ResourcesList::ResourceCard @resource={{this.resource}} />`);
         assert.dom('[data-test-resource-card-pid-link]').doesNotExist('pid hidden for anonymous');
         assert.ok(document.getElementsByTagName('img')[0].src.includes('materials_small_color'), 'material icon shown');
-        assert.dom('[data-test-resource-card-icon]').hasAttribute('alt', t('osf-components.resources-list.materials'));
+        assert.dom('[data-test-resource-card-icon]').hasAttribute(
+            'alt', t('osf-components.resources-list.materials') + ' ' + t('osf-components.resources-list.badge'),
+        );
     });
 });
