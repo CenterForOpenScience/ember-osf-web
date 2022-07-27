@@ -31,6 +31,7 @@
 
     &::after {
         opacity: 0.4;
+        filter: grayscale(1);
         z-index: -1;
     }
 }
