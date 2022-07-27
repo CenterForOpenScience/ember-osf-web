@@ -2,7 +2,7 @@
     <p data-test-resource-card-type local-class='resourceType'>
         <img
             src={{this.resourceIcon}}
-            alt={{this.resourceTypeName}}
+            alt={{concat this.resourceTypeName ' ' (t 'osf-components.resources-list.badge')}}
             data-test-resource-card-icon
             local-class='icon'
         />

@@ -1716,6 +1716,7 @@ osf-components:
         data: Data
         materials: Materials
         analytic_code: 'Analytic Code'
+        badge: badge
         no-resources: 'No resources found.'
     expandable-preview:
         show_more: Show more
