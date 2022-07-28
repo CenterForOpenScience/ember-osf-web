@@ -1718,7 +1718,7 @@ osf-components:
         analytic_code: 'Analytic Code'
         papers: 'Papers'
         supplements: 'Supplements'
-        no-resources: 'No resources found.'
+        no-resources: 'This registration has no resources.'
     expandable-preview:
         show_more: Show more
         show_less: Show less

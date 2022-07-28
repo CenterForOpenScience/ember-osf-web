@@ -17,6 +17,6 @@
         <ResourcesList::ResourceCard @resource={{resource}} />
     </:item>
     <:empty>
-        {{t 'osf-components.resources-list.no-resources'}}
+        <li local-class='EmptyList'>{{t 'osf-components.resources-list.no-resources'}}</li>
     </:empty>
 </InfiniteList>
