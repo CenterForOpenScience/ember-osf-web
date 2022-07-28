@@ -6,7 +6,9 @@ import OsfModel from './osf-model';
 export enum ResourceTypes {
     Data = 'data',
     Materials = 'materials',
-    AnalyticCode = 'analytic_code'
+    AnalyticCode = 'analytic_code',
+    Papers = 'papers',
+    Supplements = 'supplements',
 }
 
 export default class ResourceModel extends OsfModel {
