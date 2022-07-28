@@ -12,7 +12,6 @@ import RegistrationModel from 'ember-osf-web/models/registration';
 import ResourceModel, { ResourceTypes } from 'ember-osf-web/models/resource';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
 import { tracked } from 'tracked-built-ins';
-// import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 interface Args {
     resource?: ResourceModel;
@@ -43,11 +42,6 @@ export default class EditResourceModal extends Component<Args> {
             presence: true,
             translationArgs: { description: this.intl.t('osf-components.resources-list.edit_resource.output_type') },
         })],
-        description: [validatePresence({
-            type: 'blank',
-            presence: true,
-            translationArgs: { description: this.intl.t('osf-components.resources-list.edit_resource.description') },
-        })],
     };
 
     @tracked changeset: any;
@@ -58,15 +52,17 @@ export default class EditResourceModal extends Component<Args> {
     async onOpen() {
         if (!this.resource) {
             this.resource = await this.store.createRecord('resource', { registration: this.args.registration });
-            this.resource.save();
+            await this.resource.save();
         }
         this.changeset = buildChangeset(this.resource, this.resourceValidations);
     }
 
     @action
     onClose() {
-        this.resource = undefined;
-        this.changeset = undefined;
+        if (!this.args.resource) {
+            this.resource = undefined;
+            this.changeset = undefined;
+        }
         this.shouldShowPreview = false;
     }
 
@@ -74,8 +70,22 @@ export default class EditResourceModal extends Component<Args> {
     async goToPreview() {
         this.changeset.validate();
         if (this.changeset.get('isValid')) {
-            await this.changeset.save();
-            this.shouldShowPreview = true;
+            try {
+                await this.changeset.save();
+                this.shouldShowPreview = true;
+            } catch (e) {
+                if (e.errors[0].status === '400') {
+                    this.changeset.addError(
+                        'pid',
+                        this.intl.t(
+                            'validationErrors.invalid',
+                            {
+                                description: this.intl.t('osf-components.resources-list.edit_resource.doi'),
+                            },
+                        ),
+                    );
+                }
+            }
         }
     }
 

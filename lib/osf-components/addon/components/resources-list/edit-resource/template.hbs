@@ -12,39 +12,41 @@
         {{t 'osf-components.resources-list.edit_resource.heading'}}
     </dialog.heading>
     <dialog.main>
-        {{#unless this.shouldShowPreview}}
-            <FormControls
-                @changeset={{this.changeset}} 
-                as |form|
-            >
-                <form.text
-                    @isRequired={{true}}
-                    @valuePath={{'pid'}}
-                    @label={{t 'osf-components.resources-list.edit_resource.doi'}}
-                />
-                <form.select
-                    @isRequired={{true}}
-                    @valuePath={{'resourceType'}}
-                    @label={{t 'osf-components.resources-list.edit_resource.output_type'}}
-                    @options={{this.availableTypes}}
-                    @searchEnabled={{false}}
-                    @renderInPlace={{true}}
-                    as |type|
-                >
-                    {{t (concat 'osf-components.resources-list.edit_resource.' type)}}
-                </form.select>
-                <form.textarea
-                    @isRequired={{true}}
-                    @valuePath={{'description'}}
-                    @label={{t 'osf-components.resources-list.edit_resource.description'}}
-                />
-            </FormControls>
-        {{/unless}}
         {{#if this.shouldShowPreview}}
             <p>
                 {{t 'osf-components.resources-list.edit_resource.check_your_doi'}}
             </p>
-            <ResourcesList::ResourceCard @resource={{this.resource}} @eidtable={{false}} />
+            <ResourcesList::ResourceCard @resource={{this.resource}} @editable={{false}} />
+        {{else}}
+            {{#if this.onOpen.isRunning}}
+                <LoadingIndicator @dark={{true}} />
+            {{else}}
+                <FormControls
+                    @changeset={{this.changeset}} 
+                    as |form|
+                >
+                    <form.text
+                        @isRequired={{true}}
+                        @valuePath={{'pid'}}
+                        @label={{t 'osf-components.resources-list.edit_resource.doi'}}
+                    />
+                    <form.select
+                        @isRequired={{true}}
+                        @valuePath={{'resourceType'}}
+                        @label={{t 'osf-components.resources-list.edit_resource.output_type'}}
+                        @options={{this.availableTypes}}
+                        @searchEnabled={{false}}
+                        @renderInPlace={{true}}
+                        as |type|
+                    >
+                        {{t (concat 'osf-components.resources-list.edit_resource.' type)}}
+                    </form.select>
+                    <form.textarea
+                        @valuePath={{'description'}}
+                        @label={{t 'osf-components.resources-list.edit_resource.description'}}
+                    />
+                </FormControls>
+            {{/if}}
         {{/if}}
     </dialog.main>
     <dialog.footer>

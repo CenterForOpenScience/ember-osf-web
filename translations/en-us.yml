@@ -1717,9 +1717,9 @@ osf-components:
         no-resources: 'No resources found.'
         edit_resource:
             preview: 'Preview'
-            heading: 'Add new output'
+            heading: 'Add new resource'
             doi: 'DOI'
-            output_type: 'Output type'
+            output_type: 'resource type'
             description: 'Description'
             data: 'Data'
             materials: 'Materials'
