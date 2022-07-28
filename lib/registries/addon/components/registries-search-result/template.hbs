@@ -62,6 +62,7 @@
     {{#if @result.openBadges}}
         <div class='col-xs-2 col-sm-3' local-class='OpenBadges'>
             <OpenBadgesList
+                @registration={{@result.id}}
                 @hasData={{@result.openBadges.data}}
                 @hasMaterials={{@result.openBadges.materials}}
                 @hasAnalyticCode={{@result.openBadges.analytic_code}}
