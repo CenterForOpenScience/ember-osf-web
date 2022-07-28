@@ -68,12 +68,12 @@ export default class FileRenameModal extends Component<Args> {
     async updateFileName() {
         const newName = this.newFileName;
         const successMessage = this.intl.t('osf-components.file-browser.file_rename_modal.success_message');
-        if (!newName) {
+        if (!this.isValid) {
             return;
         }
 
         try {
-            const trimmedName = newName.trim();
+            const trimmedName = newName!.trim();
             await this.args.item.rename(trimmedName, '');
             this.toast.success(successMessage);
             this.args.manager.reload();
