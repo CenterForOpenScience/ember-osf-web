@@ -183,6 +183,8 @@ function serializeRegistration(reg: ModelInstance<RegistrationModel>): Serialize
             data: reg.hasData,
             materials: reg.hasMaterials,
             analytic_code: reg.hasAnalyticCode,
+            papers: reg.hasPapers,
+            supplements: reg.hasSupplements,
         },
     };
 }

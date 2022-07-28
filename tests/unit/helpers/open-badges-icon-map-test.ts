@@ -20,6 +20,16 @@ module('Unit | Helper | open-badges-icon-map', () => {
             '/assets/images/badges/analytic_code_small_color.png',
             'Analytic code icon matches',
         );
+        assert.equal(
+            getBadgeIcon(ResourceTypes.Papers),
+            '/assets/images/badges/papers_small_color.png',
+            'Papers icon matches',
+        );
+        assert.equal(
+            getBadgeIcon(ResourceTypes.Supplements),
+            '/assets/images/badges/supplements_small_color.png',
+            'Supplements icon matches',
+        );
     });
 
     test('it maps disabled icons', assert => {
@@ -37,6 +47,16 @@ module('Unit | Helper | open-badges-icon-map', () => {
             getBadgeIconDisabled(ResourceTypes.AnalyticCode),
             '/assets/images/badges/analytic_code_small_gray.png',
             'Analytic code icon matches',
+        );
+        assert.equal(
+            getBadgeIconDisabled(ResourceTypes.Papers),
+            '/assets/images/badges/papers_small_gray.png',
+            'Papers icon matches',
+        );
+        assert.equal(
+            getBadgeIconDisabled(ResourceTypes.Supplements),
+            '/assets/images/badges/supplements_small_gray.png',
+            'Supplements icon matches',
         );
     });
 });

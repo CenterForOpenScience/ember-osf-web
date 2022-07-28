@@ -110,6 +110,8 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @attr('boolean') hasData!: boolean;
     @attr('boolean') hasMaterials!: boolean;
     @attr('boolean') hasAnalyticCode!: boolean;
+    @attr('boolean') hasPapers!: boolean;
+    @attr('boolean') hasSupplements!: boolean;
 
     // Write-only attributes
     @attr('array') includedNodeIds?: string[];

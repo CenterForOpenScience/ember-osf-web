@@ -90,6 +90,8 @@ export interface OpenBadges {
     data: boolean;
     materials: boolean;
     analytic_code: boolean;
+    papers: boolean;
+    supplements: boolean;
 }
 
 export interface ShareRegistration {

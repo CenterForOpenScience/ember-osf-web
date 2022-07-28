@@ -16,10 +16,12 @@ module('Integration | Component | open-badges-list', hooks => {
             @hasData={{true}}
             @hasAnalyticCode={{true}}
             @hasMaterials={{true}}
+            @hasPapers={{true}}
+            @hasSupplements={{true}}
         />`);
         assert.dom('[data-test-badge-list-title]')
             .hasText(t('osf-components.open-badges-list.title'), 'Title shows in desktop');
-        assert.dom('[data-test-badge-item]').exists({count: 3}, 'All the badges are there');
+        assert.dom('[data-test-badge-item]').exists({count: 5}, 'All the badges are there');
     });
 
     test('it renders in the all false state mobile view', async function(assert) {
@@ -28,10 +30,12 @@ module('Integration | Component | open-badges-list', hooks => {
             @hasData={{false}}
             @hasAnalyticCode={{false}}
             @hasMaterials={{false}}
+            @hasPapers={{false}}
+            @hasSupplements={{false}}
         />`);
         assert.dom('[data-test-badge-list-title]')
             .doesNotExist('Title does not show in mobile');
-        assert.dom('[data-test-badge-item]').exists({count: 3}, 'All the badges are there');
+        assert.dom('[data-test-badge-item]').exists({count: 5}, 'All the badges are there');
     });
 
     test('it renders in the all true state mobile view', async function(assert) {
