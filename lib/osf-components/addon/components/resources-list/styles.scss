@@ -12,3 +12,30 @@
     padding: 12px 0;
     border-top: solid 1px $color-border-gray;
 }
+
+.Flexbox {
+    display: flex;
+    flex-direction: row;
+}
+
+.TriggerButton.TriggerButton {
+    padding: 3px;
+    border-radius: 50%;
+    outline: none;
+    background-color: darken($brand-success, 10%);
+    color: $color-bg-white;
+
+
+    &:focus,
+    &:active:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px $color-select;
+    }
+
+    svg {
+        height: 28px;
+        width: 28px;
+        transform: translate(0, 1px);
+        transition: all 250ms linear;
+    }
+}

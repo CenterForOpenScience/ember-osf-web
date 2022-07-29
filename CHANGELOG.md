@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [22.7.0] - 2022-7-20
+### Added
+- Show extra information on files detail page for dataverse files
+### Changed
+- Prevent users from using special characters when renaming files
+- Hide left navbar links when users don't have permissions
+- Update registries landing page
+
+
 ## [22.6.2] - 2022-6-24
 ### Hotfix
 - Fix long file name display issue
@@ -1858,6 +1867,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Quick Files
 
+[22.7.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/22.7.0
 [22.6.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/22.6.0
 [22.5.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/22.5.0
 [22.4.0]: https://github.com/CenterForOpenScience/ember-osf-web/releases/tag/22.4.0

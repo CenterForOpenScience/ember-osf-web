@@ -2,7 +2,7 @@
     <p data-test-resource-card-type local-class='resourceType'>
         <img
             src={{this.resourceIcon}}
-            alt={{this.resourceTypeName}}
+            alt={{t 'osf-components.resources-list.badge_alt' type=this.resourceTypeName}}
             data-test-resource-card-icon
             local-class='icon'
         />
@@ -16,6 +16,20 @@
             >
                 {{@resource.pid}}
             </OsfLink>
+            {{#if @editable}}
+                <ResourcesList::EditResource
+                    @resource={{@resource}}
+                    as |modal|
+                >
+                    <Button
+                        local-class='EditButton'
+                        @layout='fake-link'
+                        {{on 'click' modal.open}}
+                    >
+                        <FaIcon @icon='pencil-alt' @fixedWidth={{true}} />
+                    </Button>
+                </ResourcesList::EditResource>
+            {{/if}}
         </p>
     {{/unless}}
     <ExpandablePreview data-test-resource-card-description>

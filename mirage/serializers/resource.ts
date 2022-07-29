@@ -20,7 +20,7 @@ export default class ResourceSerializer extends ApplicationSerializer<ResourceMo
     }
     buildNormalLinks(model: ModelInstance<ResourceModel>) {
         return {
-            self: `${apiUrl}/resources/${model.id}`,
+            self: `${apiUrl}/v2/resources/${model.id}`,
         };
     }
 }
