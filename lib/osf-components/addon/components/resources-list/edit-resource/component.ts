@@ -1,11 +1,10 @@
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-// import { waitFor } from '@ember/test-waiters';
+import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validatePresence } from 'ember-changeset-validations/validators';
 import { task } from 'ember-concurrency';
-// import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
 import IntlService from 'ember-intl/services/intl';
 import RegistrationModel from 'ember-osf-web/models/registration';
@@ -67,6 +66,7 @@ export default class EditResourceModal extends Component<Args> {
     }
 
     @task
+    @waitFor
     async goToPreview() {
         this.changeset.validate();
         if (this.changeset.get('isValid')) {
@@ -95,10 +95,16 @@ export default class EditResourceModal extends Component<Args> {
     }
 
     @task
+    @waitFor
     async finalize() {
         if (this.resource) {
             this.resource.finalized = true;
-            await this.resource.save();
+            try {
+                await this.resource.save();
+                this.toast.success(this.intl.t('osf-components.resources-list.edit_resource.add_success'));
+            } catch {
+                this.toast.error(this.intl.t('osf-components.resources-list.edit_resource.add_failure'));
+            }
         }
     }
 }

@@ -1724,6 +1724,8 @@ osf-components:
             data: 'Data'
             materials: 'Materials'
             check_your_doi: 'Check your DOI for accuracy.'
+            add_success: 'Resource successfully added.'
+            add_failure: 'Failed to add resource.'
     expandable-preview:
         show_more: Show more
         show_less: Show less
