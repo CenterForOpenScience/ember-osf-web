@@ -4,7 +4,9 @@
         {{yield item to='item'}}
     {{/each}}
     {{#if @isLoading}}
-        <LoadingIndicator @dark={{true}} />
+        <li>
+            <LoadingIndicator @dark={{true}} />
+        </li>
     {{/if}}
     {{#if (and @hasMore (not @isLoading))}}
         <li

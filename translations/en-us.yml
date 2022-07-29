@@ -1718,7 +1718,7 @@ osf-components:
         analytic_code: 'Analytic Code'
         papers: 'Papers'
         supplements: 'Supplements'
-        badge: badge
+        badge_alt: '{type} badge'
         no-resources: 'No resources found.'
     expandable-preview:
         show_more: Show more
