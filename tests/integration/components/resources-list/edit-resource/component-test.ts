@@ -2,7 +2,6 @@ import { render, click as untrackedClicked, click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupRenderingTest } from 'ember-qunit';
-// import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
 import RegistrationModel from 'ember-osf-web/models/registration';
