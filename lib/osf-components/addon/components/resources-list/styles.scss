@@ -8,6 +8,11 @@
     }
 }
 
+.EmptyList {
+    padding: 12px 0;
+    border-top: solid 1px $color-border-gray;
+}
+
 .Flexbox {
     display: flex;
     flex-direction: row;

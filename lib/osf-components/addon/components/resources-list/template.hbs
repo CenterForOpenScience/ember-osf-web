@@ -33,6 +33,6 @@
         <ResourcesList::ResourceCard @resource={{resource}} @editable={{@registration.userHasWritePermission}} />
     </:item>
     <:empty>
-        {{t 'osf-components.resources-list.no-resources'}}
+        <li local-class='EmptyList'>{{t 'osf-components.resources-list.no-resources'}}</li>
     </:empty>
 </InfiniteList>
