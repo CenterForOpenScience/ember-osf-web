@@ -26,11 +26,13 @@
                     as |form|
                 >
                     <form.text
+                        data-test-doi-field
                         @isRequired={{true}}
                         @valuePath={{'pid'}}
                         @label={{t 'osf-components.resources-list.edit_resource.doi'}}
                     />
                     <form.select
+                        data-test-resource-type-field
                         @isRequired={{true}}
                         @valuePath={{'resourceType'}}
                         @label={{t 'osf-components.resources-list.edit_resource.output_type'}}
@@ -39,9 +41,10 @@
                         @renderInPlace={{true}}
                         as |type|
                     >
-                        {{t (concat 'osf-components.resources-list.edit_resource.' type)}}
+                        {{t (concat 'osf-components.resources-list.' type)}}
                     </form.select>
                     <form.textarea
+                        data-test-description-field
                         @valuePath={{'description'}}
                         @label={{t 'osf-components.resources-list.edit_resource.description'}}
                     />
@@ -52,11 +55,13 @@
     <dialog.footer>
         {{#if this.shouldShowPreview}}
             <Button
+                data-test-edit-button
                 {{on 'click' this.goToEdit}}
             >
                 {{t 'general.edit'}}
             </Button>
             <Button
+                data-test-add-button
                 @type='create'
                 {{on 'click' (queue
                     (perform this.finalize)
@@ -69,11 +74,13 @@
 
         {{else}}
             <Button
+                data-test-cancel-button
                 {{on 'click' dialog.close}}
             >
                 {{t 'general.cancel'}}
             </Button>
             <Button
+                data-test-preview-button
                 @type={{'primary'}}
                 {{on 'click' (perform this.goToPreview)}}
             >

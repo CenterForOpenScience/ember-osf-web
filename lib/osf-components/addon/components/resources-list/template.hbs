@@ -5,22 +5,20 @@
     >
         <span>{{t 'osf-components.resources-list.add_instructions'}}</span>
         {{!-- help icon --}}
-        {{#if @registration.userHasWritePermission}}
-            <ResourcesList::EditResource
-                @registration={{@registration}}
-                @reload={{this.reload}}
-                as |modal|
-            >
-                <div>
-                    <Button
-                        local-class='TriggerButton'
-                        {{on 'click' modal.open}}
-                    >
-                        <FaIcon @icon='plus' @size='2x' @fixedWidth={{true}}/>
-                    </Button>
-                </div>
-            </ResourcesList::EditResource>
-        {{/if}}
+        <ResourcesList::EditResource
+            @registration={{@registration}}
+            @reload={{this.reload}}
+            as |modal|
+        >
+            <div>
+                <Button
+                    local-class='TriggerButton'
+                    {{on 'click' modal.open}}
+                >
+                    <FaIcon @icon='plus' @size='2x' @fixedWidth={{true}}/>
+                </Button>
+            </div>
+        </ResourcesList::EditResource>
     </div>
 {{/if}}
 
