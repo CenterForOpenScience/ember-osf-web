@@ -1,4 +1,5 @@
 .resourceItem {
+    list-style: none;
     padding: 12px 0;
     border-top: solid 1px $color-border-gray;
     min-height: 60px;
@@ -14,4 +15,8 @@
     height: 20px;
     background-size: contain;
     margin: 0 6px;
+}
+
+.EditButton {
+    float: right;
 }

@@ -16,6 +16,20 @@
             >
                 {{@resource.pid}}
             </OsfLink>
+            {{#if @editable}}
+                <ResourcesList::EditResource
+                    @resource={{@resource}}
+                    as |modal|
+                >
+                    <Button
+                        local-class='EditButton'
+                        @layout='fake-link'
+                        {{on 'click' modal.open}}
+                    >
+                        <FaIcon @icon='pencil-alt' @fixedWidth={{true}} />
+                    </Button>
+                </ResourcesList::EditResource>
+            {{/if}}
         </p>
     {{/unless}}
     <ExpandablePreview data-test-resource-card-description>
