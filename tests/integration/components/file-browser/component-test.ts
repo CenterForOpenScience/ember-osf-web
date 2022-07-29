@@ -1,4 +1,4 @@
-import { fillIn, render } from '@ember/test-helpers';
+import { fillIn, render, triggerKeyEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { ModelInstance } from 'ember-cli-mirage';
 import { TestContext, t } from 'ember-intl/test-support';
@@ -244,5 +244,42 @@ module('Integration | Component | file-browser', hooks => {
             const newFolderAria = t('osf-components.file-browser.view_folder', {folderName: 'Shiny New Folder'});
             assert.dom(`[data-test-file-list-link][aria-label="${newFolderAria}"]`)
                 .exists('Shiny new folder exists');
+        });
+
+    test('it creates new folder using enter key',
+        async function(this: FileBrowserTestContext, assert) {
+            const node = await this.store.findRecord('node', this.mirageNode.id);
+            const storageProviders = await node.files;
+            this.osfStorageProvider = storageProviders.toArray()[0];
+            await render(hbs`
+                <StorageProviderManager::StorageManager @provider={{this.osfStorageProvider}} as |manager|>
+                    <FileBrowser @manager={{manager}} @enableUpload={{true}} @selectable={{true}} />
+                </StorageProviderManager::StorageManager>
+            `);
+            await click('[data-test-add-new-trigger]');
+            await click('[data-test-create-folder]');
+            assert.dom('[data-test-create-folder-heading]').exists('Create folder modal shown');
+            assert.dom('[data-test-new-folder-error]').containsText(
+                t('osf-components.file-browser.create_folder.error_message'), 'Message shown to enter folder name',
+            );
+            assert.dom('[data-test-create-folder-button]').isDisabled('Create folder button is disabled');
+            await triggerKeyEvent('[data-test-create-folder-main] input', 'keyup', 'Enter');
+            assert.dom('[data-test-create-folder-heading]')
+                .exists('Create folder modal still visible after enter when folder name is empty');
+
+            await fillIn('[data-test-create-folder-main] input', '     ');
+            assert.dom('[data-test-new-folder-error]').containsText(
+                t('osf-components.file-browser.create_folder.error_message'), 'Folder cannot be empty',
+            );
+            await triggerKeyEvent('[data-test-create-folder-main] input', 'keyup', 'Enter');
+            assert.dom('[data-test-create-folder-heading]')
+                .exists('Create folder modal still visible after enter when folder name is just spaces');
+
+            await fillIn('[data-test-create-folder-main] input', 'Shiny New Folder');
+            assert.dom('[data-test-new-folder-error]').doesNotExist('No error message shown');
+            assert.dom('[data-test-create-folder-button]').isEnabled('Create folder button is enabled');
+            await triggerKeyEvent('[data-test-create-folder-main] input', 'keyup', 'Enter');
+            assert.dom('[data-test-create-folder-heading]')
+                .doesNotExist('Create folder modal closes after enter when folder name is valid');
         });
 });

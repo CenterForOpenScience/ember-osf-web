@@ -9,7 +9,7 @@
                 data-analytics-name='Select file'
                 data-analytics-category='checkbox'
                 data-test-select-file={{@item.id}}
-                aria-label={{t 'osf-components.file-browser.select_file' fileName=@item.name}}
+                aria-label={{t 'osf-components.file-browser.select_file' fileName=@item.displayName}}
                 {{on 'click' (action @manager.selectFile @item)}}
                 local-class='Label'
             >
@@ -22,7 +22,7 @@
         {{/if}}
         <div local-class='FileList__item__name {{unless @isDesktop 'name__mobile'}}'>
             {{#if @item.isCheckedOut}}
-                <span local-class='CheckoutSpan'>
+                <span data-test-file-list-checkout local-class='CheckoutSpan'>
                     <FaIcon local-class='CheckoutIcon' @icon='lock' />
                     <BsTooltip
                         @placement='right'
@@ -33,11 +33,12 @@
                 </span>
             {{/if}}
             <OsfLink
+                data-test-file-list-link
                 data-analytics-name='Open file'
                 aria-label={{if
                     @item.showAsUnviewed
-                    (t 'osf-components.file-browser.view_unseen_file' fileName=@item.name)
-                    (t 'osf-components.file-browser.view_file' fileName=@item.name)
+                    (t 'osf-components.file-browser.view_unseen_file' fileName=@item.displayName)
+                    (t 'osf-components.file-browser.view_file' fileName=@item.displayName)
                 }}
                 @href={{@item.links.html}}
                 @target='_blank'
@@ -47,7 +48,7 @@
                     @prefix='far' @icon='file-alt' @fixedWidth={{true}}
                 />
                 <span data-test-file-name>
-                    {{@item.name}}
+                    {{@item.displayName}}
                 </span>
             </OsfLink>
         </div>

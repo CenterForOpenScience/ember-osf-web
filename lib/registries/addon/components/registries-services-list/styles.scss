@@ -27,15 +27,6 @@
 
 .ServicesList__ProviderLogo {
     height: 120px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-
-    &.provider-egap {
-        background-image: url('img/provider_logos/EGAP_evidence_logo_white_0.png');
-    }
-
-    &.provider-prereg {
-        background-image: url('img/provider_logos/prereg.png');
-    }
+    width: 100%;
+    object-fit: contain;
 }
