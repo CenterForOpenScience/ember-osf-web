@@ -57,12 +57,14 @@
         {{#if this.shouldShowPreview}}
             <Button
                 data-test-edit-button
+                data-analytics-name='Go to edit'
                 {{on 'click' this.goToEdit}}
             >
                 {{t 'general.edit'}}
             </Button>
             <Button
                 data-test-add-button
+                data-analytics-name='Add resource'
                 @type='create'
                 {{on 'click' (queue
                     (perform this.finalize)
@@ -76,12 +78,14 @@
         {{else}}
             <Button
                 data-test-cancel-button
+                data-analytics-name='Cancel adding resource'
                 {{on 'click' dialog.close}}
             >
                 {{t 'general.cancel'}}
             </Button>
             <Button
                 data-test-preview-button
+                data-analytics-name='Preview resource'
                 @type={{'primary'}}
                 {{on 'click' (perform this.goToPreview)}}
             >
