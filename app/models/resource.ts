@@ -6,7 +6,9 @@ import OsfModel from './osf-model';
 export enum ResourceTypes {
     Data = 'data',
     Materials = 'materials',
-    AnalyticCode = 'analytic_code'
+    AnalyticCode = 'analytic_code',
+    Papers = 'papers',
+    Supplements = 'supplements'
 }
 
 export default class ResourceModel extends OsfModel {
@@ -20,7 +22,6 @@ export default class ResourceModel extends OsfModel {
 
     @belongsTo('registration', { inverse: 'resources' })
     registration!: AsyncBelongsTo<RegistrationModel> & RegistrationModel;
-
 }
 
 declare module 'ember-data/types/registries/model' {

@@ -1,0 +1,8 @@
+<label data-test-code-badge class='OutputResource__data'>
+    <img
+        data-analytics-name={{@resource.resourceType}}
+        src={{this.getSrc}}
+        alt={{t (concat 'registries.overview.resources.' @resource.resourceType '.alt_text')}}
+    />
+    {{t (concat 'registries.overview.resources.' @resource.resourceType '.title')}}
+</label>

@@ -1331,19 +1331,19 @@ registries:
                 osfstorage: 'OSF Storage'
         resources:
             title: 'Open Resources'
-            data_badge:
+            data:
                 title: 'Data'
                 alt_text: 'Data Badge'
-            code_badge:
+            analytic_code:
                 title: 'Code'
                 alt_text: 'Code Badge'
-            materials_badge:
+            materials:
                 title: 'Materials'
                 alt_text: 'Materials Badge'
-            papers_badge:
+            papers:
                 title: 'Papers'
                 alt_text: 'Papers Badge'
-            supplements_badge:
+            supplements:
                 title: 'Supplements'
                 alt_text: 'Supplements Badge'
         title: Overview

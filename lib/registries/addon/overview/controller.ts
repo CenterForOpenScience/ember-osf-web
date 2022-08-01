@@ -9,16 +9,11 @@ import config from 'ember-get-config';
 
 import Registration from 'ember-osf-web/models/registration';
 import { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
-import { QueryHasManyResult } from 'ember-osf-web/models/osf-model';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
 import Intl from 'ember-intl/services/intl';
 import RouterService from '@ember/routing/router-service';
 import Features from 'ember-feature-flags';
-import ResourceModel from 'ember-osf-web/models/resource';
-import { task } from 'ember-concurrency';
-import { waitFor } from '@ember/test-waiters';
-import { taskFor } from 'ember-concurrency-ts';
 
 const {
     support: {
@@ -52,12 +47,8 @@ export default class Overview extends Controller {
 
     @alias('model.taskInstance.value') registration?: Registration;
 
-    resources?: QueryHasManyResult<ResourceModel>;
-
     constructor(...args: any[]) {
         super(...args);
-        taskFor(this.getResources).perform();
-        console.log('resources are ', this.resources);
     }
 
     get registrationFilesPageEnabled() {
@@ -100,23 +91,10 @@ export default class Overview extends Controller {
     }
 
     @computed('registration.resources')
-    get resourceBadges() {
+    get resources() {
         if (!this.registration) {
             return 0;
         }
         return (this.registration && this.registration.resources) || 0;
-    }
-
-    @task
-    @waitFor
-    async getResources() {
-        const selectedRegistration = await this.registration;
-
-        if(!selectedRegistration) {
-            return;
-        }
-        const resources =  await selectedRegistration.queryHasMany('resources');
-        this.set('resources', resources);
-        console.log('Associated resources are:', resources);
     }
 }
