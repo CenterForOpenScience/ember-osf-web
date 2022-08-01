@@ -1714,6 +1714,7 @@ osf-components:
         analytic_code: 'Analytic Code'
         papers: 'Papers'
         supplements: 'Supplements'
+        undefined: 'Choose one'
         no-resources: 'This registration has no resources.'
         badge_alt: '{type} badge'
         edit_resource:
