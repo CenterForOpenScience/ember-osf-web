@@ -13,6 +13,7 @@
             <div>
                 <Button
                     local-class='TriggerButton'
+                    aria-label={{t 'osf-components.resources-list.add_button_aria_label'}}
                     {{on 'click' modal.open}}
                 >
                     <FaIcon @icon='plus' @size='2x' @fixedWidth={{true}}/>
