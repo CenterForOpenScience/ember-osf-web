@@ -11,6 +11,7 @@ interface ResourseCardArgs {
 
 export default class ResourceCardComponent extends Component<ResourseCardArgs> {
     @service intl!: Intl;
+    @service toast!: Toastr;
 
     get resourceTypeName() {
         const { resourceType } = this.args.resource;

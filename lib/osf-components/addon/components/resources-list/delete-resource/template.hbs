@@ -1,0 +1,29 @@
+<OsfDialog
+    as |dialog|
+>
+    <dialog.trigger
+        ...attributes
+    >
+        {{yield dialog}}
+    </dialog.trigger>
+    <dialog.heading>
+        Delete this resource?
+    </dialog.heading>
+    <dialog.main>
+        Are you sure you want to delete this resource?
+        <ResourcesList::ResourceCard
+            @resource={{@resource}} 
+            @editable={{false}}
+        />
+    </dialog.main>
+    <dialog.footer>
+        <Button>
+            {{t 'general.cancel'}}
+        </Button>
+        <Button
+            @type='destroy'
+        >
+            {{t 'general.delete'}}
+        </Button>
+    </dialog.footer>
+</OsfDialog>
