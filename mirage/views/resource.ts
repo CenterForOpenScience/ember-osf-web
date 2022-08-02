@@ -10,21 +10,13 @@ export function createResource(this: HandlerContext, schema: Schema) {
 
 export function updateResource(this: HandlerContext, schema: Schema, request: Request) {
     const resource = schema.resources.find(request.params.id);
-    const { data: { attributes } } = JSON.parse(request.requestBody);
+    const attributes = {
+        ...this.normalizedRequestAttrs('resource'),
+    };
     if ('pid' in attributes) {
         if (!attributes.pid || !attributes.pid.startsWith('https://doi.org/')) {
             return new Response(400);
         }
-        resource.update({
-            pid: attributes.pid,
-        });
-        delete attributes.pid;
-    }
-    if ('resource_type' in attributes) {
-        resource.update({
-            resourceType: attributes.resource_type,
-        });
-        delete attributes.resource_type;
     }
     resource.update(attributes);
     return this.serialize(resource);
