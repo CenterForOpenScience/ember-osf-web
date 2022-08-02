@@ -8,6 +8,7 @@ import ResourceModel from 'ember-osf-web/models/resource';
 
 interface Args {
     resource: ResourceModel;
+    onDelete: () => void;
 }
 
 export default class DeleteResource extends Component<Args> {
@@ -16,12 +17,13 @@ export default class DeleteResource extends Component<Args> {
 
     @task
     @waitFor
-    async deleteResource(resource: ResourceModel) {
+    async deleteResource() {
         try {
-            await resource.destroyRecord();
-            this.toast.success('');
+            await this.args.resource.destroyRecord();
+            this.toast.info(this.intl.t('osf-components.resources-list.delete_resource.delete_success'));
+            this.args.onDelete();
         } catch (e) {
-            this.toast.error('');
+            this.toast.error(this.intl.t('osf-components.resources-list.delete_resource.delete_failure'));
         }
     }
 }
