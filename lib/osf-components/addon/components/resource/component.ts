@@ -28,9 +28,9 @@ export default class ResourceComponent extends Component<ResourceArgs> {
         switch (resourceType) {
         case 'data':
             if (isFinal) {
-                source = '/assets/images/badges/data_small_color.png';
+                source = '/assets/images/badges/data_small_active.svg';
             } else {
-                source = '/assets/images/badges/data_small_gray.png';
+                source = '/assets/images/badges/data_small_inactive.svg';
             }
             break;
         case 'materials':
@@ -62,7 +62,7 @@ export default class ResourceComponent extends Component<ResourceArgs> {
             }
             break;
         default:
-            source = '/assets/images/badges/data_small_gray.png';
+            source = '/assets/images/badges/data_small_inactive.svg';
             break;
         }
         this.srcFinal = source;
