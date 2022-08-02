@@ -4,6 +4,7 @@ export function createResource(this: HandlerContext, schema: Schema) {
     const attrs = {
         ...this.normalizedRequestAttrs('resource'),
         finalized: false,
+        resourceType: undefined,
     };
     return schema.resources.create(attrs);
 }
