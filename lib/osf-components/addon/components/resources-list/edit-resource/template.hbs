@@ -1,7 +1,7 @@
 <OsfDialog
     @onOpen={{perform this.onOpen}}
     @onClose={{this.onClose}}
-    local-class='EditResourceDialog'
+    local-class={{if this.isMobile 'EditResourceDialogMobile' 'EditResourceDialog'}}
     as |dialog|
 >
     <dialog.trigger
