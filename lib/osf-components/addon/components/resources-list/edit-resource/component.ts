@@ -10,6 +10,7 @@ import IntlService from 'ember-intl/services/intl';
 import RegistrationModel from 'ember-osf-web/models/registration';
 import ResourceModel, { ResourceTypes } from 'ember-osf-web/models/resource';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
+import Media from 'ember-responsive';
 import { tracked } from 'tracked-built-ins';
 
 interface Args {
@@ -28,6 +29,7 @@ export default class EditResourceModal extends Component<Args> {
     @service toast!: Toastr;
     @service intl!: IntlService;
     @service store!: DS.Store;
+    @service media!: Media;
 
     availableTypes = Object.values(ResourceTypes);
     resourceValidations: ValidationObject<ResourceValidations> = {
@@ -46,6 +48,10 @@ export default class EditResourceModal extends Component<Args> {
     @tracked changeset: any;
     @tracked resource?: ResourceModel = this.args.resource;
     @tracked shouldShowPreview = false;
+
+    get isMobile() {
+        return this.media.isMobile;
+    }
 
     @task
     async onOpen() {
