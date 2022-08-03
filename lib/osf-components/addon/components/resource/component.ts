@@ -3,6 +3,7 @@ import Component from '@glimmer/component';
 import Intl from 'ember-intl/services/intl';
 
 import ResourceModel from 'ember-osf-web/models/resource';
+import { getBadgeIcon, getBadgeIconDisabled } from 'ember-osf-web/helpers/open-badges-icon-map';
 
 interface ResourceArgs {
     resource: ResourceModel;
@@ -21,49 +22,13 @@ export default class ResourceComponent extends Component<ResourceArgs> {
         }
         const resourceType = this.args.resource.resourceType;
         const isFinal = this.args.resource.finalized;
-        let source: string;
 
-        switch (resourceType) {
-        case 'data':
-            if (isFinal) {
-                source = '/assets/images/badges/data_small_color.png';
-            } else {
-                source = '/assets/images/badges/data_small_gray.png';
-            }
-            break;
-        case 'materials':
-            if (isFinal) {
-                source = '/assets/images/badges/materials_small_color.png';
-            } else {
-                source = '/assets/images/badges/materials_small_gray.png';
-            }
-            break;
-        case 'analytic_code':
-            if (isFinal) {
-                source = '/assets/images/badges/analytic_code_small_color.png';
-            } else {
-                source = '/assets/images/badges/analytic_code_small_gray.png';
-            }
-            break;
-        case 'papers':
-            if (isFinal) {
-                source = '/assets/images/badges/papers_small_color.png';
-            } else {
-                source = '/assets/images/badges/papers_small_gray.png';
-            }
-            break;
-        case 'supplements':
-            if (isFinal) {
-                source = '/assets/images/badges/supplements_small_color.png';
-            } else {
-                source = '/assets/images/badges/supplements_small_gray.png';
-            }
-            break;
-        default:
-            source = '/assets/images/badges/data_small_inactive.svg';
-            break;
+        if (!isFinal) {
+            return getBadgeIconDisabled(resourceType);
+        } else if (isFinal) {
+            return getBadgeIcon(resourceType);
+        } else {
+            return new Error('Badge state nebulous.');
         }
-
-        return source;
     }
 }

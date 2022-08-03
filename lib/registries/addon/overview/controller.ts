@@ -89,12 +89,4 @@ export default class Overview extends Controller {
         return (this.registration.relatedCounts.linkedNodes || 0)
         + (this.registration.relatedCounts.linkedRegistrations || 0);
     }
-
-    @computed('registration.resources')
-    get resources() {
-        if (!this.registration) {
-            return 0;
-        }
-        return (this.registration && this.registration.resources) || 0;
-    }
 }
