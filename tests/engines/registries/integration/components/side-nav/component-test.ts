@@ -43,6 +43,12 @@ module('Registries | Integration | Component | side-nav', hooks => {
         assert.dom('nav[data-test-side-nav]').exists('The nav element is rendered');
     });
 
+    test('it renders badges', async assert => {
+        await render(hbs`<Resource @resource={{badge}} />`);
+
+        assert.dom('[data-test-resource-badge]').exists('Resource badge is rendered');
+    });
+
     test('it renders splattributes', async assert => {
         await render(hbs`<SideNav data-for-a-test="foo" />`);
 
