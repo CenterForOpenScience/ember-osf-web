@@ -5,6 +5,7 @@ import Intl from 'ember-intl/services/intl';
 import { waitFor } from '@ember/test-waiters';
 
 import ResourceModel from 'ember-osf-web/models/resource';
+import { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 interface Args {
     resource: ResourceModel;
@@ -23,7 +24,10 @@ export default class DeleteResource extends Component<Args> {
             this.toast.info(this.intl.t('osf-components.resources-list.delete_resource.delete_success'));
             this.args.onDelete();
         } catch (e) {
-            this.toast.error(this.intl.t('osf-components.resources-list.delete_resource.delete_failure'));
+            this.toast.error(
+                getApiErrorMessage(e),
+                this.intl.t('osf-components.resources-list.delete_resource.delete_failure'),
+            );
         }
     }
 }
