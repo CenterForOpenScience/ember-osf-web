@@ -47,10 +47,6 @@ export default class Overview extends Controller {
 
     @alias('model.taskInstance.value') registration?: Registration;
 
-    constructor(...args: any[]) {
-        super(...args);
-    }
-
     get registrationFilesPageEnabled() {
         return this.features.isEnabled(registrationFilesPage);
     }
