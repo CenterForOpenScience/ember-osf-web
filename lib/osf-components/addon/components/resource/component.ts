@@ -11,19 +11,17 @@ interface ResourceArgs {
 export default class ResourceComponent extends Component<ResourceArgs> {
     @service intl!: Intl;
 
-    srcFinal?: string = '/assets/images/badges/data_small_gray.png';
-
     constructor(owner: unknown, args: ResourceArgs) {
         super(owner, args);
     }
 
     get getSrc() {
         if (!this.args.resource) {
-            return 0;
+            return '';
         }
         const resourceType = this.args.resource.resourceType;
         const isFinal = this.args.resource.finalized;
-        let source;
+        let source: string;
 
         switch (resourceType) {
         case 'data':
@@ -65,7 +63,7 @@ export default class ResourceComponent extends Component<ResourceArgs> {
             source = '/assets/images/badges/data_small_inactive.svg';
             break;
         }
-        this.srcFinal = source;
-        return this.srcFinal;
+
+        return source;
     }
 }
