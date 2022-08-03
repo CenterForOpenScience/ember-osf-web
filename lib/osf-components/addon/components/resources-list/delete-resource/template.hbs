@@ -6,11 +6,13 @@
     >
         {{yield dialog}}
     </dialog.trigger>
-    <dialog.heading>
+    <dialog.heading
+        data-test-modal-heading
+    >
         {{t 'osf-components.resources-list.delete_resource.title'}}
     </dialog.heading>
     <dialog.main>
-        <p>{{t 'osf-components.resources-list.delete_resource.body'}}</p>
+        <p data-test-modal-body>{{t 'osf-components.resources-list.delete_resource.body'}}</p>
         <ResourcesList::ResourceCard
             @resource={{@resource}} 
             @editable={{false}}
@@ -18,6 +20,8 @@
     </dialog.main>
     <dialog.footer>
         <Button
+            data-test-cancel
+            data-analytics-name='Cancel delete resource'
             {{on 'click'
                 dialog.close
             }}
@@ -25,6 +29,8 @@
             {{t 'general.cancel'}}
         </Button>
         <Button
+            data-test-confirm-delete
+            data-analytics-name='Confirm delete resource'
             @type='destroy'
             {{on 'click' (queue
                 (perform this.deleteResource)
