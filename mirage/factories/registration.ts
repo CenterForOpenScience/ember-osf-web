@@ -295,21 +295,8 @@ export default NodeFactory.extend<MirageRegistration & RegistrationTraits>({
     withResources: trait<MirageRegistration>({
         afterCreate(registration, server) {
             const count = faker.random.number({ min: 1, max: 5});
-            // const data_badge = server.create('resource', {
-            //     pid: '1',
-            //     name: 'Data',
-            //     description: 'Data Badge',
-            //     finalized: true,
-            // });
-            // const count = registration.resources.models.forEach(
-            //     resource => server.create('resource',
-            //         { pid: resource.pid, name: resource.name, description: resource.description, finalized: true}),
-            // );
-            // const resources = server.create('resource', count, { registration });
             const resources = server.createList('resource', count, { registration });
             registration.update({ resources });
-            // const data_badge = server.createList('resource', 5, { registration });
-            // registration.update({data_badge});
         },
     }),
 });
