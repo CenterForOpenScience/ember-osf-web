@@ -39,13 +39,6 @@ export default class EditResourceModal extends Component<Args> {
             translationArgs: { description: this.intl.t('osf-components.resources-list.edit_resource.doi') },
         })],
         resourceType: [
-            validatePresence({
-                type: 'blank',
-                presence: true,
-                translationArgs: {
-                    description: this.intl.t('osf-components.resources-list.edit_resource.output_type'),
-                },
-            }),
             validateExclusion({
                 list: ['undefined'],
                 type: 'mustSelect',

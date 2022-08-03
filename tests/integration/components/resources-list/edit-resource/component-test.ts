@@ -63,7 +63,7 @@ module('Integration | Component | ResourcesList::EditResource', hooks => {
         );
         assert.dom('[data-test-validation-errors="resourceType"]').hasText(
             this.intl.t(
-                'validationErrors.blank',
+                'validationErrors.mustSelect',
             ),
             'Resource type validation error msg has correct language',
         );

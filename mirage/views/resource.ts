@@ -1,10 +1,12 @@
 import { HandlerContext, Request, Response, Schema } from 'ember-cli-mirage';
 
+type Undef = 'undefined';
+
 export function createResource(this: HandlerContext, schema: Schema) {
     const attrs = {
         ...this.normalizedRequestAttrs('resource'),
         finalized: false,
-        resourceType: undefined,
+        resourceType: 'undefined' as Undef,
     };
     return schema.resources.create(attrs);
 }
