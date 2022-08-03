@@ -6,7 +6,7 @@
     as |dropdown|
 >
     <dropdown.trigger
-        aria-label={{t 'file_actions_menu.actions' filename=@item.name}} 
+        aria-label={{t 'file_actions_menu.actions' filename=@item.displayName}}
         data-test-file-download-share-trigger
         data-analytics-name='File actions'
     >
@@ -40,8 +40,8 @@
             </dd.trigger>
         </FileEmbedMenu>
         <SharingIcons::Dropdown
-            @title={{@item.name}}
-            @description={{@item.name}}
+            @title={{@item.displayName}}
+            @description={{@item.displayName}}
             @hyperlink={{@item.links.html}}
             @showText={{true}}
             as |dd|

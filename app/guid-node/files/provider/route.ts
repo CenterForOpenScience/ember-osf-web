@@ -8,13 +8,10 @@ import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 import FileProviderModel from 'ember-osf-web/models/file-provider';
 import NodeModel from 'ember-osf-web/models/node';
-import { Permission } from 'ember-osf-web/models/osf-model';
 import { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
-import CurrentUser from 'ember-osf-web/services/current-user';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 
 export default class GuidNodeFilesProviderRoute extends Route.extend({}) {
-    @service currentUser!: CurrentUser;
     @service intl!: Intl;
     @service toast!: Toast;
 
@@ -30,9 +27,7 @@ export default class GuidNodeFilesProviderRoute extends Route.extend({}) {
                 },
             );
             const provider = fileProviders.findBy('id', fileProviderId) as FileProviderModel;
-            const hasWritePermission = node.currentUserPermissions.includes(Permission.Write);
-            const isViewOnly = Boolean(this.currentUser.viewOnlyToken);
-            return {provider, fileProviders, node, hasWritePermission, isViewOnly};
+            return {provider, fileProviders, node};
         } catch (e) {
             const errorMessage = this.intl.t(
                 'osf-components.file-browser.errors.load_file_providers',

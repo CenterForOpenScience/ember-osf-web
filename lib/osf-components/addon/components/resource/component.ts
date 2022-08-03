@@ -28,9 +28,9 @@ export default class ResourceComponent extends Component<ResourceArgs> {
         switch (resourceType) {
         case 'data':
             if (isFinal) {
-                source = '/assets/images/badges/data_small_active.svg';
+                source = '/assets/images/badges/data_small_color.png';
             } else {
-                source = '/assets/images/badges/data_small_inactive.svg';
+                source = '/assets/images/badges/data_small_gray.png';
             }
             break;
         case 'materials':

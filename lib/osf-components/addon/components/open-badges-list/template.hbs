@@ -1,0 +1,37 @@
+<div data-test-badge-list local-class='badgeList'>
+    {{#unless this.isMobile}}
+        <h5 data-test-badge-list-title local-class='title'>
+            {{t 'osf-components.open-badges-list.title'}}
+        </h5>
+    {{/unless}}
+    <OpenBadgesList::OpenBadgeCard
+        @hasResource={{@hasData}}
+        @resourceType='data'
+        @isMobile={{this.isMobile}}
+        @registration={{@registration}}
+    />
+    <OpenBadgesList::OpenBadgeCard
+        @hasResource={{@hasAnalyticCode}}
+        @resourceType='analytic_code'
+        @isMobile={{this.isMobile}}
+        @registration={{@registration}}
+    />
+    <OpenBadgesList::OpenBadgeCard
+        @hasResource={{@hasMaterials}}
+        @resourceType='materials'
+        @isMobile={{this.isMobile}}
+        @registration={{@registration}}
+    />
+    <OpenBadgesList::OpenBadgeCard
+        @hasResource={{@hasPapers}}
+        @resourceType='papers'
+        @isMobile={{this.isMobile}}
+        @registration={{@registration}}
+    />
+    <OpenBadgesList::OpenBadgeCard
+        @hasResource={{@hasSupplements}}
+        @resourceType='supplements'
+        @isMobile={{this.isMobile}}
+        @registration={{@registration}}
+    />
+</div>

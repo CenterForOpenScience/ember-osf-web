@@ -5,6 +5,7 @@ import Contributor from 'ember-osf-web/models/contributor';
 import RegistrationModel from 'ember-osf-web/models/registration';
 
 import { MirageExternalRegistration } from 'ember-osf-web/mirage/models/external-registration';
+import { OpenBadges } from 'registries/services/share-search';
 
 const {
     OSF: {
@@ -32,11 +33,6 @@ interface SerializedContributor {
     order_cited: number;
 }
 
-interface OpenBadges {
-    data: boolean;
-    materials: boolean;
-    analytic_code: boolean;
-}
 
 interface SerializedRegistration {
     id: string;
@@ -187,6 +183,8 @@ function serializeRegistration(reg: ModelInstance<RegistrationModel>): Serialize
             data: reg.hasData,
             materials: reg.hasMaterials,
             analytic_code: reg.hasAnalyticCode,
+            papers: reg.hasPapers,
+            supplements: reg.hasSupplements,
         },
     };
 }

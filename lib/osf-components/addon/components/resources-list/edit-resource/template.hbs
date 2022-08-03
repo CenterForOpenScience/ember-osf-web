@@ -1,0 +1,92 @@
+<OsfDialog
+    @onOpen={{perform this.onOpen}}
+    @onClose={{this.onClose}}
+    local-class={{if this.isMobile 'EditResourceDialogMobile' 'EditResourceDialog'}}
+    as |dialog|
+>
+    <dialog.trigger
+        ...attributes
+    >
+        {{yield dialog}}
+    </dialog.trigger>
+    <dialog.heading>
+        {{t 'osf-components.resources-list.edit_resource.heading'}}
+    </dialog.heading>
+    <dialog.main>
+        {{#if this.shouldShowPreview}}
+            <p>
+                {{t 'osf-components.resources-list.edit_resource.check_your_doi'}}
+            </p>
+            <ResourcesList::ResourceCard @resource={{this.resource}} @editable={{false}} />
+        {{else}}
+            {{#if this.onOpen.isRunning}}
+                <LoadingIndicator @dark={{true}} />
+            {{else}}
+                <FormControls
+                    @changeset={{this.changeset}}
+                    as |form|
+                >
+                    <form.text
+                        data-test-doi-field
+                        @isRequired={{true}}
+                        @valuePath={{'pid'}}
+                        @label={{t 'osf-components.resources-list.edit_resource.doi'}}
+                    />
+                    <form.select
+                        data-test-resource-type-field
+                        @isRequired={{true}}
+                        @valuePath={{'resourceType'}}
+                        @label={{t 'osf-components.resources-list.edit_resource.output_type'}}
+                        @options={{this.availableTypes}}
+                        @searchEnabled={{false}}
+                        @renderInPlace={{true}}
+                        as |type|
+                    >
+                        {{t (concat 'osf-components.resources-list.' type)}}
+                    </form.select>
+                    <form.textarea
+                        data-test-description-field
+                        @valuePath={{'description'}}
+                        @label={{t 'osf-components.resources-list.edit_resource.description'}}
+                    />
+                </FormControls>
+            {{/if}}
+        {{/if}}
+    </dialog.main>
+    <dialog.footer>
+        {{#if this.shouldShowPreview}}
+            <Button
+                data-test-edit-button
+                {{on 'click' this.goToEdit}}
+            >
+                {{t 'general.edit'}}
+            </Button>
+            <Button
+                data-test-add-button
+                @type='create'
+                {{on 'click' (queue
+                    (perform this.finalize)
+                    dialog.close
+                    @reload
+                )}}
+            >
+                {{t 'general.add'}}
+            </Button>
+
+        {{else}}
+            <Button
+                data-test-cancel-button
+                {{on 'click' dialog.close}}
+            >
+                {{t 'general.cancel'}}
+            </Button>
+            <Button
+                data-test-preview-button
+                @type={{'primary'}}
+                {{on 'click' (perform this.goToPreview)}}
+            >
+                {{t 'osf-components.resources-list.edit_resource.preview'}}
+            </Button>
+        {{/if}}
+    </dialog.footer>
+</OsfDialog>
