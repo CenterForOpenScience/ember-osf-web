@@ -7,15 +7,32 @@
     validationStatus=this.validationStatus
     as |inputElementId|
 }}
-    <Input
-        aria-label={{this.ariaLabel}}
-        @id={{or @uniqueID inputElementId}}
-        @type={{if this.password 'password' 'text'}}
-        @value={{this.value}}
-        @placeholder={{this._placeholder}}
-        @class='form-control'
-        @name={{@valuePath}}
-        @keyUp={{@onKeyUp}}
-        @disabled={{this.disabled}}
-    />
+    {{#if @prefix}}
+        <div class='form-control' local-class='PrefixedInputBox' >
+            <span>{{@prefix}}</span>
+            <Input
+                aria-label={{this.ariaLabel}}
+                @id={{or @uniqueID inputElementId}}
+                @type={{if this.password 'password' 'text'}}
+                @value={{this.value}}
+                @placeholder={{this._placeholder}}
+                @name={{@valuePath}}
+                @keyUp={{@onKeyUp}}
+                @disabled={{this.disabled}}
+                local-class='PrefixedInput'
+            />
+        </div>
+    {{else}}
+        <Input
+            aria-label={{this.ariaLabel}}
+            @id={{or @uniqueID inputElementId}}
+            @type={{if this.password 'password' 'text'}}
+            @value={{this.value}}
+            @placeholder={{this._placeholder}}
+            @name={{@valuePath}}
+            @keyUp={{@onKeyUp}}
+            @disabled={{this.disabled}}
+            class='form-control'
+        />
+    {{/if}}
 {{/validated-input/x-input-wrapper}}
