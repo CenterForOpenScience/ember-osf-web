@@ -55,7 +55,6 @@ export function registrationScenario(
     server.create('registration', { id: 'beefs' });
 
     server.create('resource', {
-        pid: '2',
         name: 'Code',
         description: 'Code Badge',
         dateCreated: new Date(),
