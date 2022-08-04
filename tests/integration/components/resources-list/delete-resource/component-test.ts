@@ -30,7 +30,7 @@ module('Integration | Component | ResourcesList::DeleteResource', hooks => {
         const mirageRegistration = server.create('registration', 'currentUserAdmin');
         const mirageResource = server.create('resource', {
             resourceType: ResourceTypes.AnalyticCode,
-            pid: 'https://doi.org/tzuyu',
+            pid: '10.100.tzuyu',
             description: 'Sneakers',
             registration: mirageRegistration,
             finalized: true,
@@ -63,7 +63,8 @@ module('Integration | Component | ResourcesList::DeleteResource', hooks => {
             'Type is correct',
         );
         assert.dom('[data-test-resource-card-pid-link]').exists('Shows DOI link in preview');
-        assert.dom('[data-test-resource-card-pid-link]').hasText(mirageResource.pid, 'DOI is correct');
+        assert.dom('[data-test-resource-card-pid-link]')
+            .hasText(`https://doi.org/${mirageResource.pid}`, 'DOI is correct');
         assert.dom('[data-test-resource-card-description]').exists('Show description in preview');
         assert.dom('[data-test-resource-card-description]').hasText(
             mirageResource.description,
