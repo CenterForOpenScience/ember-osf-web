@@ -89,28 +89,24 @@
     width: 100%;
 }
 
+.ResourcesWrapper_title {
+    display: inline-flex;
+    flex-direction: row;
+}
+
 .ResourcesWrapper h3 {
     font-weight: 700;
     color: #333;
 }
 
-.ResourcesWrapper img {
-    height: 22.5px;
-    width: 22px;
-}
-
-.ResourcesWrapper label {
-    font-weight: 300;
-    font-size: 15px;
-    padding-left: 15px;
-}
-
-.ResourcesWrapper * {
-    background-color: #fff;
-    color: $primary-blue;
-}
-
 .Registration_LeftNav {
     background-color: #fff;
     color: $primary-blue;
+}
+
+.HelpIcon {
+    height: 10px;
+    width: 10px;
+    padding-top: 3px;
+    padding-left: 3px;
 }
