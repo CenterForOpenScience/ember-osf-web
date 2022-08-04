@@ -135,7 +135,7 @@ module('Integration | Component | ResourcesList::EditResource', hooks => {
         `);
         await untrackedClicked('[data-test-open]');
         assert.dom('[data-test-doi-field] > div > div > input').hasValue('10.101/yeji');
-        assert.dom('[data-test-resource-type-field] > div > div').hasText(
+        assert.dom('[data-test-resource-type-field] > div').hasText(
             this.intl.t('osf-components.resources-list.analytic_code'),
         );
         assert.dom('[data-test-description-field] > div > textarea').hasValue('Hello, my name is Stevie');
