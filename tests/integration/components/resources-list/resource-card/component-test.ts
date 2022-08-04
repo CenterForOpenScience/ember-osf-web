@@ -23,6 +23,7 @@ module('Integration | Component | ResourcesList::ResourceCard', hooks => {
             resourceType: ResourceTypes.Data,
             description: 'The scription',
         });
+        const prefix = 'https://doi.org/';
         this.set('resource', mirageResource);
         await render(hbs`<ResourcesList::ResourceCard @resource={{this.resource}} />`);
         assert.dom('[data-test-resource-card-type]').containsText(t('osf-components.resources-list.data'));
@@ -30,7 +31,11 @@ module('Integration | Component | ResourcesList::ResourceCard', hooks => {
         assert.dom('[data-test-resource-card-icon]').hasAttribute(
             'alt', t('osf-components.resources-list.badge_alt', {type: t('osf-components.resources-list.data')}),
         );
-        assert.dom('[data-test-resource-card-pid-link]').hasAttribute('href', this.resource.pid, 'Links to pid');
+        assert.dom('[data-test-resource-card-pid-link]').hasAttribute(
+            'href',
+            prefix + this.resource.pid,
+            'Links to pid',
+        );
         assert.dom('[data-test-resource-card-description]').hasText(this.resource.description, 'Description shown');
     });
 
