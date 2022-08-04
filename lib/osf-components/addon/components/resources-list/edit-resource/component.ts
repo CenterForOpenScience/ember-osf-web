@@ -10,6 +10,7 @@ import IntlService from 'ember-intl/services/intl';
 import RegistrationModel from 'ember-osf-web/models/registration';
 import ResourceModel, { ResourceTypes } from 'ember-osf-web/models/resource';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
+import { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import Media from 'ember-responsive';
 import { tracked } from 'tracked-built-ins';
 
@@ -109,8 +110,11 @@ export default class EditResourceModal extends Component<Args> {
             try {
                 await this.resource.save();
                 this.toast.success(this.intl.t('osf-components.resources-list.edit_resource.add_success'));
-            } catch {
-                this.toast.error(this.intl.t('osf-components.resources-list.edit_resource.add_failure'));
+            } catch (e) {
+                this.toast.error(
+                    getApiErrorMessage(e),
+                    this.intl.t('osf-components.resources-list.edit_resource.add_failure'),
+                );
             }
         }
     }
