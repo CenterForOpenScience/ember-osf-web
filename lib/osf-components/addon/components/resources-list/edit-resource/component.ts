@@ -3,7 +3,7 @@ import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
 import { ValidationObject } from 'ember-changeset-validations';
-import { validatePresence } from 'ember-changeset-validations/validators';
+import { validateExclusion, validatePresence } from 'ember-changeset-validations/validators';
 import { task } from 'ember-concurrency';
 import DS from 'ember-data';
 import IntlService from 'ember-intl/services/intl';
@@ -38,11 +38,12 @@ export default class EditResourceModal extends Component<Args> {
             presence: true,
             translationArgs: { description: this.intl.t('osf-components.resources-list.edit_resource.doi') },
         })],
-        resourceType: [validatePresence({
-            type: 'blank',
-            presence: true,
-            translationArgs: { description: this.intl.t('osf-components.resources-list.edit_resource.output_type') },
-        })],
+        resourceType: [
+            validateExclusion({
+                list: ['undefined'],
+                type: 'mustSelect',
+            }),
+        ],
     };
 
     @tracked changeset: any;
