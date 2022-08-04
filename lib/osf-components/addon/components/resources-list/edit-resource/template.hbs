@@ -28,6 +28,8 @@
                 >
                     <form.text
                         data-test-doi-field
+                        @prefix={{'https://doi.org/'}}
+                        @placeholder={{'10.17605/OSF.IO/JSZNK'}}
                         @isRequired={{true}}
                         @valuePath={{'pid'}}
                         @label={{t 'osf-components.resources-list.edit_resource.doi'}}

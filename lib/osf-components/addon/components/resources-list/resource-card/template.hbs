@@ -12,9 +12,9 @@
         <p>
             <OsfLink
                 data-test-resource-card-pid-link
-                @href={{@resource.pid}}
+                @href={{concat 'https://doi.org/' @resource.pid}}
             >
-                {{@resource.pid}}
+                {{concat 'https://doi.org/' @resource.pid}}
             </OsfLink>
             {{#if @editable}}
                 <ResourcesList::EditResource

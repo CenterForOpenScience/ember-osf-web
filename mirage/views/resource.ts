@@ -17,7 +17,7 @@ export function updateResource(this: HandlerContext, schema: Schema, request: Re
         ...this.normalizedRequestAttrs('resource'),
     };
     if ('pid' in attributes) {
-        if (!attributes.pid || !attributes.pid.startsWith('https://doi.org/')) {
+        if (!attributes.pid || !attributes.pid.startsWith('10.')) {
             return new Response(400);
         }
     }
