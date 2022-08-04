@@ -1728,6 +1728,11 @@ osf-components:
             check_your_doi: 'Check your DOI for accuracy.'
             add_success: 'Resource successfully added.'
             add_failure: 'Failed to add resource.'
+        delete_resource:
+            title: 'Delete resource'
+            body: 'Are you sure you want to delete this resource? This cannot be undone.'
+            delete_success: 'Resource successfully deleted.'
+            delete_failure: 'Failed to delete resource.'
     expandable-preview:
         show_more: Show more
         show_less: Show less
