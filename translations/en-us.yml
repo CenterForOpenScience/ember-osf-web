@@ -1342,6 +1342,7 @@ registries:
             supplements:
                 title: 'Supplements'
                 alt_text: 'Supplements Badge'
+            error: 'Unable to load Resource'
         title: Overview
         collapse: Collapse
         expand: Expand
