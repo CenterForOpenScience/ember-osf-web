@@ -1,8 +1,22 @@
-<label data-test-code-badge class='OutputResource__data'>
-    <img
-        data-analytics-name={{@resource.resourceType}}
-        src={{this.getSrc}}
-        alt={{t (concat 'registries.overview.resources.' @resource.resourceType '.alt_text')}}
-    />
-    {{t (concat 'registries.overview.resources.' @resource.resourceType '.title')}}
-</label>
+<p local-class='badgeItem'>
+    {{!-- <OsfLink
+        data-analytics-name='Badge link to registration'
+        @route='registries.overview.resources'
+        @models={{array @resources}}
+    > --}}
+        <span
+            data-test-badge-icon={{@resourceType}}
+        >
+            <label data-test-resource-badge local-class='OutputResource__label'>
+                <img
+                    data-analytics-name={{@resourceType}}
+                    data-test-badge-icon
+                    src={{this.getSrc}}
+                    local-class='OutputResource_img'
+                    alt={{t (concat 'registries.overview.resources.' @resourceType '.alt_text')}}
+                />
+                {{t (concat 'registries.overview.resources.' @resourceType '.title')}}
+            </label>
+        </span>
+    {{!-- </OsfLink> --}}
+</p>

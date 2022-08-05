@@ -140,10 +140,41 @@
                         @label={{t 'registries.overview.comments.title'}} @count={{this.commentsCount}} />
 
                     <div data-test-resources-wrapper local-class='ResourcesWrapper'>
-                        <h3>{{t 'registries.overview.resources.title'}}</h3>
-                        {{#each this.registration.resources as |badge|}}
-                            <Resource @resource={{badge}} />
-                        {{/each}}
+                        <div local-class='ResourcesWrapper_title'>
+                            <h3>{{t 'registries.overview.resources.title'}}</h3>
+                            <FaIcon local-class='HelpIcon' @icon='question-circle' />
+                            <BsTooltip
+                                @placement='right'
+                                @triggerEvents='hover'
+                            >
+                                {{t 'registries.overview.resources.title'}}
+                            </BsTooltip>
+                        </div>
+                        <Resource
+                            @hasResource={{this.registration.hasData}}
+                            @registration={{@registration}}
+                            @resourceType='data'
+                        />
+                        <Resource
+                            @hasResource={{this.registration.hasAnalyticCode}}
+                            @registration={{@registration}}
+                            @resourceType='analytic_code'
+                        />
+                        <Resource
+                            @hasResource={{this.registration.hasMaterials}}
+                            @registration={{@registration}}
+                            @resourceType='materials'
+                        />
+                        <Resource
+                            @hasResource={{this.registration.hasPapers}}
+                            @registration={{@registration}}
+                            @resourceType='papers'
+                        />
+                        <Resource
+                            @hasResource={{this.registration.hasSupplements}}
+                            @registration={{@registration}}
+                            @resourceType='supplements'
+                        />
                     </div>
                 </layout.leftNavOld>
 
