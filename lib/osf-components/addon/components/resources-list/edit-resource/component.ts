@@ -5,6 +5,7 @@ import Component from '@glimmer/component';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validateExclusion, validatePresence } from 'ember-changeset-validations/validators';
 import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
 import IntlService from 'ember-intl/services/intl';
 import RegistrationModel from 'ember-osf-web/models/registration';
@@ -58,7 +59,7 @@ export default class EditResourceModal extends Component<Args> {
     @task
     async onOpen() {
         if (!this.resource) {
-            this.resource = await this.store.createRecord('resource', { registration: this.args.registration });
+            this.resource = this.store.createRecord('resource', { registration: this.args.registration });
             await this.resource.save();
         }
         this.changeset = buildChangeset(this.resource, this.resourceValidations);
@@ -67,6 +68,9 @@ export default class EditResourceModal extends Component<Args> {
     @action
     onClose() {
         if (!this.args.resource) {
+            if (!this.resource?.finalized) {
+                taskFor(this.deleteResource).perform();
+            }
             this.resource = undefined;
             this.changeset = undefined;
         }
@@ -117,5 +121,11 @@ export default class EditResourceModal extends Component<Args> {
                 );
             }
         }
+    }
+
+    @task
+    @waitFor
+    async deleteResource() {
+        await this.resource?.destroyRecord();
     }
 }
