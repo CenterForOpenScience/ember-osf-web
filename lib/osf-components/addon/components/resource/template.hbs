@@ -1,9 +1,10 @@
-<p local-class='badgeItem'>
-    {{!-- <OsfLink
+<p local-class='BadgeItem'>
+    <OsfLink
         data-analytics-name='Badge link to registration'
+        data-test-registration-link='{{@registration}}'
         @route='registries.overview.resources'
-        @models={{array @resources}}
-    > --}}
+        @models={{@registration.id}}
+    >
         <span
             data-test-badge-icon={{@resourceType}}
         >
@@ -18,5 +19,5 @@
                 {{t (concat 'registries.overview.resources.' @resourceType '.title')}}
             </label>
         </span>
-    {{!-- </OsfLink> --}}
+    </OsfLink>
 </p>

@@ -110,8 +110,10 @@
 }
 
 .HelpIcon {
+    display: flex;
+    justify-content: right;
     height: 15px;
     width: 15px;
     padding-top: 3px;
-    padding-left: 3px;
+    padding-right: 3px;
 }
