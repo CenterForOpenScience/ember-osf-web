@@ -77,14 +77,26 @@ export default class EditResourceModal extends Component<Args> {
         this.shouldShowPreview = false;
     }
 
+    @action
+    goToPreview() {
+        this.shouldShowPreview = true;
+    }
+
+    @action
+    goToEdit() {
+        this.shouldShowPreview = false;
+    }
+
     @task
     @waitFor
-    async goToPreview() {
+    async save(onSuccess?: () => void) {
         this.changeset.validate();
         if (this.changeset.get('isValid')) {
             try {
                 await this.changeset.save();
-                this.shouldShowPreview = true;
+                if (onSuccess) {
+                    onSuccess();
+                }
             } catch (e) {
                 if (e.errors[0].status === '400') {
                     this.changeset.addError(
@@ -99,11 +111,6 @@ export default class EditResourceModal extends Component<Args> {
                 }
             }
         }
-    }
-
-    @action
-    goToEdit() {
-        this.shouldShowPreview = false;
     }
 
     @task
