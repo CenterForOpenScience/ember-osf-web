@@ -7,17 +7,17 @@ import { getBadgeIcon, getBadgeIconDisabled } from 'ember-osf-web/helpers/open-b
 import Toast from 'ember-toastr/services/toast';
 import RegistrationModel from 'ember-osf-web/models/registration';
 
-interface ResourceArgs {
+interface OpenResourceArgs {
     registration: RegistrationModel;
     resourceType: ResourceTypes;
     hasResource: boolean;
 }
 
-export default class ResourceComponent extends Component<ResourceArgs> {
+export default class OpenResourceComponent extends Component<OpenResourceArgs> {
     @service intl!: Intl;
     @service toast!: Toast;
 
-    constructor(owner: unknown, args: ResourceArgs) {
+    constructor(owner: unknown, args: OpenResourceArgs) {
         super(owner, args);
     }
 

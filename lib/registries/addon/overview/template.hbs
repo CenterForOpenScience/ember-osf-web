@@ -150,27 +150,27 @@
                                 {{t 'registries.overview.resources.title'}}
                             </BsTooltip>
                         </div>
-                        <Resource
+                        <OpenResource
                             @hasResource={{this.registration.hasData}}
                             @registration={{@registration}}
                             @resourceType='data'
                         />
-                        <Resource
+                        <OpenResource
                             @hasResource={{this.registration.hasAnalyticCode}}
                             @registration={{@registration}}
                             @resourceType='analytic_code'
                         />
-                        <Resource
+                        <OpenResource
                             @hasResource={{this.registration.hasMaterials}}
                             @registration={{@registration}}
                             @resourceType='materials'
                         />
-                        <Resource
+                        <OpenResource
                             @hasResource={{this.registration.hasPapers}}
                             @registration={{@registration}}
                             @resourceType='papers'
                         />
-                        <Resource
+                        <OpenResource
                             @hasResource={{this.registration.hasSupplements}}
                             @registration={{@registration}}
                             @resourceType='supplements'
