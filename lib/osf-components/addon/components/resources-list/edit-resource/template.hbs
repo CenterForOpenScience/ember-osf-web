@@ -10,7 +10,7 @@
         {{yield dialog}}
     </dialog.trigger>
     <dialog.heading>
-        {{t 'osf-components.resources-list.edit_resource.heading'}}
+        {{t (concat 'osf-components.resources-list.edit_resource.'(if @resource 'edit_heading' 'add_heading'))}}
     </dialog.heading>
     <dialog.main>
         {{#if this.shouldShowPreview}}

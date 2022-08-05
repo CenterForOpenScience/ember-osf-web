@@ -1721,7 +1721,8 @@ osf-components:
         edit_resource:
             edit_button_aria_label: 'Edit resource'
             preview: 'Preview'
-            heading: 'Add new resource'
+            edit_heading: 'Edit resource'
+            add_heading: 'Add new resource'
             doi: 'DOI'
             output_type: 'Resource type'
             description: 'Description'

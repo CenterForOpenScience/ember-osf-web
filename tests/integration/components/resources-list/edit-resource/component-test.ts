@@ -46,6 +46,9 @@ module('Integration | Component | ResourcesList::EditResource', hooks => {
         `);
         await untrackedClicked('[data-test-open]');
         mirageRegistration.reload();
+        assert.dom('[data-test-dialog]').containsText(
+            this.intl.t('osf-components.resources-list.edit_resource.add_heading'), 'Modal heading is correct',
+        );
         assert.equal(mirageRegistration.resources.length, 1, 'registration has exactly one resource');
         await click('[data-test-preview-button]');
         assert.dom('[data-test-validation-errors="pid"]').exists('DOI validation error message exists');
@@ -134,6 +137,9 @@ module('Integration | Component | ResourcesList::EditResource', hooks => {
             </ResourcesList::EditResource>
         `);
         await untrackedClicked('[data-test-open]');
+        assert.dom('[data-test-dialog]').containsText(
+            this.intl.t('osf-components.resources-list.edit_resource.edit_heading'), 'Modal heading is correct',
+        );
         assert.dom('[data-test-doi-field] > div > div > input').hasValue('10.101/yeji');
         assert.dom('[data-test-resource-type-field] > div').hasText(
             this.intl.t('osf-components.resources-list.analytic_code'),
