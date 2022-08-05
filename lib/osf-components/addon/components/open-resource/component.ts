@@ -33,7 +33,7 @@ export default class OpenResourceComponent extends Component<OpenResourceArgs> {
                 return getBadgeIconDisabled(this.args.resourceType);
             }
         } catch (e) {
-            return this.toast.error(this.intl.t('registries.overview.resources.' + this.args.resourceType + '.error'));
+            return this.toast.error(this.intl.t('registries.overview.resources.error'));
         }
     }
 }

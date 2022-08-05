@@ -1326,7 +1326,9 @@ registries:
                 invalidProviderLink: 'See all files in this registration.'
                 osfstorage: 'OSF Storage'
         resources:
-            title: 'Open Resources'
+            title: 'Resources'
+            left_nav_title: 'Open practice resources'
+            help_icon: 'Open resources'
             data:
                 title: 'Data'
                 alt_text: 'Data Badge'

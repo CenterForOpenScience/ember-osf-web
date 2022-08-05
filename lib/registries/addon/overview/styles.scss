@@ -82,6 +82,7 @@
 .ResourcesWrapper {
     display: inline-flex;
     flex-direction: column;
+    justify-content: space-around;
     background-color: #fff;
     color: $primary-blue;
     border-top: 1px solid #999;
@@ -92,16 +93,13 @@
 .ResourcesWrapper_title {
     display: inline-flex;
     flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .ResourcesWrapper h3 {
     font-weight: 700;
     color: #333;
-}
-
-.ResourcesWrapper svg {
-    height: 20px;
-    width: 20px;
 }
 
 .Registration_LeftNav {
@@ -110,10 +108,9 @@
 }
 
 .HelpIcon {
-    display: flex;
-    justify-content: right;
-    height: 15px;
-    width: 15px;
-    padding-top: 3px;
-    padding-right: 3px;
+    display: inline-flex;
+    height: 25px;
+    width: 25px;
+    margin-left: 5vw;
+    margin-top: 3vh;
 }
