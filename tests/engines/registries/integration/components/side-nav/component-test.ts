@@ -44,7 +44,9 @@ module('Registries | Integration | Component | side-nav', hooks => {
     });
 
     test('it renders badges', async assert => {
-        await render(hbs`<Resource @resource={{badge}} />`);
+        await render(hbs`<OpenResource @hasResource={{this.registration.hasData}}
+        @registration={{@registration}}
+        @resourceType='data' />`);
 
         assert.dom('[data-test-resource-badge]').exists('Resource badge is rendered');
     });
