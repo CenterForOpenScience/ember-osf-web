@@ -26,6 +26,7 @@ export function registerNode(
     node.contributors.models.forEach(
         contributor => server.create('contributor', { node: registration, users: contributor.users }),
     );
+    return registration;
 }
 
 export function registerNodeMultiple(
