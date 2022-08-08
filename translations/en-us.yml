@@ -1721,13 +1721,15 @@ osf-components:
         edit_resource:
             edit_button_aria_label: 'Edit resource'
             preview: 'Preview'
-            heading: 'Add new resource'
+            edit_heading: 'Edit resource'
+            add_heading: 'Add new resource'
             doi: 'DOI'
             output_type: 'Resource type'
             description: 'Description'
             check_your_doi: 'Check your DOI for accuracy.'
             add_success: 'Resource successfully added.'
             add_failure: 'Failed to add resource.'
+            save_success: 'Resource successfully saved.'
         delete_resource:
             title: 'Delete resource'
             body: 'Are you sure you want to delete this resource? This cannot be undone.'

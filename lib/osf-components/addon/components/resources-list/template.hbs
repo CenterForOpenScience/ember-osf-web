@@ -34,7 +34,7 @@
         <ResourcesList::ResourceCard
             @resource={{resource}}
             @editable={{@registration.userHasWritePermission}}
-            @onDelete={{this.reload}}
+            @reload={{this.reload}}
         />
     </:item>
     <:empty>

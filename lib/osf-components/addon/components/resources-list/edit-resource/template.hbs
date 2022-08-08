@@ -10,7 +10,7 @@
         {{yield dialog}}
     </dialog.trigger>
     <dialog.heading>
-        {{t 'osf-components.resources-list.edit_resource.heading'}}
+        {{t (concat 'osf-components.resources-list.edit_resource.'(if @resource 'edit_heading' 'add_heading'))}}
     </dialog.heading>
     <dialog.main>
         {{#if this.shouldShowPreview}}
@@ -75,7 +75,6 @@
             >
                 {{t 'general.add'}}
             </Button>
-
         {{else}}
             <Button
                 data-test-cancel-button
@@ -84,14 +83,25 @@
             >
                 {{t 'general.cancel'}}
             </Button>
-            <Button
-                data-test-preview-button
-                data-analytics-name='Preview resource'
-                @type={{'primary'}}
-                {{on 'click' (perform this.goToPreview)}}
-            >
-                {{t 'osf-components.resources-list.edit_resource.preview'}}
-            </Button>
+            {{#if @resource}}
+                <Button
+                    data-test-save-button
+                    data-analytics-name='Save resource'
+                    @type={{'primary'}}
+                    {{on 'click' (perform this.save (queue dialog.close @reload))}}
+                >
+                    {{t 'general.save'}}
+                </Button>
+            {{else}}
+                <Button
+                    data-test-preview-button
+                    data-analytics-name='Preview resource'
+                    @type={{'primary'}}
+                    {{on 'click' (perform this.save this.goToPreview)}}
+                >
+                    {{t 'osf-components.resources-list.edit_resource.preview'}}
+                </Button>
+            {{/if}}
         {{/if}}
     </dialog.footer>
 </OsfDialog>

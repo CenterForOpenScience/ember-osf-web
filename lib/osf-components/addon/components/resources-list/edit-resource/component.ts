@@ -5,6 +5,7 @@ import Component from '@glimmer/component';
 import { ValidationObject } from 'ember-changeset-validations';
 import { validateExclusion, validatePresence } from 'ember-changeset-validations/validators';
 import { task } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import DS from 'ember-data';
 import IntlService from 'ember-intl/services/intl';
 import RegistrationModel from 'ember-osf-web/models/registration';
@@ -58,7 +59,7 @@ export default class EditResourceModal extends Component<Args> {
     @task
     async onOpen() {
         if (!this.resource) {
-            this.resource = await this.store.createRecord('resource', { registration: this.args.registration });
+            this.resource = this.store.createRecord('resource', { registration: this.args.registration });
             await this.resource.save();
         }
         this.changeset = buildChangeset(this.resource, this.resourceValidations);
@@ -67,21 +68,42 @@ export default class EditResourceModal extends Component<Args> {
     @action
     onClose() {
         if (!this.args.resource) {
+            if (!this.resource?.finalized) {
+                taskFor(this.deleteResource).perform();
+            }
             this.resource = undefined;
             this.changeset = undefined;
+        } else {
+            this.changeset.rollback();
         }
+        this.shouldShowPreview = false;
+    }
+
+    @action
+    goToPreview() {
+        this.shouldShowPreview = true;
+    }
+
+    @action
+    goToEdit() {
         this.shouldShowPreview = false;
     }
 
     @task
     @waitFor
-    async goToPreview() {
+    async save(onSuccess?: () => void) {
         this.changeset.validate();
         if (this.changeset.get('isValid')) {
             try {
                 await this.changeset.save();
-                this.shouldShowPreview = true;
+                if (onSuccess) {
+                    onSuccess();
+                }
+                if (this.resource?.finalized) {
+                    this.toast.success(this.intl.t('osf-components.resources-list.edit_resource.save_success'));
+                }
             } catch (e) {
+                this.resource?.rollbackAttributes();
                 if (e.errors[0].status === '400') {
                     this.changeset.addError(
                         'pid',
@@ -95,11 +117,6 @@ export default class EditResourceModal extends Component<Args> {
                 }
             }
         }
-    }
-
-    @action
-    goToEdit() {
-        this.shouldShowPreview = false;
     }
 
     @task
@@ -117,5 +134,11 @@ export default class EditResourceModal extends Component<Args> {
                 );
             }
         }
+    }
+
+    @task
+    @waitFor
+    async deleteResource() {
+        await this.resource?.destroyRecord();
     }
 }

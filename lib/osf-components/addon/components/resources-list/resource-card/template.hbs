@@ -19,7 +19,7 @@
             {{#if @editable}}
                 <ResourcesList::DeleteResource
                     @resource={{@resource}}
-                    @onDelete={{@onDelete}}
+                    @onDelete={{@reload}}
                     as |modal|
                 >
                     <Button
@@ -33,6 +33,7 @@
                 </ResourcesList::DeleteResource>
                 <ResourcesList::EditResource
                     @resource={{@resource}}
+                    @reload={{@reload}}
                     as |modal|
                 >
                     <Button
