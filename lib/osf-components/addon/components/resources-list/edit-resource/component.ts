@@ -73,6 +73,8 @@ export default class EditResourceModal extends Component<Args> {
             }
             this.resource = undefined;
             this.changeset = undefined;
+        } else {
+            this.changeset.rollback();
         }
         this.shouldShowPreview = false;
     }
@@ -97,7 +99,11 @@ export default class EditResourceModal extends Component<Args> {
                 if (onSuccess) {
                     onSuccess();
                 }
+                if (this.resource?.finalized) {
+                    this.toast.success(this.intl.t('osf-components.resources-list.edit_resource.save_success'));
+                }
             } catch (e) {
+                this.resource?.rollbackAttributes();
                 if (e.errors[0].status === '400') {
                     this.changeset.addError(
                         'pid',

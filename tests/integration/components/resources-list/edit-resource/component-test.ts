@@ -233,5 +233,16 @@ module('Integration | Component | ResourcesList::EditResource', hooks => {
         mirageResource.reload();
         assert.equal(mirageResource.pid, '10.101/lia', 'PID is reverted to original changed');
         assert.equal(mirageResource.resourceType, ResourceTypes.AnalyticCode, 'Resource type reverted');
+
+        await untrackedClicked('[data-test-open]');
+        assert.dom('[data-test-doi-field] > div > div > input').hasValue('10.101/lia');
+        await fillIn('[data-test-doi-field] > div > div > input', '01.101/lia');
+        await selectChoose('[data-test-resource-type-field]', this.intl.t('osf-components.resources-list.data'));
+        await click('[data-test-save-button]');
+        assert.dom('[data-test-validation-errors="pid"]').exists('DOI validation error message exists');
+        await click('[data-test-cancel-button]');
+        mirageResource.reload();
+        assert.equal(mirageResource.pid, '10.101/lia', 'PID is reverted after failed save');
+        assert.equal(mirageResource.resourceType, ResourceTypes.AnalyticCode, 'Resource type reverted');
     });
 });
