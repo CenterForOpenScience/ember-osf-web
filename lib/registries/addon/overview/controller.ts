@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import Store from '@ember-data/store';
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
