@@ -54,14 +54,6 @@ export function registrationScenario(
 
     server.create('registration', { id: 'beefs' });
 
-    server.create('resource', {
-        name: 'Code',
-        description: 'Code Badge',
-        dateCreated: new Date(),
-        dateModified: new Date(),
-        finalized: true,
-    });
-
     const currentUserWrite = server.create('registration', {
         id: 'writr',
         registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
