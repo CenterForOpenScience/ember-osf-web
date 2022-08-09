@@ -8,7 +8,7 @@ export enum ResourceTypes {
     Materials = 'materials',
     AnalyticCode = 'analytic_code',
     Papers = 'papers',
-    Supplements = 'supplements'
+    Supplements = 'supplements',
 }
 
 export default class ResourceModel extends OsfModel {
