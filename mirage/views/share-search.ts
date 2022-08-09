@@ -58,6 +58,7 @@ interface SerializedRegistration {
     type: string;
     withdrawn: boolean;
     osf_related_resource_types?: RelatedResourceTypes;
+    source_unique_id?: string;
 }
 
 interface SearchHit {
@@ -186,6 +187,7 @@ function serializeRegistration(reg: ModelInstance<RegistrationModel>): Serialize
             papers: reg.hasPapers,
             supplements: reg.hasSupplements,
         },
+        source_unique_id: reg.id,
     };
 }
 
