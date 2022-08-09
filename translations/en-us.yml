@@ -1343,7 +1343,7 @@ registries:
                 alt_text: 'Papers Badge'
             supplements:
                 title: 'Supplements'
-                alt_text: 'Supplements Badge'
+                alt_text: 'Supplements badge'
             error: 'Unable to load Resource'
         title: Overview
         collapse: Collapse
