@@ -142,7 +142,7 @@ export function registrationScenario(
         reviewsState: RegistrationReviewStates.Accepted,
         registeredBy: currentUser,
         revisionState: RevisionReviewStates.RevisionPendingModeration,
-        currentUserPermissions: [Permission.Admin],
+        currentUserPermissions: Object.values(Permission),
         providerSpecificMetadata: [
             { field_name: 'EGAP Registration ID', field_value: '' },
             { field_name: 'Another Field', field_value: 'aloha' },
