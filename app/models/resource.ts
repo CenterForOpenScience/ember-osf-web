@@ -5,8 +5,8 @@ import OsfModel from './osf-model';
 
 export enum ResourceTypes {
     Data = 'data',
-    Materials = 'materials',
     AnalyticCode = 'analytic_code',
+    Materials = 'materials',
     Papers = 'papers',
     Supplements = 'supplements',
 }
