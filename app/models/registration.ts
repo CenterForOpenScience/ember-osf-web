@@ -165,6 +165,13 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     // Write-only relationships
     @belongsTo('draft-registration', { inverse: null })
     draftRegistration!: DraftRegistrationModel;
+
+    get resourcesVisible(): boolean {
+        return ![
+            RegistrationReviewStates.Initial,
+            RegistrationReviewStates.Pending,
+        ].includes(this.reviewsState) && !this.withdrawn && !this.archiving;
+    }
 }
 
 declare module 'ember-data/types/registries/model' {

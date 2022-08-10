@@ -220,7 +220,7 @@
                 {{/if}}
             </div>
         </span>
-        {{#if @node.isRegistration}}
+        {{#if (and @node.isRegistration @node.resourcesVisible)}}
             <span local-class='OpenBadges {{if this.isMobile 'OpenBadges__mobile'}}'>
                 <OpenBadgesList
                     @hasData={{@node.hasData}}
