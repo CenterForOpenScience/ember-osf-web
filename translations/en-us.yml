@@ -1337,7 +1337,7 @@ registries:
                 alt_text: 'Analytic code badge'
             materials:
                 title: 'Materials'
-                alt_text: 'Materials Badge'
+                alt_text: 'Materials badge'
             papers:
                 title: 'Papers'
                 alt_text: 'Papers Badge'
