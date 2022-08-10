@@ -4,19 +4,17 @@
         @route='registries.overview.resources'
         @models={{@registration.id}}
     >
-        <span
-            data-test-badge-icon={{@resourceType}}
-        >
-            <label local-class='OutputResource__label'>
-                <img
-                    data-analytics-name={{@resourceType}}
-                    data-test-badge-icon
-                    src={{this.getSrc}}
-                    local-class='OutputResource_img'
-                    alt={{t (concat 'registries.overview.resources.' @resourceType '.alt_text')}}
-                />
+        <figure local-class='OutputResource_figure'>
+            <img
+                data-analytics-name={{@resourceType}}
+                data-test-badge-icon
+                src={{this.getSrc}}
+                local-class='OutputResource_img'
+                alt={{t (concat 'registries.overview.resources.' @resourceType '.alt_text')}}
+            />
+            <figcaption>
                 {{t (concat 'registries.overview.resources.' @resourceType '.title')}}
-            </label>
-        </span>
+            </figcaption>
+        </figure>
     </OsfLink>
 </p>
