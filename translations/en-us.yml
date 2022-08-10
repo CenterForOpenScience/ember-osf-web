@@ -1331,16 +1331,16 @@ registries:
             help_icon: 'Open resources'
             data:
                 title: 'Data'
-                alt_text: 'Data Badge'
+                alt_text: 'Data badge'
             analytic_code:
-                title: 'Code'
-                alt_text: 'Code Badge'
+                title: 'Analytic code'
+                alt_text: 'Analytic code badge'
             materials:
                 title: 'Materials'
-                alt_text: 'Materials Badge'
+                alt_text: 'Materials badge'
             papers:
                 title: 'Papers'
-                alt_text: 'Papers Badge'
+                alt_text: 'Papers badge'
             supplements:
                 title: 'Supplements'
                 alt_text: 'Supplements badge'
