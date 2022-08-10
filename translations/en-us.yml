@@ -1340,7 +1340,7 @@ registries:
                 alt_text: 'Materials badge'
             papers:
                 title: 'Papers'
-                alt_text: 'Papers Badge'
+                alt_text: 'Papers badge'
             supplements:
                 title: 'Supplements'
                 alt_text: 'Supplements badge'
