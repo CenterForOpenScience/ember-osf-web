@@ -1331,7 +1331,7 @@ registries:
             help_icon: 'Open resources'
             data:
                 title: 'Data'
-                alt_text: 'Data Badge'
+                alt_text: 'Data badge'
             analytic_code:
                 title: 'Code'
                 alt_text: 'Code Badge'
