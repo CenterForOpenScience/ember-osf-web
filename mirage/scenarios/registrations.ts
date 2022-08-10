@@ -128,7 +128,7 @@ export function registrationScenario(
 
     const decaf = server.create('registration', {
         id: 'decaf',
-        title: 'Global Penguins',
+        title: 'Pending Penguins',
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider: egap,
         reviewsState: RegistrationReviewStates.Accepted,
