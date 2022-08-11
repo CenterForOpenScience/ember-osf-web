@@ -13,9 +13,10 @@
     border-top: solid 1px $color-border-gray;
 }
 
-.Flexbox {
+.AddResourceHeading {
     display: flex;
     flex-direction: row;
+    margin-bottom: 10px;
 }
 
 .TriggerButton.TriggerButton {
