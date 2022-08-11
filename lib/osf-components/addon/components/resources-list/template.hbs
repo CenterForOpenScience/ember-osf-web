@@ -4,7 +4,13 @@
         data-test-add-resource-section
     >
         <span>{{t 'osf-components.resources-list.add_instructions'}}</span>
-        {{!-- help icon --}}
+        <OsfLink
+            aria-label={{t 'osf-components.resources-list.help_doc_link'}}
+            local-class='HelpLink'
+            @href='https://help.osf.io/article/410-registration-files'
+        >
+            <FaIcon @icon= 'question-circle' />
+        </OsfLink>
         <ResourcesList::EditResource
             @registration={{@registration}}
             @reload={{this.reload}}
