@@ -37,6 +37,7 @@ function getSearchResponse(identifiers?: string[]) {
                         materials: false,
                         supplements: false,
                     },
+                    source_unique_id: 'w4yhb',
                     lists: {
                         contributors: [{
                             id: '6402D-242-421',
@@ -97,6 +98,7 @@ module('Registries | Unit | Service | share-search', hooks => {
             materials: false,
             supplements: false,
         });
+        assert.equal(registrations[0].sourceUniqueId, 'w4yhb');
     });
 
     test('recognizes all OSF source envs', function(this: TestContext, assert) {
