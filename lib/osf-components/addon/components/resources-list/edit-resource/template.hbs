@@ -67,13 +67,18 @@
                 data-test-add-button
                 data-analytics-name='Add resource'
                 @type='create'
+                disabled={{this.finalize.isRunning}}
                 {{on 'click' (queue
                     (perform this.finalize)
                     dialog.close
                     @reload
                 )}}
             >
-                {{t 'general.add'}}
+                {{#if this.finalize.isRunning}}
+                    <LoadingIndicator @inline={{true}}/>
+                {{else}}
+                    {{t 'general.add'}}
+                {{/if}}
             </Button>
         {{else}}
             <Button
@@ -88,18 +93,28 @@
                     data-test-save-button
                     data-analytics-name='Save resource'
                     @type={{'primary'}}
+                    disabled={{this.save.isRunning}}
                     {{on 'click' (perform this.save (queue dialog.close @reload))}}
                 >
-                    {{t 'general.save'}}
+                    {{#if this.save.isRunning}}
+                        <LoadingIndicator @inline={{true}} />
+                    {{else}}
+                        {{t 'general.save'}}
+                    {{/if}}
                 </Button>
             {{else}}
                 <Button
                     data-test-preview-button
                     data-analytics-name='Preview resource'
                     @type={{'primary'}}
+                    disabled={{this.save.isRunning}}
                     {{on 'click' (perform this.save this.goToPreview)}}
                 >
-                    {{t 'osf-components.resources-list.edit_resource.preview'}}
+                    {{#if this.save.isRunning}}
+                        <LoadingIndicator @inline={{true}} />
+                    {{else}}
+                        {{t 'osf-components.resources-list.edit_resource.preview'}}
+                    {{/if}}
                 </Button>
             {{/if}}
         {{/if}}
