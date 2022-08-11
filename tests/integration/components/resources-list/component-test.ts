@@ -28,6 +28,7 @@ module('Integration | Component | ResourcesList', hooks => {
         await render(hbs`<ResourcesList @registration={{this.registration}} />`);
         assert.dom('[data-test-add-resource-section]')
             .containsText(t('osf-components.resources-list.add_instructions'), 'Add resource instructions shown');
+        assert.dom('data-test-resource-help-link').exists('Help link exists');
         assert.dom('[data-test-resource-card-type]').exists('resource cards shown');
     });
 
