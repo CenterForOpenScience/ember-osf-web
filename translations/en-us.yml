@@ -1724,6 +1724,7 @@ osf-components:
             edit_heading: 'Edit resource'
             add_heading: 'Add new resource'
             doi: 'DOI'
+            doi_already_used: 'A resource with this DOI and type already exists.'
             output_type: 'Resource type'
             description: 'Description'
             check_your_doi: 'Check your DOI for accuracy.'
