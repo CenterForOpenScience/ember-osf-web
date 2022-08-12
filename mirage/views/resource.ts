@@ -18,7 +18,13 @@ export function updateResource(this: HandlerContext, schema: Schema, request: Re
     };
     if ('pid' in attributes) {
         if (!attributes.pid || !attributes.pid.startsWith('10.')) {
-            return new Response(400);
+            return new Response(400, {}, {
+                errors: [{
+                    status: '400',
+                    detail: 'invalid doi',
+                    source: {pointer: '/data/attributes/pid'},
+                }],
+            });
         }
     }
     resource.update(attributes);
