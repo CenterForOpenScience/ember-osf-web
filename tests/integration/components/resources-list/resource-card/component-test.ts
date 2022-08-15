@@ -53,6 +53,7 @@ module('Integration | Component | ResourcesList::ResourceCard', hooks => {
     test('it renders anonymized view', async function(assert) {
         const mirageResource = server.create('resource', {
             resourceType: ResourceTypes.Materials,
+            pid: '',
             apiMeta: { version: '0', anonymous: true },
         });
         this.set('resource', mirageResource);
