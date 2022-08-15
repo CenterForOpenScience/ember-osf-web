@@ -86,7 +86,7 @@ export interface ShareContributor {
     orderCited: number;
 }
 
-export interface OpenBadges {
+export interface RelatedResourceTypes {
     data: boolean;
     materials: boolean;
     analytic_code: boolean;
@@ -110,7 +110,8 @@ export interface ShareRegistration {
     tags: string[];
     title: string;
     withdrawn: boolean;
-    openBadges: OpenBadges;
+    relatedResourceTypes?: RelatedResourceTypes;
+    sourceUniqueId: string;
 }
 
 export interface SourceDescriptor {
@@ -242,7 +243,8 @@ export default class ShareSearch extends Search {
                 datePublished: r._source.date_published ? new Date(r._source.date_published) : undefined,
                 tags: r._source.tags.map(unescapeXMLEntities),
                 withdrawn: r._source.withdrawn,
-                openBadges: r._source.open_badges,
+                relatedResourceTypes: r._source.osf_related_resource_types,
+                sourceUniqueId: r._source.source_unique_id,
             };
         });
     }

@@ -1,6 +1,6 @@
 {{#if @registration.userHasWritePermission}}
     <div
-        local-class='Flexbox'
+        local-class='AddResourceHeading'
         data-test-add-resource-section
     >
         <span>{{t 'osf-components.resources-list.add_instructions'}}</span>
@@ -26,12 +26,16 @@
 <InfiniteList
         @itemList={{this.resourcesList}}
         @hasMore={{this.hasMore}}
-        @loadMore={{this.loadResources}}
+        @loadMore={{this.loadMore}}
         @isLoading={{this.isLoading}}
         local-class='ResourceList'
 >
     <:item as |resource|>
-        <ResourcesList::ResourceCard @resource={{resource}} @editable={{@registration.userHasWritePermission}} />
+        <ResourcesList::ResourceCard
+            @resource={{resource}}
+            @editable={{@registration.userHasWritePermission}}
+            @reload={{this.reload}}
+        />
     </:item>
     <:empty>
         <li local-class='EmptyList'>{{t 'osf-components.resources-list.no-resources'}}</li>

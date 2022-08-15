@@ -6,7 +6,7 @@ import { percySnapshot } from 'ember-percy';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
 
-import Registration from 'ember-osf-web/models/registration';
+import Registration, { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import { click, currentURL, visit } from 'ember-osf-web/tests/helpers';
 import { loadEngine, setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
 
@@ -52,7 +52,7 @@ module('Registries | Acceptance | overview.index', hooks => {
         const analyticsEngine = await loadEngine('analytics-page', 'guid-registration.analytics');
 
         analyticsEngine.register('service:keen', KeenStub);
-
+        this.registration.reviewsState = RegistrationReviewStates.Accepted;
         const testCases = [{
             name: 'Comments',
             route: 'registries.overview.comments',
@@ -114,6 +114,16 @@ module('Registries | Acceptance | overview.index', hooks => {
         await visit(`/${this.registration.id}`);
 
         assert.dom('[data-test-wiki-link]').doesNotExist('Wiki link hidden because wiki disabled');
+    });
+
+    test('resource link hidden if not approved', async function(this: OverviewTestContext, assert: Assert){
+        this.registration.reviewsState = RegistrationReviewStates.Initial;
+        await visit(`/${this.registration.id}`);
+        assert.dom('[data-analytics-name="Resources"]').doesNotExist('Resource link hidden for initial state');
+
+        this.registration.reviewsState = RegistrationReviewStates.Pending;
+        await visit(`/${this.registration.id}`);
+        assert.dom('[data-analytics-name="Resources"]').doesNotExist('Resource link hidden for pending state');
     });
 
     test('withdrawn tombstone', async function(this: OverviewTestContext, assert: Assert) {

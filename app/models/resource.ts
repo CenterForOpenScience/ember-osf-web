@@ -5,8 +5,8 @@ import OsfModel from './osf-model';
 
 export enum ResourceTypes {
     Data = 'data',
-    Materials = 'materials',
     AnalyticCode = 'analytic_code',
+    Materials = 'materials',
     Papers = 'papers',
     Supplements = 'supplements',
 }
@@ -14,7 +14,7 @@ export enum ResourceTypes {
 export default class ResourceModel extends OsfModel {
     @attr('fixstring') pid!: string;
     @attr('fixstring') name!: string;
-    @attr('fixstring') resourceType!: ResourceTypes;
+    @attr('fixstring') resourceType!: ResourceTypes | 'undefined';
     @attr('fixstring') description!: string;
     @attr('date') dateCreated!: Date;
     @attr('date') dateModified!: Date;

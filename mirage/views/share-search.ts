@@ -5,7 +5,7 @@ import Contributor from 'ember-osf-web/models/contributor';
 import RegistrationModel from 'ember-osf-web/models/registration';
 
 import { MirageExternalRegistration } from 'ember-osf-web/mirage/models/external-registration';
-import { OpenBadges } from 'registries/services/share-search';
+import { RelatedResourceTypes } from 'registries/services/share-search';
 
 const {
     OSF: {
@@ -57,7 +57,8 @@ interface SerializedRegistration {
     title: string;
     type: string;
     withdrawn: boolean;
-    open_badges?: OpenBadges;
+    osf_related_resource_types?: RelatedResourceTypes;
+    source_unique_id?: string;
 }
 
 interface SearchHit {
@@ -179,13 +180,14 @@ function serializeRegistration(reg: ModelInstance<RegistrationModel>): Serialize
         tags: ['project'],
         withdrawn: reg.withdrawn,
         identifiers: [`${osfUrl}${reg.id}/`],
-        open_badges: {
+        osf_related_resource_types: {
             data: reg.hasData,
             materials: reg.hasMaterials,
             analytic_code: reg.hasAnalyticCode,
             papers: reg.hasPapers,
             supplements: reg.hasSupplements,
         },
+        source_unique_id: reg.id,
     };
 }
 
