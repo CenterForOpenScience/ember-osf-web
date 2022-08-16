@@ -51,7 +51,10 @@ export default class Overview extends Controller {
     }
 
     get showMetadata() {
-        if (this.router.currentRouteName.includes('registries.overview.files')) {
+        if (
+            this.router.currentRouteName.includes('registries.overview.files') ||
+            this.router.currentRouteName.includes('registries.overview.children')
+        ) {
             return false;
         }
         return true;

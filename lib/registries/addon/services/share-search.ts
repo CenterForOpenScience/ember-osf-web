@@ -111,6 +111,7 @@ export interface ShareRegistration {
     title: string;
     withdrawn: boolean;
     relatedResourceTypes?: RelatedResourceTypes;
+    sourceUniqueId: string;
 }
 
 export interface SourceDescriptor {
@@ -243,6 +244,7 @@ export default class ShareSearch extends Search {
                 tags: r._source.tags.map(unescapeXMLEntities),
                 withdrawn: r._source.withdrawn,
                 relatedResourceTypes: r._source.osf_related_resource_types,
+                sourceUniqueId: r._source.source_unique_id,
             };
         });
     }

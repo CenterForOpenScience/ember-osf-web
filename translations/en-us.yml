@@ -1709,6 +1709,7 @@ routes:
 osf-components:
     resources-list:
         add_instructions: 'Link a DOI from a repository to your registration by clicking the green “+” button. Contributors affirmed to adhere to the criteria for each badge.'
+        help_doc_link: 'Learn more about linking resources to your registration'
         add_button_aria_label: 'Add resource'
         data: Data
         materials: Materials
@@ -1724,6 +1725,7 @@ osf-components:
             edit_heading: 'Edit resource'
             add_heading: 'Add new resource'
             doi: 'DOI'
+            doi_already_used: 'A resource with this DOI and type already exists.'
             output_type: 'Resource type'
             description: 'Description'
             check_your_doi: 'Check your DOI for accuracy.'

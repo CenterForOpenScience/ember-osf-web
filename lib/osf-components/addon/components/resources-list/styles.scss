@@ -23,7 +23,12 @@
 .AddResourceHeading {
     display: flex;
     flex-direction: row;
+    align-items: center;
     margin-bottom: 10px;
+}
+
+.HelpLink {
+    padding: 0 8px;
 }
 
 .TriggerButton.TriggerButton {

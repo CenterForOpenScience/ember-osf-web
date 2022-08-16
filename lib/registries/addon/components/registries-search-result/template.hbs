@@ -5,14 +5,25 @@
 >
     <div class={{if @result.relatedResourceTypes 'col-xs-10 col-sm-9' 'col-xs-12'}}>
         <h3 local-class='RegistriesSearchResult__Title'>
-            <OsfLink
-                data-test-result-title-id={{@result.id}}
-                @href={{@result.mainLink}}
-                data-analytics-name='Result Title{{if @provider (concat ' ' @provider.name)}}'
-            >
-                {{math @result.title}}
-            </OsfLink>
-
+            {{#if @result.relatedResourceTypes}}
+                {{!-- This means it's an OSF resource, which means it'll have a guid --}}
+                <OsfLink
+                    data-test-result-title-id={{@result.sourceUniqueId}}
+                    @route='registries.overview'
+                    @models={{array @result.sourceUniqueId}}
+                    data-analytics-name='Result Title{{if @provider (concat ' ' @provider.name)}}'
+                >
+                    {{math @result.title}}
+                </OsfLink>
+            {{else}}
+                <OsfLink
+                    data-test-result-title-id={{@result.id}}
+                    @href={{@result.mainLink}}
+                    data-analytics-name='Result Title{{if @provider (concat ' ' @provider.name)}}'
+                >
+                    {{math @result.title}}
+                </OsfLink>
+            {{/if}}
             {{#if @result.withdrawn}}
                 <span class='label label-default'>{{t 'registries.discover.search_result.withdrawn'}}</span>
             {{/if}}
@@ -62,7 +73,7 @@
     {{#if @result.relatedResourceTypes}}
         <div class='col-xs-2 col-sm-3' local-class='OpenBadges'>
             <OpenBadgesList
-                @registration={{@result.id}}
+                @registration={{@result.sourceUniqueId}}
                 @hasData={{@result.relatedResourceTypes.data}}
                 @hasMaterials={{@result.relatedResourceTypes.materials}}
                 @hasAnalyticCode={{@result.relatedResourceTypes.analytic_code}}

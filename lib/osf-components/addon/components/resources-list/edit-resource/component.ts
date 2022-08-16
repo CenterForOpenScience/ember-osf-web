@@ -104,15 +104,17 @@ export default class EditResourceModal extends Component<Args> {
                 }
             } catch (e) {
                 this.resource?.rollbackAttributes();
-                if (e.errors[0].status === '400') {
+                const error = e.errors[0];
+                if (error.status === '400') {
+                    let message = this.intl.t('validationErrors.invalid', {
+                        description: this.intl.t('osf-components.resources-list.edit_resource.doi'),
+                    });
+                    if (error.source.pointer === '/data/attributes') {
+                        message = this.intl.t('osf-components.resources-list.edit_resource.doi_already_used');
+                    }
                     this.changeset.addError(
                         'pid',
-                        this.intl.t(
-                            'validationErrors.invalid',
-                            {
-                                description: this.intl.t('osf-components.resources-list.edit_resource.doi'),
-                            },
-                        ),
+                        message,
                     );
                 }
             }
