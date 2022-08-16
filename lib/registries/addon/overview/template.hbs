@@ -143,48 +143,50 @@
                         @models={{array this.registration.id}} @icon='comments'
                         @label={{t 'registries.overview.comments.title'}} @count={{this.commentsCount}} />
 
-                    <div data-test-resources-wrapper local-class='ResourcesWrapper'>
-                        <div local-class='ResourcesWrapper_title'>
-                            <h3>{{t 'registries.overview.resources.left_nav_title'}}</h3>
-                            <FaIcon local-class='HelpIcon' @icon='question-circle' />
-                            <BsTooltip
-                                @placement='right'
-                                @triggerEvents='hover'
-                            >
-                                {{t 'registries.overview.resources.help_icon'}}
-                            </BsTooltip>
+                    {{#if this.registration.resourcesVisible}}
+                        <div data-test-resources-wrapper local-class='ResourcesWrapper'>
+                            <div local-class='ResourcesWrapper_title'>
+                                <h3>{{t 'registries.overview.resources.left_nav_title'}}</h3>
+                                <FaIcon local-class='HelpIcon' @icon='question-circle' />
+                                <BsTooltip
+                                    @placement='right'
+                                    @triggerEvents='hover'
+                                >
+                                    {{t 'registries.overview.resources.help_icon'}}
+                                </BsTooltip>
+                            </div>
+                            <OpenResource
+                                data-test-data-resource
+                                @hasResource={{this.registration.hasData}}
+                                @registration={{@registration}}
+                                @resourceType='data'
+                            />
+                            <OpenResource
+                                data-test-code-resource
+                                @hasResource={{this.registration.hasAnalyticCode}}
+                                @registration={{@registration}}
+                                @resourceType='analytic_code'
+                            />
+                            <OpenResource
+                                data-test-materials-resource
+                                @hasResource={{this.registration.hasMaterials}}
+                                @registration={{@registration}}
+                                @resourceType='materials'
+                            />
+                            <OpenResource
+                                data-test-papers-resource
+                                @hasResource={{this.registration.hasPapers}}
+                                @registration={{@registration}}
+                                @resourceType='papers'
+                            />
+                            <OpenResource
+                                data-test-supplements-resource
+                                @hasResource={{this.registration.hasSupplements}}
+                                @registration={{@registration}}
+                                @resourceType='supplements'
+                            />
                         </div>
-                        <OpenResource
-                            data-test-data-resource
-                            @hasResource={{this.registration.hasData}}
-                            @registration={{@registration}}
-                            @resourceType='data'
-                        />
-                        <OpenResource
-                            data-test-code-resource
-                            @hasResource={{this.registration.hasAnalyticCode}}
-                            @registration={{@registration}}
-                            @resourceType='analytic_code'
-                        />
-                        <OpenResource
-                            data-test-materials-resource
-                            @hasResource={{this.registration.hasMaterials}}
-                            @registration={{@registration}}
-                            @resourceType='materials'
-                        />
-                        <OpenResource
-                            data-test-papers-resource
-                            @hasResource={{this.registration.hasPapers}}
-                            @registration={{@registration}}
-                            @resourceType='papers'
-                        />
-                        <OpenResource
-                            data-test-supplements-resource
-                            @hasResource={{this.registration.hasSupplements}}
-                            @registration={{@registration}}
-                            @resourceType='supplements'
-                        />
-                    </div>
+                    {{/if}}
                 </layout.leftNavOld>
 
                 <layout.main local-class='OverviewBody'>
