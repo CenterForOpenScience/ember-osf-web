@@ -5,7 +5,7 @@ import ResourceModel, { ResourceTypes }  from 'ember-osf-web/models/resource';
 
 export default Factory.extend<ResourceModel>({
     pid() {
-        return faker.internet.url();
+        return faker.lorem.word();
     },
     name(){
         return faker.lorem.sentence();

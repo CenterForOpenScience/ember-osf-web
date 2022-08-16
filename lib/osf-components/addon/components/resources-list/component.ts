@@ -34,6 +34,11 @@ export default class ResourcesListComponent extends Component<ResourcesListArgs>
         taskFor(this.loadResources).perform();
     }
 
+    @action
+    loadMore() {
+        taskFor(this.loadResources).perform();
+    }
+
     @task
     @waitFor
     async loadResources() {

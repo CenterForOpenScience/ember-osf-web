@@ -117,7 +117,6 @@
                             </:body>
                         </NewFeaturePopover>
                     {{/let}}
-
                     {{#if this.registration.resourcesVisible}}
                         {{#let (unique-id 'resource-link') as |id|}}
                             <leftNav.link 
@@ -142,7 +141,6 @@
                             </NewFeaturePopover>
                         {{/let}}
                     {{/if}}
-
                     {{#if this.registration.wikiEnabled}}
                         <leftNav.link
                             data-test-wiki-link

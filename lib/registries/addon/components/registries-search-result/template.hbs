@@ -3,16 +3,27 @@
     data-analytics-scope='Registries search results'
     ...attributes
 >
-    <div class={{if @result.openBadges 'col-xs-10 col-sm-9' 'col-xs-12'}}>
+    <div class={{if @result.relatedResourceTypes 'col-xs-10 col-sm-9' 'col-xs-12'}}>
         <h3 local-class='RegistriesSearchResult__Title'>
-            <OsfLink
-                data-test-result-title-id={{@result.id}}
-                @href={{@result.mainLink}}
-                data-analytics-name='Result Title{{if @provider (concat ' ' @provider.name)}}'
-            >
-                {{math @result.title}}
-            </OsfLink>
-
+            {{#if @result.relatedResourceTypes}}
+                {{!-- This means it's an OSF resource, which means it'll have a guid --}}
+                <OsfLink
+                    data-test-result-title-id={{@result.sourceUniqueId}}
+                    @route='registries.overview'
+                    @models={{array @result.sourceUniqueId}}
+                    data-analytics-name='Result Title{{if @provider (concat ' ' @provider.name)}}'
+                >
+                    {{math @result.title}}
+                </OsfLink>
+            {{else}}
+                <OsfLink
+                    data-test-result-title-id={{@result.id}}
+                    @href={{@result.mainLink}}
+                    data-analytics-name='Result Title{{if @provider (concat ' ' @provider.name)}}'
+                >
+                    {{math @result.title}}
+                </OsfLink>
+            {{/if}}
             {{#if @result.withdrawn}}
                 <span class='label label-default'>{{t 'registries.discover.search_result.withdrawn'}}</span>
             {{/if}}
@@ -59,15 +70,15 @@
             {{math @result.description}}
         </p>
     </div>
-    {{#if @result.openBadges}}
+    {{#if @result.relatedResourceTypes}}
         <div class='col-xs-2 col-sm-3' local-class='OpenBadges'>
             <OpenBadgesList
-                @registration={{@result.id}}
-                @hasData={{@result.openBadges.data}}
-                @hasMaterials={{@result.openBadges.materials}}
-                @hasAnalyticCode={{@result.openBadges.analytic_code}}
-                @hasPapers={{@result.openBadges.papers}}
-                @hasSupplements={{@result.openBadges.supplements}}
+                @registration={{@result.sourceUniqueId}}
+                @hasData={{@result.relatedResourceTypes.data}}
+                @hasMaterials={{@result.relatedResourceTypes.materials}}
+                @hasAnalyticCode={{@result.relatedResourceTypes.analytic_code}}
+                @hasPapers={{@result.relatedResourceTypes.papers}}
+                @hasSupplements={{@result.relatedResourceTypes.supplements}}
             />
         </div>
     {{/if}}

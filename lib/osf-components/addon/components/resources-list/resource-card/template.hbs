@@ -12,13 +12,28 @@
         <p>
             <OsfLink
                 data-test-resource-card-pid-link
-                @href={{@resource.pid}}
+                @href={{concat 'https://doi.org/' @resource.pid}}
             >
-                {{@resource.pid}}
+                {{concat 'https://doi.org/' @resource.pid}}
             </OsfLink>
             {{#if @editable}}
+                <ResourcesList::DeleteResource
+                    @resource={{@resource}}
+                    @onDelete={{@reload}}
+                    as |modal|
+                >
+                    <Button
+                        local-class='DeleteButton'
+                        aria-label={{t 'osf-components.resources-list.delete_resource.title'}}
+                        @layout='fake-link'
+                        {{on 'click' modal.open}}
+                    >
+                        <FaIcon @icon='trash-alt' @fixedWidth={{true}} />
+                    </Button>
+                </ResourcesList::DeleteResource>
                 <ResourcesList::EditResource
                     @resource={{@resource}}
+                    @reload={{@reload}}
                     as |modal|
                 >
                     <Button
