@@ -88,4 +88,3 @@ export default class Overview extends Controller {
         + (this.registration.relatedCounts.linkedRegistrations || 0);
     }
 }
-

@@ -43,6 +43,56 @@ module('Registries | Integration | Component | side-nav', hooks => {
         assert.dom('nav[data-test-side-nav]').exists('The nav element is rendered');
     });
 
+    test('it renders data badges', async assert => {
+        await render(hbs`<OpenResource @hasResource={{this.registration.hasData}}
+        @registration={{@registration}}
+        @resourceType='data' />`);
+
+        assert.dom('[data-test-resource-link]').exists('Resource link is rendered');
+        assert.dom('[data-test-badge-icon]').exists('Resource icon is rendered');
+        assert.dom('[data-test-resource-link]').hasText('Data');
+    });
+
+    test('it renders analytic code badges', async assert => {
+        await render(hbs`<OpenResource @hasResource={{this.registration.hasAnalyticCode}}
+        @registration={{@registration}}
+        @resourceType='analytic_code' />`);
+
+        assert.dom('[data-test-resource-link]').exists('Resource link is rendered');
+        assert.dom('[data-test-badge-icon]').exists('Resource icon is rendered');
+        assert.dom('[data-test-resource-link]').hasText('Analytic code');
+    });
+
+    test('it renders badges', async assert => {
+        await render(hbs`<OpenResource @hasResource={{this.registration.hasMaterials}}
+        @registration={{@registration}}
+        @resourceType='materials' />`);
+
+        assert.dom('[data-test-resource-link]').exists('Resource link is rendered');
+        assert.dom('[data-test-badge-icon]').exists('Resource icon is rendered');
+        assert.dom('[data-test-resource-link]').hasText('Materials');
+    });
+
+    test('it renders badges', async assert => {
+        await render(hbs`<OpenResource @hasResource={{this.registration.hasPapers}}
+        @registration={{@registration}}
+        @resourceType='papers' />`);
+
+        assert.dom('[data-test-resource-link]').exists('Resource link is rendered');
+        assert.dom('[data-test-badge-icon]').exists('Resource icon is rendered');
+        assert.dom('[data-test-resource-link]').hasText('Papers');
+    });
+
+    test('it renders badges', async assert => {
+        await render(hbs`<OpenResource @hasResource={{this.registration.hasSupplements}}
+        @registration={{@registration}}
+        @resourceType='supplements' />`);
+
+        assert.dom('[data-test-resource-link]').exists('Resource link is rendered');
+        assert.dom('[data-test-badge-icon]').exists('Resource icon is rendered');
+        assert.dom('[data-test-resource-link]').hasText('Supplements');
+    });
+
     test('it renders splattributes', async assert => {
         await render(hbs`<SideNav data-for-a-test="foo" />`);
 

@@ -22,7 +22,6 @@ export default class ResourceModel extends OsfModel {
 
     @belongsTo('registration', { inverse: 'resources' })
     registration!: AsyncBelongsTo<RegistrationModel> & RegistrationModel;
-
 }
 
 declare module 'ember-data/types/registries/model' {

@@ -99,7 +99,7 @@ export function registrationScenario(
         id: 'anode',
         public: false,
         contributors: server.createList('contributor', 10),
-        currentUserPermissions: [Permission.Admin],
+        currentUserPermissions: Object.values(Permission),
     }, 'withFiles', 'withStorage');
     rootNode.update({
         storage: server.create('node-storage', { storageLimitStatus: StorageStatus.OVER_PRIVATE }),

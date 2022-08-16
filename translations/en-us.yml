@@ -1326,7 +1326,25 @@ registries:
                 invalidProviderLink: 'See all files in this registration.'
                 osfstorage: 'OSF Storage'
         resources:
-            title: Resources
+            title: 'Resources'
+            left_nav_title: 'Open practice resources'
+            help_icon: 'Open resources'
+            data:
+                title: 'Data'
+                alt_text: 'Data badge'
+            analytic_code:
+                title: 'Analytic code'
+                alt_text: 'Analytic code badge'
+            materials:
+                title: 'Materials'
+                alt_text: 'Materials badge'
+            papers:
+                title: 'Papers'
+                alt_text: 'Papers badge'
+            supplements:
+                title: 'Supplements'
+                alt_text: 'Supplements badge'
+            error: 'Unable to load Resource'
         title: Overview
         collapse: Collapse
         expand: Expand
