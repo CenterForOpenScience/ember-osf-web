@@ -38,11 +38,13 @@
         local-class='ResourceList'
 >
     <:item as |resource|>
-        <ResourcesList::ResourceCard
-            @resource={{resource}}
-            @editable={{@registration.userHasWritePermission}}
-            @reload={{this.reload}}
-        />
+        <li local-class='ResourceItem'>
+            <ResourcesList::ResourceCard
+                @resource={{resource}}
+                @editable={{@registration.userHasWritePermission}}
+                @reload={{this.reload}}
+            />
+        </li>
     </:item>
     <:empty>
         <li local-class='EmptyList'>{{t 'osf-components.resources-list.no-resources'}}</li>
