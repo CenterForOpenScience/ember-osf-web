@@ -50,6 +50,7 @@ module('Registries | Integration | Component | side-nav', hooks => {
 
         assert.dom('[data-test-resource-link]').exists('Resource link is rendered');
         assert.dom('[data-test-badge-icon]').exists('Resource icon is rendered');
+        assert.dom('[data-test-resource-link]').hasText('Data');
     });
 
     test('it renders analytic code badges', async assert => {
@@ -59,6 +60,7 @@ module('Registries | Integration | Component | side-nav', hooks => {
 
         assert.dom('[data-test-resource-link]').exists('Resource link is rendered');
         assert.dom('[data-test-badge-icon]').exists('Resource icon is rendered');
+        assert.dom('[data-test-resource-link]').hasText('Analytic code');
     });
 
     test('it renders badges', async assert => {
@@ -68,6 +70,7 @@ module('Registries | Integration | Component | side-nav', hooks => {
 
         assert.dom('[data-test-resource-link]').exists('Resource link is rendered');
         assert.dom('[data-test-badge-icon]').exists('Resource icon is rendered');
+        assert.dom('[data-test-resource-link]').hasText('Materials');
     });
 
     test('it renders badges', async assert => {
@@ -77,6 +80,7 @@ module('Registries | Integration | Component | side-nav', hooks => {
 
         assert.dom('[data-test-resource-link]').exists('Resource link is rendered');
         assert.dom('[data-test-badge-icon]').exists('Resource icon is rendered');
+        assert.dom('[data-test-resource-link]').hasText('Papers');
     });
 
     test('it renders badges', async assert => {
@@ -86,6 +90,7 @@ module('Registries | Integration | Component | side-nav', hooks => {
 
         assert.dom('[data-test-resource-link]').exists('Resource link is rendered');
         assert.dom('[data-test-badge-icon]').exists('Resource icon is rendered');
+        assert.dom('[data-test-resource-link]').hasText('Supplements');
     });
 
     test('it renders splattributes', async assert => {
