@@ -6,6 +6,37 @@
         local-class='icon'
     />
     {{this.resourceTypeName}}
+    {{#if @editable}}
+        <div local-class='EditButtons'>
+            <ResourcesList::EditResource
+                @resource={{@resource}}
+                @reload={{@reload}}
+                as |modal|
+            >
+                <Button
+                    aria-label={{t 'osf-components.resources-list.edit_resource.edit_button_aria_label'}}
+                    @layout='fake-link'
+                    {{on 'click' modal.open}}
+                >
+                    <FaIcon @icon='pencil-alt' @fixedWidth={{true}} />
+                </Button>
+            </ResourcesList::EditResource>
+            <ResourcesList::DeleteResource
+                @resource={{@resource}}
+                @onDelete={{@reload}}
+                as |modal|
+            >
+                <Button
+                    local-class='DeleteButton'
+                    aria-label={{t 'osf-components.resources-list.delete_resource.title'}}
+                    @layout='fake-link'
+                    {{on 'click' modal.open}}
+                >
+                    <FaIcon @icon='trash-alt' @fixedWidth={{true}} />
+                </Button>
+            </ResourcesList::DeleteResource>
+        </div>
+    {{/if}}
 </p>
 {{#if @resource.pid}}
     <p>
@@ -15,37 +46,6 @@
         >
             {{concat 'https://doi.org/' @resource.pid}}
         </OsfLink>
-        {{#if @editable}}
-            <div local-class='EditButtons'>
-                <ResourcesList::EditResource
-                    @resource={{@resource}}
-                    @reload={{@reload}}
-                    as |modal|
-                >
-                    <Button
-                        aria-label={{t 'osf-components.resources-list.edit_resource.edit_button_aria_label'}}
-                        @layout='fake-link'
-                        {{on 'click' modal.open}}
-                    >
-                        <FaIcon @icon='pencil-alt' @fixedWidth={{true}} />
-                    </Button>
-                </ResourcesList::EditResource>
-                <ResourcesList::DeleteResource
-                    @resource={{@resource}}
-                    @onDelete={{@reload}}
-                    as |modal|
-                >
-                    <Button
-                        local-class='DeleteButton'
-                        aria-label={{t 'osf-components.resources-list.delete_resource.title'}}
-                        @layout='fake-link'
-                        {{on 'click' modal.open}}
-                    >
-                        <FaIcon @icon='trash-alt' @fixedWidth={{true}} />
-                    </Button>
-                </ResourcesList::DeleteResource>
-            </div>
-        {{/if}}
     </p>
 {{/if}}
 <ExpandablePreview data-test-resource-card-description>
