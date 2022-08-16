@@ -8,7 +8,7 @@
         />
         {{this.resourceTypeName}}
     </p>
-    {{#unless @resource.apiMeta.anonymous}}
+    {{#if @resource.pid}}
         <p>
             <OsfLink
                 data-test-resource-card-pid-link
@@ -47,7 +47,7 @@
                 </ResourcesList::EditResource>
             {{/if}}
         </p>
-    {{/unless}}
+    {{/if}}
     <ExpandablePreview data-test-resource-card-description>
         {{@resource.description}}
     </ExpandablePreview>
