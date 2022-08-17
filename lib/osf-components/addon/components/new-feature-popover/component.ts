@@ -19,6 +19,16 @@ export default class NewFeaturePopover extends Component<Args> {
     }
 
     @action
+    setClickOutsideHandler(element: HTMLElement, [closePopover]:[any]) {
+        const bodyElement = document.querySelector('body');
+        bodyElement?.addEventListener('click', event => {
+            if (!event.composedPath().includes(element)) {
+                closePopover();
+            }
+        });
+    }
+
+    @action
     onAccept() {
         if (this.notAgain) {
             this.cookies.write(this.args.featureCookie, 1, {
