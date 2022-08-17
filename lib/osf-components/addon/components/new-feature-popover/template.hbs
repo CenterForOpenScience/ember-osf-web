@@ -17,7 +17,7 @@
     <footer
         data-test-popover-footer
         local-class='FlexFooter'
-        {{did-insert this.setClickOutsideHandler popover.close}}
+        {{on-click-outside popover.close}}
     >
         {{yield to='footer'}}
         <label data-test-not-again-checkbox>
