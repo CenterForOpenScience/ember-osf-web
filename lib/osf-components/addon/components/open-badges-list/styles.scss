@@ -1,4 +1,24 @@
 .title {
     font-weight: 700;
-    margin-top: 0;
+}
+
+.badgeList {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: stretch;
+    margin-left: 9px;
+}
+
+.badgeList p {
+    margin-left: 9px;
+}
+
+.badgeList a {
+    justify-content: left;
+    margin-left: 2px;
+}
+
+.badgeList span {
+    margin-right: 2px;
 }
