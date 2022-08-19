@@ -107,17 +107,19 @@
                                 @label={{t 'registries.overview.resources.title'}}
                                 id={{id}}
                             />
-                            <NewFeaturePopover
-                                @triggerElement={{concat '#' id}}
-                                @featureCookie={{this.outputFeaturePopoverCookie}}
-                            >
-                                <:header>
-                                    {{t 'registries.overview.files.outputFeaturePopoverHeading'}}
-                                </:header>
-                                <:body>
-                                    {{t 'registries.overview.files.outputFeaturePopoverBody'}}
-                                </:body>
-                            </NewFeaturePopover>
+                            {{#if this.showNewFeaturePopover}}
+                                <NewFeaturePopover
+                                    @triggerElement={{concat '#' id}}
+                                    @featureCookie={{this.outputFeaturePopoverCookie}}
+                                >
+                                    <:header>
+                                        {{t 'registries.overview.files.outputFeaturePopoverHeading'}}
+                                    </:header>
+                                    <:body>
+                                        {{t 'registries.overview.files.outputFeaturePopoverBody'}}
+                                    </:body>
+                                </NewFeaturePopover>
+                            {{/if}}
                         {{/let}}
                     {{/if}}
                     {{#if this.registration.wikiEnabled}}
