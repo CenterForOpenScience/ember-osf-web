@@ -11,6 +11,7 @@ import { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
 import Intl from 'ember-intl/services/intl';
+import Media from 'ember-responsive';
 import RouterService from '@ember/routing/router-service';
 import Features from 'ember-feature-flags';
 
@@ -36,6 +37,7 @@ export default class Overview extends Controller {
     @service router!: RouterService;
     @service features!: Features;
     model!: GuidRouteModel<Registration>;
+    @service media!: Media;
 
     queryParams = ['mode', 'revisionId'];
     supportEmail = supportEmail;
@@ -48,6 +50,10 @@ export default class Overview extends Controller {
 
     get registrationFilesPageEnabled() {
         return this.features.isEnabled(registrationFilesPage);
+    }
+
+    get showNewFeaturePopover() {
+        return this.media.isDesktop;
     }
 
     get showMetadata() {
