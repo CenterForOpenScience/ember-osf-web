@@ -9,7 +9,7 @@
 }}
     {{#if @prefix}}
         <div class='form-control' local-class='PrefixedInputBox' >
-            <span>{{@prefix}}</span>
+            <span local-class='Prefix'>{{@prefix}}</span>
             <Input
                 aria-label={{this.ariaLabel}}
                 @id={{or @uniqueID inputElementId}}
