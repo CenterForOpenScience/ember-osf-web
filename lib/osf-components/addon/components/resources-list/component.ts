@@ -32,6 +32,7 @@ export default class ResourcesListComponent extends Component<ResourcesListArgs>
         this.resourcesList = A([]);
         this.resourcesPage = 1;
         taskFor(this.loadResources).perform();
+        this.args.registration.reload();
     }
 
     @action
