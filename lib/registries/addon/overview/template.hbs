@@ -147,13 +147,15 @@
                         <div data-test-resources-wrapper local-class='ResourcesWrapper'>
                             <div local-class='ResourcesWrapper_title'>
                                 <h3>{{t 'registries.overview.resources.left_nav_title'}}</h3>
-                                <FaIcon local-class='HelpIcon' @icon='question-circle' />
-                                <BsTooltip
-                                    @placement='right'
-                                    @triggerEvents='hover'
+                                <OsfLink
+                                    data-test-resource-leftnav-help-link
+                                    aria-label={{t 'osf-components.resources-list.help_doc_link'}}
+                                    @target='_blank'
+                                    @rel='noopener noreferrer'
+                                    @href='https://help.osf.io/article/410-registration-files'
                                 >
-                                    {{t 'registries.overview.resources.help_icon'}}
-                                </BsTooltip>
+                                    <FaIcon local-class='HelpIcon' @icon='question-circle' />
+                                </OsfLink>
                             </div>
                             <OpenResource
                                 data-test-data-resource

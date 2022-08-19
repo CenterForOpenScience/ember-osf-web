@@ -43,6 +43,8 @@
         <OsfLink
             data-test-resource-card-pid-link
             @href={{concat 'https://doi.org/' @resource.pid}}
+            @target='_blank'
+            @rel='noopener noreferrer'
         >
             {{concat 'https://doi.org/' @resource.pid}}
         </OsfLink>
