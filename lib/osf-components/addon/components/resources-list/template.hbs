@@ -1,4 +1,4 @@
-{{#if @registration.userHasWritePermission}}
+{{#if (and @registration.userHasWritePermission @registration.resourcesVisible)}}
     <div
         local-class='AddResourceHeading'
         data-test-add-resource-section
