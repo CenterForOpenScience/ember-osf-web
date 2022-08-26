@@ -1747,6 +1747,7 @@ osf-components:
             output_type: 'Resource type'
             description: 'Description'
             check_your_doi: 'Check your DOI for accuracy.'
+            failed_to_validate: 'Failed to validate DOI'
             add_success: 'Resource successfully added.'
             add_failure: 'Failed to add resource.'
             save_success: 'Resource successfully saved.'

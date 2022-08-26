@@ -116,6 +116,9 @@ export default class EditResourceModal extends Component<Args> {
                         'pid',
                         message,
                     );
+                } else {
+                    this.toast.error(getApiErrorMessage(e),
+                        this.intl.t('osf-components.resources-list.edit_resource.failed_to_validate'));
                 }
             }
         }
