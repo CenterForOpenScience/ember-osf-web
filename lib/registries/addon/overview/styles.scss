@@ -78,3 +78,34 @@
     color: $primary-red;
     font-weight: bold;
 }
+
+.ResourcesWrapper {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: #fff;
+    color: $primary-blue;
+    border-top: 1px solid #999;
+    padding-left: 8px;
+    width: 100%;
+}
+
+.ResourcesWrapper_title {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.ResourcesWrapper h3 {
+    font-weight: 700;
+    color: #333;
+}
+
+.HelpIcon {
+    display: inline-flex;
+    height: 25px;
+    width: 25px;
+    margin-left: 4px;
+    margin-top: 3px;
+}

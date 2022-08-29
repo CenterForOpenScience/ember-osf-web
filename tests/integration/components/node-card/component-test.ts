@@ -2,6 +2,7 @@ import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupIntl, t, TestContext } from 'ember-intl/test-support';
+import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import { setupRenderingTest } from 'ember-qunit';
 import moment from 'moment';
@@ -109,5 +110,29 @@ module('Integration | Component | node-card', hooks => {
 
         assert.dom('[data-test-update-button]').exists('Update button exists.');
         assert.dom('[data-test-update-button]').hasText(t('node_card.update_button').toString());
+        assert.dom('[data-test-badge-list]').exists('Badge list exists');
+    });
+
+    test('it renders pending registration', async function(this: TestContext, assert) {
+        this.owner.register('service:router', OsfLinkRouterStub);
+        const registration = server.create('registration', {
+            reviewsState: RegistrationReviewStates.Pending,
+        }, 'currentUserAdmin');
+        const registrationModel = await this.store.findRecord('registration', registration.id);
+        this.set('node', registrationModel);
+
+        await render(hbs`
+            <NodeCard
+                @node={{this.node}}
+                @showTags={{true}}
+                @delete={{this.delete}}
+            />
+        `);
+        assert.dom('[data-test-node-title]').exists('Node title exists');
+        assert.dom('[data-test-description-label]').exists('Description label exists');
+        assert.dom('[data-test-view-button]').exists('View button exists');
+        assert.dom('[data-test-update-button]').doesNotExist('Update button does not exist.');
+        assert.dom('[data-test-view-changes-button]').doesNotExist('Continue update button does not exist.');
+        assert.dom('[data-test-badge-list]').doesNotExist('Badge list does not exist');
     });
 });

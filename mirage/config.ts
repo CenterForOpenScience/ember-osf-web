@@ -2,6 +2,7 @@ import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
 import { createReviewAction } from 'ember-osf-web/mirage/views/review-action';
+import { createResource, updateResource } from 'ember-osf-web/mirage/views/resource';
 import { getCitation } from './views/citation';
 import { searchCollections } from './views/collection-search';
 import { reportDelete } from './views/comment';
@@ -315,6 +316,15 @@ export default function(this: Server) {
         path: 'collections/:parentID/collected_metadata/',
     });
     this.post('/search/collections/', searchCollections);
+
+    osfResource(this, 'resource', { except: ['index', 'update', 'create'] });
+    this.patch('/resources/:id', updateResource);
+    this.post('/resources/', createResource);
+
+    osfNestedResource(this, 'registration', 'resources', {
+        only: ['index'],
+        path: '/registrations/:parentID/resources',
+    });
 
     osfResource(this, 'subscription', { only: ['index', 'show', 'update'] });
 

@@ -2,6 +2,7 @@ import { attr, belongsTo, hasMany, AsyncBelongsTo, AsyncHasMany } from '@ember-d
 import { buildValidations, validator } from 'ember-cp-validations';
 
 import DraftRegistrationModel from 'ember-osf-web/models/draft-registration';
+import ResourceModel from 'ember-osf-web/models/resource';
 import ReviewActionModel, { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
 import SchemaResponseModel, { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
 import { RegistrationResponse } from 'ember-osf-web/packages/registration-schema';
@@ -106,6 +107,11 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @attr('array') providerSpecificMetadata!: ProviderMetadata[];
     @attr('fixstring') revisionState!: RevisionReviewStates;
     @attr('boolean') wikiEnabled!: boolean;
+    @attr('boolean') hasData!: boolean;
+    @attr('boolean') hasMaterials!: boolean;
+    @attr('boolean') hasAnalyticCode!: boolean;
+    @attr('boolean') hasPapers!: boolean;
+    @attr('boolean') hasSupplements!: boolean;
 
     // Write-only attributes
     @attr('array') includedNodeIds?: string[];
@@ -153,9 +159,19 @@ export default class RegistrationModel extends NodeModel.extend(Validations) {
     @belongsTo('schema-response', { inverse: null })
     latestResponse!: AsyncBelongsTo<SchemaResponseModel> & SchemaResponseModel; // Latest accepted response
 
+    @hasMany('resource', { inverse: 'registration' })
+    resources!: AsyncHasMany<ResourceModel> | ResourceModel[];
+
     // Write-only relationships
     @belongsTo('draft-registration', { inverse: null })
     draftRegistration!: DraftRegistrationModel;
+
+    get resourcesVisible(): boolean {
+        return ![
+            RegistrationReviewStates.Initial,
+            RegistrationReviewStates.Pending,
+        ].includes(this.reviewsState) && !this.withdrawn && !this.archiving;
+    }
 }
 
 declare module 'ember-data/types/registries/model' {
