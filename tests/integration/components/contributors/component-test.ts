@@ -355,8 +355,15 @@ module('Integration | Component | contributors', hooks => {
         assert.dom('[data-test-add-button]').isDisabled(
             'Add button should be disabled now that the form has been validated once',
         );
+
+        await fillIn('[data-test-email-input] > div > input', 'some person');
+        assert.dom('[data-test-validation-errors="email"]').exists('validates email');
         await fillIn('[data-test-email-input] > div > input', 'unregcontrib@cos.io');
+        assert.dom('[data-test-validation-errors="email"]').doesNotExist('email validation msg is removed properly');
+        await fillIn('[data-test-full-name-input] > div > input', '     ');
+        assert.dom('[data-test-validation-errors="fullName"]').exists('validates name');
         await fillIn('[data-test-full-name-input] > div > input', 'Shin Sekyung');
+        assert.dom('[data-test-validation-errors="fullName"]').doesNotExist('name validation msg is removed properly');
         await selectChoose('[data-test-select-permission]', 'Read');
         await click('[data-test-is-bibliographic]');
         assert.dom('[data-test-add-button]').isEnabled(
