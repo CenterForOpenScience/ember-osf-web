@@ -1,5 +1,6 @@
 import Service from '@ember/service';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { TaskInstance } from 'ember-concurrency';
 import { setupTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
@@ -34,6 +35,9 @@ module('Unit | Metrics Adapter | keen ', hooks => {
 
         const trackPublic = this.sandbox.stub(adapter, 'trackPublicEvent');
         const trackPrivate = this.sandbox.stub(adapter, 'trackPrivateEvent');
+        this.owner.register('service:router', Service.extend({
+            currentRouteName: 'foo',
+        }));
 
         const mirageNode = server.create('node', { public: true });
         const node = await store.findRecord('node', mirageNode.id);
@@ -52,6 +56,9 @@ module('Unit | Metrics Adapter | keen ', hooks => {
 
         const trackPublic = this.sandbox.stub(adapter, 'trackPublicEvent');
         const trackPrivate = this.sandbox.stub(adapter, 'trackPrivateEvent');
+        this.owner.register('service:router', Service.extend({
+            currentRouteName: 'foo',
+        }));
 
         const mirageNode = server.create('node', { public: false });
         const node = await store.findRecord('node', mirageNode.id);
@@ -69,6 +76,9 @@ module('Unit | Metrics Adapter | keen ', hooks => {
 
         const trackPublic = this.sandbox.stub(adapter, 'trackPublicEvent');
         const trackPrivate = this.sandbox.stub(adapter, 'trackPrivateEvent');
+        this.owner.register('service:router', Service.extend({
+            currentRouteName: 'foo',
+        }));
 
         this.sandbox.stub(adapter, 'getCurrentNode').resolves(undefined);
 
@@ -86,13 +96,14 @@ module('Unit | Metrics Adapter | keen ', hooks => {
 
         const adapter = this.owner.lookup('metrics-adapter:keen') as KeenAdapter;
 
-        assert.equal(adapter.getCurrentModelTask(), undefined);
+        assert.deepEqual(adapter.getCurrentModelTask(), {});
     });
 
     test('getCurrentModelTask - model', function(this: SinonTestContext, assert) {
-        const taskInstance = { isRunning: true };
+        const guid = 'gooid';
+        const taskInstance = { isRunning: true } as TaskInstance<unknown>;
 
-        this.owner.register('route:foo', { currentModel: { taskInstance } }, { instantiate: false });
+        this.owner.register('route:foo', { currentModel: { taskInstance, guid } }, { instantiate: false });
         this.owner.register('route:foo.bar', { currentModel: { taskInstance: undefined } }, { instantiate: false });
         this.owner.register('service:router', Service.extend({
             currentRouteName: 'foo.bar',
@@ -100,6 +111,6 @@ module('Unit | Metrics Adapter | keen ', hooks => {
 
         const adapter = this.owner.lookup('metrics-adapter:keen') as KeenAdapter;
 
-        assert.equal(adapter.getCurrentModelTask(), taskInstance);
+        assert.deepEqual(adapter.getCurrentModelTask(), {guid, taskInstance});
     });
 });

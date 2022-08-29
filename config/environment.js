@@ -119,7 +119,7 @@ module.exports = function(environment) {
             },
             {
                 name: 'Keen',
-                environments: keenConfig ? ['all'] : [],
+                environments: ['all'],
                 config: {
                     ...keenConfig,
                 },

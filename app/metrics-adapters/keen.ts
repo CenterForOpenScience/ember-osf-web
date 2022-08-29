@@ -1,6 +1,7 @@
 import { getOwner } from '@ember/application';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
+import Store from '@ember-data/store';
 import { TaskInstance } from 'ember-concurrency';
 import Cookies from 'ember-cookies/services/cookies';
 import config from 'ember-get-config';
@@ -10,11 +11,13 @@ import KeenTracking from 'keen-tracking';
 import moment from 'moment';
 
 import { KeenConfig } from 'config/environment';
+import OsfModel from 'ember-osf-web/models/osf-model';
 import Node from 'ember-osf-web/models/node';
 import CurrentUser from 'ember-osf-web/services/current-user';
 
 const {
     OSF: {
+        apiUrl,
         cookies: {
             keenUserId: keenUserIdCookie,
             keenSessionId: keenSessionIdCookie,
@@ -33,6 +36,7 @@ export default class KeenAdapter extends BaseAdapter {
     @service currentUser!: CurrentUser;
     @service headData!: any;
     @service router!: RouterService;
+    @service store!: Store;
 
     config?: KeenConfig;
     publicClient?: KeenTracking;
@@ -59,7 +63,7 @@ export default class KeenAdapter extends BaseAdapter {
         return 'Keen';
     }
 
-    getCurrentModelTask<T>(): TaskInstance<T> | undefined {
+    getCurrentModelTask<T>(): {guid?: string, taskInstance?: TaskInstance<T>} {
         const owner = getOwner(this);
         const routes: string[] = this.router.currentRouteName.split('.');
 
@@ -68,18 +72,18 @@ export default class KeenAdapter extends BaseAdapter {
         for (let i = routes.length; i > 0; i--) {
             const route = owner.lookup(`route:${routes.slice(0, i).join('.')}`);
             if (route && route.currentModel && route.currentModel.taskInstance) {
-                const task = route.currentModel.taskInstance;
-                if (task && task.isRunning !== undefined) {
-                    return task;
+                const {guid, taskInstance} = route.currentModel;
+                if (taskInstance && taskInstance.isRunning !== undefined) {
+                    return {guid, taskInstance};
                 }
             }
         }
 
-        return undefined;
+        return {};
     }
 
     getCurrentLoadedNode(): Node | undefined {
-        const task = this.getCurrentModelTask<Node>();
+        const {taskInstance: task} = this.getCurrentModelTask<Node>();
 
         if (task && task.value instanceof Node) {
             return task.value;
@@ -88,8 +92,13 @@ export default class KeenAdapter extends BaseAdapter {
         return undefined;
     }
 
+    getCurrentGuid(): string | undefined {
+        const {guid} = this.getCurrentModelTask<Node>();
+        return guid;
+    }
+
     async getCurrentNode(): Promise<Node | undefined> {
-        const task = this.getCurrentModelTask<Node>();
+        const {taskInstance: task} = this.getCurrentModelTask<Node>();
 
         if (task) {
             const model = await task;
@@ -102,23 +111,22 @@ export default class KeenAdapter extends BaseAdapter {
     }
 
     async trackPage(params: PageParams) {
+        const node = await this.getCurrentNode();
+        const isPublic = Boolean(params.pagePublic ?? (node && node.public));
+
+        await this._countUsage(isPublic);
+
         const eventProperties = {
             page: {
                 meta: {
                     title: params.title,
-                    public: params.pagePublic,
+                    public: isPublic,
                 },
             },
         };
 
-        let sendPublicEvent = params.pagePublic;
-
-        const node = await this.getCurrentNode();
-        if (node) {
-            sendPublicEvent = node.public;
-            if (sendPublicEvent) {
-                this.trackPublicEvent(`pageviews-${node.id.charAt(0)}`, eventProperties);
-            }
+        if (node && isPublic) {
+            this.trackPublicEvent(`pageviews-${node.id.charAt(0)}`, eventProperties);
         }
 
         this.trackPrivateEvent('pageviews', eventProperties);
@@ -145,6 +153,53 @@ export default class KeenAdapter extends BaseAdapter {
         }
     }
 
+    async _countUsage(isPublic: boolean) {
+        const url = `${apiUrl}/_/metrics/events/counted_usage/`;
+        const sessionId = this.createOrUpdateKeenSession();
+        const guid = this.getCurrentGuid();
+        const node = this.getCurrentLoadedNode();
+        const providerId = node ? this.getProviderId(node) : null;
+        const additionalAttrs: Record<string, string> = {};
+        if (providerId) {
+            additionalAttrs['provider_id'] = providerId;
+        }
+        if (sessionId) {
+            additionalAttrs['client_session_id'] = md5(sessionId);
+        }
+        const data = {
+            type: 'counted-usage',
+            attributes: {
+                item_guid: guid,
+                item_public: isPublic,
+                action_labels: ['web', 'view'],
+                pageview_info: {
+                    referer_url: document.referrer,
+                    page_url: document.URL,
+                    page_title: this.headData.title || document.title,
+                },
+                ...additionalAttrs,
+            },
+        };
+
+        await this.currentUser.authenticatedAJAX({
+            url,
+            method: 'POST',
+            data: JSON.stringify({ data }),
+            headers: {
+                'Content-Type': 'application/vnd.api+json',
+            },
+        });
+    }
+
+    getProviderId(modelInstance: OsfModel) {
+        const modelClass = this.store.modelFor(modelInstance.modelName);
+        if ('provider' in modelClass.relationshipsByName) {
+            // @ts-ignore: already checked for 'provider' relationship
+            return modelInstance.belongsTo('provider').id();
+        }
+        return 'osf';
+    }
+
     getOrCreateKeenId() {
         if (!this.cookies.exists(keenUserIdCookie)) {
             this.cookies.write(
@@ -169,6 +224,7 @@ export default class KeenAdapter extends BaseAdapter {
                 path: '/',
             },
         );
+        return sessionId;
     }
 
     defaultKeenPayload() {

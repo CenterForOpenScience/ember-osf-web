@@ -111,7 +111,7 @@ export interface ShareRegistration {
     title: string;
     withdrawn: boolean;
     relatedResourceTypes?: RelatedResourceTypes;
-    sourceUniqueId: string;
+    sourceUniqueId?: string;
 }
 
 export interface SourceDescriptor {
