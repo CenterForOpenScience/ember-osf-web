@@ -11,6 +11,7 @@ import { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
 import pathJoin from 'ember-osf-web/utils/path-join';
 
 import Intl from 'ember-intl/services/intl';
+import Media from 'ember-responsive';
 import RouterService from '@ember/routing/router-service';
 import Features from 'ember-feature-flags';
 
@@ -20,6 +21,11 @@ const {
     },
     featureFlagNames: {
         registrationFilesPage,
+    },
+    OSF: {
+        cookies: {
+            outputFeaturePopover,
+        },
     },
 } = config;
 
@@ -31,9 +37,11 @@ export default class Overview extends Controller {
     @service router!: RouterService;
     @service features!: Features;
     model!: GuidRouteModel<Registration>;
+    @service media!: Media;
 
     queryParams = ['mode', 'revisionId'];
     supportEmail = supportEmail;
+    outputFeaturePopoverCookie = outputFeaturePopover;
 
     @tracked mode = '';
     @tracked revisionId = '';
@@ -44,8 +52,15 @@ export default class Overview extends Controller {
         return this.features.isEnabled(registrationFilesPage);
     }
 
+    get showNewFeaturePopover() {
+        return this.media.isDesktop;
+    }
+
     get showMetadata() {
-        if (this.router.currentRouteName.includes('registries.overview.files')) {
+        if (
+            this.router.currentRouteName.includes('registries.overview.files') ||
+            this.router.currentRouteName.includes('registries.overview.children')
+        ) {
             return false;
         }
         return true;
@@ -79,4 +94,3 @@ export default class Overview extends Controller {
         + (this.registration.relatedCounts.linkedRegistrations || 0);
     }
 }
-

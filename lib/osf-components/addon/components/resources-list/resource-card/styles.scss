@@ -1,0 +1,18 @@
+.resourceType {
+    font-weight: bold;
+}
+
+.icon {
+    width: 18px;
+    height: 20px;
+    background-size: contain;
+    margin: 0 6px;
+}
+
+.EditButtons {
+    float: right;
+}
+
+.DeleteButton {
+    color: $brand-danger;
+}

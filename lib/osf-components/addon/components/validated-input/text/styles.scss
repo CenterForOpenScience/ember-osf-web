@@ -1,0 +1,18 @@
+:global(.form-control).PrefixedInputBox {
+    display: flex;
+    padding: 0;
+}
+
+.Prefix {
+    background-color: $color-bg-gray-light;
+    border-right: solid 1px $color-border-gray;
+    padding: 6px;
+    flex-shrink: 0;
+
+}
+
+.PrefixedInput {
+    outline: none;
+    border: 0;
+    flex-grow: 1;
+}
