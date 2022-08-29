@@ -86,6 +86,14 @@ export interface ShareContributor {
     orderCited: number;
 }
 
+export interface RelatedResourceTypes {
+    data: boolean;
+    materials: boolean;
+    analytic_code: boolean;
+    papers: boolean;
+    supplements: boolean;
+}
+
 export interface ShareRegistration {
     id: string;
     description: string;
@@ -102,6 +110,8 @@ export interface ShareRegistration {
     tags: string[];
     title: string;
     withdrawn: boolean;
+    relatedResourceTypes?: RelatedResourceTypes;
+    sourceUniqueId: string;
 }
 
 export interface SourceDescriptor {
@@ -233,6 +243,8 @@ export default class ShareSearch extends Search {
                 datePublished: r._source.date_published ? new Date(r._source.date_published) : undefined,
                 tags: r._source.tags.map(unescapeXMLEntities),
                 withdrawn: r._source.withdrawn,
+                relatedResourceTypes: r._source.osf_related_resource_types,
+                sourceUniqueId: r._source.source_unique_id,
             };
         });
     }

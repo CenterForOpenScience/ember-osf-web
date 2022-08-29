@@ -59,12 +59,17 @@ export function registrationScenario(
         registrationSchema: server.schema.registrationSchemas.find('prereg_challenge'),
         reviewsState: RegistrationReviewStates.Accepted,
         revisionState: RevisionReviewStates.Approved,
-        currentUserPermissions: [Permission.Admin],
+        currentUserPermissions: [Permission.Admin, Permission.Write],
         providerSpecificMetadata: [
             { field_name: 'Metadata field 1', field_value: '' },
             { field_name: 'Another Field', field_value: 'Value 2' },
         ],
-    });
+        hasData: true,
+        hasMaterials: false,
+        hasAnalyticCode: true,
+        hasPapers: false,
+        hasSupplements: true,
+    }, 'withResources');
 
     server.create('file', {id: 'afile', target: currentUserWrite});
 
@@ -94,7 +99,7 @@ export function registrationScenario(
         id: 'anode',
         public: false,
         contributors: server.createList('contributor', 10),
-        currentUserPermissions: [Permission.Admin],
+        currentUserPermissions: Object.values(Permission),
     }, 'withFiles', 'withStorage');
     rootNode.update({
         storage: server.create('node-storage', { storageLimitStatus: StorageStatus.OVER_PRIVATE }),
@@ -138,6 +143,11 @@ export function registrationScenario(
             'page-one_long-text': 'aaaaa',
             'page-one_multi-select': ['Crocs'],
         },
+        hasData: false,
+        hasMaterials: true,
+        hasAnalyticCode: false,
+        hasPapers: true,
+        hasSupplements: false,
     }, 'withContributors', 'withReviewActions', 'withFiles');
 
     const silicon = server.create('registration', {
@@ -281,6 +291,11 @@ export function registrationScenario(
         registrationSchema: server.schema.registrationSchemas.find('testSchema'),
         provider: egap,
         registeredBy: currentUser,
+        hasData: true,
+        hasMaterials: true,
+        hasAnalyticCode: true,
+        hasPapers: true,
+        hasSupplements: true,
     }, 'withContributors', 'withReviewActions', 'isEmbargo');
 
     server.create('contributor', { users: currentUser, node: cuban });

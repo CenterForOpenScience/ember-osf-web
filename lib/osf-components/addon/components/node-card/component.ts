@@ -22,6 +22,7 @@ import RegistrationModel from 'ember-osf-web/models/registration';
 import { taskFor } from 'ember-concurrency-ts';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import { assert } from '@ember/debug';
+import Media from 'ember-responsive';
 import template from './template';
 import styles from './styles';
 
@@ -36,6 +37,8 @@ export default class NodeCard extends Component {
     @service store!: Store;
     @service toast!: Toast;
     @service intl!: Intl;
+    @service media!: Media;
+
     // Optional parameters
     node?: Node | Registration;
     delete?: (node: Node) => void;
@@ -76,6 +79,10 @@ export default class NodeCard extends Component {
         if (this.node?.isRegistration) {
             taskFor(this.getLatestRevision).perform(this.node as Registration);
         }
+    }
+
+    get isMobile() {
+        return this.media.isMobile;
     }
 
     get shouldAllowUpdate() {

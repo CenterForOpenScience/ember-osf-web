@@ -1,0 +1,39 @@
+<p data-test-badge-item={{@resourceType}} local-class='badgeItem'>
+    <OsfLink
+        data-analytics-name='Badge link to registration'
+        data-test-registration-link='{{@registration}}'
+        @route='registries.overview.resources'
+        @models={{array @registration}}
+    >
+        <span
+            data-test-badge-icon={{@resourceType}}
+            local-class='badge {{if @isMobile 'badgeMobile'}}'
+        >
+            <img data-test-badge-image={{@resourceType}}
+                src={{if
+                    @hasResource
+                    this.resourceIcon
+                    this.resourceIconDisabled
+                }}
+                width='24px'
+                height='26px'
+                alt={{if
+                    @hasResource
+                    (t (concat 'osf-components.open-badges-list.open-' @resourceType '-alt'))
+                    (t (concat 'osf-components.open-badges-list.no-open-' @resourceType '-alt'))
+                }}
+            >
+            {{#if @isMobile}}
+                <BsTooltip
+                    @placement='left'
+                    @triggerEvents='hover'
+                >
+                    {{t (concat 'osf-components.open-badges-list.open-' @resourceType)}}
+                </BsTooltip>
+            {{/if}}
+        </span>
+        {{#unless @isMobile}}
+            {{t (concat 'osf-components.open-badges-list.open-' @resourceType)}}
+        {{/unless}}
+    </OsfLink>
+</p>
