@@ -1,0 +1,54 @@
+.ResourceList {
+    list-style-type: none;
+    padding: 0;
+
+    > li:last-of-type {
+        border-bottom: solid 1px $color-border-gray;
+    }
+}
+
+.ResourceItem {
+    list-style: none;
+    padding: 12px 0;
+    border-top: solid 1px $color-border-gray;
+    min-height: 60px;
+}
+
+
+.EmptyList {
+    padding: 12px 0;
+    border-top: solid 1px $color-border-gray;
+}
+
+.AddResourceHeading {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.HelpLink {
+    padding: 0 8px;
+}
+
+.TriggerButton.TriggerButton {
+    padding: 3px;
+    border-radius: 50%;
+    outline: none;
+    background-color: darken($brand-success, 10%);
+    color: $color-bg-white;
+
+
+    &:focus,
+    &:active:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px $color-select;
+    }
+
+    svg {
+        height: 28px;
+        width: 28px;
+        transform: translate(0, 1px);
+        transition: all 250ms linear;
+    }
+}

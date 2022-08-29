@@ -42,6 +42,7 @@ export default buildRoutes(function() {
         this.route('files', function() {
             this.route('provider', { path: '/:providerId' });
         });
+        this.route('resources');
         this.route('forks');
         this.route('links');
     });

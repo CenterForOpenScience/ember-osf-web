@@ -1,0 +1,54 @@
+{{#if (and @registration.userHasWritePermission @registration.resourcesVisible)}}
+    <div
+        local-class='AddResourceHeading'
+        data-test-add-resource-section
+    >
+        <span>{{t 'osf-components.resources-list.add_instructions'}}</span>
+        <OsfLink
+            data-test-resource-help-link
+            aria-label={{t 'osf-components.resources-list.help_doc_link'}}
+            local-class='HelpLink'
+            @target='_blank'
+            @rel='noopener noreferrer'
+            @href='https://help.osf.io/article/410-registration-files'
+        >
+            <FaIcon @icon= 'question-circle' />
+        </OsfLink>
+        <ResourcesList::EditResource
+            @registration={{@registration}}
+            @reload={{this.reload}}
+            as |modal|
+        >
+            <div>
+                <Button
+                    local-class='TriggerButton'
+                    aria-label={{t 'osf-components.resources-list.add_button_aria_label'}}
+                    {{on 'click' modal.open}}
+                >
+                    <FaIcon @icon='plus' @size='2x' @fixedWidth={{true}}/>
+                </Button>
+            </div>
+        </ResourcesList::EditResource>
+    </div>
+{{/if}}
+
+<InfiniteList
+        @itemList={{this.resourcesList}}
+        @hasMore={{this.hasMore}}
+        @loadMore={{this.loadMore}}
+        @isLoading={{this.isLoading}}
+        local-class='ResourceList'
+>
+    <:item as |resource|>
+        <li local-class='ResourceItem'>
+            <ResourcesList::ResourceCard
+                @resource={{resource}}
+                @editable={{@registration.userHasWritePermission}}
+                @reload={{this.reload}}
+            />
+        </li>
+    </:item>
+    <:empty>
+        <li local-class='EmptyList'>{{t 'osf-components.resources-list.no-resources'}}</li>
+    </:empty>
+</InfiniteList>

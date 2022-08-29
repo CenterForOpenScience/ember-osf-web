@@ -1,0 +1,123 @@
+<OsfDialog
+    @onOpen={{perform this.onOpen}}
+    @onClose={{this.onClose}}
+    local-class={{if this.isMobile 'EditResourceDialogMobile' 'EditResourceDialog'}}
+    as |dialog|
+>
+    <dialog.trigger
+        ...attributes
+    >
+        {{yield dialog}}
+    </dialog.trigger>
+    <dialog.heading>
+        {{t (concat 'osf-components.resources-list.edit_resource.'(if @resource 'edit_heading' 'add_heading'))}}
+    </dialog.heading>
+    <dialog.main>
+        {{#if this.shouldShowPreview}}
+            <p local-class='PreviewText'>
+                {{t 'osf-components.resources-list.edit_resource.check_your_doi'}}
+            </p>
+            <ResourcesList::ResourceCard @resource={{this.resource}} @editable={{false}} />
+        {{else}}
+            {{#if this.onOpen.isRunning}}
+                <LoadingIndicator @dark={{true}} />
+            {{else}}
+                <FormControls
+                    @changeset={{this.changeset}}
+                    as |form|
+                >
+                    <form.text
+                        data-test-doi-field
+                        @prefix={{'https://doi.org/'}}
+                        @placeholder={{'10.17605/OSF.IO/JSZNK'}}
+                        @isRequired={{true}}
+                        @valuePath={{'pid'}}
+                        @label={{t 'osf-components.resources-list.edit_resource.doi'}}
+                    />
+                    <form.select
+                        data-test-resource-type-field
+                        @isRequired={{true}}
+                        @valuePath={{'resourceType'}}
+                        @label={{t 'osf-components.resources-list.edit_resource.output_type'}}
+                        @options={{this.availableTypes}}
+                        @searchEnabled={{false}}
+                        as |type|
+                    >
+                        {{t (concat 'osf-components.resources-list.' type)}}
+                    </form.select>
+                    <form.textarea
+                        data-test-description-field
+                        local-class='DescriptionField'
+                        @valuePath={{'description'}}
+                        @label={{t 'osf-components.resources-list.edit_resource.description'}}
+                    />
+                </FormControls>
+            {{/if}}
+        {{/if}}
+    </dialog.main>
+    <dialog.footer>
+        {{#if this.shouldShowPreview}}
+            <Button
+                data-test-edit-button
+                data-analytics-name='Go to edit'
+                {{on 'click' this.goToEdit}}
+            >
+                {{t 'general.edit'}}
+            </Button>
+            <Button
+                data-test-add-button
+                data-analytics-name='Add resource'
+                @type='create'
+                disabled={{this.finalize.isRunning}}
+                {{on 'click' (queue
+                    (perform this.finalize)
+                    dialog.close
+                    @reload
+                )}}
+            >
+                {{#if this.finalize.isRunning}}
+                    <LoadingIndicator @inline={{true}}/>
+                {{else}}
+                    {{t 'general.add'}}
+                {{/if}}
+            </Button>
+        {{else}}
+            <Button
+                data-test-cancel-button
+                data-analytics-name='Cancel adding resource'
+                {{on 'click' dialog.close}}
+            >
+                {{t 'general.cancel'}}
+            </Button>
+            {{#if @resource}}
+                <Button
+                    data-test-save-button
+                    data-analytics-name='Save resource'
+                    @type={{'primary'}}
+                    disabled={{this.save.isRunning}}
+                    {{on 'click' (perform this.save (queue dialog.close @reload))}}
+                >
+                    {{#if this.save.isRunning}}
+                        <LoadingIndicator @inline={{true}} />
+                    {{else}}
+                        {{t 'general.save'}}
+                    {{/if}}
+                </Button>
+            {{else}}
+                <Button
+                    data-test-preview-button
+                    data-analytics-name='Preview resource'
+                    @type={{'primary'}}
+                    disabled={{this.save.isRunning}}
+                    {{on 'click' (perform this.save this.goToPreview)}}
+                >
+                    {{#if this.save.isRunning}}
+                        <LoadingIndicator @inline={{true}} />
+                    {{else}}
+                        {{t 'osf-components.resources-list.edit_resource.preview'}}
+                    {{/if}}
+                </Button>
+            {{/if}}
+        {{/if}}
+    </dialog.footer>
+</OsfDialog>

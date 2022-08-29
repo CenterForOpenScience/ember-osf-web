@@ -1318,11 +1318,33 @@ registries:
         none_selected: 'None selected'
     overview:
         files:
+            outputFeaturePopoverHeading: 'New feature!'
+            outputFeaturePopoverBody: 'You can now add DOIs for resources (ex. data, code, papers, etc.) to your registration.'
             title: Files
             storage_providers:
                 invalidProviderDetails: 'Could not find the requested file provider.'
                 invalidProviderLink: 'See all files in this registration.'
                 osfstorage: 'OSF Storage'
+        resources:
+            title: 'Resources'
+            left_nav_title: 'Open practice resources'
+            help_icon: 'Open resources'
+            data:
+                title: 'Data'
+                alt_text: 'Data badge'
+            analytic_code:
+                title: 'Analytic code'
+                alt_text: 'Analytic code badge'
+            materials:
+                title: 'Materials'
+                alt_text: 'Materials badge'
+            papers:
+                title: 'Papers'
+                alt_text: 'Papers badge'
+            supplements:
+                title: 'Supplements'
+                alt_text: 'Supplements badge'
+            error: 'Unable to load Resource'
         title: Overview
         collapse: Collapse
         expand: Expand
@@ -1703,6 +1725,43 @@ routes:
         institution: Institution
         email: Email
 osf-components:
+    resources-list:
+        add_instructions: 'Link a DOI from a repository to your registration by clicking the green “+” button. Contributors affirmed to adhere to the criteria for each badge.'
+        help_doc_link: 'Learn more about linking resources to your registration'
+        add_button_aria_label: 'Add resource'
+        data: Data
+        materials: Materials
+        analytic_code: 'Analytic Code'
+        papers: 'Papers'
+        supplements: 'Supplements'
+        undefined: 'Choose one'
+        no-resources: 'This registration has no resources.'
+        badge_alt: '{type} badge'
+        edit_resource:
+            edit_button_aria_label: 'Edit resource'
+            preview: 'Preview'
+            edit_heading: 'Edit resource'
+            add_heading: 'Add new resource'
+            doi: 'DOI'
+            doi_already_used: 'A resource with this DOI and type already exists.'
+            output_type: 'Resource type'
+            description: 'Description'
+            check_your_doi: 'Check your DOI for accuracy.'
+            failed_to_validate: 'Failed to validate DOI'
+            add_success: 'Resource successfully added.'
+            add_failure: 'Failed to add resource.'
+            save_success: 'Resource successfully saved.'
+        delete_resource:
+            title: 'Delete resource'
+            body: 'Are you sure you want to delete this resource? This cannot be undone.'
+            delete_success: 'Resource successfully deleted.'
+            delete_failure: 'Failed to delete resource.'
+    expandable-preview:
+        show_more: Show more
+        show_less: Show less
+    new-feature-popover:
+        acknowledge: 'Got it'
+        doNotShowAgain: 'Don''t show again'
     infinite-list:
         load_more: 'Load more'
     draft-registration-card:
@@ -1770,6 +1829,23 @@ osf-components:
         previous_slide: 'Previous slide'
         next_slide: 'Next slide'
         go_to_slide: 'Go to slide {slideIndex}'
+    open-badges-list:
+        title: 'Open resources'
+        open-data: 'Data'
+        open-data-alt: 'This has open data'
+        no-open-data-alt: 'This does not have open data'
+        open-materials: 'Materials'
+        open-materials-alt: 'This has open materials'
+        no-open-materials-alt: 'This does not have open materials'
+        open-analytic_code: 'Analytic code'
+        open-analytic_code-alt: 'This has open analytic code'
+        no-open-analytic_code-alt: 'This does not have open analytic code'
+        open-papers: 'Papers'
+        open-papers-alt: 'This has open papers'
+        no-open-papers-alt: 'This does not have open papers'
+        open-supplements: 'Supplements'
+        open-supplements-alt: 'This has open supplements'
+        no-open-supplements-alt: 'This does not have open supplements'
     registries:
         read-only-contributors-list:
             editContributorsOnYourProject: 'Edit contributors on your project'
