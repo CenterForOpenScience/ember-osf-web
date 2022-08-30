@@ -176,6 +176,7 @@ export default class KeenAdapter extends BaseAdapter {
                     referer_url: document.referrer,
                     page_url: document.URL,
                     page_title: this.headData.title || document.title,
+                    route_name: this.router.currentRouteName,
                 },
                 ...additionalAttrs,
             },
