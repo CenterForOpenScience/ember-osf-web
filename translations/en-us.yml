@@ -1943,7 +1943,7 @@ osf-components:
         number_selected: '{numberOfFilesSelected} item(s) selected'
         clear_selection: 'Clear selection'
         checked_out_file: 'This file is checked out. Functionality is limited until it is checked in.'
-        download_count: '{count, plural, =0 {# Download} one {# Download} other {# Downloads}}'
+        download_count: '{count, plural, one {# Download} other {# Downloads}}'
         view_file: 'View file in a new window: {fileName}'
         view_unseen_file: 'View unseen version of file in a new window: {fileName}'
         view_folder: 'View contents of folder: {folderName}'
