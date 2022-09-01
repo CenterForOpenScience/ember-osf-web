@@ -85,6 +85,12 @@
     flex: 7;
 }
 
+.FileList__item__download_count {
+    display: flex;
+    flex: auto;
+    align-items: center;
+}
+
 .FileList__item__size {
     display: flex;
     flex: 1;
