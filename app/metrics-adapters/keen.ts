@@ -63,6 +63,13 @@ export default class KeenAdapter extends BaseAdapter {
         return 'Keen';
     }
 
+    getCurrentGuid(): string | undefined {
+        const guidRouteInfo = this.router.currentRoute.find(
+            routeInfo => ('guid' in routeInfo.params),
+        );
+        return (guidRouteInfo ? guidRouteInfo.params.guid : null);
+    }
+
     getCurrentModelTask<T>(): {guid?: string, taskInstance?: TaskInstance<T>} {
         const owner = getOwner(this);
         const routes: string[] = this.router.currentRouteName.split('.');
@@ -83,7 +90,7 @@ export default class KeenAdapter extends BaseAdapter {
     }
 
     getCurrentLoadedNode(): Node | undefined {
-        const {taskInstance: task} = this.getCurrentModelTask<Node>();
+        const task = this.getCurrentModelTask<Node>();
 
         if (task && task.value instanceof Node) {
             return task.value;
@@ -92,13 +99,8 @@ export default class KeenAdapter extends BaseAdapter {
         return undefined;
     }
 
-    getCurrentGuid(): string | undefined {
-        const {guid} = this.getCurrentModelTask<Node>();
-        return guid;
-    }
-
     async getCurrentNode(): Promise<Node | undefined> {
-        const {taskInstance: task} = this.getCurrentModelTask<Node>();
+        const task = this.getCurrentModelTask<Node>();
 
         if (task) {
             const model = await task;
@@ -157,12 +159,7 @@ export default class KeenAdapter extends BaseAdapter {
         const url = `${apiUrl}/_/metrics/events/counted_usage/`;
         const sessionId = this.createOrUpdateKeenSession();
         const guid = this.getCurrentGuid();
-        const node = this.getCurrentLoadedNode();
-        const providerId = node ? this.getProviderId(node) : null;
         const additionalAttrs: Record<string, string> = {};
-        if (providerId) {
-            additionalAttrs['provider_id'] = providerId;
-        }
         if (sessionId) {
             additionalAttrs['client_session_id'] = md5(sessionId);
         }
@@ -176,7 +173,7 @@ export default class KeenAdapter extends BaseAdapter {
                     referer_url: document.referrer,
                     page_url: document.URL,
                     page_title: this.headData.title || document.title,
-                    route_name: this.router.currentRouteName,
+                    route_name: `ember-osf-web__${this.router.currentRouteName}`,
                 },
                 ...additionalAttrs,
             },
