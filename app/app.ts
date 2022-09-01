@@ -67,6 +67,7 @@ const App = Application.extend({
                 services: [
                     'intl',
                     'cookies',
+                    'current-user',
                     'store',
                     'analytics',
                     'ready',
@@ -76,6 +77,7 @@ const App = Application.extend({
                     'head-data',
                     'osf-modal-state',
                     'osf-router',
+                    'toast',
                 ],
                 externalRoutes: {
                     nodeForks: 'guid-node.forks',
