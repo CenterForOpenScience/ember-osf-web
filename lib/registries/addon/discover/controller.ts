@@ -278,7 +278,6 @@ export default class Discover extends Controller.extend(discoverQueryParams.Mixi
             filters: OrderedSet([
                 ...this.sourceFilters,
                 ...this.registrationTypes,
-                ...this.subjects,
                 ...this.additionalFilters,
             ]),
         });
