@@ -84,17 +84,28 @@ Params for `track()`:
 - `extraInfo` (optional): string
 
 ## Tracking page views
-<aside>
-    Note: It is currently easy to forget to add page tracking.
-    Until we figure out a more automatic approach, try not to forget.
-</aside>
-
-Call `trackPage()` on the `analytics` service in the `didTransition` hook for your route or a parent route:
+In the `didTransition` hook of any application routes (in both app and engines),
+call the `analytics` service's `trackPage()` method.
 ```ts
-// route.ts
+// application/route.ts
 @action
 didTransition() {
     this.analytics.trackPage();
+}
+```
+
+To add route-specific metadata, implement `Route.buildRouteInfoMetadata()`
+(https://api.emberjs.com/ember/3.26/classes/Route/methods/buildRouteInfoMetadata?anchor=buildRouteInfoMetadata)
+like the following
+```ts
+// route.ts
+buildRouteInfoMetadata() {
+    return {
+        analyticsMeta: {
+            searchProviderId: 'foo',
+            itemGuid: 'guidz',
+        },
+    };
 }
 ```
 

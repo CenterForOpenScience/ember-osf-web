@@ -1,6 +1,6 @@
 import { ResourceTypes } from 'ember-osf-web/models/resource';
 
-export function getBadgeIcon(resourceType: ResourceTypes) {
+export function getBadgeIcon(resourceType: ResourceTypes | 'undefined') {
     switch (resourceType) {
     case ResourceTypes.Data:
         return '/assets/images/badges/data_small_color.png';
@@ -17,7 +17,7 @@ export function getBadgeIcon(resourceType: ResourceTypes) {
     }
 }
 
-export function getBadgeIconDisabled(resourceType: ResourceTypes) {
+export function getBadgeIconDisabled(resourceType: ResourceTypes | 'undefined') {
     switch (resourceType) {
     case ResourceTypes.Data:
         return '/assets/images/badges/data_small_gray.png';

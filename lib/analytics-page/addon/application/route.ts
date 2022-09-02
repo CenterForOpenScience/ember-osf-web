@@ -7,10 +7,8 @@ import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { task, TaskInstance } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
-import { pluralize } from 'ember-inflector';
 
 import Node from 'ember-osf-web/models/node';
-import { GuidRouteModel } from 'ember-osf-web/resolve-guid/guid-route';
 import AnalyticsService from 'ember-osf-web/services/analytics';
 import Ready, { Blocker } from 'ember-osf-web/services/ready';
 
@@ -69,14 +67,16 @@ export default class AnalyticsPageRoute extends Route {
         return taskFor(this.getNodeWithCounts).perform(model.taskInstance);
     }
 
+    buildRouteInfoMetadata() {
+        return {
+            analyticsMeta: {
+                itemGuid: (this.controller as any).node.id as string,
+            },
+        };
+    }
+
     @action
     async didTransition() {
-        const { taskInstance } = this.controller.model as GuidRouteModel<Node>;
-        await taskInstance;
-        const model = taskInstance.value;
-        this.analytics.trackPage(
-            model ? model.public : undefined,
-            model ? pluralize(model.modelName) : undefined,
-        );
+        this.analytics.trackPage();
     }
 }

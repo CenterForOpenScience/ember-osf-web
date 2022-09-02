@@ -31,6 +31,12 @@ interface PageParams {
     pagePublic?: boolean;
 }
 
+interface RouteAnalyticsMeta {
+    itemGuid?: string;
+    searchProviderId?: string;
+    abVersion?: string;
+}
+
 export default class KeenAdapter extends BaseAdapter {
     @service cookies!: Cookies;
     @service currentUser!: CurrentUser;
@@ -63,14 +69,7 @@ export default class KeenAdapter extends BaseAdapter {
         return 'Keen';
     }
 
-    getCurrentGuid(): string | undefined {
-        const guidRouteInfo = this.router.currentRoute.find(
-            routeInfo => ('guid' in routeInfo.params),
-        );
-        return (guidRouteInfo ? guidRouteInfo.params.guid : null);
-    }
-
-    getCurrentModelTask<T>(): {guid?: string, taskInstance?: TaskInstance<T>} {
+    getCurrentModelTask<T>(): TaskInstance<T> | null {
         const owner = getOwner(this);
         const routes: string[] = this.router.currentRouteName.split('.');
 
@@ -79,14 +78,14 @@ export default class KeenAdapter extends BaseAdapter {
         for (let i = routes.length; i > 0; i--) {
             const route = owner.lookup(`route:${routes.slice(0, i).join('.')}`);
             if (route && route.currentModel && route.currentModel.taskInstance) {
-                const {guid, taskInstance} = route.currentModel;
+                const taskInstance = route.currentModel;
                 if (taskInstance && taskInstance.isRunning !== undefined) {
-                    return {guid, taskInstance};
+                    return taskInstance;
                 }
             }
         }
 
-        return {};
+        return null;
     }
 
     getCurrentLoadedNode(): Node | undefined {
@@ -113,11 +112,10 @@ export default class KeenAdapter extends BaseAdapter {
     }
 
     async trackPage(params: PageParams) {
+        await this._countUsage();
+
         const node = await this.getCurrentNode();
         const isPublic = Boolean(params.pagePublic ?? (node && node.public));
-
-        await this._countUsage(isPublic);
-
         const eventProperties = {
             page: {
                 meta: {
@@ -155,25 +153,48 @@ export default class KeenAdapter extends BaseAdapter {
         }
     }
 
-    async _countUsage(isPublic: boolean) {
+    _getRouteAnalyticsMeta(routeInfo?: any): RouteAnalyticsMeta {
+        const thisRouteInfo = (routeInfo || this.router.currentRoute);
+        if (thisRouteInfo.metadata?.analyticsMeta) {
+            return thisRouteInfo.metadata.analyticsMeta;
+        }
+        if (thisRouteInfo.parent) {
+            return this._getRouteAnalyticsMeta(thisRouteInfo.parent);
+        }
+        return {};
+    }
+
+    _getActionLabels(analyticsMeta: RouteAnalyticsMeta) {
+        const actionLabelMap = {
+            web: true,
+            view: Boolean(analyticsMeta.itemGuid),
+            search: Boolean(analyticsMeta.searchProviderId),
+        } as const;
+        const labels = Object.keys(actionLabelMap) as Array<keyof typeof actionLabelMap>;
+        return labels.filter(label => Boolean(actionLabelMap[label]));
+    }
+
+    async _countUsage() {
         const url = `${apiUrl}/_/metrics/events/counted_usage/`;
         const sessionId = this.createOrUpdateKeenSession();
-        const guid = this.getCurrentGuid();
+        const analyticsMeta = this._getRouteAnalyticsMeta();
         const additionalAttrs: Record<string, string> = {};
         if (sessionId) {
             additionalAttrs['client_session_id'] = md5(sessionId);
         }
+        if (analyticsMeta.searchProviderId) {
+            additionalAttrs['provider_id'] = analyticsMeta.searchProviderId;
+        }
         const data = {
             type: 'counted-usage',
             attributes: {
-                item_guid: guid,
-                item_public: isPublic,
-                action_labels: ['web', 'view'],
+                item_guid: analyticsMeta.itemGuid,
+                action_labels: this._getActionLabels(analyticsMeta),
                 pageview_info: {
                     referer_url: document.referrer,
                     page_url: document.URL,
                     page_title: this.headData.title || document.title,
-                    route_name: `ember-osf-web__${this.router.currentRouteName}`,
+                    route_name: `ember-osf-web.${this.router.currentRouteName}`,
                 },
                 ...additionalAttrs,
             },

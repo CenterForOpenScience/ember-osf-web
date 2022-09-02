@@ -1,4 +1,3 @@
-import { action } from '@ember/object';
 import Transition from '@ember/routing/-private/transition';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
@@ -23,10 +22,11 @@ export default class Home extends Route {
       }
   }
 
-  @action
-  didTransition() {
+  buildRouteInfoMetadata() {
       const shouldShowVersionB = this.features.isEnabled(ABTesting.homePageHeroTextVersionB);
-      const version = shouldShowVersionB ? 'versionB' : 'versionA';
-      this.analytics.trackPage(undefined, undefined, undefined, version);
+      const abVersion = shouldShowVersionB ? 'versionB' : 'versionA';
+      return {
+          analyticsMeta: { abVersion },
+      };
   }
 }

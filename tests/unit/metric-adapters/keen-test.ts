@@ -96,14 +96,13 @@ module('Unit | Metrics Adapter | keen ', hooks => {
 
         const adapter = this.owner.lookup('metrics-adapter:keen') as KeenAdapter;
 
-        assert.deepEqual(adapter.getCurrentModelTask(), {});
+        assert.notOk(adapter.getCurrentModelTask());
     });
 
     test('getCurrentModelTask - model', function(this: SinonTestContext, assert) {
-        const guid = 'gooid';
         const taskInstance = { isRunning: true } as TaskInstance<unknown>;
 
-        this.owner.register('route:foo', { currentModel: { taskInstance, guid } }, { instantiate: false });
+        this.owner.register('route:foo', { currentModel: { taskInstance } }, { instantiate: false });
         this.owner.register('route:foo.bar', { currentModel: { taskInstance: undefined } }, { instantiate: false });
         this.owner.register('service:router', Service.extend({
             currentRouteName: 'foo.bar',
@@ -111,6 +110,6 @@ module('Unit | Metrics Adapter | keen ', hooks => {
 
         const adapter = this.owner.lookup('metrics-adapter:keen') as KeenAdapter;
 
-        assert.deepEqual(adapter.getCurrentModelTask(), {guid, taskInstance});
+        assert.deepEqual(adapter.getCurrentModelTask(), taskInstance);
     });
 });
