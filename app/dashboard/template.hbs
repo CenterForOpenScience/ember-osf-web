@@ -152,6 +152,27 @@
                                             <div class='col-sm-12 text-center'>
                                                 <p>{{t 'dashboard.quicksearch.no_projects.line1'}}</p>
                                                 <p>{{t 'dashboard.quicksearch.no_projects.line2'}}</p>
+                                            </div>
+                                            <div class='flex-container'>
+                                                <div local-class='flex-row'>
+                                                    <video
+                                                        local-class='osf-video'
+                                                        src='https://www.youtube.com/watch?v=dLEIhJESIQA?autoplay=0&mute=0'
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class='flex-container'>
+                                                <div local-class='flex-row'>
+                                                    <button
+                                                        type='button'
+                                                        class='btn btn-primary'
+                                                        onclick={{action this.viewLearnMore}}
+                                                    >
+                                                        {{t 'dashboard.learn_more'}}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class='col-sm-12 text-center'>
                                                 <img src='/assets/images/dashboard/quicksearch-min.png' alt='{{t 'dashboard.quicksearch.no_projects.preview_alt'}}' class='img-responsive center-block'>
                                             </div>
                                         </div>

@@ -160,4 +160,10 @@ export default class Dashboard extends Controller {
         this.set('newNode', newNode);
         this.set('showNewNodeNavigation', true);
     }
+
+    @action
+    viewLearnMore() {
+        window.open('https://help.osf.io/article/342-getting-started-on-the-osf', '_blank');
+
+    }
 }

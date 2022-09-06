@@ -183,3 +183,19 @@
     color: $color-text-placeholder-grey-dark;
     opacity: 1;
 }
+
+.flex-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    .flex-row {
+        display: inline-flex;
+
+        .osf-video {
+            width: 420px;
+            height: 315px;
+        }
+    }
+}
+
