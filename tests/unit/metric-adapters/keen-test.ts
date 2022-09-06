@@ -1,6 +1,5 @@
 import Service from '@ember/service';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { TaskInstance } from 'ember-concurrency';
 import { setupTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
@@ -96,11 +95,11 @@ module('Unit | Metrics Adapter | keen ', hooks => {
 
         const adapter = this.owner.lookup('metrics-adapter:keen') as KeenAdapter;
 
-        assert.notOk(adapter.getCurrentModelTask());
+        assert.equal(adapter.getCurrentModelTask(), undefined);
     });
 
     test('getCurrentModelTask - model', function(this: SinonTestContext, assert) {
-        const taskInstance = { isRunning: true } as TaskInstance<unknown>;
+        const taskInstance = { isRunning: true };
 
         this.owner.register('route:foo', { currentModel: { taskInstance } }, { instantiate: false });
         this.owner.register('route:foo.bar', { currentModel: { taskInstance: undefined } }, { instantiate: false });
@@ -110,6 +109,6 @@ module('Unit | Metrics Adapter | keen ', hooks => {
 
         const adapter = this.owner.lookup('metrics-adapter:keen') as KeenAdapter;
 
-        assert.deepEqual(adapter.getCurrentModelTask(), taskInstance);
+        assert.equal(adapter.getCurrentModelTask(), taskInstance);
     });
 });
