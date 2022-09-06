@@ -14,4 +14,12 @@ export default class Discover extends Route {
     model() {
         return this.store.findAll('collection-provider', { reload: true });
     }
+
+    buildRouteInfoMetadata() {
+        return {
+            osfMetrics: {
+                searchProviderId: 'osf',
+            },
+        };
+    }
 }

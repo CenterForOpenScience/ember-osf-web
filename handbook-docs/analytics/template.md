@@ -101,7 +101,7 @@ like the following
 // route.ts
 buildRouteInfoMetadata() {
     return {
-        analyticsMeta: {
+        osfMetrics: {
             searchProviderId: 'foo',
             itemGuid: 'guidz',
         },

@@ -115,7 +115,7 @@ export default class GuidFile extends Route {
 
     buildRouteInfoMetadata() {
         return {
-            analyticsMeta: {
+            osfMetrics: {
                 itemGuid: this.controller.model.id,
             },
         };

@@ -13,4 +13,12 @@ export default class ProviderDiscover extends Route {
     model() {
         return [];
     }
+
+    buildRouteInfoMetadata() {
+        return {
+            osfMetrics: {
+                searchProviderId: this.theme.id,
+            },
+        };
+    }
 }

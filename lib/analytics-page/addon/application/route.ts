@@ -69,7 +69,7 @@ export default class AnalyticsPageRoute extends Route {
 
     buildRouteInfoMetadata() {
         return {
-            analyticsMeta: {
+            osfMetrics: {
                 itemGuid: (this.controller as any).model.id as string,
             },
         };

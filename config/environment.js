@@ -101,8 +101,13 @@ module.exports = function(environment) {
         },
         metricsAdapters: [
             {
-                name: 'GoogleAnalytics',
+                name: 'osf-metrics',
                 environments: ['all'],
+                config: {},
+            },
+            {
+                name: 'GoogleAnalytics',
+                environments: GOOGLE_ANALYTICS_ID ? ['all'] : [],
                 config: {
                     id: GOOGLE_ANALYTICS_ID,
                     setFields: {
@@ -119,7 +124,7 @@ module.exports = function(environment) {
             },
             {
                 name: 'Keen',
-                environments: ['all'],
+                environments: keenConfig ? ['all'] : [],
                 config: {
                     ...keenConfig,
                 },

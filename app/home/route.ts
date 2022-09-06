@@ -26,7 +26,7 @@ export default class Home extends Route {
       const shouldShowVersionB = this.features.isEnabled(ABTesting.homePageHeroTextVersionB);
       const abVersion = shouldShowVersionB ? 'versionB' : 'versionA';
       return {
-          analyticsMeta: { abVersion },
+          osfMetrics: { abVersion },
       };
   }
 }
