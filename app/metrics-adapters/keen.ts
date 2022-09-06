@@ -155,10 +155,10 @@ export default class KeenAdapter extends BaseAdapter {
 
     _getRouteAnalyticsMeta(routeInfo?: any): RouteAnalyticsMeta {
         const thisRouteInfo = (routeInfo || this.router.currentRoute);
-        if (thisRouteInfo.metadata?.analyticsMeta) {
+        if (thisRouteInfo?.metadata?.analyticsMeta) {
             return thisRouteInfo.metadata.analyticsMeta;
         }
-        if (thisRouteInfo.parent) {
+        if (thisRouteInfo?.parent) {
             return this._getRouteAnalyticsMeta(thisRouteInfo.parent);
         }
         return {};

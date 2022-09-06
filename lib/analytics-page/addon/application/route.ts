@@ -70,7 +70,7 @@ export default class AnalyticsPageRoute extends Route {
     buildRouteInfoMetadata() {
         return {
             analyticsMeta: {
-                itemGuid: (this.controller as any).node.id as string,
+                itemGuid: (this.controller as any).model.id as string,
             },
         };
     }
