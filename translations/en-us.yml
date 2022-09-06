@@ -147,6 +147,7 @@ dashboard:
             preview_alt: 'Preview of a full quick projects screen'
         private_parent: 'Private project / '
         private_grandparent: 'Private project / Private / '
+    learn_more: 'Getting Started'
     noteworthy:
         description: 'Discover public projects'
         new_and_noteworthy: 'New and noteworthy'
