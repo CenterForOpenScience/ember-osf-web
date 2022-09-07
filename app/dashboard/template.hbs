@@ -152,28 +152,26 @@
                                             <div class='col-sm-12 text-center'>
                                                 <p>{{t 'dashboard.quicksearch.no_projects.line1'}}</p>
                                                 <p>{{t 'dashboard.quicksearch.no_projects.line2'}}</p>
-                                            </div>
-                                            <div class='flex-container'>
-                                                <div local-class='flex-row'>
-                                                    <video
+
+                                                <div local-class='iframe-container'>
+                                                    <iframe
                                                         local-class='osf-video'
-                                                        src='https://www.youtube.com/watch?v=dLEIhJESIQA?autoplay=0&mute=0'
-                                                    />
+                                                        src='https://www.youtube.com/embed/dLEIhJESIQA'
+                                                        title={{t 'dashboard.osf_video'}}
+                                                        frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen
+                                                    ></iframe>
                                                 </div>
-                                            </div>
-                                            <div class='flex-container'>
-                                                <div local-class='flex-row'>
-                                                    <button
-                                                        type='button'
-                                                        class='btn btn-primary'
-                                                        onclick={{action this.viewLearnMore}}
-                                                    >
-                                                        {{t 'dashboard.learn_more'}}
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class='col-sm-12 text-center'>
-                                                <img src='/assets/images/dashboard/quicksearch-min.png' alt='{{t 'dashboard.quicksearch.no_projects.preview_alt'}}' class='img-responsive center-block'>
+
+                                                <OsfLink
+                                                    data-test-get-started-button
+                                                    data-analytics-name='Get started button'
+                                                    class='btn btn-primary'
+                                                    local-class='startButton'
+                                                    @target='_blank'
+                                                    @href='https://help.osf.io/article/342-getting-started-on-the-osf'
+                                                >
+                                                    {{t 'dashboard.getting_started'}}
+                                                </OsfLink>
                                             </div>
                                         </div>
                                     {{/if}}

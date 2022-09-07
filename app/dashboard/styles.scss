@@ -184,18 +184,16 @@
     opacity: 1;
 }
 
-.flex-container {
+.iframe-container {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    margin-top: 20px;
+    margin-bottom: 30px;
 
-    .flex-row {
-        display: inline-flex;
-
-        .osf-video {
-            width: 420px;
-            height: 315px;
-        }
+    .osf-video {
+        width: 560px;
+        height: 315px;
     }
 }
 
