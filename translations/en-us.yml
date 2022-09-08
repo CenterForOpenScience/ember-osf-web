@@ -1244,7 +1244,7 @@ registries:
             save: 'Save'
             clear_all: 'Clear all'
         add_license: 'Add license'
-        license_help_text: 'A license tells others how they can use your work in the future and only applies to the information and files submitted with the registration. For more information, see this <a href="https://help.osf.io/hc/en-us/articles/360019739014-Licensing">article on licenses</a>.'
+        license_help_text: 'A license tells others how they can use your work in the future and only applies to the information and files submitted with the registration. For more information, see this <a href="https://help.osf.io/hc/en-us/articles/360019739014-Licensing" target="_blank" rel="noopener noreferrer">article on licenses</a>.'
         affiliated_institutions: 'Affiliated institutions'
         category: Category
         choose_license: 'Choose a License'
