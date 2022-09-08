@@ -78,7 +78,10 @@
                         @navMode={{leftNav.leftGutterMode}}
                     />
                 </layout.leftNav>
-                <layout.main local-class='Main'>
+                <layout.main
+                    {{before-unload this.saveDirtyChanges}}
+                    local-class='Main'
+                >
                     {{outlet}}
                 </layout.main>
                 {{#unless this.showMobileView}}

@@ -24,4 +24,18 @@ export default class RegistriesDraft extends Controller {
     onSubmitRedirect(registrationId: Registration) {
         this.transitionToRoute('overview.index', registrationId);
     }
+
+    @action
+    saveDirtyChanges(event: BeforeUnloadEvent) {
+        // console.log('saveDirtyChanges');
+        // on[Metadata/Page]Input.isRunning as proxy for isDirty? :/
+        const { draftRegistrationManager } = this.model;
+        if (draftRegistrationManager.onMetadataInput.isRunning ||
+            draftRegistrationManager.onPageInput.isRunning) {
+            event.preventDefault();
+            return event.returnValue = 'prevent unload and save';
+        }
+
+        return event.returnValue = 'continue unload without save';
+    }
 }
