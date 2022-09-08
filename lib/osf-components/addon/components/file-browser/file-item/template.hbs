@@ -54,6 +54,12 @@
         </div>
         {{#if @isDesktop}}
             <div
+                data-test-file-list-download-count
+                local-class='FileList__item__download_count'
+            >
+                {{t 'osf-components.file-browser.download_count' count=@item.fileModel.extra.downloads}}
+            </div>
+            <div
                 data-test-file-list-size
                 local-class='FileList__item__size'
             >

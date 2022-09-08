@@ -25,12 +25,12 @@ const UnregisteredFormValidations: ValidationObject<UnregisteredFormFields> = {
     email: [
         validateFormat({
             type: 'email',
-            allowBlank: true,
             translationArgs: { description: 'This field' },
         }),
     ],
     fullName: validatePresence({
         presence: true,
+        ignoreBlank: true,
         type: 'empty',
     }),
 };
