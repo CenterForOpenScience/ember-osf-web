@@ -169,7 +169,7 @@ export default class Analytics extends Service {
         // Wait until everything has settled
         await waitForQueue('destroy');
 
-        this.metrics.trackPage('osf-metrics');
+        this.metrics.trackPage('osf-metrics', {});
 
         const eventParams = {
             page: this.router.currentURL,

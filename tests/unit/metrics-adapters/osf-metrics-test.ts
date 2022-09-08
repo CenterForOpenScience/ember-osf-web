@@ -18,7 +18,7 @@ module('Unit | Metrics Adapter | osf-metrics ', hooks => {
         const osfMetrics: OsfMetricsAdapter = this.owner.lookup('metrics-adapter:osf-metrics');
         await osfMetrics.trackPage();
         assert.ok(server.schema.countedUsages.all().length === 1);
-        const {attrs} = server.schema.countedUsages.first();
-        assert.ok(attrs.pageview_info.page_url === document.URL);
+        const savedCountedUsage = server.schema.countedUsages.first();
+        assert.ok(savedCountedUsage.pageviewInfo.page_url === document.URL);
     });
 });
