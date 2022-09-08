@@ -2,7 +2,6 @@ self.deprecationWorkflow = self.deprecationWorkflow || {};
 self.deprecationWorkflow.config = {
     workflow: [
         { handler: 'silence', matchId: 'ember.globals-resolver' },
-        { handler: 'silence', matchId: 'ember-source.deprecation-without-for' },
         { handler: 'silence', matchId: 'ember-source.deprecation-without-since' },
         { handler: 'silence', matchId: 'ember-inflector.globals' },
         { handler: 'silence', matchId: 'ember-metal.get-with-default' },
@@ -11,7 +10,6 @@ self.deprecationWorkflow.config = {
         { handler: 'silence', matchId: 'implicit-injections' },
         { handler: 'silence', matchId: 'manager-capabilities.modifiers-3-13' },
         { handler: 'silence', matchId: 'this-property-fallback' },
-        { handler: 'silence', matchId: '@fortawesome/ember-fontawesome.no-positional-params' },
         { handler: 'silence', matchId: 'ember-glimmer.link-to.positional-arguments' },
         { handler: 'silence', matchId: 'ember-views.curly-components.jquery-element' },
         { handler: 'silence', matchId: 'ember-runtime.deprecate-copy-copyable' },
