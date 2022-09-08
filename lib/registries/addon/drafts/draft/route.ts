@@ -68,6 +68,17 @@ export default class DraftRegistrationRoute extends Route {
         };
     }
 
+    afterModel() {
+        this.router.on('routeWillChange', transition => {
+            // console.log('routeWillChange', transition);
+            // TODO: check for dirty chnages?
+            if (!transition.to.name.includes(this.routeName) &&
+                !confirm('Replace with a good translated string')) {
+                transition.abort();
+            }
+        });
+    }
+
     @action
     didTransition() {
         this.analytics.trackPage();
