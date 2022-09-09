@@ -13,26 +13,12 @@
         @include primary-color-bg;
         background: var(--hero-background-img-url);
         background-size: cover;
-        z-index: -1; /* should be in front of the ::before defined below */
+        z-index: -1;
         display: block;
     }
 
     h1 {
         color: $color-text-white;
-    }
-}
-
-:global(.with-custom-branding) .HeroOverlay {
-    &::before {
-        @include primary-color-bg;
-        display: block;
-        z-index: -2; /* behind the ::after image */
-    }
-
-    &::after {
-        opacity: 0.4;
-        filter: grayscale(1);
-        z-index: -1;
     }
 }
 
