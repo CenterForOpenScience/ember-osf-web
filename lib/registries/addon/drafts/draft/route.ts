@@ -1,12 +1,14 @@
 import Store from '@ember-data/store';
 import { getOwner } from '@ember/application';
 import { action } from '@ember/object';
+import Transition from '@ember/routing/-private/transition';
 import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
+import Intl from 'ember-intl/services/intl';
 
 import requireAuth from 'ember-osf-web/decorators/require-auth';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
@@ -28,6 +30,7 @@ export default class DraftRegistrationRoute extends Route {
     @service analytics!: Analytics;
     @service store!: Store;
     @service router!: RouterService;
+    @service intl!: Intl;
 
     @task
     @waitFor
@@ -69,14 +72,22 @@ export default class DraftRegistrationRoute extends Route {
     }
 
     afterModel() {
-        this.router.on('routeWillChange', transition => {
-            // console.log('routeWillChange', transition);
-            // TODO: check for dirty chnages?
-            if (!transition.to.name.includes(this.routeName) &&
-                !confirm('Replace with a good translated string')) {
+        this.router.on('routeWillChange', this.onRouteWillChange);
+    }
+
+    @action
+    onRouteWillChange(transition: Transition) {
+        const { draftRegistrationManager } = this.controller.model;
+        const draftIsDirty = draftRegistrationManager.onMetadataInput.isRunning ||
+            draftRegistrationManager.onPageInput.isRunning ||
+            draftRegistrationManager.saveWithToast.isRunning ||
+            draftRegistrationManager.lastSaveFailed;
+        if (!transition.to.name.includes(this.routeName) && draftIsDirty) {
+            if (!window.confirm(this.intl.t('registries.drafts.draft.save_before_exit'))) {
                 transition.abort();
+                taskFor(draftRegistrationManager.saveWithToast).perform();
             }
-        });
+        }
     }
 
     @action

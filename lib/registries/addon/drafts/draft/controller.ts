@@ -33,6 +33,7 @@ export default class RegistriesDraft extends Controller {
         const { draftRegistrationManager } = this.model;
         if (draftRegistrationManager.onMetadataInput.isRunning ||
             draftRegistrationManager.onPageInput.isRunning ||
+            draftRegistrationManager.saveWithToast.isRunning ||
             draftRegistrationManager.lastSaveFailed) {
             event.preventDefault();
             taskFor(draftRegistrationManager.saveWithToast).perform();
