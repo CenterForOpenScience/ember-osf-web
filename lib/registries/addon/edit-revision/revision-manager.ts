@@ -144,8 +144,14 @@ export default class RevisionManager {
     @restartableTask
     @waitFor
     async onPageInput(currentPageManager: PageManager) {
-        await timeout(5000); // debounce
+        await timeout(3000); // debounce
 
+        await taskFor(this.saveResponses).perform(currentPageManager);
+    }
+
+    @restartableTask
+    @waitFor
+    async saveResponses(currentPageManager: PageManager) {
         if (currentPageManager && currentPageManager.schemaBlockGroups) {
             this.updateRegistrationResponses(currentPageManager);
 
@@ -204,7 +210,7 @@ export default class RevisionManager {
     @restartableTask
     @waitFor
     async onJustificationInput() {
-        await timeout(5000); // debounce
+        await timeout(3000); // debounce
         await taskFor(this.updateRevisionAndSave).perform();
     }
 
@@ -233,6 +239,21 @@ export default class RevisionManager {
             const errorMessage = this.intl.t('registries.edit_revision.delete_modal.delete_error');
             captureException(e, { errorMessage });
             this.toast.error(getApiErrorMessage(e), errorMessage);
+        }
+    }
+
+    @restartableTask
+    @waitFor
+    async saveWithToast() {
+        try {
+            taskFor(this.onJustificationInput).cancelAll();
+            taskFor(this.onPageInput).cancelAll();
+            await taskFor(this.updateRevisionAndSave).perform();
+            await taskFor(this.saveAllVisitedPages).perform();
+            this.toast.success(this.intl.t('registries.edit_revision.save_success'));
+        } catch (e) {
+            const errorTitle = this.intl.t('registries.edit_revision.save_failed');
+            this.toast.error(getApiErrorMessage(e), errorTitle);
         }
     }
 

@@ -3,10 +3,12 @@ import Store from '@ember-data/store';
 import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
+import Transition from '@ember/routing/-private/transition';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
+import IntlService from 'ember-intl/services/intl';
 
 import requireAuth from 'ember-osf-web/decorators/require-auth';
 import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
@@ -25,6 +27,7 @@ export default class EditRevisionRoute extends Route {
     @service analytics!: Analytics;
     @service store!: Store;
     @service router!: RouterService;
+    @service intl!: IntlService;
 
     @task
     @waitFor
@@ -61,6 +64,22 @@ export default class EditRevisionRoute extends Route {
             navigationManager,
             revisionManager,
         };
+    }
+
+
+    @action
+    willTransition(transition: Transition) {
+        const { revisionManager } = this.controller.model;
+        const draftIsDirty = revisionManager.onJustificationInput.isRunning ||
+            revisionManager.onPageInput.isRunning ||
+            revisionManager.saveWithToast.isRunning ||
+            revisionManager.lastSaveFailed;
+        if (!transition.to.name.includes(this.routeName) && draftIsDirty) {
+            if (!window.confirm(this.intl.t('registries.edit_revision.save_before_exit'))) {
+                transition.abort();
+                taskFor(revisionManager.saveWithToast).perform();
+            }
+        }
     }
 
     @action

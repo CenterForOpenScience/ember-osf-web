@@ -1205,6 +1205,9 @@ registries:
             body: 'Are you sure you want to delete this draft update?'
             button: 'Delete Draft Update'
             delete_error: 'Unable to delete update'
+        save_before_exit: 'Unsaved changes present. Are you sure you want to leave this page?'
+        save_success: 'Auto-save successful'
+        save_failed: 'Save failed'
     index:
         lead: 'The <span class="f-w-lg">open</span> registries network'
         see_example: 'See an example'
