@@ -117,8 +117,14 @@ export default class DraftRegistrationManager {
     @restartableTask
     @waitFor
     async onPageInput(currentPageManager: PageManager) {
-        await timeout(5000); // debounce
+        await timeout(3000); // debounce
 
+        await taskFor(this.saveRegistrationResponses).perform(currentPageManager);
+    }
+
+    @restartableTask
+    @waitFor
+    async saveRegistrationResponses(currentPageManager: PageManager) {
         if (currentPageManager && currentPageManager.schemaBlockGroups) {
             this.updateRegistrationResponses(currentPageManager);
 
@@ -217,11 +223,28 @@ export default class DraftRegistrationManager {
         }
     }
 
+    @restartableTask
+    @waitFor
+    async saveWithToast() {
+        try {
+            taskFor(this.onMetadataInput).cancelAll();
+            taskFor(this.onPageInput).cancelAll();
+            await taskFor(this.updateDraftRegistrationAndSave).perform();
+            await taskFor(this.saveAllVisitedPages).perform();
+            this.toast.success(this.intl.t('registries.drafts.draft.save_success'));
+        } catch (e) {
+            const errorTitle = this.intl.t('registries.drafts.draft.save_failed');
+            this.toast.error(getApiErrorMessage(e), errorTitle);
+        }
+    }
+
     @action
     onPageChange(currentPage: number) {
         if (this.hasVisitedPages) {
             this.validateAllVisitedPages();
+            this.metadataChangeset.validate();
             taskFor(this.saveAllVisitedPages).perform();
+            taskFor(this.updateDraftRegistrationAndSave).perform();
         }
         this.markCurrentPageVisited(currentPage);
     }
