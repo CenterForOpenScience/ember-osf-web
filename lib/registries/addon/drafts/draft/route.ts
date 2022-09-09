@@ -71,12 +71,8 @@ export default class DraftRegistrationRoute extends Route {
         };
     }
 
-    afterModel() {
-        this.router.on('routeWillChange', this.onRouteWillChange);
-    }
-
     @action
-    onRouteWillChange(transition: Transition) {
+    willTransition(transition: Transition) {
         const { draftRegistrationManager } = this.controller.model;
         const draftIsDirty = draftRegistrationManager.onMetadataInput.isRunning ||
             draftRegistrationManager.onPageInput.isRunning ||
