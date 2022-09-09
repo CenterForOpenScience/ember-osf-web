@@ -386,15 +386,18 @@ new-home:
             description: 'Share papers in OSF Preprints or a community-based preprint provider, so others can find and cite your work. Track impact with metrics like downloads and view counts.'
     testimonials:
         heading: 'What others are saying'
+        carousel_heading: 'OSF Researcher testimonials'
+        see_their_research: 'See their research'
         see_her_research: 'See her research'
         see_his_research: 'See his research'
-        carousel_heading: 'User testimonials'
+        single_quote: '"'
         slide_1:
             text: 'OSF is a game changer for those wanting to effectively share their research process in the spirit of collaboration.'
             alt: 'Patricia Ayala testimonial'
             description:
                 name: 'Patricia Ayala'
-                position: 'Research Services Librarian<br>University of Toronto'
+                position: 'Research Services Librarian'
+                institution: 'University of Toronto'
         slide_2:
             text: 'OSF is indispensable in helping me create reproducible research pipelines from preregistration through data collection and analysis. Its versatility makes it my one-stop shop for projects. The Dropbox integration effortlessly transforms my existing local workflow to public repository.'
             alt: 'Maya testimonial'
@@ -1829,6 +1832,11 @@ osf-components:
         previous_slide: 'Previous slide'
         next_slide: 'Next slide'
         go_to_slide: 'Go to slide {slideIndex}'
+        aria_label:
+            section: 'Open Science Framework (OSF) Researcher Testimonial Slides'
+            previous_testimonial: 'Previous testimonial'
+            next_testimonial: 'Next testimonial'
+            slides: 'Slide navigator'
     open-badges-list:
         title: 'Open resources'
         open-data: 'Data'

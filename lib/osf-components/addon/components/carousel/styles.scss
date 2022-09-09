@@ -1,26 +1,35 @@
-.carousel-container {
-    position: relative;
+// stylelint-disable
+
+.visually-hidden {
+    display: none;
 }
 
-.dot-nav {
-    margin: 0;
-    padding: 0;
+.Carousel_Container {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    max-height: 420px;
+    color: #365063;
+    background-color: #ecf0f1;
+}
+
+.Carousel_DotNav {
+    display: inline-flex;
+    justify-content: center;
     list-style: none;
     text-align: center;
-
-    li {
-        display: inline-block;
-        margin: 0 5px;
-        width: 16px;
-        height: 16px;
-    }
+    width: 100%;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 0px;
 
     button {
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border: 0;
         border-radius: 50%;
+        text-decoration: none;
+        margin: 10px 5px 0px;
+        padding: 1px 6px;
+        width: 16px;
+        height: 16px;
         background-color: #a5b3bd;
         text-indent: -999em;
         transition: background-color 0.1s;
@@ -35,28 +44,32 @@
 
 .item-list {
     width: 100%;
-    padding: 0 15px;
+    padding: 0px 15px;
 
     li {
         display: none;
         height: inherit;
         animation-name: fade;
-        animation-duration: 1s;
+        animation-duration: 0.5s;
     }
 }
 
-.arrow-previous {
+.PreviousSlide {
+    justify-content: flex-start;
+    align-items: center;
     transform: rotate(180deg);
-}
-
-.btn {
-    position: absolute;
     top: 50%;
     background: inherit;
     border: 0;
+    left: 0;
 }
 
-.btn-next {
+.NextSlide {
+    justify-content: flex-end;
+    align-items: center;
+    top: 50%;
+    background: inherit;
+    border: 0;
     right: 0;
 }
 
