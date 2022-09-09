@@ -29,7 +29,6 @@ module('Integration | Component | osf-link', hooks => {
                 {{t 'dashboard.getting_started'}}
             </OsfLink>
         `);
-        // await pauseTest();
         assert.dom('[data-test-get-started-button]').exists();
         assert.dom('[data-test-get-started-button]').hasText('Getting Started');
         assert.dom('[data-test-get-started-button]').hasClass('btn');
@@ -50,7 +49,6 @@ module('Integration | Component | osf-link', hooks => {
                 {{t 'dashboard.getting_started'}}
             </OsfLink>
         `);
-        // await pauseTest();
         assert.dom('[data-test-get-started-button]').exists();
         assert.dom('[data-test-get-started-button]').hasText('Getting Started');
         assert.dom('[data-test-get-started-button]').hasClass('btn');
