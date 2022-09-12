@@ -242,9 +242,7 @@ export default class DraftRegistrationManager {
     onPageChange(currentPage: number) {
         if (this.hasVisitedPages) {
             this.validateAllVisitedPages();
-            this.metadataChangeset.validate();
             taskFor(this.saveAllVisitedPages).perform();
-            taskFor(this.updateDraftRegistrationAndSave).perform();
         }
         this.markCurrentPageVisited(currentPage);
     }
