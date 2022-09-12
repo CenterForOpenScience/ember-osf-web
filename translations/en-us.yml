@@ -393,20 +393,20 @@ new-home:
         single_quote: '"'
         slide_1:
             text: "OSF is a game changer for those wanting to effectively share their research process in\n the spirit of collaboration."
-            alt: 'Patricia Ayala testimonial'
+            alt: 'Librarian Patricia Ayala of the Gerstein Science Information Centre at the University of Toronto praises the strengths of the OSF for collaborative open science research.'
             description:
                 name: 'Patricia Ayala'
                 position: 'Research Services Librarian'
                 institution: 'University of Toronto'
         slide_2:
             text: 'OSF is indispensable in helping me create reproducible research pipelines from preregistration through data collection and analysis. Its versatility makes it my one-stop shop for projects. The Dropbox integration effortlessly transforms my existing local workflow to public repository.'
-            alt: 'Maya testimonial'
+            alt: 'Epidemiologist Maya Mathur of Harvard University esteems third party add-on options such as Dropbox, Amazon S3, GitHub, OneDrive and more offered by the Open Science Framework.'
             description:
                 name: 'Maya Mathur'
                 position: 'Department of Epidemiology<br>Harvard University'
         slide_3:
             text: "Because SocArXiv is a not-for-profit organization, researchers can be assured that they are sharing their research in an environment where access, inclusivity, and preservation, rather than profit, will remain at the heart of the mission. A great benefit of partnering with OSF is that this\n application is a free public good."
-            alt: 'Philip Cohen testimonial'
+            alt: 'Sociologist Philip Cohen speaks to the community gains provided by the OSF for the social sciences, arts and humanities, education, and law open science disciplines.'
             description:
                 name: 'Philip Cohen'
                 position: 'SocArXiv papers'
