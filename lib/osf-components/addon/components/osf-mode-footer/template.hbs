@@ -8,7 +8,7 @@
                     @onClick={{dialog.open}}
                 >
                     {{#if this.showUrlInput}}
-                        {{fa-icon 'rocket'}}
+                        <FaIcon @icon='rocket' />
                     {{else}}
                         <strong>{{t 'general.warning'}}</strong>: {{t 'osf_mode_footer.dev_mode'}}
                     {{/if}}
