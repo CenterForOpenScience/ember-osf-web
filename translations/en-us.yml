@@ -392,7 +392,7 @@ new-home:
         see_his_research: 'See his research'
         single_quote: '"'
         slide_1:
-            text: 'OSF is a game changer for those wanting to effectively share their research process in the spirit of collaboration.'
+            text: "OSF is a game changer for those wanting to effectively share their research process in\n the spirit of collaboration."
             alt: 'Patricia Ayala testimonial'
             description:
                 name: 'Patricia Ayala'
@@ -405,7 +405,7 @@ new-home:
                 name: 'Maya Mathur'
                 position: 'Department of Epidemiology<br>Harvard University'
         slide_3:
-            text: 'Because SocArXiv is a not-for-profit organization, researchers can be assured that they are sharing their research in an environment where access, inclusivity, and preservation, rather than profit, will remain at the heart of the mission. A great benefit of partnering with OSF is that this application is a free public good.'
+            text: "Because SocArXiv is a not-for-profit organization, researchers can be assured that they are sharing their research in an environment where access, inclusivity, and preservation, rather than profit, will remain at the heart of the mission. A great benefit of partnering with OSF is that this\n application is a free public good."
             alt: 'Philip Cohen testimonial'
             description:
                 name: 'Philip Cohen'
