@@ -12,13 +12,37 @@ interface ModifierTestContext extends TestContext {
 module('Integration | Modifier | before-unload', hooks => {
     setupRenderingTest(hooks);
 
-    test('it adds event listener', async function(this: ModifierTestContext, assert) {
+    test('it adds/removes event listener on render/hide ', async function(this: ModifierTestContext, assert) {
         this.listener = sinon.fake();
+        this.set('showDiv', true);
+        await render(hbs`
+        {{#if this.showDiv}}
+            <div {{before-unload this.listener}}></div>
+        {{/if}}`);
 
-        await render(hbs`<div {{before-unload this.listener}}></div>`);
         sinon.assert.notCalled(this.listener);
         window.dispatchEvent(new Event('beforeunload'));
         sinon.assert.calledOnce(this.listener);
-        assert.ok(true, 'beforeunload listener called');
+        assert.ok(true, 'beforeunload listener called when element is visible');
+        this.set('showDiv', false);
+        window.dispatchEvent(new Event('beforeunload'));
+        sinon.assert.calledOnce(this.listener);
+        assert.ok(true, 'beforeunload listener removed when element is removed');
+    });
+
+    test('it removes event listener when another added', async function(this: ModifierTestContext, assert) {
+        const firstListener = sinon.fake();
+        const otherListener = sinon.fake();
+        this.listener = firstListener;
+        await render(hbs`<div {{before-unload this.listener}}></div>`);
+
+        window.dispatchEvent(new Event('beforeunload'));
+        sinon.assert.calledOnce(firstListener);
+        sinon.assert.notCalled(otherListener);
+        this.set('listener', otherListener);
+        window.dispatchEvent(new Event('beforeunload'));
+        sinon.assert.calledOnce(firstListener);
+        sinon.assert.calledOnce(otherListener);
+        assert.ok(true, 'beforeunload listener updates');
     });
 });
