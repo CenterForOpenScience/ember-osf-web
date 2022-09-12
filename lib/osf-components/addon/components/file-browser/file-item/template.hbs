@@ -57,7 +57,9 @@
                 data-test-file-list-download-count
                 local-class='FileList__item__download_count'
             >
-                {{t 'osf-components.file-browser.download_count' count=@item.fileModel.extra.downloads}}
+                {{#if (has-key @item.fileModel.extra 'downloads')}}
+                    {{t 'osf-components.file-browser.download_count' count=@item.fileModel.extra.downloads}}
+                {{/if}}
             </div>
             <div
                 data-test-file-list-size
@@ -78,7 +80,10 @@
                 {{/if}}
             </div>
         {{/if}}
-        <div data-test-file-list-options local-class='FileList__item__options'>
+        <div
+            data-test-file-list-options
+            local-class='FileList__item__options'
+        >
             {{#unless @manager.selectedFiles}}
                 <FileActionsMenu @item={{@item}} @onDelete={{@manager.reload}} @manager={{@manager}} @allowRename={{true}} />
             {{/unless}}
