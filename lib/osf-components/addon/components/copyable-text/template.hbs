@@ -8,7 +8,7 @@
         local-class='CopyButton'
         aria-label={{t 'osf-components.copyable-text.copyToClipboard'}}
     >
-        {{fa-icon 'copy'}}
+        <FaIcon @icon='copy' />
         <BsTooltip
             @triggerEvents=''
             @visible={{this.showTooltip}}

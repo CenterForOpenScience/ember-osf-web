@@ -41,7 +41,7 @@
                             {{#bs-tooltip local-class='Tooltip' placement='left' viewportSelector=(concat '#' this.elementId)}}
                                 {{t 'registries.overview.comments.modified'}}{{this.dateModified}}
                             {{/bs-tooltip}}
-                            <sup>{{fa-icon 'asterisk'}}</sup>
+                            <sup><FaIcon @icon='asterisk' /></sup>
                         </span>
                     {{/if}}
                     <span local-class='dateCreated'>
@@ -115,7 +115,7 @@
                                 @onClick={{action this.toggleReplies}}
                             >
                                 {{t (concat 'registries.overview.comments' (if this.showReplies '.hide_replies' '.see_replies'))}}
-                                {{fa-icon (if this.showReplies 'caret-up' 'caret-down')}}
+                                <FaIcon @icon={{if this.showReplies 'caret-up' 'caret-down'}} />
                             </BsButton>
                         {{/if}}
                     </div>
