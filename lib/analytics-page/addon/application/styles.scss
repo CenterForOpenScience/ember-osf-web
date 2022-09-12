@@ -15,6 +15,11 @@
     margin-top: 20px;
 }
 
+:global(.modal-body) {
+    max-height: 80vh;
+    overflow: scroll;
+}
+
 .CountBox {
     text-align: center;
 

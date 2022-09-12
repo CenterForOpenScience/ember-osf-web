@@ -12,7 +12,7 @@
                     {{#if @node}}
                         {{#unless @node.public}}
                             <span>
-                                {{fa-icon 'lock'}}
+                                <FaIcon @icon='lock' />
                                 <BsTooltip>{{t (concat 'node_card.' @node.nodeType '.private_tooltip')}}</BsTooltip>
                             </span> |
                         {{/unless}}

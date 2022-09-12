@@ -14,7 +14,7 @@
                 aria-label={{t 'registries.discover.sidebar.remove_filter_label' filterName=filter.display}}
                 {{on 'click' (fn this.removeFilter filter.filter)}}
             >
-                {{fa-icon 'times'}}
+                <FaIcon @icon='times' />
             </Button>
         </div>
     {{/each}}

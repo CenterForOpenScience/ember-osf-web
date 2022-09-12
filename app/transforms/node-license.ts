@@ -1,6 +1,7 @@
 import Transform from '@ember-data/serializer/transform';
 
 import { NodeLicense } from 'ember-osf-web/models/node';
+import fixSpecialChars from 'ember-osf-web/utils/fix-special-char';
 import { camelizeKeys, snakifyKeys } from 'ember-osf-web/utils/map-keys';
 
 interface SerializedNodeLicense {
@@ -25,7 +26,8 @@ export default class NodeLicenseTransform extends Transform {
         } = camelizeKeys(value) as DeserializedNodeLicense;
 
         return Object.freeze({
-            copyrightHolders: typeof copyrightHolders === 'string' ? copyrightHolders : copyrightHolders.join(', '),
+            copyrightHolders: typeof copyrightHolders === 'string' ? fixSpecialChars(copyrightHolders)
+                : fixSpecialChars(copyrightHolders.join(', ')),
             year,
         });
     }
