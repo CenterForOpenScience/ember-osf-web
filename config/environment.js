@@ -101,11 +101,6 @@ module.exports = function(environment) {
         },
         metricsAdapters: [
             {
-                name: 'osf-metrics',
-                environments: ['all'],
-                config: {},
-            },
-            {
                 name: 'GoogleAnalytics',
                 environments: GOOGLE_ANALYTICS_ID ? ['all'] : [],
                 config: {

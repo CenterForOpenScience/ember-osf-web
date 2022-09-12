@@ -6,17 +6,25 @@ import Service, { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { restartableTask, waitForQueue } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
+import Cookies from 'ember-cookies/services/cookies';
 import config from 'ember-get-config';
 import Metrics from 'ember-metrics/services/metrics';
 import Session from 'ember-simple-auth/services/session';
 import Toast from 'ember-toastr/services/toast';
+import moment from 'moment';
 
+import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
 
 const {
     metricsAdapters,
     OSF: {
         analyticsAttrs,
+        apiUrl,
+        cookies: {
+            cookieConsent: cookieConsentCookie,
+            keenSessionId: sessionIdCookie,
+        },
     },
 } = config;
 
@@ -35,6 +43,13 @@ export interface InitialEventInfo {
     extra?: string;
     nonInteraction?: boolean;
 }
+
+export interface RouteMetricsInfo {
+    itemGuid?: string;
+    searchProviderId?: string;
+}
+
+type PageviewActionLabel = 'web' | 'view' | 'search';
 
 function logEvent(analytics: Analytics, title: string, data: object) {
     runInDebug(() => {
@@ -153,6 +168,8 @@ export default class Analytics extends Service {
     @service ready!: Ready;
     @service router!: RouterService;
     @service toast!: Toast;
+    @service cookies!: Cookies;
+    @service currentUser!: CurrentUser;
 
     shouldToastOnEvent = false;
 
@@ -169,7 +186,8 @@ export default class Analytics extends Service {
         // Wait until everything has settled
         await waitForQueue('destroy');
 
-        this.metrics.trackPage('osf-metrics', {});
+        // osf metrics
+        await this._sendCountedUsage(this._getPageviewPayload());
 
         const eventParams = {
             page: this.router.currentURL,
@@ -298,6 +316,83 @@ export default class Analytics extends Service {
         this.metrics.trackEvent(trackedData);
 
         logEvent(this, 'Tracked event', trackedData);
+    }
+
+    async _sendCountedUsage(payload: object) {
+        await this.currentUser.authenticatedAJAX({
+            method: 'POST',
+            url: `${apiUrl}/_/metrics/events/counted_usage/`,
+            data: JSON.stringify(payload),
+            headers: {
+                'Content-Type': 'application/vnd.api+json',
+            },
+        });
+    }
+
+    _getPageviewPayload() {
+        const routeMetrics = this._getRouteMetricsInfo();
+        const all_attrs = {
+            item_guid: routeMetrics.itemGuid,
+            provider_id: routeMetrics.searchProviderId,
+            action_labels: this._getPageviewActionLabels(routeMetrics),
+            client_session_id: this._sessionId,
+        } as const;
+        const attributes = Object.fromEntries(
+            Object.entries(all_attrs).filter(
+                ([_,value]: [unknown, unknown]) => (typeof value !== 'undefined'),
+            ),
+        );
+        return {
+            data: {
+                type: 'counted-usage',
+                attributes: {
+                    ...attributes,
+                    pageview_info: {
+                        page_url: document.URL,
+                        page_title: document.title,
+                        referer_url: document.referrer,
+                        route_name: `ember-osf-web.${this.router.currentRouteName}`,
+                    },
+                },
+            },
+        };
+    }
+
+    get _sessionId() {
+        if (!this.cookies.exists(cookieConsentCookie)) {
+            return undefined;
+        }
+        const sessionId = (
+            this.cookies.read(sessionIdCookie)
+            || ('randomUUID' in crypto && (crypto as any).randomUUID())
+            || Math.random().toString()
+        );
+        this.cookies.write(sessionIdCookie, sessionId, {
+            expires: moment().add(25, 'minutes').toDate(),
+            path: '/',
+        });
+        return sessionId;
+    }
+
+    _getRouteMetricsInfo(routeInfo?: any): RouteMetricsInfo {
+        const thisRouteInfo = (routeInfo || this.router.currentRoute);
+        if (thisRouteInfo?.metadata?.osfMetrics) {
+            return thisRouteInfo.metadata.osfMetrics;
+        }
+        if (thisRouteInfo?.parent) {
+            return this._getRouteMetricsInfo(thisRouteInfo.parent);
+        }
+        return {};
+    }
+
+    _getPageviewActionLabels(routeMetrics: RouteMetricsInfo): PageviewActionLabel[] {
+        const actionLabelMap: Record<PageviewActionLabel, Boolean> = {
+            web: true,
+            view: Boolean(routeMetrics.itemGuid),
+            search: Boolean(routeMetrics.searchProviderId),
+        };
+        const labels = Object.keys(actionLabelMap) as PageviewActionLabel[];
+        return labels.filter(label => actionLabelMap[label]);
     }
 }
 
