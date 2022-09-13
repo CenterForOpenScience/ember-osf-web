@@ -1,29 +1,46 @@
 // stylelint-disable
-
 .visually-hidden {
     display: none;
 }
 
 .Carousel_Container {
     display: flex;
-    justify-content: space-evenly;
+    flex-direction: column;
+    justify-content: flex-start;
     width: 100%;
-    max-height: 420px;
     color: #365063;
     background-color: #ecf0f1;
+    z-index: 2;
+
+}
+
+// .Carousel_ContainersMobile {
+//     display: inline-flex;
+//     flex-direction: column;
+//     justify-content: flex-start;
+//     background-color: #ecf0f1;
+//     max-width: 100vw;
+//     max-height: 100vh;
+// }
+
+ul {
+    margin: 0px;
+    padding: 0px;
 }
 
 .Carousel_DotNav {
     display: inline-flex;
     justify-content: center;
+    align-items: flex-start;
     list-style: none;
     text-align: center;
+    padding-top: 10px;
     width: 100%;
-    margin-left: 20px;
-    margin-right: 20px;
-    padding: 0px;
+    max-width: 100vw;
 
     button {
+        justify-content: center;
+        align-items: center;
         border-radius: 50%;
         text-decoration: none;
         margin: 10px 5px 0px;
@@ -42,35 +59,63 @@
     }
 }
 
-.item-list {
+.Carousel_Slide {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: center;
     width: 100%;
+    max-width: 100vw;
+}
+
+.item-list {
+    justify-content: flex-end;
+    align-items: flex-end;
+    width: 80%;
+    max-width: 100vw;
     padding: 0px 15px;
+    background-color: #ecf0f1;
 
     li {
+        background-color: #ecf0f1;
+        justify-content: flex-end;
+        align-items: flex-end;
         display: none;
-        height: inherit;
         animation-name: fade;
         animation-duration: 0.5s;
     }
 }
 
 .PreviousSlide {
+    transform: rotate(180deg);
     justify-content: flex-start;
     align-items: center;
-    transform: rotate(180deg);
-    top: 50%;
+    max-width: 10%;
+    height: 100%;
     background: inherit;
     border: 0;
-    left: 0;
+    right: 0;
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
 }
 
 .NextSlide {
     justify-content: flex-end;
     align-items: center;
-    top: 50%;
+    max-width: 10%;
+    height: 100%;
     background: inherit;
     border: 0;
     right: 0;
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+}
+
+.NextSlideMobile {
+   justify-content: flex-end;
 }
 
 @keyframes fade {
