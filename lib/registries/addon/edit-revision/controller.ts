@@ -28,9 +28,8 @@ export default class EditRevisionController extends Controller {
             revisionManager.saveWithToast.isRunning ||
             revisionManager.lastSaveFailed) {
             event.preventDefault();
+            event.returnValue = this.intl.t('registries.drafts.draft.save_before_exit');
             taskFor(revisionManager.saveWithToast).perform();
-            return event.returnValue = this.intl.t('registries.drafts.draft.save_before_exit');
         }
-        return;
     }
 }

@@ -36,9 +36,8 @@ export default class RegistriesDraft extends Controller {
             draftRegistrationManager.saveWithToast.isRunning ||
             draftRegistrationManager.lastSaveFailed) {
             event.preventDefault();
+            event.returnValue = this.intl.t('registries.drafts.draft.save_before_exit');
             taskFor(draftRegistrationManager.saveWithToast).perform();
-            return event.returnValue = this.intl.t('registries.drafts.draft.save_before_exit');
         }
-        return;
     }
 }
