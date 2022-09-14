@@ -94,24 +94,34 @@ didTransition() {
 }
 ```
 
-To add route-specific metadata, implement `Route.buildRouteInfoMetadata()`
-(https://api.emberjs.com/ember/3.26/classes/Route/methods/buildRouteInfoMetadata?anchor=buildRouteInfoMetadata)
-like the following
+In route handlers that have pageview-related metadata, implement
+[`Route.buildRouteInfoMetadata()`](https://api.emberjs.com/ember/3.26/classes/Route/methods/buildRouteInfoMetadata?anchor=buildRouteInfoMetadata)
+to return an object. Currently only two values on the returned
+`metadata` object will have consequence: `metadata.osfMetrics.itemGuid`
+(for route handlers that directly handle the guid from the URL) and
+`metadata.osfMetrics.searchProviderId` (for route handlers of search/discover pages).
+
+Examples:
 ```ts
 // route.ts
 buildRouteInfoMetadata() {
     return {
         osfMetrics: {
-            searchProviderId: 'foo',
-            itemGuid: 'guidz',
+            itemGuid: this.controller.model.id,
         },
     };
 }
 ```
-
-If the page is under a GUID route, pass the following two arguments to `trackPage`:
-- `pagePublic`: boolean indicating whether the GUID referent is public or private
-- `resourceType`: string for the API type of the GUID referent (e.g. `nodes`, `registrations`, etc.)
+```ts
+// route.ts
+buildRouteInfoMetadata() {
+    return {
+        osfMetrics: {
+            searchProviderId: 'osf',
+        },
+    };
+}
+```
 
 ## Testing analytics
 Any action worth testing is worth tracking, and vice versa.
