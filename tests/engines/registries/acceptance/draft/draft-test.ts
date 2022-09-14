@@ -13,12 +13,14 @@ import {
 } from '@ember/test-helpers';
 import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { timeout } from 'ember-concurrency';
 import config from 'ember-get-config';
 import { t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
 import { setBreakpoint } from 'ember-responsive/test-support';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
@@ -420,6 +422,75 @@ module('Registries | Acceptance | draft form', hooks => {
         await click('[data-test-goto-previous-page]');
 
         assert.dom('[data-test-page-label]').containsText('This is the second page');
+    });
+
+    test('it shows failed saves/deletes', async function(this: DraftFormTestContext, assert) {
+        server.namespace = '/v2';
+        server.patch('/draft_registrations/:draftId', () => ({
+            errors: [{ detail: 'Fail to save draft' }],
+        }), 400);
+        server.del('/draft_registrations/:draftId', () => ({
+            errors: [{ detail: 'Fail to delete draft' }],
+        }), 403);
+        const initiator = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const registration = server.create(
+            'draft-registration', {
+                registrationSchema,
+                initiator,
+                branchedFrom: this.branchedFrom,
+            },
+        );
+
+        // Fail metadata save
+        await visit(`/registries/drafts/${registration.id}/`);
+        await triggerKeyEvent('[data-test-metadata-title] input', 'keyup', 32);
+        assert.dom('#toast-container', document as any).containsText(
+            t('registries.drafts.draft.metadata.failed_auto_save'),
+            'Error toast on failed metadata save',
+        );
+        // wait for toast to disappear. TODO: find a better way to do this. sinon.useFakeTimers()??
+        await timeout(5000);
+
+        // Fail form save
+        await click('[data-test-goto-next-page]');
+        await triggerKeyEvent('[data-test-text-input] input', 'keyup', 32);
+        assert.dom('#toast-container', document as any).containsText(
+            t('registries.drafts.draft.form.failed_auto_save'),
+            'Error toast on failed page save',
+        );
+
+        // Fail delete
+        await click('[data-test-delete-button]');
+        await click('[data-test-confirm-delete]');
+        assert.dom('#toast-container', document as any).hasTextContaining(
+            t('registries.drafts.draft.delete_modal.delete_error'),
+            'Error toast on failed draft delete',
+        );
+    });
+
+    test('it warns users when navigating/closing window', async function(this: DraftFormTestContext, assert) {
+        const confirm = sinon.fake();
+        window.confirm = confirm;
+        const beforeunload = sinon.fake();
+        window.onbeforeunload = beforeunload;
+        const initiator = server.create('user', 'loggedIn');
+        const registrationSchema = server.schema.registrationSchemas.find('testSchema');
+        const registration = server.create(
+            'draft-registration', {
+                registrationSchema,
+                initiator,
+                branchedFrom: this.branchedFrom,
+            },
+        );
+
+        await visit(`/registries/drafts/${registration.id}/`);
+        triggerKeyEvent('[data-test-metadata-title] input', 'keyup', 32);
+        await click('[data-test-add-new-button]');
+        sinon.assert.calledOnce(confirm);
+        window.dispatchEvent(new Event('beforeunload'));
+        sinon.assert.calledOnce(beforeunload);
+        assert.ok('it warns users when navigating/closing window');
     });
 
     test('register button is disabled: invalid responses', async function(this: DraftFormTestContext, assert) {
