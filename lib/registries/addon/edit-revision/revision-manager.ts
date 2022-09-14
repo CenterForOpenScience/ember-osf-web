@@ -164,7 +164,6 @@ export default class RevisionManager {
                 const errorMessage = this.intl.t('registries.drafts.draft.form.failed_auto_save');
                 captureException(e, { errorMessage });
                 this.toast.error(getApiErrorMessage(e), errorMessage);
-                throw e;
             }
         }
     }
@@ -225,7 +224,6 @@ export default class RevisionManager {
             const errorMessage = this.intl.t('registries.drafts.draft.metadata.failed_auto_save');
             captureException(e, { errorMessage });
             this.toast.error(getApiErrorMessage(e), errorMessage);
-            throw e;
         }
     }
 
