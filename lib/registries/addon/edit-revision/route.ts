@@ -70,11 +70,12 @@ export default class EditRevisionRoute extends Route {
     @action
     willTransition(transition: Transition) {
         const { revisionManager } = this.controller.model;
+        const notBeingDeleted = !revisionManager.deleteRevision.isRunning;
         const draftIsDirty = revisionManager.onJustificationInput.isRunning ||
             revisionManager.onPageInput.isRunning ||
             revisionManager.saveWithToast.isRunning ||
             revisionManager.lastSaveFailed;
-        if (!transition.to.name.includes(this.routeName) && draftIsDirty) {
+        if (!transition.to.name.includes(this.routeName) && draftIsDirty && notBeingDeleted) {
             if (!window.confirm(this.intl.t('registries.edit_revision.save_before_exit'))) {
                 transition.abort();
                 taskFor(revisionManager.saveWithToast).perform();

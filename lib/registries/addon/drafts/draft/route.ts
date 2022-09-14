@@ -74,11 +74,12 @@ export default class DraftRegistrationRoute extends Route {
     @action
     willTransition(transition: Transition) {
         const { draftRegistrationManager } = this.controller.model;
+        const notBeingDeleted = !draftRegistrationManager.deleteDraft.isRunning;
         const draftIsDirty = draftRegistrationManager.onMetadataInput.isRunning ||
             draftRegistrationManager.onPageInput.isRunning ||
             draftRegistrationManager.saveWithToast.isRunning ||
             draftRegistrationManager.lastSaveFailed;
-        if (!transition.to.name.includes(this.routeName) && draftIsDirty) {
+        if (!transition.to.name.includes(this.routeName) && draftIsDirty && notBeingDeleted) {
             if (!window.confirm(this.intl.t('registries.drafts.draft.save_before_exit'))) {
                 transition.abort();
                 taskFor(draftRegistrationManager.saveWithToast).perform();
