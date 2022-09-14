@@ -19,7 +19,7 @@
                             aria-label={{t 'registries.overview.toggle_navbar'}}
                             data-analytics-name='Show sidenav'
                         >
-                            {{nav.icon (if @sidenavGutterClosed 'bars' 'times')}}
+                            <nav.icon @icon={{if @sidenavGutterClosed 'bars' 'times'}} />
                         </nav.buttons.default>
                     </nav.bordered-section>
 
