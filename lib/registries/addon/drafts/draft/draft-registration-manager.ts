@@ -54,7 +54,7 @@ export default class DraftRegistrationManager {
     @alias('draftRegistration.currentUserIsAdmin') currentUserIsAdmin!: boolean;
     @alias('provider.reviewsWorkflow') reviewsWorkflow?: string;
     @alias('draftRegistration.hasProject') hasProject?: boolean;
-    @or('onPageInput.isRunning', 'onMetadataInput.isRunning') autoSaving!: boolean;
+    @alias('draftRegistration.isSaving') autoSaving!: boolean;
     @or('initializePageManagers.isRunning', 'initializeMetadataChangeset.isRunning') initializing!: boolean;
     @not('registrationResponsesIsValid') hasInvalidResponses!: boolean;
     @filterBy('pageManagers', 'isVisited', true) visitedPages!: PageManager[];

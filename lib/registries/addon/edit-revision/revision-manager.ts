@@ -52,7 +52,7 @@ export default class RevisionManager {
     schemaBlocks!: SchemaBlock[];
 
     @alias('registration.currentUserIsReadOnly') currentUserIsReadOnly!: boolean;
-    @or('onPageInput.isRunning', 'onJustificationInput.isRunning') autoSaving!: boolean;
+    @alias('revision.isSaving') autoSaving!: boolean;
     @or('initializePageManagers.isRunning', 'initializeRevisionChangeset.isRunning') initializing!: boolean;
     @not('registrationResponsesIsValid') hasInvalidResponses!: boolean;
     @filterBy('pageManagers', 'isVisited', true) visitedPages!: PageManager[];

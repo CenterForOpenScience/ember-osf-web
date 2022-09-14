@@ -1169,6 +1169,7 @@ registries:
                 body: 'Are you sure you want to delete this draft registration?'
                 button: 'Delete Draft'
                 delete_error: 'Unable to delete draft registration'
+            auto_saving: 'Auto-saving'
             save_before_exit: 'Unsaved changes present. Are you sure you want to leave this page?'
             save_success: 'Auto-save successful'
             save_failed: 'Save failed'
