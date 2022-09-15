@@ -52,7 +52,7 @@
                                     @type='danger'
                                     @onClick={{action this.toggleAddContributorWidget}}
                                 >
-                                    {{fa-icon 'times'}}
+                                    <FaIcon @icon='times' />
                                 </BsButton>
                             {{else}}
                                 <BsButton
@@ -61,7 +61,7 @@
                                     @type='primary'
                                     @onClick={{action this.toggleAddContributorWidget}}
                                 >
-                                    {{fa-icon 'plus'}}
+                                    <FaIcon @icon='plus' />
                                 </BsButton>
                             {{/if}}
                         </div>

@@ -97,7 +97,7 @@
                 @type='link'
                 @onClick={{action 'toggleMore'}}
             >
-                {{fa-icon (concat 'caret-' (if this.more 'down' 'right'))}} {{t 'new_project.more'}}
+                <FaIcon @icon={{concat 'caret-' (if this.more 'down' 'right')}} /> {{t 'new_project.more'}}
             </BsButton>
             {{#if this.more}}
                 <div class='form-group m-v-sm'>

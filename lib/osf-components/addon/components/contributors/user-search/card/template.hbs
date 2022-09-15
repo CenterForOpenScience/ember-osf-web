@@ -64,7 +64,7 @@
                     @type='light'
                     {{on 'click' (fn @manager.addContributor @user this.permission this.isBibliographic)}}
                 >
-                    {{fa-icon 'plus'}}
+                    <FaIcon @icon='plus' />
                 </Button>
             </span>
         {{/if}}

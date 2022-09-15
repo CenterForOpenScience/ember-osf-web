@@ -5,7 +5,7 @@
     title={{t 'general.sort_asc'}}
     @onClick={{action @sortAction this.sortBy}}
 >
-    {{fa-icon 'chevron-up'}}
+    <FaIcon @icon='chevron-up' />
 </BsButton>
 <BsButton
     data-test-descending-sort={{this.sortBy}}
@@ -14,5 +14,5 @@
     title={{t 'general.sort_desc'}}
     @onClick={{action @sortAction this.sortByDesc}}
 >
-    {{fa-icon 'chevron-down'}}
+    <FaIcon @icon='chevron-down' />
 </BsButton>

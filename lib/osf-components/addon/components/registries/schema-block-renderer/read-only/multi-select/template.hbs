@@ -9,7 +9,7 @@
             local-class='List'
         >
             {{#each @optionBlocks as |optionBlock|}}
-                {{#if (contains optionBlock.displayText selectedOptions)}}
+                {{#if (includes optionBlock.displayText selectedOptions)}}
                     <li
                         data-test-read-only-multi-select-value={{optionBlock.displayText}}
                         local-class='ResponseValue'
