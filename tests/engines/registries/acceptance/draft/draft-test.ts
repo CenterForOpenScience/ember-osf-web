@@ -13,7 +13,6 @@ import {
 } from '@ember/test-helpers';
 import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { timeout } from 'ember-concurrency';
 import config from 'ember-get-config';
 import { t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
@@ -424,7 +423,7 @@ module('Registries | Acceptance | draft form', hooks => {
         assert.dom('[data-test-page-label]').containsText('This is the second page');
     });
 
-    test('it shows failed saves/deletes', async function(this: DraftFormTestContext, assert) {
+    test('it shows failed draft saves/deletes', async function(this: DraftFormTestContext, assert) {
         server.namespace = '/v2';
         server.patch('/draft_registrations/:draftId', () => ({
             errors: [{ detail: 'Fail to save draft' }],
@@ -442,23 +441,27 @@ module('Registries | Acceptance | draft form', hooks => {
             },
         );
 
+        const timer = sinon.useFakeTimers({ shouldAdvanceTime: true });
+
         // Fail metadata save
         await visit(`/registries/drafts/${registration.id}/`);
-        await triggerKeyEvent('[data-test-metadata-title] input', 'keyup', 32);
+        triggerKeyEvent('[data-test-metadata-title] input', 'keyup', 32);
+        await timer.tickAsync(3001); // skip debounce
         assert.dom('#toast-container', document as any).containsText(
             t('registries.drafts.draft.metadata.failed_auto_save'),
             'Error toast on failed metadata save',
         );
-        // wait for toast to disappear. TODO: find a better way to do this. sinon.useFakeTimers()??
-        await timeout(5000);
+        await timer.tickAsync(5000); // skip until toast gone
 
         // Fail form save
         await click('[data-test-goto-next-page]');
-        await triggerKeyEvent('[data-test-text-input] input', 'keyup', 32);
+        triggerKeyEvent('[data-test-text-input] input', 'keyup', 32);
+        await timer.tickAsync(3001); // skip debounce
         assert.dom('#toast-container', document as any).containsText(
             t('registries.drafts.draft.form.failed_auto_save'),
             'Error toast on failed page save',
         );
+        await timer.tickAsync(5000); // skip until toast gone
 
         // Fail delete
         await click('[data-test-delete-button]');
