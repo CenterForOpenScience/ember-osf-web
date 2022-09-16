@@ -3,7 +3,7 @@
 @import url('https://fonts.googleapis.com/css?family=Bree+Serif|Coustard');
 
 .Testimonials_Container {
-    flex: 0 0 420px;
+    flex: 0 0 414px;
     height: 30%;
     max-height: 30%;
     min-height: 30%;
@@ -99,12 +99,7 @@ header {
     line-height: 48px;
     padding: 0 11%;
     margin: 0;
-    max-height: 15vh; //vh change
-    -webkit-line-clamp: 4;
-    overflow: visible;
-    /* autoprefixer: off */
-    -webkit-box-orient: vertical;
-    /* autoprefixer: on */
+    max-height: 200px;
 }
 
 .ResearcherMoreInfo {
@@ -144,9 +139,10 @@ header {
 }
 
 .Testimonial_ResearcherProfile {
-    justify-content: flex-end;
-    align-items: flex-end;
-    align-self: flex-end;
+    // justify-content: flex-end;
+    // align-items: flex-end;
+    // align-self: flex-end;
+    text-align: center;
     margin: 0px;
     padding: 0px;
 
@@ -155,10 +151,14 @@ header {
         align-items: flex-end;
         align-self: flex-end;
     }
+
+    &.isMobile {
+        text-align: center;
+    }
 }
 
 .TestimonialsMobile {
-    flex: 0 0 100vh;
+    flex: 0 0 90vh;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
@@ -186,15 +186,15 @@ header {
     justify-content: flex-start;
     width: 100vw;
     max-width: 100vw;
-    height: 50vh;
+    height: 45vh;
     max-height: 50vh;
     padding-top: 2vh;
 }
 
 .ResearcherProfileMobile > img {
+    justify-content: flex-end;
     width: 100vw;
     max-width: 100vw;
-    height: 50vh;
+    height: 45vh;
     max-height: 50vh;
-    justify-content: flex-end;
 }

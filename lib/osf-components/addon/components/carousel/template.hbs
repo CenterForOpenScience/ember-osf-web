@@ -4,6 +4,7 @@
     local-class={{if this.isMobile 'Carousel_ContainersMobile' 'Carousel_Container'}}
     aria-label={{t 'osf-components.carosel.section'}}
     tabindex='0'
+    {{on 'focus' this.registerKeyboard}}
     ...attributes
 >
     {{yield (hash header=(component 'carousel/x-header'))}}
@@ -11,6 +12,7 @@
         data-test-dot-navigation
         role='tablist'
         local-class='Carousel_DotNav'
+        id='dotNav'
         tabindex='0'
     >
         {{#each this.carouselItems as |item|}}
@@ -19,7 +21,6 @@
                 role='tab'
                 local-class={{if item.isActive 'current' ''}}
                 aria-selected={{if item.isActive 'true' 'false'}}
-                tabindex='0'
             >
                 <button
                     data-test-navigation-button
@@ -43,6 +44,7 @@
             data-test-carousel-button-previous
             data-analytics-name='Previous slide'
             local-class='btn PreviousSlide'
+            id='leftNav'
             aria-label={{t 'osf-components.carousel.previous_slide'}}
             tabindex='0'
             @type='button'
@@ -61,6 +63,7 @@
             data-test-carousel-button-next
             data-analytics-name='Next slide'
             local-class={{if this.isMobile 'btn NextSlideMobile' 'btn NextSlide'}}
+            id='rightNav'
             aria-label={{t 'osf-components.carousel.next_slide'}}
             tabindex='0'
             @type='button'

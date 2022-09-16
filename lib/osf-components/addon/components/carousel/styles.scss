@@ -4,22 +4,19 @@
 }
 
 .Carousel_Container {
-    flex: 0 0 90%;
+    flex: 0 0 414px;
     flex-direction: column;
-    margin: 0;
-    color: #365063;
+    justify-content: flex-end;
+    align-items: flex-end;
+    align-self: flex-end;
+    min-height: 414px;
+    max-height: 414px;
     background-color: #ecf0f1;
+    color: #365063;
+    margin: 0;
     z-index: 2;
 }
 
-// .Carousel_ContainersMobile {
-//     display: inline-flex;
-//     flex-direction: column;
-//     justify-content: flex-start;
-//     background-color: #ecf0f1;
-//     max-width: 100vw;
-//     max-height: 100vh;
-// }
 
 .Carousel_DotNav {
     flex: 0 0 5px;
@@ -29,7 +26,7 @@
     list-style: none;
     text-align: center;
     margin-top: 10px;
-    height: 5vh;
+    height: 10px;
 
     div > button {
         justify-content: center;
@@ -53,11 +50,12 @@
 }
 
 .Carousel_Slide {
-    display: inline-flex;
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-end;
     align-self: flex-end;
+    left: 0;
     bottom: 0;
 }
 
@@ -85,11 +83,11 @@
     justify-content: flex-start;
     align-items: center;
     align-self: center;
-    height: 100%;
     background: inherit;
-    border: 0;
-    right: 0;
     background-color: transparent;
+    height: 100%;
+    border: 0;
+    left: 0;
     margin: 0;
     padding: 0;
     z-index: 1;
@@ -100,15 +98,32 @@
     justify-content: flex-end;
     align-items: center;
     align-self: center;
-    height: 100%;
     background: inherit;
+    background-color: transparent;
+    height: 100%;
     border: 0;
     right: 0;
-    background-color: transparent;
     margin: 0;
     padding: 0;
     z-index: 1;
 }
+
+
+.Carousel_ContainersMobile {
+    display: flex;
+    flex: 0 0 90vh;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-color: #ecf0f1;
+    max-width: 100vw;
+    max-height: 100vh;
+}
+
+.PreviousSlideMobile {
+    justify-content: center;
+    align-items: center;
+}
+
 
 .NextSlideMobile {
    justify-content: center;
