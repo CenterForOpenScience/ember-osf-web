@@ -51,6 +51,7 @@ export default class Carousel extends Component {
         this.carouselItems[newIndex].set('isActive', true);
     }
 
+    // @action
     setUpLiveRegion(message: string) {
         const w = window || null;
         const document = w.document;
@@ -78,7 +79,7 @@ export default class Carousel extends Component {
     registerKeyboard() {
         // set up voice over
         let msg = 'Keyboard navigation enabled. Press lower case h to hear more.';
-        this.setUpLiveRegion(msg);
+        // this.setUpLiveRegion(msg);
         console.log('voice over set to: ', msg);
 
         // locate elements
