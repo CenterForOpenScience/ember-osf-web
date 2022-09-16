@@ -18,7 +18,7 @@
                 class='close'
                 @onClick={{action (mut this.newModal) false}}
             >
-                {{fa-icon 'times' size='sm'}}
+                <FaIcon @icon='times' @size='sm' />
             </BsButton>
             <h3>{{t 'forks.create_fork_modal'}}</h3>
         </modal.body>
@@ -56,7 +56,7 @@
             @route='guid-node.analytics'
             @models={{array this.model.guid}}
         >
-            {{fa-icon 'arrow-left'}} {{t 'forks.back'}}
+            <FaIcon @icon='arrow-left' /> {{t 'forks.back'}}
         </OsfLink>
         <p
             data-test-forks-info

@@ -25,7 +25,7 @@
                     <ul data-test-node-navbar-links class='nav navbar-nav'>
                         {{#if this.fakeParent}}
                             {{#node-navbar/link node=this.fakeParent useLinkTo=false}}
-                                {{fa-icon 'level-down-alt' rotate=180}}
+                                <FaIcon @icon='level-down-alt' @rotation={{180}} />
                             {{/node-navbar/link}}
                         {{/if}}
                         {{#node-navbar/link node=@node useLinkTo=false setActive=false extraClasses='project-title'}}
