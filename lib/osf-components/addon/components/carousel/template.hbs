@@ -2,7 +2,7 @@
     data-test-carousel-container
     data-analytics-scope='Carousel'
     local-class={{if this.isMobile 'Carousel_ContainersMobile' 'Carousel_Container'}}
-    aria-label={{t 'osf-components.carosel.section'}}
+    aria-label={{t 'osf-components.carousel.aria_label.section'}}
     tabindex='0'
     {{on 'focus' this.registerKeyboard}}
     ...attributes
@@ -12,6 +12,7 @@
         data-test-dot-navigation
         role='tablist'
         local-class='Carousel_DotNav'
+        aria-label={{t 'osf-components.carousel.aria_label.dot_nav'}}
         id='dotNav'
         tabindex='0'
     >
@@ -45,7 +46,7 @@
             data-analytics-name='Previous slide'
             local-class='btn PreviousSlide'
             id='leftNav'
-            aria-label={{t 'osf-components.carousel.previous_slide'}}
+            aria-label={{t 'osf-components.carousel.aria_label.previous_testimonial'}}
             tabindex='0'
             @type='button'
             @onClick={{action this.changeSlide 'previous'}}
@@ -64,7 +65,7 @@
             data-analytics-name='Next slide'
             local-class={{if this.isMobile 'btn NextSlideMobile' 'btn NextSlide'}}
             id='rightNav'
-            aria-label={{t 'osf-components.carousel.next_slide'}}
+            aria-label={{t 'osf-components.carousel.aria_label.next_testimonial'}}
             tabindex='0'
             @type='button'
             @onClick={{action this.changeSlide 'next'}}

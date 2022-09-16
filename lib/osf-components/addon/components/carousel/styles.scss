@@ -50,6 +50,7 @@
 
 .Carousel_Slide {
     display: flex;
+    flex: 0 0 100%; // added Friday
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-end;
