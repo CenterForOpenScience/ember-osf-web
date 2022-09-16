@@ -4,13 +4,12 @@
 }
 
 .Carousel_Container {
-    flex: 0 0 414px;
+    flex: 0 0 100%;
     flex-direction: column;
     justify-content: flex-end;
-    align-items: flex-end;
+    align-items: baseline;
     align-self: flex-end;
-    min-height: 414px;
-    max-height: 414px;
+    bottom: 0;
     background-color: #ecf0f1;
     color: #365063;
     margin: 0;

@@ -3,10 +3,9 @@
 @import url('https://fonts.googleapis.com/css?family=Bree+Serif|Coustard');
 
 .Testimonials_Container {
-    flex: 0 0 414px;
-    height: 30%;
-    max-height: 30%;
-    min-height: 30%;
+    flex: 0 0 424px;
+    min-height: 424px;
+    max-height: 424px;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
@@ -42,7 +41,7 @@ header {
 }
 
 .slide-content {
-    display: inline-flex;
+    display: flex;
     flex: 0 0 50%;
     flex-direction: row;
     justify-content: center;
@@ -139,9 +138,9 @@ header {
 }
 
 .Testimonial_ResearcherProfile {
-    // justify-content: flex-end;
-    // align-items: flex-end;
-    // align-self: flex-end;
+    justify-content: flex-end;
+    align-items: flex-end;
+    align-self: flex-end;
     text-align: center;
     margin: 0px;
     padding: 0px;
