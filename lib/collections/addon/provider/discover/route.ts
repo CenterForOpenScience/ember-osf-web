@@ -17,7 +17,7 @@ export default class ProviderDiscover extends Route {
     buildRouteInfoMetadata() {
         return {
             osfMetrics: {
-                searchProviderId: this.theme.id,
+                isSearch: true,
             },
         };
     }

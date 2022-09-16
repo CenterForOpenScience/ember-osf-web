@@ -44,9 +44,10 @@ export interface InitialEventInfo {
     nonInteraction?: boolean;
 }
 
-export interface RouteMetricsInfo {
+export interface RouteMetricsMetadata {
     itemGuid?: string;
-    searchProviderId?: string;
+    isSearch?: boolean;
+    providerId?: string;
 }
 
 type PageviewActionLabel = 'web' | 'view' | 'search';
@@ -330,11 +331,11 @@ export default class Analytics extends Service {
     }
 
     _getPageviewPayload() {
-        const routeMetrics = this._getRouteMetricsInfo();
+        const routeMetricsMetadata = this._getRouteMetricsMetadata();
         const all_attrs = {
-            item_guid: routeMetrics.itemGuid,
-            provider_id: routeMetrics.searchProviderId,
-            action_labels: this._getPageviewActionLabels(routeMetrics),
+            item_guid: routeMetricsMetadata.itemGuid,
+            provider_id: routeMetricsMetadata.providerId,
+            action_labels: this._getPageviewActionLabels(routeMetricsMetadata),
             client_session_id: this._sessionId,
         } as const;
         const attributes = Object.fromEntries(
@@ -374,22 +375,27 @@ export default class Analytics extends Service {
         return sessionId;
     }
 
-    _getRouteMetricsInfo(routeInfo?: any): RouteMetricsInfo {
-        const thisRouteInfo = (routeInfo || this.router.currentRoute);
-        if (thisRouteInfo?.metadata?.osfMetrics) {
-            return thisRouteInfo.metadata.osfMetrics;
+    _getRouteMetricsMetadata(): RouteMetricsMetadata {
+        // build list of `osfMetrics` values from all current active routes
+        // for merging, ordered from root to leaf (so values from leafier
+        // routes can override those from rootier routes)
+        const metricsMetadatums = [];
+        let currentRouteInfo = this.router.currentRoute;
+        while (currentRouteInfo) {
+            if (currentRouteInfo.metadata?.osfMetrics) {
+                metricsMetadatums.unshift(currentRouteInfo.metadata.osfMetrics);
+            }
+            currentRouteInfo = currentRouteInfo.parent;
         }
-        if (thisRouteInfo?.parent) {
-            return this._getRouteMetricsInfo(thisRouteInfo.parent);
-        }
-        return {};
+        const mergedMetricsMetadata = Object.assign({}, ...metricsMetadatums);
+        return mergedMetricsMetadata;
     }
 
-    _getPageviewActionLabels(routeMetrics: RouteMetricsInfo): PageviewActionLabel[] {
+    _getPageviewActionLabels(routeMetricsMetadata: RouteMetricsMetadata): PageviewActionLabel[] {
         const actionLabelMap: Record<PageviewActionLabel, Boolean> = {
             web: true,
-            view: Boolean(routeMetrics.itemGuid),
-            search: Boolean(routeMetrics.searchProviderId),
+            view: Boolean(routeMetricsMetadata.itemGuid),
+            search: Boolean(routeMetricsMetadata.isSearch),
         };
         const labels = Object.keys(actionLabelMap) as PageviewActionLabel[];
         return labels.filter(label => actionLabelMap[label]);

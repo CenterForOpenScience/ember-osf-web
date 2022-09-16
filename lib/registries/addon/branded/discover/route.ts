@@ -24,7 +24,7 @@ export default class BrandedRegistriesDiscoverRoute extends Route {
     buildRouteInfoMetadata() {
         return {
             osfMetrics: {
-                searchProviderId: this.controller.model.id,
+                isSearch: true,
             },
         };
     }

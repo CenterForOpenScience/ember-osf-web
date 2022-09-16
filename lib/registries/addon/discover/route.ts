@@ -4,7 +4,8 @@ export default class RegistriesDiscoverRoute extends Route {
     buildRouteInfoMetadata() {
         return {
             osfMetrics: {
-                searchProviderId: 'osf',
+                isSearch: true,
+                providerId: 'osf',
             },
         };
     }

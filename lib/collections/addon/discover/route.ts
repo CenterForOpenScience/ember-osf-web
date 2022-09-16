@@ -18,7 +18,8 @@ export default class Discover extends Route {
     buildRouteInfoMetadata() {
         return {
             osfMetrics: {
-                searchProviderId: 'osf',
+                isSearch: true,
+                providerId: 'osf',
             },
         };
     }

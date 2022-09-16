@@ -96,10 +96,15 @@ didTransition() {
 
 In route handlers that have pageview-related metadata, implement
 [`Route.buildRouteInfoMetadata()`](https://api.emberjs.com/ember/3.26/classes/Route/methods/buildRouteInfoMetadata?anchor=buildRouteInfoMetadata)
-to return an object. Currently only two values on the returned
-`metadata` object will have consequence: `metadata.osfMetrics.itemGuid`
-(for route handlers that directly handle the guid from the URL) and
-`metadata.osfMetrics.searchProviderId` (for route handlers of search/discover pages).
+to return an object. Currently only a few values on the returned
+`metadata` object will have any consequence:
+- `metadata.osfMetrics.itemGuid`, for route handlers that directly
+  handle the guid from the URL
+- `metadata.osfMetrics.providerId`, for route handlers that have a
+  provider of some kind (if missing, `providerId` will be auto-filled
+  based on `itemGuid`, so this is mostly important for branded, non-guid
+  pages)
+- `metadata.osfMetrics.isSearch`, should be `true` for discover pages
 
 Examples:
 ```ts
@@ -117,7 +122,8 @@ buildRouteInfoMetadata() {
 buildRouteInfoMetadata() {
     return {
         osfMetrics: {
-            searchProviderId: 'osf',
+            isSearch: true,
+            providerId: 'osf',
         },
     };
 }

@@ -26,4 +26,12 @@ export default class BrandedRegistriesRoute extends Route {
             this.set('headTags', headTags);
         }
     }
+
+    buildRouteInfoMetadata() {
+        return {
+            osfMetrics: {
+                providerId: this.controller.model.id,
+            },
+        };
+    }
 }

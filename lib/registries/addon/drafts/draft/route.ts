@@ -64,4 +64,12 @@ export default class DraftRegistrationRoute extends Route {
             draftRegistrationManager,
         };
     }
+
+    buildRouteInfoMetadata() {
+        return {
+            osfMetrics: {
+                providerId: this.controller.model.draftRegistrationManager.provider?.id,
+            },
+        };
+    }
 }
