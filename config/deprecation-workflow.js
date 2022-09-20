@@ -3,7 +3,6 @@ self.deprecationWorkflow.config = {
     workflow: [
         { handler: 'silence', matchId: 'ember.globals-resolver' },
         { handler: 'silence', matchId: 'ember-inflector.globals' },
-        { handler: 'silence', matchId: 'ember-metal.get-with-default' },
         { handler: 'silence', matchId: 'computed-property.volatile' },
         { handler: 'silence', matchId: 'deprecate-router-events' },
         { handler: 'silence', matchId: 'implicit-injections' },
@@ -20,5 +19,9 @@ self.deprecationWorkflow.config = {
         { handler: 'silence', matchId: 'ember-engines.deprecation-camelized-engine-names' },
         { handler: 'silence', matchId: 'ember-data:legacy-test-helper-support' },
         { handler: 'silence', matchId: 'has-block-and-has-block-params' },
+        { handler: 'silence', matchId: 'ember-simple-auth.initializer.setup-session-restoration' },
+        { handler: 'silence', matchId: 'ember-simple-auth.events.session-service' },
+        { handler: 'silence', matchId: 'ember-cli-mirage.miragejs.import' },
+        { handler: 'silence', matchId: 'ember-cli-mirage-config-routes-only-export' },
     ],
 };
