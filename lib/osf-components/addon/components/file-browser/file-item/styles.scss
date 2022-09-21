@@ -68,7 +68,7 @@
 .FileList__item__options {
     display: flex;
     align-items: center;
-    flex: 1;
+    padding-right: 2vw;
 }
 
 .FileList__item__name {
@@ -83,6 +83,12 @@
 
 .name__mobile {
     flex: 7;
+}
+
+.FileList__item__download_count {
+    display: flex;
+    flex: auto;
+    align-items: center;
 }
 
 .FileList__item__size {

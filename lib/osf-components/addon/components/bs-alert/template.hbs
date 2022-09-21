@@ -6,7 +6,7 @@
             aria-label={{t 'general.close'}}
             {{on 'click' this.dismiss}}
         >
-            <span aria-hidden='true'>{{fa-icon 'times'}}</span>
+            <span aria-hidden='true'><FaIcon @icon='times' /></span>
         </button>
     {{/if}}
     {{yield}}

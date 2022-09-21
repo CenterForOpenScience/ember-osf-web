@@ -15,10 +15,10 @@
         @onClick={{action this.toggleShowSecret}}
     >
         {{#if this.shouldShowSecret}}
-            {{fa-icon 'eye-slash'}}
+            <FaIcon @icon='eye-slash' />
             {{t 'settings.developer-apps.hideSecret'}}
         {{else}}
-            {{fa-icon 'eye'}}
+            <FaIcon @icon='eye' />
             {{t 'settings.developer-apps.showSecret'}}
         {{/if}}
     </BsButton>
