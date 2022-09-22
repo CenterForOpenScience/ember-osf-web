@@ -1,6 +1,5 @@
 import { getOwner } from '@ember/application';
 import Store from '@ember-data/store';
-import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
@@ -10,7 +9,6 @@ import { taskFor } from 'ember-concurrency-ts';
 
 import requireAuth from 'ember-osf-web/decorators/require-auth';
 import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
-import Analytics from 'ember-osf-web/services/analytics';
 import captureException from 'ember-osf-web/utils/capture-exception';
 import { notFoundURL } from 'ember-osf-web/utils/clean-url';
 import RevisionNavigationManager from 'registries/edit-revision/nav-manager';
@@ -22,7 +20,6 @@ export interface EditRevisionRouteModel {
 
 @requireAuth()
 export default class EditRevisionRoute extends Route {
-    @service analytics!: Analytics;
     @service store!: Store;
     @service router!: RouterService;
 
@@ -61,10 +58,5 @@ export default class EditRevisionRoute extends Route {
             navigationManager,
             revisionManager,
         };
-    }
-
-    @action
-    didTransition() {
-        this.analytics.trackPage();
     }
 }

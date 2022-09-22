@@ -101,7 +101,7 @@ module.exports = function(environment) {
         metricsAdapters: [
             {
                 name: 'GoogleAnalytics',
-                environments: ['all'],
+                environments: GOOGLE_ANALYTICS_ID ? ['all'] : [],
                 config: {
                     id: GOOGLE_ANALYTICS_ID,
                     setFields: {

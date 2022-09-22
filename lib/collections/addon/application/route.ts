@@ -1,6 +1,8 @@
+import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
+import Analytics from 'ember-osf-web/services/analytics';
 import Theme from 'ember-osf-web/services/theme';
 
 export default class Application extends Route.extend({
@@ -17,4 +19,10 @@ export default class Application extends Route.extend({
     },
 }) {
     @service theme!: Theme;
+    @service analytics!: Analytics;
+
+    @action
+    didTransition() {
+        this.analytics.trackPage();
+    }
 }
