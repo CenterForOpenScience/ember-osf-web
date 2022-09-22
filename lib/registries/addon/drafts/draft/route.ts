@@ -1,6 +1,5 @@
 import Store from '@ember-data/store';
 import { getOwner } from '@ember/application';
-import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
@@ -12,7 +11,6 @@ import requireAuth from 'ember-osf-web/decorators/require-auth';
 import DraftRegistration from 'ember-osf-web/models/draft-registration';
 import ProviderModel from 'ember-osf-web/models/provider';
 import SubjectModel from 'ember-osf-web/models/subject';
-import Analytics from 'ember-osf-web/services/analytics';
 import captureException from 'ember-osf-web/utils/capture-exception';
 import { notFoundURL } from 'ember-osf-web/utils/clean-url';
 import DraftRegistrationManager, { LoadDraftModelTask } from 'registries/drafts/draft/draft-registration-manager';
@@ -25,7 +23,6 @@ export interface DraftRouteModel {
 
 @requireAuth()
 export default class DraftRegistrationRoute extends Route {
-    @service analytics!: Analytics;
     @service store!: Store;
     @service router!: RouterService;
 
@@ -68,8 +65,11 @@ export default class DraftRegistrationRoute extends Route {
         };
     }
 
-    @action
-    didTransition() {
-        this.analytics.trackPage();
+    buildRouteInfoMetadata() {
+        return {
+            osfMetrics: {
+                providerId: this.controller.model.draftRegistrationManager.provider?.id,
+            },
+        };
     }
 }
