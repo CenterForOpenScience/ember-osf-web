@@ -1,7 +1,5 @@
 // stylelint-disable selector-no-qualifying-type
 li.active {
-    left: 0;
-    display: block;
-    // justify-content: flex-end;
-    // max-height: 80%;
+    grid-area: liActive;
+    display: flex;
 }

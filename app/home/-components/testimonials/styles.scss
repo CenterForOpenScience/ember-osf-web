@@ -1,198 +1,145 @@
 // stylelint-disable
 @import url('https://fonts.googleapis.com/css?family=Bree+Serif|Coustard');
 
+.visually-hidden {
+    display: none;
+}
+
 .Testimonials_Container {
-    flex: 0 0 424px;
-    min-height: 424px;
-    max-height: 424px;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    text-align: center;
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: minmax(min-content, 1fr);
+    grid-template-areas:
+        "head"
+        "slideData";
     background-color: #ecf0f1;
-
-    .description-bold {
-        font-weight: 700;
-
-        a {
-            color: #2f6fa7;
-        }
-    }
 }
 
 header {
-    flex: 0 0 22px;
+    grid-area: head;
     justify-content: center;
-    align-items: center;
     text-align: center;
-    top: 0;
-    
+    background-color: #ecf0f1;
+    padding: 10px 20px 0px;
+
     h1 {
-        justify-content: center;
-        align-items: center;
-        font-size: 4.9vmin; 
-        font-weight: 600;
         text-align: center;
         font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-size: 5.0vmin;
+        font-weight: 600;
         color: #263947;
-        padding-top: 22px;
+        margin-bottom: 3px;
+        margin-top: 27px;
     }
 }
 
 .slide-content {
-    display: flex;
-    flex: 0 0 50%;
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-start;
-    margin: 0;
-    padding: 0;
-    // left: 0;
+    grid-area: slideData;
 }
 
-.slide-content-mobile {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    text-align: center;
+.slide-content > li {
+    grid-template-areas:
+        "researchLeft researcherProfile";
+    justify-content: flex-end;
+    align-items: flex-end;
+    bottom: 0;
+    width: 100%;
+    object-fit: cover;
+    max-height: 420px;
 }
 
 .Testimonial_Left {
-    display: flex;
-    flex-direction: column;
+    grid-area: researchLeft;
+    margin: 0;
+    padding-bottom: 3px;
+    position: absolute;
+    left: -83px;
+    height: 100%;
+    width: 100%;
+    top: 33px;
     justify-content: flex-start;
-    align-items: flex-start;
-    text-align: center;
-    background: transparent;
 }
 
 .Testimonial_Left > span {
     text-align: center;
+    margin-right: 5%;
 
     p,
     a {
         font-family: 'Open Sans';
         font-size: 16px;
         text-align: center;
-        line-height: 1.4;
+        line-height: 0.7vh;
+        padding: 6px 0px 9px;
+        margin: 3px 0px;
     }
 }
 
 .SingleQuote {
-    justify-content: flex-start;
-    font-size: 6vmin;
     font-family: Coustard;
     color: #a5b3bd;
-    padding: 0px;
-    margin: 0px;
+    justify-content: center;
+    font-size: 6.0vmin;
+    line-height: 40px;
+    text-decoration: none solid #a5b3bd;
+    margin: -11px 0px 0px;
+    top: -31px;
+    width: 100%;
+    position: absolute;
 }
 
 .ResearcherQuote {
-    justify-content: flex-start;
+    grid-area: researcherQuote;
     font-family: 'Bree Serif';
-    font-size: 3.4vmin;
     font-weight: 400;
+    color: #365063;
     text-align: center;
     text-decoration: none solid rgb(165, 179, 189);
+    justify-content: flex-start;
+    font-size: 3.4vmin;
     line-height: 48px;
-    padding: 0 11%;
-    margin: 0;
-    max-height: 200px;
+    padding: 1px 11% 6px;
+    margin: -11px -60px 0px;
 }
 
 .ResearcherMoreInfo {
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding: 1vh 0vh 5vh;
+    color: #365063;
+    padding: 0px 0px 43px;
 }
 
 .ResearcherQuote_Small {
     justify-content: flex-start;
     font-family: 'Bree Serif';
-    font-size: 2vmin;
+    font-size: 2.0vh;
     font-weight: 500;
-    padding: 0 11%;
-    -webkit-line-clamp: 7;
-    overflow: visible;
-    /* autoprefixer: off */
-    -webkit-box-orient: vertical;
-    /* autoprefixer: on */
+    color: #365063;
+    padding: 0px 0% 0px;
+    margin: -19px 3px 0px; // do not change
+    line-height: 3.13vh;
 }
 
 .ResearcherMoreInfoSmall {
-    margin: 0px;
-    padding: 1vh 1vh 1.5vh;
+    margin: 8px 0px 0px;
+    padding: 0px 0vh 0px;
+    line-height: 2.6vh;
+    width: 100%;
+    position: absolute;
 }
 
-.ResearcherMoreInfo p:nth-of-type(1) {
+.Testimonial_Left p:nth-of-type(1) {
+    font-weight: 700;
+}
+.Testimonial_Left p:nth-of-type(3) {
+    padding: 6px 0px 7px;
+}
+
+.Testimonial_Left a:nth-of-type(1) {
     font-weight: 700;
 }
 
-.ResearcherMoreInfo p:nth-of-type(2) {
-    font-weight: 300;
-}
-
-.ResearcherMoreInfo p:nth-of-type(3) {
-    font-weight: 300;
-}
-
 .Testimonial_ResearcherProfile {
-    justify-content: flex-end;
-    align-items: flex-end;
-    align-self: flex-end;
-    text-align: center;
-    margin: 0px;
-    padding: 0px;
-
-    img {
-        justify-content: flex-end;
-        align-items: flex-end;
-        align-self: flex-end;
-    }
-
-    &.isMobile {
-        text-align: center;
-    }
-}
-
-.TestimonialsMobile {
-    flex: 0 0 90vh;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    text-align: center;
-    background-color: #ecf0f1;
-
-    header {
-        text-align: center;
-        width: 100vw;
-        max-width: 100vw;
-        height: 10vh;
-    }
-
-    h1 {
-        font-size: 6.0vmin;
-        font-weight: 600;
-        text-align: center;
-        font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
-        color: #263947;
-        margin: 0 20px;
-    }
-}
-
-.Testimonial_LeftMobile {
-    justify-content: flex-start;
-    width: 100vw;
-    max-width: 100vw;
-    height: 45vh;
-    max-height: 50vh;
-    padding-top: 2vh;
-}
-
-.ResearcherProfileMobile > img {
-    justify-content: flex-end;
-    width: 100vw;
-    max-width: 100vw;
-    height: 45vh;
-    max-height: 50vh;
+    grid-area: researcherProfile;
+    position: relative;
+    left: 522px;
+    bottom: -10px;
 }

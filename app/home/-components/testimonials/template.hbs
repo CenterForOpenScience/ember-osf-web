@@ -1,7 +1,7 @@
 <section
         data-test-testimonials-container
         class='carousel-tablist'
-        local-class={{if this.isMobile 'TestimonialsMobile' 'Testimonials_Container'}}
+        local-class='Testimonials_Container'
         aria-label={{t 'new-home.testimonials.carousel_heading'}}
         tabindex='0'
         {{track-scroll 'Testimonials section'}}
@@ -18,15 +18,15 @@
             </h2>
         </carousel.header>
         <carousel.slide data-test-testimonials-slide-1>
-            <div local-class={{if this.isMobile 'slide-content-mobile' 'slide-content'}} tabindex='0'>
-                <div local-class={{if this.isMobile 'Testimonial_LeftMobile' 'Testimonial_Left'}} tabindex='0'>
+            <div local-class='slide-content' tabindex='0'>
+                <div local-class='Testimonial_Left' tabindex='0'>
                     <span>
                         <div local-class='SingleQuote' tabindex='0'>
                             {{t 'new-home.testimonials.single_quote'}}
                         </div>
-                        <blockquote local-class='ResearcherQuote' tabindex='0'>
+                        <div local-class='ResearcherQuote' tabindex='0'>
                             {{t 'new-home.testimonials.slide_1.text'}}
-                        </blockquote>
+                        </div>
                         <div local-class='ResearcherMoreInfo' tabindex='0'>
                             <p local-class='description-bold' tabindex='0'>{{t 'new-home.testimonials.slide_1.description.name'}}</p>
                             <p tabindex='0'>{{t 'new-home.testimonials.slide_1.description.position' htmlSafe=true}}</p>
@@ -42,7 +42,7 @@
                         </div>
                     </span>
                 </div>
-                <div local-class={{if this.isMobile 'ResearcherProfileMobile' 'Testimonial_ResearcherProfile'}} tabindex='0'>
+                <div local-class='Testimonial_ResearcherProfile' tabindex='0'>
                     <img
                         local-class='slide-image'
                         src='/assets/images/new-home/ayala-patricia.png'
@@ -56,15 +56,16 @@
             <div local-class={{if this.isMobile 'slide-content-mobile' 'slide-content'}} tabindex='0'>
                 <div local-class={{if this.isMobile 'Testimonial_LeftMobile' 'Testimonial_Left'}} tabindex='0'>
                     <span>
-                        <blockquote local-class='SingleQuote' tabindex='0'>
+                        <div local-class='SingleQuote' tabindex='0'>
                             {{t 'new-home.testimonials.single_quote'}}
-                        </blockquote>
-                        <blockquote local-class='ResearcherQuote_Small' tabindex='0'>
+                        </div>
+                        <div local-class='ResearcherQuote_Small' tabindex='0'>
                             {{t 'new-home.testimonials.slide_2.text'}}
-                        </blockquote>
-                        <div local-class='ResearcherMoreInfo'>
+                        </div>
+                        <div local-class='ResearcherMoreInfoSmall'>
                             <p local-class='description-bold' tabindex='0'>{{t 'new-home.testimonials.slide_2.description.name'}}</p>
                             <p tabindex='0'>{{t 'new-home.testimonials.slide_2.description.position' htmlSafe=true}}</p>
+                            <p tabindex='0'>{{t 'new-home.testimonials.slide_2.description.institution' htmlSafe=true}}</p>
                             <OsfLink
                                 data-analytics-name='View research'
                                 local-class='description-bold'
@@ -90,15 +91,15 @@
             <div local-class={{if this.isMobile 'slide-content-mobile' 'slide-content'}} tabindex='0'>
                 <div local-class={{if this.isMobile 'Testimonial_LeftMobile' 'Testimonial_Left'}} tabindex='0'>
                     <span>
-                        <blockquote local-class='SingleQuote' tabindex='0'>
+                        <div local-class='SingleQuote' tabindex='0'>
                             {{t 'new-home.testimonials.single_quote'}}
-                        </blockquote>
-                        <blockquote local-class='ResearcherQuote_Small' tabindex='0'>
+                        </div>
+                        <div local-class='ResearcherQuote_Small' tabindex='0'>
                             {{t 'new-home.testimonials.slide_3.text'}}
-                        </blockquote>
+                        </div>
                         <div local-class='ResearcherMoreInfoSmall'>
                             <p local-class='description-bold' tabindex='0'>{{t 'new-home.testimonials.slide_3.description.name'}}</p>
-                            <p tabindex='0'>{{t 'new-home.testimonials.slide_3.description.position' htmlSafe=true}}</p>
+                            <p tabindex='0'>{{t 'new-home.testimonials.slide_3.description.institution' htmlSafe=true}}</p>
                             <OsfLink
                                 data-analytics-name='View research'
                                 local-class='description-bold'

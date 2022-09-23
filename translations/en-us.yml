@@ -403,13 +403,15 @@ new-home:
             alt: 'Epidemiologist Maya Mathur of Harvard University esteems third party add-on options such as Dropbox, Amazon S3, GitHub, OneDrive and more offered by the Open Science Framework.'
             description:
                 name: 'Maya Mathur'
-                position: 'Department of Epidemiology<br>Harvard University'
+                position: 'Department of Epidemiology'
+                institution: 'Harvard University'
         slide_3:
             text: "Because SocArXiv is a not-for-profit organization, researchers can be assured that they are sharing their research in an environment where access, inclusivity, and preservation, rather than profit, will remain at the heart of the mission. A great benefit of partnering with OSF is that this\n application is a free public good."
             alt: 'Sociologist Philip Cohen speaks to the community gains provided by the OSF for the social sciences, arts and humanities, education, and law open science disciplines.'
             description:
                 name: 'Philip Cohen'
-                position: 'SocArXiv papers'
+                position: 'Psychologist'
+                institution: 'SocArXiv papers'
     integrations-section:
         header: 'OSF integrations make your workflow more efficient'
         authentication: Authentication
@@ -1829,14 +1831,14 @@ osf-components:
             subheading: 'Labs and teams across the globe use OSF to open their projects up to the scientific community.'
     carousel:
         current_slide: '(Current Slide)'
-        previous_slide: 'Previous slide'
-        next_slide: 'Next slide'
+        previous_slide: 'Previous slide button'
+        next_slide: 'Next slide button'
         go_to_slide: 'Go to slide {slideIndex}'
         aria_label:
             section: 'Open Science Framework (OSF) Researcher Testimonial Slides'
-            previous_testimonial: 'Previous testimonial'
-            next_testimonial: 'Next testimonial'
-            slides: 'Slide navigator'
+            previous_testimonial: 'Press Control + lowercase f for previous testimonial'
+            next_testimonial: 'Press Control + lowercase j for next testimonial'
+            dot_nav: 'OSF dot navigator. Press Control + d to focus the dot navigation. Tab over buttons and press Enter or Return to change the current slide.'
     open-badges-list:
         title: 'Open resources'
         open-data: 'Data'
