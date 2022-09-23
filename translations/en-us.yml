@@ -426,6 +426,20 @@ new-home:
         zotero: 'Zotero logo'
         dropbox: 'Dropbox logo'
         google_drive: 'Google Drive logo'
+    voice-over:
+        page_welcome_home: "Welcome to OSF Home."
+        page_options_home: "You are currently logged out. Here you will find: \n\t1) OSF Products \n\t2) Sign in \n\t3) Sign up \n\t4) Main content \n\t5) Search the OSF \n\t6) OSF Support \n\t7) Donate \n\t8) Learn more about the OSF \n\t9) OSF Testimonials and \n\t10) Third-party Integrations and Add-ons available within the OSF."
+        skip_to_products: 'Press 1 for a dropdown of available OSF products.'
+        skip_to_sign_in: 'Press 2 or Enter to go to the Open Science Framework sign in page.'
+        skip_to_sign_up: 'Press 3 or Enter to sign up for the Open Science Framework.'
+        skip_to_main_content: 'Press 4 or Enter to go to the main content of this page.'
+        skip_to_search: 'Press 5 or Enter to search the OSF.'
+        skip_to_support: 'Press 6 or Enter to go to the OSF Support page.'
+        skip_to_donate: 'Press 7 or Enter to donate to the OSF. Your donation helps support open science best practices around the world.'
+        skip_to_learn_more: 'Press 8 or Enter to learn how the OSF can help support your research.'
+        skip_to_testimonials: 'Press 9 or Enter to jump to the Testimonials Section.'
+        skip_to_integrations: 'Press 10 or Enter to jump to the third party integrations available.'
+        redirect_message: 'You will leave the current page.'
 tos_consent:
     paragraph: 'We''ve updated our <a href="{link1}">Terms of Use</a> and <a href="{link2}">Privacy Policy</a>. Please read them carefully.'
     have_read_and_agree: 'I have read and agree to these terms.'

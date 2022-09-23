@@ -1,0 +1,45 @@
+.keyboard-activated {
+    // display: none;
+    width: 5%;
+    height: 100%;
+    z-index: 1;
+    background: #c5d6e6 url('/assets/images/dashboard/bg6.jpg') top center repeat-y;
+    background-size: cover;
+    color: $color-text-gray-dark;
+    text-align: left;
+    border: 2px solid $color-border-gray-darker;
+    position: absolute;
+    left: -10%;
+
+    .osf-home-logo {
+        justify-content: center;
+
+        img {
+            flex: 1;
+            width: 100%;
+            align-items: center;
+            border-radius: 50%;
+        }
+    }
+
+    h2 {
+        text-align: center;
+        background-color: $color-bg-blue-darker;
+        width: 100%;
+        height: 10%;
+        flex: 1;
+        color: #fff;
+    }
+
+    &:focus {
+        width: 15%;
+        height: 100%;
+        animation: slide-in 0.5s forwards;
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@keyframes slide-in {
+    100% { transform: translateX(80%); }
+}

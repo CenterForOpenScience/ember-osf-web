@@ -1,6 +1,37 @@
+<div local-class='keyboard-activated skip-link' tabindex='0'>
+    <div local-class='osf-home-logo'>
+        <img src='/assets/images/dashboard/logo_spin.png' alt={{t 'new-home.voice-over.osf_logo_alt_text'}}>
+    </div>
+    <h2>
+        {{t 'new-home.voice-over.page_welcome_home'}}
+    </h2>
+    <div>
+        {{t 'new-home.voice-over.page_options_home'}}
+    </div>
+    <a href='#optionFourMainContent' tabindex='0'>
+        {{t 'new-home.voice-over.skip_to_main_content'}}
+    </a>
+    <a href='#optionEightLearnMore' tabindex='0'>
+        {{t 'new-home.voice-over.skip_to_learn_more'}}
+    </a>
+    <a href='#optionNineTestimonials' tabindex='0'>
+        {{t 'new-home.voice-over.skip_to_testimonials'}}
+    </a>
+    <a href='#optionTenIntegrationsAndAddOns' tabindex='0'>
+        {{t 'new-home.voice-over.skip_to_integrations'}}
+    </a>
+</div>
 <main data-analytics-scope='Home'>
-    <Home::-Components::HeroBanner />
-    <Home::-Components::SupportSection />
-    <Home::-Components::Testimonials />
-    <Home::-Components::IntegrationsSection />
+    <div id='optionFourMainContent'>
+        <Home::-Components::HeroBanner />
+    </div>
+    <div id='optionEightLearnMore'>
+        <Home::-Components::SupportSection/>
+    </div>
+    <div id='optionNineTestimonials'>
+        <Home::-Components::Testimonials/>
+    </div>
+    <div id='optionTenIntegrationsAndAddOns'>
+        <Home::-Components::IntegrationsSection/>
+    </div>
 </main>

@@ -12,6 +12,11 @@ export default class Home extends Controller {
 
     @alias(`features.${camelize(ABTesting.homePageHeroTextVersionB)}`)
     shouldShowVersionB!: boolean;
+
+
+    registerKeyboard() {
+        // TODO event listeners here
+    }
 }
 
 declare module '@ember/controller' {
