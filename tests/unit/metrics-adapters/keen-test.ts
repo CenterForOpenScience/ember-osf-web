@@ -34,6 +34,9 @@ module('Unit | Metrics Adapter | keen ', hooks => {
 
         const trackPublic = this.sandbox.stub(adapter, 'trackPublicEvent');
         const trackPrivate = this.sandbox.stub(adapter, 'trackPrivateEvent');
+        this.owner.register('service:router', Service.extend({
+            currentRouteName: 'foo',
+        }));
 
         const mirageNode = server.create('node', { public: true });
         const node = await store.findRecord('node', mirageNode.id);
@@ -52,6 +55,9 @@ module('Unit | Metrics Adapter | keen ', hooks => {
 
         const trackPublic = this.sandbox.stub(adapter, 'trackPublicEvent');
         const trackPrivate = this.sandbox.stub(adapter, 'trackPrivateEvent');
+        this.owner.register('service:router', Service.extend({
+            currentRouteName: 'foo',
+        }));
 
         const mirageNode = server.create('node', { public: false });
         const node = await store.findRecord('node', mirageNode.id);
@@ -69,6 +75,9 @@ module('Unit | Metrics Adapter | keen ', hooks => {
 
         const trackPublic = this.sandbox.stub(adapter, 'trackPublicEvent');
         const trackPrivate = this.sandbox.stub(adapter, 'trackPrivateEvent');
+        this.owner.register('service:router', Service.extend({
+            currentRouteName: 'foo',
+        }));
 
         this.sandbox.stub(adapter, 'getCurrentNode').resolves(undefined);
 

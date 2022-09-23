@@ -20,6 +20,7 @@ import { createFork, createRegistrationFork } from './views/fork';
 import { guidDetail } from './views/guid';
 import { identifierCreate } from './views/identifier';
 import { summaryMetrics } from './views/institution';
+import { postCountedUsage } from './views/metrics';
 import { addModerator } from './views/moderator';
 import { createNode, storageStatus } from './views/node';
 import { osfNestedResource, osfResource, osfToManyRelationship } from './views/osf-resource';
@@ -353,4 +354,7 @@ export default function(this: Server) {
         only: ['related'],
         path: '/meetings/:parentID/submissions/',
     });
+
+    // usage reporting
+    this.post('/metrics/events/counted_usage/', postCountedUsage);
 }
