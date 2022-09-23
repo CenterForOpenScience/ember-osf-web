@@ -1,7 +1,7 @@
 <section
         data-test-testimonials-container
         class='carousel-tablist'
-        local-class='Testimonials_Container'
+        local-class='testimonials-container'
         aria-label={{t 'new-home.testimonials.carousel_heading'}}
         tabindex='0'
         {{track-scroll 'Testimonials section'}}
@@ -19,15 +19,15 @@
         </carousel.header>
         <carousel.slide data-test-testimonials-slide-1>
             <div local-class='slide-content' tabindex='0'>
-                <div local-class='Testimonial_Left' tabindex='0'>
+                <div local-class='testimonials-left' tabindex='0'>
                     <span>
-                        <div local-class='SingleQuote' tabindex='0'>
+                        <div local-class='single-quote' tabindex='0'>
                             {{t 'new-home.testimonials.single_quote'}}
                         </div>
-                        <div local-class='ResearcherQuote' tabindex='0'>
+                        <div local-class='researcher-quote' tabindex='0'>
                             {{t 'new-home.testimonials.slide_1.text'}}
                         </div>
-                        <div local-class='ResearcherMoreInfo' tabindex='0'>
+                        <div local-class='researcher-more-info' tabindex='0'>
                             <p local-class='description-bold' tabindex='0'>{{t 'new-home.testimonials.slide_1.description.name'}}</p>
                             <p tabindex='0'>{{t 'new-home.testimonials.slide_1.description.position' htmlSafe=true}}</p>
                             <p tabindex='0'>{{t 'new-home.testimonials.slide_1.description.institution'}}</p>
@@ -42,7 +42,7 @@
                         </div>
                     </span>
                 </div>
-                <div local-class='Testimonial_ResearcherProfile' tabindex='0'>
+                <div local-class='testimonial-researcher-profile' tabindex='0'>
                     <img
                         local-class='slide-image'
                         src='/assets/images/new-home/ayala-patricia.png'
@@ -54,15 +54,15 @@
         </carousel.slide>
         <carousel.slide data-test-testimonials-slide-2>
             <div local-class={{if this.isMobile 'slide-content-mobile' 'slide-content'}} tabindex='0'>
-                <div local-class={{if this.isMobile 'Testimonial_LeftMobile' 'Testimonial_Left'}} tabindex='0'>
+                <div local-class={{if this.isMobile 'testimonials-left-mobile' 'testimonials-left'}} tabindex='0'>
                     <span>
-                        <div local-class='SingleQuote' tabindex='0'>
+                        <div local-class='single-quote' tabindex='0'>
                             {{t 'new-home.testimonials.single_quote'}}
                         </div>
-                        <div local-class='ResearcherQuote_Small' tabindex='0'>
+                        <div local-class='researcher-quote-small' tabindex='0'>
                             {{t 'new-home.testimonials.slide_2.text'}}
                         </div>
-                        <div local-class='ResearcherMoreInfoSmall'>
+                        <div local-class='researcher-more-info-small'>
                             <p local-class='description-bold' tabindex='0'>{{t 'new-home.testimonials.slide_2.description.name'}}</p>
                             <p tabindex='0'>{{t 'new-home.testimonials.slide_2.description.position' htmlSafe=true}}</p>
                             <p tabindex='0'>{{t 'new-home.testimonials.slide_2.description.institution' htmlSafe=true}}</p>
@@ -77,7 +77,7 @@
                         </div>
                     </span>
                 </div>
-                <div local-class={{if this.isMobile 'ResearcherProfileMobile' 'Testimonial_ResearcherProfile'}} tabindex='0'>
+                <div local-class={{if this.isMobile 'researcher-profile-mobile' 'testimonial-researcher-profile'}} tabindex='0'>
                     <img
                         local-class='slide-image'
                         src='/assets/images/new-home/mathur-maya.png'
@@ -89,15 +89,15 @@
         </carousel.slide>
         <carousel.slide data-test-testimonials-slide-3>
             <div local-class={{if this.isMobile 'slide-content-mobile' 'slide-content'}} tabindex='0'>
-                <div local-class={{if this.isMobile 'Testimonial_LeftMobile' 'Testimonial_Left'}} tabindex='0'>
+                <div local-class={{if this.isMobile 'testimonials-left-mobile' 'testimonials-left'}} tabindex='0'>
                     <span>
-                        <div local-class='SingleQuote' tabindex='0'>
+                        <div local-class='single-quote' tabindex='0'>
                             {{t 'new-home.testimonials.single_quote'}}
                         </div>
-                        <div local-class='ResearcherQuote_Small' tabindex='0'>
+                        <div local-class='researcher-quote-small' tabindex='0'>
                             {{t 'new-home.testimonials.slide_3.text'}}
                         </div>
-                        <div local-class='ResearcherMoreInfoSmall'>
+                        <div local-class='researcher-more-info-small'>
                             <p local-class='description-bold' tabindex='0'>{{t 'new-home.testimonials.slide_3.description.name'}}</p>
                             <p tabindex='0'>{{t 'new-home.testimonials.slide_3.description.institution' htmlSafe=true}}</p>
                             <OsfLink
@@ -111,7 +111,7 @@
                         </div>
                     </span>
                 </div>
-                <div local-class={{if this.isMobile 'ResearcherProfileMobile' 'Testimonial_ResearcherProfile'}} tabindex='0'>
+                <div local-class={{if this.isMobile 'researcher-profile-mobile' 'testimonial-researcher-profile'}} tabindex='0'>
                     <img
                         local-class='slide-image'
                         src='/assets/images/new-home/cohen-phillip.png'

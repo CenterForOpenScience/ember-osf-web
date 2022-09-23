@@ -5,7 +5,7 @@
     display: none;
 }
 
-.Testimonials_Container {
+.testimonials-container {
     display: grid;
     grid-template-rows: auto;
     grid-template-columns: minmax(min-content, 1fr);
@@ -48,7 +48,7 @@ header {
     max-height: 420px;
 }
 
-.Testimonial_Left {
+.testimonials-left {
     grid-area: researchLeft;
     margin: 0;
     padding-bottom: 3px;
@@ -60,7 +60,7 @@ header {
     justify-content: flex-start;
 }
 
-.Testimonial_Left > span {
+.testimonials-left > span {
     text-align: center;
     margin-right: 5%;
 
@@ -75,7 +75,7 @@ header {
     }
 }
 
-.SingleQuote {
+.single-quote {
     font-family: Coustard;
     color: #a5b3bd;
     justify-content: center;
@@ -88,7 +88,7 @@ header {
     position: absolute;
 }
 
-.ResearcherQuote {
+.researcher-quote {
     grid-area: researcherQuote;
     font-family: 'Bree Serif';
     font-weight: 400;
@@ -102,42 +102,42 @@ header {
     margin: -11px -60px 0px;
 }
 
-.ResearcherMoreInfo {
+.researcher-more-info {
     color: #365063;
     padding: 0px 0px 43px;
 }
 
-.ResearcherQuote_Small {
+.researcher-quote-small{
     justify-content: flex-start;
     font-family: 'Bree Serif';
     font-size: 2.0vh;
     font-weight: 500;
     color: #365063;
     padding: 0px 0% 0px;
-    margin: -19px 3px 0px; // do not change
+    margin: -23px 3px 0px; // do not change
     line-height: 3.13vh;
 }
 
-.ResearcherMoreInfoSmall {
-    margin: 8px 0px 0px;
+.researcher-more-info-small {
+    margin: 11px 0px 0px;
     padding: 0px 0vh 0px;
     line-height: 2.6vh;
     width: 100%;
     position: absolute;
 }
 
-.Testimonial_Left p:nth-of-type(1) {
+.testimonials-left p:nth-of-type(1) {
     font-weight: 700;
 }
-.Testimonial_Left p:nth-of-type(3) {
+.testimonials-left p:nth-of-type(3) {
     padding: 6px 0px 7px;
 }
 
-.Testimonial_Left a:nth-of-type(1) {
+.testimonials-left a:nth-of-type(1) {
     font-weight: 700;
 }
 
-.Testimonial_ResearcherProfile {
+.testimonial-researcher-profile {
     grid-area: researcherProfile;
     position: relative;
     left: 522px;
