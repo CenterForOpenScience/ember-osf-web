@@ -54,7 +54,7 @@ export default class DraftRegistrationManager {
     @alias('draftRegistration.currentUserIsAdmin') currentUserIsAdmin!: boolean;
     @alias('provider.reviewsWorkflow') reviewsWorkflow?: string;
     @alias('draftRegistration.hasProject') hasProject?: boolean;
-    @or('onPageInput.isRunning', 'onMetadataInput.isRunning') autoSaving!: boolean;
+    @alias('draftRegistration.isSaving') autoSaving!: boolean;
     @or('initializePageManagers.isRunning', 'initializeMetadataChangeset.isRunning') initializing!: boolean;
     @not('registrationResponsesIsValid') hasInvalidResponses!: boolean;
     @filterBy('pageManagers', 'isVisited', true) visitedPages!: PageManager[];
@@ -117,8 +117,14 @@ export default class DraftRegistrationManager {
     @restartableTask
     @waitFor
     async onPageInput(currentPageManager: PageManager) {
-        await timeout(5000); // debounce
+        await timeout(3000); // debounce
 
+        await taskFor(this.saveRegistrationResponses).perform(currentPageManager);
+    }
+
+    @restartableTask
+    @waitFor
+    async saveRegistrationResponses(currentPageManager: PageManager) {
         if (currentPageManager && currentPageManager.schemaBlockGroups) {
             this.updateRegistrationResponses(currentPageManager);
 
@@ -131,7 +137,6 @@ export default class DraftRegistrationManager {
                 const errorMessage = this.intl.t('registries.drafts.draft.form.failed_auto_save');
                 captureException(e, { errorMessage });
                 this.toast.error(getApiErrorMessage(e), errorMessage);
-                throw e;
             }
         }
     }
@@ -200,7 +205,6 @@ export default class DraftRegistrationManager {
             const errorMessage = this.intl.t('registries.drafts.draft.metadata.failed_auto_save');
             captureException(e, { errorMessage });
             this.toast.error(getApiErrorMessage(e), errorMessage);
-            throw e;
         }
     }
 
@@ -214,6 +218,21 @@ export default class DraftRegistrationManager {
             const errorMessage = this.intl.t('registries.drafts.draft.delete_modal.delete_error');
             captureException(e, { errorMessage });
             this.toast.error(getApiErrorMessage(e), errorMessage);
+        }
+    }
+
+    @restartableTask
+    @waitFor
+    async saveWithToast() {
+        try {
+            taskFor(this.onMetadataInput).cancelAll();
+            taskFor(this.onPageInput).cancelAll();
+            await taskFor(this.updateDraftRegistrationAndSave).perform();
+            await taskFor(this.saveAllVisitedPages).perform();
+            this.toast.success(this.intl.t('registries.drafts.draft.save_success'));
+        } catch (e) {
+            const errorTitle = this.intl.t('registries.drafts.draft.save_failed');
+            this.toast.error(getApiErrorMessage(e), errorTitle);
         }
     }
 
