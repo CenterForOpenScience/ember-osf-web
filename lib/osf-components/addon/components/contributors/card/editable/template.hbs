@@ -20,6 +20,7 @@
             <OsfLink
                 data-test-contributor-link={{@contributor.id}}
                 data-analytics-name='View user'
+                @target='_blank'
                 @href={{concat '/' @contributor.users.id '/'}}
             >
                 {{@contributor.users.fullName}}
