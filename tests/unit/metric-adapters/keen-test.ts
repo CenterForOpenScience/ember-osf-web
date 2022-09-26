@@ -80,6 +80,7 @@ module('Unit | Metrics Adapter | keen ', hooks => {
 
     test('getCurrentModelTask - undefined', function(this: SinonTestContext, assert) {
         this.owner.register('route:foo', {}, { instantiate: false });
+        this.owner.unregister('service:router');
         this.owner.register('service:router', Service.extend({
             currentRouteName: 'foo',
         }));
@@ -94,6 +95,7 @@ module('Unit | Metrics Adapter | keen ', hooks => {
 
         this.owner.register('route:foo', { currentModel: { taskInstance } }, { instantiate: false });
         this.owner.register('route:foo.bar', { currentModel: { taskInstance: undefined } }, { instantiate: false });
+        this.owner.unregister('service:router');
         this.owner.register('service:router', Service.extend({
             currentRouteName: 'foo.bar',
         }));

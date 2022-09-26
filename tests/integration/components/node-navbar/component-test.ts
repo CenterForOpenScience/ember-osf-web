@@ -82,6 +82,7 @@ module('Integration | Component | node-navbar', () => {
                     return routeName.includes('guid-node.wiki');
                 },
             });
+            this.owner.unregister('service:router');
             this.owner.register('service:router', routerStub);
 
             this.set('node', new FakeNode([NavCondition.WikiEnabled]));
@@ -99,6 +100,7 @@ module('Integration | Component | node-navbar', () => {
                     return routeName.includes('guid-node.forks');
                 },
             });
+            this.owner.unregister('service:router');
             this.owner.register('service:router', routerStub);
 
             this.set('node', new FakeNode());

@@ -27,6 +27,7 @@ module('Integration | Component | registries-side-nav', hooks => {
     setupRenderingTest(hooks);
 
     hooks.beforeEach(function(this: TestContext) {
+        this.owner.unregister('service:router');
         this.owner.register('service:router', RouterStub);
         this.owner.register('service:current-user', CurrentUserStub);
     });
