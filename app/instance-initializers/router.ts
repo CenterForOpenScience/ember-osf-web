@@ -17,14 +17,11 @@ const {
 
 export function initialize(appInstance: ApplicationInstance): void {
     const routerService = appInstance.lookup('service:router') as RouterService;
-    const currentUser = appInstance.lookup('service:current-user');
-    const features = appInstance.lookup('service:features') as Features;
-    const statusMessages = appInstance.lookup('service:status-messages');
-    const ready = appInstance.lookup('service:ready');
-
     let readyBlocker = null as Blocker | null;
 
     routerService.on('routeWillChange', (transition: Transition) => {
+        const ready = appInstance.lookup('service:ready');
+        const features = appInstance.lookup('service:features') as Features;
         if (!readyBlocker || readyBlocker.isDone()) {
             readyBlocker = ready.getBlocker();
         }
@@ -48,6 +45,8 @@ export function initialize(appInstance: ApplicationInstance): void {
     });
 
     routerService.on('routeDidChange', (transition: Transition) => {
+        const currentUser = appInstance.lookup('service:current-user');
+        const statusMessages = appInstance.lookup('service:status-messages');
         currentUser.checkShowTosConsentBanner();
         statusMessages.updateMessages();
         if (!transition.queryParamsOnly) {
