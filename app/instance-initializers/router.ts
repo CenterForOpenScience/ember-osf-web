@@ -22,7 +22,6 @@ export function initialize(appInstance: ApplicationInstance): void {
     const statusMessages = appInstance.lookup('service:status-messages');
     const ready = appInstance.lookup('service:ready');
 
-    // eslint-disable-next-line ember/avoid-leaking-state-in-ember-objects
     let readyBlocker = null as Blocker | null;
 
     routerService.on('routeWillChange', (transition: Transition) => {
