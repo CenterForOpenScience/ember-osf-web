@@ -6,13 +6,11 @@ import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 
-import Analytics from 'ember-osf-web/services/analytics';
 import { notFoundURL } from 'ember-osf-web/utils/clean-url';
 
 import SettingsTokensEditController from './controller';
 
 export default class SettingsTokensEditRoute extends Route {
-    @service analytics!: Analytics;
     @service router!: RouterService;
 
     @task
@@ -43,10 +41,5 @@ export default class SettingsTokensEditRoute extends Route {
     @action
     refreshRoute() {
         this.refresh();
-    }
-
-    @action
-    didTransition() {
-        this.analytics.trackPage();
     }
 }

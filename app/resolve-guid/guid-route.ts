@@ -58,4 +58,12 @@ export default abstract class GuidRoute extends Route {
             task: this.getModel,
         };
     }
+
+    buildRouteInfoMetadata() {
+        return {
+            osfMetrics: {
+                itemGuid: this.controller.model.guid,
+            },
+        };
+    }
 }

@@ -84,6 +84,15 @@ export default class Guid extends Route {
 
         return {
             taskInstance: taskFor(this.loadModel).perform(guid),
+            guid,
+        };
+    }
+
+    buildRouteInfoMetadata() {
+        return {
+            osfMetrics: {
+                itemGuid: this.controller.model.guid,
+            },
         };
     }
 }

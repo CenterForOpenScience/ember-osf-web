@@ -4,13 +4,16 @@ import { alias, not } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 
 import Media from 'ember-responsive';
+import IntlService from 'ember-intl/services/intl';
 
 import BrandModel from 'ember-osf-web/models/brand';
 import ProviderModel from 'ember-osf-web/models/provider';
 import Registration from 'ember-osf-web/models/registration';
+import { taskFor } from 'ember-concurrency-ts';
 
 export default class RegistriesDraft extends Controller {
     @service media!: Media;
+    @service intl!: IntlService;
 
     @not('media.isDesktop') showMobileView!: boolean;
 
@@ -23,5 +26,18 @@ export default class RegistriesDraft extends Controller {
     @action
     onSubmitRedirect(registrationId: Registration) {
         this.transitionToRoute('overview.index', registrationId);
+    }
+
+    @action
+    saveBeforeUnload(event: BeforeUnloadEvent) {
+        const { draftRegistrationManager } = this.model;
+        if (draftRegistrationManager.onMetadataInput.isRunning ||
+            draftRegistrationManager.onPageInput.isRunning ||
+            draftRegistrationManager.saveWithToast.isRunning ||
+            draftRegistrationManager.lastSaveFailed) {
+            event.preventDefault();
+            event.returnValue = this.intl.t('registries.drafts.draft.save_before_exit');
+            taskFor(draftRegistrationManager.saveWithToast).perform();
+        }
     }
 }

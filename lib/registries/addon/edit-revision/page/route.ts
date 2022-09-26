@@ -1,9 +1,6 @@
 import { assert } from '@ember/debug';
-import { action } from '@ember/object';
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
 
-import Analytics from 'ember-osf-web/services/analytics';
 import { getPageIndex } from 'ember-osf-web/utils/page-param';
 
 import RevisionNavigationManager, { RevisionRoute } from 'registries/edit-revision/nav-manager';
@@ -18,8 +15,6 @@ export interface RevisionPageRouteModel {
 }
 
 export default class RevisionPageRoute extends Route {
-    @service analytics!: Analytics;
-
     model(params: { page: string }): RevisionPageRouteModel {
         const { page } = params;
         const pageIndex = getPageIndex(page);
@@ -35,10 +30,5 @@ export default class RevisionPageRoute extends Route {
             pageIndex,
             page,
         };
-    }
-
-    @action
-    didTransition() {
-        this.analytics.trackPage();
     }
 }

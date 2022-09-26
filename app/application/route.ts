@@ -1,8 +1,10 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
 
 import checkAuth from 'ember-osf-web/decorators/check-auth';
+import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 
 @checkAuth
@@ -18,6 +20,7 @@ export default class ApplicationRoute extends Route.extend(
 ) {
     @service intl!: Intl;
     @service currentUser!: CurrentUser;
+    @service analytics!: Analytics;
 
     queryParams = {
         viewOnlyToken: {
@@ -27,5 +30,10 @@ export default class ApplicationRoute extends Route.extend(
 
     beforeModel() {
         return this.intl.setLocale('en-us');
+    }
+
+    @action
+    didTransition() {
+        this.analytics.trackPage();
     }
 }
