@@ -33,7 +33,8 @@ module('Integration | Component | osf-link', hooks => {
         assert.dom('[data-test-get-started-button]').hasText('Getting Started');
         assert.dom('[data-test-get-started-button]').hasClass('btn');
         assert.dom('[data-test-get-started-button]').hasClass('btn-primary');
-        assert.dom('[data-test-get-started-button][href$="https://osf.io"]').exists('The href is correct');
+        /* eslint-disable max-len */
+        assert.dom('[data-test-get-started-button][href$="https://osf.io"]').exists('The href https://osf.io is not in the dom');
     });
 
     test('it renders the osf-link correctly for an empty @href', async assert => {
@@ -53,7 +54,8 @@ module('Integration | Component | osf-link', hooks => {
         assert.dom('[data-test-get-started-button]').hasText('Getting Started');
         assert.dom('[data-test-get-started-button]').hasClass('btn');
         assert.dom('[data-test-get-started-button]').hasClass('btn-primary');
-        assert.dom('[data-test-get-started-button][href$=" "]').exists('The href is correct');
+        /* eslint-disable-next-line */
+        assert.dom('[data-test-get-started-button][href$=" "]').exists('The empty href is not in the dom');
     });
 
     test('it should throw an error without an array @models', async assert => {
