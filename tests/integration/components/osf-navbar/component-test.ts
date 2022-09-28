@@ -16,6 +16,11 @@ const routerStub = Service.extend({
     },
 });
 
+const sessionStub = Service.extend({
+    isAuthenticated: false,
+    on: () => { /* stub */ },
+});
+
 module('Integration | Component | osf-navbar', hooks => {
     setupRenderingTest(hooks);
 
@@ -23,17 +28,18 @@ module('Integration | Component | osf-navbar', hooks => {
         // Make sure currentURL is always a string
         this.owner.unregister('service:router');
         this.owner.register('service:router', routerStub);
+        this.owner.register('service:session', sessionStub);
     });
 
     test('it renders', async assert => {
-        await render(hbs`{{osf-navbar}}`);
+        await render(hbs`<OsfNavbar />`);
         assert.dom('.service-name').includesText('OSF');
         assert.dom('.current-service').hasText('HOME');
     });
 
     test('service-dropdown: logged in', async function(assert) {
         this.owner.lookup('service:session').set('isAuthenticated', true);
-        await render(hbs`{{osf-navbar}}`);
+        await render(hbs`<OsfNavbar />`);
 
         assert.dom('[data-test-service-dropdown]').exists();
 
@@ -44,7 +50,7 @@ module('Integration | Component | osf-navbar', hooks => {
     test('auth-dropdown: logged in', async function(assert) {
         this.owner.lookup('service:session').set('isAuthenticated', true);
 
-        await render(hbs`{{osf-navbar}}`);
+        await render(hbs`<OsfNavbar />`);
 
         assert.dom('[data-test-auth-dropdown-toggle]').exists();
         await click('[data-test-auth-dropdown-toggle]');
@@ -54,7 +60,7 @@ module('Integration | Component | osf-navbar', hooks => {
     test('osf-navbar: logged out', async function(assert) {
         this.owner.lookup('service:session').set('isAuthenticated', false);
 
-        await render(hbs`{{osf-navbar}}`);
+        await render(hbs`<OsfNavbar />`);
         assert.dom('[data-test-service-dropdown]').exists();
 
         assert.dom('[data-test-auth-dropdown-toggle]').doesNotExist();

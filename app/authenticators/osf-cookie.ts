@@ -86,7 +86,7 @@ export default class OsfCookie extends Base {
         return { id };
     }
 
-    restore() {
+    async restore() {
         const {
             lastVerifiedUserId,
             session: {
@@ -107,7 +107,7 @@ export default class OsfCookie extends Base {
 
         // Check for a valid auth cookie.
         // If it fails, the session will be invalidated.
-        return this.authenticate();
+        return await this.authenticate();
     }
 
     async _checkApiVersion() {
