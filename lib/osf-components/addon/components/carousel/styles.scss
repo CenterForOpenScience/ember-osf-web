@@ -15,15 +15,6 @@
     overflow: auto;
 }
 
-// .Carousel_ContainersMobile {
-//     display: inline-flex;
-//     flex-direction: column;
-//     justify-content: flex-start;
-//     background-color: #ecf0f1;
-//     max-width: 100vw;
-//     max-height: 100vh;
-// }
-
 .Carousel_DotNav {
     grid-area: dotNav;
     justify-content: center;
@@ -51,7 +42,6 @@
 .Carousel_Slide {
     display: flex;
 }
-
 
 .item-list {
     grid-area: slideContent;
@@ -85,11 +75,6 @@
     margin: 0;
     padding: 0;
     z-index: 1;
-}
-
-.NextSlideMobile {
-   justify-content: center;
-   align-items: center;
 }
 
 @keyframes fade {
