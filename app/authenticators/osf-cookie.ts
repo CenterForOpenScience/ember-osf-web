@@ -86,7 +86,7 @@ export default class OsfCookie extends Base {
         return { id };
     }
 
-    async restore() {
+    restore() {
         const {
             lastVerifiedUserId,
             session: {
