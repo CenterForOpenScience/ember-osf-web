@@ -5,7 +5,6 @@ self.deprecationWorkflow.config = {
         { handler: 'silence', matchId: 'ember-inflector.globals' },
         { handler: 'silence', matchId: 'ember-metal.get-with-default' },
         { handler: 'silence', matchId: 'computed-property.volatile' },
-        { handler: 'throw', matchId: 'deprecate-router-events' },
         { handler: 'silence', matchId: 'implicit-injections' },
         { handler: 'silence', matchId: 'manager-capabilities.modifiers-3-13' },
         { handler: 'silence', matchId: 'this-property-fallback' },
