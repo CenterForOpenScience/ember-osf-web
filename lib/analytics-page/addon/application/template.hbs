@@ -18,57 +18,55 @@
                 {{/if}}
             </div>
         </div>
-        <div class='col-sm-4' local-class='CountBox'>
-            <div class='panel panel-default'>
-                <div class='panel-body'>
-                    <h3>{{t 'analytics.links'}}</h3>
-                    {{#if this.loading}}
-                        {{loading-indicator dark=true}}
-                    {{else}}
-                        <h2>{{this.linkedByCount}}</h2>
-                        <button
-                            type='button'
-                            class='btn btn-link'
-                            local-class='button-link'
-                            {{on 'click' this.showLinksModal}}
-                        >
-                            {{t 'analytics.viewLinks'}}
-                        </button>
-                        {{#if this.linksModalShown}}
-                            {{#bs-modal-simple
-                                title=(t 'analytics.links')
-                                closeTitle=(t 'general.close')
-                                onHide=(action 'hideLinksModal')
-                            }}
-                                {{#if this.node}}
-                                    <ul class='list-group'>
-                                        {{#paginated-list/has-many
-                                            model=this.node
-                                            relationshipName='linkedByNodes'
-                                            query=this.linkedByQueryParams
-                                            analyticsScope='Project Analytics - Links'
-                                            as |list|
-                                        }}
-                                            <list.item as |node|>
-                                                <NodeCard
-                                                    @node={{node}}
-                                                    @readOnly={{true}}
-                                                    @analyticsScope='Project Analytics - Links'
-                                                />
-                                            </list.item>
+        <div class='col-sm-4 panel panel-default' local-class='CountBox'>
+            <div class='panel-body'>
+                <h3>{{t 'analytics.links'}}</h3>
+                {{#if this.loading}}
+                    {{loading-indicator dark=true}}
+                {{else}}
+                    <h2>{{this.linkedByCount}}</h2>
+                    <button
+                        type='button'
+                        class='btn btn-link'
+                        local-class='button-link'
+                        {{on 'click' this.showLinksModal}}
+                    >
+                        {{t 'analytics.viewLinks'}}
+                    </button>
+                    {{#if this.linksModalShown}}
+                        {{#bs-modal-simple
+                            title=(t 'analytics.links')
+                            closeTitle=(t 'general.close')
+                            onHide=(action 'hideLinksModal')
+                        }}
+                            {{#if this.node}}
+                                <ul class='list-group'>
+                                    {{#paginated-list/has-many
+                                        model=this.node
+                                        relationshipName='linkedByNodes'
+                                        query=this.linkedByQueryParams
+                                        analyticsScope='Project Analytics - Links'
+                                        as |list|
+                                    }}
+                                        <list.item as |node|>
+                                            <NodeCard
+                                                @node={{node}}
+                                                @readOnly={{true}}
+                                                @analyticsScope='Project Analytics - Links'
+                                            />
+                                        </list.item>
 
-                                            <list.empty>
-                                                {{t 'analytics.noLinks'}}
-                                            </list.empty>
-                                        {{/paginated-list/has-many}}
-                                    </ul>
-                                {{else}}
-                                    <LoadingIndicator @dark={{true}} />
-                                {{/if}}
-                            {{/bs-modal-simple}}
-                        {{/if}}
+                                        <list.empty>
+                                            {{t 'analytics.noLinks'}}
+                                        </list.empty>
+                                    {{/paginated-list/has-many}}
+                                </ul>
+                            {{else}}
+                                <LoadingIndicator @dark={{true}} />
+                            {{/if}}
+                        {{/bs-modal-simple}}
                     {{/if}}
-                </div>
+                {{/if}}
             </div>
         </div>
         <div class='col-sm-4 panel panel-default' local-class='CountBox'>
