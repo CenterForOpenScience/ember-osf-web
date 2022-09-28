@@ -4,6 +4,7 @@
     local-class='keyboard-activated skip-link'
     id='menu'
     {{on 'focus' this.registerKeyboard}}
+    aria-label={{t (concat 'new-home.voice-over.sentence_subject_you' 'new-home.voice-over.activate_keyboard_msg')}}
     tabindex='0'
     ...attributes
 >
@@ -15,7 +16,7 @@
             alt={{t 'new-home.voice-over.osf_logo_alt_text'}}
         >
     </div>
-    <h2>
+    <h2 data-test-menu-heading>
         {{t 'new-home.voice-over.page_welcome_home'}}
     </h2>
     <div local-class='menu-data'>
@@ -38,11 +39,12 @@
             <br />
         </p>
         <ol
+            data-test-option-list
             tabindex='0'>
             {{#each this.menuItems as |item index|}}
                 {{#if (eq item 'Main Content')}}
                     <OsfLink
-                        data-test-option-four
+                        data-test-menu-item
                         id='mainContentLink'
                         @href='#optionFourMainContent'
                         alt={{concat 'Skip to' item 'content by pressing Enter or ' index}}
@@ -54,7 +56,7 @@
                     </OsfLink>
                 {{else if (eq item 'Learn more about the OSF')}}
                     <OsfLink
-                        data-test-option-eight
+                        data-test-menu-item
                         id='learnMoreLink'
                         @href='#optionEightLearnMore'
                         alt={{concat 'Skip to' item 'content by pressing Enter or ' index}}
@@ -66,7 +68,7 @@
                     </OsfLink>
                 {{else if (eq item 'OSF Testimonials.')}}
                     <OsfLink
-                        data-test-option-nine
+                        data-test-menu-item
                         id='testimonialsLink'
                         @href='#optionNineTestimonials'
                         alt={{concat 'Skip to' item 'content by pressing Enter or ' index}}
@@ -78,7 +80,7 @@
                     </OsfLink>
                 {{else if (eq item 'Integrations and add-ons.')}}
                     <OsfLink
-                        data-test-option-ten
+                        data-test-menu-item
                         id='integrationsLink'
                         @href='#optionTenIntegrations'
                         alt={{concat 'Skip to' item 'content by pressing Enter or ' index}}
@@ -90,7 +92,7 @@
                     </OsfLink>
                 {{else}}
                     <OsfLink
-                        data-test-menu-option
+                        data-test-menu-item
                         id='#'
                         @href='#'
                         alt={{concat 'Skip to' item 'content by pressing Enter or ' index}}

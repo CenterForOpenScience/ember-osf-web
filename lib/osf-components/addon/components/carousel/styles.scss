@@ -3,7 +3,7 @@
     display: none;
 }
 
-.Carousel_Container {
+.carousel-container {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 28px 420px;
@@ -15,7 +15,7 @@
     overflow: auto;
 }
 
-.Carousel_DotNav {
+.carousel-dotnav {
     grid-area: dotNav;
     justify-content: center;
     display: inline-flex;
@@ -25,8 +25,8 @@
         border-radius: 50%;
         text-decoration: none;
         margin: 7px;
-        width: 25px;
-        height: 25px;
+        width: 22px;
+        height: 22px;
         background-color: #a5b3bd;
         text-indent: -999em;
         transition: background-color 0.1s;
@@ -39,7 +39,7 @@
     }
 }
 
-.Carousel_Slide {
+.carousel-slide {
     display: flex;
 }
 
@@ -47,18 +47,18 @@
     grid-area: slideContent;
     width: 100%;
     padding: 0px 14% 0px;
+    align-self: flex-end;
+    margin: 0;
 
     li {
         animation-name: fade;
         animation-duration: 0.7s;
         display: none;
         max-height: 420px;
-        position: absolute;
-        bottom: -951px;
     }
 }
 
-.PreviousSlide {
+.previous-slide {
     grid-area: previousButton;
     transform: rotate(180deg);
     justify-content: flex-start;
@@ -66,7 +66,7 @@
     left: 0;
 }
 
-.NextSlide {
+.next-slide {
     grid-area: nextButton;
     align-items: center;
     justify-content: flex-end;

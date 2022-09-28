@@ -1,7 +1,7 @@
 <section
     data-test-carousel-container
     data-analytics-scope='Carousel'
-    local-class='Carousel_Container'
+    local-class='carousel-container'
     aria-label={{t 'osf-components.carousel.aria_label.section'}}
     tabindex='0'
     {{on 'focus' this.registerKeyboard}}
@@ -11,7 +11,7 @@
     <div
         data-test-dot-navigation
         role='tablist'
-        local-class='Carousel_DotNav'
+        local-class='carousel-dotnav'
         aria-label={{t 'osf-components.carousel.aria_label.dot_nav'}}
         id='dotNav'
         tabindex='0'
@@ -41,11 +41,11 @@
             </div>
         {{/each}}
     </div>
-    <div local-class='Carousel_Slide'>
+    <div local-class='carousel-slide'>
         <BsButton
             data-test-carousel-button-previous
             data-analytics-name='Previous slide'
-            local-class='PreviousSlide'
+            local-class='previous-slide'
             id='leftNav'
             aria-label={{t 'osf-components.carousel.aria_label.previous_testimonial'}}
             tabindex='0'
@@ -64,7 +64,7 @@
         <BsButton
             data-test-carousel-button-next
             data-analytics-name='Next slide'
-            local-class='NextSlide'
+            local-class='next-slide'
             id='rightNav'
             aria-label={{t 'osf-components.carousel.aria_label.next_testimonial'}}
             tabindex='0'

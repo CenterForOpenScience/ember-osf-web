@@ -444,7 +444,9 @@ new-home:
         redirect_message: 'You will leave the current page.'
         osf_logo_alt_text: 'OSF logo: blue and grey concentric circles bloom outwards from a central radial point.'
         right_parenthesis: ')'
-        activate_keyboard_msg: 'are on the OSF keyboard menu. Press Tab to close or Shift + Tab to re-open the menu.'
+        activate_keyboard_msg: 'are on the OSF keyboard menu. Press Tab to close or Shift + Tab after focusing the top navbar to re-open the menu.'
+        sentence_subject_you: 'You'
+
 tos_consent:
     paragraph: 'We''ve updated our <a href="{link1}">Terms of Use</a> and <a href="{link2}">Privacy Policy</a>. Please read them carefully.'
     have_read_and_agree: 'I have read and agree to these terms.'

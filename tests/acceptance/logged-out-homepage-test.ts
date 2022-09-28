@@ -23,6 +23,17 @@ module('Acceptance | logged-out home page test', hooks => {
         assert.dom('nav.navbar').exists();
         assert.dom('nav.navbar .sign-in').exists();
 
+        // skip link exists
+        assert.dom('[data-test-skip-main]').exists();
+        // skip link is visually hidden from view
+        assert.dom('[data-test-skip-main]').isNotFocused();
+        // skip link heading properly displays
+        assert.dom('[data-test-menu-heading]').containsText(t('new-home.voice-over.page_welcome_home').toString());
+        // menu item list exists
+        assert.dom('[data-test-option-list]').exists();
+        // menu item count is correct
+        assert.dom('[data-test-menu-item]').exists({count: 10});
+
         // Check hero
         assert.dom('[data-test-hero-heading]')
             .containsText(t('osf-components.hero-banner.headingA').toString());
