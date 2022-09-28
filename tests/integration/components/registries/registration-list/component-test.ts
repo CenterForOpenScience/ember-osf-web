@@ -13,6 +13,7 @@ module('Integration | Component | registration-list', hooks => {
     setupIntl(hooks);
 
     hooks.beforeEach(function(this: TestContext) {
+        this.owner.unregister('service:router');
         this.owner.register('service:router', OsfLinkRouterStub);
         this.store = this.owner.lookup('service:store');
     });

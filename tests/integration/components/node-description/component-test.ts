@@ -16,6 +16,7 @@ module('Integration | Component | node-description', hooks => {
         this.store = this.owner.lookup('service:store');
     });
     test('it renders', async function(assert) {
+        this.owner.unregister('service:router');
         this.owner.register('service:router', OsfLinkRouterStub);
         const node = server.create('node', {}, 'withContributors');
         const project = await this.store.findRecord('node', node.id, { include: 'bibliographic_contributors' });
