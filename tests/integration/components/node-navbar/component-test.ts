@@ -67,6 +67,7 @@ module('Integration | Component | node-navbar', () => {
         setupRenderingTest(hooks);
 
         test('it renders', async function(assert) {
+            this.owner.unregister('service:router');
             this.owner.register('service:router', OsfLinkRouterStub);
 
             this.set('node', new FakeNode());
@@ -81,6 +82,7 @@ module('Integration | Component | node-navbar', () => {
                     return routeName.includes('guid-node.wiki');
                 },
             });
+            this.owner.unregister('service:router');
             this.owner.register('service:router', routerStub);
 
             this.set('node', new FakeNode([NavCondition.WikiEnabled]));
@@ -98,6 +100,7 @@ module('Integration | Component | node-navbar', () => {
                     return routeName.includes('guid-node.forks');
                 },
             });
+            this.owner.unregister('service:router');
             this.owner.register('service:router', routerStub);
 
             this.set('node', new FakeNode());
@@ -273,6 +276,7 @@ module('Integration | Component | node-navbar', () => {
 
         testCases.forEach((testCase, i) => {
             test(`it renders the correct links (${i})`, async function(assert) {
+                this.owner.unregister('service:router');
                 this.owner.register('service:router', OsfLinkRouterStub);
 
                 const node = new FakeNode(testCase.conditions);
