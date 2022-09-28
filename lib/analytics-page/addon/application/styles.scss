@@ -1,15 +1,3 @@
-@media (min-width: 768px) {
-    .Counts {
-        display: flex;
-    }
-}
-
-@media (max-width: 767px) {
-    .CountBox:global(.panel) {
-        margin-left: 15px;
-        margin-right: 15px;
-    }
-}
 
 .Counts {
     margin-top: 20px;
@@ -63,4 +51,25 @@
     padding: 0;
     margin: 0;
     border: 0;
+}
+
+@media (min-width: 768px) {
+    .Counts {
+        display: flex;
+    }
+}
+
+@media (max-width: 768px) {
+    .CountBox:global(.panel) {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+}
+
+@media screen and (max-device-height: 500px) {
+    :global(.modal-body) {
+        max-height: 60vh;
+        padding: 0;
+        margin-bottom: 0;
+    }
 }
