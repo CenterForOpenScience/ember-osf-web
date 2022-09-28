@@ -15,6 +15,7 @@ module('Integration | Component | open-badges-list', hooks => {
 
     hooks.beforeEach(function(this: TestContext) {
         this.store = this.owner.lookup('service:store');
+        this.owner.unregister('service:router');
         this.owner.register('service:router', OsfLinkRouterStub.extend({
             urlFor(__: any, modelId: string) {
                 return `/${modelId}`;
@@ -91,6 +92,7 @@ module('Integration | Component | open-badges-list | open-badge-card', hooks => 
 
     hooks.beforeEach(function(this: TestContext) {
         this.store = this.owner.lookup('service:store');
+        this.owner.unregister('service:router');
         this.owner.register('service:router', OsfLinkRouterStub.extend({
             urlFor(__: any, modelId: string) {
                 return `/${modelId}/resources`;

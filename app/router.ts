@@ -1,96 +1,17 @@
-import { getOwner } from '@ember/application';
-import Transition from '@ember/routing/-private/transition';
 import EmberRouter from '@ember/routing/router';
-import { inject as service } from '@ember/service';
-import Ember from 'ember';
 import config from 'ember-get-config';
-
-import { Blocker } from 'ember-osf-web/services/ready';
-import transitionTargetURL from 'ember-osf-web/utils/transition-target-url';
 
 const {
     engines: {
         collections,
         registries,
     },
-    featureFlagNames: {
-        routes: routeFlags,
-    },
 } = config;
 
-/* eslint-disable ember/no-get */
 const Router = EmberRouter.extend({
-    currentUser: service('current-user'),
-    features: service('features'),
-    statusMessages: service('status-messages'),
-    ready: service('ready'),
-
-    // eslint-disable-next-line ember/avoid-leaking-state-in-ember-objects
-    readyBlocker: null as Blocker | null,
     location: config.locationType,
     rootURL: config.rootURL,
-    shouldScrollTop: true,
-
-    willTransition(oldInfo: any, newInfo: any, transition: { targetName: string }) {
-        if (!this.readyBlocker || this.readyBlocker.isDone()) {
-            this.readyBlocker = this.get('ready').getBlocker();
-        }
-
-        this._super(oldInfo, newInfo, transition);
-    },
-
-    didTransition(...args: any[]) {
-        this._super(...args);
-
-        this.get('currentUser').checkShowTosConsentBanner();
-        this.get('statusMessages').updateMessages();
-
-        if (this.shouldScrollTop) {
-            const { application: { rootElement: rootElementSelector } } = getOwner(this);
-            const rootElement = document.querySelector(rootElementSelector);
-            rootElement.scrollIntoView();
-        }
-
-        if (this.readyBlocker && !this.readyBlocker.isDone()) {
-            this.readyBlocker.done();
-        }
-    },
-
-    _doTransition(...args: any[]) {
-        const transition = this._super(...args);
-        return this._beforeTransition(transition);
-    },
-
-    _doURLTransition(...args: any[]) {
-        const transition = this._super(...args);
-        return this._beforeTransition(transition);
-    },
-
-    _beforeTransition(transition: Transition) {
-        // Don't snap the page to the top if it's just a query param change
-        // IE registries, preprints, collections, etc
-        // There doesn't appear to be a good way to access the transition
-        // inside of didTransition, so the state is just plucked here for future reference.
-        this.shouldScrollTop = !transition.queryParamsOnly;
-
-        const isInitialTransition = transition.sequence === 0;
-        if (!isInitialTransition) {
-            const flag = routeFlags[transition.targetName];
-            if (flag && !this.get('features').isEnabled(flag)) {
-                if (!Ember.testing) {
-                    try {
-                        window.location.assign(transitionTargetURL(transition));
-                    } catch (e) {
-                        window.location.reload();
-                    }
-                }
-                transition.abort();
-            }
-        }
-        return transition;
-    },
 });
-/* eslint-enable ember/no-get */
 
 /* eslint-disable array-callback-return */
 

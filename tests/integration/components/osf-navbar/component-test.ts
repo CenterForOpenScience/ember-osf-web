@@ -26,6 +26,7 @@ module('Integration | Component | osf-navbar', hooks => {
 
     hooks.beforeEach(function(this: TestContext) {
         // Make sure currentURL is always a string
+        this.owner.unregister('service:router');
         this.owner.register('service:router', routerStub);
         this.owner.register('service:session', sessionStub);
     });
