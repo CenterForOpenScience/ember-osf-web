@@ -1,56 +1,50 @@
 <section
+    local-class='carousel-container'
+    {{on 'focus' this.registerKeyboard}}
     data-test-carousel-container
     data-analytics-scope='Carousel'
-    local-class='carousel-container'
     aria-label={{t 'osf-components.carousel.aria_label.section'}}
     tabindex='0'
-    {{on 'focus' this.registerKeyboard}}
     ...attributes
 >
     {{yield (hash header=(component 'carousel/x-header'))}}
     <div
-        data-test-dot-navigation
         role='tablist'
-        local-class='carousel-dotnav'
-        aria-label={{t 'osf-components.carousel.aria_label.dot_nav'}}
         id='dotNav'
-        tabindex='0'
+        local-class='carousel-dotnav'
+        data-test-dot-navigation
+        aria-label={{t 'osf-components.carousel.aria_label.dot_nav'}}
     >
         {{#each this.carouselItems as |item|}}
-            <div
-                data-test-navigation-item
+            <BsButton
                 role='tab'
-                local-class={{if item.isActive 'current' ''}}
+                @type='button'
+                local-class={{if item.isActive 'current dotnav-button' 'dotnav-button'}}
+                {{action this.navClick item}}
+                data-test-navigation-button
+                data-analytics-name='Go to slide {{item.slideIndex}}'
+                data-slide={{item.index}}
+                aria-label={{t 'osf-components.carousel.go_to_slide' slideIndex=item.slideIndex}}
                 aria-selected={{if item.isActive 'true' 'false'}}
                 tabindex='0'
             >
-                <button
-                    data-test-navigation-button
-                    data-analytics-name='Go to slide {{item.slideIndex}}'
-                    data-slide={{item.index}}
-                    aria-label={{t 'osf-components.carousel.go_to_slide' slideIndex=item.slideIndex}}
-                    type='button'
-                    tabindex='0'
-                    {{action this.navClick item}}
-                >
-                    <div local-class='visually-hidden'>{{item.slideIndex}}</div>
-                    {{#if item.isActive}}
-                        <div local-class='visually-hidden'>{{t 'osf-components.carousel.current_slide'}}</div>
-                    {{/if}}
-                </button>
-            </div>
+                <div local-class='visually-hidden'>{{item.slideIndex}}</div>
+                {{#if item.isActive}}
+                    <div local-class='visually-hidden'>{{t 'osf-components.carousel.current_slide'}}</div>
+                {{/if}}
+            </BsButton>
         {{/each}}
     </div>
     <div local-class='carousel-slide'>
         <BsButton
+            @type='button'
+            id='leftNav'
+            local-class='previous-slide'
             data-test-carousel-button-previous
             data-analytics-name='Previous slide'
-            local-class='previous-slide'
-            id='leftNav'
             aria-label={{t 'osf-components.carousel.aria_label.previous_testimonial'}}
-            tabindex='0'
-            @type='button'
             @onClick={{action this.changeSlide 'previous'}}
+            tabindex='0'
         >
             <img
                 data-test-previous-arrow
@@ -62,14 +56,14 @@
             {{yield (hash slide=(component 'carousel/x-item' register=(action this.register) allItems=this.carouselItems))}}
         </ul>
         <BsButton
-            data-test-carousel-button-next
-            data-analytics-name='Next slide'
+            @type='button'
             local-class='next-slide'
             id='rightNav'
+            @onClick={{action this.changeSlide 'next'}}
+            data-test-carousel-button-next
+            data-analytics-name='Next slide'
             aria-label={{t 'osf-components.carousel.aria_label.next_testimonial'}}
             tabindex='0'
-            @type='button'
-            @onClick={{action this.changeSlide 'next'}}
         >
             <img
                 data-test-next-arrow
