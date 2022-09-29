@@ -69,6 +69,19 @@
     .container h1 {
         font-size: 36px;
     }
+
+    .iframe-container {
+        justify-content: center;
+       
+        &.flex-row {
+            display: flex;
+        }
+
+        .osf-video {
+            width: 336px;
+            height: 190px;
+        }
+    }
 }
 
 @media (max-width: 613px) {
