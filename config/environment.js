@@ -26,9 +26,8 @@ const {
     GOOGLE_ANALYTICS_ID,
     KEEN_CONFIG: keenConfig,
     LINT_ON_BUILD: lintOnBuild = false,
-    MIRAGE_ENABLED = false,
+    MIRAGE_ENABLED = true,
     MIRAGE_SCENARIOS = [
-        'loggedIn',
         'dashboard',
         'settings',
         'meetings',

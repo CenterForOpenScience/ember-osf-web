@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
@@ -6,14 +5,26 @@ import { action, computed } from '@ember/object';
 import { layout } from 'ember-osf-web/decorators/component';
 import CarouselItem from 'osf-components/components/carousel/x-item/component';
 
+import { inject as service } from '@ember/service';
+import Intl from 'ember-intl/services/intl';
+import Toast from 'ember-toastr/services/toast';
+
 import styles from './styles';
 import template from './template';
 
 @layout(template, styles)
 @tagName('')
 export default class Carousel extends Component {
+    @service intl!: Intl;
+    @service toast!: Toast;
+
     // Private properties
     carouselItems: CarouselItem[] = [];
+
+    constructor(...args: any[]) {
+        super(...args);
+        this.registerKeyboard.bind(this);
+    }
 
     @computed('carouselItems.{length,@each.isActive}')
     get activeSlide() {
@@ -58,8 +69,8 @@ export default class Carousel extends Component {
         console.log(document);
         const carousel = document.getElementById('carouselInner');
         const liveregion = document.createElement('div');
-        liveregion.setAttribute('aria-live', 'polite');
-        liveregion.setAttribute('aria-atomic', 'true');
+        liveregion.setAttribute('arialive', 'polite');
+        liveregion.setAttribute('ariaatomic', 'true');
         liveregion.setAttribute('class', 'liveregion visuallyhidden');
         if (carousel && liveregion) {
             let subject = 'You';
@@ -71,108 +82,158 @@ export default class Carousel extends Component {
         }
     }
 
+    //@action
+    const speech = {
+        wrap: <HTMLElement>document.getElementById('swrap'),
+        btn: <HTMLElement>document.getElementById('sbtn'),
+        recog: null,
+        init: () => {
+            this.speech.wrap = <HTMLElement>document.getElementById('swrap');
+            this.speech.btn = <HTMLElement>document.getElementById('sbtn');
+
+            // get mic permission
+            navigator.mediaDevices.getUserMedia({ audio: true}).then((stream) => {
+                const speech = SpeechRecognition || webkitSpeechRecognition;
+                this.speech.recog = new SpeechRecognition();
+                speech.recog.lang = 'en-US';
+                speech.recog.continuous = false;
+                speech.interimResults = false;
+
+                speech.recog.onresult = (evt: any) => {
+                    let said = evt.results[0][0].transcript.toLowerCase();
+                    if cmd([said]) { cmd[said]
+                    else { said += " (command not found)"; }
+                    speech.wrap.innerHTML = said;
+                    speech.stop();
+
+                }
+                speech.recog.onerror = (err: string) => { this.toast.error(err)};
+                
+                speech.btn.disabled = false;
+                speech.stop();
+
+            }).catch((err) => {
+                console.log(err);
+                this.speech.wrap.innerHTML = 'Microphone access required for voice navigation.';
+            });
+        },
+
+        start: () => {
+            speech.recog.start()
+            speech.btn.onclick = speech.stop;
+            speech.btn.value = 'click or press Enter to speak selections';
+        }
+
+        stop: () => {
+            speech.onclick() = speech.start();
+            speech.btn.value = 'press to speak selections'
+        }
+    } 
+
+
     /** registerKeyboard() is a function that enables users to navigate certain
      *  components with a keyboard rather than using a mouse. The keybindings are
      *  designed for optimal ergonomic comfort as well as improving overall user
      *  experience while within the application.
+     *
+     *  @author : chthonix
+     *  @date : Sat Oct 01 2022 14:26:06 GMT-0400
      */
     registerKeyboard() {
         // set up voice over
         let msg = 'Keyboard navigation enabled. Press lower case h to hear more.';
         // this.setUpLiveRegion(msg);
         console.log('voice over set to: ', msg);
+        
 
         // locate elements
-        const dotNav = document.getElementById('dotNav');
-        const leftNav = document.getElementById('leftNav');
-        const rightNav = document.getElementById('rightNav');
+        const carousel: HTMLElement = document.querySelector('[data-test-carousel-container]') as HTMLElement;
+        const leftNav: HTMLElement = document.getElementById('leftNav') as HTMLElement;
+        const rightNav: HTMLElement = document.getElementById('rightNav') as HTMLElement;
+
+        const dotNav: HTMLElement = document.getElementById('dotNav') as HTMLElement;
+        const buttonElements: HTMLCollection = dotNav.children;
+        const buttonOne: HTMLElement = buttonElements[0].children[0] as HTMLElement;
+        const buttonTwo: HTMLElement = buttonElements[1].children[0] as HTMLElement;
+        const buttonThree: HTMLElement = buttonElements[2].children[0] as HTMLElement;
+        const w = window;
 
         // set up event listener for keyboard input
         document.addEventListener('keydown', event => {
             const name = event.key;
             const code = event.code;
-            const dotNav = document.getElementById('dotNav');
+
             // do not override native browser or SR controls
             if (name === 'Control' || name === 'Meta') {
                 return;
             }
 
-            // bind the current this context
-            let THIS = (vm=this) => console.log(vm);
-            THIS();
-
             // switch operand based on user input
-            if (event.ctrlKey) {
-                console.log(`Combination of ctrlKey + ${name} \n code: ${code}`);
-
-                switch(name) {
-                case('f'):
-                    console.log('navigating to previous slide.');
-                    if (leftNav) {
-                        leftNav.click();
+            // current wirings are for left, right and dot slide navigation
+            try {
+                if (event.ctrlKey) {
+                    event.preventDefault();
+                    switch(name) {
+                    // previous slide
+                    case('f'):
+                        if (leftNav) {
+                            leftNav.click();
+                        }
+                        break;
+                    // next slide
+                    case('j'):
+                        if (rightNav) {
+                            rightNav.click();
+                        }
+                        break;
+                    // dot navigation
+                    case('d'):
+                        if (dotNav) {
+                            buttonOne.click();
+                        }
+                        break;
+                    // re-focus carousel
+                    case('r'):
+                        carousel.focus();
+                        break;
+                    default:
+                        w.toastr.error(this.intl.t('osf-components.carousel.keyboard_error_message'));
+                        break;
                     }
-                    break;
-                case('j'):
-                    console.log('navigating to next slide.');
-                    if (rightNav) {
-                        rightNav.click();
-                    }
-                    break;
-                case('d'):
-                    console.log('inside carousel dot navigation.');
+                } else if (event.altKey) {
+                    event.preventDefault();
                     if (dotNav) {
-                        dotNav.focus();
+                        switch(code) {
+                        // slide 1
+                        case('Digit1'):
+                            if (buttonOne) {
+                                buttonOne.click();
+                            }
+                            break;
+                        // slide 2
+                        case('Digit2'):
+                            if (buttonTwo) {
+                                buttonTwo.click();
+                            }
+                            break;
+                        // slide 3
+                        case('Digit3'):
+                            if (buttonThree) {
+                                buttonThree.click();
+                            }
+                            break;
+                        default:
+                            w.toastr.error(this.intl.t('osf-components.carousel.slide_nav_error_message'));
+                            break;
+                        }
                     }
-                    break;
-                case('h'):
-                    console.log('selecting help guide.');
-                    break;
-                default:
-                    console.log('selected an unregistered command.');
-                    break;
+                } else {
+                    w.toastr.error(this.intl.t('osf-components.carousel.dot_nav_error_message'));
                 }
-            } else {
-                console.log(`Other key registered: \n\tname ${name} \nt code: ${code}`);
+
+            } catch(e) {
+                w.toastr.error(this.intl.t('osf-components.carousel.key_name_and_code'));
             }
         }, true);
-
-        if (dotNav) {
-            const buttonElements = dotNav.children;
-            console.log('can select from the following elements: ', buttonElements);
-            const buttonOne: Element = buttonElements[0].children[0] || null;
-            const buttonTwo : Element = buttonElements[1].children[0] || null;
-            const buttonThree : Element = buttonElements[2].children[0] || null;
-
-            document.addEventListener('keyup', event => {
-                const eventType = typeof(event);
-                console.log('initiating event type: ', eventType);
-                console.log('event code is:', event.code);
-                if (event.code === '49') {
-                    buttonOne.click();
-                    console.log('selecting the first slide.'); // TODO update with item data
-                }
-                if (event.code === '50') {
-                    buttonTwo.click();
-                    console.log('selecting the second slide.'); // TODO update with item data
-                }
-                if (event.code === '51') {
-                    buttonThree.click();
-                    console.log('selecting the third slide.'); // TODO update with item data
-                }
-            });
-        }
-
-        document.addEventListener('keyup', event => {
-            const name = event.key;
-            if (name === 'Control') {
-                console.log('Control key released.');
-            }
-            if (name === 'Alt') {
-                console.log('Alt key released.');
-            }
-            if (name === 'Shift') {
-                console.log('Shift key released.');
-            }
-        }, false);
     }
 }
