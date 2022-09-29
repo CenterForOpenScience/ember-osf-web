@@ -1855,6 +1855,7 @@ osf-components:
         previous_slide: 'Previous slide button'
         next_slide: 'Next slide button'
         go_to_slide: 'Go to slide {slideIndex}'
+        keyboard_error_message: 'Unregistered key entered. Please try again using "f", "j", or "d".'
         aria_label:
             section: 'Open Science Framework (OSF) Researcher Testimonial Slides'
             previous_testimonial: 'Press Control + lowercase f for previous testimonial'

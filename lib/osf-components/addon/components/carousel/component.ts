@@ -7,7 +7,10 @@ import CarouselItem from 'osf-components/components/carousel/x-item/component';
 
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
+<<<<<<< HEAD
 import Toast from 'ember-toastr/services/toast';
+=======
+>>>>>>> 25f9da9c7 (removed unnecessary styling, removed handlebars mobile queries, made dotnav buttons fully focusable, moved addLiveRegion code to separate branch, improved error message, removed unnecessary console log statements, updated tabindex to relevant elements.)
 
 import styles from './styles';
 import template from './template';
@@ -16,8 +19,11 @@ import template from './template';
 @tagName('')
 export default class Carousel extends Component {
     @service intl!: Intl;
+<<<<<<< HEAD
     @service toast!: Toast;
 
+=======
+>>>>>>> 25f9da9c7 (removed unnecessary styling, removed handlebars mobile queries, made dotnav buttons fully focusable, moved addLiveRegion code to separate branch, improved error message, removed unnecessary console log statements, updated tabindex to relevant elements.)
     // Private properties
     carouselItems: CarouselItem[] = [];
 
@@ -62,6 +68,7 @@ export default class Carousel extends Component {
         this.carouselItems[newIndex].set('isActive', true);
     }
 
+<<<<<<< HEAD
     // @action
     setUpLiveRegion(message: string) {
         const w = window || null;
@@ -131,6 +138,8 @@ export default class Carousel extends Component {
     } 
 
 
+=======
+>>>>>>> 25f9da9c7 (removed unnecessary styling, removed handlebars mobile queries, made dotnav buttons fully focusable, moved addLiveRegion code to separate branch, improved error message, removed unnecessary console log statements, updated tabindex to relevant elements.)
     /** registerKeyboard() is a function that enables users to navigate certain
      *  components with a keyboard rather than using a mouse. The keybindings are
      *  designed for optimal ergonomic comfort as well as improving overall user
@@ -140,12 +149,15 @@ export default class Carousel extends Component {
      *  @date : Sat Oct 01 2022 14:26:06 GMT-0400
      */
     registerKeyboard() {
+<<<<<<< HEAD
         // set up voice over
         let msg = 'Keyboard navigation enabled. Press lower case h to hear more.';
         // this.setUpLiveRegion(msg);
         console.log('voice over set to: ', msg);
         
 
+=======
+>>>>>>> 25f9da9c7 (removed unnecessary styling, removed handlebars mobile queries, made dotnav buttons fully focusable, moved addLiveRegion code to separate branch, improved error message, removed unnecessary console log statements, updated tabindex to relevant elements.)
         // locate elements
         const carousel: HTMLElement = document.querySelector('[data-test-carousel-container]') as HTMLElement;
         const leftNav: HTMLElement = document.getElementById('leftNav') as HTMLElement;
@@ -162,7 +174,10 @@ export default class Carousel extends Component {
         document.addEventListener('keydown', event => {
             const name = event.key;
             const code = event.code;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 25f9da9c7 (removed unnecessary styling, removed handlebars mobile queries, made dotnav buttons fully focusable, moved addLiveRegion code to separate branch, improved error message, removed unnecessary console log statements, updated tabindex to relevant elements.)
             // do not override native browser or SR controls
             if (name === 'Control' || name === 'Meta') {
                 return;
@@ -170,6 +185,7 @@ export default class Carousel extends Component {
 
             // switch operand based on user input
             // current wirings are for left, right and dot slide navigation
+<<<<<<< HEAD
             try {
                 if (event.ctrlKey) {
                     event.preventDefault();
@@ -199,6 +215,20 @@ export default class Carousel extends Component {
                     default:
                         w.toastr.error(this.intl.t('osf-components.carousel.keyboard_error_message'));
                         break;
+=======
+            if (event.ctrlKey) {
+                switch(name) {
+                case('f'):
+                    console.log('navigating to previous slide.');
+                    if (leftNav) {
+                        leftNav.click();
+                    }
+                    break;
+                case('j'):
+                    console.log('navigating to next slide.');
+                    if (rightNav) {
+                        rightNav.click();
+>>>>>>> 25f9da9c7 (removed unnecessary styling, removed handlebars mobile queries, made dotnav buttons fully focusable, moved addLiveRegion code to separate branch, improved error message, removed unnecessary console log statements, updated tabindex to relevant elements.)
                     }
                 } else if (event.altKey) {
                     event.preventDefault();
@@ -227,6 +257,7 @@ export default class Carousel extends Component {
                             break;
                         }
                     }
+<<<<<<< HEAD
                 } else {
                     w.toastr.error(this.intl.t('osf-components.carousel.dot_nav_error_message'));
                 }
@@ -235,5 +266,44 @@ export default class Carousel extends Component {
                 w.toastr.error(this.intl.t('osf-components.carousel.key_name_and_code'));
             }
         }, true);
+=======
+                    break;
+                // TODO re-add registerKeyboard()
+                // case('k'):
+                    // re-open keyboard menu
+                default:
+                    throw new Error(this.intl.t('osf-components.carousel.keyboard_error_message'));
+                    break;
+                }
+            } else {
+                console.log(`Other key registered: \n\tname ${name} \nt code: ${code}`);
+            }
+        }, true);
+
+        if (dotNav) {
+            const buttonElements = dotNav.children;
+            const buttonOne = document.querySelectorAll("['data-test-navigation-button']")[0];
+            const buttonTwo : Element = buttonElements[1].children[0] || null;
+            const buttonThree : Element = buttonElements[2].children[0] || null;
+
+            document.addEventListener('keyup', event => {
+                if (event.code === '49') {
+                    if (buttonOne) {
+                        buttonOne.classList.add('active'); // TODO test
+                    }
+                }
+                if (event.code === '50') {
+                    if (buttonTwo) {
+                        buttonTwo.classList.add('active');
+                    }
+                }
+                if (event.code === '51') {
+                    if (buttonThree) {
+                        buttonThree.classList.add('active');
+                    }
+                }
+            });
+        }
+>>>>>>> 25f9da9c7 (removed unnecessary styling, removed handlebars mobile queries, made dotnav buttons fully focusable, moved addLiveRegion code to separate branch, improved error message, removed unnecessary console log statements, updated tabindex to relevant elements.)
     }
 }
