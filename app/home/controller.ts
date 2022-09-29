@@ -8,12 +8,13 @@ import { camelize } from '@ember/string';
 import { tracked } from '@glimmer/tracking';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
+import Intl from 'ember-intl/services/intl';
 
 const { featureFlagNames: { ABTesting } } = config;
 
 export default class Home extends Controller {
     @service features!: Features;
-    @service intl: Intl;
+    @service intl!: Intl;
 
     @alias(`features.${camelize(ABTesting.homePageHeroTextVersionB)}`)
     shouldShowVersionB!: boolean;
@@ -49,16 +50,17 @@ export default class Home extends Controller {
 
     registerKeyboard() {
         const OSFProductDropdownCaret : HTMLElement | null = document.querySelector('[data-test-service-dropdown]');
-        const signInButton : HTMLElement | null = document.querySelector('[data-test-sign-in-button]');
-        const signUpButton : HTMLElement | null = document.querySelector('[data-test-ad-sign-up-button]');
+        const OSFHOME: Element | null = document.querySelectorAll("[data-analytics-name='HOME']")[1];
+        const signInButton: HTMLElement | null = document.querySelector('[data-test-sign-in-button]');
+        const signUpButton: HTMLElement | null = document.querySelector('[data-test-ad-sign-up-button]');
         const mainContent = document.getElementById('mainContentLink');
         const searchInput = document.getElementsByName('search')[0];
-        const supportButton : HTMLElement | null= document.querySelector('[data-analytics-name="Support"]');
-        const donateButton : HTMLElement | null = document.querySelector('[data-analytics-name="Donate"]');
-        const learnMoreButton : HTMLElement | null = document.querySelector('[data-test-get-started-button]');
-        const testimonials : HTMLElement | null = document.querySelector('[data-test-carousel-container]');
-        const testimonialsCarousel : HTMLElement | null = document.querySelector('[data-test-carousel-container]');
-        const integrations : HTMLElement | null = document.getElementById('integrationsLink');
+        const supportButton: HTMLElement | null= document.querySelector('[data-analytics-name="Support"]');
+        const donateButton: HTMLElement | null = document.querySelector('[data-analytics-name="Donate"]');
+        const learnMoreButton: HTMLElement | null = document.querySelector('[data-test-get-started-button]');
+        const testimonials: HTMLElement | null = document.querySelector('[data-test-carousel-container]');
+        const testimonialsCarousel: HTMLElement | null = document.querySelector('[data-test-carousel-container]');
+        const integrations: HTMLElement | null = document.getElementById('integrationsLink');
 
         // if keyboard active, turn on liveregion
         // let msg = this.intl.t('new-home.voice-over.activate_keyboard_msg');
@@ -80,8 +82,13 @@ export default class Home extends Controller {
                 // 'Alt' + '1'
                 case('¡'):
                     console.log('Opening the OSF Products navbar.');
+                    // click  OSF Products dropdown caret
                     if (OSFProductDropdownCaret) {
                         OSFProductDropdownCaret.click();
+                    }
+                    if (OSFHOME) {
+                        // focus OSFHome in dropdown
+                        OSFHOME.classList.add('active');
                     }
                     break;
                 // 'Alt' + '2'
@@ -94,7 +101,7 @@ export default class Home extends Controller {
                     break;
                 // 'Alt' + '3'
                 case('£'):
-                    console.log('Redirecting OSF sign up page.');
+                    console.log('Redirecting to the OSF sign up page.');
                     if (signUpButton) {
                         // click on Sign up button
                         signUpButton.click();
@@ -102,7 +109,7 @@ export default class Home extends Controller {
                     break;
                 // 'Alt' + '4'
                 case('¢'):
-                    console.log(`Skip to main content: 'Get started'`);
+                    console.log(`Skipping to main content: 'Get started'`);
                     if (mainContent) {
                         // click main content skip link
                         mainContent.click();
@@ -110,7 +117,7 @@ export default class Home extends Controller {
                     break;
                 // 'Alt' + '5'
                 case('∞'):
-                    console.log('Skip to OSF Search');
+                    console.log('Skipping to OSF Search');
                     if (searchInput) {
                         // focus OSF Search input
                         searchInput.focus();
@@ -149,13 +156,17 @@ export default class Home extends Controller {
                         testimonials.click();
                     }
                     // focus Testimonials carousel
-                    if (testimonialsCarousel) {
-                        testimonialsCarousel.focus();
+                    try {
+                        if (testimonialsCarousel) {
+                            testimonialsCarousel.focus();
+                        }
+                    } catch (e) {
+                        return new Error('Keyboard for carousel not activated.');
                     }
                     break;
                 // 'Alt' + '0'
                 case('º'):
-                    console.log('Learn more about third-party integrations and add-ons available on the OSF.');
+                    console.log('Discover available third-party integrations and add-ons with the OSF.');
                     // click skip link for integrations
                     if (integrations) {
                         integrations.click();
