@@ -35,6 +35,7 @@ header {
 
 .slide-content {
     grid-area: slideData;
+    display: inline-flex;
 }
 
 .slide-content > li {
@@ -51,18 +52,11 @@ header {
 .testimonials-left {
     grid-area: researchLeft;
     margin: 0;
-    padding-bottom: 3px;
-    position: absolute;
-    left: -83px;
-    height: 100%;
-    width: 100%;
-    top: 33px;
-    justify-content: flex-start;
+    padding: 0;
 }
 
 .testimonials-left > span {
     text-align: center;
-    margin-right: 5%;
 
     p,
     a {
@@ -85,7 +79,6 @@ header {
     margin: -11px 0px 0px;
     top: -31px;
     width: 100%;
-    position: absolute;
 }
 
 .researcher-quote {
@@ -98,7 +91,7 @@ header {
     justify-content: flex-start;
     font-size: 3.4vmin;
     line-height: 48px;
-    padding: 1px 11% 6px;
+    padding: 1px 22% 6px;
     margin: -11px -60px 0px;
 }
 
@@ -107,7 +100,7 @@ header {
     padding: 0px 0px 43px;
 }
 
-.researcher-quote-small{
+.researcher-quote-small {
     justify-content: flex-start;
     font-family: 'Bree Serif';
     font-size: 2.0vh;
@@ -123,7 +116,6 @@ header {
     padding: 0px 0vh 0px;
     line-height: 2.6vh;
     width: 100%;
-    position: absolute;
 }
 
 .testimonials-left p:nth-of-type(1) {
@@ -139,7 +131,5 @@ header {
 
 .testimonial-researcher-profile {
     grid-area: researcherProfile;
-    position: relative;
-    left: 522px;
-    bottom: -10px;
+    width: 40%;
 }
