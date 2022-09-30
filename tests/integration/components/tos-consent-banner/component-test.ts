@@ -1,3 +1,4 @@
+import Service from '@ember/service';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -13,6 +14,12 @@ interface ThisTestContext extends TestContext {
     currentUser: CurrentUser;
 }
 
+const sessionStub = Service.extend({
+    isAuthenticated: false,
+    data: {},
+    on: () => { /* stub */ },
+});
+
 module('Integration | Component | tos-consent-banner', hooks => {
     setupRenderingTest(hooks);
     setupMirage(hooks);
@@ -21,6 +28,9 @@ module('Integration | Component | tos-consent-banner', hooks => {
     hooks.beforeEach(function(this: ThisTestContext) {
         this.store = this.owner.lookup('service:store');
         this.currentUser = this.owner.lookup('service:current-user');
+        this.owner.unregister('service:session');
+        this.owner.register('service:session', sessionStub);
+
     });
 
     hooks.afterEach(() => {
@@ -28,7 +38,7 @@ module('Integration | Component | tos-consent-banner', hooks => {
     });
 
     test('hidden when no user is logged in', async function(assert) {
-        await render(hbs`{{tos-consent-banner}}`);
+        await render(hbs`<TosConsentBanner />`);
         assert.dom(this.element).hasText('');
     });
 

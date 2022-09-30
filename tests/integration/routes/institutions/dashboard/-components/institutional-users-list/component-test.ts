@@ -12,6 +12,7 @@ module('Integration | routes | institutions | dashboard | -components | institut
 
     hooks.beforeEach(function(this: TestContext) {
         this.store = this.owner.lookup('service:store');
+        this.owner.unregister('service:router');
         this.owner.register('service:router', OsfLinkRouterStub);
     });
 

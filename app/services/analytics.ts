@@ -6,17 +6,25 @@ import Service, { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { restartableTask, waitForQueue } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
+import Cookies from 'ember-cookies/services/cookies';
 import config from 'ember-get-config';
 import Metrics from 'ember-metrics/services/metrics';
 import Session from 'ember-simple-auth/services/session';
 import Toast from 'ember-toastr/services/toast';
+import moment from 'moment';
 
+import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
 
 const {
     metricsAdapters,
     OSF: {
         analyticsAttrs,
+        apiUrl,
+        cookies: {
+            cookieConsent: cookieConsentCookie,
+            keenSessionId: sessionIdCookie,
+        },
     },
 } = config;
 
@@ -35,6 +43,14 @@ export interface InitialEventInfo {
     extra?: string;
     nonInteraction?: boolean;
 }
+
+export interface RouteMetricsMetadata {
+    itemGuid?: string;
+    isSearch?: boolean;
+    providerId?: string;
+}
+
+type PageviewActionLabel = 'web' | 'view' | 'search';
 
 function logEvent(analytics: Analytics, title: string, data: object) {
     runInDebug(() => {
@@ -153,6 +169,8 @@ export default class Analytics extends Service {
     @service ready!: Ready;
     @service router!: RouterService;
     @service toast!: Toast;
+    @service cookies!: Cookies;
+    @service currentUser!: CurrentUser;
 
     shouldToastOnEvent = false;
 
@@ -168,6 +186,9 @@ export default class Analytics extends Service {
     ) {
         // Wait until everything has settled
         await waitForQueue('destroy');
+
+        // osf metrics
+        await this._sendCountedUsage(this._getPageviewPayload());
 
         const eventParams = {
             page: this.router.currentURL,
@@ -296,6 +317,88 @@ export default class Analytics extends Service {
         this.metrics.trackEvent(trackedData);
 
         logEvent(this, 'Tracked event', trackedData);
+    }
+
+    async _sendCountedUsage(payload: object) {
+        await this.currentUser.authenticatedAJAX({
+            method: 'POST',
+            url: `${apiUrl}/_/metrics/events/counted_usage/`,
+            data: JSON.stringify(payload),
+            headers: {
+                'Content-Type': 'application/vnd.api+json',
+            },
+        });
+    }
+
+    _getPageviewPayload() {
+        const routeMetricsMetadata = this._getRouteMetricsMetadata();
+        const all_attrs = {
+            item_guid: routeMetricsMetadata.itemGuid,
+            provider_id: routeMetricsMetadata.providerId,
+            action_labels: this._getPageviewActionLabels(routeMetricsMetadata),
+            client_session_id: this._sessionId,
+        } as const;
+        const attributes = Object.fromEntries(
+            Object.entries(all_attrs).filter(
+                ([_,value]: [unknown, unknown]) => (typeof value !== 'undefined'),
+            ),
+        );
+        return {
+            data: {
+                type: 'counted-usage',
+                attributes: {
+                    ...attributes,
+                    pageview_info: {
+                        page_url: document.URL,
+                        page_title: document.title,
+                        referer_url: document.referrer,
+                        route_name: `ember-osf-web.${this.router.currentRouteName}`,
+                    },
+                },
+            },
+        };
+    }
+
+    get _sessionId() {
+        if (!this.cookies.exists(cookieConsentCookie)) {
+            return undefined;
+        }
+        const sessionId = (
+            this.cookies.read(sessionIdCookie)
+            || ('randomUUID' in crypto && (crypto as any).randomUUID())
+            || Math.random().toString()
+        );
+        this.cookies.write(sessionIdCookie, sessionId, {
+            expires: moment().add(25, 'minutes').toDate(),
+            path: '/',
+        });
+        return sessionId;
+    }
+
+    _getRouteMetricsMetadata(): RouteMetricsMetadata {
+        // build list of `osfMetrics` values from all current active routes
+        // for merging, ordered from root to leaf (so values from leafier
+        // routes can override those from rootier routes)
+        const metricsMetadatums = [];
+        let currentRouteInfo = this.router.currentRoute;
+        while (currentRouteInfo) {
+            if (currentRouteInfo.metadata?.osfMetrics) {
+                metricsMetadatums.unshift(currentRouteInfo.metadata.osfMetrics);
+            }
+            currentRouteInfo = currentRouteInfo.parent;
+        }
+        const mergedMetricsMetadata = Object.assign({}, ...metricsMetadatums);
+        return mergedMetricsMetadata;
+    }
+
+    _getPageviewActionLabels(routeMetricsMetadata: RouteMetricsMetadata): PageviewActionLabel[] {
+        const actionLabelMap: Record<PageviewActionLabel, Boolean> = {
+            web: true,
+            view: Boolean(routeMetricsMetadata.itemGuid),
+            search: Boolean(routeMetricsMetadata.isSearch),
+        };
+        const labels = Object.keys(actionLabelMap) as PageviewActionLabel[];
+        return labels.filter(label => actionLabelMap[label]);
     }
 }
 

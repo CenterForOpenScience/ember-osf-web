@@ -18,6 +18,7 @@ module('Registries | Integration | Component | registration-list-card', hooks =>
     setupMirage(hooks);
 
     hooks.beforeEach(function(this: ThisTestContext) {
+        this.owner.unregister('service:router');
         this.owner.register('service:router', OsfLinkRouterStub);
         this.store = this.owner.lookup('service:store');
 

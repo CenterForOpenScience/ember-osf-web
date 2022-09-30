@@ -1,10 +1,10 @@
 import Route from '@ember/routing/route';
 import { inject as service, Registry as ServiceRegistry } from '@ember/service';
 import config from 'ember-get-config';
-import SessionService from 'ember-simple-auth/services/session';
 
 import { NotLoggedIn } from 'ember-osf-web/errors';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import OsfSession from 'ember-osf-web/services/session';
 import transitionTargetURL from 'ember-osf-web/utils/transition-target-url';
 
 const {
@@ -30,7 +30,7 @@ export default function checkAuth<T extends ConcreteSubclass<Route>>(
 ) {
     class AuthenticatedRoute extends RouteSubclass {
         @service router!: ServiceRegistry['router'];
-        @service session!: SessionService;
+        @service session!: OsfSession;
         @service currentUser!: CurrentUser;
 
         async beforeModel(transition: any) {

@@ -12,6 +12,7 @@ module('Integration | Component | node-navbar/link', hooks => {
     setupRenderingTest(hooks);
 
     hooks.beforeEach(function(this: TestContext) {
+        this.owner.unregister('service:router');
         this.owner.register('service:router', OsfLinkRouterStub);
     });
 

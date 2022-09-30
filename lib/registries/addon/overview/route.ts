@@ -119,14 +119,6 @@ export default class Overview extends GuidRoute {
     }
 
     @action
-    async didTransition() {
-        const { taskInstance } = this.controller.model as GuidRouteModel<Registration>;
-        await taskInstance;
-        const registration = taskInstance.value;
-        this.analytics.trackPage(registration ? registration.public : undefined, 'registrations');
-    }
-
-    @action
     error() {
         this.replaceWith('page-not-found', notFoundURL(this.router.currentURL));
     }

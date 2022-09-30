@@ -1,15 +1,12 @@
-import { action } from '@ember/object';
 import Route from '@ember/routing/route';
+import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 
-import Analytics from 'ember-osf-web/services/analytics';
-
 export default class MeetingsDetail extends Route {
-    @service analytics!: Analytics;
-    @service router!: any;
+    @service router!: RouterService;
 
     @task
     @waitFor
@@ -27,10 +24,5 @@ export default class MeetingsDetail extends Route {
         return {
             taskInstance: taskFor(this.loadMeetingDetail).perform(params.meeting_id),
         };
-    }
-
-    @action
-    didTransition() {
-        this.analytics.trackPage();
     }
 }
