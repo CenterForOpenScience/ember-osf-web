@@ -1547,7 +1547,7 @@ registries:
         title: 'Almost done...'
         notice:
             noModeration: 'Remember:<ul><li>Do not edit any files until the registration has completely archived.</li><li>This will be permanent and cannot be deleted once submitted.</li><li>This registration will be copied to Internet Archive as a backup.</li><li>Title and contributors cannot be updated once submitted.</li></ul>'
-            withModeration: 'Remember:<ul><li>Do not edit any files until the registration has completely archived.</li><li>This will be permanent and cannot be deleted once submitted.</li><li>This registration will be copied to Internet Archive as a backup.</li><li>This registration will be copied to Internet Archive as a backup.</li><li>Title and contributors cannot be updated once submitted.</li><li>A moderator must review and approve your registration before it will be made public or embargoed.</li></ul>'
+            withModeration: 'Remember:<ul><li>Do not edit any files until the registration has completely archived.</li><li>This will be permanent and cannot be deleted once submitted.</li><li>This registration will be copied to Internet Archive as a backup.</li><li>Title and contributors cannot be updated once submitted.</li><li>A Moderator will review your registration before it will made public or embargoed.</li></ul>'
         immediateOption: 'Make registration public immediately'
         embargoOption: 'Enter registration into embargo'
 
