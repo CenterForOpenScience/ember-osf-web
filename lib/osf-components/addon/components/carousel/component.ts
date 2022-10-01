@@ -8,9 +8,13 @@ import CarouselItem from 'osf-components/components/carousel/x-item/component';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import Toast from 'ember-toastr/services/toast';
 =======
 >>>>>>> 25f9da9c7 (removed unnecessary styling, removed handlebars mobile queries, made dotnav buttons fully focusable, moved addLiveRegion code to separate branch, improved error message, removed unnecessary console log statements, updated tabindex to relevant elements.)
+=======
+import Toast from 'ember-toastr/services/toast';
+>>>>>>> 1606e3f51 (added dot navigation wirings for slides, updated aria labels and error messages, updated error handling, added try/catch block, added intl translation string helper, updated codes, entering debug for toastr.)
 
 import styles from './styles';
 import template from './template';
@@ -20,10 +24,15 @@ import template from './template';
 export default class Carousel extends Component {
     @service intl!: Intl;
 <<<<<<< HEAD
+<<<<<<< HEAD
     @service toast!: Toast;
 
 =======
 >>>>>>> 25f9da9c7 (removed unnecessary styling, removed handlebars mobile queries, made dotnav buttons fully focusable, moved addLiveRegion code to separate branch, improved error message, removed unnecessary console log statements, updated tabindex to relevant elements.)
+=======
+    @service toast!: Toast;
+
+>>>>>>> 1606e3f51 (added dot navigation wirings for slides, updated aria labels and error messages, updated error handling, added try/catch block, added intl translation string helper, updated codes, entering debug for toastr.)
     // Private properties
     carouselItems: CarouselItem[] = [];
 
@@ -175,9 +184,13 @@ export default class Carousel extends Component {
             const name = event.key;
             const code = event.code;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> 25f9da9c7 (removed unnecessary styling, removed handlebars mobile queries, made dotnav buttons fully focusable, moved addLiveRegion code to separate branch, improved error message, removed unnecessary console log statements, updated tabindex to relevant elements.)
+=======
+
+>>>>>>> 1606e3f51 (added dot navigation wirings for slides, updated aria labels and error messages, updated error handling, added try/catch block, added intl translation string helper, updated codes, entering debug for toastr.)
             // do not override native browser or SR controls
             if (name === 'Control' || name === 'Meta') {
                 return;
@@ -186,6 +199,9 @@ export default class Carousel extends Component {
             // switch operand based on user input
             // current wirings are for left, right and dot slide navigation
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 1606e3f51 (added dot navigation wirings for slides, updated aria labels and error messages, updated error handling, added try/catch block, added intl translation string helper, updated codes, entering debug for toastr.)
             try {
                 if (event.ctrlKey) {
                     event.preventDefault();
@@ -215,6 +231,7 @@ export default class Carousel extends Component {
                     default:
                         w.toastr.error(this.intl.t('osf-components.carousel.keyboard_error_message'));
                         break;
+<<<<<<< HEAD
 =======
             if (event.ctrlKey) {
                 switch(name) {
@@ -229,6 +246,8 @@ export default class Carousel extends Component {
                     if (rightNav) {
                         rightNav.click();
 >>>>>>> 25f9da9c7 (removed unnecessary styling, removed handlebars mobile queries, made dotnav buttons fully focusable, moved addLiveRegion code to separate branch, improved error message, removed unnecessary console log statements, updated tabindex to relevant elements.)
+=======
+>>>>>>> 1606e3f51 (added dot navigation wirings for slides, updated aria labels and error messages, updated error handling, added try/catch block, added intl translation string helper, updated codes, entering debug for toastr.)
                     }
                 } else if (event.altKey) {
                     event.preventDefault();
@@ -258,6 +277,7 @@ export default class Carousel extends Component {
                         }
                     }
 <<<<<<< HEAD
+<<<<<<< HEAD
                 } else {
                     w.toastr.error(this.intl.t('osf-components.carousel.dot_nav_error_message'));
                 }
@@ -274,11 +294,17 @@ export default class Carousel extends Component {
                 default:
                     throw new Error(this.intl.t('osf-components.carousel.keyboard_error_message'));
                     break;
+=======
+                } else {
+                    w.toastr.error(this.intl.t('osf-components.carousel.dot_nav_error_message'));
+>>>>>>> 1606e3f51 (added dot navigation wirings for slides, updated aria labels and error messages, updated error handling, added try/catch block, added intl translation string helper, updated codes, entering debug for toastr.)
                 }
-            } else {
-                console.log(`Other key registered: \n\tname ${name} \nt code: ${code}`);
+
+            } catch(e) {
+                w.toastr.error(this.intl.t('osf-components.carousel.key_name_and_code'));
             }
         }, true);
+<<<<<<< HEAD
 
         if (dotNav) {
             const buttonElements = dotNav.children;
@@ -305,5 +331,7 @@ export default class Carousel extends Component {
             });
         }
 >>>>>>> 25f9da9c7 (removed unnecessary styling, removed handlebars mobile queries, made dotnav buttons fully focusable, moved addLiveRegion code to separate branch, improved error message, removed unnecessary console log statements, updated tabindex to relevant elements.)
+=======
+>>>>>>> 1606e3f51 (added dot navigation wirings for slides, updated aria labels and error messages, updated error handling, added try/catch block, added intl translation string helper, updated codes, entering debug for toastr.)
     }
 }
