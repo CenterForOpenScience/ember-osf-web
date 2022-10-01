@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
@@ -8,6 +7,7 @@ import CarouselItem from 'osf-components/components/carousel/x-item/component';
 
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
+import Toast from 'ember-toastr/services/toast';
 
 import styles from './styles';
 import template from './template';
@@ -16,8 +16,15 @@ import template from './template';
 @tagName('')
 export default class Carousel extends Component {
     @service intl!: Intl;
+    @service toast!: Toast;
+
     // Private properties
     carouselItems: CarouselItem[] = [];
+
+    constructor(...args: any[]) {
+        super(...args);
+        this.registerKeyboard.bind(this);
+    }
 
     @computed('carouselItems.{length,@each.isActive}')
     get activeSlide() {
@@ -59,17 +66,28 @@ export default class Carousel extends Component {
      *  components with a keyboard rather than using a mouse. The keybindings are
      *  designed for optimal ergonomic comfort as well as improving overall user
      *  experience while within the application.
+     *
+     *  @author : chthonix
+     *  @date : Sat Oct 01 2022 14:26:06 GMT-0400
      */
     registerKeyboard() {
         // locate elements
-        const dotNav = document.getElementById('dotNav');
-        const leftNav = document.getElementById('leftNav');
-        const rightNav = document.getElementById('rightNav');
+        const carousel: HTMLElement = document.querySelector('[data-test-carousel-container]') as HTMLElement;
+        const leftNav: HTMLElement = document.getElementById('leftNav') as HTMLElement;
+        const rightNav: HTMLElement = document.getElementById('rightNav') as HTMLElement;
+
+        const dotNav: HTMLElement = document.getElementById('dotNav') as HTMLElement;
+        const buttonElements: HTMLCollection = dotNav.children;
+        const buttonOne: HTMLElement = buttonElements[0].children[0] as HTMLElement;
+        const buttonTwo: HTMLElement = buttonElements[1].children[0] as HTMLElement;
+        const buttonThree: HTMLElement = buttonElements[2].children[0] as HTMLElement;
+        const w = window;
 
         // set up event listener for keyboard input
         document.addEventListener('keydown', event => {
             const name = event.key;
             const code = event.code;
+
             // do not override native browser or SR controls
             if (name === 'Control' || name === 'Meta') {
                 return;
@@ -77,61 +95,70 @@ export default class Carousel extends Component {
 
             // switch operand based on user input
             // current wirings are for left, right and dot slide navigation
-            if (event.ctrlKey) {
-                switch(name) {
-                case('f'):
-                    console.log('navigating to previous slide.');
-                    if (leftNav) {
-                        leftNav.click();
+            try {
+                if (event.ctrlKey) {
+                    event.preventDefault();
+                    switch(name) {
+                    // previous slide
+                    case('f'):
+                        if (leftNav) {
+                            leftNav.click();
+                        }
+                        break;
+                    // next slide
+                    case('j'):
+                        if (rightNav) {
+                            rightNav.click();
+                        }
+                        break;
+                    // dot navigation
+                    case('d'):
+                        if (dotNav) {
+                            buttonOne.click();
+                        }
+                        break;
+                    // re-focus carousel
+                    case('r'):
+                        carousel.focus();
+                        break;
+                    default:
+                        w.toastr.error(this.intl.t('osf-components.carousel.keyboard_error_message'));
+                        break;
                     }
-                    break;
-                case('j'):
-                    console.log('navigating to next slide.');
-                    if (rightNav) {
-                        rightNav.click();
-                    }
-                    break;
-                case('d'):
-                    console.log('inside carousel dot navigation.');
+                } else if (event.altKey) {
+                    event.preventDefault();
                     if (dotNav) {
-                        dotNav.focus();
+                        switch(code) {
+                        // slide 1
+                        case('Digit1'):
+                            if (buttonOne) {
+                                buttonOne.click();
+                            }
+                            break;
+                        // slide 2
+                        case('Digit2'):
+                            if (buttonTwo) {
+                                buttonTwo.click();
+                            }
+                            break;
+                        // slide 3
+                        case('Digit3'):
+                            if (buttonThree) {
+                                buttonThree.click();
+                            }
+                            break;
+                        default:
+                            w.toastr.error(this.intl.t('osf-components.carousel.slide_nav_error_message'));
+                            break;
+                        }
                     }
-                    break;
-                // TODO re-add registerKeyboard()
-                // case('k'):
-                    // re-open keyboard menu
-                default:
-                    throw new Error(this.intl.t('osf-components.carousel.keyboard_error_message'));
-                    break;
+                } else {
+                    w.toastr.error(this.intl.t('osf-components.carousel.dot_nav_error_message'));
                 }
-            } else {
-                console.log(`Other key registered: \n\tname ${name} \nt code: ${code}`);
+
+            } catch(e) {
+                w.toastr.error(this.intl.t('osf-components.carousel.key_name_and_code'));
             }
         }, true);
-
-        if (dotNav) {
-            const buttonElements = dotNav.children;
-            const buttonOne = document.querySelectorAll("['data-test-navigation-button']")[0];
-            const buttonTwo : Element = buttonElements[1].children[0] || null;
-            const buttonThree : Element = buttonElements[2].children[0] || null;
-
-            document.addEventListener('keyup', event => {
-                if (event.code === '49') {
-                    if (buttonOne) {
-                        buttonOne.classList.add('active'); // TODO test
-                    }
-                }
-                if (event.code === '50') {
-                    if (buttonTwo) {
-                        buttonTwo.classList.add('active');
-                    }
-                }
-                if (event.code === '51') {
-                    if (buttonThree) {
-                        buttonThree.classList.add('active');
-                    }
-                }
-            });
-        }
     }
 }
