@@ -1,4 +1,3 @@
-import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import { taskFor } from 'ember-concurrency-ts';
@@ -6,13 +5,11 @@ import Session from 'ember-simple-auth/services/session';
 
 import DashboardController from 'ember-osf-web/dashboard/controller';
 import requireAuth from 'ember-osf-web/decorators/require-auth';
-import Analytics from 'ember-osf-web/services/analytics';
 import CurrentUser from 'ember-osf-web/services/current-user';
 import Ready from 'ember-osf-web/services/ready';
 
 @requireAuth('home')
 export default class Dashboard extends Route {
-    @service analytics!: Analytics;
     @service currentUser!: CurrentUser;
     @service ready!: Ready;
     @service session!: Session;
@@ -26,10 +23,5 @@ export default class Dashboard extends Route {
         } catch (e) {
             blocker.errored(e);
         }
-    }
-
-    @action
-    didTransition() {
-        this.analytics.trackPage();
     }
 }

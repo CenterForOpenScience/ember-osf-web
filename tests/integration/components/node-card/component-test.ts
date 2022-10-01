@@ -21,6 +21,7 @@ module('Integration | Component | node-card', hooks => {
     });
 
     test('it renders', async function(this: TestContext, assert) {
+        this.owner.unregister('service:router');
         this.owner.register('service:router', OsfLinkRouterStub);
         const registration = server.create('registration', {
             tags: ['a', 'b', 'c'],
@@ -114,6 +115,7 @@ module('Integration | Component | node-card', hooks => {
     });
 
     test('it renders pending registration', async function(this: TestContext, assert) {
+        this.owner.unregister('service:router');
         this.owner.register('service:router', OsfLinkRouterStub);
         const registration = server.create('registration', {
             reviewsState: RegistrationReviewStates.Pending,

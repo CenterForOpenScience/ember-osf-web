@@ -14,6 +14,7 @@ module('Integration | Component | draft-registration-card', hooks => {
     hooks.beforeEach(function(this: TestContext) {
         this.store = this.owner.lookup('service:store');
         this.intl = this.owner.lookup('service:intl');
+        this.owner.unregister('service:router');
         this.owner.register('service:router', OsfLinkRouterStub);
         server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');

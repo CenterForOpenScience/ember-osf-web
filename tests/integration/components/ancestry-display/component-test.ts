@@ -22,6 +22,7 @@ module('Integration | Component | ancestry-display', hooks => {
 
     hooks.beforeEach(function(this: TestContext) {
         this.store = this.owner.lookup('service:store');
+        this.owner.unregister('service:router');
         this.owner.register('service:router', OsfLinkRouterStub.extend({
             urlFor(__: any, modelId: string) {
                 return `/${modelId}`;
