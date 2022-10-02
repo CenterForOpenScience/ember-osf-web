@@ -17,7 +17,7 @@
     >
         {{#each this.carouselItems as |item|}}
             <BsButton
-                role='tab'
+                @role='tab'
                 @type='button'
                 local-class={{if item.isActive 'current dotnav-button' 'dotnav-button'}}
                 {{action this.navClick item}}
@@ -38,6 +38,7 @@
     <div local-class='carousel-slide'>
         <BsButton
             @type='button'
+            @role='button'
             id='leftNav'
             local-class='previous-slide'
             data-test-carousel-button-previous
@@ -57,6 +58,7 @@
         </ul>
         <BsButton
             @type='button'
+            @role='button'
             local-class='next-slide'
             id='rightNav'
             @onClick={{action this.changeSlide 'next'}}
