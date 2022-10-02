@@ -50,32 +50,60 @@ module('Integration | Component | carousel', hooks => {
         await click('[data-test-carousel-button-next]');
         assert.dom('[data-test-slide-2]').exists();
         assert.dom('[data-test-slide-2]').isVisible();
+        assert.dom('[data-test-slide-1]').isNotVisible();
+        assert.dom('[data-test-slide-3]').isNotVisible();
 
         await click('[data-test-carousel-button-next]');
         assert.dom('[data-test-slide-3]').exists();
         assert.dom('[data-test-slide-3]').isVisible();
+        assert.dom('[data-test-slide-1]').isNotVisible();
+        assert.dom('[data-test-slide-2]').isNotVisible();
 
         await click('[data-test-carousel-button-next]');
         assert.dom('[data-test-slide-1]').exists();
         assert.dom('[data-test-slide-1]').isVisible();
+        assert.dom('[data-test-slide-2]').isNotVisible();
+        assert.dom('[data-test-slide-3]').isNotVisible();
 
         // test previous button
         await click('[data-test-carousel-button-previous]');
         assert.dom('[data-test-slide-3]').exists();
         assert.dom('[data-test-slide-3]').isVisible();
+        assert.dom('[data-test-slide-1]').isNotVisible();
+        assert.dom('[data-test-slide-2]').isNotVisible();
 
         await click('[data-test-carousel-button-previous]');
         assert.dom('[data-test-slide-2]').exists();
         assert.dom('[data-test-slide-2]').isVisible();
+        assert.dom('[data-test-slide-1]').isNotVisible();
+        assert.dom('[data-test-slide-3]').isNotVisible();
 
         await click('[data-test-carousel-button-previous]');
         assert.dom('[data-test-slide-1]').exists();
         assert.dom('[data-test-slide-1]').isVisible();
+        assert.dom('[data-test-slide-2]').isNotVisible();
+        assert.dom('[data-test-slide-3]').isNotVisible();
     });
 
     test('li navigation works', async function(assert) {
         assert.dom('[data-test-dot-navigation]').exists();
+        assert.dom('[data-test-navigation-button]').exists({ count: 3 });
+        // slide 2
+        await click('[data-test-navigation-button]:nth-of-type(2)');
+        assert.dom('[data-test-slide-2]').isVisible();
+        assert.dom('[data-test-slide-1]').isNotVisible();
+        assert.dom('[data-test-slide-3]').isNotVisible();
 
-        // TODO complete test
+        // slide 3
+        await click('[data-test-navigation-button]:nth-of-type(3)');
+        assert.dom('[data-test-slide-3]').isVisible();
+        assert.dom('[data-test-slide-1]').isNotVisible();
+        assert.dom('[data-test-slide-2]').isNotVisible();
+
+        // slide 1
+        await click('[data-test-navigation-button]:nth-of-type(1)');
+        assert.dom('[data-test-slide-1]').isVisible();
+        assert.dom('[data-test-slide-2]').isNotVisible();
+        assert.dom('[data-test-slide-3]').isNotVisible();
     });
 });
