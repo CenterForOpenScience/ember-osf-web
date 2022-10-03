@@ -25,20 +25,24 @@
                     {{loading-indicator dark=true}}
                 {{else}}
                     <h2>{{this.linkedByCount}}</h2>
-                    <button
-                        type='button'
-                        class='btn btn-link'
-                        local-class='button-link'
-                        {{on 'click' this.showLinksModal}}
+                    <OsfDialog
+                        as |dialog|
                     >
-                        {{t 'analytics.viewLinks'}}
-                    </button>
-                    {{#if this.linksModalShown}}
-                        {{#bs-modal-simple
-                            title=(t 'analytics.links')
-                            closeTitle=(t 'general.close')
-                            onHide=(action 'hideLinksModal')
-                        }}
+                        <dialog.trigger>
+                            <button
+                                type='button'
+                                class='btn btn-link'
+                                local-class='button-link'
+                                {{on 'click' dialog.open}} 
+                                data-analytics-name='Analytics - View links - Open modal'
+                            >
+                                {{t 'analytics.viewLinks'}}
+                            </button>
+                        </dialog.trigger>
+                        <dialog.heading>
+                            {{t 'analytics.links'}}
+                        </dialog.heading>
+                        <dialog.main>
                             {{#if this.node}}
                                 <ul class='list-group'>
                                     {{#paginated-list/has-many
@@ -64,8 +68,13 @@
                             {{else}}
                                 <LoadingIndicator @dark={{true}} />
                             {{/if}}
-                        {{/bs-modal-simple}}
-                    {{/if}}
+                        </dialog.main>
+                        <dialog.footer>
+                            <Button {{on 'click' dialog.close}} data-analytics-name='Analytics - View links - Close modal'>
+                                {{t 'general.cancel'}}
+                            </Button>
+                        </dialog.footer>
+                    </OsfDialog>
                 {{/if}}
             </div>
         </div>
