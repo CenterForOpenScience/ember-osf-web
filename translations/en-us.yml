@@ -147,6 +147,8 @@ dashboard:
             preview_alt: 'Preview of a full quick projects screen'
         private_parent: 'Private project / '
         private_grandparent: 'Private project / Private / '
+    getting_started: 'Getting Started'
+    osf_video: 'OSF 101 Video'
     noteworthy:
         description: 'Discover public projects'
         new_and_noteworthy: 'New and noteworthy'
@@ -372,6 +374,7 @@ new-home:
     support-section:
         header: 'How OSF supports your research'
         arrow: arrow
+        osf_video: 'OSF 101 Video' 
         search:
             header: 'Search and Discover'
             description: 'Find papers, data, and materials to inspire your next research project. Search public projects to build on the work of others and find new collaborators.'

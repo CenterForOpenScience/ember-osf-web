@@ -20,7 +20,7 @@ const {
     },
 } = config;
 
-type AnchorRel = 'noreferrer' | 'noopener';
+type AnchorRel = 'noreferrer' | 'noopener' | 'noopener noreferrer';
 type AnchorTarget = '_self' | '_blank' | '_parent' | '_top';
 
 @tagName('')
@@ -36,7 +36,7 @@ export default class OsfLink extends Component {
     queryParams?: Record<string, unknown>;
     fragment?: string;
 
-    rel: AnchorRel = 'noopener';
+    rel: AnchorRel = 'noopener noreferrer';
     target: AnchorTarget = '_self';
 
     onClick?: () => void;
