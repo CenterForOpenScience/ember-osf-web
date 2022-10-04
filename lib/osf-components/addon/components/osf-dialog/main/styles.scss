@@ -1,5 +1,12 @@
+$dialog-background-top: 50px;
+$dialog-header-height: 50px;
+$dialog-footer-height: 50px;
+$dialog-main-adjustment: $dialog-background-top + $dialog-header-height + $dialog-footer-height;
+
 .Main {
     max-height: 60vh;
     overflow: auto;
     padding: 1rem 1.25rem;
+    height: calc(100vh - #{$dialog-main-adjustment});
+    min-height: 175px;
 }

@@ -1,11 +1,9 @@
 .DialogBackground {
     position: fixed;
-    top: 0;
+    top: 50px;
     bottom: 0;
     left: 0;
     right: 0;
-
-    padding-bottom: 10vh;
 
     display: flex;
     align-items: center;
@@ -23,11 +21,13 @@
     backdrop-filter: grayscale(100%) blur(5px);
 }
 
+
 .Dialog {
     pointer-events: auto;
     max-height: 90vh;
 
     .DialogDocument {
+        min-height: 250px;
         display: flex;
         flex-direction: column;
         background: $color-bg-white;
