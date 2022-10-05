@@ -5,6 +5,7 @@ import {
     currentURL,
     fillIn,
     find,
+    triggerKeyEvent,
 } from '@ember/test-helpers';
 import { ModelInstance } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -12,6 +13,7 @@ import { TestContext, t } from 'ember-intl/test-support';
 import { percySnapshot } from 'ember-percy';
 import { setBreakpoint } from 'ember-responsive/test-support';
 import { module, test } from 'qunit';
+import sinon from 'sinon';
 
 import { getHrefAttribute, visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
@@ -401,6 +403,78 @@ module('Registries | Acceptance | registries revision', hooks => {
         await click('[data-test-goto-previous-page]');
 
         assert.dom('[data-test-page-label]').containsText('This is the second page');
+    });
+
+    test('it shows failed revision saves/deletes', async function(this: RevisionTestContext, assert) {
+        server.namespace = '/v2';
+        server.patch('/schema_responses/:id', () => ({
+            errors: [{ detail: 'Fail to save schema response' }],
+        }), 400);
+        server.del('/schema_responses/:id', () => ({
+            errors: [{ detail: 'Fail to delete schema response' }],
+        }), 403);
+        const initiatedBy = server.create('user', 'loggedIn');
+        const revision = server.create(
+            'schema-response', {
+                initiatedBy,
+                revisionResponses: {},
+                registration: this.registration,
+            },
+        );
+
+        const timer = sinon.useFakeTimers({ shouldAdvanceTime: true });
+
+        // Fail justification save
+        await visit(`/registries/revisions/${revision.id}/`);
+        triggerKeyEvent('textarea[name="revisionJustification"]', 'keyup', 32);
+        await timer.tickAsync(3001); // skip debounce
+        assert.dom('#toast-container', document as any).containsText(
+            t('registries.drafts.draft.metadata.failed_auto_save'),
+            'Error toast on failed metadata save',
+        );
+        await timer.tickAsync(5000); // skip until toast gone
+
+        // Fail form save
+        await click('[data-test-goto-next-page]');
+        triggerKeyEvent('[data-test-text-input] input', 'keyup', 32);
+        await timer.tickAsync(3001); // skip debounce
+        assert.dom('#toast-container', document as any).containsText(
+            t('registries.drafts.draft.form.failed_auto_save'),
+            'Error toast on failed page save',
+        );
+        await timer.tickAsync(5000); // skip until toast gone
+
+        // Fail delete
+        await click('[data-test-delete-button]');
+        await click('[data-test-confirm-delete]');
+        assert.dom('#toast-container', document as any).hasTextContaining(
+            t('registries.edit_revision.delete_modal.delete_error'),
+            'Error toast on failed draft delete',
+        );
+    });
+
+    test('it warns users when navigating/closing window', async function(this: RevisionTestContext, assert) {
+        const confirm = sinon.fake();
+        window.confirm = confirm;
+        const beforeunload = sinon.fake();
+        window.onbeforeunload = beforeunload;
+        const initiatedBy = server.create('user', 'loggedIn');
+        const revision = server.create(
+            'schema-response', {
+                initiatedBy,
+                revisionResponses: {},
+                registration: this.registration,
+            },
+        );
+
+        await visit(`/registries/revisions/${revision.id}/`);
+
+        triggerKeyEvent('textarea[name="revisionJustification"]', 'keyup', 32);
+        await click('[data-test-add-new-button]');
+        sinon.assert.calledOnce(confirm);
+        window.dispatchEvent(new Event('beforeunload'));
+        sinon.assert.calledOnce(beforeunload);
+        assert.ok('it warns users when navigating/closing window');
     });
 
     // TODO: investigate why validation status doesn't update when we have responses defined in the revision

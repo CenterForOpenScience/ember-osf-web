@@ -15,6 +15,15 @@
     }
 }
 
+.iframe-container {
+    margin-bottom: 30px;
+
+    .osf-video {
+        width: 560px;
+        height: 315px;
+    }
+}
+
 .supportItem {
     display: inline-block;
 }
@@ -59,6 +68,19 @@
 @media (max-width: 768px) {
     .container h1 {
         font-size: 36px;
+    }
+
+    .iframe-container {
+        justify-content: center;
+       
+        &.flex-row {
+            display: flex;
+        }
+
+        .osf-video {
+            width: 336px;
+            height: 190px;
+        }
     }
 }
 

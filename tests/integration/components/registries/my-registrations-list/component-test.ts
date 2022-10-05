@@ -14,6 +14,7 @@ module('Integration | Component | my-registrations-list', hooks => {
     hooks.beforeEach(async function(this: TestContext) {
         this.store = this.owner.lookup('service:store');
         this.intl = this.owner.lookup('service:intl');
+        this.owner.unregister('service:router');
         this.owner.register('service:router', OsfLinkRouterStub);
     });
 

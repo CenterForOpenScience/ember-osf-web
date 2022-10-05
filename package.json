@@ -1,6 +1,6 @@
 {
   "name": "ember-osf-web",
-  "version": "22.9.0",
+  "version": "22.10.0",
   "description": "Ember front-end for the Open Science Framework",
   "license": "Apache-2.0",
   "author": "Center for Open Science <support@cos.io>",
@@ -131,14 +131,13 @@
     "ember-cli-htmlbars": "^5.7.1",
     "ember-cli-inject-live-reload": "^2.0.2",
     "ember-cli-inline-content": "0.4.1",
-    "ember-cli-meta-tags": "^6.1.2",
-    "ember-cli-mirage": "^2.0.1",
+    "ember-cli-meta-tags": "^7.0.0",
+    "ember-cli-mirage": "^2.4.0",
     "ember-cli-moment-shim": "^3.5.0",
     "ember-cli-password-strength": "^2.0.0",
     "ember-cli-release": "^1.0.0-beta.2",
     "ember-cli-sanitize-html": "^2.0.3",
     "ember-cli-sass": "^10.0.0",
-    "ember-cli-shims": "^1.2.0",
     "ember-cli-showdown": "^4.4.4",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-string-helpers": "^5.0.0",
@@ -156,7 +155,7 @@
     "ember-concurrency-ts": "^0.2.2",
     "ember-content-placeholders": "https://github.com/cos-forks/ember-content-placeholders#master#2018-07-19",
     "ember-cookies": "^0.4.0",
-    "ember-cp-validations": "https://github.com/GavinJoyce/ember-cp-validations#gj/ember-3.13",
+    "ember-cp-validations": "4.0.0-beta.13",
     "ember-css-modules": "^1.0.3",
     "ember-css-modules-reporter": "^1.2.0",
     "ember-css-modules-sass": "^1.0.1",
@@ -164,7 +163,7 @@
     "ember-data": "~3.26.0",
     "ember-decorators": "^6.1.1",
     "ember-diff-attrs": "^0.2.1",
-    "ember-element-helper": "^0.5.5",
+    "ember-element-helper": "^0.6.1",
     "ember-engines": "^0.8.13",
     "ember-event-helpers": "^0.1.0",
     "ember-exam": "^6.0.1",
@@ -193,7 +192,7 @@
     "ember-radio-button": "^2.0.0",
     "ember-resolver": "^8.0.2",
     "ember-responsive": "^3.0.0",
-    "ember-simple-auth": "^2.1.1",
+    "ember-simple-auth": "^4.2.2",
     "ember-sinon": "^5.0.0",
     "ember-sinon-qunit": "^5.0.0",
     "ember-sortable": "2.2",
@@ -229,7 +228,7 @@
     "loaders.css": "^0.1.2",
     "mime-types": "^2.1.22",
     "mocha": "^6.1.4",
-    "node-sass": "^4.13.1",
+    "node-sass": "^4.14.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.2.1",
     "qunit": "^2.14.1",
@@ -246,7 +245,9 @@
   },
   "resolutions": {
     "ember-cli-clipboard": "0.9.0",
-    "@embroider/macros": "^1.0.0"
+    "@embroider/macros": "^1.0.0",
+    "ember-element-helper": "^0.6.1",
+    "ember-validators": "^4.1.1"
   },
   "engines": {
     "node": "10.* || >= 12"
@@ -266,7 +267,7 @@
     ]
   },
   "volta": {
-    "node": "10.18.0",
+    "node": "14.15.0",
     "yarn": "1.21.1"
   },
   "dependencies": {}

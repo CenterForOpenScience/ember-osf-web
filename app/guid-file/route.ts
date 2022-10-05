@@ -1,4 +1,3 @@
-import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
@@ -8,7 +7,6 @@ import { taskFor } from 'ember-concurrency-ts';
 import moment from 'moment';
 
 import Institution from 'ember-osf-web/models/institution';
-import Analytics from 'ember-osf-web/services/analytics';
 import MetaTags, { HeadTagDef } from 'ember-osf-web/services/meta-tags';
 import Ready from 'ember-osf-web/services/ready';
 import OsfStorageFile from 'ember-osf-web/packages/files/osf-storage-file';
@@ -27,7 +25,6 @@ import CurrentUserService from 'ember-osf-web/services/current-user';
 import RegistrationModel from 'ember-osf-web/models/registration';
 
 export default class GuidFile extends Route {
-    @service analytics!: Analytics;
     @service('head-tags') headTagsService!: HeadTagsService;
     @service metaTags!: MetaTags;
     @service ready!: Ready;
@@ -116,8 +113,11 @@ export default class GuidFile extends Route {
         taskFor(this.setHeadTags).perform(model.fileModel);
     }
 
-    @action
-    didTransition() {
-        this.analytics.trackPage(true, 'files');
+    buildRouteInfoMetadata() {
+        return {
+            osfMetrics: {
+                itemGuid: this.controller.model.id,
+            },
+        };
     }
 }

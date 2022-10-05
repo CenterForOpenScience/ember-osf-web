@@ -1,4 +1,3 @@
-import { action } from '@ember/object';
 import Transition from '@ember/routing/-private/transition';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
@@ -8,7 +7,6 @@ import config from 'ember-get-config';
 
 import requireAuth from 'ember-osf-web/decorators/require-auth';
 import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
-import Analytics from 'ember-osf-web/services/analytics';
 import BrandedRegistriesNewSubmissionController from './controller';
 
 const {
@@ -19,7 +17,6 @@ const {
 
 @requireAuth()
 export default class BrandedRegistriesNewSubmissionRoute extends Route {
-    @service analytics!: Analytics;
     @service features!: Features;
 
     model() {
@@ -49,10 +46,5 @@ export default class BrandedRegistriesNewSubmissionRoute extends Route {
 
         taskFor(controller.projectSearch).perform();
         taskFor(controller.findAllSchemas).perform();
-    }
-
-    @action
-    didTransition() {
-        this.analytics.trackPage();
     }
 }

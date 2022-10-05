@@ -74,10 +74,15 @@
     </span>
 {{/if}}
 <span local-class='SaveMessage'>
-    {{t 'registries.drafts.draft.form.last_saved'}}
-    <TimeSince
-        @date={{@draftManager.draftRegistration.datetimeUpdated}}
-    />
+    {{#if @draftManager.autoSaving}}
+        <LoadingIndicator @inline={{true}} @dark={{true}}/>
+        {{t 'registries.drafts.draft.auto_saving'}}
+    {{else}}
+        {{t 'registries.drafts.draft.form.last_saved'}}
+        <TimeSince
+            @date={{@draftManager.draftRegistration.datetimeUpdated}}
+        />
+    {{/if}}
 </span>
 
 {{#if @draftManager.currentUserIsAdmin}}
