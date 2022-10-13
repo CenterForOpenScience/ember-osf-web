@@ -216,6 +216,7 @@ module.exports = function(environment) {
         },
         featureFlagNames: {
             routes: {
+                'collections.moderation': 'collections_moderation',
                 'registries.branded': 'branded_registries',
                 'registries.branded.discover': 'branded_registries',
                 'guid-node.index': 'ember_project_detail_page',
