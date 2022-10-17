@@ -3,9 +3,8 @@ import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
 
-import OsfModel from './osf-model';
-import RegistrationModel from './registration';
-import UserModel from './user';
+import Action from './action';
+import RegistrationModel, { RegistrationReviewStates } from './registration';
 
 export enum ReviewActionTrigger {
     Submit = 'submit', // registration submitted by admins
@@ -29,23 +28,15 @@ const TriggerToPastTenseTranslationKey: Record<ReviewActionTrigger, string> = {
     request_embargo_termination: 'registries.reviewActions.triggerPastTense.request_embargo_termination',
 };
 
-export default class ReviewActionModel extends OsfModel {
+export default class ReviewActionModel extends Action {
     @service intl!: Intl;
 
     @attr('string') actionTrigger!: ReviewActionTrigger;
-    @attr('fixstring') comment!: string;
-    @attr('string') fromState!: string;
-    @attr('string') toState!: string;
-    @attr('date') dateCreated!: Date;
-    @attr('date') dateModified!: Date;
-    @attr('boolean') auto!: boolean;
-    @attr('boolean') visible!: boolean;
+    @attr('string') fromState!: RegistrationReviewStates;
+    @attr('string') toState!: RegistrationReviewStates;
 
     @belongsTo('registration', { inverse: 'reviewActions', polymorphic: true })
     target!: AsyncBelongsTo<RegistrationModel> & RegistrationModel;
-
-    @belongsTo('user', { inverse: null })
-    creator!: AsyncBelongsTo<UserModel> & UserModel;
 
     @computed('actionTrigger')
     get triggerPastTense(): string {
