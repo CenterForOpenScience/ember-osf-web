@@ -317,6 +317,19 @@ export default function(this: Server) {
         path: 'collections/:parentID/collected_metadata/',
     });
     this.post('/search/collections/', searchCollections);
+    osfResource(this, 'collected-metadatum', {
+        only: ['show', 'update', 'delete'],
+        path: '/collected_metadata',
+    });
+    osfNestedResource(this, 'collected-metadatum', 'collectionSubmissionActions', {
+        only: ['index'],
+        path: '/collected_metadata/:parentID/actions',
+        relatedModelName: 'collection-submission-action',
+    });
+    osfResource(this, 'collection-submission-action', {
+        only: ['show'],
+    });
+    // this.post('/collection_submission_actions', someModerationThing);
 
     osfResource(this, 'resource', { except: ['index', 'update', 'create'] });
     this.patch('/resources/:id', updateResource);

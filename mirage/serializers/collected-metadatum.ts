@@ -41,6 +41,14 @@ export default class CollectedMetadatumSerializer extends ApplicationSerializer<
                     },
                 },
             },
+            collectionSubmissionActions: {
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/collected_metadata/${model.id}/actions/`,
+                        meta: this.buildRelatedLinkMeta(model, 'collectionSubmissionActions'),
+                    },
+                },
+            },
         };
     }
 }
