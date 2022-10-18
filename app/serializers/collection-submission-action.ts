@@ -1,10 +1,10 @@
 import ActionSerializer from './action';
 
-export default class ReviewActionSerializer extends ActionSerializer {
+export default class CollectionSubmissionActionSerializer extends ActionSerializer {
 }
 
 declare module 'ember-data/types/registries/serializer' {
     export default interface SerializerRegistry {
-        'review-action': ReviewActionSerializer;
+        'collection-submission-action': CollectionSubmissionActionSerializer;
     } // eslint-disable-line semi
 }

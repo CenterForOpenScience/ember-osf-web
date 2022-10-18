@@ -1,4 +1,4 @@
-import { belongsTo, attr } from '@ember-data/model';
+import { belongsTo, hasMany, AsyncHasMany, attr } from '@ember-data/model';
 import { computed } from '@ember/object';
 import { alias as iAlias } from '@ember/object/computed';
 import { buildValidations, validator } from 'ember-cp-validations';
@@ -6,6 +6,7 @@ import { buildValidations, validator } from 'ember-cp-validations';
 import tuple from 'ember-osf-web/utils/tuple';
 
 import Collection, { ChoicesFields } from './collection';
+import CollectionSubmissionAction from './collection-submission-action';
 import Node from './node';
 import OsfModel from './osf-model';
 import User from './user';
@@ -19,6 +20,13 @@ export const choiceFields = tuple(
     'studyDesign',
     'schoolType',
 );
+
+export enum CollectionSubmissionReviewStates {
+    Pending = 'pending',
+    Accepted = 'accepted',
+    Rejected = 'rejected',
+    Removed = 'removed',
+}
 
 const Validations = buildValidations({
     ...choiceFields.reduce((acc, val) => {
@@ -54,6 +62,8 @@ export default class CollectedMetadatumModel extends OsfModel.extend(Validations
     @belongsTo('collection') collection!: Collection;
     @belongsTo('node') guid!: Node;
     @belongsTo('user') creator!: User;
+    @hasMany('collection-submission-action')
+    collectionSubmissionActions!: AsyncHasMany<CollectionSubmissionAction>;
 
     @computed('collection.displayChoicesFields.[]')
     get displayChoiceFields() {

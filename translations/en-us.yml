@@ -959,6 +959,14 @@ collections:
         source: Source
         tag: Tag
         type: Type
+    actions:
+        triggerPastTense:
+            submit: submitted
+            resubmit: resubmitted
+            accept: accepted
+            reject: rejected
+            moderator_remove: 'moderator removed'
+            admin_remove: 'admin removed'
 registries:
     header:
         osf_registrations: 'OSF Registrations'

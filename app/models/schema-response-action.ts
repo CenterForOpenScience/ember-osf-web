@@ -2,9 +2,9 @@ import { attr, belongsTo, AsyncBelongsTo } from '@ember-data/model';
 import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
-import SchemaResponseModel, { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
-import UserModel from 'ember-osf-web/models/user';
-import OsfModel from './osf-model';
+
+import Action from './action';
+import SchemaResponseModel, { RevisionReviewStates } from './schema-response';
 
 export enum SchemaResponseActionTrigger {
     SubmitRevision = 'submit',
@@ -22,19 +22,12 @@ const TriggerToPastTenseTranslationKey: Record<SchemaResponseActionTrigger, stri
     moderator_reject: 'registries.schemaResponseActions.triggerPastTense.moderator_reject',
 };
 
-export default class SchemaResponseActionModel extends OsfModel {
+export default class SchemaResponseActionModel extends Action {
     @service intl!: Intl;
 
     @attr('string') actionTrigger!: SchemaResponseActionTrigger;
-    @attr('fixstring') comment!: string;
     @attr('string') fromState!: RevisionReviewStates;
     @attr('string') toState!: RevisionReviewStates;
-    @attr('date') dateCreated!: Date;
-    @attr('date') dateModified!: Date;
-    @attr('boolean') visible!: boolean;
-
-    @belongsTo('user', { inverse: null })
-    creator!: AsyncBelongsTo<UserModel> & UserModel;
 
     @belongsTo('schema-response', { inverse: 'actions' })
     target!: AsyncBelongsTo<SchemaResponseModel> & SchemaResponseModel;

@@ -1,10 +1,10 @@
 import ActionAdapter from './action';
 
-export default class ReviewActionAdapter extends ActionAdapter {
+export default class CollectionSubmissionActionAdapter extends ActionAdapter {
 }
 
 declare module 'ember-data/types/registries/adapter' {
     export default interface AdapterRegistry {
-        'review-action': ReviewActionAdapter;
+        'collection-submission-action': CollectionSubmissionActionAdapter;
     } // eslint-disable-line semi
 }
