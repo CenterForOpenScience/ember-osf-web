@@ -4,7 +4,7 @@
     local-class='keyboard-activated skip-link'
     id='menu'
     {{on 'focus' this.registerKeyboard}}
-    aria-label={{t (concat 'new-home.voice-over.sentence_subject_you' 'new-home.voice-over.activate_keyboard_msg')}}
+    aria-label={{t (concat 'new-home.voice_over.sentence_subject_you' 'new-home.voice_over.activate_keyboard_msg')}}
     tabindex='0'
     ...attributes
 >
@@ -13,11 +13,11 @@
             class='img-circle img-responsive'
             name='osf-logo'
             src='/assets/images/dashboard/logo_spin.png'
-            alt={{t 'new-home.voice-over.osf_logo_alt_text'}}
+            alt={{t 'new-home.voice_over.osf_logo_alt_text'}}
         >
     </div>
     <h2 data-test-menu-heading>
-        {{t 'new-home.voice-over.page_welcome_home'}}
+        {{t 'new-home.voice_over.page_welcome_home'}}
     </h2>
     <div local-class='menu-data'>
         <p
@@ -26,7 +26,7 @@
             tabindex='0'
         >
             <b>
-                {{t 'new-home.voice-over.page_user_status'}}
+                {{t 'new-home.voice_over.page_user_status'}}
             </b>
             <br />
         </p>
@@ -35,7 +35,7 @@
             local-class='options-prompt'
             tabindex='0'
         >
-            {{t 'new-home.voice-over.page_options_prompt'}}
+            {{t 'new-home.voice_over.page_options_prompt'}}
             <br />
         </p>
         <ol
@@ -47,11 +47,11 @@
                         data-test-menu-item
                         id='mainContentLink'
                         @href='#optionFourMainContent'
-                        alt={{concat 'Skip to' item 'content by pressing Enter or ' index}}
+                        alt={{concat 'Skip to' item 'content by pressing Enter or its number.'}}
                         tabindex='0'
                     >
-                        {{index}}
-                        {{t 'new-home.voice-over.right_parenthesis'}}
+                        {{this.getIndexValue @index}}
+                        {{t 'new-home.voice_over.right_parenthesis'}}
                         {{item}}
                     </OsfLink>
                 {{else if (eq item 'Learn more about the OSF')}}
@@ -59,11 +59,11 @@
                         data-test-menu-item
                         id='learnMoreLink'
                         @href='#optionEightLearnMore'
-                        alt={{concat 'Skip to' item 'content by pressing Enter or ' index}}
+                        alt={{t 'new-home.voice_over.skip_to_learn_more'}}
                         tabindex='0'
                     >
-                        {{index}}
-                        {{t 'new-home.voice-over.right_parenthesis'}}
+                        {{this.getIndexValue @index}}
+                        {{t 'new-home.voice_over.right_parenthesis'}}
                         {{item}}
                     </OsfLink>
                 {{else if (eq item 'OSF Testimonials.')}}
@@ -71,11 +71,11 @@
                         data-test-menu-item
                         id='testimonialsLink'
                         @href='#optionNineTestimonials'
-                        alt={{concat 'Skip to' item 'content by pressing Enter or ' index}}
+                        alt={{t 'new-home.voice_over.skip_to_testimonials'}}
                         tabindex='0'
                     >
-                        {{index}}
-                        {{t 'new-home.voice-over.right_parenthesis'}}
+                        {{this.getIndexValue @index}}
+                        {{t 'new-home.voice_over.right_parenthesis'}}
                         {{item}}
                     </OsfLink>
                 {{else if (eq item 'Integrations and add-ons.')}}
@@ -83,11 +83,11 @@
                         data-test-menu-item
                         id='integrationsLink'
                         @href='#optionTenIntegrations'
-                        alt={{concat 'Skip to' item 'content by pressing Enter or ' index}}
+                        alt={{t 'new-home.voice_over.skip_to_integrations'}}
                         tabindex='0'
                     >
-                        {{index}}
-                        {{t 'new-home.voice-over.right_parenthesis'}}
+                        {{this.getIndexValue @index}}
+                        {{t 'new-home.voice_over.right_parenthesis'}}
                         {{item}}
                     </OsfLink>
                 {{else}}
@@ -95,11 +95,11 @@
                         data-test-menu-item
                         id='#'
                         @href='#'
-                        alt={{concat 'Skip to' item 'content by pressing Enter or ' index}}
+                        alt={{t 'new-home.voice_over.page_menu_directions'}}
                         tabindex='0'
                     >
-                        {{index}}
-                        {{t 'new-home.voice-over.right_parenthesis'}}
+                        {{this.getIndexValue @index}}
+                        {{t 'new-home.voice_over.right_parenthesis'}}
                         {{item}}
                     </OsfLink>
                 {{/if}}
@@ -107,7 +107,7 @@
             {{/each}}
         </ol>
         <p>
-            {{t 'new-home.voice-over.page_menu_directions'}}
+            {{t 'new-home.voice_over.page_menu_directions'}}
         </p>
     </div>
 </aside>

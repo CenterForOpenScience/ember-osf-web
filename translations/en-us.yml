@@ -426,11 +426,15 @@ new-home:
         zotero: 'Zotero logo'
         dropbox: 'Dropbox logo'
         google_drive: 'Google Drive logo'
-    voice-over:
-        page_welcome_home: "Welcome to OSF Home."
-        page_user_status: "You are currently logged out."
-        page_options_prompt: "Here you will find: "
+    voice_over:
+        live_region:
+            register_keyboard:
+                message: ' enabled. Press lower case h to hear more.'
+        page_welcome_home: 'Welcome to OSF Home.'
+        page_user_status: 'You are currently logged out.'
+        page_options_prompt: 'Here you will find: '
         page_menu_directions: 'Press Alt + the menu item number or Enter over the link to skip to that content.'
+        voice_option: 'Speak number to select menu option.'
         skip_to_products: 'Press Alt + 1 for a dropdown of available OSF products.'
         skip_to_sign_in: 'Press Alt + 2 or Enter to go to the Open Science Framework sign in page.'
         skip_to_sign_up: 'Press Alt + 3 or Enter to sign up for the Open Science Framework.'

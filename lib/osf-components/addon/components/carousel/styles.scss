@@ -1,4 +1,3 @@
-// stylelint-disable
 .visually-hidden {
     display: none;
 }
@@ -6,20 +5,19 @@
 .carousel-container {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 28px 420px;
+    grid-template-rows: auto 420px;
     background-color: #ecf0f1;
     grid-template-areas:
-        "dotNav dotNav dotNav"
-        "previousButton slideContent nextButton";
-    flex: 1;
-    overflow: auto;
+        'dotNav dotNav dotNav'
+        'previousButton slideContent nextButton';
+    flex: 1 1 100%;
 }
 
 .carousel-dotnav {
     grid-area: dotNav;
     justify-content: center;
     display: inline-flex;
-    list-style: none;
+    height: fit-content;
 
     .dotnav-button {
         border-radius: 50%;
@@ -40,13 +38,14 @@
 }
 
 .carousel-slide {
+    background-color: #ecf0f1;
     display: flex;
 }
 
 .item-list {
     grid-area: slideContent;
-    width: 100%;
-    padding: 0px 14% 0px;
+    flex-basis: 100%;
+    padding: 0 14%;
     align-self: flex-end;
     margin: 0;
 
@@ -75,6 +74,81 @@
     margin: 0;
     padding: 0;
     z-index: 1;
+}
+
+@media screen and (max-width: 650px) {
+    .carousel-container {
+        display: grid;
+        grid-template-columns: 100vw;
+        grid-template-rows: auto 1fr;
+
+        .dotnav-button {
+            width: 16px;
+            height: 16px;
+            margin: 7px;
+            padding: 0;
+        }
+    }
+
+    .carousel-slide {
+        display: grid;
+        grid-template-areas: 'previousButton itemList nextButton';
+        grid-template-columns: 15vw 64vw 15vw;
+        grid-template-rows: auto;
+        justify-content: center;
+
+        .item-list {
+            grid-area: itemList;
+        }
+
+        .next-slide,
+        .previous-slide {
+            display: inline-block;
+            border: 0 solid transparent;
+            font-size: 100%;
+            font-family: inherit;
+            margin: 0;
+            padding: 0;
+            line-height: 1.15;
+            background: transparent;
+        }
+    }
+}
+
+@media (max-width: 1200px) and (min-width: 650px) {
+    .carousel-container {
+        display: grid;
+        grid-template-columns: 100vw;
+        grid-template-rows: auto 1fr;
+
+        .carousel-dotnav {
+            height: fit-content;
+        }
+    }
+
+    .carousel-slide {
+        display: flex;
+        grid-template-areas: 'previousButton itemList nextButton';
+        justify-content: center;
+        background-color: #ecf0f1;
+
+        .item-list {
+            margin: 0;
+            padding: 0;
+        }
+
+        .next-slide,
+        .previous-slide {
+            display: inline-block;
+            border: 0 solid transparent;
+            font-size: 100%;
+            font-family: inherit;
+            margin: 0;
+            padding: 0;
+            line-height: 1.15;
+            background: transparent;
+        }
+    }
 }
 
 @keyframes fade {
