@@ -1,8 +1,8 @@
 import { HandlerContext, ModelInstance, Request, Schema } from 'ember-cli-mirage';
-import CollectedMetadatum from 'ember-osf-web/models/collected-metadatum';
+import CollectionSubmission from 'ember-osf-web/models/collection-submission';
 import { process } from './utils/index';
 
-function matchKeywordQuery(item: ModelInstance<CollectedMetadatum>, queryKeyword: string) {
+function matchKeywordQuery(item: ModelInstance<CollectionSubmission>, queryKeyword: string) {
     return item.guid.attrs.title.includes(queryKeyword);
 }
 
@@ -21,48 +21,48 @@ export function searchCollections(this: HandlerContext, schema: Schema, request:
             },
         },
     } = JSON.parse(request.requestBody);
-    let collectedMetadata = schema.collectedMetadata.all().models.filter(
-        (item: ModelInstance<CollectedMetadatum>) => matchKeywordQuery(item, q),
+    let collectionSubmissions = schema.collectionSubmissions.all().models.filter(
+        (item: ModelInstance<CollectionSubmission>) => matchKeywordQuery(item, q),
     );
     if (collectedType) {
-        collectedMetadata = collectedMetadata.filter(
-            (item: ModelInstance<CollectedMetadatum>) => collectedType.any(
+        collectionSubmissions = collectionSubmissions.filter(
+            (item: ModelInstance<CollectionSubmission>) => collectedType.any(
                 (value: string) => item.attrs.collectedType === value,
             ),
         );
     }
     if (issue) {
-        collectedMetadata = collectedMetadata.filter(
-            (item: ModelInstance<CollectedMetadatum>) => issue.any((value: string) => item.attrs.issue === value),
+        collectionSubmissions = collectionSubmissions.filter(
+            (item: ModelInstance<CollectionSubmission>) => issue.any((value: string) => item.attrs.issue === value),
         );
     }
     if (programArea) {
-        collectedMetadata = collectedMetadata.filter(
-            (item: ModelInstance<CollectedMetadatum>) => programArea.any(
+        collectionSubmissions = collectionSubmissions.filter(
+            (item: ModelInstance<CollectionSubmission>) => programArea.any(
                 (value: string) => item.attrs.programArea === value,
             ),
         );
     }
     if (status) {
-        collectedMetadata = collectedMetadata.filter(
-            (item: ModelInstance<CollectedMetadatum>) => status.any((value: string) => item.attrs.status === value),
+        collectionSubmissions = collectionSubmissions.filter(
+            (item: ModelInstance<CollectionSubmission>) => status.any((value: string) => item.attrs.status === value),
         );
     }
     if (volume) {
-        collectedMetadata = collectedMetadata.filter(
-            (item: ModelInstance<CollectedMetadatum>) => volume.any((value: string) => item.attrs.volume === value),
+        collectionSubmissions = collectionSubmissions.filter(
+            (item: ModelInstance<CollectionSubmission>) => volume.any((value: string) => item.attrs.volume === value),
         );
     }
     if (schoolType) {
-        collectedMetadata = collectedMetadata.filter(
-            (item: ModelInstance<CollectedMetadatum>) => schoolType.any(
+        collectionSubmissions = collectionSubmissions.filter(
+            (item: ModelInstance<CollectionSubmission>) => schoolType.any(
                 (value: string) => item.attrs.schoolType === value,
             ),
         );
     }
     if (studyDesign) {
-        collectedMetadata = collectedMetadata.filter(
-            (item: ModelInstance<CollectedMetadatum>) => studyDesign.any(
+        collectionSubmissions = collectionSubmissions.filter(
+            (item: ModelInstance<CollectionSubmission>) => studyDesign.any(
                 (value: string) => item.attrs.studyDesign === value,
             ),
         );
@@ -70,15 +70,19 @@ export function searchCollections(this: HandlerContext, schema: Schema, request:
     if (request.queryParams.sort) {
         switch (request.queryParams.sort) {
         case 'modified':
-            collectedMetadata = collectedMetadata.sort((a, b) => (a.guid.dateModified > b.guid.dateModified ? 1 : -1));
+            collectionSubmissions = collectionSubmissions.sort(
+                (a, b) => (a.guid.dateModified > b.guid.dateModified ? 1 : -1),
+            );
             break;
         case '-modified':
-            collectedMetadata = collectedMetadata.sort((a, b) => (a.guid.dateModified < b.guid.dateModified ? 1 : -1));
+            collectionSubmissions = collectionSubmissions.sort(
+                (a, b) => (a.guid.dateModified < b.guid.dateModified ? 1 : -1),
+            );
             break;
         default:
         }
     }
     request.queryParams.embed = 'guid';
-    const json = process(schema, request, this, collectedMetadata.map(m => this.serialize(m).data));
+    const json = process(schema, request, this, collectionSubmissions.map(m => this.serialize(m).data));
     return json;
 }

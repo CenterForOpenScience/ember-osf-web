@@ -3,7 +3,7 @@ import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Intl from 'ember-intl/services/intl';
 
-import CollectedMetadatumModel, { CollectionSubmissionReviewStates } from './collected-metadatum';
+import CollectionSubmissionModel, { CollectionSubmissionReviewStates } from './collection-submission';
 import Action from './action';
 
 export enum CollectionSubmissionActionTrigger {
@@ -31,8 +31,8 @@ export default class CollectionSubmissionAction extends Action{
     @attr('string') fromState!: CollectionSubmissionReviewStates;
     @attr('string') toState!: CollectionSubmissionReviewStates;
 
-    @belongsTo('registration', { inverse: 'reviewActions', polymorphic: true })
-    target!: AsyncBelongsTo<CollectedMetadatumModel> & CollectedMetadatumModel;
+    @belongsTo('collection-submission', { inverse: 'collectionSubmissionActions' })
+    target!: AsyncBelongsTo<CollectionSubmissionModel> & CollectionSubmissionModel;
 
     @computed('actionTrigger')
     get triggerPastTense(): string {

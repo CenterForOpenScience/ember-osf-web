@@ -5,15 +5,14 @@ import isHybridGuid from 'ember-osf-web/utils/is-hybrid-guid';
 
 import OsfSerializer from './osf-serializer';
 
-export default class CollectedMetadatumSerializer extends OsfSerializer {
+export default class CollectionSubmissionSerializer extends OsfSerializer {
     /**
      * Guid is an attribute on create
      */
     serialize(snapshot: DS.Snapshot, options: {}) {
         const serialized = super.serialize(snapshot, options);
-        const { data, data: { attributes, relationships } } = serialized;
+        const { data: { attributes, relationships } } = serialized;
 
-        data.type = 'collected-metadata';
         if (relationships && 'guid' in relationships) {
             const { guid } = relationships;
             if ('data' in guid) {
@@ -31,7 +30,7 @@ export default class CollectedMetadatumSerializer extends OsfSerializer {
     /**
      * Collected-Metadata IDs must be combined with the collection ID, so that there are no conflicts in the store
      */
-    extractId(modelClass: 'collected-metadata', resourceHash: Resource) {
+    extractId(modelClass: 'collection-submissions', resourceHash: Resource) {
         const resourceId = super.extractId(modelClass, resourceHash);
 
         if (isHybridGuid(resourceId)) {
@@ -53,6 +52,6 @@ export default class CollectedMetadatumSerializer extends OsfSerializer {
 
 declare module 'ember-data/types/registries/serializer' {
     export default interface SerializerRegistry {
-        'collected-metadatum': CollectedMetadatumSerializer;
+        'collection-submission': CollectionSubmissionSerializer;
     } // eslint-disable-line semi
 }

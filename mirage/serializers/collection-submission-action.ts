@@ -11,7 +11,7 @@ export default class ReviewActionSerializer extends ApplicationSerializer<Collec
             target: {
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/collected_metadata/${model.target.id}`,
+                        href: `${apiUrl}/v2/collection_submissions/${model.target.id}`,
                         meta: {},
                     },
                 },

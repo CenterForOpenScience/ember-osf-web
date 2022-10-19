@@ -36,11 +36,11 @@ export default class CollectionSerializer extends ApplicationSerializer<Collecti
                 },
             };
         }
-        if (model.collectedMetadata) {
-            returnValue.collectedMetadata = {
+        if (model.collectionSubmissions) {
+            returnValue.collectionSubmissions = {
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/collections/${model.id}/collected_metadata/`,
+                        href: `${apiUrl}/v2/collections/${model.id}/collection_submissions/`,
                     },
                 },
             };

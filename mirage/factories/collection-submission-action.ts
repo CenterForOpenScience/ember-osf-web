@@ -1,7 +1,7 @@
 import { association, Factory } from 'ember-cli-mirage';
 import faker from 'faker';
 
-import { CollectionSubmissionReviewStates } from 'ember-osf-web/models/collected-metadatum';
+import { CollectionSubmissionReviewStates } from 'ember-osf-web/models/collection-submission';
 import CollectionSubmissionAction,
 {
     CollectionSubmissionActionTrigger,

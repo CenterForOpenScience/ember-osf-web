@@ -1,12 +1,12 @@
 import { ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
-import CollectedMetadatum from 'ember-osf-web/models/collected-metadatum';
+import CollectionSubmission from 'ember-osf-web/models/collection-submission';
 import ApplicationSerializer from './application';
 
 const { OSF: { apiUrl } } = config;
 
-export default class CollectedMetadatumSerializer extends ApplicationSerializer<CollectedMetadatum> {
-    buildRelationships(model: ModelInstance<CollectedMetadatum>) {
+export default class CollectionSubmissionSerializer extends ApplicationSerializer<CollectionSubmission> {
+    buildRelationships(model: ModelInstance<CollectionSubmission>) {
         return {
             collection: {
                 data: {
@@ -44,7 +44,7 @@ export default class CollectedMetadatumSerializer extends ApplicationSerializer<
             collectionSubmissionActions: {
                 links: {
                     related: {
-                        href: `${apiUrl}/v2/collected_metadata/${model.id}/actions/`,
+                        href: `${apiUrl}/v2/collection_submissions/${model.id}/actions/`,
                         meta: this.buildRelatedLinkMeta(model, 'collectionSubmissionActions'),
                     },
                 },

@@ -50,7 +50,7 @@ const Validations = buildValidations({
     }, {}),
 });
 
-export default class CollectedMetadatumModel extends OsfModel.extend(Validations) {
+export default class CollectionSubmissionModel extends OsfModel.extend(Validations) {
     @attr('string') collectedType?: string;
     @attr('string') issue?: string;
     @attr('string') programArea?: string;
@@ -79,6 +79,6 @@ export default class CollectedMetadatumModel extends OsfModel.extend(Validations
 
 declare module 'ember-data/types/registries/model' {
     export default interface ModelRegistry {
-        'collected-metadatum': CollectedMetadatumModel;
+        'collection-submission': CollectionSubmissionModel;
     } // eslint-disable-line semi
 }

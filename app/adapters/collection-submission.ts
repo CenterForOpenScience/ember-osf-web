@@ -7,20 +7,20 @@ import DS from 'ember-data';
 import OsfAdapter from 'ember-osf-web/adapters/osf-adapter';
 import param from 'ember-osf-web/utils/param';
 
-export default class CollectedMetadatumAdapter extends OsfAdapter {
+export default class CollectionSubmissionAdapter extends OsfAdapter {
     urlForHybridGuid(id: string): string {
         const splitId = id.split('-');
 
-        assert('ID for findRecord should be in the format: collectionId-collectedMetadatumId', splitId.length === 2);
+        assert('ID for findRecord should be in the format: collectionId-collectionSubmissionId', splitId.length === 2);
 
-        const [collectionId, collectedMetadatumId] = splitId;
+        const [collectionId, collectionSubmissionId] = splitId;
 
-        return `${this.urlPrefix()}/collections/${collectionId}/collected_metadata/${collectedMetadatumId}`;
+        return `${this.urlPrefix()}/collections/${collectionId}/collection_submissions/${collectionSubmissionId}`;
     }
 
     urlForCreateRecord(_: string | number, { record }: DS.Snapshot): string {
         const collectionId = record.belongsTo('collection').id();
-        return `${this.urlPrefix()}/collections/${collectionId}/collected_metadata/`;
+        return `${this.urlPrefix()}/collections/${collectionId}/collection_submissions/`;
     }
 
     urlForFindRecord(id: string): string {
@@ -62,6 +62,6 @@ export default class CollectedMetadatumAdapter extends OsfAdapter {
 
 declare module 'ember-data/types/registries/adapter' {
     export default interface AdapterRegistry {
-        'collected-metadatum': CollectedMetadatumAdapter;
+        'collection-submission': CollectionSubmissionAdapter;
     } // eslint-disable-line semi
 }
