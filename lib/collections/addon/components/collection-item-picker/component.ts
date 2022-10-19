@@ -88,11 +88,11 @@ export default class CollectionItemPicker extends Component {
 
         // Filter out nodes that are already in the current collection
         const nodeIds = nodes.mapBy('id').join();
-        const cgm = await this.collection.queryHasMany('collectedMetadata', {
+        const cgm = await this.collection.queryHasMany('collectionSubmissions', {
             'filter[id]': nodeIds,
         });
 
-        // Collected-metadata IDs are the same as node IDs
+        // Collection-submissions IDs are the same as node IDs
         const cgmCompoundIds: string[] = cgm.mapBy('id');
         const cgmSimpleIds: string[] = cgmCompoundIds.map(id => id.split('-')[1]);
         const filteredNodes = nodes.filter(({ id }) => !cgmSimpleIds.includes(id));

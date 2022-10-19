@@ -5,7 +5,7 @@ import { waitFor } from '@ember/test-waiters';
 import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 
-import CollectedMetadatum from 'ember-osf-web/models/collected-metadatum';
+import CollectionSubmission from 'ember-osf-web/models/collection-submission';
 import Collection from 'ember-osf-web/models/collection';
 import CollectionProvider from 'ember-osf-web/models/collection-provider';
 import Node from 'ember-osf-web/models/node';
@@ -16,7 +16,7 @@ import isHybridGuid from 'ember-osf-web/utils/is-hybrid-guid';
 interface TaskInstanceResult {
     provider: CollectionProvider;
     collection: Collection;
-    collectedMetadatum: CollectedMetadatum;
+    collectionSubmission: CollectionSubmission;
     collectionItem: Node;
 }
 
@@ -50,7 +50,7 @@ export default class Guid extends Route {
         }
 
         try {
-            const collectedMetadatum = await this.store.findRecord('collected-metadatum', cgmId);
+            const collectionSubmission = await this.store.findRecord('collection-submission', cgmId);
             const collectionItem = this.store.peekRecord('node', collectedItemId)!;
 
             if (!collectionItem.userHasAdminPermission) {
@@ -65,7 +65,7 @@ export default class Guid extends Route {
             return {
                 provider,
                 collection,
-                collectedMetadatum,
+                collectionSubmission,
                 collectionItem,
             } as TaskInstanceResult;
         } catch (e) {

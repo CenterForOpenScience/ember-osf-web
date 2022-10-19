@@ -26,18 +26,18 @@ export function collectionScenario(server: Server, currentUser: ModelInstance<Us
         users: currentUser,
         index: 0,
     });
-    server.create('collected-metadatum', {
+    server.create('collection-submission', {
         creator: currentUser,
         guid: nodeAdded,
         id: nodeAdded.id,
         collection: primaryCollection,
     });
-    server.create('collected-metadatum', {
+    server.create('collection-submission', {
         creator: currentUser,
         guid: server.create('node', 'withContributors'),
         collection: primaryCollection,
     });
-    server.create('collected-metadatum', {
+    server.create('collection-submission', {
         creator: currentUser,
         guid: server.create('node', 'withContributors'),
         collection: primaryCollection,

@@ -35,7 +35,7 @@ module('Collections | Acceptance | update', hooks => {
         collection.programAreaChoices.sort();
         collection.statusChoices.sort();
         collection.volumeChoices.sort();
-        server.create('collected-metadatum', {
+        server.create('collection-submission', {
             creator: currentUser,
             guid: nodeAdded,
             id: nodeAdded.id,

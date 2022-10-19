@@ -9,7 +9,7 @@ import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
-import CollectedMetadatum from 'ember-osf-web/models/collected-metadatum';
+import CollectionSubmission from 'ember-osf-web/models/collection-submission';
 import Collection from 'ember-osf-web/models/collection';
 import CollectionProvider from 'ember-osf-web/models/collection-provider';
 import Node from 'ember-osf-web/models/node';
@@ -41,7 +41,7 @@ export default class Submit extends Component {
     readonly edit = false;
     readonly provider!: CollectionProvider;
     readonly collection!: Collection;
-    readonly collectedMetadatum!: CollectedMetadatum;
+    readonly collectionSubmission!: CollectionSubmission;
 
     collectionItem: Node | null = null;
     isProjectSelectorValid = false;
@@ -79,7 +79,7 @@ export default class Submit extends Component {
 
         const validatedModels = await Promise.all([
             this.collectionItem!.validate(),
-            this.collectedMetadatum.validate(),
+            this.collectionSubmission.validate(),
         ]);
 
         const invalid = validatedModels.some(({ validations: { isInvalid } }) => isInvalid);
@@ -88,7 +88,7 @@ export default class Submit extends Component {
             return;
         }
 
-        this.collectedMetadatum.set('guid', this.collectionItem);
+        this.collectionSubmission.set('guid', this.collectionItem);
 
         const operation = this.edit ? 'update' : 'add';
 
@@ -97,7 +97,7 @@ export default class Submit extends Component {
                 this.collectionItem.set('public', true);
                 await this.collectionItem.save();
             }
-            await this.collectedMetadatum.save();
+            await this.collectionSubmission.save();
 
             this.collectionItem.set('collectable', false);
 
@@ -118,13 +118,13 @@ export default class Submit extends Component {
         }
     }
 
-    @computed('collectedMetadatum.{displayChoiceFields,collectedType,issue,volume,programArea,status}')
+    @computed('collectionSubmission.{displayChoiceFields,collectedType,issue,volume,programArea,status}')
     get choiceFields(): Array<{ label: string, value: string | undefined }> {
-        return this.collectedMetadatum.displayChoiceFields
+        return this.collectionSubmission.displayChoiceFields
             .map(field => ({
                 name: field,
                 label: `collections.collection_metadata.${underscore(field)}_label`,
-                value: this.collectedMetadatum[field],
+                value: this.collectionSubmission[field],
             }));
     }
 

@@ -313,17 +313,17 @@ export default function(this: Server) {
     osfNestedResource(this, 'collection-provider', 'licensesAcceptable', {
         path: 'providers/collections/:parentID/licenses/',
     });
-    osfNestedResource(this, 'collection', 'collectedMetadata', {
-        path: 'collections/:parentID/collected_metadata/',
+    osfNestedResource(this, 'collection', 'collectionSubmissions', {
+        path: 'collections/:parentID/collection_submissions/',
     });
     this.post('/search/collections/', searchCollections);
-    osfResource(this, 'collected-metadatum', {
+    osfResource(this, 'collection-submission', {
         only: ['show', 'update', 'delete'],
-        path: '/collected_metadata',
+        path: '/collection_submissions',
     });
-    osfNestedResource(this, 'collected-metadatum', 'collectionSubmissionActions', {
+    osfNestedResource(this, 'collection-submission', 'collectionSubmissionActions', {
         only: ['index'],
-        path: '/collected_metadata/:parentID/actions',
+        path: '/collection_submissions/:parentID/actions',
         relatedModelName: 'collection-submission-action',
     });
     osfResource(this, 'collection-submission-action', {
