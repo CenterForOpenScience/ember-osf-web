@@ -48,3 +48,55 @@ export function collectionScenario(server: Server, currentUser: ModelInstance<Us
         licensesAcceptable,
     });
 }
+
+export function collectionPendingScenario(server: Server, currentUser: ModelInstance<User>) {
+    const licensesAcceptable = server.schema.licenses.all().models;
+    const primaryCollection = server.create('collection', {
+        id: 123,
+    });
+    const nodeToBeAdded = server.create('node', {
+        id: 555,
+        title: 'Pending Node to be added to collection',
+        currentUserPermissions: Object.values(Permission),
+    });
+    server.create('contributor', {
+        node: nodeToBeAdded,
+        users: currentUser,
+        index: 0,
+    });
+    const nodeAdded = server.create('node', {
+        id: 555,
+        description: 'A pending project request to the Pending Collection Example',
+        title: 'Pending Project Request',
+        license: licensesAcceptable[1],
+        currentUserPermissions: Object.values(Permission),
+    });
+    server.create('contributor', {
+        node: nodeAdded,
+        users: currentUser,
+        index: 0,
+    });
+    server.create('collected-metadatum', {
+        creator: currentUser,
+        guid: nodeAdded,
+        id: nodeAdded.id,
+        collection: primaryCollection,
+    });
+    server.create('collected-metadatum', {
+        id: 666,
+        creator: currentUser,
+        guid: server.create('node', 'withContributors'),
+        collection: primaryCollection,
+    });
+    server.create('collected-metadatum', {
+        id: 777,
+        creator: currentUser,
+        guid: server.create('node', 'withContributors'),
+        collection: primaryCollection,
+    });
+    server.create('collection-provider', {
+        id: 'pending-collection-example',
+        primaryCollection,
+        licensesAcceptable,
+    });
+}

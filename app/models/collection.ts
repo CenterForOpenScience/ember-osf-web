@@ -45,9 +45,9 @@ export default class CollectionModel extends OsfModel {
     @hasMany('collection-submission', { inverse: 'collection' })
     collectionSubmissions!: AsyncHasMany<CollectionSubmissionModel>;
 
-    @computed(`{${choicesFields.join()}}.length`)
+    @computed(`{${choicesFields?.join()}}?.length`)
     get displayChoicesFields() {
-        return choicesFields.filter(field => !!this[field].length);
+        return choicesFields.filter(field => !!this[field]?.length );
     }
 }
 
