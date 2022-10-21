@@ -374,7 +374,6 @@ new-home:
     support-section:
         header: 'How OSF supports your research'
         arrow: arrow
-        osf_video: 'OSF 101 Video' 
         search:
             header: 'Search and Discover'
             description: 'Find papers, data, and materials to inspire your next research project. Search public projects to build on the work of others and find new collaborators.'
