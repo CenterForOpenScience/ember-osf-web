@@ -1,5 +1,11 @@
 // stylelint-disable selector-no-qualifying-type
 li.active {
-    grid-area: liActive;
-    display: flex;
+    display: grid;
+}
+
+@media screen and (max-width: 650px) {
+    li.active {
+        justify-content: center;
+        max-height: 100%;
+    }
 }
