@@ -1,2 +1,46 @@
-{{!-- Moderation Parent route content --}}
-{{outlet}}
+<OsfLayout @backgroundClass={{local-class 'contentBackground'}} as |layout|>
+    <layout.heading local-class='heading'>
+        <div class='container'>
+            <h1>
+                {{t 'collections.moderation.header'}}
+            </h1>
+        </div>
+    </layout.heading>
+    <layout.main local-class='main'>
+        <BsNav class='container' @type='tabs' as |nav|>
+            {{#let 'collections.provider.moderation.all' as |pendingRoute|}}
+                <nav.item @active={{eq this.target.currentRouteName pendingRoute}}>
+                    <OsfLink
+                        @route={{pendingRoute}}
+                        @models={{array this.theme.provider.id}}
+                    >
+                        {{t 'collections.moderation.all.title'}}
+                    </OsfLink>
+                </nav.item>
+            {{/let}}
+            {{#let 'collections.provider.moderation.moderators' as |moderatorsRoute|}}
+                <nav.item @active={{eq this.target.currentRouteName moderatorsRoute}}>
+                    <OsfLink
+                        @route={{moderatorsRoute}}
+                        @models={{array this.theme.provider.id}}
+                    >
+                        {{t 'collections.moderation.moderators.title'}}
+                    </OsfLink>
+                </nav.item>
+            {{/let}}
+            {{#let 'collections.provider.moderation.settings' as |settingsRoute|}}
+                <nav.item @active={{eq this.target.currentRouteName settingsRoute}}>
+                    <OsfLink
+                        @route={{settingsRoute}}
+                        @models={{array this.theme.provider.id}}
+                    >
+                        {{t 'collections.moderation.settings.title'}}
+                    </OsfLink>
+                </nav.item>
+            {{/let}}
+        </BsNav>
+        <div class='container'>
+            {{outlet}}
+        </div>
+    </layout.main>
+</OsfLayout>

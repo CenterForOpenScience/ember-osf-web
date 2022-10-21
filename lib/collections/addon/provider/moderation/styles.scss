@@ -1,0 +1,16 @@
+.contentBackground {
+    color: $color-text-black;
+}
+
+.heading {
+    height: 120px;
+    background: #e0ebef url('img/search-bg.jpg') top center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.main {
+    padding-top: 40px;
+}

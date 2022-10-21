@@ -959,6 +959,14 @@ collections:
         source: Source
         tag: Tag
         type: Type
+    moderation:
+        header: 'Collections Moderation'
+        all:
+            title: 'All Items'
+        moderators:
+            title: 'Moderators'
+        settings:
+            title: 'Settings'
     actions:
         triggerPastTense:
             submit: submitted
