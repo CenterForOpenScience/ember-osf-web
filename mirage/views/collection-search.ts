@@ -1,5 +1,6 @@
 import { HandlerContext, ModelInstance, Request, Schema } from 'ember-cli-mirage';
 import CollectionSubmission from 'ember-osf-web/models/collection-submission';
+import { MirageCollectionProvider } from 'ember-osf-web/mirage/factories/collection-provider';
 import { process } from './utils/index';
 
 function matchKeywordQuery(item: ModelInstance<CollectionSubmission>, queryKeyword: string) {
@@ -10,7 +11,7 @@ export function searchCollections(this: HandlerContext, schema: Schema, request:
     const {
         data: {
             attributes: {
-                q = '',
+                q,
                 collectedType,
                 issue,
                 programArea,
@@ -18,12 +19,23 @@ export function searchCollections(this: HandlerContext, schema: Schema, request:
                 volume,
                 schoolType,
                 studyDesign,
+                provider,
             },
         },
     } = JSON.parse(request.requestBody);
-    let collectionSubmissions = schema.collectionSubmissions.all().models.filter(
-        (item: ModelInstance<CollectionSubmission>) => matchKeywordQuery(item, q),
-    );
+
+    const collectionProvider = schema.collectionProviders.find(provider[0]) as ModelInstance<MirageCollectionProvider>;
+    const collection = schema.collections.find(collectionProvider.primaryCollectionId);
+
+    let collectionSubmissions = collection.collectionSubmissions.models;
+
+
+    if (q) {
+        collectionSubmissions = collectionSubmissions.filter(
+            (item: ModelInstance<CollectionSubmission>) => matchKeywordQuery(item, q),
+        );
+    }
+
     if (collectedType) {
         collectionSubmissions = collectionSubmissions.filter(
             (item: ModelInstance<CollectionSubmission>) => collectedType.any(
