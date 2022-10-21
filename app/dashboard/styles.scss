@@ -85,13 +85,6 @@
     .node-col-headers {
         display: none;
     }
-
-    .iframe-container {
-        .osf-video {
-            width: 336px;
-            height: 190px;
-        }
-    }
 }
 
 @media screen and (min-width: 768px) {
@@ -190,17 +183,3 @@
     color: $color-text-placeholder-grey-dark;
     opacity: 1;
 }
-
-.iframe-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 20px;
-    margin-bottom: 30px;
-
-    .osf-video {
-        width: 560px;
-        height: 315px;
-    }
-}
-
