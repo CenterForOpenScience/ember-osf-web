@@ -152,28 +152,6 @@
                                             <div class='col-sm-12 text-center'>
                                                 <p>{{t 'dashboard.quicksearch.no_projects.line1'}}</p>
                                                 <p>{{t 'dashboard.quicksearch.no_projects.line2'}}</p>
-
-                                                <div local-class='iframe-container'>
-                                                    <iframe
-                                                        data-test-osf-video
-                                                        local-class='osf-video'
-                                                        src='https://www.youtube.com/embed/iebMBpi0prc' 
-                                                        title={{t 'dashboard.osf_video'}}
-                                                        alt='OSF 101 Video'
-                                                        aria-hidden='true'
-                                                        frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>
-                                                </div>
-
-                                                <OsfLink
-                                                    data-test-get-started-button
-                                                    data-analytics-name='Get started button'
-                                                    class='btn btn-primary'
-                                                    local-class='startButton'
-                                                    @target='_blank'
-                                                    @href='https://help.osf.io/article/342-getting-started-on-the-osf'
-                                                >
-                                                    {{t 'dashboard.getting_started'}}
-                                                </OsfLink>
                                             </div>
                                         </div>
                                     {{/if}}
