@@ -51,11 +51,8 @@ export function collectionScenario(server: Server, currentUser: ModelInstance<Us
 
 export function collectionPendingScenario(server: Server, currentUser: ModelInstance<User>) {
     const licensesAcceptable = server.schema.licenses.all().models;
-    const primaryCollection = server.create('collection', {
-        id: 123,
-    });
+    const primaryCollection = server.create('collection');
     const nodeToBeAdded = server.create('node', {
-        id: 555,
         title: 'Pending Node to be added to collection',
         currentUserPermissions: Object.values(Permission),
     });
@@ -65,7 +62,6 @@ export function collectionPendingScenario(server: Server, currentUser: ModelInst
         index: 0,
     });
     const nodeAdded = server.create('node', {
-        id: 555,
         description: 'A pending project request to the Pending Collection Example',
         title: 'Pending Project Request',
         license: licensesAcceptable[1],
@@ -76,20 +72,18 @@ export function collectionPendingScenario(server: Server, currentUser: ModelInst
         users: currentUser,
         index: 0,
     });
-    server.create('collected-metadatum', {
+    server.create('collection-submission', {
         creator: currentUser,
         guid: nodeAdded,
         id: nodeAdded.id,
         collection: primaryCollection,
     });
-    server.create('collected-metadatum', {
-        id: 666,
+    server.create('collection-submission', {
         creator: currentUser,
         guid: server.create('node', 'withContributors'),
         collection: primaryCollection,
     });
-    server.create('collected-metadatum', {
-        id: 777,
+    server.create('collection-submission', {
         creator: currentUser,
         guid: server.create('node', 'withContributors'),
         collection: primaryCollection,

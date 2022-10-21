@@ -29,7 +29,6 @@ export function searchCollections(this: HandlerContext, schema: Schema, request:
 
     let collectionSubmissions = collection.collectionSubmissions.models;
 
-
     if (q) {
         collectionSubmissions = collectionSubmissions.filter(
             (item: ModelInstance<CollectionSubmission>) => matchKeywordQuery(item, q),
