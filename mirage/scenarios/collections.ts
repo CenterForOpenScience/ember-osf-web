@@ -194,3 +194,57 @@ export function collectionRejectedScenario(server: Server, currentUser: ModelIns
         licensesAcceptable,
     });
 }
+
+export function collectionRemovedScenario(server: Server, currentUser: ModelInstance<User>) {
+    const licensesAcceptable = server.schema.licenses.all().models;
+    const primaryCollection = server.create('collection');
+    const nodeToBeAdded = server.create('node', {
+        title: 'Removed Node on a collection',
+        currentUserPermissions: Object.values(Permission),
+    });
+    server.create('contributor', {
+        node: nodeToBeAdded,
+        users: currentUser,
+        index: 0,
+    });
+    const nodeAdded = server.create('node', {
+        description: 'A removed project on the Removed Collection Example',
+        title: 'Removed Project',
+        license: licensesAcceptable[1],
+        currentUserPermissions: Object.values(Permission),
+    });
+    server.create('contributor', {
+        node: nodeAdded,
+        users: currentUser,
+        index: 0,
+    });
+    server.create('collection-submission', {
+        creator: currentUser,
+        guid: nodeAdded,
+        id: nodeAdded.id,
+        reviewsState: CollectionSubmissionReviewStates.Rejected,
+        collection: primaryCollection,
+    });
+    const nodeAccepted = server.create('node', {
+        description: 'An acceped project on the Removed Collection Example',
+        title: 'Accepted Project on the Removed Collection Example',
+        license: licensesAcceptable[0],
+        currentUserPermissions: Object.values(Permission),
+    });
+    server.create('contributor', {
+        node: nodeAccepted,
+        users: currentUser,
+        index: 0,
+    });
+    server.create('collection-submission', {
+        creator: currentUser,
+        guid: nodeAccepted,
+        id: nodeAccepted.id,
+        collection: primaryCollection,
+    });
+    server.create('collection-provider', {
+        id: 'removed-collection-example',
+        primaryCollection,
+        licensesAcceptable,
+    });
+}
