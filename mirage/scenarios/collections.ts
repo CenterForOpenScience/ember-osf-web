@@ -1,4 +1,5 @@
 import { ModelInstance, Server } from 'ember-cli-mirage';
+import { CollectionSubmissionReviewStates } from 'ember-osf-web/models/collection-submission';
 
 import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
@@ -76,6 +77,7 @@ export function collectionPendingScenario(server: Server, currentUser: ModelInst
         creator: currentUser,
         guid: nodeAdded,
         id: nodeAdded.id,
+        reviewsState: CollectionSubmissionReviewStates.Pending,
         collection: primaryCollection,
     });
     server.create('collection-submission', {
