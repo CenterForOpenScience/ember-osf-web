@@ -118,7 +118,7 @@ export function collectionAcceptedScenario(server: Server, currentUser: ModelIns
         index: 0,
     });
     const nodeAdded = server.create('node', {
-        description: 'An accepted project int an Accepted Collection Example',
+        description: 'An accepted project on the Accepted Collection Example',
         title: 'Accepted Project',
         license: licensesAcceptable[1],
         currentUserPermissions: Object.values(Permission),
@@ -132,16 +132,6 @@ export function collectionAcceptedScenario(server: Server, currentUser: ModelIns
         creator: currentUser,
         guid: nodeAdded,
         id: nodeAdded.id,
-        collection: primaryCollection,
-    });
-    server.create('collection-submission', {
-        creator: currentUser,
-        guid: server.create('node', 'withContributors'),
-        collection: primaryCollection,
-    });
-    server.create('collection-submission', {
-        creator: currentUser,
-        guid: server.create('node', 'withContributors'),
         collection: primaryCollection,
     });
     server.create('collection-provider', {
