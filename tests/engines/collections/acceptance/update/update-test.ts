@@ -22,6 +22,7 @@ module('Collections | Acceptance | update', hooks => {
             title: 'Added to collection',
             license: licensesAcceptable[0],
             currentUserPermissions: Object.values(Permission),
+            tags: ['one', 'two', 'three', 'four', 'five'],
         });
         server.create('contributor', {
             node: nodeAdded,
