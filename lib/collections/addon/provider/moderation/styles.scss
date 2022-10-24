@@ -1,5 +1,11 @@
-.contentBackground {
+@import 'app/styles/layout';
+
+.content-background {
     color: $color-text-black;
+}
+
+.clamped-width-container {
+    @include clamp-width;
 }
 
 .heading {

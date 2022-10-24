@@ -1,13 +1,13 @@
-<OsfLayout @backgroundClass={{local-class 'contentBackground'}} as |layout|>
+<OsfLayout @backgroundClass={{local-class 'content-background'}} as |layout|>
     <layout.heading local-class='heading'>
-        <div class='container'>
+        <div local-class='clamped-width-container'>
             <h1>
                 {{t 'collections.moderation.header'}}
             </h1>
         </div>
     </layout.heading>
     <layout.main local-class='main'>
-        <BsNav class='container' @type='tabs' as |nav|>
+        <BsNav local-class='clamped-width-container' @type='tabs' as |nav|>
             {{#let 'collections.provider.moderation.all' as |pendingRoute|}}
                 <nav.item @active={{eq this.target.currentRouteName pendingRoute}}>
                     <OsfLink
@@ -39,7 +39,7 @@
                 </nav.item>
             {{/let}}
         </BsNav>
-        <div class='container'>
+        <div local-class='clamped-width-container'>
             {{outlet}}
         </div>
     </layout.main>
