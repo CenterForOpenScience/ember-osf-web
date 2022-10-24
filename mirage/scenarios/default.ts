@@ -1,7 +1,7 @@
 import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
-import { collectionScenario, collectionPendingScenario} from './collections';
+import { collectionScenario, collectionPendingScenario, collectionAcceptedScenario} from './collections';
 import { dashboardScenario } from './dashboard';
 import { forksScenario } from './forks';
 import { meetingsScenario } from './meetings';
@@ -40,6 +40,7 @@ export default function(server: Server) {
     if (mirageScenarios.includes('collections')) {
         collectionScenario(server, currentUser);
         collectionPendingScenario(server, currentUser);
+        collectionAcceptedScenario(server, currentUser);
     }
     if (mirageScenarios.includes('forks')) {
         forksScenario(server, currentUser);
