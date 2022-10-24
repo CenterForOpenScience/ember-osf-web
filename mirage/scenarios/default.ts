@@ -1,7 +1,8 @@
 import { Server } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 
-import { collectionScenario, collectionPendingScenario, collectionAcceptedScenario} from './collections';
+// eslint-disable-next-line max-len
+import { collectionScenario, collectionPendingScenario, collectionAcceptedScenario, collectionRejectedScenario } from './collections';
 import { dashboardScenario } from './dashboard';
 import { forksScenario } from './forks';
 import { meetingsScenario } from './meetings';
@@ -41,6 +42,7 @@ export default function(server: Server) {
         collectionScenario(server, currentUser);
         collectionPendingScenario(server, currentUser);
         collectionAcceptedScenario(server, currentUser);
+        collectionRejectedScenario(server, currentUser);
     }
     if (mirageScenarios.includes('forks')) {
         forksScenario(server, currentUser);
