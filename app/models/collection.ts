@@ -47,7 +47,7 @@ export default class CollectionModel extends OsfModel {
 
     @computed(`{${choicesFields.join()}}.length`)
     get displayChoicesFields() {
-        return choicesFields.filter(field => !!this[field].length);
+        return choicesFields.filter(field => !!this[field].length );
     }
 }
 
