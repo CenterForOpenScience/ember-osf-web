@@ -62,32 +62,40 @@ export function collectionPendingScenario(server: Server, currentUser: ModelInst
         users: currentUser,
         index: 0,
     });
-    const nodeAdded = server.create('node', {
+    const nodePending = server.create('node', {
         description: 'A pending project request to the Pending Collection Example',
         title: 'Pending Project Request',
-        license: licensesAcceptable[1],
+        license: licensesAcceptable[0],
         currentUserPermissions: Object.values(Permission),
     });
     server.create('contributor', {
-        node: nodeAdded,
+        node: nodePending,
         users: currentUser,
         index: 0,
     });
     server.create('collection-submission', {
         creator: currentUser,
-        guid: nodeAdded,
-        id: nodeAdded.id,
+        guid: nodePending,
+        id: nodePending.id,
         reviewsState: CollectionSubmissionReviewStates.Pending,
         collection: primaryCollection,
     });
-    server.create('collection-submission', {
-        creator: currentUser,
-        guid: server.create('node', 'withContributors'),
-        collection: primaryCollection,
+
+    const nodeAccepted = server.create('node', {
+        description: 'An acceped project on the Pending Collection Example',
+        title: 'Accepted Project on the Pending Collection Example',
+        license: licensesAcceptable[0],
+        currentUserPermissions: Object.values(Permission),
+    });
+    server.create('contributor', {
+        node: nodeAccepted,
+        users: currentUser,
+        index: 0,
     });
     server.create('collection-submission', {
         creator: currentUser,
-        guid: server.create('node', 'withContributors'),
+        guid: nodeAccepted,
+        id: nodeAccepted.id,
         collection: primaryCollection,
     });
     server.create('collection-provider', {
