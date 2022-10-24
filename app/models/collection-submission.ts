@@ -22,10 +22,11 @@ export const choiceFields = tuple(
 );
 
 export enum CollectionSubmissionReviewStates {
-    Pending = 'pending',
     Accepted = 'accepted',
-    Rejected = 'rejected',
+    InProgress = 'in_progress',
+    Pending = 'pending',
     Removed = 'removed',
+    Rejected = 'rejected',
 }
 
 const Validations = buildValidations({
@@ -56,6 +57,7 @@ export default class CollectionSubmissionModel extends OsfModel.extend(Validatio
     @attr('string') programArea?: string;
     @attr('string') status?: string;
     @attr('string') volume?: string;
+    @attr('string') reviewsState?: CollectionSubmissionReviewStates;
     @attr('string') studyDesign?: string; // custom field for Character Lab
     @attr('string') schoolType?: string; // custom field for Character Lab
 
