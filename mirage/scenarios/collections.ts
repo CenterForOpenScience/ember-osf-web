@@ -94,3 +94,49 @@ export function collectionPendingScenario(server: Server, currentUser: ModelInst
         licensesAcceptable,
     });
 }
+
+export function collectionAcceptedScenario(server: Server, currentUser: ModelInstance<User>) {
+    const licensesAcceptable = server.schema.licenses.all().models;
+    const primaryCollection = server.create('collection');
+    const nodeToBeAdded = server.create('node', {
+        title: 'Accepted Node to be added to collection',
+        currentUserPermissions: Object.values(Permission),
+    });
+    server.create('contributor', {
+        node: nodeToBeAdded,
+        users: currentUser,
+        index: 0,
+    });
+    const nodeAdded = server.create('node', {
+        description: 'An accepted project int an Accepted Collection Example',
+        title: 'Accepted Project',
+        license: licensesAcceptable[1],
+        currentUserPermissions: Object.values(Permission),
+    });
+    server.create('contributor', {
+        node: nodeAdded,
+        users: currentUser,
+        index: 0,
+    });
+    server.create('collection-submission', {
+        creator: currentUser,
+        guid: nodeAdded,
+        id: nodeAdded.id,
+        collection: primaryCollection,
+    });
+    server.create('collection-submission', {
+        creator: currentUser,
+        guid: server.create('node', 'withContributors'),
+        collection: primaryCollection,
+    });
+    server.create('collection-submission', {
+        creator: currentUser,
+        guid: server.create('node', 'withContributors'),
+        collection: primaryCollection,
+    });
+    server.create('collection-provider', {
+        id: 'accepted-collection-example',
+        primaryCollection,
+        licensesAcceptable,
+    });
+}
