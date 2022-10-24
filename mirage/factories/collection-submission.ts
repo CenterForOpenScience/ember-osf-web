@@ -1,7 +1,7 @@
 import { Factory } from 'ember-cli-mirage';
 import faker from 'faker';
 
-import CollectionSubmission from 'ember-osf-web/models/collection-submission';
+import CollectionSubmission, { CollectionSubmissionReviewStates } from 'ember-osf-web/models/collection-submission';
 
 import { guid, guidAfterCreate } from './utils';
 
@@ -9,6 +9,10 @@ export default Factory.extend<CollectionSubmission>({
     id: guid('collection-submission'),
     afterCreate(collectionSubmission, server) {
         guidAfterCreate(collectionSubmission, server);
+        if (!collectionSubmission.reviewsState) {
+            const reviewsState = CollectionSubmissionReviewStates.Accepted;
+            collectionSubmission.update({ reviewsState});
+        }
         if (!collectionSubmission.collectedType) {
             const collectedType = faker.random.arrayElement(collectionSubmission.collection.collectedTypeChoices);
             collectionSubmission.update({ collectedType });
