@@ -118,44 +118,16 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
         title: 'Accepted Project',
     } as ProjectModel);
 
+    removedProject({
+        server,
+        currentUser,
+        collection: primaryCollection,
+        license: licensesAcceptable[0],
+        title: 'Removed Project',
+    } as ProjectModel);
+
     server.create('collection-provider', {
         id: 'moderation-collection-example',
-        primaryCollection,
-        licensesAcceptable,
-    });
-}
-
-export function collectionAcceptedScenario(server: Server, currentUser: ModelInstance<User>) {
-    const licensesAcceptable = server.schema.licenses.all().models;
-    const primaryCollection = server.create('collection');
-    const nodeToBeAdded = server.create('node', {
-        title: 'Accepted Node to be added to collection',
-        currentUserPermissions: Object.values(Permission),
-    });
-    server.create('contributor', {
-        node: nodeToBeAdded,
-        users: currentUser,
-        index: 0,
-    });
-    const nodeAdded = server.create('node', {
-        description: 'An accepted project on the Accepted Collection Example',
-        title: 'Accepted Project',
-        license: licensesAcceptable[1],
-        currentUserPermissions: Object.values(Permission),
-    });
-    server.create('contributor', {
-        node: nodeAdded,
-        users: currentUser,
-        index: 0,
-    });
-    server.create('collection-submission', {
-        creator: currentUser,
-        guid: nodeAdded,
-        id: nodeAdded.id,
-        collection: primaryCollection,
-    });
-    server.create('collection-provider', {
-        id: 'accepted-collection-example',
         primaryCollection,
         licensesAcceptable,
     });
@@ -306,6 +278,16 @@ function projectBuilder(project: ProjectModel, reviewsState: CollectionSubmissio
  */
 function pendingProject(project: ProjectModel) {
     projectBuilder(project, CollectionSubmissionReviewStates.Pending);
+}
+
+/**
+ * removedProject
+ *
+ * @description Abstracted function to easily build a removed project
+ * @param project The project model
+ */
+function removedProject(project: ProjectModel) {
+    projectBuilder(project, CollectionSubmissionReviewStates.Removed);
 }
 
 /**
