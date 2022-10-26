@@ -1,7 +1,7 @@
 import { Factory } from 'ember-cli-mirage';
 import faker from 'faker';
 
-import { randomGravatar } from 'ember-osf-web/mirage/utils';
+import { placekitten } from 'ember-osf-web/mirage/utils';
 import CollectionProvider from 'ember-osf-web/models/collection-provider';
 import CollectionProviderModel from 'ember-osf-web/models/collection-provider';
 
@@ -20,7 +20,9 @@ export default Factory.extend<CollectionProvider>({
     domain: faker.internet.domainName,
     allowCommenting: false,
     assets: {
-        square_color_no_transparent: randomGravatar(100),
+        favicon: placekitten(16, 16),
+        square_color_transparent: placekitten(200, 200),
+        square_color_no_transparent: placekitten(500, 200),
     },
     facebookAppId: '',
     footerLinks: '',

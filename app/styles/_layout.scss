@@ -70,3 +70,10 @@
         padding-right: unquote(nth($margins, $i) + 'px');
     }
 }
+
+// used to replace BsGrid's .container class
+@mixin clamp-width($max-width: 1140px) {
+    max-width: $max-width;
+    width: 100%;
+    margin: 0 auto;
+}

@@ -1,3 +1,5 @@
+@import 'app/styles/layout';
+
 .branded-nav-wrapper {
     :global(.navbar) {
         box-shadow: 2px 1px 4px rgba(82, 81, 81, 0.7);
@@ -23,6 +25,10 @@
         }
     }
     /* stylelint-enable */
+}
+
+.nav-wrapper {
+    @include clamp-width;
 }
 
 .navbar-image {

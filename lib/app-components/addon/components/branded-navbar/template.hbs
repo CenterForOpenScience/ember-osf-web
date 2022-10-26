@@ -4,7 +4,7 @@
         class='navbar navbar-inverse navbar-fixed-top'
         id='navbarScope'
     >
-        <div class='container'>
+        <div local-class='nav-wrapper'>
             <div class='navbar-header'>
                 {{#link-to @brandRoute provider=this.theme.provider class='navbar-brand'}}
                     <span local-class='navbar-image' class='navbar-image'></span>
@@ -35,7 +35,7 @@
                         <li>
                             <OsfLink
                                 @route='collections.provider.moderation'
-                                @models={{array 'new'}}
+                                @models={{array this.providerId}}
                             >
                                 {{t 'app_components.branded_navbar.moderation'}}
                             </OsfLink>
