@@ -1,5 +1,5 @@
 import { HandlerContext, ModelInstance, Request, Schema } from 'ember-cli-mirage';
-import CollectionSubmission from 'ember-osf-web/models/collection-submission';
+import CollectionSubmission, { CollectionSubmissionReviewStates } from 'ember-osf-web/models/collection-submission';
 import { MirageCollectionProvider } from 'ember-osf-web/mirage/factories/collection-provider';
 import { process } from './utils/index';
 
@@ -28,6 +28,11 @@ export function searchCollections(this: HandlerContext, schema: Schema, request:
     const collection = schema.collections.find(collectionProvider.primaryCollectionId);
 
     let collectionSubmissions = collection.collectionSubmissions.models;
+
+    collectionSubmissions = collectionSubmissions.filter(
+        (item: ModelInstance<CollectionSubmission>) =>
+            item.attrs.reviewsState === CollectionSubmissionReviewStates.Accepted,
+    );
 
     if (q) {
         collectionSubmissions = collectionSubmissions.filter(
