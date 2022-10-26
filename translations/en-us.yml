@@ -1667,6 +1667,7 @@ meetings:
             add_your: 'Add your'
             send_email: 'Send an email to the following address(es) from the email account you would like used on the OSF:'
             email_text: 'For {typeName}, email {emailAddress}'
+            email_text_mail_to: 'For {typeName}, email <a href="mailto:{emailAddress}">{emailAddress}</a>'
             format_header: 'The format of the email should be as follows:'
             subject: Subject
             message_body: 'Message body'
