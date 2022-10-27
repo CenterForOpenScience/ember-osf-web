@@ -8,6 +8,7 @@ import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 import { CollectionSubmissionActionTrigger } from 'ember-osf-web/models/collection-submission-action';
 
+
 /**
  * collectionScenario
  *
@@ -75,7 +76,7 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
             collection: primaryCollection,
             license: licensesAcceptable[0],
             title: `Pending Project Request - ${suffix}`,
-            collectionSubmissionActionArgument: { } as CollectionSubmissionActionArgument,
+            collectionSubmissionActionArgument: buildInitialCollectionSubmissionActionArguments(),
         } as ProjectBuilderArgument);
     });
 
@@ -86,9 +87,7 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
             collection: primaryCollection,
             license: licensesAcceptable[0],
             title: `Accepted Project - ${suffix}`,
-            collectionSubmissionActionArgument: {
-                comment: 'I love this project',
-            } as CollectionSubmissionActionArgument,
+            collectionSubmissionActionArgument: buildInitialCollectionSubmissionActionArguments(),
         } as ProjectBuilderArgument);
     });
 
@@ -99,9 +98,9 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
             collection: primaryCollection,
             license: licensesAcceptable[0],
             title: `Removed Project - ${suffix}`,
-            collectionSubmissionActionArgument: {
-                isAdminRemove: suffix % 2 ? true : false,
-            } as CollectionSubmissionActionArgument,
+            collectionSubmissionActionArgument: buildInitialCollectionSubmissionActionArguments(
+                suffix % 2 ? true : false,
+            ),
         } as ProjectBuilderArgument);
     });
 
@@ -112,9 +111,7 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
             collection: primaryCollection,
             license: licensesAcceptable[0],
             title: `RejectedProject - ${suffix}`,
-            collectionSubmissionActionArgument: {
-                comment: 'Do you even know how to project?',
-            } as CollectionSubmissionActionArgument,
+            collectionSubmissionActionArgument: buildInitialCollectionSubmissionActionArguments(),
         } as ProjectBuilderArgument);
     });
 
@@ -131,11 +128,50 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
         } as ProjectBuilderArgument);
     });
 
+    [1,2,3,4,5].forEach((suffix: number) => {
+        chaosProject({
+            server,
+            currentUser,
+            collection: primaryCollection,
+            license: licensesAcceptable[0],
+            title: `Removed Project - ${suffix}`,
+            collectionSubmissionActionArgument: { } as CollectionSubmissionActionArgument,
+        } as ProjectBuilderArgument);
+    });
+
     server.create('collection-provider', {
         id: 'collection-moderation',
         primaryCollection,
         licensesAcceptable,
     });
+}
+
+/**
+ * buildInitialCollectionSubmiossionActionArguments
+ *
+ * @description Builds an initial base collection submission action argument
+ *
+ * @params isAdminRemove if the remove submission is initiated by a project admin
+ *
+ * @returns a collection submission action argument interface
+ */
+function buildInitialCollectionSubmissionActionArguments(isAdminRemove?: boolean): CollectionSubmissionActionArgument {
+
+    const pastDateCreated = faker.random.number({
+        min: 0,
+        max: faker.random.number(365 * 2),
+    });
+
+    const pastDateModified = pastDateCreated - faker.random.number({
+        min: 0,
+        max: 30,
+    });
+
+    return {
+        dateCreated: faker.date.past(pastDateCreated),
+        dateModified: faker.date.past(pastDateModified),
+        isAdminRemove,
+    } as CollectionSubmissionActionArgument;
 }
 
 /**
@@ -252,12 +288,12 @@ function projectBuilder(
 function pendingProject(projectBuilderArgument: ProjectBuilderArgument): void {
     const collectionSubmission = projectBuilder(projectBuilderArgument, CollectionSubmissionReviewStates.Pending);
 
-    const collectionSubmissionActionArguments = buildCollectionSubmissionActionArgument(
+    const collectionSubmissionActionArgument = buildCollectionSubmissionActionArgument(
         projectBuilderArgument, collectionSubmission,
     );
 
     pendingCollectionSubmissionActionBuilder(
-        collectionSubmissionActionArguments,
+        collectionSubmissionActionArgument,
     );
 }
 
@@ -271,20 +307,20 @@ function pendingProject(projectBuilderArgument: ProjectBuilderArgument): void {
 function removedProject(projectBuilderArgument: ProjectBuilderArgument): void {
     const collectionSubmission = projectBuilder(projectBuilderArgument, CollectionSubmissionReviewStates.Removed);
 
-    const collectionSubmissionActionArguments = buildCollectionSubmissionActionArgument(
+    const collectionSubmissionActionArgument = buildCollectionSubmissionActionArgument(
         projectBuilderArgument, collectionSubmission,
     );
 
     pendingCollectionSubmissionActionBuilder(
-        collectionSubmissionActionArguments,
+        collectionSubmissionActionArgument,
     );
 
     acceptedCollectionSubmissionActionBuilder(
-        collectionSubmissionActionArguments,
+        collectionSubmissionActionArgument,
     );
 
     removedCollectionSubmissionActionBuilder(
-        collectionSubmissionActionArguments,
+        collectionSubmissionActionArgument,
     );
 }
 
@@ -297,24 +333,106 @@ function removedProject(projectBuilderArgument: ProjectBuilderArgument): void {
 function resubmitProject(projectBuilderArgument: ProjectBuilderArgument): void {
     const collectionSubmission = projectBuilder(projectBuilderArgument, CollectionSubmissionReviewStates.Removed);
 
-    const collectionSubmissionActionArguments = buildCollectionSubmissionActionArgument(
+    const collectionSubmissionActionArgument = buildCollectionSubmissionActionArgument(
         projectBuilderArgument, collectionSubmission,
     );
 
     pendingCollectionSubmissionActionBuilder(
-        collectionSubmissionActionArguments,
+        collectionSubmissionActionArgument,
     );
 
     acceptedCollectionSubmissionActionBuilder(
-        collectionSubmissionActionArguments,
+        collectionSubmissionActionArgument,
     );
 
     removedCollectionSubmissionActionBuilder(
-        collectionSubmissionActionArguments,
+        collectionSubmissionActionArgument,
     );
 
     resubmitCollectionSubmissionActionBuilder(
-        collectionSubmissionActionArguments,
+        collectionSubmissionActionArgument,
+    );
+}
+
+/**
+ * chaosProject
+ *
+ * @description Abstracted function to easily build a chaos project
+ * @param projectBuilderArgument The project builder argument
+ */
+function chaosProject(projectBuilderArgument: ProjectBuilderArgument): void {
+    const collectionSubmission = projectBuilder(projectBuilderArgument, CollectionSubmissionReviewStates.Accepted);
+
+    const collectionSubmissionActionArgument = buildCollectionSubmissionActionArgument(
+        projectBuilderArgument, collectionSubmission,
+    );
+
+    pendingCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArgument,
+    );
+
+    rejectedCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArgument,
+    );
+
+    resubmitCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArgument,
+    );
+
+    acceptedCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArgument,
+    );
+
+    collectionSubmissionActionArgument.isAdminRemove = true;
+
+    removedCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArgument,
+    );
+
+    resubmitCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArgument,
+    );
+
+    rejectedCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArgument,
+    );
+
+    resubmitCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArgument,
+    );
+
+    acceptedCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArgument,
+    );
+
+    collectionSubmissionActionArgument.isAdminRemove = false;
+
+    removedCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArgument,
+    );
+
+    resubmitCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArgument,
+    );
+
+    rejectedCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArgument,
+    );
+
+    resubmitCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArgument,
+    );
+
+    rejectedCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArgument,
+    );
+
+    resubmitCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArgument,
+    );
+
+    acceptedCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArgument,
     );
 }
 
@@ -328,16 +446,16 @@ function resubmitProject(projectBuilderArgument: ProjectBuilderArgument): void {
 function rejectedProject(projectBuilderArgument: ProjectBuilderArgument): void {
     const collectionSubmission = projectBuilder(projectBuilderArgument, CollectionSubmissionReviewStates.Rejected);
 
-    const collectionSubmissionActionArguments = buildCollectionSubmissionActionArgument(
+    const collectionSubmissionActionArgument = buildCollectionSubmissionActionArgument(
         projectBuilderArgument, collectionSubmission,
     );
 
     pendingCollectionSubmissionActionBuilder(
-        collectionSubmissionActionArguments,
+        collectionSubmissionActionArgument,
     );
 
     rejectedCollectionSubmissionActionBuilder(
-        collectionSubmissionActionArguments,
+        collectionSubmissionActionArgument,
     );
 }
 
@@ -351,16 +469,16 @@ function rejectedProject(projectBuilderArgument: ProjectBuilderArgument): void {
 function acceptedProject(projectBuilderArgument: ProjectBuilderArgument): void {
     const collectionSubmission = projectBuilder(projectBuilderArgument, CollectionSubmissionReviewStates.Accepted);
 
-    const collectionSubmissionActionArguments = buildCollectionSubmissionActionArgument(
+    const collectionSubmissionActionArgument = buildCollectionSubmissionActionArgument(
         projectBuilderArgument, collectionSubmission,
     );
 
     pendingCollectionSubmissionActionBuilder(
-        collectionSubmissionActionArguments,
+        collectionSubmissionActionArgument,
     );
 
     acceptedCollectionSubmissionActionBuilder(
-        collectionSubmissionActionArguments,
+        collectionSubmissionActionArgument,
     );
 }
 
@@ -387,6 +505,8 @@ function collectionSubmissionActionBuilder(
         target: collectionSubmissionActionArgument.target,
         creator: collectionSubmissionActionArgument.creator,
         comment: collectionSubmissionActionArgument.comment,
+        dateCreated: collectionSubmissionActionArgument.dateCreated,
+        dateModified: collectionSubmissionActionArgument.dateModified,
     });
 }
 
