@@ -36,6 +36,7 @@ export function collectionScenario(server: Server, currentUser: ModelInstance<Us
         collection: primaryCollection,
         license: licensesAcceptable[0],
         title: 'Added to collection',
+        collectionSubmissionActionArgument: { } as CollectionSubmissionActionArgument,
     } as ProjectBuilderArgument);
 
     server.create('collection-submission', {
@@ -68,20 +69,14 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
     const primaryCollection = server.create('collection');
 
     [1,2,3,4,5].forEach((suffix: number) => {
-        const collectionSubmission = pendingProject({
+        pendingProject({
             server,
             currentUser,
             collection: primaryCollection,
             license: licensesAcceptable[0],
             title: `Pending Project Request - ${suffix}`,
+            collectionSubmissionActionArgument: { } as CollectionSubmissionActionArgument,
         } as ProjectBuilderArgument);
-
-        collectionSubmissionActionBuilder({
-            target: collectionSubmission,
-            creator: currentUser,
-            server,
-        } as CollectionSubmissionActionArgument);
-
     });
 
     [1,2].forEach((suffix: number) => {
@@ -91,6 +86,9 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
             collection: primaryCollection,
             license: licensesAcceptable[0],
             title: `Accepted Project - ${suffix}`,
+            collectionSubmissionActionArgument: {
+                comment: 'I love this project',
+            } as CollectionSubmissionActionArgument,
         } as ProjectBuilderArgument);
     });
 
@@ -101,6 +99,9 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
             collection: primaryCollection,
             license: licensesAcceptable[0],
             title: `Removed Project - ${suffix}`,
+            collectionSubmissionActionArgument: {
+                isAdminRemove: suffix % 2 ? true : false,
+            } as CollectionSubmissionActionArgument,
         } as ProjectBuilderArgument);
     });
 
@@ -111,6 +112,22 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
             collection: primaryCollection,
             license: licensesAcceptable[0],
             title: `RejectedProject - ${suffix}`,
+            collectionSubmissionActionArgument: {
+                comment: 'Do you even know how to project?',
+            } as CollectionSubmissionActionArgument,
+        } as ProjectBuilderArgument);
+    });
+
+    [1,2,3,4].forEach((suffix: number) => {
+        resubmitProject({
+            server,
+            currentUser,
+            collection: primaryCollection,
+            license: licensesAcceptable[0],
+            title: `Removed Project - ${suffix}`,
+            collectionSubmissionActionArgument: {
+                isAdminRemove: suffix % 2 ? true : false,
+            } as CollectionSubmissionActionArgument,
         } as ProjectBuilderArgument);
     });
 
@@ -148,6 +165,10 @@ interface ProjectBuilderArgument {
      * The project title
      */
     title: string;
+    /**
+     * The collection submission action arguments
+     */
+    collectionSubmissionActionArgument: CollectionSubmissionActionArgument;
 }
 
 /**
@@ -160,18 +181,6 @@ interface CollectionSubmissionActionArgument {
      * The server attribute
      */
     server: Server;
-    /**
-     * The from state attribute
-     */
-    fromState?: CollectionSubmissionReviewStates;
-    /**
-     * The to state attribute
-     */
-    toState?: CollectionSubmissionReviewStates;
-    /**
-     * The action trigger attribute
-     */
-    actionTrigger?: CollectionSubmissionActionTrigger;
     /**
      * The creator attribute as the current user
      */
@@ -192,6 +201,10 @@ interface CollectionSubmissionActionArgument {
      * The comment as the reason the action was taken (justification)
      */
     comment?: string;
+    /**
+     * The is admin remove determines if an admin or moderator removed the project from the collection
+     */
+    isAdminRemove?: boolean;
 }
 
 
@@ -235,10 +248,17 @@ function projectBuilder(
  * @description Abstracted function to easily build a pending project
  * @param projectBuilderArgument The project builder argument
  *
- * @returns Return the newly created collection submission model
  */
-function pendingProject(projectBuilderArgument: ProjectBuilderArgument): ModelInstance<CollectionSubmissionModel> {
-    return projectBuilder(projectBuilderArgument, CollectionSubmissionReviewStates.Pending);
+function pendingProject(projectBuilderArgument: ProjectBuilderArgument): void {
+    const collectionSubmission = projectBuilder(projectBuilderArgument, CollectionSubmissionReviewStates.Pending);
+
+    const collectionSubmissionActionArguments = buildCollectionSubmissionActionArgument(
+        projectBuilderArgument, collectionSubmission,
+    );
+
+    pendingCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArguments,
+    );
 }
 
 /**
@@ -247,10 +267,55 @@ function pendingProject(projectBuilderArgument: ProjectBuilderArgument): ModelIn
  * @description Abstracted function to easily build a removed project
  * @param projectBuilderArgument The project builder argument
  *
- * @returns Return the newly created collection submission model
  */
-function removedProject(projectBuilderArgument: ProjectBuilderArgument): ModelInstance<CollectionSubmissionModel> {
-    return projectBuilder(projectBuilderArgument, CollectionSubmissionReviewStates.Removed);
+function removedProject(projectBuilderArgument: ProjectBuilderArgument): void {
+    const collectionSubmission = projectBuilder(projectBuilderArgument, CollectionSubmissionReviewStates.Removed);
+
+    const collectionSubmissionActionArguments = buildCollectionSubmissionActionArgument(
+        projectBuilderArgument, collectionSubmission,
+    );
+
+    pendingCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArguments,
+    );
+
+    acceptedCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArguments,
+    );
+
+    removedCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArguments,
+    );
+}
+
+/**
+ * resubmitProject
+ *
+ * @description Abstracted function to easily build a submit project
+ * @param projectBuilderArgument The project builder argument
+ */
+function resubmitProject(projectBuilderArgument: ProjectBuilderArgument): void {
+    const collectionSubmission = projectBuilder(projectBuilderArgument, CollectionSubmissionReviewStates.Removed);
+
+    const collectionSubmissionActionArguments = buildCollectionSubmissionActionArgument(
+        projectBuilderArgument, collectionSubmission,
+    );
+
+    pendingCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArguments,
+    );
+
+    acceptedCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArguments,
+    );
+
+    removedCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArguments,
+    );
+
+    resubmitCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArguments,
+    );
 }
 
 /**
@@ -259,10 +324,21 @@ function removedProject(projectBuilderArgument: ProjectBuilderArgument): ModelIn
  * @description Abstracted function to easily build a rejected project
  * @param projectBuilderArgument The project builder argument
  *
- * @returns Return the newly created collection submission model
  */
-function rejectedProject(projectBuilderArgument: ProjectBuilderArgument): ModelInstance<CollectionSubmissionModel> {
-    return projectBuilder(projectBuilderArgument, CollectionSubmissionReviewStates.Rejected);
+function rejectedProject(projectBuilderArgument: ProjectBuilderArgument): void {
+    const collectionSubmission = projectBuilder(projectBuilderArgument, CollectionSubmissionReviewStates.Rejected);
+
+    const collectionSubmissionActionArguments = buildCollectionSubmissionActionArgument(
+        projectBuilderArgument, collectionSubmission,
+    );
+
+    pendingCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArguments,
+    );
+
+    rejectedCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArguments,
+    );
 }
 
 /**
@@ -271,10 +347,21 @@ function rejectedProject(projectBuilderArgument: ProjectBuilderArgument): ModelI
  * @description Abstracted function to easily build an accepted project
  * @param projectBuilderArgument The project builder argument
  *
- * @returns Return the newly created collection submission model
  */
-function acceptedProject(projectBuilderArgument: ProjectBuilderArgument): ModelInstance<CollectionSubmissionModel> {
-    return projectBuilder(projectBuilderArgument, CollectionSubmissionReviewStates.Accepted);
+function acceptedProject(projectBuilderArgument: ProjectBuilderArgument): void {
+    const collectionSubmission = projectBuilder(projectBuilderArgument, CollectionSubmissionReviewStates.Accepted);
+
+    const collectionSubmissionActionArguments = buildCollectionSubmissionActionArgument(
+        projectBuilderArgument, collectionSubmission,
+    );
+
+    pendingCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArguments,
+    );
+
+    acceptedCollectionSubmissionActionBuilder(
+        collectionSubmissionActionArguments,
+    );
 }
 
 /**
@@ -282,13 +369,175 @@ function acceptedProject(projectBuilderArgument: ProjectBuilderArgument): ModelI
  *
  * @description Abstracted function to easily build a collection submission action
  *
- * @param project The project model
- * @param reviewsState The review state
+ * @param collectionSubmissionActionArgument The collection submission action argument interface
+ * @param fromState The collection submission review from state
+ * @param toState The collection submission review to state
+ * @param actionTrigger The colleciton submission action trigger
  */
 function collectionSubmissionActionBuilder(
     collectionSubmissionActionArgument: CollectionSubmissionActionArgument,
+    fromState: CollectionSubmissionReviewStates,
+    toState: CollectionSubmissionReviewStates,
+    actionTrigger: CollectionSubmissionActionTrigger,
 ): void {
     collectionSubmissionActionArgument.server.create('collection-submission-action', {
-        fromState: collectionSubmissionActionArgument.fromState,
+        fromState,
+        toState,
+        actionTrigger,
+        target: collectionSubmissionActionArgument.target,
+        creator: collectionSubmissionActionArgument.creator,
+        comment: collectionSubmissionActionArgument.comment,
     });
+}
+
+/**
+ * acceptedCollectionSubmissionActionBuilder
+ *
+ * @description Abstracted function to easily build an accepted collection submission action
+ *
+ * @param collectionSubmissionActionArgument The collection submission action argument interface
+ */
+function acceptedCollectionSubmissionActionBuilder(
+    collectionSubmissionActionArgument: CollectionSubmissionActionArgument,
+): void {
+    /**
+     * Faker on accepted
+     */
+    collectionSubmissionActionArgument.comment = faker.lorem.sentence();
+
+    collectionSubmissionActionBuilder(collectionSubmissionActionArgument,
+        CollectionSubmissionReviewStates.Pending,
+        CollectionSubmissionReviewStates.Accepted,
+        CollectionSubmissionActionTrigger.Accept);
+}
+
+/**
+ * pendingCollectionSubmissionActionBuilder
+ *
+ * @description Abstracted function to easily build an pending collection submission action
+ *
+ * @param collectionSubmissionActionArgument The collection submission action argument interface
+ */
+function pendingCollectionSubmissionActionBuilder(
+    collectionSubmissionActionArgument: CollectionSubmissionActionArgument,
+): void {
+    /**
+     * There is no justification on submission actions
+     */
+    delete collectionSubmissionActionArgument.comment;
+    collectionSubmissionActionBuilder(collectionSubmissionActionArgument,
+        CollectionSubmissionReviewStates.InProgress,
+        CollectionSubmissionReviewStates.Pending,
+        CollectionSubmissionActionTrigger.Submit);
+}
+
+/**
+ * removedCollectionSubmissionActionByModeratorBuilder
+ *
+ * @description Abstracted function to easily build a removed collection submission action by the collection moderator
+ *
+ * @param collectionSubmissionActionArgument The collection submission action argument interface
+ */
+function removedCollectionSubmissionActionByModeratorBuilder(
+    collectionSubmissionActionArgument: CollectionSubmissionActionArgument,
+): void {
+    collectionSubmissionActionBuilder(collectionSubmissionActionArgument,
+        CollectionSubmissionReviewStates.Accepted,
+        CollectionSubmissionReviewStates.Removed,
+        CollectionSubmissionActionTrigger.ModeratorRemove);
+}
+
+/**
+ * removedCollectionSubmissionActionByAdminBuilder
+ *
+ * @description Abstracted function to easily build a removed collection submission action by the project admin
+ *
+ * @param collectionSubmissionActionArgument The collection submission action argument interface
+ */
+function removedCollectionSubmissionActionByAdminBuilder(
+    collectionSubmissionActionArgument: CollectionSubmissionActionArgument,
+): void {
+    collectionSubmissionActionBuilder(collectionSubmissionActionArgument,
+        CollectionSubmissionReviewStates.Accepted,
+        CollectionSubmissionReviewStates.Removed,
+        CollectionSubmissionActionTrigger.AdminRemove);
+}
+
+/**
+ * removedCollectionSubmissionActionBuilder
+ *
+ * @description Abstracted function to easily build a removed collection submission action
+ *
+ * @param collectionSubmissionActionArgument The collection submission action argument interface
+ */
+function removedCollectionSubmissionActionBuilder(
+    collectionSubmissionActionArgument: CollectionSubmissionActionArgument,
+): void {
+    /**
+     * Faker on accepted
+     */
+    collectionSubmissionActionArgument.comment = collectionSubmissionActionArgument.isAdminRemove ?
+        'I am making my project private' :
+        'This project is no longer relevant';
+
+    if (collectionSubmissionActionArgument.isAdminRemove) {
+        removedCollectionSubmissionActionByAdminBuilder(collectionSubmissionActionArgument);
+    } else {
+        removedCollectionSubmissionActionByModeratorBuilder(collectionSubmissionActionArgument);
+    }
+}
+
+/**
+ * rejectedCollectionSubmissionActionBuilder
+ *
+ * @description Abstracted function to easily build a rejected collection submission action
+ *
+ * @param collectionSubmissionActionArgument The collection submission action argument interface
+ */
+function rejectedCollectionSubmissionActionBuilder(
+    collectionSubmissionActionArgument: CollectionSubmissionActionArgument,
+): void {
+    collectionSubmissionActionArgument.comment =
+        'I can not even ... on this project ... ';
+    collectionSubmissionActionBuilder(collectionSubmissionActionArgument,
+        CollectionSubmissionReviewStates.Pending,
+        CollectionSubmissionReviewStates.Rejected,
+        CollectionSubmissionActionTrigger.Reject);
+}
+
+/**
+ * resubmitCollectionSubmissionActionBuilder
+ *
+ * @description Abstracted function to easily build a resubmit collection submission action by the project admin
+ *
+ * @param collectionSubmissionActionArgument The collection submission action argument interface
+ */
+function resubmitCollectionSubmissionActionBuilder(
+    collectionSubmissionActionArgument: CollectionSubmissionActionArgument,
+): void {
+    collectionSubmissionActionArgument.comment =
+        'Please let me back in ... please ... please!';
+    collectionSubmissionActionBuilder(collectionSubmissionActionArgument,
+        CollectionSubmissionReviewStates.Removed,
+        CollectionSubmissionReviewStates.Pending,
+        CollectionSubmissionActionTrigger.Submit);
+}
+/**
+ * buildCollectionSubmissionActionArgument
+ *
+ * @description Abstracted function to easily build a collection submission action argument
+ *
+ * @param projectBuilderArgument The project builder argument
+ * @param collectionSubmission The collection submission
+ */
+function buildCollectionSubmissionActionArgument(
+    projectBuilderArgument: ProjectBuilderArgument,
+    collectionSubmission: ModelInstance<CollectionSubmissionModel>,
+): CollectionSubmissionActionArgument  {
+
+    projectBuilderArgument.collectionSubmissionActionArgument.target = collectionSubmission;
+    projectBuilderArgument.collectionSubmissionActionArgument.creator = projectBuilderArgument.currentUser;
+    projectBuilderArgument.collectionSubmissionActionArgument.server = projectBuilderArgument.server;
+
+    return projectBuilderArgument.collectionSubmissionActionArgument;
 }

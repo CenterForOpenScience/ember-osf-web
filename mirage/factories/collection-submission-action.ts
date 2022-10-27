@@ -13,22 +13,27 @@ export default Factory.extend<CollectionSubmissionAction>({
     fromState: faker.random.objectElement(Object.values(CollectionSubmissionReviewStates)),
     toState: faker.random.objectElement(Object.values(CollectionSubmissionReviewStates)),
     actionTrigger: faker.random.objectElement(Object.values(CollectionSubmissionActionTrigger)),
-
-    comment() {
-        return faker.lorem.sentence();
-    },
-
-    dateCreated() {
-        return faker.date.past(3);
-    },
-
-    dateModified() {
-        return faker.date.recent(5);
-    },
-
     creator: association() as CollectionSubmissionAction['creator'],
-
     target: association() as CollectionSubmissionAction['target'],
+    afterCreate(collectionSubmissionAction) {
+        /**
+         * Comments are explicit in this case because of the justification model
+         */
+        /*
+        if (!collectionSubmissionAction.comment) {
+            collectionSubmissionAction.comment = faker.lorem.sentence();
+        }
+        */
+        if (!collectionSubmissionAction.dateCreated) {
+            collectionSubmissionAction.dateCreated = faker.date.past(5);
+        }
+
+        if (!collectionSubmissionAction.dateModified) {
+            collectionSubmissionAction.dateModified = faker.date.past(3);
+        }
+    },
+
+
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {
