@@ -27,6 +27,8 @@ export default Factory.extend<CollectionSubmissionAction>({
     },
 
     creator: association() as CollectionSubmissionAction['creator'],
+
+    target: association() as CollectionSubmissionAction['target'],
 });
 
 declare module 'ember-cli-mirage/types/registries/model' {

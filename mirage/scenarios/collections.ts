@@ -1,10 +1,12 @@
 import { ModelInstance, Server } from 'ember-cli-mirage';
 import CollectionModel from 'ember-osf-web/models/collection';
-import { CollectionSubmissionReviewStates } from 'ember-osf-web/models/collection-submission';
+import CollectionSubmissionModel,
+{ CollectionSubmissionReviewStates } from 'ember-osf-web/models/collection-submission';
 import LicenseModel from 'ember-osf-web/models/license';
 import faker from 'faker';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
+import { CollectionSubmissionActionTrigger } from 'ember-osf-web/models/collection-submission-action';
 
 /**
  * collectionScenario
@@ -66,13 +68,20 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
     const primaryCollection = server.create('collection');
 
     [1,2,3,4,5].forEach((suffix: number) => {
-        pendingProject({
+        const collectionSubmission = pendingProject({
             server,
             currentUser,
             collection: primaryCollection,
             license: licensesAcceptable[0],
             title: `Pending Project Request - ${suffix}`,
         } as ProjectBuilderArgument);
+
+        collectionSubmissionActionBuilder({
+            target: collectionSubmission,
+            creator: currentUser,
+            server,
+        } as CollectionSubmissionActionArgument);
+
     });
 
     [1,2].forEach((suffix: number) => {
@@ -115,7 +124,7 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
 /**
  * ProjectBuilderArgument
  *
- * @description A simple abstraction to simplify creation of projects in different
+ * @description A simple interface to simplify the creation of projects in different
  * review states
  */
 interface ProjectBuilderArgument {
@@ -141,33 +150,82 @@ interface ProjectBuilderArgument {
     title: string;
 }
 
+/**
+ * CollectionSubmissionActionArgument
+ *
+ * @description A simple object to simplify the creation of collection submission actions in different
+ */
+interface CollectionSubmissionActionArgument {
+    /**
+     * The server attribute
+     */
+    server: Server;
+    /**
+     * The from state attribute
+     */
+    fromState?: CollectionSubmissionReviewStates;
+    /**
+     * The to state attribute
+     */
+    toState?: CollectionSubmissionReviewStates;
+    /**
+     * The action trigger attribute
+     */
+    actionTrigger?: CollectionSubmissionActionTrigger;
+    /**
+     * The creator attribute as the current user
+     */
+    creator: ModelInstance<User>;
+    /**
+     * The target as the collection submission
+     */
+    target: ModelInstance<CollectionSubmissionModel>;
+    /**
+     * The date the action was created
+     */
+    dateCreated?: Date;
+    /**
+     * The date the action was modified
+     */
+    dateModified?: Date;
+    /**
+     * The comment as the reason the action was taken (justification)
+     */
+    comment?: string;
+}
+
 
 /**
  * projectBuilder
  *
  * @description Abstracted function to easily build a project in a certain review state
  *
- * @param project The project model
+ * @param projectBuilderArgument The project builder argument model
  * @param reviewsState The review state
+ *
+ * @returns Return the newly created collection submission model
  */
-function projectBuilder(project: ProjectBuilderArgument, reviewsState: CollectionSubmissionReviewStates) {
-    const node = project.server.create('node', {
+function projectBuilder(
+    projectBuilderArgument: ProjectBuilderArgument,
+    reviewsState: CollectionSubmissionReviewStates,
+): ModelInstance<CollectionSubmissionModel> {
+    const node = projectBuilderArgument.server.create('node', {
         description: faker.lorem.sentence(),
-        title: project.title,
-        license: project.license,
+        title: projectBuilderArgument.title,
+        license: projectBuilderArgument.license,
         currentUserPermissions: Object.values(Permission),
     });
-    project.server.create('contributor', {
+    projectBuilderArgument.server.create('contributor', {
         node,
-        users: project.currentUser,
+        users: projectBuilderArgument.currentUser,
         index: 0,
     });
-    project.server.create('collection-submission', {
-        creator: project.currentUser,
+    return projectBuilderArgument.server.create('collection-submission', {
+        creator: projectBuilderArgument.currentUser,
         guid: node,
         id: node.id,
         reviewsState,
-        collection: project.collection,
+        collection: projectBuilderArgument.collection,
     });
 }
 
@@ -175,38 +233,62 @@ function projectBuilder(project: ProjectBuilderArgument, reviewsState: Collectio
  * pendingProject
  *
  * @description Abstracted function to easily build a pending project
- * @param project The project model
+ * @param projectBuilderArgument The project builder argument
+ *
+ * @returns Return the newly created collection submission model
  */
-function pendingProject(project: ProjectBuilderArgument) {
-    projectBuilder(project, CollectionSubmissionReviewStates.Pending);
+function pendingProject(projectBuilderArgument: ProjectBuilderArgument): ModelInstance<CollectionSubmissionModel> {
+    return projectBuilder(projectBuilderArgument, CollectionSubmissionReviewStates.Pending);
 }
 
 /**
  * removedProject
  *
  * @description Abstracted function to easily build a removed project
- * @param project The project model
+ * @param projectBuilderArgument The project builder argument
+ *
+ * @returns Return the newly created collection submission model
  */
-function removedProject(project: ProjectBuilderArgument) {
-    projectBuilder(project, CollectionSubmissionReviewStates.Removed);
+function removedProject(projectBuilderArgument: ProjectBuilderArgument): ModelInstance<CollectionSubmissionModel> {
+    return projectBuilder(projectBuilderArgument, CollectionSubmissionReviewStates.Removed);
 }
 
 /**
  * rejectedProject
  *
  * @description Abstracted function to easily build a rejected project
- * @param project The project model
+ * @param projectBuilderArgument The project builder argument
+ *
+ * @returns Return the newly created collection submission model
  */
-function rejectedProject(project: ProjectBuilderArgument) {
-    projectBuilder(project, CollectionSubmissionReviewStates.Rejected);
+function rejectedProject(projectBuilderArgument: ProjectBuilderArgument): ModelInstance<CollectionSubmissionModel> {
+    return projectBuilder(projectBuilderArgument, CollectionSubmissionReviewStates.Rejected);
 }
 
 /**
  * acceptedProject
  *
  * @description Abstracted function to easily build an accepted project
- * @param project The project model
+ * @param projectBuilderArgument The project builder argument
+ *
+ * @returns Return the newly created collection submission model
  */
-function acceptedProject(project: ProjectBuilderArgument) {
-    projectBuilder(project, CollectionSubmissionReviewStates.Accepted);
+function acceptedProject(projectBuilderArgument: ProjectBuilderArgument): ModelInstance<CollectionSubmissionModel> {
+    return projectBuilder(projectBuilderArgument, CollectionSubmissionReviewStates.Accepted);
+}
+
+/**
+ * collectionSubmissionActionBuilder
+ *
+ * @description Abstracted function to easily build a collection submission action
+ *
+ * @param project The project model
+ * @param reviewsState The review state
+ */
+function collectionSubmissionActionBuilder(
+    collectionSubmissionActionArgument: CollectionSubmissionActionArgument,
+): void {
+    collectionSubmissionActionArgument.server.create('collection-submission-action', {
+        fromState: collectionSubmissionActionArgument.fromState,
+    });
 }
