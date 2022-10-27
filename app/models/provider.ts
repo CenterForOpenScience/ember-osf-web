@@ -1,6 +1,7 @@
 import { attr, hasMany, SyncHasMany, AsyncHasMany } from '@ember-data/model';
 
 import LicenseModel from './license';
+import ModeratorModel from './moderator';
 import OsfModel from './osf-model';
 import SubjectModel from './subject';
 
@@ -51,6 +52,7 @@ export default abstract class ProviderModel extends OsfModel {
     @attr('boolean') allowSubmissions!: boolean;
     @attr('boolean') allowCommenting!: boolean;
     @attr('boolean') allowUpdates!: boolean;
+    @attr('array') permissions!: ReviewPermissions[];
     @attr('fixstring') reviewsWorkflow!: string | null;
     @attr('boolean') reviewsCommentsAnonymous!: boolean | null;
     @attr() assets?: Partial<Assets>; // TODO: camelize in transform
@@ -63,4 +65,14 @@ export default abstract class ProviderModel extends OsfModel {
 
     @hasMany('license', { inverse: null })
     licensesAcceptable!: AsyncHasMany<LicenseModel>;
+
+    @hasMany('moderator', { inverse: 'provider' })
+    moderators!: AsyncHasMany<ModeratorModel> | ModeratorModel[];
+
+    get currentUserCanReview() {
+        if (this.permissions) {
+            return this.permissions.includes(ReviewPermissions.ViewSubmissions);
+        }
+        return false;
+    }
 }
