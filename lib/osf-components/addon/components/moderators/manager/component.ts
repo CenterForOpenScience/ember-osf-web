@@ -12,7 +12,7 @@ import Toast from 'ember-toastr/services/toast';
 
 import { layout } from 'ember-osf-web/decorators/component';
 import ModeratorModel, { PermissionGroup } from 'ember-osf-web/models/moderator';
-import RegistrationProviderModel from 'ember-osf-web/models/registration-provider';
+import ProviderModel from 'ember-osf-web/models/provider';
 import UserModel from 'ember-osf-web/models/user';
 import CurrentUserService from 'ember-osf-web/services/current-user';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
@@ -21,7 +21,7 @@ import template from './template';
 export interface ModeratorManager {
     moderators: ModeratorModel[];
     permissionOptions: PermissionGroup;
-    provider: RegistrationProviderModel;
+    provider: ProviderModel;
     currentUserIsProviderAdmin: boolean;
     addUserAsModerator: (user: UserModel, permissionGroup: PermissionGroup) => void;
     addEmailAsModerator: (name: string, email: string, permissionGroup: PermissionGroup) => void;
@@ -38,7 +38,7 @@ export default class ModeratorManagerComponent extends Component {
     @service toast!: Toast;
     @service intl!: Intl;
 
-    provider!: RegistrationProviderModel;
+    provider!: ProviderModel;
     permissionOptions = Object.values(PermissionGroup);
     reloadModeratorList?: () => void;
 
@@ -59,12 +59,12 @@ export default class ModeratorManagerComponent extends Component {
             moderator.set('permissionGroup', newPermission);
             await moderator.save();
             this.toast.success(this.intl.t(
-                'registries.moderation.moderators.updatedModeratorPermissionSuccess',
+                'osf-components.moderators.updatedModeratorPermissionSuccess',
                 { userName: moderator.fullName, permission: newPermission },
             ));
         } catch (e) {
             const errorMessage = this.intl.t(
-                'registries.moderation.moderators.updatedModeratorPermissionError',
+                'osf-components.moderators.updatedModeratorPermissionError',
                 { permission: newPermission },
             );
             moderator.rollbackAttributes();
@@ -80,12 +80,12 @@ export default class ModeratorManagerComponent extends Component {
             await moderator.destroyRecord();
 
             this.toast.success(this.intl.t(
-                'registries.moderation.moderators.removedModeratorSuccess',
+                'osf-components.moderators.removedModeratorSuccess',
                 { userName: moderator.fullName },
             ));
         } catch (e) {
             const errorMessage = this.intl.t(
-                'registries.moderation.moderators.removedModeratorError',
+                'osf-components.moderators.removedModeratorError',
                 { permission: moderator.permissionGroup },
             );
             captureException(e, { errorMessage });
@@ -131,7 +131,7 @@ export default class ModeratorManagerComponent extends Component {
                     this.reloadModeratorList();
                 }
                 this.toast.success(this.intl.t(
-                    'registries.moderation.moderators.addedNewModeratorSuccess',
+                    'osf-components.moderators.addedNewModeratorSuccess',
                     { userName: user.fullName, permission: permissionGroup },
                 ));
             }
@@ -140,7 +140,7 @@ export default class ModeratorManagerComponent extends Component {
                 newModerator.unloadRecord();
             }
             const errorMessage = this.intl.t(
-                'registries.moderation.moderators.addedNewModeratorError',
+                'osf-components.moderators.addedNewModeratorError',
                 { permission: permissionGroup },
             );
             captureException(e, { errorMessage });
@@ -165,7 +165,7 @@ export default class ModeratorManagerComponent extends Component {
                     this.reloadModeratorList();
                 }
                 this.toast.success(this.intl.t(
-                    'registries.moderation.moderators.addedNewModeratorSuccess',
+                    'osf-components.moderators.addedNewModeratorSuccess',
                     { userName: fullName, permission: permissionGroup },
                 ));
             }
@@ -174,7 +174,7 @@ export default class ModeratorManagerComponent extends Component {
                 newModerator.unloadRecord();
             }
             const errorMessage = this.intl.t(
-                'registries.moderation.moderators.addedNewModeratorError',
+                'osf-components.moderators.addedNewModeratorError',
                 { permission: permissionGroup },
             );
             captureException(e, { errorMessage });

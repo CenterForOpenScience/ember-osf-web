@@ -1015,14 +1015,6 @@ registries:
             title: 'Withdrawal Requests'
         moderators:
             title: Moderators
-            nameHeader: Name
-            permissionHeader: Permission
-            addedNewModeratorSuccess: 'Successfully added {userName} as {permission}'
-            addedNewModeratorError: 'Error adding {permission}'
-            removedModeratorSuccess: 'Successfully removed {userName}'
-            removedModeratorError: 'Error removing {permission}'
-            updatedModeratorPermissionSuccess: 'Successfully updated {userName} to {permission}'
-            updatedModeratorPermissionError: 'Error updating permission to {permission}'
         settings:
             title: 'Settings'
             heading: 'Configure reviews notification preferences'
@@ -2152,6 +2144,14 @@ osf-components:
         success: 'Notification frequency updated.'
         error: 'Error updating notification frequency.'
     moderators:
+        nameHeader: Name
+        permissionHeader: Permission
+        addedNewModeratorSuccess: 'Successfully added {userName} as {permission}'
+        addedNewModeratorError: 'Error adding {permission}'
+        removedModeratorSuccess: 'Successfully removed {userName}'
+        removedModeratorError: 'Error removing {permission}'
+        updatedModeratorPermissionSuccess: 'Successfully updated {userName} to {permission}'
+        updatedModeratorPermissionError: 'Error updating permission to {permission}'
         remove:
             modal:
                 title: 'Confirm moderator removal'
