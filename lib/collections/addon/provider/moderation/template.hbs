@@ -12,7 +12,7 @@
                 <nav.item @active={{eq this.target.currentRouteName pendingRoute}}>
                     <OsfLink
                         @route={{pendingRoute}}
-                        @models={{array this.theme.provider.id}}
+                        @models={{array this.model.id}}
                     >
                         {{t 'collections.moderation.all.title'}}
                     </OsfLink>
@@ -22,7 +22,7 @@
                 <nav.item @active={{eq this.target.currentRouteName moderatorsRoute}}>
                     <OsfLink
                         @route={{moderatorsRoute}}
-                        @models={{array this.theme.provider.id}}
+                        @models={{array this.model.id}}
                     >
                         {{t 'collections.moderation.moderators.title'}}
                     </OsfLink>
@@ -32,7 +32,7 @@
                 <nav.item @active={{eq this.target.currentRouteName settingsRoute}}>
                     <OsfLink
                         @route={{settingsRoute}}
-                        @models={{array this.theme.provider.id}}
+                        @models={{array this.model.id}}
                     >
                         {{t 'collections.moderation.settings.title'}}
                     </OsfLink>
