@@ -1,5 +1,6 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
+import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import Features from 'ember-feature-flags/services/features';
 import config from 'ember-get-config';
@@ -19,8 +20,9 @@ export default class Application extends Controller {
     @service theme!: Theme;
     @service features!: Features;
 
+    @alias('theme.provider.currentUserCanReview') currentUserIsModerator?: Boolean;
+
     signupUrl = `${pathJoin(config.OSF.url, 'register')}?${$.param({ next: window.location.href })}`;
-    currentUserIsModerator = true;
 
     get isDisplayModerationButton() {
         const moderationFlag = routeFlags['collections.moderation'];
