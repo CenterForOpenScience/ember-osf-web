@@ -310,6 +310,12 @@ export default function(this: Server) {
     this.get('/providers/registrations/:parentID/subjects/', getProviderSubjects);
 
     osfResource(this, 'collection-provider', { path: '/providers/collections' });
+    osfNestedResource(this, 'collection-provider', 'moderators', {
+        path: '/providers/collections/:parentID/moderators',
+        except: ['create'],
+        relatedModelName: 'moderator',
+    });
+    this.post('providers/collections/:parentID/moderators', addModerator);
     osfNestedResource(this, 'collection-provider', 'licensesAcceptable', {
         path: 'providers/collections/:parentID/licenses/',
     });

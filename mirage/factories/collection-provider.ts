@@ -1,9 +1,10 @@
-import { Factory } from 'ember-cli-mirage';
+import { trait, Factory, Trait } from 'ember-cli-mirage';
 import faker from 'faker';
 
 import { placekitten } from 'ember-osf-web/mirage/utils';
 import CollectionProvider from 'ember-osf-web/models/collection-provider';
 import CollectionProviderModel from 'ember-osf-web/models/collection-provider';
+import { ReviewPermissions } from 'ember-osf-web/models/provider';
 
 import { guid, guidAfterCreate } from './utils';
 
@@ -11,7 +12,11 @@ export interface MirageCollectionProvider extends CollectionProviderModel {
     primaryCollectionId: string | number;
 }
 
-export default Factory.extend<CollectionProvider>({
+interface CollectionProviderTraits {
+    currentUserIsModerator: Trait;
+    currentUserIsAdmin: Trait;
+}
+export default Factory.extend<MirageCollectionProvider & CollectionProviderTraits>({
     id: guid('collection-provider'),
     afterCreate: guidAfterCreate,
     advisoryBoard: faker.lorem.paragraph,
@@ -32,6 +37,37 @@ export default Factory.extend<CollectionProvider>({
     description() {
         return `${faker.lorem.paragraph()} Find out <a href="https://help.osf.io/">more</a>.`;
     },
+    permissions: [],
+    currentUserIsModerator: trait<CollectionProvider>({
+        afterCreate(provider, server) {
+            const { currentUserId, currentUser } = server.schema.roots.first();
+            if (currentUserId && currentUser) {
+                const moderator = server.create('moderator', {
+                    id: currentUserId,
+                    user: currentUser,
+                }, 'asModerator');
+                provider.update({
+                    moderators: [moderator],
+                    permissions: [ReviewPermissions.ViewSubmissions],
+                });
+            }
+        },
+    }),
+    currentUserIsAdmin: trait<CollectionProvider>({
+        afterCreate(provider, server) {
+            const { currentUserId, currentUser } = server.schema.roots.first();
+            if (currentUserId && currentUser) {
+                const moderator = server.create('moderator', {
+                    id: currentUserId,
+                    user: currentUser,
+                }, 'asAdmin');
+                provider.update({
+                    moderators: [moderator],
+                    permissions: [ReviewPermissions.ViewSubmissions],
+                });
+            }
+        },
+    }),
 });
 
 declare module 'ember-cli-mirage/types/registries/schema' {
