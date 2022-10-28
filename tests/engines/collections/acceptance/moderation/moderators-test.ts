@@ -16,7 +16,7 @@ module('Collections | Acceptance | moderation | moderators', hooks => {
             id: 'studyswap',
             primaryCollection,
         }, 'currentUserIsAdmin');
-        server.createList('moderator', 15, { provider });
+        server.createList('moderator', 10, { provider });
         await visit(`/collections/${provider.id}/moderation/moderators`);
         assert.dom('[data-test-collections-moderation-moderators-tab]').hasClass('active', 'moderators is active tab');
 
