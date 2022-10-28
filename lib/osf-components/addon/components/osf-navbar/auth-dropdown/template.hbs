@@ -25,43 +25,47 @@
                     {{@headline}}
                 </ddm.item>
             {{/if}}
-            <ddm.item role='menuitem'>
+            <ddm.item>
                 <OsfLink
                     data-test-ad-my-profile
                     data-analytics-name='MyProfile'
                     @href={{this.profileURL}}
+                    role='menuitem'
                 >
                     <FaIcon @icon='user' class='fa-lg p-r-xs' />
                     {{t 'auth_dropdown.my_profile'}}
                 </OsfLink>
             </ddm.item>
-            <ddm.item role='menuitem'>
+            <ddm.item>
                 <OsfLink
                     data-test-ad-support
                     data-analytics-name='Support'
                     @href={{this.supportURL}}
+                    role='menuitem'
                 >
                     <FaIcon @icon='life-ring' class='fa-lg p-r-xs' />
                     {{t 'auth_dropdown.osf_support'}}
                 </OsfLink>
             </ddm.item>
-            <ddm.item role='menuitem'>
+            <ddm.item>
                 <OsfLink
                     data-test-ad-settings
                     data-analytics-name='Settings'
                     @href={{this.settingsURL}}
+                    role='menuitem'
                 >
                     <FaIcon @icon='cog' class='fa-lg p-r-xs' />
                     {{t 'general.settings'}}
                 </OsfLink>
             </ddm.item>
-            <ddm.item role='menuitem'>
+            <ddm.item>
                 <BsButton
                     data-test-ad-logout
                     data-analytics-name='Logout'
                     class='logoutLink'
                     @type='link'
                     @onClick={{action this.currentUser.logout}}
+                    role='menuitem'
                 >
                     <FaIcon @icon='sign-out-alt' class='fa-lg p-r-xs' />
                     {{t 'auth_dropdown.log_out'}}
@@ -78,6 +82,7 @@
                 class='btn btn-success btn-top-signup m-l-sm m-r-xs'
                 @route='register'
                 @queryParams={{this.signUpQueryParams}}
+                role='button'
             >
                 {{t 'auth_dropdown.sign_up'}}
             </OsfLink>
@@ -88,6 +93,7 @@
                 @onClick={{action this.login}}
                 @size='xs'
                 @type='info'
+                role='button'
             >
                 {{t 'auth_dropdown.sign_in'}}
             </BsButton>
