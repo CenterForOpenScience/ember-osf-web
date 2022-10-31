@@ -1,6 +1,6 @@
 import Store from '@ember-data/store';
 import Component from '@glimmer/component';
-
+import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
@@ -17,14 +17,21 @@ import RegistrationModel,
     NonActionableRegistrationStates,
     ActionableRevisionStates,
 } from 'ember-osf-web/models/registration';
-import { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
+import {
+    ReviewActionTrigger,
+    ReviewActionTriggerToTextLabelKey,
+    ReviewActionTriggerToDescriptionKey,
+} from 'ember-osf-web/models/review-action';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import { RevisionReviewStates } from 'ember-osf-web/models/schema-response';
-import { SchemaResponseActionTrigger } from 'ember-osf-web/models/schema-response-action';
+import {
+    SchemaResponseActionTrigger,
+    SchemaResponseActionTriggerToLabelMapKey,
+    SchemaResponseActionTriggerToDescriptionKey,
+} from 'ember-osf-web/models/schema-response-action';
 
 interface Args {
     registration: RegistrationModel;
-    selectedRevisionId: string;
 }
 
 export default class MakeDecisionDropdown extends Component<Args> {
@@ -36,35 +43,20 @@ export default class MakeDecisionDropdown extends Component<Args> {
     @tracked decisionTrigger?: ReviewActionTrigger | SchemaResponseActionTrigger;
     @tracked comment?: string;
 
-    reviewsStateToDecisionMap = reviewsStateToDecisionMap;
-    actionTriggerToDescriptionMap = {
-        [ReviewActionTrigger.ForceWithdraw]:
-            this.intl.t('osf-components.makeDecisionDropdown.forceWithdrawDescription'),
-        [ReviewActionTrigger.AcceptSubmission]:
-            this.intl.t('osf-components.makeDecisionDropdown.acceptSubmissionDescription'),
-        [ReviewActionTrigger.RejectSubmission]:
-            this.intl.t('osf-components.makeDecisionDropdown.rejectSubmissionDescription'),
-        [ReviewActionTrigger.AcceptWithdrawal]:
-            this.intl.t('osf-components.makeDecisionDropdown.acceptWithdrawalDescription'),
-        [ReviewActionTrigger.RejectWithdrawal]:
-            this.intl.t('osf-components.makeDecisionDropdown.rejectWithdrawalDescription'),
-        [SchemaResponseActionTrigger.AcceptRevision]:
-            this.intl.t('osf-components.makeDecisionDropdown.acceptRevisionDescription'),
-        [SchemaResponseActionTrigger.RejectRevision]:
-            this.intl.t('osf-components.makeDecisionDropdown.rejectRevisionDescription'),
-    };
+    actionTriggerToLabelKey: {};
+    actionTriggerToDescriptionKey: {};
 
-    actionTriggerToTextMap = {
-        [ReviewActionTrigger.ForceWithdraw]: this.intl.t('osf-components.makeDecisionDropdown.forceWithdraw'),
-        [ReviewActionTrigger.AcceptSubmission]: this.intl.t('osf-components.makeDecisionDropdown.acceptSubmission'),
-        [ReviewActionTrigger.RejectSubmission]: this.intl.t('osf-components.makeDecisionDropdown.rejectSubmission'),
-        [ReviewActionTrigger.AcceptWithdrawal]: this.intl.t('osf-components.makeDecisionDropdown.acceptWithdrawal'),
-        [ReviewActionTrigger.RejectWithdrawal]: this.intl.t('osf-components.makeDecisionDropdown.rejectWithdrawal'),
-        [SchemaResponseActionTrigger.AcceptRevision]:
-            this.intl.t('osf-components.makeDecisionDropdown.acceptRevision'),
-        [SchemaResponseActionTrigger.RejectRevision]:
-            this.intl.t('osf-components.makeDecisionDropdown.rejectRevision'),
-    };
+    constructor(owner: unknown, args: Args) {
+        super(owner, args);
+        assert('Make decision dropdown requires a registration', Boolean(args.registration));
+        if (this.revisionIsPending) {
+            this.actionTriggerToLabelKey = SchemaResponseActionTriggerToLabelMapKey;
+            this.actionTriggerToDescriptionKey = SchemaResponseActionTriggerToDescriptionKey;
+        } else {
+            this.actionTriggerToLabelKey = ReviewActionTriggerToTextLabelKey;
+            this.actionTriggerToDescriptionKey = ReviewActionTriggerToDescriptionKey;
+        }
+    }
 
     get latestRevision() {
         return this.args.registration.schemaResponses.firstObject;

@@ -28,6 +28,33 @@ const TriggerToPastTenseTranslationKey: Record<ReviewActionTrigger, string> = {
     request_embargo_termination: 'registries.reviewActions.triggerPastTense.request_embargo_termination',
 };
 
+export type ReviewActionModeratorActionTriggers =
+    ReviewActionTrigger.ForceWithdraw |
+    ReviewActionTrigger.AcceptSubmission |
+    ReviewActionTrigger.RejectSubmission |
+    ReviewActionTrigger.AcceptWithdrawal |
+    ReviewActionTrigger.RejectWithdrawal;
+
+export const ReviewActionTriggerToTextLabelKey: Record<ReviewActionModeratorActionTriggers, string> = {
+    [ReviewActionTrigger.ForceWithdraw]: 'osf-components.makeDecisionDropdown.forceWithdraw',
+    [ReviewActionTrigger.AcceptSubmission]: 'osf-components.makeDecisionDropdown.acceptSubmission',
+    [ReviewActionTrigger.RejectSubmission]: 'osf-components.makeDecisionDropdown.rejectSubmission',
+    [ReviewActionTrigger.AcceptWithdrawal]: 'osf-components.makeDecisionDropdown.acceptWithdrawal',
+    [ReviewActionTrigger.RejectWithdrawal]: 'osf-components.makeDecisionDropdown.rejectWithdrawal',
+};
+export const ReviewActionTriggerToDescriptionKey: Record<ReviewActionModeratorActionTriggers, string> = {
+    [ReviewActionTrigger.ForceWithdraw]:
+        'osf-components.makeDecisionDropdown.forceWithdrawDescription',
+    [ReviewActionTrigger.AcceptSubmission]:
+        'osf-components.makeDecisionDropdown.acceptSubmissionDescription',
+    [ReviewActionTrigger.RejectSubmission]:
+        'osf-components.makeDecisionDropdown.rejectSubmissionDescription',
+    [ReviewActionTrigger.AcceptWithdrawal]:
+        'osf-components.makeDecisionDropdown.acceptWithdrawalDescription',
+    [ReviewActionTrigger.RejectWithdrawal]:
+        'osf-components.makeDecisionDropdown.rejectWithdrawalDescription',
+};
+
 export default class ReviewActionModel extends Action {
     @service intl!: Intl;
 
