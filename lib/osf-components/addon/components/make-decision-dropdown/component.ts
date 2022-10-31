@@ -38,31 +38,32 @@ export default class MakeDecisionDropdown extends Component<Args> {
 
     reviewsStateToDecisionMap = reviewsStateToDecisionMap;
     actionTriggerToDescriptionMap = {
-        [ReviewActionTrigger.ForceWithdraw]: this.intl.t('registries.makeDecisionDropdown.forceWithdrawDescription'),
+        [ReviewActionTrigger.ForceWithdraw]:
+            this.intl.t('osf-components.makeDecisionDropdown.forceWithdrawDescription'),
         [ReviewActionTrigger.AcceptSubmission]:
-            this.intl.t('registries.makeDecisionDropdown.acceptSubmissionDescription'),
+            this.intl.t('osf-components.makeDecisionDropdown.acceptSubmissionDescription'),
         [ReviewActionTrigger.RejectSubmission]:
-            this.intl.t('registries.makeDecisionDropdown.rejectSubmissionDescription'),
+            this.intl.t('osf-components.makeDecisionDropdown.rejectSubmissionDescription'),
         [ReviewActionTrigger.AcceptWithdrawal]:
-            this.intl.t('registries.makeDecisionDropdown.acceptWithdrawalDescription'),
+            this.intl.t('osf-components.makeDecisionDropdown.acceptWithdrawalDescription'),
         [ReviewActionTrigger.RejectWithdrawal]:
-            this.intl.t('registries.makeDecisionDropdown.rejectWithdrawalDescription'),
+            this.intl.t('osf-components.makeDecisionDropdown.rejectWithdrawalDescription'),
         [SchemaResponseActionTrigger.AcceptRevision]:
-            this.intl.t('registries.makeDecisionDropdown.acceptRevisionDescription'),
+            this.intl.t('osf-components.makeDecisionDropdown.acceptRevisionDescription'),
         [SchemaResponseActionTrigger.RejectRevision]:
-            this.intl.t('registries.makeDecisionDropdown.rejectRevisionDescription'),
+            this.intl.t('osf-components.makeDecisionDropdown.rejectRevisionDescription'),
     };
 
     actionTriggerToTextMap = {
-        [ReviewActionTrigger.ForceWithdraw]: this.intl.t('registries.makeDecisionDropdown.forceWithdraw'),
-        [ReviewActionTrigger.AcceptSubmission]: this.intl.t('registries.makeDecisionDropdown.acceptSubmission'),
-        [ReviewActionTrigger.RejectSubmission]: this.intl.t('registries.makeDecisionDropdown.rejectSubmission'),
-        [ReviewActionTrigger.AcceptWithdrawal]: this.intl.t('registries.makeDecisionDropdown.acceptWithdrawal'),
-        [ReviewActionTrigger.RejectWithdrawal]: this.intl.t('registries.makeDecisionDropdown.rejectWithdrawal'),
+        [ReviewActionTrigger.ForceWithdraw]: this.intl.t('osf-components.makeDecisionDropdown.forceWithdraw'),
+        [ReviewActionTrigger.AcceptSubmission]: this.intl.t('osf-components.makeDecisionDropdown.acceptSubmission'),
+        [ReviewActionTrigger.RejectSubmission]: this.intl.t('osf-components.makeDecisionDropdown.rejectSubmission'),
+        [ReviewActionTrigger.AcceptWithdrawal]: this.intl.t('osf-components.makeDecisionDropdown.acceptWithdrawal'),
+        [ReviewActionTrigger.RejectWithdrawal]: this.intl.t('osf-components.makeDecisionDropdown.rejectWithdrawal'),
         [SchemaResponseActionTrigger.AcceptRevision]:
-            this.intl.t('registries.makeDecisionDropdown.acceptRevision'),
+            this.intl.t('osf-components.makeDecisionDropdown.acceptRevision'),
         [SchemaResponseActionTrigger.RejectRevision]:
-            this.intl.t('registries.makeDecisionDropdown.rejectRevision'),
+            this.intl.t('osf-components.makeDecisionDropdown.rejectRevision'),
     };
 
     get latestRevision() {
@@ -81,14 +82,14 @@ export default class MakeDecisionDropdown extends Component<Args> {
                 .includes(this.args.registration.reviewsState) ||
                 this.revisionIsPending) {
                 return {
-                    label: this.intl.t('registries.makeDecisionDropdown.additionalComment'),
-                    placeholder: this.intl.t('registries.makeDecisionDropdown.additionalCommentPlaceholder'),
+                    label: this.intl.t('osf-components.makeDecisionDropdown.additionalComment'),
+                    placeholder: this.intl.t('osf-components.makeDecisionDropdown.additionalCommentPlaceholder'),
                 };
             }
 
             return {
-                label: this.intl.t('registries.makeDecisionDropdown.justificationForWithdrawal'),
-                placeholder: this.intl.t('registries.makeDecisionDropdown.justificationForWithdrawalPlaceholder'),
+                label: this.intl.t('osf-components.makeDecisionDropdown.justificationForWithdrawal'),
+                placeholder: this.intl.t('osf-components.makeDecisionDropdown.justificationForWithdrawalPlaceholder'),
             };
         }
         // registration is viewed anonymously and this component should not be visible
@@ -136,7 +137,7 @@ export default class MakeDecisionDropdown extends Component<Args> {
             });
             try {
                 await newAction.save();
-                this.toast.success(this.intl.t('registries.makeDecisionDropdown.success'));
+                this.toast.success(this.intl.t('osf-components.makeDecisionDropdown.success'));
                 if (this.decisionTrigger === ReviewActionTrigger.RejectSubmission) {
                     this.router.transitionTo(
                         'registries.branded.moderation.submitted',
@@ -152,7 +153,7 @@ export default class MakeDecisionDropdown extends Component<Args> {
                 }
                 this.args.registration.reload();
             } catch (e) {
-                const errorMessage = this.intl.t('registries.makeDecisionDropdown.failure');
+                const errorMessage = this.intl.t('osf-components.makeDecisionDropdown.failure');
                 captureException(e, { errorMessage });
                 this.toast.error(getApiErrorMessage(e), errorMessage);
             } finally {

@@ -4,14 +4,14 @@ import { hbs } from 'ember-cli-htmlbars';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { setupIntl, t } from 'ember-intl/test-support';
 import { TestContext } from 'ember-test-helpers';
+import { setupRenderingTest } from 'ember-qunit';
 
 import { RegistrationReviewStates } from 'ember-osf-web/models/registration';
 import { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
-import { setupEngineRenderingTest } from 'ember-osf-web/tests/helpers/engines';
 import { module, test } from 'qunit';
 
-module('Registries | Integration | Component | make-decision-dropdown', hooks => {
-    setupEngineRenderingTest(hooks, 'registries');
+module('Integration | Component | make-decision-dropdown', hooks => {
+    setupRenderingTest(hooks);
     setupIntl(hooks);
     setupMirage(hooks);
 
@@ -24,33 +24,33 @@ module('Registries | Integration | Component | make-decision-dropdown', hooks =>
     } = {
         [RegistrationReviewStates.Pending]: {
             actions: [ReviewActionTrigger.AcceptSubmission, ReviewActionTrigger.RejectSubmission],
-            commentLabel: 'registries.makeDecisionDropdown.additionalComment',
-            commentPlaceholder: 'registries.makeDecisionDropdown.additionalCommentPlaceholder',
+            commentLabel: 'osf-components.makeDecisionDropdown.additionalComment',
+            commentPlaceholder: 'osf-components.makeDecisionDropdown.additionalCommentPlaceholder',
         },
         [RegistrationReviewStates.PendingWithdraw]: {
             actions: [ReviewActionTrigger.AcceptWithdrawal, ReviewActionTrigger.RejectWithdrawal],
-            commentLabel: 'registries.makeDecisionDropdown.additionalComment',
-            commentPlaceholder: 'registries.makeDecisionDropdown.additionalCommentPlaceholder',
+            commentLabel: 'osf-components.makeDecisionDropdown.additionalComment',
+            commentPlaceholder: 'osf-components.makeDecisionDropdown.additionalCommentPlaceholder',
         },
         [RegistrationReviewStates.Accepted]: {
             actions: [ReviewActionTrigger.ForceWithdraw],
-            commentLabel: 'registries.makeDecisionDropdown.justificationForWithdrawal',
-            commentPlaceholder: 'registries.makeDecisionDropdown.justificationForWithdrawalPlaceholder',
+            commentLabel: 'osf-components.makeDecisionDropdown.justificationForWithdrawal',
+            commentPlaceholder: 'osf-components.makeDecisionDropdown.justificationForWithdrawalPlaceholder',
         },
         [RegistrationReviewStates.Embargo]: {
             actions: [ReviewActionTrigger.ForceWithdraw],
-            commentLabel: 'registries.makeDecisionDropdown.justificationForWithdrawal',
-            commentPlaceholder: 'registries.makeDecisionDropdown.justificationForWithdrawalPlaceholder',
+            commentLabel: 'osf-components.makeDecisionDropdown.justificationForWithdrawal',
+            commentPlaceholder: 'osf-components.makeDecisionDropdown.justificationForWithdrawalPlaceholder',
         },
         [RegistrationReviewStates.PendingWithdrawRequest]: {
             actions: [ReviewActionTrigger.ForceWithdraw],
-            commentLabel: 'registries.makeDecisionDropdown.justificationForWithdrawal',
-            commentPlaceholder: 'registries.makeDecisionDropdown.justificationForWithdrawalPlaceholder',
+            commentLabel: 'osf-components.makeDecisionDropdown.justificationForWithdrawal',
+            commentPlaceholder: 'osf-components.makeDecisionDropdown.justificationForWithdrawalPlaceholder',
         },
         [RegistrationReviewStates.PendingEmbargoTermination]: {
             actions: [ReviewActionTrigger.ForceWithdraw],
-            commentLabel: 'registries.makeDecisionDropdown.justificationForWithdrawal',
-            commentPlaceholder: 'registries.makeDecisionDropdown.justificationForWithdrawalPlaceholder',
+            commentLabel: 'osf-components.makeDecisionDropdown.justificationForWithdrawal',
+            commentPlaceholder: 'osf-components.makeDecisionDropdown.justificationForWithdrawalPlaceholder',
         },
         [RegistrationReviewStates.Rejected]: {
             actions: [],
@@ -82,7 +82,7 @@ module('Registries | Integration | Component | make-decision-dropdown', hooks =>
                     .isNotChecked(`'${actionTrigger}' checkbox option is not checked by default`);
                 assert.dom('[data-test-moderation-dropdown-decision-label]').hasAnyText();
                 assert.dom(`[data-test-moderation-dropdown-decision-label=${actionTrigger}]`).hasText(
-                    t(`registries.makeDecisionDropdown.${camelize(actionTrigger)}`),
+                    t(`osf-components.makeDecisionDropdown.${camelize(actionTrigger)}`),
                     'has the right action trigger text',
                 );
             });

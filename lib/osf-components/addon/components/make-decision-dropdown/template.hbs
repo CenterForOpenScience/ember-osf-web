@@ -9,7 +9,7 @@
             local-class='TriggerButton'
             @type='create'
         >
-            {{t 'registries.makeDecisionDropdown.makeDecision'}}
+            {{t 'osf-components.makeDecisionDropdown.makeDecision'}}
             <FaIcon @icon='caret-down' />
         </Button>
     </dd.trigger>
@@ -48,19 +48,21 @@
                     {{/let}}
                 </div>
             {{/each}}
-            <label
-                data-test-moderation-dropdown-action-label
-                for='moderator-comment'
-            >
-                {{this.commentTextArea.label}}
-            </label>
-            <Textarea
-                data-test-moderation-dropdown-comment
-                @id='moderator-comment'
-                @value={{this.comment}}
-                placeholder={{this.commentTextArea.placeholder}}
-                local-class='Comment'
-            />
+            {{#let (unique-id 'moderator-comment') as |moderatorCommentId|}}
+                <label
+                    data-test-moderation-dropdown-action-label
+                    for={{moderatorCommentId}}
+                >
+                    {{this.commentTextArea.label}}
+                </label>
+                <Textarea
+                    data-test-moderation-dropdown-comment
+                    @id={{moderatorCommentId}}
+                    @value={{this.comment}}
+                    placeholder={{this.commentTextArea.placeholder}}
+                    local-class='Comment'
+                />
+            {{/let}}
             <Button
                 data-test-moderation-dropdown-submit
                 data-analytics-name='Submit decision'
@@ -69,11 +71,11 @@
                 local-class='SubmitButton'
                 {{on 'click' (queue (perform this.submitDecision) dd.close)}}
             >
-                {{t 'registries.makeDecisionDropdown.submit'}}
+                {{t 'osf-components.makeDecisionDropdown.submit'}}
             </Button>
         {{else}}
             <div data-test-no-moderator-actions>
-                {{t 'registries.makeDecisionDropdown.noModeratorActions'}}
+                {{t 'osf-components.makeDecisionDropdown.noModeratorActions'}}
             </div>
         {{/if}}
     </dd.content>
