@@ -7,6 +7,7 @@ import faker from 'faker';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import User from 'ember-osf-web/models/user';
 import { CollectionSubmissionActionTrigger } from 'ember-osf-web/models/collection-submission-action';
+import { MirageSubmissionAction } from 'ember-osf-web/mirage/factories/collection-submission';
 
 
 /**
@@ -37,7 +38,7 @@ export function collectionScenario(server: Server, currentUser: ModelInstance<Us
         collection: primaryCollection,
         license: licensesAcceptable[0],
         title: 'Added to collection',
-        collectionSubmissionActionArgument: { } as CollectionSubmissionActionArgument,
+        collectionSubmissionActionArgument: { } as MirageSubmissionAction,
     }  as ProjectBuilderArgument, CollectionSubmissionReviewStates.Accepted);
 
     server.create('collection-submission', {
@@ -69,6 +70,9 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
     const licensesAcceptable = server.schema.licenses.all().models;
     const primaryCollection = server.create('collection');
 
+    /**
+     * Pending
+     */
     [1,2,3,4,5].forEach((suffix: number) => {
         projectBuilder({
             server,
@@ -76,10 +80,15 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
             collection: primaryCollection,
             license: licensesAcceptable[0],
             title: `Pending Project Request - ${suffix}`,
-            collectionSubmissionActionArgument: buildInitialCollectionSubmissionActionArguments(),
+            collectionSubmissionActionArgument: buildInitialCollectionSubmissionActionArguments(
+                CollectionSubmissionActionTrigger.Submit,
+            ),
         }  as ProjectBuilderArgument, CollectionSubmissionReviewStates.Pending);
     });
 
+    /**
+     * Accepted
+     */
     [1,2].forEach((suffix: number) => {
         projectBuilder({
             server,
@@ -88,36 +97,15 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
             license: licensesAcceptable[0],
             title: `Accepted Project - ${suffix}`,
             collectionSubmissionActionArgument: buildInitialCollectionSubmissionActionArguments(
+                CollectionSubmissionActionTrigger.Accept,
                 'You really make this project great',
             ),
         }  as ProjectBuilderArgument, CollectionSubmissionReviewStates.Accepted);
     });
 
-    [1,2,3,4,5,6,7].forEach((suffix: number) => {
-        projectBuilder({
-            server,
-            currentUser,
-            collection: primaryCollection,
-            license: licensesAcceptable[0],
-            title: `Removed Project - ${suffix}`,
-            collectionSubmissionActionArgument: buildInitialCollectionSubmissionActionArguments(
-                'Thanks for being part of our project',
-                suffix % 2 ? true : false,
-            ),
-        }  as ProjectBuilderArgument, CollectionSubmissionReviewStates.Removed);
-    });
-
-    [1,2,3,4,5,6,7,8,9,10].forEach((suffix: number) => {
-        projectBuilder({
-            server,
-            currentUser,
-            collection: primaryCollection,
-            license: licensesAcceptable[0],
-            title: `RejectedProject - ${suffix}`,
-            collectionSubmissionActionArgument: buildInitialCollectionSubmissionActionArguments(),
-        }  as ProjectBuilderArgument, CollectionSubmissionReviewStates.Rejected);
-    });
-
+    /**
+     * Removed By Project Admin
+     */
     [1,2,3,4].forEach((suffix: number) => {
         projectBuilder({
             server,
@@ -126,12 +114,80 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
             license: licensesAcceptable[0],
             title: `Removed Project - ${suffix}`,
             collectionSubmissionActionArgument: buildInitialCollectionSubmissionActionArguments(
-                'I hope to never lose you',
-                suffix % 2 ? true : false,
-                true,
+                CollectionSubmissionActionTrigger.AdminRemove,
+                'Thanks for being part of our project',
             ),
         }  as ProjectBuilderArgument, CollectionSubmissionReviewStates.Removed);
     });
+
+    /**
+     * Removed By Collection Moderator
+     */
+    [1,2,3].forEach((suffix: number) => {
+        projectBuilder({
+            server,
+            currentUser,
+            collection: primaryCollection,
+            license: licensesAcceptable[0],
+            title: `Removed Project - ${suffix}`,
+            collectionSubmissionActionArgument: buildInitialCollectionSubmissionActionArguments(
+                CollectionSubmissionActionTrigger.ModeratorRemove,
+                'Thanks for being part of our project',
+            ),
+        }  as ProjectBuilderArgument, CollectionSubmissionReviewStates.Removed);
+    });
+
+    /**
+     * Rejected
+     */
+    [1,2,3,4,5,6,7,8,9,10].forEach((suffix: number) => {
+        projectBuilder({
+            server,
+            currentUser,
+            collection: primaryCollection,
+            license: licensesAcceptable[0],
+            title: `RejectedProject - ${suffix}`,
+            collectionSubmissionActionArgument: buildInitialCollectionSubmissionActionArguments(
+                CollectionSubmissionActionTrigger.Reject,
+            ),
+        }  as ProjectBuilderArgument, CollectionSubmissionReviewStates.Rejected);
+    });
+
+    /**
+     * Resubmit after rejected
+     */
+    [1,2,3,4].forEach((suffix: number) => {
+        projectBuilder({
+            server,
+            currentUser,
+            collection: primaryCollection,
+            license: licensesAcceptable[0],
+            title: `Removed Project - ${suffix}`,
+            collectionSubmissionActionArgument: buildInitialCollectionSubmissionActionArguments(
+                CollectionSubmissionActionTrigger.Resubmit,
+                'You are gone ... sorry',
+            ),
+        }  as ProjectBuilderArgument, CollectionSubmissionReviewStates.Rejected);
+    });
+
+    /**
+     * Resubmit after removed
+     */
+    [1,2,3,4,5,6,7,8].forEach((suffix: number) => {
+        projectBuilder({
+            server,
+            currentUser,
+            collection: primaryCollection,
+            license: licensesAcceptable[0],
+            title: `Removed Project - ${suffix}`,
+            collectionSubmissionActionArgument: buildInitialCollectionSubmissionActionArguments(
+                CollectionSubmissionActionTrigger.Resubmit,
+                'I hope to never lose you',
+                suffix % 2 === 1,
+            ),
+        }  as ProjectBuilderArgument, CollectionSubmissionReviewStates.Removed);
+    });
+
 
     [1,2,3,4,5].forEach((suffix: number) => {
         chaosProject({
@@ -140,7 +196,7 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
             collection: primaryCollection,
             license: licensesAcceptable[0],
             title: `Removed Project - ${suffix}`,
-            collectionSubmissionActionArgument: { } as CollectionSubmissionActionArgument,
+            collectionSubmissionActionArgument: { } as MirageSubmissionAction,
         } as ProjectBuilderArgument);
     });
 
@@ -156,14 +212,18 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
  *
  * @description Builds an initial base collection submission action argument
  *
- * @params comment The comment/justification the moderation
- * @params isAdminRemove if the remove submission is initiated by a project admin
- * @params isResubmit if the removed submission is to be resubmitted
+ * @params actionTrigger The specified action on project moderation
+ * @params comment The optional comment/justification the moderation
+ * @params isAdminRemove The optional attribute of how to determine the
+ * fromState of a resubmit from either a project admin or collection moderator
+ * removal
  *
- * @returns a collection submission action argument interface
+ * @returns a mirage submission action interface
  */
-function buildInitialCollectionSubmissionActionArguments(comment?: string,
-    isAdminRemove?: boolean, isResubmit?: boolean): CollectionSubmissionActionArgument {
+function buildInitialCollectionSubmissionActionArguments(
+    actionTrigger: CollectionSubmissionActionTrigger, comment?: string,
+    isAdminRemove?: boolean,
+): MirageSubmissionAction{
 
     const pastDateCreated = faker.random.number({
         min: 0,
@@ -177,11 +237,11 @@ function buildInitialCollectionSubmissionActionArguments(comment?: string,
 
     return {
         comment,
-        isResubmit,
         dateCreated: faker.date.past(pastDateCreated),
         dateModified: faker.date.past(pastDateModified),
+        actionTrigger,
         isAdminRemove,
-    } as CollectionSubmissionActionArgument;
+    } as MirageSubmissionAction;
 }
 
 /**
@@ -214,37 +274,8 @@ interface ProjectBuilderArgument {
     /**
      * The collection submission action arguments
      */
-    collectionSubmissionActionArgument: CollectionSubmissionActionArgument;
+    collectionSubmissionActionArgument: MirageSubmissionAction;
 }
-
-/**
- * CollectionSubmissionActionArgument
- *
- * @description A simple object to simplify the creation of collection submission actions with customized attributes
- */
-interface CollectionSubmissionActionArgument {
-    /**
-     * The date the action was created
-     */
-    dateCreated?: Date;
-    /**
-     * The date the action was modified
-     */
-    dateModified?: Date;
-    /**
-     * The comment as the reason the action was taken (justification)
-     */
-    comment?: string;
-    /**
-     * The is admin remove determines if an admin or moderator removed the project from the collection
-     */
-    isAdminRemove?: boolean;
-    /**
-     * The is resubmit determines if a removed project is resubmitted to the collection
-     */
-    isResubmit?: boolean;
-}
-
 
 /**
  * projectBuilder
@@ -271,7 +302,6 @@ function projectBuilder(
         users: projectBuilderArgument.currentUser,
         index: 0,
     });
-
 
     return projectBuilderArgument.server.create('collection-submission', {
         creator: projectBuilderArgument.currentUser,
@@ -312,9 +342,9 @@ function chaosProject(projectBuilderArgument: ProjectBuilderArgument): void {
     });
 
     projectBuilderArgument.server.create('collection-submission-action', {
-        fromState: CollectionSubmissionReviewStates.InProgress,
+        fromState: CollectionSubmissionReviewStates.Rejected,
         toState: CollectionSubmissionReviewStates.Pending,
-        actionTrigger: CollectionSubmissionActionTrigger.Submit,
+        actionTrigger: CollectionSubmissionActionTrigger.Resubmit,
         target: collectionSubmission,
         creator: projectBuilderArgument.currentUser,
         dateCreated: getMinusDate(345),
@@ -341,9 +371,9 @@ function chaosProject(projectBuilderArgument: ProjectBuilderArgument): void {
     });
 
     projectBuilderArgument.server.create('collection-submission-action', {
-        fromState: CollectionSubmissionReviewStates.InProgress,
+        fromState: CollectionSubmissionReviewStates.Removed,
         toState: CollectionSubmissionReviewStates.Pending,
-        actionTrigger: CollectionSubmissionActionTrigger.Submit,
+        actionTrigger: CollectionSubmissionActionTrigger.Resubmit,
         target: collectionSubmission,
         creator: projectBuilderArgument.currentUser,
         comment: 'Back, Back in black ...',
@@ -361,9 +391,9 @@ function chaosProject(projectBuilderArgument: ProjectBuilderArgument): void {
     });
 
     projectBuilderArgument.server.create('collection-submission-action', {
-        fromState: CollectionSubmissionReviewStates.InProgress,
+        fromState: CollectionSubmissionReviewStates.Rejected,
         toState: CollectionSubmissionReviewStates.Pending,
-        actionTrigger: CollectionSubmissionActionTrigger.Submit,
+        actionTrigger: CollectionSubmissionActionTrigger.Resubmit,
         target: collectionSubmission,
         creator: projectBuilderArgument.currentUser,
         comment: 'Oh, come one ... let me in little pig',
@@ -391,9 +421,9 @@ function chaosProject(projectBuilderArgument: ProjectBuilderArgument): void {
     });
 
     projectBuilderArgument.server.create('collection-submission-action', {
-        fromState: CollectionSubmissionReviewStates.InProgress,
+        fromState: CollectionSubmissionReviewStates.Removed,
         toState: CollectionSubmissionReviewStates.Pending,
-        actionTrigger: CollectionSubmissionActionTrigger.Submit,
+        actionTrigger: CollectionSubmissionActionTrigger.Resubmit,
         target: collectionSubmission,
         creator: projectBuilderArgument.currentUser,
         comment: 'Have a heart, Batman! Namaste ...',
@@ -411,9 +441,9 @@ function chaosProject(projectBuilderArgument: ProjectBuilderArgument): void {
     });
 
     projectBuilderArgument.server.create('collection-submission-action', {
-        fromState: CollectionSubmissionReviewStates.InProgress,
+        fromState: CollectionSubmissionReviewStates.Rejected,
         toState: CollectionSubmissionReviewStates.Pending,
-        actionTrigger: CollectionSubmissionActionTrigger.Submit,
+        actionTrigger: CollectionSubmissionActionTrigger.Resubmit,
         target: collectionSubmission,
         creator: projectBuilderArgument.currentUser,
         comment: 'Catch me if you can spam man',
@@ -431,9 +461,9 @@ function chaosProject(projectBuilderArgument: ProjectBuilderArgument): void {
     });
 
     projectBuilderArgument.server.create('collection-submission-action', {
-        fromState: CollectionSubmissionReviewStates.InProgress,
+        fromState: CollectionSubmissionReviewStates.Rejected,
         toState: CollectionSubmissionReviewStates.Pending,
-        actionTrigger: CollectionSubmissionActionTrigger.Submit,
+        actionTrigger: CollectionSubmissionActionTrigger.Resubmit,
         target: collectionSubmission,
         creator: projectBuilderArgument.currentUser,
         comment: 'Fine, I have made the chances you requested',
@@ -451,9 +481,9 @@ function chaosProject(projectBuilderArgument: ProjectBuilderArgument): void {
     });
 
     projectBuilderArgument.server.create('collection-submission-action', {
-        fromState: CollectionSubmissionReviewStates.InProgress,
+        fromState: CollectionSubmissionReviewStates.Rejected,
         toState: CollectionSubmissionReviewStates.Pending,
-        actionTrigger: CollectionSubmissionActionTrigger.Submit,
+        actionTrigger: CollectionSubmissionActionTrigger.Resubmit,
         target: collectionSubmission,
         creator: projectBuilderArgument.currentUser,
         comment: 'Really, I have made all the changes to be worthy of your collection.',
