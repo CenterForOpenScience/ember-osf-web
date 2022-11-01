@@ -65,11 +65,12 @@ module('Integration | Component | make-decision-dropdown', hooks => {
 
     for (const reviewsState of (Object.keys(testCases) as RegistrationReviewStates[])) {
         test(`shows the right actions based on state: ${reviewsState}`, async function(this: TestContext, assert) {
-            const registration = server.create('registration', {
+            const mirageRegistration = server.create('registration', {
                 provider: server.create('registration-provider', 'currentUserIsModerator'),
                 reviewsState,
             }, 'withReviewActions');
-
+            const store = this.owner.lookup('service:store');
+            const registration = await store.findRecord('registration', mirageRegistration.id);
             this.set('registration', registration);
 
             await render(hbs`<MakeDecisionDropdown @registration={{this.registration}} />`);
