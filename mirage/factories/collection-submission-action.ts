@@ -102,9 +102,9 @@ export default Factory.extend<MirageCollectionSubmissionAction>({
 
                 collectionSubmissionAction.update({actionTrigger: trigger});
 
-                collectionSubmissionAction.update({fromState: CollectionSubmissionReviewStates.InProgress});
+                collectionSubmissionAction.update({fromState: CollectionSubmissionReviewStates.Accepted});
 
-                collectionSubmissionAction.update({toState: CollectionSubmissionReviewStates.Pending});
+                collectionSubmissionAction.update({toState: CollectionSubmissionReviewStates.Removed});
 
                 server.create('collection-submission-action', {
                     reviewsState: CollectionSubmissionReviewStates.Pending,

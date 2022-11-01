@@ -152,7 +152,7 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
 }
 
 /**
- * buildInitialCollectionSubmiossionActionArguments
+ * buildInitialCollectionSubmissionActionArguments
  *
  * @description Builds an initial base collection submission action argument
  *
@@ -220,7 +220,7 @@ interface ProjectBuilderArgument {
 /**
  * CollectionSubmissionActionArgument
  *
- * @description A simple object to simplify the creation of collection submission actions in different
+ * @description A simple object to simplify the creation of collection submission actions with customized attributes
  */
 interface CollectionSubmissionActionArgument {
     /**
@@ -437,7 +437,7 @@ function chaosProject(projectBuilderArgument: ProjectBuilderArgument): void {
         target: collectionSubmission,
         creator: projectBuilderArgument.currentUser,
         comment: 'Fine, I have made the chances you requested',
-        dateCreated: getMinusDate(265),
+        dateCreated: getMinusDate(225),
     });
 
     projectBuilderArgument.server.create('collection-submission-action', {
@@ -447,7 +447,7 @@ function chaosProject(projectBuilderArgument: ProjectBuilderArgument): void {
         target: collectionSubmission,
         comment: 'nope, Nope, NOPE!',
         creator: projectBuilderArgument.currentUser,
-        dateCreated: getMinusDate(255),
+        dateCreated: getMinusDate(215),
     });
 
     projectBuilderArgument.server.create('collection-submission-action', {
@@ -457,7 +457,7 @@ function chaosProject(projectBuilderArgument: ProjectBuilderArgument): void {
         target: collectionSubmission,
         creator: projectBuilderArgument.currentUser,
         comment: 'Really, I have made all the changes to be worthy of your collection.',
-        dateCreated: getMinusDate(245),
+        dateCreated: getMinusDate(205),
     });
 
     projectBuilderArgument.server.create('collection-submission-action', {
@@ -467,7 +467,7 @@ function chaosProject(projectBuilderArgument: ProjectBuilderArgument): void {
         comment: 'You have made some good progress. Welcome back.',
         target: collectionSubmission,
         creator: projectBuilderArgument.currentUser,
-        dateCreated: getMinusDate(235),
+        dateCreated: getMinusDate(195),
     });
 }
 
