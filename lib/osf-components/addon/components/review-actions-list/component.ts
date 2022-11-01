@@ -28,8 +28,8 @@ export default class ReviewActionsList extends Component<Args> {
     @tracked reviewActions?: Array<ReviewActionModel | SchemaResponseActionModel>;
 
     get showOrHide() {
-        return this.showFullActionList ? this.intl.t('registries.reviewActionsList.hide')
-            : this.intl.t('registries.reviewActionsList.show');
+        return this.showFullActionList ? this.intl.t('osf-components.reviewActionsList.hide')
+            : this.intl.t('osf-components.reviewActionsList.show');
     }
 
     get latestAction() {

@@ -41,7 +41,7 @@ export default class ReviewAction extends Component<Args> {
             ] as AllTriggerActions[];
         if (reviewAction.actionTrigger === ReviewActionTrigger.AcceptSubmission) {
             if (reviewAction.toState === RegistrationReviewStates.Embargo) {
-                return this.intl.t('registries.reviewAction.acceptEmbargoSubmission',
+                return this.intl.t('osf-components.reviewActionsList.reviewAction.acceptRegistrationEmbargoSubmission',
                     {
                         action: reviewAction.triggerPastTense,
                         moderator: reviewAction.creator.get('fullName'),
@@ -49,7 +49,7 @@ export default class ReviewAction extends Component<Args> {
                         embargoEndDate: this.intl.formatDate(this.args.embargoEndDate, { locale: this.intl.locale }),
                     });
             }
-            return this.intl.t('registries.reviewAction.acceptSubmission',
+            return this.intl.t('osf-components.reviewActionsList.reviewAction.acceptRegistrationSubmission',
                 {
                     action: reviewAction.triggerPastTense,
                     moderator: reviewAction.creator.get('fullName'),
@@ -57,7 +57,7 @@ export default class ReviewAction extends Component<Args> {
                 });
         }
         if (registrationContributorActions.includes(reviewAction.actionTrigger)) {
-            return this.intl.t('registries.reviewAction.contributorAction',
+            return this.intl.t('osf-components.reviewActionsList.reviewAction.registrationContributorAction',
                 {
                     action: reviewAction.triggerPastTense,
                     contributor: reviewAction.creator.get('fullName'),
@@ -66,21 +66,21 @@ export default class ReviewAction extends Component<Args> {
         }
         if (reviewAction.actionTrigger === ReviewActionTrigger.Submit) {
             if (this.args.embargoEndDate) {
-                return this.intl.t('registries.reviewAction.submitActionWithEmbargo',
+                return this.intl.t('osf-components.reviewActionsList.reviewAction.registrationSubmitActionWithEmbargo',
                     {
                         contributor: reviewAction.creator.get('fullName'),
                         date: formattedTimeSince(reviewAction.dateModified),
                         embargoEndDate: this.intl.formatDate(this.args.embargoEndDate, { locale: this.intl.locale }),
                     });
             }
-            return this.intl.t('registries.reviewAction.submitActionWithoutEmbargo',
+            return this.intl.t('osf-components.reviewActionsList.reviewAction.registrationSubmitActionWithoutEmbargo',
                 {
                     contributor: reviewAction.creator.get('fullName'),
                     date: formattedTimeSince(reviewAction.dateModified),
                 });
         }
         if (revisionContributorActions.includes(reviewAction.actionTrigger)) {
-            return this.intl.t('registries.reviewAction.revisionContributorAction',
+            return this.intl.t('osf-components.reviewActionsList.reviewAction.revisionContributorAction',
                 {
                     action: reviewAction.triggerPastTense,
                     contributor: reviewAction.creator.get('fullName'),
@@ -88,14 +88,14 @@ export default class ReviewAction extends Component<Args> {
                 });
         }
         if (revisionModeratorActions.includes(reviewAction.actionTrigger)) {
-            return this.intl.t('registries.reviewAction.revisionModeratorAction',
+            return this.intl.t('osf-components.reviewActionsList.reviewAction.revisionModeratorAction',
                 {
                     action: reviewAction.triggerPastTense,
                     moderator: reviewAction.creator.get('fullName'),
                     date: formattedTimeSince(reviewAction.dateModified),
                 });
         }
-        return this.intl.t('registries.reviewAction.moderatorAction',
+        return this.intl.t('osf-components.reviewActionsList.reviewAction.registrationModeratorAction',
             {
                 action: reviewAction.triggerPastTense,
                 moderator: reviewAction.creator.get('fullName'),

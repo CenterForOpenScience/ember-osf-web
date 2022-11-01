@@ -15,9 +15,9 @@
     </dd.trigger>
     <dd.content local-class='Dropdown'>
         {{#if this.revisionIsPending}}
-            <Registries::ReviewActionsList @revision={{this.latestRevision}} />
+            <ReviewActionsList @revision={{this.latestRevision}} />
         {{else}}
-            <Registries::ReviewActionsList data-test-review-actions-list  @registration={{@registration}} />
+            <ReviewActionsList data-test-review-actions-list  @registration={{@registration}} />
         {{/if}}
         {{#if this.hasModeratorActions}}
             {{#each this.moderatorActions as |option|}}

@@ -42,10 +42,10 @@ module('Integration | Component | review-actions', hooks => {
 
         this.set('reviewAction', this.reviewAction);
 
-        await render(hbs`<Registries::ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
         assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
         assert.dom('[data-test-review-action-wrapper]').containsText(
-            t('registries.reviewAction.acceptSubmission',
+            t('osf-components.reviewActionsList.reviewAction.acceptRegistrationSubmission',
                 { action: pastTenseString, moderator: 'Superb Mario', date: dateString }),
             'Review action wrapper shows proper string',
         );
@@ -66,12 +66,12 @@ module('Integration | Component | review-actions', hooks => {
         this.set('embargoEndDate', embargoEndDate);
         this.set('reviewAction', this.reviewAction);
 
-        await render(hbs`<Registries::ReviewActionsList::ReviewAction
+        await render(hbs`<ReviewActionsList::ReviewAction
             @reviewAction={{this.reviewAction}}
             @embargoEndDate={{this.embargoEndDate}}/>`);
         assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
         assert.dom('[data-test-review-action-wrapper]').containsText(
-            t('registries.reviewAction.acceptEmbargoSubmission',
+            t('osf-components.reviewActionsList.reviewAction.acceptRegistrationEmbargoSubmission',
                 {
                     action: pastTenseString,
                     moderator: 'Superb Mario',
@@ -91,10 +91,10 @@ module('Integration | Component | review-actions', hooks => {
         const pastTenseString = t('registries.reviewActions.triggerPastTense.accept_withdrawal');
         this.set('reviewAction', this.reviewAction);
 
-        await render(hbs`<Registries::ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
         assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
         assert.dom('[data-test-review-action-wrapper]').containsText(
-            t('registries.reviewAction.moderatorAction',
+            t('osf-components.reviewActionsList.reviewAction.registrationModeratorAction',
                 { action: pastTenseString, moderator: 'Superb Mario', date: dateString }),
             'Review action wrapper shows proper string',
         );
@@ -110,10 +110,10 @@ module('Integration | Component | review-actions', hooks => {
         const pastTenseString = t('registries.reviewActions.triggerPastTense.reject_withdrawal');
         this.set('reviewAction', this.reviewAction);
 
-        await render(hbs`<Registries::ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
         assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
         assert.dom('[data-test-review-action-wrapper]').containsText(
-            t('registries.reviewAction.moderatorAction',
+            t('osf-components.reviewActionsList.reviewAction.registrationModeratorAction',
                 { action: pastTenseString, moderator: 'Superb Mario', date: dateString }),
             'Review action wrapper shows proper string',
         );
@@ -130,13 +130,13 @@ module('Integration | Component | review-actions', hooks => {
         this.set('embargoEndDate', null);
         this.set('reviewAction', this.reviewAction);
 
-        await render(hbs`<Registries::ReviewActionsList::ReviewAction
+        await render(hbs`<ReviewActionsList::ReviewAction
             @reviewAction={{this.reviewAction}}
             @embargoEndDate={{this.embargoEndDate}}
         />`);
         assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
         assert.dom('[data-test-review-action-wrapper]').hasTextContaining(
-            t('registries.reviewAction.submitActionWithoutEmbargo',
+            t('osf-components.reviewActionsList.reviewAction.registrationSubmitActionWithoutEmbargo',
                 {
                     contributor: 'Superb Mario',
                     date: dateString,
@@ -156,13 +156,13 @@ module('Integration | Component | review-actions', hooks => {
         this.set('embargoEndDate', embargoEndDate);
         this.set('reviewAction', this.reviewAction);
 
-        await render(hbs`<Registries::ReviewActionsList::ReviewAction
+        await render(hbs`<ReviewActionsList::ReviewAction
             @reviewAction={{this.reviewAction}}
             @embargoEndDate={{this.embargoEndDate}}
         />`);
         assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
         assert.dom('[data-test-review-action-wrapper]').hasTextContaining(
-            t('registries.reviewAction.submitActionWithEmbargo',
+            t('osf-components.reviewActionsList.reviewAction.registrationSubmitActionWithEmbargo',
                 {
                     contributor: 'Superb Mario',
                     date: dateString,
@@ -190,10 +190,10 @@ module('Integration | Component | review-actions', hooks => {
         const dateString = formattedTimeSince(action.dateModified);
         const pastTenseString = t('registries.reviewActions.triggerPastTense.request_withdrawal');
 
-        await render(hbs`<Registries::ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
         assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
         assert.dom('[data-test-review-action-wrapper]').containsText(
-            t('registries.reviewAction.contributorAction',
+            t('osf-components.reviewActionsList.reviewAction.registrationContributorAction',
                 { action: pastTenseString, contributor: 'Superb Mario', date: dateString }),
             'Review action wrapper shows proper string',
         );
@@ -212,10 +212,10 @@ module('Integration | Component | review-actions', hooks => {
         const pastTenseString = t('registries.reviewActions.triggerPastTense.request_embargo_termination');
         this.set('reviewAction', this.reviewAction);
 
-        await render(hbs`<Registries::ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
         assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
         assert.dom('[data-test-review-action-wrapper]').containsText(
-            t('registries.reviewAction.contributorAction',
+            t('osf-components.reviewActionsList.reviewAction.registrationContributorAction',
                 { action: pastTenseString, contributor: 'Superb Mario', date: dateString }),
             'Review action wrapper shows proper string',
         );
@@ -233,10 +233,10 @@ module('Integration | Component | review-actions', hooks => {
         const pastTenseString = t('registries.reviewActions.triggerPastTense.request_embargo_termination');
         this.set('reviewAction', this.reviewAction);
 
-        await render(hbs`<Registries::ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
         assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
         assert.dom('[data-test-review-action-wrapper]').containsText(
-            t('registries.reviewAction.contributorAction',
+            t('osf-components.reviewActionsList.reviewAction.registrationContributorAction',
                 { action: pastTenseString, contributor: 'Superb Mario', date: dateString }),
             'Review action wrapper shows proper string',
         );

@@ -1524,20 +1524,6 @@ registries:
         withdrawn: 'No withdrawn registrations have been found'
         pending_withdraw: 'No registrations found pending withdrawal'
         pending_moderation: 'No registrations found with updates pending'
-    reviewActionsList:
-        failedToLoadActions: 'Failed to load registration moderation history'
-        noActionsFound: 'No moderation history found for this registration'
-        hide: Hide
-        show: 'Show full history'
-    reviewAction:
-        acceptSubmission: 'Registration {action} {date} by {moderator} with no embargo'
-        acceptEmbargoSubmission: 'Registration {action} {date} by {moderator} with embargo ending {embargoEndDate}'
-        moderatorAction: 'Registration {action} {date} by moderator {moderator}'
-        contributorAction: 'Registration {action} {date} by contributor {contributor}'
-        submitActionWithoutEmbargo: 'Registration submitted {date} by contributor {contributor}'
-        submitActionWithEmbargo: 'Registration submitted {date} by contributor {contributor} with embargo ending {embargoEndDate}'
-        revisionContributorAction: 'Update {action} {date} by contributor {contributor}'
-        revisionModeratorAction: 'Update {action} {date} by moderator {moderator}'
     reviewActions:
         triggerPastTense:
             submit: 'submitted'
@@ -2110,6 +2096,20 @@ osf-components:
                 button: 'Remove contributor'
             success: 'You have successfully removed {contributorName}.'
             errorHeading: 'Could not remove contributor. '
+    reviewActionsList:
+        failedToLoadActions: 'Failed to load registration moderation history'
+        noActionsFound: 'No moderation history found for this registration'
+        hide: Hide
+        show: 'Show full history'
+        reviewAction:
+            acceptRegistrationSubmission: 'Registration {action} {date} by {moderator} with no embargo'
+            acceptRegistrationEmbargoSubmission: 'Registration {action} {date} by {moderator} with embargo ending {embargoEndDate}'
+            registrationModeratorAction: 'Registration {action} {date} by moderator {moderator}'
+            registrationContributorAction: 'Registration {action} {date} by contributor {contributor}'
+            registrationSubmitActionWithoutEmbargo: 'Registration submitted {date} by contributor {contributor}'
+            registrationSubmitActionWithEmbargo: 'Registration submitted {date} by contributor {contributor} with embargo ending {embargoEndDate}'
+            revisionContributorAction: 'Update {action} {date} by contributor {contributor}'
+            revisionModeratorAction: 'Update {action} {date} by moderator {moderator}'
 
 
     subscriptions:
