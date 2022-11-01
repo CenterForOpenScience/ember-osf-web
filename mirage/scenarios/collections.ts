@@ -75,10 +75,13 @@ export function collectionScenario(server: Server, currentUser: ModelInstance<Us
         guid: server.create('node', 'withContributors'),
         collection: primaryCollection,
     });
-    server.create('collection-provider', {
+    const provider = server.create('collection-provider', {
         id: 'studyswap',
         primaryCollection,
         licensesAcceptable,
+    }, 'currentUserIsAdmin');
+    server.createList('moderator', 3, {
+        provider,
     });
 }
 
