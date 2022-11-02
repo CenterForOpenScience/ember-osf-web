@@ -56,6 +56,7 @@ export function collectionScenario(server: Server, currentUser: ModelInstance<Us
         primaryCollection,
         licensesAcceptable,
     }, 'currentUserIsAdmin');
+
     server.createList('moderator', 3, {
         provider,
     });
@@ -191,7 +192,6 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
         }  as ProjectBuilderArgument, CollectionSubmissionReviewStates.Removed);
     });
 
-
     chaosProject({
         server,
         currentUser,
@@ -201,10 +201,18 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
         collectionSubmissionActionArgument: { } as MirageSubmissionAction,
     } as ProjectBuilderArgument);
 
-    server.create('collection-provider', {
+    const collectionProvider = server.create('collection-provider', {
         id: 'collection-moderation',
         primaryCollection,
         licensesAcceptable,
+    }, 'currentUserIsAdmin');
+
+    server.createList('moderator', 10, {
+        provider: collectionProvider,
+    }, 'asAdmin');
+
+    server.createList('moderator', 15, {
+        provider: collectionProvider,
     });
 }
 
