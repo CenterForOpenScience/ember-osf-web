@@ -8,11 +8,12 @@
     </layout.heading>
     <layout.main local-class='main'>
         <BsNav local-class='clamped-width-container' @type='tabs' as |nav|>
-            {{#let 'collections.provider.moderation.all' as |pendingRoute|}}
-                <nav.item @active={{eq this.target.currentRouteName pendingRoute}}>
+            {{#let 'collections.provider.moderation.all' as |allRoute|}}
+                <nav.item @active={{eq this.target.currentRouteName allRoute}}>
                     <OsfLink
-                        @route={{pendingRoute}}
-                        @models={{array this.theme.provider.id}}
+                        data-test-collections-moderation-all-tab
+                        @route={{allRoute}}
+                        @models={{array this.model.id}}
                     >
                         {{t 'collections.moderation.all.title'}}
                     </OsfLink>
@@ -21,8 +22,9 @@
             {{#let 'collections.provider.moderation.moderators' as |moderatorsRoute|}}
                 <nav.item @active={{eq this.target.currentRouteName moderatorsRoute}}>
                     <OsfLink
+                        data-test-collections-moderation-moderators-tab
                         @route={{moderatorsRoute}}
-                        @models={{array this.theme.provider.id}}
+                        @models={{array this.model.id}}
                     >
                         {{t 'collections.moderation.moderators.title'}}
                     </OsfLink>
@@ -31,8 +33,9 @@
             {{#let 'collections.provider.moderation.settings' as |settingsRoute|}}
                 <nav.item @active={{eq this.target.currentRouteName settingsRoute}}>
                     <OsfLink
+                        data-test-collections-moderation-settings-tab
                         @route={{settingsRoute}}
-                        @models={{array this.theme.provider.id}}
+                        @models={{array this.model.id}}
                     >
                         {{t 'collections.moderation.settings.title'}}
                     </OsfLink>

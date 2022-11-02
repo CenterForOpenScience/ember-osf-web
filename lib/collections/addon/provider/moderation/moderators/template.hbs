@@ -1,1 +1,8 @@
-{{!-- Moderators --}}
+<Moderators::Manager
+    @provider={{this.model}}
+    as |moderatorManager|
+>
+    <Moderators::List
+        @manager={{moderatorManager}}
+    />
+</Moderators::Manager>

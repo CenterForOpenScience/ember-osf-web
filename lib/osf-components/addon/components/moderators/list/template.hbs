@@ -8,8 +8,8 @@
         >
             <list.header local-class='Moderator Header'>
                 <div local-class='ModeratorNamePermission'>
-                    <b local-class='Name'>{{t 'registries.moderation.moderators.nameHeader'}}</b>
-                    <b local-class='PermissionGroup'>{{t 'registries.moderation.moderators.permissionHeader'}}</b>
+                    <b local-class='Name'>{{t 'osf-components.moderators.nameHeader'}}</b>
+                    <b local-class='PermissionGroup'>{{t 'osf-components.moderators.permissionHeader'}}</b>
                 </div>
                 {{#if @manager.currentUserIsProviderAdmin}}
                     <Moderators::AddModal @manager={{@manager}} />

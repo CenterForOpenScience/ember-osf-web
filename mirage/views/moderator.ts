@@ -1,9 +1,23 @@
 import { HandlerContext, Request, Schema } from 'ember-cli-mirage';
 
-export function addModerator(this: HandlerContext, schema: Schema, request: Request) {
+type ProviderModelNames = 'registrationProviders' | 'collectionProviders';
+
+
+export function addCollectionModerator(this: HandlerContext, schema: Schema, request: Request) {
+    return addModerator.call(this, schema, request, 'collectionProviders');
+}
+
+export function addRegistrationModerator(this: HandlerContext, schema: Schema, request: Request) {
+    return addModerator.call(this, schema, request, 'registrationProviders');
+}
+
+export function addModerator(
+    this: HandlerContext, schema: Schema, request: Request, parentModelName: ProviderModelNames,
+) {
+
     const { parentID } = request.params;
     const attrs = this.normalizedRequestAttrs('moderator');
-    const provider = schema.registrationProviders.find(parentID);
+    const provider = schema[parentModelName].find(parentID);
     let moderatorCreated = null;
     if (attrs.id) {
         // The request comes with an id in the payload

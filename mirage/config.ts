@@ -21,7 +21,7 @@ import { guidDetail } from './views/guid';
 import { identifierCreate } from './views/identifier';
 import { summaryMetrics } from './views/institution';
 import { postCountedUsage } from './views/metrics';
-import { addModerator } from './views/moderator';
+import { addCollectionModerator, addRegistrationModerator } from './views/moderator';
 import { createNode, storageStatus } from './views/node';
 import { osfNestedResource, osfResource, osfToManyRelationship } from './views/osf-resource';
 import { getProviderSubjects } from './views/provider-subjects';
@@ -288,7 +288,7 @@ export default function(this: Server) {
         path: '/providers/registrations/:parentID/moderators/',
         relatedModelName: 'moderator',
     });
-    this.post('providers/registrations/:parentID/moderators', addModerator);
+    this.post('providers/registrations/:parentID/moderators', addRegistrationModerator);
     osfNestedResource(this, 'registration-provider', 'registrations', {
         only: ['show', 'update', 'delete'],
         path: '/providers/registrations/:parentID/registrations/',
@@ -310,6 +310,12 @@ export default function(this: Server) {
     this.get('/providers/registrations/:parentID/subjects/', getProviderSubjects);
 
     osfResource(this, 'collection-provider', { path: '/providers/collections' });
+    osfNestedResource(this, 'collection-provider', 'moderators', {
+        path: '/providers/collections/:parentID/moderators',
+        except: ['create'],
+        relatedModelName: 'moderator',
+    });
+    this.post('providers/collections/:parentID/moderators', addCollectionModerator);
     osfNestedResource(this, 'collection-provider', 'licensesAcceptable', {
         path: 'providers/collections/:parentID/licenses/',
     });
