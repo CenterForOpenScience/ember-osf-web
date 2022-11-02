@@ -466,7 +466,7 @@ function chaosProject(projectBuilderArgument: ProjectBuilderArgument): void {
         actionTrigger: CollectionSubmissionActionTrigger.Resubmit,
         target: collectionSubmission,
         creator: projectBuilderArgument.currentUser,
-        comment: 'Fine, I have made the chances you requested',
+        comment: 'Fine, I have made the changes you requested',
         dateCreated: getMinusDate(225),
     });
 

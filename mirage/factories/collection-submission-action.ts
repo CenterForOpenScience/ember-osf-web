@@ -145,14 +145,14 @@ export default Factory.extend<MirageCollectionSubmissionAction>({
                 let preSubmitActionTrigger: CollectionSubmissionActionTrigger;
 
                 if (collectionSubmissionAction.reviewsState === CollectionSubmissionReviewStates.Removed) {
-                    preSubmitActionTrigger= CollectionSubmissionActionTrigger.Accept;
+                    preSubmitActionTrigger = CollectionSubmissionActionTrigger.Accept;
                     fromState = CollectionSubmissionReviewStates.Removed;
                     const actionTrigger = collectionSubmissionAction.isAdminRemove ?
                         CollectionSubmissionActionTrigger.AdminRemove :
                         CollectionSubmissionActionTrigger.ModeratorRemove;
                     collectionSubmissionAction.update({actionTrigger});
                 } else {
-                    preSubmitActionTrigger= CollectionSubmissionActionTrigger.Reject;
+                    preSubmitActionTrigger = CollectionSubmissionActionTrigger.Reject;
                     fromState = CollectionSubmissionReviewStates.Rejected;
                     collectionSubmissionAction.update({actionTrigger: CollectionSubmissionActionTrigger.Reject});
 
