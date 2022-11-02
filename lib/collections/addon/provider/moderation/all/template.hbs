@@ -12,33 +12,33 @@
                     </OsfLink>
                 </nav.item>
             {{/let}}
-            {{#let 'collections.provider.moderation.all.public' as |allRoute|}}
-                <nav.item @active={{eq this.target.currentRouteName allRoute}}>
+            {{#let 'collections.provider.moderation.all.public' as |publicRoute|}}
+                <nav.item @active={{eq this.target.currentRouteName publicRoute}}>
                     <OsfLink
                         data-test-collections-moderation-all-tab
-                        @route={{allRoute}}
+                        @route={{publicRoute}}
                         @models={{array this.model.id}}
                     >
                         {{t 'collections.moderation.all.public.title'}}
                     </OsfLink>
                 </nav.item>
             {{/let}}
-            {{#let 'collections.provider.moderation.all.rejected' as |allRoute|}}
-                <nav.item @active={{eq this.target.currentRouteName allRoute}}>
+            {{#let 'collections.provider.moderation.all.rejected' as |rejectedRoute|}}
+                <nav.item @active={{eq this.target.currentRouteName rejectedRoute}}>
                     <OsfLink
                         data-test-collections-moderation-all-tab
-                        @route={{allRoute}}
+                        @route={{rejectedRoute}}
                         @models={{array this.model.id}}
                     >
                         {{t 'collections.moderation.all.rejected.title'}}
                     </OsfLink>
                 </nav.item>
             {{/let}}
-            {{#let 'collections.provider.moderation.all.removed' as |allRoute|}}
-                <nav.item @active={{eq this.target.currentRouteName allRoute}}>
+            {{#let 'collections.provider.moderation.all.removed' as |removedRoute|}}
+                <nav.item @active={{eq this.target.currentRouteName removedRoute}}>
                     <OsfLink
                         data-test-collections-moderation-all-tab
-                        @route={{allRoute}}
+                        @route={{removedRoute}}
                         @models={{array this.model.id}}
                     >
                         {{t 'collections.moderation.all.removed.title'}}
