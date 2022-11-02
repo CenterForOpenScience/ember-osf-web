@@ -1,17 +1,12 @@
-import { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
-import GuidModel from 'ember-osf-web/models/user';
-
-import OsfModel from './osf-model';
+import { attr } from '@ember-data/model';
+import CustomMetadataModel from 'ember-osf-web/models/custom-metadata';
 
 
-export default class CustomFileMetadataRecordModel extends OsfModel {
+export default class CustomFileMetadataRecordModel extends CustomMetadataModel {
     @attr('fixstring') title?: string;
     @attr('fixstring') description?: string;
     @attr('fixstring') resource_type_general?: string;
     @attr('fixstring') language?: string;
-
-    @belongsTo('guid', { inverse: 'customMetadata' })
-    guid!: AsyncBelongsTo<GuidModel> & GuidModel;
 }
 
 declare module 'ember-data/types/registries/model' {

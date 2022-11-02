@@ -1,24 +1,20 @@
-import { AsyncBelongsTo, attr, belongsTo } from '@ember-data/model';
-import GuidModel from 'ember-osf-web/models/user';
+import { attr } from '@ember-data/model';
+import CustomMetadataModel from 'ember-osf-web/models/custom-metadata';
 
-import OsfModel from './osf-model';
 
 export interface Funder {
-    funderName: string;
-    funderIdentifier: string;
-    funderIdentifierType: string;
-    awardNumber: string;
-    awardUri: string;
-    awardTitle: string;
+    funderName?: string;
+    funderIdentifier?: string;
+    funderIdentifierType?: string;
+    awardNumber?: string;
+    awardUri?: string;
+    awardTitle?: string;
 }
 
-export default class CustomItemMetadataRecordModel extends OsfModel {
+export default class CustomItemMetadataRecordModel extends CustomMetadataModel {
     @attr('fixstring') resource_type_general?: string;
     @attr('fixstring') language?: string;
     @attr('array') funders?: Funder[];
-
-    @belongsTo('guid', { inverse: 'customMetadata' })
-    guid!: AsyncBelongsTo<GuidModel> & GuidModel;
 }
 
 declare module 'ember-data/types/registries/model' {
