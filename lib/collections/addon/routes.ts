@@ -19,7 +19,12 @@ export default buildRoutes(function() {
             this.route('edit');
         });
         this.route('moderation', function() {
-            this.route('all');
+            this.route('all', function() {
+                this.route('pending');
+                this.route('public');
+                this.route('rejected');
+                this.route('removed');
+            });
             this.route('moderators');
             this.route('settings');
         });

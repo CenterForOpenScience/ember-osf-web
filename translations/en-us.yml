@@ -963,6 +963,14 @@ collections:
         header: 'Collections Moderation'
         all:
             title: 'All Items'
+            pending:
+                title: 'Pending'
+            public:
+                title: 'Public'
+            rejected:
+                title: 'Rejected'
+            removed:
+                title: 'Removed'
         moderators:
             title: 'Moderators'
         settings:

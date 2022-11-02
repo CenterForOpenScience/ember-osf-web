@@ -1,2 +1,53 @@
-{{!-- Fetch collection submission based on selected tabs --}}
-{{!-- All --}}
+<OsfLayout @backgroundClass={{local-class 'content-background'}} as |layout|>
+    <layout.main local-class='main'>
+        <BsNav local-class='clamped-width-container nav-bar' @type='tabs' as |nav|>
+            {{#let 'collections.provider.moderation.all.pending' as |pendingRoute|}}
+                <nav.item @active={{eq this.target.currentRouteName pendingRoute}}>
+                    <OsfLink
+                        data-test-collections-moderation-all-tab
+                        @route={{pendingRoute}}
+                        @models={{array this.model.id}}
+                    >
+                        {{t 'collections.moderation.all.pending.title'}}
+                    </OsfLink>
+                </nav.item>
+            {{/let}}
+            {{#let 'collections.provider.moderation.all.public' as |allRoute|}}
+                <nav.item @active={{eq this.target.currentRouteName allRoute}}>
+                    <OsfLink
+                        data-test-collections-moderation-all-tab
+                        @route={{allRoute}}
+                        @models={{array this.model.id}}
+                    >
+                        {{t 'collections.moderation.all.public.title'}}
+                    </OsfLink>
+                </nav.item>
+            {{/let}}
+            {{#let 'collections.provider.moderation.all.rejected' as |allRoute|}}
+                <nav.item @active={{eq this.target.currentRouteName allRoute}}>
+                    <OsfLink
+                        data-test-collections-moderation-all-tab
+                        @route={{allRoute}}
+                        @models={{array this.model.id}}
+                    >
+                        {{t 'collections.moderation.all.rejected.title'}}
+                    </OsfLink>
+                </nav.item>
+            {{/let}}
+            {{#let 'collections.provider.moderation.all.removed' as |allRoute|}}
+                <nav.item @active={{eq this.target.currentRouteName allRoute}}>
+                    <OsfLink
+                        data-test-collections-moderation-all-tab
+                        @route={{allRoute}}
+                        @models={{array this.model.id}}
+                    >
+                        {{t 'collections.moderation.all.removed.title'}}
+                    </OsfLink>
+                </nav.item>
+            {{/let}}
+        </BsNav>
+        <div local-class='clamped-width-container'>
+            {{outlet}}
+        </div>
+    </layout.main>
+</OsfLayout>
