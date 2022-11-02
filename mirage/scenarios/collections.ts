@@ -112,7 +112,7 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
             currentUser,
             collection: primaryCollection,
             license: licensesAcceptable[0],
-            title: `Removed Project - ${suffix}`,
+            title: `Admin Removed Project - ${suffix}`,
             collectionSubmissionActionArgument: buildInitialCollectionSubmissionActionArguments(
                 CollectionSubmissionActionTrigger.AdminRemove,
                 'Thanks for being part of our project',
@@ -129,7 +129,7 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
             currentUser,
             collection: primaryCollection,
             license: licensesAcceptable[0],
-            title: `Removed Project - ${suffix}`,
+            title: `Moderator Removed Project - ${suffix}`,
             collectionSubmissionActionArgument: buildInitialCollectionSubmissionActionArguments(
                 CollectionSubmissionActionTrigger.ModeratorRemove,
                 'Thanks for being part of our project',
@@ -146,7 +146,7 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
             currentUser,
             collection: primaryCollection,
             license: licensesAcceptable[0],
-            title: `RejectedProject - ${suffix}`,
+            title: `Rejected Project - ${suffix}`,
             collectionSubmissionActionArgument: buildInitialCollectionSubmissionActionArguments(
                 CollectionSubmissionActionTrigger.Reject,
             ),
@@ -162,7 +162,7 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
             currentUser,
             collection: primaryCollection,
             license: licensesAcceptable[0],
-            title: `Removed Project - ${suffix}`,
+            title: `Resubmit after Project Rejected - ${suffix}`,
             collectionSubmissionActionArgument: buildInitialCollectionSubmissionActionArguments(
                 CollectionSubmissionActionTrigger.Resubmit,
                 'You are gone ... sorry',
@@ -179,7 +179,7 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
             currentUser,
             collection: primaryCollection,
             license: licensesAcceptable[0],
-            title: `Removed Project - ${suffix}`,
+            title: `Resubmit after Project Removed - ${suffix}`,
             collectionSubmissionActionArgument: buildInitialCollectionSubmissionActionArguments(
                 CollectionSubmissionActionTrigger.Resubmit,
                 'I hope to never lose you',
@@ -189,16 +189,14 @@ export function collectionModerationScenario(server: Server, currentUser: ModelI
     });
 
 
-    [1,2,3,4,5].forEach((suffix: number) => {
-        chaosProject({
-            server,
-            currentUser,
-            collection: primaryCollection,
-            license: licensesAcceptable[0],
-            title: `Removed Project - ${suffix}`,
-            collectionSubmissionActionArgument: { } as MirageSubmissionAction,
-        } as ProjectBuilderArgument);
-    });
+    chaosProject({
+        server,
+        currentUser,
+        collection: primaryCollection,
+        license: licensesAcceptable[0],
+        title: 'Chaos Project',
+        collectionSubmissionActionArgument: { } as MirageSubmissionAction,
+    } as ProjectBuilderArgument);
 
     server.create('collection-provider', {
         id: 'collection-moderation',
