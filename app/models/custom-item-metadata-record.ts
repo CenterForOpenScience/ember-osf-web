@@ -15,7 +15,7 @@ export interface Funder {
 export default class CustomItemMetadataRecordModel extends OsfModel {
     @attr('fixstring') resource_type_general?: string;
     @attr('fixstring') language?: string;
-    @attr('object') funder?: Funder;
+    @attr('array') funders?: Funder[];
 
     @belongsTo('guid', { inverse: 'customMetadata' })
     guid!: AsyncBelongsTo<GuidModel> & GuidModel;
