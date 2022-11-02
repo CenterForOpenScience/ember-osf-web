@@ -1,15 +1,10 @@
-import { HandlerContext, ModelInstance, Request, Schema } from 'ember-cli-mirage';
-import { MirageRegistrationProvider } from 'ember-osf-web/mirage/factories/registration-provider';
-import { MirageCollectionProvider } from 'ember-osf-web/mirage/factories/collection-provider';
+import { HandlerContext, Request, Schema } from 'ember-cli-mirage';
 
 export function addModerator(this: HandlerContext, schema: Schema, request: Request) {
     const { parentID } = request.params;
     const attrs = this.normalizedRequestAttrs('moderator');
-    let provider: ModelInstance<MirageRegistrationProvider | MirageCollectionProvider> =
-        schema.registrationProviders.find(parentID);
-    if (request.url.includes('collections')) {
-        provider = schema.collectionProviders.find(parentID);
-    }
+    const modelType = request.url.includes('providers/collections') ? 'collectionProviders' : 'registrationProviders';
+    const provider = schema[modelType].find(parentID);
     let moderatorCreated = null;
     if (attrs.id) {
         // The request comes with an id in the payload
