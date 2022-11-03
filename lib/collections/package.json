@@ -17,7 +17,11 @@
     "ember-cli-sass": "*",
     "ember-cli-template-lint": "*",
     "ember-cli-typescript": "*",
+<<<<<<< HEAD
     "ember-composable-helpers": "*",
+=======
+    "ember-composable-helpers": "^4.4.1",
+>>>>>>> e1fdd9d38 (Expand make-decision-dropdown to moderate collection-submissions)
     "ember-concurrency": "*",
     "ember-concurrency-async": "*",
     "ember-content-placeholders": "*",

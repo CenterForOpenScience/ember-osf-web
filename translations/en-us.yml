@@ -84,6 +84,8 @@ general:
     settings: Settings
     project: project
     component: component
+    registration: registration
+    collection: collection
     hosted_on_the_osf: 'Hosted on OSF'
     please_confirm: 'Please confirm'
     required: Required
@@ -2160,13 +2162,21 @@ osf-components:
         acceptRevisionDescription: 'Update will be accepted and registration will be updated'
         rejectRevision: 'Reject update'
         rejectRevisionDescription: 'Update will be rejected and registration will remain unchanged'
+        acceptCollectionSubmission: 'Accept submission'
+        acceptCollectionSubmissionDescription: 'Project will appear in search results and be associated with the collection'
+        rejectCollectionSubmission: 'Reject submission'
+        rejectCollectionSubmissionDescription: 'Project will not appear in search results nor be associated with the collection'
+        removeCollectionSubmission: 'Remove submission'
+        removeCollectionSubmissionDescription: 'Collection will be removed from the collection and no longer appear in search results'
         submit: 'Submit'
         success: 'Successfully submitted moderator decision.'
         failure: 'Failed to submit moderator decision.'
         additionalComment: 'Additional comment'
-        additionalCommentPlaceholder: 'Add remarks to registration admins'
+        additionalCommentPlaceholder: 'Add remarks to {targetType} admins'
         justificationForWithdrawal: 'Justification for Withdrawal'
         justificationForWithdrawalPlaceholder: 'Provide justification for withdrawal'
+        justificationForRemoval: 'Justification for Removal'
+        justificationForRemovalPlaceholder: 'Provide justification for removal'
         noModeratorActions: 'No moderator decisions can be made at this time'
 settings:
     toggleNav: 'Toggle navigation'
