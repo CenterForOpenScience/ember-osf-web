@@ -47,7 +47,7 @@ module('Registries | Acceptance | branded.moderation | settings', hooks => {
     test('notifications list shows for moderators, but not bulk upload widget', async assert => {
         const regProvider = server.schema.registrationProviders.find('mdr8n');
         const currentUser = server.create('user', 'loggedIn');
-        server.create('moderator', { id: currentUser.id, user: currentUser, provider: regProvider }, 'asModerator');
+        server.create('moderator', { id: currentUser.id, user: currentUser, provider: regProvider });
         regProvider.update({ permissions: ['view_submissions'] });
         await visit('/registries/mdr8n/moderation/settings');
         await percySnapshot('moderation settings page for moderators');
@@ -68,7 +68,7 @@ module('Registries | Acceptance | branded.moderation | settings', hooks => {
     test('notifications list and bulk upload widget shows for admins when allowedBulkUploads is true', async assert => {
         const regProvider = server.schema.registrationProviders.find('mdr8n');
         const currentUser = server.create('user', 'loggedIn');
-        server.create('moderator', { id: currentUser.id, user: currentUser, provider: regProvider }, 'asModerator');
+        server.create('moderator', { id: currentUser.id, user: currentUser, provider: regProvider });
         regProvider.update({ permissions: ['view_submissions', 'add_moderator'] });
         await visit('/registries/mdr8n/moderation/settings');
         await percySnapshot('moderation settings page for admins');
@@ -91,7 +91,7 @@ module('Registries | Acceptance | branded.moderation | settings', hooks => {
         regProvider.update('allowBulkUploads', false);
         regProvider.save();
         const currentUser = server.create('user', 'loggedIn');
-        server.create('moderator', { id: currentUser.id, user: currentUser, provider: regProvider }, 'asModerator');
+        server.create('moderator', { id: currentUser.id, user: currentUser, provider: regProvider });
         regProvider.update({ permissions: ['view_submissions', 'add_moderator'] });
         await visit('/registries/mdr8n/moderation/settings');
         assert.equal(currentRouteName(), 'registries.branded.moderation.settings',
@@ -112,7 +112,7 @@ module('Registries | Acceptance | branded.moderation | settings', hooks => {
         );
         const regProvider = server.schema.registrationProviders.find('mdr8n');
         const currentUser = server.create('user', 'loggedIn');
-        server.create('moderator', { id: currentUser.id, user: currentUser, provider: regProvider }, 'asModerator');
+        server.create('moderator', { id: currentUser.id, user: currentUser, provider: regProvider });
         regProvider.update({ permissions: ['view_submissions', 'add_moderator'] });
         await visit('/registries/mdr8n/moderation/settings');
         assert.dom('[data-test-bulk-upload-widget]').exists();
