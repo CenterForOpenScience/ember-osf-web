@@ -1,0 +1,48 @@
+<div local-class='page-container'>
+    <div local-class='icon-container'>
+        <FaIcon @icon='clock' @prefix='far' />
+    </div>
+    <div local-class='text-container'>
+        <div local-class='project-title'>
+            {{t 'osf-components.moderators.all.button'}}
+        </div>
+        <div local-class='moderation-details'>
+            {{t
+                'osf-components.moderators.all.moderationDetails'
+                status=@collectionSubmission.status
+                date=@date
+                moderator=@moderator
+            }}
+        </div>
+    </div>
+    <div local-class='button-container'>
+        <Button
+            @type='create'
+            {{on 'click' this.openMakeDecisionDialog}}
+            data-test-moderator-make-decision-button
+        >
+            {{t 'osf-components.moderators.all.button'}}
+            <FaIcon @icon='caret-down' />
+        </Button>
+    </div>
+    <OsfDialog
+        @isOpen={{this.shouldOpenDecisionDialog}}
+        @onClose={{this.closeDecisionDialog}}
+        @closeOnOutsideClick={{true}}
+        as |dialog|
+    >
+        <dialog.heading>
+            {{t 'osf-components.moderators.add.modal.heading'}}
+        </dialog.heading>
+        <dialog.main local-class='dialogMain'></dialog.main>
+        <dialog.footer>
+            <Button
+                data-test-moderator-make-decision-button
+                @type='secondary'
+                {{on 'click' this.closeDecisionDialog}}
+            >
+                {{t 'osf-components.moderators.add.modal.cancel'}}
+            </Button>
+        </dialog.footer>
+    </OsfDialog>
+</div>

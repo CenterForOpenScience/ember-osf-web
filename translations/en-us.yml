@@ -2168,6 +2168,9 @@ osf-components:
                 inviteByEmail: 'Invite user by email'
                 email: 'Email'
                 fullName: 'Full name'
+        all:
+            button: 'Make decision'
+            moderationDetails: 'Project {status} into collection on {date} by {moderator}'
 
 settings:
     toggleNav: 'Toggle navigation'
