@@ -16,6 +16,8 @@ export default class GuidSerializer extends ApplicationSerializer<SerializedGuid
         const pluralizedType = pluralize(guid.referentType!);
         const referent = guid._schema[pluralizedType].find(guid.id);
         const typeKey = this.typeKeyForModel(referent);
+        const metadataType = guid.referentType === 'file' ?
+            'custom-file-metadata-records' : 'custom-item-metadata-records';
         return {
             referent: {
                 data: {
@@ -28,6 +30,17 @@ export default class GuidSerializer extends ApplicationSerializer<SerializedGuid
                         meta: {
                             type: typeKey,
                         },
+                    },
+                },
+            },
+            custom_metadata: {
+                data: {
+                    id: guid.id,
+                    type: metadataType,
+                },
+                links: {
+                    related: {
+                        href: `${apiUrl}/v2/${metadataType}/${guid.id}/`,
                     },
                 },
             },
