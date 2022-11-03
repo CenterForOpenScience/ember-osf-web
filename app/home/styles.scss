@@ -1,9 +1,10 @@
 .keyboard-activated {
-    display: flex;
-    flex-direction: column;
-    width: 5%;
-    max-width: 15%;
-    height: calc(100vh - 50px);
+    display: inline-flex;
+    overflow: hidden;
+    height: 1px;
+    width: 1px;
+    max-width: 250px;
+    max-height: fit-content;
     background: #c5d6e6 url('/assets/images/dashboard/bg6.jpg') top center repeat-y;
     background-size: cover;
     color: $color-text-gray-dark;
@@ -12,15 +13,14 @@
     position: absolute;
     z-index: 1;
 
-    left: -10%;
+    left: -15%;
 
     .osf-home-logo {
         justify-content: center;
+        align-items: center;
 
         img {
-            flex: 1;
-            width: 100%;
-            align-items: flex-start;
+            flex-basis: 1 1 100%;
             border-radius: 50%;
         }
     }
@@ -36,6 +36,21 @@
         max-height: 75px;
     }
 
+    ol {
+        list-style-position: inside;
+        list-style-type: decimal;
+        padding-left: 22px;
+        padding-top: 2px;
+        margin-bottom: 0;
+
+        li {
+            color: #2d6a9f;
+            counter-increment: list;
+            list-style-type: decimal;
+            position: relative;
+        }
+    }
+
     .menu-data {
         background-size: cover;
 
@@ -45,7 +60,7 @@
         }
 
         p {
-            padding-left: 4px;
+            padding: 4px;
         }
 
         a {
@@ -53,19 +68,54 @@
         }
 
         .options-prompt {
-            padding-left: 4px;
+            text-align: center;
+            margin: 0;
+            padding-left: 10px;
+            padding-bottom: 15px;
         }
 
         ol {
-            padding-left: 4px;
+            padding-left: 10px;
             background-size: cover;
+        }
+
+        .menu-directions {
+            padding: 0 10px;
         }
     }
 
     &:focus {
-        width: 15%;
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        height: fit-content;
+        width: 250px;
         animation: slide-in 0.5s forwards;
+
+        left: -5vw;
+
+        .osf-home-logo {
+            justify-content: center;
+            height: 225px;
+            width: 225px;
+        }
+
+        .osf-home-logo > img {
+            width: 100%;
+            padding: 10px 0;
+        }
     }
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.sticky + .content {
+    padding-top: 60px;
 }
 
 @keyframes slide-in {

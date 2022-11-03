@@ -1,117 +1,124 @@
-<aside
-    data-test-skip-main
-    data-analytics-scope='A11y'
-    local-class='keyboard-activated skip-link'
-    id='menu'
-    {{on 'focus' this.registerKeyboard}}
-    aria-label={{t (concat 'new-home.voice-over.sentence_subject_you' 'new-home.voice-over.activate_keyboard_msg')}}
-    tabindex='0'
-    ...attributes
->
-    <div local-class='osf-home-logo'>
-        <img
-            class='img-circle img-responsive'
-            name='osf-logo'
-            src='/assets/images/dashboard/logo_spin.png'
-            alt={{t 'new-home.voice-over.osf_logo_alt_text'}}
-        >
-    </div>
-    <h2 data-test-menu-heading>
-        {{t 'new-home.voice-over.page_welcome_home'}}
-    </h2>
-    <div local-class='menu-data'>
-        <p
-            data-test-user-auth
-            local-class='user-auth'
-            tabindex='0'
-        >
-            <b>
-                {{t 'new-home.voice-over.page_user_status'}}
-            </b>
-            <br />
-        </p>
-        <p
-            data-test-options-prompt
-            local-class='options-prompt'
-            tabindex='0'
-        >
-            {{t 'new-home.voice-over.page_options_prompt'}}
-            <br />
-        </p>
-        <ol
-            data-test-option-list
-            tabindex='0'>
-            {{#each this.menuItems as |item index|}}
-                {{#if (eq item 'Main Content')}}
-                    <OsfLink
-                        data-test-menu-item
-                        id='mainContentLink'
-                        @href='#optionFourMainContent'
-                        alt={{concat 'Skip to' item 'content by pressing Enter or ' index}}
-                        tabindex='0'
-                    >
-                        {{index}}
-                        {{t 'new-home.voice-over.right_parenthesis'}}
-                        {{item}}
-                    </OsfLink>
-                {{else if (eq item 'Learn more about the OSF')}}
-                    <OsfLink
-                        data-test-menu-item
-                        id='learnMoreLink'
-                        @href='#optionEightLearnMore'
-                        alt={{concat 'Skip to' item 'content by pressing Enter or ' index}}
-                        tabindex='0'
-                    >
-                        {{index}}
-                        {{t 'new-home.voice-over.right_parenthesis'}}
-                        {{item}}
-                    </OsfLink>
-                {{else if (eq item 'OSF Testimonials.')}}
-                    <OsfLink
-                        data-test-menu-item
-                        id='testimonialsLink'
-                        @href='#optionNineTestimonials'
-                        alt={{concat 'Skip to' item 'content by pressing Enter or ' index}}
-                        tabindex='0'
-                    >
-                        {{index}}
-                        {{t 'new-home.voice-over.right_parenthesis'}}
-                        {{item}}
-                    </OsfLink>
-                {{else if (eq item 'Integrations and add-ons.')}}
-                    <OsfLink
-                        data-test-menu-item
-                        id='integrationsLink'
-                        @href='#optionTenIntegrations'
-                        alt={{concat 'Skip to' item 'content by pressing Enter or ' index}}
-                        tabindex='0'
-                    >
-                        {{index}}
-                        {{t 'new-home.voice-over.right_parenthesis'}}
-                        {{item}}
-                    </OsfLink>
-                {{else}}
-                    <OsfLink
-                        data-test-menu-item
-                        id='#'
-                        @href='#'
-                        alt={{concat 'Skip to' item 'content by pressing Enter or ' index}}
-                        tabindex='0'
-                    >
-                        {{index}}
-                        {{t 'new-home.voice-over.right_parenthesis'}}
-                        {{item}}
-                    </OsfLink>
-                {{/if}}
-                <br />
-            {{/each}}
-        </ol>
-        <p>
-            {{t 'new-home.voice-over.page_menu_directions'}}
-        </p>
-    </div>
-</aside>
 <main data-analytics-scope='Home'>
+    <aside
+        data-test-skip-main
+        data-analytics-scope='A11y'
+        local-class='keyboard-activated skip-link'
+        id='menu'
+        {{on 'focus' this.registerKeyboard}}
+        aria-label={{t 'new-home.voice-over.activate_keyboard_msg'}}
+        tabindex='0'
+        ...attributes
+    >
+        <div local-class='osf-home-logo'>
+            <img
+                class='img-circle img-responsive'
+                name='osf-logo'
+                src='/assets/images/dashboard/logo_spin.png'
+                alt={{t 'new-home.voice-over.osf_logo_alt_text'}}
+            >
+        </div>
+        <h2 data-test-menu-heading>
+            {{t 'new-home.voice-over.page_welcome_home'}}
+        </h2>
+        <div local-class='menu-data'>
+            <p
+                data-test-user-auth
+                local-class='user-auth'
+                tabindex='0'
+            >
+                {{#if this.isLoggedIn}}
+                    <b>
+                        {{t 'new-home.voice-over.page_user_logged_in'}}
+                    </b>
+                {{else}}
+                    <b>
+                        {{t 'new-home.voice-over.page_user_logged_out'}}
+                    </b>
+                {{/if}}
+            </p>
+            <br />
+            <p
+                data-test-options-prompt
+                local-class='options-prompt'
+                tabindex='0'
+            >
+                {{t 'new-home.voice-over.page_options_prompt'}}
+                <br />
+            </p>
+            <ol
+                data-test-option-list
+                tabindex='0'
+            >
+                {{#each this.menuItems as |item index|}}
+                    {{#if (eq item 'Main Content')}}
+                        <li>
+                            <OsfLink
+                                data-test-menu-item
+                                id='mainContentLink'
+                                @href='#optionFourMainContent'
+                                alt={{concat 'Skip to' item 'content by pressing Enter or ' index}}
+                                tabindex='0'
+                            >
+                                {{item}}
+                            </OsfLink>
+                        </li>
+                    {{else if (eq item 'Learn more about the OSF')}}
+                        <li>
+                            <OsfLink
+                                data-test-menu-item
+                                id='learnMoreLink'
+                                @href='#optionEightLearnMore'
+                                alt={{concat 'Skip to' item 'content by pressing Enter or ' index}}
+                                tabindex='0'
+                            >
+                                {{item}}
+                            </OsfLink>
+                        </li>
+                    {{else if (eq item 'OSF Testimonials.')}}
+                        <li>
+                            <OsfLink
+                                data-test-menu-item
+                                id='testimonialsLink'
+                                @href='#optionNineTestimonials'
+                                alt={{concat 'Skip to' item 'content by pressing Enter or ' index}}
+                                tabindex='0'
+                            >
+                                {{item}}
+                            </OsfLink>
+                        </li>
+                    {{else if (eq item 'Integrations and add-ons.')}}
+                        <li>
+                            <OsfLink
+                                data-test-menu-item
+                                id='integrationsLink'
+                                @href='#optionTenIntegrations'
+                                alt={{concat 'Skip to' item 'content by pressing Enter or ' index}}
+                                tabindex='0'
+                            >
+                                {{item}}
+                            </OsfLink>
+                        </li>
+                    {{else}}
+                        <li>
+                            <OsfLink
+                                data-test-menu-item
+                                id='#'
+                                @href='#'
+                                alt={{concat 'Skip to' item 'content by pressing Enter or ' index}}
+                                tabindex='0'
+                            >
+                                {{item}}
+                            </OsfLink>
+                        </li>
+                    {{/if}}
+                {{/each}}
+            </ol>
+            <br>
+            <p local-class='menu-directions'>
+                {{t 'new-home.voice-over.page_menu_directions'}}
+            </p>
+        </div>
+    </aside>
     <div id='optionFourMainContent'>
         <Home::-Components::HeroBanner />
     </div>

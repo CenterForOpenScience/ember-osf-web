@@ -427,11 +427,12 @@ new-home:
         dropbox: 'Dropbox logo'
         google_drive: 'Google Drive logo'
     voice-over:
-        page_welcome_home: "Welcome to OSF Home."
-        page_user_status: "You are currently logged out."
-        page_options_prompt: "Here you will find: "
-        page_menu_directions: 'Press Alt + the menu item number or Enter over the link to skip to that content.'
-        skip_to_products: 'Press Alt + 1 for a dropdown of available OSF products.'
+        page_welcome_home: 'Welcome to OSF Home.'
+        page_user_logged_out: 'You are currently logged out.'
+        page_user_logged_in: 'You are currently logged in.'
+        page_options_prompt: 'Here you will find:'
+        page_menu_directions: 'Press Alt + an integer value to select content. You may also press Enter on the corresponding link to skip to that portion of the OSF.'
+        skip_to_products: 'Press Alt + 1 for OSF products.'
         skip_to_sign_in: 'Press Alt + 2 or Enter to go to the Open Science Framework sign in page.'
         skip_to_sign_up: 'Press Alt + 3 or Enter to sign up for the Open Science Framework.'
         skip_to_main_content: 'Press Alt + 4 or Enter to go to the main content of this page.'
@@ -443,9 +444,9 @@ new-home:
         skip_to_integrations: 'Press Alt + 10 or Enter to jump to the third party integrations available.'
         redirect_message: 'You will leave the current page.'
         osf_logo_alt_text: 'OSF logo: blue and grey concentric circles bloom outwards from a central radial point.'
-        right_parenthesis: ')'
-        activate_keyboard_msg: 'are on the OSF keyboard menu. Press Tab to close or Shift + Tab after focusing the top navbar to re-open the menu.'
-        sentence_subject_you: 'You'
+        activate_keyboard_msg: 'You are on the OSF keyboard menu. Press Tab to close or Shift + Tab after the top navbar to open or re-open the submenu.'
+        other_key_press: 'Other key registered: ${name}. Please try again using Alt + a number value.;'
+        keyboard_not_activated: 'Keyboard not yet activated for this component.'
 
 tos_consent:
     paragraph: 'We''ve updated our <a href="{link1}">Terms of Use</a> and <a href="{link2}">Privacy Policy</a>. Please read them carefully.'
