@@ -133,6 +133,8 @@ file_detail:
     close_tags: 'Close tags'
     tags: 'Tags:'
     mfr_iframe_title: 'Rendering of document'
+    metadata: 'Metadata'
+    metadata_aria: 'Redirect to file metadata page.'
 dashboard:
     page_title: Home
     title: Dashboard

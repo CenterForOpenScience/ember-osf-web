@@ -12,19 +12,40 @@
 }
 
 .FlexContainerRow {
+    align-items: center;
     display: flex;
     flex-direction: row;
-    align-items: end;
-    justify-content: space-between;
+    justify-content: flex-end;
     padding: 0 20px 20px;
+
+    .metadata-link {
+        background: #fff;
+        border: 2px solid #d9d9d9;
+        border-radius: 5%;
+        color: $color-link-light;
+        height: 36px;
+        font-size: 15px;
+        font-weight: 600;
+        padding: 6px 15px;
+        width: fit-content;
+
+        &:hover {
+            background-color: #ddd;
+            color: $color-link-lighter;
+            text-decoration: none;
+        }
+    }
 }
 
 .FlexContainerRow > h2 {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    max-width: 70vw;
     height: 40px;
+    left: 23px;
+    max-width: 70vw;
+    overflow: hidden;
+    padding-bottom: 20px;
+    position: absolute;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .ProjectLink {
