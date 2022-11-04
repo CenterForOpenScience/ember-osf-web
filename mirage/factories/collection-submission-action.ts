@@ -95,14 +95,6 @@ export default Factory.extend<MirageCollectionSubmissionAction>({
 
                 collectionSubmissionAction.update({toState: CollectionSubmissionReviewStates.Removed});
 
-                addPendingAction(
-                    server,
-                    collectionSubmissionAction,
-                    getMinusDate(
-                        20, new Date(collectionSubmissionAction.dateCreated),
-                    ),
-                );
-
                 server.create('collection-submission-action', {
                     actionTrigger: CollectionSubmissionActionTrigger.Accept,
                     target: collectionSubmissionAction.target,
@@ -120,14 +112,6 @@ export default Factory.extend<MirageCollectionSubmissionAction>({
                 collectionSubmissionAction.update({fromState: CollectionSubmissionReviewStates.Accepted});
 
                 collectionSubmissionAction.update({toState: CollectionSubmissionReviewStates.Removed});
-
-                addPendingAction(
-                    server,
-                    collectionSubmissionAction,
-                    getMinusDate(
-                        20, new Date(collectionSubmissionAction.dateCreated),
-                    ),
-                );
 
                 server.create('collection-submission-action', {
                     actionTrigger: CollectionSubmissionActionTrigger.Accept,
@@ -163,14 +147,6 @@ export default Factory.extend<MirageCollectionSubmissionAction>({
                 collectionSubmissionAction.update({fromState});
 
                 collectionSubmissionAction.update({toState: CollectionSubmissionReviewStates.Pending });
-
-                addPendingAction(
-                    server,
-                    collectionSubmissionAction,
-                    getMinusDate(
-                        20, new Date(collectionSubmissionAction.dateCreated),
-                    ),
-                );
 
                 server.create('collection-submission-action', {
                     actionTrigger: preSubmitActionTrigger,
