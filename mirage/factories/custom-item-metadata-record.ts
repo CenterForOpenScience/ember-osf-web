@@ -29,7 +29,7 @@ export default Factory.extend<CustomItemMetadataRecord>({
 
 declare module 'ember-cli-mirage/types/registries/model' {
     export default interface MirageModelRegistry {
-        'custom-item-metadata-records': CustomItemMetadataRecord;
+        'custom-item-metadata-record': CustomItemMetadataRecord;
     } // eslint-disable-line semi
 }
 
