@@ -109,6 +109,8 @@ file_actions_menu:
     error_message: 'Could not copy to clipboard'
     rename: 'Rename'
     rename_aria: 'Open rename link'
+    metadata: 'Metadata'
+    metadata_aria: 'Redirect to file metadata.'
 node_categories:
     analysis: Analysis
     communication: Communication

@@ -25,4 +25,12 @@
 .DropdownItem {
     composes: FakeLink from '../button/styles.scss';
     padding: 8px 0 0;
+
+    div:nth-of-type(3) {
+        padding-left: 2px;
+    }
+}
+
+.metadata-link {
+    padding-top: 6px;
 }

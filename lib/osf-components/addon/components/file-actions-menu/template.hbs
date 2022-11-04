@@ -60,6 +60,16 @@
             </dd.trigger>
         </SharingIcons::Dropdown>
         {{#if @manager}}
+            <OsfLink
+                data-test-metadata-link
+                data-analytics-name='File metadata link'
+                local-class='metadata-link'
+                @href='#'
+                aria-label={{t 'file_actions_menu.metadata_aria'}}
+            >
+                <FaIcon @icon='question-circle' />
+                {{t 'file_actions_menu.metadata'}}
+            </OsfLink>
             {{#if @item.currentUserCanDelete}}
                 {{#if @allowRename}}
                     <Button
