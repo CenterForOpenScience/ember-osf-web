@@ -114,7 +114,7 @@ module('Integration | Component | moderators', hooks => {
             id: currentUserModel.id,
             user: currentUser,
             provider: this.provider,
-        }, 'asModerator');
+        });
         await render(
             hbs`<Moderators::Manager
                     @provider={{this.providerModel}}
