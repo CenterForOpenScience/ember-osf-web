@@ -141,14 +141,6 @@ export default class CollectionSubmissionCard extends Component<CollectionSubmis
             this.projectMetadata += this.getProjectMetadata(metadata.metadata, metadata.key);
         });
 
-        /*
-        this.projectMetadata += this.getProjectMetadata('Volume', this.args.submission.volume);
-
-        this.projectMetadata += this.getProjectMetadata('Status', this.args.submission.status);
-
-        this.projectMetadata += this.getProjectMetadata('Program Area', this.args.submission.programArea);
-        */
-
         this.projectMetadata = this.projectMetadata.replace(/,\s$/g, '');
     }
 
