@@ -1,3 +1,4 @@
+import { dasherize } from '@ember/string';
 import { ModelInstance } from 'ember-cli-mirage';
 import config from 'ember-get-config';
 import { pluralize } from 'ember-inflector';
@@ -17,7 +18,7 @@ export default class GuidSerializer extends ApplicationSerializer<SerializedGuid
         const referent = guid._schema[pluralizedType].find(guid.id);
         const typeKey = this.typeKeyForModel(referent);
         const metadataType = guid.referentType === 'file' ?
-            'custom-file-metadata-records' : 'custom-item-metadata-records';
+            'custom_file_metadata_records' : 'custom_item_metadata_records';
         return {
             referent: {
                 data: {
@@ -36,7 +37,7 @@ export default class GuidSerializer extends ApplicationSerializer<SerializedGuid
             custom_metadata: {
                 data: {
                     id: guid.id,
-                    type: metadataType,
+                    type: dasherize(metadataType),
                 },
                 links: {
                     related: {

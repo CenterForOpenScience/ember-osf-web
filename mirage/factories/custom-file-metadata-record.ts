@@ -13,7 +13,7 @@ export default Factory.extend<CustomFileMetadataRecord>({
 
 declare module 'ember-cli-mirage/types/registries/model' {
     export default interface MirageModelRegistry {
-        customFileMetadataRecords: CustomFileMetadataRecord;
+        'custom-file-metadata-records': CustomFileMetadataRecord;
     } // eslint-disable-line semi
 }
 
