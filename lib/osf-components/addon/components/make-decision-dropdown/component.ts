@@ -101,7 +101,7 @@ export default class MakeDecisionDropdown extends Component<Args> {
                     return {
                         label: this.intl.t('osf-components.makeDecisionDropdown.additionalComment'),
                         placeholder: this.intl.t('osf-components.makeDecisionDropdown.additionalCommentPlaceholder',
-                            { targetType: this.intl.t('general.registration') }),
+                            { targetType: this.intl.t('osf-components.makeDecisionDropdown.registration') }),
                     };
                 }
 
@@ -117,7 +117,7 @@ export default class MakeDecisionDropdown extends Component<Args> {
                     return {
                         label: this.intl.t('osf-components.makeDecisionDropdown.additionalComment'),
                         placeholder: this.intl.t('osf-components.makeDecisionDropdown.additionalCommentPlaceholder',
-                            { targetType: this.intl.t('general.collection') }),
+                            { targetType: this.intl.t('osf-components.makeDecisionDropdown.project') }),
                     };
                 }
 

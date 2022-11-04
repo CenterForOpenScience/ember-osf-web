@@ -84,8 +84,6 @@ general:
     settings: Settings
     project: project
     component: component
-    registration: registration
-    collection: collection
     hosted_on_the_osf: 'Hosted on OSF'
     please_confirm: 'Please confirm'
     required: Required
@@ -2099,8 +2097,8 @@ osf-components:
             success: 'You have successfully removed {contributorName}.'
             errorHeading: 'Could not remove contributor. '
     reviewActionsList:
-        failedToLoadActions: 'Failed to load registration moderation history'
-        noActionsFound: 'No moderation history found for this registration'
+        failedToLoadActions: 'Failed to load moderation history'
+        noActionsFound: 'No moderation history found'
         hide: Hide
         show: 'Show full history'
         reviewAction:
@@ -2173,6 +2171,8 @@ osf-components:
         failure: 'Failed to submit moderator decision.'
         additionalComment: 'Additional comment'
         additionalCommentPlaceholder: 'Add remarks to {targetType} admins'
+        registration: registration
+        project: project
         justificationForWithdrawal: 'Justification for Withdrawal'
         justificationForWithdrawalPlaceholder: 'Provide justification for withdrawal'
         justificationForRemoval: 'Justification for Removal'
