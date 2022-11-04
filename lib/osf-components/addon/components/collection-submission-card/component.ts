@@ -1,20 +1,15 @@
-import Component from '@ember/component';
 import { action} from '@ember/object';
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
 
-import { layout } from 'ember-osf-web/decorators/component';
 import CollectionSubmissionModel from 'ember-osf-web/models/collection-submission';
 
-import styles from './styles';
-import template from './template';
+interface CollectionSubmissionModelArgs {
+    submission: CollectionSubmissionModel;
+}
 
-@layout(template, styles)
-export default class CollectionSubmissionCard extends Component {
-    /**
-     * Should do something
-     */
-    collectionSubmission!: CollectionSubmissionModel;
-
-    shouldOpenDecisionDialog = false;
+export default class CollectionSubmissionCard extends Component<CollectionSubmissionModelArgs> {
+    @tracked shouldOpenDecisionDialog = false;
     status!: string;
     date!: string;
     moderator!: string;

@@ -324,7 +324,7 @@ export default function(this: Server) {
     });
     this.post('/search/collections/', searchCollections);
     osfResource(this, 'collection-submission', {
-        only: ['show', 'update', 'delete'],
+        only: ['index', 'show', 'update', 'delete'],
         path: '/collection_submissions',
     });
     osfNestedResource(this, 'collection-submission', 'collectionSubmissionActions', {
