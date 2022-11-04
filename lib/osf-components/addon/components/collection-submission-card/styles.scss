@@ -1,5 +1,4 @@
 $container-height: 105px;
-$child-height: $container-height - 25px;
 
 .page-container {
     width: 100%;
@@ -12,26 +11,26 @@ $child-height: $container-height - 25px;
     .icon-container {
         width: 55px;
         min-width: 55px;
-        height: $child-height;
+        height: $container-height;
         display: flex;
         flex-direction: row;
-        align-items: flex-start;
+        align-items: center;
         justify-content: center;
     }
 
     .text-container {
-        height: $child-height;
+        height: $container-height;
         display: flex;
         flex-grow: 1;
-        min-width: 250px;
+        min-width: 500px;
         flex-direction: column;
         align-items: flex-start;
-        justify-content: flex-start;
+        justify-content: center;
 
         .project-title {
             height: 25px;
             width: 100%;
-            min-width: 250px;
+            min-width: 500px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -43,11 +42,22 @@ $child-height: $container-height - 25px;
         .moderation-details {
             height: 19px;
             width: 100%;
-            min-width: 250px;
+            min-width: 500px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             font-size: 14px;
+        }
+
+        .project-metadata {
+            height: fit-content;
+            width: calc(100% - 5px);
+            min-width: 500px;
+            overflow: hidden;
+            word-break: break-all;
+            font-size: 14px;
+            margin-bottom: 5px;
+            padding-right: 5px;
         }
     }
 

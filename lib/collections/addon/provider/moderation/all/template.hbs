@@ -1,12 +1,9 @@
 {{#each this.model as |collectionSubmission|}}
     <CollectionSubmissionCard
         @submission={{collectionSubmission}}
-        @status='accepted'
-        @date='December 13, 2022'
-        @moderator='John Doe'
     >
     </CollectionSubmissionCard>
     <hr aria-hidden='true'>
 {{else}}
-    {{t 'file_detail.no_revisions'}}
+    {{t 'osf-components.moderators.all.noModerationSubmissions' }}
 {{/each}}

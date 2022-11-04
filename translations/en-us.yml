@@ -2171,6 +2171,8 @@ osf-components:
         all:
             button: 'Make decision'
             moderationDetails: 'Project {status} into collection on {date} by {moderator}'
+            noModerationSubmissions: 'There are no active moderation submissions.'
+            projectMetadataDisplay: '{metadataType}: {metadata}, '
 
 settings:
     toggleNav: 'Toggle navigation'
