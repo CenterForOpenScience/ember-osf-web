@@ -12,7 +12,7 @@ export default Factory.extend<GuidModel>({
 
 declare module 'ember-cli-mirage/types/registries/model' {
     export default interface MirageModelRegistry {
-        guids: GuidModel;
+        guid: GuidModel;
     } // eslint-disable-line semi
 }
 
