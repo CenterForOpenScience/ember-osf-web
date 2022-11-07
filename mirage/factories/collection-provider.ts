@@ -46,7 +46,7 @@ export default Factory.extend<MirageCollectionProvider & CollectionProviderTrait
                     const moderator = server.create('moderator', {
                         id: currentUserId,
                         user: currentUser,
-                    }, 'asModerator');
+                    });
                     provider.update({
                         moderators: [moderator],
                         permissions: [ReviewPermissions.ViewSubmissions],
