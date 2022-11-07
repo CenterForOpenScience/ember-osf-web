@@ -38,4 +38,12 @@ export default class Provider extends Route {
     deactivate() {
         this.theme.reset();
     }
+
+    buildRouteInfoMetadata() {
+        return {
+            osfMetrics: {
+                providerId: this.theme.id,
+            },
+        };
+    }
 }

@@ -23,6 +23,7 @@ module('Integration | Component | moderators', hooks => {
     hooks.beforeEach(async function(this: ModeratorsTestContext) {
         this.store = this.owner.lookup('service:store');
         this.intl = this.owner.lookup('service:intl');
+        this.owner.unregister('service:router');
         this.owner.register('service:router', OsfLinkRouterStub);
         this.provider = server.create('registration-provider', { id: 'egap', name: 'EGAP' });
         const providerModel = await this.store.findRecord('registration-provider', 'egap');

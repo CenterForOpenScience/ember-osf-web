@@ -147,6 +147,8 @@ dashboard:
             preview_alt: 'Preview of a full quick projects screen'
         private_parent: 'Private project / '
         private_grandparent: 'Private project / Private / '
+    getting_started: 'Getting Started'
+    osf_video: 'OSF 101 Video'
     noteworthy:
         description: 'Discover public projects'
         new_and_noteworthy: 'New and noteworthy'
@@ -372,6 +374,7 @@ new-home:
     support-section:
         header: 'How OSF supports your research'
         arrow: arrow
+        osf_video: 'OSF 101 Video' 
         search:
             header: 'Search and Discover'
             description: 'Find papers, data, and materials to inspire your next research project. Search public projects to build on the work of others and find new collaborators.'
@@ -1196,6 +1199,10 @@ registries:
                 body: 'Are you sure you want to delete this draft registration?'
                 button: 'Delete Draft'
                 delete_error: 'Unable to delete draft registration'
+            auto_saving: 'Auto-saving'
+            save_before_exit: 'Unsaved changes present. Are you sure you want to leave this page?'
+            save_success: 'Auto-save successful'
+            save_failed: 'Save failed'
     edit_revision:
         revisionJustification: 'Justification for update'
         updatedResponseKeys: 'List of updated registration questions'
@@ -1229,6 +1236,9 @@ registries:
             body: 'Are you sure you want to delete this draft update?'
             button: 'Delete Draft Update'
             delete_error: 'Unable to delete update'
+        save_before_exit: 'Unsaved changes present. Are you sure you want to leave this page?'
+        save_success: 'Auto-save successful'
+        save_failed: 'Save failed'
     index:
         lead: 'The <span class="f-w-lg">open</span> registries network'
         see_example: 'See an example'
@@ -1271,7 +1281,7 @@ registries:
             save: 'Save'
             clear_all: 'Clear all'
         add_license: 'Add license'
-        license_help_text: 'A license tells others how they can use your work in the future and only applies to the information and files submitted with the registration. For more information, see this <a href="https://help.osf.io/hc/en-us/articles/360019739014-Licensing">article on licenses</a>.'
+        license_help_text: 'A license tells others how they can use your work in the future and only applies to the information and files submitted with the registration. For more information, see this <a href="https://help.osf.io/hc/en-us/articles/360019739014-Licensing" target="_blank" rel="noopener noreferrer">article on licenses</a>.'
         affiliated_institutions: 'Affiliated institutions'
         category: Category
         choose_license: 'Choose a License'
@@ -1566,10 +1576,8 @@ registries:
     finalizeRegistrationModal:
         title: 'Almost done...'
         notice:
-            noModerationFromProject: 'Remember:<ul><li>Registrations cannot be modified or deleted once submitted.</li><li>Changes to any files (1) in the projects or components being registered, (2) uploaded or selected as prompt responses, including those connected through add-ons during archiving will result in archiving failure and loss of your registration timestamp. Please do not modify your files until after you have received email confirmation of archiving completion. If this registration has been archiving for more than 72 hours, please email <a href="mailto:support@osf.io">support@osf.io</a> for assistance.</li><li>The content and version history of Wiki and OSF Storage will be copied to the registration.</li><li>This project may contain links to other projects. These links will be copied into your registration, but the projects that they link to will not be registered. If you wish to register the linked projects, they must be registered separately. <a href="{learnMoreLink}" target="_blank" rel="noopener noreferrer">Learn more about links</a>.</li><li>Registrations are archived on Internet Archive and a link to the archived copy will be added to the registration metadata.</li></ul>'
-            withModerationFromProject: 'Remember:<ul><li>Registrations cannot be modified or deleted once submitted.</li><li>Changes to any files (1) in the projects or components being registered, (2) uploaded or selected as prompt responses, including those connected through add-ons during archiving will result in archiving failure and loss of your registration timestamp. Please do not modify your files until after you have received email confirmation of archiving completion. If this registration has been archiving for more than 72 hours, please email <a href="mailto:support@osf.io">support@osf.io</a> for assistance.</li><li>The content and version history of Wiki and OSF Storage will be copied to the registration.</li><li>This project may contain links to other projects. These links will be copied into your registration, but the projects that they link to will not be registered. If you wish to register the linked projects, they must be registered separately. <a href="{learnMoreLink}" target="_blank" rel="noopener noreferrer">Learn more about links</a>.</li><li>A moderator must review and approve your registration before it will be made public or embargoed.</li><li>Registrations are archived on Internet Archive and a link to the archived copy will be added to the registration metadata.</li></ul>'
-            noModerationNoProject: 'Remember:<ul><li>Registrations cannot be modified or deleted once submitted.</li><li>Changes to any files uploaded or selected as prompt responses will result in archiving failure and loss of your registration timestamp. If this registration has been archiving for more than 72 hours, email <a href="mailto:support@osf.io">support@osf.io</a> for assistance.</li><li>Registrations are archived on Internet Archive and a link to the archived copy will be added to the registration metadata.</li></ul>'
-            withModerationNoProject: 'Remember:<ul><li>Registrations cannot be modified or deleted once submitted.</li><li>Changes to any files uploaded or selected as prompt responses will result in archiving failure and loss of your registration timestamp. If this registration has been archiving for more than 72 hours, email <a href="mailto:support@osf.io">support@osf.io</a> for assistance.</li><li>A moderator must review and approve your registration before it will be made public or embargoed.</li><li>Registrations are archived on Internet Archive and a link to the archived copy will be added to the registration metadata.</li></ul>'
+            noModeration: 'Remember:<ul><li>Do not edit any files until the registration has completely archived.</li><li>This will be permanent and cannot be deleted once submitted.</li><li>This registration will be copied to Internet Archive as a backup.</li><li>Title and contributors cannot be updated once submitted.</li></ul>'
+            withModeration: 'Remember:<ul><li>Do not edit any files until the registration has completely archived.</li><li>This will be permanent and cannot be deleted once submitted.</li><li>This registration will be copied to Internet Archive as a backup.</li><li>Title and contributors cannot be updated once submitted.</li><li>A moderator will review your registration before it will made public or embargoed.</li></ul>'
         immediateOption: 'Make registration public immediately'
         embargoOption: 'Enter registration into embargo'
 

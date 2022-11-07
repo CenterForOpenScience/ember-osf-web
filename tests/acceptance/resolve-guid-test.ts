@@ -1,13 +1,12 @@
 import Transition from '@ember/routing/-private/transition';
 import Service from '@ember/service';
 import { currentRouteName, currentURL, settled } from '@ember/test-helpers';
-import { getContext } from '@ember/test-helpers/setup-context';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import config from 'ember-get-config';
 import { setupApplicationTest } from 'ember-qunit';
 import { TestContext } from 'ember-test-helpers';
 import { module, test } from 'qunit';
-import sinon, { SinonStub } from 'sinon';
+import sinon from 'sinon';
 
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { currentURL as currentLocationURL, visit } from 'ember-osf-web/tests/helpers';
@@ -23,16 +22,15 @@ const KeenStub = Service.extend({
     },
 });
 
+const routeWillChangeStub = sinon.stub();
+
 function routingAssertions(assert: Assert, segment: string, url: string, route: string) {
     assert.equal(currentURL(), `/${segment}${url}`, `The "real" URL contains the hidden "${segment}" segment`);
     assert.equal(currentLocationURL(), url, 'The Location URL is the same');
     assert.equal(currentRouteName(), route, 'The correct route was reached');
 
-    // eslint-disable-next-line ember/no-private-routing-service
-    const router = (getContext() as TestContext).owner.lookup('router:main');
-    const flagStub: SinonStub = router._beforeTransition;
     assert.ok(
-        flagStub.args.any(
+        routeWillChangeStub.args.any(
             ([t]: [Transition]) => t.targetName === route,
         ),
         `The router checked for a feature flag for "${route}"`,
@@ -44,9 +42,8 @@ module('Acceptance | resolve-guid', hooks => {
     setupMirage(hooks);
 
     hooks.beforeEach(function(this: TestContext) {
-        // eslint-disable-next-line ember/no-private-routing-service
-        const router = this.owner.lookup('router:main');
-        sinon.stub(router, '_beforeTransition').returnsArg(0);
+        const router = this.owner.lookup('service:router');
+        router.on('routeWillChange', routeWillChangeStub);
     });
 
     test('File | Index', async assert => {

@@ -1,7 +1,9 @@
 import Controller from '@ember/controller';
+import { action } from '@ember/object';
 import { alias, not } from '@ember/object/computed';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
+import { taskFor } from 'ember-concurrency-ts';
 import IntlService from 'ember-intl/services/intl';
 import RegistrationModel from 'ember-osf-web/models/registration';
 import SchemaResponseModel from 'ember-osf-web/models/schema-response';
@@ -17,4 +19,17 @@ export default class EditRevisionController extends Controller {
 
     @alias('model.revisionManager.revision') revision?: SchemaResponseModel;
     @alias('model.revisionManager.registration') registration?: RegistrationModel;
+
+    @action
+    saveBeforeUnload(event: BeforeUnloadEvent) {
+        const { revisionManager } = this.model;
+        if (revisionManager.onJustificationInput.isRunning ||
+            revisionManager.onPageInput.isRunning ||
+            revisionManager.saveWithToast.isRunning ||
+            revisionManager.lastSaveFailed) {
+            event.preventDefault();
+            event.returnValue = this.intl.t('registries.drafts.draft.save_before_exit');
+            taskFor(revisionManager.saveWithToast).perform();
+        }
+    }
 }

@@ -25,6 +25,7 @@ module('Integration | Component | contributors', hooks => {
     hooks.beforeEach(function(this: ThisTestContext) {
         this.store = this.owner.lookup('service:store');
         this.currentUser = this.owner.lookup('service:current-user');
+        this.owner.unregister('service:router');
         this.owner.register('service:router', OsfLinkRouterStub);
         server.loadFixtures('schema-blocks');
         server.loadFixtures('registration-schemas');

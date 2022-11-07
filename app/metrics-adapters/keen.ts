@@ -1,6 +1,7 @@
 import { getOwner } from '@ember/application';
 import RouterService from '@ember/routing/router-service';
 import { inject as service } from '@ember/service';
+import Store from '@ember-data/store';
 import { TaskInstance } from 'ember-concurrency';
 import Cookies from 'ember-cookies/services/cookies';
 import config from 'ember-get-config';
@@ -33,6 +34,7 @@ export default class KeenAdapter extends BaseAdapter {
     @service currentUser!: CurrentUser;
     @service headData!: any;
     @service router!: RouterService;
+    @service store!: Store;
 
     config?: KeenConfig;
     publicClient?: KeenTracking;
@@ -102,23 +104,19 @@ export default class KeenAdapter extends BaseAdapter {
     }
 
     async trackPage(params: PageParams) {
+        const node = await this.getCurrentNode();
+        const isPublic = Boolean(params.pagePublic ?? (node && node.public));
         const eventProperties = {
             page: {
                 meta: {
                     title: params.title,
-                    public: params.pagePublic,
+                    public: isPublic,
                 },
             },
         };
 
-        let sendPublicEvent = params.pagePublic;
-
-        const node = await this.getCurrentNode();
-        if (node) {
-            sendPublicEvent = node.public;
-            if (sendPublicEvent) {
-                this.trackPublicEvent(`pageviews-${node.id.charAt(0)}`, eventProperties);
-            }
+        if (node && isPublic) {
+            this.trackPublicEvent(`pageviews-${node.id.charAt(0)}`, eventProperties);
         }
 
         this.trackPrivateEvent('pageviews', eventProperties);
@@ -145,6 +143,7 @@ export default class KeenAdapter extends BaseAdapter {
         }
     }
 
+
     getOrCreateKeenId() {
         if (!this.cookies.exists(keenUserIdCookie)) {
             this.cookies.write(
@@ -169,6 +168,7 @@ export default class KeenAdapter extends BaseAdapter {
                 path: '/',
             },
         );
+        return sessionId;
     }
 
     defaultKeenPayload() {

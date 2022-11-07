@@ -29,6 +29,7 @@ module('Integration | Component | osf-navbar/auth-dropdown', hooks => {
         this.owner.register('service:-routing', routingStub);
 
         // Make sure currentURL is always a string
+        this.owner.unregister('service:router');
         this.owner.register('service:router', OsfLinkRouterStub);
     });
 
