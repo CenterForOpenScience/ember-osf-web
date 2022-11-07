@@ -903,6 +903,11 @@ collections:
         update_save_success: '{title} has been updated in the collection.'
         add_save_error: 'Error adding {title} to the collection.'
         update_save_error: 'Error updating {title} in the collection.'
+        remove_button: 'Remove from collection'
+        remove_modal_title: 'Remove from collection'
+        remove_modal_body: 'Are you sure you want to remove {title} from the collection?'
+        remove_success: '{title} has been removed from the collection.'
+        remove_error: 'Error removing {title} from the collection.'
         warning_body: 'Are you sure you want to discard changes to the submission? Changes saved to the project will persist.'
     collection_submission_confirmation_modal:
         header: 'Submit project'

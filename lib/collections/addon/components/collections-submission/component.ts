@@ -118,6 +118,32 @@ export default class Submit extends Component {
         }
     }
 
+    @dropTask
+    @waitFor
+    async removeSubmission() {
+        if (!this.collectionItem) {
+            return;
+        }
+
+        try {
+            await this.collectionSubmission.destroyRecord();
+
+            this.toast.success(this.intl.t(`${this.intlKeyPrefix}remove_success`, {
+                title: this.collectionItem.title,
+            }));
+
+            this.resetPageDirty();
+            // TODO: external-link-to / waffle for project main page
+            window.location.href = getHref(this.collectionItem.links.html!);
+        } catch (e) {
+            const errorMessage = this.intl.t(`${this.intlKeyPrefix}remove_error`, {
+                title: this.collectionItem.title,
+            });
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
+        }
+    }
+
     @computed('collectionSubmission.{displayChoiceFields,collectedType,issue,volume,programArea,status}')
     get choiceFields(): Array<{ label: string, value: string | undefined }> {
         return this.collectionSubmission.displayChoiceFields
