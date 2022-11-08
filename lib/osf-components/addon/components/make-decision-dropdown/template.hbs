@@ -22,47 +22,39 @@
         {{#if this.hasModeratorActions}}
             {{#each this.moderatorActions as |option|}}
                 <div>
-                    {{#let (unique-id 'radio' option) as |uniqueId|}}
+                    <label
+                        data-test-moderation-dropdown-decision-label={{option}}
+                    >
                         <Input
                             data-test-moderation-dropdown-decision-checkbox={{option}}
                             data-analytics-name='Select checkbox for {{option}}'
                             name='moderatorAction'
                             @type='radio'
-                            @id={{uniqueId}}
                             @value={{option}}
                             @checked={{if (eq this.decisionTrigger option) true false}}
                             {{on 'click' (fn this.updateDecisionTrigger option)}}
                         />
-                        <label
-                            data-test-moderation-dropdown-decision-label={{option}}
-                            for={{uniqueId}}
-                        >
-                            {{t (get this.actionTriggerToLabelKey option)}}
-                        </label>
-                        <p
-                            data-test-moderation-dropdown-decision-description={{option}}
-                            local-class='Description'
-                        >
-                            {{t (get this.actionTriggerToDescriptionKey option)}}
-                        </p>
-                    {{/let}}
+                        {{t (get this.actionTriggerToLabelKey option)}}
+                    </label>
+                    <p
+                        data-test-moderation-dropdown-decision-description={{option}}
+                        local-class='Description'
+                    >
+                        {{t (get this.actionTriggerToDescriptionKey option)}}
+                    </p>
                 </div>
             {{/each}}
-            {{#let (unique-id 'moderator-comment') as |moderatorCommentId|}}
-                <label
-                    data-test-moderation-dropdown-action-label
-                    for={{moderatorCommentId}}
-                >
-                    {{this.commentTextArea.label}}
-                </label>
+            <label
+                data-test-moderation-dropdown-action-label
+            >
+                {{this.commentTextArea.label}}
                 <Textarea
                     data-test-moderation-dropdown-comment
-                    @id={{moderatorCommentId}}
                     @value={{this.comment}}
                     placeholder={{this.commentTextArea.placeholder}}
                     local-class='Comment'
                 />
-            {{/let}}
+            </label>
             <Button
                 data-test-moderation-dropdown-submit
                 data-analytics-name='Submit decision'
