@@ -94,41 +94,58 @@ export default class MakeDecisionDropdown extends Component<Args> {
 
     get commentTextArea() {
         if (this.args.registration) {
-            if (this.args.registration.reviewsState) {
-                if ([RegistrationReviewStates.Pending, RegistrationReviewStates.PendingWithdraw]
-                    .includes(this.args.registration.reviewsState) ||
-                    this.revisionIsPending) {
-                    return {
-                        label: this.intl.t('osf-components.makeDecisionDropdown.additionalComment'),
-                        placeholder: this.intl.t('osf-components.makeDecisionDropdown.additionalCommentPlaceholder',
-                            { targetType: this.intl.t('osf-components.makeDecisionDropdown.registration') }),
-                    };
-                }
-
-                return {
-                    label: this.intl.t('osf-components.makeDecisionDropdown.justificationForWithdrawal'),
-                    placeholder:
-                        this.intl.t('osf-components.makeDecisionDropdown.justificationForWithdrawalPlaceholder'),
-                };
-            }
+            return this.registrationCommentTextArea;
         } else if (this.args.collectionSubmission) {
-            if (this.args.collectionSubmission.reviewsState) {
-                if (this.args.collectionSubmission.reviewsState === CollectionSubmissionReviewStates.Pending) {
-                    return {
-                        label: this.intl.t('osf-components.makeDecisionDropdown.additionalComment'),
-                        placeholder: this.intl.t('osf-components.makeDecisionDropdown.additionalCommentPlaceholder',
-                            { targetType: this.intl.t('osf-components.makeDecisionDropdown.project') }),
-                    };
-                }
+            return this.collectionSubmissionCommentTextArea;
+        }
+        return {
+            label: '',
+            placeholder: '',
+        };
+    }
 
+    get registrationCommentTextArea() {
+        if (this.args.registration.reviewsState) {
+            if ([RegistrationReviewStates.Pending, RegistrationReviewStates.PendingWithdraw]
+                .includes(this.args.registration.reviewsState) ||
+                this.revisionIsPending) {
                 return {
-                    label: this.intl.t('osf-components.makeDecisionDropdown.justificationForRemoval'),
-                    placeholder:
-                        this.intl.t('osf-components.makeDecisionDropdown.justificationForRemovalPlaceholder'),
+                    label: this.intl.t('osf-components.makeDecisionDropdown.additionalComment'),
+                    placeholder: this.intl.t('osf-components.makeDecisionDropdown.additionalCommentPlaceholder',
+                        { targetType: this.intl.t('osf-components.makeDecisionDropdown.registration') }),
                 };
             }
+
+            return {
+                label: this.intl.t('osf-components.makeDecisionDropdown.justificationForWithdrawal'),
+                placeholder:
+                    this.intl.t('osf-components.makeDecisionDropdown.justificationForWithdrawalPlaceholder'),
+            };
         }
-        // registration/collectionSubmission is viewed anonymously and this component should not be visible
+        // registration is viewed anonymously and this component should not be visible
+        return {
+            label: '',
+            placeholder: '',
+        };
+    }
+
+    get collectionSubmissionCommentTextArea() {
+        if (this.args.collectionSubmission.reviewsState) {
+            if (this.args.collectionSubmission.reviewsState === CollectionSubmissionReviewStates.Pending) {
+                return {
+                    label: this.intl.t('osf-components.makeDecisionDropdown.additionalComment'),
+                    placeholder: this.intl.t('osf-components.makeDecisionDropdown.additionalCommentPlaceholder',
+                        { targetType: this.intl.t('osf-components.makeDecisionDropdown.project') }),
+                };
+            }
+
+            return {
+                label: this.intl.t('osf-components.makeDecisionDropdown.justificationForRemoval'),
+                placeholder:
+                    this.intl.t('osf-components.makeDecisionDropdown.justificationForRemovalPlaceholder'),
+            };
+        }
+        // collectionSubmission is viewed anonymously and this component should not be visible
         return {
             label: '',
             placeholder: '',
