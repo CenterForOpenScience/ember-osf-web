@@ -55,6 +55,7 @@ export function collectionScenario(server: Server, currentUser: ModelInstance<Us
         id: 'studyswap',
         primaryCollection,
         licensesAcceptable,
+        reviewsWorkflow: 'pre-moderation',
     }, 'currentUserIsAdmin');
 
     server.createList('moderator', 3, {

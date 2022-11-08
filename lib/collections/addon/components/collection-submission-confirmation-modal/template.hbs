@@ -13,6 +13,11 @@
         <p data-test-collection-submission-confirmation-modal-body>
             {{t 'collections.collection_submission_confirmation_modal.body'}}
         </p>
+        {{#if @collectionIsModerated}}
+            <p data-test-collection-submission-confirmation-modal-moderated-body>
+                {{t 'collections.collection_submission_confirmation_modal.body_moderated'}}
+            </p>
+        {{/if}}
     </modal.body>
     <modal.footer data-analytics-scope='Collection - Submit'>
         <BsButton

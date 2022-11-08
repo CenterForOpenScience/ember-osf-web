@@ -6,6 +6,11 @@ import ApplicationSerializer from './application';
 const { OSF: { apiUrl } } = config;
 
 export default class CollectionSubmissionSerializer extends ApplicationSerializer<CollectionSubmission> {
+    buildNormalLinks(model: ModelInstance) {
+        return {
+            self: `${apiUrl}/v2/collection_submissions/${model.id}/`,
+        };
+    }
     buildRelationships(model: ModelInstance<CollectionSubmission>) {
         return {
             collection: {

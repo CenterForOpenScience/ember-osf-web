@@ -912,6 +912,7 @@ collections:
     collection_submission_confirmation_modal:
         header: 'Submit project'
         body: 'Once this project is submitted to the collection, it will be made public, and you should assume that it will always be public. You can return it to private later, but search engines (including Google’s cache) or others may access files, wiki pages, or analytics before you do.'
+        body_moderated: 'Something should go here about moderation too.'
         add_button: 'Add to collection'
     collection_item_picker:
         after_options:

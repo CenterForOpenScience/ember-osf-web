@@ -47,6 +47,7 @@ export interface MirageSubmissionAction {
  */
 export interface MirageCollectionSubmission extends CollectionSubmission {
     submissionAction: MirageSubmissionAction;
+    collectionId: string;
 }
 
 export default Factory.extend<MirageCollectionSubmission>({
@@ -110,6 +111,6 @@ declare module 'ember-cli-mirage/types/registries/model' {
 
 declare module 'ember-cli-mirage/types/registries/schema' {
     export default interface MirageSchemaRegistry {
-        'collection-submission': MirageCollectionSubmission;
+        collectionSubmissions: MirageCollectionSubmission;
     } // eslint-disable-line semi
 }

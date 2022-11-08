@@ -189,7 +189,7 @@ declare module 'ember-cli-mirage/types/registries/model' {
 
 declare module 'ember-cli-mirage/types/registries/schema' {
     export default interface MirageSchemaRegistry {
-        'collection-submission-action': MirageCollectionSubmissionAction;
+        collectionSubmissionActions: MirageCollectionSubmissionAction;
     } // eslint-disable-line semi
 }
 

@@ -2,6 +2,7 @@
     @openModal={{this.showSubmitModal}}
     @addToCollection={{action (perform this.save)}}
     @cancel={{action this.resetShowSubmitModal}}
+    @collectionIsModerated={{this.collectionIsModerated}}
 />
 <div class='submit-header' local-class='header'>
     <h1>{{t (concat this.intlKeyPrefix (if this.edit 'update' 'add') '_header')}}</h1>
@@ -180,7 +181,7 @@
                         @disabled={{this.removeSubmission.isRunning}}
                         @buttonLabel={{t (concat this.intlKeyPrefix 'remove_button')}}
                         @modalTitle={{t (concat this.intlKeyPrefix 'remove_modal_title')}}
-                        @modalBody={{t (concat this.intlKeyPrefix 'remove_modal_body') title=this.collection.title}}
+                        @modalBody={{t (concat this.intlKeyPrefix 'remove_modal_body') title=this.collectionItem.title}}
                         @confirmButtonText={{t (concat this.intlKeyPrefix 'remove_button')}}
                     />
                 {{/if}}

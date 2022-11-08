@@ -1,6 +1,7 @@
 import Store from '@ember-data/store';
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
+import { bool } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { underscore } from '@ember/string';
 import { waitFor } from '@ember/test-waiters';
@@ -51,6 +52,8 @@ export default class Submit extends Component {
     showCancelDialog = false;
     intlKeyPrefix = 'collections.collections_submission.';
     showSubmitModal = false;
+
+    @bool('provider.reviewsWorkflow') collectionIsModerated!: boolean;
 
     /**
      * Leaves the current route for the discover route (currently home for collections)
