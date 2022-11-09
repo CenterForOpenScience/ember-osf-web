@@ -1,0 +1,12 @@
+{{page-title 'osf metrics'}}
+<section local-class='OsfMetrics'>
+    <h1>osf metrics</h1>
+    <p>
+        reports
+        {{#each @model as |reportName|}}
+            |
+            <LinkTo @route='osf-metrics.report-detail' @model={{reportName}}>{{reportName}}</LinkTo>
+        {{/each}}
+    </p>
+    {{outlet}}
+</section>

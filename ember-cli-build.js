@@ -127,5 +127,7 @@ module.exports = function(defaults) {
 
     app.import('node_modules/wicg-inert/dist/inert.min.js');
 
+    app.import('node_modules/billboard.js/dist/billboard.css');
+
     return app.toTree();
 };

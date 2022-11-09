@@ -1,0 +1,43 @@
+<p>
+    days back
+    {{#each (array '7' '13' '31' '73' '371') as |daysBackOption|}}
+        | <LinkTo @query={{hash daysBack=daysBackOption}}>{{daysBackOption}}</LinkTo>
+    {{/each}}
+</p>
+<p>
+    data fields (y-axis)
+    {{#each this.reportFields.numericFields as |fieldName|}}
+        | <label>
+            <Input
+                @type='checkbox'
+                @checked={{includes this.yFields fieldName}}
+                {{on 'input' (fn this.yFieldToggle fieldName)}}
+            />
+            {{fieldName}}
+        </label>
+    {{/each}}
+</p>
+{{#if this.reportFields.keywordFields.length}}
+    <p>
+        group by
+        <PowerSelect
+            @options={{this.reportFields.keywordFields}}
+            @selected={{this.xGroupField}}
+            @onChange={{fn (mut this.xGroupField)}}
+            as |item|
+        >
+            {{item}}
+        </PowerSelect>
+    </p>
+    <p>
+        <label>
+            filter groups
+            <Input @type='text' @value={{mut this.xGroupFilter}} />
+        </label>
+    </p>
+{{/if}}
+{{#if (and this.model.length this.yFields.length)}}
+    <section>
+        <div {{metrics-chart dataRows=this.chartRows}}></div>
+    </section>
+{{/if}}

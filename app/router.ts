@@ -42,6 +42,9 @@ Router.map(function() {
         });
     });
     this.route('support');
+    this.route('osf-metrics', function() {
+        this.route('report-detail', { path: '/:reportName' });
+    });
     this.route('meetings', function() {
         this.route('detail', { path: '/:meeting_id' });
     });
