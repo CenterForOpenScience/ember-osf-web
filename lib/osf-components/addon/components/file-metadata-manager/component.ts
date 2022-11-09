@@ -34,6 +34,7 @@ export interface FileMetadataManager {
     target: (NodeModel | RegistrationModel | AbstractNodeModel);
     changeset: BufferedChangeset;
     inEditMode: boolean;
+    isSaving: boolean;
     userCanEdit: boolean;
     isDirty: boolean;
     isGatheringData: boolean;
@@ -58,6 +59,7 @@ export default class FileMetadataManagerComponent extends Component<Args> {
     )
     isGatheringData!: boolean;
     @alias('changeset.isDirty') isDirty!: boolean;
+    @alias('save.isRunning') isSaving!: boolean;
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
