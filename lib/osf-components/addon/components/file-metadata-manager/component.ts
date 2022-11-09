@@ -26,6 +26,7 @@ interface Args {
 }
 
 export interface FileMetadataManager {
+    edit: () => void;
     save: () => void;
     cancel: () => void;
     metadata: CustomFileMetadataRecordModel;
@@ -109,6 +110,11 @@ export default class FileMetadataManagerComponent extends Component<Args> {
             const file = await this.store.findRecord('file', this.args.guid, {include: 'target'});
             this.file = file;
         }
+    }
+
+    @action
+    edit(){
+        this.inEditMode = true;
     }
 
     @action
