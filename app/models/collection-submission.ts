@@ -76,7 +76,7 @@ export default class CollectionSubmissionModel extends OsfModel.extend(Validatio
     @belongsTo('node') guid!: Node;
     @belongsTo('user') creator!: User;
     @hasMany('collection-submission-action')
-    collectionSubmissionActions!: AsyncHasMany<CollectionSubmissionAction>;
+    collectionSubmissionActions!: AsyncHasMany<CollectionSubmissionAction> | CollectionSubmissionAction[];
 
     @computed('collection.displayChoicesFields.[]')
     get displayChoiceFields() {

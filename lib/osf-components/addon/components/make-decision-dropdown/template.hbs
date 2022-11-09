@@ -14,10 +14,14 @@
         </Button>
     </dd.trigger>
     <dd.content local-class='Dropdown'>
-        {{#if this.revisionIsPending}}
-            <ReviewActionsList @revision={{this.latestRevision}} />
+        {{#if @collectionSubmission}}
+            <ReviewActionsList @collectionSubmission={{@collectionSubmission}} />
         {{else}}
-            <ReviewActionsList data-test-review-actions-list  @registration={{@registration}} />
+            {{#if this.revisionIsPending}}
+                <ReviewActionsList @revision={{this.latestRevision}} />
+            {{else}}
+                <ReviewActionsList data-test-review-actions-list  @registration={{@registration}} />
+            {{/if}}
         {{/if}}
         {{#if this.hasModeratorActions}}
             {{#each this.moderatorActions as |option|}}
