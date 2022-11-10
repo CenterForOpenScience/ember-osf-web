@@ -3083,9 +3083,9 @@
   integrity sha1-EHPEvIJHVK49EM+riKsCN7qWTk0=
 
 "@types/toastr@^2.1.37":
-  version "2.1.38"
-  resolved "https://registry.yarnpkg.com/@types/toastr/-/toastr-2.1.38.tgz#ec68b55167cd2041f415467e9809e65bc3be06df"
-  integrity sha512-zKF+vbPVkkwBaMy0lm5NdI117mOoxWOQf2eXOuP/upQ5lHDSfNK/bVoo/x8/IN1hLzO81g+JvTpZQhqr0gKyYg==
+  version "2.1.40"
+  resolved "https://registry.yarnpkg.com/@types/toastr/-/toastr-2.1.40.tgz#96d006198ff70285c52a6fb675d129b8ae6b4bc0"
+  integrity sha512-i/AL6/g8Jiraz/Ev1jG4oYw95kshz4yLbP7GvY5T0cfUrs1mbsE7v4DpOYdg54wCMmcWrCGzQOOWW5upIogMrQ==
   dependencies:
     "@types/jquery" "*"
 
