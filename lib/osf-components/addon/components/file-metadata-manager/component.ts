@@ -22,7 +22,7 @@ import { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
 
 interface Args {
-    guid: string;
+    file: FileModel;
 }
 
 export interface FileMetadataManager {
@@ -48,7 +48,7 @@ export default class FileMetadataManagerComponent extends Component<Args> {
 
     metadata!: CustomFileMetadataRecordModel;
     targetMetadata!: CustomItemMetadataRecordModel;
-    file!: FileModel;
+    file: FileModel = this.args.file;
     target!: (NodeModel | RegistrationModel | AbstractNodeModel);
     changeset!: BufferedChangeset;
     inEditMode = false;
@@ -65,12 +65,11 @@ export default class FileMetadataManagerComponent extends Component<Args> {
     constructor(owner: unknown, args: Args) {
         super(owner, args);
         assert(
-            'You will need pass in a file @guid to the FileMetadataManager component to get metadata',
-            Boolean(args.guid),
+            'You will need pass in a file object to the FileMetadataManager component to get metadata',
+            Boolean(args.file),
         );
         try {
             taskFor(this.getGuidMetadata).perform();
-            taskFor(this.getFile).perform();
             this.target = this.file.target as AbstractNodeModel as NodeModel;
             this.userCanEdit = this.target.currentUserPermissions.includes(Permission.Write);
             taskFor(this.getTargetMetadata).perform();
@@ -84,8 +83,8 @@ export default class FileMetadataManagerComponent extends Component<Args> {
     @task
     @waitFor
     async getGuidMetadata() {
-        if (this.args.guid) {
-            const guidRecord = await this.store.findRecord('guid', this.args.guid, {
+        if (this.file) {
+            const guidRecord = await this.store.findRecord('guid', this.file.guid, {
                 include: 'metadata',
                 resolve: false,
             });
@@ -101,15 +100,6 @@ export default class FileMetadataManagerComponent extends Component<Args> {
             resolve: false,
         });
         this.targetMetadata = guidRecord.customMetadata as CustomItemMetadataRecordModel;
-    }
-
-    @task
-    @waitFor
-    async getFile() {
-        if (this.args.guid) {
-            const file = await this.store.findRecord('file', this.args.guid, {include: 'target'});
-            this.file = file;
-        }
     }
 
     @action

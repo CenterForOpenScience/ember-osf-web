@@ -19,7 +19,7 @@ import { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
 
 interface Args {
-    guid: string;
+    node: (NodeModel | RegistrationModel);
 }
 
 export interface ItemMetadataManager {
@@ -42,7 +42,7 @@ export default class ItemMetadataManagerComponent extends Component<Args> {
     @service toast!: Toast;
 
     metadata!: CustomItemMetadataRecordModel;
-    node!: (NodeModel | RegistrationModel);
+    node: (NodeModel | RegistrationModel) = this.args.node;
     changeset!: BufferedChangeset;
     inEditMode = false;
     userCanEdit!: boolean;
@@ -58,12 +58,11 @@ export default class ItemMetadataManagerComponent extends Component<Args> {
     constructor(owner: unknown, args: Args) {
         super(owner, args);
         assert(
-            'You will need pass in a node or registration @guid to the ItemMetadataManager component to get metadata',
-            Boolean(args.guid),
+            'You will need pass in a node or registration object to the ItemMetadataManager component to get metadata',
+            Boolean(args.node),
         );
         try {
             taskFor(this.getGuidMetadata).perform();
-            taskFor(this.getNode).perform();
             this.userCanEdit = this.node.currentUserPermissions.includes(Permission.Write);
             this.changeset = buildChangeset(this.metadata, null);
         } catch (e) {
@@ -75,25 +74,13 @@ export default class ItemMetadataManagerComponent extends Component<Args> {
     @task
     @waitFor
     async getGuidMetadata() {
-        if (this.args.guid) {
-            const guidRecord = await this.store.findRecord('guid', this.args.guid, {
+        if (this.node) {
+            const guidRecord = await this.store.findRecord('guid', this.node.id, {
                 include: 'metadata',
                 resolve: false,
             });
             this.guidType = guidRecord.referentType;
             this.metadata = guidRecord.customMetadata as CustomItemMetadataRecordModel;
-        }
-    }
-
-    @task
-    @waitFor
-    async getNode() {
-        if (this.args.guid) {
-            if (this.guidType === 'node') {
-                this.node = await this.store.findRecord('node', this.args.guid);
-            } else {
-                this.node = await this.store.findRecord('registration', this.args.guid);
-            }
         }
     }
 
