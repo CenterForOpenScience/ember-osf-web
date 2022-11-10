@@ -15,9 +15,7 @@ import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
 import CustomFileMetadataRecordModel from 'ember-osf-web/models/custom-file-metadata-record';
 import CustomItemMetadataRecordModel from 'ember-osf-web/models/custom-item-metadata-record';
 import FileModel from 'ember-osf-web/models/file';
-import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
-import RegistrationModel from 'ember-osf-web/models/registration';
 import { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
 
@@ -32,7 +30,7 @@ export interface FileMetadataManager {
     metadata: CustomFileMetadataRecordModel;
     targetMetadata: CustomItemMetadataRecordModel;
     file: FileModel;
-    target: (NodeModel | RegistrationModel | AbstractNodeModel);
+    target: (AbstractNodeModel);
     changeset: BufferedChangeset;
     inEditMode: boolean;
     isSaving: boolean;
@@ -49,7 +47,7 @@ export default class FileMetadataManagerComponent extends Component<Args> {
     metadata!: CustomFileMetadataRecordModel;
     targetMetadata!: CustomItemMetadataRecordModel;
     file: FileModel = this.args.file;
-    target!: (NodeModel | RegistrationModel | AbstractNodeModel);
+    target!: (AbstractNodeModel);
     changeset!: BufferedChangeset;
     inEditMode = false;
     userCanEdit!: boolean;
@@ -70,7 +68,7 @@ export default class FileMetadataManagerComponent extends Component<Args> {
         );
         try {
             taskFor(this.getGuidMetadata).perform();
-            this.target = this.file.target as AbstractNodeModel as NodeModel;
+            this.target = this.file.target as AbstractNodeModel;
             this.userCanEdit = this.target.currentUserPermissions.includes(Permission.Write);
             taskFor(this.getTargetMetadata).perform();
             this.changeset = buildChangeset(this.metadata, null);

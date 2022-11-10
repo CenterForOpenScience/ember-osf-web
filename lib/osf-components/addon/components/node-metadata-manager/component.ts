@@ -11,23 +11,22 @@ import { BufferedChangeset } from 'ember-changeset/types';
 import { restartableTask, task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 
+import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
 import CustomItemMetadataRecordModel from 'ember-osf-web/models/custom-item-metadata-record';
-import NodeModel from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
-import RegistrationModel from 'ember-osf-web/models/registration';
 import { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
 
 interface Args {
-    node: (NodeModel | RegistrationModel);
+    node: (AbstractNodeModel);
 }
 
-export interface ItemMetadataManager {
+export interface NodeMetadataManager {
     edit: () => void;
     save: () => void;
     cancel: () => void;
     metadata: CustomItemMetadataRecordModel;
-    node: (NodeModel | RegistrationModel);
+    node: (AbstractNodeModel);
     changeset: BufferedChangeset;
     inEditMode: boolean;
     isSaving: boolean;
@@ -36,13 +35,13 @@ export interface ItemMetadataManager {
     isGatheringData: boolean;
 }
 
-export default class ItemMetadataManagerComponent extends Component<Args> {
+export default class NodeMetadataManagerComponent extends Component<Args> {
     @service store!: Store;
     @service intl!: Intl;
     @service toast!: Toast;
 
     metadata!: CustomItemMetadataRecordModel;
-    node: (NodeModel | RegistrationModel) = this.args.node;
+    node: (AbstractNodeModel) = this.args.node;
     changeset!: BufferedChangeset;
     inEditMode = false;
     userCanEdit!: boolean;
@@ -58,7 +57,7 @@ export default class ItemMetadataManagerComponent extends Component<Args> {
     constructor(owner: unknown, args: Args) {
         super(owner, args);
         assert(
-            'You will need pass in a node or registration object to the ItemMetadataManager component to get metadata',
+            'You will need pass in a node or registration object to the NodeMetadataManager component to get metadata',
             Boolean(args.node),
         );
         try {
