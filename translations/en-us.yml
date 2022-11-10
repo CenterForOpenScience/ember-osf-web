@@ -2063,6 +2063,9 @@ osf-components:
     file-metadata-manager:
         error-getting-metadata: 'Could not get metadata'
         error-saving-metadata: 'Could not save metadata changes'
+    item-metadata-manager:
+        error-getting-metadata: 'Could not get metadata'
+        error-saving-metadata: 'Could not save metadata changes'
     subjects:
         browse:
             browse_all: 'Browse all subjects'
