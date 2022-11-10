@@ -9312,9 +9312,9 @@ ember-in-viewport@^3.7.3:
     ember-cli-babel "^7.23.0"
 
 ember-intl@^5.3.1, ember-intl@^5.6.2:
-  version "5.6.2"
-  resolved "https://registry.yarnpkg.com/ember-intl/-/ember-intl-5.6.2.tgz#ece4820923dfda033c279b7e3920cbbc8b6bde07"
-  integrity sha512-+FfI2udVbnEzueompcRb3ytBWhfnBfVVjAwnCuxwqIyS9ti8lK0ZiYHa5bquNPHjjfBzfFl4x5TlVgDNaCnccg==
+  version "5.7.2"
+  resolved "https://registry.yarnpkg.com/ember-intl/-/ember-intl-5.7.2.tgz#76d933f974f041448b01247888bc3bcc9261e812"
+  integrity sha512-gs17uY1ywzMaUpx1gxfBkFQYRTWTSa/zbkL13MVtffG9aBLP+998MibytZOUxIipMtLCm4sr/g6/1aaKRr9/+g==
   dependencies:
     broccoli-caching-writer "^3.0.3"
     broccoli-funnel "^3.0.3"
