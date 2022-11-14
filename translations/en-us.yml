@@ -131,8 +131,14 @@ file_detail:
     no_revisions: 'Revisions not available'
     view_tags: 'View tags'
     close_tags: 'Close tags'
+    close_metadata: 'Close metadata'
+    view_metadata: 'View metadata'
     tags: 'Tags:'
     mfr_iframe_title: 'Rendering of document'
+    file_metadata: 'File Metadata'
+    project_metadata: 'Project Metadata'
+    component_metadata: 'Component Metadata'
+    registration_metadata: 'Registration Metadata'
 dashboard:
     page_title: Home
     title: Dashboard

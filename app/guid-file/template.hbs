@@ -66,6 +66,12 @@
                     />
                 </div>
             {{/if}}
+            {{#if this.metadataOpened}}
+                <div local-class='RightContainer'>
+                    <h2>{{t 'file_detail.file_metadata'}}</h2>
+                    
+                </div>
+            {{/if}}
         {{/if}}
     </:right>
     <:rightButtons>
@@ -81,6 +87,16 @@
                     <FaIcon @icon='file-alt' @fixedWidth={{true}}/>
                 </BsButton>
             {{/if}}
+            <BsButton
+                aria-label={{if this.metadataOpened (t 'file_detail.close_metadata') (t 'file_detail.view_metadata')}}
+                data-test-metadata-button
+                data-analytics-name='Metadata button'
+                local-class='SlideButtons {{if this.metadataOpened 'Active'}}'
+                @size='lg'
+                @onClick={{this.toggleMetadata}}
+            >
+                <FaIcon @icon='info-circle' @fixedWidth={{true}}/>
+            </BsButton>
             {{#if this.model.shouldShowRevisions}}
                 <BsButton
                     aria-label={{if this.revisionsOpened (t 'file_detail.close_revisions') (t 'file_detail.view_revisions')}}
