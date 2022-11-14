@@ -6,7 +6,9 @@ import { buildValidations, validator } from 'ember-cp-validations';
 import tuple from 'ember-osf-web/utils/tuple';
 
 import Collection, { ChoicesFields } from './collection';
-import CollectionSubmissionAction from './collection-submission-action';
+import CollectionSubmissionAction, {
+    CollectionSubmissionActionTrigger,
+} from './collection-submission-action';
 import Node from './node';
 import OsfModel from './osf-model';
 import User from './user';
@@ -28,6 +30,15 @@ export enum CollectionSubmissionReviewStates {
     Removed = 'removed',
     Rejected = 'rejected',
 }
+
+export type ActionableCollectionSubmissionStates =
+    CollectionSubmissionReviewStates.Accepted | CollectionSubmissionReviewStates.Pending;
+
+export const collectionSubmissionStateToDecisionMap = {
+    [CollectionSubmissionReviewStates.Accepted]: [CollectionSubmissionActionTrigger.ModeratorRemove],
+    [CollectionSubmissionReviewStates.Pending]:
+        [CollectionSubmissionActionTrigger.Accept, CollectionSubmissionActionTrigger.Reject],
+};
 
 const Validations = buildValidations({
     ...choiceFields.reduce((acc, val) => {
@@ -65,7 +76,7 @@ export default class CollectionSubmissionModel extends OsfModel.extend(Validatio
     @belongsTo('node') guid!: Node;
     @belongsTo('user') creator!: User;
     @hasMany('collection-submission-action')
-    collectionSubmissionActions!: AsyncHasMany<CollectionSubmissionAction>;
+    collectionSubmissionActions!: AsyncHasMany<CollectionSubmissionAction> | CollectionSubmissionAction[];
 
     @computed('collection.displayChoicesFields.[]')
     get displayChoiceFields() {

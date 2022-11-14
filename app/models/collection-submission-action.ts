@@ -24,6 +24,26 @@ const TriggerToPastTenseTranslationKey: Record<CollectionSubmissionActionTrigger
     admin_remove: 'collections.actions.triggerPastTense.admin_remove',
 };
 
+type ModeratorActionTriggers =
+    CollectionSubmissionActionTrigger.Accept |
+    CollectionSubmissionActionTrigger.Reject |
+    CollectionSubmissionActionTrigger.ModeratorRemove;
+
+export const CollectionSubmissionActionTriggerToLabelMapKey: Record<ModeratorActionTriggers, string> = {
+    [CollectionSubmissionActionTrigger.Accept]: 'osf-components.makeDecisionDropdown.acceptCollectionSubmission',
+    [CollectionSubmissionActionTrigger.Reject]: 'osf-components.makeDecisionDropdown.rejectCollectionSubmission',
+    [CollectionSubmissionActionTrigger.ModeratorRemove]:
+        'osf-components.makeDecisionDropdown.removeCollectionSubmission',
+};
+export const CollectionSubmissionActionTriggerToDescriptionKey: Record<ModeratorActionTriggers, string> = {
+    [CollectionSubmissionActionTrigger.Accept]:
+        'osf-components.makeDecisionDropdown.acceptCollectionSubmissionDescription',
+    [CollectionSubmissionActionTrigger.Reject]:
+        'osf-components.makeDecisionDropdown.rejectCollectionSubmissionDescription',
+    [CollectionSubmissionActionTrigger.ModeratorRemove]:
+        'osf-components.makeDecisionDropdown.removeCollectionSubmissionDescription',
+};
+
 export default class CollectionSubmissionAction extends Action{
     @service intl!: Intl;
 

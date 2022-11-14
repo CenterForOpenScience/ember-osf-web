@@ -9,58 +9,56 @@
             local-class='TriggerButton'
             @type='create'
         >
-            {{t 'registries.makeDecisionDropdown.makeDecision'}}
+            {{t 'osf-components.makeDecisionDropdown.makeDecision'}}
             <FaIcon @icon='caret-down' />
         </Button>
     </dd.trigger>
     <dd.content local-class='Dropdown'>
-        {{#if this.revisionIsPending}}
-            <Registries::ReviewActionsList @revision={{this.latestRevision}} />
+        {{#if @collectionSubmission}}
+            <ReviewActionsList @collectionSubmission={{@collectionSubmission}} />
         {{else}}
-            <Registries::ReviewActionsList data-test-review-actions-list  @registration={{@registration}} />
+            {{#if this.revisionIsPending}}
+                <ReviewActionsList @revision={{this.latestRevision}} />
+            {{else}}
+                <ReviewActionsList data-test-review-actions-list  @registration={{@registration}} />
+            {{/if}}
         {{/if}}
         {{#if this.hasModeratorActions}}
             {{#each this.moderatorActions as |option|}}
                 <div>
-                    {{#let (unique-id 'radio' option) as |uniqueId|}}
+                    <label
+                        data-test-moderation-dropdown-decision-label={{option}}
+                    >
                         <Input
                             data-test-moderation-dropdown-decision-checkbox={{option}}
                             data-analytics-name='Select checkbox for {{option}}'
                             name='moderatorAction'
                             @type='radio'
-                            @id={{uniqueId}}
                             @value={{option}}
                             @checked={{if (eq this.decisionTrigger option) true false}}
                             {{on 'click' (fn this.updateDecisionTrigger option)}}
                         />
-                        <label
-                            data-test-moderation-dropdown-decision-label={{option}}
-                            for={{uniqueId}}
-                        >
-                            {{get this.actionTriggerToTextMap option}}
-                        </label>
-                        <p
-                            data-test-moderation-dropdown-decision-description={{option}}
-                            local-class='Description'
-                        >
-                            {{get this.actionTriggerToDescriptionMap option}}
-                        </p>
-                    {{/let}}
+                        {{t (get this.actionTriggerToLabelKey option)}}
+                    </label>
+                    <p
+                        data-test-moderation-dropdown-decision-description={{option}}
+                        local-class='Description'
+                    >
+                        {{t (get this.actionTriggerToDescriptionKey option)}}
+                    </p>
                 </div>
             {{/each}}
             <label
                 data-test-moderation-dropdown-action-label
-                for='moderator-comment'
             >
                 {{this.commentTextArea.label}}
+                <Textarea
+                    data-test-moderation-dropdown-comment
+                    @value={{this.comment}}
+                    placeholder={{this.commentTextArea.placeholder}}
+                    local-class='Comment'
+                />
             </label>
-            <Textarea
-                data-test-moderation-dropdown-comment
-                @id='moderator-comment'
-                @value={{this.comment}}
-                placeholder={{this.commentTextArea.placeholder}}
-                local-class='Comment'
-            />
             <Button
                 data-test-moderation-dropdown-submit
                 data-analytics-name='Submit decision'
@@ -69,11 +67,11 @@
                 local-class='SubmitButton'
                 {{on 'click' (queue (perform this.submitDecision) dd.close)}}
             >
-                {{t 'registries.makeDecisionDropdown.submit'}}
+                {{t 'osf-components.makeDecisionDropdown.submit'}}
             </Button>
         {{else}}
             <div data-test-no-moderator-actions>
-                {{t 'registries.makeDecisionDropdown.noModeratorActions'}}
+                {{t 'osf-components.makeDecisionDropdown.noModeratorActions'}}
             </div>
         {{/if}}
     </dd.content>
