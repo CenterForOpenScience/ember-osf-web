@@ -4,7 +4,7 @@ import config from 'ember-get-config';
 import { createReviewAction } from 'ember-osf-web/mirage/views/review-action';
 import { createResource, updateResource } from 'ember-osf-web/mirage/views/resource';
 import { getCitation } from './views/citation';
-import { createCollectionSubmission } from './views/collection-submission';
+import { createCollectionSubmission, getCollectionSubmissions } from './views/collection-submission';
 import { searchCollections } from './views/collection-search';
 import { reportDelete } from './views/comment';
 import { addContributor, createBibliographicContributor } from './views/contributor';
@@ -323,6 +323,7 @@ export default function(this: Server) {
     osfNestedResource(this, 'collection', 'collectionSubmissions', {
         path: 'collections/:parentID/collection_submissions/',
     });
+    this.get('collections/:parentID/collection_submissions', getCollectionSubmissions);
     this.post('collections/:parentID/collection_submissions/', createCollectionSubmission);
     this.post('/search/collections/', searchCollections);
     osfResource(this, 'collection-submission', {

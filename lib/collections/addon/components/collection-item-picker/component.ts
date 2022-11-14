@@ -13,6 +13,7 @@ import Collection from 'ember-osf-web/models/collection';
 import Node from 'ember-osf-web/models/node';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import CurrentUser from 'ember-osf-web/services/current-user';
+import { CollectionSubmissionReviewStates } from 'ember-osf-web/models/collection-submission';
 
 import styles from './styles';
 import template from './template';
@@ -89,7 +90,10 @@ export default class CollectionItemPicker extends Component {
         // Filter out nodes that are already in the current collection
         const nodeIds = nodes.mapBy('id').join();
         const cgm = await this.collection.queryHasMany('collectionSubmissions', {
-            'filter[id]': nodeIds,
+            filter: {
+                id: nodeIds,
+                reviews_state: [CollectionSubmissionReviewStates.Accepted, CollectionSubmissionReviewStates.Pending],
+            },
         });
 
         // Collection-submissions IDs are the same as node IDs

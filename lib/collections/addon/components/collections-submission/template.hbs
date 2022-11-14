@@ -1,7 +1,9 @@
 <CollectionSubmissionConfirmationModal
     @openModal={{this.showSubmitModal}}
+    @resubmitToCollection={{action (perform this.resubmit)}}
     @addToCollection={{action (perform this.save)}}
     @cancel={{action this.resetShowSubmitModal}}
+    @showResubmitModal={{this.showResubmitModal}}
     @collectionIsModerated={{this.collectionIsModerated}}
 />
 <div class='submit-header' local-class='header'>

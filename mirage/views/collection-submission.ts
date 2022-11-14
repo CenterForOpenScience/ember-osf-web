@@ -1,7 +1,32 @@
-import { HandlerContext, Schema } from 'ember-cli-mirage';
+import { HandlerContext, Request, Response, Schema } from 'ember-cli-mirage';
 
 import { CollectionSubmissionReviewStates } from 'ember-osf-web/models/collection-submission';
 import { CollectionSubmissionActionTrigger } from 'ember-osf-web/models/collection-submission-action';
+import { process } from './utils';
+
+export function getCollectionSubmissions(this: HandlerContext, schema: Schema, request: Request) {
+    const { parentID: collectionId } = request.params;
+    const filterParams = request.queryParams['filter[reviews_state]'] ||
+        [CollectionSubmissionReviewStates.Pending, CollectionSubmissionReviewStates.Accepted];
+    const collection = schema.collections.find(collectionId);
+
+    if (!collection) {
+        return new Response(404, {}, {
+            errors: [{
+                detail: 'Collection not found.',
+            }],
+        });
+    }
+    const collectionSubmissions = collection.collectionSubmissions.models.filter(
+        (submission => submission.reviewsState && filterParams.includes(submission.reviewsState)),
+    );
+    return process(
+        schema,
+        request,
+        this,
+        collectionSubmissions.map(submission => this.serialize(submission).data),
+    );
+}
 
 export function createCollectionSubmission(this: HandlerContext, schema: Schema) {
     const attrs = this.normalizedRequestAttrs('collection-submission');
@@ -18,8 +43,20 @@ export function createCollectionSubmission(this: HandlerContext, schema: Schema)
     const currentUser = schema.users.find(userId!);
 
     const guidModel = schema.nodes.find(attrs.guid);
-    delete attrs.guid;
     const collectionModel = schema.collections.find(attrs.collectionId);
+    schema.collectionSubmissions.create({
+        id: `${collectionModel.id}-${attrs.guid}`,
+        collectedType,
+        issue,
+        programArea,
+        status,
+        volume,
+        schoolType,
+        studyDesign,
+        guid: guidModel,
+        collection: collectionModel,
+        creator: currentUser,
+    });
 
     const collectionSubmission = schema.collectionSubmissions.create({
         collection: collectionModel,

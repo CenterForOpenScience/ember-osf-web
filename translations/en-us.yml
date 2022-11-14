@@ -913,7 +913,9 @@ collections:
         header: 'Submit project'
         body: 'Once this project is submitted to the collection, it will be made public, and you should assume that it will always be public. You can return it to private later, but search engines (including Google’s cache) or others may access files, wiki pages, or analytics before you do.'
         body_moderated: 'Something should go here about moderation too.'
+        body_resubmit: 'This project has been submitted to the collection before, and was removed or rejected. Do you want to resubmit it?'
         add_button: 'Add to collection'
+        resubmit: 'Resubmit'
     collection_item_picker:
         after_options:
             loading: Loading…

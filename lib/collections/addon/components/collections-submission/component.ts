@@ -5,7 +5,9 @@ import { bool } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { underscore } from '@ember/string';
 import { waitFor } from '@ember/test-waiters';
+import { tracked } from '@glimmer/tracking';
 import { dropTask, timeout } from 'ember-concurrency';
+import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
@@ -42,8 +44,8 @@ export default class Submit extends Component {
     readonly edit = false;
     readonly provider!: CollectionProvider;
     readonly collection!: Collection;
-    readonly collectionSubmission!: CollectionSubmission;
 
+    collectionSubmission!: CollectionSubmission;
     collectionItem: Node | null = null;
     isProjectSelectorValid = false;
     sections = Section;
@@ -52,6 +54,7 @@ export default class Submit extends Component {
     showCancelDialog = false;
     intlKeyPrefix = 'collections.collections_submission.';
     showSubmitModal = false;
+    @tracked showResubmitModal = false;
 
     @bool('provider.reviewsWorkflow') collectionIsModerated!: boolean;
 
@@ -75,7 +78,67 @@ export default class Submit extends Component {
 
     @dropTask
     @waitFor
+    async checkForExistingSubmission(collectionItem: Node) {
+        const submissionId = `${this.collection.id}-${collectionItem.id}`;
+        const existingSubmission = await this.store.findRecord('collection-submission', submissionId);
+        if (existingSubmission) {
+            this.collectionSubmission.deleteRecord();
+            this.set('collectionSubmission', existingSubmission);
+            this.set('showResubmitModal', true);
+        }
+    }
+
+    @dropTask
+    @waitFor
     async save() {
+        if (!this.collectionItem) {
+            return;
+        }
+
+        const validatedModels = await Promise.all([
+            this.collectionItem!.validate(),
+            this.collectionSubmission.validate(),
+        ]);
+
+        const invalid = validatedModels.some(({ validations: { isInvalid } }) => isInvalid);
+
+        if (invalid) {
+            return;
+        }
+
+        this.collectionSubmission.set('guid', this.collectionItem);
+
+        const operation = this.edit ? 'update' : 'add';
+
+        try {
+            if (!this.collectionItem.public) {
+                this.collectionItem.set('public', true);
+                await this.collectionItem.save();
+            }
+            await this.collectionSubmission.save();
+
+            this.collectionItem.set('collectable', false);
+
+            this.toast.success(this.intl.t(`${this.intlKeyPrefix}${operation}_save_success`, {
+                title: this.collectionItem.title,
+            }));
+
+            await timeout(1000);
+            this.resetPageDirty();
+            // TODO: external-link-to / waffle for project main page
+            window.location.href = getHref(this.collectionItem.links.html!);
+        } catch (e) {
+            const errorMessage = this.intl.t(`${this.intlKeyPrefix}${operation}_save_error`, {
+                title: this.collectionItem.title,
+            });
+            captureException(e, { errorMessage });
+            this.toast.error(getApiErrorMessage(e), errorMessage);
+        }
+    }
+
+    @dropTask
+    @waitFor
+    async resubmit() {
         if (!this.collectionItem) {
             return;
         }
@@ -175,6 +238,8 @@ export default class Submit extends Component {
         this.setProperties({
             collectionItem,
         });
+
+        taskFor(this.checkForExistingSubmission).perform(collectionItem);
 
         this.nextSection();
     }
