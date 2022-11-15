@@ -107,7 +107,7 @@ export default class FileMetadataManagerComponent extends Component<Args> {
     @waitFor
     async getTargetMetadata() {
         const guidRecord = await this.store.findRecord('guid', this.target.id, {
-            include: 'metadata',
+            include: 'custom_metadata',
             resolve: false,
         });
         this.targetMetadata = await guidRecord.customMetadata as CustomItemMetadataRecordModel;
