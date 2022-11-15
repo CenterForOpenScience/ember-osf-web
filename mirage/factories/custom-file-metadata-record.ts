@@ -7,7 +7,7 @@ import CustomFileMetadataRecord from 'ember-osf-web/models/custom-file-metadata-
 export default Factory.extend<CustomFileMetadataRecord>({
     title: faker.lorem.sentence(),
     description: faker.lorem.sentence(),
-    resource_type_general: 'text',
+    resourceTypeGeneral: 'text',
     language: 'en-US',
 });
 

@@ -5,7 +5,7 @@ import CustomItemMetadataRecord from 'ember-osf-web/models/custom-item-metadata-
 
 
 export default Factory.extend<CustomItemMetadataRecord>({
-    resource_type_general: 'collection',
+    resourceTypeGeneral: 'collection',
     language: 'en-US',
     funders: [
         {
