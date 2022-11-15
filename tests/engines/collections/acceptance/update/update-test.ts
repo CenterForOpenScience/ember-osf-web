@@ -8,6 +8,7 @@ import CollectionProvider from 'ember-osf-web/models/collection-provider';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
+import { t } from 'ember-intl/test-support';
 
 module('Collections | Acceptance | update', hooks => {
     setupEngineApplicationTest(hooks, 'collections');
@@ -206,5 +207,12 @@ module('Collections | Acceptance | update', hooks => {
         /* Finished */
 
         await percySnapshot('Collections | Acceptance | update | finished');
+
+        assert.dom('[data-test-collections-remove-button]').exists('remove button exists');
+        await untrackedClick('[data-test-delete-button]');
+        assert.dom('[data-test-delete-modal-header]').exists('remove modal appears');
+        assert.dom('[data-test-delete-modal-body]').containsText(
+            t('collections.collections_submission.remove_modal_body', {title: nodeAdded.title}),
+        );
     });
 });

@@ -12,7 +12,7 @@ import Intl from 'ember-intl/services/intl';
 import Toast from 'ember-toastr/services/toast';
 
 import { layout, requiredAction } from 'ember-osf-web/decorators/component';
-import CollectionSubmission from 'ember-osf-web/models/collection-submission';
+import CollectionSubmission, { CollectionSubmissionReviewStates } from 'ember-osf-web/models/collection-submission';
 import Collection from 'ember-osf-web/models/collection';
 import CollectionProvider from 'ember-osf-web/models/collection-provider';
 import Node from 'ember-osf-web/models/node';
@@ -80,11 +80,24 @@ export default class Submit extends Component {
     @waitFor
     async checkForExistingSubmission(collectionItem: Node) {
         const submissionId = `${this.collection.id}-${collectionItem.id}`;
-        const existingSubmission = await this.store.findRecord('collection-submission', submissionId);
-        if (existingSubmission) {
+        const filter = {
+            id: submissionId,
+            reviews_state: [CollectionSubmissionReviewStates.Rejected, CollectionSubmissionReviewStates.Removed],
+        };
+        const existingSubmission = await this.collection.queryHasMany('collectionSubmissions',{filter});
+        if (existingSubmission.length) {
             this.collectionSubmission.deleteRecord();
-            this.set('collectionSubmission', existingSubmission);
+            this.set('collectionSubmission', existingSubmission[0]);
             this.set('showResubmitModal', true);
+        } else {
+            // No existing submission
+            // Delete old unsaved submission
+            this.store.peekAll('collection-submission').findBy('isNew', true)?.deleteRecord();
+            this.set('collectionSubmission', this.store.createRecord('collection-submission', {
+                collection: this.collection,
+                creator: this.currentUser.user,
+            }));
+            this.set('showResubmitModal', false);
         }
     }
 
