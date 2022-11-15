@@ -136,9 +136,20 @@ file_detail:
     tags: 'Tags:'
     mfr_iframe_title: 'Rendering of document'
     file_metadata: 'File Metadata'
-    project_metadata: 'Project Metadata'
-    component_metadata: 'Component Metadata'
-    registration_metadata: 'Registration Metadata'
+    metadata_project: 'Project Metadata'
+    metadata_component: 'Component Metadata'
+    metadata_registration: 'Registration Metadata'
+    title: 'Title'
+    description: 'Description'
+    resource_type_general: 'Resource type'
+    language: 'Resource language'
+    funder: 'Funder'
+    award_title: 'Award title'
+    award_uri: 'Award URI'
+    award_number: 'Award number'
+    license: 'License'
+    institutions: 'Affiliated institutions'
+    contributors: 'Contributors'
 dashboard:
     page_title: Home
     title: Dashboard
