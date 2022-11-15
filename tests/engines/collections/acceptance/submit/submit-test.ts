@@ -268,9 +268,9 @@ module('Collections | Acceptance | submit', hooks => {
         }
 
         /* Project metadata */
-        await untrackedClick('[data-test-project-metadata-save-button]');
+        await click('[data-test-project-metadata-save-button]');
         /* Project contributors */
-        await untrackedClick('[data-test-submit-section-continue]');
+        await click('[data-test-submit-section-continue]');
 
         /* Collection metadata */
         await untrackedClick('[data-test-metadata-field="collected_type_label"] .ember-power-select-trigger');
