@@ -911,8 +911,8 @@ collections:
         warning_body: 'Are you sure you want to discard changes to the submission? Changes saved to the project will persist.'
     collection_submission_confirmation_modal:
         header: 'Submit project'
-        body: 'Once this project is submitted to the collection, it will be made public, and you should assume that it will always be public. You can return it to private later, but search engines (including Google’s cache) or others may access files, wiki pages, or analytics before you do.'
-        body_moderated: 'Something should go here about moderation too.'
+        body: 'Once this project is submitted to the collection, it will be made public, and you should assume that it will always be public. You can return it to private later, but it will be removed from all collections.'
+        body_moderated: 'A moderator will review your submission before it is included in the collection.'
         body_resubmit: 'This project has been submitted to the collection before, and was removed or rejected. Do you want to resubmit it?'
         add_button: 'Add to collection'
         resubmit: 'Resubmit'
