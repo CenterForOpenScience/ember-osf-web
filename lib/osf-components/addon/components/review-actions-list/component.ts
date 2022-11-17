@@ -12,24 +12,29 @@ import Toast from 'ember-toastr/services/toast';
 import RegistrationModel from 'ember-osf-web/models/registration';
 import ReviewActionModel from 'ember-osf-web/models/review-action';
 import captureException, { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
+import CollectionSubmissionModel from 'ember-osf-web/models/collection-submission';
+import CollectionSubmissionActionModel from 'ember-osf-web/models/collection-submission-action';
 import SchemaResponseModel from 'ember-osf-web/models/schema-response';
 import SchemaResponseActionModel from 'ember-osf-web/models/schema-response-action';
 
 interface Args {
     registration: RegistrationModel;
     revision: SchemaResponseModel;
+    collectionSubmission: CollectionSubmissionModel;
 }
+
+type AllActionModels = ReviewActionModel | SchemaResponseActionModel | CollectionSubmissionActionModel;
 
 export default class ReviewActionsList extends Component<Args> {
     @service toast!: Toast;
     @service intl!: Intl;
 
     @tracked showFullActionList = false;
-    @tracked reviewActions?: Array<ReviewActionModel | SchemaResponseActionModel>;
+    @tracked reviewActions?: AllActionModels[];
 
     get showOrHide() {
-        return this.showFullActionList ? this.intl.t('registries.reviewActionsList.hide')
-            : this.intl.t('registries.reviewActionsList.show');
+        return this.showFullActionList ? this.intl.t('osf-components.reviewActionsList.hide')
+            : this.intl.t('osf-components.reviewActionsList.show');
     }
 
     get latestAction() {
@@ -51,6 +56,10 @@ export default class ReviewActionsList extends Component<Args> {
             }
             if (this.args.revision) {
                 this.reviewActions = await this.args.revision.actions as SchemaResponseActionModel[];
+            }
+            if (this.args.collectionSubmission) {
+                const submission = this.args.collectionSubmission;
+                this.reviewActions = await submission.collectionSubmissionActions as CollectionSubmissionActionModel[];
             }
         } catch (e) {
             captureException(e);
