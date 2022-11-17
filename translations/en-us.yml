@@ -2146,6 +2146,11 @@ osf-components:
                 inviteByEmail: 'Invite user by email'
                 email: 'Email'
                 fullName: 'Full name'
+        all:
+            button: 'Make decision'
+            moderationDetails: 'Project {status} into collection on {date} by {moderator}'
+            noModerationSubmissions: 'There are no active moderation submissions.'
+            projectMetadataDisplay: '{metadataType}: {metadata}, '
     makeDecisionDropdown:
         makeDecision: 'Make Decision'
         acceptSubmission: 'Accept submission'

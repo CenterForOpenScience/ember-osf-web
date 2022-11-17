@@ -1,2 +1,9 @@
-{{!-- Fetch collection submission based on selected tabs --}}
-{{!-- All --}}
+{{#each this.model as |collectionSubmission|}}
+    <CollectionSubmissionCard
+        @submission={{collectionSubmission}}
+    >
+    </CollectionSubmissionCard>
+    <hr aria-hidden='true'>
+{{else}}
+    {{t 'osf-components.moderators.all.noModerationSubmissions' }}
+{{/each}}

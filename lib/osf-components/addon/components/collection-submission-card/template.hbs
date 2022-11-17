@@ -1,0 +1,25 @@
+<div local-class='page-container'>
+    <div local-class='icon-container'>
+        <FaIcon @icon='clock' @prefix='far' />
+    </div>
+    <div local-class='text-container'>
+        <div local-class='project-title'>
+            {{ this.project.title }}
+        </div>
+        <div local-class='project-metadata'>
+            {{ this.projectMetadata }}
+        </div>
+        <div local-class='moderation-details'>
+            {{ this.moderationDetails }}
+        </div>
+    </div>
+    <div local-class='button-container'>
+        <Button
+            @type='create'
+            data-test-moderator-make-decision-button
+        >
+            {{t 'osf-components.moderators.all.button'}}
+            <FaIcon @icon='caret-down' />
+        </Button>
+    </div>
+</div>
