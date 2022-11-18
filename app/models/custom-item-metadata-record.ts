@@ -12,7 +12,7 @@ export interface Funder {
 }
 
 export default class CustomItemMetadataRecordModel extends CustomMetadataModel {
-    @attr('fixstring') resource_type_general?: string;
+    @attr('fixstring') resourceTypeGeneral?: string;
     @attr('fixstring') language?: string;
     @attr('array') funders?: Funder[];
 }

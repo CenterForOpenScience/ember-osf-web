@@ -5,7 +5,7 @@ import CustomMetadataModel from 'ember-osf-web/models/custom-metadata';
 export default class CustomFileMetadataRecordModel extends CustomMetadataModel {
     @attr('fixstring') title?: string;
     @attr('fixstring') description?: string;
-    @attr('fixstring') resource_type_general?: string;
+    @attr('fixstring') resourceTypeGeneral?: string;
     @attr('fixstring') language?: string;
 }
 

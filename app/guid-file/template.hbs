@@ -66,6 +66,110 @@
                     />
                 </div>
             {{/if}}
+            {{#if this.metadataOpened}}
+                <div local-class='RightContainer'>
+                    <FileMetadataManager @file={{this.model.fileModel}} as |manager|>
+                        <h2>
+                            {{t 'file_detail.file_metadata'}}
+                            {{#if manager.userCanEdit}}
+                                <Button
+                                    data-test-edit-metadata-button
+                                    aria-label={{t 'general.edit'}}
+                                    data-analytics-name='Edit metadata'
+                                    @layout='fake-link'
+                                    {{on 'click' manager.edit}}
+                                >
+                                    <FaIcon @icon='pencil-alt' />
+                                </Button>
+                            {{/if}}
+                            <OsfLink
+                                data-test-download-button
+                                aria-label={{t 'general.download'}}
+                                @href='#'
+                            >
+                                <FaIcon @icon='download' />
+                            </OsfLink>
+                        </h2>
+                        {{#if manager.isGatheringData}}
+                            <LoadingIndicator @dark={{true}} />
+                        {{else}}
+                            {{#if manager.inEditMode}}
+                                <Button
+                                    data-test-cancel-editing-metadata-button
+                                    aria-label={{t 'general.cancel'}}
+                                    data-analytics-name='Cancel editing metadata'
+                                    @layout='fake-link'
+                                    {{on 'click' manager.cancel}}
+                                >
+                                    {{t 'general.cancel'}}
+                                </Button>
+                                <Button
+                                    data-test-save-metadata-button
+                                    aria-label={{t 'general.save'}}
+                                    data-analytics-name='Save metadata'
+                                    @layout='fake-link'
+                                    {{on 'click' manager.save}}
+                                >
+                                    {{t 'general.save'}}
+                                </Button>
+                            {{else}}
+                                <div>{{t 'file_detail.title'}}</div>
+                                <div data-test-file-title>{{manager.metadataRecord.title}}</div>
+                                <div>{{t 'file_detail.description'}}</div>
+                                <div data-test-file-description>{{manager.metadataRecord.description}}</div>
+                                <div>{{t 'file_detail.resource_type_general'}}</div>
+                                <div data-test-file-resource-type>{{manager.metadataRecord.resourceTypeGeneral}}</div>
+                                <div>{{t 'file_detail.language'}}</div>
+                                <div data-test-file-language>{{manager.metadataRecord.language}}</div>
+                                <h2>{{t (concat 'file_detail.metadata_' manager.nodeWord)}}</h2>
+                                <div>
+                                    {{#each manager.targetMetadata.funders as |funder|}}
+                                        <div>{{t 'file_detail.funder'}}</div>
+                                        <div data-test-target-funder-name={{funder.funder_name}}>
+                                            {{funder.funder_name}}
+                                        </div>
+                                        <div>{{t 'file_detail.award_title'}}</div>
+                                        <div data-test-target-funder-award-title={{funder.funder_name}}>
+                                            {{funder.award_title}}
+                                        </div>
+                                        <div>{{t 'file_detail.award_uri'}}</div>
+                                        <div data-test-target-funder-award-uri={{funder.funder_name}}>
+                                            {{funder.award_uri}}
+                                        </div>
+                                        <div>{{t 'file_detail.award_number'}}</div>
+                                        <div data-test-target-funder-award-number={{funder.funder_name}}>
+                                            {{funder.award_number}}
+                                        </div>
+                                    {{/each}}
+                                </div>
+                                <div>{{t 'file_detail.title'}}</div>
+                                <div data-test-target-title>{{manager.target.title}}</div>
+                                <div>{{t 'file_detail.description'}}</div>
+                                <div data-test-target-description>{{manager.target.description}}</div>
+                                <div>{{t 'file_detail.contributors'}}</div>
+                                <ContributorList
+                                    data-test-target-contributors
+                                    @model={{manager.target}}
+                                    @shouldLinkUsers={{true}}
+                                    @shouldTruncate={{false}}
+                                />
+                                <div>{{t 'file_detail.institutions'}}</div>
+                                <div data-test-target-institutions>
+                                    {{#each this.targetInstitutions as |institution|}}
+                                        <div>{{institution.name}}</div>
+                                    {{/each}}
+                                </div>
+                                <div>{{t 'file_detail.license'}}</div>
+                                <div data-test-target-license-name>{{manager.targetLicense.name}}</div>
+                                <div>{{t 'file_detail.resource_type_general'}}</div>
+                                <div data-test-target-resource-type>{{manager.targetMetadata.resourceTypeGeneral}}</div>
+                                <div>{{t 'file_detail.language'}}</div>
+                                <div data-test-target-language>{{manager.targetMetadata.language}}</div>
+                            {{/if}}
+                        {{/if}}
+                    </FileMetadataManager>
+                </div>
+            {{/if}}
         {{/if}}
     </:right>
     <:rightButtons>
@@ -81,6 +185,16 @@
                     <FaIcon @icon='file-alt' @fixedWidth={{true}}/>
                 </BsButton>
             {{/if}}
+            <BsButton
+                aria-label={{if this.metadataOpened (t 'file_detail.close_metadata') (t 'file_detail.view_metadata')}}
+                data-test-metadata-button
+                data-analytics-name='Metadata button'
+                local-class='SlideButtons {{if this.metadataOpened 'Active'}}'
+                @size='lg'
+                @onClick={{this.toggleMetadata}}
+            >
+                <FaIcon @icon='info-circle' @fixedWidth={{true}}/>
+            </BsButton>
             {{#if this.model.shouldShowRevisions}}
                 <BsButton
                     aria-label={{if this.revisionsOpened (t 'file_detail.close_revisions') (t 'file_detail.view_revisions')}}

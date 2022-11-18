@@ -11,13 +11,17 @@ import { BufferedChangeset } from 'ember-changeset/types';
 import { restartableTask, task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 
-import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
 import CustomFileMetadataRecordModel from 'ember-osf-web/models/custom-file-metadata-record';
 import CustomItemMetadataRecordModel from 'ember-osf-web/models/custom-item-metadata-record';
 import FileModel from 'ember-osf-web/models/file';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
+import { tracked } from '@glimmer/tracking';
+import NodeModel from 'ember-osf-web/models/node';
+import RegistrationModel from 'ember-osf-web/models/registration';
+import LicenseModel from 'ember-osf-web/models/license';
+import InstitutionModel from 'ember-osf-web/models/institution';
 
 interface Args {
     file: FileModel;
@@ -30,7 +34,9 @@ export interface FileMetadataManager {
     metadata: CustomFileMetadataRecordModel;
     targetMetadata: CustomItemMetadataRecordModel;
     file: FileModel;
-    target: (AbstractNodeModel);
+    target: (NodeModel | RegistrationModel);
+    targetInstitutions: InstitutionModel[];
+    targetLicense: LicenseModel;
     changeset: BufferedChangeset;
     inEditMode: boolean;
     isSaving: boolean;
@@ -44,17 +50,18 @@ export default class FileMetadataManagerComponent extends Component<Args> {
     @service intl!: Intl;
     @service toast!: Toast;
 
-    metadata!: CustomFileMetadataRecordModel;
-    targetMetadata!: CustomItemMetadataRecordModel;
+    @tracked metadataRecord!: CustomFileMetadataRecordModel;
+    @tracked targetMetadata!: CustomItemMetadataRecordModel;
     file: FileModel = this.args.file;
-    target!: (AbstractNodeModel);
-    changeset!: BufferedChangeset;
-    inEditMode = false;
-    userCanEdit!: boolean;
+    @tracked target!: (NodeModel | RegistrationModel);
+    @tracked targetInstitutions!: InstitutionModel[];
+    @tracked targetLicense!: LicenseModel;
+    @tracked changeset!: BufferedChangeset;
+    @tracked inEditMode = false;
+    @tracked userCanEdit!: boolean;
     @or(
         'getGuidMetadata.isRunning',
-        'getFile.isRunning',
-        'getTargetMetadata.isRunning',
+        'getTarget.isRunning',
     )
     isGatheringData!: boolean;
     @alias('changeset.isDirty') isDirty!: boolean;
@@ -63,15 +70,12 @@ export default class FileMetadataManagerComponent extends Component<Args> {
     constructor(owner: unknown, args: Args) {
         super(owner, args);
         assert(
-            'You will need pass in a file object to the FileMetadataManager component to get metadata',
-            Boolean(args.file),
+            'You will need pass in a FileModel object to the FileMetadataManager component to get metadata',
+            Boolean(args.file instanceof FileModel),
         );
         try {
             taskFor(this.getGuidMetadata).perform();
-            this.target = this.file.target as AbstractNodeModel;
-            this.userCanEdit = this.target.currentUserPermissions.includes(Permission.Write);
-            taskFor(this.getTargetMetadata).perform();
-            this.changeset = buildChangeset(this.metadata, null);
+            taskFor(this.getTarget).perform();
         } catch (e) {
             const errorTitle = this.intl.t('osf-components.file-metadata-manager.error-getting-metadata');
             this.toast.error(getApiErrorMessage(e), errorTitle);
@@ -80,24 +84,33 @@ export default class FileMetadataManagerComponent extends Component<Args> {
 
     @task
     @waitFor
+    async getTarget() {
+        this.target = await this.file.target as NodeModel;
+        this.targetLicense = await this.target.license;
+        this.targetInstitutions = await this.target.affiliatedInstitutions as InstitutionModel[];
+        this.userCanEdit = this.target.currentUserPermissions.includes(Permission.Write);
+        await taskFor(this.getTargetMetadata).perform();
+    }
+
+    @task
+    @waitFor
     async getGuidMetadata() {
-        if (this.file) {
-            const guidRecord = await this.store.findRecord('guid', this.file.guid, {
-                include: 'metadata',
-                resolve: false,
-            });
-            this.metadata = guidRecord.customMetadata as CustomFileMetadataRecordModel;
-        }
+        const guidRecord = await this.store.findRecord('guid', this.file.guid, {
+            include: 'custom_metadata',
+            resolve: false,
+        });
+        this.metadataRecord = guidRecord.customMetadata as CustomFileMetadataRecordModel;
+        this.changeset = buildChangeset(this.metadataRecord, null);
     }
 
     @task
     @waitFor
     async getTargetMetadata() {
         const guidRecord = await this.store.findRecord('guid', this.target.id, {
-            include: 'metadata',
+            include: 'custom_metadata',
             resolve: false,
         });
-        this.targetMetadata = guidRecord.customMetadata as CustomItemMetadataRecordModel;
+        this.targetMetadata = await guidRecord.customMetadata as CustomItemMetadataRecordModel;
     }
 
     @action
@@ -115,11 +128,23 @@ export default class FileMetadataManagerComponent extends Component<Args> {
     @waitFor
     async save(){
         try {
-            this.changeset.save();
+            this.changeset.execute();
             this.inEditMode = false;
         } catch (e) {
             const errorTitle = this.intl.t('osf-components.file-metadata-manager.error-saving-metadata');
             this.toast.error(getApiErrorMessage(e), errorTitle);
         }
+    }
+
+    get nodeWord() {
+        if(this.target) {
+            if (this.target.isRegistration) {
+                return 'registration';
+            }
+            if (this.target.parent.id) {
+                return 'component';
+            }
+        }
+        return 'project';
     }
 }

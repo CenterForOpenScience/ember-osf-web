@@ -7,7 +7,7 @@ const { OSF: { apiUrl } } = config;
 export default class SchemaResponseSerializer extends ApplicationSerializer<CustomItemMetadataRecord> {
     buildNormalLinks(model: ModelInstance<CustomItemMetadataRecord>) {
         return {
-            self: `${apiUrl}/v2/custom_file_metadata_records/${model.id}`,
+            self: `${apiUrl}/v2/custom_file_metadata_records/${model.id}/`,
         };
     }
 
