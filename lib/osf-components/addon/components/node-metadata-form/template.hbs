@@ -1,0 +1,69 @@
+<h2>
+    {{@manager.node.title}}
+    {{#if @manager.userCanEdit}}
+        <Button
+            data-test-edit-metadata-button
+            aria-label={{t 'general.edit'}}
+            data-analytics-name='Edit metadata'
+            {{on 'click' @manager.edit}}
+        >
+            {{t 'osf-components.node-metadata-form.edit-button'}}
+        </Button>
+    {{/if}}
+</h2>
+<div>{{@manager.node.description}}</div>
+
+<div>
+    <div>{{t 'osf-components.node-metadata-form.resource-information'}}</div>
+    <div>
+        <span>{{t 'osf-components.node-metadata-form.resource-type'}}</span>
+        <span>{{@manager.metadataRecord.resourceTypeGeneral}}</span>
+    </div>
+    <div>
+        <span>{{t 'osf-components.node-metadata-form.resource-language'}}</span>
+        <span>{{@manager.metadataRecord.language}}</span>
+    </div>
+</div>
+
+<div>
+    <div>{{t 'osf-components.node-metadata-form.contributors'}}</div>
+    <div>
+        <ContributorList
+            data-test-target-contributors
+            @model={{@manager.node}}
+            @shouldLinkUsers={{true}}
+            @shouldTruncate={{false}}
+        />
+    </div>
+</div>
+
+<div>
+    <div>{{t 'osf-components.node-metadata-form.funding-information'}}</div>
+    {{#each @manager.metadataRecord.funders as |funder|}}
+        <div>
+            <span>{{t 'osf-components.node-metadata-form.funder'}}</span>
+            <span>{{funder.funder_name}}</span>
+        </div>
+        <div>
+            <span>{{t 'osf-components.node-metadata-form.award-title'}}</span>
+            <span>{{funder.award_title}}</span>
+        </div>
+        <div>
+            <span>{{t 'osf-components.node-metadata-form.award-info-uri'}}</span>
+            <span>{{funder.award_uri}}</span>
+        </div>
+        <div>
+            <span>{{t 'osf-components.node-metadata-form.award-number'}}</span>
+            <span>{{funder.award_number}}</span>
+        </div>
+    {{/each}}
+</div>
+
+<div>
+    <div>{{t 'osf-components.node-metadata-form.tags'}}</div>
+    <TagsWidget
+        @taggable={{@manager.node}}
+        @readOnly={{true}}
+        @inline={{true}}
+    />
+</div>
