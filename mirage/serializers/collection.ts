@@ -41,6 +41,7 @@ export default class CollectionSerializer extends ApplicationSerializer<Collecti
                 links: {
                     related: {
                         href: `${apiUrl}/v2/collections/${model.id}/collection_submissions/`,
+                        meta: this.buildRelatedLinkMeta(model, 'collectionSubmissions'),
                     },
                 },
             };
