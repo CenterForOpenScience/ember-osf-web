@@ -31,6 +31,14 @@ export enum CollectionSubmissionReviewStates {
     Rejected = 'rejected',
 }
 
+export const SubmissionIconMap = {
+    [CollectionSubmissionReviewStates.Pending]: 'clock',
+    [CollectionSubmissionReviewStates.Accepted]: 'check',
+    [CollectionSubmissionReviewStates.Removed]: 'trash',
+    [CollectionSubmissionReviewStates.Rejected]: 'times',
+    [CollectionSubmissionReviewStates.InProgress]: 'times',
+};
+
 export type ActionableCollectionSubmissionStates =
     CollectionSubmissionReviewStates.Accepted | CollectionSubmissionReviewStates.Pending;
 

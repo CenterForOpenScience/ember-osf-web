@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 import Component from '@ember/component';
 import { action, computed } from '@ember/object';
-import { not } from '@ember/object/computed';
+import { or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import calculatePosition from 'ember-basic-dropdown/utils/calculate-position';
 import Media from 'ember-responsive';
@@ -16,7 +16,7 @@ import template from './template';
 export default class ResponsiveDropdown extends Component {
     @service media!: Media;
 
-    @not('media.isDesktop') useOverlay!: boolean;
+    @or('media.isMobile', 'media.isTablet') useOverlay!: boolean;
 
     // eslint-disable-next-line ember/no-ember-testing-in-module-scope
     inTestMode = Ember.testing;
