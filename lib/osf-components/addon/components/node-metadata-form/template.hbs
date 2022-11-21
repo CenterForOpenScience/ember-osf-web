@@ -1,16 +1,15 @@
 <h2>
     {{@manager.node.title}}
-    {{#if @manager.userCanEdit}}
-        <Button
-            data-test-edit-metadata-button
-            aria-label={{t 'general.edit'}}
-            data-analytics-name='Edit metadata'
-            {{on 'click' @manager.edit}}
-        >
-            {{t 'osf-components.node-metadata-form.edit-button'}}
-        </Button>
-    {{/if}}
 </h2>
+{{#if @manager.userCanEdit}}
+    <Button
+        data-test-edit-metadata-button
+        data-analytics-name='Edit metadata'
+        {{on 'click' @manager.edit}}
+    >
+        {{t 'osf-components.node-metadata-form.edit-button'}}
+    </Button>
+{{/if}}
 <div>{{@manager.node.description}}</div>
 {{#if @manager.inEditMode}}
     <Button
@@ -32,14 +31,12 @@
 {{else}}
     <div>
         <div>{{t 'osf-components.node-metadata-form.resource-information'}}</div>
-        <div>
-            <span>{{t 'osf-components.node-metadata-form.resource-type'}}</span>
-            <span>{{@manager.metadataRecord.resourceTypeGeneral}}</span>
-        </div>
-        <div>
-            <span>{{t 'osf-components.node-metadata-form.resource-language'}}</span>
-            <span>{{@manager.metadataRecord.language}}</span>
-        </div>
+        <dl>
+            <dt>{{t 'osf-components.node-metadata-form.resource-type'}}</dt>
+            <dd>{{@manager.metadataRecord.resourceTypeGeneral}}</dd>
+            <dt>{{t 'osf-components.node-metadata-form.resource-language'}}</dt>
+            <dd>{{@manager.metadataRecord.language}}</dd>
+        </dl>
     </div>
 
     <div>
@@ -57,22 +54,19 @@
     <div>
         <div>{{t 'osf-components.node-metadata-form.funding-information'}}</div>
         {{#each @manager.metadataRecord.funders as |funder|}}
-            <div>
-                <span>{{t 'osf-components.node-metadata-form.funder'}}</span>
-                <span>{{funder.funder_name}}</span>
-            </div>
-            <div>
-                <span>{{t 'osf-components.node-metadata-form.award-title'}}</span>
-                <span>{{funder.award_title}}</span>
-            </div>
-            <div>
-                <span>{{t 'osf-components.node-metadata-form.award-info-uri'}}</span>
-                <span>{{funder.award_uri}}</span>
-            </div>
-            <div>
-                <span>{{t 'osf-components.node-metadata-form.award-number'}}</span>
-                <span>{{funder.award_number}}</span>
-            </div>
+            <dl>
+                <dt>{{t 'osf-components.node-metadata-form.funder'}}</dt>
+                <dd>{{funder.funder_name}}</dd>
+
+                <dt>{{t 'osf-components.node-metadata-form.award-title'}}</dt>
+                <dd>{{funder.award_title}}</dd>
+
+                <dt>{{t 'osf-components.node-metadata-form.award-info-uri'}}</dt>
+                <dd>{{funder.award_uri}}</dd>
+
+                <dt>{{t 'osf-components.node-metadata-form.award-number'}}</dt>
+                <dd>{{funder.award_number}}</dd>
+            </dl>
         {{/each}}
     </div>
 
