@@ -55,6 +55,7 @@ module('Integration | Component | collection-submission-card', hooks => {
         <CollectionSubmissionCard
             @submission={{this.submission}}
         />`);
+        assert.dom(`[data-test-submission-card=${this.node.id}]`).exists();
         assert.dom('[data-test-submission-card-icon]').hasAttribute('data-icon', 'check', 'Accepted icon shown');
         assert.dom('[data-test-submission-card-title]').containsText(this.node.title, 'Node title shown');
         assert.dom('[data-test-submission-card-latest-action]')

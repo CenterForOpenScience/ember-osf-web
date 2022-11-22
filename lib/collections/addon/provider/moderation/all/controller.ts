@@ -28,7 +28,7 @@ export default class CollectionsModerationAllController extends Controller {
                 reviews_state: [this.state],
             },
             // TBD: '-modified'?? Check if API has dateModified based on actions
-            sort: '-date_registered',
+            sort: this.sort,
         };
     }
 
