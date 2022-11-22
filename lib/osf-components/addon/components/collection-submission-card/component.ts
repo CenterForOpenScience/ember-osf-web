@@ -61,7 +61,7 @@ export default class CollectionSubmissionCard extends Component<CollectionSubmis
 
     get icon() {
         const { reviewsState } = this.args.submission;
-        return reviewsState ? SubmissionIconMap[reviewsState] : '';
+        return reviewsState ? SubmissionIconMap[reviewsState] : 'times';
     }
 
     get projectMetadata() {

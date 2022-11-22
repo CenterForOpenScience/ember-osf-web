@@ -1,11 +1,9 @@
-import Transition from '@ember/routing/-private/transition';
 import Route from '@ember/routing/route';
 import Store from '@ember-data/store';
 import { inject as service } from '@ember/service';
 
 import CollectionProviderModel from 'ember-osf-web/models/collection-provider';
-import CollectionSubmissionModel,
-{ CollectionSubmissionReviewStates } from 'ember-osf-web/models/collection-submission';
+import { CollectionSubmissionReviewStates } from 'ember-osf-web/models/collection-submission';
 import Theme from 'ember-osf-web/services/theme';
 
 import CollectionsModerationAllController from './controller';
@@ -22,10 +20,10 @@ export default class ModerationAll extends Route {
 
     setupController(
         controller: CollectionsModerationAllController,
-        model: CollectionSubmissionModel,
-        transition: Transition,
+        _: any,
+        __: any,
     ) {
-        super.setupController(controller, model, transition);
+        super.setupController(controller, _, __);
         const { state } = controller;
         if (!state || ![CollectionSubmissionReviewStates.Accepted,
             CollectionSubmissionReviewStates.Pending,
