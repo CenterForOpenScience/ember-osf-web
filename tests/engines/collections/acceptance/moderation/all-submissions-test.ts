@@ -96,8 +96,6 @@ module('Collections | Acceptance | moderation | all', hooks => {
         assert.dom('[data-test-moderation-dropdown-submit]').isDisabled('submit button is disabled');
         await click('[data-test-moderation-dropdown-decision-label="accept"]');
         await click('[data-test-moderation-dropdown-submit]');
-        // TODO: need to reload automatically
-        await click('[data-test-submissions-type="pending"]');
         assert.dom('[data-test-moderation-dropdown-button]').exists({ count: 1 }, 'has one moderation dropdown');
         await click('[data-test-submissions-type="accepted"]');
         assert.dom('[data-test-submission-card-title]').containsText('To be accepted', 'has one accepted submission');
@@ -108,8 +106,6 @@ module('Collections | Acceptance | moderation | all', hooks => {
         assert.dom('[data-test-moderation-dropdown-submit]').isDisabled('submit button is disabled');
         await click('[data-test-moderation-dropdown-decision-label="reject"]');
         await click('[data-test-moderation-dropdown-submit]');
-        // TODO: need to reload automatically
-        await click('[data-test-submissions-type="pending"]');
         assert.dom('[data-test-moderation-dropdown-button]').doesNotExist('No more pending submisisons');
         assert.dom('[data-test-moderation-submissions-empty]').exists('no pending submssions message shown');
         await click('[data-test-submissions-type="rejected"]');
@@ -142,8 +138,6 @@ module('Collections | Acceptance | moderation | all', hooks => {
         assert.dom('[data-test-moderation-dropdown-submit]').isDisabled('submit button is disabled');
         await click('[data-test-moderation-dropdown-decision-label="moderator_remove"]');
         await click('[data-test-moderation-dropdown-submit]');
-        // TODO: need to reload automatically
-        await click('[data-test-submissions-type="accepted"]');
         assert.dom('[data-test-moderation-dropdown-button]').doesNotExist('No more pending submisisons');
         await click('[data-test-submissions-type="removed"]');
         assert.dom('[data-test-submission-card-title]').containsText('To be removed', 'has one removed submission');
