@@ -60,20 +60,23 @@
                     local-class='Comment'
                 />
             </label>
-            <ValidationErrors
-                @changeset={{this.changeset}}
-                @key='comment'
-            />
-            <Button
-                data-test-moderation-dropdown-submit
-                data-analytics-name='Submit decision'
-                @type='create'
-                disabled={{or this.changeset.isInvalid this.submitDecision.isRunning}}
-                local-class='SubmitButton'
-                {{on 'click' (queue (perform this.submitDecision) dd.close)}}
-            >
-                {{t 'osf-components.makeDecisionDropdown.submit'}}
-            </Button>
+            <div>
+                <ValidationErrors
+                    local-class='error-message'
+                    @changeset={{this.changeset}}
+                    @key='comment'
+                />
+                <Button
+                    data-test-moderation-dropdown-submit
+                    data-analytics-name='Submit decision'
+                    @type='create'
+                    disabled={{or this.changeset.isInvalid this.submitDecision.isRunning}}
+                    local-class='SubmitButton'
+                    {{on 'click' (queue (perform this.submitDecision) dd.close)}}
+                >
+                    {{t 'osf-components.makeDecisionDropdown.submit'}}
+                </Button>
+            </div>
         {{else}}
             <div data-test-no-moderator-actions>
                 {{t 'osf-components.makeDecisionDropdown.noModeratorActions'}}
