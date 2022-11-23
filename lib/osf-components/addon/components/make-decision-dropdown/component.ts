@@ -5,9 +5,11 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import { tracked } from '@glimmer/tracking';
-import { task } from 'ember-concurrency';
+import { restartableTask, task, timeout } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
+import { BufferedChangeset } from 'ember-changeset/types';
+import { validatePresence } from 'ember-changeset-validations/validators';
 import Toast from 'ember-toastr/services/toast';
 import RouterService from '@ember/routing/router-service';
 
@@ -42,8 +44,18 @@ import {
     SchemaResponseActionTriggerToLabelMapKey,
     SchemaResponseActionTriggerToDescriptionKey,
 } from 'ember-osf-web/models/schema-response-action';
+import buildChangeset from 'ember-osf-web/utils/build-changeset';
 
 type AllActionTriggers = ReviewActionTrigger | SchemaResponseActionTrigger | CollectionSubmissionActionTrigger;
+
+const CommentRequiredTriggers = [
+    ReviewActionTrigger.RejectSubmission,
+    ReviewActionTrigger.RejectWithdrawal,
+    ReviewActionTrigger.ForceWithdraw,
+    SchemaResponseActionTrigger.RejectRevision,
+    CollectionSubmissionActionTrigger.Reject,
+    CollectionSubmissionActionTrigger.ModeratorRemove,
+];
 interface Args {
     registration: RegistrationModel;
     collectionSubmission: CollectionSubmissionModel;
@@ -58,6 +70,7 @@ export default class MakeDecisionDropdown extends Component<Args> {
     @tracked decisionTrigger?: AllActionTriggers;
     @tracked comment?: string;
 
+    changeset!: BufferedChangeset;
     actionTriggerToLabelKey: {};
     actionTriggerToDescriptionKey: {};
 
@@ -77,6 +90,14 @@ export default class MakeDecisionDropdown extends Component<Args> {
             this.actionTriggerToLabelKey = CollectionSubmissionActionTriggerToLabelMapKey;
             this.actionTriggerToDescriptionKey = CollectionSubmissionActionTriggerToDescriptionKey;
         }
+        this.changeset = buildChangeset(
+            {
+                comment: this.comment,
+                decisionTrigger: this.decisionTrigger,
+            },
+            this.decisionDropdownValidations,
+        );
+        this.changeset.validate();
     }
 
     get latestRevision() {
@@ -185,9 +206,25 @@ export default class MakeDecisionDropdown extends Component<Args> {
         }
     }
 
+    @action
+    onCommentChange() {
+        taskFor(this.updateComment).perform();
+    }
+
+    @restartableTask
+    @waitFor
+    async updateComment() {
+        await timeout(1000);
+        this.changeset.set('comment', this.comment);
+        this.changeset.validate();
+    }
+
     @task
     @waitFor
     async submitDecision() {
+        if (this.changeset.isInvalid) {
+            return;
+        }
         if (this.args.registration) {
             await taskFor(this.submitRegistrationDecision).perform();
         } else {
@@ -260,6 +297,8 @@ export default class MakeDecisionDropdown extends Component<Args> {
     @action
     updateDecisionTrigger(trigger: ReviewActionTrigger) {
         this.decisionTrigger = trigger;
+        this.changeset.set('decisionTrigger', this.decisionTrigger);
+        this.changeset.validate();
     }
 
     catchError(e: ErrorDocument) {
@@ -271,5 +310,29 @@ export default class MakeDecisionDropdown extends Component<Args> {
     reset() {
         this.decisionTrigger = undefined;
         this.comment = undefined;
+        this.changeset.rollback();
+    }
+
+    decisionDropdownValidations = {
+        comment: this.commentValidation.bind(this),
+        decisionTrigger: validatePresence({
+            presence: true,
+            ignoreBlank: true,
+            allowBlank: false,
+            allowNone: false,
+        }),
+    };
+
+    commentValidation() {
+        if (this.decisionTrigger) {
+            if (CommentRequiredTriggers.includes(this.decisionTrigger) && !this.comment) {
+                return {
+                    context: {
+                        type: 'moderator_comment',
+                    },
+                };
+            }
+        }
+        return true;
     }
 }

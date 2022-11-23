@@ -55,15 +55,20 @@
                 <Textarea
                     data-test-moderation-dropdown-comment
                     @value={{this.comment}}
+                    {{on 'keyup' this.onCommentChange}}
                     placeholder={{this.commentTextArea.placeholder}}
                     local-class='Comment'
                 />
             </label>
+            <ValidationErrors
+                @changeset={{this.changeset}}
+                @key='comment'
+            />
             <Button
                 data-test-moderation-dropdown-submit
                 data-analytics-name='Submit decision'
                 @type='create'
-                disabled={{or (not this.decisionTrigger) this.submitDecision.isRunning}}
+                disabled={{or this.changeset.isInvalid this.submitDecision.isRunning}}
                 local-class='SubmitButton'
                 {{on 'click' (queue (perform this.submitDecision) dd.close)}}
             >
