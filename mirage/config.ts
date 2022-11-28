@@ -5,6 +5,7 @@ import { createReviewAction } from 'ember-osf-web/mirage/views/review-action';
 import { createResource, updateResource } from 'ember-osf-web/mirage/views/resource';
 import { getCitation } from './views/citation';
 import { createCollectionSubmission, getCollectionSubmissions } from './views/collection-submission';
+import { createSubmissionAction } from './views/collection-submission-action';
 import { searchCollections } from './views/collection-search';
 import { reportDelete } from './views/comment';
 import { addContributor, createBibliographicContributor } from './views/contributor';
