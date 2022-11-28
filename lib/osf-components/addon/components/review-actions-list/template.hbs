@@ -3,12 +3,12 @@
         <LoadingIndicator @dark={{true}} />
     {{else if this.fetchActions.last.isError}}
         <p data-test-loading-actions-failed>
-            {{t 'registries.reviewActionsList.failedToLoadActions'}}
+            {{t 'osf-components.reviewActionsList.failedToLoadActions'}}
         </p>
     {{else}}
         {{#if this.reviewActions}}
             <div>
-                <Registries::ReviewActionsList::ReviewAction
+                <ReviewActionsList::ReviewAction
                     data-test-registration-list-card-latest-action
                     @reviewAction={{this.latestAction}}
                     @embargoEndDate={{@registration.embargoEndDate}}
@@ -19,7 +19,7 @@
                         @duration='100'
                     >
                         {{#each (without this.latestAction this.reviewActions) as |reviewAction|}}
-                            <Registries::ReviewActionsList::ReviewAction
+                            <ReviewActionsList::ReviewAction
                                 data-test-registration-list-card-more-actions
                                 @reviewAction={{reviewAction}}
                                 @embargoEndDate={{@registration.embargoEndDate}}
@@ -39,7 +39,7 @@
             </div>
         {{else}}
             <p data-test-no-actions-found>
-                {{t 'registries.reviewActionsList.noActionsFound'}}
+                {{t 'osf-components.reviewActionsList.noActionsFound'}}
             </p>
         {{/if}}
     {{/if}}

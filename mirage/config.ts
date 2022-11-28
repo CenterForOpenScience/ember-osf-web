@@ -335,10 +335,10 @@ export default function(this: Server) {
         path: '/collection_submissions/:parentID/actions',
         relatedModelName: 'collection-submission-action',
     });
+    this.post('/collection_submissions/:submissionID/actions/', createSubmissionAction);
     osfResource(this, 'collection-submission-action', {
         only: ['show'],
     });
-    // this.post('/collection_submission_actions', someModerationThing);
 
     osfResource(this, 'resource', { except: ['index', 'update', 'create'] });
     this.patch('/resources/:id', updateResource);

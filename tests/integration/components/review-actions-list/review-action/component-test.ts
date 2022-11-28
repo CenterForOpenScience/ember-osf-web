@@ -10,6 +10,7 @@ import RegistrationModel, { RegistrationReviewStates } from 'ember-osf-web/model
 import ReviewActionModel, { ReviewActionTrigger } from 'ember-osf-web/models/review-action';
 import UserModel from 'ember-osf-web/models/user';
 import formattedTimeSince from 'ember-osf-web/utils/formatted-time-since';
+import { CollectionSubmissionActionTrigger } from 'ember-osf-web/models/collection-submission-action';
 
 interface ThisTestContext extends TestContext {
     reviewAction: ReviewActionModel;
@@ -42,10 +43,10 @@ module('Integration | Component | review-actions', hooks => {
 
         this.set('reviewAction', this.reviewAction);
 
-        await render(hbs`<Registries::ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
         assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
         assert.dom('[data-test-review-action-wrapper]').containsText(
-            t('registries.reviewAction.acceptSubmission',
+            t('osf-components.reviewActionsList.reviewAction.acceptRegistrationSubmission',
                 { action: pastTenseString, moderator: 'Superb Mario', date: dateString }),
             'Review action wrapper shows proper string',
         );
@@ -66,12 +67,12 @@ module('Integration | Component | review-actions', hooks => {
         this.set('embargoEndDate', embargoEndDate);
         this.set('reviewAction', this.reviewAction);
 
-        await render(hbs`<Registries::ReviewActionsList::ReviewAction
+        await render(hbs`<ReviewActionsList::ReviewAction
             @reviewAction={{this.reviewAction}}
             @embargoEndDate={{this.embargoEndDate}}/>`);
         assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
         assert.dom('[data-test-review-action-wrapper]').containsText(
-            t('registries.reviewAction.acceptEmbargoSubmission',
+            t('osf-components.reviewActionsList.reviewAction.acceptRegistrationEmbargoSubmission',
                 {
                     action: pastTenseString,
                     moderator: 'Superb Mario',
@@ -91,10 +92,10 @@ module('Integration | Component | review-actions', hooks => {
         const pastTenseString = t('registries.reviewActions.triggerPastTense.accept_withdrawal');
         this.set('reviewAction', this.reviewAction);
 
-        await render(hbs`<Registries::ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
         assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
         assert.dom('[data-test-review-action-wrapper]').containsText(
-            t('registries.reviewAction.moderatorAction',
+            t('osf-components.reviewActionsList.reviewAction.registrationModeratorAction',
                 { action: pastTenseString, moderator: 'Superb Mario', date: dateString }),
             'Review action wrapper shows proper string',
         );
@@ -110,10 +111,10 @@ module('Integration | Component | review-actions', hooks => {
         const pastTenseString = t('registries.reviewActions.triggerPastTense.reject_withdrawal');
         this.set('reviewAction', this.reviewAction);
 
-        await render(hbs`<Registries::ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
         assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
         assert.dom('[data-test-review-action-wrapper]').containsText(
-            t('registries.reviewAction.moderatorAction',
+            t('osf-components.reviewActionsList.reviewAction.registrationModeratorAction',
                 { action: pastTenseString, moderator: 'Superb Mario', date: dateString }),
             'Review action wrapper shows proper string',
         );
@@ -130,13 +131,13 @@ module('Integration | Component | review-actions', hooks => {
         this.set('embargoEndDate', null);
         this.set('reviewAction', this.reviewAction);
 
-        await render(hbs`<Registries::ReviewActionsList::ReviewAction
+        await render(hbs`<ReviewActionsList::ReviewAction
             @reviewAction={{this.reviewAction}}
             @embargoEndDate={{this.embargoEndDate}}
         />`);
         assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
         assert.dom('[data-test-review-action-wrapper]').hasTextContaining(
-            t('registries.reviewAction.submitActionWithoutEmbargo',
+            t('osf-components.reviewActionsList.reviewAction.registrationSubmitActionWithoutEmbargo',
                 {
                     contributor: 'Superb Mario',
                     date: dateString,
@@ -156,13 +157,13 @@ module('Integration | Component | review-actions', hooks => {
         this.set('embargoEndDate', embargoEndDate);
         this.set('reviewAction', this.reviewAction);
 
-        await render(hbs`<Registries::ReviewActionsList::ReviewAction
+        await render(hbs`<ReviewActionsList::ReviewAction
             @reviewAction={{this.reviewAction}}
             @embargoEndDate={{this.embargoEndDate}}
         />`);
         assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
         assert.dom('[data-test-review-action-wrapper]').hasTextContaining(
-            t('registries.reviewAction.submitActionWithEmbargo',
+            t('osf-components.reviewActionsList.reviewAction.registrationSubmitActionWithEmbargo',
                 {
                     contributor: 'Superb Mario',
                     date: dateString,
@@ -190,10 +191,10 @@ module('Integration | Component | review-actions', hooks => {
         const dateString = formattedTimeSince(action.dateModified);
         const pastTenseString = t('registries.reviewActions.triggerPastTense.request_withdrawal');
 
-        await render(hbs`<Registries::ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
         assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
         assert.dom('[data-test-review-action-wrapper]').containsText(
-            t('registries.reviewAction.contributorAction',
+            t('osf-components.reviewActionsList.reviewAction.registrationContributorAction',
                 { action: pastTenseString, contributor: 'Superb Mario', date: dateString }),
             'Review action wrapper shows proper string',
         );
@@ -212,10 +213,10 @@ module('Integration | Component | review-actions', hooks => {
         const pastTenseString = t('registries.reviewActions.triggerPastTense.request_embargo_termination');
         this.set('reviewAction', this.reviewAction);
 
-        await render(hbs`<Registries::ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
         assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
         assert.dom('[data-test-review-action-wrapper]').containsText(
-            t('registries.reviewAction.contributorAction',
+            t('osf-components.reviewActionsList.reviewAction.registrationContributorAction',
                 { action: pastTenseString, contributor: 'Superb Mario', date: dateString }),
             'Review action wrapper shows proper string',
         );
@@ -233,15 +234,105 @@ module('Integration | Component | review-actions', hooks => {
         const pastTenseString = t('registries.reviewActions.triggerPastTense.request_embargo_termination');
         this.set('reviewAction', this.reviewAction);
 
-        await render(hbs`<Registries::ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
         assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
         assert.dom('[data-test-review-action-wrapper]').containsText(
-            t('registries.reviewAction.contributorAction',
+            t('osf-components.reviewActionsList.reviewAction.registrationContributorAction',
                 { action: pastTenseString, contributor: 'Superb Mario', date: dateString }),
             'Review action wrapper shows proper string',
         );
         assert.dom('[data-test-review-action-wrapper]')
             .doesNotContainText('moderator', 'Review action does not mention moderator');
         assert.dom('[data-test-review-action-comment]').doesNotExist('Empty strings do not create comment');
+    });
+
+    // Collection Moderator actions
+    test('Collection submission: Moderator actions', async function(this: ThisTestContext, assert) {
+        this.store = this.owner.lookup('service:store');
+        const collection = server.create('collection');
+        const mirageAction = server.create('collection-submission-action', {
+            actionTrigger: CollectionSubmissionActionTrigger.Accept,
+            creator: server.create('user', { fullName: 'Superb Mario' }, 'loggedIn'),
+            target: server.create('collection-submission', {
+                guid: server.create('node', 'withContributors'),
+                collection,
+            }),
+        });
+        const action = await this.store.findRecord('collection-submission-action', mirageAction.id);
+        const dateString = formattedTimeSince(action.dateModified);
+        let pastTenseString = t('collections.actions.triggerPastTense.accept');
+        this.set('reviewAction', action);
+
+        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
+        assert.dom('[data-test-review-action-wrapper]').containsText(
+            t('osf-components.reviewActionsList.reviewAction.collectionModeratorAction',
+                { action: pastTenseString, moderator: 'Superb Mario', date: dateString }),
+            'Collection submission action wrapper shows accept string',
+        );
+        assert.dom('[data-test-review-action-comment]').doesNotExist('Empty strings do not create comment');
+
+        action.set('actionTrigger', CollectionSubmissionActionTrigger.Reject);
+        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        pastTenseString = t('collections.actions.triggerPastTense.reject');
+        assert.dom('[data-test-review-action-wrapper]').containsText(
+            t('osf-components.reviewActionsList.reviewAction.collectionModeratorAction',
+                { action: pastTenseString, moderator: 'Superb Mario', date: dateString }),
+            'Collection submission action wrapper shows reject string',
+        );
+
+        action.set('actionTrigger', CollectionSubmissionActionTrigger.ModeratorRemove);
+        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        pastTenseString = t('collections.actions.triggerPastTense.moderator_remove');
+        assert.dom('[data-test-review-action-wrapper]').containsText(
+            t('osf-components.reviewActionsList.reviewAction.collectionModeratorAction',
+                { action: pastTenseString, moderator: 'Superb Mario', date: dateString }),
+            'Collection submission action wrapper shows moderator remove string',
+        );
+    });
+
+    // Collection Admin actions
+    test('Collection submission: Admin actions', async function(this: ThisTestContext, assert) {
+        this.store = this.owner.lookup('service:store');
+        const collection = server.create('collection');
+        const mirageAction = server.create('collection-submission-action', {
+            actionTrigger: CollectionSubmissionActionTrigger.Submit,
+            creator: server.create('user', { fullName: 'Superb Mario' }, 'loggedIn'),
+            target: server.create('collection-submission', {
+                guid: server.create('node', 'withContributors'),
+                collection,
+            }),
+        });
+        const action = await this.store.findRecord('collection-submission-action', mirageAction.id);
+        const dateString = formattedTimeSince(action.dateModified);
+        let pastTenseString = t('collections.actions.triggerPastTense.submit');
+        this.set('reviewAction', action);
+
+        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        assert.dom('[data-test-review-action-wrapper]').exists('Review action wrapper shown');
+        assert.dom('[data-test-review-action-wrapper]').containsText(
+            t('osf-components.reviewActionsList.reviewAction.collectionContributorAction',
+                { action: pastTenseString, contributor: 'Superb Mario', date: dateString }),
+            'Collection submission action wrapper shows submit string',
+        );
+        assert.dom('[data-test-review-action-comment]').doesNotExist('Empty strings do not create comment');
+
+        action.set('actionTrigger', CollectionSubmissionActionTrigger.Resubmit);
+        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        pastTenseString = t('collections.actions.triggerPastTense.resubmit');
+        assert.dom('[data-test-review-action-wrapper]').containsText(
+            t('osf-components.reviewActionsList.reviewAction.collectionContributorAction',
+                { action: pastTenseString, contributor: 'Superb Mario', date: dateString }),
+            'Collection submission action wrapper shows resubmit string',
+        );
+
+        action.set('actionTrigger', CollectionSubmissionActionTrigger.AdminRemove);
+        await render(hbs`<ReviewActionsList::ReviewAction @reviewAction={{this.reviewAction}}/>`);
+        pastTenseString = t('collections.actions.triggerPastTense.admin_remove');
+        assert.dom('[data-test-review-action-wrapper]').containsText(
+            t('osf-components.reviewActionsList.reviewAction.collectionContributorAction',
+                { action: pastTenseString, contributor: 'Superb Mario', date: dateString }),
+            'Collection submission action wrapper shows admin remove string',
+        );
     });
 });

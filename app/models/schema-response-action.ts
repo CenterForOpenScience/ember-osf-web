@@ -22,6 +22,21 @@ const TriggerToPastTenseTranslationKey: Record<SchemaResponseActionTrigger, stri
     moderator_reject: 'registries.schemaResponseActions.triggerPastTense.moderator_reject',
 };
 
+export type SchemaResponseModeratorActionTriggers =
+    SchemaResponseActionTrigger.AcceptRevision |
+    SchemaResponseActionTrigger.RejectRevision;
+
+export const SchemaResponseActionTriggerToLabelMapKey: Record<SchemaResponseModeratorActionTriggers, string> = {
+    [SchemaResponseActionTrigger.AcceptRevision]: 'osf-components.makeDecisionDropdown.acceptRevision',
+    [SchemaResponseActionTrigger.RejectRevision]: 'osf-components.makeDecisionDropdown.rejectRevision',
+};
+export const SchemaResponseActionTriggerToDescriptionKey: Record<SchemaResponseModeratorActionTriggers, string> = {
+    [SchemaResponseActionTrigger.AcceptRevision]:
+        'osf-components.makeDecisionDropdown.acceptRevisionDescription',
+    [SchemaResponseActionTrigger.RejectRevision]:
+        'osf-components.makeDecisionDropdown.rejectRevisionDescription',
+};
+
 export default class SchemaResponseActionModel extends Action {
     @service intl!: Intl;
 

@@ -971,6 +971,16 @@ collections:
         header: 'Collections Moderation'
         all:
             title: 'All Items'
+            tabLabel:
+                pending: 'View pending submissions'
+                accepted: 'View accepted submissions'
+                rejected: 'View rejected submissions'
+                removed: 'View removed submissions'
+            pending: 'Pending'
+            accepted: 'Accepted'
+            rejected: 'Rejected'
+            removed: 'Removed'
+            noSubmissions: 'No submissions'
         moderators:
             title: 'Moderators'
         settings:
@@ -1532,20 +1542,6 @@ registries:
         withdrawn: 'No withdrawn registrations have been found'
         pending_withdraw: 'No registrations found pending withdrawal'
         pending_moderation: 'No registrations found with updates pending'
-    reviewActionsList:
-        failedToLoadActions: 'Failed to load registration moderation history'
-        noActionsFound: 'No moderation history found for this registration'
-        hide: Hide
-        show: 'Show full history'
-    reviewAction:
-        acceptSubmission: 'Registration {action} {date} by {moderator} with no embargo'
-        acceptEmbargoSubmission: 'Registration {action} {date} by {moderator} with embargo ending {embargoEndDate}'
-        moderatorAction: 'Registration {action} {date} by moderator {moderator}'
-        contributorAction: 'Registration {action} {date} by contributor {contributor}'
-        submitActionWithoutEmbargo: 'Registration submitted {date} by contributor {contributor}'
-        submitActionWithEmbargo: 'Registration submitted {date} by contributor {contributor} with embargo ending {embargoEndDate}'
-        revisionContributorAction: 'Update {action} {date} by contributor {contributor}'
-        revisionModeratorAction: 'Update {action} {date} by moderator {moderator}'
     reviewActions:
         triggerPastTense:
             submit: 'submitted'
@@ -1578,30 +1574,6 @@ registries:
         noResponses: 'No responses updated'
     sharingIcons:
         label: 'Share this registration via {mediaType}'
-    makeDecisionDropdown:
-        makeDecision: 'Make Decision'
-        acceptSubmission: 'Accept submission'
-        acceptSubmissionDescription: 'Registration will appear in search results and be made public. Embargoed registrations will only become public after embargo end date.'
-        rejectSubmission: 'Reject submission'
-        rejectSubmissionDescription: 'Registration will not appear in search results and will return to a private draft state'
-        forceWithdraw: 'Force withdraw'
-        forceWithdrawDescription: 'Registration will be withdrawn but still have a tombstone page with a justification for withdrawal and a subset of the metadata available'
-        acceptWithdrawal: 'Accept withdrawal'
-        acceptWithdrawalDescription: 'Registration will be withdrawn but still have a tombstone page with a justification for withdrawal and subset of the metadata available'
-        rejectWithdrawal: 'Reject withdrawal'
-        rejectWithdrawalDescription: 'Registration will remain fully public'
-        acceptRevision: 'Accept update'
-        acceptRevisionDescription: 'Update will be accepted and registration will be updated'
-        rejectRevision: 'Reject update'
-        rejectRevisionDescription: 'Update will be rejected and registration will remain unchanged'
-        submit: 'Submit'
-        success: 'Successfully submitted moderator decision.'
-        failure: 'Failed to submit moderator decision.'
-        additionalComment: 'Additional comment'
-        additionalCommentPlaceholder: 'Add remarks to registration admins'
-        justificationForWithdrawal: 'Justification for Withdrawal'
-        justificationForWithdrawalPlaceholder: 'Provide justification for withdrawal'
-        noModeratorActions: 'No moderator decisions can be made at this time'
     myRegistrationsList:
         noGeneral: 'This page allows you to search and quickly access your registrations.'
         noRegistrations: "You don't have any submitted registrations. Create one with the button below."
@@ -2142,6 +2114,22 @@ osf-components:
                 button: 'Remove contributor'
             success: 'You have successfully removed {contributorName}.'
             errorHeading: 'Could not remove contributor. '
+    reviewActionsList:
+        failedToLoadActions: 'Failed to load moderation history'
+        noActionsFound: 'No moderation history found'
+        hide: Hide
+        show: 'Show full history'
+        reviewAction:
+            acceptRegistrationSubmission: 'Registration {action} {date} by {moderator} with no embargo'
+            acceptRegistrationEmbargoSubmission: 'Registration {action} {date} by {moderator} with embargo ending {embargoEndDate}'
+            registrationModeratorAction: 'Registration {action} {date} by moderator {moderator}'
+            registrationContributorAction: 'Registration {action} {date} by contributor {contributor}'
+            registrationSubmitActionWithoutEmbargo: 'Registration submitted {date} by contributor {contributor}'
+            registrationSubmitActionWithEmbargo: 'Registration submitted {date} by contributor {contributor} with embargo ending {embargoEndDate}'
+            revisionContributorAction: 'Update {action} {date} by contributor {contributor}'
+            revisionModeratorAction: 'Update {action} {date} by moderator {moderator}'
+            collectionContributorAction: 'Submission {action} {date} by contributor {contributor}'
+            collectionModeratorAction: 'Submission {action} {date} by moderator {moderator}'
 
 
     subscriptions:
@@ -2176,7 +2164,40 @@ osf-components:
                 inviteByEmail: 'Invite user by email'
                 email: 'Email'
                 fullName: 'Full name'
-
+    makeDecisionDropdown:
+        makeDecision: 'Make Decision'
+        acceptSubmission: 'Accept submission'
+        acceptSubmissionDescription: 'Registration will appear in search results and be made public. Embargoed registrations will only become public after embargo end date.'
+        rejectSubmission: 'Reject submission'
+        rejectSubmissionDescription: 'Registration will not appear in search results and will return to a private draft state'
+        forceWithdraw: 'Force withdraw'
+        forceWithdrawDescription: 'Registration will be withdrawn but still have a tombstone page with a justification for withdrawal and a subset of the metadata available'
+        acceptWithdrawal: 'Accept withdrawal'
+        acceptWithdrawalDescription: 'Registration will be withdrawn but still have a tombstone page with a justification for withdrawal and subset of the metadata available'
+        rejectWithdrawal: 'Reject withdrawal'
+        rejectWithdrawalDescription: 'Registration will remain fully public'
+        acceptRevision: 'Accept update'
+        acceptRevisionDescription: 'Update will be accepted and registration will be updated'
+        rejectRevision: 'Reject update'
+        rejectRevisionDescription: 'Update will be rejected and registration will remain unchanged'
+        acceptCollectionSubmission: 'Accept submission'
+        acceptCollectionSubmissionDescription: 'Project will appear in search results and be associated with the collection'
+        rejectCollectionSubmission: 'Reject submission'
+        rejectCollectionSubmissionDescription: 'Project will not appear in search results nor be associated with the collection'
+        removeCollectionSubmission: 'Remove submission'
+        removeCollectionSubmissionDescription: 'Collection will be removed from the collection and no longer appear in search results'
+        submit: 'Submit'
+        success: 'Successfully submitted moderator decision.'
+        failure: 'Failed to submit moderator decision.'
+        additionalComment: 'Additional comment'
+        additionalCommentPlaceholder: 'Add remarks to {targetType} admins'
+        registration: registration
+        project: project
+        justificationForWithdrawal: 'Justification for Withdrawal'
+        justificationForWithdrawalPlaceholder: 'Provide justification for withdrawal'
+        justificationForRemoval: 'Justification for Removal'
+        justificationForRemovalPlaceholder: 'Provide justification for removal'
+        noModeratorActions: 'No moderator decisions can be made at this time'
 settings:
     toggleNav: 'Toggle navigation'
     profile:

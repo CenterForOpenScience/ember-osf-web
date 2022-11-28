@@ -40,31 +40,35 @@ export default Factory.extend<MirageCollectionProvider & CollectionProviderTrait
     permissions: [],
     currentUserIsModerator: trait<CollectionProvider>({
         afterCreate(provider, server) {
-            const { currentUserId, currentUser } = server.schema.roots.first();
-            if (currentUserId && currentUser) {
-                const moderator = server.create('moderator', {
-                    id: currentUserId,
-                    user: currentUser,
-                });
-                provider.update({
-                    moderators: [moderator],
-                    permissions: [ReviewPermissions.ViewSubmissions],
-                });
+            if (server.schema.roots.first()) {
+                const { currentUserId, currentUser } = server.schema.roots.first();
+                if (currentUserId && currentUser) {
+                    const moderator = server.create('moderator', {
+                        id: currentUserId,
+                        user: currentUser,
+                    });
+                    provider.update({
+                        moderators: [moderator],
+                        permissions: [ReviewPermissions.ViewSubmissions],
+                    });
+                }
             }
         },
     }),
     currentUserIsAdmin: trait<CollectionProvider>({
         afterCreate(provider, server) {
-            const { currentUserId, currentUser } = server.schema.roots.first();
-            if (currentUserId && currentUser) {
-                const moderator = server.create('moderator', {
-                    id: currentUserId,
-                    user: currentUser,
-                }, 'asAdmin');
-                provider.update({
-                    moderators: [moderator],
-                    permissions: [ReviewPermissions.ViewSubmissions],
-                });
+            if (server.schema.roots.first()) {
+                const { currentUserId, currentUser } = server.schema.roots.first();
+                if (currentUserId && currentUser) {
+                    const moderator = server.create('moderator', {
+                        id: currentUserId,
+                        user: currentUser,
+                    }, 'asAdmin');
+                    provider.update({
+                        moderators: [moderator],
+                        permissions: [ReviewPermissions.ViewSubmissions],
+                    });
+                }
             }
         },
     }),

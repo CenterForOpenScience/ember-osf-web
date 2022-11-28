@@ -58,14 +58,14 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             'Option to accept submission exists',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="accept_submission"]').hasText(
-            t('registries.makeDecisionDropdown.acceptSubmission'),
+            t('osf-components.makeDecisionDropdown.acceptSubmission'),
             'Accept submission option has correct text',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="reject_submission"]').exists(
             'Option to reject submission exists',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="reject_submission"]').hasText(
-            t('registries.makeDecisionDropdown.rejectSubmission'),
+            t('osf-components.makeDecisionDropdown.rejectSubmission'),
             'Reject submission option has correct text',
         );
         await percySnapshot(assert);
@@ -134,7 +134,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             'Option to force withdraw exists',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="force_withdraw"]').hasText(
-            t('registries.makeDecisionDropdown.forceWithdraw'),
+            t('osf-components.makeDecisionDropdown.forceWithdraw'),
             'Force withdraw option has correct text',
         );
         await percySnapshot(assert);
@@ -169,14 +169,14 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             'Option to accept withdraw exists',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="accept_withdrawal"]').hasText(
-            t('registries.makeDecisionDropdown.acceptWithdrawal'),
+            t('osf-components.makeDecisionDropdown.acceptWithdrawal'),
             'Accept withdrawal option has correct text',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="reject_withdrawal"]').exists(
             'Option to reject withdraw exists',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="reject_withdrawal"]').hasText(
-            t('registries.makeDecisionDropdown.rejectWithdrawal'),
+            t('osf-components.makeDecisionDropdown.rejectWithdrawal'),
             'Reject withdrawal option has correct text',
         );
         await percySnapshot(assert);
@@ -240,7 +240,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             'Option to force withdraw exists',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="force_withdraw"]').hasText(
-            t('registries.makeDecisionDropdown.forceWithdraw'),
+            t('osf-components.makeDecisionDropdown.forceWithdraw'),
             'Force withdraw option has correct text',
         );
         await percySnapshot(assert);
@@ -283,7 +283,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             'Option to force withdraw exists',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="force_withdraw"]').hasText(
-            t('registries.makeDecisionDropdown.forceWithdraw'),
+            t('osf-components.makeDecisionDropdown.forceWithdraw'),
             'Force withdraw option has correct text',
         );
         await percySnapshot(assert);
@@ -325,7 +325,7 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             'Option to force withdraw exists',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="force_withdraw"]').hasText(
-            t('registries.makeDecisionDropdown.forceWithdraw'),
+            t('osf-components.makeDecisionDropdown.forceWithdraw'),
             'Force withdraw option has correct text',
         );
         await percySnapshot(assert);
@@ -366,11 +366,11 @@ module('Registries | Acceptance | overview.moderator-mode', hooks => {
             'Two moderator actions available',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="accept"]').hasText(
-            t('registries.makeDecisionDropdown.acceptRevision'),
+            t('osf-components.makeDecisionDropdown.acceptRevision'),
             'Accept update option has correct text',
         );
         assert.dom('[data-test-moderation-dropdown-decision-label="moderator_reject"]').hasText(
-            t('registries.makeDecisionDropdown.rejectRevision'),
+            t('osf-components.makeDecisionDropdown.rejectRevision'),
             'Reject update option has correct text',
         );
         await percySnapshot(assert);
