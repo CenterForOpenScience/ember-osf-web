@@ -1,9 +1,42 @@
-{{#each this.model as |collectionSubmission|}}
-    <CollectionSubmissionCard
-        @submission={{collectionSubmission}}
-    >
-    </CollectionSubmissionCard>
-    <hr aria-hidden='true'>
-{{else}}
-    {{t 'osf-components.moderators.all.noModerationSubmissions' }}
-{{/each}}
+<nav local-class='tab-wrapper'>
+    {{#each (array 'pending' 'accepted' 'rejected' 'removed') as |state| }}
+        {{#let (eq this.state state) as |selected| }}
+            <a
+                data-test-submissions-type={{state}}
+                data-test-is-selected={{if selected 'true' 'false'}}
+                aria-label={{t (concat 'collections.moderation.all.tabLabel.' state)}}
+                href='#'
+                {{on 'click' (fn this.changeTab state)}}
+                local-class='tab {{if selected 'selected'}}'
+            >
+                <FaIcon local-class='{{state}}' @icon={{get this.submissionIconMap state}} />
+                {{#if (or (not this.isMobile) selected)}}
+                    {{t (concat 'collections.moderation.all.' state)}}
+                {{/if}}
+            </a>
+        {{/let}}
+    {{/each}}
+</nav>
+<PaginatedList::HasMany
+    @model={{this.model}}
+    @relationshipName='collectionSubmissions'
+    @query={{this.query}}
+    @usePlaceholders={{false}}
+    @bindReload={{mut this.reloadSubmissionList}}
+    local-class='list'
+    as |list|
+>
+    <list.item as |submission|>
+        {{#if submission}}
+            <CollectionSubmissionCard
+                @submission={{submission}}
+                @afterSubmit={{list.doReload}}
+            />
+        {{else}}
+            <LoadingIndicator @dark={{true}} @inline={{true}} />
+        {{/if}}
+    </list.item>
+    <list.empty>
+        <p local-class='empty' data-test-moderation-submissions-empty>{{t 'collections.moderation.all.noSubmissions'}}</p>
+    </list.empty>
+</PaginatedList::HasMany>

@@ -4,6 +4,7 @@ import config from 'ember-get-config';
 import { createReviewAction } from 'ember-osf-web/mirage/views/review-action';
 import { createResource, updateResource } from 'ember-osf-web/mirage/views/resource';
 import { getCitation } from './views/citation';
+import { createSubmissionAction } from './views/collection-submission-action';
 import { searchCollections } from './views/collection-search';
 import { reportDelete } from './views/comment';
 import { addContributor, createBibliographicContributor } from './views/contributor';
@@ -332,10 +333,10 @@ export default function(this: Server) {
         path: '/collection_submissions/:parentID/actions',
         relatedModelName: 'collection-submission-action',
     });
+    this.post('/collection_submissions/:submissionID/actions/', createSubmissionAction);
     osfResource(this, 'collection-submission-action', {
         only: ['show'],
     });
-    // this.post('/collection_submission_actions', someModerationThing);
 
     osfResource(this, 'resource', { except: ['index', 'update', 'create'] });
     this.patch('/resources/:id', updateResource);

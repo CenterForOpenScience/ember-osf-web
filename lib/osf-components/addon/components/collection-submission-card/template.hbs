@@ -1,25 +1,45 @@
-<div local-class='page-container'>
-    <div local-class='icon-container'>
-        <FaIcon @icon='clock' @prefix='far' />
+<div data-test-submission-card={{this.project.id}} local-class='page-container'>
+    <div local-class='icon-container {{this.iconClass}}'>
+        <FaIcon data-test-submission-card-icon @icon={{this.icon}} @size='2x'/>
     </div>
     <div local-class='text-container'>
         <div local-class='project-title'>
-            {{ this.project.title }}
+            {{#if this.project}}
+                <OsfLink
+                    data-test-submission-card-title
+                    @route='resolve-guid'
+                    @models={{array this.project.id}}
+                >
+                    {{this.project.title}}
+                </OsfLink>
+            {{/if}}
         </div>
-        <div local-class='project-metadata'>
-            {{ this.projectMetadata }}
-        </div>
-        <div local-class='moderation-details'>
-            {{ this.moderationDetails }}
-        </div>
+        <dl local-class='project-metadata'>
+            {{#each this.projectMetadata as |metadataField|}}
+                <dt local-class='metadata-field-label'>
+                    {{t metadataField.label}}
+                </dt>
+                <dd local-class='metadata-field-value'>
+                    {{metadataField.value}}
+                </dd>
+            {{/each}}
+        </dl>
+        {{#if this.fetchActions.isRunning}}
+            <LoadingIndicator />
+        {{else}}
+            <div data-test-submission-card-latest-action local-class='moderation-details'>
+                <ReviewActionsList::ReviewAction
+                    @reviewAction={{this.latestAction}}
+                />
+            </div>
+        {{/if}}
     </div>
-    <div local-class='button-container'>
-        <Button
-            @type='create'
-            data-test-moderator-make-decision-button
-        >
-            {{t 'osf-components.moderators.all.button'}}
-            <FaIcon @icon='caret-down' />
-        </Button>
-    </div>
+    {{#if this.showDecisionDropdown}}
+        <div local-class='button-container'>
+            <MakeDecisionDropdown
+                @collectionSubmission={{@submission}}
+                @afterSubmit={{@afterSubmit}}
+            />
+        </div>
+    {{/if}}
 </div>

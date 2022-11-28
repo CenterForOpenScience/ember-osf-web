@@ -964,6 +964,16 @@ collections:
         header: 'Collections Moderation'
         all:
             title: 'All Items'
+            tabLabel:
+                pending: 'View pending submissions'
+                accepted: 'View accepted submissions'
+                rejected: 'View rejected submissions'
+                removed: 'View removed submissions'
+            pending: 'Pending'
+            accepted: 'Accepted'
+            rejected: 'Rejected'
+            removed: 'Removed'
+            noSubmissions: 'No submissions'
         moderators:
             title: 'Moderators'
         settings:
@@ -2147,11 +2157,6 @@ osf-components:
                 inviteByEmail: 'Invite user by email'
                 email: 'Email'
                 fullName: 'Full name'
-        all:
-            button: 'Make decision'
-            moderationDetails: 'Project {status} into collection on {date} by {moderator}'
-            noModerationSubmissions: 'There are no active moderation submissions.'
-            projectMetadataDisplay: '{metadataType}: {metadata}, '
     makeDecisionDropdown:
         makeDecision: 'Make Decision'
         acceptSubmission: 'Accept submission'

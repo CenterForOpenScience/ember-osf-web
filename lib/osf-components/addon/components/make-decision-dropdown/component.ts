@@ -58,6 +58,7 @@ const CommentRequiredTriggers = [
 interface Args {
     registration: RegistrationModel;
     collectionSubmission: CollectionSubmissionModel;
+    afterSubmit?: () => void;
 }
 
 export default class MakeDecisionDropdown extends Component<Args> {
@@ -250,6 +251,9 @@ export default class MakeDecisionDropdown extends Component<Args> {
                 }
                 this.args.registration.reload();
                 this.reset();
+                if (this.args.afterSubmit) {
+                    this.args.afterSubmit();
+                }
             } catch (e) {
                 this.catchError(e);
             }
@@ -273,6 +277,9 @@ export default class MakeDecisionDropdown extends Component<Args> {
                 this.toast.success(this.intl.t('osf-components.makeDecisionDropdown.success'));
                 this.args.collectionSubmission.reload();
                 this.reset();
+                if (this.args.afterSubmit) {
+                    this.args.afterSubmit();
+                }
             } catch (e) {
                 this.catchError(e);
             }
