@@ -4,8 +4,7 @@ import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
-import { tracked } from '@glimmer/tracking';
-import { restartableTask, task, timeout } from 'ember-concurrency';
+import { task } from 'ember-concurrency';
 import { taskFor } from 'ember-concurrency-ts';
 import Intl from 'ember-intl/services/intl';
 import { BufferedChangeset } from 'ember-changeset/types';
@@ -67,9 +66,6 @@ export default class MakeDecisionDropdown extends Component<Args> {
     @service toast!: Toast;
     @service router!: RouterService;
 
-    @tracked decisionTrigger?: AllActionTriggers;
-    @tracked comment?: string;
-
     changeset!: BufferedChangeset;
     actionTriggerToLabelKey: {};
     actionTriggerToDescriptionKey: {};
@@ -92,8 +88,8 @@ export default class MakeDecisionDropdown extends Component<Args> {
         }
         this.changeset = buildChangeset(
             {
-                comment: this.comment,
-                decisionTrigger: this.decisionTrigger,
+                comment: undefined,
+                decisionTrigger: undefined,
             },
             this.decisionDropdownValidations,
         );
@@ -206,19 +202,6 @@ export default class MakeDecisionDropdown extends Component<Args> {
         }
     }
 
-    @action
-    onCommentChange() {
-        taskFor(this.updateComment).perform();
-    }
-
-    @restartableTask
-    @waitFor
-    async updateComment() {
-        await timeout(1000);
-        this.changeset.set('comment', this.comment);
-        this.changeset.validate();
-    }
-
     @task
     @waitFor
     async submitDecision() {
@@ -235,28 +218,30 @@ export default class MakeDecisionDropdown extends Component<Args> {
     @task
     @waitFor
     async submitRegistrationDecision() {
-        if (this.decisionTrigger) {
+        const decisionTrigger = this.changeset.get('decisionTrigger');
+        const comment = this.changeset.get('comment');
+        if (decisionTrigger) {
             const isSchemaResponseAction = ([
                 SchemaResponseActionTrigger.RejectRevision, SchemaResponseActionTrigger.AcceptRevision,
-            ] as AllActionTriggers[]).includes(this.decisionTrigger);
+            ] as AllActionTriggers[]).includes(decisionTrigger);
             const actionType = isSchemaResponseAction ? 'schema-response-action' : 'review-action';
             const target = isSchemaResponseAction ? this.args.registration.schemaResponses.firstObject
                 : this.args.registration;
             const newAction = this.store.createRecord(actionType, {
-                actionTrigger: this.decisionTrigger,
-                comment: (this.comment ? this.comment : undefined),
+                actionTrigger: decisionTrigger,
+                comment: (comment ? comment : undefined),
                 target,
             });
             try {
                 await newAction.save();
                 this.toast.success(this.intl.t('osf-components.makeDecisionDropdown.success'));
-                if (this.decisionTrigger === ReviewActionTrigger.RejectSubmission) {
+                if (decisionTrigger === ReviewActionTrigger.RejectSubmission) {
                     this.router.transitionTo(
                         'registries.branded.moderation.submitted',
                         this.args.registration.provider.get('id'),
                         { queryParams: { state: RegistrationReviewStates.Rejected } },
                     );
-                } else if (this.decisionTrigger === SchemaResponseActionTrigger.RejectRevision) {
+                } else if (decisionTrigger === SchemaResponseActionTrigger.RejectRevision) {
                     this.router.transitionTo(
                         'registries.branded.moderation.submitted',
                         this.args.registration.provider.get('id'),
@@ -264,10 +249,9 @@ export default class MakeDecisionDropdown extends Component<Args> {
                     );
                 }
                 this.args.registration.reload();
+                this.reset();
             } catch (e) {
                 this.catchError(e);
-            } finally {
-                this.reset();
             }
         }
     }
@@ -275,29 +259,29 @@ export default class MakeDecisionDropdown extends Component<Args> {
     @task
     @waitFor
     async submitCollectionSubmissionDecision() {
-        if (this.decisionTrigger) {
+        const decisionTrigger = this.changeset.get('decisionTrigger');
+        const comment = this.changeset.get('comment');
+        if (decisionTrigger) {
             const target = this.args.collectionSubmission;
             const newAction = this.store.createRecord('collection-submission-action', {
-                actionTrigger: this.decisionTrigger,
-                comment: (this.comment ? this.comment : undefined),
+                actionTrigger: decisionTrigger,
+                comment: (comment ? comment : undefined),
                 target,
             });
             try {
                 await newAction.save();
                 this.toast.success(this.intl.t('osf-components.makeDecisionDropdown.success'));
                 this.args.collectionSubmission.reload();
+                this.reset();
             } catch (e) {
                 this.catchError(e);
-            } finally {
-                this.reset();
             }
         }
     }
 
     @action
     updateDecisionTrigger(trigger: ReviewActionTrigger) {
-        this.decisionTrigger = trigger;
-        this.changeset.set('decisionTrigger', this.decisionTrigger);
+        this.changeset.set('decisionTrigger', trigger);
         this.changeset.validate();
     }
 
@@ -308,8 +292,6 @@ export default class MakeDecisionDropdown extends Component<Args> {
     }
 
     reset() {
-        this.decisionTrigger = undefined;
-        this.comment = undefined;
         this.changeset.rollback();
     }
 
@@ -324,14 +306,14 @@ export default class MakeDecisionDropdown extends Component<Args> {
     };
 
     commentValidation() {
-        if (this.decisionTrigger) {
-            if (CommentRequiredTriggers.includes(this.decisionTrigger) && !this.comment) {
-                return {
-                    context: {
-                        type: 'moderator_comment',
-                    },
-                };
-            }
+        const decisionTrigger = this.changeset.get('decisionTrigger');
+        const comment = this.changeset.get('comment');
+        if (decisionTrigger && CommentRequiredTriggers.includes(decisionTrigger) && !comment) {
+            return {
+                context: {
+                    type: 'moderator_comment',
+                },
+            };
         }
         return true;
     }

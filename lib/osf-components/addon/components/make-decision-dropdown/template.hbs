@@ -35,7 +35,7 @@
                             name='moderatorAction'
                             @type='radio'
                             @value={{option}}
-                            @checked={{if (eq this.decisionTrigger option) true false}}
+                            @checked={{if (eq (get this.changeset 'decisionTrigger') option) true false}}
                             {{on 'click' (fn this.updateDecisionTrigger option)}}
                         />
                         {{t (get this.actionTriggerToLabelKey option)}}
@@ -54,8 +54,7 @@
                 {{this.commentTextArea.label}}
                 <Textarea
                     data-test-moderation-dropdown-comment
-                    @value={{this.comment}}
-                    {{on 'keyup' this.onCommentChange}}
+                    @value={{this.changeset.comment}}
                     placeholder={{this.commentTextArea.placeholder}}
                     local-class='Comment'
                 />
