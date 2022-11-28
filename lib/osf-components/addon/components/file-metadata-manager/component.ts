@@ -22,6 +22,8 @@ import NodeModel from 'ember-osf-web/models/node';
 import RegistrationModel from 'ember-osf-web/models/registration';
 import LicenseModel from 'ember-osf-web/models/license';
 import InstitutionModel from 'ember-osf-web/models/institution';
+import { LanguageCode, languageCodes } from 'ember-osf-web/utils/languages';
+import { resourceTypeGeneralOptions } from 'osf-components/components/node-metadata-manager/component';
 
 interface Args {
     file: FileModel;
@@ -59,6 +61,9 @@ export default class FileMetadataManagerComponent extends Component<Args> {
     @tracked changeset!: BufferedChangeset;
     @tracked inEditMode = false;
     @tracked userCanEdit!: boolean;
+    resourceTypeGeneralOptions: string[] = resourceTypeGeneralOptions;
+    languageCodes: LanguageCode[] = languageCodes;
+    saveErrored = false;
     @or(
         'getGuidMetadata.isRunning',
         'getTarget.isRunning',
@@ -82,6 +87,17 @@ export default class FileMetadataManagerComponent extends Component<Args> {
         }
     }
 
+    get languageFromCode(){
+        if (this.metadataRecord?.language){
+            const languages = this.languageCodes.filter(item => item.code === this.metadataRecord.language);
+            const language = languages[0];
+            if(language){
+                return language.name;
+            }
+        }
+        return '';
+    }
+
     @task
     @waitFor
     async getTarget() {
@@ -99,7 +115,7 @@ export default class FileMetadataManagerComponent extends Component<Args> {
             include: 'custom_metadata',
             resolve: false,
         });
-        this.metadataRecord = guidRecord.customMetadata as CustomFileMetadataRecordModel;
+        this.metadataRecord = await guidRecord.customMetadata as CustomFileMetadataRecordModel;
         this.changeset = buildChangeset(this.metadataRecord, null);
     }
 
@@ -114,12 +130,26 @@ export default class FileMetadataManagerComponent extends Component<Args> {
     }
 
     @action
+    changeLanguage(selected: LanguageCode){
+        if(selected){
+            this.changeset.set('language', selected.code);
+        } else {
+            this.changeset.set('language', '');
+        }
+    }
+
+    @action
     edit(){
         this.inEditMode = true;
     }
 
-    @action
-    cancel(){
+    @task
+    @waitFor
+    async cancel(){
+        if (this.saveErrored){
+            await this.metadataRecord.reload();
+            this.saveErrored = false;
+        }
         this.changeset.rollback();
         this.inEditMode = false;
     }
@@ -128,9 +158,10 @@ export default class FileMetadataManagerComponent extends Component<Args> {
     @waitFor
     async save(){
         try {
-            this.changeset.execute();
+            this.changeset.save();
             this.inEditMode = false;
         } catch (e) {
+            this.saveErrored = true;
             const errorTitle = this.intl.t('osf-components.file-metadata-manager.error-saving-metadata');
             this.toast.error(getApiErrorMessage(e), errorTitle);
         }

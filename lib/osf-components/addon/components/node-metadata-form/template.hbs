@@ -1,7 +1,7 @@
 <h2>
     {{@manager.node.title}}
 </h2>
-{{#if @manager.userCanEdit}}
+{{#if (and @manager.userCanEdit (not @manager.inEditMode))}}
     <Button
         data-test-edit-metadata-button
         data-analytics-name='Edit metadata'
@@ -12,6 +12,30 @@
 {{/if}}
 <div>{{@manager.node.description}}</div>
 {{#if @manager.inEditMode}}
+    <FormControls @changeset={{@manager.changeset}} as |form|>
+        <form.select
+            data-test-select-resource-type
+            @options={{@manager.resourceTypeGeneralOptions}}
+            @label={{t 'osf-components.node-metadata-form.resource-type'}}
+            @valuePath='resourceTypeGeneral'
+            as |option|
+        >
+            {{option}}
+        </form.select>
+
+        <form.select
+            data-test-select-resource-language
+            @options={{@manager.languageCodes}}
+            @label={{t 'osf-components.node-metadata-form.resource-language'}}
+            @onchange={{@manager.changeLanguage}}
+            @valuePath='languageObject'
+            as |option|
+        >
+            {{option.name}}
+        </form.select>
+
+
+    </FormControls>
     <Button
         data-test-cancel-editing-metadata-button
         aria-label={{t 'general.cancel'}}
@@ -35,7 +59,7 @@
             <dt>{{t 'osf-components.node-metadata-form.resource-type'}}</dt>
             <dd>{{@manager.metadataRecord.resourceTypeGeneral}}</dd>
             <dt>{{t 'osf-components.node-metadata-form.resource-language'}}</dt>
-            <dd>{{@manager.metadataRecord.language}}</dd>
+            <dd>{{@manager.langaugeFromCode}}</dd>
         </dl>
     </div>
 

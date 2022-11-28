@@ -71,6 +71,8 @@
                     <FileMetadataManager @file={{this.model.fileModel}} as |manager|>
                         <h2>
                             {{t 'file_detail.file_metadata'}}
+                        </h2>
+                        {{#unless manager.inEditMode}}
                             {{#if manager.userCanEdit}}
                                 <Button
                                     data-test-edit-metadata-button
@@ -89,11 +91,48 @@
                             >
                                 <FaIcon @icon='download' />
                             </OsfLink>
-                        </h2>
+                        {{/unless}}
                         {{#if manager.isGatheringData}}
                             <LoadingIndicator @dark={{true}} />
                         {{else}}
                             {{#if manager.inEditMode}}
+                                <label>
+                                    {{t 'file_detail.schema'}}
+                                    <select>
+                                        <option value='OSF-MAP'>{{t 'file_detail.osf_map'}}</option>
+                                    </select>
+                                </label>
+                                <FormControls @changeset={{manager.changeset}} as |form|>
+                                    <form.textarea
+                                        data-test-title-field
+                                        @valuePath='title'
+                                        @label={{t 'file_detail.title'}}
+                                    />
+                                    <form.textarea
+                                        data-test-description-field
+                                        @valuePath='description'
+                                        @label={{t 'file_detail.description'}}
+                                    />
+                                    <form.select
+                                        data-test-select-resource-type
+                                        @options={{manager.resourceTypeGeneralOptions}}
+                                        @label={{t 'file_detail.resource_type_general'}}
+                                        @valuePath='resourceTypeGeneral'
+                                        as |option|
+                                    >
+                                        {{option}}
+                                    </form.select>
+                                    <form.select
+                                        data-test-select-resource-language
+                                        @options={{manager.languageCodes}}
+                                        @label={{t 'file_detail.language'}}
+                                        @onchange={{manager.changeLanguage}}
+                                        @valuePath='languageObject'
+                                        as |option|
+                                    >
+                                        {{option.name}}
+                                    </form.select>
+                                </FormControls>
                                 <Button
                                     data-test-cancel-editing-metadata-button
                                     aria-label={{t 'general.cancel'}}

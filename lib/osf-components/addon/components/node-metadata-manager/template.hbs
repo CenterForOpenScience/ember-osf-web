@@ -1,13 +1,17 @@
 {{yield (hash
-    cancel=(action this.cancel)
+    cancel=(perform this.cancel)
+    changeLanguage=(action this.changeLanguage)
     changeset=this.changeset
     edit=(action this.edit)
     inEditMode=this.inEditMode
     isDirty=this.isDirty
     isGatheringData=this.isGatheringData
     isSaving=this.isSaving
+    languageCodes=this.languageCodes
+    langaugeFromCode=this.languageFromCode
     metadataRecord=this.metadata
     node=this.node
     save=(perform this.save)
     userCanEdit=this.userCanEdit
+    resourceTypeGeneralOptions=this.resourceTypeGeneralOptions
 )}}

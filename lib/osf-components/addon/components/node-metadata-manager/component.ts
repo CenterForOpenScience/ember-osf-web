@@ -1,7 +1,7 @@
 import Store from '@ember-data/store';
 import { assert } from '@ember/debug';
 import { action, notifyPropertyChange } from '@ember/object';
-import { alias } from '@ember/object/computed';
+import { alias, or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
@@ -15,12 +15,44 @@ import AbstractNodeModel from 'ember-osf-web/models/abstract-node';
 import CustomItemMetadataRecordModel from 'ember-osf-web/models/custom-item-metadata-record';
 import { Permission } from 'ember-osf-web/models/osf-model';
 import { getApiErrorMessage } from 'ember-osf-web/utils/capture-exception';
+import { languageCodes, LanguageCode } from 'ember-osf-web/utils/languages';
 import buildChangeset from 'ember-osf-web/utils/build-changeset';
 import { tracked } from '@glimmer/tracking';
 
 interface Args {
     node: (AbstractNodeModel);
 }
+
+export const resourceTypeGeneralOptions = [
+    'Audiovisual',
+    'Book',
+    'BookChapter',
+    'Collection',
+    'ComputationalNotebook',
+    'ConferencePaper',
+    'ConferenceProceeding',
+    'DataPaper',
+    'Dataset',
+    'Dissertation',
+    'Event',
+    'Image',
+    'InteractiveResource',
+    'Journal',
+    'JournalArticle',
+    'Model',
+    'OutputManagementPlan',
+    'PeerReview',
+    'PhysicalObject',
+    'Preprint',
+    'Report',
+    'Service',
+    'Software',
+    'Sound',
+    'Standard',
+    'Text',
+    'Workflow',
+    'Other',
+];
 
 export interface NodeMetadataManager {
     edit: () => void;
@@ -46,10 +78,13 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
     @tracked changeset!: BufferedChangeset;
     @tracked inEditMode = false;
     @tracked userCanEdit!: boolean;
-    @alias( 'getGuidMetadata.isRunning') isGatheringData!: boolean;
+    @or( 'getGuidMetadata.isRunning', 'cancel.isRunning') isGatheringData!: boolean;
     @alias('changeset.isDirty') isDirty!: boolean;
     @alias('save.isRunning') isSaving!: boolean;
     @tracked guidType!: string | undefined;
+    resourceTypeGeneralOptions: string[] = resourceTypeGeneralOptions;
+    languageCodes: LanguageCode[] = languageCodes;
+    saveErrored = false;
 
     constructor(owner: unknown, args: Args) {
         super(owner, args);
@@ -75,10 +110,21 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
                 resolve: false,
             });
             this.guidType = guidRecord.referentType;
-            this.metadata = guidRecord.customMetadata as CustomItemMetadataRecordModel;
+            this.metadata = await guidRecord.customMetadata as CustomItemMetadataRecordModel;
             notifyPropertyChange(this, 'metadata');
             this.changeset = buildChangeset(this.metadata, null);
         }
+    }
+
+    get languageFromCode(){
+        if (this.metadata?.language){
+            const languages = this.languageCodes.filter(item => item.code === this.metadata.language);
+            const language = languages[0];
+            if(language){
+                return language.name;
+            }
+        }
+        return '';
     }
 
     @action
@@ -86,19 +132,34 @@ export default class NodeMetadataManagerComponent extends Component<Args> {
         this.inEditMode = true;
     }
 
-    @action
-    cancel(){
+    @task
+    @waitFor
+    async cancel(){
+        if (this.saveErrored){
+            await this.metadata.reload();
+            this.saveErrored = false;
+        }
         this.changeset.rollback();
         this.inEditMode = false;
+    }
+
+    @action
+    changeLanguage(selected: LanguageCode){
+        if(selected){
+            this.changeset.set('language', selected.code);
+        } else {
+            this.changeset.set('language', '');
+        }
     }
 
     @restartableTask
     @waitFor
     async save(){
         try {
-            this.changeset.execute();
+            await this.changeset.save();
             this.inEditMode = false;
         } catch (e) {
+            this.saveErrored = true;
             const errorTitle = this.intl.t('osf-components.item-metadata-manager.error-saving-metadata');
             this.toast.error(getApiErrorMessage(e), errorTitle);
         }

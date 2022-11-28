@@ -150,6 +150,8 @@ file_detail:
     license: 'License'
     institutions: 'Affiliated institutions'
     contributors: 'Contributors'
+    osf_map: 'OSF-MAP'
+    schema: 'Schema'
 dashboard:
     page_title: Home
     title: Dashboard
