@@ -4,10 +4,12 @@ import { module, test } from 'qunit';
 
 import { visit } from 'ember-osf-web/tests/helpers';
 import { setupEngineApplicationTest } from 'ember-osf-web/tests/helpers/engines';
+import { settled, triggerKeyEvent } from '@ember/test-helpers';
+import click from '@ember/test-helpers/dom/click';
+import fillIn from '@ember/test-helpers/dom/fill-in';
 import { currentRouteName } from '@ember/test-helpers/setup-application-context';
 
 import { CollectionSubmissionReviewStates } from 'ember-osf-web/models/collection-submission';
-import click from '@ember/test-helpers/dom/click';
 
 module('Collections | Acceptance | moderation | all', hooks => {
     setupEngineApplicationTest(hooks, 'collections');
@@ -108,6 +110,10 @@ module('Collections | Acceptance | moderation | all', hooks => {
         await click('[data-test-moderation-dropdown-button]');
         assert.dom('[data-test-moderation-dropdown-submit]').isDisabled('submit button is disabled');
         await click('[data-test-moderation-dropdown-decision-label="reject"]');
+        assert.dom('[data-test-validation-errors="comment"]').exists('Comment is required');
+        await fillIn('[data-test-moderation-dropdown-comment]', 'This is a comment');
+        triggerKeyEvent('[data-test-moderation-dropdown-comment]', 'keyup', 32);
+        await settled();
         await click('[data-test-moderation-dropdown-submit]');
         assert.dom('[data-test-submission-card="reject"]').doesNotExist('rejected submission is removed');
         assert.dom('[data-test-moderation-dropdown-button]').doesNotExist('No more pending submisisons');
@@ -143,6 +149,10 @@ module('Collections | Acceptance | moderation | all', hooks => {
         await click('[data-test-moderation-dropdown-button]');
         assert.dom('[data-test-moderation-dropdown-submit]').isDisabled('submit button is disabled');
         await click('[data-test-moderation-dropdown-decision-label="moderator_remove"]');
+        assert.dom('[data-test-validation-errors="comment"]').exists('Comment is required');
+        await fillIn('[data-test-moderation-dropdown-comment]', 'This is a comment');
+        triggerKeyEvent('[data-test-moderation-dropdown-comment]', 'keyup', 32);
+        await settled();
         await click('[data-test-moderation-dropdown-submit]');
         assert.dom('[data-test-submission-card="remove"]').doesNotExist('removed submission is gone');
         assert.dom('[data-test-moderation-dropdown-button]').doesNotExist('No more pending submisisons');
