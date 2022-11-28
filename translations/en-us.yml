@@ -903,11 +903,19 @@ collections:
         update_save_success: '{title} has been updated in the collection.'
         add_save_error: 'Error adding {title} to the collection.'
         update_save_error: 'Error updating {title} in the collection.'
+        remove_button: 'Remove from collection'
+        remove_modal_title: 'Remove from collection'
+        remove_modal_body: 'Are you sure you want to remove {title} from the collection?'
+        remove_success: '{title} has been removed from the collection.'
+        remove_error: 'Error removing {title} from the collection.'
         warning_body: 'Are you sure you want to discard changes to the submission? Changes saved to the project will persist.'
     collection_submission_confirmation_modal:
         header: 'Submit project'
-        body: 'Once this project is submitted to the collection, it will be made public, and you should assume that it will always be public. You can return it to private later, but search engines (including Google’s cache) or others may access files, wiki pages, or analytics before you do.'
+        body: 'Once submitted to the collection, the project will be made public. It can later be made private again.'
+        body_moderated: 'A moderator will review your submission before it is included in the collection.'
+        body_resubmit: 'This project was removed or rejected from this collection. Do you want to resubmit it?'
         add_button: 'Add to collection'
+        resubmit: 'Resubmit'
     collection_item_picker:
         after_options:
             loading: Loading…

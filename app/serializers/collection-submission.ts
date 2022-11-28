@@ -11,7 +11,9 @@ export default class CollectionSubmissionSerializer extends OsfSerializer {
      */
     serialize(snapshot: DS.Snapshot, options: {}) {
         const serialized = super.serialize(snapshot, options);
-        const { data: { attributes, relationships } } = serialized;
+        const { data, data: { attributes, relationships } } = serialized;
+
+        data.type = 'collection-submissions';
 
         if (relationships && 'guid' in relationships) {
             const { guid } = relationships;
