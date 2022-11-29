@@ -4,3 +4,12 @@
 <p>
     {{t 'collections.moderation.settings.paragraph' link=this.userSettingsLink htmlSafe=true}}
 </p>
+
+<Subscriptions::Manager
+    @subscriptionIds={{this.subscriptionIds}}
+    as |manager|
+>
+    <Subscriptions::List
+        @manager={{manager}}
+    />
+</Subscriptions::Manager>

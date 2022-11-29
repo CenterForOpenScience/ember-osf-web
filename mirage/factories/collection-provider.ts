@@ -5,6 +5,7 @@ import { placekitten } from 'ember-osf-web/mirage/utils';
 import CollectionProvider from 'ember-osf-web/models/collection-provider';
 import CollectionProviderModel from 'ember-osf-web/models/collection-provider';
 import { ReviewPermissions } from 'ember-osf-web/models/provider';
+import { SubscriptionFrequency } from 'ember-osf-web/models/subscription';
 
 import { guid, guidAfterCreate } from './utils';
 
@@ -18,7 +19,15 @@ interface CollectionProviderTraits {
 }
 export default Factory.extend<MirageCollectionProvider & CollectionProviderTraits>({
     id: guid('collection-provider'),
-    afterCreate: guidAfterCreate,
+    afterCreate(provider, server) {
+        guidAfterCreate(provider, server);
+
+        server.create('subscription', {
+            id: `${provider.id}_new_pending_submissions`,
+            eventName: 'new_pending_submissions',
+            frequency: SubscriptionFrequency.Instant ,
+        });
+    },
     advisoryBoard: faker.lorem.paragraph,
     emailSupport: '',
     name: faker.lorem.word,
