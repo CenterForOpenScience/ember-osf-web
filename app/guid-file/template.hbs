@@ -159,7 +159,7 @@
                                 <div>{{t 'file_detail.resource_type_general'}}</div>
                                 <div data-test-file-resource-type>{{manager.metadataRecord.resourceTypeGeneral}}</div>
                                 <div>{{t 'file_detail.language'}}</div>
-                                <div data-test-file-language>{{manager.metadataRecord.language}}</div>
+                                <div data-test-file-language>{{manager.langaugeFromCode}}</div>
                                 <h2>{{t (concat 'file_detail.metadata_' manager.nodeWord)}}</h2>
                                 <div>
                                     {{#each manager.targetMetadata.funders as |funder|}}
