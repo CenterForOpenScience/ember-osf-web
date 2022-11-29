@@ -1,0 +1,81 @@
+<h2>
+    {{@manager.node.title}}
+</h2>
+{{#if @manager.userCanEdit}}
+    <Button
+        data-test-edit-metadata-button
+        data-analytics-name='Edit metadata'
+        {{on 'click' @manager.edit}}
+    >
+        {{t 'osf-components.node-metadata-form.edit-button'}}
+    </Button>
+{{/if}}
+<div>{{@manager.node.description}}</div>
+{{#if @manager.inEditMode}}
+    <Button
+        data-test-cancel-editing-metadata-button
+        aria-label={{t 'general.cancel'}}
+        data-analytics-name='Cancel editing metadata'
+        {{on 'click' @manager.cancel}}
+    >
+        {{t 'general.cancel'}}
+    </Button>
+    <Button
+        data-test-save-metadata-button
+        aria-label={{t 'general.save'}}
+        data-analytics-name='Save metadata'
+        {{on 'click' @manager.save}}
+    >
+        {{t 'general.save'}}
+    </Button>
+{{else}}
+    <div>
+        <div>{{t 'osf-components.node-metadata-form.resource-information'}}</div>
+        <dl>
+            <dt>{{t 'osf-components.node-metadata-form.resource-type'}}</dt>
+            <dd>{{@manager.metadataRecord.resourceTypeGeneral}}</dd>
+            <dt>{{t 'osf-components.node-metadata-form.resource-language'}}</dt>
+            <dd>{{@manager.metadataRecord.language}}</dd>
+        </dl>
+    </div>
+
+    <div>
+        <div>{{t 'osf-components.node-metadata-form.contributors'}}</div>
+        <div>
+            <ContributorList
+                data-test-target-contributors
+                @model={{@manager.node}}
+                @shouldLinkUsers={{true}}
+                @shouldTruncate={{false}}
+            />
+        </div>
+    </div>
+
+    <div>
+        <div>{{t 'osf-components.node-metadata-form.funding-information'}}</div>
+        {{#each @manager.metadataRecord.funders as |funder|}}
+            <dl>
+                <dt>{{t 'osf-components.node-metadata-form.funder'}}</dt>
+                <dd>{{funder.funder_name}}</dd>
+
+                <dt>{{t 'osf-components.node-metadata-form.award-title'}}</dt>
+                <dd>{{funder.award_title}}</dd>
+
+                <dt>{{t 'osf-components.node-metadata-form.award-info-uri'}}</dt>
+                <dd>{{funder.award_uri}}</dd>
+
+                <dt>{{t 'osf-components.node-metadata-form.award-number'}}</dt>
+                <dd>{{funder.award_number}}</dd>
+            </dl>
+        {{/each}}
+    </div>
+
+    <div>
+        <div>{{t 'osf-components.node-metadata-form.tags'}}</div>
+        <TagsWidget
+            @taggable={{@manager.node}}
+            @readOnly={{true}}
+            @inline={{true}}
+        />
+    </div>
+{{/if}}
