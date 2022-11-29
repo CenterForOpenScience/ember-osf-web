@@ -1,7 +1,7 @@
 import Store from '@ember-data/store';
 import { assert } from '@ember/debug';
 import { action, notifyPropertyChange } from '@ember/object';
-import { alias } from '@ember/object/computed';
+import { alias, or } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { waitFor } from '@ember/test-waiters';
 import Component from '@glimmer/component';
