@@ -986,6 +986,8 @@ collections:
             title: 'Moderators'
         settings:
             title: 'Settings'
+            heading: 'Configure review state notification preferences'
+            paragraph: 'To configure other notification preferences visit your <a href={link}>user settings</a>.'
     actions:
         triggerPastTense:
             submit: submitted
